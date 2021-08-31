@@ -1,203 +1,86 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.5569.1630416427455404958
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.5629.1630416645143331946
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Aug 2021 06:27:07 -0700
+ Tue, 31 Aug 2021 06:30:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AQ2GbWxQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id s3so31778266ljp.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 06:27:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RXcIoVQp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id v10so27745416wrd.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 06:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EojyNUaz5IGoAkjFgmxiWPvMc294nOQSuICx+72sxHY=;
-        b=AQ2GbWxQoGekQoN7c5gzD3+Cg2RGEjXebT3zS7hmNV7IIcIBAWzF8ze4KNQQ6Hj2bf
-         0aDnQXISzckUTHZjQF87kL+0Ar7w5ANkxxm9fCt1lVw+YHfPQAxNH7HnQ9YKVImO/q6a
-         ZGUGn5d8T8tz3295JXiitEoz+SL+mJcjbLjBe+9WN/G520UKMsBGj0UiKa8Ot0iDRshy
-         IA4/RLzkzYdz/Cw1bCYjxYJ3To3Q/uK6MeFPshjDKN8so8pXh4xlvqYJkJjaLqfrJ0ik
-         HSZXT+rT3pjsYS6b4dB1QmejcV5LKNXA0K9VN26Nc04oSzBbIzTjG1Mk61itjDSa4/7d
-         Do1w==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uT5wN0V+yVOdYgzJlx5jEesa07dhZ7aJfgK1vP5a55o=;
+        b=RXcIoVQpVsMPbJV0dirt6xmdRByBoX03WBKw1aVaUeu7TxLQ1PewEsOWlbafL9Uz43
+         H4Ifrss9nkAtcA/XaszMsKZtCvMdWdaw2k8h0zZFvsXFfRc6Z+yS+DMPAUNESA+2PWdC
+         55dS0T0n+U3GMFLX3JHOjTlLa5XPAFJBuzrcE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EojyNUaz5IGoAkjFgmxiWPvMc294nOQSuICx+72sxHY=;
-        b=jKW/ASalzSv2Zwol5s8hrDMcAU04SsK7uEEtAs4ju1hb7iB+qU6sV8TYGroRywkSTN
-         /8bMVyDdHu6kE3KuUjM2Kd1FNsr2HToNAQ4yReegPEkcq5mllRTLN74FEBWZTwJf0siC
-         ulShycU2Vr6bWgKEZ3jLE+8+gh+rlCfLY5AFdwahdFsIVQBGjMHOvtP7aeaC67VMT7Ph
-         zb2K22VIeQFz3ZHQjOqB5yMxs/IrOtkYqAvLQXDPo2ve5P9FWgQBAOtFZ6AKleN20N4X
-         dOVO7+jBsf+zNFUpHJshn7rqxRKD/s4+njGudmYdTShhIzwwgtZ0JvsiSKAp6Lg0Qdh4
-         aldA==
-X-Gm-Message-State: AOAM533m6UMPcgJXdvbSww5Eht3B7BODgNyHE0XuV1VHQDYH9VdEzWlj
-	GGL5JuVSOfoyunHikAbOvWe3S5qC4O59WbHujAY=
-X-Google-Smtp-Source: ABdhPJygjyEaRfW7N1jm4Csq90+9zsSFO4T3TDe8M/PHIdz2erEdh2f+kBlHvbyeIaYBkRiaLcikYV25wnKeT5SMAF4=
-X-Received: by 2002:a2e:89d8:: with SMTP id c24mr24759276ljk.419.1630416425591;
- Tue, 31 Aug 2021 06:27:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uT5wN0V+yVOdYgzJlx5jEesa07dhZ7aJfgK1vP5a55o=;
+        b=kGRrfrAELmRzsYNS2Q6d49QIInRZvGjHE6OdBS2yKya7iNRTCtydVfB8jxmfDO6+Zc
+         mRdaBJv2EHOkr6XyEMgO2tQQQ/JGdIUOhtEgozJyMbHsQyR/Z5GTwfvcGWIPo+l6Rpye
+         oA9UQl1DHQiVo8nJTGPfOujMAi3FM7Nmh0QyRlUVHKrHDNK9xUstWYkELxzSZTfw6ncE
+         fyO9n3HLQ5aYelWOCTPMKBLjcBBsvX2Qvj6uqaEXVmkDOshlaSpiaJw6blH/NNcmYUYb
+         l0dMog/dVIqIlWr+hhkCgM4mbtNLwOraoq5yn43inWzEltn1mFmzUp9D0Fx15s58KIhM
+         bCKg==
+X-Gm-Message-State: AOAM5320mFgwYBvXPSXIQjq5Plk8EOIH3gK5Ra43Dq4L8lL0Hv+I7Xgu
+	NTdD0fuHo2iu63rzk9ayrc+pYlgLVEoz1Q==
+X-Google-Smtp-Source: ABdhPJwBgNrOMdLoVkOeODTjXjPQREXBcavx47mSSThp1Uxhqyf9el+rWY4+dKZ4XBFz8uBOqe2VFw==
+X-Received: by 2002:a5d:490d:: with SMTP id x13mr31032681wrq.412.1630416643226;
+        Tue, 31 Aug 2021 06:30:43 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e840:dd4f:b947:28bf])
+        by smtp.gmail.com with ESMTPSA id s12sm18684062wru.41.2021.08.31.06.30.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Aug 2021 06:30:42 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel: Use unexpanded EXTENDPKGV
+Date: Tue, 31 Aug 2021 14:30:42 +0100
+Message-Id: <20210831133042.867604-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210830200540.9888-1-andrey.z@gmail.com> <27aadf4835874e5117ea57ddcb26c07f73d2a7f4.camel@linuxfoundation.org>
- <CAHtQpK4i=Kp-GC0u=C_b1YQh9xBEW7yiURnRkO9TV5+veAxRjA@mail.gmail.com>
- <CADkTA4MgO7e3Q2FNzmRPuPnHSchjPFkJnT1mBLCvKx6gSgmn5A@mail.gmail.com>
- <CAHtQpK7ZEwk08C3OJFZnkk30XaGw=iyr7HcJLfsRkQ2otGyrWA@mail.gmail.com>
- <afbd6b7ad0506d4888bdeb17b1ec6f9c12cb4785.camel@linuxfoundation.org>
- <CAHtQpK7qEHh=43RtOmwgxEXKghZPHucy9bMQosAbEe63PWt=PQ@mail.gmail.com>
- <bfca76ca0ec22d42415e45f9d3aa145ab3272461.camel@linuxfoundation.org> <16A063FA1B833076.30479@lists.openembedded.org>
-In-Reply-To: <16A063FA1B833076.30479@lists.openembedded.org>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 31 Aug 2021 15:26:30 +0200
-Message-ID: <CAHtQpK7Gfs36wgX8YqCiGvRPc5Df9MTQtkWpJiJTpdpPN2vhzg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] perl: add integer module required for kernel >= 5.14
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Richard,
+EXTENDPKGV can contain AUTOINC so use an expanded form in the variables allowing
+for later expansion during packaging to avoid race issues over the variable and
+the build failures that can result.
 
-On Tue, Aug 31, 2021 at 2:29 PM Andrey Zhizhikin via
-lists.openembedded.org <andrey.z=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Tue, Aug 31, 2021 at 2:19 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Tue, 2021-08-31 at 13:54 +0200, Andrey Zhizhikin wrote:
-> > > Hello Richard,
-> > >
-> > > On Tue, Aug 31, 2021 at 12:03 PM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >
-> > > > On Tue, 2021-08-31 at 11:53 +0200, Andrey Zhizhikin wrote:
-> > > > > Hello Bruce,
-> > > > >
-> > > > > On Mon, Aug 30, 2021 at 11:12 PM Bruce Ashfield
-> > > > > <bruce.ashfield@gmail.com> wrote:
-> > > > > >
-> > > > > > On Mon, Aug 30, 2021 at 4:55 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
-> > > > > > >
-> > > > > > > Hello Richard,
-> > > > > > >
-> > > > > > > On Mon, Aug 30, 2021 at 10:30 PM Richard Purdie
-> > > > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > > > >
-> > > > > > > > On Mon, 2021-08-30 at 20:05 +0000, Andrey Zhizhikin wrote:
-> > > > > > > > > Kernel commit 12dd461ebd19 ("crypto: arm64 - generate *.S by Perl at
-> > > > > > > > > build time instead of shipping them") uses perl to generate assembler
-> > > > > > > > > files for crypto functionality, which relies on the integer.pm module to
-> > > > > > > > > be provided.
-> > > > > > > > >
-> > > > > > > > > Add this module to FILES and export it for build system.
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
-> > > > > > > > > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > > > > > > > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > > > > > > > ---
-> > > > > > > > >  meta/recipes-devtools/perl/perl_5.34.0.bb | 1 +
-> > > > > > > > >  1 file changed, 1 insertion(+)
-> > > > > > > > >
-> > > > > > > > > diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > > > > > > > index ab19a8d0be0..7a07b3f4911 100644
-> > > > > > > > > --- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > > > > > > > +++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > > > > > > > @@ -248,6 +248,7 @@ FILES:${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/
-> > > > > > > > >                 ${libdir}/perl5/${PV}/strict.pm \
-> > > > > > > > >                 ${libdir}/perl5/${PV}/warnings.pm \
-> > > > > > > > >                 ${libdir}/perl5/${PV}/warnings \
-> > > > > > > > > +               ${libdir}/perl5/${PV}/integer.pm \
-> > > > > > > > >                 ${libdir}/perl5/${PV}/vars.pm \
-> > > > > > > > >                 ${libdir}/perl5/site_perl \
-> > > > > > > > >                 ${libdir}/perl5/${PV}/ExtUtils/MANIFEST.SKIP \
-> > > > > > > >
-> > > > > > > > Doesn't that mean something is missing an RDEPENDS on perl-module-integer rather
-> > > > > > > > than adding to the main perl package?
-> > > > > > >
-> > > > > > > Good point! Now that I look at it - this does look a bit too intrusive
-> > > > > > > (even though it did serve the purpose).
-> > > > > > >
-> > > > > > > I'm just not sure if I can craft it to RDEPENDS in kernel class instead...
-> > > > > > >
-> > > > > > > This is definitely required by newer kernel builds (>= 5.14), but I'm
-> > > > > > > no expert in how those dependencies are set in kernel class. Would
-> > > > > > > need to look a bit deeper there.
-> > > > > >
-> > > > > > Doing it consistently is the challenge, so we tend to not set them in
-> > > > > > the classes themselves.
-> > > > >
-> > > > > Understood. Now I see the reason why I didn't observe any of those
-> > > > > dependencies in the kernel classes themselves.
-> > > > >
-> > > > > >
-> > > > > > You have to check both the architecture and the version for many of
-> > > > > > the depends/rdepends.
-> > > > > >
-> > > > > > Which is why I tend to carry dependencies like this in the individual
-> > > > > > recipes, since the version is known and the arch is an easy check.
-> > > > >
-> > > > > This is not a problem for me, as I can add it to the layer kernel
-> > > > > recipe. What I believe the problem might be is that after kernel
-> > > > > migration, eventually all BSP layers would have the same RDEPENDS
-> > > > > defined in their respective kernel recipes. This does call for some
-> > > > > unification imho, but I'm not sure how this can be properly done.
-> > > > >
-> > > > > The other thing here is: the same Perl module would be required in the
-> > > > > SDK in order to build Kernels >= 5.14 standalone.
-> > > > > I was planning to include it into RDEPENDS of
-> > > > > nativesdk-packagegroup-sdk-host, but contemplating now if this is a
-> > > > > proper way of doing it. I see that the package group contains flex and
-> > > > > bison for kernel builds, so adding perl integer module there seems
-> > > > > quite logical to me. Unless there are good reasons not to do it this
-> > > > > way.
-> > > >
-> > > > Isn't the kernel-devsrc recipe the place this should be added? You'd need that
-> > > > to be building the kernel on target?
-> > >
-> > > This is needed to build kernel on the host using standalone SDK.
-> > >
-> > > To my knowledge, Perl (as a base package) is already provided in the
-> > > SDK, but required module is not. This makes the tooling incomplete and
-> > > breaks the build when kernel is upgraded to latest versions.
-> > >
-> > > I've just tried it, and adding it to kernel-devsrc did not solve the
-> > > missing module issue.
-> >
-> > As far as I recall we don't include perl in our SDKs and rely on the one from
-> > the host. Which SDK exactly are you using?
->
-> This is then rather strange and confusing...
->
-> I do generate standalone SDK via 'bitbake meta-toolchain', which to my
-> current understanding should pull only minimal set of toolchain
-> component into its content. This does include Perl, perhaps through
-> some dependency resolution.
->
-> Since I use distro from meta-freescale layer - it might be (but less
-> likely) coming from some dependencies inside of it... I can try to
-> generate it off Poky distro now to see if it has Perl inside as well.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/kernel.bbclass | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Just to follow-up on this: nativesdk-perl and a bunch of modules are
-pulled into the SDK by autoconf, which lists them in it's RDEPENDS.
-
-This behavior is distro-agnostic, and making Perl to be installed into
-SDK in any case.
-
->
-> >
-> > Cheers,
-> >
-> > Richard
-> >
->
->
-> --
-> Regards,
-> Andrey.
->
-> 
->
-
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index ab60e060c6e..d13c38fb026 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -92,18 +92,17 @@ python __anonymous () {
+     kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
+     imagedest = d.getVar('KERNEL_IMAGEDEST')
+ 
+-    fullver = d.getVar('EXTENDPKGV')
+     for type in types.split():
+         if bb.data.inherits_class('nopackages', d):
+             continue
+         typelower = type.lower()
+         d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
+         d.setVar('FILES:' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
+-        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (= %s)' % (kname, typelower, fullver))
++        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (= ${EXTENDPKGV})' % (kname, typelower))
+         splitmods = d.getVar("KERNEL_SPLIT_MODULES")
+         if splitmods != '1':
+-            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (= %s)' % (kname, fullver))
+-            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %s-modules-${KERNEL_VERSION_PKG_NAME} (= %s)' % (kname, fullver))
++            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (= ${EXTENDPKGV})' % kname)
++            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %s-modules-${KERNEL_VERSION_PKG_NAME} (= ${EXTENDPKGV})' % kname)
+             d.setVar('PKG:%s-modules' % kname, '%s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
+             d.appendVar('RPROVIDES:%s-modules' % kname, '%s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
+ 
 -- 
-Regards,
-Andrey.
+2.32.0
+
