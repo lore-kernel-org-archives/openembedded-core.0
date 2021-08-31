@@ -1,656 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.7094.1630422219628269663
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.9817.1630432721378872469
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Aug 2021 08:03:39 -0700
+ Tue, 31 Aug 2021 10:58:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1FD96D
-	for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 08:03:37 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4589C3F5A1
-	for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 08:03:37 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cpio: backport fix for CVE-2021-38185
-Date: Tue, 31 Aug 2021 16:03:34 +0100
-Message-Id: <20210831150334.3370916-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sfXfnB7L;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: oecore.mailinglist@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id m9so457742wrb.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 10:58:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=QBI4D22aMbsorgCSEYfLput34DGitbn4h5S5eSAk/Go=;
+        b=sfXfnB7LRSLz3PNIIZQs4jNDqfXE+/Yb10MUB2pWT0JM1yLERuBfG6JTAm13bONIJA
+         gp6eDGOKwtWb0rsqDHsHv0vXUeEIR3kjURFK7z4IWgOHLdNOK/jIixErFRLEvJe2a8qU
+         QlaqDTskEpFtWLMW38pQnx3+rdWUbZdH5gbBMHbP85YGGYByFZj3Lv4TL4EYEKWK3Ip8
+         hLF+JS4yVZ5YcFzC/nL6vlt4b1tNstv4IN3ULnzaUmnVJ71ceD01eQtLlQDpfUDaUGv1
+         HYqCMO5OO2JD03FfCpsAyrQolmttw7OXVvJ5KK3ZhdwzE/BTtzyOeNGs26h4FcFRYPPu
+         tuUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QBI4D22aMbsorgCSEYfLput34DGitbn4h5S5eSAk/Go=;
+        b=FZbQkBeCBr1oy1rlkvCdcUXXNkxhoeZYN0J+rCB1jm1fuHISEfBwTDDFu+AFKt5pAr
+         lbSfWhekWd0u9/bhkfzd/FaBPwok5H9f0Jg4gocLlsdn+ygAf9TfPLt0J+IgY6qu6WqE
+         IB36w5E/SlLlPD8fN3kGxI5Ca/Uri9wHwBkM6g6nQF1HLnWMZfMO4qcU08GTYekGkBHT
+         Wtx0ja1jBJDQLOJWxHvuyx78YNlOcRMod9gTIf40XjzOoClecHbLxgoBQqIGjBlGfKdc
+         aTzE/fw8DVRNgR1EJRH124VwmDK4RZ8Blncn6KqtDKAFtmN/jMFE5Z8Rib3dJOcUDp17
+         gizg==
+X-Gm-Message-State: AOAM531Jwnn1F6Epy2fXR9iMbjMUKNVEDuyak8jjhk1oNXV0tMZ8oT8s
+	zooHv0sr/DdYGcapkdLlOIQ=
+X-Google-Smtp-Source: ABdhPJxHejioPwZHL1WPHkFaShD9mw7Nm5/vkZ8nCuZB3EcQDMu8YEfobbebI8RRuWA5ondvcKVWlA==
+X-Received: by 2002:a5d:460a:: with SMTP id t10mr33341072wrq.147.1630432719887;
+        Tue, 31 Aug 2021 10:58:39 -0700 (PDT)
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from [192.168.42.52] (ppp-94-66-232-217.home.otenet.gr. [94.66.232.217])
+        by smtp.gmail.com with ESMTPSA id o7sm2961909wmc.46.2021.08.31.10.58.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Aug 2021 10:58:39 -0700 (PDT)
+Subject: Re: [OE-core] Upgrade uninative to fix multiple native build failures in old unprivileged docker
+To: hongxu <hongxu.jia@windriver.com>,
+ openembedded-core@lists.openembedded.org,
+ richard.purdie@linuxfoundation.org, raj.khem@gmail.com,
+ Michael Halstead <mhalstead@linuxfoundation.org>
+References: <169FF34664D4ACC1.22970@lists.openembedded.org>
+ <169FF42BF9440142.22970@lists.openembedded.org>
+ <f1f1ee17-1f81-8791-b87e-3692a0cafe2a@windriver.com>
+From: "Robert Berger" <oecore.mailinglist@gmail.com>
+Message-ID: <5dee0c30-b658-b730-44ee-a9c2159d21e7@gmail.com>
+Date: Tue, 31 Aug 2021 20:58:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f1f1ee17-1f81-8791-b87e-3692a0cafe2a@windriver.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../cpio/cpio-2.13/CVE-2021-38185.patch       | 581 ++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.13.bb       |   1 +
- 2 files changed, 582 insertions(+)
- create mode 100644 meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.p=
-atch
+Hi,
 
-diff --git a/meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch b/=
-meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
-new file mode 100644
-index 00000000000..6ceafeee497
---- /dev/null
-+++ b/meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
-@@ -0,0 +1,581 @@
-+GNU cpio through 2.13 allows attackers to execute arbitrary code via a c=
-rafted
-+pattern file, because of a dstring.c ds_fgetstr integer overflow that tr=
-iggers
-+an out-of-bounds heap write.
-+
-+CVE: CVE-2021-38185
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From e494c68a3a0951b1eaba77e2db93f71a890e15d8 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Sat, 7 Aug 2021 12:52:21 +0300
-+Subject: [PATCH 1/3] Rewrite dynamic string support.
-+
-+* src/dstring.c (ds_init): Take a single argument.
-+(ds_free): New function.
-+(ds_resize): Take a single argument.  Use x2nrealloc to expand
-+the storage.
-+(ds_reset,ds_append,ds_concat,ds_endswith): New function.
-+(ds_fgetstr): Rewrite.  In particular, this fixes integer overflow.
-+* src/dstring.h (dynamic_string): Keep both the allocated length
-+(ds_size) and index of the next free byte in the string (ds_idx).
-+(ds_init,ds_resize): Change signature.
-+(ds_len): New macro.
-+(ds_free,ds_reset,ds_append,ds_concat,ds_endswith): New protos.
-+* src/copyin.c: Use new ds_ functions.
-+* src/copyout.c: Likewise.
-+* src/copypass.c: Likewise.
-+* src/util.c: Likewise.
-+---
-+ src/copyin.c   | 40 +++++++++++------------
-+ src/copyout.c  | 16 ++++-----
-+ src/copypass.c | 34 +++++++++----------
-+ src/dstring.c  | 88 ++++++++++++++++++++++++++++++++++++--------------
-+ src/dstring.h  | 31 +++++++++---------
-+ src/util.c     |  6 ++--
-+ 6 files changed, 123 insertions(+), 92 deletions(-)
-+
-+diff --git a/src/copyin.c b/src/copyin.c
-+index b29f348..37e503a 100644
-+--- a/src/copyin.c
-++++ b/src/copyin.c
-+@@ -55,11 +55,12 @@ query_rename(struct cpio_file_stat* file_hdr, FILE *=
-tty_in, FILE *tty_out,
-+   char *str_res;		/* Result for string function.  */
-+   static dynamic_string new_name;	/* New file name for rename option.  =
-*/
-+   static int initialized_new_name =3D false;
-++
-+   if (!initialized_new_name)
-+-  {
-+-    ds_init (&new_name, 128);
-+-    initialized_new_name =3D true;
-+-  }
-++    {
-++      ds_init (&new_name);
-++      initialized_new_name =3D true;
-++    }
-+=20
-+   if (rename_flag)
-+     {
-+@@ -779,37 +780,36 @@ long_format (struct cpio_file_stat *file_hdr, char=
- const *link_name)
-+    already in `save_patterns' (from the command line) are preserved.  *=
-/
-+=20
-+ static void
-+-read_pattern_file ()
-++read_pattern_file (void)
-+ {
-+-  int max_new_patterns;
-+-  char **new_save_patterns;
-+-  int new_num_patterns;
-++  char **new_save_patterns =3D NULL;
-++  size_t max_new_patterns;
-++  size_t new_num_patterns;
-+   int i;
-+-  dynamic_string pattern_name;
-++  dynamic_string pattern_name =3D DYNAMIC_STRING_INITIALIZER;
-+   FILE *pattern_fp;
-+=20
-+   if (num_patterns < 0)
-+     num_patterns =3D 0;
-+-  max_new_patterns =3D 1 + num_patterns;
-+-  new_save_patterns =3D (char **) xmalloc (max_new_patterns * sizeof (c=
-har *));
-+   new_num_patterns =3D num_patterns;
-+-  ds_init (&pattern_name, 128);
-++  max_new_patterns =3D num_patterns;
-++  new_save_patterns =3D xcalloc (max_new_patterns, sizeof (new_save_pat=
-terns[0]));
-+=20
-+   pattern_fp =3D fopen (pattern_file_name, "r");
-+   if (pattern_fp =3D=3D NULL)
-+     open_fatal (pattern_file_name);
-+   while (ds_fgetstr (pattern_fp, &pattern_name, '\n') !=3D NULL)
-+     {
-+-      if (new_num_patterns >=3D max_new_patterns)
-+-	{
-+-	  max_new_patterns +=3D 1;
-+-	  new_save_patterns =3D (char **)
-+-	    xrealloc ((char *) new_save_patterns,
-+-		      max_new_patterns * sizeof (char *));
-+-	}
-++      if (new_num_patterns =3D=3D max_new_patterns)
-++	new_save_patterns =3D x2nrealloc (new_save_patterns,
-++					&max_new_patterns,
-++					sizeof (new_save_patterns[0]));
-+       new_save_patterns[new_num_patterns] =3D xstrdup (pattern_name.ds_=
-string);
-+       ++new_num_patterns;
-+     }
-++
-++  ds_free (&pattern_name);
-++ =20
-+   if (ferror (pattern_fp) || fclose (pattern_fp) =3D=3D EOF)
-+     close_error (pattern_file_name);
-+=20
-+@@ -1196,7 +1196,7 @@ swab_array (char *ptr, int count)
-+    in the file system.  */
-+=20
-+ void
-+-process_copy_in ()
-++process_copy_in (void)
-+ {
-+   char done =3D false;		/* True if trailer reached.  */
-+   FILE *tty_in =3D NULL;		/* Interactive file for rename option.  */
-+diff --git a/src/copyout.c b/src/copyout.c
-+index 8b0beb6..26e3dda 100644
-+--- a/src/copyout.c
-++++ b/src/copyout.c
-+@@ -594,9 +594,10 @@ assign_string (char **pvar, char *value)
-+    The format of the header depends on the compatibility (-c) flag.  */
-+=20
-+ void
-+-process_copy_out ()
-++process_copy_out (void)
-+ {
-+-  dynamic_string input_name;	/* Name of file read from stdin.  */
-++  dynamic_string input_name =3D DYNAMIC_STRING_INITIALIZER;
-++                                /* Name of file read from stdin.  */
-+   struct stat file_stat;	/* Stat record for file.  */
-+   struct cpio_file_stat file_hdr =3D CPIO_FILE_STAT_INITIALIZER;
-+                                 /* Output header information.  */
-+@@ -605,7 +606,6 @@ process_copy_out ()
-+   char *orig_file_name =3D NULL;
-+=20
-+   /* Initialize the copy out.  */
-+-  ds_init (&input_name, 128);
-+   file_hdr.c_magic =3D 070707;
-+=20
-+   /* Check whether the output file might be a tape.  */
-+@@ -657,14 +657,9 @@ process_copy_out ()
-+ 	    {
-+ 	      if (file_hdr.c_mode & CP_IFDIR)
-+ 		{
-+-		  int len =3D strlen (input_name.ds_string);
-+ 		  /* Make sure the name ends with a slash */
-+-		  if (input_name.ds_string[len-1] !=3D '/')
-+-		    {
-+-		      ds_resize (&input_name, len + 2);
-+-		      input_name.ds_string[len] =3D '/';
-+-		      input_name.ds_string[len+1] =3D 0;
-+-		    }
-++		  if (!ds_endswith (&input_name, '/'))
-++		    ds_append (&input_name, '/');
-+ 		}
-+ 	    }
-+ 	 =20
-+@@ -875,6 +870,7 @@ process_copy_out ()
-+ 			 (unsigned long) blocks), (unsigned long) blocks);
-+     }
-+   cpio_file_stat_free (&file_hdr);
-++  ds_free (&input_name);
-+ }
-+=20
-+=20
-+diff --git a/src/copypass.c b/src/copypass.c
-+index dc13b5b..62f31c6 100644
-+--- a/src/copypass.c
-++++ b/src/copypass.c
-+@@ -48,10 +48,12 @@ set_copypass_perms (int fd, const char *name, struct=
- stat *st)
-+    If `link_flag', link instead of copying.  */
-+=20
-+ void
-+-process_copy_pass ()
-++process_copy_pass (void)
-+ {
-+-  dynamic_string input_name;	/* Name of file from stdin.  */
-+-  dynamic_string output_name;	/* Name of new file.  */
-++  dynamic_string input_name =3D DYNAMIC_STRING_INITIALIZER;
-++                                /* Name of file from stdin.  */
-++  dynamic_string output_name =3D DYNAMIC_STRING_INITIALIZER;
-++                                /* Name of new file.  */
-+   size_t dirname_len;		/* Length of `directory_name'.  */
-+   int res;			/* Result of functions.  */
-+   char *slash;			/* For moving past slashes in input name.  */
-+@@ -65,25 +67,18 @@ process_copy_pass ()
-+ 				   created files  */
-+=20
-+   /* Initialize the copy pass.  */
-+-  ds_init (&input_name, 128);
-+  =20
-+   dirname_len =3D strlen (directory_name);
-+   if (change_directory_option && !ISSLASH (directory_name[0]))
-+     {
-+       char *pwd =3D xgetcwd ();
-+-
-+-      dirname_len +=3D strlen (pwd) + 1;
-+-      ds_init (&output_name, dirname_len + 2);
-+-      strcpy (output_name.ds_string, pwd);
-+-      strcat (output_name.ds_string, "/");
-+-      strcat (output_name.ds_string, directory_name);
-++     =20
-++      ds_concat (&output_name, pwd);
-++      ds_append (&output_name, '/');
-+     }
-+-  else
-+-    {
-+-      ds_init (&output_name, dirname_len + 2);
-+-      strcpy (output_name.ds_string, directory_name);
-+-    }
-+-  output_name.ds_string[dirname_len] =3D '/';
-++  ds_concat (&output_name, directory_name);
-++  ds_append (&output_name, '/');
-++  dirname_len =3D ds_len (&output_name);
-+   output_is_seekable =3D true;
-+=20
-+   change_dir ();
-+@@ -116,8 +111,8 @@ process_copy_pass ()
-+       /* Make the name of the new file.  */
-+       for (slash =3D input_name.ds_string; *slash =3D=3D '/'; ++slash)
-+ 	;
-+-      ds_resize (&output_name, dirname_len + strlen (slash) + 2);
-+-      strcpy (output_name.ds_string + dirname_len + 1, slash);
-++      ds_reset (&output_name, dirname_len);
-++      ds_concat (&output_name, slash);
-+=20
-+       existing_dir =3D false;
-+       if (lstat (output_name.ds_string, &out_file_stat) =3D=3D 0)
-+@@ -333,6 +328,9 @@ process_copy_pass ()
-+ 			 (unsigned long) blocks),
-+ 	       (unsigned long) blocks);
-+     }
-++
-++  ds_free (&input_name);
-++  ds_free (&output_name);
-+ }
-+ =0C
-+ /* Try and create a hard link from FILE_NAME to another file=20
-+diff --git a/src/dstring.c b/src/dstring.c
-+index e9c063f..358f356 100644
-+--- a/src/dstring.c
-++++ b/src/dstring.c
-+@@ -20,8 +20,8 @@
-+ #if defined(HAVE_CONFIG_H)
-+ # include <config.h>
-+ #endif
-+-
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
-+ #include <string.h>
-+ #else
-+@@ -33,24 +33,41 @@
-+ /* Initialiaze dynamic string STRING with space for SIZE characters.  *=
-/
-+=20
-+ void
-+-ds_init (dynamic_string *string, int size)
-++ds_init (dynamic_string *string)
-++{
-++  memset (string, 0, sizeof *string);
-++}
-++
-++/* Free the dynamic string storage. */
-++
-++void
-++ds_free (dynamic_string *string)
-+ {
-+-  string->ds_length =3D size;
-+-  string->ds_string =3D (char *) xmalloc (size);
-++  free (string->ds_string);
-+ }
-+=20
-+-/* Expand dynamic string STRING, if necessary, to hold SIZE characters.=
-  */
-++/* Expand dynamic string STRING, if necessary.  */
-+=20
-+ void
-+-ds_resize (dynamic_string *string, int size)
-++ds_resize (dynamic_string *string)
-+ {
-+-  if (size > string->ds_length)
-++  if (string->ds_idx =3D=3D string->ds_size)
-+     {
-+-      string->ds_length =3D size;
-+-      string->ds_string =3D (char *) xrealloc ((char *) string->ds_stri=
-ng, size);
-++      string->ds_string =3D x2nrealloc (string->ds_string, &string->ds_=
-size,
-++				      1);
-+     }
-+ }
-+=20
-++/* Reset the index of the dynamic string S to LEN. */
-++
-++void
-++ds_reset (dynamic_string *s, size_t len)
-++{
-++  while (len > s->ds_size)
-++    ds_resize (s);
-++  s->ds_idx =3D len;
-++}
-++
-+ /* Dynamic string S gets a string terminated by the EOS character
-+    (which is removed) from file F.  S will increase
-+    in size during the function if the string from F is longer than
-+@@ -61,34 +78,50 @@ ds_resize (dynamic_string *string, int size)
-+ char *
-+ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-+ {
-+-  int insize;			/* Amount needed for line.  */
-+-  int strsize;			/* Amount allocated for S.  */
-+   int next_ch;
-+=20
-+   /* Initialize.  */
-+-  insize =3D 0;
-+-  strsize =3D s->ds_length;
-++  s->ds_idx =3D 0;
-+=20
-+   /* Read the input string.  */
-+-  next_ch =3D getc (f);
-+-  while (next_ch !=3D eos && next_ch !=3D EOF)
-++  while ((next_ch =3D getc (f)) !=3D eos && next_ch !=3D EOF)
-+     {
-+-      if (insize >=3D strsize - 1)
-+-	{
-+-	  ds_resize (s, strsize * 2 + 2);
-+-	  strsize =3D s->ds_length;
-+-	}
-+-      s->ds_string[insize++] =3D next_ch;
-+-      next_ch =3D getc (f);
-++      ds_resize (s);
-++      s->ds_string[s->ds_idx++] =3D next_ch;
-+     }
-+-  s->ds_string[insize++] =3D '\0';
-++  ds_resize (s);
-++  s->ds_string[s->ds_idx] =3D '\0';
-+=20
-+-  if (insize =3D=3D 1 && next_ch =3D=3D EOF)
-++  if (s->ds_idx =3D=3D 0 && next_ch =3D=3D EOF)
-+     return NULL;
-+   else
-+     return s->ds_string;
-+ }
-+=20
-++void
-++ds_append (dynamic_string *s, int c)
-++{
-++  ds_resize (s);
-++  s->ds_string[s->ds_idx] =3D c;
-++  if (c)
-++    {
-++      s->ds_idx++;
-++      ds_resize (s);
-++      s->ds_string[s->ds_idx] =3D 0;
-++    }     =20
-++}
-++
-++void
-++ds_concat (dynamic_string *s, char const *str)
-++{
-++  size_t len =3D strlen (str);
-++  while (len + 1 > s->ds_size)
-++    ds_resize (s);
-++  memcpy (s->ds_string + s->ds_idx, str, len);
-++  s->ds_idx +=3D len;
-++  s->ds_string[s->ds_idx] =3D 0;
-++}
-++
-+ char *
-+ ds_fgets (FILE *f, dynamic_string *s)
-+ {
-+@@ -100,3 +133,10 @@ ds_fgetname (FILE *f, dynamic_string *s)
-+ {
-+   return ds_fgetstr (f, s, '\0');
-+ }
-++
-++/* Return true if the dynamic string S ends with character C. */
-++int
-++ds_endswith (dynamic_string *s, int c)
-++{
-++  return (s->ds_idx > 0 && s->ds_string[s->ds_idx - 1] =3D=3D c);
-++}
-+diff --git a/src/dstring.h b/src/dstring.h
-+index b5135fe..f5b04ef 100644
-+--- a/src/dstring.h
-++++ b/src/dstring.h
-+@@ -17,10 +17,6 @@
-+    Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-+    Boston, MA 02110-1301 USA.  */
-+=20
-+-#ifndef NULL
-+-#define NULL 0
-+-#endif
-+-
-+ /* A dynamic string consists of record that records the size of an
-+    allocated string and the pointer to that string.  The actual string
-+    is a normal zero byte terminated string that can be used with the
-+@@ -30,22 +26,25 @@
-+=20
-+ typedef struct
-+ {
-+-  int ds_length;		/* Actual amount of storage allocated.  */
-+-  char *ds_string;		/* String.  */
-++  size_t ds_size;   /* Actual amount of storage allocated.  */
-++  size_t ds_idx;    /* Index of the next free byte in the string. */
-++  char *ds_string;  /* String storage. */
-+ } dynamic_string;
-+=20
-++#define DYNAMIC_STRING_INITIALIZER { 0, 0, NULL }
-+=20
-+-/* Macros that look similar to the original string functions.
-+-   WARNING:  These macros work only on pointers to dynamic string recor=
-ds.
-+-   If used with a real record, an "&" must be used to get the pointer. =
- */
-+-#define ds_strlen(s)		strlen ((s)->ds_string)
-+-#define ds_strcmp(s1, s2)	strcmp ((s1)->ds_string, (s2)->ds_string)
-+-#define ds_strncmp(s1, s2, n)	strncmp ((s1)->ds_string, (s2)->ds_string=
-, n)
-+-#define ds_index(s, c)		index ((s)->ds_string, c)
-+-#define ds_rindex(s, c)		rindex ((s)->ds_string, c)
-++void ds_init (dynamic_string *string);
-++void ds_free (dynamic_string *string);
-++void ds_reset (dynamic_string *s, size_t len);
-+=20
-+-void ds_init (dynamic_string *string, int size);
-+-void ds_resize (dynamic_string *string, int size);
-++/* All functions below guarantee that s->ds_string[s->ds_idx] =3D=3D '\=
-0' */
-+ char *ds_fgetname (FILE *f, dynamic_string *s);
-+ char *ds_fgets (FILE *f, dynamic_string *s);
-+ char *ds_fgetstr (FILE *f, dynamic_string *s, char eos);
-++void ds_append (dynamic_string *s, int c);
-++void ds_concat (dynamic_string *s, char const *str);
-++
-++#define ds_len(s) ((s)->ds_idx)
-++
-++int ds_endswith (dynamic_string *s, int c);
-++
-+diff --git a/src/util.c b/src/util.c
-+index 4421b20..6d6bbaa 100644
-+--- a/src/util.c
-++++ b/src/util.c
-+@@ -846,11 +846,9 @@ get_next_reel (int tape_des)
-+   FILE *tty_out;		/* File for interacting with user.  */
-+   int old_tape_des;
-+   char *next_archive_name;
-+-  dynamic_string new_name;
-++  dynamic_string new_name =3D DYNAMIC_STRING_INITIALIZER;
-+   char *str_res;
-+=20
-+-  ds_init (&new_name, 128);
-+-
-+   /* Open files for interactive communication.  */
-+   tty_in =3D fopen (TTY_NAME, "r");
-+   if (tty_in =3D=3D NULL)
-+@@ -925,7 +923,7 @@ get_next_reel (int tape_des)
-+     error (PAXEXIT_FAILURE, 0, _("internal error: tape descriptor chang=
-ed from %d to %d"),
-+ 	   old_tape_des, tape_des);
-+=20
-+-  free (new_name.ds_string);
-++  ds_free (&new_name);
-+   fclose (tty_in);
-+   fclose (tty_out);
-+ }
-+--=20
-+2.25.1
-+
-+
-+From fb7a51bf85b8e6f045cacb4fb783db4a414741bf Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Wed, 11 Aug 2021 18:10:38 +0300
-+Subject: [PATCH 2/3] Fix previous commit
-+
-+* src/dstring.c (ds_reset,ds_concat): Don't call ds_resize in a
-+loop.
-+---
-+ src/dstring.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/dstring.c b/src/dstring.c
-+index 358f356..90c691c 100644
-+--- a/src/dstring.c
-++++ b/src/dstring.c
-+@@ -64,7 +64,7 @@ void
-+ ds_reset (dynamic_string *s, size_t len)
-+ {
-+   while (len > s->ds_size)
-+-    ds_resize (s);
-++    s->ds_string =3D x2nrealloc (s->ds_string, &s->ds_size, 1);
-+   s->ds_idx =3D len;
-+ }
-+=20
-+@@ -116,7 +116,7 @@ ds_concat (dynamic_string *s, char const *str)
-+ {
-+   size_t len =3D strlen (str);
-+   while (len + 1 > s->ds_size)
-+-    ds_resize (s);
-++    s->ds_string =3D x2nrealloc (s->ds_string, &s->ds_size, 1);
-+   memcpy (s->ds_string + s->ds_idx, str, len);
-+   s->ds_idx +=3D len;
-+   s->ds_string[s->ds_idx] =3D 0;
-+--=20
-+2.25.1
-+
-+
-+From 86b37d74b15f9bb5fe62fd1642cc126d3ace0189 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Wed, 18 Aug 2021 09:41:39 +0300
-+Subject: [PATCH 3/3] Fix dynamic string reallocations
-+
-+* src/dstring.c (ds_resize): Take additional argument: number of
-+bytes to leave available after ds_idx.  All uses changed.
-+---
-+ src/dstring.c | 18 ++++++++----------
-+ 1 file changed, 8 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/dstring.c b/src/dstring.c
-+index 90c691c..0f597cc 100644
-+--- a/src/dstring.c
-++++ b/src/dstring.c
-+@@ -49,9 +49,9 @@ ds_free (dynamic_string *string)
-+ /* Expand dynamic string STRING, if necessary.  */
-+=20
-+ void
-+-ds_resize (dynamic_string *string)
-++ds_resize (dynamic_string *string, size_t len)
-+ {
-+-  if (string->ds_idx =3D=3D string->ds_size)
-++  while (len + string->ds_idx >=3D string->ds_size)
-+     {
-+       string->ds_string =3D x2nrealloc (string->ds_string, &string->ds_=
-size,
-+ 				      1);
-+@@ -63,8 +63,7 @@ ds_resize (dynamic_string *string)
-+ void
-+ ds_reset (dynamic_string *s, size_t len)
-+ {
-+-  while (len > s->ds_size)
-+-    s->ds_string =3D x2nrealloc (s->ds_string, &s->ds_size, 1);
-++  ds_resize (s, len);
-+   s->ds_idx =3D len;
-+ }
-+=20
-+@@ -86,10 +85,10 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-+   /* Read the input string.  */
-+   while ((next_ch =3D getc (f)) !=3D eos && next_ch !=3D EOF)
-+     {
-+-      ds_resize (s);
-++      ds_resize (s, 0);
-+       s->ds_string[s->ds_idx++] =3D next_ch;
-+     }
-+-  ds_resize (s);
-++  ds_resize (s, 0);
-+   s->ds_string[s->ds_idx] =3D '\0';
-+=20
-+   if (s->ds_idx =3D=3D 0 && next_ch =3D=3D EOF)
-+@@ -101,12 +100,12 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
-+ void
-+ ds_append (dynamic_string *s, int c)
-+ {
-+-  ds_resize (s);
-++  ds_resize (s, 0);
-+   s->ds_string[s->ds_idx] =3D c;
-+   if (c)
-+     {
-+       s->ds_idx++;
-+-      ds_resize (s);
-++      ds_resize (s, 0);
-+       s->ds_string[s->ds_idx] =3D 0;
-+     }     =20
-+ }
-+@@ -115,8 +114,7 @@ void
-+ ds_concat (dynamic_string *s, char const *str)
-+ {
-+   size_t len =3D strlen (str);
-+-  while (len + 1 > s->ds_size)
-+-    s->ds_string =3D x2nrealloc (s->ds_string, &s->ds_size, 1);
-++  ds_resize (s, len);
-+   memcpy (s->ds_string + s->ds_idx, str, len);
-+   s->ds_idx +=3D len;
-+   s->ds_string[s->ds_idx] =3D 0;
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-exten=
-ded/cpio/cpio_2.13.bb
-index 20ea3c25e30..38c17f7cf50 100644
---- a/meta/recipes-extended/cpio/cpio_2.13.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.13.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e=
-1ecd4e0c9be8967949"
- SRC_URI =3D "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.p=
-atch \
-            file://0002-src-global.c-Remove-superfluous-declaration-of-pr=
-ogr.patch \
-+           file://CVE-2021-38185.patch \
-            "
-=20
- SRC_URI[md5sum] =3D "389c5452d667c23b5eceb206f5000810"
---=20
-2.32.0
+I just experienced this problem in Docker version 19.03.13, build 4484c46d9d
 
+ > $ bitbake pkgconfig-native
+ > | configure: error: I can't find the libraries for the thread
+ > implementation
+ > ...
+
+Can you please tell me what patches I need to apply to get this to work?
+
+How will this be handled upstream?
+
+I guess people would want to run a build in an unprivileged container.
+
+Regards,
+
+Robert
