@@ -1,250 +1,143 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.209.1630522165613140979
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com (EUR03-DB5-obe.outbound.protection.outlook.com [40.107.4.68])
+ by mx.groups.io with SMTP id smtpd.web11.432.1630523057254598041
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 11:49:26 -0700
+ Wed, 01 Sep 2021 12:04:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=OZyWNyT7;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4878a39683=trevor.gamblin@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 181HvbUC024023
-	for <openembedded-core@lists.openembedded.org>; Wed, 1 Sep 2021 18:49:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=PieC0IcMzOQYwD7/ASJW0QP5vFJ4MWmG6pVG7auxDVo=;
- b=OZyWNyT7B2IrW6R/gcYpArM/b2IIYqEtIpeWBxORe4J821T+NSUy6Hku6JxiGiMeitNN
- H3q8bfF8g78hen3Rp7v86NwQDjzW32pFlm+wep9cuqDuRbcEFEJcTtePohhh5b08h6T+
- 6FKmW2kzFAuE1iDeXgQKOIicInvrayltsVm2xgQY1FxX1GCLyYdMTgVe6htGRZ1DzvT+
- uD/HBIXtlu5QHzqoeBUZNyEfcZEEDvXO4DlhUr2P0GZroi5sErBb9RwQRIdYnah+M4ZL
- cv8qyaCYyHkNOSGN0v7BnJudOcCKBMr6h0oFvwCpjc9zTKAWgnZW+VUOHkimGXGSqbi+ FQ== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3atdx4826t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 18:49:24 +0000
+ dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=gtAp3vNr;
+ spf=pass (domain: siemens.com, ip: 40.107.4.68, mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P4UczlXoTMjYjNrq8fid99bdBrKRUBDpN7tMnvf5znOs+wX4EdKnXb6GvzK7gpTALuvJ5VI6wg1ipkivWAUN7wdclbwDzvGuO8qxqcPyNbOs2DE8EcOU5jQHMw7jI1DPK3QQi++SkkL41d3O/eMmjxA1a3CPmaM9IqaDJIY7SqTwc8TA+iePiN3o7gl31x+GYRhCQmu7H2k4bmsduRzVhK8RgBo7759yJOlDEvmw7M9x+Y5sowsLHrklkOQcZxKQ9cBysU3VnG3ErP1imh94LZJER/0U0clnaBiIoRFXVUyKh2NW3nDkoM75CpUe6rRje9RgyuegWfN6LLmVX9BHtQ==
+ b=fQGMhJhlOlJIbQehFMUCfu4Ike2V5iz3NVX6M0GCYIHY9wp2oBjIv/YVM0+CpagU5QCzcg/SDQ2334XJconqQqkTtPSI1921q3YzJFNsx+tncO8GpoWmvMvFRkZkJAfKLag3Yy2Bhf0WPO+1CXNNBEk5W4KRjl3YRND+d8wULddcDkfbBvEoGU5vLj8NG2v+U53AGYi7gKIlE+mkdEp3/QVxanPjFAyYj7qTn3xZDQp96P4yTDKBmYIU6hPOAgx+/bCAvHMvQrOv7zC7yXLERYb3H2wM/LxlgID2ak3yDSfv9jZQgvrIDZq2Hu4ZDOdnI/yeWg5YMTvn65DJrMJIdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PieC0IcMzOQYwD7/ASJW0QP5vFJ4MWmG6pVG7auxDVo=;
- b=IEiKv+KEtEwjOQ14FWxb1/RedBqKXK7TfFjgRWVrEbXOSFZCnoWKZp29wvcwbr9eCPJ9ziqqBfFc6dY6GiaJWD4/KHqsXTQzK6/RgqKY5MU9fNup+PvMvTZDkUh5vTsNPuGZisekHOOMnwpn2uAxrf8+eUvY2cqqOrp8tgNCxjLc3zBU3lkpFEOil1tqQGLxxLL9yiWcs/ycDUcJhw8X5n5IvldbHGQtBERVvOxPbMcWkYRMVJ89PIedS6T3Oxk6+9jn+cgsjtWBd4VNnsac97GALppvlyMOb3n3ZC4rkDLumK4a2a4zDxIzpRYst+hZfl1atEotUrAFcs5pJpG2Hg==
+ bh=sDN2ThJDLiwy+1TOglp2VbQWr/2WSLIGkB4w0IEJ3uw=;
+ b=U3Ns9H5wmCzKPgwEx0xqXZRgAqMZrXgWCBSYmgdzVtE4GjpsABQV07b/pdkqw5AVZt6WIQOmuX84kixNSSnuz3LUwlaW+IUUl/Z7RsVeMFN7XSXFcjA3i1DwAz6EtX3j8c20HKnG/m3zSKGCbRekhRgt23ZQaYydJJbfL5fnStFaklLkfzLvrwTPosHrAdh5QgTVqN2uiI1ScPTbZB/cQxfDQNhx49dfoWX43g6V6rD3m/4ozbAW9pBJq72Ohtd55XVJc+1CCfnlhx7FNi5iApWd7qs/sR+pnG6KJuor83RhyrkW1iLQY04WRIAIitqsxvlri8q6x05IbWyLdF/AdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
- by BYAPR11MB3221.namprd11.prod.outlook.com (2603:10b6:a03:1c::12) with
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sDN2ThJDLiwy+1TOglp2VbQWr/2WSLIGkB4w0IEJ3uw=;
+ b=gtAp3vNrpw9Sh6Y+79kmqqlFY4dlkdZjDpBzZN3bqClaSFLm2kpLcTAZVtDcLA4GUBc5y74hJx3wTUYmK4pEknauZO+XtcuMSsd/11Wjplhsj8fFLmxzLrqToHZX0IfH0VuXn0+RmmsZVMjQpJ5TtQ9p3HQYWTTOxGiCuxGlX18=
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
+ by DB7PR10MB2153.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Wed, 1 Sep
- 2021 18:49:20 +0000
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::fdd3:dc0f:a385:34d1]) by BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::fdd3:dc0f:a385:34d1%4]) with mapi id 15.20.4457.024; Wed, 1 Sep 2021
- 18:49:20 +0000
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][hardknott][PATCH] bluez5: fix CVE-2021-3658
-Date: Wed,  1 Sep 2021 14:45:45 -0400
-Message-Id: <20210901184545.788299-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.31.1
-X-ClientProxiedBy: MN2PR01CA0006.prod.exchangelabs.com (2603:10b6:208:10c::19)
- To BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.24; Wed, 1 Sep
+ 2021 19:04:15 +0000
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a95f:bc47:e21e:adac]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a95f:bc47:e21e:adac%7]) with mapi id 15.20.4457.024; Wed, 1 Sep 2021
+ 19:04:15 +0000
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: "steve@sakoman.com" <steve@sakoman.com>
+CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v2] vim: add option to disable NLS support
+Thread-Topic: [OE-core][PATCH v2] vim: add option to disable NLS support
+Thread-Index: AQHXmnyJE/lubZVXjUOOdINcrbAjhKuPk1SA
+Date: Wed, 1 Sep 2021 19:04:15 +0000
+Message-ID: <3f9e5142ddd2b90cc3e150287d0f88456188d56b.camel@siemens.com>
+References: <20210823101205.29267-1-andrej.valek@siemens.com>
+	 <20210826131549.2349482-1-andrej.valek@siemens.com>
+In-Reply-To: <20210826131549.2349482-1-andrej.valek@siemens.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+authentication-results: sakoman.com; dkim=none (message not signed)
+ header.d=none;sakoman.com; dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7f6e084b-13d9-43d8-eea3-08d96d7b4ada
+x-ms-traffictypediagnostic: DB7PR10MB2153:
+x-microsoft-antispam-prvs: 
+ <DB7PR10MB21531217EB48C34612BEC7A092CD9@DB7PR10MB2153.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:1824;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ dycRRNYwDH/slZwyLX16GksOVeOrjJiBS30ladwdjQjWXkOD3UBwxWWYCO3Bl5M1lj2b6k1i3AFV47YDIBkZIYX9SP85a5IEg04MrP9KgN6EIcj3C2hl74btrmQ1t4XU33hJJLa5ixO74HlBBE4KDhra6m7yD6yG7hUHstm4vyKT2Rgk2jdSm4nr9nQqScabc5RH+bqYOxuA51vKwG2MtBDCbWr4uEyDYc+7kSRareDKaImu+h/jnZuNbj28NMQOLTwV0011JRLhfOL+QzX9fiN81QcyBHbMdcq6uCvOejDMVDQE1862tF82MFRf030/0f6qcU3Nil3hxFNPp/QB5xpC8gVcRY0Zd1VrHGWi/lNoT+Cm6iKZfWQqztJWAjttW0Z+rt8fHtVwpYSqj1/s0B+fBNwEeR1OqJtIKj0ZaQ0P+C0Gmh+uwV0VQYbYOiC+10/liaTSTR0sl2GfkEri45pUIcIgawnfHehnFzC/uf4bdl9tRZMLxfRkBDdMYajLA4UlAJsHvbExXZ58DTy54VDesCK0RQ6bOIp59XD6EoaQStWAuspw56a6ruhxPmKPScax8sYXw9lh5swAZI3BilnlVqL18f5KS5HJL0hHFMw3GZtgnktAH3Hd56o0LzwK3WAE+py64q36Kp/P8kKJFmaYsAB5sAYeLc7PM8Atk6CtEeqLwd9nMQ74Op6C0h/tWSb8nNTnd6m4f+irlEhz3A==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(376002)(39860400002)(366004)(6506007)(66476007)(66556008)(76116006)(66946007)(6916009)(6486002)(2616005)(86362001)(38070700005)(186003)(316002)(8676002)(54906003)(91956017)(64756008)(8936002)(66446008)(6512007)(38100700002)(36756003)(4326008)(122000001)(83380400001)(26005)(2906002)(5660300002)(71200400001)(478600001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ay9qclJOZzM2WDE0OE1SaHM0ZjJRazZibXBpZFZHR2hwWVQ2dzhmRFZ5bXdt?=
+ =?utf-8?B?WTF4d0tCL0Nqd0FlYkF2L0RicC9wczFMSUJkUHJsaHdrb1F4TWg1ZWJVYTda?=
+ =?utf-8?B?RlRKaWl4cmt2K053aVd6dVJWYkRYRWVZL0VIVTNwdTFtZVY1UGdSY2Y0QVVL?=
+ =?utf-8?B?dVZQdWhXM0xZRzgwZmNiMG04RzBMMk9WaTJ6MUlZNi80ZStvWWNaWkdzTm93?=
+ =?utf-8?B?cEQxb2dYbWpwYlBIWGdtTCt2TTNsNU1tbnhwUjNETXFOSjZTbFlTVUVFb3Vm?=
+ =?utf-8?B?R0tiUUExdTNVNUdPcXhYWENFZm5DdGRCemJpa0Y2NzRUYlpCZjlJYzA5NXZN?=
+ =?utf-8?B?aGdmZEVyd2U0VXZla3I5QkNEeVBKWWJOTWpnWjV6L015dTMrVWxHYVRncnAv?=
+ =?utf-8?B?SlFQci9CU0lUV05JcHRNUk1VTEFPZ08rN0twTDI1eUlubTVHYUtiUkNpWGZY?=
+ =?utf-8?B?WDJtVm5OVGl3b0QwMWNhbUlPS0JhZERtbkxLeFJIM3dMVSs5b2ptbGp2NjJI?=
+ =?utf-8?B?MzhOMk54VVd0ZG1DYXZnSGJ0a0ZtMGxTYU1UYXM0VjN3dTFCMFMrOGExZkJY?=
+ =?utf-8?B?ZmY3eUh5ZklGYzFPS3lhQ05SUGFpcUxWODNxN0RWd2lvU0N1UHVHM2w5Wksv?=
+ =?utf-8?B?L08rZ1lLWXNBdEFHdXEwcjNQM1FKMDlwZVArRDVoWkcrUXhxWWVnb1l3RWpq?=
+ =?utf-8?B?WjFZNzgzMkx5U2FSSTZMamRZUHNZbU1jTUdjaHlWa0J2Zy8rOG1YLy96Q0Qx?=
+ =?utf-8?B?ZnBtcjM1QndQZ1lTY05OY2UyNWdqQTNCSjBFcUJKcVNWM29lbDB5ck1xWEFa?=
+ =?utf-8?B?RGkzN1ZQMHNGeFFXd0hWU0JwZkJvM1Erd2JmZEZ6a2dzUnl0OEwvd241VXBt?=
+ =?utf-8?B?anV1aFNMRkZQcEVDRmlQNHFLRWc3SVFGbjEwdUR5U21kK0h5alQvMUF3UW8r?=
+ =?utf-8?B?ZDkrYm1rM2s1VklnY2RKL2RjQ1lXT2QrRnExRDVyQ2t2ejJXZmhFRDVJT2F2?=
+ =?utf-8?B?Zm5FUWZtZGJDdmVGVkNDNzROUmprczBneUIrZVpHazV0UUNXMmJ2ckpxZk1x?=
+ =?utf-8?B?VFhTT2JjbU5hZVp5WGMxUEEvM0gvWE42RkN5RDZvYWc1SVMwdS9wd0VFZ09M?=
+ =?utf-8?B?aE0wOWhxcExHdG1XaC84TXE0YWtpV2E5U1JlZHRQMXZ3T01heUdRY3VLVXR5?=
+ =?utf-8?B?SzhJNFg3M2xIOHNKYXhsZ3Y4bDZ6QUVDYi95RnI0R2dzK1RaakFhQjR4Um91?=
+ =?utf-8?B?Um1lb3Z1VmNyeUV0VzlVMjhrSm81cW80UDk0VGNtZytYS1VkR2lCKzVRcXVH?=
+ =?utf-8?B?MmFROTNONGxXOERhNCtadHV2cEszZFFKK1htZEZyVm40VnFKZWlzSFhHZk93?=
+ =?utf-8?B?MloyN2oyUDhKVmxmbDVkQjE3YUJTTVJ3MjRLSE5MMEJsVk9rQkhXVXQ3WFVN?=
+ =?utf-8?B?ZG1XWW1vaGh2QlRKY3BaOUl0WCt3cFRwcWEwKzg3TEFZSUFocDQrTjFvVUlX?=
+ =?utf-8?B?YUZrZFE0OUZnWHR0NmY5eGplUXZ0Q2xiWm9EeWpkYTN5NUdFVy9ZTXpzSks0?=
+ =?utf-8?B?b0VMVTdlejhaSTFBOHhUQXNNUk5hQmlYWUo5OGNSUlp5aTc4bEdkZ3B4OGpN?=
+ =?utf-8?B?U1BrOTkycjBzRjZacTUxODJWTEZEVHNXZ2ZUY05oZUlYN3MyQlY0UjJsam1Q?=
+ =?utf-8?B?T1F4S1UvVEJqQTBCNTFWQVUyaEQvbmowblBFdnpyYWgrRHR6aEQzQ2g0QzVF?=
+ =?utf-8?B?ZUpxZG1lNTBMU0lobzF0QjZLWUNaTUxrdXpPaG1oc0E3clEwdWtON0RublNw?=
+ =?utf-8?B?MDRBSjBGQW1PNDdtQzhlQT09?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-tgamblin-lx3.corp.ad.wrs.com (2607:fea8:c29d:d7c0:fa88:8bc5:c0d2:27cc) by MN2PR01CA0006.prod.exchangelabs.com (2603:10b6:208:10c::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Wed, 1 Sep 2021 18:49:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e1bb719a-fd14-4775-b1cf-08d96d79358a
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3221:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3221F59A0D020B34A25211B79FCD9@BYAPR11MB3221.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+AF9eHZa4C9ia7HRnl4+EpE6+Z7ZR7Omf8/srDreJqS8z161omLrux+/Xvmag6vi+L0KTgN/xi+JmvRaKQCDnLzZT0BUH+AimiJ/j4WydnBTZp5z3BmgdcSkEiYdlULxODYtNeuCFmlfy9xWbwvlk3ZonfyOw6e3VkxmZY/Wlfl/yBHDRr6CMzLf5ADXajjUB9vuayVVe5qMVP7Tlt3iMTuYoBjoic4T0Grqv+jRnSzUdBZY3Y2Q714b22Dv4i6M4nJhun1dS7EB42YHjGjbrrYBPCxH6xeg5WeJfZKGyl1vVMnNnCcAtRMrdRamSPkaHw02aLksdn+ENuqe1OLET1Rw2L4FkDuvh1I63L6yE6QXqTUxwAVH84m0X2le+ij8Fcxx5Bf/Ji0zbgdam0X3+PoBBVu7mpCnvRIPReXpoyitCl7FK+RTjiWGHl6o3MCmx1wb8i1AfNsYpVVhU31RLFklkrpW6q3q42Z18Mj2nLSNVOxpkOCJEQat01YgRLm2tEakCHSET8+QgtQXKtnM4acfbe5rBA7n3+yMxWtM7vzHrOZIzrg51U4E20a8zfVFdBloOPkKYbwufFNsGuYbgergXYPvI7mR9eqyVto6h6p/nrmZKJRVynDVVHm9nFiQS5AeusMesEfXCEljNE8UV517QfP/tYycoDPO146UCjNDzBMSpikXse8MfpaVjrwcfzh5wCkNmonrVHuVwZIVyuOAnvVl/92jbuc38zDPIxs=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39850400004)(366004)(396003)(376002)(136003)(44832011)(66946007)(6666004)(83380400001)(316002)(86362001)(2906002)(6486002)(1076003)(2616005)(6512007)(5660300002)(186003)(36756003)(66476007)(66556008)(6916009)(38100700002)(8936002)(52116002)(6506007)(478600001)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hm41HCjDcoHaVX7N59AwlgrFZg0iobTLp4teSJpTOtC09h+wXs5fxH2pdvEv?=
- =?us-ascii?Q?E/IkGaH+QCer2iLZft73X6syZIEnPBgkbogRbs5eXqyYKe9bGCCWqoRh/UNH?=
- =?us-ascii?Q?DY23JjmRPA4mKnFTXCFzKCVWTw1f7SIG1uimXUvPbsoneoM22NEKRpofNMrW?=
- =?us-ascii?Q?JBOgVY6BFRyttqIzTR5OkarQzt2h8oq4kxbwN3GTc3hf3c6xrNOWtPTSUW8X?=
- =?us-ascii?Q?iTl87+BC+BpyVKqfEcyL/uG9dY4qLj03ssQ2FqBc2fXBGcAAS7DXjVYpI1T4?=
- =?us-ascii?Q?KdiF6ksxeJeFhxy8YN+dXdO8Dr8UVQClGMi8pyzWJRVGJrVVw25hlLlQr1JC?=
- =?us-ascii?Q?jzmzCbjU689mJXqRO1qJjLfiadBcdMdaGYNgQS8OwLvpQEqeJ0cxQGtZMr0D?=
- =?us-ascii?Q?t67oC61LS9gUlyJx1ze5kxDfL5hmY/38VcTq7W1BKvRJhI5WWHNEo4cbUAl1?=
- =?us-ascii?Q?91D7IjDAM0XJVIbpUVWv5/XGYQ26qKWcbimFSW0/9sx4R4hQLA64SVOb+wA7?=
- =?us-ascii?Q?iaiJufZ4QKR08FKbv7vASCyDwy/UBz7kWbUGQouqiHxZEpeUKQAGyzBqxawV?=
- =?us-ascii?Q?wqmrdxAEvMrIbc3FJz86qx1j/6UpMcnSHmvQtbbvIfeKzxa9XJhsJaWevSmo?=
- =?us-ascii?Q?YbeCPiegmoKYXSvu8MavVTcw053w/owNYUeHlvw8DPK3hZcKLvBmiItO6diY?=
- =?us-ascii?Q?/rVxvzEd6m9+rUSaQW+7Va4v5hiSHTpZ3ma2QOu0a2LCCEWouhE64+IfM7gt?=
- =?us-ascii?Q?WJkjOOyTYintR0wT8bjRB1/9eoXkybXCD+I3GpShHjBiUytI0hMSrrvX4L9p?=
- =?us-ascii?Q?z0agf2zSDqGQBuk5QkYht0SpQVyaj7BYwtEh7P6OsgburXu8l1XKwrVzgzFZ?=
- =?us-ascii?Q?NSWR7YMIkEyN9hLesVTOKYVsmkagq3eueN71xeh8+xlKRCUDv1IiyWJJNPTv?=
- =?us-ascii?Q?SD9C6jgnmNpTNxgFXv8ypehwbEC3EOoRxRFOo/sjHggXg8XT5u/6+an+0HLo?=
- =?us-ascii?Q?kQMPP08qtyoOpoOVTNIypRqZqpXUvTDpVpq+A6GBm2ojFANmB5D1wQf/HZpr?=
- =?us-ascii?Q?XUb9hAucg5ZM7P4TKWlSnAv+nWR4U+Fh34zy3+C0cn4B0zZ18nsGVNUdlY8s?=
- =?us-ascii?Q?P8x0qh8OC/Fu5soSLYVg9e1SePc/yDBB7E7f3HmK3hbvT6isFSsqdy6x5DxO?=
- =?us-ascii?Q?Ya+PHTkODQp584Eu7d32x3oxmZkMDACtEhvxyJHzHp4aiJP31UwGWjKhdWvf?=
- =?us-ascii?Q?qQUyy/zdBuX4xq0NvArECcypMFTOr6meCzIZU9gFiyiEolYwl5HmbSDgtsec?=
- =?us-ascii?Q?znlVI1oCwCTTCTFMnRr+4yXbiCjXqzDpMEODpHRPNrSPR83aqebfbVQXEwDu?=
- =?us-ascii?Q?0TPfscDV5DoPETq1zLanBRbzENJC?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1bb719a-fd14-4775-b1cf-08d96d79358a
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 18:49:20.7747
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f6e084b-13d9-43d8-eea3-08d96d7b4ada
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2021 19:04:15.2518
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K1rjUxAE+OMRstrT4bk1bnlNFI7YYhVd5pGLrYPPNeuXNwBa9GDQy9PHSF59ZZUJ4Fi1wfguYU2sd9uL7wBlhD0IINJ3sH2yupen9809MLM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3221
-X-Proofpoint-GUID: ZfmhHsn6cdKoeqGsjNTtXgrRjBHCk912
-X-Proofpoint-ORIG-GUID: ZfmhHsn6cdKoeqGsjNTtXgrRjBHCk912
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-01_05,2021-09-01_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- bulkscore=0 phishscore=0 spamscore=0 adultscore=0 clxscore=1011
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109010108
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SdjSZ4yy8h/HHgBrBUioDF+hqnT246Asmi2eIqPxGdABEFh2DKC00V8toHpyQFjBFTJebfZFI2SmM4kAePdWv8umfLZ+NfJcWhEYIWGo0ws=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR10MB2153
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2ABE535D62859A46B4DFC9670CD47C90@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 
-Backporting upstream fix since the uprev from 5.60 -> 5.61 does include
-some minor functionality changes.
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...ter-Fix-storing-discoverable-setting.patch | 100 ++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-Fix-storing-discoverable-setting.patch
-
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index a7b628ce1b..0d30b1a3f5 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -52,6 +52,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-+           file://0001-adapter-Fix-storing-discoverable-setting.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-Fix-storing-discoverable-setting.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-Fix-storing-discoverable-setting.patch
-new file mode 100644
-index 0000000000..c2a5edd226
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-Fix-storing-discoverable-setting.patch
-@@ -0,0 +1,100 @@
-+From b497b5942a8beb8f89ca1c359c54ad67ec843055 Mon Sep 17 00:00:00 2001
-+From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Date: Thu, 24 Jun 2021 16:32:04 -0700
-+Subject: [PATCH] adapter: Fix storing discoverable setting
-+
-+discoverable setting shall only be store when changed via Discoverable
-+property and not when discovery client set it as that be considered
-+temporary just for the lifetime of the discovery.
-+
-+Upstream-Status: Backport
-+(https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=b497b5942a8beb8f89ca1c359c54ad67ec843055)
-+
-+CVE: CVE-2021-3658
-+
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+---
-+ src/adapter.c | 35 ++++++++++++++++++++++-------------
-+ 1 file changed, 22 insertions(+), 13 deletions(-)
-+
-+diff --git a/src/adapter.c b/src/adapter.c
-+index 12e4ff5c0..663b778e4 100644
-+--- a/src/adapter.c
-++++ b/src/adapter.c
-+@@ -560,7 +560,11 @@ static void settings_changed(struct btd_adapter *adapter, uint32_t settings)
-+ 	if (changed_mask & MGMT_SETTING_DISCOVERABLE) {
-+ 		g_dbus_emit_property_changed(dbus_conn, adapter->path,
-+ 					ADAPTER_INTERFACE, "Discoverable");
-+-		store_adapter_info(adapter);
-++		/* Only persist discoverable setting if it was not set
-++		 * temporarily by discovery.
-++		 */
-++		if (!adapter->discovery_discoverable)
-++			store_adapter_info(adapter);
-+ 		btd_adv_manager_refresh(adapter->adv_manager);
-+ 	}
-+ 
-+@@ -2162,8 +2166,6 @@ static bool filters_equal(struct mgmt_cp_start_service_discovery *a,
-+ static int update_discovery_filter(struct btd_adapter *adapter)
-+ {
-+ 	struct mgmt_cp_start_service_discovery *sd_cp;
-+-	GSList *l;
-+-
-+ 
-+ 	DBG("");
-+ 
-+@@ -2173,17 +2175,24 @@ static int update_discovery_filter(struct btd_adapter *adapter)
-+ 		return -ENOMEM;
-+ 	}
-+ 
-+-	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
-+-		struct discovery_client *client = l->data;
-++	/* Only attempt to overwrite current discoverable setting when not
-++	 * discoverable.
-++	 */
-++	if (!(adapter->current_settings & MGMT_OP_SET_DISCOVERABLE)) {
-++		GSList *l;
-+ 
-+-		if (!client->discovery_filter)
-+-			continue;
-++		for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
-++			struct discovery_client *client = l->data;
-+ 
-+-		if (client->discovery_filter->discoverable)
-+-			break;
-+-	}
-++			if (!client->discovery_filter)
-++				continue;
-+ 
-+-	set_discovery_discoverable(adapter, l ? true : false);
-++			if (client->discovery_filter->discoverable) {
-++				set_discovery_discoverable(adapter, true);
-++				break;
-++			}
-++		}
-++	}
-+ 
-+ 	/*
-+ 	 * If filters are equal, then don't update scan, except for when
-+@@ -2216,8 +2225,7 @@ static int discovery_stop(struct discovery_client *client)
-+ 		return 0;
-+ 	}
-+ 
-+-	if (adapter->discovery_discoverable)
-+-		set_discovery_discoverable(adapter, false);
-++	set_discovery_discoverable(adapter, false);
-+ 
-+ 	/*
-+ 	 * In the idle phase of a discovery, there is no need to stop it
-+@@ -6913,6 +6921,7 @@ static void adapter_stop(struct btd_adapter *adapter)
-+ 	g_free(adapter->current_discovery_filter);
-+ 	adapter->current_discovery_filter = NULL;
-+ 
-++	set_discovery_discoverable(adapter, false);
-+ 	adapter->discovering = false;
-+ 
-+ 	while (adapter->connections) {
-+-- 
-+2.33.0
-+
--- 
-2.31.1
-
+SGVsbG8gU3RldmUsDQoNCkNvdWxkIHlvdSBwbGVhc2UgY2hlcnJ5LXBpY2sgdGhpcyBwYXRjaCBp
+bnRvIGR1bmZlbGwgYnJhbmNoIHRvbz8NCg0KVGhhbmsgeW91LA0KQW5kcmVqDQoNCk9uIFRodSwg
+MjAyMS0wOC0yNiBhdCAxNToxNSArMDIwMCwgQW5kcmVqIFZhbGVrIHdyb3RlOg0KPiAtIFNvbWUg
+ZGlzdHJpYnV0aW9ucyB3aXRoIFVURi04IGxvY2FsZSBoYXZlIHByb2JsZW0gd2hlbiBOYXRpb25h
+bA0KPiBMYW5ndWFnZQ0KPiBTdXBwb3J0IGlzIGVuYWJsZWQuIEFkZCB0aGVyZSBhbiBvcHRpb24g
+dG8gZGlzYWJsZSBpdC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFuZHJlaiBWYWxlayA8YW5kcmVq
+LnZhbGVrQHNpZW1lbnMuY29tPg0KPiAtLS0NCj4gwqBtZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0v
+dmltLmluYyB8IDQgKysrLQ0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEg
+ZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0v
+dmltLmluYyBiL21ldGEvcmVjaXBlcy0NCj4gc3VwcG9ydC92aW0vdmltLmluYw0KPiBpbmRleCAx
+N2QxYzI0YTdjLi44NjBmZDI0ODYzIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC92aW0vdmltLmluYw0KPiArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLmluYw0K
+PiBAQCAtNTQsMTEgKzU0LDEyIEBAIGRvX2NvbXBpbGUoKSB7DQo+IMKgwqDCoMKgIGF1dG90b29s
+c19kb19jb21waWxlDQo+IMKgfQ0KPiDCoA0KPiAtI0F2YWlsYWJsZSBQQUNLQUdFQ09ORklHIG9w
+dGlvbnMgYXJlIGd0a2d1aSwgYWNsLCB4MTEsIHRpbnkNCj4gKyNBdmFpbGFibGUgUEFDS0FHRUNP
+TkZJRyBvcHRpb25zIGFyZSBndGtndWksIGFjbCwgeDExLCB0aW55IHNlbGludXgsDQo+IGVsZnV0
+aWxzLCBubHMNCj4gwqBQQUNLQUdFQ09ORklHID8/PSAiIg0KPiDCoFBBQ0tBR0VDT05GSUcgKz0g
+IiBcDQo+IMKgwqDCoMKgICR7QGJiLnV0aWxzLmZpbHRlcignRElTVFJPX0ZFQVRVUkVTJywgJ2Fj
+bCBzZWxpbnV4JywgZCl9IFwNCj4gwqDCoMKgwqAgJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RS
+T19GRUFUVVJFUycsICd4MTEnLCAneDExIGd0a2d1aScsICcnLA0KPiBkKX0gXA0KPiArwqDCoMKg
+IG5scyBcDQo+IMKgIg0KPiDCoA0KPiDCoFBBQ0tBR0VDT05GSUdbZ3RrZ3VpXSA9ICItLWVuYWJs
+ZS1ndWk9Z3RrMywtLWVuYWJsZS1ndWk9bm8sZ3RrKzMiDQo+IEBAIC02Nyw2ICs2OCw3IEBAIFBB
+Q0tBR0VDT05GSUdbeDExXSA9ICItLXdpdGgteCwtLXdpdGhvdXQteCx4dCwiDQo+IMKgUEFDS0FH
+RUNPTkZJR1t0aW55XSA9ICItLXdpdGgtZmVhdHVyZXM9dGlueSwtLXdpdGgtZmVhdHVyZXM9Ymln
+LCwiDQo+IMKgUEFDS0FHRUNPTkZJR1tzZWxpbnV4XSA9ICItLWVuYWJsZS1zZWxpbnV4LC0tZGlz
+YWJsZS0NCj4gc2VsaW51eCxsaWJzZWxpbnV4LCINCj4gwqBQQUNLQUdFQ09ORklHW2VsZnV0aWxz
+XSA9ICItLWVuYWJsZS1lbGYtY2hlY2ssLGVsZnV0aWxzLCINCj4gK1BBQ0tBR0VDT05GSUdbbmxz
+XSA9ICItLWVuYWJsZS1ubHMsLS1kaXNhYmxlLW5scywsIg0KPiDCoA0KPiDCoEVYVFJBX09FQ09O
+RiA9ICIgXA0KPiDCoMKgwqDCoCAtLWRpc2FibGUtZ3BtIFwNCg0K
