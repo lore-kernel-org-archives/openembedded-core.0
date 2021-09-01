@@ -1,53 +1,53 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.web10.8136.1630503946070203838
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web12.8233.1630503947084822483
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 06:45:46 -0700
+ Wed, 01 Sep 2021 06:45:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=R3/XlrPS;
- spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f41.google.com with SMTP id t2-20020a4ae9a2000000b0028c7144f106so832175ood.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:45:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eS8AoAK+;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id t1-20020a4a54010000b02902638ef0f883so824469ooa.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3CJ6ijbCvm7oC1al7EOrYvN9T1CRP0te8vyPh10ER/I=;
-        b=R3/XlrPSPqduiANxrRiTQEcR865THdcgRwXs/lfOIsA5l7bSqCxNqQXodm0TuIXY2n
-         mn/TE5igryKz6ljpK+OCMEA8y/QCJKEI7eUYYbmZP6IcpIKppzw6EueCn0l7/sUDAX3+
-         8L84SEJLdiw5RkNpel9SFOsg8hvb37YQLi9X45HX4QEhr5R7zFnG40UY0ytD+W6/5E/y
-         6P98Xj3zEwrwTYT0sef8WdbMwoSyoEm6KqCWaIrYo6iIDjCWt/G/SlfCxXCCxACgcQ/O
-         9a2EhBg7JE8WSv3oAS7P6FKOU+jgKecm5z+nljP3r+Gq08vQNHUTMNwHdVFE8l/UQJYU
-         rltA==
+        bh=Rp1YHRqTa7TrfclDOnXzY+E1nw5BHwNuFJtn6QTWd9o=;
+        b=eS8AoAK+NoclNh5J2vPw23erMrGQrxycXMQ4ib42MipIow4sJ87yyFTGAmPg3oiYbv
+         uCvFHCk688qoQmCZMx3YU3dbk7IHavrIVvsvIwlLkuwwAOoSQVddC4lOInSGwnc/itsW
+         Ii+C+a2qIw9NYceBshCdsoZ001R7Y0S8PdIIpAuyeL4s0chZ5+DQwuyYPjMYOVwvJvT4
+         P4Ha55gfuUl/ohGLfSMCmbyVtFGC2TX9vpRdIMYeI+chNm2Qy/NTx0GGAdJLgawtr3q8
+         T+CguWbVEbz3mNgO56qbMkWVLZgb1crJZjzFVrt7D1gomJDa2rqorXw7BvnsDcEG6J/q
+         izcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3CJ6ijbCvm7oC1al7EOrYvN9T1CRP0te8vyPh10ER/I=;
-        b=TGTfZ6Xqekwl7qpIJs0IQa5ySmnTDs4szXEU08hcmXlOdKY0QmMZdiPH9dSHkra1Wa
-         svmui+jise5Z18XGaEq2Tiz+kkaHDzkFoFvctFeUdr4yilT3VDx5OiLTeeibRzAWHp9Y
-         DohdDrwlKi1/fCoVbGXGWvz/mTpJIwm/CZKOyNvXP5sLxPwpRaUFKh4IRybdffLPcXF8
-         OPNCbsaSxGftNDH/AtrUWEOPZhgAWzQ2bTjJpijZiqXDqr0ffHCQtq1sq1dQANiDN7pY
-         5NO0tlSj0T2B/HYkU/3ywB3HSOhvUKxC6cTXYu4umxT2Mji/AfOis+0n3zLEiUfJpfv6
-         68uw==
-X-Gm-Message-State: AOAM533qpSzzV125+ojdwnv9Fb6ex1oLDcfPb5A5OYsVMjFo8ov8LFrF
-	kXqEDkjSID0nytEmz+Bs8h4MacaP7iE=
-X-Google-Smtp-Source: ABdhPJzgy96pi+2PmfKjtMMBtQArn5Wgq4f1oOOygBRPrVkDc/MqOGZfaEz8QHZyNZ9teHJiimxqQQ==
-X-Received: by 2002:a4a:a40c:: with SMTP id v12mr19070464ool.72.1630503945162;
-        Wed, 01 Sep 2021 06:45:45 -0700 (PDT)
+        bh=Rp1YHRqTa7TrfclDOnXzY+E1nw5BHwNuFJtn6QTWd9o=;
+        b=HYJxPWGnQDETmTkVLNx21HkgKsK1LYep7CSGHPKbiHsbNa2h6qPX9Y4VuBCHv7dGqD
+         AIJovbbougiX3rcUvpFVHksbkynL0bxho1c2OrooPjHQ3fw6+itEWi0CmI2NY0WcPYXX
+         9F1/Nz7H12TRj/yMa0FWCOngkLoTRZd6fOXmfEVC18SexvCJAwyxZioKs258K3sIvbRl
+         UvuyIZLD3MsBRT5Qvv0cCh3wCaPJuPPAPuGCN9CNnXLhqO88+r4LWBai8qWL5caKMewc
+         OWG53W5eOraArc1dqdcKo+t2ragLMwSBg0vbtyI8MoAyBBNw0UsQVWuFLSVpzj0N/aoK
+         vmIQ==
+X-Gm-Message-State: AOAM532hohSc4wBXINaR3IO5aC8sT2WqHNTYLDQ20VOzgFLuMb8GJqtt
+	gbeNJIDfMUWIQmoQ+Zapi+IzembM1qI=
+X-Google-Smtp-Source: ABdhPJwUOhhlm2TybNTgpJ4A5X3Pksqsf/lUv85xVYdmjLW04AW72GVSgNUEhKUPxSsHPfs5wj813g==
+X-Received: by 2002:a4a:7504:: with SMTP id j4mr18967629ooc.55.1630503946135;
+        Wed, 01 Sep 2021 06:45:46 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id c75sm4283772oob.47.2021.09.01.06.45.44
+        by smtp.gmail.com with ESMTPSA id c75sm4283772oob.47.2021.09.01.06.45.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 06:45:44 -0700 (PDT)
+        Wed, 01 Sep 2021 06:45:45 -0700 (PDT)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: ross.burton@arm.com,
 	saul.wold@windriver.com,
 	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 27/31] libjitterentropy: Use specific BSD license variant
-Date: Wed,  1 Sep 2021 08:45:06 -0500
-Message-Id: <20210901134510.29561-28-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 28/31] libx11: Use specific BSD license variant
+Date: Wed,  1 Sep 2021 08:45:07 -0500
+Message-Id: <20210901134510.29561-29-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210901134510.29561-1-JPEWhacker@gmail.com>
 References: <20210901134510.29561-1-JPEWhacker@gmail.com>
@@ -60,22 +60,22 @@ attribution as "BSD" is not a valid SPDX license.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb | 2 +-
+ meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
-index f703c089a0..d9fbb5e9d6 100644
---- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
-+++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
-@@ -4,7 +4,7 @@ It does not depend on any system resource other than a high-resolution time \
- stamp. It is a small-scale, yet fast entropy source that is viable in almost \
- all environments and on a lot of CPU architectures."
- HOMEPAGE = "http://www.chronox.de/jent.html"
--LICENSE = "GPLv2+ | BSD"
-+LICENSE = "GPLv2+ | BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1c94a9d191202a5552f381a023551396 \
-                     file://LICENSE.gplv2;md5=eb723b61539feef013de476e68b5c50a \
-                     file://LICENSE.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
+index c84f33e92c..7ee2a9c16a 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "1cfa35e37aaabbe4792e9bb690468efefbfbf6b147d9c69d6f90d13c30
+ PROVIDES = "virtual/libx11"
+ 
+ XORG_PN = "libX11"
+-LICENSE = "MIT & MIT-style & BSD"
++LICENSE = "MIT & MIT-style & BSD-4-Clause & BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+ 
+ DEPENDS += "xorgproto xtrans libxcb"
 -- 
 2.32.0
 
