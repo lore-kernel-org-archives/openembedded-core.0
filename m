@@ -1,131 +1,76 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.9770.1630510325343322906
+Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
+ by mx.groups.io with SMTP id smtpd.web08.295.1630513529581421631
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 08:32:06 -0700
+ Wed, 01 Sep 2021 09:25:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D76A71FB
-	for <openembedded-core@lists.openembedded.org>; Wed,  1 Sep 2021 08:32:04 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8314F3F5A1
-	for <openembedded-core@lists.openembedded.org>; Wed,  1 Sep 2021 08:32:04 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=jQE5tWcp;
+ spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
+From: "Kristian Klausen" <kristian@klausen.dk>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+	t=1630513526;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NpXV4sdsUD7aYwerPN7k4wT2fTmvLTCuOBlbUCdXJCA=;
+	b=jQE5tWcpv0uey3+A0mutvpM0E/AD8mMuAOqmZYeoMYM+e2AyhK9NSdLGVKKMlTPQIlPnNS
+	YW5wtErcaNjurIRizp4mTIeolG8f0xJRlX44UGI6m6+UbIDiJL8i814jG4Z4S/lo+Bqjfc
+	V0JCaJcyBHROrSmVF3sUA+CJN1DjGR4=
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] mesa: fix build on Arm V5 with soft float
-Date: Wed,  1 Sep 2021 16:32:01 +0100
-Message-Id: <20210901153201.5399-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Kristian Klausen <kristian@klausen.dk>
+Subject: [PATCH v2] systemd: Add repart PACKAGECONFIG
+Date: Wed,  1 Sep 2021 18:21:39 +0200
+Message-Id: <20210901162139.1239145-1-kristian@klausen.dk>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Since 80923e8d ("util/format: Add some NEON intrinsics-based
-u_format_unpack.") upstream the build fails on Arm platforms which use
-the soft-float ABI, such as qemuarmv5:
+systemd-repart[1] is useful for partitioning the disk:
+"systemd-repart grows and adds partitions to a partition table, based on
+the configuration files described in repart.d(5)."[1]
 
- arm_neon.h:31:2: error: #error "NEON intrinsics not available with the
- soft-float ABI.  Please use -mfloat-abi=3Dsoftfp or -mfloat-abi=3Dhard"
+openssl is required by repart, so it can be enabled like so:
+PACKAGECONFIG +=3D "openssl repart"
 
-Take a patch from upstream to check the ABI being used before trying to
-use NEON instructions.
+[1] https://www.freedesktop.org/software/systemd/man/systemd-repart.html
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Kristian Klausen <kristian@klausen.dk>
 ---
- .../mesa/files/without-neon.patch             | 53 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/without-neon.patch
+V2:
+Error if repart is specified without openssl.
 
-diff --git a/meta/recipes-graphics/mesa/files/without-neon.patch b/meta/r=
-ecipes-graphics/mesa/files/without-neon.patch
-new file mode 100644
-index 00000000000..56e4aa77695
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/without-neon.patch
-@@ -0,0 +1,53 @@
-+Since 80923e8d ("util/format: Add some NEON intrinsics-based u_format_un=
-pack.")
-+upstream the build fails on Arm platforms which use the soft-float ABI, =
-such as
-+qemuarmv5:
+ meta/recipes-core/systemd/systemd_249.3.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_249.3.bb b/meta/recipes-co=
+re/systemd/systemd_249.3.bb
+index a6759c7a35..c2d4343f10 100644
+--- a/meta/recipes-core/systemd/systemd_249.3.bb
++++ b/meta/recipes-core/systemd/systemd_249.3.bb
+@@ -132,6 +132,7 @@ PACKAGECONFIG[efi] =3D "-Defi=3Dtrue,-Defi=3Dfalse"
+ PACKAGECONFIG[gnu-efi] =3D "-Dgnu-efi=3Dtrue -Defi-libdir=3D${STAGING_LI=
+BDIR} -Defi-includedir=3D${STAGING_INCDIR}/efi,-Dgnu-efi=3Dfalse,gnu-efi"
+ PACKAGECONFIG[elfutils] =3D "-Delfutils=3Dtrue,-Delfutils=3Dfalse,elfuti=
+ls"
+ PACKAGECONFIG[firstboot] =3D "-Dfirstboot=3Dtrue,-Dfirstboot=3Dfalse"
++PACKAGECONFIG[repart] =3D "-Drepart=3Dtrue,-Drepart=3Dfalse"
+ # Sign the journal for anti-tampering
+ PACKAGECONFIG[gcrypt] =3D "-Dgcrypt=3Dtrue,-Dgcrypt=3Dfalse,libgcrypt"
+ PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+@@ -713,6 +714,9 @@ INITSCRIPT_PARAMS:udev =3D "start 03 S ."
+ python __anonymous() {
+     if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False,=
+ d):
+         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
 +
-+ arm_neon.h:31:2: error: #error "NEON intrinsics not available with the
-+ soft-float ABI.  Please use -mfloat-abi=3Dsoftfp or -mfloat-abi=3Dhard"
-+
-+Take a patch from upstream to check the ABI being used before trying to
-+use NEON instructions.
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/me=
-rge_requests/12569]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 5dcce985a6dd3b7856d65e21db753e2c7a0f5dd5 Mon Sep 17 00:00:00 2001
-+From: Adrian Bunk <bunk@debian.org>
-+Date: Thu, 26 Aug 2021 22:35:49 +0300
-+Subject: [PATCH] util/format: NEON is not available with the soft-float =
-ABI
-+
-+Fixes: 80923e8d58cc ("util/format: Add some NEON intrinsics-based u_form=
-at_unpack.")
-+---
-+ src/util/format/u_format.c             | 2 +-
-+ src/util/format/u_format_unpack_neon.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
-+index c49b3788c82..31f1f240efc 100644
-+--- a/src/util/format/u_format.c
-++++ b/src/util/format/u_format.c
-+@@ -1138,7 +1138,7 @@ static void
-+ util_format_unpack_table_init(void)
-+ {
-+    for (enum pipe_format format =3D PIPE_FORMAT_NONE; format < PIPE_FOR=
-MAT_COUNT; format++) {
-+-#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined =
-NO_FORMAT_ASM
-++#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(=
-NO_FORMAT_ASM) && !defined(__SOFTFP__)
-+       const struct util_format_unpack_description *unpack =3D util_form=
-at_unpack_description_neon(format);
-+       if (unpack) {
-+          util_format_unpack_table[format] =3D unpack;
-+diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_=
-format_unpack_neon.c
-+index 7456d7aaa88..a4a5cb1f723 100644
-+--- a/src/util/format/u_format_unpack_neon.c
-++++ b/src/util/format/u_format_unpack_neon.c
-+@@ -23,7 +23,7 @@
-+=20
-+ #include <u_format.h>
-+=20
-+-#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined =
-NO_FORMAT_ASM
-++#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(=
-NO_FORMAT_ASM) && !defined(__SOFTFP__)
-+=20
-+ /* armhf builds default to vfp, not neon, and refuses to compile neon i=
-ntrinsics
-+  * unless you tell it "no really".
-+--=20
-+GitLab
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 2fb823dfb8d..35c170cfd62 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,6 +19,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
-${PV}.tar.xz \
-            file://0002-meson.build-make-TLS-ELF-optional.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.pa=
-tch \
-+           file://without-neon.patch \
-            "
++    if bb.utils.contains('PACKAGECONFIG', 'repart', True, False, d) and =
+not bb.utils.contains('PACKAGECONFIG', 'openssl', True, False, d):
++        bb.error("PACKAGECONFIG[repart] requires PACKAGECONFIG[openssl]"=
+)
+ }
 =20
- SRC_URI[sha256sum] =3D "2c65e6710b419b67456a48beefd0be827b32db416772e0e3=
-63d5f7d54dc01787"
+ python do_warn_musl() {
+
+base-commit: 234a3e84640c1bb6df5fa4d3d7089a854b19d108
 --=20
-2.25.1
+2.33.0
 
