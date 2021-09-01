@@ -1,131 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.7251.1630499767922385657
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.7966.1630502597030557778
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 05:36:09 -0700
+ Wed, 01 Sep 2021 06:23:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 685051042
-	for <openembedded-core@lists.openembedded.org>; Wed,  1 Sep 2021 05:36:07 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 12ADD3F766
-	for <openembedded-core@lists.openembedded.org>; Wed,  1 Sep 2021 05:36:06 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjlKPsEx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id q11so4472444wrr.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:23:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yIPXUUQGZ8Why2c1ceoClIsifRecKHSxh0+eXLXmBGk=;
+        b=bjlKPsExA+QY8BjqYmuo7Ww6VLGNLI21l/Sewk81tEJZu7LGEEwQ81Fuibo1kIMPpv
+         R1NKJXyfLxoYQ2VnWH0KQR3jWFbpPzfDFBd4/K1k77Rkw8EAS2Y7WRe9/N1RcZn63H8A
+         3uM3BDuUXPVnlVU/1xhzbxEUbCoTirLSomJ3w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yIPXUUQGZ8Why2c1ceoClIsifRecKHSxh0+eXLXmBGk=;
+        b=TfWmpsqalslbnIT7MRHFyjY04W0/ySn5zp4tBLxx8d2FMAuaG+QYU905L8bp42rW63
+         5xJdAlv+zUi/2sFQobTBE54u4YDJCZ4pYEHv8zRRSU+/IeWF/iLurMtSCPbbfdA3mooJ
+         nFEurWgIq1OyprjLOEOCMKwFRTBx/bWN3KzEwlX9yfwY659CmmuWVgNQpNd/euaxyfZz
+         U+CQVk++baQEvIIsqP0hIpaifQmwtsZ9qhH2xt9/mlfVcxs/VcVrv5iHd+vykH0GOp53
+         /VxxdJqTrWW0oKo8GQqANc0YK/mXV0rIGdBCDXFqVindtRZinbuedg09ixRfTy4JXbjE
+         n5IA==
+X-Gm-Message-State: AOAM531i8lWqIsW93Mps/RJ4jwnKDu7FXtkYnZBr7qz1jL+U7BFWILwL
+	B/xFEbD2xP1+HlU2oa23MSJn4XK32ys8xg==
+X-Google-Smtp-Source: ABdhPJzNG8jKg+Jl+0dqXbQ7oexNQ10mrhHRXj6istYAfocQiAwSm3DDsCdL1TDyHTEGwU+u7v+S8g==
+X-Received: by 2002:adf:906c:: with SMTP id h99mr32242095wrh.8.1630502595160;
+        Wed, 01 Sep 2021 06:23:15 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7e06:66c6:32e7:e304])
+        by smtp.gmail.com with ESMTPSA id z137sm6098786wmc.14.2021.09.01.06.23.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 06:23:14 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa: fix build on Arm V5 with soft float
-Date: Wed,  1 Sep 2021 13:36:04 +0100
-Message-Id: <20210901123604.3824042-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Michael Halstead <mhalstead@linuxfoundation.org>
+Subject: [PATCH 1/2] uninative: Upgrade to 3.4
+Date: Wed,  1 Sep 2021 14:23:12 +0100
+Message-Id: <20210901132313.901890-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Since 80923e8d ("util/format: Add some NEON intrinsics-based
-u_format_unpack.") upstream the build fails on Arm platforms which use
-the soft-float ABI, such as qemuarmv5:
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
- arm_neon.h:31:2: error: #error "NEON intrinsics not available with the
- soft-float ABI.  Please use -mfloat-abi=3Dsoftfp or -mfloat-abi=3Dhard"
+This adds a patch to glibc which allows it to work with Docker and
+clone3 syscall issues cased by EPERM vs ENOSYS.
 
-Take a patch from upstream to check the ABI being used before trying to
-use NEON instructions.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../mesa/files/without-neon.patch             | 53 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/without-neon.patch
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/without-neon.patch b/meta/r=
-ecipes-graphics/mesa/files/without-neon.patch
-new file mode 100644
-index 00000000000..7411ea4b87e
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/without-neon.patch
-@@ -0,0 +1,53 @@
-+Since 80923e8d ("util/format: Add some NEON intrinsics-based u_format_un=
-pack.")
-+upstream the build fails on Arm platforms which use the soft-float ABI, =
-such as
-+qemuarmv5:
-+
-+ arm_neon.h:31:2: error: #error "NEON intrinsics not available with the
-+ soft-float ABI.  Please use -mfloat-abi=3Dsoftfp or -mfloat-abi=3Dhard"
-+
-+Take a patch from upstream to check the ABI being used before trying to
-+use NEON instructions.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/12569]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 5dcce985a6dd3b7856d65e21db753e2c7a0f5dd5 Mon Sep 17 00:00:00 2001
-+From: Adrian Bunk <bunk@debian.org>
-+Date: Thu, 26 Aug 2021 22:35:49 +0300
-+Subject: [PATCH] util/format: NEON is not available with the soft-float =
-ABI
-+
-+Fixes: 80923e8d58cc ("util/format: Add some NEON intrinsics-based u_form=
-at_unpack.")
-+---
-+ src/util/format/u_format.c             | 2 +-
-+ src/util/format/u_format_unpack_neon.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
-+index c49b3788c82..31f1f240efc 100644
-+--- a/src/util/format/u_format.c
-++++ b/src/util/format/u_format.c
-+@@ -1138,7 +1138,7 @@ static void
-+ util_format_unpack_table_init(void)
-+ {
-+    for (enum pipe_format format =3D PIPE_FORMAT_NONE; format < PIPE_FOR=
-MAT_COUNT; format++) {
-+-#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined =
-NO_FORMAT_ASM
-++#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(=
-NO_FORMAT_ASM) && !defined(__SOFTFP__)
-+       const struct util_format_unpack_description *unpack =3D util_form=
-at_unpack_description_neon(format);
-+       if (unpack) {
-+          util_format_unpack_table[format] =3D unpack;
-+diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_=
-format_unpack_neon.c
-+index 7456d7aaa88..a4a5cb1f723 100644
-+--- a/src/util/format/u_format_unpack_neon.c
-++++ b/src/util/format/u_format_unpack_neon.c
-+@@ -23,7 +23,7 @@
-+=20
-+ #include <u_format.h>
-+=20
-+-#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined =
-NO_FORMAT_ASM
-++#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(=
-NO_FORMAT_ASM) && !defined(__SOFTFP__)
-+=20
-+ /* armhf builds default to vfp, not neon, and refuses to compile neon i=
-ntrinsics
-+  * unless you tell it "no really".
-+--=20
-+GitLab
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 2fb823dfb8d..35c170cfd62 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,6 +19,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
-${PV}.tar.xz \
-            file://0002-meson.build-make-TLS-ELF-optional.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.pa=
-tch \
-+           file://without-neon.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "2c65e6710b419b67456a48beefd0be827b32db416772e0e3=
-63d5f7d54dc01787"
---=20
-2.25.1
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 76f4cff565d..3165fc93b89 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -8,7 +8,7 @@
+ 
+ UNINATIVE_MAXGLIBCVERSION = "2.34"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.3/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "372d31264ea7ab8e08e0a9662f003b53e99b3813cc2d9f9a4cc5c2949a1de00b"
+-UNINATIVE_CHECKSUM[i686] ?= "36436167eba8a5957a0bf9a32402dd1be8b69528c1ff25e711e6895b583b2b42"
+-UNINATIVE_CHECKSUM[x86_64] ?= "92b5e465f74d7e195e0b60fe4146f0f1475fff87ab2649bf2d57a1526ef58aec"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.4/"
++UNINATIVE_CHECKSUM[aarch64] ?= "3013cdda8f0dc6639ce1c80f33eabce66f06b890bd5b58739a6d7a92a0bb7100"
++UNINATIVE_CHECKSUM[i686] ?= "abed500de584aad63ec237546db20cdd0c69d8870a6f8e94ac31721ace64b376"
++UNINATIVE_CHECKSUM[x86_64] ?= "126f4f7f6f21084ee140dac3eb4c536b963837826b7c38599db0b512c3377ba2"
+-- 
+2.32.0
 
