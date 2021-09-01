@@ -1,24 +1,24 @@
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.61])
  by mx.groups.io with SMTP id smtpd.web08.6055.1630492240348501591
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 03:30:42 -0700
+ Wed, 01 Sep 2021 03:30:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=NA0nnB02;
+ dkim=fail reason="body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=mglI3o2P;
  spf=pass (domain: weidmueller.com, ip: 40.107.21.61, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JOJ2p7WYnLeClbsNE2lOQgOn8pspocBFEqa/s0dtvKs4GiNwxcKOrLRqQT4wopz/fWr9KxpaocICaocn/vtYUlvomnEZGL0dt4g5mj859TAGG/MLPzVRbW4dEG6u9tW8Pi55NF0iATvH4g77BuW7TyVC5u9F0K+ouRElMSJp5cRKv2aDN0+8cQJ7IKQ5thHGYUFLLruYdwF/G9JwharW7LyMvbN1YAMMjDZBrpFghjdri9LEti+IRgrturOURfIOTo3+QicQny0NI7z5wBcJhoSlkjtG/lsogtg/QULZzf3gRpQwxblfaMbzUn5M/q/xT6zVvRcnEjLf3lDaax94Gg==
+ b=hM1t3I7aMrCsxaM9o8BkFE3tYLtB8hdB6MmRcDHau6tcyKkSr4KEJQ9SRstehyKAGAdfJRvRpdme4AhpmZqaOpbv4W3GbXeEbh+YRc8wqoLSOh91W05aCMY/9hOA2XLpexn60A7GIDRRLgQiNcYCyHFDPTj+TGeUHVgQv0SoQ1xFcMhU+B6FnJL3aYcaiLsZTAOES9BWf86/c9evuDAyVkkEUyhq/RiQkncujqEWVQklvw1MUQG1Aaz/tAmihXQg+lq3UCGMFAjpqPMd+Op401cw+UWDCewkOWSF8wx0b9ooRtFCLnUNsZPx79dNs2DEnfq/N/q+ZiZJvQHPLWggGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=rHUYrvJ15kcOIax7DB1j7YZ3+Epv0os6OssSwCI0g9Y=;
- b=iMEJA2U9qXa70mglXPxb6ronojBk7IZS7VFcBrFCYu/yJGwFAxQOWR1+Bk3PyrI9uzU+k88UbERggaRjMdJzx4g8YFpfCX/nPRMk/G7eqLms8O23zqJ7n/UegFQpzkQbF7kvQBmwN73DggEYZbR2g7mKRa2PZUpdkvPjMKcaIMOIbatdbaEtRYpYgrZvyqRzkOZgZysszVOLfmYMGtmbU4hwUO6fNV+pdG9DyjHQkKgkUffrqR7nF8up6PCgzAlvknUVOtcDPZtLsOkYrKKGoWVaRdcEH8LpGBfq0vKdBYaCmTB02hoF5CcuaEC5X/Bx2sXNQjB5JYSyGtB5o27bcQ==
+ bh=HAAowJHIhHUVEIEpHrdrFHKvTNv4Bh68z5XoLV0CkTo=;
+ b=h60zzYNvv+I/6yD0Ee1cWbJBpd+oRtYbJAq1d+NPEwSL5PIw8Rfsl7bpwpPyqznpjqBOssNM567e2uVZ/ddkDQ34kKrEaXJ2JIXum0zP10Kqp51f+xCRsaeIbSVXyP3ebEsJps1WdztTvos1lz5a/F1RVv+IRQtAxf3FhEd136TF1sDnmkI+JxFwvebe9v6eNJL9JzW2htapJC+/ej5eWP/j5GivyjH5P7uDBqRlMJo3St8wk3pJHyWWVKWc4owN9wBQRTJ7tod9m/NM+v7z+mDPxYhRFG4vvpGjWxaJVQuvE7+we0ap/6z7p6CgudikgS+le43PVKHiYHGdniomkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rHUYrvJ15kcOIax7DB1j7YZ3+Epv0os6OssSwCI0g9Y=;
- b=NA0nnB02O9Us+U9Wrdn6JBRcmwn1MDKZccyLhOl4ln8BdF3H2jIC243AylVPwGsuXsNRkH6Dz3z4epYzXgjXBXiJa2MDh1vh7GKvaqtq5Vqqy5Wtwg9+3NAlnBImjBNcqZv0SHFo6fRoRBbIdjSmhN4kX2AGV6Oa+2nDSu0oKgU=
+ bh=HAAowJHIhHUVEIEpHrdrFHKvTNv4Bh68z5XoLV0CkTo=;
+ b=mglI3o2P34hQ1YwvDvGEuiPQJLq1b5ZutR69/oAOyk2l2dz6X7Optn2ltRnvb2+OjkbCg3znqCh6OXl/8OPVvdV7KPJk6QDXxZNjMl6F/Rw8KpAKY+bbEfXFG1O4dfgiY9xZj56On7sHeS47UBYyCx8MJzhgRDLcH27RX19+w0Y=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=weidmueller.com;
@@ -26,144 +26,109 @@ Received: from PAXPR08MB6735.eurprd08.prod.outlook.com (2603:10a6:102:138::12)
  by PA4PR08MB6207.eurprd08.prod.outlook.com (2603:10a6:102:f2::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Wed, 1 Sep
- 2021 10:30:37 +0000
+ 2021 10:30:41 +0000
 Received: from PAXPR08MB6735.eurprd08.prod.outlook.com
  ([fe80::41d1:d9c4:c030:ec33]) by PAXPR08MB6735.eurprd08.prod.outlook.com
  ([fe80::41d1:d9c4:c030:ec33%9]) with mapi id 15.20.4478.019; Wed, 1 Sep 2021
- 10:30:37 +0000
-From: stefan.herbrechtsmeier-oss@weidmueller.com
+ 10:30:41 +0000
+From: "Stefan Herbrechtsmeier" <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [PATCH 1/4] u-boot: Remove redundancy from installed and deployed SPL artifact names
-Date: Wed,  1 Sep 2021 12:29:51 +0200
-Message-ID: <20210901102954.4629-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+Subject: [PATCH 2/4] u-boot: Remove misplaced configuration type variable
+Date: Wed,  1 Sep 2021 12:29:52 +0200
+Message-ID: <20210901102954.4629-2-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210901102954.4629-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: <20210901102954.4629-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-ClientProxiedBy: PR3P251CA0006.EURP251.PROD.OUTLOOK.COM
  (2603:10a6:102:b5::24) To PAXPR08MB6735.eurprd08.prod.outlook.com
  (2603:10a6:102:138::12)
 Return-Path: stefan.herbrechtsmeier-oss@weidmueller.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from DE10512.weidmueller.com (89.247.126.241) by PR3P251CA0006.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:b5::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Wed, 1 Sep 2021 10:30:36 +0000
+Received: from DE10512.weidmueller.com (89.247.126.241) by PR3P251CA0006.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:b5::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Wed, 1 Sep 2021 10:30:41 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8dea3a4-6345-4898-b763-08d96d3389aa
+X-MS-Office365-Filtering-Correlation-Id: 3f146339-5c85-4b14-7625-08d96d338c5a
 X-MS-TrafficTypeDiagnostic: PA4PR08MB6207:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<PA4PR08MB62078BBA2A1BF262584D294BD7CD9@PA4PR08MB6207.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:459;
+	<PA4PR08MB6207E8DDD592325F1BE4C9A7D7CD9@PA4PR08MB6207.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:288;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	cTI0lWlRPPNpY4iw6qIApnV9nevnHIZPazCK28Sa9Gl6pZBkdYHdhz7ZAkwrogOvzX86KyH1mOK+IX4oVK+uBwCve26EoI3KBJPzTQhQsx1VxwagsNMCiNtJaF3LLMOZIUYYmo32l4Hb1Ry3RBwAeqtiSVyPEROckgTQqb5aEHAMhFLiXvAReMq4k0fCHqzyhUoHzAVV1Z0foBxbzDs0wmiy3o/2lDzggtHWyI+NbEfe/beZGw1+Yw52iDFbO+Oe1A8kESikmGu5kb08+HHlRFQs8d09g2UsM9b9v2oAPzZz2dD44re74ruAJkC4//u43vkuQp+t3iN2IR1a9/srbtdq2G6I58x4PxPTV41jBrc4V9+h9b0v5LfP0+oAWYkwJDkfp4aDcFvvPQc9O17teqvpsA3wtsr/hJBu6Emdaa9s4GTiQFMreIkPH78VQm9xIlyZR+otkGx06kPqb4tKwLx5z5NEM89k2IXMXaDMMinVuOdnNlpSSuHL4JemblmYWe07CXOYuwFMZk0Rr4XNs1zWW4Ld00NlkBr/gNKYXYCdyDNqmJXefMA2uv9pyyg8R5NTbFxSZSOkU2z396SYiPFN8pPU3yR6WyqN4TcI0hT2GTX6IC56q5qTol073SKWwFMYv+SO+21SIvffWZzT1kxRS6gEP1mGGV6naPj5qvglO8KpHFdGmDFNrJXHTsUF
+	4Ga/CHkOMM7ZexkZMawLEI5Tcr5rkspNb0I3olexRXefQkKm446+gheLwpERm7ITu6lb1arVzCPXx8fOfB/oNilux1owFB8KPfQfDJXweEJbB2h+GwIsH98sq1NCTBC/qFkdobUICER3oL8BRZ0U4TGws4zPuYuwDVD2WjxcqrOuRgLD8o88Qq/AS+TlDm1lX4qt/iKOh8Q6WA0mS7fMwCyW6adm/z2PiUAJpVm6wZd1lj3Epedq9gn4sSIsmKAPmlxy6IIFKoZhmT7xu3vVBLV6wSFs6m9DPJBXr/jET4EdBGQlEF3hBSitRJCUhw+GRg+OKrkXxVbUMb3sk/OavHUaJ54cg8KZEkEV61VWT1/qBBlDyZ0ASbr9TzeHdrJxhAdhgS+yFM4mjHuUqJvnQu7Z8E1GWwIPD5y7mEM86mWPvpn7o1vr+G5R5gNg9sm99kvL0IAtvcvjBrcmtoMReCRnqfwBzHhHSV18D4NZDTBaqiyuXMSCXuyER6qDEedd5UoiroZy1X7YOpRwzofOHnojwzaJXxK4Zn8dYwQ29ujtIaDzWBIm05oe5hs9yNzEmdELdVK60zkod90PXcYiD/pmS5ovLEBQrvW3rL7XslqJWsWw0s636x4hjlUQ9ztReZMbCz9MhUsB2jTJzZKW+FGGH04jbUi9aYqY/VG/210gzvzkSCTYPdPz3F0uodrR+fDPuNeuimKdbZjvefZk0Q==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6735.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(366004)(346002)(396003)(2906002)(478600001)(83380400001)(4326008)(86362001)(107886003)(36756003)(38350700002)(38100700002)(52116002)(186003)(7696005)(26005)(316002)(1076003)(2616005)(956004)(6666004)(8676002)(66946007)(8936002)(6486002)(5660300002)(6916009)(66476007)(66556008);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6735.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(366004)(346002)(396003)(2906002)(478600001)(83380400001)(4326008)(86362001)(107886003)(36756003)(38350700002)(38100700002)(52116002)(186003)(7696005)(26005)(4744005)(316002)(1076003)(2616005)(956004)(6666004)(8676002)(66946007)(8936002)(6486002)(5660300002)(6916009)(66476007)(66556008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Fkf2wxzN5e7/0B4gswot0lanWnx/KcYrrjU4dY/rLkDEhvKwHGx/8MwKHdrV?=
- =?us-ascii?Q?9xBJ7ahUNTGFsRZyh9RuWGYvLzOsn00SXYAHgbRR7yl0cnmRX2pQ0JzjbSPw?=
- =?us-ascii?Q?lewOh97ZfmRDVmmsRZOoG/qzdfRedaY36C7eJ4jusVlu5/7y95ePM7cP2YEO?=
- =?us-ascii?Q?OH5P7dZ1freZlMZggQzSdly6ks2ctIlViNrMME3ZXGvk46/o0w73u/z+We2k?=
- =?us-ascii?Q?TDSSuxhElouA2Sa9IhquHS0/q94Z7mOZEdn9afjtQ3NrcG2WhylugG1p5Sq3?=
- =?us-ascii?Q?+291seEpeuyCOcjk0U0Jdi+1Eqd5JdlE7sLtwQT6ek2/DxO0hIldk3kdapLQ?=
- =?us-ascii?Q?1Q9xC1b70X1Sv7LWskKevfMCRZ4UOeBH9UD/IWf7RQIUoxdIIDaoUyuD4Fnw?=
- =?us-ascii?Q?5f9zEM3DWqTwHmDdf9NYXTm/A7WjSjm1az8Ks6TMhBa2ydAgSYDb4gZUGYfk?=
- =?us-ascii?Q?2M42jgn7e8ttP3hbRsnAMiPLsfa/dFDrffE3nNQEZhHKkIl7QixjMgLdoV1x?=
- =?us-ascii?Q?/UVn2DRpv79400dCKRMc1wISUKtb/rO/+AEl/ipGzKDizlyQT8x0KxTiSxvf?=
- =?us-ascii?Q?iQt07uSR4dUMRFd1UCvroocqMXpRNcrXeRu5ONa3L9iTmi8fNL8Hr8VMw6NA?=
- =?us-ascii?Q?7qskm2DApkmNJBQvMUfAkceK45CTz5WbJehYeyMD2+HkQI3dFfzR1V2ZpEwg?=
- =?us-ascii?Q?K1eSSm0qJ4fpWDpihQc3xpU74NLMbp+BHjDA0iqg6S1RGkAC6NlPCEQXk/D2?=
- =?us-ascii?Q?JoUzCrFiGDT8xwUGN28gfzxLxKbxbx4k+p/a5hE49bLGmQCGF+VvwREdng3+?=
- =?us-ascii?Q?/51znSKnoRu7dBk0lAXEbn8ENKY6DT4jZOdKtpP709RCrmyLseFw4EtTI5B5?=
- =?us-ascii?Q?xfO70PLgH0eRGm/2V9/O7MvEtzz2W9tySQNArpuXYRaBUpGQ6yqleKFDTbnn?=
- =?us-ascii?Q?XMFX7OMQA+N/Z09SbH9uitFvnE9Mlid6fTKYwHahhmXEOJw4FitALOY4L/mv?=
- =?us-ascii?Q?l/kKEBTR0cXpUTIJhEvAmMpFT6TLQZxocVqkvuUupB8tHbzOI5fwFVhtbaFF?=
- =?us-ascii?Q?Aeh0CxF50DHpn1edqy4eDMZSNhDlts5NQ4LolvWCRTiZc1xyPwdDJjbNrHBa?=
- =?us-ascii?Q?pongxcC60cTGWmmpQlgz462QP++J4Gw88w4Mdw5U8MNDgqJEN0YEnUWsKIa1?=
- =?us-ascii?Q?ohN7VE7Y/FAnUPcZCNyz8iwPl9fwTPAR+mvvR/Ogt0dYmxOgi7nA0uvRHVSE?=
- =?us-ascii?Q?1F+CGUGmNcoMVJhNfUKIaP/5zDgYwn4/ySdotsk4hBKxUbrsygfy2AZNbO31?=
- =?us-ascii?Q?kOptpzy/omGfsh/e5t2PXmHn?=
+	=?us-ascii?Q?rNxeI/4SRwpVmF5XAJDCbWoKNH80JcliWNLABE5w3dSFJ5BLXomALROup0r3?=
+ =?us-ascii?Q?dBjTLhpN14ZSErbXaoRn3ZlxEeC2X0hexoqVQZXiLu6Q4CkzFdTonnwCZG/2?=
+ =?us-ascii?Q?FofrBAJh84jLFjED5pOBBmCwsPqSjbAtP+tXEf6/5Vw6qZx0MBANLXVGIcIp?=
+ =?us-ascii?Q?yjfUI8F8bPjmUcJmpbqV0jmoW8ZRnETr0P7vknKuGk/m4WyPLO4BMhU+6FTv?=
+ =?us-ascii?Q?8sZj6byM+/4BKP1SAGmr/9dtxKdADdAmeUm7hMl5cUhV9+9O+UG1Nvuui51I?=
+ =?us-ascii?Q?3GB8yjntdlOhCSW9J+tSoJvt2gIuiGzn6ASMWqWD9r4HmzeZEfUlI2Pz5CCv?=
+ =?us-ascii?Q?gKfzemm8+LbpclBYonvyZXnLsSOget/v4s0A141rRtlHYaTMvAmI3H3wG1y9?=
+ =?us-ascii?Q?PtWyNHQOTU4IlPN3xZ2JAi3yCLBFnCJqMMxEVKuzJ09CF2AMMgt0D8nEtcNe?=
+ =?us-ascii?Q?BzZRcKFiJ4bEYmbXi7IM/DFm3BVRsNAuo9H/nv43OktgAbKDWsIVLokmOdFH?=
+ =?us-ascii?Q?YNm6XaW1Cj4lqpu7oZtQGm35wKkiMqXCGyYrrLhX9QIRLHn2sUIjDhoSEAat?=
+ =?us-ascii?Q?79DJ17Vva4D/oGxf2lSxo1YHW/+s9kpwvCLsI7V0PtF4WhPGIBnv8E29f/Bf?=
+ =?us-ascii?Q?Mn8/MwdG8t4Npc5cX6iR2kFFI0dvxDeivT4e6dc/tMUpRuGWnpHy2qxO2laI?=
+ =?us-ascii?Q?HQ4jYJGzA1dsyyAUzLT2xg82k22fH7tm54TS/Ie9JiXFu0CDb3/n0h+HAI0R?=
+ =?us-ascii?Q?jc+D7yMB/+QcYH6OMvAQS1/RoxyAc+Jmq3zZBoYWnnT69ANAQEp6jJTIFgHB?=
+ =?us-ascii?Q?Z0rO+ZZ9iWPMooizBMRgfqIuLIPeTiz/gowJXsKe6jPCz7pVnvNDFlpjZ9RC?=
+ =?us-ascii?Q?Y28N7ogpJ+CIX1LAs/M7igI3oDPO64w9aF5gv3Ai0ZjYTq/M1WQmYXWf8vyb?=
+ =?us-ascii?Q?QLYQkxTZZ+f9cOz1u6fDya1N9KvFCg6REpD0y/r+BAaPA6IuDDinFD25MU8P?=
+ =?us-ascii?Q?TR56ZJGGE5LxfkMcCuyZOf96bqx0T9GqtrN6+gueyFpuBd/IY/1Msry4LKmO?=
+ =?us-ascii?Q?WXMtNige+Z1GvZdhaEfYi27uEfS+g4YjF0EVC2I9pD1Maxyzxy6fU8FR+fDp?=
+ =?us-ascii?Q?AiMXTkpE0lVCZWfVNCL2Sw0vbAPnRCbXGOzlsobrFOlMWyIKMS86OAsiXCKx?=
+ =?us-ascii?Q?AbmC/J6jwWLiYhCCiLC2K/wI28vRn7FRkGL76sEdlVLkW5dsSUyG9JjYz6si?=
+ =?us-ascii?Q?GeBzJyjRB+GzqlWTHpI2xfroAYSJ0HfJGKqBNGtthOYfJ1hREv8Z8expMHso?=
+ =?us-ascii?Q?DFE7iNGaYA3uKcRqLFQm0JLo?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8dea3a4-6345-4898-b763-08d96d3389aa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f146339-5c85-4b14-7625-08d96d338c5a
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6735.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 10:30:37.1356
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 10:30:41.6169
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GWy0fYXIzx9cC4fON80YhYMSoSU2zYG50KXt+UJ/EW5ZIPYYcMB2vxJGNd0wV/QXvRpejTnA6Lo5vz/dvtb4Vg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: YwR/0EoLBXhRuge64X9Ts+bN1ld3giwUhHWEUr/WAxy+6QKUBHh0mqTi1qOb9CbVWEDjDpl28euQPyrRiLa1hg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6207
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Remove redundant parts from the deployed and installed SPL artifact
-names of multi config configurations to match the other U-Boot artifact
-names.
-
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
 ---
 
- meta/recipes-bsp/u-boot/u-boot.inc | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u=
 -boot.inc
-index 971fdbb102..71febb6f43 100644
+index 71febb6f43..a8ebcc9ea0 100644
 --- a/meta/recipes-bsp/u-boot/u-boot.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -184,9 +184,9 @@ do_install () {
-                     j=3D$(expr $j + 1);
+@@ -316,7 +316,7 @@ do_deploy () {
                      if [ $j -eq $i ]
                      then
--                         install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/=
-boot/${SPL_IMAGE}-${type}-${PV}-${PR}
--                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${D}/boot=
-/${SPL_BINARYNAME}-${type}
--                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${D}/boot=
-/${SPL_BINARYNAME}
-+                         install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/=
-boot/${SPL_BINARYNAME}-${type}-${PV}-${PR}
-+                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${D}=
-/boot/${SPL_BINARYNAME}-${type}
-+                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${D}=
-/boot/${SPL_BINARYNAME}
-                     fi
-                 done
-                 unset j
-@@ -315,12 +315,12 @@ do_deploy () {
-                     j=3D$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                        install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPL=
-OYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}
-+                        install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPL=
+                         install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPL=
 OYDIR}/${SPL_BINARYNAME}-${type}-${PV}-${PR}
-                         rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/=
+-                        rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/=
 ${SPL_SYMLINK}-${type}
--                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_BINARYNAME}-${type}
--                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_BINARYNAME}
--                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_SYMLINK}-${type}
--                        ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDI=
-R}/${SPL_SYMLINK}
-+                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
++                        rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/=
+${SPL_SYMLINK}
+                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
 LOYDIR}/${SPL_BINARYNAME}-${type}
-+                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
+                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
 LOYDIR}/${SPL_BINARYNAME}
-+                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
+                         ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
 LOYDIR}/${SPL_SYMLINK}-${type}
-+                        ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR} ${DEP=
-LOYDIR}/${SPL_SYMLINK}
-                     fi
-                 done
-                 unset j
 --=20
 2.20.1
 
