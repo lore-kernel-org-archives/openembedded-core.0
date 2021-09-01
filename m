@@ -1,148 +1,140 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.7772.1630502607579289982
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web12.7906.1630502631048564933
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 06:23:27 -0700
+ Wed, 01 Sep 2021 06:23:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M8PUYjcY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so4766951wmd.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:23:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EnONpQMu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id i21so6684192ejd.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=p29GQhBC/Dg/buNs0c7x14wLbShFL7IIPTzLcFVlZXo=;
-        b=M8PUYjcYkqTrEIkBn59eivm+Enx6n7IFc25i5bfpsQSdrxkHhMW6dENPeZxKZsM61H
-         iaQqJSmSBn/itiwsQoKzQgvtDHOEdq44c11gTjrK4D2i5iMAwv/Rzx38cKLgNZxDQuuZ
-         B7iS1UwCWCClQfRFkUjyOHX1skJjt0DzyGhr4=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dkBXRS5RnLkzvS0yjiNGAyQU/ccbs9sFQnqQndlLKm4=;
+        b=EnONpQMuWC6PO89emXqpXyf9W9bBGwFTY4+yrIk/rOcql7Vbe5t38DDvBX/XhzNKER
+         VYzYQofLgkpGgW75xAqLWzdCC9I4uxrd9dOkH5nV19dRYUdbipe4LKR2m7gLY8TjLeD/
+         zW+PgnuQh87oNKTK3RzF1qHLaFmS7FVZ7dsfDysFVXCYE6lprbU+g7cRcax0rdoS9y3+
+         w8w6vfqMeY+qePE2VeCfKm0Nw63JG+eJ8FWz58f8PALmaFYa68163DSu2D7GA88iLNSD
+         hhHvBCzEcbv2iqmUzmFJyp0Lg/OgkROOREdD830lVoQyfY57ESPqcF7s/BzAUTCcV4VD
+         oQZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=p29GQhBC/Dg/buNs0c7x14wLbShFL7IIPTzLcFVlZXo=;
-        b=KuizI7umkDx80MtEleoHG3IRUvBFtV/3cUxa4gPdNXBFpVIYkCJb3D43XTKSbwcl6n
-         YIc4kKuApKm23qYemjFZUS4xft9VmvErcat8gqcIwnwS9GTessCBphGszNrpKgqPZF2G
-         Beh8C/3v4R9Vx2wKtEAtCsP+5B7lp/VCBbGPWv80X5/Y7GZP0JRS/G6UpiN3Lmx95RQV
-         5ASBTQhSDMLYxARu5gDW4OjM0LgvdfQOOwmaHVFCUp860A4JJqOgFwfYWq1Cs6K3+Pyx
-         l/jHTQ2SzuUyKja63UMPoImp09Z77jVsR7uv3UHZDAgUNLHgWNm8zPW8SWk1f7pw/zDc
-         CYTw==
-X-Gm-Message-State: AOAM530kzVnfPz4bCvzaNv/KC/rpFY55iy0a1MXBpnvzOo0Da1nlzCke
-	yjcJNW1qmDbadiM/k9K2YrQvAerwfOC4XA==
-X-Google-Smtp-Source: ABdhPJxNYOxl7rKmwDLb9+xTljOf+3l+fTkh1KcaxremoZaay5n4tHgO0y/p9W2nncwtHAxELGf90g==
-X-Received: by 2002:a1c:3587:: with SMTP id c129mr3255029wma.57.1630502595785;
-        Wed, 01 Sep 2021 06:23:15 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7e06:66c6:32e7:e304])
-        by smtp.gmail.com with ESMTPSA id z137sm6098786wmc.14.2021.09.01.06.23.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 06:23:15 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] cargo: Hack around LD_LIBRARY_PATH issues on centos7
-Date: Wed,  1 Sep 2021 14:23:13 +0100
-Message-Id: <20210901132313.901890-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210901132313.901890-1-richard.purdie@linuxfoundation.org>
-References: <20210901132313.901890-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dkBXRS5RnLkzvS0yjiNGAyQU/ccbs9sFQnqQndlLKm4=;
+        b=g8PG1AIQvwBJzBUM+l2coBHw0zM6tZ0eYhdFyGNxggtaSfv3Aeq+ELrjwZ82/8uuPb
+         LdR6Km+ko553PYjQGJVK69Q8N+OP5QMmPhuYc77bNXPmlTvDx671MSzZqo4rGouNjTzb
+         e/kr+bKnsyI88uH2pTdLHV2/jVh4/EqPkDRjbYoeZEAau89/m24Mk8UsGn7yxxfFRiM9
+         QBhtllP3na6HVvIlooISPr/gSanVEuAAsc8sUeAMt5Y82q1khhL5wgWKCeMkkjjpS2eK
+         Sik6UMcB4T3EpWnwZcvqy1XJW4811pxF5DUsDgzDKlDLTgXLY8kMSWve+NsfVLV4Wb0y
+         5MGA==
+X-Gm-Message-State: AOAM530mP5yrpitTg2Z7lL2BBFCJt7W05kO5BKgQ4SiGduFigaLf9hOC
+	yJtPCiqV4slpAUkuC++6cw7NDc4HhldD3MEmOjvY1zYaaPM=
+X-Google-Smtp-Source: ABdhPJxA2c8f5828FLarI2j0iNAKrtgvTEvz4QGQyFPXqR9wSNHbswtCfffF9FzeNLSWrWKPGj2wJFDu/mDZZ8j/oiI=
+X-Received: by 2002:a17:906:680a:: with SMTP id k10mr35810503ejr.298.1630502629471;
+ Wed, 01 Sep 2021 06:23:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210901092020.116142-1-michael.opdenacker@bootlin.com>
+In-Reply-To: <20210901092020.116142-1-michael.opdenacker@bootlin.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 1 Sep 2021 09:23:38 -0400
+Message-ID: <CADkTA4NCnTW5Zx=UJ9Lk0szNdJqENZyZL=pNJVmMXanBHEYr6A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] meta: stop using "virtual/" in RPROVIDES and RDEPENDS
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-When building cargo-native on centos7 with buildtools tarball installed,
-we see failures:
+On Wed, Sep 1, 2021 at 5:20 AM Michael Opdenacker
+<michael.opdenacker@bootlin.com> wrote:
+>
+> Fixes [YOCTO #14538]
+>
+> Recipes shouldn't use the "virtual/" string in RPROVIDES and RDEPENDS.
+>
+> That's confusing because "virtual/" has no special meaning in
+> RPROVIDES and RDEPENDS (unlike in PROVIDES and DEPENDS).
+>
+> Instead, using "virtual-" instead of "virtual/"
+> as already done in the glibc recipe.
 
-/bin/sh: /lib64/libc.so.6: version `GLIBC_2.33' not found (required by /home/pokybuild/yocto-worker/reproducible-centos/build/build-st/tmp/work/x86_64-linux/cargo-native/1.54.0-r0/recipe-sysroot-native/usr/lib/libtinfo.so.5)
+We have quite a few cases in meta-virtualization, where the same
+unclear syntax is used.
 
-The reason for this is that the wrapper script
-cargo-native/1.54.0-r0/wrapper/target-rust-ccld has /bin/sh as it's
-interpreter and cargo calls this with LD_LIBRARY_PATH set to include the
-recipe-sysroot-native. The host /bin/sh links to libtinfo from the host
-but it finds the version in the sysroot which needs a newer libc. This
-results in the above error since the loader is an older libc and the two
-are incompatible.
+I can take care of updating it, if you aren't looking at it already.
 
-Our ccld wrapper calls gcc/ld which don't need the LD_LIBRARY_PATH
-variable set. We can't patch this out the source since we're using
-a prebuilt binary to generate a new cargo binary so this is impossible
-to bootstrap.
+Bruce
 
-Instead, put a binary wrapper into place which removes LD_LIBRARY_PATH
-from the environment before calling the original wrapper (left in shell
-as it is simpler to maintain).
+>
+> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+> ---
+>  meta/recipes-bsp/grub/grub-bootconf_1.00.bb        | 2 +-
+>  meta/recipes-bsp/grub/grub-efi_2.06.bb             | 2 +-
+>  meta/recipes-core/systemd/systemd-boot_249.3.bb    | 2 +-
+>  meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+> index 151e601fd2..783e30bf38 100644
+> --- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+> +++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+> @@ -5,7 +5,7 @@ DESCRIPTION = "Grub might require different configuration file for \
+>  different machines."
+>  HOMEPAGE = "https://www.gnu.org/software/grub/manual/grub/grub.html#Configuration"
+>
+> -RPROVIDES:${PN} += "virtual/grub-bootconf"
+> +RPROVIDES:${PN} += "virtual-grub-bootconf"
+>
+>  inherit grub-efi-cfg
+>
+> diff --git a/meta/recipes-bsp/grub/grub-efi_2.06.bb b/meta/recipes-bsp/grub/grub-efi_2.06.bb
+> index 96e9df88b6..a8cc209a02 100644
+> --- a/meta/recipes-bsp/grub/grub-efi_2.06.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi_2.06.bb
+> @@ -5,7 +5,7 @@ require conf/image-uefi.conf
+>  GRUBPLATFORM = "efi"
+>
+>  DEPENDS:append = " grub-native"
+> -RDEPENDS:${PN} = "grub-common virtual/grub-bootconf"
+> +RDEPENDS:${PN} = "grub-common virtual-grub-bootconf"
+>
+>  SRC_URI += " \
+>             file://cfg \
+> diff --git a/meta/recipes-core/systemd/systemd-boot_249.3.bb b/meta/recipes-core/systemd/systemd-boot_249.3.bb
+> index af2be162a3..b3d4e31e08 100644
+> --- a/meta/recipes-core/systemd/systemd-boot_249.3.bb
+> +++ b/meta/recipes-core/systemd/systemd-boot_249.3.bb
+> @@ -46,7 +46,7 @@ python __anonymous () {
+>
+>  FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
+>
+> -RDEPENDS:${PN} += "virtual/systemd-bootconf"
+> +RDEPENDS:${PN} += "virtual-systemd-bootconf"
+>
+>  # Imported from the old gummiboot recipe
+>  TUNE_CCARGS:remove = "-mfpmath=sse"
+> diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+> index 12c4447f37..19637546a9 100644
+> --- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+> +++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+> @@ -2,7 +2,7 @@ LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>  SUMMARY = "Basic systemd-boot configuration files"
+>
+> -RPROVIDES:${PN} += "virtual/systemd-bootconf"
+> +RPROVIDES:${PN} += "virtual-systemd-bootconf"
+>  PACKAGE_ARCH = "${MACHINE_ARCH}"
+>
+>  inherit systemd-boot-cfg
+> --
+> 2.25.1
+>
+>
+> 
+>
 
-Also add the interpreter relocation trick from uninative to the prebuilt
-cargo binary to match rust-native, just in case that causes other problems
-later too.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/cargo/cargo.inc         | 12 ++++++++
- .../cargo/files/ccld-wrapper.c                | 29 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/cargo/files/ccld-wrapper.c
-
-diff --git a/meta/recipes-devtools/cargo/cargo.inc b/meta/recipes-devtools/cargo/cargo.inc
-index 6161c327e81..a114266eac4 100644
---- a/meta/recipes-devtools/cargo/cargo.inc
-+++ b/meta/recipes-devtools/cargo/cargo.inc
-@@ -20,6 +20,11 @@ inherit cargo
- 
- do_cargo_setup_snapshot () {
- 	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
-+	# Need to use uninative's loader if enabled/present since the library paths
-+	# are used internally by rust and result in symbol mismatches if we don't
-+	if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
-+		patchelf-uninative ${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo --set-interpreter ${UNINATIVE_LOADER}
-+	fi
- }
- 
- addtask cargo_setup_snapshot after do_unpack before do_configure
-@@ -47,3 +52,10 @@ export LIBSSH2_SYS_USE_PKG_CONFIG = "1"
- # so we must use the locally set up snapshot to bootstrap the build.
- BASEDEPENDS:remove:class-native = "cargo-native"
- CARGO:class-native = "${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo"
-+
-+SRC_URI += "file://ccld-wrapper.c"
-+
-+do_rust_create_wrappers:append () {
-+	mv ${RUST_TARGET_CCLD} ${RUST_TARGET_CCLD}.real
-+	${BUILD_CC} ${WORKDIR}/ccld-wrapper.c -o ${RUST_TARGET_CCLD}
-+}
-diff --git a/meta/recipes-devtools/cargo/files/ccld-wrapper.c b/meta/recipes-devtools/cargo/files/ccld-wrapper.c
-new file mode 100644
-index 00000000000..6bc9958b907
---- /dev/null
-+++ b/meta/recipes-devtools/cargo/files/ccld-wrapper.c
-@@ -0,0 +1,29 @@
-+/*
-+ * Copyright 2021 Richard Purdie
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-only
-+ */
-+
-+#include <errno.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+/*
-+ * Run the original script (argv[0] + ".real") with LD_LIBRARY_PATH unset
-+ * This avoids issues where cargo is running a wrapper script using /bin/sh from the host
-+ * which links to something which has an incompatible version in in recipe-sysroot-native
-+ * such as libtinfo on centos 7.
-+ */
-+
-+int main(int argc, char* argv[]) {
-+    char *real = malloc(strlen(argv[0] + 5));
-+    strcpy(real, argv[0]);
-+    strcpy(real + strlen(argv[0]), ".real");
-+    putenv("LD_LIBRARY_PATH=");
-+    if(execv(real, argv) == -1) {
-+        printf("Wrapper failed to execute, error: %s\n", strerror(errno));
-+        return -1;
-+    }
-+}
 -- 
-2.32.0
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
