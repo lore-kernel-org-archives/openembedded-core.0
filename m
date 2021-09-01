@@ -1,78 +1,148 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web08.7966.1630502597030557778
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.7772.1630502607579289982
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 06:23:17 -0700
+ Wed, 01 Sep 2021 06:23:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjlKPsEx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id q11so4472444wrr.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:23:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M8PUYjcY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so4766951wmd.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=yIPXUUQGZ8Why2c1ceoClIsifRecKHSxh0+eXLXmBGk=;
-        b=bjlKPsExA+QY8BjqYmuo7Ww6VLGNLI21l/Sewk81tEJZu7LGEEwQ81Fuibo1kIMPpv
-         R1NKJXyfLxoYQ2VnWH0KQR3jWFbpPzfDFBd4/K1k77Rkw8EAS2Y7WRe9/N1RcZn63H8A
-         3uM3BDuUXPVnlVU/1xhzbxEUbCoTirLSomJ3w=
+        bh=p29GQhBC/Dg/buNs0c7x14wLbShFL7IIPTzLcFVlZXo=;
+        b=M8PUYjcYkqTrEIkBn59eivm+Enx6n7IFc25i5bfpsQSdrxkHhMW6dENPeZxKZsM61H
+         iaQqJSmSBn/itiwsQoKzQgvtDHOEdq44c11gTjrK4D2i5iMAwv/Rzx38cKLgNZxDQuuZ
+         B7iS1UwCWCClQfRFkUjyOHX1skJjt0DzyGhr4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yIPXUUQGZ8Why2c1ceoClIsifRecKHSxh0+eXLXmBGk=;
-        b=TfWmpsqalslbnIT7MRHFyjY04W0/ySn5zp4tBLxx8d2FMAuaG+QYU905L8bp42rW63
-         5xJdAlv+zUi/2sFQobTBE54u4YDJCZ4pYEHv8zRRSU+/IeWF/iLurMtSCPbbfdA3mooJ
-         nFEurWgIq1OyprjLOEOCMKwFRTBx/bWN3KzEwlX9yfwY659CmmuWVgNQpNd/euaxyfZz
-         U+CQVk++baQEvIIsqP0hIpaifQmwtsZ9qhH2xt9/mlfVcxs/VcVrv5iHd+vykH0GOp53
-         /VxxdJqTrWW0oKo8GQqANc0YK/mXV0rIGdBCDXFqVindtRZinbuedg09ixRfTy4JXbjE
-         n5IA==
-X-Gm-Message-State: AOAM531i8lWqIsW93Mps/RJ4jwnKDu7FXtkYnZBr7qz1jL+U7BFWILwL
-	B/xFEbD2xP1+HlU2oa23MSJn4XK32ys8xg==
-X-Google-Smtp-Source: ABdhPJzNG8jKg+Jl+0dqXbQ7oexNQ10mrhHRXj6istYAfocQiAwSm3DDsCdL1TDyHTEGwU+u7v+S8g==
-X-Received: by 2002:adf:906c:: with SMTP id h99mr32242095wrh.8.1630502595160;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=p29GQhBC/Dg/buNs0c7x14wLbShFL7IIPTzLcFVlZXo=;
+        b=KuizI7umkDx80MtEleoHG3IRUvBFtV/3cUxa4gPdNXBFpVIYkCJb3D43XTKSbwcl6n
+         YIc4kKuApKm23qYemjFZUS4xft9VmvErcat8gqcIwnwS9GTessCBphGszNrpKgqPZF2G
+         Beh8C/3v4R9Vx2wKtEAtCsP+5B7lp/VCBbGPWv80X5/Y7GZP0JRS/G6UpiN3Lmx95RQV
+         5ASBTQhSDMLYxARu5gDW4OjM0LgvdfQOOwmaHVFCUp860A4JJqOgFwfYWq1Cs6K3+Pyx
+         l/jHTQ2SzuUyKja63UMPoImp09Z77jVsR7uv3UHZDAgUNLHgWNm8zPW8SWk1f7pw/zDc
+         CYTw==
+X-Gm-Message-State: AOAM530kzVnfPz4bCvzaNv/KC/rpFY55iy0a1MXBpnvzOo0Da1nlzCke
+	yjcJNW1qmDbadiM/k9K2YrQvAerwfOC4XA==
+X-Google-Smtp-Source: ABdhPJxNYOxl7rKmwDLb9+xTljOf+3l+fTkh1KcaxremoZaay5n4tHgO0y/p9W2nncwtHAxELGf90g==
+X-Received: by 2002:a1c:3587:: with SMTP id c129mr3255029wma.57.1630502595785;
         Wed, 01 Sep 2021 06:23:15 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7e06:66c6:32e7:e304])
-        by smtp.gmail.com with ESMTPSA id z137sm6098786wmc.14.2021.09.01.06.23.14
+        by smtp.gmail.com with ESMTPSA id z137sm6098786wmc.14.2021.09.01.06.23.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 06:23:14 -0700 (PDT)
+        Wed, 01 Sep 2021 06:23:15 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Halstead <mhalstead@linuxfoundation.org>
-Subject: [PATCH 1/2] uninative: Upgrade to 3.4
-Date: Wed,  1 Sep 2021 14:23:12 +0100
-Message-Id: <20210901132313.901890-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] cargo: Hack around LD_LIBRARY_PATH issues on centos7
+Date: Wed,  1 Sep 2021 14:23:13 +0100
+Message-Id: <20210901132313.901890-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210901132313.901890-1-richard.purdie@linuxfoundation.org>
+References: <20210901132313.901890-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+When building cargo-native on centos7 with buildtools tarball installed,
+we see failures:
 
-This adds a patch to glibc which allows it to work with Docker and
-clone3 syscall issues cased by EPERM vs ENOSYS.
+/bin/sh: /lib64/libc.so.6: version `GLIBC_2.33' not found (required by /home/pokybuild/yocto-worker/reproducible-centos/build/build-st/tmp/work/x86_64-linux/cargo-native/1.54.0-r0/recipe-sysroot-native/usr/lib/libtinfo.so.5)
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+The reason for this is that the wrapper script
+cargo-native/1.54.0-r0/wrapper/target-rust-ccld has /bin/sh as it's
+interpreter and cargo calls this with LD_LIBRARY_PATH set to include the
+recipe-sysroot-native. The host /bin/sh links to libtinfo from the host
+but it finds the version in the sysroot which needs a newer libc. This
+results in the above error since the loader is an older libc and the two
+are incompatible.
+
+Our ccld wrapper calls gcc/ld which don't need the LD_LIBRARY_PATH
+variable set. We can't patch this out the source since we're using
+a prebuilt binary to generate a new cargo binary so this is impossible
+to bootstrap.
+
+Instead, put a binary wrapper into place which removes LD_LIBRARY_PATH
+from the environment before calling the original wrapper (left in shell
+as it is simpler to maintain).
+
+Also add the interpreter relocation trick from uninative to the prebuilt
+cargo binary to match rust-native, just in case that causes other problems
+later too.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/cargo/cargo.inc         | 12 ++++++++
+ .../cargo/files/ccld-wrapper.c                | 29 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/cargo/files/ccld-wrapper.c
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 76f4cff565d..3165fc93b89 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -8,7 +8,7 @@
+diff --git a/meta/recipes-devtools/cargo/cargo.inc b/meta/recipes-devtools/cargo/cargo.inc
+index 6161c327e81..a114266eac4 100644
+--- a/meta/recipes-devtools/cargo/cargo.inc
++++ b/meta/recipes-devtools/cargo/cargo.inc
+@@ -20,6 +20,11 @@ inherit cargo
  
- UNINATIVE_MAXGLIBCVERSION = "2.34"
+ do_cargo_setup_snapshot () {
+ 	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
++	# Need to use uninative's loader if enabled/present since the library paths
++	# are used internally by rust and result in symbol mismatches if we don't
++	if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
++		patchelf-uninative ${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo --set-interpreter ${UNINATIVE_LOADER}
++	fi
+ }
  
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.3/"
--UNINATIVE_CHECKSUM[aarch64] ?= "372d31264ea7ab8e08e0a9662f003b53e99b3813cc2d9f9a4cc5c2949a1de00b"
--UNINATIVE_CHECKSUM[i686] ?= "36436167eba8a5957a0bf9a32402dd1be8b69528c1ff25e711e6895b583b2b42"
--UNINATIVE_CHECKSUM[x86_64] ?= "92b5e465f74d7e195e0b60fe4146f0f1475fff87ab2649bf2d57a1526ef58aec"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.4/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "3013cdda8f0dc6639ce1c80f33eabce66f06b890bd5b58739a6d7a92a0bb7100"
-+UNINATIVE_CHECKSUM[i686] ?= "abed500de584aad63ec237546db20cdd0c69d8870a6f8e94ac31721ace64b376"
-+UNINATIVE_CHECKSUM[x86_64] ?= "126f4f7f6f21084ee140dac3eb4c536b963837826b7c38599db0b512c3377ba2"
+ addtask cargo_setup_snapshot after do_unpack before do_configure
+@@ -47,3 +52,10 @@ export LIBSSH2_SYS_USE_PKG_CONFIG = "1"
+ # so we must use the locally set up snapshot to bootstrap the build.
+ BASEDEPENDS:remove:class-native = "cargo-native"
+ CARGO:class-native = "${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo"
++
++SRC_URI += "file://ccld-wrapper.c"
++
++do_rust_create_wrappers:append () {
++	mv ${RUST_TARGET_CCLD} ${RUST_TARGET_CCLD}.real
++	${BUILD_CC} ${WORKDIR}/ccld-wrapper.c -o ${RUST_TARGET_CCLD}
++}
+diff --git a/meta/recipes-devtools/cargo/files/ccld-wrapper.c b/meta/recipes-devtools/cargo/files/ccld-wrapper.c
+new file mode 100644
+index 00000000000..6bc9958b907
+--- /dev/null
++++ b/meta/recipes-devtools/cargo/files/ccld-wrapper.c
+@@ -0,0 +1,29 @@
++/*
++ * Copyright 2021 Richard Purdie
++ *
++ * SPDX-License-Identifier: GPL-2.0-only
++ */
++
++#include <errno.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++/*
++ * Run the original script (argv[0] + ".real") with LD_LIBRARY_PATH unset
++ * This avoids issues where cargo is running a wrapper script using /bin/sh from the host
++ * which links to something which has an incompatible version in in recipe-sysroot-native
++ * such as libtinfo on centos 7.
++ */
++
++int main(int argc, char* argv[]) {
++    char *real = malloc(strlen(argv[0] + 5));
++    strcpy(real, argv[0]);
++    strcpy(real + strlen(argv[0]), ".real");
++    putenv("LD_LIBRARY_PATH=");
++    if(execv(real, argv) == -1) {
++        printf("Wrapper failed to execute, error: %s\n", strerror(errno));
++        return -1;
++    }
++}
 -- 
 2.32.0
 
