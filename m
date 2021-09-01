@@ -1,140 +1,125 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web12.7906.1630502631048564933
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.web12.8221.1630503919084714729
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Sep 2021 06:23:51 -0700
+ Wed, 01 Sep 2021 06:45:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EnONpQMu;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id i21so6684192ejd.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:23:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NdSJVhRZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f172.google.com with SMTP id 6so3758989oiy.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Sep 2021 06:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dkBXRS5RnLkzvS0yjiNGAyQU/ccbs9sFQnqQndlLKm4=;
-        b=EnONpQMuWC6PO89emXqpXyf9W9bBGwFTY4+yrIk/rOcql7Vbe5t38DDvBX/XhzNKER
-         VYzYQofLgkpGgW75xAqLWzdCC9I4uxrd9dOkH5nV19dRYUdbipe4LKR2m7gLY8TjLeD/
-         zW+PgnuQh87oNKTK3RzF1qHLaFmS7FVZ7dsfDysFVXCYE6lprbU+g7cRcax0rdoS9y3+
-         w8w6vfqMeY+qePE2VeCfKm0Nw63JG+eJ8FWz58f8PALmaFYa68163DSu2D7GA88iLNSD
-         hhHvBCzEcbv2iqmUzmFJyp0Lg/OgkROOREdD830lVoQyfY57ESPqcF7s/BzAUTCcV4VD
-         oQZQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pjGlBKfSres31BmCssjtMmsk1vlJo4IJ7FlnRdNb3g0=;
+        b=NdSJVhRZGJPW3Q0TUx99JP5JrATAwGhRKvsOn95y8g4niUKRI8zO7bEnHrVGTFtKWH
+         eVm75zaApg+ueWrR0gziLpoGAYIo2L0FGZMS/HbvA7znpiT54qUab2R250V0Qln7FzlY
+         X2Q7vtagBAvkD78Vz2mWVIlDyxPC75NULhhqsOxGSpjFQCrWuIZO9Xsaw+8mKYhDBXWe
+         mSJS13Gy9wA58B9W+s1JA8stJXndMTr3sgxDkp1GzizZkmnub9x44/H1uX3NekoRl72M
+         7fqdjE5gzObU66OO3HTHdkf41prJ5PHe/A/PNCW2YchCb+S3pxKVP8j3Bl2e0r+Xjtrz
+         yByQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dkBXRS5RnLkzvS0yjiNGAyQU/ccbs9sFQnqQndlLKm4=;
-        b=g8PG1AIQvwBJzBUM+l2coBHw0zM6tZ0eYhdFyGNxggtaSfv3Aeq+ELrjwZ82/8uuPb
-         LdR6Km+ko553PYjQGJVK69Q8N+OP5QMmPhuYc77bNXPmlTvDx671MSzZqo4rGouNjTzb
-         e/kr+bKnsyI88uH2pTdLHV2/jVh4/EqPkDRjbYoeZEAau89/m24Mk8UsGn7yxxfFRiM9
-         QBhtllP3na6HVvIlooISPr/gSanVEuAAsc8sUeAMt5Y82q1khhL5wgWKCeMkkjjpS2eK
-         Sik6UMcB4T3EpWnwZcvqy1XJW4811pxF5DUsDgzDKlDLTgXLY8kMSWve+NsfVLV4Wb0y
-         5MGA==
-X-Gm-Message-State: AOAM530mP5yrpitTg2Z7lL2BBFCJt7W05kO5BKgQ4SiGduFigaLf9hOC
-	yJtPCiqV4slpAUkuC++6cw7NDc4HhldD3MEmOjvY1zYaaPM=
-X-Google-Smtp-Source: ABdhPJxA2c8f5828FLarI2j0iNAKrtgvTEvz4QGQyFPXqR9wSNHbswtCfffF9FzeNLSWrWKPGj2wJFDu/mDZZ8j/oiI=
-X-Received: by 2002:a17:906:680a:: with SMTP id k10mr35810503ejr.298.1630502629471;
- Wed, 01 Sep 2021 06:23:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pjGlBKfSres31BmCssjtMmsk1vlJo4IJ7FlnRdNb3g0=;
+        b=bYjjvNXKybBsflnZtKiSmWfYsLnaoGMlX3h7yKAGDa+rgajnYGsWGGuvXIQW6iI5K2
+         PrRCKC7kEkk7LN9iyq6Z4A/rPRA4dqXSaOCt924k5VqdUkDvdWi1isnVU0Qb/QwBjuVs
+         vJr0W4Rvp6Hnn0dDgKsh/eGYxi12ORqb3zbxtQmqGntxs7uEJFnj4RHvna+hohG2Dj/0
+         R+WJahQWvXVgyMXtv9WLDatoCh7tB1PGw8LkQsqj7bX/RPx0UT6Bfku5lSQZtHzwQP4d
+         qbBnZ0we3ubB0bwlx+EQ/wWSRYU6HCAM6JGrGLegBXvCCyBsUMore90kD9LppQpc3ntv
+         p3vA==
+X-Gm-Message-State: AOAM531x4eint0g6u+aCm6uS0uwIMRYKedsu9B+++pVk0cLwa+Ns0UIj
+	FcutGSuxUEQmVDeyVMu8df/mg6QBHlk=
+X-Google-Smtp-Source: ABdhPJylN1iPtjFYrZ2HXa1i6UDxtf9Ow6CSh7RF14LBhyF2ghpTrbyzrCwM9QOO5OAxraZ02tE+HQ==
+X-Received: by 2002:aca:4557:: with SMTP id s84mr7219624oia.77.1630503918185;
+        Wed, 01 Sep 2021 06:45:18 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id c75sm4283772oob.47.2021.09.01.06.45.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 06:45:17 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: ross.burton@arm.com,
+	saul.wold@windriver.com,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 00/31] Add initial SBoM support
+Date: Wed,  1 Sep 2021 08:44:39 -0500
+Message-Id: <20210901134510.29561-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210901092020.116142-1-michael.opdenacker@bootlin.com>
-In-Reply-To: <20210901092020.116142-1-michael.opdenacker@bootlin.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 1 Sep 2021 09:23:38 -0400
-Message-ID: <CADkTA4NCnTW5Zx=UJ9Lk0szNdJqENZyZL=pNJVmMXanBHEYr6A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] meta: stop using "virtual/" in RPROVIDES and RDEPENDS
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 1, 2021 at 5:20 AM Michael Opdenacker
-<michael.opdenacker@bootlin.com> wrote:
->
-> Fixes [YOCTO #14538]
->
-> Recipes shouldn't use the "virtual/" string in RPROVIDES and RDEPENDS.
->
-> That's confusing because "virtual/" has no special meaning in
-> RPROVIDES and RDEPENDS (unlike in PROVIDES and DEPENDS).
->
-> Instead, using "virtual-" instead of "virtual/"
-> as already done in the glibc recipe.
+Adds initial support for generating SBoMs in SPDX json format. SBoM
+generation can be enabled by adding:
 
-We have quite a few cases in meta-virtualization, where the same
-unclear syntax is used.
+  INHERIT += "create-spdx"
 
-I can take care of updating it, if you aren't looking at it already.
+to local.conf
 
-Bruce
+Joshua Watt (30):
+  classes/package: Add extended packaged data
+  classes/create-spdx: Add class
+  classes/create-spdx: Change creator
+  classes/create-spdx: Add SHA1 to index file
+  classes/create-spdx: Add index to DEPLOYDIR
+  classes/create-spdx: Add runtime dependency mapping
+  classes/create-spdx: Add NOASSERTION for unknown debug sources
+  classes/create-spdx: Fix another creator
+  Add SPDX licenses
+  classes/create-spdx: Fix up license reporting
+  classes/create-spdx: Speed up hash calculations
+  classes/create-spdx: Fix file:// in downloadLocation
+  classes/create-spdx: Add special exception for Public Domain license
+  classes/create-spdx: Collect all task dependencies
+  classes/create-spdx: Skip package processing for native recipes
+  classes/create-spdx: Comment out placeholder license warning
+  conf/licenses: Add FreeType SPDX mapping
+  tzdata: Remove BSD License specifier
+  glib-2.0: Use specific BSD license variant
+  e2fsprogs: Use specific BSD license variant
+  shadow: Use specific BSD license variant
+  sudo: Use specific BSD license variant
+  libcap: Use specific BSD license variant
+  libpam: Use specific BSD license variant
+  libxfont2: Use specific BSD license variant
+  libjitterentropy: Use specific BSD license variant
+  libx11: Use specific BSD license variant
+  font-util: Use specific BSD license variant
+  flac: Use specific BSD license variant
+  swig: Use specific BSD license variant
 
->
-> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-> ---
->  meta/recipes-bsp/grub/grub-bootconf_1.00.bb        | 2 +-
->  meta/recipes-bsp/grub/grub-efi_2.06.bb             | 2 +-
->  meta/recipes-core/systemd/systemd-boot_249.3.bb    | 2 +-
->  meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-> index 151e601fd2..783e30bf38 100644
-> --- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-> +++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-> @@ -5,7 +5,7 @@ DESCRIPTION = "Grub might require different configuration file for \
->  different machines."
->  HOMEPAGE = "https://www.gnu.org/software/grub/manual/grub/grub.html#Configuration"
->
-> -RPROVIDES:${PN} += "virtual/grub-bootconf"
-> +RPROVIDES:${PN} += "virtual-grub-bootconf"
->
->  inherit grub-efi-cfg
->
-> diff --git a/meta/recipes-bsp/grub/grub-efi_2.06.bb b/meta/recipes-bsp/grub/grub-efi_2.06.bb
-> index 96e9df88b6..a8cc209a02 100644
-> --- a/meta/recipes-bsp/grub/grub-efi_2.06.bb
-> +++ b/meta/recipes-bsp/grub/grub-efi_2.06.bb
-> @@ -5,7 +5,7 @@ require conf/image-uefi.conf
->  GRUBPLATFORM = "efi"
->
->  DEPENDS:append = " grub-native"
-> -RDEPENDS:${PN} = "grub-common virtual/grub-bootconf"
-> +RDEPENDS:${PN} = "grub-common virtual-grub-bootconf"
->
->  SRC_URI += " \
->             file://cfg \
-> diff --git a/meta/recipes-core/systemd/systemd-boot_249.3.bb b/meta/recipes-core/systemd/systemd-boot_249.3.bb
-> index af2be162a3..b3d4e31e08 100644
-> --- a/meta/recipes-core/systemd/systemd-boot_249.3.bb
-> +++ b/meta/recipes-core/systemd/systemd-boot_249.3.bb
-> @@ -46,7 +46,7 @@ python __anonymous () {
->
->  FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
->
-> -RDEPENDS:${PN} += "virtual/systemd-bootconf"
-> +RDEPENDS:${PN} += "virtual-systemd-bootconf"
->
->  # Imported from the old gummiboot recipe
->  TUNE_CCARGS:remove = "-mfpmath=sse"
-> diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> index 12c4447f37..19637546a9 100644
-> --- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> +++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> @@ -2,7 +2,7 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->  SUMMARY = "Basic systemd-boot configuration files"
->
-> -RPROVIDES:${PN} += "virtual/systemd-bootconf"
-> +RPROVIDES:${PN} += "virtual-systemd-bootconf"
->  PACKAGE_ARCH = "${MACHINE_ARCH}"
->
->  inherit systemd-boot-cfg
-> --
-> 2.25.1
->
->
-> 
->
+Saul Wold (1):
+  classes/create-spdx: extend DocumentRef to include name
 
+ meta/classes/create-spdx.bbclass              |  901 +++
+ meta/classes/package.bbclass                  |   39 +-
+ meta/conf/licenses.conf                       |    1 +
+ meta/files/spdx-licenses.json                 | 5938 +++++++++++++++++
+ meta/lib/oe/packagedata.py                    |   12 +
+ meta/lib/oe/sbom.py                           |   74 +
+ meta/lib/oe/spdx.py                           |  271 +
+ meta/recipes-core/glib-2.0/glib.inc           |    2 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |    2 +-
+ meta/recipes-devtools/swig/swig.inc           |    2 +-
+ meta/recipes-extended/pam/libpam_1.5.1.bb     |    2 +-
+ meta/recipes-extended/shadow/shadow.inc       |    2 +-
+ meta/recipes-extended/sudo/sudo.inc           |    2 +-
+ meta/recipes-extended/timezone/timezone.inc   |    2 +-
+ .../xorg-font/font-util_1.3.2.bb              |    2 +-
+ .../recipes-graphics/xorg-lib/libx11_1.7.2.bb |    2 +-
+ .../xorg-lib/libxfont2_2.0.5.bb               |    2 +-
+ meta/recipes-multimedia/flac/flac_1.3.3.bb    |    2 +-
+ meta/recipes-support/libcap/libcap_2.51.bb    |    2 +-
+ .../libjitterentropy_3.1.0.bb                 |    2 +-
+ 20 files changed, 7246 insertions(+), 16 deletions(-)
+ create mode 100644 meta/classes/create-spdx.bbclass
+ create mode 100644 meta/files/spdx-licenses.json
+ create mode 100644 meta/lib/oe/sbom.py
+ create mode 100644 meta/lib/oe/spdx.py
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.32.0
+
