@@ -1,85 +1,137 @@
 Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web09.4402.1630676768443049688
+ by mx.groups.io with SMTP id smtpd.web08.4586.1630677190858211620
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 06:46:09 -0700
+ Fri, 03 Sep 2021 06:53:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=CS1j3uSw;
+ dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=IuVD2gx0;
  spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
 From: "Kristian Klausen" <kristian@klausen.dk>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1630676764;
+	t=1630677188;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=ErLrEUriKTEKoZVcV5zzxeDOFWIJNwaV9T2MKWwJeuU=;
-	b=CS1j3uSwa5pOmpf2cjoZS23VoArzn0a7Z/icfuK54GQ7UScRCwPqJ04qnVGld9xzTC0QBz
-	hIXakgaXzq0ZG+4wxSmGh+VGaGaElZEV1ibWShCUnI2pUqTo7m7qV/4NfYnIkPKhrNcVCv
-	7L8k7lPyrTiRzh1VVrw7Uk8uPPhqHZo=
+	bh=+BSUAgIN9rhLb157y3E63zWOuHnnSIWKfWYDGkadiag=;
+	b=IuVD2gx0EmT+keG1gGOEYa2xsiQlGp/VgaMgwR5Y4+BaSPGS87CRBrlfqBEREWMtn5szgy
+	dxL5lm9rO/mArDREj1VSJxwHR1CgwO16taLSnKWIpYqAqh93LqeAllLyVRmmz3u0HtLaHi
+	3rUThZiBX7cC0fLw8fQjlPJGxavitm0=
 To: openembedded-core@lists.openembedded.org
-Cc: Kristian Klausen <kristian@klausen.dk>
-Subject: [PATCH] systemd: Add homed PACKAGECONFIG
-Date: Fri,  3 Sep 2021 15:45:52 +0200
-Message-Id: <20210903134552.22033-1-kristian@klausen.dk>
+Cc: Kristian Klausen <kristian@klausen.dk>,
+	trini@konsulko.com
+Subject: [PATCH v2] wic: Add extra-space argument
+Date: Fri,  3 Sep 2021 15:52:53 +0200
+Message-Id: <20210903135253.22298-1-kristian@klausen.dk>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-If systemd is built with fdisk support[1] and the openssl and cryptsetup
-PACKAGECONFIG are enabled, systemd-homed[1] is automatically enabled.
-The org.freedesktop.home1.conf file was forgotten, so this commit adds
-the file and make enabling homed a explicit choice.
+This allows extra space to be added after the last partition and is
+especially useful when free space is needed for ex: adding partitions on
+first boot with ex: systemd-repart[1] and the image is tested in QEMU.
 
-[1] Automatically enabled if the fdisk dependency is installed which it
-    is as util-linux is pulled in by systemd
-[2] https://www.freedesktop.org/software/systemd/man/systemd-homed.servic=
-e.html
+[1] https://www.freedesktop.org/software/systemd/man/systemd-repart.html
 
 Signed-off-by: Kristian Klausen <kristian@klausen.dk>
 ---
- meta/recipes-core/systemd/systemd_249.3.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+V2:
+Add test case. I'm not sure how to test this best, so for now I'm just
+testing imagesize > --extra-space size.
 
-diff --git a/meta/recipes-core/systemd/systemd_249.3.bb b/meta/recipes-co=
-re/systemd/systemd_249.3.bb
-index c2d4343f10..bebb608db1 100644
---- a/meta/recipes-core/systemd/systemd_249.3.bb
-+++ b/meta/recipes-core/systemd/systemd_249.3.bb
-@@ -133,6 +133,7 @@ PACKAGECONFIG[gnu-efi] =3D "-Dgnu-efi=3Dtrue -Defi-li=
-bdir=3D${STAGING_LIBDIR} -Defi-in
- PACKAGECONFIG[elfutils] =3D "-Delfutils=3Dtrue,-Delfutils=3Dfalse,elfuti=
-ls"
- PACKAGECONFIG[firstboot] =3D "-Dfirstboot=3Dtrue,-Dfirstboot=3Dfalse"
- PACKAGECONFIG[repart] =3D "-Drepart=3Dtrue,-Drepart=3Dfalse"
-+PACKAGECONFIG[homed] =3D "-Dhomed=3Dtrue,-Dhomed=3Dfalse"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] =3D "-Dgcrypt=3Dtrue,-Dgcrypt=3Dfalse,libgcrypt"
- PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
-@@ -619,6 +620,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.timesync1.con=
-f \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.portable1.con=
-f \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.oom1.conf \
-+                ${datadir}/dbus-1/system.d/org.freedesktop.home1.conf \
-                "
+ meta/lib/oeqa/selftest/cases/wic.py      | 11 +++++++++++
+ scripts/lib/wic/plugins/imager/direct.py |  7 +++++--
+ scripts/wic                              |  2 ++
+ 3 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
+/cases/wic.py
+index 3b4143414f..dc7b9e637e 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -744,6 +744,17 @@ part /etc --source rootfs --fstype=3Dext4 --change-d=
+irectory=3Detc
+                                       % (wks_file, self.resultdir), igno=
+re_status=3DTrue).status)
+         os.remove(wks_file)
 =20
- FILES:${PN}-dev +=3D "${base_libdir}/security/*.la ${datadir}/dbus-1/int=
-erfaces/ ${sysconfdir}/rpm/macros.systemd"
-@@ -717,6 +719,9 @@ python __anonymous() {
-=20
-     if bb.utils.contains('PACKAGECONFIG', 'repart', True, False, d) and =
-not bb.utils.contains('PACKAGECONFIG', 'openssl', True, False, d):
-         bb.error("PACKAGECONFIG[repart] requires PACKAGECONFIG[openssl]"=
-)
++    def test_extra_space(self):
++        """Test --extra-space wks option."""
++        extraspace =3D 1024**3
++        runCmd("wic create wictestdisk "
++                                   "--image-name core-image-minimal "
++                                   "--extra-space %i -o %s" % (extraspac=
+e ,self.resultdir))
++        wicout =3D glob(self.resultdir + "wictestdisk-*.direct")
++        self.assertEqual(1, len(wicout))
++        size =3D os.path.getsize(wicout[0])
++        self.assertTrue(size > extraspace)
 +
-+    if bb.utils.contains('PACKAGECONFIG', 'homed', True, False, d) and n=
-ot bb.utils.contains('PACKAGECONFIG', 'openssl cryptsetup', True, False, =
-d):
-+        bb.error("PACKAGECONFIG[homed] requires PACKAGECONFIG[openssl] a=
-nd PACKAGECONFIG[cryptsetup]")
- }
+ class Wic2(WicTestCase):
 =20
- python do_warn_musl() {
+     def test_bmap_short(self):
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
+lugins/imager/direct.py
+index 96168aadb4..9d10ec01d0 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -77,7 +77,8 @@ class DirectPlugin(ImagerPlugin):
+=20
+         image_path =3D self._full_path(self.workdir, self.parts[0].disk,=
+ "direct")
+         self._image =3D PartitionedImage(image_path, self.ptable_format,
+-                                       self.parts, self.native_sysroot)
++                                       self.parts, self.native_sysroot,
++                                       options.extra_space)
+=20
+     def setup_workdir(self, workdir):
+         if workdir:
+@@ -293,7 +294,7 @@ class PartitionedImage():
+     Partitioned image in a file.
+     """
+=20
+-    def __init__(self, path, ptable_format, partitions, native_sysroot=3D=
+None):
++    def __init__(self, path, ptable_format, partitions, native_sysroot=3D=
+None, extra_space=3D0):
+         self.path =3D path  # Path to the image file
+         self.numpart =3D 0  # Number of allocated partitions
+         self.realpart =3D 0 # Number of partitions in the partition tabl=
+e
+@@ -314,6 +315,7 @@ class PartitionedImage():
+         self.sector_size =3D SECTOR_SIZE
+         self.native_sysroot =3D native_sysroot
+         num_real_partitions =3D len([p for p in self.partitions if not p=
+.no_table])
++        self.extra_space =3D extra_space
+=20
+         # calculate the real partition number, accounting for partitions=
+ not
+         # in the partition table and logical partitions
+@@ -483,6 +485,7 @@ class PartitionedImage():
+             self.min_size +=3D GPT_OVERHEAD
+=20
+         self.min_size *=3D self.sector_size
++        self.min_size +=3D self.extra_space
+=20
+     def _create_partition(self, device, parttype, fstype, start, size):
+         """ Create a partition on an image described by the 'device' obj=
+ect. """
+diff --git a/scripts/wic b/scripts/wic
+index a741aed364..57197c2048 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -346,6 +346,8 @@ def wic_init_parser_create(subparser):
+                       default=3DFalse, help=3D"output debug information"=
+)
+     subparser.add_argument("-i", "--imager", dest=3D"imager",
+                       default=3D"direct", help=3D"the wic imager plugin"=
+)
++    subparser.add_argument("--extra-space", type=3Dint, dest=3D"extra_sp=
+ace",
++                      default=3D0, help=3D"additional free disk space to=
+ add to the image")
+     return
+=20
+=20
 --=20
 2.25.1
 
