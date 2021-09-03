@@ -1,137 +1,99 @@
-Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web08.4586.1630677190858211620
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web12.4953.1630678279798834525
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 06:53:11 -0700
+ Fri, 03 Sep 2021 07:11:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=IuVD2gx0;
- spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
-From: "Kristian Klausen" <kristian@klausen.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1630677188;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+BSUAgIN9rhLb157y3E63zWOuHnnSIWKfWYDGkadiag=;
-	b=IuVD2gx0EmT+keG1gGOEYa2xsiQlGp/VgaMgwR5Y4+BaSPGS87CRBrlfqBEREWMtn5szgy
-	dxL5lm9rO/mArDREj1VSJxwHR1CgwO16taLSnKWIpYqAqh93LqeAllLyVRmmz3u0HtLaHi
-	3rUThZiBX7cC0fLw8fQjlPJGxavitm0=
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kVXN5Xv5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f174.google.com with SMTP id c79so7003542oib.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 07:11:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZtrTTUFLxxB6mi/RGQp9N5+s64F8tyVCdvEqPqXTC5k=;
+        b=kVXN5Xv5F190zH+/h6evhxNtvDbhKdLNeRFktbV5Rxjj0KfKqN14G+oqU8WQ6dHI3o
+         5XX5Ewp9DPsmQzqXuHmwLa02u1n7w7pXS0P0696aalJ7p7WH34Wo8xVjO7YhE9VhrbDs
+         16/ghN3tGX4vngDPkXqLqNMYY8dMJNSTlxDimUS0Pqe3MjNcNhb6iK01T+6Der1/48b1
+         0D2xS22shMe7mA+x4XZ5B+OEhvLq3S7EhZKa8N0MOyKfvc5u0dViSGB1l78IfMl/q74r
+         7qO5BKv+sW3812u20o6vYjTov61AroH4dsNN0+QVk/5z11phqXgxLWAUdddA7W/lyZKH
+         Zo/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZtrTTUFLxxB6mi/RGQp9N5+s64F8tyVCdvEqPqXTC5k=;
+        b=kTaaTenOZ5Y1kx93a+6pqnKcSzoNQjNTGrqy8mF+xqjmsfYrXc6/NYyM7//GT05gcb
+         Br+OSgIf2la9keZCYSbV62TBkzdSTuAWh/CrYtTbIrxaS2+D978RAYJIha7/Alp77R88
+         dDe5arlJnZz5ldAo1lfGmvDhh7wl6+JpvDMxY5aEpO0XxJGUdnuwB6sBAFya5Oih7IiH
+         WnA7JfSTAsXrWL11YIUAeD31hewZCe7pgP1IAI+pHD5GIOvW98NXrRercMcr0oj6nMj6
+         FeZaBEJkP+rzgiLJvggJDbeNrLhtoqbvWTNUv2/s8U27sZ8taR3kxbv1r9U/nL9HncC4
+         YEuw==
+X-Gm-Message-State: AOAM533/jkDAtewEprGyejir2H7lFdt7J4lOf/+uKU8R/A25IgTYnujS
+	BNjvZBcsaNxG83G/vQAJcSeP0W0CVVL+4TlM
+X-Google-Smtp-Source: ABdhPJw6fUhyMbGtOhKBEV5sNPD4gCs2+zOQZ5yZZ7kYIAwkEBUCtvQBtypyJtPkBJBZiObMyn5Lmg==
+X-Received: by 2002:a05:6808:14ca:: with SMTP id f10mr6483337oiw.131.1630678278317;
+        Fri, 03 Sep 2021 07:11:18 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id u14sm998007oth.73.2021.09.03.07.11.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Sep 2021 07:11:17 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Kristian Klausen <kristian@klausen.dk>,
-	trini@konsulko.com
-Subject: [PATCH v2] wic: Add extra-space argument
-Date: Fri,  3 Sep 2021 15:52:53 +0200
-Message-Id: <20210903135253.22298-1-kristian@klausen.dk>
-X-Mailer: git-send-email 2.33.0
+Subject: [OE-core][dunfell 0/5] Patch review
+Date: Fri,  3 Sep 2021 04:10:48 -1000
+Message-Id: <cover.1630678081.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-This allows extra space to be added after the last partition and is
-especially useful when free space is needed for ex: adding partitions on
-first boot with ex: systemd-repart[1] and the image is tested in QEMU.
+Please review this next set of patches for dunfell and have comments back by
+end of day Monday.
 
-[1] https://www.freedesktop.org/software/systemd/man/systemd-repart.html
+Passed a-full on autobuilder:
 
-Signed-off-by: Kristian Klausen <kristian@klausen.dk>
----
-V2:
-Add test case. I'm not sure how to test this best, so for now I'm just
-testing imagesize > --extra-space size.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2540
 
- meta/lib/oeqa/selftest/cases/wic.py      | 11 +++++++++++
- scripts/lib/wic/plugins/imager/direct.py |  7 +++++--
- scripts/wic                              |  2 ++
- 3 files changed, 18 insertions(+), 2 deletions(-)
+The following changes since commit 448e0271ed831582bb5833486fc17b131676fb53:
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
-/cases/wic.py
-index 3b4143414f..dc7b9e637e 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -744,6 +744,17 @@ part /etc --source rootfs --fstype=3Dext4 --change-d=
-irectory=3Detc
-                                       % (wks_file, self.resultdir), igno=
-re_status=3DTrue).status)
-         os.remove(wks_file)
-=20
-+    def test_extra_space(self):
-+        """Test --extra-space wks option."""
-+        extraspace =3D 1024**3
-+        runCmd("wic create wictestdisk "
-+                                   "--image-name core-image-minimal "
-+                                   "--extra-space %i -o %s" % (extraspac=
-e ,self.resultdir))
-+        wicout =3D glob(self.resultdir + "wictestdisk-*.direct")
-+        self.assertEqual(1, len(wicout))
-+        size =3D os.path.getsize(wicout[0])
-+        self.assertTrue(size > extraspace)
-+
- class Wic2(WicTestCase):
-=20
-     def test_bmap_short(self):
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
-lugins/imager/direct.py
-index 96168aadb4..9d10ec01d0 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -77,7 +77,8 @@ class DirectPlugin(ImagerPlugin):
-=20
-         image_path =3D self._full_path(self.workdir, self.parts[0].disk,=
- "direct")
-         self._image =3D PartitionedImage(image_path, self.ptable_format,
--                                       self.parts, self.native_sysroot)
-+                                       self.parts, self.native_sysroot,
-+                                       options.extra_space)
-=20
-     def setup_workdir(self, workdir):
-         if workdir:
-@@ -293,7 +294,7 @@ class PartitionedImage():
-     Partitioned image in a file.
-     """
-=20
--    def __init__(self, path, ptable_format, partitions, native_sysroot=3D=
-None):
-+    def __init__(self, path, ptable_format, partitions, native_sysroot=3D=
-None, extra_space=3D0):
-         self.path =3D path  # Path to the image file
-         self.numpart =3D 0  # Number of allocated partitions
-         self.realpart =3D 0 # Number of partitions in the partition tabl=
-e
-@@ -314,6 +315,7 @@ class PartitionedImage():
-         self.sector_size =3D SECTOR_SIZE
-         self.native_sysroot =3D native_sysroot
-         num_real_partitions =3D len([p for p in self.partitions if not p=
-.no_table])
-+        self.extra_space =3D extra_space
-=20
-         # calculate the real partition number, accounting for partitions=
- not
-         # in the partition table and logical partitions
-@@ -483,6 +485,7 @@ class PartitionedImage():
-             self.min_size +=3D GPT_OVERHEAD
-=20
-         self.min_size *=3D self.sector_size
-+        self.min_size +=3D self.extra_space
-=20
-     def _create_partition(self, device, parttype, fstype, start, size):
-         """ Create a partition on an image described by the 'device' obj=
-ect. """
-diff --git a/scripts/wic b/scripts/wic
-index a741aed364..57197c2048 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -346,6 +346,8 @@ def wic_init_parser_create(subparser):
-                       default=3DFalse, help=3D"output debug information"=
-)
-     subparser.add_argument("-i", "--imager", dest=3D"imager",
-                       default=3D"direct", help=3D"the wic imager plugin"=
-)
-+    subparser.add_argument("--extra-space", type=3Dint, dest=3D"extra_sp=
-ace",
-+                      default=3D0, help=3D"additional free disk space to=
- add to the image")
-     return
-=20
-=20
---=20
+  selftest: disable virgl headless test (2021-08-27 04:58:08 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Andrej Valek (1):
+  vim: add option to disable NLS support
+
+Armin Kuster (1):
+  lz4: Security Fix for CVE-2021-3520
+
+Matt Madison (1):
+  layer.conf: fix syntax error in PATH setting
+
+Richard Purdie (1):
+  sdk: Decouple default install path from built in path
+
+Ross Burton (1):
+  cpio: backport fix for CVE-2021-38185
+
+ meta/classes/populate_sdk_base.bbclass        |   1 +
+ meta/conf/bitbake.conf                        |   4 +-
+ meta/conf/layer.conf                          |   2 +-
+ meta/files/toolchain-shar-extract.sh          |   3 +-
+ meta/files/toolchain-shar-relocate.sh         |   2 +-
+ .../cpio/cpio-2.13/CVE-2021-38185.patch       | 581 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.13.bb       |   1 +
+ .../lz4/files/CVE-2021-3520.patch             |  27 +
+ meta/recipes-support/lz4/lz4_1.9.2.bb         |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 10 files changed, 621 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
+ create mode 100644 meta/recipes-support/lz4/files/CVE-2021-3520.patch
+
+-- 
 2.25.1
 
