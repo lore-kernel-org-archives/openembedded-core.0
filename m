@@ -1,109 +1,155 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.6449.1630684838158773947
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web08.6429.1630685409695678150
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 09:00:38 -0700
+ Fri, 03 Sep 2021 09:10:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6750D6E
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Sep 2021 09:00:37 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80CC73F766
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Sep 2021 09:00:37 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 4/4] create-spex: don't duplicate license texts in each package
-Date: Fri,  3 Sep 2021 17:00:33 +0100
-Message-Id: <20210903160033.3141022-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210903160033.3141022-1-ross.burton@arm.com>
-References: <20210903160033.3141022-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hmV+uYuO;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id k24so5968903pgh.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 09:10:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=zvAug0PfRtw3o4HbFS56a8XVGtfEawxExADGBFGGeUI=;
+        b=hmV+uYuOGWP687sQ/GO1zuKvHMkgq2V60KnO4BtzXjqGJoNGj54SffgZ+mj65VvT3n
+         Mgf1rZhBwzNTQR3XqtGkhA4mquPG/OcmCr05ldB2CDRc6BEFvuTq2N0RXKgJNSq/Lr07
+         VEegjyMjR/SGUna1avGzt6SV5z03GwFsnv1vzdTgtm/SPpmAwxX8k73reIjocbqz9Oyn
+         6Kg3MZMFtktZVZyMEoKoScVF2zjFP/LjUHUpzzDq/WONy7PSy4YGBne2oFDf3Bl3uGpO
+         jWmt+75d7Ez+KoaogCapgtjnG7waWE+JlBHWC7TZ1fc9M+LNTIxZCOfuM8a2Vdm9f5KN
+         9CBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=zvAug0PfRtw3o4HbFS56a8XVGtfEawxExADGBFGGeUI=;
+        b=tirxPey8AELczCUZfiUUIJ5ufsQKWfzL6mtY27rtSQtMtREacpi8lAI2ZN0b9IlNlX
+         BHJ8UDNI6R11MTuA1P08VUMnOegX2GyYPbH3nfLSk2vvicigYIZqL4fZa+wZ5X3MLVsr
+         8VoTK6joQFaogtZlz2n8PbaFZMbYEE1i0fptpmw9QckhUvuKfVSZEpOsRhhL+VSUbJIu
+         EuEwVLbz5CSPQ+TSxeBnlLbugubCAilnAhgtyo2c/uz73/GBaKk686yB6xTaQ7y69Wd5
+         MrNZAWbsFy5nPMozNbGwehrJY2je0XCnetKuIhBfr7nmtaIC3/MxM2Fhf1lkYZr0KZEF
+         vKRQ==
+X-Gm-Message-State: AOAM531nquUkuJ7DYKRhUqfgAFbrv6w9TIEye5wy8tHrrHhIveH+YjiM
+	Vxf1uTgexbm6hX4yZVi684Ys/wLPQU6R+g==
+X-Google-Smtp-Source: ABdhPJwszFRgWHj9Hi90RHZ38IAdi/ToEy7+C/vdr2TvEotwARSMM8TxH/sXuMm2Q5bfiolkJAEnsQ==
+X-Received: by 2002:a62:8281:0:b0:3f6:3b92:3698 with SMTP id w123-20020a628281000000b003f63b923698mr4059321pfd.55.1630685408839;
+        Fri, 03 Sep 2021 09:10:08 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPV6:2601:646:9200:a0f0:fc1f:bf2e:354:14db? ([2601:646:9200:a0f0:fc1f:bf2e:354:14db])
+        by smtp.gmail.com with ESMTPSA id d6sm5789809pfa.135.2021.09.03.09.10.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Sep 2021 09:10:08 -0700 (PDT)
+Message-ID: <f7ca9fdf-7d8a-a796-5b26-a1c71bb3c43b@gmail.com>
+Date: Fri, 3 Sep 2021 09:10:07 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.0.3
+Subject: Re: [OE-core] wanting to clarify some shared lib install and packaging issues
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <e819f3ff-af68-fac7-b1a8-19a5b1f26d7@crashcourse.ca>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <e819f3ff-af68-fac7-b1a8-19a5b1f26d7@crashcourse.ca>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Instead of putting the full license text for non-SPDX licenses into the
-recipe and every package, use links to the recipe from the packages if
-possible.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes/create-spdx.bbclass | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.=
-bbclass
-index cbb9239991c..1e0b3605587 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -50,7 +50,7 @@ python() {
-         d.setVar("SPDX_LICENSE_DATA", data)
- }
-=20
--def convert_license_to_spdx(lic, document, d):
-+def convert_license_to_spdx(lic, document, d, existing=3D{}):
-     from pathlib import Path
-     import oe.spdx
-=20
-@@ -109,8 +109,11 @@ def convert_license_to_spdx(lic, document, d):
-         if spdx_license in license_data["licenses"]:
-             return spdx_license
-=20
--        spdx_license =3D "LicenseRef-" + l
--        add_extracted_license(spdx_license, l)
-+        try:
-+            spdx_license =3D existing[l]
-+        except KeyError:
-+            spdx_license =3D "LicenseRef-" + l
-+            add_extracted_license(spdx_license, l)
-=20
-         return spdx_license
-=20
-@@ -462,7 +465,14 @@ python do_create_spdx() {
-     doc_sha1 =3D oe.sbom.write_doc(d, doc, "recipes")
-     dep_recipes.append(oe.sbom.DepRecipe(doc, doc_sha1, recipe))
-=20
-+    recipe_ref =3D oe.spdx.SPDXExternalDocumentRef()
-+    recipe_ref.externalDocumentId =3D "DocumentRef-recipe-" + recipe.nam=
-e
-+    recipe_ref.spdxDocument =3D doc.documentNamespace
-+    recipe_ref.checksum.algorithm =3D "SHA1"
-+    recipe_ref.checksum.checksumValue =3D doc_sha1
-+
-     sources =3D collect_dep_sources(d, dep_recipes)
-+    found_licenses =3D {license.name:recipe_ref.externalDocumentId + ":"=
- + license.licenseId for license in doc.hasExtractedLicensingInfos}
-=20
-     if not is_native:
-         bb.build.exec_func("read_subpackage_metadata", d)
-@@ -482,13 +492,6 @@ python do_create_spdx() {
-             package_doc.creationInfo.creators.append("Tool: OpenEmbedded=
- Core create-spdx.bbclass")
-             package_doc.creationInfo.creators.append("Organization: Open=
-Embedded ()")
-             package_doc.creationInfo.creators.append("Person: N/A ()")
--
--            recipe_ref =3D oe.spdx.SPDXExternalDocumentRef()
--            recipe_ref.externalDocumentId =3D "DocumentRef-recipe-" + re=
-cipe.name
--            recipe_ref.spdxDocument =3D doc.documentNamespace
--            recipe_ref.checksum.algorithm =3D "SHA1"
--            recipe_ref.checksum.checksumValue =3D doc_sha1
--
-             package_doc.externalDocumentRefs.append(recipe_ref)
-=20
-             package_license =3D d.getVar("LICENSE:%s" % package) or d.ge=
-tVar("LICENSE")
-@@ -498,7 +501,7 @@ python do_create_spdx() {
-             spdx_package.SPDXID =3D oe.sbom.get_package_spdxid(pkg_name)
-             spdx_package.name =3D pkg_name
-             spdx_package.versionInfo =3D d.getVar("PV")
--            spdx_package.licenseDeclared =3D convert_license_to_spdx(pac=
-kage_license, package_doc, d)
-+            spdx_package.licenseDeclared =3D convert_license_to_spdx(pac=
-kage_license, package_doc, d, found_licenses)
-=20
-             package_doc.packages.append(spdx_package)
-=20
---=20
-2.25.1
+On 9/3/21 3:57 AM, Robert P. J. Day wrote:
+> 
+>    some really basic observations and questions about shared libs from
+> BB recipes as i'm trying to resolve some issues related to a weird
+> hybrid build system that overrides the standard do_install() task by
+> manually populating the "image" directory for each recipe, then hands
+> control over to bitbake to take it from there.
+> 
+>    first, quick review as i am going to have to explain all this to
+> some folks, so let's make sure i don't sound like an idiot. from the
+> explanation here:
+> 
+>    https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
+> 
+> when a BB recipe creates a shared lib, i typically expect to see the
+> following under image/usr/lib/ (example from "nettle" directory
+> building for aarch64):
+> 
+>    libhogweed.so -> libhogweed.so.6.4          [linker name]
+>    libhogweed.so.6 -> libhogweed.so.6.4        [soname]
+>    libhogweed.so.6.4                           [real name, actual lib]
+> 
+> based on default packaging defined in bitbake.conf, i then expect to
+> see the "base" package "nettle" install the following on the target:
+> 
+>    libhogweed.so.6 -> libhogweed.so.6.4
+>    libhogweed.so.6.4
+> 
+> while the development package nettle-dev will contain support the
+> linker name linking to, well, one of the above:
+> 
+>    libhogweed.so -> libhogweed.so.6.4
+> 
+> so far, nothing interesting, but this packaging means that, on the
+> target, if something needs to link against the libhogweed library, it
+> would normally link using the soname, "libhogweed.so.6", so a file by
+> that name *must* exist on the target and, normally, it does (even if
+> it's a symlink).
+> 
+>    here's what i just ran into -- this hybrid system that bypasses the
+> normal BB install step and manually populates the image directory
+> makes a bit of a mess with setting the symlinks and names properly,
+> but this was "fixed" by totally redefining the standard recipe
+> packaging, so that *all* shared lib files (all three forms) were
+> stuffed into the base package. and as long as that weird repackaging
+> was in place, everything "worked".
+> 
+>    along comes me, who really hates this re-definition of what goes
+> into each package as it packages far more for the target than is
+> necessary, and i revert the packaging back to the standard ... and
+> things break, and here's why.
 
+you have to be a bit careful while undoing it. one usecase which can 
+break subtly is when some program is trying to dlopen a .so since it 
+maybe just calling it by libfoo.so
+
+> 
+>    the end result of the weird hybrid installation and my reverting the
+> packaging is that what ended up on the target in terms of the shared
+> libs was simply:
+> 
+>    libfubar.so
+> 
+> that is, the actual shared lib (not a symlink), but with the linker
+> name, not the soname, which would appear to be the cause of all sorts
+> of things suddenly not running anymore, as a quick inspection showed
+> systemd services trying to start and complaining:
+> 
+>    ... error while loading shared libraries: libfubar.so.1 ...
+> 
+> so i just want to confirm that all of that is due to the shared lib
+> having been packaged and installed on the target via its linker name,
+> not its proper soname, correct?
+
+yes without looking at the code and what amends you made, it seems to be 
+the reason.
+
+> 
+>    it *seems* like that's all i have to fix, but am i overlooking
+> anything? as long as the shared lib is findable via its soname, should
+> that be the general solution?
+
+yeah, let OE installer do the right thing perhaps and fix the odd ones 
+manually in do_install might be a middle way and reduce future 
+maintenance, however watchout for shared libs whose builds might not be 
+using soname versioning strategy. but I guess build time QA should warn 
+about them loudly.
+
+> 
+> rday
+> 
+> 
+> 
+> 
+> 
