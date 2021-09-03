@@ -1,89 +1,426 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web08.3020.1630634363882849402
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web08.3550.1630637772683618701
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Sep 2021 18:59:24 -0700
+ Thu, 02 Sep 2021 19:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=hdWMizpd;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1630634361; i=@fujitsu.com;
-	bh=+G2Ko2mMsexv+5cDcy2dOfYdr32LN2pN1djPTmKkpI4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=hdWMizpd8Ri01Q0O3fp9omzT+VEkzOAwj+krGN3Qvsak9MSoWUoFXd+T2mNaT1uLF
-	 b4BVsQq3BqmG93WZCaQ7Z9fRuKqvIv0X5qrtfr6kgPwDX42zi8cFcvbU/NgJQa+SPT
-	 p5dN5h3d9muzYHA5b74lZ6RITyXGnRCFAAysAUNuMgEuK5DoXtLAWkIj9D/jUx4JaG
-	 JgzU34i/UN0+D+URokvL/G2EPDfk3XVjJXoizoyymhm3qUJMm+xw/WfOunVDrImfjr
-	 MxEVjpRYmCVNU2TfYbTa0QvJ/pChmKp+Jh1wUMehEzQ6+N7s2wD3M+sSEa7FzYOSz2
-	 xrLvDhCtcD3/Q==
-Received: from [100.113.6.156] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id 03/71-09251-87181316; Fri, 03 Sep 2021 01:59:20 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRWlGSWpSXmKPExsViZ8MxVbei0TD
-  RYMpbDYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPT7EvsBe0cFfu6JjI3MK5i72Lk4hASmMkk
-  cW71bCYI5zijRMvui8xdjJwcbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHidw87iC0sYCmxv
-  P0mK4jNAhT/c+QSmM0r4CjxacMpRhBbQkBBYsrD98wQcUGJkzOfsEDMkZA4+OIFM0SNosTsy8
-  0sEHaFxKxZbUwTGHlnIWmZhaRlASPTKkbLpKLM9IyS3MTMHF1DAwNdQ0NjXVNdIxNDvcQq3SS
-  91FLd5NS8kqJEoKxeYnmxXnFlbnJOil5easkmRmCApRSyftzBeOj1B71DjJIcTEqivIvtDROF
-  +JLyUyozEosz4otKc1KLDzHKcHAoSfCerQHKCRalpqdWpGXmAIMdJi3BwaMkwitaC5TmLS5Iz
-  C3OTIdInWJUlBLnvdsAlBAASWSU5sG1wSLsEqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3u
-  J6oCk8mXklcNNfAS1mAlo8740ByOKSRISUVANTRZapfViE3KOtJ1me3T9qct9hy4GPSmq8Jkk
-  V73NP3/mzu+wnj9PtLY1BDS/qUk6/PHb5HRubzTNZ8U9PlydpS6gp8qZUFPFWBZ9YfWcK1/M3
-  OWrXuk1beOQXJH5xZVr8+KsO4+G0J/ssnZO+3Hmp67u18IqyrX+U7q5fm+tPyod8jzw211ChP
-  ixXvSZS0GDejLO+70Ijd/I9vv7sd4+EY+upPRO2uNec7dnR/se2+ObH34uEljKr7Pi34+bs67
-  UtAk2s9zdyMuoffnTD4YDxx/bf9sb3xLl2iKRMfT3/bLT9n3kieyZwfZkeGR/9bWMZ657Lm16
-  9/XbBNenK0l2zNffoHNvUcf+OnuS0jBNxn5VYijMSDbWYi4oTAR0aI8QrAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-2.tower-245.messagelabs.com!1630634360!71094!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 28215 invoked from network); 3 Sep 2021 01:59:20 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-2.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Sep 2021 01:59:20 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1831x30Q001674
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 3 Sep 2021 02:59:20 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Fri, 3 Sep 2021 02:59:01 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] diffoscope: upgrade 181 -> 182
-Date: Fri, 3 Sep 2021 09:58:53 +0800
-Message-ID: <1630634333-3882-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dD5unXKP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.48, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f48.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso2617809wmi.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Sep 2021 19:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N2kAjRHRzopxa4W6pOXQaJj/upGH9K1cCzWCCI5AWnc=;
+        b=dD5unXKPXJeXs5CYJgsAQPS0QfRm4OgKFOhDhFgZkRFHHSiMwPwFUEj85F3bWKH/gE
+         zEu59fibr3UXSqRtKv4KJakNOZGqQXmSibIBGLM/2j4ieZQSiUwcxQ0g2qaIYGoR4JvI
+         ptapQ1UfbnD8Pc8z7+m7RNMW+xectgI5E7PQlVUPxJD49EYDq2cE4KEn1Qxv4emYZkni
+         bxVShUYtsAb9v59zADE6sQQ+qMl1InGGSWuq2U05cksnXtM3dH738M2azpdpNgFAZsN/
+         u6LiSDMjZfueIbxELHXjiy7nB3EaxXG0Pm8SZqRegqphCE2bK2JeVqQXQZPweQCmxrDT
+         nK0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N2kAjRHRzopxa4W6pOXQaJj/upGH9K1cCzWCCI5AWnc=;
+        b=kA405oCDhPJM27qDJPtGvb08maw1jM8pF3qu5wYBaUFrObWDTXEbZ+F9mOnp/sPTyc
+         LO8rEU1QCHXejo8F7u78FxM8Sgd8zJnVF00vd9nVPQbJVjhyYAuGc/rO2SJly27r4ju4
+         8POrPPOLV5Qrl9M9xSGJnZq1Yb5ob1fgqfzmZTK9sMyqwSmwdzR+Xa0qfZ5SamiBUCT6
+         M14TbTtnhC3Lm4bf7t5h2QjCVgKsUXYDj/PrlAeShjk2K5gKGmljEJzC7NpFC3ovucem
+         vc2pIjkHzclGm4sC9vAvSu7ZKzAbuRRUoffz1LcTmlR09iLpFBmt15fC/mFx33FqAII+
+         Ng7w==
+X-Gm-Message-State: AOAM533kTPIBKInERk+qk0RT/eznwp6chMtHR/iIQgukhKVyXrmVnATZ
+	kZwmN953qAo0QEeE/ffvaCMtCtHGXcfvI4SMGXizEQ==
+X-Google-Smtp-Source: ABdhPJxkiT2XtsoZR/gPrfQHZnhIG3ijrgkw6oTd5KEyW0djoI3/y/B/pavYu2Zzzw8iKafIP6PVBvZcTYCmlRPf84M=
+X-Received: by 2002:a1c:f60c:: with SMTP id w12mr5993646wmc.3.1630637770562;
+ Thu, 02 Sep 2021 19:56:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+References: <169F5B2C7D1DE1C6.32188@lists.openembedded.org>
+ <833a309d-1c8c-6a2e-e3b7-7b2152d54338@gmail.com> <CAGDS+nm6Z1+TXBxNaEYNFjOH8PJfOrZrn9JV01mc7k8LHp8Cpw@mail.gmail.com>
+In-Reply-To: <CAGDS+nm6Z1+TXBxNaEYNFjOH8PJfOrZrn9JV01mc7k8LHp8Cpw@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Thu, 2 Sep 2021 16:55:57 -1000
+Message-ID: <CAOSpxdZFZW+aKCNuPPguS55tS1eCHjxrZk-hqkZHB0M-VASxBA@mail.gmail.com>
+Subject: Re: [OE-core] [Dunfell][PATCH] dbus: Security fix CVE-2020-35512
+To: Steve Sakoman <sakoman@gmail.com>
+Cc: Armin Kuster <akuster808@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../diffoscope/{diffoscope_181.bb => diffoscope_182.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_181.bb => diffoscope_182.bb} (92%)
+On Thu, Sep 2, 2021 at 8:38 AM Steve Sakoman <sakoman@gmail.com> wrote:
+>
+> On Thu, Sep 2, 2021 at 8:10 AM Armin Kuster <akuster808@gmail.com> wrote:
+> >
+> > ping or did I miss a response to this patch?
+>
+> No you didn't miss anything!
+>
+> I mistakenly stashed this patch along with your "lz4: Security Fix for
+> CVE-2021-3520" patch in a branch waiting for the lz4 equivalent to hit
+> master.
+>
+> Richard pushed the lz4 patch to master so now both patches are merged
+> and in test for dunfell.
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_181.bb b/meta/recipes-support/diffoscope/diffoscope_182.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_181.bb
-rename to meta/recipes-support/diffoscope/diffoscope_182.bb
-index 8b2f3cc826..d5875423c4 100644
---- a/meta/recipes-support/diffoscope/diffoscope_181.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_182.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "a295024acf713c58693c152f9a43fae268c08078f60ba502a7947b7840ece5d7"
-+SRC_URI[sha256sum] = "5969c6f0060c5c553e5ae9fdff45fbd344f102ee8fb2c5673cf0c73999c50df4"
- 
- RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
- 
--- 
-2.25.1
+We're getting reproducible autobuilder ptest errors with this patch:
 
+AssertionError: Failed ptests:
+{'dbus-test': ['test/test-dbus-daemon',
+               'test/test-dbus-daemon-eavesdrop',
+               'test/test-monitor']}
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/2179
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2460
+
+Steve
+
+> > -armin
+> >
+> > On 8/27/21 8:37 PM, Armin Kuster via lists.openembedded.org wrote:
+> > > From: Armin Kuster <akuster@mvista.com>
+> > >
+> > > Source: https://gitlab.freedesktop.org/dbu
+> > > MR: 108825
+> > > Type: Security Fix
+> > > Disposition: Backport from https://gitlab.freedesktop.org/dbus/dbus/-/commit/e75c67a28fa2bc41a8ab0de433a52355c71a8abf
+> > > ChangeID: dea9518b9c13dab66e7d553c622000b9c6e268cc
+> > > Description:
+> > >
+> > > Affects: < 1.12.20
+> > >
+> > > Signed-off-by: Armin Kuster <akuster@mvista.com>
+> > > ---
+> > >  .../dbus/dbus/CVE-2020-35512.patch            | 301 ++++++++++++++++++
+> > >  meta/recipes-core/dbus/dbus_1.12.16.bb        |   1 +
+> > >  2 files changed, 302 insertions(+)
+> > >  create mode 100644 meta/recipes-core/dbus/dbus/CVE-2020-35512.patch
+> > >
+> > > diff --git a/meta/recipes-core/dbus/dbus/CVE-2020-35512.patch b/meta/recipes-core/dbus/dbus/CVE-2020-35512.patch
+> > > new file mode 100644
+> > > index 0000000000..27f5d58675
+> > > --- /dev/null
+> > > +++ b/meta/recipes-core/dbus/dbus/CVE-2020-35512.patch
+> > > @@ -0,0 +1,301 @@
+> > > +From 2b7948ef907669e844b52c4fa2268d6e3162a70c Mon Sep 17 00:00:00 2001
+> > > +From: Simon McVittie <smcv@collabora.com>
+> > > +Date: Tue, 30 Jun 2020 19:29:06 +0100
+> > > +Subject: [PATCH] userdb: Reference-count DBusUserInfo, DBusGroupInfo
+> > > +
+> > > +Previously, the hash table indexed by uid (or gid) took ownership of the
+> > > +single reference to the heap-allocated struct, and the hash table
+> > > +indexed by username (or group name) had a borrowed pointer to the same
+> > > +struct that exists in the other hash table.
+> > > +
+> > > +However, this can break down if you have two or more distinct usernames
+> > > +that share a numeric identifier. This is generally a bad idea, because
+> > > +the user-space model in such situations does not match the kernel-space
+> > > +reality, and in particular there is no effective kernel-level security
+> > > +boundary between such users, but it is sometimes done anyway.
+> > > +
+> > > +In this case, when the second username is looked up in the userdb, it
+> > > +overwrites (replaces) the entry in the hash table that is indexed by
+> > > +uid, freeing the DBusUserInfo. This results in both the key and the
+> > > +value in the hash table that is indexed by username becoming dangling
+> > > +pointers (use-after-free), leading to undefined behaviour, which is
+> > > +certainly not what we want to see when doing access control.
+> > > +
+> > > +An equivalent situation can occur with groups, in the rare case where
+> > > +a numeric group ID has two names (although I have not heard of this
+> > > +being done in practice).
+> > > +
+> > > +Solve this by reference-counting the data structure. There are up to
+> > > +three references in practice: one held temporarily while the lookup
+> > > +function is populating and storing it, one held by the hash table that
+> > > +is indexed by uid, and one held by the hash table that is indexed by
+> > > +name.
+> > > +
+> > > +Closes: dbus#305
+> > > +Signed-off-by: Simon McVittie <smcv@collabora.com>
+> > > +
+> > > +Upsteam-Status: Backport
+> > > +https://gitlab.freedesktop.org/dbus/dbus/-/commit/e75c67a28fa2bc41a8ab0de433a52355c71a8abf
+> > > +CVE: CVE-2020-35512
+> > > +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> > > +
+> > > +---
+> > > + dbus/dbus-sysdeps-unix.h |  2 ++
+> > > + dbus/dbus-userdb-util.c  | 38 ++++++++++++++++++-----
+> > > + dbus/dbus-userdb.c       | 67 ++++++++++++++++++++++++++++++----------
+> > > + dbus/dbus-userdb.h       |  6 ++--
+> > > + 4 files changed, 86 insertions(+), 27 deletions(-)
+> > > +
+> > > +Index: dbus-1.12.16/dbus/dbus-sysdeps-unix.h
+> > > +===================================================================
+> > > +--- dbus-1.12.16.orig/dbus/dbus-sysdeps-unix.h
+> > > ++++ dbus-1.12.16/dbus/dbus-sysdeps-unix.h
+> > > +@@ -105,6 +105,7 @@ typedef struct DBusGroupInfo DBusGroupIn
+> > > +  */
+> > > + struct DBusUserInfo
+> > > + {
+> > > ++  size_t      refcount;       /**< Reference count */
+> > > +   dbus_uid_t  uid;            /**< UID */
+> > > +   dbus_gid_t  primary_gid;    /**< GID */
+> > > +   dbus_gid_t *group_ids;      /**< Groups IDs, *including* above primary group */
+> > > +@@ -118,6 +119,7 @@ struct DBusUserInfo
+> > > +  */
+> > > + struct DBusGroupInfo
+> > > + {
+> > > ++  size_t      refcount;       /**< Reference count */
+> > > +   dbus_gid_t  gid;            /**< GID */
+> > > +   char       *groupname;      /**< Group name */
+> > > + };
+> > > +Index: dbus-1.12.16/dbus/dbus-userdb-util.c
+> > > +===================================================================
+> > > +--- dbus-1.12.16.orig/dbus/dbus-userdb-util.c
+> > > ++++ dbus-1.12.16/dbus/dbus-userdb-util.c
+> > > +@@ -38,6 +38,15 @@
+> > > +  * @{
+> > > +  */
+> > > +
+> > > ++static DBusGroupInfo *
+> > > ++_dbus_group_info_ref (DBusGroupInfo *info)
+> > > ++{
+> > > ++  _dbus_assert (info->refcount > 0);
+> > > ++  _dbus_assert (info->refcount < SIZE_MAX);
+> > > ++  info->refcount++;
+> > > ++  return info;
+> > > ++}
+> > > ++
+> > > + /**
+> > > +  * Checks to see if the UID sent in is the console user
+> > > +  *
+> > > +@@ -240,9 +249,9 @@ _dbus_get_user_id_and_primary_group (con
+> > > +  * @param gid the group ID or #DBUS_GID_UNSET
+> > > +  * @param groupname group name or #NULL
+> > > +  * @param error error to fill in
+> > > +- * @returns the entry in the database
+> > > ++ * @returns the entry in the database (borrowed, do not free)
+> > > +  */
+> > > +-DBusGroupInfo*
+> > > ++const DBusGroupInfo*
+> > > + _dbus_user_database_lookup_group (DBusUserDatabase *db,
+> > > +                                   dbus_gid_t        gid,
+> > > +                                   const DBusString *groupname,
+> > > +@@ -287,13 +296,14 @@ _dbus_user_database_lookup_group (DBusUs
+> > > +           dbus_set_error (error, DBUS_ERROR_NO_MEMORY, NULL);
+> > > +           return NULL;
+> > > +         }
+> > > ++      info->refcount = 1;
+> > > +
+> > > +       if (gid != DBUS_GID_UNSET)
+> > > +         {
+> > > +           if (!_dbus_group_info_fill_gid (info, gid, error))
+> > > +             {
+> > > +               _DBUS_ASSERT_ERROR_IS_SET (error);
+> > > +-              _dbus_group_info_free_allocated (info);
+> > > ++              _dbus_group_info_unref (info);
+> > > +               return NULL;
+> > > +             }
+> > > +         }
+> > > +@@ -302,7 +312,7 @@ _dbus_user_database_lookup_group (DBusUs
+> > > +           if (!_dbus_group_info_fill (info, groupname, error))
+> > > +             {
+> > > +               _DBUS_ASSERT_ERROR_IS_SET (error);
+> > > +-              _dbus_group_info_free_allocated (info);
+> > > ++              _dbus_group_info_unref (info);
+> > > +               return NULL;
+> > > +             }
+> > > +         }
+> > > +@@ -314,7 +324,7 @@ _dbus_user_database_lookup_group (DBusUs
+> > > +       if (!_dbus_hash_table_insert_uintptr (db->groups, info->gid, info))
+> > > +         {
+> > > +           dbus_set_error (error, DBUS_ERROR_NO_MEMORY, NULL);
+> > > +-          _dbus_group_info_free_allocated (info);
+> > > ++          _dbus_group_info_unref (info);
+> > > +           return NULL;
+> > > +         }
+> > > +
+> > > +Index: dbus-1.12.16/dbus/dbus-userdb.c
+> > > +===================================================================
+> > > +--- dbus-1.12.16.orig/dbus/dbus-userdb.c
+> > > ++++ dbus-1.12.16/dbus/dbus-userdb.c
+> > > +@@ -35,34 +35,57 @@
+> > > +  * @{
+> > > +  */
+> > > +
+> > > ++static DBusUserInfo *
+> > > ++_dbus_user_info_ref (DBusUserInfo *info)
+> > > ++{
+> > > ++  _dbus_assert (info->refcount > 0);
+> > > ++  _dbus_assert (info->refcount < SIZE_MAX);
+> > > ++  info->refcount++;
+> > > ++  return info;
+> > > ++}
+> > > ++
+> > > + /**
+> > > +- * Frees the given #DBusUserInfo's members with _dbus_user_info_free()
+> > > ++ * Decrements the reference count. If it reaches 0,
+> > > ++ * frees the given #DBusUserInfo's members with _dbus_user_info_free()
+> > > +  * and also calls dbus_free() on the block itself
+> > > +  *
+> > > +  * @param info the info
+> > > +  */
+> > > + void
+> > > +-_dbus_user_info_free_allocated (DBusUserInfo *info)
+> > > ++_dbus_user_info_unref (DBusUserInfo *info)
+> > > + {
+> > > +   if (info == NULL) /* hash table will pass NULL */
+> > > +     return;
+> > > +
+> > > ++  _dbus_assert (info->refcount > 0);
+> > > ++  _dbus_assert (info->refcount < SIZE_MAX);
+> > > ++
+> > > ++  if (--info->refcount > 0)
+> > > ++    return;
+> > > ++
+> > > +   _dbus_user_info_free (info);
+> > > +   dbus_free (info);
+> > > + }
+> > > +
+> > > + /**
+> > > +- * Frees the given #DBusGroupInfo's members with _dbus_group_info_free()
+> > > ++ * Decrements the reference count. If it reaches 0,
+> > > ++ * frees the given #DBusGroupInfo's members with _dbus_group_info_free()
+> > > +  * and also calls dbus_free() on the block itself
+> > > +  *
+> > > +  * @param info the info
+> > > +  */
+> > > + void
+> > > +-_dbus_group_info_free_allocated (DBusGroupInfo *info)
+> > > ++_dbus_group_info_unref (DBusGroupInfo *info)
+> > > + {
+> > > +   if (info == NULL) /* hash table will pass NULL */
+> > > +     return;
+> > > +
+> > > ++  _dbus_assert (info->refcount > 0);
+> > > ++  _dbus_assert (info->refcount < SIZE_MAX);
+> > > ++
+> > > ++  if (--info->refcount > 0)
+> > > ++    return;
+> > > ++
+> > > +   _dbus_group_info_free (info);
+> > > +   dbus_free (info);
+> > > + }
+> > > +@@ -124,7 +147,7 @@ _dbus_is_a_number (const DBusString *str
+> > > +  * @param error error to fill in
+> > > +  * @returns the entry in the database
+> > > +  */
+> > > +-DBusUserInfo*
+> > > ++const DBusUserInfo*
+> > > + _dbus_user_database_lookup (DBusUserDatabase *db,
+> > > +                             dbus_uid_t        uid,
+> > > +                             const DBusString *username,
+> > > +@@ -170,13 +193,14 @@ _dbus_user_database_lookup (DBusUserData
+> > > +           dbus_set_error (error, DBUS_ERROR_NO_MEMORY, NULL);
+> > > +           return NULL;
+> > > +         }
+> > > ++      info->refcount = 1;
+> > > +
+> > > +       if (uid != DBUS_UID_UNSET)
+> > > +         {
+> > > +           if (!_dbus_user_info_fill_uid (info, uid, error))
+> > > +             {
+> > > +               _DBUS_ASSERT_ERROR_IS_SET (error);
+> > > +-              _dbus_user_info_free_allocated (info);
+> > > ++              _dbus_user_info_unref (info);
+> > > +               return NULL;
+> > > +             }
+> > > +         }
+> > > +@@ -185,7 +209,7 @@ _dbus_user_database_lookup (DBusUserData
+> > > +           if (!_dbus_user_info_fill (info, username, error))
+> > > +             {
+> > > +               _DBUS_ASSERT_ERROR_IS_SET (error);
+> > > +-              _dbus_user_info_free_allocated (info);
+> > > ++              _dbus_user_info_unref (info);
+> > > +               return NULL;
+> > > +             }
+> > > +         }
+> > > +@@ -198,7 +222,7 @@ _dbus_user_database_lookup (DBusUserData
+> > > +       if (!_dbus_hash_table_insert_uintptr (db->users, info->uid, info))
+> > > +         {
+> > > +           dbus_set_error (error, DBUS_ERROR_NO_MEMORY, NULL);
+> > > +-          _dbus_user_info_free_allocated (info);
+> > > ++          _dbus_user_info_unref(info);
+> > > +           return NULL;
+> > > +         }
+> > > +
+> > > +@@ -568,24 +592,24 @@ _dbus_user_database_new (void)
+> > > +   db->refcount = 1;
+> > > +
+> > > +   db->users = _dbus_hash_table_new (DBUS_HASH_UINTPTR,
+> > > +-                                    NULL, (DBusFreeFunction) _dbus_user_info_free_allocated);
+> > > ++                                    NULL, (DBusFreeFunction) _dbus_user_info_unref);
+> > > +
+> > > +   if (db->users == NULL)
+> > > +     goto failed;
+> > > +
+> > > +   db->groups = _dbus_hash_table_new (DBUS_HASH_UINTPTR,
+> > > +-                                     NULL, (DBusFreeFunction) _dbus_group_info_free_allocated);
+> > > ++                                     NULL, (DBusFreeFunction) _dbus_group_info_unref);
+> > > +
+> > > +   if (db->groups == NULL)
+> > > +     goto failed;
+> > > +
+> > > +   db->users_by_name = _dbus_hash_table_new (DBUS_HASH_STRING,
+> > > +-                                            NULL, NULL);
+> > > ++                                            NULL, (DBusFreeFunction) _dbus_user_info_unref);
+> > > +   if (db->users_by_name == NULL)
+> > > +     goto failed;
+> > > +
+> > > +   db->groups_by_name = _dbus_hash_table_new (DBUS_HASH_STRING,
+> > > +-                                             NULL, NULL);
+> > > ++                                             NULL, (DBusFreeFunction) _dbus_group_info_unref);
+> > > +   if (db->groups_by_name == NULL)
+> > > +     goto failed;
+> > > +
+> > > +Index: dbus-1.12.16/dbus/dbus-userdb.h
+> > > +===================================================================
+> > > +--- dbus-1.12.16.orig/dbus/dbus-userdb.h
+> > > ++++ dbus-1.12.16/dbus/dbus-userdb.h
+> > > +@@ -76,19 +76,19 @@ dbus_bool_t       _dbus_user_database_ge
+> > > +                                                      DBusError            *error);
+> > > +
+> > > + DBUS_PRIVATE_EXPORT
+> > > +-DBusUserInfo*  _dbus_user_database_lookup       (DBusUserDatabase *db,
+> > > ++const DBusUserInfo*  _dbus_user_database_lookup       (DBusUserDatabase *db,
+> > > +                                                  dbus_uid_t        uid,
+> > > +                                                  const DBusString *username,
+> > > +                                                  DBusError        *error);
+> > > + DBUS_PRIVATE_EXPORT
+> > > +-DBusGroupInfo* _dbus_user_database_lookup_group (DBusUserDatabase *db,
+> > > ++const DBusGroupInfo* _dbus_user_database_lookup_group (DBusUserDatabase *db,
+> > > +                                                  dbus_gid_t        gid,
+> > > +                                                  const DBusString *groupname,
+> > > +                                                  DBusError        *error);
+> > > ++
+> > > ++void            _dbus_user_info_unref    (DBusUserInfo     *info);
+> > > + DBUS_PRIVATE_EXPORT
+> > > +-void           _dbus_user_info_free_allocated   (DBusUserInfo     *info);
+> > > +-DBUS_PRIVATE_EXPORT
+> > > +-void           _dbus_group_info_free_allocated  (DBusGroupInfo    *info);
+> > > ++void           _dbus_group_info_unref           (DBusGroupInfo    *info);
+> > > + #endif /* DBUS_USERDB_INCLUDES_PRIVATE */
+> > > +
+> > > + DBUS_PRIVATE_EXPORT
+> > > diff --git a/meta/recipes-core/dbus/dbus_1.12.16.bb b/meta/recipes-core/dbus/dbus_1.12.16.bb
+> > > index 10d1b34448..13d453eb32 100644
+> > > --- a/meta/recipes-core/dbus/dbus_1.12.16.bb
+> > > +++ b/meta/recipes-core/dbus/dbus_1.12.16.bb
+> > > @@ -17,6 +17,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+> > >             file://dbus-1.init \
+> > >             file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+> > >             file://CVE-2020-12049.patch \
+> > > +           file://CVE-2020-35512.patch \
+> > >  "
+> > >
+> > >  SRC_URI[md5sum] = "2dbeae80dfc9e3632320c6a53d5e8890"
+> > >
+> > >
+> > >
+> >
+> >
+> >
+> >
+>
+> 
+>
