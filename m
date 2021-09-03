@@ -1,131 +1,667 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web10.4962.1630678289416728979
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web11.4917.1630678297716930312
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 07:11:29 -0700
+ Fri, 03 Sep 2021 07:11:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=f5e1L4Yd;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f42.google.com with SMTP id o16-20020a9d2210000000b0051b1e56c98fso6686335ota.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 07:11:29 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=162LuLe9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f179.google.com with SMTP id bi4so7005532oib.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 07:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1MKGBGgWmxXXAbYDVAZWjoNTLaH7CrX34n6BvlQnHDk=;
-        b=f5e1L4YdrdWwXH8DnszWUqdKll5Bahu5iu/czJEjMYsMwYJE9CVGe4XiYa8iCNL3ez
-         npAPCUl0F+RwWg+rueIVJSTiTGtSzddL4cE/QzObaZZ98mACiIgX6BNuJDtFI8mpW5CM
-         2ALvyQQ4dTewXgQmvVulRTXwkQKO3D/lisCsqKHW2YgONEIkAjGQLgusgI8e9ArGLYIw
-         EEwucdnWk3+Zyk4X8ErWqEbOwuTDuPcNdSuajjL+Jkrhw0yFYiIGZmpfwI2A38xyqJUN
-         tGlhGpprh/ngV3SJef4jNmLc4q/W6g50kgM2fEQxPgium4tPSjD0OF+76WHIljCXIyHa
-         xG1A==
+        bh=cIpAE+gO0+eiqkB2dmlBO66r4GujTlsQnMOwI6yK6Vk=;
+        b=162LuLe9gJ3lSlyiFcck/6WuXCP3TkcsJCznaFspGezhQ1ayuOzRYXRADGYrsHlOSO
+         6okfmhWmO5gqedyKB+QvELY9on0lhOTXPDpmIja2HswGFVgBf/h6Tq4EiiRdRzLR7OVw
+         wZ5eEBwwFfhwB0Sdlg17XB+yeigfKBYs6hzDaaPJB24FMUIsK8Yn+TMIM3rt3LF0QOW3
+         zLM+GV8My1MEC95IVKdil2xHkmXXnpzgw6hidNdm1Z93uWeqwOIvthg0JBCnHnnurRxG
+         VmRheNEfqbReYneBUze+5x5TuDpsAQ0MMPiw1ODrnK/u8XVs42zji5jBQfb8FECHFhdg
+         0Bgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1MKGBGgWmxXXAbYDVAZWjoNTLaH7CrX34n6BvlQnHDk=;
-        b=Qrk5CTUMfv+WMNkL4Okryr3rr7s2+VJ7DlmLuq0zaIBUJRCI/1o2noRXqAWRVwq4C7
-         V5BLDsMfq0LQ59ShR0iUC8Ud5bj3b6XUkEwQCbB4QNlcZxni7jOmMvWNT++1MXFwRUNu
-         BfmX7kK0dOcuw8RtsGX6CRze9zb4BhjrUWR/Y9+mI0Nyk0WCYCUjfM/udEad7V7CY9Qw
-         xmZ8iftdvz56Kx4ZJdf1TzHr+01JEcjq24apWBOYuMOxPHMJOtz1lCyLi16BEbnvpMxV
-         yjIlngnNoiQ3288in4bCbANxjE/afjiufrLFt5vHKnP4bq8QIN+n5JrDRGau6d7w5qul
-         +yuQ==
-X-Gm-Message-State: AOAM533tsuKSC8fp19vKV8VeXhnF7awfExL+CcEVX53XS5YyYvcvxgbh
-	pnH+TzaB0IER4Xt+h3EVsfpIyt9ULjjIwX/q
-X-Google-Smtp-Source: ABdhPJwORawEjE0R2OMcMsJSYjkzeElYPdfJ3bZJnBfa+YWoo2RsJ5oZCEMstcstwC7JhjkVFSaWjw==
-X-Received: by 2002:a05:6830:438d:: with SMTP id s13mr3354844otv.308.1630678288196;
-        Fri, 03 Sep 2021 07:11:28 -0700 (PDT)
+        bh=cIpAE+gO0+eiqkB2dmlBO66r4GujTlsQnMOwI6yK6Vk=;
+        b=MfDiIL0I5gPzwHI3YvxaHn3fY1mwH19qA8Hg9fjXAZI7svCEzWk3JWpknLqw9xzoDS
+         alQ9FvWXxWWeRDeCjVGTZUmVL6khuny23hg6p1OYd/1OK2wUbNPMdfu/+UA+kDBCioFM
+         bJO8X9ntsL4zJQSj/LqhGRTa1uzxZ2jq0SMVVq+ZimNTTt++FmSYhARCeFh/Z7K2HP08
+         IVTbkN7wMjVFi72Sso103ZzxU+oawZsGH+yppyt5+w3dH2XnthDEfGIdcCD4UBMSvXTO
+         L8p/faKfIISHo447arj+S7Uu3iMw0HL8jZEPzLwY814bZ4x78CQ3O1ldGG1r8VbxPXVn
+         tvIw==
+X-Gm-Message-State: AOAM532qcd0Gl8LVfddsYrJ6oqWezhT0rxNcQ1Jq7IHxC1yqQVXFQN+h
+	xDY5gBa3akjAVnDhMeIeOzaaKasBcS8cGh5/
+X-Google-Smtp-Source: ABdhPJxV2Rf3yKiA3i8jMEtWnF5x+YxSOnRFGMdDmGkUTj4wsap1v4Df5QOxwaPmX37YPGaNn9x/Aw==
+X-Received: by 2002:aca:d68c:: with SMTP id n134mr6232031oig.34.1630678296196;
+        Fri, 03 Sep 2021 07:11:36 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id u14sm998007oth.73.2021.09.03.07.11.24
+        by smtp.gmail.com with ESMTPSA id u14sm998007oth.73.2021.09.03.07.11.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 07:11:27 -0700 (PDT)
+        Fri, 03 Sep 2021 07:11:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/5] sdk: Decouple default install path from built in path
-Date: Fri,  3 Sep 2021 04:10:49 -1000
-Message-Id: <33a5714592bf41a26fcd7e8ff595b45538082431.1630678081.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/5] cpio: backport fix for CVE-2021-38185
+Date: Fri,  3 Sep 2021 04:10:50 -1000
+Message-Id: <d1b4b4b6104e7b94ba49e61774c772a9181a67f6.1630678081.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1630678081.git.steve@sakoman.com>
 References: <cover.1630678081.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
 
-Add SDKPATHINSTALL which is used as the default install location of the SDK
-instead of SDKPATH. This means the default install path isn't encoded into
-every SDK binary, meaning if a date is used there the entire SDK doesn't
-have to rebuild. Most distros can switch to only customise SDKPATHINSTALL
-meaning more sstate reuse too.
-
-[YOCTO #14100]
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bc4ee5453560dcefc4a4ecc5657df5cc1666e153)
+(cherry picked from commit 4accf77ea5b5810cb2330acc6773690ec1b1c71b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/populate_sdk_base.bbclass | 1 +
- meta/conf/bitbake.conf                 | 4 +++-
- meta/files/toolchain-shar-extract.sh   | 3 ++-
- meta/files/toolchain-shar-relocate.sh  | 2 +-
- 4 files changed, 7 insertions(+), 3 deletions(-)
+ .../cpio/cpio-2.13/CVE-2021-38185.patch       | 581 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.13.bb       |   1 +
+ 2 files changed, 582 insertions(+)
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index b46f1aed27..396792f0f7 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -275,6 +275,7 @@ EOF
- 	# substitute variables
- 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
- 		-e 's#@SDKPATH@#${SDKPATH}#g' \
-+		-e 's#@SDKPATHINSTALL@#${SDKPATHINSTALL}#g' \
- 		-e 's#@SDKEXTPATH@#${SDKEXTPATH}#g' \
- 		-e 's#@OLDEST_KERNEL@#${SDK_OLDEST_KERNEL}#g' \
- 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 0141919021..f442a6593a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -421,8 +421,10 @@ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch b/meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
+new file mode 100644
+index 0000000000..6ceafeee49
+--- /dev/null
++++ b/meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
+@@ -0,0 +1,581 @@
++GNU cpio through 2.13 allows attackers to execute arbitrary code via a crafted
++pattern file, because of a dstring.c ds_fgetstr integer overflow that triggers
++an out-of-bounds heap write.
++
++CVE: CVE-2021-38185
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From e494c68a3a0951b1eaba77e2db93f71a890e15d8 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Sat, 7 Aug 2021 12:52:21 +0300
++Subject: [PATCH 1/3] Rewrite dynamic string support.
++
++* src/dstring.c (ds_init): Take a single argument.
++(ds_free): New function.
++(ds_resize): Take a single argument.  Use x2nrealloc to expand
++the storage.
++(ds_reset,ds_append,ds_concat,ds_endswith): New function.
++(ds_fgetstr): Rewrite.  In particular, this fixes integer overflow.
++* src/dstring.h (dynamic_string): Keep both the allocated length
++(ds_size) and index of the next free byte in the string (ds_idx).
++(ds_init,ds_resize): Change signature.
++(ds_len): New macro.
++(ds_free,ds_reset,ds_append,ds_concat,ds_endswith): New protos.
++* src/copyin.c: Use new ds_ functions.
++* src/copyout.c: Likewise.
++* src/copypass.c: Likewise.
++* src/util.c: Likewise.
++---
++ src/copyin.c   | 40 +++++++++++------------
++ src/copyout.c  | 16 ++++-----
++ src/copypass.c | 34 +++++++++----------
++ src/dstring.c  | 88 ++++++++++++++++++++++++++++++++++++--------------
++ src/dstring.h  | 31 +++++++++---------
++ src/util.c     |  6 ++--
++ 6 files changed, 123 insertions(+), 92 deletions(-)
++
++diff --git a/src/copyin.c b/src/copyin.c
++index b29f348..37e503a 100644
++--- a/src/copyin.c
+++++ b/src/copyin.c
++@@ -55,11 +55,12 @@ query_rename(struct cpio_file_stat* file_hdr, FILE *tty_in, FILE *tty_out,
++   char *str_res;		/* Result for string function.  */
++   static dynamic_string new_name;	/* New file name for rename option.  */
++   static int initialized_new_name = false;
+++
++   if (!initialized_new_name)
++-  {
++-    ds_init (&new_name, 128);
++-    initialized_new_name = true;
++-  }
+++    {
+++      ds_init (&new_name);
+++      initialized_new_name = true;
+++    }
++ 
++   if (rename_flag)
++     {
++@@ -779,37 +780,36 @@ long_format (struct cpio_file_stat *file_hdr, char const *link_name)
++    already in `save_patterns' (from the command line) are preserved.  */
++ 
++ static void
++-read_pattern_file ()
+++read_pattern_file (void)
++ {
++-  int max_new_patterns;
++-  char **new_save_patterns;
++-  int new_num_patterns;
+++  char **new_save_patterns = NULL;
+++  size_t max_new_patterns;
+++  size_t new_num_patterns;
++   int i;
++-  dynamic_string pattern_name;
+++  dynamic_string pattern_name = DYNAMIC_STRING_INITIALIZER;
++   FILE *pattern_fp;
++ 
++   if (num_patterns < 0)
++     num_patterns = 0;
++-  max_new_patterns = 1 + num_patterns;
++-  new_save_patterns = (char **) xmalloc (max_new_patterns * sizeof (char *));
++   new_num_patterns = num_patterns;
++-  ds_init (&pattern_name, 128);
+++  max_new_patterns = num_patterns;
+++  new_save_patterns = xcalloc (max_new_patterns, sizeof (new_save_patterns[0]));
++ 
++   pattern_fp = fopen (pattern_file_name, "r");
++   if (pattern_fp == NULL)
++     open_fatal (pattern_file_name);
++   while (ds_fgetstr (pattern_fp, &pattern_name, '\n') != NULL)
++     {
++-      if (new_num_patterns >= max_new_patterns)
++-	{
++-	  max_new_patterns += 1;
++-	  new_save_patterns = (char **)
++-	    xrealloc ((char *) new_save_patterns,
++-		      max_new_patterns * sizeof (char *));
++-	}
+++      if (new_num_patterns == max_new_patterns)
+++	new_save_patterns = x2nrealloc (new_save_patterns,
+++					&max_new_patterns,
+++					sizeof (new_save_patterns[0]));
++       new_save_patterns[new_num_patterns] = xstrdup (pattern_name.ds_string);
++       ++new_num_patterns;
++     }
+++
+++  ds_free (&pattern_name);
+++  
++   if (ferror (pattern_fp) || fclose (pattern_fp) == EOF)
++     close_error (pattern_file_name);
++ 
++@@ -1196,7 +1196,7 @@ swab_array (char *ptr, int count)
++    in the file system.  */
++ 
++ void
++-process_copy_in ()
+++process_copy_in (void)
++ {
++   char done = false;		/* True if trailer reached.  */
++   FILE *tty_in = NULL;		/* Interactive file for rename option.  */
++diff --git a/src/copyout.c b/src/copyout.c
++index 8b0beb6..26e3dda 100644
++--- a/src/copyout.c
+++++ b/src/copyout.c
++@@ -594,9 +594,10 @@ assign_string (char **pvar, char *value)
++    The format of the header depends on the compatibility (-c) flag.  */
++ 
++ void
++-process_copy_out ()
+++process_copy_out (void)
++ {
++-  dynamic_string input_name;	/* Name of file read from stdin.  */
+++  dynamic_string input_name = DYNAMIC_STRING_INITIALIZER;
+++                                /* Name of file read from stdin.  */
++   struct stat file_stat;	/* Stat record for file.  */
++   struct cpio_file_stat file_hdr = CPIO_FILE_STAT_INITIALIZER;
++                                 /* Output header information.  */
++@@ -605,7 +606,6 @@ process_copy_out ()
++   char *orig_file_name = NULL;
++ 
++   /* Initialize the copy out.  */
++-  ds_init (&input_name, 128);
++   file_hdr.c_magic = 070707;
++ 
++   /* Check whether the output file might be a tape.  */
++@@ -657,14 +657,9 @@ process_copy_out ()
++ 	    {
++ 	      if (file_hdr.c_mode & CP_IFDIR)
++ 		{
++-		  int len = strlen (input_name.ds_string);
++ 		  /* Make sure the name ends with a slash */
++-		  if (input_name.ds_string[len-1] != '/')
++-		    {
++-		      ds_resize (&input_name, len + 2);
++-		      input_name.ds_string[len] = '/';
++-		      input_name.ds_string[len+1] = 0;
++-		    }
+++		  if (!ds_endswith (&input_name, '/'))
+++		    ds_append (&input_name, '/');
++ 		}
++ 	    }
++ 	  
++@@ -875,6 +870,7 @@ process_copy_out ()
++ 			 (unsigned long) blocks), (unsigned long) blocks);
++     }
++   cpio_file_stat_free (&file_hdr);
+++  ds_free (&input_name);
++ }
++ 
++ 
++diff --git a/src/copypass.c b/src/copypass.c
++index dc13b5b..62f31c6 100644
++--- a/src/copypass.c
+++++ b/src/copypass.c
++@@ -48,10 +48,12 @@ set_copypass_perms (int fd, const char *name, struct stat *st)
++    If `link_flag', link instead of copying.  */
++ 
++ void
++-process_copy_pass ()
+++process_copy_pass (void)
++ {
++-  dynamic_string input_name;	/* Name of file from stdin.  */
++-  dynamic_string output_name;	/* Name of new file.  */
+++  dynamic_string input_name = DYNAMIC_STRING_INITIALIZER;
+++                                /* Name of file from stdin.  */
+++  dynamic_string output_name = DYNAMIC_STRING_INITIALIZER;
+++                                /* Name of new file.  */
++   size_t dirname_len;		/* Length of `directory_name'.  */
++   int res;			/* Result of functions.  */
++   char *slash;			/* For moving past slashes in input name.  */
++@@ -65,25 +67,18 @@ process_copy_pass ()
++ 				   created files  */
++ 
++   /* Initialize the copy pass.  */
++-  ds_init (&input_name, 128);
++   
++   dirname_len = strlen (directory_name);
++   if (change_directory_option && !ISSLASH (directory_name[0]))
++     {
++       char *pwd = xgetcwd ();
++-
++-      dirname_len += strlen (pwd) + 1;
++-      ds_init (&output_name, dirname_len + 2);
++-      strcpy (output_name.ds_string, pwd);
++-      strcat (output_name.ds_string, "/");
++-      strcat (output_name.ds_string, directory_name);
+++      
+++      ds_concat (&output_name, pwd);
+++      ds_append (&output_name, '/');
++     }
++-  else
++-    {
++-      ds_init (&output_name, dirname_len + 2);
++-      strcpy (output_name.ds_string, directory_name);
++-    }
++-  output_name.ds_string[dirname_len] = '/';
+++  ds_concat (&output_name, directory_name);
+++  ds_append (&output_name, '/');
+++  dirname_len = ds_len (&output_name);
++   output_is_seekable = true;
++ 
++   change_dir ();
++@@ -116,8 +111,8 @@ process_copy_pass ()
++       /* Make the name of the new file.  */
++       for (slash = input_name.ds_string; *slash == '/'; ++slash)
++ 	;
++-      ds_resize (&output_name, dirname_len + strlen (slash) + 2);
++-      strcpy (output_name.ds_string + dirname_len + 1, slash);
+++      ds_reset (&output_name, dirname_len);
+++      ds_concat (&output_name, slash);
++ 
++       existing_dir = false;
++       if (lstat (output_name.ds_string, &out_file_stat) == 0)
++@@ -333,6 +328,9 @@ process_copy_pass ()
++ 			 (unsigned long) blocks),
++ 	       (unsigned long) blocks);
++     }
+++
+++  ds_free (&input_name);
+++  ds_free (&output_name);
++ }
++ 
++ /* Try and create a hard link from FILE_NAME to another file 
++diff --git a/src/dstring.c b/src/dstring.c
++index e9c063f..358f356 100644
++--- a/src/dstring.c
+++++ b/src/dstring.c
++@@ -20,8 +20,8 @@
++ #if defined(HAVE_CONFIG_H)
++ # include <config.h>
++ #endif
++-
++ #include <stdio.h>
+++#include <stdlib.h>
++ #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
++ #include <string.h>
++ #else
++@@ -33,24 +33,41 @@
++ /* Initialiaze dynamic string STRING with space for SIZE characters.  */
++ 
++ void
++-ds_init (dynamic_string *string, int size)
+++ds_init (dynamic_string *string)
+++{
+++  memset (string, 0, sizeof *string);
+++}
+++
+++/* Free the dynamic string storage. */
+++
+++void
+++ds_free (dynamic_string *string)
++ {
++-  string->ds_length = size;
++-  string->ds_string = (char *) xmalloc (size);
+++  free (string->ds_string);
++ }
++ 
++-/* Expand dynamic string STRING, if necessary, to hold SIZE characters.  */
+++/* Expand dynamic string STRING, if necessary.  */
++ 
++ void
++-ds_resize (dynamic_string *string, int size)
+++ds_resize (dynamic_string *string)
++ {
++-  if (size > string->ds_length)
+++  if (string->ds_idx == string->ds_size)
++     {
++-      string->ds_length = size;
++-      string->ds_string = (char *) xrealloc ((char *) string->ds_string, size);
+++      string->ds_string = x2nrealloc (string->ds_string, &string->ds_size,
+++				      1);
++     }
++ }
++ 
+++/* Reset the index of the dynamic string S to LEN. */
+++
+++void
+++ds_reset (dynamic_string *s, size_t len)
+++{
+++  while (len > s->ds_size)
+++    ds_resize (s);
+++  s->ds_idx = len;
+++}
+++
++ /* Dynamic string S gets a string terminated by the EOS character
++    (which is removed) from file F.  S will increase
++    in size during the function if the string from F is longer than
++@@ -61,34 +78,50 @@ ds_resize (dynamic_string *string, int size)
++ char *
++ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
++ {
++-  int insize;			/* Amount needed for line.  */
++-  int strsize;			/* Amount allocated for S.  */
++   int next_ch;
++ 
++   /* Initialize.  */
++-  insize = 0;
++-  strsize = s->ds_length;
+++  s->ds_idx = 0;
++ 
++   /* Read the input string.  */
++-  next_ch = getc (f);
++-  while (next_ch != eos && next_ch != EOF)
+++  while ((next_ch = getc (f)) != eos && next_ch != EOF)
++     {
++-      if (insize >= strsize - 1)
++-	{
++-	  ds_resize (s, strsize * 2 + 2);
++-	  strsize = s->ds_length;
++-	}
++-      s->ds_string[insize++] = next_ch;
++-      next_ch = getc (f);
+++      ds_resize (s);
+++      s->ds_string[s->ds_idx++] = next_ch;
++     }
++-  s->ds_string[insize++] = '\0';
+++  ds_resize (s);
+++  s->ds_string[s->ds_idx] = '\0';
++ 
++-  if (insize == 1 && next_ch == EOF)
+++  if (s->ds_idx == 0 && next_ch == EOF)
++     return NULL;
++   else
++     return s->ds_string;
++ }
++ 
+++void
+++ds_append (dynamic_string *s, int c)
+++{
+++  ds_resize (s);
+++  s->ds_string[s->ds_idx] = c;
+++  if (c)
+++    {
+++      s->ds_idx++;
+++      ds_resize (s);
+++      s->ds_string[s->ds_idx] = 0;
+++    }      
+++}
+++
+++void
+++ds_concat (dynamic_string *s, char const *str)
+++{
+++  size_t len = strlen (str);
+++  while (len + 1 > s->ds_size)
+++    ds_resize (s);
+++  memcpy (s->ds_string + s->ds_idx, str, len);
+++  s->ds_idx += len;
+++  s->ds_string[s->ds_idx] = 0;
+++}
+++
++ char *
++ ds_fgets (FILE *f, dynamic_string *s)
++ {
++@@ -100,3 +133,10 @@ ds_fgetname (FILE *f, dynamic_string *s)
++ {
++   return ds_fgetstr (f, s, '\0');
++ }
+++
+++/* Return true if the dynamic string S ends with character C. */
+++int
+++ds_endswith (dynamic_string *s, int c)
+++{
+++  return (s->ds_idx > 0 && s->ds_string[s->ds_idx - 1] == c);
+++}
++diff --git a/src/dstring.h b/src/dstring.h
++index b5135fe..f5b04ef 100644
++--- a/src/dstring.h
+++++ b/src/dstring.h
++@@ -17,10 +17,6 @@
++    Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++    Boston, MA 02110-1301 USA.  */
++ 
++-#ifndef NULL
++-#define NULL 0
++-#endif
++-
++ /* A dynamic string consists of record that records the size of an
++    allocated string and the pointer to that string.  The actual string
++    is a normal zero byte terminated string that can be used with the
++@@ -30,22 +26,25 @@
++ 
++ typedef struct
++ {
++-  int ds_length;		/* Actual amount of storage allocated.  */
++-  char *ds_string;		/* String.  */
+++  size_t ds_size;   /* Actual amount of storage allocated.  */
+++  size_t ds_idx;    /* Index of the next free byte in the string. */
+++  char *ds_string;  /* String storage. */
++ } dynamic_string;
++ 
+++#define DYNAMIC_STRING_INITIALIZER { 0, 0, NULL }
++ 
++-/* Macros that look similar to the original string functions.
++-   WARNING:  These macros work only on pointers to dynamic string records.
++-   If used with a real record, an "&" must be used to get the pointer.  */
++-#define ds_strlen(s)		strlen ((s)->ds_string)
++-#define ds_strcmp(s1, s2)	strcmp ((s1)->ds_string, (s2)->ds_string)
++-#define ds_strncmp(s1, s2, n)	strncmp ((s1)->ds_string, (s2)->ds_string, n)
++-#define ds_index(s, c)		index ((s)->ds_string, c)
++-#define ds_rindex(s, c)		rindex ((s)->ds_string, c)
+++void ds_init (dynamic_string *string);
+++void ds_free (dynamic_string *string);
+++void ds_reset (dynamic_string *s, size_t len);
++ 
++-void ds_init (dynamic_string *string, int size);
++-void ds_resize (dynamic_string *string, int size);
+++/* All functions below guarantee that s->ds_string[s->ds_idx] == '\0' */
++ char *ds_fgetname (FILE *f, dynamic_string *s);
++ char *ds_fgets (FILE *f, dynamic_string *s);
++ char *ds_fgetstr (FILE *f, dynamic_string *s, char eos);
+++void ds_append (dynamic_string *s, int c);
+++void ds_concat (dynamic_string *s, char const *str);
+++
+++#define ds_len(s) ((s)->ds_idx)
+++
+++int ds_endswith (dynamic_string *s, int c);
+++
++diff --git a/src/util.c b/src/util.c
++index 4421b20..6d6bbaa 100644
++--- a/src/util.c
+++++ b/src/util.c
++@@ -846,11 +846,9 @@ get_next_reel (int tape_des)
++   FILE *tty_out;		/* File for interacting with user.  */
++   int old_tape_des;
++   char *next_archive_name;
++-  dynamic_string new_name;
+++  dynamic_string new_name = DYNAMIC_STRING_INITIALIZER;
++   char *str_res;
++ 
++-  ds_init (&new_name, 128);
++-
++   /* Open files for interactive communication.  */
++   tty_in = fopen (TTY_NAME, "r");
++   if (tty_in == NULL)
++@@ -925,7 +923,7 @@ get_next_reel (int tape_des)
++     error (PAXEXIT_FAILURE, 0, _("internal error: tape descriptor changed from %d to %d"),
++ 	   old_tape_des, tape_des);
++ 
++-  free (new_name.ds_string);
+++  ds_free (&new_name);
++   fclose (tty_in);
++   fclose (tty_out);
++ }
++-- 
++2.25.1
++
++
++From fb7a51bf85b8e6f045cacb4fb783db4a414741bf Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Wed, 11 Aug 2021 18:10:38 +0300
++Subject: [PATCH 2/3] Fix previous commit
++
++* src/dstring.c (ds_reset,ds_concat): Don't call ds_resize in a
++loop.
++---
++ src/dstring.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/dstring.c b/src/dstring.c
++index 358f356..90c691c 100644
++--- a/src/dstring.c
+++++ b/src/dstring.c
++@@ -64,7 +64,7 @@ void
++ ds_reset (dynamic_string *s, size_t len)
++ {
++   while (len > s->ds_size)
++-    ds_resize (s);
+++    s->ds_string = x2nrealloc (s->ds_string, &s->ds_size, 1);
++   s->ds_idx = len;
++ }
++ 
++@@ -116,7 +116,7 @@ ds_concat (dynamic_string *s, char const *str)
++ {
++   size_t len = strlen (str);
++   while (len + 1 > s->ds_size)
++-    ds_resize (s);
+++    s->ds_string = x2nrealloc (s->ds_string, &s->ds_size, 1);
++   memcpy (s->ds_string + s->ds_idx, str, len);
++   s->ds_idx += len;
++   s->ds_string[s->ds_idx] = 0;
++-- 
++2.25.1
++
++
++From 86b37d74b15f9bb5fe62fd1642cc126d3ace0189 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Wed, 18 Aug 2021 09:41:39 +0300
++Subject: [PATCH 3/3] Fix dynamic string reallocations
++
++* src/dstring.c (ds_resize): Take additional argument: number of
++bytes to leave available after ds_idx.  All uses changed.
++---
++ src/dstring.c | 18 ++++++++----------
++ 1 file changed, 8 insertions(+), 10 deletions(-)
++
++diff --git a/src/dstring.c b/src/dstring.c
++index 90c691c..0f597cc 100644
++--- a/src/dstring.c
+++++ b/src/dstring.c
++@@ -49,9 +49,9 @@ ds_free (dynamic_string *string)
++ /* Expand dynamic string STRING, if necessary.  */
++ 
++ void
++-ds_resize (dynamic_string *string)
+++ds_resize (dynamic_string *string, size_t len)
++ {
++-  if (string->ds_idx == string->ds_size)
+++  while (len + string->ds_idx >= string->ds_size)
++     {
++       string->ds_string = x2nrealloc (string->ds_string, &string->ds_size,
++ 				      1);
++@@ -63,8 +63,7 @@ ds_resize (dynamic_string *string)
++ void
++ ds_reset (dynamic_string *s, size_t len)
++ {
++-  while (len > s->ds_size)
++-    s->ds_string = x2nrealloc (s->ds_string, &s->ds_size, 1);
+++  ds_resize (s, len);
++   s->ds_idx = len;
++ }
++ 
++@@ -86,10 +85,10 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
++   /* Read the input string.  */
++   while ((next_ch = getc (f)) != eos && next_ch != EOF)
++     {
++-      ds_resize (s);
+++      ds_resize (s, 0);
++       s->ds_string[s->ds_idx++] = next_ch;
++     }
++-  ds_resize (s);
+++  ds_resize (s, 0);
++   s->ds_string[s->ds_idx] = '\0';
++ 
++   if (s->ds_idx == 0 && next_ch == EOF)
++@@ -101,12 +100,12 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)
++ void
++ ds_append (dynamic_string *s, int c)
++ {
++-  ds_resize (s);
+++  ds_resize (s, 0);
++   s->ds_string[s->ds_idx] = c;
++   if (c)
++     {
++       s->ds_idx++;
++-      ds_resize (s);
+++      ds_resize (s, 0);
++       s->ds_string[s->ds_idx] = 0;
++     }      
++ }
++@@ -115,8 +114,7 @@ void
++ ds_concat (dynamic_string *s, char const *str)
++ {
++   size_t len = strlen (str);
++-  while (len + 1 > s->ds_size)
++-    s->ds_string = x2nrealloc (s->ds_string, &s->ds_size, 1);
+++  ds_resize (s, len);
++   memcpy (s->ds_string + s->ds_idx, str, len);
++   s->ds_idx += len;
++   s->ds_string[s->ds_idx] = 0;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
+index 6536257993..7c8a465cd0 100644
+--- a/meta/recipes-extended/cpio/cpio_2.13.bb
++++ b/meta/recipes-extended/cpio/cpio_2.13.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://0002-src-global.c-Remove-superfluous-declaration-of-progr.patch \
++           file://CVE-2021-38185.patch \
+            "
  
- SDK_NAME_PREFIX ?= "oecore"
- SDK_NAME = "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TUNE_PKGARCH}"
--SDKPATH = "/usr/local/${SDK_NAME_PREFIX}-${SDK_ARCH}"
-+SDKPATH = "/usr/local/oe-sdk-hardcoded-buildpath"
- SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
-+# The path to default to installing the SDK to
-+SDKPATHINSTALL = "/usr/local/${SDK_NAME_PREFIX}-${SDK_ARCH}"
- 
- ##################################################################
- # Kernel info.
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index dd9342758b..4386b985bb 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -56,7 +56,8 @@ if ! xz -V > /dev/null 2>&1; then
- 	exit 1
- fi
- 
--DEFAULT_INSTALL_DIR="@SDKPATH@"
-+SDK_BUILD_PATH="@SDKPATH@"
-+DEFAULT_INSTALL_DIR="@SDKPATHINSTALL@"
- SUDO_EXEC=""
- EXTRA_TAR_OPTIONS=""
- target_sdk_dir=""
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index ba873373e2..3ece04db0a 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -61,7 +61,7 @@ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
-              -e "$target_sdk_dir/post-relocate-setup" \
-              -e "$target_sdk_dir/${0##*/}" | \
-     xargs -n100 $SUDO_EXEC sed -i \
--        -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" \
-+        -e "s:$SDK_BUILD_PATH:$target_sdk_dir:g" \
-         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
-         -e "s: /usr/bin/perl: /usr/bin/env perl:g"
- 
+ SRC_URI[md5sum] = "389c5452d667c23b5eceb206f5000810"
 -- 
 2.25.1
 
