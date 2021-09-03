@@ -1,73 +1,103 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.1893.1630660727284530218
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web08.2692.1630666666274599813
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 02:18:47 -0700
+ Fri, 03 Sep 2021 03:57:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UpdHhWUl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id t15so7246299wrg.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 02:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GshePSBsIDos5ReATTegHtrvmC7pGCyhMmHK1kuP3cw=;
-        b=UpdHhWUlq5O9Lj78iKMP+kzyuR4LxoG8kFpNv0Ct6NTHgTsz+Ovb7paPhXB9FyjMyD
-         tfLbw/dMOBDI2e5DHuajjfulLfp/C5S49EsxT/8k4u8HdoAeNDvMQd0jHZ9z4Omn8Rep
-         pOXcvturRNjkST2AFE3jgDZcxt1L52DGEoOt0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GshePSBsIDos5ReATTegHtrvmC7pGCyhMmHK1kuP3cw=;
-        b=aLADaJPsKvhX54ez7Nix2CnjkvVbIku64qPKCvEyPnDoAP0vw7/JdicBsdFDWu3hwg
-         M0ThBSOkAoygoyOv1ONraB6W33e9BzTfq7Hscvz9fsoDiLKQxLSkp/KwzgCbTbgsSCi/
-         2WxgkakvuXREwSkKGpljQDV6UM1YVbINfmD57cHJfjloM8JWtGoDCRWiW5F9zdK6Pv4s
-         A4MMwqIQ6thupUUJmX4FEzLDz6zD7ZEhI9buLWEyQFxj06ljlNizdsmxa680iHmhjTN+
-         LDGcVzXNCGj5N2Ct79JiL3LphkD/fX09hiBM92mWj14YTWMeQ5xTAYLMNqOrONgviF30
-         T/JA==
-X-Gm-Message-State: AOAM531Aauahali+IoHQ4qTsbIDrhJz5hLaypBjOzyBK9r3gHTvX4ss7
-	AtRM8GpFs6eNyr++eaMYQgEQhAGajoLgxA==
-X-Google-Smtp-Source: ABdhPJxjJlyjCOH8eg3vNo+xAYTRK4clhehfXQsPzywKzBcIV57NxHW8Scqw1e6UmyL58o1v/h8ukA==
-X-Received: by 2002:a5d:5107:: with SMTP id s7mr2770248wrt.283.1630660725257;
-        Fri, 03 Sep 2021 02:18:45 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:748d:fb86:ebb2:cea5])
-        by smtp.gmail.com with ESMTPSA id d9sm5113570wrb.36.2021.09.03.02.18.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 02:18:45 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] tcl: Exclude CVE-2021-35331 from checks
-Date: Fri,  3 Sep 2021 10:18:44 +0100
-Message-Id: <20210903091844.988298-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:58380 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1mM6tG-0003ST-GM
+	for openembedded-core@lists.openembedded.org; Fri, 03 Sep 2021 06:57:44 -0400
+Date: Fri, 3 Sep 2021 06:57:41 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: wanting to clarify some shared lib install and packaging issues
+Message-ID: <e819f3ff-af68-fac7-b1a8-19a5b1f26d7@crashcourse.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-Upstream don't believe this is an issue.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/tcltk/tcl_8.6.11.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+  some really basic observations and questions about shared libs from
+BB recipes as i'm trying to resolve some issues related to a weird
+hybrid build system that overrides the standard do_install() task by
+manually populating the "image" directory for each recipe, then hands
+control over to bitbake to take it from there.
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-index 1e91f0827ed..cb9e486698c 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-@@ -29,6 +29,10 @@ SRC_URI[sha256sum] = "cfb49aab82bd179651e23eeeb69606f51b0ddc575ca55c3d35e2457469
- 
- SRC_URI:class-native = "${BASE_SRC_URI}"
- 
-+# Upstream don't believe this is an exploitable issue
-+# https://core.tcl-lang.org/tcl/info/7079e4f91601e9c7
-+CVE_CHECK_WHITELIST += "CVE-2021-35331"
-+
- UPSTREAM_CHECK_REGEX = "tcl(?P<pver>\d+(\.\d+)+)-src"
- 
- S = "${WORKDIR}/${BPN}${PV}"
--- 
-2.32.0
+  first, quick review as i am going to have to explain all this to
+some folks, so let's make sure i don't sound like an idiot. from the
+explanation here:
 
+  https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
+
+when a BB recipe creates a shared lib, i typically expect to see the
+following under image/usr/lib/ (example from "nettle" directory
+building for aarch64):
+
+  libhogweed.so -> libhogweed.so.6.4          [linker name]
+  libhogweed.so.6 -> libhogweed.so.6.4        [soname]
+  libhogweed.so.6.4                           [real name, actual lib]
+
+based on default packaging defined in bitbake.conf, i then expect to
+see the "base" package "nettle" install the following on the target:
+
+  libhogweed.so.6 -> libhogweed.so.6.4
+  libhogweed.so.6.4
+
+while the development package nettle-dev will contain support the
+linker name linking to, well, one of the above:
+
+  libhogweed.so -> libhogweed.so.6.4
+
+so far, nothing interesting, but this packaging means that, on the
+target, if something needs to link against the libhogweed library, it
+would normally link using the soname, "libhogweed.so.6", so a file by
+that name *must* exist on the target and, normally, it does (even if
+it's a symlink).
+
+  here's what i just ran into -- this hybrid system that bypasses the
+normal BB install step and manually populates the image directory
+makes a bit of a mess with setting the symlinks and names properly,
+but this was "fixed" by totally redefining the standard recipe
+packaging, so that *all* shared lib files (all three forms) were
+stuffed into the base package. and as long as that weird repackaging
+was in place, everything "worked".
+
+  along comes me, who really hates this re-definition of what goes
+into each package as it packages far more for the target than is
+necessary, and i revert the packaging back to the standard ... and
+things break, and here's why.
+
+  the end result of the weird hybrid installation and my reverting the
+packaging is that what ended up on the target in terms of the shared
+libs was simply:
+
+  libfubar.so
+
+that is, the actual shared lib (not a symlink), but with the linker
+name, not the soname, which would appear to be the cause of all sorts
+of things suddenly not running anymore, as a quick inspection showed
+systemd services trying to start and complaining:
+
+  ... error while loading shared libraries: libfubar.so.1 ...
+
+so i just want to confirm that all of that is due to the shared lib
+having been packaged and installed on the target via its linker name,
+not its proper soname, correct?
+
+  it *seems* like that's all i have to fix, but am i overlooking
+anything? as long as the shared lib is findable via its soname, should
+that be the general solution?
+
+rday
