@@ -1,81 +1,73 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web12.1642.1630657426040953461
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.1893.1630660727284530218
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 01:23:46 -0700
+ Fri, 03 Sep 2021 02:18:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YkLfUW4E;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id m2so2971074wmm.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 01:23:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UpdHhWUl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id t15so7246299wrg.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Sep 2021 02:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=znOxwon9/XhJEVO2j2i03Cu9SsYdPpHbeh3P5+HCNp4=;
-        b=YkLfUW4EJlha4TvGAeQdTDRVmDZdTeWHiCRjgLwA+Z8ZY93LmAqN1IQMdL2aYGVuQU
-         JlQ5E+uhxsrrzlsuJoPwFej479EKYv9N6kyyIAb8mXuT/PA0zAee4kH6V2+9GFRVXNdD
-         ORqHBooDs2qru92if4bgk/i2lxvnxoOA75UIo=
+        bh=GshePSBsIDos5ReATTegHtrvmC7pGCyhMmHK1kuP3cw=;
+        b=UpdHhWUlq5O9Lj78iKMP+kzyuR4LxoG8kFpNv0Ct6NTHgTsz+Ovb7paPhXB9FyjMyD
+         tfLbw/dMOBDI2e5DHuajjfulLfp/C5S49EsxT/8k4u8HdoAeNDvMQd0jHZ9z4Omn8Rep
+         pOXcvturRNjkST2AFE3jgDZcxt1L52DGEoOt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=znOxwon9/XhJEVO2j2i03Cu9SsYdPpHbeh3P5+HCNp4=;
-        b=RyUKCoSNvsWWh6mra1bd8SwuIGT5Urjb+DAt0iQHc11ZpT/GSgY5NEQBCuTPxaYpCg
-         /VCEIeZGoxZjQkMNCwOUYT7S7hUx7CaWj8dOLR0C6dE3+V/Vmyp6QKx5LJEfvz5eN/vK
-         FfLwY1xKH5dYmYoctO817Imnw8cXoTUJrhkGZEPSwjzGdYdVBhgA85MVn/QmnlrN3Z5T
-         Wa2N4YBySxSvOSnaK+lU0bPJEmfSazFdOFN8xPJMbUi9SKtP41z2PFKXO9I1bkRGDRSC
-         XgLcASJIDMlenawAFcQSNkS2bIFCAK/mhVrV7kwvqAedND5qHC/AJ4K7qoxCp5veg59C
-         b6ZA==
-X-Gm-Message-State: AOAM532RiKau37PCCUMXzxIiEfKIQP7qtqnR+hwP35XZpNp4HnttWSbA
-	fsBYF+yNUTcxVic6e7/ED/XoNlKKPg+jPw==
-X-Google-Smtp-Source: ABdhPJxM/D0OdfFDIfBvrLesaYm4THqNS5mm8nNHChA94uHH4NA9htWRrkqL0mAeVYpoaI6vcqzNtQ==
-X-Received: by 2002:a05:600c:2058:: with SMTP id p24mr2081164wmg.108.1630657424062;
-        Fri, 03 Sep 2021 01:23:44 -0700 (PDT)
+        bh=GshePSBsIDos5ReATTegHtrvmC7pGCyhMmHK1kuP3cw=;
+        b=aLADaJPsKvhX54ez7Nix2CnjkvVbIku64qPKCvEyPnDoAP0vw7/JdicBsdFDWu3hwg
+         M0ThBSOkAoygoyOv1ONraB6W33e9BzTfq7Hscvz9fsoDiLKQxLSkp/KwzgCbTbgsSCi/
+         2WxgkakvuXREwSkKGpljQDV6UM1YVbINfmD57cHJfjloM8JWtGoDCRWiW5F9zdK6Pv4s
+         A4MMwqIQ6thupUUJmX4FEzLDz6zD7ZEhI9buLWEyQFxj06ljlNizdsmxa680iHmhjTN+
+         LDGcVzXNCGj5N2Ct79JiL3LphkD/fX09hiBM92mWj14YTWMeQ5xTAYLMNqOrONgviF30
+         T/JA==
+X-Gm-Message-State: AOAM531Aauahali+IoHQ4qTsbIDrhJz5hLaypBjOzyBK9r3gHTvX4ss7
+	AtRM8GpFs6eNyr++eaMYQgEQhAGajoLgxA==
+X-Google-Smtp-Source: ABdhPJxjJlyjCOH8eg3vNo+xAYTRK4clhehfXQsPzywKzBcIV57NxHW8Scqw1e6UmyL58o1v/h8ukA==
+X-Received: by 2002:a5d:5107:: with SMTP id s7mr2770248wrt.283.1630660725257;
+        Fri, 03 Sep 2021 02:18:45 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:748d:fb86:ebb2:cea5])
-        by smtp.gmail.com with ESMTPSA id f20sm3625085wml.38.2021.09.03.01.23.43
+        by smtp.gmail.com with ESMTPSA id d9sm5113570wrb.36.2021.09.03.02.18.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 01:23:43 -0700 (PDT)
+        Fri, 03 Sep 2021 02:18:45 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime/parselogs: Make DVD ata error apply to all qemux86 machines
-Date: Fri,  3 Sep 2021 09:23:43 +0100
-Message-Id: <20210903082343.984744-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] tcl: Exclude CVE-2021-35331 from checks
+Date: Fri,  3 Sep 2021 10:18:44 +0100
+Message-Id: <20210903091844.988298-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This log checking fix is needed for both qemux86 and qemux86-64 so move
-to the common section.
-
-[YOCTO #14528]
+Upstream don't believe this is an issue.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/tcltk/tcl_8.6.11.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 5db02165975..2b8893d842d 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -91,6 +91,7 @@ qemux86_common = [
-     "glamor initialization failed",
-     "blk_update_request: I/O error, dev fd0, sector 0 op 0x0:(READ)",
-     "floppy: error",
-+    'failed to IDENTIFY (I/O error, err_mask=0x4)',
- ] + common_errors
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+index 1e91f0827ed..cb9e486698c 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+@@ -29,6 +29,10 @@ SRC_URI[sha256sum] = "cfb49aab82bd179651e23eeeb69606f51b0ddc575ca55c3d35e2457469
  
- ignore_errors = {
-@@ -98,7 +99,6 @@ ignore_errors = {
-     'qemux86' : [
-         'Failed to access perfctr msr (MSR',
-         'pci 0000:00:00.0: [Firmware Bug]: reg 0x..: invalid BAR (can\'t size)',
--        'failed to IDENTIFY (I/O error, err_mask=0x4)',
-         ] + qemux86_common,
-     'qemux86-64' : qemux86_common,
-     'qemumips' : [
+ SRC_URI:class-native = "${BASE_SRC_URI}"
+ 
++# Upstream don't believe this is an exploitable issue
++# https://core.tcl-lang.org/tcl/info/7079e4f91601e9c7
++CVE_CHECK_WHITELIST += "CVE-2021-35331"
++
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>\d+(\.\d+)+)-src"
+ 
+ S = "${WORKDIR}/${BPN}${PV}"
 -- 
 2.32.0
 
