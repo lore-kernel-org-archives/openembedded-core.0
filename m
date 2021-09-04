@@ -1,124 +1,149 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B917C433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 10:01:04 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.29301.1632736863354931720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E21C433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 10:18:24 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web12.29267.1632737903286510453
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 03:01:03 -0700
+ Mon, 27 Sep 2021 03:18:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E1O//Wk8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id t8so50913999wri.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z4n1tMyy;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176,
+ mailfrom: flowergom@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id 203so15337257pfy.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 03:01:03 -0700 (PDT)
+ Mon, 27 Sep 2021 03:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2n7TIDoyGNFbTeeMPzUZw5pdJ3JVfp9nW1IsK91/NhM=;
-        b=E1O//Wk8fFdxK1PhJaP+tMXZF2dsGeB4HNkC+fg/WBozg5VhKb1bjzMiSNS2wBxdz0
-         QGalJgHQ9YdlgtqnUrHTU5KEDCUxC0C9vputyLNBLfg2vYKp9z+kcCeeVBOKl9Z8VwzN
-         sJ/409A/OgBDwxuL8RLVM+O3rttCqYp2k+GDU=
+        bh=+2ewtOpZXugzaN1NXF0AMQeNccx6JNJFhziUy1PeS9g=;
+        b=Z4n1tMyyvvshYmpquJviFiatw/QNVbrn4oMKMt1Q/13LZ1txeD37twxCrfPotkgO4N
+         ZiYVRlhotktp2Bs0OkDTnuVgHpWJEVhZQKP5OTbopFzwMvYKcYGuG8bOeMzzB6PcXY1F
+         PeMcx7paHB48MAiyrG9n7Bfc82+n5BxptuO5UZkktILTOt486WUbffogVHkk2QBz6zNT
+         3o7/TfIP3avlL2DPc8/1olMFylcruBJ/9WdhRvpO0IKXujt7THMT9qJVE4DpaerbGMjW
+         NCW6gNtMtxEqEfYZBkw5Aot0lxJ71nHox62xu/W7/bqS1sjTGGtwpPjvu4OyHJq/QKLs
+         z3ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2n7TIDoyGNFbTeeMPzUZw5pdJ3JVfp9nW1IsK91/NhM=;
-        b=D1D3lMTTLUEvuy0msqzQFq3GHQNZ2b69B4x6BF5MdtYJu+78/zpDY3PSR9a7yjIRnj
-         6pz+2U1O37uC59hhqEUUh1q0GRV5m2vVJn+VTMc2409kOthFCAWon/9shhd6OErcW36B
-         SI1bwKKZQvU3FyPU8/PhRe0RRxqBP1fDkGqWAQirHs2247V0gWaQgNoFqPWJ8OeXYrLf
-         ls2Hdg4gLTIoQ8eZdl0ZOI0ieOoC74M0UgFoFoPMVcWpj+1Pyx5k/L3zlC50mr43n9FW
-         QNSrhweCbMx130qIhUK9K5z1Rgo1mG6AKv7KkGwQdZBwiTM54mrHQ/jv4VJiziJY6D10
-         Br7g==
-X-Gm-Message-State: AOAM530q9fZbkGKLZwHd/iMdbnR7h/X+KFSw41VdNoLnFnvrVZSdgy7N
-	INoerVn64oxjO0uYtsuxxgd8ZIg09SS6JYEr
+        bh=+2ewtOpZXugzaN1NXF0AMQeNccx6JNJFhziUy1PeS9g=;
+        b=nR5V8szAN2pgoymheuSEvXAYBvgljiTcdgk9Eh4HeBNr5lOdsYISIHcfEIv3mOyC6h
+         hbgJiXKURtXGBzXJnNYttXhboGjh4uVpDrrMW0Ii0aLcKMYm70x9hKlIbxKtB7k2XWQE
+         bOp9La+13UfX11nrkG1KN933MY3UAJ49b3uMGGWZ/1gDf/jbyT3PyEPW6mWh3OD5JoGI
+         MiIz8KY+XpJr1hg0sab/Jnmyo4o9S9vet8ZfpQYVwOiauviJ6Xhc9eCJSVb8c0Wzh3YV
+         oj6mZYOBU8gFhqf9l3oWxUNeFJfVH+JtNIu1LDkQp1lsVZY3gpPl4OxJM1ZTlPJUkpba
+         B4xg==
+X-Gm-Message-State: AOAM5327SEhTvYI3m2nd8F0R4hc7J6MA8M0MxWCePygnADqCjvcrjYu2
+	xnePdYGaNxxVaw1tY/xuRv5Kbzhz/kjUhWmBb6A=
 X-Google-Smtp-Source: 
- ABdhPJzd1UjKavcS6jny3sAWxAuxi3jcNjYFTsJZXGnZ26pahSRS0ymz+6+kV2jbb5rGqwxeY/nXLw==
-X-Received: by 2002:adf:ce89:: with SMTP id r9mr26553832wrn.238.1632736861348;
-        Mon, 27 Sep 2021 03:01:01 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8a1f:b4a1:54ce:d4b1])
+ ABdhPJxVrW82XV3+/SKga1DHU3GfQnaYcmq8G0v9iIjlN8WnX7tZdm6EWJaRQPB58XAX6Rx/JWYbng==
+X-Received: by 2002:a63:6e41:: with SMTP id
+ j62mr15858075pgc.120.1632737902163;
+        Mon, 27 Sep 2021 03:18:22 -0700 (PDT)
+Received: from localhost.localdomain ([59.6.144.168])
         by smtp.gmail.com with ESMTPSA id
- k10sm4414256wmr.32.2021.09.27.03.01.00
-        for <openembedded-core@lists.openembedded.org>
+ y13sm18422320pgc.46.2021.09.27.03.18.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 03:01:01 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 27 Sep 2021 03:18:21 -0700 (PDT)
+From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glew: Stop polluting /tmp during builds
-Date: Mon, 27 Sep 2021 11:01:00 +0100
-Message-Id: <20210927100100.2036338-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] vim: fix CVE-2021-3778
+Date: Sat,  4 Sep 2021 13:08:21 +0900
+Message-Id: <20210904040821.376601-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 10:01:04 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 10:18:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156379
+ https://lists.openembedded.org/g/openembedded-core/message/156380
 
-Currently the glew code creates a new directory in /tmp for each make
-invocation. This is a bit ugly, don't do that. The patch does break the
-dist targets but we don't use them.
+vim is vulnerable to Heap-based Buffer Overflow
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+reference:
+https://github.com/vim/vim/commit/65b605665997fad54ef39a93199e305af2fe4d7f
 ---
- .../glew/glew/notempdir.patch                 | 19 +++++++++++++++++++
- meta/recipes-graphics/glew/glew_2.2.0.bb      |  2 ++
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-graphics/glew/glew/notempdir.patch
+ .../vim/files/CVE-2021-3778.patch             | 49 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2021-3778.patch
 
-diff --git a/meta/recipes-graphics/glew/glew/notempdir.patch b/meta/recipes-graphics/glew/glew/notempdir.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2021-3778.patch b/meta/recipes-support/vim/files/CVE-2021-3778.patch
 new file mode 100644
-index 00000000000..8d79ce0cdf9
+index 0000000000..9e1c4d29be
 --- /dev/null
-+++ b/meta/recipes-graphics/glew/glew/notempdir.patch
-@@ -0,0 +1,19 @@
-+We don't use the dist-* targets and hence DIST_DIR isn't used. The current code
-+creates a new temp directory in /tmp/ for every invocation of make. Lets
-+not do that.
++++ b/meta/recipes-support/vim/files/CVE-2021-3778.patch
+@@ -0,0 +1,49 @@
++From eb41373c8c88b0789e5cf04669d6116f9a199264 Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowergom@gmail.com>
++Date: Sun, 26 Sep 2021 23:48:00 +0000
++Subject: [PATCH] patch 8.2.3409: reading beyond end of line with invalid utf-8
++ character
 +
-+Upstream-Status: Pending [a revised version would be needed for upstream]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Problem: Reading beyond end of line with invalid utf-8 character.
++Solution: Check for NUL when advancing.
 +
-+Index: glew-2.2.0/Makefile
-+===================================================================
-+--- glew-2.2.0.orig/Makefile
-++++ glew-2.2.0/Makefile
-+@@ -56,7 +56,6 @@ DIST_SRC_ZIP ?= $(shell pwd)/$(DIST_NAME
-+ DIST_SRC_TGZ ?= $(shell pwd)/$(DIST_NAME).tgz
-+ DIST_WIN32   ?= $(shell pwd)/$(DIST_NAME)-win32.zip
++Upstream-Status: Accepted [https://github.com/vim/vim/commit/65b605665997fad54ef39a93199e305af2fe4d7f]
++CVE: CVE-2021-3778
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ src/regexp_nfa.c                 | 3 ++-
++ src/testdir/test_regexp_utf8.vim | 7 +++++++
++ 2 files changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/src/regexp_nfa.c b/src/regexp_nfa.c
++index fb512f961..4d337f1f1 100644
++--- a/src/regexp_nfa.c
+++++ b/src/regexp_nfa.c
++@@ -5455,7 +5455,8 @@ find_match_text(colnr_T startcol, int regstart, char_u *match_text)
++ 		match = FALSE;
++ 		break;
++ 	    }
++-	    len2 += MB_CHAR2LEN(c2);
+++	    len2 += enc_utf8 ? utf_ptr2len(rex.line + col + len2)
+++		                                             : MB_CHAR2LEN(c2);
++ 	}
++ 	if (match
++ 		// check that no composing char follows
++diff --git a/src/testdir/test_regexp_utf8.vim b/src/testdir/test_regexp_utf8.vim
++index 19ff882be..e0665818b 100644
++--- a/src/testdir/test_regexp_utf8.vim
+++++ b/src/testdir/test_regexp_utf8.vim
++@@ -215,3 +215,10 @@ func Test_optmatch_toolong()
++   set re=0
++ endfunc
 + 
-+-DIST_DIR := $(shell mktemp -d /tmp/glew.XXXXXX)/$(DIST_NAME)
-+ 
-+ # To disable stripping of linked binaries either:
-+ #   - use STRIP= on gmake command-line
-diff --git a/meta/recipes-graphics/glew/glew_2.2.0.bb b/meta/recipes-graphics/glew/glew_2.2.0.bb
-index 92b60836487..5592dd16abe 100644
---- a/meta/recipes-graphics/glew/glew_2.2.0.bb
-+++ b/meta/recipes-graphics/glew/glew_2.2.0.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
+++func Test_match_invalid_byte()
+++  call writefile(0z630a.765d30aa0a.2e0a.790a.4030, 'Xinvalid')
+++  new
+++  source Xinvalid
+++  bwipe!
+++  call delete('Xinvalid')
+++endfunc
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 6fe8fb90db..2c6d7a9ec5 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/vim/vim.git \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
+            file://racefix.patch \
++	   file://CVE-2021-3778.patch \
+ "
+ SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-            file://0001-Fix-build-race-in-Makefile.patch \
-+           file://notempdir.patch \
-            file://no-strip.patch"
- 
- SRC_URI[md5sum] = "3579164bccaef09e36c0af7f4fd5c7c7"
-@@ -29,6 +30,7 @@ CFLAGS += "-D_GNU_SOURCE"
- # Override SYSTEM (via PACKAGECONFIG_CONFARGS) to avoid calling config.guess,
- # we're cross-compiling. Pass our CFLAGS via POPT as that's the optimisation
- # variable and safely overwritten.
-+# Set DIST_DIR to stop useless empty dirs in /tmp being created
- EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS} \
-                 CC='${CC}' LD='${CC}' STRIP='' \
-                 LDFLAGS.EXTRA='${LDFLAGS}' \
 -- 
-2.32.0
+2.25.1
 
 
