@@ -1,143 +1,77 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.4361.1630707301650766580
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.213.1630773111338902334
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Sep 2021 15:15:02 -0700
+ Sat, 04 Sep 2021 09:31:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=lfDzB5OV;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z9kfRMGb;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so1598552pjw.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Sep 2021 09:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1630707301;
-  x=1662243301;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=8xwHpnefdmxMPwJ/WiNq1Bl8522pDRxzU4NcjPbLDfA=;
-  b=lfDzB5OV/iAjxcxtziH+zOwnrLss499kNew6axOn2LSptMTpc5R6vVHn
-   Cka66ghXiLJBmOdEVDy+DVOmYL+j7atVCtgaSE2FwhJ3uPifIoD6+xLQ0
-   hPGPvTd6MkFUZtu+OFU44KZZRWs6ao24+MOaRqQZrlx55TNJjueFWf2DO
-   6kLy538zzutF3bRi8LTQ/ZYAtedGaDGVaIWe92mLvXuITT7V9vXPIY4sb
-   h4ABh1QE/VK6ESut2iYVPh3qcDB4XMRQYTgG3btqCa3JohIjrj85ehYG2
-   QeKl1asGMgei0Jp6q0UIFTyDC83OQceMoA2q86TlMC8tqFZYY6AHBeDQG
-   Q==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Ross Burton <ross@burtonini.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 4/4] create-spex: don't duplicate license texts in each package
-Thread-Topic: [OE-core] [PATCH v2 4/4] create-spex: don't duplicate license
- texts in each package
-Thread-Index: AQHXoNzvL+gtZHlszUSN9sQov7atg6uS4FbQ
-Date: Fri, 3 Sep 2021 22:14:57 +0000
-Message-ID: <a145b83d834c4caca4bc23a631450eda@axis.com>
-References: <20210903160033.3141022-1-ross.burton@arm.com>
- <20210903160033.3141022-4-ross.burton@arm.com>
-In-Reply-To: <20210903160033.3141022-4-ross.burton@arm.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2mFFFyRwiIf04ypjBVS+e3Pjf+kaT0g//aA3bhs3gSI=;
+        b=Z9kfRMGb+ZGNY+UGY8wps05D8bAVxwg/Tmo1EM575I9zbVpvrzfpQfqHXR4vN3kT+u
+         CYrXs6lV0hSTsRjGYLZTlHm5pnz+DxV64srj24Bx5GhDFJduGbnCrOBBKrQ8m6VJqi2E
+         YO+ev7aLTHjlqw6jIJrGhAe/5DbqPe5bFUPFD56B8Zv7o8ra9bJIzA5dsavgppyXsxEG
+         BuzIJmgo4oAY/wx+P8TxlnPLyLsTY0KpQeOos9KkVJA2Kp1UZEb8PCNZZePjqT9WIayo
+         hoTrgjb5lvjZBR7KCp1jDS/teCTSPYnIHBNJS5h2AQW6bfmzD/jQl7QrNDY77zNxkmmo
+         7s3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2mFFFyRwiIf04ypjBVS+e3Pjf+kaT0g//aA3bhs3gSI=;
+        b=BWKM0YRobjupO7M4YSgMXPKbZfV+jl60Z8jJ+mZR0eyqSNLlJC3F/yx84X7Ni64Yd4
+         oiYt8m/ANK8sihnK+2Qxt8tazJXPbo8Mb70GFact7XnHW0v4yDc+AsZ/JjcMii0FUWRp
+         2CUFzT5GmXIEfCsQFncjM/VJ6k7DEwFfmjpFreknC/lUOAlZSXSipstx6KOVoKKJpcLL
+         L+189KlqjpjR5b2rnEoeipBRwLQdLUhe0FHCcO0iCnMnlbBN+y8SIXE+Ay31pP2CXloi
+         WxsdV+ukqY7qWzbwcXGdauW7uxp+wcQmGazIEzwvFX/yRvYd8ZAWwF3st/Dm449JhU5R
+         dnvQ==
+X-Gm-Message-State: AOAM532XR8D5DxexzvJhsteyHHXLGybUCQVaXpqH9XSpuK3Aolm9IUdu
+	XMYv8ds327MFoJYvwZuLieUUSsZw1OjA9w==
+X-Google-Smtp-Source: ABdhPJzgR396yFeu4IQ/FZo0eYZEAzJCmZOGg1DzPxtTbNcGWbhdQmxjNrQWKCXd2ZZeN0u5SPFOcw==
+X-Received: by 2002:a17:902:82c6:b0:136:59b0:ed17 with SMTP id u6-20020a17090282c600b0013659b0ed17mr3878040plz.61.1630773110378;
+        Sat, 04 Sep 2021 09:31:50 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1d09])
+        by smtp.gmail.com with ESMTPSA id t13sm2791724pjg.25.2021.09.04.09.31.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Sep 2021 09:31:50 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] vim: Add packageconfig for sound notification support
+Date: Sat,  4 Sep 2021 09:31:46 -0700
+Message-Id: <20210904163146.747932-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Ross Burton
-> Sent: den 3 september 2021 18:01
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v2 4/4] create-spex: don't duplicate license
+vim uses libcanberra to implement sound, currently its ok for target
+since we have captured dependencies in recipe sysroot but things go a
+bit out of control when building vim-native, where configure starts to
+poke at host system and if it find libcanberra then silently enables it
+lets make it consistent
 
-Change "create-spex" to "create-spdx".
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/vim/vim.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-//Peter
-
-> texts in each package
->=20
-> Instead of putting the full license text for non-SPDX licenses into the
-> recipe and every package, use links to the recipe from the packages if
-> possible.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/classes/create-spdx.bbclass | 25 ++++++++++++++-----------
->  1 file changed, 14 insertions(+), 11 deletions(-)
->=20
-> diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-
-> spdx.bbclass
-> index cbb9239991c..1e0b3605587 100644
-> --- a/meta/classes/create-spdx.bbclass
-> +++ b/meta/classes/create-spdx.bbclass
-> @@ -50,7 +50,7 @@ python() {
->          d.setVar("SPDX_LICENSE_DATA", data)
->  }
->=20
-> -def convert_license_to_spdx(lic, document, d):
-> +def convert_license_to_spdx(lic, document, d, existing=3D{}):
->      from pathlib import Path
->      import oe.spdx
->=20
-> @@ -109,8 +109,11 @@ def convert_license_to_spdx(lic, document, d):
->          if spdx_license in license_data["licenses"]:
->              return spdx_license
->=20
-> -        spdx_license =3D "LicenseRef-" + l
-> -        add_extracted_license(spdx_license, l)
-> +        try:
-> +            spdx_license =3D existing[l]
-> +        except KeyError:
-> +            spdx_license =3D "LicenseRef-" + l
-> +            add_extracted_license(spdx_license, l)
->=20
->          return spdx_license
->=20
-> @@ -462,7 +465,14 @@ python do_create_spdx() {
->      doc_sha1 =3D oe.sbom.write_doc(d, doc, "recipes")
->      dep_recipes.append(oe.sbom.DepRecipe(doc, doc_sha1, recipe))
->=20
-> +    recipe_ref =3D oe.spdx.SPDXExternalDocumentRef()
-> +    recipe_ref.externalDocumentId =3D "DocumentRef-recipe-" + recipe.nam=
-e
-> +    recipe_ref.spdxDocument =3D doc.documentNamespace
-> +    recipe_ref.checksum.algorithm =3D "SHA1"
-> +    recipe_ref.checksum.checksumValue =3D doc_sha1
-> +
->      sources =3D collect_dep_sources(d, dep_recipes)
-> +    found_licenses =3D {license.name:recipe_ref.externalDocumentId + ":"=
- +
-> license.licenseId for license in doc.hasExtractedLicensingInfos}
->=20
->      if not is_native:
->          bb.build.exec_func("read_subpackage_metadata", d)
-> @@ -482,13 +492,6 @@ python do_create_spdx() {
->              package_doc.creationInfo.creators.append("Tool: OpenEmbedded
-> Core create-spdx.bbclass")
->              package_doc.creationInfo.creators.append("Organization:
-> OpenEmbedded ()")
->              package_doc.creationInfo.creators.append("Person: N/A ()")
-> -
-> -            recipe_ref =3D oe.spdx.SPDXExternalDocumentRef()
-> -            recipe_ref.externalDocumentId =3D "DocumentRef-recipe-" +
-> recipe.name
-> -            recipe_ref.spdxDocument =3D doc.documentNamespace
-> -            recipe_ref.checksum.algorithm =3D "SHA1"
-> -            recipe_ref.checksum.checksumValue =3D doc_sha1
-> -
->              package_doc.externalDocumentRefs.append(recipe_ref)
->=20
->              package_license =3D d.getVar("LICENSE:%s" % package) or
-> d.getVar("LICENSE")
-> @@ -498,7 +501,7 @@ python do_create_spdx() {
->              spdx_package.SPDXID =3D oe.sbom.get_package_spdxid(pkg_name)
->              spdx_package.name =3D pkg_name
->              spdx_package.versionInfo =3D d.getVar("PV")
-> -            spdx_package.licenseDeclared =3D
-> convert_license_to_spdx(package_license, package_doc, d)
-> +            spdx_package.licenseDeclared =3D
-> convert_license_to_spdx(package_license, package_doc, d, found_licenses)
->=20
->              package_doc.packages.append(spdx_package)
->=20
-> --
-> 2.25.1
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 860fd24863..17322885dc 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -69,6 +69,7 @@ PACKAGECONFIG[tiny] = "--with-features=tiny,--with-features=big,,"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,"
+ PACKAGECONFIG[elfutils] = "--enable-elf-check,,elfutils,"
+ PACKAGECONFIG[nls] = "--enable-nls,--disable-nls,,"
++PACKAGECONFIG[sound] = "--enable-canberra,--disable-canberra,canberra,"
+ 
+ EXTRA_OECONF = " \
+     --disable-gpm \
+-- 
+2.33.0
 
