@@ -1,77 +1,606 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.213.1630773111338902334
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web11.4524.1630799517458898158
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Sep 2021 09:31:51 -0700
+ Sat, 04 Sep 2021 16:51:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z9kfRMGb;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so1598552pjw.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Sep 2021 09:31:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f0VkPjMr;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id w78so3124748qkb.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Sep 2021 16:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2mFFFyRwiIf04ypjBVS+e3Pjf+kaT0g//aA3bhs3gSI=;
-        b=Z9kfRMGb+ZGNY+UGY8wps05D8bAVxwg/Tmo1EM575I9zbVpvrzfpQfqHXR4vN3kT+u
-         CYrXs6lV0hSTsRjGYLZTlHm5pnz+DxV64srj24Bx5GhDFJduGbnCrOBBKrQ8m6VJqi2E
-         YO+ev7aLTHjlqw6jIJrGhAe/5DbqPe5bFUPFD56B8Zv7o8ra9bJIzA5dsavgppyXsxEG
-         BuzIJmgo4oAY/wx+P8TxlnPLyLsTY0KpQeOos9KkVJA2Kp1UZEb8PCNZZePjqT9WIayo
-         hoTrgjb5lvjZBR7KCp1jDS/teCTSPYnIHBNJS5h2AQW6bfmzD/jQl7QrNDY77zNxkmmo
-         7s3g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=FD09pNVaNjEx5kBgryzI9om/a4zzqF1C22SANexdJ0M=;
+        b=f0VkPjMrOVmShBHcPGngEsh0NxKn1vFfY32iShiCvtIEUTVDHyGvZDNeYLp0doO3MP
+         ensdJQVLg5TR1kOYOsV/k5tKCYqNXfrCPSRREB0QXtB3zbX/aejHHT0KtUR9KuzXaA41
+         WU66peNfyCxSqJGHCj1Vr5t1Kf3vMtRTbuOD2uBoY9ykga1VzpMDrBRkEQ2FRXNeG0s1
+         NZvg2C0i5BlFo1/QEu21RlmMia8xEYpadK/5UrOP9q3LMiD5f5kfotASVG8iM1N66W4+
+         nbbbvv8Vn/RnYr3erQrRNFy8GC45EBE3JxhFaCgurloxUzE07V6RZWYHYk6mhAohNWN2
+         Qipg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2mFFFyRwiIf04ypjBVS+e3Pjf+kaT0g//aA3bhs3gSI=;
-        b=BWKM0YRobjupO7M4YSgMXPKbZfV+jl60Z8jJ+mZR0eyqSNLlJC3F/yx84X7Ni64Yd4
-         oiYt8m/ANK8sihnK+2Qxt8tazJXPbo8Mb70GFact7XnHW0v4yDc+AsZ/JjcMii0FUWRp
-         2CUFzT5GmXIEfCsQFncjM/VJ6k7DEwFfmjpFreknC/lUOAlZSXSipstx6KOVoKKJpcLL
-         L+189KlqjpjR5b2rnEoeipBRwLQdLUhe0FHCcO0iCnMnlbBN+y8SIXE+Ay31pP2CXloi
-         WxsdV+ukqY7qWzbwcXGdauW7uxp+wcQmGazIEzwvFX/yRvYd8ZAWwF3st/Dm449JhU5R
-         dnvQ==
-X-Gm-Message-State: AOAM532XR8D5DxexzvJhsteyHHXLGybUCQVaXpqH9XSpuK3Aolm9IUdu
-	XMYv8ds327MFoJYvwZuLieUUSsZw1OjA9w==
-X-Google-Smtp-Source: ABdhPJzgR396yFeu4IQ/FZo0eYZEAzJCmZOGg1DzPxtTbNcGWbhdQmxjNrQWKCXd2ZZeN0u5SPFOcw==
-X-Received: by 2002:a17:902:82c6:b0:136:59b0:ed17 with SMTP id u6-20020a17090282c600b0013659b0ed17mr3878040plz.61.1630773110378;
-        Sat, 04 Sep 2021 09:31:50 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1d09])
-        by smtp.gmail.com with ESMTPSA id t13sm2791724pjg.25.2021.09.04.09.31.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 09:31:50 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] vim: Add packageconfig for sound notification support
-Date: Sat,  4 Sep 2021 09:31:46 -0700
-Message-Id: <20210904163146.747932-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FD09pNVaNjEx5kBgryzI9om/a4zzqF1C22SANexdJ0M=;
+        b=GRSZJ2mAfAs0zzUCdTqj978dAmeboI0Yri8KpqUm+magWLzF6xr4btWnJwDLNfbSUq
+         eOPFbBDuNElsH0cb+wvePe6E6xnQlvU79JyxxLxJKZKR1dPeorZXwqqAuaH8lm0s20Gt
+         ZObtLYL3B3sbk+cXtcajSSXwPpZL9oEMmY4XBY8eZ3TzIRIrT83lMPJYqfftwZOzXaMQ
+         c9FF7kD49BioIVkZatBUNj5hD5H6/JL4rHlLZ7TKDLNqy7xJu6GUbfQV7bu6EXZZMTuv
+         zuaE+N8Ena1Uc4zyA1mT0bM1Ct2gHLsaVXLikASEi/jUmlWMfETK0scVvje2i6W4kgqL
+         iUlw==
+X-Gm-Message-State: AOAM531wBmf/Jg5s/5669n0aBCo4Dvc1Bss93AnuhiM64l7J4NGDMnHK
+	/DAdErRHpGVrTTrDrTRLIONAPWZlLI1I5RmHtXJt78yd1OrvrA==
+X-Google-Smtp-Source: ABdhPJzWUSYFMGSiCc+RjiCxBaoMAnHl9yQhtcmQAWoa1L+xfNNCjF8Cf5WuzRtjdXX6WTL8PI2HcCyHHb3xxYlL11c=
+X-Received: by 2002:a05:620a:1086:: with SMTP id g6mr5033648qkk.105.1630799516028;
+ Sat, 04 Sep 2021 16:51:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210903214014.7093-1-pkj@axis.com>
+In-Reply-To: <20210903214014.7093-1-pkj@axis.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 4 Sep 2021 16:51:30 -0700
+Message-ID: <CAMKF1spRYzzS=aX1u4nuO0o=5L7sns6QJ_R5XzyOX71mQ=6Nog@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] common-licenses, licenses.conf: Remove duplicate licenses
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-vim uses libcanberra to implement sound, currently its ok for target
-since we have captured dependencies in recipe sysroot but things go a
-bit out of control when building vim-native, where configure starts to
-poke at host system and if it find libcanberra then silently enables it
-lets make it consistent
+meta-oe was using BSD-0-Clause see
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1506
+I have sent a fix for that
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/vim/vim.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 860fd24863..17322885dc 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -69,6 +69,7 @@ PACKAGECONFIG[tiny] = "--with-features=tiny,--with-features=big,,"
- PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,"
- PACKAGECONFIG[elfutils] = "--enable-elf-check,,elfutils,"
- PACKAGECONFIG[nls] = "--enable-nls,--disable-nls,,"
-+PACKAGECONFIG[sound] = "--enable-canberra,--disable-canberra,canberra,"
- 
- EXTRA_OECONF = " \
-     --disable-gpm \
--- 
-2.33.0
-
+On Fri, Sep 3, 2021 at 2:40 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> This removes BSD-0-Clause, Nauman, tcl and vim and adds mappings for
+> them to their SPDX counterparts (0BSD, Naumen, TCL and Vim).
+>
+> It also removes FreeType, which already had a mapping to FTL.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>
+> In case anyone is interested, the following command (executed in
+> meta/files/common-licenses) can be used to list all licenses that are
+> not present in spdx-licenses.json:
+>
+>   ls | grep -Ev "^($(sed -nre 's/.*"licenseId": "(.*)".*/\1/p' ../../file=
+s/spdx-licenses.json | sort | tr '\n' '|'))\$"
+>
+>  meta/conf/licenses.conf                 |  30 +++--
+>  meta/files/common-licenses/BSD-0-Clause |  12 --
+>  meta/files/common-licenses/FreeType     | 170 ------------------------
+>  meta/files/common-licenses/Nauman       |  50 -------
+>  meta/files/common-licenses/tcl          |  40 ------
+>  meta/files/common-licenses/vim          |  81 -----------
+>  6 files changed, 18 insertions(+), 365 deletions(-)
+>  delete mode 100644 meta/files/common-licenses/BSD-0-Clause
+>  delete mode 100644 meta/files/common-licenses/FreeType
+>  delete mode 100644 meta/files/common-licenses/Nauman
+>  delete mode 100644 meta/files/common-licenses/tcl
+>  delete mode 100644 meta/files/common-licenses/vim
+>
+> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+> index e2bd58f84a..991fb6cc23 100644
+> --- a/meta/conf/licenses.conf
+> +++ b/meta/conf/licenses.conf
+> @@ -19,6 +19,9 @@ SPDXLICENSEMAP[AGPLv3.0+] =3D "AGPL-3.0-or-later"
+>  SPDXLICENSEMAP[AGPL-3.0] =3D "AGPL-3.0-only"
+>  SPDXLICENSEMAP[AGPL-3.0+] =3D "AGPL-3.0-or-later"
+>
+> +# BSD variations
+> +SPDXLICENSEMAP[BSD-0-Clause] =3D "0BSD"
+> +
+>  # GPL variations
+>  SPDXLICENSEMAP[GPL-1] =3D "GPL-1.0-only"
+>  SPDXLICENSEMAP[GPL-1+] =3D "GPL-1.0-or-later"
+> @@ -45,7 +48,7 @@ SPDXLICENSEMAP[GPLv3.0+] =3D "GPL-3.0-or-later"
+>  SPDXLICENSEMAP[GPL-3.0] =3D "GPL-3.0-only"
+>  SPDXLICENSEMAP[GPL-3.0+] =3D "GPL-3.0-or-later"
+>
+> -#LGPL variations
+> +# LGPL variations
+>  SPDXLICENSEMAP[LGPLv2] =3D "LGPL-2.0-only"
+>  SPDXLICENSEMAP[LGPLv2+] =3D "LGPL-2.0-or-later"
+>  SPDXLICENSEMAP[LGPLv2.0] =3D "LGPL-2.0-only"
+> @@ -63,49 +66,52 @@ SPDXLICENSEMAP[LGPLv3+] =3D "LGPL-3.0-or-later"
+>  SPDXLICENSEMAP[LGPL-3.0] =3D "LGPL-3.0-only"
+>  SPDXLICENSEMAP[LGPL-3.0+] =3D "LGPL-3.0-or-later"
+>
+> -#MPL variations
+> +# MPL variations
+>  SPDXLICENSEMAP[MPL-1] =3D "MPL-1.0"
+>  SPDXLICENSEMAP[MPLv1] =3D "MPL-1.0"
+>  SPDXLICENSEMAP[MPLv1.1] =3D "MPL-1.1"
+>  SPDXLICENSEMAP[MPLv2] =3D "MPL-2.0"
+>
+> -#MIT variations
+> +# MIT variations
+>  SPDXLICENSEMAP[MIT-X] =3D "MIT"
+>  SPDXLICENSEMAP[MIT-style] =3D "MIT"
+>
+> -#Openssl variations
+> +# Openssl variations
+>  SPDXLICENSEMAP[openssl] =3D "OpenSSL"
+>
+> -#PSF variations
+> +# PSF variations
+>  SPDXLICENSEMAP[PSF] =3D "PSF-2.0"
+>  SPDXLICENSEMAP[PSFv2] =3D "PSF-2.0"
+>
+> -#Python variations
+> +# Python variations
+>  SPDXLICENSEMAP[Python-2] =3D "Python-2.0"
+>
+> -#Apache variations
+> +# Apache variations
+>  SPDXLICENSEMAP[Apachev2] =3D "Apache-2.0"
+>  SPDXLICENSEMAP[Apache-2] =3D "Apache-2.0"
+>
+> -#Artistic variations
+> +# Artistic variations
+>  SPDXLICENSEMAP[Artisticv1] =3D "Artistic-1.0"
+>  SPDXLICENSEMAP[Artistic-1] =3D "Artistic-1.0"
+>
+> -#Academic variations
+> +# Academic variations
+>  SPDXLICENSEMAP[AFL-2] =3D "AFL-2.0"
+>  SPDXLICENSEMAP[AFL-1] =3D "AFL-1.2"
+>  SPDXLICENSEMAP[AFLv2] =3D "AFL-2.0"
+>  SPDXLICENSEMAP[AFLv1] =3D "AFL-1.2"
+>
+> -#CDDL variations
+> +# CDDL variations
+>  SPDXLICENSEMAP[CDDLv1] =3D "CDDL-1.0"
+>  SPDXLICENSEMAP[CDDL-1] =3D "CDDL-1.0"
+>
+> -#Other variations
+> +# Other variations
+>  SPDXLICENSEMAP[EPLv1.0] =3D "EPL-1.0"
+>  SPDXLICENSEMAP[FreeType] =3D "FTL"
+> +SPDXLICENSEMAP[Nauman] =3D "Naumen"
+> +SPDXLICENSEMAP[tcl] =3D "TCL"
+> +SPDXLICENSEMAP[vim] =3D "Vim"
+>
+> -#Silicon Graphics variations
+> +# Silicon Graphics variations
+>  SPDXLICENSEMAP[SGIv1] =3D "SGI-1"
+>
+>  # Additional license directories. Add your custom licenses directories t=
+his path.
+> diff --git a/meta/files/common-licenses/BSD-0-Clause b/meta/files/common-=
+licenses/BSD-0-Clause
+> deleted file mode 100644
+> index 328bdd6aee..0000000000
+> --- a/meta/files/common-licenses/BSD-0-Clause
+> +++ /dev/null
+> @@ -1,12 +0,0 @@
+> -Copyright (C) <YEAR> by <OWNER>
+> -
+> -Permission to use, copy, modify, and/or distribute this software for any
+> -purpose with or without fee is hereby granted.
+> -
+> -THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+> -WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+> -MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+> -ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+> -WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+> -ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+> -OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+> diff --git a/meta/files/common-licenses/FreeType b/meta/files/common-lice=
+nses/FreeType
+> deleted file mode 100644
+> index 3666649f3e..0000000000
+> --- a/meta/files/common-licenses/FreeType
+> +++ /dev/null
+> @@ -1,170 +0,0 @@
+> -                    The FreeType Project LICENSE
+> -                    ----------------------------
+> -
+> -                            2006-Jan-27
+> -
+> -                    Copyright 1996-2002, 2006 by
+> -          David Turner, Robert Wilhelm, and Werner Lemberg
+> -
+> -
+> -
+> -Introduction
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -
+> -  The FreeType  Project is distributed in  several archive packages;
+> -  some of them may contain, in addition to the FreeType font engine,
+> -  various tools and  contributions which rely on, or  relate to, the
+> -  FreeType Project.
+> -
+> -  This  license applies  to all  files found  in such  packages, and
+> -  which do not  fall under their own explicit  license.  The license
+> -  affects  thus  the  FreeType   font  engine,  the  test  programs,
+> -  documentation and makefiles, at the very least.
+> -
+> -  This  license   was  inspired  by  the  BSD,   Artistic,  and  IJG
+> -  (Independent JPEG  Group) licenses, which  all encourage inclusion
+> -  and  use of  free  software in  commercial  and freeware  products
+> -  alike.  As a consequence, its main points are that:
+> -
+> -    o We don't promise that this software works. However, we will be
+> -      interested in any kind of bug reports. (`as is' distribution)
+> -
+> -    o You can  use this software for whatever you  want, in parts or
+> -      full form, without having to pay us. (`royalty-free' usage)
+> -
+> -    o You may not pretend that  you wrote this software.  If you use
+> -      it, or  only parts of it,  in a program,  you must acknowledge
+> -      somewhere  in  your  documentation  that  you  have  used  the
+> -      FreeType code. (`credits')
+> -
+> -  We  specifically  permit  and  encourage  the  inclusion  of  this
+> -  software, with  or without modifications,  in commercial products.
+> -  We  disclaim  all warranties  covering  The  FreeType Project  and
+> -  assume no liability related to The FreeType Project.
+> -
+> -
+> -  Finally,  many  people  asked  us  for  a  preferred  form  for  a
+> -  credit/disclaimer to use in compliance with this license.  We thus
+> -  encourage you to use the following text:
+> -
+> -   """
+> -    Portions of this software are copyright =C2=A9 <year> The FreeType
+> -    Project (www.freetype.org).  All rights reserved.
+> -   """
+> -
+> -  Please replace <year> with the value from the FreeType version you
+> -  actually use.
+> -
+> -
+> -Legal Terms
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -
+> -0. Definitions
+> ---------------
+> -
+> -  Throughout this license,  the terms `package', `FreeType Project',
+> -  and  `FreeType  archive' refer  to  the  set  of files  originally
+> -  distributed  by the  authors  (David Turner,  Robert Wilhelm,  and
+> -  Werner Lemberg) as the `FreeType Project', be they named as alpha,
+> -  beta or final release.
+> -
+> -  `You' refers to  the licensee, or person using  the project, where
+> -  `using' is a generic term including compiling the project's source
+> -  code as  well as linking it  to form a  `program' or `executable'.
+> -  This  program is  referred to  as  `a program  using the  FreeType
+> -  engine'.
+> -
+> -  This  license applies  to all  files distributed  in  the original
+> -  FreeType  Project,   including  all  source   code,  binaries  and
+> -  documentation,  unless  otherwise  stated   in  the  file  in  its
+> -  original, unmodified form as  distributed in the original archive.
+> -  If you are  unsure whether or not a particular  file is covered by
+> -  this license, you must contact us to verify this.
+> -
+> -  The FreeType  Project is copyright (C) 1996-2000  by David Turner,
+> -  Robert Wilhelm, and Werner Lemberg.  All rights reserved except as
+> -  specified below.
+> -
+> -1. No Warranty
+> ---------------
+> -
+> -  THE FREETYPE PROJECT  IS PROVIDED `AS IS' WITHOUT  WARRANTY OF ANY
+> -  KIND, EITHER  EXPRESS OR IMPLIED,  INCLUDING, BUT NOT  LIMITED TO,
+> -  WARRANTIES  OF  MERCHANTABILITY   AND  FITNESS  FOR  A  PARTICULAR
+> -  PURPOSE.  IN NO EVENT WILL ANY OF THE AUTHORS OR COPYRIGHT HOLDERS
+> -  BE LIABLE  FOR ANY DAMAGES CAUSED  BY THE USE OR  THE INABILITY TO
+> -  USE, OF THE FREETYPE PROJECT.
+> -
+> -2. Redistribution
+> ------------------
+> -
+> -  This  license  grants  a  worldwide, royalty-free,  perpetual  and
+> -  irrevocable right  and license to use,  execute, perform, compile,
+> -  display,  copy,   create  derivative  works   of,  distribute  and
+> -  sublicense the  FreeType Project (in  both source and  object code
+> -  forms)  and  derivative works  thereof  for  any  purpose; and  to
+> -  authorize others  to exercise  some or all  of the  rights granted
+> -  herein, subject to the following conditions:
+> -
+> -    o Redistribution of  source code  must retain this  license file
+> -      (`FTL.TXT') unaltered; any  additions, deletions or changes to
+> -      the original  files must be clearly  indicated in accompanying
+> -      documentation.   The  copyright   notices  of  the  unaltered,
+> -      original  files must  be  preserved in  all  copies of  source
+> -      files.
+> -
+> -    o Redistribution in binary form must provide a  disclaimer  that
+> -      states  that  the software is based in part of the work of the
+> -      FreeType Team,  in  the  distribution  documentation.  We also
+> -      encourage you to put an URL to the FreeType web page  in  your
+> -      documentation, though this isn't mandatory.
+> -
+> -  These conditions  apply to any  software derived from or  based on
+> -  the FreeType Project,  not just the unmodified files.   If you use
+> -  our work, you  must acknowledge us.  However, no  fee need be paid
+> -  to us.
+> -
+> -3. Advertising
+> ---------------
+> -
+> -  Neither the  FreeType authors and  contributors nor you  shall use
+> -  the name of the  other for commercial, advertising, or promotional
+> -  purposes without specific prior written permission.
+> -
+> -  We suggest,  but do not require, that  you use one or  more of the
+> -  following phrases to refer  to this software in your documentation
+> -  or advertising  materials: `FreeType Project',  `FreeType Engine',
+> -  `FreeType library', or `FreeType Distribution'.
+> -
+> -  As  you have  not signed  this license,  you are  not  required to
+> -  accept  it.   However,  as  the FreeType  Project  is  copyrighted
+> -  material, only  this license, or  another one contracted  with the
+> -  authors, grants you  the right to use, distribute,  and modify it.
+> -  Therefore,  by  using,  distributing,  or modifying  the  FreeType
+> -  Project, you indicate that you understand and accept all the terms
+> -  of this license.
+> -
+> -4. Contacts
+> ------------
+> -
+> -  There are two mailing lists related to FreeType:
+> -
+> -    o freetype@nongnu.org
+> -
+> -      Discusses general use and applications of FreeType, as well as
+> -      future and  wanted additions to the  library and distribution.
+> -      If  you are looking  for support,  start in  this list  if you
+> -      haven't found anything to help you in the documentation.
+> -
+> -    o freetype-devel@nongnu.org
+> -
+> -      Discusses bugs,  as well  as engine internals,  design issues,
+> -      specific licenses, porting, etc.
+> -
+> -  Our home page can be found at
+> -
+> -    https://www.freetype.org
+> -
+> -
+> ---- end of FTL.TXT ---
+> -
+> diff --git a/meta/files/common-licenses/Nauman b/meta/files/common-licens=
+es/Nauman
+> deleted file mode 100644
+> index 69ce785ff3..0000000000
+> --- a/meta/files/common-licenses/Nauman
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -
+> -NAUMEN Public License
+> -This software is Copyright (c) NAUMEN (tm) and Contributors.
+> -All rights reserved.
+> -
+> -Redistribution and use in source and binary forms, with or
+> -without modification, are permitted provided that the following
+> -conditions are met:
+> -
+> -1. Redistributions in source code must retain the above
+> -copyright notice, this list of conditions, and the following
+> -disclaimer.
+> -
+> -2. Redistributions in binary form must reproduce the above
+> -copyright notice, this list of conditions, and the following
+> -disclaimer in the documentation and/or other materials
+> -provided with the distribution.
+> -
+> -3. The name NAUMEN (tm) must not be used to
+> -endorse or promote products derived from this software without prior
+> -written permission from NAUMEN.
+> -
+> -4. The right to distribute this software or to use it for any
+> -purpose does not give you the right to use Servicemarks (sm)
+> -or Trademarks (tm) of NAUMEN.
+> -
+> -5. If any files originating from NAUMEN or Contributors are modified, yo=
+u must
+> -cause the modified files to carry prominent notices stating
+> -that you changed the files and the date of any change.
+> -
+> -Disclaimer:
+> -
+> -THIS SOFTWARE IS PROVIDED BY NAUMEN "AS IS" AND ANY EXPRESSED
+> -OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+> -IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+> -PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL NAUMEN
+> -OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+> -INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+> -(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+> -GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+> -INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+> -WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+> -NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+> -THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+> -DAMAGE.
+> -
+> -This software consists of contributions made by NAUMEN
+> -and Contributors. Specific attributions are listed in the
+> -accompanying credits file.
+> -
+> diff --git a/meta/files/common-licenses/tcl b/meta/files/common-licenses/=
+tcl
+> deleted file mode 100644
+> index d8049cd9e7..0000000000
+> --- a/meta/files/common-licenses/tcl
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -This software is copyrighted by the Regents of the University of
+> -California, Sun Microsystems, Inc., Scriptics Corporation, ActiveState
+> -Corporation and other parties.  The following terms apply to all files
+> -associated with the software unless explicitly disclaimed in
+> -individual files.
+> -
+> -The authors hereby grant permission to use, copy, modify, distribute,
+> -and license this software and its documentation for any purpose, provide=
+d
+> -that existing copyright notices are retained in all copies and that this
+> -notice is included verbatim in any distributions. No written agreement,
+> -license, or royalty fee is required for any of the authorized uses.
+> -Modifications to this software may be copyrighted by their authors
+> -and need not follow the licensing terms described here, provided that
+> -the new terms are clearly indicated on the first page of each file where
+> -they apply.
+> -
+> -IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO ANY PARTY
+> -FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+> -ARISING OUT OF THE USE OF THIS SOFTWARE, ITS DOCUMENTATION, OR ANY
+> -DERIVATIVES THEREOF, EVEN IF THE AUTHORS HAVE BEEN ADVISED OF THE
+> -POSSIBILITY OF SUCH DAMAGE.
+> -
+> -THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY WARRANTIES,
+> -INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY=
+,
+> -FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.  THIS SOFTWARE
+> -IS PROVIDED ON AN "AS IS" BASIS, AND THE AUTHORS AND DISTRIBUTORS HAVE
+> -NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR
+> -MODIFICATIONS.
+> -
+> -GOVERNMENT USE: If you are acquiring this software on behalf of the
+> -U.S. government, the Government shall have only "Restricted Rights"
+> -in the software and related documentation as defined in the Federal
+> -Acquisition Regulations (FARs) in Clause 52.227.19 (c) (2).  If you
+> -are acquiring the software on behalf of the Department of Defense, the
+> -software shall be classified as "Commercial Computer Software" and the
+> -Government shall have only "Restricted Rights" as defined in Clause
+> -252.227-7014 (b) (3) of DFARs.  Notwithstanding the foregoing, the
+> -authors grant the U.S. Government and others acting in its behalf
+> -permission to use and distribute the software in accordance with the
+> -terms specified in this license.
+> diff --git a/meta/files/common-licenses/vim b/meta/files/common-licenses/=
+vim
+> deleted file mode 100644
+> index 4aa818eb24..0000000000
+> --- a/meta/files/common-licenses/vim
+> +++ /dev/null
+> @@ -1,81 +0,0 @@
+> -VIM LICENSE
+> -
+> -I)  There are no restrictions on distributing unmodified copies of Vim e=
+xcept
+> -    that they must include this license text.  You can also distribute
+> -    unmodified parts of Vim, likewise unrestricted except that they must
+> -    include this license text.  You are also allowed to include executab=
+les
+> -    that you made from the unmodified Vim sources, plus your own usage
+> -    examples and Vim scripts.
+> -
+> -II) It is allowed to distribute a modified (or extended) version of Vim,
+> -    including executables and/or source code, when the following four
+> -    conditions are met:
+> -    1) This license text must be included unmodified.
+> -    2) The modified Vim must be distributed in one of the following five=
+ ways:
+> -       a) If you make changes to Vim yourself, you must clearly describe=
+ in
+> -         the distribution how to contact you.  When the maintainer asks =
+you
+> -         (in any way) for a copy of the modified Vim you distributed, yo=
+u
+> -         must make your changes, including source code, available to the
+> -         maintainer without fee.  The maintainer reserves the right to
+> -         include your changes in the official version of Vim.  What the
+> -         maintainer will do with your changes and under what license the=
+y
+> -         will be distributed is negotiable.  If there has been no negoti=
+ation
+> -         then this license, or a later version, also applies to your cha=
+nges.
+> -         The current maintainer is Bram Moolenaar <Bram@vim.org>.  If th=
+is
+> -         changes it will be announced in appropriate places (most likely
+> -         vim.sf.net, www.vim.org and/or comp.editors).  When it is compl=
+etely
+> -         impossible to contact the maintainer, the obligation to send hi=
+m
+> -         your changes ceases.  Once the maintainer has confirmed that he=
+ has
+> -         received your changes they will not have to be sent again.
+> -       b) If you have received a modified Vim that was distributed as
+> -         mentioned under a) you are allowed to further distribute it
+> -         unmodified, as mentioned at I).  If you make additional changes=
+ the
+> -         text under a) applies to those changes.
+> -       c) Provide all the changes, including source code, with every cop=
+y of
+> -         the modified Vim you distribute.  This may be done in the form =
+of a
+> -         context diff.  You can choose what license to use for new code =
+you
+> -         add.  The changes and their license must not restrict others fr=
+om
+> -         making their own changes to the official version of Vim.
+> -       d) When you have a modified Vim which includes changes as mention=
+ed
+> -         under c), you can distribute it without the source code for the
+> -         changes if the following three conditions are met:
+> -         - The license that applies to the changes permits you to distri=
+bute
+> -           the changes to the Vim maintainer without fee or restriction,=
+ and
+> -           permits the Vim maintainer to include the changes in the offi=
+cial
+> -           version of Vim without fee or restriction.
+> -         - You keep the changes for at least three years after last
+> -           distributing the corresponding modified Vim.  When the mainta=
+iner
+> -           or someone who you distributed the modified Vim to asks you (=
+in
+> -           any way) for the changes within this period, you must make th=
+em
+> -           available to him.
+> -         - You clearly describe in the distribution how to contact you. =
+ This
+> -           contact information must remain valid for at least three year=
+s
+> -           after last distributing the corresponding modified Vim, or as=
+ long
+> -           as possible.
+> -       e) When the GNU General Public License (GPL) applies to the chang=
+es,
+> -         you can distribute the modified Vim under the GNU GPL version 2=
+ or
+> -         any later version.
+> -    3) A message must be added, at least in the output of the ":version"
+> -       command and in the intro screen, such that the user of the modifi=
+ed Vim
+> -       is able to see that it was modified.  When distributing as mentio=
+ned
+> -       under 2)e) adding the message is only required for as far as this=
+ does
+> -       not conflict with the license used for the changes.
+> -    4) The contact information as required under 2)a) and 2)d) must not =
+be
+> -       removed or changed, except that the person himself can make
+> -       corrections.
+> -
+> -III) If you distribute a modified version of Vim, you are encouraged to =
+use
+> -     the Vim license for your changes and make them available to the
+> -     maintainer, including the source code.  The preferred way to do thi=
+s is
+> -     by e-mail or by uploading the files to a server and e-mailing the U=
+RL.
+> -     If the number of changes is small (e.g., a modified Makefile) e-mai=
+ling a
+> -     context diff will do.  The e-mail address to be used is
+> -     <maintainer@vim.org>
+> -
+> -IV)  It is not allowed to remove this license from the distribution of t=
+he Vim
+> -     sources, parts of it or from a modified version.  You may use this
+> -     license for previous Vim releases instead of the license that they =
+came
+> -     with, at your option.
+> -
+> -=3D=3D=3D
+> -Read more about this license at http://vimdoc.sourceforge.net/htmldoc/ug=
+anda.html#license
+>
+>=20
+>
