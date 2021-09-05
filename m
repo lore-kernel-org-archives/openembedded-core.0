@@ -1,606 +1,486 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web11.4524.1630799517458898158
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web08.7682.1630830563101475158
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Sep 2021 16:51:57 -0700
+ Sun, 05 Sep 2021 01:29:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=f0VkPjMr;
- spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id w78so3124748qkb.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Sep 2021 16:51:57 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Z1wUykg6;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FD09pNVaNjEx5kBgryzI9om/a4zzqF1C22SANexdJ0M=;
-        b=f0VkPjMrOVmShBHcPGngEsh0NxKn1vFfY32iShiCvtIEUTVDHyGvZDNeYLp0doO3MP
-         ensdJQVLg5TR1kOYOsV/k5tKCYqNXfrCPSRREB0QXtB3zbX/aejHHT0KtUR9KuzXaA41
-         WU66peNfyCxSqJGHCj1Vr5t1Kf3vMtRTbuOD2uBoY9ykga1VzpMDrBRkEQ2FRXNeG0s1
-         NZvg2C0i5BlFo1/QEu21RlmMia8xEYpadK/5UrOP9q3LMiD5f5kfotASVG8iM1N66W4+
-         nbbbvv8Vn/RnYr3erQrRNFy8GC45EBE3JxhFaCgurloxUzE07V6RZWYHYk6mhAohNWN2
-         Qipg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FD09pNVaNjEx5kBgryzI9om/a4zzqF1C22SANexdJ0M=;
-        b=GRSZJ2mAfAs0zzUCdTqj978dAmeboI0Yri8KpqUm+magWLzF6xr4btWnJwDLNfbSUq
-         eOPFbBDuNElsH0cb+wvePe6E6xnQlvU79JyxxLxJKZKR1dPeorZXwqqAuaH8lm0s20Gt
-         ZObtLYL3B3sbk+cXtcajSSXwPpZL9oEMmY4XBY8eZ3TzIRIrT83lMPJYqfftwZOzXaMQ
-         c9FF7kD49BioIVkZatBUNj5hD5H6/JL4rHlLZ7TKDLNqy7xJu6GUbfQV7bu6EXZZMTuv
-         zuaE+N8Ena1Uc4zyA1mT0bM1Ct2gHLsaVXLikASEi/jUmlWMfETK0scVvje2i6W4kgqL
-         iUlw==
-X-Gm-Message-State: AOAM531wBmf/Jg5s/5669n0aBCo4Dvc1Bss93AnuhiM64l7J4NGDMnHK
-	/DAdErRHpGVrTTrDrTRLIONAPWZlLI1I5RmHtXJt78yd1OrvrA==
-X-Google-Smtp-Source: ABdhPJzWUSYFMGSiCc+RjiCxBaoMAnHl9yQhtcmQAWoa1L+xfNNCjF8Cf5WuzRtjdXX6WTL8PI2HcCyHHb3xxYlL11c=
-X-Received: by 2002:a05:620a:1086:: with SMTP id g6mr5033648qkk.105.1630799516028;
- Sat, 04 Sep 2021 16:51:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210903214014.7093-1-pkj@axis.com>
-In-Reply-To: <20210903214014.7093-1-pkj@axis.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 4 Sep 2021 16:51:30 -0700
-Message-ID: <CAMKF1spRYzzS=aX1u4nuO0o=5L7sns6QJ_R5XzyOX71mQ=6Nog@mail.gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1630830563;
+  x=1662366563;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=WaWr4yTVk2xDT8ITM5xMiOpa/9jMMuGIJuE3mQc6WMo=;
+  b=Z1wUykg69Cd5jpBJ0Vrm02w8P0Kee8ThAPIHixTJFgcVWLhEMk9gRuoj
+   /4awsvZamd+SB2v58DjQNOpit/+5+XiEsL5DPmpd3FKeBUpcAWF9gITBW
+   lOTZGKJypk65d/YwE4IpDe74jwGMR30yMRXdnztTQ2I9U74ce8xWfQyFe
+   KwBhuItM4eSi9yNLvzEdmTvORDBhliJe8aaIRIpiRSR7Cq63XLd5/6lzR
+   biKB7x4rCtOvCUppw8GJXkRakZraqQ8B2cRFuCsTOxhMzYdI4NisNQ332
+   sGgSbHnmq7906x9AZg3vW0IJxqPfDuAmXDcb3u+6mLwATBVc0bz1y6NiD
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] common-licenses, licenses.conf: Remove duplicate licenses
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thread-Topic: [OE-core] [PATCH] common-licenses, licenses.conf: Remove
+ duplicate licenses
+Thread-Index: AQHXoefIh6rN9cl/vUeDVZmslh5jxauVG6Yg
+Date: Sun, 5 Sep 2021 08:29:19 +0000
+Message-ID: <2bcc5b27fea94644925313d38613f4fa@axis.com>
+References: <20210903214014.7093-1-pkj@axis.com>
+ <CAMKF1spRYzzS=aX1u4nuO0o=5L7sns6QJ_R5XzyOX71mQ=6Nog@mail.gmail.com>
+In-Reply-To: <CAMKF1spRYzzS=aX1u4nuO0o=5L7sns6QJ_R5XzyOX71mQ=6Nog@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-meta-oe was using BSD-0-Clause see
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1506
-I have sent a fix for that
-
-On Fri, Sep 3, 2021 at 2:40 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> This removes BSD-0-Clause, Nauman, tcl and vim and adds mappings for
-> them to their SPDX counterparts (0BSD, Naumen, TCL and Vim).
->
-> It also removes FreeType, which already had a mapping to FTL.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->
-> In case anyone is interested, the following command (executed in
-> meta/files/common-licenses) can be used to list all licenses that are
-> not present in spdx-licenses.json:
->
->   ls | grep -Ev "^($(sed -nre 's/.*"licenseId": "(.*)".*/\1/p' ../../file=
-s/spdx-licenses.json | sort | tr '\n' '|'))\$"
->
->  meta/conf/licenses.conf                 |  30 +++--
->  meta/files/common-licenses/BSD-0-Clause |  12 --
->  meta/files/common-licenses/FreeType     | 170 ------------------------
->  meta/files/common-licenses/Nauman       |  50 -------
->  meta/files/common-licenses/tcl          |  40 ------
->  meta/files/common-licenses/vim          |  81 -----------
->  6 files changed, 18 insertions(+), 365 deletions(-)
->  delete mode 100644 meta/files/common-licenses/BSD-0-Clause
->  delete mode 100644 meta/files/common-licenses/FreeType
->  delete mode 100644 meta/files/common-licenses/Nauman
->  delete mode 100644 meta/files/common-licenses/tcl
->  delete mode 100644 meta/files/common-licenses/vim
->
-> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-> index e2bd58f84a..991fb6cc23 100644
-> --- a/meta/conf/licenses.conf
-> +++ b/meta/conf/licenses.conf
-> @@ -19,6 +19,9 @@ SPDXLICENSEMAP[AGPLv3.0+] =3D "AGPL-3.0-or-later"
->  SPDXLICENSEMAP[AGPL-3.0] =3D "AGPL-3.0-only"
->  SPDXLICENSEMAP[AGPL-3.0+] =3D "AGPL-3.0-or-later"
->
-> +# BSD variations
-> +SPDXLICENSEMAP[BSD-0-Clause] =3D "0BSD"
-> +
->  # GPL variations
->  SPDXLICENSEMAP[GPL-1] =3D "GPL-1.0-only"
->  SPDXLICENSEMAP[GPL-1+] =3D "GPL-1.0-or-later"
-> @@ -45,7 +48,7 @@ SPDXLICENSEMAP[GPLv3.0+] =3D "GPL-3.0-or-later"
->  SPDXLICENSEMAP[GPL-3.0] =3D "GPL-3.0-only"
->  SPDXLICENSEMAP[GPL-3.0+] =3D "GPL-3.0-or-later"
->
-> -#LGPL variations
-> +# LGPL variations
->  SPDXLICENSEMAP[LGPLv2] =3D "LGPL-2.0-only"
->  SPDXLICENSEMAP[LGPLv2+] =3D "LGPL-2.0-or-later"
->  SPDXLICENSEMAP[LGPLv2.0] =3D "LGPL-2.0-only"
-> @@ -63,49 +66,52 @@ SPDXLICENSEMAP[LGPLv3+] =3D "LGPL-3.0-or-later"
->  SPDXLICENSEMAP[LGPL-3.0] =3D "LGPL-3.0-only"
->  SPDXLICENSEMAP[LGPL-3.0+] =3D "LGPL-3.0-or-later"
->
-> -#MPL variations
-> +# MPL variations
->  SPDXLICENSEMAP[MPL-1] =3D "MPL-1.0"
->  SPDXLICENSEMAP[MPLv1] =3D "MPL-1.0"
->  SPDXLICENSEMAP[MPLv1.1] =3D "MPL-1.1"
->  SPDXLICENSEMAP[MPLv2] =3D "MPL-2.0"
->
-> -#MIT variations
-> +# MIT variations
->  SPDXLICENSEMAP[MIT-X] =3D "MIT"
->  SPDXLICENSEMAP[MIT-style] =3D "MIT"
->
-> -#Openssl variations
-> +# Openssl variations
->  SPDXLICENSEMAP[openssl] =3D "OpenSSL"
->
-> -#PSF variations
-> +# PSF variations
->  SPDXLICENSEMAP[PSF] =3D "PSF-2.0"
->  SPDXLICENSEMAP[PSFv2] =3D "PSF-2.0"
->
-> -#Python variations
-> +# Python variations
->  SPDXLICENSEMAP[Python-2] =3D "Python-2.0"
->
-> -#Apache variations
-> +# Apache variations
->  SPDXLICENSEMAP[Apachev2] =3D "Apache-2.0"
->  SPDXLICENSEMAP[Apache-2] =3D "Apache-2.0"
->
-> -#Artistic variations
-> +# Artistic variations
->  SPDXLICENSEMAP[Artisticv1] =3D "Artistic-1.0"
->  SPDXLICENSEMAP[Artistic-1] =3D "Artistic-1.0"
->
-> -#Academic variations
-> +# Academic variations
->  SPDXLICENSEMAP[AFL-2] =3D "AFL-2.0"
->  SPDXLICENSEMAP[AFL-1] =3D "AFL-1.2"
->  SPDXLICENSEMAP[AFLv2] =3D "AFL-2.0"
->  SPDXLICENSEMAP[AFLv1] =3D "AFL-1.2"
->
-> -#CDDL variations
-> +# CDDL variations
->  SPDXLICENSEMAP[CDDLv1] =3D "CDDL-1.0"
->  SPDXLICENSEMAP[CDDL-1] =3D "CDDL-1.0"
->
-> -#Other variations
-> +# Other variations
->  SPDXLICENSEMAP[EPLv1.0] =3D "EPL-1.0"
->  SPDXLICENSEMAP[FreeType] =3D "FTL"
-> +SPDXLICENSEMAP[Nauman] =3D "Naumen"
-> +SPDXLICENSEMAP[tcl] =3D "TCL"
-> +SPDXLICENSEMAP[vim] =3D "Vim"
->
-> -#Silicon Graphics variations
-> +# Silicon Graphics variations
->  SPDXLICENSEMAP[SGIv1] =3D "SGI-1"
->
->  # Additional license directories. Add your custom licenses directories t=
-his path.
-> diff --git a/meta/files/common-licenses/BSD-0-Clause b/meta/files/common-=
-licenses/BSD-0-Clause
-> deleted file mode 100644
-> index 328bdd6aee..0000000000
-> --- a/meta/files/common-licenses/BSD-0-Clause
-> +++ /dev/null
-> @@ -1,12 +0,0 @@
-> -Copyright (C) <YEAR> by <OWNER>
-> -
-> -Permission to use, copy, modify, and/or distribute this software for any
-> -purpose with or without fee is hereby granted.
-> -
-> -THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-> -WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-> -MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-> -ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-> -WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-> -ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-> -OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-> diff --git a/meta/files/common-licenses/FreeType b/meta/files/common-lice=
-nses/FreeType
-> deleted file mode 100644
-> index 3666649f3e..0000000000
-> --- a/meta/files/common-licenses/FreeType
-> +++ /dev/null
-> @@ -1,170 +0,0 @@
-> -                    The FreeType Project LICENSE
-> -                    ----------------------------
-> -
-> -                            2006-Jan-27
-> -
-> -                    Copyright 1996-2002, 2006 by
-> -          David Turner, Robert Wilhelm, and Werner Lemberg
-> -
-> -
-> -
-> -Introduction
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -  The FreeType  Project is distributed in  several archive packages;
-> -  some of them may contain, in addition to the FreeType font engine,
-> -  various tools and  contributions which rely on, or  relate to, the
-> -  FreeType Project.
-> -
-> -  This  license applies  to all  files found  in such  packages, and
-> -  which do not  fall under their own explicit  license.  The license
-> -  affects  thus  the  FreeType   font  engine,  the  test  programs,
-> -  documentation and makefiles, at the very least.
-> -
-> -  This  license   was  inspired  by  the  BSD,   Artistic,  and  IJG
-> -  (Independent JPEG  Group) licenses, which  all encourage inclusion
-> -  and  use of  free  software in  commercial  and freeware  products
-> -  alike.  As a consequence, its main points are that:
-> -
-> -    o We don't promise that this software works. However, we will be
-> -      interested in any kind of bug reports. (`as is' distribution)
-> -
-> -    o You can  use this software for whatever you  want, in parts or
-> -      full form, without having to pay us. (`royalty-free' usage)
-> -
-> -    o You may not pretend that  you wrote this software.  If you use
-> -      it, or  only parts of it,  in a program,  you must acknowledge
-> -      somewhere  in  your  documentation  that  you  have  used  the
-> -      FreeType code. (`credits')
-> -
-> -  We  specifically  permit  and  encourage  the  inclusion  of  this
-> -  software, with  or without modifications,  in commercial products.
-> -  We  disclaim  all warranties  covering  The  FreeType Project  and
-> -  assume no liability related to The FreeType Project.
-> -
-> -
-> -  Finally,  many  people  asked  us  for  a  preferred  form  for  a
-> -  credit/disclaimer to use in compliance with this license.  We thus
-> -  encourage you to use the following text:
-> -
-> -   """
-> -    Portions of this software are copyright =C2=A9 <year> The FreeType
-> -    Project (www.freetype.org).  All rights reserved.
-> -   """
-> -
-> -  Please replace <year> with the value from the FreeType version you
-> -  actually use.
-> -
-> -
-> -Legal Terms
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -0. Definitions
-> ---------------
-> -
-> -  Throughout this license,  the terms `package', `FreeType Project',
-> -  and  `FreeType  archive' refer  to  the  set  of files  originally
-> -  distributed  by the  authors  (David Turner,  Robert Wilhelm,  and
-> -  Werner Lemberg) as the `FreeType Project', be they named as alpha,
-> -  beta or final release.
-> -
-> -  `You' refers to  the licensee, or person using  the project, where
-> -  `using' is a generic term including compiling the project's source
-> -  code as  well as linking it  to form a  `program' or `executable'.
-> -  This  program is  referred to  as  `a program  using the  FreeType
-> -  engine'.
-> -
-> -  This  license applies  to all  files distributed  in  the original
-> -  FreeType  Project,   including  all  source   code,  binaries  and
-> -  documentation,  unless  otherwise  stated   in  the  file  in  its
-> -  original, unmodified form as  distributed in the original archive.
-> -  If you are  unsure whether or not a particular  file is covered by
-> -  this license, you must contact us to verify this.
-> -
-> -  The FreeType  Project is copyright (C) 1996-2000  by David Turner,
-> -  Robert Wilhelm, and Werner Lemberg.  All rights reserved except as
-> -  specified below.
-> -
-> -1. No Warranty
-> ---------------
-> -
-> -  THE FREETYPE PROJECT  IS PROVIDED `AS IS' WITHOUT  WARRANTY OF ANY
-> -  KIND, EITHER  EXPRESS OR IMPLIED,  INCLUDING, BUT NOT  LIMITED TO,
-> -  WARRANTIES  OF  MERCHANTABILITY   AND  FITNESS  FOR  A  PARTICULAR
-> -  PURPOSE.  IN NO EVENT WILL ANY OF THE AUTHORS OR COPYRIGHT HOLDERS
-> -  BE LIABLE  FOR ANY DAMAGES CAUSED  BY THE USE OR  THE INABILITY TO
-> -  USE, OF THE FREETYPE PROJECT.
-> -
-> -2. Redistribution
-> ------------------
-> -
-> -  This  license  grants  a  worldwide, royalty-free,  perpetual  and
-> -  irrevocable right  and license to use,  execute, perform, compile,
-> -  display,  copy,   create  derivative  works   of,  distribute  and
-> -  sublicense the  FreeType Project (in  both source and  object code
-> -  forms)  and  derivative works  thereof  for  any  purpose; and  to
-> -  authorize others  to exercise  some or all  of the  rights granted
-> -  herein, subject to the following conditions:
-> -
-> -    o Redistribution of  source code  must retain this  license file
-> -      (`FTL.TXT') unaltered; any  additions, deletions or changes to
-> -      the original  files must be clearly  indicated in accompanying
-> -      documentation.   The  copyright   notices  of  the  unaltered,
-> -      original  files must  be  preserved in  all  copies of  source
-> -      files.
-> -
-> -    o Redistribution in binary form must provide a  disclaimer  that
-> -      states  that  the software is based in part of the work of the
-> -      FreeType Team,  in  the  distribution  documentation.  We also
-> -      encourage you to put an URL to the FreeType web page  in  your
-> -      documentation, though this isn't mandatory.
-> -
-> -  These conditions  apply to any  software derived from or  based on
-> -  the FreeType Project,  not just the unmodified files.   If you use
-> -  our work, you  must acknowledge us.  However, no  fee need be paid
-> -  to us.
-> -
-> -3. Advertising
-> ---------------
-> -
-> -  Neither the  FreeType authors and  contributors nor you  shall use
-> -  the name of the  other for commercial, advertising, or promotional
-> -  purposes without specific prior written permission.
-> -
-> -  We suggest,  but do not require, that  you use one or  more of the
-> -  following phrases to refer  to this software in your documentation
-> -  or advertising  materials: `FreeType Project',  `FreeType Engine',
-> -  `FreeType library', or `FreeType Distribution'.
-> -
-> -  As  you have  not signed  this license,  you are  not  required to
-> -  accept  it.   However,  as  the FreeType  Project  is  copyrighted
-> -  material, only  this license, or  another one contracted  with the
-> -  authors, grants you  the right to use, distribute,  and modify it.
-> -  Therefore,  by  using,  distributing,  or modifying  the  FreeType
-> -  Project, you indicate that you understand and accept all the terms
-> -  of this license.
-> -
-> -4. Contacts
-> ------------
-> -
-> -  There are two mailing lists related to FreeType:
-> -
-> -    o freetype@nongnu.org
-> -
-> -      Discusses general use and applications of FreeType, as well as
-> -      future and  wanted additions to the  library and distribution.
-> -      If  you are looking  for support,  start in  this list  if you
-> -      haven't found anything to help you in the documentation.
-> -
-> -    o freetype-devel@nongnu.org
-> -
-> -      Discusses bugs,  as well  as engine internals,  design issues,
-> -      specific licenses, porting, etc.
-> -
-> -  Our home page can be found at
-> -
-> -    https://www.freetype.org
-> -
-> -
-> ---- end of FTL.TXT ---
-> -
-> diff --git a/meta/files/common-licenses/Nauman b/meta/files/common-licens=
-es/Nauman
-> deleted file mode 100644
-> index 69ce785ff3..0000000000
-> --- a/meta/files/common-licenses/Nauman
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -
-> -NAUMEN Public License
-> -This software is Copyright (c) NAUMEN (tm) and Contributors.
-> -All rights reserved.
-> -
-> -Redistribution and use in source and binary forms, with or
-> -without modification, are permitted provided that the following
-> -conditions are met:
-> -
-> -1. Redistributions in source code must retain the above
-> -copyright notice, this list of conditions, and the following
-> -disclaimer.
-> -
-> -2. Redistributions in binary form must reproduce the above
-> -copyright notice, this list of conditions, and the following
-> -disclaimer in the documentation and/or other materials
-> -provided with the distribution.
-> -
-> -3. The name NAUMEN (tm) must not be used to
-> -endorse or promote products derived from this software without prior
-> -written permission from NAUMEN.
-> -
-> -4. The right to distribute this software or to use it for any
-> -purpose does not give you the right to use Servicemarks (sm)
-> -or Trademarks (tm) of NAUMEN.
-> -
-> -5. If any files originating from NAUMEN or Contributors are modified, yo=
-u must
-> -cause the modified files to carry prominent notices stating
-> -that you changed the files and the date of any change.
-> -
-> -Disclaimer:
-> -
-> -THIS SOFTWARE IS PROVIDED BY NAUMEN "AS IS" AND ANY EXPRESSED
-> -OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-> -IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-> -PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL NAUMEN
-> -OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-> -INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-> -(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-> -GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-> -INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-> -WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-> -NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-> -THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
-> -DAMAGE.
-> -
-> -This software consists of contributions made by NAUMEN
-> -and Contributors. Specific attributions are listed in the
-> -accompanying credits file.
-> -
-> diff --git a/meta/files/common-licenses/tcl b/meta/files/common-licenses/=
-tcl
-> deleted file mode 100644
-> index d8049cd9e7..0000000000
-> --- a/meta/files/common-licenses/tcl
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -This software is copyrighted by the Regents of the University of
-> -California, Sun Microsystems, Inc., Scriptics Corporation, ActiveState
-> -Corporation and other parties.  The following terms apply to all files
-> -associated with the software unless explicitly disclaimed in
-> -individual files.
-> -
-> -The authors hereby grant permission to use, copy, modify, distribute,
-> -and license this software and its documentation for any purpose, provide=
-d
-> -that existing copyright notices are retained in all copies and that this
-> -notice is included verbatim in any distributions. No written agreement,
-> -license, or royalty fee is required for any of the authorized uses.
-> -Modifications to this software may be copyrighted by their authors
-> -and need not follow the licensing terms described here, provided that
-> -the new terms are clearly indicated on the first page of each file where
-> -they apply.
-> -
-> -IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO ANY PARTY
-> -FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
-> -ARISING OUT OF THE USE OF THIS SOFTWARE, ITS DOCUMENTATION, OR ANY
-> -DERIVATIVES THEREOF, EVEN IF THE AUTHORS HAVE BEEN ADVISED OF THE
-> -POSSIBILITY OF SUCH DAMAGE.
-> -
-> -THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY WARRANTIES,
-> -INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY=
-,
-> -FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.  THIS SOFTWARE
-> -IS PROVIDED ON AN "AS IS" BASIS, AND THE AUTHORS AND DISTRIBUTORS HAVE
-> -NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR
-> -MODIFICATIONS.
-> -
-> -GOVERNMENT USE: If you are acquiring this software on behalf of the
-> -U.S. government, the Government shall have only "Restricted Rights"
-> -in the software and related documentation as defined in the Federal
-> -Acquisition Regulations (FARs) in Clause 52.227.19 (c) (2).  If you
-> -are acquiring the software on behalf of the Department of Defense, the
-> -software shall be classified as "Commercial Computer Software" and the
-> -Government shall have only "Restricted Rights" as defined in Clause
-> -252.227-7014 (b) (3) of DFARs.  Notwithstanding the foregoing, the
-> -authors grant the U.S. Government and others acting in its behalf
-> -permission to use and distribute the software in accordance with the
-> -terms specified in this license.
-> diff --git a/meta/files/common-licenses/vim b/meta/files/common-licenses/=
-vim
-> deleted file mode 100644
-> index 4aa818eb24..0000000000
-> --- a/meta/files/common-licenses/vim
-> +++ /dev/null
-> @@ -1,81 +0,0 @@
-> -VIM LICENSE
-> -
-> -I)  There are no restrictions on distributing unmodified copies of Vim e=
-xcept
-> -    that they must include this license text.  You can also distribute
-> -    unmodified parts of Vim, likewise unrestricted except that they must
-> -    include this license text.  You are also allowed to include executab=
-les
-> -    that you made from the unmodified Vim sources, plus your own usage
-> -    examples and Vim scripts.
-> -
-> -II) It is allowed to distribute a modified (or extended) version of Vim,
-> -    including executables and/or source code, when the following four
-> -    conditions are met:
-> -    1) This license text must be included unmodified.
-> -    2) The modified Vim must be distributed in one of the following five=
- ways:
-> -       a) If you make changes to Vim yourself, you must clearly describe=
- in
-> -         the distribution how to contact you.  When the maintainer asks =
-you
-> -         (in any way) for a copy of the modified Vim you distributed, yo=
-u
-> -         must make your changes, including source code, available to the
-> -         maintainer without fee.  The maintainer reserves the right to
-> -         include your changes in the official version of Vim.  What the
-> -         maintainer will do with your changes and under what license the=
-y
-> -         will be distributed is negotiable.  If there has been no negoti=
-ation
-> -         then this license, or a later version, also applies to your cha=
-nges.
-> -         The current maintainer is Bram Moolenaar <Bram@vim.org>.  If th=
-is
-> -         changes it will be announced in appropriate places (most likely
-> -         vim.sf.net, www.vim.org and/or comp.editors).  When it is compl=
-etely
-> -         impossible to contact the maintainer, the obligation to send hi=
-m
-> -         your changes ceases.  Once the maintainer has confirmed that he=
- has
-> -         received your changes they will not have to be sent again.
-> -       b) If you have received a modified Vim that was distributed as
-> -         mentioned under a) you are allowed to further distribute it
-> -         unmodified, as mentioned at I).  If you make additional changes=
- the
-> -         text under a) applies to those changes.
-> -       c) Provide all the changes, including source code, with every cop=
-y of
-> -         the modified Vim you distribute.  This may be done in the form =
-of a
-> -         context diff.  You can choose what license to use for new code =
-you
-> -         add.  The changes and their license must not restrict others fr=
-om
-> -         making their own changes to the official version of Vim.
-> -       d) When you have a modified Vim which includes changes as mention=
-ed
-> -         under c), you can distribute it without the source code for the
-> -         changes if the following three conditions are met:
-> -         - The license that applies to the changes permits you to distri=
-bute
-> -           the changes to the Vim maintainer without fee or restriction,=
- and
-> -           permits the Vim maintainer to include the changes in the offi=
-cial
-> -           version of Vim without fee or restriction.
-> -         - You keep the changes for at least three years after last
-> -           distributing the corresponding modified Vim.  When the mainta=
-iner
-> -           or someone who you distributed the modified Vim to asks you (=
-in
-> -           any way) for the changes within this period, you must make th=
-em
-> -           available to him.
-> -         - You clearly describe in the distribution how to contact you. =
- This
-> -           contact information must remain valid for at least three year=
-s
-> -           after last distributing the corresponding modified Vim, or as=
- long
-> -           as possible.
-> -       e) When the GNU General Public License (GPL) applies to the chang=
-es,
-> -         you can distribute the modified Vim under the GNU GPL version 2=
- or
-> -         any later version.
-> -    3) A message must be added, at least in the output of the ":version"
-> -       command and in the intro screen, such that the user of the modifi=
-ed Vim
-> -       is able to see that it was modified.  When distributing as mentio=
-ned
-> -       under 2)e) adding the message is only required for as far as this=
- does
-> -       not conflict with the license used for the changes.
-> -    4) The contact information as required under 2)a) and 2)d) must not =
-be
-> -       removed or changed, except that the person himself can make
-> -       corrections.
-> -
-> -III) If you distribute a modified version of Vim, you are encouraged to =
-use
-> -     the Vim license for your changes and make them available to the
-> -     maintainer, including the source code.  The preferred way to do thi=
-s is
-> -     by e-mail or by uploading the files to a server and e-mailing the U=
-RL.
-> -     If the number of changes is small (e.g., a modified Makefile) e-mai=
-ling a
-> -     context diff will do.  The e-mail address to be used is
-> -     <maintainer@vim.org>
-> -
-> -IV)  It is not allowed to remove this license from the distribution of t=
-he Vim
-> -     sources, parts of it or from a modified version.  You may use this
-> -     license for previous Vim releases instead of the license that they =
-came
-> -     with, at your option.
-> -
-> -=3D=3D=3D
-> -Read more about this license at http://vimdoc.sourceforge.net/htmldoc/ug=
-anda.html#license
->
->=20
->
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
+Z21haWwuY29tPg0KPiBTZW50OiBkZW4gNSBzZXB0ZW1iZXIgMjAyMSAwMTo1Mg0KPiBUbzogUGV0
+ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IENjOiBQYXRj
+aGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVk
+LQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gW1BBVENIXSBjb21tb24tbGljZW5zZXMsIGxpY2Vuc2VzLmNvbmY6IFJlbW92ZQ0KPiBkdXBs
+aWNhdGUgbGljZW5zZXMNCj4gDQo+IG1ldGEtb2Ugd2FzIHVzaW5nIEJTRC0wLUNsYXVzZSBzZWUN
+Cj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVy
+cy84OC9idWlsZHMvMTUwNg0KPiBJIGhhdmUgc2VudCBhIGZpeCBmb3IgdGhhdA0KDQpUaGF0IHNo
+b3VsZG4ndCBiZSBhIHByb2JsZW0gYXMgdGhlIHBhdGNoIGJlbG93IHNldHMgdXAgbWFwcGluZ3Mg
+ZnJvbSB0aGUgDQpvbGQgbmFtZXMgdG8gdGhlIFNQRFggbmFtZXMuIEJ1dCBvZiBjb3Vyc2UsIGl0
+IGlzIGFsd2F5cyBhIGdvb2QgaWRlYSB0byANCnVzZSB0aGUgU1BEWCBuYW1lcyBkaXJlY3RseSBy
+YXRoZXIgdGhhbiByZWx5aW5nIG9uIHRoZSBhbGlhc2VzLg0KDQovL1BldGVyDQoNCj4gT24gRnJp
+LCBTZXAgMywgMjAyMSBhdCAyOjQwIFBNIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2pl
+bGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPg0KPiA+IFRoaXMgcmVtb3ZlcyBCU0QtMC1D
+bGF1c2UsIE5hdW1hbiwgdGNsIGFuZCB2aW0gYW5kIGFkZHMgbWFwcGluZ3MgZm9yDQo+ID4gdGhl
+bSB0byB0aGVpciBTUERYIGNvdW50ZXJwYXJ0cyAoMEJTRCwgTmF1bWVuLCBUQ0wgYW5kIFZpbSku
+DQo+ID4NCj4gPiBJdCBhbHNvIHJlbW92ZXMgRnJlZVR5cGUsIHdoaWNoIGFscmVhZHkgaGFkIGEg
+bWFwcGluZyB0byBGVEwuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3Rl
+ZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPiAtLS0NCj4gPg0KPiA+IEluIGNh
+c2UgYW55b25lIGlzIGludGVyZXN0ZWQsIHRoZSBmb2xsb3dpbmcgY29tbWFuZCAoZXhlY3V0ZWQg
+aW4NCj4gPiBtZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNlcykgY2FuIGJlIHVzZWQgdG8gbGlzdCBh
+bGwgbGljZW5zZXMgdGhhdCBhcmUNCj4gPiBub3QgcHJlc2VudCBpbiBzcGR4LWxpY2Vuc2VzLmpz
+b246DQo+ID4NCj4gPiAgIGxzIHwgZ3JlcCAtRXYgIl4oJChzZWQgLW5yZSAncy8uKiJsaWNlbnNl
+SWQiOiAiKC4qKSIuKi9cMS9wJw0KPiAuLi8uLi9maWxlcy9zcGR4LWxpY2Vuc2VzLmpzb24gfCBz
+b3J0IHwgdHIgJ1xuJyAnfCcpKVwkIg0KPiA+DQo+ID4gIG1ldGEvY29uZi9saWNlbnNlcy5jb25m
+ICAgICAgICAgICAgICAgICB8ICAzMCArKystLQ0KPiA+ICBtZXRhL2ZpbGVzL2NvbW1vbi1saWNl
+bnNlcy9CU0QtMC1DbGF1c2UgfCAgMTIgLS0NCj4gPiAgbWV0YS9maWxlcy9jb21tb24tbGljZW5z
+ZXMvRnJlZVR5cGUgICAgIHwgMTcwIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICBtZXRh
+L2ZpbGVzL2NvbW1vbi1saWNlbnNlcy9OYXVtYW4gICAgICAgfCAgNTAgLS0tLS0tLQ0KPiA+ICBt
+ZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNlcy90Y2wgICAgICAgICAgfCAgNDAgLS0tLS0tDQo+ID4g
+IG1ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL3ZpbSAgICAgICAgICB8ICA4MSAtLS0tLS0tLS0t
+LQ0KPiA+ICA2IGZpbGVzIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDM2NSBkZWxldGlvbnMo
+LSkNCj4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0JT
+RC0wLUNsYXVzZQ0KPiA+ICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9maWxlcy9jb21tb24tbGlj
+ZW5zZXMvRnJlZVR5cGUNCj4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvZmlsZXMvY29tbW9u
+LWxpY2Vuc2VzL05hdW1hbg0KPiA+ICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9maWxlcy9jb21t
+b24tbGljZW5zZXMvdGNsDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL2ZpbGVzL2NvbW1v
+bi1saWNlbnNlcy92aW0NCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvbGljZW5zZXMu
+Y29uZiBiL21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ID4gaW5kZXggZTJiZDU4Zjg0YS4uOTkx
+ZmI2Y2MyMyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiA+ICsr
+KyBiL21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ID4gQEAgLTE5LDYgKzE5LDkgQEAgU1BEWExJ
+Q0VOU0VNQVBbQUdQTHYzLjArXSA9ICJBR1BMLTMuMC1vci1sYXRlciINCj4gPiAgU1BEWExJQ0VO
+U0VNQVBbQUdQTC0zLjBdID0gIkFHUEwtMy4wLW9ubHkiDQo+ID4gIFNQRFhMSUNFTlNFTUFQW0FH
+UEwtMy4wK10gPSAiQUdQTC0zLjAtb3ItbGF0ZXIiDQo+ID4NCj4gPiArIyBCU0QgdmFyaWF0aW9u
+cw0KPiA+ICtTUERYTElDRU5TRU1BUFtCU0QtMC1DbGF1c2VdID0gIjBCU0QiDQo+ID4gKw0KPiA+
+ICAjIEdQTCB2YXJpYXRpb25zDQo+ID4gIFNQRFhMSUNFTlNFTUFQW0dQTC0xXSA9ICJHUEwtMS4w
+LW9ubHkiDQo+ID4gIFNQRFhMSUNFTlNFTUFQW0dQTC0xK10gPSAiR1BMLTEuMC1vci1sYXRlciIN
+Cj4gPiBAQCAtNDUsNyArNDgsNyBAQCBTUERYTElDRU5TRU1BUFtHUEx2My4wK10gPSAiR1BMLTMu
+MC1vci1sYXRlciINCj4gPiAgU1BEWExJQ0VOU0VNQVBbR1BMLTMuMF0gPSAiR1BMLTMuMC1vbmx5
+Ig0KPiA+ICBTUERYTElDRU5TRU1BUFtHUEwtMy4wK10gPSAiR1BMLTMuMC1vci1sYXRlciINCj4g
+Pg0KPiA+IC0jTEdQTCB2YXJpYXRpb25zDQo+ID4gKyMgTEdQTCB2YXJpYXRpb25zDQo+ID4gIFNQ
+RFhMSUNFTlNFTUFQW0xHUEx2Ml0gPSAiTEdQTC0yLjAtb25seSINCj4gPiAgU1BEWExJQ0VOU0VN
+QVBbTEdQTHYyK10gPSAiTEdQTC0yLjAtb3ItbGF0ZXIiDQo+ID4gIFNQRFhMSUNFTlNFTUFQW0xH
+UEx2Mi4wXSA9ICJMR1BMLTIuMC1vbmx5Ig0KPiA+IEBAIC02Myw0OSArNjYsNTIgQEAgU1BEWExJ
+Q0VOU0VNQVBbTEdQTHYzK10gPSAiTEdQTC0zLjAtb3ItbGF0ZXIiDQo+ID4gIFNQRFhMSUNFTlNF
+TUFQW0xHUEwtMy4wXSA9ICJMR1BMLTMuMC1vbmx5Ig0KPiA+ICBTUERYTElDRU5TRU1BUFtMR1BM
+LTMuMCtdID0gIkxHUEwtMy4wLW9yLWxhdGVyIg0KPiA+DQo+ID4gLSNNUEwgdmFyaWF0aW9ucw0K
+PiA+ICsjIE1QTCB2YXJpYXRpb25zDQo+ID4gIFNQRFhMSUNFTlNFTUFQW01QTC0xXSA9ICJNUEwt
+MS4wIg0KPiA+ICBTUERYTElDRU5TRU1BUFtNUEx2MV0gPSAiTVBMLTEuMCINCj4gPiAgU1BEWExJ
+Q0VOU0VNQVBbTVBMdjEuMV0gPSAiTVBMLTEuMSINCj4gPiAgU1BEWExJQ0VOU0VNQVBbTVBMdjJd
+ID0gIk1QTC0yLjAiDQo+ID4NCj4gPiAtI01JVCB2YXJpYXRpb25zDQo+ID4gKyMgTUlUIHZhcmlh
+dGlvbnMNCj4gPiAgU1BEWExJQ0VOU0VNQVBbTUlULVhdID0gIk1JVCINCj4gPiAgU1BEWExJQ0VO
+U0VNQVBbTUlULXN0eWxlXSA9ICJNSVQiDQo+ID4NCj4gPiAtI09wZW5zc2wgdmFyaWF0aW9ucw0K
+PiA+ICsjIE9wZW5zc2wgdmFyaWF0aW9ucw0KPiA+ICBTUERYTElDRU5TRU1BUFtvcGVuc3NsXSA9
+ICJPcGVuU1NMIg0KPiA+DQo+ID4gLSNQU0YgdmFyaWF0aW9ucw0KPiA+ICsjIFBTRiB2YXJpYXRp
+b25zDQo+ID4gIFNQRFhMSUNFTlNFTUFQW1BTRl0gPSAiUFNGLTIuMCINCj4gPiAgU1BEWExJQ0VO
+U0VNQVBbUFNGdjJdID0gIlBTRi0yLjAiDQo+ID4NCj4gPiAtI1B5dGhvbiB2YXJpYXRpb25zDQo+
+ID4gKyMgUHl0aG9uIHZhcmlhdGlvbnMNCj4gPiAgU1BEWExJQ0VOU0VNQVBbUHl0aG9uLTJdID0g
+IlB5dGhvbi0yLjAiDQo+ID4NCj4gPiAtI0FwYWNoZSB2YXJpYXRpb25zDQo+ID4gKyMgQXBhY2hl
+IHZhcmlhdGlvbnMNCj4gPiAgU1BEWExJQ0VOU0VNQVBbQXBhY2hldjJdID0gIkFwYWNoZS0yLjAi
+DQo+ID4gIFNQRFhMSUNFTlNFTUFQW0FwYWNoZS0yXSA9ICJBcGFjaGUtMi4wIg0KPiA+DQo+ID4g
+LSNBcnRpc3RpYyB2YXJpYXRpb25zDQo+ID4gKyMgQXJ0aXN0aWMgdmFyaWF0aW9ucw0KPiA+ICBT
+UERYTElDRU5TRU1BUFtBcnRpc3RpY3YxXSA9ICJBcnRpc3RpYy0xLjAiDQo+ID4gIFNQRFhMSUNF
+TlNFTUFQW0FydGlzdGljLTFdID0gIkFydGlzdGljLTEuMCINCj4gPg0KPiA+IC0jQWNhZGVtaWMg
+dmFyaWF0aW9ucw0KPiA+ICsjIEFjYWRlbWljIHZhcmlhdGlvbnMNCj4gPiAgU1BEWExJQ0VOU0VN
+QVBbQUZMLTJdID0gIkFGTC0yLjAiDQo+ID4gIFNQRFhMSUNFTlNFTUFQW0FGTC0xXSA9ICJBRkwt
+MS4yIg0KPiA+ICBTUERYTElDRU5TRU1BUFtBRkx2Ml0gPSAiQUZMLTIuMCINCj4gPiAgU1BEWExJ
+Q0VOU0VNQVBbQUZMdjFdID0gIkFGTC0xLjIiDQo+ID4NCj4gPiAtI0NEREwgdmFyaWF0aW9ucw0K
+PiA+ICsjIENEREwgdmFyaWF0aW9ucw0KPiA+ICBTUERYTElDRU5TRU1BUFtDRERMdjFdID0gIkNE
+REwtMS4wIg0KPiA+ICBTUERYTElDRU5TRU1BUFtDRERMLTFdID0gIkNEREwtMS4wIg0KPiA+DQo+
+ID4gLSNPdGhlciB2YXJpYXRpb25zDQo+ID4gKyMgT3RoZXIgdmFyaWF0aW9ucw0KPiA+ICBTUERY
+TElDRU5TRU1BUFtFUEx2MS4wXSA9ICJFUEwtMS4wIg0KPiA+ICBTUERYTElDRU5TRU1BUFtGcmVl
+VHlwZV0gPSAiRlRMIg0KPiA+ICtTUERYTElDRU5TRU1BUFtOYXVtYW5dID0gIk5hdW1lbiINCj4g
+PiArU1BEWExJQ0VOU0VNQVBbdGNsXSA9ICJUQ0wiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW3ZpbV0g
+PSAiVmltIg0KPiA+DQo+ID4gLSNTaWxpY29uIEdyYXBoaWNzIHZhcmlhdGlvbnMNCj4gPiArIyBT
+aWxpY29uIEdyYXBoaWNzIHZhcmlhdGlvbnMNCj4gPiAgU1BEWExJQ0VOU0VNQVBbU0dJdjFdID0g
+IlNHSS0xIg0KPiA+DQo+ID4gICMgQWRkaXRpb25hbCBsaWNlbnNlIGRpcmVjdG9yaWVzLiBBZGQg
+eW91ciBjdXN0b20gbGljZW5zZXMgZGlyZWN0b3JpZXMNCj4gdGhpcyBwYXRoLg0KPiA+IGRpZmYg
+LS1naXQgYS9tZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNlcy9CU0QtMC1DbGF1c2UNCj4gYi9tZXRh
+L2ZpbGVzL2NvbW1vbi1saWNlbnNlcy9CU0QtMC1DbGF1c2UNCj4gPiBkZWxldGVkIGZpbGUgbW9k
+ZSAxMDA2NDQNCj4gPiBpbmRleCAzMjhiZGQ2YWVlLi4wMDAwMDAwMDAwDQo+ID4gLS0tIGEvbWV0
+YS9maWxlcy9jb21tb24tbGljZW5zZXMvQlNELTAtQ2xhdXNlDQo+ID4gKysrIC9kZXYvbnVsbA0K
+PiA+IEBAIC0xLDEyICswLDAgQEANCj4gPiAtQ29weXJpZ2h0IChDKSA8WUVBUj4gYnkgPE9XTkVS
+Pg0KPiA+IC0NCj4gPiAtUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlmeSwgYW5kL29yIGRp
+c3RyaWJ1dGUgdGhpcyBzb2Z0d2FyZSBmb3INCj4gYW55DQo+ID4gLXB1cnBvc2Ugd2l0aCBvciB3
+aXRob3V0IGZlZSBpcyBoZXJlYnkgZ3JhbnRlZC4NCj4gPiAtDQo+ID4gLVRIRSBTT0ZUV0FSRSBJ
+UyBQUk9WSURFRCAiQVMgSVMiIEFORCBUSEUgQVVUSE9SIERJU0NMQUlNUyBBTEwNCj4gV0FSUkFO
+VElFUw0KPiA+IC1XSVRIIFJFR0FSRCBUTyBUSElTIFNPRlRXQVJFIElOQ0xVRElORyBBTEwgSU1Q
+TElFRCBXQVJSQU5USUVTIE9GDQo+ID4gLU1FUkNIQU5UQUJJTElUWSBBTkQgRklUTkVTUy4gSU4g
+Tk8gRVZFTlQgU0hBTEwgVEhFIEFVVEhPUiBCRSBMSUFCTEUgRk9SDQo+ID4gLUFOWSBTUEVDSUFM
+LCBESVJFQ1QsIElORElSRUNULCBPUiBDT05TRVFVRU5USUFMIERBTUFHRVMgT1IgQU5ZIERBTUFH
+RVMNCj4gPiAtV0hBVFNPRVZFUiBSRVNVTFRJTkcgRlJPTSBMT1NTIE9GIFVTRSwgREFUQSBPUiBQ
+Uk9GSVRTLCBXSEVUSEVSIElOIEFODQo+ID4gLUFDVElPTiBPRiBDT05UUkFDVCwgTkVHTElHRU5D
+RSBPUiBPVEhFUiBUT1JUSU9VUyBBQ1RJT04sIEFSSVNJTkcgT1VUIE9GDQo+ID4gLU9SIElOIENP
+Tk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNFIE9GIFRISVMgU09GVFdBUkUuDQo+
+ID4gZGlmZiAtLWdpdCBhL21ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0ZyZWVUeXBlIGIvbWV0
+YS9maWxlcy9jb21tb24tDQo+IGxpY2Vuc2VzL0ZyZWVUeXBlDQo+ID4gZGVsZXRlZCBmaWxlIG1v
+ZGUgMTAwNjQ0DQo+ID4gaW5kZXggMzY2NjY0OWYzZS4uMDAwMDAwMDAwMA0KPiA+IC0tLSBhL21l
+dGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0ZyZWVUeXBlDQo+ID4gKysrIC9kZXYvbnVsbA0KPiA+
+IEBAIC0xLDE3MCArMCwwIEBADQo+ID4gLSAgICAgICAgICAgICAgICAgICAgVGhlIEZyZWVUeXBl
+IFByb2plY3QgTElDRU5TRQ0KPiA+IC0gICAgICAgICAgICAgICAgICAgIC0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0NCj4gPiAtDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAy
+MDA2LUphbi0yNw0KPiA+IC0NCj4gPiAtICAgICAgICAgICAgICAgICAgICBDb3B5cmlnaHQgMTk5
+Ni0yMDAyLCAyMDA2IGJ5DQo+ID4gLSAgICAgICAgICBEYXZpZCBUdXJuZXIsIFJvYmVydCBXaWxo
+ZWxtLCBhbmQgV2VybmVyIExlbWJlcmcNCj4gPiAtDQo+ID4gLQ0KPiA+IC0NCj4gPiAtSW50cm9k
+dWN0aW9uDQo+ID4gLT09PT09PT09PT09PQ0KPiA+IC0NCj4gPiAtICBUaGUgRnJlZVR5cGUgIFBy
+b2plY3QgaXMgZGlzdHJpYnV0ZWQgaW4gIHNldmVyYWwgYXJjaGl2ZSBwYWNrYWdlczsNCj4gPiAt
+ICBzb21lIG9mIHRoZW0gbWF5IGNvbnRhaW4sIGluIGFkZGl0aW9uIHRvIHRoZSBGcmVlVHlwZSBm
+b250IGVuZ2luZSwNCj4gPiAtICB2YXJpb3VzIHRvb2xzIGFuZCAgY29udHJpYnV0aW9ucyB3aGlj
+aCByZWx5IG9uLCBvciAgcmVsYXRlIHRvLCB0aGUNCj4gPiAtICBGcmVlVHlwZSBQcm9qZWN0Lg0K
+PiA+IC0NCj4gPiAtICBUaGlzICBsaWNlbnNlIGFwcGxpZXMgIHRvIGFsbCAgZmlsZXMgZm91bmQg
+IGluIHN1Y2ggIHBhY2thZ2VzLCBhbmQNCj4gPiAtICB3aGljaCBkbyBub3QgIGZhbGwgdW5kZXIg
+dGhlaXIgb3duIGV4cGxpY2l0ICBsaWNlbnNlLiAgVGhlIGxpY2Vuc2UNCj4gPiAtICBhZmZlY3Rz
+ICB0aHVzICB0aGUgIEZyZWVUeXBlICAgZm9udCAgZW5naW5lLCAgdGhlICB0ZXN0ICBwcm9ncmFt
+cywNCj4gPiAtICBkb2N1bWVudGF0aW9uIGFuZCBtYWtlZmlsZXMsIGF0IHRoZSB2ZXJ5IGxlYXN0
+Lg0KPiA+IC0NCj4gPiAtICBUaGlzICBsaWNlbnNlICAgd2FzICBpbnNwaXJlZCAgYnkgIHRoZSAg
+QlNELCAgIEFydGlzdGljLCAgYW5kICBJSkcNCj4gPiAtICAoSW5kZXBlbmRlbnQgSlBFRyAgR3Jv
+dXApIGxpY2Vuc2VzLCB3aGljaCAgYWxsIGVuY291cmFnZSBpbmNsdXNpb24NCj4gPiAtICBhbmQg
+IHVzZSBvZiAgZnJlZSAgc29mdHdhcmUgaW4gIGNvbW1lcmNpYWwgIGFuZCBmcmVld2FyZSAgcHJv
+ZHVjdHMNCj4gPiAtICBhbGlrZS4gIEFzIGEgY29uc2VxdWVuY2UsIGl0cyBtYWluIHBvaW50cyBh
+cmUgdGhhdDoNCj4gPiAtDQo+ID4gLSAgICBvIFdlIGRvbid0IHByb21pc2UgdGhhdCB0aGlzIHNv
+ZnR3YXJlIHdvcmtzLiBIb3dldmVyLCB3ZSB3aWxsIGJlDQo+ID4gLSAgICAgIGludGVyZXN0ZWQg
+aW4gYW55IGtpbmQgb2YgYnVnIHJlcG9ydHMuIChgYXMgaXMnIGRpc3RyaWJ1dGlvbikNCj4gPiAt
+DQo+ID4gLSAgICBvIFlvdSBjYW4gIHVzZSB0aGlzIHNvZnR3YXJlIGZvciB3aGF0ZXZlciB5b3Ug
+IHdhbnQsIGluIHBhcnRzIG9yDQo+ID4gLSAgICAgIGZ1bGwgZm9ybSwgd2l0aG91dCBoYXZpbmcg
+dG8gcGF5IHVzLiAoYHJveWFsdHktZnJlZScgdXNhZ2UpDQo+ID4gLQ0KPiA+IC0gICAgbyBZb3Ug
+bWF5IG5vdCBwcmV0ZW5kIHRoYXQgIHlvdSB3cm90ZSB0aGlzIHNvZnR3YXJlLiAgSWYgeW91IHVz
+ZQ0KPiA+IC0gICAgICBpdCwgb3IgIG9ubHkgcGFydHMgb2YgaXQsICBpbiBhIHByb2dyYW0sICB5
+b3UgbXVzdCBhY2tub3dsZWRnZQ0KPiA+IC0gICAgICBzb21ld2hlcmUgIGluICB5b3VyICBkb2N1
+bWVudGF0aW9uICB0aGF0ICB5b3UgIGhhdmUgIHVzZWQgIHRoZQ0KPiA+IC0gICAgICBGcmVlVHlw
+ZSBjb2RlLiAoYGNyZWRpdHMnKQ0KPiA+IC0NCj4gPiAtICBXZSAgc3BlY2lmaWNhbGx5ICBwZXJt
+aXQgIGFuZCAgZW5jb3VyYWdlICB0aGUgIGluY2x1c2lvbiAgb2YgIHRoaXMNCj4gPiAtICBzb2Z0
+d2FyZSwgd2l0aCAgb3Igd2l0aG91dCBtb2RpZmljYXRpb25zLCAgaW4gY29tbWVyY2lhbCBwcm9k
+dWN0cy4NCj4gPiAtICBXZSAgZGlzY2xhaW0gIGFsbCB3YXJyYW50aWVzICBjb3ZlcmluZyAgVGhl
+ICBGcmVlVHlwZSBQcm9qZWN0ICBhbmQNCj4gPiAtICBhc3N1bWUgbm8gbGlhYmlsaXR5IHJlbGF0
+ZWQgdG8gVGhlIEZyZWVUeXBlIFByb2plY3QuDQo+ID4gLQ0KPiA+IC0NCj4gPiAtICBGaW5hbGx5
+LCAgbWFueSAgcGVvcGxlICBhc2tlZCAgdXMgIGZvciAgYSAgcHJlZmVycmVkICBmb3JtICBmb3Ig
+IGENCj4gPiAtICBjcmVkaXQvZGlzY2xhaW1lciB0byB1c2UgaW4gY29tcGxpYW5jZSB3aXRoIHRo
+aXMgbGljZW5zZS4gIFdlIHRodXMNCj4gPiAtICBlbmNvdXJhZ2UgeW91IHRvIHVzZSB0aGUgZm9s
+bG93aW5nIHRleHQ6DQo+ID4gLQ0KPiA+IC0gICAiIiINCj4gPiAtICAgIFBvcnRpb25zIG9mIHRo
+aXMgc29mdHdhcmUgYXJlIGNvcHlyaWdodCDCqSA8eWVhcj4gVGhlIEZyZWVUeXBlDQo+ID4gLSAg
+ICBQcm9qZWN0ICh3d3cuZnJlZXR5cGUub3JnKS4gIEFsbCByaWdodHMgcmVzZXJ2ZWQuDQo+ID4g
+LSAgICIiIg0KPiA+IC0NCj4gPiAtICBQbGVhc2UgcmVwbGFjZSA8eWVhcj4gd2l0aCB0aGUgdmFs
+dWUgZnJvbSB0aGUgRnJlZVR5cGUgdmVyc2lvbiB5b3UNCj4gPiAtICBhY3R1YWxseSB1c2UuDQo+
+ID4gLQ0KPiA+IC0NCj4gPiAtTGVnYWwgVGVybXMNCj4gPiAtPT09PT09PT09PT0NCj4gPiAtDQo+
+ID4gLTAuIERlZmluaXRpb25zDQo+ID4gLS0tLS0tLS0tLS0tLS0tDQo+ID4gLQ0KPiA+IC0gIFRo
+cm91Z2hvdXQgdGhpcyBsaWNlbnNlLCAgdGhlIHRlcm1zIGBwYWNrYWdlJywgYEZyZWVUeXBlIFBy
+b2plY3QnLA0KPiA+IC0gIGFuZCAgYEZyZWVUeXBlICBhcmNoaXZlJyByZWZlciAgdG8gIHRoZSAg
+c2V0ICBvZiBmaWxlcyAgb3JpZ2luYWxseQ0KPiA+IC0gIGRpc3RyaWJ1dGVkICBieSB0aGUgIGF1
+dGhvcnMgIChEYXZpZCBUdXJuZXIsICBSb2JlcnQgV2lsaGVsbSwgIGFuZA0KPiA+IC0gIFdlcm5l
+ciBMZW1iZXJnKSBhcyB0aGUgYEZyZWVUeXBlIFByb2plY3QnLCBiZSB0aGV5IG5hbWVkIGFzIGFs
+cGhhLA0KPiA+IC0gIGJldGEgb3IgZmluYWwgcmVsZWFzZS4NCj4gPiAtDQo+ID4gLSAgYFlvdScg
+cmVmZXJzIHRvICB0aGUgbGljZW5zZWUsIG9yIHBlcnNvbiB1c2luZyAgdGhlIHByb2plY3QsIHdo
+ZXJlDQo+ID4gLSAgYHVzaW5nJyBpcyBhIGdlbmVyaWMgdGVybSBpbmNsdWRpbmcgY29tcGlsaW5n
+IHRoZSBwcm9qZWN0J3Mgc291cmNlDQo+ID4gLSAgY29kZSBhcyAgd2VsbCBhcyBsaW5raW5nIGl0
+ICB0byBmb3JtIGEgIGBwcm9ncmFtJyBvciBgZXhlY3V0YWJsZScuDQo+ID4gLSAgVGhpcyAgcHJv
+Z3JhbSBpcyAgcmVmZXJyZWQgdG8gIGFzICBgYSBwcm9ncmFtICB1c2luZyB0aGUgIEZyZWVUeXBl
+DQo+ID4gLSAgZW5naW5lJy4NCj4gPiAtDQo+ID4gLSAgVGhpcyAgbGljZW5zZSBhcHBsaWVzICB0
+byBhbGwgIGZpbGVzIGRpc3RyaWJ1dGVkICBpbiAgdGhlIG9yaWdpbmFsDQo+ID4gLSAgRnJlZVR5
+cGUgIFByb2plY3QsICAgaW5jbHVkaW5nICBhbGwgIHNvdXJjZSAgIGNvZGUsICBiaW5hcmllcyAg
+YW5kDQo+ID4gLSAgZG9jdW1lbnRhdGlvbiwgIHVubGVzcyAgb3RoZXJ3aXNlICBzdGF0ZWQgICBp
+biAgdGhlICBmaWxlICBpbiAgaXRzDQo+ID4gLSAgb3JpZ2luYWwsIHVubW9kaWZpZWQgZm9ybSBh
+cyAgZGlzdHJpYnV0ZWQgaW4gdGhlIG9yaWdpbmFsIGFyY2hpdmUuDQo+ID4gLSAgSWYgeW91IGFy
+ZSAgdW5zdXJlIHdoZXRoZXIgb3Igbm90IGEgcGFydGljdWxhciAgZmlsZSBpcyBjb3ZlcmVkIGJ5
+DQo+ID4gLSAgdGhpcyBsaWNlbnNlLCB5b3UgbXVzdCBjb250YWN0IHVzIHRvIHZlcmlmeSB0aGlz
+Lg0KPiA+IC0NCj4gPiAtICBUaGUgRnJlZVR5cGUgIFByb2plY3QgaXMgY29weXJpZ2h0IChDKSAx
+OTk2LTIwMDAgIGJ5IERhdmlkIFR1cm5lciwNCj4gPiAtICBSb2JlcnQgV2lsaGVsbSwgYW5kIFdl
+cm5lciBMZW1iZXJnLiAgQWxsIHJpZ2h0cyByZXNlcnZlZCBleGNlcHQgYXMNCj4gPiAtICBzcGVj
+aWZpZWQgYmVsb3cuDQo+ID4gLQ0KPiA+IC0xLiBObyBXYXJyYW50eQ0KPiA+IC0tLS0tLS0tLS0t
+LS0tLQ0KPiA+IC0NCj4gPiAtICBUSEUgRlJFRVRZUEUgUFJPSkVDVCAgSVMgUFJPVklERUQgYEFT
+IElTJyBXSVRIT1VUICBXQVJSQU5UWSBPRiBBTlkNCj4gPiAtICBLSU5ELCBFSVRIRVIgIEVYUFJF
+U1MgT1IgSU1QTElFRCwgIElOQ0xVRElORywgQlVUIE5PVCAgTElNSVRFRCBUTywNCj4gPiAtICBX
+QVJSQU5USUVTICBPRiAgTUVSQ0hBTlRBQklMSVRZICAgQU5EICBGSVRORVNTICBGT1IgIEEgIFBB
+UlRJQ1VMQVINCj4gPiAtICBQVVJQT1NFLiAgSU4gTk8gRVZFTlQgV0lMTCBBTlkgT0YgVEhFIEFV
+VEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMNCj4gPiAtICBCRSBMSUFCTEUgIEZPUiBBTlkgREFN
+QUdFUyBDQVVTRUQgIEJZIFRIRSBVU0UgT1IgIFRIRSBJTkFCSUxJVFkgVE8NCj4gPiAtICBVU0Us
+IE9GIFRIRSBGUkVFVFlQRSBQUk9KRUNULg0KPiA+IC0NCj4gPiAtMi4gUmVkaXN0cmlidXRpb24N
+Cj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAtDQo+ID4gLSAgVGhpcyAgbGljZW5zZSAgZ3Jh
+bnRzICBhICB3b3JsZHdpZGUsIHJveWFsdHktZnJlZSwgIHBlcnBldHVhbCAgYW5kDQo+ID4gLSAg
+aXJyZXZvY2FibGUgcmlnaHQgIGFuZCBsaWNlbnNlIHRvIHVzZSwgIGV4ZWN1dGUsIHBlcmZvcm0s
+IGNvbXBpbGUsDQo+ID4gLSAgZGlzcGxheSwgIGNvcHksICAgY3JlYXRlICBkZXJpdmF0aXZlICB3
+b3JrcyAgIG9mLCAgZGlzdHJpYnV0ZSAgYW5kDQo+ID4gLSAgc3VibGljZW5zZSB0aGUgIEZyZWVU
+eXBlIFByb2plY3QgKGluICBib3RoIHNvdXJjZSBhbmQgIG9iamVjdCBjb2RlDQo+ID4gLSAgZm9y
+bXMpICBhbmQgIGRlcml2YXRpdmUgd29ya3MgIHRoZXJlb2YgIGZvciAgYW55ICBwdXJwb3NlOyBh
+bmQgIHRvDQo+ID4gLSAgYXV0aG9yaXplIG90aGVycyAgdG8gZXhlcmNpc2UgIHNvbWUgb3IgYWxs
+ICBvZiB0aGUgIHJpZ2h0cyBncmFudGVkDQo+ID4gLSAgaGVyZWluLCBzdWJqZWN0IHRvIHRoZSBm
+b2xsb3dpbmcgY29uZGl0aW9uczoNCj4gPiAtDQo+ID4gLSAgICBvIFJlZGlzdHJpYnV0aW9uIG9m
+ICBzb3VyY2UgY29kZSAgbXVzdCByZXRhaW4gdGhpcyAgbGljZW5zZSBmaWxlDQo+ID4gLSAgICAg
+IChgRlRMLlRYVCcpIHVuYWx0ZXJlZDsgYW55ICBhZGRpdGlvbnMsIGRlbGV0aW9ucyBvciBjaGFu
+Z2VzIHRvDQo+ID4gLSAgICAgIHRoZSBvcmlnaW5hbCAgZmlsZXMgbXVzdCBiZSBjbGVhcmx5ICBp
+bmRpY2F0ZWQgaW4gYWNjb21wYW55aW5nDQo+ID4gLSAgICAgIGRvY3VtZW50YXRpb24uICAgVGhl
+ICBjb3B5cmlnaHQgICBub3RpY2VzICBvZiAgdGhlICB1bmFsdGVyZWQsDQo+ID4gLSAgICAgIG9y
+aWdpbmFsICBmaWxlcyBtdXN0ICBiZSAgcHJlc2VydmVkIGluICBhbGwgIGNvcGllcyBvZiAgc291
+cmNlDQo+ID4gLSAgICAgIGZpbGVzLg0KPiA+IC0NCj4gPiAtICAgIG8gUmVkaXN0cmlidXRpb24g
+aW4gYmluYXJ5IGZvcm0gbXVzdCBwcm92aWRlIGEgIGRpc2NsYWltZXIgIHRoYXQNCj4gPiAtICAg
+ICAgc3RhdGVzICB0aGF0ICB0aGUgc29mdHdhcmUgaXMgYmFzZWQgaW4gcGFydCBvZiB0aGUgd29y
+ayBvZiB0aGUNCj4gPiAtICAgICAgRnJlZVR5cGUgVGVhbSwgIGluICB0aGUgIGRpc3RyaWJ1dGlv
+biAgZG9jdW1lbnRhdGlvbi4gIFdlIGFsc28NCj4gPiAtICAgICAgZW5jb3VyYWdlIHlvdSB0byBw
+dXQgYW4gVVJMIHRvIHRoZSBGcmVlVHlwZSB3ZWIgcGFnZSAgaW4gIHlvdXINCj4gPiAtICAgICAg
+ZG9jdW1lbnRhdGlvbiwgdGhvdWdoIHRoaXMgaXNuJ3QgbWFuZGF0b3J5Lg0KPiA+IC0NCj4gPiAt
+ICBUaGVzZSBjb25kaXRpb25zICBhcHBseSB0byBhbnkgIHNvZnR3YXJlIGRlcml2ZWQgZnJvbSBv
+ciAgYmFzZWQgb24NCj4gPiAtICB0aGUgRnJlZVR5cGUgUHJvamVjdCwgIG5vdCBqdXN0IHRoZSB1
+bm1vZGlmaWVkIGZpbGVzLiAgIElmIHlvdSB1c2UNCj4gPiAtICBvdXIgd29yaywgeW91ICBtdXN0
+IGFja25vd2xlZGdlIHVzLiAgSG93ZXZlciwgbm8gIGZlZSBuZWVkIGJlIHBhaWQNCj4gPiAtICB0
+byB1cy4NCj4gPiAtDQo+ID4gLTMuIEFkdmVydGlzaW5nDQo+ID4gLS0tLS0tLS0tLS0tLS0tDQo+
+ID4gLQ0KPiA+IC0gIE5laXRoZXIgdGhlICBGcmVlVHlwZSBhdXRob3JzIGFuZCAgY29udHJpYnV0
+b3JzIG5vciB5b3UgIHNoYWxsIHVzZQ0KPiA+IC0gIHRoZSBuYW1lIG9mIHRoZSAgb3RoZXIgZm9y
+IGNvbW1lcmNpYWwsIGFkdmVydGlzaW5nLCBvciBwcm9tb3Rpb25hbA0KPiA+IC0gIHB1cnBvc2Vz
+IHdpdGhvdXQgc3BlY2lmaWMgcHJpb3Igd3JpdHRlbiBwZXJtaXNzaW9uLg0KPiA+IC0NCj4gPiAt
+ICBXZSBzdWdnZXN0LCAgYnV0IGRvIG5vdCByZXF1aXJlLCB0aGF0ICB5b3UgdXNlIG9uZSBvciAg
+bW9yZSBvZiB0aGUNCj4gPiAtICBmb2xsb3dpbmcgcGhyYXNlcyB0byByZWZlciAgdG8gdGhpcyBz
+b2Z0d2FyZSBpbiB5b3VyIGRvY3VtZW50YXRpb24NCj4gPiAtICBvciBhZHZlcnRpc2luZyAgbWF0
+ZXJpYWxzOiBgRnJlZVR5cGUgUHJvamVjdCcsICBgRnJlZVR5cGUgRW5naW5lJywNCj4gPiAtICBg
+RnJlZVR5cGUgbGlicmFyeScsIG9yIGBGcmVlVHlwZSBEaXN0cmlidXRpb24nLg0KPiA+IC0NCj4g
+PiAtICBBcyAgeW91IGhhdmUgIG5vdCBzaWduZWQgIHRoaXMgbGljZW5zZSwgIHlvdSBhcmUgIG5v
+dCAgcmVxdWlyZWQgdG8NCj4gPiAtICBhY2NlcHQgIGl0LiAgIEhvd2V2ZXIsICBhcyAgdGhlIEZy
+ZWVUeXBlICBQcm9qZWN0ICBpcyAgY29weXJpZ2h0ZWQNCj4gPiAtICBtYXRlcmlhbCwgb25seSAg
+dGhpcyBsaWNlbnNlLCBvciAgYW5vdGhlciBvbmUgY29udHJhY3RlZCAgd2l0aCB0aGUNCj4gPiAt
+ICBhdXRob3JzLCBncmFudHMgeW91ICB0aGUgcmlnaHQgdG8gdXNlLCBkaXN0cmlidXRlLCAgYW5k
+IG1vZGlmeSBpdC4NCj4gPiAtICBUaGVyZWZvcmUsICBieSAgdXNpbmcsICBkaXN0cmlidXRpbmcs
+ICBvciBtb2RpZnlpbmcgIHRoZSAgRnJlZVR5cGUNCj4gPiAtICBQcm9qZWN0LCB5b3UgaW5kaWNh
+dGUgdGhhdCB5b3UgdW5kZXJzdGFuZCBhbmQgYWNjZXB0IGFsbCB0aGUgdGVybXMNCj4gPiAtICBv
+ZiB0aGlzIGxpY2Vuc2UuDQo+ID4gLQ0KPiA+IC00LiBDb250YWN0cw0KPiA+IC0tLS0tLS0tLS0t
+LQ0KPiA+IC0NCj4gPiAtICBUaGVyZSBhcmUgdHdvIG1haWxpbmcgbGlzdHMgcmVsYXRlZCB0byBG
+cmVlVHlwZToNCj4gPiAtDQo+ID4gLSAgICBvIGZyZWV0eXBlQG5vbmdudS5vcmcNCj4gPiAtDQo+
+ID4gLSAgICAgIERpc2N1c3NlcyBnZW5lcmFsIHVzZSBhbmQgYXBwbGljYXRpb25zIG9mIEZyZWVU
+eXBlLCBhcyB3ZWxsIGFzDQo+ID4gLSAgICAgIGZ1dHVyZSBhbmQgIHdhbnRlZCBhZGRpdGlvbnMg
+dG8gdGhlICBsaWJyYXJ5IGFuZCBkaXN0cmlidXRpb24uDQo+ID4gLSAgICAgIElmICB5b3UgYXJl
+IGxvb2tpbmcgIGZvciBzdXBwb3J0LCAgc3RhcnQgaW4gIHRoaXMgbGlzdCAgaWYgeW91DQo+ID4g
+LSAgICAgIGhhdmVuJ3QgZm91bmQgYW55dGhpbmcgdG8gaGVscCB5b3UgaW4gdGhlIGRvY3VtZW50
+YXRpb24uDQo+ID4gLQ0KPiA+IC0gICAgbyBmcmVldHlwZS1kZXZlbEBub25nbnUub3JnDQo+ID4g
+LQ0KPiA+IC0gICAgICBEaXNjdXNzZXMgYnVncywgIGFzIHdlbGwgIGFzIGVuZ2luZSBpbnRlcm5h
+bHMsICBkZXNpZ24gaXNzdWVzLA0KPiA+IC0gICAgICBzcGVjaWZpYyBsaWNlbnNlcywgcG9ydGlu
+ZywgZXRjLg0KPiA+IC0NCj4gPiAtICBPdXIgaG9tZSBwYWdlIGNhbiBiZSBmb3VuZCBhdA0KPiA+
+IC0NCj4gPiAtICAgIGh0dHBzOi8vd3d3LmZyZWV0eXBlLm9yZw0KPiA+IC0NCj4gPiAtDQo+ID4g
+LS0tLSBlbmQgb2YgRlRMLlRYVCAtLS0NCj4gPiAtDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvZmls
+ZXMvY29tbW9uLWxpY2Vuc2VzL05hdW1hbiBiL21ldGEvZmlsZXMvY29tbW9uLQ0KPiBsaWNlbnNl
+cy9OYXVtYW4NCj4gPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCA2OWNlNzg1
+ZmYzLi4wMDAwMDAwMDAwDQo+ID4gLS0tIGEvbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMvTmF1
+bWFuDQo+ID4gKysrIC9kZXYvbnVsbA0KPiA+IEBAIC0xLDUwICswLDAgQEANCj4gPiAtDQo+ID4g
+LU5BVU1FTiBQdWJsaWMgTGljZW5zZQ0KPiA+IC1UaGlzIHNvZnR3YXJlIGlzIENvcHlyaWdodCAo
+YykgTkFVTUVOICh0bSkgYW5kIENvbnRyaWJ1dG9ycy4NCj4gPiAtQWxsIHJpZ2h0cyByZXNlcnZl
+ZC4NCj4gPiAtDQo+ID4gLVJlZGlzdHJpYnV0aW9uIGFuZCB1c2UgaW4gc291cmNlIGFuZCBiaW5h
+cnkgZm9ybXMsIHdpdGggb3INCj4gPiAtd2l0aG91dCBtb2RpZmljYXRpb24sIGFyZSBwZXJtaXR0
+ZWQgcHJvdmlkZWQgdGhhdCB0aGUgZm9sbG93aW5nDQo+ID4gLWNvbmRpdGlvbnMgYXJlIG1ldDoN
+Cj4gPiAtDQo+ID4gLTEuIFJlZGlzdHJpYnV0aW9ucyBpbiBzb3VyY2UgY29kZSBtdXN0IHJldGFp
+biB0aGUgYWJvdmUNCj4gPiAtY29weXJpZ2h0IG5vdGljZSwgdGhpcyBsaXN0IG9mIGNvbmRpdGlv
+bnMsIGFuZCB0aGUgZm9sbG93aW5nDQo+ID4gLWRpc2NsYWltZXIuDQo+ID4gLQ0KPiA+IC0yLiBS
+ZWRpc3RyaWJ1dGlvbnMgaW4gYmluYXJ5IGZvcm0gbXVzdCByZXByb2R1Y2UgdGhlIGFib3ZlDQo+
+ID4gLWNvcHlyaWdodCBub3RpY2UsIHRoaXMgbGlzdCBvZiBjb25kaXRpb25zLCBhbmQgdGhlIGZv
+bGxvd2luZw0KPiA+IC1kaXNjbGFpbWVyIGluIHRoZSBkb2N1bWVudGF0aW9uIGFuZC9vciBvdGhl
+ciBtYXRlcmlhbHMNCj4gPiAtcHJvdmlkZWQgd2l0aCB0aGUgZGlzdHJpYnV0aW9uLg0KPiA+IC0N
+Cj4gPiAtMy4gVGhlIG5hbWUgTkFVTUVOICh0bSkgbXVzdCBub3QgYmUgdXNlZCB0bw0KPiA+IC1l
+bmRvcnNlIG9yIHByb21vdGUgcHJvZHVjdHMgZGVyaXZlZCBmcm9tIHRoaXMgc29mdHdhcmUgd2l0
+aG91dCBwcmlvcg0KPiA+IC13cml0dGVuIHBlcm1pc3Npb24gZnJvbSBOQVVNRU4uDQo+ID4gLQ0K
+PiA+IC00LiBUaGUgcmlnaHQgdG8gZGlzdHJpYnV0ZSB0aGlzIHNvZnR3YXJlIG9yIHRvIHVzZSBp
+dCBmb3IgYW55DQo+ID4gLXB1cnBvc2UgZG9lcyBub3QgZ2l2ZSB5b3UgdGhlIHJpZ2h0IHRvIHVz
+ZSBTZXJ2aWNlbWFya3MgKHNtKQ0KPiA+IC1vciBUcmFkZW1hcmtzICh0bSkgb2YgTkFVTUVOLg0K
+PiA+IC0NCj4gPiAtNS4gSWYgYW55IGZpbGVzIG9yaWdpbmF0aW5nIGZyb20gTkFVTUVOIG9yIENv
+bnRyaWJ1dG9ycyBhcmUgbW9kaWZpZWQsDQo+IHlvdSBtdXN0DQo+ID4gLWNhdXNlIHRoZSBtb2Rp
+ZmllZCBmaWxlcyB0byBjYXJyeSBwcm9taW5lbnQgbm90aWNlcyBzdGF0aW5nDQo+ID4gLXRoYXQg
+eW91IGNoYW5nZWQgdGhlIGZpbGVzIGFuZCB0aGUgZGF0ZSBvZiBhbnkgY2hhbmdlLg0KPiA+IC0N
+Cj4gPiAtRGlzY2xhaW1lcjoNCj4gPiAtDQo+ID4gLVRISVMgU09GVFdBUkUgSVMgUFJPVklERUQg
+QlkgTkFVTUVOICJBUyBJUyIgQU5EIEFOWSBFWFBSRVNTRUQNCj4gPiAtT1IgSU1QTElFRCBXQVJS
+QU5USUVTLCBJTkNMVURJTkcsIEJVVCBOT1QgTElNSVRFRCBUTywgVEhFDQo+ID4gLUlNUExJRUQg
+V0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFkgQU5EIEZJVE5FU1MgRk9SIEENCj4gPiAtUEFS
+VElDVUxBUiBQVVJQT1NFIEFSRSBESVNDTEFJTUVELiBJTiBOTyBFVkVOVCBTSEFMTCBOQVVNRU4N
+Cj4gPiAtT1IgSVRTIENPTlRSSUJVVE9SUyBCRSBMSUFCTEUgRk9SIEFOWSBESVJFQ1QsIElORElS
+RUNULA0KPiA+IC1JTkNJREVOVEFMLCBTUEVDSUFMLCBFWEVNUExBUlksIE9SIENPTlNFUVVFTlRJ
+QUwgREFNQUdFUw0KPiA+IC0oSU5DTFVESU5HLCBCVVQgTk9UIExJTUlURUQgVE8sIFBST0NVUkVN
+RU5UIE9GIFNVQlNUSVRVVEUNCj4gPiAtR09PRFMgT1IgU0VSVklDRVM7IExPU1MgT0YgVVNFLCBE
+QVRBLCBPUiBQUk9GSVRTOyBPUiBCVVNJTkVTUw0KPiA+IC1JTlRFUlJVUFRJT04pIEhPV0VWRVIg
+Q0FVU0VEIEFORCBPTiBBTlkgVEhFT1JZIE9GIExJQUJJTElUWSwNCj4gPiAtV0hFVEhFUiBJTiBD
+T05UUkFDVCwgU1RSSUNUIExJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HDQo+ID4gLU5FR0xJ
+R0VOQ0UgT1IgT1RIRVJXSVNFKSBBUklTSU5HIElOIEFOWSBXQVkgT1VUIE9GIFRIRSBVU0UgT0YN
+Cj4gPiAtVEhJUyBTT0ZUV0FSRSwgRVZFTiBJRiBBRFZJU0VEIE9GIFRIRSBQT1NTSUJJTElUWSBP
+RiBTVUNIDQo+ID4gLURBTUFHRS4NCj4gPiAtDQo+ID4gLVRoaXMgc29mdHdhcmUgY29uc2lzdHMg
+b2YgY29udHJpYnV0aW9ucyBtYWRlIGJ5IE5BVU1FTg0KPiA+IC1hbmQgQ29udHJpYnV0b3JzLiBT
+cGVjaWZpYyBhdHRyaWJ1dGlvbnMgYXJlIGxpc3RlZCBpbiB0aGUNCj4gPiAtYWNjb21wYW55aW5n
+IGNyZWRpdHMgZmlsZS4NCj4gPiAtDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvZmlsZXMvY29tbW9u
+LWxpY2Vuc2VzL3RjbCBiL21ldGEvZmlsZXMvY29tbW9uLQ0KPiBsaWNlbnNlcy90Y2wNCj4gPiBk
+ZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCBkODA0OWNkOWU3Li4wMDAwMDAwMDAw
+DQo+ID4gLS0tIGEvbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMvdGNsDQo+ID4gKysrIC9kZXYv
+bnVsbA0KPiA+IEBAIC0xLDQwICswLDAgQEANCj4gPiAtVGhpcyBzb2Z0d2FyZSBpcyBjb3B5cmln
+aHRlZCBieSB0aGUgUmVnZW50cyBvZiB0aGUgVW5pdmVyc2l0eSBvZg0KPiA+IC1DYWxpZm9ybmlh
+LCBTdW4gTWljcm9zeXN0ZW1zLCBJbmMuLCBTY3JpcHRpY3MgQ29ycG9yYXRpb24sIEFjdGl2ZVN0
+YXRlDQo+ID4gLUNvcnBvcmF0aW9uIGFuZCBvdGhlciBwYXJ0aWVzLiAgVGhlIGZvbGxvd2luZyB0
+ZXJtcyBhcHBseSB0byBhbGwgZmlsZXMNCj4gPiAtYXNzb2NpYXRlZCB3aXRoIHRoZSBzb2Z0d2Fy
+ZSB1bmxlc3MgZXhwbGljaXRseSBkaXNjbGFpbWVkIGluDQo+ID4gLWluZGl2aWR1YWwgZmlsZXMu
+DQo+ID4gLQ0KPiA+IC1UaGUgYXV0aG9ycyBoZXJlYnkgZ3JhbnQgcGVybWlzc2lvbiB0byB1c2Us
+IGNvcHksIG1vZGlmeSwgZGlzdHJpYnV0ZSwNCj4gPiAtYW5kIGxpY2Vuc2UgdGhpcyBzb2Z0d2Fy
+ZSBhbmQgaXRzIGRvY3VtZW50YXRpb24gZm9yIGFueSBwdXJwb3NlLA0KPiBwcm92aWRlZA0KPiA+
+IC10aGF0IGV4aXN0aW5nIGNvcHlyaWdodCBub3RpY2VzIGFyZSByZXRhaW5lZCBpbiBhbGwgY29w
+aWVzIGFuZCB0aGF0DQo+IHRoaXMNCj4gPiAtbm90aWNlIGlzIGluY2x1ZGVkIHZlcmJhdGltIGlu
+IGFueSBkaXN0cmlidXRpb25zLiBObyB3cml0dGVuIGFncmVlbWVudCwNCj4gPiAtbGljZW5zZSwg
+b3Igcm95YWx0eSBmZWUgaXMgcmVxdWlyZWQgZm9yIGFueSBvZiB0aGUgYXV0aG9yaXplZCB1c2Vz
+Lg0KPiA+IC1Nb2RpZmljYXRpb25zIHRvIHRoaXMgc29mdHdhcmUgbWF5IGJlIGNvcHlyaWdodGVk
+IGJ5IHRoZWlyIGF1dGhvcnMNCj4gPiAtYW5kIG5lZWQgbm90IGZvbGxvdyB0aGUgbGljZW5zaW5n
+IHRlcm1zIGRlc2NyaWJlZCBoZXJlLCBwcm92aWRlZCB0aGF0DQo+ID4gLXRoZSBuZXcgdGVybXMg
+YXJlIGNsZWFybHkgaW5kaWNhdGVkIG9uIHRoZSBmaXJzdCBwYWdlIG9mIGVhY2ggZmlsZQ0KPiB3
+aGVyZQ0KPiA+IC10aGV5IGFwcGx5Lg0KPiA+IC0NCj4gPiAtSU4gTk8gRVZFTlQgU0hBTEwgVEhF
+IEFVVEhPUlMgT1IgRElTVFJJQlVUT1JTIEJFIExJQUJMRSBUTyBBTlkgUEFSVFkNCj4gPiAtRk9S
+IERJUkVDVCwgSU5ESVJFQ1QsIFNQRUNJQUwsIElOQ0lERU5UQUwsIE9SIENPTlNFUVVFTlRJQUwg
+REFNQUdFUw0KPiA+IC1BUklTSU5HIE9VVCBPRiBUSEUgVVNFIE9GIFRISVMgU09GVFdBUkUsIElU
+UyBET0NVTUVOVEFUSU9OLCBPUiBBTlkNCj4gPiAtREVSSVZBVElWRVMgVEhFUkVPRiwgRVZFTiBJ
+RiBUSEUgQVVUSE9SUyBIQVZFIEJFRU4gQURWSVNFRCBPRiBUSEUNCj4gPiAtUE9TU0lCSUxJVFkg
+T0YgU1VDSCBEQU1BR0UuDQo+ID4gLQ0KPiA+IC1USEUgQVVUSE9SUyBBTkQgRElTVFJJQlVUT1JT
+IFNQRUNJRklDQUxMWSBESVNDTEFJTSBBTlkgV0FSUkFOVElFUywNCj4gPiAtSU5DTFVESU5HLCBC
+VVQgTk9UIExJTUlURUQgVE8sIFRIRSBJTVBMSUVEIFdBUlJBTlRJRVMgT0YNCj4gTUVSQ0hBTlRB
+QklMSVRZLA0KPiA+IC1GSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSwgQU5EIE5PTi1J
+TkZSSU5HRU1FTlQuICBUSElTIFNPRlRXQVJFDQo+ID4gLUlTIFBST1ZJREVEIE9OIEFOICJBUyBJ
+UyIgQkFTSVMsIEFORCBUSEUgQVVUSE9SUyBBTkQgRElTVFJJQlVUT1JTIEhBVkUNCj4gPiAtTk8g
+T0JMSUdBVElPTiBUTyBQUk9WSURFIE1BSU5URU5BTkNFLCBTVVBQT1JULCBVUERBVEVTLCBFTkhB
+TkNFTUVOVFMsDQo+IE9SDQo+ID4gLU1PRElGSUNBVElPTlMuDQo+ID4gLQ0KPiA+IC1HT1ZFUk5N
+RU5UIFVTRTogSWYgeW91IGFyZSBhY3F1aXJpbmcgdGhpcyBzb2Z0d2FyZSBvbiBiZWhhbGYgb2Yg
+dGhlDQo+ID4gLVUuUy4gZ292ZXJubWVudCwgdGhlIEdvdmVybm1lbnQgc2hhbGwgaGF2ZSBvbmx5
+ICJSZXN0cmljdGVkIFJpZ2h0cyINCj4gPiAtaW4gdGhlIHNvZnR3YXJlIGFuZCByZWxhdGVkIGRv
+Y3VtZW50YXRpb24gYXMgZGVmaW5lZCBpbiB0aGUgRmVkZXJhbA0KPiA+IC1BY3F1aXNpdGlvbiBS
+ZWd1bGF0aW9ucyAoRkFScykgaW4gQ2xhdXNlIDUyLjIyNy4xOSAoYykgKDIpLiAgSWYgeW91DQo+
+ID4gLWFyZSBhY3F1aXJpbmcgdGhlIHNvZnR3YXJlIG9uIGJlaGFsZiBvZiB0aGUgRGVwYXJ0bWVu
+dCBvZiBEZWZlbnNlLCB0aGUNCj4gPiAtc29mdHdhcmUgc2hhbGwgYmUgY2xhc3NpZmllZCBhcyAi
+Q29tbWVyY2lhbCBDb21wdXRlciBTb2Z0d2FyZSIgYW5kIHRoZQ0KPiA+IC1Hb3Zlcm5tZW50IHNo
+YWxsIGhhdmUgb25seSAiUmVzdHJpY3RlZCBSaWdodHMiIGFzIGRlZmluZWQgaW4gQ2xhdXNlDQo+
+ID4gLTI1Mi4yMjctNzAxNCAoYikgKDMpIG9mIERGQVJzLiAgTm90d2l0aHN0YW5kaW5nIHRoZSBm
+b3JlZ29pbmcsIHRoZQ0KPiA+IC1hdXRob3JzIGdyYW50IHRoZSBVLlMuIEdvdmVybm1lbnQgYW5k
+IG90aGVycyBhY3RpbmcgaW4gaXRzIGJlaGFsZg0KPiA+IC1wZXJtaXNzaW9uIHRvIHVzZSBhbmQg
+ZGlzdHJpYnV0ZSB0aGUgc29mdHdhcmUgaW4gYWNjb3JkYW5jZSB3aXRoIHRoZQ0KPiA+IC10ZXJt
+cyBzcGVjaWZpZWQgaW4gdGhpcyBsaWNlbnNlLg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2ZpbGVz
+L2NvbW1vbi1saWNlbnNlcy92aW0gYi9tZXRhL2ZpbGVzL2NvbW1vbi0NCj4gbGljZW5zZXMvdmlt
+DQo+ID4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggNGFhODE4ZWIyNC4uMDAw
+MDAwMDAwMA0KPiA+IC0tLSBhL21ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL3ZpbQ0KPiA+ICsr
+KyAvZGV2L251bGwNCj4gPiBAQCAtMSw4MSArMCwwIEBADQo+ID4gLVZJTSBMSUNFTlNFDQo+ID4g
+LQ0KPiA+IC1JKSAgVGhlcmUgYXJlIG5vIHJlc3RyaWN0aW9ucyBvbiBkaXN0cmlidXRpbmcgdW5t
+b2RpZmllZCBjb3BpZXMgb2YgVmltDQo+IGV4Y2VwdA0KPiA+IC0gICAgdGhhdCB0aGV5IG11c3Qg
+aW5jbHVkZSB0aGlzIGxpY2Vuc2UgdGV4dC4gIFlvdSBjYW4gYWxzbyBkaXN0cmlidXRlDQo+ID4g
+LSAgICB1bm1vZGlmaWVkIHBhcnRzIG9mIFZpbSwgbGlrZXdpc2UgdW5yZXN0cmljdGVkIGV4Y2Vw
+dCB0aGF0IHRoZXkNCj4gbXVzdA0KPiA+IC0gICAgaW5jbHVkZSB0aGlzIGxpY2Vuc2UgdGV4dC4g
+IFlvdSBhcmUgYWxzbyBhbGxvd2VkIHRvIGluY2x1ZGUNCj4gZXhlY3V0YWJsZXMNCj4gPiAtICAg
+IHRoYXQgeW91IG1hZGUgZnJvbSB0aGUgdW5tb2RpZmllZCBWaW0gc291cmNlcywgcGx1cyB5b3Vy
+IG93biB1c2FnZQ0KPiA+IC0gICAgZXhhbXBsZXMgYW5kIFZpbSBzY3JpcHRzLg0KPiA+IC0NCj4g
+PiAtSUkpIEl0IGlzIGFsbG93ZWQgdG8gZGlzdHJpYnV0ZSBhIG1vZGlmaWVkIChvciBleHRlbmRl
+ZCkgdmVyc2lvbiBvZg0KPiBWaW0sDQo+ID4gLSAgICBpbmNsdWRpbmcgZXhlY3V0YWJsZXMgYW5k
+L29yIHNvdXJjZSBjb2RlLCB3aGVuIHRoZSBmb2xsb3dpbmcgZm91cg0KPiA+IC0gICAgY29uZGl0
+aW9ucyBhcmUgbWV0Og0KPiA+IC0gICAgMSkgVGhpcyBsaWNlbnNlIHRleHQgbXVzdCBiZSBpbmNs
+dWRlZCB1bm1vZGlmaWVkLg0KPiA+IC0gICAgMikgVGhlIG1vZGlmaWVkIFZpbSBtdXN0IGJlIGRp
+c3RyaWJ1dGVkIGluIG9uZSBvZiB0aGUgZm9sbG93aW5nDQo+IGZpdmUgd2F5czoNCj4gPiAtICAg
+ICAgIGEpIElmIHlvdSBtYWtlIGNoYW5nZXMgdG8gVmltIHlvdXJzZWxmLCB5b3UgbXVzdCBjbGVh
+cmx5DQo+IGRlc2NyaWJlIGluDQo+ID4gLSAgICAgICAgIHRoZSBkaXN0cmlidXRpb24gaG93IHRv
+IGNvbnRhY3QgeW91LiAgV2hlbiB0aGUgbWFpbnRhaW5lciBhc2tzDQo+IHlvdQ0KPiA+IC0gICAg
+ICAgICAoaW4gYW55IHdheSkgZm9yIGEgY29weSBvZiB0aGUgbW9kaWZpZWQgVmltIHlvdSBkaXN0
+cmlidXRlZCwNCj4geW91DQo+ID4gLSAgICAgICAgIG11c3QgbWFrZSB5b3VyIGNoYW5nZXMsIGlu
+Y2x1ZGluZyBzb3VyY2UgY29kZSwgYXZhaWxhYmxlIHRvDQo+IHRoZQ0KPiA+IC0gICAgICAgICBt
+YWludGFpbmVyIHdpdGhvdXQgZmVlLiAgVGhlIG1haW50YWluZXIgcmVzZXJ2ZXMgdGhlIHJpZ2h0
+IHRvDQo+ID4gLSAgICAgICAgIGluY2x1ZGUgeW91ciBjaGFuZ2VzIGluIHRoZSBvZmZpY2lhbCB2
+ZXJzaW9uIG9mIFZpbS4gIFdoYXQgdGhlDQo+ID4gLSAgICAgICAgIG1haW50YWluZXIgd2lsbCBk
+byB3aXRoIHlvdXIgY2hhbmdlcyBhbmQgdW5kZXIgd2hhdCBsaWNlbnNlDQo+IHRoZXkNCj4gPiAt
+ICAgICAgICAgd2lsbCBiZSBkaXN0cmlidXRlZCBpcyBuZWdvdGlhYmxlLiAgSWYgdGhlcmUgaGFz
+IGJlZW4gbm8NCj4gbmVnb3RpYXRpb24NCj4gPiAtICAgICAgICAgdGhlbiB0aGlzIGxpY2Vuc2Us
+IG9yIGEgbGF0ZXIgdmVyc2lvbiwgYWxzbyBhcHBsaWVzIHRvIHlvdXINCj4gY2hhbmdlcy4NCj4g
+PiAtICAgICAgICAgVGhlIGN1cnJlbnQgbWFpbnRhaW5lciBpcyBCcmFtIE1vb2xlbmFhciA8QnJh
+bUB2aW0ub3JnPi4gIElmDQo+IHRoaXMNCj4gPiAtICAgICAgICAgY2hhbmdlcyBpdCB3aWxsIGJl
+IGFubm91bmNlZCBpbiBhcHByb3ByaWF0ZSBwbGFjZXMgKG1vc3QNCj4gbGlrZWx5DQo+ID4gLSAg
+ICAgICAgIHZpbS5zZi5uZXQsIHd3dy52aW0ub3JnIGFuZC9vciBjb21wLmVkaXRvcnMpLiAgV2hl
+biBpdCBpcw0KPiBjb21wbGV0ZWx5DQo+ID4gLSAgICAgICAgIGltcG9zc2libGUgdG8gY29udGFj
+dCB0aGUgbWFpbnRhaW5lciwgdGhlIG9ibGlnYXRpb24gdG8gc2VuZA0KPiBoaW0NCj4gPiAtICAg
+ICAgICAgeW91ciBjaGFuZ2VzIGNlYXNlcy4gIE9uY2UgdGhlIG1haW50YWluZXIgaGFzIGNvbmZp
+cm1lZCB0aGF0DQo+IGhlIGhhcw0KPiA+IC0gICAgICAgICByZWNlaXZlZCB5b3VyIGNoYW5nZXMg
+dGhleSB3aWxsIG5vdCBoYXZlIHRvIGJlIHNlbnQgYWdhaW4uDQo+ID4gLSAgICAgICBiKSBJZiB5
+b3UgaGF2ZSByZWNlaXZlZCBhIG1vZGlmaWVkIFZpbSB0aGF0IHdhcyBkaXN0cmlidXRlZCBhcw0K
+PiA+IC0gICAgICAgICBtZW50aW9uZWQgdW5kZXIgYSkgeW91IGFyZSBhbGxvd2VkIHRvIGZ1cnRo
+ZXIgZGlzdHJpYnV0ZSBpdA0KPiA+IC0gICAgICAgICB1bm1vZGlmaWVkLCBhcyBtZW50aW9uZWQg
+YXQgSSkuICBJZiB5b3UgbWFrZSBhZGRpdGlvbmFsDQo+IGNoYW5nZXMgdGhlDQo+ID4gLSAgICAg
+ICAgIHRleHQgdW5kZXIgYSkgYXBwbGllcyB0byB0aG9zZSBjaGFuZ2VzLg0KPiA+IC0gICAgICAg
+YykgUHJvdmlkZSBhbGwgdGhlIGNoYW5nZXMsIGluY2x1ZGluZyBzb3VyY2UgY29kZSwgd2l0aCBl
+dmVyeQ0KPiBjb3B5IG9mDQo+ID4gLSAgICAgICAgIHRoZSBtb2RpZmllZCBWaW0geW91IGRpc3Ry
+aWJ1dGUuICBUaGlzIG1heSBiZSBkb25lIGluIHRoZSBmb3JtDQo+IG9mIGENCj4gPiAtICAgICAg
+ICAgY29udGV4dCBkaWZmLiAgWW91IGNhbiBjaG9vc2Ugd2hhdCBsaWNlbnNlIHRvIHVzZSBmb3Ig
+bmV3IGNvZGUNCj4geW91DQo+ID4gLSAgICAgICAgIGFkZC4gIFRoZSBjaGFuZ2VzIGFuZCB0aGVp
+ciBsaWNlbnNlIG11c3Qgbm90IHJlc3RyaWN0IG90aGVycw0KPiBmcm9tDQo+ID4gLSAgICAgICAg
+IG1ha2luZyB0aGVpciBvd24gY2hhbmdlcyB0byB0aGUgb2ZmaWNpYWwgdmVyc2lvbiBvZiBWaW0u
+DQo+ID4gLSAgICAgICBkKSBXaGVuIHlvdSBoYXZlIGEgbW9kaWZpZWQgVmltIHdoaWNoIGluY2x1
+ZGVzIGNoYW5nZXMgYXMNCj4gbWVudGlvbmVkDQo+ID4gLSAgICAgICAgIHVuZGVyIGMpLCB5b3Ug
+Y2FuIGRpc3RyaWJ1dGUgaXQgd2l0aG91dCB0aGUgc291cmNlIGNvZGUgZm9yDQo+IHRoZQ0KPiA+
+IC0gICAgICAgICBjaGFuZ2VzIGlmIHRoZSBmb2xsb3dpbmcgdGhyZWUgY29uZGl0aW9ucyBhcmUg
+bWV0Og0KPiA+IC0gICAgICAgICAtIFRoZSBsaWNlbnNlIHRoYXQgYXBwbGllcyB0byB0aGUgY2hh
+bmdlcyBwZXJtaXRzIHlvdSB0bw0KPiBkaXN0cmlidXRlDQo+ID4gLSAgICAgICAgICAgdGhlIGNo
+YW5nZXMgdG8gdGhlIFZpbSBtYWludGFpbmVyIHdpdGhvdXQgZmVlIG9yDQo+IHJlc3RyaWN0aW9u
+LCBhbmQNCj4gPiAtICAgICAgICAgICBwZXJtaXRzIHRoZSBWaW0gbWFpbnRhaW5lciB0byBpbmNs
+dWRlIHRoZSBjaGFuZ2VzIGluIHRoZQ0KPiBvZmZpY2lhbA0KPiA+IC0gICAgICAgICAgIHZlcnNp
+b24gb2YgVmltIHdpdGhvdXQgZmVlIG9yIHJlc3RyaWN0aW9uLg0KPiA+IC0gICAgICAgICAtIFlv
+dSBrZWVwIHRoZSBjaGFuZ2VzIGZvciBhdCBsZWFzdCB0aHJlZSB5ZWFycyBhZnRlciBsYXN0DQo+
+ID4gLSAgICAgICAgICAgZGlzdHJpYnV0aW5nIHRoZSBjb3JyZXNwb25kaW5nIG1vZGlmaWVkIFZp
+bS4gIFdoZW4gdGhlDQo+IG1haW50YWluZXINCj4gPiAtICAgICAgICAgICBvciBzb21lb25lIHdo
+byB5b3UgZGlzdHJpYnV0ZWQgdGhlIG1vZGlmaWVkIFZpbSB0byBhc2tzIHlvdQ0KPiAoaW4NCj4g
+PiAtICAgICAgICAgICBhbnkgd2F5KSBmb3IgdGhlIGNoYW5nZXMgd2l0aGluIHRoaXMgcGVyaW9k
+LCB5b3UgbXVzdCBtYWtlDQo+IHRoZW0NCj4gPiAtICAgICAgICAgICBhdmFpbGFibGUgdG8gaGlt
+Lg0KPiA+IC0gICAgICAgICAtIFlvdSBjbGVhcmx5IGRlc2NyaWJlIGluIHRoZSBkaXN0cmlidXRp
+b24gaG93IHRvIGNvbnRhY3QgeW91Lg0KPiBUaGlzDQo+ID4gLSAgICAgICAgICAgY29udGFjdCBp
+bmZvcm1hdGlvbiBtdXN0IHJlbWFpbiB2YWxpZCBmb3IgYXQgbGVhc3QgdGhyZWUNCj4geWVhcnMN
+Cj4gPiAtICAgICAgICAgICBhZnRlciBsYXN0IGRpc3RyaWJ1dGluZyB0aGUgY29ycmVzcG9uZGlu
+ZyBtb2RpZmllZCBWaW0sIG9yDQo+IGFzIGxvbmcNCj4gPiAtICAgICAgICAgICBhcyBwb3NzaWJs
+ZS4NCj4gPiAtICAgICAgIGUpIFdoZW4gdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIChH
+UEwpIGFwcGxpZXMgdG8gdGhlDQo+IGNoYW5nZXMsDQo+ID4gLSAgICAgICAgIHlvdSBjYW4gZGlz
+dHJpYnV0ZSB0aGUgbW9kaWZpZWQgVmltIHVuZGVyIHRoZSBHTlUgR1BMIHZlcnNpb24NCj4gMiBv
+cg0KPiA+IC0gICAgICAgICBhbnkgbGF0ZXIgdmVyc2lvbi4NCj4gPiAtICAgIDMpIEEgbWVzc2Fn
+ZSBtdXN0IGJlIGFkZGVkLCBhdCBsZWFzdCBpbiB0aGUgb3V0cHV0IG9mIHRoZQ0KPiAiOnZlcnNp
+b24iDQo+ID4gLSAgICAgICBjb21tYW5kIGFuZCBpbiB0aGUgaW50cm8gc2NyZWVuLCBzdWNoIHRo
+YXQgdGhlIHVzZXIgb2YgdGhlDQo+IG1vZGlmaWVkIFZpbQ0KPiA+IC0gICAgICAgaXMgYWJsZSB0
+byBzZWUgdGhhdCBpdCB3YXMgbW9kaWZpZWQuICBXaGVuIGRpc3RyaWJ1dGluZyBhcw0KPiBtZW50
+aW9uZWQNCj4gPiAtICAgICAgIHVuZGVyIDIpZSkgYWRkaW5nIHRoZSBtZXNzYWdlIGlzIG9ubHkg
+cmVxdWlyZWQgZm9yIGFzIGZhciBhcw0KPiB0aGlzIGRvZXMNCj4gPiAtICAgICAgIG5vdCBjb25m
+bGljdCB3aXRoIHRoZSBsaWNlbnNlIHVzZWQgZm9yIHRoZSBjaGFuZ2VzLg0KPiA+IC0gICAgNCkg
+VGhlIGNvbnRhY3QgaW5mb3JtYXRpb24gYXMgcmVxdWlyZWQgdW5kZXIgMilhKSBhbmQgMilkKSBt
+dXN0IG5vdA0KPiBiZQ0KPiA+IC0gICAgICAgcmVtb3ZlZCBvciBjaGFuZ2VkLCBleGNlcHQgdGhh
+dCB0aGUgcGVyc29uIGhpbXNlbGYgY2FuIG1ha2UNCj4gPiAtICAgICAgIGNvcnJlY3Rpb25zLg0K
+PiA+IC0NCj4gPiAtSUlJKSBJZiB5b3UgZGlzdHJpYnV0ZSBhIG1vZGlmaWVkIHZlcnNpb24gb2Yg
+VmltLCB5b3UgYXJlIGVuY291cmFnZWQgdG8NCj4gdXNlDQo+ID4gLSAgICAgdGhlIFZpbSBsaWNl
+bnNlIGZvciB5b3VyIGNoYW5nZXMgYW5kIG1ha2UgdGhlbSBhdmFpbGFibGUgdG8gdGhlDQo+ID4g
+LSAgICAgbWFpbnRhaW5lciwgaW5jbHVkaW5nIHRoZSBzb3VyY2UgY29kZS4gIFRoZSBwcmVmZXJy
+ZWQgd2F5IHRvIGRvDQo+IHRoaXMgaXMNCj4gPiAtICAgICBieSBlLW1haWwgb3IgYnkgdXBsb2Fk
+aW5nIHRoZSBmaWxlcyB0byBhIHNlcnZlciBhbmQgZS1tYWlsaW5nIHRoZQ0KPiBVUkwuDQo+ID4g
+LSAgICAgSWYgdGhlIG51bWJlciBvZiBjaGFuZ2VzIGlzIHNtYWxsIChlLmcuLCBhIG1vZGlmaWVk
+IE1ha2VmaWxlKSBlLQ0KPiBtYWlsaW5nIGENCj4gPiAtICAgICBjb250ZXh0IGRpZmYgd2lsbCBk
+by4gIFRoZSBlLW1haWwgYWRkcmVzcyB0byBiZSB1c2VkIGlzDQo+ID4gLSAgICAgPG1haW50YWlu
+ZXJAdmltLm9yZz4NCj4gPiAtDQo+ID4gLUlWKSAgSXQgaXMgbm90IGFsbG93ZWQgdG8gcmVtb3Zl
+IHRoaXMgbGljZW5zZSBmcm9tIHRoZSBkaXN0cmlidXRpb24gb2YNCj4gdGhlIFZpbQ0KPiA+IC0g
+ICAgIHNvdXJjZXMsIHBhcnRzIG9mIGl0IG9yIGZyb20gYSBtb2RpZmllZCB2ZXJzaW9uLiAgWW91
+IG1heSB1c2UgdGhpcw0KPiA+IC0gICAgIGxpY2Vuc2UgZm9yIHByZXZpb3VzIFZpbSByZWxlYXNl
+cyBpbnN0ZWFkIG9mIHRoZSBsaWNlbnNlIHRoYXQgdGhleQ0KPiBjYW1lDQo+ID4gLSAgICAgd2l0
+aCwgYXQgeW91ciBvcHRpb24uDQo+ID4gLQ0KPiA+IC09PT0NCj4gPiAtUmVhZCBtb3JlIGFib3V0
+IHRoaXMgbGljZW5zZSBhdA0KPiBodHRwOi8vdmltZG9jLnNvdXJjZWZvcmdlLm5ldC9odG1sZG9j
+L3VnYW5kYS5odG1sI2xpY2Vuc2UNCj4gPg0KPiA+IA0KPiA+DQo=
