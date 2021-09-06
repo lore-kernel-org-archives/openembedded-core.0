@@ -1,229 +1,271 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.27183.1630958794144404319
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web08.27150.1630960084910153237
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Sep 2021 13:06:34 -0700
+ Mon, 06 Sep 2021 13:28:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JSU5vNmH;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id bk29so7871167qkb.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Sep 2021 13:06:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ojFK0cwc;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id c17so7813883pgc.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Sep 2021 13:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v+wB7o5GfGMXtBvO2BIYnr3geMlpsQAEjwzRrljtmfc=;
-        b=JSU5vNmHqvZ/LQBMDhf52AJT6bc3BKfLsk1mYM0g+V+pu8ZbBJsRUhClKkD4mTRte0
-         oRiCNyb9WnFi8jzSZLOA9OnAZbCg5xwkVmf5f3zDsJJ1MJig/ImbXMDshgueF2NzJbM6
-         +QmDZG7cGgZQ4ToCY5FwTSEkxh5r/OONqeg6XgP4ZEdLdkE0oVtYM48dgJHWJ5QZVlkH
-         A0azfyxMjzqihejD7QkeouHWi5qqCWzi6gusZe0XjD09U5Akr+vG21WAgOotcBWhyoLg
-         xFqzDmeF/bLmUU2GDaSA2WhFpSCujeUPbDwLR8t2glq6/0BZmVi2bjPy5SaNIMvHEyBx
-         Wbgg==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language:importance;
+        bh=hVIYMu2rxjfOwGytRpsyS8gsiy/ueIb7MyCugP9TIEI=;
+        b=ojFK0cwcQM+Y6Nd0lkPUuQZCZG2VPtSVEWXbrh8Mn8rMJYQAnSuNIa0Kb/jlO+OWqJ
+         sTNtU0vI8bDCi7Gian/A7/JaqiEg7x8gMtyLBW9vP5C1rGtmbUa3aSnGXKy6H3mCO/Z+
+         MMeSNU8bqeW+ZmNBaGABbC/ZsB60HczmhhABEFPAvow3s/S3DwqRyHBjh7zqP2rKtAMB
+         GbTK+ByR972jw74iTSuzpaHRfxRalnuz7TPKhw6tLF7yvkQA4fc9rYiKz+G3YgnSafWX
+         /Hvox1kDYAJ5fZAj1Wo7Flnrj3qLS6ZFI32N3cMVKKeL4IdEvHHwcEwBbIC+QtzSo9p8
+         d3+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v+wB7o5GfGMXtBvO2BIYnr3geMlpsQAEjwzRrljtmfc=;
-        b=MFEgACAmvYS+ENkmVi8C1/8cIKSMsCE1yZ0pJGxy149bwa9r1C0HmKPnLsM1gdx6wn
-         9MVZROq8Nx4v9SIO0FbBR3P9XLb6gUy7ISfHxM5FKPsflUBR7daOCdPd0f6PEEQuaY0k
-         rUUy7YsA0g/J3W+ELmGQ1GzE68UDw6SS7vMynRimMtPS/O8EBgTHdrB+r4gPWjk712LY
-         ETEIFVCP1M6AYRorBSKt70vv2RyY6z6YEPPgZc/mnLMrCeDtOw+57Kx2r13Ribw9AkzR
-         apqyEKO2MQuEeBIiwd0jnD8aDKmRio3gsb7Wlj08r+Xr2bd7Wmhq0qUwW/gkjF0Cishf
-         t2lg==
-X-Gm-Message-State: AOAM533kYg6GBDKaIA0IU7V5AynfqYLOwVI/IJeMcIENDLQeKf/eCv5E
-	YpetqGlyeu+ybGKSrBSxf29T1+QximEW1h1ZMbY=
-X-Google-Smtp-Source: ABdhPJw9jXR5mFlI0RtjV/WEsWWO/7oM3xCKWN2lNahBGWKunwcf9ZcfRFhw3LHYAXbfPi/O4XRAvzXv3P6yyng8qks=
-X-Received: by 2002:a05:620a:248f:: with SMTP id i15mr12768096qkn.128.1630958793049;
- Mon, 06 Sep 2021 13:06:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language:importance;
+        bh=hVIYMu2rxjfOwGytRpsyS8gsiy/ueIb7MyCugP9TIEI=;
+        b=EtRL1jCrjFVmeNW4gSn4w03M476U3WLCg138S+l2CRHs3gVVzTiQXIFlYWv03EFBWs
+         +D+21RaRejOfbFRxYsbpqIeY2XUIejnDIbQ6bNGmbcP5430MUzA8Bwmcf/dqp0OSzRgS
+         jiCVQsZphSxGqSKkvKBHgnt04XKedxeKejnkcTXeltSeVzn6i68TTjB7pa31k0a9Hq4s
+         pvPOITrGYfButKgJYmVuf6Nf0TncqUnzMKnMn3lk1Fh+ARpaf4sQxuVU2Sep4YvGZiON
+         XXML9RwUKRRkv3BVLcb7LnCKUXxCg4SQEW5aqlBrDOc8QtzaI+mM3z/a+XbGZgIOV9/u
+         l5lQ==
+X-Gm-Message-State: AOAM5309mcaKlv9Wy/FDfQSJCypTwx2if4oqYj681Bw98PSB39dhJGo5
+	s2KUCsjH+p20vHZ0l5mF18+INxEDXkE=
+X-Google-Smtp-Source: ABdhPJzI2qe1BoZ4cX6yq1lc/ll8ijQglnnMM6Gl0aFoYyPnHfDrQe3KOAWm6jK2tyTcj/aZ3UM4uA==
+X-Received: by 2002:a62:1ec7:0:b0:3eb:2693:90e2 with SMTP id e190-20020a621ec7000000b003eb269390e2mr13224148pfe.52.1630960083954;
+        Mon, 06 Sep 2021 13:28:03 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley ([2600:8800:1d8f:b200:4861:80da:eda:f6d4])
+        by smtp.gmail.com with ESMTPSA id p4sm10293287pgc.15.2021.09.06.13.28.02
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Sep 2021 13:28:03 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
+Date: Mon, 6 Sep 2021 13:28:02 -0700
+Message-ID: <059601d7a35d$b19cfaa0$14d6efe0$@gmail.com>
 MIME-Version: 1.0
-References: <20210906125127.6603-1-purushottamchoudhary29@gmail.com>
-In-Reply-To: <20210906125127.6603-1-purushottamchoudhary29@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 6 Sep 2021 13:06:06 -0700
-Message-ID: <CAMKF1sqRTKv=8ukYEgwDrKFPb921L6awa-68tFCUqAEZ+H+tfg@mail.gmail.com>
-Subject: Re: [OE-core] [poky][master][PATCH] assimp: Fix path for _IMPORT_CHECK_FILES_FOR_assimp
-To: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Anuj Mittal <anuj.mittal@intel.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQING2GZbtgIE0/VhNdSngmEX2tilQ==
+Importance: High
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0597_01D7A323.053E22A0"
+Content-Language: en-us
 
-On Mon, Sep 6, 2021 at 5:51 AM Purushottam Choudhary
-<purushottamchoudhary29@gmail.com> wrote:
->
-> Fix path for _IMPORT_CHECK_FILES_FOR_assimp
-> As it is giving configuration error during validation of path
-> when used by 3rd party component to configure itself
-> using assimp::assimp target.
-> Compute the installation prefix relative to file.
->
-> Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
-> ---
->  ...h-for-_IMPORT_CHECK_FILES_FOR_assimp.patch | 93 +++++++++++++++++++
->  ...hared-lib-from-_IMPORT_CHECK_TARGETS.patch | 32 -------
->  meta/recipes-graphics/vulkan/assimp_5.0.1.bb  |  2 +-
->  3 files changed, 94 insertions(+), 33 deletions(-)
->  create mode 100644 meta/recipes-graphics/vulkan/assimp/0001-Fix-path-for-_IMPORT_CHECK_FILES_FOR_assimp.patch
->  delete mode 100644 meta/recipes-graphics/vulkan/assimp/0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGETS.patch
->
-> diff --git a/meta/recipes-graphics/vulkan/assimp/0001-Fix-path-for-_IMPORT_CHECK_FILES_FOR_assimp.patch b/meta/recipes-graphics/vulkan/assimp/0001-Fix-path-for-_IMPORT_CHECK_FILES_FOR_assimp.patch
-> new file mode 100644
-> index 0000000000..11f1da6f3b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/vulkan/assimp/0001-Fix-path-for-_IMPORT_CHECK_FILES_FOR_assimp.patch
-> @@ -0,0 +1,93 @@
-> +From 330914fed75cde09f48553cae92bed89925d98d8 Mon Sep 17 00:00:00 2001
-> +From: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
-> +Date: Mon, 6 Sep 2021 16:30:38 +0530
-> +Subject: [PATCH] Fix path for _IMPORT_CHECK_FILES_FOR_assimp
-> +
-> +Fix path for _IMPORT_CHECK_FILES_FOR_assimp
-> +As it is giving configuration error during validation of path
-> +when used by 3rd party component to configure itself
-> +using assimp::assimp target.
-> +Compute the installation prefix relative to file.
-> +
-> +Upstream-Status: Inappropriate [oe specific]
+------=_NextPart_000_0597_01D7A323.053E22A0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Please submit this patch to upstream assimp as well, its not a small
-change to maintain over time.
-perhaps upstream can suggest a solution that can be applied upstream
-as well if not this one.
+All,
 
-> +
-> +Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> +Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-> +---
-> + assimpTargets-release.cmake.in | 10 +++++-----
-> + assimpTargets.cmake.in         | 12 ++++++++++++
-> + 2 files changed, 17 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/assimpTargets-release.cmake.in b/assimpTargets-release.cmake.in
-> +index a416e8899..cd91e1277 100644
-> +--- a/assimpTargets-release.cmake.in
-> ++++ b/assimpTargets-release.cmake.in
-> +@@ -46,8 +46,8 @@ if(MSVC)
-> +       IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_BINDIR@/${sharedLibraryName}"
-> +     )
-> +     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-> +-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_LIBDIR@/${importLibraryName}")
-> +-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_BINDIR@/${sharedLibraryName}" )
-> ++    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${importLibraryName}")
-> ++    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/bin/${sharedLibraryName}")
-> +   else()
-> +     set(staticLibraryName "assimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_STATIC_LIBRARY_SUFFIX@")
-> +
-> +@@ -57,7 +57,7 @@ if(MSVC)
-> +       IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/${staticLibraryName}"
-> +     )
-> +     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-> +-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_LIBDIR@/${staticLibraryName}")
-> ++    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${staticLibraryName}")
-> +   endif()
-> +
-> + else()
-> +@@ -73,14 +73,14 @@ else()
-> +       IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLibraryName}"
-> +     )
-> +     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-> +-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLibraryName}" )
-> ++    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${sharedLibraryName}" )
-> +   else()
-> +     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_STATIC_LIBRARY_SUFFIX@")
-> +     set_target_properties(assimp::assimp PROPERTIES
-> +       IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${staticLibraryName}"
-> +     )
-> +     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-> +-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_LIBDIR@/${staticLibraryName}" )
-> ++    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${staticLibraryName}" )
-> +   endif()
-> + endif()
-> +
-> +diff --git a/assimpTargets.cmake.in b/assimpTargets.cmake.in
-> +index ef90c834a..140386660 100644
-> +--- a/assimpTargets.cmake.in
-> ++++ b/assimpTargets.cmake.in
-> +@@ -40,6 +40,15 @@ unset(_targetsDefined)
-> + unset(_targetsNotDefined)
-> + unset(_expectedTargets)
-> +
-> ++# Compute the installation prefix relative to this file.
-> ++get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_FILE}" PATH)
-> ++get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
-> ++get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
-> ++get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
-> ++if(_IMPORT_PREFIX STREQUAL "/")
-> ++  set(_IMPORT_PREFIX "")
-> ++endif()
-> ++
-> + # Create imported target assimp::assimp
-> + if(@BUILD_SHARED_LIBS@)
-> +   add_library(assimp::assimp SHARED IMPORTED)
-> +@@ -65,6 +74,9 @@ foreach(f ${CONFIG_FILES})
-> +   include(${f})
-> + endforeach()
-> +
-> ++# Cleanup temporary variables.
-> ++set(_IMPORT_PREFIX)
-> ++
-> + # Loop over all imported files and verify that they actually exist
-> + foreach(target ${_IMPORT_CHECK_TARGETS} )
-> +   foreach(file ${_IMPORT_CHECK_FILES_FOR_${target}} )
-> +--
-> +2.17.1
-> diff --git a/meta/recipes-graphics/vulkan/assimp/0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGETS.patch b/meta/recipes-graphics/vulkan/assimp/0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGETS.patch
-> deleted file mode 100644
-> index 1078148d6b..0000000000
-> --- a/meta/recipes-graphics/vulkan/assimp/0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGETS.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> -Date: Fri, 13 Aug 2021 16:42:48 +0530
-> -Subject: [PATCH] assimp: remove shared lib from _IMPORT_CHECK_TARGETS
-> -
-> -In the target assimp::assimp shared library verification removed
-> -as it is giving configuration error when used by 3rd part component to
-> -configure itself using assimp::assimp target
-> -
-> -Upstream-Status: Inappropriate [oe specific]
-> -
-> -Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> ----
-> - assimpTargets-release.cmake.in | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/assimpTargets-release.cmake.in b/assimpTargets-release.cmake.in
-> -index cd2fac7e0..52edc7990 100644
-> ---- a/assimpTargets-release.cmake.in
-> -+++ b/assimpTargets-release.cmake.in
-> -@@ -72,8 +72,8 @@ else()
-> -       IMPORTED_SONAME_RELEASE "${sharedLibraryName}"
-> -       IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLibraryName}"
-> -     )
-> --    list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLibraryName}" )
-> -+    #list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-> -+    #list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLibraryName}" )
-> -   else()
-> -     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_STATIC_LIBRARY_SUFFIX@")
-> -     set_target_properties(assimp::assimp PROPERTIES
-> ---
-> -2.17.1
-> diff --git a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb b/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
-> index 89c555f08e..3a1f850f64 100644
-> --- a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
-> +++ b/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
-> @@ -11,7 +11,7 @@ DEPENDS = "zlib"
->  SRC_URI = "git://github.com/assimp/assimp.git;branch=assimp_5.0_release \
->             file://0001-closes-https-github.com-assimp-assimp-issues-2733-up.patch \
->             file://use-GNUInstallDirs-where-possible.patch \
-> -           file://0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGETS.patch \
-> +           file://0001-Fix-path-for-_IMPORT_CHECK_FILES_FOR_assimp.patch \
->             "
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
->
-> --
-> 2.17.1
->
->
-> 
->
+ 
+
+Just a reminder we will hold the monthly Yocto Project Technical Meeting at
+8am PST tomorrow. (9/7)  
+
+ 
+
+Yocto Project Technical Team Meeting: We encourage people attending the
+meeting to logon and announce themselves on the Yocto Project IRC chancel
+during the meeting (optional):
+
+Yocto IRC: https://web.libera.chat/#yocto 
+
+Wiki: https://www.yoctoproject.org/public-virtual-meetings/
+
+ 
+
+When            Monthly from 8am to 9am on the first Tuesday Pacific Time
+
+Where           Zoom Meeting:
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+
+ 
+
+We are tracking the minutes at:
+https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
+DH4/edit?pli=1 Please request access if you want to assist in editing them.
+The world should have view access. 
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0597_01D7A323.053E22A0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0613_01D787BC.CADBE8D0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>All,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
+reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
+PST tomorrow. (9/7)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
+Project Technical Team Meeting: We encourage people attending the =
+meeting to logon and announce themselves on the Yocto Project IRC =
+chancel during the meeting (optional):</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p><span =
+style=3D'color:#1F497D'>Yocto IRC: </span><a =
+href=3D"https://web.libera.chat/#yocto">https://web.libera.chat/#yocto</a=
+><span style=3D'color:#1F497D'>&nbsp;</span><o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Wiki: </span><a =
+href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
+w.yoctoproject.org/public-virtual-meetings/</a><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 9am on the first Tuesday =
+Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
+New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; Zoom Meeting: <a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
+<o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
+tracking the minutes at: </span><a =
+href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
+wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
+4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
+style=3D'color:#1F497D'> Please request access if you want to assist in =
+editing them.&nbsp; The world should have view access. </span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Thanks,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_0597_01D7A323.053E22A0--
