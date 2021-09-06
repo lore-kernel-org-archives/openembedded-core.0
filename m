@@ -1,81 +1,104 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.19619.1630918556228847315
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.19882.1630918780816652512
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Sep 2021 01:55:56 -0700
+ Mon, 06 Sep 2021 01:59:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iLYJTfHK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id q14so8704993wrp.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Sep 2021 01:55:56 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bQnBuyID;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id z4so8693732wrr.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Sep 2021 01:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jPtQaMprZjJAxSWcbCZ/y6KxCQZKKFv4z0s3RCG4S+Q=;
-        b=iLYJTfHKwapQ9mschapA/JPKE1wW08CgRUGD+aLri7iWNwECHgQ11iUdnhB44LoB8Q
-         STUcSo80RfZ8FxBpKR0wC8Ke8lM5QNMJx8cktBcWdtkVsCIvQ6g4SQlx/eLTOZh3sErw
-         cXQIshcsq3976REwELXTATBQNFSPAAfHgZ7Eg=
+        bh=M2z9uFQFwxJZkg74wGbh1k/1rPd0ACy2UDndfVctCxA=;
+        b=bQnBuyIDiOyCHWPZPhyzogtGpl+4ID9O0OCkj6qgv0XtBemGd+WEBGEg+2Ivlownf9
+         vE3N23ZmNRvTXVRAjJuPH3V6iVr25iNlC4tDDIg4UoQ8mjxHK6CR0VAaxEb8iXmr4qYK
+         ZfZ6/dyMIpkVPtTeoOi7Zi38i8T1KW7ycJlXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jPtQaMprZjJAxSWcbCZ/y6KxCQZKKFv4z0s3RCG4S+Q=;
-        b=loe+3IzvprR5rYNYiUL8KeJEkvTa3CN+vKhc3IXu2CGZxKyLh1VnRRNHszbfWYUgZG
-         dtaPJaUWEmXPpB9edubHgxpuVyhBzMcR74WisIbg3VAHJLevbdFyevS3rVBpaQ0kTc6+
-         nmYH/+t0VZjyvfFrmhe87hmaMnUhW6K97hqFVe3euj4KLkdGEwibgQVWw0BUETahiOUh
-         ayJHKL1NPcl2DZ8nmAsodSrfgih0CmvifPNY7ED/9I6APLJ9bxUy/aBolBk9fBO3csOw
-         2UtuqQUHVI0hoq9YZwwe3/3t3plhm5DMJJzE0g8LOve++WGFFDzUorhkIha2q2tkssE2
-         u+KA==
-X-Gm-Message-State: AOAM532y1wIP/MDdbnclfOSRGjADW198O7wPI7kP8mR+5A8cGUmlmeAA
-	CeKK1ZrpWCAOCes9ASC6eVkcScPsAwnIPQ==
-X-Google-Smtp-Source: ABdhPJwXLTvPpdkCCKsog/TsFmdNV6qIPoPWhH9RvCjBVdIUwXeJWtGnNke0IYDX7iRz7MVxE4S2xg==
-X-Received: by 2002:adf:dd4f:: with SMTP id u15mr12471950wrm.237.1630918554578;
-        Mon, 06 Sep 2021 01:55:54 -0700 (PDT)
+        bh=M2z9uFQFwxJZkg74wGbh1k/1rPd0ACy2UDndfVctCxA=;
+        b=S/3DVGQJrmZ1lQpY/gyvwJVk9jXe4IIULs+ohDjjs0K4gwZS4sGruAL+jFHklNcrkC
+         X/+M5E4FnIfox5TPD3IIPtsAyTIaxGz+vyYU3rANGgBODvrxQSYLysNR4Qz5HR8uaxjh
+         wIamLenLKFUhvVSWtosCvdJ47VJl0GBHJ0iYUFYybvIixJo2992vZhJkyeTduJt+S35c
+         EVvX3s7jtbFtQu0lImmE+feSVK1eyNFZkqDhI6bZ4XnDoHTvkSRqlebjbDmOM3P14oz/
+         F2BJzUoWlVEeMfAFsh8EIR6R1LPzDobhHqTbRdqDLqUSDjxxhaCDLQc5cDo75dv5knRI
+         Xh3w==
+X-Gm-Message-State: AOAM532coBu7DtdtmpXXRsClAESstyqWgW03aNa19xDWLCZjryzCIL0E
+	7xeTAnodKDZGUS+shjQZy9eh1FPslTbZmQ==
+X-Google-Smtp-Source: ABdhPJyQLfZJgTTx1fA8rkszOsUjeb0/rAbw84WQEXAUiHRQF8t8iKiEIEtEnkDt/5tbPg18to/Iwg==
+X-Received: by 2002:a5d:58e9:: with SMTP id f9mr11765101wrd.154.1630918779267;
+        Mon, 06 Sep 2021 01:59:39 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:612e:ab48:3553:3f2])
-        by smtp.gmail.com with ESMTPSA id o8sm6253685wmp.42.2021.09.06.01.55.54
+        by smtp.gmail.com with ESMTPSA id j4sm7016308wrt.23.2021.09.06.01.59.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 01:55:54 -0700 (PDT)
+        Mon, 06 Sep 2021 01:59:39 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] utils: Drop unused variable staging_install from oe_libinstall
-Date: Mon,  6 Sep 2021 09:55:53 +0100
-Message-Id: <20210906085553.1073121-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] utils: Drop obsolete oe_machinstall function
+Date: Mon,  6 Sep 2021 09:59:38 +0100
+Message-Id: <20210906085938.1073249-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused variable/code.
+This function does something similar to the bitbake fetcher file search
+paths and is an old remnant of how this could have once been handled. There
+are no users in OE-Core and we'd always prefer the fetcher to handle this now
+as it handles signatures correctly. The direct OVERRIDES reference would
+likely break any user of the function. Remove it to be safe and ensure it
+isn't being used anywhere.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/utils.bbclass | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/classes/utils.bbclass | 30 ------------------------------
+ 1 file changed, 30 deletions(-)
 
 diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 072ea1f63c7..ab060195601 100644
+index ab060195601..b4eb3d38abb 100644
 --- a/meta/classes/utils.bbclass
 +++ b/meta/classes/utils.bbclass
-@@ -30,7 +30,6 @@ oe_libinstall() {
- 	silent=""
- 	require_static=""
- 	require_shared=""
--	staging_install=""
- 	while [ "$#" -gt 0 ]; do
- 		case "$1" in
- 		-C)
-@@ -62,10 +61,6 @@ oe_libinstall() {
- 	if [ -z "$destpath" ]; then
- 		bbfatal "oe_libinstall: no destination path specified"
- 	fi
--	if echo "$destpath/" | egrep '^${STAGING_LIBDIR}/' >/dev/null
--	then
--		staging_install=1
--	fi
+@@ -154,36 +154,6 @@ oe_libinstall() {
+ 	__runcmd cd "$olddir"
+ }
  
- 	__runcmd () {
- 		if [ -z "$silent" ]; then
+-oe_machinstall() {
+-	# Purpose: Install machine dependent files, if available
+-	#          If not available, check if there is a default
+-	#          If no default, just touch the destination
+-	# Example:
+-	#                $1  $2   $3         $4
+-	# oe_machinstall -m 0644 fstab ${D}/etc/fstab
+-	#
+-	# TODO: Check argument number?
+-	#
+-	filename=`basename $3`
+-	dirname=`dirname $3`
+-
+-	for o in `echo ${OVERRIDES} | tr ':' ' '`; do
+-		if [ -e $dirname/$o/$filename ]; then
+-			bbnote $dirname/$o/$filename present, installing to $4
+-			install $1 $2 $dirname/$o/$filename $4
+-			return
+-		fi
+-	done
+-#	bbnote overrides specific file NOT present, trying default=$3...
+-	if [ -e $3 ]; then
+-		bbnote $3 present, installing to $4
+-		install $1 $2 $3 $4
+-	else
+-		bbnote $3 NOT present, touching empty $4
+-		touch $4
+-	fi
+-}
+-
+ create_cmdline_wrapper () {
+ 	# Create a wrapper script where commandline options are needed
+ 	#
 -- 
 2.32.0
 
