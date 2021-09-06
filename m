@@ -1,189 +1,78 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.web12.21002.1630930321354336722
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.21407.1630932658439087357
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Sep 2021 05:12:01 -0700
+ Mon, 06 Sep 2021 05:50:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LSzfRnnw;
- spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: changhyeok.bae@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id t26so3684943uao.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Sep 2021 05:12:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y4hshGQj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id m9so9738249wrb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Sep 2021 05:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WEx4BdGhSw1sTMbO06/fT9uTg6OnBMbBvB6mFVOvZyM=;
-        b=LSzfRnnwDLXw8I0SL8Ov0IrqY/eUn5G6tQaSn1/DMjtywFlVdWt+vW4ZtmTArXfhj4
-         pxVAaf4qFXAmazf+zT8DCc4OQOEkMAhBJtKfSKBs9yfeN1DV0hCVHuZ6SjfVv3fMvG95
-         u1eco14gKYZ+ICF/+rmY+LynsTR7JPTfkZLJslstRCx1MQ6CereNgzrCI/O2sFnmVHGU
-         uWRTaFMQ42oT/FbpUAfO8cDwfS5Jl62+CaB3C6++lRcKzdF+0Wege2pYsa0B7kKeynXk
-         sAgPi7NVbFChBpH0x+KBMqfze1Sea/P835hnzJq3G5Yynjq2ArI76Kbt76CiDLLCKSA6
-         207Q==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iCX3IxSwkxcG3jJITywp1XxLcAta/xKxUmh7DgqGFMc=;
+        b=Y4hshGQjyajaE6i4xlCOhbEkwpdS8qKnbir/w1ifCQJgFTpRcAQbIh59qcT1IK6jS4
+         G+b8ijJwKLMyHjJXayCV/3rsUObY2Ar+i72HpaPZD/VSxOmUn5+3hV/tkvYEjwJ6Zdro
+         +6Tqd7rkm1ng6TUB+/N6JgLLQ6O5Z0+200DHQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WEx4BdGhSw1sTMbO06/fT9uTg6OnBMbBvB6mFVOvZyM=;
-        b=rOl2FK+MbfbgBlMetIiOH6ljUHt2jHr31noqHWThjTyMKOzF3WXOhzLDd1S/XG+PgQ
-         Jq+bpigkUgtBzMo6oDPhC4X9/dekBz8KB8mXEZ14dTeN2QqrcE9ykRJ48sGnDB+KBznh
-         K7jHWS0nz8yAmVCEg1ztQMIXBzp+ByZEahEWcDutH8nGz5pLTluGExNdnWZkLNaw8O71
-         kUH/sreObGxu6kGNuVco54n3hnZQHzdN+Atboxi+cXS3vTXdzap13eEBWyn8jOSpuQsH
-         YSsSRVyIj7XBN3LoMeWt876Aw+JrMOpfpEnqTS5xOxbf+l/9i2e43wjkG7A8PMvmnBsm
-         S3Tg==
-X-Gm-Message-State: AOAM531OK7YgC8US4iLD5c+48HDDAcctysbHyu+bOmcLfguZ0qyJ3UNz
-	E9coOvqqgbz1DjAP3SH9sKNeeLgKZ3OX0fiD/sU=
-X-Google-Smtp-Source: ABdhPJz/Mdb0cKvoLKVllaOsYaboKFn/a7+73MVH+mvTfJejQ+Wgw/dOcxyGIEEH9NdsGU7zl5NDow5VqIwMTjPX/AI=
-X-Received: by 2002:ab0:4305:: with SMTP id k5mr5117284uak.52.1630930320382;
- Mon, 06 Sep 2021 05:12:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iCX3IxSwkxcG3jJITywp1XxLcAta/xKxUmh7DgqGFMc=;
+        b=E5X4A4e8SqxIcyqjEAtT8AxfDRXzWcJy+8kLhj9jg3hKc2neV0tWzZdRUizmDqbfRg
+         NFl06PoyyzxwTOE3lslmG7j3k0rvmca1/5z8sJ7ZMeacyG04i/UwPmMUJ1t2yiN7WdJV
+         X4FMQC7LjqL6SDswWFP3djIA+gPmYnMwNYWRVVwhtftflCfcuSPA1mmAvIRdvBmyXTir
+         5CyodnEDv5u/a1iv41FEmZRqH6mwkJzJOT6E8ZIw5suECcDWZnOKyPMFiIjAq1E/MvZu
+         Y9qxddF5Q3Y/CXrMvPvPfpf5M2rtOCr+ccNBbwhXF/5vIK0PjwgOvo8bICjRydkzVydF
+         WKNw==
+X-Gm-Message-State: AOAM530IKbx3E/T8q2GTY/MkUDa/K/ZD0l+e7kFf01v0TsrisOuHDYDf
+	uqSOchBQJn4gUg25Mzd2KrYP9S1CL5w1pw==
+X-Google-Smtp-Source: ABdhPJzNuwJfLCK7aVHJNRa+D6i7tgNPhZEacb1F5kfOZWk/HoD+i725pByxs+EUQ0NSfrNpDuu+Nw==
+X-Received: by 2002:a5d:5712:: with SMTP id a18mr13058252wrv.367.1630932656654;
+        Mon, 06 Sep 2021 05:50:56 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:612e:ab48:3553:3f2])
+        by smtp.gmail.com with ESMTPSA id o26sm7174402wmc.17.2021.09.06.05.50.56
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Sep 2021 05:50:56 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] flex: Add CVE-2019-6293 to exclusions for checks
+Date: Mon,  6 Sep 2021 13:50:55 +0100
+Message-Id: <20210906125055.1082043-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210905235707.861-1-changhyeok.bae@gmail.com> <YTYCLo3T6uCliJAa@piout.net>
-In-Reply-To: <YTYCLo3T6uCliJAa@piout.net>
-From: "Changhyeok Bae" <changhyeok.bae@gmail.com>
-Date: Mon, 6 Sep 2021 14:11:48 +0200
-Message-ID: <CACrLJgDj2dYjuhnc4PN7ncAFa58VKmyrmu_p3z64zAshxe1K7A@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] iproute2: update to 5.14.0
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000066608e05cb528ec6"
+Content-Transfer-Encoding: 8bit
 
---00000000000066608e05cb528ec6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+CVE is effectively disputed - yes there is stack exhaustion but no bug and it
+is building the parser, not running it, effectively similar to a compiler ICE.
+Upstream no plans to address and there is no security issue.
 
-Thank you for commenting.
+https://github.com/westes/flex/issues/414
 
-Actually I tested it locally and created another laptop because of network
-issues.
-I missed .bb in file name. I will update it soon.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/flex/flex_2.6.4.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Best Regards
-Changhyeok
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 56f5b742e29..6a47ef1bd86 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -28,6 +28,11 @@ SRC_URI[sha256sum] = "e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c4
+ UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
+ UPSTREAM_CHECK_REGEX = "flex-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
++# Disputed - yes there is stack exhaustion but no bug and it is building the
++# parser, not running it, effectively similar to a compiler ICE. Upstream no plans to address
++# https://github.com/westes/flex/issues/414
++CVE_CHECK_WHITELIST += "CVE-2019-6293"
++
+ inherit autotools gettext texinfo ptest
+ 
+ M4 = "${bindir}/m4"
+-- 
+2.32.0
 
-
-2021=EB=85=84 9=EC=9B=94 6=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:57, Al=
-exandre Belloni <alexandre.belloni@bootlin.com>=EB=8B=98=EC=9D=B4
-=EC=9E=91=EC=84=B1:
-
-> Hello,
->
-> On 06/09/2021 01:57:07+0200, Changhyeok Bae wrote:
-> > Signed-off-by: Changhyeok <changhyeok.bae@gmail.com>
-> > ---
-> >  .../iproute2/{iproute2_5.13.0.bb =3D> iproute2_5.14.0}            | 2 =
-+-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-connectivity/iproute2/{iproute2_5.13.0.bb =3D>
-> iproute2_5.14.0} (75%)
-> >
-> > diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-> b/meta/recipes-connectivity/iproute2/iproute2_5.14.0
-> > similarity index 75%
-> > rename from meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-> > rename to meta/recipes-connectivity/iproute2/iproute2_5.14.0
-> > index 44575bd50c..27fb5c8866 100644
-> > --- a/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-> > +++ b/meta/recipes-connectivity/iproute2/iproute2_5.14.0
-> > @@ -4,7 +4,7 @@ SRC_URI =3D
-> "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-> >             file://0001-libc-compat.h-add-musl-workaround.patch \
-> >             "
-> >
-> > -SRC_URI[sha256sum] =3D
-> "72a2e53774cac9e65f7b617deebb2059f87e8960d6e9713e4d788cea966f1b36"
-> > +SRC_URI[sha256sum] =3D
-> "210fa785a52f3763c4287fd5ae63e246f6311bfaa48c424baab6d383bb7591d4"
-> >
->
-> On the autobuilders, this does result in:
->
-> ERROR: Nothing RPROVIDES 'iproute2-ss' (but
-> /home/pokybuild/yocto-worker/check-layer/build/meta/recipes-devtools/elfu=
-tils/
-> elfutils_0.185.bb RDEPENDS on or otherwise requires it)
->
-> Did you build test this patch?
->
-> Regards,
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-
-
---=20
-Thanks
-Changhyeok
-
---00000000000066608e05cb528ec6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thank you for commenting.<div><br></div><div>Actually I te=
-sted it locally and created another laptop because of network issues.</div>=
-<div>I missed .bb in file name. I will update it soon.</div><div><br></div>=
-<div>Best=C2=A0Regards</div><div>Changhyeok</div><div><br></div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">2021=EB=85=
-=84 9=EC=9B=94 6=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:57, Alexandre Be=
-lloni &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.bellon=
-i@bootlin.com</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
-<br>
-On 06/09/2021 01:57:07+0200, Changhyeok Bae wrote:<br>
-&gt; Signed-off-by: Changhyeok &lt;<a href=3D"mailto:changhyeok.bae@gmail.c=
-om" target=3D"_blank">changhyeok.bae@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../iproute2/{<a href=3D"http://iproute2_5.13.0.bb" rel=3D"noref=
-errer" target=3D"_blank">iproute2_5.13.0.bb</a> =3D&gt; iproute2_5.14.0}=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;=C2=A0 rename meta/recipes-connectivity/iproute2/{<a href=3D"http://ipr=
-oute2_5.13.0.bb" rel=3D"noreferrer" target=3D"_blank">iproute2_5.13.0.bb</a=
-> =3D&gt; iproute2_5.14.0} (75%)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-connectivity/iproute2/<a href=3D"http://ipro=
-ute2_5.13.0.bb" rel=3D"noreferrer" target=3D"_blank">iproute2_5.13.0.bb</a>=
- b/meta/recipes-connectivity/iproute2/iproute2_5.14.0<br>
-&gt; similarity index 75%<br>
-&gt; rename from meta/recipes-connectivity/iproute2/<a href=3D"http://iprou=
-te2_5.13.0.bb" rel=3D"noreferrer" target=3D"_blank">iproute2_5.13.0.bb</a><=
-br>
-&gt; rename to meta/recipes-connectivity/iproute2/iproute2_5.14.0<br>
-&gt; index 44575bd50c..27fb5c8866 100644<br>
-&gt; --- a/meta/recipes-connectivity/iproute2/<a href=3D"http://iproute2_5.=
-13.0.bb" rel=3D"noreferrer" target=3D"_blank">iproute2_5.13.0.bb</a><br>
-&gt; +++ b/meta/recipes-connectivity/iproute2/iproute2_5.14.0<br>
-&gt; @@ -4,7 +4,7 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/utils/net/=
-${BPN}/${BP}.tar.xz \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-libc-compat=
-.h-add-musl-workaround.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI[sha256sum] =3D &quot;72a2e53774cac9e65f7b617deebb2059f87e8960=
-d6e9713e4d788cea966f1b36&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;210fa785a52f3763c4287fd5ae63e246f6311bfa=
-a48c424baab6d383bb7591d4&quot;<br>
-&gt;=C2=A0 <br>
-<br>
-On the autobuilders, this does result in:<br>
-<br>
-ERROR: Nothing RPROVIDES &#39;iproute2-ss&#39; (but /home/pokybuild/yocto-w=
-orker/check-layer/build/meta/recipes-devtools/elfutils/<a href=3D"http://el=
-futils_0.185.bb" rel=3D"noreferrer" target=3D"_blank">elfutils_0.185.bb</a>=
- RDEPENDS on or otherwise requires it)<br>
-<br>
-Did you build test this patch?<br>
-<br>
-Regards,<br>
-<br>
--- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Thanks<div>Changhyeok</div></di=
-v></div>
-
---00000000000066608e05cb528ec6--
