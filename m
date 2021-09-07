@@ -1,83 +1,54 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web08.33114.1631004420963000029
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.33199.1631005253294837909
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 01:47:01 -0700
+ Tue, 07 Sep 2021 02:00:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:46726 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mNWkt-0001du-UE; Tue, 07 Sep 2021 04:46:59 -0400
-Date: Tue, 7 Sep 2021 04:46:56 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Andre McCurdy <armccurdy@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] minor curiosity related to libdir vs base_libdir and shared libs
-In-Reply-To: <CAJ86T=WPxc0CwcPTmqcg+fc=56F01zjhuCdf4pmcfrernb8jqA@mail.gmail.com>
-Message-ID: <6eab2b8f-62fc-1d59-85a4-3f52d56aec63@crashcourse.ca>
-References: <131c1b19-2676-211e-c2db-a3827d597094@crashcourse.ca> <CAJ86T=WPxc0CwcPTmqcg+fc=56F01zjhuCdf4pmcfrernb8jqA@mail.gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: liezhi.yang@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 18790p9I010168
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 7 Sep 2021 02:00:52 -0700
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 7 Sep 2021 02:00:51 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Tue, 7 Sep 2021 02:00:51 -0700
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 7 Sep 2021 02:00:50 -0700
+From: "Robert Yang" <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH 0/1] assimp: Remove it
+Date: Tue, 7 Sep 2021 17:31:20 +0800
+Message-ID: <cover.1631006990.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 
-On Tue, 7 Sep 2021, Andre McCurdy wrote:
+The following changes since commit e3a7eaf9fe1420b2525e14f0c0f2936e7818b8a3:
 
-... snip ...
+  build-appliance-image: Update to hardknott head revision (2021-09-01 16:28:21 +0100)
 
-> The original commit from 2013 gives a few more clues in this case:
->
->   https://git.yoctoproject.org/cgit/cgit.cgi/meta-selinux/commit/?id=587fdba43a7747992995029a88d3051ef0efe7f6
->
-> It's not explicit which QA test was being triggered but presumably
-> it was "unsafe-references-in-binaries", which has since been dropped
-> from oe-core:
->
->   https://git.openembedded.org/openembedded-core/commit/?id=a6af5bbf3dad6f0951c67a0aae13ef86a8906893
->
-> So... it looks like these examples of moving libs to base_libdir are
-> obsolete and can be dropped.
+are available in the Git repository at:
 
-  just for fun, there is the occasional recipe that relocates stuff in
-the *other* direction, like this from e2fsprogs_1.46.4.bb:
+  git://git.openembedded.org/openembedded-core-contrib rbt/assimp-hardknott
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/assimp-hardknott
 
-  do_install () {
-        oe_runmake 'DESTDIR=${D}' install
-        oe_runmake 'DESTDIR=${D}' install-libs
-        # We use blkid from util-linux now so remove from here
-        rm -f ${D}${base_libdir}/libblkid*
-        rm -rf ${D}${includedir}/blkid
-        rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
-        rm -f ${D}${base_sbindir}/blkid
-        rm -f ${D}${base_sbindir}/fsck
-        rm -f ${D}${base_sbindir}/findfs
+Robert Yang (1):
+  assimp: Remove it
 
-        # e2initrd_helper and the pkgconfig files belong in libdir
-        if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-                install -d ${D}${libdir}
-                mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
-                mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
-        fi
-        ... snip ...
+ meta/conf/distro/include/maintainers.inc      |    1 -
+ ...MP_LIB_INSTALL_DIR-to-search-library.patch |   68 -
+ ...hub.com-assimp-assimp-issues-2733-up.patch | 1664 -----------------
+ meta/recipes-graphics/vulkan/assimp_5.0.1.bb  |   23 -
+ 4 files changed, 1756 deletions(-)
+ delete mode 100644 meta/recipes-graphics/vulkan/assimp/0001-Use-ASSIMP_LIB_INSTALL_DIR-to-search-library.patch
+ delete mode 100644 meta/recipes-graphics/vulkan/assimp/0001-closes-https-github.com-assimp-assimp-issues-2733-up.patch
+ delete mode 100644 meta/recipes-graphics/vulkan/assimp_5.0.1.bb
 
-and libusb1_1.0.24.bb:
+-- 
+2.17.1
 
-  do_install:append() {
-        install -d ${D}${libdir}
-        if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-                mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
-        fi
-  }
-
-anyway, i'll let others decide if that's worth tidying up.
-
-rday
