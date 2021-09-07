@@ -1,82 +1,74 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.93.1631035956505290687
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web09.1313.1631041306980730887
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 10:32:37 -0700
+ Tue, 07 Sep 2021 12:01:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=QTmVF6qx;
- spf=pass (domain: linaro.org, ip: 209.85.128.49, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-wm1-f49.google.com with SMTP id u26-20020a05600c441a00b002f66b2d8603so2449124wmn.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 10:32:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hhpZJuAR;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 4so6476869qvp.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 12:01:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tEmmsHeI1Ro7PFuSDgVxjLkddltwzKr/1rWyF9YzT6k=;
-        b=QTmVF6qxKzQb9TgZpKvPw7NzMth4EeHfg1vXiLIYEcXCMqnRboL1ce8qz4QrvUOCmn
-         ElnqvBoLbz10V2JbvJFV3cgRKcceMfkNn9TUNJT/8FDUG6FJZuO/IgH/SWVNM61KKsOY
-         xBMBuJRMRTIgT/NCyDtAtZAoEOt0zGZbL+5fhrJdWu5g+77hp2+JX9KdUrmEy/3eNJrL
-         GFB7kSd5amKKYc2fxDgbYCOIbm9QmoS/0y0J2Jm1W2Dy37JRup4eHr5+D44RBHjvIJpI
-         q4HrUbIwFqlY64YDpQWxFtHVQ8tmlpkLK+4KrtVNTttSKGkuhcm7H3TdVPGBdOGS3BlJ
-         V8vA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1C5hKwkRCAV7N62BLPoDiOIW8GMupdX5wjgItDnPZHc=;
+        b=hhpZJuARvO9HGTDj34bnCBYcGrwPe2RmdkQsItOYYxl9/e24HVCPC62eUHFp/WxTAc
+         cSsJqu0S20q1wfUtO6HiaGC2WRTRMli6jDYxqgqiQYIVnws+Ng426PxbMgYfAq4SbDen
+         xidyf5xG7Ou9cj6eErmFZU+IZ2ODePuk+qHO5oct7zkjYx5aGPiUwP9fRghiOoP2VQnO
+         wu7eKVCW5I4SjtQH0X8go1y+aUB//hM4vppN0KZgzL1XKQbNu/C6Q3pAZo4yiOreLal1
+         GIfqtPoj8K4pg76ClT3ND+kKY2dN0jB53dqnmYW7DgggnZqBtQNbjUWi+A0BlrIOm9NJ
+         FO4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tEmmsHeI1Ro7PFuSDgVxjLkddltwzKr/1rWyF9YzT6k=;
-        b=la1iy+8cWxGirsfn0eaWYdU4keZFRgvjXJ2/22HXAa+cFjnCqvRkazJMuvYg3aeFUm
-         hJAG+52mDD5OnbpJGA9Uh9cN+mx0ITsNNBCnqIp0u8B5f+DfdzV0Zwc5Tm2jFblxQ5if
-         FDf60SjIl3YBEC2Z7DtOh16l0kILo0uHVO5xinkxXSQn0V0U9Ou1xvh87B5jifGiZdCl
-         FjwusyCmTl2iI/obn2vgIt8KtmrAw4Zr7ojUz83Gn1C+5LojiahN0jkTdfQdRa83RoTB
-         OUq3kfRqfYjYszc5mX95rAb/g4hmCP9ErIzpMdHjmpw8ngI8pQTZ48myvXlVG1NRNO/m
-         fd5g==
-X-Gm-Message-State: AOAM530bZJndqkls0Z44pTIaSzqp2RN+lOl5JEDYw8TX6IQGj/Qld38g
-	Zp7Ew7xIuOfSG1jGSybEx0njwg==
-X-Google-Smtp-Source: ABdhPJwjyvWhqCT7UZoDOzTodd4x2M9hfAwIPe+Di3FL5DhmzoyJI1dc/NSQFxDxHNDEbDWsDo+2cQ==
-X-Received: by 2002:a05:600c:1912:: with SMTP id j18mr5094782wmq.29.1631035954964;
-        Tue, 07 Sep 2021 10:32:34 -0700 (PDT)
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from qcom-hackbox.linaro.org.net (163-172-5-244.rev.poneytelecom.eu. [163.172.5.244])
-        by smtp.gmail.com with ESMTPSA id g11sm11362317wrx.30.2021.09.07.10.32.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 10:32:34 -0700 (PDT)
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-To: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [dunfell][PATCH] rt-tests: set branch name in SRC_URI
-Date: Tue,  7 Sep 2021 19:32:15 +0200
-Message-Id: <20210907173215.7330-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1C5hKwkRCAV7N62BLPoDiOIW8GMupdX5wjgItDnPZHc=;
+        b=bCm1herONEz6ITeJF2XqO1pbI6nl7GIT+2qlM2xm86ZinHnJNTe+yV6OPSDrjlPsy4
+         3bwXAy4pSXBqslJBefGwQAKos5cR1VfYOy1f6Sx7n9XSPBaowy1U+Wa8k2bMpT5OuSAX
+         HTFUelDI6KWZMPje/b0oO9Zb5/hqGmY2nD6JwLP4DCoT1kRYKMjJnjPK/sOCHeui5FTi
+         g7NKaiH18eYJbtTi2pIR+gOnNuBKBpiK8WrSTxi8UL00T1FuMOIUD4HiR4rZ8MdqF1VJ
+         ykAM5MyZTlB4MdOwWxB+pjvY7PYSWRgkIByV5ZQ9n6Jyy52QpMa5TNlkqDQdSrBZw7hb
+         Ya/g==
+X-Gm-Message-State: AOAM5326cgSTrEQGUnhiEQImAsEm3n2hOA8ocS9ISaAQn1T9F0Gzc69O
+	PFpnjRazC6LRhWMcxzwlZaK0Fs3SZAd9dkFfUEw=
+X-Google-Smtp-Source: ABdhPJx1QbswURdpZ2+8+WBgyxqJgYbqXyP5V+5QkLP7CfjIQIBBefkmKQZmuYo37OE1BYAlfWp2skC/034jmCP7Vc0=
+X-Received: by 2002:ad4:5cc2:: with SMTP id iu2mr18776008qvb.41.1631041305932;
+ Tue, 07 Sep 2021 12:01:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1631006167.git.liezhi.yang@windriver.com>
+ <ed036834262a67e88a58001d20c719bed37d50f5.1631006167.git.liezhi.yang@windriver.com>
+ <945b8038-97c7-1264-594f-e3b424695c22@windriver.com> <CAAnfSTsq2BtJb+PbEj=Yf0E8V=hs6DzDiv5YwRLaWkmd_w3dag@mail.gmail.com>
+In-Reply-To: <CAAnfSTsq2BtJb+PbEj=Yf0E8V=hs6DzDiv5YwRLaWkmd_w3dag@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 7 Sep 2021 12:01:20 -0700
+Message-ID: <CAMKF1srnujBBbhA2st_5qV9RV8ehX_CkSVzoGhOyACO=c0ymow@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] assimp: Remove it
+To: Ross Burton <ross@burtonini.com>
+Cc: Randy MacLeod <randy.macleod@windriver.com>, Robert Yang <liezhi.yang@windriver.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Upstream repo no longer has 'master' branch, and switched to
-'main'. To avoid issue such as:
+On Tue, Sep 7, 2021 at 5:10 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> On Tue, 7 Sept 2021 at 13:04, Randy MacLeod <randy.macleod@windriver.com> wrote:
+> > I'll look at the sections that you have pointed out later today.
+>
+> Debian is always worth looking at when there's license issues.
+>
+> https://salsa.debian.org/debian/assimp/-/blob/master/debian/README.source
+>
+> Specifically:
+>
+> https://salsa.debian.org/debian/assimp/-/blob/master/debian/README.source#L81
+>
+> They strip non-free components from the tarball before importing into
+> their git repository.  We can delete the same files during the build
+> so they don't get redistributed.
 
-ERROR: rt-tests-1_1.1-r0 do_fetch: Fetcher failure: Unable to find
-revision dff174f994f547a5785d32454865f140daacb0f5 in branch master
-even from upstream
+yeah that seems a sensible approach to me.
 
-we need to set the default branch name to 'main' in the recipe.
-
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-rt/rt-tests/rt-tests.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 3ac39d90c3..29ebe2d361 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -2,7 +2,7 @@
- SRCREV = "dff174f994f547a5785d32454865f140daacb0f5"
- PE = "1"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git"
-+SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main"
- # 1.2 to 1.5 seem to be development versions
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(?!1\.[2-6])(\d+(\.\d+)+))"
- 
--- 
-2.30.2
-
+>
+> Ross
+>
+> 
+>
