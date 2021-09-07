@@ -1,118 +1,2492 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web11.34261.1631011318599447060
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.34303.1631016288937104342
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 03:41:59 -0700
+ Tue, 07 Sep 2021 05:04:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hc1iC9nK;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id d16so15776861ljq.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 03:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f6jWiOeCJuSOgOBerF8LhDqhJiWi1kfs5qfvn0pLYvU=;
-        b=hc1iC9nK2TVmYU54vRa0Q/QM8OkMJNGUFpMKnxPr3lZTEGi5dClK82aSegYZEsqh+1
-         +odTEAEa3npcV62/6CajBSZkQeYJj6zxAAGT6n3ZLTqwSAjDgB1ECOil1EODk4H42Kor
-         4coMj6GJtp8+JXwB+OK6Lohp1fME/mRo70VaSfKqtnQpFcSf7pUFIew3fZ2U0s+bHfl8
-         viZPxrtrm8WzdicSXjEZXCFOl2OgXimw66fMjQhdgO8Dm848oi9R6bJUWsgg/4NMcgcp
-         hc/R4bM2UtVspmvRKuFncQTCrvj1rjiLIYMp+rhRKI4nt2Kmw0rdG2kbIWvt0PfKXIQg
-         qDDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f6jWiOeCJuSOgOBerF8LhDqhJiWi1kfs5qfvn0pLYvU=;
-        b=Rsz0L9tq+j5Gk1I8bhp0vDtvCCSBjE2uHQJFTmyxHDI8CQT/Einmo54GRWeMdwRoI/
-         iGI83K7VfmDbWCSOwk+G+NMlJjEpwHKnFvlFDNvTmT15neRapAIk+td+UNBAAEiiTl5c
-         QQOfjrsV/eYe1Xxm+vnYsg/D+ku9YBOZwYYPmuzwJ4uB6iiyBfaxCli1BkpX9wTGeC2o
-         qZpPBnTx3gTUDP8L0wegb3rg36QWKodPBX+XKcKy8pyUB5fs/qdzzRXPwtXDOE04BZno
-         7414BVFi77QpqervCMeRr/mRs1vi+djeASM91X2kn8gqNj3knkJGD2jhNhwffDbsi2AO
-         gCLQ==
-X-Gm-Message-State: AOAM532cxHkTau0tpabkgvny7S+Kzhob9ZxkrvGrP0ASdMJ/CRgPhN/J
-	EUwJWBXn0uEtq4KbD8wvAeTSmQOFQxFp9xBXGnY=
-X-Google-Smtp-Source: ABdhPJzTptpWBJ+GJ1nh2R9nlvAQQ/GSTk6FhQ8E896XyPlNI36uYiCRWKnJILuEl7rLSL9p47PdwWBypnoj+vEJ8oY=
-X-Received: by 2002:a2e:7616:: with SMTP id r22mr13885098ljc.387.1631011316749;
- Tue, 07 Sep 2021 03:41:56 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=sjz626mO;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=488418737d=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 187Ao1V1017873
+	for <openembedded-core@lists.openembedded.org>; Tue, 7 Sep 2021 05:04:48 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=FQxqx/E8PNFsBVUC5dNMfNRz8BUAI+lYlGoe4HxSonU=;
+ b=sjz626mOsgOObuArPvu/K1ZXSm9f+fjxIRpaPpSjCODxf/Ni/ZJ2CmD8GAo91Oll7clI
+ i+uhu4N/YkCqGZ7k00NaD3A0Xx1qLHaJgvgO2QWyFKYyZGvKMIjtBgPaVxOUoxC8kt+c
+ MESBQdeY9TRQUBHOmz61igqniLw7hNehPeL3ICXJUuNRQy90j991EkUgSRwpbQIaW2vY
+ CZlWi6nAzhu5CPNonQhGOtyqAO7ETP55y0wzPndEYmzzlsj3FJZW8L+JtAyLilF23b4x
+ kNo7PpB/YSNlHi4m9kJRKDMo2NbVnU2uoS+8w0P1+YIa0fbNbZwCJ8Dmp60Xy1tUVEyc jQ== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3ax4nj83m1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 05:04:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IdqZbiPhH5Ohc2eMty5mZd6EhuS9x23Q6kiwyGm/dDuIZXOvGOHgIQeDlXj9nrj1cUX5uRotXJleIHdgFJEL2+1TRRGVeiO2jhW2cvtvHvx9dyZfBTtAlBZvpl3h490A3GEWfX2FACcfH2WM981FThUjT3vDGjmdxA/HiCKIDKwadbddMBRuB6/s5FqqnZxNwiqzyn4IugOr1xoPfHIKVHe7kMaK+8H6Tbg0hAbzUnUNwV6Akj4ajzz6ooj0w4QmT1Xk9gJcTpcsz0L3Pnz+3WUh0jgv9iy3d9y9Tvf1WAQL+3Y8BkSI9PJ0ACxtHs4cBYYRqOTov0kjsMhSk7ilyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=FQxqx/E8PNFsBVUC5dNMfNRz8BUAI+lYlGoe4HxSonU=;
+ b=D2+iXRBagNTZ+gVevQxB7RuaOn7zW8usD75ohA8s7v+5CLTevlFUNhZx3D+I6EJfsBNGVrWCD3pobMGhpzUgzqltHZICAu8EPjs4WfYHR4xdZK6w93uaOAue/0UinJ92E8WbDfZjYpIw4hpCEWdARZR6rvqYIPzgo6H+kJLkRdlbyngtS8PaAth1Y4uaUw7VjuwPpTc4nrebA8C1SG9TAR+5HqYuIZK+yP2x9CiBtw8Gnikn99CiPE2/04LKcFKSGWJIhQbeXrh37UNfns/5JD4jb+6qNw65voputJ6YahnfnLjLbXgaawNCfyWwGQtsaJ3pqXrp13zNYlxK7itMGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM6PR11MB4073.namprd11.prod.outlook.com (2603:10b6:5:19f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Tue, 7 Sep
+ 2021 12:04:43 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4%6]) with mapi id 15.20.4457.024; Tue, 7 Sep 2021
+ 12:04:43 +0000
+Subject: Re: [OE-core] [PATCH 1/1] assimp: Remove it
+To: Robert Yang <liezhi.yang@windriver.com>,
+        openembedded-core@lists.openembedded.org
+References: <cover.1631006167.git.liezhi.yang@windriver.com>
+ <ed036834262a67e88a58001d20c719bed37d50f5.1631006167.git.liezhi.yang@windriver.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <945b8038-97c7-1264-594f-e3b424695c22@windriver.com>
+Date: Tue, 7 Sep 2021 08:04:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <ed036834262a67e88a58001d20c719bed37d50f5.1631006167.git.liezhi.yang@windriver.com>
+X-ClientProxiedBy: BY3PR04CA0026.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::31) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-References: <20210907062554.852167-1-hongxu.jia@windriver.com> <16A2841257B7E642.24606@lists.openembedded.org>
-In-Reply-To: <16A2841257B7E642.24606@lists.openembedded.org>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 7 Sep 2021 12:41:13 +0200
-Message-ID: <CAHtQpK5jrvp3qCoo3vXHZprwTo01xU_LQTAZwODSexJiQ=KUAg@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH] Revert "sdk: fix relocate symlink failed"
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: hongxu <hongxu.jia@windriver.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	"Mittal, Anuj" <anuj.mittal@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.7] (198.48.226.187) by BY3PR04CA0026.namprd04.prod.outlook.com (2603:10b6:a03:217::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend Transport; Tue, 7 Sep 2021 12:04:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 42b7db65-2bc5-4578-af31-08d971f7ad6d
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4073:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB4073D68658E57B94AC52A6BAF8D39@DM6PR11MB4073.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	7PbUcHZkR2yAJa7L7PSKnds1qldCv8ytn2q4Rtlbf579OyRdqiKelS27L37FpxuC+hcxfcsKpWC1aZkBKtotR31NAR2mtIzUgFr4f+T5AZTSsowobPE4lfE2BfvmkFaSt83CMF60cOGRSRnEfpG3T1OhCyJhsZR4WI71ieIxI03vZ7HXTHo0C1H0WFp9kQ0WYzCMIRkIl2JCUOXLKbM6Bq07IV0uG8Ipw8GWrGxpSrbvQ8Qn+ThM5hbmp1BUvhZTJm0bWPAJJfbOmldZvtxY7RlfZdxbpsT/mZsDiJIs1jXXXdrNUIa2/RKwAkHYTnvzVp5aKReuKDr+TaPy647jtdBA9+U29zjZzHPLrq3sszgntMx6lRW/vcSsYnpY+pyYSP5xMmer1mFas1htfV0TXm42AdMy1fGIEcIqPfOYuXpjyj4MXdz5timymAxXupers6JA3MXVvyzNTwDhlSCA95dcVvLEI9+cKdwJNal/PvrmmoFvpMWrXk9jhjwcLKcGk3sVsS5hVnrV00KXNv90Qjufj5e85if4XSCr9FagP7FhuG9uvBPSE8Cnlu+n4c5riwONHtLGwTmLtlSW7a+eD0NZDrGhmcDdgcfCvU1ZR/xmXIjSo4RMRyX+Be4mZYr9FntIXnaz8V7dvq2+JuHoSJ9LKZ1bP8Cd6NwhQFgn2932nKPFGz/vRv4gYUAOikzdIzX5H6JGTIPlS0ulRloJapQ+VlU9rRLcxP+v3bUzC1p5Q3rS9WB72n+YEnslB+mr3tOU23d84Uwemj18uFt4mNKPl60ImDoNybETyj8RhCq8e5MSVOi03x4uGfURcCsxhEtoEm4e0hL21owZWAOs31pw5ldgDJfyfGnbLHrW1fgH4LT1dFhv7t6+tbBrBYR7vUz2yY1NybNtDJ09HfcrM6y6+Cr7s+F6OAhSXGw2YaY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39850400004)(376002)(346002)(366004)(30864003)(5660300002)(86362001)(66476007)(186003)(52116002)(31696002)(38100700002)(6486002)(38350700002)(19627235002)(956004)(66556008)(66946007)(83380400001)(966005)(316002)(53546011)(8676002)(36756003)(478600001)(16576012)(2906002)(66574015)(26005)(2616005)(8936002)(31686004)(43740500002)(45980500001)(579004)(559001)(460985005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?Z0dSNFVCdVBqSUpxOTBBelB0dGY2bFZSSW40M1RmL1JyT0Jvck1tNXpaRkto?=
+ =?utf-8?B?QSsxVUpzbHl3MUlqN1J3TXVkMDdGM1llcFpTMW5yN1RKZEROaVY5VFN2MkdK?=
+ =?utf-8?B?elR0VUFrZ0pCQm84Z1ZML0dqWWN6M2tpYUsrZ0ZjMWVSUlhYRGtvRmt6V0FZ?=
+ =?utf-8?B?K242N2U2WjBvOGdsWTFjbit4VTVyN05wQmFRN3lkaVpWdmZsUEFpTE9oU25M?=
+ =?utf-8?B?T1dvL2VGQ3dldkNjVmdvejhGWFM2RFduNDBjbEh6Q2U2VWlBUDFXMThXdFJq?=
+ =?utf-8?B?RkVVSnRkOFFRZDZzU24xZlJudkg0dktRc2lKd1JKUjFsNXVQcUhEOEVZVHM3?=
+ =?utf-8?B?bzJ6SDJsUVRFMFcxOXkreDduREtDSTA3NkJuWVY4bW00YW00WUZ3aDZTZFkw?=
+ =?utf-8?B?bzFoRnRGZDkwU3U3UmZCU0hSUTQybXFmcUo0VU8vWXFUdnVlZ2RxRk1wTEtC?=
+ =?utf-8?B?NXExN1krdkNkck1qQ2dPenBUUzBmT0ZYQW94enJpcG9QRTRaQXVGU0dzaHly?=
+ =?utf-8?B?cjkrQyszY3QydUhMVCtRY3orWk14QjQxOTY0MHV6bFdodDdXWG8xY3pPbGIw?=
+ =?utf-8?B?NVZrMml3WUtsR1BvRzZHeTBvczdrb2diMjdENEZmSjRTVDBuQVo4OHRYZTFq?=
+ =?utf-8?B?T0RTS0hhbERmOElQa2xyUEJYOUZ0NlJSL2F6aXhJazhwN1AyOVZ3NWN4ZFho?=
+ =?utf-8?B?cWpsWWJOMzVaYUlnOEVha0ZNdCtZUWVhWks2dEp1Wm5wZVlveFRGTkNlU283?=
+ =?utf-8?B?UUtMajFQbFV2MmkvZWN6TEUra3c3ZGxNbmFyUEg3TklDUkVIYmNHbkVQaEZQ?=
+ =?utf-8?B?OFdxaXNOUWI4UGFQdE9qWU1Na3BIenZERmxTWVVKRTBSeUFPZUJHQlBwb0dJ?=
+ =?utf-8?B?WGZSYmVEM00xVFpZOHpnRlFCUFdTUytJekxiMVp5UlozNzQzVXE0czBhbkxI?=
+ =?utf-8?B?cktLbzlUZzd5ZCt0Mko1T0Y3cTV4SDBCQzJ4cXhVR0FCRlloV09RUDdjbWE4?=
+ =?utf-8?B?SGVWOEFVRUVDR3g3QUZQbmVBMzJTaG5NUWEycktUREh3ODZzWHpFR3dOVFkr?=
+ =?utf-8?B?K0pnazRuOFFRREIxRFcwT0lyM3NudEZRNExUTm5tYkdSdDVDN04yVXpsaUdQ?=
+ =?utf-8?B?VzdneTFVd3dvcUFmamEvNDBZN2diQ21GUGVBdDc3cjEzeFc0UUZhamw4Y2NV?=
+ =?utf-8?B?MjNPTXRYMUJoSktwL3lpVmtzSmZqQkVhZm4yaVNGL25WeUVzMm12OEZJQ0xP?=
+ =?utf-8?B?SHZnNDhLUmI0eTBLL3NJS2k0WDdSdExKWXA1blBvL0c1QmdYQUdGbFRiSmcy?=
+ =?utf-8?B?a0dINnladWhBV09QMnNnYjdUZU1nK1JnNUtWTkJwTHhzZjNOOFpTelpuc1FX?=
+ =?utf-8?B?OG5Kc3hOZjVZMzVQN3BHSGcrczV0aFAwWnlSSXZLWXFqbWhjT0VFS2hUMjN2?=
+ =?utf-8?B?NU56SFpKam1iR1QwWVM0WER2RTQ4VEF1RW0vd0dQN0pCT2VzSDFkU2pMUEpi?=
+ =?utf-8?B?Q3dWS2dEdkhZUXFwYTJyYlk2Q2ZsQU52ak5VbGlBUk1GOGdJZGJnQTQzMS9Z?=
+ =?utf-8?B?VFc3Q05aOTNuSjA2U3RTU2dGKzlva0s0bERuZFZvbE5IUklGNU04eUI1eHMw?=
+ =?utf-8?B?d3g3ZVdxTFR0dlFsRFA3bHB0a3VGVG1JamJuZGpwUzRkUTdFVUdWU3ZjcU5s?=
+ =?utf-8?B?dU91ODc3L1FlU2ZPQThkMzVCdFA2VXhYSEFLNUpraWFDanV4S1NUZDdBaW1R?=
+ =?utf-8?Q?+We24kTDS+JDfsP/jSSeul0E9QpfwbyivKjyEqv?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42b7db65-2bc5-4578-af31-08d971f7ad6d
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2021 12:04:43.6969
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pFzuGaIz/2NI5ept5OlGnAcrH9Vz+UMCqxcdxYxbfFgYwBlQTjLka9nUJdVi9NJVZKO1H3UoFHxOBVGsGpIrMOVfzyYWaCo20oPHVcB5/Uk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4073
+X-Proofpoint-GUID: _jFnKLPZt01_SS97h7dCndgpfhPMtJ52
+X-Proofpoint-ORIG-GUID: _jFnKLPZt01_SS97h7dCndgpfhPMtJ52
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-07_03,2021-09-07_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 adultscore=0 mlxlogscore=999 phishscore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ mlxscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2108310000 definitions=main-2109070080
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 187Ao1V1017873
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 7, 2021 at 12:40 PM Andrey Zhizhikin via
-lists.openembedded.org <andrey.z=gmail.com@lists.openembedded.org>
-wrote:
->
-> Hello Hongxu,
->
-> On Tue, Sep 7, 2021 at 8:26 AM hongxu <hongxu.jia@windriver.com> wrote:
-> >
-> > The commit [7e71acd265 sdk: fix relocate symlink failed] is used to fix
-> > regression issue caused by commit [bc4ee54535 sdk: Decouple default install
-> > path from built in path], but hardknott does not contain commit bc4ee54535,
-> > so commit 7e71acd265 should not be in hardknott neither, otherwise it caused
-> > other regression issue.
-> >
-> > This reverts commit 7e71acd265637d54d5bf149ea36cefa581f60992.
->
-> This has been already discussed for [dunfell], see [1].
->
-> The actual proposal was to take the second commit rather than
-> reverting the first one, which Steve did (see [2]).
->
-> Can the same approach be applied to [hardknott]?
+On 2021-09-07 5:17 a.m., Robert Yang wrote:
+> Remove it since it has license issues:
+>=20
+> * scripts/StepImporter/schema_ifc2x3.exp
+> Copyright by: International Alliance for Interoperability, 1996-2005 All =
+rights
+> reserved. No part of this documentation may be reproduced, stored in a
+> retrieval system, or transmitted in any form or by any means, without the=
+ prior
+> written permission of the owner
+>=20
+> * test/models-nonbsd/X/dwarf-Read-Me.txt
+> RESTRICTIONS: This model pack is available for use in freeware, shareware=
+,
+> commercial games/software with the following restrictions:- **You may not
+> sell/re-sell this model pack or claim it as your own. ***You may not
+> redistribute this pack in some other model pack through a website or on a
+> compilation CD of any kind, without my written consent. Psi
+> http://www.psionic3d.co.uk
+>=20
+> * test/models-nonbsd/B3D/turtle.source.txt
+> Copyright 2004, Psionic Design e-mail: psionic@blueyonder.co.uk Used with
+> permission. RESTRICTIONS: This model pack is available for use in freewar=
+e,
+> shareware, commercial games/software with the following restrictions:- **=
+You
+> may not sell/re-sell this model pack or claim it as your own. ***You may =
+not
+> redistribute this pack in some other model pack through a website or on a
+> compilation CD of any kind, without my written consent.
+>=20
+> And no recipes depend on it, so remove it.
 
-Ah, just saw Anuj took it for [hardknott]
-(https://lists.openembedded.org/g/openembedded-core/message/155735).
-:)
+In master, it seems that vulkan* depends on assimp:
 
+https://layers.openembedded.org/layerindex/branch/master/recipes/?q=3Ddepen=
+ds%3Aassimp
 
->
-> >
-> > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> > ---
-> >  meta/files/toolchain-shar-relocate.sh | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-> > index ba873373e2..5433741296 100644
-> > --- a/meta/files/toolchain-shar-relocate.sh
-> > +++ b/meta/files/toolchain-shar-relocate.sh
-> > @@ -72,7 +72,7 @@ fi
-> >
-> >  # change all symlinks pointing to @SDKPATH@
-> >  for l in $($SUDO_EXEC find $native_sysroot -type l); do
-> > -       $SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$SDK_BUILD_PATH:$target_sdk_dir:") $l
-> > +       $SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
-> >         if [ $? -ne 0 ]; then
-> >                 echo "Failed to setup symlinks. Relocate script failed. Abort!"
-> >                 exit 1
-> > --
-> > 2.27.0
-> >
-> >
-> >
-> >
->
-> Link: [1]: https://lists.openembedded.org/g/openembedded-core/topic/85311771#155603
-> Link: [2]: https://lists.openembedded.org/g/openembedded-core/message/155670
->
+and lots of recipes in meta-qt5 and meta-ros* so removing it here
+would just push the problem around.
+
+I'll look at the sections that you have pointed out later today.
+
+../Randy
+
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/conf/distro/include/maintainers.inc      |    1 -
+>   ...hared-lib-from-_IMPORT_CHECK_TARGETS.patch |   32 -
+>   ...hub.com-assimp-assimp-issues-2733-up.patch | 1664 -----------------
+>   .../use-GNUInstallDirs-where-possible.patch   |  257 ---
+>   meta/recipes-graphics/vulkan/assimp_5.0.1.bb  |   26 -
+>   5 files changed, 1980 deletions(-)
+>   delete mode 100644 meta/recipes-graphics/vulkan/assimp/0001-assimp-remo=
+ve-shared-lib-from-_IMPORT_CHECK_TARGETS.patch
+>   delete mode 100644 meta/recipes-graphics/vulkan/assimp/0001-closes-http=
+s-github.com-assimp-assimp-issues-2733-up.patch
+>   delete mode 100644 meta/recipes-graphics/vulkan/assimp/use-GNUInstallDi=
+rs-where-possible.patch
+>   delete mode 100644 meta/recipes-graphics/vulkan/assimp_5.0.1.bb
+>=20
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index 0e8185f4e3..e560ba39dd 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -46,7 +46,6 @@ RECIPE_MAINTAINER:pn-apt =3D "An=C3=ADbal Lim=C3=B3n <l=
+imon.anibal@gmail.com>"
+>   RECIPE_MAINTAINER:pn-argp-standalone =3D "Khem Raj <raj.khem@gmail.com>=
+"
+>   RECIPE_MAINTAINER:pn-asciidoc =3D "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-aspell =3D "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-assimp =3D "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-at =3D "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-at-spi2-atk =3D "Tim Orling <timothy.t.orling@inte=
+l.com>"
+>   RECIPE_MAINTAINER:pn-at-spi2-core =3D "Tim Orling <timothy.t.orling@int=
+el.com>"
+> diff --git a/meta/recipes-graphics/vulkan/assimp/0001-assimp-remove-share=
+d-lib-from-_IMPORT_CHECK_TARGETS.patch b/meta/recipes-graphics/vulkan/assim=
+p/0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGETS.patch
+> deleted file mode 100644
+> index 1078148d6b..0000000000
+> --- a/meta/recipes-graphics/vulkan/assimp/0001-assimp-remove-shared-lib-f=
+rom-_IMPORT_CHECK_TARGETS.patch
+> +++ /dev/null
+> @@ -1,32 +0,0 @@
+> -From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+> -Date: Fri, 13 Aug 2021 16:42:48 +0530
+> -Subject: [PATCH] assimp: remove shared lib from _IMPORT_CHECK_TARGETS
+> -
+> -In the target assimp::assimp shared library verification removed
+> -as it is giving configuration error when used by 3rd part component to
+> -configure itself using assimp::assimp target
+> -
+> -Upstream-Status: Inappropriate [oe specific]
+> -
+> -Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+> ----
+> - assimpTargets-release.cmake.in | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/assimpTargets-release.cmake.in b/assimpTargets-release.cmak=
+e.in
+> -index cd2fac7e0..52edc7990 100644
+> ---- a/assimpTargets-release.cmake.in
+> -+++ b/assimpTargets-release.cmake.in
+> -@@ -72,8 +72,8 @@ else()
+> -       IMPORTED_SONAME_RELEASE "${sharedLibraryName}"
+> -       IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLi=
+braryName}"
+> -     )
+> --    list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${sharedLibraryName}" )
+> -+    #list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> -+    #list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL=
+_FULL_LIBDIR@/${sharedLibraryName}" )
+> -   else()
+> -     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_STAT=
+IC_LIBRARY_SUFFIX@")
+> -     set_target_properties(assimp::assimp PROPERTIES
+> ---
+> -2.17.1
+> diff --git a/meta/recipes-graphics/vulkan/assimp/0001-closes-https-github=
+.com-assimp-assimp-issues-2733-up.patch b/meta/recipes-graphics/vulkan/assi=
+mp/0001-closes-https-github.com-assimp-assimp-issues-2733-up.patch
+> deleted file mode 100644
+> index 87a1658710..0000000000
+> --- a/meta/recipes-graphics/vulkan/assimp/0001-closes-https-github.com-as=
+simp-assimp-issues-2733-up.patch
+> +++ /dev/null
+> @@ -1,1664 +0,0 @@
+> -From 7fc220b2350d78942fb3935cad0b1564418ebe8f Mon Sep 17 00:00:00 2001
+> -From: Kim Kulling <kim.kulling@googlemail.com>
+> -Date: Tue, 19 Nov 2019 20:30:40 +0100
+> -Subject: [PATCH] closes https://github.com/assimp/assimp/issues/2733: up=
+date
+> - of zlip to fix gcc build for v9.2.0 32 bit
+> -
+> -Upstream-Status: Backport [https://github.com/assimp/assimp/commit/f7844=
+6b14aff46db2ef27d062a275b6a01fd68b1]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - contrib/zip/.gitignore          |   2 +
+> - contrib/zip/CMakeLists.txt      |  83 +++++-
+> - contrib/zip/README.md           |  12 +-
+> - contrib/zip/appveyor.yml        |   2 +-
+> - contrib/zip/src/miniz.h         | 457 ++++++++++++++++++++++++++++----
+> - contrib/zip/src/zip.c           |  62 +++--
+> - contrib/zip/src/zip.h           | 457 ++++++++++++++++----------------
+> - contrib/zip/test/CMakeLists.txt |  27 +-
+> - contrib/zip/test/test.c         |  38 ++-
+> - contrib/zip/test/test_miniz.c   |  25 +-
+> - 10 files changed, 821 insertions(+), 344 deletions(-)
+> -
+> -diff --git a/contrib/zip/.gitignore b/contrib/zip/.gitignore
+> -index a7904a1e..49b2cb2f 100644
+> ---- a/contrib/zip/.gitignore
+> -+++ b/contrib/zip/.gitignore
+> -@@ -1,6 +1,7 @@
+> - /build/
+> - /test/build/
+> - /xcodeproj/
+> -+.vscode/
+> -
+> - # Object files
+> - *.o
+> -@@ -54,3 +55,4 @@ zip.dir/
+> - test/test.exe.vcxproj.filters
+> - test/test.exe.vcxproj
+> - test/test.exe.dir/
+> -+
+> -diff --git a/contrib/zip/CMakeLists.txt b/contrib/zip/CMakeLists.txt
+> -index b46dbb1d..77916d2e 100644
+> ---- a/contrib/zip/CMakeLists.txt
+> -+++ b/contrib/zip/CMakeLists.txt
+> -@@ -1,10 +1,14 @@
+> --cmake_minimum_required(VERSION 2.8)
+> --project(zip)
+> --enable_language(C)
+> -+cmake_minimum_required(VERSION 3.0)
+> -+
+> -+project(zip
+> -+  LANGUAGES C
+> -+  VERSION "0.1.15")
+> - set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH=
+})
+> -
+> -+option(CMAKE_DISABLE_TESTING "Disable test creation" OFF)
+> -+
+> - if (MSVC)
+> --  # Use secure functions by defaualt and suppress warnings about "depre=
+cated" functions
+> -+  # Use secure functions by default and suppress warnings about "deprec=
+ated" functions
+> -   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D _CRT_SECURE_CPP_OVERLOAD_STAND=
+ARD_NAMES=3D1")
+> -   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D _CRT_SECURE_CPP_OVERLOAD_STAND=
+ARD_NAMES_COUNT=3D1")
+> -   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D _CRT_NONSTDC_NO_WARNINGS=3D1 /=
+D _CRT_SECURE_NO_WARNINGS=3D1")
+> -@@ -12,28 +16,80 @@ elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
+> -         "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
+> -         "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
+> -   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=3Dc99 -Wall -Wextra -Werror =
+-pedantic")
+> -+  if(ENABLE_COVERAGE)
+> -+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-co=
+verage")
+> -+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+> -+  endif()
+> - endif (MSVC)
+> -
+> - # zip
+> - set(SRC src/miniz.h src/zip.h src/zip.c)
+> - add_library(${PROJECT_NAME} ${SRC})
+> --target_include_directories(${PROJECT_NAME} INTERFACE src)
+> -+target_include_directories(${PROJECT_NAME} PUBLIC
+> -+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+> -+  $<INSTALL_INTERFACE:include>
+> -+)
+> -
+> - # test
+> - if (NOT CMAKE_DISABLE_TESTING)
+> -   enable_testing()
+> -   add_subdirectory(test)
+> -   find_package(Sanitizers)
+> --  add_sanitizers(${PROJECT_NAME} test.exe)
+> --  add_sanitizers(${PROJECT_NAME} test_miniz.exe)
+> -+  add_sanitizers(${PROJECT_NAME} ${test_out} ${test_miniz_out})
+> - endif()
+> -
+> -+####
+> -+# Installation (https://github.com/forexample/package-example) {
+> -+
+> -+set(CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
+> -+set(INCLUDE_INSTALL_DIR "include")
+> -+
+> -+set(GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+> -+
+> -+# Configuration
+> -+set(VERSION_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake=
+")
+> -+set(PROJECT_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
+> -+set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
+> -+set(NAMESPACE "${PROJECT_NAME}::")
+> -+
+> -+# Include module with fuction 'write_basic_package_version_file'
+> -+include(CMakePackageConfigHelpers)
+> -+
+> -+# Note: PROJECT_VERSION is used as a VERSION
+> -+write_basic_package_version_file(
+> -+    "${VERSION_CONFIG}" COMPATIBILITY SameMajorVersion
+> -+)
+> -+
+> -+# Use variables:
+> -+#   * TARGETS_EXPORT_NAME
+> -+#   * PROJECT_NAME
+> -+configure_package_config_file(
+> -+    "cmake/Config.cmake.in"
+> -+    "${PROJECT_CONFIG}"
+> -+    INSTALL_DESTINATION "${CONFIG_INSTALL_DIR}"
+> -+)
+> -+
+> -+install(
+> -+    FILES "${PROJECT_CONFIG}" "${VERSION_CONFIG}"
+> -+    DESTINATION "${CONFIG_INSTALL_DIR}"
+> -+)
+> -+
+> -+install(
+> -+    EXPORT "${TARGETS_EXPORT_NAME}"
+> -+    NAMESPACE "${NAMESPACE}"
+> -+    DESTINATION "${CONFIG_INSTALL_DIR}"
+> -+)
+> -+
+> -+# }
+> -+
+> - install(TARGETS ${PROJECT_NAME}
+> -+        EXPORT ${TARGETS_EXPORT_NAME}
+> -         RUNTIME DESTINATION bin
+> -         ARCHIVE DESTINATION lib
+> -         LIBRARY DESTINATION lib
+> --        COMPONENT library)
+> --install(FILES ${PROJECT_SOURCE_DIR}/src/zip.h DESTINATION include)
+> -+        INCLUDES DESTINATION ${INCLUDE_INSTALL_DIR}
+> -+)
+> -+install(FILES ${PROJECT_SOURCE_DIR}/src/zip.h DESTINATION ${INCLUDE_INS=
+TALL_DIR}/zip)
+> -
+> - # uninstall target (https://gitlab.kitware.com/cmake/community/wikis/FA=
+Q#can-i-do-make-uninstall-with-cmake)
+> - if(NOT TARGET uninstall)
+> -@@ -45,3 +101,12 @@ if(NOT TARGET uninstall)
+> -     add_custom_target(uninstall
+> -         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/c=
+make_uninstall.cmake)
+> - endif()
+> -+
+> -+find_package(Doxygen)
+> -+if(DOXYGEN_FOUND)
+> -+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURR=
+ENT_BINARY_DIR}/Doxyfile @ONLY)
+> -+    add_custom_target(doc
+> -+        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+> -+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+> -+        COMMENT "Generating API documentation with Doxygen" VERBATIM)
+> -+endif()
+> -diff --git a/contrib/zip/README.md b/contrib/zip/README.md
+> -index d5fb8cd2..14eb9a34 100644
+> ---- a/contrib/zip/README.md
+> -+++ b/contrib/zip/README.md
+> -@@ -71,7 +71,7 @@ int arg =3D 2;
+> - zip_extract("foo.zip", "/tmp", on_extract_entry, &arg);
+> - ```
+> -
+> --*   Extract a zip entry into memory.
+> -+* Extract a zip entry into memory.
+> - ```c
+> - void *buf =3D NULL;
+> - size_t bufsize;
+> -@@ -89,7 +89,7 @@ zip_close(zip);
+> - free(buf);
+> - ```
+> -
+> --*   Extract a zip entry into memory (no internal allocation).
+> -+* Extract a zip entry into memory (no internal allocation).
+> - ```c
+> - unsigned char *buf;
+> - size_t bufsize;
+> -@@ -110,7 +110,7 @@ zip_close(zip);
+> - free(buf);
+> - ```
+> -
+> --*   Extract a zip entry into memory using callback.
+> -+* Extract a zip entry into memory using callback.
+> - ```c
+> - struct buffer_t {
+> -     char *data;
+> -@@ -144,7 +144,7 @@ free(buf.data);
+> - ```
+> -
+> -
+> --*   Extract a zip entry into a file.
+> -+* Extract a zip entry into a file.
+> - ```c
+> - struct zip_t *zip =3D zip_open("foo.zip", 0, 'r');
+> - {
+> -@@ -157,7 +157,7 @@ struct zip_t *zip =3D zip_open("foo.zip", 0, 'r');
+> - zip_close(zip);
+> - ```
+> -
+> --*   List of all zip entries
+> -+* List of all zip entries
+> - ```c
+> - struct zip_t *zip =3D zip_open("foo.zip", 0, 'r');
+> - int i, n =3D zip_total_entries(zip);
+> -@@ -174,7 +174,7 @@ for (i =3D 0; i < n; ++i) {
+> - zip_close(zip);
+> - ```
+> -
+> --## Bindings
+> -+# Bindings
+> - Compile zip library as a dynamic library.
+> - ```shell
+> - $ mkdir build
+> -diff --git a/contrib/zip/appveyor.yml b/contrib/zip/appveyor.yml
+> -index 0be6373c..ea17f5de 100644
+> ---- a/contrib/zip/appveyor.yml
+> -+++ b/contrib/zip/appveyor.yml
+> -@@ -1,4 +1,4 @@
+> --version: zip-0.1.9.{build}
+> -+version: zip-0.1.15.{build}
+> - build_script:
+> - - cmd: >-
+> -     cd c:\projects\zip
+> -diff --git a/contrib/zip/src/miniz.h b/contrib/zip/src/miniz.h
+> -index 2c27a94d..c4fcfb83 100644
+> ---- a/contrib/zip/src/miniz.h
+> -+++ b/contrib/zip/src/miniz.h
+> -@@ -221,6 +221,7 @@
+> - #ifndef MINIZ_HEADER_INCLUDED
+> - #define MINIZ_HEADER_INCLUDED
+> -
+> -+#include <stdint.h>
+> - #include <stdlib.h>
+> -
+> - // Defines to completely disable specific portions of miniz.c:
+> -@@ -284,7 +285,8 @@
+> - /* Set MINIZ_USE_UNALIGNED_LOADS_AND_STORES only if not set */
+> - #if !defined(MINIZ_USE_UNALIGNED_LOADS_AND_STORES)
+> - #if MINIZ_X86_OR_X64_CPU
+> --/* Set MINIZ_USE_UNALIGNED_LOADS_AND_STORES to 1 on CPU's that permit e=
+fficient integer loads and stores from unaligned addresses. */
+> -+/* Set MINIZ_USE_UNALIGNED_LOADS_AND_STORES to 1 on CPU's that permit e=
+fficient
+> -+ * integer loads and stores from unaligned addresses. */
+> - #define MINIZ_USE_UNALIGNED_LOADS_AND_STORES 1
+> - #define MINIZ_UNALIGNED_USE_MEMCPY
+> - #else
+> -@@ -354,6 +356,44 @@ enum {
+> -   MZ_FIXED =3D 4
+> - };
+> -
+> -+/* miniz error codes. Be sure to update mz_zip_get_error_string() if yo=
+u add or
+> -+ * modify this enum. */
+> -+typedef enum {
+> -+  MZ_ZIP_NO_ERROR =3D 0,
+> -+  MZ_ZIP_UNDEFINED_ERROR,
+> -+  MZ_ZIP_TOO_MANY_FILES,
+> -+  MZ_ZIP_FILE_TOO_LARGE,
+> -+  MZ_ZIP_UNSUPPORTED_METHOD,
+> -+  MZ_ZIP_UNSUPPORTED_ENCRYPTION,
+> -+  MZ_ZIP_UNSUPPORTED_FEATURE,
+> -+  MZ_ZIP_FAILED_FINDING_CENTRAL_DIR,
+> -+  MZ_ZIP_NOT_AN_ARCHIVE,
+> -+  MZ_ZIP_INVALID_HEADER_OR_CORRUPTED,
+> -+  MZ_ZIP_UNSUPPORTED_MULTIDISK,
+> -+  MZ_ZIP_DECOMPRESSION_FAILED,
+> -+  MZ_ZIP_COMPRESSION_FAILED,
+> -+  MZ_ZIP_UNEXPECTED_DECOMPRESSED_SIZE,
+> -+  MZ_ZIP_CRC_CHECK_FAILED,
+> -+  MZ_ZIP_UNSUPPORTED_CDIR_SIZE,
+> -+  MZ_ZIP_ALLOC_FAILED,
+> -+  MZ_ZIP_FILE_OPEN_FAILED,
+> -+  MZ_ZIP_FILE_CREATE_FAILED,
+> -+  MZ_ZIP_FILE_WRITE_FAILED,
+> -+  MZ_ZIP_FILE_READ_FAILED,
+> -+  MZ_ZIP_FILE_CLOSE_FAILED,
+> -+  MZ_ZIP_FILE_SEEK_FAILED,
+> -+  MZ_ZIP_FILE_STAT_FAILED,
+> -+  MZ_ZIP_INVALID_PARAMETER,
+> -+  MZ_ZIP_INVALID_FILENAME,
+> -+  MZ_ZIP_BUF_TOO_SMALL,
+> -+  MZ_ZIP_INTERNAL_ERROR,
+> -+  MZ_ZIP_FILE_NOT_FOUND,
+> -+  MZ_ZIP_ARCHIVE_TOO_LARGE,
+> -+  MZ_ZIP_VALIDATION_FAILED,
+> -+  MZ_ZIP_WRITE_CALLBACK_FAILED,
+> -+  MZ_ZIP_TOTAL_ERRORS
+> -+} mz_zip_error;
+> -+
+> - // Method
+> - #define MZ_DEFLATED 8
+> -
+> -@@ -696,6 +736,7 @@ typedef size_t (*mz_file_read_func)(void *pOpaque, m=
+z_uint64 file_ofs,
+> -                                     void *pBuf, size_t n);
+> - typedef size_t (*mz_file_write_func)(void *pOpaque, mz_uint64 file_ofs,
+> -                                      const void *pBuf, size_t n);
+> -+typedef mz_bool (*mz_file_needs_keepalive)(void *pOpaque);
+> -
+> - struct mz_zip_internal_state_tag;
+> - typedef struct mz_zip_internal_state_tag mz_zip_internal_state;
+> -@@ -707,13 +748,27 @@ typedef enum {
+> -   MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED =3D 3
+> - } mz_zip_mode;
+> -
+> --typedef struct mz_zip_archive_tag {
+> -+typedef enum {
+> -+  MZ_ZIP_TYPE_INVALID =3D 0,
+> -+  MZ_ZIP_TYPE_USER,
+> -+  MZ_ZIP_TYPE_MEMORY,
+> -+  MZ_ZIP_TYPE_HEAP,
+> -+  MZ_ZIP_TYPE_FILE,
+> -+  MZ_ZIP_TYPE_CFILE,
+> -+  MZ_ZIP_TOTAL_TYPES
+> -+} mz_zip_type;
+> -+
+> -+typedef struct {
+> -   mz_uint64 m_archive_size;
+> -   mz_uint64 m_central_directory_file_ofs;
+> --  mz_uint m_total_files;
+> -+
+> -+  /* We only support up to UINT32_MAX files in zip64 mode. */
+> -+  mz_uint32 m_total_files;
+> -   mz_zip_mode m_zip_mode;
+> -+  mz_zip_type m_zip_type;
+> -+  mz_zip_error m_last_error;
+> -
+> --  mz_uint m_file_offset_alignment;
+> -+  mz_uint64 m_file_offset_alignment;
+> -
+> -   mz_alloc_func m_pAlloc;
+> -   mz_free_func m_pFree;
+> -@@ -722,6 +777,7 @@ typedef struct mz_zip_archive_tag {
+> -
+> -   mz_file_read_func m_pRead;
+> -   mz_file_write_func m_pWrite;
+> -+  mz_file_needs_keepalive m_pNeeds_keepalive;
+> -   void *m_pIO_opaque;
+> -
+> -   mz_zip_internal_state *m_pState;
+> -@@ -1263,6 +1319,9 @@ mz_uint tdefl_create_comp_flags_from_zip_params(in=
+t level, int window_bits,
+> -                                                 int strategy);
+> - #endif // #ifndef MINIZ_NO_ZLIB_APIS
+> -
+> -+#define MZ_UINT16_MAX (0xFFFFU)
+> -+#define MZ_UINT32_MAX (0xFFFFFFFFU)
+> -+
+> - #ifdef __cplusplus
+> - }
+> - #endif
+> -@@ -1311,6 +1370,11 @@ typedef unsigned char mz_validate_uint64[sizeof(m=
+z_uint64) =3D=3D 8 ? 1 : -1];
+> -    ((mz_uint32)(((const mz_uint8 *)(p))[3]) << 24U))
+> - #endif
+> -
+> -+#define MZ_READ_LE64(p)                                                =
+        \
+> -+  (((mz_uint64)MZ_READ_LE32(p)) |                                      =
+        \
+> -+   (((mz_uint64)MZ_READ_LE32((const mz_uint8 *)(p) + sizeof(mz_uint32))=
+)       \
+> -+    << 32U))
+> -+
+> - #ifdef _MSC_VER
+> - #define MZ_FORCEINLINE __forceinline
+> - #elif defined(__GNUC__)
+> -@@ -4160,6 +4224,17 @@ enum {
+> -   MZ_ZIP_LOCAL_DIR_HEADER_SIZE =3D 30,
+> -   MZ_ZIP_CENTRAL_DIR_HEADER_SIZE =3D 46,
+> -   MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE =3D 22,
+> -+
+> -+  /* ZIP64 archive identifier and record sizes */
+> -+  MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIG =3D 0x06064b50,
+> -+  MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIG =3D 0x07064b50,
+> -+  MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE =3D 56,
+> -+  MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIZE =3D 20,
+> -+  MZ_ZIP64_EXTENDED_INFORMATION_FIELD_HEADER_ID =3D 0x0001,
+> -+  MZ_ZIP_DATA_DESCRIPTOR_ID =3D 0x08074b50,
+> -+  MZ_ZIP_DATA_DESCRIPTER_SIZE64 =3D 24,
+> -+  MZ_ZIP_DATA_DESCRIPTER_SIZE32 =3D 16,
+> -+
+> -   // Central directory header record offsets
+> -   MZ_ZIP_CDH_SIG_OFS =3D 0,
+> -   MZ_ZIP_CDH_VERSION_MADE_BY_OFS =3D 4,
+> -@@ -4199,6 +4274,31 @@ enum {
+> -   MZ_ZIP_ECDH_CDIR_SIZE_OFS =3D 12,
+> -   MZ_ZIP_ECDH_CDIR_OFS_OFS =3D 16,
+> -   MZ_ZIP_ECDH_COMMENT_SIZE_OFS =3D 20,
+> -+
+> -+  /* ZIP64 End of central directory locator offsets */
+> -+  MZ_ZIP64_ECDL_SIG_OFS =3D 0,                    /* 4 bytes */
+> -+  MZ_ZIP64_ECDL_NUM_DISK_CDIR_OFS =3D 4,          /* 4 bytes */
+> -+  MZ_ZIP64_ECDL_REL_OFS_TO_ZIP64_ECDR_OFS =3D 8,  /* 8 bytes */
+> -+  MZ_ZIP64_ECDL_TOTAL_NUMBER_OF_DISKS_OFS =3D 16, /* 4 bytes */
+> -+
+> -+  /* ZIP64 End of central directory header offsets */
+> -+  MZ_ZIP64_ECDH_SIG_OFS =3D 0,                       /* 4 bytes */
+> -+  MZ_ZIP64_ECDH_SIZE_OF_RECORD_OFS =3D 4,            /* 8 bytes */
+> -+  MZ_ZIP64_ECDH_VERSION_MADE_BY_OFS =3D 12,          /* 2 bytes */
+> -+  MZ_ZIP64_ECDH_VERSION_NEEDED_OFS =3D 14,           /* 2 bytes */
+> -+  MZ_ZIP64_ECDH_NUM_THIS_DISK_OFS =3D 16,            /* 4 bytes */
+> -+  MZ_ZIP64_ECDH_NUM_DISK_CDIR_OFS =3D 20,            /* 4 bytes */
+> -+  MZ_ZIP64_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS =3D 24, /* 8 bytes */
+> -+  MZ_ZIP64_ECDH_CDIR_TOTAL_ENTRIES_OFS =3D 32,       /* 8 bytes */
+> -+  MZ_ZIP64_ECDH_CDIR_SIZE_OFS =3D 40,                /* 8 bytes */
+> -+  MZ_ZIP64_ECDH_CDIR_OFS_OFS =3D 48,                 /* 8 bytes */
+> -+  MZ_ZIP_VERSION_MADE_BY_DOS_FILESYSTEM_ID =3D 0,
+> -+  MZ_ZIP_DOS_DIR_ATTRIBUTE_BITFLAG =3D 0x10,
+> -+  MZ_ZIP_GENERAL_PURPOSE_BIT_FLAG_IS_ENCRYPTED =3D 1,
+> -+  MZ_ZIP_GENERAL_PURPOSE_BIT_FLAG_COMPRESSED_PATCH_FLAG =3D 32,
+> -+  MZ_ZIP_GENERAL_PURPOSE_BIT_FLAG_USES_STRONG_ENCRYPTION =3D 64,
+> -+  MZ_ZIP_GENERAL_PURPOSE_BIT_FLAG_LOCAL_DIR_IS_MASKED =3D 8192,
+> -+  MZ_ZIP_GENERAL_PURPOSE_BIT_FLAG_UTF8 =3D 1 << 11
+> - };
+> -
+> - typedef struct {
+> -@@ -4211,7 +4311,24 @@ struct mz_zip_internal_state_tag {
+> -   mz_zip_array m_central_dir;
+> -   mz_zip_array m_central_dir_offsets;
+> -   mz_zip_array m_sorted_central_dir_offsets;
+> -+
+> -+  /* The flags passed in when the archive is initially opened. */
+> -+  uint32_t m_init_flags;
+> -+
+> -+  /* MZ_TRUE if the archive has a zip64 end of central directory header=
+s, etc.
+> -+   */
+> -+  mz_bool m_zip64;
+> -+
+> -+  /* MZ_TRUE if we found zip64 extended info in the central directory (=
+m_zip64
+> -+   * will also be slammed to true too, even if we didn't find a zip64 e=
+nd of
+> -+   * central dir header, etc.) */
+> -+  mz_bool m_zip64_has_extended_info_fields;
+> -+
+> -+  /* These fields are used by the file, FILE, memory, and memory/heap r=
+ead/write
+> -+   * helpers. */
+> -   MZ_FILE *m_pFile;
+> -+  mz_uint64 m_file_archive_start_ofs;
+> -+
+> -   void *m_pMem;
+> -   size_t m_mem_size;
+> -   size_t m_mem_capacity;
+> -@@ -4363,6 +4480,13 @@ static mz_bool mz_zip_set_file_times(const char *=
+pFilename, time_t access_time,
+> - #endif /* #ifndef MINIZ_NO_STDIO */
+> - #endif /* #ifndef MINIZ_NO_TIME */
+> -
+> -+static MZ_FORCEINLINE mz_bool mz_zip_set_error(mz_zip_archive *pZip,
+> -+                                               mz_zip_error err_num) {
+> -+  if (pZip)
+> -+    pZip->m_last_error =3D err_num;
+> -+  return MZ_FALSE;
+> -+}
+> -+
+> - static mz_bool mz_zip_reader_init_internal(mz_zip_archive *pZip,
+> -                                            mz_uint32 flags) {
+> -   (void)flags;
+> -@@ -4480,127 +4604,346 @@ mz_zip_reader_sort_central_dir_offsets_by_file=
+name(mz_zip_archive *pZip) {
+> -   }
+> - }
+> -
+> --static mz_bool mz_zip_reader_read_central_dir(mz_zip_archive *pZip,
+> --                                              mz_uint32 flags) {
+> --  mz_uint cdir_size, num_this_disk, cdir_disk_index;
+> --  mz_uint64 cdir_ofs;
+> -+static mz_bool mz_zip_reader_locate_header_sig(mz_zip_archive *pZip,
+> -+                                               mz_uint32 record_sig,
+> -+                                               mz_uint32 record_size,
+> -+                                               mz_int64 *pOfs) {
+> -   mz_int64 cur_file_ofs;
+> --  const mz_uint8 *p;
+> -   mz_uint32 buf_u32[4096 / sizeof(mz_uint32)];
+> -   mz_uint8 *pBuf =3D (mz_uint8 *)buf_u32;
+> --  mz_bool sort_central_dir =3D
+> --      ((flags & MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY) =3D=3D 0);
+> --  // Basic sanity checks - reject files which are too small, and check =
+the first
+> --  // 4 bytes of the file to make sure a local header is there.
+> --  if (pZip->m_archive_size < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)
+> -+
+> -+  /* Basic sanity checks - reject files which are too small */
+> -+  if (pZip->m_archive_size < record_size)
+> -     return MZ_FALSE;
+> --  // Find the end of central directory record by scanning the file from=
+ the end
+> --  // towards the beginning.
+> -+
+> -+  /* Find the record by scanning the file from the end towards the begi=
+nning. */
+> -   cur_file_ofs =3D
+> -       MZ_MAX((mz_int64)pZip->m_archive_size - (mz_int64)sizeof(buf_u32)=
+, 0);
+> -   for (;;) {
+> -     int i,
+> -         n =3D (int)MZ_MIN(sizeof(buf_u32), pZip->m_archive_size - cur_f=
+ile_ofs);
+> -+
+> -     if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf, n) !=3D (=
+mz_uint)n)
+> -       return MZ_FALSE;
+> --    for (i =3D n - 4; i >=3D 0; --i)
+> --      if (MZ_READ_LE32(pBuf + i) =3D=3D MZ_ZIP_END_OF_CENTRAL_DIR_HEADE=
+R_SIG)
+> --        break;
+> -+
+> -+    for (i =3D n - 4; i >=3D 0; --i) {
+> -+      mz_uint s =3D MZ_READ_LE32(pBuf + i);
+> -+      if (s =3D=3D record_sig) {
+> -+        if ((pZip->m_archive_size - (cur_file_ofs + i)) >=3D record_siz=
+e)
+> -+          break;
+> -+      }
+> -+    }
+> -+
+> -     if (i >=3D 0) {
+> -       cur_file_ofs +=3D i;
+> -       break;
+> -     }
+> -+
+> -+    /* Give up if we've searched the entire file, or we've gone back "t=
+oo far"
+> -+     * (~64kb) */
+> -     if ((!cur_file_ofs) || ((pZip->m_archive_size - cur_file_ofs) >=3D
+> --                            (0xFFFF + MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_=
+SIZE)))
+> -+                            (MZ_UINT16_MAX + record_size)))
+> -       return MZ_FALSE;
+> -+
+> -     cur_file_ofs =3D MZ_MAX(cur_file_ofs - (sizeof(buf_u32) - 3), 0);
+> -   }
+> --  // Read and verify the end of central directory record.
+> -+
+> -+  *pOfs =3D cur_file_ofs;
+> -+  return MZ_TRUE;
+> -+}
+> -+
+> -+static mz_bool mz_zip_reader_read_central_dir(mz_zip_archive *pZip,
+> -+                                              mz_uint flags) {
+> -+  mz_uint cdir_size =3D 0, cdir_entries_on_this_disk =3D 0, num_this_di=
+sk =3D 0,
+> -+          cdir_disk_index =3D 0;
+> -+  mz_uint64 cdir_ofs =3D 0;
+> -+  mz_int64 cur_file_ofs =3D 0;
+> -+  const mz_uint8 *p;
+> -+
+> -+  mz_uint32 buf_u32[4096 / sizeof(mz_uint32)];
+> -+  mz_uint8 *pBuf =3D (mz_uint8 *)buf_u32;
+> -+  mz_bool sort_central_dir =3D
+> -+      ((flags & MZ_ZIP_FLAG_DO_NOT_SORT_CENTRAL_DIRECTORY) =3D=3D 0);
+> -+  mz_uint32 zip64_end_of_central_dir_locator_u32
+> -+      [(MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIZE + sizeof(mz_uint32) - =
+1) /
+> -+       sizeof(mz_uint32)];
+> -+  mz_uint8 *pZip64_locator =3D (mz_uint8 *)zip64_end_of_central_dir_loc=
+ator_u32;
+> -+
+> -+  mz_uint32 zip64_end_of_central_dir_header_u32
+> -+      [(MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE + sizeof(mz_uint32) - 1=
+) /
+> -+       sizeof(mz_uint32)];
+> -+  mz_uint8 *pZip64_end_of_central_dir =3D
+> -+      (mz_uint8 *)zip64_end_of_central_dir_header_u32;
+> -+
+> -+  mz_uint64 zip64_end_of_central_dir_ofs =3D 0;
+> -+
+> -+  /* Basic sanity checks - reject files which are too small, and check =
+the first
+> -+   * 4 bytes of the file to make sure a local header is there. */
+> -+  if (pZip->m_archive_size < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_NOT_AN_ARCHIVE);
+> -+
+> -+  if (!mz_zip_reader_locate_header_sig(
+> -+          pZip, MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG,
+> -+          MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE, &cur_file_ofs))
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_FAILED_FINDING_CENTRAL_DIR);
+> -+
+> -+  /* Read and verify the end of central directory record. */
+> -   if (pZip->m_pRead(pZip->m_pIO_opaque, cur_file_ofs, pBuf,
+> -                     MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE) !=3D
+> -       MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)
+> --    return MZ_FALSE;
+> --  if ((MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_SIG_OFS) !=3D
+> --       MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG) ||
+> --      ((pZip->m_total_files =3D
+> --            MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_TOTAL_ENTRIES_OFS)) !=
+=3D
+> --       MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS)))
+> --    return MZ_FALSE;
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_FILE_READ_FAILED);
+> -+
+> -+  if (MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_SIG_OFS) !=3D
+> -+      MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIG)
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_NOT_AN_ARCHIVE);
+> -+
+> -+  if (cur_file_ofs >=3D (MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIZE +
+> -+                       MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE)) {
+> -+    if (pZip->m_pRead(pZip->m_pIO_opaque,
+> -+                      cur_file_ofs - MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATO=
+R_SIZE,
+> -+                      pZip64_locator,
+> -+                      MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIZE) =3D=3D
+> -+        MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIZE) {
+> -+      if (MZ_READ_LE32(pZip64_locator + MZ_ZIP64_ECDL_SIG_OFS) =3D=3D
+> -+          MZ_ZIP64_END_OF_CENTRAL_DIR_LOCATOR_SIG) {
+> -+        zip64_end_of_central_dir_ofs =3D MZ_READ_LE64(
+> -+            pZip64_locator + MZ_ZIP64_ECDL_REL_OFS_TO_ZIP64_ECDR_OFS);
+> -+        if (zip64_end_of_central_dir_ofs >
+> -+            (pZip->m_archive_size - MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_=
+SIZE))
+> -+          return mz_zip_set_error(pZip, MZ_ZIP_NOT_AN_ARCHIVE);
+> -+
+> -+        if (pZip->m_pRead(pZip->m_pIO_opaque, zip64_end_of_central_dir_=
+ofs,
+> -+                          pZip64_end_of_central_dir,
+> -+                          MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE) =3D=
+=3D
+> -+            MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE) {
+> -+          if (MZ_READ_LE32(pZip64_end_of_central_dir + MZ_ZIP64_ECDH_SI=
+G_OFS) =3D=3D
+> -+              MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIG) {
+> -+            pZip->m_pState->m_zip64 =3D MZ_TRUE;
+> -+          }
+> -+        }
+> -+      }
+> -+    }
+> -+  }
+> -
+> -+  pZip->m_total_files =3D MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_TOTAL_EN=
+TRIES_OFS);
+> -+  cdir_entries_on_this_disk =3D
+> -+      MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS);
+> -   num_this_disk =3D MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_NUM_THIS_DISK_OFS);
+> -   cdir_disk_index =3D MZ_READ_LE16(pBuf + MZ_ZIP_ECDH_NUM_DISK_CDIR_OFS=
+);
+> -+  cdir_size =3D MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_SIZE_OFS);
+> -+  cdir_ofs =3D MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_OFS_OFS);
+> -+
+> -+  if (pZip->m_pState->m_zip64) {
+> -+    mz_uint32 zip64_total_num_of_disks =3D
+> -+        MZ_READ_LE32(pZip64_locator + MZ_ZIP64_ECDL_TOTAL_NUMBER_OF_DIS=
+KS_OFS);
+> -+    mz_uint64 zip64_cdir_total_entries =3D MZ_READ_LE64(
+> -+        pZip64_end_of_central_dir + MZ_ZIP64_ECDH_CDIR_TOTAL_ENTRIES_OF=
+S);
+> -+    mz_uint64 zip64_cdir_total_entries_on_this_disk =3D MZ_READ_LE64(
+> -+        pZip64_end_of_central_dir + MZ_ZIP64_ECDH_CDIR_NUM_ENTRIES_ON_D=
+ISK_OFS);
+> -+    mz_uint64 zip64_size_of_end_of_central_dir_record =3D MZ_READ_LE64(
+> -+        pZip64_end_of_central_dir + MZ_ZIP64_ECDH_SIZE_OF_RECORD_OFS);
+> -+    mz_uint64 zip64_size_of_central_directory =3D
+> -+        MZ_READ_LE64(pZip64_end_of_central_dir + MZ_ZIP64_ECDH_CDIR_SIZ=
+E_OFS);
+> -+
+> -+    if (zip64_size_of_end_of_central_dir_record <
+> -+        (MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE - 12))
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUPTED)=
+;
+> -+
+> -+    if (zip64_total_num_of_disks !=3D 1U)
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_MULTIDISK);
+> -+
+> -+    /* Check for miniz's practical limits */
+> -+    if (zip64_cdir_total_entries > MZ_UINT32_MAX)
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_TOO_MANY_FILES);
+> -+
+> -+    pZip->m_total_files =3D (mz_uint32)zip64_cdir_total_entries;
+> -+
+> -+    if (zip64_cdir_total_entries_on_this_disk > MZ_UINT32_MAX)
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_TOO_MANY_FILES);
+> -+
+> -+    cdir_entries_on_this_disk =3D
+> -+        (mz_uint32)zip64_cdir_total_entries_on_this_disk;
+> -+
+> -+    /* Check for miniz's current practical limits (sorry, this should b=
+e enough
+> -+     * for millions of files) */
+> -+    if (zip64_size_of_central_directory > MZ_UINT32_MAX)
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_CDIR_SIZE);
+> -+
+> -+    cdir_size =3D (mz_uint32)zip64_size_of_central_directory;
+> -+
+> -+    num_this_disk =3D MZ_READ_LE32(pZip64_end_of_central_dir +
+> -+                                 MZ_ZIP64_ECDH_NUM_THIS_DISK_OFS);
+> -+
+> -+    cdir_disk_index =3D MZ_READ_LE32(pZip64_end_of_central_dir +
+> -+                                   MZ_ZIP64_ECDH_NUM_DISK_CDIR_OFS);
+> -+
+> -+    cdir_ofs =3D
+> -+        MZ_READ_LE64(pZip64_end_of_central_dir + MZ_ZIP64_ECDH_CDIR_OFS=
+_OFS);
+> -+  }
+> -+
+> -+  if (pZip->m_total_files !=3D cdir_entries_on_this_disk)
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_MULTIDISK);
+> -+
+> -   if (((num_this_disk | cdir_disk_index) !=3D 0) &&
+> -       ((num_this_disk !=3D 1) || (cdir_disk_index !=3D 1)))
+> --    return MZ_FALSE;
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_MULTIDISK);
+> -
+> --  if ((cdir_size =3D MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_SIZE_OFS)) <
+> --      pZip->m_total_files * MZ_ZIP_CENTRAL_DIR_HEADER_SIZE)
+> --    return MZ_FALSE;
+> -+  if (cdir_size < pZip->m_total_files * MZ_ZIP_CENTRAL_DIR_HEADER_SIZE)
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUPTED);
+> -
+> --  cdir_ofs =3D MZ_READ_LE32(pBuf + MZ_ZIP_ECDH_CDIR_OFS_OFS);
+> -   if ((cdir_ofs + (mz_uint64)cdir_size) > pZip->m_archive_size)
+> --    return MZ_FALSE;
+> -+    return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUPTED);
+> -
+> -   pZip->m_central_directory_file_ofs =3D cdir_ofs;
+> -
+> -   if (pZip->m_total_files) {
+> -     mz_uint i, n;
 > --
-> Regards,
-> Andrey.
->
-> 
->
+> --    // Read the entire central directory into a heap block, and allocat=
+e another
+> --    // heap block to hold the unsorted central dir file record offsets,=
+ and
+> --    // another to hold the sorted indices.
+> -+    /* Read the entire central directory into a heap block, and allocat=
+e another
+> -+     * heap block to hold the unsorted central dir file record offsets,=
+ and
+> -+     * possibly another to hold the sorted indices. */
+> -     if ((!mz_zip_array_resize(pZip, &pZip->m_pState->m_central_dir, cdi=
+r_size,
+> -                               MZ_FALSE)) ||
+> -         (!mz_zip_array_resize(pZip, &pZip->m_pState->m_central_dir_offs=
+ets,
+> -                               pZip->m_total_files, MZ_FALSE)))
+> --      return MZ_FALSE;
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_ALLOC_FAILED);
+> -
+> -     if (sort_central_dir) {
+> -       if (!mz_zip_array_resize(pZip,
+> -                                &pZip->m_pState->m_sorted_central_dir_of=
+fsets,
+> -                                pZip->m_total_files, MZ_FALSE))
+> --        return MZ_FALSE;
+> -+        return mz_zip_set_error(pZip, MZ_ZIP_ALLOC_FAILED);
+> -     }
+> -
+> -     if (pZip->m_pRead(pZip->m_pIO_opaque, cdir_ofs,
+> -                       pZip->m_pState->m_central_dir.m_p,
+> -                       cdir_size) !=3D cdir_size)
+> --      return MZ_FALSE;
+> -+      return mz_zip_set_error(pZip, MZ_ZIP_FILE_READ_FAILED);
+> -
+> --    // Now create an index into the central directory file records, do =
+some
+> --    // basic sanity checking on each record, and check for zip64 entrie=
+s (which
+> --    // are not yet supported).
+> -+    /* Now create an index into the central directory file records, do =
+some
+> -+     * basic sanity checking on each record */
+> -     p =3D (const mz_uint8 *)pZip->m_pState->m_central_dir.m_p;
+> -     for (n =3D cdir_size, i =3D 0; i < pZip->m_total_files; ++i) {
+> --      mz_uint total_header_size, comp_size, decomp_size, disk_index;
+> -+      mz_uint total_header_size, disk_index, bit_flags, filename_size,
+> -+          ext_data_size;
+> -+      mz_uint64 comp_size, decomp_size, local_header_ofs;
+> -+
+> -       if ((n < MZ_ZIP_CENTRAL_DIR_HEADER_SIZE) ||
+> -           (MZ_READ_LE32(p) !=3D MZ_ZIP_CENTRAL_DIR_HEADER_SIG))
+> --        return MZ_FALSE;
+> -+        return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUPTE=
+D);
+> -+
+> -       MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_central_dir_offsets, mz_u=
+int32,
+> -                            i) =3D
+> -           (mz_uint32)(p - (const mz_uint8 *)pZip->m_pState->m_central_d=
+ir.m_p);
+> -+
+> -       if (sort_central_dir)
+> -         MZ_ZIP_ARRAY_ELEMENT(&pZip->m_pState->m_sorted_central_dir_offs=
+ets,
+> -                              mz_uint32, i) =3D i;
+> -+
+> -       comp_size =3D MZ_READ_LE32(p + MZ_ZIP_CDH_COMPRESSED_SIZE_OFS);
+> -       decomp_size =3D MZ_READ_LE32(p + MZ_ZIP_CDH_DECOMPRESSED_SIZE_OFS=
+);
+> --      if (((!MZ_READ_LE32(p + MZ_ZIP_CDH_METHOD_OFS)) &&
+> --           (decomp_size !=3D comp_size)) ||
+> --          (decomp_size && !comp_size) || (decomp_size =3D=3D 0xFFFFFFFF=
+) ||
+> --          (comp_size =3D=3D 0xFFFFFFFF))
+> --        return MZ_FALSE;
+> -+      local_header_ofs =3D MZ_READ_LE32(p + MZ_ZIP_CDH_LOCAL_HEADER_OFS=
+);
+> -+      filename_size =3D MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN_OFS);
+> -+      ext_data_size =3D MZ_READ_LE16(p + MZ_ZIP_CDH_EXTRA_LEN_OFS);
+> -+
+> -+      if ((!pZip->m_pState->m_zip64_has_extended_info_fields) &&
+> -+          (ext_data_size) &&
+> -+          (MZ_MAX(MZ_MAX(comp_size, decomp_size), local_header_ofs) =3D=
+=3D
+> -+           MZ_UINT32_MAX)) {
+> -+        /* Attempt to find zip64 extended information field in the entr=
+y's extra
+> -+         * data */
+> -+        mz_uint32 extra_size_remaining =3D ext_data_size;
+> -+
+> -+        if (extra_size_remaining) {
+> -+          const mz_uint8 *pExtra_data;
+> -+          void *buf =3D NULL;
+> -+
+> -+          if (MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + filename_size + ext_data=
+_size >
+> -+              n) {
+> -+            buf =3D MZ_MALLOC(ext_data_size);
+> -+            if (buf =3D=3D NULL)
+> -+              return mz_zip_set_error(pZip, MZ_ZIP_ALLOC_FAILED);
+> -+
+> -+            if (pZip->m_pRead(pZip->m_pIO_opaque,
+> -+                              cdir_ofs + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE=
+ +
+> -+                                  filename_size,
+> -+                              buf, ext_data_size) !=3D ext_data_size) {
+> -+              MZ_FREE(buf);
+> -+              return mz_zip_set_error(pZip, MZ_ZIP_FILE_READ_FAILED);
+> -+            }
+> -+
+> -+            pExtra_data =3D (mz_uint8 *)buf;
+> -+          } else {
+> -+            pExtra_data =3D p + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + filena=
+me_size;
+> -+          }
+> -+
+> -+          do {
+> -+            mz_uint32 field_id;
+> -+            mz_uint32 field_data_size;
+> -+
+> -+            if (extra_size_remaining < (sizeof(mz_uint16) * 2)) {
+> -+              MZ_FREE(buf);
+> -+              return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CO=
+RRUPTED);
+> -+            }
+> -+
+> -+            field_id =3D MZ_READ_LE16(pExtra_data);
+> -+            field_data_size =3D MZ_READ_LE16(pExtra_data + sizeof(mz_ui=
+nt16));
+> -+
+> -+            if ((field_data_size + sizeof(mz_uint16) * 2) >
+> -+                extra_size_remaining) {
+> -+              MZ_FREE(buf);
+> -+              return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CO=
+RRUPTED);
+> -+            }
+> -+
+> -+            if (field_id =3D=3D MZ_ZIP64_EXTENDED_INFORMATION_FIELD_HEA=
+DER_ID) {
+> -+              /* Ok, the archive didn't have any zip64 headers but it u=
+ses a
+> -+               * zip64 extended information field so mark it as zip64 a=
+nyway
+> -+               * (this can occur with infozip's zip util when it reads
+> -+               * compresses files from stdin). */
+> -+              pZip->m_pState->m_zip64 =3D MZ_TRUE;
+> -+              pZip->m_pState->m_zip64_has_extended_info_fields =3D MZ_T=
+RUE;
+> -+              break;
+> -+            }
+> -+
+> -+            pExtra_data +=3D sizeof(mz_uint16) * 2 + field_data_size;
+> -+            extra_size_remaining =3D
+> -+                extra_size_remaining - sizeof(mz_uint16) * 2 - field_da=
+ta_size;
+> -+          } while (extra_size_remaining);
+> -+
+> -+          MZ_FREE(buf);
+> -+        }
+> -+      }
+> -+
+> -+      /* I've seen archives that aren't marked as zip64 that uses zip64=
+ ext
+> -+       * data, argh */
+> -+      if ((comp_size !=3D MZ_UINT32_MAX) && (decomp_size !=3D MZ_UINT32=
+_MAX)) {
+> -+        if (((!MZ_READ_LE32(p + MZ_ZIP_CDH_METHOD_OFS)) &&
+> -+             (decomp_size !=3D comp_size)) ||
+> -+            (decomp_size && !comp_size))
+> -+          return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUP=
+TED);
+> -+      }
+> -+
+> -       disk_index =3D MZ_READ_LE16(p + MZ_ZIP_CDH_DISK_START_OFS);
+> --      if ((disk_index !=3D num_this_disk) && (disk_index !=3D 1))
+> --        return MZ_FALSE;
+> --      if (((mz_uint64)MZ_READ_LE32(p + MZ_ZIP_CDH_LOCAL_HEADER_OFS) +
+> --           MZ_ZIP_LOCAL_DIR_HEADER_SIZE + comp_size) > pZip->m_archive_=
+size)
+> --        return MZ_FALSE;
+> -+      if ((disk_index =3D=3D MZ_UINT16_MAX) ||
+> -+          ((disk_index !=3D num_this_disk) && (disk_index !=3D 1)))
+> -+        return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_MULTIDISK);
+> -+
+> -+      if (comp_size !=3D MZ_UINT32_MAX) {
+> -+        if (((mz_uint64)MZ_READ_LE32(p + MZ_ZIP_CDH_LOCAL_HEADER_OFS) +
+> -+             MZ_ZIP_LOCAL_DIR_HEADER_SIZE + comp_size) > pZip->m_archiv=
+e_size)
+> -+          return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUP=
+TED);
+> -+      }
+> -+
+> -+      bit_flags =3D MZ_READ_LE16(p + MZ_ZIP_CDH_BIT_FLAG_OFS);
+> -+      if (bit_flags & MZ_ZIP_GENERAL_PURPOSE_BIT_FLAG_LOCAL_DIR_IS_MASK=
+ED)
+> -+        return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_ENCRYPTION);
+> -+
+> -       if ((total_header_size =3D MZ_ZIP_CENTRAL_DIR_HEADER_SIZE +
+> -                                MZ_READ_LE16(p + MZ_ZIP_CDH_FILENAME_LEN=
+_OFS) +
+> -                                MZ_READ_LE16(p + MZ_ZIP_CDH_EXTRA_LEN_OF=
+S) +
+> -                                MZ_READ_LE16(p + MZ_ZIP_CDH_COMMENT_LEN_=
+OFS)) >
+> -           n)
+> --        return MZ_FALSE;
+> -+        return mz_zip_set_error(pZip, MZ_ZIP_INVALID_HEADER_OR_CORRUPTE=
+D);
+> -+
+> -       n -=3D total_header_size;
+> -       p +=3D total_header_size;
+> -     }
+> -diff --git a/contrib/zip/src/zip.c b/contrib/zip/src/zip.c
+> -index ff3a8fe1..1abcfd8f 100644
+> ---- a/contrib/zip/src/zip.c
+> -+++ b/contrib/zip/src/zip.c
+> -@@ -24,7 +24,6 @@
+> -   ((((P)[0] >=3D 'A' && (P)[0] <=3D 'Z') || ((P)[0] >=3D 'a' && (P)[0] =
+<=3D 'z')) &&   \
+> -    (P)[1] =3D=3D ':')
+> - #define FILESYSTEM_PREFIX_LEN(P) (HAS_DEVICE(P) ? 2 : 0)
+> --#define ISSLASH(C) ((C) =3D=3D '/' || (C) =3D=3D '\\')
+> -
+> - #else
+> -
+> -@@ -48,7 +47,7 @@ int symlink(const char *target, const char *linkpath);=
+ // needed on Linux
+> - #endif
+> -
+> - #ifndef ISSLASH
+> --#define ISSLASH(C) ((C) =3D=3D '/')
+> -+#define ISSLASH(C) ((C) =3D=3D '/' || (C) =3D=3D '\\')
+> - #endif
+> -
+> - #define CLEANUP(ptr)                                                   =
+        \
+> -@@ -78,26 +77,34 @@ static const char *base_name(const char *name) {
+> -   return base;
+> - }
+> -
+> --static int mkpath(const char *path) {
+> --  char const *p;
+> -+static int mkpath(char *path) {
+> -+  char *p;
+> -   char npath[MAX_PATH + 1];
+> -   int len =3D 0;
+> -   int has_device =3D HAS_DEVICE(path);
+> -
+> -   memset(npath, 0, MAX_PATH + 1);
+> --
+> --#ifdef _WIN32
+> --  // only on windows fix the path
+> --  npath[0] =3D path[0];
+> --  npath[1] =3D path[1];
+> --  len =3D 2;
+> --#endif // _WIN32
+> --
+> -+  if (has_device) {
+> -+    // only on windows
+> -+    npath[0] =3D path[0];
+> -+    npath[1] =3D path[1];
+> -+    len =3D 2;
+> -+  }
+> -   for (p =3D path + len; *p && len < MAX_PATH; p++) {
+> -     if (ISSLASH(*p) && ((!has_device && len > 0) || (has_device && len =
+> 2))) {
+> --      if (MKDIR(npath) =3D=3D -1)
+> --        if (errno !=3D EEXIST)
+> -+#if defined(_WIN32) || defined(__WIN32__) || defined(_MSC_VER) ||      =
+        \
+> -+    defined(__MINGW32__)
+> -+#else
+> -+      if ('\\' =3D=3D *p) {
+> -+        *p =3D '/';
+> -+      }
+> -+#endif
+> -+
+> -+      if (MKDIR(npath) =3D=3D -1) {
+> -+        if (errno !=3D EEXIST) {
+> -           return -1;
+> -+        }
+> -+      }
+> -     }
+> -     npath[len++] =3D *p;
+> -   }
+> -@@ -279,7 +286,14 @@ int zip_entry_open(struct zip_t *zip, const char *e=
+ntryname) {
+> -   zip->entry.header_offset =3D zip->archive.m_archive_size;
+> -   memset(zip->entry.header, 0, MZ_ZIP_LOCAL_DIR_HEADER_SIZE * sizeof(mz=
+_uint8));
+> -   zip->entry.method =3D 0;
+> -+
+> -+  // UNIX or APPLE
+> -+#if MZ_PLATFORM =3D=3D 3 || MZ_PLATFORM =3D=3D 19
+> -+  // regular file with rw-r--r-- persmissions
+> -+  zip->entry.external_attr =3D (mz_uint32)(0100644) << 16;
+> -+#else
+> -   zip->entry.external_attr =3D 0;
+> -+#endif
+> -
+> -   num_alignment_padding_bytes =3D
+> -       mz_zip_writer_compute_padding_needed_for_file_alignment(pzip);
+> -@@ -660,7 +674,7 @@ ssize_t zip_entry_noallocread(struct zip_t *zip, voi=
+d *buf, size_t bufsize) {
+> -   }
+> -
+> -   if (!mz_zip_reader_extract_to_mem_no_alloc(pzip, (mz_uint)zip->entry.=
+index,
+> --  buf, bufsize, 0, NULL,  0)) {
+> -+                                             buf, bufsize, 0, NULL, 0))=
+ {
+> -     return -1;
+> -   }
+> -
+> -@@ -670,10 +684,7 @@ ssize_t zip_entry_noallocread(struct zip_t *zip, vo=
+id *buf, size_t bufsize) {
+> - int zip_entry_fread(struct zip_t *zip, const char *filename) {
+> -   mz_zip_archive *pzip =3D NULL;
+> -   mz_uint idx;
+> --#if defined(_MSC_VER)
+> --#else
+> -   mz_uint32 xattr =3D 0;
+> --#endif
+> -   mz_zip_archive_file_stat info;
+> -
+> -   if (!zip) {
+> -@@ -875,12 +886,19 @@ int zip_extract(const char *zipname, const char *d=
+ir,
+> -       goto out;
+> -     }
+> -
+> --    if ((((info.m_version_made_by >> 8) =3D=3D 3) || ((info.m_version_m=
+ade_by >> 8) =3D=3D 19)) // if zip is produced on Unix or macOS (3 and 19 f=
+rom section 4.4.2.2 of zip standard)
+> --        && info.m_external_attr & (0x20 << 24)) { // and has sym link a=
+ttribute (0x80 is file, 0x40 is directory)
+> -+    if ((((info.m_version_made_by >> 8) =3D=3D 3) ||
+> -+         ((info.m_version_made_by >> 8) =3D=3D
+> -+          19)) // if zip is produced on Unix or macOS (3 and 19 from
+> -+               // section 4.4.2.2 of zip standard)
+> -+        && info.m_external_attr &
+> -+               (0x20 << 24)) { // and has sym link attribute (0x80 is f=
+ile, 0x40
+> -+                               // is directory)
+> - #if defined(_WIN32) || defined(__WIN32__) || defined(_MSC_VER) ||      =
+        \
+> -     defined(__MINGW32__)
+> --#else
+> --      if (info.m_uncomp_size > MAX_PATH || !mz_zip_reader_extract_to_me=
+m_no_alloc(&zip_archive, i, symlink_to, MAX_PATH, 0, NULL, 0)) {
+> -+#else
+> -+      if (info.m_uncomp_size > MAX_PATH ||
+> -+          !mz_zip_reader_extract_to_mem_no_alloc(&zip_archive, i, symli=
+nk_to,
+> -+                                                 MAX_PATH, 0, NULL, 0))=
+ {
+> -         goto out;
+> -       }
+> -       symlink_to[info.m_uncomp_size] =3D '\0';
+> -diff --git a/contrib/zip/src/zip.h b/contrib/zip/src/zip.h
+> -index 5f39df50..a48d64d6 100644
+> ---- a/contrib/zip/src/zip.h
+> -+++ b/contrib/zip/src/zip.h
+> -@@ -20,241 +20,240 @@ extern "C" {
+> - #endif
+> -
+> - #if !defined(_SSIZE_T_DEFINED) && !defined(_SSIZE_T_DEFINED_) &&       =
+        \
+> --    !defined(_SSIZE_T) && !defined(_SSIZE_T_) && !defined(__ssize_t_def=
+ined)
+> --#define _SSIZE_T
+> -+    !defined(__DEFINED_ssize_t) && !defined(__ssize_t_defined) &&      =
+        \
+> -+    !defined(_SSIZE_T) && !defined(_SSIZE_T_)
+> -+
+> - // 64-bit Windows is the only mainstream platform
+> - // where sizeof(long) !=3D sizeof(void*)
+> - #ifdef _WIN64
+> --typedef long long  ssize_t;  /* byte count or error */
+> -+typedef long long ssize_t; /* byte count or error */
+> - #else
+> --typedef long  ssize_t;  /* byte count or error */
+> -+typedef long ssize_t; /* byte count or error */
+> - #endif
+> -+
+> -+#define _SSIZE_T_DEFINED
+> -+#define _SSIZE_T_DEFINED_
+> -+#define __DEFINED_ssize_t
+> -+#define __ssize_t_defined
+> -+#define _SSIZE_T
+> -+#define _SSIZE_T_
+> -+
+> - #endif
+> -
+> - #ifndef MAX_PATH
+> - #define MAX_PATH 32767 /* # chars in a path name including NULL */
+> - #endif
+> -
+> -+/**
+> -+ * @mainpage
+> -+ *
+> -+ * Documenation for @ref zip.
+> -+ */
+> -+
+> -+/**
+> -+ * @addtogroup zip
+> -+ * @{
+> -+ */
+> -+
+> -+/**
+> -+ * Default zip compression level.
+> -+ */
+> -+
+> - #define ZIP_DEFAULT_COMPRESSION_LEVEL 6
+> -
+> --/*
+> --  This data structure is used throughout the library to represent zip a=
+rchive
+> --  - forward declaration.
+> --*/
+> -+/**
+> -+ * @struct zip_t
+> -+ *
+> -+ * This data structure is used throughout the library to represent zip =
+archive -
+> -+ * forward declaration.
+> -+ */
+> - struct zip_t;
+> -
+> --/*
+> --  Opens zip archive with compression level using the given mode.
+> --
+> --  Args:
+> --    zipname: zip archive file name.
+> --    level: compression level (0-9 are the standard zlib-style levels).
+> --    mode: file access mode.
+> --        'r': opens a file for reading/extracting (the file must exists)=
+.
+> --        'w': creates an empty file for writing.
+> --        'a': appends to an existing archive.
+> --
+> --  Returns:
+> --    The zip archive handler or NULL on error
+> --*/
+> -+/**
+> -+ * Opens zip archive with compression level using the given mode.
+> -+ *
+> -+ * @param zipname zip archive file name.
+> -+ * @param level compression level (0-9 are the standard zlib-style leve=
+ls).
+> -+ * @param mode file access mode.
+> -+ *        - 'r': opens a file for reading/extracting (the file must exi=
+sts).
+> -+ *        - 'w': creates an empty file for writing.
+> -+ *        - 'a': appends to an existing archive.
+> -+ *
+> -+ * @return the zip archive handler or NULL on error
+> -+ */
+> - extern struct zip_t *zip_open(const char *zipname, int level, char mode=
+);
+> -
+> --/*
+> --  Closes the zip archive, releases resources - always finalize.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --*/
+> -+/**
+> -+ * Closes the zip archive, releases resources - always finalize.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ */
+> - extern void zip_close(struct zip_t *zip);
+> -
+> --/*
+> --  Opens an entry by name in the zip archive.
+> --  For zip archive opened in 'w' or 'a' mode the function will append
+> --  a new entry. In readonly mode the function tries to locate the entry
+> --  in global dictionary.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    entryname: an entry name in local dictionary.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Opens an entry by name in the zip archive.
+> -+ *
+> -+ * For zip archive opened in 'w' or 'a' mode the function will append
+> -+ * a new entry. In readonly mode the function tries to locate the entry
+> -+ * in global dictionary.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param entryname an entry name in local dictionary.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_entry_open(struct zip_t *zip, const char *entryname);
+> -
+> --/*
+> --  Opens a new entry by index in the zip archive.
+> --  This function is only valid if zip archive was opened in 'r' (readonl=
+y) mode.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    index: index in local dictionary.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Opens a new entry by index in the zip archive.
+> -+ *
+> -+ * This function is only valid if zip archive was opened in 'r' (readon=
+ly) mode.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param index index in local dictionary.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_entry_openbyindex(struct zip_t *zip, int index);
+> -
+> --/*
+> --  Closes a zip entry, flushes buffer and releases resources.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Closes a zip entry, flushes buffer and releases resources.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_entry_close(struct zip_t *zip);
+> -
+> --/*
+> --  Returns a local name of the current zip entry.
+> --  The main difference between user's entry name and local entry name
+> --  is optional relative path.
+> --  Following .ZIP File Format Specification - the path stored MUST not c=
+ontain
+> --  a drive or device letter, or a leading slash.
+> --  All slashes MUST be forward slashes '/' as opposed to backwards slash=
+es '\'
+> --  for compatibility with Amiga and UNIX file systems etc.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The pointer to the current zip entry name, or NULL on error.
+> --*/
+> -+/**
+> -+ * Returns a local name of the current zip entry.
+> -+ *
+> -+ * The main difference between user's entry name and local entry name
+> -+ * is optional relative path.
+> -+ * Following .ZIP File Format Specification - the path stored MUST not =
+contain
+> -+ * a drive or device letter, or a leading slash.
+> -+ * All slashes MUST be forward slashes '/' as opposed to backwards slas=
+hes '\'
+> -+ * for compatibility with Amiga and UNIX file systems etc.
+> -+ *
+> -+ * @param zip: zip archive handler.
+> -+ *
+> -+ * @return the pointer to the current zip entry name, or NULL on error.
+> -+ */
+> - extern const char *zip_entry_name(struct zip_t *zip);
+> -
+> --/*
+> --  Returns an index of the current zip entry.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The index on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Returns an index of the current zip entry.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ *
+> -+ * @return the index on success, negative number (< 0) on error.
+> -+ */
+> - extern int zip_entry_index(struct zip_t *zip);
+> -
+> --/*
+> --  Determines if the current zip entry is a directory entry.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The return code - 1 (true), 0 (false), negative number (< 0) on err=
+or.
+> --*/
+> -+/**
+> -+ * Determines if the current zip entry is a directory entry.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ *
+> -+ * @return the return code - 1 (true), 0 (false), negative number (< 0)=
+ on
+> -+ *         error.
+> -+ */
+> - extern int zip_entry_isdir(struct zip_t *zip);
+> -
+> --/*
+> --  Returns an uncompressed size of the current zip entry.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The uncompressed size in bytes.
+> --*/
+> -+/**
+> -+ * Returns an uncompressed size of the current zip entry.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ *
+> -+ * @return the uncompressed size in bytes.
+> -+ */
+> - extern unsigned long long zip_entry_size(struct zip_t *zip);
+> -
+> --/*
+> --  Returns CRC-32 checksum of the current zip entry.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The CRC-32 checksum.
+> --*/
+> -+/**
+> -+ * Returns CRC-32 checksum of the current zip entry.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ *
+> -+ * @return the CRC-32 checksum.
+> -+ */
+> - extern unsigned int zip_entry_crc32(struct zip_t *zip);
+> -
+> --/*
+> --  Compresses an input buffer for the current zip entry.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    buf: input buffer.
+> --    bufsize: input buffer size (in bytes).
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Compresses an input buffer for the current zip entry.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param buf input buffer.
+> -+ * @param bufsize input buffer size (in bytes).
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_entry_write(struct zip_t *zip, const void *buf, size_t b=
+ufsize);
+> -
+> --/*
+> --  Compresses a file for the current zip entry.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    filename: input file.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Compresses a file for the current zip entry.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param filename input file.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_entry_fwrite(struct zip_t *zip, const char *filename);
+> -
+> --/*
+> --  Extracts the current zip entry into output buffer.
+> --  The function allocates sufficient memory for a output buffer.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    buf: output buffer.
+> --    bufsize: output buffer size (in bytes).
+> --
+> --  Note:
+> --    - remember to release memory allocated for a output buffer.
+> --    - for large entries, please take a look at zip_entry_extract functi=
+on.
+> --
+> --  Returns:
+> --    The return code - the number of bytes actually read on success.
+> --    Otherwise a -1 on error.
+> --*/
+> -+/**
+> -+ * Extracts the current zip entry into output buffer.
+> -+ *
+> -+ * The function allocates sufficient memory for a output buffer.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param buf output buffer.
+> -+ * @param bufsize output buffer size (in bytes).
+> -+ *
+> -+ * @note remember to release memory allocated for a output buffer.
+> -+ *       for large entries, please take a look at zip_entry_extract fun=
+ction.
+> -+ *
+> -+ * @return the return code - the number of bytes actually read on succe=
+ss.
+> -+ *         Otherwise a -1 on error.
+> -+ */
+> - extern ssize_t zip_entry_read(struct zip_t *zip, void **buf, size_t *bu=
+fsize);
+> -
+> --/*
+> --  Extracts the current zip entry into a memory buffer using no memory
+> --  allocation.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    buf: preallocated output buffer.
+> --    bufsize: output buffer size (in bytes).
+> --
+> --  Note:
+> --    - ensure supplied output buffer is large enough.
+> --    - zip_entry_size function (returns uncompressed size for the curren=
+t entry)
+> --      can be handy to estimate how big buffer is needed.
+> --    - for large entries, please take a look at zip_entry_extract functi=
+on.
+> --
+> --  Returns:
+> --    The return code - the number of bytes actually read on success.
+> --    Otherwise a -1 on error (e.g. bufsize is not large enough).
+> --*/
+> --extern ssize_t zip_entry_noallocread(struct zip_t *zip, void *buf, size=
+_t bufsize);
+> --
+> --/*
+> --  Extracts the current zip entry into output file.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    filename: output file.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Extracts the current zip entry into a memory buffer using no memory
+> -+ * allocation.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param buf preallocated output buffer.
+> -+ * @param bufsize output buffer size (in bytes).
+> -+ *
+> -+ * @note ensure supplied output buffer is large enough.
+> -+ *       zip_entry_size function (returns uncompressed size for the cur=
+rent
+> -+ *       entry) can be handy to estimate how big buffer is needed. for =
+large
+> -+ * entries, please take a look at zip_entry_extract function.
+> -+ *
+> -+ * @return the return code - the number of bytes actually read on succe=
+ss.
+> -+ *         Otherwise a -1 on error (e.g. bufsize is not large enough).
+> -+ */
+> -+extern ssize_t zip_entry_noallocread(struct zip_t *zip, void *buf,
+> -+                                     size_t bufsize);
+> -+
+> -+/**
+> -+ * Extracts the current zip entry into output file.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param filename output file.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_entry_fread(struct zip_t *zip, const char *filename);
+> -
+> --/*
+> --  Extracts the current zip entry using a callback function (on_extract)=
+.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --    on_extract: callback function.
+> --    arg: opaque pointer (optional argument,
+> --                         which you can pass to the on_extract callback)
+> --
+> --   Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> -+/**
+> -+ * Extracts the current zip entry using a callback function (on_extract=
+).
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ * @param on_extract callback function.
+> -+ * @param arg opaque pointer (optional argument, which you can pass to =
+the
+> -+ *        on_extract callback)
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -  */
+> - extern int
+> - zip_entry_extract(struct zip_t *zip,
+> -@@ -262,53 +261,49 @@ zip_entry_extract(struct zip_t *zip,
+> -                                        const void *data, size_t size),
+> -                   void *arg);
+> -
+> --/*
+> --  Returns the number of all entries (files and directories) in the zip =
+archive.
+> --
+> --  Args:
+> --    zip: zip archive handler.
+> --
+> --  Returns:
+> --    The return code - the number of entries on success,
+> --    negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Returns the number of all entries (files and directories) in the zip=
+ archive.
+> -+ *
+> -+ * @param zip zip archive handler.
+> -+ *
+> -+ * @return the return code - the number of entries on success, negative=
+ number
+> -+ *         (< 0) on error.
+> -+ */
+> - extern int zip_total_entries(struct zip_t *zip);
+> -
+> --/*
+> --  Creates a new archive and puts files into a single zip archive.
+> --
+> --  Args:
+> --    zipname: zip archive file.
+> --    filenames: input files.
+> --    len: number of input files.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Creates a new archive and puts files into a single zip archive.
+> -+ *
+> -+ * @param zipname zip archive file.
+> -+ * @param filenames input files.
+> -+ * @param len: number of input files.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_create(const char *zipname, const char *filenames[], siz=
+e_t len);
+> -
+> --/*
+> --  Extracts a zip archive file into directory.
+> --
+> --  If on_extract_entry is not NULL, the callback will be called after
+> --  successfully extracted each zip entry.
+> --  Returning a negative value from the callback will cause abort and ret=
+urn an
+> --  error. The last argument (void *arg) is optional, which you can use t=
+o pass
+> --  data to the on_extract_entry callback.
+> --
+> --  Args:
+> --    zipname: zip archive file.
+> --    dir: output directory.
+> --    on_extract_entry: on extract callback.
+> --    arg: opaque pointer.
+> --
+> --  Returns:
+> --    The return code - 0 on success, negative number (< 0) on error.
+> --*/
+> -+/**
+> -+ * Extracts a zip archive file into directory.
+> -+ *
+> -+ * If on_extract_entry is not NULL, the callback will be called after
+> -+ * successfully extracted each zip entry.
+> -+ * Returning a negative value from the callback will cause abort and re=
+turn an
+> -+ * error. The last argument (void *arg) is optional, which you can use =
+to pass
+> -+ * data to the on_extract_entry callback.
+> -+ *
+> -+ * @param zipname zip archive file.
+> -+ * @param dir output directory.
+> -+ * @param on_extract_entry on extract callback.
+> -+ * @param arg opaque pointer.
+> -+ *
+> -+ * @return the return code - 0 on success, negative number (< 0) on err=
+or.
+> -+ */
+> - extern int zip_extract(const char *zipname, const char *dir,
+> -                        int (*on_extract_entry)(const char *filename, vo=
+id *arg),
+> -                        void *arg);
+> -
+> -+/** @} */
+> -+
+> - #ifdef __cplusplus
+> - }
+> - #endif
+> -diff --git a/contrib/zip/test/CMakeLists.txt b/contrib/zip/test/CMakeLis=
+ts.txt
+> -index 9b2a8db1..cc060b00 100644
+> ---- a/contrib/zip/test/CMakeLists.txt
+> -+++ b/contrib/zip/test/CMakeLists.txt
+> -@@ -1,19 +1,16 @@
+> - cmake_minimum_required(VERSION 2.8)
+> -
+> --if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}"=
+ STREQUAL "Clang" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
+> --  if(ENABLE_COVERAGE)
+> --    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g ")
+> --    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+> --    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs")
+> --    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ftest-coverage")
+> --    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+> --  endif()
+> --endif ()
+> --
+> - # test
+> --include_directories(../src)
+> --add_executable(test.exe test.c ../src/zip.c)
+> --add_executable(test_miniz.exe test_miniz.c)
+> -+set(test_out test.out)
+> -+set(test_miniz_out test_miniz.out)
+> -+
+> -+add_executable(${test_out} test.c)
+> -+target_link_libraries(${test_out} zip)
+> -+add_executable(${test_miniz_out} test_miniz.c)
+> -+target_link_libraries(${test_miniz_out} zip)
+> -+
+> -+add_test(NAME ${test_out} COMMAND ${test_out})
+> -+add_test(NAME ${test_miniz_out} COMMAND ${test_miniz_out})
+> -
+> --add_test(NAME test COMMAND test.exe)
+> --add_test(NAME test_miniz COMMAND test_miniz.exe)
+> -+set(test_out ${test_out} PARENT_SCOPE)
+> -+set(test_miniz_out ${test_miniz_out} PARENT_SCOPE)
+> -diff --git a/contrib/zip/test/test.c b/contrib/zip/test/test.c
+> -index 45443053..a9b2ddab 100644
+> ---- a/contrib/zip/test/test.c
+> -+++ b/contrib/zip/test/test.c
+> -@@ -29,6 +29,8 @@
+> - #define XFILE "7.txt\0"
+> - #define XMODE 0100777
+> -
+> -+#define UNIXMODE 0100644
+> -+
+> - #define UNUSED(x) (void)x
+> -
+> - static int total_entries =3D 0;
+> -@@ -102,7 +104,8 @@ static void test_read(void) {
+> -   assert(0 =3D=3D zip_entry_close(zip));
+> -   free(buf);
+> -   buf =3D NULL;
+> --
+> -+  bufsize =3D 0;
+> -+
+> -   assert(0 =3D=3D zip_entry_open(zip, "test/test-2.txt"));
+> -   assert(strlen(TESTDATA2) =3D=3D zip_entry_size(zip));
+> -   assert(CRC32DATA2 =3D=3D zip_entry_crc32(zip));
+> -@@ -131,7 +134,8 @@ static void test_read(void) {
+> -   assert(0 =3D=3D zip_entry_close(zip));
+> -   free(buf);
+> -   buf =3D NULL;
+> --
+> -+  bufsize =3D 0;
+> -+
+> -   buftmp =3D strlen(TESTDATA1);
+> -   buf =3D calloc(buftmp, sizeof(char));
+> -   assert(0 =3D=3D zip_entry_open(zip, "test/test-1.txt"));
+> -@@ -433,6 +437,35 @@ static void test_mtime(void) {
+> -   remove(ZIPNAME);
+> - }
+> -
+> -+static void test_unix_permissions(void) {
+> -+#if defined(_WIN64) || defined(_WIN32) || defined(__WIN32__)
+> -+#else
+> -+  // UNIX or APPLE
+> -+  struct MZ_FILE_STAT_STRUCT file_stats;
+> -+
+> -+  remove(ZIPNAME);
+> -+
+> -+  struct zip_t *zip =3D zip_open(ZIPNAME, ZIP_DEFAULT_COMPRESSION_LEVEL=
+, 'w');
+> -+  assert(zip !=3D NULL);
+> -+
+> -+  assert(0 =3D=3D zip_entry_open(zip, RFILE));
+> -+  assert(0 =3D=3D zip_entry_write(zip, TESTDATA1, strlen(TESTDATA1)));
+> -+  assert(0 =3D=3D zip_entry_close(zip));
+> -+
+> -+  zip_close(zip);
+> -+
+> -+  remove(RFILE);
+> -+
+> -+  assert(0 =3D=3D zip_extract(ZIPNAME, ".", NULL, NULL));
+> -+
+> -+  assert(0 =3D=3D MZ_FILE_STAT(RFILE, &file_stats));
+> -+  assert(UNIXMODE =3D=3D file_stats.st_mode);
+> -+
+> -+  remove(RFILE);
+> -+  remove(ZIPNAME);
+> -+#endif
+> -+}
+> -+
+> - int main(int argc, char *argv[]) {
+> -   UNUSED(argc);
+> -   UNUSED(argv);
+> -@@ -453,6 +486,7 @@ int main(int argc, char *argv[]) {
+> -   test_write_permissions();
+> -   test_exe_permissions();
+> -   test_mtime();
+> -+  test_unix_permissions();
+> -
+> -   remove(ZIPNAME);
+> -   return 0;
+> -diff --git a/contrib/zip/test/test_miniz.c b/contrib/zip/test/test_miniz=
+.c
+> -index ebc0564d..babcaecd 100644
+> ---- a/contrib/zip/test/test_miniz.c
+> -+++ b/contrib/zip/test/test_miniz.c
+> -@@ -23,16 +23,39 @@ int main(int argc, char *argv[]) {
+> -   uint step =3D 0;
+> -   int cmp_status;
+> -   uLong src_len =3D (uLong)strlen(s_pStr);
+> --  uLong cmp_len =3D compressBound(src_len);
+> -   uLong uncomp_len =3D src_len;
+> -+  uLong cmp_len;
+> -   uint8 *pCmp, *pUncomp;
+> -+  size_t sz;
+> -   uint total_succeeded =3D 0;
+> -   (void)argc, (void)argv;
+> -
+> -   printf("miniz.c version: %s\n", MZ_VERSION);
+> -
+> -   do {
+> -+    pCmp =3D (uint8 *)tdefl_compress_mem_to_heap(s_pStr, src_len, &cmp_=
+len, 0);
+> -+    if (!pCmp) {
+> -+      printf("tdefl_compress_mem_to_heap failed\n");
+> -+      return EXIT_FAILURE;
+> -+    }
+> -+    if (src_len <=3D cmp_len) {
+> -+      printf("tdefl_compress_mem_to_heap failed: from %u to %u bytes\n"=
+,
+> -+             (mz_uint32)uncomp_len, (mz_uint32)cmp_len);
+> -+      free(pCmp);
+> -+      return EXIT_FAILURE;
+> -+    }
+> -+
+> -+    sz =3D tdefl_compress_mem_to_mem(pCmp, cmp_len, s_pStr, src_len, 0)=
+;
+> -+    if (sz !=3D cmp_len) {
+> -+      printf("tdefl_compress_mem_to_mem failed: expected %u, got %u\n",
+> -+             (mz_uint32)cmp_len, (mz_uint32)sz);
+> -+      free(pCmp);
+> -+      return EXIT_FAILURE;
+> -+    }
+> -+
+> -     // Allocate buffers to hold compressed and uncompressed data.
+> -+    free(pCmp);
+> -+    cmp_len =3D compressBound(src_len);
+> -     pCmp =3D (mz_uint8 *)malloc((size_t)cmp_len);
+> -     pUncomp =3D (mz_uint8 *)malloc((size_t)src_len);
+> -     if ((!pCmp) || (!pUncomp)) {
+> diff --git a/meta/recipes-graphics/vulkan/assimp/use-GNUInstallDirs-where=
+-possible.patch b/meta/recipes-graphics/vulkan/assimp/use-GNUInstallDirs-wh=
+ere-possible.patch
+> deleted file mode 100644
+> index e4f5b9ccbd..0000000000
+> --- a/meta/recipes-graphics/vulkan/assimp/use-GNUInstallDirs-where-possib=
+le.patch
+> +++ /dev/null
+> @@ -1,257 +0,0 @@
+> -From cbf94fd62ff831879d10f99aa7766d391ae8a9b7 Mon Sep 17 00:00:00 2001
+> -From: =3D?UTF-8?q?Victor=3D20Matar=3DC3=3DA9?=3D <matare@fh-aachen.de>
+> -Date: Tue, 31 Mar 2020 21:30:07 +0200
+> -Subject: [PATCH] use GNUInstallDirs where possible
+> -
+> -Emulate the CMAKE_INSTALL_FULL_* variables on non-Unix systems and
+> -disable redefining FHS-mandated install locations via user-editable
+> -ASSIMP_*_INSTALL_DIR variables. Instead, if it REALLY proves necessary,
+> -Unix users can edit the advanced, canonical CMAKE_INSTALL_* variables.
+> ----
+> - CMakeLists.txt                 | 36 ++++++++++++++++++++++------------
+> - assimp.pc.in                   |  6 ++----
+> - assimpTargets-debug.cmake.in   | 20 +++++++++----------
+> - assimpTargets-release.cmake.in | 18 ++++++++---------
+> - assimpTargets.cmake.in         | 15 +-------------
+> - 5 files changed, 45 insertions(+), 50 deletions(-)
+> -
+> -Upstream-Status: Backport
+> -Comment: Additionally remove setting of ASSIMP_LIBRARY_DIRS, ASSIMP_INCL=
+UDE_DIRS
+> -         and INTERFACE_INCLUDE_DIRECTORIES as default cross compile path=
+s are enough
+> -         and setting them manually adds non-existing paths to CMake modu=
+les
+> -
+> -Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+> -
+> -diff --git a/CMakeLists.txt b/CMakeLists.txt
+> -index dcafb649f5..c23c0df33e 100644
+> ---- a/CMakeLists.txt
+> -+++ b/CMakeLists.txt
+> -@@ -230,11 +230,6 @@ SET(LIBASSIMP-DEV_COMPONENT "libassimp${ASSIMP_VERS=
+ION_MAJOR}.${ASSIMP_VERSION_M
+> - SET(CPACK_COMPONENTS_ALL assimp-bin ${LIBASSIMP_COMPONENT} ${LIBASSIMP-=
+DEV_COMPONENT} assimp-dev)
+> - SET(ASSIMP_LIBRARY_SUFFIX "" CACHE STRING "Suffix to append to library =
+names")
+> -
+> --IF( UNIX )
+> --  # Use GNUInstallDirs for Unix predefined directories
+> --  INCLUDE(GNUInstallDirs)
+> --ENDIF( UNIX )
+> --
+> - # Grouped compiler settings
+> - IF ((CMAKE_C_COMPILER_ID MATCHES "GNU") AND NOT CMAKE_COMPILER_IS_MINGW=
+)
+> -   IF(NOT HUNTER_ENABLED)
+> -@@ -329,14 +324,6 @@ IF ( CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR )
+> -   SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_HOME_DIRECTORY}/bin" )
+> - ENDIF ( CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR )
+> -
+> --# Cache these to allow the user to override them manually.
+> --SET( ASSIMP_LIB_INSTALL_DIR "lib" CACHE STRING
+> --  "Path the built library files are installed to." )
+> --SET( ASSIMP_INCLUDE_INSTALL_DIR "include" CACHE STRING
+> --  "Path the header files are installed to." )
+> --SET( ASSIMP_BIN_INSTALL_DIR "bin" CACHE STRING
+> --  "Path the tool executables are installed to." )
+> --
+> - get_cmake_property(is_multi_config GENERATOR_IS_MULTI_CONFIG)
+> -
+> - IF (INJECT_DEBUG_POSTFIX AND (is_multi_config OR CMAKE_BUILD_TYPE STREQ=
+UAL "Debug"))
+> -@@ -391,6 +378,29 @@ IF(HUNTER_ENABLED)
+> -   )
+> - ELSE(HUNTER_ENABLED)
+> -   # cmake configuration files
+> -+
+> -+  IF( UNIX )
+> -+    # Use GNUInstallDirs for Unix predefined directories
+> -+    INCLUDE(GNUInstallDirs)
+> -+
+> -+    SET( ASSIMP_LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+> -+    SET( ASSIMP_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
+> -+    SET( ASSIMP_BIN_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
+> -+  ELSE( UNIX )
+> -+    # Cache these to allow the user to override them on non-Unix platfo=
+rms
+> -+    SET( ASSIMP_LIB_INSTALL_DIR "lib" CACHE STRING
+> -+      "Path the built library files are installed to." )
+> -+    SET( ASSIMP_INCLUDE_INSTALL_DIR "include" CACHE STRING
+> -+      "Path the header files are installed to." )
+> -+    SET( ASSIMP_BIN_INSTALL_DIR "bin" CACHE STRING
+> -+      "Path the tool executables are installed to." )
+> -+
+> -+    SET(CMAKE_INSTALL_FULL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/${ASSIMP_=
+INCLUDE_INSTALL_DIR})
+> -+    SET(CMAKE_INSTALL_FULL_LIBDIR ${CMAKE_INSTALL_PREFIX}/${ASSIMP_LIB_=
+INSTALL_DIR})
+> -+    SET(CMAKE_INSTALL_FULL_BINDIR ${CMAKE_INSTALL_PREFIX}/${ASSIMP_BIN_=
+INSTALL_DIR})
+> -+  ENDIF( UNIX )
+> -+
+> -+
+> -   CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/assimp-config.cmake.in"  =
+       "${CMAKE_CURRENT_BINARY_DIR}/assimp-config.cmake" @ONLY IMMEDIATE)
+> -   CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/assimpTargets.cmake.in"  =
+       "${CMAKE_CURRENT_BINARY_DIR}/assimpTargets.cmake" @ONLY IMMEDIATE)
+> -   IF (is_multi_config)
+> -diff --git a/assimp.pc.in b/assimp.pc.in
+> -index c659e19f2c..555a3a1d3b 100644
+> ---- a/assimp.pc.in
+> -+++ b/assimp.pc.in
+> -@@ -1,7 +1,5 @@
+> --prefix=3D@CMAKE_INSTALL_PREFIX@
+> --exec_prefix=3D@CMAKE_INSTALL_PREFIX@/
+> --libdir=3D@CMAKE_INSTALL_PREFIX@/@ASSIMP_LIB_INSTALL_DIR@
+> --includedir=3D@CMAKE_INSTALL_PREFIX@/../include/@ASSIMP_INCLUDE_INSTALL_=
+DIR@
+> -+libdir=3D@CMAKE_INSTALL_FULL_LIBDIR@
+> -+includedir=3D@CMAKE_INSTALL_FULL_INCLUDEDIR@
+> -
+> - Name: @CMAKE_PROJECT_NAME@
+> - Description: Import various well-known 3D model formats in an uniform m=
+anner.
+> -diff --git a/assimpTargets-debug.cmake.in b/assimpTargets-debug.cmake.in
+> -index 1ebe2a6081..f5034c9349 100644
+> ---- a/assimpTargets-debug.cmake.in
+> -+++ b/assimpTargets-debug.cmake.in
+> -@@ -42,22 +42,22 @@ if(MSVC)
+> -     # Import target "assimp::assimp" for configuration "Debug"
+> -     set_property(TARGET assimp::assimp APPEND PROPERTY IMPORTED_CONFIGU=
+RATIONS DEBUG)
+> -     set_target_properties(assimp::assimp PROPERTIES
+> --      IMPORTED_IMPLIB_DEBUG "${_IMPORT_PREFIX}/lib/${importLibraryName}=
+"
+> --      IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/bin/${sharedLibraryNam=
+e}"
+> -+      IMPORTED_IMPLIB_DEBUG "@CMAKE_INSTALL_FULL_LIBDIR@/${importLibrar=
+yName}"
+> -+      IMPORTED_LOCATION_DEBUG "@CMAKE_INSTALL_FULL_BINDIR@/${sharedLibr=
+aryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${importLibraryName}")
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/bin/${sharedLibraryName}" )
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${importLibraryName}")
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_BINDIR@/${sharedLibraryName}" )
+> -   else()
+> -     set(staticLibraryName "assimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_DEBUG_P=
+OSTFIX@@CMAKE_STATIC_LIBRARY_SUFFIX@")
+> -
+> -     # Import target "assimp::assimp" for configuration "Debug"
+> -     set_property(TARGET assimp::assimp APPEND PROPERTY IMPORTED_CONFIGU=
+RATIONS DEBUG)
+> -     set_target_properties(assimp::assimp PROPERTIES
+> --      IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/${staticLibraryNam=
+e}"
+> -+      IMPORTED_LOCATION_DEBUG "@CMAKE_INSTALL_FULL_LIBDIR@/${staticLibr=
+aryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${staticLibraryName}")
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${staticLibraryName}")
+> -   endif()
+> -
+> - else()
+> -@@ -66,17 +66,17 @@ else()
+> -     set(sharedLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_DEBU=
+G_POSTFIX@@CMAKE_SHARED_LIBRARY_SUFFIX@.@ASSIMP_VERSION_MAJOR@")
+> -     set_target_properties(assimp::assimp PROPERTIES
+> -       IMPORTED_SONAME_DEBUG "${sharedLibraryName}"
+> --      IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/${sharedLibraryNam=
+e}"
+> -+      IMPORTED_LOCATION_DEBUG "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLibr=
+aryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${sharedLibraryName}" )
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${sharedLibraryName}" )
+> -   else()
+> -     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_DEBU=
+G_POSTFIX@@CMAKE_STATIC_LIBRARY_SUFFIX@")
+> -     set_target_properties(assimp::assimp PROPERTIES
+> --      IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/${staticLibraryNam=
+e}"
+> -+      IMPORTED_LOCATION_DEBUG "@CMAKE_INSTALL_FULL_LIBDIR@/${staticLibr=
+aryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${staticLibraryName}" )
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${staticLibraryName}" )
+> -   endif()
+> - endif()
+> -
+> -diff --git a/assimpTargets-release.cmake.in b/assimpTargets-release.cmak=
+e.in
+> -index f3db8f12cd..a416e8899b 100644
+> ---- a/assimpTargets-release.cmake.in
+> -+++ b/assimpTargets-release.cmake.in
+> -@@ -42,12 +42,12 @@ if(MSVC)
+> -     # Import target "assimp::assimp" for configuration "Release"
+> -     set_property(TARGET assimp::assimp APPEND PROPERTY IMPORTED_CONFIGU=
+RATIONS RELEASE)
+> -     set_target_properties(assimp::assimp PROPERTIES
+> --      IMPORTED_IMPLIB_RELEASE "${_IMPORT_PREFIX}/lib/${importLibraryNam=
+e}"
+> --      IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/bin/${sharedLibraryN=
+ame}"
+> -+      IMPORTED_IMPLIB_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${importLibr=
+aryName}"
+> -+      IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_BINDIR@/${sharedLi=
+braryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${importLibraryName}")
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/bin/${sharedLibraryName}" )
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${importLibraryName}")
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_BINDIR@/${sharedLibraryName}" )
+> -   else()
+> -     set(staticLibraryName "assimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_STATIC_=
+LIBRARY_SUFFIX@")
+> -
+> -@@ -57,7 +57,7 @@ if(MSVC)
+> -       IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/${staticLibraryN=
+ame}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${staticLibraryName}")
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${staticLibraryName}")
+> -   endif()
+> -
+> - else()
+> -@@ -70,17 +70,17 @@ else()
+> -     endif()
+> -     set_target_properties(assimp::assimp PROPERTIES
+> -       IMPORTED_SONAME_RELEASE "${sharedLibraryName}"
+> --      IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/${sharedLibraryN=
+ame}"
+> -+      IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${sharedLi=
+braryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${sharedLibraryName}" )
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${sharedLibraryName}" )
+> -   else()
+> -     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}@CMAKE_STAT=
+IC_LIBRARY_SUFFIX@")
+> -     set_target_properties(assimp::assimp PROPERTIES
+> --      IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/${staticLibraryN=
+ame}"
+> -+      IMPORTED_LOCATION_RELEASE "@CMAKE_INSTALL_FULL_LIBDIR@/${staticLi=
+braryName}"
+> -     )
+> -     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
+> --    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFI=
+X}/lib/${staticLibraryName}" )
+> -+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "@CMAKE_INSTALL_=
+FULL_LIBDIR@/${staticLibraryName}" )
+> -   endif()
+> - endif()
+> -
+> -@@ -91,8 +91,6 @@ get_filename_component(ASSIMP_ROOT_DIR "@CMAKE_INSTALL=
+_PREFIX@" REALPATH)
+> -
+> - set( ASSIMP_CXX_FLAGS ) # dynamically linked library
+> - set( ASSIMP_LINK_FLAGS "" )
+> --set( ASSIMP_LIBRARY_DIRS "${ASSIMP_ROOT_DIR}/@ASSIMP_LIB_INSTALL_DIR@")
+> --set( ASSIMP_INCLUDE_DIRS "${ASSIMP_ROOT_DIR}/@ASSIMP_INCLUDE_INSTALL_DI=
+R@")
+> - if(ASSIMP_BUILD_SHARED_LIBS)
+> -   set( ASSIMP_LIBRARIES ${sharedLibraryName})
+> - else()
+> -
+> -diff --git a/assimpTargets.cmake.in b/assimpTargets.cmake.in
+> -index ab1a8d2c7b..ef90c834a6 100644
+> ---- a/assimpTargets.cmake.in
+> -+++ b/assimpTargets.cmake.in
+> -@@ -40,16 +40,6 @@ unset(_targetsDefined)
+> - unset(_targetsNotDefined)
+> - unset(_expectedTargets)
+> -
+> --
+> --# Compute the installation prefix relative to this file.
+> --get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_FILE}" PATH=
+)
+> --get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+> --get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+> --get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+> --if(_IMPORT_PREFIX STREQUAL "/")
+> --  set(_IMPORT_PREFIX "")
+> --endif()
+> --
+> - # Create imported target assimp::assimp
+> - if(@BUILD_SHARED_LIBS@)
+> -   add_library(assimp::assimp SHARED IMPORTED)
+> -@@ -60,7 +50,7 @@ endif()
+> - set_target_properties(assimp::assimp PROPERTIES
+> -   COMPATIBLE_INTERFACE_STRING "assimp_MAJOR_VERSION"
+> -   INTERFACE_assimp_MAJOR_VERSION "1"
+> --  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PR=
+EFIX}/include"
+> -+  #INTERFACE_INCLUDE_DIRECTORIES "@CMAKE_INSTALL_FULL_INCLUDEDIR@"
+> -   #INTERFACE_LINK_LIBRARIES "TxtUtils::TxtUtils;MealyMachine::MealyMach=
+ine"
+> - )
+> -
+> -@@ -75,9 +65,6 @@ foreach(f ${CONFIG_FILES})
+> -   include(${f})
+> - endforeach()
+> -
+> --# Cleanup temporary variables.
+> --set(_IMPORT_PREFIX)
+> --
+> - # Loop over all imported files and verify that they actually exist
+> - foreach(target ${_IMPORT_CHECK_TARGETS} )
+> -   foreach(file ${_IMPORT_CHECK_FILES_FOR_${target}} )
+> -
+> diff --git a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb b/meta/recipes-=
+graphics/vulkan/assimp_5.0.1.bb
+> deleted file mode 100644
+> index 89c555f08e..0000000000
+> --- a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
+> +++ /dev/null
+> @@ -1,26 +0,0 @@
+> -DESCRIPTION =3D "Open Asset Import Library is a portable Open Source lib=
+rary to import \
+> -               various well-known 3D model formats in a uniform manner."
+> -HOMEPAGE =3D "http://www.assimp.org/"
+> -SECTION =3D "devel"
+> -
+> -LICENSE =3D "BSD-3-Clause"
+> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2119edef0916b0bd511cb3c731076=
+271"
+> -
+> -DEPENDS =3D "zlib"
+> -
+> -SRC_URI =3D "git://github.com/assimp/assimp.git;branch=3Dassimp_5.0_rele=
+ase \
+> -           file://0001-closes-https-github.com-assimp-assimp-issues-2733=
+-up.patch \
+> -           file://use-GNUInstallDirs-where-possible.patch \
+> -           file://0001-assimp-remove-shared-lib-from-_IMPORT_CHECK_TARGE=
+TS.patch \
+> -           "
+> -UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>(\d+(\.\d+)+))"
+> -
+> -SRCREV =3D "8f0c6b04b2257a520aaab38421b2e090204b69df"
+> -
+> -S =3D "${WORKDIR}/git"
+> -
+> -inherit cmake
+> -
+> -EXTRA_OECMAKE =3D "-DASSIMP_BUILD_ASSIMP_TOOLS=3DOFF -DASSIMP_BUILD_TEST=
+S=3DOFF -DASSIMP_LIB_INSTALL_DIR=3D${baselib}"
+> -
+> -BBCLASSEXTEND =3D "native nativesdk"
+>=20
+>=20
+>=20
+>=20
+>=20
 
 
---
-Regards,
-Andrey.
+--=20
+# Randy MacLeod
+# Wind River Linux
