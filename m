@@ -1,92 +1,103 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
  by mx.groups.io with SMTP id smtpd.web09.32582.1630998136647915212
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 00:02:17 -0700
+ Tue, 07 Sep 2021 00:02:19 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="207344473"
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="207344480"
 X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; 
-   d="scan'208";a="207344473"
+   d="scan'208";a="207344480"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:17 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:18 -0700
 X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; 
-   d="scan'208";a="537804495"
+   d="scan'208";a="537804504"
 Received: from tengjieg-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.137.164])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:16 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:17 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 03/11] lz4: Security Fix for CVE-2021-3520
-Date: Tue,  7 Sep 2021 15:01:59 +0800
-Message-Id: <d7d278286d4dea215f3e8fbff59a9e95056cb7f4.1630997270.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 04/11] sdk: Decouple default install path from built in path
+Date: Tue,  7 Sep 2021 15:02:00 +0800
+Message-Id: <1b4309ee196c45661ddb79d8529517a8777a8d53.1630997270.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1630997270.git.anuj.mittal@intel.com>
 References: <cover.1630997270.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Source: https://github.com/lz4/lz4
-MR: 111604
-Type: Security Fix
-Disposition: Backport from https://github.com/lz4/lz4/commit/8301a21773ef61656225e264f4f06ae14462bca7#diff-7055e9cf14c488aea9837aaf9f528b58ee3c22988d7d0d81d172ec62d94a88a7
-ChangeID: 58492f950164e75954a97cf084df6f9af3d88244
-Description:
+Add SDKPATHINSTALL which is used as the default install location of the SDK
+instead of SDKPATH. This means the default install path isn't encoded into
+every SDK binary, meaning if a date is used there the entire SDK doesn't
+have to rebuild. Most distros can switch to only customise SDKPATHINSTALL
+meaning more sstate reuse too.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+[YOCTO #14100]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6d6a089a2f637051333e0137d2e748c823e2aa98)
+(cherry picked from commit bc4ee5453560dcefc4a4ecc5657df5cc1666e153)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../lz4/files/CVE-2021-3520.patch             | 27 +++++++++++++++++++
- meta/recipes-support/lz4/lz4_1.9.3.bb         |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-support/lz4/files/CVE-2021-3520.patch
+ meta/classes/populate_sdk_base.bbclass | 1 +
+ meta/conf/bitbake.conf                 | 4 +++-
+ meta/files/toolchain-shar-extract.sh   | 3 ++-
+ meta/files/toolchain-shar-relocate.sh  | 2 +-
+ 4 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/lz4/files/CVE-2021-3520.patch b/meta/recipes-support/lz4/files/CVE-2021-3520.patch
-new file mode 100644
-index 0000000000..5ac8f6691f
---- /dev/null
-+++ b/meta/recipes-support/lz4/files/CVE-2021-3520.patch
-@@ -0,0 +1,27 @@
-+From 8301a21773ef61656225e264f4f06ae14462bca7 Mon Sep 17 00:00:00 2001
-+From: Jasper Lievisse Adriaanse <j@jasper.la>
-+Date: Fri, 26 Feb 2021 15:21:20 +0100
-+Subject: [PATCH] Fix potential memory corruption with negative memmove() size
-+
-+Upstream-Status: Backport
-+https://github.com/lz4/lz4/commit/8301a21773ef61656225e264f4f06ae14462bca7#diff-7055e9cf14c488aea9837aaf9f528b58ee3c22988d7d0d81d172ec62d94a88a7
-+CVE: CVE-2021-3520
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ lib/lz4.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: git/lib/lz4.c
-+===================================================================
-+--- git.orig/lib/lz4.c
-++++ git/lib/lz4.c
-+@@ -1665,7 +1665,7 @@ LZ4_decompress_generic(
-+                  const size_t dictSize         /* note : = 0 if noDict */
-+                  )
-+ {
-+-    if (src == NULL) { return -1; }
-++    if ((src == NULL) || (outputSize < 0)) { return -1; }
-+ 
-+     {   const BYTE* ip = (const BYTE*) src;
-+         const BYTE* const iend = ip + srcSize;
-diff --git a/meta/recipes-support/lz4/lz4_1.9.3.bb b/meta/recipes-support/lz4/lz4_1.9.3.bb
-index effc530b94..9d5dc0253a 100644
---- a/meta/recipes-support/lz4/lz4_1.9.3.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.3.bb
-@@ -14,6 +14,7 @@ SRCREV = "d44371841a2f1728a3f36839fd4b7e872d0927d3"
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index f8072a9d37..2d33611ddd 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -280,6 +280,7 @@ EOF
+ 	# substitute variables
+ 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
+ 		-e 's#@SDKPATH@#${SDKPATH}#g' \
++		-e 's#@SDKPATHINSTALL@#${SDKPATHINSTALL}#g' \
+ 		-e 's#@SDKEXTPATH@#${SDKEXTPATH}#g' \
+ 		-e 's#@OLDEST_KERNEL@#${SDK_OLDEST_KERNEL}#g' \
+ 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5b52e9307e..d0b92a996a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -422,8 +422,10 @@ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
  
- SRC_URI = "git://github.com/lz4/lz4.git;branch=release \
-            file://run-ptest \
-+           file://CVE-2021-3520.patch \
-            "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+ SDK_NAME_PREFIX ?= "oecore"
+ SDK_NAME = "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TUNE_PKGARCH}"
+-SDKPATH = "/usr/local/${SDK_NAME_PREFIX}-${SDK_ARCH}"
++SDKPATH = "/usr/local/oe-sdk-hardcoded-buildpath"
+ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
++# The path to default to installing the SDK to
++SDKPATHINSTALL = "/usr/local/${SDK_NAME_PREFIX}-${SDK_ARCH}"
+ 
+ ##################################################################
+ # Kernel info.
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index dd9342758b..4386b985bb 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -56,7 +56,8 @@ if ! xz -V > /dev/null 2>&1; then
+ 	exit 1
+ fi
+ 
+-DEFAULT_INSTALL_DIR="@SDKPATH@"
++SDK_BUILD_PATH="@SDKPATH@"
++DEFAULT_INSTALL_DIR="@SDKPATHINSTALL@"
+ SUDO_EXEC=""
+ EXTRA_TAR_OPTIONS=""
+ target_sdk_dir=""
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+index ba873373e2..3ece04db0a 100644
+--- a/meta/files/toolchain-shar-relocate.sh
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -61,7 +61,7 @@ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
+              -e "$target_sdk_dir/post-relocate-setup" \
+              -e "$target_sdk_dir/${0##*/}" | \
+     xargs -n100 $SUDO_EXEC sed -i \
+-        -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" \
++        -e "s:$SDK_BUILD_PATH:$target_sdk_dir:g" \
+         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
+         -e "s: /usr/bin/perl: /usr/bin/env perl:g"
  
 -- 
 2.31.1
