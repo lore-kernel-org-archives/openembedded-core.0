@@ -1,94 +1,98 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web10.32239.1630998134073784612
+ by mx.groups.io with SMTP id smtpd.web12.32254.1630998135157646973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 00:02:14 -0700
+ Tue, 07 Sep 2021 00:02:15 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="207344433"
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="207344438"
 X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; 
-   d="scan'208";a="207344433"
+   d="scan'208";a="207344438"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:12 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:14 -0700
 X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; 
-   d="scan'208";a="537804465"
+   d="scan'208";a="537804474"
 Received: from tengjieg-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.137.164])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:11 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2021 00:02:12 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/11] Patch review request
-Date: Tue,  7 Sep 2021 15:01:56 +0800
-Message-Id: <cover.1630997270.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 01/11] kernel-yocto: Simplify no git repo case in do_kernel_checkout
+Date: Tue,  7 Sep 2021 15:01:57 +0800
+Message-Id: <0c8d643d7b474a845588ad7dbf86f85a9aad5c49.1630997270.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1630997270.git.anuj.mittal@intel.com>
+References: <cover.1630997270.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review these changes for hardknott. Builds cleanly on autobuilder
-except for an intermittent failure.
+From: Paul Barker <paul@pbarker.dev>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2550
+If the kernel sources are not fetched via git, a local git repository is
+created in do_kernel_checkout. In this case we know that there will be
+no remote branches and we will already be on the correct branch (since
+only one branch will exist). So we can simplify things by skipping these
+steps.
 
-Thanks,
+This also removes the assumption that the default git branch name will
+be "master". Prior to this change, the final git checkout command in
+do_kernel_checkout could fail if a local git repo was created and the
+user had changed init.defaultBranch in their gitconfig.
 
-Anuj
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit af2a9c92d4498492ca23388c7b4bbed48abdc4d7)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/classes/kernel-yocto.bbclass | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-The following changes since commit e3a7eaf9fe1420b2525e14f0c0f2936e7818b8a3:
-
-  build-appliance-image: Update to hardknott head revision (2021-09-01 16:28:21 +0100)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Andrej Valek (1):
-  vim: add option to disable NLS support
-
-Armin Kuster (1):
-  lz4: Security Fix for CVE-2021-3520
-
-Bruce Ashfield (3):
-  linux-yocto/5.10: update to v5.10.59
-  linux-yocto/5.10: update to v5.10.60
-  parselogs.py: ignore intermittent CD/DVDROM identification failure
-
-Paul Barker (1):
-  kernel-yocto: Simplify no git repo case in do_kernel_checkout
-
-Richard Purdie (3):
-  sdk: Decouple default install path from built in path
-  oeqa/runtime/parselogs: Make DVD ata error apply to all qemux86
-    machines
-  xdg-utils: Add fix for CVE-2020-27748
-
-Ross Burton (1):
-  cpio: backport fix for CVE-2021-38185
-
-Trevor Gamblin (1):
-  bluez5: fix CVE-2021-3658
-
- meta/classes/kernel-yocto.bbclass             |  30 +-
- meta/classes/populate_sdk_base.bbclass        |   1 +
- meta/conf/bitbake.conf                        |   4 +-
- meta/files/toolchain-shar-extract.sh          |   3 +-
- meta/files/toolchain-shar-relocate.sh         |   2 +-
- meta/lib/oeqa/runtime/cases/parselogs.py      |   1 +
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...ter-Fix-storing-discoverable-setting.patch | 100 +++
- .../cpio/cpio-2.13/CVE-2021-38185.patch       | 581 ++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.13.bb       |   1 +
- ...9813e0eb0246f63b54e9e154970e609575af.patch |  58 ++
- .../xdg-utils/xdg-utils_1.1.3.bb              |   1 +
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- .../lz4/files/CVE-2021-3520.patch             |  27 +
- meta/recipes-support/lz4/lz4_1.9.3.bb         |   1 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- 18 files changed, 815 insertions(+), 38 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-Fix-storing-discoverable-setting.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
- create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/1f199813e0eb0246f63b54e9e154970e609575af.patch
- create mode 100644 meta/recipes-support/lz4/files/CVE-2021-3520.patch
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index d38b60f519..8878573f6f 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -341,6 +341,21 @@ do_kernel_checkout() {
+ 			fi
+ 		fi
+ 		cd ${S}
++
++		# convert any remote branches to local tracking ones
++		for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
++			b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
++			git show-ref --quiet --verify -- "refs/heads/$b"
++			if [ $? -ne 0 ]; then
++				git branch $b $i > /dev/null
++			fi
++		done
++
++		# Create a working tree copy of the kernel by checking out a branch
++		machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
++
++		# checkout and clobber any unimportant files
++		git checkout -f ${machine_branch}
+ 	else
+ 		# case: we have no git repository at all. 
+ 		# To support low bandwidth options for building the kernel, we'll just 
+@@ -362,21 +377,6 @@ do_kernel_checkout() {
+ 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
+ 		git clean -d -f
+ 	fi
+-
+-	# convert any remote branches to local tracking ones
+-	for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
+-		b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
+-		git show-ref --quiet --verify -- "refs/heads/$b"
+-		if [ $? -ne 0 ]; then
+-			git branch $b $i > /dev/null
+-		fi
+-	done
+-
+-	# Create a working tree copy of the kernel by checking out a branch
+-	machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+-
+-	# checkout and clobber any unimportant files
+-	git checkout -f ${machine_branch}
+ }
+ do_kernel_checkout[dirs] = "${S} ${WORKDIR}"
+ 
 -- 
 2.31.1
 
