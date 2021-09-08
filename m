@@ -1,50 +1,50 @@
 Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.15282.1631124098494755799
+ by mx.groups.io with SMTP id smtpd.web10.15610.1631124099130553358
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 11:01:38 -0700
+ Wed, 08 Sep 2021 11:01:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WNIrEzOI;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZNg+/lFI;
  spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id g16so4581119wrb.3
+Received: by mail-wr1-f43.google.com with SMTP id i28so4587886wrb.2
         for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 11:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=poqcu33GMaaGwgmUQyLA5spoO8L8KGPZrq7bLxwYNKc=;
-        b=WNIrEzOINl8RVXb7+IEVCxY5G3shIeagyuZiNqbzYcMV3SdQWxHoLl55rg2f74iuDs
-         tllgp18gY3J/+g9WRSpoSXBFob/nOnDl04QRvlLGHd0jsAEPuvx0eObXiB0Hyoxo2Hbj
-         NBMW1SVKqi2JgJDOmg4crpSt3UkciVhRxCgpcQnKjeyl5dV2bImKjrWwWW91VptuuM5d
-         1tkOF6xaanTWoCU0+74Rm4tysD1SDaCjcS9fw6r8uploNiubvVENrtO92p96O69oHxbJ
-         JDWf6vEUaYW1Lwb0zl6tLxWqG+jXS87Vbf3sUergmm337ySHUmuw0WCyTqJVCA3WJXI9
-         9iwA==
+        bh=xnNebcYsk+tLiUXlnY4pHkb1TjTVZyPuViNkq2/10wA=;
+        b=ZNg+/lFIEVwQW1a/oGaTWMDneZK36/ynJVChTGzXbABdhwChXxbxvZ5fpdJbdgcsL7
+         N63xMmmE81HxmIJhn8KVU7yUJNpPJWz7MjFScAyrNyHFpEhT3Stp5zlIxJHD5niIq6Qn
+         w5zMFWGroSYbutjzSlPmVDx+1JGRXs9rr65gugIAvIyZ8esDKj8YQuB63Hrj/y9zNuMN
+         BEhGyzpi4EtgcGUd10vg3kVP9IqPhqwH3n8tKgYQfPAtrzVdPlGqowsf3eWUkKYufXoJ
+         mDRFhjbcolksjreeKoNmfujFeLXkekDCOsY4tJPoWyFARjPZS6xWqsgzkZN6tnt6bZa2
+         rkRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=poqcu33GMaaGwgmUQyLA5spoO8L8KGPZrq7bLxwYNKc=;
-        b=TcSCePSCRhjsyIpeaDxj/N5XGMnVrifKGBm6dmLDojdExaz/FNvViRPM5mZo+KrXHL
-         NBdxEa5ztcf8USdXqYosCj/saFuQHyNcLDp9lLeKgsOkkw1yVlvaVsUB5zWYqnghGrMV
-         09kFZ3+MDPqKti9t57jAflRiEV2UfFHQj68+NckRiNf+6g2xzjGDT01fulxuPo6fgi8Q
-         MR8AK54XljrzW11QeYxi1dcqJ6AydmxlUCjytahZOjSW7NCy+SBEm0tEHonWwONKsLGS
-         M+ee77NGHOlx3qIYVsinp9NBxuU6RkdnKokV6DO4ifd9gANDElekS/qgFE5ePrxwAHUT
-         fNwg==
-X-Gm-Message-State: AOAM531OooXEPHW3Hp2NQgbqBC6SC0Vbk4tDQaaEoDd8NzhauitixBbr
-	TAQybpH52jmE29Qyb1aRro+bwG4RWic=
-X-Google-Smtp-Source: ABdhPJwmude6di7UXu9g+tOPfReFv4P7xbgA2VoTAcfA5OvEkpDoEDxVM0LXGVwUepDVcoMt54xLmw==
-X-Received: by 2002:adf:f552:: with SMTP id j18mr5159460wrp.273.1631124097071;
+        bh=xnNebcYsk+tLiUXlnY4pHkb1TjTVZyPuViNkq2/10wA=;
+        b=ZnbY9OW5Wt+2fT9pNCKMz43TIPuVn7WS57ldYeBAxPG44gMSzH5hiyvyFSFHAXKmfN
+         t/hEY2I67GPhE7FZUD3T0sGD8CIhIZcrcTzr1Cxe7Ag+0C9UArcJdG0hM/QGfBYVpTa9
+         L4nQCgiA9bdy2pMOr5CKvPKwxXr9k+sg6qyDGx0214d66oKn+KASoV5hYFrn9YLiWKyf
+         ZFPOZZQtC+yEuq17+DOu6WDTA11VkjYO1vJr7CdENyo2KmRsdW8BmJtisEyQdWnb6cSW
+         EIDXwdUFiNvzZtP7RIlNEm4UVSGoODau0fgAwSOwW/mmrTWBRkYGypkEJvjySzvUXeQi
+         CW2A==
+X-Gm-Message-State: AOAM533cAwUm7C0dtuaAIvAiTpkJ4PpPj2PpQEP+1ZvMgRV+vymJYHQ1
+	TamR81yX9sRmEDTlNUD8qlglsFP6NgY=
+X-Google-Smtp-Source: ABdhPJzkXtSm2sSS+WUtA52vqoqFxciuDyR3c/Dw50Km7PFoBEJe2heMldrCdZfLKaB/mxWZHKiKvA==
+X-Received: by 2002:a5d:4dce:: with SMTP id f14mr5505415wru.204.1631124097725;
         Wed, 08 Sep 2021 11:01:37 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:29b:3b00:d35d:e3cf:58b5:748b])
-        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.36
+        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 11:01:36 -0700 (PDT)
+        Wed, 08 Sep 2021 11:01:37 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 12/26] gnupg: update 2.3.1 -> 2.3.2
-Date: Wed,  8 Sep 2021 20:01:11 +0200
-Message-Id: <20210908180125.103473-12-alex.kanavin@gmail.com>
+Subject: [PATCH 13/26] pinentry: update 1.1.1 -> 1.2.0
+Date: Wed,  8 Sep 2021 20:01:12 +0200
+Message-Id: <20210908180125.103473-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908180125.103473-1-alex.kanavin@gmail.com>
 References: <20210908180125.103473-1-alex.kanavin@gmail.com>
@@ -53,159 +53,228 @@ Content-Transfer-Encoding: 8bit
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop chunk from relocate.patch, the upstream code no longer exists.
+Rebase patches.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-a-custom-value-for-the-location-of-.patch |  6 +--
- .../gnupg/gnupg/relocate.patch                | 39 +++++++------------
- .../gnupg/{gnupg_2.3.1.bb => gnupg_2.3.2.bb}  |  2 +-
- 3 files changed, 19 insertions(+), 28 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.3.1.bb => gnupg_2.3.2.bb} (97%)
+ meta/lib/oeqa/selftest/cases/oescripts.py     |   2 +-
+ .../gpg-error_pkconf.patch                    | 126 ++++++++++--------
+ .../libassuan_pkgconf.patch                   |   0
+ .../{pinentry_1.1.1.bb => pinentry_1.2.0.bb}  |   2 +-
+ 4 files changed, 74 insertions(+), 56 deletions(-)
+ rename meta/recipes-support/pinentry/{pinentry-1.1.1 => pinentry-1.2.0}/gpg-error_pkconf.patch (57%)
+ rename meta/recipes-support/pinentry/{pinentry-1.1.1 => pinentry-1.2.0}/libassuan_pkgconf.patch (100%)
+ rename meta/recipes-support/pinentry/{pinentry_1.1.1.bb => pinentry_1.2.0.bb} (93%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index ecd6263626..a66a8e62b0 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+index 8a10ff357b..255994b0f8 100644
+--- a/meta/lib/oeqa/selftest/cases/oescripts.py
++++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+@@ -167,7 +167,7 @@ class OEListPackageconfigTests(OEScriptTests):
+     def test_packageconfig_flags_option_all(self):
+         results = runCmd('%s/contrib/list-packageconfig-flags.py -a' % self.scripts_dir)
+         expected_endlines = []
+-        expected_endlines.append("pinentry-1.1.1")
++        expected_endlines.append("pinentry-1.2.0")
+         expected_endlines.append("PACKAGECONFIG ncurses libcap")
+         expected_endlines.append("PACKAGECONFIG[qt] --enable-pinentry-qt, --disable-pinentry-qt, qtbase-native qtbase")
+         expected_endlines.append("PACKAGECONFIG[gtk2] --enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0")
+diff --git a/meta/recipes-support/pinentry/pinentry-1.1.1/gpg-error_pkconf.patch b/meta/recipes-support/pinentry/pinentry-1.2.0/gpg-error_pkconf.patch
+similarity index 57%
+rename from meta/recipes-support/pinentry/pinentry-1.1.1/gpg-error_pkconf.patch
+rename to meta/recipes-support/pinentry/pinentry-1.2.0/gpg-error_pkconf.patch
+index 537735dba8..507c0c3917 100644
+--- a/meta/recipes-support/pinentry/pinentry-1.1.1/gpg-error_pkconf.patch
++++ b/meta/recipes-support/pinentry/pinentry-1.2.0/gpg-error_pkconf.patch
 @@ -1,4 +1,4 @@
--From 52ba9d34cd9317145ee8a93afd5d73dd0cbf3182 Mon Sep 17 00:00:00 2001
-+From c873c85b1ee1c35ebbba0bc80c2352c64787a5fd Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 7a2d410..14a7203 100644
-+index d03ea3b..a6dfa19 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1841,7 +1841,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-+@@ -1958,7 +1958,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-  
-  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
-  
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index 9b0f0a8ce0..f9f38c2876 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From d6992692d1c36983b709fe1ff049cc91ef2c408a Mon Sep 17 00:00:00 2001
-+From 5a68a37ae2649e0988965cfe3a63a0142f0182a1 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -8,23 +8,23 @@ Upstream-Status: Inappropriate [OE-specific]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
+-From 7b60f1563ecdb7020c145de8a96cae1c0a66c595 Mon Sep 17 00:00:00 2001
++From 54a4c9d3e5f1897ed4b978d5cdee646ca7a4f637 Mon Sep 17 00:00:00 2001
+ From: Armin Kuster <akuster@mvista.com>
+ Date: Fri, 2 Sep 2005 11:50:01 +0000
+ Subject: [PATCH] Add gtk+, avahi, dbus-0.34 (.36 coming soon) and
+@@ -11,14 +11,14 @@ Upstream-Status: Inappropriate [OE specific]
+ Signed-off-by: Armin Kuster <akuster@mvista.com>
  
  ---
-- common/homedir.c | 16 ++++++++--------
-- 1 file changed, 8 insertions(+), 8 deletions(-)
-+ common/homedir.c | 14 +++++++-------
-+ 1 file changed, 7 insertions(+), 7 deletions(-)
+- m4/gpg-error.m4 | 141 ++----------------------------------------------
+- 1 file changed, 4 insertions(+), 137 deletions(-)
++ m4/gpg-error.m4 | 159 ++----------------------------------------------
++ 1 file changed, 4 insertions(+), 155 deletions(-)
  
- diff --git a/common/homedir.c b/common/homedir.c
--index 85e09c4..e1410e2 100644
-+index 7969a2c..06b8016 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
--@@ -788,7 +788,7 @@ gnupg_socketdir (void)
-+@@ -918,7 +918,7 @@ gnupg_socketdir (void)
-    if (!name)
-      {
-        unsigned int dummy;
- -      name = _gnupg_socketdir_internal (0, &dummy);
- +      name = getenv("GNUPG_SOCKETDIR") ?: _gnupg_socketdir_internal (0, &dummy);
-+       gpgrt_annotate_leaked_object (name);
-      }
-  
--   return name;
--@@ -814,7 +814,7 @@ gnupg_sysconfdir (void)
-+@@ -946,7 +946,7 @@ gnupg_sysconfdir (void)
-      }
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -33,7 +33,7 @@ index 85e09c4..e1410e2 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -843,7 +843,7 @@ gnupg_bindir (void)
-+@@ -978,7 +978,7 @@ gnupg_bindir (void)
+ diff --git a/m4/gpg-error.m4 b/m4/gpg-error.m4
+-index c9b235f..a4fd41c 100644
++index 56a5d07..c0bec1f 100644
+ --- a/m4/gpg-error.m4
+ +++ b/m4/gpg-error.m4
+-@@ -25,141 +25,12 @@ dnl config script does not match the host specification the script
++@@ -26,159 +26,12 @@ dnl config script does not match the host specification the script
+  dnl is added to the gpg_config_script_warn variable.
+  dnl
+  AC_DEFUN([AM_PATH_GPG_ERROR],
+@@ -61,45 +61,79 @@ index c9b235f..a4fd41c 100644
+ -  min_gpg_error_version=ifelse([$1], ,1.33,$1)
+ -  ok=no
+ -
+--  if test "$prefix" = NONE ; then
+--    prefix_option_expanded=/usr/local
+--  else
+--    prefix_option_expanded="$prefix"
+--  fi
+--  if test "$exec_prefix" = NONE ; then
+--    exec_prefix_option_expanded=$prefix_option_expanded
+--  else
+--    exec_prefix_option_expanded=$(prefix=$prefix_option_expanded eval echo $exec_prefix)
+--  fi
+--  libdir_option_expanded=$(prefix=$prefix_option_expanded exec_prefix=$exec_prefix_option_expanded eval echo $libdir)
++-  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
++-  if test "$GPGRT_CONFIG" != "no"; then
++-    # Determine gpgrt_libdir
++-    #
++-    # Get the prefix of gpgrt-config assuming it's something like:
++-    #   <PREFIX>/bin/gpgrt-config
++-    gpgrt_prefix=${GPGRT_CONFIG%/*/*}
++-    possible_libdir1=${gpgrt_prefix}/lib
++-    # Determine by using system libdir-format with CC, it's like:
++-    #   Normal style: /usr/lib
++-    #   GNU cross style: /usr/<triplet>/lib
++-    #   Debian style: /usr/lib/<multiarch-name>
++-    #   Fedora/openSUSE style: /usr/lib, /usr/lib32 or /usr/lib64
++-    # It is assumed that CC is specified to the one of host on cross build.
++-    if libdir_candidates=$(${CC:-cc} -print-search-dirs | \
++-          sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
++-/g;p;}"); then
++-      # From the output of -print-search-dirs, select valid pkgconfig dirs.
++-      libdir_candidates=$(for dir in $libdir_candidates; do
++-        if p=$(cd $dir 2>/dev/null && pwd); then
++-          test -d "$p/pkgconfig" && echo $p;
++-        fi
++-      done)
+ -
+--  if test -f $libdir_option_expanded/pkgconfig/gpg-error.pc; then
+--    gpgrt_libdir=$libdir_option_expanded
+--  else
+--    if crt1_path=$(${CC:-cc} -print-file-name=crt1.o 2>/dev/null); then
+--      if possible_libdir=$(cd ${crt1_path%/*} && pwd 2>/dev/null); then
+--        if test -f $possible_libdir/pkgconfig/gpg-error.pc; then
+--          gpgrt_libdir=$possible_libdir
++-      for possible_libdir0 in $libdir_candidates; do
++-        # possible_libdir0:
++-        #   Fallback candidate, the one of system-installed (by $CC)
++-        #   (/usr/<triplet>/lib, /usr/lib/<multiarch-name> or /usr/lib32)
++-        # possible_libdir1:
++-        #   Another candidate, user-locally-installed
++-        #   (<gpgrt_prefix>/lib)
++-        # possible_libdir2
++-        #   Most preferred
++-        #   (<gpgrt_prefix>/<triplet>/lib,
++-        #    <gpgrt_prefix>/lib/<multiarch-name> or <gpgrt_prefix>/lib32)
++-        if test "${possible_libdir0##*/}" = "lib"; then
++-          possible_prefix0=${possible_libdir0%/lib}
++-          possible_prefix0_triplet=${possible_prefix0##*/}
++-          if test -z "$possible_prefix0_triplet"; then
++-            continue
++-          fi
++-          possible_libdir2=${gpgrt_prefix}/$possible_prefix0_triplet/lib
++-        else
++-          possible_prefix0=${possible_libdir0%%/lib*}
++-          possible_libdir2=${gpgrt_prefix}${possible_libdir0#$possible_prefix0}
++-        fi
++-        if test -f ${possible_libdir2}/pkgconfig/gpg-error.pc; then
++-          gpgrt_libdir=${possible_libdir2}
++-        elif test -f ${possible_libdir1}/pkgconfig/gpg-error.pc; then
++-          gpgrt_libdir=${possible_libdir1}
++-        elif test -f ${possible_libdir0}/pkgconfig/gpg-error.pc; then
++-          gpgrt_libdir=${possible_libdir0}
+ -        fi
+--      fi
++-        if test -n "$gpgrt_libdir"; then break; fi
++-      done
++-    else
++-      # When we cannot determine system libdir-format, use this:
++-      gpgrt_libdir=${possible_libdir1}
+ -    fi
++-  else
++-    unset GPGRT_CONFIG
+ -  fi
+ -
+--  if test "$GPG_ERROR_CONFIG" = "no" -a -n "$gpgrt_libdir"; then
+--    AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no)
+--    if test "$GPGRT_CONFIG" = "no"; then
+--      unset GPGRT_CONFIG
++-  if test -n "$gpgrt_libdir"; then
++-    GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
++-    if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
++-      GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
++-      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
++-      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
+ -    else
+--      GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
+--      if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
+--        GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+--        AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
+--        gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
+--      else
+--        unset GPGRT_CONFIG
+--      fi
++-      unset GPGRT_CONFIG
+ -    fi
+--  else
++-  elif test "$GPG_ERROR_CONFIG" != "no"; then
+ -    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
+ -  fi
+ -  if test "$GPG_ERROR_CONFIG" != "no"; then
+@@ -120,22 +154,6 @@ index c9b235f..a4fd41c 100644
+ -            fi
+ -        fi
+ -    fi
+--    if test -z "$GPGRT_CONFIG" -a -n "$gpgrt_libdir"; then
+--      if test "$major" -gt 1 -o "$major" -eq 1 -a "$minor" -ge 33; then
+--        AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no)
+--        if test "$GPGRT_CONFIG" = "no"; then
+--          unset GPGRT_CONFIG
+--        else
+--          GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
+--          if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
+--            GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+--            AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
+--          else
+--            unset GPGRT_CONFIG
+--          fi
+--        fi
+--      fi
+--    fi
+ -  fi
+ -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
+ +[
+@@ -164,7 +182,7 @@ index c9b235f..a4fd41c 100644
+      if test x"$gpg_error_config_host" != xnone ; then
+        if test x"$gpg_error_config_host" != x"$host" ; then
+    AC_MSG_WARN([[
+-@@ -174,10 +45,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
++@@ -193,10 +46,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
+        fi
+      fi
     else
-      return rdir;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -42,7 +42,7 @@ index 85e09c4..e1410e2 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -856,7 +856,7 @@ gnupg_libexecdir (void)
-+@@ -991,7 +991,7 @@ gnupg_libexecdir (void)
-  #ifdef HAVE_W32_SYSTEM
-    return gnupg_bindir ();
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -51,8 +51,8 @@ index 85e09c4..e1410e2 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -870,7 +870,7 @@ gnupg_libdir (void)
--     name = xstrconcat (w32_rootdir (), DIRSEP_S "lib" DIRSEP_S "gnupg", NULL);
-+@@ -1008,7 +1008,7 @@ gnupg_libdir (void)
-+     }
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
- -  return GNUPG_LIBDIR;
-@@ -60,8 +60,8 @@ index 85e09c4..e1410e2 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -884,7 +884,7 @@ gnupg_datadir (void)
--     name = xstrconcat (w32_rootdir (), DIRSEP_S "share" DIRSEP_S "gnupg", NULL);
-+@@ -1026,7 +1026,7 @@ gnupg_datadir (void)
-+     }
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
- -  return GNUPG_DATADIR;
-@@ -69,8 +69,8 @@ index 85e09c4..e1410e2 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -900,7 +900,7 @@ gnupg_localedir (void)
--                        NULL);
-+@@ -1045,7 +1045,7 @@ gnupg_localedir (void)
-+     }
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
- -  return LOCALEDIR;
-@@ -78,12 +78,3 @@ index 85e09c4..e1410e2 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -971,7 +971,7 @@ gnupg_cachedir (void)
--     }
--   return dir;
-- #else /*!HAVE_W32_SYSTEM*/
---  return GNUPG_LOCALSTATEDIR "/cache/" PACKAGE_NAME;
--+  return getenv("GNUPG_LOCALSTATEDIR") ?: GNUPG_LOCALSTATEDIR "/cache/" PACKAGE_NAME;
-- #endif /*!HAVE_W32_SYSTEM*/
-- }
-- 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.3.1.bb b/meta/recipes-support/gnupg/gnupg_2.3.2.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.3.1.bb
-rename to meta/recipes-support/gnupg/gnupg_2.3.2.bb
-index b8b0314d2f..135395e55d 100644
---- a/meta/recipes-support/gnupg/gnupg_2.3.1.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.3.2.bb
-@@ -24,7 +24,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+diff --git a/meta/recipes-support/pinentry/pinentry-1.1.1/libassuan_pkgconf.patch b/meta/recipes-support/pinentry/pinentry-1.2.0/libassuan_pkgconf.patch
+similarity index 100%
+rename from meta/recipes-support/pinentry/pinentry-1.1.1/libassuan_pkgconf.patch
+rename to meta/recipes-support/pinentry/pinentry-1.2.0/libassuan_pkgconf.patch
+diff --git a/meta/recipes-support/pinentry/pinentry_1.1.1.bb b/meta/recipes-support/pinentry/pinentry_1.2.0.bb
+similarity index 93%
+rename from meta/recipes-support/pinentry/pinentry_1.1.1.bb
+rename to meta/recipes-support/pinentry/pinentry_1.2.0.bb
+index 98577fe3ef..504ba3b5cc 100644
+--- a/meta/recipes-support/pinentry/pinentry_1.1.1.bb
++++ b/meta/recipes-support/pinentry/pinentry_1.2.0.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://gpg-error_pkconf.patch \
+ "
  
--SRC_URI[sha256sum] = "c498db346a9b9a4b399e514c8f56dfc0a888ce8f327f10376ff984452cd154ec"
-+SRC_URI[sha256sum] = "e1d953e0e296072fca284215103ef168885eaac596c4660c5039a36a83e3041b"
+-SRC_URI[sha256sum] = "cd12a064013ed18e2ee8475e669b9f58db1b225a0144debdb85a68cecddba57f"
++SRC_URI[sha256sum] = "10072045a3e043d0581f91cd5676fcac7ffee957a16636adedaa4f583a616470"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ inherit autotools pkgconfig
+ 
 -- 
 2.31.1
 
