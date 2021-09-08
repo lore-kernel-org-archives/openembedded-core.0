@@ -1,114 +1,92 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web08.4567.1631057553521185058
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web12.5136.1631060453001951490
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Sep 2021 16:32:33 -0700
+ Tue, 07 Sep 2021 17:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qna4k2Fk;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id n18so504449pgm.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 16:32:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=suQ8oWi+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id d5so452024pjx.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Sep 2021 17:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=goS867BeD6R7uP/7gKduZAr1Qhe9ycQScJUTmwuBAxo=;
-        b=Qna4k2FkmMZ2aRLgcyGbq8Y2AXSZp2onDKdNOKCk2xxgo0jQiLXDeL6Pvco/YIBVuL
-         u+k7ZXxC5bOaoGna4atiGQFYRJnuZyu41Zuqu/gbdOpbQEgKEziPUUGBrum+0crPk5Hr
-         depqcJVSswXtIZRqIDzATRNOa73WPryF2EFWu5RaXAPKwkJOFpIfyepROdYZ4cJ3B+U5
-         2kPAVkEH+uYOdDu6ee90x0iyAu/zm3/IFQbdRW9wTMtJ71Q6F1dT5a7lt2klshi2p4ZU
-         dPiRjjjeU7EffNsyopInXk5hv16/bUQELq/2gICcB9mAnBbD4vmZXfKDyhr/q7Ev4/ZO
-         8EqA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5jlX/F2wyFSz/ZKH+Wxn8LvmpcnXZnDN3Pa5GdsqGNs=;
+        b=suQ8oWi+RBHRLRr8ryRSyQf2XCdgul+3Mo4FWhdaP+wvp531MynLelc7I3Z0WCS9JG
+         TDxi4LpbayPIcsAX9SlKVptnPsLEAnn19ggRJmtFmDPRt1nTtw6EOgBpqyzHE8ozT+Q1
+         ribbRlYAky6KE53gOUyvnzN6ec07Hr0K4JcklA2xvX6/JU6EOsHzzu1OKp58PCRqZSuA
+         vDNI5tJxcPV1TkZ/lfEnSjBeF2etzeW0c3+wtlZoDo4iwMk73rlTUO/qpJdocT6gl+GC
+         oqITabZrCWsClouEcs6okgStwpPRaVNoidvs+OqLDLc5DWJAcjWZGE+UQRjAvG1l6DDq
+         i37Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=goS867BeD6R7uP/7gKduZAr1Qhe9ycQScJUTmwuBAxo=;
-        b=SHiTH3v2MtGQeP/OUhIKQoF6iTf/VjIDKQgZWXhctGaPfyY6j9acUA/Nv+dfglXynO
-         /hBSGE6hB22leWMBMW0+MLYwLss+36zZHnsBQlThAeRuP5/kn5HTKWmPcAiLbhJ6DCNe
-         HL/Zs3AJBmlmP3T7cXps23c4aM4OhA5GIDivF/8kFFrEG8GzXaX1DIMz6zC7GuNnaBdV
-         e9K7eC2HslCYwNU/4L3ewfQs8n8nizA/13M8FMkwCEI3u01CaHmo3CZfxQcf7+le9YXH
-         1N0gFbGlsRNYo6rtW3mlTP82hW7Z0XeiEMla27t3E06f8YGe440pXfE1YhM/cKXy7aoO
-         8ctQ==
-X-Gm-Message-State: AOAM532CErqG63ydoYOZN0iDlXNYaP0anSZxNiK89dsXjrSZCOc8dzGF
-	0GqR0Du+2Zal7KtGrEcfIFATpDBIKVA=
-X-Google-Smtp-Source: ABdhPJyUrb371IAZyFE6A/xW1m/5OPD8Mlsr7EY5j4VnusHPs6DGvHanvam7yYqPecCLIbT2/gKGxA==
-X-Received: by 2002:aa7:86cb:0:b0:412:448c:89c8 with SMTP id h11-20020aa786cb000000b00412448c89c8mr752999pfo.84.1631057552988;
-        Tue, 07 Sep 2021 16:32:32 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:ece:8e2f:f07e:736f])
-        by smtp.gmail.com with ESMTPSA id d200sm157186pfd.127.2021.09.07.16.32.31
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5jlX/F2wyFSz/ZKH+Wxn8LvmpcnXZnDN3Pa5GdsqGNs=;
+        b=gJxXnqegsa5MG/ktSsrk5T7pA0N2aAu4olw3bA7x4g8ohLIWPduTDVX+KD3x4qcq8K
+         j6yHCdmOhL6vgP+p8zY6HkdYmpxGfPaIdkR60i/TUQU2+J121vblF3I6ewMAy/xPyTaw
+         mWAqqXM4RTGVJyViCYSnZmiGvXVyOjaV6C0urSQPUbxpkoBN/g8kzakL4wwxyGFwoxQv
+         2BkoaR9E0PR9PjdF9PALeXazplRLXTTFcl9xYQjOS6z78s8bn7PvdcD4KZOOG6liHyFq
+         OMwnv0/YjXhpuBcYzheAENaMGvzRLGYrG80pwfC48IQZGPVgAELaKZh1H6jEA7TnguzI
+         iHhg==
+X-Gm-Message-State: AOAM531oIfoYmKxrnFfRdKbklNznR9Jml/AAQ+8t1x6ELS3EpGWEr9j5
+	LNfPbDMkwS3N5Q9CepfTDVkkVmRsQX1Kxotq
+X-Google-Smtp-Source: ABdhPJxcKj5oiOOYy7vuONApZEgi5PCNvxG70CvWZ+64mQhfMw4hvmc0hyY/ZEQtXD0GQA+jk/kEog==
+X-Received: by 2002:a17:90b:1645:: with SMTP id il5mr1031165pjb.57.1631060451645;
+        Tue, 07 Sep 2021 17:20:51 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id t14sm271924pga.62.2021.09.07.17.20.48
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 16:32:32 -0700 (PDT)
-From: "Armin Kuster" <akuster808@gmail.com>
+        Tue, 07 Sep 2021 17:20:51 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Armin Kuster <akuster@mvista.com>
-Subject: [dunfell][PATCH 5/5] dbus: upgrade 1.12.18 -> 1.12.20
-Date: Tue,  7 Sep 2021 16:32:27 -0700
-Message-Id: <20210907233227.3265977-5-akuster808@gmail.com>
+Subject: [OE-core][dunfell 0/5] Pull request (cover letter only)
+Date: Tue,  7 Sep 2021 14:20:23 -1000
+Message-Id: <cover.1631060197.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210907233227.3265977-1-akuster808@gmail.com>
-References: <20210907233227.3265977-1-akuster808@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+*The following changes since commit 448e0271ed831582bb5833486fc17b131676fb53:
 
-Source: https://git.openembedded.org/openembedded-core
-MR: 108825
-Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-core/dbus?id=bfaef91e77cd54e4f642e966903aac3f3291c325
-ChangeID: bfaef91e77cd54e4f642e966903aac3f3291c325
-Description:
+  selftest: disable virgl headless test (2021-08-27 04:58:08 -1000)
 
-Bugz only update
-Includes fix for CVE-2020-35512
+are available in the Git repository at:
 
-ab88811768 (HEAD, tag: dbus-1.12.20) v1.12.20
-5757fd5480 Update NEWS
-f3b2574f0c userdb: Reference-count DBusUserInfo, DBusGroupInfo <- cve fix
-37b36d49a6 userdb: Make lookups return a const pointer
-732284d530 Solaris and derivatives do not adjust cmsg_len on MSG_CTRUNC
-1f8c42c7cd Start 1.12.20 development
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-(From OE-Core rev: bfaef91e77cd54e4f642e966903aac3f3291c325)
+Andrej Valek (1):
+  vim: add option to disable NLS support
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bfaef91e77cd54e4f642e966903aac3f3291c325)
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../dbus/{dbus-test_1.12.18.bb => dbus-test_1.12.20.bb}       | 0
- meta/recipes-core/dbus/dbus.inc                               | 4 ++--
- meta/recipes-core/dbus/{dbus_1.12.18.bb => dbus_1.12.20.bb}   | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/dbus/{dbus-test_1.12.18.bb => dbus-test_1.12.20.bb} (100%)
- rename meta/recipes-core/dbus/{dbus_1.12.18.bb => dbus_1.12.20.bb} (100%)
+Armin Kuster (1):
+  lz4: Security Fix for CVE-2021-3520
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.18.bb b/meta/recipes-core/dbus/dbus-test_1.12.20.bb
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-test_1.12.18.bb
-rename to meta/recipes-core/dbus/dbus-test_1.12.20.bb
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 3bdb7ea4ff..dcbcc0a9d6 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,8 +10,8 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
- "
- 
--SRC_URI[md5sum] = "4ca570c281be35d0b30ab83436712242"
--SRC_URI[sha256sum] = "64cf4d70840230e5e9bc784d153880775ab3db19d656ead8a0cb9c0ab5a95306"
-+SRC_URI[md5sum] = "dfe8a71f412e0b53be26ed4fbfdc91c4"
-+SRC_URI[sha256sum] = "f77620140ecb4cdc67f37fb444f8a6bea70b5b6461f12f1cbe2cec60fa7de5fe"
- 
- EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-diff --git a/meta/recipes-core/dbus/dbus_1.12.18.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus_1.12.18.bb
-rename to meta/recipes-core/dbus/dbus_1.12.20.bb
+Matt Madison (1):
+  layer.conf: fix syntax error in PATH setting
+
+Richard Purdie (1):
+  sdk: Decouple default install path from built in path
+
+Ross Burton (1):
+  cpio: backport fix for CVE-2021-38185
+
+ meta/classes/populate_sdk_base.bbclass        |   1 +
+ meta/conf/bitbake.conf                        |   4 +-
+ meta/conf/layer.conf                          |   2 +-
+ meta/files/toolchain-shar-extract.sh          |   3 +-
+ meta/files/toolchain-shar-relocate.sh         |   2 +-
+ .../cpio/cpio-2.13/CVE-2021-38185.patch       | 581 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.13.bb       |   1 +
+ .../lz4/files/CVE-2021-3520.patch             |  27 +
+ meta/recipes-support/lz4/lz4_1.9.2.bb         |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 10 files changed, 621 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
+ create mode 100644 meta/recipes-support/lz4/files/CVE-2021-3520.patch
+
 -- 
 2.25.1
 
