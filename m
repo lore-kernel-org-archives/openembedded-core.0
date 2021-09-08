@@ -1,196 +1,134 @@
-Received: from us-smtp-delivery-110.mimecast.com (us-smtp-delivery-110.mimecast.com [216.205.24.110])
- by mx.groups.io with SMTP id smtpd.web11.14823.1631121875433448095
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.41])
+ by mx.groups.io with SMTP id smtpd.web10.15116.1631122043908460261
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 10:24:35 -0700
+ Wed, 08 Sep 2021 10:27:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@globallogic.com header.s=mimecast20210517 header.b=X9BmfG+N;
- spf=permerror, err=parse error for token &{10 18 _spf.psm.knowbe4.com}: limit exceeded (domain: globallogic.com, ip: 216.205.24.110, mailfrom: oleh.matiusha@globallogic.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=globallogic.com;
-	s=mimecast20210517; t=1631121874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iUtnfgiU4upTM78xzhXxVWPapgUIE2m75BBhtpmsTGE=;
-	b=X9BmfG+NeJtwcdHeAGZU/FUq/4WsBaAD8HtF+lGNM/RO1ateB+1HbKkq/mw9tZVXU8Gtk4
-	wBTMoMuRka0Vqcxzp2hbBmUyVmFEPfvD7kCKYfTq4deIJRtraVWevHgUnV8LNk0siXxL+1
-	BnkF+eG/L4/oxDzaedwkmQrpah4lZRkUQbYPcCcdv0LHNvFGrog+jHjXN8dSI/cZEOLMo6
-	1rXNurANarusgaS7GdQ/yxkoaczhbZWYpUcOj3VYHhQwd/UBB5bANQEct2xLLSg0gv5Bz7
-	HTOjcGzEf5Tr7X15i4xNOpSmmcsr+qNaiGeB8aa47DXUtkc1hefYtsnp8Pmfbg==
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-R09JO8CqPX-On1n3LNGBOQ-1; Wed, 08 Sep 2021 13:24:33 -0400
-X-MC-Unique: R09JO8CqPX-On1n3LNGBOQ-1
-Received: by mail-ej1-f72.google.com with SMTP id 22-20020a170906301600b005ca77a21183so1323120ejz.20
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 10:24:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Rwz08i/pWuXbE88ajasAOs8/VGmHaVtBZ6ggjTqKkZQ=;
-        b=frH/VAirq/EjO+LTYgVSO1/QsmjcDy56YHCP/VRxY1PId2NklYys1QVqnv9Xtajntm
-         gArHZT4YQSPTM4yJqwyUFAKytpuXSBAtwxxf899JgbWY9M9gLSsP1SItG1PwsC8mdqB5
-         bg6nkungbeIXHOeqDkkzZOygxua1VxtJDDddlwxjEhN/RZgO8FriE0C2Tl3ocjrNGu3/
-         yS4+txIWEXUf2kkmlmq1GO8wNZjAKpsqNG0Nxi6kkWhHbrq+e2hFUwzG84HGVrMftcce
-         4SR69dj8wJxp9hRTEk6mexo0ZZKSwAEqqb74p8xTKyBOdjtnvJa5hcATIcvUU0L8qcz7
-         xo4Q==
-X-Gm-Message-State: AOAM532wJkiqL8IpmkQeyPlJHsOgJzZ5/tNPtOEbJ1SV2NolHAyYcptO
-	1d7m0opPfyWDNJXjFR306bLaEI7ivsI15/PIR+G5JsD+263V6eN17h+uBcLX1NL6QvCykpkjDre
-	UTAZpFPi1VbNaqRde/pxriVfFLX3oSXo36/v2Umo=
-X-Received: by 2002:a05:6402:34c5:: with SMTP id w5mr4727232edc.67.1631121871837;
-        Wed, 08 Sep 2021 10:24:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnD8vK806C2/1A9yzfPEXxFS+3/xlYr1GabTt/Is/GMBrKfjOSoK8N+Q5gNK3MKsQG0psCHA==
-X-Received: by 2002:a05:6402:34c5:: with SMTP id w5mr4727197edc.67.1631121871392;
-        Wed, 08 Sep 2021 10:24:31 -0700 (PDT)
-Return-Path: <oleh.matiusha@globallogic.com>
-Received: from kbp1-lhp-f71885.bcm.net.ua ([178.54.245.173])
-        by smtp.gmail.com with ESMTPSA id t5sm1493247edd.66.2021.09.08.10.24.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 10:24:30 -0700 (PDT)
-From: "Oleh Matiusha" <oleh.matiusha@globallogic.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleh Matiusha <oleh.matiusha@globallogic.com>
-Subject: [PATCH v2] findutils: add ptest
-Date: Wed,  8 Sep 2021 20:17:54 +0300
-Message-Id: <20210908171753.2619967-1-oleh.matiusha@globallogic.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=r9AFPzAR;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.92.41, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QPzYME2bg6r+feFIC2+aIePhKNkner2Bgx44uxI+zVG1cNSu4Mxc6i30B1y7RYyqSRLAq0hUMcg3Ci5ECGApQ7h6GVEGKW9PkH2tCmXmkpdpkSjoHczg8L61C+hRwVPunDr67cQoNwZWz43HbTzxbJp603DNK0ajZfgM78Yy6yR7CRaH7RaU9sFBpdqtJvDQfLz4AX2EfoSAcPR5ZZ+/1Clevs/Kn3BQ5hakfDRZyssnXmVcpIhYbKkHkVNrOOKfXl0EPLXsVb/RNx6J3hERomKizFGcQ6cCAgb2saSIpJEIZpNhFHQOb1UMZxkudPKnrfQJjWUisiYxwH29uyMl7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=R0SWVFK6LlessiJKVkItyTu9iWPwNtFG4BBFjHuoJEM=;
+ b=WrQhfxqKe/SHIReM+xudfBCKT5CHwZamhmES+9aeMfmftKbq1NAxEclnO67sbXZChF+Yse/YVBbGIWCNQpZvgqP4YHoB/MhCVtVU8VWEUmSKBoTOcW4nsNjuhzVtFzf337Cr6Zbedv3dfjVf1DkbnIaO9GlL3oXEHGbIns06GD4wHIpdlDAeCo9mn65DLSGwmmov92sTU3C5IzOs+yHMTOq9g863q3Ip+6OV1XxD7o6+mnfSYAr3F5AkWhQMTApY2VvAfM20PpVLM8OLNgzYZs9kvilBJqgcXUa0rKcq9A4TmpHVBwLw/R+lcrsldm9rrSV3YBcvOtACYGHuBGM+fQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
+ dkim=pass header.d=agilent.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R0SWVFK6LlessiJKVkItyTu9iWPwNtFG4BBFjHuoJEM=;
+ b=r9AFPzARrh67N2E0oHH5L73t7Rs/f6cLMVE7sy8QDL9CqTbZ12VGCb8QJTv/LZkatFowuUHA+9ovjh0yybx6e4wNGMm6PSb+pdYTkL2ZokZb3kx/JWZ6bqSXp5ctXYnw83P8dtqp/IrozKuGeCg7nhihynxB5UbZpBm6NLDaL9C2c2Sy2X3hodnKB8+wUbFroDNOaBlK+q/FqD7Vw8uRy9harHEEc5GDQ6LkwgdD5kd3sbQvLvZ6PDTr1nOukI6PopFD9zNuJqfwdB95HyhCR73KJryFnKIZhndWg4UnaT9Jdc6+qkb4nn6DdcfqrKPut4j3cEd8joREaoR6D4COog==
+Received: from DM8PR12MB5430.namprd12.prod.outlook.com (2603:10b6:8:28::6) by
+ DM4PR12MB5213.namprd12.prod.outlook.com (2603:10b6:5:394::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4500.14; Wed, 8 Sep 2021 17:27:22 +0000
+Received: from DM8PR12MB5430.namprd12.prod.outlook.com
+ ([fe80::90a6:948:7427:ff12]) by DM8PR12MB5430.namprd12.prod.outlook.com
+ ([fe80::90a6:948:7427:ff12%9]) with mapi id 15.20.4478.025; Wed, 8 Sep 2021
+ 17:27:22 +0000
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Joshua Watt <JPEWhacker@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [hardknott][PATCH] bitbake: server: Fix early parsing errors preventing zombie bitbake
+Thread-Topic: [OE-core] [hardknott][PATCH] bitbake: server: Fix early parsing
+ errors preventing zombie bitbake
+Thread-Index: AQHXnbcbeGibdJcGcUmBl4RSKZFfAauacc6w
+Date: Wed, 8 Sep 2021 17:27:22 +0000
+Message-ID: 
+ <DM8PR12MB543089FBA26942E145A386568BD49@DM8PR12MB5430.namprd12.prod.outlook.com>
+References: <16A0207AC2905018.25648@lists.openembedded.org>
+In-Reply-To: <16A0207AC2905018.25648@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=agilent.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 633effbd-e657-47ad-0b4d-08d972edeb11
+x-ms-traffictypediagnostic: DM4PR12MB5213:
+x-microsoft-antispam-prvs: 
+ <DM4PR12MB52132E941A41D700539880CE8BD49@DM4PR12MB5213.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2331;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ G2mNsx+cFaFE4444IeZA5RfftQEEREVq2ThX1PE3DdTtUD1NoxPkdeoGn5m67E9vEng8R/4NQtGy96gn2nNHRYrQ8Ugfj5+7gwn2uXCfLh009fsgIMQddOYRW9Ty5sXCTsgbrZlvkHVLYx4wATOw9V9xzLKjihqRmVdBIqsTwI8xidiIdX0YuFG5wLDGdmk+K15s2oDvk6EkjL6Bt6GlSpE8BEu2dJ85xCyug0oNXLq3tHvGOKLLNlRA8XlYO4RnBtnGYiekEKaedltpD8fqhHj3dQlQh7iWdoHuD7t3Wl9l1AR9fCIge7fJ55Q/KtBsSO/vF5KDlUR9Tyx52PAjifctcYWxfYi9QUqTea45jc1USv41X9Ad9OAQZYG3+pflFeK5ZbeUFQsNm+ZgCI6uGBTLRLtqJlt18dCYj1gnY05MtBP7wxwicnWywqyYS7aZUOJeuq+VldT+8RQZBaQBQdS7D9rXfbewO0iSKBJiXRKdtfm+UOx40q05ySuQQIRgkOR36/sh645ELd8rfMG9TKIiusPFYvi3EAyjy1qGYcRgIgVlWBuQMEZPBtVGUh/H7Hvgf+m/p3OnxhRFjyNwODtmYg09fTzBgffkiBDHvPUZjWfeeDOq5VFuKhuSVkcaLXTcX+YAAOh5Xzt7fFU+U05y5BkkOzfj1puO8AvtdBbdmKwTQg5Cc+aUxg2feEKGTI4/Jd/CkSe0969NK00kQPki3tQ5aJ1VU20DGLSTPjOszhVC3fd25hhBomZA0uFd
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5430.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(29502001)(55016002)(2906002)(54906003)(8936002)(316002)(508600001)(6506007)(4326008)(4744005)(38070700005)(86362001)(9686003)(7696005)(66476007)(52536014)(66446008)(5660300002)(33656002)(66946007)(64756008)(66556008)(71200400001)(26005)(8676002)(6916009)(186003)(83380400001)(38100700002)(76116006)(122000001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?RxJi8/vvTRarfb8cZfXotQMzHuONaJQ86yY+5AzmcNRmz3JXfIyBsLhIhnPi?=
+ =?us-ascii?Q?aztMfeXjQz87zeei1eYpkoVtXAHlUPbHA1/V3YpmODcL8H5zGHrQDY9svXqS?=
+ =?us-ascii?Q?MJUrzzjJWMa6CJKYnXdj/S0Qb84iRarMsOjSt3NcuhaqUzEYxATgTrBIxIc7?=
+ =?us-ascii?Q?bPwq5c7w59eO3OS/u2knBTZQ77bxBGeDBNAT3lQOP/R9z29ZCuMp0P+HY+yB?=
+ =?us-ascii?Q?oeg0A5BXab8AVOBofEmMI++RqFzxXDWIfS0Qpd4l09fxuK68ld9ZSmSRnbHT?=
+ =?us-ascii?Q?zDgB8J22iZJ9O/oPyXKQ1qnVDyHw7fo6+k47EuUGkGA+tsDDQ18ZAZNkDLLo?=
+ =?us-ascii?Q?5qdtKO8iIjkx3bq8NJ20jB3o+j3sJwgRmHelXRZUY0ODcgSKRSRDvKB3hRlF?=
+ =?us-ascii?Q?dG7eB6rIcidZ3uL00x7BgCMIAdAqsNvlsJx7wSWu6oXiRheKH7CkZQUWhbuZ?=
+ =?us-ascii?Q?nabUlPPyikJMtUuUgv3cioTW/7plv2WYjbTQFnNF9OVgD/C9FVaJ+d4GPA+K?=
+ =?us-ascii?Q?JTmAcROIrCBJjtTmECDk3kBwVNIZLPUV+EvJebmPYLy2KAu3nlIoc42roami?=
+ =?us-ascii?Q?Kfgf0IBpxZfXlKhrSfhSjb67MhffcPOPkBOmjJr/NTqhe8tw3vt257+rrDBO?=
+ =?us-ascii?Q?jXPIXn3MJHj+CjM6fgtgc+1ilxhRYYLU0ANlxDkKAmL520yCWhwwHTY7jQ7e?=
+ =?us-ascii?Q?jSsMaE1t2+/xJ+hxxs1uf9UJVllJHZmvaaMoNgnF5Zi1DNpXzno/ZNRE0QCg?=
+ =?us-ascii?Q?/1MKa4w2ZCHmqK8FGBsYCqe7oLBgfNxTqVnpYNPWc0l9wniTTvLfd9H9K/Fq?=
+ =?us-ascii?Q?fSAugjzspi6b29iFGnbn7LFshq+6f0Lr5rG/erQrgxR8Wmuw0W8a4VD2ReyN?=
+ =?us-ascii?Q?8Ns9hifqL/digMoDpD+OR3GxFm2T6MayoXAw54OmR+1ZCyV95in2gqhLy1sN?=
+ =?us-ascii?Q?GFeAD7kt/G3TxF7boSMJeTdvsQmsrpmGD40UBzzO5chnJ7vJp59w1Ho1RD24?=
+ =?us-ascii?Q?2pNSsPa2V0LE/iyNY09ipImJvLXkx4fv5OS+/BSsUeTCvccV2fIzxbxSMfmO?=
+ =?us-ascii?Q?KSt7KOBqQ6m9TZtmDhRHUnNi62F5MAaNO0bfHQMqtbWrTGC4ST0dWh8ZAYK4?=
+ =?us-ascii?Q?VSH20Nqc5m8SsoMHefdOxbSGnd93SrZY271TSKkQm6giX4q2dB5XszAqk4hr?=
+ =?us-ascii?Q?1fZkoWNUoXCL0HPrHCXI7paQKMgWyypgIzj5jEtGuuGgSCRWcWxiiNC+MA6Z?=
+ =?us-ascii?Q?G9YAXVHx1rVIH9A6iKP1ZPR7RJOucY6cnTI8/p3mtj7MrPjcZYN684n9r5wa?=
+ =?us-ascii?Q?reim+Kq8aGhq5pEA9CdId5Ln?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA110A380 smtp.mailfrom=oleh.matiusha@globallogic.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: globallogic.com
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5430.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 633effbd-e657-47ad-0b4d-08d972edeb11
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2021 17:27:22.5447
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +qux2lGaGRW/8eiuL6xdT0KKRWiBofUy/AvrPNcXnwPvAvQVGLKQ3oWuG48CC9pBxSsekzPZuL9LfUMux1pqkRjvjecSDpyKCWBiCfrMZJU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5213
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="US-ASCII"
 
-Fixed warning spotted by Alexandre Belloni by adding findutils-ptest to pte=
-st-packagelists.inc.=20
-Placed it in PTESTS_SLOW since it takes 36s to execute this ptest on qemu.
+Hello,
 
-Signed-off-by: Oleh Matiusha <oleh.matiusha@globallogic.com>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/findutils/findutils.inc |  6 +-
- .../findutils/findutils/run-ptest             | 57 +++++++++++++++++++
- .../findutils/findutils_4.8.0.bb              | 11 ++++
- 4 files changed, 73 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/findutils/findutils/run-ptest
+> If the client process never sends cooker data, the server timeout will be=
+ 0.0,
+> not None. This will prevent the server from exiting, as it is waiting for=
+ a new
+> client. In particular, the client will disconnect with a bad "INHERIT" li=
+ne, such
+> as:
+>=20
+>     INHERIT +=3D "this-class-does-not-exist"
+>=20
+> Instead of checking explicitly for None, check for a false value, which m=
+eans
+> either 0.0 or None.
+>=20
+> (Bitbake rev: 7668057f8565655611de23d143432d1c05dae3ce)
+>=20
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 881005ec405f26b8f7f4b41505d69579e83b69c4)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index e0ae1dd971..2cd97d90ec 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -71,6 +71,7 @@ PTESTS_SLOW =3D "\
-     coreutils-ptest \
-     dbus-test-ptest \
-     e2fsprogs-ptest \
-+    findutils-ptest \
-     glib-2.0-ptest \
-     gstreamer1.0-ptest \
-     libevent-ptest \
-diff --git a/meta/recipes-extended/findutils/findutils.inc b/meta/recipes-e=
-xtended/findutils/findutils.inc
-index ea8a1b7afe..ddcc05750b 100644
---- a/meta/recipes-extended/findutils/findutils.inc
-+++ b/meta/recipes-extended/findutils/findutils.inc
-@@ -6,9 +6,11 @@ HOMEPAGE =3D "http://www.gnu.org/software/findutils/"
- BUGTRACKER =3D "http://savannah.gnu.org/bugs/?group=3Dfindutils"
- SECTION =3D "console/utils"
-=20
--SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.xz"
-+SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.xz \
-+          file://run-ptest \
-+          "
-=20
--inherit autotools gettext texinfo update-alternatives
-+inherit autotools gettext texinfo update-alternatives ptest
-=20
- ALTERNATIVE:${PN} =3D "find xargs"
- ALTERNATIVE_PRIORITY =3D "100"
-diff --git a/meta/recipes-extended/findutils/findutils/run-ptest b/meta/rec=
-ipes-extended/findutils/findutils/run-ptest
-new file mode 100644
-index 0000000000..ec71583c51
---- /dev/null
-+++ b/meta/recipes-extended/findutils/findutils/run-ptest
-@@ -0,0 +1,57 @@
-+#!/bin/bash
-+
-+# create temporary symlink to workaround missing oldfind
-+ln -s /usr/bin/find /tmp/oldfind
-+# make oldfind visible
-+export PATH=3D"/tmp:${PATH}"
-+
-+export built_programs=3D"find xargs locate updatedb"
-+
-+# this gets substituted by sed during build
-+export VERSION=3D"__run_ptest_version__"
-+
-+# define missing functions for tests/init.sh
-+fu_path_prepend_ () {
-+=09path_prepend_ $@
-+}
-+
-+print_ver_ () {
-+=09:
-+}
-+
-+skip_if_root_ () {
-+=09[ $(id -u) =3D 0 ] && exit 77;
-+}
-+
-+require_root_ () {
-+=09[ $(id -u) =3D 0 ] || exit 77;
-+}
-+
-+expensive_ () {
-+=09:
-+}
-+
-+export -f fu_path_prepend_
-+export -f print_ver_
-+export -f skip_if_root_
-+export -f require_root_
-+export -f expensive_
-+
-+
-+for f in tests/*/*.sh; do
-+=09bash $f ;
-+=09case $? in
-+=09=090 )
-+=09=09=09echo -n "PASS";;
-+=09=0977 )
-+=09=09=09echo -n "SKIP";;
-+=09=09* )
-+=09=09=09echo -n "FAIL";;
-+=09esac
-+=09echo ": $f"
-+done
-+
-+#remove symlink
-+rm -f /tmp/oldfind
-+
-+echo
-diff --git a/meta/recipes-extended/findutils/findutils_4.8.0.bb b/meta/reci=
-pes-extended/findutils/findutils_4.8.0.bb
-index 675e53c0da..356fb05be6 100644
---- a/meta/recipes-extended/findutils/findutils_4.8.0.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.8.0.bb
-@@ -12,3 +12,14 @@ SRC_URI[sha256sum] =3D "57127b7e97d91282c6ace556378d5455=
-a9509898297e46e10443016ea1
- CACHED_CONFIGUREVARS +=3D "gl_cv_func_wcwidth_works=3Dyes"
-=20
- EXTRA_OECONF +=3D "ac_cv_path_SORT=3D${bindir}/sort"
-+
-+RDEPENDS:${PN}-ptest +=3D "bash sed grep"
-+
-+do_install_ptest:class-target() {
-+=09mkdir -p ${D}${PTEST_PATH}/tests/
-+=09cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+
-+=09# substitute value in run-ptest with actual version
-+=09sed -i -e 's/__run_ptest_version__/${PV}/' ${D}${PTEST_PATH}/run-ptest
-+
-+}
---=20
-2.25.1
+Was this the correct for me to request application of this patch to hardkno=
+tt branch? I've never tried to submit a patch to something other than maste=
+r.
 
+No rush obviously, just wanted to check that I was doing it right.
+
+Thanks,
+Chris=20
