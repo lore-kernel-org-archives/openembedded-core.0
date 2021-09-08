@@ -1,93 +1,105 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
- by mx.groups.io with SMTP id smtpd.web10.12526.1631112141970029473
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web09.12220.1631112142965791696
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 07:42:22 -0700
+ Wed, 08 Sep 2021 07:42:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=SUh782XH;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=POxO6kxC;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1631112140; i=@fujitsu.com;
-	bh=6Y6Q89X5l3hnW5QqR67JV1Br7dz+ZQoO9FFFadlAh6c=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=SUh782XHlBEF0dpnJFM53sS7BoJxswpfvpEsaEpWFtzsLAo/2DW3dR1g8TKmOkRch
-	 p71Vadqa3J77YBXST6HgABTPpJ1p4TmDJgT75RQbhSrncM91pPRpr3vBe9HEUciScZ
-	 MoPQIKzMEOOILNegcCKDDNQq1pHtixqB/gsiurAte2KCqElhc0YvEdfh5EBzldHGPo
-	 ihRZe++m32Je1X+DIs2K6kZNgBNZtIsnGVyXN+RWY9LErp2tXm6+bqmaIawiY55U0F
-	 LnMgh90V8Tp8giklKFo3KM1rXeACiX3gj5OJkGMhTvJXJJvCnd2SLAtqkSO+lJCsaA
-	 pP/cUKbXE7rJA==
+	bh=bBMZKRsxH1IxcYlplUoBk69zk6UiCtXo8S29ewCHNCA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=POxO6kxCqMBTf2lZmvKAQuKMXFhiBUd0Pv9UIkgz+phXDEyHxCOFjfQ/PTgIDsFJw
+	 nxwdlhdFS0fGEYBkXb9QE0JD+dNmcwRoh3s4iPjxIyhkZv5Y0ZDk8pDdBnHsC31BTg
+	 xElmk6ArcBkTpwqHWLgR+KJBUjzPKInwU1IkvT516wDT1GWuJiFWW8kFCnRNoEqahV
+	 l2ASnMUGtSWCQh17GsVA+ozn3hEegO3sej4Bi20QEPq2UC/aArsdWdwi4SVYU2ttcx
+	 mK3eyHSp0pJVDYG4ypI6+2Iq9dRnrRz9VsmopOclGDZ43WgKfUC6WSoOYSD0alKYNY
+	 7rzycUPfRts8A==
 Received: from [100.113.6.150] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id 7E/83-14951-CCBC8316; Wed, 08 Sep 2021 14:42:20 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRWlGSWpSXmKPExsViZ8MRonv6tEW
-  iwd0VxhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bnlD7Wgu9cFWvbprM2MP7m7GLk4hASmMkk
-  MfvlATYI5zijRPe1i6xdjJwcbAJqEtNv3QCyOThEBPQkrv4TBQkzC6hIvPjdww5iCwuYSsz7u
-  4oJxGYBis+/+YIRxOYVcJJ4/WspM4gtIaAgMeXhe2aIuKDEyZlPWCDmSEgcfPECqkZRYvblZh
-  YIu0Ji1qw2pgmMvLOQtMxC0rKAkWkVo2VSUWZ6RkluYmaOrqGBga6hobGuqa6RgaFeYpVukl5
-  qqW5yal5JUSJQVi+xvFivuDI3OSdFLy+1ZBMjMMBSCllP7mCc9OaD3iFGSQ4mJVHeXbstEoX4
-  kvJTKjMSizPii0pzUosPMcpwcChJ8GqeAsoJFqWmp1akZeYAgx0mLcHBoyTC63QEKM1bXJCYW
-  5yZDpE6xagoJc67BqRPACSRUZoH1waLsEuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHmtQK
-  bwZOaVwE1/BbSYCWhx20MTkMUliQgpqQYm2b7ym3PTJjTLPZ5rt9hIal78rpLjd3Z/V/S5v/O
-  dcsQrXeVorzf8zCsYdfVFDY5W3Y+fv8jd+Oi5rUf+aPXNsY/PPayblqDya3Vw0b0ZPIeO1Gvy
-  dm4yqqu8ESDecIylyVMyZv1Jkf3/Zrbn3fuxdM7zR7fvpejnpodHmk/6+U7xVZOXUI3QnSoxz
-  +THiw/Pe1xb2tl5+X2wg4NcR1t40V5eg6IzznHx2y7qWpbFXgizL57zJU3tSvGSmo/NApdvzm
-  bO9dASDJ/ef2/K5v+WXT1PD4q4r366NuPB4me9N8xZNm/5HufrLF1Zuaf88rVfFdN2WuTY9Le
-  z2f87+znhpbH+w03d3t/Z/k+/ynJbiaU4I9FQi7moOBEAW6XbaisDAAA=
+	by server-1.bemta.az-b.eu-central-1.aws.symcld.net id DA/96-23595-CCBC8316; Wed, 08 Sep 2021 14:42:20 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRonv6tEW
+  iwef9hhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aByefZCpp4K+YtvsXYwHiVu4uRi0NIYCaT
+  xJMNr1ggnOOMEtPPTgNyODnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBF4sXvHnYQW1jAWuLQj
+  ResIDYLULxnx24mEJtXwEni8M6VYGMkBBQkpjx8zwxicwo4S6y+uJ4RZKQQUE3PIxaIckGJkz
+  OfsECMl5A4+OIFM0SrosTsy81QYyokZs1qY5rAyD8LScssJC0LGJlWMVomFWWmZ5TkJmbm6Bo
+  aGOgaGhrrmusamRrpJVbpJumlluomp+aVFCUCZfUSy4v1iitzk3NS9PJSSzYxAsMxpZD9zw7G
+  668/6B1ilORgUhLl3bXbIlGILyk/pTIjsTgjvqg0J7X4EKMMB4eSBK/mKaCcYFFqempFWmYOM
+  DZg0hIcPEoivE5HgNK8xQWJucWZ6RCpU4yKUuK8a0D6BEASGaV5cG2weLzEKCslzMvIwMAgxF
+  OQWpSbWYIq/4pRnINRSZjXCmQKT2ZeCdz0V0CLmYAWtz00AVlckoiQkmpg6hY7aHee9Yh/IPv
+  B3UGxD3fv8pxteP/T1dgqsxltgi8N735mVLm1+PFWu0OyAuLX5s5PeXXfdnPCwug25rM1e/Li
+  nJcrrP+XZC3oMFl2bqdLwJq9XG4fnXoui19wfvzMxV/xvnPplwib+t8KenuV01pzPKN0Vl/7s
+  WHNmjQmloddBvYHCsJdF3YnKF65+vx7/P/1+T5LH4ksv/Zg7Xad/2v16guPn3vffmabn/bpjc
+  nTNxpPk0uOCqnV3Bokss//YV7R7tn3XnkEHo58ncuxvOxZx2G1ec1f1/dPKKo139R4+LWJ7wP
+  vS0y3b9losTmm3xPOnrH5+lvuTecZZLkT55x7G+ofPLW0w+/vIffFaUosxRmJhlrMRcWJAPrc
+  pUxCAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-7.tower-245.messagelabs.com!1631112139!52825!1
+X-Msg-Ref: server-11.tower-248.messagelabs.com!1631112139!46109!1
 X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.4; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 1347 invoked from network); 8 Sep 2021 14:42:19 -0000
+Received: (qmail 26000 invoked from network); 8 Sep 2021 14:42:19 -0000
 Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-7.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Sep 2021 14:42:19 -0000
+  by server-11.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Sep 2021 14:42:19 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 188EgDqh019599
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 188EgDqi019599
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Wed, 8 Sep 2021 15:42:19 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Wed, 8 Sep 2021 15:42:12 +0100
+ (TLS) id 15.0.1497.23; Wed, 8 Sep 2021 15:42:15 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] gzip: upgrade 1.10 -> 1.11
-Date: Wed, 8 Sep 2021 22:41:58 +0800
-Message-ID: <1631112120-19285-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] harfbuzz: upgrade 2.9.0 -> 2.9.1
+Date: Wed, 8 Sep 2021 22:41:59 +0800
+Message-ID: <1631112120-19285-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1631112120-19285-1-git-send-email-wangmy@fujitsu.com>
+References: <1631112120-19285-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
+Final subset API is in place and if no issues are discovered,
+it will be the stable subset API of HarfBuzz 3.0.0.
+Old API is kept to ease transition, but will be removed in 3.0.0.
+Various fuzzer-found bug fixes.
+hb_buffer_append() now handles the pre- and post-context which
+previously were left unchanged in the destination buffer.
+hb-view / hb-shape now accept following new arguments:
+--unicodes-before/after: takes a list of hex numbers that represent Unicode
+codepoints.
+Undeprecated API:
+hb_set_invert()
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../gzip/{gzip-1.10 => gzip-1.11}/wrong-path-fix.patch         | 0
- meta/recipes-extended/gzip/{gzip_1.10.bb => gzip_1.11.bb}      | 3 +--
- 2 files changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-extended/gzip/{gzip-1.10 => gzip-1.11}/wrong-path-fix.patch (100%)
- rename meta/recipes-extended/gzip/{gzip_1.10.bb => gzip_1.11.bb} (90%)
+ .../harfbuzz/{harfbuzz_2.9.0.bb => harfbuzz_2.9.1.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.9.0.bb => harfbuzz_2.9.1.bb} (95%)
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.10/wrong-path-fix.patch b/meta/recipes-extended/gzip/gzip-1.11/wrong-path-fix.patch
-similarity index 100%
-rename from meta/recipes-extended/gzip/gzip-1.10/wrong-path-fix.patch
-rename to meta/recipes-extended/gzip/gzip-1.11/wrong-path-fix.patch
-diff --git a/meta/recipes-extended/gzip/gzip_1.10.bb b/meta/recipes-extended/gzip/gzip_1.11.bb
-similarity index 90%
-rename from meta/recipes-extended/gzip/gzip_1.10.bb
-rename to meta/recipes-extended/gzip/gzip_1.11.bb
-index 120e1d4580..eb3054cc48 100644
---- a/meta/recipes-extended/gzip/gzip_1.10.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.11.bb
-@@ -36,5 +36,4 @@ do_install_ptest() {
-             ${B}/tests/Makefile > ${D}${PTEST_PATH}/src/tests/Makefile
- }
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.9.1.bb
+index bc91a8c03c..694553beef 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.1.bb
+@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
--SRC_URI[md5sum] = "cf9ee51aff167ff69844d5d7d71c8b20"
--SRC_URI[sha256sum] = "c91f74430bf7bc20402e1f657d0b252cb80aa66ba333a25704512af346633c68"
-+SRC_URI[sha256sum] = "3e8a0e0c45bad3009341dce17d71536c4c655d9313039021ce7554a26cd50ed9"
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "3e1c2e1d2c65d56364fd16d1c41a06b2a35795496f78dfff635c2b7414b54c5a"
++SRC_URI[sha256sum] = "0edcc980f526a338452180e701d6aba6323aef457b6686976a7d17ccbddc51cf"
+ 
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+ 
 -- 
 2.25.1
 
