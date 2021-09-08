@@ -1,146 +1,196 @@
-Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web09.12382.1631112815390124964
+Received: from us-smtp-delivery-110.mimecast.com (us-smtp-delivery-110.mimecast.com [216.205.24.110])
+ by mx.groups.io with SMTP id smtpd.web11.14823.1631121875433448095
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 07:53:36 -0700
+ Wed, 08 Sep 2021 10:24:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=3hlhQXTZ;
- spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
-From: "Kristian Klausen" <kristian@klausen.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1631112812;
+ dkim=pass header.i=@globallogic.com header.s=mimecast20210517 header.b=X9BmfG+N;
+ spf=permerror, err=parse error for token &{10 18 _spf.psm.knowbe4.com}: limit exceeded (domain: globallogic.com, ip: 216.205.24.110, mailfrom: oleh.matiusha@globallogic.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=globallogic.com;
+	s=mimecast20210517; t=1631121874;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=aToDdaja7BshuXLdpHMPn5XFefCxxXFQIx9D4AtXVP4=;
-	b=3hlhQXTZQ4vZxBts++tiHXwSR3clLOfNMReERz9U2CMlSh42whmqtBkUim5zUhp0sijRjg
-	y8nDCVzbK5Z+A5UIwgMNpfA3QVb0C40dEOnuCwUIFl8g0KvauJtGrQr2Q/99oeIICLPSpa
-	z6PRibRYVnID1rzzcofXIgR908BKE3E=
+	bh=iUtnfgiU4upTM78xzhXxVWPapgUIE2m75BBhtpmsTGE=;
+	b=X9BmfG+NeJtwcdHeAGZU/FUq/4WsBaAD8HtF+lGNM/RO1ateB+1HbKkq/mw9tZVXU8Gtk4
+	wBTMoMuRka0Vqcxzp2hbBmUyVmFEPfvD7kCKYfTq4deIJRtraVWevHgUnV8LNk0siXxL+1
+	BnkF+eG/L4/oxDzaedwkmQrpah4lZRkUQbYPcCcdv0LHNvFGrog+jHjXN8dSI/cZEOLMo6
+	1rXNurANarusgaS7GdQ/yxkoaczhbZWYpUcOj3VYHhQwd/UBB5bANQEct2xLLSg0gv5Bz7
+	HTOjcGzEf5Tr7X15i4xNOpSmmcsr+qNaiGeB8aa47DXUtkc1hefYtsnp8Pmfbg==
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-R09JO8CqPX-On1n3LNGBOQ-1; Wed, 08 Sep 2021 13:24:33 -0400
+X-MC-Unique: R09JO8CqPX-On1n3LNGBOQ-1
+Received: by mail-ej1-f72.google.com with SMTP id 22-20020a170906301600b005ca77a21183so1323120ejz.20
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 10:24:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rwz08i/pWuXbE88ajasAOs8/VGmHaVtBZ6ggjTqKkZQ=;
+        b=frH/VAirq/EjO+LTYgVSO1/QsmjcDy56YHCP/VRxY1PId2NklYys1QVqnv9Xtajntm
+         gArHZT4YQSPTM4yJqwyUFAKytpuXSBAtwxxf899JgbWY9M9gLSsP1SItG1PwsC8mdqB5
+         bg6nkungbeIXHOeqDkkzZOygxua1VxtJDDddlwxjEhN/RZgO8FriE0C2Tl3ocjrNGu3/
+         yS4+txIWEXUf2kkmlmq1GO8wNZjAKpsqNG0Nxi6kkWhHbrq+e2hFUwzG84HGVrMftcce
+         4SR69dj8wJxp9hRTEk6mexo0ZZKSwAEqqb74p8xTKyBOdjtnvJa5hcATIcvUU0L8qcz7
+         xo4Q==
+X-Gm-Message-State: AOAM532wJkiqL8IpmkQeyPlJHsOgJzZ5/tNPtOEbJ1SV2NolHAyYcptO
+	1d7m0opPfyWDNJXjFR306bLaEI7ivsI15/PIR+G5JsD+263V6eN17h+uBcLX1NL6QvCykpkjDre
+	UTAZpFPi1VbNaqRde/pxriVfFLX3oSXo36/v2Umo=
+X-Received: by 2002:a05:6402:34c5:: with SMTP id w5mr4727232edc.67.1631121871837;
+        Wed, 08 Sep 2021 10:24:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnD8vK806C2/1A9yzfPEXxFS+3/xlYr1GabTt/Is/GMBrKfjOSoK8N+Q5gNK3MKsQG0psCHA==
+X-Received: by 2002:a05:6402:34c5:: with SMTP id w5mr4727197edc.67.1631121871392;
+        Wed, 08 Sep 2021 10:24:31 -0700 (PDT)
+Return-Path: <oleh.matiusha@globallogic.com>
+Received: from kbp1-lhp-f71885.bcm.net.ua ([178.54.245.173])
+        by smtp.gmail.com with ESMTPSA id t5sm1493247edd.66.2021.09.08.10.24.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Sep 2021 10:24:30 -0700 (PDT)
+From: "Oleh Matiusha" <oleh.matiusha@globallogic.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Kristian Klausen <kristian@klausen.dk>
-Subject: [RFC][PATCH] kernel: Add Unified Kernel Image image type
-Date: Wed,  8 Sep 2021 16:53:16 +0200
-Message-Id: <20210908145316.223635-1-kristian@klausen.dk>
-X-Mailer: git-send-email 2.33.0
+Cc: Oleh Matiusha <oleh.matiusha@globallogic.com>
+Subject: [PATCH v2] findutils: add ptest
+Date: Wed,  8 Sep 2021 20:17:54 +0300
+Message-Id: <20210908171753.2619967-1-oleh.matiusha@globallogic.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA110A380 smtp.mailfrom=oleh.matiusha@globallogic.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: globallogic.com
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
 
-"A unified kernel image is a single EFI PE executable combining an EFI
-stub loader, a kernel image, an initramfs image, and the kernel command
-line.
+Fixed warning spotted by Alexandre Belloni by adding findutils-ptest to pte=
+st-packagelists.inc.=20
+Placed it in PTESTS_SLOW since it takes 36s to execute this ptest on qemu.
 
-[...]
-
-Images of this type have the advantage that all metadata and payload
-that makes up the boot entry is monopolized in a single PE file that can
-be signed cryptographically as one for the purpose of EFI
-SecureBoot."[1]
-
-The cmdline can be set with the UNIFIED_KERNEL_IMAGE_CMDLINE variable.
-
-[1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kern=
-el-images
-
-Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+Signed-off-by: Oleh Matiusha <oleh.matiusha@globallogic.com>
 ---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-extended/findutils/findutils.inc |  6 +-
+ .../findutils/findutils/run-ptest             | 57 +++++++++++++++++++
+ .../findutils/findutils_4.8.0.bb              | 11 ++++
+ 4 files changed, 73 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/findutils/findutils/run-ptest
 
-This patch is a RFC as I'm unsure if this is the best way to do it.
-
-Ideally creating the UKI would happen in the do_install task, but the
-initramfs must be built and adding before
-${INITRAMFS_IMAGE}:do_image_complete causes a circular dependency.
-
-Ideally UNIFIED_KERNEL_IMAGE_CMDLINE would also default to ${APPEND} but
-I couldn't get it to work.
-
-As hinted in the commit message we need this for Secure Boot.
-
- meta/classes/kernel.bbclass | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index d13c38fb02..6126528a35 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,4 +1,5 @@
- inherit linux-kernel-base kernel-module-split
-+require conf/image-uefi.conf
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index e0ae1dd971..2cd97d90ec 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -71,6 +71,7 @@ PTESTS_SLOW =3D "\
+     coreutils-ptest \
+     dbus-test-ptest \
+     e2fsprogs-ptest \
++    findutils-ptest \
+     glib-2.0-ptest \
+     gstreamer1.0-ptest \
+     libevent-ptest \
+diff --git a/meta/recipes-extended/findutils/findutils.inc b/meta/recipes-e=
+xtended/findutils/findutils.inc
+index ea8a1b7afe..ddcc05750b 100644
+--- a/meta/recipes-extended/findutils/findutils.inc
++++ b/meta/recipes-extended/findutils/findutils.inc
+@@ -6,9 +6,11 @@ HOMEPAGE =3D "http://www.gnu.org/software/findutils/"
+ BUGTRACKER =3D "http://savannah.gnu.org/bugs/?group=3Dfindutils"
+ SECTION =3D "console/utils"
 =20
- COMPATIBLE_HOST =3D ".*-linux"
+-SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.xz"
++SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.xz \
++          file://run-ptest \
++          "
 =20
-@@ -10,6 +11,7 @@ DEPENDS +=3D "virtual/${TARGET_PREFIX}binutils virtual/=
-${TARGET_PREFIX}gcc kmod-na
- DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lzo", "lzo=
-p-native", "", d)}"
- DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", "lz4=
--native", "", d)}"
- DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.zst", "zst=
-d-native", "", d)}"
-+DEPENDS +=3D "${@bb.utils.contains("KERNEL_IMAGETYPE", "bzImage.efi", "s=
-ystemd-boot binutils os-release", "", d)}"
- PACKAGE_WRITE_DEPS +=3D "depmodwrapper-cross"
+-inherit autotools gettext texinfo update-alternatives
++inherit autotools gettext texinfo update-alternatives ptest
 =20
- do_deploy[depends] +=3D "depmodwrapper-cross:do_populate_sysroot gzip-na=
-tive:do_populate_sysroot"
-@@ -30,6 +32,7 @@ INITRAMFS_IMAGE ?=3D ""
- INITRAMFS_IMAGE_NAME ?=3D "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.ge=
-tVar('INITRAMFS_IMAGE') =3D=3D '']}"
- INITRAMFS_TASK ?=3D ""
- INITRAMFS_IMAGE_BUNDLE ?=3D ""
-+UNIFIED_KERNEL_IMAGE_CMDLINE ?=3D ""
+ ALTERNATIVE:${PN} =3D "find xargs"
+ ALTERNATIVE_PRIORITY =3D "100"
+diff --git a/meta/recipes-extended/findutils/findutils/run-ptest b/meta/rec=
+ipes-extended/findutils/findutils/run-ptest
+new file mode 100644
+index 0000000000..ec71583c51
+--- /dev/null
++++ b/meta/recipes-extended/findutils/findutils/run-ptest
+@@ -0,0 +1,57 @@
++#!/bin/bash
++
++# create temporary symlink to workaround missing oldfind
++ln -s /usr/bin/find /tmp/oldfind
++# make oldfind visible
++export PATH=3D"/tmp:${PATH}"
++
++export built_programs=3D"find xargs locate updatedb"
++
++# this gets substituted by sed during build
++export VERSION=3D"__run_ptest_version__"
++
++# define missing functions for tests/init.sh
++fu_path_prepend_ () {
++=09path_prepend_ $@
++}
++
++print_ver_ () {
++=09:
++}
++
++skip_if_root_ () {
++=09[ $(id -u) =3D 0 ] && exit 77;
++}
++
++require_root_ () {
++=09[ $(id -u) =3D 0 ] || exit 77;
++}
++
++expensive_ () {
++=09:
++}
++
++export -f fu_path_prepend_
++export -f print_ver_
++export -f skip_if_root_
++export -f require_root_
++export -f expensive_
++
++
++for f in tests/*/*.sh; do
++=09bash $f ;
++=09case $? in
++=09=090 )
++=09=09=09echo -n "PASS";;
++=09=0977 )
++=09=09=09echo -n "SKIP";;
++=09=09* )
++=09=09=09echo -n "FAIL";;
++=09esac
++=09echo ": $f"
++done
++
++#remove symlink
++rm -f /tmp/oldfind
++
++echo
+diff --git a/meta/recipes-extended/findutils/findutils_4.8.0.bb b/meta/reci=
+pes-extended/findutils/findutils_4.8.0.bb
+index 675e53c0da..356fb05be6 100644
+--- a/meta/recipes-extended/findutils/findutils_4.8.0.bb
++++ b/meta/recipes-extended/findutils/findutils_4.8.0.bb
+@@ -12,3 +12,14 @@ SRC_URI[sha256sum] =3D "57127b7e97d91282c6ace556378d5455=
+a9509898297e46e10443016ea1
+ CACHED_CONFIGUREVARS +=3D "gl_cv_func_wcwidth_works=3Dyes"
 =20
- # KERNEL_VERSION is extracted from source code. It is evaluated as
- # None for the first parsing, since the code has not been fetched.
-@@ -85,6 +88,8 @@ python __anonymous () {
-         for type in types.split():
-             if type =3D=3D 'vmlinux.gz':
-                 type =3D 'vmlinux'
-+            if type =3D=3D 'bzImage.efi':
-+                type =3D 'bzImage'
-             typeformake.add(type)
-=20
-         d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', ' '.join(sorted(typeformak=
-e)))
-@@ -442,7 +447,7 @@ kernel_do_install() {
- 	#
-=20
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
--		if [ $imageType !=3D "fitImage" ] || [ "${INITRAMFS_IMAGE_BUNDLE}" !=3D=
- "1" ] ; then
-+		if [ $imageType !=3D "bzImage.efi" ] && ([ $imageType !=3D "fitImage" =
-] || [ "${INITRAMFS_IMAGE_BUNDLE}" !=3D "1" ]); then
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType ${D}/${KERNEL_IMAGEDE=
-ST}/$imageType-${KERNEL_VERSION}
- 		fi
- 	done
-@@ -755,7 +760,18 @@ kernel_do_deploy() {
-=20
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
- 		baseName=3D$imageType-${KERNEL_IMAGE_NAME}
--		install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType $deployDir/$baseName.b=
-in
-+		if [ "${imageType}" =3D "bzImage.efi" ]; then
-+			echo "${UNIFIED_KERNEL_IMAGE_CMDLINE}" > cmdline
-+			# https://github.com/systemd/systemd/blob/7728f6aa812f1af563821505d9f=
-377a7f4f727d9/test/test-efi-create-disk.sh#L32-L38
-+			objcopy \
-+				--add-section .osrel=3D"${RECIPE_SYSROOT}${nonarch_libdir}/os-releas=
-e" --change-section-vma .osrel=3D0x20000 \
-+				--add-section .cmdline=3D"cmdline" --change-section-vma .cmdline=3D0=
-x30000 \
-+				--add-section .linux=3D"${KERNEL_OUTPUT_DIR}/bzImage" --change-secti=
-on-vma .linux=3D0x2000000 \
-+				--add-section .initrd=3D"${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MA=
-CHINE}.${INITRAMFS_FSTYPES}" --change-section-vma .initrd=3D0x3000000 \
-+				"${DEPLOY_DIR_IMAGE}/linux${EFI_ARCH}.efi.stub" "$deployDir/$baseNam=
-e.bin"
-+		else
-+			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType $deployDir/$baseName.=
-bin
-+		fi
- 		ln -sf $baseName.bin $deployDir/$imageType-${KERNEL_IMAGE_LINK_NAME}.b=
-in
- 		ln -sf $baseName.bin $deployDir/$imageType
- 	done
+ EXTRA_OECONF +=3D "ac_cv_path_SORT=3D${bindir}/sort"
++
++RDEPENDS:${PN}-ptest +=3D "bash sed grep"
++
++do_install_ptest:class-target() {
++=09mkdir -p ${D}${PTEST_PATH}/tests/
++=09cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
++
++=09# substitute value in run-ptest with actual version
++=09sed -i -e 's/__run_ptest_version__/${PV}/' ${D}${PTEST_PATH}/run-ptest
++
++}
 --=20
 2.25.1
 
