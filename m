@@ -1,189 +1,601 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web08.15608.1631124091849813865
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web09.15279.1631124093020163081
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 11:01:32 -0700
+ Wed, 08 Sep 2021 11:01:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NajL5kUo;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso2191085wmi.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 11:01:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eB/oqkng;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id n5so4508858wro.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 11:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=d3W44NlM4AsxFgbdRTVJU9+BWpSp195pne+5BD9Q0cM=;
-        b=NajL5kUoekikqR/k8298yrtLxat3dMXRUre0VHYMGfgBVQw0hQql+1LSp7DDXxRZuw
-         hWVyFGd66yc+qHsmoi8d0dOanMH3gG64FPprCRa5kQBkVxHHwbOoL+3qZv1hmOuoqRFl
-         0sextP8qxpe2P3ow3bgi/NDOLlK9aFEdu949VeRmTrAaBO01yyDD406pHTs3rGdfFlOl
-         KIvQKmCyFhVnLhhS1dTdV2fzf9vHnuKK1btnd77IH7iOH6cVZl+7sHkhalqlXjbvThgy
-         vP+82+/qaueHtZA6ApCtHADq4ubtaR447h+doj15QA1WaAUnBUVUX0FrU2lb6r6o3B72
-         SNCg==
+        bh=Z7pybuVYvzTxHTjCmIziKHeMiuAA5XPaw9q5fSoAshI=;
+        b=eB/oqkngvK/G69tvxbAw/12/TONZB1ABHw+yd1HDfi2tDHPYyMO4leil93jT5c2XoS
+         8TNf02DtsmWsPJ6Iv7GKG5jjD6YvVZVBfKLGgh/LdAu9i0/yHPNlwz8pfhoEKJmZqIlB
+         A1MF4Y0DVP3Vz4VjL1OFsmulckaWnoGQL8GKiYSZjE1CmlDBD2KumNNgvWiNBOjWdtv/
+         4ZwbuLwx3hhgp1F+WfnIv6aW2Yc/Arsm7lqen8V3TBlIfoRAMqx0TQB2U5xKgA5DbfG0
+         EJ/FyBe4XXmve0VoAX2Vn4im4UeZP2Ue7ymo1R8V3NT68mRBjng/59/0phNUbeViPLHD
+         EWyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d3W44NlM4AsxFgbdRTVJU9+BWpSp195pne+5BD9Q0cM=;
-        b=BzKAgeC6FPfAU5vPXXlYra5FKdGsVCkoFMgTyEwygNcbQsr2pM8tNenkusUyNnbmV/
-         YDPXDDi1jOaeL+fi8/L06ek1dvEglZgqXc23yDY8SuPnek0UQUcVaO9umYE86wNUV57L
-         eWdKUvmgaOxefoF1Crh49CrdAT910P/oNxMPoA9OQrMhb/cInzVjKBsPZrpdBvDyOipv
-         Ivv1UhK2MRVDug3FqBVZNuGhH94l0fGuU8Mt9Crz+G6ZYH7ZpsG/TpYYPJe2dprSD7MT
-         hCeD0KaMWS0q+BH7KFzVrHa/9v3JQpWBaicGAPeQAbmMWVHuVkcE/5D+rSMEvypzAlrN
-         U5hQ==
-X-Gm-Message-State: AOAM530flyfj0poZrpiYJem+Cnnngjbf9mRB0iQ9JGHhEjLqLwu1A/rQ
-	cFgaAvjYG1/yDagt8ZeBexcpPu+sVcg=
-X-Google-Smtp-Source: ABdhPJxFFCdSBUn0qgFHuilSn1se0Gxi4EtyoFjc/h7+uNCq/HX+0RiiQM8g8EhA92iMVb5RqKS/4g==
-X-Received: by 2002:a05:600c:3b26:: with SMTP id m38mr4757846wms.155.1631124090482;
-        Wed, 08 Sep 2021 11:01:30 -0700 (PDT)
+        bh=Z7pybuVYvzTxHTjCmIziKHeMiuAA5XPaw9q5fSoAshI=;
+        b=NozX+CDp+4WlZ6TI02f3vBVMN/Wb0aA53b8A4rjOLjaA1fLmmnKzcoYi0oXgxT1K6V
+         MwQrpKohsxQEjLmzwwZ7HtuoKuJKDVgH5+Uq4IhEr02XqdeBscV4dY0eMaEO3ClAUtU0
+         qnO1F44jmtZUwfA2tBfGAqEssVNmh81maSODeqbJqqxlcmA9vt4lGRsEAgkASyCBU1IJ
+         qy2jg+etEmVZZSfjFKjG2RuXiH92ePHmvoR5F4jewiF13Q5ghbd3mBa3G0321XDTN7r3
+         74hJYUDYWsZZ8P6lIdmGEnsivf8/MdXP2JtmNRTf+iEbU5d7mtCGDJZv3d2Ro3W1UTkZ
+         D2cw==
+X-Gm-Message-State: AOAM532yBSfZTahU7tUVw8swMzENpA4yEuMpYfAG1a3fsATVlnAXfQHQ
+	0Z2YOFMlfO3bLWVM9auAXIHuQM/PV+k=
+X-Google-Smtp-Source: ABdhPJysG5hV6FCSxhbadVL9kQVd5qZu4CGJPPmsSLhDx7JJmlzfib/Akm0iKeAWOBp0wXnztp0Ksw==
+X-Received: by 2002:adf:f892:: with SMTP id u18mr5292797wrp.31.1631124091146;
+        Wed, 08 Sep 2021 11:01:31 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:29b:3b00:d35d:e3cf:58b5:748b])
-        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.29
+        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 08 Sep 2021 11:01:30 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 02/26] libcap: update 2.51 -> 2.54
-Date: Wed,  8 Sep 2021 20:01:01 +0200
-Message-Id: <20210908180125.103473-2-alex.kanavin@gmail.com>
+Subject: [PATCH 03/26] lua: add a recipe from meta-oe
+Date: Wed,  8 Sep 2021 20:01:02 +0200
+Message-Id: <20210908180125.103473-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908180125.103473-1-alex.kanavin@gmail.com>
 References: <20210908180125.103473-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rebase patches.
-
-Delete 0001-tests-do-not-statically-link-a-test.patch as centos
-builds are now using their own buildtools.
+Lua is a hard dependency in rpm 4.17.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-statically-link-a-test.patch | 52 -------------------
- ...-tests-do-not-run-target-executables.patch | 10 ++--
- .../libcap/{libcap_2.51.bb => libcap_2.54.bb} |  4 +-
- 3 files changed, 7 insertions(+), 59 deletions(-)
- delete mode 100644 meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
- rename meta/recipes-support/libcap/{libcap_2.51.bb => libcap_2.54.bb} (92%)
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ ...ilding-lua-without-readline-on-Linux.patch |  59 +++++++
+ ...rriers-cannot-be-active-during-sweep.patch |  90 ++++++++++
+ .../lua/lua/CVE-2020-15888.patch              |  45 +++++
+ .../lua/lua/CVE-2020-15945.patch              | 167 ++++++++++++++++++
+ meta/recipes-devtools/lua/lua/lua.pc.in       |  10 ++
+ meta/recipes-devtools/lua/lua/run-ptest       |  19 ++
+ meta/recipes-devtools/lua/lua_5.3.6.bb        |  67 +++++++
+ 9 files changed, 459 insertions(+)
+ create mode 100644 meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch
+ create mode 100644 meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch
+ create mode 100644 meta/recipes-devtools/lua/lua/CVE-2020-15888.patch
+ create mode 100644 meta/recipes-devtools/lua/lua/CVE-2020-15945.patch
+ create mode 100644 meta/recipes-devtools/lua/lua/lua.pc.in
+ create mode 100644 meta/recipes-devtools/lua/lua/run-ptest
+ create mode 100644 meta/recipes-devtools/lua/lua_5.3.6.bb
 
-diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-deleted file mode 100644
-index 55872aa8fa..0000000000
---- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 897900f3f9084c5542097851323bba3f2691df20 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 15 Jan 2020 17:16:28 +0100
--Subject: [PATCH] tests: do not statically link a test
--
--This fails on e.g. centos 7
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- progs/Makefile | 2 +-
-- tests/Makefile | 4 ++--
-- 2 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/progs/Makefile b/progs/Makefile
--index 3e82862..48533f3 100644
----- a/progs/Makefile
--+++ b/progs/Makefile
--@@ -49,7 +49,7 @@ capsh: capsh.c capshdoc.h.cf $(DEPS)
-- 	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS)
-- 
-- tcapsh-static: capsh.c capshdoc.h.cf $(DEPS)
---	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS) --static
--+	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS)
-- 
-- uns_test: ../tests/uns_test.c
-- 	$(MAKE) -C ../tests uns_test
--diff --git a/tests/Makefile b/tests/Makefile
--index 4a5f2f9..4266d86 100644
----- a/tests/Makefile
--+++ b/tests/Makefile
--@@ -22,7 +22,7 @@ ifeq ($(PTHREADS),yes)
-- DEPS += ../libcap/libpsx.so
-- endif
-- else
---LDFLAGS += --static
--+LDFLAGS +=
-- DEPS=../libcap/libcap.a
-- ifeq ($(PTHREADS),yes)
-- DEPS +=  ../libcap/libpsx.a
--@@ -113,7 +113,7 @@ noexploit: exploit.o $(DEPS)
-- 
-- # This one runs in a chroot with no shared library files.
-- noop: noop.c
---	$(CC) $(CFLAGS) $< -o $@ --static
--+	$(CC) $(CFLAGS) $< -o $@
-- 
-- clean:
-- 	rm -f psx_test libcap_psx_test libcap_launch_test uns_test *~
---- 
--2.25.1
--
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-index 69287152eb..0fe7295a5f 100644
---- a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -1,4 +1,4 @@
--From 652071e430d5eea758965176b7648e79ad404daa Mon Sep 17 00:00:00 2001
-+From cc97f84469ee7b266977a20d9cfa63c52f821384 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 20 Dec 2019 16:54:05 +0100
- Subject: [PATCH] tests: do not run target executables
-@@ -11,20 +11,20 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/tests/Makefile b/tests/Makefile
--index fc39fee..3431df9 100644
-+index d9ed248..2864f77 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
--@@ -59,13 +59,11 @@ endif
-+@@ -63,13 +63,11 @@ endif
-  
-  # unprivileged
-  run_psx_test: psx_test
- -	./psx_test
-  
-  psx_test: psx_test.c $(DEPS)
-- 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LINKEXTRA) $(LIBPSXLIB) $(LDFLAGS)
-+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ $(LINKEXTRA) $(LIBPSXLIB) $(LDFLAGS)
-  
-  run_libcap_psx_test: libcap_psx_test
- -	./libcap_psx_test
-  
-  libcap_psx_test: libcap_psx_test.c $(DEPS)
-- 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LINKEXTRA) $(LIBCAPLIB) $(LIBPSXLIB) $(LDFLAGS)
-+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ $(LINKEXTRA) $(LIBCAPLIB) $(LIBPSXLIB) $(LDFLAGS)
-diff --git a/meta/recipes-support/libcap/libcap_2.51.bb b/meta/recipes-support/libcap/libcap_2.54.bb
-similarity index 92%
-rename from meta/recipes-support/libcap/libcap_2.51.bb
-rename to meta/recipes-support/libcap/libcap_2.54.bb
-index c9c30fb05f..04362e7032 100644
---- a/meta/recipes-support/libcap/libcap_2.51.bb
-+++ b/meta/recipes-support/libcap/libcap_2.54.bb
-@@ -12,9 +12,8 @@ DEPENDS = "hostperl-runtime-native gperf-native"
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-            file://0002-tests-do-not-run-target-executables.patch \
--           file://0001-tests-do-not-statically-link-a-test.patch \
-            "
--SRC_URI[sha256sum] = "6609f3ab7aebcc8f9277f53a577c657d9f3056d1352ea623da7fd7c0f00890f9"
-+SRC_URI[sha256sum] = "5091b24247999fd7a5e62bd9ac8bc761cda29f9baa0d1a2ca6a46f13891b4f0f"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
- 
-@@ -42,6 +41,7 @@ do_compile() {
- 		AR="${AR}" \
- 		CC="${CC}" \
- 		RANLIB="${RANLIB}" \
-+                OBJCOPY="${OBJCOPY}" \
- 		COPTS="${CFLAGS}" \
- 		BUILD_COPTS="${BUILD_CFLAGS}"
- }
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 0e8185f4e3..d9d57459cf 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -467,6 +467,7 @@ RECIPE_MAINTAINER:pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-lttng-modules = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-lttng-tools = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-lttng-ust = "Richard Purdie <richard.purdie@linuxfoundation.org>"
++RECIPE_MAINTAINER:pn-lua = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-lz4 = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-lzo = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-lzip = "Denys Dmytriyenko <denis@denix.org>"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index e0ae1dd971..3709998f29 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -40,6 +40,7 @@ PTESTS_FAST = "\
+     libxml-sax-base-perl-ptest \
+     libxml-simple-perl-ptest \
+     libxml2-ptest \
++    lua-ptest \
+     lzo-ptest \
+     m4-ptest \
+     nettle-ptest \
+diff --git a/meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch b/meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch
+new file mode 100644
+index 0000000000..e767900864
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch
+@@ -0,0 +1,59 @@
++From 601ef636fc4dfb2af3e7fda88d8ea1c1d92affe4 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 2 Oct 2019 17:54:15 +0200
++Subject: [PATCH] Allow building lua without readline on Linux
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Makefile      | 2 +-
++ src/Makefile  | 3 +++
++ src/luaconf.h | 5 +++++
++ 3 files changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index 119110d..9f6df45 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -36,7 +36,7 @@ RM= rm -f
++ # == END OF USER SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE =======
++ 
++ # Convenience platforms targets.
++-PLATS= aix bsd c89 freebsd generic linux macosx mingw posix solaris
+++PLATS= aix bsd c89 freebsd generic linux linux-no-readline macosx mingw posix solaris
++ 
++ # What to install.
++ TO_BIN= lua luac
++diff --git a/src/Makefile b/src/Makefile
++index 64c78f7..5c0428a 100644
++--- a/src/Makefile
+++++ b/src/Makefile
++@@ -109,6 +109,9 @@ generic: $(ALL)
++ linux:
++ 	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX" SYSLIBS="-Wl,-E -ldl -lreadline"
++ 
+++linux-no-readline:
+++	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX_NO_READLINE" SYSLIBS="-Wl,-E -ldl"
+++
++ macosx:
++ 	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_MACOSX" SYSLIBS="-lreadline"
++ 
++diff --git a/src/luaconf.h b/src/luaconf.h
++index 9eeeea6..d71ca25 100644
++--- a/src/luaconf.h
+++++ b/src/luaconf.h
++@@ -64,6 +64,11 @@
++ #define LUA_USE_READLINE	/* needs some extra libraries */
++ #endif
++ 
+++#if defined(LUA_USE_LINUX_NO_READLINE)
+++#define LUA_USE_POSIX
+++#define LUA_USE_DLOPEN		/* needs an extra library: -ldl */
+++#endif
+++
++ 
++ #if defined(LUA_USE_MACOSX)
++ #define LUA_USE_POSIX
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch b/meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch
+new file mode 100644
+index 0000000000..a302874d76
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch
+@@ -0,0 +1,90 @@
++From 1e6df25ac28dcd89f0324177bb55019422404b44 Mon Sep 17 00:00:00 2001
++From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
++Date: Thu, 3 Sep 2020 15:32:17 +0800
++Subject: [PATCH] Fixed bug: barriers cannot be active during sweep
++
++Barriers cannot be active during sweep, even in generational mode.
++(Although gen. mode is not incremental, it can hit a barrier when
++deleting a thread and closing its upvalues.)  The colors of objects are
++being changed during sweep and, therefore, cannot be trusted.
++
++Upstream-Status: Backport [https://github.com/lua/lua/commit/a6da1472c0c5e05ff249325f979531ad51533110]
++CVE: CVE-2020-24371
++
++[Adjust code KGC_INC -> KGC_NORMAL, refer 69371c4b84becac09c445aae01d005b49658ef82]
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++---
++ src/lgc.c | 33 ++++++++++++++++++++++++---------
++ 1 file changed, 24 insertions(+), 9 deletions(-)
++
++diff --git a/src/lgc.c b/src/lgc.c
++index 973c269..7af23d5 100644
++--- a/src/lgc.c
+++++ b/src/lgc.c
++@@ -142,10 +142,17 @@ static int iscleared (global_State *g, const TValue *o) {
++ 
++ 
++ /*
++-** barrier that moves collector forward, that is, mark the white object
++-** being pointed by a black object. (If in sweep phase, clear the black
++-** object to white [sweep it] to avoid other barrier calls for this
++-** same object.)
+++** Barrier that moves collector forward, that is, marks the white object
+++** 'v' being pointed by the black object 'o'.  In the generational
+++** mode, 'v' must also become old, if 'o' is old; however, it cannot
+++** be changed directly to OLD, because it may still point to non-old
+++** objects. So, it is marked as OLD0. In the next cycle it will become
+++** OLD1, and in the next it will finally become OLD (regular old). By
+++** then, any object it points to will also be old.  If called in the
+++** incremental sweep phase, it clears the black object to white (sweep
+++** it) to avoid other barrier calls for this same object. (That cannot
+++** be done is generational mode, as its sweep does not distinguish
+++** whites from deads.)
++ */
++ void luaC_barrier_ (lua_State *L, GCObject *o, GCObject *v) {
++   global_State *g = G(L);
++@@ -154,7 +161,8 @@ void luaC_barrier_ (lua_State *L, GCObject *o, GCObject *v) {
++     reallymarkobject(g, v);  /* restore invariant */
++   else {  /* sweep phase */
++     lua_assert(issweepphase(g));
++-    makewhite(g, o);  /* mark main obj. as white to avoid other barriers */
+++    if (g->gckind == KGC_NORMAL)  /* incremental mode? */
+++      makewhite(g, o);  /* mark 'o' as white to avoid other barriers */
++   }
++ }
++ 
++@@ -299,10 +307,15 @@ static void markbeingfnz (global_State *g) {
++ 
++ 
++ /*
++-** Mark all values stored in marked open upvalues from non-marked threads.
++-** (Values from marked threads were already marked when traversing the
++-** thread.) Remove from the list threads that no longer have upvalues and
++-** not-marked threads.
+++** For each non-marked thread, simulates a barrier between each open
+++** upvalue and its value. (If the thread is collected, the value will be
+++** assigned to the upvalue, but then it can be too late for the barrier
+++** to act. The "barrier" does not need to check colors: A non-marked
+++** thread must be young; upvalues cannot be older than their threads; so
+++** any visited upvalue must be young too.) Also removes the thread from
+++** the list, as it was already visited. Removes also threads with no
+++** upvalues, as they have nothing to be checked. (If the thread gets an
+++** upvalue later, it will be linked in the list again.)
++ */
++ static void remarkupvals (global_State *g) {
++   lua_State *thread;
++@@ -313,9 +326,11 @@ static void remarkupvals (global_State *g) {
++       p = &thread->twups;  /* keep marked thread with upvalues in the list */
++     else {  /* thread is not marked or without upvalues */
++       UpVal *uv;
+++      lua_assert(!isold(thread) || thread->openupval == NULL);
++       *p = thread->twups;  /* remove thread from the list */
++       thread->twups = thread;  /* mark that it is out of list */
++       for (uv = thread->openupval; uv != NULL; uv = uv->u.open.next) {
+++        lua_assert(getage(uv) <= getage(thread));
++         if (uv->u.open.touched) {
++           markvalue(g, uv->v);  /* remark upvalue's value */
++           uv->u.open.touched = 0;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/lua/lua/CVE-2020-15888.patch b/meta/recipes-devtools/lua/lua/CVE-2020-15888.patch
+new file mode 100644
+index 0000000000..60a4125971
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/CVE-2020-15888.patch
+@@ -0,0 +1,45 @@
++From 6298903e35217ab69c279056f925fb72900ce0b7 Mon Sep 17 00:00:00 2001
++From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
++Date: Mon, 6 Jul 2020 12:11:54 -0300
++Subject: [PATCH] Keep minimum size when shrinking a stack
++
++When shrinking a stack (during GC), do not make it smaller than the
++initial stack size.
++---
++ ldo.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++==== end of original header ====
++
++CVE: CVE-2020-15888
++
++Upstream-Status: backport [https://github.com/lua/lua.git]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++====
++diff --git a/ldo.c b/ldo.c
++index c563b1d9..a89ac010 100644
++--- a/src/ldo.c
+++++ b/src/ldo.c
++@@ -220,7 +220,7 @@ static int stackinuse (lua_State *L) {
++ 
++ void luaD_shrinkstack (lua_State *L) {
++   int inuse = stackinuse(L);
++-  int goodsize = inuse + (inuse / 8) + 2*EXTRA_STACK;
+++  int goodsize = inuse + BASIC_STACK_SIZE;
++   if (goodsize > LUAI_MAXSTACK)
++     goodsize = LUAI_MAXSTACK;  /* respect stack limit */
++   if (L->stacksize > LUAI_MAXSTACK)  /* had been handling stack overflow? */
++@@ -229,8 +229,7 @@ void luaD_shrinkstack (lua_State *L) {
++     luaE_shrinkCI(L);  /* shrink list */
++   /* if thread is currently not handling a stack overflow and its
++      good size is smaller than current size, shrink its stack */
++-  if (inuse <= (LUAI_MAXSTACK - EXTRA_STACK) &&
++-      goodsize < L->stacksize)
+++  if (inuse <= (LUAI_MAXSTACK - EXTRA_STACK) && goodsize < L->stacksize)
++     luaD_reallocstack(L, goodsize);
++   else  /* don't change stack */
++     condmovestack(L,{},{});  /* (change only for debugging) */
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/lua/lua/CVE-2020-15945.patch b/meta/recipes-devtools/lua/lua/CVE-2020-15945.patch
+new file mode 100644
+index 0000000000..89ce491487
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/CVE-2020-15945.patch
+@@ -0,0 +1,167 @@
++From d8d344365945a534f700c82c5dd26f704f89fef3 Mon Sep 17 00:00:00 2001
++From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
++Date: Wed, 5 Aug 2020 16:59:58 +0800
++Subject: [PATCH] Fixed bug: invalid 'oldpc' when returning to a function
++
++The field 'L->oldpc' is not always updated when control returns to a
++function; an invalid value can seg. fault when computing 'changedline'.
++(One example is an error in a finalizer; control can return to
++'luaV_execute' without executing 'luaD_poscall'.) Instead of trying to
++fix all possible corner cases, it seems safer to be resilient to invalid
++values for 'oldpc'. Valid but wrong values at most cause an extra call
++to a line hook.
++
++CVE: CVE-2020-15945
++
++[Adjust the code to be applicable to the tree]
++
++Upstream-Status: Backport [https://github.com/lua/lua/commit/a2195644d89812e5b157ce7bac35543e06db05e3]
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++Signed-off-by: Joe Slater <joe.slater@@windriver.com>
++
++---
++ src/ldebug.c | 30 +++++++++++++++---------------
++ src/ldebug.h |  4 ++++
++ src/ldo.c    |  2 +-
++ src/lstate.c |  1 +
++ src/lstate.h |  2 +-
++ 5 files changed, 22 insertions(+), 17 deletions(-)
++
++diff --git a/src/ldebug.c b/src/ldebug.c
++index 239affb..832b16c 100644
++--- a/src/ldebug.c
+++++ b/src/ldebug.c
++@@ -34,9 +34,8 @@
++ #define noLuaClosure(f)		((f) == NULL || (f)->c.tt == LUA_TCCL)
++ 
++ 
++-/* Active Lua function (given call info) */
++-#define ci_func(ci)		(clLvalue((ci)->func))
++-
+++/* inverse of 'pcRel' */
+++#define invpcRel(pc, p)                ((p)->code + (pc) + 1)
++ 
++ static const char *funcnamefromcode (lua_State *L, CallInfo *ci,
++                                     const char **name);
++@@ -71,20 +70,18 @@ static void swapextra (lua_State *L) {
++ 
++ /*
++ ** This function can be called asynchronously (e.g. during a signal).
++-** Fields 'oldpc', 'basehookcount', and 'hookcount' (set by
++-** 'resethookcount') are for debug only, and it is no problem if they
++-** get arbitrary values (causes at most one wrong hook call). 'hookmask'
++-** is an atomic value. We assume that pointers are atomic too (e.g., gcc
++-** ensures that for all platforms where it runs). Moreover, 'hook' is
++-** always checked before being called (see 'luaD_hook').
+++** Fields 'basehookcount' and 'hookcount' (set by 'resethookcount')
+++** are for debug only, and it is no problem if they get arbitrary
+++** values (causes at most one wrong hook call). 'hookmask' is an atomic
+++** value. We assume that pointers are atomic too (e.g., gcc ensures that
+++** for all platforms where it runs). Moreover, 'hook' is always checked
+++** before being called (see 'luaD_hook').
++ */
++ LUA_API void lua_sethook (lua_State *L, lua_Hook func, int mask, int count) {
++   if (func == NULL || mask == 0) {  /* turn off hooks? */
++     mask = 0;
++     func = NULL;
++   }
++-  if (isLua(L->ci))
++-    L->oldpc = L->ci->u.l.savedpc;
++   L->hook = func;
++   L->basehookcount = count;
++   resethookcount(L);
++@@ -665,7 +662,10 @@ l_noret luaG_runerror (lua_State *L, const char *fmt, ...) {
++ void luaG_traceexec (lua_State *L) {
++   CallInfo *ci = L->ci;
++   lu_byte mask = L->hookmask;
+++  const Proto *p = ci_func(ci)->p;
++   int counthook = (--L->hookcount == 0 && (mask & LUA_MASKCOUNT));
+++  /* 'L->oldpc' may be invalid; reset it in this case */
+++  int oldpc = (L->oldpc < p->sizecode) ? L->oldpc : 0;
++   if (counthook)
++     resethookcount(L);  /* reset count */
++   else if (!(mask & LUA_MASKLINE))
++@@ -677,15 +677,15 @@ void luaG_traceexec (lua_State *L) {
++   if (counthook)
++     luaD_hook(L, LUA_HOOKCOUNT, -1);  /* call count hook */
++   if (mask & LUA_MASKLINE) {
++-    Proto *p = ci_func(ci)->p;
++     int npc = pcRel(ci->u.l.savedpc, p);
++     int newline = getfuncline(p, npc);
++     if (npc == 0 ||  /* call linehook when enter a new function, */
++-        ci->u.l.savedpc <= L->oldpc ||  /* when jump back (loop), or when */
++-        newline != getfuncline(p, pcRel(L->oldpc, p)))  /* enter a new line */
+++        ci->u.l.savedpc <= invpcRel(oldpc, p) ||  /* when jump back (loop), or when */
+++        newline != getfuncline(p, oldpc))  /* enter a new line */
++       luaD_hook(L, LUA_HOOKLINE, newline);  /* call line hook */
+++
+++    L->oldpc = npc;  /* 'pc' of last call to line hook */
++   }
++-  L->oldpc = ci->u.l.savedpc;
++   if (L->status == LUA_YIELD) {  /* did hook yield? */
++     if (counthook)
++       L->hookcount = 1;  /* undo decrement to zero */
++diff --git a/src/ldebug.h b/src/ldebug.h
++index 0e31546..c224cc4 100644
++--- a/src/ldebug.h
+++++ b/src/ldebug.h
++@@ -13,6 +13,10 @@
++ 
++ #define pcRel(pc, p)	(cast(int, (pc) - (p)->code) - 1)
++ 
+++/* Active Lua function (given call info) */
+++#define ci_func(ci)            (clLvalue((ci)->func))
+++
+++
++ #define getfuncline(f,pc)	(((f)->lineinfo) ? (f)->lineinfo[pc] : -1)
++ 
++ #define resethookcount(L)	(L->hookcount = L->basehookcount)
++diff --git a/src/ldo.c b/src/ldo.c
++index 90b695f..f66ac1a 100644
++--- a/src/ldo.c
+++++ b/src/ldo.c
++@@ -382,7 +382,7 @@ int luaD_poscall (lua_State *L, CallInfo *ci, StkId firstResult, int nres) {
++       luaD_hook(L, LUA_HOOKRET, -1);
++       firstResult = restorestack(L, fr);
++     }
++-    L->oldpc = ci->previous->u.l.savedpc;  /* 'oldpc' for caller function */
+++    L->oldpc = pcRel(ci->u.l.savedpc, ci_func(ci)->p);  /* 'oldpc' for caller function */
++   }
++   res = ci->func;  /* res == final position of 1st result */
++   L->ci = ci->previous;  /* back to caller */
++diff --git a/src/lstate.c b/src/lstate.c
++index 9194ac3..3573e36 100644
++--- a/src/lstate.c
+++++ b/src/lstate.c
++@@ -236,6 +236,7 @@ static void preinit_thread (lua_State *L, global_State *g) {
++   L->nny = 1;
++   L->status = LUA_OK;
++   L->errfunc = 0;
+++  L->oldpc = 0;
++ }
++ 
++ 
++diff --git a/src/lstate.h b/src/lstate.h
++index a469466..d75eadf 100644
++--- a/src/lstate.h
+++++ b/src/lstate.h
++@@ -164,7 +164,6 @@ struct lua_State {
++   StkId top;  /* first free slot in the stack */
++   global_State *l_G;
++   CallInfo *ci;  /* call info for current function */
++-  const Instruction *oldpc;  /* last pc traced */
++   StkId stack_last;  /* last free slot in the stack */
++   StkId stack;  /* stack base */
++   UpVal *openupval;  /* list of open upvalues in this stack */
++@@ -174,6 +173,7 @@ struct lua_State {
++   CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */
++   volatile lua_Hook hook;
++   ptrdiff_t errfunc;  /* current error handling function (stack index) */
+++  int oldpc;  /* last pc traced */
++   int stacksize;
++   int basehookcount;
++   int hookcount;
++-- 
++2.13.3
++
+diff --git a/meta/recipes-devtools/lua/lua/lua.pc.in b/meta/recipes-devtools/lua/lua/lua.pc.in
+new file mode 100644
+index 0000000000..c27e86e85d
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/lua.pc.in
+@@ -0,0 +1,10 @@
++prefix=/usr
++libdir=${prefix}/lib
++includedir=${prefix}/include
++
++Name: Lua
++Description: Lua language engine
++Version: @VERSION@
++Requires:
++Libs: -L${libdir} -llua -lm -ldl
++Cflags: -I${includedir}
+diff --git a/meta/recipes-devtools/lua/lua/run-ptest b/meta/recipes-devtools/lua/lua/run-ptest
+new file mode 100644
+index 0000000000..8e085e1af9
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/run-ptest
+@@ -0,0 +1,19 @@
++#!/bin/sh
++
++cd test
++lua -e"_U=true" all.lua > lua-test.tmp
++
++echo "--- test output ---"
++cat lua-test.tmp
++echo ""
++echo ""
++echo "--- ptest result ---"
++
++grep "final OK \!\!\!" lua-test.tmp > /dev/null
++if [ $? -eq 0 ]; then
++   echo "PASS: lua"
++else
++   echo "FAIL: lua"
++fi
++
++rm -f lua-test.tmp
+diff --git a/meta/recipes-devtools/lua/lua_5.3.6.bb b/meta/recipes-devtools/lua/lua_5.3.6.bb
+new file mode 100644
+index 0000000000..f830e09259
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua_5.3.6.bb
+@@ -0,0 +1,67 @@
++DESCRIPTION = "Lua is a powerful light-weight programming language designed \
++for extending applications."
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=318;endline=352;md5=f43d8ee6bc4df18ef8b276439cc4a153"
++HOMEPAGE = "http://www.lua.org/"
++
++SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
++           file://lua.pc.in \
++           file://0001-Allow-building-lua-without-readline-on-Linux.patch \
++           file://CVE-2020-15888.patch \
++           file://CVE-2020-15945.patch \
++           file://0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch \
++           "
++
++# if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
++PV_testsuites = "5.3.4"
++
++SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', \
++           'http://www.lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=tarballtest \
++            file://run-ptest \
++           ', '', d)}"
++
++SRC_URI[tarballsrc.md5sum] = "83f23dbd5230140a3770d5f54076948d"
++SRC_URI[tarballsrc.sha256sum] = "fc5fd69bb8736323f026672b1b7235da613d7177e72558893a0bdcd320466d60"
++SRC_URI[tarballtest.md5sum] = "b14fe3748c1cb2d74e3acd1943629ba3"
++SRC_URI[tarballtest.sha256sum] = "b80771238271c72565e5a1183292ef31bd7166414cd0d43a8eb79845fa7f599f"
++
++inherit pkgconfig binconfig ptest
++
++PACKAGECONFIG ??= "readline"
++PACKAGECONFIG[readline] = ",,readline"
++
++TARGET_CC_ARCH += " -fPIC ${LDFLAGS}"
++EXTRA_OEMAKE = "'CC=${CC} -fPIC' 'MYCFLAGS=${CFLAGS} -fPIC' MYLDFLAGS='${LDFLAGS}'"
++
++do_configure:prepend() {
++    sed -i -e s:/usr/local:${prefix}:g src/luaconf.h
++    sed -i -e s:lib/lua/:${baselib}/lua/:g src/luaconf.h
++}
++
++do_compile () {
++    oe_runmake ${@bb.utils.contains('PACKAGECONFIG', 'readline', 'linux', 'linux-no-readline', d)}
++}
++
++do_install () {
++    oe_runmake \
++        'INSTALL_TOP=${D}${prefix}' \
++        'INSTALL_BIN=${D}${bindir}' \
++        'INSTALL_INC=${D}${includedir}/' \
++        'INSTALL_MAN=${D}${mandir}/man1' \
++        'INSTALL_SHARE=${D}${datadir}/lua' \
++        'INSTALL_LIB=${D}${libdir}' \
++        'INSTALL_CMOD=${D}${libdir}/lua/5.3' \
++        install
++    install -d ${D}${libdir}/pkgconfig
++
++    sed -e s/@VERSION@/${PV}/ ${WORKDIR}/lua.pc.in > ${WORKDIR}/lua.pc
++    install -m 0644 ${WORKDIR}/lua.pc ${D}${libdir}/pkgconfig/
++    rmdir ${D}${datadir}/lua/5.3
++    rmdir ${D}${datadir}/lua
++}
++
++do_install_ptest () {
++        cp -R --no-dereference --preserve=mode,links -v ${WORKDIR}/lua-${PV_testsuites}-tests ${D}${PTEST_PATH}/test
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.31.1
 
