@@ -1,139 +1,149 @@
-Received: from forward105p.mail.yandex.net (forward105p.mail.yandex.net [77.88.28.108])
- by mx.groups.io with SMTP id smtpd.web09.8134.1631085263217496922
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 00:14:24 -0700
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web10.8281.1631085314702526047
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 08 Sep 2021 00:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=mail header.b=Zp0/ux4N;
- spf=pass (domain: zhukoff.net, ip: 77.88.28.108, mailfrom: pavel@zhukoff.net)
-Received: from sas1-f3a441df9f84.qloud-c.yandex.net (sas1-f3a441df9f84.qloud-c.yandex.net [IPv6:2a02:6b8:c14:2726:0:640:f3a4:41df])
-	by forward105p.mail.yandex.net (Yandex) with ESMTP id AB81E2FDA072
-	for <Openembedded-core@lists.openembedded.org>; Wed,  8 Sep 2021 10:14:18 +0300 (MSK)
-Received: from sas1-e20a8b944cac.qloud-c.yandex.net (sas1-e20a8b944cac.qloud-c.yandex.net [2a02:6b8:c14:6696:0:640:e20a:8b94])
-	by sas1-f3a441df9f84.qloud-c.yandex.net (mxback/Yandex) with ESMTP id SI9b3M86eo-EIDGKCd2;
-	Wed, 08 Sep 2021 10:14:18 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail; t=1631085258;
-	bh=MDqPk1ZcfWjLKqr0V5mxzGJStMVqTZXejFa3cu0L6EE=;
-	h=Date:Subject:To:From:Reply-To:Message-ID;
-	b=Zp0/ux4NNCZrh51uAltxE80TelOOYdhwpu8TxYAb/1wQBRCr+LHnPudqce9YR43jl
-	 +fS/hTMHMoFUaRej3HGZYhMT4Zxh/8/yYGrifrvKxcvy7wui8uZRVxCSN1cubITEua
-	 jaBmQPTJo6BX15A40/0Q5TPYzlzovvmtZ0ogesno=
-Authentication-Results: sas1-f3a441df9f84.qloud-c.yandex.net; dkim=pass header.i=@zhukoff.net
-Received: by sas1-e20a8b944cac.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id ii0myB3Wn7-EHAOndBU;
-	Wed, 08 Sep 2021 10:14:17 +0300
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client certificate not present)
-User-agent: mu4e 1.4.15; emacs 27.2
-From: "Pavel Zhukov" <pavel@zhukoff.net>
-To: Openembedded-core@lists.openembedded.org
-Subject: [PATCH] weston: wrapper for weston modules argument
-Reply-To: pavel@zhukoff.net
-Date: Wed, 08 Sep 2021 09:14:23 +0200
-Message-ID: <87k0jrzghc.fsf@gentoo.zhukoff.net>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 1E45D240004;
+	Wed,  8 Sep 2021 07:15:10 +0000 (UTC)
+Date: Wed, 8 Sep 2021 09:15:10 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: oleh.matiusha@globallogic.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] findutils: add ptest
+Message-ID: <YThi/ng0+Iy3SItA@piout.net>
+References: <20210907103541.739344-1-oleh.matiusha@globallogic.com>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+In-Reply-To: <20210907103541.739344-1-oleh.matiusha@globallogic.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hello,
+
+Thank you for the patch but it causes the following warning:
+
+WARNING: findutils-4.8.0-r0 do_package_qa: QA Issue: supports ptests but is not included in oe-core's ptest-packagelists.inc [missing-ptest]
+
+On 07/09/2021 13:35:41+0300, Oleh Matiusha via lists.openembedded.org wrote:
+> Signed-off-by: Oleh Matiusha <oleh.matiusha@globallogic.com>
+> ---
+>  meta/recipes-extended/findutils/findutils.inc |  6 +-
+>  .../findutils/findutils/run-ptest             | 57 +++++++++++++++++++
+>  .../findutils/findutils_4.8.0.bb              | 11 ++++
+>  3 files changed, 72 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-extended/findutils/findutils/run-ptest
+> 
+> diff --git a/meta/recipes-extended/findutils/findutils.inc b/meta/recipes-extended/findutils/findutils.inc
+> index ea8a1b7afe..ddcc05750b 100644
+> --- a/meta/recipes-extended/findutils/findutils.inc
+> +++ b/meta/recipes-extended/findutils/findutils.inc
+> @@ -6,9 +6,11 @@ HOMEPAGE = "http://www.gnu.org/software/findutils/"
+>  BUGTRACKER = "http://savannah.gnu.org/bugs/?group=findutils"
+>  SECTION = "console/utils"
+>  
+> -SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.xz"
+> +SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.xz \
+> +          file://run-ptest \
+> +          "
+>  
+> -inherit autotools gettext texinfo update-alternatives
+> +inherit autotools gettext texinfo update-alternatives ptest
+>  
+>  ALTERNATIVE:${PN} = "find xargs"
+>  ALTERNATIVE_PRIORITY = "100"
+> diff --git a/meta/recipes-extended/findutils/findutils/run-ptest b/meta/recipes-extended/findutils/findutils/run-ptest
+> new file mode 100644
+> index 0000000000..ec71583c51
+> --- /dev/null
+> +++ b/meta/recipes-extended/findutils/findutils/run-ptest
+> @@ -0,0 +1,57 @@
+> +#!/bin/bash
+> +
+> +# create temporary symlink to workaround missing oldfind
+> +ln -s /usr/bin/find /tmp/oldfind
+> +# make oldfind visible
+> +export PATH="/tmp:${PATH}"
+> +
+> +export built_programs="find xargs locate updatedb"
+> +
+> +# this gets substituted by sed during build
+> +export VERSION="__run_ptest_version__"
+> +
+> +# define missing functions for tests/init.sh
+> +fu_path_prepend_ () {
+> +	path_prepend_ $@
+> +}
+> +
+> +print_ver_ () {
+> +	:
+> +}
+> +
+> +skip_if_root_ () {
+> +	[ $(id -u) = 0 ] && exit 77;
+> +}
+> +
+> +require_root_ () {
+> +	[ $(id -u) = 0 ] || exit 77;
+> +}
+> +
+> +expensive_ () {
+> +	:
+> +}
+> +
+> +export -f fu_path_prepend_
+> +export -f print_ver_
+> +export -f skip_if_root_
+> +export -f require_root_
+> +export -f expensive_
+> +
+> +
+> +for f in tests/*/*.sh; do
+> +	bash $f ;
+> +	case $? in
+> +		0 )
+> +			echo -n "PASS";;
+> +		77 )
+> +			echo -n "SKIP";;
+> +		* )
+> +			echo -n "FAIL";;
+> +	esac
+> +	echo ": $f"
+> +done
+> +
+> +#remove symlink
+> +rm -f /tmp/oldfind
+> +
+> +echo
+> diff --git a/meta/recipes-extended/findutils/findutils_4.8.0.bb b/meta/recipes-extended/findutils/findutils_4.8.0.bb
+> index 675e53c0da..356fb05be6 100644
+> --- a/meta/recipes-extended/findutils/findutils_4.8.0.bb
+> +++ b/meta/recipes-extended/findutils/findutils_4.8.0.bb
+> @@ -12,3 +12,14 @@ SRC_URI[sha256sum] = "57127b7e97d91282c6ace556378d5455a9509898297e46e10443016ea1
+>  CACHED_CONFIGUREVARS += "gl_cv_func_wcwidth_works=yes"
+>  
+>  EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
+> +
+> +RDEPENDS:${PN}-ptest += "bash sed grep"
+> +
+> +do_install_ptest:class-target() {
+> +	mkdir -p ${D}${PTEST_PATH}/tests/
+> +	cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> +
+> +	# substitute value in run-ptest with actual version
+> +	sed -i -e 's/__run_ptest_version__/${PV}/' ${D}${PTEST_PATH}/run-ptest
+> +
+> +}
+> -- 
+> 2.25.1
+> 
+
+> 
+> 
+> 
 
 
-Due to custom option parser implementation weston accepts only one
-argument of a given type. As the result if multiple modules add
-multiple --modules agruments only last will be used. This fix
-introduces wrapper around modules in terms of weston-init to 
-prepare
-proper modules argument for weston and adds systemd-notify module 
-into
-weston-init module to support Type=notify in systemd service file.
-
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
----
- .../recipes-graphics/wayland/weston-init/weston-start | 11 
- +++++++++++
- .../wayland/weston/systemd-notify.weston-start        |  9 
- +++++++++
- meta/recipes-graphics/wayland/weston_9.0.0.bb         |  5 +++++
- 3 files changed, 25 insertions(+)
- create mode 100644 
- meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-
-diff --git 
-a/meta/recipes-graphics/wayland/weston-init/weston-start 
-b/meta/recipes-graphics/wayland/weston-init/weston-start
-index 0b93dc964a..0f1bc4c29d 100755
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-@@ -21,6 +21,14 @@ add_weston_argument() {
- # Add openvt extra argument
- add_openvt_argument() {
- 	openvt_args="$openvt_args $1"
-+
-+}
-+## Add module to --modules argument
-+add_weston_module() {
-+	if [[ "x${weston_modules}" == "x" ]]; then
-+		weston_modules="--modules "
-+	fi;
-+	weston_modules+="${1},"
- }
- 
- if [ -n "$WAYLAND_DISPLAY" ]; then
-@@ -68,6 +76,9 @@ if [ -d "$modules_dir" ]; then
- 
- 		# process module
- 		. $m
-+		if [[ x"{$weston_modules}" != "x" ]]; then
-+			add_weston_argument "${weston_modules}"
-+		fi;
- 	done
- fi
- 
-diff --git 
-a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start 
-b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-new file mode 100644
-index 0000000000..a97e7b38d9
---- /dev/null
-+++ 
-b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-@@ -0,0 +1,9 @@
-+#!/bin/sh
-+  
-+# SPDX-FileCopyrightText: Huawei Inc.
-+# SPDX-License-Identifier: Apache-2.0
-+
-+
-+if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
-+        add_weston_module "systemd-notify.so"
-+fi
-diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb 
-b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-index 1f1d62ea7c..59ab217a3b 100644
---- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-@@ -9,6 +9,7 @@ SRC_URI = 
-"https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop \
-            file://xwayland.weston-start \
-+           file://systemd-notify.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch 
-            \
-            file://0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch 
-            \
-            file://0001-meson.build-fix-incorrect-header.patch \
-@@ -111,6 +112,10 @@ do_install:append() {
- 		install -Dm 644 ${WORKDIR}/xwayland.weston-start 
- ${D}${datadir}/weston-start/xwayland
- 	fi
- 
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 
-'yes', 'no', d)}" = "yes" ]; then
-+		install -Dm 644 
-${WORKDIR}/systemd-notify.weston-start 
-${D}${datadir}/weston-start/systemd-notify
-+	fi
-+
- 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 
- 'yes', 'no', d)}" = "yes" ]; then
- 		chmod u+s ${D}${bindir}/weston-launch
- 	fi
 -- 
-2.31.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
