@@ -1,421 +1,263 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.15614.1631124107700075010
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web08.17434.1631131733961418341
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 11:01:48 -0700
+ Wed, 08 Sep 2021 13:08:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VaSr5y8a;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id u16so4560949wrn.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 11:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pKYi0n6StOL13ZddcFN4KzodXGZs9gTV+AlCylnMJWA=;
-        b=VaSr5y8aMN6QNWxWsJcn+5ZcaKWibkT1NIsn7XiV+cSZysIv71R8zogF/x1S6kFriy
-         KB/KNdcc1D6QjD+85bVsfOITKTSwH+HGOResJrBytYJR8zfsUoL9Wkin4FPHrg5rUQeW
-         WUT9JnF2kh5Dr03f4rZxWuzfHSlSLMjWU+36w1v9jjoPjQF1uw1Wn2GL7xBi3nczVbnt
-         dAm4+IUpaZ9VySW4KrRt86Tdj1twkDF2g6HWVCTwvEfERxu9wjEWW7IUR49uGZzobDmA
-         ZuE2h3mo1TnjulbbogtDtR4g8fXEmk6qXGvHIAPOSEBeXkXAjOzGWRKELljmVphnRmGz
-         7i8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pKYi0n6StOL13ZddcFN4KzodXGZs9gTV+AlCylnMJWA=;
-        b=fsk+JSvnM1IzweOVus0uTQdmxupq4kqgUNJ646c9uI3VO2rkXxZoVrXsQbej0PXDdt
-         qLVJapHajP66VloITQEtkWnp0r6b6kXLI8ZWHgPp7SNhlPDp4wSdcqhi0PCqSXtL7dJl
-         Gw/supANSsnU8JqB8PSkIdPU/DusHKrPaflRBAla5K/46U15SeGKpAYuUKvICglfp4WT
-         9rXpDu2seWtCU5BXAjqvQc5W6Whjenx/MJp6uCuh2F9r+HlW5VuVL4RymHWp5hWT9Y6X
-         FkxHR+UuQ/MaKU7C+IuvcWdaMY6vvsq9htu+kcKukQebxTESaIsy6S7okfb+rtXZHk6P
-         RZmA==
-X-Gm-Message-State: AOAM533Qm6MZpMWxTWyPaJcGPMqb79MHRz4QazWdSxSelLqYpWy/NGmh
-	yBeLDFDtLWpHthkii4WfG2squKJEq3w=
-X-Google-Smtp-Source: ABdhPJyN/FBnj7uHRVkannvtiOOTqMmkQdTl4BTFAH+Ar3OUX3w6/+MNzgbvYLtiZr9qR22IzWn+7w==
-X-Received: by 2002:adf:e0cd:: with SMTP id m13mr5481690wri.137.1631124106244;
-        Wed, 08 Sep 2021 11:01:46 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:29b:3b00:d35d:e3cf:58b5:748b])
-        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 11:01:45 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=GEiFuiLg;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=488573eb99=trevor.gamblin@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 188JkAKi004955
+	for <openembedded-core@lists.openembedded.org>; Wed, 8 Sep 2021 20:08:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=0XyYcUbkQ9iTUQMn5RLie++qzQaF1vlsJ0RkZ/gJMBU=;
+ b=GEiFuiLgqk05YAaDRctULfXRUOzG+6sry/DFfM/seNhN602qTW/L2eKlot+fsCXEjFXX
+ t432uT5hjAQxxKp9tXQCrWWSY2QxUalQDbM2BiXX3BoQ6nDEAne5/bbfo5sQDvF8Cgpj
+ 3H/Fq+l3l2SzNFuYnHOsxMEYuHGCZQLrY9lDtO6YD6ALUwflfjMhBdeR5GLw0mO5rxuD
+ w0l+NHq2UanLfpNjJDymWV6CoLWLfQLum+umKpSVgCjEL/BUYEc94A4nXKWodiDhz51G
+ 2GHwMpIY0rnQO1ORQM3ptzdT5Le+Lj4CNoHddigzk8ighggefy66T5jGM43v+L+juAz7 Ig== 
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2048.outbound.protection.outlook.com [104.47.51.48])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3axcmtgxxb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 20:08:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NnfvpIJOtDkqT5tlVqpLPJR8/kl5LdC3haVWt1B/ktXyLoySGpBVvENYimYSLEnJ6bi3+29H3yBY61mbXund+g8LSpQ4n9g1okADAxrs+CtKFHjgO6D2evc2AZWsNOunIwsgUkY3BQFyMJ/Gudz2vl6N2aGnN1MNfFwfF+4o9tM+fTyicySuhe6bh3yaNAe1O0o1Ls5KuqI6Q/hDkVIvDFa9uqnFHX6I9HDwEcOWvrtw/pN7167wG6opIklGDgEvFSi3WEzEEeqN85zf29f6WDlbkSghjtDAUv/HufHp0zrAuVB2eUFBZJ0Wg04WT2ufxipnoY5Vt/+zXn8YO/LWNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=0XyYcUbkQ9iTUQMn5RLie++qzQaF1vlsJ0RkZ/gJMBU=;
+ b=iAV8dQH7IkA3z9Prif/SdhyG7qk1ZzeA6e1pN6B5p+cGE7aZ8hUBYAq1q5fuX3s9Iq63wWiuEkrCvqYIqZEiuewnnphQW+ps7a+lZ5rql5CW6MWRmUWNVFQNSq9wOkmB7besTxT2WY/g5N/t9GU2kVa6uekDd9zz279ndHry7yZW9LxUfyReHolX6TMhHeLLhWzzY6iF8WaO38FowHRgvbar8Kl8swCETA2nkzux8f5dDsNgm0V4QFDx080TS9z7snFon6+Y2zwMOuEXuw+UKe4FzJsNRfSIa6FP8fM1ASgsGHzsEPkzWlkZqDHvyqxiEK922cMNFqkAoCP1ipEV6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
+ by SJ0PR11MB5006.namprd11.prod.outlook.com (2603:10b6:a03:2db::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Wed, 8 Sep
+ 2021 20:08:50 +0000
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::fdd3:dc0f:a385:34d1]) by BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::fdd3:dc0f:a385:34d1%4]) with mapi id 15.20.4478.025; Wed, 8 Sep 2021
+ 20:08:50 +0000
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 26/26] libssh2: update 1.9.0 -> 1.10.0
-Date: Wed,  8 Sep 2021 20:01:25 +0200
-Message-Id: <20210908180125.103473-26-alex.kanavin@gmail.com>
+Subject: [OE-core][hardknott][PATCH] bluez5: fix CVE-2021-0129
+Date: Wed,  8 Sep 2021 16:08:33 -0400
+Message-Id: <20210908200833.1070143-1-trevor.gamblin@windriver.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210908180125.103473-1-alex.kanavin@gmail.com>
-References: <20210908180125.103473-1-alex.kanavin@gmail.com>
+X-ClientProxiedBy: YTXPR0101CA0069.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::46) To BY5PR11MB3909.namprd11.prod.outlook.com
+ (2603:10b6:a03:191::13)
 MIME-Version: 1.0
+Received: from yow-tgamblin-lx3.corp.ad.wrs.com (2607:fea8:c29d:d7c0:fa88:8bc5:c0d2:27cc) by YTXPR0101CA0069.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::46) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Wed, 8 Sep 2021 20:08:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da63c716-3305-40a2-2113-08d9730478d1
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5006:
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR11MB5006EB2F5C05B9CDBE774C9A9FD49@SJ0PR11MB5006.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	MFoXwBT2vlO43HOscbSVBjtH4EmqSNJCmO3IUm59fnRSO0U5l07IjOfLyALBCht4+ZL3otUlOzQIdjv2BCqIt6WJA1RLu+ue8vAvT2oRxYfcQXleApNGjyvvCv1UvTT3gNT4SY6xjVHOqI8+C8WNv8+2RoiBbkhVm7xsEHWsRyvAu/QeJzODJzFWhxh/cqFx8ZaWHmJBXpBe9Yy9gzEE1kfACA9QitQHoc242FMehnnL8xCAzJPQbmBIef2WpOjz7a55URfF4IdUn/2ZNaWkPooZKYlqskGYL9+4A4okyCcsu9p752Qa7JbinhnJG8OFAAe7vwWyJWoAABVOgHNMzvdCHmxZtcdkCC/NXZsfU3iT9loOuPYlk9+zWGRxLTIuHdsSyNg78q/jQbHNMJwpHQWYKCE67hFjc+a1fdk3q7t+4z2ui9+yqJUmZjzlS6j1uUmasgHj5UNlOXzWeqocr1mWK88BhTsImmQ+qrzZUirUMtFRpyA9pUeEpMKMD6usMCJTjL557dKkHtdrii//d99lKO8vnrW3i8NkqOVNxbgKnLKRM4reXcGtejMWzsKPcRONycnIdMRWEDEpky4t/USXAoRgJ6HfeZPIItClsLMnV406ezXow1l9jSuSs2YXuKd9tnTQ+Rarfcrmfjs9d5RmtMC/kvcQXavonGzPteDdnaGuVtyYXz71ooWW1rEotEOvJKbswQZemQLcv8Z9bTRdQtZnR4KZqF0XeqKDd/8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39850400004)(346002)(366004)(136003)(396003)(86362001)(52116002)(66476007)(66556008)(6916009)(38100700002)(1076003)(5660300002)(83380400001)(6486002)(8676002)(478600001)(44832011)(316002)(2616005)(66946007)(186003)(36756003)(2906002)(6666004)(6512007)(8936002)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?XPYt8FtKaKQtny+iSy8yiDSPWQJDLdF6mgx6ovo4W03dwKi7UHTGxO3aakPt?=
+ =?us-ascii?Q?CXq91YvZg/4Zk+bQ+lf+cpuUf2VnawtgfwbvwhkayP5q68M8ruwUT6BP43uQ?=
+ =?us-ascii?Q?ZXqlVfiAWjRkbMroCotzj4zHw/tVVvdRmZBBT0PTLJ2OvQ8F+9J9un+hjv/z?=
+ =?us-ascii?Q?8mQ7I9FZwgXv2e+MCjpqxNwXFnO2SlZZPTTOSrOP0NDh4c5mwFHB27esNPyw?=
+ =?us-ascii?Q?tBg44aUerSvYO34nZ5p5gIui4eB5MPH0k8bPUhnC19OuApcI/0bA57tBE4eU?=
+ =?us-ascii?Q?uEuNRFSLsaLGOR6LmakK3M/y5mgTQ+elHUgSET3rbQ7kfc6QlDWJLrnn/MH7?=
+ =?us-ascii?Q?oJxHepomXHMkcofVBP3uTkrBO/VGncn//M1NHLJHiuTFNIIrIRdruPz4GSql?=
+ =?us-ascii?Q?QAcHfcswrC2hEu4C5q3MtdhgG1bvWxmPuQDiefD3v1e+8oDjVtNLWDsQrOQ3?=
+ =?us-ascii?Q?8HftDwScg7CeGpoJJyV5O0hKUFhBTJ/RlJizIYIj0/qijBxC8p76xLA3rDIc?=
+ =?us-ascii?Q?eMGMiiHH8lPDtmUNCdvWEvPQ3BXdOrCPKx8XMws+QR4AJV73DQh5KHO1+9XQ?=
+ =?us-ascii?Q?Qj8jPzEoAJ3P91TbZfopYo8R35tiLKjOEVll5TtXyRSjFeoUAABcB4O+hmZB?=
+ =?us-ascii?Q?/lCc3fvAl7bZVs0s3+CTrUkJ9M4tfebQfiJLnQEO4xJdiTurD3yIROEKeWy/?=
+ =?us-ascii?Q?BQBJTPeEfwPV3HMAtj/Ik0rQH0uk+Z7ya4d0wU6+KPX13D+rgfAMy7pUOktI?=
+ =?us-ascii?Q?eP3Z9QJRarOy/O4dKXYqqKhTaRQO27+u9xeKHx+HKxvJztCoPPEj4kZce8/f?=
+ =?us-ascii?Q?S/6jUonKePvcD8brd8r8qeYuNjf4YtX9oHiXD5MeymaxCoxXEssphcwjWFjw?=
+ =?us-ascii?Q?nAEnRvs+D8YtGUv+gS98CdywhWa6UK3sP/pCG73hZxu6umgBS3c5dMgpzqOX?=
+ =?us-ascii?Q?DwXefTVXMVGfPIdxLL37virqlKCT+k0aIEKbMGcob7YpVbDZbKT+aBf7Wi3E?=
+ =?us-ascii?Q?k5XE0oXFbtUaPhI08e2dHtV4vURWGWwenpPq7+lUnZd4n3eJmHe8fGcEwvBX?=
+ =?us-ascii?Q?iBjDMb5dngXuyVjMVrVv7+BI00cFqd2AbYZInAIr+iNE1OzoU6Br1zJdEzGA?=
+ =?us-ascii?Q?DSiiTotxILsyQbUpjWWICixFelF9UJZHa784e+g74fVWlUxWknbvs96vfYMb?=
+ =?us-ascii?Q?waFcReYY/9SjsAjok9uheLy1QzjXQv1QBjkqafd+rA/8kS+Zc7zRHU5Cfia1?=
+ =?us-ascii?Q?+4bHhFgP1WnoCRs53SlB7/mFBHGMcgoq31UV7nOYFaZ7DmedQCHo2l2O11zE?=
+ =?us-ascii?Q?ZlVeNR3/QPGs1eOPCg+l7JPkAzNjnohn+mDYfe3i4UzDjINCF3fVBBLpTLBO?=
+ =?us-ascii?Q?0KOPfBYr1c+ZEEVeZ/U7zs/0R/Pq?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da63c716-3305-40a2-2113-08d9730478d1
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2021 20:08:50.0416
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y3+2Vodb2mD3t3VfVDhilarGQbESAWj3nYwf/7br2frEHkMRuTOpc002ZH8SJa6aUjLcEZUabsxOqdgL1TxPOCao2LJcF1CllveqSbku9Qg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5006
+X-Proofpoint-ORIG-GUID: Jwrz-dhVakE2-RG8xDThPXcYQeHM-43N
+X-Proofpoint-GUID: Jwrz-dhVakE2-RG8xDThPXcYQeHM-43N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-08_06,2021-09-07_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ spamscore=0 adultscore=0 phishscore=0 clxscore=1015 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109080127
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Alexander Kanavin <alex@linutronix.de>
+Backport a fix from version 5.57 rather than doing an uprev, since there
+appear to be some minor functional changes between our current version
+and that version, despite the changelog only listing fixes.
 
-0001-configure-Conditionally-undefine-backend-m4-macro.patch no
-longer needed; code removed upstream.
-
-License-Update: copyright years
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- ...nviroment-to-decide-if-a-test-is-bui.patch |   6 +-
- ...ditionally-undefine-backend-m4-macro.patch |  30 ----
- ...EC-macro-outside-of-if-check-549-550.patch | 112 ---------------
- .../libssh2/files/CVE-2019-17498.patch        | 131 ------------------
- .../{libssh2_1.9.0.bb => libssh2_1.10.0.bb}   |  10 +-
- 5 files changed, 5 insertions(+), 284 deletions(-)
- delete mode 100644 meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch
- delete mode 100644 meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
- delete mode 100644 meta/recipes-support/libssh2/files/CVE-2019-17498.patch
- rename meta/recipes-support/libssh2/{libssh2_1.9.0.bb => libssh2_1.10.0.bb} (78%)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...er-Fix-not-properly-checking-for-sec.patch | 113 ++++++++++++++++++
+ 2 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
 
-diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
-index 5ff9bf8462..b1204e49eb 100644
---- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
-+++ b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
-@@ -1,4 +1,4 @@
--From f9e3e2ee7b18ba5bb8efe083171f3e701eb0a663 Mon Sep 17 00:00:00 2001
-+From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
- From: Your Name <you@example.com>
- Date: Mon, 28 Dec 2020 02:08:03 +0000
- Subject: [PATCH] Don't let host enviroment to decide if a test is build
-@@ -9,6 +9,7 @@ don't use SSHD on host to decide weither to build a test
- Upstream-Status: Inappropriate[oe specific]
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index a7b628ce1b..7f0ff6474b 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -52,6 +52,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
++           file://0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
  
- Signed-off-by: Changqing Li <changqing.li@windriver.com>
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
+new file mode 100644
+index 0000000000..422fd211ca
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
+@@ -0,0 +1,113 @@
++From 00da0fb4972cf59e1c075f313da81ea549cb8738 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Tue, 2 Mar 2021 11:38:33 -0800
++Subject: [PATCH] shared/gatt-server: Fix not properly checking for secure
++ flags
 +
- ---
-  tests/Makefile.am | 6 +-----
-  1 file changed, 1 insertion(+), 5 deletions(-)
-@@ -41,6 +42,3 @@ index dc0922f..6cbc35d 100644
- -endif
- \ No newline at end of file
- +endif
---- 
--2.20.1
--
-diff --git a/meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch b/meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch
-deleted file mode 100644
-index 1128c7ea0c..0000000000
---- a/meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From efe7101786193eaddb749c0583af6b54aec6f289 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 2 Feb 2021 18:45:16 -0800
--Subject: [PATCH] configure: Conditionally undefine backend m4 macro
--
--Unlike the M4 builtin, this macro fails if macro is not defined
--therefore recover the behavior of the builtin.
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index fe5054a..758f8c2 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -127,7 +127,7 @@ fi
-- m4_set_foreach([crypto_backends], [backend],
--   [AM_CONDITIONAL(m4_toupper(backend), test "$found_crypto" = "backend")]
-- )
---m4_undefine([backend])
--+m4_ifdef([backend], [m4_undefine([backend])])
-- 
-- 
-- # libz
---- 
--2.30.0
--
-diff --git a/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch b/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
-deleted file mode 100644
-index b331c1bf81..0000000000
---- a/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
-+++ /dev/null
-@@ -1,112 +0,0 @@
--From 1f76151c92e1b52e9c24ebf06adc77fbd6c062bc Mon Sep 17 00:00:00 2001
--From: Will Cosgrove <will@panic.com>
--Date: Tue, 26 Jan 2021 11:41:21 -0800
--Subject: [PATCH] kex.c: move EC macro outside of if check #549 (#550)
--
--File: kex.c
--
--Notes:
--Moved the macro LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY outside of the LIBSSH2_ECDSA since it's also now used by the ED25519 code.
--
--Sha 256, 384 and 512 need to be defined for all backends now even if they aren't used directly. I believe this is already the case, but just a heads up.
--
--Credit:
--Stefan-Ghinea
--
--Upstream-Status: Backport
--
--Reference to upstream patch:
--https://github.com/libssh2/libssh2/commit/1f76151c92e1b52e9c24ebf06adc77fbd6c062bc
--
--Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-----
-- src/kex.c | 66 +++++++++++++++++++++++++++----------------------------
-- 1 file changed, 33 insertions(+), 33 deletions(-)
--
--diff --git a/src/kex.c b/src/kex.c
--index cb16639..19ab6ec 100644
----- a/src/kex.c
--+++ b/src/kex.c
--@@ -1885,39 +1885,6 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
-- }
-- 
-- 
---#if LIBSSH2_ECDSA
---
---/* kex_session_ecdh_curve_type
--- * returns the EC curve type by name used in key exchange
--- */
---
---static int
---kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
---{
---    int ret = 0;
---    libssh2_curve_type type;
---
---    if(name == NULL)
---        return -1;
---
---    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
---        type = LIBSSH2_EC_CURVE_NISTP256;
---    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
---        type = LIBSSH2_EC_CURVE_NISTP384;
---    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
---        type = LIBSSH2_EC_CURVE_NISTP521;
---    else {
---        ret = -1;
---    }
---
---    if(ret == 0 && out_type) {
---        *out_type = type;
---    }
---
---    return ret;
---}
---
---
-- /* LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY
--  *
--  * Macro that create and verifies EC SHA hash with a given digest bytes
--@@ -2027,6 +1994,39 @@ kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
-- }                                                                       \
-- 
-- 
--+#if LIBSSH2_ECDSA
--+
--+/* kex_session_ecdh_curve_type
--+ * returns the EC curve type by name used in key exchange
--+ */
--+
--+static int
--+kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
--+{
--+    int ret = 0;
--+    libssh2_curve_type type;
--+
--+    if(name == NULL)
--+        return -1;
--+
--+    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
--+        type = LIBSSH2_EC_CURVE_NISTP256;
--+    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
--+        type = LIBSSH2_EC_CURVE_NISTP384;
--+    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
--+        type = LIBSSH2_EC_CURVE_NISTP521;
--+    else {
--+        ret = -1;
--+    }
--+
--+    if(ret == 0 && out_type) {
--+        *out_type = type;
--+    }
--+
--+    return ret;
--+}
--+
--+
-- /* ecdh_sha2_nistp
--  * Elliptic Curve Diffie Hellman Key Exchange
--  */
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/libssh2/files/CVE-2019-17498.patch b/meta/recipes-support/libssh2/files/CVE-2019-17498.patch
-deleted file mode 100644
-index 001080072b..0000000000
---- a/meta/recipes-support/libssh2/files/CVE-2019-17498.patch
-+++ /dev/null
-@@ -1,131 +0,0 @@
--From dedcbd106f8e52d5586b0205bc7677e4c9868f9c Mon Sep 17 00:00:00 2001
--From: Will Cosgrove <will@panic.com>
--Date: Fri, 30 Aug 2019 09:57:38 -0700
--Subject: [PATCH] packet.c: improve message parsing (#402)
--
--* packet.c: improve parsing of packets
--
--file: packet.c
--
--notes:
--Use _libssh2_get_string API in SSH_MSG_DEBUG/SSH_MSG_DISCONNECT. Additional uint32 bounds check in SSH_MSG_GLOBAL_REQUEST.
--
--Upstream-Status: Backport
--CVE: CVE-2019-17498
--Signed-off-by: Li Zhou <li.zhou@windriver.com>
-----
-- src/packet.c | 68 ++++++++++++++++++++++------------------------------
-- 1 file changed, 29 insertions(+), 39 deletions(-)
--
--diff --git a/src/packet.c b/src/packet.c
--index 38ab629..2e01bfc 100644
----- a/src/packet.c
--+++ b/src/packet.c
--@@ -419,8 +419,8 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
--                     size_t datalen, int macstate)
-- {
--     int rc = 0;
---    char *message = NULL;
---    char *language = NULL;
--+    unsigned char *message = NULL;
--+    unsigned char *language = NULL;
--     size_t message_len = 0;
--     size_t language_len = 0;
--     LIBSSH2_CHANNEL *channelp = NULL;
--@@ -472,33 +472,23 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
-- 
--         case SSH_MSG_DISCONNECT:
--             if(datalen >= 5) {
---                size_t reason = _libssh2_ntohu32(data + 1);
--+                uint32_t reason = 0;
--+                struct string_buf buf;
--+                buf.data = (unsigned char *)data;
--+                buf.dataptr = buf.data;
--+                buf.len = datalen;
--+                buf.dataptr++; /* advance past type */
-- 
---                if(datalen >= 9) {
---                    message_len = _libssh2_ntohu32(data + 5);
--+                _libssh2_get_u32(&buf, &reason);
--+                _libssh2_get_string(&buf, &message, &message_len);
--+                _libssh2_get_string(&buf, &language, &language_len);
-- 
---                    if(message_len < datalen-13) {
---                        /* 9 = packet_type(1) + reason(4) + message_len(4) */
---                        message = (char *) data + 9;
---
---                        language_len =
---                            _libssh2_ntohu32(data + 9 + message_len);
---                        language = (char *) data + 9 + message_len + 4;
---
---                        if(language_len > (datalen-13-message_len)) {
---                            /* bad input, clear info */
---                            language = message = NULL;
---                            language_len = message_len = 0;
---                        }
---                    }
---                    else
---                        /* bad size, clear it */
---                        message_len = 0;
---                }
--                 if(session->ssh_msg_disconnect) {
---                    LIBSSH2_DISCONNECT(session, reason, message,
---                                       message_len, language, language_len);
--+                    LIBSSH2_DISCONNECT(session, reason, (const char *)message,
--+                                       message_len, (const char *)language,
--+                                       language_len);
--                 }
--+
--                 _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
--                                "Disconnect(%d): %s(%s)", reason,
--                                message, language);
--@@ -539,24 +529,24 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
--                 int always_display = data[1];
-- 
--                 if(datalen >= 6) {
---                    message_len = _libssh2_ntohu32(data + 2);
---
---                    if(message_len <= (datalen - 10)) {
---                        /* 6 = packet_type(1) + display(1) + message_len(4) */
---                        message = (char *) data + 6;
---                        language_len = _libssh2_ntohu32(data + 6 +
---                                                        message_len);
---
---                        if(language_len <= (datalen - 10 - message_len))
---                            language = (char *) data + 10 + message_len;
---                    }
--+                    struct string_buf buf;
--+                    buf.data = (unsigned char *)data;
--+                    buf.dataptr = buf.data;
--+                    buf.len = datalen;
--+                    buf.dataptr += 2; /* advance past type & always display */
--+
--+                    _libssh2_get_string(&buf, &message, &message_len);
--+                    _libssh2_get_string(&buf, &language, &language_len);
--                 }
-- 
--                 if(session->ssh_msg_debug) {
---                    LIBSSH2_DEBUG(session, always_display, message,
---                                  message_len, language, language_len);
--+                    LIBSSH2_DEBUG(session, always_display,
--+                                  (const char *)message,
--+                                  message_len, (const char *)language,
--+                                  language_len);
--                 }
--             }
--+
--             /*
--              * _libssh2_debug will actually truncate this for us so
--              * that it's not an inordinate about of data
--@@ -579,7 +569,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
--                 uint32_t len = 0;
--                 unsigned char want_reply = 0;
--                 len = _libssh2_ntohu32(data + 1);
---                if(datalen >= (6 + len)) {
--+                if((len <= (UINT_MAX - 6)) && (datalen >= (6 + len))) {
--                     want_reply = data[5 + len];
--                     _libssh2_debug(session,
--                                    LIBSSH2_TRACE_CONN,
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/libssh2/libssh2_1.9.0.bb b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
-similarity index 78%
-rename from meta/recipes-support/libssh2/libssh2_1.9.0.bb
-rename to meta/recipes-support/libssh2/libssh2_1.10.0.bb
-index a0cbb6af6b..072d6819c0 100644
---- a/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
-@@ -5,19 +5,15 @@ SECTION = "libs"
- DEPENDS = "zlib"
- 
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://COPYING;md5=c5cf34fc0acb44b082ef50ef5e4354ca"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3e089ad0cf27edf1e7f261dfcd06acc7"
- 
- SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
--           file://CVE-2019-17498.patch \
--           file://0001-configure-Conditionally-undefine-backend-m4-macro.patch \
-            file://run-ptest \
--           file://0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch \
--"
-+           "
- 
- SRC_URI:append:ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
- 
--SRC_URI[md5sum] = "1beefafe8963982adc84b408b2959927"
--SRC_URI[sha256sum] = "d5fb8bd563305fd1074dda90bd053fb2d29fc4bce048d182f96eaa466dfadafd"
-+SRC_URI[sha256sum] = "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
- 
- inherit autotools pkgconfig ptest
- 
++When passing the mask to check_permissions all valid permissions for
++the operation must be set including BT_ATT_PERM_SECURE flags.
++
++Upstream-Status: Backport
++(https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=00da0fb4972cf59e1c075f313da81ea549cb8738)
++
++CVE: CVE-2021-0129
++
++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++---
++ src/shared/att-types.h   |  8 ++++++++
++ src/shared/gatt-server.c | 25 +++++++------------------
++ 2 files changed, 15 insertions(+), 18 deletions(-)
++
++diff --git a/src/shared/att-types.h b/src/shared/att-types.h
++index 7108b4e94..3adc05d9e 100644
++--- a/src/shared/att-types.h
+++++ b/src/shared/att-types.h
++@@ -129,6 +129,14 @@ struct bt_att_pdu_error_rsp {
++ #define BT_ATT_PERM_WRITE_SECURE	0x0200
++ #define BT_ATT_PERM_SECURE		(BT_ATT_PERM_READ_SECURE | \
++ 					BT_ATT_PERM_WRITE_SECURE)
+++#define BT_ATT_PERM_READ_MASK		(BT_ATT_PERM_READ | \
+++					BT_ATT_PERM_READ_AUTHEN | \
+++					BT_ATT_PERM_READ_ENCRYPT | \
+++					BT_ATT_PERM_READ_SECURE)
+++#define BT_ATT_PERM_WRITE_MASK		(BT_ATT_PERM_WRITE | \
+++					BT_ATT_PERM_WRITE_AUTHEN | \
+++					BT_ATT_PERM_WRITE_ENCRYPT | \
+++					BT_ATT_PERM_WRITE_SECURE)
++ 
++ /* GATT Characteristic Properties Bitfield values */
++ #define BT_GATT_CHRC_PROP_BROADCAST			0x01
++diff --git a/src/shared/gatt-server.c b/src/shared/gatt-server.c
++index b5f7de7dc..970c35f94 100644
++--- a/src/shared/gatt-server.c
+++++ b/src/shared/gatt-server.c
++@@ -444,9 +444,7 @@ static void process_read_by_type(struct async_read_op *op)
++ 		return;
++ 	}
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -811,9 +809,7 @@ static void write_cb(struct bt_att_chan *chan, uint8_t opcode, const void *pdu,
++ 				(opcode == BT_ATT_OP_WRITE_REQ) ? "Req" : "Cmd",
++ 				handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE |
++-						BT_ATT_PERM_WRITE_AUTHEN |
++-						BT_ATT_PERM_WRITE_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -913,9 +909,7 @@ static void handle_read_req(struct bt_att_chan *chan,
++ 			opcode == BT_ATT_OP_READ_BLOB_REQ ? "Blob " : "",
++ 			handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1051,9 +1045,8 @@ static void read_multiple_complete_cb(struct gatt_db_attribute *attr, int err,
++ 		goto error;
++ 	}
++ 
++-	ecode = check_permissions(data->server, next_attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(data->server, next_attr,
+++						BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1129,9 +1122,7 @@ static void read_multiple_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 		goto error;
++ 	}
++ 
++-	ecode = check_permissions(data->server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(data->server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1308,9 +1299,7 @@ static void prep_write_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 	util_debug(server->debug_callback, server->debug_data,
++ 				"Prep Write Req - handle: 0x%04x", handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE |
++-						BT_ATT_PERM_WRITE_AUTHEN |
++-						BT_ATT_PERM_WRITE_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++-- 
++2.31.1
++
 -- 
 2.31.1
 
