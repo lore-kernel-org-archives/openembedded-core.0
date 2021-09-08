@@ -1,544 +1,118 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.15371.1631124094214774068
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.15372.1631124094775639902
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 11:01:34 -0700
+ Wed, 08 Sep 2021 11:01:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=U00l+2Gs;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id n5so4508913wro.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 11:01:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LwgM11qC;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id z4so4549534wrr.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 11:01:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xt6WTJEq6TcdPkOWOdTaLj19Kf5S1MANm132o+VHGws=;
-        b=U00l+2Gst8m2SBLIQ5wtDv3A9p+P36O5TmVKL4BbZQ7kBsM7/vBIjROpbh3Xdfa0KQ
-         UwNRGHPOZYGkBogmf3TI/bJP65VGznvfJcjZZBhciPCQa4ManKX6ZzZlLsj2ABEUkcs7
-         cEk4sYMxo8a5JmxUZ2ca/vdcBXhkqqhQiAstsxFg04ldE07PsVEZR2kATHLPyd7JOnee
-         cIMZKqJb/rcFPreYk0ewWcf1osmHwER7NWWweDEIcNJff9qd8U4pAk2qq5HeWbIWv1qy
-         ymfoR7v7nLfvxjfz6i75GD9ubFIyR1m47D/WXv/p/yXbvJTA1yLpGWMBjGvGNq5A35F+
-         mEgQ==
+        bh=LvlQU+8Uc6P49+HTnljlcVRLSed2brfSUAhfqS3Mbxc=;
+        b=LwgM11qCRTWewl3oPBuX4OaGnNy93Jf2GlRs08+2V0oTVSRRvPvYeQglj4snCkkvXA
+         3z53t/c/pzPW7aYdAM1XQEE0kcESJ9dGhiTNBuUnoCwNF1H0Af+MPOrDfVr5oaSsqF+F
+         nxy8MfM0qaxm5HNlj+o3aZhiAX1mCURdlRuAkLDKphaDzCYiHpKN9TZcEdwjoFlzl+74
+         YudG6phsz+N7uf02PV5ex3MtYA0lCvbA2PLxnD35ocSPVVF1n7wpM/vTL+5GOvfNgxeH
+         TJxNxVWFAzs85V1EzQ0Wq90dNURacoAx6kpc9lp91UkR0IBx+Oei5M7d6xx/mLKX7G9H
+         oeQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xt6WTJEq6TcdPkOWOdTaLj19Kf5S1MANm132o+VHGws=;
-        b=WxZ/+qV2c5SUvcNpjpF4l+Qo5SryT+BDcXdxGfTRmpztEmh7O/qOuRr7E9NYUFth29
-         ZWNc7NnRRaI1AnDhecPd1w3+bOapVgBaAfS5mSuCHUTNlP3wjrwdGqgVGef1liA/t35i
-         QyQpwUiX3jw8SZq+EKhkfkHOhZPHE5PutwYk3ApHoheKCTBKSCM/NtgOcmTHIHrSwfqA
-         SAsz49bPA/43WFriiD8/Q7QVCJ236XNI3SwGAogx1QcZpgdff7Ae6xDmqtXRE3GB+RXR
-         Cd9eSZ/3+oJKXsAiC3Oz8Am9RSKTKah7zkigM54jbQZt1oUw4IH+vPkSw0XeF/R8raqA
-         fbUA==
-X-Gm-Message-State: AOAM530onI+tNiBIWcGVVBtZyk4aFD0e84pvLeHPp9Ob4GKSwa9efIjM
-	uSbCdfx4zx6adv58aP9FBjv6KFfjkCc=
-X-Google-Smtp-Source: ABdhPJwb5ApMeXoruN0eE8MjjKZp3oQeL3asnk39CJkv930EMNgl5volqQgGRhGSejjF5w7NGaBHFg==
-X-Received: by 2002:adf:df0c:: with SMTP id y12mr5468615wrl.155.1631124092557;
-        Wed, 08 Sep 2021 11:01:32 -0700 (PDT)
+        bh=LvlQU+8Uc6P49+HTnljlcVRLSed2brfSUAhfqS3Mbxc=;
+        b=qldty+0qKZ2A/mDUJkoL44iiOF0RsgQ/0+f0F6V4Z6o3kAIO0o34R6D01graqbL8qg
+         nkKr+7mI2stv93icbQuMKZnr6MmLD9cduPBlVF3gixeclc6EqZx2INDNvCprbDeBcY7s
+         n0xZIu+mMNwyndj621xiBFW5iypy2EN7eurrMrS3J5ikvyRLX3x1p+NmF9E0HvSfYY79
+         q6SiXAFwWqQjaj7srf750RRAe62RY5OtAEwtLD+sPjLfrJHN6KS/6eCUgbwd3Det6iww
+         /3rSg7HxywHe5ds3ozR0rvYcKCi9DWyrYmhiXk42n+vqtLntqUSeFT3z1e20ftwp/0iK
+         zzCQ==
+X-Gm-Message-State: AOAM5338kNqjuYy3GGFHBmW9pCJz6gK+G4e7mIVcUnMhBAV6RMl4MSvD
+	WWWy2GlGcPiOEkAfm0w9mynxe0ZQ5n8=
+X-Google-Smtp-Source: ABdhPJwgCD/rn7bReADh1Vks6b/dmxq+/f33xAMAXd6ENR8agNOzS5NACbQQMmYaw6brFhnvBihQCA==
+X-Received: by 2002:a05:6000:1081:: with SMTP id y1mr5456910wrw.415.1631124093194;
+        Wed, 08 Sep 2021 11:01:33 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:29b:3b00:d35d:e3cf:58b5:748b])
-        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.31
+        by smtp.gmail.com with ESMTPSA id s14sm2539648wmc.25.2021.09.08.11.01.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 08 Sep 2021 11:01:32 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 05/26] rpm: update 4.16.1.3 -> 4.17.0
-Date: Wed,  8 Sep 2021 20:01:04 +0200
-Message-Id: <20210908180125.103473-5-alex.kanavin@gmail.com>
+Subject: [PATCH 06/26] libdnf: fix the rpm sqlite-only target setup
+Date: Wed,  8 Sep 2021 20:01:05 +0200
+Message-Id: <20210908180125.103473-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908180125.103473-1-alex.kanavin@gmail.com>
 References: <20210908180125.103473-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The flagship features are migration from bdb to sqlite and zstd support,
-both are enabled and taken into use. The relationship and upstream preference
-between sqlite and ndb formats isn't quite clear.
-
-Lua is now a hard dependency.
-
-Added packageconfig option for r/o support for bdb (that doesn't need bdb
-itself), but not enabled it as upstream marks it EXPERIMENTAL in capital
-letters.
-
-Drop sed adjustment for a file that is not anymore installed.
-
-Adjust oeqa test to check for sqlite database instead of bdb.
-
-Drop
-0001-Fix-build-with-musl-C-library.patch (nss support removed upstream)
-0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
-(difficult to undersand and rebase; obsolete with the move to zstd)
-0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-(upstream made the same change)
-
-Portions of 0001-tools-Add-error.h-for-non-glibc-case.patch dropped
-(upstream moved the files to a separate component).
-
-Added 0001-docs-do-not-build-manpages-requires-pandoc.patch to avoid
-pandoc dependency.
-
-Added 0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
-to restore reproducibility when compression thread amount varies between hosts.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/lib/oeqa/runtime/cases/rpm.py            |  6 +-
- ...lib-rpm-as-the-installation-path-for.patch | 14 ++--
- .../0001-Fix-build-with-musl-C-library.patch  | 22 -------
- ...not-insert-payloadflags-into-.rpm-me.patch | 28 ++++++++
- ...o-not-build-manpages-requires-pandoc.patch | 26 ++++++++
- ...rict-virtual-memory-usage-if-limit-s.patch | 65 -------------------
- ...tools-Add-error.h-for-non-glibc-case.patch | 59 ++---------------
- ...hat-ELF-binaries-are-executable-to-b.patch | 33 ----------
- .../rpm/{rpm_4.16.1.3.bb => rpm_4.17.0.bb}    | 22 +++----
- 9 files changed, 81 insertions(+), 194 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
- rename meta/recipes-devtools/rpm/{rpm_4.16.1.3.bb => rpm_4.17.0.bb} (90%)
+ ...xt.cpp-do-not-try-to-access-BDB-data.patch | 37 +++++++++++++++++++
+ meta/recipes-devtools/libdnf/libdnf_0.63.1.bb |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index 7a9d62c003..a4339116bf 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -116,12 +116,12 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
-         Author:      Alexander Kanavin <alex.kanavin@gmail.com>
-         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-         """
--        db_files_cmd = 'ls /var/lib/rpm/__db.*'
-+        db_files_cmd = 'ls /var/lib/rpm/rpmdb.sqlite*'
-         check_log_cmd = "grep RPM /var/log/messages | wc -l"
- 
--        # Make sure that some database files are under /var/lib/rpm as '__db.xxx'
-+        # Make sure that some database files are under /var/lib/rpm as 'rpmdb.sqlite'
-         status, output = self.target.run(db_files_cmd)
--        msg =  'Failed to find database files under /var/lib/rpm/ as __db.xxx'
-+        msg =  'Failed to find database files under /var/lib/rpm/ as rpmdb.sqlite'
-         self.assertEqual(0, status, msg=msg)
- 
-         self.tc.target.copyTo(self.test_file, self.dst)
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index d8fcc16729..6d236ac400 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -1,4 +1,4 @@
--From 7b2dd83d8fcd06af8e583b53da79ed0033793d46 Mon Sep 17 00:00:00 2001
-+From 8d013fe154a162305f76141151baf767dd04b598 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index fe35a90fa..b2faec6f3 100644
-+index eb7d6941b..10a889b5d 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -966,7 +966,7 @@ else
-+@@ -871,7 +871,7 @@ else
-      usrprefix=$prefix
-  fi
-  
-@@ -27,10 +27,10 @@ index fe35a90fa..b2faec6f3 100644
-  
-  AC_SUBST(OBJDUMP)
- diff --git a/macros.in b/macros.in
--index 35c8cf9df..9d8b2825c 100644
-+index a1f795e5f..689e784ef 100644
- --- a/macros.in
- +++ b/macros.in
--@@ -996,7 +996,7 @@ package or when debugging this package.\
-+@@ -933,7 +933,7 @@ package or when debugging this package.\
-  %_sharedstatedir	%{_prefix}/com
-  %_localstatedir		%{_prefix}/var
-  %_lib			lib
-@@ -40,7 +40,7 @@ index 35c8cf9df..9d8b2825c 100644
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
- diff --git a/rpm.am b/rpm.am
--index 8e1dc2184..3d889ec86 100644
-+index 7b57f433b..9bbb9ee96 100644
- --- a/rpm.am
- +++ b/rpm.am
- @@ -1,10 +1,10 @@
-@@ -55,4 +55,4 @@ index 8e1dc2184..3d889ec86 100644
- +rpmconfigdir = $(libdir)/rpm
-  
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 10:3:1
-+ rpm_version_info = 11:0:2
-diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-deleted file mode 100644
-index b960da6c31..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--From d076de030deb9cafd9b2e82be5d506cebdefad0b Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 27 Feb 2017 14:43:21 +0200
--Subject: [PATCH 1/9] Fix build with musl C library.
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- configure.ac       | 3 ++-
-- rpmio/digest_nss.c | 1 +
-- 2 files changed, 3 insertions(+), 1 deletion(-)
--
----- a/rpmio/digest_nss.c
--+++ b/rpmio/digest_nss.c
--@@ -1,5 +1,6 @@
-- #include "system.h"
-- 
--+#include <signal.h>
-- #include <pthread.h>
-- #include <nss.h>
-- #include <sechash.h>
-diff --git a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
 new file mode 100644
-index 0000000000..79b168257e
+index 0000000000..6f8a3dcb50
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
-@@ -0,0 +1,28 @@
-+From 2d351c666f09cc1b9e368422653fb42ac8b86249 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 31 Aug 2021 10:37:05 +0200
-+Subject: [PATCH] build/pack.c: do not insert payloadflags into .rpm metadata
-+
-+The flags look like '19T56' where 19 is the compression level
-+(deterministic), and 56 is the amount of threads (varies from one
-+host to the next and breaks reproducibility for .rpm).
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ build/pack.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/build/pack.c b/build/pack.c
-+index 932cb213e..b45d0726f 100644
-+--- a/build/pack.c
-++++ b/build/pack.c
-+@@ -328,7 +328,7 @@ static char *getIOFlags(Package pkg)
-+ 	    headerPutString(pkg->header, RPMTAG_PAYLOADCOMPRESSOR, compr);
-+ 	buf = xstrdup(rpmio_flags);
-+ 	buf[s - rpmio_flags] = '\0';
-+-	headerPutString(pkg->header, RPMTAG_PAYLOADFLAGS, buf+1);
-++	headerPutString(pkg->header, RPMTAG_PAYLOADFLAGS, "");
-+ 	free(buf);
-+     }
-+ exit:
-diff --git a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
-new file mode 100644
-index 0000000000..ced52d1007
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
-@@ -0,0 +1,26 @@
-+From 9bf1693092385eba9841614613313010221ca01f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch
+@@ -0,0 +1,37 @@
++From 2f7382b35d59fe08034603497e82ffb943fedef1 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 29 Jun 2021 20:11:26 +0200
-+Subject: [PATCH] docs: do not build manpages (requires pandoc)
++Date: Wed, 30 Jun 2021 15:31:16 +0200
++Subject: [PATCH] libdnf/dnf-context.cpp: do not try to access BDB database
 +
-+Upstream-Status: Inappropriate [oe-core specific]
++Upstream-Status: Inappropriate [upstream needs to rework this to support
++sqlite]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ docs/Makefile.am | 2 --
-+ 1 file changed, 2 deletions(-)
++ libdnf/dnf-context.cpp | 14 --------------
++ 1 file changed, 14 deletions(-)
 +
-+diff --git a/docs/Makefile.am b/docs/Makefile.am
-+index 5a6bd203a..6257767fd 100644
-+--- a/docs/Makefile.am
-++++ b/docs/Makefile.am
-+@@ -1,7 +1,5 @@
-+ ## Process this file with automake to produce Makefile.in
++diff --git a/libdnf/dnf-context.cpp b/libdnf/dnf-context.cpp
++index 86f71a79..9cdcf769 100644
++--- a/libdnf/dnf-context.cpp
+++++ b/libdnf/dnf-context.cpp
++@@ -2264,20 +2264,6 @@ dnf_context_setup(DnfContext *context,
++         !dnf_context_set_os_release(context, error))
++         return FALSE;
 + 
-+-SUBDIRS = man
++-    /* setup a file monitor on the rpmdb, if we're operating on the native / */
++-    if (g_strcmp0(priv->install_root, "/") == 0) {
++-        rpmdb_path = g_build_filename(priv->install_root, "var/lib/rpm/Packages", NULL);
++-        file_rpmdb = g_file_new_for_path(rpmdb_path);
++-        priv->monitor_rpmdb = g_file_monitor_file(file_rpmdb,
++-                               G_FILE_MONITOR_NONE,
++-                               NULL,
++-                               error);
++-        if (priv->monitor_rpmdb == NULL)
++-            return FALSE;
++-        g_signal_connect(priv->monitor_rpmdb, "changed",
++-                         G_CALLBACK(dnf_context_rpmdb_changed_cb), context);
++-    }
 +-
-+ EXTRA_DIST =
-+ 
-+ EXTRA_DIST += \
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
-deleted file mode 100644
-index 6454785254..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From 0066b862bb3a09f39295abd5d972a53ac8dc1555 Mon Sep 17 00:00:00 2001
--From: Peter Bergin <peter@berginkonsult.se>
--Date: Wed, 19 Sep 2018 15:12:31 +0200
--Subject: [PATCH] rpm/rpmio.c: restrict virtual memory usage if limit set
--
--A solution to avoid OOM situation when the virtual memory is restricted
--for a user (ulimit -v). As the lzopen_internal function is run in parallel
--one instance per CPU thread the available virtual memory is limited per
--CPU thread.
--
--Upstream-Status: Pending [merge of multithreading patches to upstream]
--
--Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-----
-- rpmio/rpmio.c | 34 ++++++++++++++++++++++++++++++++++
-- 1 file changed, 34 insertions(+)
--
--diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
--index e051c98..b3c56b6 100644
----- a/rpmio/rpmio.c
--+++ b/rpmio/rpmio.c
--@@ -845,6 +845,40 @@ static LZFILE *lzopen_internal(const char *mode, int fd, int xz)
-- 		}
-- #endif
-- 
--+		struct rlimit virtual_memory;
--+		getrlimit(RLIMIT_AS, &virtual_memory);
--+		if (virtual_memory.rlim_cur != RLIM_INFINITY) {
--+			const uint64_t virtual_memlimit = virtual_memory.rlim_cur;
--+			const uint64_t virtual_memlimit_per_cpu_thread =
--+				virtual_memlimit / lzma_cputhreads();
--+			uint64_t memory_usage_virt;
--+			rpmlog(RPMLOG_NOTICE, "XZ: virtual memory restricted to %lu and "
--+			       "per CPU thread %lu\n", virtual_memlimit, virtual_memlimit_per_cpu_thread);
--+			/* keep reducing the number of compression threads until memory
--+			   usage falls below the limit per CPU thread*/
--+			while ((memory_usage_virt = lzma_stream_encoder_mt_memusage(&mt_options)) >
--+			       virtual_memlimit_per_cpu_thread) {
--+				/* If number of threads goes down to zero lzma_stream_encoder will
--+				 * will return UINT64_MAX. We must check here to avoid an infinite loop.
--+				 * If we get into situation that one thread requires more virtual memory
--+				 * than available we set one thread, print error message and try anyway. */
--+				if (--mt_options.threads == 0) {
--+					mt_options.threads = 1;
--+					rpmlog(RPMLOG_WARNING,
--+					       "XZ: Could not adjust number of threads to get below "
--+					       "virtual memory limit %lu. usage %lu\n",
--+					       virtual_memlimit_per_cpu_thread, memory_usage_virt);
--+					break;
--+				}
--+			}
--+			if (threads != (int)mt_options.threads)
--+				rpmlog(RPMLOG_NOTICE,
--+				       "XZ: Adjusted the number of threads from %d to %d to not "
--+				       "exceed the memory usage limit of %lu bytes\n",
--+				       threads, mt_options.threads, virtual_memlimit);
--+
--+		}
--+
-- 		ret = lzma_stream_encoder_mt(&lzfile->strm, &mt_options);
-- 	    }
-- #endif
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
-index e78514b814..9783396639 100644
---- a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
-@@ -1,4 +1,4 @@
--From b3952bd5e28f2a4d86c7377de239db8fa7237e14 Mon Sep 17 00:00:00 2001
-+From 9b9d717f484ec913cdd3804e43489b3dc18bd77c Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 31 Oct 2020 22:14:05 -0700
- Subject: [PATCH] tools: Add error.h for non-glibc case
-@@ -9,40 +9,15 @@ upstream given that elfutils has been closely tied to glibc
- Upstream-Status: Inappropriate [workaround for musl]
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-- tools/debugedit.c      |  6 +++++-
-- tools/elfdeps.c        |  6 +++++-
-- tools/error.h          | 27 +++++++++++++++++++++++++++
-- tools/sepdebugcrcfix.c |  6 +++++-
-- 4 files changed, 42 insertions(+), 3 deletions(-)
-+ tools/elfdeps.c |  6 +++++-
-+ tools/error.h   | 27 +++++++++++++++++++++++++++
-+ 2 files changed, 32 insertions(+), 1 deletion(-)
-  create mode 100644 tools/error.h
- 
--diff --git a/tools/debugedit.c b/tools/debugedit.c
--index 9f8dcd0fb..852f46073 100644
----- a/tools/debugedit.c
--+++ b/tools/debugedit.c
--@@ -26,7 +26,6 @@
-- #include <byteswap.h>
-- #include <endian.h>
-- #include <errno.h>
---#include <error.h>
-- #include <limits.h>
-- #include <string.h>
-- #include <stdlib.h>
--@@ -40,6 +39,11 @@
-- 
-- #include <gelf.h>
-- #include <dwarf.h>
--+#ifdef __GLIBC__
--+#include <error.h>
--+#else
--+#include "error.h"
--+#endif
-- 
-- 
-- /* Unfortunately strtab manipulation functions were only officially added
- diff --git a/tools/elfdeps.c b/tools/elfdeps.c
--index 6d9094874..f69e60997 100644
-+index d205935bb..3a8945b33 100644
- --- a/tools/elfdeps.c
- +++ b/tools/elfdeps.c
- @@ -5,10 +5,14 @@
-@@ -94,25 +69,3 @@ index 000000000..ef06827a0
- +}
- +
- +#endif	/* _ERROR_H_ */
--diff --git a/tools/sepdebugcrcfix.c b/tools/sepdebugcrcfix.c
--index fba460014..2be9c1fd8 100644
----- a/tools/sepdebugcrcfix.c
--+++ b/tools/sepdebugcrcfix.c
--@@ -29,9 +29,13 @@
-- #include <endian.h>
-- #include <stdio.h>
-- #include <stdlib.h>
---#include <error.h>
-- #include <libelf.h>
-- #include <gelf.h>
--+#ifdef __GLIBC__
--+#include <error.h>
--+#else
--+#include "error.h"
--+#endif
-- 
-- #ifndef _
-- #define _(x) x
---- 
--2.29.2
--
-diff --git a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-deleted file mode 100644
-index 4ac5c38f06..0000000000
---- a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 5141d50d7b3d3c209a22c53deedb4ceef014401d Mon Sep 17 00:00:00 2001
--From: Peter Kjellerstedt <pkj@axis.com>
--Date: Mon, 15 May 2017 10:21:08 +0200
--Subject: [PATCH 09/15] Do not require that ELF binaries are executable to be
-- identifiable
--
--There is nothing that requires, e.g., a DSO to be executable, but it
--is still an ELF binary and should be identified as such.
--
--Upstream probably expects all ELF binaries to be marked as executable,
--but rather than imposing such a limitation for OE, allow any file to
--be identified as an ELF binary regardless of whether it is executable
--or not.
--
--Upstream-Status: Inappropriate
--Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
--
-----
-- fileattrs/elf.attr | 1 -
-- 1 file changed, 1 deletion(-)
--
--diff --git a/fileattrs/elf.attr b/fileattrs/elf.attr
--index 5805dd0ee..3516f309d 100644
----- a/fileattrs/elf.attr
--+++ b/fileattrs/elf.attr
--@@ -1,4 +1,3 @@
-- %__elf_provides		%{_rpmconfigdir}/elfdeps --provides %{?__filter_GLIBC_PRIVATE:--filter-private}
-- %__elf_requires		%{_rpmconfigdir}/elfdeps --requires %{?__filter_GLIBC_PRIVATE:--filter-private}
-- %__elf_magic		^(setuid,? )?(setgid,? )?(sticky )?ELF (32|64)-bit.*$
---%__elf_flags		exeonly
---- 
--2.14.2
--
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.17.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-rename to meta/recipes-devtools/rpm/rpm_4.17.0.bb
-index 189da92436..f917118abf 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.17.0.bb
-@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
- LICENSE = "GPL-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
- 
--SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-+SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x \
-            file://environment.d-rpm.sh \
-            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-            file://0001-Do-not-read-config-files-from-HOME.patch \
-@@ -32,22 +32,21 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-            file://0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch \
-            file://0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch \
-            file://0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch \
--           file://0001-Fix-build-with-musl-C-library.patch \
-            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
--           file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
-            file://0001-perl-disable-auto-reqs.patch \
--           file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
-            file://0001-tools-Add-error.h-for-non-glibc-case.patch \
-+           file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
-+           file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
++     /* copy any vendor distributed cached metadata */
++     if (!dnf_context_copy_vendor_cache(context, error))
++         return FALSE;
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
+index 282c28e2c4..a9f393e722 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
+            file://enable_test_data_dir_set.patch \
+            file://0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch \
+            file://0001-drop-FindPythonInstDir.cmake.patch \
++           file://0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch \
             "
  
- PE = "1"
--SRCREV = "3659b8a04f5b8bacf6535e0124e7fe23f15286bd"
-+SRCREV = "3e74e8ba2dd5e76a5353d238dc7fc38651ce27b3"
- 
- S = "${WORKDIR}/git"
- 
--DEPENDS = "libgcrypt file popt xz bzip2 elfutils python3"
-+DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3"
- DEPENDS:append:class-native = " file-replacement-native bzip2-replacement-native"
- 
- inherit autotools gettext pkgconfig python3native
-@@ -58,7 +57,7 @@ AUTOTOOLS_AUXDIR = "${S}/build-aux"
- # OE-core patches autoreconf to additionally run gnu-configize, which fails with this recipe
- EXTRA_AUTORECONF:append = " --exclude=gnu-configize"
- 
--EXTRA_OECONF:append = " --without-lua --enable-python --with-crypto=libgcrypt"
-+EXTRA_OECONF:append = " --enable-python --with-crypto=libgcrypt"
- EXTRA_OECONF:append:libc-musl = " --disable-nls --disable-openmp"
- 
- # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
-@@ -70,15 +69,18 @@ EXTRA_OECONF:append:class-nativesdk = " --sysconfdir=/etc --disable-plugins"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--PACKAGECONFIG ??= "bdb ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'inhibit', '', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'inhibit', '', d)} sqlite zstd"
- # The inhibit plugin serves no purpose outside of the target
- PACKAGECONFIG:remove:class-native = "inhibit"
- PACKAGECONFIG:remove:class-nativesdk = "inhibit"
- 
--PACKAGECONFIG[bdb] = "--enable-bdb,--disable-bdb,db"
- PACKAGECONFIG[imaevm] = "--with-imaevm,,ima-evm-utils"
- PACKAGECONFIG[inhibit] = "--enable-inhibit-plugin,--disable-inhibit-plugin,dbus"
- PACKAGECONFIG[rpm2archive] = "--with-archive,--without-archive,libarchive"
-+PACKAGECONFIG[sqlite] = "--enable-sqlite=yes,--enable-sqlite=no,sqlite3"
-+PACKAGECONFIG[ndb] = "--enable-ndb,--disable-ndb"
-+PACKAGECONFIG[bdb-ro] = "--enable-bdb-ro,--disable-bdb-ro"
-+PACKAGECONFIG[zstd] = "--enable-zstd=yes,--enable-zstd=no,zstd"
- 
- ASNEEDED = ""
- 
-@@ -136,8 +138,6 @@ do_install:append () {
- 	sed -i -e 's:${HOSTTOOLS_DIR}/::g' \
- 	    ${D}/${libdir}/rpm/macros
- 
--	sed -i -e 's|/usr/bin/python|${USRBINPATH}/env ${PYTHON_PN}|' \
--	    ${D}${libdir}/rpm/pythondistdeps.py
- }
- 
- FILES:${PN} += "${libdir}/rpm-plugins/*.so \
+ SRCREV = "8e451380bf84bd76e3925cbae2a06bb0e56f5cd9"
 -- 
 2.31.1
 
