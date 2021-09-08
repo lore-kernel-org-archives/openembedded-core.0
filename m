@@ -1,82 +1,85 @@
-Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web12.9678.1631097382249560628
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web10.10164.1631100720683322372
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 03:36:23 -0700
+ Wed, 08 Sep 2021 04:32:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=J9LGgtuM;
- spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
-From: "Kristian Klausen" <kristian@klausen.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1631097379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OX9tXAJfVEGQ6GRZoKQzDkpt4FHpvOcO24zbNs4aYmc=;
-	b=J9LGgtuM3JvtaHFxwiu2faEWa/yWyBynch1FJXdaAbb3yJ3pwOdpDGESNJcTw7SZM5zt93
-	8fWQNqD9yEsWgcI+xJGMxS7FJyYHnYOTjPW/k6W1N9CF7hkoO4cTAiAEwLiIlEXgA8uRSx
-	ceF8x4OgmkWLCOzE7HxdN9Hg8yz5MvU=
-To: openembedded-core@lists.openembedded.org
-Cc: Kristian Klausen <kristian@klausen.dk>
-Subject: [PATCH] wic/bootimg-efi: Add option for only installing the bootloader
-Date: Wed,  8 Sep 2021 12:36:04 +0200
-Message-Id: <20210908103604.222498-1-kristian@klausen.dk>
-X-Mailer: git-send-email 2.33.0
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay12.mail.gandi.net (Postfix) with ESMTPSA id 57D5E200008;
+	Wed,  8 Sep 2021 11:31:58 +0000 (UTC)
+Date: Wed, 8 Sep 2021 13:31:57 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [RFC PATCH 7/7] package_rpm: use zstd instead of xz
+Message-ID: <YTie/qN+H1Yo4qjp@piout.net>
+References: <20210830184800.954770-1-alex.kanavin@gmail.com>
+ <20210830184800.954770-7-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210830184800.954770-7-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-systemd-boot supports automatic detection of Unified Kernel Images[1] if
-the are installed into $BOOT/EFI/Linux/ with a .efi extension. In that
-case a boot entry isn't needed nor is the normal kernel as the Unified
-Kernel Image would likely be installed with IMAGE_EFI_BOOT_FILES.
+Hello Alex,
 
-[1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kern=
-el-images
+On 30/08/2021 20:48:00+0200, Alexander Kanavin wrote:
+> zstd has similar time and space performance in compression but is
+> vastly faster in decompression, which benefits rootfs creation
+> (especially when installing very large packages) and on-target
+> package installation.
+> 
 
-Signed-off-by: Kristian Klausen <kristian@klausen.dk>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+I believe this caused the following repo failures:
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/=
-wic/plugins/source/bootimg-efi.py
-index cdc72543c2..f8aace823d 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -38,6 +38,9 @@ class BootimgEFIPlugin(SourcePlugin):
-         """
-         Create loader-specific (grub-efi) config
-         """
-+        if source_params.get('bootloader-only') =3D=3D "true":
-+            return
-+
-         configfile =3D creator.ks.bootloader.configfile
-         custom_cfg =3D None
-         if configfile:
-@@ -110,6 +113,9 @@ class BootimgEFIPlugin(SourcePlugin):
-         """
-         Create loader-specific systemd-boot/gummiboot config
-         """
-+        if source_params.get('bootloader-only') =3D=3D "true":
-+            return
-+
-         install_cmd =3D "install -d %s/loader" % hdddir
-         exec_cmd(install_cmd)
-=20
-@@ -288,9 +294,10 @@ class BootimgEFIPlugin(SourcePlugin):
-                 kernel =3D "%s-%s.bin" % \
-                     (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_va=
-r("INITRAMFS_LINK_NAME"))
-=20
--        install_cmd =3D "install -m 0644 %s/%s %s/%s" % \
--            (staging_kernel_dir, kernel, hdddir, kernel)
--        exec_cmd(install_cmd)
-+        if not source_params.get('bootloader-only') =3D=3D "true":
-+            install_cmd =3D "install -m 0644 %s/%s %s/%s" % \
-+                (staging_kernel_dir, kernel, hdddir, kernel)
-+            exec_cmd(install_cmd)
-=20
-         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
-             for src_path, dst_path in cls.install_task:
---=20
-2.25.1
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210907-bv62etev/packages/diff-html/
 
+I started a subsequent build without the patch and it have the issue.
+
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/classes/package_rpm.bbclass | 4 ++--
+>  meta/conf/bitbake.conf           | 3 +++
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 88d861c0e7..fc1e4b3a4a 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -684,8 +684,8 @@ python do_package_rpm () {
+>      cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+>      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+>      cmd = cmd + " --define '_build_id_links none'"
+> -    cmd = cmd + " --define '_binary_payload w6T%d.xzdio'" % int(d.getVar("XZ_THREADS"))
+> -    cmd = cmd + " --define '_source_payload w6T%d.xzdio'" % int(d.getVar("XZ_THREADS"))
+> +    cmd = cmd + " --define '_binary_payload w19T%d.zstdio'" % int(d.getVar("ZSTD_THREADS"))
+> +    cmd = cmd + " --define '_source_payload w19T%d.zstdio'" % int(d.getVar("ZSTD_THREADS"))
+>      cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
+>      cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
+>      cmd = cmd + " --define '_buildhost reproducible'"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 2140d498f7..52d40738f4 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -814,6 +814,9 @@ XZ_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
+>  XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
+>  XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
+>  
+> +# Default parallelism for zstd
+> +ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
+> +
+>  # Limit the number of threads that OpenMP libraries will use. Otherwise they
+>  # may fallback to using all CPUs
+>  export OMP_NUM_THREADS = "${BB_NUMBER_THREADS}"
+> -- 
+> 2.31.1
+> 
+
+> 
+> 
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
