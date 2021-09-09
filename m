@@ -1,56 +1,74 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web12.2377.1631155861940754404
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web12.3285.1631163969806079244
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Sep 2021 19:51:02 -0700
+ Wed, 08 Sep 2021 22:06:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from lons-builder.int.hatle.net ([192.40.192.95])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1892p0tf020589
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Sep 2021 21:51:01 -0500
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/2] reproducible_build: Work with externalsrc
-Date: Wed,  8 Sep 2021 21:51:00 -0500
-Message-Id: <20210909025100.119427-3-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210909025100.119427-1-mark.hatle@kernel.crashing.org>
-References: <20210909025100.119427-1-mark.hatle@kernel.crashing.org>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XRc0EUi8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id bk29so580933qkb.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Sep 2021 22:06:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HtEm8MtzMoXy7+TjTwW6FvRMs/tATGWJ4E/65QIco8o=;
+        b=XRc0EUi80iRnlI0mg5DWMNs1PLH2e8tzmIVVSt0iv+OME8gs6SqNr286EG2ZYs/O+e
+         RsLzVgLk53H2TXZw9nXJ3H6xUbDztsyd1xOhh1tndVNHdMnMAa9Aupd3YgqnBsYDrjZO
+         ulSN9/zCpBsqe+kZc+VKBpbT0hqP4+Jq2LYr6KgIiOwuGqoadlaMALBtVIa/A8U9wcvS
+         Hh3pzaOBUGGI6DXfwJrm8X19LvOCRGWT6LrFZJigRJ/fXZBaHoLB83zawa4wEUnHB4BQ
+         kJR+rj9SJUp2uwJlnaTbtDdaRBFmDs2vO3s4hjjKyd9kvuq377tEk7xn/eiVpJCGbYCj
+         CENw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HtEm8MtzMoXy7+TjTwW6FvRMs/tATGWJ4E/65QIco8o=;
+        b=5uaP6oJM8VoIlFGp/igNgRFOTvnSMHgT3WKflz9xh4INtbXvI0BC8EQee+tOIxWlO7
+         ijWY3MAa+ia2rA4z0/8wYLsZLZua0wu06/RzRhBocAZB7n22RRpCGckIUFZJJA1L9gfO
+         FTS1PPtGiN1An8rHbydNo4JKTQUZvyfTR83q2/U/EJl97Vv2hM8pii/TpISmFl2FJU1K
+         m7WNFq7D/qx6JybAbaoStjd7J0T2bgHmcD2yg6P6XBczJNbl5qecjrOFfoIEWAaCBh9p
+         aXHWlKFbSJnbgFtnHlBs4kuzQYYW1SnbnPYy8+vO97vxNfVvzIAKp/oelWs49ZT4z2FY
+         /uxQ==
+X-Gm-Message-State: AOAM533DLakjW7AOrkQWuk1aHnMk7VyWa3zte37Kv3NoxwDHgYyEbKxA
+	wr+Nz80fPGZSM7tcXxxd6df98V6abfz1UL3vFf0=
+X-Google-Smtp-Source: ABdhPJzadVq4f7tXtLrE7YLCG+xTgD1f3Y6vbV4CsrRe5QSob58ePUWM+zpdoH+Z1OSHaNLLKjqXzpxPIYKiB4BJKhM=
+X-Received: by 2002:a05:620a:248f:: with SMTP id i15mr1150981qkn.128.1631163968800;
+ Wed, 08 Sep 2021 22:06:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1631006167.git.liezhi.yang@windriver.com>
+ <ed036834262a67e88a58001d20c719bed37d50f5.1631006167.git.liezhi.yang@windriver.com>
+ <945b8038-97c7-1264-594f-e3b424695c22@windriver.com> <CANNYZj_6j9W0KKuR68KjRk+=MTQx_EOcuWnH3Zt1aKZHJZzvHA@mail.gmail.com>
+ <CAAnfSTu2fs=tG7NEW6w5PxLXsczTB5g3cm9_Y5jPgugA+-mc=A@mail.gmail.com>
+In-Reply-To: <CAAnfSTu2fs=tG7NEW6w5PxLXsczTB5g3cm9_Y5jPgugA+-mc=A@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 8 Sep 2021 22:05:42 -0700
+Message-ID: <CAMKF1sryO5mNXDr6ZtF0kwm085Xp3-cTm5TNhatojy5cN57htQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] assimp: Remove it
+To: Ross Burton <ross@burtonini.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Randy MacLeod <randy.macleod@windriver.com>, 
+	Robert Yang <liezhi.yang@windriver.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mark Hatle <mark.hatle@xilinx.com>
+On Wed, Sep 8, 2021 at 3:08 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> On Tue, 7 Sept 2021 at 13:50, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> > I'm not sure why layerindex says otherewise, but neither vulkan nor anything in meta-qt5 actually depend on assimp.
+> > qt5/6 has an option, off by default, to use external assimp, vulkan has no dependency at all.
+> >
+> > This leaves basically meta-ros, so carrying assimp for the benefit of a single layer is dubious at best.
+>
+> I thought Vulkan needed assimp so dug into the history.  vulkan-demos
+> used to need it, but that was replaced with vulkan-samples which does
+> not.
+>
+> So, I say we drop assimp from core and move it to meta-oe.
 
-Externalsrc removes do_fetch, do_unpack, and do_patch.  The system normally
-discovers the correct reproducible date as a postfuncs on do_unpack, so this
-date is never found, so it goes back to the default epoch.
+just drop it, there is nothing in meta-openembedded repos that need it
+so I am not that interested to maintain it in meta-oe either.
 
-Instead we can move the discovery function to a prefuncs on the epoch
-deploy task.  This task will run before do_configure, and since the source
-is already available can run anytime safely.
-
-Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
----
- meta/classes/reproducible_build.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index a9c117c3b9..ae0723ab21 100644
---- a/meta/classes/reproducible_build.bbclass
-+++ b/meta/classes/reproducible_build.bbclass
-@@ -128,7 +128,13 @@ BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH"
- python () {
-     if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
-         # Generate the timestamp with create_source_date_epoch_stamp.
--        d.appendVarFlag("do_unpack", "postfuncs", " create_source_date_epoch_stamp")
-+        # In most cases this will be a postfuncs of do_unpack.
-+        # If we're running in external source, add create_source_date_epoch_stamp
-+        # to do_deploy_source_date_epoch instead because there is no do_unpack.
-+        if d.getVar('EXTERNALSRC') and bb.data.inherits_class('externalsrc', d):
-+            d.appendVarFlag('do_deploy_source_date_epoch', 'prefuncs', ' create_source_date_epoch_stamp')
-+        else:
-+            d.appendVarFlag("do_unpack", "postfuncs", " create_source_date_epoch_stamp")
-         d.appendVar('SSTATETASKS', " do_deploy_source_date_epoch")
-         bb.build.addtask('do_deploy_source_date_epoch_setscene', None, None, d)
-         bb.build.addtask('do_deploy_source_date_epoch', 'do_configure', 'do_patch', d)
--- 
-2.17.1
-
+>
+> Ross
+>
+> 
+>
