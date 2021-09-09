@@ -1,104 +1,106 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web09.546.1631201777469855193
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web09.547.1631201777888935253
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 08:36:17 -0700
+ Thu, 09 Sep 2021 08:36:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=acd58F91;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so1367622wmh.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h/6PSFxm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id e26so1673040wmk.2
         for <openembedded-core@lists.openembedded.org>; Thu, 09 Sep 2021 08:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2FX1Hf+FAXlwAnbpFf/qzK8U8+S9WsUu/b6nHQSyfMI=;
-        b=acd58F91ECgb+IMCMG7hhDDf+7QYWqBnYRHyrcA409z3x0ad9nlz3wCnRHcWeQBEHP
-         OSM8DYWjXkgjvT7hIEcKBr1x7S3WWoFtWmRSOXJs9oZVOz+rF5qv8+hFyyJznECWmFwH
-         uKfmiezh1Bl7sVzV99LNNLXJyxIzbffAAf5dA=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ltq2Bf5S+QnKKYfu4FfgCBV0X+TqWERozAjj1aM+CF4=;
+        b=h/6PSFxmx7gzvasvGvOrqeYUZqNEEcYQgURMROxopBr0QM3tGaPqtYGi8uq8nYCS09
+         G3uTSFjP1XipgOrPtcdelQlap/9bJCCijGuZEKK5XlGJqkjfqm3+akwSUwIzObmiQ1d0
+         WwoFeTW4uLLGBdwpAAOJGa/mbMWjRsEc8mB5A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2FX1Hf+FAXlwAnbpFf/qzK8U8+S9WsUu/b6nHQSyfMI=;
-        b=rrrAwv9TKec++kuedK8ensTPUb12+Bq7n0ccgzERR4yqik/MTvlreF4FYsaaPNYnrK
-         46uj6r4KP5/VmDL4LPQL4YYvLMLSKUzd1K58tFDpNcNIBn+sDEa9AHf+YfrT73Iu8CZA
-         IBc3nurW9aaDOpTyZJV3lCHf+Pve+dBjgBFtcJ7kqzahEM5RQf0oKs3xL9fwumBEYlCr
-         WqlrQKMe6wKWNgpOJweEtB7DhWDhjt4ZgaJqTtLaP+K0X0EAcfsWiL8Ll8N+AQrSPnFs
-         zk5yeIgORqAWh00qvQBwL1yai5G62QdZ1cyUwyKEroQus79PZH6Hd1GHeBLZDluODGgQ
-         r5VQ==
-X-Gm-Message-State: AOAM530CMu4rey/zZ9lmLm/m7GFUfdIvowKH8ig9BHNTwxXIPxfeHYHK
-	SxkLsUk/M57N/XtmBTBjMO/OQHiAB6jnJXkz
-X-Google-Smtp-Source: ABdhPJwRolA2M6dTUvJ3VqVE7ls9LD1Q2g51VpX39xfMyDygRqnpug/+XaOwKiunp1/CvBGp6vAZXQ==
-X-Received: by 2002:a7b:c052:: with SMTP id u18mr3720520wmc.105.1631201775704;
-        Thu, 09 Sep 2021 08:36:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ltq2Bf5S+QnKKYfu4FfgCBV0X+TqWERozAjj1aM+CF4=;
+        b=G0b19dLSImhvQLkvOfpSXVKlMFPLMMYwKv+Tpt73e0GKr19Zjf40CQKlssDzGHWm5H
+         surmQUjCfUzakExi4qCKzJYUxPnjXz1czgdHvmwaaOwi4Hq+KJF20F0oueGWGG8D7rK0
+         HLe7CEW+5/2M1MIBGGnf6SAOuBrhT29G4C7q4kLk5LqJinb3rtj4bpBPHPHuWIj+zNE9
+         T5sSqjMQb+WZnkf+FmLsH1GrNd6zpHcEWEKgHDbnSLn7Jz2vMMzKsq07hNxVCVN2Du9z
+         mC0DjnAsEaB0kN+Onu/fzY1WBpZfjomddqVp1KnXQM68NZ8gQoMFTZaxAl8Mk4eg2lfH
+         h4bQ==
+X-Gm-Message-State: AOAM5306DW/rGK2+ZVgJqE4coIkejh2uEd4dBRHTvEL3ZLOhLSlFsYWh
+	lZKG0OelR+ioSGRKt6YoBSFtIdAocYn5il5p
+X-Google-Smtp-Source: ABdhPJxiwFbk7sd1LD6Fvis6IK+RlBMogDEe1uL8d1jr7JikxYE1zPSnd5Xp1tl+sTAuXCb0eoEjOA==
+X-Received: by 2002:a1c:f219:: with SMTP id s25mr3677831wmc.99.1631201776320;
+        Thu, 09 Sep 2021 08:36:16 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:a4a5:76db:a94c:ced7])
-        by smtp.gmail.com with ESMTPSA id d29sm2245173wrc.6.2021.09.09.08.36.14
+        by smtp.gmail.com with ESMTPSA id d29sm2245173wrc.6.2021.09.09.08.36.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 08:36:15 -0700 (PDT)
+        Thu, 09 Sep 2021 08:36:16 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
 Cc: seebs@seebs.net,
-	Philip Lorenz <philip@bithub.de>
-Subject: [PATCH 1/6] test: Add missing test-statx test case
-Date: Thu,  9 Sep 2021 16:36:09 +0100
-Message-Id: <20210909153614.1225570-1-richard.purdie@linuxfoundation.org>
+	Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 2/6] test-openat: Consider device as well as inode number
+Date: Thu,  9 Sep 2021 16:36:10 +0100
+Message-Id: <20210909153614.1225570-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210909153614.1225570-1-richard.purdie@linuxfoundation.org>
+References: <20210909153614.1225570-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Philip Lorenz <philip@bithub.de>
+From: Mike Crowe <mac@mcrowe.com>
 
-Adding this test case was erroneously omitted in
-7c722296879906fe093e1e7c4b7537e150d492cd.
+It just so happens that my /home/mac and /home directories have the same
+inode number but on different filesystems.
 
-Signed-off-by: Philip Lorenz <philip@bithub.de>
+This means that test-openat fails with "Recursion failed!" even when run
+without pseudo.
+
+Let's consider both the device number and the inode number before
+assuming that we've found the same directory again.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- test/test-statx.c  | 20 ++++++++++++++++++++
- test/test-statx.sh |  6 ++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 test/test-statx.c
- create mode 100755 test/test-statx.sh
+ test/test-openat.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/test/test-statx.c b/test/test-statx.c
-new file mode 100644
-index 0000000..06d86af
---- /dev/null
-+++ b/test/test-statx.c
-@@ -0,0 +1,20 @@
-+/*
-+ * Test that passing NULL to a parameter marked as nonnull works correctly
-+ * SPDX-License-Identifier: LGPL-2.1-only
-+ *
-+ */
-+#define _GNU_SOURCE
-+
-+#include <sys/stat.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+
-+// Passing a null pointer is the test scenario
-+#pragma GCC diagnostic ignored "-Wnonnull"
-+
-+int main(void) {
-+    if (statx(0, NULL, 0, 0, NULL) != -1) {
-+        return 1;
-+    }
-+    return 0;
-+}
-diff --git a/test/test-statx.sh b/test/test-statx.sh
-new file mode 100755
-index 0000000..77d0302
---- /dev/null
-+++ b/test/test-statx.sh
-@@ -0,0 +1,6 @@
-+#!/bin/bash
-+#
-+# SPDX-License-Identifier: LGPL-2.1-only
-+#
-+
-+exec ./test/test-statx
+diff --git a/test/test-openat.c b/test/test-openat.c
+index b710285..df6655a 100644
+--- a/test/test-openat.c
++++ b/test/test-openat.c
+@@ -25,11 +25,13 @@ int main () {
+     int fd, dir_fd;
+     struct stat st;
+     ino_t ino;
++    dev_t dev;
+     char *path;
+ 
+     fd = openat(AT_FDCWD, ".", O_DIRECTORY, 0);
+     fstat(fd, &st);
+     ino = st.st_ino;
++    dev = st.st_dev;
+ 
+     while (1) {
+         path = path_of(fd);
+@@ -37,7 +39,7 @@ int main () {
+ 
+         dir_fd = openat(fd, "../", O_DIRECTORY, 0);
+         fstat(dir_fd, &st);
+-        if (st.st_ino == ino) {
++        if (st.st_ino == ino && st.st_dev == dev) {
+             if (strcmp(path, "/") == 0) {
+                 //puts("Reached top of tree");
+                 return 0;
+@@ -49,6 +51,7 @@ int main () {
+ 
+         free (path);
+         ino = st.st_ino;
++        dev = st.st_dev;
+         fd = dir_fd;
+     }
+     return 0;
 -- 
 2.32.0
 
