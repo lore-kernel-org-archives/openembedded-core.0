@@ -1,91 +1,84 @@
-Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web12.3394.1631212529554354119
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.4576.1631217256006976074
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 11:35:30 -0700
+ Thu, 09 Sep 2021 12:54:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@klausen.dk header.s=dkim header.b=rzfW4thY;
- spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
-Date: Thu, 9 Sep 2021 20:35:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1631212526;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RUwsf8pvtCkUuaE6D3zNuCDlc5MEfPZ6GlZeymiG+hU=;
-	b=rzfW4thYPKRn9rzjMKn6BQ/BpAJrMn/gmw1+b6J/GWiBVkRj9WoY4Ic7I7UTaaGTE3IypB
-	IJP974JXRvKPQK+X8wp7Xe5l1ynPa6lPDniCpAX17bvWubv2ckvo1MK77voWGyYpM45/DQ
-	E8WVqShHRs2H4Sb3OqSwkRxuoyZZjU4=
-From: "Kristian Klausen" <kristian@klausen.dk>
-To: openembedded-core@lists.openembedded.org
-Cc: Kristian Klausen <kristian@klausen.dk>
-Subject: Re: [PATCH] wic/bootimg-efi: Add option for only installing the bootloader
-Message-ID: <20210909183524.k3kdqyfct6c4x6ru@bob>
-References: <20210908103604.222498-1-kristian@klausen.dk>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Pv1Tr++D;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1631217257;
+  x=1662753257;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=nk196MCg41Vq54rXZM6tybLIaOkYeDJBfhCnzRv0Gcw=;
+  b=Pv1Tr++Dd2XTG5YuYntLQlbXL71R9cajowI9c3t9JMG0y5wuHzKIniK8
+   D75epDj2uJF4Gb9B/HwwBpxOcTLdz6sLhmPoWEgvFKCaoO47EuFTFX0Ov
+   DyuDQ//nmAPehva80KbIFk61hmfGXXeW7rCbbk3PwxJ2LaZkyyKlP5EFM
+   tt8SY6PAS3ixfDXhOqo1gG5+gk0TPj1DLwcYWp97O63qvWEucIdtLK974
+   ZTx1fK28vctpvV9L96UHm2tUuuPl40GWv7B0KfhRtrlKUg9QdzohMXujw
+   2i8pQ2aTV2mhGHQM62r1iJpqxil11m6+/TNs6+vmFxQweLcC4Jh9WT56A
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Ross Burton <ross@burtonini.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+Thread-Topic: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+Thread-Index: AQHXoMddscbnDYFTr0CAdWUk/6vbC6ucJing
+Date: Thu, 9 Sep 2021 19:54:12 +0000
+Message-ID: <1591b3098689406f83f576e5f5429ff2@axis.com>
+References: <20210903132459.2560051-1-ross.burton@arm.com>
+ <20210903132459.2560051-12-ross.burton@arm.com>
+In-Reply-To: <20210903132459.2560051-12-ross.burton@arm.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20210908103604.222498-1-kristian@klausen.dk>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 08, 2021 at 12:36:04PM +0200, Kristian Klausen wrote:
-> systemd-boot supports automatic detection of Unified Kernel Images[1] if
-> the are installed into $BOOT/EFI/Linux/ with a .efi extension. In that
-> case a boot entry isn't needed nor is the normal kernel as the Unified
-> Kernel Image would likely be installed with IMAGE_EFI_BOOT_FILES.
-> 
-> [1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
-
-This patch is no longer needed for using a Unified Kernel Image with
-systemd-boot with this new patch I sent:
-"[PATCH] wic/bootimg-efi: Add Unified Kernel Image option"[1]
-
-It is perhaps still useful tho.
-
-[1] https://lists.openembedded.org/g/openembedded-core/topic/patch_wic_bootimg_efi_add/85490739
-
-> 
-> Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Ross Burton
+> Sent: den 3 september 2021 15:25
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+>=20
+> "BSD" is ambiguous, ffmpeg comprises of several licenses which are
+> BSD-like.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index cdc72543c2..f8aace823d 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -38,6 +38,9 @@ class BootimgEFIPlugin(SourcePlugin):
->          """
->          Create loader-specific (grub-efi) config
->          """
-> +        if source_params.get('bootloader-only') == "true":
-> +            return
-> +
->          configfile = creator.ks.bootloader.configfile
->          custom_cfg = None
->          if configfile:
-> @@ -110,6 +113,9 @@ class BootimgEFIPlugin(SourcePlugin):
->          """
->          Create loader-specific systemd-boot/gummiboot config
->          """
-> +        if source_params.get('bootloader-only') == "true":
-> +            return
-> +
->          install_cmd = "install -d %s/loader" % hdddir
->          exec_cmd(install_cmd)
->  
-> @@ -288,9 +294,10 @@ class BootimgEFIPlugin(SourcePlugin):
->                  kernel = "%s-%s.bin" % \
->                      (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
->  
-> -        install_cmd = "install -m 0644 %s/%s %s/%s" % \
-> -            (staging_kernel_dir, kernel, hdddir, kernel)
-> -        exec_cmd(install_cmd)
-> +        if not source_params.get('bootloader-only') == "true":
-> +            install_cmd = "install -m 0644 %s/%s %s/%s" % \
-> +                (staging_kernel_dir, kernel, hdddir, kernel)
-> +            exec_cmd(install_cmd)
->  
->          if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
->              for src_path, dst_path in cls.install_task:
-> -- 
+>  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-
+> multimedia/ffmpeg/ffmpeg_4.4.bb
+> index e19077541ec..f822ba9ab78 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> @@ -5,7 +5,7 @@ DESCRIPTION =3D "FFmpeg is the leading multimedia framewo=
+rk,
+> able to decode, encod
+>  HOMEPAGE =3D "https://www.ffmpeg.org/"
+>  SECTION =3D "libs"
+>=20
+> -LICENSE =3D "BSD & GPLv2+ & LGPLv2.1+ & MIT"
+> +LICENSE =3D "GPLv2+ & LGPLv2.1+ & ISC & Expat & BSD-2-Clause & BSD-3-Cla=
+use & IJG"
+
+There is no "Expat" license in neither meta/files/common-licenses nor=20
+in meta/conf/licenses.conf.
+
+>  LICENSE:${PN} =3D "GPLv2+"
+>  LICENSE:libavcodec =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GP=
+Lv2+', 'LGPLv2.1+', d)}"
+>  LICENSE:libavdevice =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'G=
+PLv2+', 'LGPLv2.1+', d)}"
+> --
 > 2.25.1
-> 
+
+//Peter
+
