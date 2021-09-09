@@ -1,84 +1,50 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.4576.1631217256006976074
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.5058.1631219693940596972
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 12:54:16 -0700
+ Thu, 09 Sep 2021 13:34:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Pv1Tr++D;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PXH8iwcP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id v1so1855576plo.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Sep 2021 13:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1631217257;
-  x=1662753257;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=nk196MCg41Vq54rXZM6tybLIaOkYeDJBfhCnzRv0Gcw=;
-  b=Pv1Tr++Dd2XTG5YuYntLQlbXL71R9cajowI9c3t9JMG0y5wuHzKIniK8
-   D75epDj2uJF4Gb9B/HwwBpxOcTLdz6sLhmPoWEgvFKCaoO47EuFTFX0Ov
-   DyuDQ//nmAPehva80KbIFk61hmfGXXeW7rCbbk3PwxJ2LaZkyyKlP5EFM
-   tt8SY6PAS3ixfDXhOqo1gG5+gk0TPj1DLwcYWp97O63qvWEucIdtLK974
-   ZTx1fK28vctpvV9L96UHm2tUuuPl40GWv7B0KfhRtrlKUg9QdzohMXujw
-   2i8pQ2aTV2mhGHQM62r1iJpqxil11m6+/TNs6+vmFxQweLcC4Jh9WT56A
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Ross Burton <ross@burtonini.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
-Thread-Topic: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
-Thread-Index: AQHXoMddscbnDYFTr0CAdWUk/6vbC6ucJing
-Date: Thu, 9 Sep 2021 19:54:12 +0000
-Message-ID: <1591b3098689406f83f576e5f5429ff2@axis.com>
-References: <20210903132459.2560051-1-ross.burton@arm.com>
- <20210903132459.2560051-12-ross.burton@arm.com>
-In-Reply-To: <20210903132459.2560051-12-ross.burton@arm.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=FELeqaTCrYaula98P0u1wkvZdnzoObNc7SgJ5F6k36U=;
+        b=PXH8iwcPxcf6hLHSQkID2C/hs4v7pnV+qpPmegWEnJGK0J1vhckdUJ/+olgIKyKYsF
+         a+kN0v96Etb/kyKsR+awynSCNPWUP5CAtlxU/JeKEnHm8CmLMgXbr6X34thB7KdD1y8Z
+         R6tcOfz/QpFZ2uhkUOTp9hXNlWrdMce1m6MsQOOLfMQbnqucP/+Xt0w3EQQLdaS0c/hj
+         LHuyqzb6e4/ni65ST6nPvuq5qUZoyZPB/AGa3l4Jtrmn+NuZroNXn3cDLnDhrDqucbUH
+         1iQ1x0Crv86F+VRdQq6iJKjEdopKkS5jFa0XCSG0DylvK/oyZC7CE1FerB4dGyDkpxHb
+         lJjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=FELeqaTCrYaula98P0u1wkvZdnzoObNc7SgJ5F6k36U=;
+        b=P1wUw4SM5yMyjBsw6DJTEaauB9ZDcU79QLrUXMW627TzA2MPbkGIeXLf/+KJK8+QBz
+         tMvdy73nCOXwQPO+/XEqkMwJAT9FNnyHNTn9n7/QIvcH4WU0UcoAT5HDi8QeYudDKKr0
+         xGMz2yzChmh1TxT/Roc3LOwx8FpT6axUqcA9xHEM78zN7IOtxyOJui49r4/S79pSQHPv
+         5ZTd5TBHgioMzoKtkEJKSh5y74OzKHIxaa2NqoyYsOiKR6YDVA4w2U+nnMGZSbZxeynf
+         Juucv4TcHTo0sCRyBSYBUymgygIBC3d0rX1CyweutH2hwZUfccRDslQADVWqDrBVyzfc
+         1Sjw==
+X-Gm-Message-State: AOAM533yplowGC6U7Uu0iAJj57uy1G7U0MVCsmlZwx94p+FgHWmsapGP
+	SNArz2L/a1jMpokhmyWePs/Wd9gMV6p/NPK61DXWHYgITR3Y7w==
+X-Google-Smtp-Source: ABdhPJzDKsSVheiif5xaGe/GWfsJJG3ME+z0/Cb+E6454xQfHIQ1Rx+0ojeZwRWz8wxYPcOrsCXRWgrtAxShUUN/NWo=
+X-Received: by 2002:a17:90a:bb12:: with SMTP id u18mr5622784pjr.110.1631219693331;
+ Thu, 09 Sep 2021 13:34:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Thu, 9 Sep 2021 22:34:41 +0200
+Message-ID: <CALbNGRQBafr5e57FK0cfa8xc4pAOPmWUtc0scsV-58ER7CCyNg@mail.gmail.com>
+Subject: Layerlist update broken?
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Ross Burton
-> Sent: den 3 september 2021 15:25
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
->=20
-> "BSD" is ambiguous, ffmpeg comprises of several licenses which are
-> BSD-like.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-
-> multimedia/ffmpeg/ffmpeg_4.4.bb
-> index e19077541ec..f822ba9ab78 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> @@ -5,7 +5,7 @@ DESCRIPTION =3D "FFmpeg is the leading multimedia framewo=
-rk,
-> able to decode, encod
->  HOMEPAGE =3D "https://www.ffmpeg.org/"
->  SECTION =3D "libs"
->=20
-> -LICENSE =3D "BSD & GPLv2+ & LGPLv2.1+ & MIT"
-> +LICENSE =3D "GPLv2+ & LGPLv2.1+ & ISC & Expat & BSD-2-Clause & BSD-3-Cla=
-use & IJG"
+Hi,
 
-There is no "Expat" license in neither meta/files/common-licenses nor=20
-in meta/conf/licenses.conf.
+Just a heads up: looks like https://layers.openembedded.org/ has
+stopped updating 3 weeks ago.
 
->  LICENSE:${PN} =3D "GPLv2+"
->  LICENSE:libavcodec =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GP=
-Lv2+', 'LGPLv2.1+', d)}"
->  LICENSE:libavdevice =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'G=
-PLv2+', 'LGPLv2.1+', d)}"
-> --
-> 2.25.1
+Cheers,
 
-//Peter
-
+Andreas
