@@ -1,132 +1,104 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.5069.1631178967958731544
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+ by mx.groups.io with SMTP id smtpd.web11.5348.1631181103211238928
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 02:16:08 -0700
+ Thu, 09 Sep 2021 02:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Rt+ir6Ea;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BnBvFu6A;
+ spf=pass (domain: gmail.com, ip: 209.85.219.175, mailfrom: christian.morales.vega@gmail.com)
+Received: by mail-yb1-f175.google.com with SMTP id q70so2652793ybg.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Sep 2021 02:51:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1631178968;
-  x=1662714968;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=p/s7BxAr8yD4GBarLZmACeYpDHjVe7DZ3p6LVYMHP/E=;
-  b=Rt+ir6EaCmWrUf5eGtpVUs9Diwqlik0e7KoDjaca4QOEolYCz6X5J2XM
-   zDh/OPtTSVCRY1hRiVIjE1Dgr1uzfQqJEoB3Is8KZZaXJLVH2Kf/OWs1d
-   nr1YAJm8WEplNsxFcZT+ev7r+zi4DnmaAUG9wp3EQlNOrrjxUyroNXggQ
-   y+ksGcKw6T0RESIbutL1tZypPMNEop0BzDI76RM64MeC/dlkHysg3/C6L
-   lTqX4ZNM4mOaneXl8m3HMx39mmFDshXklVAmR6sNGxQF/H/34ciUR4i7N
-   9DQnx+QDSI1IkEUAn4lzefVu7f+sL85+4PpngbrYlibuDv1zkT+1s1Qjd
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH 1/2] reproducible_build: Honor BUILD_REPRODUCIBLE_BINARIES
-Thread-Topic: [OE-core][PATCH 1/2] reproducible_build: Honor
- BUILD_REPRODUCIBLE_BINARIES
-Thread-Index: AQHXpSWQsaKEgbeXg02DeZe2GQ9BMqubahRg
-Date: Thu, 9 Sep 2021 09:16:05 +0000
-Message-ID: <39a00ec1151548b59c2b39db0b12bd4c@axis.com>
-References: <20210909025100.119427-1-mark.hatle@kernel.crashing.org>
- <20210909025100.119427-2-mark.hatle@kernel.crashing.org>
-In-Reply-To: <20210909025100.119427-2-mark.hatle@kernel.crashing.org>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=DoLR9zAuubExVFYyoWvk6wlWV3CoAKKIvBk3eFIISq8=;
+        b=BnBvFu6AO6W/nmunMHZkb9fPgK6pLUNvYgcJrdb2VGviPpl8qlfPyXnyNsgc6V6aC0
+         3or6Ul2Ac2DTpTNk1BTPCK0AOxV2RPcxVcYzVWaHIvNcTNj2GbfUtmXkUrkK6CzO12Nd
+         N/ofsMwWWRamsgZSzrasGWkiFBnv8tMDy0/i2psKq9+gmJefpmoiKZvQostXfO0g1oJc
+         VBkPvoyvZYlf74BtX0l07ey+FcRrlPnWXUWskiHDP5GF+nc63TdCREBeiIcgSduUxgxf
+         7mjkAIgJhhaOr2TBm6r5MDJ4bORNY49NvLD1DJfoARqSA09Xbi6gbVCiT9dM977Ix6Jp
+         KO7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=DoLR9zAuubExVFYyoWvk6wlWV3CoAKKIvBk3eFIISq8=;
+        b=HYxdwU2CGgop1+MFWeuM6pyLd0az0Z/paAwWhSvHsAHLUdreZUivLBY5efFHE7YupE
+         JmM6NqChro8YwxoOJMJxP7kGrOEVRzkcT6NhCpam66BCU/+ohg1A3wvBrQLXQzl8Pc8l
+         fAfc/6ZzI4aqEebBG0kCy7MBLf4jIIbjvehslIjshGxlBgpZ75uOci7C/C/fnT292BTQ
+         LAkdWW9JvBRWH7RhYJoH1Qn6r2m9azBdwvF9hm5CzISBYaYY1apQ27qWqX7JZ3Ul8qTH
+         c64rrtdj7pMixcztzAzhcXnkRkyaaNOTtCZwMky/BiOW48/2YIbJpD7soFosDw8deXi/
+         sp8Q==
+X-Gm-Message-State: AOAM5316cKW2PXNg9DtIFxSIrnmrNgYiCFY1HZyoRThut4JPOaKNfb3E
+	rIaiizjkh//jbXXbF6epLWR8S5kTNbJNJVf671uhegk7SdI=
+X-Google-Smtp-Source: ABdhPJwIHbZ9wNneNtZO7oimOptgVr7OOkfcVXrFSRW/z1kKZwjL/VGhHR3y518zMI8sYN8recCJJ8i/p0/BpDN4NKk=
+X-Received: by 2002:a25:1b89:: with SMTP id b131mr2909193ybb.40.1631181101438;
+ Thu, 09 Sep 2021 02:51:41 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+References: <20210511213618.188369-1-christian.morales.vega@gmail.com>
+In-Reply-To: <20210511213618.188369-1-christian.morales.vega@gmail.com>
+From: "Cristian Morales Vega" <christian.morales.vega@gmail.com>
+Date: Thu, 9 Sep 2021 10:51:30 +0100
+Message-ID: <CAOWQn3SME-Z-8eS7JMMfKDji+Wcxc4uiNxjTOVtxy6GxqOfg_w@mail.gmail.com>
+Subject: Re: [PATCH] OEToolchainConfig.cmake: Remove CMAKE_FIND_ROOT_PATH
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Mark Hatle
-> Sent: den 9 september 2021 04:51
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core][PATCH 1/2] reproducible_build: Honor
-> BUILD_REPRODUCIBLE_BINARIES
->=20
-> From: Mark Hatle <mark.hatle@xilinx.com>
->=20
-> A variable BUILD_REPRODUCIBLE_BINARIES is set to '1' by default and was> =
-used
-> to control if the postfuncs were added.  However, it didn't actually disa=
-ble
-> the reproducible_build (date) logic.  This resulted in the program fallin=
-g
-> back to the default date.
->=20
-> This change fully honors the variable and disables the various pieces
-> that discover and configure the SOURCE_DATE_EPOCH if the value if not
-> set to '1'.
->=20
-> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Any feedback?
+
+At the very least it should be
+list( APPEND CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} )
+to avoid ignoring user input.
+
+In general the file could use some love:
+
+> set( CMAKE_C_FLAGS $ENV{CFLAGS} CACHE STRING "" FORCE )
+
+Why? cmake already reads CFLAGS from the environment and toolchain
+files are supposed to use CMAKE_C_FLAGS_INIT anyway.
+
+> set( CMAKE_CXX_FLAGS $ENV{CXXFLAGS}  CACHE STRING "" FORCE )
+
+Same.
+
+> set( CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+
+I wonder why this is needed, and CMAKE_ASM_FLAGS_INIT.
+
+> set( CMAKE_LDFLAGS_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE )
+
+This isn't even a real cmake variable. If any package depends on it
+it's broken and it should be patched.
+The actual variables would be CMAKE_EXE_LINKER_FLAGS_INIT,
+CMAKE_MODULE_LINKER_FLAGS_INIT and CMAKE_SHARED_LINKER_FLAGS_INIT.
+
+
+On Tue, 11 May 2021 at 22:36, Cristian Morales Vega
+<christian.morales.vega@gmail.com> wrote:
+>
+> Since cb42802f2fe CMAKE_SYSROOT has been set, making
+> CMAKE_FIND_ROOT_PATH unnecessary.
+> It also overwrites any CMAKE_FIND_ROOT_PATH the user may have provided,
+> which is wrong.
 > ---
->  meta/classes/reproducible_build.bbclass | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/classes/reproducible_build.bbclass
-> b/meta/classes/reproducible_build.bbclass
-> index 378121903d..a9c117c3b9 100644
-> --- a/meta/classes/reproducible_build.bbclass
-> +++ b/meta/classes/reproducible_build.bbclass
-> @@ -47,7 +47,9 @@ TARGET_CC_ARCH:append:class-target =3D " -Wdate-time"
->  # A SOURCE_DATE_EPOCH of '0' might be misinterpreted as no SDE
->  export SOURCE_DATE_EPOCH_FALLBACK ??=3D "1302044400"
->=20
-> -SSTATETASKS +=3D "do_deploy_source_date_epoch"
-> +# The following are preformed in the anonymous python function, only if
-
-Change "are preformed" to "is performed".
-
-> +# BUILD_REPRODUCIBLE_BINARIES =3D=3D 1
-> +#SSTATETASKS +=3D "do_deploy_source_date_epoch"
->=20
->  do_deploy_source_date_epoch () {
->      mkdir -p ${SDE_DEPLOYDIR}
-> @@ -73,8 +75,10 @@ python do_deploy_source_date_epoch_setscene () {
->=20
->  do_deploy_source_date_epoch[dirs] =3D "${SDE_DEPLOYDIR}"
->  do_deploy_source_date_epoch[sstate-plaindirs] =3D "${SDE_DEPLOYDIR}"
-> -addtask do_deploy_source_date_epoch_setscene
-> -addtask do_deploy_source_date_epoch before do_configure after do_patch
-> +# The following are preformed in the anonymous python function, only if
-
-Change "preformed" to "performed".
-
-> +# BUILD_REPRODUCIBLE_BINARIES =3D=3D 1
-> +#addtask do_deploy_source_date_epoch_setscene
-> +#addtask do_deploy_source_date_epoch before do_configure after do_patch
-
-Alternatively remove the two comments with the moved code since there=20
-is a large risk that these comments won't be updated if the code below=20
-is modified and eventually they will be out of sync.
-
->  python create_source_date_epoch_stamp() {
->      import oe.reproducible
-> @@ -123,5 +127,12 @@ BB_HASHBASE_WHITELIST +=3D "SOURCE_DATE_EPOCH"
->=20
->  python () {
->      if d.getVar('BUILD_REPRODUCIBLE_BINARIES') =3D=3D '1':
-> +        # Generate the timestamp with create_source_date_epoch_stamp.
->          d.appendVarFlag("do_unpack", "postfuncs", " create_source_date_e=
-poch_stamp")
-> +        d.appendVar('SSTATETASKS', " do_deploy_source_date_epoch")
-> +        bb.build.addtask('do_deploy_source_date_epoch_setscene', None, N=
-one, d)
-> +        bb.build.addtask('do_deploy_source_date_epoch', 'do_configure', =
-'do_patch', d)
-> +    else:
-> +        # If this is set at all, the system components will attempt to u=
-se it
-> +        d.delVar('SOURCE_DATE_EPOCH')
->  }
+> I am using this file because I received it as part of a Yocto SDK. I
+> have never used OpenEmbedded, I guess this can potentially break
+> something. Test before merging.
+>
+>  meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+> index 8f6f3a272d..4403f8aa9c 100644
+> --- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+> +++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+> @@ -5,7 +5,6 @@ set( CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+>  set( CMAKE_LDFLAGS_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE )
+>  set( CMAKE_SYSROOT $ENV{OECORE_TARGET_SYSROOT} )
+>
+> -set( CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
 > --
-> 2.17.1
-
-//Peter
-
+> 2.31.1
+>
