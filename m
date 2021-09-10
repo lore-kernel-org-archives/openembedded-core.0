@@ -1,99 +1,62 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web08.6429.1631262681483308808
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.6744.1631266557340985919
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 01:31:21 -0700
+ Fri, 10 Sep 2021 02:35:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CYz/KFHT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id w29so706913wra.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 01:31:21 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=LxmTGA08;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.50, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f50.google.com with SMTP id n5so1692283wro.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 02:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=eXW/bjzLwEKSKss4OCq+DEdGZM3axbrs1orgzmZCbsM=;
-        b=CYz/KFHTLLmubBL0dehLhVrwfSk+dbtOaD1STzQbdsadRZJmDR/m6wBvoWUS/YDLZa
-         8pr6Uh3t4SdKRj7goYyPkbjKVVfIZ8A627AlM88lyxJ51TOApev4tiozAT8zuiGLJ+T9
-         N877jxxMAzKSJUT8YZHcxMegsRiFL2+uolcYg=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=f+1HFMDWUtvTaqRt5dFixaFpzLq8UBeaP9koB9xaa+8=;
+        b=LxmTGA08/N+6vXXD5ZUU4r1fhJY6NeUbJxdVN8DdhUrwp0yYjeVE63SCAzr07YxQe9
+         kzW9TgOSB4Ih9Tb9eP1N6y/eu92dLu5GJlXj802HRXYXBUSyPXfdSdAR0jPDf9tgHFCF
+         Wjik5kZia2WrGxxeWb9vI8t8u55tvSelitPc2J7AFgvJIFmttq5+Q6XA7nsTbsD9b3Y0
+         3cs/9EVf0ujz2hojTa9O121iAlgtZUeooo1Q6CJnfapbptMSKCWA/Pp/J7Z9BXFs4rxW
+         R3ni8Td56W13vD6uZ9rPbXkrz+fgoKDQ70RYYPbcfGhlTPAUX4wRZF8KY87BUMrBVnJ5
+         SwGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=eXW/bjzLwEKSKss4OCq+DEdGZM3axbrs1orgzmZCbsM=;
-        b=gVAHdffz3R3hhqZ5CBfLejN8NjreeXS2oMf3tcZAuNUM8TpV80PHmPg5sjzdURzH+Q
-         l6nLpkzpOIipYiYwmD9FmCuzsm2vMeeCECneAQ4HjkteYo2vgacRdd+x5xhH4+JRrfwH
-         Nd3ZSZWSVz8ghO+UVTwp2vAReE8eLs1YDz92iCDoqy8CJiS7UhC4y5xKCyGQpg/Y5xTa
-         pD89RHgpYGokifpXpZo8RQWSjrN/Qbr2V9yNEOHS6OQaRPmzqFs23083Pa5796JEcxJB
-         AtEsvXO4jFhVSi6IR9FPijDBiEB+YTdJ5OPMJsJhasjLurX4sJiDkh4iTexJ6CwfhwoR
-         tOaQ==
-X-Gm-Message-State: AOAM5314dXfRT9hEU0oxx654buO1PN97B6cH6JeVu1TSKvi40EuM3TK8
-	KsrKvXhFwTYBKCm3MhcGJUuMxQ==
-X-Google-Smtp-Source: ABdhPJxzJ0UJLhmycXomA5oKGtGVCO0+Mlm5KOYxVRQNSmpo1lNdxw955pgSo9GQ/BBI+SRNt/Wnaw==
-X-Received: by 2002:adf:f543:: with SMTP id j3mr8325505wrp.287.1631262679576;
-        Fri, 10 Sep 2021 01:31:19 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:69c:dc1e:bcce:ea45? ([2001:8b0:aba:5f3c:69c:dc1e:bcce:ea45])
-        by smtp.gmail.com with ESMTPSA id l15sm4029248wrv.84.2021.09.10.01.31.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 01:31:19 -0700 (PDT)
-Message-ID: <e09b8b9e26d55f71bda9afdd0c2e1e25ec2b4690.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] wic/bootimg-efi: Add Unified Kernel Image option
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: kristian@klausen.dk, openembedded-core@lists.openembedded.org
-Date: Fri, 10 Sep 2021 09:31:18 +0100
-In-Reply-To: <20210909175337.624-1-kristian@klausen.dk>
-References: <20210909175337.624-1-kristian@klausen.dk>
-User-Agent: Evolution 3.40.2-1build1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f+1HFMDWUtvTaqRt5dFixaFpzLq8UBeaP9koB9xaa+8=;
+        b=J8Fy/cm5kBqKBs4wAMwu/BbB5mrdmfjyqD3WNXJBzYU4qCJD7mtaVfj/KsWuQiuYXB
+         kPWM6euZ7rTz2MPS42JIaUvxDhgdpcdJfD7mqwIhy4RfrT/MYCKDFtblfBG9Ab0uCDoO
+         GAfDMDGyOChVW1Bdf43tn6xX8WCuOaglHjlS2vICQoAnabzNqdsDuqUc4iJ2WYKQZwQR
+         U57dDlBnM3RR/cL5WpHwG98MNgQxF0JmB/nSJAhr2HfDxsXUqHWCFE+gmPsu2d0jvPXC
+         dIjcl0UdNmvOb5Vd4eCIAMMXkTJcZvXMd9AdHIpDZZ387CTfAb43mOi0JPDIWrg671+o
+         kUgg==
+X-Gm-Message-State: AOAM532hy0l8OTwPlr5su0cyBfLzw6u7fximGIpMhR91ur4oOu/tzyJK
+	F7BjYNP1K+nNmDNiQ5vbsPkYfIj1ey1DLlBIZPoJiwoJPfIzxA==
+X-Google-Smtp-Source: ABdhPJxtky6OAXpmCIyqfeqjj+4/9g4cUWflod5LI6JilFh/msrKUH1pK+ephI/15Gvsgmtm5gHBt0UbQVPmKVuabMk=
+X-Received: by 2002:adf:e44c:: with SMTP id t12mr1996672wrm.49.1631266555583;
+ Fri, 10 Sep 2021 02:35:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1631260941.git.liezhi.yang@windriver.com> <5c90531f95216929b0e3cc55784a25f3a2386b28.1631260941.git.liezhi.yang@windriver.com>
+In-Reply-To: <5c90531f95216929b0e3cc55784a25f3a2386b28.1631260941.git.liezhi.yang@windriver.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 10 Sep 2021 10:35:44 +0100
+Message-ID: <CAAnfSTsfHCM=aGJZ4SVEaBGezDan0wifzhnh+UTARxmb6uHXhw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] oeqa/sdk: assimp.py -> cmake.py
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2021-09-09 at 17:53 +0000, Kristian Klausen via lists.openembedded.org
-wrote:
-> "A unified kernel image is a single EFI PE executable combining an EFI
-> stub loader, a kernel image, an initramfs image, and the kernel command
-> line.
-> 
-> [...]
-> 
-> Images of this type have the advantage that all metadata and payload
-> that makes up the boot entry is monopolized in a single PE file that can
-> be signed cryptographically as one for the purpose of EFI
-> SecureBoot."[1]
-> 
-> This commit adds a create-unified-kernel-image=true option to the
-> bootimg-efi plugin for creating a Unified Kernel Image[1] and installing
-> it into $BOOT/EFI/Linux/ with a .efi extension per the the Boot Loader
-> Specification[1][2]. This is useful for implementing Secure Boot.
-> 
-> systemd-boot is the only mainstream bootloader implementing the
-> specification, but GRUB should be able to boot the EFI binary, this
-> commit however doesn't implement the necessary changes to the GRUB
-> config generation logic to boot the Unified Kernel Image.
-> 
-> [1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
-> [2] https://systemd.io/BOOT_LOADER_SPECIFICATION/
-> 
-> Signed-off-by: Kristian Klausen <kristian@klausen.dk>
-> ---
-> 
-> This patch supersedes:
-> "[RFC][PATCH] kernel: Add Unified Kernel Image image type"[1]
-> and:
-> "[PATCH] wic/bootimg-efi: Add option for only installing the bootloader"[2]
-> 
-> The latter is perhaps still useful, but with this patch it is no longer
-> needed for using a Unified Kernel Image with systemd-boot.
-> 
-> [1] https://lists.openembedded.org/g/openembedded-core/message/155801
-> [2] https://lists.openembedded.org/g/openembedded-core/message/155789
-> 
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 69 ++++++++++++++++---
->  1 file changed, 59 insertions(+), 10 deletions(-)
+On Fri, 10 Sept 2021 at 09:08, Robert Yang <liezhi.yang@windriver.com> wrote:
+> -            self._run("cd {build} && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON {source}".format(**dirs))
+> +            self._run("cd {build} && cmake {source}".format(**dirs))
 
-Do we need to add a test for this into meta/lib/oeqa/selftest/cases/wic.py?
+Verbose makefiles were turned on for a reason: when it breaks, we want
+to see the full log.
 
-Cheers,
+>              self._run("cmake --build {build} -- -j".format(**dirs))
+>              self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**dirs))
+> -            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.4.1.0"))
+> +            self.check_elf(os.path.join(dirs["install"], "usr/local/lib/libexpat.so.1.8.1"))
 
-Richard
+Using join() but passing a hardcoded path string seems suboptimal.
 
+Ross
