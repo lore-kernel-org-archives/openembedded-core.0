@@ -1,50 +1,50 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web08.9699.1631282896216993430
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.9484.1631282900694901921
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 07:08:16 -0700
+ Fri, 10 Sep 2021 07:08:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qWbpE2FS;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f52.google.com with SMTP id c8-20020a9d6c88000000b00517cd06302dso2346146otr.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 07:08:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ciElwZ4S;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f177.google.com with SMTP id bd1so3071773oib.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 07:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=5nWbX7VQ8IUFlWHQB/SxnO876EqMuL4a3j7rNauBZcQ=;
-        b=qWbpE2FSwTJ/QDk4ea7oDU4jeS1iyBgaKVFPUNPXY+NWaqLQ8DYKSEc/x5UI4eocTK
-         bgbqDX/KRd5LFlRH+iP8lRLXUVWhl0ygpksBgee4G7SNnsZ4utgIeK2iNLlItLyO1h0m
-         5xKMTnMJ5PLQk5t585+r2AJPhTrbQqyh4xKqWJvvSffrcMEEdK8rHxHDOHuApY/Fut53
-         wHthdIFHR9hmXKJN4CJjlJRPxmX/HorxMhq/lHlbwbO5Fv3CKP6ENB4kKsI3Izia7ZOK
-         0X4PktLXXBldzRCmywX5dDOVFcZs8FvR9ZLEt8hEAsbuxMbOf8EFznT3H58JZTB73+83
-         WQTA==
+        bh=6jM73Z+3LfDB9fPmV7WLQMLHg1sJ5IAmgPFFHIzgWR0=;
+        b=ciElwZ4Spz7SwHf5h34f+HJP+a+zoZert2n4FHlKXoRljQag+NwNUMIcXAnH9/pHk7
+         y3vtdiODtaZ8Pt9pKYJHvsiEqLuUGWLf28QqIeRszdAzm6tGSWeZP2HmlX/DOP6oYqG8
+         ioDqO6YT2LWn0kWWStjOy187Io0lxArlHrXq1i2xaCnFkegQiIUSIhnlyPR7EbH/lCwT
+         85PqkjCdS0gI190UubKKenPGiUKct8/SCYnx0zeZUOl/B+OB9JE1BKkB7k32bIbGIMN7
+         mV4s+e0uZTnVmaWs8manA+qa2pHtZANtZ3EvI/mGYAWeysygcymkxYgOPZnEqEA6KIpr
+         lxQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5nWbX7VQ8IUFlWHQB/SxnO876EqMuL4a3j7rNauBZcQ=;
-        b=jjT46h0Ra1K4j1kOeb4ZandEIxstepFxv33FtGuJBHAgKjUt21o0VcdEaUAuGMtZkA
-         TCtdMxbkGB2WVyJVyD7Z/5zxaMXPY8jMs3PkYvU1BkElQqTq2gym2diURJqQt27FGhEE
-         aJcRh0tTkkWDqsdbXaIip3wUG/EcmlQiE+qgoxZA8xxG4m7KFmudc5VRsgUiaEWsZbL5
-         cPqUH77SkXPd6mI4yQCaxawfrFKAr2yWJGmP7WWI6JG5cu6R5ozg13ZEsfk+Wom8GnN+
-         Dtk0oENWqRcez6zs2AcvmQk1Yppk7VIZc9cpvkPtnPuAbKkecBPtZHDhBOs8ZHUBcHIa
-         Y0DA==
-X-Gm-Message-State: AOAM532ZlgqXolZvqdAhXPyVpGMHco4cxFVbVOITzQmy/iPNG+Ggxp7U
-	vSne0zMv4E4b2suLb3SUq1DaF8OCWtgc7HzC
-X-Google-Smtp-Source: ABdhPJzgTuWRFrKtgTtIPn1rtH0vMSxPIc8NCgwuAYfc95Yzw5m1R+jyFDVgGplYAnzLwGqAUEtebQ==
-X-Received: by 2002:a05:6830:2428:: with SMTP id k8mr4889143ots.57.1631282894760;
-        Fri, 10 Sep 2021 07:08:14 -0700 (PDT)
+        bh=6jM73Z+3LfDB9fPmV7WLQMLHg1sJ5IAmgPFFHIzgWR0=;
+        b=o8aNktm+LbrG/H9QeKgL4WicxCbzC+7LeFMFP3zbDy/SxrqRiDq9tIAXCWXfhpn3X3
+         vqzqkqCUe2gaZu/bC1sYtt4UmjvzJlT+4m6sI96ge7qK0v8wMy805r9kXxkHr0+3W9YI
+         3qBMxp1e6F/oG7JSgnZPUCtPTwTqzb8goqQDb6LUUg9zIBUm08oWVlxw6K83QkoCAyAr
+         hv2lEFRlKMCbDa6J59sNC5xjvMw19JNPaZE1oD9DTZcNmGERN1FdQaGTuJuZXZB1fSmh
+         VVjOtgmhm46R6y4bZXvx2t5Rg0ySfxlPsViFJqVdwjUn6ctKG9qoup6cwKpFK5muQI2J
+         S03w==
+X-Gm-Message-State: AOAM532smisRQ4ZxUm9c8eoUC3X2p4c9J6ATg5mCdbDIJLap7vfdrH2t
+	y1sI79lnqgHEH6QoxtEszMyNdNxqnoyNy+Df
+X-Google-Smtp-Source: ABdhPJzXjP71TVBSeemJ5O3Qf1XfXLY81F3AofB9y2KFpZ/cQg3fANArDwLL4GmVZuDMVgNfGlkskQ==
+X-Received: by 2002:aca:1703:: with SMTP id j3mr4189340oii.116.1631282899555;
+        Fri, 10 Sep 2021 07:08:19 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s198sm1248831oie.47.2021.09.10.07.08.11
+        by smtp.gmail.com with ESMTPSA id s198sm1248831oie.47.2021.09.10.07.08.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 07:08:14 -0700 (PDT)
+        Fri, 10 Sep 2021 07:08:18 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/9] flex: Add CVE-2019-6293 to exclusions for checks
-Date: Fri, 10 Sep 2021 04:07:17 -1000
-Message-Id: <425e9b5d5d605dc69f6a4def45cf24c4bab65c94.1631282682.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 7/9] go: Exclude CVE-2021-29923 from report list
+Date: Fri, 10 Sep 2021 04:07:18 -1000
+Message-Id: <f4d308cb28d1f559ca5d219f3085c68582b0b94a.1631282682.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1631282682.git.steve@sakoman.com>
 References: <cover.1631282682.git.steve@sakoman.com>
@@ -53,51 +53,32 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-CVE is effectively disputed - yes there is stack exhaustion but no bug and it
-is building the parser, not running it, effectively similar to a compiler ICE.
-Upstream no plans to address and there is no security issue.
+Upstream don't believe it is a signifiant real world issue and will only
+fix in 1.17 onwards. Therefore exclude it from our reports.
 
-https://github.com/westes/flex/issues/414
+https://github.com/golang/go/issues/30999#issuecomment-910470358
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0cae5d7a24bedf6784781b62cbb3795a44bab4d1)
+(cherry picked from commit 5bd5faf0c34b47b2443975d66b71482d2380a01a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/cve-extra-exclusions.inc | 4 ----
- meta/recipes-devtools/flex/flex_2.6.4.bb          | 5 +++++
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/go/go-1.14.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-index cf07acce1d..a6f52b5de7 100644
---- a/meta/conf/distro/include/cve-extra-exclusions.inc
-+++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-@@ -61,10 +61,6 @@ CVE_CHECK_WHITELIST += "CVE-2020-29509 CVE-2020-29511"
- # There was a proposed patch https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06098.html
- # however qemu maintainers are sure the patch is incorrect and should not be applied.
- 
--# flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293
--# Upstream bug, still open: https://github.com/westes/flex/issues/414
--# Causes memory exhaustion so potential DoS but no buffer overflow, low priority
--
- # wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879
- # https://mail.gnu.org/archive/html/bug-wget/2021-02/msg00002.html
- # No response upstream as of 2021/5/12
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index 1d43d2228a..50d3bf8de1 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -26,6 +26,11 @@ SRC_URI[sha256sum] = "e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c4
- UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
- UPSTREAM_CHECK_REGEX = "flex-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-+# Disputed - yes there is stack exhaustion but no bug and it is building the
-+# parser, not running it, effectively similar to a compiler ICE. Upstream no plans to address
-+# https://github.com/westes/flex/issues/414
-+CVE_CHECK_WHITELIST += "CVE-2019-6293"
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index 3dfd671d11..50136ca841 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -19,3 +19,9 @@ SRC_URI += "\
+ "
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+ SRC_URI[main.sha256sum] = "7ed13b2209e54a451835997f78035530b331c5b6943cdcd68a3d815fdc009149"
 +
- inherit autotools gettext texinfo ptest
- 
- M4 = "${bindir}/m4"
++# Upstream don't believe it is a signifiant real world issue and will only
++# fix in 1.17 onwards where we can drop this.
++# https://github.com/golang/go/issues/30999#issuecomment-910470358
++CVE_CHECK_WHITELIST += "CVE-2021-29923"
++
 -- 
 2.25.1
 
