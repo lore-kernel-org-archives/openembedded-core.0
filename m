@@ -1,262 +1,321 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.5004.1631250026683583253
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web09.5178.1631250112989183276
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 22:00:26 -0700
+ Thu, 09 Sep 2021 22:01:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=am0fKCra;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4887ec39e7=kai.kang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18A4s3Oi025726
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 22:00:26 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=Sn8mPM82ECstOZU0HKs/ASOSLml/7p7oDzc8aDiics8=;
- b=am0fKCraSN4P2IUOCtOJ8HBqY+r6GD3sPjHm++bf+ahbwTAfVnX83FQMLJ0secjw15gJ
- d8F6s2Z7FSPbi7jZ7Nf84ds0Vd2dHkjXGf4dt0weNBfs//MtlzpOwKfIMvwcCEUEMtiH
- jEdmDDH/Ste/9+gpfromeiNNNzKkOAHMR0Z2LBbetOPFsEAjmpD1ml702YdIao17HkUG
- vx2VsikFkRmvYcEQf0GJI89sHSfXPKvivli+kb+v7PgLSmyeLhP4S9gklJEZicnpwptv
- uq+Muf7vWaG/stFFCLTf0PJ19c4SKo9W9CUDFNq2aqxfQ1TxeEMca9tW51sE8js2qgTu pQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3aythyr7n0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 09 Sep 2021 22:00:26 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18A50PGM002954
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 22:00:25 -0700
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam07lp2048.outbound.protection.outlook.com [104.47.56.48])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3aythyr7mx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Sep 2021 22:00:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c1jirBBm7VAX3eeZa7j1obkx+VuDNlv1rY2sk+rxLrkRo7a7keKRVx49lgWY5kRDfKNnvhY7G3CSlDnm9qY70fXHbJTsv3VqPmVIoOaRXo65uMDntPDI37Oye6m+OKw94LgTJx7ZVkVO9dwjPjOMkgsY9lHH1dywa/mKoaBqE3MK70a/iqvyM43GF58sXaq9D0QHbFjxvwVu56EoM8DtHpznvg1lC1PPg9r//tbVuPA1iJ2b54GN+bEYGYsNqf2f6XCHyv5AJpM522/h3Efqwvdj/O2AI3oz41kfzcnf7LM3HvcNuxYE8mkzBP8D0Ho5KHmN0M7ujkfxzptHFs89lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=Sn8mPM82ECstOZU0HKs/ASOSLml/7p7oDzc8aDiics8=;
- b=ieuYxtzuNuGO8gENfyQ/bj2TxJzZEjm3LhUvmCLgl0vn7E36/90Z5Z2rPYIDTvKIc81j4rBC3YU2/hLEwNbJp4W4Ayfosd8gps9riaY/UK3M99NAqhjnDJpDqh1dpLGR6daHrbgwBAzoHXTXzKvxv1FBER1FktrC+QnsFg07v62/qpeK5/3N6UC8MbCinlJprF+7iUvctcYgKbJY4RcAmT2s7TXgW3iOIIMA8NyR2ixQb8TwVXsCDx2zOT8O96OGFUGXlrB2zW6X3ZSnYp8lFQpdSCIV5xoFg5kVQnPHVlN+rvMUZLPq9OvAxq4H2YEZ6pNMpSKOQyvawIst93rnwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO6PR11MB5651.namprd11.prod.outlook.com (2603:10b6:5:356::20)
- by CO6PR11MB5585.namprd11.prod.outlook.com (2603:10b6:5:356::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Fri, 10 Sep
- 2021 05:00:24 +0000
-Received: from CO6PR11MB5651.namprd11.prod.outlook.com
- ([fe80::d92:b64a:8b59:cf4a]) by CO6PR11MB5651.namprd11.prod.outlook.com
- ([fe80::d92:b64a:8b59:cf4a%9]) with mapi id 15.20.4500.017; Fri, 10 Sep 2021
- 05:00:24 +0000
-Subject: Re: [OE-core] [PATCH v3 1/1] perl: fix CVE-2021-36770
-To: "Mittal, Anuj" <anuj.mittal@intel.com>,
-        "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20210910031616.8750-1-kai.kang@windriver.com>
- <20210910031616.8750-2-kai.kang@windriver.com>
- <72b903727f8cacc1b2d55eb2dd3332582987ae3a.camel@intel.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A51poD014531
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 22:01:51 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A51p7X020000
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 22:01:51 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 9 Sep 2021 22:01:50 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 22:01:50 -0700
 From: "kai" <kai.kang@windriver.com>
-Message-ID: <9226e239-4fac-3851-0d6c-c76a33ac29a7@windriver.com>
-Date: Fri, 10 Sep 2021 13:00:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <72b903727f8cacc1b2d55eb2dd3332582987ae3a.camel@intel.com>
-X-ClientProxiedBy: HKAPR03CA0030.apcprd03.prod.outlook.com
- (2603:1096:203:c9::17) To CO6PR11MB5651.namprd11.prod.outlook.com
- (2603:10b6:5:356::20)
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] squashfs-tools: fix CVE-2021-40153
+Date: Fri, 10 Sep 2021 13:01:44 +0800
+Message-ID: <20210910050144.24445-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Received: from [128.224.163.141] (60.247.85.82) by HKAPR03CA0030.apcprd03.prod.outlook.com (2603:1096:203:c9::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.8 via Frontend Transport; Fri, 10 Sep 2021 05:00:22 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 18b9db0e-a9f8-4a12-6a91-08d97417e5d0
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5585:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO6PR11MB558539BACD5156C5EE30D58395D69@CO6PR11MB5585.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1284;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	hA5LPRXiMY9qB+diyHp5q9kkhh+HsCqLoPbMawKii4HGAQINFbDoIzI9PH88gW1/HiWkWJT6bWHF7EVz9pGR1PyTIWt66v4zBT7sramSL2uY5pfYDgl2K6dhvN2IiiYwrFf8IY7rnIjveQLQTWXenTLNdTa0OE6eHBaL0N/sOpHUBFT8ocQLyABzaUtI0lqjF1RgJtd4/w7q1iE5BxgO0xxUgjqclZ7xoJUkDyjFm89t5vy3pfZxY5Pyh10T4PJo2X0lvreczCYvraJHokEuBg7tTbmwt2JsTI5w5iW3oylS3K3l4UnvESyBPm/3tU+9MC0mgb8c8VSkoDAoQEF/vEbkPtqCMs0eR5zzNB5Pz21YDYky5j16dKkFCxTWiICenQK9OGVIUTtxIM1uk1/6o4i+rW+mi2L5RpLA3i/awrW8AxQivrMBw5XzT26ey/X1MelPPd56DV7k5qxmYNunavI7Msy8Q0OAP71NWNeyNeZ0bCZTQzu3mc+N67w9oaw/oNnl1xEhPYFEQ5lbuCj30MALy/wqLsP7FjOHDxJdS9i9/rM18lZvu/eS4cvtpiDu8urMNa+vhrDDcUWABKGjANx/BIsoP0OA4HQWrORQyjjp64FGDHWCVG2egJew7OOpFlKq2eqKLhTP4moBk7bF/B6XSof2Q6SF7AAFSajMh667jCQ5hOaWAfZx08haPcLTsiYrvfSbfqG6uqmqFCTN+g7m2KwDpHw/Blrhcw3DWK4G5EZ7FSv943UFV9bhUIFDe431qu2ioUBbJmLv4D25f+fWsuLxF5MfLHi8ibjTIJuNJ1A+imDBKdFKTJnFr2+xMo8C+oyvXYcyqT7Bea+COfUKttR5hYsQSd0gC6Y3/reWcM9oJm2slzF9AAA4pl8Cy2L/vFFbVLPQn/xXRPdsU5tEy52AjZgeeE47g5WSCu8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5651.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(39850400004)(366004)(396003)(346002)(956004)(31696002)(2906002)(966005)(316002)(53546011)(16576012)(31686004)(6666004)(38100700002)(6486002)(86362001)(38350700002)(186003)(26005)(8676002)(36756003)(5660300002)(6706004)(110136005)(2616005)(478600001)(66946007)(66476007)(66556008)(52116002)(8936002)(83380400001)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?YWxRcDltUHVtOURJRFI2YU5vTHQvd0V1TUNlQkNMRHlUQ1JaM2hpR29MVTFa?=
- =?utf-8?B?Q3Jtd3B6RVBVVnZKMnh5enpCdVQ1cDQ3RVlKSEJFY2JNQXVjYS8wR3ZaSkpr?=
- =?utf-8?B?b3dWVHZiQkJjek9jWkVZdmVTaW9DSi83SGFVWW5aY0NkQlZwNnZtQzRrLzR3?=
- =?utf-8?B?NjgwRkYrdG1lRHgvekdOOXRsZi9aNzVqa3JzMkhJTGVuWWpvN0tKQnhWSVNO?=
- =?utf-8?B?SDJMc01BZXgzK0Z0ZEJHbzE3ekVKek0yQUhUUFVsMXQreDd0WHhiZ3NiMWZu?=
- =?utf-8?B?RXMwdDJ3cW5EOXRxV0VySEZyREs1cnNFZk5tUWFzbk9qREZiSDlsaUdnNWZ4?=
- =?utf-8?B?SVJhUzBaTmhzOWJienJzNC9iV1hhSTRNUmt6UXliOVJ3SHpPeTZKNFpROEJL?=
- =?utf-8?B?ajg4azFsUEs2TW1RdUcvUTFROWtJUmdEeDluUWo0Y3VPM2NaTUhhV0piTzRS?=
- =?utf-8?B?dk4veUhoYTNONDdnTGtQdzd3RnA0R0NPMDdoMkc0dmJFVUdVWWgrdHZUcnlh?=
- =?utf-8?B?SUVlMmIzRDV3Qk04RTdoVjM2a1FzQkhWZExYNzk5cUgya1F0eVY0Y0pTTVp2?=
- =?utf-8?B?SVgzKzUvRWQxNmNZbHZEZGJXZmFxY0tiYk85UWtES2NXS211a0Y0U2dTL1Nm?=
- =?utf-8?B?a3VsTDVXeUUzdzlGdzkxWWI1TFBZVTNDNGNIMmNlVzhhYjN2blJtUXE3U1Uv?=
- =?utf-8?B?ODFXdmxwNnFUS3pWMDA4SVF4SlVNTXpYb090WlVSeUt0b0RGc0kzRkhIMFVk?=
- =?utf-8?B?TTdFdmpQMkw0RHBDWUxBZHpQMEhHaVRNS0V3WHBmTDFKbDU0NzMvVDkxV0hF?=
- =?utf-8?B?L1JQcDhmcFdHSHNwcThpREkvTzRRaWIvb2FSeUxoVWFGeUNFM1p4RWlzVHVF?=
- =?utf-8?B?dGxkRW8xUGVlNUYrSXVpNDNLZkNseXdZZ1VlSDdkT2JuY2Z1U2plamZvRFUy?=
- =?utf-8?B?OXo0T3FSKzdhQjQyZ08vcUhCUVJQampaN2c1WnIwZEZIYUN1dFZSZURGeEJH?=
- =?utf-8?B?OXJKNkgyekxaU0ZYV0VFL2lCdmNTdVlyZUJOSEVnaS9jKzVUT2J3ZWRmQTJJ?=
- =?utf-8?B?SzllZkhjVWNXcmhkTnI0ZW0yczBTQnZQRzB4TElYYUs2YTJtU0U5Wi9pTW53?=
- =?utf-8?B?OEgyZTM5b0w3eXlja0tXNk1PNzEyeHJGckNtZ1IwNk1kZ2I0MlVkeG9FOTJt?=
- =?utf-8?B?N0h0K3lQV284VXhRenA3K2NhbmZ5QVpkdG9iQ3EzVUVDdlJBVGlRdEJTUXFJ?=
- =?utf-8?B?T0N1VTNFdVRZSjl5SlFmVzNGcjUxZXBYSitRMXFZOVlGenBuZ0RiRTM0NWpi?=
- =?utf-8?B?cUdnMm5XY0oralVFeGxFeHNCam5nVVZmai9OaUltUjhJbHRoR0JPRENuUTdN?=
- =?utf-8?B?c29qb3BXZzVodmVpeXJPM3U0RFo4UDV3Z3ExUDJkdmNoVlJwcktpeTk4a21i?=
- =?utf-8?B?eVVKZDZ3a1VLenhBZU0wYjZHYTVXOU91bjFwQzR4RHJndStMaTNyc0NqVlJp?=
- =?utf-8?B?dFRxdEhSTHRvaERZYTJ2dXF6N3lwMnJ0TDE0VXp2QnllM0ovOGJHZzJWRVoy?=
- =?utf-8?B?cUVTbGR2VXJDdmFhVWQ4TDdTWlAwN1Q2VzZzY2xVNGJVM29EUUlkR3EvSitU?=
- =?utf-8?B?N1ZPbE0wWnNuSUJjdElxQ2taQ3U5MjBuYk4zWWtINjNsU2tYQ0pFUEQ5WjMy?=
- =?utf-8?B?ZEx6dHNWSjJLVjZzNGlic1g4NzRobmxBakFMa0p2R2lJQTBQbmcyWjB0THlH?=
- =?utf-8?Q?1T+DlNE7E76GHUTjq1Y+1damzTfsdz4znhuX4WZ?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18b9db0e-a9f8-4a12-6a91-08d97417e5d0
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5651.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 05:00:23.9223
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wdEtV0NpO14YdEcGgC5DQ0y2lA6sQkA0ldGQFFNfN/qX+z75XR3GjUndicpA92Eentafkjw0Y1OP7sYjN76LfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5585
-X-Proofpoint-GUID: fPANHVlb9nhTm411Xr2TUO6O9BlQ46fX
-X-Proofpoint-ORIG-GUID: 9Z7c4omAIITTTUcAwd84YoaImMYr74b5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-10_01,2021-09-09_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- spamscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0
- mlxlogscore=985 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109100029
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 18A4s3Oi025726
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On 9/10/21 12:02 PM, Mittal, Anuj wrote:
-> On Fri, 2021-09-10 at 11:16 +0800, kai wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Backport patch to fix CVE-2021-36770.
->>
->> CVE: CVE-2021-36770
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>  =C2=A0.../perl/files/CVE-2021-36770.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 49
->> +++++++++++++++++++
->>  =C2=A0meta/recipes-devtools/perl/perl_5.34.0.bb=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 1 +
->>  =C2=A02 files changed, 50 insertions(+)
->>  =C2=A0create mode 100644 meta/recipes-devtools/perl/files/CVE-2021-
->> 36770.patch
->>
->> diff --git a/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
->> b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
->> new file mode 100644
->> index 0000000000..28bc457b86
->> --- /dev/null
->> +++ b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
->> @@ -0,0 +1,49 @@
->> +Backport patch to fix CVE-2021-36770.
->> +
->> +Upstream-Status: Backport
->> [https://github.com/Perl/perl5/commit/c1a937f]
->> +CVE: CVE-2021-36770
->> +
->> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> +
->> +From c1a937fef07c061600a0078f4cb53fe9c2136bb9 Mon Sep 17 00:00:00
->> 2001
->> +From: Ricardo Signes <rjbs@semiotic.systems>
->> +Date: Mon, 9 Aug 2021 08:14:05 -0400
->> +Subject: [PATCH] Encode.pm: apply a local patch for CVE-2021-36770
->> +
->> +I expect Encode to see a new release today.
->> +
->> +Without this fix, Encode::ConfigLocal can be loaded from a path
->> relative
->> +to the current directory, because the || operator will evaluate @INC
->> in
->> +scalar context, putting an integer as the only value in @INC.
->> +---
->> + cpan/Encode/Encode.pm | 7 ++++---
->> + 1 file changed, 4 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/cpan/Encode/Encode.pm b/cpan/Encode/Encode.pm
->> +index a56a99947f..b96a850416 100644
->> +--- a/cpan/Encode/Encode.pm
->> ++++ b/cpan/Encode/Encode.pm
->> +@@ -7,7 +7,8 @@ use warnings;
->> + use constant DEBUG =3D> !!$ENV{PERL_ENCODE_DEBUG};
->> + our $VERSION;
->> + BEGIN {
->> +-=C2=A0=C2=A0=C2=A0 $VERSION =3D sprintf "%d.%02d", q$Revision: 3.08 $ =
-=3D~ /(\d+)/g;
->> ++=C2=A0=C2=A0=C2=A0 $VERSION =3D "3.10_01";
->> ++=C2=A0=C2=A0=C2=A0 $VERSION =3D eval $VERSION;
-> This is changing the version of Encode without having the changes.
-> Perhaps this part should be dropped as it doesn't look relevant to the
-> fix ...
+From: Kai Kang <kai.kang@windriver.com>
 
-OK.
+Backport patch to fix CVE-2021-40153, and remove version update in
+unsquashfs.c for compatible.
 
-Regards,
-Kai
+CVE: CVE-2021-40153
 
->
-> Thanks,
->
-> Anuj
->
->> +=C2=A0=C2=A0=C2=A0=C2=A0 require XSLoader;
->> +=C2=A0=C2=A0=C2=A0=C2=A0 XSLoader::load( __PACKAGE__, $VERSION );
->> + }
->> +@@ -65,8 +66,8 @@ require Encode::Config;
->> + eval {
->> +=C2=A0=C2=A0=C2=A0=C2=A0 local $SIG{__DIE__};
->> +=C2=A0=C2=A0=C2=A0=C2=A0 local $SIG{__WARN__};
->> +-=C2=A0=C2=A0=C2=A0 local @INC =3D @INC || ();
->> +-=C2=A0=C2=A0=C2=A0 pop @INC if $INC[-1] eq '.';
->> ++=C2=A0=C2=A0=C2=A0 local @INC =3D @INC;
->> ++=C2=A0=C2=A0=C2=A0 pop @INC if @INC && $INC[-1] eq '.';
->> +=C2=A0=C2=A0=C2=A0=C2=A0 require Encode::ConfigLocal;
->> + };
->> +
->> +--
->> +2.33.0
->> +
->> diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb
->> b/meta/recipes-devtools/perl/perl_5.34.0.bb
->> index ab19a8d0be..0e0fe7f985 100644
->> --- a/meta/recipes-devtools/perl/perl_5.34.0.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
->> @@ -17,6 +17,7 @@ SRC_URI =3D
->> "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=3Dperl=C2=A0\
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
-://perl-dynloader.patch=C2=A0\
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
-://0002-Constant-Fix-up-shebang.patch=C2=A0\
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
-://determinism.patch=C2=A0\
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://CVE=
--2021-36770.patch=C2=A0\
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
->>  =C2=A0SRC_URI:append:class-native =3D " \
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
-://perl-configpm-switch.patch=C2=A0\
->>
->>=20
->>
+Ref:
+* https://security-tracker.debian.org/tracker/CVE-2021-40153
 
---=20
-Kai Kang
-Wind River Linux
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../squashfs-tools/files/CVE-2021-40153.patch | 253 ++++++++++++++++++
+ .../squashfs-tools/squashfs-tools_git.bb      |   1 +
+ 2 files changed, 254 insertions(+)
+ create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+
+diff --git a/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+new file mode 100644
+index 0000000000..95e2534ee4
+--- /dev/null
++++ b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+@@ -0,0 +1,253 @@
++Backport patch to fix CVE-2021-40153, and remove version update in unsquashfs.c
++for compatible.
++
++Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/79b5a55]
++CVE: CVE-2021-40153
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From 79b5a555058eef4e1e7ff220c344d39f8cd09646 Mon Sep 17 00:00:00 2001
++From: Phillip Lougher <phillip@squashfs.org.uk>
++Date: Sat, 16 Jan 2021 20:08:55 +0000
++Subject: [PATCH] Unsquashfs: fix write outside destination directory exploit
++
++An issue on Github (https://github.com/plougher/squashfs-tools/issues/72)
++shows how some specially crafted Squashfs filesystems containing
++invalid file names (with '/' and ..) can cause Unsquashfs to write
++files outside of the destination directory.
++
++This commit fixes this exploit by checking all names for
++validity.
++
++In doing so I have also added checks for '.' and for names that
++are shorter than they should be (names in the file system should
++not have '\0' terminators).
++
++Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
++---
++ squashfs-tools/Makefile        |  5 ++-
++ squashfs-tools/unsquash-1.c    |  9 +++++-
++ squashfs-tools/unsquash-1234.c | 58 ++++++++++++++++++++++++++++++++++
++ squashfs-tools/unsquash-2.c    |  9 +++++-
++ squashfs-tools/unsquash-3.c    |  9 +++++-
++ squashfs-tools/unsquash-4.c    |  9 +++++-
++ squashfs-tools/unsquashfs.h    |  5 ++-
++ 7 files changed, 98 insertions(+), 6 deletions(-)
++ create mode 100644 squashfs-tools/unsquash-1234.c
++
++diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
++index aee4b960..20feaca2 100644
++--- a/squashfs-tools/Makefile
+++++ b/squashfs-tools/Makefile
++@@ -156,7 +156,8 @@ MKSQUASHFS_OBJS = mksquashfs.o read_fs.o action.o swap.o pseudo.o compressor.o \
++ 	caches-queues-lists.o
++ 
++ UNSQUASHFS_OBJS = unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o \
++-	unsquash-4.o unsquash-123.o unsquash-34.o swap.o compressor.o unsquashfs_info.o
+++	unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o swap.o \
+++	compressor.o unsquashfs_info.o
++ 
++ CFLAGS ?= -O2
++ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
++@@ -350,6 +351,8 @@ unsquash-123.o: unsquashfs.h unsquash-123.c squashfs_fs.h squashfs_compat.h
++ 
++ unsquash-34.o: unsquashfs.h unsquash-34.c
++ 
+++unsquash-1234.o: unsquash-1234.c
+++
++ unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h
++ 
++ unsquashfs_info.o: unsquashfs.h squashfs_fs.h
++diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
++index 34eced36..28326cb1 100644
++--- a/squashfs-tools/unsquash-1.c
+++++ b/squashfs-tools/unsquash-1.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2011, 2012, 2019
+++ * Copyright (c) 2009, 2010, 2011, 2012, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -285,6 +285,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
++new file mode 100644
++index 00000000..c2d4f42b
++--- /dev/null
+++++ b/squashfs-tools/unsquash-1234.c
++@@ -0,0 +1,58 @@
+++/*
+++ * Unsquash a squashfs filesystem.  This is a highly compressed read only
+++ * filesystem.
+++ *
+++ * Copyright (c) 2021
+++ * Phillip Lougher <phillip@squashfs.org.uk>
+++ *
+++ * This program is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU General Public License
+++ * as published by the Free Software Foundation; either version 2,
+++ * or (at your option) any later version.
+++ *
+++ * This program is distributed in the hope that it will be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ * GNU General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU General Public License
+++ * along with this program; if not, write to the Free Software
+++ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+++ *
+++ * unsquash-1234.c
+++ *
+++ * Helper functions used by unsquash-1, unsquash-2, unsquash-3 and
+++ * unsquash-4.
+++ */
+++
+++#define TRUE 1
+++#define FALSE 0
+++/*
+++ * Check name for validity, name should not
+++ *  - be ".", "./", or
+++ *  - be "..", "../" or
+++ *  - have a "/" anywhere in the name, or
+++ *  - be shorter than the expected size
+++ */
+++int check_name(char *name, int size)
+++{
+++	char *start = name;
+++
+++	if(name[0] == '.') {
+++		if(name[1] == '.')
+++			name++;
+++		if(name[1] == '/' || name[1] == '\0')
+++			return FALSE;
+++	}
+++
+++	while(name[0] != '/' && name[0] != '\0')
+++		name ++;
+++
+++	if(name[0] == '/')
+++		return FALSE;
+++
+++	if((name - start) != size)
+++		return FALSE;
+++
+++	return TRUE;
+++}
++diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
++index 4b3d767e..474064e1 100644
++--- a/squashfs-tools/unsquash-2.c
+++++ b/squashfs-tools/unsquash-2.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2013, 2019
+++ * Copyright (c) 2009, 2010, 2013, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -386,6 +386,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
++index 02c31fc5..65cfe4d9 100644
++--- a/squashfs-tools/unsquash-3.c
+++++ b/squashfs-tools/unsquash-3.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
+++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -413,6 +413,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
++index 8475835c..aa23a841 100644
++--- a/squashfs-tools/unsquash-4.c
+++++ b/squashfs-tools/unsquash-4.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
+++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -349,6 +349,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
++index 934618b2..db1da7a0 100644
++--- a/squashfs-tools/unsquashfs.h
+++++ b/squashfs-tools/unsquashfs.h
++@@ -4,7 +4,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2013, 2014, 2019
+++ * Copyright (c) 2009, 2010, 2013, 2014, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -261,4 +261,7 @@ extern int read_ids(int, long long, long long, unsigned int **);
++ 
++ /* unsquash-34.c */
++ extern long long *alloc_index_table(int);
+++
+++/* unsquash-1234.c */
+++extern int check_name(char *, int);
++ #endif
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index 2b1409d78d..083e597b03 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -11,6 +11,7 @@ PV = "4.4"
+ SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+            file://0001-squashfs-tools-fix-build-failure-against-gcc-10.patch;striplevel=2 \
++           file://CVE-2021-40153.patch;striplevel=2 \
+ "
+ 
+ S = "${WORKDIR}/git/squashfs-tools"
+-- 
+2.17.1
 
