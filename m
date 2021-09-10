@@ -1,132 +1,108 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by mx.groups.io with SMTP id smtpd.web12.5107.1631250226684806607
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.5330.1631253514221931996
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 22:03:47 -0700
+ Thu, 09 Sep 2021 22:58:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@samsung.com header.s=mail20170921 header.b=s/BTBifg;
- spf=pass (domain: samsung.com, ip: 203.254.224.34, mailfrom: chanho61.park@samsung.com)
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20210910050344epoutp0456432e8ae85ba59669181b83c5830449~jXW-IYAID0737807378epoutp04g
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 05:03:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20210910050344epoutp0456432e8ae85ba59669181b83c5830449~jXW-IYAID0737807378epoutp04g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1631250224;
-	bh=hLLKHYYpwssRkXLDFf2IkS0+OMWYeMKf/xYLdWeXCQc=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=s/BTBifgUKEijehiQA3NRs8J7/BZQW9M0yGbJL8/pFeVdtmOoqY/7+qqk3+oV+iVh
-	 XYjdV1LQEmOiMbeBguZcpTdm5NSZULvNv5mf42TPGWD10EGnwVU78utAIfdqC3j9qt
-	 EdL/WuomNF7RRRhf4qqAMbyoT6q5UfckCl1Az8S0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTP id
-	20210910050344epcas2p458e7ece43466f090a7a285b558b04918~jXW_lQVHd3001430014epcas2p41;
-	Fri, 10 Sep 2021 05:03:44 +0000 (GMT)
-Received: from epsmges2p2.samsung.com (unknown [182.195.40.191]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4H5P0X6Qgmz4x9Q3; Fri, 10 Sep
-	2021 05:03:40 +0000 (GMT)
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-	epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	10.45.09816.B27EA316; Fri, 10 Sep 2021 14:03:39 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
-	20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23~jXW5-E2Dn0098600986epcas2p1K;
-	Fri, 10 Sep 2021 05:03:39 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20210910050339epsmtrp244c626536541cfdb74dba0b54fb3127d~jXW5_YxcV2546025460epsmtrp20;
-	Fri, 10 Sep 2021 05:03:39 +0000 (GMT)
-X-AuditID: b6c32a46-625ff70000002658-99-613ae72b7c14
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	4E.C3.08750.B27EA316; Fri, 10 Sep 2021 14:03:39 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.229.9.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20210910050338epsmtip2c6e1ac6f77980075131411cd39827f71~jXW5y9QRl1313213132epsmtip2r;
-	Fri, 10 Sep 2021 05:03:38 +0000 (GMT)
-From: "Chanho Park" <chanho61.park@samsung.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Chanho Park
-	<chanho61.park@samsung.com>
-Subject: [PATCH] binutils: inherit pkgconfig to address libdebuginfod depdency
-Date: Fri, 10 Sep 2021 14:03:51 +0900
-Message-Id: <20210910050351.72932-1-chanho61.park@samsung.com>
-X-Mailer: git-send-email 2.33.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A5wWqX019117
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Thu, 9 Sep 2021 22:58:33 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A5wWdK026828
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 9 Sep 2021 22:58:32 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 9 Sep 2021 22:58:31 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 22:58:30 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <anuj.mittal@intel.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v4 1/1] perl: fix CVE-2021-36770
+Date: Fri, 10 Sep 2021 13:58:28 +0800
+Message-ID: <20210910055828.38821-2-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210910055828.38821-1-kai.kang@windriver.com>
+References: <20210910055828.38821-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7bCmma72c6tEg+mdGhbbvmxmsbi8X9vi
-	zs937BY/nk1kdWDx2DnrLrvH/rlr2D3ObVzB6NG3ZRVjAEtUjk1GamJKapFCal5yfkpmXrqt
-	kndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0EolhbLEnFKgUEBicbGSvp1NUX5pSapC
-	Rn5xia1SakFKToGhYYFecWJucWleul5yfq6VoYGBkSlQZUJOxpIny1kLnnFWHN+2mLGBcRdH
-	FyMHh4SAicT9LpEuRi4OIYEdjBIHjs9igXA+MUrsXXacHcL5zCjRu+QOYxcjJ1jH7qmPoKp2
-	MUosX/udDcL5yCixadZKVpAqNgFdiS3PXzGC7BAR0JF489ELpIZZYAKjxO2WN2wgNcICARJ/
-	vvwFs1kEVCWaTzWwgdTzCthJTL5VBLFMXuLIr05mEJtXQFDi5MwnLCA2M1C8eetsZpCZEgLb
-	2CUenNvPDNHgIjHxI8R8CQFhiVfHt7BD2FISn9/tZYNo6GaUaH30HyqxmlGis9EHwraX+DV9
-	CyvIEcwCmhLrd+lDwkhZ4sgtqL18Eh2H/7JDhHklOtqEIBrVJQ5sn84CYctKdM/5zAphe0g0
-	TDrKBFIuJBArsWYC8wRG+VlInpmF5JlZCGsXMDKvYhRLLSjOTU8tNiowQo7STYzgRKfltoNx
-	ytsPeocYmTgYDzFKcDArifCe2GCZKMSbklhZlVqUH19UmpNafIjRFBi6E5mlRJPzgak2ryTe
-	0NTIzMzA0tTC1MzIQkmc9/xroCaB9MSS1OzU1ILUIpg+Jg5OqQam+Kbja2M5Jdfmm6/ZUDzD
-	zeSU6jzzEOMPmh9/L2UI3+ATLbzR72whs2/E6o+GBrPytWJuvdif+DrWOpNndoLlSn93DjXB
-	+0ay3PWmk6oVPk8+tCKco9jnX1PsxOjSJS/N8tn+lT7b0Wa+QO1t/z29+TIlpbqTM85l//oa
-	59vzekVy/tQLzse+t/x6ZOGy8PqGgCdmaV2vRB5U5S+4zRjIspFv/8FW9dpZOl7X9l827mX+
-	5fFyJnPYq/ZF18T8TIwW8f8XPCv3mv3gDoltK6UfCf1ybXD93bOq2E1cabpo+8afz1+1OaR6
-	fJLr5RI3u6SyYaEXp9WmfY4CTA6Pv1zMCmXSWlGm2/77/8fWp0xKLMUZiYZazEXFiQDWMLLP
-	/QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFLMWRmVeSWpSXmKPExsWy7bCSvK72c6tEgyWT2C22fdnMYnF5v7bF
-	nZ/v2C1+PJvI6sDisXPWXXaP/XPXsHuc27iC0aNvyyrGAJYoLpuU1JzMstQifbsErowlT5az
-	FjzjrDi+bTFjA+Muji5GTg4JAROJ3VMfsXQxcnEICexglFh3ZDsLREJW4tm7HewQtrDE/ZYj
-	rBBF7xklps1sBStiE9CV2PL8FWMXIweHiICOxJuPXiA1zAITGCWeXpgK1iws4CdxafkUsHoW
-	AVWJ5lMNbCD1vAJ2EpNvFUHMl5c48quTGcTmFRCUODnzCVg5M1C8eets5gmMfLOQpGYhSS1g
-	ZFrFKJlaUJybnltsWGCUl1quV5yYW1yal66XnJ+7iREcfFpaOxj3rPqgd4iRiYPxEKMEB7OS
-	CO+JDZaJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTBF
-	PrgWqzNjS51/7Mzz5/xfbFqvv919w3oTh/BK56ZN2ZqNyjoOj7rcnUqsWYT6Nf4tY8w6uN6L
-	+feC/KIay4QdS3JcLh1JWft9y6Ipd3+vY5p2wLCKt/1+d/m38z3mpa6Jx844H5xz7mRsFssU
-	xjlPY1fxsFm89r3/RuueuUvTJQV7gw/lWb8/fU5euLt5o9gcoZsH3s42/fmk+pRh4iSpjTec
-	74W9Cr9rWtP3T55f4dVnn209yqH1gWV94SYfrjW9XnjP5953ve2V7a3L/1lEVt6aunbq6sV/
-	JuSGMapbrPR52ll8xNzp5VJDwz9cC6R13GdMDElTvdK57VNIUnjouYIbOZ9+vbidev3n7Q43
-	JZbijERDLeai4kQAoqHu2K0CAAA=
-X-CMS-MailID: 20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23
-X-Msg-Generator: CA
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23
-References: <CGME20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23@epcas2p1.samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Since libdebuginfo was default distro feature[1], cross build of binutils
-has been broken due to absence of pkg-config. To find the dependency
-properly, we should inherit pkgconfig bbclass.
+From: Kai Kang <kai.kang@windriver.com>
 
-checking for aarch64-poky-linux-pkg-config... no
-checking for pkg-config... no
-checking whether to use debuginfod... yes
-checking for libdebuginfod >=3D 0.179... no
-configure: error: "--with-debuginfod was given, but libdebuginfod is miss=
-ing or unusable."
+Backport patch to fix CVE-2021-36770. And drop the section of code which
+updates version.
 
-[1]: https://lists.openembedded.org/g/openembedded-core/message/150666
+CVE: CVE-2021-36770
 
-Signed-off-by: Chanho Park <chanho61.park@samsung.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../perl/files/CVE-2021-36770.patch           | 40 +++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2021-36770.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
-evtools/binutils/binutils.inc
-index 7d5149fa16ea..2f65ae54741c 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -13,7 +13,7 @@ LICENSE =3D "GPLv3"
-=20
- DEPENDS =3D "flex-native bison-native zlib-native gnu-config-native auto=
-conf-native"
-=20
--inherit autotools gettext multilib_header texinfo
-+inherit autotools gettext multilib_header pkgconfig texinfo
-=20
- FILES:${PN} =3D " \
- 	${bindir}/${TARGET_PREFIX}* \
---=20
-2.33.0
+diff --git a/meta/recipes-devtools/perl/files/CVE-2021-36770.patch b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
+new file mode 100644
+index 0000000000..1ef548b305
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
+@@ -0,0 +1,40 @@
++Backport patch to fix CVE-2021-36770. And drop the section of code which
++updates version.
++
++Upstream-Status: Backport [https://github.com/Perl/perl5/commit/c1a937f]
++CVE: CVE-2021-36770
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From c1a937fef07c061600a0078f4cb53fe9c2136bb9 Mon Sep 17 00:00:00 2001
++From: Ricardo Signes <rjbs@semiotic.systems>
++Date: Mon, 9 Aug 2021 08:14:05 -0400
++Subject: [PATCH] Encode.pm: apply a local patch for CVE-2021-36770
++
++I expect Encode to see a new release today.
++
++Without this fix, Encode::ConfigLocal can be loaded from a path relative
++to the current directory, because the || operator will evaluate @INC in
++scalar context, putting an integer as the only value in @INC.
++---
++ cpan/Encode/Encode.pm | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/cpan/Encode/Encode.pm b/cpan/Encode/Encode.pm
++index a56a99947f..b96a850416 100644
++--- a/cpan/Encode/Encode.pm
+++++ b/cpan/Encode/Encode.pm
++@@ -65,8 +66,8 @@ require Encode::Config;
++ eval {
++     local $SIG{__DIE__};
++     local $SIG{__WARN__};
++-    local @INC = @INC || ();
++-    pop @INC if $INC[-1] eq '.';
+++    local @INC = @INC;
+++    pop @INC if @INC && $INC[-1] eq '.';
++     require Encode::ConfigLocal;
++ };
++ 
++-- 
++2.33.0
++
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index ab19a8d0be..0e0fe7f985 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://perl-dynloader.patch \
+            file://0002-Constant-Fix-up-shebang.patch \
+            file://determinism.patch \
++           file://CVE-2021-36770.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
+-- 
+2.17.1
 
