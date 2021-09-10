@@ -1,32 +1,32 @@
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.6318.1631261302804566181
+ by mx.groups.io with SMTP id smtpd.web08.6282.1631261303072653357
  for <openembedded-core@lists.openembedded.org>;
  Fri, 10 Sep 2021 01:08:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Jf4PDzgA;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=kN0N0sKq;
  spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=48872e2802=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18A7rGVw008323
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 08:08:21 GMT
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18A7rGVx008323
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 08:08:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=q8bFLJgRhE2mpoq3QqnRKmwcLpXQGanghzWHvL7URIg=;
- b=Jf4PDzgARoIcqk0W6Yz4PV6nq+vWCoT5ToMOPUzoadbS9+KPt7kuc1cRTMwN0xhueFvV
- DpBL2i9XsvWSr69i64MDaFd9gbxnx0wmeYlQsFQ3B5BAiJ+4kL7U4fP9qBek3E8HXQ2x
- 4pP+2VE+RHlNothQBAi2SSU5G2m9Lz+yFaWEIdkCSkMTLZxB8FH7ES8FyvmdThHPLV0f
- icVcoBVxM7lCOE4g77g+G+hQRBqyxwJSEqavF7rlSxmUZLw09yPeQzD7wq9DBGFgxAHU
- wzo1UIRxxfVUXLEnqYyiyp9wqHxxME88uLMfMpJBBc0UczFWNSD5DS7/xaIz/P9rTrGd jA== 
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version; s=PPS06212021;
+ bh=MbVy5aQAI2tkpiUNi4PIqb5ELLQZy9E+lfDGq0lR4IA=;
+ b=kN0N0sKqV1zr43jCM2cOHTAWfINpW1utFvrRVADhQ5Xn52aeyDDnu1IKIr+GBJnsG89I
+ U96yj11MQg9D2jKGclU8WO+MZ3qDJ+aVPkydHlLqIxI6VUShNX4afLr5Dr+aghmRr9pn
+ SuLMzY+WcecrfMriLyK8SQ6rxyV3IkoRE9gN8UkLka1wTZbWHuUS9wSynqGGJOjpYAV4
+ zEUUTyRRHyVz6Il0wlf8+aZAoX5srOY4OimnF0aPsodgYci6cXHvNh0KRZMLclwdUhSd
+ AxE4/9VOl5j3LD9fBppBqnrdMObpGPY+4jUwgw0YbGNd+PN8FPv5YWYAfqP59XlOdmyU UQ== 
 Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2046.outbound.protection.outlook.com [104.47.51.46])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3aytea0b7t-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 3aytea0b7t-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 08:08:21 +0000
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 08:08:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gl/zej/Dqbl1GFNaQPNP3EGv6RaA9G31ys36Yv3esChC2eLoaQKUR1mr05Oxn1r1oW9a6lJj1lGlMljbrlGLJXsrmRud36s9TnFKa1iI7KPnzYMvwcF069FhiPphIBV6i/4YP4ROSCeP8IvyE3rTU/ABjzncILJet9CitRewEdgnB9YlBifQ0OCv+R4kF0Q4mwuO05O4aS0pt/3CXSODDEr/WIsSzyv5ohu0ez0xt9B1nIQj0anbCdze6ni/0aTR04Z4MoQFqpMuOB5zKCtWdz0+3Uwn/AmN40vmRBNVMrM7ny39lQnulZB8aV7muOlOlOFG113XvOrRzuIqhMQtvQ==
+ b=f/xHnXHGmspwbayMzJ+q3DuN65Ik4/2RYqDByLBY/BHtmjrfORGmWty2/u85Eba23n9UCOmQfWENOsuYtSd07IQyb9sedUvBYSMbwYZ1RKdi3u/QnppqwZXA6bEFoq4bnmhRWKmgDC4lZH3k/eMLMtXnEl+zzhqIsfpRjSbzpMxUjC2DbP7OFJd6DTZY0Lpg+aY9/zBUNwFKdHDYGpcRiVborAXjVM2/70Kmy3eAYrkzCOi6DSwN1OujPmyi7zsXU5toRztYCo8ZYQ38GEhCwB5nqhUkOaiYR6vjnZq4RXRA2QyCRZWEvCTO59i7aowYhBUD956NCc6imQ9er8Bf1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=q8bFLJgRhE2mpoq3QqnRKmwcLpXQGanghzWHvL7URIg=;
- b=eQY5JAbhmg4CvSFS9FxLa1DClvveQ7YDYdCXYSfX3XGuQ7JvNEdihA7hvM2ZH0bFFspHLAYq/b06VrKufJi13WAtGt5XH4zDx9npWdWNCZRMgK0ucxi0RkXsFPMStcNeQPOfY+BlmRb0vZqoQ2APmlvd+VC5PcTDWuYB7oMkNW4SIGQKOi8bn7qD0RhURB5ia/XaASouECmH8Xv/YfdGCouuDbyrHO++2K5jnlIHQOHdt5fq75foPDttucHsQreUwSDqBULC28wqBZNlGvwm5ctBya6P06M5Nsor5A7d/H5raCk7XFuTXlTQaTZEvCyhYbnjyw+lLdo4tFQLtkax/w==
+ bh=MbVy5aQAI2tkpiUNi4PIqb5ELLQZy9E+lfDGq0lR4IA=;
+ b=LAXqs4RR3CwiGnjnXbCLDLLIbF/f6ABRSNPdccxKV1VpVWXM7oCGrABeboLHG9uTaG+14zsr+cDThTYDthAGg/DN8X71UCyOgdHIVRFHyBj/7AoIPRMzwS16HY4zFaencrOy8uqAE4h+OujlRBm7weL8veL3KYAFhgX3Lpr7XDPDEsFyt469DoI3xHUd9oD/PE4ULKVfBplcLlQoo0usYGmhRqnVAmer7rPzkvMbgWLGK75/F1uR62mxBZOgrkGbq192qMIODBzuJ5V1YObnGzsQumI4PRAmrYxGq2Kj2WU82j83YZgrWDsyvw66CmM9AVfY2w5kJQK1E48rOKN7VQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -43,99 +43,122 @@ Received: from DM4PR11MB5469.namprd11.prod.outlook.com
  08:08:19 +0000
 From: "Robert Yang" <liezhi.yang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] oeqa/sdk: assimp.py -> cmake.py
-Date: Fri, 10 Sep 2021 01:08:10 -0700
-Message-Id: <cover.1631260941.git.liezhi.yang@windriver.com>
+Subject: [PATCH 1/1] oeqa/sdk: assimp.py -> cmake.py
+Date: Fri, 10 Sep 2021 01:08:11 -0700
+Message-Id: <5c90531f95216929b0e3cc55784a25f3a2386b28.1631260941.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <cover.1631260941.git.liezhi.yang@windriver.com>
+References: <cover.1631260941.git.liezhi.yang@windriver.com>
 X-ClientProxiedBy: SJ0PR03CA0040.namprd03.prod.outlook.com
  (2603:10b6:a03:33e::15) To DM4PR11MB5469.namprd11.prod.outlook.com
  (2603:10b6:5:399::13)
 MIME-Version: 1.0
 Received: from ala-lpggp7.wrs.com (147.11.105.171) by SJ0PR03CA0040.namprd03.prod.outlook.com (2603:10b6:a03:33e::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Fri, 10 Sep 2021 08:08:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6fe1146c-2ca0-4d2f-622e-08d97432266c
+X-MS-Office365-Filtering-Correlation-Id: da77b0e1-cdca-4cc4-5e3f-08d9743226b6
 X-MS-TrafficTypeDiagnostic: DM6PR11MB4105:
 X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB4105EA69C7FE455B06E5BBE0FFD69@DM6PR11MB4105.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:369;
+	<DM6PR11MB41054C2C4A108DE1DC76BCB3FFD69@DM6PR11MB4105.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Wn4plCxXpWUHTnBs/qq4+eCwoKD0LMJ5wFrQZQa4Nr9wdwA8HP066xL9zc+Ru9dULFlEfa+CJUbzKw+Q1vc0g8hnsw1VLcS10PHLkklNZN75IDEpVMO+uY99P9c5QHEgjGVp8V9hSBSMASJkZhSVFYQKE1x0S+CRSlKl5KAKLWXWjzYXT7eSw5HyFmdo9cTRBEquYn11JjK0naSergAJ6ypzvUzU5O4ksLltRucCSQScQjfC0ImzTLqZ4EDT8/aOGeId7FcqizmPMmB5QdqdimxNEhVUMPHPld85Mj+tKuzUH5EUo3b9smPU84Vmg5DA27JTP94DQnDzA9jCysoE0bgytBgnLb7S/s+uJqcanIckO4IpPpnuco5/p8bMS3J/iKfbQ2rz7+DjeKKxc/uwoG9yZRzetALWWi3VYrB9lmhDgYy4esRtZR8gwDFoYt6dhAlw7m3LF9V0ozN3AbxzvsWC/VD92cIckYo2LmICTXhiYYa18vX4tSvUxyC48tPJ3MGprXoig5VSJe8MnwoEjF8weZXvaaqJJO8apRNMZ8RXZcYLBTr+VAZzA8X0dILwGGrpyuOSuew3pOqi1Y+ETo2gC7/xP6ifc2lLKnnpUKmyt9fkAtmZL9WzvuYKv2YRk2iWp8MbTvy8tlud+ag00W8d0Qnp71N4ZgwRhiVhZUmR0y0hiC8hIhtAB7fYt7VKbn4uJNI8WYsLjo1w5aAxIKGMvc+pMUTBJwGx+fSykePgC7rS77KEc2Ia89BrXnGFWWA2OLefckYU2aZ8coLXMrmZivqy3Gg/CIuh/5M87p8=
+	pSy8E8HRkR8XqfTowNy84wY965uHzoGmtIIAydecavZ8PQg7Vw7gU7mZLcATXYivUXVxEDURI7Fleau3X0mBP8DcsHk02ou5cqoErFNBN2jLHHXjdY1xHKDswmmZPQoCZShK9ksrp4fWSNc/Vk+hkEzrSwoAEsQDlGyq1O8ycoOy0J7uffHjDbTDl5GqUshSNUl2qlOHq2LZ4ryQ2trUo+E0RxIpWj0YFGZkAsR83bHmuaqi4O2/br9bb5r8t6vXDyMRewoJdh9vVkZEbDozYcOhZxoKxYax1jYZ1xXZc5NvpvOYsm+vW85iWr4xwT2SOv5CNy5y2+ado/qUe6QLditcr/WKicLPxpgmHJiqn/Y48lvxzpKsaWng+JhSorFWxh/FHgENMEYykQv4QgVB3dPAXyUsqYs0/XboGukfARjsqsdKWuiPf/un/mlG2eEQJaZTx4qU22Ol4uApJ8vIto11iaqTsO1jLyL2AQnf5CclcajrUTp95l3s3LWb8Qb+CweH+xb3RRANg69iofaZLSYw4G/mj4Xqs15h0RHmqqZo9D6NkDZXN1pq7AaiiL2C4PPiUUNieIqVZdajHReD4b8TE5sycoFo/NOOxWSeIWqWZjVRe4sBizr0GclWhYzDYWzbWPgWbf8HbxiLRD8s7a/ragEqqnjzs5jdM+TeGs620NhRtfNj0WER9MAoEd/As+q7lGP82TP2PEdHLr/LUkdqOrWaEdfCf7mYBJRATLPwGIFM1qRUNhhtoddG2WwMiG67po86XB8p88mL2dJfNfMGIkzprfJlGlC1UK0ahqUZA/ZNs3KNYsTyWd7svDQ2h1Rqcy7Q8GtFIuW7DSEqAQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5469.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(346002)(39850400004)(396003)(136003)(38350700002)(38100700002)(6512007)(83380400001)(478600001)(86362001)(2906002)(316002)(6506007)(6486002)(966005)(66476007)(36756003)(66946007)(66556008)(8936002)(8676002)(4744005)(6916009)(52116002)(26005)(5660300002)(186003)(6666004)(2616005)(956004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5469.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(346002)(39850400004)(396003)(136003)(38350700002)(38100700002)(6512007)(83380400001)(478600001)(86362001)(2906002)(316002)(6506007)(6486002)(66476007)(36756003)(66946007)(66556008)(8936002)(8676002)(6916009)(52116002)(26005)(5660300002)(186003)(6666004)(2616005)(956004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ECwcM4Uk/KtCThxhznDPvDhcjaCaaa//JDB9MvQt2fK/Q1r/IDif1N2KO6H6?=
- =?us-ascii?Q?5ZBcjS3WNhzT9f4avBZOkTzJGyyTmLBBGH4eCfswWupFQOmdajTHwFlhJFB7?=
- =?us-ascii?Q?I0k27g+p52qUG9aOQo52uMTEmvI5QpICqdEsIX73W+T7gKbznjbLQUQwkozP?=
- =?us-ascii?Q?H225MvZpTTlLGtgcGioGMrkjGbxFcd7evSOJ8+GZEjMFUDkrNYEpRJ+Kjtkw?=
- =?us-ascii?Q?n3CVCkUurTg6Y9PhoTIwL9CL45yJO8FzmIeI1EAhQPyxpLkO3YY6EFWIwsXu?=
- =?us-ascii?Q?/cvRLYU3yUS3cyR1yaKXUJYARFTBas5dHo7ucxEdlVeRxQjlag9H2olxBSBQ?=
- =?us-ascii?Q?wONGJQKpEPh6e6o3vAIMBRpR2wk+OwiiaUf7bPnULv+nbRNuFf781FItL3Sh?=
- =?us-ascii?Q?fEwDqSzGBaOf4ziA6jKrKv7isuFLfAp21FcXhmmKI+73Q3JGLaZJxuXbfFfo?=
- =?us-ascii?Q?r+2mp6kN0irzqDhenmRWmFi3yh5BT6ZVOUq/e22HBN+qye4Rt9a2zb2iqMcD?=
- =?us-ascii?Q?e5Pwsg0RQAhCO0ikb5wUKT7vp5JVC5Ufru+iAWUvetx8jzGWO/jUDVjdLSGJ?=
- =?us-ascii?Q?O4QrkkIFzhyX+48MFHklLLpNJghwBf7a1+GC/xnseDQBikwxj2zIFJeMcPbd?=
- =?us-ascii?Q?GQ89FT8RJLUnsRfUz8Cd3y6Fa2DGS/iHfGQAW+jy4CkOZ2c6QvHN2q3y5AsI?=
- =?us-ascii?Q?LLCGzJTynRLhADFcukstAD3+WgeRP/1a/3ph8pVn6v7XfcSCrpqdW44XhTvK?=
- =?us-ascii?Q?DWCrbiuWYbPNdBaCBmG+u3I0NACQzmYQDaf5Fll79AXssi8GxD8RcqOZr+rR?=
- =?us-ascii?Q?jQTgJxbq0em/h5LLe8rbAxfmEw4pmc7HysLtEdKnH60Yq+WL0j9qZLFTWNGd?=
- =?us-ascii?Q?sc0C2xGOM8ojNEVPLpYLdJAwyjASbnoKq1NUsgQkYDX2HZpeEk9egEPLSq3N?=
- =?us-ascii?Q?+dmP3I8+Y8TYM3ANVwOf53+U2wAbqtRtxX1Stajc+COc76Nh5vjclG0/ea2J?=
- =?us-ascii?Q?0jOQ4RIasE27mqev/Qd0C+dsinLMFj2GWUw5F1YXN3B7YTNP45NFMiFBVhUO?=
- =?us-ascii?Q?K4G6vWwLWd5nigOp+DcYF35eLZYwHuU42BlWP+XCE06NPke6YfNZty7vxMSj?=
- =?us-ascii?Q?LcQPaplN8hfNp4EsMQ2MZgD91mjKh38suv+qIAXkRdvGBQU0YVOfb7zB85ji?=
- =?us-ascii?Q?X0uxn+fgbD1zT4SQkXoKBc0qbiSb161Uqio5BEA6+qpkn2Ssm8S+mBl/qOF6?=
- =?us-ascii?Q?+wnjfRHY1uXIZqKNaYWkWKbmfaWLuuPXfG50dmMekyod2U4MJJucH5iL5zUW?=
- =?us-ascii?Q?L59lvaLCNhi+IxAzT/XeR5CC?=
+	=?us-ascii?Q?V09/DfZn5jm0E7SJt97FQNNeW44p4TMmKAUSY5z9CCwYH8LEGFz6GZaiEe6L?=
+ =?us-ascii?Q?pKATSapPkG78FPiis30Ah6A8DhBFypKG0jEByf3QU5NsfFDkmnNcjcjhUpeY?=
+ =?us-ascii?Q?zTUKtTCL06qH4iKSCIAjZ9fyIiq4xWqVIjOS85bVXwyhtVB3l/p6C7w4edof?=
+ =?us-ascii?Q?kx7sjQhiPxE560CC4Xsz8wBBrbI0ww1+AmmCst9n3yxGPq1bL4P2FJck7X1x?=
+ =?us-ascii?Q?3haCJ4zzJ1JJdUgAcpP/ulWx3YOWz2ctCevuKEXg7f/j0HWyUcTGjZ9Dt2t1?=
+ =?us-ascii?Q?bfYwgvcIoT9AGZBwMjuN8bYAjPhcLq5sJMye1MeG54Nh2efkI+fCR5NRkGkm?=
+ =?us-ascii?Q?NrGvXnAGSYjjYEzy7oZT+FcVrrhMO27yMwitybocyeumfimpr1lN7YwOSTgp?=
+ =?us-ascii?Q?3Dp6zzomcTtWghEbr5xpdHr8vkXk+rHOIcMjgy2QtmTQzaS1SIkVAnAy18so?=
+ =?us-ascii?Q?G2tVp8HnYboYhWQv256vzuDlWfBQ1f+m7AUWNWxc4NbQot/g79iCG0WZzaac?=
+ =?us-ascii?Q?Y5w2VXmXX2tmcgdp1rqiwIcMhUuA61JHtDcEZeDaiXCGGgvPFat8WXypRf13?=
+ =?us-ascii?Q?DG+jkCqfqH2vt+iyYoe380oHQKkDRyAnuZDVyR/Wn1Y8i6aiUrFkcLKn4N8n?=
+ =?us-ascii?Q?GkLREXH5dzZMIkAcxtiKTr2bOLm7DXQ1cPR8ywvpzyqLOf5XXs+zwz5F+Ilk?=
+ =?us-ascii?Q?tEtXV7CWTkvFDuV2TjDyDHvGXVVFvu6kmxueVxs+ZbTVo0Zr0aLg0HyiMC7u?=
+ =?us-ascii?Q?Imyxc1+mlSnSwfC2AC5/W9BwJdo2ivWnRsqzmUSDRSJ4/1uiSucTH7geEKfL?=
+ =?us-ascii?Q?mqJEv7g7ObnKLWfFSc5lpIN5tzkjhIWraduBVQHjBBrXlqVaQ6iddda/RBJ0?=
+ =?us-ascii?Q?pOtqZWQuFk5W7lwRE8+r0TydEDU65aVXvzwGES4Ceto2CEfdB5WYpWudL5yS?=
+ =?us-ascii?Q?OOnH6EtxvINgLHk5CSUOLbMb3+PIG4KP1oYSTScp6Oz8y/zr/uDGki/JO2ka?=
+ =?us-ascii?Q?WPlxDdiGWoaJGR4Ed7tPcmfXzlxC6lcS+ae5UGlf6zGhyqUUjJdkfO9HVp9n?=
+ =?us-ascii?Q?E5HmHzhbOQ0usUjZQE6ebvxmLEREGlR39KZwsZbl71a7EF6xa6wcIQzVbMB5?=
+ =?us-ascii?Q?0dr0+BepH64b8vyjtRbkbloKgrgMvs98fwaiQEavnNJyO8US/R9cb1FAwx/S?=
+ =?us-ascii?Q?wUXP41HM0jTy223l1MxKkmAERV1hRraW95p9EiolQ1YwrAGU4IZareuFn/X2?=
+ =?us-ascii?Q?eAI6n+Y7z7BaiBef/MP942nxkKI2z6Lrs2Atu5qfwvf1UZ3PRt39d+h1RfqK?=
+ =?us-ascii?Q?3XCgIOG2bnmO7WhewotrlgtP?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fe1146c-2ca0-4d2f-622e-08d97432266c
+X-MS-Exchange-CrossTenant-Network-Message-Id: da77b0e1-cdca-4cc4-5e3f-08d9743226b6
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5469.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 08:08:19.2873
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 08:08:19.7314
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qJpiYHlCrnoS1gPrmI/IKK3+JvQ47GUTnmRrmb7Z8B929V3Z9E4awOsIRV314rqaA+jcHBMkA+2QWaStm+CZne6+HZkxRPOnrw/c04wBwao=
+X-MS-Exchange-CrossTenant-UserPrincipalName: geiyOxDQck89UZNEHYKsVqXhRV+L+7YxfUNgbrj+GrVOYAQEyicdzoUHXD0LcyFOB3RNIT7jw4HgDU1oXq7gt0ykKLDTqEs7seqHLjGl/5E=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4105
-X-Proofpoint-GUID: CPMrTTrn9JFDPiHhJtxB2hOljo2yMG4V
-X-Proofpoint-ORIG-GUID: CPMrTTrn9JFDPiHhJtxB2hOljo2yMG4V
+X-Proofpoint-GUID: O6G1q6XWrx2k-xTw5qNE5MAqPtpC1p3G
+X-Proofpoint-ORIG-GUID: O6G1q6XWrx2k-xTw5qNE5MAqPtpC1p3G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-10_02,2021-09-09_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
  phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 clxscore=1015
  malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- mlxlogscore=748 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=961 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2109030001 definitions=main-2109100050
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-* Test info
-IMAGE_CLASSES += "testimage"
+The downloaded non-free sources, now download expat-2.4.1.tar.bz2 to replace
+it, and also rename the test case to cmake.py since it is used for testing cmake.
 
-$ bitbake core-image-sato -cpopulate_sdk && bitbake core-image-sato -ctestsdk
-
-
-The following changes since commit ec20e1a0e0ba61a7615b361bfc9d9dc58a91f9b3:
-
-  create-spdx: remove trailing comma (2021-09-08 15:32:45 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/test
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/test
-
-Robert Yang (1):
-  oeqa/sdk: assimp.py -> cmake.py
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/lib/oeqa/sdk/cases/{assimp.py => cmake.py} | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
  rename meta/lib/oeqa/sdk/cases/{assimp.py => cmake.py} (70%)
 
+diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/cmake.py
+similarity index 70%
+rename from meta/lib/oeqa/sdk/cases/assimp.py
+rename to meta/lib/oeqa/sdk/cases/cmake.py
+index f166758e498..13b24072109 100644
+--- a/meta/lib/oeqa/sdk/cases/assimp.py
++++ b/meta/lib/oeqa/sdk/cases/cmake.py
+@@ -21,12 +21,12 @@ class BuildAssimp(OESDKTestCase):
+                 self.tc.hasHostPackage("cmake-native")):
+             raise unittest.SkipTest("Needs cmake")
+ 
+-    def test_assimp(self):
+-        with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
+-            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz")
++    def test_cmake(self):
++        with tempfile.TemporaryDirectory(prefix="cmake", dir=self.tc.sdk_dir) as testdir:
++            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://downloads.sourceforge.net/expat/expat-2.4.1.tar.bz2")
+ 
+             dirs = {}
+-            dirs["source"] = os.path.join(testdir, "assimp-4.1.0")
++            dirs["source"] = os.path.join(testdir, "expat-2.4.1")
+             dirs["build"] = os.path.join(testdir, "build")
+             dirs["install"] = os.path.join(testdir, "install")
+ 
+@@ -34,7 +34,7 @@ class BuildAssimp(OESDKTestCase):
+             self.assertTrue(os.path.isdir(dirs["source"]))
+             os.makedirs(dirs["build"])
+ 
+-            self._run("cd {build} && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON {source}".format(**dirs))
++            self._run("cd {build} && cmake {source}".format(**dirs))
+             self._run("cmake --build {build} -- -j".format(**dirs))
+             self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**dirs))
+-            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.4.1.0"))
++            self.check_elf(os.path.join(dirs["install"], "usr/local/lib/libexpat.so.1.8.1"))
 -- 
 2.31.1
 
