@@ -1,114 +1,99 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web09.4030.1631241216154306807
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web12.4212.1631242740678686923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 19:33:36 -0700
+ Thu, 09 Sep 2021 19:59:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A2XZIL002073
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:33:35 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A2XYh6000762
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:33:35 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 9 Sep 2021 19:33:34 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 19:33:33 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] perl: fix CVE-2021-36770
-Date: Fri, 10 Sep 2021 10:33:30 +0800
-Message-ID: <20210910023330.37149-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FH9agsOo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.170, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f170.google.com with SMTP id w144so952811oie.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Sep 2021 19:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3CbxS3HY/c4QGrEC9ucXV6xqXQXb9ESokuGwfxsvvJw=;
+        b=FH9agsOo2IUA6X3htCc6CXNS3yiA2Oq/NOe/0Lme0qfH5ogKcPMHjoccRAI78C1zEm
+         l0jryvOGlp9sD3KvxVQ9SvhGH3SpE6jC0+3iV4G8vwkYD0f30XEs7crWXs4XZojXdh2j
+         ZmOl8HmvZod4vu8L+UpTcWYIckdCE9wilDRzNEBfiiWt9isqQOn+JinOZTGpWBmT0JVI
+         l6j51Z7m/SjkXBNn0HvH0iVCloei32jeiDYMWmeOZ3SPsT5ebAS3y9eJsLXUkZm6feeX
+         1jTEu6r2T5/sRX8r7SbGdneR/9wm2O1vI7DHxNsKB7odglE06efCQEPl9Cs+CcORxfGC
+         1EPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3CbxS3HY/c4QGrEC9ucXV6xqXQXb9ESokuGwfxsvvJw=;
+        b=maKSlyyi0VyC0iphsd2DnlQR2fp8qh9J2E4bA9ZaiED+MJaTi2V1YRlBsydw2RGOgx
+         znzQb1fvTo0LxvNiZZKhVNViK6SzYdNH+MnKnU8szd8/b1SIErrx/LcrcuLJBNzRxTvA
+         eGVL4GqdlH6rUjscitz7iF2Ct3Z2O3AMPgjXbBHz/3M7VDgc3HvDp+IAnsIfcjHWZppT
+         tajdk6RSqFO6Z9eF9TOGoFx1y6sApP32B9T8LUR1auMi/FSu1Ia0csCSMKOaiGGpXc3c
+         iwnXCHmnbBlKrEDrhYL+fCb55E8iCz4eS+cTBF4kBni9BEUYyVIWXF2MitYTabycW/Oy
+         JbWQ==
+X-Gm-Message-State: AOAM533+zaCsbKqKyHPWMf11/MH3SKZZy+RZhZvgZNkbUaUQySEJv+BF
+	aVi2D9eL52L887JBUZ6evsGXsyUChR3SXwP2
+X-Google-Smtp-Source: ABdhPJyClSASSAfgoAESCDo+q/85UJ8FOim5M0KQX2fx74ZxO9YOVuLjZo3JxUpNBEaHG/sjLlPIpA==
+X-Received: by 2002:a05:6808:1283:: with SMTP id a3mr2429571oiw.99.1631242739422;
+        Thu, 09 Sep 2021 19:58:59 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id u27sm1002449otj.6.2021.09.09.19.58.56
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 19:58:58 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/6] Pull request (cover letter only)
+Date: Thu,  9 Sep 2021 16:58:39 -1000
+Message-Id: <cover.1631242610.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+The following changes since commit b46b059a306b2823624e64adecded9f76430471a:
 
-Backport patch to fix CVE-2021-36770.
+  layer.conf: fix syntax error in PATH setting (2021-09-03 04:05:12 -1000)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
-v2:
-* add tag 'CVE:' in patch body
+are available in the Git repository at:
 
- .../perl/files/CVE-2021-36770.patch           | 49 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2021-36770.patch
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2021-36770.patch b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
-new file mode 100644
-index 0000000000..28bc457b86
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
-@@ -0,0 +1,49 @@
-+Backport patch to fix CVE-2021-36770.
-+
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/c1a937f]
-+CVE: CVE-2021-36770
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From c1a937fef07c061600a0078f4cb53fe9c2136bb9 Mon Sep 17 00:00:00 2001
-+From: Ricardo Signes <rjbs@semiotic.systems>
-+Date: Mon, 9 Aug 2021 08:14:05 -0400
-+Subject: [PATCH] Encode.pm: apply a local patch for CVE-2021-36770
-+
-+I expect Encode to see a new release today.
-+
-+Without this fix, Encode::ConfigLocal can be loaded from a path relative
-+to the current directory, because the || operator will evaluate @INC in
-+scalar context, putting an integer as the only value in @INC.
-+---
-+ cpan/Encode/Encode.pm | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/cpan/Encode/Encode.pm b/cpan/Encode/Encode.pm
-+index a56a99947f..b96a850416 100644
-+--- a/cpan/Encode/Encode.pm
-++++ b/cpan/Encode/Encode.pm
-+@@ -7,7 +7,8 @@ use warnings;
-+ use constant DEBUG => !!$ENV{PERL_ENCODE_DEBUG};
-+ our $VERSION;
-+ BEGIN {
-+-    $VERSION = sprintf "%d.%02d", q$Revision: 3.08 $ =~ /(\d+)/g;
-++    $VERSION = "3.10_01";
-++    $VERSION = eval $VERSION;
-+     require XSLoader;
-+     XSLoader::load( __PACKAGE__, $VERSION );
-+ }
-+@@ -65,8 +66,8 @@ require Encode::Config;
-+ eval {
-+     local $SIG{__DIE__};
-+     local $SIG{__WARN__};
-+-    local @INC = @INC || ();
-+-    pop @INC if $INC[-1] eq '.';
-++    local @INC = @INC;
-++    pop @INC if @INC && $INC[-1] eq '.';
-+     require Encode::ConfigLocal;
-+ };
-+ 
-+-- 
-+2.33.0
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-index ab19a8d0be..0e0fe7f985 100644
---- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://perl-dynloader.patch \
-            file://0002-Constant-Fix-up-shebang.patch \
-            file://determinism.patch \
-+           file://CVE-2021-36770.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
+Changqing Li (1):
+  gdk-pixbuf: fix CVE-2021-20240
+
+Martin Jansa (1):
+  default-distrovars.inc: Set BBINCLUDELOGS to empty to disable printing
+    failed task output multiple times
+
+Nicolas Dechesne (1):
+  rt-tests: set branch name in SRC_URI
+
+Purushottam Choudhary (1):
+  lighttpd: Add patch for reuse large memory chunks
+
+Richard Purdie (2):
+  xdg-utils: Add fix for CVE-2020-27748
+  oeqa/runtime/parselogs: Make DVD ata error apply to all qemux86
+    machines
+
+ .../distro/include/default-distrovars.inc     |   6 +-
+ meta/conf/documentation.conf                  |   2 +-
+ meta/lib/oeqa/runtime/cases/parselogs.py      |   2 +-
+ ...or-pcre-dependency-instead-of-config.patch |  10 +-
+ ...-mem-chunks-fix-mem-usage-fixes-3033.patch | 224 ++++++++++++++++++
+ .../lighttpd/default-chunk-size-8k.patch      |  35 +++
+ .../lighttpd/lighttpd_1.4.55.bb               |   2 +
+ ...9813e0eb0246f63b54e9e154970e609575af.patch |  58 +++++
+ .../xdg-utils/xdg-utils_1.1.3.bb              |   1 +
+ .../gdk-pixbuf/CVE-2021-20240.patch           |  40 ++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   1 +
+ meta/recipes-rt/rt-tests/rt-tests.inc         |   2 +-
+ 12 files changed, 372 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/default-chunk-size-8k.patch
+ create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/1f199813e0eb0246f63b54e9e154970e609575af.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
+
 -- 
-2.17.1
+2.25.1
 
