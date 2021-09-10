@@ -1,69 +1,87 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.6457.1631262335620324457
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.6307.1631262480626734659
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 01:25:35 -0700
+ Fri, 10 Sep 2021 01:28:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IDEzH4Dd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id n5so1427714wro.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 01:25:35 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Mne3yfng;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id m2so637622wmm.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 01:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0hZVsHt/IIqVHeKq+rg3KLbqhB+wds9GNpY8BlNJhes=;
-        b=IDEzH4DdvOvISLH3JGvP95l+6EN2uJGi/t+i1oPXEETgprxC7NAwT9LWQZI6seCnmk
-         xA072B9n6YqH2iKx0SgTrKOamj8QnLNMwYtgs1WbTdiDcZ3pOVD346uxdgx9526qJ51T
-         lV/45OEwHNhVNz1AlOPIyz5CTca2+sE36Tp14=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=bqtukeC0QsIWRpOK7E9AphbTzhkwJg0Ddvj87qpwv9s=;
+        b=Mne3yfng56ZvZGCEZATSsF49Xs5xrVe9RX+FcZYcPiZp+C6I0kXvkd32fljztSwY2g
+         kVA6/fiSeXLEEDhO3G/5HRw6/jz1vkf0wvlBSW6haMid8UAfgryuz+Gt748hmjCjc/4x
+         YGWPdwnogI1SuHav9gegDwayyXfVjplZflOBU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0hZVsHt/IIqVHeKq+rg3KLbqhB+wds9GNpY8BlNJhes=;
-        b=BbPWBdJ9iAfCZ/duz3djom24mIYCVPA/9beLxYd4UTvddmbITRyMiEtRWKWFDTJ/vl
-         NkpU+Gk5euFS9BBXZ7QG9SOlLee8vHIGNlsyAIVQjXQ57TiZNjvPYgfBh33tE5dQcQ3l
-         vUTt5VSE6IoT/XIr8eElYNrmnDzeJ0v/SRqUZ73gw9Xua/LWeEnBZOrR6Q9FcDUutsho
-         u8tjXKq8abFcUo5VdcnMQEbIiwNHjAaCobnzVF7Zs6jOvg8Qfwtroo4TZgSvofrFnn+i
-         0BrjlfIbDZCVKR6sDSEO4um/lw5E3YJvGOtUoN+VqKgAJAzeMfNFTyVt8hHeZI9raIq7
-         YZtQ==
-X-Gm-Message-State: AOAM530uVJID3DcpIUFEIGMAVzMxeG9f7lCg6h0s0Nhw0mEg6Jd3fVC7
-	o25IuIFmT7CHTKHk9MB9gcntYTxrxR3xLCBc
-X-Google-Smtp-Source: ABdhPJzWlYvth80tPeLKEBIk7PSwqIvk5Qm50JgSvLVIFXDuj6TF08ygpFnZO2qbqX2ZiLn78FCXQA==
-X-Received: by 2002:adf:c38c:: with SMTP id p12mr8256433wrf.113.1631262333702;
-        Fri, 10 Sep 2021 01:25:33 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=bqtukeC0QsIWRpOK7E9AphbTzhkwJg0Ddvj87qpwv9s=;
+        b=AhmQpFTklRkv7q8VF8EkB1fMXhgR3CpmmNnflmu4ZPWGbKYwu/OruVLMInURIsLKW4
+         BMVF32RXzCrD4AIccAuVdNYeJQooS+6+GLGQzLQJ5CMcFerhQkDUL87gq3bszBIlz9ZG
+         tyfAZ25fXi80Xh/6IPsVELUPQnfD/5HdeaaFFu4wpCk2Y49W1q8LJd1T50sEjzDddD1N
+         0djJtlBnvJzeUokS/qgGquxG/I4vbAM/bUZj2OnKt2yAKDd2kxc58K4NHCMJQpiXWKSH
+         rK5ITgXovr/WW1shWnuE1W1ebyP11yRMPyyZSH/anNhtdOXiAM+hDQBA920CkkXRka6d
+         ir7Q==
+X-Gm-Message-State: AOAM533zjpLeKMb2OicOqy/LsDKhiSea/JEUxqVxyWvCXN46dF2lRx6U
+	vdtX5n7BigyeD8GKdpMJlisRJxD1lO4JJFCl
+X-Google-Smtp-Source: ABdhPJxzKvNPT+p/afVgTN7T4pCL3ChvYObDiEtNFheZYCqoByAmfAdU+dGicZWmFI8enWjmH8fVHQ==
+X-Received: by 2002:a05:600c:3542:: with SMTP id i2mr7019653wmq.170.1631262479199;
+        Fri, 10 Sep 2021 01:27:59 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:69c:dc1e:bcce:ea45])
-        by smtp.gmail.com with ESMTPSA id l1sm3038515wmq.8.2021.09.10.01.25.33
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:69c:dc1e:bcce:ea45? ([2001:8b0:aba:5f3c:69c:dc1e:bcce:ea45])
+        by smtp.gmail.com with ESMTPSA id k18sm3642857wmi.25.2021.09.10.01.27.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 01:25:33 -0700 (PDT)
+        Fri, 10 Sep 2021 01:27:58 -0700 (PDT)
+Message-ID: <e30702440326f7af69aefd980c2cd569dbf40b70.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/3] tar: add pkgconfig for selinux
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/oescripts: Fix after tar recipe changes
-Date: Fri, 10 Sep 2021 09:25:32 +0100
-Message-Id: <20210910082532.1247641-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: "Yu, Mingli" <mingli.yu@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 10 Sep 2021 09:27:57 +0100
+In-Reply-To: <20210908080505.29681-3-mingli.yu@windriver.com>
+References: <20210908080505.29681-1-mingli.yu@windriver.com>
+	 <20210908080505.29681-3-mingli.yu@windriver.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/oescripts.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2021-09-08 at 16:05 +0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Add pkgconfig setting for selinux.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-extended/tar/tar_1.34.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-extended/tar/tar_1.34.bb b/meta/recipes-extended/tar/tar_1.34.bb
+> index 98755a11cc..a6a417a1a5 100644
+> --- a/meta/recipes-extended/tar/tar_1.34.bb
+> +++ b/meta/recipes-extended/tar/tar_1.34.bb
+> @@ -16,6 +16,7 @@ PACKAGECONFIG ??= ""
+>  PACKAGECONFIG:append:class-target = " ${@bb.utils.filter('DISTRO_FEATURES', 'acl', d)}"
+>  
+>  PACKAGECONFIG[acl] = "--with-posix-acls,--without-posix-acls,acl"
+> +PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
+>  
+>  EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
+>  
 
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index 8a10ff357be..1decce39e96 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -150,7 +150,7 @@ class OEListPackageconfigTests(OEScriptTests):
-         expected_endlines = []
-         expected_endlines.append("RECIPE NAME                  PACKAGECONFIG FLAGS")
-         expected_endlines.append("pinentry                     gtk2 libcap ncurses qt secret")
--        expected_endlines.append("tar                          acl")
-+        expected_endlines.append("tar                          acl selinux")
- 
-         self.check_endlines(results, expected_endlines)
- 
--- 
-2.32.0
+This breaks one of the selftests, you could reproduce with
+
+oe-selftest -r oescripts.OEListPackageconfigTests.test_packageconfig_flags_default
+
+however I've added a patch to fix it.
+
+Cheers,
+
+Richard
+
+
 
