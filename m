@@ -1,62 +1,74 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.6744.1631266557340985919
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.7164.1631269255315766597
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 02:35:57 -0700
+ Fri, 10 Sep 2021 03:20:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=LxmTGA08;
- spf=pass (domain: burtonini.com, ip: 209.85.221.50, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f50.google.com with SMTP id n5so1692283wro.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 02:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f+1HFMDWUtvTaqRt5dFixaFpzLq8UBeaP9koB9xaa+8=;
-        b=LxmTGA08/N+6vXXD5ZUU4r1fhJY6NeUbJxdVN8DdhUrwp0yYjeVE63SCAzr07YxQe9
-         kzW9TgOSB4Ih9Tb9eP1N6y/eu92dLu5GJlXj802HRXYXBUSyPXfdSdAR0jPDf9tgHFCF
-         Wjik5kZia2WrGxxeWb9vI8t8u55tvSelitPc2J7AFgvJIFmttq5+Q6XA7nsTbsD9b3Y0
-         3cs/9EVf0ujz2hojTa9O121iAlgtZUeooo1Q6CJnfapbptMSKCWA/Pp/J7Z9BXFs4rxW
-         R3ni8Td56W13vD6uZ9rPbXkrz+fgoKDQ70RYYPbcfGhlTPAUX4wRZF8KY87BUMrBVnJ5
-         SwGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f+1HFMDWUtvTaqRt5dFixaFpzLq8UBeaP9koB9xaa+8=;
-        b=J8Fy/cm5kBqKBs4wAMwu/BbB5mrdmfjyqD3WNXJBzYU4qCJD7mtaVfj/KsWuQiuYXB
-         kPWM6euZ7rTz2MPS42JIaUvxDhgdpcdJfD7mqwIhy4RfrT/MYCKDFtblfBG9Ab0uCDoO
-         GAfDMDGyOChVW1Bdf43tn6xX8WCuOaglHjlS2vICQoAnabzNqdsDuqUc4iJ2WYKQZwQR
-         U57dDlBnM3RR/cL5WpHwG98MNgQxF0JmB/nSJAhr2HfDxsXUqHWCFE+gmPsu2d0jvPXC
-         dIjcl0UdNmvOb5Vd4eCIAMMXkTJcZvXMd9AdHIpDZZ387CTfAb43mOi0JPDIWrg671+o
-         kUgg==
-X-Gm-Message-State: AOAM532hy0l8OTwPlr5su0cyBfLzw6u7fximGIpMhR91ur4oOu/tzyJK
-	F7BjYNP1K+nNmDNiQ5vbsPkYfIj1ey1DLlBIZPoJiwoJPfIzxA==
-X-Google-Smtp-Source: ABdhPJxtky6OAXpmCIyqfeqjj+4/9g4cUWflod5LI6JilFh/msrKUH1pK+ephI/15Gvsgmtm5gHBt0UbQVPmKVuabMk=
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr1996672wrm.49.1631266555583;
- Fri, 10 Sep 2021 02:35:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1631260941.git.liezhi.yang@windriver.com> <5c90531f95216929b0e3cc55784a25f3a2386b28.1631260941.git.liezhi.yang@windriver.com>
-In-Reply-To: <5c90531f95216929b0e3cc55784a25f3a2386b28.1631260941.git.liezhi.yang@windriver.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CEBB7101E
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 03:20:54 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72B313F5A1
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 03:20:54 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
-Date: Fri, 10 Sep 2021 10:35:44 +0100
-Message-ID: <CAAnfSTsfHCM=aGJZ4SVEaBGezDan0wifzhnh+UTARxmb6uHXhw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] oeqa/sdk: assimp.py -> cmake.py
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/7] oeqa/core/target: remove abstract decorations
+Date: Fri, 10 Sep 2021 11:20:46 +0100
+Message-Id: <20210910102050.1266413-3-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210910102050.1266413-1-ross.burton@arm.com>
+References: <20210910102050.1266413-1-ross.burton@arm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 10 Sept 2021 at 09:08, Robert Yang <liezhi.yang@windriver.com> wrote:
-> -            self._run("cd {build} && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON {source}".format(**dirs))
-> +            self._run("cd {build} && cmake {source}".format(**dirs))
+There's no need to inherit from object in Python 3, and marking the
+methods as abstract is overkill considering the type hierarchy.
 
-Verbose makefiles were turned on for a reason: when it breaks, we want
-to see the full log.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/lib/oeqa/core/target/__init__.py | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
->              self._run("cmake --build {build} -- -j".format(**dirs))
->              self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**dirs))
-> -            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.4.1.0"))
-> +            self.check_elf(os.path.join(dirs["install"], "usr/local/lib/libexpat.so.1.8.1"))
+diff --git a/meta/lib/oeqa/core/target/__init__.py b/meta/lib/oeqa/core/t=
+arget/__init__.py
+index 1382aa9b523..3da66038342 100644
+--- a/meta/lib/oeqa/core/target/__init__.py
++++ b/meta/lib/oeqa/core/target/__init__.py
+@@ -4,33 +4,26 @@
+ # SPDX-License-Identifier: MIT
+ #
+=20
+-from abc import abstractmethod
+=20
+-class OETarget(object):
++class OETarget:
+=20
+     def __init__(self, logger, *args, **kwargs):
+         self.logger =3D logger
+=20
+-    @abstractmethod
+     def start(self):
+         pass
+=20
+-    @abstractmethod
+     def stop(self):
+         pass
+=20
+-    @abstractmethod
+     def run(self, cmd, timeout=3DNone):
+         pass
+=20
+-    @abstractmethod
+     def copyTo(self, localSrc, remoteDst):
+         pass
+=20
+-    @abstractmethod
+     def copyFrom(self, remoteSrc, localDst):
+         pass
+=20
+-    @abstractmethod
+     def copyDirTo(self, localSrc, remoteDst):
+         pass
+--=20
+2.25.1
 
-Using join() but passing a hardcoded path string seems suboptimal.
-
-Ross
