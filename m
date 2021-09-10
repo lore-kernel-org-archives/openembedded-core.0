@@ -1,321 +1,132 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web09.5178.1631250112989183276
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by mx.groups.io with SMTP id smtpd.web12.5107.1631250226684806607
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 22:01:53 -0700
+ Thu, 09 Sep 2021 22:03:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A51poD014531
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 22:01:51 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A51p7X020000
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 22:01:51 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 9 Sep 2021 22:01:50 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 22:01:50 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] squashfs-tools: fix CVE-2021-40153
-Date: Fri, 10 Sep 2021 13:01:44 +0800
-Message-ID: <20210910050144.24445-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="body hash did not verify" header.i=@samsung.com header.s=mail20170921 header.b=s/BTBifg;
+ spf=pass (domain: samsung.com, ip: 203.254.224.34, mailfrom: chanho61.park@samsung.com)
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20210910050344epoutp0456432e8ae85ba59669181b83c5830449~jXW-IYAID0737807378epoutp04g
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 05:03:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20210910050344epoutp0456432e8ae85ba59669181b83c5830449~jXW-IYAID0737807378epoutp04g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1631250224;
+	bh=hLLKHYYpwssRkXLDFf2IkS0+OMWYeMKf/xYLdWeXCQc=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=s/BTBifgUKEijehiQA3NRs8J7/BZQW9M0yGbJL8/pFeVdtmOoqY/7+qqk3+oV+iVh
+	 XYjdV1LQEmOiMbeBguZcpTdm5NSZULvNv5mf42TPGWD10EGnwVU78utAIfdqC3j9qt
+	 EdL/WuomNF7RRRhf4qqAMbyoT6q5UfckCl1Az8S0=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+	20210910050344epcas2p458e7ece43466f090a7a285b558b04918~jXW_lQVHd3001430014epcas2p41;
+	Fri, 10 Sep 2021 05:03:44 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.40.191]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4H5P0X6Qgmz4x9Q3; Fri, 10 Sep
+	2021 05:03:40 +0000 (GMT)
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+	epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	10.45.09816.B27EA316; Fri, 10 Sep 2021 14:03:39 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
+	20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23~jXW5-E2Dn0098600986epcas2p1K;
+	Fri, 10 Sep 2021 05:03:39 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20210910050339epsmtrp244c626536541cfdb74dba0b54fb3127d~jXW5_YxcV2546025460epsmtrp20;
+	Fri, 10 Sep 2021 05:03:39 +0000 (GMT)
+X-AuditID: b6c32a46-625ff70000002658-99-613ae72b7c14
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4E.C3.08750.B27EA316; Fri, 10 Sep 2021 14:03:39 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.229.9.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20210910050338epsmtip2c6e1ac6f77980075131411cd39827f71~jXW5y9QRl1313213132epsmtip2r;
+	Fri, 10 Sep 2021 05:03:38 +0000 (GMT)
+From: "Chanho Park" <chanho61.park@samsung.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, Chanho Park
+	<chanho61.park@samsung.com>
+Subject: [PATCH] binutils: inherit pkgconfig to address libdebuginfod depdency
+Date: Fri, 10 Sep 2021 14:03:51 +0900
+Message-Id: <20210910050351.72932-1-chanho61.park@samsung.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7bCmma72c6tEg+mdGhbbvmxmsbi8X9vi
+	zs937BY/nk1kdWDx2DnrLrvH/rlr2D3ObVzB6NG3ZRVjAEtUjk1GamJKapFCal5yfkpmXrqt
+	kndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0EolhbLEnFKgUEBicbGSvp1NUX5pSapC
+	Rn5xia1SakFKToGhYYFecWJucWleul5yfq6VoYGBkSlQZUJOxpIny1kLnnFWHN+2mLGBcRdH
+	FyMHh4SAicT9LpEuRi4OIYEdjBIHjs9igXA+MUrsXXacHcL5zCjRu+QOYxcjJ1jH7qmPoKp2
+	MUosX/udDcL5yCixadZKVpAqNgFdiS3PXzGC7BAR0JF489ELpIZZYAKjxO2WN2wgNcICARJ/
+	vvwFs1kEVCWaTzWwgdTzCthJTL5VBLFMXuLIr05mEJtXQFDi5MwnLCA2M1C8eetsZpCZEgLb
+	2CUenNvPDNHgIjHxI8R8CQFhiVfHt7BD2FISn9/tZYNo6GaUaH30HyqxmlGis9EHwraX+DV9
+	CyvIEcwCmhLrd+lDwkhZ4sgtqL18Eh2H/7JDhHklOtqEIBrVJQ5sn84CYctKdM/5zAphe0g0
+	TDrKBFIuJBArsWYC8wRG+VlInpmF5JlZCGsXMDKvYhRLLSjOTU8tNiowQo7STYzgRKfltoNx
+	ytsPeocYmTgYDzFKcDArifCe2GCZKMSbklhZlVqUH19UmpNafIjRFBi6E5mlRJPzgak2ryTe
+	0NTIzMzA0tTC1MzIQkmc9/xroCaB9MSS1OzU1ILUIpg+Jg5OqQam+Kbja2M5Jdfmm6/ZUDzD
+	zeSU6jzzEOMPmh9/L2UI3+ATLbzR72whs2/E6o+GBrPytWJuvdif+DrWOpNndoLlSn93DjXB
+	+0ay3PWmk6oVPk8+tCKco9jnX1PsxOjSJS/N8tn+lT7b0Wa+QO1t/z29+TIlpbqTM85l//oa
+	59vzekVy/tQLzse+t/x6ZOGy8PqGgCdmaV2vRB5U5S+4zRjIspFv/8FW9dpZOl7X9l827mX+
+	5fFyJnPYq/ZF18T8TIwW8f8XPCv3mv3gDoltK6UfCf1ybXD93bOq2E1cabpo+8afz1+1OaR6
+	fJLr5RI3u6SyYaEXp9WmfY4CTA6Pv1zMCmXSWlGm2/77/8fWp0xKLMUZiYZazEXFiQDWMLLP
+	/QMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFLMWRmVeSWpSXmKPExsWy7bCSvK72c6tEgyWT2C22fdnMYnF5v7bF
+	nZ/v2C1+PJvI6sDisXPWXXaP/XPXsHuc27iC0aNvyyrGAJYoLpuU1JzMstQifbsErowlT5az
+	FjzjrDi+bTFjA+Muji5GTg4JAROJ3VMfsXQxcnEICexglFh3ZDsLREJW4tm7HewQtrDE/ZYj
+	rBBF7xklps1sBStiE9CV2PL8FWMXIweHiICOxJuPXiA1zAITGCWeXpgK1iws4CdxafkUsHoW
+	AVWJ5lMNbCD1vAJ2EpNvFUHMl5c48quTGcTmFRCUODnzCVg5M1C8eets5gmMfLOQpGYhSS1g
+	ZFrFKJlaUJybnltsWGCUl1quV5yYW1yal66XnJ+7iREcfFpaOxj3rPqgd4iRiYPxEKMEB7OS
+	CO+JDZaJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTBF
+	PrgWqzNjS51/7Mzz5/xfbFqvv919w3oTh/BK56ZN2ZqNyjoOj7rcnUqsWYT6Nf4tY8w6uN6L
+	+feC/KIay4QdS3JcLh1JWft9y6Ipd3+vY5p2wLCKt/1+d/m38z3mpa6Jx844H5xz7mRsFssU
+	xjlPY1fxsFm89r3/RuueuUvTJQV7gw/lWb8/fU5euLt5o9gcoZsH3s42/fmk+pRh4iSpjTec
+	74W9Cr9rWtP3T55f4dVnn209yqH1gWV94SYfrjW9XnjP5953ve2V7a3L/1lEVt6aunbq6sV/
+	JuSGMapbrPR52ll8xNzp5VJDwz9cC6R13GdMDElTvdK57VNIUnjouYIbOZ9+vbidev3n7Q43
+	JZbijERDLeai4kQAoqHu2K0CAAA=
+X-CMS-MailID: 20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23
+X-Msg-Generator: CA
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23
+References: <CGME20210910050339epcas2p19673fc9c3fa2e7e5c27bbe3588ca8c23@epcas2p1.samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Kai Kang <kai.kang@windriver.com>
+Since libdebuginfo was default distro feature[1], cross build of binutils
+has been broken due to absence of pkg-config. To find the dependency
+properly, we should inherit pkgconfig bbclass.
 
-Backport patch to fix CVE-2021-40153, and remove version update in
-unsquashfs.c for compatible.
+checking for aarch64-poky-linux-pkg-config... no
+checking for pkg-config... no
+checking whether to use debuginfod... yes
+checking for libdebuginfod >=3D 0.179... no
+configure: error: "--with-debuginfod was given, but libdebuginfod is miss=
+ing or unusable."
 
-CVE: CVE-2021-40153
+[1]: https://lists.openembedded.org/g/openembedded-core/message/150666
 
-Ref:
-* https://security-tracker.debian.org/tracker/CVE-2021-40153
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Chanho Park <chanho61.park@samsung.com>
 ---
- .../squashfs-tools/files/CVE-2021-40153.patch | 253 ++++++++++++++++++
- .../squashfs-tools/squashfs-tools_git.bb      |   1 +
- 2 files changed, 254 insertions(+)
- create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+ meta/recipes-devtools/binutils/binutils.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
-new file mode 100644
-index 0000000000..95e2534ee4
---- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
-@@ -0,0 +1,253 @@
-+Backport patch to fix CVE-2021-40153, and remove version update in unsquashfs.c
-+for compatible.
-+
-+Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/79b5a55]
-+CVE: CVE-2021-40153
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 79b5a555058eef4e1e7ff220c344d39f8cd09646 Mon Sep 17 00:00:00 2001
-+From: Phillip Lougher <phillip@squashfs.org.uk>
-+Date: Sat, 16 Jan 2021 20:08:55 +0000
-+Subject: [PATCH] Unsquashfs: fix write outside destination directory exploit
-+
-+An issue on Github (https://github.com/plougher/squashfs-tools/issues/72)
-+shows how some specially crafted Squashfs filesystems containing
-+invalid file names (with '/' and ..) can cause Unsquashfs to write
-+files outside of the destination directory.
-+
-+This commit fixes this exploit by checking all names for
-+validity.
-+
-+In doing so I have also added checks for '.' and for names that
-+are shorter than they should be (names in the file system should
-+not have '\0' terminators).
-+
-+Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
-+---
-+ squashfs-tools/Makefile        |  5 ++-
-+ squashfs-tools/unsquash-1.c    |  9 +++++-
-+ squashfs-tools/unsquash-1234.c | 58 ++++++++++++++++++++++++++++++++++
-+ squashfs-tools/unsquash-2.c    |  9 +++++-
-+ squashfs-tools/unsquash-3.c    |  9 +++++-
-+ squashfs-tools/unsquash-4.c    |  9 +++++-
-+ squashfs-tools/unsquashfs.h    |  5 ++-
-+ 7 files changed, 98 insertions(+), 6 deletions(-)
-+ create mode 100644 squashfs-tools/unsquash-1234.c
-+
-+diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
-+index aee4b960..20feaca2 100644
-+--- a/squashfs-tools/Makefile
-++++ b/squashfs-tools/Makefile
-+@@ -156,7 +156,8 @@ MKSQUASHFS_OBJS = mksquashfs.o read_fs.o action.o swap.o pseudo.o compressor.o \
-+ 	caches-queues-lists.o
-+ 
-+ UNSQUASHFS_OBJS = unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o \
-+-	unsquash-4.o unsquash-123.o unsquash-34.o swap.o compressor.o unsquashfs_info.o
-++	unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o swap.o \
-++	compressor.o unsquashfs_info.o
-+ 
-+ CFLAGS ?= -O2
-+ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
-+@@ -350,6 +351,8 @@ unsquash-123.o: unsquashfs.h unsquash-123.c squashfs_fs.h squashfs_compat.h
-+ 
-+ unsquash-34.o: unsquashfs.h unsquash-34.c
-+ 
-++unsquash-1234.o: unsquash-1234.c
-++
-+ unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h
-+ 
-+ unsquashfs_info.o: unsquashfs.h squashfs_fs.h
-+diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
-+index 34eced36..28326cb1 100644
-+--- a/squashfs-tools/unsquash-1.c
-++++ b/squashfs-tools/unsquash-1.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2011, 2012, 2019
-++ * Copyright (c) 2009, 2010, 2011, 2012, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -285,6 +285,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
-+new file mode 100644
-+index 00000000..c2d4f42b
-+--- /dev/null
-++++ b/squashfs-tools/unsquash-1234.c
-+@@ -0,0 +1,58 @@
-++/*
-++ * Unsquash a squashfs filesystem.  This is a highly compressed read only
-++ * filesystem.
-++ *
-++ * Copyright (c) 2021
-++ * Phillip Lougher <phillip@squashfs.org.uk>
-++ *
-++ * This program is free software; you can redistribute it and/or
-++ * modify it under the terms of the GNU General Public License
-++ * as published by the Free Software Foundation; either version 2,
-++ * or (at your option) any later version.
-++ *
-++ * This program is distributed in the hope that it will be useful,
-++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ * GNU General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU General Public License
-++ * along with this program; if not, write to the Free Software
-++ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-++ *
-++ * unsquash-1234.c
-++ *
-++ * Helper functions used by unsquash-1, unsquash-2, unsquash-3 and
-++ * unsquash-4.
-++ */
-++
-++#define TRUE 1
-++#define FALSE 0
-++/*
-++ * Check name for validity, name should not
-++ *  - be ".", "./", or
-++ *  - be "..", "../" or
-++ *  - have a "/" anywhere in the name, or
-++ *  - be shorter than the expected size
-++ */
-++int check_name(char *name, int size)
-++{
-++	char *start = name;
-++
-++	if(name[0] == '.') {
-++		if(name[1] == '.')
-++			name++;
-++		if(name[1] == '/' || name[1] == '\0')
-++			return FALSE;
-++	}
-++
-++	while(name[0] != '/' && name[0] != '\0')
-++		name ++;
-++
-++	if(name[0] == '/')
-++		return FALSE;
-++
-++	if((name - start) != size)
-++		return FALSE;
-++
-++	return TRUE;
-++}
-+diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
-+index 4b3d767e..474064e1 100644
-+--- a/squashfs-tools/unsquash-2.c
-++++ b/squashfs-tools/unsquash-2.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2013, 2019
-++ * Copyright (c) 2009, 2010, 2013, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -386,6 +386,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
-+index 02c31fc5..65cfe4d9 100644
-+--- a/squashfs-tools/unsquash-3.c
-++++ b/squashfs-tools/unsquash-3.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
-++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -413,6 +413,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
-+index 8475835c..aa23a841 100644
-+--- a/squashfs-tools/unsquash-4.c
-++++ b/squashfs-tools/unsquash-4.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
-++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -349,6 +349,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
-+index 934618b2..db1da7a0 100644
-+--- a/squashfs-tools/unsquashfs.h
-++++ b/squashfs-tools/unsquashfs.h
-+@@ -4,7 +4,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2013, 2014, 2019
-++ * Copyright (c) 2009, 2010, 2013, 2014, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -261,4 +261,7 @@ extern int read_ids(int, long long, long long, unsigned int **);
-+ 
-+ /* unsquash-34.c */
-+ extern long long *alloc_index_table(int);
-++
-++/* unsquash-1234.c */
-++extern int check_name(char *, int);
-+ #endif
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 2b1409d78d..083e597b03 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -11,6 +11,7 @@ PV = "4.4"
- SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
-            file://0001-squashfs-tools-fix-build-failure-against-gcc-10.patch;striplevel=2 \
-+           file://CVE-2021-40153.patch;striplevel=2 \
- "
- 
- S = "${WORKDIR}/git/squashfs-tools"
--- 
-2.17.1
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
+evtools/binutils/binutils.inc
+index 7d5149fa16ea..2f65ae54741c 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -13,7 +13,7 @@ LICENSE =3D "GPLv3"
+=20
+ DEPENDS =3D "flex-native bison-native zlib-native gnu-config-native auto=
+conf-native"
+=20
+-inherit autotools gettext multilib_header texinfo
++inherit autotools gettext multilib_header pkgconfig texinfo
+=20
+ FILES:${PN} =3D " \
+ 	${bindir}/${TARGET_PREFIX}* \
+--=20
+2.33.0
 
