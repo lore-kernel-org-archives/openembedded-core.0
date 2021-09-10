@@ -1,203 +1,84 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.7851.1631274151848639714
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web09.8280.1631276477648462429
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 04:42:32 -0700
+ Fri, 10 Sep 2021 05:21:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wgq0LPRq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso1141912wmi.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 04:42:31 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=NoML5Jkm;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.51, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f51.google.com with SMTP id x6so2330219wrv.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 05:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EylURX3DwcsanK4gpKh6gHj7JumEvwQjWDevSswd7x0=;
-        b=Wgq0LPRqG02m/gAYIc94pW/gNJ3suf/H44hgdEIKVNkC4wy2/Xwo4jPfNjumSdxX5+
-         XUv9xl/TGwmi1UoIfwQLE9LeMAUJy89IRlpZufliY2BxpvGFk7eO5u1t7jdwR4xJYABB
-         aRAPqKl88RlL5x2nNynmRK1C/RZaxpvgZjjyc=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=RY/lpf8UF7wLHjVAtgIni2ARcg7GImD6Jxl60RvhLb0=;
+        b=NoML5Jkm5QXXCfNt1EBNKcJ5HS8uYfsFdUlwC+gEPAad/LsDzvVlwOLJLv314ev3Uk
+         FDkMt1tN3iM6Jjw1GYqyYyd1YO9EUho65RTvp7PHTseIc0YpFzaPYLoKdjyFxzn7z2Ou
+         BzC6ggQef4GCV7QVuWkqnwnTlszto9DuvoOHKfRA9LoVO8GMCcVbmSBwevdaWfdQbc2y
+         FQn/7RgxjcrpEwUOgA9oAc1E8VHFI1Wn++ZhkF9maqujLPMytjGMUQm4agvcVnxuPwVF
+         m1qpXNGjc7x5VGd2H9nRBumK5Q05HJwoQXc4raLcymWT2LM2rjajr4aaS94XiDo1Fswv
+         IZVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EylURX3DwcsanK4gpKh6gHj7JumEvwQjWDevSswd7x0=;
-        b=nvUPH6VkbbHeuylj87rYb7SJIvPHfoEzVieMcZMbbdj2+nwLq7e1aEFLMHoau0ULPr
-         6IDoNJUiBAX3OKH9jMYnzjAs4TEORvfwP4RR69UXIngL+xxFQHGTdm+2w8lPpfkfCdkz
-         ticd7sxgy+aUHvKFiCYuX15eeEgnzjPYALXfBDWWUAQvh9zbYCH65RvDD+GkNk/9NV+0
-         3p95taa+VYOhEBIF2FIey9PcP689A7FirbGdYYArKJMZ57G9KKlNh8QzEvqEyMhx4ZSc
-         q1j53iPoJoNOEgm7+4C+fHcX83hmXZs+0SJgDL0iX784oHXETgf0joq1Om5UpAw8lVF+
-         v94w==
-X-Gm-Message-State: AOAM533GRGQq6vR92TFqv45phkryQJpoewcMk8ecr6WKaVveN88ECYHM
-	cy+etocFjCAFgQuzmWnOYgR0qx1tj7RTz1gd
-X-Google-Smtp-Source: ABdhPJxxn2cNxR+whTenilNuUUpKiqEAOqU0SKqaUHYcVFF9+OIrd0Ex2lDivkS3AWg9eaX19TnfPQ==
-X-Received: by 2002:a7b:c350:: with SMTP id l16mr7686625wmj.151.1631274150053;
-        Fri, 10 Sep 2021 04:42:30 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:69c:dc1e:bcce:ea45])
-        by smtp.gmail.com with ESMTPSA id d7sm4434771wrf.3.2021.09.10.04.42.29
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 04:42:29 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/selftest: Add tests for bitbake shell/python task output
-Date: Fri, 10 Sep 2021 12:42:28 +0100
-Message-Id: <20210910114228.1253289-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=RY/lpf8UF7wLHjVAtgIni2ARcg7GImD6Jxl60RvhLb0=;
+        b=CCppxtsc+wzAyKAL3oEPrzUPAJ5dsaBwmBC05VSgxccbsf2SPaLGeQAhz5m9UZseCT
+         DaYL+ZmcybLkn0vvEy8IUB8gZCmByROQcpW1dywO72YrfG7Yn/E0AS+JGxNeh3P8x/2y
+         8/4uA4GEZyxM3AJW4NhDW3TQ6tt4DSMmlgDY5wdhtHczQt7aZiukdeGZvvQ7zbLmWwDW
+         7/+BXzT+MnuQARET9ou9oQ2V34Gfq5m1gR61mt2r3Kdna8z6vPZ0W/Ic1//tWtWkKXfn
+         qsPOD9ZVlYJptXrgY2v1KI1ij8HhHFQvwL4DtTl1Ad+hv/SrNZaO6PuuIejK7KPmQjmh
+         bkFg==
+X-Gm-Message-State: AOAM530smmOHsb+wljMu/YevVw3UOcFSk0U+4w+B2hHL5YF58S12+n69
+	gqC6Y1w8lU6xlZeu1aXsbYxIZr0UF7pBG9ubhzvq5VfH3JPFQA==
+X-Google-Smtp-Source: ABdhPJx9fZAmkRGRdryI8jL7QidduK34VVXQP1BoBM8A7Py11HL9rZav5OoeC0tW4w2Ei3VQGWp2CkALqqfZEs+a7xE=
+X-Received: by 2002:adf:efc2:: with SMTP id i2mr9483881wrp.94.1631276475314;
+ Fri, 10 Sep 2021 05:21:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210910102050.1266413-1-ross.burton@arm.com>
+In-Reply-To: <20210910102050.1266413-1-ross.burton@arm.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 10 Sep 2021 13:21:04 +0100
+Message-ID: <CAAnfSTuhR_OBzQrHWdt_CYf25v7x0sZaNaZ3g5yf_z9nX_movw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/7] testimage: TEST_SERVER_IP isn't mandatory
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-We've seen issues where shell/python tasks lose their log file entries
-or output and also where output is duplicated. Add some tests to attempt
-to spot regressions in this area in future.
+Hold off on this, it breaks some potential use-cases.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../recipes-test/logging-test/logging-test.bb |  24 ++++
- meta/lib/oeqa/selftest/cases/bblogging.py     | 104 ++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 meta-selftest/recipes-test/logging-test/logging-test.bb
- create mode 100644 meta/lib/oeqa/selftest/cases/bblogging.py
+Ross
 
-diff --git a/meta-selftest/recipes-test/logging-test/logging-test.bb b/meta-selftest/recipes-test/logging-test/logging-test.bb
-new file mode 100644
-index 00000000000..a6100123f9d
---- /dev/null
-+++ b/meta-selftest/recipes-test/logging-test/logging-test.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "Destined to fail"
-+LICENSE = "CLOSED"
-+
-+deltask do_patch
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+do_shelltest() {
-+        echo "This is shell stdout"
-+        echo "This is shell stderr" >&2
-+        exit 1
-+}
-+addtask do_shelltest
-+
-+python do_pythontest_exit () {
-+    print("This is python stdout")
-+    sys.exit(1)
-+}
-+addtask do_pythontest_exit
-+
-+python do_pythontest_fatal () {
-+    print("This is python fatal test stdout")
-+    bb.fatal("This is a fatal error")
-+}
-+addtask do_pythontest_fatal
-diff --git a/meta/lib/oeqa/selftest/cases/bblogging.py b/meta/lib/oeqa/selftest/cases/bblogging.py
-new file mode 100644
-index 00000000000..ea6c3c8c77e
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/bblogging.py
-@@ -0,0 +1,104 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake
-+
-+class BitBakeLogging(OESelftestTestCase):
-+
-+    def assertCount(self, item, entry, count):
-+        self.assertEqual(item.count(entry), count, msg="Output:\n'''\n%s\n'''\ndoesn't contain %d copies of:\n'''\n%s\n'''\n" % (item, count, entry))
-+
-+    def test_shell_logging(self):
-+        # no logs, no verbose
-+        self.write_config('BBINCLUDELOGS = ""')
-+        result = bitbake("logging-test -c shelltest -f", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        self.assertNotIn("This is shell stdout", result.output)
-+        self.assertNotIn("This is shell stderr", result.output)
-+
-+        # logs, no verbose
-+        self.write_config('BBINCLUDELOGS = "yes"')
-+        result = bitbake("logging-test -c shelltest -f", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        self.assertCount(result.output, "This is shell stdout", 1)
-+        self.assertCount(result.output, "This is shell stderr", 1)
-+
-+        # no logs, verbose
-+        self.write_config('BBINCLUDELOGS = ""')
-+        result = bitbake("logging-test -c shelltest -f -v", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # two copies due to set +x        
-+        self.assertCount(result.output, "This is shell stdout", 2)
-+        self.assertCount(result.output, "This is shell stderr", 2)
-+
-+        # logs, verbose
-+        self.write_config('BBINCLUDELOGS = "yes"')
-+        result = bitbake("logging-test -c shelltest -f -v", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # two copies due to set +x
-+        self.assertCount(result.output, "This is shell stdout", 2)
-+        self.assertCount(result.output, "This is shell stderr", 2)
-+
-+    def test_python_exit_logging(self):
-+        # no logs, no verbose
-+        self.write_config('BBINCLUDELOGS = ""')
-+        result = bitbake("logging-test -c pythontest_exit -f", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        self.assertNotIn("This is python stdout", result.output)
-+
-+        # logs, no verbose
-+        self.write_config('BBINCLUDELOGS = "yes"')
-+        result = bitbake("logging-test -c pythontest_exit -f", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # A sys.exit() should include the output
-+        self.assertCount(result.output, "This is python stdout", 1)
-+
-+        # no logs, verbose
-+        self.write_config('BBINCLUDELOGS = ""')
-+        result = bitbake("logging-test -c pythontest_exit -f -v", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # python tasks don't log output with -v currently
-+        #self.assertCount(result.output, "This is python stdout", 1)
-+
-+        # logs, verbose
-+        self.write_config('BBINCLUDELOGS = "yes"')
-+        result = bitbake("logging-test -c pythontest_exit -f -v", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # python tasks don't log output with -v currently
-+        #self.assertCount(result.output, "This is python stdout", 1)
-+
-+    def test_python_fatal_logging(self):
-+        # no logs, no verbose
-+        self.write_config('BBINCLUDELOGS = ""')
-+        result = bitbake("logging-test -c pythontest_fatal -f", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        self.assertNotIn("This is python fatal test stdout", result.output)
-+        self.assertCount(result.output, "This is a fatal error", 1)
-+
-+        # logs, no verbose
-+        self.write_config('BBINCLUDELOGS = "yes"')
-+        result = bitbake("logging-test -c pythontest_fatal -f", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # A bb.fatal() should not include the output
-+        self.assertNotIn("This is python fatal test stdout", result.output)
-+        self.assertCount(result.output, "This is a fatal error", 1)
-+
-+        # no logs, verbose
-+        self.write_config('BBINCLUDELOGS = ""')
-+        result = bitbake("logging-test -c pythontest_fatal -f -v", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # python tasks don't log output with -v currently
-+        #self.assertCount(result.output, "This is python fatal test stdout", 1)
-+        self.assertCount(result.output, "This is a fatal error", 1)
-+
-+        # logs, verbose
-+        self.write_config('BBINCLUDELOGS = "yes"')
-+        result = bitbake("logging-test -c pythontest_fatal -f -v", ignore_status = True)
-+        self.assertIn("ERROR: Logfile of failure stored in:", result.output)
-+        # python tasks don't log output with -v currently
-+        #self.assertCount(result.output, "This is python fatal test stdout", 1)
-+        self.assertCount(result.output, "This is a fatal error", 1)
-+
--- 
-2.32.0
-
+On Fri, 10 Sept 2021 at 11:20, Ross Burton via lists.openembedded.org
+<ross=burtonini.com@lists.openembedded.org> wrote:
+>
+> When using the simpleremote test target, TEST_SERVER_IP doesn't have to
+> be configured as the code will detect the host's IP if it isn't set.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/classes/testimage.bbclass | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> index 3c689aec913..8bf6b17af8a 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -143,11 +143,8 @@ do_testimage[depends] += "${TESTIMAGEDEPENDS}"
+>  do_testimage[lockfiles] += "${TESTIMAGELOCK}"
+>
+>  def testimage_sanity(d):
+> -    if (d.getVar('TEST_TARGET') == 'simpleremote'
+> -        and (not d.getVar('TEST_TARGET_IP')
+> -             or not d.getVar('TEST_SERVER_IP'))):
+> -        bb.fatal('When TEST_TARGET is set to "simpleremote" '
+> -                 'TEST_TARGET_IP and TEST_SERVER_IP are needed too.')
+> +    if d.getVar('TEST_TARGET') == 'simpleremote' and not d.getVar('TEST_TARGET_IP'):
+> +        bb.fatal('When TEST_TARGET is set to "simpleremote" TEST_TARGET_IP must be set.')
+>
+>  def get_testimage_configuration(d, test_type, machine):
+>      import platform
+> --
+> 2.25.1
+>
+>
+> 
+>
