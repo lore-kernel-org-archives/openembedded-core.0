@@ -1,112 +1,199 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web08.14121.1631302766000333624
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web08.372.1631314642196517638
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 12:39:26 -0700
+ Fri, 10 Sep 2021 15:57:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id E93421BF205;
-	Fri, 10 Sep 2021 19:39:23 +0000 (UTC)
-Date: Fri, 10 Sep 2021 21:39:23 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: tobias.kaufmann@wusto.de
-Cc: openembedded-core@lists.openembedded.org,
-	Tobias Kaufmann <Tobias.KA.Kaufmann@bmw.de>
-Subject: Re: [OE-core] [PATCH] package-manager: escape package names for regexps
-Message-ID: <YTu0awQbjCVQUyRk@piout.net>
-References: <20210908174641.223936-1-tobias.kaufmann@wusto.de>
- <YTuz+F17i6FDyB/n@piout.net>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FpRhbtOI;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id s11so3145965pgr.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 15:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MzLvNatkkPaan/Y6zAXXSS2k+RV2AhlUSEZxvKdm5bU=;
+        b=FpRhbtOI0etTtaim6MxMCq+NFTlobNrC15qkVwU8x73QL3op7cAH4pyblVXIPxik6W
+         f4G0c4x7GnW3GqbzauHGFYWhvro93W3Dpjs7GXHa9Ap3oYdL2JHkBTmdM0uWEUu+rhnb
+         m/rhSmUn9TnKHn6PT0xX7eTYqw2LLQJ9rXDmKk1M6D8+NdsVhDyOu4uqrx2Ax80RfqOR
+         cEaTbYlyGoV8etLROvihN6WNOf+0P81I0jtLgE7IRgDLMf4/fiW9OPyJebucyU5IcG9m
+         EFMWaMdf4MyqbwTgKn/EAqwOwUjRGTmIzbLjHaTCw3SCrXV5fQeBvrEfq+SQjOq8nC8K
+         iTFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MzLvNatkkPaan/Y6zAXXSS2k+RV2AhlUSEZxvKdm5bU=;
+        b=aM0M7rHUNd5bzecRQD842rmdsGH3CcogNMCPXaPQ3mmxd1hutoUOZ5ZKaTGnldDwrV
+         Ux4xnDC2hF04ZQStUYXcV8QtrOu5xVvR7e0eFyDri2Bh3j6XtaIZ8FIFOUDGB08o3L5u
+         NaBrgAqQ0Y9i4nYR1PeAqI04fvNQzAbtRSqtZ/741hAYiqaQ0MHcrSMEz0PGp62sQIzI
+         UUNotsj2Z/rQmkknhMJ/Vg0/JHNIe0rDOZuxbneiJpprvmOrdUceC2I1b38KnujGmkV/
+         4GAhNLLKFQjblWrgw9VNKFrUVye+40QK9gJM3QL8RZ+HwDvLca1NVX4NPtmnsekwhR/h
+         fYuw==
+X-Gm-Message-State: AOAM532nn6VI6DPpIc1QVPQADERfsR5+pvFKDjL/CZcd4pyqfVjk3svG
+	kcFyeoq3zorxzR4pZaeoGvpcLoMI3/4=
+X-Google-Smtp-Source: ABdhPJzq8KDatIQ0HfISTW6aVykGyaAdkIDx8sGxPKHyqJO1P2IX5FV+4delYgYEGyKPkek/QjV/Cg==
+X-Received: by 2002:aa7:8387:0:b029:395:a683:a0e6 with SMTP id u7-20020aa783870000b0290395a683a0e6mr10193973pfm.12.1631314641412;
+        Fri, 10 Sep 2021 15:57:21 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:580b:61a2:a85:3f46])
+        by smtp.gmail.com with ESMTPSA id o11sm6089132pfd.124.2021.09.10.15.57.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Sep 2021 15:57:21 -0700 (PDT)
+From: "Armin Kuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [dunfell][PATCH] libgcrypt: Security fix CVE-2021-33560
+Date: Fri, 10 Sep 2021 15:57:19 -0700
+Message-Id: <20210910225719.2907184-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YTuz+F17i6FDyB/n@piout.net>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 10/09/2021 21:37:29+0200, Alexandre Belloni wrote:
-> Hello,
-> 
-> On 08/09/2021 19:46:41+0200, tobias.kaufmann@wusto.de wrote:
-> > From: Tobias Kaufmann <Tobias.KA.Kaufmann@bmw.de>
-> > 
-> > If a package-name contains characters which are used
-> > in regular expressions (e.g. libstdc++) this might
-> > break the regexp compilation.
-> > 
-> > To solve this issue the package names are escaped before using
-> > them in the regular expression
-> > 
-> 
-> I believe this is the cause of:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2528/steps/14/logs/stdio
-> can you check?
-> 
+From: Armin Kuster <akuster@mvista.com>
 
-Sorry, to make it easier for you, the error is:
+Source: https://sources.debian.org/patches/libgcrypt20/1.8.4-5+deb10u1
+MR: 111591
+Type: Security Fix
+Disposition: Backport from https://sources.debian.org/data/main/libg/libgcrypt20/1.8.4-5%2Bdeb10u1/debian/patches/31_cipher-Fix-ElGamal-encryption-for-other-implementati.patch
+ChangeID: d066a9baacc0d967dd80ac54c684cde031ac686e
+Description:
 
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed packages list. Command '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-1565688/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/recipe-sysroot-native/usr/bin/dpkg-query --admindir=/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-1565688/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/dpkg -W -f=Package: ${Package}
-Architecture: ${PackageArch}
-Version: ${Version}
-File: ${Package}_${Version}_${Architecture}.deb
-Depends: ${Depends}
-Recommends: ${Recommends}
-Provides: ${Provides}
-' returned 2:
-dpkg-query: error: parsing file '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-1565688/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/dpkg/status' near line 1060:
- invalid package name in 'Package' field: character '\' not allowed (only letters, digits and characters '-+._')
+Affects before 1.8.8 and 1.9.x before 1.9.3
 
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../libgcrypt/files/CVE-2021-33560.patch      | 109 ++++++++++++++++++
+ .../libgcrypt/libgcrypt_1.8.5.bb              |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
 
-> > Signed-off-by: Tobias Kaufmann <Tobias.KA.Kaufmann@bmw.de>
-> > ---
-> >  meta/lib/oe/package_manager/deb/__init__.py | 5 +++--
-> >  meta/lib/oe/package_manager/ipk/__init__.py | 5 +++--
-> >  2 files changed, 6 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
-> > index 9f112ae25b..4d5921044a 100644
-> > --- a/meta/lib/oe/package_manager/deb/__init__.py
-> > +++ b/meta/lib/oe/package_manager/deb/__init__.py
-> > @@ -208,8 +208,9 @@ class DpkgPM(OpkgDpkgPM):
-> >  
-> >                      status = sf.read()
-> >                      for pkg in packages:
-> > -                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
-> > -                                        r"Package: %s\n\1Status: \2%s" % (pkg, status_tag),
-> > +                        _pkg = re.escape(pkg)
-> > +                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % _pkg,
-> > +                                        r"Package: %s\n\1Status: \2%s" % (_pkg, status_tag),
-> >                                          status)
-> >  
-> >                      tmp_sf.write(status)
-> > diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-> > index 4cd3963111..503a4f5181 100644
-> > --- a/meta/lib/oe/package_manager/ipk/__init__.py
-> > +++ b/meta/lib/oe/package_manager/ipk/__init__.py
-> > @@ -207,8 +207,9 @@ class OpkgPM(OpkgDpkgPM):
-> >  
-> >                      status = sf.read()
-> >                      for pkg in packages:
-> > -                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
-> > -                                        r"Package: %s\n\1Status: \2%s" % (pkg, status_tag),
-> > +                        _pkg = re.escape(pkg)
-> > +                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % _pkg,
-> > +                                        r"Package: %s\n\1Status: \2%s" % (_pkg, status_tag),
-> >                                          status)
-> >  
-> >                      tmp_sf.write(status)
-> > -- 
-> > 2.33.0
-> > 
-> 
-> > 
-> > 
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
+diff --git a/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch b/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+new file mode 100644
+index 0000000000..c0d00485e6
+--- /dev/null
++++ b/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+@@ -0,0 +1,109 @@
++From 707c3c5c511ee70ad0e39ec613471f665305fbea Mon Sep 17 00:00:00 2001
++From: NIIBE Yutaka <gniibe@fsij.org>
++Date: Fri, 21 May 2021 11:15:07 +0900
++Subject: [PATCH] cipher: Fix ElGamal encryption for other implementations.
++
++* cipher/elgamal.c (gen_k): Remove support of smaller K.
++(do_encrypt): Never use smaller K.
++(sign): Folllow the change of gen_k.
++
++--
++
++Cherry-pick master commit of:
++	632d80ef30e13de6926d503aa697f92b5dbfbc5e
++
++This change basically reverts encryption changes in two commits:
++
++	74386120dad6b3da62db37f7044267c8ef34689b
++	78531373a342aeb847950f404343a05e36022065
++
++Use of smaller K for ephemeral key in ElGamal encryption is only good,
++when we can guarantee that recipient's key is generated by our
++implementation (or compatible).
++
++For detail, please see:
++
++    Luca De Feo, Bertram Poettering, Alessandro Sorniotti,
++    "On the (in)security of ElGamal in OpenPGP";
++    in the proceedings of  CCS'2021.
++
++CVE-id: CVE-2021-33560
++GnuPG-bug-id: 5328
++Suggested-by: Luca De Feo, Bertram Poettering, Alessandro Sorniotti
++Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++
++Upstream-Status: Backport
++CVE: CVE-2021-33560
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++---
++ cipher/elgamal.c | 24 ++++++------------------
++ 1 file changed, 6 insertions(+), 18 deletions(-)
++
++diff --git a/cipher/elgamal.c b/cipher/elgamal.c
++index 4eb52d62..ae7a631e 100644
++--- a/cipher/elgamal.c
+++++ b/cipher/elgamal.c
++@@ -66,7 +66,7 @@ static const char *elg_names[] =
++ 
++ 
++ static int test_keys (ELG_secret_key *sk, unsigned int nbits, int nodie);
++-static gcry_mpi_t gen_k (gcry_mpi_t p, int small_k);
+++static gcry_mpi_t gen_k (gcry_mpi_t p);
++ static gcry_err_code_t generate (ELG_secret_key *sk, unsigned nbits,
++                                  gcry_mpi_t **factors);
++ static int  check_secret_key (ELG_secret_key *sk);
++@@ -189,11 +189,10 @@ test_keys ( ELG_secret_key *sk, unsigned int nbits, int nodie )
++ 
++ /****************
++  * Generate a random secret exponent k from prime p, so that k is
++- * relatively prime to p-1.  With SMALL_K set, k will be selected for
++- * better encryption performance - this must never be used signing!
+++ * relatively prime to p-1.
++  */
++ static gcry_mpi_t
++-gen_k( gcry_mpi_t p, int small_k )
+++gen_k( gcry_mpi_t p )
++ {
++   gcry_mpi_t k = mpi_alloc_secure( 0 );
++   gcry_mpi_t temp = mpi_alloc( mpi_get_nlimbs(p) );
++@@ -202,18 +201,7 @@ gen_k( gcry_mpi_t p, int small_k )
++   unsigned int nbits, nbytes;
++   char *rndbuf = NULL;
++ 
++-  if (small_k)
++-    {
++-      /* Using a k much lesser than p is sufficient for encryption and
++-       * it greatly improves the encryption performance.  We use
++-       * Wiener's table and add a large safety margin. */
++-      nbits = wiener_map( orig_nbits ) * 3 / 2;
++-      if( nbits >= orig_nbits )
++-        BUG();
++-    }
++-  else
++-    nbits = orig_nbits;
++-
+++  nbits = orig_nbits;
++ 
++   nbytes = (nbits+7)/8;
++   if( DBG_CIPHER )
++@@ -492,7 +480,7 @@ do_encrypt(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_public_key *pkey )
++    * error code.
++    */
++ 
++-  k = gen_k( pkey->p, 1 );
+++  k = gen_k( pkey->p );
++   mpi_powm (a, pkey->g, k, pkey->p);
++ 
++   /* b = (y^k * input) mod p
++@@ -594,7 +582,7 @@ sign(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_secret_key *skey )
++     *
++     */
++     mpi_sub_ui(p_1, p_1, 1);
++-    k = gen_k( skey->p, 0 /* no small K ! */ );
+++    k = gen_k( skey->p );
++     mpi_powm( a, skey->g, k, skey->p );
++     mpi_mul(t, skey->x, a );
++     mpi_subm(t, input, t, p_1 );
++-- 
++2.30.2
++
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+index 16a58ad9b8..174b087b24 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+@@ -28,6 +28,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch \
+            file://0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch \
+            file://determinism.patch \
++           file://CVE-2021-33560.patch \
+ "
+ SRC_URI[md5sum] = "348cc4601ca34307fc6cd6c945467743"
+ SRC_URI[sha256sum] = "3b4a2a94cb637eff5bdebbcaf46f4d95c4f25206f459809339cdada0eb577ac3"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
