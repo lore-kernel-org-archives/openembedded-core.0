@@ -1,133 +1,110 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web08.3905.1631240534756763715
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web09.3976.1631240900879575116
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 19:22:15 -0700
+ Thu, 09 Sep 2021 19:28:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from lons-builder.int.hatle.net ([192.40.192.95])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 18A2MDkr022976
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 21:22:14 -0500
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v3 1/2] reproducible_build: Remove BUILD_REPRODUCIBLE_BINARIES checking
-Date: Thu,  9 Sep 2021 21:22:12 -0500
-Message-Id: <20210910022213.28378-2-mark.hatle@kernel.crashing.org>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A2SJx8001683
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:28:20 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A2SJTB029952
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:28:19 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 9 Sep 2021 19:28:18 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 19:28:18 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] perl: fix CVE-2021-36770
+Date: Fri, 10 Sep 2021 10:28:15 +0800
+Message-ID: <20210910022815.33349-1-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210910022213.28378-1-mark.hatle@kernel.crashing.org>
-References: <20210910022213.28378-1-mark.hatle@kernel.crashing.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-From: Mark Hatle <mark.hatle@xilinx.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-Previously if BUILD_REPRODUCIBLE_BINARIES was set to 0, the system would
-fall back and select the default epoch (April 2011), but still perform
-the reproducible build actions.  This resulted in binaries that had an
-unusually old date.
+Backport patch to fix CVE-2021-36770.
 
-Simplify the functions and remove the anonymous python as no longer
-necessary.
-
-Also improve the documentation to better explain what the class is doing
-and how a recipe can override the behavior if necessary.
-
-Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/classes/reproducible_build.bbclass | 53 ++++++++++++++++---------
- 1 file changed, 34 insertions(+), 19 deletions(-)
+ .../perl/files/CVE-2021-36770.patch           | 48 +++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2021-36770.patch
 
-diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index 378121903d..96bb012243 100644
---- a/meta/classes/reproducible_build.bbclass
-+++ b/meta/classes/reproducible_build.bbclass
-@@ -1,17 +1,38 @@
- # reproducible_build.bbclass
- #
--# Sets SOURCE_DATE_EPOCH in each component's build environment.
-+# Sets the default SOURCE_DATE_EPOCH in each component's build environment.
-+# The format is number of seconds since the system epoch.
-+#
- # Upstream components (generally) respect this environment variable,
- # using it in place of the "current" date and time.
- # See https://reproducible-builds.org/specs/source-date-epoch/
- #
--# After sources are unpacked but before they are patched, we set a reproducible value for SOURCE_DATE_EPOCH.
--# This value should be reproducible for anyone who builds the same revision from the same sources.
-+# The default value of SOURCE_DATE_EPOCH comes from the function
-+# get_source_date_epoch_value which reads from the SDE_FILE, or if the file
-+# is not available (or set to 0) will use the fallback of
-+# SOURCE_DATE_EPOCH_FALLBACK.
-+#
-+# The SDE_FILE is normally constructed from the function
-+# create_source_date_epoch_stamp which is typically added as a postfuncs to
-+# the do_unpack task.  If a recipe does NOT have do_unpack, it should be added
-+# to a task that runs after the source is available and before the
-+# do_deploy_source_date_epoch task is executed.
-+#
-+# If a recipe wishes to override the default behavior it should set it's own
-+# SOURCE_DATE_EPOCH or override the do_deploy_source_date_epoch_stamp task
-+# with recipe-specific functionality to write the appropriate
-+# SOURCE_DATE_EPOCH into the SDE_FILE.
-+#
-+# SOURCE_DATE_EPOCH is intended to be a reproducible value.  This value should
-+# be reproducible for anyone who builds the same revision from the same
-+# sources.
- #
--# There are 4 ways we determine SOURCE_DATE_EPOCH:
-+# There are 4 ways the create_source_date_epoch_stamp function determines what
-+# becomes SOURCE_DATE_EPOCH:
- #
- # 1. Use the value from __source_date_epoch.txt file if this file exists.
--#    This file was most likely created in the previous build by one of the following methods 2,3,4.
-+#    This file was most likely created in the previous build by one of the
-+#    following methods 2,3,4.
- #    Alternatively, it can be provided by a recipe via SRC_URI.
- #
- # If the file does not exist:
-@@ -22,20 +43,16 @@
- # 3. Use the mtime of "known" files such as NEWS, CHANGLELOG, ...
- #    This works for well-kept repositories distributed via tarball.
- #
--# 4. Use the modification time of the youngest file in the source tree, if there is one.
-+# 4. Use the modification time of the youngest file in the source tree, if
-+#    there is one.
- #    This will be the newest file from the distribution tarball, if any.
- #
--# 5. Fall back to a fixed timestamp.
-+# 5. Fall back to a fixed timestamp (SOURCE_DATE_EPOCH_FALLBACK).
- #
--# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe's SDE_FILE.
--# If none of these mechanisms are suitable, replace the do_deploy_source_date_epoch task
--# with recipe-specific functionality to write the appropriate SOURCE_DATE_EPOCH into the SDE_FILE.
--#
--# If this file is found by other tasks, the value is exported in the SOURCE_DATE_EPOCH variable.
--# SOURCE_DATE_EPOCH is set for all tasks that might use it (do_configure, do_compile, do_package, ...)
-+# Once the value is determined, it is stored in the recipe's SDE_FILE.
- 
- BUILD_REPRODUCIBLE_BINARIES ??= '1'
--inherit ${@oe.utils.ifelse(d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1', 'reproducible_build_simple', '')}
-+inherit reproducible_build_simple
- 
- SDE_DIR = "${WORKDIR}/source-date-epoch"
- SDE_FILE = "${SDE_DIR}/__source_date_epoch.txt"
-@@ -92,6 +109,9 @@ python create_source_date_epoch_stamp() {
-     os.rename(tmp_file, epochfile)
- }
- 
-+# Generate the stamp after do_unpack runs
-+do_unpack[postfuncs] += "create_source_date_epoch_stamp"
+diff --git a/meta/recipes-devtools/perl/files/CVE-2021-36770.patch b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
+new file mode 100644
+index 0000000000..ddbc0d8ff4
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
+@@ -0,0 +1,48 @@
++Backport patch to fix CVE-2021-36770.
 +
- def get_source_date_epoch_value(d):
-     cached = d.getVar('__CACHED_SOURCE_DATE_EPOCH')
-     if cached:
-@@ -120,8 +140,3 @@ def get_source_date_epoch_value(d):
- 
- export SOURCE_DATE_EPOCH ?= "${@get_source_date_epoch_value(d)}"
- BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH"
--
--python () {
--    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
--        d.appendVarFlag("do_unpack", "postfuncs", " create_source_date_epoch_stamp")
--}
++Upstream-Status: Backport [https://github.com/Perl/perl5/commit/c1a937f]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From c1a937fef07c061600a0078f4cb53fe9c2136bb9 Mon Sep 17 00:00:00 2001
++From: Ricardo Signes <rjbs@semiotic.systems>
++Date: Mon, 9 Aug 2021 08:14:05 -0400
++Subject: [PATCH] Encode.pm: apply a local patch for CVE-2021-36770
++
++I expect Encode to see a new release today.
++
++Without this fix, Encode::ConfigLocal can be loaded from a path relative
++to the current directory, because the || operator will evaluate @INC in
++scalar context, putting an integer as the only value in @INC.
++---
++ cpan/Encode/Encode.pm | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/cpan/Encode/Encode.pm b/cpan/Encode/Encode.pm
++index a56a99947f..b96a850416 100644
++--- a/cpan/Encode/Encode.pm
+++++ b/cpan/Encode/Encode.pm
++@@ -7,7 +7,8 @@ use warnings;
++ use constant DEBUG => !!$ENV{PERL_ENCODE_DEBUG};
++ our $VERSION;
++ BEGIN {
++-    $VERSION = sprintf "%d.%02d", q$Revision: 3.08 $ =~ /(\d+)/g;
+++    $VERSION = "3.10_01";
+++    $VERSION = eval $VERSION;
++     require XSLoader;
++     XSLoader::load( __PACKAGE__, $VERSION );
++ }
++@@ -65,8 +66,8 @@ require Encode::Config;
++ eval {
++     local $SIG{__DIE__};
++     local $SIG{__WARN__};
++-    local @INC = @INC || ();
++-    pop @INC if $INC[-1] eq '.';
+++    local @INC = @INC;
+++    pop @INC if @INC && $INC[-1] eq '.';
++     require Encode::ConfigLocal;
++ };
++ 
++-- 
++2.33.0
++
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index ab19a8d0be..0e0fe7f985 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://perl-dynloader.patch \
+            file://0002-Constant-Fix-up-shebang.patch \
+            file://determinism.patch \
++           file://CVE-2021-36770.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
 -- 
 2.17.1
 
