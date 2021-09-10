@@ -1,29 +1,29 @@
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web09.3976.1631240900879575116
+ by mx.groups.io with SMTP id smtpd.web09.4030.1631241216154306807
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Sep 2021 19:28:21 -0700
+ Thu, 09 Sep 2021 19:33:36 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A2SJx8001683
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18A2XZIL002073
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:28:20 -0700
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:33:35 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A2SJTB029952
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18A2XYh6000762
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:28:19 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Sep 2021 19:33:35 -0700 (PDT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 9 Sep 2021 19:28:18 -0700
+ 15.1.2242.12; Thu, 9 Sep 2021 19:33:34 -0700
 Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 19:28:18 -0700
+ 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 19:33:33 -0700
 From: "kai" <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] perl: fix CVE-2021-36770
-Date: Fri, 10 Sep 2021 10:28:15 +0800
-Message-ID: <20210910022815.33349-1-kai.kang@windriver.com>
+Subject: [PATCH v2] perl: fix CVE-2021-36770
+Date: Fri, 10 Sep 2021 10:33:30 +0800
+Message-ID: <20210910023330.37149-1-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -34,20 +34,24 @@ Backport patch to fix CVE-2021-36770.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../perl/files/CVE-2021-36770.patch           | 48 +++++++++++++++++++
+v2:
+* add tag 'CVE:' in patch body
+
+ .../perl/files/CVE-2021-36770.patch           | 49 +++++++++++++++++++
  meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
- 2 files changed, 49 insertions(+)
+ 2 files changed, 50 insertions(+)
  create mode 100644 meta/recipes-devtools/perl/files/CVE-2021-36770.patch
 
 diff --git a/meta/recipes-devtools/perl/files/CVE-2021-36770.patch b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
 new file mode 100644
-index 0000000000..ddbc0d8ff4
+index 0000000000..28bc457b86
 --- /dev/null
 +++ b/meta/recipes-devtools/perl/files/CVE-2021-36770.patch
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,49 @@
 +Backport patch to fix CVE-2021-36770.
 +
 +Upstream-Status: Backport [https://github.com/Perl/perl5/commit/c1a937f]
++CVE: CVE-2021-36770
 +
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
