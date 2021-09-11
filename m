@@ -1,50 +1,50 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.2655.1631329148767093038
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web09.2796.1631329158857273315
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 19:59:08 -0700
+ Fri, 10 Sep 2021 19:59:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=e8g+DdF6;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id d5so2616892pjx.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 19:59:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XBNcaVxa;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id 5so2337356plo.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 19:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=Cgw2oYdARW4/tUf5AqpSyUWvZb5kTNPYijbYIDhc2Wk=;
-        b=e8g+DdF6g7sU41bSqjA9DPhk8fajzyQc2Qz37gEE9QiWQ8jidZxZxh3EN96bEMciMH
-         zTzurqTFUf8q+RRUxpyQHHDHXgDCmJNqTBFbx+Fsnt1knEfds15EUctVNAyLotsj0v1f
-         Jzq6Ef6VhbJpADsQ7dqZ01Jh3JhSarZQ2yjQ9iLw+t78c403/jm2/laO6dM9ecYOqqzF
-         sHslq/NaCeT5OXsd0WDutmziJtGMu7o1etb13/6iiq0dJohOT6HVAEdderqHFmiuVpl9
-         KY4k5IRU4EZKMXj4u8IB7rG8/6klnUElUtz2Mf6QPSTCViHljzQBBTEg1NHdZJo4Otsd
-         41Kw==
+        b=XBNcaVxaNlz+XkB6MM6L0H2GbSZNVeR1/RQWvuxP9UAmslYRj8zzAkvGmtXkrW8jCN
+         bf9O5RvXgKVFADVaG7EUjyX0/YV8sVEksfGKzrsCn/OC4YyykluYwY4d06CnVAQDFG+m
+         a5VoiQxp2Mtr6J6I6OdTLSLKHRlV98P41h3WjkhYtG2ooVEa0aTk5xqM5/UuiZtph9Ed
+         BQ0sWbJSamvOG8vU9/nT3wJ4ZIu0Bx4ZR1gtL/tCTaSAa7ygpd4aFxpbvPc7PTZ0e71j
+         YJpK+TGjuolS3q9McS5hDQ8T2fyLMXk0q7oQNA2lAjZfipdRaJARZsdL+9mZl+61GRa2
+         NiqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=Cgw2oYdARW4/tUf5AqpSyUWvZb5kTNPYijbYIDhc2Wk=;
-        b=64aZDVKDZ/cme4f9CFtO712WZIQkWM0a/X3SsIdG+oTe5JiksXWlT7+SW/ztJkXvtB
-         VC5Ew8q9S60P6jGaJRJh52Y970DAPz54oXwpy3xAi2wuKD3UysvVup3pyVAYoINTX0P7
-         Dl7bGfBcf5nHCWI8/ws412vWbAIDUU8zDvgPoEpowjd4SE7KuTNmeop12Z9oMnqx2Wuh
-         TmhL+jjFqSw14TwxZbCEB7SKqi717luOyprceLasiS0PHZy9jIKZMs0FRQ3ibofcM+7x
-         Lm035mlV/pIBxbsPwi/5WgW0ePR/j3CXYMyRuadJWrS7ItDRPafdxK4BhwgMycLeA73n
-         IgJA==
-X-Gm-Message-State: AOAM5310+ib3yVHgcUNnPOOxg9JLhf7BPxCKRQJ+dtsYNgcclXwN5v3R
-	GWJWhu3LaE2N1DrpCXaUScropTGmRcs=
-X-Google-Smtp-Source: ABdhPJyTsDic1yXmwORRM0FvdlFNiOvA6LqHvEsUdmDPqJ4v2BcmheQ8JZh9BSs60SwMlywdTyC4Qw==
-X-Received: by 2002:a17:90b:1bc5:: with SMTP id oa5mr916909pjb.58.1631329147902;
-        Fri, 10 Sep 2021 19:59:07 -0700 (PDT)
+        b=wog79KUzDfmKJtCOqmIkI94NuY5IRGEiLxRgjKCIWFMR5Qhe4d5KM+FQQF5QA1QK+2
+         5j8MD7Gys5h7tAPl8a4CETOmyzbHQgpR/T3LPF4jIJM2dpZ67vmwhvWk4EGwgSQ5AmXc
+         m1Y7/bSBbD9bYZYDTevGG4GeUzjKmCKmpt17ctO3g/10d5xo2i6pjfMisvif9PvTOhKp
+         vt4pLrvhCI6mN/4/IfD4XWRyO2xsVXSnOXwWeWD+tk+jIU6JeysVhDbYxGS4zj5igcaM
+         hzpUs5WvG+j7ogtZTJhXVJJQlj/xwVPKOBl5CAzcSEue1VY1Gr+sbwAWzJKvcfp4J6HZ
+         A8qg==
+X-Gm-Message-State: AOAM530Fe2aVIOngB/82v5pThoQd1rcNvedQT8EzS+gX1aOXORzzcg/b
+	22ua6Z7hQRlIqansDRSFe2B5iyzUQxQ=
+X-Google-Smtp-Source: ABdhPJxfzXgmRN9CPLNb8xG2lC5jpnAnJTnoKk7QNbQir0JaM8YH7URTnHYCPbI2hRwAYjUarCsbag==
+X-Received: by 2002:a17:90a:3ec7:: with SMTP id k65mr916875pjc.12.1631329158230;
+        Fri, 10 Sep 2021 19:59:18 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:580b:61a2:a85:3f46])
-        by smtp.gmail.com with ESMTPSA id m21sm231017pfa.216.2021.09.10.19.59.06
+        by smtp.gmail.com with ESMTPSA id gf9sm223635pjb.33.2021.09.10.19.59.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 19:59:07 -0700 (PDT)
+        Fri, 10 Sep 2021 19:59:18 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Subject: [master][honister][hardknott][PATCH] apr: Security fix for CVE-2021-35940
-Date: Fri, 10 Sep 2021 19:59:06 -0700
-Message-Id: <20210911025906.1556070-1-akuster808@gmail.com>
+Date: Fri, 10 Sep 2021 19:59:17 -0700
+Message-Id: <20210911025917.1556143-1-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
