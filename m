@@ -1,60 +1,69 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web09.2796.1631329158857273315
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.2665.1631329203939697464
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 19:59:19 -0700
+ Fri, 10 Sep 2021 20:00:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XBNcaVxa;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id 5so2337356plo.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 19:59:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FdHyy9qo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id u18so3620110pgf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 20:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Cgw2oYdARW4/tUf5AqpSyUWvZb5kTNPYijbYIDhc2Wk=;
-        b=XBNcaVxaNlz+XkB6MM6L0H2GbSZNVeR1/RQWvuxP9UAmslYRj8zzAkvGmtXkrW8jCN
-         bf9O5RvXgKVFADVaG7EUjyX0/YV8sVEksfGKzrsCn/OC4YyykluYwY4d06CnVAQDFG+m
-         a5VoiQxp2Mtr6J6I6OdTLSLKHRlV98P41h3WjkhYtG2ooVEa0aTk5xqM5/UuiZtph9Ed
-         BQ0sWbJSamvOG8vU9/nT3wJ4ZIu0Bx4ZR1gtL/tCTaSAa7ygpd4aFxpbvPc7PTZ0e71j
-         YJpK+TGjuolS3q9McS5hDQ8T2fyLMXk0q7oQNA2lAjZfipdRaJARZsdL+9mZl+61GRa2
-         NiqQ==
+        bh=u5wdbvUHwP180V64h5gsSlt8+iSeWaxGmkEnAWQPHik=;
+        b=FdHyy9qoZuIdVSZ/BhQcwerTZ8Pd7i0s+ZrMZU6UrHHYWUkF4vaXzy+51VH5kftws8
+         2uKATYVDaZjijVTrrKabieOYegq1GJf1Jn6YnfT4YnuolfSt2qZ3ka+axEVnlZ3jDvfb
+         3hxkPWj9wIDizUdJ/wt+BNcXRPSAHPS1BynNShK+zrFKWEYBeaYDOIvBjB/L0B/+I9cJ
+         q1u+zqs9nkQue9uuW2NoJ1raVJRSk6misR21/UgzQE10sqZhXnvOW6BxByJTpaYmVQZp
+         gu5Vf263EDRGvgHB3g/fErTiee+S54s0Pnt0ekfP8Jz5l8/iRz0C0Hd/GPnuBKRv4lOF
+         hpsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Cgw2oYdARW4/tUf5AqpSyUWvZb5kTNPYijbYIDhc2Wk=;
-        b=wog79KUzDfmKJtCOqmIkI94NuY5IRGEiLxRgjKCIWFMR5Qhe4d5KM+FQQF5QA1QK+2
-         5j8MD7Gys5h7tAPl8a4CETOmyzbHQgpR/T3LPF4jIJM2dpZ67vmwhvWk4EGwgSQ5AmXc
-         m1Y7/bSBbD9bYZYDTevGG4GeUzjKmCKmpt17ctO3g/10d5xo2i6pjfMisvif9PvTOhKp
-         vt4pLrvhCI6mN/4/IfD4XWRyO2xsVXSnOXwWeWD+tk+jIU6JeysVhDbYxGS4zj5igcaM
-         hzpUs5WvG+j7ogtZTJhXVJJQlj/xwVPKOBl5CAzcSEue1VY1Gr+sbwAWzJKvcfp4J6HZ
-         A8qg==
-X-Gm-Message-State: AOAM530Fe2aVIOngB/82v5pThoQd1rcNvedQT8EzS+gX1aOXORzzcg/b
-	22ua6Z7hQRlIqansDRSFe2B5iyzUQxQ=
-X-Google-Smtp-Source: ABdhPJxfzXgmRN9CPLNb8xG2lC5jpnAnJTnoKk7QNbQir0JaM8YH7URTnHYCPbI2hRwAYjUarCsbag==
-X-Received: by 2002:a17:90a:3ec7:: with SMTP id k65mr916875pjc.12.1631329158230;
-        Fri, 10 Sep 2021 19:59:18 -0700 (PDT)
+        bh=u5wdbvUHwP180V64h5gsSlt8+iSeWaxGmkEnAWQPHik=;
+        b=1V9wPSDt2sWvoWOmXvpeR6r7tc49ALtZE87XiD7SWp4RejY6wW2sUjvd07J/dSIL03
+         Yl3f9jymYaelsS3MoqoUMZjc89vwd604Sr0hRrrooZNHT90jFEKH/7AR1DpHtLi/ilxi
+         q6o8+VTnoDWIv/6CbthdHyrYRU8qVIgYyZZfrceSlqB1MWJKRkORSOzNKCt+AMin2bCy
+         a09iGzYmD8umYliYeKXFZESxn7JeV+31z5kaEjr1lCLqLgJwfT8sQuQ8SSbTySkJyQPj
+         0KSQKl64+CmSyO3ErOGEO3VDMx+5FSOC2GO+WVG4Xqt9ZPzth/qFgZ1IO6NZJSpaYTW4
+         eMZQ==
+X-Gm-Message-State: AOAM530ZSRlby32+H+HnfhNUZlrf0GuV/lw7vdSbS+HpiW67M4rYR2FN
+	/WgH3Ep/Aw34TG+1jqlkA/k9lr1Uw5Y=
+X-Google-Smtp-Source: ABdhPJxP5mPuYXNgsamTwLjdAvq3XwV2mQeeV1lLTwJtc/dfXkD3sFswX0B2oWOUEig0epQripQMYw==
+X-Received: by 2002:a05:6a00:2352:b0:40b:2031:4827 with SMTP id j18-20020a056a00235200b0040b20314827mr855587pfj.6.1631329203221;
+        Fri, 10 Sep 2021 20:00:03 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:580b:61a2:a85:3f46])
-        by smtp.gmail.com with ESMTPSA id gf9sm223635pjb.33.2021.09.10.19.59.17
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id z131sm227902pfc.159.2021.09.10.20.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 19:59:18 -0700 (PDT)
+        Fri, 10 Sep 2021 20:00:02 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [master][honister][hardknott][PATCH] apr: Security fix for CVE-2021-35940
-Date: Fri, 10 Sep 2021 19:59:17 -0700
-Message-Id: <20210911025917.1556143-1-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [dunfell][PATCH] apr: Security fix for CVE-2021-35940
+Date: Fri, 10 Sep 2021 20:00:01 -0700
+Message-Id: <20210911030001.1556295-1-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+
+From: Armin Kuster <akuster@mvista.com>
+
+Source:  https://dist.apache.org
+MR: 112793
+Type: Security Fix
+Disposition: Backport from https://dist.apache.org/repos/dist/release/apr/patches/apr-1.7.0-CVE-2021-35940.patch
+ChangeID: c8247210204ffcc7d1425e3d60f077ad3dd54ebc
+Description:
 
 An out-of-bounds array read in the apr_time_exp*() functions was fixed in the
 Apache Portable Runtime 1.6.3 release (CVE-2017-12613). The fix for this issue
 was not carried forward to the APR 1.7.x branch, and hence version 1.7.0 regressed
 compared to 1.6.3 and is vulnerable to the same issue.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  .../apr/apr/CVE-2021-35940.patch              | 58 +++++++++++++++++++
  meta/recipes-support/apr/apr_1.7.0.bb         |  1 +
@@ -126,13 +135,13 @@ index 0000000000..00befdacee
 + 
 +     if (xt->tm_mon < 2)
 diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
-index 82317396cd..b70edfaf42 100644
+index 432fa3255c..92cc61a864 100644
 --- a/meta/recipes-support/apr/apr_1.7.0.bb
 +++ b/meta/recipes-support/apr/apr_1.7.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+@@ -23,6 +23,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://0007-explicitly-link-libapr-against-phtread-to-make-gold-.patch \
             file://libtoolize_check.patch \
             file://0001-Add-option-to-disable-timed-dependant-tests.patch \
-            file://autoconf270.patch \
 +           file://CVE-2021-35940.patch \
             "
  
