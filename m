@@ -1,120 +1,136 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web08.8852.1631394697310313313
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web08.9462.1631398655032149790
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Sep 2021 14:11:37 -0700
+ Sat, 11 Sep 2021 15:17:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KVLx9Xq5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id g74so3697248wmg.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Sep 2021 14:11:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qu8BEcZp;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id w8so5474732pgf.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Sep 2021 15:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=YClWcaNz4hScoX0PBvM7B+3qeDfa9+gRP8y2gwqNONU=;
-        b=KVLx9Xq5Djf1RQGYEGzRSn+IxgF9q+g1jGURUdR4IZ8oJYwn9WQkcpm7wOKIm44/pZ
-         Jr/7ujPG7jldB/5vTXvmSuO2Gubc5JxOYbwegUkr9zdhLRYu916uN/wSLgie240Euc/c
-         3PAek6SRsjlWdw5V3V/5bPdDJjMi44eLTtrVY=
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=HPokKwdsL8Vd2OpJUjZZUEdNx28SDsijuGMC9R6KY3w=;
+        b=qu8BEcZpVRxWBWA+5magdamTGU/BOFgusN5jYs6xKLAxeZeOmSa/no3N33dH8Qw898
+         LWCy1NvAZznwT9anqKdq3xhVNeCk2IF53z8oufvWtGM+LqP4mZwRXyUugtj7dSApR+Xj
+         EPMKGZFr7ABrdVqeJW9chIq9WIxIBu0zGe6mG2jYx8p7dT9HFKKXQuW8u6wXV7s1Ec9J
+         TbDX3XZudYTzWzB4hte7fWsoLICAbolpTUo+A8Wa95drbQ7nObV2CT4mixPeRn1yIwZr
+         cBzwe9tzDmJ+WVjpXl8DJ65gkyvEu8vzX0/1CtIWb/bMNur/nUNPDC9eO9md5cIKq4Zr
+         Dxqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=YClWcaNz4hScoX0PBvM7B+3qeDfa9+gRP8y2gwqNONU=;
-        b=1p5I7sjM+96jaqNrmqnAWDa1Pq8boduhhfM9PJFwyaym0wI5RX8uRAPgaNp9WtpeXF
-         wY8NzLwuy0OR8g/HTXijFpvsgcjxx2kI2+4nvu59jlTsJYKGAqDUyN7Slt+Ql1IvRmLF
-         OX+jXvtOG/JgdshkClTpEghHK+ksMgTnvIb+TITdNGnluP7vpPnHMqUc1Sx+9v0NPEnE
-         jbz2s/iD80vgqBJWIqEfa4OZlJ/NQYjWLH7fM5B2Rd4QUNu2aPa5M0Z66kkV7vtfJCn0
-         GNQenVsESOFhgdSz9WqDeShyrHLilBTzLWj1f5tKRqnza5oS+QhOyijXgW8CLuNAaZc5
-         JE0A==
-X-Gm-Message-State: AOAM530OZE1w1V5Gn5ZyiW2pSx6tmL6OXA0CXdCfg99Cfn7ZC0BvafSh
-	RBFmLLBZjoa/oh5oQMseZTUhFg==
-X-Google-Smtp-Source: ABdhPJwEmX11HjLxi3GpRgIUU273GQdDIdWxUtfr4q9TaOPDFRxHMznTI+mGbiDQ+LdRbsRZoK2XWw==
-X-Received: by 2002:a05:600c:4f94:: with SMTP id n20mr4023229wmq.110.1631394695689;
-        Sat, 11 Sep 2021 14:11:35 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:65df:1d9c:d97e:b357? ([2001:8b0:aba:5f3c:65df:1d9c:d97e:b357])
-        by smtp.gmail.com with ESMTPSA id f7sm2456223wmh.20.2021.09.11.14.11.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Sep 2021 14:11:35 -0700 (PDT)
-Message-ID: <a02f5ca73dcb4fb2d9d8c76e6fc5f6f0001a2361.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] [hardknott] module.bbclass: Improve kernel module dependency detection
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Charlie Davies <charles.davies@whitetree.xyz>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 11 Sep 2021 22:11:34 +0100
-In-Reply-To: <20210911202850.24488-1-charles.davies@whitetree.xyz>
-References: <20210911202850.24488-1-charles.davies@whitetree.xyz>
-User-Agent: Evolution 3.40.2-1build1 
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=HPokKwdsL8Vd2OpJUjZZUEdNx28SDsijuGMC9R6KY3w=;
+        b=IuGefSHVkLhdtx3GYRRWLhJm+N3HBpEazzhB5nEMgUnQ0D78gzX5RcvT9tx05M6PYm
+         hI7tTbtXn+n74Op5uLfw9+4CcoPMXPgFipJC8h6+og87tZqRGWls1X6kaI1xyK2kno5/
+         7EVcrXD9jqGI478uoQpqjlq5D3skj4KPwbWBWJzcszzeCNhGyIS6NFuA1BWqWWFxAOBH
+         Fd7CXgZHSbCAR+u2eJifHDqdkLj32j2Cpj4VufRN2i5cP87xRwAduAb0Zlw+GqPP1rME
+         Z/TavhVpekUwbbFrjucDqiUBGQWbTTLj/7PB+S0o32XIYzNoLFvLnkRfeF5HrLkyXd2U
+         f7jg==
+X-Gm-Message-State: AOAM533eOVKgz49geBZNSwha659kmzAPQxMFodBOqvNde40UE5ub3IUC
+	ciEohT41yz9rBkylFRy7p68=
+X-Google-Smtp-Source: ABdhPJzRCW3SV5J1uwUtO0GxK+oiU0ppSILFwlNItIOfyNkUhQhknXGCaIb0+yhJAMMC+jW+YhkTAg==
+X-Received: by 2002:a63:cf44:: with SMTP id b4mr4189000pgj.215.1631398654526;
+        Sat, 11 Sep 2021 15:17:34 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:b27c:7a4e:d59f:d7eb? ([2601:202:4180:a5c0:b27c:7a4e:d59f:d7eb])
+        by smtp.gmail.com with ESMTPSA id 23sm2971140pgk.89.2021.09.11.15.17.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Sep 2021 15:17:34 -0700 (PDT)
+Subject: Re: [qa-build-notification] QA notification for completed autobuilder build (yocto-3.3.3.rc2)
+To: qa-build-notification@lists.yoctoproject.org,
+ yocto@lists.yoctoproject.org,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: "Jain, Sangeeta" <sangeeta.jain@intel.com>
+References: <32334a100a5bd0c20239e42a463e5604f00345ec.camel@linuxfoundation.org>
+ <BN9PR11MB53728D00D9321AE9BECCB725BBD69@BN9PR11MB5372.namprd11.prod.outlook.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <997e565f-768a-2020-35ac-55497156f121@gmail.com>
+Date: Sat, 11 Sep 2021 15:17:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <BN9PR11MB53728D00D9321AE9BECCB725BBD69@BN9PR11MB5372.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-
-On Sat, 2021-09-11 at 21:28 +0100, Charlie Davies wrote:
-> If a kernel module recipe specifies a DEPENDS on another
-> kernel module currently the module being depended on
-> must have a name starting with kernel-module- .
-> 
-> It is perfectly valid to name a package without the
-> kernel-module- scheme and instead use:
-> 
-> RPROVIDES_${PN} += "kernel-module-my-module"
-> 
-> in the package's recipe to provide an alias package
-> name.
-> 
-> This commit introduces functionality which will search
-> through the RPROVIDES aliases of each dependency package
-> to allow packages not named kernel-module- to be
-> recognised as dependencies.
-> 
-> Signed-off-by: Charlie Davies <charles.davies@whitetree.xyz>
-> ---
->  meta/classes/module.bbclass | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index a09ec3ed1e..c4f052234d 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -6,11 +6,25 @@ MODULES_INSTALL_TARGET ?= "modules_install"
->  MODULES_MODULE_SYMVERS_LOCATION ?= ""
->  
->  python __anonymous () {
-> +    import oe.packagedata
-> +
->      depends = d.getVar('DEPENDS')
->      extra_symbols = []
->      for dep in depends.split():
->          if dep.startswith("kernel-module-"):
->              extra_symbols.append("${STAGING_INCDIR}/" + dep + "/Module.symvers")
-> +        else:
-> +            if oe.packagedata.has_subpkgdata(dep, d):
-> +                data = oe.packagedata.read_subpkgdata(dep, d)
-> +                key = "RPROVIDES_%s" % dep
-> +                rprovs = data.get(key)
-> +
-> +                if rprovs is not None:
-> +                    for rprov in rprovs.split():
-> +                        if rprov.startswith("kernel-module-"):
-> +                            extra_symbols.append("${STAGING_INCDIR}/" + dep + "/Module.symvers")
-> +                            break
-> +
->      d.setVar('KBUILD_EXTRA_SYMBOLS', " ".join(extra_symbols))
->  }
-> 
-
-This looks a bit like a nasty determinism issue. The original code only looks at
-DEPENDS which can be determined at parse time. The new code will depend on what
-is in the pkgdata sysroot which may or may not be present leading to varying
-values of KBUILD_EXTRA_SYMBOLS. It will also have a pretty heavy overhead though
-reading extra files.
-
-At the very least this code needs to be scope limited but I'm not sure how
-KBUILD_EXTRA_SYMBOLS is being used to be able offer more advice on that.
-
-Cheers,
-
-Richard
+Content-Language: en-US
 
 
+
+On 9/9/21 11:39 PM, Teoh, Jay Shen wrote:
+> Hello all,
+>
+> Intel and WR YP QA is planning for QA execution for YP build yocto-3.3.3.rc2 We are planning to execute following tests for this cycle:
+>
+> OEQA-manual tests for following module:
+> 1. OE-Core
+> 2. BSP-hw
+>
+> Runtime auto test for following platforms:
+> 1. MinnowTurbot 32-bit
+> 2. Coffee Lake
+> 3. NUC 7
+> 4. NUC 6
+> 5. Edgerouter
+> 6. Beaglebone
+>
+> ETA for completion is next Wednesday, 15 September.
+Thanks,
+
+Your work is much appreciated.
+
+- armin
+>
+> Thanks,
+> Jay
+>> -----Original Message-----
+>> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+>> notification@lists.yoctoproject.org> On Behalf Of Richard Purdie
+>> Sent: Friday, 10 September, 2021 4:00 AM
+>> To: <yocto@lists.yoctoproject.org> <yocto@lists.yoctoproject.org>
+>> Cc: qa-build-notification <qa-build-notification@lists.yoctoproject.org>
+>> Subject: [qa-build-notification] QA notification for completed autobuilder build
+>> (yocto-3.3.3.rc2)
+>>
+>> A build flagged for QA (yocto-3.3.3.rc2) was completed on the autobuilder and is
+>> available at:
+>>
+>>
+>>     https://autobuilder.yocto.io/pub/releases/yocto-3.3.3.rc2
+>>
+>>
+>> Build hash information:
+>>
+>> bitbake: c7b506d11df78cfc4610db6578745eaa6220b13a
+>> meta-agl: 60344efa7a50dc2548fc4b5d68b5ad4d60c4023a
+>> meta-arm: ba82ea920a3a43244a0a72bd74817e2f00f4a1af
+>> meta-aws: 171aa2cf4d12ff4877e9104b6ec46be54128e3d8
+>> meta-gplv2: 9e119f333cc8f53bd3cf64326f826dbc6ce3db0f
+>> meta-intel: 5c4a6b02f650a99a5ec55561443fcf880a863d19
+>> meta-mingw: 422b96cb2b6116442be1f40dfb5bd77447d1219e
+>> meta-openembedded: 7bd7e1da9034e72ca4262dba55f70b2b23499aae
+>> oecore: 567dd35d893c5d8969d41f263a24da8fbae3fc2f
+>> poky: 0a2ca9d60f3851515a79d5aa9ddd8b4069b5a206
+>>
+>>
+>>
+>> This is an automated message from the Yocto Project Autobuilder
+>> Git: git://git.yoctoproject.org/yocto-autobuilder2
+>> Email: richard.purdie@linuxfoundation.org
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>
+>
+> 
+>
+>
 
