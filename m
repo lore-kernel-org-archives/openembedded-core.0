@@ -1,199 +1,142 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web08.372.1631314642196517638
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.2655.1631329148767093038
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Sep 2021 15:57:22 -0700
+ Fri, 10 Sep 2021 19:59:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FpRhbtOI;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id s11so3145965pgr.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 15:57:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=e8g+DdF6;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id d5so2616892pjx.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Sep 2021 19:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MzLvNatkkPaan/Y6zAXXSS2k+RV2AhlUSEZxvKdm5bU=;
-        b=FpRhbtOI0etTtaim6MxMCq+NFTlobNrC15qkVwU8x73QL3op7cAH4pyblVXIPxik6W
-         f4G0c4x7GnW3GqbzauHGFYWhvro93W3Dpjs7GXHa9Ap3oYdL2JHkBTmdM0uWEUu+rhnb
-         m/rhSmUn9TnKHn6PT0xX7eTYqw2LLQJ9rXDmKk1M6D8+NdsVhDyOu4uqrx2Ax80RfqOR
-         cEaTbYlyGoV8etLROvihN6WNOf+0P81I0jtLgE7IRgDLMf4/fiW9OPyJebucyU5IcG9m
-         EFMWaMdf4MyqbwTgKn/EAqwOwUjRGTmIzbLjHaTCw3SCrXV5fQeBvrEfq+SQjOq8nC8K
-         iTFA==
+        bh=Cgw2oYdARW4/tUf5AqpSyUWvZb5kTNPYijbYIDhc2Wk=;
+        b=e8g+DdF6g7sU41bSqjA9DPhk8fajzyQc2Qz37gEE9QiWQ8jidZxZxh3EN96bEMciMH
+         zTzurqTFUf8q+RRUxpyQHHDHXgDCmJNqTBFbx+Fsnt1knEfds15EUctVNAyLotsj0v1f
+         Jzq6Ef6VhbJpADsQ7dqZ01Jh3JhSarZQ2yjQ9iLw+t78c403/jm2/laO6dM9ecYOqqzF
+         sHslq/NaCeT5OXsd0WDutmziJtGMu7o1etb13/6iiq0dJohOT6HVAEdderqHFmiuVpl9
+         KY4k5IRU4EZKMXj4u8IB7rG8/6klnUElUtz2Mf6QPSTCViHljzQBBTEg1NHdZJo4Otsd
+         41Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MzLvNatkkPaan/Y6zAXXSS2k+RV2AhlUSEZxvKdm5bU=;
-        b=aM0M7rHUNd5bzecRQD842rmdsGH3CcogNMCPXaPQ3mmxd1hutoUOZ5ZKaTGnldDwrV
-         Ux4xnDC2hF04ZQStUYXcV8QtrOu5xVvR7e0eFyDri2Bh3j6XtaIZ8FIFOUDGB08o3L5u
-         NaBrgAqQ0Y9i4nYR1PeAqI04fvNQzAbtRSqtZ/741hAYiqaQ0MHcrSMEz0PGp62sQIzI
-         UUNotsj2Z/rQmkknhMJ/Vg0/JHNIe0rDOZuxbneiJpprvmOrdUceC2I1b38KnujGmkV/
-         4GAhNLLKFQjblWrgw9VNKFrUVye+40QK9gJM3QL8RZ+HwDvLca1NVX4NPtmnsekwhR/h
-         fYuw==
-X-Gm-Message-State: AOAM532nn6VI6DPpIc1QVPQADERfsR5+pvFKDjL/CZcd4pyqfVjk3svG
-	kcFyeoq3zorxzR4pZaeoGvpcLoMI3/4=
-X-Google-Smtp-Source: ABdhPJzq8KDatIQ0HfISTW6aVykGyaAdkIDx8sGxPKHyqJO1P2IX5FV+4delYgYEGyKPkek/QjV/Cg==
-X-Received: by 2002:aa7:8387:0:b029:395:a683:a0e6 with SMTP id u7-20020aa783870000b0290395a683a0e6mr10193973pfm.12.1631314641412;
-        Fri, 10 Sep 2021 15:57:21 -0700 (PDT)
+        bh=Cgw2oYdARW4/tUf5AqpSyUWvZb5kTNPYijbYIDhc2Wk=;
+        b=64aZDVKDZ/cme4f9CFtO712WZIQkWM0a/X3SsIdG+oTe5JiksXWlT7+SW/ztJkXvtB
+         VC5Ew8q9S60P6jGaJRJh52Y970DAPz54oXwpy3xAi2wuKD3UysvVup3pyVAYoINTX0P7
+         Dl7bGfBcf5nHCWI8/ws412vWbAIDUU8zDvgPoEpowjd4SE7KuTNmeop12Z9oMnqx2Wuh
+         TmhL+jjFqSw14TwxZbCEB7SKqi717luOyprceLasiS0PHZy9jIKZMs0FRQ3ibofcM+7x
+         Lm035mlV/pIBxbsPwi/5WgW0ePR/j3CXYMyRuadJWrS7ItDRPafdxK4BhwgMycLeA73n
+         IgJA==
+X-Gm-Message-State: AOAM5310+ib3yVHgcUNnPOOxg9JLhf7BPxCKRQJ+dtsYNgcclXwN5v3R
+	GWJWhu3LaE2N1DrpCXaUScropTGmRcs=
+X-Google-Smtp-Source: ABdhPJyTsDic1yXmwORRM0FvdlFNiOvA6LqHvEsUdmDPqJ4v2BcmheQ8JZh9BSs60SwMlywdTyC4Qw==
+X-Received: by 2002:a17:90b:1bc5:: with SMTP id oa5mr916909pjb.58.1631329147902;
+        Fri, 10 Sep 2021 19:59:07 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:580b:61a2:a85:3f46])
-        by smtp.gmail.com with ESMTPSA id o11sm6089132pfd.124.2021.09.10.15.57.20
+        by smtp.gmail.com with ESMTPSA id m21sm231017pfa.216.2021.09.10.19.59.06
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 15:57:21 -0700 (PDT)
+        Fri, 10 Sep 2021 19:59:07 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [dunfell][PATCH] libgcrypt: Security fix CVE-2021-33560
-Date: Fri, 10 Sep 2021 15:57:19 -0700
-Message-Id: <20210910225719.2907184-1-akuster808@gmail.com>
+Subject: [master][honister][hardknott][PATCH] apr: Security fix for CVE-2021-35940
+Date: Fri, 10 Sep 2021 19:59:06 -0700
+Message-Id: <20210911025906.1556070-1-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+An out-of-bounds array read in the apr_time_exp*() functions was fixed in the
+Apache Portable Runtime 1.6.3 release (CVE-2017-12613). The fix for this issue
+was not carried forward to the APR 1.7.x branch, and hence version 1.7.0 regressed
+compared to 1.6.3 and is vulnerable to the same issue.
 
-Source: https://sources.debian.org/patches/libgcrypt20/1.8.4-5+deb10u1
-MR: 111591
-Type: Security Fix
-Disposition: Backport from https://sources.debian.org/data/main/libg/libgcrypt20/1.8.4-5%2Bdeb10u1/debian/patches/31_cipher-Fix-ElGamal-encryption-for-other-implementati.patch
-ChangeID: d066a9baacc0d967dd80ac54c684cde031ac686e
-Description:
-
-Affects before 1.8.8 and 1.9.x before 1.9.3
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../libgcrypt/files/CVE-2021-33560.patch      | 109 ++++++++++++++++++
- .../libgcrypt/libgcrypt_1.8.5.bb              |   1 +
- 2 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+ .../apr/apr/CVE-2021-35940.patch              | 58 +++++++++++++++++++
+ meta/recipes-support/apr/apr_1.7.0.bb         |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
 
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch b/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+diff --git a/meta/recipes-support/apr/apr/CVE-2021-35940.patch b/meta/recipes-support/apr/apr/CVE-2021-35940.patch
 new file mode 100644
-index 0000000000..c0d00485e6
+index 0000000000..00befdacee
 --- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
-@@ -0,0 +1,109 @@
-+From 707c3c5c511ee70ad0e39ec613471f665305fbea Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Fri, 21 May 2021 11:15:07 +0900
-+Subject: [PATCH] cipher: Fix ElGamal encryption for other implementations.
++++ b/meta/recipes-support/apr/apr/CVE-2021-35940.patch
+@@ -0,0 +1,58 @@
 +
-+* cipher/elgamal.c (gen_k): Remove support of smaller K.
-+(do_encrypt): Never use smaller K.
-+(sign): Folllow the change of gen_k.
++SECURITY: CVE-2021-35940 (cve.mitre.org)
 +
-+--
++Restore fix for CVE-2017-12613 which was missing in 1.7.x branch, though
++was addressed in 1.6.x in 1.6.3 and later via r1807976.
 +
-+Cherry-pick master commit of:
-+	632d80ef30e13de6926d503aa697f92b5dbfbc5e
++The fix was merged back to 1.7.x in r1891198.
 +
-+This change basically reverts encryption changes in two commits:
++Since this was a regression in 1.7.0, a new CVE name has been assigned
++to track this, CVE-2021-35940.
 +
-+	74386120dad6b3da62db37f7044267c8ef34689b
-+	78531373a342aeb847950f404343a05e36022065
++Thanks to Iveta Cesalova <icesalov redhat.com> for reporting this issue.
 +
-+Use of smaller K for ephemeral key in ElGamal encryption is only good,
-+when we can guarantee that recipient's key is generated by our
-+implementation (or compatible).
-+
-+For detail, please see:
-+
-+    Luca De Feo, Bertram Poettering, Alessandro Sorniotti,
-+    "On the (in)security of ElGamal in OpenPGP";
-+    in the proceedings of  CCS'2021.
-+
-+CVE-id: CVE-2021-33560
-+GnuPG-bug-id: 5328
-+Suggested-by: Luca De Feo, Bertram Poettering, Alessandro Sorniotti
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++https://svn.apache.org/viewvc?view=revision&revision=1891198
 +
 +Upstream-Status: Backport
-+CVE: CVE-2021-33560
++CVE: CVE-2021-35940
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
-+---
-+ cipher/elgamal.c | 24 ++++++------------------
-+ 1 file changed, 6 insertions(+), 18 deletions(-)
 +
-+diff --git a/cipher/elgamal.c b/cipher/elgamal.c
-+index 4eb52d62..ae7a631e 100644
-+--- a/cipher/elgamal.c
-++++ b/cipher/elgamal.c
-+@@ -66,7 +66,7 @@ static const char *elg_names[] =
-+ 
-+ 
-+ static int test_keys (ELG_secret_key *sk, unsigned int nbits, int nodie);
-+-static gcry_mpi_t gen_k (gcry_mpi_t p, int small_k);
-++static gcry_mpi_t gen_k (gcry_mpi_t p);
-+ static gcry_err_code_t generate (ELG_secret_key *sk, unsigned nbits,
-+                                  gcry_mpi_t **factors);
-+ static int  check_secret_key (ELG_secret_key *sk);
-+@@ -189,11 +189,10 @@ test_keys ( ELG_secret_key *sk, unsigned int nbits, int nodie )
-+ 
-+ /****************
-+  * Generate a random secret exponent k from prime p, so that k is
-+- * relatively prime to p-1.  With SMALL_K set, k will be selected for
-+- * better encryption performance - this must never be used signing!
-++ * relatively prime to p-1.
-+  */
-+ static gcry_mpi_t
-+-gen_k( gcry_mpi_t p, int small_k )
-++gen_k( gcry_mpi_t p )
-+ {
-+   gcry_mpi_t k = mpi_alloc_secure( 0 );
-+   gcry_mpi_t temp = mpi_alloc( mpi_get_nlimbs(p) );
-+@@ -202,18 +201,7 @@ gen_k( gcry_mpi_t p, int small_k )
-+   unsigned int nbits, nbytes;
-+   char *rndbuf = NULL;
-+ 
-+-  if (small_k)
-+-    {
-+-      /* Using a k much lesser than p is sufficient for encryption and
-+-       * it greatly improves the encryption performance.  We use
-+-       * Wiener's table and add a large safety margin. */
-+-      nbits = wiener_map( orig_nbits ) * 3 / 2;
-+-      if( nbits >= orig_nbits )
-+-        BUG();
-+-    }
-+-  else
-+-    nbits = orig_nbits;
-+-
-++  nbits = orig_nbits;
-+ 
-+   nbytes = (nbits+7)/8;
-+   if( DBG_CIPHER )
-+@@ -492,7 +480,7 @@ do_encrypt(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_public_key *pkey )
-+    * error code.
-+    */
-+ 
-+-  k = gen_k( pkey->p, 1 );
-++  k = gen_k( pkey->p );
-+   mpi_powm (a, pkey->g, k, pkey->p);
-+ 
-+   /* b = (y^k * input) mod p
-+@@ -594,7 +582,7 @@ sign(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_secret_key *skey )
-+     *
-+     */
-+     mpi_sub_ui(p_1, p_1, 1);
-+-    k = gen_k( skey->p, 0 /* no small K ! */ );
-++    k = gen_k( skey->p );
-+     mpi_powm( a, skey->g, k, skey->p );
-+     mpi_mul(t, skey->x, a );
-+     mpi_subm(t, input, t, p_1 );
-+-- 
-+2.30.2
 +
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-index 16a58ad9b8..174b087b24 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-@@ -28,6 +28,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch \
-            file://0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch \
-            file://determinism.patch \
-+           file://CVE-2021-33560.patch \
- "
- SRC_URI[md5sum] = "348cc4601ca34307fc6cd6c945467743"
- SRC_URI[sha256sum] = "3b4a2a94cb637eff5bdebbcaf46f4d95c4f25206f459809339cdada0eb577ac3"
++Index: time/unix/time.c
++===================================================================
++--- a/time/unix/time.c	(revision 1891197)
+++++ b/time/unix/time.c	(revision 1891198)
++@@ -142,6 +142,9 @@
++     static const int dayoffset[12] =
++     {306, 337, 0, 31, 61, 92, 122, 153, 184, 214, 245, 275};
++ 
+++    if (xt->tm_mon < 0 || xt->tm_mon >= 12)
+++        return APR_EBADDATE;
+++
++     /* shift new year to 1st March in order to make leap year calc easy */
++ 
++     if (xt->tm_mon < 2)
++Index: time/win32/time.c
++===================================================================
++--- a/time/win32/time.c	(revision 1891197)
+++++ b/time/win32/time.c	(revision 1891198)
++@@ -54,6 +54,9 @@
++     static const int dayoffset[12] =
++     {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
++ 
+++    if (tm->wMonth < 1 || tm->wMonth > 12)
+++        return APR_EBADDATE;
+++
++     /* Note; the caller is responsible for filling in detailed tm_usec,
++      * tm_gmtoff and tm_isdst data when applicable.
++      */
++@@ -228,6 +231,9 @@
++     static const int dayoffset[12] =
++     {306, 337, 0, 31, 61, 92, 122, 153, 184, 214, 245, 275};
++ 
+++    if (xt->tm_mon < 0 || xt->tm_mon >= 12)
+++        return APR_EBADDATE;
+++
++     /* shift new year to 1st March in order to make leap year calc easy */
++ 
++     if (xt->tm_mon < 2)
+diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
+index 82317396cd..b70edfaf42 100644
+--- a/meta/recipes-support/apr/apr_1.7.0.bb
++++ b/meta/recipes-support/apr/apr_1.7.0.bb
+@@ -24,6 +24,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://libtoolize_check.patch \
+            file://0001-Add-option-to-disable-timed-dependant-tests.patch \
+            file://autoconf270.patch \
++           file://CVE-2021-35940.patch \
+            "
+ 
+ SRC_URI[md5sum] = "7a14a83d664e87599ea25ff4432e48a7"
 -- 
 2.25.1
 
