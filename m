@@ -1,35 +1,35 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.2236.1631354697407336841
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web12.2212.1631354697597192664
  for <openembedded-core@lists.openembedded.org>;
  Sat, 11 Sep 2021 03:04:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Rwu18mER;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id w29so5580897wra.8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h/MFR+mk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id i23so6355458wrb.2
         for <openembedded-core@lists.openembedded.org>; Sat, 11 Sep 2021 03:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=c3Kcphvg4eKSMLsQZ9ebIm556f+fAy40+WXBoFBOGK0=;
-        b=Rwu18mERm6A+y9dkjoei3JkM3Kw3xiA3jA9ySyqq7GRK/poPqpKOigJ40L3KIZlSz2
-         Y4XdUqxFoRBmPWe300Pmeqg/VQ6vcu9jxOIVa8Rfa6PXowC+dU5fqJW9T+OxmHqIr2zc
-         gx64rHI3uDAA8GUfDAP9645W5oYYiXizvAu60=
+        bh=B5qZ+TkeUJq/lcvYxSZGFpG0+teTZHsTCp4TEuCss3Y=;
+        b=h/MFR+mkZiQ+vLE4J8UV/24H1XDmRL6WdzaIRGvLgSWXVJMmkZxHPMBQVXvuXHtNFe
+         owlgxiDrRu5LAyi1AjlSZhJWmHWtKSLNTlrfYYm5vsMYJy5n05ZYLUNR1kty83LE3uuk
+         s7m7yFwPzVlX0rtcVYUESSmeHaA6MuBeGoV4I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=c3Kcphvg4eKSMLsQZ9ebIm556f+fAy40+WXBoFBOGK0=;
-        b=pS8U9avYK9Yxy3WfvnQrY609iBgE4WfMAi6ppCGo1ZmF/JTfoyFIVYKtInXWle8spp
-         ERLeEFYF9cY7rZeo07Q8pQ++1GvlddV/2JrMuyIME0XJHSgkKAq6HiTbdhzadnsYfYRt
-         xiIXNHx/eqa2LIl3Z6ysZqJz+bBTBvpEvzy817qqlqXFm8EFgfmEsr0MpxrURiq4pIUV
-         QlG78JHRFapvcAXd59wnoLc/yl34A0OpPjju+8HMFyo2ueqLGRBvWZMVonzHZrpWBHV8
-         eawDbDxxkj8YSxhJ/RdZ8mJCkUaobzetugh98CIgSHMd2CZpqq4TXxsF0xacJjxt3jQd
-         kF0w==
-X-Gm-Message-State: AOAM5304cbPGE8pOj/UVZz19VmtgmZBydMsdc2u3Ew+6092fbC55AniP
-	hdF1vhHAjac7TASwLyqSaupdYpfuLjeTtiCx
-X-Google-Smtp-Source: ABdhPJwRf7yhX7JxM0n+IdVvF+cMmo7jFsWnh4ZNBKxM8PaE6L2Tj31GP6qdkSEq4hRcZTEvsJyzGg==
-X-Received: by 2002:adf:eb4b:: with SMTP id u11mr2458139wrn.327.1631354695601;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=B5qZ+TkeUJq/lcvYxSZGFpG0+teTZHsTCp4TEuCss3Y=;
+        b=xwO+DUj7D3HJ5OPKzx8Hck7aF/UNFnoI++l5YsLnb33X/U3Ia/u99pxmj74wbEUFVg
+         vSztTKfZSXKJZDEmxxgNjfmMikyNobLuZE07sHYtPELzTc2txrEGACy8XwPkm9c5ehYZ
+         rt8gfLR9LaKuvoPjWEjrh0yfpnUoi006etXV/K3sbo72+/2Ggo13Q3bqPZoI7TP3qwVy
+         kGe1UlXP5OpUUqc5tKD06hp2URkqSOjFyWRBtDOjR6DMjzjix8AixGH4uA3e1wH2vU31
+         jFm+oDkH34efaIGf9QhzlE8/G+dOVxISTKtWvHUZb0aopCf9F3rTVgJ+qVTZikf+LmQr
+         U5lA==
+X-Gm-Message-State: AOAM530N0oBnWSsVhD732Y5XAte3sVGqH/9Tsx7oe/ZXtLG6TnMUR2K+
+	CF+9GDHiVxQh4FPcHalwPytUbwHX2xqGzIVb
+X-Google-Smtp-Source: ABdhPJw1e9BIy5Bef84D3kfOssvvPnkkGk8lHp9+O6GkhPvHhN63gcH2TwA9QvNcH28YcUP9gDTpmQ==
+X-Received: by 2002:adf:ef48:: with SMTP id c8mr2361425wrp.349.1631354695965;
         Sat, 11 Sep 2021 03:04:55 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:a1a5:8b9e:48ea:5b97])
@@ -39,37 +39,48 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:a1a5:8b9e:48ea:5b97])
         Sat, 11 Sep 2021 03:04:55 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] bitbake.conf: Ensure XZ_THREADS doesn't change sstate checksums
-Date: Sat, 11 Sep 2021 11:04:53 +0100
-Message-Id: <20210911100454.1285040-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] sstate: Avoid problems with recipes using SRCPV when fetching sstate
+Date: Sat, 11 Sep 2021 11:04:54 +0100
+Message-Id: <20210911100454.1285040-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210911100454.1285040-1-richard.purdie@linuxfoundation.org>
+References: <20210911100454.1285040-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rpm output packages currently depend on the value of XZ_THREADS which
-is ok if left to the default value but problematic if system limits
-are set such as on the autobuilder.
-
-Force the value to a specific one in the hashes for better sstate reuse
-and consistent rpm task checksums.
+When fetching sstate, SRCPV can be expanded withuin PV which breaks the
+sstate fetcher as other variables like SRC_URI are changed by the fetcher
+code. Expand the variable before doing this to avoid those problems and
+hence avoid setscene task failures with remote sstate storage in git
+recipes.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/sstate.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2140d498f7c..e25d632dc1c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -811,6 +811,7 @@ PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
- # Default parallelism and resource usage for xz
- XZ_MEMLIMIT ?= "50%"
- XZ_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
-+XZ_THREADS[vardepvalue] = "1"
- XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
- XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index d7f1b3f26ed..62e45cb4a8b 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -731,6 +731,7 @@ def pstaging_fetch(sstatefetch, d):
+     localdata.setVar('FILESPATH', dldir)
+     localdata.setVar('DL_DIR', dldir)
+     localdata.setVar('PREMIRRORS', mirrors)
++    localdata.setVar('SRCPV', d.getVar('SRCPV'))
  
+     # if BB_NO_NETWORK is set but we also have SSTATE_MIRROR_ALLOW_NETWORK,
+     # we'll want to allow network access for the current set of fetches.
+@@ -755,6 +756,9 @@ def pstaging_fetch(sstatefetch, d):
+         except bb.fetch2.BBFetchException:
+             pass
+ 
++pstaging_fetch[vardepsexclude] += "SRCPV"
++
++
+ def sstate_setscene(d):
+     shared_state = sstate_state_fromvars(d)
+     accelerate = sstate_installpkg(shared_state, d)
 -- 
 2.32.0
 
