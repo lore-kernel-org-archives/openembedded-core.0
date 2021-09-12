@@ -1,149 +1,135 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web10.16465.1631457200113579458
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web12.16844.1631458520055543968
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Sep 2021 07:33:20 -0700
+ Sun, 12 Sep 2021 07:55:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gaIEBmb/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f45.google.com with SMTP id k12-20020a056830150c00b0051abe7f680bso9642689otp.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Sep 2021 07:33:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b8bwOxz+;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id m26so6475803pff.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Sep 2021 07:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=/wqcyYk9g66UoNpuFN81vC9UxdcccgVVuNtYSV+uJ/0=;
-        b=gaIEBmb/W8J0Aw95OjsY5HhPevjMM6tWSijhsRE5RJYYOkZxE4ZPHyrIKqd2vjqs89
-         4BWmsMtgus1My1rG4cwMOpW5bRr8VXfzDdVxdIUalEOyemhbRx4zGBkzDtSDGthCcdWf
-         tiPiRzioVsSnFsGDAHa9AQBKME4MHE1G0egTR2NMcSGpDBknMCA8BPbcm0VsVHRiKlQf
-         whvhOOpSt7xkIw9ZvoX63WS9ni+clkWhEp7yI+zLFrqbWiHCInBi/CC+DmSrTpeV2ho+
-         J04nZJ31SklfxcnSJKOQDnaOApGKyNkUsK2hw+KU2l6UZtOUOz3LBa8ES3zCmVVGJHsT
-         9mvQ==
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=HMumFdTBPRfBXpNoSm45QEWg0KrNXGvGGZj7pE/Yv+0=;
+        b=b8bwOxz+haOzOLryCtkncZ+imYTKRlt8rZB4cnD4CmGCXNO8kuA1ufbz1tyrM0MZfa
+         OiZzXc5noIY0U0NLYbhw7N0+c+AeoWriYRGTwxzCQwg5HOEzcIfJv0cKY8TFwBGaDh4o
+         50m4GfWPj8IHA+FSB6eLjfP1pi2yq2/0aCmskF/K4VK5ioBr8ZyGM/eEKMuw9RvT519r
+         rEVk5UFdgUrzl92AW4r0H6h6bwsa5npzZWA96OH9U3qhe0FNJBCD5p9Sx9KXeUr8K1a9
+         gcsIJ75Aa5LFZCQznZvPxded6MOBufu1TsrO/kNnDklzzMOWDSmj2aRBxJnzsK+IGGZp
+         Twxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=/wqcyYk9g66UoNpuFN81vC9UxdcccgVVuNtYSV+uJ/0=;
-        b=WpuhHG33pLwoQjwt4R5trmbJzswVjgZ29AJQcMeNIjdkR9f9kncvbekvw93zO0+Uma
-         POaKpq5stEN3w70iPfC/ZNJ9Hk4hrzuq3nuOzV8kU+Es0QDuKHoBgltP4IUjhwwDV4vc
-         kSXeI6BOWtbxBuCjQsSdcWE+HqrVt8pxrczsBx6CFibTG33GEZLNvSuSJ1QZsY5LSMq7
-         QvhPTbvt5k4xQLJAMWOLddXCGafDbSmMn4te/bpUyQwwlu6DMni2AANE5BJc99yci6Ro
-         jyK+xiB+wTHG2w9Zi8PrxVqc3zDVQ4suHzwTktTIWKQRq8PNgFpJFAV3Iyyi9gcqtQ/k
-         EmPw==
-X-Gm-Message-State: AOAM530DZc0iY5wtPgi0Re9WQ2RS5nT3S+96twJn1crPt80tRHbZREy9
-	0nobKBKh745GI67ws+vlcYtAZGUg0OerjjZA
-X-Google-Smtp-Source: ABdhPJy7H6e8v1Rve4qtxJiyyYU2tTKwfFlHo2GXaYUuZ1tz0OFWSLMUetiZRghhtVva2zkQggHO+w==
-X-Received: by 2002:a9d:718a:: with SMTP id o10mr5979587otj.376.1631457198798;
-        Sun, 12 Sep 2021 07:33:18 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id k21sm1154361ots.53.2021.09.12.07.33.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 07:33:18 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 5EC5A96032A; Sun, 12 Sep 2021 04:33:08 -1000 (HST)
-Subject: OE-core CVE metrics for dunfell on Sun 12 Sep 2021 04:30:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210912143308.5EC5A96032A@nuc.router0800d9.com>
-Date: Sun, 12 Sep 2021 04:33:08 -1000 (HST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=HMumFdTBPRfBXpNoSm45QEWg0KrNXGvGGZj7pE/Yv+0=;
+        b=Ig8Fx/jZjWHkfJGaFcHRkB2A2cn9ZVt6jp1B50yeCC4OqESZSl5hOxiCCaSzsFzMFC
+         /2TOxVhsS5Jx8dUq0jiFWSqKjZ9dbI2flwtVHxuhd3NQf+4K4XupOw8g7Sc99zkb+DI6
+         4sgjCX+Qk3Mbpv1yZy1hchtVMFZd1TnyOu6ajsSfBRajAXswoJPPZ+/GBBuPNAjmC3vN
+         jdN8V0y7i+9C4GIzdGnOpKWTeTq4PnJ4m78kWfi+P/5tumfTXKTu1T+DWB0N0Tb8RSNy
+         On2fIQKPiUuG7HfvU29py9jfn/wFKZWwfk3bWmHfoftwqC6O+D9FyRUi1Cgxo2QP4zjn
+         igDA==
+X-Gm-Message-State: AOAM532/SEevmYnMsYEy1ds7KHcispHN1dK4Ualb9FWO2D3z30FBZRQ2
+	hfOh8/ZTXvOC/8i20EVwAlc=
+X-Google-Smtp-Source: ABdhPJzDwI3D2Ywub/WaDCCb3JOhZ8VShO4UyMD8yVuUcdNpy2LONaA0X3UtYdGmOCgL0g5t9cYfbw==
+X-Received: by 2002:aa7:93dc:0:b0:3f8:a765:a948 with SMTP id y28-20020aa793dc000000b003f8a765a948mr6901259pff.27.1631458519378;
+        Sun, 12 Sep 2021 07:55:19 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:b27c:7a4e:d59f:d7eb? ([2601:202:4180:a5c0:b27c:7a4e:d59f:d7eb])
+        by smtp.gmail.com with ESMTPSA id v13sm4338537pfm.16.2021.09.12.07.55.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Sep 2021 07:55:18 -0700 (PDT)
+Subject: Re: [OE-core] Public project sstate/hash equivalence mirror now live
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+ Michael Halstead <mhalstead@linuxfoundation.org>
+References: <0b6111c1d71f1665cacafafaea972e609a77a0cd.camel@linuxfoundation.org>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <95bf1261-eb40-cafa-3153-0c472142fb98@gmail.com>
+Date: Sun, 12 Sep 2021 07:55:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <0b6111c1d71f1665cacafafaea972e609a77a0cd.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Branch: dunfell
 
-New this week: 9 CVEs
-CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
-CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
-CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
-CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
-CVE-2021-37701: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37701 *
-CVE-2021-3770: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3770 *
-CVE-2021-37712: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37712 *
-CVE-2021-37713: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37713 *
-CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
 
-Removed this week: 3 CVEs
-CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
-CVE-2021-20240: gdk-pixbuf:gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20240 *
-CVE-2021-38185: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38185 *
+On 9/12/21 4:46 AM, Richard Purdie wrote:
+> We made the autobuilder sstate public a while ago but it wasn't useful after we
+> switched to hash equivalence by default. I'm pleased to be able to report that
+> we now have a read-only public server for the hash equivalence. We did have to
+> fix a small API omission and a couple of sstate related bugs but I'm pleased to
+> be able to report it is now operational and usable. An example config would be:
+>
+> SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH"
+> BB_HASHSERVE_UPSTREAM = "typhoon.yocto.io:8687"
+>
+> I've included an example image build below where it took 11 minutes for a 
+> core-image-minimal image build. Obviously this is only of benefit if you're
+> building configurations that match the project autobuilder although hash
+> equivalence could be useful alone in reducing some build times.
 
-Full list:  Found 82 unpatched CVEs
-CVE-2018-21232: re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2020-12829: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
-CVE-2020-13253: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
-CVE-2020-13754: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
-CVE-2020-13791: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
-CVE-2020-14372: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
-CVE-2020-15469: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
-CVE-2020-15705: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15859: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-16590: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16590 *
-CVE-2020-16591: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16591 *
-CVE-2020-16599: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16599 *
-CVE-2020-17380: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17380 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-25632: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
-CVE-2020-25647: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
-CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27661: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27661 *
-CVE-2020-27749: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
-CVE-2020-27779: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
-CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
-CVE-2020-29510: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29510 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2020-35504: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35504 *
-CVE-2020-35505: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35505 *
-CVE-2020-35506: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2021-0129: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-0129 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20225: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
-CVE-2021-20233: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-20294: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20294 *
-CVE-2021-20305: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20305 *
-CVE-2021-22897: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22897 *
-CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
-CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
-CVE-2021-27218: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27218 *
-CVE-2021-27219: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27219 *
-CVE-2021-27918: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27918 *
-CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
-CVE-2021-28153: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28153 *
-CVE-2021-28966: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28966 *
-CVE-2021-29921: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29921 *
-CVE-2021-29923: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29923 *
-CVE-2021-31525: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31525 *
-CVE-2021-3156: sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3156 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33194: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33194 *
-CVE-2021-33195: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33195 *
-CVE-2021-33196: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33196 *
-CVE-2021-33197: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33197 *
-CVE-2021-33198: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33198 *
-CVE-2021-33560: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33560 *
-CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
-CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
-CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
-CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
-CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
-CVE-2021-3418: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-34558: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-3580: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3580 *
-CVE-2021-36221: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36221 *
-CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
-CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-3770: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3770 *
-CVE-2021-37701: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37701 *
-CVE-2021-37712: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37712 *
-CVE-2021-37713: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37713 *
-CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
+What branches that support hash equivalence will be available other than
+Master?
+
+
+>
+> I have updated the local.conf sample file in poky to match the new release.
+> We're not widely highlighting that information as yet as it remains to be seen
+> how well it scales and what the hosting impacts for it will look like but it is
+> there to experiment with to a wider audience such as this list.
+
+The should improve the out-of-the-box experience.
+
+thanks,
+
+> The builds will sit for a long time whilst it queries hash equivalency and I
+> appreciate the UI feedback could be better there but one step at a time!
+>
+> Cheers,
+>
+> Richard
+>
+> $ time bitbake core-image-minimal
+> Loading cache: 100% |                                                                                                                                                       | ETA:  --:--:--
+> Loaded 0 entries from dependency cache.
+> Parsing recipes: 100% |######################################################################################################################################################| Time: 0:00:03
+> Parsing of 871 .bb files complete (0 cached, 871 parsed). 1519 targets, 49 skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
+>
+> Build Configuration:
+> BB_VERSION           = "1.51.1"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "ubuntu-20.04"
+> TARGET_SYS           = "x86_64-poky-linux"
+> MACHINE              = "qemux86-64"
+> DISTRO               = "poky"
+> DISTRO_VERSION       = "3.3+snapshot-89e48765083f15bf79839a778d08a68f8aece51d"
+> TUNE_FEATURES        = "m64 core2"
+> TARGET_FPU           = ""
+> meta                 
+> meta-poky            
+> meta-yocto-bsp       
+> meta-selftest        = "master:89e48765083f15bf79839a778d08a68f8aece51d"
+>
+> Initialising tasks: 100% |###################################################################################################################################################| Time: 0:03:40
+> Checking sstate mirror object availability: 100% |###########################################################################################################################| Time: 0:00:28
+> Sstate summary: Wanted 1525 Local 0 Network 1515 Missed 10 Current 0 (99% match, 0% complete)
+> NOTE: Executing Tasks
+> NOTE: Tasks Summary: Attempted 3913 tasks of which 3603 didn't need to be rerun and all succeeded.
+>
+> real	11m2.578s
+> user	0m42.927s
+> sys	0m9.963s
+>
+>
+>
+>
+> 
+>
+
