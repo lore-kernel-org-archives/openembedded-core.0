@@ -1,184 +1,116 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.17478.1631462524306616108
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web12.17554.1631462707988292692
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Sep 2021 09:02:04 -0700
+ Sun, 12 Sep 2021 09:05:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BnQzW0/X;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id r128-20020a1c4486000000b003065f0bc631so479057wma.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Sep 2021 09:02:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LYcONyZF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.43, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f43.google.com with SMTP id l18-20020a05600c4f1200b002f8cf606262so5155486wmq.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Sep 2021 09:05:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lufbnlqw4sOM2Gk8vLkttMxmP5tbJfGHOP1nNSeK4Bo=;
-        b=BnQzW0/XAqVxWBWK4k8pYbIkIuJS1/BA12MUzgSYjiDAzUrEeVLmIRJ2WKGHxazMQb
-         L2xRhc9ICSTDRs3GlfpQWcNKOD/XsXiwEAl+cNy9UI9pJxpFTUb4QnYJ2FSjs26LcYBV
-         NkE87Y5+5pbLVkQ6iLRru9BetOmibqIxZaIlrVu7+q16CknPtKaDtyjsKNyvMyFasWNM
-         0o9o8RNG8KLqNsfq9fAWzWpAck0LB9DlKpWJqi7aF4wv3VAXouhlY6atMO82N4vAJ9fA
-         X+pxgV+7gqMVL1P9LbuUBE1fwGDrIpv33o3QLsO3viotl28Gq0uNBKoKgB6Oio1fhyk4
-         DGxA==
+        bh=NfpntUG45cjRQEH2E8er5GXkPQqM1zMM2GB2hkmKfFA=;
+        b=LYcONyZF84jY85YC9IaVZmjZ5/z513TPw8Ut8MxfkZu7ogDIJ0/xvm0zrETbTtXFMr
+         OiIDl96Ol96SxsFa0VKqMaBFaxlFsxMNM9FT8k5damqNj86anP7/7qDD3xD7pgZOLmT3
+         DoUOEmekGEqW881c4bF+rw6YI+XEA9CbAJWl+/Rnda/IWjZ+qUbFxy9QdwGpe+2V7oZh
+         xkiVM4qgpA4Kt4bWmengoBbRT4ns0YjWgxZX3Qz3fASFrxlJHXPmY2VTs1h8OjfSz9jR
+         GaEwmnxrTDmkdSNDotieIoiNdUYtjc3N779i+xT5Y8sWmqk9J02Z/sBR1ehtCpwI1JcM
+         akfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lufbnlqw4sOM2Gk8vLkttMxmP5tbJfGHOP1nNSeK4Bo=;
-        b=4AIwGXXUPsNeZUE4EnCr9sQ4BDlGGCXzBW3BM8RIZyNGcsjA38X2zXfdbhr0+YVNt/
-         cP590KnWxciXF6eRSKZKr/3OkJp7OMaljWSxkFJYOLkCmpgXB7l8kRi0vQtzR4krygRb
-         irYVhK7zjsdJmirKAn8Ix2HZyyfSDxcxJ1l/4ii/7yG907fTxRba7HdFLfHO9bXj0g4w
-         zFEToS8mOHA2Xrab1P7mhrWYtyF8XnXL+XQ30Ztnaz3h3j0TYhlyuKPSPTk8avv1zMOb
-         jd1TgaeCguOYbaHcyrbjTkNyTyPUjJMHjS6pPD8Mi2l6ZixnMKEbPdknZR18Qczw4RaW
-         UhSA==
-X-Gm-Message-State: AOAM531VOAPbyAzOLgdb7wJxIEEW4gIBwxwfWwPLjo9op2wPgY/Nxk5X
-	HyqpPp+uAY+7rYMvE4gXY0KmquYKZH3S2GaDyr8=
-X-Google-Smtp-Source: ABdhPJx5uoVzozSsiz4U9T2ND8ySAel1V1MBytsJ3Q2OXgjeKlywa76u7BAxw3kQK5OGQLO9Xjr7G/EZdbZCtaoTJ4U=
-X-Received: by 2002:a1c:3584:: with SMTP id c126mr7206533wma.112.1631462522543;
- Sun, 12 Sep 2021 09:02:02 -0700 (PDT)
+        bh=NfpntUG45cjRQEH2E8er5GXkPQqM1zMM2GB2hkmKfFA=;
+        b=ZjN5pg2oVxoqJFy0cwAJi3bnjbg93fQ/62fiTTUZKIhMoVy3GTcomWyD2J8b8JOOgf
+         yraSZKvRRzlgG43/E/zZIE6rOgDc1n4Ik8BMQ6Z7D9rcBI0DgSrJO5DKIo9OGoM32K+e
+         vbcQ18LOGuf3V48qamsyVZp3w1fd7qCLxq2Wpk9cBzcnrxmj1nxW9KG3o9WUxaKa/OSl
+         ClrxxiqpF9Yr/DbDZOLbXK8rbgd/mR/RZksSdleGrhgplezypizgc2eLixlYVhJToMp/
+         1ngKohJn9LlYCdlVR6i8Z5AIjQdojaFJ0pqDFyXdag6GosLCGJqH6uUC0YCdGEl4+LI4
+         y5ng==
+X-Gm-Message-State: AOAM532LlC78J2xz6qbA3g11zuZwBB5/r7tkN/iwHp52Sb6UgLnaqJns
+	wAmcBce3LiPausmyr8hNNlOWFwd3JbPrVBO0vE5zEA==
+X-Google-Smtp-Source: ABdhPJwo4uyCSs4NO1XQAo0qUWrVKYPPBNBo9BYWxmh+oJ29XiN5oHpIVf3snsU5pkDevBydgwfJ94miXOxkZPQnREA=
+X-Received: by 2002:a05:600c:acd:: with SMTP id c13mr7105460wmr.28.1631462706451;
+ Sun, 12 Sep 2021 09:05:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <0b6111c1d71f1665cacafafaea972e609a77a0cd.camel@linuxfoundation.org>
- <95bf1261-eb40-cafa-3153-0c472142fb98@gmail.com> <2f7b629ba49f76ad80461d00a3322a3fa1dc1b19.camel@linuxfoundation.org>
-In-Reply-To: <2f7b629ba49f76ad80461d00a3322a3fa1dc1b19.camel@linuxfoundation.org>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Sun, 12 Sep 2021 11:01:51 -0500
-Message-ID: <CAJdd5Gax1=zFWNRqG4O5z9Xu=QvjuNuRNAv1NWp5=WX7yiK17Q@mail.gmail.com>
-Subject: Re: [OE-core] Public project sstate/hash equivalence mirror now live
+References: <20210912150121.8237296032A@nuc.router0800d9.com> <d6ad55b4fdcca27eee438031ea60b586c0f7f9da.camel@linuxfoundation.org>
+In-Reply-To: <d6ad55b4fdcca27eee438031ea60b586c0f7f9da.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Sun, 12 Sep 2021 06:04:54 -1000
+Message-ID: <CAOSpxdZG9Uh6G4+9f3gR6AGH=OfV4rA04xhLuo+h1-7GtfNyEg@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for hardknott on Sun 12 Sep 2021 05:00:01 AM HST
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: akuster808 <akuster808@gmail.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Michael Halstead <mhalstead@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000001ee35d05cbce785e"
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000152f4d05cbce838e"
 
---0000000000001ee35d05cbce785e
+--000000000000152f4d05cbce838e
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Sep 12, 2021, 10:58 AM Richard Purdie <
+On Sun, Sep 12, 2021, 5:57 AM Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
 
-> On Sun, 2021-09-12 at 07:55 -0700, akuster808 wrote:
+> On Sun, 2021-09-12 at 05:01 -1000, Steve Sakoman wrote:
+> > Branch: hardknott
 > >
-> > On 9/12/21 4:46 AM, Richard Purdie wrote:
-> > > We made the autobuilder sstate public a while ago but it wasn't useful
-> after we
-> > > switched to hash equivalence by default. I'm pleased to be able to
-> report that
-> > > we now have a read-only public server for the hash equivalence. We did
-> have to
-> > > fix a small API omission and a couple of sstate related bugs but I'm
-> pleased to
-> > > be able to report it is now operational and usable. An example config
-> would be:
-> > >
-> > > SSTATE_MIRRORS ?= "file://.*
-> http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH"
-> > > BB_HASHSERVE_UPSTREAM = "typhoon.yocto.io:8687"
-> > >
-> > > I've included an example image build below where it took 11 minutes
-> for a
-> > > core-image-minimal image build. Obviously this is only of benefit if
-> you're
-> > > building configurations that match the project autobuilder although
-> hash
-> > > equivalence could be useful alone in reducing some build times.
+> > New this week: 0 CVEs
 > >
-> > What branches that support hash equivalence will be available other than
-> > Master?
+> > Removed this week: 2 CVEs
+> > CVE-2020-27748: xdg-utils
+> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+> > CVE-2021-38185: cpio
+> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38185 *
 >
-> The question doesn't make sense as hash equivalence doesn't have a
-> "branch".
-> We're sharing any hash equivalence data generated from builds on the
-> autobuilder.
+> I'm not sure I believe these numbers as tar CVEs which showed up for
+> dunfell and
+> master don't show up here. Why? :/
 >
 
-We should (?) backport the BB_HASHSERVE_UPSTREAM patch so that the
-instructions to enable it make sense on older branches though.
+Don't know! Will investigate tomorrow.
+
+Steve
 
 
-
-> > > I have updated the local.conf sample file in poky to match the new
-> release.
-> > > We're not widely highlighting that information as yet as it remains to
-> be seen
-> > > how well it scales and what the hosting impacts for it will look like
-> but it is
-> > > there to experiment with to a wider audience such as this list.
-> >
-> > The should improve the out-of-the-box experience.
->
-> Ultimately that is the hope.
->
 > Cheers,
 >
 > Richard
 >
 >
 
---0000000000001ee35d05cbce785e
+--000000000000152f4d05cbce838e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, Sep 12, 2021, 10:58 AM Richard Purdie &lt;<a h=
-ref=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfound=
-ation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, =
-2021-09-12 at 07:55 -0700, akuster808 wrote:<br>
+class=3D"gmail_attr">On Sun, Sep 12, 2021, 5:57 AM Richard Purdie &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
+tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 202=
+1-09-12 at 05:01 -1000, Steve Sakoman wrote:<br>
+&gt; Branch: hardknott<br>
 &gt; <br>
-&gt; On 9/12/21 4:46 AM, Richard Purdie wrote:<br>
-&gt; &gt; We made the autobuilder sstate public a while ago but it wasn&#39=
-;t useful after we<br>
-&gt; &gt; switched to hash equivalence by default. I&#39;m pleased to be ab=
-le to report that<br>
-&gt; &gt; we now have a read-only public server for the hash equivalence. W=
-e did have to<br>
-&gt; &gt; fix a small API omission and a couple of sstate related bugs but =
-I&#39;m pleased to<br>
-&gt; &gt; be able to report it is now operational and usable. An example co=
-nfig would be:<br>
-&gt; &gt; <br>
-&gt; &gt; SSTATE_MIRRORS ?=3D &quot;file://.* <a href=3D"http://sstate.yoct=
-oproject.org/dev/PATH;downloadfilename=3DPATH" rel=3D"noreferrer noreferrer=
-" target=3D"_blank">http://sstate.yoctoproject.org/dev/PATH;downloadfilenam=
-e=3DPATH</a>&quot;<br>
-&gt; &gt; BB_HASHSERVE_UPSTREAM =3D &quot;<a href=3D"http://typhoon.yocto.i=
-o:8687" rel=3D"noreferrer noreferrer" target=3D"_blank">typhoon.yocto.io:86=
-87</a>&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;ve included an example image build below where it took 11 m=
-inutes for a=C2=A0<br>
-&gt; &gt; core-image-minimal image build. Obviously this is only of benefit=
- if you&#39;re<br>
-&gt; &gt; building configurations that match the project autobuilder althou=
-gh hash<br>
-&gt; &gt; equivalence could be useful alone in reducing some build times.<b=
+&gt; New this week: 0 CVEs<br>
+&gt; <br>
+&gt; Removed this week: 2 CVEs<br>
+&gt; CVE-2020-27748: xdg-utils <a href=3D"https://web.nvd.nist.gov/view/vul=
+n/detail?vulnId=3DCVE-2020-27748" rel=3D"noreferrer noreferrer" target=3D"_=
+blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2020-27748</a=
+> *<br>
+&gt; CVE-2021-38185: cpio <a href=3D"https://web.nvd.nist.gov/view/vuln/det=
+ail?vulnId=3DCVE-2021-38185" rel=3D"noreferrer noreferrer" target=3D"_blank=
+">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2021-38185</a> *<b=
 r>
-&gt; <br>
-&gt; What branches that support hash equivalence will be available other th=
-an<br>
-&gt; Master?<br>
 <br>
-The question doesn&#39;t make sense as hash equivalence doesn&#39;t have a =
-&quot;branch&quot;.<br>
-We&#39;re sharing any hash equivalence data generated from builds on the<br=
->
-autobuilder.<br></blockquote></div></div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">We should (?) backport the=C2=A0BB_HASHSERVE_UPSTREAM patch so =
-that the instructions to enable it make sense on older branches though.</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-&gt; &gt; I have updated the local.conf sample file in poky to match the ne=
-w release.<br>
-&gt; &gt; We&#39;re not widely highlighting that information as yet as it r=
-emains to be seen<br>
-&gt; &gt; how well it scales and what the hosting impacts for it will look =
-like but it is<br>
-&gt; &gt; there to experiment with to a wider audience such as this list.<b=
-r>
-&gt; <br>
-&gt; The should improve the out-of-the-box experience.<br>
-<br>
-Ultimately that is the hope.<br>
+I&#39;m not sure I believe these numbers as tar CVEs which showed up for du=
+nfell and<br>
+master don&#39;t show up here. Why? :/<br></blockquote></div></div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Don&#39;t know! Will investigate tomo=
+rrow.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Steve</div><div di=
+r=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">
 <br>
 Cheers,<br>
 <br>
@@ -186,4 +118,4 @@ Richard<br>
 <br>
 </blockquote></div></div></div>
 
---0000000000001ee35d05cbce785e--
+--000000000000152f4d05cbce838e--
