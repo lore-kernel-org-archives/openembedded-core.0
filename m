@@ -1,121 +1,85 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.17554.1631462707988292692
+Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
+ by mx.groups.io with SMTP id smtpd.web10.17548.1631462959742018914
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Sep 2021 09:05:08 -0700
+ Sun, 12 Sep 2021 09:09:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LYcONyZF;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.43, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f43.google.com with SMTP id l18-20020a05600c4f1200b002f8cf606262so5155486wmq.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Sep 2021 09:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NfpntUG45cjRQEH2E8er5GXkPQqM1zMM2GB2hkmKfFA=;
-        b=LYcONyZF84jY85YC9IaVZmjZ5/z513TPw8Ut8MxfkZu7ogDIJ0/xvm0zrETbTtXFMr
-         OiIDl96Ol96SxsFa0VKqMaBFaxlFsxMNM9FT8k5damqNj86anP7/7qDD3xD7pgZOLmT3
-         DoUOEmekGEqW881c4bF+rw6YI+XEA9CbAJWl+/Rnda/IWjZ+qUbFxy9QdwGpe+2V7oZh
-         xkiVM4qgpA4Kt4bWmengoBbRT4ns0YjWgxZX3Qz3fASFrxlJHXPmY2VTs1h8OjfSz9jR
-         GaEwmnxrTDmkdSNDotieIoiNdUYtjc3N779i+xT5Y8sWmqk9J02Z/sBR1ehtCpwI1JcM
-         akfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NfpntUG45cjRQEH2E8er5GXkPQqM1zMM2GB2hkmKfFA=;
-        b=ZjN5pg2oVxoqJFy0cwAJi3bnjbg93fQ/62fiTTUZKIhMoVy3GTcomWyD2J8b8JOOgf
-         yraSZKvRRzlgG43/E/zZIE6rOgDc1n4Ik8BMQ6Z7D9rcBI0DgSrJO5DKIo9OGoM32K+e
-         vbcQ18LOGuf3V48qamsyVZp3w1fd7qCLxq2Wpk9cBzcnrxmj1nxW9KG3o9WUxaKa/OSl
-         ClrxxiqpF9Yr/DbDZOLbXK8rbgd/mR/RZksSdleGrhgplezypizgc2eLixlYVhJToMp/
-         1ngKohJn9LlYCdlVR6i8Z5AIjQdojaFJ0pqDFyXdag6GosLCGJqH6uUC0YCdGEl4+LI4
-         y5ng==
-X-Gm-Message-State: AOAM532LlC78J2xz6qbA3g11zuZwBB5/r7tkN/iwHp52Sb6UgLnaqJns
-	wAmcBce3LiPausmyr8hNNlOWFwd3JbPrVBO0vE5zEA==
-X-Google-Smtp-Source: ABdhPJwo4uyCSs4NO1XQAo0qUWrVKYPPBNBo9BYWxmh+oJ29XiN5oHpIVf3snsU5pkDevBydgwfJ94miXOxkZPQnREA=
-X-Received: by 2002:a05:600c:acd:: with SMTP id c13mr7105460wmr.28.1631462706451;
- Sun, 12 Sep 2021 09:05:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210912150121.8237296032A@nuc.router0800d9.com> <d6ad55b4fdcca27eee438031ea60b586c0f7f9da.camel@linuxfoundation.org>
-In-Reply-To: <d6ad55b4fdcca27eee438031ea60b586c0f7f9da.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Sun, 12 Sep 2021 06:04:54 -1000
-Message-ID: <CAOSpxdZG9Uh6G4+9f3gR6AGH=OfV4rA04xhLuo+h1-7GtfNyEg@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for hardknott on Sun 12 Sep 2021 05:00:01 AM HST
+ dkim=pass header.i=@klausen.dk header.s=dkim header.b=0xrg0ijl;
+ spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
+Date: Sun, 12 Sep 2021 18:09:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+	t=1631462957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LjxvSQGT5ShJGHSGTeNx75dTHG/X/91AL44YVl+oRQ8=;
+	b=0xrg0ijls2epbq7fV1fLxc+qy7dtC07QHUatSxYjw6fK1CjspX/vyFWrofB+5mmouvUtDg
+	JECJWK5GNwak6Iv2WxI5cQMJyz/xK+Vccc7CT5WqQnL62X93DXA3elGwcA+Nzlw1Y4ZQ4d
+	i+shtw5o0d5CTVT7A4rP5dLBOnLDIl0=
+From: "Kristian Klausen" <kristian@klausen.dk>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000152f4d05cbce838e"
+Cc: kristian@klausen.dk, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] wic/bootimg-efi: Add Unified Kernel Image option
+Message-ID: <YT4mK3FkhRc/dBPs@bob>
+References: <20210909175337.624-1-kristian@klausen.dk>
+ <e09b8b9e26d55f71bda9afdd0c2e1e25ec2b4690.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <e09b8b9e26d55f71bda9afdd0c2e1e25ec2b4690.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---000000000000152f4d05cbce838e
-Content-Type: text/plain; charset="UTF-8"
-
-On Sun, Sep 12, 2021, 5:57 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Sun, 2021-09-12 at 05:01 -1000, Steve Sakoman wrote:
-> > Branch: hardknott
-> >
-> > New this week: 0 CVEs
-> >
-> > Removed this week: 2 CVEs
-> > CVE-2020-27748: xdg-utils
-> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
-> > CVE-2021-38185: cpio
-> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38185 *
->
-> I'm not sure I believe these numbers as tar CVEs which showed up for
-> dunfell and
-> master don't show up here. Why? :/
->
-
-Don't know! Will investigate tomorrow.
-
-Steve
-
-
+Den Fri, Sep 10, 2021 at 09:31:18 +0100 skrev Richard Purdie:
+> On Thu, 2021-09-09 at 17:53 +0000, Kristian Klausen via lists.openembedded.org
+> wrote:
+> > "A unified kernel image is a single EFI PE executable combining an EFI
+> > stub loader, a kernel image, an initramfs image, and the kernel command
+> > line.
+> > 
+> > [...]
+> > 
+> > Images of this type have the advantage that all metadata and payload
+> > that makes up the boot entry is monopolized in a single PE file that can
+> > be signed cryptographically as one for the purpose of EFI
+> > SecureBoot."[1]
+> > 
+> > This commit adds a create-unified-kernel-image=true option to the
+> > bootimg-efi plugin for creating a Unified Kernel Image[1] and installing
+> > it into $BOOT/EFI/Linux/ with a .efi extension per the the Boot Loader
+> > Specification[1][2]. This is useful for implementing Secure Boot.
+> > 
+> > systemd-boot is the only mainstream bootloader implementing the
+> > specification, but GRUB should be able to boot the EFI binary, this
+> > commit however doesn't implement the necessary changes to the GRUB
+> > config generation logic to boot the Unified Kernel Image.
+> > 
+> > [1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
+> > [2] https://systemd.io/BOOT_LOADER_SPECIFICATION/
+> > 
+> > Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+> > ---
+> > 
+> > This patch supersedes:
+> > "[RFC][PATCH] kernel: Add Unified Kernel Image image type"[1]
+> > and:
+> > "[PATCH] wic/bootimg-efi: Add option for only installing the bootloader"[2]
+> > 
+> > The latter is perhaps still useful, but with this patch it is no longer
+> > needed for using a Unified Kernel Image with systemd-boot.
+> > 
+> > [1] https://lists.openembedded.org/g/openembedded-core/message/155801
+> > [2] https://lists.openembedded.org/g/openembedded-core/message/155789
+> > 
+> >  scripts/lib/wic/plugins/source/bootimg-efi.py | 69 ++++++++++++++++---
+> >  1 file changed, 59 insertions(+), 10 deletions(-)
+> 
+> Do we need to add a test for this into meta/lib/oeqa/selftest/cases/wic.py?
+> 
 > Cheers,
->
+> 
 > Richard
->
->
+> 
 
---000000000000152f4d05cbce838e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+A simple test wouldn't hurt :)
+I will add a simple test checking the EFI binary is created in the 
+expected location and a bootloader confing isn't created.
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, Sep 12, 2021, 5:57 AM Richard Purdie &lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
-tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 202=
-1-09-12 at 05:01 -1000, Steve Sakoman wrote:<br>
-&gt; Branch: hardknott<br>
-&gt; <br>
-&gt; New this week: 0 CVEs<br>
-&gt; <br>
-&gt; Removed this week: 2 CVEs<br>
-&gt; CVE-2020-27748: xdg-utils <a href=3D"https://web.nvd.nist.gov/view/vul=
-n/detail?vulnId=3DCVE-2020-27748" rel=3D"noreferrer noreferrer" target=3D"_=
-blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2020-27748</a=
-> *<br>
-&gt; CVE-2021-38185: cpio <a href=3D"https://web.nvd.nist.gov/view/vuln/det=
-ail?vulnId=3DCVE-2021-38185" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2021-38185</a> *<b=
-r>
-<br>
-I&#39;m not sure I believe these numbers as tar CVEs which showed up for du=
-nfell and<br>
-master don&#39;t show up here. Why? :/<br></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Don&#39;t know! Will investigate tomo=
-rrow.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Steve</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000152f4d05cbce838e--
+- Kristian
