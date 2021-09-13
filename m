@@ -1,114 +1,256 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web09.27707.1631530817010383051
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.28859.1631537148674519856
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 04:00:17 -0700
+ Mon, 13 Sep 2021 05:45:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eL9m7Zts;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id t8so8950390wrq.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 04:00:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qk0Uz2pD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: jainsaloni0918@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id f11-20020a17090aa78b00b0018e98a7cddaso6384152pjq.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 05:45:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=N16o1xaNznPubLlyTwoQX8Hxei+BUKgeQ+K2iOKyjGY=;
-        b=eL9m7ZtsDbOAFH8yQKBWkP+3MaFCNOP9RILZ/OMj/6sZxkUlIZv/XjczkAqWCDZs2w
-         c0ytSMBDmoGZ+QMvYRfAFS9yvbar02adJV0wpg9mk3AOcnTS9HtwAoAEKAQZZXR1Rw9+
-         mQS8UdEAsewFtnDGvPvCImUybuoP+4i+BQ7a8=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=729AWyIaSDRKhv/EatkfwArSM1gx2jbYQdhnaEHKf/0=;
+        b=Qk0Uz2pDofMJtYrYGgjdBbuIErc5bjWIQSbQJlhkL+BbcjKUxGnB2bjo8Ot+GjbfoC
+         iPeDeNfcKYtv82B8NG1vS+AFAKlDLtNWLRsi9rkvj31O+gPx0kAfz5VjGAtYiQ/hRFUt
+         LQ7XYuGG4LrajleTGTdOb79vmlLJ+lDHKD88+dSMMgaeoDjc6CG7wjadRgDXUsfW1qZj
+         Dgg4GA5Gw/HZGnkARGwfKh+2pl8UFecPuAePk93hSYLuJT5IntPdTDDIgFZT9E3OcaT3
+         6Sf61+fob7rJoQ16q/an2AkqcN36i5i5A5QXxp0tC8CQTyopeGdq2zq3GSm4NUAi6gzo
+         uAow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=N16o1xaNznPubLlyTwoQX8Hxei+BUKgeQ+K2iOKyjGY=;
-        b=vkc7Bz9odLk37TGn2WzI14qE8ayGz0F5myZJJwKSXMYWwU8HB753q4+vZ2GZkazncT
-         oCQ4MKLY+nFuJD+Ie5mvYxpZOrCbZV3Q/xFEEDMqk3E9XNl4+dHtl3IK50zPYCn3I4BD
-         Z154f/aQDYyd4iHr/5U26rySo9Euq68+r0Xdm0OBuCreI0C2nOL/VgAIKQfqxsjOAydh
-         b/EeomsJVm+sdAcUgcyqOjPw97oE6OzVXnzt8HqPr4NGy68bocNxOfxoTyD4AX/CX4wq
-         C0Tas/huzdHCMmy3hWMXKPyWs2unuPI7oKf1Yosr27Shb6XGc59tkgwMDm+YlRb0BLr4
-         DOOQ==
-X-Gm-Message-State: AOAM532eha48syXzjRA1WU9+R1dKN2Hf9/7Ss5nj+X/TydEB8PcfJrRH
-	6oqZ1Nd3BePooBoCCFPjTnOiHg==
-X-Google-Smtp-Source: ABdhPJzHbldAmw17NlLh/vXoIdBin184LwsLNoFcqGKeYXSc/UhOJWjz1BL6RfInD9GNztnbNvyhYg==
-X-Received: by 2002:a5d:5408:: with SMTP id g8mr11954480wrv.34.1631530815287;
-        Mon, 13 Sep 2021 04:00:15 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7b8:8478:e47c:cb85? ([2001:8b0:aba:5f3c:f7b8:8478:e47c:cb85])
-        by smtp.gmail.com with ESMTPSA id f23sm5779883wmc.3.2021.09.13.04.00.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=729AWyIaSDRKhv/EatkfwArSM1gx2jbYQdhnaEHKf/0=;
+        b=V5Wh7a5+1wu4w3vpaLccR4bVu1IAt67jU3UBym/7imc24rHXXvuBbYUxN0nuDcZccI
+         +MxVmXfHWBahS7E/WkBanuzuWIVQPf23lZpYL4FQ4We9bYwAvHHucgy/TyYBpSFUgsT5
+         rZJPFI3Q5yGM2edNqm8PaOWqshbcAUQdBfiJGJCZmU1n0dUiYyI6jLBWB0DX14xO340O
+         +0UyFQd10qeWMx3eKB7Tao4YU1kORCUUhKi9B1VHfTSABAj+GwxYtwgilvNQVJVMCBIS
+         oDXpG5lwbaA65mHsDrm3fLoJmdv9vmLk5H9E8lH7qRY9eGzDsQobsqf2vwZ8YI0VtHTv
+         S1wQ==
+X-Gm-Message-State: AOAM532CyQbegDJAkrhrJdR6IOygjCIq9bypF7FUrR5DvP4mA/NP/IUR
+	aXVVd9264Sgc+0F7lWLxfWuoJleDiPrS06UG
+X-Google-Smtp-Source: ABdhPJwgtm0TSh4YuBd+iwv7STTfG1Y+9wW/bccbUv6k5rjCK3GcWMvoOUIjOz+Q8oB4fKPzyuRuWw==
+X-Received: by 2002:a17:90a:5a86:: with SMTP id n6mr12707603pji.3.1631537147844;
+        Mon, 13 Sep 2021 05:45:47 -0700 (PDT)
+Return-Path: <jainsaloni0918@gmail.com>
+Received: from localhost.localdomain ([27.97.77.182])
+        by smtp.gmail.com with ESMTPSA id t28sm7446086pfe.144.2021.09.13.05.45.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 04:00:14 -0700 (PDT)
-Message-ID: <0f44c9945b6ffc2583dab6eabd796b2af7633ee4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: support persistent /var/tmp
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 13 Sep 2021 12:00:13 +0100
-In-Reply-To: <11e3b9fb-0673-db2f-5f6a-4f10d48cda0c@windriver.com>
-References: <16989323AFD32DAC.17148@lists.openembedded.org>
-	 <16A0074A273CDC4D.26797@lists.openembedded.org>
-	 <11e3b9fb-0673-db2f-5f6a-4f10d48cda0c@windriver.com>
-User-Agent: Evolution 3.40.2-1build1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+        Mon, 13 Sep 2021 05:45:47 -0700 (PDT)
+From: "Saloni Jain" <jainsaloni0918@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	Saloni Jain <salonij@kpit.com>
+Subject: [poky][dunfell][PATCH] db: Whitelist CVEs
+Date: Mon, 13 Sep 2021 08:45:26 -0400
+Message-Id: <20210913124526.26861-1-jainsaloni0918@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, 2021-09-13 at 11:42 +0800, Changqing Li wrote:
-> ping
-> On 8/30/21 4:11 PM, Changqing Li wrote:
->  
-> > On 8/6/21 9:21 AM, Changqing Li wrote:
-> >  
-> > > From: Changqing Li <changqing.li@windriver.com>
-> > > 
-> > > Steps:
-> > > 1. build out rootfs core-image-minimal-qemux86-64.tar.bz2
-> > > 2. docker import core-image-minimal-qemux86-64.tar.bz2 poky:latest
-> > > 3. docker run -it --rm poky:latest /bin/sh
-> > > 4.
-> > > /var # ls -al
-> > > drwxr-xr-x    8 root     root          4096 Mar  9  2018 .
-> > > drwxr-xr-x    1 root     root          4096 Aug  5 06:59 ..
-> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 backups
-> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 cache
-> > > drwxr-xr-x    5 root     root          4096 Mar  9  2018 lib
-> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 local
-> > > lrwxrwxrwx    1 root     root            11 Mar  9  2018 lock ->
-> > > ../run/lock
-> > > lrwxrwxrwx    1 root     root            12 Mar  9  2018 log ->
-> > > volatile/log
-> > > lrwxrwxrwx    1 root     root             6 Mar  9  2018 run -> ../run
-> > > drwxr-xr-x    3 root     root          4096 Mar  9  2018 spool
-> > > lrwxrwxrwx    1 root     root            12 Mar  9  2018 tmp ->
-> > > volatile/tmp
-> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 volatile
-> > > /var # cd log
-> > > /bin/sh: cd: can't cd to log: No such file or directory
-> > > /var # cd tmp
-> > > /bin/sh: cd: can't cd to tmp: No such file or directory
-> > > /var # cd volatile/
-> > > /var/volatile # ls -al
-> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 .
+From: Saloni Jain <salonij@kpit.com>
 
-Sorry, I appreciate this change hasn't had feedback. Unfortunately I'm finding
-this one hard to review. I'm also worried because it changes a number of key
-areas of the system init process in a way which looks very tailored to a
-specific use case.
+Below CVE affects only Oracle Berkeley DB as per upstream.
+Hence, whitelisted them.
 
-I suspect we do need to have some kind of better configuration of this area of
-the system but I'm not convinced this patchset does that, it looks more likely
-to adversely affect other use cases in favour of a specialist one.
+1. CVE-2015-2583
+Link: https://security-tracker.debian.org/tracker/CVE-2015-2583
+2. CVE-2015-2624
+Link: https://security-tracker.debian.org/tracker/CVE-2015-2624
+3. CVE-2015-2626
+Link: https://security-tracker.debian.org/tracker/CVE-2015-2626
+4. CVE-2015-2640
+Link: https://security-tracker.debian.org/tracker/CVE-2015-2640
+5. CVE-2015-2654
+Link: https://security-tracker.debian.org/tracker/CVE-2015-2654
+6. CVE-2015-2656
+Link: https://security-tracker.debian.org/tracker/CVE-2015-2656
+7. CVE-2015-4754
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4754
+8. CVE-2015-4764
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4764
+9. CVE-2015-4774
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4774
+10. CVE-2015-4775
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4775
+11. CVE-2015-4776
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4776
+12. CVE-2015-4777
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4777
+13. CVE-2015-4778
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4778
+14. CVE-2015-4779
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4779
+15. CVE-2015-4780
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4780
+16. CVE-2015-4781
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4781
+17. CVE-2015-4782
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4782
+18. CVE-2015-4783
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4783
+19. CVE-2015-4784
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4784
+20. CVE-2015-4785
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4785
+21. CVE-2015-4786
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4786
+22. CVE-2015-4787
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4787
+23. CVE-2015-4788
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4788
+24. CVE-2015-4789
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4789
+25. CVE-2015-4790
+Link: https://security-tracker.debian.org/tracker/CVE-2015-4790
+26. CVE-2016-0682
+Link: https://security-tracker.debian.org/tracker/CVE-2016-0682
+27. CVE-2016-0689
+Link: https://security-tracker.debian.org/tracker/CVE-2016-0689
+28. CVE-2016-0692
+Link: https://security-tracker.debian.org/tracker/CVE-2016-0692
+29. CVE-2016-0694
+Link: https://security-tracker.debian.org/tracker/CVE-2016-0694
+30. CVE-2016-3418
+Link: https://security-tracker.debian.org/tracker/CVE-2016-3418
+31. CVE-2017-3604
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3604
+32. CVE-2017-3605
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3605
+33. CVE-2017-3606
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3606
+34. CVE-2017-3607
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3607
+35. CVE-2017-3608
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3608
+36. CVE-2017-3609
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3609
+37. CVE-2017-3610
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3610
+38. CVE-2017-3611
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3611
+39. CVE-2017-3612
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3612
+40. CVE-2017-3613
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3613
+41. CVE-2017-3614
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3614
+42. CVE-2017-3615
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3615
+43. CVE-2017-3616
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3616
+44. CVE-2017-3617
+Link: https://security-tracker.debian.org/tracker/CVE-2017-3617
+45. CVE-2020-2981
+Link: https://security-tracker.debian.org/tracker/CVE-2020-2981
 
-I am unlikely to want to make changes in this area until the next release now,
-sorry :/.
+Signed-off-by: Saloni <jainsaloni0918@gmail.com>
+---
+ meta/recipes-support/db/db_5.3.28.bb | 92 ++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
 
-This is one of the problems with not having enough people with specialist
-knowledge to help review, too much falls to me and I just don't have the time to
-dive into each different thing and stand a chance of making the correct
-decisions. This is frustrating for everyone.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+index b2ae98f05c..000e9ef468 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -39,6 +39,98 @@ SRC_URI[sha256sum] = "e0a992d740709892e81f9d93f06daf305cf73fb81b545afe7247804317
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
+ 
++# Below CVEs affects only Oracle Berkeley DB as per upstream.
++# https://security-tracker.debian.org/tracker/CVE-2015-2583
++CVE_CHECK_WHITELIST += "CVE-2015-2583"
++# https://security-tracker.debian.org/tracker/CVE-2015-2624
++CVE_CHECK_WHITELIST += "CVE-2015-2624"
++# https://security-tracker.debian.org/tracker/CVE-2015-2626
++CVE_CHECK_WHITELIST += "CVE-2015-2626"
++# https://security-tracker.debian.org/tracker/CVE-2015-2640
++CVE_CHECK_WHITELIST += "CVE-2015-2640"
++# https://security-tracker.debian.org/tracker/CVE-2015-2654
++CVE_CHECK_WHITELIST += "CVE-2015-2654"
++# https://security-tracker.debian.org/tracker/CVE-2015-2656
++CVE_CHECK_WHITELIST += "CVE-2015-2656"
++# https://security-tracker.debian.org/tracker/CVE-2015-4754
++CVE_CHECK_WHITELIST += "CVE-2015-4754"
++# https://security-tracker.debian.org/tracker/CVE-2015-4764
++CVE_CHECK_WHITELIST += "CVE-2015-4764"
++# https://security-tracker.debian.org/tracker/CVE-2015-4774
++CVE_CHECK_WHITELIST += "CVE-2015-4774"
++# https://security-tracker.debian.org/tracker/CVE-2015-4775
++CVE_CHECK_WHITELIST += "CVE-2015-4775"
++# https://security-tracker.debian.org/tracker/CVE-2015-4776
++CVE_CHECK_WHITELIST += "CVE-2015-4776"
++# https://security-tracker.debian.org/tracker/CVE-2015-4777
++CVE_CHECK_WHITELIST += "CVE-2015-4777"
++# https://security-tracker.debian.org/tracker/CVE-2015-4778
++CVE_CHECK_WHITELIST += "CVE-2015-4778"
++# https://security-tracker.debian.org/tracker/CVE-2015-4779
++CVE_CHECK_WHITELIST += "CVE-2015-4779"
++# https://security-tracker.debian.org/tracker/CVE-2015-4780
++CVE_CHECK_WHITELIST += "CVE-2015-4780"
++# https://security-tracker.debian.org/tracker/CVE-2015-4781
++CVE_CHECK_WHITELIST += "CVE-2015-4781"
++# https://security-tracker.debian.org/tracker/CVE-2015-4782
++CVE_CHECK_WHITELIST += "CVE-2015-4782"
++# https://security-tracker.debian.org/tracker/CVE-2015-4783
++CVE_CHECK_WHITELIST += "CVE-2015-4783"
++# https://security-tracker.debian.org/tracker/CVE-2015-4784
++CVE_CHECK_WHITELIST += "CVE-2015-4784"
++# https://security-tracker.debian.org/tracker/CVE-2015-4785
++CVE_CHECK_WHITELIST += "CVE-2015-4785"
++# https://security-tracker.debian.org/tracker/CVE-2015-4786
++CVE_CHECK_WHITELIST += "CVE-2015-4786"
++# https://security-tracker.debian.org/tracker/CVE-2015-4787
++CVE_CHECK_WHITELIST += "CVE-2015-4787"
++# https://security-tracker.debian.org/tracker/CVE-2015-4788
++CVE_CHECK_WHITELIST += "CVE-2015-4788"
++# https://security-tracker.debian.org/tracker/CVE-2015-4789
++CVE_CHECK_WHITELIST += "CVE-2015-4789"
++# https://security-tracker.debian.org/tracker/CVE-2015-4790
++CVE_CHECK_WHITELIST += "CVE-2015-4790"
++# https://security-tracker.debian.org/tracker/CVE-2016-0682
++CVE_CHECK_WHITELIST += "CVE-2016-0682"
++# https://security-tracker.debian.org/tracker/CVE-2016-0689
++CVE_CHECK_WHITELIST += "CVE-2016-0689"
++# https://security-tracker.debian.org/tracker/CVE-2016-0692
++CVE_CHECK_WHITELIST += "CVE-2016-0692"
++# https://security-tracker.debian.org/tracker/CVE-2016-0694
++CVE_CHECK_WHITELIST += "CVE-2016-0694"
++# https://security-tracker.debian.org/tracker/CVE-2016-3418
++CVE_CHECK_WHITELIST += "CVE-2016-3418"
++# https://security-tracker.debian.org/tracker/CVE-2017-3604
++CVE_CHECK_WHITELIST += "CVE-2017-3604"
++# https://security-tracker.debian.org/tracker/CVE-2017-3605
++CVE_CHECK_WHITELIST += "CVE-2017-3605"
++# https://security-tracker.debian.org/tracker/CVE-2017-3606
++CVE_CHECK_WHITELIST += "CVE-2017-3606"
++# https://security-tracker.debian.org/tracker/CVE-2017-3607
++CVE_CHECK_WHITELIST += "CVE-2017-3607"
++# https://security-tracker.debian.org/tracker/CVE-2017-3608
++CVE_CHECK_WHITELIST += "CVE-2017-3608"
++# https://security-tracker.debian.org/tracker/CVE-2017-3609
++CVE_CHECK_WHITELIST += "CVE-2017-3609"
++# https://security-tracker.debian.org/tracker/CVE-2017-3610
++CVE_CHECK_WHITELIST += "CVE-2017-3610"
++# https://security-tracker.debian.org/tracker/CVE-2017-3611
++CVE_CHECK_WHITELIST += "CVE-2017-3611"
++# https://security-tracker.debian.org/tracker/CVE-2017-3612
++CVE_CHECK_WHITELIST += "CVE-2017-3612"
++# https://security-tracker.debian.org/tracker/CVE-2017-3613
++CVE_CHECK_WHITELIST += "CVE-2017-3613"
++# https://security-tracker.debian.org/tracker/CVE-2017-3614
++CVE_CHECK_WHITELIST += "CVE-2017-3614"
++# https://security-tracker.debian.org/tracker/CVE-2017-3615
++CVE_CHECK_WHITELIST += "CVE-2017-3615"
++# https://security-tracker.debian.org/tracker/CVE-2017-3616
++CVE_CHECK_WHITELIST += "CVE-2017-3616"
++# https://security-tracker.debian.org/tracker/CVE-2017-3617
++CVE_CHECK_WHITELIST += "CVE-2017-3617"
++# https://security-tracker.debian.org/tracker/CVE-2020-2981
++CVE_CHECK_WHITELIST += "CVE-2020-2981"
++
+ inherit autotools
+ 
+ # The executables go in a separate package - typically there
+-- 
+2.17.1
 
