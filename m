@@ -1,45 +1,45 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.183.1631554519347353084
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.180.1631554520271030007
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 10:35:19 -0700
+ Mon, 13 Sep 2021 10:35:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pF4wL5PW;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id c4so4771403pls.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 10:35:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OR/qlsij;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id 5so6315864plo.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 10:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=G5uDmq1pGEYLBX4i/O/cH1dhK22RFkDa/ivsxlfWm1M=;
-        b=pF4wL5PWgSJ9zMR9o20mLmDDUufpz64CS7skkGhh1F6vlLJXJgVfLZt6EjEXsUfpe2
-         mpxVbb9JGkzl8e0v3CNIWkDzcJYEiJKZyru9lokkJVkGQvG/JyJFbPx7zzo8Q8wfNWcH
-         iobFpZYLbbukKkxrpd782rrH4xiFFNzMP9bEUz95w8Q/i710CyQCxALV99JWrm1lIvjM
-         uQu36w1u4nwLRx3k11Rg9rxcsgzK8mB+Ro1xkk5wGQrxquwY9pDK0Pgu0Cya6G28l5xc
-         2oX+QTqpNbYUf4uo7mdDbio3ZkKndkfLsSXOMDQLboDdeIDp3IDaDeVjHcqRpdE6o4ms
-         21+Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=O6f/6LyVUQsxTDFeDoAOt4YxsHOoqTQ7LzxpqBLxN28=;
+        b=OR/qlsij8eDgpqBic5riwwHqhevHnJryI649AAwteHlVylmnUY7YTgQLO0RyziQrpy
+         Doc7o3Dr+g1m3I6GvF0lBwnNBw+Z9tc8r9eg0i8EScRHAKTwEoHpRRJn6CwJqVmq7rBZ
+         T97flArzmt1NoY88pkW9L7YpkHAp9+ItWqi9idH99IReORIMM20MIqoa1geLAyNlkp6H
+         t/yITEVDE6/7QV4qrDrLaIAHDqEh0bzkNZHz559FVTIZ+yRpQabK7J2QliATLBZPdFnR
+         gDuJay+hDrSEcAGWuZ8vBjE/IaQtz4vRTmwcMAurVwguM0/IRg0fjIEP1rN0YHl8Yakg
+         DTQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=G5uDmq1pGEYLBX4i/O/cH1dhK22RFkDa/ivsxlfWm1M=;
-        b=40wjtnh3ge9dizexjJQYTm4QFiLn6M4flB4gaPhZ/y1I5BeAy8rPC6aSkBmD/eHVSA
-         pVyqNj+oLePTZbq8sQfGzZ/h/J3diVDmNV0/0G0xw6FheDBNzLeMsxMUoLpMHE4Se+EW
-         f4Dehb0YAe3EgTkQqnfytgWoAvtdW6axQxq+MUYEspWppETO01GNedNQRBeNv6uutdZl
-         /Yt6QJD/5ohqdGD9aceSbJ161YtAQI7okNMGj2poZWi+F4mjTRP9Wy41wUXiw4eVQJks
-         V3cEuoLOsldH0ep/RAdZ9nlTGZDBICMoRk4+6NJlJ4KHnIJgnRFaOTsbFsvPoSFJ7Wwh
-         Vt6g==
-X-Gm-Message-State: AOAM532a0spoDPQLQoYpalImLmBZd3a/blEOLcx9hYGsgSMGrP4fkM8N
-	s2wbWFHV7EmH8SHdBU3YJlRAfZ62PicWvw==
-X-Google-Smtp-Source: ABdhPJyadiSjEQNCfyK5wrDH8G2TtD3IdwOeGeEyaZPGKamR6fzyuir8G1SVKaMTXRWK3TjQZq+cQQ==
-X-Received: by 2002:a17:902:8543:b029:12d:461f:a6a8 with SMTP id d3-20020a1709028543b029012d461fa6a8mr11446293plo.1.1631554518626;
-        Mon, 13 Sep 2021 10:35:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=O6f/6LyVUQsxTDFeDoAOt4YxsHOoqTQ7LzxpqBLxN28=;
+        b=lasBWkb5XD2+et8Mjzls3Fz8Q518o8C/804HBaNsP3pPc6+/XY6DQwTRhbXXK9r5Pf
+         hYuqq53ZfEA1ojWPsrcW5IuPzurW8oNylB/+C81PGGSkRohr8tXbi4Z898SL/CTR5TnW
+         8hwzDJouNKo9s0jfjPACsItRxcZ7eogZeoBeZOaq+gvDPniIHBSp/MA/JACsT3JSk7qE
+         4sUsP+/ObbB8iCJkIL2PcjcZpn0ZNZLSNrM4/DOIuJzooJdxDP+Nj6QYNyvKhtAUCaRU
+         zAsZn4ozzx6UdQTrPJgGeKILLEz5tqWV1dCGG4wBsL4Sk6z0seVHnjFyvEo/8R+kWZMD
+         /dCg==
+X-Gm-Message-State: AOAM531oHravzS0xfzoc6Q4p5/HWdARaXx4rsqIQvQhjYbtr0AttWI5N
+	LTdqfPH1y8sZjkyyX944dXL29AFDVwE6SQ==
+X-Google-Smtp-Source: ABdhPJx0R+gpPtVY9ZdZFhu2TFMBcPoC2T5eZfAzGCv6NZhEIb4Q5Y1NDart66CK+kuy1x8I5Xyd3A==
+X-Received: by 2002:a17:90a:b785:: with SMTP id m5mr722142pjr.213.1631554519515;
+        Mon, 13 Sep 2021 10:35:19 -0700 (PDT)
 Return-Path: <pgowda.cve@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id t68sm8988337pgc.59.2021.09.13.10.35.17
+        by smtp.gmail.com with ESMTPSA id t68sm8988337pgc.59.2021.09.13.10.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 10:35:18 -0700 (PDT)
-From: pgowda.cve@gmail.com
+        Mon, 13 Sep 2021 10:35:19 -0700 (PDT)
+From: "Pgowda" <pgowda.cve@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
 	rwmacleod@gmail.com,
@@ -47,85 +47,193 @@ Cc: richard.purdie@linuxfoundation.org,
 	vinay.m.engg@gmail.com,
 	alex.kanavin@gmail.com,
 	Pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH 1/4] Rust oe-selftest script
-Date: Mon, 13 Sep 2021 10:35:10 -0700
-Message-Id: <20210913173513.176653-1-pgowda.cve@gmail.com>
+Subject: [PATCH 2/4] Rust cross testing file
+Date: Mon, 13 Sep 2021 10:35:11 -0700
+Message-Id: <20210913173513.176653-2-pgowda.cve@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210913173513.176653-1-pgowda.cve@gmail.com>
+References: <20210913173513.176653-1-pgowda.cve@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The file builds remote-test-server and executes rust testing
-remotely using background ssh. It adds the necessary test environment
-and variables to run the rust oe-selftest.
+The file is main entry point for rust oe-selftest.
+It configures, compiles and runs the test suite framework.
 
-Print the results in case of failure of runCmd().
+It implements the above using the following functions:
+setup_cargo_environment(): Build bootstrap and some early stage tools.
+do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
+do_configure(): To generate config.toml
+do_compile(): To build "remote-test-server" for qemutarget image.
 
 Signed-off-by: Pgowda <pgowda.cve@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py | 54 ++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+ meta/recipes-devtools/rust/rust-testsuite.inc | 157 ++++++++++++++++++
+ 1 file changed, 157 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+diff --git a/meta/recipes-devtools/rust/rust-testsuite.inc b/meta/recipes-devtools/rust/rust-testsuite.inc
 new file mode 100644
-index 0000000000..4ebb9045f4
+index 0000000000..0a8abbef21
 --- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: MIT
-+import os
-+import subprocess
-+from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu, Command
-+from oeqa.utils.sshcontrol import SSHControl
++++ b/meta/recipes-devtools/rust/rust-testsuite.inc
+@@ -0,0 +1,157 @@
++SUMMARY = "Rust testing"
++HOMEPAGE = "https://rustc-dev-guide.rust-lang.org/tests/intro.html"
++SECTION = "test"
++LICENSE = "MIT | Apache-2.0"
 +
-+# Total time taken for testing is of about 2hr 20min, with PARALLEL_MAKE set to 40 number of jobs.
-+class RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
++inherit rust
++inherit cargo_common
 +
-+	def run_check_emulated(self, *args, **kwargs):
-+		# build remote-test-server before image build
-+		recipe = "rust-testsuite"
-+		bitbake("{} -c compile".format(recipe))
-+		builddir = get_bb_var("B", "rust-testsuite")
-+		# build core-image-minimal with required packages
-+		default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
-+		features = []
-+		features.append('IMAGE_FEATURES += "ssh-server-openssh"')
-+		features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
-+		self.write_config("\n".join(features))
-+		bitbake("core-image-minimal")
-+		# wrap the execution with a qemu instance
-+		with runqemu("core-image-minimal", runqemuparams = "nographic", qemuparams = "-m 512") as qemu:
-+#		with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
-+			# Copy remote-test-server to image through scp
-+			ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user="root")
-+			ssh.copy_to(builddir + "/" + "build/x86_64-unknown-linux-gnu/stage1-tools-bin/remote-test-server","~/")
-+			# Execute remote-test-server on image through background ssh
-+			command = '~/remote-test-server -v remote'
-+			sshrun=subprocess.Popen(("ssh", '-o',  'UserKnownHostsFile=/dev/null', '-o',  'StrictHostKeyChecking=no', '-f', "root@%s" % qemu.ip, command),
-+                                shell=False,
-+                                stdout=subprocess.PIPE,
-+                                stderr=subprocess.PIPE)
-+			# Get the values of variables.
-+			targetsys = get_bb_var("TARGET_SYS", "rust-testsuite")
-+			rustlibpath = get_bb_var("STAGING_LIBDIR_NATIVE", "rust-testsuite")
-+			tmpdir = get_bb_var("TMPDIR", "rust-testsuite")
-+			testargs = "--no-fail-fast --bless"
-+			# Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttools.
-+			cmd = " export PATH=%s/../bin:$PATH;" % rustlibpath
-+			cmd = cmd + " export PATH=%s/../bin/%s:%s/hosttools:$PATH;" % (rustlibpath, targetsys, tmpdir)
-+			cmd = cmd + " export RUST_TARGET_PATH=%s/rustlib;" % rustlibpath
-+			# Trigger testing.
-+			cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
-+			cmd = cmd + " cd %s;  python3 src/bootstrap/bootstrap.py test %s --target %s ;" % (builddir, testargs, targetsys)
-+			result = runCmd(cmd)
++DEPENDS += "file-native python3-native"
++EXCLUDE_FROM_WORLD = "1"
 +
-+@OETestTag("toolchain-system")
-+class RustSelfTestSystemEmulated(RustSelfTestBase):
-+	def test_rust(self):
-+		self.run_check_emulated("rust")
++S = "${RUSTSRC}"
++# Path of target specification file "target-poky-linux.json"
++export RUST_TARGET_PATH="${STAGING_LIBDIR_NATIVE}/rustlib"
++
++export FORCE_CRATE_HASH="${BB_TASKHASH}"
++
++# We don't want to use bitbakes vendoring because the rust sources do their
++# own vendoring.
++CARGO_DISABLE_BITBAKE_VENDORING = "1"
++
++# We can't use RUST_BUILD_SYS here because that may be "musl" if
++# TCLIBC="musl". Snapshots are always -unknown-linux-gnu
++SNAPSHOT_BUILD_SYS = "${BUILD_ARCH}-unknown-linux-gnu"
++setup_cargo_environment () {
++    # The first step is to build bootstrap and some early stage tools,
++    # these are build for the same target as the snapshot, e.g.
++    # x86_64-unknown-linux-gnu.
++    # Later stages are build for the native target (i.e. target.x86_64-linux)
++    cargo_common_do_configure
++
++    printf '[target.%s]\n' "${SNAPSHOT_BUILD_SYS}" >> ${CARGO_HOME}/config
++    printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
++}
++
++include rust-common.inc
++do_rust_setup_snapshot () {
++    for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
++        "${installer}" --prefix="${WORKDIR}/rust-snapshot" --disable-ldconfig
++    done
++
++    # Some versions of rust (e.g. 1.18.0) tries to find cargo in stage0/bin/cargo
++    # and fail without it there.
++    mkdir -p ${RUSTSRC}/build/${BUILD_SYS}
++    ln -sf ${WORKDIR}/rust-snapshot/ ${RUSTSRC}/build/${BUILD_SYS}/stage0
++}
++addtask rust_setup_snapshot after do_unpack before do_configure
++do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
++
++python do_configure() {
++    import json
++    from distutils.version import LooseVersion
++    try:
++        import configparser
++    except ImportError:
++        import ConfigParser as configparser
++
++    # toml is rather similar to standard ini like format except it likes values
++    # that look more JSON like. So for our purposes simply escaping all values
++    # as JSON seem to work fine.
++
++    e = lambda s: json.dumps(s)
++
++    config = configparser.RawConfigParser()
++
++    # [target.ARCH-unknown-linux-gnu] in case of x86_64 [target.ARCH-poky-linux]
++    target_section = "target.{}".format(d.getVar('TARGET_SYS', True))
++    config.add_section(target_section)
++
++    # Points to wrapper files which contain target specific compiler and linker commands.
++    config.set(target_section, "cxx", e(d.expand("${RUST_TARGET_CXX}")))
++    config.set(target_section, "cc", e(d.expand("${RUST_TARGET_CC}")))
++    config.set(target_section, "linker", e(d.expand("${RUST_TARGET_CCLD}")))
++
++    # If we don't do this rust-native will compile it's own llvm for BUILD.
++    # [target.${BUILD_ARCH}-unknown-linux-gnu]
++    target_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
++    config.add_section(target_section)
++
++    # Wrapper scripts of build system.
++    config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
++    config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
++
++    # [llvm]
++    config.add_section("llvm")
++    config.set("llvm", "targets", e("ARM;AArch64;Mips;PowerPC;RISCV;X86"))
++
++    # [rust]
++    config.add_section("rust")
++    config.set("rust", "rpath", e(True))
++    config.set("rust", "channel", e("stable"))
++
++    if LooseVersion(d.getVar("PV")) < LooseVersion("1.32.0"):
++        config.set("rust", "use-jemalloc", e(False))
++
++    # Whether or not to optimize the compiler and standard library
++    config.set("rust", "optimize", e(True))
++
++    # Emits extraneous output from tests to ensure that failures of the test
++    # harness are debuggable just from logfiles
++    config.set("rust", "verbose-tests", e(True))
++
++    # Override default linker cc.
++    config.set("rust", "default-linker", e(d.expand("${RUST_BUILD_CCLD}")))
++
++    # [build]
++    config.add_section("build")
++    config.set("build", "submodules", e(False))
++    config.set("build", "docs", e(False))
++
++    rustc = d.expand("${WORKDIR}/rust-snapshot/bin/rustc")
++    config.set("build", "rustc", e(rustc))
++
++    cargo = d.expand("${WORKDIR}/rust-snapshot/bin/cargo")
++    config.set("build", "cargo", e(cargo))
++
++    config.set("build", "vendor", e(True))
++
++    targets = [d.getVar("TARGET_SYS", True)]
++    config.set("build", "target", e(targets))
++
++    hosts = [d.getVar("SNAPSHOT_BUILD_SYS", True)]
++    config.set("build", "host", e(hosts))
++
++    # We can't use BUILD_SYS since that is something the rust snapshot knows
++    # nothing about when trying to build some stage0 tools (like fabricate)
++    config.set("build", "build", e(d.getVar("SNAPSHOT_BUILD_SYS", True)))
++
++    with open("config.toml", "w") as f:
++        config.write(f)
++
++    # set up ${WORKDIR}/cargo_home
++    bb.build.exec_func("setup_cargo_environment", d)
++}
++
++
++rust_runx () {
++    echo "COMPILE ${PN}" "$@"
++
++    # CFLAGS, LDFLAGS, CXXFLAGS, CPPFLAGS are used by rust's build for a
++    # wide range of targets (not just TARGET). Yocto's settings for them will
++    # be inappropriate, avoid using.
++    unset CFLAGS
++    unset LDFLAGS
++    unset CXXFLAGS
++    unset CPPFLAGS
++
++    oe_cargo_fix_env
++
++    python3 src/bootstrap/bootstrap.py ${@oe.utils.parallel_make_argument(d, '-j %d')} "$@" --verbose
++}
++rust_runx[vardepsexclude] += "PARALLEL_MAKE"
++
++do_compile () {
++
++    rust_runx build src/tools/remote-test-server --target "${TARGET_SYS}"
++}
 -- 
 2.31.1
 
