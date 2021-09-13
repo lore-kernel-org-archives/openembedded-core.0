@@ -1,44 +1,44 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.179.1631554521013559855
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web12.191.1631554521976835468
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 10:35:21 -0700
+ Mon, 13 Sep 2021 10:35:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nuZmgX0k;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id v2so2406195plp.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 10:35:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GzdR43ob;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id f65so9525819pfb.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 10:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=n3xn1owRhCG1PvfXQ1NJmpG2oy/aPdOc+nxT4yhe+3I=;
-        b=nuZmgX0khiFk5DwOYbQjRxmD+Sh1QDrFfrPSqRfcWh3xaXrlP2JZdqXKfdzRF9xO16
-         xoeBA5g2/Yq9NtBY10uVf55tiuiu3SSQ4TUWm0av1B4EKRwEe32RbWX/tVHVX7O0s2Gy
-         i+AR9Kocta1NgkS/qtRSYzE5Ay84x93iexJXvaHRxmWFF/aBDtkzM+n/tlhXDEoavb8w
-         dPFXFUNVciyPk5YkH64am7djvrBfBG9Ks4dC7Bpfo6uUHQMPkUxJW5CRgDP8e3BiMvnD
-         lJlO2xn6kZ4LpxqQa9JBKTdPxaSeaYtKuKqo0+9IeUYIQgx/pjPRVKd+NM1ptGXqzKNo
-         DI9w==
+        bh=8/bmZtqTNU6jfkgXsJUTdX9+NzoMwbffAIoA3XY/VbE=;
+        b=GzdR43obUorWsBr7ziS54Lv6isDYO3BvPjXYgH5H7APFOuqkOui+Jn9PLt7DnrKJOa
+         C3CzwN6Hw+tX4a3nV9en6ZAs5wQ082N1IYJr5/t5DFNKVePuYqUZfOo0S9+cnIkKVumI
+         Vy2BqI74FND2TWJdBvaQZhoCDMa97GZI8r2i5hXAUOzVFVdYbMNTHgJP+1YU+X4d+Ip9
+         6FpFNWQMutu5fcKTyLqguNmJbUvbPc6p5PtXK7G4UbWWo0r/fkeN9ejYWTXL66bfP4eC
+         uHUAXs9cEVvXF/0oD5pbH+N2qJ2umzeueObBZnMrm8FilJRS2BeMfVJIGc/qwbiiGv5M
+         64cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n3xn1owRhCG1PvfXQ1NJmpG2oy/aPdOc+nxT4yhe+3I=;
-        b=KCMNF28y8ESHBQnXcYc7wXVuMtwaJ7HvC4aGSLaMGGdPutOBH+Vbehh7Qq5BQZrhh2
-         H26b3U882h+nrLLit2Wg64WozXRebHGfH0bsdgm5EKlPJyBf0S2b7OBP87jGwSq67Wjs
-         9no/UlWG1bKLiSOgVHYgQwS8lu2Dha7Dc9IGvwuB/YkfjUPgsOJB1XBwe/F4wGY9/nkl
-         vx8DZT/dP02vpUURHrk9GU3YcujvX9az4SkhdB4kY/98OJcoZApu8gM62kPmrpFqbFjZ
-         wG0WNSDy7ji0ssH895Qq+oQDMQSdnME5f50+K5FBn1SVJeE5mzGu/Z4sAeAOCXU+wNH9
-         BMqg==
-X-Gm-Message-State: AOAM532mJFV/BCTwstOXFTLYADWxE02tcP4SdcFvPKZJIZPe4ZTNOJUp
-	wGvHiuoat8atPhPW4GK82ktr6Bbn5IqLHw==
-X-Google-Smtp-Source: ABdhPJyiRoEec+cNm7sRhd2WYLWsu8R+6ldJACiOfY77nMh6VfpXCmWE+bgb0smNUbvnDKVLiNnE5A==
-X-Received: by 2002:a17:90b:23d1:: with SMTP id md17mr724333pjb.105.1631554520395;
-        Mon, 13 Sep 2021 10:35:20 -0700 (PDT)
+        bh=8/bmZtqTNU6jfkgXsJUTdX9+NzoMwbffAIoA3XY/VbE=;
+        b=viUwRAb5sZwE702WQYcEM+s8s8AoDfqnoekOdUUSG9IngzCnf8/eH+Nz0+z+kca5PL
+         WxyXmy2rZSgjU3vRUiOUG9WLz/yqKBCcxwW8IZ1otKz+7t51UghdDMvr4Olk3U+AlbrX
+         Ar9QOwLEzIYjaXdnd8OP+LPCDwnPdss+TTf67isLsRq4k+4OGJiqkP/octLt2M9J4p0m
+         ytjyeouHRAD3yxJoN2nx0OK52XGQkEA0+/LcmIO8fbh6qpUzaBe5+WOvYZBPtj8guUh4
+         7BtGcM+eQNt1jBmy9DqSdl9XbkTC87Pw+IyDy15g7X2VvfC6K1swAqYZlIMUlCiVHiaj
+         N6Tw==
+X-Gm-Message-State: AOAM532lLBJ88lbFSMY8i5WKpqAKvpqQYhg8caI30G9QWETd1ieA94jr
+	SDK+G9qCgYmGsQFrRWHBRxrz4L4+Ie3hkQ==
+X-Google-Smtp-Source: ABdhPJwwheQquh7HEbfayavDYOlJj/AE3CuSBvCBjVnM4OT2PcR+q0GWqFPZshLEYSWLYB54ALZMrg==
+X-Received: by 2002:a05:6a00:2129:b0:434:ab92:5af4 with SMTP id n9-20020a056a00212900b00434ab925af4mr617608pfj.3.1631554521356;
+        Mon, 13 Sep 2021 10:35:21 -0700 (PDT)
 Return-Path: <pgowda.cve@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id t68sm8988337pgc.59.2021.09.13.10.35.19
+        by smtp.gmail.com with ESMTPSA id t68sm8988337pgc.59.2021.09.13.10.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 10:35:20 -0700 (PDT)
+        Mon, 13 Sep 2021 10:35:21 -0700 (PDT)
 From: "Pgowda" <pgowda.cve@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
@@ -47,32 +47,39 @@ Cc: richard.purdie@linuxfoundation.org,
 	vinay.m.engg@gmail.com,
 	alex.kanavin@gmail.com,
 	Pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH 3/4] Rust oe-selftest file
-Date: Mon, 13 Sep 2021 10:35:12 -0700
-Message-Id: <20210913173513.176653-3-pgowda.cve@gmail.com>
+Subject: [PATCH 4/4] Modify target cpu for powerpc to "7400"
+Date: Mon, 13 Sep 2021 10:35:13 -0700
+Message-Id: <20210913173513.176653-4-pgowda.cve@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913173513.176653-1-pgowda.cve@gmail.com>
 References: <20210913173513.176653-1-pgowda.cve@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add file for rust oe-selftest
+During rust testing, some ui test failed due to following message.
+'powerpc' is not a recognized processor for this target in rust
+
+Hence the target cpu was renamed to "7400" in "llvm_cpu" as per
+default tune for qemuppc.
 
 Signed-off-by: Pgowda <pgowda.cve@gmail.com>
 ---
- meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb
+ meta/recipes-devtools/rust/rust-common.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb b/meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb
-new file mode 100644
-index 0000000000..ad758b71f4
---- /dev/null
-+++ b/meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb
-@@ -0,0 +1,3 @@
-+require rust-testsuite.inc
-+require rust-source-${PV}.inc
-+require rust-snapshot-${PV}.inc
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index 153fa3aa97..aece1247a4 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -265,7 +265,7 @@ def llvm_cpu(d):
+     trans['x86-64'] = "x86-64"
+     trans['i686'] = "i686"
+     trans['i586'] = "i586"
+-    trans['powerpc'] = "powerpc"
++    trans['powerpc'] = "7400"
+     trans['mips64'] = "mips64"
+     trans['mips64el'] = "mips64"
+     trans['riscv64'] = "generic-rv64"
 -- 
 2.31.1
 
