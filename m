@@ -1,74 +1,114 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.27658.1631530506053063659
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web09.27707.1631530817010383051
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 03:55:06 -0700
+ Mon, 13 Sep 2021 04:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EI4XPvQq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id g16so13997521wrb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 03:55:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eL9m7Zts;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id t8so8950390wrq.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 04:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=9JcUUoMBT1+F/0jKt8a1clgYfXWTyUMSn+VSKU6bHS4=;
-        b=EI4XPvQq9lLpwV9PdQGhsRKvON7BthVg6DG/90rbVEBPHO2swRsuqIbX66Avt6T48X
-         WtebE2UcAyipnaKY5mYRpsd24N2QzHpubG6pZzlwr2CwFA0Cek1Vj68SFDNIJNtqDmhU
-         fGDWmbYr6l9Ezhg/kkW40kUvM4WGajX5kGNXw=
+        bh=N16o1xaNznPubLlyTwoQX8Hxei+BUKgeQ+K2iOKyjGY=;
+        b=eL9m7ZtsDbOAFH8yQKBWkP+3MaFCNOP9RILZ/OMj/6sZxkUlIZv/XjczkAqWCDZs2w
+         c0ytSMBDmoGZ+QMvYRfAFS9yvbar02adJV0wpg9mk3AOcnTS9HtwAoAEKAQZZXR1Rw9+
+         mQS8UdEAsewFtnDGvPvCImUybuoP+4i+BQ7a8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9JcUUoMBT1+F/0jKt8a1clgYfXWTyUMSn+VSKU6bHS4=;
-        b=tijJY2NLZYJ9OClwtpcHvTn/lDOhre/I+10OKAW92DNaqtxOYxa/f+rrkU8lv+JtNV
-         JSBLOKRqwDvLU/lRWV7M2r1l+AidBG8kz3khNEO04wVt0oow+hcPzEoL8LX5ZP1uHXhC
-         m0Zk7PPF399DthWf7Cf/gUCLVu9hvKPMw4+hirG2RzGSUaeTl5osbWOwSsvYXsc4r7gY
-         76lG8ghUP43v+AE5wnD2t4plO8Hha36oSMw6rdj7odgPWY3X5pYWtXUKgH2kejlA5pg/
-         NRagM6vb9VAiIU+Z+YfCqo83L974BH9aGSGSD8LrIctNEbYxarroAbKEWOuTxbDv6JPV
-         G0OQ==
-X-Gm-Message-State: AOAM530ED1TnJ804Iqn8WgYq6WIjcQvvaaLBj5IKpcEvtmyXlRkynjPo
-	Yuez8h3SjT2IF5Hr/SWvCpWmGQ==
-X-Google-Smtp-Source: ABdhPJwhiMh/Q+3Somf+5AZhvAVbf07liEoGwID/uv2vsvotw1ixt8N9jL0xXr11s63JbpL8MFK+Ug==
-X-Received: by 2002:a5d:560e:: with SMTP id l14mr11451768wrv.205.1631530504379;
-        Mon, 13 Sep 2021 03:55:04 -0700 (PDT)
+        bh=N16o1xaNznPubLlyTwoQX8Hxei+BUKgeQ+K2iOKyjGY=;
+        b=vkc7Bz9odLk37TGn2WzI14qE8ayGz0F5myZJJwKSXMYWwU8HB753q4+vZ2GZkazncT
+         oCQ4MKLY+nFuJD+Ie5mvYxpZOrCbZV3Q/xFEEDMqk3E9XNl4+dHtl3IK50zPYCn3I4BD
+         Z154f/aQDYyd4iHr/5U26rySo9Euq68+r0Xdm0OBuCreI0C2nOL/VgAIKQfqxsjOAydh
+         b/EeomsJVm+sdAcUgcyqOjPw97oE6OzVXnzt8HqPr4NGy68bocNxOfxoTyD4AX/CX4wq
+         C0Tas/huzdHCMmy3hWMXKPyWs2unuPI7oKf1Yosr27Shb6XGc59tkgwMDm+YlRb0BLr4
+         DOOQ==
+X-Gm-Message-State: AOAM532eha48syXzjRA1WU9+R1dKN2Hf9/7Ss5nj+X/TydEB8PcfJrRH
+	6oqZ1Nd3BePooBoCCFPjTnOiHg==
+X-Google-Smtp-Source: ABdhPJzHbldAmw17NlLh/vXoIdBin184LwsLNoFcqGKeYXSc/UhOJWjz1BL6RfInD9GNztnbNvyhYg==
+X-Received: by 2002:a5d:5408:: with SMTP id g8mr11954480wrv.34.1631530815287;
+        Mon, 13 Sep 2021 04:00:15 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:f7b8:8478:e47c:cb85? ([2001:8b0:aba:5f3c:f7b8:8478:e47c:cb85])
-        by smtp.gmail.com with ESMTPSA id y15sm7479294wmi.18.2021.09.13.03.55.03
+        by smtp.gmail.com with ESMTPSA id f23sm5779883wmc.3.2021.09.13.04.00.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 03:55:04 -0700 (PDT)
-Message-ID: <1adc6851d1f27a41acd90c4c7ba755126743f3ac.camel@linuxfoundation.org>
-Subject: Re: [OE-core][hardknott][PATCH] cpio: fix CVE-2021-38185
+        Mon, 13 Sep 2021 04:00:14 -0700 (PDT)
+Message-ID: <0f44c9945b6ffc2583dab6eabd796b2af7633ee4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] bitbake.conf: support persistent /var/tmp
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
-  "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Sep 2021 11:55:00 +0100
-In-Reply-To: <5389a90e-bd2e-3950-e4fc-4d1154bd8073@windriver.com>
-References: <20210913044935.30958-1-Qi.Chen@windriver.com>
-	 <24d8ba47f26a0d99ac4f0f158283d68c3f13ecae.camel@intel.com>
-	 <5389a90e-bd2e-3950-e4fc-4d1154bd8073@windriver.com>
+To: Changqing Li <changqing.li@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 13 Sep 2021 12:00:13 +0100
+In-Reply-To: <11e3b9fb-0673-db2f-5f6a-4f10d48cda0c@windriver.com>
+References: <16989323AFD32DAC.17148@lists.openembedded.org>
+	 <16A0074A273CDC4D.26797@lists.openembedded.org>
+	 <11e3b9fb-0673-db2f-5f6a-4f10d48cda0c@windriver.com>
 User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-09-13 at 16:33 +0800, Chen Qi wrote:
-> Just found that Ross has sent out a patch for CVE-2021-38185 and it has 
-> been merged in hardknott.
-> So please ignore this patch.
-> 
-> I'm also curious about how you spot such issue. By double checking the 
-> commit logs in cpio repo?
+On Mon, 2021-09-13 at 11:42 +0800, Changqing Li wrote:
+> ping
+> On 8/30/21 4:11 PM, Changqing Li wrote:
+>  
+> > On 8/6/21 9:21 AM, Changqing Li wrote:
+> >  
+> > > From: Changqing Li <changqing.li@windriver.com>
+> > > 
+> > > Steps:
+> > > 1. build out rootfs core-image-minimal-qemux86-64.tar.bz2
+> > > 2. docker import core-image-minimal-qemux86-64.tar.bz2 poky:latest
+> > > 3. docker run -it --rm poky:latest /bin/sh
+> > > 4.
+> > > /var # ls -al
+> > > drwxr-xr-x    8 root     root          4096 Mar  9  2018 .
+> > > drwxr-xr-x    1 root     root          4096 Aug  5 06:59 ..
+> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 backups
+> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 cache
+> > > drwxr-xr-x    5 root     root          4096 Mar  9  2018 lib
+> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 local
+> > > lrwxrwxrwx    1 root     root            11 Mar  9  2018 lock ->
+> > > ../run/lock
+> > > lrwxrwxrwx    1 root     root            12 Mar  9  2018 log ->
+> > > volatile/log
+> > > lrwxrwxrwx    1 root     root             6 Mar  9  2018 run -> ../run
+> > > drwxr-xr-x    3 root     root          4096 Mar  9  2018 spool
+> > > lrwxrwxrwx    1 root     root            12 Mar  9  2018 tmp ->
+> > > volatile/tmp
+> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 volatile
+> > > /var # cd log
+> > > /bin/sh: cd: can't cd to log: No such file or directory
+> > > /var # cd tmp
+> > > /bin/sh: cd: can't cd to tmp: No such file or directory
+> > > /var # cd volatile/
+> > > /var/volatile # ls -al
+> > > drwxr-xr-x    2 root     root          4096 Mar  9  2018 .
 
-I had looked at this one a little as well. I'd looked at some of the discussion
-from the debian community on the CVE and noticed they talked about regressions,
-which prompts you to look further into the issue.
+Sorry, I appreciate this change hasn't had feedback. Unfortunately I'm finding
+this one hard to review. I'm also worried because it changes a number of key
+areas of the system init process in a way which looks very tailored to a
+specific use case.
 
-Ross' patches in master included the regressions fixes too.
+I suspect we do need to have some kind of better configuration of this area of
+the system but I'm not convinced this patchset does that, it looks more likely
+to adversely affect other use cases in favour of a specialist one.
+
+I am unlikely to want to make changes in this area until the next release now,
+sorry :/.
+
+This is one of the problems with not having enough people with specialist
+knowledge to help review, too much falls to me and I just don't have the time to
+dive into each different thing and stand a chance of making the correct
+decisions. This is frustrating for everyone.
 
 Cheers,
 
 Richard
+
 
 
 
