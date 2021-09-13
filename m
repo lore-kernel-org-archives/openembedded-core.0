@@ -1,256 +1,127 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.28859.1631537148674519856
+Received: from vale.hankala.org (vale.hankala.org [164.138.26.161])
+ by mx.groups.io with SMTP id smtpd.web11.29027.1631537885096916158
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 05:45:48 -0700
+ Mon, 13 Sep 2021 05:58:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qk0Uz2pD;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: jainsaloni0918@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id f11-20020a17090aa78b00b0018e98a7cddaso6384152pjq.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 05:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=729AWyIaSDRKhv/EatkfwArSM1gx2jbYQdhnaEHKf/0=;
-        b=Qk0Uz2pDofMJtYrYGgjdBbuIErc5bjWIQSbQJlhkL+BbcjKUxGnB2bjo8Ot+GjbfoC
-         iPeDeNfcKYtv82B8NG1vS+AFAKlDLtNWLRsi9rkvj31O+gPx0kAfz5VjGAtYiQ/hRFUt
-         LQ7XYuGG4LrajleTGTdOb79vmlLJ+lDHKD88+dSMMgaeoDjc6CG7wjadRgDXUsfW1qZj
-         Dgg4GA5Gw/HZGnkARGwfKh+2pl8UFecPuAePk93hSYLuJT5IntPdTDDIgFZT9E3OcaT3
-         6Sf61+fob7rJoQ16q/an2AkqcN36i5i5A5QXxp0tC8CQTyopeGdq2zq3GSm4NUAi6gzo
-         uAow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=729AWyIaSDRKhv/EatkfwArSM1gx2jbYQdhnaEHKf/0=;
-        b=V5Wh7a5+1wu4w3vpaLccR4bVu1IAt67jU3UBym/7imc24rHXXvuBbYUxN0nuDcZccI
-         +MxVmXfHWBahS7E/WkBanuzuWIVQPf23lZpYL4FQ4We9bYwAvHHucgy/TyYBpSFUgsT5
-         rZJPFI3Q5yGM2edNqm8PaOWqshbcAUQdBfiJGJCZmU1n0dUiYyI6jLBWB0DX14xO340O
-         +0UyFQd10qeWMx3eKB7Tao4YU1kORCUUhKi9B1VHfTSABAj+GwxYtwgilvNQVJVMCBIS
-         oDXpG5lwbaA65mHsDrm3fLoJmdv9vmLk5H9E8lH7qRY9eGzDsQobsqf2vwZ8YI0VtHTv
-         S1wQ==
-X-Gm-Message-State: AOAM532CyQbegDJAkrhrJdR6IOygjCIq9bypF7FUrR5DvP4mA/NP/IUR
-	aXVVd9264Sgc+0F7lWLxfWuoJleDiPrS06UG
-X-Google-Smtp-Source: ABdhPJwgtm0TSh4YuBd+iwv7STTfG1Y+9wW/bccbUv6k5rjCK3GcWMvoOUIjOz+Q8oB4fKPzyuRuWw==
-X-Received: by 2002:a17:90a:5a86:: with SMTP id n6mr12707603pji.3.1631537147844;
-        Mon, 13 Sep 2021 05:45:47 -0700 (PDT)
-Return-Path: <jainsaloni0918@gmail.com>
-Received: from localhost.localdomain ([27.97.77.182])
-        by smtp.gmail.com with ESMTPSA id t28sm7446086pfe.144.2021.09.13.05.45.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 05:45:47 -0700 (PDT)
-From: "Saloni Jain" <jainsaloni0918@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com,
-	Saloni Jain <salonij@kpit.com>
-Subject: [poky][dunfell][PATCH] db: Whitelist CVEs
-Date: Mon, 13 Sep 2021 08:45:26 -0400
-Message-Id: <20210913124526.26861-1-jainsaloni0918@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: hankala.org, ip: 164.138.26.161, mailfrom: visa@hankala.org)
+Received: 
+	by vale.hankala.org (OpenSMTPD) with ESMTPS id 2d63eb65 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Sep 2021 12:58:00 +0000 (UTC)
+Date: Mon, 13 Sep 2021 12:57:59 +0000
+From: visa@hankala.org
+To: openembedded-core@lists.openembedded.org
+Subject: [dunfell][PATCH] iputils: Fix regression of arp table update
+Message-ID: <20210913125043.vMiwhe9oqBTeeCKt@hankala.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Saloni Jain <salonij@kpit.com>
+Backport a fix from iputils 20210202 to make arp table updating
+work again.
 
-Below CVE affects only Oracle Berkeley DB as per upstream.
-Hence, whitelisted them.
-
-1. CVE-2015-2583
-Link: https://security-tracker.debian.org/tracker/CVE-2015-2583
-2. CVE-2015-2624
-Link: https://security-tracker.debian.org/tracker/CVE-2015-2624
-3. CVE-2015-2626
-Link: https://security-tracker.debian.org/tracker/CVE-2015-2626
-4. CVE-2015-2640
-Link: https://security-tracker.debian.org/tracker/CVE-2015-2640
-5. CVE-2015-2654
-Link: https://security-tracker.debian.org/tracker/CVE-2015-2654
-6. CVE-2015-2656
-Link: https://security-tracker.debian.org/tracker/CVE-2015-2656
-7. CVE-2015-4754
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4754
-8. CVE-2015-4764
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4764
-9. CVE-2015-4774
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4774
-10. CVE-2015-4775
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4775
-11. CVE-2015-4776
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4776
-12. CVE-2015-4777
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4777
-13. CVE-2015-4778
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4778
-14. CVE-2015-4779
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4779
-15. CVE-2015-4780
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4780
-16. CVE-2015-4781
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4781
-17. CVE-2015-4782
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4782
-18. CVE-2015-4783
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4783
-19. CVE-2015-4784
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4784
-20. CVE-2015-4785
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4785
-21. CVE-2015-4786
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4786
-22. CVE-2015-4787
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4787
-23. CVE-2015-4788
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4788
-24. CVE-2015-4789
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4789
-25. CVE-2015-4790
-Link: https://security-tracker.debian.org/tracker/CVE-2015-4790
-26. CVE-2016-0682
-Link: https://security-tracker.debian.org/tracker/CVE-2016-0682
-27. CVE-2016-0689
-Link: https://security-tracker.debian.org/tracker/CVE-2016-0689
-28. CVE-2016-0692
-Link: https://security-tracker.debian.org/tracker/CVE-2016-0692
-29. CVE-2016-0694
-Link: https://security-tracker.debian.org/tracker/CVE-2016-0694
-30. CVE-2016-3418
-Link: https://security-tracker.debian.org/tracker/CVE-2016-3418
-31. CVE-2017-3604
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3604
-32. CVE-2017-3605
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3605
-33. CVE-2017-3606
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3606
-34. CVE-2017-3607
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3607
-35. CVE-2017-3608
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3608
-36. CVE-2017-3609
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3609
-37. CVE-2017-3610
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3610
-38. CVE-2017-3611
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3611
-39. CVE-2017-3612
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3612
-40. CVE-2017-3613
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3613
-41. CVE-2017-3614
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3614
-42. CVE-2017-3615
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3615
-43. CVE-2017-3616
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3616
-44. CVE-2017-3617
-Link: https://security-tracker.debian.org/tracker/CVE-2017-3617
-45. CVE-2020-2981
-Link: https://security-tracker.debian.org/tracker/CVE-2020-2981
-
-Signed-off-by: Saloni <jainsaloni0918@gmail.com>
+Fixes: 77c5792aa5e7 ("iputils: fix various arping regressions")
+Signed-off-by: Visa Hankala <visa@hankala.org>
 ---
- meta/recipes-support/db/db_5.3.28.bb | 92 ++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
+ ...ng-make-update-neighbours-work-again.patch | 79 +++++++++++++++++++
+ .../iputils/iputils_s20190709.bb              |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index b2ae98f05c..000e9ef468 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -39,6 +39,98 @@ SRC_URI[sha256sum] = "e0a992d740709892e81f9d93f06daf305cf73fb81b545afe7247804317
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
- 
-+# Below CVEs affects only Oracle Berkeley DB as per upstream.
-+# https://security-tracker.debian.org/tracker/CVE-2015-2583
-+CVE_CHECK_WHITELIST += "CVE-2015-2583"
-+# https://security-tracker.debian.org/tracker/CVE-2015-2624
-+CVE_CHECK_WHITELIST += "CVE-2015-2624"
-+# https://security-tracker.debian.org/tracker/CVE-2015-2626
-+CVE_CHECK_WHITELIST += "CVE-2015-2626"
-+# https://security-tracker.debian.org/tracker/CVE-2015-2640
-+CVE_CHECK_WHITELIST += "CVE-2015-2640"
-+# https://security-tracker.debian.org/tracker/CVE-2015-2654
-+CVE_CHECK_WHITELIST += "CVE-2015-2654"
-+# https://security-tracker.debian.org/tracker/CVE-2015-2656
-+CVE_CHECK_WHITELIST += "CVE-2015-2656"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4754
-+CVE_CHECK_WHITELIST += "CVE-2015-4754"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4764
-+CVE_CHECK_WHITELIST += "CVE-2015-4764"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4774
-+CVE_CHECK_WHITELIST += "CVE-2015-4774"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4775
-+CVE_CHECK_WHITELIST += "CVE-2015-4775"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4776
-+CVE_CHECK_WHITELIST += "CVE-2015-4776"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4777
-+CVE_CHECK_WHITELIST += "CVE-2015-4777"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4778
-+CVE_CHECK_WHITELIST += "CVE-2015-4778"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4779
-+CVE_CHECK_WHITELIST += "CVE-2015-4779"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4780
-+CVE_CHECK_WHITELIST += "CVE-2015-4780"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4781
-+CVE_CHECK_WHITELIST += "CVE-2015-4781"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4782
-+CVE_CHECK_WHITELIST += "CVE-2015-4782"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4783
-+CVE_CHECK_WHITELIST += "CVE-2015-4783"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4784
-+CVE_CHECK_WHITELIST += "CVE-2015-4784"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4785
-+CVE_CHECK_WHITELIST += "CVE-2015-4785"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4786
-+CVE_CHECK_WHITELIST += "CVE-2015-4786"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4787
-+CVE_CHECK_WHITELIST += "CVE-2015-4787"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4788
-+CVE_CHECK_WHITELIST += "CVE-2015-4788"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4789
-+CVE_CHECK_WHITELIST += "CVE-2015-4789"
-+# https://security-tracker.debian.org/tracker/CVE-2015-4790
-+CVE_CHECK_WHITELIST += "CVE-2015-4790"
-+# https://security-tracker.debian.org/tracker/CVE-2016-0682
-+CVE_CHECK_WHITELIST += "CVE-2016-0682"
-+# https://security-tracker.debian.org/tracker/CVE-2016-0689
-+CVE_CHECK_WHITELIST += "CVE-2016-0689"
-+# https://security-tracker.debian.org/tracker/CVE-2016-0692
-+CVE_CHECK_WHITELIST += "CVE-2016-0692"
-+# https://security-tracker.debian.org/tracker/CVE-2016-0694
-+CVE_CHECK_WHITELIST += "CVE-2016-0694"
-+# https://security-tracker.debian.org/tracker/CVE-2016-3418
-+CVE_CHECK_WHITELIST += "CVE-2016-3418"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3604
-+CVE_CHECK_WHITELIST += "CVE-2017-3604"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3605
-+CVE_CHECK_WHITELIST += "CVE-2017-3605"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3606
-+CVE_CHECK_WHITELIST += "CVE-2017-3606"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3607
-+CVE_CHECK_WHITELIST += "CVE-2017-3607"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3608
-+CVE_CHECK_WHITELIST += "CVE-2017-3608"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3609
-+CVE_CHECK_WHITELIST += "CVE-2017-3609"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3610
-+CVE_CHECK_WHITELIST += "CVE-2017-3610"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3611
-+CVE_CHECK_WHITELIST += "CVE-2017-3611"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3612
-+CVE_CHECK_WHITELIST += "CVE-2017-3612"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3613
-+CVE_CHECK_WHITELIST += "CVE-2017-3613"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3614
-+CVE_CHECK_WHITELIST += "CVE-2017-3614"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3615
-+CVE_CHECK_WHITELIST += "CVE-2017-3615"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3616
-+CVE_CHECK_WHITELIST += "CVE-2017-3616"
-+# https://security-tracker.debian.org/tracker/CVE-2017-3617
-+CVE_CHECK_WHITELIST += "CVE-2017-3617"
-+# https://security-tracker.debian.org/tracker/CVE-2020-2981
-+CVE_CHECK_WHITELIST += "CVE-2020-2981"
+diff --git a/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch b/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+new file mode 100644
+index 0000000000..bf86115843
+--- /dev/null
++++ b/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+@@ -0,0 +1,79 @@
++From 86ed08936d49e2c81ef49dfbd02aca1c74d0c098 Mon Sep 17 00:00:00 2001
++From: lac-0073 <61903197+lac-0073@users.noreply.github.com>
++Date: Mon, 26 Oct 2020 09:45:42 +0800
++Subject: [PATCH] arpping: make update neighbours work again
 +
- inherit autotools
++The arping is using inconsistent sender_ip_addr and target_ip_addr in
++messages.  This causes the client receiving the arp message not to update
++the arp table entries.
++
++The specific performance is as follows:
++
++There is a machine 2 with IP 10.20.30.3 configured on eth0:0 that is in the
++same IP subnet as eth0.  This IP was originally used on another machine 1,
++and th IP needs to be changed back to the machine 1.  When using the arping
++command to announce what ethernet address has IP 10.20.30.3, the arp table
++on machine 3 is not updated.
++
++Machine 3 original arp table:
++
++    10.20.30.3  machine 2 eth0:0    00:00:00:00:00:02
++    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
++    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++
++Create interface eth0:0 on machine 1, and use the arping command to send arp
++packets.  Expected outcome on machine 3:
++
++    10.20.30.3  machine 1 eth0:0    00:00:00:00:00:01
++    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
++    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++
++Actual results on machine 3:
++
++    10.20.30.3  machine 2 eth0:0    00:00:00:00:00:02
++    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
++    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++
++Fixes: https://github.com/iputils/iputils/issues/298
++Fixes: 68f12fc4a0dbef4ae4c404da24040d22c5a14339
++Signed-off-by: Aichun Li <liaichun@huawei.com>
++Upstream-Status: Backport [https://github.com/iputils/iputils/commit/86ed08936d49e2c81ef49dfbd02aca1c74d0c098]
++Signed-off-by: Visa Hankala <visa@hankala.org>
++---
++ arping.c | 16 +++++++++-------
++ 1 file changed, 9 insertions(+), 7 deletions(-)
++
++diff --git a/arping.c b/arping.c
++index a002786..53fdbb4 100644
++--- a/arping.c
+++++ b/arping.c
++@@ -968,7 +968,7 @@ int main(int argc, char **argv)
++ 		}
++ 		memset(&saddr, 0, sizeof(saddr));
++ 		saddr.sin_family = AF_INET;
++-		if (!ctl.unsolicited && (ctl.source || ctl.gsrc.s_addr)) {
+++		if (ctl.source || ctl.gsrc.s_addr) {
++ 			saddr.sin_addr = ctl.gsrc;
++ 			if (bind(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
++ 				error(2, errno, "bind");
++@@ -979,12 +979,14 @@ int main(int argc, char **argv)
++ 			saddr.sin_port = htons(1025);
++ 			saddr.sin_addr = ctl.gdst;
++ 
++-			if (setsockopt(probe_fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on)) == -1)
++-				error(0, errno, _("WARNING: setsockopt(SO_DONTROUTE)"));
++-			if (connect(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
++-				error(2, errno, "connect");
++-			if (getsockname(probe_fd, (struct sockaddr *)&saddr, &alen) == -1)
++-				error(2, errno, "getsockname");
+++			if (!ctl.unsolicited) {
+++				if (setsockopt(probe_fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on)) == -1)
+++					error(0, errno, _("WARNING: setsockopt(SO_DONTROUTE)"));
+++				if (connect(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
+++					error(2, errno, "connect");
+++				if (getsockname(probe_fd, (struct sockaddr *)&saddr, &alen) == -1)
+++					error(2, errno, "getsockname");
+++			}
++ 			ctl.gsrc = saddr.sin_addr;
++ 		}
++ 		close(probe_fd);
+diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
+index d652bfcaad..b33b913817 100644
+--- a/meta/recipes-extended/iputils/iputils_s20190709.bb
++++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
+@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/iputils/iputils \
+            file://0003-arping-Fix-comparison-of-different-signedness-warnin.patch \
+            file://0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch \
+            file://0005-arping-use-additional-timerfd-to-control-when-timeou.patch \
++           file://0001-arping-make-update-neighbours-work-again.patch \
+            "
+ SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
  
- # The executables go in a separate package - typically there
--- 
-2.17.1
-
