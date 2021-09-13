@@ -1,78 +1,75 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web12.30822.1631544537150571366
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.31002.1631545004312197399
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 07:48:57 -0700
+ Mon, 13 Sep 2021 07:56:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=T9rk3xuo;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so6753750pjw.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 07:48:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=UHtrOaI9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.51, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f51.google.com with SMTP id d207-20020a1c1dd8000000b00307e2d1ec1aso177017wmd.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 07:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=t1lqwR1RAQaPuef+/phgAwcL9VYDT53UuI0XA5Pz6F4=;
-        b=T9rk3xuoL3kh5c9T1VRyd3B3CDB95fIqyfXtc/ueDpBxvJ/4gXf3OaH06qnzod5+p4
-         tk7Whpzi4vRytxZrAyCJj5jeFR4cGNSWY8L2WK+B77TZtV2DP+Or4v3IZSJPDavfRfus
-         U5V17riY2G+OhXUWp9/xrrVhytRcZapntwlb3thzYlyZ+hYCmRQ2dsyUtvsNobAepsEe
-         98wAtgD16YmRcJ48AxSwYaYiBX4PiMNhGgRgUBHA5TM0FII6+T8VQjr+tmRN+0uTFWah
-         gq7AuH/6TdofQcCaizITamIhVNu5bP3AtcDWfuUvyBjBCApayYv9MVxvH49CzDRIDC0F
-         NNPQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Y8stPHpbekdkMVTsML0A6q3z0uiEnxx203csAy/4VY=;
+        b=UHtrOaI9EUL78P6TckhTp0mhjQzcRlLpm/WoGNS297h9l7r4rMlC5ZH9PUNhzOYYY4
+         1vGmt/wfnKJZCk/BZgCCUpZegKh90wkAGY1GS1KR/kr0fayVCI2SC055YjNvgA6xCaeC
+         SJYvsHPNtraqCirWBK3GKwyNYv7y7r75JNdnvV4rRoyYDI+GPZrYmc1wHzTAyomQseJH
+         o+JXi48rflu5SbpMHZ0osboDQ+l8VDzly/CMJH473awu/58g+zIMp8xHv2ccjEav6Zox
+         Kq9DQW/VMKptVLLUSqIpSN8bQP0soV6SIe0sMfoFxtNaMRiI8zsPC2S8kSq2b9EVldyw
+         eHWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=t1lqwR1RAQaPuef+/phgAwcL9VYDT53UuI0XA5Pz6F4=;
-        b=veN6sQy/h5xJG4CQNVRfHH+DetE0DaNHDSZWf38fJtLh5sR0YFlu9sQ7wdAXfMIE0n
-         YG0ThqkFt6FsQS1MSK3MnYVfsVqU1TKn3kj6on2kXukoSb2rovHzOE9foFoyl6drcJ/Q
-         nT/apBaGllqKMTuOTgI3v4Z24doCowJQe8dR/Vs5QgnDp1gH0fU1OTtsTmsnNWXaPwX5
-         tb6y7PwzpqjQTDGfuah9JILTVyPdnOmmt1F387XIhE5MBlpms6cCoU8kxH5G7rUzxn3K
-         N7YOhE1UH0sUSiI3rMIgLLAR8GLRJ06Rlolq/r5ppLpHtD56yusyNj5sACNBp+v9etR0
-         n6Bw==
-X-Gm-Message-State: AOAM533n8osVtd6+9Rpuccr4ch3va+FfbeeadIpzm/So0Od0uEs4viJR
-	pXsmIyeT/KmD+ed/f+b3EC0=
-X-Google-Smtp-Source: ABdhPJwA7jlbC5emsjYoBHWXVQuneeRxI/RQJEXHKuYhlNrwgmpDaECaAbtAgdIj27tgi5ZOVoN/tA==
-X-Received: by 2002:a17:90a:9310:: with SMTP id p16mr3499662pjo.193.1631544536438;
-        Mon, 13 Sep 2021 07:48:56 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:ad54:a04f:2a83:6c06? ([2601:202:4180:a5c0:ad54:a04f:2a83:6c06])
-        by smtp.gmail.com with ESMTPSA id v190sm7461527pfv.166.2021.09.13.07.48.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Sep 2021 07:48:56 -0700 (PDT)
-Subject: Re: [OE-core] [poky][dunfell][PATCH] db: Whitelist CVEs
-To: Saloni Jain <jainsaloni0918@gmail.com>,
- openembedded-core@lists.openembedded.org, raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com, Saloni Jain <salonij@kpit.com>
-References: <20210913124526.26861-1-jainsaloni0918@gmail.com>
-From: "Armin Kuster" <akuster808@gmail.com>
-Message-ID: <21c78d46-134b-b411-abae-3db01207f882@gmail.com>
-Date: Mon, 13 Sep 2021 07:48:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4Y8stPHpbekdkMVTsML0A6q3z0uiEnxx203csAy/4VY=;
+        b=nHeBPjarl4yMrvslJvR4I/maIX6GK7LdcdGGgGqghR+0clyqdGiNDhJuGhi5ZNJ0U8
+         fcOXkDjsHLqlpT0wK62QG+tv3TkEQOMbS401/WbgvpC+DMINRHeQ1Yl214b9rLgFhSNN
+         E5YoXD874ElQP8uy2s1MnCZlivtO5bz9NkprcuTXLQl1E4mY73aEQj3oL9wxmhOWe/GY
+         DhPlNkab3y2OiwQRO4GV+AO1Wsm47ZP91sPiZ+pDjM+anQrUWabVdG4ZPct2DwbPMoV/
+         CVxQo22gsXUtw4yc02L3r1NRNWow5/qeAliplXuqhlOheh9K/VnXPItFFkYdyDsWgj7t
+         hMtQ==
+X-Gm-Message-State: AOAM533bEuTFpmANyQN9mIoSNS5n3gfN//22hrFTCZWd6FtkeVabO21m
+	eFzhIt8MpbCZhpYxKfx2wnqxuHURCPcJ1+kR/p8qWg==
+X-Google-Smtp-Source: ABdhPJx6qSU/Acmc6APWhXMxtgXrTcqU4Ca+cxT0dx7see8mYFaQfVTPIltqog0mgR30v+bWMLuDoDr80wy72kgTwOE=
+X-Received: by 2002:a7b:cb04:: with SMTP id u4mr11760285wmj.18.1631545002412;
+ Mon, 13 Sep 2021 07:56:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210913124526.26861-1-jainsaloni0918@gmail.com>
 In-Reply-To: <20210913124526.26861-1-jainsaloni0918@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Mon, 13 Sep 2021 04:56:30 -1000
+Message-ID: <CAOSpxdaZGZnOFD1TuhRzEfQpJ-obtkvSs+O9eLJ8LKm1xgXL5g@mail.gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] db: Whitelist CVEs
+To: Saloni Jain <jainsaloni0918@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Nisha Parrakat <nisha.parrakat@kpit.com>, Saloni Jain <salonij@kpit.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Saloni,
-
-Thanks for the CVE cleanup.
-
-On 9/13/21 5:45 AM, Saloni Jain wrote:
+On Mon, Sep 13, 2021 at 2:45 AM Saloni Jain <jainsaloni0918@gmail.com> wrote:
+>
 > From: Saloni Jain <salonij@kpit.com>
 >
 > Below CVE affects only Oracle Berkeley DB as per upstream.
 > Hence, whitelisted them.
 
-This situation will happen more frequently than one thinks including
-with mariadb recipe.  I wounder if a "${PN}_cve_ exclude.inc"  like
-scheme may help keep the recipe from getting hard to read if the listing
-gets out of control?
+I suspect that a cleaner solution might be to revert:
 
-- Armin
+db: update CVE_PRODUCT
+(https://git.openembedded.org/openembedded-core/commit/?id=ad799b109716ccd2f44dcf7a6a4cfcbd622ea661)
 
+which adds berkeley_db to CVE_PRODUCT
+
+I did a quick test and this eliminates all of the below CVE's. And of
+course it makes sense to only check for oracle_berkeley_db since that
+is the source code we are using.
+
+Also, this same issue is present in master, so any fix would need to
+go there first and I will cherry-pick.
+
+Could you confirm that this approach works for you too?
+
+Steve
 
 >
 > 1. CVE-2015-2583
@@ -176,9 +173,9 @@ gets out of control?
 > --- a/meta/recipes-support/db/db_5.3.28.bb
 > +++ b/meta/recipes-support/db/db_5.3.28.bb
 > @@ -39,6 +39,98 @@ SRC_URI[sha256sum] = "e0a992d740709892e81f9d93f06daf305cf73fb81b545afe7247804317
->  
+>
 >  LIC_FILES_CHKSUM = "file://LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
->  
+>
 > +# Below CVEs affects only Oracle Berkeley DB as per upstream.
 > +# https://security-tracker.debian.org/tracker/CVE-2015-2583
 > +CVE_CHECK_WHITELIST += "CVE-2015-2583"
@@ -272,9 +269,11 @@ gets out of control?
 > +CVE_CHECK_WHITELIST += "CVE-2020-2981"
 > +
 >  inherit autotools
->  
+>
 >  # The executables go in a separate package - typically there
+> --
+> 2.17.1
+>
 >
 > 
 >
-
