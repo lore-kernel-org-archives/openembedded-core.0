@@ -1,127 +1,192 @@
-Received: from vale.hankala.org (vale.hankala.org [164.138.26.161])
- by mx.groups.io with SMTP id smtpd.web11.29027.1631537885096916158
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web08.29495.1631539001320962332
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 05:58:07 -0700
+ Mon, 13 Sep 2021 06:16:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: hankala.org, ip: 164.138.26.161, mailfrom: visa@hankala.org)
-Received: 
-	by vale.hankala.org (OpenSMTPD) with ESMTPS id 2d63eb65 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Sep 2021 12:58:00 +0000 (UTC)
-Date: Mon, 13 Sep 2021 12:57:59 +0000
-From: visa@hankala.org
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][PATCH] iputils: Fix regression of arp table update
-Message-ID: <20210913125043.vMiwhe9oqBTeeCKt@hankala.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ls6hsdQ/;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: jainsaloni0918@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id w19so4389923pfn.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 06:16:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=YvvZmSm0lh2XeA9tEWqHiRBkQxQcsDvomnBvxg1Vb08=;
+        b=ls6hsdQ/2lZCRf/oOKk0QGopRJJwjOQot4x4j+4cWs/jDSYgSdlv39hYeHIQ0ocQbB
+         NenmSWfNZZoIqwG5XWWQREJsKRt0iu6mL7fzSA4Tj2Et7htLzVjildS+oZcrIjHZlofc
+         l4vzoRQAataxCGVu4hwLCfikmCcSfw5SRffvrOzgQjI9e/vWd9K8TD32lxlAN3/264sp
+         jSx89WpvlMBZhK5fPXcsHsLAnxZFdo8g1X3GipBDHyM3iZSUjahwzSo4jZpzrI6O2rfQ
+         pI7h133ZPMQnuiuvUbLYzH7Fx9kCUGr1AusNkxXTH8gsFzP64RP74FeChm3+k8X4Lcxr
+         ivEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=YvvZmSm0lh2XeA9tEWqHiRBkQxQcsDvomnBvxg1Vb08=;
+        b=fHdxt5oFFgh5f2K5h0nxKZemHGot1CXe6dXb6A/yqW2PswmAfR0EJeTPZqeLDnm0N7
+         fXUET8bPEBge3J9Gn9y9Jn4eFSE8WqYJ5bXARYLbSdWmotUDjTKuOS27DJhpU5iUvJ43
+         yILMXYpuQiHEtFexi8GfVIHV/4QpQDf7e0Zh3OJ5aWGt9hqgWDDQvvRyPng7dyYDK+lN
+         GWvL1PZVeQ/kJo+JH3eFbihaaSPdFIXyq3pTpn2p5hLPtRM/aAn/pvxXd2D3k6EFWKJW
+         W7Zw4E39tJYqrakUodgNLn9/pD+xqiwMITOLz4kDRlyFtwev84aRVOyGPIS2FBzQoQZ7
+         hUCA==
+X-Gm-Message-State: AOAM530p4HdFc32aK0L41Sbwq4FeV59C6/U7BFOVqVj2iEXNeSSVnE22
+	zTsfvVQ9viuHx684xj4cTOb13z9Ee5ASOsp4tHA=
+X-Google-Smtp-Source: ABdhPJxZnLmcw0zu3wQlQaN2wBOEJ1R08pMB4YZ1BlzOX72XxyYIskGGIR/eDmY2NT0KzUvbwyf7Qg==
+X-Received: by 2002:a63:480b:: with SMTP id v11mr11190298pga.413.1631539000618;
+        Mon, 13 Sep 2021 06:16:40 -0700 (PDT)
+Return-Path: <jainsaloni0918@gmail.com>
+Received: from localhost.localdomain ([2402:8100:386e:9462:dc37:2fb7:3959:4993])
+        by smtp.gmail.com with ESMTPSA id y2sm6938325pjl.6.2021.09.13.06.16.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Sep 2021 06:16:40 -0700 (PDT)
+From: "Saloni Jain" <jainsaloni0918@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	Saloni Jain <salonij@kpit.com>,
+	Saloni Jain <jainsaloni0918@gmail.com>
+Subject: [poky][dunfell][PATCH] libxcrypt: Add fix for CVE-2021-33560
+Date: Mon, 13 Sep 2021 09:16:15 -0400
+Message-Id: <20210913131615.29285-1-jainsaloni0918@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Backport a fix from iputils 20210202 to make arp table updating
-work again.
+From: Saloni Jain <salonij@kpit.com>
 
-Fixes: 77c5792aa5e7 ("iputils: fix various arping regressions")
-Signed-off-by: Visa Hankala <visa@hankala.org>
+Add fix for below CVE:
+CVE-2021-33560
+Link: [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=patch;h=3462280f2e23e16adf3ed5176e0f2413d8861320]
+
+Signed-off-by: Saloni Jain<jainsaloni0918@gmail.com>
 ---
- ...ng-make-update-neighbours-work-again.patch | 79 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+ .../libgcrypt/files/CVE-2021-33560.patch      | 108 ++++++++++++++++++
+ .../libgcrypt/libgcrypt_1.8.5.bb              |   1 +
+ 2 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch b/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+diff --git a/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch b/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
 new file mode 100644
-index 0000000000..bf86115843
+index 0000000000..ba51af46b3
 --- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
-@@ -0,0 +1,79 @@
-+From 86ed08936d49e2c81ef49dfbd02aca1c74d0c098 Mon Sep 17 00:00:00 2001
-+From: lac-0073 <61903197+lac-0073@users.noreply.github.com>
-+Date: Mon, 26 Oct 2020 09:45:42 +0800
-+Subject: [PATCH] arpping: make update neighbours work again
++++ b/meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+@@ -0,0 +1,108 @@
++From 3462280f2e23e16adf3ed5176e0f2413d8861320 Mon Sep 17 00:00:00 2001
++From: NIIBE Yutaka <gniibe@fsij.org>
++Date: Fri, 21 May 2021 11:15:07 +0900
++Subject: [PATCH] cipher: Fix ElGamal encryption for other implementations.
 +
-+The arping is using inconsistent sender_ip_addr and target_ip_addr in
-+messages.  This causes the client receiving the arp message not to update
-+the arp table entries.
++* cipher/elgamal.c (gen_k): Remove support of smaller K.
++(do_encrypt): Never use smaller K.
++(sign): Folllow the change of gen_k.
 +
-+The specific performance is as follows:
++--
 +
-+There is a machine 2 with IP 10.20.30.3 configured on eth0:0 that is in the
-+same IP subnet as eth0.  This IP was originally used on another machine 1,
-+and th IP needs to be changed back to the machine 1.  When using the arping
-+command to announce what ethernet address has IP 10.20.30.3, the arp table
-+on machine 3 is not updated.
++Cherry-pick master commit of:
++	632d80ef30e13de6926d503aa697f92b5dbfbc5e
 +
-+Machine 3 original arp table:
++This change basically reverts encryption changes in two commits:
 +
-+    10.20.30.3  machine 2 eth0:0    00:00:00:00:00:02
-+    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
-+    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++	74386120dad6b3da62db37f7044267c8ef34689b
++	78531373a342aeb847950f404343a05e36022065
 +
-+Create interface eth0:0 on machine 1, and use the arping command to send arp
-+packets.  Expected outcome on machine 3:
++Use of smaller K for ephemeral key in ElGamal encryption is only good,
++when we can guarantee that recipient's key is generated by our
++implementation (or compatible).
 +
-+    10.20.30.3  machine 1 eth0:0    00:00:00:00:00:01
-+    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
-+    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++For detail, please see:
 +
-+Actual results on machine 3:
++    Luca De Feo, Bertram Poettering, Alessandro Sorniotti,
++    "On the (in)security of ElGamal in OpenPGP";
++    in the proceedings of  CCS'2021.
 +
-+    10.20.30.3  machine 2 eth0:0    00:00:00:00:00:02
-+    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
-+    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++CVE: CVE-2021-33560
++GnuPG-bug-id: 5328
++Suggested-by: Luca De Feo, Bertram Poettering, Alessandro Sorniotti
++Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++Signed-off-by: Saloni Jain <jainsaloni0918@gmail.com>
 +
-+Fixes: https://github.com/iputils/iputils/issues/298
-+Fixes: 68f12fc4a0dbef4ae4c404da24040d22c5a14339
-+Signed-off-by: Aichun Li <liaichun@huawei.com>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/86ed08936d49e2c81ef49dfbd02aca1c74d0c098]
-+Signed-off-by: Visa Hankala <visa@hankala.org>
++Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=patch;h=3462280f2e23e16adf3ed5176e0f2413d8861320]
++Comment: No changes/refreshing done.
 +---
-+ arping.c | 16 +++++++++-------
-+ 1 file changed, 9 insertions(+), 7 deletions(-)
++ cipher/elgamal.c | 24 ++++++------------------
++ 1 file changed, 6 insertions(+), 18 deletions(-)
 +
-+diff --git a/arping.c b/arping.c
-+index a002786..53fdbb4 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -968,7 +968,7 @@ int main(int argc, char **argv)
-+ 		}
-+ 		memset(&saddr, 0, sizeof(saddr));
-+ 		saddr.sin_family = AF_INET;
-+-		if (!ctl.unsolicited && (ctl.source || ctl.gsrc.s_addr)) {
-++		if (ctl.source || ctl.gsrc.s_addr) {
-+ 			saddr.sin_addr = ctl.gsrc;
-+ 			if (bind(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
-+ 				error(2, errno, "bind");
-+@@ -979,12 +979,14 @@ int main(int argc, char **argv)
-+ 			saddr.sin_port = htons(1025);
-+ 			saddr.sin_addr = ctl.gdst;
++diff --git a/cipher/elgamal.c b/cipher/elgamal.c
++index 9835122f..eead4502 100644
++--- a/cipher/elgamal.c
+++++ b/cipher/elgamal.c
++@@ -66,7 +66,7 @@ static const char *elg_names[] =
 + 
-+-			if (setsockopt(probe_fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on)) == -1)
-+-				error(0, errno, _("WARNING: setsockopt(SO_DONTROUTE)"));
-+-			if (connect(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
-+-				error(2, errno, "connect");
-+-			if (getsockname(probe_fd, (struct sockaddr *)&saddr, &alen) == -1)
-+-				error(2, errno, "getsockname");
-++			if (!ctl.unsolicited) {
-++				if (setsockopt(probe_fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on)) == -1)
-++					error(0, errno, _("WARNING: setsockopt(SO_DONTROUTE)"));
-++				if (connect(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
-++					error(2, errno, "connect");
-++				if (getsockname(probe_fd, (struct sockaddr *)&saddr, &alen) == -1)
-++					error(2, errno, "getsockname");
-++			}
-+ 			ctl.gsrc = saddr.sin_addr;
-+ 		}
-+ 		close(probe_fd);
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
-index d652bfcaad..b33b913817 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/iputils/iputils \
-            file://0003-arping-Fix-comparison-of-different-signedness-warnin.patch \
-            file://0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch \
-            file://0005-arping-use-additional-timerfd-to-control-when-timeou.patch \
-+           file://0001-arping-make-update-neighbours-work-again.patch \
-            "
- SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
- 
++ 
++ static int test_keys (ELG_secret_key *sk, unsigned int nbits, int nodie);
++-static gcry_mpi_t gen_k (gcry_mpi_t p, int small_k);
+++static gcry_mpi_t gen_k (gcry_mpi_t p);
++ static gcry_err_code_t generate (ELG_secret_key *sk, unsigned nbits,
++                                  gcry_mpi_t **factors);
++ static int  check_secret_key (ELG_secret_key *sk);
++@@ -189,11 +189,10 @@ test_keys ( ELG_secret_key *sk, unsigned int nbits, int nodie )
++ 
++ /****************
++  * Generate a random secret exponent k from prime p, so that k is
++- * relatively prime to p-1.  With SMALL_K set, k will be selected for
++- * better encryption performance - this must never be used signing!
+++ * relatively prime to p-1.
++  */
++ static gcry_mpi_t
++-gen_k( gcry_mpi_t p, int small_k )
+++gen_k( gcry_mpi_t p )
++ {
++   gcry_mpi_t k = mpi_alloc_secure( 0 );
++   gcry_mpi_t temp = mpi_alloc( mpi_get_nlimbs(p) );
++@@ -202,18 +201,7 @@ gen_k( gcry_mpi_t p, int small_k )
++   unsigned int nbits, nbytes;
++   char *rndbuf = NULL;
++ 
++-  if (small_k)
++-    {
++-      /* Using a k much lesser than p is sufficient for encryption and
++-       * it greatly improves the encryption performance.  We use
++-       * Wiener's table and add a large safety margin. */
++-      nbits = wiener_map( orig_nbits ) * 3 / 2;
++-      if( nbits >= orig_nbits )
++-        BUG();
++-    }
++-  else
++-    nbits = orig_nbits;
++-
+++  nbits = orig_nbits;
++ 
++   nbytes = (nbits+7)/8;
++   if( DBG_CIPHER )
++@@ -492,7 +480,7 @@ do_encrypt(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_public_key *pkey )
++    * error code.
++    */
++ 
++-  k = gen_k( pkey->p, 1 );
+++  k = gen_k( pkey->p );
++   mpi_powm (a, pkey->g, k, pkey->p);
++ 
++   /* b = (y^k * input) mod p
++@@ -608,7 +596,7 @@ sign(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_secret_key *skey )
++     *
++     */
++     mpi_sub_ui(p_1, p_1, 1);
++-    k = gen_k( skey->p, 0 /* no small K ! */ );
+++    k = gen_k( skey->p );
++     mpi_powm( a, skey->g, k, skey->p );
++     mpi_mul(t, skey->x, a );
++     mpi_subm(t, input, t, p_1 );
++-- 
++2.11.0
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+index 16a58ad9b8..174b087b24 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+@@ -28,6 +28,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch \
+            file://0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch \
+            file://determinism.patch \
++           file://CVE-2021-33560.patch \
+ "
+ SRC_URI[md5sum] = "348cc4601ca34307fc6cd6c945467743"
+ SRC_URI[sha256sum] = "3b4a2a94cb637eff5bdebbcaf46f4d95c4f25206f459809339cdada0eb577ac3"
+-- 
+2.17.1
+
