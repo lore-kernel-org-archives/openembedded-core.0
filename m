@@ -1,150 +1,287 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.26364.1631519123821184138
+Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
+ by mx.groups.io with SMTP id smtpd.web09.26499.1631520800924988117
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Sep 2021 00:45:24 -0700
+ Mon, 13 Sep 2021 01:13:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=grNV4GUo;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4890dbbd43=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18D7Q0Lc004837
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 07:45:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=d3QUcX8r9EnHTyLLT6qESKVGoQ5Gct3gfJg8iUx7mF0=;
- b=grNV4GUo0B8C9k2UXKk6t6fHKjwPNiYFoHG5RkXeKB1v2TWv2FSo8WPGd+jhRo1ULzgF
- gh3nrtcA/ygfp0iBRWKk7KMGe1dyycufGlS3yzJP4b3ac9nQrFuczRIkhlcNZSFjGeNQ
- LzZ1LgKg4zg5CCI0PIVMWYmwHkTI6tSWYzdZOxNSGefRZXXofx0xgfeYPV/sFIMzSW1P
- t+GTaoiENi2rDUi6+0U2Aqjbr5i+4GrilFP1RzH0vMtxhoqYxp4tC6VjRcnPFbkXIJtf
- jiGQdQj5kLxjNLZp77l4rw820zOP8UzY7sWHUCR6ehMQs4QLAMNvXfq+e/mWcn87rLSU jg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3b1dacggst-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 07:45:22 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18D7jLvN007051
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Sep 2021 07:45:22 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3b1dacggsp-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Sep 2021 07:45:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PHpYJi/W1bPSImQuZpyxBQoiw/kRWP5NU0c+mHTGFw80VewmPkz9vfvRvwqm/7QapJLr1e9a7QUR/gBQpApzb765X62mLjNDSxZn32iyoHIEGoSd745WMBS8vDasp14rIPQBCYoOFx5C4OJ9YOrEInUOJ1m0b6oE816VBMZEDQaMPCSdhct/OC2cM55WrDDlVPNA6gzofGUOgJE+uMmsIrZ4LIG/TUoIQSv3eF5l4Vrj/jj1CzFDfI9X7gr8Lv0+O86SIvZg9mrNyHsfMW/9N4SDw0lilRVSgPPIPDRh3g9X1CVxhwWdunfg0/oOXXsdbZVbc/7xca8RSuBgt3ToFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=d3QUcX8r9EnHTyLLT6qESKVGoQ5Gct3gfJg8iUx7mF0=;
- b=WGBZmwyRICzDUdZDfqfdDd6W5z7PWJLBMXgIrxVd7jd9ujIQLh0yoZDlrjOMe+hSwbAaYEY68Elke2HtDMZmAyQA3OvRB2HMbTu9aYBfnHLJBqZAhSags4+UZOZOXcdXchjlvj7ikFULQlBfpVVs9tRNeJUANB4Fauobh4TCPcnUB/SspuBjZHhkE97Jqzo6cRUT5errUCCV3R/vJqsWBZx6rtp+GwgJ2ZLLhCgv6rr6UE0ppjcOZNSuRGxYvDUoH1xiRkkAu5URHDZ2xbTKZ7texrLP/rIMF3ltaFXKcty9onX3lgQGKXzpSyu9klN1C90jIn3nAadoqTAchIu4JA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM4PR11MB5469.namprd11.prod.outlook.com (2603:10b6:5:399::13)
- by DM6PR11MB3628.namprd11.prod.outlook.com (2603:10b6:5:144::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.18; Mon, 13 Sep
- 2021 07:45:20 +0000
-Received: from DM4PR11MB5469.namprd11.prod.outlook.com
- ([fe80::c13d:a0c3:e1bb:9432]) by DM4PR11MB5469.namprd11.prod.outlook.com
- ([fe80::c13d:a0c3:e1bb:9432%4]) with mapi id 15.20.4500.018; Mon, 13 Sep 2021
- 07:45:20 +0000
-From: "Robert Yang" <liezhi.yang@windriver.com>
-To: openembedded-core@lists.openembedded.org, ross@burtonini.com
-Subject: [PATCH v2 0/1] oeqa/sdk: assimp.py -> cmake.py
-Date: Mon, 13 Sep 2021 00:45:11 -0700
-Message-Id: <cover.1631518973.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.31.1
-X-ClientProxiedBy: BY5PR17CA0068.namprd17.prod.outlook.com
- (2603:10b6:a03:167::45) To DM4PR11MB5469.namprd11.prod.outlook.com
- (2603:10b6:5:399::13)
+ dkim=fail reason="body hash did not verify" header.i=@klausen.dk header.s=dkim header.b=rilQHCpb;
+ spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
+From: "Kristian Klausen" <kristian@klausen.dk>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+	t=1631520797;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1/27uTDt6o01EK3HJM6yh+uuNuRbABqt35CpYb7WReY=;
+	b=rilQHCpbwdufE0TyRJOevNcnBATpBmkzaYCJ1d9wuEVDvSRAp18AzN4BASuj7ObCXTHcY8
+	+MdpTKmY9gVr+tQK2dMZgGZkn8hTaPFXEFcX7/ffZa8MXLSe54hf6GccB8xqHj/fe4U7zh
+	stj2B+cizQN/9E77mKLNU+AvJzL1/5E=
+To: openembedded-core@lists.openembedded.org
+Cc: Kristian Klausen <kristian@klausen.dk>,
+	richard.purdie@linuxfoundation.org
+Subject: [PATCH v2] wic/bootimg-efi: Add Unified Kernel Image option
+Date: Mon, 13 Sep 2021 10:13:04 +0200
+Message-Id: <20210913081304.10799-1-kristian@klausen.dk>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by BY5PR17CA0068.namprd17.prod.outlook.com (2603:10b6:a03:167::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Mon, 13 Sep 2021 07:45:19 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb1dd897-099e-4589-f379-08d9768a6f82
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3628:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB3628DE6C831D0A63B556C418FFD99@DM6PR11MB3628.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:538;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	0H8Lgzb4j31jdkcq8KPPHLuYuIvWZqRdpyO2eT+GlkbOywymYtPVbBk6lQwznAAS76LFi3ufNHcxOaVAz0gzes5k/myKQpuqsDaZyUJHDryMF118ThHKYU8MHZauIo1vhRmgqR8aFUU7sPD++rUsoTIdeHQ2s2h9Go+3Nd0DkUWh8tZBU5SgPrs2xXZ7yzwLKWp+WsRje/e84ABexRwg1TKcZRErs0Qow9m2+UsAwUSjjUc8+hHqug6AJewXg+mLBs5KrUYekVyp/79i46+uIwy6kMnj+xyoIdgj6LbLWE2sV4THtLJAGbGYR/czbTO/F4mP8DoeTdorY/Oo1VuzYtsoT1vyqCPKzqiORKOXkXCYSA2ObiYBtFW8kG+zpFyi8teRAN9/DoTBhIX9I4NDbglC+xkqH+Xi/jw+JJZ3p3TabXisDpn+fTtkPljSJTtQ8zyAMDN22bYyF7GrIrvQejUY5kDbYVcgI6NJ4anZZpHV3Pxkr9LK8ccM09LFHRapvM3APAslGx/uW5k1GcTiis8ptoig5kfXJVqV4/MolEKX9LVgwadOJA7T1N3IVS6udaNBeaJNwijIUa0udVrRl5pHo0X+wULRP3k8plp197l2l4Ytwh7OzlBv1K8DwHFonJd/KYkCYUsVcBNRNd9oQh7CbqdxWEmk+yG7M2BMBIHMk9wA46S2SZ23GyOyp5bdXLoem4Ed0x81jupISiA1Hi0fCMEdFoyWA4kKVKL6OVfOV9i1gj4GGl3Qy1WaUN90cjgIGM6dZlhuLqPPbzghj2AGsgkWNN83/8a3UlNbG60=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5469.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(6666004)(86362001)(2906002)(83380400001)(8936002)(8676002)(508600001)(38350700002)(38100700002)(2616005)(5660300002)(6512007)(66556008)(956004)(4744005)(186003)(6486002)(36756003)(52116002)(966005)(6506007)(66476007)(66946007)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cNjkZBPq3gBd0a3f6evsrZ93gqEk9WxVd0VsKg9owUaNR0arWUOohvw1YeWK?=
- =?us-ascii?Q?wGVfwEGWL+y+l3lfORwJoh2xz8TQlTo4dOhY3Zh+BKF/VBRwnvTKXLFSsxt8?=
- =?us-ascii?Q?mreYE30cs7qxoX7HWpKqsvgnv2+7OFHcN0unohPiVkUmBRPhXubaFPJOVM1w?=
- =?us-ascii?Q?S98dPU7e285dPaZosMGvKwdJdq74Nzl4VkG0rJSe//q6HWvz2R+iQuLKkkmj?=
- =?us-ascii?Q?s7QejHorCdU86wXG1FVo4h3BmmzWEw5CIdRmbdP4OE/AMRV+3IOaAq6ggYIo?=
- =?us-ascii?Q?F0gYVOK/vUKLBqaufBzOiTeT1srNwR9CbwtAqB6/pTh2emZcujmakHm7Ah3f?=
- =?us-ascii?Q?srY46r8DWbAdIqVHoQg5xDuwAFBSrea+O4+xFiB2aU09XG3kpLeu9TtmAGm3?=
- =?us-ascii?Q?EwZuMVkvhwmBQTdjzSfodwD+1pPkYTR1jn4ycsaq4mXnExWyfID2PuVDA1Kv?=
- =?us-ascii?Q?L72qqgrmm/bRsiu1BNHo8FxA3lyInDpnDgeTSmxyf1hu0lGSPicGZqT7oVda?=
- =?us-ascii?Q?ow9fghmto+MSZcXVAK3G7RAyFgkLtQVhMdWx4ZUBL/wJvf7d0ywYSwc4P3jm?=
- =?us-ascii?Q?dx7jUWKzRizj+DRcmcOpwdW0vtNMXClIYyeKk1o+hPf2Wv43Q728gzXaGR7P?=
- =?us-ascii?Q?vxqRbErDXCnN1Ocaug728JPChIh22oU/wolxjz4odVTCEic/EtctB/u1TLYp?=
- =?us-ascii?Q?9DMNJ9oz+slFBQ/B+dUrWRp0lD3sNzK0IJDpue5Dg7pLq2JaT4SavhZ2CX47?=
- =?us-ascii?Q?Zn9hvs7CmtAYvK5peUM5PbtQ5jnwaPZF31vrswdh86o38uNbS+0IKQzkWTJ+?=
- =?us-ascii?Q?/Ir4xLluDVhulgUellHCHyIvJGj2qhztYq/HXrhYd5f7YvCCadbZ9d5jumW0?=
- =?us-ascii?Q?6XWDRDkiFm4UKEQLp8db9gRFCZVMY1qDu0zQeubkbXgsD3ZtVPZ+7NooZgDe?=
- =?us-ascii?Q?1D4AH7c1N8AAVyva/XOm+0/VJt8FuEUqasFxupaTNZ288xLU1KIaAHFoAEnK?=
- =?us-ascii?Q?s43PhFgCyq/x4ii4ZghD9Mizm5r6UfQcB8tRW6WhdCAeY/Ie/hLnHO79cjWS?=
- =?us-ascii?Q?XaS3ejEB+DbU95EZ+f7bo0payFqJQPf0Qk87+mTJObVOvxYjjpWXSxuo/z7F?=
- =?us-ascii?Q?vWW530pZJycsIAr2X+rFc1N64SHDW12x8rVO4kQgKrS/G+BuEJ+JjedXKJPn?=
- =?us-ascii?Q?Mh1qBI2+/Hqfbl4NdgCTasYE5iKdQlZuI5994ZdgjYsMptJjtLUB+LD3Y5Nb?=
- =?us-ascii?Q?1VBa8/mTueemJYwy8lby/LgwZGW+3UeYs9/7BBt6k4OU9tBkeI+wgdcB4OF8?=
- =?us-ascii?Q?R26TqqLzk6X0/7J7pO9D2kO4?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb1dd897-099e-4589-f379-08d9768a6f82
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5469.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2021 07:45:19.9596
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v6RCOZFqY7P6mA2Nl4AoDlTSUOHtj5RwBBuUfJj2lEAz0heZjK6is80GydHpUch21JIaHFUJFtprV9WG5sss1/kFAzGrh2YpYVZ9o5fSwC8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3628
-X-Proofpoint-ORIG-GUID: OgjPQNX-K1SlRnA00wYqOLGys5MgvwoA
-X-Proofpoint-GUID: JVF2LcoVkD_1nMadZbDlDOZNjsUz0r3I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-13_03,2021-09-09_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 spamscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109130050
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-* V2:
-  - Fixed Ross' comments:
-    1) Keep -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-    2) Avoid "/" in os.path.join()
+"A unified kernel image is a single EFI PE executable combining an EFI
+stub loader, a kernel image, an initramfs image, and the kernel command
+line.
 
-// Robert
+[...]
 
-The following changes since commit 50154869b496cf63a4fae2c8278350fcf9a2591d:
+Images of this type have the advantage that all metadata and payload
+that makes up the boot entry is monopolized in a single PE file that can
+be signed cryptographically as one for the purpose of EFI
+SecureBoot."[1]
 
-  binutils: inherit pkgconfig to address libdebuginfod depdency (2021-09-11 22:36:27 +0100)
+This commit adds a create-unified-kernel-image=3Dtrue option to the
+bootimg-efi plugin for creating a Unified Kernel Image[1] and installing
+it into $BOOT/EFI/Linux/ with a .efi extension per the the Boot Loader
+Specification[1][2]. This is useful for implementing Secure Boot.
 
-are available in the Git repository at:
+systemd-boot is the only mainstream bootloader implementing the
+specification, but GRUB should be able to boot the EFI binary, this
+commit however doesn't implement the necessary changes to the GRUB
+config generation logic to boot the Unified Kernel Image.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/test
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/test
+[1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kern=
+el-images
+[2] https://systemd.io/BOOT_LOADER_SPECIFICATION/
 
-Robert Yang (1):
-  oeqa/sdk: assimp.py -> cmake.py
+Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+---
+V2:
+Add os-release as dependency
+Pull os-release file from STAGING_DIR_HOST, so it doesn't need to be
+installed into the rootfs
+Add selftest
 
- meta/lib/oeqa/sdk/cases/{assimp.py => cmake.py} | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/lib/oeqa/sdk/cases/{assimp.py => cmake.py} (81%)
+ meta-selftest/wic/test_efi_plugin.wks         |  6 ++
+ meta/classes/image_types_wic.bbclass          |  5 +-
+ meta/lib/oeqa/selftest/cases/wic.py           | 29 ++++++++
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 71 ++++++++++++++++---
+ 4 files changed, 99 insertions(+), 12 deletions(-)
+ create mode 100644 meta-selftest/wic/test_efi_plugin.wks
 
--- 
-2.31.1
+diff --git a/meta-selftest/wic/test_efi_plugin.wks b/meta-selftest/wic/te=
+st_efi_plugin.wks
+new file mode 100644
+index 0000000000..1603d6c4bb
+--- /dev/null
++++ b/meta-selftest/wic/test_efi_plugin.wks
+@@ -0,0 +1,6 @@
++# short-description: This file is used in oe-selftest wic module to test=
+ efi plugin
++
++part /boot --source bootimg-efi --sourceparams=3D"loader=3Dsystemd-boot,=
+create-unified-kernel-image=3Dtrue,initrd=3D${INITRAMFS_IMAGE}-${MACHINE}=
+.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
++part / --source rootfs --fstype=3Dext4 --align 1024 --use-uuid
++
++bootloader  --timeout=3D0 --append=3D"console=3DttyS0,115200n8"
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_ty=
+pes_wic.bbclass
+index d561fb2636..e3863c88a9 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -27,6 +27,7 @@ WICVARS ?=3D "\
+ 	ROOTFS_SIZE \
+ 	STAGING_DATADIR \
+ 	STAGING_DIR \
++	STAGING_DIR_HOST \
+ 	STAGING_LIBDIR \
+ 	TARGET_SYS \
+ "
+@@ -84,8 +85,8 @@ do_image_wic[deptask] +=3D "do_image_complete"
+ WKS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_any("BUILD_ARCH", [ '=
+x86_64', 'i686' ], "syslinux-native", "",d)}'
+ WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrfs-t=
+ools-native squashfs-tools-native e2fsprogs-native"
+ WKS_FILE_DEPENDS_BOOTLOADERS =3D ""
+-WKS_FILE_DEPENDS_BOOTLOADERS:x86 =3D "syslinux grub-efi systemd-boot"
+-WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 =3D "syslinux grub-efi systemd-boot"
++WKS_FILE_DEPENDS_BOOTLOADERS:x86 =3D "syslinux grub-efi systemd-boot os-=
+release"
++WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 =3D "syslinux grub-efi systemd-boot =
+os-release"
+ WKS_FILE_DEPENDS_BOOTLOADERS:x86-x32 =3D "syslinux grub-efi"
+=20
+ WKS_FILE_DEPENDS ??=3D "${WKS_FILE_DEPENDS_DEFAULT} ${WKS_FILE_DEPENDS_B=
+OOTLOADERS}"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
+/cases/wic.py
+index dc7b9e637e..5fc8e65142 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1158,6 +1158,35 @@ class Wic2(WicTestCase):
+             out =3D glob(self.resultdir + "%s-*.direct" % wksname)
+             self.assertEqual(1, len(out))
+=20
++    @only_for_arch(['i586', 'i686', 'x86_64'])
++    def test_efi_plugin_unified_kernel_image_qemu(self):
++        """Test efi plugin's Unified Kernel Image feature in qemu"""
++        config =3D 'IMAGE_FSTYPES =3D "wic"\n'\
++                 'INITRAMFS_IMAGE =3D "core-image-minimal-initramfs"\n'\
++                 'WKS_FILE =3D "test_efi_plugin.wks"\n'\
++                 'MACHINE_FEATURES:append =3D " efi"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal core-image-minim=
+al-initramfs ovmf').status)
++        self.remove_config(config)
++
++        with runqemu('core-image-minimal', ssh=3DFalse,
++                     runqemuparams=3D'ovmf', image_fstype=3D'wic') as qe=
+mu:
++            # Check that /boot has EFI bootx64.efi (required for EFI)
++            cmd =3D "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
++            status, output =3D qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s'=
+ % (cmd, output))
++            self.assertEqual(output, '1')
++            # Check that /boot has EFI/Linux/linux.efi (required for Uni=
+fied Kernel Images auto detection)
++            cmd =3D "ls /boot/EFI/Linux/linux.efi | wc -l"
++            status, output =3D qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s'=
+ % (cmd, output))
++            self.assertEqual(output, '1')
++            # Check that /boot doesn't have loader/entries/boot.conf (Un=
+ified Kernel Images are auto detected by the bootloader)
++            cmd =3D "ls /boot/loader/entries/boot.conf 2&>/dev/null | wc=
+ -l"
++            status, output =3D qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s'=
+ % (cmd, output))
++            self.assertEqual(output, '0')
++
+     def test_fs_types(self):
+         """Test filesystem types for empty and not empty partitions"""
+         img =3D 'core-image-minimal'
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/=
+wic/plugins/source/bootimg-efi.py
+index cdc72543c2..cc6f5cf063 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -12,6 +12,7 @@
+=20
+ import logging
+ import os
++import tempfile
+ import shutil
+ import re
+=20
+@@ -119,12 +120,13 @@ class BootimgEFIPlugin(SourcePlugin):
+         bootloader =3D creator.ks.bootloader
+=20
+         loader_conf =3D ""
+-        loader_conf +=3D "default boot\n"
++        if source_params.get('create-unified-kernel-image') !=3D "true":
++            loader_conf +=3D "default boot\n"
+         loader_conf +=3D "timeout %d\n" % bootloader.timeout
+=20
+         initrd =3D source_params.get('initrd')
+=20
+-        if initrd:
++        if initrd and source_params.get('create-unified-kernel-image') !=
+=3D "true":
+             # obviously we need to have a common common deploy var
+             bootimg_dir =3D get_bitbake_var("DEPLOY_DIR_IMAGE")
+             if not bootimg_dir:
+@@ -183,11 +185,12 @@ class BootimgEFIPlugin(SourcePlugin):
+                 for rd in initrds:
+                     boot_conf +=3D "initrd /%s\n" % rd
+=20
+-        logger.debug("Writing systemd-boot config "
+-                     "%s/hdd/boot/loader/entries/boot.conf", cr_workdir)
+-        cfg =3D open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir=
+, "w")
+-        cfg.write(boot_conf)
+-        cfg.close()
++        if source_params.get('create-unified-kernel-image') !=3D "true":
++            logger.debug("Writing systemd-boot config "
++                         "%s/hdd/boot/loader/entries/boot.conf", cr_work=
+dir)
++            cfg =3D open("%s/hdd/boot/loader/entries/boot.conf" % cr_wor=
+kdir, "w")
++            cfg.write(boot_conf)
++            cfg.close()
+=20
+=20
+     @classmethod
+@@ -288,9 +291,57 @@ class BootimgEFIPlugin(SourcePlugin):
+                 kernel =3D "%s-%s.bin" % \
+                     (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_va=
+r("INITRAMFS_LINK_NAME"))
+=20
+-        install_cmd =3D "install -m 0644 %s/%s %s/%s" % \
+-            (staging_kernel_dir, kernel, hdddir, kernel)
+-        exec_cmd(install_cmd)
++        if source_params.get('create-unified-kernel-image') =3D=3D "true=
+":
++            initrd =3D source_params.get('initrd')
++            if initrd:
++                initrds =3D initrd.split(';')
++                if len(initrds) !=3D 1:
++                    raise WicError("initrd=3D must only referer a single=
+ initrd, exiting")
++                initrd =3D initrds[0]
++            else:
++                raise WicError("initrd=3D must be specified when create-=
+unified-kernel-image=3Dtrue, exiting")
++
++            deploy_dir =3D get_bitbake_var("DEPLOY_DIR_IMAGE")
++            efi_stub =3D glob("%s/%s" % (deploy_dir, "linux*.efi.stub"))
++            if len(efi_stub) =3D=3D 0:
++                raise WicError("Unified Kernel Image EFI stub not found,=
+ exiting")
++            efi_stub =3D efi_stub[0]
++
++            with tempfile.NamedTemporaryFile(mode=3D"w+") as cmdline:
++                label =3D source_params.get('label')
++                label_conf =3D "root=3D%s" % creator.rootdev
++                if label:
++                    label_conf =3D "LABEL=3D%s" % label
++
++                bootloader =3D creator.ks.bootloader
++                cmdline.write("%s %s" % (label_conf, bootloader.append))
++                cmdline.flush()
++
++                # Searched by systemd-boot:
++                # https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-e=
+fi-unified-kernel-images
++                install_cmd =3D "install -d %s/EFI/Linux" % hdddir
++                exec_cmd(install_cmd)
++
++                staging_dir_host =3D get_bitbake_var("STAGING_DIR_HOST")
++
++                # https://github.com/systemd/systemd/blob/7728f6aa812f1a=
+f563821505d9f377a7f4f727d9/test/test-efi-create-disk.sh#L32-L38
++                objcopy_cmd =3D "objcopy \
++                    --add-section .osrel=3D%s --change-section-vma .osre=
+l=3D0x20000 \
++                    --add-section .cmdline=3D%s --change-section-vma .cm=
+dline=3D0x30000 \
++                    --add-section .linux=3D%s --change-section-vma .linu=
+x=3D0x2000000 \
++                    --add-section .initrd=3D%s --change-section-vma .ini=
+trd=3D0x3000000 \
++                    %s %s" % \
++                    ("%s/usr/lib/os-release" % staging_dir_host,
++                    cmdline.name,
++                    "%s/%s" % (staging_kernel_dir, kernel),
++                    "%s/%s" % (deploy_dir, initrd),
++                    efi_stub,
++                    "%s/EFI/Linux/linux.efi" % hdddir)
++                exec_cmd(objcopy_cmd)
++        else:
++            install_cmd =3D "install -m 0644 %s/%s %s/%s" % \
++                (staging_kernel_dir, kernel, hdddir, kernel)
++            exec_cmd(install_cmd)
+=20
+         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
+             for src_path, dst_path in cls.install_task:
+--=20
+2.25.1
 
