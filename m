@@ -1,79 +1,81 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web12.1401.1631642652995162820
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.1502.1631643085694938220
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Sep 2021 11:04:13 -0700
+ Tue, 14 Sep 2021 11:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1cEflBRE;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f174.google.com with SMTP id w19so336592oik.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Sep 2021 11:04:12 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ZIaR6Gg0;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D8JNbPyrS+vPUxoDt6nMFGvLnCBhtbNn65aooqrlo3w=;
-        b=1cEflBREFDTcpDZC9cT+xUsyV83QtyaTa7oJ8UkSrBHHf0TPe1znd4JlP5GLIvkXAB
-         rPWE1w2rFGGlTeq27ht6+IhymBHiaDhLGUvOrJ/bt8fzImMktR/MRiJnyvbud4mDFu83
-         tjgbXwu0cMpvLFJAcnkixmh58JNkjjPyi4GmUSGEv4/CMAVxq4+QBE3IaD/dXrtilQ6N
-         mT5b2OZFemW/dy6vq7Vb7u6GaG5LvAq18/FXzTUZjjuFEO6cUTiI6d2JRWoANP55otgs
-         uQkHG4xgnYOeSuHTNykJqR35546yKY09vG71a0bmCCVk5jLhAP+5DxngJr0t331Q1UaV
-         ++ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D8JNbPyrS+vPUxoDt6nMFGvLnCBhtbNn65aooqrlo3w=;
-        b=ZHANrbtVtjn923lRTVE0+cAEoH/pqo0eg76ZVBzCHds3yXcsqoF6Nh+kHO1cYo5e6A
-         bJvqCzorX8sw5ecMzh1IdnnhmeT5ZUo/ML8/psvDTrB5vnjCtigI0lUJnLhsCFw7Ydaf
-         QSNVEaH9txN51T+kauIfG97N4iG0+jhSBDwNxem1W/NZArtaDFD6c5pHVVbiDI111QBf
-         q3gAGqrHxS3q3EUbbrVneqMch7rIMkSPjHcCBu5Fbfu2Wtijs1GnOqDF6sOjjkGHz1km
-         +r5OiVbPAtjpk8ASvGEF6gEHnAsslAVqKyJCsUR4Ys22nHxPAawY+B4KKtrpXSfFmooc
-         Ry8g==
-X-Gm-Message-State: AOAM532OXj8V+dRsCxFkvlNWDJ5LWtZwFzzJjJj/t7znZS7fsHBE5I2e
-	dbxksXObg/8/EAcpB61xD2QMl615McDx+bZ4
-X-Google-Smtp-Source: ABdhPJwFCEDKvAr6avnVo+ONbyz4M9qq7bd/H4o+nr4XL2KkGSjvQwnOulurhSYYrvD95I7EM7tqjQ==
-X-Received: by 2002:aca:3049:: with SMTP id w70mr2447133oiw.114.1631642651338;
-        Tue, 14 Sep 2021 11:04:11 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id y24sm2884911oto.40.2021.09.14.11.04.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 11:04:10 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] [master] [dunfell] [hardknott] Revert "db: update CVE_PRODUCT"
-Date: Tue, 14 Sep 2021 08:03:45 -1000
-Message-Id: <20210914180345.163507-1-steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1631643086;
+  x=1663179086;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+aZod+MhIKNJvZRzEeC7BUOlxiguNKy99dlRaSqfov4=;
+  b=ZIaR6Gg0iok6tsNtrwbkilu0sE2hkWQqdbPwWjQ8CNH4a6aGnNBS4731
+   uGj3vEWDTqsVlG2ZrXGp65oKnxTnacael8Al/r4rlW191rX6e4sT5QdV5
+   jWmFly3rD+ouIubSZNYU5Ls2e9lf5gb/BBhYyeBN00ji9AQmQZ39fVFuU
+   bPtxQsPT6EiH1PZvL2cdW7Fi+UzRFLjC8UYM9wOiG0RVmhg7M3cV7ZlcH
+   FNQ+oYg/9ElmAdQ7ysVpcZOmJmPPNtiLZ8MNPNO+/9MWtegSaLW6Z7HsN
+   eWISX+XQBk6XRyykBQ1J1SkR3391ltJ94LINVlUtpugnARPtlDuvQ+2Ht
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] create-spdx.bbclass: Search all license directories for licenses
+Date: Tue, 14 Sep 2021 20:11:15 +0200
+Message-ID: <20210914181115.28873-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The CVE database correctly reports CVEs for oracle_berkley_db and
-berkley_db.  We use the oracle_berkley_db source tree and therefore
-should only check for oracle_berkely_db CVEs. Otherwise the scanner
-falsely reports CVEs that are fixed in oracle_berkley_db
+Before, even if the code was seemingly written to search through all
+licenses in ${COMMON_LICENSE_DIR} and ${LICENSE_PATH}, it would
+actually bail out after only searching ${COMMON_LICENSE_DIR} due to
+the exception handling.
 
-This reverts commit ad799b109716ccd2f44dcf7a6a4cfcbd622ea661.
+Also refrain from using f-strings.
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-support/db/db_5.3.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/create-spdx.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index d5b788a3d7..5e9305ab06 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -15,7 +15,7 @@ HOMEPAGE = "https://www.oracle.com/database/technologies/related/berkeleydb.html
- LICENSE = "Sleepycat"
- RCONFLICTS:${PN} = "db3"
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index db85677d4c..3c73c21c04 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -67,6 +67,7 @@ def convert_license_to_spdx(lic, document, d, existing={}):
+         extracted_info = oe.spdx.SPDXExtractedLicensingInfo()
+         extracted_info.name = name
+         extracted_info.licenseId = ident
++        extracted_info.extractedText = None
  
--CVE_PRODUCT = "oracle_berkeley_db berkeley_db"
-+CVE_PRODUCT = "oracle_berkeley_db"
- CVE_VERSION = "11.2.${PV}"
+         if name == "PD":
+             # Special-case this.
+@@ -78,10 +79,12 @@ def convert_license_to_spdx(lic, document, d, existing={}):
+                     with (Path(directory) / name).open(errors="replace") as f:
+                         extracted_info.extractedText = f.read()
+                         break
+-                except Exception as e:
+-                    # Error out, as the license was in available_licenses so
+-                    # should be on disk somewhere.
+-                    bb.error(f"Cannot find text for license {name}: {e}")
++                except FileNotFoundError:
++                    pass
++            if extracted_info.extractedText is None:
++                # Error out, as the license was in available_licenses so should
++                # be on disk somewhere.
++                bb.error("Cannot find text for license %s" % name)
+         else:
+             # If it's not SPDX, or PD, or in available licenses, then NO_GENERIC_LICENSE must be set
+             filename = d.getVarFlag('NO_GENERIC_LICENSE', name)
+@@ -90,7 +93,7 @@ def convert_license_to_spdx(lic, document, d, existing={}):
+                 with open(filename, errors="replace") as f:
+                     extracted_info.extractedText = f.read()
+             else:
+-                bb.error(f"Cannot find any text for license {name}")
++                bb.error("Cannot find any text for license %s" % name)
  
- PR = "r1"
--- 
-2.25.1
-
+         extracted[name] = extracted_info
+         document.hasExtractedLicensingInfos.append(extracted_info)
