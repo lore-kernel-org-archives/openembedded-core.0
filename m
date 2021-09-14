@@ -1,106 +1,82 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web09.2246.1631646530859683832
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web09.2352.1631646967882048831
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Sep 2021 12:08:51 -0700
+ Tue, 14 Sep 2021 12:16:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=UXXQTNd4;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.41, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f41.google.com with SMTP id d6so21898123wrc.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Sep 2021 12:08:50 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=BySEfX2m;
+ spf=pass (domain: linaro.org, ip: 209.85.219.46, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qv1-f46.google.com with SMTP id a13so349582qvo.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Sep 2021 12:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WGVaHdyDaQhb3CONGZ5AfjNaRk/GxamAcNktxRttQb8=;
-        b=UXXQTNd4AKuX1nVERv2d5fbAsTS49xn1tJ39/ZTWE/vBKSfArZrZV3I+kcYcObkdv4
-         aueGx/aefDN9SBenepFdw/Hp5ADAs1BLB7Az44kVOovDYWpRbyhzrrEd0+vHAT2DbBgj
-         h5q1Mj1t9JGTF/Sm7uTvP7V2DFo7deozj0H5VRoD5CAgrV5MNixSl0NBsKjOF5T84XT7
-         sDEVMmbBYFzJDChIWr2ZA9QCL8akIj2eDSWcCuy+cRvhjJ4mzDbWCxvGKBMV2xa2smDv
-         dIr72v5gqbA9ngRiguTtzS84u7EQmG1r0Kf7IhHINSRI66DNmh5rO/ZgSqRFVAc1weoa
-         wYlw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1TrO90qWJ8ZF4RAn7wRYO7DuOrZi+06wIOrb/ZF8H/E=;
+        b=BySEfX2mVTy1z4iG3VZq8F77WE4LpCOIpk9rBwmMagx8je2P+8dilJmgYWCHwYcBhe
+         aC0r0cfwzvCgErfRcp3jQCPB2yfYmWBuHro+Xj4/y79/gJRUC8QKQLu3LbBEwTcObrZ4
+         x9RaLF4QRQ8vchPrgsCrkpiAG5+3PP7r9LH3TrAc4n1bvee50QaxrHIB8XIP52zXhZ8P
+         sb8Lsm2+hXTxDW0d73pnJavifH5X1fh2KzdSBJdQbPc+KF53vgFJpi//MYXbQT3ENU9z
+         dIRwF7Y/S9oC71QRG71O13jZosqONwzE9Q/R3gQXlJxK9iJcAeyEIZUaH3WVO1i8Ybx9
+         A8eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WGVaHdyDaQhb3CONGZ5AfjNaRk/GxamAcNktxRttQb8=;
-        b=YDMO9SkhaL2ctq6J/z6JNOkGZJpSrqsHqr1a1ES37yTvHMApx6q68hfEkSORWIxdKX
-         zaLSejgbswTDjp/vt0KDfESUxiISjZUN08RLK7D/BuCERYYb3KIcnZstAbMUoqCNoZWF
-         3D8u6xeUYibkBq1MSaVFg/pBULiPkdphJH4fwzakzAjsueuL6emRH5IOwkNq3MibNy5C
-         0OsuB25x2oj6YAMtNQEZKiSv/BC4mdnJBc2soH0yxQ8cSEdGPnOLSVyFt2d791U1gD+1
-         T3wq147gI9BgLHj2xZOmtGyGTgjuUZeDQTeVeWQxiQJYLxhg5/gDIt4fsZ1+euWbYV2b
-         o0Yg==
-X-Gm-Message-State: AOAM533d/WKudU4UH55rtgs3111H5davFbvC+zIQdB5bXiF5vufr5BL7
-	bcTPzmBxsGos0gc2eHRkoWpe+QHRK5U2OQImD/U0Lg==
-X-Google-Smtp-Source: ABdhPJwFv+9PXOIAh6cvZHnaW1CNff17fav9QsnxMd4hU8EGOwWh/QOnAiHD95aQewGqtRArS7wBlcWZifSbXOHPHqc=
-X-Received: by 2002:adf:f6c7:: with SMTP id y7mr841498wrp.44.1631646529213;
- Tue, 14 Sep 2021 12:08:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1TrO90qWJ8ZF4RAn7wRYO7DuOrZi+06wIOrb/ZF8H/E=;
+        b=vTDqmiGSnhplJb+axHQ/KB9lKb2Rb9CkRXVOv1B+m611VbPbalq48oYEAwKWoTGdvb
+         Hc+yEeWFrmArzBwJK2i0kh9R8cyFkfVbXnrsdDA1mSaVBA7bwQfi08F1Kz75rnYjpUeW
+         5Qx9T70BdRVm9n8ZMbK3ETz+wJyL8pccGpmygUvS+DKqIOPaT3XcaFKpZR8bia/21V32
+         oBMz4rAZKyCOUqgNIFb5IKXJwKjD09N+uEh24IK7XP3ylc93bxqiE1gCWG6T9zpQXu+j
+         3e68cDJj0JbkOJCLBM3K0k2+W2vpVbaTaILaCv9kvDGuwL5L2z1tG8qEHGJWP6N2D+4s
+         +xog==
+X-Gm-Message-State: AOAM533T7pqo1CD2ZFDtLqoX7q12T+EcuG+RcvdOPTKkQzOPEFs6ShQu
+	t0fkXgQcBcUdq1wu5adowZ02kboXtAko3w==
+X-Google-Smtp-Source: ABdhPJwpgDrYQJhM6l2Qopn3OTMWK5hbScv6OzsxqgbfPWsV/5rM5Ub4ySrMjHJB4CWDr5Ud6Rg2lQ==
+X-Received: by 2002:ad4:554e:: with SMTP id v14mr7211243qvy.26.1631646967057;
+        Tue, 14 Sep 2021 12:16:07 -0700 (PDT)
+Return-Path: <ralph.siemsen@linaro.org>
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id c7sm6626953qtv.9.2021.09.14.12.16.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 12:16:06 -0700 (PDT)
+From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [PATCH] tar: filter CVEs using vendor name
+Date: Tue, 14 Sep 2021 15:15:47 -0400
+Message-Id: <20210914191547.3535803-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <16A4C2594C8DE450.1120@lists.openembedded.org> <16A4C45E7F105E33.1120@lists.openembedded.org>
-In-Reply-To: <16A4C45E7F105E33.1120@lists.openembedded.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 14 Sep 2021 09:08:37 -1000
-Message-ID: <CAOSpxdbn5nh6TH=hepgDYSoivDg37gZ2m7aRQAgCn4N-OpJjXQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [master] [dunfell] [hardknott] Revert "db: update CVE_PRODUCT"
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 14, 2021 at 8:41 AM Steve Sakoman via
-lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-wrote:
->
-> On Tue, Sep 14, 2021 at 8:04 AM Steve Sakoman via
-> lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-> wrote:
-> >
-> > The CVE database correctly reports CVEs for oracle_berkley_db and
-> > berkley_db.  We use the oracle_berkley_db source tree and therefore
-> > should only check for oracle_berkely_db CVEs. Otherwise the scanner
-> > falsely reports CVEs that are fixed in oracle_berkley_db
->
-> Please hold off on taking this patch -- I need to do some more
-> research.  I may have confused myself :-(
+Recently a number of CVEs have been logged against a nodejs project
+called "node-tar". These appear as false positives against the GNU tar
+being built by Yocto. Some of these have been manually excluded using
+CVE_CHECK_WHITELIST.
 
-I did indeed confuse myself, so ignore this patch.
+To avoid this problem, use the vendor name (in addition to package name)
+for filtering CVEs. The syntax for this is:
+  CVE_PRODUCT = "vendor:package"
+When not specified, the vendor defaults to "%" which matches anything.
 
-The CVE database is reporting CVEs for the Oracle db code base under
-the name berkley_db, so the original patch in question is indeed
-correct and the CVEs are valid.
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+ meta/recipes-extended/tar/tar_1.34.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Our CVE reporting has been whitelisting db CVEs.  I'm going to remove
-that from the tool and submit a patch to add the db CVEs to the
-exclusion list in meta/conf/distro/include/cve-extra-exclusions.inc
-since it seems unlikely that we will be moving to a version of db with
-these issues fixed.
+diff --git a/meta/recipes-extended/tar/tar_1.34.bb b/meta/recipes-extended/tar/tar_1.34.bb
+index 98755a11cc..3728b5090d 100644
+--- a/meta/recipes-extended/tar/tar_1.34.bb
++++ b/meta/recipes-extended/tar/tar_1.34.bb
+@@ -62,5 +62,6 @@ NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-# These are both specific to the NPM package node-tar
+-CVE_CHECK_WHITELIST += "CVE-2021-32803 CVE-2021-32804"
++# Avoid false positives from CVEs in node-tar package
++# For example CVE-2021-{32803,32804,37701,37712,37713}
++CVE_PRODUCT = "gnu:tar"
+-- 
+2.25.1
 
-Steve
-
-> > This reverts commit ad799b109716ccd2f44dcf7a6a4cfcbd622ea661.
-> >
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  meta/recipes-support/db/db_5.3.28.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-> > index d5b788a3d7..5e9305ab06 100644
-> > --- a/meta/recipes-support/db/db_5.3.28.bb
-> > +++ b/meta/recipes-support/db/db_5.3.28.bb
-> > @@ -15,7 +15,7 @@ HOMEPAGE = "https://www.oracle.com/database/technologies/related/berkeleydb.html
-> >  LICENSE = "Sleepycat"
-> >  RCONFLICTS:${PN} = "db3"
-> >
-> > -CVE_PRODUCT = "oracle_berkeley_db berkeley_db"
-> > +CVE_PRODUCT = "oracle_berkeley_db"
-> >  CVE_VERSION = "11.2.${PV}"
-> >
-> >  PR = "r1"
-> > --
-> > 2.25.1
-> >
-> >
-> >
-> >
->
-> 
->
