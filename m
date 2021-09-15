@@ -1,76 +1,86 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.6008.1631704096651998299
+Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
+ by mx.groups.io with SMTP id smtpd.web08.6189.1631705471960963070
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 04:08:17 -0700
+ Wed, 15 Sep 2021 04:31:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=1axN4fpp;
- spf=pass (domain: burtonini.com, ip: 209.85.128.52, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f52.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so3661883wmh.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 04:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LpEhiDkzyOCa/8/IBPniNWwqtqNpt+1tY55C+k/STDY=;
-        b=1axN4fppjeD4pjSg6U/JWp13eqMTP03G3yFDWFdPoL5QPo/hdBZRSZ5NBMj9KOqbKI
-         CPPS2SVeDFsCnYPFY1Uixd3d6RgIH7A9SsNy+D+T2z1caQLhp5bNI+2IIh8o6mlyYnl3
-         T39F75uY+hPNlHkszABAFSBLOx2hgLf5K63TnO8zX28ggIbT1BIWMyPcfWamRgZah4Ue
-         9z5imGaFpkqjFeICCRAi05Q0CGpv4mG3mHLZo1r2UHKTeRHYPQw4m2ptLafUstcCbJE7
-         a9lfH7XCilmX6kiR+PGiiDlK4anRQAI9AiHk6nKwZb3rrFq1hzMyqC8gbXenyZrX8uVd
-         yY7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LpEhiDkzyOCa/8/IBPniNWwqtqNpt+1tY55C+k/STDY=;
-        b=BvhDSEBy+ZLU4oL4NWZuXDs1dwwiN92VI1X8AtnqMsrx2cuoN6WmHPLbwgFuvXPB1o
-         Rmw21iVA9aiXvHUu9hOaKGL0XmqOf/gx70kbgsTmOZMIuvrRpxxPihQXMoDgO8KrmsG/
-         JkF1a1f0HLKkVZju60ddVuvflJ20slQeliGHF1Tn9ZOTLaKULzyb0ZYykYoA44n/XC/k
-         oNpen17f89SixdqgNac1EjMQCE9gNHinH/oVGlxpbBh3MoaAYLNcpKH8itB1MN3x9xFN
-         OWKQEaD0tQJSRlB41Rsnjx1436qjjcQ/nNQq1beqNOGEwIYBaouaG2gXf9mrc5ss7SEN
-         9jsw==
-X-Gm-Message-State: AOAM530iQWvLC+Mxw+rnqsEdzwJgtWfHFabZmlKvsMMc7wJ6fpQwBDZx
-	3XR5Vzcg65Os4Kk99T1p9Z8xsUk56m7smpBic9MCxA==
-X-Google-Smtp-Source: ABdhPJysi3OmBw79w1jRnjnJXChf3XKwgxj/WrMW1RvcpliRwqijlNR95NEky9jdE4wtCWiB+mO3MS+kl6ig9zpFiH4=
-X-Received: by 2002:a7b:cb45:: with SMTP id v5mr3719299wmj.184.1631704094978;
- Wed, 15 Sep 2021 04:08:14 -0700 (PDT)
+ dkim=pass header.i=@klausen.dk header.s=dkim header.b=i4YYMVip;
+ spf=pass (domain: klausen.dk, ip: 157.90.24.29, mailfrom: kristian@klausen.dk)
+Date: Wed, 15 Sep 2021 13:31:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+	t=1631705469;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7M1MckvENI/BFUmZvK5VcitjU42KD0qq+WN+Rc2KHDk=;
+	b=i4YYMVipvpjeNVZ7PfKihh90zgD8KbKiXWyJ81G1VoVUGJceER6O2tDIKouOqhQExlVHTu
+	CROfOf2/j+1lpN2q1N9QjcPjraqCVlkmQwwQP1naOjyyLyue3lKi/e68FMSOSX5VsOnTVr
+	WRzGZ1HAVDsOhV49dY2UIP4+ZHlTH14=
+From: "Kristian Klausen" <kristian@klausen.dk>
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Cc: kristian@klausen.dk, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] systemd: Add tpm2 PACKAGECONFIG
+Message-ID: <YUHZe8zK2lV0lWPy@bob>
+References: <20210915102308.1892-1-kristian@klausen.dk>
+ <20210915104818.43wown7ss2pcfnky@fedora>
 MIME-Version: 1.0
-References: <20210912150121.8237296032A@nuc.router0800d9.com>
- <d6ad55b4fdcca27eee438031ea60b586c0f7f9da.camel@linuxfoundation.org>
- <16A41EB09718E439.21276@lists.openembedded.org> <CAOSpxda2cHN3d0WDMLszq8QJD0-Qa37e0NU57Xu21EXR672oFg@mail.gmail.com>
- <5a6a112b92ba3921ba31bc648f37f9cff2687f49.camel@linuxfoundation.org> <CAOSpxdbH9mEv0U8b641i7r+h1jpt--kNOT+PqKk3-e=FK4kw9Q@mail.gmail.com>
-In-Reply-To: <CAOSpxdbH9mEv0U8b641i7r+h1jpt--kNOT+PqKk3-e=FK4kw9Q@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Wed, 15 Sep 2021 12:08:04 +0100
-Message-ID: <CAAnfSTvQ-=BVCWh2wH9V7eWrXbctsOEBubb2xhAP_A86QurtJA@mail.gmail.com>
-Subject: Re: [OE-core] [yocto-security] OE-core CVE metrics for hardknott on Sun 12 Sep 2021 05:00:01 AM HST
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210915104818.43wown7ss2pcfnky@fedora>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 13 Sept 2021 at 18:26, Steve Sakoman <steve@sakoman.com> wrote:
+Den Wed, Sep 15, 2021 at 12:48:18 +0200 skrev Quentin Schulz:
+> Hi Kristian,
+> 
+> On Wed, Sep 15, 2021 at 12:23:08PM +0200, Kristian Klausen via lists.openembedded.org wrote:
+> > The TPM2 support is used, among other things, for unlocking encrypted
+> > volumes.
+> > 
+> > Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+> > ---
+> >  meta/recipes-core/systemd/systemd_249.3.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/meta/recipes-core/systemd/systemd_249.3.bb b/meta/recipes-core/systemd/systemd_249.3.bb
+> > index c027b88fd6..f8c85dabf0 100644
+> > --- a/meta/recipes-core/systemd/systemd_249.3.bb
+> > +++ b/meta/recipes-core/systemd/systemd_249.3.bb
+> > @@ -128,6 +128,7 @@ PACKAGECONFIG[bzip2] = "-Dbzip2=true,-Dbzip2=false,bzip2"
+> >  PACKAGECONFIG[cgroupv2] = "-Ddefault-hierarchy=unified,-Ddefault-hierarchy=hybrid"
+> >  PACKAGECONFIG[coredump] = "-Dcoredump=true,-Dcoredump=false"
+> >  PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup,,cryptsetup"
+> > +PACKAGECONFIG[tpm2] = "-Dtpm2=true,-Dtpm2=false,tpm2-tss,tpm2-tss libtss2 libtss2-tcti-device"
+> 
+> Shouldn't the RDEPENDS part of the PACKAGECONFIG be pulled in
+> automatically by Bitbake since I assume the libs they contained are used
+> by the linker for systemd?
+> 
+> Also looking at the tpm2-tss recipe, I'm not sure there's a package
+> named libtss2-tcti-device?
 
-> Taking a quick look at the code in cve-update-db-native.bb I see that
-> database updates can fail with a warning message printed.  So it could
-> well be that the update failed for some reason, printed the warning,
-> and then used the old database for the scan. That would explain what
-> we are seeing.
->
-> Perhaps someone who knows the code better can comment (Ross? I see
-> you've mucked about in this section of the code!)
->
-> Unfortunately I didn't enable cron logging on the machine that does
-> the reports, but I will enable that now so that I can examine the cron
-> output if this happens in the future.
+Are we looking at the same recipe? It is defined in 
+tpm2-tss_3.0.3.bb[1].
 
-That's indeed a good hypothesis, and having the log to hand would be
-useful.  If you don't delete the tmpdir after the event then the
-console logs will be available in there still.
+[1] https://git.yoctoproject.org/cgit/cgit.cgi/meta-security/tree/meta-tpm/recipes-tpm2/tpm2-tss/tpm2-tss_3.0.3.bb?id=e0fca90835169e21ffabe6f2e4b901678236d36e#n37
 
-A hunch is that if you have all three jobs running at once, they might
-be rejecting some of your connections.  Maybe stagger the runs by ten
-minutes?
+> 
+> I would assume that
+> 
+> PACKAGECONFIG[tpm2] = "-Dtpm2=true,-Dtpm2=false,tpm2-tss"
+> 
+> would be enough except if there's dynamic loading of libraries or
+> binaries from tpm2-tss that are required at runtime?
 
-Ross
+I my testing it didn't work, presumably due to systemd not linking with 
+libtss2*.so but loading them with dlopen()[2].
+
+libtss2 is also using dlopen() for loading the TCTI implementation 
+(libtss2-tcti-device in this case)[3].
+
+[2] https://github.com/systemd/systemd/blob/aff870ef61bda152ea6241f684dcab26a9265e78/src/shared/tpm2-util.c#L46-L81
+[3] https://github.com/tpm2-software/tpm2-tss/blob/9288970a3e657cdee85d08d3813199ec864de3ad/src/tss2-tcti/tctildr-dl.c#L79-L125
+
+Cheers,
+Kristian
+
+> 
+> Cheers,
+> Quentin
