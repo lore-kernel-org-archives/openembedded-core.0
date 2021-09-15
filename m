@@ -1,99 +1,191 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:16:08 -0700
+ Wed, 15 Sep 2021 16:16:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565596"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565599"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565596"
+   d="scan'208";a="220565599"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:08 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:10 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597400"
+   d="scan'208";a="433597405"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:07 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:08 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 15/17] ffmpeg: fix CVE-2021-38171
-Date: Thu, 16 Sep 2021 07:15:39 +0800
-Message-Id: <130af0502d1ae6fe3721b83ff5218e3aa48dbf0d.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 16/17] linux-yocto/5.4: update to v5.4.143
+Date: Thu, 16 Sep 2021 07:15:40 +0800
+Message-Id: <e03dd78008235282143093271678944a5ca1f938.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Kiran Surendran <Kiran.Surendran@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-backport from upstream
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
-Signed-off-by: Kiran Surendran <Kiran.Surendran@windriver.com>
+    fd80923202c6 Linux 5.4.143
+    4bf194158102 netfilter: nft_exthdr: fix endianness of tcp option cast
+    e4fd994f02c5 fs: warn about impending deprecation of mandatory locks
+    41c7f46c89f6 mm: memcontrol: fix occasional OOMs due to proportional memory.low reclaim
+    1a3aa81444d3 mm, memcg: avoid stale protection values when cgroup is above protection
+    9c1c449dcca0 ASoC: intel: atom: Fix breakage for PCM buffer address setup
+    846ba58a7c06 PCI: Increase D3 delay for AMD Renoir/Cezanne XHCI
+    548b75f4905e btrfs: prevent rename2 from exchanging a subvol with a directory from different parents
+    0fc6a9c2025b ipack: tpci200: fix memory leak in the tpci200_register
+    280d66b31797 ipack: tpci200: fix many double free issues in tpci200_pci_probe
+    cb7aa5103146 slimbus: ngd: reset dma setup during runtime pm
+    abce32d0f7f4 slimbus: messaging: check for valid transaction id
+    0786d315f55c slimbus: messaging: start transaction ids from 1 instead of zero
+    20c2f141b1e5 tracing / histogram: Fix NULL pointer dereference on strcmp() on NULL event name
+    8fbfebe188c0 ALSA: hda - fix the 'Capture Switch' value change notifications
+    85e60614d1f6 mmc: dw_mmc: Fix hang on data CRC error
+    4f6c9caf7b6c ovl: add splice file read write helper
+    85813f1f9e86 iavf: Fix ping is lost after untrusted VF had tried to change MAC
+    a498115dcd9c i40e: Fix ATR queue selection
+    1b8a8fba7853 ovs: clear skb->tstamp in forwarding path
+    84dbbf5482e3 net: mdio-mux: Handle -EPROBE_DEFER correctly
+    453486e79ed2 net: mdio-mux: Don't ignore memory allocation errors
+    6b70c67849bb net: qlcnic: add missed unlock in qlcnic_83xx_flash_read32
+    da92ce364595 virtio-net: use NETIF_F_GRO_HW instead of NETIF_F_LRO
+    9aeadce8e33b virtio-net: support XDP when not more queues
+    3ed7cf8386c9 vrf: Reset skb conntrack connection on VRF rcv
+    447b16028956 bnxt_en: Add missing DMA memory barriers
+    c9566df334d0 ptp_pch: Restore dependency on PCI
+    a73b9aa14269 net: 6pack: fix slab-out-of-bounds in decode_data
+    2bc75713434b bnxt: disable napi before canceling DIM
+    a9fb0f155980 bnxt: don't lock the tx queue from napi poll
+    1fe038030cc8 bpf: Clear zext_dst of dead insns
+    73a45f75a07b vhost: Fix the calculation in vhost_overflow()
+    b9a59636c4bf virtio: Protect vqs list access
+    b264e37b3517 dccp: add do-while-0 stubs for dccp_pr_debug macros
+    9112ebc2990a cpufreq: armada-37xx: forbid cpufreq for 1.2 GHz variant
+    cb9a9d5fe636 iommu: Check if group is NULL before remove device
+    911a8141efdd Bluetooth: hidp: use correct wait queue when removing ctrl_wait
+    5b14c1f16e2d drm/amd/display: Fix Dynamic bpp issue with 8K30 with Navi 1X
+    f92dc3a89dd8 net: usb: lan78xx: don't modify phy_device state concurrently
+    be7043679967 ARM: dts: nomadik: Fix up interrupt controller node names
+    69aa1a1a569f scsi: core: Fix capacity set to zero after offlinining device
+    935de7ec7a4d scsi: core: Avoid printing an error if target_alloc() returns -ENXIO
+    7a721a1e1885 scsi: scsi_dh_rdac: Avoid crash during rdac_bus_attach()
+    9900e06ae6e6 scsi: megaraid_mm: Fix end of loop tests for list_for_each_entry()
+    e37cf26bd56d dmaengine: of-dma: router_xlate to return -EPROBE_DEFER if controller is not yet available
+    12d1322d93a6 ARM: dts: am43x-epos-evm: Reduce i2c0 bus speed for tps65218
+    11145efd295b dmaengine: usb-dmac: Fix PM reference leak in usb_dmac_probe()
+    9c97a0539288 dmaengine: xilinx_dma: Fix read-after-free bug when terminating transfers
+    fc566b5a21f5 USB: core: Avoid WARNings for 0-length descriptor requests
+    1bd505c814cc media: drivers/media/usb: fix memory leak in zr364xx_probe
+    705660a6d98d media: zr364xx: fix memory leaks in probe()
+    79dff2a3f41a media: zr364xx: propagate errors from zr364xx_start_readpipe()
+    7305d6d4078f mtd: cfi_cmdset_0002: fix crash when erasing/writing AMD cards
+    23f77ad13f81 ath9k: Postpone key cache entry deletion for TXQ frames reference it
+    c6feaf806da6 ath: Modify ath_key_delete() to not need full key entry
+    b7d593705eb4 ath: Export ath_hw_keysetmac()
+    add283e2517a ath9k: Clear key cache explicitly on disabling hardware
+    0c049ce432b3 ath: Use safer key clearing with key cache entries
+    172b91bbbb49 x86/fpu: Make init_fpstate correct with optimized XSAVE
+    81d152c8daf8 ext4: fix EXT4_MAX_LOGICAL_BLOCK macro
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    | 40 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
-new file mode 100644
-index 0000000000..8775acd8c5
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
-@@ -0,0 +1,40 @@
-+CVE: CVE-2021-38171
-+Upstream-Status: Backport
-+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-+
-+From d5373a9efb10c1fa87698ee41370fb04dc2e410b Mon Sep 17 00:00:00 2001
-+From: maryam ebrahimzadeh <me22bee@outlook.com>
-+Date: Wed, 4 Aug 2021 16:15:18 -0400
-+Subject: [PATCH] avformat/adtsenc: return value check for init_get_bits in
-+ adts_decode_extradata
-+
-+As the second argument for init_get_bits (buf) can be crafted, a return value check for this function call is necessary.
-+'buf' is  part of  'AVPacket pkt'.
-+replace init_get_bits with init_get_bits8.
-+
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+---
-+ libavformat/adtsenc.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/libavformat/adtsenc.c b/libavformat/adtsenc.c
-+index d937e2bea9..a1593515e1 100644
-+--- a/libavformat/adtsenc.c
-++++ b/libavformat/adtsenc.c
-+@@ -50,9 +50,11 @@ static int adts_decode_extradata(AVFormatContext *s, ADTSContext *adts, const ui
-+     GetBitContext gb;
-+     PutBitContext pb;
-+     MPEG4AudioConfig m4ac;
-+-    int off;
-++    int off, ret;
-+ 
-+-    init_get_bits(&gb, buf, size * 8);
-++    ret = init_get_bits8(&gb, buf, size);
-++    if (ret < 0)
-++        return ret;
-+     off = avpriv_mpeg4audio_get_config2(&m4ac, buf, size, 1, s);
-+     if (off < 0)
-+         return off;
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-index 3e7ceb859f..3162617336 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-@@ -32,6 +32,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://fix-CVE-2020-22021.patch \
-            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
-            file://fix-CVE-2021-38291.patch \
-+           file://fix-CVE-2021-38171.patch \
-            "
- SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index f838a65c35..45eb2f6a50 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
+-SRCREV_machine ?= "b872fc896dcc555149f26c5dd683f7e6394852d6"
+-SRCREV_meta ?= "719be4bd6c3c7575e7942dc016e3c3bb028f163d"
++SRCREV_machine ?= "f4f6c136157b70468cf54389034aeaa41bbc5538"
++SRCREV_meta ?= "70b2480497528245c948ec259c734d74ea4fa3f1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.142"
++LINUX_VERSION ?= "5.4.143"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 0178d172f8..a2f212e2ef 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.142"
++LINUX_VERSION ?= "5.4.143"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "4addf3f9e4f68bc7c03ea19ad95f2a4836ac9873"
+-SRCREV_machine ?= "964802684eb1495bd1c5f625307b6d41515a3e9a"
+-SRCREV_meta ?= "719be4bd6c3c7575e7942dc016e3c3bb028f163d"
++SRCREV_machine_qemuarm ?= "83b75c59c277ba3f87759cf558f9f230c1ed3bf7"
++SRCREV_machine ?= "1f981e60c9f6162337d2a65c891f2e29d8e1c862"
++SRCREV_meta ?= "70b2480497528245c948ec259c734d74ea4fa3f1"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index b30efe86c5..136bc55e92 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "9b1b66b01c88cf5035d148f37c70b8215c8fde15"
+-SRCREV_machine_qemuarm64 ?= "e91700bf8d8130226679954a8137c5f3fd54b81d"
+-SRCREV_machine_qemumips ?= "332bc089f06636156b9d5b2a04228c03c680c6d0"
+-SRCREV_machine_qemuppc ?= "1bf103767b96923aa6ca76e9e095b04c13ce93cd"
+-SRCREV_machine_qemuriscv64 ?= "108b8b822e7bbba492deafe60ee86839291c3250"
+-SRCREV_machine_qemux86 ?= "108b8b822e7bbba492deafe60ee86839291c3250"
+-SRCREV_machine_qemux86-64 ?= "108b8b822e7bbba492deafe60ee86839291c3250"
+-SRCREV_machine_qemumips64 ?= "7b31f99f9e245d029de7fb9e3480f7b00f846b8f"
+-SRCREV_machine ?= "108b8b822e7bbba492deafe60ee86839291c3250"
+-SRCREV_meta ?= "719be4bd6c3c7575e7942dc016e3c3bb028f163d"
++SRCREV_machine_qemuarm ?= "a5fb40d66dcf9b95e82a06724fe8b33a03295af4"
++SRCREV_machine_qemuarm64 ?= "bffde671f5262afb5139ef58b10be043de1d368a"
++SRCREV_machine_qemumips ?= "ac8adae0a4a582e9593b527a14f3a7e407a22e6e"
++SRCREV_machine_qemuppc ?= "022718ee2b3805d465613f05813fd6313cbb988f"
++SRCREV_machine_qemuriscv64 ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
++SRCREV_machine_qemux86 ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
++SRCREV_machine_qemux86-64 ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
++SRCREV_machine_qemumips64 ?= "46871b96c7f3f1658f4b9875d6645ff7996e98f1"
++SRCREV_machine ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
++SRCREV_meta ?= "70b2480497528245c948ec259c734d74ea4fa3f1"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.142"
++LINUX_VERSION ?= "5.4.143"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.31.1
 
