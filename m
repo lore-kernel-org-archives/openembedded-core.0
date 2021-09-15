@@ -1,113 +1,174 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:15:57 -0700
+ Wed, 15 Sep 2021 16:15:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565529"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565544"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565529"
+   d="scan'208";a="220565544"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:57 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:58 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597312"
+   d="scan'208";a="433597316"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:56 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:57 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 07/17] ffmpeg: fix CVE-2021-38291
-Date: Thu, 16 Sep 2021 07:15:31 +0800
-Message-Id: <cbb7b8cfbd4cfe6115e858e14f415d89d182f550.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 08/17] bluez5: fix CVE-2021-0129
+Date: Thu, 16 Sep 2021 07:15:32 +0800
+Message-Id: <be18e566413efef12dc2488ab186f397d1dacda9.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Kiran Surendran <ksurendr@ala-lpggp3.wrs.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-backport from upstream
+Backport a fix from version 5.57 rather than doing an uprev, since there
+appear to be some minor functional changes between our current version
+and that version, despite the changelog only listing fixes.
 
-Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ffmpeg/ffmpeg/fix-CVE-2021-38291.patch    | 54 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...er-Fix-not-properly-checking-for-sec.patch | 113 ++++++++++++++++++
+ 2 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
-new file mode 100644
-index 0000000000..ef1c760286
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
-@@ -0,0 +1,54 @@
-+CVE: CVE-2021-38291
-+Upstream-Status: Backport
-+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-+
-+From e908bdb157fa493be2b50e2a11055d19c5254a15 Mon Sep 17 00:00:00 2001
-+From: James Almer <jamrial@gmail.com>
-+Date: Wed, 21 Jul 2021 01:02:44 -0300
-+Subject: [PATCH] avcodec/utils: don't return negative values in
-+ av_get_audio_frame_duration()
-+
-+In some extrme cases, like with adpcm_ms samples with an extremely high channel
-+count, get_audio_frame_duration() may return a negative frame duration value.
-+Don't propagate it, and instead return 0, signaling that a duration could not
-+be determined.
-+
-+Fixes ticket #9312
-+
-+Signed-off-by: James Almer <jamrial@gmail.com>
-+---
-+ libavcodec/utils.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/libavcodec/utils.c b/libavcodec/utils.c
-+index 81e34254e8..5fdb10fe09 100644
-+--- a/libavcodec/utils.c
-++++ b/libavcodec/utils.c
-+@@ -1776,20 +1776,22 @@ static int get_audio_frame_duration(enum AVCodecID id, int sr, int ch, int ba,
-+ 
-+ int av_get_audio_frame_duration(AVCodecContext *avctx, int frame_bytes)
-+ {
-+-    return get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
-++    int duration = get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
-+                                     avctx->channels, avctx->block_align,
-+                                     avctx->codec_tag, avctx->bits_per_coded_sample,
-+                                     avctx->bit_rate, avctx->extradata, avctx->frame_size,
-+                                     frame_bytes);
-++    return FFMAX(0, duration);
-+ }
-+ 
-+ int av_get_audio_frame_duration2(AVCodecParameters *par, int frame_bytes)
-+ {
-+-    return get_audio_frame_duration(par->codec_id, par->sample_rate,
-++    int duration = get_audio_frame_duration(par->codec_id, par->sample_rate,
-+                                     par->channels, par->block_align,
-+                                     par->codec_tag, par->bits_per_coded_sample,
-+                                     par->bit_rate, par->extradata, par->frame_size,
-+                                     frame_bytes);
-++    return FFMAX(0, duration);
-+ }
-+ 
-+ #if !HAVE_THREADS
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-index 0a49493abd..3e7ceb859f 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-@@ -31,6 +31,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://fix-CVE-2020-22015.patch \
-            file://fix-CVE-2020-22021.patch \
-            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
-+           file://fix-CVE-2021-38291.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 0d30b1a3f5..22e0f33610 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -53,6 +53,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0001-adapter-Fix-storing-discoverable-setting.patch \
++           file://0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch \
             "
- SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
+ S = "${WORKDIR}/bluez-${PV}"
  
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
+new file mode 100644
+index 0000000000..422fd211ca
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
+@@ -0,0 +1,113 @@
++From 00da0fb4972cf59e1c075f313da81ea549cb8738 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Tue, 2 Mar 2021 11:38:33 -0800
++Subject: [PATCH] shared/gatt-server: Fix not properly checking for secure
++ flags
++
++When passing the mask to check_permissions all valid permissions for
++the operation must be set including BT_ATT_PERM_SECURE flags.
++
++Upstream-Status: Backport
++(https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=00da0fb4972cf59e1c075f313da81ea549cb8738)
++
++CVE: CVE-2021-0129
++
++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++---
++ src/shared/att-types.h   |  8 ++++++++
++ src/shared/gatt-server.c | 25 +++++++------------------
++ 2 files changed, 15 insertions(+), 18 deletions(-)
++
++diff --git a/src/shared/att-types.h b/src/shared/att-types.h
++index 7108b4e94..3adc05d9e 100644
++--- a/src/shared/att-types.h
+++++ b/src/shared/att-types.h
++@@ -129,6 +129,14 @@ struct bt_att_pdu_error_rsp {
++ #define BT_ATT_PERM_WRITE_SECURE	0x0200
++ #define BT_ATT_PERM_SECURE		(BT_ATT_PERM_READ_SECURE | \
++ 					BT_ATT_PERM_WRITE_SECURE)
+++#define BT_ATT_PERM_READ_MASK		(BT_ATT_PERM_READ | \
+++					BT_ATT_PERM_READ_AUTHEN | \
+++					BT_ATT_PERM_READ_ENCRYPT | \
+++					BT_ATT_PERM_READ_SECURE)
+++#define BT_ATT_PERM_WRITE_MASK		(BT_ATT_PERM_WRITE | \
+++					BT_ATT_PERM_WRITE_AUTHEN | \
+++					BT_ATT_PERM_WRITE_ENCRYPT | \
+++					BT_ATT_PERM_WRITE_SECURE)
++ 
++ /* GATT Characteristic Properties Bitfield values */
++ #define BT_GATT_CHRC_PROP_BROADCAST			0x01
++diff --git a/src/shared/gatt-server.c b/src/shared/gatt-server.c
++index b5f7de7dc..970c35f94 100644
++--- a/src/shared/gatt-server.c
+++++ b/src/shared/gatt-server.c
++@@ -444,9 +444,7 @@ static void process_read_by_type(struct async_read_op *op)
++ 		return;
++ 	}
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -811,9 +809,7 @@ static void write_cb(struct bt_att_chan *chan, uint8_t opcode, const void *pdu,
++ 				(opcode == BT_ATT_OP_WRITE_REQ) ? "Req" : "Cmd",
++ 				handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE |
++-						BT_ATT_PERM_WRITE_AUTHEN |
++-						BT_ATT_PERM_WRITE_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -913,9 +909,7 @@ static void handle_read_req(struct bt_att_chan *chan,
++ 			opcode == BT_ATT_OP_READ_BLOB_REQ ? "Blob " : "",
++ 			handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1051,9 +1045,8 @@ static void read_multiple_complete_cb(struct gatt_db_attribute *attr, int err,
++ 		goto error;
++ 	}
++ 
++-	ecode = check_permissions(data->server, next_attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(data->server, next_attr,
+++						BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1129,9 +1122,7 @@ static void read_multiple_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 		goto error;
++ 	}
++ 
++-	ecode = check_permissions(data->server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(data->server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1308,9 +1299,7 @@ static void prep_write_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 	util_debug(server->debug_callback, server->debug_data,
++ 				"Prep Write Req - handle: 0x%04x", handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE |
++-						BT_ATT_PERM_WRITE_AUTHEN |
++-						BT_ATT_PERM_WRITE_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++-- 
++2.31.1
++
 -- 
 2.31.1
 
