@@ -1,104 +1,109 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web08.6331.1631706385548292524
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.7027.1631710180298256394
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 04:46:25 -0700
+ Wed, 15 Sep 2021 05:49:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AJ2h4Qny;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id k24so2432910pgh.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 04:46:25 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=IpaWhdKf;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IvbEHxEzc3WFiiCPmQOIjAcOAynBaU5C/VY9MkyFo1I=;
-        b=AJ2h4Qny/AoroWtum+6wCXtnDCa35ik2RxfysVyMX/O1sVSfOYAdXHJpVXmjziOm5p
-         46OMymX7dDqVHw///TdQBAveZh8YqwZd36+9xXhYx889Gqc4dmdPaBVTMAV3uNEZp2Fl
-         9IvRJ7egrnaEm9bU5UfPr903V4tAUI2muwaWGEMTWUMMqgkUzofNVc0SikM/riBtDWB8
-         5pe5+YwoIGl/h6EktI43RWHRa3/F7f1EeThMRL0MQ+gtHl6ut6RDoRC0yaE9i2mLyR8S
-         bMKB93bSindrih+66jPSmdqyF4GrrU6FmDQ0l+irXfWz8NLWPsnem7blqtCeJikaUJGU
-         4wxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IvbEHxEzc3WFiiCPmQOIjAcOAynBaU5C/VY9MkyFo1I=;
-        b=odBqKz6NGmnuCec3UtxlyK985AjSM8hUzT7Oc1jOTXP1MJlQdybJHE2lPUTWkFGIE2
-         APVlOxooJHOWFHPlBeOg9JFNRvPKgBn7nEhGUE/jSr8DiVgTEA0s7oTWAS+D2Y5LL3fw
-         Z4/ZGLM1gK1UvOH/0kmKwdyBD9arzpNGA1RJpDLFYLOvb4Tt69gryrziP0G2t0HfEg/R
-         apzNmK2ap6kRYJ/kaYYWRLre4JKt2tqaryiKxRZhvd+Pm6w9EkMrvXk1zqRR4fi0BAug
-         fL+dxOKFRaGL9DOX2wJO6T+Fo1j1bxs9nIFX5beg6srsxGip5wV1tiaP13yxngdZAvgE
-         ALVA==
-X-Gm-Message-State: AOAM5330ptz00PE5mM4ixtKXhRBFP3rYFmy8zD6k3YdKiLTJzA5fihpx
-	4wTKKIYp7kdnVsW2lkksnHTon2vB9+4=
-X-Google-Smtp-Source: ABdhPJwt9OdVVoqVeY+L9uddXDhiykHPnfcoOmJR1HjSK/GrdrilKUabTGAihMdpWxH8gYyC3PKnLw==
-X-Received: by 2002:a05:6a00:22d5:b0:440:3750:f5f4 with SMTP id f21-20020a056a0022d500b004403750f5f4mr1695646pfj.64.1631706384791;
-        Wed, 15 Sep 2021 04:46:24 -0700 (PDT)
-Return-Path: <pgowda.cve@gmail.com>
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id s192sm15232418pgc.23.2021.09.15.04.46.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 04:46:24 -0700 (PDT)
-From: "Pgowda" <pgowda.cve@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	vinay.m.engg@gmail.com,
-	Pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH] state/staging: Fix directory not deleted for race
-Date: Wed, 15 Sep 2021 04:46:18 -0700
-Message-Id: <20210915114618.157245-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.31.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1631710179;
+  x=1663246179;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=X8kTHtXJu4H3Kr1p+UHY4lKzIzWbnGBfIIo9l8TwL0w=;
+  b=IpaWhdKfQSn3Qpc+f0pI1Nj4tsx1dfR/SM9QU8LzyyIaUbXmlGcNETZL
+   Ol+GsfWt+7+/mOVPT6pPMDNQDCjFTVyHIN/+yP+gUtkGJMMcgBmqHe+Hp
+   OQnWavLXw1DWEFbOEkiKqGvYqzCcHakZePZdaIRhhyQ/PI+ldDdCStTPe
+   saLDPsuwKDGngN1sJc1LAMqIaBInBoo3gzVyWoCWFBvLhOT6QsxKtf15i
+   QJryTWmi7F5ZwNkusWlKJp+lRJdSVBoHAqXMJaEJEj0nvYzfKYQYUDOj3
+   w/TWwdWFwjjLoEWsjSTCijlhaqzBpK+CFp3vK8NInDoejDQsCrJFIMkF7
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Konrad Weihmann <kweihmann@outlook.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] create-spdx.bbclass: Search all license directories for licenses
+Thread-Topic: [OE-core] [PATCH] create-spdx.bbclass: Search all license
+ directories for licenses
+Thread-Index: AQHXqZXHWv4oCFux+EmRFGdJPIWQU6ulCfjQ
+Date: Wed, 15 Sep 2021 12:49:37 +0000
+Message-ID: <2f14ea499bd54a028f6a68d6946ddb8b@axis.com>
+References: <20210914181115.28873-1-pkj@axis.com>
+ <AM9PR09MB464295BE11528525CCF2D962A8DA9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: <AM9PR09MB464295BE11528525CCF2D962A8DA9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The race issue resulted in some empty directories not being deleted.
-During staging_copyfile, it results in "file already exists error" on
-creating link for directories during do_prepare_recipe_sysroot.
-The following patch checks whether the directory and its sub directories
-have no files in it and removes them.
-
-The issue was observed on running rust-hello-world for glibc and musl
-one after the other.
-TCLIBC=glibc MACHINE=qemuarm bitbake rust-hello-world
-TCLIBC=musl MACHINE=qemuarm bitbake rust-hello-world
-
-On fixing the above issue, it was found that
-arm-poky-linux-musleabi.json files are not being generated.
-$/del/build/tmp/work/x86_64-linux/rust-cross-arm/1.54.0-r0/targets/
-arm-poky-linux-musleabi.json': No such file or directory
-
-It is generated and builds successfully when musl lib is built standalone.
-However, when musl is built after glibc or viceversa results in the
-latter json file not being generated.
-
-Signed-off-by: Pgowda <pgowda.cve@gmail.com>
----
- meta/classes/staging.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index af3397bab6..4b751af4d3 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -145,6 +145,16 @@ def staging_copyfile(c, target, dest, postinsts, seendirs):
-     if os.path.islink(c):
-         linkto = os.readlink(c)
-         if os.path.lexists(dest):
-+            # Check if directory is not deleted for race issue
-+            if os.path.isdir(dest):
-+                count = 0
-+                for root, dirs, files in os.walk(dest):
-+                    for Files in files:
-+                        count += 1
-+                if count == 0:
-+                    import shutil
-+                    shutil.rmtree(dest)
-+                    os.symlink(linkto, dest)
-             if not os.path.islink(dest):
-                 raise OSError(errno.EEXIST, "Link %s already exists as a file" % dest, dest)
-             if os.readlink(dest) == linkto:
--- 
-2.31.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLb25yYWQgV2VpaG1hbm4gPGt3
+ZWlobWFubkBvdXRsb29rLmNvbT4NCj4gU2VudDogZGVuIDE0IHNlcHRlbWJlciAyMDIxIDIwOjI1
+DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47
+IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6
+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBjcmVhdGUtc3BkeC5iYmNsYXNzOiBTZWFyY2ggYWxsIGxp
+Y2Vuc2UNCj4gZGlyZWN0b3JpZXMgZm9yIGxpY2Vuc2VzDQo+IA0KPiBPbiAxNC4wOS4yMSAyMDox
+MSwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+IEJlZm9yZSwgZXZlbiBpZiB0aGUgY29k
+ZSB3YXMgc2VlbWluZ2x5IHdyaXR0ZW4gdG8gc2VhcmNoIHRocm91Z2ggYWxsDQo+ID4gbGljZW5z
+ZXMgaW4gJHtDT01NT05fTElDRU5TRV9ESVJ9IGFuZCAke0xJQ0VOU0VfUEFUSH0sIGl0IHdvdWxk
+DQo+ID4gYWN0dWFsbHkgYmFpbCBvdXQgYWZ0ZXIgb25seSBzZWFyY2hpbmcgJHtDT01NT05fTElD
+RU5TRV9ESVJ9IGR1ZSB0bw0KPiA+IHRoZSBleGNlcHRpb24gaGFuZGxpbmcuDQo+ID4NCj4gPiBB
+bHNvIHJlZnJhaW4gZnJvbSB1c2luZyBmLXN0cmluZ3MuDQo+IA0KPiBKdXN0IG91dCBvZiBpbnRl
+cmVzdDogd2h5IHRoYXQ/IC0gSSB0aGluayB3aXRoIHRoZSByZWNlbnQgYnVtcCB0byBweXRob24N
+Cj4gMy42IGFzIHRoZSBtaW5pbXVtIHJlcXVpcmVkIHZlcnNpb24sIHRoZXJlIGlzbid0IGFueSB0
+ZWNobmljYWwgcmVhc29uIHRvDQo+IGF2b2lkIHVzYWdlIG9mIGYtc3RyaW5ncyBpbiB0aGUgY2xh
+c3MgY29kZQ0KDQpXZWxsLCBpdCB3YXMgbWFpbmx5IGR1ZSB0byB0aGUgZGlzY3Vzc2lvbnMgd2Ug
+aGF2ZSBoYWQgYWJvdXQgc3RhcnRpbmcgDQp0byB1c2UgZi1zdHJpbmdzIGluIE9FLUNvcmUgd2hl
+cmUgUlAgaGFzIGJlZW4gcmVsdWN0YW50IHRvIGVuZG9yc2UgaXQgDQpiYXNlZCBvbiB0aGF0IGl0
+IG1heSBjYXVzZSBwcm9ibGVtcyB3aGVuIGJhY2twb3J0aW5nIGNvZGUgdG8gRHVuZmVsbCANCmFu
+ZCBIYXJka25vdHQgdGhhdCBzdGlsbCBoYXZlIG9sZGVyIHZlcnNpb24gb2YgUHl0aG9uIGFzIG1p
+bmltdW0gDQp2ZXJzaW9ucy4NCg0KVGhhdCBzYWlkLCBjcmVhdGUtc3BkeC5iYmNsYXNzIGlzIG5v
+dCBsaWtlbHkgdG8gYmUgYmFja3BvcnRlZCB0byBhbnkgDQpvbGRlciB2ZXJzaW9uIG9mIE9FLUNv
+cmUgc28gbWF5YmUgaXQgaXMgb2sgdG8gbGVhdmUgdGhlIHVzZSBvZiANCmYtc3RyaW5ncyBhcyB0
+aGV5IHdlcmUuDQoNCi8vUGV0ZXINCg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJz
+dGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+ICAgbWV0YS9j
+bGFzc2VzL2NyZWF0ZS1zcGR4LmJiY2xhc3MgfCAxMyArKysrKysrKy0tLS0tDQo+ID4gICAxIGZp
+bGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlm
+ZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9jcmVhdGUtc3BkeC5iYmNsYXNzIGIvbWV0YS9jbGFzc2Vz
+L2NyZWF0ZS1zcGR4LmJiY2xhc3MNCj4gPiBpbmRleCBkYjg1Njc3ZDRjLi4zYzczYzIxYzA0IDEw
+MDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9jcmVhdGUtc3BkeC5iYmNsYXNzDQo+ID4gKysr
+IGIvbWV0YS9jbGFzc2VzL2NyZWF0ZS1zcGR4LmJiY2xhc3MNCj4gPiBAQCAtNjcsNiArNjcsNyBA
+QCBkZWYgY29udmVydF9saWNlbnNlX3RvX3NwZHgobGljLCBkb2N1bWVudCwgZCwgZXhpc3Rpbmc9
+e30pOg0KPiA+ICAgICAgICAgICBleHRyYWN0ZWRfaW5mbyA9IG9lLnNwZHguU1BEWEV4dHJhY3Rl
+ZExpY2Vuc2luZ0luZm8oKQ0KPiA+ICAgICAgICAgICBleHRyYWN0ZWRfaW5mby5uYW1lID0gbmFt
+ZQ0KPiA+ICAgICAgICAgICBleHRyYWN0ZWRfaW5mby5saWNlbnNlSWQgPSBpZGVudA0KPiA+ICsg
+ICAgICAgIGV4dHJhY3RlZF9pbmZvLmV4dHJhY3RlZFRleHQgPSBOb25lDQo+ID4NCj4gPiAgICAg
+ICAgICAgaWYgbmFtZSA9PSAiUEQiOg0KPiA+ICAgICAgICAgICAgICAgIyBTcGVjaWFsLWNhc2Ug
+dGhpcy4NCj4gPiBAQCAtNzgsMTAgKzc5LDEyIEBAIGRlZiBjb252ZXJ0X2xpY2Vuc2VfdG9fc3Bk
+eChsaWMsIGRvY3VtZW50LCBkLCBleGlzdGluZz17fSk6DQo+ID4gICAgICAgICAgICAgICAgICAg
+ICAgIHdpdGggKFBhdGgoZGlyZWN0b3J5KSAvIG5hbWUpLm9wZW4oZXJyb3JzPSJyZXBsYWNlIikg
+YXMgZjoNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgIGV4dHJhY3RlZF9pbmZvLmV4dHJh
+Y3RlZFRleHQgPSBmLnJlYWQoKQ0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWsN
+Cj4gPiAtICAgICAgICAgICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZToNCj4gPiAtICAgICAg
+ICAgICAgICAgICAgICAjIEVycm9yIG91dCwgYXMgdGhlIGxpY2Vuc2Ugd2FzIGluIGF2YWlsYWJs
+ZV9saWNlbnNlcyBzbw0KPiA+IC0gICAgICAgICAgICAgICAgICAgICMgc2hvdWxkIGJlIG9uIGRp
+c2sgc29tZXdoZXJlLg0KPiA+IC0gICAgICAgICAgICAgICAgICAgIGJiLmVycm9yKGYiQ2Fubm90
+IGZpbmQgdGV4dCBmb3IgbGljZW5zZSB7bmFtZX06IHtlfSIpDQo+ID4gKyAgICAgICAgICAgICAg
+ICBleGNlcHQgRmlsZU5vdEZvdW5kRXJyb3I6DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgcGFz
+cw0KPiA+ICsgICAgICAgICAgICBpZiBleHRyYWN0ZWRfaW5mby5leHRyYWN0ZWRUZXh0IGlzIE5v
+bmU6DQo+ID4gKyAgICAgICAgICAgICAgICAjIEVycm9yIG91dCwgYXMgdGhlIGxpY2Vuc2Ugd2Fz
+IGluIGF2YWlsYWJsZV9saWNlbnNlcyBzbyBzaG91bGQNCj4gPiArICAgICAgICAgICAgICAgICMg
+YmUgb24gZGlzayBzb21ld2hlcmUuDQo+ID4gKyAgICAgICAgICAgICAgICBiYi5lcnJvcigiQ2Fu
+bm90IGZpbmQgdGV4dCBmb3IgbGljZW5zZSAlcyIgJSBuYW1lKQ0KPiA+ICAgICAgICAgICBlbHNl
+Og0KPiA+ICAgICAgICAgICAgICAgIyBJZiBpdCdzIG5vdCBTUERYLCBvciBQRCwgb3IgaW4gYXZh
+aWxhYmxlIGxpY2Vuc2VzLCB0aGVuIE5PX0dFTkVSSUNfTElDRU5TRSBtdXN0IGJlIHNldA0KPiA+
+ICAgICAgICAgICAgICAgZmlsZW5hbWUgPSBkLmdldFZhckZsYWcoJ05PX0dFTkVSSUNfTElDRU5T
+RScsIG5hbWUpDQo+ID4gQEAgLTkwLDcgKzkzLDcgQEAgZGVmIGNvbnZlcnRfbGljZW5zZV90b19z
+cGR4KGxpYywgZG9jdW1lbnQsIGQsIGV4aXN0aW5nPXt9KToNCj4gPiAgICAgICAgICAgICAgICAg
+ICB3aXRoIG9wZW4oZmlsZW5hbWUsIGVycm9ycz0icmVwbGFjZSIpIGFzIGY6DQo+ID4gICAgICAg
+ICAgICAgICAgICAgICAgIGV4dHJhY3RlZF9pbmZvLmV4dHJhY3RlZFRleHQgPSBmLnJlYWQoKQ0K
+PiA+ICAgICAgICAgICAgICAgZWxzZToNCj4gPiAtICAgICAgICAgICAgICAgIGJiLmVycm9yKGYi
+Q2Fubm90IGZpbmQgYW55IHRleHQgZm9yIGxpY2Vuc2Uge25hbWV9IikNCj4gPiArICAgICAgICAg
+ICAgICAgIGJiLmVycm9yKCJDYW5ub3QgZmluZCBhbnkgdGV4dCBmb3IgbGljZW5zZSAlcyIgJSBu
+YW1lKQ0KPiA+DQo+ID4gICAgICAgICAgIGV4dHJhY3RlZFtuYW1lXSA9IGV4dHJhY3RlZF9pbmZv
+DQo+ID4gICAgICAgICAgIGRvY3VtZW50Lmhhc0V4dHJhY3RlZExpY2Vuc2luZ0luZm9zLmFwcGVu
+ZChleHRyYWN0ZWRfaW5mbykNCg0K
