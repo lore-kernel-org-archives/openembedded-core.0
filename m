@@ -1,83 +1,117 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.2911.1631742359649993594
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.3407.1631744779662448377
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 14:46:00 -0700
+ Wed, 15 Sep 2021 15:26:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TIIVc+2j;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id s24so3263457wmh.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 14:45:59 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=OLLn3TS6;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rwE6e5j4DaesPqC5juh/ZDvLRNZHyA8ANUaMSftFgnM=;
-        b=TIIVc+2jYxO0zK6jFVDnGsSnMJ/C9kuL7U+BTfbQCap/vspzFJ0JwS7iI8bY0bCx9F
-         kLLioCRpkx78ivQULpYGHtNvVE+vrzSNRN+VT9KvNku5mZRKdNw+RiOdNjh3/kWOfwwX
-         KmkwnojP5KFJmuvJ8kuI8NMM5e4xw5TNkiUt8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rwE6e5j4DaesPqC5juh/ZDvLRNZHyA8ANUaMSftFgnM=;
-        b=tEAEXtdcvqhRxI/GywoMgzIZvoENuJ0FKzUHREfhbIHpF1VRRynqgmJEnROmx3u+im
-         ggFrzozNTsXMHbGmbLFl1Sia09q5KrhpIPQv0R4ebQoeavnclxBnRKRkTJ28IVbfDxjU
-         Z60if/NpRBhzmfLH/aZBb9GByo0GanTAKDaAQSVYXyBzMo4+NpIkLXrT6RPsumm3x9bN
-         LuwJkHgnpEbaUw1X3kY5UI7gzi+lV/6h8CtuFdbZaiJ/1YtkaQE5ajDJfw6IyuIQGZsg
-         dC620x/PDwX+2podPStl+tDN3YIOSgkuv9DWY9Rg7ebcIR40b2HwJxHsPhSrNyYM/Goa
-         UprQ==
-X-Gm-Message-State: AOAM531ouhOcdL3H58WLnJCpVoQeCdBlrdWU1OuEY1gS96MpwB3lHDdw
-	zqSYMMdHwC9gH3/O3150k0Vucy4mO18IIgI7
-X-Google-Smtp-Source: ABdhPJxzWuwrxj5kPHx5ZVma/etmka6H2aWhy1jGakAfF+iCblEu1dnuN7s4LUfx35GYq0FkO//BcA==
-X-Received: by 2002:a1c:3845:: with SMTP id f66mr1775168wma.63.1631742357857;
-        Wed, 15 Sep 2021 14:45:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c])
-        by smtp.gmail.com with ESMTPSA id o17sm1170559wrj.96.2021.09.15.14.45.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 14:45:57 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] useradd: Ensure preinst data is expanded correctly in pkgdata
-Date: Wed, 15 Sep 2021 22:45:56 +0100
-Message-Id: <20210915214556.1418064-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+  d=axis.com; q=dns/txt; s=axis-central1; t=1631744780;
+  x=1663280780;
+  h=from:to:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=fE8y587xzipZaWxP79PuX3Y25ExvKmjrmQTIH8vwYFU=;
+  b=OLLn3TS6LRmN8W2ksf8cCqHtjJSni1/aJm8+f/z23Jh8sm/GJ4QGELlW
+   gsH3PlkeHaes7jsMnsiiPJQTaTe5xOO6t4DOiM6X+tW1KFSO+uKDRCmtF
+   BG123IYE6pdRbOips+HivqMIpz2EYSg1yufmxpkDxvdJFi8YLiGdXIKB2
+   sI3kA9DBpS4snGbTHojeQahS2codSKmyh/CnZkhFa/tCaZWyYv5Z4BjWy
+   6Lc1E1voUx5f0GSiNtK2cVpPBdyWc4ykK45V5EIdkGNejq7RXpNi8W6d1
+   VhE5OkICTOiboW/NWtWHG0BkPxBPf47C2zjU+I0A5f5xYML/JtMBJeEZL
+   A==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Ross Burton <ross@burtonini.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
+Thread-Topic: Missing Expat license (was: [PATCH 12/14] ffmpeg: update
+ LICENSE)
+Thread-Index: AdeqgLETQ24k3FiXQQufzi72EGQEcQ==
+Date: Wed, 15 Sep 2021 22:26:16 +0000
+Message-ID: <8bbba4f2242345528f8439794a20058b@axis.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The preinst data in pkgdata will not expand out the ${XXX_PARAM} variables
-since they don't use a package suffix. It happens that the final expansion
-used for the packages is corrected by a second trip through the datastore.
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 9 september 2021 21:54
+> To: Ross Burton <ross@burtonini.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+>=20
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Ross Burton
+> > Sent: den 3 september 2021 15:25
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+> >
+> > "BSD" is ambiguous, ffmpeg comprises of several licenses which are
+> > BSD-like.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> b/meta/recipes-
+> > multimedia/ffmpeg/ffmpeg_4.4.bb
+> > index e19077541ec..f822ba9ab78 100644
+> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > @@ -5,7 +5,7 @@ DESCRIPTION =3D "FFmpeg is the leading multimedia frame=
+work,
+> > able to decode, encod
+> >  HOMEPAGE =3D "https://www.ffmpeg.org/"
+> >  SECTION =3D "libs"
+> >
+> > -LICENSE =3D "BSD & GPLv2+ & LGPLv2.1+ & MIT"
+> > +LICENSE =3D "GPLv2+ & LGPLv2.1+ & ISC & Expat & BSD-2-Clause & BSD-3-C=
+lause & IJG"
+>=20
+> There is no "Expat" license in neither meta/files/common-licenses nor
+> in meta/conf/licenses.conf.
 
-The first version is used for calculation of the task output hash and
-recent improvements in hash reuse showed this data wasn't using included
-in the hashes, meaning for example builds with dynamic IDs were mixing
-sstate with builds using static IDs. The result was a mess.
+Ross, since you added the reference to the Expat license, did you plan on=20
+actually adding it as well? It being missing breaks at least our license=20
+handling. After writing this, I went digging in ffmpeg, and it seems that t=
+he=20
+Expat license (only mentioned by name, there is no actual license text) is=
+=20
+only used for a test image (reference.pnm), which does not end up in any=20
+package. So to me it seems as this does not need to be included in LICENSE.
 
-Fix this by expanding the data in the preinst correctly to use the
-package specific _PARAM values.
+Also, given the long list of licenses that are now in LICENSE, what package=
+s=20
+are actually expected to use those licenses? AFAICT, all packages that are=
+=20
+explicitly listed in the recipe either use GPLv2+ or LGPLv2.1+. The default=
+=20
+licenses only seem to be used for, e.g., ffmpeg-dev, ffmpeg-dbg and=20
+ffmpeg-doc, which seems weird.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/useradd.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+More weirdness, LIC_FILES_CHKSUM lists GPLv2, GPLv3, LGPLv2 and LGPLv3, but=
+=20
+neither GPLv3 nor LGPLv3 are used in LICENSE. And there are no references f=
+or=20
+any of the newly added licenses.
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 287ef843340..20771a0ce59 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -230,6 +230,10 @@ fakeroot python populate_packages:prepend () {
-         preinst += 'perform_useradd () {\n%s}\n' % d.getVar('perform_useradd')
-         preinst += 'perform_groupmems () {\n%s}\n' % d.getVar('perform_groupmems')
-         preinst += d.getVar('useradd_preinst')
-+        # Expand out the *_PARAM variables to the package specific versions
-+        for rep in ["GROUPADD_PARAM", "USERADD_PARAM", "GROUPMEMS_PARAM"]:
-+            val = d.getVar(rep + ":" + pkg) or ""
-+            preinst = preinst.replace("${" + rep + "}", val)
-         d.setVar('pkg_preinst:%s' % pkg, preinst)
- 
-         # RDEPENDS setup
--- 
-2.32.0
+> >  LICENSE:${PN} =3D "GPLv2+"
+> >  LICENSE:libavcodec =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', '=
+GPLv2+', 'LGPLv2.1+', d)}"
+> >  LICENSE:libavdevice =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', =
+'GPLv2+', 'LGPLv2.1+', d)}"
+> > --
+> > 2.25.1
+>=20
+> //Peter
+
+//Peter
 
