@@ -1,127 +1,122 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:15:52 -0700
+ Wed, 15 Sep 2021 16:15:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565494"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565499"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565494"
+   d="scan'208";a="220565499"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:51 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:53 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597283"
+   d="scan'208";a="433597285"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:50 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:51 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 03/17] sqlite3: fix CVE-2021-36690
-Date: Thu, 16 Sep 2021 07:15:27 +0800
-Message-Id: <b0c311d784e939342c4bfa771790a0113fc7a704.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 04/17] apr: Security fix for CVE-2021-35940
+Date: Thu, 16 Sep 2021 07:15:28 +0800
+Message-Id: <2b1a8731359d990b3a8eec6403d689144a516207.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Armin Kuster <akuster808@gmail.com>
 
-refer:
-https://nvd.nist.gov/vuln/detail/CVE-2021-36690
-https://www.sqlite.org/forum/forumpost/718c0a8d17
-https://sqlite.org/src/info/b1e0c22ec981cf5f
+An out-of-bounds array read in the apr_time_exp*() functions was fixed in the
+Apache Portable Runtime 1.6.3 release (CVE-2017-12613). The fix for this issue
+was not carried forward to the APR 1.7.x branch, and hence version 1.7.0 regressed
+compared to 1.6.3 and is vulnerable to the same issue.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d52b78c75323fb254b5d0216f9183573b353abd3)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../sqlite/sqlite3/CVE-2021-36690.patch       | 62 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.35.0.bb |  4 +-
- 2 files changed, 65 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
+ .../apr/apr/CVE-2021-35940.patch              | 58 +++++++++++++++++++
+ meta/recipes-support/apr/apr_1.7.0.bb         |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
+diff --git a/meta/recipes-support/apr/apr/CVE-2021-35940.patch b/meta/recipes-support/apr/apr/CVE-2021-35940.patch
 new file mode 100644
-index 0000000000..d383696e42
+index 0000000000..00befdacee
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
-@@ -0,0 +1,62 @@
-+From c286324a7ff1e98355b638fb821614a65ee03c0c Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Tue, 14 Sep 2021 11:28:54 +0800
-+Subject: [PATCH] Fix an issue with the SQLite Expert extension when a column
-+ has no collating sequence. Forum post 78165fa250.
++++ b/meta/recipes-support/apr/apr/CVE-2021-35940.patch
+@@ -0,0 +1,58 @@
 +
-+Upstream-Status: Backport [https://sqlite.org/src/info/b1e0c22ec981cf5f]
-+CVE: CVE-2021-36690
++SECURITY: CVE-2021-35940 (cve.mitre.org)
 +
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ shell.c | 14 +++++++++-----
-+ 1 file changed, 9 insertions(+), 5 deletions(-)
++Restore fix for CVE-2017-12613 which was missing in 1.7.x branch, though
++was addressed in 1.6.x in 1.6.3 and later via r1807976.
 +
-+diff --git a/shell.c b/shell.c
-+index de8a665..69a5c05 100644
-+--- a/shell.c
-++++ b/shell.c
-+@@ -9054,11 +9054,13 @@ static int idxGetTableInfo(
-+   rc = idxPrintfPrepareStmt(db, &p1, pzErrmsg, "PRAGMA table_xinfo=%Q", zTab);
-+   while( rc==SQLITE_OK && SQLITE_ROW==sqlite3_step(p1) ){
-+     const char *zCol = (const char*)sqlite3_column_text(p1, 1);
-++    const char *zColSeq = 0;
-+     nByte += 1 + STRLEN(zCol);
-+     rc = sqlite3_table_column_metadata(
-+-        db, "main", zTab, zCol, 0, &zCol, 0, 0, 0
-++        db, "main", zTab, zCol, 0, &zColSeq, 0, 0, 0
-+     );
-+-    nByte += 1 + STRLEN(zCol);
-++    if( zColSeq==0 ) zColSeq = "binary";
-++    nByte += 1 + STRLEN(zColSeq);
-+     nCol++;
-+     nPk += (sqlite3_column_int(p1, 5)>0);
-+   }
-+@@ -9078,6 +9080,7 @@ static int idxGetTableInfo(
-+   nCol = 0;
-+   while( rc==SQLITE_OK && SQLITE_ROW==sqlite3_step(p1) ){
-+     const char *zCol = (const char*)sqlite3_column_text(p1, 1);
-++    const char *zColSeq = 0;
-+     int nCopy = STRLEN(zCol) + 1;
-+     pNew->aCol[nCol].zName = pCsr;
-+     pNew->aCol[nCol].iPk = (sqlite3_column_int(p1, 5)==1 && nPk==1);
-+@@ -9085,12 +9088,13 @@ static int idxGetTableInfo(
-+     pCsr += nCopy;
++The fix was merged back to 1.7.x in r1891198.
++
++Since this was a regression in 1.7.0, a new CVE name has been assigned
++to track this, CVE-2021-35940.
++
++Thanks to Iveta Cesalova <icesalov redhat.com> for reporting this issue.
++
++https://svn.apache.org/viewvc?view=revision&revision=1891198
++
++Upstream-Status: Backport
++CVE: CVE-2021-35940
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++
++Index: time/unix/time.c
++===================================================================
++--- a/time/unix/time.c	(revision 1891197)
+++++ b/time/unix/time.c	(revision 1891198)
++@@ -142,6 +142,9 @@
++     static const int dayoffset[12] =
++     {306, 337, 0, 31, 61, 92, 122, 153, 184, 214, 245, 275};
 + 
-+     rc = sqlite3_table_column_metadata(
-+-        db, "main", zTab, zCol, 0, &zCol, 0, 0, 0
-++        db, "main", zTab, zCol, 0, &zColSeq, 0, 0, 0
-+     );
-+     if( rc==SQLITE_OK ){
-+-      nCopy = STRLEN(zCol) + 1;
-++      if( zColSeq==0 ) zColSeq = "binary";
-++      nCopy = STRLEN(zColSeq) + 1;
-+       pNew->aCol[nCol].zColl = pCsr;
-+-      memcpy(pCsr, zCol, nCopy);
-++      memcpy(pCsr, zColSeq, nCopy);
-+       pCsr += nCopy;
-+     }
+++    if (xt->tm_mon < 0 || xt->tm_mon >= 12)
+++        return APR_EBADDATE;
+++
++     /* shift new year to 1st March in order to make leap year calc easy */
 + 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.35.0.bb b/meta/recipes-support/sqlite/sqlite3_3.35.0.bb
-index 127065bbc1..8b2732640f 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.35.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.35.0.bb
-@@ -3,7 +3,9 @@ require sqlite3.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
++     if (xt->tm_mon < 2)
++Index: time/win32/time.c
++===================================================================
++--- a/time/win32/time.c	(revision 1891197)
+++++ b/time/win32/time.c	(revision 1891198)
++@@ -54,6 +54,9 @@
++     static const int dayoffset[12] =
++     {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
++ 
+++    if (tm->wMonth < 1 || tm->wMonth > 12)
+++        return APR_EBADDATE;
+++
++     /* Note; the caller is responsible for filling in detailed tm_usec,
++      * tm_gmtoff and tm_isdst data when applicable.
++      */
++@@ -228,6 +231,9 @@
++     static const int dayoffset[12] =
++     {306, 337, 0, 31, 61, 92, 122, 153, 184, 214, 245, 275};
++ 
+++    if (xt->tm_mon < 0 || xt->tm_mon >= 12)
+++        return APR_EBADDATE;
+++
++     /* shift new year to 1st March in order to make leap year calc easy */
++ 
++     if (xt->tm_mon < 2)
+diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
+index 82317396cd..b70edfaf42 100644
+--- a/meta/recipes-support/apr/apr_1.7.0.bb
++++ b/meta/recipes-support/apr/apr_1.7.0.bb
+@@ -24,6 +24,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://libtoolize_check.patch \
+            file://0001-Add-option-to-disable-timed-dependant-tests.patch \
+            file://autoconf270.patch \
++           file://CVE-2021-35940.patch \
+            "
  
--SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           file://CVE-2021-36690.patch \
-+"
- SRC_URI[sha256sum] = "3dfb3f143c83695a555c7dd9e06ed924f9d273c287989874e102656724baf2d0"
- 
- # -19242 is only an issue in specific development branch commits
+ SRC_URI[md5sum] = "7a14a83d664e87599ea25ff4432e48a7"
 -- 
 2.31.1
 
