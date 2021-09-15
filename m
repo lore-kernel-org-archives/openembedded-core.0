@@ -1,318 +1,113 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:15:56 -0700
+ Wed, 15 Sep 2021 16:15:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565519"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565529"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565519"
+   d="scan'208";a="220565529"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:56 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:57 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597294"
+   d="scan'208";a="433597312"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:55 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:56 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 06/17] squashfs-tools: fix CVE-2021-40153
-Date: Thu, 16 Sep 2021 07:15:30 +0800
-Message-Id: <09de4ef3f33540069a37e9fe6e13081984b77511.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 07/17] ffmpeg: fix CVE-2021-38291
+Date: Thu, 16 Sep 2021 07:15:31 +0800
+Message-Id: <cbb7b8cfbd4cfe6115e858e14f415d89d182f550.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Kiran Surendran <ksurendr@ala-lpggp3.wrs.com>
 
-Backport patch to fix CVE-2021-40153, and remove version update in
-unsquashfs.c for compatible.
+backport from upstream
 
-CVE: CVE-2021-40153
-
-Ref:
-* https://security-tracker.debian.org/tracker/CVE-2021-40153
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../squashfs-tools/files/CVE-2021-40153.patch | 253 ++++++++++++++++++
- .../squashfs-tools/squashfs-tools_git.bb      |   1 +
- 2 files changed, 254 insertions(+)
- create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+ .../ffmpeg/ffmpeg/fix-CVE-2021-38291.patch    | 54 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
 
-diff --git a/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
 new file mode 100644
-index 0000000000..95e2534ee4
+index 0000000000..ef1c760286
 --- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
-@@ -0,0 +1,253 @@
-+Backport patch to fix CVE-2021-40153, and remove version update in unsquashfs.c
-+for compatible.
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
+@@ -0,0 +1,54 @@
++CVE: CVE-2021-38291
++Upstream-Status: Backport
++Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
 +
-+Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/79b5a55]
-+CVE: CVE-2021-40153
++From e908bdb157fa493be2b50e2a11055d19c5254a15 Mon Sep 17 00:00:00 2001
++From: James Almer <jamrial@gmail.com>
++Date: Wed, 21 Jul 2021 01:02:44 -0300
++Subject: [PATCH] avcodec/utils: don't return negative values in
++ av_get_audio_frame_duration()
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
++In some extrme cases, like with adpcm_ms samples with an extremely high channel
++count, get_audio_frame_duration() may return a negative frame duration value.
++Don't propagate it, and instead return 0, signaling that a duration could not
++be determined.
 +
-+From 79b5a555058eef4e1e7ff220c344d39f8cd09646 Mon Sep 17 00:00:00 2001
-+From: Phillip Lougher <phillip@squashfs.org.uk>
-+Date: Sat, 16 Jan 2021 20:08:55 +0000
-+Subject: [PATCH] Unsquashfs: fix write outside destination directory exploit
++Fixes ticket #9312
 +
-+An issue on Github (https://github.com/plougher/squashfs-tools/issues/72)
-+shows how some specially crafted Squashfs filesystems containing
-+invalid file names (with '/' and ..) can cause Unsquashfs to write
-+files outside of the destination directory.
-+
-+This commit fixes this exploit by checking all names for
-+validity.
-+
-+In doing so I have also added checks for '.' and for names that
-+are shorter than they should be (names in the file system should
-+not have '\0' terminators).
-+
-+Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
++Signed-off-by: James Almer <jamrial@gmail.com>
 +---
-+ squashfs-tools/Makefile        |  5 ++-
-+ squashfs-tools/unsquash-1.c    |  9 +++++-
-+ squashfs-tools/unsquash-1234.c | 58 ++++++++++++++++++++++++++++++++++
-+ squashfs-tools/unsquash-2.c    |  9 +++++-
-+ squashfs-tools/unsquash-3.c    |  9 +++++-
-+ squashfs-tools/unsquash-4.c    |  9 +++++-
-+ squashfs-tools/unsquashfs.h    |  5 ++-
-+ 7 files changed, 98 insertions(+), 6 deletions(-)
-+ create mode 100644 squashfs-tools/unsquash-1234.c
++ libavcodec/utils.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
-+diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
-+index aee4b960..20feaca2 100644
-+--- a/squashfs-tools/Makefile
-++++ b/squashfs-tools/Makefile
-+@@ -156,7 +156,8 @@ MKSQUASHFS_OBJS = mksquashfs.o read_fs.o action.o swap.o pseudo.o compressor.o \
-+ 	caches-queues-lists.o
++diff --git a/libavcodec/utils.c b/libavcodec/utils.c
++index 81e34254e8..5fdb10fe09 100644
++--- a/libavcodec/utils.c
+++++ b/libavcodec/utils.c
++@@ -1776,20 +1776,22 @@ static int get_audio_frame_duration(enum AVCodecID id, int sr, int ch, int ba,
 + 
-+ UNSQUASHFS_OBJS = unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o \
-+-	unsquash-4.o unsquash-123.o unsquash-34.o swap.o compressor.o unsquashfs_info.o
-++	unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o swap.o \
-++	compressor.o unsquashfs_info.o
++ int av_get_audio_frame_duration(AVCodecContext *avctx, int frame_bytes)
++ {
++-    return get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
+++    int duration = get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
++                                     avctx->channels, avctx->block_align,
++                                     avctx->codec_tag, avctx->bits_per_coded_sample,
++                                     avctx->bit_rate, avctx->extradata, avctx->frame_size,
++                                     frame_bytes);
+++    return FFMAX(0, duration);
++ }
 + 
-+ CFLAGS ?= -O2
-+ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
-+@@ -350,6 +351,8 @@ unsquash-123.o: unsquashfs.h unsquash-123.c squashfs_fs.h squashfs_compat.h
++ int av_get_audio_frame_duration2(AVCodecParameters *par, int frame_bytes)
++ {
++-    return get_audio_frame_duration(par->codec_id, par->sample_rate,
+++    int duration = get_audio_frame_duration(par->codec_id, par->sample_rate,
++                                     par->channels, par->block_align,
++                                     par->codec_tag, par->bits_per_coded_sample,
++                                     par->bit_rate, par->extradata, par->frame_size,
++                                     frame_bytes);
+++    return FFMAX(0, duration);
++ }
 + 
-+ unsquash-34.o: unsquashfs.h unsquash-34.c
-+ 
-++unsquash-1234.o: unsquash-1234.c
-++
-+ unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h
-+ 
-+ unsquashfs_info.o: unsquashfs.h squashfs_fs.h
-+diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
-+index 34eced36..28326cb1 100644
-+--- a/squashfs-tools/unsquash-1.c
-++++ b/squashfs-tools/unsquash-1.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2011, 2012, 2019
-++ * Copyright (c) 2009, 2010, 2011, 2012, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -285,6 +285,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
-+new file mode 100644
-+index 00000000..c2d4f42b
-+--- /dev/null
-++++ b/squashfs-tools/unsquash-1234.c
-+@@ -0,0 +1,58 @@
-++/*
-++ * Unsquash a squashfs filesystem.  This is a highly compressed read only
-++ * filesystem.
-++ *
-++ * Copyright (c) 2021
-++ * Phillip Lougher <phillip@squashfs.org.uk>
-++ *
-++ * This program is free software; you can redistribute it and/or
-++ * modify it under the terms of the GNU General Public License
-++ * as published by the Free Software Foundation; either version 2,
-++ * or (at your option) any later version.
-++ *
-++ * This program is distributed in the hope that it will be useful,
-++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ * GNU General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU General Public License
-++ * along with this program; if not, write to the Free Software
-++ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-++ *
-++ * unsquash-1234.c
-++ *
-++ * Helper functions used by unsquash-1, unsquash-2, unsquash-3 and
-++ * unsquash-4.
-++ */
-++
-++#define TRUE 1
-++#define FALSE 0
-++/*
-++ * Check name for validity, name should not
-++ *  - be ".", "./", or
-++ *  - be "..", "../" or
-++ *  - have a "/" anywhere in the name, or
-++ *  - be shorter than the expected size
-++ */
-++int check_name(char *name, int size)
-++{
-++	char *start = name;
-++
-++	if(name[0] == '.') {
-++		if(name[1] == '.')
-++			name++;
-++		if(name[1] == '/' || name[1] == '\0')
-++			return FALSE;
-++	}
-++
-++	while(name[0] != '/' && name[0] != '\0')
-++		name ++;
-++
-++	if(name[0] == '/')
-++		return FALSE;
-++
-++	if((name - start) != size)
-++		return FALSE;
-++
-++	return TRUE;
-++}
-+diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
-+index 4b3d767e..474064e1 100644
-+--- a/squashfs-tools/unsquash-2.c
-++++ b/squashfs-tools/unsquash-2.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2013, 2019
-++ * Copyright (c) 2009, 2010, 2013, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -386,6 +386,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
-+index 02c31fc5..65cfe4d9 100644
-+--- a/squashfs-tools/unsquash-3.c
-++++ b/squashfs-tools/unsquash-3.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
-++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -413,6 +413,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
-+index 8475835c..aa23a841 100644
-+--- a/squashfs-tools/unsquash-4.c
-++++ b/squashfs-tools/unsquash-4.c
-+@@ -2,7 +2,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
-++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -349,6 +349,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-+ 			memcpy(dire->name, directory_table + bytes,
-+ 				dire->size + 1);
-+ 			dire->name[dire->size + 1] = '\0';
-++
-++			/* check name for invalid characters (i.e /, ., ..) */
-++			if(check_name(dire->name, dire->size + 1) == FALSE) {
-++				ERROR("File system corrupted: invalid characters in name\n");
-++				goto corrupted;
-++			}
-++
-+ 			TRACE("squashfs_opendir: directory entry %s, inode "
-+ 				"%d:%d, type %d\n", dire->name,
-+ 				dirh.start_block, dire->offset, dire->type);
-+diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
-+index 934618b2..db1da7a0 100644
-+--- a/squashfs-tools/unsquashfs.h
-++++ b/squashfs-tools/unsquashfs.h
-+@@ -4,7 +4,7 @@
-+  * Unsquash a squashfs filesystem.  This is a highly compressed read only
-+  * filesystem.
-+  *
-+- * Copyright (c) 2009, 2010, 2013, 2014, 2019
-++ * Copyright (c) 2009, 2010, 2013, 2014, 2019, 2021
-+  * Phillip Lougher <phillip@squashfs.org.uk>
-+  *
-+  * This program is free software; you can redistribute it and/or
-+@@ -261,4 +261,7 @@ extern int read_ids(int, long long, long long, unsigned int **);
-+ 
-+ /* unsquash-34.c */
-+ extern long long *alloc_index_table(int);
-++
-++/* unsquash-1234.c */
-++extern int check_name(char *, int);
-+ #endif
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 2b1409d78d..083e597b03 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -11,6 +11,7 @@ PV = "4.4"
- SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
-            file://0001-squashfs-tools-fix-build-failure-against-gcc-10.patch;striplevel=2 \
-+           file://CVE-2021-40153.patch;striplevel=2 \
- "
++ #if !HAVE_THREADS
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+index 0a49493abd..3e7ceb859f 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+@@ -31,6 +31,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://fix-CVE-2020-22015.patch \
+            file://fix-CVE-2020-22021.patch \
+            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
++           file://fix-CVE-2021-38291.patch \
+            "
+ SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
  
- S = "${WORKDIR}/git/squashfs-tools"
 -- 
 2.31.1
 
