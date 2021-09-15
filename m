@@ -1,116 +1,127 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:15:51 -0700
+ Wed, 15 Sep 2021 16:15:52 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565488"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565494"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565488"
+   d="scan'208";a="220565494"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:50 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:51 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597281"
+   d="scan'208";a="433597283"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:49 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:50 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 02/17] ruby: fix CVE-2021-31799
-Date: Thu, 16 Sep 2021 07:15:26 +0800
-Message-Id: <97d0237e254a0d90b58fe35a1b40d549991b3779.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 03/17] sqlite3: fix CVE-2021-36690
+Date: Thu, 16 Sep 2021 07:15:27 +0800
+Message-Id: <b0c311d784e939342c4bfa771790a0113fc7a704.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Backport a patch to fix CVE-2021-31799.
+refer:
+https://nvd.nist.gov/vuln/detail/CVE-2021-36690
+https://www.sqlite.org/forum/forumpost/718c0a8d17
+https://sqlite.org/src/info/b1e0c22ec981cf5f
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ruby/ruby/CVE-2021-31799.patch            | 57 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.0.1.bb      |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
+ .../sqlite/sqlite3/CVE-2021-36690.patch       | 62 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.35.0.bb |  4 +-
+ 2 files changed, 65 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch b/meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
 new file mode 100644
-index 0000000000..83064e85ab
+index 0000000000..d383696e42
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
-@@ -0,0 +1,57 @@
-+From b1c73f239fe9af97de837331849f55d67c27561e Mon Sep 17 00:00:00 2001
-+From: aycabta <aycabta@gmail.com>
-+Date: Sun, 2 May 2021 20:52:23 +0900
-+Subject: [PATCH] [ruby/rdoc] Use File.open to fix the OS Command Injection
-+ vulnerability in CVE-2021-31799
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
+@@ -0,0 +1,62 @@
++From c286324a7ff1e98355b638fb821614a65ee03c0c Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 14 Sep 2021 11:28:54 +0800
++Subject: [PATCH] Fix an issue with the SQLite Expert extension when a column
++ has no collating sequence. Forum post 78165fa250.
 +
-+https://github.com/ruby/rdoc/commit/a7f5d6ab88
++Upstream-Status: Backport [https://sqlite.org/src/info/b1e0c22ec981cf5f]
++CVE: CVE-2021-36690
 +
-+CVE: CVE-2021-31799
-+
-+Upstream-Status: Backport[https://github.com/ruby/ruby/commit/b1c73f239fe9af97de837331849f55d67c27561e]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ lib/rdoc/rdoc.rb            |  2 +-
-+ test/rdoc/test_rdoc_rdoc.rb | 12 ++++++++++++
-+ 2 files changed, 13 insertions(+), 1 deletion(-)
++ shell.c | 14 +++++++++-----
++ 1 file changed, 9 insertions(+), 5 deletions(-)
 +
-+diff --git a/lib/rdoc/rdoc.rb b/lib/rdoc/rdoc.rb
-+index 680a8612f7..904625f105 100644
-+--- a/lib/rdoc/rdoc.rb
-++++ b/lib/rdoc/rdoc.rb
-+@@ -444,7 +444,7 @@ def remove_unparseable files
-+     files.reject do |file, *|
-+       file =~ /\.(?:class|eps|erb|scpt\.txt|svg|ttf|yml)$/i or
-+         (file =~ /tags$/i and
-+-         open(file, 'rb') { |io|
-++         File.open(file, 'rb') { |io|
-+            io.read(100) =~ /\A(\f\n[^,]+,\d+$|!_TAG_)/
-+          })
-+     end
-+diff --git a/test/rdoc/test_rdoc_rdoc.rb b/test/rdoc/test_rdoc_rdoc.rb
-+index 3910dd4656..a83d5a1b88 100644
-+--- a/test/rdoc/test_rdoc_rdoc.rb
-++++ b/test/rdoc/test_rdoc_rdoc.rb
-+@@ -456,6 +456,18 @@ def test_remove_unparseable_tags_vim
-+     end
-+   end
++diff --git a/shell.c b/shell.c
++index de8a665..69a5c05 100644
++--- a/shell.c
+++++ b/shell.c
++@@ -9054,11 +9054,13 @@ static int idxGetTableInfo(
++   rc = idxPrintfPrepareStmt(db, &p1, pzErrmsg, "PRAGMA table_xinfo=%Q", zTab);
++   while( rc==SQLITE_OK && SQLITE_ROW==sqlite3_step(p1) ){
++     const char *zCol = (const char*)sqlite3_column_text(p1, 1);
+++    const char *zColSeq = 0;
++     nByte += 1 + STRLEN(zCol);
++     rc = sqlite3_table_column_metadata(
++-        db, "main", zTab, zCol, 0, &zCol, 0, 0, 0
+++        db, "main", zTab, zCol, 0, &zColSeq, 0, 0, 0
++     );
++-    nByte += 1 + STRLEN(zCol);
+++    if( zColSeq==0 ) zColSeq = "binary";
+++    nByte += 1 + STRLEN(zColSeq);
++     nCol++;
++     nPk += (sqlite3_column_int(p1, 5)>0);
++   }
++@@ -9078,6 +9080,7 @@ static int idxGetTableInfo(
++   nCol = 0;
++   while( rc==SQLITE_OK && SQLITE_ROW==sqlite3_step(p1) ){
++     const char *zCol = (const char*)sqlite3_column_text(p1, 1);
+++    const char *zColSeq = 0;
++     int nCopy = STRLEN(zCol) + 1;
++     pNew->aCol[nCol].zName = pCsr;
++     pNew->aCol[nCol].iPk = (sqlite3_column_int(p1, 5)==1 && nPk==1);
++@@ -9085,12 +9088,13 @@ static int idxGetTableInfo(
++     pCsr += nCopy;
 + 
-++  def test_remove_unparseable_CVE_2021_31799
-++    temp_dir do
-++      file_list = ['| touch evil.txt && echo tags']
-++      file_list.each do |f|
-++        FileUtils.touch f
-++      end
-++
-++      assert_equal file_list, @rdoc.remove_unparseable(file_list)
-++      assert_equal file_list, Dir.children('.')
-++    end
-++  end
-++
-+   def test_setup_output_dir
-+     Dir.mktmpdir {|d|
-+       path = File.join d, 'testdir'
++     rc = sqlite3_table_column_metadata(
++-        db, "main", zTab, zCol, 0, &zCol, 0, 0, 0
+++        db, "main", zTab, zCol, 0, &zColSeq, 0, 0, 0
++     );
++     if( rc==SQLITE_OK ){
++-      nCopy = STRLEN(zCol) + 1;
+++      if( zColSeq==0 ) zColSeq = "binary";
+++      nCopy = STRLEN(zColSeq) + 1;
++       pNew->aCol[nCol].zColl = pCsr;
++-      memcpy(pCsr, zCol, nCopy);
+++      memcpy(pCsr, zColSeq, nCopy);
++       pCsr += nCopy;
++     }
++ 
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-devtools/ruby/ruby_3.0.1.bb b/meta/recipes-devtools/ruby/ruby_3.0.1.bb
-index ae953a0a89..4ac7383a97 100644
---- a/meta/recipes-devtools/ruby/ruby_3.0.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.0.1.bb
-@@ -8,6 +8,7 @@ SRC_URI += " \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-            file://CVE-2021-31810.patch \
-            file://CVE-2021-32066.patch \
-+           file://CVE-2021-31799.patch \
-            "
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.35.0.bb b/meta/recipes-support/sqlite/sqlite3_3.35.0.bb
+index 127065bbc1..8b2732640f 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.35.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.35.0.bb
+@@ -3,7 +3,9 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- SRC_URI[sha256sum] = "369825db2199f6aeef16b408df6a04ebaddb664fb9af0ec8c686b0ce7ab77727"
+-SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++           file://CVE-2021-36690.patch \
++"
+ SRC_URI[sha256sum] = "3dfb3f143c83695a555c7dd9e06ed924f9d273c287989874e102656724baf2d0"
+ 
+ # -19242 is only an issue in specific development branch commits
 -- 
 2.31.1
 
