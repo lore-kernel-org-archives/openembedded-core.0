@@ -1,114 +1,76 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.81])
- by mx.groups.io with SMTP id smtpd.web12.5859.1631703188901505382
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.6008.1631704096651998299
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 03:53:09 -0700
+ Wed, 15 Sep 2021 04:08:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherrycloud.onmicrosoft.com header.s=selector2-cherrycloud-onmicrosoft-com header.b=Z2ARJggZ;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.8.81, mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y2o7s4bh/xmhIA5LfTDji248daufaJkLVJ+nDwinZ10Q7KMYDx7v+YXDVyMQ8EkL8mPJ7yaV1yKEu4uxAEebyLacSErklZKih8mKB87DuVVEHfsZDzahny2NLBgHwA9c0vh2tYgIcaMP8VETxkXQXCPTOFD3cyYjNRWjqUkbJyDGM5NtTBn9AdktpKUzTC3fOmnggQRlgCT+BKvOtwt+6gueqfDfIIbSwBqh6Oun6r8QSAGHb1FxrDWtfDUgq5OvUpF73pT3kRMs4SrmyHP3jd6FEf4tBMqbri+gyQ3BnSW/0RfnbMGAPNiXaii/8PJFy+0jO2d7UrjCy5EmhNQCRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=VYOO44x+KZIYGzywhzOz7+0N1vR4ZHw9dAGxVraXfpE=;
- b=YGqnN6W5/Vp5eqaoRowSNirriRU4GqsWRH7LvYW86k4RD9WwEsE+DoLM1A4UhNwKBNv05Pe4IlQWsKAyinY64nXkMbXLt402bHVNWCDT5G2GIDf4OA8COdSbMJ6yxs4z/pJbrbO98t8jNBYebteZH0bKFpbseKAifUGEeWiVYOctFyoE2Cc52Tby3adRzI+wIqsGln285oRh/Z9kfZ9xCPIMkxIqrsANmdc3Zab+3pEAbJ+6aLTiqG/T/3PfKeAbkGIIxzMo98JzfbJMwzOhScxgY0g5Nc1vbioaZOMTjipxS9csjb95n/ClkBGwlw8Jmvo12gbTtQvCu85jXdTAVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=1axN4fpp;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.52, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f52.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so3661883wmh.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 04:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VYOO44x+KZIYGzywhzOz7+0N1vR4ZHw9dAGxVraXfpE=;
- b=Z2ARJggZh/+wapKs74+R1b0MZmM0nUvCSC3c40S57fqhduM0w+oTU9v1ztP5l09pi1SPBG5ciCBZlqhheIPfFPgdcUzbVOLHn2i0QvaNGcaFiD4/YopfztANb4+vzt43YJ9cZuxUTVVZ0f9aRIQ6pPVyLqn9mUrOZ/8wFf1PEkk=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none
- header.from=theobroma-systems.com;
-Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
- (2603:10a6:208:24::24) by AM0PR0402MB3684.eurprd04.prod.outlook.com
- (2603:10a6:208:8::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Wed, 15 Sep
- 2021 10:53:06 +0000
-Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
- ([fe80::7987:898f:55bd:ec64]) by AM0PR0402MB3348.eurprd04.prod.outlook.com
- ([fe80::7987:898f:55bd:ec64%7]) with mapi id 15.20.4500.019; Wed, 15 Sep 2021
- 10:53:06 +0000
-Date: Wed, 15 Sep 2021 12:53:03 +0200
-From: "Quentin Schulz" <quentin.schulz@theobroma-systems.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [meta-skeleton][PATCH 2/2] hello-mod/hello.c: convert printk to pr_xxx
-Message-ID: <20210915105303.3x6gmiuaisqkxlvm@fedora>
-References: <20210915003804.34746-1-twoerner@gmail.com>
- <20210915003804.34746-2-twoerner@gmail.com>
-In-Reply-To: <20210915003804.34746-2-twoerner@gmail.com>
-X-ClientProxiedBy: PR0P264CA0112.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:19::28) To AM0PR0402MB3348.eurprd04.prod.outlook.com
- (2603:10a6:208:24::24)
-Return-Path: quentin.schulz@theobroma-systems.com
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LpEhiDkzyOCa/8/IBPniNWwqtqNpt+1tY55C+k/STDY=;
+        b=1axN4fppjeD4pjSg6U/JWp13eqMTP03G3yFDWFdPoL5QPo/hdBZRSZ5NBMj9KOqbKI
+         CPPS2SVeDFsCnYPFY1Uixd3d6RgIH7A9SsNy+D+T2z1caQLhp5bNI+2IIh8o6mlyYnl3
+         T39F75uY+hPNlHkszABAFSBLOx2hgLf5K63TnO8zX28ggIbT1BIWMyPcfWamRgZah4Ue
+         9z5imGaFpkqjFeICCRAi05Q0CGpv4mG3mHLZo1r2UHKTeRHYPQw4m2ptLafUstcCbJE7
+         a9lfH7XCilmX6kiR+PGiiDlK4anRQAI9AiHk6nKwZb3rrFq1hzMyqC8gbXenyZrX8uVd
+         yY7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LpEhiDkzyOCa/8/IBPniNWwqtqNpt+1tY55C+k/STDY=;
+        b=BvhDSEBy+ZLU4oL4NWZuXDs1dwwiN92VI1X8AtnqMsrx2cuoN6WmHPLbwgFuvXPB1o
+         Rmw21iVA9aiXvHUu9hOaKGL0XmqOf/gx70kbgsTmOZMIuvrRpxxPihQXMoDgO8KrmsG/
+         JkF1a1f0HLKkVZju60ddVuvflJ20slQeliGHF1Tn9ZOTLaKULzyb0ZYykYoA44n/XC/k
+         oNpen17f89SixdqgNac1EjMQCE9gNHinH/oVGlxpbBh3MoaAYLNcpKH8itB1MN3x9xFN
+         OWKQEaD0tQJSRlB41Rsnjx1436qjjcQ/nNQq1beqNOGEwIYBaouaG2gXf9mrc5ss7SEN
+         9jsw==
+X-Gm-Message-State: AOAM530iQWvLC+Mxw+rnqsEdzwJgtWfHFabZmlKvsMMc7wJ6fpQwBDZx
+	3XR5Vzcg65Os4Kk99T1p9Z8xsUk56m7smpBic9MCxA==
+X-Google-Smtp-Source: ABdhPJysi3OmBw79w1jRnjnJXChf3XKwgxj/WrMW1RvcpliRwqijlNR95NEky9jdE4wtCWiB+mO3MS+kl6ig9zpFiH4=
+X-Received: by 2002:a7b:cb45:: with SMTP id v5mr3719299wmj.184.1631704094978;
+ Wed, 15 Sep 2021 04:08:14 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fedora (92.42.140.82) by PR0P264CA0112.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:19::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Wed, 15 Sep 2021 10:53:05 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 150ed6d6-05e9-498a-6202-08d97836ff82
-X-MS-TrafficTypeDiagnostic: AM0PR0402MB3684:
-X-Microsoft-Antispam-PRVS: 
-	<AM0PR0402MB3684F6412B4CBC07DB6EBA5AC2DB9@AM0PR0402MB3684.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Px/+ztdlwgsFozI46Zu/kAUl2N/0Y+YemWgkycf2KW3JjDVz9EHVmYGlxHEs2Z6ZWVbopUOWOBFVXOKDOGtWpriCAB6jxxCtqeUlFNu3NYMDK+VqaeVOiTL8j1YwvN+YOrd9qVum59d4gA6yA3f7DtBtcWx6pR9Pl+BhNNTGxeUXBSvv2OGmeQCJUcydG+LN9fGKU/KTQv9KqZlYn1yAFyWlxPXl7P8xmFdbtNusI+ArHmdTYBg0aDnoP8r4d8vcL2NdBTP9qdCE6DUj9fPV91DFwcGXGU3vqUP7t8xHIaTgtlSuQPKFWb/lG4mYmzWWUZWvB733kosy2I+nfJpcmO+PJjtF0P5GPo3HnS+qrXJZ+70I0N7avdK/0S4iBBiEWA/Tk/iqaKQOWPwV8oiBh4yBUc/RQNmNYI7jELgRZ35wuNQnDBlqXX79k7Np4ZXnkEs1h7Rveq75eg0o45ZCCyXxC3lUjSHqCT2m3/Uhk0eV4LCJzYdrTNrCK7RjCqCxRGMTQc4P9enTdUIKHUKRpU8jR3OOCiz+vtu5w4p3sRwEjHHqCKdAkRTcLC5oQ/p7r8KEJkN8WP+TGAxxE7uIcNqn14lxQzUo6Gmh6jMw+hDUjtTwU7DuTfmgs3i/0f84MeuphSHcPgHvQ6YUPEQhrYf5Zvz3PtDmyDQRjSiKf1Y2MJ/0rBFtqI2PRtaNBMvO/UOvriHPE6DdJzvjEcojc3zfS+XEz6wbEONTVmys7AA=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3348.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(39850400004)(346002)(376002)(136003)(52116002)(2906002)(38350700002)(9686003)(44832011)(956004)(38100700002)(9576002)(86362001)(66946007)(4326008)(558084003)(478600001)(66556008)(55016002)(316002)(6916009)(26005)(8936002)(1076003)(6496006)(66476007)(5660300002)(186003)(33716001)(8676002)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ZoqRqxuDYLGNt69+1Na153B/XhZ5ymCRkcBxBbSXFXnDJBBg9ZPNbTIYcwEY?=
- =?us-ascii?Q?RHvZEQn+EsW0nPn9ipz8H4S1nkhmC4Lt0YJyb29JM8J/ibvJSWEy1nCYYDzA?=
- =?us-ascii?Q?eisKYUGm2UcRZtX30/KYYsvKPDGcVbUzWL9hhJxk3W8BYxSKpnHKJmSpSMnj?=
- =?us-ascii?Q?5Vfd0CWYMFfJzqryu3FZw5OEQVm9n+YC3tcJTZ6UDBpSxzYwbXllaOVkX2xs?=
- =?us-ascii?Q?Mukbb8XiEq3wVbbDFZzW9Aqe+qo4n4YCC2dHhzBzMQvdWGTBUsZPqTfQjnHW?=
- =?us-ascii?Q?L+2edYn/BSoHawsilAUSFHaO1UX0Dj8/4eQliBFZmz+U1NdftwUQt5nGlTzt?=
- =?us-ascii?Q?VUeCNg8yxrhvTHy3HNbhDZ7p6wwpQPIr5lU1WC79p6k69wgbuViYof0iOaJO?=
- =?us-ascii?Q?SukfEtjPadgMwDfqNtqtb/1OAkFxRZ7a2HMa0e2Jvfs1N/6wj8dP7JO4Y1gs?=
- =?us-ascii?Q?Khl+2umksdE311vg81ti2N4nC4Yzw0gsPLEfD9ILQhJ+B/KyiSntlRNcyTbp?=
- =?us-ascii?Q?BVkmK4w0+VgnisHV/eEGYJMEEAAGyZFReycWPqb7MA3Suke/7TQRHq4ManCA?=
- =?us-ascii?Q?1KMJvlx32Kk+4iK1G5gsJIhVFq5WffIu+v/2n2odXDSU9d1c/2vfJ1iyavVn?=
- =?us-ascii?Q?uTcqVXamrOLkA8QRyTAWKfAe99OKebZl0T39QQOQSUyoV/o8F2jy//vEbcpe?=
- =?us-ascii?Q?KQmuQ3quRHybr7u78KwVZXc4Px1r5y3QFavJoSo4x10SNGHAEnQyKm5m7MZp?=
- =?us-ascii?Q?QOH1/+iGb2ClW6NlzMRKmv+h/jMXvAXnJ05c+YpPzu3+sX/KGtkv5btbHrcO?=
- =?us-ascii?Q?11L/LM9/rOfFysuEgjGFVcKBT0yNw6Mf7p2sGn1wlVnxi9WnJYwFcTNV7u+L?=
- =?us-ascii?Q?SGkO0dPyE1sbLrFad8/U0kVXgV0jLIvsdH7Yt59ZJ/tLN3Z6UiyTAKdHNiWo?=
- =?us-ascii?Q?pzNiABFR0vBW3NyvnWK8tl0rqLpiCHMURiAQtaczp2I3mq2yWY1gjuHFNZ2i?=
- =?us-ascii?Q?zkHU7jxajxVV+nZdbtqXmX4KyTAxLr6ijWhDEfO/SEzw8i1JSnK9eOZsWiTc?=
- =?us-ascii?Q?eGAcl+0nvNjgyTwfgmaRlBdDipTP5oxJEhxpqTAePWOCl1u9VBBnKsaEKNSy?=
- =?us-ascii?Q?yznCoO5G3Xj8XZv8YNerLLm1R+h/bx0Ae75KdJcp20O6CwzXDnrAHT+k1YBo?=
- =?us-ascii?Q?HKW5TmNBm7bPCa1uA5Eht9lUdvS3eIuCinwDbd7ulYrWJmWGJNtIlRjcOjze?=
- =?us-ascii?Q?b0cciZ3Y3WRf9TG0xTgfz1hE2d22rO0eWaHDZrAiBrrMVIsiUcu5rVRO7Vko?=
- =?us-ascii?Q?OK1QutT8YVcXfWQQfBSFJsYB?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 150ed6d6-05e9-498a-6202-08d97836ff82
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR0402MB3348.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2021 10:53:06.0607
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HJRtYVk7ELFCLV7LGqz3sxDlrj0BrA/JaHx9n3vYxNgbCtxH+fMdjMKs+F1swAWFVgHB3LdBtWKDNW39gEvkNVNs4LW9LFNXV9MuTpEISiYj7dRwkFKI71wLvL7Ytzvc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0402MB3684
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210912150121.8237296032A@nuc.router0800d9.com>
+ <d6ad55b4fdcca27eee438031ea60b586c0f7f9da.camel@linuxfoundation.org>
+ <16A41EB09718E439.21276@lists.openembedded.org> <CAOSpxda2cHN3d0WDMLszq8QJD0-Qa37e0NU57Xu21EXR672oFg@mail.gmail.com>
+ <5a6a112b92ba3921ba31bc648f37f9cff2687f49.camel@linuxfoundation.org> <CAOSpxdbH9mEv0U8b641i7r+h1jpt--kNOT+PqKk3-e=FK4kw9Q@mail.gmail.com>
+In-Reply-To: <CAOSpxdbH9mEv0U8b641i7r+h1jpt--kNOT+PqKk3-e=FK4kw9Q@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 15 Sep 2021 12:08:04 +0100
+Message-ID: <CAAnfSTvQ-=BVCWh2wH9V7eWrXbctsOEBubb2xhAP_A86QurtJA@mail.gmail.com>
+Subject: Re: [OE-core] [yocto-security] OE-core CVE metrics for hardknott on Sun 12 Sep 2021 05:00:01 AM HST
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Trevor,
+On Mon, 13 Sept 2021 at 18:26, Steve Sakoman <steve@sakoman.com> wrote:
 
-On Tue, Sep 14, 2021 at 08:38:04PM -0400, Trevor Woerner wrote:
-> Convert to the newer pr_xxx aliases for logging, which embed the log level in
-> the macro names.
-> 
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> Taking a quick look at the code in cve-update-db-native.bb I see that
+> database updates can fail with a warning message printed.  So it could
+> well be that the update failed for some reason, printed the warning,
+> and then used the old database for the scan. That would explain what
+> we are seeing.
+>
+> Perhaps someone who knows the code better can comment (Ross? I see
+> you've mucked about in this section of the code!)
+>
+> Unfortunately I didn't enable cron logging on the machine that does
+> the reports, but I will enable that now so that I can examine the cron
+> output if this happens in the future.
 
-Reviewed-by: Quentin Schulz <foss@0leil.net>
+That's indeed a good hypothesis, and having the log to hand would be
+useful.  If you don't delete the tmpdir after the event then the
+console logs will be available in there still.
 
-Thanks!
-Quentin
+A hunch is that if you have all three jobs running at once, they might
+be rejecting some of your connections.  Maybe stagger the runs by ten
+minutes?
+
+Ross
