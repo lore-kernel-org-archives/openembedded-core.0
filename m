@@ -1,129 +1,121 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web11.3826.1631747216666740217
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:06:56 -0700
+ Wed, 15 Sep 2021 16:15:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VtSpTkgI;
- spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id t35so3956680qtc.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 16:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HVZ+b2MrBd82jwoS1POe8a/vn8s19KxTET2f9T863Wg=;
-        b=VtSpTkgINHTGkWa6+OBi5pnerWFqgt+86q3+7NXBqH5Tx5sIOU3D0S7aAoxBfwGZp8
-         1bvUFFmMMV4yFpQ4I+Vqwh0YP6oEaGURw80yw71SiEq47Q4qF8QH28iL/OqD4pNSKmM0
-         Em8beFx71IYt2yUw7bz4A7+nSu5glP93zyDoCkBpih4gtKkGX2v0VVXaZVTeiUtf0JwL
-         MURcePRf2Gnq6Yys9ehaZY3kLhRmFfGJ2cfcRRyl1N5IBbl7NdHuxwaXIPrpW5ZF0y4e
-         zY0wnxc4glJdC3Yk/kpSZeces2P/XYcUALPYJvReSkPkEi1v7lSLGstS3Kci+KXcBUBp
-         nn6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HVZ+b2MrBd82jwoS1POe8a/vn8s19KxTET2f9T863Wg=;
-        b=g6bgSn8mcJIp7VMflEl+V5VyqCQG9h4rfFhEjuUt00ROlgytck/TiscbATVsGv0O1q
-         TX4/ozI6TMIYTbuLfgeDLWoZmAPcg5xGafoQCZTrjecURvCIuz62rmz9rW7q5pRT8Lc9
-         G8uUY27DGcLkYBqDSBNyc87i3CASS3AvPsDNKpKYdSiW+Gk5Wiym82ImzW6pbms9V9TV
-         XMcVjBfkgR5OuxlK653y6SFp6YOp5n7mBAwb1HCOi0lU8gNi+LOss7ctS5dnoLh1HxPe
-         FvE7qtCjE2J5yfFIQe1MPeSH2nbKoDMd0ZmHQa64ciBW7mPXaa9VbFr3/DVRdcOHglUl
-         dDZA==
-X-Gm-Message-State: AOAM531qqsNwWMnbWV6WM1xCuFwVa+FYJqp2JPVP6iRcVj6TA82rb6JF
-	hicsft/5yRW+DaDuAXNz3vDPrHlegrmxRXaAOa/rxodXXuf0Xw==
-X-Google-Smtp-Source: ABdhPJxGI8DLPLVyjCeAeANy5o0ECO5Jz0v9DdUa0+gqkldQPQ13dY9I5rlhqiVM3I9PT+vrve9mEMSXhnT4W5ywG/o=
-X-Received: by 2002:ac8:67d7:: with SMTP id r23mr2405834qtp.227.1631747215549;
- Wed, 15 Sep 2021 16:06:55 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565465"
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
+   d="scan'208";a="220565465"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:47 -0700
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
+   d="scan'208";a="433597277"
+Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:46 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 00/17] Review request
+Date: Thu, 16 Sep 2021 07:15:24 +0800
+Message-Id: <cover.1631747352.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <8bbba4f2242345528f8439794a20058b@axis.com>
-In-Reply-To: <8bbba4f2242345528f8439794a20058b@axis.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 15 Sep 2021 16:06:29 -0700
-Message-ID: <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
-Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Ross Burton <ross@burtonini.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 15, 2021 at 3:26 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 9 september 2021 21:54
-> > To: Ross Burton <ross@burtonini.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
-> >
-> > > -----Original Message-----
-> > > From: openembedded-core@lists.openembedded.org <openembedded-
-> > > core@lists.openembedded.org> On Behalf Of Ross Burton
-> > > Sent: den 3 september 2021 15:25
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
-> > >
-> > > "BSD" is ambiguous, ffmpeg comprises of several licenses which are
-> > > BSD-like.
-> > >
-> > > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > > ---
-> > >  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> > b/meta/recipes-
-> > > multimedia/ffmpeg/ffmpeg_4.4.bb
-> > > index e19077541ec..f822ba9ab78 100644
-> > > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> > > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> > > @@ -5,7 +5,7 @@ DESCRIPTION = "FFmpeg is the leading multimedia framework,
-> > > able to decode, encod
-> > >  HOMEPAGE = "https://www.ffmpeg.org/"
-> > >  SECTION = "libs"
-> > >
-> > > -LICENSE = "BSD & GPLv2+ & LGPLv2.1+ & MIT"
-> > > +LICENSE = "GPLv2+ & LGPLv2.1+ & ISC & Expat & BSD-2-Clause & BSD-3-Clause & IJG"
-> >
-> > There is no "Expat" license in neither meta/files/common-licenses nor
-> > in meta/conf/licenses.conf.
->
+Please review these changes for hardknott. No issues seen on
+autobuilder.
 
-Perhaps adding it might be one way see
-https://directory.fsf.org/wiki/License:Expat
-SPDX seems to not have specific entry for it as it points to MIT there
-I think ptest package will contain vsynth2.yuv which is built using
-reference.pnm so technically
-we need to use Expat for ptest package.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2592
 
-> Ross, since you added the reference to the Expat license, did you plan on
-> actually adding it as well? It being missing breaks at least our license
-> handling. After writing this, I went digging in ffmpeg, and it seems that the
-> Expat license (only mentioned by name, there is no actual license text) is
-> only used for a test image (reference.pnm), which does not end up in any
-> package. So to me it seems as this does not need to be included in LICENSE.
->
-> Also, given the long list of licenses that are now in LICENSE, what packages
-> are actually expected to use those licenses? AFAICT, all packages that are
-> explicitly listed in the recipe either use GPLv2+ or LGPLv2.1+. The default
-> licenses only seem to be used for, e.g., ffmpeg-dev, ffmpeg-dbg and
-> ffmpeg-doc, which seems weird.
->
-> More weirdness, LIC_FILES_CHKSUM lists GPLv2, GPLv3, LGPLv2 and LGPLv3, but
-> neither GPLv3 nor LGPLv3 are used in LICENSE. And there are no references for
-> any of the newly added licenses.
->
-> > >  LICENSE:${PN} = "GPLv2+"
-> > >  LICENSE:libavcodec = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
-> > >  LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
-> > > --
-> > > 2.25.1
-> >
-> > //Peter
->
-> //Peter
->
->
-> 
->
+Thanks,
+
+Anuj
+
+The following changes since commit 567dd35d893c5d8969d41f263a24da8fbae3fc2f:
+
+  build-appliance-image: Update to hardknott head revision (2021-09-09 10:19:49 +0100)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
+
+Armin Kuster (1):
+  apr: Security fix for CVE-2021-35940
+
+Bruce Ashfield (4):
+  linux-yocto/5.10: update to v5.10.61
+  linux-yocto/5.10: update to v5.10.63
+  linux-yocto/5.4: update to v5.4.143
+  linux-yocto/5.4: update to v5.4.144
+
+Changqing Li (1):
+  sqlite3: fix CVE-2021-36690
+
+Kai Kang (2):
+  mc: fix CVE-2021-36370
+  squashfs-tools: fix CVE-2021-40153
+
+Kiran Surendran (2):
+  ffmpeg: fix CVE-2021-38291
+  ffmpeg: fix CVE-2021-38171
+
+Mingli Yu (1):
+  ruby: fix CVE-2021-31799
+
+Richard Purdie (4):
+  tcl: Exclude CVE-2021-35331 from checks
+  flex: Add CVE-2019-6293 to exclusions for checks
+  go: Exclude CVE-2021-29923 from report list
+  systemtap: Fix headers issue with x86 and 5.13 headers
+
+Trevor Gamblin (1):
+  bluez5: fix CVE-2021-0129
+
+Yi Zhao (1):
+  ruby: Security fixes for CVE-2021-31810/CVE-2021-32066
+
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...er-Fix-not-properly-checking-for-sec.patch | 113 ++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |   5 +
+ meta/recipes-devtools/go/go-1.16.7.inc        |   5 +
+ .../ruby/ruby/CVE-2021-31799.patch            |  57 ++
+ .../ruby/ruby/CVE-2021-31810.patch            | 258 ++++++++
+ .../ruby/ruby/CVE-2021-32066.patch            | 102 +++
+ meta/recipes-devtools/ruby/ruby_3.0.1.bb      |   3 +
+ .../squashfs-tools/files/CVE-2021-40153.patch | 253 ++++++++
+ .../squashfs-tools/squashfs-tools_git.bb      |   1 +
+ meta/recipes-devtools/tcltk/tcl_8.6.11.bb     |   3 +
+ .../mc/files/CVE-2021-36370.patch             | 609 ++++++++++++++++++
+ meta/recipes-extended/mc/mc_4.8.26.bb         |   1 +
+ .../linux/linux-yocto-rt_5.10.bb              |   4 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  22 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ ...8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch |  26 +
+ .../systemtap/systemtap_git.inc               |   1 +
+ .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    |  40 ++
+ .../ffmpeg/ffmpeg/fix-CVE-2021-38291.patch    |  54 ++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |   2 +
+ .../apr/apr/CVE-2021-35940.patch              |  58 ++
+ meta/recipes-support/apr/apr_1.7.0.bb         |   1 +
+ .../sqlite/sqlite3/CVE-2021-36690.patch       |  62 ++
+ meta/recipes-support/sqlite/sqlite3_3.35.0.bb |   4 +-
+ 28 files changed, 1692 insertions(+), 35 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31810.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-32066.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+ create mode 100644 meta/recipes-extended/mc/files/CVE-2021-36370.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
+ create mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
+
+-- 
+2.31.1
+
