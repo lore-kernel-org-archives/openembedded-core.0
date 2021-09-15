@@ -1,671 +1,318 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:15:55 -0700
+ Wed, 15 Sep 2021 16:15:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565515"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565519"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565515"
+   d="scan'208";a="220565519"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:54 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:56 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597289"
+   d="scan'208";a="433597294"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:53 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:15:55 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 05/17] mc: fix CVE-2021-36370
-Date: Thu, 16 Sep 2021 07:15:29 +0800
-Message-Id: <38bf4de2bfec63457b55b4ea07d14ca37389e74f.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 06/17] squashfs-tools: fix CVE-2021-40153
+Date: Thu, 16 Sep 2021 07:15:30 +0800
+Message-Id: <09de4ef3f33540069a37e9fe6e13081984b77511.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Backport patch to fix CVE-2021-36370.
+Backport patch to fix CVE-2021-40153, and remove version update in
+unsquashfs.c for compatible.
 
-CVE: CVE-2021-36370
+CVE: CVE-2021-40153
+
+Ref:
+* https://security-tracker.debian.org/tracker/CVE-2021-40153
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../mc/files/CVE-2021-36370.patch             | 609 ++++++++++++++++++
- meta/recipes-extended/mc/mc_4.8.26.bb         |   1 +
- 2 files changed, 610 insertions(+)
- create mode 100644 meta/recipes-extended/mc/files/CVE-2021-36370.patch
+ .../squashfs-tools/files/CVE-2021-40153.patch | 253 ++++++++++++++++++
+ .../squashfs-tools/squashfs-tools_git.bb      |   1 +
+ 2 files changed, 254 insertions(+)
+ create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
 
-diff --git a/meta/recipes-extended/mc/files/CVE-2021-36370.patch b/meta/recipes-extended/mc/files/CVE-2021-36370.patch
+diff --git a/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
 new file mode 100644
-index 0000000000..d6a26871bd
+index 0000000000..95e2534ee4
 --- /dev/null
-+++ b/meta/recipes-extended/mc/files/CVE-2021-36370.patch
-@@ -0,0 +1,609 @@
-+Backport patch to fix CVE-2021-36370.
++++ b/meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+@@ -0,0 +1,253 @@
++Backport patch to fix CVE-2021-40153, and remove version update in unsquashfs.c
++for compatible.
 +
-+Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/9235d3c]
-+CVE: CVE-2021-36370
++Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/79b5a55]
++CVE: CVE-2021-40153
 +
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
-+From 9235d3c232d13ad7f973346077c9cf2eaa77dc5f Mon Sep 17 00:00:00 2001
-+From: Andrew Borodin <aborodin@vmail.ru>
-+Date: Mon, 12 Jul 2021 08:48:18 +0300
-+Subject: [PATCH] SFTPFS: verify server fingerprint (fix CVE-2021-36370).
++From 79b5a555058eef4e1e7ff220c344d39f8cd09646 Mon Sep 17 00:00:00 2001
++From: Phillip Lougher <phillip@squashfs.org.uk>
++Date: Sat, 16 Jan 2021 20:08:55 +0000
++Subject: [PATCH] Unsquashfs: fix write outside destination directory exploit
 +
-+Use ~/.ssh/known_hosts file to verify server fingerprint
-+using ssh way:
++An issue on Github (https://github.com/plougher/squashfs-tools/issues/72)
++shows how some specially crafted Squashfs filesystems containing
++invalid file names (with '/' and ..) can cause Unsquashfs to write
++files outside of the destination directory.
 +
-+$ ssh localhost
-+The authenticity of host 'localhost (127.0.0.1)' can't be established.
-+ED25519 key fingerprint is SHA256:FzqKTNTroFuNUj1wUzSeV2x/1lpcESnT0ZRCmq5H6o8.
-+Are you sure you want to continue connecting (yes/no)? no
-+ssh: Host key verification failed.
++This commit fixes this exploit by checking all names for
++validity.
 +
-+$ ssh localhost
-+The authenticity of host 'localhost (127.0.0.1)' can't be established.
-+ED25519 key fingerprint is SHA256:FzqKTNTroFuNUj1wUzSeV2x/1lpcESnT0ZRCmq5H6o8.
-+Are you sure you want to continue connecting (yes/no)? yes
-+Warning: Permanently added 'localhost' (ED25519) to the list of known hosts.
-+andrew@localhost's password:
++In doing so I have also added checks for '.' and for names that
++are shorter than they should be (names in the file system should
++not have '\0' terminators).
 +
-+Thanks the Curl project for the used code.
-+
-+Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
-+Signed-off-by: Yury V. Zaytsev <yury.zaytsev@moneymeets.com>
++Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
 +---
-+ doc/man/mc.1.in             |  15 ++
-+ doc/man/ru/mc.1.in          |  14 ++
-+ src/vfs/sftpfs/connection.c | 428 +++++++++++++++++++++++++++++++++++-
-+ src/vfs/sftpfs/internal.h   |   5 +-
-+ 4 files changed, 452 insertions(+), 10 deletions(-)
++ squashfs-tools/Makefile        |  5 ++-
++ squashfs-tools/unsquash-1.c    |  9 +++++-
++ squashfs-tools/unsquash-1234.c | 58 ++++++++++++++++++++++++++++++++++
++ squashfs-tools/unsquash-2.c    |  9 +++++-
++ squashfs-tools/unsquash-3.c    |  9 +++++-
++ squashfs-tools/unsquash-4.c    |  9 +++++-
++ squashfs-tools/unsquashfs.h    |  5 ++-
++ 7 files changed, 98 insertions(+), 6 deletions(-)
++ create mode 100644 squashfs-tools/unsquash-1234.c
 +
-+diff --git a/doc/man/mc.1.in b/doc/man/mc.1.in
-+index c0c06e32f7..7a3d118384 100644
-+--- a/doc/man/mc.1.in
-++++ b/doc/man/mc.1.in
-+@@ -3364,6 +3364,21 @@ Examples:
-+     sftp://joe@noncompressed.ssh.edu/private
-+     sftp://joe@somehost.ssh.edu:2222/private
-+ .fi
-++.PP
-++When establishing the connection, server key fingerprint is verified using
-++the ~/.ssh/known_hosts file. If the host/key pair is not found or the host is found,
-++but the key doesn't match, an appropriate message is shown.
-++There are three buttons in the message dialog:
-++.PP
-++.B [Yes]
-++add new host/key pair to the ~/.ssh/known_hosts file and continue.
-++.PP
-++.B [Ignore]
-++do not add new host/key pair to the ~/.ssh/known_hosts file, but continue
-++nevertheless (at you own risk).
-++.PP
-++.B [No]
-++abort connection.
-+ .\"NODE "  Undelete File System"
-+ .SH "  Undelete File System"
-+ On Linux systems, if you asked configure to use the ext2fs undelete
-+diff --git a/doc/man/ru/mc.1.in b/doc/man/ru/mc.1.in
-+index 7609da1127..bc0c1810a9 100644
-+--- a/doc/man/ru/mc.1.in
-++++ b/doc/man/ru/mc.1.in
-+@@ -3874,6 +3874,20 @@ bash\-совместимая оболочка shell.
-+     sftp://joe@noncompressed.ssh.edu/private
-+     sftp://joe@somehost.ssh.edu:2222/private
-+ .fi
-++При установлении соединения происходит проверка ключа сервера с использованием
-++файла ~/.ssh/known_hosts file. Если пара сервер/ключ в этом файле не найдена
-++или сервер найден, но ключ не соответствует, пользователю показывается
-++окно с соответствующим сообщением, содержащее три кнопки:
-++.PP
-++.B [Да]
-++добавить новую пару сервер/ключ в файл ~/.ssh/known_hosts и продолжить соединение.
-++.PP
-++.B [Игнорировать]
-++не добавлять новую пару сервер/ключ в файл ~/.ssh/known_hosts и всё равно
-++продолжить соединение (на свой страх и риск).
-++.PP
-++.B [Нет]
-++прервать соединение.
-+ .\"NODE "  Undelete File System"
-+ .SH "  Файловая система UFS (Undelete File System)"
-+ В ОС Linux можно сконфигурировать файловую систему ext2fs, используемую
-+diff --git a/src/vfs/sftpfs/connection.c b/src/vfs/sftpfs/connection.c
-+index 9f8ea5633b..acd5026515 100644
-+--- a/src/vfs/sftpfs/connection.c
-++++ b/src/vfs/sftpfs/connection.c
-+@@ -42,6 +42,8 @@
-+ #include "lib/util.h"
-+ #include "lib/tty/tty.h"        /* tty_enable_interrupt_key () */
-+ #include "lib/vfs/utilvfs.h"
-++#include "lib/mcconfig.h"       /* mc_config_get_home_dir () */
-++#include "lib/widget.h"         /* query_dialog () */
++diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
++index aee4b960..20feaca2 100644
++--- a/squashfs-tools/Makefile
+++++ b/squashfs-tools/Makefile
++@@ -156,7 +156,8 @@ MKSQUASHFS_OBJS = mksquashfs.o read_fs.o action.o swap.o pseudo.o compressor.o \
++ 	caches-queues-lists.o
 + 
-+ #include "internal.h"
++ UNSQUASHFS_OBJS = unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o \
++-	unsquash-4.o unsquash-123.o unsquash-34.o swap.o compressor.o unsquashfs_info.o
+++	unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o swap.o \
+++	compressor.o unsquashfs_info.o
 + 
-+@@ -49,10 +51,37 @@
++ CFLAGS ?= -O2
++ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
++@@ -350,6 +351,8 @@ unsquash-123.o: unsquashfs.h unsquash-123.c squashfs_fs.h squashfs_compat.h
 + 
-+ /*** file scope macro definitions ****************************************************************/
++ unsquash-34.o: unsquashfs.h unsquash-34.c
 + 
-++#define SHA1_DIGEST_LENGTH 20
+++unsquash-1234.o: unsquash-1234.c
 ++
-+ /*** file scope type declarations ****************************************************************/
++ unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h
 + 
-+ /*** file scope variables ************************************************************************/
-+ 
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ED25519
-++static const char *const hostkey_method_ssh_ed25519 = "ssh-ed25519";
-++#endif
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ECDSA_521
-++static const char *const hostkey_method_ssh_ecdsa_521 = "ecdsa-sha2-nistp521";
-++#endif
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ECDSA_384
-++static const char *const hostkey_method_ssh_ecdsa_384 = "ecdsa-sha2-nistp384";
-++#endif
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ECDSA_256
-++static const char *const hostkey_method_ssh_ecdsa_256 = "ecdsa-sha2-nistp256";
-++#endif
-++static const char *const hostkey_method_ssh_rsa = "ssh-rsa";
-++static const char *const hostkey_method_ssh_dss = "ssh-dss";
-++
-++/**
-++ *
-++ * The current implementation of know host key checking has following limitations:
-++ *
-++ *   - Only plain-text entries are supported (`HashKnownHosts no` OpenSSH option)
-++ *   - Only HEX-encoded SHA1 fingerprint display is supported (`FingerprintHash` OpenSSH option)
-++ *   - Resolved IP addresses are *not* saved/validated along with the hostnames
-++ *
-++ */
-++
-+ static const char *kbi_passwd = NULL;
-+ static const struct vfs_s_super *kbi_super = NULL;
-+ 
-+@@ -70,9 +99,12 @@ static const struct vfs_s_super *kbi_super = NULL;
-+ static int
-+ sftpfs_open_socket (struct vfs_s_super *super, GError ** mcerror)
-+ {
-++    sftpfs_super_t *sftpfs_super = SFTP_SUPER (super);
-+     struct addrinfo hints, *res = NULL, *curr_res;
-+     int my_socket = 0;
-+     char port[BUF_TINY];
-++    static char address_ipv4[INET_ADDRSTRLEN];
-++    static char address_ipv6[INET6_ADDRSTRLEN];
-+     int e;
-+ 
-+     mc_return_val_if_error (mcerror, LIBSSH2_INVALID_SOCKET);
-+@@ -120,6 +152,30 @@ sftpfs_open_socket (struct vfs_s_super *super, GError ** mcerror)
-+     {
-+         int save_errno;
-+ 
-++        switch (curr_res->ai_addr->sa_family)
-++        {
-++        case AF_INET:
-++            sftpfs_super->ip_address =
-++                inet_ntop (AF_INET, &((struct sockaddr_in *) curr_res->ai_addr)->sin_addr,
-++                           address_ipv4, INET_ADDRSTRLEN);
-++            break;
-++        case AF_INET6:
-++            sftpfs_super->ip_address =
-++                inet_ntop (AF_INET6, &((struct sockaddr_in6 *) curr_res->ai_addr)->sin6_addr,
-++                           address_ipv6, INET6_ADDRSTRLEN);
-++            break;
-++        default:
-++            sftpfs_super->ip_address = NULL;
-++        }
-++
-++        if (sftpfs_super->ip_address == NULL)
-++        {
-++            mc_propagate_error (mcerror, 0, "%s",
-++                                _("sftp: failed to convert remote host IP address into text form"));
-++            my_socket = LIBSSH2_INVALID_SOCKET;
-++            goto ret;
-++        }
-++
-+         my_socket = socket (curr_res->ai_family, curr_res->ai_socktype, curr_res->ai_protocol);
-+ 
-+         if (my_socket < 0)
-+@@ -161,8 +217,358 @@ sftpfs_open_socket (struct vfs_s_super *super, GError ** mcerror)
-+ }
-+ 
-+ /* --------------------------------------------------------------------------------------------- */
-++
-++/**
-++ * Read ~/.ssh/known_hosts file.
-++ *
-++ * @param super connection data
-++ * @param mcerror pointer to the error handler
-++ * @return TRUE on success, FALSE otherwise
-++ *
-++ * Thanks the Curl project for the code used in this function.
-++ */
-++static gboolean
-++sftpfs_read_known_hosts (struct vfs_s_super *super, GError ** mcerror)
-++{
-++    sftpfs_super_t *sftpfs_super = SFTP_SUPER (super);
-++    struct libssh2_knownhost *store = NULL;
-++    int rc;
-++    gboolean found = FALSE;
-++
-++    sftpfs_super->known_hosts = libssh2_knownhost_init (sftpfs_super->session);
-++    if (sftpfs_super->known_hosts == NULL)
-++        goto err;
-++
-++    sftpfs_super->known_hosts_file =
-++        mc_build_filename (mc_config_get_home_dir (), ".ssh", "known_hosts", (char *) NULL);
-++    rc = libssh2_knownhost_readfile (sftpfs_super->known_hosts, sftpfs_super->known_hosts_file,
-++                                     LIBSSH2_KNOWNHOST_FILE_OPENSSH);
-++    if (rc > 0)
-++    {
-++        const char *kh_name_end = NULL;
-++
-++        while (!found && libssh2_knownhost_get (sftpfs_super->known_hosts, &store, store) == 0)
-++        {
-++            /* For non-standard ports, the name will be enclosed in
-++             * square brackets, followed by a colon and the port */
-++            if (store == NULL)
-++                continue;
-++
-++            if (store->name == NULL)
-++                found = TRUE;
-++            else if (store->name[0] != '[')
-++                found = strcmp (store->name, super->path_element->host) == 0;
-++            else
-++            {
-++                int port;
-++
-++                kh_name_end = strstr (store->name, "]:");
-++                if (kh_name_end == NULL)
-++                    /* Invalid host pattern */
-++                    continue;
-++
-++                port = (int) g_ascii_strtoll (kh_name_end + 2, NULL, 10);
-++                if (port == super->path_element->port)
-++                {
-++                    size_t kh_name_size;
-++
-++                    kh_name_size = strlen (store->name) - 1 - strlen (kh_name_end);
-++                    found = strncmp (store->name + 1, super->path_element->host, kh_name_size) == 0;
-++                }
-++            }
-++        }
-++    }
-++
-++    if (found)
-++    {
-++        int mask;
-++        const char *hostkey_method = NULL;
-++
-++        mask = store->typemask & LIBSSH2_KNOWNHOST_KEY_MASK;
-++
-++        switch (mask)
-++        {
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ED25519
-++        case LIBSSH2_KNOWNHOST_KEY_ED25519:
-++            hostkey_method = hostkey_method_ssh_ed25519;
-++            break;
-++#endif
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ECDSA_521
-++        case LIBSSH2_KNOWNHOST_KEY_ECDSA_521:
-++            hostkey_method = hostkey_method_ssh_ecdsa_521;
-++            break;
-++#endif
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ECDSA_384
-++        case LIBSSH2_KNOWNHOST_KEY_ECDSA_384:
-++            hostkey_method = hostkey_method_ssh_ecdsa_384;
-++            break;
-++#endif
-++#ifdef LIBSSH2_KNOWNHOST_KEY_ECDSA_256
-++        case LIBSSH2_KNOWNHOST_KEY_ECDSA_256:
-++            hostkey_method = hostkey_method_ssh_ecdsa_256;
-++            break;
-++#endif
-++        case LIBSSH2_KNOWNHOST_KEY_SSHRSA:
-++            hostkey_method = hostkey_method_ssh_rsa;
-++            break;
-++        case LIBSSH2_KNOWNHOST_KEY_SSHDSS:
-++            hostkey_method = hostkey_method_ssh_dss;
-++            break;
-++        case LIBSSH2_KNOWNHOST_KEY_RSA1:
-++            mc_propagate_error (mcerror, 0, "%s",
-++                                _("sftp: found host key of unsupported type: RSA1"));
-++            return FALSE;
-++        default:
-++            mc_propagate_error (mcerror, 0, "%s %d", _("sftp: unknown host key type:"), mask);
-++            return FALSE;
-++        }
-++
-++        rc = libssh2_session_method_pref (sftpfs_super->session, LIBSSH2_METHOD_HOSTKEY,
-++                                          hostkey_method);
-++        if (rc < 0)
-++            goto err;
-++    }
-++
-++    return TRUE;
-++
-++  err:
-++    {
-++        int sftp_errno;
-++
-++        sftp_errno = libssh2_session_last_errno (sftpfs_super->session);
-++        sftpfs_ssherror_to_gliberror (sftpfs_super, sftp_errno, mcerror);
-++    }
-++    return FALSE;
-++}
-++
-++/* --------------------------------------------------------------------------------------------- */
-++
-++/**
-++ * Write new host + key pair to the ~/.ssh/known_hosts file.
-++ *
-++ * @param super connection data
-++ * @param remote_key he key for the remote host
-++ * @param remote_key_len length of @remote_key
-++ * @param type_mask info about format of host name, key and key type
-++ * @return 0 on success, regular libssh2 error code otherwise
-++ *
-++ * Thanks the Curl project for the code used in this function.
-++ */
-++static int
-++sftpfs_update_known_hosts (struct vfs_s_super *super, const char *remote_key, size_t remote_key_len,
-++                           int type_mask)
-++{
-++    sftpfs_super_t *sftpfs_super = SFTP_SUPER (super);
-++    int rc;
-++
-++    /* add this host + key pair  */
-++    rc = libssh2_knownhost_addc (sftpfs_super->known_hosts, super->path_element->host, NULL,
-++                                 remote_key, remote_key_len, NULL, 0, type_mask, NULL);
-++    if (rc < 0)
-++        return rc;
-++
-++    /* write the entire in-memory list of known hosts to the known_hosts file */
-++    rc = libssh2_knownhost_writefile (sftpfs_super->known_hosts, sftpfs_super->known_hosts_file,
-++                                      LIBSSH2_KNOWNHOST_FILE_OPENSSH);
-++
-++    if (rc < 0)
-++        return rc;
-++
-++    (void) message (D_NORMAL, _("Information"),
-++                    _("Permanently added\n%s (%s)\nto the list of known hosts."),
-++                    super->path_element->host, sftpfs_super->ip_address);
-++
-++    return 0;
-++}
-++
-++/* --------------------------------------------------------------------------------------------- */
-++/**
-++ * Compute and return readable host key fingerprint hash.
-++ *
-++ * @param session libssh2 session handle
-++ * @return pointer to static buffer on success, NULL otherwise
-++ */
-++static const char *
-++sftpfs_compute_fingerprint_hash (LIBSSH2_SESSION * session)
-++{
-++    static char result[SHA1_DIGEST_LENGTH * 3 + 1];     /* "XX:" for each byte, and EOL */
-++    const char *fingerprint;
-++    size_t i;
-++
-++    /* The fingerprint points to static storage (!), don't free() it. */
-++    fingerprint = libssh2_hostkey_hash (session, LIBSSH2_HOSTKEY_HASH_SHA1);
-++    if (fingerprint == NULL)
-++        return NULL;
-++
-++    for (i = 0; i < SHA1_DIGEST_LENGTH && i * 3 < sizeof (result) - 1; i++)
-++        g_snprintf ((gchar *) (result + i * 3), 4, "%02x:", (guint8) fingerprint[i]);
-++
-++    /* remove last ":" */
-++    result[i * 3 - 1] = '\0';
-++
-++    return result;
-++}
-++
-++/* --------------------------------------------------------------------------------------------- */
-++
-+ /**
-+- * Recognize authenticaion types supported by remote side and filling internal 'super' structure by
-++ * Process host info found in ~/.ssh/known_hosts file.
-++ *
-++ * @param super connection data
-++ * @param mcerror pointer to the error handler
-++ * @return TRUE on success, FALSE otherwise
-++ *
-++ * Thanks the Curl project for the code used in this function.
-++ */
-++static gboolean
-++sftpfs_process_known_host (struct vfs_s_super *super, GError ** mcerror)
-++{
-++    sftpfs_super_t *sftpfs_super = SFTP_SUPER (super);
-++    const char *remote_key;
-++    const char *key_type;
-++    const char *fingerprint_hash;
-++    size_t remote_key_len = 0;
-++    int remote_key_type = LIBSSH2_HOSTKEY_TYPE_UNKNOWN;
-++    int keybit = 0;
-++    struct libssh2_knownhost *host = NULL;
-++    int rc;
-++    char *msg = NULL;
-++    gboolean handle_query = FALSE;
-++
-++    remote_key = libssh2_session_hostkey (sftpfs_super->session, &remote_key_len, &remote_key_type);
-++    if (remote_key == NULL || remote_key_len == 0
-++        || remote_key_type == LIBSSH2_HOSTKEY_TYPE_UNKNOWN)
-++    {
-++        mc_propagate_error (mcerror, 0, "%s", _("sftp: cannot get the remote host key"));
-++        return FALSE;
-++    }
-++
-++    switch (remote_key_type)
-++    {
-++    case LIBSSH2_HOSTKEY_TYPE_RSA:
-++        keybit = LIBSSH2_KNOWNHOST_KEY_SSHRSA;
-++        key_type = "RSA";
-++        break;
-++    case LIBSSH2_HOSTKEY_TYPE_DSS:
-++        keybit = LIBSSH2_KNOWNHOST_KEY_SSHDSS;
-++        key_type = "DSS";
-++        break;
-++#ifdef LIBSSH2_HOSTKEY_TYPE_ECDSA_256
-++    case LIBSSH2_HOSTKEY_TYPE_ECDSA_256:
-++        keybit = LIBSSH2_KNOWNHOST_KEY_ECDSA_256;
-++        key_type = "ECDSA";
-++        break;
-++#endif
-++#ifdef LIBSSH2_HOSTKEY_TYPE_ECDSA_384
-++    case LIBSSH2_HOSTKEY_TYPE_ECDSA_384:
-++        keybit = LIBSSH2_KNOWNHOST_KEY_ECDSA_384;
-++        key_type = "ECDSA";
-++        break;
-++#endif
-++#ifdef LIBSSH2_HOSTKEY_TYPE_ECDSA_521
-++    case LIBSSH2_HOSTKEY_TYPE_ECDSA_521:
-++        keybit = LIBSSH2_KNOWNHOST_KEY_ECDSA_521;
-++        key_type = "ECDSA";
-++        break;
-++#endif
-++#ifdef LIBSSH2_HOSTKEY_TYPE_ED25519
-++    case LIBSSH2_HOSTKEY_TYPE_ED25519:
-++        keybit = LIBSSH2_KNOWNHOST_KEY_ED25519;
-++        key_type = "ED25519";
-++        break;
-++#endif
-++    default:
-++        mc_propagate_error (mcerror, 0, "%s",
-++                            _("sftp: unsupported key type, can't check remote host key"));
-++        return FALSE;
-++    }
-++
-++    fingerprint_hash = sftpfs_compute_fingerprint_hash (sftpfs_super->session);
-++    if (fingerprint_hash == NULL)
-++    {
-++        mc_propagate_error (mcerror, 0, "%s", _("sftp: can't compute host key fingerprint hash"));
-++        return FALSE;
-++    }
-++
-++    rc = libssh2_knownhost_checkp (sftpfs_super->known_hosts, super->path_element->host,
-++                                   super->path_element->port, remote_key, remote_key_len,
-++                                   LIBSSH2_KNOWNHOST_TYPE_PLAIN | LIBSSH2_KNOWNHOST_KEYENC_RAW |
-++                                   keybit, &host);
-++
-++    switch (rc)
-++    {
-++    default:
-++    case LIBSSH2_KNOWNHOST_CHECK_FAILURE:
-++        /* something prevented the check to be made */
-++        goto err;
-++
-++    case LIBSSH2_KNOWNHOST_CHECK_MATCH:
-++        /* host + key pair matched -- OK */
-++        break;
-++
-++    case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND:
-++        /* no host match was found -- add it to the known_hosts file */
-++        msg = g_strdup_printf (_("The authenticity of host\n%s (%s)\ncan't be established!\n"
-++                                 "%s key fingerprint hash is\nSHA1:%s.\n"
-++                                 "Do you want to add it to the list of known hosts and continue connecting?"),
-++                               super->path_element->host, sftpfs_super->ip_address,
-++                               key_type, fingerprint_hash);
-++        /* Select "No" initially */
-++        query_set_sel (2);
-++        rc = query_dialog (_("Warning"), msg, D_NORMAL, 3, _("&Yes"), _("&Ignore"), _("&No"));
-++        g_free (msg);
-++        handle_query = TRUE;
-++        break;
-++
-++    case LIBSSH2_KNOWNHOST_CHECK_MISMATCH:
-++        msg = g_strdup_printf (_("%s (%s)\nis found in the list of known hosts but\n"
-++                                 "KEYS DO NOT MATCH! THIS COULD BE A MITM ATTACK!\n"
-++                                 "Are you sure you want to add it to the list of known hosts and continue connecting?"),
-++                               super->path_element->host, sftpfs_super->ip_address);
-++        /* Select "No" initially */
-++        query_set_sel (2);
-++        rc = query_dialog (MSG_ERROR, msg, D_ERROR, 3, _("&Yes"), _("&Ignore"), _("&No"));
-++        g_free (msg);
-++        handle_query = TRUE;
-++        break;
-++    }
-++
-++    if (handle_query)
-++        switch (rc)
-++        {
-++        case 0:
-++            /* Yes: add this host + key pair, continue connecting */
-++            if (sftpfs_update_known_hosts (super, remote_key, remote_key_len,
-++                                           LIBSSH2_KNOWNHOST_TYPE_PLAIN
-++                                           | LIBSSH2_KNOWNHOST_KEYENC_RAW | keybit) < 0)
-++                goto err;
-++            break;
-++        case 1:
-++            /* Ignore: do not add this host + key pair, continue connecting anyway */
-++            break;
-++        case 2:
-++        default:
-++            mc_propagate_error (mcerror, 0, "%s", _("sftp: host key verification failed"));
-++            /* No: abort connection */
-++            goto err;
-++        }
-++
-++    return TRUE;
-++
-++  err:
-++    {
-++        int sftp_errno;
-++
-++        sftp_errno = libssh2_session_last_errno (sftpfs_super->session);
-++        sftpfs_ssherror_to_gliberror (sftpfs_super, sftp_errno, mcerror);
-++    }
-++
-++    return FALSE;
-++}
-++
-++/* --------------------------------------------------------------------------------------------- */
-++/**
-++ * Recognize authentication types supported by remote side and filling internal 'super' structure by
-+  * proper enum's values.
++ unsquashfs_info.o: unsquashfs.h squashfs_fs.h
++diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
++index 34eced36..28326cb1 100644
++--- a/squashfs-tools/unsquash-1.c
+++++ b/squashfs-tools/unsquash-1.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
 +  *
-+  * @param super connection data
-+@@ -461,6 +867,9 @@ sftpfs_open_connection (struct vfs_s_super *super, GError ** mcerror)
-+     if (sftpfs_super->session == NULL)
-+         return (-1);
-+ 
-++    if (!sftpfs_read_known_hosts (super, mcerror))
-++        return (-1);
++- * Copyright (c) 2009, 2010, 2011, 2012, 2019
+++ * Copyright (c) 2009, 2010, 2011, 2012, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -285,6 +285,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
 ++
-+     /* ... start it up. This will trade welcome banners, exchange keys,
-+      * and setup crypto, compression, and MAC layers
-+      */
-+@@ -475,13 +884,8 @@ sftpfs_open_connection (struct vfs_s_super *super, GError ** mcerror)
-+         return (-1);
-+     }
-+ 
-+-    /* At this point we havn't yet authenticated.  The first thing to do
-+-     * is check the hostkey's fingerprint against our known hosts Your app
-+-     * may have it hard coded, may go to a file, may present it to the
-+-     * user, that's your call
-+-     */
-+-    sftpfs_super->fingerprint =
-+-        libssh2_hostkey_hash (sftpfs_super->session, LIBSSH2_HOSTKEY_HASH_SHA1);
-++    if (!sftpfs_process_known_host (super, mcerror))
-++        return (-1);
-+ 
-+     if (!sftpfs_recognize_auth_types (super))
-+     {
-+@@ -538,7 +942,13 @@ sftpfs_close_connection (struct vfs_s_super *super, const char *shutdown_message
-+         sftpfs_super->agent = NULL;
-+     }
-+ 
-+-    sftpfs_super->fingerprint = NULL;
-++    if (sftpfs_super->known_hosts != NULL)
-++    {
-++        libssh2_knownhost_free (sftpfs_super->known_hosts);
-++        sftpfs_super->known_hosts = NULL;
-++    }
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
 ++
-++    MC_PTR_FREE (sftpfs_super->known_hosts_file);
-+ 
-+     if (sftpfs_super->session != NULL)
-+     {
-+diff --git a/src/vfs/sftpfs/internal.h b/src/vfs/sftpfs/internal.h
-+index 5616fb8990..643ce5e3cc 100644
-+--- a/src/vfs/sftpfs/internal.h
-++++ b/src/vfs/sftpfs/internal.h
-+@@ -42,6 +42,9 @@ typedef struct
-+     sftpfs_auth_type_t auth_type;
-+     sftpfs_auth_type_t config_auth_type;
-+ 
-++    LIBSSH2_KNOWNHOSTS *known_hosts;
-++    char *known_hosts_file;
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
++new file mode 100644
++index 00000000..c2d4f42b
++--- /dev/null
+++++ b/squashfs-tools/unsquash-1234.c
++@@ -0,0 +1,58 @@
+++/*
+++ * Unsquash a squashfs filesystem.  This is a highly compressed read only
+++ * filesystem.
+++ *
+++ * Copyright (c) 2021
+++ * Phillip Lougher <phillip@squashfs.org.uk>
+++ *
+++ * This program is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU General Public License
+++ * as published by the Free Software Foundation; either version 2,
+++ * or (at your option) any later version.
+++ *
+++ * This program is distributed in the hope that it will be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ * GNU General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU General Public License
+++ * along with this program; if not, write to the Free Software
+++ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+++ *
+++ * unsquash-1234.c
+++ *
+++ * Helper functions used by unsquash-1, unsquash-2, unsquash-3 and
+++ * unsquash-4.
+++ */
 ++
-+     LIBSSH2_SESSION *session;
-+     LIBSSH2_SFTP *sftp_session;
+++#define TRUE 1
+++#define FALSE 0
+++/*
+++ * Check name for validity, name should not
+++ *  - be ".", "./", or
+++ *  - be "..", "../" or
+++ *  - have a "/" anywhere in the name, or
+++ *  - be shorter than the expected size
+++ */
+++int check_name(char *name, int size)
+++{
+++	char *start = name;
+++
+++	if(name[0] == '.') {
+++		if(name[1] == '.')
+++			name++;
+++		if(name[1] == '/' || name[1] == '\0')
+++			return FALSE;
+++	}
+++
+++	while(name[0] != '/' && name[0] != '\0')
+++		name ++;
+++
+++	if(name[0] == '/')
+++		return FALSE;
+++
+++	if((name - start) != size)
+++		return FALSE;
+++
+++	return TRUE;
+++}
++diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
++index 4b3d767e..474064e1 100644
++--- a/squashfs-tools/unsquash-2.c
+++++ b/squashfs-tools/unsquash-2.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2013, 2019
+++ * Copyright (c) 2009, 2010, 2013, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -386,6 +386,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
++index 02c31fc5..65cfe4d9 100644
++--- a/squashfs-tools/unsquash-3.c
+++++ b/squashfs-tools/unsquash-3.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
+++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -413,6 +413,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
++index 8475835c..aa23a841 100644
++--- a/squashfs-tools/unsquash-4.c
+++++ b/squashfs-tools/unsquash-4.c
++@@ -2,7 +2,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019
+++ * Copyright (c) 2009, 2010, 2011, 2012, 2013, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -349,6 +349,13 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
++ 			memcpy(dire->name, directory_table + bytes,
++ 				dire->size + 1);
++ 			dire->name[dire->size + 1] = '\0';
+++
+++			/* check name for invalid characters (i.e /, ., ..) */
+++			if(check_name(dire->name, dire->size + 1) == FALSE) {
+++				ERROR("File system corrupted: invalid characters in name\n");
+++				goto corrupted;
+++			}
+++
++ 			TRACE("squashfs_opendir: directory entry %s, inode "
++ 				"%d:%d, type %d\n", dire->name,
++ 				dirh.start_block, dire->offset, dire->type);
++diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
++index 934618b2..db1da7a0 100644
++--- a/squashfs-tools/unsquashfs.h
+++++ b/squashfs-tools/unsquashfs.h
++@@ -4,7 +4,7 @@
++  * Unsquash a squashfs filesystem.  This is a highly compressed read only
++  * filesystem.
++  *
++- * Copyright (c) 2009, 2010, 2013, 2014, 2019
+++ * Copyright (c) 2009, 2010, 2013, 2014, 2019, 2021
++  * Phillip Lougher <phillip@squashfs.org.uk>
++  *
++  * This program is free software; you can redistribute it and/or
++@@ -261,4 +261,7 @@ extern int read_ids(int, long long, long long, unsigned int **);
 + 
-+@@ -51,7 +54,7 @@ typedef struct
-+     char *privkey;
-+ 
-+     int socket_handle;
-+-    const char *fingerprint;
-++    const char *ip_address;
-+     vfs_path_element_t *original_connection_info;
-+ } sftpfs_super_t;
-+ 
-diff --git a/meta/recipes-extended/mc/mc_4.8.26.bb b/meta/recipes-extended/mc/mc_4.8.26.bb
-index 5c5e6790d8..6bc7e6e8e1 100644
---- a/meta/recipes-extended/mc/mc_4.8.26.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.26.bb
-@@ -11,6 +11,7 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://0001-mc-replace-perl-w-with-use-warnings.patch \
-            file://nomandate.patch \
-+           file://CVE-2021-36370.patch \
-            "
- SRC_URI[sha256sum] = "9d6358d0a351a455a1410aab57f33b6b48b0fcf31344b9a10b0ff497595979d1"
++ /* unsquash-34.c */
++ extern long long *alloc_index_table(int);
+++
+++/* unsquash-1234.c */
+++extern int check_name(char *, int);
++ #endif
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index 2b1409d78d..083e597b03 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -11,6 +11,7 @@ PV = "4.4"
+ SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+            file://0001-squashfs-tools-fix-build-failure-against-gcc-10.patch;striplevel=2 \
++           file://CVE-2021-40153.patch;striplevel=2 \
+ "
  
+ S = "${WORKDIR}/git/squashfs-tools"
 -- 
 2.31.1
 
