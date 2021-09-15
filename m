@@ -1,57 +1,80 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web08.4717.1631694780313538465
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web08.4740.1631694961978378977
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 01:33:00 -0700
+ Wed, 15 Sep 2021 01:36:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EIRHH4Cy;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: jupiter.hce@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id f6so1977387vsr.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 01:33:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LSna9I/1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id g19-20020a1c9d13000000b003075062d4daso1425778wme.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 01:36:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m8B8nOCqXKKwNcgpL8x+0iWWV9cb5G0I3mq3mR07waY=;
-        b=EIRHH4CyF99gKai/4/UwNPrqRyRyo4H6FEE/y0rWPCwMPMjWwLEoAJvfb746egb2fo
-         UO10RXD6tESOAYZLJQ1MaXMXpLVFW8BfYpjPalvPBlzjzixNp1Db9FpCkPJXVg+QriEW
-         elh+YkcU7HY56rQPbEsCxu9tdQn14fOBz1HxrzYHq4PRi1RQIvVfvIBnJMex6zf2EvuU
-         JR6cTc7f6470JA3+IGAM4Szte28FboXoNcQ+9oXSomTXAflvnE3KFuwfCvNVPeZPnDLY
-         tS2p37lLjpOSLukgSDYrr17YSN0EJ44lodPkVmKn2pCZ4XnoAIM0EhkQxAlcgL1up61/
-         8oEg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=v8pO+A4qwF2Nj5Xk0rgUTJFxknKOQvnMe9au9vzJtGU=;
+        b=LSna9I/1gRDkvHzllrEE2Yq6Jo5YIOMq4N7Gp/fTnpv/0Tmb9oME+IbPY8BYIC89L5
+         YyHHOmGU7iegoC0qvqrj9haQZIPDgYsCaOn5WsfaFf2qGUjhf0kRwdSEAEaSgUvMMBGl
+         xsv5Jj3uKtL+nO1cJq0A2sVfNWQ9DMmDhkwxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m8B8nOCqXKKwNcgpL8x+0iWWV9cb5G0I3mq3mR07waY=;
-        b=cpJsXEJ5mz9jOxUkhCMgyNtwzjmSMCsAjc7PhfoejzioXV8EaZjK7XbqsZO+wpK62b
-         HzqnEvseiYplsPLSUvchOoT09VcPYmX+IHJG1lyBYxRk3Ajp979WJUNO2gzFYJBZNLlQ
-         e6TEBPNzXfdhyWqHEJBFnMi8zixzhxKNkIkQIELwUV2lHA2wNQs2HQNBWddoa3pl1xOh
-         9kXXguQPRCOguvkXFr0SHAsUPy78ZJMew1WCLi+5IvyXAXuV1FsNQxMi7Ze4XFVGBaw+
-         CRgnbz6c20Il9G9SMpIW2gKBvlzFIVRhddnTeJ/zkxBl1TYfa1pdWBlHPKqPpeBiT+v6
-         KpFw==
-X-Gm-Message-State: AOAM530DOsScB/URTIz+YffswjliaSmhOADWfbtbAW+Ij6OyoX8e4rzF
-	jRAP8Jjq+7pNI1xke7VDW3pey7jqO7UCT2+m96gcJcLq
-X-Google-Smtp-Source: ABdhPJwob07EMcoidg0r+/4E67WgL4XttA8DjTVKmlaH0ELwdRP9N0HqIG6owRNw/CCtoIP5Ngw47HvqaYx+yqq0yYQ=
-X-Received: by 2002:a67:2dc2:: with SMTP id t185mr2266849vst.1.1631694779417;
- Wed, 15 Sep 2021 01:32:59 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=v8pO+A4qwF2Nj5Xk0rgUTJFxknKOQvnMe9au9vzJtGU=;
+        b=4QrsPdwfkzfDHBZvBkBRRrBtbfw3EalcD67YCB8yai3wT5hWVOLwRx4P/CkZip5Q1V
+         YU3g/cmWCbasob0bThuZCF+H7l3rupBkcWl59AU/CfjUQggDv2Y38jAHTklAsmOFTL2u
+         sJ89BWyvbGcgMa9J1/4Zi+gevmUs652ifhcgEgAUsQSdncurXrLWWKBMbZ3LxN2iN1WG
+         XZUcfW1BxP53Sb7tIzPWwX19e5jUjMSIkCi0a4WaeJG4uDIyDgaXfC3uEObIj2Aej1X9
+         hmBAePIQF6PYVacfFOrtKQdhRP1VHCY2u5H/1pqybxQAdNdBfrQjJ0eNd52YXK3TJ78h
+         wbWA==
+X-Gm-Message-State: AOAM530UQJ27k+w+O28VqaUCBDYBqCzfiLmLsvrsXFFvCL+6f3A6cT09
+	+1pusNalpHRFa/ELrrRqayta+g==
+X-Google-Smtp-Source: ABdhPJzyCMC4mFq7C4vQttcnyFuH6VJvPi/5+gbKd3o7Ps5Xufofe7hKXUuOfiswTvyzNy6vW9xkgQ==
+X-Received: by 2002:a7b:c191:: with SMTP id y17mr3116181wmi.122.1631694960316;
+        Wed, 15 Sep 2021 01:36:00 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:cb98:b99:6df8:dffd? ([2001:8b0:aba:5f3c:cb98:b99:6df8:dffd])
+        by smtp.gmail.com with ESMTPSA id u25sm3909726wmm.5.2021.09.15.01.35.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Sep 2021 01:35:59 -0700 (PDT)
+Message-ID: <04a96263ce4c741c833e1022dcc2a5a48119280a.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/4] Rust oe-selftest script
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, vinay.m.engg@gmail.com, 
+	alex.kanavin@gmail.com
+Date: Wed, 15 Sep 2021 09:35:57 +0100
+In-Reply-To: <20210913173513.176653-1-pgowda.cve@gmail.com>
+References: <20210913173513.176653-1-pgowda.cve@gmail.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-References: <CAA=hcWSnctuvZNc=vcAn7-u6W3DHRiLLk2chhgNSyr4s=zNuqw@mail.gmail.com>
- <d7158686-8c8f-e7e0-70c7-db2d433a1c6a@windriver.com>
-In-Reply-To: <d7158686-8c8f-e7e0-70c7-db2d433a1c6a@windriver.com>
-From: "JH" <jupiter.hce@gmail.com>
-Date: Wed, 15 Sep 2021 18:32:23 +1000
-Message-ID: <CAA=hcWRdHaeu0ACq5hSLcy6+KxvAxqrcuTzwSR814kEabKk7nQ@mail.gmail.com>
-Subject: Re: [OE-core] OE systemd RemainAfterExit does not work
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> How about adding 'ExecStart=/bin/true' here?
+On Mon, 2021-09-13 at 10:35 -0700, Pgowda wrote:
+> The file builds remote-test-server and executes rust testing
+> remotely using background ssh. It adds the necessary test environment
+> and variables to run the rust oe-selftest.
+> 
+> Print the results in case of failure of runCmd().
+> 
+> Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/rust.py | 54 ++++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
 
-It was my first try, but it did not work so I removed it.
+Thanks for this series, it would be great to have these new test cases.
 
-Thank you Qi.
+We did see a couple of failures in testing on our infrastructure:
 
-Kind regards,
+https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/3970/steps/19/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/3967/steps/20/logs/stdio
 
-- jupiter
+I also needed to add a maintainers entry:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=50f7a13e69e8987b3629d455f9f56720c376e89b
+
+Cheers,
+
+Richard
+
