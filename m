@@ -1,91 +1,99 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:16:07 -0700
+ Wed, 15 Sep 2021 16:16:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565595"
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565596"
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565595"
+   d="scan'208";a="220565596"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:07 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:08 -0700
 X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597396"
+   d="scan'208";a="433597400"
 Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:06 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:07 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 14/17] systemtap: Fix headers issue with x86 and 5.13 headers
-Date: Thu, 16 Sep 2021 07:15:38 +0800
-Message-Id: <3934d33861ebf18e3208b09b892b39b16e350157.1631747352.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 15/17] ffmpeg: fix CVE-2021-38171
+Date: Thu, 16 Sep 2021 07:15:39 +0800
+Message-Id: <130af0502d1ae6fe3721b83ff5218e3aa48dbf0d.1631747352.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
 References: <cover.1631747352.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Kiran Surendran <Kiran.Surendran@windriver.com>
 
-On some x86 platforms there were header issues causing pt_regs compile
-failures for our stap tests, e.g. on genericx86-64 but not qemux86-64.
+backport from upstream
 
-Backport a patch from upstream which fixes the issue.
-
-[YOCTO #14491]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a4ad6c88b683b7310ef46d89b1add80b0f41bf2d)
+Signed-off-by: Kiran Surendran <Kiran.Surendran@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch | 26 +++++++++++++++++++
- .../systemtap/systemtap_git.inc               |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
+ .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    | 40 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch b/meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
 new file mode 100644
-index 0000000000..4d044de7ee
+index 0000000000..8775acd8c5
 --- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
-@@ -0,0 +1,26 @@
-+From ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470 Mon Sep 17 00:00:00 2001
-+From: Du Zhe <duzhe0211+sourceware@gmail.com>
-+Date: Tue, 13 Jul 2021 19:11:55 -0400
-+Subject: [PATCH] runtime: fix unintended compile error with
-+ autoconf-x86-uniregs.c
-+
-+Adding a #include <linux/sched.h> restores this test on the gentoo
-+linux-5.10.47-gentoo kernel.
-+
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+@@ -0,0 +1,40 @@
++CVE: CVE-2021-38171
 +Upstream-Status: Backport
++Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
++
++From d5373a9efb10c1fa87698ee41370fb04dc2e410b Mon Sep 17 00:00:00 2001
++From: maryam ebrahimzadeh <me22bee@outlook.com>
++Date: Wed, 4 Aug 2021 16:15:18 -0400
++Subject: [PATCH] avformat/adtsenc: return value check for init_get_bits in
++ adts_decode_extradata
++
++As the second argument for init_get_bits (buf) can be crafted, a return value check for this function call is necessary.
++'buf' is  part of  'AVPacket pkt'.
++replace init_get_bits with init_get_bits8.
++
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
 +---
-+ runtime/linux/autoconf-x86-uniregs.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ libavformat/adtsenc.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
-+diff --git a/runtime/linux/autoconf-x86-uniregs.c b/runtime/linux/autoconf-x86-uniregs.c
-+index 25729c220..232c18670 100644
-+--- a/runtime/linux/autoconf-x86-uniregs.c
-++++ b/runtime/linux/autoconf-x86-uniregs.c
-+@@ -1,3 +1,4 @@
-++#include <linux/sched.h>
-+ #include <asm/ptrace.h>
++diff --git a/libavformat/adtsenc.c b/libavformat/adtsenc.c
++index d937e2bea9..a1593515e1 100644
++--- a/libavformat/adtsenc.c
+++++ b/libavformat/adtsenc.c
++@@ -50,9 +50,11 @@ static int adts_decode_extradata(AVFormatContext *s, ADTSContext *adts, const ui
++     GetBitContext gb;
++     PutBitContext pb;
++     MPEG4AudioConfig m4ac;
++-    int off;
+++    int off, ret;
 + 
-+ #if defined (__i386__) || defined (__x86_64__)
++-    init_get_bits(&gb, buf, size * 8);
+++    ret = init_get_bits8(&gb, buf, size);
+++    if (ret < 0)
+++        return ret;
++     off = avpriv_mpeg4audio_get_config2(&m4ac, buf, size, 1, s);
++     if (off < 0)
++         return off;
 +-- 
-+2.27.0
++2.31.1
 +
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 016b423847..73fba981b7 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -8,6 +8,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
-            file://0001-transport-protect-include-and-callsite-with-same-con.patch \
-+           file://ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch \
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+index 3e7ceb859f..3162617336 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+@@ -32,6 +32,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://fix-CVE-2020-22021.patch \
+            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
+            file://fix-CVE-2021-38291.patch \
++           file://fix-CVE-2021-38171.patch \
             "
+ SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
 -- 
 2.31.1
 
