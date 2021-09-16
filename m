@@ -1,112 +1,174 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.35])
- by mx.groups.io with SMTP id smtpd.web12.9527.1631790189505519870
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web11.1273.1631799765699181388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 04:03:10 -0700
+ Thu, 16 Sep 2021 06:42:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=KkHDoTR2;
- spf=pass (domain: outlook.com, ip: 40.92.89.35, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IMWU0JL+i8tOqEsr7VUNNCEoBz7oJxfdw3eSFkQGNKn/FgLrx2fuhMTMgiT/dDzw2Jyo749rThbPnAkG+5rgyy1q9ATT6AyQy78DhU1Aw7rZJRfLbLQ3I3byw1ZkT/ED91aX+nmeYw+9X8sVo43mlMBjHB/cnNgRe33uy6fKXdo930oT/C7c4z809QaftcKvj2zgrhWGPpsHmxeOnjiNvkYP5eeWespoIaPcVg/lXcs3J5bgz2r5bKBxyKo2UvGUSw8OG3j7fESIW5rJ2mHkjol7sWhNfS4lba/Q+HCGDMMeRAXvo4fUjZ9tDSd+rx12G6zlAi4sYEaOdMlZKkYP0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=a7/f0aMCHfo9P5xP88dL33Arjlz6Vi3FKebe/9wDLzw=;
- b=iJkYlyuMv55ZFIsvElxlxw9Ru1622cCJPZvU7TScKq8krSWYA1xOOBbOFGzOJ2rQVF444M8fMq0dBsAkSRs9QylPbPpOEXSrefkDVe/hNRiIi8yBQb66XWKoDNj8ireRNsCZ+s8jE3lZbla36BF6zjCW5scMkH5XUlLYnLBRK9Va90EpE68Y2Jaalc+V/XQWOJMLsM2ifkJ6iP68ZJrk4u7QeIgsA7aQ8aQ9M5sjLRQICz8BRlPpiVVEUdL+PSEGNq2NZM1cZa2wvFdfTT4FLcewNIC+fOBOjMkno+z/9RA+/mu27LaqJYrjCd4M/7iKhtt+SBrmWGM6L0uNEtRR/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7/f0aMCHfo9P5xP88dL33Arjlz6Vi3FKebe/9wDLzw=;
- b=KkHDoTR2zO6shwbD6MNU+68EiTYaOeFLUmAApjG1dSQkz+JYXb9M9hdlY02dWgTUZfzpj2MF4qhrbd/0uggy6d7YEejX1OkEtPr6jWWDwZpLo+IkwySJMjsazCkOXAG+kdGK7Da/zjcxJDU+OFQtp7nqAX55IY7MhEIhhvLkJ0oPOjFE5maADgOMc6b/vz7TJ27t2v/+VBwgASBylJtSjnJC/2obSOzry/F4AHUCB+G/FfbC2HZtVJhS1/xQZMff7Xl4Lryu11rdLt5RZEgeoQ57qZ13+1V7lr3bjmsxnbPQA7Gq+PCEhC0AAdSfhLsW64h9GADNmkQ3w2bB1IumZQ==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4065.eurprd09.prod.outlook.com (2603:10a6:208:1a1::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Thu, 16 Sep
- 2021 11:03:07 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::79a5:dec1:4b6a:6e33]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::79a5:dec1:4b6a:6e33%3]) with mapi id 15.20.4523.016; Thu, 16 Sep 2021
- 11:03:07 +0000
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-To: openembedded-core@lists.openembedded.org
-CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH] expat: pull from github releases
-Date: Thu, 16 Sep 2021 13:02:46 +0200
-Message-ID: <AM9PR09MB464290480C1904D7AA67B356A8DC9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-X-TMN: [9zacgtDtaecBr5nk1PMcfjHzkQHtTWhXJmvLC0IPj7XsCSm5T4TUP2UFFxn07yg71h7svCUy/Ao=]
-X-ClientProxiedBy: AM0PR06CA0083.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::24) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: <20210916110246.32491-1-kweihmann@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gNaMjcav;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id bk29so7337844qkb.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 06:42:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nxp9WrqUvRzMsn1pcHfyMjiKgCm4A7N/77MBfp4gmnY=;
+        b=gNaMjcav/RzvpvT/OQBIsik5uoiocdkquqnfyefRgJKwU6+yJmqvCxkS4YVXoEoHgS
+         PMYhxeVbLLS319C5Lda2UNM1gETsBlUQeh1wAuHs7g8keAI3y0z65IHrqq2dmE9V9WG8
+         Lo0WUC5fRmYTdIpbLZTzsHIWNDpcdPSXcVY5toTaKHdwN66ZHAWbrId7rcFBRAifKGh0
+         43bX+CFb4+mXBiLI5T4vm8EuRWHk4U7XRIRodNqU/reNYzfOkENFzKWFlJmwKRwgynL8
+         oiz67F43gmNOzgK4v2wFCi+vks8uw98TEmRIk693+MRDjRjqElGtO2/7UVuxhE2j2R1x
+         8Hfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nxp9WrqUvRzMsn1pcHfyMjiKgCm4A7N/77MBfp4gmnY=;
+        b=BxoFmVEFPgtxdrucgwcS9y8xZA3REN71z286mbboa3quLpcGb9xr+OV02EGuo5QR3F
+         TNfl9TC2QHQCRIrbiCVO8lHA/eCK2zozs5o5uckjmvbGiHLdhaxPW9YBydD0R4Txty71
+         LVwTAfkfXY2ID6m497BruSf1HZU+QcRJsoJJIe4K+A2Vq1to575+j2X/YwcWaaiTw9Ep
+         jW/Oy43qUe6jJLH0YuvgQ3yh5nKT0xjbXlQpZfz9Sl5MPt6OdM9Ihf0aJjW87o4ER+Vh
+         h0l67DLPVqf4TLSrTynkjdkcPUiIfttIvSx80Z7Fozdw2DFf6XDHwcxo4738lD3WnL9+
+         HL3g==
+X-Gm-Message-State: AOAM5338GS6GpnfWPzfFMoTZK0ZVd/caDsIkJD9v9z9JFCv1XTjlxlAs
+	9V2PYQ61rHC3lxqZ88zobUtxhZ1ta/NuuF6hY8VS8kBr1gSVOw==
+X-Google-Smtp-Source: ABdhPJyzphqPbC7s6kc+xWYxOu/Pek2PO/K4TRYjFuAI3Z4iYM1Yb0Em1whWFO5jF2d/2Xk4l4UilmDAEAQeIYpJN8Y=
+X-Received: by 2002:a05:620a:1086:: with SMTP id g6mr4971271qkk.105.1631799764667;
+ Thu, 16 Sep 2021 06:42:44 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2a02:8109:9a80:3b94:11df:cd87:699f:18eb) by AM0PR06CA0083.eurprd06.prod.outlook.com (2603:10a6:208:fa::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Thu, 16 Sep 2021 11:03:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a0fac189-5d44-48a8-4983-08d97901907f
-X-MS-Exchange-SLBlob-MailProps: 
-	qY7UPrLqMbYF6kbNr09XJuSJG1GfVX5nRZOIbbgbvqaoSlmIy+cOzcQ8hs0TQih0KGR4UM4vAfPFzAT7ftspjyCTfx1mBSBtJDDizYGGsO6BwzwPYvYMlcCgOmAUCGgoOnnQSMZf/6w2LTd70NekEuMlKWlGafuXFJbMI192bK8wmggoiXx4817cSzLwtGlrWZSrod0E4d3FHuy7LeRowHgMGeWloa+kzcIZ3BSKVLfrdpNL2UrhyKIqrHDL8QmU1oZX2pYdnzIlqZ3aojCvqsqKyZGV0a7fqzSgBoQRHNY1zHcYm5/SfGdiPEHBEk5yTk1cdFMT7x667zWnHBfHCErzERhcW+27YV7MD/KiPDFzipW5aKif/LCQmUgPncvMOIq+jhgIJYgAz0XwPnHpjdmyPN8SwJwSfkrZSTzwXMo7+P1B0CEy+p9TyOkm+ufLz7OxTh97NnAN3HfgWIj9WagiZ/1aj6Bjjqvd4cUuhizRNTVLNA8ILXfjlBA4oxVf5GpcmB0pK7umr6A2oxgIzRqIX8WfZYH2Fxxm5URF7BeLCKap/eBO8vr/Pg/RTRGDJd2nPpipFI+S0sXimKcaB/80LRdE7+y/HWLU8lKo6I1TqhCNEHs8tAiM2071vgjtC/qZVUDFzuumt3I4oz3dzqZAsIzduxLPdaKx0sQWiIf74F53qyg3lXhswsNxuGVtkCPD6Sicn0xGKcYUkkxLBg==
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4065:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	QeG39bZ/CH1lefVIOMIX0CvoT1JnF3BOF0++ljTENOkMrl6Itk2E6QOBk9V4s8m2crfFrAWlVhtFLmrubTyvhWLxIfdzIOcrVCVdmX6N4zlhpzpeEJMPsWlBApwwDk0QVLNCHJ0EUFZcXE46tvYyLdW1Tx48vjpSc1vWFTEjF5aGkPJ+bnvEPBZfRWv69oPe4+tNsME1YR/XAeL1iHFNeSGgvn8UPKDedY02qe1/0Oh4Ra0jfPRBDhiq5Tseqwef/1CSEJh4Fc0S0rL1Kw+jqO8pnzwztUo+hjND76/uDVzothlmlx5tW2uMwhl6b6Su+yVjANpLGELWbE+JVc1qfrJXYSu+CrXvGS+Lv14OKD5Adm9nx4WoG+ICqSQKXaezyX19wHNoTusNYJIkcvxecZfuB4SmBb1TF5fK0UUCValHLf/w2KtemgYED+MtayK4ZlZnyhZqp4IdvxzZlD1HWjdKco3GO5sWfhfdLGBbXqo=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	q9U80eSq3QLo2792F5IAWyxVB8ngkP8ZLPzKB2Ud+Cf54ZvPJiPT7lu6ofb2MQtZJ7kWQTTV4yH9NUbhaYn+GJEoEWjjxvStREWofIJRtvsw2LpQ3Yl4TGplWlvGnUr//bsgVa1jYgM7qqjRNuWugmTYhg7EOk3f3tc3aF4DDq80pHq0pzj+u/nwPtLhIpkXv4waTNfCw55d++18QFzJXQ==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0fac189-5d44-48a8-4983-08d97901907f
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2021 11:03:07.8104
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4065
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+References: <8bbba4f2242345528f8439794a20058b@axis.com> <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
+ <145eb216f49f4a15a2fbf7ef8ce974ed@axis.com>
+In-Reply-To: <145eb216f49f4a15a2fbf7ef8ce974ed@axis.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 16 Sep 2021 06:42:18 -0700
+Message-ID: <CAMKF1so3hAEo2xuNEasNFbJ1KA+6WNQBb+H7UhQZS+Xx0Tp_zA@mail.gmail.com>
+Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Ross Burton <ross@burtonini.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-sometimes we can find release tarballs from sourceforge are not fully
-distributed along all download mirrors leading to fetching faiilures,
-depending on what download mirror will be chosen by sourceforge
-servers.
-As the project moved to github anyway, it's better to pull the tarballs
-directly from github releases - serving the very same static artifacts.
+On Thu, Sep 16, 2021 at 2:15 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: den 16 september 2021 01:06
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > Cc: Ross Burton <ross@burtonini.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg:
+> > update LICENSE)
+> >
+> > On Wed, Sep 15, 2021 at 3:26 PM Peter Kjellerstedt
+> > <peter.kjellerstedt@axis.com> wrote:
+> > >
+> > > > -----Original Message-----
+> > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > > > Sent: den 9 september 2021 21:54
+> > > > To: Ross Burton <ross@burtonini.com>; openembedded-
+> > > > core@lists.openembedded.org
+> > > > Subject: Re: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > > core@lists.openembedded.org> On Behalf Of Ross Burton
+> > > > > Sent: den 3 september 2021 15:25
+> > > > > To: openembedded-core@lists.openembedded.org
+> > > > > Subject: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+> > > > >
+> > > > > "BSD" is ambiguous, ffmpeg comprises of several licenses which are
+> > > > > BSD-like.
+> > > > >
+> > > > > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > > > ---
+> > > > >  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > b/meta/recipes-
+> > > > > multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > index e19077541ec..f822ba9ab78 100644
+> > > > > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > @@ -5,7 +5,7 @@ DESCRIPTION = "FFmpeg is the leading multimedia
+> > framework,
+> > > > > able to decode, encod
+> > > > >  HOMEPAGE = "https://www.ffmpeg.org/"
+> > > > >  SECTION = "libs"
+> > > > >
+> > > > > -LICENSE = "BSD & GPLv2+ & LGPLv2.1+ & MIT"
+> > > > > +LICENSE = "GPLv2+ & LGPLv2.1+ & ISC & Expat & BSD-2-Clause & BSD-3-
+> > Clause & IJG"
+> > > >
+> > > > There is no "Expat" license in neither meta/files/common-licenses nor
+> > > > in meta/conf/licenses.conf.
+> > >
+> >
+> > Perhaps adding it might be one way see
+> > https://directory.fsf.org/wiki/License:Expat
+> > SPDX seems to not have specific entry for it as it points to MIT there
+>
+> If "the expat license" is in fact MIT (hard to tell as there is no license
+> text in the ffmpeg sources), I do not see why we would need a special license
+> for it. All other recipes use "MIT" without creating a specific license file.
+> This includes the expat recipe itself, which use "MIT" as license.
+>
 
-Add an override UPSTREAM_CHECK_URI to enable devtool upgrade checks
+this here is a interesting take on it
+https://www.gnu.org/licenses/license-list.html#Expat
+so it really is not MIT as per above
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
----
- meta/recipes-core/expat/expat_2.4.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> > I think ptest package will contain vsynth2.yuv which is built using
+> > reference.pnm so technically
+> > we need to use Expat for ptest package.
+>
+> ffmpeg does not produce any ptest package AFAICT.
 
-diff --git a/meta/recipes-core/expat/expat_2.4.1.bb b/meta/recipes-core/exp=
-at/expat_2.4.1.bb
-index 555dd0d601..14e5aca9e6 100644
---- a/meta/recipes-core/expat/expat_2.4.1.bb
-+++ b/meta/recipes-core/expat/expat_2.4.1.bb
-@@ -6,11 +6,15 @@ LICENSE =3D "MIT"
-=20
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D9e2ce3b3c4c0f2670883a23bbd7c37a=
-9"
-=20
--SRC_URI =3D "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-+VERSION_TAG =3D "${@d.getVar('PV').replace('.', '_')}"
-+
-+SRC_URI =3D "https://github.com/libexpat/libexpat/releases/download/R_${VE=
-RSION_TAG}/expat-${PV}.tar.bz2  \
-            file://libtool-tag.patch \
-            file://run-ptest \
-            "
-=20
-+UPSTREAM_CHECK_URI =3D "https://github.com/libexpat/libexpat/releases/"
-+
- SRC_URI[sha256sum] =3D "2f9b6a580b94577b150a7d5617ad4643a4301a6616ff459307=
-df3e225bcfbf40"
-=20
- EXTRA_OECMAKE:class-native +=3D "-DEXPAT_BUILD_DOCS=3DOFF"
---=20
-2.25.1
+We will still have it. it in -src packages, if its not used then
+perhaps just delete this file.
 
+>
+> //Peter
+>
+> > > Ross, since you added the reference to the Expat license, did you plan
+> > on
+> > > actually adding it as well? It being missing breaks at least our license
+> > > handling. After writing this, I went digging in ffmpeg, and it seems
+> > that the
+> > > Expat license (only mentioned by name, there is no actual license text)
+> > is
+> > > only used for a test image (reference.pnm), which does not end up in any
+> > > package. So to me it seems as this does not need to be included in
+> > LICENSE.
+> > >
+> > > Also, given the long list of licenses that are now in LICENSE, what
+> > packages
+> > > are actually expected to use those licenses? AFAICT, all packages that
+> > are
+> > > explicitly listed in the recipe either use GPLv2+ or LGPLv2.1+. The
+> > default
+> > > licenses only seem to be used for, e.g., ffmpeg-dev, ffmpeg-dbg and
+> > > ffmpeg-doc, which seems weird.
+> > >
+> > > More weirdness, LIC_FILES_CHKSUM lists GPLv2, GPLv3, LGPLv2 and LGPLv3,
+> > but
+> > > neither GPLv3 nor LGPLv3 are used in LICENSE. And there are no
+> > references for
+> > > any of the newly added licenses.
+> > >
+> > > > >  LICENSE:${PN} = "GPLv2+"
+> > > > >  LICENSE:libavcodec = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > > > >  LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > > > > --
+> > > > > 2.25.1
+> > > >
+> > > > //Peter
+> > >
+> > > //Peter
+> > >
+> > >
+> > > 
+> > >
