@@ -1,97 +1,116 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web08.5909.1631759513330953182
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.7901.1631778322186710239
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 19:31:53 -0700
+ Thu, 16 Sep 2021 00:45:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FpxJS/4V;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id e7so4742696pgk.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 19:31:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VhHNzJaz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id u18so6182120wrg.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 00:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=AP/laZWQVSnmasMyAqm1Nau7ffzRozNHPw9cWGI+Mk4=;
-        b=FpxJS/4VYjeOjhMp3nClHUCeSyk9P20w/JqA5v/rf4tgV3dCNlvdMNO5bz0GkLmhoy
-         AnZLB73qirnzxDtxrD7jzCeVvv3lYzDdrTw/OtD0Rk/mtrZF3CFkIgycQribZvFg1uH0
-         qdNWmf4sTM4AFFRMyAf9NyBWXtMlx5e3vEcl5CM+ien9ko2Yw0QAlP5b644QYfHHAzAV
-         Zqw7VjZJgcORb7IUC17Wk1ltyCaaweZhXa2hhX97QcFXGbpeophpfW8d8iTXeYh7nxnS
-         JlGBVJz4GqC2KE7gK1LTS0tg4YAFRD/u4ZxG1D8Go8q618MQqladoSbof7iSNdDlj8IS
-         iTJQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=IRd9B4MNZHFh9YQyFaK8yhImCpZYJjNFIB+RSUO/bUQ=;
+        b=VhHNzJazvE3PZ5NoXFsDBoO22tnqhY9UI46vCaE0PpfO5b6G3go83jpR1bBLQhJFlM
+         zI19kAYx1xcsDfZcUKq4dwaQLid0jKH45XYbQ+U+0MtzGGBvLXQBIg7CSYGt5sPA44oA
+         XyM5SCXRf/APRwKrVIPUp/TXeqACTZFklCdio=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=AP/laZWQVSnmasMyAqm1Nau7ffzRozNHPw9cWGI+Mk4=;
-        b=Tgxw+QAKxpQedZkKlVsPmaWi0zu/6gVy6T1G1sHv5VLWkYJr7zKGI/BtE5/nsxPNxa
-         73jvL9RshIXnpG2OOepVNy0YD80dLJ9jv0mYx5yy1rkSCBJ+RMErzeUH/RzC6AhB+tK1
-         Ber+0dHe+T3QtzKBl+QmUCEbVJ2HJMVRgC8bP8GrBSZAetxgVXz+5nZE0ZYgXnojXxin
-         QW/11fh0d4y3fEWMov4PLcQeKBlR0BcOSgf/h5uD+volFjMMSJ6dwq/HgNJD8t5ct3ah
-         KWq+Cmg7Ao8ttArQjZOvevUP/KR9atNpgFxvZIPy7XkB5bPl8bxG/18p9f2kX+Hl6W7R
-         3C6Q==
-X-Gm-Message-State: AOAM532SOFp3Df1HW65DnqvnPZxgZYIr60P2EOBIMuhlak0RfXfOCUSG
-	ccULrzRZOPlaYrdJ2WGy9cqJIjenKF4=
-X-Google-Smtp-Source: ABdhPJwODe7hBG2XQLf1rOaoNI1skJdpm7y6PRL7AK8H9eFNioepxPhnBygQUsALbuT8emfZGVg9WA==
-X-Received: by 2002:a62:6384:0:b0:3eb:13e7:18c with SMTP id x126-20020a626384000000b003eb13e7018cmr2591859pfb.73.1631759512561;
-        Wed, 15 Sep 2021 19:31:52 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:538a:dbbb:2df2:d1e8? ([2601:202:4180:a5c0:538a:dbbb:2df2:d1e8])
-        by smtp.gmail.com with ESMTPSA id y126sm1058115pfy.88.2021.09.15.19.31.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Sep 2021 19:31:52 -0700 (PDT)
-Subject: Re: [OE-core] [kirkstone][PATCH] wayland-protocols: upgrade 1.22 -> 1.23
-To: Denys Dmytriyenko <denis@denix.org>,
- openembedded-core@lists.openembedded.org
-References: <1631754397-46490-1-git-send-email-denis@denix.org>
-From: "Armin Kuster" <akuster808@gmail.com>
-Message-ID: <137620f2-df0b-58fc-6d47-89075626c844@gmail.com>
-Date: Wed, 15 Sep 2021 19:31:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=IRd9B4MNZHFh9YQyFaK8yhImCpZYJjNFIB+RSUO/bUQ=;
+        b=EUuc44lQtcYW8y99KKjZjkD9IommYTaK3r7aPd3uswByEWANpC4oFhpsUOCpXDcgwY
+         zP38bYhfOs+MR1i9aM6eCxQgb3DUj6P4Oesu+OEXuQ1lku6GOk5HlmDRwbaxUVgZeJeD
+         Dz/Odtaa7dl+3rHE1DG6r9Lr7Gs29weSr3OJda0cnIcDeoNOPwJoZB4mJD+SNQOcp0q/
+         nORG7SWCxLN8wswUvIfKe6kmwzIaPNTHVM3JdNqXEOcl3vMJvNgs41UXEBWudJBpXjKG
+         CrD5AJBjkPuloWDY91wQjZu6yCu/qTIKmNkPN9lg1tcrIWdHpOIsGhzTFsiJn0jd3KLw
+         9NMg==
+X-Gm-Message-State: AOAM533gE+ZoBeZs8OUQWlYko0TOsIU5A1zjdhAWDGYoViD54hxzxrhI
+	7EX0WvYzSlBWx5nybUy3N3uTlg==
+X-Google-Smtp-Source: ABdhPJwRQgLwEg1WXnQH6fn3Q2fw2tLrtviGmyGCFGHxarfR9p+zxWFXouXBhOpQAP5Nld3vse/D/A==
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr4476576wrs.60.1631778320368;
+        Thu, 16 Sep 2021 00:45:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c? ([2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c])
+        by smtp.gmail.com with ESMTPSA id n186sm6464039wme.31.2021.09.16.00.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 00:45:20 -0700 (PDT)
+Message-ID: <1a06ce8d46532871daac149988790c38244f4514.camel@linuxfoundation.org>
+Subject: Re: [PATCH] state/staging: Fix directory not deleted for race
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, vinay.m.engg@gmail.com
+Date: Thu, 16 Sep 2021 08:45:16 +0100
+In-Reply-To: <20210915114618.157245-1-pgowda.cve@gmail.com>
+References: <20210915114618.157245-1-pgowda.cve@gmail.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-In-Reply-To: <1631754397-46490-1-git-send-email-denis@denix.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-So we wait until that branch is created in 5 months before we can apply
-it ?  Is this like post dating a check?
-
--armin
-
-On 9/15/21 6:06 PM, Denys Dmytriyenko wrote:
-> wayland-protocols 1.23 is now available.
->
-> This release adds the new gesture "hold" to the pointer gesture protocol.
->
-> https://lists.freedesktop.org/archives/wayland-devel/2021-September/041979.html
->
-> Signed-off-by: Denys Dmytriyenko <denis@denix.org>
-> ---
-> Please note - this is meant for kirkstone(-next), as upgrade to 1.22 is not in master yet
->
->  .../wayland/{wayland-protocols_1.22.bb => wayland-protocols_1.23.bb}    | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/wayland/{wayland-protocols_1.22.bb => wayland-protocols_1.23.bb} (90%)
->
-> diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.22.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.23.bb
-> similarity index 90%
-> rename from meta/recipes-graphics/wayland/wayland-protocols_1.22.bb
-> rename to meta/recipes-graphics/wayland/wayland-protocols_1.23.bb
-> index 4e8d390..60b6eb1 100644
-> --- a/meta/recipes-graphics/wayland/wayland-protocols_1.22.bb
-> +++ b/meta/recipes-graphics/wayland/wayland-protocols_1.23.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
->  
->  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->             "
-> -SRC_URI[sha256sum] = "96e7cf03524995a47028236c6d6141c874e693cb80c0be8dabe15455cdd5a5a7"
-> +SRC_URI[sha256sum] = "6c0af1915f96f615927a6270d025bd973ff1c58e521e4ca1fc9abfc914633f76"
->  
->  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
->  
->
+On Wed, 2021-09-15 at 04:46 -0700, Pgowda wrote:
+> The race issue resulted in some empty directories not being deleted.
+> During staging_copyfile, it results in "file already exists error" on
+> creating link for directories during do_prepare_recipe_sysroot.
+> The following patch checks whether the directory and its sub directories
+> have no files in it and removes them.
 > 
->
+> The issue was observed on running rust-hello-world for glibc and musl
+> one after the other.
+> TCLIBC=glibc MACHINE=qemuarm bitbake rust-hello-world
+> TCLIBC=musl MACHINE=qemuarm bitbake rust-hello-world
+> 
+> On fixing the above issue, it was found that
+> arm-poky-linux-musleabi.json files are not being generated.
+> $/del/build/tmp/work/x86_64-linux/rust-cross-arm/1.54.0-r0/targets/
+> arm-poky-linux-musleabi.json': No such file or directory
+> 
+> It is generated and builds successfully when musl lib is built standalone.
+> However, when musl is built after glibc or viceversa results in the
+> latter json file not being generated.
+> 
+> Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+> ---
+>  meta/classes/staging.bbclass | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+> index af3397bab6..4b751af4d3 100644
+> --- a/meta/classes/staging.bbclass
+> +++ b/meta/classes/staging.bbclass
+> @@ -145,6 +145,16 @@ def staging_copyfile(c, target, dest, postinsts, seendirs):
+>      if os.path.islink(c):
+>          linkto = os.readlink(c)
+>          if os.path.lexists(dest):
+> +            # Check if directory is not deleted for race issue
+> +            if os.path.isdir(dest):
+> +                count = 0
+> +                for root, dirs, files in os.walk(dest):
+> +                    for Files in files:
+> +                        count += 1
+> +                if count == 0:
+> +                    import shutil
+> +                    shutil.rmtree(dest)
+> +                    os.symlink(linkto, dest)
+>              if not os.path.islink(dest):
+>                  raise OSError(errno.EEXIST, "Link %s already exists as a file" % dest, dest)
+>              if os.readlink(dest) == linkto:
+
+This change looks like a good fix but it can be improved a little.
+
+Firstly, rather than the count and os.walk, we can just use
+"if not os.listdir(dest):".
+
+Secondly, if we know the directory is empty and is a directory, we don' need
+rmtree, we can just use os.rmdir() which should be much faster.
+
+I'd also clarify the comment to something like:
+
+# Empty directories are not removed due to race issues but if we
+# find a conflict, we can remove empty directories here.
+
+Cheers,
+
+Richard
 
