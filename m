@@ -1,129 +1,61 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web09.7941.1631778820345569384
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.8023.1631779385491878069
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 00:53:40 -0700
+ Thu, 16 Sep 2021 01:03:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UC0eZj9i;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so3804226wml.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 00:53:40 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f9r3Do55;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id y132so4124316wmc.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 01:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JJPpQLnCibeJ7snnUQAKh07m2SSOIUR7oo20/bfhgKg=;
-        b=UC0eZj9iVa2qqeoqUuwt+5CC8ZFhpxCQVRzN1lkLTa2ChAvqcjgOS7l3PXWADWvVve
-         GhjYWzSgyWgV7NfH8BymX4SAMqJgls+R8hZVA3cVnR+PDXy7vroNkxBp7Og8yEQdgNKT
-         8kT3YKzWNhqBsevCCYjgI5KmyIDRBy9jSnOJ4=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=nRqH6VRR7b99ui5I9K6L+gw37BUXTqvsGJLZJ20HWAs=;
+        b=f9r3Do55KHLl50hGH1p1ea4WVbzxTDIg0/3PKc6lWKsZmneeHx/BPZStMkXIx/L0HI
+         OUmcM0IohO9xlwlLwg3SMQd9C/6/riUZUw89ZolJ8y5ZzeTOcrbATlGtOOqIYl97YMQC
+         eyz8P+Nj0JMr6kgMLqEXhubg0tr/ckTOKoSKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JJPpQLnCibeJ7snnUQAKh07m2SSOIUR7oo20/bfhgKg=;
-        b=mWkr1x6yLP12FwOi8uJ0zd2b9AXoi4wCtYGo89zulL5kQVP6SMXU1gk0RCR+1vTtNk
-         C2WTlrB16h+0V/QWNRwqFRqCyhOs60zZkwK9m5oYd4fjLftD6PxbSa2q4m/Xfx1Kc3zW
-         YYVA4RMAfXZ1Ae6zgYpHgOMzEsqtjZsxJH4cecwrRbwWDLHXAoHqwdF4C3vAk1Nt4AHz
-         SVPY5I3OswUazw1OdCqy51pV6Kxw7xCH1Y1JffynUJRRdlYVQWwDcnAaNdFlCUoXxFpB
-         YyC2QGpnnTz5eQPVIdMTj/1r6S5NQZO5j3PpNbBqcqnsUdEfs+ntyXoslGxDh2Hk8IbT
-         kboQ==
-X-Gm-Message-State: AOAM532rnCE1cGqPNwC1yOnte8MCyUcD3rb4CBeHkn9gmz12VkE94JV2
-	//6HA6vGrjCdtcD1Gb1jK5ksSg==
-X-Google-Smtp-Source: ABdhPJxovMxIu5z1gBU39rc/LiXT/LpW3yckW+iUyIGcJcFxRxzEpEbghI6dbba2bQHC+fTJIdWIZQ==
-X-Received: by 2002:a05:600c:1c9a:: with SMTP id k26mr8614028wms.95.1631778818826;
-        Thu, 16 Sep 2021 00:53:38 -0700 (PDT)
+        bh=nRqH6VRR7b99ui5I9K6L+gw37BUXTqvsGJLZJ20HWAs=;
+        b=YmMWaquS5GihCTOAEuR83EIy8qJO5fsb0ezG9r8YVUIZt4ruRfoDagtoutW1E8clr4
+         Dpn66txk3ruyTi9hRdw4PZqCFfQWeqq5M3G0QnqCDEosRUjXaxa2HpaOP78Knm9rZ5fW
+         rB7N9udZTmZCQHnjRKBTnEVJ6zgsxoPQEJz4pPlfVFyJI2ACm7xtkdk1qKKCFiZXC2BP
+         7ZXCtq1Qw32r+5pj+RTJD1i812Sk/KtN5uTD2ayNfNBeRI4v1c6pDYUXdaw0i9lJDqbn
+         RSg3WIBOQD9sSEsDtEV3Vpdt7IDissSqzn58wfK5uzvFGp6tBTkSdWoFahgF4kWxIuhS
+         gRDg==
+X-Gm-Message-State: AOAM533WoLgXkEgzujQm8t5iZK9LjNG/jFbhEnK8E3SFcAXXGIB72mOZ
+	IaIpmbukqnDIWurKnD6l3lqlXg==
+X-Google-Smtp-Source: ABdhPJy5uxSe5GaPimGJ7x7fdXGwFsE7GIkOorkC0YkxU8kk8tI35n4m+F9nXx8t7Q3WFyKexcqWUA==
+X-Received: by 2002:a05:600c:3656:: with SMTP id y22mr8696174wmq.58.1631779383637;
+        Thu, 16 Sep 2021 01:03:03 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c? ([2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c])
-        by smtp.gmail.com with ESMTPSA id c9sm2611241wrf.77.2021.09.16.00.53.38
+        by smtp.gmail.com with ESMTPSA id g131sm2238563wme.22.2021.09.16.01.03.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 00:53:38 -0700 (PDT)
-Message-ID: <07fc5dc3d216f0fa6c081506aa92701508604bab.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] state/staging: Fix directory not deleted for race
+        Thu, 16 Sep 2021 01:03:03 -0700 (PDT)
+Message-ID: <556d590b620342703897becbeda6ebfa4d20aef3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [kirkstone][PATCH] wayland-protocols: upgrade 1.22 -> 1.23
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, vinay.m.engg@gmail.com
-Date: Thu, 16 Sep 2021 08:53:37 +0100
-In-Reply-To: <16A53DBD300C0C8E.4388@lists.openembedded.org>
-References: <20210915114618.157245-1-pgowda.cve@gmail.com>
-	 <16A53DBD300C0C8E.4388@lists.openembedded.org>
+To: Armin Kuster <akuster808@gmail.com>, Denys Dmytriyenko
+ <denis@denix.org>,  openembedded-core@lists.openembedded.org
+Date: Thu, 16 Sep 2021 09:03:02 +0100
+In-Reply-To: <137620f2-df0b-58fc-6d47-89075626c844@gmail.com>
+References: <1631754397-46490-1-git-send-email-denis@denix.org>
+	 <137620f2-df0b-58fc-6d47-89075626c844@gmail.com>
 User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-09-16 at 08:45 +0100, Richard Purdie via lists.openembedded.org
-wrote:
-> On Wed, 2021-09-15 at 04:46 -0700, Pgowda wrote:
-> > The race issue resulted in some empty directories not being deleted.
-> > During staging_copyfile, it results in "file already exists error" on
-> > creating link for directories during do_prepare_recipe_sysroot.
-> > The following patch checks whether the directory and its sub directories
-> > have no files in it and removes them.
-> > 
-> > The issue was observed on running rust-hello-world for glibc and musl
-> > one after the other.
-> > TCLIBC=glibc MACHINE=qemuarm bitbake rust-hello-world
-> > TCLIBC=musl MACHINE=qemuarm bitbake rust-hello-world
-> > 
-> > On fixing the above issue, it was found that
-> > arm-poky-linux-musleabi.json files are not being generated.
-> > $/del/build/tmp/work/x86_64-linux/rust-cross-arm/1.54.0-r0/targets/
-> > arm-poky-linux-musleabi.json': No such file or directory
-> > 
-> > It is generated and builds successfully when musl lib is built standalone.
-> > However, when musl is built after glibc or viceversa results in the
-> > latter json file not being generated.
-> > 
-> > Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-> > ---
-> >  meta/classes/staging.bbclass | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-> > index af3397bab6..4b751af4d3 100644
-> > --- a/meta/classes/staging.bbclass
-> > +++ b/meta/classes/staging.bbclass
-> > @@ -145,6 +145,16 @@ def staging_copyfile(c, target, dest, postinsts, seendirs):
-> >      if os.path.islink(c):
-> >          linkto = os.readlink(c)
-> >          if os.path.lexists(dest):
-> > +            # Check if directory is not deleted for race issue
-> > +            if os.path.isdir(dest):
-> > +                count = 0
-> > +                for root, dirs, files in os.walk(dest):
-> > +                    for Files in files:
-> > +                        count += 1
-> > +                if count == 0:
-> > +                    import shutil
-> > +                    shutil.rmtree(dest)
-> > +                    os.symlink(linkto, dest)
-> >              if not os.path.islink(dest):
-> >                  raise OSError(errno.EEXIST, "Link %s already exists as a file" % dest, dest)
-> >              if os.readlink(dest) == linkto:
-> 
-> This change looks like a good fix but it can be improved a little.
-> 
-> Firstly, rather than the count and os.walk, we can just use
-> "if not os.listdir(dest):".
-> 
-> Secondly, if we know the directory is empty and is a directory, we don' need
-> rmtree, we can just use os.rmdir() which should be much faster.
-> 
-> I'd also clarify the comment to something like:
-> 
-> # Empty directories are not removed due to race issues but if we
-> # find a conflict, we can remove empty directories here.
+On Wed, 2021-09-15 at 19:31 -0700, Armin Kuster wrote:
+> So we wait until that branch is created in 5 months before we can apply
+> it ?  Is this like post dating a check?
 
-Looking further at this and your description, I think you might be saying there
-are multiple levels of empty directories. If that is the case my simplification
-may not work but I am more worried about why we have multiple levels of this
-issue.
-
-I would also like to understand why these files overlap and are symlinks in one
-case but directories in another. Can you show some specific examples of the
-files in question?
-
-The missing json file sounds like there could be some file not being handled by
-sstate but it is hard to know without looking at the code.
+Alexandre and I are using "kirkstone-next" as a place to queue things for the
+next release so this does make sense.
 
 Cheers,
 
