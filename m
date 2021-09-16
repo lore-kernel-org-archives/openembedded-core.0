@@ -1,50 +1,50 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web10.5005.1631832012938965303
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web11.5026.1631832013668789637
  for <openembedded-core@lists.openembedded.org>;
  Thu, 16 Sep 2021 15:40:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=O/w/ucVt;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.174, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f174.google.com with SMTP id b64so11523792qkg.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 15:40:12 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=t8m+Rmt1;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.178, mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f178.google.com with SMTP id r21so7074450qtw.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 15:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=EUoKun3kZsRb/0l56vDZn8mqJ1gNrl70DrY0f4nWfKU=;
-        b=O/w/ucVt4IpJN7Ng0fZxE/oXikZnuFZlGaMkJT5C0iN8TLVeGbRrDR0L3mEOzSGdMV
-         uhN8ZMHwiU/LCSMpDAsjZ+wJ42eHHJl4vH2qUIWCWuVKFzzDred5d5kV26oqKc8TlXM1
-         rToydUoLMihvshbDG0lW7sB08ROX4QltfCxwZO8aBBM9J9MEUCPD84Ydo/vjeuFrBccH
-         eQdUcrqVhBxQM0nSdwyMyFybUM+1kcxFx3eFVXG+oD/INBO0BO07qOll+qu6DTGO7n/1
-         xtpUOexdEP51AjCv1xh+t1Ew21im64BSBt/fSVWq4v7FY3ySDN2/P0fZhgaX4TCSNJU0
-         w6eA==
+        bh=yBHxTR438UbChuMzFzitJPT0VxmheoTaaLdX/Iituwk=;
+        b=t8m+Rmt1jQRXR7Im/ZLsQAuxrY0V9nJMDR3OfHXKlrsGO4WlIkMEwOiN/QB1xmIWMR
+         r9rjrYrenqwcIvtlapMqV3Ogh94rRpyLUyebarSRsuZ4WNZ65b7LeJ0c6xzO+VWtLVLN
+         2LPvmg8pl1Ba7Bym6LOVVejDIJTxvsEAsUCgg1ZudeRZbsqo6SYqNkSlbpJuSkQlNDuC
+         ZJhPXr7Y4Ipry6AdPDEGgwUHj2bhH4ET8eXI+Ri3FjPcJdeQ7qGfaUpP3+q9zKDIMHO3
+         PKPIx5PzWQbs43+eZ3ubLujV7R/SetUpsVYJS1iCqP/kEnm1nQ3911GxUHia5IH52Uo4
+         Cs6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EUoKun3kZsRb/0l56vDZn8mqJ1gNrl70DrY0f4nWfKU=;
-        b=RJyKaTQqZDOGKUJt3MnReRDwGdHkOl4X20yaMP1JA7RUcAS1Lzt1E83PkRalimC9uf
-         VCjBS/qGqCOXS+aOoVsPDzU5/8F6JgzV262BuKl8/cmMEaNYf+pV0vAMzO5U0w2MN25H
-         H0PiTNNBthPrLnR2lb3zYAHgsiN1EaSBluI734K55sAboXSt+3JxnA8xkOl2tfnIn9dm
-         8kLZ/PlwgPKUO6H6GhzxffCLaNmmkWTTs/KzNE97UIcZ0qBIeXtDHOz3HiNz2lsfEz6S
-         7eS8zQrlTkNMZ5fzGIM5pK8F34OfsNEm0q4Ahjf9F9py7GWAxRlA3q7SYptX6oMiWsfQ
-         c2gA==
-X-Gm-Message-State: AOAM531ttMSfUb9k+NqrYqrdw3kqbEzP0Mz53qMz0/ce1FkLIvUHw5zz
-	UBogh1oilWKguGtfEcWHoxXK1OKaG2nuow==
-X-Google-Smtp-Source: ABdhPJzytEWydovGy62EjEE1qZHdujZ5pnqamr8MnxyMQmHTwf2YvbsLSt8gTgXy++RhYrjoPiZH2w==
-X-Received: by 2002:a37:bc8:: with SMTP id 191mr7482960qkl.25.1631832012031;
+        bh=yBHxTR438UbChuMzFzitJPT0VxmheoTaaLdX/Iituwk=;
+        b=Z5P/n0KSvcS0noYV0wr/WqA3P2xeyz808OXovUUsRvesmPRQUcXnjk+UVzsv2rncQp
+         qjFrdao0FRlx9RUZLkUgT+2Tz32jff1Ttpz9MhfhJe3QAzqGToiPtHKPSbtosxF4Lx+p
+         V8BqpxP/DNowfB6p+oX7KhMyyWm2rQ7Zcexz713JV0v25OCRtu9y15vgrwmRZpBDQZH5
+         RfgEdn7NYzK/Z4qF7DMXLRDeawbA+mmBhuF8/dvPr0y82UrlOKiu809aSG3jXySzYIU0
+         VMkcsVD/xSKpEcH3zp4T06xy5ej7a5DD444Fs7uiIRXQYS5oZb7F5NI6p8iC3/WJHx1w
+         jJ+A==
+X-Gm-Message-State: AOAM532D/CdvZhExvPsDqfMsULEWxPYf+p3vu+mlltQPCr3Dewgwq2O6
+	f4Wq1D+PVZ3GcUm4tqRILf55ISgqjS4GYQ==
+X-Google-Smtp-Source: ABdhPJwRVhxmXMdKySqZw91mAjTVIpnfk/hmcojtjM+XbGXGT7bMS/vdkN9tejskSLkTwsNRYjj/xg==
+X-Received: by 2002:ac8:7118:: with SMTP id z24mr7598132qto.244.1631832012762;
         Thu, 16 Sep 2021 15:40:12 -0700 (PDT)
 Return-Path: <jdmason@kudzu.us>
 Received: from localhost ([2605:a601:a650:b700:b85d:4277:577e:3e0a])
-        by smtp.gmail.com with ESMTPSA id x3sm3308865qkx.62.2021.09.16.15.40.11
+        by smtp.gmail.com with ESMTPSA id g12sm3006249qtq.92.2021.09.16.15.40.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 15:40:11 -0700 (PDT)
+        Thu, 16 Sep 2021 15:40:12 -0700 (PDT)
 From: "Jon Mason" <jdmason@kudzu.us>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] README: update mailing list address
-Date: Thu, 16 Sep 2021 18:40:09 -0400
-Message-Id: <20210916224010.21213-2-jdmason@kudzu.us>
+Subject: [PATCH 3/3] Update mailing list address
+Date: Thu, 16 Sep 2021 18:40:10 -0400
+Message-Id: <20210916224010.21213-3-jdmason@kudzu.us>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210916224010.21213-1-jdmason@kudzu.us>
 References: <20210916224010.21213-1-jdmason@kudzu.us>
@@ -53,22 +53,36 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jon Mason <jdmason@kudzu.us>
 ---
- meta-yocto-bsp/README.hardware.md | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/maintainers.inc                      | 2 +-
+ meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-yocto-bsp/README.hardware.md b/meta-yocto-bsp/README.hardware.md
-index 9803af006ae7..095815e1bca2 100644
---- a/meta-yocto-bsp/README.hardware.md
-+++ b/meta-yocto-bsp/README.hardware.md
-@@ -37,7 +37,7 @@ variable value corresponding to the board is given in brackets.
- Reference Board Maintenance
- ===========================
- 
--Send pull requests, patches, comments or questions about meta-yocto-bsps to poky@yoctoproject.org
-+Send pull requests, patches, comments or questions about meta-yocto-bsps to poky@lists.yoctoproject.org
- 
- Maintainers: Kevin Hao <kexin.hao@windriver.com>
-              Bruce Ashfield <bruce.ashfield@windriver.com>
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e560ba39ddc1..8592de5a6682 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -4,7 +4,7 @@
+ #
+ # Please submit any patches against recipes in meta to the
+ # OE-Core mail list (openembedded-core@lists.openembedded.org)
+-# For recipes in meta-yocto please use the Poky list (poky@yoctoproject.org)
++# For recipes in meta-yocto please use the Poky list (poky@lists.yoctoproject.org)
+ #
+ # If you have problems with or questions about a particular recipe, feel
+ # free to contact the maintainer directly (cc:ing the appropriate mailing list
+diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch
+index 52986e61c796..d1835c7a108c 100644
+--- a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch
++++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch
+@@ -400,7 +400,7 @@ Index: ldconfig-native-2.12.1/ldconfig.c
+    return 0;
+  }
+  
+-+#define REPORT_BUGS_TO "mailing list : poky@yoctoproject.org"
+++#define REPORT_BUGS_TO "mailing list : poky@lists.yoctoproject.org"
+  /* Print bug-reporting information in the help message.  */
+  static char *
+  more_help (int key, const char *text, void *input)
 -- 
 2.20.1
 
