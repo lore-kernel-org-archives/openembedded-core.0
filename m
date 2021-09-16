@@ -1,78 +1,115 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web09.926.1631806404327376919
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.1423.1631814646685976783
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 08:33:24 -0700
+ Thu, 16 Sep 2021 10:50:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hWVPO4YU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 196-20020a1c04cd000000b002fa489ffe1fso7674334wme.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 08:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=MrunQ0WnZqIwBY9pPNulFY8RB1UMzrlEi42sz5OyGnY=;
-        b=hWVPO4YULB9KynftlzMk3GjW9dhrNRbaWVIToYXhV/uUPDw9qpWUX5gPrjR6/gilOx
-         cbVSWod/O9xU27nUqsmwkiHcPHrdIgUgHSRXHV+nwuqREQGvraR1ggrMfFrX8gW1r3uy
-         SO9oq8jUJHAhvcHnKcCJKmtoicaDrH96KUHbA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=MrunQ0WnZqIwBY9pPNulFY8RB1UMzrlEi42sz5OyGnY=;
-        b=ZCtDtglrVu61fH0LqlZquR5qhiVwLQKyB8Dini1JPPNJ5LlvW0KG7+yYdVI7smUtur
-         LXn0+O3L7y5oH4jCGRiLvJ21RmX12t9t3OzdcijiAlDRnnoL08jnsq9CJ5RSnUYkOy8g
-         qf7aTrwu+ZlvZPl9drM0J2wyPvUugEs2YkJIXp8o7uuTYf0X9+SGO4iKd9efSRvP/Uzk
-         6OdKyXGLkn80VBJ7HLFJKiSNenfbZBwptqFHEbj2RUIUQ0hVGI/+rX3U+2Jujnc2z7fR
-         rbvS9X0yacfs/iB85sSjMdP/0Xrp4HxD8AoEzaMngGnzDtuQIxv+b3v3R6lpUnottMPV
-         YhDA==
-X-Gm-Message-State: AOAM532GVKRo177kK76MraILJCiT5sMbKSpD3V2MnvsL6bRA7xjHuW3r
-	hTzxWEQ0R2OPJk8ykTvDYAvBaQ==
-X-Google-Smtp-Source: ABdhPJwhmrVh6JtcdLEza9GK82WDvZELFGqQB7yaomyEh1HPQ8IN5dXe3MVYuOzQq0yBD9VrdB754A==
-X-Received: by 2002:a05:600c:3b19:: with SMTP id m25mr5726159wms.135.1631806402828;
-        Thu, 16 Sep 2021 08:33:22 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c? ([2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c])
-        by smtp.gmail.com with ESMTPSA id c135sm7935472wme.6.2021.09.16.08.33.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 08:33:22 -0700 (PDT)
-Message-ID: <ced09b1bfecfb02318f8498e2e8b95d46966c8c1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [kirkstone][PATCH] wayland-protocols: upgrade 1.22 -> 1.23
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, Denys Dmytriyenko <denis@denix.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 Sep 2021 16:33:19 +0100
-In-Reply-To: <763e63d1-0f1e-3c5a-2d8e-a2b91bca3545@gmail.com>
-References: <1631754397-46490-1-git-send-email-denis@denix.org>
-	 <137620f2-df0b-58fc-6d47-89075626c844@gmail.com>
-	 <556d590b620342703897becbeda6ebfa4d20aef3.camel@linuxfoundation.org>
-	 <763e63d1-0f1e-3c5a-2d8e-a2b91bca3545@gmail.com>
-User-Agent: Evolution 3.40.2-1build1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.40.192.95])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 18GHohkW013220
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 12:50:45 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] tcf-agent: Move to the latest master version
+Date: Thu, 16 Sep 2021 12:50:43 -0500
+Message-Id: <20210916175043.78499-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, 2021-09-16 at 08:26 -0700, akuster808 wrote:
-> 
-> On 9/16/21 1:03 AM, Richard Purdie wrote:
-> > On Wed, 2021-09-15 at 19:31 -0700, Armin Kuster wrote:
-> > > So we wait until that branch is created in 5 months before we can apply
-> > > it ?  Is this like post dating a check?
-> > Alexandre and I are using "kirkstone-next" as a place to queue things for the
-> > next release so this does make sense.
-> 
-> I know why you and Alexandre are doing it.  Should there be a note added
-> to the
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Sending_using_git-send-email
-> Section "Backporting fixes to stable releases"  regarding an exception
-> during code stabilization to use the next next stable branch name
-> instead of "Master" ?
+There has not been a release since 2018, the 1.7.0 release.  A number of
+recent improvements around thumb and clang debugging prompted this move
+to a newer version.
 
-We say "don't sent these patches" and people do. I don't really want to document
-that it is "ok", I'm just trying to handle the reality of the situation since if
-we don't do something with things, we end up in a really big mess after release.
+The patch is no longer necessary as it was a backport patch.
 
-Cheers,
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+ .../0001-Fixed-copyright-messages.patch       | 56 -------------------
+ .../tcf-agent/tcf-agent_git.bb                |  3 +-
+ 2 files changed, 1 insertion(+), 58 deletions(-)
+ delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
 
-Richard
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
+deleted file mode 100644
+index ed73808e990..00000000000
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 20ac1f939a8a97b03abec55d865050fdaa0f343a Mon Sep 17 00:00:00 2001
+-From: Eugene Tarassov <eugenet@xilinx.com>
+-Date: Tue, 8 Jan 2019 21:56:16 -0800
+-Subject: [oe-core][PATCH 1/1] Fixed copyright messages
+-
+-Upstream-Status: Backport [https://git.eclipse.org/c/tcf/org.eclipse.tcf.agent.git/commit/?id=20ac1f939a8a97b03abec55d865050fdaa0f343a]
+-
+-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+----
+- agent/tcf/framework/channel_lws.c      |  2 +-
+- agent/tcf/framework/cpudefs-mdep-mux.h | 19 +++++++++++++------
+- 2 files changed, 14 insertions(+), 7 deletions(-)
+-
+-diff --git a/agent/tcf/framework/channel_lws.c b/agent/tcf/framework/channel_lws.c
+-index 0cb9585..d9352f3 100644
+---- a/tcf/framework/channel_lws.c
+-+++ b/tcf/framework/channel_lws.c
+-@@ -1,5 +1,5 @@
+- /*******************************************************************************
+-- * Copyright (c) 2016-2017 Wind River Systems, Inc.
+-+ * Copyright (c) 2016-2018 Wind River Systems, Inc. and others.
+-  * All rights reserved. This program and the accompanying materials
+-  * are made available under the terms of the Eclipse Public License v1.0
+-  * and Eclipse Distribution License v1.0 which accompany this distribution.
+-diff --git a/agent/tcf/framework/cpudefs-mdep-mux.h b/agent/tcf/framework/cpudefs-mdep-mux.h
+-index c9e0db7..0397a6a 100644
+---- a/tcf/framework/cpudefs-mdep-mux.h
+-+++ b/tcf/framework/cpudefs-mdep-mux.h
+-@@ -1,10 +1,17 @@
+--/*
+-- * Copyright (c) 2013 Wind River Systems, Inc.
+-+/*******************************************************************************
+-+ * Copyright (c) 2013 Wind River Systems, Inc. and others.
+-+ * All rights reserved. This program and the accompanying materials
+-+ * are made available under the terms of the Eclipse Public License v1.0
+-+ * and Eclipse Distribution License v1.0 which accompany this distribution.
+-+ * The Eclipse Public License is available at
+-+ * http://www.eclipse.org/legal/epl-v10.html
+-+ * and the Eclipse Distribution License is available at
+-+ * http://www.eclipse.org/org/documents/edl-v10.php.
+-+ * You may elect to redistribute this code under either of these licenses.
+-  *
+-- * The right to copy, distribute, modify or otherwise make use
+-- * of this software may be licensed only pursuant to the terms
+-- * of an applicable Wind River license agreement.
+-- */
+-+ * Contributors:
+-+ *     Wind River Systems - initial API and implementation
+-+ *******************************************************************************/
+- 
+- #include <tcf/config.h>
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 4ff309dd80d..e67eccc75ce 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | EDL-1.0"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+-SRCREV = "a022ef2f1acfd9209a1bf792dda14ae4b0d1b60f"
++SRCREV = "2735e3d6b7eccb05ab232825c618c837d27a5010"
+ PV = "1.7.0+git${SRCPV}"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+@@ -15,7 +15,6 @@ SRC_URI = "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protocol=https
+            file://ldflags.patch \
+            file://tcf-agent.init \
+            file://tcf-agent.service \
+-           file://0001-Fixed-copyright-messages.patch \
+           "
+ 
+ DEPENDS = "util-linux openssl"
+-- 
+2.17.1
 
