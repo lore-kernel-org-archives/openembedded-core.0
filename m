@@ -1,115 +1,77 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.1423.1631814646685976783
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web12.4797.1631830774154780016
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 10:50:47 -0700
+ Thu, 16 Sep 2021 15:19:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from lons-builder.int.hatle.net ([192.40.192.95])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 18GHohkW013220
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 12:50:45 -0500
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=HYGjbH6t;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.52, mailfrom: jdmason@kudzu.us)
+Received: by mail-qv1-f52.google.com with SMTP id a12so5235725qvz.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 15:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pdWGQgdG4ki+zm1DQm/o+8hoN601C8/lBOp1ETnARJ4=;
+        b=HYGjbH6tNMGFn7pGc22cCO0MnmBoyfwtFcM8P8zHWKLB7IZHC48wrFlT+Ib43Ykhz7
+         N8cBGuwJePY2lESShgz4NwYzZqN7Tiqux1PH6usFoeuc1A0Syeq9LoXGQU26+zYSjbEU
+         AlPO81JqkxsBdmAR0QW2nleO1eOZSanOAGLLlrwOSCpbU0V0OyG/fcWGIbS+yoifE01+
+         ePNvlc1J3Cm/sEctOJg69fxxHO0ZcIBGEwUTefIIpEWlcBNr8GF/sNNUP8bq/t+Aj5RS
+         Bd0cqwy+0ZyFSEPY/0YuCKjrgrvvgzuCpcrEB9PbIbxPQ0FFIJmeKvsCp2S2LoK2HZgX
+         +68w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pdWGQgdG4ki+zm1DQm/o+8hoN601C8/lBOp1ETnARJ4=;
+        b=FVbaXkFxXi0hIT4U5wpVy/7jA/k3ttC3gENUXYDWHjBJAFUUlqyoy3wF7Hsf6N7VSV
+         4omoqCUfaytXDuLXDczbfk677tAfBV/h4TfRR+niOk9q65beVbIkhEXMJj6XWCoN8/U2
+         zYcash/C2ys4TAMEK3l9Ep98iJHUMjEin85TKrHCiy+GAqYhqt0c3XIJsX7tC1W0vX48
+         wLm8HAQsYHVAV9Q8GHW1XdPvxY5/pNBFIFW3NbgW5FuLNPGiruDZLONMJO14uuSzwESF
+         TEpNMzEUdKnzd0Pmsc3U/YbAgjCsNhVEqCHcE2PYghqmsFTKphwdYqz8fYCe78V9kA5i
+         fXYg==
+X-Gm-Message-State: AOAM533MNYbbkNVtajxqhu8dYPmikmGDupMX+r+LBUd67DAqx8DXLVrs
+	QEv7Ye+0v+rM1LhouHft/LacBHYzSmkGWA==
+X-Google-Smtp-Source: ABdhPJxXe3s1sE97B4MTFGKWpavMWXDGCh5RhNZLViEDFMgopPaNQ36dkZ+sjsq/DkxQwbEYtAT5Gw==
+X-Received: by 2002:ad4:47ad:: with SMTP id a13mr7899676qvz.61.1631830773060;
+        Thu, 16 Sep 2021 15:19:33 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a650:b700:b85d:4277:577e:3e0a])
+        by smtp.gmail.com with ESMTPSA id q192sm3476006qka.93.2021.09.16.15.19.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 15:19:32 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] tcf-agent: Move to the latest master version
-Date: Thu, 16 Sep 2021 12:50:43 -0500
-Message-Id: <20210916175043.78499-1-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] core-image-sato: Fix runqemu error for qemuarmv5
+Date: Thu, 16 Sep 2021 18:19:32 -0400
+Message-Id: <20210916221932.18084-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-There has not been a release since 2018, the 1.7.0 release.  A number of
-recent improvements around thumb and clang debugging prompted this move
-to a newer version.
+When attempting to execute runqemu on qemuarmv5, the following error is
+encountered:
 
-The patch is no longer necessary as it was a backport patch.
+runqemu - ERROR - Failed to run qemu: qemu-system-arm: versatilepb: memory size must not exceed 256MB
 
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+To work around this, limit the QB_MEM size for qemuarmv5, similar to
+what is being done for qemumips.
+
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
 ---
- .../0001-Fixed-copyright-messages.patch       | 56 -------------------
- .../tcf-agent/tcf-agent_git.bb                |  3 +-
- 2 files changed, 1 insertion(+), 58 deletions(-)
- delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
+ meta/recipes-sato/images/core-image-sato.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
-deleted file mode 100644
-index ed73808e990..00000000000
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From 20ac1f939a8a97b03abec55d865050fdaa0f343a Mon Sep 17 00:00:00 2001
--From: Eugene Tarassov <eugenet@xilinx.com>
--Date: Tue, 8 Jan 2019 21:56:16 -0800
--Subject: [oe-core][PATCH 1/1] Fixed copyright messages
--
--Upstream-Status: Backport [https://git.eclipse.org/c/tcf/org.eclipse.tcf.agent.git/commit/?id=20ac1f939a8a97b03abec55d865050fdaa0f343a]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-----
-- agent/tcf/framework/channel_lws.c      |  2 +-
-- agent/tcf/framework/cpudefs-mdep-mux.h | 19 +++++++++++++------
-- 2 files changed, 14 insertions(+), 7 deletions(-)
--
--diff --git a/agent/tcf/framework/channel_lws.c b/agent/tcf/framework/channel_lws.c
--index 0cb9585..d9352f3 100644
----- a/tcf/framework/channel_lws.c
--+++ b/tcf/framework/channel_lws.c
--@@ -1,5 +1,5 @@
-- /*******************************************************************************
--- * Copyright (c) 2016-2017 Wind River Systems, Inc.
--+ * Copyright (c) 2016-2018 Wind River Systems, Inc. and others.
--  * All rights reserved. This program and the accompanying materials
--  * are made available under the terms of the Eclipse Public License v1.0
--  * and Eclipse Distribution License v1.0 which accompany this distribution.
--diff --git a/agent/tcf/framework/cpudefs-mdep-mux.h b/agent/tcf/framework/cpudefs-mdep-mux.h
--index c9e0db7..0397a6a 100644
----- a/tcf/framework/cpudefs-mdep-mux.h
--+++ b/tcf/framework/cpudefs-mdep-mux.h
--@@ -1,10 +1,17 @@
---/*
--- * Copyright (c) 2013 Wind River Systems, Inc.
--+/*******************************************************************************
--+ * Copyright (c) 2013 Wind River Systems, Inc. and others.
--+ * All rights reserved. This program and the accompanying materials
--+ * are made available under the terms of the Eclipse Public License v1.0
--+ * and Eclipse Distribution License v1.0 which accompany this distribution.
--+ * The Eclipse Public License is available at
--+ * http://www.eclipse.org/legal/epl-v10.html
--+ * and the Eclipse Distribution License is available at
--+ * http://www.eclipse.org/org/documents/edl-v10.php.
--+ * You may elect to redistribute this code under either of these licenses.
--  *
--- * The right to copy, distribute, modify or otherwise make use
--- * of this software may be licensed only pursuant to the terms
--- * of an applicable Wind River license agreement.
--- */
--+ * Contributors:
--+ *     Wind River Systems - initial API and implementation
--+ *******************************************************************************/
-- 
-- #include <tcf/config.h>
-- 
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 4ff309dd80d..e67eccc75ce 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
- LICENSE = "EPL-1.0 | EDL-1.0"
- LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
+index 35d06677379a..e63a229d1257 100644
+--- a/meta/recipes-sato/images/core-image-sato.bb
++++ b/meta/recipes-sato/images/core-image-sato.bb
+@@ -13,4 +13,5 @@ TOOLCHAIN_HOST_TASK:append = " nativesdk-intltool nativesdk-glib-2.0"
+ TOOLCHAIN_HOST_TASK:remove:task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
  
--SRCREV = "a022ef2f1acfd9209a1bf792dda14ae4b0d1b60f"
-+SRCREV = "2735e3d6b7eccb05ab232825c618c837d27a5010"
- PV = "1.7.0+git${SRCPV}"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
-@@ -15,7 +15,6 @@ SRC_URI = "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protocol=https
-            file://ldflags.patch \
-            file://tcf-agent.init \
-            file://tcf-agent.service \
--           file://0001-Fixed-copyright-messages.patch \
-           "
- 
- DEPENDS = "util-linux openssl"
+ QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
++QB_MEM:qemuarmv5 = "-m 256"
+ QB_MEM:qemumips = "-m 256"
 -- 
-2.17.1
+2.20.1
 
