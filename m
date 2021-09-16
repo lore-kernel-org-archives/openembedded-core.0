@@ -1,153 +1,218 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.34.1631802773956281137
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web09.407.1631804410420511609
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 07:32:54 -0700
+ Thu, 16 Sep 2021 08:00:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=btu/WUct;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CqNs+hM6;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id s32so5746769qtc.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 08:00:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1631802774;
-  x=1663338774;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=fPWq3iXT47YylMqqVRi5Vof7gs86ngbwS3zcGZ7sWfE=;
-  b=btu/WUct0OISxZRBGW9H2rCouFUWe9+RgcOzlscIns0spicvZbpKUWqb
-   NDLkv3WZwqowL3B5PQEfufg0SbXSRQk6p3Viko4SrDLW+jBsD2uLwpyen
-   Pnk0OLfA2e6ZOGf4NArz6bTpXVLDxMex21+WeN4t3IqrsRBuJI0pjybYN
-   /uKumGYjsYoriiZbFSLyMGaWHTZtY4RNs0hf6AlwPAEPD9PCXvBf1XjfU
-   SS4dyPqFSHxEjIMGNMAzzgvGMY1BBNmiYY5mfKe2f8GuSogO6jBmPSiTX
-   AxlJsFNRixnMpZMpiMqLSkOIwbBEKJr+7wn69uLjJiwS2UHYYifTgHGPa
-   Q==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: Ross Burton <ross@burtonini.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
-Thread-Topic: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg:
- update LICENSE)
-Thread-Index: AdeqgLETQ24k3FiXQQufzi72EGQEcf//6biA//83L/CAAb2EAP//215A
-Date: Thu, 16 Sep 2021 14:32:51 +0000
-Message-ID: <ee4e816f88884724b659d99689f31a16@axis.com>
-References: <8bbba4f2242345528f8439794a20058b@axis.com>
- <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
- <145eb216f49f4a15a2fbf7ef8ce974ed@axis.com>
- <CAMKF1so3hAEo2xuNEasNFbJ1KA+6WNQBb+H7UhQZS+Xx0Tp_zA@mail.gmail.com>
-In-Reply-To: <CAMKF1so3hAEo2xuNEasNFbJ1KA+6WNQBb+H7UhQZS+Xx0Tp_zA@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kcj6pE6ter9Q4aMquBpQyb0UY2ZUIMh/lBr5kG2Tc3Y=;
+        b=CqNs+hM6XIkUxAdILGG8Xps8buJ3be56EyL6OPEt+i1AomF14LIRDrLuBLhNjmv2W9
+         Tq3vnYBSxRJrnwGRFsjm7sN/wGNDlo8Mr3oShhH7W63T1RyFsKKEgpuY2H38+BYZjbtI
+         kbkWIAtM7563d+mtvfhikKPOrkuF5sy2HF9p0qCo8vPmuZzLNr9hSNKAofUlLHkXi43q
+         x55I1iqK7QVo6knzcu6EeJIBAnx32G91ddenwL9sjZ+J0lSe25kwM3GCynupj7NULFWt
+         MpJujbspSXKM1I2LmGZ3x3qNkT4RqoNsptxfBbumdMm000YHY6OPNKS/hB1icGSCgEQM
+         8Ffg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kcj6pE6ter9Q4aMquBpQyb0UY2ZUIMh/lBr5kG2Tc3Y=;
+        b=8EGw+dm4BeVfxS9dW6fb6ZrqSuhMrUXvYSPLPjhnTGJ0/SlEN6bTVPMw4Ojmpzs1Q6
+         t3KUk+p2KaeD94JPd3Ep2Yw8Bk2rOJarQvvZwWy6ayZQ56JA0ZZG1Z5Pyit//QU6lsq+
+         ncYBZTmR5Tnc7VR3qXPvAxIGn/hPXAm7Wo0Yg5V5U7Kx0+At0ukgUPeGpvU1j3goCroo
+         BJ/5X9cjP89o8B7Z9tzHk4F8XLf1EWdUBRXseCiHejQUhT+LAjuTLn40XumVmRITlnaE
+         YtJ34fVwociKMg41ITMJbDDAneYfvtNnzRgEcQcCAUFSLcXQzRt2UCi+D98TFwATd+pf
+         XeeQ==
+X-Gm-Message-State: AOAM532yv54eAR6q2PSNOhiyUV3vYckN7HqmJRIYp4KtZZTR7+87SzGE
+	2zoO5SkGQgqmAS8WPH8M/SjXx1G4dL4MRdGVvCc=
+X-Google-Smtp-Source: ABdhPJy5T5qOy8WVhtgb3UI0fwRgmGK0pGaSlXoBtielDBbf7C4gSQZDIr5dFGnjohMxBOksPZ1XA3upVvQHPjKjsQo=
+X-Received: by 2002:ac8:78c:: with SMTP id l12mr5599888qth.112.1631804409410;
+ Thu, 16 Sep 2021 08:00:09 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <8bbba4f2242345528f8439794a20058b@axis.com> <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
+ <145eb216f49f4a15a2fbf7ef8ce974ed@axis.com> <CAMKF1so3hAEo2xuNEasNFbJ1KA+6WNQBb+H7UhQZS+Xx0Tp_zA@mail.gmail.com>
+ <ee4e816f88884724b659d99689f31a16@axis.com>
+In-Reply-To: <ee4e816f88884724b659d99689f31a16@axis.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 16 Sep 2021 07:59:43 -0700
+Message-ID: <CAMKF1sryt7C8kGUGiwHtM+-k-ZdCmqCr6hFy3QKO+DocQWRz9A@mail.gmail.com>
+Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Ross Burton <ross@burtonini.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMTYgc2VwdGVtYmVyIDIwMjEgMTU6NDINCj4gVG86IFBl
-dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogUm9z
-cyBCdXJ0b24gPHJvc3NAYnVydG9uaW5pLmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gTWlzc2luZyBFeHBh
-dCBsaWNlbnNlICh3YXM6IFtQQVRDSCAxMi8xNF0gZmZtcGVnOg0KPiB1cGRhdGUgTElDRU5TRSkN
-Cj4gDQo+IE9uIFRodSwgU2VwIDE2LCAyMDIxIGF0IDI6MTUgQU0gUGV0ZXIgS2plbGxlcnN0ZWR0
-DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gPiAtLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdt
-YWlsLmNvbT4NCj4gPiA+IFNlbnQ6IGRlbiAxNiBzZXB0ZW1iZXIgMjAyMSAwMTowNg0KPiA+ID4g
-VG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+
-ID4gQ2M6IFJvc3MgQnVydG9uIDxyb3NzQGJ1cnRvbmluaS5jb20+OyBvcGVuZW1iZWRkZWQtDQo+
-ID4gPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gTWlzc2luZyBFeHBhdCBsaWNlbnNlICh3YXM6IFtQQVRDSCAxMi8xNF0NCj4gZmZtcGVn
-Og0KPiA+ID4gdXBkYXRlIExJQ0VOU0UpDQo+ID4gPg0KPiA+ID4gT24gV2VkLCBTZXAgMTUsIDIw
-MjEgYXQgMzoyNiBQTSBQZXRlciBLamVsbGVyc3RlZHQNCj4gPiA+IDxwZXRlci5ramVsbGVyc3Rl
-ZHRAYXhpcy5jb20+IHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiA+IC0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQo+ID4gPiA+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+ID4gPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZz4gT24gQmVoYWxmIE9mIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA+ID4gPiA+IFNlbnQ6
-IGRlbiA5IHNlcHRlbWJlciAyMDIxIDIxOjU0DQo+ID4gPiA+ID4gVG86IFJvc3MgQnVydG9uIDxy
-b3NzQGJ1cnRvbmluaS5jb20+OyBvcGVuZW1iZWRkZWQtDQo+ID4gPiA+ID4gY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+ID4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0gg
-MTIvMTRdIGZmbXBlZzogdXBkYXRlIExJQ0VOU0UNCj4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+ID4gPiA+IEZyb206IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC0NCj4gPiA+ID4gPiA+IGNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJvc3MgQnVydG9uDQo+ID4g
-PiA+ID4gPiBTZW50OiBkZW4gMyBzZXB0ZW1iZXIgMjAyMSAxNToyNQ0KPiA+ID4gPiA+ID4gVG86
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4gPiA+IFN1
-YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0ggMTIvMTRdIGZmbXBlZzogdXBkYXRlIExJQ0VOU0UNCj4g
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAiQlNEIiBpcyBhbWJpZ3VvdXMsIGZmbXBlZyBjb21wcmlz
-ZXMgb2Ygc2V2ZXJhbCBsaWNlbnNlcyB3aGljaA0KPiBhcmUNCj4gPiA+ID4gPiA+IEJTRC1saWtl
-Lg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxy
-b3NzLmJ1cnRvbkBhcm0uY29tPg0KPiA+ID4gPiA+ID4gLS0tDQo+ID4gPiA+ID4gPiAgbWV0YS9y
-ZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmIgfCAyICstDQo+ID4gPiA+ID4g
-PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gPiA+
-ID4gPg0KPiA+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2Zm
-bXBlZy9mZm1wZWdfNC40LmJiDQo+ID4gPiA+ID4gYi9tZXRhL3JlY2lwZXMtDQo+ID4gPiA+ID4g
-PiBtdWx0aW1lZGlhL2ZmbXBlZy9mZm1wZWdfNC40LmJiDQo+ID4gPiA+ID4gPiBpbmRleCBlMTkw
-Nzc1NDFlYy4uZjgyMmJhOWFiNzggMTAwNjQ0DQo+ID4gPiA+ID4gPiAtLS0gYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9mZm1wZWcvZmZtcGVnXzQuNC5iYg0KPiA+ID4gPiA+ID4gKysrIGIvbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4gPiA+ID4gPiA+IEBA
-IC01LDcgKzUsNyBAQCBERVNDUklQVElPTiA9ICJGRm1wZWcgaXMgdGhlIGxlYWRpbmcgbXVsdGlt
-ZWRpYQ0KPiA+ID4gZnJhbWV3b3JrLA0KPiA+ID4gPiA+ID4gYWJsZSB0byBkZWNvZGUsIGVuY29k
-DQo+ID4gPiA+ID4gPiAgSE9NRVBBR0UgPSAiaHR0cHM6Ly93d3cuZmZtcGVnLm9yZy8iDQo+ID4g
-PiA+ID4gPiAgU0VDVElPTiA9ICJsaWJzIg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC1MSUNF
-TlNFID0gIkJTRCAmIEdQTHYyKyAmIExHUEx2Mi4xKyAmIE1JVCINCj4gPiA+ID4gPiA+ICtMSUNF
-TlNFID0gIkdQTHYyKyAmIExHUEx2Mi4xKyAmIElTQyAmIEV4cGF0ICYgQlNELTItQ2xhdXNlICYN
-Cj4gQlNELTMtDQo+ID4gPiBDbGF1c2UgJiBJSkciDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBUaGVy
-ZSBpcyBubyAiRXhwYXQiIGxpY2Vuc2UgaW4gbmVpdGhlciBtZXRhL2ZpbGVzL2NvbW1vbi1saWNl
-bnNlcw0KPiBub3INCj4gPiA+ID4gPiBpbiBtZXRhL2NvbmYvbGljZW5zZXMuY29uZi4NCj4gPiA+
-ID4NCj4gPiA+DQo+ID4gPiBQZXJoYXBzIGFkZGluZyBpdCBtaWdodCBiZSBvbmUgd2F5IHNlZQ0K
-PiA+ID4gaHR0cHM6Ly9kaXJlY3RvcnkuZnNmLm9yZy93aWtpL0xpY2Vuc2U6RXhwYXQNCj4gPiA+
-IFNQRFggc2VlbXMgdG8gbm90IGhhdmUgc3BlY2lmaWMgZW50cnkgZm9yIGl0IGFzIGl0IHBvaW50
-cyB0byBNSVQgdGhlcmUNCj4gPg0KPiA+IElmICJ0aGUgZXhwYXQgbGljZW5zZSIgaXMgaW4gZmFj
-dCBNSVQgKGhhcmQgdG8gdGVsbCBhcyB0aGVyZSBpcyBubw0KPiBsaWNlbnNlDQo+ID4gdGV4dCBp
-biB0aGUgZmZtcGVnIHNvdXJjZXMpLCBJIGRvIG5vdCBzZWUgd2h5IHdlIHdvdWxkIG5lZWQgYSBz
-cGVjaWFsDQo+IGxpY2Vuc2UNCj4gPiBmb3IgaXQuIEFsbCBvdGhlciByZWNpcGVzIHVzZSAiTUlU
-IiB3aXRob3V0IGNyZWF0aW5nIGEgc3BlY2lmaWMgbGljZW5zZQ0KPiBmaWxlLg0KPiA+IFRoaXMg
-aW5jbHVkZXMgdGhlIGV4cGF0IHJlY2lwZSBpdHNlbGYsIHdoaWNoIHVzZSAiTUlUIiBhcyBsaWNl
-bnNlLg0KPiA+DQo+IA0KPiB0aGlzIGhlcmUgaXMgYSBpbnRlcmVzdGluZyB0YWtlIG9uIGl0DQo+
-IGh0dHBzOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvbGljZW5zZS1saXN0Lmh0bWwjRXhwYXQNCj4g
-c28gaXQgcmVhbGx5IGlzIG5vdCBNSVQgYXMgcGVyIGFib3ZlDQoNCldlbGwsIHRoYXQgcGFnZSBk
-b2VzIG5vdCBzZWVtIHRvIGFja25vd2xlZGdlIHRoZSB0ZXJtICJ0aGUgTUlUIA0KbGljZW5zZSIs
-IHdoaWNoIHRoZSByZXN0IG9mIHVzIG9idmlvdXNseSBkby4uLiBTbyB3aGlsZSB0aGV5IA0KbWF5
-IGNhbGwgaXQgdGhlIEV4cGF0IGxpY2Vuc2UsIHRoZSBhY3R1YWwgbGljZW5zZSB0ZXh0IGF0IA0K
-aHR0cHM6Ly9kaXJlY3RvcnkuZnNmLm9yZy93aWtpL0xpY2Vuc2U6RXhwYXQgaXMgc3RpbGwgeWUg
-Z29vZGUgDQpvbGRlIE1JVCB0ZXh0Lg0KDQo+ID4gPiBJIHRoaW5rIHB0ZXN0IHBhY2thZ2Ugd2ls
-bCBjb250YWluIHZzeW50aDIueXV2IHdoaWNoIGlzIGJ1aWx0IHVzaW5nDQo+ID4gPiByZWZlcmVu
-Y2UucG5tIHNvIHRlY2huaWNhbGx5DQo+ID4gPiB3ZSBuZWVkIHRvIHVzZSBFeHBhdCBmb3IgcHRl
-c3QgcGFja2FnZS4NCj4gPg0KPiA+IGZmbXBlZyBkb2VzIG5vdCBwcm9kdWNlIGFueSBwdGVzdCBw
-YWNrYWdlIEFGQUlDVC4NCj4gDQo+IFdlIHdpbGwgc3RpbGwgaGF2ZSBpdC4gaXQgaW4gLXNyYyBw
-YWNrYWdlcywgaWYgaXRzIG5vdCB1c2VkIHRoZW4NCj4gcGVyaGFwcyBqdXN0IGRlbGV0ZSB0aGlz
-IGZpbGUuDQoNCkl0IGRvZXMgbm90IGVuZCB1cCBpbiBmZm1wZWctc3JjIChzaW5jZSBpdCBpcyBh
-IHBpY3R1cmUgSSBwcmVzdW1lIGFuZCANCm5vdCBhIHNvdXJjZSBmaWxlKSBub3IgYW55d2hlcmUg
-ZWxzZSAoSSBoYXZlIHNlYXJjaGVkIHRocm91Z2ggdGhlIA0KcGFja2FnZXMtc3BsaXQgZGlyZWN0
-b3J5IGFmdGVyIGJ1aWxkaW5nIGZmbXBlZyB3aXRoIHRoZSAicG9reSIgZGlzdHJvLCANCndoaWNo
-LCBlLmcuLCBlbmFibGVzIHB0ZXN0IGJ5IGRlZmF1bHQpLg0KDQovL1BldGVyDQoNCj4gPiAvL1Bl
-dGVyDQo+ID4NCj4gPiA+ID4gUm9zcywgc2luY2UgeW91IGFkZGVkIHRoZSByZWZlcmVuY2UgdG8g
-dGhlIEV4cGF0IGxpY2Vuc2UsIGRpZCB5b3UNCj4gcGxhbg0KPiA+ID4gb24NCj4gPiA+ID4gYWN0
-dWFsbHkgYWRkaW5nIGl0IGFzIHdlbGw/IEl0IGJlaW5nIG1pc3NpbmcgYnJlYWtzIGF0IGxlYXN0
-IG91cg0KPiBsaWNlbnNlDQo+ID4gPiA+IGhhbmRsaW5nLiBBZnRlciB3cml0aW5nIHRoaXMsIEkg
-d2VudCBkaWdnaW5nIGluIGZmbXBlZywgYW5kIGl0IHNlZW1zDQo+ID4gPiB0aGF0IHRoZQ0KPiA+
-ID4gPiBFeHBhdCBsaWNlbnNlIChvbmx5IG1lbnRpb25lZCBieSBuYW1lLCB0aGVyZSBpcyBubyBh
-Y3R1YWwgbGljZW5zZQ0KPiB0ZXh0KQ0KPiA+ID4gaXMNCj4gPiA+ID4gb25seSB1c2VkIGZvciBh
-IHRlc3QgaW1hZ2UgKHJlZmVyZW5jZS5wbm0pLCB3aGljaCBkb2VzIG5vdCBlbmQgdXAgaW4NCj4g
-YW55DQo+ID4gPiA+IHBhY2thZ2UuIFNvIHRvIG1lIGl0IHNlZW1zIGFzIHRoaXMgZG9lcyBub3Qg
-bmVlZCB0byBiZSBpbmNsdWRlZCBpbg0KPiA+ID4gTElDRU5TRS4NCj4gPiA+ID4NCj4gPiA+ID4g
-QWxzbywgZ2l2ZW4gdGhlIGxvbmcgbGlzdCBvZiBsaWNlbnNlcyB0aGF0IGFyZSBub3cgaW4gTElD
-RU5TRSwgd2hhdA0KPiA+ID4gcGFja2FnZXMNCj4gPiA+ID4gYXJlIGFjdHVhbGx5IGV4cGVjdGVk
-IHRvIHVzZSB0aG9zZSBsaWNlbnNlcz8gQUZBSUNULCBhbGwgcGFja2FnZXMNCj4gdGhhdA0KPiA+
-ID4gYXJlDQo+ID4gPiA+IGV4cGxpY2l0bHkgbGlzdGVkIGluIHRoZSByZWNpcGUgZWl0aGVyIHVz
-ZSBHUEx2Misgb3IgTEdQTHYyLjErLiBUaGUNCj4gPiA+IGRlZmF1bHQNCj4gPiA+ID4gbGljZW5z
-ZXMgb25seSBzZWVtIHRvIGJlIHVzZWQgZm9yLCBlLmcuLCBmZm1wZWctZGV2LCBmZm1wZWctZGJn
-IGFuZA0KPiA+ID4gPiBmZm1wZWctZG9jLCB3aGljaCBzZWVtcyB3ZWlyZC4NCj4gPiA+ID4NCj4g
-PiA+ID4gTW9yZSB3ZWlyZG5lc3MsIExJQ19GSUxFU19DSEtTVU0gbGlzdHMgR1BMdjIsIEdQTHYz
-LCBMR1BMdjIgYW5kDQo+IExHUEx2MywNCj4gPiA+IGJ1dA0KPiA+ID4gPiBuZWl0aGVyIEdQTHYz
-IG5vciBMR1BMdjMgYXJlIHVzZWQgaW4gTElDRU5TRS4gQW5kIHRoZXJlIGFyZSBubw0KPiA+ID4g
-cmVmZXJlbmNlcyBmb3INCj4gPiA+ID4gYW55IG9mIHRoZSBuZXdseSBhZGRlZCBsaWNlbnNlcy4N
-Cj4gPiA+ID4NCj4gPiA+ID4gPiA+ICBMSUNFTlNFOiR7UE59ID0gIkdQTHYyKyINCj4gPiA+ID4g
-PiA+ICBMSUNFTlNFOmxpYmF2Y29kZWMgPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VD
-T05GSUcnLA0KPiAnZ3BsJywNCj4gPiA+ICdHUEx2MisnLCAnTEdQTHYyLjErJywgZCl9Ig0KPiA+
-ID4gPiA+ID4gIExJQ0VOU0U6bGliYXZkZXZpY2UgPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BB
-Q0tBR0VDT05GSUcnLA0KPiAnZ3BsJywNCj4gPiA+ICdHUEx2MisnLCAnTEdQTHYyLjErJywgZCl9
-Ig0KPiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+IDIuMjUuMQ0KPiA+ID4gPiA+DQo+ID4gPiA+
-ID4gLy9QZXRlcg0KPiA+ID4gPg0KPiA+ID4gPiAvL1BldGVyDQo+ID4gPiA+DQo+ID4gPiA+DQo+
-ID4gPiA+IA0KPiA+ID4gPg0K
+On Thu, Sep 16, 2021 at 7:32 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: den 16 september 2021 15:42
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > Cc: Ross Burton <ross@burtonini.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg:
+> > update LICENSE)
+> >
+> > On Thu, Sep 16, 2021 at 2:15 AM Peter Kjellerstedt
+> > <peter.kjellerstedt@axis.com> wrote:
+> > >
+> > > > -----Original Message-----
+> > > > From: Khem Raj <raj.khem@gmail.com>
+> > > > Sent: den 16 september 2021 01:06
+> > > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > > Cc: Ross Burton <ross@burtonini.com>; openembedded-
+> > > > core@lists.openembedded.org
+> > > > Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14]
+> > ffmpeg:
+> > > > update LICENSE)
+> > > >
+> > > > On Wed, Sep 15, 2021 at 3:26 PM Peter Kjellerstedt
+> > > > <peter.kjellerstedt@axis.com> wrote:
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > > > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > > > > > Sent: den 9 september 2021 21:54
+> > > > > > To: Ross Burton <ross@burtonini.com>; openembedded-
+> > > > > > core@lists.openembedded.org
+> > > > > > Subject: Re: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+> > > > > >
+> > > > > > > -----Original Message-----
+> > > > > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > > > > core@lists.openembedded.org> On Behalf Of Ross Burton
+> > > > > > > Sent: den 3 september 2021 15:25
+> > > > > > > To: openembedded-core@lists.openembedded.org
+> > > > > > > Subject: [OE-core] [PATCH 12/14] ffmpeg: update LICENSE
+> > > > > > >
+> > > > > > > "BSD" is ambiguous, ffmpeg comprises of several licenses which
+> > are
+> > > > > > > BSD-like.
+> > > > > > >
+> > > > > > > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > > > > > ---
+> > > > > > >  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 2 +-
+> > > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > > >
+> > > > > > > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > > b/meta/recipes-
+> > > > > > > multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > > > index e19077541ec..f822ba9ab78 100644
+> > > > > > > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > > > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+> > > > > > > @@ -5,7 +5,7 @@ DESCRIPTION = "FFmpeg is the leading multimedia
+> > > > framework,
+> > > > > > > able to decode, encod
+> > > > > > >  HOMEPAGE = "https://www.ffmpeg.org/"
+> > > > > > >  SECTION = "libs"
+> > > > > > >
+> > > > > > > -LICENSE = "BSD & GPLv2+ & LGPLv2.1+ & MIT"
+> > > > > > > +LICENSE = "GPLv2+ & LGPLv2.1+ & ISC & Expat & BSD-2-Clause &
+> > BSD-3-
+> > > > Clause & IJG"
+> > > > > >
+> > > > > > There is no "Expat" license in neither meta/files/common-licenses
+> > nor
+> > > > > > in meta/conf/licenses.conf.
+> > > > >
+> > > >
+> > > > Perhaps adding it might be one way see
+> > > > https://directory.fsf.org/wiki/License:Expat
+> > > > SPDX seems to not have specific entry for it as it points to MIT there
+> > >
+> > > If "the expat license" is in fact MIT (hard to tell as there is no
+> > license
+> > > text in the ffmpeg sources), I do not see why we would need a special
+> > license
+> > > for it. All other recipes use "MIT" without creating a specific license
+> > file.
+> > > This includes the expat recipe itself, which use "MIT" as license.
+> > >
+> >
+> > this here is a interesting take on it
+> > https://www.gnu.org/licenses/license-list.html#Expat
+> > so it really is not MIT as per above
+>
+> Well, that page does not seem to acknowledge the term "the MIT
+> license", which the rest of us obviously do... So while they
+> may call it the Expat license, the actual license text at
+> https://directory.fsf.org/wiki/License:Expat is still ye goode
+> olde MIT text.
+>
+> > > > I think ptest package will contain vsynth2.yuv which is built using
+> > > > reference.pnm so technically
+> > > > we need to use Expat for ptest package.
+> > >
+> > > ffmpeg does not produce any ptest package AFAICT.
+> >
+> > We will still have it. it in -src packages, if its not used then
+> > perhaps just delete this file.
+>
+> It does not end up in ffmpeg-src (since it is a picture I presume and
+> not a source file) nor anywhere else (I have searched through the
+> packages-split directory after building ffmpeg with the "poky" distro,
+> which, e.g., enables ptest by default).
+
+OK that should be fine then, I thought we bundled all sources +
+generated sources with -src pkgs
+
+>
+> //Peter
+>
+> > > //Peter
+> > >
+> > > > > Ross, since you added the reference to the Expat license, did you
+> > plan
+> > > > on
+> > > > > actually adding it as well? It being missing breaks at least our
+> > license
+> > > > > handling. After writing this, I went digging in ffmpeg, and it seems
+> > > > that the
+> > > > > Expat license (only mentioned by name, there is no actual license
+> > text)
+> > > > is
+> > > > > only used for a test image (reference.pnm), which does not end up in
+> > any
+> > > > > package. So to me it seems as this does not need to be included in
+> > > > LICENSE.
+> > > > >
+> > > > > Also, given the long list of licenses that are now in LICENSE, what
+> > > > packages
+> > > > > are actually expected to use those licenses? AFAICT, all packages
+> > that
+> > > > are
+> > > > > explicitly listed in the recipe either use GPLv2+ or LGPLv2.1+. The
+> > > > default
+> > > > > licenses only seem to be used for, e.g., ffmpeg-dev, ffmpeg-dbg and
+> > > > > ffmpeg-doc, which seems weird.
+> > > > >
+> > > > > More weirdness, LIC_FILES_CHKSUM lists GPLv2, GPLv3, LGPLv2 and
+> > LGPLv3,
+> > > > but
+> > > > > neither GPLv3 nor LGPLv3 are used in LICENSE. And there are no
+> > > > references for
+> > > > > any of the newly added licenses.
+> > > > >
+> > > > > > >  LICENSE:${PN} = "GPLv2+"
+> > > > > > >  LICENSE:libavcodec = "${@bb.utils.contains('PACKAGECONFIG',
+> > 'gpl',
+> > > > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > > > > > >  LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG',
+> > 'gpl',
+> > > > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > > > > > > --
+> > > > > > > 2.25.1
+> > > > > >
+> > > > > > //Peter
+> > > > >
+> > > > > //Peter
+> > > > >
+> > > > >
+> > > > > 
+> > > > >
