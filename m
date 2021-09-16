@@ -1,104 +1,71 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web09.4743.1631830808018426865
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.5025.1631832012287347312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 15:20:08 -0700
+ Thu, 16 Sep 2021 15:40:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=uUZhO84U;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.182, mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f182.google.com with SMTP id s15so7033949qta.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 15:20:07 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=LWGANv50;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.175, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f175.google.com with SMTP id p4so11455549qki.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 15:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0arGjVXa+1Nmsj6NqN83ztUIzVt3f1PrkMUTDM0bq+Y=;
-        b=uUZhO84UvANW7VYf/BxpnUVapKb07QbV9UPbJT+mBxMTg6XJfesg7Dv2glZBEysEcG
-         xBdL8lmqnwrWLGiWG2yA9DEQyL9H/Wv1duxZQ5EwciEA2pyyw7DbbMM9Hdm9568vIKJC
-         jWiEPzO+wuqBGDqApsIP5feqGtMEYs7RQF4L+05BliPY1RdnLedPmf7PfFWTRh+FtKuU
-         f3U32nmQYqEsLCqKPJfyHrw6vE6MMFhYyhMG1en6pbFSyVVitvdDHuawnRef9Bf8nGHA
-         5MrYFOHpZ0uzVT5kDkvy8n7wvpzS0wCNfcDYihFEd/V37WSI5uN4cmk7wP6/Q44bMvzu
-         0Seg==
+        bh=SHTbfuUwM5QMMsh05mNYdN8rdNqoR5KQrdU7qKm094o=;
+        b=LWGANv50cQJXwZIlAUae7Ra6lBhoN6cLm8tFxu2imItLOMv7du5b1HlOnH/V54MDNt
+         qQWN+cFS1NlWRZxJQTNoe6GY7Puh8m8j1JXY2iGUaehyHjApmmrnoVnrRP6UoxR6NYX3
+         pWblZizDH3a+R2oBQRkWm67Uy7+bLkz/pgBXDkfreQVyDj+EeA2TTF6Q0RyjHrsUiM/N
+         niVKyHdbW9SCvqhT3wbJmdo46S9uXupGyQOscYOhY1yNeZHdexZ7Ff22qcdZfT8HKSXa
+         oMJRdhX49PtzBN9OsQ1jQ5tT+wlkRQY1TVVyxbSZdyvChcVJTurkAZf8ukM+94eIaiFA
+         GbiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0arGjVXa+1Nmsj6NqN83ztUIzVt3f1PrkMUTDM0bq+Y=;
-        b=BYwoUSACTGgwkVdionagOUls0qp0iOjihDnN//U8ig9sXg6scC/i1pty39WUAJ4T3A
-         jI/usr4qwfL3aUsj7094keHHMQ1TS/j66CpdujHpZxi4q+ybinFi6qBMefFP1KCsh+VZ
-         eEFlwjG1lMJTbaVh3hd1uQv18gV63n/3nNRryzTUgdoqyc8SogsQ3AHeauOJ/1PJlda1
-         PTVyFQDtkWXzv/VRUUduQ3PcF/+RIk6v1844vRgTGU3E66nnWBNC0ips+2jA5ZHP/sHh
-         DlHcp1u5G/NTW8BsaYtitN+HVSKXiQRXeUNpj2PfsPJ/SOVnFr24LoMLT7yg65RaPLJJ
-         uIGA==
-X-Gm-Message-State: AOAM532OeuHl8m7f8wS6hrCVnC1QpB1lZWs7tIY1sWRUmQBOwZRKy/bS
-	kBgbWkNy4sGi13XkZqQ1XQz0JB3wvogrHw==
-X-Google-Smtp-Source: ABdhPJyA7mcU0BnrCSMIM15VfS0VAdRIuUiVwyVwRqKsge5ZsgrS7x5VPcWC9yNshDR7/SaHgNQFAw==
-X-Received: by 2002:ac8:7f45:: with SMTP id g5mr7140001qtk.93.1631830807015;
-        Thu, 16 Sep 2021 15:20:07 -0700 (PDT)
+        bh=SHTbfuUwM5QMMsh05mNYdN8rdNqoR5KQrdU7qKm094o=;
+        b=IQvFQIyepGbq9Az9rlrzZeIs+9Xm9sqz/Uk4LAA0UPdbD6o/Q7pG9OKzQsXuMywtgZ
+         HEtEGd229TT7OAbv95WJrQF7gzjtfRTwGUEATVgVT8JdylGyrkJ3RLmy91sMrfLQDdyo
+         djKxCLNw3+1je4NBqFWTVRoTUrQ5Z1pG8tINClb+DBAyKooIGSKbLpERYPdHBPLITr1T
+         qwmQL7ZWi8ETb+Dol5/K6usM+C//1bx4TMT9gx2s5tEwZh8TqoTjo8MZUI1/cgNRF1s1
+         KorGzAiL3CDtGt0eVcbXNFp3Ztw7g8QwIWvJccV+MyfjFe5GUahW3UfC7hLw5mBmDeZb
+         LgRA==
+X-Gm-Message-State: AOAM531R3NGuEyz9Zh80goqOCIiZ+l7gMLrhlY/HuYs57GBUIo+SD+gg
+	oCUaZOeZr6Qdz1FwhHPt/wbS7Todapdwuw==
+X-Google-Smtp-Source: ABdhPJx4HziIb6mIqtRWnw89NKM0i/Jvj7vYA4r7SvyIfad7GlVA+AzIrJN/HCAuecWzzrvXYV97Qg==
+X-Received: by 2002:a05:620a:199d:: with SMTP id bm29mr7360736qkb.14.1631832011304;
+        Thu, 16 Sep 2021 15:40:11 -0700 (PDT)
 Return-Path: <jdmason@kudzu.us>
 Received: from localhost ([2605:a601:a650:b700:b85d:4277:577e:3e0a])
-        by smtp.gmail.com with ESMTPSA id bl36sm3114668qkb.37.2021.09.16.15.20.06
+        by smtp.gmail.com with ESMTPSA id v24sm2205669qtc.96.2021.09.16.15.40.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 15:20:06 -0700 (PDT)
+        Thu, 16 Sep 2021 15:40:11 -0700 (PDT)
 From: "Jon Mason" <jdmason@kudzu.us>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] machine/qemuarm*: use virtio graphics
-Date: Thu, 16 Sep 2021 18:20:06 -0400
-Message-Id: <20210916222006.18189-1-jdmason@kudzu.us>
+Subject: [PATCH 1/3] dev-manual: update mailing list address
+Date: Thu, 16 Sep 2021 18:40:08 -0400
+Message-Id: <20210916224010.21213-1-jdmason@kudzu.us>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switch to using virtio graphics for the Arm QEMU machines.  You will
-noticed the difference in the dmesg by seeing:
-[    2.693337] [drm] pci: virtio-gpu-pci detected at 0000:00:10.0
-
 Signed-off-by: Jon Mason <jdmason@kudzu.us>
 ---
- meta/conf/machine/qemuarm.conf   | 2 +-
- meta/conf/machine/qemuarm64.conf | 2 +-
- meta/conf/machine/qemuarmv5.conf | 3 ++-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ documentation/dev-manual/common-tasks.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 93d855b6e1e2..d71a793edf05 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -20,7 +20,7 @@ QB_SMP = "-smp 4"
- # Standard Serial console
- QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
- # For graphics to work we need to define the VGA device as well as the necessary USB devices
--QB_GRAPHICS = "-device VGA,edid=on"
-+QB_GRAPHICS = "-device virtio-gpu-pci"
- QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
- # Virtio Networking support
- QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index ea7fae2722a0..3b08dedddc86 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -19,7 +19,7 @@ QB_CPU = "-cpu cortex-a57"
- QB_SMP = "-smp 4"
- QB_CPU_KVM = "-cpu host -machine gic-version=3"
- # For graphics to work we need to define the VGA device as well as the necessary USB devices
--QB_GRAPHICS = "-device VGA,edid=on"
-+QB_GRAPHICS = "-device virtio-gpu-pci"
- QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
- # Virtio Networking support
- QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
-diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
-index 6c99a5296589..252d6286d8ec 100644
---- a/meta/conf/machine/qemuarmv5.conf
-+++ b/meta/conf/machine/qemuarmv5.conf
-@@ -13,7 +13,8 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
- QB_SYSTEM_NAME = "qemu-system-arm"
- QB_MACHINE = "-machine versatilepb"
- QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
--QB_OPT_APPEND = "-usb -device usb-tablet"
-+QB_GRAPHICS = "-device virtio-gpu-pci"
-+QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
- PREFERRED_VERSION_linux-yocto ??= "5.13%"
- QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+diff --git a/documentation/dev-manual/common-tasks.rst b/documentation/dev-manual/common-tasks.rst
+index 7c13eb96004f..96b9fcc40234 100644
+--- a/documentation/dev-manual/common-tasks.rst
++++ b/documentation/dev-manual/common-tasks.rst
+@@ -10480,7 +10480,7 @@ been followed:
+    and email address. In this example, the email address is a mailing
+    list::
+ 
+-      $ poky/scripts/send-pull-request -p ~/meta-intel/pull-10565 -t meta-intel@yoctoproject.org
++      $ poky/scripts/send-pull-request -p ~/meta-intel/pull-10565 -t meta-intel@lists.yoctoproject.org
+ 
+    You need to follow the prompts as the script is interactive.
  
 -- 
 2.20.1
