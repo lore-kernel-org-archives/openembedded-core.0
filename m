@@ -1,92 +1,121 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web08.8198.1631780914545425718
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.8699.1631783767193464309
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 01:28:34 -0700
+ Thu, 16 Sep 2021 02:16:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bOg2sUoW;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: pgowda.cve@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id c28so5322608vsh.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 01:28:34 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=e73QVBqd;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KmDX9xPa37pGh1LyQOe6A06zPS6RZxCw7mifuWZVBjQ=;
-        b=bOg2sUoWxVDjgMycc3sRMiU5bJqrk1IB3+h1q+INT2AEnsbreBa8igcGz3FQy6o6N/
-         bA7IEonafbyghw1m1SZwX8yY4MqWzvxs+quP+BE3NIm7fYmTg68omNelqAXuy/8JiKJD
-         8OYEytusK03xV73kj7sXmRdOBXDzFzEhqSV8AeDf5kplcWfPmT7EnblKRuFlN4upyHji
-         4Q7LL/pDLdnqGrZ8OSgqioSrmY6qfyyx+X+s2JzLZuOq/MD+ELUKOBd75lEV11Dt/lwl
-         yUL2JKpKCG0D/gZTML/reQ9o+WusXZq3OggyQcF15EpbN8T3pZTHX0Pws6mvSlQGG1JT
-         IVDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KmDX9xPa37pGh1LyQOe6A06zPS6RZxCw7mifuWZVBjQ=;
-        b=1NazEieXhu6qytcPBEr6CV0JsaX3VBI2sgwyHJpuFKAPlk1jYjIIjkjbQ9aN1Z23Ma
-         N8rCEnF0NQDO9kjOP1+t++afES/8XAWRauNXgYhyXSbiaoVO/FMgb6q9G6bBkRhH0h4m
-         tljXB/IdFYO0u7fQ3JkcISvUvP9PllQX8vU5g12+LQ/td9Qk8XjZEpmx1PwPBDUWjbBk
-         j0L0PRq0SHaTNBu7cwsVnh2zCiWlrwS3U6/J7MEjR4dDfrJo4NlAat5DTFmDzzT93IzK
-         Fk+2CT2mdiTjDT0+MLQ7AnMBtMhBY0PC72vcLKkYHFuXHEfQdw4PL+qipOCF94XUcWpn
-         Xj6Q==
-X-Gm-Message-State: AOAM533ga49j8UEuV7AG72PRv2+LbeGWI3TFOOp+fyeSSDaMCXTNIXOU
-	o7WpsqYw6oGHfJ6V+J0Xx9W5Z5XhR75CtMrVSjw=
-X-Google-Smtp-Source: ABdhPJzd+XOKOS2soHanDc5+taHiDrKQfQ0j41ethGseLuHlwWweGFYyb+43ITfxL0ithyijw9GaiEuVlF5jQ68xI3o=
-X-Received: by 2002:a05:6102:3099:: with SMTP id l25mr3011719vsb.49.1631780913692;
- Thu, 16 Sep 2021 01:28:33 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1631783767;
+  x=1663319767;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=YihqSZcsIj2zBAooeo0no70UY9rW65yUFhqXauZ0RLY=;
+  b=e73QVBqdUQqXXQP1PnNwMIY/Lp6usI/M4udlcDLTe/YJOL6eXDx1rf9R
+   TkeNPUwnJ6Iov1wMsljtq/+bIotybAZ3pnuJ02wJs7i0QtN/7Hv+aFWIl
+   AUz6iYZ+y6+EGDHQRq9s6Au9We3QeEy9qHQfTQuhJfY2k1t4SN8dh0IA3
+   jOaXphGPXdabH9duWhNw6kRiE/uMlpShjagFTIuE/K0vqqacKYJRafqv5
+   N0+12YUpT44kNZs8FVTF2JPmcjd9wc2GpRQQitER0A3KKgUXqYrPBAYVc
+   PwjQ5QxZPGBgPegZg1S+SLnkgfBBAi7cXnJTESkuWKoZtLYrF+48SpKZJ
+   A==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: Ross Burton <ross@burtonini.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
+Thread-Topic: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg:
+ update LICENSE)
+Thread-Index: AdeqgLETQ24k3FiXQQufzi72EGQEcf//6biA//83L/A=
+Date: Thu, 16 Sep 2021 09:15:54 +0000
+Message-ID: <145eb216f49f4a15a2fbf7ef8ce974ed@axis.com>
+References: <8bbba4f2242345528f8439794a20058b@axis.com>
+ <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
+In-Reply-To: <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20210915114618.157245-1-pgowda.cve@gmail.com> <16A53DBD300C0C8E.4388@lists.openembedded.org>
- <07fc5dc3d216f0fa6c081506aa92701508604bab.camel@linuxfoundation.org>
-In-Reply-To: <07fc5dc3d216f0fa6c081506aa92701508604bab.camel@linuxfoundation.org>
-From: "Pgowda" <pgowda.cve@gmail.com>
-Date: Thu, 16 Sep 2021 13:58:23 +0530
-Message-ID: <CALY4984U1txY2y6yJQQKts20Hb6x-86gtXhHx9UoEeDxF1yyTg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] state/staging: Fix directory not deleted for race
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Randy MacLeod <rwmacleod@gmail.com>, umesh.kalappa0@gmail.com, 
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Richard,
-
-Thanks for reviewing the patch and your comments.
-
-> Looking further at this and your description, I think you might be saying there
-> are multiple levels of empty directories.
-
-Yes. There are multiple level of directories as follows:-
-
-/tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
-/usr/include/c++/11.2.0/x86_64-poky-linux/ext
-/tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
-/usr/include/c++/11.2.0/x86_64-poky-linux/bits
-/tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
-/usr/include/c++/11.2.0/x86_64-poky-linux
-
-> I would also like to understand why these files overlap and are symlinks in one
-> case but directories in another. Can you show some specific examples of the
-> files in question?
-
-It happens when we build rust-hello-world for glibc followed by musl
-as follows:-
-TCLIBC=glibc MACHINE=qemuarm bitbake rust-hello-world
-TCLIBC=musl MACHINE=qemuarm bitbake rust-hello-world
-
-The recipe do_prepare_recipe_sysroot tries to populate the sysroot file.
-The glibc build had already generated the sysroot and copied properly.
-When we build the musl later on, it tries to remove the above
-directory and symlink
-the newly built musl files. It was deleted properly before the race
-issue was observed.
-However, after the race issue; files are being deleted but the
-directory and sub directories
-are left undeleted which resulted in the error.
-
-> The missing json file sounds like there could be some file not being handled by
-> sstate but it is hard to know without looking at the code.
-
-Thanks. I will try to debug the issue further.
-
-Regards,
-pgowda
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
+Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMTYgc2VwdGVtYmVyIDIwMjEgMDE6MDYNCj4gVG86IFBl
+dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogUm9z
+cyBCdXJ0b24gPHJvc3NAYnVydG9uaW5pLmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gTWlzc2luZyBFeHBh
+dCBsaWNlbnNlICh3YXM6IFtQQVRDSCAxMi8xNF0gZmZtcGVnOg0KPiB1cGRhdGUgTElDRU5TRSkN
+Cj4gDQo+IE9uIFdlZCwgU2VwIDE1LCAyMDIxIGF0IDM6MjYgUE0gUGV0ZXIgS2plbGxlcnN0ZWR0
+DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gPiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+ID4gPiBTZW50
+OiBkZW4gOSBzZXB0ZW1iZXIgMjAyMSAyMTo1NA0KPiA+ID4gVG86IFJvc3MgQnVydG9uIDxyb3Nz
+QGJ1cnRvbmluaS5jb20+OyBvcGVuZW1iZWRkZWQtDQo+ID4gPiBjb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEyLzE0XSBmZm1w
+ZWc6IHVwZGF0ZSBMSUNFTlNFDQo+ID4gPg0KPiA+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
+LS0tLQ0KPiA+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnIDxvcGVuZW1iZWRkZWQtDQo+ID4gPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
+T24gQmVoYWxmIE9mIFJvc3MgQnVydG9uDQo+ID4gPiA+IFNlbnQ6IGRlbiAzIHNlcHRlbWJlciAy
+MDIxIDE1OjI1DQo+ID4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnDQo+ID4gPiA+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0ggMTIvMTRdIGZmbXBlZzog
+dXBkYXRlIExJQ0VOU0UNCj4gPiA+ID4NCj4gPiA+ID4gIkJTRCIgaXMgYW1iaWd1b3VzLCBmZm1w
+ZWcgY29tcHJpc2VzIG9mIHNldmVyYWwgbGljZW5zZXMgd2hpY2ggYXJlDQo+ID4gPiA+IEJTRC1s
+aWtlLg0KPiA+ID4gPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5i
+dXJ0b25AYXJtLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICBtZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9mZm1wZWcvZmZtcGVnXzQuNC5iYiB8IDIgKy0NCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+ID4gPg0KPiA+ID4gPiBkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4gPiA+
+IGIvbWV0YS9yZWNpcGVzLQ0KPiA+ID4gPiBtdWx0aW1lZGlhL2ZmbXBlZy9mZm1wZWdfNC40LmJi
+DQo+ID4gPiA+IGluZGV4IGUxOTA3NzU0MWVjLi5mODIyYmE5YWI3OCAxMDA2NDQNCj4gPiA+ID4g
+LS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4gPiA+
+ID4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4g
+PiA+ID4gQEAgLTUsNyArNSw3IEBAIERFU0NSSVBUSU9OID0gIkZGbXBlZyBpcyB0aGUgbGVhZGlu
+ZyBtdWx0aW1lZGlhDQo+IGZyYW1ld29yaywNCj4gPiA+ID4gYWJsZSB0byBkZWNvZGUsIGVuY29k
+DQo+ID4gPiA+ICBIT01FUEFHRSA9ICJodHRwczovL3d3dy5mZm1wZWcub3JnLyINCj4gPiA+ID4g
+IFNFQ1RJT04gPSAibGlicyINCj4gPiA+ID4NCj4gPiA+ID4gLUxJQ0VOU0UgPSAiQlNEICYgR1BM
+djIrICYgTEdQTHYyLjErICYgTUlUIg0KPiA+ID4gPiArTElDRU5TRSA9ICJHUEx2MisgJiBMR1BM
+djIuMSsgJiBJU0MgJiBFeHBhdCAmIEJTRC0yLUNsYXVzZSAmIEJTRC0zLQ0KPiBDbGF1c2UgJiBJ
+SkciDQo+ID4gPg0KPiA+ID4gVGhlcmUgaXMgbm8gIkV4cGF0IiBsaWNlbnNlIGluIG5laXRoZXIg
+bWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMgbm9yDQo+ID4gPiBpbiBtZXRhL2NvbmYvbGljZW5z
+ZXMuY29uZi4NCj4gPg0KPiANCj4gUGVyaGFwcyBhZGRpbmcgaXQgbWlnaHQgYmUgb25lIHdheSBz
+ZWUNCj4gaHR0cHM6Ly9kaXJlY3RvcnkuZnNmLm9yZy93aWtpL0xpY2Vuc2U6RXhwYXQNCj4gU1BE
+WCBzZWVtcyB0byBub3QgaGF2ZSBzcGVjaWZpYyBlbnRyeSBmb3IgaXQgYXMgaXQgcG9pbnRzIHRv
+IE1JVCB0aGVyZQ0KDQpJZiAidGhlIGV4cGF0IGxpY2Vuc2UiIGlzIGluIGZhY3QgTUlUIChoYXJk
+IHRvIHRlbGwgYXMgdGhlcmUgaXMgbm8gbGljZW5zZSANCnRleHQgaW4gdGhlIGZmbXBlZyBzb3Vy
+Y2VzKSwgSSBkbyBub3Qgc2VlIHdoeSB3ZSB3b3VsZCBuZWVkIGEgc3BlY2lhbCBsaWNlbnNlIA0K
+Zm9yIGl0LiBBbGwgb3RoZXIgcmVjaXBlcyB1c2UgIk1JVCIgd2l0aG91dCBjcmVhdGluZyBhIHNw
+ZWNpZmljIGxpY2Vuc2UgZmlsZS4gDQpUaGlzIGluY2x1ZGVzIHRoZSBleHBhdCByZWNpcGUgaXRz
+ZWxmLCB3aGljaCB1c2UgIk1JVCIgYXMgbGljZW5zZS4NCg0KPiBJIHRoaW5rIHB0ZXN0IHBhY2th
+Z2Ugd2lsbCBjb250YWluIHZzeW50aDIueXV2IHdoaWNoIGlzIGJ1aWx0IHVzaW5nDQo+IHJlZmVy
+ZW5jZS5wbm0gc28gdGVjaG5pY2FsbHkNCj4gd2UgbmVlZCB0byB1c2UgRXhwYXQgZm9yIHB0ZXN0
+IHBhY2thZ2UuDQoNCmZmbXBlZyBkb2VzIG5vdCBwcm9kdWNlIGFueSBwdGVzdCBwYWNrYWdlIEFG
+QUlDVC4NCg0KLy9QZXRlcg0KDQo+ID4gUm9zcywgc2luY2UgeW91IGFkZGVkIHRoZSByZWZlcmVu
+Y2UgdG8gdGhlIEV4cGF0IGxpY2Vuc2UsIGRpZCB5b3UgcGxhbg0KPiBvbg0KPiA+IGFjdHVhbGx5
+IGFkZGluZyBpdCBhcyB3ZWxsPyBJdCBiZWluZyBtaXNzaW5nIGJyZWFrcyBhdCBsZWFzdCBvdXIg
+bGljZW5zZQ0KPiA+IGhhbmRsaW5nLiBBZnRlciB3cml0aW5nIHRoaXMsIEkgd2VudCBkaWdnaW5n
+IGluIGZmbXBlZywgYW5kIGl0IHNlZW1zDQo+IHRoYXQgdGhlDQo+ID4gRXhwYXQgbGljZW5zZSAo
+b25seSBtZW50aW9uZWQgYnkgbmFtZSwgdGhlcmUgaXMgbm8gYWN0dWFsIGxpY2Vuc2UgdGV4dCkN
+Cj4gaXMNCj4gPiBvbmx5IHVzZWQgZm9yIGEgdGVzdCBpbWFnZSAocmVmZXJlbmNlLnBubSksIHdo
+aWNoIGRvZXMgbm90IGVuZCB1cCBpbiBhbnkNCj4gPiBwYWNrYWdlLiBTbyB0byBtZSBpdCBzZWVt
+cyBhcyB0aGlzIGRvZXMgbm90IG5lZWQgdG8gYmUgaW5jbHVkZWQgaW4NCj4gTElDRU5TRS4NCj4g
+Pg0KPiA+IEFsc28sIGdpdmVuIHRoZSBsb25nIGxpc3Qgb2YgbGljZW5zZXMgdGhhdCBhcmUgbm93
+IGluIExJQ0VOU0UsIHdoYXQNCj4gcGFja2FnZXMNCj4gPiBhcmUgYWN0dWFsbHkgZXhwZWN0ZWQg
+dG8gdXNlIHRob3NlIGxpY2Vuc2VzPyBBRkFJQ1QsIGFsbCBwYWNrYWdlcyB0aGF0DQo+IGFyZQ0K
+PiA+IGV4cGxpY2l0bHkgbGlzdGVkIGluIHRoZSByZWNpcGUgZWl0aGVyIHVzZSBHUEx2Misgb3Ig
+TEdQTHYyLjErLiBUaGUNCj4gZGVmYXVsdA0KPiA+IGxpY2Vuc2VzIG9ubHkgc2VlbSB0byBiZSB1
+c2VkIGZvciwgZS5nLiwgZmZtcGVnLWRldiwgZmZtcGVnLWRiZyBhbmQNCj4gPiBmZm1wZWctZG9j
+LCB3aGljaCBzZWVtcyB3ZWlyZC4NCj4gPg0KPiA+IE1vcmUgd2VpcmRuZXNzLCBMSUNfRklMRVNf
+Q0hLU1VNIGxpc3RzIEdQTHYyLCBHUEx2MywgTEdQTHYyIGFuZCBMR1BMdjMsDQo+IGJ1dA0KPiA+
+IG5laXRoZXIgR1BMdjMgbm9yIExHUEx2MyBhcmUgdXNlZCBpbiBMSUNFTlNFLiBBbmQgdGhlcmUg
+YXJlIG5vDQo+IHJlZmVyZW5jZXMgZm9yDQo+ID4gYW55IG9mIHRoZSBuZXdseSBhZGRlZCBsaWNl
+bnNlcy4NCj4gPg0KPiA+ID4gPiAgTElDRU5TRToke1BOfSA9ICJHUEx2MisiDQo+ID4gPiA+ICBM
+SUNFTlNFOmxpYmF2Y29kZWMgPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcn
+LCAnZ3BsJywNCj4gJ0dQTHYyKycsICdMR1BMdjIuMSsnLCBkKX0iDQo+ID4gPiA+ICBMSUNFTlNF
+OmxpYmF2ZGV2aWNlID0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywgJ2dw
+bCcsDQo+ICdHUEx2MisnLCAnTEdQTHYyLjErJywgZCl9Ig0KPiA+ID4gPiAtLQ0KPiA+ID4gPiAy
+LjI1LjENCj4gPiA+DQo+ID4gPiAvL1BldGVyDQo+ID4NCj4gPiAvL1BldGVyDQo+ID4NCj4gPg0K
+PiA+IA0KPiA+DQo=
