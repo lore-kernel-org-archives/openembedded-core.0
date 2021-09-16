@@ -1,50 +1,50 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web09.4444.1631750663336217159
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web08.4488.1631750664500451049
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 17:04:23 -0700
+ Wed, 15 Sep 2021 17:04:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=f03yhvvt;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id q22so4331750pfu.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 17:04:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jht5EfbF;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id m21-20020a17090a859500b00197688449c4so3499856pjn.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 17:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VOQqUf3DFPUoFECIOdM9krTIFkvZNnFLRVRKbAXbnP8=;
-        b=f03yhvvt2QzU3ht6duw2nOS17jPvvCWsQgJnBr+8ath/X425pGjfG5+MkydtYHQqWw
-         6lWLDwkmDUGLbKT/8DVFbhvJkfAui1pImt1bIvajvT9F2NfMa0Vj3Hg1KO6bgHGtzieD
-         cCTx/yt3yfBYa+pjd59iFv4TYlfStBVKvfV/p4yBVGFUZyUktLfRmmCtiVCpFBmqrOUV
-         MbD45dQEWWoYpSg/Atj4buCTkLY2EISSOy7LF4izvWUL5yjXDVEHCKthCyh4JyUSA5NZ
-         MYszNzmL/zWXcWTPhdyopaYoVQxK3K+EzjZ1e+0ziTLrskQRmVcmBkV8s05ZYWhT6pk3
-         srbw==
+        bh=/zLSrDazNzxEV+xXz+3peV7lknvqsn60n/RnDtHfyr0=;
+        b=jht5EfbFZGfNIpJ0IHAaCJ3aaAqFjkKjDNJG0xdnZ4IXNptmBJoV9mrXu3L8tqUTRj
+         AGZswfKpZe3xyRQuAh4prbUlj2u3OkyyDFB+/4G8xc8JSWjY7MJ1WuHZ3/gm/qGblImv
+         wZx1O3NazQThPFHb9zTDoilyv4C+Mez4r6V+/NCDW99enqCTefhu3ssko3NC9q/oTQ4Y
+         rY8Pju8/VRSrewASCTXHlBpaAGT4nZXPCwURx79HfV5fuLpbjVCDaNKCfGg2dPtB7Qjt
+         4mITIUTJz/q5ZCMK4Qf8onyODNE/cRBPRb67auFHkUdToGflEjrr4hJSTYmywooPlIv9
+         MwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VOQqUf3DFPUoFECIOdM9krTIFkvZNnFLRVRKbAXbnP8=;
-        b=2MNg0qMXYgue64CIwSZXdTmWyNb9JBUoibC8qraGMxr2S8+S8HUzF+aGAyUYCFZQvg
-         PKMyhpydBpL4EvFSY+nTbEeqous2JrcemYaKR6kEHuXPnRMg3+WZuV/BRos4a8gqACuk
-         DjkV+k+LRctKdl+OOqkNrtszLq+m98FWGRF3tNV4m7YXEouEOrytlt5iUW70AHOngJg7
-         5NTktKHriLk2tej2el5szgzbytgbEl80CxpvchTQyGYs6QQHxw+jTXByuiC7UBMr5sox
-         tPGGseN0M64oWK7Gr38b5QMLy/0Hd3UW0a6BL6eBMry7u3GgEiwXdxiUVD/t1D/4RTWv
-         udsQ==
-X-Gm-Message-State: AOAM532MzLHcrApIq2pbtL/WmtNTX7TuyS7xzluG6kNPf6DX3YhBu8/U
-	y4TtJcaIBSEyKMxmENOo3WkGG43UzkI=
-X-Google-Smtp-Source: ABdhPJzFEkF8bXA1sRPJCF3UryuCzpNSny85MVTFpX+tCIqE/FDpXahj6i+wHOrVxq6fd1S48CcmaA==
-X-Received: by 2002:a62:8cd7:0:b0:438:26bb:965d with SMTP id m206-20020a628cd7000000b0043826bb965dmr2083032pfd.64.1631750662746;
-        Wed, 15 Sep 2021 17:04:22 -0700 (PDT)
+        bh=/zLSrDazNzxEV+xXz+3peV7lknvqsn60n/RnDtHfyr0=;
+        b=DGclr8x5jffhBGU+lbQGRZV9fnARK39ANGKLJG4SiLoBNVg35HB+2sFfFrgqSlcxin
+         jVCBI3RKJtYaDTqzGpjA8DiKndJsPYukoq5u/HznNzCZ8qZw9aXmhEy+bTR2bmNNeg4A
+         GYWS2LQ72bCbr4xrJz5526TDzK0WAVwViZiajA2eWLIU4iNcxa4REPKf/Ph4AiWUj4hD
+         YketmsiqUZP/Z/dScsRtTkauj/lDOpz1xNf370s7aMedWDLHg7qmnhX63/tuINXrvCsy
+         OyFhp3esX+WXGUZthMv85uhWdkF58GklxvXcPmxVfk/t4xKTZu1s5Re3Yce3s811hEB5
+         t2oA==
+X-Gm-Message-State: AOAM533G026o1n1URAuSAlBT+zm0pZb0sJ7UfsNFXgoQCtv9ZalVelko
+	1RjNXSlqpFHyZYllEKFvcw2CviI9V3U=
+X-Google-Smtp-Source: ABdhPJzvQKS7MHY79kl/4fwLVXWxV+GpVANsY3Emc10/Ypi5sJqEdYQz4roBRRxTyQIlwuADAkZ51g==
+X-Received: by 2002:a17:902:c40e:b0:138:a4d4:cf46 with SMTP id k14-20020a170902c40e00b00138a4d4cf46mr2143149plk.48.1631750663792;
+        Wed, 15 Sep 2021 17:04:23 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.hsd1.ca.comcast.net ([2601:202:4180:a5c0:538a:dbbb:2df2:d1e8])
-        by smtp.gmail.com with ESMTPSA id 13sm919152pfw.73.2021.09.15.17.04.21
+        by smtp.gmail.com with ESMTPSA id 13sm919152pfw.73.2021.09.15.17.04.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 17:04:22 -0700 (PDT)
+        Wed, 15 Sep 2021 17:04:23 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [Dunfell][PATCH 2/4] qemu: Security fix for CVE-2020-27617
-Date: Wed, 15 Sep 2021 17:04:17 -0700
-Message-Id: <20210916000419.1812968-2-akuster808@gmail.com>
+Subject: [Dunfell][PATCH 3/4] qemu: Security fix for CVE-2020-28916
+Date: Wed, 15 Sep 2021 17:04:18 -0700
+Message-Id: <20210916000419.1812968-3-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916000419.1812968-1-akuster808@gmail.com>
 References: <20210916000419.1812968-1-akuster808@gmail.com>
@@ -54,85 +54,84 @@ Content-Transfer-Encoding: 8bit
 From: Armin Kuster <akuster@mvista.com>
 
 Source: qemu.org
-MR: 106462
+MR: 107262
 Type: Security Fix
-Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=7564bf7701f00214cdc8a678a9f7df765244def1
-ChangeID: b9dc1b656c07d6a0aecaf7680ed33801bd5f6352
+Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=c2cb511634012344e3d0fe49a037a33b12d8a98a
+ChangeID: 3024b894ab045c1a74ab2276359d5e599ec9e822
 Description:
 
-Affects qemu < 5.2.0
+Affects qemu < 5.0.0
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-27617.patch            | 49 +++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27617.patch
+ .../qemu/qemu/CVE-2020-28916.patch            | 48 +++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-28916.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f5e8a9ae49..3113d638d7 100644
+index 3113d638d7..211c03e57b 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -89,6 +89,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-12829_3.patch \
+@@ -90,6 +90,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2020-12829_4.patch \
             file://CVE-2020-12829_5.patch \
-+           file://CVE-2020-27617.patch \
+            file://CVE-2020-27617.patch \
++           file://CVE-2020-28916.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-27617.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-27617.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-28916.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-28916.patch
 new file mode 100644
-index 0000000000..7bfc2beecb
+index 0000000000..756b1c1495
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-27617.patch
-@@ -0,0 +1,49 @@
-+From 7564bf7701f00214cdc8a678a9f7df765244def1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-28916.patch
+@@ -0,0 +1,48 @@
++From c2cb511634012344e3d0fe49a037a33b12d8a98a Mon Sep 17 00:00:00 2001
 +From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Wed, 21 Oct 2020 11:35:50 +0530
-+Subject: [PATCH] net: remove an assert call in eth_get_gso_type
++Date: Wed, 11 Nov 2020 18:36:36 +0530
++Subject: [PATCH] hw/net/e1000e: advance desc_offset in case of null descriptor
 +
-+eth_get_gso_type() routine returns segmentation offload type based on
-+L3 protocol type. It calls g_assert_not_reached if L3 protocol is
-+unknown, making the following return statement unreachable. Remove the
-+g_assert call, it maybe triggered by a guest user.
++While receiving packets via e1000e_write_packet_to_guest() routine,
++'desc_offset' is advanced only when RX descriptor is processed. And
++RX descriptor is not processed if it has NULL buffer address.
++This may lead to an infinite loop condition. Increament 'desc_offset'
++to process next descriptor in the ring to avoid infinite loop.
 +
-+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
++Reported-by: Cheol-woo Myung <330cjfdn@gmail.com>
 +Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 +Signed-off-by: Jason Wang <jasowang@redhat.com>
 +
-+Upsteram-Status: Backport
-+CVE: CVE-2020-27617
++Upstream-Status: Backport
++CVE: CVE-2020-28916
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ net/eth.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ hw/net/e1000e_core.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/net/eth.c b/net/eth.c
-+index 0c1d413ee2..1e0821c5f8 100644
-+--- a/net/eth.c
-++++ b/net/eth.c
-+@@ -16,6 +16,7 @@
-+  */
-+ 
-+ #include "qemu/osdep.h"
-++#include "qemu/log.h"
-+ #include "net/eth.h"
-+ #include "net/checksum.h"
-+ #include "net/tap.h"
-+@@ -71,9 +72,8 @@ eth_get_gso_type(uint16_t l3_proto, uint8_t *l3_hdr, uint8_t l4proto)
-+             return VIRTIO_NET_HDR_GSO_TCPV6 | ecn_state;
++diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
++index d8b9e4b2f4..095c01ebc6 100644
++--- a/hw/net/e1000e_core.c
+++++ b/hw/net/e1000e_core.c
++@@ -1596,13 +1596,13 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
++                           (const char *) &fcs_pad, e1000x_fcs_len(core->mac));
++                 }
++             }
++-            desc_offset += desc_size;
++-            if (desc_offset >= total_size) {
++-                is_last = true;
++-            }
++         } else { /* as per intel docs; skip descriptors with null buf addr */
++             trace_e1000e_rx_null_descriptor();
 +         }
-+     }
-+-
-+-    /* Unsupported offload */
-+-    g_assert_not_reached();
-++    qemu_log_mask(LOG_UNIMP, "%s: probably not GSO frame, "
-++        "unknown L3 protocol: 0x%04"PRIx16"\n", __func__, l3_proto);
+++        desc_offset += desc_size;
+++        if (desc_offset >= total_size) {
+++            is_last = true;
+++        }
 + 
-+     return VIRTIO_NET_HDR_GSO_NONE | ecn_state;
-+ }
++         e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
++                            rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
 +-- 
 +2.25.1
 +
