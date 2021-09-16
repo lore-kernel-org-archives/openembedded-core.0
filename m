@@ -1,121 +1,102 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.8699.1631783767193464309
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.92.90.30])
+ by mx.groups.io with SMTP id smtpd.web11.8665.1631784677738848725
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 02:16:08 -0700
+ Thu, 16 Sep 2021 02:31:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=e73QVBqd;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1631783767;
-  x=1663319767;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=YihqSZcsIj2zBAooeo0no70UY9rW65yUFhqXauZ0RLY=;
-  b=e73QVBqdUQqXXQP1PnNwMIY/Lp6usI/M4udlcDLTe/YJOL6eXDx1rf9R
-   TkeNPUwnJ6Iov1wMsljtq/+bIotybAZ3pnuJ02wJs7i0QtN/7Hv+aFWIl
-   AUz6iYZ+y6+EGDHQRq9s6Au9We3QeEy9qHQfTQuhJfY2k1t4SN8dh0IA3
-   jOaXphGPXdabH9duWhNw6kRiE/uMlpShjagFTIuE/K0vqqacKYJRafqv5
-   N0+12YUpT44kNZs8FVTF2JPmcjd9wc2GpRQQitER0A3KKgUXqYrPBAYVc
-   PwjQ5QxZPGBgPegZg1S+SLnkgfBBAi7cXnJTESkuWKoZtLYrF+48SpKZJ
-   A==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: Ross Burton <ross@burtonini.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg: update LICENSE)
-Thread-Topic: [OE-core] Missing Expat license (was: [PATCH 12/14] ffmpeg:
- update LICENSE)
-Thread-Index: AdeqgLETQ24k3FiXQQufzi72EGQEcf//6biA//83L/A=
-Date: Thu, 16 Sep 2021 09:15:54 +0000
-Message-ID: <145eb216f49f4a15a2fbf7ef8ce974ed@axis.com>
-References: <8bbba4f2242345528f8439794a20058b@axis.com>
- <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
-In-Reply-To: <CAMKF1spmgQ7smkNOJDaJNBBcfhOuaRZOYtos3+XXDAt1DF+T1A@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=HBnG0Al6;
+ spf=pass (domain: outlook.com, ip: 40.92.90.30, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gi1OYBp4vij6QJ1T6AfSXmtSvdMzwsTTwHvh4dthkHcN8ePvauxkuDMXC5pNsinu97N+eRKMqlqeqHky1rpgV2qXjcLFCruuc6q09BaXzKJ7k9LWMXa4JEkdXWzoLDHyOBIyBN5BYNPfTT+M1eKPXoD0iYpKjHXnmJNLGHrW0pHMcOQu+Oj8yoY9I/QbmcVzokwwUunPgQk8+mWBgsBlDN8jnF3FlUsit6iUpvFadB0D5CPLn5DErT+J5kebxRH5gAY4QVIk+OSc7E054b68QRHgxPhbXPGVCDeGyx3YVoHRZza7N7eweYmH4V+ximQgn8f8gK3oYBgKs+m+asoSPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=j4/vyBvDr3t67tstJW3xBUz2sm30W10l8t5TYlPpIFg=;
+ b=cJjX2kbrRxIBp4nN5hcnlKTIKhas58vBkrESHbFCLCJcOOg+HQcX3G7Zq05r/TAT3wqOKeUuNzVin0V5tEmTJV1HNTqtFdkHkuu+NTzc7HjVoiyMjtxKGvv3Bjnpa05qQMCHpu8sDF6vWS+ZOKxk8jFGYwIBG9K+IQXka9r9fcYs1C/4SbPoqoTfb6gAbA5iKgMSI2rvi/xKa5VteROGUh1LMlBihlQAjifJt/0gSc0zxGsSAZdu8eCwr9PXWpzdn8Uf3BPcOomtqKfr/rB72hDndgHPs3b7pLjD/oF/XfknVhDHlpr1fNe4Lvzt9QymQm5Swv1PtbrOcihxzRxJEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j4/vyBvDr3t67tstJW3xBUz2sm30W10l8t5TYlPpIFg=;
+ b=HBnG0Al6LAir8nERBo7gPm6DtkEaSZ92zLVNSscDY9t30NoN6V6toqKyCbcVpIDAYXMIl4DXvEe6K5Yf3jweUaSeP6WlI4K9hxaKosa4C80pw1y78dw/TbmI59CrDKxhu6eHlNJOOgKx2mFJUBn+jUzYbBFd96R8+XzuWNcRBBZ7Da4oG7sFbX62fhyJVTca5NMGC34m0bo1Jry/pXGjDYtIc6bObRbdz2Hdhe1MzoiNLmK7sTW81ufqXpnHtxxB/3FnC+RxPJnLiMcVuucxLt6kZVyyaB3gID0zTlgz+MIkp8RvvFC1LsuCQuDMc09jkwaJok9C3ER2y1uciiXk5w==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM0PR09MB4195.eurprd09.prod.outlook.com (2603:10a6:208:199::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Thu, 16 Sep
+ 2021 09:31:15 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::79a5:dec1:4b6a:6e33]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::79a5:dec1:4b6a:6e33%3]) with mapi id 15.20.4523.016; Thu, 16 Sep 2021
+ 09:31:15 +0000
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Subject: Undeterministic expat fetching failure
+Message-ID: 
+ <AM9PR09MB464214DEFF6D34CE649495DAA8DC9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Thu, 16 Sep 2021 11:31:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+X-TMN: 
+ [fpxeA8H7MYzCo3YQMjSfX1hXs4xekNXMsX21LmLUyqpQyAkGdiJR+L5VWgJYPCUUWp/gyO6INco=]
+X-ClientProxiedBy: AM9P195CA0003.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21f::8) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <f55bc620-c2f8-be95-637a-158cfcf92037@outlook.com>
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:8109:9a80:3b94:11df:cd87:699f:18eb] (2a02:8109:9a80:3b94:11df:cd87:699f:18eb) by AM9P195CA0003.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Thu, 16 Sep 2021 09:31:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3cbf282d-e2f9-46ea-513c-08d978f4bad3
+X-MS-TrafficTypeDiagnostic: AM0PR09MB4195:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	2cVtIj/n347IskQ0T5xEdaqxNNd7Xhy4GR8coPMsTbsvzhOSYU3xF5GXC8fQk2lHsGC6p0AAjMk8PZlIFyH53Hs4LF004V6r1G/JkIFvgaOA+agmgnl1y1AM0ZTCaKR09g5UD6bPaFyiaFkvv0LUR98+YAc0WmrypjS8ZeYHMsWP1f03fyZl5iYNjHQlLw/FVlN/RLHmseb7BrcIRhUpr0ttpDrV7xnE3BZwpZDS+3Ys2Tg6xz+abgzR4xv1rNh8+k93J3C0+VKDLGIzZrR3TajZquX8TKHA2F/jLOY2mgJ0yjWUOkmjzPUmd/koIj+dtdj45SCpmojvdf5SJOo+l0425CWskM1KUdeXE0ekHlap5c1Q/yqABVJzz/W6Ggcj7l0Lt2FiLpqeYJ6UyxmvF2on3jXftwsi2RaTO5Oz0Kw3UwbWapup7JnvkGZ2wV5lHSTs6pHhsuOoainqsb6WJbBYaxWH2wMCwAK8AY1G+TQ=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	Pu3l6uNfTqW6JV5vpHbGcHacP7OxKg5ebGpZ7W5Jgdybn6AQaJSQXr5Ii/1GcL5YPrHWOTxXJFqnwE46d7GPqNcmAivUISvTSPNJarL35ZQsq+/mQK335F3mepdoKXZbMblZKrxnGIkrF25Oc9njgTfxHWTewvSyVh/VOkcRVx1pQT14LorbVTOsLSSo+9LRgPw5TqVY4YZexd2oiELucQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cbf282d-e2f9-46ea-513c-08d978f4bad3
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2021 09:31:15.6059
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4195
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMTYgc2VwdGVtYmVyIDIwMjEgMDE6MDYNCj4gVG86IFBl
-dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogUm9z
-cyBCdXJ0b24gPHJvc3NAYnVydG9uaW5pLmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gTWlzc2luZyBFeHBh
-dCBsaWNlbnNlICh3YXM6IFtQQVRDSCAxMi8xNF0gZmZtcGVnOg0KPiB1cGRhdGUgTElDRU5TRSkN
-Cj4gDQo+IE9uIFdlZCwgU2VwIDE1LCAyMDIxIGF0IDM6MjYgUE0gUGV0ZXIgS2plbGxlcnN0ZWR0
-DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0KPiA+DQo+ID4gPiAtLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+ID4gPiBTZW50
-OiBkZW4gOSBzZXB0ZW1iZXIgMjAyMSAyMTo1NA0KPiA+ID4gVG86IFJvc3MgQnVydG9uIDxyb3Nz
-QGJ1cnRvbmluaS5jb20+OyBvcGVuZW1iZWRkZWQtDQo+ID4gPiBjb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEyLzE0XSBmZm1w
-ZWc6IHVwZGF0ZSBMSUNFTlNFDQo+ID4gPg0KPiA+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
-LS0tLQ0KPiA+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnIDxvcGVuZW1iZWRkZWQtDQo+ID4gPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
-T24gQmVoYWxmIE9mIFJvc3MgQnVydG9uDQo+ID4gPiA+IFNlbnQ6IGRlbiAzIHNlcHRlbWJlciAy
-MDIxIDE1OjI1DQo+ID4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnDQo+ID4gPiA+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0ggMTIvMTRdIGZmbXBlZzog
-dXBkYXRlIExJQ0VOU0UNCj4gPiA+ID4NCj4gPiA+ID4gIkJTRCIgaXMgYW1iaWd1b3VzLCBmZm1w
-ZWcgY29tcHJpc2VzIG9mIHNldmVyYWwgbGljZW5zZXMgd2hpY2ggYXJlDQo+ID4gPiA+IEJTRC1s
-aWtlLg0KPiA+ID4gPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5i
-dXJ0b25AYXJtLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICBtZXRhL3JlY2lwZXMtbXVsdGlt
-ZWRpYS9mZm1wZWcvZmZtcGVnXzQuNC5iYiB8IDIgKy0NCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+ID4gPg0KPiA+ID4gPiBkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4gPiA+
-IGIvbWV0YS9yZWNpcGVzLQ0KPiA+ID4gPiBtdWx0aW1lZGlhL2ZmbXBlZy9mZm1wZWdfNC40LmJi
-DQo+ID4gPiA+IGluZGV4IGUxOTA3NzU0MWVjLi5mODIyYmE5YWI3OCAxMDA2NDQNCj4gPiA+ID4g
-LS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4gPiA+
-ID4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180LjQuYmINCj4g
-PiA+ID4gQEAgLTUsNyArNSw3IEBAIERFU0NSSVBUSU9OID0gIkZGbXBlZyBpcyB0aGUgbGVhZGlu
-ZyBtdWx0aW1lZGlhDQo+IGZyYW1ld29yaywNCj4gPiA+ID4gYWJsZSB0byBkZWNvZGUsIGVuY29k
-DQo+ID4gPiA+ICBIT01FUEFHRSA9ICJodHRwczovL3d3dy5mZm1wZWcub3JnLyINCj4gPiA+ID4g
-IFNFQ1RJT04gPSAibGlicyINCj4gPiA+ID4NCj4gPiA+ID4gLUxJQ0VOU0UgPSAiQlNEICYgR1BM
-djIrICYgTEdQTHYyLjErICYgTUlUIg0KPiA+ID4gPiArTElDRU5TRSA9ICJHUEx2MisgJiBMR1BM
-djIuMSsgJiBJU0MgJiBFeHBhdCAmIEJTRC0yLUNsYXVzZSAmIEJTRC0zLQ0KPiBDbGF1c2UgJiBJ
-SkciDQo+ID4gPg0KPiA+ID4gVGhlcmUgaXMgbm8gIkV4cGF0IiBsaWNlbnNlIGluIG5laXRoZXIg
-bWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMgbm9yDQo+ID4gPiBpbiBtZXRhL2NvbmYvbGljZW5z
-ZXMuY29uZi4NCj4gPg0KPiANCj4gUGVyaGFwcyBhZGRpbmcgaXQgbWlnaHQgYmUgb25lIHdheSBz
-ZWUNCj4gaHR0cHM6Ly9kaXJlY3RvcnkuZnNmLm9yZy93aWtpL0xpY2Vuc2U6RXhwYXQNCj4gU1BE
-WCBzZWVtcyB0byBub3QgaGF2ZSBzcGVjaWZpYyBlbnRyeSBmb3IgaXQgYXMgaXQgcG9pbnRzIHRv
-IE1JVCB0aGVyZQ0KDQpJZiAidGhlIGV4cGF0IGxpY2Vuc2UiIGlzIGluIGZhY3QgTUlUIChoYXJk
-IHRvIHRlbGwgYXMgdGhlcmUgaXMgbm8gbGljZW5zZSANCnRleHQgaW4gdGhlIGZmbXBlZyBzb3Vy
-Y2VzKSwgSSBkbyBub3Qgc2VlIHdoeSB3ZSB3b3VsZCBuZWVkIGEgc3BlY2lhbCBsaWNlbnNlIA0K
-Zm9yIGl0LiBBbGwgb3RoZXIgcmVjaXBlcyB1c2UgIk1JVCIgd2l0aG91dCBjcmVhdGluZyBhIHNw
-ZWNpZmljIGxpY2Vuc2UgZmlsZS4gDQpUaGlzIGluY2x1ZGVzIHRoZSBleHBhdCByZWNpcGUgaXRz
-ZWxmLCB3aGljaCB1c2UgIk1JVCIgYXMgbGljZW5zZS4NCg0KPiBJIHRoaW5rIHB0ZXN0IHBhY2th
-Z2Ugd2lsbCBjb250YWluIHZzeW50aDIueXV2IHdoaWNoIGlzIGJ1aWx0IHVzaW5nDQo+IHJlZmVy
-ZW5jZS5wbm0gc28gdGVjaG5pY2FsbHkNCj4gd2UgbmVlZCB0byB1c2UgRXhwYXQgZm9yIHB0ZXN0
-IHBhY2thZ2UuDQoNCmZmbXBlZyBkb2VzIG5vdCBwcm9kdWNlIGFueSBwdGVzdCBwYWNrYWdlIEFG
-QUlDVC4NCg0KLy9QZXRlcg0KDQo+ID4gUm9zcywgc2luY2UgeW91IGFkZGVkIHRoZSByZWZlcmVu
-Y2UgdG8gdGhlIEV4cGF0IGxpY2Vuc2UsIGRpZCB5b3UgcGxhbg0KPiBvbg0KPiA+IGFjdHVhbGx5
-IGFkZGluZyBpdCBhcyB3ZWxsPyBJdCBiZWluZyBtaXNzaW5nIGJyZWFrcyBhdCBsZWFzdCBvdXIg
-bGljZW5zZQ0KPiA+IGhhbmRsaW5nLiBBZnRlciB3cml0aW5nIHRoaXMsIEkgd2VudCBkaWdnaW5n
-IGluIGZmbXBlZywgYW5kIGl0IHNlZW1zDQo+IHRoYXQgdGhlDQo+ID4gRXhwYXQgbGljZW5zZSAo
-b25seSBtZW50aW9uZWQgYnkgbmFtZSwgdGhlcmUgaXMgbm8gYWN0dWFsIGxpY2Vuc2UgdGV4dCkN
-Cj4gaXMNCj4gPiBvbmx5IHVzZWQgZm9yIGEgdGVzdCBpbWFnZSAocmVmZXJlbmNlLnBubSksIHdo
-aWNoIGRvZXMgbm90IGVuZCB1cCBpbiBhbnkNCj4gPiBwYWNrYWdlLiBTbyB0byBtZSBpdCBzZWVt
-cyBhcyB0aGlzIGRvZXMgbm90IG5lZWQgdG8gYmUgaW5jbHVkZWQgaW4NCj4gTElDRU5TRS4NCj4g
-Pg0KPiA+IEFsc28sIGdpdmVuIHRoZSBsb25nIGxpc3Qgb2YgbGljZW5zZXMgdGhhdCBhcmUgbm93
-IGluIExJQ0VOU0UsIHdoYXQNCj4gcGFja2FnZXMNCj4gPiBhcmUgYWN0dWFsbHkgZXhwZWN0ZWQg
-dG8gdXNlIHRob3NlIGxpY2Vuc2VzPyBBRkFJQ1QsIGFsbCBwYWNrYWdlcyB0aGF0DQo+IGFyZQ0K
-PiA+IGV4cGxpY2l0bHkgbGlzdGVkIGluIHRoZSByZWNpcGUgZWl0aGVyIHVzZSBHUEx2Misgb3Ig
-TEdQTHYyLjErLiBUaGUNCj4gZGVmYXVsdA0KPiA+IGxpY2Vuc2VzIG9ubHkgc2VlbSB0byBiZSB1
-c2VkIGZvciwgZS5nLiwgZmZtcGVnLWRldiwgZmZtcGVnLWRiZyBhbmQNCj4gPiBmZm1wZWctZG9j
-LCB3aGljaCBzZWVtcyB3ZWlyZC4NCj4gPg0KPiA+IE1vcmUgd2VpcmRuZXNzLCBMSUNfRklMRVNf
-Q0hLU1VNIGxpc3RzIEdQTHYyLCBHUEx2MywgTEdQTHYyIGFuZCBMR1BMdjMsDQo+IGJ1dA0KPiA+
-IG5laXRoZXIgR1BMdjMgbm9yIExHUEx2MyBhcmUgdXNlZCBpbiBMSUNFTlNFLiBBbmQgdGhlcmUg
-YXJlIG5vDQo+IHJlZmVyZW5jZXMgZm9yDQo+ID4gYW55IG9mIHRoZSBuZXdseSBhZGRlZCBsaWNl
-bnNlcy4NCj4gPg0KPiA+ID4gPiAgTElDRU5TRToke1BOfSA9ICJHUEx2MisiDQo+ID4gPiA+ICBM
-SUNFTlNFOmxpYmF2Y29kZWMgPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcn
-LCAnZ3BsJywNCj4gJ0dQTHYyKycsICdMR1BMdjIuMSsnLCBkKX0iDQo+ID4gPiA+ICBMSUNFTlNF
-OmxpYmF2ZGV2aWNlID0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywgJ2dw
-bCcsDQo+ICdHUEx2MisnLCAnTEdQTHYyLjErJywgZCl9Ig0KPiA+ID4gPiAtLQ0KPiA+ID4gPiAy
-LjI1LjENCj4gPiA+DQo+ID4gPiAvL1BldGVyDQo+ID4NCj4gPiAvL1BldGVyDQo+ID4NCj4gPg0K
-PiA+IA0KPiA+DQo=
+Hi all,
+
+ERROR: expat-2.2.10-r0 do_fetch: Fetcher failure: Fetch command export 
+PSEUDO_DISABLED=1; export 
+PATH="/opt/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/opt/build/sources/poky/scripts:/opt/build/build/tmp/work/core2-64-scatest-linux/expat/2.2.10-r0/recipe-sysroot-native/usr/bin/x86_64-scatest-linux:/opt/build/build/tmp/work/core2-64-scatest-linux/expat/2.2.10-r0/recipe-sysroot/usr/bin/crossscripts:/opt/build/build/tmp/work/core2-64-scatest-linux/expat/2.2.10-r0/recipe-sysroot-native/usr/sbin:/opt/build/build/tmp/work/core2-64-scatest-linux/expat/2.2.10-r0/recipe-sysroot-native/usr/bin:/opt/build/build/tmp/work/core2-64-scatest-linux/expat/2.2.10-r0/recipe-sysroot-native/sbin:/opt/build/build/tmp/work/core2-64-scatest-linux/expat/2.2.10-r0/recipe-sysroot-native/bin:/opt/build/sources/poky/bitbake/bin:/opt/build/build/tmp/hosttools"; 
+export HOME="/github/home"; /usr/bin/env wget -t 2 -T 30 --passive-ftp 
+--no-check-certificate -P 
+/opt/build/build/tmp/work/core2-64-scatest-linux/expat/downloads 
+'https://downloads.sourceforge.net/expat/expat-2.2.10.tar.bz2' 
+--progress=dot -v failed with exit code 8, output:
+--2021-09-16 09:13:26-- 
+https://downloads.sourceforge.net/expat/expat-2.2.10.tar.bz2
+Resolving downloads.sourceforge.net (downloads.sourceforge.net)... 
+204.68.111.105
+Connecting to downloads.sourceforge.net 
+(downloads.sourceforge.net)|204.68.111.105|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2021-09-16 09:13:26 ERROR 404: Not Found.
+
+that one happens like every 100th attempt - and this seems to be an 
+issue of sourceforge. (I got a hunch that actually not all mirrors of SF 
+do still have the yanked version 2.2.10).
+
+Also the projects moved to github a while ago - are there any reasons 
+why the recipe still pulls it from sourceforge?
+
+If not I could spin up a patch to fetch form GH with git
+
+Regards
+Konrad
