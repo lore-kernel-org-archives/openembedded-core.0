@@ -1,179 +1,843 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web08.3933.1631747749606685057
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.4476.1631750662875624380
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Sep 2021 16:16:11 -0700
+ Wed, 15 Sep 2021 17:04:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220565601"
-X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="220565601"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:11 -0700
-X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
-   d="scan'208";a="433597413"
-Received: from chgan-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.238.104])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 16:16:10 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gE7G8JMV;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso6197408pjh.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Sep 2021 17:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h8W9zrmrJ8dDnFjsiMIzyNeCJQUss7WVhifzkFRo1WM=;
+        b=gE7G8JMVlKz0FPM/kdGfASgXnQ7uV6A0jYH+SXSzW0y+shrwiejB9O1VH3sdX5uY3R
+         dBVE4Jun7WzriZptZXaHvuGv1w8HrxF5QmtQVKOU0vAddlr9iYO8IRcROtcDdFmtyNgR
+         VP1yj3uJ+NFUrXt2jIbMRaVX7I/6Y1A9fymfHu6zb63tiDq9xTcK2Kx2woiMPSSE6O3N
+         9RVPweSa3lhtCR2eMglPATNiMkAF/2PTMnBd09GxrSTmFBTY/3xK/OhJ0y7xZHg7b8SP
+         8qgZB0WIbmClmRJvx7Ai/Mfciqbdfv6tGtsZOMjhcXkZMBhcc8fKWUkhAz09NHr105Bq
+         umvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h8W9zrmrJ8dDnFjsiMIzyNeCJQUss7WVhifzkFRo1WM=;
+        b=7JNvMuxea1k2LkKpXSb4KpqOqKR4ern/sNDjx3WDkYEVWFhp98Bei4Mj4t3qfKMtDk
+         7O34rk6Q0PU7azaDCxTxgpD+KzqLY8H12YzxsjBtFcuZYLo3IMoolv1+7XvfgTTa8qdY
+         gezDFL8HVcX5OpoaUXuO6ROVVCsQYr/8IJybINKM83su4ws7Rz56/3j7huzl8rLzmbjP
+         1O+Drh9Fbp+cvOYyj1T9vWqBXYsShjecZTaQdpFhy3/FDtYdAo0PctYWKcVHwnxGq755
+         NM7WBNjcENN8UB6/FnLG28juyPMM8vz5m+zZ9nHGriyU3rqyX8fcoRu34GMq+lquLPnk
+         hZHQ==
+X-Gm-Message-State: AOAM530RiHbPhfH5SkIvX9lBtQYtzBycdy7kyLHGy7YFKGldnZmOCohk
+	3j+AYsML7eOVtK7d7WyJrXHo43v71DQ=
+X-Google-Smtp-Source: ABdhPJzNFQ16Tocl5xaCMvVgfUaViD1Mg/u00d4dEJ9kg0ORM0sDzxzaN/4BlxkWwhwLBH5Pisu81g==
+X-Received: by 2002:a17:902:8f97:b0:13a:4c7d:947e with SMTP id z23-20020a1709028f9700b0013a4c7d947emr1953386plo.24.1631750661647;
+        Wed, 15 Sep 2021 17:04:21 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from keaua.hsd1.ca.comcast.net ([2601:202:4180:a5c0:538a:dbbb:2df2:d1e8])
+        by smtp.gmail.com with ESMTPSA id 13sm919152pfw.73.2021.09.15.17.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Sep 2021 17:04:21 -0700 (PDT)
+From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 17/17] linux-yocto/5.4: update to v5.4.144
-Date: Thu, 16 Sep 2021 07:15:41 +0800
-Message-Id: <e99578cde6078828a3075e10f1bb97e1a373ce12.1631747352.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1631747352.git.anuj.mittal@intel.com>
-References: <cover.1631747352.git.anuj.mittal@intel.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [Dunfell][PATCH 1/4] qemu: Security fix CVE-2020-12829
+Date: Wed, 15 Sep 2021 17:04:16 -0700
+Message-Id: <20210916000419.1812968-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Armin Kuster <akuster@mvista.com>
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+Source: qemu.org
+MR: 105490
+Type: Security Fix
+Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4
+ChangeID: 6e222b766fc67c76cdc311d02cc47801992d0e66
+Description:
 
-    c6bf0ed9d1a7 Linux 5.4.144
-    0634c0f91995 audit: move put_tree() to avoid trim_trees refcount underflow and UAF
-    cab0003311a0 net: don't unconditionally copy_from_user a struct ifreq for socket ioctls
-    6752b3b0628e Revert "parisc: Add assembly implementations for memset, strlen, strcpy, strncpy and strcat"
-    67871ada3a53 Revert "floppy: reintroduce O_NDELAY fix"
-    d7f7eca72ecc btrfs: fix NULL pointer dereference when deleting device by invalid id
-    e644da7ace0f arm64: dts: qcom: msm8994-angler: Fix gpio-reserved-ranges 85-88
-    4f76285f6df8 KVM: x86/mmu: Treat NX as used (not reserved) for all !TDP shadow MMUs
-    620681d7201a net: dsa: mt7530: fix VLAN traffic leaks again
-    38adbf21f37e bpf: Fix cast to pointer from integer of different size warning
-    812ee47ad76e bpf: Track contents of read-only maps as scalars
-    f4418015201b vt_kdsetmode: extend console locking
-    8a19e0045086 btrfs: fix race between marking inode needs to be logged and log syncing
-    f3a1ac258ebc net/rds: dma_map_sg is entitled to merge entries
-    ad6a2bc7588a drm/nouveau/disp: power down unused DP links during init
-    689179c462d8 drm: Copy drm_wait_vblank to user before returning
-    18ceb99f8483 qed: Fix null-pointer dereference in qed_rdma_create_qp()
-    f1a0db49abd5 qed: qed ll2 race condition fixes
-    73ba9e4ece4b vringh: Use wiov->used to check for read/write desc order
-    ee52acae6fb5 virtio_pci: Support surprise removal of virtio pci device
-    be9b79e84154 virtio: Improve vq->broken access to avoid any compiler optimization
-    0d4ba693db48 opp: remove WARN when no valid OPPs remain
-    baf56a1d8199 perf/x86/intel/uncore: Fix integer overflow on 23 bit left shift of a u32
-    0ad96094ab90 usb: gadget: u_audio: fix race condition on endpoint stop
-    c5c2b4ca5035 drm/i915: Fix syncmap memory leak
-    2f3cefa6abf0 net: hns3: fix get wrong pfc_en when query PFC configuration
-    6f0c0b35e277 net: hns3: fix duplicate node in VLAN list
-    951805c23dff net: hns3: clear hardware resource when loading driver
-    08162f65642c rtnetlink: Return correct error on changing device netns
-    f58e42d1928c net: marvell: fix MVNETA_TX_IN_PRGRS bit number
-    45454400a647 xgene-v2: Fix a resource leak in the error handling path of 'xge_probe()'
-    53b480e68c1c ip_gre: add validation for csum_start
-    bb8ca7e2e67e RDMA/efa: Free IRQ vectors on error flow
-    e29565b4515e e1000e: Fix the max snoop/no-snoop latency for 10M
-    8a21e84334ec IB/hfi1: Fix possible null-pointer dereference in _extend_sdma_tx_descs()
-    944a50f56f1b RDMA/bnxt_re: Add missing spin lock initialization
-    28b189541027 scsi: core: Fix hang of freezing queue between blocking and running device
-    628c582854d3 usb: dwc3: gadget: Stop EP0 transfers during pullup disable
-    d9da281c8f9e usb: dwc3: gadget: Fix dwc3_calc_trbs_left()
-    21880abf19ba USB: serial: option: add new VID/PID to support Fibocom FG150
-    2e098e91eeec Revert "USB: serial: ch341: fix character loss at high transfer rates"
-    16b281a70a10 can: usb: esd_usb2: esd_usb2_rx_event(): fix the interchange of the CAN RX and TX error counters
-    765437d1f078 mm, oom: make the calculation of oom badness more accurate
-    1cccf5c03077 mmc: sdhci-msm: Update the software timeout value for sdhc
-    aec1e470d906 ovl: fix uninitialized pointer read in ovl_lookup_real_one()
-    57bd5b59f1ce once: Fix panic when module unload
-    5892f910f401 netfilter: conntrack: collect all entries in one cycle
-    7c95c89b6929 ARC: Fix CONFIG_STACKDEPOT
-    a6b049aeefa8 net: qrtr: fix another OOB Read in qrtr_endpoint_post
+Affect qemu < 5.0.0
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   5 +
+ .../qemu/qemu/CVE-2020-12829_1.patch          | 164 +++++++++++
+ .../qemu/qemu/CVE-2020-12829_2.patch          | 139 +++++++++
+ .../qemu/qemu/CVE-2020-12829_3.patch          |  47 ++++
+ .../qemu/qemu/CVE-2020-12829_4.patch          | 100 +++++++
+ .../qemu/qemu/CVE-2020-12829_5.patch          | 266 ++++++++++++++++++
+ 6 files changed, 721 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_5.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 45eb2f6a50..7589d8ee1a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c8c170dda0..f5e8a9ae49 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -84,6 +84,11 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3582.patch \
+            file://CVE-2021-3607.patch \
+            file://CVE-2021-3608.patch \
++           file://CVE-2020-12829_1.patch \
++           file://CVE-2020-12829_2.patch \
++           file://CVE-2020-12829_3.patch \
++           file://CVE-2020-12829_4.patch \
++           file://CVE-2020-12829_5.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRCREV_machine ?= "f4f6c136157b70468cf54389034aeaa41bbc5538"
--SRCREV_meta ?= "70b2480497528245c948ec259c734d74ea4fa3f1"
-+SRCREV_machine ?= "7f67141bca949eff8953f965c26475286d1a20cf"
-+SRCREV_meta ?= "e4ccb53f204f722583178a9249fbf5d745f0d56a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.143"
-+LINUX_VERSION ?= "5.4.144"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index a2f212e2ef..5ee1d359b2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.143"
-+LINUX_VERSION ?= "5.4.144"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "83b75c59c277ba3f87759cf558f9f230c1ed3bf7"
--SRCREV_machine ?= "1f981e60c9f6162337d2a65c891f2e29d8e1c862"
--SRCREV_meta ?= "70b2480497528245c948ec259c734d74ea4fa3f1"
-+SRCREV_machine_qemuarm ?= "08336ce8b4ebc2b21c28488c85098c6816f3d99f"
-+SRCREV_machine ?= "8220749d3e8643091b118d93a857333e2c91a1eb"
-+SRCREV_meta ?= "e4ccb53f204f722583178a9249fbf5d745f0d56a"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 136bc55e92..b600211bde 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "a5fb40d66dcf9b95e82a06724fe8b33a03295af4"
--SRCREV_machine_qemuarm64 ?= "bffde671f5262afb5139ef58b10be043de1d368a"
--SRCREV_machine_qemumips ?= "ac8adae0a4a582e9593b527a14f3a7e407a22e6e"
--SRCREV_machine_qemuppc ?= "022718ee2b3805d465613f05813fd6313cbb988f"
--SRCREV_machine_qemuriscv64 ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
--SRCREV_machine_qemux86 ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
--SRCREV_machine_qemux86-64 ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
--SRCREV_machine_qemumips64 ?= "46871b96c7f3f1658f4b9875d6645ff7996e98f1"
--SRCREV_machine ?= "484eb3a36ef32d910da9a38a3f67ff2b2d1f7aa2"
--SRCREV_meta ?= "70b2480497528245c948ec259c734d74ea4fa3f1"
-+SRCREV_machine_qemuarm ?= "78a2f9d323a755a34cdc96af4bcf61ffd32a3db0"
-+SRCREV_machine_qemuarm64 ?= "aa6ec6934e35c8b0948f6b7c9bdbdef45d72be35"
-+SRCREV_machine_qemumips ?= "a892524441b30e5e8c491e22e36e3473fc6a0fe0"
-+SRCREV_machine_qemuppc ?= "784ca7c7837811123b5bd97cde964e45fbf5179b"
-+SRCREV_machine_qemuriscv64 ?= "e3134debcf01f0aa20103e22fe2ef5fc7c201120"
-+SRCREV_machine_qemux86 ?= "e3134debcf01f0aa20103e22fe2ef5fc7c201120"
-+SRCREV_machine_qemux86-64 ?= "e3134debcf01f0aa20103e22fe2ef5fc7c201120"
-+SRCREV_machine_qemumips64 ?= "d765ea7455bf978a9a86e8e90e032336b0baf887"
-+SRCREV_machine ?= "e3134debcf01f0aa20103e22fe2ef5fc7c201120"
-+SRCREV_meta ?= "e4ccb53f204f722583178a9249fbf5d745f0d56a"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.143"
-+LINUX_VERSION ?= "5.4.144"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_1.patch
+new file mode 100644
+index 0000000000..6fee4f640d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_1.patch
+@@ -0,0 +1,164 @@
++From e29da77e5fddf6480e3a0e80b63d703edaec751b Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Thu, 21 May 2020 21:39:44 +0200
++Subject: [PATCH] sm501: Convert printf + abort to qemu_log_mask
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Some places already use qemu_log_mask() to log unimplemented features
++or errors but some others have printf() then abort(). Convert these to
++qemu_log_mask() and avoid aborting to prevent guests to easily cause
++denial of service.
++
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Message-id: 305af87f59d81e92f2aaff09eb8a3603b8baa322.1590089984.git.balaton@eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-12829 dep#1
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/display/sm501.c | 57 ++++++++++++++++++++++------------------------
++ 1 file changed, 27 insertions(+), 30 deletions(-)
++
++diff --git a/hw/display/sm501.c b/hw/display/sm501.c
++index acc692531a..bd3ccfe311 100644
++--- a/hw/display/sm501.c
+++++ b/hw/display/sm501.c
++@@ -727,8 +727,8 @@ static void sm501_2d_operation(SM501State *s)
++     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++ 
++     if (addressing != 0x0) {
++-        printf("%s: only XY addressing is supported.\n", __func__);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
+++        return;
++     }
++ 
++     if (rop_mode == 0) {
++@@ -754,8 +754,8 @@ static void sm501_2d_operation(SM501State *s)
++ 
++     if ((s->twoD_source_base & 0x08000000) ||
++         (s->twoD_destination_base & 0x08000000)) {
++-        printf("%s: only local memory is supported.\n", __func__);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: only local memory is supported.\n");
+++        return;
++     }
++ 
++     switch (operation) {
++@@ -823,9 +823,9 @@ static void sm501_2d_operation(SM501State *s)
++         break;
++ 
++     default:
++-        printf("non-implemented SM501 2D operation. %d\n", operation);
++-        abort();
++-        break;
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
+++                      operation);
+++        return;
++     }
++ 
++     if (dst_base >= get_fb_addr(s, crt) &&
++@@ -892,9 +892,8 @@ static uint64_t sm501_system_config_read(void *opaque, hwaddr addr,
++         break;
++ 
++     default:
++-        printf("sm501 system config : not implemented register read."
++-               " addr=%x\n", (int)addr);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented system config"
+++                      "register read. addr=%" HWADDR_PRIx "\n", addr);
++     }
++ 
++     return ret;
++@@ -948,15 +947,15 @@ static void sm501_system_config_write(void *opaque, hwaddr addr,
++         break;
++     case SM501_ENDIAN_CONTROL:
++         if (value & 0x00000001) {
++-            printf("sm501 system config : big endian mode not implemented.\n");
++-            abort();
+++            qemu_log_mask(LOG_UNIMP, "sm501: system config big endian mode not"
+++                          " implemented.\n");
++         }
++         break;
++ 
++     default:
++-        printf("sm501 system config : not implemented register write."
++-               " addr=%x, val=%x\n", (int)addr, (uint32_t)value);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented system config"
+++                      "register write. addr=%" HWADDR_PRIx
+++                      ", val=%" PRIx64 "\n", addr, value);
++     }
++ }
++ 
++@@ -1207,9 +1206,8 @@ static uint64_t sm501_disp_ctrl_read(void *opaque, hwaddr addr,
++         break;
++ 
++     default:
++-        printf("sm501 disp ctrl : not implemented register read."
++-               " addr=%x\n", (int)addr);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
+++                      "read. addr=%" HWADDR_PRIx "\n", addr);
++     }
++ 
++     return ret;
++@@ -1345,9 +1343,9 @@ static void sm501_disp_ctrl_write(void *opaque, hwaddr addr,
++         break;
++ 
++     default:
++-        printf("sm501 disp ctrl : not implemented register write."
++-               " addr=%x, val=%x\n", (int)addr, (unsigned)value);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
+++                      "write. addr=%" HWADDR_PRIx
+++                      ", val=%" PRIx64 "\n", addr, value);
++     }
++ }
++ 
++@@ -1433,9 +1431,8 @@ static uint64_t sm501_2d_engine_read(void *opaque, hwaddr addr,
++         ret = 0; /* Should return interrupt status */
++         break;
++     default:
++-        printf("sm501 disp ctrl : not implemented register read."
++-               " addr=%x\n", (int)addr);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
+++                      "read. addr=%" HWADDR_PRIx "\n", addr);
++     }
++ 
++     return ret;
++@@ -1520,9 +1517,9 @@ static void sm501_2d_engine_write(void *opaque, hwaddr addr,
++         /* ignored, writing 0 should clear interrupt status */
++         break;
++     default:
++-        printf("sm501 2d engine : not implemented register write."
++-               " addr=%x, val=%x\n", (int)addr, (unsigned)value);
++-        abort();
+++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2d engine register "
+++                      "write. addr=%" HWADDR_PRIx
+++                      ", val=%" PRIx64 "\n", addr, value);
++     }
++ }
++ 
++@@ -1670,9 +1667,9 @@ static void sm501_update_display(void *opaque)
++         draw_line = draw_line32_funcs[dst_depth_index];
++         break;
++     default:
++-        printf("sm501 update display : invalid control register value.\n");
++-        abort();
++-        break;
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: update display"
+++                      "invalid control register value.\n");
+++        return;
++     }
++ 
++     /* set up to draw hardware cursor */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_2.patch
+new file mode 100644
+index 0000000000..e7258a43d3
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_2.patch
+@@ -0,0 +1,139 @@
++From 6f8183b5dc5b309378687830a25e85ea8fb860ea Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Thu, 21 May 2020 21:39:44 +0200
++Subject: [PATCH 2/5] sm501: Shorten long variable names in sm501_2d_operation
++
++This increases readability and cleans up some confusing naming.
++
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Message-id: b9b67b94c46e945252a73c77dfd117132c63c4fb.1590089984.git.balaton@eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-12829 dep#2
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/display/sm501.c | 45 ++++++++++++++++++++++-----------------------
++ 1 file changed, 22 insertions(+), 23 deletions(-)
++
++diff --git a/hw/display/sm501.c b/hw/display/sm501.c
++index bd3ccfe311..f42d05e1e4 100644
++--- a/hw/display/sm501.c
+++++ b/hw/display/sm501.c
++@@ -700,17 +700,16 @@ static inline void hwc_invalidate(SM501State *s, int crt)
++ static void sm501_2d_operation(SM501State *s)
++ {
++     /* obtain operation parameters */
++-    int operation = (s->twoD_control >> 16) & 0x1f;
+++    int cmd = (s->twoD_control >> 16) & 0x1F;
++     int rtl = s->twoD_control & 0x8000000;
++     int src_x = (s->twoD_source >> 16) & 0x01FFF;
++     int src_y = s->twoD_source & 0xFFFF;
++     int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
++     int dst_y = s->twoD_destination & 0xFFFF;
++-    int operation_width = (s->twoD_dimension >> 16) & 0x1FFF;
++-    int operation_height = s->twoD_dimension & 0xFFFF;
+++    int width = (s->twoD_dimension >> 16) & 0x1FFF;
+++    int height = s->twoD_dimension & 0xFFFF;
++     uint32_t color = s->twoD_foreground;
++-    int format_flags = (s->twoD_stretch >> 20) & 0x3;
++-    int addressing = (s->twoD_stretch >> 16) & 0xF;
+++    int format = (s->twoD_stretch >> 20) & 0x3;
++     int rop_mode = (s->twoD_control >> 15) & 0x1; /* 1 for rop2, else rop3 */
++     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
++     int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
++@@ -721,12 +720,12 @@ static void sm501_2d_operation(SM501State *s)
++     /* get frame buffer info */
++     uint8_t *src = s->local_mem + src_base;
++     uint8_t *dst = s->local_mem + dst_base;
++-    int src_width = s->twoD_pitch & 0x1FFF;
++-    int dst_width = (s->twoD_pitch >> 16) & 0x1FFF;
+++    int src_pitch = s->twoD_pitch & 0x1FFF;
+++    int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
++     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
++     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++ 
++-    if (addressing != 0x0) {
+++    if ((s->twoD_stretch >> 16) & 0xF) {
++         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
++         return;
++     }
++@@ -758,20 +757,20 @@ static void sm501_2d_operation(SM501State *s)
++         return;
++     }
++ 
++-    switch (operation) {
+++    switch (cmd) {
++     case 0x00: /* copy area */
++ #define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
++         int y, x, index_d, index_s;                                           \
++-        for (y = 0; y < operation_height; y++) {                              \
++-            for (x = 0; x < operation_width; x++) {                           \
+++        for (y = 0; y < height; y++) {                              \
+++            for (x = 0; x < width; x++) {                           \
++                 _pixel_type val;                                              \
++                                                                               \
++                 if (rtl) {                                                    \
++-                    index_s = ((src_y - y) * src_width + src_x - x) * _bpp;   \
++-                    index_d = ((dst_y - y) * dst_width + dst_x - x) * _bpp;   \
+++                    index_s = ((src_y - y) * src_pitch + src_x - x) * _bpp;   \
+++                    index_d = ((dst_y - y) * dst_pitch + dst_x - x) * _bpp;   \
++                 } else {                                                      \
++-                    index_s = ((src_y + y) * src_width + src_x + x) * _bpp;   \
++-                    index_d = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
+++                    index_s = ((src_y + y) * src_pitch + src_x + x) * _bpp;   \
+++                    index_d = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
++                 }                                                             \
++                 if (rop_mode == 1 && rop == 5) {                              \
++                     /* Invert dest */                                         \
++@@ -783,7 +782,7 @@ static void sm501_2d_operation(SM501State *s)
++             }                                                                 \
++         }                                                                     \
++     }
++-        switch (format_flags) {
+++        switch (format) {
++         case 0:
++             COPY_AREA(1, uint8_t, rtl);
++             break;
++@@ -799,15 +798,15 @@ static void sm501_2d_operation(SM501State *s)
++     case 0x01: /* fill rectangle */
++ #define FILL_RECT(_bpp, _pixel_type) {                                      \
++         int y, x;                                                           \
++-        for (y = 0; y < operation_height; y++) {                            \
++-            for (x = 0; x < operation_width; x++) {                         \
++-                int index = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
+++        for (y = 0; y < height; y++) {                            \
+++            for (x = 0; x < width; x++) {                         \
+++                int index = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
++                 *(_pixel_type *)&dst[index] = (_pixel_type)color;           \
++             }                                                               \
++         }                                                                   \
++     }
++ 
++-        switch (format_flags) {
+++        switch (format) {
++         case 0:
++             FILL_RECT(1, uint8_t);
++             break;
++@@ -824,14 +823,14 @@ static void sm501_2d_operation(SM501State *s)
++ 
++     default:
++         qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
++-                      operation);
+++                      cmd);
++         return;
++     }
++ 
++     if (dst_base >= get_fb_addr(s, crt) &&
++         dst_base <= get_fb_addr(s, crt) + fb_len) {
++-        int dst_len = MIN(fb_len, ((dst_y + operation_height - 1) * dst_width +
++-                           dst_x + operation_width) * (1 << format_flags));
+++        int dst_len = MIN(fb_len, ((dst_y + height - 1) * dst_pitch +
+++                          dst_x + width) * (1 << format));
++         if (dst_len) {
++             memory_region_set_dirty(&s->local_mem_region, dst_base, dst_len);
++         }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_3.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_3.patch
+new file mode 100644
+index 0000000000..c647028cfe
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_3.patch
+@@ -0,0 +1,47 @@
++From 2824809b7f8f03ddc6e2b7e33e78c06022424298 Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Thu, 21 May 2020 21:39:44 +0200
++Subject: [PATCH 3/5] sm501: Use BIT(x) macro to shorten constant
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Message-id: 124bf5de8d7cf503b32b377d0445029a76bfbd49.1590089984.git.balaton@eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-12829 dep#3
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/display/sm501.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/hw/display/sm501.c b/hw/display/sm501.c
++index f42d05e1e4..97660090bb 100644
++--- a/hw/display/sm501.c
+++++ b/hw/display/sm501.c
++@@ -701,7 +701,7 @@ static void sm501_2d_operation(SM501State *s)
++ {
++     /* obtain operation parameters */
++     int cmd = (s->twoD_control >> 16) & 0x1F;
++-    int rtl = s->twoD_control & 0x8000000;
+++    int rtl = s->twoD_control & BIT(27);
++     int src_x = (s->twoD_source >> 16) & 0x01FFF;
++     int src_y = s->twoD_source & 0xFFFF;
++     int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
++@@ -751,8 +751,7 @@ static void sm501_2d_operation(SM501State *s)
++         }
++     }
++ 
++-    if ((s->twoD_source_base & 0x08000000) ||
++-        (s->twoD_destination_base & 0x08000000)) {
+++    if (s->twoD_source_base & BIT(27) || s->twoD_destination_base & BIT(27)) {
++         qemu_log_mask(LOG_UNIMP, "sm501: only local memory is supported.\n");
++         return;
++     }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_4.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_4.patch
+new file mode 100644
+index 0000000000..485af05e1e
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_4.patch
+@@ -0,0 +1,100 @@
++From 3d0b096298b5579a7fa0753ad90968b27bc65372 Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Thu, 21 May 2020 21:39:44 +0200
++Subject: [PATCH 4/5] sm501: Clean up local variables in sm501_2d_operation
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Make variables local to the block they are used in to make it clearer
++which operation they are needed for.
++
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Message-id: ae59f8138afe7f6a5a4a82539d0f61496a906b06.1590089984.git.balaton@eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-12829 dep#4
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/display/sm501.c | 31 ++++++++++++++++---------------
++ 1 file changed, 16 insertions(+), 15 deletions(-)
++
++diff --git a/hw/display/sm501.c b/hw/display/sm501.c
++index 97660090bb..5ed57703d8 100644
++--- a/hw/display/sm501.c
+++++ b/hw/display/sm501.c
++@@ -699,28 +699,19 @@ static inline void hwc_invalidate(SM501State *s, int crt)
++ 
++ static void sm501_2d_operation(SM501State *s)
++ {
++-    /* obtain operation parameters */
++     int cmd = (s->twoD_control >> 16) & 0x1F;
++     int rtl = s->twoD_control & BIT(27);
++-    int src_x = (s->twoD_source >> 16) & 0x01FFF;
++-    int src_y = s->twoD_source & 0xFFFF;
++-    int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
++-    int dst_y = s->twoD_destination & 0xFFFF;
++-    int width = (s->twoD_dimension >> 16) & 0x1FFF;
++-    int height = s->twoD_dimension & 0xFFFF;
++-    uint32_t color = s->twoD_foreground;
++     int format = (s->twoD_stretch >> 20) & 0x3;
++     int rop_mode = (s->twoD_control >> 15) & 0x1; /* 1 for rop2, else rop3 */
++     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
++     int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
++     int rop = s->twoD_control & 0xFF;
++-    uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
+++    int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
+++    int dst_y = s->twoD_destination & 0xFFFF;
+++    int width = (s->twoD_dimension >> 16) & 0x1FFF;
+++    int height = s->twoD_dimension & 0xFFFF;
++     uint32_t dst_base = s->twoD_destination_base & 0x03FFFFFF;
++-
++-    /* get frame buffer info */
++-    uint8_t *src = s->local_mem + src_base;
++     uint8_t *dst = s->local_mem + dst_base;
++-    int src_pitch = s->twoD_pitch & 0x1FFF;
++     int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
++     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
++     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++@@ -758,6 +749,13 @@ static void sm501_2d_operation(SM501State *s)
++ 
++     switch (cmd) {
++     case 0x00: /* copy area */
+++    {
+++        int src_x = (s->twoD_source >> 16) & 0x01FFF;
+++        int src_y = s->twoD_source & 0xFFFF;
+++        uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
+++        uint8_t *src = s->local_mem + src_base;
+++        int src_pitch = s->twoD_pitch & 0x1FFF;
+++
++ #define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
++         int y, x, index_d, index_s;                                           \
++         for (y = 0; y < height; y++) {                              \
++@@ -793,8 +791,11 @@ static void sm501_2d_operation(SM501State *s)
++             break;
++         }
++         break;
++-
+++    }
++     case 0x01: /* fill rectangle */
+++    {
+++        uint32_t color = s->twoD_foreground;
+++
++ #define FILL_RECT(_bpp, _pixel_type) {                                      \
++         int y, x;                                                           \
++         for (y = 0; y < height; y++) {                            \
++@@ -819,7 +820,7 @@ static void sm501_2d_operation(SM501State *s)
++             break;
++         }
++         break;
++-
+++    }
++     default:
++         qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
++                       cmd);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_5.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_5.patch
+new file mode 100644
+index 0000000000..ab09e8b039
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829_5.patch
+@@ -0,0 +1,266 @@
++From b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4 Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Thu, 21 May 2020 21:39:44 +0200
++Subject: [PATCH 5/5] sm501: Replace hand written implementation with pixman
++ where possible
++
++Besides being faster this should also prevent malicious guests to
++abuse 2D engine to overwrite data or cause a crash.
++
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Message-id: 58666389b6cae256e4e972a32c05cf8aa51bffc0.1590089984.git.balaton@eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-12829 
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/display/sm501.c | 207 ++++++++++++++++++++++++++-------------------
++ 1 file changed, 119 insertions(+), 88 deletions(-)
++
++diff --git a/hw/display/sm501.c b/hw/display/sm501.c
++index 5ed57703d8..8bf4d111f4 100644
++--- a/hw/display/sm501.c
+++++ b/hw/display/sm501.c
++@@ -706,13 +706,12 @@ static void sm501_2d_operation(SM501State *s)
++     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
++     int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
++     int rop = s->twoD_control & 0xFF;
++-    int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
++-    int dst_y = s->twoD_destination & 0xFFFF;
++-    int width = (s->twoD_dimension >> 16) & 0x1FFF;
++-    int height = s->twoD_dimension & 0xFFFF;
+++    unsigned int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
+++    unsigned int dst_y = s->twoD_destination & 0xFFFF;
+++    unsigned int width = (s->twoD_dimension >> 16) & 0x1FFF;
+++    unsigned int height = s->twoD_dimension & 0xFFFF;
++     uint32_t dst_base = s->twoD_destination_base & 0x03FFFFFF;
++-    uint8_t *dst = s->local_mem + dst_base;
++-    int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
+++    unsigned int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
++     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
++     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++ 
++@@ -721,104 +720,136 @@ static void sm501_2d_operation(SM501State *s)
++         return;
++     }
++ 
++-    if (rop_mode == 0) {
++-        if (rop != 0xcc) {
++-            /* Anything other than plain copies are not supported */
++-            qemu_log_mask(LOG_UNIMP, "sm501: rop3 mode with rop %x is not "
++-                          "supported.\n", rop);
++-        }
++-    } else {
++-        if (rop2_source_is_pattern && rop != 0x5) {
++-            /* For pattern source, we support only inverse dest */
++-            qemu_log_mask(LOG_UNIMP, "sm501: rop2 source being the pattern and "
++-                          "rop %x is not supported.\n", rop);
++-        } else {
++-            if (rop != 0x5 && rop != 0xc) {
++-                /* Anything other than plain copies or inverse dest is not
++-                 * supported */
++-                qemu_log_mask(LOG_UNIMP, "sm501: rop mode %x is not "
++-                              "supported.\n", rop);
++-            }
++-        }
++-    }
++-
++     if (s->twoD_source_base & BIT(27) || s->twoD_destination_base & BIT(27)) {
++         qemu_log_mask(LOG_UNIMP, "sm501: only local memory is supported.\n");
++         return;
++     }
++ 
+++    if (!dst_pitch) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: Zero dest pitch.\n");
+++        return;
+++    }
+++
+++    if (!width || !height) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: Zero size 2D op.\n");
+++        return;
+++    }
+++
+++    if (rtl) {
+++        dst_x -= width - 1;
+++        dst_y -= height - 1;
+++    }
+++
+++    if (dst_base >= get_local_mem_size(s) || dst_base +
+++        (dst_x + width + (dst_y + height) * (dst_pitch + width)) *
+++        (1 << format) >= get_local_mem_size(s)) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: 2D op dest is outside vram.\n");
+++        return;
+++    }
+++
++     switch (cmd) {
++-    case 0x00: /* copy area */
+++    case 0: /* BitBlt */
++     {
++-        int src_x = (s->twoD_source >> 16) & 0x01FFF;
++-        int src_y = s->twoD_source & 0xFFFF;
+++        unsigned int src_x = (s->twoD_source >> 16) & 0x01FFF;
+++        unsigned int src_y = s->twoD_source & 0xFFFF;
++         uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
++-        uint8_t *src = s->local_mem + src_base;
++-        int src_pitch = s->twoD_pitch & 0x1FFF;
++-
++-#define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
++-        int y, x, index_d, index_s;                                           \
++-        for (y = 0; y < height; y++) {                              \
++-            for (x = 0; x < width; x++) {                           \
++-                _pixel_type val;                                              \
++-                                                                              \
++-                if (rtl) {                                                    \
++-                    index_s = ((src_y - y) * src_pitch + src_x - x) * _bpp;   \
++-                    index_d = ((dst_y - y) * dst_pitch + dst_x - x) * _bpp;   \
++-                } else {                                                      \
++-                    index_s = ((src_y + y) * src_pitch + src_x + x) * _bpp;   \
++-                    index_d = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
++-                }                                                             \
++-                if (rop_mode == 1 && rop == 5) {                              \
++-                    /* Invert dest */                                         \
++-                    val = ~*(_pixel_type *)&dst[index_d];                     \
++-                } else {                                                      \
++-                    val = *(_pixel_type *)&src[index_s];                      \
++-                }                                                             \
++-                *(_pixel_type *)&dst[index_d] = val;                          \
++-            }                                                                 \
++-        }                                                                     \
++-    }
++-        switch (format) {
++-        case 0:
++-            COPY_AREA(1, uint8_t, rtl);
++-            break;
++-        case 1:
++-            COPY_AREA(2, uint16_t, rtl);
++-            break;
++-        case 2:
++-            COPY_AREA(4, uint32_t, rtl);
++-            break;
+++        unsigned int src_pitch = s->twoD_pitch & 0x1FFF;
+++
+++        if (!src_pitch) {
+++            qemu_log_mask(LOG_GUEST_ERROR, "sm501: Zero src pitch.\n");
+++            return;
+++        }
+++
+++        if (rtl) {
+++            src_x -= width - 1;
+++            src_y -= height - 1;
+++        }
+++
+++        if (src_base >= get_local_mem_size(s) || src_base +
+++            (src_x + width + (src_y + height) * (src_pitch + width)) *
+++            (1 << format) >= get_local_mem_size(s)) {
+++            qemu_log_mask(LOG_GUEST_ERROR,
+++                          "sm501: 2D op src is outside vram.\n");
+++            return;
+++        }
+++
+++        if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
+++            /* Invert dest, is there a way to do this with pixman? */
+++            unsigned int x, y, i;
+++            uint8_t *d = s->local_mem + dst_base;
+++
+++            for (y = 0; y < height; y++) {
+++                i = (dst_x + (dst_y + y) * dst_pitch) * (1 << format);
+++                for (x = 0; x < width; x++, i += (1 << format)) {
+++                    switch (format) {
+++                    case 0:
+++                        d[i] = ~d[i];
+++                        break;
+++                    case 1:
+++                        *(uint16_t *)&d[i] = ~*(uint16_t *)&d[i];
+++                        break;
+++                    case 2:
+++                        *(uint32_t *)&d[i] = ~*(uint32_t *)&d[i];
+++                        break;
+++                    }
+++                }
+++            }
+++        } else {
+++            /* Do copy src for unimplemented ops, better than unpainted area */
+++            if ((rop_mode && (rop != 0xc || rop2_source_is_pattern)) ||
+++                (!rop_mode && rop != 0xcc)) {
+++                qemu_log_mask(LOG_UNIMP,
+++                              "sm501: rop%d op %x%s not implemented\n",
+++                              (rop_mode ? 2 : 3), rop,
+++                              (rop2_source_is_pattern ?
+++                                  " with pattern source" : ""));
+++            }
+++            /* Check for overlaps, this could be made more exact */
+++            uint32_t sb, se, db, de;
+++            sb = src_base + src_x + src_y * (width + src_pitch);
+++            se = sb + width + height * (width + src_pitch);
+++            db = dst_base + dst_x + dst_y * (width + dst_pitch);
+++            de = db + width + height * (width + dst_pitch);
+++            if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
+++                /* regions may overlap: copy via temporary */
+++                int llb = width * (1 << format);
+++                int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
+++                uint32_t *tmp = g_malloc(tmp_stride * sizeof(uint32_t) *
+++                                         height);
+++                pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
+++                           src_pitch * (1 << format) / sizeof(uint32_t),
+++                           tmp_stride, 8 * (1 << format), 8 * (1 << format),
+++                           src_x, src_y, 0, 0, width, height);
+++                pixman_blt(tmp, (uint32_t *)&s->local_mem[dst_base],
+++                           tmp_stride,
+++                           dst_pitch * (1 << format) / sizeof(uint32_t),
+++                           8 * (1 << format), 8 * (1 << format),
+++                           0, 0, dst_x, dst_y, width, height);
+++                g_free(tmp);
+++            } else {
+++                pixman_blt((uint32_t *)&s->local_mem[src_base],
+++                           (uint32_t *)&s->local_mem[dst_base],
+++                           src_pitch * (1 << format) / sizeof(uint32_t),
+++                           dst_pitch * (1 << format) / sizeof(uint32_t),
+++                           8 * (1 << format), 8 * (1 << format),
+++                           src_x, src_y, dst_x, dst_y, width, height);
+++            }
++         }
++         break;
++     }
++-    case 0x01: /* fill rectangle */
+++    case 1: /* Rectangle Fill */
++     {
++         uint32_t color = s->twoD_foreground;
++ 
++-#define FILL_RECT(_bpp, _pixel_type) {                                      \
++-        int y, x;                                                           \
++-        for (y = 0; y < height; y++) {                            \
++-            for (x = 0; x < width; x++) {                         \
++-                int index = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
++-                *(_pixel_type *)&dst[index] = (_pixel_type)color;           \
++-            }                                                               \
++-        }                                                                   \
++-    }
++-
++-        switch (format) {
++-        case 0:
++-            FILL_RECT(1, uint8_t);
++-            break;
++-        case 1:
++-            color = cpu_to_le16(color);
++-            FILL_RECT(2, uint16_t);
++-            break;
++-        case 2:
+++        if (format == 2) {
++             color = cpu_to_le32(color);
++-            FILL_RECT(4, uint32_t);
++-            break;
+++        } else if (format == 1) {
+++            color = cpu_to_le16(color);
++         }
+++
+++        pixman_fill((uint32_t *)&s->local_mem[dst_base],
+++                    dst_pitch * (1 << format) / sizeof(uint32_t),
+++                    8 * (1 << format), dst_x, dst_y, width, height, color);
++         break;
++     }
++     default:
++-- 
++2.25.1
++
 -- 
-2.31.1
+2.25.1
 
