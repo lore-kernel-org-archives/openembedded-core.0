@@ -1,63 +1,92 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.8023.1631779385491878069
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+ by mx.groups.io with SMTP id smtpd.web08.8198.1631780914545425718
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 01:03:05 -0700
+ Thu, 16 Sep 2021 01:28:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f9r3Do55;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id y132so4124316wmc.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 01:03:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bOg2sUoW;
+ spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: pgowda.cve@gmail.com)
+Received: by mail-vs1-f49.google.com with SMTP id c28so5322608vsh.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 01:28:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=nRqH6VRR7b99ui5I9K6L+gw37BUXTqvsGJLZJ20HWAs=;
-        b=f9r3Do55KHLl50hGH1p1ea4WVbzxTDIg0/3PKc6lWKsZmneeHx/BPZStMkXIx/L0HI
-         OUmcM0IohO9xlwlLwg3SMQd9C/6/riUZUw89ZolJ8y5ZzeTOcrbATlGtOOqIYl97YMQC
-         eyz8P+Nj0JMr6kgMLqEXhubg0tr/ckTOKoSKI=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KmDX9xPa37pGh1LyQOe6A06zPS6RZxCw7mifuWZVBjQ=;
+        b=bOg2sUoWxVDjgMycc3sRMiU5bJqrk1IB3+h1q+INT2AEnsbreBa8igcGz3FQy6o6N/
+         bA7IEonafbyghw1m1SZwX8yY4MqWzvxs+quP+BE3NIm7fYmTg68omNelqAXuy/8JiKJD
+         8OYEytusK03xV73kj7sXmRdOBXDzFzEhqSV8AeDf5kplcWfPmT7EnblKRuFlN4upyHji
+         4Q7LL/pDLdnqGrZ8OSgqioSrmY6qfyyx+X+s2JzLZuOq/MD+ELUKOBd75lEV11Dt/lwl
+         yUL2JKpKCG0D/gZTML/reQ9o+WusXZq3OggyQcF15EpbN8T3pZTHX0Pws6mvSlQGG1JT
+         IVDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=nRqH6VRR7b99ui5I9K6L+gw37BUXTqvsGJLZJ20HWAs=;
-        b=YmMWaquS5GihCTOAEuR83EIy8qJO5fsb0ezG9r8YVUIZt4ruRfoDagtoutW1E8clr4
-         Dpn66txk3ruyTi9hRdw4PZqCFfQWeqq5M3G0QnqCDEosRUjXaxa2HpaOP78Knm9rZ5fW
-         rB7N9udZTmZCQHnjRKBTnEVJ6zgsxoPQEJz4pPlfVFyJI2ACm7xtkdk1qKKCFiZXC2BP
-         7ZXCtq1Qw32r+5pj+RTJD1i812Sk/KtN5uTD2ayNfNBeRI4v1c6pDYUXdaw0i9lJDqbn
-         RSg3WIBOQD9sSEsDtEV3Vpdt7IDissSqzn58wfK5uzvFGp6tBTkSdWoFahgF4kWxIuhS
-         gRDg==
-X-Gm-Message-State: AOAM533WoLgXkEgzujQm8t5iZK9LjNG/jFbhEnK8E3SFcAXXGIB72mOZ
-	IaIpmbukqnDIWurKnD6l3lqlXg==
-X-Google-Smtp-Source: ABdhPJy5uxSe5GaPimGJ7x7fdXGwFsE7GIkOorkC0YkxU8kk8tI35n4m+F9nXx8t7Q3WFyKexcqWUA==
-X-Received: by 2002:a05:600c:3656:: with SMTP id y22mr8696174wmq.58.1631779383637;
-        Thu, 16 Sep 2021 01:03:03 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c? ([2001:8b0:aba:5f3c:f11f:8fd1:42b2:e87c])
-        by smtp.gmail.com with ESMTPSA id g131sm2238563wme.22.2021.09.16.01.03.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 01:03:03 -0700 (PDT)
-Message-ID: <556d590b620342703897becbeda6ebfa4d20aef3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [kirkstone][PATCH] wayland-protocols: upgrade 1.22 -> 1.23
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>, Denys Dmytriyenko
- <denis@denix.org>,  openembedded-core@lists.openembedded.org
-Date: Thu, 16 Sep 2021 09:03:02 +0100
-In-Reply-To: <137620f2-df0b-58fc-6d47-89075626c844@gmail.com>
-References: <1631754397-46490-1-git-send-email-denis@denix.org>
-	 <137620f2-df0b-58fc-6d47-89075626c844@gmail.com>
-User-Agent: Evolution 3.40.2-1build1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KmDX9xPa37pGh1LyQOe6A06zPS6RZxCw7mifuWZVBjQ=;
+        b=1NazEieXhu6qytcPBEr6CV0JsaX3VBI2sgwyHJpuFKAPlk1jYjIIjkjbQ9aN1Z23Ma
+         N8rCEnF0NQDO9kjOP1+t++afES/8XAWRauNXgYhyXSbiaoVO/FMgb6q9G6bBkRhH0h4m
+         tljXB/IdFYO0u7fQ3JkcISvUvP9PllQX8vU5g12+LQ/td9Qk8XjZEpmx1PwPBDUWjbBk
+         j0L0PRq0SHaTNBu7cwsVnh2zCiWlrwS3U6/J7MEjR4dDfrJo4NlAat5DTFmDzzT93IzK
+         Fk+2CT2mdiTjDT0+MLQ7AnMBtMhBY0PC72vcLKkYHFuXHEfQdw4PL+qipOCF94XUcWpn
+         Xj6Q==
+X-Gm-Message-State: AOAM533ga49j8UEuV7AG72PRv2+LbeGWI3TFOOp+fyeSSDaMCXTNIXOU
+	o7WpsqYw6oGHfJ6V+J0Xx9W5Z5XhR75CtMrVSjw=
+X-Google-Smtp-Source: ABdhPJzd+XOKOS2soHanDc5+taHiDrKQfQ0j41ethGseLuHlwWweGFYyb+43ITfxL0ithyijw9GaiEuVlF5jQ68xI3o=
+X-Received: by 2002:a05:6102:3099:: with SMTP id l25mr3011719vsb.49.1631780913692;
+ Thu, 16 Sep 2021 01:28:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210915114618.157245-1-pgowda.cve@gmail.com> <16A53DBD300C0C8E.4388@lists.openembedded.org>
+ <07fc5dc3d216f0fa6c081506aa92701508604bab.camel@linuxfoundation.org>
+In-Reply-To: <07fc5dc3d216f0fa6c081506aa92701508604bab.camel@linuxfoundation.org>
+From: "Pgowda" <pgowda.cve@gmail.com>
+Date: Thu, 16 Sep 2021 13:58:23 +0530
+Message-ID: <CALY4984U1txY2y6yJQQKts20Hb6x-86gtXhHx9UoEeDxF1yyTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] state/staging: Fix directory not deleted for race
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Randy MacLeod <rwmacleod@gmail.com>, umesh.kalappa0@gmail.com, 
+	Vinay Kumar <vinay.m.engg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-09-15 at 19:31 -0700, Armin Kuster wrote:
-> So we wait until that branch is created in 5 months before we can apply
-> it ?  Is this like post dating a check?
+Hi Richard,
 
-Alexandre and I are using "kirkstone-next" as a place to queue things for the
-next release so this does make sense.
+Thanks for reviewing the patch and your comments.
 
-Cheers,
+> Looking further at this and your description, I think you might be saying there
+> are multiple levels of empty directories.
 
-Richard
+Yes. There are multiple level of directories as follows:-
 
+/tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
+/usr/include/c++/11.2.0/x86_64-poky-linux/ext
+/tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
+/usr/include/c++/11.2.0/x86_64-poky-linux/bits
+/tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
+/usr/include/c++/11.2.0/x86_64-poky-linux
+
+> I would also like to understand why these files overlap and are symlinks in one
+> case but directories in another. Can you show some specific examples of the
+> files in question?
+
+It happens when we build rust-hello-world for glibc followed by musl
+as follows:-
+TCLIBC=glibc MACHINE=qemuarm bitbake rust-hello-world
+TCLIBC=musl MACHINE=qemuarm bitbake rust-hello-world
+
+The recipe do_prepare_recipe_sysroot tries to populate the sysroot file.
+The glibc build had already generated the sysroot and copied properly.
+When we build the musl later on, it tries to remove the above
+directory and symlink
+the newly built musl files. It was deleted properly before the race
+issue was observed.
+However, after the race issue; files are being deleted but the
+directory and sub directories
+are left undeleted which resulted in the error.
+
+> The missing json file sounds like there could be some file not being handled by
+> sstate but it is hard to know without looking at the code.
+
+Thanks. I will try to debug the issue further.
+
+Regards,
+pgowda
