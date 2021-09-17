@@ -1,118 +1,96 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web10.213.1631893596493193908
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web09.280.1631893631980585853
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Sep 2021 08:46:36 -0700
+ Fri, 17 Sep 2021 08:47:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="202979786"
-X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; 
-   d="scan'208";a="202979786"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2021 08:46:33 -0700
-X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; 
-   d="scan'208";a="530877355"
-Received: from weileewo-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.140.160])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2021 08:46:32 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/17] Pull request (cover letter only)
-Date: Fri, 17 Sep 2021 23:46:27 +0800
-Message-Id: <cover.1631893475.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 220006000F;
+	Fri, 17 Sep 2021 15:47:08 +0000 (UTC)
+Date: Fri, 17 Sep 2021 17:47:08 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: kristian@klausen.dk
+Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] systemd: Add tpm2 PACKAGECONFIG
+Message-ID: <YUS4fOY2J2hoAsxx@piout.net>
+References: <20210915102308.1892-1-kristian@klausen.dk>
+ <20210915104818.43wown7ss2pcfnky@fedora>
+ <YUHZe8zK2lV0lWPy@bob>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YUHZe8zK2lV0lWPy@bob>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Please merge these changes.
+On 15/09/2021 13:31:07+0200, Kristian Klausen via lists.openembedded.org wrote:
+> Den Wed, Sep 15, 2021 at 12:48:18 +0200 skrev Quentin Schulz:
+> > Hi Kristian,
+> > 
+> > On Wed, Sep 15, 2021 at 12:23:08PM +0200, Kristian Klausen via lists.openembedded.org wrote:
+> > > The TPM2 support is used, among other things, for unlocking encrypted
+> > > volumes.
+> > > 
+> > > Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+> > > ---
+> > >  meta/recipes-core/systemd/systemd_249.3.bb | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/meta/recipes-core/systemd/systemd_249.3.bb b/meta/recipes-core/systemd/systemd_249.3.bb
+> > > index c027b88fd6..f8c85dabf0 100644
+> > > --- a/meta/recipes-core/systemd/systemd_249.3.bb
+> > > +++ b/meta/recipes-core/systemd/systemd_249.3.bb
+> > > @@ -128,6 +128,7 @@ PACKAGECONFIG[bzip2] = "-Dbzip2=true,-Dbzip2=false,bzip2"
+> > >  PACKAGECONFIG[cgroupv2] = "-Ddefault-hierarchy=unified,-Ddefault-hierarchy=hybrid"
+> > >  PACKAGECONFIG[coredump] = "-Dcoredump=true,-Dcoredump=false"
+> > >  PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup,,cryptsetup"
+> > > +PACKAGECONFIG[tpm2] = "-Dtpm2=true,-Dtpm2=false,tpm2-tss,tpm2-tss libtss2 libtss2-tcti-device"
+> > 
+> > Shouldn't the RDEPENDS part of the PACKAGECONFIG be pulled in
+> > automatically by Bitbake since I assume the libs they contained are used
+> > by the linker for systemd?
+> > 
+> > Also looking at the tpm2-tss recipe, I'm not sure there's a package
+> > named libtss2-tcti-device?
+> 
+> Are we looking at the same recipe? It is defined in 
+> tpm2-tss_3.0.3.bb[1].
+> 
+> [1] https://git.yoctoproject.org/cgit/cgit.cgi/meta-security/tree/meta-tpm/recipes-tpm2/tpm2-tss/tpm2-tss_3.0.3.bb?id=e0fca90835169e21ffabe6f2e4b901678236d36e#n37
+> 
 
-Thanks,
+Then, shouldn't that be a bbappend in meta-security? Else, you run the
+risk of pulling a dependency for a recipe in a layer you don't have.
 
-Anuj
+> > 
+> > I would assume that
+> > 
+> > PACKAGECONFIG[tpm2] = "-Dtpm2=true,-Dtpm2=false,tpm2-tss"
+> > 
+> > would be enough except if there's dynamic loading of libraries or
+> > binaries from tpm2-tss that are required at runtime?
+> 
+> I my testing it didn't work, presumably due to systemd not linking with 
+> libtss2*.so but loading them with dlopen()[2].
+> 
+> libtss2 is also using dlopen() for loading the TCTI implementation 
+> (libtss2-tcti-device in this case)[3].
+> 
+> [2] https://github.com/systemd/systemd/blob/aff870ef61bda152ea6241f684dcab26a9265e78/src/shared/tpm2-util.c#L46-L81
+> [3] https://github.com/tpm2-software/tpm2-tss/blob/9288970a3e657cdee85d08d3813199ec864de3ad/src/tss2-tcti/tctildr-dl.c#L79-L125
+> 
+> Cheers,
+> Kristian
+> 
+> > 
+> > Cheers,
+> > Quentin
 
-The following changes since commit 567dd35d893c5d8969d41f263a24da8fbae3fc2f:
+> 
+> 
+> 
 
-  build-appliance-image: Update to hardknott head revision (2021-09-09 10:19:49 +0100)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Armin Kuster (1):
-  apr: Security fix for CVE-2021-35940
-
-Bruce Ashfield (4):
-  linux-yocto/5.10: update to v5.10.61
-  linux-yocto/5.10: update to v5.10.63
-  linux-yocto/5.4: update to v5.4.143
-  linux-yocto/5.4: update to v5.4.144
-
-Changqing Li (1):
-  sqlite3: fix CVE-2021-36690
-
-Kai Kang (2):
-  mc: fix CVE-2021-36370
-  squashfs-tools: fix CVE-2021-40153
-
-Kiran Surendran (2):
-  ffmpeg: fix CVE-2021-38291
-  ffmpeg: fix CVE-2021-38171
-
-Mingli Yu (1):
-  ruby: fix CVE-2021-31799
-
-Richard Purdie (4):
-  tcl: Exclude CVE-2021-35331 from checks
-  flex: Add CVE-2019-6293 to exclusions for checks
-  go: Exclude CVE-2021-29923 from report list
-  systemtap: Fix headers issue with x86 and 5.13 headers
-
-Trevor Gamblin (1):
-  bluez5: fix CVE-2021-0129
-
-Yi Zhao (1):
-  ruby: Security fixes for CVE-2021-31810/CVE-2021-32066
-
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...er-Fix-not-properly-checking-for-sec.patch | 113 ++++
- meta/recipes-devtools/flex/flex_2.6.4.bb      |   5 +
- meta/recipes-devtools/go/go-1.16.7.inc        |   5 +
- .../ruby/ruby/CVE-2021-31799.patch            |  57 ++
- .../ruby/ruby/CVE-2021-31810.patch            | 258 ++++++++
- .../ruby/ruby/CVE-2021-32066.patch            | 102 +++
- meta/recipes-devtools/ruby/ruby_3.0.1.bb      |   3 +
- .../squashfs-tools/files/CVE-2021-40153.patch | 253 ++++++++
- .../squashfs-tools/squashfs-tools_git.bb      |   1 +
- meta/recipes-devtools/tcltk/tcl_8.6.11.bb     |   3 +
- .../mc/files/CVE-2021-36370.patch             | 609 ++++++++++++++++++
- meta/recipes-extended/mc/mc_4.8.26.bb         |   1 +
- .../linux/linux-yocto-rt_5.10.bb              |   4 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  22 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- ...8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch |  26 +
- .../systemtap/systemtap_git.inc               |   1 +
- .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    |  40 ++
- .../ffmpeg/ffmpeg/fix-CVE-2021-38291.patch    |  54 ++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |   2 +
- .../apr/apr/CVE-2021-35940.patch              |  58 ++
- meta/recipes-support/apr/apr_1.7.0.bb         |   1 +
- .../sqlite/sqlite3/CVE-2021-36690.patch       |  62 ++
- meta/recipes-support/sqlite/sqlite3_3.35.0.bb |   4 +-
- 28 files changed, 1692 insertions(+), 35 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-shared-gatt-server-Fix-not-properly-checking-for-sec.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31810.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-32066.patch
- create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
- create mode 100644 meta/recipes-extended/mc/files/CVE-2021-36370.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38291.patch
- create mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2021-36690.patch
 
 -- 
-2.31.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
