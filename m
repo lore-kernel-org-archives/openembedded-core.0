@@ -1,95 +1,82 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web08.12217.1631883566659887063
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.12196.1631883566845567603
  for <openembedded-core@lists.openembedded.org>;
  Fri, 17 Sep 2021 05:59:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Xy1ZkL1c;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id f62-20020a1c1f41000000b0030b42643f72so1831351wmf.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SSeUoaNG;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id u19-20020a7bc053000000b002f8d045b2caso6843538wmc.1
         for <openembedded-core@lists.openembedded.org>; Fri, 17 Sep 2021 05:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7OM8MWsR8H5dnyeEK7NFTrn0XSjvlzUmllC8tLdLu4s=;
-        b=Xy1ZkL1c8VQPkUzrUrK613N6Rvfsaq8yPgBDmCjJQ1ZaeQznpmbPbRkjZ8m8NCnSLu
-         WoSy/h+9JenPBKuZjunJBZhjC1/pB6nAAvk1BC9ijd8o+Mmlp53yuG2/FwZowgFjWAEg
-         FcTSMPuSbbcOoLdKDLfhHg2O4Uz+UDwOqiwVPYiuI4ycvjhEPtQDHIy7YPSI9r7xk67X
-         Scad4b4ObCKiOi2RKvKVeK+QCgAcpMBLfq8AkJtgDx6Uh//JxxbNR2919GwfHrY67y2n
-         dmjjHyqmnn4XlZ6qDVRihuVudCKsZ2wqerlAmBsaGRivCs8d1ui+WrekLVi5iMqw7Rkl
-         yJhg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=orgJgdtg4oR6NSAQVaaKa4BHMQfK6x81PHYKgb+uh08=;
+        b=SSeUoaNGNEMDbLBQD9ndT+QqvEmJTGFNKzI7M5yy05NMs+NAHuQLzuhz8kungifXbs
+         GZ8jlFKPy6RwhpFMG0chqmw37ps8WIlCJmu/cZvdPSZyfEY1YnCLfpo9W4kRdQn8llWk
+         Nerelr1eE7Pf3YULuBT4YTHDHwKi2B9cJ8l/mnBKtmlwrEopPCOleifgu0DURo80cCAF
+         fIq9L7JvqyLRS+gNgr+J2e2McIDweMjTo7mThDAq54iRGLA3e4sM0xYXrSsSzejByaz1
+         8U7dDlL53Gg1CNs+LbdTPsWbiy4ptohLKeQI/niJBaKZc5Y9YgOsb2yNQ1mVJXXFjjIz
+         4whQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7OM8MWsR8H5dnyeEK7NFTrn0XSjvlzUmllC8tLdLu4s=;
-        b=rFnFrHoRUKSd/oAaBts35Hfsv6Or5ZuvSeustXwUfU/h0F0GNlFnu/cdDwUbGHORRF
-         zOIp0RvvkClBSz1WUqXMABskY2DJQX3mLG16GQEfP+Uxo+/uL/k+0T1kXZH391zormD2
-         6a8N2rN1DHYEp8aAVNSMR0wikqUvXcThBoZInBtLrMqEMTSXMWK643TWaBMGm404iz3J
-         lWZagHSnK+n9y02z/rlmVyYtJLBqLe1F3HvmNh/H5a3yJIX4INEmvsaIE+ykBCEwuJl1
-         RVLzHWqKujl06xapANrODFnwb1ytWU02Is5njE44R+K3BnB3HqzopeCAhWB/67xGH1IM
-         hVXw==
-X-Gm-Message-State: AOAM530vlrmCF04ENQDHWcyJEQZTwEhasHj0sBrjpDco6Of2e+buR3cw
-	Hru2g71wciX7998VTpehd9g+E5dqUds=
-X-Google-Smtp-Source: ABdhPJynTC6XP8U+iR4pLJOxIIhCRgGySmK+ionvmIGKrvjNpoqXO7Qj9rnqCOVJ9YahtfF0NEX5tQ==
-X-Received: by 2002:a1c:1d42:: with SMTP id d63mr15358982wmd.55.1631883564801;
-        Fri, 17 Sep 2021 05:59:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=orgJgdtg4oR6NSAQVaaKa4BHMQfK6x81PHYKgb+uh08=;
+        b=5Vx10F/Z6CRhjt+bMOOM7x5Rtl8wiQoiopgzRS0ofTu9uX6KDSNqMisGCBaCBktXlW
+         fHtZLwPxZnFXgwW6Vg24tuhqjRSiAeI0TJH+xZclOBcyuC3kzS+fMfxBL9mH2MZ5fW0f
+         E8ipuwU1Urxt6d5tSBtz0iinipEkb6Ig9hkUoXExD1WCRuwSq8WFSeDha1BDbuRfVgKS
+         MgOKanvMSVRMOI0v//LLQPPt42iFw5LhPcruiB/q0bOK20zeLsVr0UtuQUGOvsmeB0re
+         WfXBhRX1MdC22IEET62e4aVgl8tDfjUlqkmdYbsFI4bCpzISSAzkeATVSAVrY9dIF9ka
+         yCIw==
+X-Gm-Message-State: AOAM533ZM/OhkvPNA4YIBK5EpfupuPi2Bv4oJCbt3FC2idAzZgNbxDLJ
+	OTgKEl6Xfs7+OO6h89J81gXneoxL2hM=
+X-Google-Smtp-Source: ABdhPJyvEqdo9vQkOLvFL4gEzliV5bH5G3k1MduMDUf/5lotZC7FTG54YPGFUH2qoALiSFdWjtV/Jg==
+X-Received: by 2002:a05:600c:17d1:: with SMTP id y17mr15168040wmo.135.1631883565496;
+        Fri, 17 Sep 2021 05:59:25 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id j21sm6929041wmj.40.2021.09.17.05.59.23
+        by smtp.gmail.com with ESMTPSA id j21sm6929041wmj.40.2021.09.17.05.59.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 05:59:24 -0700 (PDT)
+        Fri, 17 Sep 2021 05:59:25 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/4] meta: correct collections vs collections.abc deprecation
-Date: Fri, 17 Sep 2021 14:59:19 +0200
-Message-Id: <20210917125922.2435721-1-alex@linutronix.de>
+Subject: [PATCH 2/4] wic: keep rootfs_size as integer
+Date: Fri, 17 Sep 2021 14:59:20 +0200
+Message-Id: <20210917125922.2435721-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210917125922.2435721-1-alex@linutronix.de>
+References: <20210917125922.2435721-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-collections.abc is available since 3.3 and doesn't need special handling.
+The corrected line accidentally converted it to float,
+which causes problems later on with python 3.10:
+
+|   File "/home/alex/development/poky/scripts/lib/wic/partition.py", line 278, in prepare_rootfs_ext
+|     os.ftruncate(sparse.fileno(), rootfs_size * 1024)
+| TypeError: 'float' object cannot be interpreted as an integer
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oe/maketype.py          | 7 +------
- scripts/lib/build_perf/report.py | 3 ++-
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ scripts/lib/wic/partition.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/maketype.py b/meta/lib/oe/maketype.py
-index d929c8b3e54..d36082c5351 100644
---- a/meta/lib/oe/maketype.py
-+++ b/meta/lib/oe/maketype.py
-@@ -10,12 +10,7 @@ the arguments of the type's factory for details.
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index ab304f1b2a8..a25834048e8 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -105,7 +105,7 @@ class Partition():
+                 extra_blocks = self.extra_space
  
- import inspect
- import oe.types as types
--try:
--    # Python 3.7+
--    from collections.abc import Callable
--except ImportError:
--    # Python < 3.7
--    from collections import Callable
-+from collections.abc import Callable
+             rootfs_size = actual_rootfs_size + extra_blocks
+-            rootfs_size *= self.overhead_factor
++            rootfs_size = int(rootfs_size * self.overhead_factor)
  
- available_types = {}
- 
-diff --git a/scripts/lib/build_perf/report.py b/scripts/lib/build_perf/report.py
-index 4e8e2a8a939..ab77424cc74 100644
---- a/scripts/lib/build_perf/report.py
-+++ b/scripts/lib/build_perf/report.py
-@@ -4,7 +4,8 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
- """Handling of build perf test reports"""
--from collections import OrderedDict, Mapping, namedtuple
-+from collections import OrderedDict, namedtuple
-+from collections.abc import Mapping
- from datetime import datetime, timezone
- from numbers import Number
- from statistics import mean, stdev, variance
+             logger.debug("Added %d extra blocks to %s to get to %d total blocks",
+                          extra_blocks, self.mountpoint, rootfs_size)
 -- 
 2.20.1
 
