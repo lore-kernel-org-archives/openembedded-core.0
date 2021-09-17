@@ -1,78 +1,79 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.9038.1631860176207779433
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web12.9801.1631866095483741232
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 23:29:36 -0700
+ Fri, 17 Sep 2021 01:08:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gxr3rQ46;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id i3so6445454wmq.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 23:29:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JRR9PA0sNZfh7RxmUDl0y0Lh8Tu4N/jUHGfj8+ShcyE=;
-        b=gxr3rQ46oyORkWvg30pYucziVZn+fKAoiofqyNzde88r0F/Xrgjcp3awY3v6XOqto3
-         TqG5+4HyB6kvo6xCknJ9ArST+jBncKY3m+d/uUPi02Ba1onuXYfGegZJ8SmnDzI2wXhE
-         Ivn0LXOA7rzoGKjI/PH2ExPyHMADnLEf1lS+Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JRR9PA0sNZfh7RxmUDl0y0Lh8Tu4N/jUHGfj8+ShcyE=;
-        b=gwv1QCrUYVDXbGbZ83Y3LSDHglU76+DDo3rbwLjnkmpMJKlJmJOFNIDE1h73tvPsTw
-         5tdjf7XqWjyvK0Ax32zrC0/22kZhahWpzYL3rD9hxOeeqJoMgLPaRwefrbsjPzedMFms
-         EGTzCro/flfxs8UXb3yfbCkrXjRFfQGrV5rPAIl4Ep0PGQBX7meiPPWU886OaCj3LqYg
-         QsV0jVXbcZ/oFLiLKEop4z2A+aDsEKQ23S3Omjc4BDux70P8mup7DQkgJM+YIAxXVncU
-         qFNYwuEojVmn8tc1huccFp9TPORPk8lWOyzhbhhh8S7dlAnBf1jjrZkv719diHRVtOng
-         9ipw==
-X-Gm-Message-State: AOAM533ijYlLVcSgbbtthtOi0F+UAzoUumAClhVgoOB5MtXj0UCw878m
-	wzxneQBVSlbj9AvmwyhQyhudpw==
-X-Google-Smtp-Source: ABdhPJwp0f2ZkcHCggvt2w4WfiJ/wDUXeq/GgNQSH6XOP9YFCIZRsZHgasTketEQRzP86xGWGGS+QQ==
-X-Received: by 2002:a05:600c:3586:: with SMTP id p6mr1047565wmq.59.1631860174529;
-        Thu, 16 Sep 2021 23:29:34 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:8eaa:e937:fa97:b2fc? ([2001:8b0:aba:5f3c:8eaa:e937:fa97:b2fc])
-        by smtp.gmail.com with ESMTPSA id y8sm5557320wrh.44.2021.09.16.23.29.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 23:29:33 -0700 (PDT)
-Message-ID: <8b09974706df7e612ac152e53b12386697da6ef4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/3] README: update mailing list address
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Armin Kuster
-	 <akuster808@gmail.com>
-Cc: Jon Mason <jdmason@kudzu.us>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Sep 2021 07:29:31 +0100
-In-Reply-To: <CADkTA4MQNPKpS=hc2U2=PqWDQX4+ZkRXr-G8anuqXdF7HJ+i4Q@mail.gmail.com>
-References: <20210916224010.21213-1-jdmason@kudzu.us>
-	 <20210916224010.21213-2-jdmason@kudzu.us>
-	 <24d4a049-fe3a-f8c0-54e9-e02b8d03289c@gmail.com>
-	 <CADkTA4MQNPKpS=hc2U2=PqWDQX4+ZkRXr-G8anuqXdF7HJ+i4Q@mail.gmail.com>
-User-Agent: Evolution 3.40.2-1build1 
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=TX1iSZqi;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
+Received: from localhost (dslb-002-207-026-172.002.207.pools.vodafone-ip.de [2.207.26.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: ch@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 6AB768319C;
+	Fri, 17 Sep 2021 10:08:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1631866092;
+	bh=TBwAVspItDQZ6JvMU8KDyZMHYXoFTYwKc0aOIpxzHaA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TX1iSZqizYW4UFo/Lf5hFHDaW1N58xHywF1YwJ5BaKL6PO212vrxZ81w2iFcLh+LJ
+	 YYdQXOkxFQIEe79QTvwRmwilkWexopOnXDGlZ+QuZS3JYzICy5aeTwpZSoAnUDw6qo
+	 RWVFBwii88ZHT+XtkhcWSuQw2er8iqilSiTUx0gSlD4KGsUJsJ0QZlsAFpwlYtLS7x
+	 Y24lNHVy4gTaRlm1de9WF1XE0dipFyZbq7kkrMg6w2FtCBibFnNBPkWyy/OcV99GZv
+	 drh+2+S9t8fwU6KLcARKHKlKlTqvF2PKVvVWsBoSU5sFJ/gntKgMBAFyDw4ZaxqxfM
+	 qhma/4wfBU1Iw==
+From: "Claudius Heine" <ch@denx.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Marek Vasut <marex@denx.de>,
+	Alex Kiernan <alex.kiernan@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Alban Bedel <alban.bedel@aerq.com>,
+	Claudius Heine <ch@denx.de>
+Subject: [PATCH] rng-tools: add systemd-udev-settle wants to service
+Date: Fri, 17 Sep 2021 10:08:04 +0200
+Message-Id: <20210917080804.2545478-1-ch@denx.de>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2021-09-16 at 23:29 -0400, Bruce Ashfield wrote:
-> On Thu, Sep 16, 2021 at 8:08 PM Armin Kuster <akuster808@gmail.com> wrote:
-> > 
-> > If you are updating this, please check with Bruce on which  mail address
-> > he prefers.
-> > 
-> > It may bounce from windriver.
-> 
-> It definitely will!
-> 
-> I noticed that when scanning the patch as well. I could have sworn I
-> grep'd and fixed all of those old addresses.
-> 
-> Jon: if you want, you could put in my gmail address, or I'll follow up
-> and do that.
+rngd needs to start after `systemd-udev-settle` in order for the kernel
+modules of the random source hardware to be loaded before it is started.
 
-Well spotted, I'm also blind to these things. I've sorted Bruce's address.
+However, since the `rngd.service` does not require or want
+`systemd-udev-settle.service` it might not be scheduled for start and
+the `After=3Dsystemd-udev-settle.service` there has no effect.
 
-Cheers,
+Adding `Wants=3Dsystemd-udev-settle.service` provides a weak requirement
+to it, so that the `rngd` is started after it, if possible.
 
-Richard
+Signed-off-by: Claudius Heine <ch@denx.de>
+---
+
+Hi,
+
+this is a fix, which should probably be backported to the maintained rele=
+ases.
+
+regards,
+Claudius
+
+ meta/recipes-support/rng-tools/rng-tools/rngd.service | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta=
+/recipes-support/rng-tools/rng-tools/rngd.service
+index 0559b97991..568686e80e 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -3,6 +3,7 @@ Description=3DHardware RNG Entropy Gatherer Daemon
+ DefaultDependencies=3Dno
+ After=3Dsystemd-udev-settle.service
+ Before=3Dsysinit.target shutdown.target
++Wants=3Dsystemd-udev-settle.service
+ Conflicts=3Dshutdown.target
+=20
+ [Service]
+--=20
+2.33.0
 
