@@ -1,78 +1,65 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.11976.1631883568232159610
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.12392.1631884487440662140
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Sep 2021 05:59:28 -0700
+ Fri, 17 Sep 2021 06:14:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lTRf8iKH;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id g16so15042148wrb.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Sep 2021 05:59:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XaV6aGr5YoaP+KlSqG31nMvT+RQXnCS70JkfzIy5UKw=;
-        b=lTRf8iKH25DdkcPKfjv0IvpImP6HoG2lUoHNs+6ujrhD5miPqKNSaqqPfDHbizNvAw
-         AySLVs2nbuwlDT+iAQlv44LcfA9T9gLc7KESu3kdrTmYcWHuC8Lu+7vDfvy3+UMZPKtL
-         ldrojJ8F488/6c3LubVQyRdXXHaYB6lAC/0rNq1P0JxbYLMe033wnsdK5mpDAyn6bYtS
-         0ELtm+WVfndTfqpF6PBf5YKRvU0bPE5mSGxgUgyFL04res4uKwWnX1dgyiVP2n8pn2Tw
-         W+ELy3/wqbdvviSAAQm/QYC0ob3RP2ekmSnc3jjW428Rakh3oDVF8u0YvhNuIosPZYs9
-         jAZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XaV6aGr5YoaP+KlSqG31nMvT+RQXnCS70JkfzIy5UKw=;
-        b=aZd+q5HeSYszA/V9bPUk+h+mONX1SRaJXYeg8AJDHjZI7fy/2ll3WUo17gFxQujpUi
-         tqJSP8n7TvXKTXxfg0XgReNtyLrShQgQonhh/Zl41mQXmcHZ9oZFCQx5ZfbM+OfUZTQy
-         M4BkF6QDjxkXg9JSgeKsndZhR5ggl8ArtKtupqYu2+TWmOCZunP6jbHZnGACoNrpm3YC
-         Ly73GwdbdIbDDf2iiG3CJxphzFXZYOw9atTc/xOoNEuDrvdKBkqGEKf5FHNTob0BEkPa
-         25yMWAvBWCI1JIs/gkc/1DW62z8XoPqWl9vDlBdWThYhfMY8HXqsj3AABlhHLIb0aOlD
-         aOgg==
-X-Gm-Message-State: AOAM532VArG+789ZZIU+zP1Rl+GIBmhdjt4elY4tv9iLXNtxKlANjAWs
-	hEKR3CbpuBrMoHiZ9Hur2a11K5FGDlw=
-X-Google-Smtp-Source: ABdhPJwF0wGdAWAgA/lLeTyX2A56Arvjowq21ZM0FewTQIPIHmC9PQRGbCL7TNzYes4D931JEtqt4g==
-X-Received: by 2002:adf:dd01:: with SMTP id a1mr11910263wrm.132.1631883566798;
-        Fri, 17 Sep 2021 05:59:26 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id j21sm6929041wmj.40.2021.09.17.05.59.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 05:59:26 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/4] cpan-base.bbclass: use raw string for regexp
-Date: Fri, 17 Sep 2021 14:59:22 +0200
-Message-Id: <20210917125922.2435721-4-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210917125922.2435721-1-alex@linutronix.de>
-References: <20210917125922.2435721-1-alex@linutronix.de>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18HDEkwH013224
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Sep 2021 06:14:46 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18HDEjmd028633
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Sep 2021 06:14:46 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 17 Sep 2021 06:14:45 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Fri, 17 Sep 2021 06:14:45 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 17 Sep 2021 06:14:44 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] rust-common.bbclass: make sure ccache exist
+Date: Fri, 17 Sep 2021 21:14:38 +0800
+Message-ID: <20210917131438.14995-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This eliminates a deprecation warning and a future error as stipulated by
-https://docs.python.org/3/library/re.html
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+It fails to run task rust_create_wrappers of recipe which inherit
+rust-common.bbclass such as rust-hello-world if no host ccache exists:
+
+| DEBUG: Executing shell function do_rust_create_wrappers
+| /path/to/project/tmp-glibc/work/core2-64-wrs-linux/rust-hello-world/git-r0/temp/run.do_rust_create_wrappers.3422:
+    line 179: ccache: command not found
+
+Run task rust_create_wrappers before do_prepare_recipe_sysroot to make
+sure required tools such as ccache exist.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/classes/cpan-base.bbclass | 2 +-
+ meta/classes/rust-common.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbclass
-index 9758065bfcb..93d11e1bee4 100644
---- a/meta/classes/cpan-base.bbclass
-+++ b/meta/classes/cpan-base.bbclass
-@@ -20,7 +20,7 @@ PERLLIBDIRS:class-native = "${libdir}/perl5"
- def cpan_upstream_check_pattern(d):
-     for x in (d.getVar('SRC_URI') or '').split(' '):
-         if x.startswith("https://cpan.metacpan.org"):
--            _pattern = x.split('/')[-1].replace(d.getVar('PV'), '(?P<pver>\d+.\d+)')
-+            _pattern = x.split('/')[-1].replace(d.getVar('PV'), r'(?P<pver>\d+.\d+)')
-             return _pattern
-     return ''
+diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
+index a8803d61b6..f7f9cbbb2e 100644
+--- a/meta/classes/rust-common.bbclass
++++ b/meta/classes/rust-common.bbclass
+@@ -176,5 +176,5 @@ do_rust_create_wrappers () {
+ 	${BUILD_CC} ${COREBASE}/meta/files/rust-ccld-wrapper.c -o ${RUST_TARGET_CCLD}
+ }
  
+-addtask rust_create_wrappers before do_configure after do_patch
++addtask rust_create_wrappers before do_configure after do_patch do_prepare_recipe_sysroot
+ do_rust_create_wrappers[dirs] += "${WRAPPER_DIR}"
 -- 
-2.20.1
+2.17.1
 
