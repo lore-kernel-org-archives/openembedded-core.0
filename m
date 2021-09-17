@@ -1,88 +1,89 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web11.5026.1631832013668789637
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.5942.1631837296750874326
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Sep 2021 15:40:13 -0700
+ Thu, 16 Sep 2021 17:08:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=t8m+Rmt1;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.178, mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f178.google.com with SMTP id r21so7074450qtw.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 15:40:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SXVWEAWN;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id t20so5713568pju.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Sep 2021 17:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=yBHxTR438UbChuMzFzitJPT0VxmheoTaaLdX/Iituwk=;
-        b=t8m+Rmt1jQRXR7Im/ZLsQAuxrY0V9nJMDR3OfHXKlrsGO4WlIkMEwOiN/QB1xmIWMR
-         r9rjrYrenqwcIvtlapMqV3Ogh94rRpyLUyebarSRsuZ4WNZ65b7LeJ0c6xzO+VWtLVLN
-         2LPvmg8pl1Ba7Bym6LOVVejDIJTxvsEAsUCgg1ZudeRZbsqo6SYqNkSlbpJuSkQlNDuC
-         ZJhPXr7Y4Ipry6AdPDEGgwUHj2bhH4ET8eXI+Ri3FjPcJdeQ7qGfaUpP3+q9zKDIMHO3
-         PKPIx5PzWQbs43+eZ3ubLujV7R/SetUpsVYJS1iCqP/kEnm1nQ3911GxUHia5IH52Uo4
-         Cs6g==
+        d=gmail.com; s=20210112;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=auq5+5IAbezmKOxfgbjur9gHGJVYplefmsDhNI/e+5w=;
+        b=SXVWEAWNvk6TC/sTZ1EXYHlRsiX91k9KppXoVWPax7BvDQqXfZOaH2eJJlrQE/RJYS
+         uf1ZDFYIJDhfld66XP1Dky7fbCYLbH/AYx3nlPZMc4QGs6w4zqHJY7HL1HXTqawWlvzI
+         pvo1B/ktcneqQK7d11xARVzW0JkKhGT57fblo22Vx2TVJg9Tqq8kW2bKa/IE1o1wswM5
+         bbxI5Lyrybj8AVo/PHroVFTdHH81PnJ8c3mSCUbbd8IBqvwkTzQ+WEXltfdciSSsA+/n
+         9MyAtJTqUfJXiDIlcoYFThyKfCQcGaZi+87kQUhcqvJsP1vMYkkhk0iiUzQlC5mdAU83
+         rqXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yBHxTR438UbChuMzFzitJPT0VxmheoTaaLdX/Iituwk=;
-        b=Z5P/n0KSvcS0noYV0wr/WqA3P2xeyz808OXovUUsRvesmPRQUcXnjk+UVzsv2rncQp
-         qjFrdao0FRlx9RUZLkUgT+2Tz32jff1Ttpz9MhfhJe3QAzqGToiPtHKPSbtosxF4Lx+p
-         V8BqpxP/DNowfB6p+oX7KhMyyWm2rQ7Zcexz713JV0v25OCRtu9y15vgrwmRZpBDQZH5
-         RfgEdn7NYzK/Z4qF7DMXLRDeawbA+mmBhuF8/dvPr0y82UrlOKiu809aSG3jXySzYIU0
-         VMkcsVD/xSKpEcH3zp4T06xy5ej7a5DD444Fs7uiIRXQYS5oZb7F5NI6p8iC3/WJHx1w
-         jJ+A==
-X-Gm-Message-State: AOAM532D/CdvZhExvPsDqfMsULEWxPYf+p3vu+mlltQPCr3Dewgwq2O6
-	f4Wq1D+PVZ3GcUm4tqRILf55ISgqjS4GYQ==
-X-Google-Smtp-Source: ABdhPJwRVhxmXMdKySqZw91mAjTVIpnfk/hmcojtjM+XbGXGT7bMS/vdkN9tejskSLkTwsNRYjj/xg==
-X-Received: by 2002:ac8:7118:: with SMTP id z24mr7598132qto.244.1631832012762;
-        Thu, 16 Sep 2021 15:40:12 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a650:b700:b85d:4277:577e:3e0a])
-        by smtp.gmail.com with ESMTPSA id g12sm3006249qtq.92.2021.09.16.15.40.12
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 15:40:12 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] Update mailing list address
-Date: Thu, 16 Sep 2021 18:40:10 -0400
-Message-Id: <20210916224010.21213-3-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210916224010.21213-1-jdmason@kudzu.us>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=auq5+5IAbezmKOxfgbjur9gHGJVYplefmsDhNI/e+5w=;
+        b=2fxcEAbcAJuamIkoeQeKi2AYuykFNSSgaz8kzwDUaNuEM5G81KkrkCENXXV1pQ/I9N
+         NKsS1CZdu4OFe0ZLsH6T9tNGo53/0VrQ4JRfYlBEXT2DlT/IJdtp8ds44lR68NwsRN1y
+         FwddPwsIax6ubwzlR2H0A9gEf1fULgGwmQrnoUPGN+mWafrrvEzEbOxIomRPXK5yFx9T
+         Kv19F2FIdysu6oFMmck6ZVuqOPN6aQfEz8sR9iCHIlWTBzKoFA5BDqAGA3U1YpNUU2s6
+         8AC5usrkJZk6rN5YWqfW3/nVyu6buZbRg3eNntFFS7srxUPfuzKmUZ7zX6ZjTJ8svzBu
+         xl5w==
+X-Gm-Message-State: AOAM530+odrJBsjAxcnkqrW3aDcHMqg0NAMadgHktf1oGx8b3kJCkyoQ
+	7a2pgRBfGxd5TKB43cDhqG7MGrT5lA8=
+X-Google-Smtp-Source: ABdhPJzZ94fBWhqo+BoXpvSBUWiGsXuBWHkMQGD6z7lLw5ZcMjIw59dVEyYmer5vecUSc7b1d271Sg==
+X-Received: by 2002:a17:90a:6c97:: with SMTP id y23mr9131999pjj.117.1631837295932;
+        Thu, 16 Sep 2021 17:08:15 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:8e48:889d:1351:d2d2? ([2601:202:4180:a5c0:8e48:889d:1351:d2d2])
+        by smtp.gmail.com with ESMTPSA id 21sm3920573pfh.103.2021.09.16.17.08.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Sep 2021 17:08:15 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 2/3] README: update mailing list address
+To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
 References: <20210916224010.21213-1-jdmason@kudzu.us>
+ <20210916224010.21213-2-jdmason@kudzu.us>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <24d4a049-fe3a-f8c0-54e9-e02b8d03289c@gmail.com>
+Date: Thu, 16 Sep 2021 17:08:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <20210916224010.21213-2-jdmason@kudzu.us>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/conf/distro/include/maintainers.inc                      | 2 +-
- meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+If you are updating this, please check with Bruce on which  mail address
+he prefers.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e560ba39ddc1..8592de5a6682 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -4,7 +4,7 @@
- #
- # Please submit any patches against recipes in meta to the
- # OE-Core mail list (openembedded-core@lists.openembedded.org)
--# For recipes in meta-yocto please use the Poky list (poky@yoctoproject.org)
-+# For recipes in meta-yocto please use the Poky list (poky@lists.yoctoproject.org)
- #
- # If you have problems with or questions about a particular recipe, feel
- # free to contact the maintainer directly (cc:ing the appropriate mailing list
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch
-index 52986e61c796..d1835c7a108c 100644
---- a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig.patch
-@@ -400,7 +400,7 @@ Index: ldconfig-native-2.12.1/ldconfig.c
-    return 0;
-  }
-  
--+#define REPORT_BUGS_TO "mailing list : poky@yoctoproject.org"
-++#define REPORT_BUGS_TO "mailing list : poky@lists.yoctoproject.org"
-  /* Print bug-reporting information in the help message.  */
-  static char *
-  more_help (int key, const char *text, void *input)
--- 
-2.20.1
+It may bounce from windriver.
+
+-armin
+
+
+
+On 9/16/21 3:40 PM, Jon Mason wrote:
+> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> ---
+>  meta-yocto-bsp/README.hardware.md | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-yocto-bsp/README.hardware.md b/meta-yocto-bsp/README.hardware.md
+> index 9803af006ae7..095815e1bca2 100644
+> --- a/meta-yocto-bsp/README.hardware.md
+> +++ b/meta-yocto-bsp/README.hardware.md
+> @@ -37,7 +37,7 @@ variable value corresponding to the board is given in brackets.
+>  Reference Board Maintenance
+>  ===========================
+>  
+> -Send pull requests, patches, comments or questions about meta-yocto-bsps to poky@yoctoproject.org
+> +Send pull requests, patches, comments or questions about meta-yocto-bsps to poky@lists.yoctoproject.org
+>  
+>  Maintainers: Kevin Hao <kexin.hao@windriver.com>
+>               Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+> 
+>
 
