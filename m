@@ -1,75 +1,75 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web12.4179.1632003289624251923
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web12.4220.1632003537163796690
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Sep 2021 15:14:50 -0700
+ Sat, 18 Sep 2021 15:18:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com header.s=20210112 header.b=T2VgV443;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.46, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f46.google.com with SMTP id z24so22726341lfu.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Sep 2021 15:14:49 -0700 (PDT)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com header.s=20210112 header.b=I578nyV5;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.49, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f49.google.com with SMTP id m3so46800290lfu.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Sep 2021 15:18:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GcpgPSpuj7KVN0PR24rBneo+KTnrQXtM3MdH9w12y8E=;
-        b=T2VgV443/VEWq4KZEg70ECM7G2utxTPwgKOoIWVHhJ9fE3W0I5SXcuRlHbiCIhSuu2
-         ASQnt43nTk1YijFNzf+f9Mo+KV7kB0dII2r1xrtCfUj+rH0IQ834FlIudsAKl2gymgez
-         YYKQ/xtTS3WKkB2EqCYipJsWrtYBzikuq8cIwZLEVPBTTAExzqWxB2++sCI2Hmfper8h
-         L4Q8y//2Mptjyu/Rl0PZ8oJ8UvBOxUW+aOrovf2bRHUZ39Inx/eXFVHdrq8Vmw3F6Yfb
-         I434d4yS4qeTUwxiL2MjvdH11mn05RmhTPEUoEy37pTC/QfU4uU8zIH9Bvr5hHuI9EWr
-         pZ4A==
+        bh=quxBgjN134/6vlFF84IEJaUgD2cGr7Vq7sROYbSpFg4=;
+        b=I578nyV5Dgw89o4hDtFTnPCy3cwE0Ezti85A8DAWMKLzircgicTD6miCrFGI0end4L
+         dXEn+FmR5WTMykQKcyV7TQDav1PRlSXVzlaqWL2UIpdPSiGtK8VomXWBOBNNrbiDetsY
+         7q+VkeGDewEgzKrGhjGwvVZ89376j8zn8UzQI+omRsHOGzvZV2AG7+Phx9UqNmmGnXyj
+         tf8W0rnMHT5IPDrG8IgF26s2cwNrdzA/U00iSiu9z6dNaND1kucxQWnakAYOvRUnCXVF
+         tlojOhYyJHR4wFlmDcAXeR2hnKJs2gmxT62OyIiVNeSuEcpXa+/wsHagzar1Yr25WKpw
+         Cahg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GcpgPSpuj7KVN0PR24rBneo+KTnrQXtM3MdH9w12y8E=;
-        b=c6b2M0vwcR/laZtVGcoy9xKhiEwBowKzQNOA6U02dyLAEZPXu+u1O+WIx8VAE9PxB7
-         utugOl0NYl6/IqeA+aJja6hE0zXOy8AL/9Uz3yOM9E5bCGbMrVVINuFAqc8ounbYjNDP
-         P7jpVSPAUcqO9+G/4PXvoQLFtW7E0pvL/SnV7b4fLkMWxGUWxup5xmeQ0YUQxkcHik5R
-         ic1TRXrphdtX5loogeyeUcsgDsDM+NxBM6e1W7ge1NohS/cvyErJX/WyEp0tUlrngyIv
-         MdK2GvyhtOtPQbAyTZ1HchFKOFENFggjF2MFcmkiKxzr4FkOshoxDsue1n9HNMdFrNCC
-         t0Lg==
-X-Gm-Message-State: AOAM532c3ZN9NK9OKh0g+DEc3MKK3i+EgQYQt7eDGzhd+sJgZtLVDCnV
-	8F62WpYxOk6Ll9gSp0WWU4z0M1OEwqrDDuRW
-X-Google-Smtp-Source: ABdhPJwaTHrIAtHUVmvaoj5bl4hFA5MDqROcwDZVp+UH7pA7M5u7D+VdJXgiz8vOd3XOhViqpQpmVQ==
-X-Received: by 2002:a2e:9944:: with SMTP id r4mr1642592ljj.220.1632003287691;
-        Sat, 18 Sep 2021 15:14:47 -0700 (PDT)
+        bh=quxBgjN134/6vlFF84IEJaUgD2cGr7Vq7sROYbSpFg4=;
+        b=m4XYLgqFYJKfIGC8blpC2C8czBZmjYIlEQ4uYBk2oLPRDImZARieO0DrLc9romw2IN
+         7aeLXRfQF999rmPU+x8WFdmLEvGcLfucnX5OSibf5APKJleNzODftRa6TXdr9IAdUmyO
+         cZ5GVM9CU7t7xHBXFZqhwnE5XUfPmDqe9V2TnefcsjQ/ZHeMhz5OAoqTj6q2OZcEN3pe
+         HfwtNsyJxfgaSobUlP70iZS0LrIh7Ouoj+74e4pokLy2JnjGFyZbCtu/adFsFBYC1Lgi
+         p1uxfkVaznv+Hb501KgEcDnXjxiMvKBj0B0/PExYLeOEIuyiDOcxQsBu3BHMq+l79bTF
+         jhUA==
+X-Gm-Message-State: AOAM533T81weyKrYV002OZ6JciZkLQSD60DOSAnQemDcXABZmX15Zoyi
+	/F6UyiLGSwbY1dh0NdFD6+se3lCdvzeVLWsB
+X-Google-Smtp-Source: ABdhPJyYGFg4VBg1ygBFGzupr7o9KyxAVURUgLBuapU3HnoHtuzCr/w6bQr/bcLQXSiCPS4oeh/H/g==
+X-Received: by 2002:a05:651c:2ca:: with SMTP id f10mr15207943ljo.211.1632003535072;
+        Sat, 18 Sep 2021 15:18:55 -0700 (PDT)
 Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: from localhost.localdomain (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
-        by smtp.gmail.com with ESMTPSA id a4sm769498ljn.122.2021.09.18.15.14.46
+        by smtp.gmail.com with ESMTPSA id r200sm866917lff.115.2021.09.18.15.18.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 15:14:47 -0700 (PDT)
+        Sat, 18 Sep 2021 15:18:54 -0700 (PDT)
 From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3-dbusmock: update to 0.24.0
-Date: Sun, 19 Sep 2021 00:14:43 +0200
-Message-Id: <20210918221443.2253382-1-open.source@oleksandr-kravchuk.com>
+Subject: [PATCH 1/2] python3-setuptools: update to 58.0.4
+Date: Sun, 19 Sep 2021 00:18:51 +0200
+Message-Id: <20210918221852.2284913-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../{python3-dbusmock_0.23.1.bb => python3-dbusmock_0.24.0.bb}  | 2 +-
+ ...ython3-setuptools_57.4.0.bb => python3-setuptools_58.0.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.23.1.bb => python3-dbusmock_0.24.0.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-setuptools_57.4.0.bb => python3-setuptools_58.0.4.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.23.1.bb b/meta/recipes-devtools/python/python3-dbusmock_0.24.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.23.1.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.24.0.bb
-index 28e99299b2..271a2b105f 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.23.1.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.24.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb b/meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
+index ae45936c39..2000d355a9 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
+@@ -10,7 +10,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
  
--SRC_URI[sha256sum] = "b5c36a9c9935d1867cf79d8666b08ad906660e6d4d967e9fded4361ad7eef54f"
-+SRC_URI[sha256sum] = "0be0d51dba4aee050bb2cd9074a377bf9308306df1eb7918038c6ffe7153c272"
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
  
- PYPI_PACKAGE = "python-dbusmock"
+-SRC_URI[sha256sum] = "6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"
++SRC_URI[sha256sum] = "f10059f0152e0b7fb6b2edd77bcb1ecd4c9ed7048a826eb2d79f72fd2e6e237b"
+ 
+ DEPENDS += "${PYTHON_PN}"
  
 -- 
 2.25.1
