@@ -1,100 +1,73 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.9247.1632049058556279244
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.9348.1632049077508225471
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Sep 2021 03:57:38 -0700
+ Sun, 19 Sep 2021 03:57:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AaHyspLC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id q11so23315582wrr.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Sep 2021 03:57:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZHRH4/MX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id u18so21586788wrg.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Sep 2021 03:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=aMp6D5e8oLLUjkEVwEQwCwFj3AhY10OJ3WTkMBY+MO4=;
-        b=AaHyspLCwAsNQUDEkt2yAtWC3miMUmN7aM99yaXV3G7GBazmqu0mTtvcmNARlBNtzN
-         li9mMPIHgiqE4ZsazsdIy2BHL1kSGob6/qYA/AD+sr79HTF5FpslAB+MjqrzVWm2Xext
-         7yGRCesnQJOajRRpoTRvUELNZ80EzTskiWvX0=
+        bh=MkCGY+GDbIitbbAhVYBR1iQsWiX4KEHgH6FEt4akJh0=;
+        b=ZHRH4/MXc/LKUOnQoRsF28MS/BLbziNdRFW/pFnqjgKqVnjvobhrKkc4jGYeqxjyO3
+         AqryxUFFEN/RtJNbvN+kQRqNQDckxsSM3cAaNj4J09tABc6i2kAI/72529fYvKTJGwp7
+         KTHEiysIx97EsGagUD8zKaPdSrEs2XuY84SZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=aMp6D5e8oLLUjkEVwEQwCwFj3AhY10OJ3WTkMBY+MO4=;
-        b=VcPN4txLuMy/1Uo2lk4whkSgGAna7DggzcvC5F1PIExuuX9Bw3BZ5b/euOCA0SAgal
-         /zftER+XUo1dFmODwuPGiAvFLAwxV2ViuLjp7QbufsFGVLmkYNguzxrOsiIv0ItwsctK
-         3nOqwJOe55Xo7jMnDJ5iKeOQOWLEtFdfcc9m+W1nzJZvyb4qRicdq1fv3d2fLQwm7Uge
-         +VlPUcZTh7lJm51nY1uurKpsgOeJIoVvy60atAGz9NWj1/cWQTTPf00MSO2W+fLn67Y7
-         xxoTpjxb9+ar7r/yYoSH9pr4KljnelFAAyz/F1kpCAUE4UN3Aku6YdvD4vEVJwMjV9eN
-         3Wmg==
-X-Gm-Message-State: AOAM532pRdKkcsLB1MDT5s5DxFOciQHzlj+yh4GmEbcADOIkCh10YEHy
-	o2pNelg5irKJRPanL0KSWiA0UFptVn3ycM5N
-X-Google-Smtp-Source: ABdhPJyUKiHG7ZLjMNKWbSWtW1KZvZm0tnyZ/1UNchDXsKpWdeNk6gQpOy0+pE6uBhCHJ8SoHOvIeA==
-X-Received: by 2002:a5d:60c8:: with SMTP id x8mr22226482wrt.293.1632049056670;
-        Sun, 19 Sep 2021 03:57:36 -0700 (PDT)
+        bh=MkCGY+GDbIitbbAhVYBR1iQsWiX4KEHgH6FEt4akJh0=;
+        b=m/xJxQTHNg6vj7x5+LZ9PEaxAt0TBZLsydq0ODDTL4jKC9GaeTtLxLPvCcLbPZA8Y1
+         rekQ9khS3qNWDKY8YnD1d59e1egZPMx9owC3159IkCpVVAwqDF1k3me5OU4LP3b4PBsp
+         rNuarTYmEk0Vl5dfZz4RB+Qrjjn1COvquBbGHkZI80dHrqoTIBW6DW19gg8w6qG15waO
+         Ma1N+9pbnriCCWOElfHHnZbidXj0+FDfOjhgQypuFMB4o5kzupiywWfGMdhu2AsiT+mU
+         NT+KZKnCKJSoOYPLZOdcQnkd/tqbAthe9p2fjX3zpLdeV9N1wyFn6q69GROxHf3/+HUI
+         T1cA==
+X-Gm-Message-State: AOAM5330ALaZGxXWj2Mjuui4cufsJRj4+5duKUVwuXiekxqglgUKIY3V
+	5paT14X6Z9G2ZCnCE2uY5h5QXoQtdu/nc5dw
+X-Google-Smtp-Source: ABdhPJzzQor+T8hWVFsxlBl3mOfbHY2UMoNpzjU+VEboEE4IyJeEgwhYMNuhyyvhY6RYgjFvx8ljhg==
+X-Received: by 2002:adf:e546:: with SMTP id z6mr22640429wrm.346.1632049075899;
+        Sun, 19 Sep 2021 03:57:55 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f583:326e:a3bb:7da1])
-        by smtp.gmail.com with ESMTPSA id o13sm14049892wri.53.2021.09.19.03.57.36
+        by smtp.gmail.com with ESMTPSA id y9sm19125271wmj.36.2021.09.19.03.57.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 03:57:36 -0700 (PDT)
+        Sun, 19 Sep 2021 03:57:55 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH] package_ipk/deb/rpm: Drop recursive do_build task dependencies
-Date: Sun, 19 Sep 2021 11:57:35 +0100
-Message-Id: <20210919105735.1543088-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] lttng-tools: Add missing DEPENDS on bison-native
+Date: Sun, 19 Sep 2021 11:57:55 +0100
+Message-Id: <20210919105755.1543175-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a controversial change which removes the recursive dependencies
-from the do_build target of packaging tasks of recipes.
-
-Currently this means when you "bitbake <image>" or "bitbake <recipe>",
-the packaging tasks run for all packaging backends enabled for all recipes
-in the dependency chain. The same therefore then applies to images.
-
-We don't actually need that, it is a convinience thing. Removing it
-massively simplifies the task graph and causes much fewer tasks to execute
-in many common scenarios. It also means less sstate is fetched for
-example when building an image.
+This was being provided by other pieces of the dependency chain but is
+specifically required by configure and could fail if those pieces come
+from sstate. Fix such builds by adding the missing dependency.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package_deb.bbclass | 2 --
- meta/classes/package_ipk.bbclass | 2 --
- meta/classes/package_rpm.bbclass | 2 --
- 3 files changed, 6 deletions(-)
+ meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index eca43e17876..8f0eadbcd2e 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -320,5 +320,3 @@ addtask package_write_deb after do_packagedata do_package
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb
+index 95bb2519d7d..47cab42fcf5 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=40ef17463fbd6f377db3c47b1cbaded8 \
  
- PACKAGEINDEXDEPS += "dpkg-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "apt-native:do_populate_sysroot"
--
--do_build[recrdeptask] += "do_package_write_deb"
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index c3b53854e8b..756744279e1 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -278,5 +278,3 @@ addtask package_write_ipk after do_packagedata do_package
+ include lttng-platforms.inc
  
- PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
--
--do_build[recrdeptask] += "do_package_write_ipk"
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 88d861c0e75..9f415b234de 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -752,5 +752,3 @@ addtask package_write_rpm after do_packagedata do_package
- 
- PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "createrepo-c-native:do_populate_sysroot"
--
--do_build[recrdeptask] += "do_package_write_rpm"
+-DEPENDS = "liburcu popt libxml2 util-linux"
++DEPENDS = "liburcu popt libxml2 util-linux bison-native"
+ RDEPENDS:${PN} = "libgcc"
+ RRECOMMENDS:${PN} += "${LTTNGMODULES}"
+ RDEPENDS:${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core grep"
 -- 
 2.32.0
 
