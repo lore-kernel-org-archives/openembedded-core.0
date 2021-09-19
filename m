@@ -1,102 +1,98 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web08.11577.1632063779013989454
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.532.1632070460685862728
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Sep 2021 08:02:59 -0700
+ Sun, 19 Sep 2021 09:54:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=w19Hli7G;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id m21-20020a17090a859500b00197688449c4so10884462pjn.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Sep 2021 08:02:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aIORkN25;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id y198-20020a1c7dcf000000b0030b69a49fe9so1772898wmc.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Sep 2021 09:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=F23rMXcBiT3YyrdrxfqZZcEGMe5neP9MAfqV4dNS2xM=;
-        b=w19Hli7Gs1EUB0C/SfGrFlcS/5ZSr2NhvWbwvLRlD7FMSfuL9dp9n+DFE8hjaSRX54
-         olI/098f9ToZX+7Nw8wW6vRkkhD0YDRh99dSMaJ5FUBRyCMtL3HzZw3HagbMOnhN6Z5z
-         QXZOQ4akw3qhd0dymhkC1E6s16967lELMB3ZQ9z2DplT9LQf3ELoZrYrvxIfwWrLrKG9
-         O1G5wXJoOAVhXX4eYUrNZ27FiBMqWMKNNWhq76Ji5IjkkNTuQYlLISOtNmSXhvZYz5us
-         tXvQRgkGZQZ+iZEjO8RIUtQU1KckGmEfKiRZfuyW1Q8OK8yh64UD2JbMw5D8jixrQAYQ
-         fhPQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=etFE8is1zFQ5xKOst+SY43xQHT9LSiv8pufOlNhX4dI=;
+        b=aIORkN25G5bIdkY2WyAzrr/Bl4Byvts0u5g4xJA4/P84LJG1CDvToap3loYAUPMzRk
+         5AKmHW/M9T925yz27BiGykAnHkbOlTfRz8UWQDjQWIQn1bx8ToXAUMtvn/3znZbVRciZ
+         prb4KgTbT/ge1/FHkBV82Scq00i5AsTMpC6slPrbELDG2z7/kb0zK3mrQIwOzfVOqB4Y
+         WY9nz3YUZX8WFwV7QMUx5mPMcAn7cHcD3NzGgaEeM5yrcMQS1BCZNXmyweNQvDOrDU6+
+         Kx2XPGXp24UBaqGr+C3PUAO5f3ioay5LIPhEYu1TCJeA/C7HpSD+PSJjrvG71/UHSgma
+         oecQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=F23rMXcBiT3YyrdrxfqZZcEGMe5neP9MAfqV4dNS2xM=;
-        b=rFAZWAhmtvk0Y3wOP/XM4eFZ24dlZ20z9Men1Ohkg9cvNLi/6kcoForAHOkEFMzrFw
-         J3ncbjdM9mx7LV2AUk9jOawqz1if0KFkahvPvIA/Ht3Y70AWUBQAG3EhmHw54WAa96bT
-         eVeDg6UYEEg5neMht7mqJdavfZa0yC2PQIYHtTah7TiGSrM0XepEbanMnv+FowaoC4dh
-         CJmFqUlzNf+wNQfjrBwZLiY2qiq7E1FdivvA2YlENoNFqB6TSAuhDd6CiAaN1wgCUEbh
-         FfvmvJZkKl2mH8PQ0OYwg40hdFOZgCSxvNwKk9DmFx94UG0Km8RKfv6a9SIfXSnQ0JKO
-         7mrQ==
-X-Gm-Message-State: AOAM533VCZECW/QU4KeH+vq1/qBzS9gaqmMIcaBAStNzXdK3uNS2E61/
-	mXtPFh/lfRbI8KZ/KLT+pRDZaqDyGEGWPDbOjwA=
-X-Google-Smtp-Source: ABdhPJz1uqSI8PTqKKYTSHym6Xe5H2a7IhVsQk52iMgwKtsprdu4hI3csu8k3sHMgnYWcEXVuR0rTA==
-X-Received: by 2002:a17:90a:7185:: with SMTP id i5mr24096656pjk.236.1632063777919;
-        Sun, 19 Sep 2021 08:02:57 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id p4sm12333683pgc.15.2021.09.19.08.02.56
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=etFE8is1zFQ5xKOst+SY43xQHT9LSiv8pufOlNhX4dI=;
+        b=0QuJjvE+VdH4uZywGjhSvwEf7294Unfr3bhNTzlTkctmyRHTUXWeNAX7ngeNg5jait
+         3yi55S0O1cwTLu0gwGGIOmyRXctBqqfUKDdqkyXrX9Qys0L2zSJTfu3qLNRU/zn/+C5w
+         zku4X2sK/gL3HPyUhXOMHPOpkfg73bFagY1kQqR6M0cDnoa+q6fFoq0MmtYvKjoVuW5y
+         1ZHvLfjdQvijJpBYYLRKxMaVxhSDawb33rF2MCpfd5NmsOuxtLFmvNjlW+UtIYHbGsvw
+         QS/OxjNwLNQzeP4ruYFN2KDdDwTnzVeQXRIUxGaExVVbOfvhKoglDbPqmyrjn5JQIlKA
+         uYCw==
+X-Gm-Message-State: AOAM53080p8X5FdAXIDJx2HtEnIb7JzHapeHe5zh9wntG39OUfawMOlJ
+	vf8BMACyXP9x0pS+LyG+SzqYLQ6Hneg=
+X-Google-Smtp-Source: ABdhPJyTxDYnf0Knj/GaaXz/3HxRSX2+r0WQN5oqaXDwPGVlAFhCFLejxBC9ZawvgkURr5wGx3fJcQ==
+X-Received: by 2002:a05:600c:19cc:: with SMTP id u12mr1414747wmq.0.1632070459146;
+        Sun, 19 Sep 2021 09:54:19 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz. [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id 135sm8688211wma.32.2021.09.19.09.54.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 08:02:57 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 13F149602E4; Sun, 19 Sep 2021 05:02:55 -1000 (HST)
-Subject: OE-core CVE metrics for hardknott on Sun 19 Sep 2021 05:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210919150255.13F149602E4@nuc.router0800d9.com>
-Date: Sun, 19 Sep 2021 05:02:55 -1000 (HST)
+        Sun, 19 Sep 2021 09:54:18 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] testimage: symlink the task log and qemu console log to tmp/log/oeqa
+Date: Sun, 19 Sep 2021 18:54:16 +0200
+Message-Id: <20210919165416.1199448-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: hardknott
+This makes it easier for the AB scripts (particularly, collect-results)
+to access and archive these items, as they can contain useful information
+when ptests or other qemu tests fail (and also if they don't fail).
 
-New this week: 10 CVEs
-CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
-CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
-CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
-CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
-CVE-2021-37701: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37701 *
-CVE-2021-3770: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3770 *
-CVE-2021-37712: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37712 *
-CVE-2021-37713: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37713 *
-CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
-CVE-2021-40528: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40528 *
+[YOCTO #14518]
 
-Removed this week: 6 CVEs
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2021-0129: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-0129 *
-CVE-2021-29923: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29923 *
-CVE-2021-31810: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31810 *
-CVE-2021-32066: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32066 *
-CVE-2021-35331: tcl:tcl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35331 *
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/classes/testimage.bbclass | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Full list:  Found 31 unpatched CVEs
-CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20196: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20196 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-22922: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22922 *
-CVE-2021-22923: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22923 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
-CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
-CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
-CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
-CVE-2021-36976: libarchive https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-3770: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3770 *
-CVE-2021-37701: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37701 *
-CVE-2021-37712: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37712 *
-CVE-2021-37713: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37713 *
-CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
-CVE-2021-40528: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40528 *
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 3c689aec913..8fd04c99e72 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -201,6 +201,7 @@ def testimage_main(d):
+     import json
+     import signal
+     import logging
++    import shutil
+ 
+     from bb.utils import export_proxies
+     from oeqa.core.utils.misc import updateTestData
+@@ -408,10 +409,17 @@ def testimage_main(d):
+                         get_testimage_result_id(configuration),
+                         dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
+         results.logSummary(pn)
++
++    # Copy additional logs to tmp/log/oeqa so it's easier to find them
++    targetdir = os.path.join(get_testimage_json_result_dir(d), d.getVar("PN"))
++    os.makedirs(targetdir, exist_ok=True)
++    os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
++
+     if not results or not complete:
+-        bb.fatal('%s - FAILED - tests were interrupted during execution' % pn, forcelog=True)
++        bb.fatal('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+     if not results.wasSuccessful():
+-        bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, forcelog=True)
++        bb.fatal('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+ 
+ def get_runtime_paths(d):
+     """
+-- 
+2.20.1
+
