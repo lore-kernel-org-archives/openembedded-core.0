@@ -1,98 +1,109 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web08.532.1632070460685862728
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.1311.1632074819790951316
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Sep 2021 09:54:21 -0700
+ Sun, 19 Sep 2021 11:07:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aIORkN25;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id y198-20020a1c7dcf000000b0030b69a49fe9so1772898wmc.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Sep 2021 09:54:20 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=KnO28SIF;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=etFE8is1zFQ5xKOst+SY43xQHT9LSiv8pufOlNhX4dI=;
-        b=aIORkN25G5bIdkY2WyAzrr/Bl4Byvts0u5g4xJA4/P84LJG1CDvToap3loYAUPMzRk
-         5AKmHW/M9T925yz27BiGykAnHkbOlTfRz8UWQDjQWIQn1bx8ToXAUMtvn/3znZbVRciZ
-         prb4KgTbT/ge1/FHkBV82Scq00i5AsTMpC6slPrbELDG2z7/kb0zK3mrQIwOzfVOqB4Y
-         WY9nz3YUZX8WFwV7QMUx5mPMcAn7cHcD3NzGgaEeM5yrcMQS1BCZNXmyweNQvDOrDU6+
-         Kx2XPGXp24UBaqGr+C3PUAO5f3ioay5LIPhEYu1TCJeA/C7HpSD+PSJjrvG71/UHSgma
-         oecQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=etFE8is1zFQ5xKOst+SY43xQHT9LSiv8pufOlNhX4dI=;
-        b=0QuJjvE+VdH4uZywGjhSvwEf7294Unfr3bhNTzlTkctmyRHTUXWeNAX7ngeNg5jait
-         3yi55S0O1cwTLu0gwGGIOmyRXctBqqfUKDdqkyXrX9Qys0L2zSJTfu3qLNRU/zn/+C5w
-         zku4X2sK/gL3HPyUhXOMHPOpkfg73bFagY1kQqR6M0cDnoa+q6fFoq0MmtYvKjoVuW5y
-         1ZHvLfjdQvijJpBYYLRKxMaVxhSDawb33rF2MCpfd5NmsOuxtLFmvNjlW+UtIYHbGsvw
-         QS/OxjNwLNQzeP4ruYFN2KDdDwTnzVeQXRIUxGaExVVbOfvhKoglDbPqmyrjn5JQIlKA
-         uYCw==
-X-Gm-Message-State: AOAM53080p8X5FdAXIDJx2HtEnIb7JzHapeHe5zh9wntG39OUfawMOlJ
-	vf8BMACyXP9x0pS+LyG+SzqYLQ6Hneg=
-X-Google-Smtp-Source: ABdhPJyTxDYnf0Knj/GaaXz/3HxRSX2+r0WQN5oqaXDwPGVlAFhCFLejxBC9ZawvgkURr5wGx3fJcQ==
-X-Received: by 2002:a05:600c:19cc:: with SMTP id u12mr1414747wmq.0.1632070459146;
-        Sun, 19 Sep 2021 09:54:19 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id 135sm8688211wma.32.2021.09.19.09.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 09:54:18 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] testimage: symlink the task log and qemu console log to tmp/log/oeqa
-Date: Sun, 19 Sep 2021 18:54:16 +0200
-Message-Id: <20210919165416.1199448-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1632074820;
+  x=1663610820;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=I37Xr49OdA3eTBRNPgmNce+c6Rm9kP2ABGOauW1vCyA=;
+  b=KnO28SIF7g0Y6X3qsKivlPBHV7OUXMhHhAMMVn/DxrMXoL6YlJDOIrtk
+   VirPPACPMi6cLPCJh1bweUtOcDGYSORt3f33604f2oNQvvEy0565FxL7P
+   AvVqgYA0DicWxtGDDAViQ34mLJ0OeMugL17+TppRKXbtBwpNWrFxP+9bp
+   0NUL+g4i3Zp2vMLQcgC0yefBBHF+aKIn3vJ132W6/1Ege0BaHeSuNfqkh
+   QYgpN4svumUetb6fBDBAXYRh8rjtyKvCl0xN7g8brm+eqYLlSvhuH7oo/
+   ZcdliUnYUbbTRI1LKQtr/wdWhm7IYMCMiPOfh39vXWhqQGYHkcVBvFwI+
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [RFC PATCH] package_ipk/deb/rpm: Drop recursive do_build task dependencies
+Thread-Topic: [OE-core] [RFC PATCH] package_ipk/deb/rpm: Drop recursive
+ do_build task dependencies
+Thread-Index: AQHXrUXo1rrBrHBWZUq4J5tuzbudAKurpfHg
+Date: Sun, 19 Sep 2021 18:06:56 +0000
+Message-ID: <3a4c07ef7cfa4b918680ad8f560d2c29@axis.com>
+References: <16A633F8E639735E.6604@lists.openembedded.org>
+ <38ae386328c67ce4e48930950b8131d7fe2e10f4.camel@linuxfoundation.org>
+In-Reply-To: <38ae386328c67ce4e48930950b8131d7fe2e10f4.camel@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This makes it easier for the AB scripts (particularly, collect-results)
-to access and archive these items, as they can contain useful information
-when ptests or other qemu tests fail (and also if they don't fail).
-
-[YOCTO #14518]
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/classes/testimage.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 3c689aec913..8fd04c99e72 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -201,6 +201,7 @@ def testimage_main(d):
-     import json
-     import signal
-     import logging
-+    import shutil
- 
-     from bb.utils import export_proxies
-     from oeqa.core.utils.misc import updateTestData
-@@ -408,10 +409,17 @@ def testimage_main(d):
-                         get_testimage_result_id(configuration),
-                         dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
-         results.logSummary(pn)
-+
-+    # Copy additional logs to tmp/log/oeqa so it's easier to find them
-+    targetdir = os.path.join(get_testimage_json_result_dir(d), d.getVar("PN"))
-+    os.makedirs(targetdir, exist_ok=True)
-+    os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
-+    os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
-+
-     if not results or not complete:
--        bb.fatal('%s - FAILED - tests were interrupted during execution' % pn, forcelog=True)
-+        bb.fatal('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
-     if not results.wasSuccessful():
--        bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, forcelog=True)
-+        bb.fatal('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
- 
- def get_runtime_paths(d):
-     """
--- 
-2.20.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxOSBz
+ZXB0ZW1iZXIgMjAyMSAxMzowMw0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtSRkMgUEFUQ0hdIHBhY2thZ2Vf
+aXBrL2RlYi9ycG06IERyb3AgcmVjdXJzaXZlDQo+IGRvX2J1aWxkIHRhc2sgZGVwZW5kZW5jaWVz
+DQo+IA0KPiBPbiBTdW4sIDIwMjEtMDktMTkgYXQgMTE6NTcgKzAxMDAsIFJpY2hhcmQgUHVyZGll
+IHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IHdyb3RlOg0KPiA+IFRoaXMgaXMgYSBjb250
+cm92ZXJzaWFsIGNoYW5nZSB3aGljaCByZW1vdmVzIHRoZSByZWN1cnNpdmUgZGVwZW5kZW5jaWVz
+DQo+ID4gZnJvbSB0aGUgZG9fYnVpbGQgdGFyZ2V0IG9mIHBhY2thZ2luZyB0YXNrcyBvZiByZWNp
+cGVzLg0KPiA+DQo+ID4gQ3VycmVudGx5IHRoaXMgbWVhbnMgd2hlbiB5b3UgImJpdGJha2UgPGlt
+YWdlPiIgb3IgImJpdGJha2UgPHJlY2lwZT4iLA0KPiA+IHRoZSBwYWNrYWdpbmcgdGFza3MgcnVu
+IGZvciBhbGwgcGFja2FnaW5nIGJhY2tlbmRzIGVuYWJsZWQgZm9yIGFsbCByZWNpcGVzDQo+ID4g
+aW4gdGhlIGRlcGVuZGVuY3kgY2hhaW4uIFRoZSBzYW1lIHRoZXJlZm9yZSB0aGVuIGFwcGxpZXMg
+dG8gaW1hZ2VzLg0KPiA+DQo+ID4gV2UgZG9uJ3QgYWN0dWFsbHkgbmVlZCB0aGF0LCBpdCBpcyBh
+IGNvbnZpbmllbmNlIHRoaW5nLiBSZW1vdmluZyBpdA0KPiA+IG1hc3NpdmVseSBzaW1wbGlmaWVz
+IHRoZSB0YXNrIGdyYXBoIGFuZCBjYXVzZXMgbXVjaCBmZXdlciB0YXNrcyB0byBleGVjdXRlDQo+
+ID4gaW4gbWFueSBjb21tb24gc2NlbmFyaW9zLiBJdCBhbHNvIG1lYW5zIGxlc3Mgc3N0YXRlIGlz
+IGZldGNoZWQgZm9yDQo+ID4gZXhhbXBsZSB3aGVuIGJ1aWxkaW5nIGFuIGltYWdlLg0KPiA+DQo+
+ID4gU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+DQo+ID4gLS0tDQo+ID4gIG1ldGEvY2xhc3Nlcy9wYWNrYWdlX2RlYi5iYmNs
+YXNzIHwgMiAtLQ0KPiA+ICBtZXRhL2NsYXNzZXMvcGFja2FnZV9pcGsuYmJjbGFzcyB8IDIgLS0N
+Cj4gPiAgbWV0YS9jbGFzc2VzL3BhY2thZ2VfcnBtLmJiY2xhc3MgfCAyIC0tDQo+ID4gIDMgZmls
+ZXMgY2hhbmdlZCwgNiBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2Ns
+YXNzZXMvcGFja2FnZV9kZWIuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdlX2RlYi5iYmNs
+YXNzDQo+ID4gaW5kZXggZWNhNDNlMTc4NzYuLjhmMGVhZGJjZDJlIDEwMDY0NA0KPiA+IC0tLSBh
+L21ldGEvY2xhc3Nlcy9wYWNrYWdlX2RlYi5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2Vz
+L3BhY2thZ2VfZGViLmJiY2xhc3MNCj4gPiBAQCAtMzIwLDUgKzMyMCwzIEBAIGFkZHRhc2sgcGFj
+a2FnZV93cml0ZV9kZWIgYWZ0ZXIgZG9fcGFja2FnZWRhdGEgZG9fcGFja2FnZQ0KPiA+DQo+ID4g
+IFBBQ0tBR0VJTkRFWERFUFMgKz0gImRwa2ctbmF0aXZlOmRvX3BvcHVsYXRlX3N5c3Jvb3QiDQo+
+ID4gIFBBQ0tBR0VJTkRFWERFUFMgKz0gImFwdC1uYXRpdmU6ZG9fcG9wdWxhdGVfc3lzcm9vdCIN
+Cj4gPiAtDQo+ID4gLWRvX2J1aWxkW3JlY3JkZXB0YXNrXSArPSAiZG9fcGFja2FnZV93cml0ZV9k
+ZWIiDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlX2lway5iYmNsYXNzIGIv
+bWV0YS9jbGFzc2VzL3BhY2thZ2VfaXBrLmJiY2xhc3MNCj4gPiBpbmRleCBjM2I1Mzg1NGU4Yi4u
+NzU2NzQ0Mjc5ZTEgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3BhY2thZ2VfaXBrLmJi
+Y2xhc3MNCj4gPiArKysgYi9tZXRhL2NsYXNzZXMvcGFja2FnZV9pcGsuYmJjbGFzcw0KPiA+IEBA
+IC0yNzgsNSArMjc4LDMgQEAgYWRkdGFzayBwYWNrYWdlX3dyaXRlX2lwayBhZnRlciBkb19wYWNr
+YWdlZGF0YSBkb19wYWNrYWdlDQo+ID4NCj4gPiAgUEFDS0FHRUlOREVYREVQUyArPSAib3BrZy11
+dGlscy1uYXRpdmU6ZG9fcG9wdWxhdGVfc3lzcm9vdCINCj4gPiAgUEFDS0FHRUlOREVYREVQUyAr
+PSAib3BrZy1uYXRpdmU6ZG9fcG9wdWxhdGVfc3lzcm9vdCINCj4gPiAtDQo+ID4gLWRvX2J1aWxk
+W3JlY3JkZXB0YXNrXSArPSAiZG9fcGFja2FnZV93cml0ZV9pcGsiDQo+ID4gZGlmZiAtLWdpdCBh
+L21ldGEvY2xhc3Nlcy9wYWNrYWdlX3JwbS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2Vf
+cnBtLmJiY2xhc3MNCj4gPiBpbmRleCA4OGQ4NjFjMGU3NS4uOWY0MTViMjM0ZGUgMTAwNjQ0DQo+
+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3BhY2thZ2VfcnBtLmJiY2xhc3MNCj4gPiArKysgYi9tZXRh
+L2NsYXNzZXMvcGFja2FnZV9ycG0uYmJjbGFzcw0KPiA+IEBAIC03NTIsNSArNzUyLDMgQEAgYWRk
+dGFzayBwYWNrYWdlX3dyaXRlX3JwbSBhZnRlciBkb19wYWNrYWdlZGF0YSBkb19wYWNrYWdlDQo+
+ID4NCj4gPiAgUEFDS0FHRUlOREVYREVQUyArPSAicnBtLW5hdGl2ZTpkb19wb3B1bGF0ZV9zeXNy
+b290Ig0KPiA+ICBQQUNLQUdFSU5ERVhERVBTICs9ICJjcmVhdGVyZXBvLWMtbmF0aXZlOmRvX3Bv
+cHVsYXRlX3N5c3Jvb3QiDQo+ID4gLQ0KPiA+IC1kb19idWlsZFtyZWNyZGVwdGFza10gKz0gImRv
+X3BhY2thZ2Vfd3JpdGVfcnBtIg0KPiANCj4gSnVzdCB0byBhZGQgYSBiaXQgbW9yZSBjb250ZXh0
+IHRvIHRoaXMsIHRoZSBiaWdnZXIgaW1wYWN0IHdpbGwgYmUgb24gQ0kgc2V0dXBzDQo+IGluY2x1
+ZGluZyBvdXIgYXV0b2J1aWxkZXIgc2luY2UgImJpdGJha2UgWFhYIiB3aWxsIG5vIGxvbmdlciBk
+byBxdWl0ZSB3aGF0IGl0DQo+IGRpZCBiZWZvcmUuIEknbSBzdGFydGluZyB0byB0aGluayB3ZSBz
+aG91bGQgbW92ZSB0byB0aGUgbmV3IGJlaGF2aW91ciBhbmQgYXBhcHQNCj4gdGhlIENJIHRhcmdl
+dHMgYXMvd2hlcmUgbmVlZGVkLg0KPiANCj4gSSBoYXZlIGEgYnVpbGQgcnVubmluZyBvbiB0aGUg
+YXV0b2J1aWxkZXIgdG8gc2VlIHdoYXQgaW1wYWN0IHRoaXMgaGFzIG9uIHRoZQ0KPiBhdXRvbWF0
+ZWQgdGVzdHMuIEknZCB3ZWxjb21lIG90aGVyIHBlb3BsZSdzIHRob3VnaHRzIG9uIHRoaXMuDQo+
+IA0KPiBGV0lXIHdlIGhhdmUgcmVtb3ZlZCBhIGxvdCBvZiB0aGVzZSByZWN1cnNpdmUgZGVwZW5k
+ZW5jaWVzLCB0aGlzIG9uZSBpcyBvbmUgb2YNCj4gdGhlIGZldyBsZWZ0IG9uIGRvX2J1aWxkIGJ1
+dCBpdCBoYXMgYmVlbiBsZWZ0IGFzIGl0IGhhcyB0aGUgYmlnZ2VzdCB1c2VyIHZpc2libGUNCj4g
+aW1wYWN0Lg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQpZb3Ugd3JpdGUgdGhhdCB0
+aGlzIGlzIGEgY29udHJvdmVyc2lhbCBjaGFuZ2Ugd2l0aCBiaWcgdXNlciB2aXNpYmxlIGltcGFj
+dC4NCkF0IHRoZSBzYW1lIHRpbWUgeW91IHdyaXRlIHRoYXQgd2UgZG8gbm90IG5lZWQgdGhlIHJl
+bW92ZWQgZGVwZW5kZW5jaWVzLg0KV2hhdCBJIGRvbid0IHNlZSBpbiB5b3VyIGNvbW1pdCBtZXNz
+YWdlLCBub3IgaW4gdGhlIGZvbGxvdyB1cCBtYWlsLCBpcyBfd2hhdF8gDQp0aGUgaW1wYWN0IGFj
+dHVhbGx5IGlzLiBXaGF0IHdpbGwgSSBubyBsb25nZXIgZ2V0IHdoZW4gSSBydW4gYGJpdGJha2Ug
+PGltYWdlPmA/DQoNCi8vUGV0ZXINCg0K
