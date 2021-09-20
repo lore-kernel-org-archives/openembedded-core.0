@@ -1,89 +1,285 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.10056.1632135436556813423
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.10863.1632141985224657001
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Sep 2021 03:57:16 -0700
+ Mon, 20 Sep 2021 05:46:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eA0r83vd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id d21so28332404wra.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 03:57:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NbAmu298;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id u15so29345527wru.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 05:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=8mD9VXQUk4ly5moDFVxoN/mrm6MohWI4caWiwH2PakU=;
-        b=eA0r83vdW8DYdNmGVbbs7bo6QZxoPQUU3Jfk5tWqkWMPJfwr5iZDvZqiQBvWMKao1b
-         Zpu9YtrGYlJPlIA7VxAhsIyMKsnA69JobDCPhTjiIZ9J6CEr0hCmtxrj/ziAF2cLnI60
-         5xOXocxk18vPTEUcFrnXkhSbgZvEq3AnNNGqI=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2yjZ28W7Y4YrrjZQ3kfeWdPwNXyCaB/d3FtJ/BdQnro=;
+        b=NbAmu298IZo6go8gxvmp6swcl+xa1CPG7noVTmgP5eauPtpxDg3Bs+pgo6pirRDoiB
+         kiFlELxf3InYNGw/K5XRaZKL0kxhuChugIUPEdg9SfkW4/TVUVowhapusBpW5Tf3pLdn
+         1UiwcFX/d/q29/kIGwod3lRux2PV50WouRvVc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=8mD9VXQUk4ly5moDFVxoN/mrm6MohWI4caWiwH2PakU=;
-        b=z3dhplTPtRq7EnFjpdlygwDRv7r9HGIVAsiqIHA/xPCsijs+gpl6fBkhrkXbbH+Byd
-         uZwa7jDnZDzQLOwQQuyJIONcg8VdcS0N9nmqjoopfzwDdeSMIfqd01WFgJF0vzQIkwQY
-         Nu6rYb+q2iWq7BSHpoEfTnv3Qt3aO8BRuIuxBZ/4CNfPGEL0tPp5r9cVGr8g3nMSHpbY
-         jDPFmK0LYQzdGASxFJzxrGqsjW2YCEKbkOZJCbLxcQ9R6BmF8yzzh48NyFk9+0V6VKgd
-         Yg7hoaCOOVQNF3LVXR/N84cwuJgy5jTxJFrmWpTFSqF5Zz5InqKEbK3GJE6B+0oaHVuG
-         t88w==
-X-Gm-Message-State: AOAM532vPVl4Ynx8+GcH410TETaoaZk+ZxBm5FMkFKGttFPX81pzgQQX
-	0GM8L9rIqIW1gp8K56M5AX6TKQ==
-X-Google-Smtp-Source: ABdhPJzr6kcvW4OA2Ui+JOsEnO8w15/OftoJGCzXkVlI6X4L8Bhn3lfW7RwSwLhMOllsE2WDDzin+A==
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr27486967wrw.228.1632135434776;
-        Mon, 20 Sep 2021 03:57:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2yjZ28W7Y4YrrjZQ3kfeWdPwNXyCaB/d3FtJ/BdQnro=;
+        b=F0oyF6RPmJXmBp82mnC28S7fXWjAKKcPzLfQ4n/McgPHwaopZSeQciRKWNDeTnu3vW
+         hpX0i2Y7Q3T/o6+76cFlPKVJSaFQfrMNhzI5/Uvto6f6cxqWUStRuAyQth2upRQjjpQ4
+         vlq7ehfU6WCM0fOVTkUGzXoInNOUDJLjkcWzcwsiN9fvTlyWU3QtB5VcyrFGcvfqVUVx
+         ZCvIdUHm7xgvDj8L2OGT98MauvDdBmJgdnNykBvoLIwPNsp6ytMSDy2k+mhApVMZRp7v
+         Leix8c+fdEeSPwEsRm6N1qZGH1+IQC9xy1S1LMPfSJ8j8ufszJG7By0RJXPZPkB1SCIk
+         /HEw==
+X-Gm-Message-State: AOAM530ZcAxcZ1NaJnB0arQUO1mfOFac4MbBlMgoNZOV7OMB2TpsU0+S
+	mcYgmwMR7SUn7GIHTt4SbLUjwsv5d/LT6fze
+X-Google-Smtp-Source: ABdhPJzC6JsnvNphbISO50sT0BPNQdSd4IfWCvjk8+ow0uAcYxel+iWGCx/MvbSMucEo3ipBiG2mGw==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr28894707wmb.79.1632141982969;
+        Mon, 20 Sep 2021 05:46:22 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:7173:466e:b128:3e8b? ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
-        by smtp.gmail.com with ESMTPSA id a25sm18955606wmj.34.2021.09.20.03.57.14
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
+        by smtp.gmail.com with ESMTPSA id j21sm15773514wrd.48.2021.09.20.05.46.22
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 03:57:14 -0700 (PDT)
-Message-ID: <b38d915afcb3ddae8f582e106e880f960cc71f95.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [dunfell][PATCH] poky: fixes backwards compatible for the SDKPATHINSTALL
+        Mon, 20 Sep 2021 05:46:22 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 20 Sep 2021 11:57:12 +0100
-In-Reply-To: <20210920100704.312573-1-quaresma.jose@gmail.com>
-References: <20210920100704.312573-1-quaresma.jose@gmail.com>
-User-Agent: Evolution 3.40.4-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 01/14] vim: Backport fix for CVE-2021-3770
+Date: Mon, 20 Sep 2021 13:46:08 +0100
+Message-Id: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-09-20 at 11:07 +0100, Jose Quaresma wrote:
-> Previously the SDKPATH can be used to custumize the path
-> of the SDK installation. Drop the SDKPATH and use SDKPATHINSTALL
-> without that brokes backwards compatible for any distro with
-> SDKPATH customized.
-> 
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> ---
->  meta-poky/conf/distro/poky.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-> index 5b54df874e..7dad7012ba 100644
-> --- a/meta-poky/conf/distro/poky.conf
-> +++ b/meta-poky/conf/distro/poky.conf
-> @@ -24,7 +24,7 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
->  PREFERRED_VERSION_linux-yocto ?= "5.4%"
->  
->  SDK_NAME = "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TUNE_PKGARCH}-${MACHINE}"
-> -SDKPATHINSTALL = "/opt/${DISTRO}/${SDK_VERSION}"
-> +SDKPATHINSTALL = "${SDKPATH}"
->  
->  DISTRO_EXTRA_RDEPENDS += " ${POKY_DEFAULT_EXTRA_RDEPENDS}"
->  DISTRO_EXTRA_RRECOMMENDS += " ${POKY_DEFAULT_EXTRA_RRECOMMENDS}"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
 
-Distros need to switch to use SDKPATHINSTALL. 
-
-This change breaks the poky default value instead of any distro that has
-customised and disables the SDK hard coded path fix which was the original point
-of the change.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+new file mode 100644
+index 00000000000..1cee7595021
+--- /dev/null
++++ b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+@@ -0,0 +1,207 @@
++From b7081e135a16091c93f6f5f7525a5c58fb7ca9f9 Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Sat, 4 Sep 2021 18:47:28 +0200
++Subject: [PATCH] patch 8.2.3402: invalid memory access when using :retab with
++ large value
++
++Problem:    Invalid memory access when using :retab with large value.
++Solution:   Check the number is positive.
++
++CVE: CVE-2021-3770
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Backport [https://github.com/vim/vim/commit/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9]
++---
++ src/indent.c               | 34 +++++++++++++++++++++-------------
++ src/option.c               | 12 ++++++------
++ src/optionstr.c            |  4 ++--
++ src/testdir/test_retab.vim |  3 +++
++ src/version.c              |  2 ++
++ 5 files changed, 34 insertions(+), 21 deletions(-)
++
++Index: git/src/indent.c
++===================================================================
++--- git.orig/src/indent.c
+++++ git/src/indent.c
++@@ -18,18 +18,19 @@
++ /*
++  * Set the integer values corresponding to the string setting of 'vartabstop'.
++  * "array" will be set, caller must free it if needed.
+++ * Return FAIL for an error.
++  */
++     int
++ tabstop_set(char_u *var, int **array)
++ {
++-    int valcount = 1;
++-    int t;
++-    char_u *cp;
+++    int	    valcount = 1;
+++    int	    t;
+++    char_u  *cp;
++ 
++     if (var[0] == NUL || (var[0] == '0' && var[1] == NUL))
++     {
++ 	*array = NULL;
++-	return TRUE;
+++	return OK;
++     }
++ 
++     for (cp = var; *cp != NUL; ++cp)
++@@ -43,8 +44,8 @@ tabstop_set(char_u *var, int **array)
++ 		if (cp != end)
++ 		    emsg(_(e_positive));
++ 		else
++-		    emsg(_(e_invarg));
++-		return FALSE;
+++		    semsg(_(e_invarg2), cp);
+++		return FAIL;
++ 	    }
++ 	}
++ 
++@@ -55,26 +56,33 @@ tabstop_set(char_u *var, int **array)
++ 	    ++valcount;
++ 	    continue;
++ 	}
++-	emsg(_(e_invarg));
++-	return FALSE;
+++	semsg(_(e_invarg2), var);
+++	return FAIL;
++     }
++ 
++     *array = ALLOC_MULT(int, valcount + 1);
++     if (*array == NULL)
++-	return FALSE;
+++	return FAIL;
++     (*array)[0] = valcount;
++ 
++     t = 1;
++     for (cp = var; *cp != NUL;)
++     {
++-	(*array)[t++] = atoi((char *)cp);
++-	while (*cp  != NUL && *cp != ',')
+++	int n = atoi((char *)cp);
+++
+++	if (n < 0 || n > 9999)
+++	{
+++	    semsg(_(e_invarg2), cp);
+++	    return FAIL;
+++	}
+++	(*array)[t++] = n;
+++	while (*cp != NUL && *cp != ',')
++ 	    ++cp;
++ 	if (*cp != NUL)
++ 	    ++cp;
++     }
++ 
++-    return TRUE;
+++    return OK;
++ }
++ 
++ /*
++@@ -1556,7 +1564,7 @@ ex_retab(exarg_T *eap)
++ 
++ #ifdef FEAT_VARTABS
++     new_ts_str = eap->arg;
++-    if (!tabstop_set(eap->arg, &new_vts_array))
+++    if (tabstop_set(eap->arg, &new_vts_array) == FAIL)
++ 	return;
++     while (vim_isdigit(*(eap->arg)) || *(eap->arg) == ',')
++ 	++(eap->arg);
++Index: git/src/option.c
++===================================================================
++--- git.orig/src/option.c
+++++ git/src/option.c
++@@ -2292,9 +2292,9 @@ didset_options2(void)
++ #endif
++ #ifdef FEAT_VARTABS
++     vim_free(curbuf->b_p_vsts_array);
++-    tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
+++    (void)tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
++     vim_free(curbuf->b_p_vts_array);
++-    tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
+++    (void)tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
++ #endif
++ }
++ 
++@@ -5756,7 +5756,7 @@ buf_copy_options(buf_T *buf, int flags)
++ 	    buf->b_p_vsts = vim_strsave(p_vsts);
++ 	    COPY_OPT_SCTX(buf, BV_VSTS);
++ 	    if (p_vsts && p_vsts != empty_option)
++-		tabstop_set(p_vsts, &buf->b_p_vsts_array);
+++		(void)tabstop_set(p_vsts, &buf->b_p_vsts_array);
++ 	    else
++ 		buf->b_p_vsts_array = 0;
++ 	    buf->b_p_vsts_nopaste = p_vsts_nopaste
++@@ -5914,7 +5914,7 @@ buf_copy_options(buf_T *buf, int flags)
++ 		buf->b_p_isk = save_p_isk;
++ #ifdef FEAT_VARTABS
++ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
++-		    tabstop_set(p_vts, &buf->b_p_vts_array);
+++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
++ 		else
++ 		    buf->b_p_vts_array = NULL;
++ #endif
++@@ -5929,7 +5929,7 @@ buf_copy_options(buf_T *buf, int flags)
++ 		buf->b_p_vts = vim_strsave(p_vts);
++ 		COPY_OPT_SCTX(buf, BV_VTS);
++ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
++-		    tabstop_set(p_vts, &buf->b_p_vts_array);
+++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
++ 		else
++ 		    buf->b_p_vts_array = NULL;
++ #endif
++@@ -6634,7 +6634,7 @@ paste_option_changed(void)
++ 	    if (buf->b_p_vsts_array)
++ 		vim_free(buf->b_p_vsts_array);
++ 	    if (buf->b_p_vsts && buf->b_p_vsts != empty_option)
++-		tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
+++		(void)tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
++ 	    else
++ 		buf->b_p_vsts_array = 0;
++ #endif
++Index: git/src/optionstr.c
++===================================================================
++--- git.orig/src/optionstr.c
+++++ git/src/optionstr.c
++@@ -2166,7 +2166,7 @@ did_set_string_option(
++ 	    if (errmsg == NULL)
++ 	    {
++ 		int *oldarray = curbuf->b_p_vsts_array;
++-		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)))
+++		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)) == OK)
++ 		{
++ 		    if (oldarray)
++ 			vim_free(oldarray);
++@@ -2205,7 +2205,7 @@ did_set_string_option(
++ 	    {
++ 		int *oldarray = curbuf->b_p_vts_array;
++ 
++-		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)))
+++		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)) == OK)
++ 		{
++ 		    vim_free(oldarray);
++ #ifdef FEAT_FOLDING
++Index: git/src/testdir/test_retab.vim
++===================================================================
++--- git.orig/src/testdir/test_retab.vim
+++++ git/src/testdir/test_retab.vim
++@@ -74,4 +74,7 @@ endfunc
++ func Test_retab_error()
++   call assert_fails('retab -1',  'E487:')
++   call assert_fails('retab! -1', 'E487:')
+++  call assert_fails('ret -1000', 'E487:')
+++  call assert_fails('ret 10000', 'E475:')
+++  call assert_fails('ret 80000000000000000000', 'E475:')
++ endfunc
++Index: git/src/version.c
++===================================================================
++--- git.orig/src/version.c
+++++ git/src/version.c
++@@ -743,6 +743,8 @@ static char *(features[]) =
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
++ /**/
+++    3402,
+++/**/
++     0
++ };
++ 
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 17322885dc6..7e9225fbcb5 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -17,7 +17,9 @@ SRC_URI = "git://github.com/vim/vim.git \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
+            file://racefix.patch \
++           file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
+ "
++
+ SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+-- 
+2.32.0
 
