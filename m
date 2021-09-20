@@ -1,92 +1,78 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.11079.1632141988825525804
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.11110.1632141989593328105
  for <openembedded-core@lists.openembedded.org>;
  Mon, 20 Sep 2021 05:46:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=POVQ8aTH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id u15so29346128wru.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 05:46:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T4+AsNUd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id q11so29320086wrr.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 05:46:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=fdksY8sW2KH9kyYSDRKZfDlDUqa38OW8nXLlpjmIx8w=;
-        b=POVQ8aTHwopQLjCV/46FurM14ZNwtNiEx9qXObHIiGFfzIXY1Ec+jXa1SyHQZyBY7H
-         4cQf4oL9H7BEfhojN6NmTfBe8aEa+UbQmAGz+MzYnpjWTKF3evnsfv9eXGsV3HOyIVZ5
-         scP2EQ8lpwbCiJyCdqKcAAtateOlW8a36xHB8=
+        bh=4cf3+KdOJVeun0iORvk5HUwVR3t19NmAt7APa/dmBPg=;
+        b=T4+AsNUdpK/YYM2Yl3N721E94XWch0d97WNdNK1CghZVHlI7IkJEnGY6xVVlvOOfTY
+         oNWCGuUcPHkDFIc3/sqOkpQfaRkpW84dvxmjOca5ssgbVR+GtnZGsLTfdi0bg3Gm6UWi
+         qDVMwNmaYrHNVtWvViTVj02KP4I6u4Va1EuBw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fdksY8sW2KH9kyYSDRKZfDlDUqa38OW8nXLlpjmIx8w=;
-        b=viBHwpMAxbZSZ7P8cia7OBIyecSHU2c9ttczL1YfYha+iZPpgCEeb+wsGgxssJuiwg
-         AcMM4JkU1UbLtb35zWyX2ZVFz8blml5QYR+T0Rh9Mq9CMYfWcXZtYNInBuK27pvaBYfR
-         nrzzhcY6pw9yZtjV2tqvMbKL39/5lppjdJUsxmoLuDwHaj2sjAfMnhFynLT2ASR1NVfe
-         umvyu9MEydMKhxZZwSHaqyr2B78GadVgwHY1UWDndwDi2xmfEquMqMnHwEMgM8mpD2m8
-         yr0dMQ7PE83Unw8VTIm4Kvu1EVvmGWIazkot0BtUnZj6dAx1OLQ1wxMd9g86ZyAMFR4I
-         9Qbg==
-X-Gm-Message-State: AOAM531EY+8ivYWw8b2wKdle12zqK3hREdTkxk+ZqKhNFiJT+tzFl3Th
-	zJRN+rSHKPHPvJ4GrMGrzbViXpK4uxec6U0k
-X-Google-Smtp-Source: ABdhPJw6FuEE/+vd8+1ahpXsQ5pg0jcOIwcUKf8yePRRI56T+Nw73qVpuSUK5jkO2CDzdRzx53MY9A==
-X-Received: by 2002:a5d:5351:: with SMTP id t17mr28763368wrv.405.1632141987300;
+        bh=4cf3+KdOJVeun0iORvk5HUwVR3t19NmAt7APa/dmBPg=;
+        b=Y2oCA3eNK7KagaFWnkl2R6TkZwAhuMM3NeSnChU0VpSEmX+GuiTFPn3EDFidL/8EVD
+         2b0kSBD1ntqd7qsavAuKlXRjax3CskPTd69e3eCbm997KaYJfDB5USf5Gz4uQ3Of1l1R
+         8oiagC8X25VJdp1T+CxkHRQ9Q/J/+Gm/c11eJmgsqqLOCGiVDCCt/RYaASdH0tHaRGUf
+         eR15HwVUY17knlvbc+NWih+S2YN+HMO1smR+lb9aTyXyTvCTgnsk330Zdz5vs0NYosOJ
+         5fbr2alnrfB8EYJl/wcowqzrPtavmKqKh87T/5bCO/DER8CSvk37EomoUmZE4rR4TV4s
+         5WbA==
+X-Gm-Message-State: AOAM533X36HGDAE17X4QV86ymX5ydZKGVhViXriTtiBiach770UCE9W4
+	dU1RHCYVrurtrXBEzf285oUCgn4miJRG0ZjR
+X-Google-Smtp-Source: ABdhPJwyixBOSe//M+yO7sHtTC4eiuN2MeZ/3aSDXvAQTzUf523XnnkxMeIlmptcWGuGIGLkcOUNNw==
+X-Received: by 2002:a7b:c930:: with SMTP id h16mr28852860wml.156.1632141987951;
         Mon, 20 Sep 2021 05:46:27 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
-        by smtp.gmail.com with ESMTPSA id j21sm15773514wrd.48.2021.09.20.05.46.26
+        by smtp.gmail.com with ESMTPSA id j21sm15773514wrd.48.2021.09.20.05.46.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 05:46:26 -0700 (PDT)
+        Mon, 20 Sep 2021 05:46:27 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/14] image/qemu: Add explict depends for qemu-helper addto_recipe_sysroot task
-Date: Mon, 20 Sep 2021 13:46:13 +0100
-Message-Id: <20210920124621.1576702-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 07/14] staging: Mark deploy an sstate task
+Date: Mon, 20 Sep 2021 13:46:14 +0100
+Message-Id: <20210920124621.1576702-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
 References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The populate_sysroot task isn't enough for qemu-helper-native, we need
-it's addto_recipe_sysroot task. This corrects what amounts to bad
-dependency information to be explicit.
+Deploy is a tricky task as it isn't in SSTATETASKS as it isn't always
+present. We do need to ensure dependency chains around do_deploy tasks
+are correctly handled as sstate tasks though. For now add to the list of
+sstate tasks manually (like the other locale task reference).
+
+Without this, missing manifest files could be reported now that do_deploy
+tasks no longer have their dependencies added by the depvalid function.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image.bbclass         | 5 ++++-
- meta/conf/machine/include/qemu.inc | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/staging.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index d76895178fb..1d88ccd8192 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -138,7 +138,10 @@ python () {
-     def extraimage_getdepends(task):
-         deps = ""
-         for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
--            deps += " %s:%s" % (dep, task)
-+            if ":" in dep:
-+                deps += " %s " % (dep)
-+            else:
-+                deps += " %s:%s" % (dep, task)
-         return deps
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index af3397bab6f..65a6cd5120b 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -306,6 +306,7 @@ python extend_recipe_sysroot() {
+     sstatetasks = d.getVar("SSTATETASKS").split()
+     # Add recipe specific tasks referenced by setscene_depvalid()
+     sstatetasks.append("do_stash_locale")
++    sstatetasks.append("do_deploy")
  
-     d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index c7136da7116..642c322abcb 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -21,7 +21,7 @@ RDEPENDS:${KERNEL_PACKAGE_NAME}-base = ""
- # Use a common kernel recipe for all QEMU machines
- PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
- 
--EXTRA_IMAGEDEPENDS += "qemu-system-native qemu-helper-native"
-+EXTRA_IMAGEDEPENDS += "qemu-system-native qemu-helper-native:do_addto_recipe_sysroot"
- 
- # Provide the nfs server kernel module for all qemu images
- KERNEL_FEATURES:append:pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+     def print_dep_tree(deptree):
+         data = ""
 -- 
 2.32.0
 
