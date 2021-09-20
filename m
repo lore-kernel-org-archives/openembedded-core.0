@@ -1,81 +1,79 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.11080.1632141990440206532
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.10865.1632141991885452285
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Sep 2021 05:46:30 -0700
+ Mon, 20 Sep 2021 05:46:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D8SIPilU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id t8so29319780wrq.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 05:46:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W0GUuGf/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id q26so29312203wrc.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 05:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=mui170Gyb+hIM8+sXfKKf9nroKgRaj6AiZ7WCGmGiDY=;
-        b=D8SIPilU1D6CG9GhDHdyjXEcfzmkfq6hzlb9YqSpF0vM6e8wVIKimmcTVEXsk+LTOi
-         mgjqbJ65T9tzB/daxNuGu9zXJK5HtdWa/pTjwv3PdaeGNqqjlDT66w22kaSxuCnmfZqY
-         Hqn6ssRWDjI9YiHM4jFsNgOWP2LuWn1hok+Mo=
+        bh=NMrkoHsfipzx+uLIuY0rtsl7tMQZJk/LccfN5c8XkCo=;
+        b=W0GUuGf/zmAIMTYfAPyXkGVtiqkTLl2ryohIlk9c4uj2hpJhlgVMxZJe4DOIQhBqeP
+         UowA8WsNxqBgUWp7A0i3aM6fGGOEr/rQLIC8qoRp76S1xCmbV3ql4BU86U3nLdgaAbIu
+         dOVE7JOWlTnBzUz55qvSm4vjTPbP77ZH1vjHU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mui170Gyb+hIM8+sXfKKf9nroKgRaj6AiZ7WCGmGiDY=;
-        b=I6thCcG5tGJqaAasH8Xx/wv8nFqzVQ0v/gq/Hcpk5gbbi1LujLS2tYTT8dE/HTOFGd
-         QMNSvHZiFwtmCYc82GMqyJx79IaYfVmJaHZkAUyFTtEAkOWeJAE3lW4/yTHhTgmJOkO5
-         Z+vcftaGqFXHYDbGu6PPmnfNE3DPzCkehErL/RrVDflvVs31MPxQxVzna9JgrZfiynmN
-         dtAd5cZQBiG6exjXU+SJfXKJ0pYblMoqEPq797dAm9Dv4R60cSPmfsuWUXn/hW+Wi5W2
-         pHODTl6zEzf3U4U48sJNZWxag0qI9nnMkWCuqEIzBMPPVcFDu3Jy+3sJgQr/AvcU3FEN
-         LwzQ==
-X-Gm-Message-State: AOAM533ngV3xbD/vv4zEPg2ZyhVT4gM/tiquuzDU/Perhz2WUWWlobQv
-	LuLB3oEGQ6k0sbzSzMZbpWCO751QLX2RV7Qt
-X-Google-Smtp-Source: ABdhPJylykHFnvwkv/4He9RVwjGVBUABiFASVFvJ3ilUlgF2VvSub869luoSVFppI02Bm55O7/9pmw==
-X-Received: by 2002:a5d:4950:: with SMTP id r16mr28701880wrs.265.1632141988841;
-        Mon, 20 Sep 2021 05:46:28 -0700 (PDT)
+        bh=NMrkoHsfipzx+uLIuY0rtsl7tMQZJk/LccfN5c8XkCo=;
+        b=U4WoG1g0HJyKnL3CfnY5piGjAvHdYZ7xaz0kxCD3lPufE3wkYA9YUOVQFrz69c+39g
+         NoQT6KohYii6XFKVK8hz77m74rDL4mkOL1oD2yzrJDHSXa9dchSiTsdjDJZqJjU18JkJ
+         jI3JisDbk3GigQghfn0G4DXpzHhUinYZLcR2v+H1XFvn8y1KOI6EULjcsNdJe4PLYp0o
+         KE4rqVnKHgzWv1vJnYzzCW7Ixbpkf0G5k1/fTbfuStEKrTRWd+oqGjvx1wZ56lo/fWOX
+         29/2YEAMWn4a72ZMoJQ6cokdNQhcjoBF+RR3boaVlf5E9yNzdWxigk3XZIO8lg5TZV2s
+         ZBBg==
+X-Gm-Message-State: AOAM531fxIEHRn6CB5i7+5bg0/VsRUpne6yJRvXXHl3Na5UsUD32uKGQ
+	0iBo8IWsUXMZbvJVNOmphc/jJ7r4R+Ya5uO6
+X-Google-Smtp-Source: ABdhPJxYIIA6sDL49JZqQtjJJN9SjCFhM4EABdgh8f57uSMIb7xSqLJIPgft4fQ/CiVtsp6TGALGGQ==
+X-Received: by 2002:a05:600c:4991:: with SMTP id h17mr29360524wmp.74.1632141990409;
+        Mon, 20 Sep 2021 05:46:30 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
         by smtp.gmail.com with ESMTPSA id j21sm15773514wrd.48.2021.09.20.05.46.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 05:46:28 -0700 (PDT)
+        Mon, 20 Sep 2021 05:46:29 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/14] sstate: Ensure deploy tasks don't pull in toolchains
-Date: Mon, 20 Sep 2021 13:46:15 +0100
-Message-Id: <20210920124621.1576702-8-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 09/14] sstate: Avoid deploy_source_date_epoch sstate when unneeded
+Date: Mon, 20 Sep 2021 13:46:16 +0100
+Message-Id: <20210920124621.1576702-9-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
 References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If an image is built from sstate, the cross toolchain was being pulled in.
-This was due to the sstate dependencies for deploy tasks not being considered
-in the "depvalid" logic.
+This sstate task is only needed when depended upon, it can be skipped
+if there are no tasks running that directly depend upon it.
 
-do_deploy tasks do not need their populate_sysroot dependencies when installed
-from sstate so skip these. This reduces the sstate pulled in by an image
-build from sstate significantly.
+This reduced the number of sstate tasks in something like an image
+build.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 29679e6a5ee..498dfc681cf 100644
+index 498dfc681cf..5accc13a89b 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -1090,8 +1090,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-         # do_package_write_* need do_populate_sysroot as they're mainly postinstall dependencies
-         if taskdependees[task][1] == "do_populate_sysroot" and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
-             return False
--        # do_package/packagedata/package_qa don't need do_populate_sysroot
--        if taskdependees[task][1] == "do_populate_sysroot" and taskdependees[dep][1] in ['do_package', 'do_packagedata', 'do_package_qa']:
-+        # do_package/packagedata/package_qa/deploy don't need do_populate_sysroot
-+        if taskdependees[task][1] == "do_populate_sysroot" and taskdependees[dep][1] in ['do_package', 'do_packagedata', 'do_package_qa', 'do_deploy']:
-             continue
-         # Native/Cross packages don't exist and are noexec anyway
-         if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata', 'do_package', 'do_package_qa']:
+@@ -1066,6 +1066,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+     if taskdependees[task][1] == "do_populate_lic":
+         return True
+ 
++    # We only need to trigger deploy_source_date_epoch through direct dependencies
++    if taskdependees[task][1] == "do_deploy_source_date_epoch":
++        return True
++
+     # stash_locale and gcc_stash_builddir are never needed as a dependency for built objects
+     if taskdependees[task][1] == "do_stash_locale" or taskdependees[task][1] == "do_gcc_stash_builddir":
+         return True
 -- 
 2.32.0
 
