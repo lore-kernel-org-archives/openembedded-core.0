@@ -1,126 +1,119 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web08.896.1632154122072839455
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web09.71.1632155563239200042
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Sep 2021 09:08:42 -0700
+ Mon, 20 Sep 2021 09:32:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=ti2fE2Bs;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.171, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f171.google.com with SMTP id i132so15882039qke.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 09:08:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JMK0FyRB;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id u18so17985917pgf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 09:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZIxQSMt6oth3gdb9JvbAvCorGgNcEocfjxXbsuROW6w=;
-        b=ti2fE2Bsg5neFLTMDDpHwo+L1Z+5xW+A9KjJNhV74TYMvDjGrV/BB7JflXiKZFJgkX
-         6s7V9NUlhFuEKZB6abywgrcFMe+kWNXtXp8SCE18Km3324NWiWX8MBJkTjIhwLMMNqdP
-         w57vAjer2TpYEz7ZtDizF+3srcFYiYMX8Ih3tsBbPfn/UE3qUgACvr75IkCymqtuxweV
-         iTc/BZXmGNZ+jewKwuuLdoypeCwpp8prg16WkE9dwf6WMU352k+3eFrh8R1bFcrY9TZ4
-         1WMxVtikQM4sa82+mSJJpXgGZ/XmKEZeP9JXpK+urPfTKQT8ZCyPsDcQPsG24QM4wwDR
-         7kvA==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=6rEkgXe14FgIh5lp4YjAF6gTcqV8vYOpqkqd3FNRQVk=;
+        b=JMK0FyRBfr5KrAMZjfPkQIIo//CVuu61aYvS3lZun/D4Cx2HYiQOc46vnATIo5NVBQ
+         UWUstOFj7hOV4MurX023UZvlDKv30afQ6BUXkImyxhzzxFY+tujpEkdQoTxMsWrsBS6O
+         V4C9VxARf3GBxUwAThzl3mPa8HlMeuxdYbW4vEh6q5H1e8DV3y4eLaYbxZvdiNEzl8ZV
+         q3Z1WLsFRqWeWo8Q5f9qs/vRq1FIq4rzPzzrCh1VSkCHma8/7eCH/+Amn7P45vLv+Tyw
+         I3VYx7kd1OwT2WIhUKq7k1tVXoV+S26W+MH/7BZ3gJImaoV45hO+DfTiX5GXjD0VKUIU
+         OZgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZIxQSMt6oth3gdb9JvbAvCorGgNcEocfjxXbsuROW6w=;
-        b=R74s2gMjVtjTD96hy4LSRXi+1HCGu+8Dexjnw1U/t0pwX78BtVDF1V2wH4vNrjGGkJ
-         I4Auu7hfcPbomaEVVTe4WXbZSyTiyBUbb3uGlLAide/zlhWJcKsh879Bw112OjTRaso5
-         8DfgBC8vYfJPFWkyjBn1QSJjB9cFlbZ49pFxTcUwXGCOQk+J0dFJ58wyc1FqIXP2cwOV
-         HZIU5DMlrEQ+91r8pwVdy6ip83wfYBtpJ4IlZIWcMkRpAQ0HQM4GveJP8qxPmQsY6k1/
-         8XOmQ1zz6VfzpmGCBSiK4lJPYg0OKwxnZZqyvHLBZeehj9MIKYJ5QgtIoV/6Bll/5ycz
-         GL4A==
-X-Gm-Message-State: AOAM532SyLSakpmXkF6gLTigCCKCjALFgq0ppUyni9ml3KT/kcKIN1mU
-	/LmpZVADmBWQIk/lzfTdY8rnvy1SshR9B4HgbNYUfwNQjRc=
-X-Google-Smtp-Source: ABdhPJzea1OrxeWUFFzf1yJX6+coNehzAjzPSCU53Jn0dg+T+ksDZWZNGJespVc840cG1C9tXN5YOnj3srgvkskXodA=
-X-Received: by 2002:ae9:ed45:: with SMTP id c66mr1540537qkg.336.1632154120947;
- Mon, 20 Sep 2021 09:08:40 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=6rEkgXe14FgIh5lp4YjAF6gTcqV8vYOpqkqd3FNRQVk=;
+        b=wOsohwputt7fINnINK13pTXFzhcdrUBJi9W0UA6rW6zmjaYEGb9qb4YARwIZBdf9CI
+         RIUF3mE5LuBEMHfbhORSyxwqYf9SolIC/Q9gM/HlntZUrXX5UuWqoxceTJTC03sbJDXG
+         osLwwzfy1nDN9X0QiJemPIf/X3g+1YcMC+FV5idncjcYeTuxwaUP5SYkR1BoxbJGHn1K
+         XTpkckeW/i8Gzix/4BytnxxTAKJRXE7Jwa1DMgGXr6kXyFT7mRuzNpq+vu4wvh4BZsIL
+         NAuYg3qYzRROxizImtOHOp5xjBbiHv74H95J5k3aG4u6peR3BucUCuMDPNspTMKB8J1D
+         EhlA==
+X-Gm-Message-State: AOAM533bxZOUw2GfU0xYNL8jBOvGzpmhI+VbY9p9Alxc/X56amHQXxHd
+	t6LGnVkIeaQls+YogyEXO0k=
+X-Google-Smtp-Source: ABdhPJwsngKNqIkkH8Ubb+2x7Pqh9HcxnUGYhVg1hn5CAPNEc90dkKY7cPHnaXoDMvZibCV/UxmV7w==
+X-Received: by 2002:a63:6d89:: with SMTP id i131mr24120760pgc.235.1632155562282;
+        Mon, 20 Sep 2021 09:32:42 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPV6:2601:646:9200:a0f0:5c66:1dc6:5acd:f9a2? ([2601:646:9200:a0f0:5c66:1dc6:5acd:f9a2])
+        by smtp.gmail.com with ESMTPSA id h18sm6349423pfr.89.2021.09.20.09.32.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 09:32:41 -0700 (PDT)
+Message-ID: <01765ca0-de7c-2e32-7e46-455d18737705@gmail.com>
+Date: Mon, 20 Sep 2021 09:32:40 -0700
 MIME-Version: 1.0
-References: <20210916222006.18189-1-jdmason@kudzu.us> <CANNYZj8i4y3Wm-r6P=GiW0=3NDZRCMbJcjFfdvQ6tMgG9yw5DQ@mail.gmail.com>
-In-Reply-To: <CANNYZj8i4y3Wm-r6P=GiW0=3NDZRCMbJcjFfdvQ6tMgG9yw5DQ@mail.gmail.com>
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Mon, 20 Sep 2021 12:08:29 -0400
-Message-ID: <CAPoiz9wwn52FFrN1K84V0uxzEJXxuv2VesugVCY3h66K2C=CFQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] machine/qemuarm*: use virtio graphics
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.1.1
+Subject: Re: [OE-core] [RFC PATCH 11/14] populate_sdk_base/images: Drop use of 'meta' class and hence do_build dependencies
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
+ <16A6887F33E2E04C.31899@lists.openembedded.org>
+ <3efdb496fefa59a9a7edec21f2ca751de5439bd5.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <3efdb496fefa59a9a7edec21f2ca751de5439bd5.camel@linuxfoundation.org>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 17, 2021 at 9:54 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Have you investigated (optionally) enabling virgl as well on ARM hosts? On x86, currently -vga virtio is used
-> and will be switched to -device virtio-vga-gl with qemu 6.1, according to
-> https://www.kraxel.org/blog/2021/05/virtio-gpu-qemu-graphics-update/
 
-My local Arm system does not have a graphics adapter in it.
 
-Let me know when you make the change and I'll get my setup working and
-see if it can't be enabled.
-
-Thanks,
-Jon
-
->
-> On ARM... I don't know, as I do not have an ARM host with a GPU.
->
-> Alex
->
-> On Fri, 17 Sept 2021 at 00:20, Jon Mason <jdmason@kudzu.us> wrote:
+On 9/20/21 5:51 AM, Richard Purdie wrote:
+> On Mon, 2021-09-20 at 13:46 +0100, Richard Purdie via lists.openembedded.org
+> wrote:
+>> The 'meta' is old and not very useful. It empties PACKAGES and creates
+>> recursive do_build dependencies.
 >>
->> Switch to using virtio graphics for the Arm QEMU machines.  You will
->> noticed the difference in the dmesg by seeing:
->> [    2.693337] [drm] pci: virtio-gpu-pci detected at 0000:00:10.0
+>> We shouldn't need such recursive build dependencies any more so simplify the code.
 >>
->> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+>> This does cause behaviour changes as some dependencies are no longer built.
+>> It did show up issues with qemu-helper-native handling for example but those
+>> issues look like real races and the underlying dependency chains were not correct.
+>>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 >> ---
->>  meta/conf/machine/qemuarm.conf   | 2 +-
->>  meta/conf/machine/qemuarm64.conf | 2 +-
->>  meta/conf/machine/qemuarmv5.conf | 3 ++-
->>  3 files changed, 4 insertions(+), 3 deletions(-)
+>>   meta/classes/populate_sdk_base.bbclass | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
 >>
->> diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
->> index 93d855b6e1e2..d71a793edf05 100644
->> --- a/meta/conf/machine/qemuarm.conf
->> +++ b/meta/conf/machine/qemuarm.conf
->> @@ -20,7 +20,7 @@ QB_SMP = "-smp 4"
->>  # Standard Serial console
->>  QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
->>  # For graphics to work we need to define the VGA device as well as the necessary USB devices
->> -QB_GRAPHICS = "-device VGA,edid=on"
->> +QB_GRAPHICS = "-device virtio-gpu-pci"
->>  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
->>  # Virtio Networking support
->>  QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
->> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
->> index ea7fae2722a0..3b08dedddc86 100644
->> --- a/meta/conf/machine/qemuarm64.conf
->> +++ b/meta/conf/machine/qemuarm64.conf
->> @@ -19,7 +19,7 @@ QB_CPU = "-cpu cortex-a57"
->>  QB_SMP = "-smp 4"
->>  QB_CPU_KVM = "-cpu host -machine gic-version=3"
->>  # For graphics to work we need to define the VGA device as well as the necessary USB devices
->> -QB_GRAPHICS = "-device VGA,edid=on"
->> +QB_GRAPHICS = "-device virtio-gpu-pci"
->>  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
->>  # Virtio Networking support
->>  QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
->> diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
->> index 6c99a5296589..252d6286d8ec 100644
->> --- a/meta/conf/machine/qemuarmv5.conf
->> +++ b/meta/conf/machine/qemuarmv5.conf
->> @@ -13,7 +13,8 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
->>  QB_SYSTEM_NAME = "qemu-system-arm"
->>  QB_MACHINE = "-machine versatilepb"
->>  QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
->> -QB_OPT_APPEND = "-usb -device usb-tablet"
->> +QB_GRAPHICS = "-device virtio-gpu-pci"
->> +QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
->>  PREFERRED_VERSION_linux-yocto ??= "5.13%"
->>  QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
->>
->> --
->> 2.20.1
->>
->>
->> 
->>
+>> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+>> index ccfe2232895..49e166e697d 100644
+>> --- a/meta/classes/populate_sdk_base.bbclass
+>> +++ b/meta/classes/populate_sdk_base.bbclass
+>> @@ -1,4 +1,6 @@
+>> -inherit meta image-postinst-intercepts image-artifact-names
+>> +PACKAGES = ""
+>> +
+>> +inherit image-postinst-intercepts image-artifact-names
+>>   
+>>   # Wildcards specifying complementary packages to install for every package that has been explicitly
+>>   # installed into the rootfs
+> 
+> This change is probably high impact in that it changes behaviour the most of any
+> of the changes. It does make image builds use a lot less sstate and in theory,
+> if there are issues with failures from this, there are probably existing races.
+> 
+> It does also have CI impact as it changes the things which are built as not all
+> build tasks now run. Open to opinions on whether we should do this now or not.
+> 
+
+
+I definitely like this change and want it in upcoming LTS in 2022, not 
+comfortable with rushing it into this release. It will cause fair bit of 
+work for rest of layers in ecosystem.
+
+
+> The meta class is pretty useless and should be removed regardless.
+> 
+
+yes
+
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> 
+> 
