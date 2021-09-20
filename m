@@ -1,36 +1,36 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.11071.1632141985273859993
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.11117.1632141986102844764
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Sep 2021 05:46:25 -0700
+ Mon, 20 Sep 2021 05:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MGQPvqKf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id t18so29389431wrb.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KRBDqbvh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id x6so29279977wrv.13
         for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 05:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=J1Wy1fs3FAPKyclnx2ul5iCgvarsPjyh3nalBmS2cOk=;
-        b=MGQPvqKfCr3yKsPHzPiJI1eUuNPXdwrU8xrJ4d9YTRtMhahcWpnaodwkuVOQTGyx+H
-         qRqPql8ePlAISUlclpJzh0Qao9BOIEIawjkEEplwkiajbBacWMp8neLRooh8k3nXfvBt
-         0RNZ11R7L+wP1ezfurrO9rfQrPLRMJxu3pc04=
+        bh=bPxToHsKAQkkBvSbYR3nCAUM0IjZaWfgsHE+8fR5GOY=;
+        b=KRBDqbvhE7uaRpxTPMjIARqFeUMshA99ceqGcC13j0UW/66WS8G4WgqbULdZgQ+T/h
+         LI2rs7Nrr5MS5Dn2oUsB5lmUnPTEARANW0YWizAPjr8b1nscH8BgEuDux3SO5IFCnpz7
+         ujuAM3+UsLdGxoaEXoNXl+RYSmZsHfVHnD5hM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=J1Wy1fs3FAPKyclnx2ul5iCgvarsPjyh3nalBmS2cOk=;
-        b=zidrYsbgLIimriv/Z6ahnFMT3huCI3uM0iuXpGXk5yHGabRNAhYYF2r44C5PiedYOR
-         2n8E+66tatWEqJQgRyrK83SHZJMNxeELuskZAnMf1Cq9d7RBQq45xL0xPD379SS8yqQc
-         gDK7ohBHv7o4XOPzclIA0TxoiGzgEvM2w5jIk00qrc4lpUuxVB9ll0LztvWBOoKYgPcv
-         16WqCHNdfpkmekLik0KreO3brD+hFpwi88OYcNPqTte/olhSuAiWAgwcueZUob5+bRVe
-         4JAsopOwYEhMPe9LoEaewB9t4O6e3kJPCWcSg8lsOHxYQsUxxC8rLOp/drIOOhaQY8Y2
-         f/yQ==
-X-Gm-Message-State: AOAM532XDT6B21ASiWtCioZ6j9n6RbAxzLMKVC5PVLNgJWY4peaID/9t
-	OA9pSLYDSm1HImq9+Cvcv+eE3Oxrj5rg5AH2
-X-Google-Smtp-Source: ABdhPJzbaFJ2Qszt0XIjGjggJbeThp7gMaf0ntjh/DfUAN81LlKd1NBG2BFcktswtAlDWY5VgVl3sg==
-X-Received: by 2002:a05:600c:17d1:: with SMTP id y17mr29390839wmo.135.1632141983648;
-        Mon, 20 Sep 2021 05:46:23 -0700 (PDT)
+        bh=bPxToHsKAQkkBvSbYR3nCAUM0IjZaWfgsHE+8fR5GOY=;
+        b=u9aSevGeizHGmmlMAr354JXMPZ8zTBgBtqWfi/PGjAC8ukAQ/aT1YOfmEfW9f17pf3
+         fYGyEMQ92V+K2HxqPJGLSF2Wpw5W2zlaHCQGaLmd0LBcfmGALwbhDFgl/Vd9WMN0aRsr
+         aAHJjUfKCfqHHsnFq4zOZF9Ddf1NL55YBJR3tqEZeoY3Lv2f56MQKLcAijr8wlraCvpn
+         OHBqAakkIXhiZlVbT4DC4z0nNDKQG3d1kMitpw0Lemx396JJJoPBD8FXvNTW4/5rij6g
+         rZM7v62A9kmtvbfoDiakYKcGK6UqNyOjlE+lFiCM4CBNITOcOLex5duZw7LMfVIfR6pP
+         H7HQ==
+X-Gm-Message-State: AOAM530OnucE/uOyuz2fFnFQxOg+LaNQl6Eq3bZ6v+GNgsOqbt3ILB0z
+	rZ89zRzJvbiqnlGLU4jCptyLvSX5c+no9vMM
+X-Google-Smtp-Source: ABdhPJwhjVBNqpR3fmdB5ISgiNsQEL8sUAevdh8/1kSIpCzkZT2tIpuTHJOqJUkIxP4hkJd1F+uYZw==
+X-Received: by 2002:a1c:7310:: with SMTP id d16mr24410600wmb.30.1632141984554;
+        Mon, 20 Sep 2021 05:46:24 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
         by smtp.gmail.com with ESMTPSA id j21sm15773514wrd.48.2021.09.20.05.46.23
@@ -39,39 +39,33 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
         Mon, 20 Sep 2021 05:46:23 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/14] libgcrypt: Upgrade 1.9.3 -> 1.9.4
-Date: Mon, 20 Sep 2021 13:46:09 +0100
-Message-Id: <20210920124621.1576702-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 03/14] sqlite3: Exclude CVE-2021-36690 from cve checks
+Date: Mon, 20 Sep 2021 13:46:10 +0100
+Message-Id: <20210920124621.1576702-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
 References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Includes a fix for CVE-2021-40528.
+Issue is in an experimental extension we don't have/use. Could also
+be windows only.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libgcrypt/{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb} (96%)
+ meta/recipes-support/sqlite/sqlite3_3.36.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.9.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-similarity index 96%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.9.3.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-index dee936dbc4c..4bc1dd85126 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.9.3.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-@@ -27,7 +27,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-            file://0001-Makefile.am-add-a-missing-space.patch \
-            "
--SRC_URI[sha256sum] = "97ebe4f94e2f7e35b752194ce15a0f3c66324e0ff6af26659bbfb5ff2ec328fd"
-+SRC_URI[sha256sum] = "ea849c83a72454e3ed4267697e8ca03390aee972ab421e7df69dfe42b65caaf7"
- 
- # Below whitelisted CVEs are disputed and not affecting crypto libraries for any distro.
- CVE_CHECK_WHITELIST += "CVE-2018-12433 CVE-2018-12438"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.36.0.bb b/meta/recipes-support/sqlite/sqlite3_3.36.0.bb
+index f5d75e8e4c2..30c9445be1a 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.36.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.36.0.bb
+@@ -10,3 +10,5 @@ SRC_URI[sha256sum] = "bd90c3eb96bee996206b83be7065c9ce19aef38c3f4fb53073ada0d0b6
+ CVE_CHECK_WHITELIST += "CVE-2019-19242"
+ # This is believed to be iOS specific (https://groups.google.com/g/sqlite-dev/c/U7OjAbZO6LA)
+ CVE_CHECK_WHITELIST += "CVE-2015-3717"
++# Issue in an experimental extension we don't have/use. Fixed by https://sqlite.org/src/info/b1e0c22ec981cf5f
++CVE_CHECK_WHITELIST += "CVE-2021-36690"
 -- 
 2.32.0
 
