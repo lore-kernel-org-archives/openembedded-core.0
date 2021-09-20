@@ -1,80 +1,75 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.12041.1632146082887844513
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web09.12749.1632148943017835094
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Sep 2021 06:54:43 -0700
+ Mon, 20 Sep 2021 07:42:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cJZxTeNG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id x6so29913335wrv.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 06:54:42 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=jBm9Kov3;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.54, mailfrom: jdmason@kudzu.us)
+Received: by mail-qv1-f54.google.com with SMTP id 11so2867830qvd.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 07:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=gl9t883iwlxk2jk5EcTv+u2AB09kXNqYAX5rezpfvBE=;
-        b=cJZxTeNGT4FsM8p2FVOIdOBRclEXI4vI1gd2WiutMQu+Q7VCETsfOZ0FrPOI3nsYzy
-         2NjhEDhSAh0aFq/N/Smfdyl/TF4hE9Uo7/BjnWdklsBYRR42ZIxON2mmmnx3Qff+NqlJ
-         Ak0W2A6lP8BBMlMFCAEhE0V0uxzD7PrFEiSuM=
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gllp8iTl/pZz1AkqmWsIJTz06l+YKkt09F0ZH23fIRg=;
+        b=jBm9Kov3irMCEZpZm/hRRJYQdlsEpZm/sa18llL/YMSCkFf+2SKYd+SMeQYdKlOB8s
+         hG+hkkOHBbynSaTDDM0F74pb8SL7oW7JajwCI+sbKZ3HXeC/3U3KM2LXm6n+ct8xscUD
+         LHge9aLE7bijeNABPiPUa1B+2kxLd4MeYmrEMLASYWb9BY3Q3lijJldK2eXRwbeu6AaZ
+         GJjk2nCnx2kZjJRWLA9tfzwsxQ1pw/naqU/lX1cgktRTAEAL61MJvwOWaqyHwVsnkUH7
+         ZHMdaNPTnVg5wCj5WtJyXnmqKv6esNVkJwJ9jopm/+YAElEa5lmyxQ9Qz7NVYuMD6qtX
+         lYiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=gl9t883iwlxk2jk5EcTv+u2AB09kXNqYAX5rezpfvBE=;
-        b=jUIl9LevE0oWg2XOggRwcZCe4nkf8TJhd2lgSR0Sl1y3QXAVYGdgK2KBLtyyR4+a7H
-         IdchyqjSt7WdGR9Slji1WqzjT7leD2PpI+0W2kG7fRdwLwc5P6K19upZd5ZvrXg99a2i
-         0BbYeGRZEUk1qVp40S94Dwq9vqu0UdVpmK7GhRhu2ixxqVuoaNIXhNYuXokGWn6/eHLf
-         nG2ZtdfetfzYbmMhEoK7dW3WZlsvWc1IC3LS6W5oHh/GsR29IWTmAKtxXSgXnodYHac6
-         vR+Kik/rrrxMNgvrgeHtAnvYR0ZwLExgdFT1fjISLmCCQtTAC2HbalGysHDlfg5ZUOqz
-         fURg==
-X-Gm-Message-State: AOAM530rIEGiny81bpGiyjCYrWg/iTORAr612j8qFX2y/wobSSDWURPe
-	Jn/mZ1vE5qIo81t22Kx6phEUkA==
-X-Google-Smtp-Source: ABdhPJwBBqSC8BWlmLo0b3LrBOlgHH4IhXc3N+DxLwFiW6M388N4prFQq4XgUO6SqJSfV7Liti5y2A==
-X-Received: by 2002:a1c:1fd3:: with SMTP id f202mr29473118wmf.44.1632146081375;
-        Mon, 20 Sep 2021 06:54:41 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:7173:466e:b128:3e8b? ([2001:8b0:aba:5f3c:7173:466e:b128:3e8b])
-        by smtp.gmail.com with ESMTPSA id 5sm10885975wmb.37.2021.09.20.06.54.40
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gllp8iTl/pZz1AkqmWsIJTz06l+YKkt09F0ZH23fIRg=;
+        b=BSXTlQSzoTdyCHKz1yaaDcgeosbfk+KOKPCQMws519FEuNo4DdrrJU87mkAZDuJF4Y
+         R2U5jC50fCCA4BomVWnoXIYDD8UoNHpAuSbhP9pV8L1xsXx+Hf4EXWLjAU5fRmxKUq6l
+         QsdvKt+5q+P7/dEOvmisorhAQhUgPlLmz/uAQMkcV++YOtdv1OA/uLGFfgcMI4f21V1D
+         7sN/J39u6KPRuRzct+dXIrxJZGTt8lJ0O0XoSLbEL0ZAM2hmvx+ITZzI7lCUorMAZtKq
+         gHmEs+pIEm2OTdOLIuXjfqDb+YIc2yp3uPSS+qFQSogjz6VOqOfW7KjusUHphELIVYPR
+         XvEA==
+X-Gm-Message-State: AOAM5305NIWGTD3CHJe62PGFgBCn3juIiWE4siUulooLO0Y3Bopm0NQN
+	sV9+m2BEk0au+6WFtlyr7zmbtshG9IrQEw==
+X-Google-Smtp-Source: ABdhPJy7h8hM0UWVafje18wJ42+rLTWBYqIulmyDSZaASUQp0h+T2ahVlBUrzlQHKnvEhfA65Jhmsw==
+X-Received: by 2002:ad4:5541:: with SMTP id v1mr25382604qvy.49.1632148941558;
+        Mon, 20 Sep 2021 07:42:21 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a650:b700:28e4:c1fe:577a:5f34])
+        by smtp.gmail.com with ESMTPSA id v23sm3833351qkj.76.2021.09.20.07.42.21
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 06:54:41 -0700 (PDT)
-Message-ID: <5aa952a94df465a15b06479f0c95f9dfe7474e89.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH] package_ipk/deb/rpm: Drop recursive do_build task dependencies
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Sep 2021 14:54:38 +0100
-In-Reply-To: <CAJdd5GZAEFJZmLjRFadjF5s2zu_b-k3dftwaNanUAA-GvN9Bnw@mail.gmail.com>
-References: <20210919105735.1543088-1-richard.purdie@linuxfoundation.org>
-	 <CAJdd5GZAEFJZmLjRFadjF5s2zu_b-k3dftwaNanUAA-GvN9Bnw@mail.gmail.com>
-User-Agent: Evolution 3.40.4-1 
+        Mon, 20 Sep 2021 07:42:21 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] testimage: remove aarch64 xorg exclusion
+Date: Mon, 20 Sep 2021 10:42:20 -0400
+Message-Id: <20210920144220.6776-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-09-20 at 08:27 -0500, Joshua Watt wrote:
-> On Sun, Sep 19, 2021 at 5:57 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > This is a controversial change which removes the recursive dependencies
-> > from the do_build target of packaging tasks of recipes.
-> > 
-> > Currently this means when you "bitbake <image>" or "bitbake <recipe>",
-> > the packaging tasks run for all packaging backends enabled for all recipes
-> > in the dependency chain. The same therefore then applies to images.
-> > 
-> > We don't actually need that, it is a convinience thing. Removing it
-> > massively simplifies the task graph and causes much fewer tasks to execute
-> > in many common scenarios. It also means less sstate is fetched for
-> > example when building an image.
-> 
-> Faster builds in the common cases seems like a great idea!
-> 
-> If someone really needs the old behavior, is there a mechanism to do
-> the equivalent to what it was doing?
+aarch64/qemuarm64 has had graphics support for some time.  Remove this
+exclusion and allow graphics tests to be against qemuarm64.
 
-In this context, "bitbake XXX --runall build" would be equivalent to the current
-"bitbake XXX".
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/classes/testimage.bbclass | 2 --
+ 1 file changed, 2 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 3c689aec9139..82dceedf067f 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -64,8 +64,6 @@ BASICTESTSUITE = "\
+ 
+ DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
+ 
+-# aarch64 has no graphics
+-DEFAULT_TEST_SUITES:remove:aarch64 = "xorg"
+ # musl doesn't support systemtap
+ DEFAULT_TEST_SUITES:remove:libc-musl = "stap"
+ 
+-- 
+2.20.1
 
