@@ -1,75 +1,118 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web09.12749.1632148943017835094
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web12.691.1632153435143522469
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Sep 2021 07:42:23 -0700
+ Mon, 20 Sep 2021 08:57:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112 header.b=jBm9Kov3;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.54, mailfrom: jdmason@kudzu.us)
-Received: by mail-qv1-f54.google.com with SMTP id 11so2867830qvd.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 07:42:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FLHH2h0b;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id z24so43511558lfu.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Sep 2021 08:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gllp8iTl/pZz1AkqmWsIJTz06l+YKkt09F0ZH23fIRg=;
-        b=jBm9Kov3irMCEZpZm/hRRJYQdlsEpZm/sa18llL/YMSCkFf+2SKYd+SMeQYdKlOB8s
-         hG+hkkOHBbynSaTDDM0F74pb8SL7oW7JajwCI+sbKZ3HXeC/3U3KM2LXm6n+ct8xscUD
-         LHge9aLE7bijeNABPiPUa1B+2kxLd4MeYmrEMLASYWb9BY3Q3lijJldK2eXRwbeu6AaZ
-         GJjk2nCnx2kZjJRWLA9tfzwsxQ1pw/naqU/lX1cgktRTAEAL61MJvwOWaqyHwVsnkUH7
-         ZHMdaNPTnVg5wCj5WtJyXnmqKv6esNVkJwJ9jopm/+YAElEa5lmyxQ9Qz7NVYuMD6qtX
-         lYiA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=R/c+OafMrcvGk5ngnBfLof9jEZD1ExYkNForVGYvfeM=;
+        b=FLHH2h0buymWH9kUIj4p81pMHb/6gjn6AFXKXRDogRGy7xejLv3ZrooFOQnhPJyuLv
+         amLfu2ih8O4pYgXW55KYgRRZAx7kvMcXS7jS9Ifxa3bm3Kk1/DwgMfCUdIK9Krjo4fTg
+         ybp8JX1RZJdLpgTreCrkfI8ANmPQBdk7nZuRtroPCHktuljdvGAB+kdAhkSm9YIbaSuL
+         TSfEld3i6Xbg62jNi7cuATQa24xQNcpedDyiNm2njkWMEvhiuIUX6pkYc/+SHJ7PMZtG
+         kziRdDD48CShem9vl38Y0k6P4rLX4dZsGt/4gQMKUd3meq9vVODZ0wzWgX15w+u068QI
+         qouA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gllp8iTl/pZz1AkqmWsIJTz06l+YKkt09F0ZH23fIRg=;
-        b=BSXTlQSzoTdyCHKz1yaaDcgeosbfk+KOKPCQMws519FEuNo4DdrrJU87mkAZDuJF4Y
-         R2U5jC50fCCA4BomVWnoXIYDD8UoNHpAuSbhP9pV8L1xsXx+Hf4EXWLjAU5fRmxKUq6l
-         QsdvKt+5q+P7/dEOvmisorhAQhUgPlLmz/uAQMkcV++YOtdv1OA/uLGFfgcMI4f21V1D
-         7sN/J39u6KPRuRzct+dXIrxJZGTt8lJ0O0XoSLbEL0ZAM2hmvx+ITZzI7lCUorMAZtKq
-         gHmEs+pIEm2OTdOLIuXjfqDb+YIc2yp3uPSS+qFQSogjz6VOqOfW7KjusUHphELIVYPR
-         XvEA==
-X-Gm-Message-State: AOAM5305NIWGTD3CHJe62PGFgBCn3juIiWE4siUulooLO0Y3Bopm0NQN
-	sV9+m2BEk0au+6WFtlyr7zmbtshG9IrQEw==
-X-Google-Smtp-Source: ABdhPJy7h8hM0UWVafje18wJ42+rLTWBYqIulmyDSZaASUQp0h+T2ahVlBUrzlQHKnvEhfA65Jhmsw==
-X-Received: by 2002:ad4:5541:: with SMTP id v1mr25382604qvy.49.1632148941558;
-        Mon, 20 Sep 2021 07:42:21 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a650:b700:28e4:c1fe:577a:5f34])
-        by smtp.gmail.com with ESMTPSA id v23sm3833351qkj.76.2021.09.20.07.42.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 07:42:21 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] testimage: remove aarch64 xorg exclusion
-Date: Mon, 20 Sep 2021 10:42:20 -0400
-Message-Id: <20210920144220.6776-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=R/c+OafMrcvGk5ngnBfLof9jEZD1ExYkNForVGYvfeM=;
+        b=ufGZ7mP21nElZF/bqFiCs1vDJGWr3RRRR5pyW3cIoOjPybddGWwcxzjKAV2ULryLAA
+         Be0Rv5zrCArYSMuSpCSTFTTJwlXmRybxTS9hQX3MQpQGv7UI5CZGDLtSY1Xvj2Vq6Uas
+         YexN0Rb7b3cWZDlZsUMdySmJ59IiaclLSQoejHm7MajRkxCu+UBEVvzoPfuQypnr7n8d
+         e31+ocS6awX7bvRDrPIdxwW8ZbM4GfLkNYm/FQBzlN2raBiwLzqYSBVUljw1YE04rw94
+         AktAe+NPnUtlnbqymyblNLppknT8OBnlgO03lMgnjdzEkREfAxLzH2R0FRn8s7iqu7hY
+         gw2w==
+X-Gm-Message-State: AOAM530WUKfvJpZT7JMzZB4Bt9+zcODbxLiqqjGjFBW5TaXz21NJEZU8
+	k6CCLEUqP9TOLSL9KTqZ9zW//tBfWMolp9CQwXA=
+X-Google-Smtp-Source: ABdhPJw1nsaBMUHFAQ3ZjTwHyMf/IIyAelB0aZxMPwsMGnRv/b2rGEqE2I7U613njjTaS+ig87sShV0LYhqR7F2fpEU=
+X-Received: by 2002:a05:6512:1308:: with SMTP id x8mr19802376lfu.161.1632153357039;
+ Mon, 20 Sep 2021 08:55:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210920100704.312573-1-quaresma.jose@gmail.com> <b38d915afcb3ddae8f582e106e880f960cc71f95.camel@linuxfoundation.org>
+In-Reply-To: <b38d915afcb3ddae8f582e106e880f960cc71f95.camel@linuxfoundation.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Mon, 20 Sep 2021 16:55:47 +0100
+Message-ID: <CANPvuRnim-knH2-0arG6+MZ4bSRgqmRDhQrOjUpF4KoLR82pcw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] poky: fixes backwards compatible for the SDKPATHINSTALL
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-aarch64/qemuarm64 has had graphics support for some time.  Remove this
-exclusion and allow graphics tests to be against qemuarm64.
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+segunda, 20/09/2021 =C3=A0(s) 11:57:
+>
+> On Mon, 2021-09-20 at 11:07 +0100, Jose Quaresma wrote:
+> > Previously the SDKPATH can be used to custumize the path
+> > of the SDK installation. Drop the SDKPATH and use SDKPATHINSTALL
+> > without that brokes backwards compatible for any distro with
+> > SDKPATH customized.
+> >
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta-poky/conf/distro/poky.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/po=
+ky.conf
+> > index 5b54df874e..7dad7012ba 100644
+> > --- a/meta-poky/conf/distro/poky.conf
+> > +++ b/meta-poky/conf/distro/poky.conf
+> > @@ -24,7 +24,7 @@ DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT} ${PO=
+KY_DEFAULT_DISTRO_FEATURES}"
+> >  PREFERRED_VERSION_linux-yocto ?=3D "5.4%"
+> >
+> >  SDK_NAME =3D "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TU=
+NE_PKGARCH}-${MACHINE}"
+> > -SDKPATHINSTALL =3D "/opt/${DISTRO}/${SDK_VERSION}"
+> > +SDKPATHINSTALL =3D "${SDKPATH}"
+> >
+> >  DISTRO_EXTRA_RDEPENDS +=3D " ${POKY_DEFAULT_EXTRA_RDEPENDS}"
+> >  DISTRO_EXTRA_RRECOMMENDS +=3D " ${POKY_DEFAULT_EXTRA_RRECOMMENDS}"
+>
+> Distros need to switch to use SDKPATHINSTALL.
+>
+> This change breaks the poky default value instead of any distro that has
+> customised and disables the SDK hard coded path fix which was the origina=
+l point
+> of the change.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/classes/testimage.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+I understand that fixing this on a customized distro is easy and we
+only need to overwrite SDKPATHINSTALL if needed.
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 3c689aec9139..82dceedf067f 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -64,8 +64,6 @@ BASICTESTSUITE = "\
- 
- DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
- 
--# aarch64 has no graphics
--DEFAULT_TEST_SUITES:remove:aarch64 = "xorg"
- # musl doesn't support systemtap
- DEFAULT_TEST_SUITES:remove:libc-musl = "stap"
- 
--- 
-2.20.1
+So,  to take advantage of the:
+ sdk: Decouple default install path from built in path
+ https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=3Ddunfell&id=3D6=
+fef2a1c2ca8a4450c8a4b49e6eb5e01f80ef97b
 
+The dunfell users need to avoid the usage versions strings in SDKPATH
+because they change over time and
+customize the SDKPATHINSTALL as well, having version strings in the
+last is not a problem.
+
+All distros need to do what poky distro does at:
+ poky: Use SDKPATHINSTALL instead of SDKPATH
+ https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=3Ddunfell&id=3D6=
+7dbe8a1c2b485d0cec174d28107b0ac8ea77d5f
+
+You can drop this patch.
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
