@@ -1,126 +1,270 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.3512.1632255575021481282
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.3842.1632256299456606529
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 13:19:35 -0700
+ Tue, 21 Sep 2021 13:31:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=J6AJEfjI;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id nn5-20020a17090b38c500b0019af1c4b31fso493282pjb.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 13:19:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GTVIUN7M;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id il14-20020a17090b164e00b0019c7a7c362dso2594754pjb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 13:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:organization:in-reply-to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=iZlT5iRcZEB2aKWwiXscL0/6gnbMrPkbj6/PhsgNDG8=;
-        b=J6AJEfjIpAhE0v6KZg7I2ztfXyccEbxIg7sNwpEGPlhtihJf6dOigCqKhi/+xMy5pL
-         v5xcH/7W+FVEbHaQqhm7EPn9zKGF1tUZXgWIglkgavl/BdjGnkf49SFX3+LhOS2f68Dj
-         iCxbPllYDCCrnpGQRfnauF83J/CzBv6vcSfrN48eEQIERR7svCff2z4/O3AZFIoOXnSz
-         mFYvoIMKKg7L5aHfpsyM7szKfy+cobNGfhFQmL8DGFpdbMDpF1j3W0izHFv4FYJlUrZ1
-         wYTXtTh0DuLUjkz8oNvs2EQsVt2P0tOYGStNybXkK7xAEGoRTQjBS85XvqjeXnsUTpIn
-         AaOg==
+        bh=e77QFfqUlzfGzwnQT6dEj9MqOBVc1o4NSqfUeyAs7h0=;
+        b=GTVIUN7MsAcgDdMnvMWrNeADXeuFJg0Os/txcKRD8/IsxIyZGv1xFZAL0xgnyihNUf
+         +qm4vDfNKkplczBbSylMmq3DDyhi+Fws+ZVw4zhZ2Qok31GXhND62jXBxjCddmNSuTAv
+         uWd+Z0gCRnA31f4HAtbS5dF+7VT3K/d/BsbUzwf45blJ6Mhln0FSQBxtrO9ODdg2Ww6A
+         gRJfPQGQxtPITKwP6JfF2cvYzLT+bdga9bh0ejSy/GMI5Q5zTkr+F1TpGTYdYyBPsBWJ
+         OlvF+qvGe/sElqBZbpFso6RI0ivV25Qr+aiTXnODuVgcO5Jd19fjAUSewGonOLaDBsAJ
+         37nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:organization:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=iZlT5iRcZEB2aKWwiXscL0/6gnbMrPkbj6/PhsgNDG8=;
-        b=ZlIeHocN8KgoLg6r41QZfRF2guCHtE0wskYHz+MG6EplWURRkfm4O8Ha6qwE2ld3eD
-         KKman3KMCMv/JDYq6DWrR0paZdRaOrNp7hatMCetI+YjNPl+V79FX4C12R7J2h+VqEbs
-         m1yEhqGPgmCTPvVzTuMXBsHQtKcXeC/1++i22PlwZWU2Kvda2IXLYPUxT9CZNz1qtm5S
-         RSzlM0ypo49cFqST0PvZVdnKSg4UNZa6li/mlVB2bUcz7BzwqFqUrrI2AcVtE/+hXnj7
-         fUi1K0PyHMmNDeVW8vIWbfP6gBXCf+4utezVCqz8atcKioHZq6vz42Ho3uaiuUI9KTQK
-         AfuQ==
-X-Gm-Message-State: AOAM532cBv2vbaFEs7QsQmLBuLlFQ+9jwNnfJaSvIbSpFm7J98nbgMm5
-	wqHWEqRHQIqjiuUhLXWXKKQAsU9dYtvsvg==
-X-Google-Smtp-Source: ABdhPJwZJBA0vnCyetMhJmdSiba26qXYdaHq5k2C/8x4OPKPf6nRtwLpfEFaQh5fnRsr4wpm9P3/Qg==
-X-Received: by 2002:a17:902:680f:b0:13d:c5d4:1af7 with SMTP id h15-20020a170902680f00b0013dc5d41af7mr2797856plk.43.1632255574484;
-        Tue, 21 Sep 2021 13:19:34 -0700 (PDT)
+        bh=e77QFfqUlzfGzwnQT6dEj9MqOBVc1o4NSqfUeyAs7h0=;
+        b=ASLGG/jJt2B6XFpmN6hmGVsV6WLPj0oFQe2IDMlrln0hK1lDeerSA0aIkT2mMyKTac
+         PiKGosylEeaa3tvwFKbLMlqyVTIzaTNnTW38YFI9D7dM3dcpDJeZYoxY/mqOVfzWizHf
+         ZCPxNAWRqjR4w8Dvbe0GwB2u24VKPx/DNsP40FGqSxyYWAoXl5Hw3xqp/EWNwEhMXdLK
+         MC47KFZYsZKRVuiP3hJJbDqJP11A5z0FFxmaAZp0IstoOwnnYhnCaYk0NayrGZXQT6Tu
+         3/EFVvPSADWBXIJCUmoW3Ftute5LrYJnTvoGxlbH0WKCxplwbDEh4zkgfs3Gzsub7N+n
+         fLgw==
+X-Gm-Message-State: AOAM532O80LesdSqJ+SBcYoSn0PxFmi966PR09RxkS2MYvUM+YNb7mos
+	lwPpK1EPSCk9G3lhanQ3ft20Dg9kptbb0Q==
+X-Google-Smtp-Source: ABdhPJw9RbBsj/XiYn0SVqHFn4lGxQALGRWt/7Kfyaxk3dTa+f79Aolv27tPiNMe4jVYXRCCM520zA==
+X-Received: by 2002:a17:902:e144:b0:13b:96ee:ad48 with SMTP id d4-20020a170902e14400b0013b96eead48mr29021836pla.26.1632256298640;
+        Tue, 21 Sep 2021 13:31:38 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from ?IPV6:2601:646:9200:a0f0:786d:b045:bb6c:50ab? ([2601:646:9200:a0f0:786d:b045:bb6c:50ab])
-        by smtp.gmail.com with ESMTPSA id d7sm38156pfq.43.2021.09.21.13.19.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Sep 2021 13:19:34 -0700 (PDT)
-Message-ID: <3403acbe-e902-e983-4a6a-08fe700be4fa@gmail.com>
-Date: Tue, 21 Sep 2021 13:19:33 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.1.1
-Subject: Re: [OE-core] [PATCH] riscv: Add configure cache entries for libidl
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::728f])
+        by smtp.gmail.com with ESMTPSA id b13sm3451585pjk.35.2021.09.21.13.31.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Sep 2021 13:31:38 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20210921170217.2977601-1-raj.khem@gmail.com>
- <CAAnfSTt-jHFt5+927ohyv4mSz5NtBhcAR-VqtAe8cP4zh+dGVw@mail.gmail.com>
- <CAMKF1so96B-gVjQ=BEJCio2mJJSZoo5kyyxCDyswgUVbJxhcMA@mail.gmail.com>
-Organization: HIMVIS LLC
-In-Reply-To: <CAMKF1so96B-gVjQ=BEJCio2mJJSZoo5kyyxCDyswgUVbJxhcMA@mail.gmail.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] site: Drop caching libIDL_cv_long_long_format
+Date: Tue, 21 Sep 2021 13:31:35 -0700
+Message-Id: <20210921203136.2141025-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+recipe for libidl has long been deleted
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/site/arm-common          | 3 ---
+ meta/site/ix86-common         | 3 ---
+ meta/site/mips-linux          | 3 ---
+ meta/site/mips64-linux        | 3 ---
+ meta/site/mips64el-linux      | 3 ---
+ meta/site/mipsel-linux        | 3 ---
+ meta/site/mipsisa32r6-linux   | 3 ---
+ meta/site/mipsisa32r6el-linux | 3 ---
+ meta/site/mipsisa64r6-linux   | 3 ---
+ meta/site/mipsisa64r6el-linux | 3 ---
+ meta/site/nios2-linux         | 3 ---
+ meta/site/powerpc32-linux     | 3 ---
+ meta/site/sh-common           | 3 ---
+ meta/site/x86_64-linux        | 3 ---
+ 14 files changed, 42 deletions(-)
 
-On 9/21/21 12:05 PM, Khem Raj wrote:
-> 
-> 
-> On Tue, Sep 21, 2021 at 11:16 AM Ross Burton <ross@burtonini.com 
-> <mailto:ross@burtonini.com>> wrote:
-> 
->     libidl was removed long ago, along with ORBit.  Can we just drop
->     these entirely?
-> 
-> 
-> Check layer index if it does not appear there then I am fine with 
-> dropping it entirely
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 8c37f3fc24..4c25c82be9 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -73,9 +73,6 @@ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+ # libesmtp
+ acx_working_snprintf=${acx_working_snprintf=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # libnet 
+ ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
+ 
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index a2384372db..b7218cc6fa 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -107,9 +107,6 @@ ac_cv_sizeof_wchar_t=4
+ ac_cv_need_trio=${ac_cv_need_trio=no}
+ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # libnet 
+ ac_cv_lbl_unaligned_fail=${ac_cv_lbl_unaligned_fail=no}
+ ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index 72a54f95e3..b2f15eee18 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
+index ed0fbbe653..e7c16405eb 100644
+--- a/meta/site/mips64-linux
++++ b/meta/site/mips64-linux
+@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mips64el-linux b/meta/site/mips64el-linux
+index 680171d5e3..406ffd66c5 100644
+--- a/meta/site/mips64el-linux
++++ b/meta/site/mips64el-linux
+@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index 696b1beeb4..e9cf193cec 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mipsisa32r6-linux b/meta/site/mipsisa32r6-linux
+index 72a54f95e3..b2f15eee18 100644
+--- a/meta/site/mipsisa32r6-linux
++++ b/meta/site/mipsisa32r6-linux
+@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mipsisa32r6el-linux b/meta/site/mipsisa32r6el-linux
+index 696b1beeb4..e9cf193cec 100644
+--- a/meta/site/mipsisa32r6el-linux
++++ b/meta/site/mipsisa32r6el-linux
+@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mipsisa64r6-linux b/meta/site/mipsisa64r6-linux
+index ed0fbbe653..e7c16405eb 100644
+--- a/meta/site/mipsisa64r6-linux
++++ b/meta/site/mipsisa64r6-linux
+@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/mipsisa64r6el-linux b/meta/site/mipsisa64r6el-linux
+index 680171d5e3..406ffd66c5 100644
+--- a/meta/site/mipsisa64r6el-linux
++++ b/meta/site/mipsisa64r6el-linux
+@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ncftp
+ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
+ wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
+diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
+index 8ac198a0cd..21b2b7cca8 100644
+--- a/meta/site/nios2-linux
++++ b/meta/site/nios2-linux
+@@ -110,9 +110,6 @@ lftp_cv___va_copy=${lftp_cv___va_copy=yes}
+ # libesmtp
+ acx_working_snprintf=${acx_working_snprintf=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # libnet 
+ ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
+ 
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 172a06cc46..5741ccf30f 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -151,9 +151,6 @@ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+ # slrn
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ORBit2
+ ac_cv_alignof_CORBA_boolean=1
+ ac_cv_alignof_CORBA_char=1
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 6bda1c237c..c35cc06a02 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -169,9 +169,6 @@ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+ # startup-notification
+ lf_cv_sane_realloc=yes
+ 
+-# libidl
+-libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-
+ # ORBit2
+ ac_cv_alignof_CORBA_boolean=1
+ ac_cv_alignof_CORBA_char=1
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index 778e2c53ee..f7ad70d25f 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -73,9 +73,6 @@ am_cv_func_working_getline=${am_cv_func_working_getline=yes}
+ #gcc
+ ac_cv_lib_m_sin=${ac_cv_lib_m_sin=yes}
+ 
+-#orbit
+-libIDL_cv_long_long_format=ll
+-
+ # bash
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+ 
+-- 
+2.33.0
 
-I dont see this recipe on layer index so I think it should be safe to 
-delete these cached vars. I will send a v2 to remove it from other site 
-files too.
-
-> 
-> 
-> 
->     Ross
-> 
->     On Tue, 21 Sept 2021 at 18:02, Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>> wrote:
->      >
->      > These were hidden in meta-networking
->      >
->      > Signed-off-by: Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>>
->      > ---
->      >  meta/site/riscv32-linux | 3 +++
->      >  meta/site/riscv64-linux | 3 +++
->      >  2 files changed, 6 insertions(+)
->      >
->      > diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
->      > index 97de628e22..acc32fd03c 100644
->      > --- a/meta/site/riscv32-linux
->      > +++ b/meta/site/riscv32-linux
->      > @@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
->      >
->      >  # startup-notification
->      >  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
->      > +
->      > +# libidl
->      > +libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
->      > diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
->      > index 38bc5f044d..cf78133ee0 100644
->      > --- a/meta/site/riscv64-linux
->      > +++ b/meta/site/riscv64-linux
->      > @@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
->      >
->      >  # startup-notification
->      >  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
->      > +
->      > +# libidl
->      > +libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
->      > --
->      > 2.33.0
->      >
->      >
->      > 
->      >
-> 
