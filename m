@@ -1,269 +1,270 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.3842.1632256299456606529
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web12.3702.1632256300182647937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 13:31:39 -0700
+ Tue, 21 Sep 2021 13:31:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GTVIUN7M;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id il14-20020a17090b164e00b0019c7a7c362dso2594754pjb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 13:31:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lr6S8+eW;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id c4so229127pls.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 13:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e77QFfqUlzfGzwnQT6dEj9MqOBVc1o4NSqfUeyAs7h0=;
-        b=GTVIUN7MsAcgDdMnvMWrNeADXeuFJg0Os/txcKRD8/IsxIyZGv1xFZAL0xgnyihNUf
-         +qm4vDfNKkplczBbSylMmq3DDyhi+Fws+ZVw4zhZ2Qok31GXhND62jXBxjCddmNSuTAv
-         uWd+Z0gCRnA31f4HAtbS5dF+7VT3K/d/BsbUzwf45blJ6Mhln0FSQBxtrO9ODdg2Ww6A
-         gRJfPQGQxtPITKwP6JfF2cvYzLT+bdga9bh0ejSy/GMI5Q5zTkr+F1TpGTYdYyBPsBWJ
-         OlvF+qvGe/sElqBZbpFso6RI0ivV25Qr+aiTXnODuVgcO5Jd19fjAUSewGonOLaDBsAJ
-         37nA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pLxQBqao5SFpd4Jk1YrLHmdcqoFpn2XbOnZediCQfcU=;
+        b=Lr6S8+eWNJkQk33jI4trozWy0WAAND379wJjZUYvBQiHe7v104muR7vnUDc0rb/z2j
+         H+bEAO9EBvTwjqbcVYRkF3+8eMfmIYtm95lxC0ErDkr1jfoyAdhBhjvoeD0YB7N7WWVI
+         zCqhI70r51ty29wyjIT/q5WYjzM3rrkG1NI2IOzkxqMtJg20eBNBe215WtR518x3RaMf
+         XZg116mdTIFXrQJN3qvSr+waytOfwuFczs5UWKqylRixHTyXkCdLvxZ1I+BZIL6zSs6W
+         p2BR/21KJBZ2b9aym+wyd0aqa6olFDxfTYF6v2oPvD8CdeVyyaVqsI7puE3D/JPn74n/
+         eQBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e77QFfqUlzfGzwnQT6dEj9MqOBVc1o4NSqfUeyAs7h0=;
-        b=ASLGG/jJt2B6XFpmN6hmGVsV6WLPj0oFQe2IDMlrln0hK1lDeerSA0aIkT2mMyKTac
-         PiKGosylEeaa3tvwFKbLMlqyVTIzaTNnTW38YFI9D7dM3dcpDJeZYoxY/mqOVfzWizHf
-         ZCPxNAWRqjR4w8Dvbe0GwB2u24VKPx/DNsP40FGqSxyYWAoXl5Hw3xqp/EWNwEhMXdLK
-         MC47KFZYsZKRVuiP3hJJbDqJP11A5z0FFxmaAZp0IstoOwnnYhnCaYk0NayrGZXQT6Tu
-         3/EFVvPSADWBXIJCUmoW3Ftute5LrYJnTvoGxlbH0WKCxplwbDEh4zkgfs3Gzsub7N+n
-         fLgw==
-X-Gm-Message-State: AOAM532O80LesdSqJ+SBcYoSn0PxFmi966PR09RxkS2MYvUM+YNb7mos
-	lwPpK1EPSCk9G3lhanQ3ft20Dg9kptbb0Q==
-X-Google-Smtp-Source: ABdhPJw9RbBsj/XiYn0SVqHFn4lGxQALGRWt/7Kfyaxk3dTa+f79Aolv27tPiNMe4jVYXRCCM520zA==
-X-Received: by 2002:a17:902:e144:b0:13b:96ee:ad48 with SMTP id d4-20020a170902e14400b0013b96eead48mr29021836pla.26.1632256298640;
-        Tue, 21 Sep 2021 13:31:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pLxQBqao5SFpd4Jk1YrLHmdcqoFpn2XbOnZediCQfcU=;
+        b=1CeGCLlaP8OW3VVvEw8+5/oGrzVTLL44E6mvrqTjYy6gGq8i9CkZU+ohSKfeQO4tYY
+         AGn4Tza3DN8FMmy4vy9Q6lYaZdGc/aviPs7TSGMsj21nm0uV2tAtd9ooFCQv/VGH/8T/
+         CAxkaWD+o1qZyeR1a9SnAshisxqB19XSpwsS+QKmre3pY6v3Q38x+fQjrPKZcztr/Q2/
+         XddUqgBKJMVlRjoG5XInu1nuauFQMrihK5C39TmCVFBhnRyZ+4Vl0ExQD1hebKbxQBWr
+         3zTX9IPaAB1U7+7CY2UzYz3gvrTkdSHf6pqB9mzrAlR7hCK1Th1Zcm79Tn3kaBkANucE
+         dDAQ==
+X-Gm-Message-State: AOAM532WU5fao7rDw/T6AfxoG1h4fzcMDN0hu1ZMu0p69uK9pWYWPkrX
+	mH8Gp6RyxUYEwYLC9qnPfOqj8yZzoMWkgw==
+X-Google-Smtp-Source: ABdhPJzgxWrB9MG1D08kAxENUztgwoyFCZvtL4J3vGs/sxO/ofQGTHTcOS/j6NtowT810JW5NX1fUw==
+X-Received: by 2002:a17:903:2282:b0:13b:8631:cf8c with SMTP id b2-20020a170903228200b0013b8631cf8cmr29265313plh.8.1632256299567;
+        Tue, 21 Sep 2021 13:31:39 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::728f])
-        by smtp.gmail.com with ESMTPSA id b13sm3451585pjk.35.2021.09.21.13.31.37
+        by smtp.gmail.com with ESMTPSA id b13sm3451585pjk.35.2021.09.21.13.31.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 13:31:38 -0700 (PDT)
+        Tue, 21 Sep 2021 13:31:39 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] site: Drop caching libIDL_cv_long_long_format
-Date: Tue, 21 Sep 2021 13:31:35 -0700
-Message-Id: <20210921203136.2141025-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] site: Drop ORBit2 relared cached variables
+Date: Tue, 21 Sep 2021 13:31:36 -0700
+Message-Id: <20210921203136.2141025-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210921203136.2141025-1-raj.khem@gmail.com>
+References: <20210921203136.2141025-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-recipe for libidl has long been deleted
+ORBit2 is long gone
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/site/arm-common          | 3 ---
- meta/site/ix86-common         | 3 ---
- meta/site/mips-linux          | 3 ---
- meta/site/mips64-linux        | 3 ---
- meta/site/mips64el-linux      | 3 ---
- meta/site/mipsel-linux        | 3 ---
- meta/site/mipsisa32r6-linux   | 3 ---
- meta/site/mipsisa32r6el-linux | 3 ---
- meta/site/mipsisa64r6-linux   | 3 ---
- meta/site/mipsisa64r6el-linux | 3 ---
- meta/site/nios2-linux         | 3 ---
- meta/site/powerpc32-linux     | 3 ---
- meta/site/sh-common           | 3 ---
- meta/site/x86_64-linux        | 3 ---
- 14 files changed, 42 deletions(-)
+ meta/site/arm-32          | 14 --------------
+ meta/site/arm-64          | 14 --------------
+ meta/site/ix86-common     | 14 --------------
+ meta/site/mips-common     | 14 --------------
+ meta/site/nios2-linux     | 15 ---------------
+ meta/site/powerpc32-linux | 14 --------------
+ meta/site/sh-common       | 14 --------------
+ meta/site/x86_64-linux    | 14 --------------
+ 8 files changed, 113 deletions(-)
 
-diff --git a/meta/site/arm-common b/meta/site/arm-common
-index 8c37f3fc24..4c25c82be9 100644
---- a/meta/site/arm-common
-+++ b/meta/site/arm-common
-@@ -73,9 +73,6 @@ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
- # libesmtp
- acx_working_snprintf=${acx_working_snprintf=yes}
+diff --git a/meta/site/arm-32 b/meta/site/arm-32
+index 81fd8d3103..60ada2e974 100644
+--- a/meta/site/arm-32
++++ b/meta/site/arm-32
+@@ -22,20 +22,6 @@ ac_cv_alignof_unsigned_long=4
+ # jikes
+ ac_cv_sizeof_wchar_t=4
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-# ORBit2
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_double=8
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_double=8
+-ac_cv_alignof_CORBA_long_long=8
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_pointer=4
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_struct=1
+-ac_cv_alignof_CORBA_wchar=2
 -
- # libnet 
- ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
+ # at-spi2-core
+ ac_cv_alignof_char=1
+ ac_cv_alignof_dbind_pointer=4
+diff --git a/meta/site/arm-64 b/meta/site/arm-64
+index 90c09b2d54..40763fb059 100644
+--- a/meta/site/arm-64
++++ b/meta/site/arm-64
+@@ -22,20 +22,6 @@ ac_cv_alignof_guint32=4
+ ac_cv_alignof_guint64=8
+ ac_cv_alignof_unsigned_long=8
  
+-# ORBit2 (should be in meta-gnome/site/arm-64)
+-#ac_cv_alignof_CORBA_boolean=1
+-#ac_cv_alignof_CORBA_char=1
+-#ac_cv_alignof_CORBA_double=8
+-#ac_cv_alignof_CORBA_float=4
+-#ac_cv_alignof_CORBA_long=4
+-#ac_cv_alignof_CORBA_long_double=8
+-#ac_cv_alignof_CORBA_long_long=8
+-#ac_cv_alignof_CORBA_octet=1
+-#ac_cv_alignof_CORBA_pointer=4
+-#ac_cv_alignof_CORBA_short=2
+-#ac_cv_alignof_CORBA_struct=1
+-#ac_cv_alignof_CORBA_wchar=2
+-
+ # at-spi2-core
+ ac_cv_alignof_dbind_pointer=8
+ ac_cv_alignof_dbind_struct=1
 diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index a2384372db..b7218cc6fa 100644
+index b7218cc6fa..d98ae5265b 100644
 --- a/meta/site/ix86-common
 +++ b/meta/site/ix86-common
-@@ -107,9 +107,6 @@ ac_cv_sizeof_wchar_t=4
- ac_cv_need_trio=${ac_cv_need_trio=no}
- lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+@@ -118,20 +118,6 @@ with_broken_putenv=${with_broken_putenv=no}
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=yes}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=yes}
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-# ORBit2
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_double=4
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_double=4
+-ac_cv_alignof_CORBA_long_long=4
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_pointer=4
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_struct=4
+-ac_cv_alignof_CORBA_wchar=2
 -
- # libnet 
- ac_cv_lbl_unaligned_fail=${ac_cv_lbl_unaligned_fail=no}
- ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
-diff --git a/meta/site/mips-linux b/meta/site/mips-linux
-index 72a54f95e3..b2f15eee18 100644
---- a/meta/site/mips-linux
-+++ b/meta/site/mips-linux
-@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ # php
+ ac_cv_pread=${ac_cv_pread=no}
+ ac_cv_pwrite=${ac_cv_pwrite=no}
+diff --git a/meta/site/mips-common b/meta/site/mips-common
+index 5858dfb15b..892817b108 100644
+--- a/meta/site/mips-common
++++ b/meta/site/mips-common
+@@ -15,20 +15,6 @@ screen_cv_sys_sockets_nofs=${screen_cv_sys_sockets_nofs=no}
+ screen_cv_sys_sockets_usable=${screen_cv_sys_sockets_usable=yes}
+ screen_cv_sys_terminfo_used=${screen_cv_sys_terminfo_used=yes}
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-# ORBit2
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_wchar=2
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_long=8
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_double=8
+-ac_cv_alignof_CORBA_long_double=8
+-ac_cv_alignof_CORBA_pointer=4
+-ac_cv_alignof_CORBA_struct=1
 -
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
-index ed0fbbe653..e7c16405eb 100644
---- a/meta/site/mips64-linux
-+++ b/meta/site/mips64-linux
-@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ # apache
+ ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mips64el-linux b/meta/site/mips64el-linux
-index 680171d5e3..406ffd66c5 100644
---- a/meta/site/mips64el-linux
-+++ b/meta/site/mips64el-linux
-@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- 
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
-index 696b1beeb4..e9cf193cec 100644
---- a/meta/site/mipsel-linux
-+++ b/meta/site/mipsel-linux
-@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- 
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mipsisa32r6-linux b/meta/site/mipsisa32r6-linux
-index 72a54f95e3..b2f15eee18 100644
---- a/meta/site/mipsisa32r6-linux
-+++ b/meta/site/mipsisa32r6-linux
-@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- 
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mipsisa32r6el-linux b/meta/site/mipsisa32r6el-linux
-index 696b1beeb4..e9cf193cec 100644
---- a/meta/site/mipsisa32r6el-linux
-+++ b/meta/site/mipsisa32r6el-linux
-@@ -39,9 +39,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- 
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mipsisa64r6-linux b/meta/site/mipsisa64r6-linux
-index ed0fbbe653..e7c16405eb 100644
---- a/meta/site/mipsisa64r6-linux
-+++ b/meta/site/mipsisa64r6-linux
-@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- 
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
-diff --git a/meta/site/mipsisa64r6el-linux b/meta/site/mipsisa64r6el-linux
-index 680171d5e3..406ffd66c5 100644
---- a/meta/site/mipsisa64r6el-linux
-+++ b/meta/site/mipsisa64r6el-linux
-@@ -43,9 +43,6 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- 
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
--
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
 diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
-index 8ac198a0cd..21b2b7cca8 100644
+index 21b2b7cca8..656da9fde4 100644
 --- a/meta/site/nios2-linux
 +++ b/meta/site/nios2-linux
-@@ -110,9 +110,6 @@ lftp_cv___va_copy=${lftp_cv___va_copy=yes}
- # libesmtp
- acx_working_snprintf=${acx_working_snprintf=yes}
+@@ -134,21 +134,6 @@ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+ ac_cv_regexec_segfault_emptystr=${ac_cv_regexec_segfault_emptystr=no}
+ nano_cv_func_regexec_segv_emptystr=${nano_cv_func_regexec_segv_emptystr=no}
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-# ORBit2
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_double=8
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_double=8
+-ac_cv_alignof_CORBA_long_long=8
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_pointer=4
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_struct=1
+-ac_cv_alignof_CORBA_wchar=2
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
 -
- # libnet 
- ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
- 
+ # php
+ ac_cv_pread=${ac_cv_pread=no}
+ ac_cv_pwrite=${ac_cv_pwrite=no}
 diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index 172a06cc46..5741ccf30f 100644
+index 5741ccf30f..accd048a6a 100644
 --- a/meta/site/powerpc32-linux
 +++ b/meta/site/powerpc32-linux
-@@ -151,9 +151,6 @@ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+@@ -151,20 +151,6 @@ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
  # slrn
  slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-# ORBit2
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_double=4
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_double=4
+-ac_cv_alignof_CORBA_long_long=4
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_pointer=4
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_struct=4
+-ac_cv_alignof_CORBA_wchar=2
 -
- # ORBit2
- ac_cv_alignof_CORBA_boolean=1
- ac_cv_alignof_CORBA_char=1
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 
 diff --git a/meta/site/sh-common b/meta/site/sh-common
-index 6bda1c237c..c35cc06a02 100644
+index c35cc06a02..d269a17db9 100644
 --- a/meta/site/sh-common
 +++ b/meta/site/sh-common
-@@ -169,9 +169,6 @@ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+@@ -169,20 +169,6 @@ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
  # startup-notification
  lf_cv_sane_realloc=yes
  
--# libidl
--libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-# ORBit2
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_double=4
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_double=4
+-ac_cv_alignof_CORBA_long_long=4
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_pointer=4
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_struct=4
+-ac_cv_alignof_CORBA_wchar=2
 -
- # ORBit2
- ac_cv_alignof_CORBA_boolean=1
- ac_cv_alignof_CORBA_char=1
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 
 diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index 778e2c53ee..f7ad70d25f 100644
+index f7ad70d25f..ea3176da93 100644
 --- a/meta/site/x86_64-linux
 +++ b/meta/site/x86_64-linux
-@@ -73,9 +73,6 @@ am_cv_func_working_getline=${am_cv_func_working_getline=yes}
- #gcc
- ac_cv_lib_m_sin=${ac_cv_lib_m_sin=yes}
- 
--#orbit
--libIDL_cv_long_long_format=ll
--
+@@ -76,20 +76,6 @@ ac_cv_lib_m_sin=${ac_cv_lib_m_sin=yes}
  # bash
  bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+ 
+-# ORBit2
+-ac_cv_alignof_CORBA_boolean=1
+-ac_cv_alignof_CORBA_char=1
+-ac_cv_alignof_CORBA_double=8
+-ac_cv_alignof_CORBA_float=4
+-ac_cv_alignof_CORBA_long=4
+-ac_cv_alignof_CORBA_long_double=8
+-ac_cv_alignof_CORBA_long_long=8
+-ac_cv_alignof_CORBA_octet=1
+-ac_cv_alignof_CORBA_pointer=8
+-ac_cv_alignof_CORBA_short=2
+-ac_cv_alignof_CORBA_struct=1
+-ac_cv_alignof_CORBA_wchar=2
+-
+ lf_cv_sane_realloc=yes
+ as_cv_unaligned_access=${as_cv_unaligned_access=yes}
  
 -- 
 2.33.0
