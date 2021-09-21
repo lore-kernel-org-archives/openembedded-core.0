@@ -1,52 +1,48 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web09.433.1632243908053970875
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.1049.1632244347052501825
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 10:05:08 -0700
+ Tue, 21 Sep 2021 10:12:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="210496455"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="210496455"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 10:03:27 -0700
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="549571177"
-Received: from vanamadx-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.239.24])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 10:03:20 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 2/4] tar: ignore node-tar CVEs
-Date: Wed, 22 Sep 2021 01:03:10 +0800
-Message-Id: <a07d4c12ca1b7f5ef233fe3885339cdf5291afb0.1632216051.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1632216051.git.anuj.mittal@intel.com>
-References: <cover.1632216051.git.anuj.mittal@intel.com>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 492CE2000E;
+	Tue, 21 Sep 2021 17:12:25 +0000 (UTC)
+Subject: Re: [OE-core] [PATCH] documentation: update sources mirror URL
+To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
+References: <20210920195139.26235-1-jdmason@kudzu.us>
+From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+Message-ID: <b8e1be5a-d0de-4a55-10c8-0f0a0c245bd4@bootlin.com>
+Date: Tue, 21 Sep 2021 19:12:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210920195139.26235-1-jdmason@kudzu.us>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: Armin Kuster <akuster808@gmail.com>
+Hi Jon,
 
-These three CVEs are specific to the Node package node-tar.
+On 9/20/21 9:51 PM, Jon Mason wrote:
+> The URL for the sources mirror no longer works.  Update to the new
+> location.
+>
+> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> ---
+>  .../bitbake-user-manual-ref-variables.rst         |  8 ++++----
+>  documentation/ref-manual/faq.rst                  | 15 ++++++++-------
+>  documentation/ref-manual/variables.rst            |  8 ++++----
+>  3 files changed, 16 insertions(+), 15 deletions(-)
 
-exclude: CVE-2021-37701 CVE-2021-37712 CVE-2021-37713
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9f9317a02d73c1e5aea026683a037e52c996c7bb)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-extended/tar/tar_1.34.bb | 1 +
- 1 file changed, 1 insertion(+)
+Shouldn't you send this patch to the bitbake-devel mailing list instead?
 
-diff --git a/meta/recipes-extended/tar/tar_1.34.bb b/meta/recipes-extended/tar/tar_1.34.bb
-index 66c11cbfea..f41e5b33d4 100644
---- a/meta/recipes-extended/tar/tar_1.34.bb
-+++ b/meta/recipes-extended/tar/tar_1.34.bb
-@@ -64,3 +64,4 @@ BBCLASSEXTEND = "native nativesdk"
- 
- # These are both specific to the NPM package node-tar
- CVE_CHECK_WHITELIST += "CVE-2021-32803 CVE-2021-32804"
-+CVE_CHECK_WHITELIST += "CVE-2021-37701 CVE-2021-37712 CVE-2021-37713"
+Cheers,
+Michael.
+
 -- 
-2.31.1
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
