@@ -1,89 +1,109 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.1898.1632248188683273034
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.2406.1632250103401325561
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 11:16:29 -0700
+ Tue, 21 Sep 2021 11:48:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112 header.b=2Fx8PCYM;
- spf=pass (domain: burtonini.com, ip: 209.85.221.53, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f53.google.com with SMTP id t8so41938799wrq.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 11:16:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QmJQgnGm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id u18so40375237wrg.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 11:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oDvdmfkEutXXznjczlMmxPBwqG7J1u4O6clDxvi+gMo=;
-        b=2Fx8PCYMhUBYwv0eYotvzXPZTkLa/NNJc4AK1+fR1aE4prfdXz9TQ+2D4jQ93JbW3S
-         1bwfDU3BqbqXn0lfbbDNsXfQCpLbBNWpenKk1phd0LX1GqCLciyrP0Rm6lfWKn5aE3dJ
-         Egz3MRBaH7auNXtt+t3Q8Saqm3zcJC1cGpMeHya+on+BA7of7h55VFx5/KUk2+5DN956
-         B7Xpf1ky7UYpxfizGfC4uAeoWlgyxLy1jnghoW1T3RaCtV6oyI3lJrJZVu/13jLGCjW5
-         gZVJ7pyfyq7oHvgp5np5DTWr2JuMfHYmndiJ34MVw0sfRhHHurXW9aPq9hYSe0VAF63q
-         sEHw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=c6tAvVn1GscZ21t90KKJvnyjk1uZARq4D22XeAx5TtQ=;
+        b=QmJQgnGmVxoz+R0UbIC2vyG2cC9cHNA86z0YeoHgDGPG0I0i/sqIjZ+pQqwbeE3ri8
+         4efyajULL20pXLdi+6WuznCbLydTTOZLI4jIJZJN3LXXgwLqCfVEvVUcSMlIa6TWu/ZD
+         YvhuJtubWSwbGa/8FbQIZyxKkUFx11/3cmu7Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oDvdmfkEutXXznjczlMmxPBwqG7J1u4O6clDxvi+gMo=;
-        b=WA/Id5GJk+OWTvhCCw8Quphr2EdWTbC2fKTs+r97cTenDRCCE4oDzWld0B+AhPNUYQ
-         RKZ8xj3yHSNeQHhYrRhokzFYFc6kW+9OUmjfRwfmCcFWMo/rYevP2MH7PZoo40OPuw+z
-         u/8eedjnB/ueQZkzpds9kzhkjUnA/naGlGHb9jP8wfZIAQDo6CCYI0ePzYqSkv3fepDh
-         0nLLVLtfErwXNqJoNYyUDkMzMPtGej94mD59XyRqJDvt1uORJflfUlaGBlWcc4NKH5I/
-         XzvrfBH7+C4v55c9RF5ZUFCSYGMchEnpg0gGloKrHcoWZkUs9Z1Uixuqj4PVVbwKrpSf
-         YsyA==
-X-Gm-Message-State: AOAM5307oayTSyBq0d/yU5NMz7Iu/S2Wmi6ZBPDbSu42/OvSiVFGaOBh
-	iXGHwAgB0LRZL25UkB5zpWWctmIduVuynwBh8PKy+EzVYkJwTw==
-X-Google-Smtp-Source: ABdhPJz8GguvaOC8yoVdIoe1X0Diezzln7a7pBOf0H2445gxQzEpFkuWY+r0vDkG0NvjNoJ9R5i1RYOTfo6asN8qBxQ=
-X-Received: by 2002:a1c:4486:: with SMTP id r128mr6173651wma.69.1632248187036;
- Tue, 21 Sep 2021 11:16:27 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=c6tAvVn1GscZ21t90KKJvnyjk1uZARq4D22XeAx5TtQ=;
+        b=UuhZHDSmex5sbpcTrQs88+RsY9dCm1wULFiJTek9S6AW9RYpU+BCnh3XhZBu0h+lgL
+         fNpJEs/mC1tSWX1pxlX9NWwoWK129slRwudeyPjy7g/GkVvnQQAvKejFLDuTmJAq4AHN
+         tZpAFd3EVb4A8tXzz/OU0/j1ptCv1s/mmhydFEGhkjqmr0UB/yAgfMWmc67e4Q4POx53
+         72iqKgr5ol37TCvUFHKPNz+EJFiso6d4SznXTDRT8gmceYiNE2QC6QAqbEYFS2Rph4gn
+         27nQCONoqVwswnhoCpCPU4WrHlMfhvGGPx0+7+VExzQGNzLNy0RcUaRa5bqBM5MSSbWD
+         0C1g==
+X-Gm-Message-State: AOAM533RZG9KRz6owP/ajImjeKwAHKpYG2nhD4UDndONRwXs3EkwGfAj
+	vJ3vp9aEglzPnQmpUWGegMgiyw==
+X-Google-Smtp-Source: ABdhPJz5STbIwVAL18CMV1ijsg3lXLVwxFAnCOKSJlOhK6jWzULYL6mEEdTAZcn9jLIKf8zE3zDCQA==
+X-Received: by 2002:a5d:6545:: with SMTP id z5mr36903531wrv.51.1632250101667;
+        Tue, 21 Sep 2021 11:48:21 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.config (5751ab90.skybroadband.com. [87.81.171.144])
+        by smtp.gmail.com with ESMTPSA id z19sm4609004wma.0.2021.09.21.11.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Sep 2021 11:48:21 -0700 (PDT)
+Message-ID: <037384a156440cd47f71e27c7f89baf72b899cba.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [hardknott][PATCH 3/4] externalsrc: Work with reproducible_build
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Anuj Mittal <anuj.mittal@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 21 Sep 2021 19:48:19 +0100
+In-Reply-To: <dc225a484c17c261f95adb1ec4f00f9359f10569.1632216051.git.anuj.mittal@intel.com>
+References: <cover.1632216051.git.anuj.mittal@intel.com>
+	 <dc225a484c17c261f95adb1ec4f00f9359f10569.1632216051.git.anuj.mittal@intel.com>
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-References: <20210921170217.2977601-1-raj.khem@gmail.com>
-In-Reply-To: <20210921170217.2977601-1-raj.khem@gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 21 Sep 2021 19:16:16 +0100
-Message-ID: <CAAnfSTt-jHFt5+927ohyv4mSz5NtBhcAR-VqtAe8cP4zh+dGVw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] riscv: Add configure cache entries for libidl
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-libidl was removed long ago, along with ORBit.  Can we just drop these entirely?
-
-Ross
-
-On Tue, 21 Sept 2021 at 18:02, Khem Raj <raj.khem@gmail.com> wrote:
->
-> These were hidden in meta-networking
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/site/riscv32-linux | 3 +++
->  meta/site/riscv64-linux | 3 +++
->  2 files changed, 6 insertions(+)
->
-> diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
-> index 97de628e22..acc32fd03c 100644
-> --- a/meta/site/riscv32-linux
-> +++ b/meta/site/riscv32-linux
-> @@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
->
->  # startup-notification
->  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
-> +
-> +# libidl
-> +libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
-> diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
-> index 38bc5f044d..cf78133ee0 100644
-> --- a/meta/site/riscv64-linux
-> +++ b/meta/site/riscv64-linux
-> @@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
->
->  # startup-notification
->  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
-> +
-> +# libidl
-> +libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
-> --
-> 2.33.0
->
->
+On Wed, 2021-09-22 at 01:03 +0800, Anuj Mittal wrote:
+> From: Mark Hatle <mark.hatle@xilinx.com>
 > 
->
+> Externalsrc removes do_fetch, do_unpack, and do_patch.  The system normally
+> discovers the correct reproducible date as a postfuncs of do_unpack, so this
+> date is never found, so it falls back to the default epoch.
+> 
+> Instead we can move the discovery function to a prefuncs on the epoch
+> deploy task.  This task will run before do_configure, and since the source
+> is already available can run safely at anytime.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 0b7dd711a54e92ce54abe99f59fc67e683d52dfe)
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+> index 3d6b80bee2..1ea938fb62 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -110,6 +110,16 @@ python () {
+>                  continue
+>              bb.build.deltask(task, d)
+>  
+> +        if bb.data.inherits_class('reproducible_build', d) and 'do_unpack' in d.getVar("SRCTREECOVEREDTASKS").split():
+> +            # The reproducible_build's create_source_date_epoch_stamp function must
+> +            # be run after the source is available and before the
+> +            # do_deploy_source_date_epoch task.  In the normal case, it's attached
+> +            # to do_unpack as a postfuncs, but since we removed do_unpack (above)
+> +            # we need to move the function elsewhere.  The easiest thing to do is
+> +            # move it into the prefuncs of the do_deploy_source_date_epoch task.
+> +            # This is safe, as externalsrc runs with the source already unpacked.
+> +            d.prependVarFlag('do_deploy_source_date_epoch', 'prefuncs', 'create_source_date_epoch_stamp ')
+> +
+>          d.prependVarFlag('do_compile', 'prefuncs', "externalsrc_compile_prefunc ")
+>          d.prependVarFlag('do_configure', 'prefuncs', "externalsrc_configure_prefunc ")
+>  
+
+I am a little concerned about this one. I think it may introduce a race. We saw
+this on the autobuilder.
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2594/steps/14/logs/stdio
+
+I did quickly put this patch together:
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=bcf46a5f12ae15713a53297342d8341b73c16d94
+
+but I haven;t tested it or tried to debug/confirm as yet.
+
+Cheers,
+
+Richard
+
