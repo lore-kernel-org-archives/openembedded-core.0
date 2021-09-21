@@ -1,74 +1,84 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.407.1632237600207274685
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web10.979.1632243745130138898
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 08:20:00 -0700
+ Tue, 21 Sep 2021 10:02:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=zpImtFo9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id t11so3066886plq.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 08:19:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MMHBgxrt;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id q68so21305501pga.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 10:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6159NJ3KUhoo+OF6E+R9/ftyVmG3vxesZrDpA6Z7ycc=;
-        b=zpImtFo9rQzkSmYS89ICPF8ywbofBP4raVrt7BHWZ6JGZ3A7a88gfoe1fs1cPG1tGL
-         HpHp9i8zFM+dKEFvlmxOFBXxC4Ea8MYqpM8Ff/UKF1Sq4zgW4Ev+XKKkmxAbwjeIC5Rl
-         i1cMQ872+BFc63F06dV/r9ZzhOChDXFszLnF/+qsfVNUYSXcsV2JdI7MTFPyYkgse19C
-         kDISODl/Bk36t3A8uxzqB6C3IddGChx6CwE6W9O392PfGD7IaBWyKo7Bj5G62QymIKXg
-         F/KYpIGEC4BG87KVVhwed1F6k8BXo6hbHRk0RNjbMWPp0cmpNBxos7F2mroGLL+wQQuU
-         dmtQ==
+        bh=N4kmxNKYbl1wz7cyEHqY936HhzqJqGNK8goHF1yorDM=;
+        b=MMHBgxrt/Hb23iJMn7XAsWfr0yNuD1lFS/9L48KXm0gTpdFFjniN1SI4DC5kppInZD
+         Doq0zC+JXl17C8vFkp0F+Uf8nL5WRFsYxhcZFHrp/hFwpHKX9QvmSskbyy+0M0Vr4J7M
+         7RXb+0LCmhl9fi3bBwrzc5JQrYXKVMYYhGVBUv7VCUJydyJmjNTA/CLOdsNW6SlnAfFd
+         OBf//KFd6tbKLLw1ju7Ffk8NxPIKZ6598cIzNH4paRi/cpMNp50Sp7FXlR+PFh7r9FbS
+         jfBMOntA3gQN6nYbbyUUVY0HAhX6CmbiR4qYPYNhzStsKUDNK1HUmR/yvsxrHUVne09m
+         Rv8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6159NJ3KUhoo+OF6E+R9/ftyVmG3vxesZrDpA6Z7ycc=;
-        b=qMGn+PjH5c1vAlGxdXo4nqYia/ApqzICHrm6n8mSf4pmI3JNOvszrgLdyF/6h97Mr9
-         0cXCPftx6Mb/nDsut4lawgQ5FI31HQscNqnW0S2rwwBo3wCs/L0DtB2eNIU9WCV84Q1r
-         3QPkzj2Z8orZ6w8jFU8C+9WRY4k1nW88NZOBKo1LeTjpvKBYhPeMKF3bDsYX7d7EBy+G
-         P30cEWckr/5F3787W/VFE8FFZV6qgg9gXsFObfShSDZz9VFsrh0BjWkk7vtDHxZIU/Wn
-         EpnjMaPZEW13d/GQjIltVtQKkpH8t8J4xnno+d5UNaq4alrBuOsj/Pao7AHm/az8dqrb
-         xnEw==
-X-Gm-Message-State: AOAM533/LC09eVisLd0ONC2I9Z5c03ftOUYt+8P2oYHdE3iRSwIl1tcq
-	nkuVMQrolu9skyYno2EIy8CxI21J63+7+tboCFY=
-X-Google-Smtp-Source: ABdhPJzvbWUWXGMvwPYGBaJbCyt3sIcEqwgDqI/DWDfDNV2NYiBeB4Wp2S6jlUQ3521YZ2kJfQU67Q==
-X-Received: by 2002:a17:902:bcc6:b0:138:d3ca:c356 with SMTP id o6-20020a170902bcc600b00138d3cac356mr27678594pls.6.1632237598906;
-        Tue, 21 Sep 2021 08:19:58 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id t13sm3051823pjj.1.2021.09.21.08.19.57
-        for <openembedded-core@lists.openembedded.org>
+        bh=N4kmxNKYbl1wz7cyEHqY936HhzqJqGNK8goHF1yorDM=;
+        b=e1NAnxjjzYG3bCtTm0iEWzzrfype4Z3GYLJPEdk/YahjiVxwtU1PCOKXEzBD+F3IWQ
+         rtDaJWydKfa/F8n7+0x0sDspQ45Trdkt1U/N7LWDAHPPJ5nUwypqLhnoLyBQRQWknMWX
+         fhII/F+Vc3HMIMgM26nQV0yHbnHEesw//DrRFQXoj6lski4Rt5GpLyCRuM4C9jRktImO
+         YzCpKlJNR6ZhL7qP+8z0mdtIB5NvkxsgBHG2H4X9CFPG3xeilf163WMlZcbY17k9K4+J
+         VXuKfPdkNUiQul0J3BdLx4gGq+Etx16AqmUzVeGDwf4xf0qf6ljwT11d1bOlifkFuXpN
+         e0hg==
+X-Gm-Message-State: AOAM533AUIqy21FriPc23MrUSvFEgaRU8RpwPH53Nckp6H5EKHSVScjf
+	o/DNmlG/gsXH64JwFvuLUhsQEY0ZfytIug==
+X-Google-Smtp-Source: ABdhPJxkQd36r4kTMiMBkordfPZ9nD3/bG5Z+MsYwr1qmQuiU5d7KMqY6j6ypMXAtqt4hSMMQN8k8A==
+X-Received: by 2002:a63:81c6:: with SMTP id t189mr4396752pgd.253.1632243740657;
+        Tue, 21 Sep 2021 10:02:20 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::728f])
+        by smtp.gmail.com with ESMTPSA id a1sm3255968pjg.0.2021.09.21.10.02.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 08:19:58 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+        Tue, 21 Sep 2021 10:02:20 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][master][dunfell][hardknott]connman: add CVE_PRODUCT
-Date: Tue, 21 Sep 2021 05:19:37 -1000
-Message-Id: <20210921151937.1471470-1-steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] riscv: Add configure cache entries for libidl
+Date: Tue, 21 Sep 2021 10:02:17 -0700
+Message-Id: <20210921170217.2977601-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Upstream database uses both "connman" and "connection_manager" to report CVEs
+These were hidden in meta-networking
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/site/riscv32-linux | 3 +++
+ meta/site/riscv64-linux | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 342a512f45..748eefa748 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -15,6 +15,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
+index 97de628e22..acc32fd03c 100644
+--- a/meta/site/riscv32-linux
++++ b/meta/site/riscv32-linux
+@@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
  
- inherit autotools pkgconfig systemd update-rc.d update-alternatives
- 
-+CVE_PRODUCT = "connman connection_manager"
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
 +
- DEPENDS  = "dbus glib-2.0 ppp"
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
+index 38bc5f044d..cf78133ee0 100644
+--- a/meta/site/riscv64-linux
++++ b/meta/site/riscv64-linux
+@@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
  
- EXTRA_OECONF += "\
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
 -- 
-2.25.1
+2.33.0
 
