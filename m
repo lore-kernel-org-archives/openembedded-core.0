@@ -1,60 +1,78 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.7614.1632230920812544681
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web12.7790.1632232113007906907
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 06:28:41 -0700
+ Tue, 21 Sep 2021 06:48:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112 header.b=w+ZjHMrj;
- spf=pass (domain: burtonini.com, ip: 209.85.221.51, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f51.google.com with SMTP id u18so37435402wrg.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 06:28:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=Xc2aEYkGSzI1+G2Fu4Lp2wtv0aC4Pf0/QPSQeQ7/usw=;
-        b=w+ZjHMrjdwjwT2IK9pcNE6MW2pG38zNInOH1yXcLTDNDEM9wsQiMjfmsPEMPZ9ep8q
-         /0+0ZerCBgY6OYGiNATr37EyoE9YSVq1Eyv8y3Jn0qUrVGkwhkoNM42HypZIt7p1HAAO
-         me1TbMFaD+u0nwBkqg7nkIQtPqjpmgw0wly79vF5jqBKV8r8t1pAuuWtNBrQO3QH1f+c
-         Zyqu81wLQ3d1MTnXPGcllATyjApNVNpG4Aow+m/xIQx2V7AiL2qhggpzr4GvOlU9r6yF
-         ViOkexH/r5ohBmmBBaKDb0U8OQRkRRKPoDxSjihRv7GNZxOJfFJqsq9Mznim1IQJgUJe
-         KetQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=Xc2aEYkGSzI1+G2Fu4Lp2wtv0aC4Pf0/QPSQeQ7/usw=;
-        b=6m+7E9qE8LfROlbzshOEpT1XZi7ogR+BNwYzlNs127XEFmHw7nHOQwD7h4bzIYLyng
-         HD2a4difeCxy2ZJ6nJU3yJ1MyUakPAFr08cLj+vK3fj2uaSWE9uHIpJVkIHc9T9s4tsT
-         0axtWYk0XegR2lqDOjq7UM4ewEoBWNDRQzkvH86kY8LRiIwsWBb75SBz6tJlPCAbA6/r
-         u2eSZNF2wDiRnFz+dnfX8rbBGBYDs/JMJtJUL7gIcRHqMSPLuwcjcCn2ASvEHngMDfaG
-         TU3BRMdpfc9Lcm8ZFE4nCeiav8UxW0NvKBldUXCF1PMv61pFHB9FvHhLX6VnPWEfvp2c
-         fB6g==
-X-Gm-Message-State: AOAM5314pqn4Hqkw8zOZvG4SJ0ox6NWeaXwUrlF77Kfo0Lo4c3cvcpu/
-	q9oxevGL7PSyQHKdj2+1Iv7XmMRWn6rnduenr3JuVCbp9SrhnFI7
-X-Google-Smtp-Source: ABdhPJwkG9rcM0fG/9p7VMBVL93XNUr3YJprZbb4cKH1D9uORDcMuoPp4xl71XBPTaVuGmOEtXn/inUvwS+VKefDAp8=
-X-Received: by 2002:adf:f48d:: with SMTP id l13mr34741025wro.94.1632230918263;
- Tue, 21 Sep 2021 06:28:38 -0700 (PDT)
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 744351C000E
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 13:48:30 +0000 (UTC)
+Subject: Re: [OE-core] [PATCH V2] archiver: Configurable tarball compression
+To: openembedded-core@lists.openembedded.org
+References: <20210921061517.8235-1-ian.ray@ge.com>
+ <6c5ca68319e216177b75f0e3cb6ad8da0bcf8c25.camel@linuxfoundation.org>
+ <16A6D8EA388563F3.1316@lists.openembedded.org>
+From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+Message-ID: <a06209fe-c772-7a28-bde8-4627fef58296@bootlin.com>
+Date: Tue, 21 Sep 2021 15:48:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 21 Sep 2021 14:28:27 +0100
-Message-ID: <CAAnfSTvRABnV6Pvax8=iR5uO_JFzqHnXR66jR3xoXsLwG_P3uQ@mail.gmail.com>
-Subject: eudev retirement/rebooting
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <16A6D8EA388563F3.1316@lists.openembedded.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Because this doesn't appear to be that well known, it appears that
-Gentoo is stopping development of eudev:
 
-https://www.gentoo.org/support/news-items/2021-08-24-eudev-retirement.html
+On 9/21/21 3:20 PM, Michael Opdenacker wrote:
+> By the way, zstd seems to be marginally worse (+1%) than xz in terms of
+> compressed size, but is orders of magnitude faster (see
+> https://archlinux.org/news/now-using-zstandard-instead-of-xz-for-package-compression/).
 
-Interestingly the reason they're no longer using eudev is that systemd
-can be built with musl "using patches from OpenEmbedded".  These are
-the patches we guard with the warning "Using systemd with musl is not
-recommended since it is not supported upstream and some patches are
-known to be problematic" so I was initially quite worried, but it now
-appears that Alpine/Devuan/some Gentoo developers are rebooting eudev:
 
-https://github.com/eudev-project/
+Actually, this article only mentions decompression speed, but that's
+also true for compression speed.
 
-We should keep an eye out on this and be prepared to switch when they
-start making new releases.
+Here are my own tests:
 
-Ross
+mike@mike-laptop:~/tmp$ time gzip linux-5.15-rc2.tar
+
+real    0m29.293s
+user    0m28.712s
+sys    0m0.553s
+
+mike@mike-laptop:~/tmp$ time xz linux-5.15-rc2.tar
+
+real    7m2.658s
+user    7m1.096s
+sys    0m1.280s
+
+mike@mike-laptop:~/tmp$ time zstd linux-5.15-rc2.tar
+linux-5.15-rc2.tar   : 16.29%   (1136803840 => 185233271 bytes,
+linux-5.15-rc2.tar.zst)
+
+real    0m5.476s
+user    0m5.530s
+sys    0m0.864s
+
+mike@mike-laptop:~/tmp$ ls -la linux-5.15*
+-rw-rw-r-- 1 mike mike 1136803840 Sep 21 15:31 linux-5.15-rc2.tar
+-rw-rw-r-- 1 mike mike  198135832 Sep 21 15:24 linux-5.15-rc2.tar.gz
+-rw-rw-r-- 1 mike mike  125980548 Sep 21 15:26 linux-5.15-rc2.tar.xz
+-rw-rw-r-- 1 mike mike  185233271 Sep 21 15:31 linux-5.15-rc2.tar.zst
+
+So, here the claim that zstd (with default options) is almost as good as
+xz in compressed size is not confirmed. However, zstd is a clear winner
+in terms of compression speed, and anyway better than gzip. This is
+worth switching.
+
+Cheers
+
+Michael
+
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
