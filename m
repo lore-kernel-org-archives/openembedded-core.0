@@ -1,163 +1,75 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web12.2571.1632251120573376657
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.2994.1632252680131262834
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 12:05:20 -0700
+ Tue, 21 Sep 2021 12:31:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mQYgp7i6;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id c7so1033561qka.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 12:05:20 -0700 (PDT)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com header.s=20210112 header.b=0SF4wISr;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.48, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f48.google.com with SMTP id e15so1752444lfr.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 12:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=STG5NrpULfJInRmGsuGXzp35OWBDmr7G3Te8cinXhr4=;
-        b=mQYgp7i6vIQrxTXZB+AeynZS4ToZj5w/RjxPa+HHlvx302GxE+RiIlkQxOs7sobXzm
-         ZsNkV++is9AtLHqgi8kgiYpEz0j7bpQ3cJypjhEjq4l7wvPAJ9KR/gd4rXeZz9PZt1Sh
-         baTt+TFxLXMjo+OlpL7BpFOuC27R492RXxGKsxtresGEHgyh206YvXQYRzg+exUD22CL
-         lA2YbZPwQ9++MrSGUYUsylnemHDDBJ7alBRsDc0z9KiHR6E3UhKn6NxkrT5LJH40cLzE
-         XqJT2BovIiB2cTzZh1KXzHkuITQ6tikJN6dsw4XxjCkoaTFGEDsBkZ2DXpmyguSNZHW4
-         gS7w==
+        d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hwHkotGyfy7fcuNX2Mqzw2k5eSyJBvXe7MdpA/q//9E=;
+        b=0SF4wISrSUD3VF8CkXQybj8GWyILCBO2+rIZidOnMhmM4fKinLpCkZWuUKv41+WPmN
+         V0k9W8z8KFA4gNpoIfB1v+gdJOdLx8zzJXMwvMuh3itWBms2frpZRsfCO3AKORoF6dw3
+         UoK77nUvGeLCcK8e4SSuTOAExN1o8++9xBuqkyLD+6EBZi2yGANhrzA4kzppeNK3XPub
+         ogHqI0arHaXUSFpAGp37Z/PBcN8KEPjTxJNeIzQjqB8tnhZXurGPfvA2SUte/t/ExvdF
+         hoTIMlOjT8UUzpJ5rQJxqlbjcaMq28rrGq69W9ELmu15myCyrX8aou7q5LIPiRhOKSJ6
+         g3nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=STG5NrpULfJInRmGsuGXzp35OWBDmr7G3Te8cinXhr4=;
-        b=lMUTxMVK00diz+b4ZZ8TaHIpaA/aKm6EwQKAC6HmGS3tkkvJB5I4ktJ7W+OJCSsQX5
-         BQrXTkIOaQm3fwEAm+UtedooWRhrj+LEoqyVCdqcSSvV29lCN0nPJNmptmGe/jfg+zOz
-         D4/Bu7+4qkX+Ds7T57vXpJQ95UB2ST/guShXWeBsMjwsV31q40dAp4pcGlpVtVo9j4Mg
-         VWvmvCuigPu+/RNuC+YFrd4zZKXeAdUjiXseZjJiqENRDnE291j3AKRIanzmF4t2/fRD
-         FpuTbxjM26ajez8pUmBkol0+MYmMYEbnyKG0C3V+E2VyighuWUnmTpqSwz7AelkRPqXY
-         DvPA==
-X-Gm-Message-State: AOAM533k5wkull2smUavn08JGg9lEEATtHIQGnKbbiul3n0jwqJYbA3F
-	X1UwLpawP1b0uAk6hj+PGx6+AIqS2Ze/4L13Lh5J0Z4otwc=
-X-Google-Smtp-Source: ABdhPJx6U+yQot3kNzUOhYB9QkLUb3DHNNDmLaOSuAAIAeMZ1/eOuox1QL86khcTiT+i/XZbASkgpKJn+jqh/0ILRHQ=
-X-Received: by 2002:a05:620a:bc5:: with SMTP id s5mr30929126qki.47.1632251119479;
- Tue, 21 Sep 2021 12:05:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hwHkotGyfy7fcuNX2Mqzw2k5eSyJBvXe7MdpA/q//9E=;
+        b=Uw2S1/6+EisrFFbQ4UQjkawNnQVPMdmwLGITj78PEY3xZvxgIGjPNi/KZmA+++k4be
+         g8cC4q1W4H5xw+ruT94+wbAgQGEqtUZRrZyG6KC7Rw+nxfnRPnyDq42l5aCE2tPOIG2c
+         RFPkKydgdQJ93ritpTip/SXq1EiayaOWGEs/0Qh4winqa+jpkkxDIRF7cqsLxtXN0c1d
+         yUqKZsZAOWRKSnYujtgs83+Ly7x7kHtrwsu8Zyrahby54Kvddgfgq9YecP4lZc9RWvld
+         VRAgxxwGii1fJ65v/aEkhLnkWRTRWBHYQT5+wNBRMjMwO5S0s9Z4j4Ylz06+gOV4S6a3
+         tM6w==
+X-Gm-Message-State: AOAM530L1RRGYfMgPMKaS9iUn7i8nbUJ5I01zhW+GE3RbVu8+qVnfCiI
+	a+aqsyaZTlCAh5IXJd3my2sXUPRgL6NbDIr0
+X-Google-Smtp-Source: ABdhPJxqbdzTBkG3wnCJlflJFsN33OZXIRIsXBA8fAxtfSUhjg7N9wWTSqAPolJesufLpbC+zeqbvw==
+X-Received: by 2002:a05:6512:3257:: with SMTP id c23mr24387502lfr.90.1632252677707;
+        Tue, 21 Sep 2021 12:31:17 -0700 (PDT)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
+        by smtp.gmail.com with ESMTPSA id j24sm387713lfh.302.2021.09.21.12.31.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Sep 2021 12:31:17 -0700 (PDT)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH 1/2] xf86-input-libinput: update to 1.2.0
+Date: Tue, 21 Sep 2021 21:31:11 +0200
+Message-Id: <20210921193112.2628135-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210921170217.2977601-1-raj.khem@gmail.com> <CAAnfSTt-jHFt5+927ohyv4mSz5NtBhcAR-VqtAe8cP4zh+dGVw@mail.gmail.com>
-In-Reply-To: <CAAnfSTt-jHFt5+927ohyv4mSz5NtBhcAR-VqtAe8cP4zh+dGVw@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 21 Sep 2021 12:05:08 -0700
-Message-ID: <CAMKF1so96B-gVjQ=BEJCio2mJJSZoo5kyyxCDyswgUVbJxhcMA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] riscv: Add configure cache entries for libidl
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000292e9105cc861446"
+Content-Transfer-Encoding: 8bit
 
---000000000000292e9105cc861446
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ ...f86-input-libinput_1.1.0.bb => xf86-input-libinput_1.2.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_1.1.0.bb => xf86-input-libinput_1.2.0.bb} (74%)
 
-On Tue, Sep 21, 2021 at 11:16 AM Ross Burton <ross@burtonini.com> wrote:
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.1.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
+similarity index 74%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.1.0.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
+index 3b5af3fae9..b0168df8d1 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.1.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
+@@ -6,6 +6,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a22925127bd3c827c384cedd23ed2309"
+ 
+ DEPENDS += "libinput"
+ 
+-SRC_URI[sha256sum] = "e11d2a41419124a6e9b148f1df181bf7819fc7398c8ee9a1b6390b0742c68d16"
++SRC_URI[sha256sum] = "f80da3c514fe1cbf57fa1b1bd6ff97f6b0a1f87466ad89247bac59cd0a5869f6"
+ 
+ FILES:${PN} += "${datadir}/X11/xorg.conf.d"
+-- 
+2.25.1
 
-> libidl was removed long ago, along with ORBit.  Can we just drop these
-> entirely?
-
-
-Check layer index if it does not appear there then I am fine with dropping
-it entirely
-
->
->
-> Ross
->
-> On Tue, 21 Sept 2021 at 18:02, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > These were hidden in meta-networking
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/site/riscv32-linux | 3 +++
-> >  meta/site/riscv64-linux | 3 +++
-> >  2 files changed, 6 insertions(+)
-> >
-> > diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
-> > index 97de628e22..acc32fd03c 100644
-> > --- a/meta/site/riscv32-linux
-> > +++ b/meta/site/riscv32-linux
-> > @@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
-> >
-> >  # startup-notification
-> >  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
-> > +
-> > +# libidl
-> > +libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
-> > diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
-> > index 38bc5f044d..cf78133ee0 100644
-> > --- a/meta/site/riscv64-linux
-> > +++ b/meta/site/riscv64-linux
-> > @@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
-> >
-> >  # startup-notification
-> >  lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
-> > +
-> > +# libidl
-> > +libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
-> > --
-> > 2.33.0
-> >
-> >
-> > 
-> >
->
-
---000000000000292e9105cc861446
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Sep 21, 2021 at 11:16 AM Ross Burton &lt;<a href=3D=
-"mailto:ross@burtonini.com">ross@burtonini.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">libidl was removed long ago, along with ORBit.=
-=C2=A0 Can we just drop these entirely?</blockquote><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Check layer index if it does not appear there then I=
- am fine with dropping it entirely=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-" dir=3D"auto"><br>
-<br>
-Ross<br>
-<br>
-On Tue, 21 Sept 2021 at 18:02, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; These were hidden in meta-networking<br>
-&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/site/riscv32-linux | 3 +++<br>
-&gt;=C2=A0 meta/site/riscv64-linux | 3 +++<br>
-&gt;=C2=A0 2 files changed, 6 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux<br>
-&gt; index 97de628e22..acc32fd03c 100644<br>
-&gt; --- a/meta/site/riscv32-linux<br>
-&gt; +++ b/meta/site/riscv32-linux<br>
-&gt; @@ -9,3 +9,6 @@ glib_cv_uscore=3D${glib_cv_uscore=3Dno}<br>
-&gt;<br>
-&gt;=C2=A0 # startup-notification<br>
-&gt;=C2=A0 lf_cv_sane_realloc=3D${lf_cv_sane_realloc=3Dyes}<br>
-&gt; +<br>
-&gt; +# libidl<br>
-&gt; +libIDL_cv_long_long_format=3D${libIDL_cv_long_long_format=3Dll}<br>
-&gt; diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux<br>
-&gt; index 38bc5f044d..cf78133ee0 100644<br>
-&gt; --- a/meta/site/riscv64-linux<br>
-&gt; +++ b/meta/site/riscv64-linux<br>
-&gt; @@ -9,3 +9,6 @@ glib_cv_uscore=3D${glib_cv_uscore=3Dno}<br>
-&gt;<br>
-&gt;=C2=A0 # startup-notification<br>
-&gt;=C2=A0 lf_cv_sane_realloc=3D${lf_cv_sane_realloc=3Dyes}<br>
-&gt; +<br>
-&gt; +# libidl<br>
-&gt; +libIDL_cv_long_long_format=3D${libIDL_cv_long_long_format=3Dll}<br>
-&gt; --<br>
-&gt; 2.33.0<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-</blockquote></div></div>
-
---000000000000292e9105cc861446--
