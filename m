@@ -1,84 +1,69 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.979.1632243745130138898
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web09.417.1632243845238279112
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 10:02:25 -0700
+ Tue, 21 Sep 2021 10:04:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MMHBgxrt;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id q68so21305501pga.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 10:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N4kmxNKYbl1wz7cyEHqY936HhzqJqGNK8goHF1yorDM=;
-        b=MMHBgxrt/Hb23iJMn7XAsWfr0yNuD1lFS/9L48KXm0gTpdFFjniN1SI4DC5kppInZD
-         Doq0zC+JXl17C8vFkp0F+Uf8nL5WRFsYxhcZFHrp/hFwpHKX9QvmSskbyy+0M0Vr4J7M
-         7RXb+0LCmhl9fi3bBwrzc5JQrYXKVMYYhGVBUv7VCUJydyJmjNTA/CLOdsNW6SlnAfFd
-         OBf//KFd6tbKLLw1ju7Ffk8NxPIKZ6598cIzNH4paRi/cpMNp50Sp7FXlR+PFh7r9FbS
-         jfBMOntA3gQN6nYbbyUUVY0HAhX6CmbiR4qYPYNhzStsKUDNK1HUmR/yvsxrHUVne09m
-         Rv8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N4kmxNKYbl1wz7cyEHqY936HhzqJqGNK8goHF1yorDM=;
-        b=e1NAnxjjzYG3bCtTm0iEWzzrfype4Z3GYLJPEdk/YahjiVxwtU1PCOKXEzBD+F3IWQ
-         rtDaJWydKfa/F8n7+0x0sDspQ45Trdkt1U/N7LWDAHPPJ5nUwypqLhnoLyBQRQWknMWX
-         fhII/F+Vc3HMIMgM26nQV0yHbnHEesw//DrRFQXoj6lski4Rt5GpLyCRuM4C9jRktImO
-         YzCpKlJNR6ZhL7qP+8z0mdtIB5NvkxsgBHG2H4X9CFPG3xeilf163WMlZcbY17k9K4+J
-         VXuKfPdkNUiQul0J3BdLx4gGq+Etx16AqmUzVeGDwf4xf0qf6ljwT11d1bOlifkFuXpN
-         e0hg==
-X-Gm-Message-State: AOAM533AUIqy21FriPc23MrUSvFEgaRU8RpwPH53Nckp6H5EKHSVScjf
-	o/DNmlG/gsXH64JwFvuLUhsQEY0ZfytIug==
-X-Google-Smtp-Source: ABdhPJxkQd36r4kTMiMBkordfPZ9nD3/bG5Z+MsYwr1qmQuiU5d7KMqY6j6ypMXAtqt4hSMMQN8k8A==
-X-Received: by 2002:a63:81c6:: with SMTP id t189mr4396752pgd.253.1632243740657;
-        Tue, 21 Sep 2021 10:02:20 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::728f])
-        by smtp.gmail.com with ESMTPSA id a1sm3255968pjg.0.2021.09.21.10.02.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 10:02:20 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="287090247"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
+   d="scan'208";a="287090247"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 10:03:26 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
+   d="scan'208";a="549571187"
+Received: from vanamadx-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.239.24])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 10:03:21 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] riscv: Add configure cache entries for libidl
-Date: Tue, 21 Sep 2021 10:02:17 -0700
-Message-Id: <20210921170217.2977601-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Subject: [hardknott][PATCH 3/4] externalsrc: Work with reproducible_build
+Date: Wed, 22 Sep 2021 01:03:11 +0800
+Message-Id: <dc225a484c17c261f95adb1ec4f00f9359f10569.1632216051.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1632216051.git.anuj.mittal@intel.com>
+References: <cover.1632216051.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These were hidden in meta-networking
+From: Mark Hatle <mark.hatle@xilinx.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Externalsrc removes do_fetch, do_unpack, and do_patch.  The system normally
+discovers the correct reproducible date as a postfuncs of do_unpack, so this
+date is never found, so it falls back to the default epoch.
+
+Instead we can move the discovery function to a prefuncs on the epoch
+deploy task.  This task will run before do_configure, and since the source
+is already available can run safely at anytime.
+
+Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0b7dd711a54e92ce54abe99f59fc67e683d52dfe)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/site/riscv32-linux | 3 +++
- meta/site/riscv64-linux | 3 +++
- 2 files changed, 6 insertions(+)
+ meta/classes/externalsrc.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/site/riscv32-linux b/meta/site/riscv32-linux
-index 97de628e22..acc32fd03c 100644
---- a/meta/site/riscv32-linux
-+++ b/meta/site/riscv32-linux
-@@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 3d6b80bee2..1ea938fb62 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -110,6 +110,16 @@ python () {
+                 continue
+             bb.build.deltask(task, d)
  
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++        if bb.data.inherits_class('reproducible_build', d) and 'do_unpack' in d.getVar("SRCTREECOVEREDTASKS").split():
++            # The reproducible_build's create_source_date_epoch_stamp function must
++            # be run after the source is available and before the
++            # do_deploy_source_date_epoch task.  In the normal case, it's attached
++            # to do_unpack as a postfuncs, but since we removed do_unpack (above)
++            # we need to move the function elsewhere.  The easiest thing to do is
++            # move it into the prefuncs of the do_deploy_source_date_epoch task.
++            # This is safe, as externalsrc runs with the source already unpacked.
++            d.prependVarFlag('do_deploy_source_date_epoch', 'prefuncs', 'create_source_date_epoch_stamp ')
 +
-+# libidl
-+libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
-diff --git a/meta/site/riscv64-linux b/meta/site/riscv64-linux
-index 38bc5f044d..cf78133ee0 100644
---- a/meta/site/riscv64-linux
-+++ b/meta/site/riscv64-linux
-@@ -9,3 +9,6 @@ glib_cv_uscore=${glib_cv_uscore=no}
+         d.prependVarFlag('do_compile', 'prefuncs', "externalsrc_compile_prefunc ")
+         d.prependVarFlag('do_configure', 'prefuncs', "externalsrc_configure_prefunc ")
  
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
-+
-+# libidl
-+libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
 -- 
-2.33.0
+2.31.1
 
