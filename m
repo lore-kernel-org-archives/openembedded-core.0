@@ -1,50 +1,50 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web12.233.1632333238330185700
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web12.234.1632333239233275349
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Sep 2021 10:53:58 -0700
+ Wed, 22 Sep 2021 10:53:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=V33fPWTo;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id c19so3508003qte.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Sep 2021 10:53:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bswrTTqo;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id gs10so2460222qvb.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Sep 2021 10:53:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IbAjKLxIDSYLNuoFw73gywpwxeBCyZQzHJWHAiSPrx4=;
-        b=V33fPWTo6yC2PZ5T6RZI3J/eN7Hs6aqFKmepU0g0pfiIgXBhHcEgLQouWtKryHZbuM
-         yo+mvpv+oP1RoQrAAZka4J/zWFV3/LLd9eUf4aNzf6jrKqxOpOiUGKUy5pL5SJuriqf0
-         gln/kH6cOBDxVwc6M4rseMXur9Su20c4ND4nMc3yGB8pECaRME0bMbg58zbooW4rYrSF
-         oaxwegVfonl13DeWJZiLb5dHryHizvtqYedrMlKTQiOH9cv4uMYHibQMkBqW7IaEGBbU
-         RL+TRR0r4riptpRftwzk4XHIkOnm3cAZPrDKFbY1jRMxb358fORV/1sWy4FoVW6+i4w/
-         kd7w==
+        bh=C0dMXXnnew56g56dIhPI4NRuzq2iWuyooFnpcxEllxk=;
+        b=bswrTTqoZ5WLPxwObtusRoQK16FJkTy6kqq9dBH+cfQXDqSmeL61nwRNH1WXcKRX/Y
+         m5SuMdlJz1M5mWX56c838DSWUozdFfpl1sdEb/2KxO/7dfUL+BML92X53yLQF7sVd4OH
+         Xz7nnmMNoeuF5Q2oeSfep7kiuma6gByoOmUYip8BG3wce8/cc574usm4tMolLiAWeOBP
+         iz+xVnsAud0F76SnJvhgwSWV243uCdDZoiRk74NJUTvcOT29S3JVbwFJUqxDAXBFIr+4
+         pN/7eVB07/F8s++y5gGKpLRRQ2vaDMyjn7jXcUGEySV2y1pf2fh2OSSftIHQG77a1RNy
+         sg4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IbAjKLxIDSYLNuoFw73gywpwxeBCyZQzHJWHAiSPrx4=;
-        b=dAVic+to1Hw164p3D+ndtCki8en6Sv8xfxLCq8FwoN0g+abOkunSgpoDVmtP598LH9
-         l1MtajmkR0k72mB7syHTtu6gLUmDatwPgnCgNvfmhDaysE8O5k3vu+LlYFpZSE7U+A7n
-         ZrBlpBO29i+fcuCCusazUS5xg209xDG+jB132wMDOfQRhsDxE7HEha8KXpaMTwO1ubDp
-         mlOapI5q4tHpaXkWaWQvD5bJGVwpqyV5b/PUpDnJi/zDzJUxWAt0kRhLtWa7RdRu3tGI
-         2/T1/PU1gkCNkZrJ81oZGf4qRd/PbKpPzy6KgeR10k1m9TrMz5r9EJP+HUO1mIDjaikh
-         OOGA==
-X-Gm-Message-State: AOAM533IM4npQ3RmjMWuDhgwRG4Awda+kl0wJGK6RvY4A3WxAwN70A0q
-	pEfwPUs0u+uLS/iep5gH7lMZ/XD3n7hcWQ==
-X-Google-Smtp-Source: ABdhPJyhHVa6+T4qQ/P1ITrqbn85jgZxpOLvyyZ9tnRuhUHfKrfYmXRgTsOFqC7/g3yP0P3Ye6lHkw==
-X-Received: by 2002:ac8:3b51:: with SMTP id r17mr510691qtf.139.1632333237330;
-        Wed, 22 Sep 2021 10:53:57 -0700 (PDT)
+        bh=C0dMXXnnew56g56dIhPI4NRuzq2iWuyooFnpcxEllxk=;
+        b=jrU33vAONCyoDNO+ozHDIzj163BROhz1tRkuFrMKd+5UTtI7HIaG6jkrrbLo0QBqbt
+         ECN/faU8UcnIw5Brx+OBRXa/ecC++rQmzV9CzWymTB+0ZoWN+zvqrc4jKpfCOUdMe6wI
+         sU1jzw9v3a7kpMfeKaD9NQIfQlgyvtxFg7BikwVe/ulDmf/qleksjBpBflM7KdLKq8gl
+         nTTDv9a0DQ4eDLCGrHgmw7jdmwobeKz2rLDjMAB8nP2qDonwi8AIGrzGTnWkDI0MsNQU
+         1ELDpun5wm2neI3bUNxN7HNlb1dhAk/s8JoePuWiQNCkSvJ9vqStErCr2hCktnzmtJCh
+         2fwA==
+X-Gm-Message-State: AOAM532AAPqpVtjVW+OebE3zy4vRnf2JVdkzFyX8yeDD5524uBnLUGtU
+	IR6oEzqg2Wr4LPvHruD8R42MJ/E5UictcA==
+X-Google-Smtp-Source: ABdhPJz3TytdJ3fuQbiGqEMT0oSZX3Dg7rVAqb7TGEEbg249ZOQ698YbNiuG1eRsw8cwjHbLeZbr2g==
+X-Received: by 2002:a0c:816b:: with SMTP id 98mr374562qvc.37.1632333238280;
+        Wed, 22 Sep 2021 10:53:58 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id n16sm1809484qta.51.2021.09.22.10.53.56
+        by smtp.gmail.com with ESMTPSA id n16sm1809484qta.51.2021.09.22.10.53.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 10:53:56 -0700 (PDT)
+        Wed, 22 Sep 2021 10:53:57 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] linux-yocto: introduce 5.14 reference kernel
-Date: Wed, 22 Sep 2021 13:53:50 -0400
-Message-Id: <2baef7d539683cb483aff26f35ce742dbcb9ecb5.1632332981.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 3/5] systemtap: update to 4.5-latest
+Date: Wed, 22 Sep 2021 13:53:51 -0400
+Message-Id: <a22aa2e3c3df11e4c3650ccb135e1cb9ac1385dd.1632332981.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1632332981.git.bruce.ashfield@gmail.com>
 References: <cover.1632332981.git.bruce.ashfield@gmail.com>
@@ -53,190 +53,155 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Each release of the kernel is not typically used as a versioned
-reference kernel, but since 5.13 has gone EOL upstream and was
-never part of a release, we take the opportunity to udpate our
-reference to 5.14.
+To fix issues with 5.14+ kernels, we bump to the latest 4.5 systemtap.
+This means that we can drop a backported patch, and we pickup the
+following changes:
 
-5.13 will be removed in subsequent commits, once all dependent
-BSPs and layers have been updated.
-
-No issues were found across all architectures, images in qemu
-boot testing.
+    7f6992539 Correct RISC-V handling of SDT markers and document their format.
+    2dfd140fd Fix races in perf probe task finder callback
+    f463f6053 The /* pc=0x... */ is no longer printed by "stap -v -L 'kernel.function("*")'
+    0bd97a806 Use task_state tapset function to avoid task_struct changes
+    4996a29c6 tapset: start adopting kernel netif_* tracepoints in netdev.* tapset
+    fb0851e62 dwflpp.h: add conditional EM_RISCV define
+    c5599df8e Add dwarfless register access for RISC-V
+    33d861435 Add bactrace support for RISC-V
+    2ae3fc866 RISC-V dwarf register number to pt_reg mappings
+    3df603720 Eliminate the sa_restorer field in sigaction struct for RISC-V.
+    a6aff9d33 Avoid generating problematic asynchronous unwind tables on RISC-V
+    a463860c3 Add RISC-V 64-bit processor support
+    8486fd78d Add the actual RISC-V syscall-number mappings to the tapsets.
+    1e383aa38 Add creation of mappings between syscall names and numbers for RISC-V
+    aedb2dbe7 RISC-V doesn't have crash available, disable it for rpmbuilds.
+    33a9bf1a1 Update to newer config.guess to support RISC-V
+    3bca17469 Use lex_cast instead of to_string when shortening function names.
+    0b5bc934a Revert "runtime: unregister the control channel before cleaning up"
+    166a95089 runtime: fix panics when polling on the control channel while unloading
+    e6a1b008b Shorten function names that will exceed the kernel's objtool limit of 128
+    4f54ba033 runtime/transport: add a comment blurb for ordering invariant at shutdown
+    dbe08f1ac runtime: unregister the control channel before cleaning up
+    798a67290 bpf pr23478 :: test non-unique key/val iteration
+    079f5d708 bpf pr23478 :: test multi-key associative array iteration
+    70b24879d rhbz1938312: un-disable bpf.exp after kernel bugfix
+    2896d6f5a pr23478 WIP: fixes for existing foreach testcases
+    0d1a38dbc pr23478 WIP: rework bpf foreach to handle multi-key array
+    14a2c8f54 Run task_fd_lookup.exp with --compatible 4.0
+    f2c147767 PR28184: Adapt to kernel rename __fcheck_files to files_lookup_fd_raw
+    0581a6560 PR28184: Adapt to kernel rename __fcheck_files to files_lookup_fd_raw
+    559fd51fe testsuite: time-limit auxiliary child processes
+    5d89bb03e stapbpf bugfix: missing in_block() in try-catch code
+    04b43f48f releng: ditch custom pie/ssp CFLAGS engine in configure.ac
+    b47d03c20 PR28079: Adapt to kernel 5.14 task_struct.__state change
+    e66f3a83b runtime: adapt to -Werror=implicit-fallthrough=5, dyninst runtime
+    ea00c1070 PR28140: kernel 5.14-rc adaptation, jump_label_patch
+    ffb0a38ea runtime: adapt to -Werror=implicit-fallthrough=5
+    efba2178f Revert to using test_tsk_thread_flag for uprobes2
+    23db8b29f PR27984: Adjust the address so dwfl_module_addrinfo finds correct function name
+    a29f65d57 PR28079: Adapt to kernel 5.14 task_struct.__state change
+    2f7e966c0 testsuite item typo fix
+    5abb4d130 PR27934: give fuller diagnosis for pass-5 probe-registration errors
+    371805aa0 PR27820 tapset/bpf/logging.stp: implement abort() tapset function
+    ee361f183 PR27820 tapset/bpf/logging.stp: move bpf versions of functions
+    968173f7f runtime: linux 5.14 compat: <linux/panic_notifier.h>
+    ef5a8b9ed runtime: fix unintended compile error with autoconf-x86-uniregs.c
+    84ef6bd9f Revert "systemtap.spec: don't buildrequire emacs"
+    65fc44163 spin-rawhide: ok tweak the git-archive top level path too
+    c7f1c12e1 spin-rawhide: switch to ~ versioning for Source: file names too
+    bff2b2ff5 spin-rawhide: switch to ~ versioning for n-v-r
+    7c2751e37 task_finder_vma: add autoconf check for hlist_add_tail_rcu()
+    ea7c27bbe Don't fail vma tracking mmap callback if module is already known.
+    2eb7fdfdb Use the path instead of the module for vma tracking mmap callback.
+    a5104a612 update READMEs + man pages for freenode -> oftc move
+    23c351645 Update list of reasons for latencytap.stp example
+    5409ddea1 rhbz1972805: add basic syscall-in-ptregs support for s390x
+    0fc73fc4e systemtap.spec: don't Require: libvirt
+    515a6a2d6 rhbz1972828: tapsets: iommu tracepoints
+    eaf63df6a ppc64 runtime: FULL_REGS() gone
+    757d4f654 c++ buildability: util.cxx - unique_ptr
+    1a6e7aea7 systemtap.spec: don't buildrequire emacs
+    5ff28c970 Allow for adjacent segments belonging to different modules.
+    b1e8cd5de Note that Python is a requirement.
+    27115ab4c Get the enumerator's enumeration type
+    1288bee31 testsuite/systemtap.base/perf.sh drop bashism
+    4755bc453 Add hlist macros for use by hlist_add_tail_rcu
+    bccf5123f parse.cxx: Initialize functioncall synthetic field
+    9bbee6518 Add hlist_add_tail_rcu for rhel 6.
+    630e406b8 Don't assume ISO C99
+    4a3ad3532 Extend vma mapped entries when the address is adjacent.
+    294b7a53e stap-prep: switch to using main vmlinuz file as debuginfod test download
+    643351d22 PR27903: grok more glibc dwarf
+    3a843482a c++11 hygiene: use cxx_override macro for pre-4.7 g++
+    3e9bcd7b1 Fix more -Wformat-nonliteral and -Wmismatched-tags when compiling with clang
+    8e5145ae4 dtrace: Use -o option to specify output file for CPP
+    b3a392975 Fix -Wformat-nonliteral and -Wformat warnings with clang
+    545535f82 Fix -Woverloaded-virtual warnings when building with clang
+    0f4bd3219 set2: Return this from assignment operator
+    6de815bca Add missing copy constructors to set1_ref and set1_const_ref
+    930b54119 Add some override specifiers where missing
+    14f04522b util.cxx: Use abs() instead of labs()
+    13016e9dd systemtap.spec: python3 tweaks
+    494ece199 PR27864: tolerate loc_unavailable during loc2c transform
+    e8f5c058f autoconf: version bumps for the next release-4.6
+    77abac91d version bumps for the next release-4.6
+    0eba8a46b NEWS: release-4.5
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_5.14.bb              | 45 ++++++++++++
- .../linux/linux-yocto-tiny_5.14.bb            | 32 +++++++++
- meta/recipes-kernel/linux/linux-yocto_5.14.bb | 68 +++++++++++++++++++
- 3 files changed, 145 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.14.bb
+ ...8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch | 26 -------------------
+ .../systemtap/systemtap_git.inc               |  3 +--
+ 2 files changed, 1 insertion(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
-new file mode 100644
-index 0000000000..a147e632e4
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
-@@ -0,0 +1,45 @@
-+KBRANCH ?= "v5.14/standard/preempt-rt/base"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+# Skip processing of this recipe if it is not explicitly specified as the
-+# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
-+# to build multiple virtual/kernel providers, e.g. as dependency of
-+# core-image-rt-sdk, core-image-rt.
-+python () {
-+    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-+        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-+}
-+
-+SRCREV_machine ?= "7630ebb9fd510cf7aa31b6f1dd472f3b0442afb3"
-+SRCREV_meta ?= "42d2cf670ed06f4dddd2a035611a519ea68e2d26"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.14;destsuffix=${KMETA}"
-+
-+LINUX_VERSION ?= "5.14.6"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-+
-+DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-+DEPENDS += "openssl-native util-linux-native"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "1"
-+
-+LINUX_KERNEL_TYPE = "preempt-rt"
-+
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
-+
-+KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-+KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
-+KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
-+KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
-new file mode 100644
-index 0000000000..20ff40d267
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
-@@ -0,0 +1,32 @@
-+KBRANCH ?= "v5.14/standard/tiny/base"
-+KBRANCH:qemuarm  ?= "v5.14/standard/tiny/arm-versatile-926ejs"
-+
-+LINUX_KERNEL_TYPE = "tiny"
-+KCONFIG_MODE = "--allnoconfig"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+LINUX_VERSION ?= "5.14.6"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-+
-+DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-+DEPENDS += "openssl-native util-linux-native"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+SRCREV_machine:qemuarm ?= "ee2ccc84e65ade5ba0f8e1a700fba29a755746a1"
-+SRCREV_machine ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_meta ?= "42d2cf670ed06f4dddd2a035611a519ea68e2d26"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.14;destsuffix=${KMETA}"
-+
-+COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
-+
-+# Functionality flags
-+KERNEL_FEATURES = ""
-+
-+KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.14.bb b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-new file mode 100644
-index 0000000000..0c6fbff75e
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-@@ -0,0 +1,68 @@
-+KBRANCH ?= "v5.14/standard/base"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+# board specific branches
-+KBRANCH:qemuarm  ?= "v5.14/standard/arm-versatile-926ejs"
-+KBRANCH:qemuarm64 ?= "v5.14/standard/qemuarm64"
-+KBRANCH:qemumips ?= "v5.14/standard/mti-malta32"
-+KBRANCH:qemuppc  ?= "v5.14/standard/qemuppc"
-+KBRANCH:qemuriscv64  ?= "v5.14/standard/base"
-+KBRANCH:qemuriscv32  ?= "v5.14/standard/base"
-+KBRANCH:qemux86  ?= "v5.14/standard/base"
-+KBRANCH:qemux86-64 ?= "v5.14/standard/base"
-+KBRANCH:qemumips64 ?= "v5.14/standard/mti-malta64"
-+
-+SRCREV_machine:qemuarm ?= "8226a3a65df2dbae0fe71e9ff54cba70a9ba85e5"
-+SRCREV_machine:qemuarm64 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_machine:qemumips ?= "b5389debd85300e24b877f25c2e90381f1df7678"
-+SRCREV_machine:qemuppc ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_machine:qemuriscv64 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_machine:qemuriscv32 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_machine:qemux86 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_machine:qemux86-64 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_machine:qemumips64 ?= "56cc67b699194944809832f4c8f58b9828f02bf9"
-+SRCREV_machine ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
-+SRCREV_meta ?= "42d2cf670ed06f4dddd2a035611a519ea68e2d26"
-+
-+# set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
-+# get the <version>/base branch, which is pure upstream -stable, and the same
-+# meta SRCREV as the linux-yocto-standard builds. Select your version using the
-+# normal PREFERRED_VERSION settings.
-+BBCLASSEXTEND = "devupstream:target"
-+DEFAULT_PREFERENCE:class-devupstream = "-1"
-+SRCREV_machine:class-devupstream ?= "6a7ababc0268063d0798c46d5859a90ee996612f"
-+PN:class-devupstream = "linux-yocto-upstream"
-+KBRANCH:class-devupstream = "v5.14/base"
-+
-+# remap qemuarm to qemuarma15 for the 5.8 kernel
-+# KMACHINE:qemuarm ?= "qemuarma15"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.14;destsuffix=${KMETA}"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-+LINUX_VERSION ?= "5.14.6"
-+
-+DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-+DEPENDS += "openssl-native util-linux-native"
-+DEPENDS += "gmp-native"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "1"
-+
-+KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
-+
-+COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-+KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
-+KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
-+KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
-+KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
+diff --git a/meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch b/meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
+deleted file mode 100644
+index 4d044de7ee..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470 Mon Sep 17 00:00:00 2001
+-From: Du Zhe <duzhe0211+sourceware@gmail.com>
+-Date: Tue, 13 Jul 2021 19:11:55 -0400
+-Subject: [PATCH] runtime: fix unintended compile error with
+- autoconf-x86-uniregs.c
+-
+-Adding a #include <linux/sched.h> restores this test on the gentoo
+-linux-5.10.47-gentoo kernel.
+-
+-Upstream-Status: Backport
+----
+- runtime/linux/autoconf-x86-uniregs.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/runtime/linux/autoconf-x86-uniregs.c b/runtime/linux/autoconf-x86-uniregs.c
+-index 25729c220..232c18670 100644
+---- a/runtime/linux/autoconf-x86-uniregs.c
+-+++ b/runtime/linux/autoconf-x86-uniregs.c
+-@@ -1,3 +1,4 @@
+-+#include <linux/sched.h>
+- #include <asm/ptrace.h>
+- 
+- #if defined (__i386__) || defined (__x86_64__)
+--- 
+-2.27.0
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 97d4435f82..b6ff98f0f2 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,13 +1,12 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "0eba8a46bc99c66e5dd274a9a4d661fe08ac4b8a"
++SRCREV = "7f6992539fb22c93c21ac30c94508bf655d496a7"
+ PV = "4.5"
+ 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+-           file://ef5a8b9eda402e4e96c4e3ce01e7ff95d3e10470.patch \
+            "
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
 -- 
 2.19.1
 
