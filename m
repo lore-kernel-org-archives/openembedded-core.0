@@ -1,503 +1,190 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.687.1632260602896364851
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web08.1273.1632273786346297509
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Sep 2021 14:43:23 -0700
+ Tue, 21 Sep 2021 18:23:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pGBF+8Sz;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id u15so801703wru.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Sep 2021 14:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N552tvDW8v8nEuA3S09PiJ8aQwhCXHltvQ0kcN91LZk=;
-        b=pGBF+8Sz/505xtxbGO9RJb+JVPOBOxpEtnvWOz3wMjxNOXqpTUGHsCGc47INJdjY5I
-         y4OemEURmqnyPk4o0i/Mg8Ey8BqBWxjmAr08+s27FHz5hQ5/+hvDtUIoEuI0UsOcmkHo
-         P82M+u4Y22+0UFwZX4F2a0CNrIUGoeav40CBN29Wk4rBW6lkr6W7sepToXe307UiUdno
-         Xo+X+FWSCqyzb4YM4toghrzIJVPRYWtKH9c64Y1TYcHeJAVbdWEIWf80W4uXpCPF2s4H
-         T7OQK7tifyzKAGMeFii8sVrQiE1wJtSTXK/Nx13OaIafBq/WyGSuh/px9/d9ZIzFBHeu
-         D16g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N552tvDW8v8nEuA3S09PiJ8aQwhCXHltvQ0kcN91LZk=;
-        b=DsbPhBwWaVPIRKm5+a9xxRq2fdbhozR+8fY7BffmpHYZelcphUECosq4vq+l53yvq3
-         F3es59vlfh4XNOQEZV9HeqrABSPSCik/Q8PKyiDiK9X81NaxyIQy3gSPLtAEISCd454t
-         gMzRy0JqrxlqkEiZNamElyxC29N9zT87tLV6qc2wkrgMmfWYrcCN+0J1rHHtKqBHjWcn
-         u/y0pcJiSDu/iHOeJhYD5bJrUX6A4lPYCzHt80B5nvKu/tu9pFML3Rn1YFilrYlIsve2
-         gGnS2YHRyde804ezSj3OYnR1EQYn3LGuyfSn79JcW+uHFPlVW9RZ0AwzKZmsw/SzQRkW
-         844w==
-X-Gm-Message-State: AOAM531qTJRs2LvnW5ynAZDh7/PQrZNlGYHvYML+zsN0G4qKYWFeVOCm
-	V20wpsA3zLbI1wbUZmgt1MTVQTwhKjk=
-X-Google-Smtp-Source: ABdhPJy4mKwVyA89XgnqO1GKofmCBqUvOj7wKh79ECEF1GrQ7X8kS+eKw28jLVMpXpGDFUJQ7YY6BA==
-X-Received: by 2002:a05:600c:4f8e:: with SMTP id n14mr6912199wmq.63.1632260600994;
-        Tue, 21 Sep 2021 14:43:20 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id q7sm224829wru.56.2021.09.21.14.43.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 14:43:20 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Adrian Bunk <bunk@stusta.de>,
-	Joshua Watt <JPEWhacker@gmail.com>,
-	Ross Burton <ross.burton@intel.com>,
-	Jussi Kukkonen <jussi.kukkonen@intel.com>
-Subject: [RFC PATCH] librsvg: update 2.40.21 -> 2.52.0 (transition to rust!)
-Date: Tue, 21 Sep 2021 23:43:18 +0200
-Message-Id: <20210921214318.1494652-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=BTiGyRbe;
+ spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="309049298"
+X-IronPort-AV: E=Sophos;i="5.85,312,1624345200"; 
+   d="scan'208";a="309049298"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 18:23:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,312,1624345200"; 
+   d="scan'208";a="585215273"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga004.jf.intel.com with ESMTP; 21 Sep 2021 18:23:05 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 21 Sep 2021 18:23:05 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 21 Sep 2021 18:23:05 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 21 Sep 2021 18:23:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ll0xGkFLNYGwZUYdCzH4bmr/9rrWE+oXABppFCn62P1XPLrghD07ZUeduD3JaBg3HsgPxlAF0Rev9KS8NEZdHmLzSyouQeMkOqzRDSA8mV8VdB4T7kpnNvWITAsoirIPKVolAcR18RY01ZsSNFCU6pLKqiO5QnC46/ZnETsP/3f9D/WHOK5lPLXCqmoE5nCY+F1tPlDDr77WO1FKDk7SYAGBOhNxBUrdpllijbiKBJSyt586E9fYmLesUH2KxVBS0ICpH9VqsT8KHNXLFsfHMdOL8qmX2I2jrZUjBpd0V99Yy4rW4QAR50gmR9rY6c0WnSz10xRgJqH/qMItK1c2uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=oDRd9XKG/cj7+Ue4GG8CdF5Kw1BU+9RJnGZBd5+4yyw=;
+ b=loYK4NqUsHS+mwBl0KHQlo5HUFzZP6qugz/SPx65ms/RsZy1hSDfp8PTMK7OQtwQKnYgakxdO3NJAguDV6pEEkHFSKn3Uo51H7cJ1D4N/ioEdW8ZYtSPod+dRhsowvclWEJCASjXW0xgmb5ZlVhaQb1FGhRYlj5Op2y3Hioh2BDBqvMscrtApiktCTCn2h0rKv/STlMzTKFizvArHuwYZRKXH1j5/eG07mORGbglS7AJj4LpUtM+xZLTWCsF/QNo8Pyz7mCFNGwfqCDHE50HGv6RLKWLltrd0dRNTQbh3HAkVZWcY8zf3NSF3HQJHyHhCMA6zFrSIEkhfG/1uEPu1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oDRd9XKG/cj7+Ue4GG8CdF5Kw1BU+9RJnGZBd5+4yyw=;
+ b=BTiGyRbedxqLQm1eLRe52mXbC8S+5kUO7rqUFe48xT7VANlaXlIJCK0GQzqijymkL0Vc6iKfJGnFvRd6TGLv30zAI/hdlB74/YJ8s/It3b2UsO4xAsVqpt8+Mnb+IIwHXc99VNBf2gKQDz8TnmL8jzEk7rGqQ09Mkg8rNCb8E9A=
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
+ by SJ0PR11MB4800.namprd11.prod.outlook.com (2603:10b6:a03:2af::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Wed, 22 Sep
+ 2021 01:23:04 +0000
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::8953:241d:7255:35be]) by SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::8953:241d:7255:35be%3]) with mapi id 15.20.4523.019; Wed, 22 Sep 2021
+ 01:23:04 +0000
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [hardknott][PATCH 3/4] externalsrc: Work with reproducible_build
+Thread-Topic: [OE-core] [hardknott][PATCH 3/4] externalsrc: Work with
+ reproducible_build
+Thread-Index: AQHXrsp3Z5hto2XYCUK/1EnvLB3kk6uu1OiAgABuSYA=
+Date: Wed, 22 Sep 2021 01:23:04 +0000
+Message-ID: <0f8c242eb859b693bc7f49993a1ded4ee575e246.camel@intel.com>
+References: <cover.1632216051.git.anuj.mittal@intel.com>
+	 <dc225a484c17c261f95adb1ec4f00f9359f10569.1632216051.git.anuj.mittal@intel.com>
+	 <037384a156440cd47f71e27c7f89baf72b899cba.camel@linuxfoundation.org>
+In-Reply-To: <037384a156440cd47f71e27c7f89baf72b899cba.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 99d1f4c4-874a-4db6-cda5-08d97d678692
+x-ms-traffictypediagnostic: SJ0PR11MB4800:
+x-microsoft-antispam-prvs: <SJ0PR11MB480050B68D77E6F397B8C95EF8A29@SJ0PR11MB4800.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DrKa/pDqNSqm3kBbf45SryiRNL7Sq3hnjPsDcOj6nyPkB1+fFuuAXxR3PNHZC6xTmcbjxIMZ6oEy5i9bK93hHVk4nPpU51nxbfxWYGxsK24hr8v9f4AeK3xUECTpgwpEf/n0Yr+xEqT1uIojWt6GvmV91wcxBK5Td4tBZj77k1HqtXh2KnuL8lFD63g04tw1srdMVKd9JsJgL4RKzDByqKS4HyaQQmcYnF62RyEdOI5RBbSZerSPGrkIVmCPZ7pvV8nNRpL5vltskSD8e/VK5+nSUYE1Q1i7ub0C94BYNWF7vBasZdtyALP2k3h4MQkIs0kYfBMtnVkMz21l7QGEZnLt0Unxg7d1CP1nSoKkCTJq0+T/ppUr26oKBDMsC2dpFS69b1GxzH4olBgi1S15bn35h4T3uAQ8PSRktpNaD1SDyCyakaA7PbrCWCSRUuVdUCvHADQYYN2AG8mmcNUOtxG1+2lhU/MqwPrExLR3NrfMcbOxlzcHuIGlF5kcg2k+YLrBelmtH2XjweZEAJ1Lfm/DuUSJm9ZTBwFPh0vOTK8imV6Zvu+o4KZrv/Bnl56jUKNZ1JrfBid+AbPzjXBM3ekSsRVNuxq1z+GRA2yFsNO5D/RPibqThoccYtIE9Gf0NXubgWSAin0WQTMnfVCXW/XDZvbTGCmBT9UzPja4jid1vXCVx6Koae+duZkvCz+g8pAYPX9h8RlUIPb2mcCuSGwikfDX2dp/WB3Xch4FcujyA4lZ5SIN6U8Z+aI8z/FlPfsiwLWhxgbkCNPTKciW89GcYItkcTCS3/SkyrdeSEM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(8676002)(66946007)(6486002)(36756003)(110136005)(122000001)(5660300002)(38070700005)(6506007)(186003)(26005)(8936002)(6512007)(2906002)(38100700002)(86362001)(83380400001)(2616005)(91956017)(71200400001)(76116006)(66476007)(508600001)(966005)(66446008)(64756008)(66556008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VWVqcTVRL0VaMi9VNXJkN3FQMUhpS2pQMGg0SnErYUFEY0UzZnN2NWFzd3Rl?=
+ =?utf-8?B?dERxOEV2TFFKYzdCemNZQStIUkg1aE01OTRpT3MwaHZXRjZ0b3VHV1NqZDJu?=
+ =?utf-8?B?dDZPTXZlUEtXY21Qc0huNWJ4dGN4VnR5dytPMUxEWlhTWTJYOWlhTDVxZ05K?=
+ =?utf-8?B?MjlQc0NEYkg0cFRUTnpqVmV0Z1cwNWhBNmhiNEhTRVJYdThJSGMyMDBlckxo?=
+ =?utf-8?B?QjhzREpCK21JWWxQWW4zd3JoY0JpL0JYZFFxNVJrV2g0alQ2Sm9BSkpBMEtK?=
+ =?utf-8?B?Vm9PSDVsakFEdEU2NGpYZU5ZdnZIU2h1OHBhQlUyVS9lM1pnR1ovcDB2UUJM?=
+ =?utf-8?B?eGhHM21CTmFuYzBtSlg5TlRucEFIT09JZHFxWktRMDJUVVlEQ2JnUlRFeWZW?=
+ =?utf-8?B?bkQ4MVczKzVYOTBpaC9EN2RORmZXS1JNcndYU2xldFl6bEFUbURVdlVwYUpI?=
+ =?utf-8?B?TDBVSmZQTm9MMXRHb1NxcFRDZXZ4c1RZU05SSUdyOUVrWmJubXVZYTVrS3VT?=
+ =?utf-8?B?REI1TXdPbHg2ci85YmlPUm9qeWhSM0JIb2l6VE1UV1JIdkJpTDNRQnVzOFJP?=
+ =?utf-8?B?MXNVSnFDS1d1UUljVkk1WFU3MTF0cnhmMkZSSEV4cUp4OWlIWEwyaDB6SGll?=
+ =?utf-8?B?Vy9XVCtlU3oxSDNQcS9EaGtOdEFDUStFRW9yTnU5Uis3V1p4ZWozN3V3NU5Y?=
+ =?utf-8?B?dzdGc2pnSFVoRVI1aHFkZ2pYbDJaSEtKVTlWUWNlMWlFN3BNbHBXdkhmMlVT?=
+ =?utf-8?B?MWE2T1BuK1dkaVF0dGRsZ1NJQ0RSWXNkbW9mTHZnY3hSL08zMVB4M3g5VlVI?=
+ =?utf-8?B?QklkUEo5WElxUWtMaFNtSGx2V25OMThTbnB3RHhSL3VlbmNJdFZNVnJKaTdG?=
+ =?utf-8?B?RFo4aDdnb1JMQjVlbHF2TmE1WGJTcjNBUFBvS1JLWlRESThuakVzeWF1b2do?=
+ =?utf-8?B?T2NnTEpLL0s1cFgyNkQvdU93VU93dDMrOXM0alowLzBBS01Nd1FYaFVMTFZD?=
+ =?utf-8?B?YWZQV3QrNm55U2ozNXFONFFFOGZHOFdMRXZ1ZzhodVUxNDFFKzRjTkZGbG9r?=
+ =?utf-8?B?bG1RVWVxTWF4Vjh5SUttZ2h0R1VxUXR4aVlTd0pTbEdNeEFDNnZ2K0J1SkJs?=
+ =?utf-8?B?UHNYalJBUlhSQ3pKNnNOa0ZQczk1TDdubURsWWY2ZmV2bVk2R3NVanpjOWQv?=
+ =?utf-8?B?UzJhYnR0N0dxQW1uSnhIWU5pV0w3NEhhUktLaklWMmlqQVB5b25OK0gzZEFq?=
+ =?utf-8?B?T0hGbzdYdU11ci84aHoxcTNHTDV5Z05NajZOTXhhMWN5YU1LamJVaTdtZWxa?=
+ =?utf-8?B?NUtJNGVlSTI4Wi9vSit2RFRYQmxmRGROVnU5SFNHb0VBbklGbzRWZmU2OXds?=
+ =?utf-8?B?SFEwQTB0R2F5L3ZMbnNuaVZSbXIyLzh2RjNmWjJXWnptQk1ZWVNzYkNGeXIx?=
+ =?utf-8?B?MXBjQVdZTWllYUZxSm1PR05DRDhZWVprYWljN25GOEk3ZHhlSE1IZUxuem1V?=
+ =?utf-8?B?R0hDbzE4UXZ2UTNXeldaTXMycTMveHlLWEJqajhNQnBtSFlON1lWUlpGN1hu?=
+ =?utf-8?B?S2krckljY3hqeUZ6VHU5WDRBb0RhekFFbUVWNVJXdWRzVmk2am1jRThJVGVS?=
+ =?utf-8?B?OC8zNGdGTFpYdWRtTFc2WUJZbUoxbG5TcVBiK1JOQXIxSDRZMTY2MFJScmtS?=
+ =?utf-8?B?Kzl0OTJXMVBJU1J2QytLM3ZnUkFnSktYY0ZyanMxK2ZrQkZjOXVqa1ZpR2h2?=
+ =?utf-8?B?U0wyeHJYeXJsYXowMHpxUmpzMnhERXJuVTUrMEwzbE5GQTJRYWNGalNsMVZk?=
+ =?utf-8?B?MldiVXY1WWJObkNGZWp6dz09?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99d1f4c4-874a-4db6-cda5-08d97d678692
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2021 01:23:04.1680
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CQ8/IdqLEToCELNn7EWX9zoE9Bw5HBWo5tzXZnD7W8e4uZPoV4y9OSshyfA4EMgVwkSwT5PlRPFXSz61APF5Qw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4800
+Return-Path: anuj.mittal@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B336E4B68DE4F84ABA29FCA0BF1CAFD7@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-After some poking and hacking I have arrived to the settings that work.
-Please refer to the commit for details.
-
-Some of these issues may re-occur in other components; in that case
-we need to come up with more generic solutions or upstream fixes.
-
-So far, it's a learning exercise for everybody in getting to know the rust =
-toolchain.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...t-Bsymbolic-fixes-configure-on-macOS.patch | 35 -----------
- ...-rust-target-to-cargo-also-when-not-.patch | 47 +++++++++++++++
- .../0001-Remove-non-reproducible-SRCDIR.patch | 30 ----------
- ...lib.rs-do-not-probe-into-harcoded-li.patch | 53 ++++++++++++++++
- .../librsvg/librsvg/gtk-option.patch          | 60 -------------------
- .../{librsvg_2.40.21.bb =3D> librsvg_2.52.0.bb} | 42 +++++++++----
- 6 files changed, 130 insertions(+), 137 deletions(-)
- delete mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsy=
-mbolic-fixes-configure-on-macOS.patch
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-Makefile.am-pas=
-s-rust-target-to-cargo-also-when-not-.patch
- delete mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-Remove-non-repr=
-oducible-SRCDIR.patch
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-system-deps-src=
--lib.rs-do-not-probe-into-harcoded-li.patch
- delete mode 100644 meta/recipes-gnome/librsvg/librsvg/gtk-option.patch
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.21.bb =3D> librsvg_2.52.0.=
-bb} (51%)
-
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsymbolic-=
-fixes-configure-on-macOS.patch b/meta/recipes-gnome/librsvg/librsvg/0001-Au=
-to-detect-Bsymbolic-fixes-configure-on-macOS.patch
-deleted file mode 100644
-index 954bb60880c..00000000000
---- a/meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsymbolic-fixes-c=
-onfigure-on-macOS.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From b99891e31eb6ce550e7e1cb2ca592095b3050a93 Mon Sep 17 00:00:00 2001
--From: Brion Vibber <brion@pobox.com>
--Date: Sun, 25 Feb 2018 18:42:36 -0800
--Subject: Auto-detect -Bsymbolic, fixes configure on macOS
--
--The -Bsymbolic linker option is ELF-specific, and was breaking
--configure on macOS unless --disable-Bsymbolic was explicitly passed.
--
--Switching the behavior from requiring -Bsymbolic to be available
--by default to just warning and continuing on without.
--
--Fixes https://gitlab.gnome.org/GNOME/librsvg/issues/211
--
--Upstream-Status: Backport
--Signed-off-by: Adrian Bunk <bunk@stusta.de>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 15b26b2d..9f8dce29 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -216,7 +216,7 @@ AM_CONDITIONAL([ENABLE_PIXBUF_LOADER],[test "$enable_p=
-ixbuf_loader" =3D "yes"])
-- AC_ARG_ENABLE([Bsymbolic],
--   [AS_HELP_STRING([--disable-Bsymbolic],
--                   [disable linking with -Bsymbolic])],
---  [],[enable_Bsymbolic=3Dyes])
--+  [enable_Bsymbolic=3Dno],[enable_Bsymbolic=3Dauto])
--=20
-- BSYMBOLIC_LDFLAG=3D
-- if test "$enable_Bsymbolic" !=3D "no"; then
----=20
--2.20.1
--
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Makefile.am-pass-rust-=
-target-to-cargo-also-when-not-.patch b/meta/recipes-gnome/librsvg/librsvg/0=
-001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.patch
-new file mode 100644
-index 00000000000..d7487c234cf
---- /dev/null
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-Makefile.am-pass-rust-target-=
-to-cargo-also-when-not-.patch
-@@ -0,0 +1,47 @@
-+From 95b2cd0169cb1b4694c2bce67169b1aa1d5e2be0 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 21 Sep 2021 16:27:14 +0200
-+Subject: [PATCH] Makefile.am: pass rust target to cargo also when not cross
-+ compiling
-+
-+Otherwise oe-core's native build doesn't work either.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Makefile.am  | 2 --
-+ configure.ac | 4 +---
-+ 2 files changed, 1 insertion(+), 5 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index e93714e..effe5d3 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -137,9 +137,7 @@ else
-+ CARGO_RELEASE_ARGS=3D--release
-+ endif
-+=20
-+-if CROSS_COMPILING
-+ CARGO_TARGET_ARGS=3D--target=3D$(RUST_TARGET)
-+-endif
-+=20
-+ CARGO_VERBOSE =3D $(cargo_verbose_$(V))
-+ cargo_verbose_ =3D $(cargo_verbose_$(AM_DEFAULT_VERBOSITY))
-+diff --git a/configure.ac b/configure.ac
-+index 41590ca..84cd56b 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -255,9 +255,7 @@ AC_ARG_VAR(RUST_TARGET, [Set rust target (default=3D$h=
-ost)])
-+ : ${RUST_TARGET:=3D$host}
-+=20
-+ AM_CONDITIONAL([CROSS_COMPILING], [test "x$cross_compiling" =3D xyes])
-+-AS_IF([test "x$cross_compiling" =3D "xyes"], [
-+-	RUST_TARGET_SUBDIR=3D"$RUST_TARGET/$RUST_TARGET_SUBDIR"
-+-])
-++RUST_TARGET_SUBDIR=3D"$RUST_TARGET/$RUST_TARGET_SUBDIR"
-+ AC_SUBST([RUST_TARGET_SUBDIR])
-+=20
-+ dnl =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-+--=20
-+2.20.1
-+
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Remove-non-reproducibl=
-e-SRCDIR.patch b/meta/recipes-gnome/librsvg/librsvg/0001-Remove-non-reprodu=
-cible-SRCDIR.patch
-deleted file mode 100644
-index 75fc7f9d0b9..00000000000
---- a/meta/recipes-gnome/librsvg/librsvg/0001-Remove-non-reproducible-SRCDI=
-R.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From bea5156cd7e7122715b26c769c35928141a1da2c Mon Sep 17 00:00:00 2001
--From: Joshua Watt <JPEWhacker@gmail.com>
--Date: Mon, 18 Nov 2019 14:46:34 -0600
--Subject: [PATCH] Remove non-reproducible SRCDIR
--
--Removes SRCDIR as the prefix for finding the test font. This wouldn't
--work anyway, since that path is not present on the target.
--
--This patch is specific to OE, since it appears that this entire method
--of testing was removed when upstream was re-written in rust
--
--Upstream-Status: Inappropriate [OE-specific, no longer present upstream]
--Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-----
-- rsvg-cairo-draw.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/rsvg-cairo-draw.c b/rsvg-cairo-draw.c
--index caa9104..cfb7ed2 100644
----- a/rsvg-cairo-draw.c
--+++ b/rsvg-cairo-draw.c
--@@ -398,7 +398,7 @@ set_font_options_for_testing (PangoContext *context)
-- static void
-- create_font_config_for_testing (RsvgCairoRender *render)
-- {
---    const char *font_path =3D SRCDIR "/tests/resources/LiberationSans-Reg=
-ular.ttf";
--+    const char *font_path =3D "/tests/resources/LiberationSans-Regular.tt=
-f";
--=20
--     if (render->font_config_for_testing !=3D NULL)
--         return;
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-system-deps-src-lib.rs=
--do-not-probe-into-harcoded-li.patch b/meta/recipes-gnome/librsvg/librsvg/0=
-001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch
-new file mode 100644
-index 00000000000..849dd98c5f0
---- /dev/null
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-system-deps-src-lib.rs-do-not=
--probe-into-harcoded-li.patch
-@@ -0,0 +1,53 @@
-+From 6d1f0740b111e86e99dcaf0222f3d1d67d3bf1e6 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 21 Sep 2021 16:54:23 +0200
-+Subject: [PATCH] system-deps/src/lib.rs: do not probe into harcoded list of
-+ targets
-+
-+Oe-core defines custom targets, and this probe fails.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ vendor/system-deps/.cargo-checksum.json |  2 +-
-+ vendor/system-deps/src/lib.rs           | 16 +---------------
-+ 2 files changed, 2 insertions(+), 16 deletions(-)
-+
-+diff --git a/vendor/system-deps/.cargo-checksum.json b/vendor/system-deps/=
-.cargo-checksum.json
-+index ecebb94..30d594e 100644
-+--- a/vendor/system-deps/.cargo-checksum.json
-++++ b/vendor/system-deps/.cargo-checksum.json
-+@@ -1 +1 @@
-+-{"files":{"Cargo.toml":"56ab5070dc9019b039c5e9904bb466b0879c33a7f69dd030b=
-97abab321b7cc04","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
-d3249e0bc93b36de45f759f2","LICENSE-MIT":"23f18e03dc49df91622fe2a76176497404=
-e46ced8a715d9d2b67a7446571cca3","README.md":"3fe7396637bf9233908f41c6001cfc=
-b00a379225e06e36e508c8b3d7264a8aae","src/lib.rs":"015518f4337d80249d12c7e6c=
-55e9063705a0b8805ebf46a445c89253edc5de0","src/metadata.rs":"4c8d6ac2c88646a=
-5b97ecb50ed44b65e5b2865cce6897add85b29ca2ae08c2bb","src/test.rs":"1ec48d1e4=
-43a0a4ac8035a2b60ff0321543aa2fa998fee72cf7762a936bf5f8c","src/tests/testano=
-therlib.pc":"bb4fd942324e6d49ce3becd827aa5c948d1924ca6681904a3695c19b1424eb=
-3c","src/tests/testdata.pc":"43f481e989c03674fed5ef78c6420b3f8d36a2ce001928=
-d86c418d1844acd5e7","src/tests/testlib-2.0.pc":"152eb0c70c14c3d948118408f3d=
-1fd3bb7531b02aa792db85bd957f7db90b45b","src/tests/testlib-3.0.pc":"cd39c2ef=
-88f6828c9291150cc4b624e769abef484674eaebaa4f67979501315f","src/tests/testli=
-b.pc":"75c0d8a5345f65794f583c83e1cf0dbf3385af6e6abea1d61bb86eef707a52db","s=
-rc/tests/toml-missing-file/no-cargo-toml-here":"6ab4da4b56f15315df6538610cf=
-cd2ba3d0f9a7a8414678ff00ab5a78f7d41fa"},"package":"480c269f870722b3b08d2f13=
-053ce0c2ab722839f472863c3e2d61ff3a1c2fa6"}
-+\ No newline at end of file
-++{"files":{"Cargo.toml":"56ab5070dc9019b039c5e9904bb466b0879c33a7f69dd030b=
-97abab321b7cc04","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
-d3249e0bc93b36de45f759f2","LICENSE-MIT":"23f18e03dc49df91622fe2a76176497404=
-e46ced8a715d9d2b67a7446571cca3","README.md":"3fe7396637bf9233908f41c6001cfc=
-b00a379225e06e36e508c8b3d7264a8aae","src/lib.rs":"594e5f14180590adc9ea0a8ba=
-1cc35f9a8a260322d08de3037efac3ce1dc729b","src/metadata.rs":"4c8d6ac2c88646a=
-5b97ecb50ed44b65e5b2865cce6897add85b29ca2ae08c2bb","src/test.rs":"1ec48d1e4=
-43a0a4ac8035a2b60ff0321543aa2fa998fee72cf7762a936bf5f8c","src/tests/testano=
-therlib.pc":"bb4fd942324e6d49ce3becd827aa5c948d1924ca6681904a3695c19b1424eb=
-3c","src/tests/testdata.pc":"43f481e989c03674fed5ef78c6420b3f8d36a2ce001928=
-d86c418d1844acd5e7","src/tests/testlib-2.0.pc":"152eb0c70c14c3d948118408f3d=
-1fd3bb7531b02aa792db85bd957f7db90b45b","src/tests/testlib-3.0.pc":"cd39c2ef=
-88f6828c9291150cc4b624e769abef484674eaebaa4f67979501315f","src/tests/testli=
-b.pc":"75c0d8a5345f65794f583c83e1cf0dbf3385af6e6abea1d61bb86eef707a52db","s=
-rc/tests/toml-missing-file/no-cargo-toml-here":"6ab4da4b56f15315df6538610cf=
-cd2ba3d0f9a7a8414678ff00ab5a78f7d41fa"},"package":"480c269f870722b3b08d2f13=
-053ce0c2ab722839f472863c3e2d61ff3a1c2fa6"}
-+diff --git a/vendor/system-deps/src/lib.rs b/vendor/system-deps/src/lib.rs
-+index a0d4f00..a666817 100644
-+--- a/vendor/system-deps/src/lib.rs
-++++ b/vendor/system-deps/src/lib.rs
-+@@ -725,21 +725,7 @@ impl Config {
-+     }
-+=20
-+     fn check_cfg(&self, cfg: &cfg_expr::Expression) -> Result<bool, Error=
-> {
-+-        use cfg_expr::{targets::get_builtin_target_by_triple, Predicate};
-+-
-+-        let target =3D self
-+-            .env
-+-            .get("TARGET")
-+-            .expect("no TARGET env variable defined");
-+-        let target =3D get_builtin_target_by_triple(&target)
-+-            .unwrap_or_else(|| panic!("Invalid TARGET: {}", target));
-+-
-+-        let res =3D cfg.eval(|pred| match pred {
-+-            Predicate::Target(tp) =3D> Some(tp.matches(target)),
-+-            _ =3D> None,
-+-        });
-+-
-+-        res.ok_or_else(|| Error::UnsupportedCfg(cfg.original().to_string(=
-)))
-++        Ok(true)
-+     }
-+ }
-+=20
-+--=20
-+2.20.1
-+
-diff --git a/meta/recipes-gnome/librsvg/librsvg/gtk-option.patch b/meta/rec=
-ipes-gnome/librsvg/librsvg/gtk-option.patch
-deleted file mode 100644
-index 6c23071cd34..00000000000
---- a/meta/recipes-gnome/librsvg/librsvg/gtk-option.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From 4e0ce3f22d45033a108cbacca3e5ec6728bd44f3 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Tue, 11 Aug 2015 16:25:38 +0300
--Subject: [PATCH] configure: add option to enable/disable use of GTK+
--
--Distro packagers like predictability and automatically detected optional
--dependencies are not predicable.  Add a --with-gtk3 option (default to "au=
-to")
--for forcibly controlling whether GTK+ will be used or not.
--
--Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=3D7=
-12693]
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- configure.ac | 17 +++++++++++------
-- 1 file changed, 11 insertions(+), 6 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index e61a952..c3aae84 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -130,17 +130,22 @@ AC_CHECK_FUNCS(strtok_r)
-- # GTK
-- # =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
--=20
---PKG_CHECK_MODULES([GTK3],[gtk+-3.0 >=3D $GTK3_REQUIRED],[have_gtk_3=3Dyes=
-],[have_gtk_3=3Dno])
---
-- GTK3_BINARY_VERSION=3D
--=20
---if test "$have_gtk_3" =3D "yes"; then
---    GTK3_BINARY_VERSION=3D"`$PKG_CONFIG --variable=3Dgtk_binary_version g=
-tk+-3.0`"
--+AC_MSG_CHECKING([whether to use GTK+ 3])
--+AC_ARG_WITH([gtk3],
--+  [AS_HELP_STRING([--without-gtk3],[Don't build GTK+3 tools (default=3Dau=
-to)])],
--+  [],[PKG_CHECK_EXISTS([gtk+-3.0 >=3D $GTK3_REQUIRED],[with_gtk3=3Dyes],[=
-with_gtk3=3Dno])])
--+AC_MSG_RESULT([$with_gtk3])
--+
--+if test "$with_gtk3" =3D "yes"; then
--+  PKG_CHECK_MODULES(GTK3, [gtk+-3.0 >=3D $GTK3_REQUIRED])
--+  GTK3_BINARY_VERSION=3D"`$PKG_CONFIG --variable=3Dgtk_binary_version gtk=
-+-3.0`"
-- fi
--=20
-- AC_SUBST([GTK3_BINARY_VERSION])
--=20
---AM_CONDITIONAL([HAVE_GTK_3],[test "$have_gtk_3" =3D "yes"])
--+AM_CONDITIONAL([HAVE_GTK_3],[test "$with_gtk3" =3D "yes"])
--=20
-- dnl =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-- dnl GDK-Pixbuf SVG loader
--@@ -298,6 +303,6 @@ librsvg-$VERSION
-- 	Build introspectable bindings:  ${found_introspection}
-- 	Build Vala bindings:            ${enable_vala}
-- 	Build GdkPixbuf loader:         ${enable_pixbuf_loader}
---        GTK+ $GTK3_REQUIRED or later:           ${have_gtk_3}
--+        GTK+ $GTK3_REQUIRED or later:           ${with_gtk_3}
-- 	Build miscellaneous tools:      ${build_misc_tools}
-- "
----=20
--2.1.4
--
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb b/meta/recipes-g=
-nome/librsvg/librsvg_2.52.0.bb
-similarity index 51%
-rename from meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.52.0.bb
-index 39b9aeca5d7..4e3febc6a2f 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.52.0.bb
-@@ -6,24 +6,44 @@ the screen or to generate output for printing."
- HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/librsvg"
- BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/librsvg/issues"
-=20
--RECIPE_NO_UPDATE_REASON =3D "Versions from 2.41.0 requires Rust compiler t=
-o build it"
--
--LICENSE =3D "LGPLv2+"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19=
-f \
--                    file://rsvg.h;beginline=3D3;endline=3D24;md5=3D20b4113=
-c4909bbf0d67e006778302bc6"
-+LICENSE =3D "LGPLv2.1+"
-+LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D4fbd65380cdd255951079008b36=
-4516c \
-+                   "
-=20
- SECTION =3D "x11/utils"
- DEPENDS =3D "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango"
- BBCLASSEXTEND =3D "native nativesdk"
-=20
--inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-int=
-rospection
-+inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-int=
-rospection rust
-=20
--SRC_URI +=3D "file://gtk-option.patch \
--            file://0001-Auto-detect-Bsymbolic-fixes-configure-on-macOS.pat=
-ch \
--            file://0001-Remove-non-reproducible-SRCDIR.patch \
-+SRC_URI +=3D " file://0001-Makefile.am-pass-rust-target-to-cargo-also-when=
--not-.patch \
-+             file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded=
--li.patch \
- "
-=20
--SRC_URI[archive.sha256sum] =3D "f7628905f1cada84e87e2b14883ed57d8094dca328=
-1d5bcb24ece4279e9a92ba"
-+SRC_URI[archive.sha256sum] =3D "bd821fb3e16494b61f5185addd23b726b064f20312=
-2b3ab4b3d5d7a44e6bf393"
-+
-+# librsvg is still autotools-based, but is calling cargo from its automake=
--driven makefiles
-+# so we cannot use cargo class directly, but still need bits and pieces fr=
-om it=20
-+# for cargo to be happy
-+BASEDEPENDS:append =3D " cargo-native"
-+
-+export RUST_BACKTRACE =3D "full"
-+export RUSTFLAGS
-+export RUST_TARGET_PATH
-+
-+export RUST_TARGET =3D "${HOST_SYS}"
-+
-+# rust-cross writes the target linker binary into target json definition w=
-ithout any flags.
-+# This breaks here because the linker isn't going to work without at least=
- knowing where
-+# the sysroot is. So copy the json to workdir, and patch in the path to wr=
-apper from rust class
-+# which supplies the needed flags.
-+do_compile:prepend() {
-+    cp ${STAGING_LIBDIR_NATIVE}/rustlib/${HOST_SYS}.json ${WORKDIR}
-+    cp ${STAGING_LIBDIR_NATIVE}/rustlib/${BUILD_SYS}.json ${WORKDIR}
-+    sed -ie 's,"linker": ".*","linker": "${RUST_TARGET_CC}",g' ${WORKDIR}/=
-${HOST_SYS}.json
-+    RUST_TARGET_PATH=3D"${WORKDIR}"
-+    export RUST_TARGET_PATH
-+}
-=20
- # Issue only on windows
- CVE_CHECK_WHITELIST +=3D "CVE-2018-1000041"
-@@ -33,8 +53,6 @@ CACHED_CONFIGUREVARS =3D "ac_cv_path_GDK_PIXBUF_QUERYLOAD=
-ERS=3D${STAGING_LIBDIR_NATI
- PACKAGECONFIG ??=3D "gdkpixbuf"
- # The gdk-pixbuf loader
- PACKAGECONFIG[gdkpixbuf] =3D "--enable-pixbuf-loader,--disable-pixbuf-load=
-er,gdk-pixbuf-native"
--# GTK+ test application (rsvg-view)
--PACKAGECONFIG[gtk] =3D "--with-gtk3,--without-gtk3,gtk+3"
-=20
- do_install:append() {
- 	# Loadable modules don't need .a or .la on Linux
---=20
-2.20.1
-
+T24gVHVlLCAyMDIxLTA5LTIxIGF0IDE5OjQ4ICswMTAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
+Cj4gT24gV2VkLCAyMDIxLTA5LTIyIGF0IDAxOjAzICswODAwLCBBbnVqIE1pdHRhbCB3cm90ZToN
+Cj4gPiBGcm9tOiBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlQHhpbGlueC5jb20+DQo+ID4gDQo+ID4g
+RXh0ZXJuYWxzcmMgcmVtb3ZlcyBkb19mZXRjaCwgZG9fdW5wYWNrLCBhbmQgZG9fcGF0Y2guwqAg
+VGhlIHN5c3RlbQ0KPiA+IG5vcm1hbGx5DQo+ID4gZGlzY292ZXJzIHRoZSBjb3JyZWN0IHJlcHJv
+ZHVjaWJsZSBkYXRlIGFzIGEgcG9zdGZ1bmNzIG9mDQo+ID4gZG9fdW5wYWNrLCBzbyB0aGlzDQo+
+ID4gZGF0ZSBpcyBuZXZlciBmb3VuZCwgc28gaXQgZmFsbHMgYmFjayB0byB0aGUgZGVmYXVsdCBl
+cG9jaC4NCj4gPiANCj4gPiBJbnN0ZWFkIHdlIGNhbiBtb3ZlIHRoZSBkaXNjb3ZlcnkgZnVuY3Rp
+b24gdG8gYSBwcmVmdW5jcyBvbiB0aGUNCj4gPiBlcG9jaA0KPiA+IGRlcGxveSB0YXNrLsKgIFRo
+aXMgdGFzayB3aWxsIHJ1biBiZWZvcmUgZG9fY29uZmlndXJlLCBhbmQgc2luY2UgdGhlDQo+ID4g
+c291cmNlDQo+ID4gaXMgYWxyZWFkeSBhdmFpbGFibGUgY2FuIHJ1biBzYWZlbHkgYXQgYW55dGlt
+ZS4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlQHhpbGlu
+eC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFyayBIYXRsZSA8bWFyay5oYXRsZUBrZXJuZWwu
+Y3Jhc2hpbmcub3JnPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJk
+LnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiA+IChjaGVycnkgcGlja2VkIGZyb20gY29t
+bWl0DQo+ID4gMGI3ZGQ3MTFhNTRlOTJjZTU0YWJlOTlmNTlmYzY3ZTY4M2Q1MmRmZSkNCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPg0KPiA+IC0t
+LQ0KPiA+IMKgbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MgfCAxMCArKysrKysrKysr
+DQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKQ0KPiA+IA0KPiA+IGRpZmYg
+LS1naXQgYS9tZXRhL2NsYXNzZXMvZXh0ZXJuYWxzcmMuYmJjbGFzcw0KPiA+IGIvbWV0YS9jbGFz
+c2VzL2V4dGVybmFsc3JjLmJiY2xhc3MNCj4gPiBpbmRleCAzZDZiODBiZWUyLi4xZWE5MzhmYjYy
+IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNzDQo+ID4g
+KysrIGIvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MNCj4gPiBAQCAtMTEwLDYgKzEx
+MCwxNiBAQCBweXRob24gKCkgew0KPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGNvbnRpbnVlDQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiLmJ1aWxkLmRlbHRhc2so
+dGFzaywgZCkNCj4gPiDCoA0KPiA+ICvCoMKgwqDCoMKgwqDCoCBpZiBiYi5kYXRhLmluaGVyaXRz
+X2NsYXNzKCdyZXByb2R1Y2libGVfYnVpbGQnLCBkKSBhbmQNCj4gPiAnZG9fdW5wYWNrJyBpbiBk
+LmdldFZhcigiU1JDVFJFRUNPVkVSRURUQVNLUyIpLnNwbGl0KCk6DQo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgIyBUaGUgcmVwcm9kdWNpYmxlX2J1aWxkJ3MNCj4gPiBjcmVhdGVfc291cmNl
+X2RhdGVfZXBvY2hfc3RhbXAgZnVuY3Rpb24gbXVzdA0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgICMgYmUgcnVuIGFmdGVyIHRoZSBzb3VyY2UgaXMgYXZhaWxhYmxlIGFuZCBiZWZvcmUgdGhl
+DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBkb19kZXBsb3lfc291cmNlX2RhdGVfZXBv
+Y2ggdGFzay7CoCBJbiB0aGUgbm9ybWFsDQo+ID4gY2FzZSwgaXQncyBhdHRhY2hlZA0KPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgdG8gZG9fdW5wYWNrIGFzIGEgcG9zdGZ1bmNzLCBidXQg
+c2luY2Ugd2UgcmVtb3ZlZA0KPiA+IGRvX3VucGFjayAoYWJvdmUpDQo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgIyB3ZSBuZWVkIHRvIG1vdmUgdGhlIGZ1bmN0aW9uIGVsc2V3aGVyZS7CoCBU
+aGUgZWFzaWVzdA0KPiA+IHRoaW5nIHRvIGRvIGlzDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgIyBtb3ZlIGl0IGludG8gdGhlIHByZWZ1bmNzIG9mIHRoZQ0KPiA+IGRvX2RlcGxveV9zb3Vy
+Y2VfZGF0ZV9lcG9jaCB0YXNrLg0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgVGhpcyBp
+cyBzYWZlLCBhcyBleHRlcm5hbHNyYyBydW5zIHdpdGggdGhlIHNvdXJjZQ0KPiA+IGFscmVhZHkg
+dW5wYWNrZWQuDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZC5wcmVwZW5kVmFyRmxhZygn
+ZG9fZGVwbG95X3NvdXJjZV9kYXRlX2Vwb2NoJywNCj4gPiAncHJlZnVuY3MnLCAnY3JlYXRlX3Nv
+dXJjZV9kYXRlX2Vwb2NoX3N0YW1wICcpDQo+ID4gKw0KPiA+IMKgwqDCoMKgwqDCoMKgwqAgZC5w
+cmVwZW5kVmFyRmxhZygnZG9fY29tcGlsZScsICdwcmVmdW5jcycsDQo+ID4gImV4dGVybmFsc3Jj
+X2NvbXBpbGVfcHJlZnVuYyAiKQ0KPiA+IMKgwqDCoMKgwqDCoMKgwqAgZC5wcmVwZW5kVmFyRmxh
+ZygnZG9fY29uZmlndXJlJywgJ3ByZWZ1bmNzJywNCj4gPiAiZXh0ZXJuYWxzcmNfY29uZmlndXJl
+X3ByZWZ1bmMgIikNCj4gPiDCoA0KPiANCj4gSSBhbSBhIGxpdHRsZSBjb25jZXJuZWQgYWJvdXQg
+dGhpcyBvbmUuIEkgdGhpbmsgaXQgbWF5IGludHJvZHVjZSBhDQo+IHJhY2UuIFdlIHNhdw0KPiB0
+aGlzIG9uIHRoZSBhdXRvYnVpbGRlci4NCj4gDQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9w
+cm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvODcvYnVpbGRzLzI1OTQvc3RlcHMvMTQvbG9n
+cy9zdGRpbw0KPiANCj4gSSBkaWQgcXVpY2tseSBwdXQgdGhpcyBwYXRjaCB0b2dldGhlcjoNCj4g
+DQo+IGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5LWNvbnRyaWIvY29t
+bWl0Lz9oPXJwdXJkaWUvdDIyMiZpZD1iY2Y0NmE1ZjEyYWUxNTcxM2E1MzI5NzM0MmQ4MzQxYjcz
+YzE2ZDk0DQo+IA0KPiBidXQgSSBoYXZlbjt0IHRlc3RlZCBpdCBvciB0cmllZCB0byBkZWJ1Zy9j
+b25maXJtIGFzIHlldC4NCj4gDQoNCk9oIG9rYXksIEkgd2lsbCBkcm9wIHRoaXMgY2hhbmdlIGZv
+ciBub3cgaW4gdGhhdCBjYXNlLg0KDQpUaGFua3MsDQoNCkFudWogDQo=
