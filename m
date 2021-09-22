@@ -1,105 +1,109 @@
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com [67.231.157.48])
- by mx.groups.io with SMTP id smtpd.web09.4509.1632299383997438451
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.4339.1632299757947530405
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Sep 2021 01:29:44 -0700
+ Wed, 22 Sep 2021 01:35:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: ge.com, ip: 67.231.157.48, mailfrom: ian.ray@ge.com)
-Received: from pps.filterd (m0048300.ppops.net [127.0.0.1])
-	by m0048300.ppops.net-00176a03. (8.16.1.2/8.16.1.2) with SMTP id 18M4nHc0046856
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Sep 2021 04:29:43 -0400
-IronPort-SDR: JIAik7LoDqcm+MWGuwxcB2XMwlLXlhSvLjOXRwsmOW+SoHyA815FeKMWn98IO+PnolczyDlTlL
- Jgsc8t1JgQ3w==
-Date: Wed, 22 Sep 2021 11:29:41 +0300
-From: "Ian Ray" <ian.ray@ge.com>
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: EXT: Re: [OE-core] [PATCH V2] archiver: Configurable tarball compression
-Message-ID: <20210922082941.GA47151@zoo6.em.health.ge.com>
-References: <20210921061517.8235-1-ian.ray@ge.com>
- <6c5ca68319e216177b75f0e3cb6ad8da0bcf8c25.camel@linuxfoundation.org>
- <16A6D8EA388563F3.1316@lists.openembedded.org>
- <a06209fe-c772-7a28-bde8-4627fef58296@bootlin.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 18M8ZuuL008902
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Sep 2021 01:35:56 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 22 Sep 2021 01:35:55 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 22 Sep 2021 01:35:55 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] libevent: mark util/monotonic_prc_fallback as retriable
+Date: Wed, 22 Sep 2021 16:35:06 +0800
+Message-ID: <20210922083506.29630-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <a06209fe-c772-7a28-bde8-4627fef58296@bootlin.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: tUxLRv8VPgLdaYSwY2Wj4JkXhbRsdm3Z
-X-Proofpoint-ORIG-GUID: tUxLRv8VPgLdaYSwY2Wj4JkXhbRsdm3Z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-22_02,2021-09-20_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 impostorscore=0
- mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- adultscore=0 phishscore=0 mlxscore=0 clxscore=1015 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109200000 definitions=main-2109220057
-X-MIME-Autoconverted: from 8bit to quoted-printable by m0048300.ppops.net-00176a03. id 18M4nHc0046856
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Sep 21, 2021 at 03:48:29PM +0200, Michael Opdenacker wrote:
->=20
-> On 9/21/21 3:20 PM, Michael Opdenacker wrote:
-> > By the way, zstd seems to be marginally worse (+1%) than xz in terms =
-of
-> > compressed size, but is orders of magnitude faster (see
-> > https://archlinux.org/news/now-using-zstandard-instead-of-xz-for-pack=
-age-compression/).
->=20
->=20
-> Actually, this article only mentions decompression speed, but that's
-> also true for compression speed.
->=20
-> Here are my own tests:
->=20
-> mike@mike-laptop:~/tmp$ time gzip linux-5.15-rc2.tar
->=20
-> real=A0=A0=A0 0m29.293s
-> user=A0=A0=A0 0m28.712s
-> sys=A0=A0=A0 0m0.553s
->=20
-> mike@mike-laptop:~/tmp$ time xz linux-5.15-rc2.tar
->=20
-> real=A0=A0=A0 7m2.658s
-> user=A0=A0=A0 7m1.096s
-> sys=A0=A0=A0 0m1.280s
->=20
-> mike@mike-laptop:~/tmp$ time zstd linux-5.15-rc2.tar
-> linux-5.15-rc2.tar=A0=A0 : 16.29%=A0=A0 (1136803840 =3D> 185233271 byte=
-s,
-> linux-5.15-rc2.tar.zst)
->=20
-> real=A0=A0=A0 0m5.476s
-> user=A0=A0=A0 0m5.530s
-> sys=A0=A0=A0 0m0.864s
->=20
-> mike@mike-laptop:~/tmp$ ls -la linux-5.15*
-> -rw-rw-r-- 1 mike mike 1136803840 Sep 21 15:31 linux-5.15-rc2.tar
-> -rw-rw-r-- 1 mike mike=A0 198135832 Sep 21 15:24 linux-5.15-rc2.tar.gz
-> -rw-rw-r-- 1 mike mike=A0 125980548 Sep 21 15:26 linux-5.15-rc2.tar.xz
-> -rw-rw-r-- 1 mike mike=A0 185233271 Sep 21 15:31 linux-5.15-rc2.tar.zst
->=20
-> So, here the claim that zstd (with default options) is almost as good a=
-s
-> xz in compressed size is not confirmed. However, zstd is a clear winner
-> in terms of compression speed, and anyway better than gzip. This is
-> worth switching.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Thank you for measuring this! =20
+Backport a patch to fix the below ptest failure:
+ # ./run-ptest
+ Running tests:
+ EVPORT
+ Skipping test
+ KQUEUE
+ Skipping test
+ EPOLL
+ test-eof: OKAY
+ test-dumpevents: OKAY (output not checked)
+ regress:
+  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
+  [monotonic_prc_fallback FAILED]
+ 1/312 TESTS FAILED. (33 skipped)
+ FAILED
+ regress_debug:
+  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
+  [monotonic_prc_fallback FAILED]
+ 1/312 TESTS FAILED. (33 skipped)
+ FAILED
+ [snip]
 
-I will re-submit the patch when we update to a more recent Yocto
-version.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...-monotonic_prc_fallback-as-retriable.patch | 30 +++++++++++++++++++
+ .../libevent/libevent_2.1.12.bb               |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/libevent/libevent/0001-test-mark-util-monotonic_prc_fallback-as-retriable.patch
 
-
->=20
-> Cheers
->=20
-> Michael
->=20
-> --=20
-> Michael Opdenacker, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->=20
->=20
+diff --git a/meta/recipes-support/libevent/libevent/0001-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0001-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+new file mode 100644
+index 0000000000..754c446a67
+--- /dev/null
++++ b/meta/recipes-support/libevent/libevent/0001-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+@@ -0,0 +1,30 @@
++From 8fc3fb57ac1b1b0f338506cb86e3adac29d684d7 Mon Sep 17 00:00:00 2001
++From: Azat Khuzhin <azat@libevent.org>
++Date: Wed, 22 Sep 2021 15:14:01 +0800
++Subject: [PATCH] test: mark util/monotonic_prc_fallback as retriable
++
++Refs: #1193
++
++Upstream-Status: Backport [https://github.com/libevent/libevent/commit/04fcd7c6df158bb65261867de4b9ec8439696934]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ test/regress_util.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/test/regress_util.c b/test/regress_util.c
++index 45caa27..a9e80db 100644
++--- a/test/regress_util.c
+++++ b/test/regress_util.c
++@@ -1672,7 +1672,7 @@ struct testcase_t util_testcases[] = {
++ 	{ "monotonic_res_fallback", test_evutil_monotonic_res, TT_OFF_BY_DEFAULT, &basic_setup, (void*)"fallback" },
++ 	{ "monotonic_prc", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"" },
++ 	{ "monotonic_prc_precise", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"precise" },
++-	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"fallback" },
+++	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"fallback" },
++ 	{ "date_rfc1123", test_evutil_date_rfc1123, 0, NULL, NULL },
++ 	{ "evutil_v4addr_is_local", test_evutil_v4addr_is_local, 0, NULL, NULL },
++ 	{ "evutil_v6addr_is_local", test_evutil_v6addr_is_local, 0, NULL, NULL },
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
+index 4b419eab22..3f29c0cffe 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.12.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/libevent/libevent/releases/download/release-${PV}-
+            file://run-ptest \
+            file://0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch \
+            file://0002-test-regress.h-Increase-default-timeval-tolerance-50.patch \
++           file://0001-test-mark-util-monotonic_prc_fallback-as-retriable.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
+-- 
+2.32.0
 
