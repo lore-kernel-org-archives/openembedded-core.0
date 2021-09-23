@@ -1,107 +1,105 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.1334.1632427824935772260
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by mx.groups.io with SMTP id smtpd.web11.1388.1632428080068424659
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Sep 2021 13:10:25 -0700
+ Thu, 23 Sep 2021 13:14:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ksurendr@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18NKANxR020861
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 13:10:24 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18NKANXk006459
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 13:10:23 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 23 Sep 2021 13:10:22 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 23 Sep 2021 13:10:22 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 22123)
-	id 997DD9007EC; Thu, 23 Sep 2021 13:10:22 -0700 (PDT)
-From: "Kiran Surendran" <kiran.surendran@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] ffmpeg: fix CVE-2021-38171
-Date: Thu, 23 Sep 2021 13:09:58 -0700
-Message-ID: <20210923200958.6439-1-kiran.surendran@windriver.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=pass header.i=@igalia.com header.s=20170329 header.b=IfBiVlzY;
+ spf=pass (domain: igalia.com, ip: 178.60.130.6, mailfrom: psaavedra@igalia.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; s=20170329;
+	h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID; bh=h+AWgizJR0FPxNYYINKtS73szy+d9kQjhq2IiahDoKw=;
+	b=IfBiVlzYKD6P087/kAaVAGwc/rm+x7ZP8xyEX9iU8Ome4O9Ira5fQgRIGweQkuLuoBMTiGYxUR4C1hKw6HrCF3hXjyFTt4c6a28vYyheo1toSi0Uu5jZNpLRbj/ylj2qapSJmG/Ni2Y9+5YsMuf0CGO6u/apVT+Ev2V+9vNmS27SpOcSHvbzxkV6oSGVQI4KyiP/8viKIir2OY24WubpOPvyXIABwogQWYWDMVWKjowOfif9ejGR/6CIkg1HyJNR0Jgrtfgs6JN3NfTEGxMHj6lpxZuJMQQEYsilvG4dvv5HHufX/wQRPb2rSWLaBFub87CzFfMhFPeaEcsTDX89VQ==;
+Received: from 164.25.165.83.dynamic.reverse-mundo-r.com ([83.165.25.164] helo=[192.168.1.245])
+	by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+	id 1mTV76-00011x-0z; Thu, 23 Sep 2021 22:14:36 +0200
+Message-ID: <8baefc87d954923273edd25508b753b5da44091d.camel@igalia.com>
+Subject: Re: [OE-core] [hardknott][PATCH v2 ] mesa: Add patches for red label issues on video for VC4 and Freedreno
+From: "Pablo Saavedra Rodi?o" <psaavedra@igalia.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Sep 2021 22:14:25 +0200
+In-Reply-To: <CANNYZj8+PEXuuGCUdqs2+T+-F-q1_VWczhZqdtebZeHF-9ieLw@mail.gmail.com>
+References: 
+	<CANPvuR=W+REiC0t0mN1H_B4dzpXDVpSv+WwrJhBVX1CPGKEJgQ@mail.gmail.com>
+	 <20210923151723.3435155-1-psaavedra@igalia.com>
+	 <CANNYZj_adECA+Vn1aM-9arV2JXckDT5Y6+T+Hr4gzpQs0kqv2g@mail.gmail.com>
+	 <eecd36d1edb8fb6a25bba430505f223c021b8302.camel@igalia.com>
+	 <CANNYZj8+PEXuuGCUdqs2+T+-F-q1_VWczhZqdtebZeHF-9ieLw@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-+kN6IIhpKhML7cfo5B4e"
+
+--=-+kN6IIhpKhML7cfo5B4e
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-backport from upstream
+OK. Looks good to me. Let's wait for the acceptance of the patch first.
 
-Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
----
- .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    | 42 +++++++++++++++++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb  |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+On Thu, 2021-09-23 at 21:00 +0200, Alexander Kanavin wrote:
+> On Thu, 23 Sept 2021 at 20:44, Pablo Saavedra <psaavedra@igalia.com>
+> wrote:
+> > I kindly accept your recommendation but could I make also a
+> > question?: Couldn't it be enough just setting the 0001-freedreno-
+> > YUV-formats-are-supported-as-external-only.patch with "Upstream-
+> > status: Submitted" [1].
+> > 
+> > [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/12991
+> > 
+> 
+> 
+> In this case I would like to be cautious and accept the patch into
+> oe-core only after it has been accepted by upstream. There have been
+> situations where submitted patches were never actually merged
+> upstream for various reasons, and so we ended up with unmaintainable
+> custom patches.
+>  
+> > I assume this point affects only to the 0001-freedreno-YUV-formats-
+> > are-supported-as-external-only.patch patch since the other commits
+> > are already in Mesa 20.2 (version available in Honister) and they
+> > are not required for Honister and next Am I right?
+> > 
+> 
+> 
+> That's right.
+>  
+> Alex
+> 
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
-new file mode 100644
-index 0000000000..d82f3a4b63
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
-@@ -0,0 +1,42 @@
-+CVE: CVE-2021-38171
-+Upstream-Status: Backport
-+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-+
-+From fb993619d1035fa9646506925ea70fb122038999 Mon Sep 17 00:00:00 2001
-+From: maryam ebrahimzadeh <me22bee@outlook.com>
-+Date: Wed, 4 Aug 2021 16:15:18 -0400
-+Subject: [PATCH] avformat/adtsenc: return value check for init_get_bits in
-+ adts_decode_extradata
-+
-+As the second argument for init_get_bits (buf) can be crafted, a return value check for this function call is necessary.
-+'buf' is  part of  'AVPacket pkt'.
-+replace init_get_bits with init_get_bits8.
-+
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+(cherry picked from commit 9ffa49496d1aae4cbbb387aac28a9e061a6ab0a6)
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+---
-+ libavformat/adtsenc.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/libavformat/adtsenc.c b/libavformat/adtsenc.c
-+index 3595cb3bb2..c35a12a628 100644
-+--- a/libavformat/adtsenc.c
-++++ b/libavformat/adtsenc.c
-+@@ -51,9 +51,11 @@ static int adts_decode_extradata(AVFormatContext *s, ADTSContext *adts, const ui
-+     GetBitContext gb;
-+     PutBitContext pb;
-+     MPEG4AudioConfig m4ac;
-+-    int off;
-++    int off, ret;
-+ 
-+-    init_get_bits(&gb, buf, size * 8);
-++    ret = init_get_bits8(&gb, buf, size);
-++    if (ret < 0)
-++        return ret;
-+     off = avpriv_mpeg4audio_get_config2(&m4ac, buf, size, 1, s);
-+     if (off < 0)
-+         return off;
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-index fc1834c00b..0c6af6549d 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-@@ -31,7 +31,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://fix-CVE-2020-22021.patch \
-            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
-            file://fix-CVE-2021-33815.patch \
--           "
-+           file://fix-CVE-2021-38171.patch \ 
-+          "
- SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
--- 
-2.31.1
 
+--=-+kN6IIhpKhML7cfo5B4e
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div>OK. Looks good to me. Let's wait for the acce=
+ptance of the patch first.</div><div><br></div><div>On Thu, 2021-09-23 at 2=
+1:00 +0200, Alexander Kanavin wrote:</div><blockquote type=3D"cite" style=
+=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div=
+ dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Thu, 23 Sept 2021 at 20:44, Pablo Saavedra &lt;<a href=3D"mailto:psaa=
+vedra@igalia.com">psaavedra@igalia.com</a>&gt; wrote:<br></div><blockquote =
+type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;pad=
+ding-left:1ex"><div>I kindly accept your recommendation but&nbsp;could I ma=
+ke also a question?: Couldn't it be enough just setting the 0001-freedreno-=
+YUV-formats-are-supported-as-external-only.patch with "Upstream-status:&nbs=
+p;<span style=3D"font-family:sans-serif;font-size:12.7px;font-weight:700">S=
+ubmitted"</span><span style=3D"font-family:sans-serif;font-size:12.7px"> [1=
+].</span><div><br></div><div>[1]&nbsp;<a href=3D"https://gitlab.freedesktop=
+.org/mesa/mesa/-/merge_requests/12991" rel=3D"noreferrer" target=3D"_blank"=
+>https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/12991</a></div><=
+/div><br></blockquote><div><br></div><div>In this case I would like to be c=
+autious and accept the patch into oe-core only after it has been accepted b=
+y upstream. There have been situations where submitted patches were never a=
+ctually merged upstream for various reasons, and so we ended up with unmain=
+tainable custom patches.<br></div><div>&nbsp;</div><blockquote type=3D"cite=
+" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1e=
+x"><div><div></div><div>I assume this point affects only to the 0001-freedr=
+eno-YUV-formats-are-supported-as-external-only.patch patch since the other =
+commits are already in Mesa 20.2 (version available in Honister) and they a=
+re not required for Honister and next Am I right?</div></div><br></blockquo=
+te><div><br></div><div>That's right.<br></div><div>&nbsp;</div><div>Alex<br=
+></div><div><div><span></span></div></div><blockquote type=3D"cite" style=
+=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"></bl=
+ockquote></div></div></blockquote><div><br></div><div><span></span></div></=
+body></html>
+
+--=-+kN6IIhpKhML7cfo5B4e--
