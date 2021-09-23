@@ -1,114 +1,107 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
- by mx.groups.io with SMTP id smtpd.web09.419.1632423617417767973
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.1334.1632427824935772260
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Sep 2021 12:00:17 -0700
+ Thu, 23 Sep 2021 13:10:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z550gKPq;
- spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f45.google.com with SMTP id f24so4908404uav.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 12:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e+7AZo8cC8jYBErXs0c47ZxRkpI2tZf/VeyvOoprkFM=;
-        b=Z550gKPqCYj+l3qHzmShf5p01E4WPxmsUexZ+PNq09MLQVb2IFe9uAGFxapE9gQFtm
-         P689hbLuZPEAsClNxHjVQJZhJt6BNs2HNyi34U+MB4oEngOPXvP/KBudPZ4YzHDMT74Y
-         pNO9/yzG+O7V8vgWsbSYH2jxudtr27IVPhwQFuZeBDMpS6EY9JiAEoBAfNEk3GgGoEbA
-         o3uCyVL7/cCxCm313XqurHE3jqLiCRVuTzXzLWuxtBm3KdsElk3fLD/ooI8D8Sx4msYa
-         lcD8G/zprK8IEZuus8AQElH5kRy4Tv/HKw1+uw3fLZY3TZ5LFW2iO/wAh3HbYGmKhHb5
-         /3Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e+7AZo8cC8jYBErXs0c47ZxRkpI2tZf/VeyvOoprkFM=;
-        b=x+Rh5NU+wr/kDhScIk6+CWgfH+qGt9/xvVWcUr7tTN58AW8jFTPS/HWpc9NYtXApla
-         W/yahD0r/PgHs+OhfL6Aci5Nnqi4ReQI7rdF4YfI1GjZY9B2OXuvqc1NhYajb5OZQqja
-         1LQzAIz31BK9HRjcT7BYnpsuvc9gxKEACSFVYA1DP6vIN+FbZUA22DTL57bvITFQcX9C
-         BHjs+v2RjnJIeaR0mGHmvynGclq3QXSDdKa9Po5pd8y1fwpHZOrPHsSukUp1vTi+KKJG
-         rZxgqXNknhKT6olGBBtLu8GIXte093oL8/ZTgXfw0KEGfsFpeRqLsGcAyEiDHF+nXtuw
-         Re7g==
-X-Gm-Message-State: AOAM530gawweXSNt81eReWjnbHmUdODSeSEdl1BUn3YqYvXlLh9vRY36
-	d5nMrUGj4pzj3mGvDGlbwAKl60e+cNCxxXYJ8v8=
-X-Google-Smtp-Source: ABdhPJw1y/lxiM+l2H2jZUkF79IYrEHYJuINwAkHTTy+va6sRXKajilTbIBWoM08hOaL37fX80X/eVdinzelomwn8OU=
-X-Received: by 2002:a9f:30d8:: with SMTP id k24mr5869959uab.89.1632423616492;
- Thu, 23 Sep 2021 12:00:16 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ksurendr@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18NKANxR020861
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 13:10:24 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18NKANXk006459
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 13:10:23 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 23 Sep 2021 13:10:22 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 23 Sep 2021 13:10:22 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 22123)
+	id 997DD9007EC; Thu, 23 Sep 2021 13:10:22 -0700 (PDT)
+From: "Kiran Surendran" <kiran.surendran@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] ffmpeg: fix CVE-2021-38171
+Date: Thu, 23 Sep 2021 13:09:58 -0700
+Message-ID: <20210923200958.6439-1-kiran.surendran@windriver.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CANPvuR=W+REiC0t0mN1H_B4dzpXDVpSv+WwrJhBVX1CPGKEJgQ@mail.gmail.com>
- <20210923151723.3435155-1-psaavedra@igalia.com> <CANNYZj_adECA+Vn1aM-9arV2JXckDT5Y6+T+Hr4gzpQs0kqv2g@mail.gmail.com>
- <eecd36d1edb8fb6a25bba430505f223c021b8302.camel@igalia.com>
-In-Reply-To: <eecd36d1edb8fb6a25bba430505f223c021b8302.camel@igalia.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 23 Sep 2021 21:00:05 +0200
-Message-ID: <CANNYZj8+PEXuuGCUdqs2+T+-F-q1_VWczhZqdtebZeHF-9ieLw@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH v2 ] mesa: Add patches for red label issues on video for VC4 and Freedreno
-To: Pablo Saavedra <psaavedra@igalia.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c8cdf305ccae3d58"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---000000000000c8cdf305ccae3d58
-Content-Type: text/plain; charset="UTF-8"
+backport from upstream
 
-On Thu, 23 Sept 2021 at 20:44, Pablo Saavedra <psaavedra@igalia.com> wrote:
+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
+---
+ .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    | 42 +++++++++++++++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb  |  3 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
 
-> I kindly accept your recommendation but could I make also a question?:
-> Couldn't it be enough just setting the
-> 0001-freedreno-YUV-formats-are-supported-as-external-only.patch with
-> "Upstream-status: Submitted" [1].
->
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/12991
->
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+new file mode 100644
+index 0000000000..d82f3a4b63
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+@@ -0,0 +1,42 @@
++CVE: CVE-2021-38171
++Upstream-Status: Backport
++Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
++
++From fb993619d1035fa9646506925ea70fb122038999 Mon Sep 17 00:00:00 2001
++From: maryam ebrahimzadeh <me22bee@outlook.com>
++Date: Wed, 4 Aug 2021 16:15:18 -0400
++Subject: [PATCH] avformat/adtsenc: return value check for init_get_bits in
++ adts_decode_extradata
++
++As the second argument for init_get_bits (buf) can be crafted, a return value check for this function call is necessary.
++'buf' is  part of  'AVPacket pkt'.
++replace init_get_bits with init_get_bits8.
++
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++(cherry picked from commit 9ffa49496d1aae4cbbb387aac28a9e061a6ab0a6)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++---
++ libavformat/adtsenc.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/libavformat/adtsenc.c b/libavformat/adtsenc.c
++index 3595cb3bb2..c35a12a628 100644
++--- a/libavformat/adtsenc.c
+++++ b/libavformat/adtsenc.c
++@@ -51,9 +51,11 @@ static int adts_decode_extradata(AVFormatContext *s, ADTSContext *adts, const ui
++     GetBitContext gb;
++     PutBitContext pb;
++     MPEG4AudioConfig m4ac;
++-    int off;
+++    int off, ret;
++ 
++-    init_get_bits(&gb, buf, size * 8);
+++    ret = init_get_bits8(&gb, buf, size);
+++    if (ret < 0)
+++        return ret;
++     off = avpriv_mpeg4audio_get_config2(&m4ac, buf, size, 1, s);
++     if (off < 0)
++         return off;
++-- 
++2.31.1
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+index fc1834c00b..0c6af6549d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+@@ -31,7 +31,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://fix-CVE-2020-22021.patch \
+            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
+            file://fix-CVE-2021-33815.patch \
+-           "
++           file://fix-CVE-2021-38171.patch \ 
++          "
+ SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
+ 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+-- 
+2.31.1
 
-In this case I would like to be cautious and accept the patch into oe-core
-only after it has been accepted by upstream. There have been situations
-where submitted patches were never actually merged upstream for various
-reasons, and so we ended up with unmaintainable custom patches.
-
-
-> I assume this point affects only to the
-> 0001-freedreno-YUV-formats-are-supported-as-external-only.patch patch since
-> the other commits are already in Mesa 20.2 (version available in Honister)
-> and they are not required for Honister and next Am I right?
->
-
-That's right.
-
-Alex
-
->
-
---000000000000c8cdf305ccae3d58
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 23 Sept 2021 at 20:44, Pablo Saavedra &lt;<a href=3D"mailto:=
-psaavedra@igalia.com">psaavedra@igalia.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div>I kindly accept your recomme=
-ndation but=C2=A0could I make also a question?: Couldn&#39;t it be enough j=
-ust setting the 0001-freedreno-YUV-formats-are-supported-as-external-only.p=
-atch with &quot;Upstream-status:=C2=A0<span style=3D"font-family:sans-serif=
-;font-size:12.7px;font-weight:700">Submitted&quot;</span><span style=3D"fon=
-t-family:sans-serif;font-size:12.7px"> [1].</span><div><br></div><div>[1]=
-=C2=A0<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/=
-12991" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/=
-mesa/mesa/-/merge_requests/12991</a></div></div></blockquote><div><br></div=
-><div>In this case I would like to be cautious and accept the patch into oe=
--core only after it has been accepted by upstream. There have been situatio=
-ns where submitted patches were never actually merged upstream for various =
-reasons, and so we ended up with unmaintainable custom patches.<br></div><d=
-iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div>=
-</div><div>I assume this point affects only to the 0001-freedreno-YUV-forma=
-ts-are-supported-as-external-only.patch patch since the other commits are a=
-lready in Mesa 20.2 (version available in Honister) and they are not requir=
-ed for Honister and next Am I right?</div></div></blockquote><div><br></div=
-><div>That&#39;s right.<br></div><div>=C2=A0</div><div>Alex<br></div><div><=
-div><span></span></div></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">
-</blockquote></div></div>
-
---000000000000c8cdf305ccae3d58--
