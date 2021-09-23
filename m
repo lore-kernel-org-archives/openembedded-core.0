@@ -1,144 +1,104 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web08.1792.1632359037292861486
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web09.1361.1632383171327041279
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Sep 2021 18:03:57 -0700
+ Thu, 23 Sep 2021 00:46:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HepANah4;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id 72so16326993qkk.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Sep 2021 18:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gIqCO9sf6I3h86BQgv+F8NNed+sric6LYfHRTmupIt8=;
-        b=HepANah4t3LJjBS8WejggvKuuoT044afPw7UmLTnrow4QdgO2rwFGO0hlPNjx7O0W7
-         FcuQGM+OcimTftgBtlpSBE5xJ7r3wJD1lR3Q0I14pz8PNhbTpFnW8xSaS4UHRxQWTVbj
-         yr2iJey5w9xW5TG0aqOQnzRjtoqbTJ2hIPzI4vXD071B6lb2LgI+4FF0YNyOlmULPixC
-         oUrdsklcaEvoxcPns75ScivADZXe6x1s+xP4SEFUzGJ5t3g5hhemong1Y8YnojYzX2VY
-         H9ULjhHNV8p4TT2jkYSlKF261KhjUiVcAIRezKN93yk580Mgn96HpeRSrpnnVszEBjR/
-         mL9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gIqCO9sf6I3h86BQgv+F8NNed+sric6LYfHRTmupIt8=;
-        b=xTs8o4ORS0D7edMyeM/CzDlbUOppvGzrxV+Pt6uQSTrgY+f6/ZwYif6TONXYw+AcZZ
-         dS72StyfQBU3Fb+YEgbAcyJg9IPAIZ+hkA1A8R0waH25amEXdJhYJ5oMod331K43N/u8
-         Ui5HEtFS6RBtOb51V9Tpa77z4BCDf6r55pvczM5MoeTh5vYn9t/gC80W6XFmUrwgEjpW
-         zKE1rayml2ThuAnvLmmZBDxSxpT009pOvjr22pThT+R/o8HY9I7ea4DxF2LJsR1I8nfb
-         ZsqknqzJdk8vJwoqpdF3fTRjZm5bnzmZZUC48OqjMTkBNoOE2KdZvXSjDzKuc6qicP/W
-         WXsQ==
-X-Gm-Message-State: AOAM533d93CuD2n6mlTGF3acGBBtaheojsM6unLc5SnMbEGXsQzG9oop
-	xInR2BAiWvGk0Q0EjVsFe+0mLpktg+jxFjL2beFN9sp0jCo=
-X-Google-Smtp-Source: ABdhPJxJndmJJkjkAUM1If87habJy8QR0h9FJqBmG31o/G0eVnaZdjC2Oz84USOPk2TRVID2BGaR7BL+GpE56VqHyrc=
-X-Received: by 2002:a37:9c46:: with SMTP id f67mr2339158qke.98.1632359035995;
- Wed, 22 Sep 2021 18:03:55 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18N7kABd007342
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 00:46:10 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18N7k9kY019296
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 00:46:10 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 23 Sep 2021 00:46:09 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Thu, 23 Sep 2021 00:46:08 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 23 Sep 2021 00:46:07 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] lttng-ust: fix do_compile error when PACKAGECONFIG examples is enabled
+Date: Thu, 23 Sep 2021 15:45:16 +0800
+Message-ID: <20210923074516.28840-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210923001731.32084-1-sakib.sajal@windriver.com>
-In-Reply-To: <20210923001731.32084-1-sakib.sajal@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 22 Sep 2021 18:03:29 -0700
-Message-ID: <CAMKF1spAOdmmgr3MSTP0SRkVUjaS3+jbgShp9o_LHmzWvANnEQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] go: upgrade 1.16.7 -> 1.16.8
-To: Sakib Sajal <sakib.sajal@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-this looks ok. Are you also working on 1.17 major version upgrade ?
+From: Changqing Li <changqing.li@windriver.com>
 
-On Wed, Sep 22, 2021 at 5:17 PM Sakib Sajal <sakib.sajal@windriver.com> wrote:
->
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> ---
->  meta/recipes-devtools/go/{go-1.16.7.inc => go-1.16.8.inc}     | 4 ++--
->  ...{go-binary-native_1.16.7.bb => go-binary-native_1.16.8.bb} | 4 ++--
->  ...o-cross-canadian_1.16.7.bb => go-cross-canadian_1.16.8.bb} | 0
->  .../go/{go-cross_1.16.7.bb => go-cross_1.16.8.bb}             | 0
->  .../go/{go-crosssdk_1.16.7.bb => go-crosssdk_1.16.8.bb}       | 0
->  .../go/{go-native_1.16.7.bb => go-native_1.16.8.bb}           | 0
->  .../go/{go-runtime_1.16.7.bb => go-runtime_1.16.8.bb}         | 0
->  meta/recipes-devtools/go/{go_1.16.7.bb => go_1.16.8.bb}       | 0
->  8 files changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-devtools/go/{go-1.16.7.inc => go-1.16.8.inc} (91%)
->  rename meta/recipes-devtools/go/{go-binary-native_1.16.7.bb => go-binary-native_1.16.8.bb} (83%)
->  rename meta/recipes-devtools/go/{go-cross-canadian_1.16.7.bb => go-cross-canadian_1.16.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go-cross_1.16.7.bb => go-cross_1.16.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go-crosssdk_1.16.7.bb => go-crosssdk_1.16.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go-native_1.16.7.bb => go-native_1.16.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go-runtime_1.16.7.bb => go-runtime_1.16.8.bb} (100%)
->  rename meta/recipes-devtools/go/{go_1.16.7.bb => go_1.16.8.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/go/go-1.16.7.inc b/meta/recipes-devtools/go/go-1.16.8.inc
-> similarity index 91%
-> rename from meta/recipes-devtools/go/go-1.16.7.inc
-> rename to meta/recipes-devtools/go/go-1.16.8.inc
-> index 9eca1caeeb..acc2300a28 100644
-> --- a/meta/recipes-devtools/go/go-1.16.7.inc
-> +++ b/meta/recipes-devtools/go/go-1.16.8.inc
-> @@ -1,7 +1,7 @@
->  require go-common.inc
->
->  GO_BASEVERSION = "1.16"
-> -PV = "1.16.7"
-> +PV = "1.16.8"
->  FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
->
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-> @@ -18,7 +18,7 @@ SRC_URI += "\
->      file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
->      file://0001-encoding-xml-handle-leading-trailing-or-double-colon.patch \
->  "
-> -SRC_URI[main.sha256sum] = "1a9f2894d3d878729f7045072f30becebe243524cf2fce4e0a7b248b1e0654ac"
-> +SRC_URI[main.sha256sum] = "8f2a8c24b793375b3243df82fdb0c8387486dcc8a892ca1c991aa99ace086b98"
->
->  # Upstream don't believe it is a signifiant real world issue and will only
->  # fix in 1.17 onwards where we can drop this.
-> diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.7.bb b/meta/recipes-devtools/go/go-binary-native_1.16.8.bb
-> similarity index 83%
-> rename from meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-> rename to meta/recipes-devtools/go/go-binary-native_1.16.8.bb
-> index cb54c2868e..926222089d 100644
-> --- a/meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-> +++ b/meta/recipes-devtools/go/go-binary-native_1.16.8.bb
-> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
->  PROVIDES = "go-native"
->
->  SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
-> -SRC_URI[go_linux_amd64.sha256sum] = "7fe7a73f55ba3e2285da36f8b085e5c0159e9564ef5f63ee0ed6b818ade8ef04"
-> -SRC_URI[go_linux_arm64.sha256sum] = "63d6b53ecbd2b05c1f0e9903c92042663f2f68afdbb67f4d0d12700156869bac"
-> +SRC_URI[go_linux_amd64.sha256sum] = "f32501aeb8b7b723bc7215f6c373abb6981bbc7e1c7b44e9f07317e1a300dce2"
-> +SRC_URI[go_linux_arm64.sha256sum] = "430dbe185417204f6788913197ab3b189b6deae9c9b524f262858e53dab239c2"
->
->  UPSTREAM_CHECK_URI = "https://golang.org/dl/"
->  UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-> diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.7.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-cross-canadian_1.16.7.bb
-> rename to meta/recipes-devtools/go/go-cross-canadian_1.16.8.bb
-> diff --git a/meta/recipes-devtools/go/go-cross_1.16.7.bb b/meta/recipes-devtools/go/go-cross_1.16.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-cross_1.16.7.bb
-> rename to meta/recipes-devtools/go/go-cross_1.16.8.bb
-> diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.7.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-crosssdk_1.16.7.bb
-> rename to meta/recipes-devtools/go/go-crosssdk_1.16.8.bb
-> diff --git a/meta/recipes-devtools/go/go-native_1.16.7.bb b/meta/recipes-devtools/go/go-native_1.16.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-native_1.16.7.bb
-> rename to meta/recipes-devtools/go/go-native_1.16.8.bb
-> diff --git a/meta/recipes-devtools/go/go-runtime_1.16.7.bb b/meta/recipes-devtools/go/go-runtime_1.16.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-runtime_1.16.7.bb
-> rename to meta/recipes-devtools/go/go-runtime_1.16.8.bb
-> diff --git a/meta/recipes-devtools/go/go_1.16.7.bb b/meta/recipes-devtools/go/go_1.16.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go_1.16.7.bb
-> rename to meta/recipes-devtools/go/go_1.16.8.bb
-> --
-> 2.33.0
->
->
-> 
->
+when PACKAGECONFIG enabled examples, compile failed with error:
+fix below compile error during PACKGAGECONFIG examples is enabled:
+tmp/work/corei7-64-wrs-linux/lttng-ust/2_2.13.0-r0/recipe-sysroot-native/usr/bin/x86_64-wrs-linux/../../libexec/x86_64-wrs-linux/gcc/x86_64-wrs-linux/11.2.0/ld: warning: liblttng-ust-common.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
+tmp/work/corei7-64-wrs-linux/lttng-ust/2_2.13.0-r0/recipe-sysroot-native/usr/bin/x86_64-wrs-linux/../../libexec/x86_64-wrs-linux/gcc/x86_64-wrs-linux/11.2.0/ld: warning: liblttng-ust-tracepoint.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../0001-Makefile.am-update-rpath-link.patch  | 35 +++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.13.0.bb |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
+
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
+new file mode 100644
+index 0000000000..cbbf1df812
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
+@@ -0,0 +1,35 @@
++From 06279f50e924d1d55b43eb3b299f6633ecb1f7a4 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 22 Sep 2021 16:33:10 +0800
++Subject: [PATCH] Makefile.am: update rpath link
++
++since commit 6339062 Move liblttng-ust to 'src/lib/',
++liblttng-ust.so/liblttng-ust-common.so/liblttng-ust-tracepoint.so
++'s location changed from one dir to multiple dirs. which make below
++error:
++ld: warning: liblttng-ust-common.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
++ld: warning: liblttng-ust-tracepoint.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
++
++Upstream-Status: Submitted [https://github.com/lttng/lttng-ust/pull/61]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ doc/examples/Makefile.am | 2 +-
++ 1 file changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/doc/examples/Makefile.am b/doc/examples/Makefile.am
++index 8ee0564..20d246c 100644
++--- a/doc/examples/Makefile.am
+++++ b/doc/examples/Makefile.am
++@@ -142,7 +142,7 @@ all-local:
++ 				CFLAGS='$(CFLAGS)' \
++ 				AM_CFLAGS='$(AM_CFLAGS)' \
++ 				LDFLAGS="$(LDFLAGS)" \
++-				AM_LDFLAGS='$(AM_LDFLAGS) -L../../../src/lib/lttng-ust/.libs -Wl,-rpath="$(PWD)/../../src/lib/lttng-ust/.libs/" -Wl,-rpath-link="$(PWD)/../../src/lib/lttng-ust/.libs/"' \
+++				AM_LDFLAGS='$(AM_LDFLAGS) -L../../../src/lib/lttng-ust/.libs -Wl,-rpath="$(PWD)/../../src/lib/lttng-ust/.libs/" -Wl,-rpath-link="$(PWD)/../../src/lib/lttng-ust/.libs/:$(PWD)/../../src/lib/lttng-ust-tracepoint/.libs:$(PWD)/../../src/lib/lttng-ust-common/.libs/"' \
++ 				LTTNG_GEN_TP_PATH="$$rel_src_subdir$(top_srcdir)/tools/" \
++ 				AM_V_P="$(AM_V_P)" \
++ 				AM_V_at="$(AM_V_at)" \
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.13.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.13.0.bb
+index 3b0e205ab8..4ec92c0683 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.13.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.13.0.bb
+@@ -30,6 +30,7 @@ PE = "2"
+ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+            file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch \
+            file://0001-lttng-ust-common-link-with-liburcu-explicitly.patch \
++           file://0001-Makefile.am-update-rpath-link.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "54e4c933679cf6a07971dc5861ce57fc4876ab740ab612407b30b5fc85371750"
+-- 
+2.17.1
+
