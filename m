@@ -1,113 +1,96 @@
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.92.66.83])
- by mx.groups.io with SMTP id smtpd.web09.2122.1632389030280431927
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web12.2155.1632389209256822383
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Sep 2021 02:23:51 -0700
+ Thu, 23 Sep 2021 02:26:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=XZlYlM47;
- spf=pass (domain: outlook.com, ip: 40.92.66.83, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J8BtLVwEayMdFaLAPV5XXU5NQGpjp0PJy2WLfzVTS5GAEr+KDzQ3UtT0k9CEk/ZXcFDCPcAL5Rd4XFxqFs4ZQWlkqeCEP3168s4+QlJ0xBjWL7X/Sf7x0zWygvZ20hnnOdkZSGX9qfBeUEZiwW1RQg/guQGYgyDM4qbybqUuMu6x+ipDWlYpVsIAqPzSxPJrcM+DouWVPzvvV0k/MHjMtmDP1DGAZrsZ2C48gnq2Gyxht5UuXyt0NqlfciB1rEJpruxMpGXWzy1+bXXh29sxU3fmjHq9WJAK5V4IBbdf4eAU8B9+dQxtPfS+y821TlFkwPR7eU5z5sQXNFNDWo98MA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=odyFTjf2woJQWMdfdPPqFffJXryjC17332hihFaHjU0=;
- b=HURn0qYpG/PJjFtaYkIFUBafXcYNEmQM8F3nCAAm12DXNovt2/nPK1ApUjclqcof3EsF85uys0WhzHKukntVUrO0nJpmheoKF5OzaaL3tBXc5Bt8zOWB9tcKif074yv/tnzOos3lb6ze2Ju9j7MAORSH9ks9jwB6aUCJCxMcqdQ3BNnLpBSJRzNtLY21BkB5s4QzGoPlq/r0Dj4VpJAlV6mdrbHWwBcq7yZiR0ZaIP/aN6kz6MAi6kcUYHR7XG2H0gHNS9gFf6XK0nA/20QDxB5EAiAsBF1uVGQOisLaZ4zikiMJT8+pGgwFiga90yhR3GqOjgCvpSPvEnalpn4dHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=odyFTjf2woJQWMdfdPPqFffJXryjC17332hihFaHjU0=;
- b=XZlYlM47lTJMq9w9rIXIapNfuemX9qimxtC+K+95TXzhN8ZTJuUGNqVXYc9HjAwOLd0MAw1mDX5vK+UtuHS33bA28qPAUegA4e2viyZmKL3p4I5wP4rT8bZhl1kKizICM2q8Qol33RMNhtDgOSTv8sBpNF4/nsBjhXI+EUHgQj8LFyqjPa3Z4loAM7vFy3xvFJG1lMI8C+7zEhiFHWgb+sxLNpPdT1geqgjJCJVPeynEkxM3OcpPPDwVmYeXjCXX6wacLUT5M+CEwxwVj6WLf2kDC6zyMk/vp8Yd5lYh4H1WniAeLBDieR3azavO9Ho9n8WB1+/0/a9DDQ+yHSC8ow==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4116.eurprd09.prod.outlook.com (2603:10a6:208:19d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14; Thu, 23 Sep
- 2021 09:23:47 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::79a5:dec1:4b6a:6e33]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::79a5:dec1:4b6a:6e33%3]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 09:23:47 +0000
-Subject: Re: [OE-core] [hardknott][PATCH] mesa: Add patches for red label issues on video for VC4 and Freedreno
-To: Pablo Saavedra Rodi?o <psaavedra@igalia.com>,
- openembedded-core@lists.openembedded.org
-References: <20210923090547.3260456-1-psaavedra@igalia.com>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: <AM9PR09MB464212C3B0711CA383BE3E78A8A39@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Thu, 23 Sep 2021 11:23:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210923090547.3260456-1-psaavedra@igalia.com>
-X-TMN: [kUNf8GWC7rGSoJfsh7HdpyAx9n7R7DLuJyHfZiVgpaiq1uI878JaGrPxfIzhznIv0ny0dZVl7nM=]
-X-ClientProxiedBy: AM0PR01CA0112.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::17) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: <02cbc088-465e-5899-a299-91863e671c7e@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LUE7FHUr;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id i4so24047845lfv.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 02:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=iFUXTTrwWyaVK1gz8ZsYKl+pnBgZDx3o77MZwTShJc0=;
+        b=LUE7FHUro7MWMsEyCoEiOj+jmYRcnO5syYl2WbuGaRE7Do+Gvz7NdZCzUds1BTpdZX
+         hNAAUd8Xbi8CbTRp/jifuWmbJ3XY8WiJwbnDpymQ3vxQyoW2z6UN0bz9DHhzh3lWoKG+
+         HV3ABd/1df8kf9pH3wW02fCWcwyyTju4wOni8tLy2NJG0on9SMi3GnSbwY5FJrVhkRud
+         orb9wx91/jbHXpIIsK8nJjcJIK0uiekTBVBLXmgSPTECEA7Oo+OXu+WUWgdoZ7CebScL
+         J7gzSRCKDv+bP9DV4ztoqmt0l6xs6rv7qEUSzgpNgh7tbqnfXGCt99xUuh0kR+JteYVB
+         cZuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iFUXTTrwWyaVK1gz8ZsYKl+pnBgZDx3o77MZwTShJc0=;
+        b=Lg3Ha3r2ze0G2xh6o/VJ0Gu7mEFYQNK3kTjp3pHIe3+EbBzNJHiCWvc5tzEXut4yRF
+         d6Y6npswaooGnCjujcFqL7kRF2p6Ws3LV9/948Xxd7NLAECMx6hCOFsTq2/D3QRqMD5B
+         AUkvEsYnJKmq+jFdb/TWsfFFJN77blkjqio4cubYjppLpOJAloqqXFYDCYX6vHYhMuQ7
+         f6v3sfAlI/6acj3YZyE/a5g/KLhvBsm/loOpmZ3XXjTGRRiH3D5OX/DJwhn7hSwReCHw
+         Q/tpXL+JcuWFoubHPnW1e+FIwiIZhqVyEvJiio0CnLkMPppCS4G1nS82mQ4o+TauAYBu
+         YLAg==
+X-Gm-Message-State: AOAM530okQJe8YV/GapSi9SK8MQIflD3BE3/pNE9eA6ApFTY91Wdaf9O
+	/0uen6/vM5Cidh1hJdRZ4Vxcr28ELKZJ0eQn9Ck=
+X-Google-Smtp-Source: ABdhPJxAb9s8GvKEfzDV7DoVTh3tvDBVKBm73AHF4iTNdEWHLqYVMecQSPO10jO7OHkabqLfWYdjWUDUvYu9R3sYnbo=
+X-Received: by 2002:a2e:87ca:: with SMTP id v10mr2730494ljj.369.1632389206828;
+ Thu, 23 Sep 2021 02:26:46 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:8109:9a80:3b94:11df:cd87:699f:18eb] (2a02:8109:9a80:3b94:11df:cd87:699f:18eb) by AM0PR01CA0112.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14 via Frontend Transport; Thu, 23 Sep 2021 09:23:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3ef798c2-9c22-45ec-bf13-08d97e73d8c3
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4116:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	7g6K6WJL7hY8TpKAm9O1MNSaFrKtpAOWkdlP0cnoE4zpRCr/xR3XumqeS/OLpJIirDaOuXUEjB0vjFCRhMEmQ+pF/+eSWl/17Jh+FmWWXak37IzhWiLGi3ddnk4WySutmBkplIuhW3bXbj136o2p/npye+ONGQp3yU7aGADgYMZGNPXq4OBeMsTjx5JMp71UXT2wmEL95gTKcKZE91g+XXXywnw0SKvgv+WYUB8p401d86GCQ45M79+/s6NW/ycrJQp+fcKIX0NLdZM+N8KSLrrzzYWYr1DQuPKlxFJz30n00rpi21+e73FyAvX0+hA+Uy6pcoWd141wrgOsKUxBeKhawSHD5PvzeNR0i7Dn9mlq5uYhVMRdetTCk+BRAzTIy+PMgYoDLacMf+fuu831P5av6L02wij7oGCOTK487ba8V0zR3GH9FCKXjOjzwzXjj50FslTNABKdoqoc7y14k4LQLw02dNbFlgz1RTH1avvnVQoMjy1zE9I+vEikBxFx0glZT4gZrIg7tSj8nKCa3Q==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	us5m9BzNHJVky7OyrFvzRGVeg2W4uNfGXqQNkqspG1bXDjzh4Ncro3X4W5SU57wN8s2v4MOEt0K1WNiZe34tBwVUTnc4cUBL4Vsajde7RXgJa68uljCAVsL3Pv9+qtJVvAqXrVbqjd6fGtKtasLrNSNoKM5p8PIe4qv397UxjOF0tbpOtw2ri7ePjHwvuHZwwVQUuIUJe8zTff1r0cq8bg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ef798c2-9c22-45ec-bf13-08d97e73d8c3
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 09:23:47.5001
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4116
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+References: <20210923090547.3260456-1-psaavedra@igalia.com>
+In-Reply-To: <20210923090547.3260456-1-psaavedra@igalia.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Thu, 23 Sep 2021 10:26:37 +0100
+Message-ID: <CANPvuR=W+REiC0t0mN1H_B4dzpXDVpSv+WwrJhBVX1CPGKEJgQ@mail.gmail.com>
+Subject: Re: [OE-core] [hardknott][PATCH] mesa: Add patches for red label issues on video for VC4 and Freedreno
+To: "Pablo Saavedra Rodi?o" <psaavedra@igalia.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hi Pablo,
 
+All the patches misses the Upstream-Status:
 
-On 23.09.21 11:05, Pablo Saavedra Rodi?o wrote:
+https://wiki.yoctoproject.org/wiki/Best_Known_Methods_%28BKMs%29_for_Packag=
+e_Updating#Patch_Upstreaming
+
+Pablo Saavedra Rodi?o <psaavedra@igalia.com> escreveu no dia quinta,
+23/09/2021 =C3=A0(s) 10:06:
+>
 > freedreno,v3d: YUV formats are supported as external-only dmabuf
 > modifiers.
->=20
+>
 > This patch fix red label issues on video for Raspberry 4-64 Mesa VC4
 > driver and for iMX53 Adreno A200 GPU using the Mesa Freedreno driver
->=20
+>
 > Issue was originally reported in meta-webkit [1] and later contributed
 > in Mesa [2]  where it was already merged in master.
->=20
+>
 > * Commits for VC4 [3] had been nominated for stable 21.1 and already in
->    21.2 (available in honister).
+>   21.2 (available in honister).
 > * Commit for Freedreno [4] also reported (not merged yet).
->=20
+>
 > [1] https://github.com/Igalia/meta-webkit/issues/185
 > [2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/10524
 > [3] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/10534
 > [4] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/12991
->=20
+>
 > Signed-off-by: Pablo Saavedra <psaavedra@igalia.com>
 > ---
->   ...rmats-are-supported-as-external-only.patch | 31 +++++++++++++++++
->   ...at-is_dmabuf_modifier_supported-are-.patch | 32 +++++++++++++++++
->   ...at-query_dmabuf_modifiers-are-extern.patch | 31 +++++++++++++++++
->   ...OD_BROADCOM_SAND128-only-available-f.patch | 34 +++++++++++++++++++
->   meta/recipes-graphics/mesa/mesa.inc           |  4 +++
->   5 files changed, 132 insertions(+)
->   create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-YUV-=
-formats-are-supported-as-external-only.patch
->   create mode 100644 meta/recipes-graphics/mesa/files/0001-v3d-YUV-format=
-s-at-is_dmabuf_modifier_supported-are-.patch
->   create mode 100644 meta/recipes-graphics/mesa/files/0002-v3d-YUV-format=
-s-at-query_dmabuf_modifiers-are-extern.patch
->   create mode 100644 meta/recipes-graphics/mesa/files/0003-v3d-DRM_FORMAT=
-_MOD_BROADCOM_SAND128-only-available-f.patch
->=20
+>  ...rmats-are-supported-as-external-only.patch | 31 +++++++++++++++++
+>  ...at-is_dmabuf_modifier_supported-are-.patch | 32 +++++++++++++++++
+>  ...at-query_dmabuf_modifiers-are-extern.patch | 31 +++++++++++++++++
+>  ...OD_BROADCOM_SAND128-only-available-f.patch | 34 +++++++++++++++++++
+>  meta/recipes-graphics/mesa/mesa.inc           |  4 +++
+>  5 files changed, 132 insertions(+)
+>  create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-YUV-f=
+ormats-are-supported-as-external-only.patch
+>  create mode 100644 meta/recipes-graphics/mesa/files/0001-v3d-YUV-formats=
+-at-is_dmabuf_modifier_supported-are-.patch
+>  create mode 100644 meta/recipes-graphics/mesa/files/0002-v3d-YUV-formats=
+-at-query_dmabuf_modifiers-are-extern.patch
+>  create mode 100644 meta/recipes-graphics/mesa/files/0003-v3d-DRM_FORMAT_=
+MOD_BROADCOM_SAND128-only-available-f.patch
+>
 > diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-YUV-formats-=
 are-supported-as-external-only.patch b/meta/recipes-graphics/mesa/files/000=
 1-freedreno-YUV-formats-are-supported-as-external-only.patch
@@ -129,17 +112,6 @@ mabuf
 > +Co-authored-by: Alberto Garcia <berto@igalia.com>
 > +Co-authored-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
 > +Signed-off-by: Pablo Saavedra <psaavedra@igalia.com>
-
-All the patches are missing an Upstream-Status - if that is already=20
-merged upstream, as you mentioned, it should be Upstream-Status:=20
-Accepted (or Upstream-Status: Backport)
-
-Adding it would certainly make it easier on the next update to identify=20
-the patches that can easily be dropped
-
-Also I'm not seeing any info that this series has been applied to master=20
-(but I might be wrong here)
-
 > +---
 > + src/gallium/drivers/freedreno/freedreno_screen.c | 2 +-
 > + 1 file changed, 1 insertion(+), 1 deletion(-)
@@ -151,14 +123,16 @@ ium/drivers/freedreno/freedreno_screen.c
 > ++++ b/src/gallium/drivers/freedreno/freedreno_screen.c
 > +@@ -804,7 +804,7 @@ fd_screen_query_dmabuf_modifiers(struct pipe_screen =
 *pscreen,
-> + 			modifiers[num] =3D screen->supported_modifiers[i];
+> +                       modifiers[num] =3D screen->supported_modifiers[i]=
+;
 > +
-> + 		if (external_only)
-> +-			external_only[num] =3D 0;
-> ++			external_only[num] =3D util_format_is_yuv(format);
+> +               if (external_only)
+> +-                      external_only[num] =3D 0;
+> ++                      external_only[num] =3D util_format_is_yuv(format)=
+;
 > +
-> + 		num++;
-> + 	}
+> +               num++;
+> +       }
 > +--
 > +2.30.2
 > +
@@ -312,11 +286,11 @@ mesa/mesa.inc
 > +++ b/meta/recipes-graphics/mesa/mesa.inc
 > @@ -19,6 +19,10 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa=
 -${PV}.tar.xz \
->              file://0002-meson.build-make-TLS-ELF-optional.patch \
->              file://0001-meson-misdetects-64bit-atomics-on-mips-clang.pat=
-ch \
->              file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.p=
-atch \
+>             file://0002-meson.build-make-TLS-ELF-optional.patch \
+>             file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
+h \
+>             file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.pa=
+tch \
 > +           file://0001-v3d-YUV-formats-at-is_dmabuf_modifier_supported-a=
 re-.patch \
 > +           file://0002-v3d-YUV-formats-at-query_dmabuf_modifiers-are-ext=
@@ -325,12 +299,19 @@ ern.patch \
 e-f.patch \
 > +           file://0001-freedreno-YUV-formats-are-supported-as-external-o=
 nly.patch \
->              "
->  =20
->   SRC_URI[sha256sum] =3D "565c6f4bd2d5747b919454fc1d439963024fc78ca56fd05=
-158c3b2cde2f6912b"
+>             "
+>
+>  SRC_URI[sha256sum] =3D "565c6f4bd2d5747b919454fc1d439963024fc78ca56fd051=
+58c3b2cde2f6912b"
+> --
+> 2.30.2
+>
+>
 >=20
->=20
->=20
->=20
->=20
+>
+
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
