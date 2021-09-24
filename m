@@ -1,107 +1,87 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.381.1632435930965279810
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web10.1873.1632444039056102323
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Sep 2021 15:25:31 -0700
+ Thu, 23 Sep 2021 17:40:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ksurendr@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 18NMPUf3032665
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 15:25:30 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 18NMPTJI026861
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 15:25:29 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 23 Sep 2021 15:25:29 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 23 Sep 2021 15:25:29 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 22123)
-	id 5206D9007EC; Thu, 23 Sep 2021 15:25:29 -0700 (PDT)
-From: "Kiran Surendran" <kiran.surendran@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] ffmpeg: fix CVE-2021-38171
-Date: Thu, 23 Sep 2021 15:25:26 -0700
-Message-ID: <20210923222526.77317-1-kiran.surendran@windriver.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=VpS+T45v;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 979EF833CD;
+	Fri, 24 Sep 2021 02:40:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1632444036;
+	bh=/+sdo7wdyuS+Mf4luyR+XUnTwAtYno+0+1Fwmi+KJIc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VpS+T45vsSqOjOsfY1AYOburDhQnFJfWdJrkZ18/yVMQn8CdfJFplaz/uYnZMC8FI
+	 ex7ALSbKzRWw1Pc2xJvvXqVKFsa4ELwAToQP9lJzLtXM7ykY0kunySqYVxVbszGgEG
+	 S4SSfyPsvRy/i1dhtV6t5s3Zvsn1jd/buUAG5EsFLXnKRpOJqFcCQQxBGi2cF/ESlr
+	 vDOW0jpu62gnPFaEyIYaDLS8Nv76LuWWN3HyQ/5b6DbqA74ZxMglxLnvrg0atWfiIm
+	 h3S7LufD27squ01SsgyveLHPAMbvhcs6AGaw86iiXS8acANbUD1sNwZDce6H3CykVw
+	 M+3+E62MAteIg==
+From: "Marek Vasut" <marex@denx.de>
+To: openembedded-core@lists.openembedded.org,
+	steve@sakoman.com
+Cc: Stefano Babic <sbabic@denx.de>,
+	David Oberhollenzer <david.oberhollenzer@sigma-star.at>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH 2/2] mtd-utils: upgrade 2.1.2 -> 2.1.3
+Date: Fri, 24 Sep 2021 02:40:20 +0200
+Message-Id: <20210924004020.413105-2-marex@denx.de>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210924004020.413105-1-marex@denx.de>
+References: <20210924004020.413105-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-backport from upstream
+From: Stefano Babic <sbabic@denx.de>
 
-Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
+Drop also --enable-install-tests from configuration options because this
+was removed in 2.1.3.
+
+(cherry picked from commit c95c852b84f02f5e2ad5c575ab683bba0471f221)
+Signed-off-by: Stefano Babic <sbabic@denx.de>
+CC: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../ffmpeg/ffmpeg/fix-CVE-2021-38171.patch    | 42 +++++++++++++++++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb  |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
+ meta/recipes-devtools/mtd/mtd-utils_git.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
-new file mode 100644
-index 0000000000..d82f3a4b63
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38171.patch
-@@ -0,0 +1,42 @@
-+CVE: CVE-2021-38171
-+Upstream-Status: Backport
-+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-+
-+From fb993619d1035fa9646506925ea70fb122038999 Mon Sep 17 00:00:00 2001
-+From: maryam ebrahimzadeh <me22bee@outlook.com>
-+Date: Wed, 4 Aug 2021 16:15:18 -0400
-+Subject: [PATCH] avformat/adtsenc: return value check for init_get_bits in
-+ adts_decode_extradata
-+
-+As the second argument for init_get_bits (buf) can be crafted, a return value check for this function call is necessary.
-+'buf' is  part of  'AVPacket pkt'.
-+replace init_get_bits with init_get_bits8.
-+
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+(cherry picked from commit 9ffa49496d1aae4cbbb387aac28a9e061a6ab0a6)
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+---
-+ libavformat/adtsenc.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/libavformat/adtsenc.c b/libavformat/adtsenc.c
-+index 3595cb3bb2..c35a12a628 100644
-+--- a/libavformat/adtsenc.c
-++++ b/libavformat/adtsenc.c
-+@@ -51,9 +51,11 @@ static int adts_decode_extradata(AVFormatContext *s, ADTSContext *adts, const ui
-+     GetBitContext gb;
-+     PutBitContext pb;
-+     MPEG4AudioConfig m4ac;
-+-    int off;
-++    int off, ret;
-+ 
-+-    init_get_bits(&gb, buf, size * 8);
-++    ret = init_get_bits8(&gb, buf, size);
-++    if (ret < 0)
-++        return ret;
-+     off = avpriv_mpeg4audio_get_config2(&m4ac, buf, size, 1, s);
-+     if (off < 0)
-+         return off;
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-index fc1834c00b..0c6af6549d 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-@@ -31,7 +31,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://fix-CVE-2020-22021.patch \
-            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
-            file://fix-CVE-2021-33815.patch \
--           "
-+           file://fix-CVE-2021-38171.patch \ 
-+          "
- SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
--- 
-2.31.1
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-de=
+vtools/mtd/mtd-utils_git.bb
+index 55f05dc8f9..d8355bbad3 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -11,17 +11,15 @@ inherit autotools pkgconfig update-alternatives
+ DEPENDS =3D "zlib e2fsprogs util-linux"
+ RDEPENDS_mtd-utils-tests +=3D "bash"
+=20
+-PV =3D "2.1.2"
++PV =3D "2.1.3"
+=20
+-SRCREV =3D "7b986779342021bda87c04da3bf729718736d8ab"
++SRCREV =3D "42ea7cd48d2b3c306d59bb6c530d79f8c25bf9f5"
+ SRC_URI =3D "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+            "
+=20
+ S =3D "${WORKDIR}/git/"
+=20
+-EXTRA_OECONF +=3D "--enable-install-tests"
+-
+ # xattr support creates an additional compile-time dependency on acl bec=
+ause
+ # the sys/acl.h header is needed. libacl is not needed and thus enabling=
+ xattr
+ # regardless whether acl is enabled or disabled in the distro should be =
+okay.
+--=20
+2.33.0
 
