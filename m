@@ -1,294 +1,167 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web12.8801.1632492987698204424
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web08.8940.1632492988749309423
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Sep 2021 07:16:27 -0700
+ Fri, 24 Sep 2021 07:16:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=sRC8hXSF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id on12-20020a17090b1d0c00b001997c60aa29so7765088pjb.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 07:16:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3zw5N4Ye;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so9706036pjc.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 07:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=cpvsAvemT7YbwpzreTTerBKA0GP39cuX86Xm9mHWEhc=;
-        b=sRC8hXSFuYq1SHvOgvgeHSR8gIP+h0NSYH3XtJkZxck1BaJzsPzZ9jZvw/EX7bdD76
-         h2iESDH6v6q/4mBb3NkUA1fm8poyzccEqR6cWzR91PhR2J2dvmEd6FUzppG5M+/bjkzd
-         fz8SjSuH3dR4+ZAKPNoxGc8E3LIVGBIje+ae+KLMsVXS3nQM35+MuMr0wi3gULlovKZS
-         bGAFy6NU2m3bES/JvZoGOI8MtP7LWLh+TOzJ5Q/Eo7URMzQ1yP66gT3KPZv2fhLPMo8Q
-         J85HgMBd3wqn2XzfY/QSPRNQPH8LkLFbuLSIefiEfwfcpzyDIaQW86Bon8Ix894A/YPe
-         9YEA==
+        bh=/49ttrub4orYBKZfh0BeEjMS82l6uSi3Us2qfB3I4M8=;
+        b=3zw5N4Ye82JD554aFS0Dh8GTZwQRGU12csRkNUnGnvIRSEYwUConGSU3q9+RMwFdhh
+         e1vR+WWF1wevMmLumm/C8tT6HrniJ24DNq/roeEZVWNRfkaNp767Lmbo1+ZzHisJvfA+
+         KFWorytVSr28Qw7hzqEYFD+sfIBSdEgLWMq9p5oEO19ARVsEsTx5U4I7cWVJCVw/lgcc
+         0X4iCa/iaeTc8ENGtyZ8a/D5SOa9KQY4lrpNJNaxh8yNQkuKzrs1cMigxTQrpAx3h04j
+         vNZCQTvp4BcksWfcWThV3ADUm0Qt7xm9JdJ4lOxVMr5F8BfchO7ywcWS51IIzi/lmpVl
+         HpRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cpvsAvemT7YbwpzreTTerBKA0GP39cuX86Xm9mHWEhc=;
-        b=dDwv61wbrBw9XIBT/xOd/cZMUgr6h2ADQ232IeRNdM8dKzqJF+l9vTQHJDNwdE9Hbg
-         LeONnNxoOTtUblQ572VIIB4eyOzbpiZ2AgAlqYf57SzmtMEJ1ABgN3UmlrWfqa3Nq45M
-         3CWopgN5iAEwCEMpP2uWuivjbXoiCgahtIZEiS8iV4cttiTNGj321RyiQuDvQ4yRRmfk
-         3YpbZsg2033FfZpsuC2aWGttZTZ+bcNGP8ggSv5VOgB4ve4Ioq1dZw4ekEUUrKiUuWxk
-         NBitfdy3wIVujS0z+Q/vMqDSJ6IPHlVpM5cN1Vz/LbtvABQf9NAE792H62AIBV4xe/4E
-         N5Nw==
-X-Gm-Message-State: AOAM531yydGQko5VKMm5i+BkEahMEXNh0B8PLC7+KGzuAAFG0DHeNmbm
-	+JIjjfV2p1PGCABLOAmZrLFdYASAZOTtS2f34oA=
-X-Google-Smtp-Source: ABdhPJz0h1I0pqpWmy4nyBx3P87o+l6PxSDftuN5JcwpKXJ7CtIRbmwKfaR5JW7NwzvazwzbwbxaJQ==
-X-Received: by 2002:a17:902:ec8e:b0:13c:8897:8c33 with SMTP id x14-20020a170902ec8e00b0013c88978c33mr9463920plg.87.1632492985144;
-        Fri, 24 Sep 2021 07:16:25 -0700 (PDT)
+        bh=/49ttrub4orYBKZfh0BeEjMS82l6uSi3Us2qfB3I4M8=;
+        b=OEauJdGtIEx85Zh8JQ1SyWB3roai7pAObgnmn2hdVOHvkld74Sbeeujxkzt+4M+n5G
+         UEr/TvYPGjXIIV1zC48EBo1B4XcyjGRBRAND32HfesvsfAMCyNnFTJqRI9HOtoRjhE6N
+         bhn0Sig/aMi36uKLSZpYUqtco41zMIFI7J1/8LxK75BA8XDp9ivw5cMAcakPSHa7FcGG
+         35HbBsNSIh0w/aGaubnlZG/9TqWlqhdMPi3EykxHPFIFTWyMAx4KJyl9uDNDQXdfON2X
+         AttuSPyKwW4NYUgY7lu38mL3gPY0ZGzb57K6lnGRZCpu2veUXMvvJw/NPYxv5fW5fImR
+         vc7A==
+X-Gm-Message-State: AOAM533rqU8c+tCrNHKrMynYzMPx3x5MlvE/WjobqQapEK6qXXF2MxgI
+	EWt7iMH/d0IuCpRMlKLCKuk/IubxfE4DXZfgr7Q=
+X-Google-Smtp-Source: ABdhPJwqcOwvRCXZfSY/XuU4K/pS+TWUxQjooyzWZpc1qqIuJhz5bpn3ksUzLIZE69noEBQtm5p2lw==
+X-Received: by 2002:a17:90b:33c8:: with SMTP id lk8mr2525133pjb.241.1632492987745;
+        Fri, 24 Sep 2021 07:16:27 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id f144sm9200284pfa.24.2021.09.24.07.16.23
+        by smtp.gmail.com with ESMTPSA id f144sm9200284pfa.24.2021.09.24.07.16.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 07:16:24 -0700 (PDT)
+        Fri, 24 Sep 2021 07:16:27 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/25] vim: Backport fix for CVE-2021-3770
-Date: Fri, 24 Sep 2021 04:15:17 -1000
-Message-Id: <fa7b4315f42ad9dad631caed910ebaef23ad94d0.1632492565.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/25] iputils: Fix regression of arp table update
+Date: Fri, 24 Sep 2021 04:15:18 -1000
+Message-Id: <c55f4e5caf813737cb18a686dc7a07ff5b8f52b7.1632492565.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1632492565.git.steve@sakoman.com>
 References: <cover.1632492565.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Visa Hankala <visa@hankala.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54d3d023ce55ba4a7160ed25a283f0918e7d8e2e)
+Backport a fix from iputils 20210202 to make arp table updating
+work again.
+
+Fixes: 77c5792aa5e7 ("iputils: fix various arping regressions")
+Signed-off-by: Visa Hankala <visa@hankala.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   2 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+ ...ng-make-update-neighbours-work-again.patch | 79 +++++++++++++++++++
+ .../iputils/iputils_s20190709.bb              |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
 
-diff --git a/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+diff --git a/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch b/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
 new file mode 100644
-index 0000000000..1cee759502
+index 0000000000..bf86115843
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
-@@ -0,0 +1,207 @@
-+From b7081e135a16091c93f6f5f7525a5c58fb7ca9f9 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Sat, 4 Sep 2021 18:47:28 +0200
-+Subject: [PATCH] patch 8.2.3402: invalid memory access when using :retab with
-+ large value
++++ b/meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+@@ -0,0 +1,79 @@
++From 86ed08936d49e2c81ef49dfbd02aca1c74d0c098 Mon Sep 17 00:00:00 2001
++From: lac-0073 <61903197+lac-0073@users.noreply.github.com>
++Date: Mon, 26 Oct 2020 09:45:42 +0800
++Subject: [PATCH] arpping: make update neighbours work again
 +
-+Problem:    Invalid memory access when using :retab with large value.
-+Solution:   Check the number is positive.
++The arping is using inconsistent sender_ip_addr and target_ip_addr in
++messages.  This causes the client receiving the arp message not to update
++the arp table entries.
 +
-+CVE: CVE-2021-3770
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9]
++The specific performance is as follows:
++
++There is a machine 2 with IP 10.20.30.3 configured on eth0:0 that is in the
++same IP subnet as eth0.  This IP was originally used on another machine 1,
++and th IP needs to be changed back to the machine 1.  When using the arping
++command to announce what ethernet address has IP 10.20.30.3, the arp table
++on machine 3 is not updated.
++
++Machine 3 original arp table:
++
++    10.20.30.3  machine 2 eth0:0    00:00:00:00:00:02
++    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
++    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++
++Create interface eth0:0 on machine 1, and use the arping command to send arp
++packets.  Expected outcome on machine 3:
++
++    10.20.30.3  machine 1 eth0:0    00:00:00:00:00:01
++    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
++    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++
++Actual results on machine 3:
++
++    10.20.30.3  machine 2 eth0:0    00:00:00:00:00:02
++    10.20.30.2  machine 2 eth0      00:00:00:00:00:02
++    10.20.30.1  machine 1 eth0      00:00:00:00:00:01
++
++Fixes: https://github.com/iputils/iputils/issues/298
++Fixes: 68f12fc4a0dbef4ae4c404da24040d22c5a14339
++Signed-off-by: Aichun Li <liaichun@huawei.com>
++Upstream-Status: Backport [https://github.com/iputils/iputils/commit/86ed08936d49e2c81ef49dfbd02aca1c74d0c098]
++Signed-off-by: Visa Hankala <visa@hankala.org>
 +---
-+ src/indent.c               | 34 +++++++++++++++++++++-------------
-+ src/option.c               | 12 ++++++------
-+ src/optionstr.c            |  4 ++--
-+ src/testdir/test_retab.vim |  3 +++
-+ src/version.c              |  2 ++
-+ 5 files changed, 34 insertions(+), 21 deletions(-)
++ arping.c | 16 +++++++++-------
++ 1 file changed, 9 insertions(+), 7 deletions(-)
 +
-+Index: git/src/indent.c
-+===================================================================
-+--- git.orig/src/indent.c
-++++ git/src/indent.c
-+@@ -18,18 +18,19 @@
-+ /*
-+  * Set the integer values corresponding to the string setting of 'vartabstop'.
-+  * "array" will be set, caller must free it if needed.
-++ * Return FAIL for an error.
-+  */
-+     int
-+ tabstop_set(char_u *var, int **array)
-+ {
-+-    int valcount = 1;
-+-    int t;
-+-    char_u *cp;
-++    int	    valcount = 1;
-++    int	    t;
-++    char_u  *cp;
++diff --git a/arping.c b/arping.c
++index a002786..53fdbb4 100644
++--- a/arping.c
+++++ b/arping.c
++@@ -968,7 +968,7 @@ int main(int argc, char **argv)
++ 		}
++ 		memset(&saddr, 0, sizeof(saddr));
++ 		saddr.sin_family = AF_INET;
++-		if (!ctl.unsolicited && (ctl.source || ctl.gsrc.s_addr)) {
+++		if (ctl.source || ctl.gsrc.s_addr) {
++ 			saddr.sin_addr = ctl.gsrc;
++ 			if (bind(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
++ 				error(2, errno, "bind");
++@@ -979,12 +979,14 @@ int main(int argc, char **argv)
++ 			saddr.sin_port = htons(1025);
++ 			saddr.sin_addr = ctl.gdst;
 + 
-+     if (var[0] == NUL || (var[0] == '0' && var[1] == NUL))
-+     {
-+ 	*array = NULL;
-+-	return TRUE;
-++	return OK;
-+     }
-+ 
-+     for (cp = var; *cp != NUL; ++cp)
-+@@ -43,8 +44,8 @@ tabstop_set(char_u *var, int **array)
-+ 		if (cp != end)
-+ 		    emsg(_(e_positive));
-+ 		else
-+-		    emsg(_(e_invarg));
-+-		return FALSE;
-++		    semsg(_(e_invarg2), cp);
-++		return FAIL;
-+ 	    }
-+ 	}
-+ 
-+@@ -55,26 +56,33 @@ tabstop_set(char_u *var, int **array)
-+ 	    ++valcount;
-+ 	    continue;
-+ 	}
-+-	emsg(_(e_invarg));
-+-	return FALSE;
-++	semsg(_(e_invarg2), var);
-++	return FAIL;
-+     }
-+ 
-+     *array = ALLOC_MULT(int, valcount + 1);
-+     if (*array == NULL)
-+-	return FALSE;
-++	return FAIL;
-+     (*array)[0] = valcount;
-+ 
-+     t = 1;
-+     for (cp = var; *cp != NUL;)
-+     {
-+-	(*array)[t++] = atoi((char *)cp);
-+-	while (*cp  != NUL && *cp != ',')
-++	int n = atoi((char *)cp);
-++
-++	if (n < 0 || n > 9999)
-++	{
-++	    semsg(_(e_invarg2), cp);
-++	    return FAIL;
-++	}
-++	(*array)[t++] = n;
-++	while (*cp != NUL && *cp != ',')
-+ 	    ++cp;
-+ 	if (*cp != NUL)
-+ 	    ++cp;
-+     }
-+ 
-+-    return TRUE;
-++    return OK;
-+ }
-+ 
-+ /*
-+@@ -1556,7 +1564,7 @@ ex_retab(exarg_T *eap)
-+ 
-+ #ifdef FEAT_VARTABS
-+     new_ts_str = eap->arg;
-+-    if (!tabstop_set(eap->arg, &new_vts_array))
-++    if (tabstop_set(eap->arg, &new_vts_array) == FAIL)
-+ 	return;
-+     while (vim_isdigit(*(eap->arg)) || *(eap->arg) == ',')
-+ 	++(eap->arg);
-+Index: git/src/option.c
-+===================================================================
-+--- git.orig/src/option.c
-++++ git/src/option.c
-+@@ -2292,9 +2292,9 @@ didset_options2(void)
-+ #endif
-+ #ifdef FEAT_VARTABS
-+     vim_free(curbuf->b_p_vsts_array);
-+-    tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
-++    (void)tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
-+     vim_free(curbuf->b_p_vts_array);
-+-    tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
-++    (void)tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
-+ #endif
-+ }
-+ 
-+@@ -5756,7 +5756,7 @@ buf_copy_options(buf_T *buf, int flags)
-+ 	    buf->b_p_vsts = vim_strsave(p_vsts);
-+ 	    COPY_OPT_SCTX(buf, BV_VSTS);
-+ 	    if (p_vsts && p_vsts != empty_option)
-+-		tabstop_set(p_vsts, &buf->b_p_vsts_array);
-++		(void)tabstop_set(p_vsts, &buf->b_p_vsts_array);
-+ 	    else
-+ 		buf->b_p_vsts_array = 0;
-+ 	    buf->b_p_vsts_nopaste = p_vsts_nopaste
-+@@ -5914,7 +5914,7 @@ buf_copy_options(buf_T *buf, int flags)
-+ 		buf->b_p_isk = save_p_isk;
-+ #ifdef FEAT_VARTABS
-+ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
-+-		    tabstop_set(p_vts, &buf->b_p_vts_array);
-++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
-+ 		else
-+ 		    buf->b_p_vts_array = NULL;
-+ #endif
-+@@ -5929,7 +5929,7 @@ buf_copy_options(buf_T *buf, int flags)
-+ 		buf->b_p_vts = vim_strsave(p_vts);
-+ 		COPY_OPT_SCTX(buf, BV_VTS);
-+ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
-+-		    tabstop_set(p_vts, &buf->b_p_vts_array);
-++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
-+ 		else
-+ 		    buf->b_p_vts_array = NULL;
-+ #endif
-+@@ -6634,7 +6634,7 @@ paste_option_changed(void)
-+ 	    if (buf->b_p_vsts_array)
-+ 		vim_free(buf->b_p_vsts_array);
-+ 	    if (buf->b_p_vsts && buf->b_p_vsts != empty_option)
-+-		tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
-++		(void)tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
-+ 	    else
-+ 		buf->b_p_vsts_array = 0;
-+ #endif
-+Index: git/src/optionstr.c
-+===================================================================
-+--- git.orig/src/optionstr.c
-++++ git/src/optionstr.c
-+@@ -2166,7 +2166,7 @@ did_set_string_option(
-+ 	    if (errmsg == NULL)
-+ 	    {
-+ 		int *oldarray = curbuf->b_p_vsts_array;
-+-		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)))
-++		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)) == OK)
-+ 		{
-+ 		    if (oldarray)
-+ 			vim_free(oldarray);
-+@@ -2205,7 +2205,7 @@ did_set_string_option(
-+ 	    {
-+ 		int *oldarray = curbuf->b_p_vts_array;
-+ 
-+-		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)))
-++		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)) == OK)
-+ 		{
-+ 		    vim_free(oldarray);
-+ #ifdef FEAT_FOLDING
-+Index: git/src/testdir/test_retab.vim
-+===================================================================
-+--- git.orig/src/testdir/test_retab.vim
-++++ git/src/testdir/test_retab.vim
-+@@ -74,4 +74,7 @@ endfunc
-+ func Test_retab_error()
-+   call assert_fails('retab -1',  'E487:')
-+   call assert_fails('retab! -1', 'E487:')
-++  call assert_fails('ret -1000', 'E487:')
-++  call assert_fails('ret 10000', 'E475:')
-++  call assert_fails('ret 80000000000000000000', 'E475:')
-+ endfunc
-+Index: git/src/version.c
-+===================================================================
-+--- git.orig/src/version.c
-++++ git/src/version.c
-+@@ -743,6 +743,8 @@ static char *(features[]) =
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-+ /**/
-++    3402,
-++/**/
-+     0
-+ };
-+ 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 6fe8fb90db..ecaba7107e 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -17,7 +17,9 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
-            file://racefix.patch \
-+           file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
- "
-+
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
++-			if (setsockopt(probe_fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on)) == -1)
++-				error(0, errno, _("WARNING: setsockopt(SO_DONTROUTE)"));
++-			if (connect(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
++-				error(2, errno, "connect");
++-			if (getsockname(probe_fd, (struct sockaddr *)&saddr, &alen) == -1)
++-				error(2, errno, "getsockname");
+++			if (!ctl.unsolicited) {
+++				if (setsockopt(probe_fd, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on)) == -1)
+++					error(0, errno, _("WARNING: setsockopt(SO_DONTROUTE)"));
+++				if (connect(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
+++					error(2, errno, "connect");
+++				if (getsockname(probe_fd, (struct sockaddr *)&saddr, &alen) == -1)
+++					error(2, errno, "getsockname");
+++			}
++ 			ctl.gsrc = saddr.sin_addr;
++ 		}
++ 		close(probe_fd);
+diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
+index d652bfcaad..b33b913817 100644
+--- a/meta/recipes-extended/iputils/iputils_s20190709.bb
++++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
+@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/iputils/iputils \
+            file://0003-arping-Fix-comparison-of-different-signedness-warnin.patch \
+            file://0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch \
+            file://0005-arping-use-additional-timerfd-to-control-when-timeou.patch \
++           file://0001-arping-make-update-neighbours-work-again.patch \
+            "
+ SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
  
- # Do not consider .z in x.y.z, as that is updated with every commit
 -- 
 2.25.1
 
