@@ -1,103 +1,138 @@
-Return-Path: <tom.pollard@codethink.co.uk>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C120C433EF
-	for <webhook@archiver.kernel.org>; Fri, 24 Sep 2021 16:00:59 +0000 (UTC)
-Received: from imap3.hz.codethink.co.uk (imap3.hz.codethink.co.uk
- [176.9.8.87])
- by mx.groups.io with SMTP id smtpd.web10.1015.1632499256946714368
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 579A2C433EF
+	for <webhook@archiver.kernel.org>; Fri, 24 Sep 2021 16:09:26 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.1121.1632499765831141207
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Sep 2021 09:00:58 -0700
+ Fri, 24 Sep 2021 09:09:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: codethink.co.uk, ip: 176.9.8.87, mailfrom: tom.pollard@codethink.co.uk)
-Received: from cpc109023-salf6-2-0-cust777.10-2.cable.virginm.net
- ([82.29.243.10] helo=localhost.localdomain)
-	by imap3.hz.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-	id 1mTnd1-00084r-Gd; Fri, 24 Sep 2021 17:00:47 +0100
-From: Tom Pollard <tom.pollard@codethink.co.uk>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Pollard <tom.pollard@codethink.co.uk>
-Subject: [PATCH] curl: Update tls backend PACKAGECONFIG options
-Date: Fri, 24 Sep 2021 17:00:26 +0100
-Message-Id: <20210924160026.145611-1-tom.pollard@codethink.co.uk>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SlkwBcdi;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id s11so10259466pgr.11
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 24 Sep 2021 09:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=lIi6KwnxaQujt15CVQhz76HVYkrrxPF1zK1XyDISrtM=;
+        b=SlkwBcdibF0q9dO3pZiuP10TxnpsPq7+5qH2OzTa6M9vpl3Iw+OGnKJ4/4+PASoVNN
+         Jz+ud1i8TE0A2ZpFJQtEyLRNnfg21630kZMcdPy5fNNYPOv+haXD2MaGGGy4y6vYBvSG
+         DCBvAn90K1IqHF9xWjPOZrYnNZmW+fnx9vRS3272Mg8WlbnTNlGjN6m2upAnXRxN57ai
+         X+4joZZ63ruWniMlGD9BxPiS8w2DCkDFVElCHe9cPPsT4dY0y5v9xXQsZ6PMY3uxOSlT
+         x/AK2ZkyXZwj0j2kO5GoyRHyzg3cb0bEd2RokNW51vlBv/bVlT+VcXD3vie5joL1141l
+         Q1gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=lIi6KwnxaQujt15CVQhz76HVYkrrxPF1zK1XyDISrtM=;
+        b=bCST6LKWMurzaOetkMXpe0cn0aw/p9PHtgoGSoPY3acSm74GcIOUYTHdMLlczMtpir
+         00y1P39BrPeAMaY50ECuCEuJbXfHDlxffPlUSfJiyI9NcT3mSmVs1dCTk213hq5Yw6Yz
+         gGgutPfTkzXmAdMtu7zend65lDaUGgXUWPYHj+E/3l05zT9QagAT1tXZUxI+Ff1NEJyR
+         mnLKUs2B0WYMGPNDImwrHDjBCwpvwAUWhN3BWq3on9tXCZ2iwc5WVczlmoArtXuBnoUN
+         Y0EmlQgUCPskmxjGc61G5iGSD4hfoCsayTH4f/fUnWuHQeBE6RxJMgF5vhmaHy4YuZez
+         UsIw==
+X-Gm-Message-State: AOAM532ZBDSeCXPH5FcS0yJzJoEnaMuDN/4EDehK/N1ZyNmQ9O8sn3yZ
+	ajV/vMNjiuBRF5+7Lh4Pnuw=
+X-Google-Smtp-Source: 
+ ABdhPJx73VBYt5qOJ1YkVG8NZ2NQyBIcVkZ3VAvmfLsaPK5PTZPVPkW9UsEqm7I+fBpsIpaqefnjzA==
+X-Received: by 2002:aa7:991b:0:b0:447:bf92:b94d with SMTP id
+ z27-20020aa7991b000000b00447bf92b94dmr10600840pff.76.1632499765040;
+        Fri, 24 Sep 2021 09:09:25 -0700 (PDT)
+Received: from ?IPV6:2601:646:9200:a0f0:1dda:37cf:b1d6:5d51?
+ ([2601:646:9200:a0f0:1dda:37cf:b1d6:5d51])
+        by smtp.gmail.com with ESMTPSA id
+ x8sm2419674pjf.43.2021.09.24.09.09.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Sep 2021 09:09:24 -0700 (PDT)
+Message-ID: <7a4ef3ac-72bd-2f96-d651-c4abe17b5af5@gmail.com>
+Date: Fri, 24 Sep 2021 09:09:23 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.1.1
+Subject: Re: [OE-core] [PATCH V2] archiver: Configurable tarball compression
+Content-Language: en-US
+To: Ian Ray <ian.ray@ge.com>, openembedded-core@lists.openembedded.org
+References: <20210920102512.9358-1-ian.ray@ge.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <20210920102512.9358-1-ian.ray@ge.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 16:00:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 16:09:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156330
+ https://lists.openembedded.org/g/openembedded-core/message/156331
 
-curl 7.77.0 made the tls backend configuration explicit. openssl
-is now a specific option replacing the default `--with-ssl`, and
-`--without-ssl` is required to build without any tls, overriding any
-other tls config. Adding 'without-ssl` as a mutually exclusive
-option against the existing tls options should prevent users
-silently disabling other enabled tls backends.
 
-https://curl.se/changes.html#7_77_0
 
-Signed-off-by: Tom Pollard <tom.pollard@codethink.co.uk>
----
- meta/recipes-support/curl/curl_7.78.0.bb | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+On 9/20/21 3:25 AM, Ian Ray wrote:
+> In order to be more efficient, we use xz as compression method
+> to create GPL sources archives.
+> 
+> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.com>
+> [V1 was https://patchwork.openembedded.org/patch/155985/]
+> [Rebased]
 
-diff --git a/meta/recipes-support/curl/curl_7.78.0.bb b/meta/recipes-support/curl/curl_7.78.0.bb
-index dece0babb2..315755c9b1 100644
---- a/meta/recipes-support/curl/curl_7.78.0.bb
-+++ b/meta/recipes-support/curl/curl_7.78.0.bb
-@@ -20,16 +20,17 @@ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl dan
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} ssl libidn proxy threaded-resolver verbose zlib"
--PACKAGECONFIG:class-native = "ipv6 proxy ssl threaded-resolver verbose zlib"
--PACKAGECONFIG:class-nativesdk = "ipv6 proxy ssl threaded-resolver verbose zlib"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} openssl libidn proxy threaded-resolver verbose zlib"
-+PACKAGECONFIG:class-native = "ipv6 proxy openssl threaded-resolver verbose zlib"
-+PACKAGECONFIG:class-nativesdk = "ipv6 proxy openssl threaded-resolver verbose zlib"
- 
- # 'ares' and 'threaded-resolver' are mutually exclusive
-+# 'without-ssl' explicitly disables tls, silently overriding other tls config and is required if no backend(s) are configured
- PACKAGECONFIG[ares] = "--enable-ares,--disable-ares,c-ares,,,threaded-resolver"
- PACKAGECONFIG[brotli] = "--with-brotli,--without-brotli,brotli"
- PACKAGECONFIG[builtinmanual] = "--enable-manual,--disable-manual"
- PACKAGECONFIG[dict] = "--enable-dict,--disable-dict,"
--PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
-+PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls,,,without-ssl"
- PACKAGECONFIG[gopher] = "--enable-gopher,--disable-gopher,"
- PACKAGECONFIG[imap] = "--enable-imap,--disable-imap,"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-@@ -39,7 +40,7 @@ PACKAGECONFIG[ldaps] = "--enable-ldaps,--disable-ldaps,"
- PACKAGECONFIG[libgsasl] = "--with-libgsasl,--without-libgsasl,libgsasl"
- PACKAGECONFIG[libidn] = "--with-libidn2,--without-libidn2,libidn2"
- PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
--PACKAGECONFIG[mbedtls] = "--with-mbedtls=${STAGING_DIR_TARGET},--without-mbedtls,mbedtls"
-+PACKAGECONFIG[mbedtls] = "--with-mbedtls=${STAGING_DIR_TARGET},--without-mbedtls,mbedtls,,,without-ssl"
- PACKAGECONFIG[mqtt] = "--enable-mqtt,--disable-mqtt,"
- PACKAGECONFIG[nghttp2] = "--with-nghttp2,--without-nghttp2,nghttp2"
- PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
-@@ -48,12 +49,13 @@ PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
- PACKAGECONFIG[rtsp] = "--enable-rtsp,--disable-rtsp,"
- PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
- PACKAGECONFIG[smtp] = "--enable-smtp,--disable-smtp,"
--PACKAGECONFIG[ssl] = "--with-ssl --with-random=/dev/urandom,--without-ssl,openssl"
--PACKAGECONFIG[nss] = "--with-nss,--without-nss,nss"
-+PACKAGECONFIG[openssl] = "--with-openssl --with-random=/dev/urandom,,openssl,,,without-ssl"
-+PACKAGECONFIG[nss] = "--with-nss,--without-nss,nss,,,without-ssl"
- PACKAGECONFIG[telnet] = "--enable-telnet,--disable-telnet,"
- PACKAGECONFIG[tftp] = "--enable-tftp,--disable-tftp,"
- PACKAGECONFIG[threaded-resolver] = "--enable-threaded-resolver,--disable-threaded-resolver,,,,ares"
- PACKAGECONFIG[verbose] = "--enable-verbose,--disable-verbose"
-+PACKAGECONFIG[without-ssl] = "--without-ssl,,,,,gnutls mbedtls openssl nss"
- PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
- 
- EXTRA_OECONF = " \
--- 
-2.30.2
+xz has its own mind when it comes to parallel threads, how do we control 
+that here? Does it use the global setting to control the number of xz 
+threads ?
 
+> Signed-off-by: Ian Ray <ian.ray@ge.com>
+> ---
+>   meta/classes/archiver.bbclass | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index dd31dc0..411d459 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -51,6 +51,7 @@ ARCHIVER_MODE[diff-exclude] ?= ".pc autom4te.cache patches"
+>   ARCHIVER_MODE[dumpdata] ?= "0"
+>   ARCHIVER_MODE[recipe] ?= "0"
+>   ARCHIVER_MODE[mirror] ?= "split"
+> +ARCHIVER_MODE[compression] ?= "gz"
+>   
+>   DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
+>   ARCHIVER_TOPDIR ?= "${WORKDIR}/archiver-sources"
+> @@ -409,15 +410,16 @@ def create_tarball(d, srcdir, suffix, ar_outdir):
+>       # that we archive the actual directory and not just the link.
+>       srcdir = os.path.realpath(srcdir)
+>   
+> +    compression_method = d.getVarFlag('ARCHIVER_MODE', 'compression')
+>       bb.utils.mkdirhier(ar_outdir)
+>       if suffix:
+> -        filename = '%s-%s.tar.gz' % (d.getVar('PF'), suffix)
+> +        filename = '%s-%s.tar.%s' % (d.getVar('PF'), suffix, compression_method)
+>       else:
+> -        filename = '%s.tar.gz' % d.getVar('PF')
+> +        filename = '%s.tar.%s' % (d.getVar('PF'), compression_method)
+>       tarname = os.path.join(ar_outdir, filename)
+>   
+>       bb.note('Creating %s' % tarname)
+> -    tar = tarfile.open(tarname, 'w:gz')
+> +    tar = tarfile.open(tarname, 'w:%s' % compression_method)
+>       tar.add(srcdir, arcname=os.path.basename(srcdir), filter=exclude_useless_paths)
+>       tar.close()
+>   
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156329): https://lists.openembedded.org/g/openembedded-core/message/156329
+> Mute This Topic: https://lists.openembedded.org/mt/85841980/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
