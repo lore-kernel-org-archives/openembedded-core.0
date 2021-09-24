@@ -1,79 +1,192 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web09.8731.1632492413915341054
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web12.8787.1632492952408600034
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Sep 2021 07:06:54 -0700
+ Fri, 24 Sep 2021 07:15:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=zpIL7p6p;
- spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id j195so6005176ybj.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 07:06:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=HcVK/BsO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id s11so9949197pgr.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 07:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jXDEKNIwZ6trifaIIoM1Y0Rq7llEJ/u9Q+Lu2t5PNQk=;
-        b=zpIL7p6p07J9NdcvE1QqeMRZ3CNeQNczrE8IygG71dLB/kZFs/lFmKpkk8jpSweShm
-         LQR8Uv+0vut8ZgwXOFLtIp5IUYrYb9bcZvBy54v621WmoViElBooO0bxF1RlOIE3iiv6
-         1Gjt9rJoaWOdvP7DLrfgVLKUs/aS4rF8/+Pgtq6vxbMd1IuEgvegCo2yk8MJ4k51pMK2
-         IUBpbNU9cIKR82XEelJ7YR/IFR3PuZWP1NFjSeu5UUjdaW3VEy8rdVFraHw1TBy9LVGd
-         MirqEErbsGB83R3WTiGqjygP55NXJ9wO4TJl/0a5+e4lgyqESgskJDqXj1srskBiYcJB
-         NRsw==
+        bh=CoBMknncwOVHt6F0yuLwecBwj+QllJNjVC3EkbLQAn4=;
+        b=HcVK/BsOVa38hoY/lHcSKu/4fh5epUY0//+YpNFDaEXDQordhm1Eqsrlc6mIzqv3e9
+         k/AL5J+lvQX443mVc2Mnmi7MtJCcaxZeY1RrSJXJXeMkT42/fLzfpdh4oSZivNLRL0z4
+         b2oXhQNsuG25hTeNkALuOfV73QFJYFDDl4nORSyh7fyj7YIel8+qu1nL4c+OcFGSrllg
+         068J9se/yBHHk7dpBNa5mlemr8zzV7kaMe/u64qf86aTskD6yKVTDxW5r5BRyEN7QxRQ
+         NiRGpOSCykyWHnCx8vTJSA/yin+E+NqVaPwBlu4tlraQmrMzXH52RhofBagG1ckCBZM9
+         OfVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=jXDEKNIwZ6trifaIIoM1Y0Rq7llEJ/u9Q+Lu2t5PNQk=;
-        b=lMFCnb0bl+MWbi5pJbjboLA32G0yI+/q5FxMgZoFo/Zbts/X3EzKRY7Uva/r6ovMi4
-         TQV2MUPsObE9JVpaCGu3NPqOACJmLsEDOvo6gLdLtoD1q9NyBDkV0NgXln7qIxbndRFK
-         KMkdQVbt6fnouhzmDydirCUEe8KMKzxwzvk7ZRc/HVPzR+WGtp5QXn7yolsGXNdVcLPT
-         cC4h/BbsB3ZKp6tCP5wBIr1L8uAZCkcKEo5ODBAj98ytenp4jvj+bxVBlEAXn7lfqwzc
-         XujscGo5iANCFX3oc1kF7OsexMUhDissBChrVuRwdaTwoJUw2GS3iNOvNqq2WPel+fLV
-         cOUQ==
-X-Gm-Message-State: AOAM530HYuLfb2A+x1fkISTsyH/8a3r3DJYfhAr643SlPxG434p7YeQc
-	JY5w7ZQKUKmCGVVJVYZLemq3xDB2Yg/IAn6SnDs=
-X-Google-Smtp-Source: ABdhPJzbs5vfM13U7UTaoZKFrvm6wdvhlad/anUTo23ka+JBnW12BwxwUiL/2bIJ7Ft9QLdlxHQ/3Sulhye5/jbFc8w=
-X-Received: by 2002:a25:5607:: with SMTP id k7mr13273594ybb.378.1632492413133;
- Fri, 24 Sep 2021 07:06:53 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CoBMknncwOVHt6F0yuLwecBwj+QllJNjVC3EkbLQAn4=;
+        b=5xjU7elrDyZld1JnXDI5Z4apARMU2tKXAm5gbNk4SB4V9VovxWDS0O594APLimktZg
+         e1Ktv6CNGgxROCK4LGfTiIoa4z7dOzVLusm46Hje46vZJWbCTcamWCHRwJk9Ac8lbl6H
+         P4lvUbvP+KEnPMePmDtPSQVzaV3JPQoFpEAAxLFxW/oOzt2XhLhXPE8NdAUW9yRiSBif
+         JpDEKhWIpMvw57BTU2jkxJ9ZGOJK9W1j0xlGQAYHJ4hg/KV0jz1en+L1ZabVVq0gc5Yl
+         Mv4r0ipHgu506PULlBy2LQF/TNl4b9iLCGn7pN8c9sqPZp95EyD3KaIDUoJeo357CBMU
+         dOzg==
+X-Gm-Message-State: AOAM533Gd7BwAFyV0xqY7Agmnvr8UAUBuLTOiIlrnU31T2rDbwdyqwLF
+	XrzpcNUFe9Kg32lMGVAd7w5yzDkwdzhi1FFDa6A=
+X-Google-Smtp-Source: ABdhPJzDQ8cy6UJcd8Sq6nROUQvMQl9K05FEJXkG9dIvHmL5Xg4IEo2JKsW+1hgTIDj0Vc3el6d6eg==
+X-Received: by 2002:a63:be0e:: with SMTP id l14mr3893284pgf.363.1632492950946;
+        Fri, 24 Sep 2021 07:15:50 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id f144sm9200284pfa.24.2021.09.24.07.15.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 07:15:50 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/25] Patch review
+Date: Fri, 24 Sep 2021 04:15:04 -1000
+Message-Id: <cover.1632492565.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <AM6PR06MB5158D59D789C935EC1276930A0A29@AM6PR06MB5158.eurprd06.prod.outlook.com>
-In-Reply-To: <AM6PR06MB5158D59D789C935EC1276930A0A29@AM6PR06MB5158.eurprd06.prod.outlook.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 24 Sep 2021 04:06:41 -1000
-Message-ID: <CAGDS+n=_Yq3B_bFRGhpdEkRSSj9ntUZj=iwoffmZDo1RZdcNTA@mail.gmail.com>
-Subject: Re: Backport request to dunfell: "Unlicense"
-To: TOSCANELLI Massimo <massimo.toscanelli@leica-geosystems.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Massimo,
+Please review this next set of patches for dunfell and have comments back by end of
+day Tuesday. Passed a-full on autobuilder:
 
-The proper way to request a backport is to send a patch to the mailing
-list (openembedded-core@lists.openembedded.org) so that others in the
-community have an opportunity to comment.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2639
 
-I suspect there won't be an issue, but let's follow the process!
+The following changes since commit 49ca1f62cc17c951b7737a4ee3c236f732bc8ebe:
 
-Steve
+  build-appliance-image: Update to dunfell head revision (2021-09-15 10:42:23 +0100)
 
-On Wed, Sep 22, 2021 at 5:08 AM TOSCANELLI Massimo
-<massimo.toscanelli@leica-geosystems.com> wrote:
->
-> Dear Steve,
->
->
->
-> I would need the =E2=80=9CUnlicense=E2=80=9D license in dunfell.
->
-> Is it possible to backport this commit?
->
-> https://github.com/openembedded/openembedded-core/commit/7698f3145a9c4877=
-8d7bb79f54df169cf375349c
->
->
->
-> Looking forward to your reply
->
->
->
-> Massimo Toscanelli
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (2):
+  wic: keep rootfs_size as integer
+  testimage: symlink the task log and qemu console log to tmp/log/oeqa
+
+Armin Kuster (9):
+  libgcrypt: Security fix CVE-2021-33560
+  apr: Security fix for CVE-2021-35940
+  libsndfile: Security fix for CVE-2021-3246
+  qemu: Security fix CVE-2020-12829
+  qemu: Security fix for CVE-2020-27617
+  qemu: Security fix for CVE-2020-28916
+  nettle: Security fix for CVE-2021-3580
+  nettle: Security fix for CVE-2021-20305
+  tar: ignore node-tar CVEs
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.143
+  linux-yocto/5.4: update to v5.4.144
+
+Jon Mason (2):
+  Update mailing list address
+  core-image-sato: Fix runqemu error for qemuarmv5
+
+Kai Kang (1):
+  squashfs-tools: fix CVE-2021-40153
+
+Mike Crowe (1):
+  curl: Fix CVE-2021-22946 and CVE-2021-22947, whitelist CVE-2021-22945
+
+Ranjitsinh Rathod (1):
+  rpm: Handle proper return value to avoid major issues
+
+Richard Purdie (3):
+  vim: Backport fix for CVE-2021-3770
+  useradd: Ensure preinst data is expanded correctly in pkgdata
+  bash: Ensure deterministic build
+
+Ross Burton (1):
+  libsoup-2.4: remove obsolete intltool dependency
+
+Sakib Sajal (1):
+  qemu: fix CVE-2021-3682
+
+Steve Sakoman (1):
+  connman: add CVE_PRODUCT
+
+Visa Hankala (1):
+  iputils: Fix regression of arp table update
+
+ meta/classes/testimage.bbclass                |  12 +-
+ meta/classes/useradd.bbclass                  |   4 +
+ meta/conf/distro/include/maintainers.inc      |   2 +-
+ meta/recipes-connectivity/connman/connman.inc |   2 +
+ .../ldconfig-native-2.12.1/ldconfig.patch     |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   8 +
+ .../qemu/qemu/CVE-2020-12829_1.patch          | 164 ++++++++
+ .../qemu/qemu/CVE-2020-12829_2.patch          | 139 +++++++
+ .../qemu/qemu/CVE-2020-12829_3.patch          |  47 +++
+ .../qemu/qemu/CVE-2020-12829_4.patch          | 100 +++++
+ .../qemu/qemu/CVE-2020-12829_5.patch          | 266 +++++++++++++
+ .../qemu/qemu/CVE-2020-27617.patch            |  49 +++
+ .../qemu/qemu/CVE-2020-28916.patch            |  48 +++
+ .../qemu/qemu/CVE-2021-3682.patch             |  41 ++
+ ...rict-virtual-memory-usage-if-limit-s.patch |  25 +-
+ .../squashfs-tools/files/CVE-2021-40153.patch | 253 +++++++++++++
+ .../squashfs-tools/squashfs-tools_git.bb      |   1 +
+ meta/recipes-extended/bash/bash.inc           |   5 +
+ ...ng-make-update-neighbours-work-again.patch |  79 ++++
+ .../iputils/iputils_s20190709.bb              |   1 +
+ meta/recipes-extended/tar/tar_1.32.bb         |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../libsndfile1/CVE-2021-3246_1.patch         |  36 ++
+ .../libsndfile1/CVE-2021-3246_2.patch         |  44 +++
+ .../libsndfile/libsndfile1_1.0.28.bb          |   2 +
+ meta/recipes-sato/images/core-image-sato.bb   |   1 +
+ .../apr/apr/CVE-2021-35940.patch              |  58 +++
+ meta/recipes-support/apr/apr_1.7.0.bb         |   1 +
+ .../curl/curl/CVE-2021-22946-pre1.patch       |  86 +++++
+ .../curl/curl/CVE-2021-22946.patch            | 328 ++++++++++++++++
+ .../curl/curl/CVE-2021-22947.patch            | 352 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   5 +-
+ .../libgcrypt/files/CVE-2021-33560.patch      | 109 ++++++
+ .../libgcrypt/libgcrypt_1.8.5.bb              |   1 +
+ .../libsoup/libsoup-2.4_2.68.4.bb             |   2 +-
+ .../nettle-3.5.1/CVE-2021-20305-1.patch       | 215 +++++++++++
+ .../nettle-3.5.1/CVE-2021-20305-2.patch       |  53 +++
+ .../nettle-3.5.1/CVE-2021-20305-3.patch       | 122 ++++++
+ .../nettle-3.5.1/CVE-2021-20305-4.patch       |  48 +++
+ .../nettle-3.5.1/CVE-2021-20305-5.patch       |  53 +++
+ .../nettle/nettle-3.5.1/CVE-2021-3580_1.patch | 277 ++++++++++++++
+ .../nettle/nettle-3.5.1/CVE-2021-3580_2.patch | 163 ++++++++
+ meta/recipes-support/nettle/nettle_3.5.1.bb   |   7 +
+ ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ scripts/lib/wic/partition.py                  |   2 +-
+ 48 files changed, 3423 insertions(+), 36 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_5.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27617.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-28916.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-3246_1.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-3246_2.patch
+ create mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22946-pre1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22946.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22947.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-1.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-2.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-3.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-4.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-5.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-3580_1.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-3580_2.patch
+ create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+
+-- 
+2.25.1
+
