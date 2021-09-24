@@ -1,74 +1,79 @@
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web09.8665.1632492188119942155
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web09.8731.1632492413915341054
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Sep 2021 07:03:10 -0700
+ Fri, 24 Sep 2021 07:06:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=AMGbH+5k;
- spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1mTln6-0007bh-Cm; Fri, 24 Sep 2021 16:03:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:Subject:From:Cc:To:
-	MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=28jFHpiEL2e76gxP+SNF56uq4YUateVncevaFWbhfm8=; b=AMGbH+5kr1Ahk53vTEDs9AKgZ8
-	A8+8QLpCanAEB4lgRX2YxKQSSBM4h2gOzYrFv7A5UhiXfZqhlZvlYCuFhZLxqiEV8+VKdIj4HP/U5
-	/2XGHJFfpQxRyRS53+buqYAsKdu+7U3W0R+LqQN3IF9QmNVd4nbm4KLrs0eXy99ak7asqNrxdGF2X
-	IZsHvGNTW3PCd/3nZDt16J7v9mSE2LM1sRxE1RwEPctKARosRiEZV96KRm0PRJ728BdFGygxR8pnE
-	rMu09dO/mdD8ZbEFikYCis9usYpr6wuxc2He3P5qwptT1TDsxE51aBwsJ8KPq1R/v7q3P/mcxxebU
-	tyq90Ndw==;
-Received: from host-87-242-33-29.prtelecom.hu ([87.242.33.29] helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <zboszor@pr.hu>)
-	id 1mTln2-0005xL-5h; Fri, 24 Sep 2021 16:03:02 +0200
-Message-ID: <dc967621-9759-1ab4-e526-36f9010ae3c0@pr.hu>
-Date: Fri, 24 Sep 2021 16:02:57 +0200
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=zpIL7p6p;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id j195so6005176ybj.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 07:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=jXDEKNIwZ6trifaIIoM1Y0Rq7llEJ/u9Q+Lu2t5PNQk=;
+        b=zpIL7p6p07J9NdcvE1QqeMRZ3CNeQNczrE8IygG71dLB/kZFs/lFmKpkk8jpSweShm
+         LQR8Uv+0vut8ZgwXOFLtIp5IUYrYb9bcZvBy54v621WmoViElBooO0bxF1RlOIE3iiv6
+         1Gjt9rJoaWOdvP7DLrfgVLKUs/aS4rF8/+Pgtq6vxbMd1IuEgvegCo2yk8MJ4k51pMK2
+         IUBpbNU9cIKR82XEelJ7YR/IFR3PuZWP1NFjSeu5UUjdaW3VEy8rdVFraHw1TBy9LVGd
+         MirqEErbsGB83R3WTiGqjygP55NXJ9wO4TJl/0a5+e4lgyqESgskJDqXj1srskBiYcJB
+         NRsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=jXDEKNIwZ6trifaIIoM1Y0Rq7llEJ/u9Q+Lu2t5PNQk=;
+        b=lMFCnb0bl+MWbi5pJbjboLA32G0yI+/q5FxMgZoFo/Zbts/X3EzKRY7Uva/r6ovMi4
+         TQV2MUPsObE9JVpaCGu3NPqOACJmLsEDOvo6gLdLtoD1q9NyBDkV0NgXln7qIxbndRFK
+         KMkdQVbt6fnouhzmDydirCUEe8KMKzxwzvk7ZRc/HVPzR+WGtp5QXn7yolsGXNdVcLPT
+         cC4h/BbsB3ZKp6tCP5wBIr1L8uAZCkcKEo5ODBAj98ytenp4jvj+bxVBlEAXn7lfqwzc
+         XujscGo5iANCFX3oc1kF7OsexMUhDissBChrVuRwdaTwoJUw2GS3iNOvNqq2WPel+fLV
+         cOUQ==
+X-Gm-Message-State: AOAM530HYuLfb2A+x1fkISTsyH/8a3r3DJYfhAr643SlPxG434p7YeQc
+	JY5w7ZQKUKmCGVVJVYZLemq3xDB2Yg/IAn6SnDs=
+X-Google-Smtp-Source: ABdhPJzbs5vfM13U7UTaoZKFrvm6wdvhlad/anUTo23ka+JBnW12BwxwUiL/2bIJ7Ft9QLdlxHQ/3Sulhye5/jbFc8w=
+X-Received: by 2002:a25:5607:: with SMTP id k7mr13273594ybb.378.1632492413133;
+ Fri, 24 Sep 2021 07:06:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Subject: user/group XXX does not exist, using root with RPM/DNF packaging in Hardknott and Honister
-X-Spam-Score: -7.3 (-------)
-X-Scan-Signature: eb3d9b7f1f3400e9adcc1170d01d5e4d
-X-Spam-Tracer: backend.mail.pr.hu -7.3 20210924140302Z
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <AM6PR06MB5158D59D789C935EC1276930A0A29@AM6PR06MB5158.eurprd06.prod.outlook.com>
+In-Reply-To: <AM6PR06MB5158D59D789C935EC1276930A0A29@AM6PR06MB5158.eurprd06.prod.outlook.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Fri, 24 Sep 2021 04:06:41 -1000
+Message-ID: <CAGDS+n=_Yq3B_bFRGhpdEkRSSj9ntUZj=iwoffmZDo1RZdcNTA@mail.gmail.com>
+Subject: Re: Backport request to dunfell: "Unlicense"
+To: TOSCANELLI Massimo <massimo.toscanelli@leica-geosystems.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Massimo,
 
-I have a special package that creates users and groups
-via inherit useradd. This package doesn't depend on any
-others but it is depended on, both via DEPENDS and RDEPENDS
-by packages using those users/groups in their do_install
-scripts.
+The proper way to request a backport is to send a patch to the mailing
+list (openembedded-core@lists.openembedded.org) so that others in the
+community have an opportunity to comment.
 
-This works for packaging becase these ownerships
-are encoded in the packages, confirmed by rpm -qp --dump ...
+I suspect there won't be an issue, but let's follow the process!
 
-However, during do_rootfs, a couple of
-"user/group XXX does not exist, using root"
-messages appear for the packages depending on others
-creating these users/groups.
+Steve
 
-log.do_rootfs shows that the package installation ordering
-does not follow RDEPENDS. Instead, it's practically an
-alphabetical order when running dnf.
-
-This doesn't just involve my custom packages, but also clamav
-plus another one in which I ship a small limited set of
-virus signatures, also chown'd to clamav and with RDEPENDS
-on clamav.
-
-What is the correct solution to this?
-
-Thanks in advance,
-Zoltán Böszörményi
+On Wed, Sep 22, 2021 at 5:08 AM TOSCANELLI Massimo
+<massimo.toscanelli@leica-geosystems.com> wrote:
+>
+> Dear Steve,
+>
+>
+>
+> I would need the =E2=80=9CUnlicense=E2=80=9D license in dunfell.
+>
+> Is it possible to backport this commit?
+>
+> https://github.com/openembedded/openembedded-core/commit/7698f3145a9c4877=
+8d7bb79f54df169cf375349c
+>
+>
+>
+> Looking forward to your reply
+>
+>
+>
+> Massimo Toscanelli
