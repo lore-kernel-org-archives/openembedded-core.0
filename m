@@ -1,78 +1,1323 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web09.393.1632496220648014091
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web11.400.1632496222160316994
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Sep 2021 08:10:20 -0700
+ Fri, 24 Sep 2021 08:10:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cxX5JdtG;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id 138so28015430qko.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 08:10:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QSiRtPcU;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id r16so9660533qtw.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Sep 2021 08:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0OUGgEKISkzG3BGohZY/K++45sY6bPiukbSKyv1P41I=;
-        b=cxX5JdtGOcTVcB2Y8a8mU+aVMQWVj7J82T8i8tNjPvCICqJ01BaYTaLNhpmpLtKVbv
-         kKkMp8JSjYWtZ0YksoR8r0UE9VmbVSi3vL586FUIL0tJpw+wPcZTKepdak9mxOv39GzZ
-         G0XZOh5MdcLvVH5QeNPpe6mKiodipzAGfC7BWo/wY6VzYgUpuFontQ6rSovly0AYTPoM
-         YxjDbcvsL71wGUZtDDQx//n9t/iNzkdmD8hqOBPd/rI9Fzq6JBj0NdBZHYzkEUE8JlsG
-         BRaZzhjfcrnAdL16GBPP8K//8utpgBEFg9KABcx4kFMFGa25L/0iWCw1CC1v9WP0VLQQ
-         uZbQ==
+        bh=asWNs9/OGYAYEhtH0/V65+dkoa8hpUMH2TkI1SyLqqk=;
+        b=QSiRtPcU2DOf1ilVFDzl1wBFVPf5cYWt8IaU1N5BgHhL61vu0xzUQ0rKtVYx6KOG8a
+         OeskuWAF4Kdv/srbY2oXh8tjTFdQbZPWg3ydXbqEOU/RbU8YrZLqYgHZqeSHocjJdnXb
+         sGOPBb9y9VplyoZGAxBEOMURGc5jp1GwYT5Qr0U0VUFKnK1VOgDVqqapoZJFQmhW5Z86
+         lO7rLEkblrdVxbtWWsdmipNb55a5vO1bh6T7nvKuKgMfvImjweY2wJq+lbsEJroSXkKy
+         wET+rn+/CaN0HnKFnmsGY9oXGWrfyjJ/0Kub/f7lhNeY7TwL45GW2J4McnOVwnmCYHKI
+         v6Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0OUGgEKISkzG3BGohZY/K++45sY6bPiukbSKyv1P41I=;
-        b=uLbKLcrynQJwQ0gs47moXr6F6FixD4F/gAZh6bUskMpjASdDEtjLwYIfdHG2JjVAVn
-         NClTGL2p60k9rk5KCgSYmVIAgxBFJBv2fonnaf0K3qGMkJBDLN8CRpABsgCmeeqKUaIS
-         wsBiH2fbNCmVaJniJoVQ0e1uhCIwBrBxNIQLLbmeu+Fop/R2hCvAl9k97FHdBYNSumO2
-         uV3vb0JdYsGD5YwFV8YVahlQd3twmSdSA7ECBktHba1Q/gCerSQwjGdG8vfiFdPAJqr8
-         lIUkml5r/f2A1wop8IhPU1Gyh/RbLATS+QPgrRs4SgHoT5vAnY+VDSr0sY6Odmpzss/D
-         8YRg==
-X-Gm-Message-State: AOAM531nd201fbXpadO+mynCyheQjwT04g/n+eqsiAWcpBShFKF9Hv1j
-	147z+0efmQI4wInDyGfaNxA=
-X-Google-Smtp-Source: ABdhPJzZayQ2pXf124kDaohcBxe4Wkm6pX4KOwiPeKsy86874sNkgKHetldgHOp7KFFl4I7KJJXwKA==
-X-Received: by 2002:a05:620a:bd4:: with SMTP id s20mr11176277qki.485.1632496219777;
-        Fri, 24 Sep 2021 08:10:19 -0700 (PDT)
+        bh=asWNs9/OGYAYEhtH0/V65+dkoa8hpUMH2TkI1SyLqqk=;
+        b=UUwcbNDHVBRCXFwlf7hVnEsDXtH8K/HH5OxL4bNtsysRs+k0X4HykaYGDwZjd4skkn
+         K6PyKx1xj+9VNyojIuJtrrRwdDn/49EW0dr/xNowvCQBRgnFcAXcvcQCOuptBabbXi0U
+         R1gPatLVNB0cFOZIJCapHWOpZMm99QVB8JSjqXIJwQexi/mJhB1+R/nP2FgnRBXgWWJJ
+         5+IRzk78R/tk+wfmmNh43B1y+YmgT5/ZuRHP9AnaK9/pPhRoHuE1xwLO7yfM1Um1nyPB
+         MgTtH2ZRBHuf6Vumls+r1x24ZjOWd8ezewsvYOJsHEq9XM9uwPAEQvZAkTlfl9RtvMg+
+         vXgw==
+X-Gm-Message-State: AOAM5332RxydnrQKlu+gNPqu2SliY9RNF9FDkbZqz0dQVqsfUBkkZ4+n
+	/RvoWuaPORn9IX5EYIEcYjwPAvPdQ+MdDg==
+X-Google-Smtp-Source: ABdhPJx3vqmUMUtWwzUE9hBnjjANNY8+yaXIZDqKnjhlJRLd1qcky6AZgqS7EZ78Cmd/hYWCmurEJA==
+X-Received: by 2002:ac8:534b:: with SMTP id d11mr4738412qto.167.1632496220757;
+        Fri, 24 Sep 2021 08:10:20 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id k203sm6439797qke.124.2021.09.24.08.10.18
+        by smtp.gmail.com with ESMTPSA id k203sm6439797qke.124.2021.09.24.08.10.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 08:10:18 -0700 (PDT)
+        Fri, 24 Sep 2021 08:10:20 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] linux-yocto-dev: update to v5.15-rcX
-Date: Fri, 24 Sep 2021 11:10:12 -0400
-Message-Id: <bcd08e16a7aaf8db14f893c52dd9576999136761.1632495931.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 2/4] lttng-modules: fix build against 5.15+
+Date: Fri, 24 Sep 2021 11:10:13 -0400
+Message-Id: <1a5ee92e678800e1b7804be2513f08924ceed1c1.1632495931.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1632495931.git.bruce.ashfield@gmail.com>
 References: <cover.1632495931.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The main reference kernel has moved to 5.14, so we bump -dev to
-5.15 for the release.
+When testing linux-yocto-dev 5.15-rc, lttng-modules fails to build.
+Upstream already has fixes for 5.15 in the release branch, so we
+backport the two patches here and we can drop them on the next version
+bump.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...Remove-deprecated-CPU-hotplug-functi.patch | 394 +++++++++
+ ...ile-Enable-Wimplicit-fallthrough-for.patch | 829 ++++++++++++++++++
+ .../lttng/lttng-modules_2.13.0.bb             |   5 +-
+ 3 files changed, 1227 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-cpu-hotplug-Remove-deprecated-CPU-hotplug-functi.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-Revert-Makefile-Enable-Wimplicit-fallthrough-for.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 0911787009..f58b5ab0b8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-cpu-hotplug-Remove-deprecated-CPU-hotplug-functi.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-cpu-hotplug-Remove-deprecated-CPU-hotplug-functi.patch
+new file mode 100644
+index 0000000000..4e52e5f122
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-cpu-hotplug-Remove-deprecated-CPU-hotplug-functi.patch
+@@ -0,0 +1,394 @@
++From 8be4c8a38ee1e297578e094a6e4c143ec5259aba Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 13 Sep 2021 12:00:38 -0400
++Subject: [PATCH 1/2] fix: cpu/hotplug: Remove deprecated CPU-hotplug
++ functions. (v5.15)
++
++The CPU-hotplug functions get|put_online_cpus() were deprecated in v4.13
++and removed in v5.15.
++
++See upstream commits :
++
++commit 8c854303ce0e38e5bbedd725ff39da7e235865d8
++Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
++Date:   Tue Aug 3 16:16:21 2021 +0200
++
++    cpu/hotplug: Remove deprecated CPU-hotplug functions.
++
++    No users in tree use the deprecated CPU-hotplug functions anymore.
++
++    Remove them.
++
++Introduced in v4.13 :
++
++  commit 8f553c498e1772cccb39a114da4a498d22992758
++  Author: Thomas Gleixner <tglx@linutronix.de>
++  Date:   Wed May 24 10:15:12 2017 +0200
++
++    cpu/hotplug: Provide cpus_read|write_[un]lock()
++
++    The counting 'rwsem' hackery of get|put_online_cpus() is going to be
++    replaced by percpu rwsem.
++
++    Rename the functions to make it clear that it's locking and not some
++    refcount style interface. These new functions will be used for the
++    preparatory patches which make the code ready for the percpu rwsem
++    conversion.
++
++    Rename all instances in the cpu hotplug code while at it.
++
++Upstream-Status: backport [https://git.lttng.org/?p=lttng-modules.git;a=commit;h=ffcc873470121ef1ebb110df3d9038a38d9cb7cb]
++
++Change-Id: I5a37cf5afc075a402b7347989fac637dfa60a1ed
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ include/wrapper/cpu.h                     | 44 +++++++++++++++++++++++
++ src/lib/ringbuffer/ring_buffer_backend.c  |  8 ++---
++ src/lib/ringbuffer/ring_buffer_frontend.c | 17 ++++-----
++ src/lib/ringbuffer/ring_buffer_iterator.c | 15 ++++----
++ src/lttng-context-perf-counters.c         | 11 +++---
++ src/lttng-statedump-impl.c                |  6 ++--
++ 6 files changed, 74 insertions(+), 27 deletions(-)
++ create mode 100644 include/wrapper/cpu.h
++
++diff --git a/include/wrapper/cpu.h b/include/wrapper/cpu.h
++new file mode 100644
++index 00000000..cbee1962
++--- /dev/null
+++++ b/include/wrapper/cpu.h
++@@ -0,0 +1,44 @@
+++/* SPDX-License-Identifier: (GPL-2.0-only or LGPL-2.1-only)
+++ *
+++ * wrapper/cpu.h
+++ *
+++ * Copyright (C) 2021 Michael Jeanson <mjeanson@efficios.com>
+++ */
+++
+++#ifndef _LTTNG_WRAPPER_CPU_H
+++#define _LTTNG_WRAPPER_CPU_H
+++
+++#include <linux/cpu.h>
+++#include <lttng/kernel-version.h>
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
+++
+++static inline
+++void lttng_cpus_read_lock(void)
+++{
+++	cpus_read_lock();
+++}
+++
+++static inline
+++void lttng_cpus_read_unlock(void)
+++{
+++	cpus_read_unlock();
+++}
+++
+++#else /* LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0) */
+++
+++static inline
+++void lttng_cpus_read_lock(void)
+++{
+++	get_online_cpus();
+++}
+++
+++static inline
+++void lttng_cpus_read_unlock(void)
+++{
+++	put_online_cpus();
+++}
+++
+++#endif /* LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0) */
+++
+++#endif /* _LTTNG_WRAPPER_CPU_H */
++diff --git a/src/lib/ringbuffer/ring_buffer_backend.c b/src/lib/ringbuffer/ring_buffer_backend.c
++index 26efb2bc..9a339be0 100644
++--- a/src/lib/ringbuffer/ring_buffer_backend.c
+++++ b/src/lib/ringbuffer/ring_buffer_backend.c
++@@ -12,10 +12,10 @@
++ #include <linux/delay.h>
++ #include <linux/errno.h>
++ #include <linux/slab.h>
++-#include <linux/cpu.h>
++ #include <linux/mm.h>
++ #include <linux/vmalloc.h>
++ 
+++#include <wrapper/cpu.h>
++ #include <wrapper/mm.h>
++ #include <wrapper/vmalloc.h>	/* for wrapper_vmalloc_sync_mappings() */
++ #include <ringbuffer/config.h>
++@@ -445,14 +445,14 @@ int channel_backend_init(struct channel_backend *chanb,
++ 			chanb->cpu_hp_notifier.priority = 5;
++ 			register_hotcpu_notifier(&chanb->cpu_hp_notifier);
++ 
++-			get_online_cpus();
+++			lttng_cpus_read_lock();
++ 			for_each_online_cpu(i) {
++ 				ret = lib_ring_buffer_create(per_cpu_ptr(chanb->buf, i),
++ 							 chanb, i);
++ 				if (ret)
++ 					goto free_bufs;	/* cpu hotplug locked */
++ 			}
++-			put_online_cpus();
+++			lttng_cpus_read_unlock();
++ #else
++ 			for_each_possible_cpu(i) {
++ 				ret = lib_ring_buffer_create(per_cpu_ptr(chanb->buf, i),
++@@ -485,7 +485,7 @@ free_bufs:
++ 		 */
++ #else /* #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,10,0)) */
++ #ifdef CONFIG_HOTPLUG_CPU
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ 		unregister_hotcpu_notifier(&chanb->cpu_hp_notifier);
++ #endif
++ #endif /* #else #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,10,0)) */
++diff --git a/src/lib/ringbuffer/ring_buffer_frontend.c b/src/lib/ringbuffer/ring_buffer_frontend.c
++index e9056118..87a575d0 100644
++--- a/src/lib/ringbuffer/ring_buffer_frontend.c
+++++ b/src/lib/ringbuffer/ring_buffer_frontend.c
++@@ -48,6 +48,7 @@
++ #include <ringbuffer/iterator.h>
++ #include <ringbuffer/nohz.h>
++ #include <wrapper/atomic.h>
+++#include <wrapper/cpu.h>
++ #include <wrapper/kref.h>
++ #include <wrapper/percpu-defs.h>
++ #include <wrapper/timer.h>
++@@ -724,7 +725,7 @@ static void channel_unregister_notifiers(struct lttng_kernel_ring_buffer_channel
++ 			int cpu;
++ 
++ #ifdef CONFIG_HOTPLUG_CPU
++-			get_online_cpus();
+++			lttng_cpus_read_lock();
++ 			chan->cpu_hp_enable = 0;
++ 			for_each_online_cpu(cpu) {
++ 				struct lttng_kernel_ring_buffer *buf = per_cpu_ptr(chan->backend.buf,
++@@ -732,7 +733,7 @@ static void channel_unregister_notifiers(struct lttng_kernel_ring_buffer_channel
++ 				lib_ring_buffer_stop_switch_timer(buf);
++ 				lib_ring_buffer_stop_read_timer(buf);
++ 			}
++-			put_online_cpus();
+++			lttng_cpus_read_unlock();
++ 			unregister_cpu_notifier(&chan->cpu_hp_notifier);
++ #else
++ 			for_each_possible_cpu(cpu) {
++@@ -772,14 +773,14 @@ void lib_ring_buffer_set_quiescent_channel(struct lttng_kernel_ring_buffer_chann
++ 	const struct lttng_kernel_ring_buffer_config *config = &chan->backend.config;
++ 
++ 	if (config->alloc == RING_BUFFER_ALLOC_PER_CPU) {
++-		get_online_cpus();
+++		lttng_cpus_read_lock();
++ 		for_each_channel_cpu(cpu, chan) {
++ 			struct lttng_kernel_ring_buffer *buf = per_cpu_ptr(chan->backend.buf,
++ 							      cpu);
++ 
++ 			lib_ring_buffer_set_quiescent(buf);
++ 		}
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ 	} else {
++ 		struct lttng_kernel_ring_buffer *buf = chan->backend.buf;
++ 
++@@ -794,14 +795,14 @@ void lib_ring_buffer_clear_quiescent_channel(struct lttng_kernel_ring_buffer_cha
++ 	const struct lttng_kernel_ring_buffer_config *config = &chan->backend.config;
++ 
++ 	if (config->alloc == RING_BUFFER_ALLOC_PER_CPU) {
++-		get_online_cpus();
+++		lttng_cpus_read_lock();
++ 		for_each_channel_cpu(cpu, chan) {
++ 			struct lttng_kernel_ring_buffer *buf = per_cpu_ptr(chan->backend.buf,
++ 							      cpu);
++ 
++ 			lib_ring_buffer_clear_quiescent(buf);
++ 		}
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ 	} else {
++ 		struct lttng_kernel_ring_buffer *buf = chan->backend.buf;
++ 
++@@ -899,7 +900,7 @@ struct lttng_kernel_ring_buffer_channel *channel_create(const struct lttng_kerne
++ 			chan->cpu_hp_notifier.priority = 6;
++ 			register_cpu_notifier(&chan->cpu_hp_notifier);
++ 
++-			get_online_cpus();
+++			lttng_cpus_read_lock();
++ 			for_each_online_cpu(cpu) {
++ 				struct lttng_kernel_ring_buffer *buf = per_cpu_ptr(chan->backend.buf,
++ 								       cpu);
++@@ -909,7 +910,7 @@ struct lttng_kernel_ring_buffer_channel *channel_create(const struct lttng_kerne
++ 				spin_unlock(&per_cpu(ring_buffer_nohz_lock, cpu));
++ 			}
++ 			chan->cpu_hp_enable = 1;
++-			put_online_cpus();
+++			lttng_cpus_read_unlock();
++ #else
++ 			for_each_possible_cpu(cpu) {
++ 				struct lttng_kernel_ring_buffer *buf = per_cpu_ptr(chan->backend.buf,
++diff --git a/src/lib/ringbuffer/ring_buffer_iterator.c b/src/lib/ringbuffer/ring_buffer_iterator.c
++index 25839af6..60c95ca6 100644
++--- a/src/lib/ringbuffer/ring_buffer_iterator.c
+++++ b/src/lib/ringbuffer/ring_buffer_iterator.c
++@@ -10,6 +10,7 @@
++  */
++ 
++ #include <ringbuffer/iterator.h>
+++#include <wrapper/cpu.h>
++ #include <wrapper/file.h>
++ #include <wrapper/uaccess.h>
++ #include <linux/jiffies.h>
++@@ -440,13 +441,13 @@ int channel_iterator_init(struct lttng_kernel_ring_buffer_channel *chan)
++ 			chan->hp_iter_notifier.priority = 10;
++ 			register_cpu_notifier(&chan->hp_iter_notifier);
++ 
++-			get_online_cpus();
+++			lttng_cpus_read_lock();
++ 			for_each_online_cpu(cpu) {
++ 				buf = per_cpu_ptr(chan->backend.buf, cpu);
++ 				lib_ring_buffer_iterator_init(chan, buf);
++ 			}
++ 			chan->hp_iter_enable = 1;
++-			put_online_cpus();
+++			lttng_cpus_read_unlock();
++ #else
++ 			for_each_possible_cpu(cpu) {
++ 				buf = per_cpu_ptr(chan->backend.buf, cpu);
++@@ -519,7 +520,7 @@ int channel_iterator_open(struct lttng_kernel_ring_buffer_channel *chan)
++ 	CHAN_WARN_ON(chan, config->output != RING_BUFFER_ITERATOR);
++ 
++ 	if (config->alloc == RING_BUFFER_ALLOC_PER_CPU) {
++-		get_online_cpus();
+++		lttng_cpus_read_lock();
++ 		/* Allow CPU hotplug to keep track of opened reader */
++ 		chan->iter.read_open = 1;
++ 		for_each_channel_cpu(cpu, chan) {
++@@ -529,7 +530,7 @@ int channel_iterator_open(struct lttng_kernel_ring_buffer_channel *chan)
++ 				goto error;
++ 			buf->iter.read_open = 1;
++ 		}
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ 	} else {
++ 		buf = channel_get_ring_buffer(config, chan, 0);
++ 		ret = lib_ring_buffer_iterator_open(buf);
++@@ -538,7 +539,7 @@ int channel_iterator_open(struct lttng_kernel_ring_buffer_channel *chan)
++ error:
++ 	/* Error should always happen on CPU 0, hence no close is required. */
++ 	CHAN_WARN_ON(chan, cpu != 0);
++-	put_online_cpus();
+++	lttng_cpus_read_unlock();
++ 	return ret;
++ }
++ EXPORT_SYMBOL_GPL(channel_iterator_open);
++@@ -550,7 +551,7 @@ void channel_iterator_release(struct lttng_kernel_ring_buffer_channel *chan)
++ 	int cpu;
++ 
++ 	if (config->alloc == RING_BUFFER_ALLOC_PER_CPU) {
++-		get_online_cpus();
+++		lttng_cpus_read_lock();
++ 		for_each_channel_cpu(cpu, chan) {
++ 			buf = channel_get_ring_buffer(config, chan, cpu);
++ 			if (buf->iter.read_open) {
++@@ -559,7 +560,7 @@ void channel_iterator_release(struct lttng_kernel_ring_buffer_channel *chan)
++ 			}
++ 		}
++ 		chan->iter.read_open = 0;
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ 	} else {
++ 		buf = channel_get_ring_buffer(config, chan, 0);
++ 		lib_ring_buffer_iterator_release(buf);
++diff --git a/src/lttng-context-perf-counters.c b/src/lttng-context-perf-counters.c
++index b0227d47..372f05e0 100644
++--- a/src/lttng-context-perf-counters.c
+++++ b/src/lttng-context-perf-counters.c
++@@ -16,6 +16,7 @@
++ #include <lttng/events.h>
++ #include <lttng/events-internal.h>
++ #include <ringbuffer/frontend_types.h>
+++#include <wrapper/cpu.h>
++ #include <wrapper/vmalloc.h>
++ #include <wrapper/perf.h>
++ #include <lttng/tracer.h>
++@@ -97,10 +98,10 @@ void lttng_destroy_perf_counter_ctx_field(void *priv)
++ 	{
++ 		int cpu;
++ 
++-		get_online_cpus();
+++		lttng_cpus_read_lock();
++ 		for_each_online_cpu(cpu)
++ 			perf_event_release_kernel(events[cpu]);
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ #ifdef CONFIG_HOTPLUG_CPU
++ 		unregister_cpu_notifier(&perf_field->nb);
++ #endif
++@@ -304,7 +305,7 @@ int lttng_add_perf_counter_to_ctx(uint32_t type,
++ 		perf_field->nb.priority = 0;
++ 		register_cpu_notifier(&perf_field->nb);
++ #endif
++-		get_online_cpus();
+++		lttng_cpus_read_lock();
++ 		for_each_online_cpu(cpu) {
++ 			events[cpu] = wrapper_perf_event_create_kernel_counter(attr,
++ 						cpu, NULL, overflow_callback);
++@@ -317,7 +318,7 @@ int lttng_add_perf_counter_to_ctx(uint32_t type,
++ 				goto counter_busy;
++ 			}
++ 		}
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ 		perf_field->hp_enable = 1;
++ 	}
++ #endif /* #else #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,10,0)) */
++@@ -351,7 +352,7 @@ counter_error:
++ 			if (events[cpu] && !IS_ERR(events[cpu]))
++ 				perf_event_release_kernel(events[cpu]);
++ 		}
++-		put_online_cpus();
+++		lttng_cpus_read_unlock();
++ #ifdef CONFIG_HOTPLUG_CPU
++ 		unregister_cpu_notifier(&perf_field->nb);
++ #endif
++diff --git a/src/lttng-statedump-impl.c b/src/lttng-statedump-impl.c
++index 4dfbca0b..2b42783a 100644
++--- a/src/lttng-statedump-impl.c
+++++ b/src/lttng-statedump-impl.c
++@@ -23,7 +23,6 @@
++ #include <linux/file.h>
++ #include <linux/interrupt.h>
++ #include <linux/irqnr.h>
++-#include <linux/cpu.h>
++ #include <linux/netdevice.h>
++ #include <linux/inetdevice.h>
++ #include <linux/mm.h>
++@@ -34,6 +33,7 @@
++ 
++ #include <lttng/events.h>
++ #include <lttng/tracer.h>
+++#include <wrapper/cpu.h>
++ #include <wrapper/irqdesc.h>
++ #include <wrapper/fdtable.h>
++ #include <wrapper/namespace.h>
++@@ -770,7 +770,7 @@ int do_lttng_statedump(struct lttng_kernel_session *session)
++ 	 * is to guarantee that each CPU has been in a state where is was in
++ 	 * syscall mode (i.e. not in a trap, an IRQ or a soft IRQ).
++ 	 */
++-	get_online_cpus();
+++	lttng_cpus_read_lock();
++ 	atomic_set(&kernel_threads_to_run, num_online_cpus());
++ 	for_each_online_cpu(cpu) {
++ 		INIT_DELAYED_WORK(&cpu_work[cpu], lttng_statedump_work_func);
++@@ -778,7 +778,7 @@ int do_lttng_statedump(struct lttng_kernel_session *session)
++ 	}
++ 	/* Wait for all threads to run */
++ 	__wait_event(statedump_wq, (atomic_read(&kernel_threads_to_run) == 0));
++-	put_online_cpus();
+++	lttng_cpus_read_unlock();
++ 	/* Our work is done */
++ 	trace_lttng_statedump_end(session);
++ 	return 0;
++-- 
++2.19.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-fix-Revert-Makefile-Enable-Wimplicit-fallthrough-for.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-fix-Revert-Makefile-Enable-Wimplicit-fallthrough-for.patch
+new file mode 100644
+index 0000000000..5b5edc5319
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0002-fix-Revert-Makefile-Enable-Wimplicit-fallthrough-for.patch
+@@ -0,0 +1,829 @@
++From c570be0da77e963d77bac099d468bc0cd5f1bd63 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 13 Sep 2021 14:16:22 -0400
++Subject: [PATCH 2/2] fix: Revert "Makefile: Enable -Wimplicit-fallthrough for
++ Clang" (v5.15)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Starting with v5.15, "-Wimplicit-fallthrough=5" was added to the build
++flags which requires the use of "__attribute__((__fallthrough__))" to
++annotate fallthrough case statements.
++
++See upstream commit by the man himself:
++
++  commit d936eb23874433caa3e3d841cfa16f5434b85dcf
++  Author: Linus Torvalds <torvalds@linux-foundation.org>
++  Date:   Thu Jul 15 18:05:31 2021 -0700
++
++    Revert "Makefile: Enable -Wimplicit-fallthrough for Clang"
++
++    This reverts commit b7eb335e26a9c7f258c96b3962c283c379d3ede0.
++
++    It turns out that the problem with the clang -Wimplicit-fallthrough
++    warning is not about the kernel source code, but about clang itself, and
++    that the warning is unusable until clang fixes its broken ways.
++
++    In particular, when you enable this warning for clang, you not only get
++    warnings about implicit fallthroughs.  You also get this:
++
++       warning: fallthrough annotation in unreachable code [-Wimplicit-fallthrough]
++
++    which is completely broken becasue it
++
++     (a) doesn't even tell you where the problem is (seriously: no line
++         numbers, no filename, no nothing).
++
++     (b) is fundamentally broken anyway, because there are perfectly valid
++         reasons to have a fallthrough statement even if it turns out that
++         it can perhaps not be reached.
++
++    In the kernel, an example of that second case is code in the scheduler:
++
++                    switch (state) {
++                    case cpuset:
++                            if (IS_ENABLED(CONFIG_CPUSETS)) {
++                                    cpuset_cpus_allowed_fallback(p);
++                                    state = possible;
++                                    break;
++                            }
++                            fallthrough;
++                    case possible:
++
++    where if CONFIG_CPUSETS is enabled you actually never hit the
++    fallthrough case at all.  But that in no way makes the fallthrough
++    wrong.
++
++    So the warning is completely broken, and enabling it for clang is a very
++    bad idea.
++
++    In the meantime, we can keep the gcc option enabled, and make the gcc
++    build use
++
++        -Wimplicit-fallthrough=5
++
++    which means that we will at least continue to require a proper
++    fallthrough statement, and that gcc won't silently accept the magic
++    comment versions. Because gcc does this all correctly, and while the odd
++    "=5" part is kind of obscure, it's documented in [1]:
++
++      "-Wimplicit-fallthrough=5 doesn’t recognize any comments as
++       fallthrough comments, only attributes disable the warning"
++
++    so if clang ever fixes its bad behavior we can try enabling it there again.
++
++Upstream-Status: backport [https://git.lttng.org/?p=lttng-modules.git;a=commit;h=c190d76e8c7b44d62b3651ab845b765c1b1f8104]
++
++Change-Id: Iea69849592fb69ac04fb9bb28efcd6b8dce8ba88
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ include/counter/counter-api.h         |   4 +-
++ include/lttng/events-internal.h       |  11 ++-
++ include/wrapper/compiler_attributes.h |  34 +++++++
++ src/lib/counter/counter.c             |  13 ++-
++ src/lttng-abi.c                       |  91 ++++++++++++------
++ src/lttng-bytecode-interpreter.c      |   4 +-
++ src/lttng-bytecode-specialize.c       |   5 +-
++ src/lttng-events.c                    | 129 +++++++++++++++++---------
++ src/lttng-string-utils.c              |   3 +-
++ src/probes/lttng-kretprobes.c         |   7 +-
++ 10 files changed, 215 insertions(+), 86 deletions(-)
++ create mode 100644 include/wrapper/compiler_attributes.h
++
++diff --git a/include/counter/counter-api.h b/include/counter/counter-api.h
++index fbc65818..c9f2b141 100644
++--- a/include/counter/counter-api.h
+++++ b/include/counter/counter-api.h
++@@ -15,6 +15,7 @@
++ #include <linux/bitops.h>
++ #include <counter/counter.h>
++ #include <counter/counter-internal.h>
+++#include <wrapper/compiler_attributes.h>
++ #include <wrapper/limits.h>
++ 
++ /*
++@@ -256,7 +257,8 @@ static __always_inline int lttng_counter_add(const struct lib_counter_config *co
++ 				    const size_t *dimension_indexes, int64_t v)
++ {
++ 	switch (config->alloc) {
++-	case COUNTER_ALLOC_PER_CPU:	/* Fallthrough */
+++	case COUNTER_ALLOC_PER_CPU:
+++		lttng_fallthrough;
++ 	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:
++ 		return __lttng_counter_add_percpu(config, counter, dimension_indexes, v);
++ 	case COUNTER_ALLOC_GLOBAL:
++diff --git a/include/lttng/events-internal.h b/include/lttng/events-internal.h
++index cd560de8..ca2190c4 100644
++--- a/include/lttng/events-internal.h
+++++ b/include/lttng/events-internal.h
++@@ -8,6 +8,8 @@
++ #ifndef _LTTNG_EVENTS_INTERNAL_H
++ #define _LTTNG_EVENTS_INTERNAL_H
++ 
+++#include <wrapper/compiler_attributes.h>
+++
++ #include <lttng/events.h>
++ 
++ struct lttng_syscall_filter;
++@@ -561,9 +563,12 @@ static inline bool lttng_kernel_type_is_bytewise_integer(const struct lttng_kern
++ 	if (!type_integer)
++ 		return false;
++ 	switch (type_integer->size) {
++-	case 8:		/* Fall-through. */
++-	case 16:	/* Fall-through. */
++-	case 32:	/* Fall-through. */
+++	case 8:
+++		lttng_fallthrough;
+++	case 16:
+++		lttng_fallthrough;
+++	case 32:
+++		lttng_fallthrough;
++ 	case 64:
++ 		break;
++ 	default:
++diff --git a/include/wrapper/compiler_attributes.h b/include/wrapper/compiler_attributes.h
++new file mode 100644
++index 00000000..c2c96e76
++--- /dev/null
+++++ b/include/wrapper/compiler_attributes.h
++@@ -0,0 +1,34 @@
+++/* SPDX-License-Identifier: (GPL-2.0-only or LGPL-2.1-only)
+++ *
+++ * wrapper/compiler_attributes.h
+++ *
+++ * Copyright (C) 2021 Michael Jeanson <mjeanson@efficios.com>
+++ */
+++
+++#ifndef _LTTNG_WRAPPER_COMPILER_ATTRIBUTES_H
+++#define _LTTNG_WRAPPER_COMPILER_ATTRIBUTES_H
+++
+++#include <lttng/kernel-version.h>
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0))
+++#include <linux/compiler_attributes.h>
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,4,0))
+++
+++/*
+++ * Use the kernel provided fallthrough attribute macro.
+++ */
+++#define lttng_fallthrough fallthrough
+++
+++#else /* LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,4,0) */
+++
+++/*
+++ * Fallback to the comment for kernels pre 5.15 that don't build with
+++ * '-Wimplicit-fallthrough=5'.
+++ */
+++#define lttng_fallthrough do {} while (0)  /* fallthrough */
+++
+++#endif /* LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,4,0) */
+++
+++#endif /* _LTTNG_WRAPPER_COMPILER_ATTRIBUTES_H */
++diff --git a/src/lib/counter/counter.c b/src/lib/counter/counter.c
++index a4500a0e..bf038aac 100644
++--- a/src/lib/counter/counter.c
+++++ b/src/lib/counter/counter.c
++@@ -11,6 +11,7 @@
++ #include <linux/cpumask.h>
++ #include <counter/counter.h>
++ #include <counter/counter-internal.h>
+++#include <wrapper/compiler_attributes.h>
++ #include <wrapper/vmalloc.h>
++ #include <wrapper/limits.h>
++ 
++@@ -324,7 +325,8 @@ int lttng_counter_aggregate(const struct lib_counter_config *config,
++ 	*underflow = false;
++ 
++ 	switch (config->alloc) {
++-	case COUNTER_ALLOC_GLOBAL:	/* Fallthrough */
+++	case COUNTER_ALLOC_GLOBAL:
+++		lttng_fallthrough;
++ 	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:
++ 		/* Read global counter. */
++ 		ret = lttng_counter_read(config, counter, dimension_indexes,
++@@ -342,7 +344,8 @@ int lttng_counter_aggregate(const struct lib_counter_config *config,
++ 	switch (config->alloc) {
++ 	case COUNTER_ALLOC_GLOBAL:
++ 		break;
++-	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:	/* Fallthrough */
+++	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:
+++		lttng_fallthrough;
++ 	case COUNTER_ALLOC_PER_CPU:
++ 		//TODO: integrate with CPU hotplug and online cpus
++ 		for (cpu = 0; cpu < num_possible_cpus(); cpu++) {
++@@ -448,7 +451,8 @@ int lttng_counter_clear(const struct lib_counter_config *config,
++ 	int cpu, ret;
++ 
++ 	switch (config->alloc) {
++-	case COUNTER_ALLOC_GLOBAL:	/* Fallthrough */
+++	case COUNTER_ALLOC_GLOBAL:
+++		lttng_fallthrough;
++ 	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:
++ 		/* Clear global counter. */
++ 		ret = lttng_counter_clear_cpu(config, counter, dimension_indexes, -1);
++@@ -462,7 +466,8 @@ int lttng_counter_clear(const struct lib_counter_config *config,
++ 	switch (config->alloc) {
++ 	case COUNTER_ALLOC_GLOBAL:
++ 		break;
++-	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:	/* Fallthrough */
+++	case COUNTER_ALLOC_PER_CPU | COUNTER_ALLOC_GLOBAL:
+++		lttng_fallthrough;
++ 	case COUNTER_ALLOC_PER_CPU:
++ 		//TODO: integrate with CPU hotplug and online cpus
++ 		for (cpu = 0; cpu < num_possible_cpus(); cpu++) {
++diff --git a/src/lttng-abi.c b/src/lttng-abi.c
++index cc453894..eac1afd1 100644
++--- a/src/lttng-abi.c
+++++ b/src/lttng-abi.c
++@@ -34,6 +34,7 @@
++ #include <ringbuffer/vfs.h>
++ #include <ringbuffer/backend.h>
++ #include <ringbuffer/frontend.h>
+++#include <wrapper/compiler_attributes.h>
++ #include <wrapper/poll.h>
++ #include <wrapper/file.h>
++ #include <wrapper/kref.h>
++@@ -1332,7 +1333,8 @@ long lttng_metadata_ring_buffer_ioctl(struct file *filp,
++ 		 */
++ 		return -ENOSYS;
++ 	}
++-	case LTTNG_KERNEL_ABI_RING_BUFFER_FLUSH_EMPTY:	/* Fall-through. */
+++	case LTTNG_KERNEL_ABI_RING_BUFFER_FLUSH_EMPTY:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_RING_BUFFER_FLUSH:
++ 	{
++ 		struct lttng_metadata_stream *stream = filp->private_data;
++@@ -1441,7 +1443,8 @@ long lttng_metadata_ring_buffer_compat_ioctl(struct file *filp,
++ 		 */
++ 		return -ENOSYS;
++ 	}
++-	case LTTNG_KERNEL_ABI_RING_BUFFER_FLUSH_EMPTY:	/* Fall-through. */
+++	case LTTNG_KERNEL_ABI_RING_BUFFER_FLUSH_EMPTY:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_RING_BUFFER_FLUSH:
++ 	{
++ 		struct lttng_metadata_stream *stream = filp->private_data;
++@@ -1758,8 +1761,10 @@ int lttng_abi_validate_event_param(struct lttng_kernel_abi_event *event_param)
++ 	switch (event_param->instrumentation) {
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		switch (event_param->u.syscall.entryexit) {
++-		case LTTNG_KERNEL_ABI_SYSCALL_ENTRY:	/* Fall-through */
++-		case LTTNG_KERNEL_ABI_SYSCALL_EXIT:		/* Fall-through */
+++		case LTTNG_KERNEL_ABI_SYSCALL_ENTRY:
+++			lttng_fallthrough;
+++		case LTTNG_KERNEL_ABI_SYSCALL_EXIT:
+++			lttng_fallthrough;
++ 		case LTTNG_KERNEL_ABI_SYSCALL_ENTRYEXIT:
++ 			break;
++ 		default:
++@@ -1783,20 +1788,26 @@ int lttng_abi_validate_event_param(struct lttng_kernel_abi_event *event_param)
++ 		switch (event_param->u.kretprobe.entryexit) {
++ 		case LTTNG_KERNEL_ABI_SYSCALL_ENTRYEXIT:
++ 			break;
++-		case LTTNG_KERNEL_ABI_SYSCALL_ENTRY:	/* Fall-through */
++-		case LTTNG_KERNEL_ABI_SYSCALL_EXIT:		/* Fall-through */
+++		case LTTNG_KERNEL_ABI_SYSCALL_ENTRY:
+++			lttng_fallthrough;
+++		case LTTNG_KERNEL_ABI_SYSCALL_EXIT:
+++			lttng_fallthrough;
++ 		default:
++ 			return -EINVAL;
++ 		}
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:	/* Fall-through */
++-	case LTTNG_KERNEL_ABI_KPROBE:	/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:	/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		return -EINVAL;
++ 	}
++@@ -1830,18 +1841,23 @@ int lttng_abi_create_event(struct file *channel_file,
++ 	}
++ 
++ 	switch (event_param->instrumentation) {
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		fops = &lttng_event_recorder_enabler_fops;
++ 		break;
++-	case LTTNG_KERNEL_ABI_KPROBE:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_KRETPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 		fops = &lttng_event_recorder_event_fops;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:			/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		return -EINVAL;
++ 	}
++@@ -1867,7 +1883,8 @@ int lttng_abi_create_event(struct file *channel_file,
++ 		goto event_error;
++ 
++ 	switch (event_param->instrumentation) {
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 	{
++ 		struct lttng_event_enabler *event_enabler;
++@@ -1887,8 +1904,10 @@ int lttng_abi_create_event(struct file *channel_file,
++ 		break;
++ 	}
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_KRETPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 	{
++ 		struct lttng_kernel_event_recorder *event;
++@@ -1908,8 +1927,10 @@ int lttng_abi_create_event(struct file *channel_file,
++ 		break;
++ 	}
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:			/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		ret = -EINVAL;
++ 		goto event_error;
++@@ -2043,18 +2064,23 @@ int lttng_abi_create_event_notifier(struct file *event_notifier_group_file,
++ 	}
++ 
++ 	switch (event_notifier_param->event.instrumentation) {
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		fops = &lttng_event_notifier_enabler_fops;
++ 		break;
++-	case LTTNG_KERNEL_ABI_KPROBE:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_KRETPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 		fops = &lttng_event_notifier_event_fops;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:			/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		ret = -EINVAL;
++ 		goto inval_instr;
++@@ -2086,7 +2112,8 @@ int lttng_abi_create_event_notifier(struct file *event_notifier_group_file,
++ 		goto event_notifier_error;
++ 
++ 	switch (event_notifier_param->event.instrumentation) {
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 	{
++ 		struct lttng_event_notifier_enabler *enabler;
++@@ -2110,8 +2137,10 @@ int lttng_abi_create_event_notifier(struct file *event_notifier_group_file,
++ 		break;
++ 	}
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_KRETPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 	{
++ 		struct lttng_kernel_event_notifier *event_notifier;
++@@ -2135,8 +2164,10 @@ int lttng_abi_create_event_notifier(struct file *event_notifier_group_file,
++ 		break;
++ 	}
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:			/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:			/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		ret = -EINVAL;
++ 		goto event_notifier_error;
++diff --git a/src/lttng-bytecode-interpreter.c b/src/lttng-bytecode-interpreter.c
++index b46a23b7..a2a932c6 100644
++--- a/src/lttng-bytecode-interpreter.c
+++++ b/src/lttng-bytecode-interpreter.c
++@@ -7,6 +7,7 @@
++  * Copyright (C) 2010-2016 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++  */
++ 
+++#include <wrapper/compiler_attributes.h>
++ #include <wrapper/uaccess.h>
++ #include <wrapper/objtool.h>
++ #include <wrapper/types.h>
++@@ -421,7 +422,8 @@ static int dynamic_get_index(struct lttng_kernel_probe_ctx *lttng_probe_ctx,
++ 		}
++ 		break;
++ 	case LOAD_ROOT_CONTEXT:
++-	case LOAD_ROOT_APP_CONTEXT:	/* Fall-through */
+++		lttng_fallthrough;
+++	case LOAD_ROOT_APP_CONTEXT:
++ 	{
++ 		ret = context_get_index(lttng_probe_ctx,
++ 				&stack_top->u.ptr,
++diff --git a/src/lttng-bytecode-specialize.c b/src/lttng-bytecode-specialize.c
++index c4b9d04b..f8b5f19d 100644
++--- a/src/lttng-bytecode-specialize.c
+++++ b/src/lttng-bytecode-specialize.c
++@@ -8,6 +8,8 @@
++  */
++ 
++ #include <linux/slab.h>
+++#include <wrapper/compiler_attributes.h>
+++
++ #include <lttng/lttng-bytecode.h>
++ #include <lttng/align.h>
++ #include <lttng/events-internal.h>
++@@ -271,7 +273,8 @@ static int specialize_get_index(struct bytecode_runtime *runtime,
++ 		}
++ 		case OBJECT_TYPE_STRUCT:
++ 			/* Only generated by the specialize phase. */
++-		case OBJECT_TYPE_VARIANT:	/* Fall-through */
+++		case OBJECT_TYPE_VARIANT:
+++			lttng_fallthrough;
++ 		default:
++ 			printk(KERN_WARNING "LTTng: bytecode: Unexpected get index type %d",
++ 				(int) stack_top->load.object_type);
++diff --git a/src/lttng-events.c b/src/lttng-events.c
++index e785fe4d..230e3934 100644
++--- a/src/lttng-events.c
+++++ b/src/lttng-events.c
++@@ -28,6 +28,7 @@
++ #include <linux/vmalloc.h>
++ #include <linux/dmi.h>
++ 
+++#include <wrapper/compiler_attributes.h>
++ #include <wrapper/uuid.h>
++ #include <wrapper/vmalloc.h>	/* for wrapper_vmalloc_sync_mappings() */
++ #include <wrapper/random.h>
++@@ -659,12 +660,14 @@ int lttng_event_enable(struct lttng_kernel_event_common *event)
++ 		goto end;
++ 	}
++ 	switch (event->priv->instrumentation) {
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:	/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		ret = -EINVAL;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 		WRITE_ONCE(event->enabled, 1);
++ 		break;
++@@ -673,8 +676,10 @@ int lttng_event_enable(struct lttng_kernel_event_common *event)
++ 		ret = lttng_kretprobes_event_enable_state(event, 1);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 		ret = -EINVAL;
++@@ -719,12 +724,14 @@ int lttng_event_disable(struct lttng_kernel_event_common *event)
++ 		goto end;
++ 	}
++ 	switch (event->priv->instrumentation) {
++-	case LTTNG_KERNEL_ABI_TRACEPOINT:	/* Fall-through */
+++	case LTTNG_KERNEL_ABI_TRACEPOINT:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		ret = -EINVAL;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 		WRITE_ONCE(event->enabled, 0);
++ 		break;
++@@ -733,8 +740,10 @@ int lttng_event_disable(struct lttng_kernel_event_common *event)
++ 		ret = lttng_kretprobes_event_enable_state(event, 0);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 		ret = -EINVAL;
++@@ -873,15 +882,20 @@ struct lttng_kernel_event_recorder *_lttng_kernel_event_recorder_create(struct l
++ 		event_name = event_desc->event_name;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_UPROBE:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_KRETPROBE:	/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_UPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		event_name = event_param->name;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 		ret = -EINVAL;
++@@ -1093,8 +1107,10 @@ struct lttng_kernel_event_recorder *_lttng_kernel_event_recorder_create(struct l
++ 		WARN_ON_ONCE(!ret);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 		ret = -EINVAL;
++@@ -1141,15 +1157,20 @@ struct lttng_kernel_event_notifier *_lttng_event_notifier_create(
++ 		event_name = event_desc->event_name;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_UPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_UPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_SYSCALL:
++ 		event_name = event_notifier_param->event.name;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KRETPROBE:	/* Fall-through */
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 		ret = -EINVAL;
++@@ -1296,9 +1317,12 @@ struct lttng_kernel_event_notifier *_lttng_event_notifier_create(
++ 		WARN_ON_ONCE(!ret);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KRETPROBE:	/* Fall-through */
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 		ret = -EINVAL;
++@@ -1423,14 +1447,18 @@ void register_event(struct lttng_kernel_event_recorder *event_recorder)
++ 		ret = lttng_syscall_filter_enable_event(event_recorder->chan, event_recorder);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_UPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_UPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_KRETPROBE:
++ 		ret = 0;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 	}
++@@ -1481,7 +1509,8 @@ int _lttng_event_unregister(struct lttng_kernel_event_recorder *event_recorder)
++ 		ret = 0;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_FUNCTION:	/* Fall-through */
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 	}
++@@ -1512,14 +1541,18 @@ void register_event_notifier(struct lttng_kernel_event_notifier *event_notifier)
++ 		ret = lttng_syscall_filter_enable_event_notifier(event_notifier);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KPROBE:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KPROBE:
+++		lttng_fallthrough;
++ 	case LTTNG_KERNEL_ABI_UPROBE:
++ 		ret = 0;
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KRETPROBE:	/* Fall-through */
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 	}
++@@ -1559,9 +1592,12 @@ int _lttng_event_notifier_unregister(
++ 		ret = lttng_syscall_filter_disable_event_notifier(event_notifier);
++ 		break;
++ 
++-	case LTTNG_KERNEL_ABI_KRETPROBE:	/* Fall-through */
++-	case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-	case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++	case LTTNG_KERNEL_ABI_KRETPROBE:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_FUNCTION:
+++		lttng_fallthrough;
+++	case LTTNG_KERNEL_ABI_NOOP:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 	}
++@@ -1614,8 +1650,10 @@ void _lttng_event_destroy(struct lttng_kernel_event_common *event)
++ 			lttng_uprobes_destroy_event_private(event_recorder);
++ 			break;
++ 
++-		case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-		case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++		case LTTNG_KERNEL_ABI_FUNCTION:
+++			lttng_fallthrough;
+++		case LTTNG_KERNEL_ABI_NOOP:
+++			lttng_fallthrough;
++ 		default:
++ 			WARN_ON_ONCE(1);
++ 		}
++@@ -1647,9 +1685,12 @@ void _lttng_event_destroy(struct lttng_kernel_event_common *event)
++ 			lttng_uprobes_destroy_event_notifier_private(event_notifier);
++ 			break;
++ 
++-		case LTTNG_KERNEL_ABI_KRETPROBE:	/* Fall-through */
++-		case LTTNG_KERNEL_ABI_FUNCTION:		/* Fall-through */
++-		case LTTNG_KERNEL_ABI_NOOP:		/* Fall-through */
+++		case LTTNG_KERNEL_ABI_KRETPROBE:
+++			lttng_fallthrough;
+++		case LTTNG_KERNEL_ABI_FUNCTION:
+++			lttng_fallthrough;
+++		case LTTNG_KERNEL_ABI_NOOP:
+++			lttng_fallthrough;
++ 		default:
++ 			WARN_ON_ONCE(1);
++ 		}
++@@ -2713,7 +2754,8 @@ void lttng_session_sync_event_enablers(struct lttng_kernel_session *session)
++ 		int nr_filters = 0;
++ 
++ 		switch (event_recorder_priv->parent.instrumentation) {
++-		case LTTNG_KERNEL_ABI_TRACEPOINT:	/* Fall-through */
+++		case LTTNG_KERNEL_ABI_TRACEPOINT:
+++			lttng_fallthrough;
++ 		case LTTNG_KERNEL_ABI_SYSCALL:
++ 			/* Enable events */
++ 			list_for_each_entry(enabler_ref,
++@@ -2807,7 +2849,8 @@ void lttng_event_notifier_group_sync_enablers(struct lttng_event_notifier_group
++ 		int nr_filters = 0, nr_captures = 0;
++ 
++ 		switch (event_notifier_priv->parent.instrumentation) {
++-		case LTTNG_KERNEL_ABI_TRACEPOINT:	/* Fall-through */
+++		case LTTNG_KERNEL_ABI_TRACEPOINT:
+++			lttng_fallthrough;
++ 		case LTTNG_KERNEL_ABI_SYSCALL:
++ 			/* Enable event_notifiers */
++ 			list_for_each_entry(enabler_ref,
++@@ -3877,7 +3920,7 @@ int print_escaped_ctf_string(struct lttng_kernel_session *session, const char *s
++ 			if (ret)
++ 				goto error;
++ 			/* We still print the current char */
++-			/* Fallthrough */
+++			lttng_fallthrough;
++ 		default:
++ 			ret = lttng_metadata_printf(session, "%c", cur);
++ 			break;
++diff --git a/src/lttng-string-utils.c b/src/lttng-string-utils.c
++index d9447903..65946193 100644
++--- a/src/lttng-string-utils.c
+++++ b/src/lttng-string-utils.c
++@@ -4,6 +4,7 @@
++  */
++ 
++ #include <linux/types.h>
+++#include <wrapper/compiler_attributes.h>
++ 
++ #include <lttng/string-utils.h>
++ 
++@@ -302,7 +303,7 @@ retry:
++ 			p = pattern_get_char_at_cb(p_at,
++ 				pattern_get_char_at_cb_data);
++ 
++-			/* Fall-through. */
+++			lttng_fallthrough;
++ 		default:
++ 			/*
++ 			 * Default case which will compare the escaped
++diff --git a/src/probes/lttng-kretprobes.c b/src/probes/lttng-kretprobes.c
++index 0fa6a1bf..1d0a5ecb 100644
++--- a/src/probes/lttng-kretprobes.c
+++++ b/src/probes/lttng-kretprobes.c
++@@ -14,6 +14,7 @@
++ #include <lttng/events.h>
++ #include <lttng/events-internal.h>
++ #include <ringbuffer/frontend_types.h>
+++#include <wrapper/compiler_attributes.h>
++ #include <wrapper/vmalloc.h>
++ #include <wrapper/irqflags.h>
++ #include <lttng/tracer.h>
++@@ -61,7 +62,8 @@ int _lttng_kretprobes_handler(struct kretprobe_instance *krpi,
++ 			return 0;
++ 		break;
++ 	}
++-	case LTTNG_KERNEL_EVENT_TYPE_NOTIFIER:	/* Fall-through. */
+++	case LTTNG_KERNEL_EVENT_TYPE_NOTIFIER:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 	}
++@@ -90,7 +92,8 @@ int _lttng_kretprobes_handler(struct kretprobe_instance *krpi,
++ 		chan->ops->event_commit(&ctx);
++ 		break;
++ 	}
++-	case LTTNG_KERNEL_EVENT_TYPE_NOTIFIER:	/* Fall-through. */
+++	case LTTNG_KERNEL_EVENT_TYPE_NOTIFIER:
+++		lttng_fallthrough;
++ 	default:
++ 		WARN_ON_ONCE(1);
++ 	}
++-- 
++2.19.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
+index 72d912eaf6..82bdd38d36 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
+@@ -9,7 +9,10 @@ inherit module
  
--LINUX_VERSION ?= "5.14+"
-+LINUX_VERSION ?= "5.15+"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ include lttng-platforms.inc
+ 
+-SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2"
++SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
++           file://0001-fix-cpu-hotplug-Remove-deprecated-CPU-hotplug-functi.patch \
++           file://0002-fix-Revert-Makefile-Enable-Wimplicit-fallthrough-for.patch \
++          "
+ # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
  
 -- 
 2.19.1
