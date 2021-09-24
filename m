@@ -1,153 +1,118 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web08.1981.1632444039805707618
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web09.3294.1632452423737275797
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Sep 2021 17:40:41 -0700
+ Thu, 23 Sep 2021 20:00:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=AvcbsQPu;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 2C01E8338C;
-	Fri, 24 Sep 2021 02:40:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1632444036;
-	bh=GYKCs2A6RRLAGzaogwa+yzTJxi8bMEC5QQyoCMCySSI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AvcbsQPueyBUCo9alu4kqaxWsfWlGCh2kGHOic0b0u9TguCbc3tr1YCxPdc1Jc3NJ
-	 BXvSCDVYeWM997BClD0jJZOcudoccph903cy/TOYJ2cgCz3Qw+cYCVRuM1yzMV5fac
-	 /tlHwoDI8hUcITjDtb+SKF3LQbhtJ7ckAhwkNo8EZn9cKz4/8I6Jddmxfwh0LsWkhn
-	 rOiP7GLkVsZoXFyAOPaKao1RKHhe28NeEODZUWccKffzRWDHfuQZaIKEfcCzPKSk1q
-	 NECgjgT0y1Ct4n4IFJfu+WLcz5r+iWoDNbKabRd602LgzkzYw312YgmWs3ELcemmd3
-	 7uhfRQGQYCw9g==
-From: "Marek Vasut" <marex@denx.de>
-To: openembedded-core@lists.openembedded.org,
-	steve@sakoman.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 1/2] mtd-utils: upgrade 2.1.1 -> 2.1.2
-Date: Fri, 24 Sep 2021 02:40:19 +0200
-Message-Id: <20210924004020.413105-1-marex@denx.de>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fz4wPGfz;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id s17so11852566edd.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Sep 2021 20:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ynrceBnMts6ANRPfNSstUW0pFofYJcHAjjJhaQ4TuuY=;
+        b=fz4wPGfzInQAsqZbBxtgXClIdtcOhh+0KLzjkCa8NSDwYcRZ85jth7Yq0ha9s3jAAO
+         4zLngC0tFZ9W2+66vXKhE9XYYw3uIOWiBsH7MztIAkAitwuzrycSg+wUsp64AFk/ZqPA
+         FYOCNaytBclfD3KOBfNF+e+5F03YqdvkHc27WmrMK1jWDtuYI1kOCplVEP9fRdHIAem/
+         /QPmeS+CSC6USwP0UvQSl2z79hLR9DTG387PPdtWygnD8jlBO06T9q935tlV79t3aKaj
+         UdK2tV8UjWNBbsj3AF0iMimFAKrvZ1tXoUs4Y+WLuRKX5FX8pfXM7L/RWe7cfIXKvvwx
+         I9/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ynrceBnMts6ANRPfNSstUW0pFofYJcHAjjJhaQ4TuuY=;
+        b=HJ+DTPoFKwoOqCOyqMWhENeVXBs3tb/33yxHXB8RdKXH9GLyislkX/A7IZ7KZIA+BR
+         Hw2E0Ps4ohbNVM3nfB0lRO+BsrKBOag9nQal2fdCCak0xvGwWdLBZyxEsb0ZdzwYGF81
+         7n0T/t5M5lB4+o/YwNpepcpRSE7FumuyLct/7PdrkQ1eF8ZD1zlVYmwGzqOeWBMaVVYK
+         scgBq0h1V+LuzEDA7TMvCT4EWscNC91DG4JZuf9pR6qX6gieQk3kqbN6Jk8hWh5pwvPg
+         3sQSEOzYD5KDTBE/x0ezcjVa80fUuV1HluX5TuZ3+eUlZYvVyc2eEr0ifxdoVryAbdVt
+         kLQQ==
+X-Gm-Message-State: AOAM530H8BVbm4G2OQRqDny7RqRbEHcKTVFVyug/reYWjBEGMaF8qM80
+	52bdDlL6uuta+5pLROuekTC+tS/APuk9j4yYMhM=
+X-Google-Smtp-Source: ABdhPJwn6muyap5pvq6vbZe20H9k0ySdE4iSJiqgUkOhWO0JlkS+tqVsgYlXEwn91F3kjsKnV7C2Ik9OkBu4EtCxZTU=
+X-Received: by 2002:a17:906:314e:: with SMTP id e14mr8799436eje.165.1632452422216;
+ Thu, 23 Sep 2021 20:00:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1632332981.git.bruce.ashfield@gmail.com>
+ <c3ed9c094566be74c852af8bc58212c3d7d612e3.1632332981.git.bruce.ashfield@gmail.com>
+ <CAMKF1srUCZRhBh0N1Gnb3yp2+-h8t+0WXLHRw10BmBEEjSvrjQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srUCZRhBh0N1Gnb3yp2+-h8t+0WXLHRw10BmBEEjSvrjQ@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 23 Sep 2021 23:00:11 -0400
+Message-ID: <CADkTA4OQZUUn5PMY59oi6nYnns9os480HV44taknKOe6EGpBQA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/5] conf/machine: bump qemu preferred versions to 5.14
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Thu, Sep 23, 2021 at 1:01 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> 5.14 does break fio and bvoxdrivers recipes, and upgrade of fio took
+> care of build issues but vboxdrivers still needs fixing.
+>
 
-Drop backported patch.
+I managed to tease out the 5.14 fixes from virtual box's SVN repository.
 
-(cherry picked from commit e38fd1ac331d824b2db94a7ae46026b111257e83)
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...-utils-Fix-return-value-of-ubiformat.patch | 62 -------------------
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |  7 +--
- 2 files changed, 3 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fi=
-x-return-value-of-ubiformat.patch
+A patch will be incoming shortly.
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-retur=
-n-value-of-ubiformat.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd=
--utils-Fix-return-value-of-ubiformat.patch
-deleted file mode 100644
-index d43f7e1a7a..0000000000
---- a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value=
--of-ubiformat.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From 4d19bffcfd66e25d3ee74536ae2d2da7ad52e8e2 Mon Sep 17 00:00:00 2001
--From: Barry Grussling <barry@grussling.com>
--Date: Sun, 12 Jan 2020 12:33:32 -0800
--Subject: [PATCH] mtd-utils: Fix return value of ubiformat
--Organization: O.S. Systems Software LTDA.
--
--This changeset fixes a feature regression in ubiformat.  Older versions =
-of
--ubiformat, when invoked with a flash-image, would return 0 in the case n=
-o error
--was encountered.  Upon upgrading to latest, it was discovered that ubifo=
-rmat
--returned 255 even without encountering an error condition.
--
--This changeset corrects the above issue and causes ubiformat, when given=
- an
--image file, to return 0 when no errors are detected.
--
--Tested by running through my loading scripts and verifying ubiformat ret=
-urned
--0.
--
--Upstream-Status: Backport [2.1.2]
--
--Signed-off-by: Barry Grussling <barry@grussling.com>
--Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-----
-- ubi-utils/ubiformat.c | 7 +++++--
-- 1 file changed, 5 insertions(+), 2 deletions(-)
--
--diff --git a/ubi-utils/ubiformat.c b/ubi-utils/ubiformat.c
--index a90627c..5377b12 100644
----- a/ubi-utils/ubiformat.c
--+++ b/ubi-utils/ubiformat.c
--@@ -550,6 +550,7 @@ static int format(libmtd_t libmtd, const struct mtd_=
-dev_info *mtd,
-- 	struct ubi_vtbl_record *vtbl;
-- 	int eb1 =3D -1, eb2 =3D -1;
-- 	long long ec1 =3D -1, ec2 =3D -1;
--+	int ret =3D -1;
--=20
-- 	write_size =3D UBI_EC_HDR_SIZE + mtd->subpage_size - 1;
-- 	write_size /=3D mtd->subpage_size;
--@@ -643,8 +644,10 @@ static int format(libmtd_t libmtd, const struct mtd=
-_dev_info *mtd,
-- 	if (!args.quiet && !args.verbose)
-- 		printf("\n");
--=20
---	if (novtbl)
--+	if (novtbl) {
--+		ret =3D 0;
-- 		goto out_free;
--+	}
--=20
-- 	if (eb1 =3D=3D -1 || eb2 =3D=3D -1) {
-- 		errmsg("no eraseblocks for volume table");
--@@ -669,7 +672,7 @@ static int format(libmtd_t libmtd, const struct mtd_=
-dev_info *mtd,
--=20
-- out_free:
-- 	free(hdr);
---	return -1;
--+	return ret;
-- }
--=20
-- int main(int argc, char * const argv[])
----=20
--2.27.0
--
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-de=
-vtools/mtd/mtd-utils_git.bb
-index 9c05dc03dc..55f05dc8f9 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -11,13 +11,12 @@ inherit autotools pkgconfig update-alternatives
- DEPENDS =3D "zlib e2fsprogs util-linux"
- RDEPENDS_mtd-utils-tests +=3D "bash"
-=20
--PV =3D "2.1.1"
-+PV =3D "2.1.2"
-=20
--SRCREV =3D "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
-+SRCREV =3D "7b986779342021bda87c04da3bf729718736d8ab"
- SRC_URI =3D "git://git.infradead.org/mtd-utils.git \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
--           file://0001-mtd-utils-Fix-return-value-of-ubiformat.patch \
--"
-+           "
-=20
- S =3D "${WORKDIR}/git/"
-=20
---=20
-2.33.0
+Bruce
 
+> see
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1564
+>
+> On Wed, Sep 22, 2021 at 10:54 AM Bruce Ashfield
+> <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > 5.14 is the latest reference kernel, so let's make it the
+> > default.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  meta/conf/machine/include/x86/x86-base.inc | 2 +-
+> >  meta/conf/machine/qemuarmv5.conf           | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/conf/machine/include/x86/x86-base.inc b/meta/conf/machine/include/x86/x86-base.inc
+> > index 958b3490e8..44e4b4ec46 100644
+> > --- a/meta/conf/machine/include/x86/x86-base.inc
+> > +++ b/meta/conf/machine/include/x86/x86-base.inc
+> > @@ -18,7 +18,7 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
+> >  # kernel-related variables
+> >  #
+> >  PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+> > -PREFERRED_VERSION_linux-yocto ??= "5.13%"
+> > +PREFERRED_VERSION_linux-yocto ??= "5.14%"
+> >
+> >  #
+> >  # XSERVER subcomponents, used to build the XSERVER variable
+> > diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+> > index 252d6286d8..3c2c4997b9 100644
+> > --- a/meta/conf/machine/qemuarmv5.conf
+> > +++ b/meta/conf/machine/qemuarmv5.conf
+> > @@ -15,7 +15,7 @@ QB_MACHINE = "-machine versatilepb"
+> >  QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
+> >  QB_GRAPHICS = "-device virtio-gpu-pci"
+> >  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+> > -PREFERRED_VERSION_linux-yocto ??= "5.13%"
+> > +PREFERRED_VERSION_linux-yocto ??= "5.14%"
+> >  QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+> >
+> >  KMACHINE:qemuarmv5 = "qemuarm"
+> > --
+> > 2.19.1
+> >
+> >
+> > 
+> >
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
