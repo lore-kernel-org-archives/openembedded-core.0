@@ -1,23 +1,23 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3017c5e9-04a7-aad5-5ca1-f57fffb5b60b@pr.hu>
-Date: Fri, 24 Sep 2021 18:36:27 +0200
+Message-ID: <77b48aa1-3f41-3185-d820-9f956ce48a2a@pr.hu>
+Date: Sat, 25 Sep 2021 10:48:51 +0200
 MIME-Version: 1.0
 Subject: Re: [OE-core] user/group XXX does not exist, using root with RPM/DNF packaging in Hardknott and Honister
 References: <dc967621-9759-1ab4-e526-36f9010ae3c0@pr.hu>
- <a8c110ca-bc07-dfe7-329e-5a1a8247ef8b@gmail.com>
+ <c1c5df22-9bed-6d90-6d04-aec9e44a4efd@kernel.crashing.org>
 From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-In-Reply-To: <a8c110ca-bc07-dfe7-329e-5a1a8247ef8b@gmail.com>
+In-Reply-To: <c1c5df22-9bed-6d90-6d04-aec9e44a4efd@kernel.crashing.org>
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+To: Mark Hatle <mark.hatle@kernel.crashing.org>, openembedded-core@lists.openembedded.org
 
-On 2021. 09. 24. 18:22, Khem Raj wrote:
+On 2021. 09. 24. 19:17, Mark Hatle wrote:
 > 
 > 
-> On 9/24/21 7:02 AM, Böszörményi Zoltán wrote:
+> On 9/24/21 9:02 AM, Zoltan Boszormenyi via lists.openembedded.org wrote:
 >> Hi,
 >>
 >> I have a special package that creates users and groups
@@ -28,12 +28,38 @@ On 2021. 09. 24. 18:22, Khem Raj wrote:
 >>
 >> This works for packaging becase these ownerships
 >> are encoded in the packages, confirmed by rpm -qp --dump ...
->>
+> 
+> Does it show the useradd in the _PREINSTALL_ (you can use --scriptlets in the
+> rpm -qp)?
+
+For the package that adds the users, yes.
+
+> 
 >> However, during do_rootfs, a couple of
 >> "user/group XXX does not exist, using root"
 >> messages appear for the packages depending on others
 >> creating these users/groups.
->>
+> 
+> Do the using packages contain RDEPENDS on the package that adds the user/group
+> to the system?
+
+My bad. One of my custom packages did not and the
+warnings were printed by that single package.
+
+On the other hand, clamav-freshclam (both in meta-security
+and my layer where I forked an older version of the recipe)
+do not have an RDEPENDS on clamav. Instead, it's the other
+way around.
+
+There the problem is that clamav-freshclam is shipping
+/var/lib/clamav that should be owned by clamav:clamav.
+meta-security works this around badly by using chown in its
+pkg_postinst which is NOT marked as "ontarget" so if clamav
+is included in an image, then that chown doesn't take effect
+and e.g. freshclamd (running under the clamav user) cannot
+populate /var/lib/clamav with the current virus database.
+
+> 
 >> log.do_rootfs shows that the package installation ordering
 >> does not follow RDEPENDS. Instead, it's practically an
 >> alphabetical order when running dnf.
@@ -45,30 +71,20 @@ On 2021. 09. 24. 18:22, Khem Raj wrote:
 >>
 >> What is the correct solution to this?
 > 
-> You can define it via conf metadata e.g.
+> Typically the combination of the pre-install scriptlet, along with RDEPENDS will
+> ensure that the user has been added before the install completes.
 > 
-> INHERIT += "extrausers"
+> --Mark
 > 
-> 
-> EXTRA_USERS_PARAMS += "\
->      useradd foo; \
->      usermod -p 'XXXX' foo; \
->      usermod -a -G adm foo; \
->      usermod -a -G video foo; \
->      usermod -a -G audio foo; \
->      usermod -a -G systemd-journal foo; \
-> "
-
-Thanks, I will try it.
-You mean local.conf or layer.conf?
-
-> 
-> 
->>
 >> Thanks in advance,
 >> Zoltán Böszörményi
-> 
-> 
-> 
-> 
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>> 
+>>
 
