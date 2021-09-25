@@ -2,44 +2,45 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C9D8C433F5
-	for <webhook@archiver.kernel.org>; Sat, 25 Sep 2021 09:38:26 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.5329.1632562705858837624
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65917C433EF
+	for <webhook@archiver.kernel.org>; Sat, 25 Sep 2021 09:38:27 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.5084.1632562706535221282
  for <openembedded-core@lists.openembedded.org>;
  Sat, 25 Sep 2021 02:38:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eRzPEL2K;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LK7ncFhj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id r23so9485919wra.6
+Received: by mail-wr1-f44.google.com with SMTP id g16so34866282wrb.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Sep 2021 02:38:25 -0700 (PDT)
+ Sat, 25 Sep 2021 02:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=csCefaTNq5p5JPWQPhqhW8ByDCD8fJfSuTpXaZD+8CY=;
-        b=eRzPEL2KPel0fKt1U8r/+aTGFvTlBXB6YPbSma14GsdyaJouJCs5dZH7428FoMdpYG
-         qhEzQefnVdUGqbUJWO9jYFT0LrlSVLgDUVf0PMgLoBA2YIjUByEc3YHIsuIKUE1vjxts
-         2LPW4pKyCkvE/xvSdkqy2oDTheyUQi+yPTJ6Q=
+        bh=xLiPWEkFVGrqzwDtLT8FwL7GbfrT25QMiPxdm9ACADE=;
+        b=LK7ncFhjMqvsN6OlPiP7GCXF2QHM6P7RJL7+5ptGvGilgzjp6ex/x8QoFoBIjoJt2O
+         nU14wKr8IXpq5G3Ai3RzfSmvjU1tFMZudjLMi6N9tU40lit5TQw/FXike3D2Pdwdc98n
+         VHfjaFlLO7y8zxWnjY8kW1SQzggcfq7OvfmCE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=csCefaTNq5p5JPWQPhqhW8ByDCD8fJfSuTpXaZD+8CY=;
-        b=NVqgjW9hY83UcRP+Kz4w/dPiAN56eNnVsK+FLGi7T1crCT5/MoIz81+WuwMA5cI/Ss
-         Vl4zI2zl1XHTDOrbbAeMRuw051hPHWyZDdxsh7ob13OO2ybKH7Y/n1WN3mX09H2NrPpF
-         4h0exbWLA4NQkQdiBB/stZgokDaTfqZQ0uOf1Y0xJG/wCPRuBQuZRFN7INFjDMB8BpZa
-         CuMoBh2NM8WOCuzlg++oovllueb91igoyYhRaBiMCvYJSA4t4bm05ngXTChv8IU7CAwB
-         Ks1sjM2suw2wPqEJDEw/9hDKbyLmIiTLUeC+/cr+9KIoCgYuuuS6jms+C/jFBy1iwdjA
-         yMpA==
-X-Gm-Message-State: AOAM5322vPKk+olgAk5xd/byJ/mKZ4JIwK1COTIfhkC4o1QMrku7KrAt
-	5HwZ9LFQ6LYh290q/YaqgAKp/HxcuMA2Pfsz
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xLiPWEkFVGrqzwDtLT8FwL7GbfrT25QMiPxdm9ACADE=;
+        b=fVpH4SQvywYGMLxo9VLYhlR4/eQEmyxhj1Nz0k3iJirXQeYWfjdfRapdM8QkgfocW6
+         2e5vAK1Nr4WUdBe0d5zopLQanXxbiM2HADx3omXCRVDo8EAipVFG4M2xZqxhHW7UfLKp
+         VrU4h9LYIMQhOPuY5ePxz3AxLXegI2CXRRFnRKBmdCwXwTI2PqegxBEKMT34DRQEN9N7
+         eDRDe2btX5X5J+MitIcqUHkz34acCf95tby6gGqJ35LVrxgTvWSY0qMOp615T6TwXTiG
+         dpucFL4oPbGl7AFgo6kdxIe5HyMFkYjgu26sZbdPN1ih88FptNn+1435b/LKwMkfzg+l
+         FBUw==
+X-Gm-Message-State: AOAM531HtQqnoEr2WBxt1HFPzJvHdDQZkqjog0UWL7v3d7mUL1l2sbGi
+	+6aFTd1fNdZLXYIQeW/ekETO/ky12oG4H3Qt
 X-Google-Smtp-Source: 
- ABdhPJxk0qxB6Cm1ajlEuIMW90Lc+7zoAJZsUAxje/7gFT6mRPwKvlJA8HOEiRkdDPj1gZEjUh8pwQ==
-X-Received: by 2002:a1c:f21a:: with SMTP id s26mr6582617wmc.117.1632562704381;
+ ABdhPJwBYoOyutw6/tjW6Usz0dbJY4kwJwGv9k5WnA0mxF2v6c0WU3IjCfkyWfZXuaDqU1spVgDe3g==
+X-Received: by 2002:a05:6000:180d:: with SMTP id
+ m13mr16092140wrh.383.1632562704825;
         Sat, 25 Sep 2021 02:38:24 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2185:dd9d:1e31:557d])
         by smtp.gmail.com with ESMTPSA id
@@ -49,40 +50,44 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2185:dd9d:1e31:557d])
         Sat, 25 Sep 2021 02:38:24 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] oeqa/qemurunner: Use oe._exit(), not sys.exit()
-Date: Sat, 25 Sep 2021 10:38:22 +0100
-Message-Id: <20210925093823.1780735-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] pseudo: Add in ability to flush database with shutdown
+ request
+Date: Sat, 25 Sep 2021 10:38:23 +0100
+Message-Id: <20210925093823.1780735-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210925093823.1780735-1-richard.purdie@linuxfoundation.org>
+References: <20210925093823.1780735-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Sep 2021 09:38:26 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Sep 2021 09:38:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156344
+ https://lists.openembedded.org/g/openembedded-core/message/156345
 
-sys.exit will cause finally statements and other code to run at exit. Since
-we're using os.fork() here, os._exit() is apprioriate in this codepath.
+Pulls in:
+  pseudo_db: Flush DB if there is a shutdown request
+  fcntl: Add support for fcntl F_GETPIPE_SZ and F_SETPIPE_SZ (test fix)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index d55248c497e..d961a9a2183 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -265,7 +265,7 @@ class QemuRunner:
-             r = os.fdopen(r)
-             x = r.read()
-             os.killpg(os.getpgid(self.runqemu.pid), signal.SIGTERM)
--            sys.exit(0)
-+            os._exit(0)
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index a9ea8b4ef66..7acb1d64d59 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -13,7 +13,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
-         self.logger.debug("runqemu started, pid is %s" % self.runqemu.pid)
-         self.logger.debug("waiting at most %s seconds for qemu pid (%s)" %
+-SRCREV = "21ff2fb690efbe57e7dd867c39aff36ab72a6ac5"
++SRCREV = "0cda3ba5f94aed8d50652a99ee9c502975aa2926"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
+ 
 -- 
 2.32.0
 
