@@ -2,69 +2,69 @@ Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DAFBC433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 10:20:47 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web12.29281.1632738046303789332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 263DDC433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 10:44:43 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web12.29462.1632739482700527784
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 03:20:46 -0700
+ Mon, 27 Sep 2021 03:44:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=D6jr4eJY;
- spf=pass (domain: gmail.com, ip: 209.85.215.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PYwzJwlo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180,
  mailfrom: flowergom@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id e7so17390759pgk.2
+Received: by mail-pg1-f180.google.com with SMTP id k24so17409769pgh.8
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 03:20:46 -0700 (PDT)
+ Mon, 27 Sep 2021 03:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+2ewtOpZXugzaN1NXF0AMQeNccx6JNJFhziUy1PeS9g=;
-        b=D6jr4eJYh8SPzo8YRAaVYKo2eDqnhqZknj9LeoBJNKw8AG3Ao9pmog+StDholTLu3i
-         J1hOuZEilFgdlNi2G0n1oLtYvAkBuoMHqqeuQ7ex7o2m62YBqWlebHlhPK9lkNl9gtPA
-         /Kalr8C0kXRSm6q3S8S4kTi5+DCIPaThB/xc/hRKvSJxbC6P12w3LcsSK7yEtZYFBu4B
-         LtBnRb2q0/oZuXNL1EanioDUsA46BnoQUuRMN1kvBrU77L5WrnNOTkRNEJ+VbSCbkiQr
-         u1q1O/bhO9/Ysg2NibBqsfLRFIN7MZhqJpn7mXKPUodAeugrIx+o4NO1UVej3jAeta5O
-         wK+A==
+        bh=sG5FjILLcDtf1EqBHd9qWpH8jHfVPjI4QNz8v4mZOLs=;
+        b=PYwzJwloEQuI2E8vxcwtIiCaZQ964446ESFv7vgL8kHCRqj7UYCdp0ysxGT4USUCFj
+         b/XkC6CWB0lMEL3/44ukPccSD+QaFHEYOCzfcbZGN9nrUFiOA6UzjRnyVXBDBHvq/1St
+         d0THPxCRhIe9oz0TaPOT8mb7XOE8kxHuCAkDiMBdtSMRJCrp7iWPS5gQtIr4VrTO7n/b
+         I78xbPbJaKapuYz3rFtpOhqLN4aw5MVucAkiUf69GSGuigc1eZN+blbyt9TpMSuYNZaw
+         msQ9Ukcvon3lUtIxVAAeixjQdhGgInmIUVEDx5VY6qNGsIEr7jqJJFI6A1yrMZYWArID
+         lCaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+2ewtOpZXugzaN1NXF0AMQeNccx6JNJFhziUy1PeS9g=;
-        b=OySWRSPq3TY0iP1oFlfd2CPiZI6/VPTE83x8gH/YRwQlU2FUWKUQL0etm26t8zPs6z
-         Zhcu9TE/qMmJE5hpubRO+VRHuUBPRVmyKq/QONnPF7BuVUVPxR4O/qVEu97OCOM40mUw
-         b/qUOzyKRcNet8n/qkFMEuIDReaVqJPPdXIB45TtdjaXmAVBcD3D358eBTj2mW207SZ4
-         YpGvRs6sLT9WA0IDYL8pBWqlCvvfXWiSp841HnQoovfvLz15szPWHI9+uj+YiMclTsdV
-         upHpKqDYZdonbZXYuWZ8ymptA9Toxp+5wIgurVLRK0y5RAGI/FnoYP8hHGtjeD/hrJ0S
-         zzwQ==
-X-Gm-Message-State: AOAM5319IZbISnnLW+CVWTUDh94c6f6mI63o0+MDpPqSchEuPQDP1Rhb
-	TvyRQ4T/K7ToVqL7OAnDmPJXNtfH4noQw8+gJso=
+        bh=sG5FjILLcDtf1EqBHd9qWpH8jHfVPjI4QNz8v4mZOLs=;
+        b=2FrZ3x6u0xhRR4bmR5PGVV388C7FZy7sSQq6uBiBXYr4xsMQoY1eQ0ouv1NZRfjX/M
+         5Vn67Qbx2g0Q73Bv9VB191GsiiFjvQof5fXhh8qoU+QLfbPZK2nVmmXXURck+kCK972m
+         4sTBEgfbtekWFST719Z9A8BPPnmuadkCvNf2T5tQdpNDcDUg8ONbTuP4DHh2rtJAK9Fw
+         gBLiIE3lCZtDxN0KCftla+CIlQOhtPPjI2Yd5Z8CWime3gob6TFkc8k8rlAEtf+LW5hI
+         /5BieNBRHdWx0HaUlhkDKfV85CGPW66/vhw3PAQXMaBISL8NfnIC20jk2MnkbFml6v8x
+         40oA==
+X-Gm-Message-State: AOAM530kji5uAxgwWhsKe6/L9Gsqmwn7y+YqrQ9ZlqBY0FezM/EAg+Kb
+	FwY+auyryniq56AGp1uYE0eNRbQCVrulc6ByHKY=
 X-Google-Smtp-Source: 
- ABdhPJy3bElhS7qVtk0eGum0EcvpbP/Vtkb0JxXoFaFEzxrP/i67FaHMKwnaLQlj3CLnvzMyCq/twg==
-X-Received: by 2002:a62:5f03:0:b0:445:38d5:98bd with SMTP id
- t3-20020a625f03000000b0044538d598bdmr22691992pfb.81.1632738045305;
-        Mon, 27 Sep 2021 03:20:45 -0700 (PDT)
+ ABdhPJy1EQ2hxeBfAOacn/vIC2BO92ZsNcT450nxGMymSdMYlCR84NEft37sUdSog/zeP/l5EUEd4w==
+X-Received: by 2002:a62:7508:0:b0:43d:d9cf:1f95 with SMTP id
+ q8-20020a627508000000b0043dd9cf1f95mr22831411pfc.4.1632739481702;
+        Mon, 27 Sep 2021 03:44:41 -0700 (PDT)
 Received: from localhost.localdomain ([59.6.144.168])
         by smtp.gmail.com with ESMTPSA id
- p15sm13551706pfn.31.2021.09.27.03.20.44
+ mp24sm3908827pjb.41.2021.09.27.03.44.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 03:20:44 -0700 (PDT)
+        Mon, 27 Sep 2021 03:44:41 -0700 (PDT)
 From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [hardknott][PATCH] vim: fix CVE-2021-3778
-Date: Mon, 27 Sep 2021 19:20:36 +0900
-Message-Id: <20210927102036.378535-1-flowergom@gmail.com>
+Subject: [PATCH] vim: fix CVE-2021-3778
+Date: Mon, 27 Sep 2021 19:44:30 +0900
+Message-Id: <20210927104430.414250-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 10:20:47 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 10:44:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156381
+ https://lists.openembedded.org/g/openembedded-core/message/156382
 
 vim is vulnerable to Heap-based Buffer Overflow
 
@@ -78,7 +78,7 @@ https://github.com/vim/vim/commit/65b605665997fad54ef39a93199e305af2fe4d7f
 
 diff --git a/meta/recipes-support/vim/files/CVE-2021-3778.patch b/meta/recipes-support/vim/files/CVE-2021-3778.patch
 new file mode 100644
-index 0000000000..9e1c4d29be
+index 0000000000..9cb61a6ac7
 --- /dev/null
 +++ b/meta/recipes-support/vim/files/CVE-2021-3778.patch
 @@ -0,0 +1,49 @@
@@ -104,15 +104,15 @@ index 0000000000..9e1c4d29be
 +--- a/src/regexp_nfa.c
 ++++ b/src/regexp_nfa.c
 +@@ -5455,7 +5455,8 @@ find_match_text(colnr_T startcol, int regstart, char_u *match_text)
-+ 		match = FALSE;
-+ 		break;
-+ 	    }
-+-	    len2 += MB_CHAR2LEN(c2);
-++	    len2 += enc_utf8 ? utf_ptr2len(rex.line + col + len2)
-++		                                             : MB_CHAR2LEN(c2);
-+ 	}
-+ 	if (match
-+ 		// check that no composing char follows
++               match = FALSE;
++               break;
++           }
++-          len2 += MB_CHAR2LEN(c2);
+++          len2 += enc_utf8 ? utf_ptr2len(rex.line + col + len2)
+++                                                           : MB_CHAR2LEN(c2);
++       }
++       if (match
++               // check that no composing char follows
 +diff --git a/src/testdir/test_regexp_utf8.vim b/src/testdir/test_regexp_utf8.vim
 +index 19ff882be..e0665818b 100644
 +--- a/src/testdir/test_regexp_utf8.vim
@@ -132,17 +132,17 @@ index 0000000000..9e1c4d29be
 +2.17.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 6fe8fb90db..2c6d7a9ec5 100644
+index 7e9225fbcb..db1e9caf4d 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://0001-src-Makefile-improve-reproducibility.patch \
+@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/vim/vim.git \
             file://no-path-adjust.patch \
             file://racefix.patch \
-+	   file://CVE-2021-3778.patch \
+            file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
++          file://CVE-2021-3778.patch \
  "
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
  
+ SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
 -- 
 2.25.1
 
