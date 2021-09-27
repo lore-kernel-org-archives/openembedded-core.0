@@ -2,88 +2,108 @@ Return-Path: <jupiter.hce@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5D0C433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 01:30:06 +0000 (UTC)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
- [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web08.25789.1632706204853291708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E05C433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 02:06:07 +0000 (UTC)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+ [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web09.25889.1632708366352469376
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Sep 2021 18:30:05 -0700
+ Sun, 26 Sep 2021 19:06:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AHqHdpOU;
- spf=pass (domain: gmail.com, ip: 209.85.217.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dNtVgqTm;
+ spf=pass (domain: gmail.com, ip: 209.85.217.46,
  mailfrom: jupiter.hce@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id y141so16415809vsy.5
+Received: by mail-vs1-f46.google.com with SMTP id 66so12449867vsd.11
         for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Sep 2021 18:30:04 -0700 (PDT)
+ Sun, 26 Sep 2021 19:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=/R4quABcNQg4WbdWc1XdzKB0hHyACFB4SNwEbb60Ys8=;
-        b=AHqHdpOUa1oWP4cMNMpJkpiEMGNnLVcvR8Dc/YWdJ7epL118Dc3mDz/Fdubttrq3Q1
-         Gda3VGj7NNf3NdCF6mqhZvVbxwTceX3DktZmcTqhvyZWrOd6kf/Y0wyrLLwcn9i4H5FW
-         WC7jYsXmb1StE0+N4iMlnjAd+djALZCHwLrbrAS8u66kqnkjHEmpxYQRJ6D/mliGAjLz
-         M1qGVi+koQkym5pD+eBV1Cd0QUk+NNSCUj7abW8kthdd9YYDWlmaybpURVVo8hrEG+oP
-         flwlUZEEZF7y6gSnLBNFfn3jxWuknIvO9SvIwN9P1EQkHVS+ksaH9gXcW12IP4GXFLCD
-         euTg==
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=yFRvkeoQL7qJWEcJBlOWL4FhCPvzH9Qdu75CM1AhnNs=;
+        b=dNtVgqTm+5faGyJNievzpcKgWlKotrnErScPkel2IK32wODWY0+NVGFuvFpzQZQTrO
+         Q1ZBuQOLktV3tSpsagG7wE4shcHpplGoAE/TJYvDARthVTJSCJ5YLtk2oCpzNz2E1EAs
+         wctOXdUlYHvV9Qq789PXgDrRRBA8+DpIF1+pa8NHw6K+N8oMmHzyR5MgI2Hx/UqoE7aC
+         xjkciiyhBcofO4yAROYki9HRirz6npZHurY/Zx+nyP9z7aFWWYpH4oxoOer9EuaKT6Sc
+         bUPEUbOHi0PaZjVVPTU7+mHrzhXddFq9x1v/XAdDYyUW6x9AiZnH6eThz0IfMRauWcfl
+         lbNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=/R4quABcNQg4WbdWc1XdzKB0hHyACFB4SNwEbb60Ys8=;
-        b=6jhQANGaCDHfWnkTjMZB0OHHxanO5zD2MkPZUtMNzhjUzJQTU9neBm5VIVqPpQRL+2
-         PZurs5o7Y9lBqDth97nIAFgE0OuziulqxJlBEQ5tFLeO+z19sGKpK/cxQFIdVcmPxr/4
-         A7g0YEy8ivyoJtD9o+DRBw4hrKnuBMXW1390KhryT7igkqSeKCCSkzilrcEs3vcvOBqm
-         fU9VuwDmtWcqSqsRrYli28ZLfEIdn9T5BWoXLG8tWSLFouulvTsDpeD2nH4LxguWfskH
-         HYUhpKYNe8uTxf/A9kpgltJqCxaVaZkjnypuR6N7gyipNBbUJS06Fqg9MiyeI5Yytm3B
-         i3xA==
-X-Gm-Message-State: AOAM532oBikaSDfeGmsKeGmgbRpAFvPpoCghcK0M/ygrczWP1up4EPcd
-	x4kPU1eBeDZVx3QlxvTmTn1gkmutrj5FdJ93Xr3LujlfB3s=
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=yFRvkeoQL7qJWEcJBlOWL4FhCPvzH9Qdu75CM1AhnNs=;
+        b=cJSJrQkNsmiCSpzoCgIANs0U6X5gdKr+PfRx2Zr59P14swJ70+mSdhCfeIAsjDD+kM
+         96p8MzF7RNnPRUXwdvUH8sdQCjPUdCmrxItChB3xDjZRQUGuw40HWT/FjOYoxipek5Q/
+         Os3Mu4EiluwqHUi1AfBzdZ5XeOwYFMHLj5WSPdRuX3AN/LxzYAjtPeQijl/Y4x31nP52
+         LxxYeYlsTLrhaEv0PSRAbqqvKG9AOsPeXBWGm4TXLsjvj0mou6BIVunjZr14J2UBbU6T
+         yot2mWoBoUrrggNktQvGWUnTrFWT8BomOhbTZbQBe/gAIPw+QtNNcluKJ+JJgxx1HDrX
+         bQJg==
+X-Gm-Message-State: AOAM532aUEvZkHNxm2H4dR5Zn+7kJHeHrf/hvAKMPvNq9dtqXlBDJqka
+	DpmigT/vl9sCLwnb4femt7qHVY9zW+JUHjnU1L8=
 X-Google-Smtp-Source: 
- ABdhPJxLCy6vnkKsJh19IVDKk7Cn2ft0XXvhlnPN2PNZrv2pBxtMKN5MsNJhRa5bfcJ3sq1E3H/U18phhW9SsQoH0Cs=
-X-Received: by 2002:a67:2dc2:: with SMTP id t185mr17176011vst.1.1632706203870;
- Sun, 26 Sep 2021 18:30:03 -0700 (PDT)
+ ABdhPJy7nqVsbpzBeKcYPl8xuz9gYlLT/awfsYjmHXD3rKdhLV3MLl9q4ieJjXwwot4nPhYOf/qH4wAjl4ETY2Y6pIY=
+X-Received: by 2002:a67:1087:: with SMTP id 129mr16483043vsq.60.1632708365457;
+ Sun, 26 Sep 2021 19:06:05 -0700 (PDT)
 MIME-Version: 1.0
-From: Jupiter <jupiter.hce@gmail.com>
-Date: Mon, 27 Sep 2021 11:29:28 +1000
-Message-ID: 
+Received: by 2002:a59:8016:0:b0:234:c9f4:9f5f with HTTP; Sun, 26 Sep 2021
+ 19:06:05 -0700 (PDT)
+In-Reply-To: 
  <CAA=hcWTC3_+Fg9uRC7ZnAEKhNEcF5Z_PM1WEugxQD76oFJ33dg@mail.gmail.com>
-Subject: Incorrect systemd timer
+References: 
+ <CAA=hcWTC3_+Fg9uRC7ZnAEKhNEcF5Z_PM1WEugxQD76oFJ33dg@mail.gmail.com>
+From: Jupiter <jupiter.hce@gmail.com>
+Date: Mon, 27 Sep 2021 12:06:05 +1000
+Message-ID: 
+ <CAA=hcWTvdgKjCr7kNEgysxM+OsgXt4yu3eVY0gJ41q7y3xxKVg@mail.gmail.com>
+Subject: Re: Incorrect systemd timer
 To: yocto <yocto@lists.yoctoproject.org>
 Cc: OE <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 01:30:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 02:06:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156371
+ https://lists.openembedded.org/g/openembedded-core/message/156372
 
-Hi,
+I changed OnCalendar=*-*-* *:*:50, in vain
 
-I set up a service timer to run the service every minute at times
-01:10:50, 01:10:50, 01:10:50, ...
 
-[Unit]
-Description=Run watchdog job at every 1 minute
-[Timer]
-Unit=mwatchdog.service
-OnCalendar=*-*-* *:00:50
-Persistent=true
-[Install]
-WantedBy=timers.target
 
-But the timer was actually fired about every 8 - 9 seconds:
+On 9/27/21, Jupiter <jupiter.hce@gmail.com> wrote:
+> Hi,
+>
+> I set up a service timer to run the service every minute at times
+> 01:10:50, 01:10:50, 01:10:50, ...
+>
+> [Unit]
+> Description=Run watchdog job at every 1 minute
+> [Timer]
+> Unit=mwatchdog.service
+> OnCalendar=*-*-* *:00:50
+> Persistent=true
+> [Install]
+> WantedBy=timers.target
+>
+> But the timer was actually fired about every 8 - 9 seconds:
+>
+> Mon Sep 27 01:10:06 UTC 2021 start timer
+> Mon Sep 27 01:10:15 UTC 2021 start timer
+> Mon Sep 27 01:10:23 UTC 2021 start timer
+>
+> Not quite sure if it is a kernel issue or Yocto oe-core build issue or
+> what I could be missing, appreciate your advice.
+>
+> Thank you.
+>
+> Kind regards,
+>
+> - jupiter
+>
 
-Mon Sep 27 01:10:06 UTC 2021 start timer
-Mon Sep 27 01:10:15 UTC 2021 start timer
-Mon Sep 27 01:10:23 UTC 2021 start timer
 
-Not quite sure if it is a kernel issue or Yocto oe-core build issue or
-what I could be missing, appreciate your advice.
-
-Thank you.
-
-Kind regards,
-
-- jupiter
+-- 
+"A man can fail many times, but he isn't a failure until he begins to
+blame somebody else."
+-- John Burroughs
 
