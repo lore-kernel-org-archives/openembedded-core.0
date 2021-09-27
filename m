@@ -2,51 +2,49 @@ Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4318C433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 17:22:33 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.2289.1632763352900641820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C6FC433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 17:22:35 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.2290.1632763353945624429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 10:22:33 -0700
+ Mon, 27 Sep 2021 10:22:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=rVg7QXXI;
- spf=pass (domain: windriver.com, ip: 205.220.166.238,
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=rIxVR8mY;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238,
  mailfrom: prvs=4904b47dfe=saul.wold@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RCSdeT002779
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 10:22:32 -0700
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RDx5gR020554
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 17:22:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=gSQGLlbT1QrfFmt40FzeU/Jq9Cj5EgQqyZTf7/Wu0QM=;
- b=rVg7QXXIUUrRS2LISxTxqpGWQPEkXW9LwlAgUCnsnSMr6xRJ+crN3+j+oJqF9KoQ5cuH
- Ir7B5wUwp/BxFxXNYht3YYdh3GNjGViDlNWTveDQb8kM4Q09D7+eR+lloz4fdeCilrez
- rmaIE46uVwxMWgPomBH1KzZ3UQ9tKu4YmEJj7BBg1cE95a53kxx4i7qo3ShfV53jX+5P
- POi3PGiN+MxkiSZsRw2F9L2i0ZLGYiCQNWTXrsYGQtiHqDHKnI1Ed0ZYhlKI1HHYVvHH
- rVQSjDp+jjKfPddIFJTwi1QUJ9uw4Espcrf26g/nd8RXdF8L6qhhbNIHDOmgegUf+YuI +w==
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version; s=PPS06212021;
+ bh=JeusoOXXc0kVJeFlRsZ+g9sfCRzXKtu/A06crqJjXSo=;
+ b=rIxVR8mY2cy84Q/iCMdzTBWr7lzXn3JDk11a8Nw0HaZGz2z8j7mGaRI6cCKlsuWYdmEB
+ th6Y1x0dIF54StD6PmY+84doyy7d8dotg25xVaULRYl7rkZukEW1WH/D5IomlZ2a7vgf
+ 5HujgBxKKeysJwGYiUyd01JsnzOJo7AUORfYOF98Q7WQtvrgUJyUCNBCWwiQroA5lhNe
+ mEWZFEHVFhdhsqI4efoZm3Ebd6ExVU74jI+3tIMrheUxJJcgQywNhIQ7VARZsI3Nb17b
+ 2y4WiY4dMgs+vIiKtGFOFWvu/X/WVtuhEtdFwp5U5Xqj272L/qDVxz2hA+G05q05IAgc Tg==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bavv60qsa-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bb8nhre0y-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 10:22:31 -0700
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18RHMV8H015101
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 10:22:31 -0700
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bavv60qs7-1
+ Mon, 27 Sep 2021 17:22:32 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18RHHqKD009893
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 17:22:32 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bb8nhre0v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Sep 2021 10:22:31 -0700
+	Mon, 27 Sep 2021 17:22:32 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F+91JTM0Kv6nuvkzL3lvnPnmnRW7xfCL85zyLn0qsWpcYrPt8qp58Xk4kauEwUyKVw9okSlGgYlJHCuGV4gYpKglwBfsniNoKaVRnb7Jpn1FXYkhKOxU9gDLXkCa2wAT0ANY331E1yZT+y+MOCJeiqmw7w9AgrnPyFnYWYMLCpSfTns8GLA94/W+bSwoLMXD2PtZpkrqTNPJNMnOK8S3zF3HqNOvv9bOoaBTSPpn40QIZylzxP/VapEtWB0eAT3FWbKG79rbC4nFeCVj+ryIAZeX2vj5R1YuBqO3y1C2j7j9T7ouT/kSCM7wvE0NjCRbpP8NHpu2JhUKRb+c5GP1OQ==
+ b=d4Jjm8k6lVSkJVFEVBMxMSiEoxQtVsjRCW2roCfZhoC0fF3Ja2HDDK0HUhAv2+An4CSx5oT3mHVhYnh1SEG1fnLCDAZxmhhI9KduS6tIWqx+eNEqOuukl2qZAm0P3UmEPEqGkUvqK2eHyuwzF2FN2mBT4BcBr2cun+mQ0JKwDJuwCvTnUrrDQ9pqYKQMfR1tRbFaCZPi5TJubhGlhj7QEOAGQhAqtNpBi2sT4eTRWVhl81n20kwHEkP2alQcb0Nur9UqHvA+K6aFXFGCevYVvaGoonet2aqbiUoGEFeFADW2HCIxk5aA94N68Qox2rdFFv0T2Yl5MdAsIqDyzYPdOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=gSQGLlbT1QrfFmt40FzeU/Jq9Cj5EgQqyZTf7/Wu0QM=;
- b=Zhm1kMdyA8dxnA4A4LjbxJcEnkeWs+5zUtXe7g/AOUsfcT9XMSlEfpNX0qz+DC2f35CE3IjPP+vAj7zjqtkSE+2UWOfUFXzbvPnbuPyfia7eFYJ+2KaM1oo+jj3VIWVAtZSaU8YLLoOj3AdayLo+aJuB/ymzHxIknwfI4FjNdSd77s1R7A75fKJhpt4LsJ/FxjSsNSCxdCOGoWizxol8ekEmuzNe0SNVx80/S/hQg9Q12tNOM1Ect/j7EeJSr2u0+NMjW8WQhF71cC4YEdj7QuVko3RsJD4rZRUWbIO6eMx3xSoYPDZoF7RdLE2FUU52bWfi4UUhnXdnVQCVIQuUrQ==
+ bh=JeusoOXXc0kVJeFlRsZ+g9sfCRzXKtu/A06crqJjXSo=;
+ b=d8orxVoEXvX10Ydwi30V/JIGb6PaGmac3yNsMW21HoLS9c5Xp1tt3O8fmfsGamaCcPVQgMstpKTfZJIXMDmtj0XRGn+b5efML2hVivMlQ+erZHg79MH7kR+KfXxL4kwpSl8iqe+uI2InXkYg3m72ejXk5VUUn9G9ru2sQpwdnZvEJD5Dc4FtgL8oCDidCPBMi0rS7P3gXjiHwwt7TYbhNqnbRJyWnfh1AN7zQy01HFb6UFS9J5ZdtTeZUOoQpapl24PRVxwFXa7QbBI/caaYuCRD/KEKA3RL4HdSulcoMlT9pDSBLy/xlnF/xjt0e3MJTtB16X4EFPdwGBrJeJdeDQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -54,21 +52,23 @@ Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
- by MWHPR11MB0079.namprd11.prod.outlook.com (2603:10b6:301:6b::38) with
+ by MWHPR11MB1488.namprd11.prod.outlook.com (2603:10b6:301:c::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.20; Mon, 27 Sep
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.18; Mon, 27 Sep
  2021 17:22:30 +0000
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::20bb:b9a1:85a1:44c7]) by CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::20bb:b9a1:85a1:44c7%5]) with mapi id 15.20.4544.021; Mon, 27 Sep 2021
- 17:22:29 +0000
+ 17:22:30 +0000
 From: Saul Wold <saul.wold@windriver.com>
 To: openembedded-core@lists.openembedded.org, jpewhacker@gmail.com,
         ross@burtonini.com
-Subject: [PATCH 1/2] spdx.py: Add SPDXAnnotation Object
-Date: Mon, 27 Sep 2021 10:22:16 -0700
-Message-Id: <20210927172217.3640059-1-saul.wold@windriver.com>
+Subject: [PATCH 2/2] create-spdx: Use SPDXAnnotation to track native recipes
+Date: Mon, 27 Sep 2021 10:22:17 -0700
+Message-Id: <20210927172217.3640059-2-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210927172217.3640059-1-saul.wold@windriver.com>
+References: <20210927172217.3640059-1-saul.wold@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: MWHPR1201CA0016.namprd12.prod.outlook.com
@@ -79,111 +79,156 @@ Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by
  MWHPR1201CA0016.namprd12.prod.outlook.com (2603:10b6:301:4a::26) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
- Transport; Mon, 27 Sep 2021 17:22:29 +0000
+ Transport; Mon, 27 Sep 2021 17:22:30 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c61d19e8-c18e-4fc4-8cee-08d981db6257
-X-MS-TrafficTypeDiagnostic: MWHPR11MB0079:
+X-MS-Office365-Filtering-Correlation-Id: a5f71e45-355d-4a3d-b3ed-08d981db62b2
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1488:
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB0079647EEEDEEFFB7D797803EEA79@MWHPR11MB0079.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+	<MWHPR11MB14889C921D0672F996550C9FEEA79@MWHPR11MB1488.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1417;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	1AE72My9ItDe6zjB8DAjKpFDfgSdgmgYXxQfpJlBIJLdsBq+1o0sR1B+ltSzdDBas3YzoFcCSv3TM5toeqPvTO3PpioNYmwmU5QSMgmiPbfOGYDbbekMbbHaL/dueSac8SdCxNh/9D6cpu5I9/TdBR1AVa2kOgO7Lu0XuJFSySCFiTmaWu+35IpJBmOQjOvO0OLcjmKyxGtrpXs/3/gtdfvndE0wtqyoqxzGHWLSR5cNet4EekwdscAEd2Zy4Qqa5waaEfOTe4ngnp78gqTzejMFB2Rl9OVgFF4fVnW1+ITaGu5Kd2tCb2a1ZEBk9yxVyE83Jy8/XA5FP0zRZW7GEEuxqMwjCSYyMEfkn7AKvITKd3DANXy2b3vR+DYWHpsQmo9fNDac3Uva5D/0AXczczCB5aEft9Fykg3XcXpzISf8t0JwSTaydfkSrYWaEPwiK3zYfVUe+bC6rFcHD4EvxPXUKJvg6/dygMSU9JdaEriKCJUJdeHHLTCOE1RtgIg8TDJwXW6r2eJPPeFkIsxoQxItZZiIKRAVGjnPNEtYoJkauzcocOb6PCxjWy/hJYr4euY28QhmaEejoc9Xb91sYFQg3Qf5OPy1YS8WiROQ/bEBtpOIidFUHqmhmA5YPFgtfP2y331YC3VfCtGR0STwNAhVVs3PMEFy2A6+HZsWxPI8jbBOlLIy3RxcHYGEoV1YYJA+0R+8sjpDUrH65bB+sw==
+	V7Qq/RJHrHMzm28s0JciQ1FcUUgy+DQvpuRpSZ7qJGoA8Xu3sS96GHxIqVPOZjCcslNwsdHgkCfKnVmFCc40OQ9uuHgtkj5D6aEATTSmu+wd88URAJaUyERhq73VH+mUp+87/HxX5/gjUPD9HzbsZFyzGyQSJgkilA0Ou6jDqx/JEl9LwyPpKyjAiXef97bLITHD9n1jRbvInQW52RzGQqTtSkmcTVryYxU1GkufEHBaa44/Kp0ZIISpyeINlN7Mi3rZOpyETYTh+X17xDXcosuUzA+GL8bYVHtoUYWgsAD4bTBbAJZsa3R6k+feMxgjvoX7tnZuLNo6XRlKF26gO2nA984+lRK+BD2n2opvAT1J9+QhsuZ0M2LVRiiECaX0gXtwXWr1aGPB4fTlINr4N0m/pk91pvif1ECXavaUG+hukD3lXBbiMRlVowPsebaIn3JqiyXkBj/UoawBpts5OfcA/SN5MLERuyNYoG3m/AWkiR1A/sHkucGU7XZezk1eMjlnMXn0wKzVTS6TBQsffomoIB+Jykhlqg2lNfoRjKsGCu3M4eXRSgCbRFajl43K0vwuiVeB/g60wMT7PJwYLLFudr/SUuFs1mlf7rPjSKAgYgO6T+/Q7zKcgjTiWTQhrZBghpRbxkWXYcy+mzXHhaxhEazXcVL3MEID3X/iv6aanYd6UUHWstr49490Kv/RqZI84/Xr6zCxUFwNaan0mw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(86362001)(66476007)(26005)(66556008)(8936002)(66946007)(1076003)(52116002)(6512007)(5660300002)(44832011)(6666004)(316002)(38100700002)(38350700002)(36756003)(186003)(83380400001)(6506007)(2616005)(956004)(8676002)(2906002)(508600001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(52116002)(83380400001)(316002)(186003)(508600001)(5660300002)(6506007)(8936002)(6666004)(86362001)(6486002)(66476007)(66946007)(38100700002)(38350700002)(2616005)(44832011)(36756003)(1076003)(956004)(26005)(66556008)(2906002)(8676002)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?8KUULVRhqmaqK4nfrqYXDbuMLZcfQCKmPD2wmg9JxrvZR3lf91cAGB+4Ibsr?=
- =?us-ascii?Q?MXAlJhYwUpUBBHLSlJFEQ+u0XB60djC74vT5vpY2jg0bKF7XLPNGZG115Qxy?=
- =?us-ascii?Q?ESMQT8m2rktR/la/4kcEWYlpsBl/eWeBZ7rw6b7GlfoxFsP9I31RNHzwN0Dd?=
- =?us-ascii?Q?HlktAk1zG1JuRe91h5Z6JstqV2FcrnVmNzZ3ZHbA36JgseiTPRkWk2adZxS0?=
- =?us-ascii?Q?bd91s2TA5LuL1HRz6XsbC2qlo+lJqn8/t2uogRPfFx1T7jeG699wZWizxwbD?=
- =?us-ascii?Q?bCfQzvtE3ryZMBuAq5Dj2j04Z+D3fXaCQ9atblPnseZ4EzLKUrKNO4jOVFLK?=
- =?us-ascii?Q?CFloxO1Fq+dZa5wMeM9xuvS9eKa5AtLTut2gzNleCXjx/nAadE87mR8UrvIq?=
- =?us-ascii?Q?oWIKIwF2MyWGf6FwC4fC8Tn4TDaqLjiOmaFNx8+U1/yyQTcspHI36wDFJi1n?=
- =?us-ascii?Q?lhOS+Dw7WSAFGWTQRO1XxP2ljx1GcdR3Ub7JMhA1h85Xo4rhm2nE8B6UtUi+?=
- =?us-ascii?Q?uwLwD3gXEb8QgWj6ShI8QKHEsqny532bUv/VWktfgek+/q4dLLOQ7C7U/7SG?=
- =?us-ascii?Q?ZAWYmNcQ5b5Bf2P5KZvAcwgIgbhbBnatU1B9Wvfk04yUhehznR8uS6+/YZVA?=
- =?us-ascii?Q?D07k6VI7X/C1o6D/pKu2I0uAaPcjGoU5nn4havb9wTvfwp0/oZaWMA/5IsRZ?=
- =?us-ascii?Q?AGhV3xEi/7rlLgRV+khpoUKV/hgYD7w8K9CxfMkaFReewpOSeivAaIl1rQa7?=
- =?us-ascii?Q?dG8noxZxsZJO8WYymBqxFaH94gVjlEPJE4yGtaE2AXnPs35DysW+3G8nRRCZ?=
- =?us-ascii?Q?axdFoboZ9GBlSc9PjCjHHZgk91W6uLI/7p9NizZXCs9/kO0AFxWYBvNTgA+P?=
- =?us-ascii?Q?M60CIXuH5Ra0ZMSvqgMIdOdQ7568QkTX8TGVzr0x1MIr6LaM7dhQ5oaYmmGg?=
- =?us-ascii?Q?7DuO5ilzIFCLLmFw1B6ZILaPazDEyCm7lfj4XfED8Hl3qVGYYg89aSAai4hG?=
- =?us-ascii?Q?ZJY6AwaB8fCQuSy4sBUbzv6e8RtsamhhhaMq8dFoH6ZY84cYAqdqEOQLwJB0?=
- =?us-ascii?Q?qAMNHbuIHX2GRr98A5hIV1wK11YI07jVGYBDpPwFgMWuBjupJ/NJ0j0aHxTg?=
- =?us-ascii?Q?AxNZbypdlusfppxMHy1YWfDaYg7tTU2TD+eoxX+C572ruDqh+AIMrUxQJ2Zy?=
- =?us-ascii?Q?wLaPXU/FcWqLZzukoK4g7/MYjJcbLu4/LnSnEEDWI8Y/uA26A0yWi5KCCDcM?=
- =?us-ascii?Q?CNp8xEY0i9UC9DzmWbNTzF84WSG6hK/tj3TwjPcNr1aX3Z1MFTKgVS7gHgi2?=
- =?us-ascii?Q?/MVkKrcpsDSehTv5p7NDuPn1?=
+	=?us-ascii?Q?VLxtyjGqzd2fqKjZEbggfHytfzEAwdV4HHs4XbeHfbFmh8UErCx45Z2QZ70G?=
+ =?us-ascii?Q?MDBJFBm30iqxFEhint3inZHALSxRjuGDGCba/uFvFsQRArmlqES7UclPJVPZ?=
+ =?us-ascii?Q?09pB5WxnW+7hdy3XCQecCopv4s42Mn9NGqtmKcbvnhyoo+w4agvi9Xwv6OG2?=
+ =?us-ascii?Q?euhaoAuT6NGKR0f1st0DX9ARbDbBHwsVgeRFupy0a7VnTffKRIxqpkbWRMTL?=
+ =?us-ascii?Q?La/Xa1h9AdwmVH2VegEiac8nUCU6zveIZD1eoN3v99y09JmiXzum6fKsBMpc?=
+ =?us-ascii?Q?xPw6eQFnCsmCPLGUZ+/stTWXU1TwRHAQy6lgsZBxeSm6V/8KVxg//GWCTfTk?=
+ =?us-ascii?Q?mNvi1wlv6EDfKirD+gmGs2tLrH1nKG1oQgurKUFkSo99/hymMGy6wVsukt+l?=
+ =?us-ascii?Q?guC46s3zxB9PVrfFA69AAl2V0U3XbzvDiOt1AoQngDqIW/SqJR3+827f1ich?=
+ =?us-ascii?Q?WDdVsk/jRVld7ZFyjGYJ4ClNF5D2addBh20WG3eB8hPCMq8eQ9VbUBeFU7hA?=
+ =?us-ascii?Q?8QjUhgW1ww4o+G28g6rEYNYiaYWTqBb0lOftVsCij6R8VjhGuktYZ6Ylhe+h?=
+ =?us-ascii?Q?OjnJuIzMB/nkDXyx/MjilU74vMvbZVFb0VZwaHDqr4R08DJi5goevMyy+txg?=
+ =?us-ascii?Q?H5Wevkvt5qIDj/lu3lagp8szrftmW1b85lT5sl46Lxn0JXy8Ah89T9xCGy7/?=
+ =?us-ascii?Q?n4xmtEsXJlAgM6SqqiW0aC5xeJRfxCheTeHQ63Z46798tgdhFYzUOBRXIw2t?=
+ =?us-ascii?Q?/kPMBO3z7LtIFuIgIY1DkPYG++tt/qt1f5X2vIuUjxBe5Muwe2DH5PCdWzXn?=
+ =?us-ascii?Q?5PaVfHFgUkeXSwt/jJiVe7gBvc3PfqbyMU6pmFFwQHAcSy+JCO5XMOi+j3aB?=
+ =?us-ascii?Q?VzHI4XCJns+vv/07QqQUBDVgX8jwVEbnNFukJveiTNlCpR+3iYodzQ+aQTVQ?=
+ =?us-ascii?Q?zlySu3F7c9tu0HL7Wb8WTCwsmVlEGKWVecGWFTvW52O2PHIhVlnoV+vi5ynZ?=
+ =?us-ascii?Q?jNwVvuS1rAtpLI/e5bOC3YCqKSc2cXSY9eZBabptD96FmYjaKWN6DIU6H+qz?=
+ =?us-ascii?Q?ZMEqdVnPmewu0k6QJKeLNAp6jDOe3bFNEmDovcV0QcfmgfEwfn3Sm6Vt69Pq?=
+ =?us-ascii?Q?Xo9tuJ/1nBiQ6hfwuHvoWyBhLZ+q/1Mc7QuQeILwt1gH05kFnh8NaiAR8IUV?=
+ =?us-ascii?Q?cr7IO10YpsGI8sQ4oGvy85UOwy8tc1etAd0lQaPIqF0/zwei9htVLneAOUQS?=
+ =?us-ascii?Q?oYwaWChE9/YGyOPX2080rfqm1BcEFuPEBxQJ4q3Q1/ZxzYJNFebF62MnkVrK?=
+ =?us-ascii?Q?30LjeBlQSuyqdRgFSCFE0EBA?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c61d19e8-c18e-4fc4-8cee-08d981db6257
+ a5f71e45-355d-4a3d-b3ed-08d981db62b2
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 17:22:29.9342
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 17:22:30.5227
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- k9A7Q/n0rLko7kw0bdcJU1X5OKtzjEEKWhuiBC6NtY/Jq/HQl6IRBhRTKbEJ+1xiT05NAvn7FHHdZTNtE7Oq+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB0079
-X-Proofpoint-ORIG-GUID: sl9eoFUJpjoFlhVUESFzSpMOtQrAliLy
-X-Proofpoint-GUID: KyEcT7cBK8KmbGBBoXoNh5Dblv9gIwvJ
+ pWXzzv3dTkTPxf1daFyDrrXZLbmlKCqH+VVf+WXwDpK7qHeH35hZ/KnR4UPgB2fLBuzaxG/2NtgE/4PrB3zpCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1488
+X-Proofpoint-GUID: hgS5Gr7WXRZBcPfKncgoDvrbb3ecYmdt
+X-Proofpoint-ORIG-GUID: 9GHx6nX1wXw6MUqP9ZqI8L7f0Hzsge-B
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-27_07,2021-09-24_02,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=747 clxscore=1015 suspectscore=0 mlxscore=0 bulkscore=0
- priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2109270118
+ spamscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 malwarescore=0
+ adultscore=0 impostorscore=0 phishscore=0 clxscore=1015 mlxscore=0
+ bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2109270118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 17:22:33 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 17:22:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156393
+ https://lists.openembedded.org/g/openembedded-core/message/156394
 
-This is added to allow the create-spdx code to create annotations
-that store values properly according to the SPDX Specification.
+Create a small function that checks for 'isNative' as part of an Annotation
 
-Initialy they will be used to track if a recipe is a native type.
+When the collect_dep_sources() runs, it collects sources from both native
+and non-native recipes. Later when the GENERATED_FROM matching occurs it
+may find the file (via checksum) from the native recipe since it's the
+same checksum as the target file. The that are generated DocumentRefs
+point to the native recipe rather than the target recipe DocumentRef.
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/lib/oe/spdx.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/classes/create-spdx.bbclass | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
-index 9814fbfd66..a99e54ff40 100644
---- a/meta/lib/oe/spdx.py
-+++ b/meta/lib/oe/spdx.py
-@@ -123,6 +123,12 @@ class SPDXObject(metaclass=MetaSPDXObject):
-         raise KeyError("%r is not a valid SPDX property" % name)
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 3c73c21c04..739b46e9b3 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -13,6 +13,9 @@ SPDXDIR ??= "${WORKDIR}/spdx"
+ SPDXDEPLOY = "${SPDXDIR}/deploy"
+ SPDXWORK = "${SPDXDIR}/work"
  
- 
-+class SPDXAnnotation(SPDXObject):
-+    annotationDate = _String()
-+    annotationType = _String()
-+    annotator = _String()
-+    comment = _String()
++SPDX_TOOL_NAME ??= "oe-spdx-creator"
++SPDX_TOOL_VERSION ??= "1.0"
 +
- class SPDXChecksum(SPDXObject):
-     algorithm = _String()
-     checksumValue = _String()
-@@ -164,6 +170,7 @@ class SPDXPackage(SPDXObject):
-     packageVerificationCode = _Object(SPDXPackageVerificationCode)
-     hasFiles = _StringList()
-     packageFileName = _String()
-+    annotations = _ObjectList(SPDXAnnotation)
+ SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
  
+ SPDX_INCLUDE_SOURCES ??= "0"
+@@ -32,6 +35,10 @@ def get_doc_namespace(d, doc):
+     namespace_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, d.getVar("SPDX_UUID_NAMESPACE"))
+     return "%s/%s-%s" % (d.getVar("SPDX_NAMESPACE_PREFIX"), doc.name, str(uuid.uuid5(namespace_uuid, doc.name)))
  
- class SPDXFile(SPDXObject):
++def recipe_spdx_is_native(d, recipe):
++    return any(a.annotationType == "OTHER" and
++      a.annotator == "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION")) and
++      a.comment == "isNative" for a in recipe.annotations)
+ 
+ def is_work_shared(d):
+     pn = d.getVar('PN')
+@@ -336,6 +343,10 @@ def collect_dep_sources(d, dep_recipes):
+ 
+     sources = {}
+     for dep in dep_recipes:
++        # Don't collect sources from native recipes as they
++        # match non-native sources also.
++        if recipe_spdx_is_native(d, dep.recipe):
++            continue
+         recipe_files = set(dep.recipe.hasFiles)
+ 
+         for spdx_file in dep.doc.files:
+@@ -382,7 +393,6 @@ python do_create_spdx() {
+     include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
+     archive_sources = d.getVar("SPDX_ARCHIVE_SOURCES") == "1"
+     archive_packaged = d.getVar("SPDX_ARCHIVE_PACKAGED") == "1"
+-    is_native = bb.data.inherits_class("native", d)
+ 
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+ 
+@@ -401,6 +411,13 @@ python do_create_spdx() {
+     recipe.name = d.getVar("PN")
+     recipe.versionInfo = d.getVar("PV")
+     recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
++    if bb.data.inherits_class("native", d):
++        annotation = oe.spdx.SPDXAnnotation()
++        annotation.annotationDate = creation_time
++        annotation.annotationType = "OTHER"
++        annotation.annotator = "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION"))
++        annotation.comment = "isNative"
++        recipe.annotations.append(annotation)
+ 
+     for s in d.getVar('SRC_URI').split():
+         if not s.startswith("file://"):
+@@ -480,7 +497,7 @@ python do_create_spdx() {
+     sources = collect_dep_sources(d, dep_recipes)
+     found_licenses = {license.name:recipe_ref.externalDocumentId + ":" + license.licenseId for license in doc.hasExtractedLicensingInfos}
+ 
+-    if not is_native:
++    if not recipe_spdx_is_native(d, recipe):
+         bb.build.exec_func("read_subpackage_metadata", d)
+ 
+         pkgdest = Path(d.getVar("PKGDEST"))
 -- 
 2.25.1
 
