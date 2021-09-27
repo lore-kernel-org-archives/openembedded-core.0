@@ -1,210 +1,292 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2C0C433F5
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 20:04:57 +0000 (UTC)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
- [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web12.4431.1632773096817319394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28A19C433FE
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 21:59:52 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.5896.1632779991399138223
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 13:04:56 -0700
+ Mon, 27 Sep 2021 14:59:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZEMmqKGk;
- spf=pass (domain: gmail.com, ip: 209.85.210.46,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id
- l7-20020a0568302b0700b0051c0181deebso25943085otv.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fZr+Nkzy;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id y186so7730066pgd.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 13:04:56 -0700 (PDT)
+ Mon, 27 Sep 2021 14:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K8Sl1E+abUHvEHzJysZqOG5bvTNBpOCsHLpHdY+VH3U=;
-        b=ZEMmqKGkNSISB6UdTDypSUBAHUA1imhJ4uEIdFDg7hNwLbz1rbd9HU/KOTxbMxVUrT
-         tWqwDrE6EXuoPNRnaKqplxw4X7lbXFFZJWhPphrSFf4mK4WVX029KQp434qFRoQdntVr
-         30qsp/p13zsyfgNY2ipge++nDI12GeVhCplfqhA/MdlQhGjms2gORyrunHIycwnIU1mF
-         6cQTF97SbvCSTvR/kRgFEDBB2493kncxgWSc7HUo2+/bvsPRR1DSC5h+fS2/bdayPho7
-         oQYZ5rZUJkk/SSUr5csfspSjmSdd93IYjt9sGQCQX9ANVHzGW2nfuFH9v78nBAoyqgul
-         o08A==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=Lb4EVXwmPAHuICBcUYZh5LSwDbaKaBMizppW9LnJ0mg=;
+        b=fZr+Nkzy3gvbciC9sykGn9ylM43UJyDQNxVnJMLHoBr7ehsXmnyidGkUUB7ZUGN1iO
+         OexiLwbvWAGVq3iwrjWvi8iQ8uhjIXO8gNejH9Ikt4EBRR4I8EDuy2M1lyabd3LZxEIq
+         oUKSODGkztCEq2NIpUyajRS5Fefp7Um058PJ/Q89eN8ZRgDeyjlgA1jYhIPUlQ0RhEbn
+         ZJ4JF1rJw2gjjtse5rN128TwI3uMIcDqVDOkD9CMM9LLw05Zwif4XrxcbFnnfcqFZimu
+         BxRtVfq8ljfYzAV3xz+LXW28xHNGIjEMXu/xMcdd0yn2i9QBJ7z5NUh4JJHh7u67XFme
+         K16A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K8Sl1E+abUHvEHzJysZqOG5bvTNBpOCsHLpHdY+VH3U=;
-        b=5IHgRn6WgsCCXuQXJoxoHz9vemVHmtfLhfka3teDlEY7ScPlBNeXFIadSQJd6SzOFm
-         AU7NhUtUZw6EgVDlfkojtrQLTJeB/xCUczQ7361m61Suxf4kQ0I9bO4ocjrXVjuJB2Tf
-         KvrSf0rPleCCMAbEsPhQOXmAugvcY/EdCJkmSKt9WohsXMQA5OXZlQjO0kcifUlSLDVI
-         lBAR77lBxPB2mLyehbb26JaGaiwPB9g1KjzRbgfqSvRapSAy10orqWqq4JvhhSaYOhsn
-         BCNynt7IbWofS/MFxSgQXAkeObkXFncQjTI0BcOBliVhVep2T1wJSdmbX76XW13+wrvW
-         r77g==
-X-Gm-Message-State: AOAM530qp19IjZhYkcr3n8hUBZxglpdGjr7emSXyR1+Kc2oe5473II7E
-	hl0/nwulJI4jZNhikdMPSNo2+n3hnR4=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=Lb4EVXwmPAHuICBcUYZh5LSwDbaKaBMizppW9LnJ0mg=;
+        b=CwL4zhvff0P8GgQhnZ6vQ5mT1XuU4xZjO6pFhzZDu+VPOaIeH41mBibSBFm6znVN30
+         4H1ib32NmDzyqgC6mELFA1HWvycZwImcAtw5zjxfgHFP23raOCfH06IaCT4jRxPUkSFE
+         8u/74fDPkPyJy0s2F4hF553MIFKWfTHyHu8vZHapXuQVstO/760uh/r06jihYkdiKGzZ
+         We567p/OQBZdI5tqoQYeeod0P5KNcdILi8cG3reloT3bLo26T0FxKBMFg3DKase66PuM
+         D6kBUXe9tiiYYDFNB+ZrajXATIQfk0E9fQDyVBoo6WN0FuLuP/11MjZ1gleptg+7Sqdl
+         DDvg==
+X-Gm-Message-State: AOAM5309SqKzPAceAq+kxCoM+PcPcTB7fQZR9SzQ+1yEVUcaV18H0w+Y
+	sroBhPUQgQGKDmOlTbNxWJQ=
 X-Google-Smtp-Source: 
- ABdhPJzgza30ILrsMO4BeGSId7a4a1P/8lkQT0qp4lHxZoVUcy8TBXAfzBpVzRjNJon0/iByzFfFvQ==
-X-Received: by 2002:a05:6830:4b8:: with SMTP id
- l24mr1691813otd.334.1632773095775;
-        Mon, 27 Sep 2021 13:04:55 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id
- l19sm2377427ota.17.2021.09.27.13.04.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 13:04:55 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] lib/oe/spdx.py: Add comments
-Date: Mon, 27 Sep 2021 15:04:44 -0500
-Message-Id: <20210927200444.2190714-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ ABdhPJxR6D/aXuBQwDiXkGwc8ZAGboL/DDs52MimWmQGJ0irN9ThRy56zACA2un9lU0EBtdQk4lsbA==
+X-Received: by 2002:a63:dd51:: with SMTP id g17mr1565389pgj.47.1632779990843;
+        Mon, 27 Sep 2021 14:59:50 -0700 (PDT)
+Received: from skjolley ([2600:8800:1d92:f800:f4f5:b927:66f5:1b86])
+        by smtp.gmail.com with ESMTPSA id h7sm343500pjj.42.2021.09.27.14.59.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 Sep 2021 14:59:50 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 27 Sep 2021 14:59:49 -0700
+Message-ID: <000501d7b3ea$fee468a0$fcad39e0$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0006_01D7B3B0.528590A0"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHq5U+LPvUVCrw0P19/7K+LzpHg4A==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 20:04:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 21:59:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156400
+ https://lists.openembedded.org/g/openembedded-core/message/156401
 
-Adds several comments to this file to explain the intention and how it
-should be used
+This is a multipart message in MIME format.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oe/spdx.py | 57 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+------=_NextPart_000_0006_01D7B3B0.528590A0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
-index 9814fbfd66..844ee9fd03 100644
---- a/meta/lib/oe/spdx.py
-+++ b/meta/lib/oe/spdx.py
-@@ -2,6 +2,18 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
+All,
+
  
-+#
-+# This library is intended to capture the JSON SPDX specification in a type
-+# safe manner. It is not intended to encode any particular OE specific
-+# behaviors, see the sbom.py for that.
-+#
-+# The documented SPDX spec document doesn't cover the JSON syntax for
-+# particular configuration, which can make it hard to determine what the JSON
-+# syntax should be. I've found it is actually much simpler to read the official
-+# SPDX JSON schema which can be found here: https://github.com/spdx/spdx-spec
-+# in schemas/spdx-schema.json
-+#
-+
- import hashlib
- import itertools
- import json
-@@ -9,7 +21,16 @@ import json
- SPDX_VERSION = "2.2"
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
  
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 395
+unassigned or newcomer bugs.
+
  
-+#
-+# The following are the support classes that are used to implement SPDX object
-+#
-+
- class _Property(object):
-+    """
-+    A generic SPDX object property. The different types will derive from this
-+    class
-+    """
-+
-     def __init__(self, *, default=None):
-         self.default = default
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
+being in "3.4" and then "3.5".
+
  
-@@ -19,6 +40,10 @@ class _Property(object):
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
  
+
+Thanks,
+
  
- class _String(_Property):
-+    """
-+    A scalar string property for an SPDX object
-+    """
-+
-     def __init__(self, **kwargs):
-         super().__init__(**kwargs)
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
  
-@@ -39,6 +64,10 @@ class _String(_Property):
- 
- 
- class _Object(_Property):
-+    """
-+    A scalar SPDX object property of a SPDX object
-+    """
-+
-     def __init__(self, cls, **kwargs):
-         super().__init__(**kwargs)
-         self.cls = cls
-@@ -62,6 +91,10 @@ class _Object(_Property):
- 
- 
- class _ListProperty(_Property):
-+    """
-+    A list of SPDX properties
-+    """
-+
-     def __init__(self, prop, **kwargs):
-         super().__init__(**kwargs)
-         self.prop = prop
-@@ -82,16 +115,28 @@ class _ListProperty(_Property):
- 
- 
- class _StringList(_ListProperty):
-+    """
-+    A list of strings as a property for an SPDX object
-+    """
-+
-     def __init__(self, **kwargs):
-         super().__init__(_String(), **kwargs)
- 
- 
- class _ObjectList(_ListProperty):
-+    """
-+    A list of SPDX objects as a property for an SPDX object
-+    """
-+
-     def __init__(self, cls, **kwargs):
-         super().__init__(_Object(cls), **kwargs)
- 
- 
- class MetaSPDXObject(type):
-+    """
-+    A metaclass that allows properties (anything derived from a _Property
-+    class) to be defined for a SPDX object
-+    """
-     def __new__(mcls, name, bases, attrs):
-         attrs["_properties"] = {}
- 
-@@ -105,6 +150,9 @@ class MetaSPDXObject(type):
- 
- 
- class SPDXObject(metaclass=MetaSPDXObject):
-+    """
-+    The base SPDX object; all SPDX spec classes must derive from this class
-+    """
-     def __init__(self, **d):
-         self._spdx = {}
- 
-@@ -122,6 +170,15 @@ class SPDXObject(metaclass=MetaSPDXObject):
-             return
-         raise KeyError("%r is not a valid SPDX property" % name)
- 
-+#
-+# These are the SPDX objects implemented from the spec. The *only* properties
-+# that can be added to these objects are ones directly specified in the SPDX
-+# spec, however you may add helper functions to make operations easier.
-+#
-+# Defaults should *only* be specified if the SPDX spec says there is a certain
-+# required value for a field (e.g. dataLicense), or if the field is mandatory
-+# and has some sane "this field is unknown" (e.g. "NOASSERTION")
-+#
- 
- class SPDXChecksum(SPDXObject):
-     algorithm = _String()
--- 
-2.33.0
+
+
+------=_NextPart_000_0006_01D7B3B0.528590A0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_086D_01D7AE30.09DCFDA0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 395 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0006_01D7B3B0.528590A0--
 
 
