@@ -2,161 +2,127 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC5FC433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 15:40:40 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.856.1632757239190613172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A4EC433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 15:52:07 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web09.1007.1632757927176141396
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 08:40:39 -0700
+ Mon, 27 Sep 2021 08:52:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zk6IdReD;
- spf=pass (domain: gmail.com, ip: 209.85.210.172,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h7BDOC+p;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id w14so16244238pfu.2
+Received: by mail-pg1-f170.google.com with SMTP id s11so18159710pgr.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 08:40:39 -0700 (PDT)
+ Mon, 27 Sep 2021 08:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:organization:in-reply-to:content-transfer-encoding;
-        bh=SewDQBIIJy88e4OYHNlF3C1o9MiQ5GKzFhckxhAd9UA=;
-        b=Zk6IdReDj5qeFsyeOTz6WB76vNSh+Ur4LCVF25/YHhTPweDITTg7VggbWtFvZ8zCmx
-         Kq0qkFdLEREexdEtVkYfWFZDvZfT16U+I2mFyZuXbO6QFFOwPiaSvqC6PmqLpUUjaylG
-         uJdlKATttAi9AWbyBdlT+OP3Er5UC48EoPo6rLExNoGTVQpFMIiUqr9dAka0LAKnDSjP
-         TIT/TMfwROD9xtIQlekoQgHlRAy+IcgBNqLXJfnfgMyi9OtVoFdPixWIl9MM01WS1BKK
-         D6T6EbSLYJ5TIoc5olH/G3p1RMP+iSjjv/w9IYp5C/8g7V36lGQqOkWBixa3aDZfXCrV
-         YUfQ==
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=RRgY90olYQ+KtTgOMBSdgZBkdTei4QjoUJjcqrborYE=;
+        b=h7BDOC+pi9G9utNmKTROMWbYMwrBAT277wE78ZEwI6NFuOntEhAR3N0k3QwixZ42Jj
+         Px4LzIHuwPcHK79X2gvToZVXnMkHmlyuSUPcHl0LHy3RdQr8wP4aAYfpUd3Go8gdGCg9
+         YPQuxIk+QUQmad8+OLJpjBzSRF0vHWgW/UltZvFZJwRlPbWhq0oBjLxfp3R8VIZU72rd
+         XNKo9DPh0WslRyIu1iOqb7sjcYEHVb4S6Do4Ll58Xlp+fFOrzLQS17gM/GO+OEjkuk5w
+         mVIIKaAnTbAz+O1UQU8Pa3fFk3vEQEg5YDKWID/jBY4RXJYcVeW3ai3m815VXIthBsca
+         XctQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:organization:in-reply-to
+         :content-language:to:cc:references:from:organization:in-reply-to
          :content-transfer-encoding;
-        bh=SewDQBIIJy88e4OYHNlF3C1o9MiQ5GKzFhckxhAd9UA=;
-        b=6rNnObwCifHCUZLPVJKXA0B6H1tHLlLEaM5+/QyOapPnnlgwrwONsbvvsrmCWB/irK
-         T5hhU+3nb7OWOwC+2jwMayoy9bsJ32UaeJqc7ZARFaa9WqTQ53Fq6VM3l7w7FTbjx9Bo
-         lAxh3GQCcwMSHMN5gvAXmVL/p7oV6awieVrGyXjl+Ljm5HluA0QGSFkHBGT4TV1h97uV
-         PAUbi5MkCViXUpqHMTXR0GzIux8QSzRB4jdBC0RDKxABwKMkNQOffCb8KxoxG3fB5x3l
-         yrErTiNuAVm55nO//D9nO//hd0k3Jap3owU64xSA94Rup5+uw1t7Dg8zDLP2tI0XaWe7
-         OLwQ==
-X-Gm-Message-State: AOAM5310NHgpRZM+uD5Fsx/XMR5kIrYR9/MHv4cJK3igW85vmfszpF8/
-	wsmtrD/QzAlL5fo+xDTOdb3ra7azJo06Wg==
+        bh=RRgY90olYQ+KtTgOMBSdgZBkdTei4QjoUJjcqrborYE=;
+        b=4QZqzyLXzxa7pupWy8WWr8ysnFF1z6zNut0mBfiDtjRgLknHg0tZCdISoS2LX3/NLu
+         /poKbkk1FdU8dOVEkAarQm/e0IG4nmTjkItPGTxZVlzwPhQQk7Ptjy62a8RM5hBOvI6S
+         0vWWcN9nbkKXmLmHZn9EyelSlmujt6g1RfVdt8vElHki43/alqrakBKPparh4KMe54Rw
+         S3+QRJP/gEDkQM/RjGSC9K1XXIUWGu+9U0zw9W2QrtBGqw8QeiqTRtfnJvyAVSxfK9Lv
+         DPrR6tEjnxcH3B+F/HBm3lilIZc8nCvxxbU10LLP4ro2ze4clL+rUHTe6QzJIg8RnOzg
+         Oi7Q==
+X-Gm-Message-State: AOAM530zoYrec9yuXitujzcWi8JF6SjYTCYIs42zL6EtDn+irhOFjerZ
+	kff9XpBOkSeqZ2ShaHGw8HU=
 X-Google-Smtp-Source: 
- ABdhPJxt6le2gXRmEKi6+NyrbgGWQPfxH0xs1C7bmQEnrNcGGJRqhFwRMJ0I9Z7m0HgnIaSI2OEHmg==
-X-Received: by 2002:a63:de41:: with SMTP id y1mr283298pgi.93.1632757238615;
-        Mon, 27 Sep 2021 08:40:38 -0700 (PDT)
+ ABdhPJxoLAZwIlj/r7GSs8fTHBK4M8alqj91p+fAYzn3gaVqIAjavo2K6wMEN6FYu6KMXg1MBCVwvQ==
+X-Received: by 2002:a62:1c84:0:b029:39a:87b9:91e with SMTP id
+ c126-20020a621c840000b029039a87b9091emr681259pfc.7.1632757926411;
+        Mon, 27 Sep 2021 08:52:06 -0700 (PDT)
 Received: from ?IPV6:2601:646:9200:a0f0:15c7:3503:63b:40fb?
  ([2601:646:9200:a0f0:15c7:3503:63b:40fb])
         by smtp.gmail.com with ESMTPSA id
- r206sm3842667pfc.218.2021.09.27.08.40.37
+ z202sm17933266pfc.40.2021.09.27.08.52.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Sep 2021 08:40:38 -0700 (PDT)
-Message-ID: <468523a0-30d0-afb1-75dd-3a27a051bd49@gmail.com>
-Date: Mon, 27 Sep 2021 08:40:37 -0700
+        Mon, 27 Sep 2021 08:52:06 -0700 (PDT)
+Message-ID: <1e3f20d2-e557-b8fb-3ab7-d473db4eb2ad@gmail.com>
+Date: Mon, 27 Sep 2021 08:52:04 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.1.1
-Subject: Re: [OE-core] [PATCH] libsamplerate0: Set correct soname for 0.1.9
+Subject: Re: [OE-core] Incorrect systemd timer
 Content-Language: en-US
-To: Tom Pollard <tom.pollard@codethink.co.uk>,
- openembedded-core@lists.openembedded.org
-References: <20210924124757.86731-1-tom.pollard@codethink.co.uk>
- <a7ef7af8-6a70-4396-89c0-e84dc5d01a5b@gmail.com>
- <2433fb0b-99af-5c4f-7170-7fbe6f40dc75@codethink.co.uk>
+To: JH <jupiter.hce@gmail.com>, yocto <yocto@lists.yoctoproject.org>
+Cc: OE <openembedded-core@lists.openembedded.org>
+References: 
+ <CAA=hcWTC3_+Fg9uRC7ZnAEKhNEcF5Z_PM1WEugxQD76oFJ33dg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-In-Reply-To: <2433fb0b-99af-5c4f-7170-7fbe6f40dc75@codethink.co.uk>
+In-Reply-To: 
+ <CAA=hcWTC3_+Fg9uRC7ZnAEKhNEcF5Z_PM1WEugxQD76oFJ33dg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 15:40:40 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 15:52:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156387
+ https://lists.openembedded.org/g/openembedded-core/message/156388
 
 
 
-On 9/27/21 4:10 AM, Tom Pollard wrote:
-> Hi Khem,
+On 9/26/21 6:29 PM, JH wrote:
+> Hi,
 > 
-> On 24/09/2021 17:15, Khem Raj wrote:
->>
->>
->> On 9/24/21 5:47 AM, Tom Pollard wrote:
->>> Manually patch SHARED_VERSION_INFO, which was missed in
->>> the 0.1.9 release and later incorrectly fixed until 0.2.1
->>>
->>> Signed-off-by: Tom Pollard <tom.pollard@codethink.co.uk>
->>> ---
->>>    .../libsamplerate0/shared_version_info.patch        | 13 +++++++++++++
->>>    .../libsamplerate/libsamplerate0_0.1.9.bb           |  1 +
->>>    2 files changed, 14 insertions(+)
->>>    create mode 100644 meta/recipes-multimedia/libsamplerate/libsamplerate0/shared_version_info.patch
->>>
->>> diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0/shared_version_info.patch b/meta/recipes-multimedia/libsamplerate/libsamplerate0/shared_version_info.patch
->>> new file mode 100644
->>> index 0000000000..b42d564b4b
->>> --- /dev/null
->>> +++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0/shared_version_info.patch
->>> @@ -0,0 +1,13 @@
->>> +Index: libsamplerate-0.1.8/configure.ac
->>> +===================================================================
->>> +--- libsamplerate-0.1.8.orig/configure.ac
->>> ++++ libsamplerate-0.1.8/configure.ac
->>> +@@ -53,7 +53,7 @@ AC_PROG_LN_S
->>> + #  6. If any interfaces have been removed since the last public release, then set age
->>> + #     to 0.
->>> +
->>> +-SHARED_VERSION_INFO="1:8:1"
->>> ++SHARED_VERSION_INFO="1:9:1"
->>> +
->>
->> it can be synthesized from PV, that will be better, since we dont have
->> to change it manually everytime version upgrade is done.
+> I set up a service timer to run the service every minute at times
+> 01:10:50, 01:10:50, 01:10:50, ...
 > 
-> This patch is only required for this specific 0.1.9 release, it was
-> incorrectly 'fixed' across a number of commits going into the following
-> release 0.2.0, which is marked as do not use because of the issue:
-> 
-> https://github.com/libsndfile/libsamplerate/releases/tag/0.2.0
-> 
-> Once the recipe is bumped to the next release 0.2.1 and thus targets
-> github releases it the patch be dropped.
+> [Unit]
+> Description=Run watchdog job at every 1 minute
+> [Timer]
+> Unit=mwatchdog.service
+> OnCalendar=*-*-* *:00:50
+
+perhaps use
+OnCalendar=*-*-* *:*:00
 
 
-I see thanks for update. This is fine interim fix then.
 
+> Persistent=true
+> [Install]
+> WantedBy=timers.target
 > 
->>
->>> +
->>> +
->>> diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb
->>> index 6dfc42b436..8345d6880f 100644
->>> --- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb
->>> +++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb
->>> @@ -10,6 +10,7 @@ PR = "r1"
->>>    
->>>    SRC_URI = "http://www.mega-nerd.com/SRC/libsamplerate-${PV}.tar.gz \
->>>               file://0001-configure.ac-improve-alsa-handling.patch \
->>> +           file://shared_version_info.patch \
->>>    "
->>>    
->>>    SRC_URI[md5sum] = "2b78ae9fe63b36b9fbb6267fad93f259"
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#156333): https://lists.openembedded.org/g/openembedded-core/message/156333
->>> Mute This Topic: https://lists.openembedded.org/mt/85838060/2167528
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tom.pollard@codethink.co.uk]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
+> But the timer was actually fired about every 8 - 9 seconds:
+> 
+> Mon Sep 27 01:10:06 UTC 2021 start timer
+> Mon Sep 27 01:10:15 UTC 2021 start timer
+> Mon Sep 27 01:10:23 UTC 2021 start timer
+> 
+> Not quite sure if it is a kernel issue or Yocto oe-core build issue or
+> what I could be missing, appreciate your advice.
+> 
+> Thank you.
+> 
+> Kind regards,
+> 
+> - jupiter
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156371): https://lists.openembedded.org/g/openembedded-core/message/156371
+> Mute This Topic: https://lists.openembedded.org/mt/85891446/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 > 
 
