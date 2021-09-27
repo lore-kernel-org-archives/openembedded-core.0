@@ -1,292 +1,113 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <wak@google.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28A19C433FE
-	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 21:59:52 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.5896.1632779991399138223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B80C433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Sep 2021 22:00:46 +0000 (UTC)
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
+ [209.85.219.202])
+ by mx.groups.io with SMTP id smtpd.web11.5915.1632780044921965212
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 14:59:51 -0700
+ Mon, 27 Sep 2021 15:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fZr+Nkzy;
- spf=pass (domain: gmail.com, ip: 209.85.215.177,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id y186so7730066pgd.0
+ dkim=pass header.i=@google.com header.s=20210112 header.b=C4IV8R1t;
+ spf=pass (domain: flex--wak.bounces.google.com, ip: 209.85.219.202,
+ mailfrom: 3cz9syqmkaoiaeoksskpi.gsq@flex--wak.bounces.google.com)
+Received: by mail-yb1-f202.google.com with SMTP id
+ i83-20020a252256000000b005b67a878f56so8482707ybi.17
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 14:59:51 -0700 (PDT)
+ Mon, 27 Sep 2021 15:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=Lb4EVXwmPAHuICBcUYZh5LSwDbaKaBMizppW9LnJ0mg=;
-        b=fZr+Nkzy3gvbciC9sykGn9ylM43UJyDQNxVnJMLHoBr7ehsXmnyidGkUUB7ZUGN1iO
-         OexiLwbvWAGVq3iwrjWvi8iQ8uhjIXO8gNejH9Ikt4EBRR4I8EDuy2M1lyabd3LZxEIq
-         oUKSODGkztCEq2NIpUyajRS5Fefp7Um058PJ/Q89eN8ZRgDeyjlgA1jYhIPUlQ0RhEbn
-         ZJ4JF1rJw2gjjtse5rN128TwI3uMIcDqVDOkD9CMM9LLw05Zwif4XrxcbFnnfcqFZimu
-         BxRtVfq8ljfYzAV3xz+LXW28xHNGIjEMXu/xMcdd0yn2i9QBJ7z5NUh4JJHh7u67XFme
-         K16A==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=fYYIHE7RCSUQcMljEVQ1sKJhJJeQqNy6YcKti1zjrUM=;
+        b=C4IV8R1te3yvxtj020Jfdiqo5P/Fn15hH9nIBDS8BbFWWhVNmMwiUQgCDIEjrsQrWl
+         H7BvVHswQOKmbqz+aLyUikamQmjtu1EGBBI2I6ePtvJw+0kbMUyU2IbGDpsdEkla+pVw
+         tvB81q1nS6V6M06cyYG1WSr2aHaVTHc2OuSYB5KityROO6i21SlMzVSToE7rgEWTB6WV
+         tvXSXAh4rnqaFgVvlTiciaBEf/wqelDN/lPFjZDO8bae43KaPwWVYENVdd8PZsOFMpyj
+         M+67wxReh6pjYD+75Cue1z+sodsciqxl6Dj4vTQakMMMPEJZ/4Qn5oD33uLn2Fo/j1Uf
+         sHeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=Lb4EVXwmPAHuICBcUYZh5LSwDbaKaBMizppW9LnJ0mg=;
-        b=CwL4zhvff0P8GgQhnZ6vQ5mT1XuU4xZjO6pFhzZDu+VPOaIeH41mBibSBFm6znVN30
-         4H1ib32NmDzyqgC6mELFA1HWvycZwImcAtw5zjxfgHFP23raOCfH06IaCT4jRxPUkSFE
-         8u/74fDPkPyJy0s2F4hF553MIFKWfTHyHu8vZHapXuQVstO/760uh/r06jihYkdiKGzZ
-         We567p/OQBZdI5tqoQYeeod0P5KNcdILi8cG3reloT3bLo26T0FxKBMFg3DKase66PuM
-         D6kBUXe9tiiYYDFNB+ZrajXATIQfk0E9fQDyVBoo6WN0FuLuP/11MjZ1gleptg+7Sqdl
-         DDvg==
-X-Gm-Message-State: AOAM5309SqKzPAceAq+kxCoM+PcPcTB7fQZR9SzQ+1yEVUcaV18H0w+Y
-	sroBhPUQgQGKDmOlTbNxWJQ=
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=fYYIHE7RCSUQcMljEVQ1sKJhJJeQqNy6YcKti1zjrUM=;
+        b=qh4U+wslXH1q/EtIatbYmsBAQ4LktrFFmadQbBK+SqAWR0ELfuNRVcNJy6kSGjsDUS
+         nuFnDRP4VetuIRaG8bxie16r35NadMG3KERtZ6iE2P7slNVmifMXzP1Lg4m7yXygt5jb
+         9EjoV4dLqqjTMdtstadcctE+AIB7mut9V8gM20uUuQ3xhsS/dhxFWy9HsduBfpdDl9Xf
+         ya0ZezQBv/5CiDXLLZ5rDZJ6LH5xMJ8Z5ULTjGIyJjZxD23iCpv5RthVSE53VF6HBnRO
+         GdFdgw97+xOHkr3y3UmywmvNNpGeia8PfCmbFSGWCEjDtgRADQrOL3AqVw/5D8I3nKt8
+         6gpw==
+X-Gm-Message-State: AOAM533Irbp3vcP9g4jVpIR6JzTLEEHLtiuuu2nR6WRQJSPvyDUje0Mc
+	mpp1gSen+4SEtLhNgVN4sko9A9Cn6VxDaHso98gt5c8NIdUC22f8JYekf+yzQ6ENIKDNF4IAQsC
+	wqVxamL3+EmRQTAPtmMtpZjtKLTAFzj5CVbq80SMnlEYJWW7Tpbug0hGjz+bYAlk4XmdKzZLF/S
+	c19g==
 X-Google-Smtp-Source: 
- ABdhPJxR6D/aXuBQwDiXkGwc8ZAGboL/DDs52MimWmQGJ0irN9ThRy56zACA2un9lU0EBtdQk4lsbA==
-X-Received: by 2002:a63:dd51:: with SMTP id g17mr1565389pgj.47.1632779990843;
-        Mon, 27 Sep 2021 14:59:50 -0700 (PDT)
-Received: from skjolley ([2600:8800:1d92:f800:f4f5:b927:66f5:1b86])
-        by smtp.gmail.com with ESMTPSA id h7sm343500pjj.42.2021.09.27.14.59.49
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 Sep 2021 14:59:50 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 27 Sep 2021 14:59:49 -0700
-Message-ID: <000501d7b3ea$fee468a0$fcad39e0$@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0006_01D7B3B0.528590A0"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHq5U+LPvUVCrw0P19/7K+LzpHg4A==
-Content-Language: en-us
+ ABdhPJxh27Ok+fLtM47A5Pn0fkVT72dvW/RnpCxiiN6D05ngHdfi4NSGsMEXIYf/5cJtSTQfX0/uabw=
+X-Received: from wak-linux.svl.corp.google.com
+ ([2620:15c:2c5:13:8fd3:4a3a:3dd3:1bcc])
+ (user=wak job=sendgmr) by 2002:a25:1a45:: with SMTP id
+ a66mr2539851yba.389.1632780043886;
+ Mon, 27 Sep 2021 15:00:43 -0700 (PDT)
+Date: Mon, 27 Sep 2021 15:00:39 -0700
+Message-Id: <20210927220039.88669-1-wak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
+Subject: [OE-core][PATCH] rm_work.bbclass: Fix for files starting with -
+From: "William A. Kennington III" <wak@google.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "William A. Kennington III" <wak@google.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 21:59:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Sep 2021 22:00:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156401
+ https://lists.openembedded.org/g/openembedded-core/message/156402
 
-This is a multipart message in MIME format.
+This makes it possible to name files starting with a hyphen in the work
+directory. Without this change rm will fail due to an unexpected option
+being passed.
 
-------=_NextPart_000_0006_01D7B3B0.528590A0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Signed-off-by: William A. Kennington III <wak@google.com>
+---
+ meta/classes/rm_work.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-All,
-
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 07901d7597..5f12d5aaeb 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -73,7 +73,7 @@ do_rm_work () {
+             # sstate version since otherwise we'd need to leave 'plaindirs' around
+             # such as 'packages' and 'packages-split' and these can be large. No end
+             # of chain tasks depend directly on do_package anymore.
+-            rm -f $i;
++            rm -f -- $i;
+             ;;
+         *_setscene*)
+             # Skip stamps which are already setscene versions
+@@ -90,7 +90,7 @@ do_rm_work () {
+                     ;;
+                 esac
+             done
+-            rm -f $i
++            rm -f -- $i
+         esac
+     done
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 395
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
-being in "3.4" and then "3.5".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0006_01D7B3B0.528590A0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_086D_01D7AE30.09DCFDA0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 395 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0006_01D7B3B0.528590A0--
+@@ -100,9 +100,9 @@ do_rm_work () {
+         # Retain only logs and other files in temp, safely ignore
+         # failures of removing pseudo folers on NFS2/3 server.
+         if [ $dir = 'pseudo' ]; then
+-            rm -rf $dir 2> /dev/null || true
++            rm -rf -- $dir 2> /dev/null || true
+         elif ! echo "$excludes" | grep -q -w "$dir"; then
+-            rm -rf $dir
++            rm -rf -- $dir
+         fi
+     done
+ }
+-- 
+2.33.0.685.g46640cef36-goog
 
 
