@@ -1,45 +1,79 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Subject: RFC: Make kernel upgrades via dnf work like on Red Hat
-Date: Tue, 28 Sep 2021 16:10:46 +0200
-Message-Id: <20210928141048.576425-1-zboszor@pr.hu>
+Message-ID: <e47d11b76cd90e456330dd111f9ca37fbd39bb4e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] ERROR: Task (.../kernel-module-something.bb:do_package) failed with exit code '134'
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Tue, 28 Sep 2021 18:15:47 +0100
+In-Reply-To: <W5wi.1632764687377274770.mOgu@lists.openembedded.org>
+References: <W5wi.1632764687377274770.mOgu@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Vasyl Vavrychuk <vvavrychuk@gmail.com>, openembedded-core@lists.openembedded.org
 
-I have observed two issues when upgrading to kernel versions
-successively.
+On Mon, 2021-09-27 at 10:44 -0700, Vasyl Vavrychuk wrote:
+> I have external kernel module recipe, let's call it kernel-module-
+> something.bb.
+> 
+> Sometimes, it fails with
+> 
+>   ERROR: Task (.../kernel-module-something.bb:do_package) failed with exit
+> code
+> '134'
+> 
+> I have checked pseudo.log, it looks like this
+> 
+>   inode mismatch: '.../kernel-module-something/1.0-
+> r0/image/lib/modules/5.10.25-yocto-standard/extra/something.ko' ino 240205743
+> in db, 240631184 in request.
+>   creat ignored for existing file '.../kernel-module-something/1.0-
+> r0/image/lib/modules/5.10.25-yocto-standard/extra/something.ko'.
+>   inode mismatch: '.../kernel-module-something/1.0-
+> r0/image/lib/modules/5.10.25-yocto-standard/extra/something.ko' ino 240205743
+> in db, 240631184 in request.
+>   ...
+>   a lot of inode mismatch prints
+>   ...
+>   inode mismatch: '.../kernel-module-something/1.0-r0/sstate-build-
+> package/package/lib/modules/5.10.25-yocto-standard/extra/something.ko' ino
+> 240207118 in db, 240631442 in request.
+>   path mismatch [2 links]: ino 240631442 db '.../kernel-module-something/1.0-
+> r0/sstate-build-package/packages-split/kernel-module-something-5.10.25-yocto-
+> standard/lib/modules/5.10.25-yocto-standard/extra/something.ko' req
+> '.../kernel-module-something/1.0-r0/sstate-build-
+> package/package/lib/modules/5.10.25-yocto-standard/extra/something.ko'.
+>  
+> Can't debug it further since it is rarely reproducible, next run failure will
+> be some consequence of this, and after cleansstate this won't be reproducible
+> for a while.
+> 
+> My recipe is simple:
+> 
+>   inherit module
+>   
+>   SRC_URI = " \
+>     file://Kbuild \
+>     file://Makefile \
+>     file://something.c \
+>     file://something.h \
+>   "
+>   
+>   S = "${WORKDIR}"
+>   
+>   KERNEL_MODULE_AUTOLOAD = "something"
+> 
+> Using Yocto 3.1.10.
 
-One is that when installonly_limit is reached in dnf, only the
-main kernel package was removed. Patch 1 fixes this by adding
-extra RDEPENDS to the kernel subpackages on the main kernel package.
-This circular dependency helps dnf to remove all subpackages.
 
-The second issue is that when the oldest kernel version is
-removed by dnf, the /boot/bzImage symlink is also gone.
+Even if you can't reproduce the error, you can likely look at the pseudo
+database (in WORKDIR/pseudo/) as it is a relatively simple sqlite3 database. You
+can check the inode numbers in the database compared to the files on disk and
+the issue is fixed when the numbers match up.
 
-Fix this by using update-alternatives instead of hardcoded ln -s
-and rm -f. This is configurable via a new variable.
+Cheers,
 
-This is only an RFC at this point, because
-1) The first fix is only applied in the KERNEL_SPLIT_MODULES=0 case,
-   it may need its own knob or applied unconditionally.
-
-2) There's an extra issue I found while implementing the second patch:
-   instead of using KERNEL_VERSION, I had to resort to using PV
-   because the former is dynamically set via a python function
-   and it changes its value at some point between build phases.
-   AFAIK, there are kernel recipes out there using only the major
-   version with two numbers in PV instead of the full version triplet.
-   I can live with this as my kernel recipe uses the version triplet.
-
-Please advise how to fix and make it final so these fixes can be
-accepted into openembedded-core.
-
-Best regards,
-Zoltán Böszörményi
+Richard
 
 
