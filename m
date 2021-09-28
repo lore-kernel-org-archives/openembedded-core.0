@@ -1,97 +1,157 @@
-Return-Path: <kristian@klausen.dk>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E83AC433FE
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 15:06:26 +0000 (UTC)
-Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web09.797.1632841583850419251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63825C433F5
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 15:09:50 +0000 (UTC)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+ [209.85.217.51])
+ by mx.groups.io with SMTP id smtpd.web11.849.1632841788913703024
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 08:06:25 -0700
+ Tue, 28 Sep 2021 08:09:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@klausen.dk
- header.s=dkim header.b=T3hQZdK8;
- spf=pass (domain: klausen.dk, ip: 157.90.24.29,
- mailfrom: kristian@klausen.dk)
-From: Kristian Klausen <kristian@klausen.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1632841580;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dtUsx81F3faS5f/Fh0r4BBKIz576/rJQTfSmbiqtY80=;
-	b=T3hQZdK8MYGyweOK2xKwLy3vhikdUKq1GTkGAM9ZOkmfB5y7bdaJSw3VE+GON+4w1p3GqR
-	hhKdLORlHLLFRM0kaepJWkdcuBJBOcjQwY0t2PMtbUuNzgunL7ZYcBjQK/njDRdjpKdIJH
-	xbEqXKkCKD7Po/qePPBblTtjF2CqLP0=
-To: openembedded-core@lists.openembedded.org
-Cc: Kristian Klausen <kristian@klausen.dk>
-Subject: [PATCH] ovmf: add TPM PACKAGECONFIG and enable if tpm is in
- MACHINE_FEATURES
-Date: Tue, 28 Sep 2021 17:06:11 +0200
-Message-Id: <20210928150611.33975-1-kristian@klausen.dk>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=A7uJF/fe;
+ spf=pass (domain: gmail.com, ip: 209.85.217.51,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f51.google.com with SMTP id 188so21465027vsv.0
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 28 Sep 2021 08:09:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rYp9YdL0IJauWmLLqQSYmRGOLF2M0FpzaSAtrqD451Q=;
+        b=A7uJF/fei+y0S1MrkMGdiqcfKIHWAd47fqTKQL9ouKTFSHE50r6nOzir1v14DlqiNw
+         PgMJjyvmvylUpQ86d9F40fSElq7vqWn+ohXZItRVguAlX3LuuA97U2IMui/392oLllou
+         YuvUapVXoSgJozSXOIYZSRaqMYm2Fuar73CBoOlB0y3nfIMLOdYN4LLHQn6SvV82gFlI
+         6+v/S4+bedY9AIpRdT/nKu+op80+F+3zij0PBXwa2UqP3yeXn2INObKXlnUALoCJ/rcp
+         1Ni4Fz8lGHtOseGIjTFp8qDednWyBauHmmzl/pfcGodVWghGk1KOdC6yN454ggBG8cak
+         Ljbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rYp9YdL0IJauWmLLqQSYmRGOLF2M0FpzaSAtrqD451Q=;
+        b=DHYJGfWE1+z8RFOK+TVl7pgNMVzfmTs30VEFEe/3H51k1pTrjRD5o2sc2KwtctN6KY
+         9Vx3JIRNM+ifTUGhG80TddWgFzoAkUd0pPTofh66ypw09t6asR15jiTjlszQk9EZFAhD
+         APIMNncPjn29Q83mY2n3BEcsz9tVUKZKP2leSC7QYfJ1kSolsbuevJfWFgbjXrYpssfc
+         Ihqlx/tnA63+WboRENU4/OS8qnPf0nOIsUmf7wUrWUuvw6Jl3T8aBRbQnKyZaxbCeftj
+         zEwGCsO/twBJqMVvK+/gHCKvQDUt7q85mNgzYN9eTYRVTWPs4Ig8RKpNfz3tEHOe4084
+         q6Lw==
+X-Gm-Message-State: AOAM5322spHCKh8l2rL02sjTwOIIBtUzGamPWgyd5Ge7OmhAxqQD/h9A
+	xCFS4SHmxCjROO/2xnUM7JLQ9pRaPu2in63d+2Y=
+X-Google-Smtp-Source: 
+ ABdhPJwQ7PeE+2WGB/JPPIEmVUQ6NBbHOmkpB64W7B40zGPNDcwTcGdj49j058xfm+YGBqbZc6dimwX18gdBKahw8M4=
+X-Received: by 2002:a05:6102:21b9:: with SMTP id
+ i25mr5528336vsb.1.1632841788103;
+ Tue, 28 Sep 2021 08:09:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20210927185846.70202-1-anibal.limon@linaro.org>
+ <24379.1632840043418249566@lists.openembedded.org>
+In-Reply-To: <24379.1632840043418249566@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 28 Sep 2021 17:09:36 +0200
+Message-ID: 
+ <CANNYZj-U4rttuF0X028Z_G=N+3ZmErTBGK78oyneQ_Cm+HKCwA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipes-support/ptest-runner: Bump to v2.4.2
+To: oobitots@cisco.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c11dd105cd0f9ab9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 15:06:26 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 15:09:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156422
+ https://lists.openembedded.org/g/openembedded-core/message/156423
 
-By enabling TPM support the boot will be measured into the TPM's
-Platform Configuration Registers (PCRs).
+--000000000000c11dd105cd0f9ab9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Kristian Klausen <kristian@klausen.dk>
----
- meta/recipes-core/ovmf/ovmf_git.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+That is a meta-agl specific issue, and needs to be addressed in that layer.
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
-ovmf_git.bb
-index 4caf258e39..5d54bad473 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -10,7 +10,10 @@ LIC_FILES_CHKSUM =3D "file://OvmfPkg/License.txt;md5=3D=
-06357ddc23f46577c2aeaeaf7b776
- # compiling OVMF twice, so it is disabled by default. Distros
- # may change that default.
- PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG +=3D "${@bb.utils.contains('MACHINE_FEATURES', 'tpm', 'tpm=
-', '', d)}"
-+PACKAGECONFIG +=3D "${@bb.utils.contains('MACHINE_FEATURES', 'tpm2', 'tp=
-m', '', d)}"
- PACKAGECONFIG[secureboot] =3D ",,,"
-+PACKAGECONFIG[tpm] =3D "-D TPM_ENABLE=3DTRUE,-D TPM_ENABLE=3DFALSE,,"
-=20
- SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=3Dmaster;proto=
-col=3Dhttps \
-            file://0001-ovmf-update-path-to-native-BaseTools.patch \
-@@ -186,7 +189,7 @@ do_compile:class-target() {
-=20
-     bbnote "Building without Secure Boot."
-     rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
--    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${F=
-IXED_GCCVER}
-+    ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t ${F=
-IXED_GCCVER} ${PACKAGECONFIG_CONFARGS}
-     ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.fd
-     ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.code.fd
-     ln ${build_dir}/FV/OVMF_VARS.fd ${WORKDIR}/ovmf/ovmf.vars.fd
-@@ -196,7 +199,7 @@ do_compile:class-target() {
-         # Repeat build with the Secure Boot flags.
-         bbnote "Building with Secure Boot."
-         rm -rf ${S}/Build/Ovmf$OVMF_DIR_SUFFIX
--        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t=
- ${FIXED_GCCVER} ${OVMF_SECURE_BOOT_FLAGS}
-+        ${S}/OvmfPkg/build.sh $PARALLEL_JOBS -a $OVMF_ARCH -b RELEASE -t=
- ${FIXED_GCCVER} ${PACKAGECONFIG_CONFARGS} ${OVMF_SECURE_BOOT_FLAGS}
-         ln ${build_dir}/FV/OVMF.fd ${WORKDIR}/ovmf/ovmf.secboot.fd
-         ln ${build_dir}/FV/OVMF_CODE.fd ${WORKDIR}/ovmf/ovmf.secboot.cod=
-e.fd
-         ln ${build_dir}/${OVMF_ARCH}/EnrollDefaultKeys.efi ${WORKDIR}/ov=
-mf/
---=20
-2.25.1
+Alex
 
+On Tue, 28 Sept 2021 at 16:40, Oleksiy Obitotskyy via lists.openembedded.org
+<oobitots=cisco.com@lists.openembedded.org> wrote:
+
+> Hi,
+>
+> Patch applied with warnings.
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/270
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/269
+>
+> WARNING: ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0 do_patch: Fuzz
+> detected:
+>
+> Applying patch 0007-WIP-Initial-LAVA-support.patch
+> patching file flags.h
+> patching file main.c
+> Hunk #2 succeeded at 131 (offset 20 lines).
+> Hunk #3 succeeded at 158 (offset 20 lines).
+> patching file utils.c
+> Hunk #1 succeeded at 49 with fuzz 1.
+> Hunk #2 succeeded at 484 (offset 12 lines).
+> Hunk #3 succeeded at 527 (offset 13 lines).
+> Hunk #4 succeeded at 553 with fuzz 2 (offset 13 lines).
+> patching file utils.h
+> Hunk #1 succeeded at 42 with fuzz 1 (offset 1 line).
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156421):
+> https://lists.openembedded.org/g/openembedded-core/message/156421
+> Mute This Topic: https://lists.openembedded.org/mt/85908558/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000c11dd105cd0f9ab9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>That is a meta-agl specific issue, and needs to be ad=
+dressed in that layer.</div><div><br></div><div>Alex<br></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 28 Se=
+pt 2021 at 16:40, Oleksiy Obitotskyy via <a href=3D"http://lists.openembedd=
+ed.org">lists.openembedded.org</a> &lt;oobitots=3D<a href=3D"mailto:cisco.c=
+om@lists.openembedded.org">cisco.com@lists.openembedded.org</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br><br>Patch=
+ applied with warnings.<br><a href=3D"https://autobuilder.yoctoproject.org/=
+typhoon/#/builders/120/builds/270" rel=3D"noopener" target=3D"_blank">https=
+://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/270</a><br><a=
+ href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds=
+/269" rel=3D"noopener" target=3D"_blank">https://autobuilder.yoctoproject.o=
+rg/typhoon/#/builders/120/builds/269</a><br><br>WARNING: ptest-runner-2.4.2=
++gitAUTOINC+bcb82804da-r0 do_patch: Fuzz detected:<br><br>Applying patch 00=
+07-WIP-Initial-LAVA-support.patch<br>patching file flags.h<br>patching file=
+ main.c<br>Hunk #2 succeeded at 131 (offset 20 lines).<br>Hunk #3 succeeded=
+ at 158 (offset 20 lines).<br>patching file utils.c<br>Hunk #1 succeeded at=
+ 49 with fuzz 1.<br>Hunk #2 succeeded at 484 (offset 12 lines).<br>Hunk #3 =
+succeeded at 527 (offset 13 lines).<br>Hunk #4 succeeded at 553 with fuzz 2=
+ (offset 13 lines).<br>patching file utils.h<br>Hunk #1 succeeded at 42 wit=
+h fuzz 1 (offset 1 line).
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#156421): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/156421" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/156421</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/85908558/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/85908558/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000c11dd105cd0f9ab9--
 
