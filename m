@@ -1,65 +1,73 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <oobitots@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B812CC433EF
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 14:08:59 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.26.1632838137988611054
- for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 07:08:58 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EBD6D6E
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 07:08:51 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD2D83F718
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 07:08:50 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 230C9C433F5
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 14:40:44 +0000 (UTC)
+Subject: Re: [PATCH] recipes-support/ptest-runner: Bump to v2.4.2
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto: add libmpc-native to DEPENDS
-Date: Tue, 28 Sep 2021 15:08:47 +0100
-Message-Id: <20210928140847.3750547-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+From: "Oleksiy Obitotskyy" <oobitots@cisco.com>
+X-Originating-Location: Lviv Oblast, UA (46.211.67.53)
+X-Originating-Platform: Linux Firefox 92
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 Sep 2021 07:40:43 -0700
+References: <20210927185846.70202-1-anibal.limon@linaro.org>
+In-Reply-To: <20210927185846.70202-1-anibal.limon@linaro.org>
+Message-ID: <24379.1632840043418249566@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="ycvU8mB32tVlHCWbiEUQ"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 14:08:59 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 14:40:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156417
+ https://lists.openembedded.org/g/openembedded-core/message/156421
 
-5.14 changed how the GCC plugins are built, which means they now
-depend on both GMP and MPC to be built. We already depend on gmp-native,
-so add libmpc-native aswell.
+--ycvU8mB32tVlHCWbiEUQ
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-kernel/linux/linux-yocto_5.14.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.14.bb b/meta/recipes=
--kernel/linux/linux-yocto_5.14.bb
-index 0c6fbff75e..8c44c294bd 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-@@ -46,7 +46,7 @@ LINUX_VERSION ?=3D "5.14.6"
-=20
- DEPENDS +=3D "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '',=
- d)}"
- DEPENDS +=3D "openssl-native util-linux-native"
--DEPENDS +=3D "gmp-native"
-+DEPENDS +=3D "gmp-native libmpc-native"
-=20
- PV =3D "${LINUX_VERSION}+git${SRCPV}"
-=20
---=20
-2.25.1
+Patch applied with warnings.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/270
+https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/269
 
+WARNING: ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0 do_patch: Fuzz detecte=
+d:
+
+Applying patch 0007-WIP-Initial-LAVA-support.patch
+patching file flags.h
+patching file main.c
+Hunk #2 succeeded at 131 (offset 20 lines).
+Hunk #3 succeeded at 158 (offset 20 lines).
+patching file utils.c
+Hunk #1 succeeded at 49 with fuzz 1.
+Hunk #2 succeeded at 484 (offset 12 lines).
+Hunk #3 succeeded at 527 (offset 13 lines).
+Hunk #4 succeeded at 553 with fuzz 2 (offset 13 lines).
+patching file utils.h
+Hunk #1 succeeded at 42 with fuzz 1 (offset 1 line).
+
+--ycvU8mB32tVlHCWbiEUQ
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,<br /><br />Patch applied with warnings.<br /><a href=3D"https://autobui=
+lder.yoctoproject.org/typhoon/#/builders/120/builds/270" target=3D"_blank" =
+rel=3D"noopener">https://autobuilder.yoctoproject.org/typhoon/#/builders/12=
+0/builds/270</a><br /><a href=3D"https://autobuilder.yoctoproject.org/typho=
+on/#/builders/120/builds/269" target=3D"_blank" rel=3D"noopener">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/120/builds/269</a><br /><br /=
+>WARNING: ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0 do_patch: Fuzz detect=
+ed:<br /><br />Applying patch 0007-WIP-Initial-LAVA-support.patch<br />patc=
+hing file flags.h<br />patching file main.c<br />Hunk #2 succeeded at 131 (=
+offset 20 lines).<br />Hunk #3 succeeded at 158 (offset 20 lines).<br />pat=
+ching file utils.c<br />Hunk #1 succeeded at 49 with fuzz 1.<br />Hunk #2 s=
+ucceeded at 484 (offset 12 lines).<br />Hunk #3 succeeded at 527 (offset 13=
+ lines).<br />Hunk #4 succeeded at 553 with fuzz 2 (offset 13 lines).<br />=
+patching file utils.h<br />Hunk #1 succeeded at 42 with fuzz 1 (offset 1 li=
+ne).
+
+--ycvU8mB32tVlHCWbiEUQ--
 
