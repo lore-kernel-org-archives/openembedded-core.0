@@ -1,180 +1,242 @@
-Return-Path: <bevenson@melinkcorp.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6473AC433FE
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 15:11:26 +0000 (UTC)
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (NAM02-BN1-obe.outbound.protection.outlook.com [40.107.212.135])
- by mx.groups.io with SMTP id smtpd.web09.867.1632841884807778408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78012C433EF
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 15:12:37 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.873.1632841956011766987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 08:11:25 -0700
+ Tue, 28 Sep 2021 08:12:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@melink.onmicrosoft.com
- header.s=selector1-melink-onmicrosoft-com header.b=kTaR6JAT;
- spf=pass (domain: melinkcorp.com, ip: 40.107.212.135,
- mailfrom: bevenson@melinkcorp.com)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=hbgNgzDt;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=59050711c4=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18SCNRJd016455
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 15:12:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=subject : to : cc
+ : references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=yYWvmY9qexOIbPdx5Ex/JrsOfM9KxSAqs9iJRR8cMtU=;
+ b=hbgNgzDt2Ot4bdeRyjl6Tz793E5CfkGrL1xeUCgvwIA/BRasU1LPtoijgioTc6w2uHrD
+ wfSscyZDf714XU2ZkROe0Ycpbsx1xAQQlRvmMgSAFJw64o/xpMYRw7OK21R33ps1j6AU
+ 2AwdDCbRTByfHO9ULB4lmsCg3szyeuWiHz2PjKaGFM7Tbi92YdWmWYCLMfg7B6gLc2rD
+ uTb6GtIGGV2JZ78NCDRb9GuNykxBWL6UyZptAb8OJrwr2CBCqkXpuSNfANBvItp5vE1s
+ jwUz5N47FlR7pKBYax5O11L7iFVvCl7nZl15Ahmi3Jc0lkq+/IAf0e8Zgkt22FcNbG1b bw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bbbxh95yc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 28 Sep 2021 15:12:34 +0000
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18SFCYtX019701
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 15:12:34 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bbbxh95y9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Sep 2021 15:12:34 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XJ0y0p1jysvG4zwhCJbsbyB+QcrFDVOVUwMZjISC/tqtzt0r9RzOK8s6z98n5kC4F2KncLxhrJd+5KYUDsJt1xfK+878jHaOxTDVq9GrkX7a5sVfe9srPN6N+oRbFPx8ACeLNDhm2DrtM29q+RqjtF9Aqk5ReWc2kuc8A0nCg/St7I4HCGQ/RvqFKdo7MCuluAa9BtbA9Eb8fWjZFO34IekcdRStzXoexLYpMxLKBLndKN6H4eoGIxzRDBtAhT/mYulkvg/j+8A9dCpCXPypMizP6cpDGN3K4cciE/SwiYoWaH/jxyDTrZpio9ABjmv/bcGXpovCbMlJPSGZActVpg==
+ b=oA4eO5IaPDJZdXfkMwxpW5V+g6h5n7TaHUTRZ+7PvR0OGMLydWQ0b10VAUeMJsrnONlKBxpXeiiqC67ReWet3VTlQCajuHGkYxPIcHpEhplj/yHEjBLMBMGVK+5otxnB7pQG9yC/j3Qt/+ey+WleLSLrrO69gKkO1Y+kaonFuC8E7e5qecCgby3wzpSLdX3KSKdiZrE7jRkSq1Bc0CsstQJM3kdLrqHW3qgEak1zhXk43ZxFI6pk3l87J36qiYDWve2Y1HMhQm2HO+HXCsoj7LhNZvVGsv2rhReiKVOGbnLwWwvvj5mBZZozfHfgzQV6IqDwUpRtYhMRfNsg7DH7pA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=rP6+nXekTDa8tt8jbeIJNIuD6ze6/eYdiNeoB/iJglk=;
- b=Z0BZ+0/rxTrDQ89TGulzpT3KurgNy674RQmZo0ZjXSsylp1oH5j97TZ5z+pKrox/FK1RIyWa9MNj+TAsdL3rJ7zop8+8Y7+6uUEnJhvY3dNYC1MWQZn5nchZhGgvUIkYXrkuYd8ROIs3qXGO655MtZaDm2bCqSpwxU7f0TNn1hAD0NPqFwyYEkzwN8Rf5X3ymmMfKlNtwGX8ui8ebry5gXbTmRCJ8Bqj4N9FtLV5sGAEVK+ifjmkDNZhIypKsiQlM7O32KRDdlHSjDFxuVQinyzONU3YhP8V0nxzue28fusanE44NGLm2KZW/4SgeZhPVTsXwfzVrUDTfNjsVXlbfw==
+ bh=yYWvmY9qexOIbPdx5Ex/JrsOfM9KxSAqs9iJRR8cMtU=;
+ b=HdsyySdJzTTDBHgACQAE7xqUB5fZH7340bpEzGnCtAHYratSkyCAWU2Ufowshc8kwnz8tnyNbIiAp4scksU8NW3qHYVFjz+z9syq97CnfDE5JnIyaopc76sU5tIaHX3G0J4nJ/foH29KRNt1yvxPI0jJpnsFeZa6puzI6A7WnD+Y0tLDvSjDyxHHVgIyNTNncRglNGpqqtWAdRjwNv4g7zNhvrLzlVvRpEBVIK/A99kuPQyDWbg9r8bWWwDNIQx0V56vuaIKvnwGpSSyeqp2BdqRszkTXl3fx4FlriMovwOcR0mJLmXpI+dMmLiGI8j/6jt4LuK1rYv1lPfgF7Kb6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=melinkcorp.com; dmarc=pass action=none
- header.from=melinkcorp.com; dkim=pass header.d=melinkcorp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Melink.onmicrosoft.com; s=selector1-Melink-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rP6+nXekTDa8tt8jbeIJNIuD6ze6/eYdiNeoB/iJglk=;
- b=kTaR6JATLuY2kcPChjbuL0UK5A97ng47LCiz6eVshyic9Jw9/gxCYl7by/1M1tPM8/xHfAubbHu1iKIWWjSR6ioK55EozCJnVSBeYtevDQUVx3slXd/H7OsJe/MvaRlbnlEvdTglWZc9ZU1Rs5sILQjhUlPzhKCKTJsgVUKu0A84fu6kHUvIenI2ZgAAPhceUOQ3xJIYV3AAREPgYW6aj3SkyBouBHhMl9IjGC7nLcfEJ3BWuzQSvXYSNiUI/rJl0fm36XVRlTYdl9K6W3X7urgTWvYM38kdxbDYH51hRBwwzOHc5u8/RSZ0YOMtigMeTw009fDODSrtf8W83UGcgg==
-Received: from CH0PR20MB3948.namprd20.prod.outlook.com (2603:10b6:610:c6::22)
- by CH0PR20MB3963.namprd20.prod.outlook.com (2603:10b6:610:df::10) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM5PR1101MB2265.namprd11.prod.outlook.com (2603:10b6:4:50::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Tue, 28 Sep
- 2021 15:11:22 +0000
-Received: from CH0PR20MB3948.namprd20.prod.outlook.com
- ([fe80::f002:4a83:9bb6:f33d]) by CH0PR20MB3948.namprd20.prod.outlook.com
- ([fe80::f002:4a83:9bb6:f33d%6]) with mapi id 15.20.4544.022; Tue, 28 Sep 2021
- 15:11:22 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: binutils: compilation error 'unknown pseudo-op: `.l`'
-Thread-Topic: binutils: compilation error 'unknown pseudo-op: `.l`'
-Thread-Index: Ade0dPErc6hpxrTpRla0paDgkYmB+g==
-Date: Tue, 28 Sep 2021 15:11:22 +0000
-Message-ID: 
- <CH0PR20MB3948E4BB526801B6B1E0B7F6BBA89@CH0PR20MB3948.namprd20.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-bromium-msgid: 941ed60c-7776-4a63-8dd8-c7024949499e
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=melinkcorp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3f09843-de7e-4b33-ebea-08d982923b8d
-x-ms-traffictypediagnostic: CH0PR20MB3963:
-x-microsoft-antispam-prvs: 
- <CH0PR20MB3963CC5D8134A5C839CC2B4EBBA89@CH0PR20MB3963.namprd20.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- HAXJsnQ+PfOiKMCDpSVbgKXs0899N6EJtRoAH58y+WqeO6eHkin8iGdkJLTIGIVIuFwDMyUvZQLnRrSQ0mR4Tc20mSEX2Qx+jO3RvBz6SvjJWtzDKSLZpbXt7mDDFDDWMTHHV4X8JFTtbCg+8QvsjNsxQyL5FPWtzpFWxO4ICvLYUzaIjCF5yMg/PaFfKfuos67I09o01FV8avjRlxuV5JAxfX5xZicWmH3NHl8GMNWY1GZC4DtlISD+1Xcx0RnuwcZgvkSL0rNFs7QtvslEmRmDMU1NQd7aCi6vXXtuYsa71Sd7per+w8kcURH8zStSGrrNUe6R+/kgrdPYqGm/3DUZEWm//QZ+kuUzk4s10mML+PxKvVVfX5aGMN9dSytqMHllaHO8OcI/Lvnkpm82BCRzdWzJ5CbBBoPveyY3pXZ+0NFD3lrlREs6Ms61ZV1KDrbwI5VuVeoc8Q9Me9/UrN/Y2sAlmxB8a1h8A4WbxtvTYQ8JO7pf9QAoDV8+ujHIGchscjHttqZUAYkhGfPDhxq+LyTav5Pbogz38oVBWtb/EHUS5GJEA9AHHLFcwTCyMiR3iLmKV9iWXWI/01ZBJV+3JISBf4DijJwNwkANWdhFWS8DSZTlWGmtu+2SvyAER0/NpRTI9JMqRn7vVoMi2AK5AKrDzDSg22hwIGXFt4A47+MkK0GI0PIOv1/oiFzBh4+VmglpAdAzjl/TwIRT3OBTa4bsBqglXJiHUznI810crmu2eA9br8e0uu32kTsoyBkV1FE2Qk63R/nRd5hz8V+mzQbSEjrqmVSDzO48s8c=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR20MB3948.namprd20.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(396003)(376002)(136003)(39840400004)(366004)(7696005)(6916009)(83380400001)(66574015)(122000001)(38100700002)(8936002)(8676002)(316002)(186003)(26005)(6506007)(33656002)(55016002)(9686003)(52536014)(86362001)(508600001)(5660300002)(66946007)(76116006)(66446008)(66476007)(64756008)(66556008)(2906002)(38070700005)(71200400001)(81973001)(473944003)(414714003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?SeUM+YRf6bErHmYSlIUx9bEd4l3yzhCVnHC5Low9oTNqV93A/WwDW8wtkzOy?=
- =?us-ascii?Q?0DtKof0ziv3IlZtmKXHO/gG4nR5lCBRI+TK9lsgCoYyPhtpkIFupeii7fTX7?=
- =?us-ascii?Q?6nbhM4OC9KubGaGckBQ2bdIpbKUABenYgzsNP6RchzAPR/nmyif1ppekIYYW?=
- =?us-ascii?Q?yDKvicEdQDgEnwO12WvZX6tFqW8Dfb3XNepVF8o56li8TKxkVf4mWS63jq03?=
- =?us-ascii?Q?1wzuRc5zFUDswbo2+LkRIxiKxZzUy0nrT3pCc/tunfuK4vPvGQeexiE+2fA9?=
- =?us-ascii?Q?dnf5+TZZWKnk2Egk21zAYhgzJtMJmZQfoUFk3mhoEr4pnEPSIOIcvzHBAbfs?=
- =?us-ascii?Q?D43WEPrCPWZBXfEd+qg/QyUAqdHwJdcRJr096KQpDKYyQwt/3CcuqtX+Dzeq?=
- =?us-ascii?Q?ASlmC41bpWCT3HyiewB/yA4EJFNHP5IrL9knH4TkS7+3nX2s5o/yGQXH684a?=
- =?us-ascii?Q?WYEduQ794UnrbRzp130jCqm4OLIIU/s5w5vPdCtF638op79/uqnigiuBD2Tq?=
- =?us-ascii?Q?+vFZMedcAcIsAvUL8WDbkt/H8ZTywbOPzIYvUUsJOmxJh9bFaGKqIUa1f3Gq?=
- =?us-ascii?Q?xQb6EIdQFciJPd3f+nY8FEMU1nTups46cK5RkSCPZO09pH7H8h3xGabWO5i3?=
- =?us-ascii?Q?QyA9zmu5RVwKk1Usw5Y8K3jMfLdOZBrRZlsOl20xyng7IlfxSQAmW1kG8cRq?=
- =?us-ascii?Q?MpfCwjZaJ6X/M/yj72eTi5EwIrp2oTxOlwTcQfFTgfiMeYsZx+1rNHDvSGpK?=
- =?us-ascii?Q?wSlpjPWwEzBR3xV9QlBxMaX4uJFlwugB07HRpN13GemXrRlaA/RaZoWhPbfF?=
- =?us-ascii?Q?f5jwqaTxVCmviIMTdVBjGDG8RZPtGcj8PkTv8bZn2WTixe3+s1gq0WbNtO4B?=
- =?us-ascii?Q?+36xgcS4B/HwDzoRxJ8DapWvpaTuwwzLRaCa6m/TYyrmo8dqEQ/fweHqQ0aF?=
- =?us-ascii?Q?WvsjIfj/CZm7OSbLnaBzzh0gcfNLiiSPjlcxpkete4+ecDjj0MUTHX2wjPIm?=
- =?us-ascii?Q?+jdKrg8AK6uaDG+SflqyN+iNZp9vZYQ/2bsj+I2PkyiEicVHsWr7KKuqbMSF?=
- =?us-ascii?Q?9D1CtzSIM90NwjEPw0i3DynZD8BlvxUZr+zl+84s1DDedRAJvKY3f9RWhZzR?=
- =?us-ascii?Q?tN8IGHZMex0UOdDZzhYY42y1YU/+is/jNZiQszJit5H4LPk5f7MS1KkLdkFw?=
- =?us-ascii?Q?db0GrINcWPLgQa6xKOoAaFR1Qkw1ihtV/JI/K46q7jZZYo6xhFvMnFMi/v7H?=
- =?us-ascii?Q?Y8DSs6iXiRorFWLawWnJH8Atl9EEJWMBJCgIBWL7dzsH2dJzxhXI1m9dUfrW?=
- =?us-ascii?Q?zp2wxkO+lzPxNUACMVFDGbzX?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Tue, 28 Sep
+ 2021 15:12:31 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4%6]) with mapi id 15.20.4544.021; Tue, 28 Sep 2021
+ 15:12:31 +0000
+Subject: Re: [OE-core] [PATCH] state/staging: Fix directory not deleted for
+ race
+To: Pgowda <pgowda.cve@gmail.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org,
+        Randy MacLeod <rwmacleod@gmail.com>, umesh.kalappa0@gmail.com,
+        Vinay Kumar <vinay.m.engg@gmail.com>, Khem Raj <raj.khem@gmail.com>
+References: <20210915114618.157245-1-pgowda.cve@gmail.com>
+ <16A53DBD300C0C8E.4388@lists.openembedded.org>
+ <07fc5dc3d216f0fa6c081506aa92701508604bab.camel@linuxfoundation.org>
+ <CALY4984U1txY2y6yJQQKts20Hb6x-86gtXhHx9UoEeDxF1yyTg@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <9a55811d-b950-281f-1f7a-f12b39a2ef9b@windriver.com>
+Date: Tue, 28 Sep 2021 11:12:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: 
+ <CALY4984U1txY2y6yJQQKts20Hb6x-86gtXhHx9UoEeDxF1yyTg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0160.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::15) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR20MB3948.namprd20.prod.outlook.com
+Received: from [172.25.44.7] (198.48.226.187) by
+ SJ0PR03CA0160.namprd03.prod.outlook.com (2603:10b6:a03:338::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Tue, 28 Sep 2021 15:12:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ed940e54-4131-475b-80b3-08d982926452
+X-MS-TrafficTypeDiagnostic: DM5PR1101MB2265:
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR1101MB22654DC48F62732CEB5019CEF8A89@DM5PR1101MB2265.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	EsK01v+xTahbXdvLLZDPfeIwLVXa2CTAkCwiy0E10u+goZiLjmoeBGOVe5dNLstl4Zy4Dt39gexEzKbbt4vNVRzR9ke4qFmqlIudSnXlgPD892rlAdd4pAxlW1ldLAefQWdlP9nOiNI5kO0w1R9Nnp7jC86zbc1xDbTHBb5vCuBsiAxkNQnUFv+82f/LdVSgIxeuQjE8O8sXXYkls2IyB4vyrb0zn3/mxrMBHjguHYCL+i1RiQ9I2Ck/WJrrBhUqJRoDyRWrwt0yhfeV6iqBp3QkosCe0wAZS0Ieqktx+LLEoOxb+l6c5Km/0DVFwIurBUCHQ6qfAyvP6qXQJwpaVWPJZB1DcTWbu0VzBaWXKnVAz8iQIFddKYGtetv44kzem3fvYQpbgW9v85GlnFj0PUfBF57o3LCj7xtLlwZC220IIjbPZRDHziY+b1qyLFgnCbI3DsbMrt5diIytuEbi2pp6qZpm7+rJLNbMXBMzO0+P4qqJXlTmmjVvyZQsV7QPyEWGlcu8+7SvqpwRhbyaCX3t/DHApd9Z8rtoGzK8tD6UVWudznNAHm5A88fUiKLggg0Y5Pi4dttFEP53jxfXky6/C6X6hqDv74OKob0xrJOKbCIGH6HMQOiIDTSCztmoHr87qHImvG2rNRxkW/mQKyZyB1ijKGjM33IQtjt/tFEPHNmtdsq/dNaY4oW06ppC5chDdAiGZT2wr+0Sc9ZviT7tnCuUhQZB6xztpVl9hCp7vrV+wvtXR9zyC8lhdQr9ZRPevTnZLoplVBY2turY9MbfmFVUj80XC1ublGFIEpEgbkwnSe3Q/AbO3Q2gIAPsrzG5aSksBNJnJZaPnDv09/DjaDSV1YlbVFHqFDYsiE9ikVFQ/+d88vHCO+ivVlJgui3J3CdOj3DjEd7AXGugnQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(86362001)(6666004)(316002)(31696002)(54906003)(110136005)(4326008)(66946007)(38350700002)(8676002)(8936002)(16576012)(66476007)(38100700002)(6486002)(2616005)(186003)(31686004)(26005)(53546011)(5660300002)(83380400001)(956004)(508600001)(2906002)(36756003)(966005)(52116002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?OTRpRUFHMnZvQU92Sk9ORDJ4OW9HYmVmQmNHdExPekZGQzh0WmdiQVBaWGcr?=
+ =?utf-8?B?V29tZmdpdXc2V0U2djA0TEp4cDBHNFBVenFVc0tYOGNzYW9MdTN1M3BleGdE?=
+ =?utf-8?B?cVRLU2diUWVKZXZ1M0ZZN1JCbExjekk1OGV2ZStSVWppSmx0aVFsMjVNK0RD?=
+ =?utf-8?B?Q0J1TjR2QVF0R0dZZXhKdWNmZmNLU2hITEZIS25PcEZqR1FmRUNFVVp1S2tT?=
+ =?utf-8?B?Vk1kb2ZGWVdCQkZzWGFQQmx4c3pTTng2eWJvTXc5a0VNTUpZWk1oaHBIbTdX?=
+ =?utf-8?B?MnJUQ1VTYkM5THhRRjhYbE9CcitsK3NoVGR2TmxUQjFUNlBVMnZDWnV4cHNX?=
+ =?utf-8?B?dEdJb2pqd3p3MEVyeHdZRXVhTmNwQzNpSlY0R0FvMHpOM1hEU0N6TzZaSUxt?=
+ =?utf-8?B?SWR1STVNakUxUHVRY2hiNWxPNGRLcXVnY1E4OWFNRHZiRnlXcWFwTGFjTEFt?=
+ =?utf-8?B?ZTEyaHJoeGlFdk1KMjF0OTZ3RGVna0FwdGNXQ1ZaTjBqdmpacWhpMFM3WGJO?=
+ =?utf-8?B?RHlia2RaZ3FQZFVFTjRibFJIRWFtK25wZkVjKzF1bHBaNjcvclI4b2tHaEdX?=
+ =?utf-8?B?TnVibzZpQ3htNDYvV1J4YU5nNlB5Ykw4YWhwcjNPQXBpNnNublJadGpuWUln?=
+ =?utf-8?B?Q0tleERWYjNLek5QODgrRVNQOXhudkpiT1JSWmg3RTFHcENyZmxTMW5iUU94?=
+ =?utf-8?B?NlRhYlA3UXk3V1ArYmFIU2ZFMFQzck8zUlRNYS9TWHpvd2RXc0E3aHZOeGpR?=
+ =?utf-8?B?K0VYOTl3Qm5FRmsrN05EVktOaFB6QnRyc3FOeFowdXJxa3FPdU5DbXNpRDhj?=
+ =?utf-8?B?Q29WNGhLV0VFcndUNnduQkhPc3FPUHNRcjNSdWtYUTFJWnZ1dGxrV3BWVTAx?=
+ =?utf-8?B?dUxkT0g4QjgzZHJhcVJHanh1OFloVVNpVVNaY2ExUi9Wd1RSMU9rQWVHaGlZ?=
+ =?utf-8?B?cXl1dE9tcVdvbWRzWkZRSmgwY2ZKSnA2SDhjQzUrR2I2WTlaa0RRQTRNZ3pv?=
+ =?utf-8?B?Y1Z2TEMwTEdKN1FKT1ZtOTZjOVJlVDdIYVJjTUtwb1NLY2ZFV0UwNDhNWGRN?=
+ =?utf-8?B?QVg5ZytucTZqenZTSHdkVXorbGt2TUdaQW16c2lpZzZFenIvcUlMRHNWS0dy?=
+ =?utf-8?B?R3lRb2ZNUkF0d3NBbFhRamM4dnZEc1YxL3Y1VmozT0pQWUhpZmhVV3RMaEg2?=
+ =?utf-8?B?cC9iTlZqTjZ4QWlZcnZuci93WW91NUlmdlM5MGVpWE9lUU15bG5YTHBoNGIz?=
+ =?utf-8?B?cUswbUJuSzNTNWM0eFZGTVZQdWRBRHVOQzFQOGpLTzJjczFGS0llNy9NSkoz?=
+ =?utf-8?B?VWxFdkE3YTBxVGhUVTlEenplaFVTbk96dVZNcnNIdkw4eVVOcEtFY1ByZVZp?=
+ =?utf-8?B?dU5ueFdaUzFnMm9JbG9CcWlDeUFHSDNSWjVBcENaZ2NTYy9iNFFFUWdydlFh?=
+ =?utf-8?B?eWJTT1FubWZ6MmR2Qml2TC8ramlrbWE3WHozZEY5anRwZFJXaEFKKzVraTh5?=
+ =?utf-8?B?L3hwTjVDVkdscmxVTnIwSjcwc1RoTGVqelJPKzFSRW5Dd05JbE9xTWRCVURp?=
+ =?utf-8?B?L1l5bndLNXZyUWpYVjZ2T1AxbEJXU2FPMDBPRkl1N05CeEtmSndRMHRuakdW?=
+ =?utf-8?B?eFZCQVl3bTloTVJsem52d0hMQVpHYUxaaE5tZ25qU0xRY3FxblVtREkxaVFP?=
+ =?utf-8?B?dGtaaVpRY2NQMG1VTVF0SzJ0SXhaY292MjN0eUQzZ1FqUXRFYlE3SzkwN1hu?=
+ =?utf-8?Q?VoMr1VKMTwZ3oR/Vl4Bi6s4y1RFg/2cC4KtMaGg?=
+X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- f3f09843-de7e-4b33-ebea-08d982923b8d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2021 15:11:22.3617
+ ed940e54-4131-475b-80b3-08d982926452
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 15:12:31.0979
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- lo/lbNH6KexpHfulMEcuRorsEdUlRRXijdOKzqYme2/eopnDzizrNTTvyCpMjgVRmlARPy0ceOvmcTl+QUpe3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR20MB3963
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ iMCqAny/t7vmdsG3BRPSxRe3vdYOAKh57040EFf4CSkE47ZbncPe0vREFo3AJyIxFwn49nmHECCv4mA8zOB+5GtNtu7ZQbALJPTifGHcOGc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2265
+X-Proofpoint-ORIG-GUID: OY2U4PxhWQXbgIdbEIhDBlDWoJNWviZV
+X-Proofpoint-GUID: R07YVOuNmavo0cQisVyR_lLQPHZY74vR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-28_05,2021-09-28_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ phishscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 mlxscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2109280088
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 15:11:26 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 15:12:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156424
+ https://lists.openembedded.org/g/openembedded-core/message/156425
 
-All,
+Add Khem (aka Mr Musl). ;-)
 
-I have a AT91SAM9G25 based system that has been built and works using yocto=
--2.2 (morty).  I am in the process of upgrading my build tools to the lates=
-t.  The build image is a custom image that is based off of core-image-minim=
-al with a few additional packages.  I'm using Ubuntu 18.04.06 LTS for my ho=
-st environment.  I'm up to yocto-2.7.4 (warrior) and I hit some build issue=
-s that I'm looking for some help in solving.
+On 2021-09-16 4:28 a.m., Pgowda wrote:
+> Hi Richard,
+> 
+> Thanks for reviewing the patch and your comments.
+> 
+>> Looking further at this and your description, I think you might be saying there
+>> are multiple levels of empty directories.
+> 
+> Yes. There are multiple level of directories as follows:-
+> 
+> /tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
+> /usr/include/c++/11.2.0/x86_64-poky-linux/ext
+> /tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
+> /usr/include/c++/11.2.0/x86_64-poky-linux/bits
+> /tmp/work/x86_64-linux/rust-cross-x86_64/1.54.0-r0/recipe-sysroot\
+> /usr/include/c++/11.2.0/x86_64-poky-linux
+> 
+>> I would also like to understand why these files overlap and are symlinks in one
+>> case but directories in another. Can you show some specific examples of the
+>> files in question?
+> 
+> It happens when we build rust-hello-world for glibc followed by musl
+> as follows:-
+> TCLIBC=glibc MACHINE=qemuarm bitbake rust-hello-world
+> TCLIBC=musl MACHINE=qemuarm bitbake rust-hello-world
+> 
+> The recipe do_prepare_recipe_sysroot tries to populate the sysroot file.
+> The glibc build had already generated the sysroot and copied properly.
+> When we build the musl later on, it tries to remove the above
+> directory and symlink
+> the newly built musl files. It was deleted properly before the race
+> issue was observed.
+> However, after the race issue; files are being deleted but the
+> directory and sub directories
+> are left undeleted which resulted in the error.
 
-Here is some build configuration details (with details I don't want spread =
-over the internet removed):
-Build Configuration:
-BB_VERSION           =3D "1.42.0"
-BUILD_SYS            =3D "x86_64-linux"
-NATIVELSBSTRING      =3D "universal"
-TARGET_SYS           =3D "arm-poky-linux-gnueabi"
-MACHINE              =3D "at91sam9x5ek"
-DISTRO_VERSION       =3D "2.7.4"
-TUNE_FEATURES        =3D "arm armv5 thumb dsp"
-TARGET_FPU           =3D "soft"
-meta-bacnet          =3D "master:49ebde9269e8533a8e4ce9c335addced6bfb79b6"
-meta-atmel           =3D "warrior:102d92bfc7bd772387ea89c149d33cc5ebf9179c"
-meta-qt5             =3D "warrior:6310c5c17380ad5e3bdaf1938e025d713066e7ee"
-meta                =20
-meta-poky           =20
-meta-yocto-bsp       =3D "warrior:eb163bd6aa0911a9541702cd12a3df684fe5fbb1"
-meta-oe             =20
-meta-networking     =20
-meta-python          =3D "warrior:a24acf94d48d635eca668ea34598c6e5c857e3f8"
 
-I'm getting following error when the system is compiling binutils:
+All of that makes sense to me based on first reading it but I'm not
+intimately familiar with toolchain sysroot setup.
 
-In file included from ../../gold/powerpc.cc:43:
-../../gold/gc.h:375:1: note: parameter passing for argument of type 'std::v=
-ector<long long unsigned int>::iterator' {aka '__gnu_cxx::__normal_iterator=
-<long long unsigned int*, std::vector<long long unsigned int> >'} changed i=
-n GCC 7.1
- }
- ^
-../../gold/gc.h:375:1: note: parameter passing for argument of type 'std::v=
-ector<long long unsigned int>::iterator' {aka '__gnu_cxx::__normal_iterator=
-<long long unsigned int*, std::vector<long long unsigned int> >'} changed i=
-n GCC 7.1
-{standard input}: Assembler messages:
-{standard input}:347600: Warning: end of file not at end of a line; newline=
- inserted
-{standard input}:347687: Error: unknown pseudo-op: `.l'
-{standard input}: Error: open CFI at the end of file; missing .cfi_endproc =
-directive
-arm-poky-linux-gnueabi-g++: fatal error: Killed signal terminated program c=
-c1plus
-compilation terminated.
-Makefile:1137: recipe for target 'powerpc.o' failed
+> 
+>> The missing json file sounds like there could be some file not being handled by
+>> sstate but it is hard to know without looking at the code.
+> 
+> Thanks. I will try to debug the issue further.
 
-I have looked through the Git log for meta/recipes-devtools/binutils up thr=
-ough master HEAD, and I don't see any references to a problem similar to th=
-is one.  Has anyone seen a problem like this before?  If so, does anyone kn=
-ow how to fix it?
 
-Thanks,
-Bryan
+So do you have additional information Naveen or
+do you maintain that the fix presented on this thread is all that is needed.
+
+../Randy
+
+> 
+> Regards,
+> pgowda
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156105): https://lists.openembedded.org/g/openembedded-core/message/156105
+> Mute This Topic: https://lists.openembedded.org/mt/85625195/3616765
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
 
