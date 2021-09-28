@@ -1,83 +1,93 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <purushottamchoudhary29@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D540C433FE
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 10:52:59 +0000 (UTC)
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web10.12238.1632826373296218743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49198C433F5
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 12:24:09 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.13041.1632831829517245415
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 03:52:53 -0700
+ Tue, 28 Sep 2021 05:23:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com
- ([174.114.107.13]:57158 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mVAjC-0002eE-VB; Tue, 28 Sep 2021 06:52:51 -0400
-Date: Tue, 28 Sep 2021 06:52:47 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] simplest use of SSTATE_MIRRORS?
-In-Reply-To: 
- <9dbca117a4c0edf169132f1521d43593e308ee17.camel@linuxfoundation.org>
-Message-ID: <7564b80-1dff-efdc-6743-b9e2885ad0ff@crashcourse.ca>
-References: <d8be7242-c7e5-7893-a3ed-649d894230f4@crashcourse.ca>
- <9dbca117a4c0edf169132f1521d43593e308ee17.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id:
- rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Sq/f/Cgm;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171,
+ mailfrom: purushottamchoudhary29@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id g14so18820080pfm.1
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 28 Sep 2021 05:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=Hq8kpzV2m3QXPBUPsH7Tz7PBcucwbeUPyVDLzRNvdT0=;
+        b=Sq/f/CgmHIt+2QfuzT7k6AItnGv6Xy5ajQhYLhu+PPmDh4u9j9GxQPDIBSgspy/iaG
+         7xHyPv49ZqHce/9TSjv/ecbUQJymdjWQr/luiiWgIYEb2KnFidQ69TRrH1vyVoiF4tse
+         7p9KusRitXam4sQBbDqGJF11V7NHAiVe3Qq7RDzHQKnoQ3+fVRVetRdvceGU52tT08lV
+         xdnDfALf45/ibyg56wLRPGSB33yGC99qwUMOOndurxZitU7ME46RFLD3OhjF43yIpSYq
+         oLtz/GHbwKo1TXV4g29lQau19c/+6wqHq/teEztJFNVqs84lROoxsZuWy/9r6/YBL+nX
+         HHWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Hq8kpzV2m3QXPBUPsH7Tz7PBcucwbeUPyVDLzRNvdT0=;
+        b=U6djUnHgbT9MMY1qJ9u2R14vA15ahaIiW0B9CczXyNQtp7mDLRXISXjGh2TOj/LHXU
+         ARqpGnWfmEmWYoz5WGDNwWtGicuI1ytJ4PCxJcCtS5KGBSjggIajMpZxgqUlJf3KciWe
+         WO3bLUJwswY0ckV+Qx1HJ5ppgR7++K3xd9JUKZZPGrGeyCR8XJ+fsVprJll2P4uLWpOu
+         Nrm8FrjrgMFNcHKRVWVcD4qofoD/Yo5/Gv+CzcvD91t6/KEwXl+ZNW03WbrLDhc9Uci6
+         L7POoG9ZouuTZDSOJRSMQvqSMUFslpLxjqaZZi0rDwy5BveAuuwJeNLDMCyv5kfmZrte
+         fCPA==
+X-Gm-Message-State: AOAM532YxcUUatGOUNC9S7tWogW2YpEIN5und+bTxPuM+2P79HIPYJAB
+	vz4v4xOnTAoEcxZftulS4v4lqfhEzOX45g==
+X-Google-Smtp-Source: 
+ ABdhPJxIXfKjXl+E/8/EX9aKdffQCdl9N72I7+HQGCK5xGsS++asi4vCPLqu9CBAuPAUxovXoZvurw==
+X-Received: by 2002:aa7:8609:0:b0:44b:346a:7404 with SMTP id
+ p9-20020aa78609000000b0044b346a7404mr5362748pfn.86.1632831828655;
+        Tue, 28 Sep 2021 05:23:48 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2405:201:a410:a032:8180:d55b:e649:74d7])
+        by smtp.gmail.com with ESMTPSA id
+ z14sm2081925pjq.48.2021.09.28.05.23.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Sep 2021 05:23:48 -0700 (PDT)
+From: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	sakoman@gmail.com
+Cc: mikko.rapeli@bmw.de,
+	Purushottam Choudhary <purushottam.Choudhary@kpit.com>
+Subject: [meta-OE][dunfell][PATCH] tcpdump: Update CVE-2020-8037 tag
+Date: Tue, 28 Sep 2021 17:53:35 +0530
+Message-Id: <20210928122335.2466-1-purushottamchoudhary29@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 10:52:59 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 12:24:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156414
+ https://lists.openembedded.org/g/openembedded-core/message/156415
 
-On Tue, 28 Sep 2021, Richard Purdie wrote:
+CVE tag was missing inside the patch file
+which is the remedy for CVE-2020-8037 and
+tracked by cve-check.
 
-> On Mon, 2021-09-27 at 12:13 -0400, Robert P. J. Day wrote:
-> >   colleague asked me how SSTATE_MIRRORS worked, so i had to check,
-> > followed the section here:
-> >
-> > http://docs.yoctoproject.org/overview-manual/concepts.html#shared-state-cache
-> >
-> > and in one of own builds, i moved the entire sstate-cache directory
-> > to ~/SSTATE as is, then added the following to my site.conf:
-> >
-> > SSTATE_MIRRORS = " \
-> >         file://.\* file:///home/rpjday/SSTATE/PATH \
-> > "
-> >
-> >   then i removed all of /tmp in my current build, and re-ran my
-> > bitbake command, but it seems to be doing all the standard fetching
-> > and unpacking and so on. what clearly trivial step have i overlooked?
-> >
-> > rday
-> >
-> > p.s. i checked with "bitbake -e" that that variable seems to have the
-> > correct value. what silliness have i done?
->
-> The other gotcha with this now is hash equivalence. If that is active, you need
-> both the sstate data and hash equivalence data that match.
+Signed-off-by: Purushottam Choudhary <purushottam.Choudhary@kpit.com>
+Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+---
+ ...01-PPP-When-un-escaping-don-t-allocate-a-too-large-buff.patch | 1 +
+ 1 file changed, 1 insertion(+)
 
-  i did notice that in the sstate section in the manual, and was
-digging into it as we speak.
+diff --git a/meta-networking/recipes-support/tcpdump/tcpdump/0001-PPP-When-un-escaping-don-t-allocate-a-too-large-buff.patch b/meta-networking/recipes-support/tcpdump/tcpdump/0001-PPP-When-un-escaping-don-t-allocate-a-too-large-buff.patch
+index 9b74e00c5..84d4716f3 100644
+--- a/meta-networking/recipes-support/tcpdump/tcpdump/0001-PPP-When-un-escaping-don-t-allocate-a-too-large-buff.patch
++++ b/meta-networking/recipes-support/tcpdump/tcpdump/0001-PPP-When-un-escaping-don-t-allocate-a-too-large-buff.patch
+@@ -9,6 +9,7 @@ if we haven't captured all of it.
+ 
+ (backported from commit e4add0b010ed6f2180dcb05a13026242ed935334)
+ 
++CVE: CVE-2020-8037
+ Upstream-Status: Backport
+ Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
+ 
+-- 
+2.17.1
 
-rday
 
