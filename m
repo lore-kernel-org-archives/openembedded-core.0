@@ -1,117 +1,96 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <e42aa3d1705a7c3ddf14bfba73a902bdfdb019fc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] vim: fix CVE-2021-3778
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Tue, 28 Sep 2021 11:41:44 +0100
-In-Reply-To: <17932.1632814615730834966@lists.openembedded.org>
-References: <16202.1632812323492474010@lists.openembedded.org>
-	 <17932.1632814615730834966@lists.openembedded.org>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+Subject: [PATCH 2/2] kernel.bbclass: Allow using update-alternatives for the kernel image
+Date: Tue, 28 Sep 2021 16:10:48 +0200
+Message-Id: <20210928141048.576425-3-zboszor@pr.hu>
+In-Reply-To: <20210928141048.576425-1-zboszor@pr.hu>
+References: <20210928141048.576425-1-zboszor@pr.hu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Minjae Kim <flowergom@gmail.com>, openembedded-core@lists.openembedded.org
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 
-On Tue, 2021-09-28 at 00:36 -0700, Minjae Kim wrote:
-> Hi Richard,
-> 
-> When I tried to rebuild this patch on the latest master branch,
-> I could not get any patch errors as below.
-> 
-> poky/master/poky$ bitbake vim -c cleanall; bitbake vim -C compile
-> Loading cache: 100% |                                                         
->                                                                              
->                | ETA:  --:--:--
-> Loaded 0 entries from dependency cache.
-> Parsing recipes: 100%
-> |#############################################################################
-> #########################################################################|
-> Time: 0:00:03
-> Parsing of 828 .bb files complete (0 cached, 828 parsed). 1469 targets, 44
-> skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
->  
-> Build Configuration:
-> BB_VERSION           = "1.51.1"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "x86_64-poky-linux"
-> MACHINE              = "qemux86-64"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "3.3+snapshot-a1e31bb8d625bf4531347e7cff6de89f104800c7"
-> TUNE_FEATURES        = "m64 core2"
-> TARGET_FPU           = ""
-> meta                 
-> meta-poky            
-> meta-yocto-bsp       = "master:a1e31bb8d625bf4531347e7cff6de89f104800c7"
->  
-> Initialising tasks: 100%
-> |#############################################################################
-> ######################################################################| Time:
-> 0:00:00
-> Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0%
-> complete)
-> NOTE: No setscene tasks
-> NOTE: Executing Tasks
-> NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and
-> all succeeded.
-> Loading cache: 100%
-> |#############################################################################
-> ###########################################################################|
-> Time: 0:00:00
-> Loaded 1469 entries from dependency cache.
-> NOTE: Resolving any missing task queue dependencies
->  
-> Build Configuration:
-> BB_VERSION           = "1.51.1"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "x86_64-poky-linux"
-> MACHINE              = "qemux86-64"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "3.3+snapshot-a1e31bb8d625bf4531347e7cff6de89f104800c7"
-> TUNE_FEATURES        = "m64 core2"
-> TARGET_FPU           = ""
-> meta                 
-> meta-poky            
-> meta-yocto-bsp       = "master:a1e31bb8d625bf4531347e7cff6de89f104800c7"
->  
-> NOTE: Tainting hash to force rebuild of task
-> /home/webos_build/upstream/poky/master/poky/meta/recipes-
-> support/vim/vim_8.2.bb, do_compile                                     | ETA: 
-> 0:00:00
-> WARNING: /home/webos_build/upstream/poky/master/poky/meta/recipes-
-> support/vim/vim_8.2.bb:do_compile is tainted from a forced run               
->                              | ETA:  0:00:00
-> Initialising tasks: 100%
-> |#############################################################################
-> ######################################################################| Time:
-> 0:00:01
-> Sstate summary: Wanted 10 Local 0 Network 0 Missed 10 Current 549 (0% match,
-> 98% complete)
-> Removing 3 stale sstate objects for arch qemux86_64: 100%
-> |#############################################################################
-> #####################################| Time: 0:00:00
-> NOTE: Executing Tasks
-> NOTE: Tasks Summary: Attempted 1964 tasks of which 1945 didn't need to be
-> rerun and all succeeded.
->  
-> Summary: There was 1 WARNING message shown.
-> upstream/poky/master/poky$ 
+From: Zoltán Böszörményi <zboszor@gmail.com>
 
-I checked again and the patch definitely does not work. I think the whitespace
-is being corrupted on the trip through the mailing list.
+When using dnf to install new kernel versions and installonly_limit
+is reached, dnf automatically removes the oldest kernel version.
 
-I've manually refreshed the patch locally to fix it but I think something about
-your email setup is causing problems with patch corruption :(.
+However, the /boot/bzImage symlink (or whatever image type is used)
+is removed unconditionally.
 
-Cheers,
+Allow using the alternative symlink machinery so the highest
+kernel version takes precedence and the symlink stays in place.
 
-Richard
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/classes/kernel.bbclass | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-
-
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index deccc0e58c..a687e5259d 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -43,9 +43,17 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION')
+ KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+ 
+ python __anonymous () {
++    import re
+     pn = d.getVar("PN")
+     kpn = d.getVar("KERNEL_PACKAGE_NAME")
+ 
++    # KERNEL_VERSION cannot be used here as it would cause
++    # "basehash value changed" issues.
++    kver =  d.getVar("PV")
++    kverp = re.compile('[\.-]')
++    kvparts = kverp.split(kver)
++    kverstr = str(kvparts[0])+str(kvparts[1]).zfill(2)+str(kvparts[2]).zfill(3)
++
+     # XXX Remove this after bug 11905 is resolved
+     #  FILES:${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
+     if kpn == pn:
+@@ -117,6 +125,9 @@ python __anonymous () {
+         d.setVar('PKG:%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+         d.setVar('ALLOW_EMPTY:%s-image-%s' % (kname, typelower), '1')
+         d.setVar('pkg_postinst:%s-image-%s' % (kname,typelower), """set +e
++if [ "${KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES}" != "0" ]; then
++    update-alternatives --install ${KERNEL_IMAGEDEST}/%s %s %s-${KERNEL_VERSION_NAME} %s
++else
+ if [ -n "$D" ]; then
+     ln -sf %s-${KERNEL_VERSION} $D/${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
+ else
+@@ -126,14 +137,19 @@ else
+         install -m 0644 ${KERNEL_IMAGEDEST}/%s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s
+     fi
+ fi
++fi
+ set -e
+-""" % (type, type, type, type, type, type, type))
++""" % (type, type, type, kverstr, type, type, type, type, type, type, type))
+         d.setVar('pkg_postrm:%s-image-%s' % (kname,typelower), """set +e
++if [ "${KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES}" != "0" ]; then
++    update-alternatives --remove %s %s-${KERNEL_VERSION_NAME}
++else
+ if [ -f "${KERNEL_IMAGEDEST}/%s" -o -L "${KERNEL_IMAGEDEST}/%s" ]; then
+     rm -f ${KERNEL_IMAGEDEST}/%s  > /dev/null 2>&1
+ fi
++fi
+ set -e
+-""" % (type, type, type))
++""" % (type, type, type, type, type))
+ 
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+@@ -214,6 +230,7 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+ # The directory where built kernel lies in the kernel tree
+ KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
+ KERNEL_IMAGEDEST ?= "boot"
++KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES ?= "0"
+ 
+ #
+ # configuration
+-- 
+2.31.1
 
