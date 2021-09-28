@@ -1,119 +1,152 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9652BC433EF
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 17:05:58 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.2395.1632848757910505986
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D9D7C433EF
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 18:41:09 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web09.698.1632854468202861437
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 10:05:58 -0700
+ Tue, 28 Sep 2021 11:41:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gPb3T03i;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id g16so59259930wrb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f1FxR2hg;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id c7so41882040qka.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 10:05:57 -0700 (PDT)
+ Tue, 28 Sep 2021 11:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0dyal3R4m9OQVhvmu5THf6v3GwqI0+Y1WrAczXUH6e4=;
-        b=gPb3T03iprOzirL1Jwugh2wUbHdJVDbQkakiRHDrJmznk/9cEcfdQlwdZOsXmFKKSJ
-         XDMVfy01Ir3Hlzh6/anYfFNYuOFdl5TNVcYyXLa3Uwb7rWWoHS9uTVKUrwqTpS+vzAF/
-         z+HXCpZ3eHrYpaiP1oj2Qzzyd7+aB3W4zBNUQ=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=i1U5u7yWgZJqgCGg4zjpeNGPcGe1nzDcLn6PxneYbnU=;
+        b=f1FxR2hgLi631ym4b9TIuswR+7l9wwI5hapQy6iUhQSd8xGbvc0G9Z/4Ua9YmA8aZF
+         tk68P1adOartzdVlVO2uj9PUDo4rcXk+CcIVIt2+oejZtu2YMTdsL/2xJISDuwMb5udu
+         Muua7PuOoZp+sxZQqMX0+T4ciAfZdWymQ6YOcY21A9CXb13ZS5nMACaytRq4j7NdEro6
+         y4W0HoQCPPa7k4HM4F78Pqim+ybrpADqqAItcwTrR5uwebQIGlYV4P/0Klba4r0i/izD
+         0hNtiEap6tYsEeMSwJZHsuezKqqjAag70FkYF5czi0MY+h2T6vqeOqG8lyWvBjeWGBsR
+         dVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0dyal3R4m9OQVhvmu5THf6v3GwqI0+Y1WrAczXUH6e4=;
-        b=GukznRq9U8pwTfQ6/5+F2tLCkwqkrXjRKfN8kn4juO1ib4OK7K21CBhAzDBtIYrKAj
-         /U4dFLTVBbL0d37tbOellDRCaQ3EVY/871rig7BHkp5ys9qTj36t4Pt3B3fK6pKwhLHE
-         6tDQH12VNGT0IuX9Wy9zj7oqO43wOvTiD/+MXSqwovlHizlJSxPqWFoI9Vkv0WsFUjhE
-         fMkCiJocCOCLVqWSJPQ1ycECAAh0OpD1kbYrtbLzdcdTuh3xUJXN5EuWRTDHHONud5nQ
-         SQ8O9vrLmF3c6SNe7UmpfLnxow9OZpNR6thi+ri7GbR8evCzqJsvJIP1/DiKbdjnI8TD
-         yr/g==
-X-Gm-Message-State: AOAM531bEwQ4CymdF2D7pNM1GTezCNn8bMATM7Ed+1CMqmGoJFEthBbT
-	0YVybJy66PTwFJbwTJZUaJCSLwLiPJiKNGkK
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=i1U5u7yWgZJqgCGg4zjpeNGPcGe1nzDcLn6PxneYbnU=;
+        b=MMPJ1MD76QcXUcr5uDRDYbq7qmAdOKQqw5+qRd2gl8nmmS+3sw1VKLUPwz7/ljjfjB
+         KiFJMR/kRKJIMHHV3oaD6XKQ/nkh65+ohNpx4XoWKFAlFbLJ7FnibWm/uoTrzTxEAA5Y
+         VI3jF03Pe2n2nyzV6y1MP4m8hNylQeWhcT6QzWPvst+/CruMmI/4NcIMQgQVfT61fSP/
+         JeD6+9Wsu+LQtq6HpiZ752enFxz2aW26qRIcdD03iTpzLfwzYxx+fPs6SGv4ZPNDhD6B
+         cia4vVnbDOV44xQ0zYZgKuTwqXYHoa7ATItBgVia/O8BhnnWjRpfGpDzS6dmSlR8cHCO
+         A0Qg==
+X-Gm-Message-State: AOAM530wxl6bH40+U5KZmKqd99MINmx2vyaIm8z0BrTPwAG+ejb8ynqV
+	MaK7YH9j6aly1c81cBH/zEL7ZUAf9RG03+O4tOE=
 X-Google-Smtp-Source: 
- ABdhPJzc3PrDtemErS93r5sTbiRNWd+NsN8ToEuFIORy7P2TQj/FmnbjYjoMYw8VPMEyAWt0+6rCgQ==
-X-Received: by 2002:a5d:6cb4:: with SMTP id a20mr1401743wra.428.1632848755946;
-        Tue, 28 Sep 2021 10:05:55 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2a38:b35f:af4c:6fb5])
-        by smtp.gmail.com with ESMTPSA id
- j7sm24590181wrr.27.2021.09.28.10.05.55
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Sep 2021 10:05:55 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstatesig: Revert "Test cross/native hashserv method
- extension"
-Date: Tue, 28 Sep 2021 18:05:54 +0100
-Message-Id: <20210928170554.2098933-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ ABdhPJyNbjHwzbkM4MWjL/U9bfMvjRtzNHqaVRLtzDaKrNDBU4SQhRb2BqWTFlj1+WQi6eaSlQq7zF7GTr02kp5SfHI=
+X-Received: by 2002:a37:9c46:: with SMTP id f67mr1511939qke.98.1632854467142;
+ Tue, 28 Sep 2021 11:41:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CH0PR20MB3948E4BB526801B6B1E0B7F6BBA89@CH0PR20MB3948.namprd20.prod.outlook.com>
+In-Reply-To: 
+ <CH0PR20MB3948E4BB526801B6B1E0B7F6BBA89@CH0PR20MB3948.namprd20.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Sep 2021 11:40:41 -0700
+Message-ID: 
+ <CAMKF1srwXtLOz8HSKraL1C=2M61Mqu5AX7-J6OLGRtK_AQRHbw@mail.gmail.com>
+Subject: Re: [OE-core] binutils: compilation error 'unknown pseudo-op: `.l`'
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 17:05:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 18:41:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156426
+ https://lists.openembedded.org/g/openembedded-core/message/156428
 
-This reverts commit 2a76082363d189880613765ad339718e3614049d.
+On Tue, Sep 28, 2021 at 8:11 AM Bryan Evenson <bevenson@melinkcorp.com> wro=
+te:
+>
+> All,
+>
+> I have a AT91SAM9G25 based system that has been built and works using yoc=
+to-2.2 (morty).  I am in the process of upgrading my build tools to the lat=
+est.  The build image is a custom image that is based off of core-image-min=
+imal with a few additional packages.  I'm using Ubuntu 18.04.06 LTS for my =
+host environment.  I'm up to yocto-2.7.4 (warrior) and I hit some build iss=
+ues that I'm looking for some help in solving.
+>
+> Here is some build configuration details (with details I don't want sprea=
+d over the internet removed):
+> Build Configuration:
+> BB_VERSION           =3D "1.42.0"
+> BUILD_SYS            =3D "x86_64-linux"
+> NATIVELSBSTRING      =3D "universal"
+> TARGET_SYS           =3D "arm-poky-linux-gnueabi"
+> MACHINE              =3D "at91sam9x5ek"
+> DISTRO_VERSION       =3D "2.7.4"
+> TUNE_FEATURES        =3D "arm armv5 thumb dsp"
+> TARGET_FPU           =3D "soft"
+> meta-bacnet          =3D "master:49ebde9269e8533a8e4ce9c335addced6bfb79b6=
+"
+> meta-atmel           =3D "warrior:102d92bfc7bd772387ea89c149d33cc5ebf9179=
+c"
+> meta-qt5             =3D "warrior:6310c5c17380ad5e3bdaf1938e025d713066e7e=
+e"
+> meta
+> meta-poky
+> meta-yocto-bsp       =3D "warrior:eb163bd6aa0911a9541702cd12a3df684fe5fbb=
+1"
+> meta-oe
+> meta-networking
+> meta-python          =3D "warrior:a24acf94d48d635eca668ea34598c6e5c857e3f=
+8"
+>
+> I'm getting following error when the system is compiling binutils:
+>
+> In file included from ../../gold/powerpc.cc:43:
+> ../../gold/gc.h:375:1: note: parameter passing for argument of type 'std:=
+:vector<long long unsigned int>::iterator' {aka '__gnu_cxx::__normal_iterat=
+or<long long unsigned int*, std::vector<long long unsigned int> >'} changed=
+ in GCC 7.1
+>  }
+>  ^
+> ../../gold/gc.h:375:1: note: parameter passing for argument of type 'std:=
+:vector<long long unsigned int>::iterator' {aka '__gnu_cxx::__normal_iterat=
+or<long long unsigned int*, std::vector<long long unsigned int> >'} changed=
+ in GCC 7.1
+> {standard input}: Assembler messages:
+> {standard input}:347600: Warning: end of file not at end of a line; newli=
+ne inserted
+> {standard input}:347687: Error: unknown pseudo-op: `.l'
+> {standard input}: Error: open CFI at the end of file; missing .cfi_endpro=
+c directive
+> arm-poky-linux-gnueabi-g++: fatal error: Killed signal terminated program=
+ cc1plus
+> compilation terminated.
+> Makefile:1137: recipe for target 'powerpc.o' failed
+>
+> I have looked through the Git log for meta/recipes-devtools/binutils up t=
+hrough master HEAD, and I don't see any references to a problem similar to =
+this one.  Has anyone seen a problem like this before?  If so, does anyone =
+know how to fix it?
+>
 
-We have an issue where x86 host builds are not matching hashes with
-aarch64 host builds. We'd expect that for a given target, the target
-artefacts should work regardless of the host architecture, compiler
-version etc. but this isn't happening and the hashes are differing.
-This is due to issues from hash equivalence.
+it seems compiler is out of memory.
 
-I believe the commit being reverted was added as a test and there were
-other fixes at the time which resolved these issues.
-
-As illustration of that, different gcc versions are not cauing issues
-with hash equivalence. That should be similar to the aarch64 case vs.
-x86-64 and hence if we're not seeing gcc verison issues, we also don't
-need this special case. As such, revert it as we don't need it and it
-is in fact breaking sstate reuse cross platform.
-
-[YOCTO #14578]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/sstatesig.py | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index dd6b9de7bbd..24577249ffa 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -108,7 +108,6 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-         self.unlockedrecipes = (data.getVar("SIGGEN_UNLOCKED_RECIPES") or
-                                 "").split()
-         self.unlockedrecipes = { k: "" for k in self.unlockedrecipes }
--        self.buildarch = data.getVar('BUILD_ARCH')
-         self._internal = False
-         pass
- 
-@@ -147,13 +146,6 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-         self.dump_lockedsigs(sigfile)
-         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
- 
--    def prep_taskhash(self, tid, deps, dataCaches):
--        super().prep_taskhash(tid, deps, dataCaches)
--        if hasattr(self, "extramethod"):
--            (mc, _, _, fn) = bb.runqueue.split_tid_mcfn(tid)
--            inherits = " ".join(dataCaches[mc].inherits[fn])
--            if inherits.find("/native.bbclass") != -1 or inherits.find("/cross.bbclass") != -1:
--                self.extramethod[tid] = ":" + self.buildarch
- 
-     def get_taskhash(self, tid, deps, dataCaches):
-         if tid in self.lockedhashes:
--- 
-2.32.0
-
+> Thanks,
+> Bryan
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156424): https://lists.openembedded.org/g/openembedde=
+d-core/message/156424
+> Mute This Topic: https://lists.openembedded.org/mt/85926755/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
