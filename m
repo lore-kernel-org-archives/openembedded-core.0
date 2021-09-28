@@ -1,228 +1,207 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D109AC433F5
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 20:28:12 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.2048.1632860887395752742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2FEC433F5
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 23:24:30 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web12.1921.1632871469045787804
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 13:28:07 -0700
+ Tue, 28 Sep 2021 16:24:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DXhYra7J;
- spf=pass (domain: gmail.com, ip: 209.85.208.46,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id ba1so30006551edb.4
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=nTESptEu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id t4so239228plo.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Sep 2021 13:28:07 -0700 (PDT)
+ Tue, 28 Sep 2021 16:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Gu/yrtVWjLHgqXLua0824cKPWeYS7l4aDl9E0rZMa2g=;
-        b=DXhYra7JxBva6F6Or+GBdNnELt43t1QUBlKYu1qQfxRGEVS0oI4j2A7QUY0LlS8KDy
-         UFU8rdlCbftWWTup9eTMVR916H+Gh6nTzF8sT04cIVx/j4j+dgAzy5QcJ45wHV6TwHmc
-         FN/Zg7djL+D98lOO9ZTcW//OX2PPU7eieOLPohSgYLguSbLjQ5cjHEO8beLOwgsGyln/
-         5fZnfKvJIKFYMIkpyBzk1u8qdvFHs0iF/vWtXQZyb1tE+/alF7wTJIJKG7WMOtFjTAsz
-         4h5x2Q9lF9kVw7E/GbZahP2nURilrfRBy/H1IdbIWbihDf4v+QPUr+PLFNIDHkw3va6B
-         Vs4Q==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PZU3TJJEH6KhuO3rVVyBdSa12vGvd04TOVV5Y3z45/s=;
+        b=nTESptEuLn7eS4wnqwOb/CrE8oHQxVYt9h4bpSE6fdLJ8Iy9JD2LLYP0b9wY/SN1tZ
+         z84fXvhn1FAOfTjLQA2tK1yqQ/lcrZPTnikhZh7UM/BfcSqhEXRi4/UO1R5H7B5zce1C
+         QWbXXpjrR+PIzPNvKKNrMuGFAqtdHcj/Ve7H0DpIuvN9HiM5yzdGG2g9p8S0ZtimxJUy
+         +cBe7rHSUuX2HdwR7VRGpa3m7RKOlH3Hoj23ocqJhSHGb1ecqmgXvkD9nGLNOPAAaCCw
+         D4609Gs7Dp/G0BaMki478rTxiX0TC8rIC+9+GNGdtQJtRvG4UEfgIeF7khH1wT0ao9Ag
+         byRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Gu/yrtVWjLHgqXLua0824cKPWeYS7l4aDl9E0rZMa2g=;
-        b=mfdHHWwIwOs03GlGS8u1kYEpeh4WM9KKOR3NDg+uchhqoBImhsjchGfHxGVBVuJj19
-         tciGIZNUal2uu6Ryu3qmGhyOOwjdlWO80cLFWsCkZdErzLCRj3hoxAVLCeTrjws2w9Gj
-         Yi/3fevWJEErygU3ciGSZXa2ZCkXzDzV0R8xloCuPdDF5rWUOJPRkd2DI5/dMdDyXWq1
-         hElD5LS+J+DUS1AlrcygbnowmkQSxc3ol7xnP8mQTr6FYQ5RJxiUIpgqGLEGjPJDGX4F
-         EJWU5TKamGHO81kbaBBt/WTrmd8TADNT/DlFWYWTWqBi5+XBiONL9WMH4pPnUjB4c7Sh
-         j9hw==
-X-Gm-Message-State: AOAM531StwHN7fbSLYzLkATrXN9/fy8NMExIezP2h6xBmgPnjqxuYdli
-	k6Qpv9KcSA/UB2lyxlEpr/cz822sPA2UFr2ses0=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PZU3TJJEH6KhuO3rVVyBdSa12vGvd04TOVV5Y3z45/s=;
+        b=RuQLd8vudKDB7vLOiUcjYS5HEYuFY4mG8tIiUs26SKr/AdBaFMgj+BnqYIVV+BPmZg
+         7vTiR/jxjxSShFhbjIZ8gzK4fhLQ+7LVXAYVaNzJr7Gvybbdx0rfCEMaqnVhCvmzXS0W
+         bq0C5yisjiDFR28PEQG5OY6khGOrt7XlqX23CgkSEIREJK6iLoK2NG+jgFxbyLOvyjWj
+         UnrVxIXT2SHrduQ4HiFVBIPwbmaybzpQyh8FnSzrPgneWLAfJg/vb4jIfbeb/4dZksN7
+         +OVIABga5+/kJ2ohT6/VRBLwFtiiIz8HeABElw6YrKUFB13iymV6w/fE2ffej7+4xwIs
+         P7fA==
+X-Gm-Message-State: AOAM532rjDEUP4ZbIF/oXYlRVMrxpb6GQRJaRIzTUTMtJXA7H94G6YeH
+	8Bp4Zbk1pQCX5Yf+cAgFRwMXvTygE1hJaeRIskU=
 X-Google-Smtp-Source: 
- ABdhPJz3NO7K9tDN3WVLCOvdJRgLI1y1zqB+vJWWrf/HBsLULaxMnYCD9jXrJZjQIIAEGa6ErYmSVzx+wXHvVmsFGts=
-X-Received: by 2002:a05:6402:3088:: with SMTP id
- de8mr10113469edb.76.1632860885679;
- Tue, 28 Sep 2021 13:28:05 -0700 (PDT)
+ ABdhPJyhfCNDzRITKk1QW5YIK0pKrjEY8eBBV2f33FNx32pGsN6ixRYVhgftpiJzmtaqh5enJyF+BA==
+X-Received: by 2002:a17:902:8488:b029:129:97e8:16e7 with SMTP id
+ c8-20020a1709028488b029012997e816e7mr7317948plo.39.1632871467632;
+        Tue, 28 Sep 2021 16:24:27 -0700 (PDT)
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id
+ y17sm201801pfa.113.2021.09.28.16.24.26
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Sep 2021 16:24:27 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/25] Pull request (cover letter only)
+Date: Tue, 28 Sep 2021 13:24:05 -1000
+Message-Id: <cover.1632871368.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210928141048.576425-1-zboszor@pr.hu>
- <20210928141048.576425-3-zboszor@pr.hu>
-In-Reply-To: <20210928141048.576425-3-zboszor@pr.hu>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 28 Sep 2021 16:27:54 -0400
-Message-ID: 
- <CADkTA4Pd5_wDttx4WsR8VHXExUNv3gaArvjo0PDwxmeqA-5u_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] kernel.bbclass: Allow using
- update-alternatives for the kernel image
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 20:28:12 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 23:24:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156432
+ https://lists.openembedded.org/g/openembedded-core/message/156433
 
-On Tue, Sep 28, 2021 at 10:16 AM Zoltan Boszormenyi via
-lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
->
-> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
->
-> When using dnf to install new kernel versions and installonly_limit
-> is reached, dnf automatically removes the oldest kernel version.
+The following changes since commit c7d2281eb6cda9c1637c20b3540b142073bca235:
 
-What about other package managers ? Is there a similar limit ? And
-does the fallback still work the same ?
+  build-appliance-image: Update to dunfell head revision (2021-09-15 18:34:19 +0100)
 
-I can't say that I'm aware of exactly what this dnf limit is, can we
-either link to it, or document the value in the commit message ?
+are available in the Git repository at:
 
-And just so I understand, this is on the install (not the removal)
-that dnf is removing the oldest kernel (by its versioning checks) when
-the limit is hit ?
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
->
-> However, the /boot/bzImage symlink (or whatever image type is used)
-> is removed unconditionally.
+Alexander Kanavin (2):
+  wic: keep rootfs_size as integer
+  testimage: symlink the task log and qemu console log to tmp/log/oeqa
 
-And this removal, that's on the package uninstall ? or is that also a
-dnf install quirk ?
+Armin Kuster (9):
+  libgcrypt: Security fix CVE-2021-33560
+  apr: Security fix for CVE-2021-35940
+  libsndfile: Security fix for CVE-2021-3246
+  qemu: Security fix CVE-2020-12829
+  qemu: Security fix for CVE-2020-27617
+  qemu: Security fix for CVE-2020-28916
+  nettle: Security fix for CVE-2021-3580
+  nettle: Security fix for CVE-2021-20305
+  tar: ignore node-tar CVEs
 
->
-> Allow using the alternative symlink machinery so the highest
-> kernel version takes precedence and the symlink stays in place.
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index deccc0e58c..a687e5259d 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -43,9 +43,17 @@ KERNEL_VERSION_PKG_NAME =3D "${@legitimize_package_nam=
-e(d.getVar('KERNEL_VERSION')
->  KERNEL_VERSION_PKG_NAME[vardepvalue] =3D "${LINUX_VERSION}"
->
->  python __anonymous () {
-> +    import re
->      pn =3D d.getVar("PN")
->      kpn =3D d.getVar("KERNEL_PACKAGE_NAME")
->
-> +    # KERNEL_VERSION cannot be used here as it would cause
-> +    # "basehash value changed" issues.
-> +    kver =3D  d.getVar("PV")
-> +    kverp =3D re.compile('[\.-]')
-> +    kvparts =3D kverp.split(kver)
-> +    kverstr =3D str(kvparts[0])+str(kvparts[1]).zfill(2)+str(kvparts[2])=
-.zfill(3)
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.143
+  linux-yocto/5.4: update to v5.4.144
 
-It would be really nice to avoid this logic, since in my years of
-suffering, PV cannot be trusted on this front.
+Jon Mason (2):
+  Update mailing list address
+  core-image-sato: Fix runqemu error for qemuarmv5
 
-Why can't this use KERNEL_VERSION_PACKAGE_NAME ? It is already used in
-this anonymous python code, and as the vardepexclude (which may just
-be what you need to use KERNEL_VERSION directly).
+Kai Kang (1):
+  squashfs-tools: fix CVE-2021-40153
 
-> +
->      # XXX Remove this after bug 11905 is resolved
->      #  FILES:${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
->      if kpn =3D=3D pn:
-> @@ -117,6 +125,9 @@ python __anonymous () {
->          d.setVar('PKG:%s-image-%s' % (kname,typelower), '%s-image-%s-${K=
-ERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->          d.setVar('ALLOW_EMPTY:%s-image-%s' % (kname, typelower), '1')
->          d.setVar('pkg_postinst:%s-image-%s' % (kname,typelower), """set =
-+e
-> +if [ "${KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES}" !=3D "0" ]; then
-> +    update-alternatives --install ${KERNEL_IMAGEDEST}/%s %s %s-${KERNEL_=
-VERSION_NAME} %s
-> +else
+Mike Crowe (1):
+  curl: Fix CVE-2021-22946 and CVE-2021-22947, whitelist CVE-2021-22945
 
-I know it is just an inline postinst, but this is starting to get
-unreadable quickly.
+Ranjitsinh Rathod (1):
+  rpm: Handle proper return value to avoid major issues
 
-Shouldn't $D come into play here ? i.e. the existing postinst snippet
-is taking it into account for doing the install, update alternatives
-should also know if it is defined as well. Shouldn't this be in the
-else block of the [ -n "$D" ] test ? if it shouldn't, can the entire
-else block be indented to show that it is conditional on the variable
-you are introducing.
+Richard Purdie (3):
+  vim: Backport fix for CVE-2021-3770
+  useradd: Ensure preinst data is expanded correctly in pkgdata
+  bash: Ensure deterministic build
 
-Are there any situations where update-alternatives isn't available ?
-kind of like how we test for ln -sf, and do a fallback if it fails. Is
-there a similar case for update-alternatives ?
+Ross Burton (1):
+  libsoup-2.4: remove obsolete intltool dependency
 
->  if [ -n "$D" ]; then
->      ln -sf %s-${KERNEL_VERSION} $D/${KERNEL_IMAGEDEST}/%s > /dev/null 2>=
-&1
->  else
-> @@ -126,14 +137,19 @@ else
->          install -m 0644 ${KERNEL_IMAGEDEST}/%s-${KERNEL_VERSION} ${KERNE=
-L_IMAGEDEST}/%s
->      fi
->  fi
-> +fi
->  set -e
-> -""" % (type, type, type, type, type, type, type))
-> +""" % (type, type, type, kverstr, type, type, type, type, type, type, ty=
-pe))
->          d.setVar('pkg_postrm:%s-image-%s' % (kname,typelower), """set +e
-> +if [ "${KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES}" !=3D "0" ]; then
-> +    update-alternatives --remove %s %s-${KERNEL_VERSION_NAME}
-> +else
->  if [ -f "${KERNEL_IMAGEDEST}/%s" -o -L "${KERNEL_IMAGEDEST}/%s" ]; then
->      rm -f ${KERNEL_IMAGEDEST}/%s  > /dev/null 2>&1
->  fi
-> +fi
->  set -e
-> -""" % (type, type, type))
-> +""" % (type, type, type, type, type))
->
->
->      image =3D d.getVar('INITRAMFS_IMAGE')
-> @@ -214,6 +230,7 @@ KERNEL_RELEASE ?=3D "${KERNEL_VERSION}"
->  # The directory where built kernel lies in the kernel tree
->  KERNEL_OUTPUT_DIR ?=3D "arch/${ARCH}/boot"
->  KERNEL_IMAGEDEST ?=3D "boot"
-> +KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES ?=3D "0"
+Sakib Sajal (1):
+  qemu: fix CVE-2021-3682
 
-We should add documentation around the new variable as well, even if
-the existing variables aren't fully documented .. we can start a trend
-of being better.
+Steve Sakoman (1):
+  connman: add CVE_PRODUCT
 
-Cheers,
+Visa Hankala (1):
+  iputils: Fix regression of arp table update
 
-Bruce
+ meta/classes/testimage.bbclass                |  12 +-
+ meta/classes/useradd.bbclass                  |   4 +
+ meta/conf/distro/include/maintainers.inc      |   2 +-
+ meta/recipes-connectivity/connman/connman.inc |   2 +
+ .../ldconfig-native-2.12.1/ldconfig.patch     |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   8 +
+ .../qemu/qemu/CVE-2020-12829_1.patch          | 164 ++++++++
+ .../qemu/qemu/CVE-2020-12829_2.patch          | 139 +++++++
+ .../qemu/qemu/CVE-2020-12829_3.patch          |  47 +++
+ .../qemu/qemu/CVE-2020-12829_4.patch          | 100 +++++
+ .../qemu/qemu/CVE-2020-12829_5.patch          | 266 +++++++++++++
+ .../qemu/qemu/CVE-2020-27617.patch            |  49 +++
+ .../qemu/qemu/CVE-2020-28916.patch            |  48 +++
+ .../qemu/qemu/CVE-2021-3682.patch             |  41 ++
+ ...rict-virtual-memory-usage-if-limit-s.patch |  25 +-
+ .../squashfs-tools/files/CVE-2021-40153.patch | 253 +++++++++++++
+ .../squashfs-tools/squashfs-tools_git.bb      |   1 +
+ meta/recipes-extended/bash/bash.inc           |   5 +
+ ...ng-make-update-neighbours-work-again.patch |  79 ++++
+ .../iputils/iputils_s20190709.bb              |   1 +
+ meta/recipes-extended/tar/tar_1.32.bb         |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../libsndfile1/CVE-2021-3246_1.patch         |  36 ++
+ .../libsndfile1/CVE-2021-3246_2.patch         |  44 +++
+ .../libsndfile/libsndfile1_1.0.28.bb          |   2 +
+ meta/recipes-sato/images/core-image-sato.bb   |   1 +
+ .../apr/apr/CVE-2021-35940.patch              |  58 +++
+ meta/recipes-support/apr/apr_1.7.0.bb         |   1 +
+ .../curl/curl/CVE-2021-22946-pre1.patch       |  86 +++++
+ .../curl/curl/CVE-2021-22946.patch            | 328 ++++++++++++++++
+ .../curl/curl/CVE-2021-22947.patch            | 352 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   5 +-
+ .../libgcrypt/files/CVE-2021-33560.patch      | 109 ++++++
+ .../libgcrypt/libgcrypt_1.8.5.bb              |   1 +
+ .../libsoup/libsoup-2.4_2.68.4.bb             |   2 +-
+ .../nettle-3.5.1/CVE-2021-20305-1.patch       | 215 +++++++++++
+ .../nettle-3.5.1/CVE-2021-20305-2.patch       |  53 +++
+ .../nettle-3.5.1/CVE-2021-20305-3.patch       | 122 ++++++
+ .../nettle-3.5.1/CVE-2021-20305-4.patch       |  48 +++
+ .../nettle-3.5.1/CVE-2021-20305-5.patch       |  53 +++
+ .../nettle/nettle-3.5.1/CVE-2021-3580_1.patch | 277 ++++++++++++++
+ .../nettle/nettle-3.5.1/CVE-2021-3580_2.patch | 163 ++++++++
+ meta/recipes-support/nettle/nettle_3.5.1.bb   |   7 +
+ ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ scripts/lib/wic/partition.py                  |   2 +-
+ 48 files changed, 3423 insertions(+), 36 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829_5.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27617.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-28916.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/files/CVE-2021-40153.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-make-update-neighbours-work-again.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-3246_1.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-3246_2.patch
+ create mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22946-pre1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22946.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22947.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2021-33560.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-1.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-2.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-3.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-4.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-20305-5.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-3580_1.patch
+ create mode 100644 meta/recipes-support/nettle/nettle-3.5.1/CVE-2021-3580_2.patch
+ create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
 
+-- 
+2.25.1
 
->
->  #
->  # configuration
-> --
-> 2.31.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156418): https://lists.openembedded.org/g/openembedde=
-d-core/message/156418
-> Mute This Topic: https://lists.openembedded.org/mt/85925303/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
