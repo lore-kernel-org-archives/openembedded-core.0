@@ -1,79 +1,85 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <akuster808@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <e47d11b76cd90e456330dd111f9ca37fbd39bb4e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] ERROR: Task (.../kernel-module-something.bb:do_package) failed with exit code '134'
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Tue, 28 Sep 2021 18:15:47 +0100
-In-Reply-To: <W5wi.1632764687377274770.mOgu@lists.openembedded.org>
-References: <W5wi.1632764687377274770.mOgu@lists.openembedded.org>
+Subject: Re: [meta-security][PATCH] clamav: Set clamav:clamav ownership on /var/lib/clamav in do_install
+References: <20210926050321.314479-1-zboszor@pr.hu>
+ <20210926122553.387448-1-zboszor@pr.hu>
+ <20210926122553.387448-2-zboszor@pr.hu>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <2eca1502-5de6-0627-342d-36210bdf1d6e@gmail.com>
+Date: Tue, 28 Sep 2021 16:30:28 -0700
 MIME-Version: 1.0
+In-Reply-To: <20210926122553.387448-2-zboszor@pr.hu>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 List-id: <openembedded-core.lists.openembedded.org>
-To: Vasyl Vavrychuk <vvavrychuk@gmail.com>, openembedded-core@lists.openembedded.org
+To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@pr.hu>, yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Cc: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
 
-On Mon, 2021-09-27 at 10:44 -0700, Vasyl Vavrychuk wrote:
-> I have external kernel module recipe, let's call it kernel-module-
-> something.bb.
-> 
-> Sometimes, it fails with
-> 
->   ERROR: Task (.../kernel-module-something.bb:do_package) failed with exit
-> code
-> '134'
-> 
-> I have checked pseudo.log, it looks like this
-> 
->   inode mismatch: '.../kernel-module-something/1.0-
-> r0/image/lib/modules/5.10.25-yocto-standard/extra/something.ko' ino 240205743
-> in db, 240631184 in request.
->   creat ignored for existing file '.../kernel-module-something/1.0-
-> r0/image/lib/modules/5.10.25-yocto-standard/extra/something.ko'.
->   inode mismatch: '.../kernel-module-something/1.0-
-> r0/image/lib/modules/5.10.25-yocto-standard/extra/something.ko' ino 240205743
-> in db, 240631184 in request.
->   ...
->   a lot of inode mismatch prints
->   ...
->   inode mismatch: '.../kernel-module-something/1.0-r0/sstate-build-
-> package/package/lib/modules/5.10.25-yocto-standard/extra/something.ko' ino
-> 240207118 in db, 240631442 in request.
->   path mismatch [2 links]: ino 240631442 db '.../kernel-module-something/1.0-
-> r0/sstate-build-package/packages-split/kernel-module-something-5.10.25-yocto-
-> standard/lib/modules/5.10.25-yocto-standard/extra/something.ko' req
-> '.../kernel-module-something/1.0-r0/sstate-build-
-> package/package/lib/modules/5.10.25-yocto-standard/extra/something.ko'.
->  
-> Can't debug it further since it is rarely reproducible, next run failure will
-> be some consequence of this, and after cleansstate this won't be reproducible
-> for a while.
-> 
-> My recipe is simple:
-> 
->   inherit module
->   
->   SRC_URI = " \
->     file://Kbuild \
->     file://Makefile \
->     file://something.c \
->     file://something.h \
->   "
->   
->   S = "${WORKDIR}"
->   
->   KERNEL_MODULE_AUTOLOAD = "something"
-> 
-> Using Yocto 3.1.10.
+merged.
 
 
-Even if you can't reproduce the error, you can likely look at the pseudo
-database (in WORKDIR/pseudo/) as it is a relatively simple sqlite3 database. You
-can check the inode numbers in the database compared to the files on disk and
-the issue is fixed when the numbers match up.
-
-Cheers,
-
-Richard
-
+On 9/26/21 5:25 AM, Zoltán Böszörményi wrote:
+> From: Zoltán Böszörményi <zboszor@gmail.com>
+>
+> Also, rearrange the runtime-dependencies a little so
+> clamav-freshclam is installed later than clamav.
+>
+> The issue is that clamav-freshclam ships /var/lib/clamav
+> and the main clamav package uses chown in pkg_postinst to set
+> the ownership of this directory. But pkg_postinst is not
+> marked as "ontarget" so this chown only took effect when
+> upgrading or reinstalling the package.
+>
+> So when clamav is part of an OS image out of the box, freshclamd
+> cannot populate this directory since it's running under the clamav
+> user.
+>
+> Fix this by creating /var/lib/clamav with the proper ownership
+> in do_install and rearrange runtime-dependencies, so clamav-freshclam
+> RDEPENDS on clamav and clamav relaxes its runtime-dependency into
+> RRECOMMENDS so clamav-freshclam is installed later than clamav,
+> avoiding these warnings:
+>
+>   Installing       : clamav-freshclam-...            487/1954
+> warning: user clamav does not exist - using root
+> warning: group clamav does not exist - using root
+>
+> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+> ---
+>  recipes-scanners/clamav/clamav_0.104.0.bb | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/recipes-scanners/clamav/clamav_0.104.0.bb b/recipes-scanners/clamav/clamav_0.104.0.bb
+> index 0d3a678..25123dc 100644
+> --- a/recipes-scanners/clamav/clamav_0.104.0.bb
+> +++ b/recipes-scanners/clamav/clamav_0.104.0.bb
+> @@ -54,7 +54,7 @@ export OECMAKE_C_FLAGS += " -I${STAGING_INCDIR} -L ${RECIPE_SYSROOT}${nonarch_li
+>  
+>  do_install:append () {
+>      install -d ${D}/${sysconfdir}
+> -    install -d ${D}/${localstatedir}/lib/clamav
+> +    install -d -o ${CLAMAV_UID} -g ${CLAMAV_GID} ${D}/${localstatedir}/lib/clamav
+>      install -d ${D}${sysconfdir}/clamav ${D}${sysconfdir}/default/volatiles
+>  
+>      install -m 644 ${WORKDIR}/clamd.conf ${D}/${prefix}/${sysconfdir}
+> @@ -83,7 +83,6 @@ pkg_postinst:${PN} () {
+>          elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
+>              ${sysconfdir}/init.d/populate-volatile.sh update
+>          fi
+> -        chown -R ${CLAMAV_UID}:${CLAMAV_GID} ${localstatedir}/lib/clamav
+>      fi
+>  }
+>  
+> @@ -149,5 +148,7 @@ SYSTEMD_PACKAGES  = "${PN}-daemon ${PN}-freshclam"
+>  SYSTEMD_SERVICE:${PN}-daemon = "clamav-daemon.service"
+>  SYSTEMD_SERVICE:${PN}-freshclam = "clamav-freshclam.service"
+>  
+> -RDEPENDS:${PN} = "openssl ncurses-libncurses libxml2 libbz2 ncurses-libtinfo curl libpcre2 clamav-freshclam clamav-libclamav"
+> -RDEPENDS:${PN}-daemon = "clamav"
+> +RDEPENDS:${PN} = "openssl ncurses-libncurses libxml2 libbz2 ncurses-libtinfo curl libpcre2 clamav-libclamav"
+> +RRECOMMENDS:${PN} = "clamav-freshclam"
+> +RDEPENDS:${PN}-freshclam = "clamav"
+> +RDEPENDS:${PN}-daemon = "clamav clamav-freshclam"
 
