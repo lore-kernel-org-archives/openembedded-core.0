@@ -1,144 +1,163 @@
-Return-Path: <ckalluri@xilinx.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9097C433F5
-	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 02:40:23 +0000 (UTC)
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.79])
- by mx.groups.io with SMTP id smtpd.web11.8790.1632796822311675955
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4C8C433EF
+	for <webhook@archiver.kernel.org>; Tue, 28 Sep 2021 04:11:46 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web11.9470.1632802304799745185
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Sep 2021 19:40:22 -0700
+ Mon, 27 Sep 2021 21:11:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@xilinx.onmicrosoft.com
- header.s=selector2-xilinx-onmicrosoft-com header.b=s8a/9k+y;
- spf=pass (domain: xilinx.com, ip: 40.107.220.79,
- mailfrom: ckalluri@xilinx.com)
+ dkim=pass header.i=@intel.onmicrosoft.com
+ header.s=selector2-intel-onmicrosoft-com header.b=wFkaGnEn;
+ spf=pass (domain: intel.com, ip: 134.134.136.100,
+ mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10120"; a="288275274"
+X-IronPort-AV: E=Sophos;i="5.85,328,1624345200";
+   d="scan'208";a="288275274"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2021 21:11:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,328,1624345200";
+   d="scan'208";a="706508216"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga006.fm.intel.com with ESMTP; 27 Sep 2021 21:11:43 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 27 Sep 2021 21:11:42 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Mon, 27 Sep 2021 21:11:42 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.170)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Mon, 27 Sep 2021 21:11:42 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mUnruGId1uwLBSJW3sYaPjCTpqatj0jM0+Aitwq0jrJ6Pq64M10A20WLYz0XfQn7dYG4EAhDZw2AYmtgAm9xWlMplr1sRZlgP8cQ9G6LpI5Mu3RKT8GyP2r6Ifpi7iJHIFACZ16JGVhk5kYK75qHiH8oRzRmmA7IvE5UEuFwacr6Cs3ONlnEFh32aLQGVyak8wibV7pcZRGMoprYSoBDPyihn9y7l84OwnEibRLPo69PIyWF443gK9bMVRP5w9rCaOOeopDvF0cLRl8ePamOKqwmLNSWsiKCAjpxttUMRhg5FTbRr+QVdEnNv6S0KVJ4jlHMktDsJeuTbhjFkr69vw==
+ b=LGIkKe2YEy5/3fEinJ8xpT7bVXaEEk4lBeIpIc7a5TfNHLaIymDfD0vg9c9GIKQLKbA+u2wGZpHAxz02WxeSOmqClVK+zOq1w6dmWhapjY/TvTqYXDjm9t5Asp0qnclbT8yVe0FwgcEe+S5RfUyH6UL99/a1KrYknniIJYWTY7XvgG2n3iA8EaMu8o9DR4TxYPkRTtlckl4A7ckX8M9YUiynIj9upeg5j5cDxk65mRDGbhN6x5p00yx9mWx1Q1zf81xS+vjGLi5ezwzbcAfNj0KYhluTkGjM2ODJjWF1OWUKV0j+fnar2wuxlnJd5Q579hwq6nJ70XkXcsNaH/aY9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=zqouQUMdQT7QHsl+aVvYuhbSW0SIziXOki5SoyINzRE=;
- b=BlIpvPA3eo+yfEk8DRBlecyhK8HwaycsoIK1ff67ouF+t++o7JnSXp/GPvI8+YgOimG9maH+5+Q2CkDLT8eZF+E9CdenNxcg+wy15/fk0MFvh80wYddKoGZ1i+F1nbIlbDj8faL7e6jHPnYzfFntf6n7PrvBrOZxGRohBEzSS1ZGH6f2Mdt9pVKWabvAW78xBP+iQx3dl9cZUN7zB8Aa4KNcWzok36AiuK8t5a2ftKAOlCAKBf4pPARGbHzjwXgRAIm31lnO3Y5DWUtPZSnvk6sAhjEYIhKBgKXjrEWyYRnfBNY5E9S9DLzGaBWlLS7GwBN8+BcXmWyLM8SUeamGBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=xilinx.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ bh=ynkxgqZVh4aYazVRGmyT1nmyi7/q5PCqRN0QJuzuxfI=;
+ b=XE9dnyr0W+y3+hZHVzjRtiyiK7o92jqTwY0Oc2o3ZkMKS4VaOVe+ahuLA15ss06suHN2Bg0S6YqxH1VRfPecHTvApjetscYojjpMiQE/wVvFHFuZQQ/gv06Z+Ihdvn3tKNShMU2AcJsA4f6aIgFRDz8AGjN5567JEAurBK+Bu0uv54l86HVZU7Ok1ktedO+kthJ8b/ThfxTtCaP9p3Koh4KfrYMSFnNfoO6FT5lB904m7VHQnUGm0mirnMe/GTPfN4LF/4z1COPl+7yoiVsNKsTjVx+ucpHMZjtYv91vt55p2WXZLSvlqkSUUASLkWHq2RKLOCSD/VPdvljKWD0tOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zqouQUMdQT7QHsl+aVvYuhbSW0SIziXOki5SoyINzRE=;
- b=s8a/9k+yMo7DbVfmgC+ZTItizp46FZ/af6+2xtCXhdt67mQCH7DTGaNmCDoTbxVuWyiCXjL4C/kZUkHZ0nSevPGBpG7dcnRf5PjsmAcoCyQtJONQTmX6kVQSp9KXM0U00nIdeGAz7No2TCH8P8vSvueKeDIh0GSZ7gbkS5VNbic=
-Received: from BN9PR03CA0773.namprd03.prod.outlook.com (2603:10b6:408:13a::28)
- by CY4PR02MB2245.namprd02.prod.outlook.com (2603:10b6:903:9::10) with
+ bh=ynkxgqZVh4aYazVRGmyT1nmyi7/q5PCqRN0QJuzuxfI=;
+ b=wFkaGnEnrCETKvgUsRxhqT4dNBzNb5nt2+ZemQgncZvVA3nkVQv1g/+IPzMG7FsctS2cpBTMo3ThZrhnAQnmfQGaanSxoy7SDHLIg+QjvqryLE04EAnzilrRVfzSvPfCNPKId7i02PZtIloVHhV4OIkiNeuezicL+fgTO8t9ryI=
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
+ by BYAPR11MB3622.namprd11.prod.outlook.com (2603:10b6:a03:fe::30) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Tue, 28 Sep
- 2021 02:40:20 +0000
-Received: from BN1NAM02FT015.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:13a:cafe::6e) by BN9PR03CA0773.outlook.office365.com
- (2603:10b6:408:13a::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15 via Frontend
- Transport; Tue, 28 Sep 2021 02:40:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT015.mail.protection.outlook.com (10.13.2.132) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4544.13 via Frontend Transport; Tue, 28 Sep 2021 02:40:20 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Mon, 27 Sep 2021 19:40:19 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Mon, 27 Sep 2021 19:40:19 -0700
-Envelope-to: openembedded-core@lists.openembedded.org
-Received: from [172.19.2.12] (port=41588 helo=xsjckalluri50.xilinx.com)
-	by smtp.xilinx.com with esmtp (Exim 4.90)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1mV32Z-0003Fu-9w; Mon, 27 Sep 2021 19:40:19 -0700
-From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Subject: [OE-Core][master][honister][PATCH] scriptutils.py: Add check before
- deleting path
-Date: Mon, 27 Sep 2021 19:40:18 -0700
-Message-ID: <1632796818-31391-1-git-send-email-chandana.kalluri@xilinx.com>
-X-Mailer: git-send-email 2.7.4
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Tue, 28 Sep
+ 2021 04:11:40 +0000
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::8953:241d:7255:35be]) by SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::8953:241d:7255:35be%3]) with mapi id 15.20.4544.021; Tue, 28 Sep 2021
+ 04:11:40 +0000
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "sakib.sajal@windriver.com"
+	<sakib.sajal@windriver.com>
+Subject: Re: [OE-core] [Dunfell][PATCH 4/4] qemu: fix CVE-2021-3682
+Thread-Topic: [OE-core] [Dunfell][PATCH 4/4] qemu: fix CVE-2021-3682
+Thread-Index: AQHXqo5zC6WwlGX1X0+VVbr6YvtvMau4RTsAgACjhQA=
+Date: Tue, 28 Sep 2021 04:11:40 +0000
+Message-ID: <d5704cc68209bd702b1cda6d43f3edfb37a47891.camel@intel.com>
+References: <20210916000419.1812968-4-akuster808@gmail.com>
+	 <11562.1632767182950323181@lists.openembedded.org>
+In-Reply-To: <11562.1632767182950323181@lists.openembedded.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2c1a70b3-59f5-45d4-700a-08d9823612dc
+x-ms-traffictypediagnostic: BYAPR11MB3622:
+x-microsoft-antispam-prvs: 
+ <BYAPR11MB3622ECB23D5BDBAEE9C6766CF8A89@BYAPR11MB3622.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ m9oSj7O4S7lvdpksQ+2B5bRHZMSm/HuBddoruftMP/Nj62FoM5xfZPCZu5rPV3kWI1bZ8v55Yhacf23KVrvOeOYqOR/Y6+DPq3Npb/xc3uHLIDzacTY5SzYdTDAS2pns9M36Ak4Sur1n80nHh15NnQODGpIm/fTBNC695PH1wfBdwTOEigHCEynqXU6DxPToIHRJnOYmKwC2X/mwmVsldB3ncAQCrMQmw0QHW5Pi2OZgwPiFXgTMjd3hm/yriED0DnYF8SGtQE1gepzjBBgePt5SHnjsAyWezg8PCmQ6akqYr5O+g0y7TEoETvvpPjf9G7rW5xFMcwsgZDnPrf+6hMq2BmZPwkmW7jARlg6YU3/C5k22Ulgq5DYc+o6cLwvm1y7Wa8HMLrcdGOsX/dxRRsJ/bGCoflX+OXAlxtYJQgZQWKZs8kSyc5u5AVpyuKcZ8G8byuABBtBmxn/a5Hnxcg79FPMW6orp+dY7RtN+GgD5w2Tz5az6Z5gsNI0FyIkA2f8qOsFTLWcrjD3Mo0UXOK/jc9Vv1yvk/J5QSWcW/0dZf2UydsjJF9TTyx96jCpCqg1EpQN8gJWTKI0sU0fwAfRzjZl6rAzNRv52vXbM/KxyvHMwu4jmVAq1/8u1Q2O0qmh/jFwxxlBXaZ+RJWQviG7YnC5fG1yKKkR+VM9b7QOlRIw8XLsy+E0AsMHYR42cuiz72h9yHhz+BxDkXNVu2aq7g6ugytd7fZDh3/eh7Zhpx28tiqiQeNVQJp5SrEwDVdRD7jK57rI5fhcjdWJN4fLHwWaQOc2AN07otKOXzNM=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(76116006)(110136005)(71200400001)(36756003)(66946007)(86362001)(316002)(508600001)(6486002)(91956017)(2616005)(8936002)(8676002)(2906002)(26005)(4744005)(6506007)(186003)(966005)(66446008)(83380400001)(5660300002)(38070700005)(38100700002)(122000001)(6512007)(64756008)(66556008)(66476007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?c1RWVmZLSGsvWmswNWNlOEljSndCdmFXand5VHZYVXhNMzFOQkFGWkFOdzd5?=
+ =?utf-8?B?QktobWZWVWxsaEJOMU44NzM0VnpLckNZaEhvbjZ4ZUFLT0IvV3FzdmpBV3pL?=
+ =?utf-8?B?L0pDYWFjUDBCS1hnaWh5SGNrNWFGOHVxU2d6anBlYlhvY3ZDbUNrVmZUQkh3?=
+ =?utf-8?B?S0JaR1U2U2hiMGpJTXl4ZDNqa2FOMmR6TFV4c0J2UHFkVm9ub3NaZnRmeWdn?=
+ =?utf-8?B?SFRnNEdQem1tS3F4by9Dc1haVWN2OFVaaHZORGpkRVJZQnE3VUhacGxhNjBn?=
+ =?utf-8?B?NlFPQnY4Wk95VkRjbHZoMkZGS0c3SHZUeE8zTTZuUy9RaUU5V3BYVUt5YUg1?=
+ =?utf-8?B?bDlBSldBdGZ3RHR4R01RQU85dlBvMzVNMXcraTdFQWJEV01jVXZRUnA1VU51?=
+ =?utf-8?B?T1NqeTR4L3pCSG5nT3pNTkIzZ2lVQlJNRmErbzI5ek4xdVZtZFh0a056ME9K?=
+ =?utf-8?B?TEcwdjEzTmJONTZaenVmTzZwbHp1Tzl4RmJWdnVNNVhGZEFuSGI3OGxlM3hH?=
+ =?utf-8?B?R1RTU3hySTlKVmpEcnE4SUpUWFVmQkNHNk5JMys3bGpha3U2RFhYQ1hoUm55?=
+ =?utf-8?B?NmNEanAveGpUZ003U3MrTFpDS2hNWkZnQVhjT0pnSURFM0s0bEpwZUxrUGxB?=
+ =?utf-8?B?ZjFKWGxrZEVxZHJUM1BTYm1XRURJSzhpbnM0ZEtDOE90NGFlU1V4a3laVEpO?=
+ =?utf-8?B?RTF5UVlObG5iaFVJdTJKTDJGWGZkQU5hbkZQN3hlL0NIMnA1clE0eTBCRE1i?=
+ =?utf-8?B?SkxTT0Rob0hveTZCNUNoS3ptd09BTmxXWFhsem8xWFJNK3BMWnduc3IyZG9o?=
+ =?utf-8?B?UUo5ZGMwci9PTUZOeWhWTUVQanBzWFd6MmphMG1KTVl2cktab04vQkZoMkFD?=
+ =?utf-8?B?UDd0WHdkbDlvTU5lN01WSjJzWUpSSUNnQ3pFcm9sa2hmblBqby9XMEdINHJj?=
+ =?utf-8?B?V0VtZUhVaTAydHF2bkN5UEtqaVFEKzJucmxtUS9BV0pVTE0vSDF1MkI3VmFu?=
+ =?utf-8?B?ZHFJZTJRSkl6VVJBdWN4ckVQTk9YR0loQ3E5ZUdvV1ZxcDd4a3VyVkEwcmY4?=
+ =?utf-8?B?OTFURGQweWwvajF6M3g5RXVqdEJIUzI1R0JRc0paM29BRFlrSndkYlR4S1dr?=
+ =?utf-8?B?NUVYSnhySURWSndHUU5xMnUwV3RPcHBjTEx1Y2dqWC9mVDIwVWFnVFd6dSs5?=
+ =?utf-8?B?ZHZxMHFwOXl6U2hUYm9pZzdudzhQZWRMcUZJWXl1WjNFaHhLRFY4L20wTUlp?=
+ =?utf-8?B?WUxnVHJGVzl5YW1pMTN0Yk1xcURmRkh6aGhRa0xwUkJlOTRQc2xyMHRjZk1h?=
+ =?utf-8?B?TGRqV2xXTFNFL2NFOGd1YjRYV0IvamF4T2M1NDExaStGcExDaWg3RXpUTlR3?=
+ =?utf-8?B?VkNRY3VlN3Q1TzRxUjNHRHJpaVNkN0M5WVpaWkZJUUV2Yi9sQkthYXVZKys0?=
+ =?utf-8?B?cFRUeXIyZnpMWFRVbTZWd0xlWjU2czBwank4dDhnS1NvdmdGQXNkckdFTmc4?=
+ =?utf-8?B?Q3BHcjlSaVlWWFQvUitvNzVFbENTNkpOK0I1OHpkTC9uL0xqQm0vajBVdU9o?=
+ =?utf-8?B?UDU4aU5vNmR1WG50ZlR3bXkrVmxuYjJyeFE1VGlqVStRb2JTTnpzV05lRTQ1?=
+ =?utf-8?B?cE5PU2FoQTRwSlVZRXFxdm9tampHS2ZXeURZTWZBZjhZRDJnOHlRNDgvMUFQ?=
+ =?utf-8?B?eW53bUlTRzAzbmozWjZTYkUvKy9KSUhud016bkdSU1lBQ0xGT3BtOXlQTnpK?=
+ =?utf-8?B?cjI5WjRucG1jdSt4alA3anF6NVhNSTJLc3hVL0JzTjdTdlNaSnJTMEFBUXRS?=
+ =?utf-8?B?MWZURllmdGJMZHgvZjNsQT09?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <280AE6F54D5F9245B7AF2257757E6D14@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 325c017b-a199-481f-a739-08d98229504c
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2245:
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR02MB2245C235ABF2CA57F7C43FD7B0A89@CY4PR02MB2245.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fNX0j++cWdVFAe6saU+A5yAMA8Z9ezg49x6wjPXN8iVBmX8w/SwlKd6X2xVwDuBiTpXeEHSpA5L4ttpLjL6tsNfkr0xYWDuAESky7tzz4gCjX5NucU6jDh+mhTIwGsyoGiYJREM8xUlhHzIrGpH+svCGyL7uENAZC/8va5Dnug6La17YPOI+u0ZNGDKyfKs0YG5nWuQ73gPBDrXkrtPz0x39MYUNYIIHuZJLyvve1VNZXsHL3YCIMlGSLp1DZQuchkVoujwlmaJYMSCjbddC1maLNVtBxWzsfOZrPMpWH5LTrH6NDJY5SvwIpXjrsyiB5SN5/+oK4WlV51Mkry5liom43EXzvFU4dqvhAiV3kSQsETikFLplsp9EdVyH7owsCE8UKLp8aXDmolaUl7I5IO60qjsUF2czShaSspY433yZy/ZEp4A+kOlMAo1QfEikZp01mY59oDPHkh5OlBo1+qoHs1o70PnjENWMlkfzUD5kG8m6qRAK7VU5BcHQFjDMXLCIkjHw+U/T09UT1Ua1WH6fZEG+Vm4QuOOkpgiSl9jIHeHrscS3VG9m4ziCrUsYVbRjETgODA+jaunRz/RYub1vTHeHD/mlkTutlKp3r1KefF9PNRacBRKNHtKozhTNV7hyyMG9tGDWZpm0CH+FntFM7cPiME8Q1qQD8/x5ivubJWlHongDzNdmx8KpkRxlJCINu9s6znarLCEht8kUv96lCilk7jWqx24j6rDXjfo=
-X-Forefront-Antispam-Report: 
-	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(2906002)(2616005)(9786002)(4326008)(336012)(36756003)(107886003)(47076005)(426003)(7636003)(356005)(7696005)(5660300002)(26005)(8936002)(316002)(36906005)(8676002)(83380400001)(186003)(70206006)(82310400003)(6916009)(70586007)(36860700001)(508600001)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 02:40:20.0697
- (UTC)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 325c017b-a199-481f-a739-08d98229504c
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BN1NAM02FT015.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2245
+ 2c1a70b3-59f5-45d4-700a-08d9823612dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2021 04:11:40.4612
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ 2SKPILbWBh02ZNl1ckzaDx+2cLjTU01dnNCrnTr3lR6JI5hLGjdtXBFhl6brebq5VTo0znWiVub2C+mOmKItdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3622
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 02:40:23 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Sep 2021 04:11:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156405
+ https://lists.openembedded.org/g/openembedded-core/message/156406
 
-Add a check before deleting path when using recipetool commands to avoid the following type of errors:
-
-Traceback (most recent call last):
-   File "<workdir>/sources/core/scripts/lib/scriptutils.py", line 218, in fetch_url
-    shutil.rmtree(path)
-  File "/usr/local/lib/python3.7/shutil.py", line 476, in rmtree
-    onerror(os.lstat, path, sys.exc_info())
-  File "/usr/local/lib/python3.7/shutil.py", line 474, in rmtree
-    orig_st = os.lstat(path)
-FileNotFoundError: [Errno 2] No such file or directory: '<workdir>/build/tmp/work/recipetool-usg7o81n/work/recipe-sysroot'
-ERROR: Command 'script -e -q -c "recipetool --color=always create --devtool -o /tmp/devtool5sq_op37 'file:///<SRCTREE>'  -x <workdir>/build/workspace/sources/devtoolsrcxc1b9zjq -N test" /dev/null' failed
-
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
----
- scripts/lib/scriptutils.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index f92255d..3164171 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -215,7 +215,8 @@ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirr
-                 pathvars = ['T', 'RECIPE_SYSROOT', 'RECIPE_SYSROOT_NATIVE']
-                 for pathvar in pathvars:
-                     path = rd.getVar(pathvar)
--                    shutil.rmtree(path)
-+                    if os.path.exists(path):
-+                        shutil.rmtree(path)
-         finally:
-             if fetchrecipe:
-                 try:
--- 
-2.7.4
-
+T24gTW9uLCAyMDIxLTA5LTI3IGF0IDExOjI2IC0wNzAwLCBTYWtpYiBTYWphbCB3cm90ZToNCj4g
+V2lsbCB0aGlzIGZpeCBiZSBjaGVycnktcGlja2VkIGZvciB0aGUgaGFyZGtub3R0IGJyYW5jaD8g
+SSBzZW50IGENCj4gYmFja3BvcnQgZm9yIHRoZSBoYXJka25vdHQgYnJhbmNoIGJ1dCBpdCBkb2Vz
+bid0IHNlZW0gbGlrZSBpdCB3YXMNCj4gbWVyZ2VkLiBNYXliZSBiZWNhdXNlIHRoZSBtZXNzYWdl
+IFsxXSB3YXMgZW1wdHk/IA0KPiBbMV0NCj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
+L2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNTQ4NjM/cD0lMkMlMkMlMkMyMCUyQzAlMkMw
+JTJDMCUzQSUzQWNyZWF0ZWQlMkMwJTJDQ1ZFLTIwMjEtMzY4MiUyQzIwJTJDMiUyQzAlMkM4NDk0
+MDAzNw0KDQpJIHNvbWVob3cgbWlzc2VkIHRoaXMuIENhbiB5b3UgcGxlYXNlIHJlYmFzZSB0aGlz
+IGFuZCBzZW5kIGl0IGFnYWluPyBJDQp3aWxsIGluY2x1ZGUgaXQgaW4gbXkgcXVldWUuDQoNClRo
+YW5rcywNCg0KQW51ag0K
 
