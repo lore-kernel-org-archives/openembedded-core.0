@@ -1,251 +1,109 @@
-Return-Path: <thomas.perrot@bootlin.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 008E2C433EF
-	for <webhook@archiver.kernel.org>; Wed, 29 Sep 2021 14:23:08 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web08.9589.1632925374102491329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DECB3C433EF
+	for <webhook@archiver.kernel.org>; Wed, 29 Sep 2021 14:41:35 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web12.9907.1632926495040599055
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Sep 2021 07:22:55 -0700
+ Wed, 29 Sep 2021 07:41:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: thomas.perrot@bootlin.com)
-Received: (Authenticated sender: thomas.perrot@bootlin.com)
-	by relay12.mail.gandi.net (Postfix) with ESMTPSA id 8B15E20000A;
-	Wed, 29 Sep 2021 14:22:51 +0000 (UTC)
-From: Thomas Perrot <thomas.perrot@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com,
-	mingli.yu@windriver.com,
-	Thomas Perrot <thomas.perrot@bootlin.com>
-Subject: [OE-core][PATCH v2] libevent: mark util/monotonic_prc_fallback as
- retriable
-Date: Wed, 29 Sep 2021 16:22:21 +0200
-Message-Id: <20210929142221.3521150-1-thomas.perrot@bootlin.com>
-X-Mailer: git-send-email 2.31.1
+ spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57,
+ mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 18TEePGN017804;
+	Wed, 29 Sep 2021 09:40:25 -0500
+Subject: Re: [OE-core] [PATCH] openssh: openssh-dev shouldn't depend on
+ openssh
+To: Matt Johnston <matt@codeconstruct.com.au>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20210929031804.178714-1-matt@codeconstruct.com.au>
+ <74dc59a8af928f90c54f3d175c1de1aa1012183e.camel@linuxfoundation.org>
+ <7efc4f9ee2b26ddcae0832ff84a1105c6c62aa16.camel@codeconstruct.com.au>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Message-ID: <9dee0330-85f3-78d1-c54a-71ae2bd66355@kernel.crashing.org>
+Date: Wed, 29 Sep 2021 09:40:23 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: 
+ <7efc4f9ee2b26ddcae0832ff84a1105c6c62aa16.camel@codeconstruct.com.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Sep 2021 14:23:07 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Sep 2021 14:41:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156455
+ https://lists.openembedded.org/g/openembedded-core/message/156456
 
-Backport a patch to fix the below ptest failure:
- # ./run-ptest
- Running tests:
- EVPORT
- Skipping test
- KQUEUE
- Skipping test
- EPOLL
- test-eof: OKAY
- test-dumpevents: OKAY (output not checked)
- regress:
-  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
-  [monotonic_prc_fallback FAILED]
- 1/312 TESTS FAILED. (33 skipped)
- FAILED
- regress_debug:
-  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
-  [monotonic_prc_fallback FAILED]
- 1/312 TESTS FAILED. (33 skipped)
- FAILED
- [snip]
 
-(From OE-Core rev: edecbbdacab5227c75e4a199e124389f8036b421)
 
-[YOCTO #14507]
+On 9/29/21 3:36 AM, Matt Johnston wrote:
+> On Wed, 2021-09-29 at 09:24 +0100, Richard Purdie wrote:
+>>> +RDEPENDS:${PN}-dev = ""
+>>
+>> At that point what is the point of the -dev package? I think you could make
+>> this argument about a lot of the -dev packages and I'm not sure I'd want to
+>> see every recipe doing this.
+>>
+>> What are you using the -dev package for and do you need it at all?
+> 
+> The -dev package isn't needed for anything, but it gets pulled in when
+> "populate_sdk" is built. That does a glob over all -dev packages for
+> any built package.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
----
- ...-monotonic_prc_fallback-as-retriable.patch | 26 ++++++
- ...ts-are-marked-failed-only-when-all-a.patch | 79 +++++++++++++++++++
- .../libevent/libevent/run-ptest               | 10 +--
- .../libevent/libevent_2.1.12.bb               |  4 +-
- 4 files changed, 113 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
- create mode 100644 meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+The dev package's SHOULD depend on the regular package by default.  There are
+VERY VERY few instances where the dev package is "useful" without the
+corresponding run-time package in a 'normal' use-case.  (There are always
+exceptions and corner cases, but they're just that exceptions and corner cases
+in my experience and lead to massive confusion by developers if exploited.)
 
-diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-new file mode 100644
-index 000000000000..2c96a24c985c
---- /dev/null
-+++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-@@ -0,0 +1,26 @@
-+From 04fcd7c6df158bb65261867de4b9ec8439696934 Mon Sep 17 00:00:00 2001
-+From: Azat Khuzhin <azat@libevent.org>
-+Date: Sun, 19 Sep 2021 00:57:31 +0300
-+Subject: [PATCH] test: mark util/monotonic_prc_fallback as retriable
-+
-+Refs: #1193
-+---
-+ test/regress_util.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/test/regress_util.c b/test/regress_util.c
-+index 0f33ea0ea11c..eb362b32301f 100644
-+--- a/test/regress_util.c
-++++ b/test/regress_util.c
-+@@ -1848,7 +1848,7 @@ struct testcase_t util_testcases[] = {
-+ 	{ "monotonic_res_fallback", test_evutil_monotonic_res, TT_OFF_BY_DEFAULT, &basic_setup, (void*)"fallback" },
-+ 	{ "monotonic_prc", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"" },
-+ 	{ "monotonic_prc_precise", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"precise" },
-+-	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"fallback" },
-++	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"fallback" },
-+ 	{ "date_rfc1123", test_evutil_date_rfc1123, 0, NULL, NULL },
-+ 	{ "evutil_v4addr_is_local", test_evutil_v4addr_is_local, 0, NULL, NULL },
-+ 	{ "evutil_v6addr_is_local", test_evutil_v6addr_is_local, 0, NULL, NULL },
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-new file mode 100644
-index 000000000000..1d16fb9276fe
---- /dev/null
-+++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-@@ -0,0 +1,79 @@
-+From f554c75209038c3f2cd81c4271306fe53d3adfe8 Mon Sep 17 00:00:00 2001
-+From: Thomas Perrot <thomas.perrot@bootlin.com>
-+Date: Wed, 29 Sep 2021 13:50:35 +0200
-+Subject: [PATCH] test: retriable tests are marked failed only when all
-+ attempts have failed
-+
-+Fixes: #1193
-+
-+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
-+---
-+ test/tinytest.c | 13 ++++++-------
-+ test/tinytest.h |  2 +-
-+ 2 files changed, 7 insertions(+), 8 deletions(-)
-+
-+diff --git a/test/tinytest.c b/test/tinytest.c
-+index 85dfe74a720e..bf2882418eb6 100644
-+--- a/test/tinytest.c
-++++ b/test/tinytest.c
-+@@ -310,7 +310,8 @@ testcase_run_forked_(const struct testgroup_t *group,
-+ 
-+ int
-+ testcase_run_one(const struct testgroup_t *group,
-+-		 const struct testcase_t *testcase)
-++		 const struct testcase_t *testcase,
-++		 const int test_attempts)
-+ {
-+ 	enum outcome outcome;
-+ 
-+@@ -348,7 +349,7 @@ testcase_run_one(const struct testgroup_t *group,
-+ 		if (opt_verbosity>0 && !opt_forked)
-+ 			puts("SKIPPED");
-+ 	} else {
-+-		if (!opt_forked)
-++		if (!opt_forked && (testcase->flags & TT_RETRIABLE) && !test_attempts)
-+ 			printf("\n  [%s FAILED]\n", testcase->name);
-+ 	}
-+ 
-+@@ -525,22 +526,20 @@ tinytest_main(int c, const char **v, struct testgroup_t *groups)
-+ 		struct testgroup_t *group = &groups[i];
-+ 		for (j = 0; group->cases[j].name; ++j) {
-+ 			struct testcase_t *testcase = &group->cases[j];
-+-			int test_attempts = 3;
-++			int test_attempts = (testcase->flags & TT_RETRIABLE) ? 3: 1;
-+ 			int test_ret_err;
-+ 
-+ 			if (!(testcase->flags & TT_ENABLED_))
-+ 				continue;
-+ 
-+ 			for (;;) {
-+-				test_ret_err = testcase_run_one(group, testcase);
-++				test_ret_err = testcase_run_one(group, testcase, test_attempts);
-+ 
-+ 				if (test_ret_err == OK)
-+ 					break;
-+-				if (!(testcase->flags & TT_RETRIABLE))
-++				if (!--test_attempts)
-+ 					break;
-+ 				printf("\n  [RETRYING %s (%i)]\n", testcase->name, test_attempts);
-+-				if (!test_attempts--)
-+-					break;
-+ 			}
-+ 
-+ 			switch (test_ret_err) {
-+diff --git a/test/tinytest.h b/test/tinytest.h
-+index d321dd467542..c276b5339331 100644
-+--- a/test/tinytest.h
-++++ b/test/tinytest.h
-+@@ -92,7 +92,7 @@ char *tinytest_format_hex_(const void *, unsigned long);
-+ 	tinytest_set_flag_(groups, named, 1, TT_SKIP)
-+ 
-+ /** Run a single testcase in a single group. */
-+-int testcase_run_one(const struct testgroup_t *,const struct testcase_t *);
-++int testcase_run_one(const struct testgroup_t *,const struct testcase_t *, const int test_attempts);
-+ 
-+ void tinytest_set_aliases(const struct testlist_alias_t *aliases);
-+ 
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipes-support/libevent/libevent/run-ptest
-index d3b5e793c3c5..ef4260d1c413 100644
---- a/meta/recipes-support/libevent/libevent/run-ptest
-+++ b/meta/recipes-support/libevent/libevent/run-ptest
-@@ -1,14 +1,14 @@
- #!/bin/sh
- 
- # run-ptest - 'ptest' test infrastructure shell script that
--#   wraps the libevent test scripts 
-+#   wraps the libevent test scripts
- #
- # Trevor Gamblin <trevor.gamblin@windriver.com>
- ###############################################################
- LIBEVENTLIB=@libdir@/libevent
- LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
- 
--cd ${LIBEVENTLIB}/ptest 
-+cd ${LIBEVENTLIB}/ptest
- 
- # Run only the libevent "regress" test. All other test scripts in the
- # libevent "test" folder are related to performance, e.g. read/write
-@@ -16,9 +16,9 @@ cd ${LIBEVENTLIB}/ptest
- # in the ptest log.
- ./test/regress 2>&1| sed -e '/TESTS/d' -e '/tests/d' -e '/OK/ s/^/PASS: / ; /FAILED/ s/^/FAIL: / ; /SKIPPED/ s/^/SKIP: / ; /DISABLED/ s/^/SKIP: /' | cut -f1,2 -d ':' | tee -a ${LOG}
- 
--passed=`grep PASS ${LOG}|wc -l`
--failed=`grep FAIL ${LOG}|wc -l`
--skipped=`grep -E SKIP ${LOG}|wc -l`
-+passed=`grep PASS: ${LOG}|wc -l`
-+failed=`grep FAIL: ${LOG}|wc -l`
-+skipped=`grep -E SKIP: ${LOG}|wc -l`
- all=$((passed + failed + skipped))
- 
- (   echo "=== Test Summary ==="
-diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
-index 4b419eab226d..65770cb0d691 100644
---- a/meta/recipes-support/libevent/libevent_2.1.12.bb
-+++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
-@@ -16,6 +16,8 @@ SRC_URI = "https://github.com/libevent/libevent/releases/download/release-${PV}-
-            file://run-ptest \
-            file://0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch \
-            file://0002-test-regress.h-Increase-default-timeval-tolerance-50.patch \
-+           file://0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch \
-+	   file://0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch \
-            "
- 
- SRC_URI[sha256sum] = "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
-@@ -56,7 +58,7 @@ do_install_ptest() {
- 	do
- 		install -m 0755 $file ${D}${PTEST_PATH}/test
- 	done
--        
-+
-         # handle multilib
-         sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
- }
--- 
-2.31.1
+populate_sdk, the entire purpose of this is to install the -dev package (and
+it's dependencies) for anything in your root filesystem.  This says that you
+root filesystem contains "openssh", thus openssh-dev will be installed.
 
+If your root filesystem does NOT have openssh in it, then we need to answer the
+question why was the -dev version added?
+
+You mention above it's "any built package", but that should not be the case.  It
+should be for any package installed into the corresponding root filesystem.
+
+i.e. bitbake core-image-minimal -c do_populate_sdk
+
+This should NOT install -dev packages for things not located in
+core-image-minimal.  If it does, then there is another problem, that was not the
+intended design.  The intention when the do_populate_sdk was written was
+construct the rootfs, parse what was install and add -dev packages + their
+dependencies.
+
+--Mark
+
+> Cheers,
+> Matt
+> 
+>>
+>> [As an aside, I do think the -dev package dependencies need rethinking but
+>> that is a lot more work which nobody seems very interested in]
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+> 
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156452): https://lists.openembedded.org/g/openembedded-core/message/156452
+> Mute This Topic: https://lists.openembedded.org/mt/85941131/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
