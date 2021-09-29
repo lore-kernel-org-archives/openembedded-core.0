@@ -1,114 +1,250 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A663C433EF
-	for <webhook@archiver.kernel.org>; Wed, 29 Sep 2021 13:21:00 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
- [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web08.8707.1632921659886278885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 008E2C433EF
+	for <webhook@archiver.kernel.org>; Wed, 29 Sep 2021 14:23:08 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web08.9589.1632925374102491329
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Sep 2021 06:21:00 -0700
+ Wed, 29 Sep 2021 07:22:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cT1s7qsB;
- spf=pass (domain: gmail.com, ip: 209.85.166.49,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id e144so3074101iof.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Sep 2021 06:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DBfs5T2yWKdM7hDvLODlq3FlLwnPE70BT+ZSkOKJP9M=;
-        b=cT1s7qsBH4aOeehrEjT++SxXj2M/L5ZVQxCO5cvBUpozHvKiEQeNaYAj3TXE7ga6SL
-         8bXLkEWZJXvJuajFs7NfaRWNtdb+aqVZ0JXqrWWsqMgxFLbxSFBHX7sW5nlZtBGOh5Z3
-         SHz+G53KgrvCwi4recxPTBNbS1wMjr5dcr6GMIOGEwKVeFAXZfH3QwsYxO8QqoZz540H
-         8A53Rh+pImjSyDl2TUXWQj5Mc6pJ4T2Erms290CYKHZGlkcUb6tq943zPO6ziqNns67Z
-         ZsIuJT96qJkhCbm7kua9Gg7msdl+sqL67cytCNzohoV3vsyW2UnmuC4zElv5bbuXs2uZ
-         UnNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DBfs5T2yWKdM7hDvLODlq3FlLwnPE70BT+ZSkOKJP9M=;
-        b=25cBOwTnOqMgeD2faC4kAG46T767w69IF2HZaV7Cia/swSL8uCA+iTnHwToUy+DxfA
-         x8yaOhsQO9IhcIuhG1pgTRx+6rbpM5UitvHi+RD27VNxoJ/4I7RyoO7EGdobxM5BasTt
-         vSJQSyOndamzq61OzMhRmFSjMv2hiHlpiQQi/RSLqGzDM5JW6OartA9HsS8Ksmles7P0
-         S+ryj8oXbXZfINcbPkRLYc7tCRbCbvMsNq9nFN9oxJtAnrD/mWWgQVujFqllyz+Vdym3
-         kachcyIvnFUbCArZDUphsf3h7i5ogcAtQGGeFr8mNATNKtQd9rQPMEezMKXN9vwBB7rP
-         JJVQ==
-X-Gm-Message-State: AOAM530kuVxaKflLVufv+89ZqrRTD1nZjwSUtjbWysSqbpMBT51jjRC0
-	WQI4JcWed77ozfxuhDL+iZUdiK6QnKsaGg==
-X-Google-Smtp-Source: 
- ABdhPJxOt+X5bpqrVMzH+1wrhLdjsaJS5YntFMbJTPGScGFFw7lqvqIosahyGFSsAdUaAs5gmtPWew==
-X-Received: by 2002:a02:8804:: with SMTP id r4mr9437553jai.55.1632921659050;
-        Wed, 29 Sep 2021 06:20:59 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id 67sm1431132iou.4.2021.09.29.06.20.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 06:20:58 -0700 (PDT)
-From: Pgowda <pgowda.cve@gmail.com>
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: thomas.perrot@bootlin.com)
+Received: (Authenticated sender: thomas.perrot@bootlin.com)
+	by relay12.mail.gandi.net (Postfix) with ESMTPSA id 8B15E20000A;
+	Wed, 29 Sep 2021 14:22:51 +0000 (UTC)
+From: Thomas Perrot <thomas.perrot@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	alex.kanavin@gmail.com,
-	umesh.kalappa0@gmail.com,
-	vinay.m.engg@gmail.com,
-	Pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH] Fix rust-native build issue when debug is enabled
-Date: Wed, 29 Sep 2021 06:20:54 -0700
-Message-Id: <20210929132054.117151-1-pgowda.cve@gmail.com>
+Cc: alexandre.belloni@bootlin.com,
+	mingli.yu@windriver.com,
+	Thomas Perrot <thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH v2] libevent: mark util/monotonic_prc_fallback as
+ retriable
+Date: Wed, 29 Sep 2021 16:22:21 +0200
+Message-Id: <20210929142221.3521150-1-thomas.perrot@bootlin.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Sep 2021 13:21:00 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Sep 2021 14:23:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156454
+ https://lists.openembedded.org/g/openembedded-core/message/156455
 
-When DEBUG_BUILD is set for building rust-native, it generated
-error as follows:-
-=========================================================
-Building : rustdoc, rustdoc-json-types
-error[E0463]: can't find crate for `rustc_llvm`
-which `rustc_driver` depends on
-  --> src/librustdoc/lib.rs:37:1
-   |
-37 | extern crate rustc_driver;
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^ can't find crate
-=========================================================
-On analyzing the issue, it was found that rustc_llvm crate was present
-at required path. However, it was very huge due to the presence of
-debugging information. Hence, it was somehow not recognized as a valid
-crate. The following patch removes the debug information from
-rust-llvm-native which is built prior to rust-native but retains debug
-information as required in rust-native binaries.
+Backport a patch to fix the below ptest failure:
+ # ./run-ptest
+ Running tests:
+ EVPORT
+ Skipping test
+ KQUEUE
+ Skipping test
+ EPOLL
+ test-eof: OKAY
+ test-dumpevents: OKAY (output not checked)
+ regress:
+  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
+  [monotonic_prc_fallback FAILED]
+ 1/312 TESTS FAILED. (33 skipped)
+ FAILED
+ regress_debug:
+  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
+  [monotonic_prc_fallback FAILED]
+ 1/312 TESTS FAILED. (33 skipped)
+ FAILED
+ [snip]
 
-Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+(From OE-Core rev: edecbbdacab5227c75e4a199e124389f8036b421)
+
+[YOCTO #14507]
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 ---
- meta/recipes-devtools/rust/rust-llvm.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ ...-monotonic_prc_fallback-as-retriable.patch | 26 ++++++
+ ...ts-are-marked-failed-only-when-all-a.patch | 79 +++++++++++++++++++
+ .../libevent/libevent/run-ptest               | 10 +--
+ .../libevent/libevent_2.1.12.bb               |  4 +-
+ 4 files changed, 113 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+ create mode 100644 meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
 
-diff --git a/meta/recipes-devtools/rust/rust-llvm.inc b/meta/recipes-devtools/rust/rust-llvm.inc
-index d7f445385b..0f8fb785b7 100644
---- a/meta/recipes-devtools/rust/rust-llvm.inc
-+++ b/meta/recipes-devtools/rust/rust-llvm.inc
-@@ -15,6 +15,11 @@ DEPENDS += "ninja-native rust-llvm-native"
- ARM_INSTRUCTION_SET:armv5 = "arm"
- ARM_INSTRUCTION_SET:armv4t = "arm"
- 
-+# rustc_llvm with debug info is not recognized as a valid crate that's
-+# generated by rust-llvm-native.
-+CFLAGS:remove = "-g"
-+CXXFLAGS:remove = "-g"
+diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+new file mode 100644
+index 000000000000..2c96a24c985c
+--- /dev/null
++++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+@@ -0,0 +1,26 @@
++From 04fcd7c6df158bb65261867de4b9ec8439696934 Mon Sep 17 00:00:00 2001
++From: Azat Khuzhin <azat@libevent.org>
++Date: Sun, 19 Sep 2021 00:57:31 +0300
++Subject: [PATCH] test: mark util/monotonic_prc_fallback as retriable
 +
- LLVM_DIR = "llvm${LLVM_RELEASE}"
++Refs: #1193
++---
++ test/regress_util.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/test/regress_util.c b/test/regress_util.c
++index 0f33ea0ea11c..eb362b32301f 100644
++--- a/test/regress_util.c
+++++ b/test/regress_util.c
++@@ -1848,7 +1848,7 @@ struct testcase_t util_testcases[] = {
++ 	{ "monotonic_res_fallback", test_evutil_monotonic_res, TT_OFF_BY_DEFAULT, &basic_setup, (void*)"fallback" },
++ 	{ "monotonic_prc", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"" },
++ 	{ "monotonic_prc_precise", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"precise" },
++-	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"fallback" },
+++	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"fallback" },
++ 	{ "date_rfc1123", test_evutil_date_rfc1123, 0, NULL, NULL },
++ 	{ "evutil_v4addr_is_local", test_evutil_v4addr_is_local, 0, NULL, NULL },
++ 	{ "evutil_v6addr_is_local", test_evutil_v6addr_is_local, 0, NULL, NULL },
++-- 
++2.31.1
++
+diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+new file mode 100644
+index 000000000000..1d16fb9276fe
+--- /dev/null
++++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+@@ -0,0 +1,79 @@
++From f554c75209038c3f2cd81c4271306fe53d3adfe8 Mon Sep 17 00:00:00 2001
++From: Thomas Perrot <thomas.perrot@bootlin.com>
++Date: Wed, 29 Sep 2021 13:50:35 +0200
++Subject: [PATCH] test: retriable tests are marked failed only when all
++ attempts have failed
++
++Fixes: #1193
++
++Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
++---
++ test/tinytest.c | 13 ++++++-------
++ test/tinytest.h |  2 +-
++ 2 files changed, 7 insertions(+), 8 deletions(-)
++
++diff --git a/test/tinytest.c b/test/tinytest.c
++index 85dfe74a720e..bf2882418eb6 100644
++--- a/test/tinytest.c
+++++ b/test/tinytest.c
++@@ -310,7 +310,8 @@ testcase_run_forked_(const struct testgroup_t *group,
++ 
++ int
++ testcase_run_one(const struct testgroup_t *group,
++-		 const struct testcase_t *testcase)
+++		 const struct testcase_t *testcase,
+++		 const int test_attempts)
++ {
++ 	enum outcome outcome;
++ 
++@@ -348,7 +349,7 @@ testcase_run_one(const struct testgroup_t *group,
++ 		if (opt_verbosity>0 && !opt_forked)
++ 			puts("SKIPPED");
++ 	} else {
++-		if (!opt_forked)
+++		if (!opt_forked && (testcase->flags & TT_RETRIABLE) && !test_attempts)
++ 			printf("\n  [%s FAILED]\n", testcase->name);
++ 	}
++ 
++@@ -525,22 +526,20 @@ tinytest_main(int c, const char **v, struct testgroup_t *groups)
++ 		struct testgroup_t *group = &groups[i];
++ 		for (j = 0; group->cases[j].name; ++j) {
++ 			struct testcase_t *testcase = &group->cases[j];
++-			int test_attempts = 3;
+++			int test_attempts = (testcase->flags & TT_RETRIABLE) ? 3: 1;
++ 			int test_ret_err;
++ 
++ 			if (!(testcase->flags & TT_ENABLED_))
++ 				continue;
++ 
++ 			for (;;) {
++-				test_ret_err = testcase_run_one(group, testcase);
+++				test_ret_err = testcase_run_one(group, testcase, test_attempts);
++ 
++ 				if (test_ret_err == OK)
++ 					break;
++-				if (!(testcase->flags & TT_RETRIABLE))
+++				if (!--test_attempts)
++ 					break;
++ 				printf("\n  [RETRYING %s (%i)]\n", testcase->name, test_attempts);
++-				if (!test_attempts--)
++-					break;
++ 			}
++ 
++ 			switch (test_ret_err) {
++diff --git a/test/tinytest.h b/test/tinytest.h
++index d321dd467542..c276b5339331 100644
++--- a/test/tinytest.h
+++++ b/test/tinytest.h
++@@ -92,7 +92,7 @@ char *tinytest_format_hex_(const void *, unsigned long);
++ 	tinytest_set_flag_(groups, named, 1, TT_SKIP)
++ 
++ /** Run a single testcase in a single group. */
++-int testcase_run_one(const struct testgroup_t *,const struct testcase_t *);
+++int testcase_run_one(const struct testgroup_t *,const struct testcase_t *, const int test_attempts);
++ 
++ void tinytest_set_aliases(const struct testlist_alias_t *aliases);
++ 
++-- 
++2.31.1
++
+diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipes-support/libevent/libevent/run-ptest
+index d3b5e793c3c5..ef4260d1c413 100644
+--- a/meta/recipes-support/libevent/libevent/run-ptest
++++ b/meta/recipes-support/libevent/libevent/run-ptest
+@@ -1,14 +1,14 @@
+ #!/bin/sh
  
- EXTRA_OECMAKE = " \
+ # run-ptest - 'ptest' test infrastructure shell script that
+-#   wraps the libevent test scripts 
++#   wraps the libevent test scripts
+ #
+ # Trevor Gamblin <trevor.gamblin@windriver.com>
+ ###############################################################
+ LIBEVENTLIB=@libdir@/libevent
+ LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
+ 
+-cd ${LIBEVENTLIB}/ptest 
++cd ${LIBEVENTLIB}/ptest
+ 
+ # Run only the libevent "regress" test. All other test scripts in the
+ # libevent "test" folder are related to performance, e.g. read/write
+@@ -16,9 +16,9 @@ cd ${LIBEVENTLIB}/ptest
+ # in the ptest log.
+ ./test/regress 2>&1| sed -e '/TESTS/d' -e '/tests/d' -e '/OK/ s/^/PASS: / ; /FAILED/ s/^/FAIL: / ; /SKIPPED/ s/^/SKIP: / ; /DISABLED/ s/^/SKIP: /' | cut -f1,2 -d ':' | tee -a ${LOG}
+ 
+-passed=`grep PASS ${LOG}|wc -l`
+-failed=`grep FAIL ${LOG}|wc -l`
+-skipped=`grep -E SKIP ${LOG}|wc -l`
++passed=`grep PASS: ${LOG}|wc -l`
++failed=`grep FAIL: ${LOG}|wc -l`
++skipped=`grep -E SKIP: ${LOG}|wc -l`
+ all=$((passed + failed + skipped))
+ 
+ (   echo "=== Test Summary ==="
+diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
+index 4b419eab226d..65770cb0d691 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.12.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+@@ -16,6 +16,8 @@ SRC_URI = "https://github.com/libevent/libevent/releases/download/release-${PV}-
+            file://run-ptest \
+            file://0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch \
+            file://0002-test-regress.h-Increase-default-timeval-tolerance-50.patch \
++           file://0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch \
++	   file://0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
+@@ -56,7 +58,7 @@ do_install_ptest() {
+ 	do
+ 		install -m 0755 $file ${D}${PTEST_PATH}/test
+ 	done
+-        
++
+         # handle multilib
+         sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+ }
 -- 
 2.31.1
 
