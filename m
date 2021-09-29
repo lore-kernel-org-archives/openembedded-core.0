@@ -2,55 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09550C433F5
-	for <webhook@archiver.kernel.org>; Wed, 29 Sep 2021 21:14:13 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web09.3653.1632950051812698383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E7BCC433F5
+	for <webhook@archiver.kernel.org>; Wed, 29 Sep 2021 22:29:16 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web12.4577.1632954554517207449
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Sep 2021 14:14:12 -0700
+ Wed, 29 Sep 2021 15:29:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fccl7fap;
- spf=pass (domain: gmail.com, ip: 209.85.167.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OyJHYW1k;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id g41so16252659lfv.1
+Received: by mail-ed1-f50.google.com with SMTP id g7so14229525edv.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Sep 2021 14:14:11 -0700 (PDT)
+ Wed, 29 Sep 2021 15:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rA2LIex5aqfNC+afAQ7XCqN8YRVCO2UCZRl1OjKvKbk=;
-        b=fccl7fapBiChUxBvri9SMk1Ijg1g+GHizAErATj2IiqxAN53ZCTyBSYQgujutSNKYX
-         FSGGFPZ8M3shfPvGh4TsYu4vWLtG0ghMe9l/nrmF7RW4Gg8FbghwkK36JvtXumZv+lMV
-         bAgvzN05URSDI0qizktW8WVj1lihukgwwvjggg1lMM7MI8lduVy+sh+7il+PMkLCsm1q
-         WGO01S1ssZ2rY0QF3qfFwdBSLxk30hg6h61ZvzDbVvMc7SchThtliimVH0vtp6YVCxgm
-         HHezXeOGx5yPRzSl+XsGIe5fOSPOnmz7s/x5crlpal37wm6uPoZTI/RocZKGQaLnlugz
-         ODvw==
+        bh=Icy/7aOx257IzNlCbhSjEXgLiujYZV8UOERkFfR1h78=;
+        b=OyJHYW1kEOzpXL3TJGjtELBp9cFIDNfqPPFej+MpoIkM2X91lgx8DXndcR1ggYnavT
+         HPu/zSje7B18RzhatLZ8n1RPLl+9JqMx3wI2IHDl4lXw/DMMwBToOZJwNJ2bc/l2Ps+L
+         ePsyXWNkbzjSaMHsbqTps93gDYakBECe5uII6oo3ws2vGj0cYWmzVxwOeth6Hu2aBUpn
+         VvSfBccw8Kz7svQbMMv4cGVEpp2HZeadXOkQ5gpo8v1FW+OpTDfFuqZ234h7zt4W77ZJ
+         fBhaFNHmfNFxeCbryQRRnmufvwEWHaaVsQFuc0/UZ+Mkdp+rcRZQTHzu42ExJMCkRhOS
+         HTyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rA2LIex5aqfNC+afAQ7XCqN8YRVCO2UCZRl1OjKvKbk=;
-        b=JP69+RkcKaxPSpyQ1gKLS/xz3tQqwqifQAsmRHGF2lg5DT7tQ9z2CYvHKJLvjhCiS+
-         bxzBgNnuv3URVrqfoiL640bB+m2X1IZfxFN3Q+Dda7O0dwSWGRmHS8VcH2UCkOFZf66N
-         5UuWPtrjqvbOflcRq3syFnruDDpLdL6Tu8TLa+thh+11WejcD9r4VD+Ht4IQWtKzdvJu
-         G7pubAvfpxIJ5mTB2do9RqQ0ss5QEK/smJ9uvkZXamSg1lLt5yvX9pxXLqiY6UdemCET
-         j89mg9O9Eoy5qc7M3wR5ctk8jrX4jMlJiTgeszIPNEQyqQnxhUf6ECLzqhEXDbHOOhIj
-         pkVQ==
-X-Gm-Message-State: AOAM533EebJiTC73omZ6FBy/p0XwDKLsFWDfPEim/ms3gDm9pvrE0B8S
-	4R1I4RS77xWr2AiuYbZAVgTeypAdBDGnHkCFCC0=
+        bh=Icy/7aOx257IzNlCbhSjEXgLiujYZV8UOERkFfR1h78=;
+        b=AhZ8muFhOGKPuMLmyhQ7oD/1MnCJ7lWz/q8o01k0e6/AHL/5nx6pnZkfqmNPf2YTIk
+         3P6ephr8UXTcIwZgBIyAap/XE9QFnGO4Sbllt2P4yLI77d5umogHgphNuyEn4NqrN5ol
+         PjnVy8n60XaJAgTEScMeIJf9QWjmrMitnRQrr6gzM3ullY+fbu3b1WQHIaYc+grTjIf/
+         9+DwzfgVDu/GCaDyaUVqdw/Gl9O1sNbHvnqEkdQkoJua7hzGXuZEg3omVP7rGEU7aPax
+         WgGpjNJa4eYGoPaG/epwP4Hca3xPkUIR/LmRt/Kt+BjwCoEmHLBIlkuSFWiKYupaMb1T
+         YnLw==
+X-Gm-Message-State: AOAM532TijfjFmYaZ8c6YlkLxvW5phIWbn2sauSa9fB/84s+x1Or6GxI
+	oQbWV/6Z17geqiKfFyFKC13o/LJrl7POPZ4EfwY=
 X-Google-Smtp-Source: 
- ABdhPJyISFEGhg6TkMlUONp19tLmEePKN7oEEAbX67A4rl1/GnzYam1riWUxw2D33xXnbuu0iqjBNta2ya3Xq2sUPOA=
-X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr1856294lfq.160.1632950049693;
- Wed, 29 Sep 2021 14:14:09 -0700 (PDT)
+ ABdhPJwwGdlBdGgbume2p2BuUKKhnbEFhMqClljcs5zsLPjZmmd6hL3gLLDaYwJqz/71if2g4wwU0pqi64YVi+Jwzlk=
+X-Received: by 2002:a17:906:314e:: with SMTP id
+ e14mr2737748eje.165.1632954552846;
+ Wed, 29 Sep 2021 15:29:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210929205711.193186-1-raj.khem@gmail.com>
 In-Reply-To: <20210929205711.193186-1-raj.khem@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 29 Sep 2021 17:13:58 -0400
+Date: Wed, 29 Sep 2021 18:29:01 -0400
 Message-ID: 
- <CADkTA4MzNm6q-azbR6G5Jdwk4tG2s=VgOs4mevTbaZJxzY7P-Q@mail.gmail.com>
+ <CADkTA4OThEQPEMUMq-nzmpZ57gYSHERhWS9PYnv37Ua_sU-5-w@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] strace_5.13 -> strace 5.14
 To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
@@ -60,9 +61,9 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Sep 2021 21:14:13 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Sep 2021 22:29:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156476
+ https://lists.openembedded.org/g/openembedded-core/message/156477
 
 On Wed, Sep 29, 2021 at 4:57 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
@@ -91,18 +92,18 @@ On Wed, Sep 29, 2021 at 4:57 PM Khem Raj <raj.khem@gmail.com> wrote:
 >   * Updated lists of BPF_*, IORING_*, MADV_*, MOUNT_ATTR_*, SCTP_*,
 >     and UFFD_* constants.
 >   * Updated lists of ioctl commands from Linux 5.14.
+>
 
-Interesting that none of our oe-core build coverage picked this up.
+I am curious for a bit more information about the configuration that
+was used for the broken build, since I was able to build the existing
+strace with 5.14 libc-headers and the 5.14 kernel on two different
+machines.
 
-I'll send out a patch that adds the packagegroup containing strace to
-core-image-kernel-dev, so it won't be missed on future libc-header
-updates.
-
-Cheers,
+The bump is fine, but I'd just like to understand what configuration
+triggered it, so we can catch it next time.
 
 Bruce
 
->
 > Persian Prince <persianpros@yahoo.com>
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
@@ -140,7 +141,7 @@ Bruce
 >
 
 
---
+-- 
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
