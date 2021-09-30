@@ -2,254 +2,253 @@ Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40FA3C433FE
-	for <webhook@archiver.kernel.org>; Thu, 30 Sep 2021 14:04:32 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web08.12790.1633010671127633172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4E2C433EF
+	for <webhook@archiver.kernel.org>; Thu, 30 Sep 2021 14:08:14 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web08.12831.1633010892202426842
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Sep 2021 07:04:31 -0700
+ Thu, 30 Sep 2021 07:08:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: thomas.perrot@bootlin.com)
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: thomas.perrot@bootlin.com)
 Received: (Authenticated sender: thomas.perrot@bootlin.com)
-	by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id DCADDE0008;
-	Thu, 30 Sep 2021 14:04:27 +0000 (UTC)
+	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id A786824000C;
+	Thu, 30 Sep 2021 14:08:09 +0000 (UTC)
 From: Thomas Perrot <thomas.perrot@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alexandre.belloni@bootlin.com,
+	mingli.yu@windriver.com,
 	Thomas Perrot <thomas.perrot@bootlin.com>
-Subject: [OE-core][PATCH] ruby: fix the reproducibility issue
-Date: Thu, 30 Sep 2021 16:04:24 +0200
-Message-Id: <20210930140424.438761-1-thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH v4] libevent: mark util/monotonic_prc_fallback as
+ retriable
+Date: Thu, 30 Sep 2021 16:08:01 +0200
+Message-Id: <20210930140801.557763-1-thomas.perrot@bootlin.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Sep 2021 14:04:32 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Sep 2021 14:08:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156493
+ https://lists.openembedded.org/g/openembedded-core/message/156494
 
-Apply some changes on the Ruby makefiles in order to fix the reproducibility:
-- use a fixed timestamp,
-- sort linked objects,
-- doesn't use the current date,
-- and use UTC date.
+Backport a patch to fix the below ptest failure:
+ # ./run-ptest
+ Running tests:
+ EVPORT
+ Skipping test
+ KQUEUE
+ Skipping test
+ EPOLL
+ test-eof: OKAY
+ test-dumpevents: OKAY (output not checked)
+ regress:
+  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
+  [monotonic_prc_fallback FAILED]
+ 1/312 TESTS FAILED. (33 skipped)
+ FAILED
+ regress_debug:
+  FAIL ../libevent-2.1.12-stable/test/regress_util.c:1478: assert(diff.tv_sec == 0): 1 vs 0 util/monotonic_prc_fallback:
+  [monotonic_prc_fallback FAILED]
+ 1/312 TESTS FAILED. (33 skipped)
+ FAILED
+ [snip]
 
-[YOCTO #14268]
+(From OE-Core rev: edecbbdacab5227c75e4a199e124389f8036b421)
 
+[YOCTO #14507]
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 ---
- ...doc-build-reproducible-documentation.patch | 35 ++++++++++
- ...-list-of-object-files-in-generated-M.patch | 28 ++++++++
- ...eproducible-change-fixing-784225-too.patch | 28 ++++++++
- .../0006-Make-gemspecs-reproducible.patch     | 67 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.0.2.bb      |  4 ++
- 5 files changed, 162 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+ ...-monotonic_prc_fallback-as-retriable.patch | 28 +++++++
+ ...ts-are-marked-failed-only-when-all-a.patch | 81 +++++++++++++++++++
+ .../libevent/libevent/run-ptest               | 10 +--
+ .../libevent/libevent_2.1.12.bb               |  4 +-
+ 4 files changed, 117 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+ create mode 100644 meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
 new file mode 100644
-index 000000000000..f92f0e1ba683
+index 000000000000..ea322511d7e9
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-@@ -0,0 +1,35 @@
-+From: Christian Hofstaedtler <zeha@debian.org>
-+Date: Tue, 10 Oct 2017 15:04:34 -0300
-+Subject: rdoc: build reproducible documentation
-+
-+- provide a fixed timestamp to the gzip compression
-+
-+Upstream-Status: Backport [debian]
-+
-+Signed-off-by: Antonio Terceiro <terceiro@debian.org>
-+Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
-+---
-+ lib/rdoc/generator/json_index.rb | 4 ++--
-+ lib/rdoc/rdoc.rb                 | 2 +-
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+--- a/lib/rdoc/generator/json_index.rb
-++++ b/lib/rdoc/generator/json_index.rb
-+@@ -178,7 +178,7 @@
-+     debug_msg "Writing gzipped search index to %s" % outfile
-+
-+     Zlib::GzipWriter.open(outfile) do |gz|
-+-      gz.mtime = File.mtime(search_index_file)
-++      gz.mtime = -1
-+       gz.orig_name = search_index_file.basename.to_s
-+       gz.write search_index
-+       gz.close
-+@@ -196,7 +196,7 @@
-+         debug_msg "Writing gzipped file to %s" % outfile
-+
-+         Zlib::GzipWriter.open(outfile) do |gz|
-+-          gz.mtime = File.mtime(dest)
-++          gz.mtime = -1
-+           gz.orig_name = dest.basename.to_s
-+           gz.write data
-+           gz.close
-diff --git a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-new file mode 100644
-index 000000000000..e0aca0dcfc10
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
++++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
 @@ -0,0 +1,28 @@
-+From: Reiner Herrmann <reiner@reiner-h.de>
-+Date: Tue, 10 Oct 2017 15:06:13 -0300
-+Subject: lib/mkmf.rb: sort list of object files in generated Makefile
++From 5a9a5faf27d85c89b40fb610cd23a4b62a7dbf0e Mon Sep 17 00:00:00 2001
++From: Azat Khuzhin <azat@libevent.org>
++Date: Sun, 19 Sep 2021 00:57:31 +0300
++Subject: [PATCH] test: mark util/monotonic_prc_fallback as retriable
 +
-+Without sorting the list explicitly, its order is indeterministic,
-+because readdir() is also not deterministic.
-+When the list of object files varies between builds, they are linked
-+in a different order, which results in an unreproducible build.
++Refs: #1193
 +
-+Upstream-Status: Backport [debian]
-+
-+Signed-off-by: Antonio Terceiro <terceiro@debian.org>
-+Signed-off-by: Reiner Herrmann <reiner@reiner-h.de>
++Upstream-status: Backported [https://github.com/libevent/libevent/commit/04fcd7c6df158bb65261867de4b9ec8439696934]
 +---
-+ lib/mkmf.rb | 2 +-
++ test/regress_util.c | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+--- a/lib/mkmf.rb
-++++ b/lib/mkmf.rb
-+@@ -2315,7 +2315,7 @@
-+ LIBS = #{$LIBRUBYARG} #{$libs} #{$LIBS}
-+ ORIG_SRCS = #{orig_srcs.collect(&File.method(:basename)).join(' ')}
-+ SRCS = $(ORIG_SRCS) #{(srcs - orig_srcs).collect(&File.method(:basename)).join(' ')}
-+-OBJS = #{$objs.join(" ")}
-++OBJS = #{$objs.sort.join(" ")}
-+ HDRS = #{hdrs.map{|h| '$(srcdir)/' + File.basename(h)}.join(' ')}
-+ LOCAL_HDRS = #{$headers.join(' ')}
-+ TARGET = #{target}
-diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
++diff --git a/test/regress_util.c b/test/regress_util.c
++index 45caa2700a40..a9e80db20149 100644
++--- a/test/regress_util.c
+++++ b/test/regress_util.c
++@@ -1672,7 +1672,7 @@ struct testcase_t util_testcases[] = {
++ 	{ "monotonic_res_fallback", test_evutil_monotonic_res, TT_OFF_BY_DEFAULT, &basic_setup, (void*)"fallback" },
++ 	{ "monotonic_prc", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"" },
++ 	{ "monotonic_prc_precise", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"precise" },
++-	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, 0, &basic_setup, (void*)"fallback" },
+++	{ "monotonic_prc_fallback", test_evutil_monotonic_prc, TT_RETRIABLE, &basic_setup, (void*)"fallback" },
++ 	{ "date_rfc1123", test_evutil_date_rfc1123, 0, NULL, NULL },
++ 	{ "evutil_v4addr_is_local", test_evutil_v4addr_is_local, 0, NULL, NULL },
++ 	{ "evutil_v6addr_is_local", test_evutil_v6addr_is_local, 0, NULL, NULL },
++-- 
++2.31.1
++
+diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
 new file mode 100644
-index 000000000000..b7faa58655b2
+index 000000000000..ae7db0b7aa85
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-@@ -0,0 +1,28 @@
-+From: Christian Hofstaedtler <zeha@debian.org>
-+Date: Tue, 10 Oct 2017 15:07:11 -0300
-+Subject: Mark Gemspec-reproducible change fixing #784225, too
++++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+@@ -0,0 +1,81 @@
++From 36ebd92fa53c0097f1e2f9ec5aa5b5c6ec1b411d Mon Sep 17 00:00:00 2001
++From: Thomas Perrot <thomas.perrot@bootlin.com>
++Date: Wed, 29 Sep 2021 13:50:35 +0200
++Subject: [PATCH] test: retriable tests are marked failed only when all
++ attempts have failed
 +
-+I think the UTC date change will fix the Multi-Arch not-same file issue,
-+too.
++Fixes: #1193
 +
-+Upstream-Status: Backport [debian]
++Upstream-status: Pending
 +
-+Signed-off-by: Antonio Terceiro <terceiro@debian.org>
-+Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
++Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 +---
-+ lib/rubygems/specification.rb | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ test/tinytest.c | 13 ++++++-------
++ test/tinytest.h |  2 +-
++ 2 files changed, 7 insertions(+), 8 deletions(-)
 +
-+--- a/lib/rubygems/specification.rb
-++++ b/lib/rubygems/specification.rb
-+@@ -1695,7 +1695,9 @@
-+                 raise(Gem::InvalidSpecificationException,
-+                       "invalid date format in specification: #{date.inspect}")
-+               end
-+-            when Time, DateLike then
-++            when Time then
-++              Time.utc(date.utc.year, date.utc.month, date.utc.day)
-++            when DateLike then
-+               Time.utc(date.year, date.month, date.day)
-+             else
-+               TODAY
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-new file mode 100644
-index 000000000000..504893b4b4ff
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -0,0 +1,67 @@
-+From: Lucas Kanashiro <kanashiro@debian.org>
-+Date: Fri, 1 Nov 2019 15:25:17 -0300
-+Subject: Make gemspecs reproducible
++diff --git a/test/tinytest.c b/test/tinytest.c
++index 85dfe74a720e..bf2882418eb6 100644
++--- a/test/tinytest.c
+++++ b/test/tinytest.c
++@@ -310,7 +310,8 @@ testcase_run_forked_(const struct testgroup_t *group,
++ 
++ int
++ testcase_run_one(const struct testgroup_t *group,
++-		 const struct testcase_t *testcase)
+++		 const struct testcase_t *testcase,
+++		 const int test_attempts)
++ {
++ 	enum outcome outcome;
++ 
++@@ -348,7 +349,7 @@ testcase_run_one(const struct testgroup_t *group,
++ 		if (opt_verbosity>0 && !opt_forked)
++ 			puts("SKIPPED");
++ 	} else {
++-		if (!opt_forked)
+++		if (!opt_forked && (testcase->flags & TT_RETRIABLE) && !test_attempts)
++ 			printf("\n  [%s FAILED]\n", testcase->name);
++ 	}
++ 
++@@ -525,22 +526,20 @@ tinytest_main(int c, const char **v, struct testgroup_t *groups)
++ 		struct testgroup_t *group = &groups[i];
++ 		for (j = 0; group->cases[j].name; ++j) {
++ 			struct testcase_t *testcase = &group->cases[j];
++-			int test_attempts = 3;
+++			int test_attempts = (testcase->flags & TT_RETRIABLE) ? 3: 1;
++ 			int test_ret_err;
++ 
++ 			if (!(testcase->flags & TT_ENABLED_))
++ 				continue;
++ 
++ 			for (;;) {
++-				test_ret_err = testcase_run_one(group, testcase);
+++				test_ret_err = testcase_run_one(group, testcase, test_attempts);
++ 
++ 				if (test_ret_err == OK)
++ 					break;
++-				if (!(testcase->flags & TT_RETRIABLE))
+++				if (!--test_attempts)
++ 					break;
++ 				printf("\n  [RETRYING %s (%i)]\n", testcase->name, test_attempts);
++-				if (!test_attempts--)
++-					break;
++ 			}
++ 
++ 			switch (test_ret_err) {
++diff --git a/test/tinytest.h b/test/tinytest.h
++index d321dd467542..c276b5339331 100644
++--- a/test/tinytest.h
+++++ b/test/tinytest.h
++@@ -92,7 +92,7 @@ char *tinytest_format_hex_(const void *, unsigned long);
++ 	tinytest_set_flag_(groups, named, 1, TT_SKIP)
++ 
++ /** Run a single testcase in a single group. */
++-int testcase_run_one(const struct testgroup_t *,const struct testcase_t *);
+++int testcase_run_one(const struct testgroup_t *,const struct testcase_t *, const int test_attempts);
++ 
++ void tinytest_set_aliases(const struct testlist_alias_t *aliases);
++ 
++-- 
++2.31.1
 +
-+Without an explicit date, they will get the current date and make the
-+build unreproducible
-+
-+Upstream-Status: Backport [debian]
-+
-+---
-+ ext/bigdecimal/bigdecimal.gemspec | 1 +
-+ ext/fiddle/fiddle.gemspec         | 1 +
-+ ext/io/console/io-console.gemspec | 2 +-
-+ lib/ipaddr.gemspec                | 1 +
-+ lib/rdoc/rdoc.gemspec             | 1 +
-+ 5 files changed, 5 insertions(+), 1 deletion(-)
-+
-+--- a/ext/bigdecimal/bigdecimal.gemspec
-++++ b/ext/bigdecimal/bigdecimal.gemspec
-+@@ -6,6 +6,7 @@
-+   s.name          = "bigdecimal"
-+   s.version       = bigdecimal_version
-+   s.authors       = ["Kenta Murata", "Zachary Scott", "Shigeo Kobayashi"]
-++  s.date          = RUBY_RELEASE_DATE
-+   s.email         = ["mrkn@mrkn.jp"]
-+
-+   s.summary       = "Arbitrary-precision decimal floating-point number library."
-+--- a/ext/fiddle/fiddle.gemspec
-++++ b/ext/fiddle/fiddle.gemspec
-+@@ -8,6 +8,7 @@
-+ Gem::Specification.new do |spec|
-+   spec.name          = "fiddle"
-+   spec.version       = version_module::Fiddle::VERSION
-++  spec.date          = RUBY_RELEASE_DATE
-+   spec.authors       = ["Aaron Patterson", "SHIBATA Hiroshi"]
-+   spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
-+
-+--- a/ext/io/console/io-console.gemspec
-++++ b/ext/io/console/io-console.gemspec
-+@@ -4,6 +4,7 @@
-+ Gem::Specification.new do |s|
-+   s.name = "io-console"
-+   s.version = _VERSION
-++  s.date = RUBY_RELEASE_DATE
-+   s.summary = "Console interface"
-+   s.email = "nobu@ruby-lang.org"
-+   s.description = "add console capabilities to IO instances."
-+--- a/lib/ipaddr.gemspec
-++++ b/lib/ipaddr.gemspec
-+@@ -6,6 +6,7 @@
-+ Gem::Specification.new do |spec|
-+   spec.name          = "ipaddr"
-+   spec.version       = "1.2.2"
-++  spec.date          = RUBY_RELEASE_DATE
-+   spec.authors       = ["Akinori MUSHA", "Hajimu UMEMOTO"]
-+   spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
-+
-+--- a/lib/rdoc/rdoc.gemspec
-++++ b/lib/rdoc/rdoc.gemspec
-+@@ -7,6 +7,7 @@
-+
-+ Gem::Specification.new do |s|
-+   s.name = "rdoc"
-++  s.date = RUBY_RELEASE_DATE
-+   s.version = RDoc::VERSION
-+
-+   s.authors = [
-diff --git a/meta/recipes-devtools/ruby/ruby_3.0.2.bb b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-index 38e594a59ef3..2abf504d91bc 100644
---- a/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-@@ -7,6 +7,10 @@ SRC_URI += " \
+diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipes-support/libevent/libevent/run-ptest
+index d3b5e793c3c5..ef4260d1c413 100644
+--- a/meta/recipes-support/libevent/libevent/run-ptest
++++ b/meta/recipes-support/libevent/libevent/run-ptest
+@@ -1,14 +1,14 @@
+ #!/bin/sh
+ 
+ # run-ptest - 'ptest' test infrastructure shell script that
+-#   wraps the libevent test scripts 
++#   wraps the libevent test scripts
+ #
+ # Trevor Gamblin <trevor.gamblin@windriver.com>
+ ###############################################################
+ LIBEVENTLIB=@libdir@/libevent
+ LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
+ 
+-cd ${LIBEVENTLIB}/ptest 
++cd ${LIBEVENTLIB}/ptest
+ 
+ # Run only the libevent "regress" test. All other test scripts in the
+ # libevent "test" folder are related to performance, e.g. read/write
+@@ -16,9 +16,9 @@ cd ${LIBEVENTLIB}/ptest
+ # in the ptest log.
+ ./test/regress 2>&1| sed -e '/TESTS/d' -e '/tests/d' -e '/OK/ s/^/PASS: / ; /FAILED/ s/^/FAIL: / ; /SKIPPED/ s/^/SKIP: / ; /DISABLED/ s/^/SKIP: /' | cut -f1,2 -d ':' | tee -a ${LOG}
+ 
+-passed=`grep PASS ${LOG}|wc -l`
+-failed=`grep FAIL ${LOG}|wc -l`
+-skipped=`grep -E SKIP ${LOG}|wc -l`
++passed=`grep PASS: ${LOG}|wc -l`
++failed=`grep FAIL: ${LOG}|wc -l`
++skipped=`grep -E SKIP: ${LOG}|wc -l`
+ all=$((passed + failed + skipped))
+ 
+ (   echo "=== Test Summary ==="
+diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
+index 4b419eab226d..e26e8a9b5725 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.12.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+@@ -16,6 +16,8 @@ SRC_URI = "https://github.com/libevent/libevent/releases/download/release-${PV}-
             file://run-ptest \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-            file://0002-template-Makefile.in-filter-out-f-prefix-map.patch \
-+           file://0003-rdoc-build-reproducible-documentation.patch \
-+           file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch \
-+           file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-+           file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch \
+            file://0002-test-regress.h-Increase-default-timeval-tolerance-50.patch \
++           file://0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch \
++           file://0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch \
             "
  
- SRC_URI[sha256sum] = "5085dee0ad9f06996a8acec7ebea4a8735e6fac22f22e2d98c3f2bc3bef7e6f1"
+ SRC_URI[sha256sum] = "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
+@@ -56,7 +58,7 @@ do_install_ptest() {
+ 	do
+ 		install -m 0755 $file ${D}${PTEST_PATH}/test
+ 	done
+-        
++
+         # handle multilib
+         sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+ }
 -- 
 2.31.1
 
