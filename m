@@ -1,82 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <ccc03e4c8ed10bb855908a2595e0185412a3fb52.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH 14/14] layer.conf: Extend recipes not to install without explict dependencies
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Mon, 18 Oct 2021 15:29:34 +0100
-In-Reply-To: <CA+chaQctdc_sUpmvs-vN0RatkOx=JoMnVZCqY+WjxGfXOYX0fQ@mail.gmail.com>
-References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
-	 <16A68880435BB472.28512@lists.openembedded.org>
-	 <e22062ab2915a57b1bff1217c911a97c3c647e30.camel@linuxfoundation.org>
-	 <0700251c-57a1-cc4c-dd94-a253032a02d1@gmail.com>
-	 <CAMKF1spNqjAHRh=0F2ohMCCoSdwDOTWAFRMz2RCVU9+rBiiO_g@mail.gmail.com>
-	 <CA+chaQfO61hdhNtHO-hTu_4QZbnwmHUTMAJ6XaHrDCdhww2EVg@mail.gmail.com>
-	 <CALbNGRR+VLOvuTFaZFFcp1eSR_gKw6z1EMeH1c28QjqV_YUP3w@mail.gmail.com>
-	 <CA+chaQctdc_sUpmvs-vN0RatkOx=JoMnVZCqY+WjxGfXOYX0fQ@mail.gmail.com>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+Subject: RFC [v3]: Make kernel upgrades via dnf work like on Red Hat
+Date: Thu, 30 Sep 2021 16:14:42 +0200
+Message-Id: <20210930141444.698139-1-zboszor@pr.hu>
+In-Reply-To: <16A93426652F9306.27626@lists.openembedded.org>
+References: <16A93426652F9306.27626@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Joshua Watt <JPEWhacker@gmail.com>, Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
 
-On Mon, 2021-10-18 at 16:12 +0200, Martin Jansa wrote:
-> On Mon, Oct 18, 2021 at 1:50 AM Andreas Müller <schnitzeltony@gmail.com>
-> wrote:
-> > On Fri, Oct 1, 2021 at 4:17 PM Martin Jansa <Martin.Jansa@gmail.com> wrote:
-> > > 
-> > > FWIW: I've fixed some bigger layers where pkgconfig was causing quite a
-> > > few
-> > build failures,
-> > > 
-> > Had an off-oe time due to  heavy work load.
-> > Think this one is the reason for the pkgconfig patch flood. You are
-> > aware that there are packages not failing at build time for missing
-> > pkgconfig but build output is different and bugs will pop up at
-> > runtime.
-> > 
-> > To avoid responsible maintainers have to go through EVERY recipe (and
-> > combination of PACKAGECONFIGs) and check if builds are still as
-> > expected - Can't believe it!
-> > 
-> 
-> 
-> Not sure why this seems targeted to me.
-> 
-> Yes I've tried to fix whatever issues this change caused in my world builds
-> and I'm partially responsible for pkgconfig patch flood, because I wanted
-> layers like meta-ros/*, meta-qt5, meta-qt6, meta-webosose/* to stay compatible
-> with oe-core whenever this change from RP is merged to master.
-> 
-> I've also tried to compare buildhistory and image content (for ros-image-world
-> with ros1-melodic) to see if I can spot more cases of non-fatal build output
-> changes as in collada-dom and unfortunately there is a lot of noise in
-> buildhistory (due to many recipes included in this image not really build-
-> reproducible), so I've used mostly installed-package-sizes.txt file to spot 2
-> more recipes where the size was different (but both don't seem to be caused by
-> pkgconfig-native in the end).
-> 
-> I did both builds from scratch without sstate, so I would assume that it will
-> catch all possible cases, but surprisingly just yesterday I've caught another
-> missing pkgconfig-native in one of meta-ros1-melodic recipes (caught in
-> kirkstone based build - while before I was testing on top of a bit older
-> honister with this change cherry-picked just for test - to prepare recipes to
-> be future-proof for kirkstone).
+I have observed two issues when upgrading kernel versions
+successively.
 
-I take responsibility for merging the pkgconfig-native change in behaviour. I
-did wait until after honister and only merged to master.
+One is that when installonly_limit is reached in dnf, only the
+main kernel package was removed. Patch 1 fixes this by adding
+extra RDEPENDS to the kernel subpackages on the main kernel package.
+This circular dependency helps package managers to remove all subpackages.
+Only rpm packages was build tested, the dependencies are in place for
+both 0 and 1 for KERNEL_SPLIT_MODULES. dnf upgrade is doing the
+right thing now with removing all subpackages of the oldest
+kernel version.
 
-It does highlight a real world problem with recipe dependencies since if some of
-these recipes are only indirectly depending upon it, changes in those other
-recipes could silently break the recipe in a similar way to the gperf breakage
-we just saw (which thankfully shows an error). I therefore do think this is
-worth fixing.
+dnf.conf settings "installonlypkgs", "installonly_limit" and
+others are documented at https://dnf.readthedocs.io/en/latest/conf_ref.html
 
-Cheers,
+The second issue is that when the oldest kernel version is
+removed by dnf, the /boot/bzImage symlink is also gone.
+It seems that with dnf, postrm of the old version is run later
+than postinst of the new one.
 
-Richard
+Fix this by using update-alternatives instead of hardcoded ln -s
+and rm -f. This is configurable via a new variable.
 
+This is still an RFC.
 
+1) The first fix is applied in both cases of KERNEL_SPLIT_MODULES=0 and 1.
+   It's applied unconditionally.
+
+2) The new knob name for patch #2 is KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES.
+   It is admittedly too chatty, it can be renamed if someone suggests
+   a better name.
+
+2) There's an extra issue I found while implementing the second patch:
+   even with moving generating the alternative priority value to
+   a python function and using a non-expanded substitution, it's
+   still expanded during early parsing. The result is thrown away
+   so it doesn't cause basehash issues, but still, the function
+   needs to protect itself against KERNEL_VERSION being unset.
+
+Please comment.
+
+Best regards,
+Zoltán Böszörményi
 
 
