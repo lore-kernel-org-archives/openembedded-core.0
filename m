@@ -1,354 +1,306 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56412C433F5
-	for <webhook@archiver.kernel.org>; Thu, 30 Sep 2021 14:33:16 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web08.13203.1633012394330996167
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C591C433F5
+	for <webhook@archiver.kernel.org>; Thu, 30 Sep 2021 15:23:36 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web08.13996.1633015408693931293
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Sep 2021 07:33:15 -0700
+ Thu, 30 Sep 2021 08:23:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 3041E240010;
-	Thu, 30 Sep 2021 14:33:12 +0000 (UTC)
-Date: Thu, 30 Sep 2021 16:33:11 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Thomas Perrot <thomas.perrot@bootlin.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] ruby: fix the reproducibility issue
-Message-ID: <YVXKp5q1x+rmHxpz@piout.net>
-References: <20210930140424.438761-1-thomas.perrot@bootlin.com>
- <CANNYZj8ho6hhP4W2oFoQpP5rsqroG9Cww27JABKYcfJKiZck5g@mail.gmail.com>
- <YVXJbXdrjaCdsdGi@piout.net>
- <CANNYZj9c7aUzMZsUqn=WiVH9y3et=9Ef-SPXtzW87++Tz2MjCw@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WqjqFgq3;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id a9so3839986qvf.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 30 Sep 2021 08:23:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MOcRp3N3CEr1+DTDIzJOr/XmGsU8NNzKBxGj/FG/Nk4=;
+        b=WqjqFgq3lRO7TXs9LsNutj3hb+EG02Eb9iTby0NS8aghwJJDU/q0MouIN8Q3Z045wx
+         Tjx1iU/a4g1vhJ9VNhF2RmV4zcHqwvIMBEPRZ94nsqJRLOhrE9T4MKe4S6EzlwsEqOdf
+         61dyUtCEWMeMizODY8w9/YWB6RdvcwK66SB8cUVc0l8VIz+UNlmQa8lS2TTQC9v17fNO
+         nT1shSeK2oXSJmsqlySgL4ilrG10kHp3ZxyrWNj62WsIY8SvqOgPqq/v9x0VVcOHyOqI
+         sa1bT3YmqvrTZUyyLWrKGSOqNePgMHvWebszkoVa0pB+8TqfeYGhEdPjFdovb86bnKFN
+         j6bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MOcRp3N3CEr1+DTDIzJOr/XmGsU8NNzKBxGj/FG/Nk4=;
+        b=Mm1KrdZ43Qf+gQ7Uv6cpeRSIN5smFt6PiC13LqaWnUTwGIzhQYJ3DBBv9secGp9aem
+         VVUVfc0gt1SUobPVkApv+eqSHiKZQNZdfGOZ1eA+A64vxz+qtHUrQexnK4W68GFoq0GL
+         NnXzGghm3C/as1YF21R/o0xuAVNp/IeGoe0EwqS1zQJQGv0yhUCvXXL6y4L6vET0a9kc
+         F/JO0Lzvim+JV/3zKtkJDPhSNctpYq8MgioE/7HuQQeWDrbe3wQWNttrUhYsgmeRjWcw
+         NIRZyOC3GqJDVrB3xYYK2G7GNs6jIXLN3jLd8ggtr9ra1MrvBlff/d/cjw+6xYHECLbr
+         Zsgg==
+X-Gm-Message-State: AOAM532116AjqaxOdQlMCkWKkVs4XI6zbmttNDmxVU+d7whoSNDyciKg
+	MHHy5OuY6Yb8HUly4q5c9Ht8oDGOrTsiQaiSjVY=
+X-Google-Smtp-Source: 
+ ABdhPJy7+wJS4zR2W5uF33h5pIhFUxaCeprb/Xho2ZfV3mzSX/293To93uJEfiU9zm/2TzpNbhwH4pvJBsDRPoxbTW0=
+X-Received: by 2002:a0c:8061:: with SMTP id 88mr4482729qva.5.1633015407845;
+ Thu, 30 Sep 2021 08:23:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CANNYZj9c7aUzMZsUqn=WiVH9y3et=9Ef-SPXtzW87++Tz2MjCw@mail.gmail.com>
+References: <20210929205711.193186-1-raj.khem@gmail.com>
+ <YVVdPktXwMNwIVNu@piout.net>
+In-Reply-To: <YVVdPktXwMNwIVNu@piout.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 30 Sep 2021 08:23:17 -0700
+Message-ID: 
+ <CAMKF1souJT2zctaCY5dubAuQT+zJtYkX0Kfsm3D_O251DnabYA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] strace_5.13 -> strace 5.14
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Persian Prince <persianpros@yahoo.com>,
+ openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000004c23d105cd3807de"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Sep 2021 14:33:16 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Sep 2021 15:23:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156505
+ https://lists.openembedded.org/g/openembedded-core/message/156506
 
-On 30/09/2021 16:28:56+0200, Alexander Kanavin wrote:
-> But if it's not removed from repro exceptions you won't get an error if
-> it's still not reproducible.
-> 
+--0000000000004c23d105cd3807de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure, I'll remove it.
+On Wed, Sep 29, 2021 at 11:46 PM Alexandre Belloni <
+alexandre.belloni@bootlin.com> wrote:
 
-> Alex
-> 
-> On Thu, 30 Sept 2021 at 16:27, Alexandre Belloni <
-> alexandre.belloni@bootlin.com> wrote:
-> 
-> > On 30/09/2021 16:12:30+0200, Alexander Kanavin wrote:
-> > > Does this mean ruby can be dropped from reproducibility exception list?
-> > >
+> Hello,
+>
+> On 29/09/2021 13:57:10-0700, Khem Raj wrote:
+> > From: Persian Prince <persianpros@yahoo.com>
 > >
-> > That is the goal, I'll run that through the autobuilders
+> > Strace 5.13 won't compile with 5.14 headers:
 > >
-> > > Alex
-> > >
-> > > On Thu, 30 Sept 2021 at 16:04, Thomas Perrot <thomas.perrot@bootlin.com>
-> > > wrote:
-> > >
-> > > > Apply some changes on the Ruby makefiles in order to fix the
-> > > > reproducibility:
-> > > > - use a fixed timestamp,
-> > > > - sort linked objects,
-> > > > - doesn't use the current date,
-> > > > - and use UTC date.
-> > > >
-> > > > [YOCTO #14268]
-> > > >
-> > > > Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
-> > > > ---
-> > > >  ...doc-build-reproducible-documentation.patch | 35 ++++++++++
-> > > >  ...-list-of-object-files-in-generated-M.patch | 28 ++++++++
-> > > >  ...eproducible-change-fixing-784225-too.patch | 28 ++++++++
-> > > >  .../0006-Make-gemspecs-reproducible.patch     | 67 +++++++++++++++++++
-> > > >  meta/recipes-devtools/ruby/ruby_3.0.2.bb      |  4 ++
-> > > >  5 files changed, 162 insertions(+)
-> > > >  create mode 100644
-> > > >
-> > meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-> > > >  create mode 100644
-> > > >
-> > meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-> > > >  create mode 100644
-> > > >
-> > meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-> > > >  create mode 100644
-> > > > meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-> > > >
-> > > > diff --git
-> > > >
-> > a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-> > > >
-> > b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-> > > > new file mode 100644
-> > > > index 000000000000..f92f0e1ba683
-> > > > --- /dev/null
-> > > > +++
-> > > >
-> > b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-> > > > @@ -0,0 +1,35 @@
-> > > > +From: Christian Hofstaedtler <zeha@debian.org>
-> > > > +Date: Tue, 10 Oct 2017 15:04:34 -0300
-> > > > +Subject: rdoc: build reproducible documentation
-> > > > +
-> > > > +- provide a fixed timestamp to the gzip compression
-> > > > +
-> > > > +Upstream-Status: Backport [debian]
-> > > > +
-> > > > +Signed-off-by: Antonio Terceiro <terceiro@debian.org>
-> > > > +Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
-> > > > +---
-> > > > + lib/rdoc/generator/json_index.rb | 4 ++--
-> > > > + lib/rdoc/rdoc.rb                 | 2 +-
-> > > > + 2 files changed, 3 insertions(+), 3 deletions(-)
-> > > > +
-> > > > +--- a/lib/rdoc/generator/json_index.rb
-> > > > ++++ b/lib/rdoc/generator/json_index.rb
-> > > > +@@ -178,7 +178,7 @@
-> > > > +     debug_msg "Writing gzipped search index to %s" % outfile
-> > > > +
-> > > > +     Zlib::GzipWriter.open(outfile) do |gz|
-> > > > +-      gz.mtime = File.mtime(search_index_file)
-> > > > ++      gz.mtime = -1
-> > > > +       gz.orig_name = search_index_file.basename.to_s
-> > > > +       gz.write search_index
-> > > > +       gz.close
-> > > > +@@ -196,7 +196,7 @@
-> > > > +         debug_msg "Writing gzipped file to %s" % outfile
-> > > > +
-> > > > +         Zlib::GzipWriter.open(outfile) do |gz|
-> > > > +-          gz.mtime = File.mtime(dest)
-> > > > ++          gz.mtime = -1
-> > > > +           gz.orig_name = dest.basename.to_s
-> > > > +           gz.write data
-> > > > +           gz.close
-> > > > diff --git
-> > > >
-> > a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-> > > >
-> > b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-> > > > new file mode 100644
-> > > > index 000000000000..e0aca0dcfc10
-> > > > --- /dev/null
-> > > > +++
-> > > >
-> > b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-> > > > @@ -0,0 +1,28 @@
-> > > > +From: Reiner Herrmann <reiner@reiner-h.de>
-> > > > +Date: Tue, 10 Oct 2017 15:06:13 -0300
-> > > > +Subject: lib/mkmf.rb: sort list of object files in generated Makefile
-> > > > +
-> > > > +Without sorting the list explicitly, its order is indeterministic,
-> > > > +because readdir() is also not deterministic.
-> > > > +When the list of object files varies between builds, they are linked
-> > > > +in a different order, which results in an unreproducible build.
-> > > > +
-> > > > +Upstream-Status: Backport [debian]
-> > > > +
-> > > > +Signed-off-by: Antonio Terceiro <terceiro@debian.org>
-> > > > +Signed-off-by: Reiner Herrmann <reiner@reiner-h.de>
-> > > > +---
-> > > > + lib/mkmf.rb | 2 +-
-> > > > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > +
-> > > > +--- a/lib/mkmf.rb
-> > > > ++++ b/lib/mkmf.rb
-> > > > +@@ -2315,7 +2315,7 @@
-> > > > + LIBS = #{$LIBRUBYARG} #{$libs} #{$LIBS}
-> > > > + ORIG_SRCS = #{orig_srcs.collect(&File.method(:basename)).join(' ')}
-> > > > + SRCS = $(ORIG_SRCS) #{(srcs -
-> > > > orig_srcs).collect(&File.method(:basename)).join(' ')}
-> > > > +-OBJS = #{$objs.join(" ")}
-> > > > ++OBJS = #{$objs.sort.join(" ")}
-> > > > + HDRS = #{hdrs.map{|h| '$(srcdir)/' + File.basename(h)}.join(' ')}
-> > > > + LOCAL_HDRS = #{$headers.join(' ')}
-> > > > + TARGET = #{target}
-> > > > diff --git
-> > > >
-> > a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-> > > >
-> > b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-> > > > new file mode 100644
-> > > > index 000000000000..b7faa58655b2
-> > > > --- /dev/null
-> > > > +++
-> > > >
-> > b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-> > > > @@ -0,0 +1,28 @@
-> > > > +From: Christian Hofstaedtler <zeha@debian.org>
-> > > > +Date: Tue, 10 Oct 2017 15:07:11 -0300
-> > > > +Subject: Mark Gemspec-reproducible change fixing #784225, too
-> > > > +
-> > > > +I think the UTC date change will fix the Multi-Arch not-same file
-> > issue,
-> > > > +too.
-> > > > +
-> > > > +Upstream-Status: Backport [debian]
-> > > > +
-> > > > +Signed-off-by: Antonio Terceiro <terceiro@debian.org>
-> > > > +Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
-> > > > +---
-> > > > + lib/rubygems/specification.rb | 4 +++-
-> > > > + 1 file changed, 3 insertions(+), 1 deletion(-)
-> > > > +
-> > > > +--- a/lib/rubygems/specification.rb
-> > > > ++++ b/lib/rubygems/specification.rb
-> > > > +@@ -1695,7 +1695,9 @@
-> > > > +                 raise(Gem::InvalidSpecificationException,
-> > > > +                       "invalid date format in specification:
-> > > > #{date.inspect}")
-> > > > +               end
-> > > > +-            when Time, DateLike then
-> > > > ++            when Time then
-> > > > ++              Time.utc(date.utc.year, date.utc.month, date.utc.day)
-> > > > ++            when DateLike then
-> > > > +               Time.utc(date.year, date.month, date.day)
-> > > > +             else
-> > > > +               TODAY
-> > > > diff --git
-> > > > a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-> > > > b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-> > > > new file mode 100644
-> > > > index 000000000000..504893b4b4ff
-> > > > --- /dev/null
-> > > > +++
-> > b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-> > > > @@ -0,0 +1,67 @@
-> > > > +From: Lucas Kanashiro <kanashiro@debian.org>
-> > > > +Date: Fri, 1 Nov 2019 15:25:17 -0300
-> > > > +Subject: Make gemspecs reproducible
-> > > > +
-> > > > +Without an explicit date, they will get the current date and make the
-> > > > +build unreproducible
-> > > > +
-> > > > +Upstream-Status: Backport [debian]
-> > > > +
-> > > > +---
-> > > > + ext/bigdecimal/bigdecimal.gemspec | 1 +
-> > > > + ext/fiddle/fiddle.gemspec         | 1 +
-> > > > + ext/io/console/io-console.gemspec | 2 +-
-> > > > + lib/ipaddr.gemspec                | 1 +
-> > > > + lib/rdoc/rdoc.gemspec             | 1 +
-> > > > + 5 files changed, 5 insertions(+), 1 deletion(-)
-> > > > +
-> > > > +--- a/ext/bigdecimal/bigdecimal.gemspec
-> > > > ++++ b/ext/bigdecimal/bigdecimal.gemspec
-> > > > +@@ -6,6 +6,7 @@
-> > > > +   s.name          = "bigdecimal"
-> > > > +   s.version       = bigdecimal_version
-> > > > +   s.authors       = ["Kenta Murata", "Zachary Scott", "Shigeo
-> > Kobayashi"]
-> > > > ++  s.date          = RUBY_RELEASE_DATE
-> > > > +   s.email         = ["mrkn@mrkn.jp"]
-> > > > +
-> > > > +   s.summary       = "Arbitrary-precision decimal floating-point
-> > number
-> > > > library."
-> > > > +--- a/ext/fiddle/fiddle.gemspec
-> > > > ++++ b/ext/fiddle/fiddle.gemspec
-> > > > +@@ -8,6 +8,7 @@
-> > > > + Gem::Specification.new do |spec|
-> > > > +   spec.name          = "fiddle"
-> > > > +   spec.version       = version_module::Fiddle::VERSION
-> > > > ++  spec.date          = RUBY_RELEASE_DATE
-> > > > +   spec.authors       = ["Aaron Patterson", "SHIBATA Hiroshi"]
-> > > > +   spec.email         = ["aaron@tenderlovemaking.com", "
-> > > > hsbt@ruby-lang.org"]
-> > > > +
-> > > > +--- a/ext/io/console/io-console.gemspec
-> > > > ++++ b/ext/io/console/io-console.gemspec
-> > > > +@@ -4,6 +4,7 @@
-> > > > + Gem::Specification.new do |s|
-> > > > +   s.name = "io-console"
-> > > > +   s.version = _VERSION
-> > > > ++  s.date = RUBY_RELEASE_DATE
-> > > > +   s.summary = "Console interface"
-> > > > +   s.email = "nobu@ruby-lang.org"
-> > > > +   s.description = "add console capabilities to IO instances."
-> > > > +--- a/lib/ipaddr.gemspec
-> > > > ++++ b/lib/ipaddr.gemspec
-> > > > +@@ -6,6 +6,7 @@
-> > > > + Gem::Specification.new do |spec|
-> > > > +   spec.name          = "ipaddr"
-> > > > +   spec.version       = "1.2.2"
-> > > > ++  spec.date          = RUBY_RELEASE_DATE
-> > > > +   spec.authors       = ["Akinori MUSHA", "Hajimu UMEMOTO"]
-> > > > +   spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
-> > > > +
-> > > > +--- a/lib/rdoc/rdoc.gemspec
-> > > > ++++ b/lib/rdoc/rdoc.gemspec
-> > > > +@@ -7,6 +7,7 @@
-> > > > +
-> > > > + Gem::Specification.new do |s|
-> > > > +   s.name = "rdoc"
-> > > > ++  s.date = RUBY_RELEASE_DATE
-> > > > +   s.version = RDoc::VERSION
-> > > > +
-> > > > +   s.authors = [
-> > > > diff --git a/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-> > > > b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-> > > > index 38e594a59ef3..2abf504d91bc 100644
-> > > > --- a/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-> > > > +++ b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
-> > > > @@ -7,6 +7,10 @@ SRC_URI += " \
-> > > >             file://run-ptest \
-> > > >
-> > > > file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-> > \
-> > > >
-> >  file://0002-template-Makefile.in-filter-out-f-prefix-map.patch
-> > > > \
-> > > > +           file://0003-rdoc-build-reproducible-documentation.patch \
-> > > > +
-> > > >
-> > file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch \
-> > > > +
-> > > >  file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-> > > > +           file://0006-Make-gemspecs-reproducible.patch \
-> > > >             "
-> > > >
-> > > >  SRC_URI[sha256sum] =
-> > > > "5085dee0ad9f06996a8acec7ebea4a8735e6fac22f22e2d98c3f2bc3bef7e6f1"
-> > > > --
-> > > > 2.31.1
-> > > >
-> > > >
-> > > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > > Links: You receive all messages sent to this group.
-> > > > View/Reply Online (#156493):
-> > > > https://lists.openembedded.org/g/openembedded-core/message/156493
-> > > > Mute This Topic: https://lists.openembedded.org/mt/85974381/1686489
-> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> > [
-> > > > alex.kanavin@gmail.com]
-> > > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > >
-> > > >
+> > | ../../strace-5.13/src/fs_x_ioctl.c: In function 'fs_x_ioctl':
+> > | ../../strace-5.13/src/fs_x_ioctl.c:64:14: error: invalid application
+> of 'sizeof' to incomplete type 'struct fsxattr'
+> > |    64 |         case FS_IOC_FSGETXATTR:
+> > |       |              ^~~~~~~~~~~~~~~~~
+> > | ../../strace-5.13/src/fs_x_ioctl.c:71:14: error: invalid application
+> of 'sizeof' to incomplete type 'struct fsxattr'
+> > |    71 |         case FS_IOC_FSSETXATTR:
+> > |       |              ^~~~~~~~~~~~~~~~~
+> > | make[3]: *** [Makefile:5011: libstrace_a-fs_x_ioctl.o] Error 1
+> > | make[3]: *** Waiting for unfinished jobs....
+> >
+> > According to https://strace.io/files/5.14/:
+> >
+> > * Improvements
+> >   * Implemented decoding of memfd_secret and quotactl_fd syscalls,
+> >     introduced in Linux 5.14.
+> >   * Enhanced prctl syscall decoding.
+> >   * Enhanced decoding of IFLA_* netlink attributes.
+> >   * Enhanced decoding of MDBA_ROUTER_PATTR_* mdb router port netlink
+> attributes.
+> >   * Updated lists of BPF_*, IORING_*, MADV_*, MOUNT_ATTR_*, SCTP_*,
+> >     and UFFD_* constants.
+> >   * Updated lists of ioctl commands from Linux 5.14.
+> >
+> > Persian Prince <persianpros@yahoo.com>
+>
+> I guess this should have been an SoB.
+>
+> However, this is not applicable as we already carry a similar patch in
+> kirkstone-next.
+
+
+If you do that=E2=80=99s fine see if commit msg makes sense and perhaps tra=
+nsplant
+that part to what you are staging
+
+
+>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-devtools/strace/{strace_5.13.bb =3D> strace_5.14.bb} | 2 =
++-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/strace/{strace_5.13.bb =3D> strace_5.14.b=
+b}
+> (96%)
+> >
+> > diff --git a/meta/recipes-devtools/strace/strace_5.13.bb
+> b/meta/recipes-devtools/strace/strace_5.14.bb
+> > similarity index 96%
+> > rename from meta/recipes-devtools/strace/strace_5.13.bb
+> > rename to meta/recipes-devtools/strace/strace_5.14.bb
+> > index 7d93f2da98..02a4843edf 100644
+> > --- a/meta/recipes-devtools/strace/strace_5.13.bb
+> > +++ b/meta/recipes-devtools/strace/strace_5.14.bb
+> > @@ -15,7 +15,7 @@ SRC_URI =3D "
+> https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+> >             file://uintptr_t.patch \
+> >             file://0001-strace-fix-reproducibilty-issues.patch \
+> >             "
+> > -SRC_URI[sha256sum] =3D
+> "5acc34888b9d510ad6ac915d4a8df08f51cf1ae920ea24649f6a4bb984d0b656"
+> > +SRC_URI[sha256sum] =3D
+> "901bee6db5e17debad4530dd9ffb4dc9a96c4a656edbe1c3141b7cb307b11e73"
+> >
+> >  inherit autotools ptest
 > >
 > > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
+> > 2.33.0
 > >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#156475):
+> https://lists.openembedded.org/g/openembedded-core/message/156475
+> > Mute This Topic: https://lists.openembedded.org/mt/85959484/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--0000000000004c23d105cd3807de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Sep 29, 2021 at 11:46 PM Alexandre Belloni &lt;<a h=
+ref=3D"mailto:alexandre.belloni@bootlin.com">alexandre.belloni@bootlin.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hello,<br>
+<br>
+On 29/09/2021 13:57:10-0700, Khem Raj wrote:<br>
+&gt; From: Persian Prince &lt;<a href=3D"mailto:persianpros@yahoo.com" targ=
+et=3D"_blank">persianpros@yahoo.com</a>&gt;<br>
+&gt; <br>
+&gt; Strace 5.13 won&#39;t compile with 5.14 headers:<br>
+&gt; <br>
+&gt; | ../../strace-5.13/src/fs_x_ioctl.c: In function &#39;fs_x_ioctl&#39;=
+:<br>
+&gt; | ../../strace-5.13/src/fs_x_ioctl.c:64:14: error: invalid application=
+ of &#39;sizeof&#39; to incomplete type &#39;struct fsxattr&#39;<br>
+&gt; |=C2=A0 =C2=A0 64 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case FS_IOC_FSGET=
+XATTR:<br>
+&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ^~~~~~~~~~~~~~~~~<br>
+&gt; | ../../strace-5.13/src/fs_x_ioctl.c:71:14: error: invalid application=
+ of &#39;sizeof&#39; to incomplete type &#39;struct fsxattr&#39;<br>
+&gt; |=C2=A0 =C2=A0 71 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case FS_IOC_FSSET=
+XATTR:<br>
+&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ^~~~~~~~~~~~~~~~~<br>
+&gt; | make[3]: *** [Makefile:5011: libstrace_a-fs_x_ioctl.o] Error 1<br>
+&gt; | make[3]: *** Waiting for unfinished jobs....<br>
+&gt; <br>
+&gt; According to <a href=3D"https://strace.io/files/5.14/" rel=3D"noreferr=
+er" target=3D"_blank">https://strace.io/files/5.14/</a>:<br>
+&gt; <br>
+&gt; * Improvements<br>
+&gt;=C2=A0 =C2=A0* Implemented decoding of memfd_secret and quotactl_fd sys=
+calls,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0introduced in Linux 5.14.<br>
+&gt;=C2=A0 =C2=A0* Enhanced prctl syscall decoding.<br>
+&gt;=C2=A0 =C2=A0* Enhanced decoding of IFLA_* netlink attributes.<br>
+&gt;=C2=A0 =C2=A0* Enhanced decoding of MDBA_ROUTER_PATTR_* mdb router port=
+ netlink attributes.<br>
+&gt;=C2=A0 =C2=A0* Updated lists of BPF_*, IORING_*, MADV_*, MOUNT_ATTR_*, =
+SCTP_*,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0and UFFD_* constants.<br>
+&gt;=C2=A0 =C2=A0* Updated lists of ioctl commands from Linux 5.14.<br>
+&gt; <br>
+&gt; Persian Prince &lt;<a href=3D"mailto:persianpros@yahoo.com" target=3D"=
+_blank">persianpros@yahoo.com</a>&gt;<br>
+<br>
+I guess this should have been an SoB.<br>
+<br>
+However, this is not applicable as we already carry a similar patch in<br>
+kirkstone-next.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I=
+f you do that=E2=80=99s fine see if commit msg makes sense and perhaps tran=
+splant that part to what you are staging=C2=A0</div><div dir=3D"auto"><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-devtools/strace/{<a href=3D"http://strace_5.13.bb" =
+rel=3D"noreferrer" target=3D"_blank">strace_5.13.bb</a> =3D&gt; <a href=3D"=
+http://strace_5.14.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.14.bb<=
+/a>} | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/strace/{<a href=3D"http://strace_5.=
+13.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.13.bb</a> =3D&gt; <a h=
+ref=3D"http://strace_5.14.bb" rel=3D"noreferrer" target=3D"_blank">strace_5=
+.14.bb</a>} (96%)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-devtools/strace/<a href=3D"http://strace_5.1=
+3.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.13.bb</a> b/meta/recipe=
+s-devtools/strace/<a href=3D"http://strace_5.14.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">strace_5.14.bb</a><br>
+&gt; similarity index 96%<br>
+&gt; rename from meta/recipes-devtools/strace/<a href=3D"http://strace_5.13=
+.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.13.bb</a><br>
+&gt; rename to meta/recipes-devtools/strace/<a href=3D"http://strace_5.14.b=
+b" rel=3D"noreferrer" target=3D"_blank">strace_5.14.bb</a><br>
+&gt; index 7d93f2da98..02a4843edf 100644<br>
+&gt; --- a/meta/recipes-devtools/strace/<a href=3D"http://strace_5.13.bb" r=
+el=3D"noreferrer" target=3D"_blank">strace_5.13.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/strace/<a href=3D"http://strace_5.14.bb" r=
+el=3D"noreferrer" target=3D"_blank">strace_5.14.bb</a><br>
+&gt; @@ -15,7 +15,7 @@ SRC_URI =3D &quot;<a href=3D"https://strace.io/files=
+/$%7BPV%7D/strace-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://strace.io/files/${PV}/strace-${PV}.tar.xz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://uintptr_t.patch =
+\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-strace-fix-=
+reproducibilty-issues.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;5acc34888b9d510ad6ac915d4a8df08f51cf1ae9=
+20ea24649f6a4bb984d0b656&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;901bee6db5e17debad4530dd9ffb4dc9a96c4a65=
+6edbe1c3141b7cb307b11e73&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 inherit autotools ptest<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.33.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#156475): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/156475" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/156475</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/85959484=
+/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
+rg/mt/85959484/3617179</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
+tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+</blockquote></div></div>
+
+--0000000000004c23d105cd3807de--
 
