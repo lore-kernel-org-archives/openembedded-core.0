@@ -1,163 +1,110 @@
-Return-Path: <kristian@klausen.dk>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B23C433F5
-	for <webhook@archiver.kernel.org>; Fri,  1 Oct 2021 07:13:51 +0000 (UTC)
-Received: from mail.klausen.dk (mail.klausen.dk [157.90.24.29])
- by mx.groups.io with SMTP id smtpd.web09.4900.1633072428726904681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B90B6C433EF
+	for <webhook@archiver.kernel.org>; Fri,  1 Oct 2021 07:24:56 +0000 (UTC)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by mx.groups.io with SMTP id smtpd.web11.4727.1633073095960916107
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Oct 2021 00:13:50 -0700
+ Fri, 01 Oct 2021 00:24:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@klausen.dk header.s=dkim header.b=HB6QdMmi;
- spf=pass (domain: klausen.dk, ip: 157.90.24.29,
- mailfrom: kristian@klausen.dk)
-Date: Fri, 1 Oct 2021 09:13:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-	t=1633072424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kmFy3IWs+dNPrLzvZ8bOo1/3jgyWbiYqzUCq3WtP3NU=;
-	b=HB6QdMmiRSqh7f09O5+wmoJjdiGUmnegz5TBYy21AnRpXo/ytuScwM/AV2wlTHh/w7GdrO
-	iHhyoy9N9SDjHfIyfNyvTcWIQJNGfNBfEa2C6yuiXHnNprmUQs0GVJcgAdehfy2YBhKQN9
-	dvv85GJSSMKsJkyA0Y2DbukXxlnsOQI=
-From: Kristian Klausen <kristian@klausen.dk>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Kristian Klausen <kristian@klausen.dk>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] wic/bootimg-efi: Add Unified Kernel Image option
-Message-ID: <YVa1Jr29QAgfhqqo@bob>
-References: <20210913081304.10799-1-kristian@klausen.dk>
- <YVGooo7LiUG3JQ0h@bob>
- <0c89091d931bd81497bb81df47f1dfb559f2fffe.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CXX/M1zk;
+ spf=pass (domain: gmail.com, ip: 209.85.166.181,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-il1-f181.google.com with SMTP id h20so9544424ilj.13
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 01 Oct 2021 00:24:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VQV0LBnQtRaz84FsIACoZ2Y1osbSZK8ol6hkWsndIbY=;
+        b=CXX/M1zkVAUyKziyHn/6mc7QsCZZRlsiLDRVt8NwG2WRgoSsDPx1yL18rfG6vwt6kD
+         vczW6CWj6rigeZ4ajm/2+6RZ0ZMj5w1alkPMUMzL3tYWmbFnCtbU1fBoIljqzZCL4uvD
+         ruDhgB0oycRk4Y033DVxv5SO4tj458sfDTPY6u36wTLK/JIbY4LLt0mnyHiGNvNCBopn
+         cQePhyeJyKOpgwpPFUMPpwbL9nVKZFOaGSFhU0rK+fp3QgSOIAJaLlewPDzCFm9bp2Vs
+         qu5Gs2s9IKOLhxrqjDXcXYFkoJgk4lLOvsnhyudDhpMbOYDz4TSItSOckW1N2QUepwbd
+         yWLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VQV0LBnQtRaz84FsIACoZ2Y1osbSZK8ol6hkWsndIbY=;
+        b=mvlGWsBJFCjGflSt2VoLIdabFNUKkq1047j6iS8D33XF7umpX5d/xK7ZWoGeGKj2jO
+         kzOk1FynvvLA+q1RpDEt0milioPJF81pfOcInYPUcVNlxrd23GO/K32moq/gdWnJ8YTr
+         nuKxd6N4txDrXXq7D5Zs6Ja+Ty5f9L2D10vZ/zrndM4dlBEfb8YehBFSwcX+DiNVSL1c
+         G3BIQBPGOga3W3qgTMmXMcg+QQNaLsB07tz8fT4M0LjiaJEYXPalVLcqBNhC8fLjtIF6
+         vL39f2d8CiOkx51NikJWSQBOho6XpxU/YO5iJWhDcz16E/0waVjJF1iSM6VgVAEuFB1z
+         NLcA==
+X-Gm-Message-State: AOAM530wKnvV5bJFvxQ2yX2h7NWqrJ9OltBmwSYnEvrBg4kmFthmbPkK
+	U+IJ7IOvKvOql99arxvdOLyrnyy6j0CgGA==
+X-Google-Smtp-Source: 
+ ABdhPJxkfU1kxCEoOdESvPtNo0DidJjPzICHrPwlY+U5yAq/WoFiflCru1tGX/4VejgHoL2gN0TK8w==
+X-Received: by 2002:a92:c564:: with SMTP id b4mr5236622ilj.229.1633073095070;
+        Fri, 01 Oct 2021 00:24:55 -0700 (PDT)
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
+ [147.11.105.124])
+        by smtp.gmail.com with ESMTPSA id
+ t10sm3141074iol.34.2021.10.01.00.24.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Oct 2021 00:24:54 -0700 (PDT)
+From: Pgowda <pgowda.cve@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	Pgowda <pgowda.cve@gmail.com>
+Subject: [PATCH v2] state/staging: Fix directory not deleted for race
+Date: Fri,  1 Oct 2021 00:24:40 -0700
+Message-Id: <20211001072440.18158-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.31.1
 In-Reply-To: 
- <0c89091d931bd81497bb81df47f1dfb559f2fffe.camel@linuxfoundation.org>
+ <6473ab6832d9e7647a8921bd8a7735394379f12a.camel@linuxfoundation.org>
+References: 
+ <6473ab6832d9e7647a8921bd8a7735394379f12a.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Oct 2021 07:13:51 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Oct 2021 07:24:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156512
+ https://lists.openembedded.org/g/openembedded-core/message/156513
 
-Den Thu, Sep 30, 2021 at 23:46:00 +0100 skrev Richard Purdie:
-> On Mon, 2021-09-27 at 13:18 +0200, Kristian Klausen wrote:
-> > Den Mon, Sep 13, 2021 at 10:13:04 +0200 skrev Kristian Klausen:
-> > > "A unified kernel image is a single EFI PE executable combining an EFI
-> > > stub loader, a kernel image, an initramfs image, and the kernel command
-> > > line.
-> > > 
-> > > [...]
-> > > 
-> > > Images of this type have the advantage that all metadata and payload
-> > > that makes up the boot entry is monopolized in a single PE file that can
-> > > be signed cryptographically as one for the purpose of EFI
-> > > SecureBoot."[1]
-> > > 
-> > > This commit adds a create-unified-kernel-image=true option to the
-> > > bootimg-efi plugin for creating a Unified Kernel Image[1] and installing
-> > > it into $BOOT/EFI/Linux/ with a .efi extension per the the Boot Loader
-> > > Specification[1][2]. This is useful for implementing Secure Boot.
-> > > 
-> > > systemd-boot is the only mainstream bootloader implementing the
-> > > specification, but GRUB should be able to boot the EFI binary, this
-> > > commit however doesn't implement the necessary changes to the GRUB
-> > > config generation logic to boot the Unified Kernel Image.
-> > > 
-> > > [1] https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
-> > > [2] https://systemd.io/BOOT_LOADER_SPECIFICATION/
-> > > 
-> > > Signed-off-by: Kristian Klausen <kristian@klausen.dk>
-> > 
-> > Any update on getting this merged?
-> > 
-> > Cheers,
-> > Kristian
-> > 
-> > > ---
-> > > V2:
-> > > Add os-release as dependency
-> > > Pull os-release file from STAGING_DIR_HOST, so it doesn't need to be
-> > > installed into the rootfs
-> > > Add selftest
-> > > 
-> > >  meta-selftest/wic/test_efi_plugin.wks         |  6 ++
-> > >  meta/classes/image_types_wic.bbclass          |  5 +-
-> > >  meta/lib/oeqa/selftest/cases/wic.py           | 29 ++++++++
-> > >  scripts/lib/wic/plugins/source/bootimg-efi.py | 71 ++++++++++++++++---
-> > >  4 files changed, 99 insertions(+), 12 deletions(-)
-> > >  create mode 100644 meta-selftest/wic/test_efi_plugin.wks
-> > > 
-> > > diff --git a/meta-selftest/wic/test_efi_plugin.wks b/meta-selftest/wic/test_efi_plugin.wks
-> > > new file mode 100644
-> > > index 0000000000..1603d6c4bb
-> > > --- /dev/null
-> > > +++ b/meta-selftest/wic/test_efi_plugin.wks
-> > > @@ -0,0 +1,6 @@
-> > > +# short-description: This file is used in oe-selftest wic module to test efi plugin
-> > > +
-> > > +part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,create-unified-kernel-image=true,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
-> > > +part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-> > > +
-> > > +bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-> > > diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-> > > index d561fb2636..e3863c88a9 100644
-> > > --- a/meta/classes/image_types_wic.bbclass
-> > > +++ b/meta/classes/image_types_wic.bbclass
-> > > @@ -27,6 +27,7 @@ WICVARS ?= "\
-> > >  	ROOTFS_SIZE \
-> > >  	STAGING_DATADIR \
-> > >  	STAGING_DIR \
-> > > +	STAGING_DIR_HOST \
-> > >  	STAGING_LIBDIR \
-> > >  	TARGET_SYS \
-> > >  "
-> > > @@ -84,8 +85,8 @@ do_image_wic[deptask] += "do_image_complete"
-> > >  WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
-> > >  WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
-> > >  WKS_FILE_DEPENDS_BOOTLOADERS = ""
-> > > -WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot"
-> > > -WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot"
-> > > +WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot os-release"
-> > > +WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot os-release"
-> > >  WKS_FILE_DEPENDS_BOOTLOADERS:x86-x32 = "syslinux grub-efi"
-> > >  
-> 
-> Sadly this fails during testing on several machines:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2676
-> 
-> which is probably from the os-release dependency. I need to remove this patch
-> and retest but given it is wic failures, I suspect this patch...
-> 
-> Cheers,
-> 
-> Richard
-> 
+Modify the SYSROOT PATH to fix race around issue when rust-hello-world
+is run for two libc one after the other.
 
-Hi Richard
+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+---
+ meta/recipes-devtools/rust/rust-cross.inc | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-That is unfortunate. I just had a quick look at the failed no-x11 
-build[1] and failed wic build[3]. According to the error logs[2][4] the 
-"postinstall intercept hook 'update_gio_module_cache'" is failing due 
-to:
-TOPDIR/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/libexec/gio-querymodules: /lib64/libc.so.6: version `GLIBC_2.34' not found (required by TOPDIR/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/libexec/gio-querymodules)
+diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
+index bee7c9f12f..09d0078d17 100644
+--- a/meta/recipes-devtools/rust/rust-cross.inc
++++ b/meta/recipes-devtools/rust/rust-cross.inc
+@@ -32,7 +32,17 @@ DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs vir
+ DEPENDS += "rust-native"
+ 
+ PROVIDES = "virtual/${TARGET_PREFIX}rust"
+-PN = "rust-cross-${TARGET_ARCH}"
++
++# Modify the sysroot PATH based on the libc used to fix race around issue.
++def get_libc(d):
++    tclibc = d.getVar('TCLIBC')
++    if tclibc == 'glibc':
++        pn = "rust-cross-${TARGET_ARCH}"
++    else:
++        pn = "rust-cross-${TARGET_ARCH}-${TCLIBC}"
++    return pn
++
++PN := "${@get_libc(d)}"
+ 
+ # In the cross compilation case, rustc doesn't seem to get the rpath quite
+ # right. It manages to include '../../lib/${TARGET_PREFIX}', but doesn't
+-- 
+2.31.1
 
-So I'm not sure it is related to my patch, please let me know how it 
-goes with the retest and I can investigate further if my patch is to 
-blame.
-
-For the record, the tested patch wasn't this (v2) but the v3[5].
-
-[1] https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/4084
-[2] https://errors.yoctoproject.org/Errors/Build/131891/
-[3] https://autobuilder.yoctoproject.org/typhoon/#/builders/58/builds/4049
-[4] https://errors.yoctoproject.org/Errors/Build/131857/
-[5] https://lists.openembedded.org/g/openembedded-core/topic/patch_v3_wic_bootimg_efi/85923375
-
-Cheers,
-Kristian
 
