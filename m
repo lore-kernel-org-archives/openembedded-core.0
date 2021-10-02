@@ -2,57 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B26E7C433EF
-	for <webhook@archiver.kernel.org>; Sat,  2 Oct 2021 22:18:08 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web08.16144.1633213087145938621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF156C433FE
+	for <webhook@archiver.kernel.org>; Sat,  2 Oct 2021 22:18:09 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.16203.1633213088161506462
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Oct 2021 15:18:07 -0700
+ Sat, 02 Oct 2021 15:18:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MeI63kwb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=axwtpKXM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id o20so3847060wro.3
+Received: by mail-wr1-f48.google.com with SMTP id o20so3847092wro.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Oct 2021 15:18:06 -0700 (PDT)
+ Sat, 02 Oct 2021 15:18:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=0pO78np4xgBbyYxehqdPPX0KQFimmF/LuBQYVhiqW3s=;
-        b=MeI63kwbpxRObPOXrvhbZ+bZZc05JlG/c5Ubq1YZaFJ/JoHmJQsee3KtKQOfsOFEoE
-         ardmGE67NUKfRzgQnTpWTIhPbw8HDMKUkXSUsF2deOsbIFm7xbAnDEpTGBL6btBlyn/J
-         Cv0XBtNJTJIzuZ5PU3/g6823XUIrz1u0cvyec=
+        bh=vEzpKBs0xlElXwgyyBE8BmEG1zEEfrn3fTuhM5Micj0=;
+        b=axwtpKXM0t8GHWnLk0IccqJQFV5vRVPHbymnA28/bPuBasp3LzvreWGmRDcvFICriq
+         HMFdU/KMAyKH/ZzEIDkjv3Ry7C5tY3MvpNlfx5H80fHfawmEyIrMUS0VQSDBn0tAmKlN
+         Zlq6ThmENkLa17adfD1wvm5F+1jyFBpeyOALM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0pO78np4xgBbyYxehqdPPX0KQFimmF/LuBQYVhiqW3s=;
-        b=z9jPgqoMaAGFKoUWM9Z7ZXx3nloZ2Vd6nRP6GZGH0GpulAVU8THC7TSAbddxR1IpJ+
-         dIX2aBwYqDMw4VGJtsr+aLVKEo8CXDJv2W+YR+yhNLqcVTzBsKnw9PdwrmKscD17jVbR
-         zjM+ZLXU21xNP2wJfSRc3Umx2DxobAKyjqrFO8wJzVPT28ktEWC4SpGge+4N1JwsFXpO
-         8zzeCjw3Ua7M0R91D/YxUWdVMAYJrm489Bf9d4HoEah5XthGvjP1PNZByfvjmaiHWw8B
-         2pHviV4zmLvfi8JkjYOla/8ru03cDVl+aw8tcVwzMrV6WyYXWZDCWPqywLSMBAMi1OIh
-         piaA==
-X-Gm-Message-State: AOAM530ui2Lpag/fgEir5p8MTFSU3Ke5B+NpYrcQWB1Uw3Rit9MQNsdW
-	BkJGl6fwvQ0Yrnn3i8gf/z2rUXXM8CFSau3E
+        bh=vEzpKBs0xlElXwgyyBE8BmEG1zEEfrn3fTuhM5Micj0=;
+        b=EGjXscwdmG11ZLpuPOMr5HJ8YWHmjhM/kPZFVwnGa0mYi9207TSWAsczvf06iQNt4i
+         L57EvVoDPYvpLp3pdAJrJwp/qqK0FPXY/0JrWmBxgCiGVm1/0GgUKnEoenEEFejCzhtb
+         bVwSBQUvxfRDW03JkIhyCC9+cLMU3xmntCwbaYKihPA3+sNA/VpZX/mxcZtDwQKCFKUI
+         DiRue38MITitRKXXKhpt4Fbh8MeASmYd87PSIMHqPXkM5W5n3F4bZtGti1eNNLuCarzO
+         qAF4iAibG0yj5jBwQXqnwa7Mo27U1vgPL/UoAeoqS0l7TgovYbzBH/OL14lwagTrBGrm
+         ZHIg==
+X-Gm-Message-State: AOAM530OtymhzmCER7vWy8JG4Htjep/mmR0yL8qw26p0S26dz2RbSn4v
+	u4dvOcy2FoQV7soZoX4aUasy3bYJgVF+Qv/J
 X-Google-Smtp-Source: 
- ABdhPJzuFd/AQSPDHBOZtejwA4Nqo/9wE/a56ipVQBG6wEpipemuuYOjHqdVoUW428BxBRfo0SF8fg==
-X-Received: by 2002:adf:e0cc:: with SMTP id m12mr5368596wri.62.1633213085506;
-        Sat, 02 Oct 2021 15:18:05 -0700 (PDT)
+ ABdhPJyqCp2wTnhlhyLzmmzSXaH/8qzYyz45UunAy1UcocEJZ1mRhCZrW09nAmtt1Enouzw6IzDIkQ==
+X-Received: by 2002:adf:f187:: with SMTP id h7mr5296769wro.358.1633213086657;
+        Sat, 02 Oct 2021 15:18:06 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8657:7fac:b2bf:59a6])
         by smtp.gmail.com with ESMTPSA id
- z8sm11172777wrm.63.2021.10.02.15.18.05
+ z8sm11172777wrm.63.2021.10.02.15.18.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Oct 2021 15:18:05 -0700 (PDT)
+        Sat, 02 Oct 2021 15:18:06 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] sstatesig: Add processing for full build paths in sysroot
- files
-Date: Sat,  2 Oct 2021 23:18:00 +0100
-Message-Id: <20211002221803.2283254-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 4/5] abi_version/sstate: Bump HASH_VERSION and SSTATE_VERSION
+Date: Sat,  2 Oct 2021 23:18:02 +0100
+Message-Id: <20211002221803.2283254-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211002221803.2283254-1-richard.purdie@linuxfoundation.org>
 References: <20211002221803.2283254-1-richard.purdie@linuxfoundation.org>
@@ -61,194 +60,71 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Oct 2021 22:18:08 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Oct 2021 22:18:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156540
+ https://lists.openembedded.org/g/openembedded-core/message/156542
 
-Some files in the populate_sysroot tasks have hardcoded paths in them,
-particularly if they are postinst-useradd- files or crossscripts.
+At this point the hash equivalence and sstate is 'junk' on the autobuilder
+unforuntately due to the volume of fixes and also the volume of slighly
+not quite right patches tested during the development of the fixes.
 
-Add some filtering logic to remove these paths.
-
-This means that the hashequiv "outhash" matches correcting in more
-cases allowing for better build artefact reuse.
-
-To make this work a new variable is added SSTATE_HASHEQUIV_FILEMAP
-which maps file globbing to replacement patterns (paths or regex)
-on a per sstate task basis. It is hoped this shouldn't be needed
-in many cases. We are in the process to developing QA tests which
-will better detect issues in this area to allow optimal sstate
-reuse.
+In order to try and help any remaining sanity I might have, bump the
+version numbers to start with a clean slate so we're working from a known
+good baseline rather than risk chasing phantom issues. For those
+upgrading, there wouldn't be much reuse anyway after the changes.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass                   |  7 ++++
- meta/lib/oe/sstatesig.py                      | 39 +++++++++++++++++--
- meta/recipes-devtools/perl/perl_5.34.0.bb     |  7 ++++
- meta/recipes-devtools/python/python3_3.9.6.bb |  8 ++++
- .../qemu/qemuwrapper-cross_1.0.bb             |  1 +
- meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |  5 +++
- 6 files changed, 64 insertions(+), 3 deletions(-)
+ meta/classes/sstate.bbclass                          | 2 +-
+ meta/conf/abi_version.conf                           | 2 +-
+ meta/recipes-devtools/elfutils/elfutils_0.185.bb     | 1 -
+ meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 1 -
+ 4 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 92a73114bb5..89e9f561787 100644
+index 89e9f561787..06a722c735d 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -67,6 +67,13 @@ SSTATE_DUPWHITELIST += "${DEPLOY_DIR_IMAGE}/microcode"
- SSTATE_SCAN_FILES ?= "*.la *-config *_config postinst-*"
- SSTATE_SCAN_CMD ??= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES").split())}" \) -type f'
- SSTATE_SCAN_CMD_NATIVE ??= 'grep -Irl -e ${RECIPE_SYSROOT} -e ${RECIPE_SYSROOT_NATIVE} -e ${HOSTTOOLS_DIR} ${SSTATE_BUILDDIR}'
-+SSTATE_HASHEQUIV_FILEMAP ?= " \
-+    populate_sysroot:*/postinst-useradd-*:${TMPDIR} \
-+    populate_sysroot:*/postinst-useradd-*:${COREBASE} \
-+    populate_sysroot:*/postinst-useradd-*:regex-\s(PATH|PSEUDO_IGNORE_PATHS|HOME|LOGNAME|OMP_NUM_THREADS|USER)=.*\s \
-+    populate_sysroot:*/crossscripts/*:${TMPDIR} \
-+    populate_sysroot:*/crossscripts/*:${COREBASE} \
-+    "
+@@ -1,4 +1,4 @@
+-SSTATE_VERSION = "3"
++SSTATE_VERSION = "4"
  
- BB_HASHFILENAME = "False ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
+ SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
+ SSTATE_MANFILEPREFIX = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-${PN}"
+diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+index 35faef9a368..515a6def405 100644
+--- a/meta/conf/abi_version.conf
++++ b/meta/conf/abi_version.conf
+@@ -12,4 +12,4 @@ OELAYOUT_ABI = "14"
+ # a reset of the equivalence, for example when reproducibility issues break the
+ # existing match data. Distros can also append to this value for the same effect.
+ #
+-HASHEQUIV_HASH_VERSION  = "5"
++HASHEQUIV_HASH_VERSION  = "7"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.185.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+index 9ea4de8e407..f4769e36328 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.185.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+@@ -34,7 +34,6 @@ SRC_URI[sha256sum] = "dc8d3e74ab209465e7f568e1b3bb9a5a142f8656e2b57d10049a73da2a
  
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 24577249ffa..0c3b4589c57 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -470,6 +470,8 @@ def OEOuthashBasic(path, sigfile, task, d):
-     import stat
-     import pwd
-     import grp
-+    import re
-+    import fnmatch
+ # remove at next version upgrade or when output changes
+ PR = "r1"
+-HASHEQUIV_HASH_VERSION .= ".2"
  
-     def update_hash(s):
-         s = s.encode('utf-8')
-@@ -479,6 +481,8 @@ def OEOuthashBasic(path, sigfile, task, d):
+ inherit autotools gettext ptest pkgconfig
  
-     h = hashlib.sha256()
-     prev_dir = os.getcwd()
-+    corebase = d.getVar("COREBASE")
-+    tmpdir = d.getVar("TMPDIR")
-     include_owners = os.environ.get('PSEUDO_DISABLED') == '0'
-     if "package_write_" in task or task == "package_qa":
-         include_owners = False
-@@ -489,8 +493,17 @@ def OEOuthashBasic(path, sigfile, task, d):
-         include_root = False
-     extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 0dd18d7a068..62aa1b0e877 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -28,7 +28,6 @@ SRC_URI[sha256sum] = "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3d8f2d0a8b3
  
-+    filemaps = {}
-+    for m in (d.getVar('SSTATE_HASHEQUIV_FILEMAP') or '').split():
-+        entry = m.split(":")
-+        if len(entry) != 3 or entry[0] != task:
-+            continue
-+        filemaps.setdefault(entry[1], [])
-+        filemaps[entry[1]].append(entry[2])
-+
-     try:
-         os.chdir(path)
-+        basepath = os.path.normpath(path)
+ # remove at next version upgrade or when output changes
+ PR = "r1"
+-HASHEQUIV_HASH_VERSION .= ".1"
  
-         update_hash("OEOuthashBasic\n")
-         if extra_content:
-@@ -572,8 +585,13 @@ def OEOuthashBasic(path, sigfile, task, d):
-                 else:
-                     update_hash(" " * 9)
- 
-+                filterfile = False
-+                for entry in filemaps:
-+                    if fnmatch.fnmatch(path, entry):
-+                        filterfile = True
-+
-                 update_hash(" ")
--                if stat.S_ISREG(s.st_mode):
-+                if stat.S_ISREG(s.st_mode) and not filterfile:
-                     update_hash("%10d" % s.st_size)
-                 else:
-                     update_hash(" " * 10)
-@@ -582,9 +600,24 @@ def OEOuthashBasic(path, sigfile, task, d):
-                 fh = hashlib.sha256()
-                 if stat.S_ISREG(s.st_mode):
-                     # Hash file contents
--                    with open(path, 'rb') as d:
--                        for chunk in iter(lambda: d.read(4096), b""):
-+                    if filterfile:
-+                        # Need to ignore paths in crossscripts and postinst-useradd files.
-+                        with open(path, 'rb') as d:
-+                            chunk = d.read()
-+                            chunk = chunk.replace(bytes(basepath, encoding='utf8'), b'')
-+                            for entry in filemaps:
-+                                if not fnmatch.fnmatch(path, entry):
-+                                    continue
-+                                for r in filemaps[entry]:
-+                                    if r.startswith("regex-"):
-+                                        chunk = re.sub(bytes(r[6:], encoding='utf8'), b'', chunk)
-+                                    else:
-+                                        chunk = chunk.replace(bytes(r, encoding='utf8'), b'')
-                             fh.update(chunk)
-+                    else:
-+                        with open(path, 'rb') as d:
-+                            for chunk in iter(lambda: d.read(4096), b""):
-+                                fh.update(chunk)
-                     update_hash(fh.hexdigest())
-                 else:
-                     update_hash(" " * len(fh.hexdigest()))
-diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-index 0e0fe7f9854..175db4ee319 100644
---- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-@@ -385,3 +385,10 @@ EOF
-        chmod 0755 ${SYSROOT_DESTDIR}${bindir}/nativeperl
-        cat ${SYSROOT_DESTDIR}${bindir}/nativeperl
- }
-+
-+SSTATE_HASHEQUIV_FILEMAP = " \
-+    populate_sysroot:*/lib*/perl5/*/*/Config_heavy.pl:${TMPDIR} \
-+    populate_sysroot:*/lib*/perl5/*/*/Config_heavy.pl:${COREBASE} \
-+    populate_sysroot:*/lib*/perl5/config.sh:${TMPDIR} \
-+    populate_sysroot:*/lib*/perl5/config.sh:${COREBASE} \
-+    "
-diff --git a/meta/recipes-devtools/python/python3_3.9.6.bb b/meta/recipes-devtools/python/python3_3.9.6.bb
-index aae7837180a..d09943f891b 100644
---- a/meta/recipes-devtools/python/python3_3.9.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.6.bb
-@@ -195,6 +195,14 @@ do_install:append:class-nativesdk () {
- }
- 
- SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
-+SSTATE_HASHEQUIV_FILEMAP = " \
-+    populate_sysroot:*/lib*/python3*/_sysconfigdata*.py:${TMPDIR} \
-+    populate_sysroot:*/lib*/python3*/_sysconfigdata*.py:${COREBASE} \
-+    populate_sysroot:*/lib*/python3*/config-*/Makefile:${TMPDIR} \
-+    populate_sysroot:*/lib*/python3*/config-*/Makefile:${COREBASE} \
-+    populate_sysroot:*/lib*/python-sysconfigdata/_sysconfigdata.py:${TMPDIR} \
-+    populate_sysroot:*/lib*/python-sysconfigdata/_sysconfigdata.py:${COREBASE} \
-+    "
- PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
- 
- py_package_preprocess () {
-diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index a0448a18039..97b44ad2e57 100644
---- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -18,6 +18,7 @@ do_install () {
- 
- 	cat >> ${D}${bindir_crossscripts}/${MLPREFIX}qemuwrapper << EOF
- #!/bin/sh
-+# Wrapper script to run binaries under qemu user-mode emulation
- set -x
- 
- if [ ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)} = False -a "${PN}" != "nativesdk-qemuwrapper-cross" ]; then
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index 60181f26c70..2ff9c2b1122 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -195,3 +195,8 @@ rpm_package_preprocess () {
- 	sed -i -e 's:--sysroot[^ ]*::g' \
- 	    ${PKGD}/${libdir}/rpm/macros
- }
-+
-+SSTATE_HASHEQUIV_FILEMAP = " \
-+    populate_sysroot:*/rpm/macros:${TMPDIR} \
-+    populate_sysroot:*/rpm/macros:${COREBASE} \
-+    "
+ RECIPE_NO_UPDATE_REASON = "6.04-pre3 is broken"
+ UPSTREAM_CHECK_URI = "https://www.zytor.com/pub/syslinux/"
 -- 
 2.32.0
 
