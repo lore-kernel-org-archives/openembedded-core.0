@@ -1,52 +1,200 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <6179c86e6bacedbbfc5b180ab773bd1a7d7acca3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 05/24] xserver-xorg: convert from autotools to meson
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Mon, 15 Nov 2021 09:30:58 +0000
-In-Reply-To: <7a0ff4e8-554a-e6c8-f7cd-ab8d08fa5186@pr.hu>
-References: <20211110193937.2606747-1-alex@linutronix.de>
-	 <20211110193937.2606747-5-alex@linutronix.de>
-	 <7a0ff4e8-554a-e6c8-f7cd-ab8d08fa5186@pr.hu>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Subject: [PATCH 03/12] gstreamer1.0-plugins-good: 1.18.4 -> 1.18.5
+Date: Mon,  4 Oct 2021 00:41:57 +0100
+Message-Id: <20211003234206.949967-3-quaresma.jose@gmail.com>
+In-Reply-To: <20211003234206.949967-1-quaresma.jose@gmail.com>
+References: <20211003234206.949967-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: zboszor@pr.hu, Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
 
-On Mon, 2021-11-15 at 07:15 +0100, Zoltan Boszormenyi via lists.openembedded.org
-wrote:
-> 2021. 11. 10. 20:39 keltezéssel, Alexander Kanavin írta:
-> > 
-> >   # Xorg requires a SHA1 implementation, pick one
-> >   XORG_CRYPTO ??= "openssl"
-> > -PACKAGECONFIG[openssl] = "--with-sha1=libcrypto,,openssl"
-> > -PACKAGECONFIG[nettle] = "--with-sha1=libnettle,,nettle"
-> > -PACKAGECONFIG[gcrypt] = "--with-sha1=libgcrypt,,libgcrypt"
-> > +PACKAGECONFIG[openssl] = "-Dsha1=libcrypto,,openssl"
-> > +PACKAGECONFIG[nettle] = "-Dsha1=libnettle,,nettle"
-> > +PACKAGECONFIG[gcrypt] = "-Dsha1=libgcrypt,,libgcrypt"
-> >   
-> >   do_install:append () {
-> >   	# Its assumed base-files creates this for us
-> > -	rmdir ${D}${localstatedir}/log/
-> 
-> The comment is related to the presence of /var/log and
-> now it doesn't make sense after removing the above line.
-> Please remove the comment, too.
-> 
-> >           sed -i -e 's,${libdir}/xorg/modules,${prefix}/lib*/xorg/modules,' ${D}${mandir}/man5/xorg.conf.5
-> >   }
-> >   
+Drop backport patches:
+    * 0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
 
-It is gone:
+    * 0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch
+      https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/commit/a1bf3d8d540a25268d612a489e1e836d6ea737b0
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=657f71e1f5cf8a9f385b1748d99cb6d531511626
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ ...Fix-parsing-of-the-mediaclk-direct-f.patch |  33 ------
+ ...from-static-vars-to-fix-build-with-g.patch | 100 ------------------
+ ...bb => gstreamer1.0-plugins-good_1.18.5.bb} |   4 +-
+ 3 files changed, 1 insertion(+), 136 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.18.4.bb => gstreamer1.0-plugins-good_1.18.5.bb} (93%)
 
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
+deleted file mode 100644
+index 14a9fe23aa..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From ec1949dffd931d0ec7e4f67108a08ab1e2af0cfe Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+-Date: Tue, 16 Mar 2021 19:25:36 +0200
+-Subject: [PATCH] rtpjitterbuffer: Fix parsing of the mediaclk:direct= field
+-
+-Due to an off-by-one when parsing the string, the most significant digit
+-or the clock offset was skipped when parsing the offset.
+-
+-Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/910>
+-
+-Upstream-Status: Backport [b5bb4ede3a42273fafc1054f9cf106ca527e3c26]
+-
+-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+----
+- gst/rtpmanager/gstrtpjitterbuffer.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gst/rtpmanager/gstrtpjitterbuffer.c b/gst/rtpmanager/gstrtpjitterbuffer.c
+-index 60d8ad875..02fe15adc 100644
+---- a/gst/rtpmanager/gstrtpjitterbuffer.c
+-+++ b/gst/rtpmanager/gstrtpjitterbuffer.c
+-@@ -1534,7 +1534,7 @@ gst_jitter_buffer_sink_parse_caps (GstRtpJitterBuffer * jitterbuffer,
+-       GST_DEBUG_OBJECT (jitterbuffer, "Got media clock %s", mediaclk);
+- 
+-       if (!g_str_has_prefix (mediaclk, "direct=") ||
+--          !g_ascii_string_to_unsigned (&mediaclk[8], 10, 0, G_MAXUINT64,
+-+          !g_ascii_string_to_unsigned (&mediaclk[7], 10, 0, G_MAXUINT64,
+-               &clock_offset, NULL))
+-         GST_FIXME_OBJECT (jitterbuffer, "Unsupported media clock");
+-       if (strstr (mediaclk, "rate=") != NULL) {
+--- 
+-2.31.0
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch
+deleted file mode 100644
+index 87223826c6..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 07572920319ea86cebb6dd073ab65915ec207eed Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+-Date: Sat, 8 May 2021 14:08:41 +0200
+-Subject: [PATCH] Remove volatile from static vars to fix build with gcc11
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Stolen from [1]
+-
+-[1] https://src.fedoraproject.org/rpms/gstreamer1-plugins-good/blob/rawhide/f/gstreamer1-plugins-good-gcc11.patch
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+----
+- ext/qt/gstqsgtexture.cc  | 2 +-
+- ext/qt/gstqtglutility.cc | 2 +-
+- ext/qt/qtglrenderer.cc   | 2 +-
+- ext/qt/qtitem.cc         | 2 +-
+- ext/qt/qtwindow.cc       | 4 ++--
+- 5 files changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/ext/qt/gstqsgtexture.cc b/ext/qt/gstqsgtexture.cc
+-index 4cc9fc6..50c8d7f 100644
+---- a/ext/qt/gstqsgtexture.cc
+-+++ b/ext/qt/gstqsgtexture.cc
+-@@ -35,7 +35,7 @@ GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
+- 
+- GstQSGTexture::GstQSGTexture ()
+- {
+--  static volatile gsize _debug;
+-+  static gsize _debug;
+- 
+-   initializeOpenGLFunctions();
+- 
+-diff --git a/ext/qt/gstqtglutility.cc b/ext/qt/gstqtglutility.cc
+-index acb89b6..d2c0922 100644
+---- a/ext/qt/gstqtglutility.cc
+-+++ b/ext/qt/gstqtglutility.cc
+-@@ -66,7 +66,7 @@ gst_qt_get_gl_display ()
+- {
+-   GstGLDisplay *display = NULL;
+-   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
+--  static volatile gsize _debug;
+-+  static gsize _debug;
+- 
+-   g_assert (app != NULL);
+- 
+-diff --git a/ext/qt/qtglrenderer.cc b/ext/qt/qtglrenderer.cc
+-index 2ad5601..bffba8f 100644
+---- a/ext/qt/qtglrenderer.cc
+-+++ b/ext/qt/qtglrenderer.cc
+-@@ -22,7 +22,7 @@ GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
+- static void
+- init_debug (void)
+- {
+--  static volatile gsize _debug;
+-+  static gsize _debug;
+- 
+-   if (g_once_init_enter (&_debug)) {
+-     GST_DEBUG_CATEGORY_INIT (GST_CAT_DEFAULT, "qtglrenderer", 0,
+-diff --git a/ext/qt/qtitem.cc b/ext/qt/qtitem.cc
+-index 7659800..bc99639 100644
+---- a/ext/qt/qtitem.cc
+-+++ b/ext/qt/qtitem.cc
+-@@ -104,7 +104,7 @@ void InitializeSceneGraph::run()
+- 
+- QtGLVideoItem::QtGLVideoItem()
+- {
+--  static volatile gsize _debug;
+-+  static gsize _debug;
+- 
+-   if (g_once_init_enter (&_debug)) {
+-     GST_DEBUG_CATEGORY_INIT (GST_CAT_DEFAULT, "qtglwidget", 0, "Qt GL Widget");
+-diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
+-index 0dfd3f1..f1bd4ae 100644
+---- a/ext/qt/qtwindow.cc
+-+++ b/ext/qt/qtwindow.cc
+-@@ -103,7 +103,7 @@ QtGLWindow::QtGLWindow ( QWindow * parent, QQuickWindow *src ) :
+-   QQuickWindow( parent ), source (src)
+- {
+-   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
+--  static volatile gsize _debug;
+-+  static gsize _debug;
+- 
+-   g_assert (app != NULL);
+- 
+-@@ -152,7 +152,7 @@ QtGLWindow::beforeRendering()
+- 
+-   g_mutex_lock (&this->priv->lock);
+- 
+--  static volatile gsize once = 0;
+-+  static gsize once = 0;
+-   if (g_once_init_enter(&once)) {
+-     this->priv->start = QDateTime::currentDateTime().toMSecsSinceEpoch();
+-     g_once_init_leave(&once,1);
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.5.bb
+similarity index 93%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.5.bb
+index a90594ade5..ade935df9e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.5.bb
+@@ -6,11 +6,9 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+-           file://0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch \
+-           file://0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "b6e50e3a9bbcd56ee6ec71c33aa8332cc9c926b0c1fae995aac8b3040ebe39b0"
++SRC_URI[sha256sum] = "3aaeeea7765fbf8801acce4a503a9b05f73f04e8a35352e9d00232cfd555796b"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+-- 
+2.33.0
 
