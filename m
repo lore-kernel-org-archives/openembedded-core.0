@@ -1,116 +1,93 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A730C433EF
-	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 13:35:27 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web08.22354.1633268121548088802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52087C433EF
+	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 14:03:26 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.22962.1633269805534755920
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 06:35:21 -0700
+ Sun, 03 Oct 2021 07:03:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UhuHxkI8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id
- z184-20020a1c7ec1000000b003065f0bc631so16625233wmc.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=jLOFxVwu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id c4so9373584pls.6
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 06:35:21 -0700 (PDT)
+ Sun, 03 Oct 2021 07:03:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Yo1j7MzhxqWA+57wM67jyoMAkBQc/O2MwgSJSa0et04=;
-        b=UhuHxkI8EMnR12eBW86BbThs6yvjbgqLvq5Wmff93LAEKg7vhlV6FFRXuL0K2by1xY
-         j41PqQUFGyUk5K3RwKcKO4xGbf5nfKfdkY++cYBA3gVAzCpJZkzr8JLQKrbeXX5sSCoU
-         a53fH1SnpkQLrcVX0UKubPnF9XXxjN5Dm+fLo=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=bigh4r0uAyhj1xNQC7jaiQQYT0Zv5if7KoXYpNGEVlc=;
+        b=jLOFxVwu1nmQAGYnqgPimTh35KUtY7VsCad4FCDjenDU0J4BxSshuUX8AjmXG32Ly3
+         ylQDFhmhCxC3JHQ2EqNGgeNidv+ynDCZfezHEY+RhemubgYS2xQDWNh+MVhXwjH66E/D
+         PvGs1c51P2peOuEPooLyLxiO6C+FlBcjvdHGjdCMcnizHTRpn9pOfSr6IEUGMyjXBppU
+         +Ai7YXmBeXMvNpFgZmA2+7Mex/Vsxc81rhiKKc/03ozdWdtyZ2eO0rXDN0pGTjH17BDL
+         8DWMCPUGHbN52FII6SoEIjS3b2ektTwSCzwrWEipKIJb8OG7epOG4A/y/5qiGP6Bqjes
+         ROMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Yo1j7MzhxqWA+57wM67jyoMAkBQc/O2MwgSJSa0et04=;
-        b=fJhX5s3ExRrKBbQCJ9AifwRRpyZuqUSTVzggcNhKf3EMEY86RY+RA3lyW08zYrYhzP
-         cOT//zzDJ7ySBUILZqgrQz4U4Qvxiv0zataLQKRgkncwWwCEVczjzcrKyvLAek8vml22
-         VN2ntvuwCb3g2WdYfh2U+tAW4JeENVK7w1nYU9M143djcfnj5M11ZeMR+UkOLsYorYUc
-         7vvZMStkUebRZ0/jnFNztNTx2aGTABwiz075gscqrlqyIlqdtg+mMtsXEiX2Ak+cSNKI
-         ywFE8JFNrxA/J5A6dcJTH7zkBMc7Nt7ta+ofIaF9T+5MIFnQ24rpw/zNklph3nr5JBK/
-         WMeQ==
-X-Gm-Message-State: AOAM530sLQJsDAtsUFzaW+s6WEnkKhmAUMvVfLKBzxDA9PFDSRqZ6j64
-	ngON2Bp449LuQ5eXujOZ14fMwn6CJj7suzy7
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=bigh4r0uAyhj1xNQC7jaiQQYT0Zv5if7KoXYpNGEVlc=;
+        b=2JQoaN24KJR/qQqVAA1EHFqyUU5pIGWN4UjQ3Cc/Bh2LUlyy9JE1/RvUPszNM2RfJ4
+         OFYw03rZugim5BSJNhUZy5tP2IhoQsMU/egO9yTNzomDJ6ka30ehOwvspQlKqA2ygcpX
+         Ev1TYJEBLnqbPoL/owfH8ErM/4D3NjOQ1M4jVNwVSj3Xn3tZBCZSJsXym+KB8tRp6Nz7
+         Tdck9dEiW5LRJivhlGb/qJPRCYCV9AcprMuRK53TpSc6UE9Yq16xHMmQvutX9Wtm9Sbb
+         u5VI3wxEMfQnAprc33ha/U+byiKcavnfOcVNokwuzMHw7E5/fnBY/5US1lkDngxCyCdD
+         ZkoA==
+X-Gm-Message-State: AOAM532YuK5OvQdzjsedHmgNkbzuvuxrpebPmqrPKu6wzr354jcuAm3Y
+	gCX4pjkfnNEYwX9UU79ag9gmYjVZFZLS1YEp22M=
 X-Google-Smtp-Source: 
- ABdhPJwwi7/wtSZpWQJ3pmrv/0RGbTZVc67KEbWlifFiWA5DRZHdMFV1I65N69M33ixq/iNvcAv8CQ==
-X-Received: by 2002:a1c:80d0:: with SMTP id b199mr2887037wmd.40.1633268119712;
-        Sun, 03 Oct 2021 06:35:19 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8657:7fac:b2bf:59a6?
- ([2001:8b0:aba:5f3c:8657:7fac:b2bf:59a6])
-        by smtp.gmail.com with ESMTPSA id y5sm8045773wma.5.2021.10.03.06.35.18
-        for <openembedded-core@lists.openembedded.org>
+ ABdhPJy3M71K7cCoC04kvbaosZEE5ebu/Q4ATS9eYQKVntvmOxvaLtJkf3nXeoeehdFMjN0sz5jQSg==
+X-Received: by 2002:a17:90a:fc1:: with SMTP id
+ 59mr31506625pjz.233.1633269804135;
+        Sun, 03 Oct 2021 07:03:24 -0700 (PDT)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id
+ x4sm5654527pfu.54.2021.10.03.07.03.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 06:35:19 -0700 (PDT)
-Message-ID: 
- <96f84cbbf6a5652b7a7a16ffaa5cdbd2bfeac5f2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/5] image-artifact-names: Use
- SOURCE_DATE_EPOCH when making reproducible builds
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 03 Oct 2021 14:35:17 +0100
-In-Reply-To: <16AA56A68DAA9487.23650@lists.openembedded.org>
-References: <20211002221803.2283254-1-richard.purdie@linuxfoundation.org>
-	 <16AA56A68DAA9487.23650@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Sun, 03 Oct 2021 07:03:23 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id E427C960398; Sun,  3 Oct 2021 04:03:20 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 03 Oct 2021 04:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20211003140320.E427C960398@nuc.router0800d9.com>
+Date: Sun,  3 Oct 2021 04:03:20 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 13:35:27 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 14:03:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156552
+ https://lists.openembedded.org/g/openembedded-core/message/156553
 
-On Sat, 2021-10-02 at 23:18 +0100, Richard Purdie via lists.openembedded.org
-wrote:
-> Using DATETIME means the deploy output is not deterministic. Use SDE
-> when using reproducible builds since it is consistent for given input data.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/image-artifact-names.bbclass | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image-artifact-names.bbclass b/meta/classes/image-artifact-names.bbclass
-> index 3ac8dd731a6..df9e17c6b0f 100644
-> --- a/meta/classes/image-artifact-names.bbclass
-> +++ b/meta/classes/image-artifact-names.bbclass
-> @@ -4,7 +4,7 @@
->  
->  IMAGE_BASENAME ?= "${PN}"
->  IMAGE_VERSION_SUFFIX ?= "-${DATETIME}"
-> -IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
-> +IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME SOURCE_DATE_EPOCH"
->  IMAGE_NAME ?= "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
->  IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}-${MACHINE}"
->  
-> @@ -13,3 +13,10 @@ IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}-${MACHINE}"
->  # by default) followed by additional suffices which describe the format (.ext4,
->  # .ext4.xz, etc.).
->  IMAGE_NAME_SUFFIX ??= ".rootfs"
-> +
-> +python () {
-> +    if bb.data.inherits_class('reproducible_build', d):
-> +        import datetime
-> +        d.setVar("IMAGE_VERSION_SUFFIX", "-" + datetime.datetime.fromtimestamp(int(d.getVar("SOURCE_DATE_EPOCH")), datetime.timezone.utc).strftime('%Y%m%d%H%M%S'))
-> +        d.setVarFlag("IMAGE_VERSION_SUFFIX", "vardepvalue", "")
-> +}
+Branch: master
 
-This patch is incorrect. It breaks images as they have noexec do_unpack tasks.
+New this week: 4 CVEs
+CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
+CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
+CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
+CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
 
-Cheers,
+Removed this week: 1 CVEs
+CVE-2021-3778: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3778 *
 
-Richard
-
-
-
-
+Full list:  Found 12 unpatched CVEs
+CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
+CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
+CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
+CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
 
