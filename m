@@ -2,60 +2,61 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C8AC433EF
-	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 23:42:26 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.2529.1633304545261228770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A02C433FE
+	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 23:42:27 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.2544.1633304546168740549
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 16:42:25 -0700
+ Sun, 03 Oct 2021 16:42:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PsM+WGGd;
- spf=pass (domain: gmail.com, ip: 209.85.221.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L485jWBM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id d26so27175800wrb.6
+Received: by mail-wm1-f51.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so17686229wmq.1
         for <openembedded-core@lists.openembedded.org>;
  Sun, 03 Oct 2021 16:42:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lg1uQH0C2T9+EvrShCck4YIo7TQS2tv4ZlVWg16RPC4=;
-        b=PsM+WGGdj4ofRhZmrAoXlOIMZFwlpRS3VqqgNAH5hYEvAH5+SqxoTefYr3Tfme1bPM
-         +kFXeiGg0ciWXST94AHQexY0wxUL7s0b/BOCZ0J5HsSPCswzWpnUO0sQspGtKp+qfK3N
-         CMwlrUz5ooafE1em7Ouuzbv0xyMI9EvvrvG5rgZTKyHPH/QTfK+Awg13r6zvbR0f51Wm
-         KdMxk3eoSB9eSjqtEPFuRxJxqBlHoqpf6lvA0qTR07Gjl+hPr6Oc1f0vkgenKEuOb57U
-         XYE5cuYyxRPrdx08OHtL6LDgC5nH7sL7LU+7Z1hEEznhtLCGy62NNExPaaoNn5Bfynz4
-         i4HA==
+        bh=75zi1M/CBG0t08qZOkvZnL7OTJo3U3CQBJjKhlRePGU=;
+        b=L485jWBMG2Rkr5p/JBqUVSV4k6IQ/vHsKPMp40so2vfbEu80kX8qULMedYxXOIosGs
+         LLWf4eRXIHDnzpv6PbvyQ7i/Qtrdhwf9NJDeXPA86vEycLICG4c0zygI6FZ9S1keI1wA
+         FUogcLgg2IHhD3/2zbROs0S2FRiJvOlmO1fIsuSfVSRIkGjj3BaxADV72LHJrF8jzf+J
+         H08yUHA841FOQrst61/l+Uht6TWNBojD6ifkDo7sxPWB4tAFQSE7rBJ3pDlFDoutXVIT
+         Mq4vRmkChJfwi5KVJg9jTRdDzryKwipLA1PlbUH+tMZQg9ZQPCwmo2STF+OWVmu83TTd
+         O9MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lg1uQH0C2T9+EvrShCck4YIo7TQS2tv4ZlVWg16RPC4=;
-        b=Z/5xrYA6Fn8YSTfJyYTT+ZN4jbp2lpsc845/911t7ya654+l0SJSqWpKIotN4wV9Vh
-         b6TsK2rRTb99/qJZNYHVFMszNBBIbO6tPQMxAcDnqKpaIHz+X6DYeNlL7iIdP7CyZUEe
-         GYto3vh1By0VoFtB/hRshHa4ylwx3ETJeU9cgaE1CDmtxIdSy8nlWtm6qhHk9vwUBG9t
-         OlZrfhLDQwigzXBHDurT49GnIcKVwLvA6G6HVxOnoxSygC3vf24ebPKbtUmVTUx8k3T5
-         kstccIdSsCkjFIfdWVZhC+wVBIGhYHZzuxYPZ6LKQST+Ylj0MrWY5XNz82UyAai2Wd+p
-         Ck4w==
-X-Gm-Message-State: AOAM530buAAtvxYs9yn2YpuJkiaVzXc2TQ78DPU+gDuNQGd5tKhNgWeB
-	bsmP2TGoV/IQmHvweNXhRZK6hf/EkHblVg==
+        bh=75zi1M/CBG0t08qZOkvZnL7OTJo3U3CQBJjKhlRePGU=;
+        b=5qBlhM0IEP0Yp8YgECP8OmCIWfxEQztGwCfKj2jKPIgyG6X2iNw3DRBmwaUFk5bLYz
+         Ai6AtJ9TG98/aJtWxTxXVE6XTOyTq9fzSNfKD90WkCYtesXY6vNCX7zFik2d73FFNb1F
+         BcPJ/vj2t9kctqoqnyybfcXZgoxerpDzoo0QTw6uvX5qxGd/khkvAObK6u8kjdfBuwke
+         GxU/djaec2g352k38IDxSp+s2kfbZfrzcJwvIJeGsmdZMxBy2dvozGy4FOGaPZ5zzKhB
+         qKFNOOaIj6UXqhaJnJ1tAHFMaOrSWihuJfUYNacGVWbH/USi3Z1VB5FnAVee2Yy7QCu6
+         u8Ng==
+X-Gm-Message-State: AOAM533otasHwrHHN9S2ZzqD4YR/lrdW8Gov6nCN6tLqzy3eYGlX07Wk
+	e5VP5kaSJ2b4pROYpm94ZOh/15IqMWxaug==
 X-Google-Smtp-Source: 
- ABdhPJxJJy9KZOnvuVDN7eqE9HzIh+xTMQ//cjecaJ+ChfM+jc+h75QUAyep82z/zYT7eZ7B+gtjdQ==
-X-Received: by 2002:a05:6000:1b8d:: with SMTP id
- r13mr11068912wru.230.1633304543616;
-        Sun, 03 Oct 2021 16:42:23 -0700 (PDT)
+ ABdhPJyp7mIaLSdETNKCKHW+HlGUnwpHE06YtiBTlSeWj5VTj26wMY3FD1kE3dcK7zb77wya28yLJg==
+X-Received: by 2002:a05:600c:1ca8:: with SMTP id
+ k40mr15472623wms.27.1633304544309;
+        Sun, 03 Oct 2021 16:42:24 -0700 (PDT)
 Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- f3sm8831893wmb.12.2021.10.03.16.42.22
+ f3sm8831893wmb.12.2021.10.03.16.42.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 03 Oct 2021 16:42:23 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 11/12] gst-devtools: 1.18.4 -> 1.18.5
-Date: Mon,  4 Oct 2021 00:42:05 +0100
-Message-Id: <20211003234206.949967-11-quaresma.jose@gmail.com>
+Subject: [PATCH 12/12] gst-examples: 1.18.4 -> 1.18.5
+Date: Mon,  4 Oct 2021 00:42:06 +0100
+Message-Id: <20211003234206.949967-12-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211003234206.949967-1-quaresma.jose@gmail.com>
 References: <20211003234206.949967-1-quaresma.jose@gmail.com>
@@ -64,32 +65,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 23:42:26 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 23:42:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156575
+ https://lists.openembedded.org/g/openembedded-core/message/156576
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../{gst-devtools_1.18.4.bb => gst-devtools_1.18.5.bb}          | 2 +-
+ .../{gst-examples_1.18.4.bb => gst-examples_1.18.5.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.18.4.bb => gst-devtools_1.18.5.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.18.4.bb => gst-examples_1.18.5.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.5.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.18.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.18.5.bb
-index be554a6a14..1b46b89cb9 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.5.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
+rename to meta/recipes-multimedia/gstreamer/gst-examples_1.18.5.bb
+index 9d8fef86ed..a720bb73ff 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.5.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
+            file://gst-player.desktop \
             "
  
--SRC_URI[sha256sum] = "ffbd194c40912cb5e7fca2863648bf9dd8257b7af97d3a60c4fcd4efd8526ccf"
-+SRC_URI[sha256sum] = "fecffc86447daf5c2a06843c757a991d745caa2069446a0d746e99b13f7cb079"
+-SRCREV = "959bb246a5b1f5f9c78557da11c3f22b42ff89c0"
++SRCREV = "fe9a365dc0f1ff632abcfe3322ac5527a2cf30a0"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.33.0
 
