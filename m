@@ -2,325 +2,149 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EEC1C433F5
-	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 21:31:10 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.1190.1633296668688228646
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39A44C433F5
+	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 21:31:58 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.1197.1633296716776759538
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 14:31:09 -0700
+ Sun, 03 Oct 2021 14:31:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=U/5Geutn;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aMGm0uL5;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id g41so62978056lfv.1
+Received: by mail-wm1-f42.google.com with SMTP id
+ o4-20020a05600c510400b0030d55d6449fso4670165wms.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 14:31:08 -0700 (PDT)
+ Sun, 03 Oct 2021 14:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mGdJPDUGgYzwAL3SgAbKiMViZd+/fBdM1i+zKmsFHmk=;
-        b=U/5Geutn+UKxMHkU+p+x/880EjfQgfSNDmdunTptV6RZvcr0hR4NRkCGmOPyoA37CK
-         dlarb+v/WDWyKupQJlqeom61rncH5kiNGCCB/Dmou8ZeojvvFO9w4YAYE+Go4PzixXH3
-         ZaLvAEJ8nLt+cU7kvx4p7GACwczxve8n3Y0CwRtgWqY0zwpN5XBjq0voV/AxiSfs/tTx
-         PTASH4tH8M29JcuHbh5zHjgMfEMkj4wj9eAE7/HnwhJKVn4lzJqaJFQ0iHq/R0jbEojZ
-         Lnx5RJjUQFjaGQBozGWIdG+fUn9v/9dxPPuw+vagMIapEBfo2co0bm3VY81zyUgS1vL3
-         de4w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L5dxvrP6n0FUkv+yY1GJ8vi+3NAmg28wDDBXT4QiZ3s=;
+        b=aMGm0uL5zShhGJZIdtOKHOJscPjS+xw+HYqGAhz9NGvfPR9McdMnu/QdrdqmpydZJi
+         R81PA0FETWutJjH/oWd0XSoHvX0mfr/nu9ijGbr7Ddc/vIDnSn+kDWXsxMrhPl07Ial7
+         cd0vHj3H/hlP7dXq6/AZQi499oyw+JZunu9uQ+2VeqXlj8VO54u48JsFsbLx0jjOO6pw
+         6qJZTqTMvCwJpkef+4M2oAF0ToXkJPscvTzGjVtpm/GfCqemJqD7GLUxO2vAqP1tGGu/
+         /48yXfnhSJbnNYPhW5/V6eMpDyPXI9Hf82SDzpQ758QuwhtJ0GiWZT33iAaU70jQpJgr
+         tXHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mGdJPDUGgYzwAL3SgAbKiMViZd+/fBdM1i+zKmsFHmk=;
-        b=RA8j/G52nmKM3WKu6/RB0FPcnJncKrRtxLKwgBAdgXOzgYqoIu0vFigiZQUIF9EKam
-         Ul88f3p6KEXzt1xUnpj9qOHX1lIvR+FRExOV1zKm5ZqpJCGeVNVU2FTBJBYWZpHc5qUt
-         RoYH6uFJ7vfpASnFqdsb5qVuX155Sz9ShyKz/CmUf88+VVJ/JMysY2AgyyXVMoka2tF3
-         9MWi6xP0WOerMpxoWOCC5IEGrevNBvnD+jPpltxIZmOnZ8KOg+6Zkt2plryd7uTYBgF8
-         hC1gRgDqcoe/8DlohuHw0IVY/tEE0vbiSETi7rPy6lKzAYrUA/PWhW++QkeDPB0tvCWM
-         Mgzw==
-X-Gm-Message-State: AOAM533zUgUgLG9sR2vomAMuJycsfZpkQE/5AoBfstMGtoMHMSpb6HLx
-	IlkaYY0NkuYt543uN6sX7MgCDLCGz7XAiglx+Lw=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L5dxvrP6n0FUkv+yY1GJ8vi+3NAmg28wDDBXT4QiZ3s=;
+        b=KjB6MHaWyqrczL6xUDElTk9xEH9opos2gh0kj0AVv0LHO3Jwtgf+aMJhCYL7Y4wSEh
+         sbXqcMVb0w2NjudiKUUGlhlFdDTAQS2QpWvNI8+zHP9f2mXsaPHEXtkDn8bqwQpQIN17
+         /lBAt/JnQqLeutUwuadl0CDyxIf5wdKZjOaCLNHnAN4J6uC7YVTRMndJ06rRyVF97CTA
+         tA+z1iG8PezaUBvRzhubawkzJgdgkDhlEKkEOicP2UQV/JWfDYB4K7Jk1MhXHg7gi0Sn
+         KCu8hoZkQo71qy3ZgUMRmQcJn8D/fT4VOZeuGKFaqYffmBzyvYvs8ihDxEXe281Pixlk
+         EhIA==
+X-Gm-Message-State: AOAM532J+8/MOrTCqg5V2sL7JdP8iw7hEfl6tNsua0LWxiqqs06GrZY9
+	6D8CjFw86wTMkCRoi+Q3I36x4gDFy3xXQQ==
 X-Google-Smtp-Source: 
- ABdhPJw+7xGFvAy3ct+AXPoTEj1f5Rui4hJO94n79NdB1q8joK4pVt1KTehKLTZtiKBAhJkMdZoceu+qXngW8a6Lqcg=
-X-Received: by 2002:a2e:5111:: with SMTP id
- f17mr12039269ljb.409.1633296666489;
- Sun, 03 Oct 2021 14:31:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211003111403.334046-1-quaresma.jose@gmail.com>
- <AM9PR09MB4642587EE369115CA92B40A0A8AD9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642587EE369115CA92B40A0A8AD9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ ABdhPJwm0rLd1ottPbQaXr0iHw865x4K1EzUmbZADMI0F4XgzL5cjIglGwoC8vBynySG4muUG+h+Aw==
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr15707134wmc.13.1633296714850;
+        Sun, 03 Oct 2021 14:31:54 -0700 (PDT)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ a63sm13295390wme.18.2021.10.03.14.31.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Oct 2021 14:31:54 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Sun, 3 Oct 2021 22:30:58 +0100
-Message-ID: 
- <CANPvuRm2jrUrTFuzByGEj4T7brK5S2cNkk+JKF0rHnkmUxVaAg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] patch.bbclass: when the patch fails show
- more info on the fatal error
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Quentin Schulz <foss@0leil.net>
-Content-Type: multipart/alternative; boundary="0000000000009e772d05cd7983e3"
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH v5] patch.bbclass: when the patch fails show more info on the
+ fatal error
+Date: Sun,  3 Oct 2021 22:31:50 +0100
+Message-Id: <20211003213150.933534-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 21:31:10 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 21:31:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156559
+ https://lists.openembedded.org/g/openembedded-core/message/156560
 
---0000000000009e772d05cd7983e3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+There are situations when the user have the 'patchdir' defined
+as a parameter on SRC_URI. However he doesn't know that with this
+the patch is applied relatively to the receipe source dir 'S'.
 
-Konrad Weihmann <kweihmann@outlook.com> escreveu no dia domingo, 3/10/2021
-=C3=A0(s) 12:54:
+- When user have 'patchdir' defined check if this directory exist.
+- If the patch fails show addition info to the user:
+  - Import: show the striplevel
+  - Resolver: show the expanded 'patchdir' to the user.
 
->
->
-> On 03.10.21 13:14, Jose Quaresma wrote:
-> > There are situration when the user have the 'patchdir' defined
-> > as a parameter on SRC_URI. However he doesn't know with this,
-> > the patch is applied relatively to the receipe source dir 'S'.
-> >
-> > When user have 'patchdir' defined check if this directory exist.
-> > If the patch fails show addition info to the user:
-> >   * Import: show the striplevel
-> >   * Resolver: show the expanded 'patchdir' to the user.
-> >
-> > On the next example, the patch is applied on ${WORKDIR}/contrib.
->
-> Nice patch, that will turn really helpful, thanks for that one
->
-> >
-> > S =3D "${WORKDIR}/git"
-> > SRCREV_FORMAT =3D "opencv_contrib"
-> > SRC_URI =3D "git://github.com/opencv/opencv.git;name=3Dopencv \
-> >             git://
-> github.com/opencv/opencv_contrib.git;destsuffix=3Dcontrib;name=3Dcontrib =
-\
-> >
->  file://0001-sfm-link-with-Glog_LIBS.patch;patchdir=3D../contrib \
-> >             "
-> >
-> > But if the user specifies a path on 'patchdir' that don't exist,
-> > (patchdir=3D../no-found-on-file-system) the patch will fail and there
-> > are no message that indicates the real cause.
-> >
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >   meta/classes/patch.bbclass | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> > index 388773a237..30753dc65b 100644
-> > --- a/meta/classes/patch.bbclass
-> > +++ b/meta/classes/patch.bbclass
-> > @@ -131,6 +131,9 @@ python patch_do_patch() {
-> >               patchdir =3D parm["patchdir"]
-> >               if not os.path.isabs(patchdir):
-> >                   patchdir =3D os.path.join(s, patchdir)
-> > +            if not os.path.isdir(patchdir):
-> > +                bb.fatal("Patch target source directory '%s' not found=
-,
-> 'patchdir' is incorrect in '%s'" %
-> > +                    (patchdir, parm['patchname']))
-> >           else:
-> >               patchdir =3D s
-> >
-> > @@ -147,11 +150,13 @@ python patch_do_patch() {
-> >               patchset.Import({"file":local, "strippath":
-> parm['striplevel']}, True)
-> >           except Exception as exc:
-> >               bb.utils.remove(process_tmpdir, True)
-> > +            bb.fatal("Import patch '%s' with striplevel '%s'" %
-> (parm['patchname'], parm['striplevel']))
-> >               bb.fatal(str(exc))
->
-> I'm not a 100% sure about consecutive bb.fatal calls. To my
-> understanding each of the calls will raise a BBHandledException, which
-> is caught at toplevel and leading to sys.exit - so a bb.fatal after a
-> bb.fatal is likely dead code, as it will be never called.
->
+The next example is from opencv in meta-oe layer, here the
+patch is applied on the target directory ${WORKDIR}/git/contrib.
 
-Thanks, good catch.
-Does not make sense to call bb.fatal one after the other.
-I will send a V5.
+S = "${WORKDIR}/git"
+SRCREV_FORMAT = "opencv_contrib"
+SRC_URI = "git://github.com/opencv/opencv.git;name=opencv \
+           git://github.com/opencv/opencv_contrib.git;destsuffix=contrib;name=contrib \
+           file://0001-sfm-link-with-Glog_LIBS.patch;patchdir=../contrib \
+           "
 
+* When the patch fail there are no message that indicates the real reason.
+  patchdir=../no-found-on-file-system
 
-> But I might be wrong here - looking for more insights from the bitbake
-> experts
->
->
-> >           try:
-> >               resolver.Resolve()
-> >           except bb.BBHandledException as e:
-> >               bb.utils.remove(process_tmpdir, True)
-> > +            bb.fatal("Resolve patch '%s' on target directory '%s'" %
-> (parm['patchname'], patchdir))
-> >               bb.fatal(str(e))
-> >
-> >       bb.utils.remove(process_tmpdir, True)
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#156549):
-> https://lists.openembedded.org/g/openembedded-core/message/156549
-> > Mute This Topic: https://lists.openembedded.org/mt/86039997/3647476
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> kweihmann@outlook.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
+ERROR: opencv-4.5.2-r0 do_patch: Command Error: 'quilt --quiltrc /build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+stdout: Applying patch 0001-sfm-link-with-Glog_LIBS.patch
+can't find file to patch at input line 37
+Perhaps you used the wrong -p or --strip option?
 
+* The check of the patchdir will add a new fatal error
+  when the user specifies a wrong path than don't exist.
+  patchdir=../no-found-on-file-system
 
---=20
-Best regards,
+ERROR: opencv-4.5.2-r0 do_patch: Target directory '/build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/git/../no-found-on-file-system' not found, patchdir '../no-found-on-file-system' is incorrect in patch file '0001-sfm-link-with-Glog_LIBS.patch'
 
-Jos=C3=A9 Quaresma
+* When we can't aplly the patch but the patchdir exist,
+  show the expanded patchdir on fatal error.
+  patchdir=../git
 
---0000000000009e772d05cd7983e3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ERROR: opencv-4.5.2-r0 do_patch: Applying patch '0001-sfm-link-with-Glog_LIBS.patch' on target directory '/build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/git/../git'
+Command Error: 'quilt --quiltrc /build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+stdout: Applying patch 0001-sfm-link-with-Glog_LIBS.patch
+can't find file to patch at input line 37
+Perhaps you used the wrong -p or --strip option?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Konrad Weihmann &lt;<a href=3D"mailto=
-:kweihmann@outlook.com">kweihmann@outlook.com</a>&gt; escreveu no dia domin=
-go, 3/10/2021 =C3=A0(s) 12:54:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex"><br>
-<br>
-On 03.10.21 13:14, Jose Quaresma wrote:<br>
-&gt; There are situration when the user have the &#39;patchdir&#39; defined=
-<br>
-&gt; as a parameter on SRC_URI. However he doesn&#39;t know with this,<br>
-&gt; the patch is applied relatively to the receipe source dir &#39;S&#39;.=
-<br>
-&gt; <br>
-&gt; When user have &#39;patchdir&#39; defined check if this directory exis=
-t.<br>
-&gt; If the patch fails show addition info to the user:<br>
-&gt;=C2=A0 =C2=A0* Import: show the striplevel<br>
-&gt;=C2=A0 =C2=A0* Resolver: show the expanded &#39;patchdir&#39; to the us=
-er.<br>
-&gt; <br>
-&gt; On the next example, the patch is applied on ${WORKDIR}/contrib.<br>
-<br>
-Nice patch, that will turn really helpful, thanks for that one<br>
-<br>
-&gt; <br>
-&gt; S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; SRCREV_FORMAT =3D &quot;opencv_contrib&quot;<br>
-&gt; SRC_URI =3D &quot;git://<a href=3D"http://github.com/opencv/opencv.git=
-;name=3Dopencv" rel=3D"noreferrer" target=3D"_blank">github.com/opencv/open=
-cv.git;name=3Dopencv</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http:/=
-/github.com/opencv/opencv_contrib.git;destsuffix=3Dcontrib;name=3Dcontrib" =
-rel=3D"noreferrer" target=3D"_blank">github.com/opencv/opencv_contrib.git;d=
-estsuffix=3Dcontrib;name=3Dcontrib</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-sfm-link-wi=
-th-Glog_LIBS.patch;patchdir=3D../contrib \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; <br>
-&gt; But if the user specifies a path on &#39;patchdir&#39; that don&#39;t =
-exist,<br>
-&gt; (patchdir=3D../no-found-on-file-system) the patch will fail and there<=
-br>
-&gt; are no message that indicates the real cause.<br>
-&gt; <br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
-.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/classes/patch.bbclass | 5 +++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 5 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass<b=
-r>
-&gt; index 388773a237..30753dc65b 100644<br>
-&gt; --- a/meta/classes/patch.bbclass<br>
-&gt; +++ b/meta/classes/patch.bbclass<br>
-&gt; @@ -131,6 +131,9 @@ python patch_do_patch() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patchdir =3D par=
-m[&quot;patchdir&quot;]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not os.path.i=
-sabs(patchdir):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pa=
-tchdir =3D os.path.join(s, patchdir)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.isdir(patchd=
-ir):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quo=
-t;Patch target source directory &#39;%s&#39; not found, &#39;patchdir&#39; =
-is incorrect in &#39;%s&#39;&quot; %<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- (patchdir, parm[&#39;patchname&#39;]))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patchdir =3D s<b=
-r>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -147,11 +150,13 @@ python patch_do_patch() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patchset.Import(=
-{&quot;file&quot;:local, &quot;strippath&quot;: parm[&#39;striplevel&#39;]}=
-, True)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except Exception as exc:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(=
-process_tmpdir, True)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Import patch=
- &#39;%s&#39; with striplevel &#39;%s&#39;&quot; % (parm[&#39;patchname&#39=
-;], parm[&#39;striplevel&#39;]))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.fatal(str(exc=
-))<br>
-<br>
-I&#39;m not a 100% sure about consecutive bb.fatal calls. To my <br>
-understanding each of the calls will raise a BBHandledException, which <br>
-is caught at toplevel and leading to sys.exit - so a bb.fatal after a <br>
-bb.fatal is likely dead code, as it will be never called.<br></blockquote><=
-div><br></div><div>Thanks, good catch.</div><div>Does not make sense to cal=
-l bb.fatal one after the other.<br></div><div>I will send a V5.</div><div><=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-But I might be wrong here - looking for more insights from the bitbake <br>
-experts<br>
-<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0resolver.Resolve=
-()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except bb.BBHandledException a=
-s e:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(=
-process_tmpdir, True)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Resolve patc=
-h &#39;%s&#39; on target directory &#39;%s&#39;&quot; % (parm[&#39;patchnam=
-e&#39;], patchdir))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.fatal(str(e))=
-<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(process_tmpdir, True)<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#156549): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/156549" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/156549</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86039997=
-/3647476" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/86039997/3647476</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:kweihmann@outlook.com=
-" target=3D"_blank">kweihmann@outlook.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/classes/patch.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
---0000000000009e772d05cd7983e3--
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index 388773a237..87bcaf91a8 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -131,6 +131,9 @@ python patch_do_patch() {
+             patchdir = parm["patchdir"]
+             if not os.path.isabs(patchdir):
+                 patchdir = os.path.join(s, patchdir)
++            if not os.path.isdir(patchdir):
++                bb.fatal("Target directory '%s' not found, patchdir '%s' is incorrect in patch file '%s'" %
++                    (patchdir, parm["patchdir"], parm['patchname']))
+         else:
+             patchdir = s
+ 
+@@ -147,12 +150,12 @@ python patch_do_patch() {
+             patchset.Import({"file":local, "strippath": parm['striplevel']}, True)
+         except Exception as exc:
+             bb.utils.remove(process_tmpdir, True)
+-            bb.fatal(str(exc))
++            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], str(exc)))
+         try:
+             resolver.Resolve()
+         except bb.BBHandledException as e:
+             bb.utils.remove(process_tmpdir, True)
+-            bb.fatal(str(e))
++            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, str(e)))
+ 
+     bb.utils.remove(process_tmpdir, True)
+     del os.environ['TMPDIR']
+-- 
+2.33.0
+
 
