@@ -1,417 +1,285 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 397E5C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 18:28:25 +0000 (UTC)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
- [209.85.221.171])
- by mx.groups.io with SMTP id smtpd.web11.14044.1633372103957831099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E549C433F5
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 18:31:53 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web09.14171.1633372312550130891
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 11:28:24 -0700
+ Mon, 04 Oct 2021 11:31:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=V3+O3MZy;
- spf=pass (domain: gmail.com, ip: 209.85.221.171,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f171.google.com with SMTP id b67so8105941vkb.13
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 11:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qFGLTtGcDcExiFeGHfnipqhEJZCtX5dONFnRYAHQVfI=;
-        b=V3+O3MZyiKbrV9sXsdJvS7ol8VJsD8yKUUReCxXdkPGEuN3pyWBBueFTo0Vs2o9NPx
-         O2RJlW03vLgwZMhqstUeGbYjxDCB898KVmi3e9UBuQ+y+tvxWHeZnPs/DkwEsw6n3shb
-         rait1wQpYmLz+VBMkcR230t4TKtJbATHtVU/FaT84rAn+r6KG2FC0Ms+LE5asSd14hpC
-         FS7KsFK1vKTLQmFmNXAVOPj8AMwCy8rzqgxIFMD+njy4yW/3hzhJHEn/gzeDLfuu+xaY
-         K8wmsMcpPwr21E6SANoVRn1P/WzBzixflyM6i3KPEN81CenD9A6JCTFFPL9P4VbTKd91
-         FTCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qFGLTtGcDcExiFeGHfnipqhEJZCtX5dONFnRYAHQVfI=;
-        b=eaLVBhPnidjROHX5HUjC5UPduzsou62HLFvVrB64bumH39Kq4YtT4b/Xjc81hXfoF0
-         2DEWDBcIOGFJIFfPClwweFezwLtecv8Rxqs1TMTWE4OZHHBLs2KncK885X/Nu3e8OXpC
-         5QuGfaZR0rGIP45f9VwjIDXVzSKZ5SCBkoqNh/WPmMKj+zU+VPJAgXPsvynBbCjsEqyP
-         IG2/c1jxt27sf4cF6nj3tsq1wNSDqtzKTLHuPaMx4P28cEVSTwGbMsKS2qHFf9yVFlAF
-         rSXOWRvh1X99k24ibirXSCvgia6I/rryEpDNZWQ+KWTo4Bis/rhJ7yx6JWW/fN/J1Ngu
-         DzdA==
-X-Gm-Message-State: AOAM530lpz5iK8cNYpBGMP/yYiqVX/HYDbJA7VGa+4fG033PxiCYqT3A
-	SZChabcg5z4u8ftyIH+2mYtbBSakAXYcb90lWjs=
-X-Google-Smtp-Source: 
- ABdhPJxqKBLJbSTdxBkD6FZ9efh2lOP5CEHszUcJ/QpoLEmxPDK9J9SNdTlCn9ZyCqAog8/q23XrJGRxI48Q51RFlXk=
-X-Received: by 2002:a1f:1bc6:: with SMTP id
- b189mr16670644vkb.15.1633372102944;
- Mon, 04 Oct 2021 11:28:22 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="225859644"
+X-IronPort-AV: E=Sophos;i="5.85,346,1624345200";
+   d="scan'208";a="225859644"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 09:51:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,346,1624345200";
+   d="scan'208";a="483208861"
+Received: from hchai4-mobl2.gar.corp.intel.com (HELO
+ anmitta2-mobl1.gar.corp.intel.com) ([10.213.128.172])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 09:51:08 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 06/11] vim: Backport fix for CVE-2021-3770
+Date: Tue,  5 Oct 2021 00:50:50 +0800
+Message-Id: 
+ <27c7e46bc4dbabdcd8c5c1a9de2906c5bc8a48c4.1633366030.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1633366030.git.anuj.mittal@intel.com>
+References: <cover.1633366030.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
- <20210604091458.1381144-4-alex.kanavin@gmail.com>
- <1685B658849E960A.4717@lists.openembedded.org>
- <f9cc3da4399fcca66a9c43638dcf4eca162ba23a.camel@linuxfoundation.org>
- <50a73766-dc52-0600-a6cd-7ab422030782@gmail.com>
- <7e56d093ba6c1390cec71ef3a362abe84ce735bb.camel@linuxfoundation.org>
- <CANNYZj_ExBZwGzRrnG8Yb2nsNmzCKkZV09FqFuMbCdxAepNSkg@mail.gmail.com>
- <2ac70a7b01743192ae4ec42b2b1eee18becde25d.camel@linuxfoundation.org>
- <CANNYZj-dYu4Q9PBhBd2-msPaBSreycLCfCKmZ1zm8=z=Ht+MbA@mail.gmail.com>
- <1c55d1aca45e746034b791b2f1712e8f335b502c.camel@linuxfoundation.org>
- <ae52185ed604614ff00bee7606b704e6c065107f.camel@intel.com>
- <CADfgfobgqkfyp3GLMqJbe-T18Rdf0FYdUpVBWcU2+wkVhfMKSw@mail.gmail.com>
-In-Reply-To: 
- <CADfgfobgqkfyp3GLMqJbe-T18Rdf0FYdUpVBWcU2+wkVhfMKSw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 4 Oct 2021 20:28:11 +0200
-Message-ID: 
- <CANNYZj_tBVBPDM4++e4Ujvt2jfchc1WBgiGBr4xW=UDD0xtztQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/10] cmake: update 3.20.2 -> 3.20.3
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Cc: Anuj Mittal <anuj.mittal@intel.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fb696305cd8b136e"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 18:28:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 18:31:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156628
+ https://lists.openembedded.org/g/openembedded-core/message/156629
 
---000000000000fb696305cd8b136e
-Content-Type: text/plain; charset="UTF-8"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Since the original centos 8 is going away (support-wise) in less than 3
-months, should we just convert all workers to stream and move on?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 54d3d023ce55ba4a7160ed25a283f0918e7d8e2e)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
 
-Alex
+diff --git a/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+new file mode 100644
+index 0000000000..1cee759502
+--- /dev/null
++++ b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+@@ -0,0 +1,207 @@
++From b7081e135a16091c93f6f5f7525a5c58fb7ca9f9 Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Sat, 4 Sep 2021 18:47:28 +0200
++Subject: [PATCH] patch 8.2.3402: invalid memory access when using :retab with
++ large value
++
++Problem:    Invalid memory access when using :retab with large value.
++Solution:   Check the number is positive.
++
++CVE: CVE-2021-3770
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Backport [https://github.com/vim/vim/commit/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9]
++---
++ src/indent.c               | 34 +++++++++++++++++++++-------------
++ src/option.c               | 12 ++++++------
++ src/optionstr.c            |  4 ++--
++ src/testdir/test_retab.vim |  3 +++
++ src/version.c              |  2 ++
++ 5 files changed, 34 insertions(+), 21 deletions(-)
++
++Index: git/src/indent.c
++===================================================================
++--- git.orig/src/indent.c
+++++ git/src/indent.c
++@@ -18,18 +18,19 @@
++ /*
++  * Set the integer values corresponding to the string setting of 'vartabstop'.
++  * "array" will be set, caller must free it if needed.
+++ * Return FAIL for an error.
++  */
++     int
++ tabstop_set(char_u *var, int **array)
++ {
++-    int valcount = 1;
++-    int t;
++-    char_u *cp;
+++    int	    valcount = 1;
+++    int	    t;
+++    char_u  *cp;
++ 
++     if (var[0] == NUL || (var[0] == '0' && var[1] == NUL))
++     {
++ 	*array = NULL;
++-	return TRUE;
+++	return OK;
++     }
++ 
++     for (cp = var; *cp != NUL; ++cp)
++@@ -43,8 +44,8 @@ tabstop_set(char_u *var, int **array)
++ 		if (cp != end)
++ 		    emsg(_(e_positive));
++ 		else
++-		    emsg(_(e_invarg));
++-		return FALSE;
+++		    semsg(_(e_invarg2), cp);
+++		return FAIL;
++ 	    }
++ 	}
++ 
++@@ -55,26 +56,33 @@ tabstop_set(char_u *var, int **array)
++ 	    ++valcount;
++ 	    continue;
++ 	}
++-	emsg(_(e_invarg));
++-	return FALSE;
+++	semsg(_(e_invarg2), var);
+++	return FAIL;
++     }
++ 
++     *array = ALLOC_MULT(int, valcount + 1);
++     if (*array == NULL)
++-	return FALSE;
+++	return FAIL;
++     (*array)[0] = valcount;
++ 
++     t = 1;
++     for (cp = var; *cp != NUL;)
++     {
++-	(*array)[t++] = atoi((char *)cp);
++-	while (*cp  != NUL && *cp != ',')
+++	int n = atoi((char *)cp);
+++
+++	if (n < 0 || n > 9999)
+++	{
+++	    semsg(_(e_invarg2), cp);
+++	    return FAIL;
+++	}
+++	(*array)[t++] = n;
+++	while (*cp != NUL && *cp != ',')
++ 	    ++cp;
++ 	if (*cp != NUL)
++ 	    ++cp;
++     }
++ 
++-    return TRUE;
+++    return OK;
++ }
++ 
++ /*
++@@ -1556,7 +1564,7 @@ ex_retab(exarg_T *eap)
++ 
++ #ifdef FEAT_VARTABS
++     new_ts_str = eap->arg;
++-    if (!tabstop_set(eap->arg, &new_vts_array))
+++    if (tabstop_set(eap->arg, &new_vts_array) == FAIL)
++ 	return;
++     while (vim_isdigit(*(eap->arg)) || *(eap->arg) == ',')
++ 	++(eap->arg);
++Index: git/src/option.c
++===================================================================
++--- git.orig/src/option.c
+++++ git/src/option.c
++@@ -2292,9 +2292,9 @@ didset_options2(void)
++ #endif
++ #ifdef FEAT_VARTABS
++     vim_free(curbuf->b_p_vsts_array);
++-    tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
+++    (void)tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
++     vim_free(curbuf->b_p_vts_array);
++-    tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
+++    (void)tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
++ #endif
++ }
++ 
++@@ -5756,7 +5756,7 @@ buf_copy_options(buf_T *buf, int flags)
++ 	    buf->b_p_vsts = vim_strsave(p_vsts);
++ 	    COPY_OPT_SCTX(buf, BV_VSTS);
++ 	    if (p_vsts && p_vsts != empty_option)
++-		tabstop_set(p_vsts, &buf->b_p_vsts_array);
+++		(void)tabstop_set(p_vsts, &buf->b_p_vsts_array);
++ 	    else
++ 		buf->b_p_vsts_array = 0;
++ 	    buf->b_p_vsts_nopaste = p_vsts_nopaste
++@@ -5914,7 +5914,7 @@ buf_copy_options(buf_T *buf, int flags)
++ 		buf->b_p_isk = save_p_isk;
++ #ifdef FEAT_VARTABS
++ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
++-		    tabstop_set(p_vts, &buf->b_p_vts_array);
+++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
++ 		else
++ 		    buf->b_p_vts_array = NULL;
++ #endif
++@@ -5929,7 +5929,7 @@ buf_copy_options(buf_T *buf, int flags)
++ 		buf->b_p_vts = vim_strsave(p_vts);
++ 		COPY_OPT_SCTX(buf, BV_VTS);
++ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
++-		    tabstop_set(p_vts, &buf->b_p_vts_array);
+++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
++ 		else
++ 		    buf->b_p_vts_array = NULL;
++ #endif
++@@ -6634,7 +6634,7 @@ paste_option_changed(void)
++ 	    if (buf->b_p_vsts_array)
++ 		vim_free(buf->b_p_vsts_array);
++ 	    if (buf->b_p_vsts && buf->b_p_vsts != empty_option)
++-		tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
+++		(void)tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
++ 	    else
++ 		buf->b_p_vsts_array = 0;
++ #endif
++Index: git/src/optionstr.c
++===================================================================
++--- git.orig/src/optionstr.c
+++++ git/src/optionstr.c
++@@ -2166,7 +2166,7 @@ did_set_string_option(
++ 	    if (errmsg == NULL)
++ 	    {
++ 		int *oldarray = curbuf->b_p_vsts_array;
++-		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)))
+++		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)) == OK)
++ 		{
++ 		    if (oldarray)
++ 			vim_free(oldarray);
++@@ -2205,7 +2205,7 @@ did_set_string_option(
++ 	    {
++ 		int *oldarray = curbuf->b_p_vts_array;
++ 
++-		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)))
+++		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)) == OK)
++ 		{
++ 		    vim_free(oldarray);
++ #ifdef FEAT_FOLDING
++Index: git/src/testdir/test_retab.vim
++===================================================================
++--- git.orig/src/testdir/test_retab.vim
+++++ git/src/testdir/test_retab.vim
++@@ -74,4 +74,7 @@ endfunc
++ func Test_retab_error()
++   call assert_fails('retab -1',  'E487:')
++   call assert_fails('retab! -1', 'E487:')
+++  call assert_fails('ret -1000', 'E487:')
+++  call assert_fails('ret 10000', 'E475:')
+++  call assert_fails('ret 80000000000000000000', 'E475:')
++ endfunc
++Index: git/src/version.c
++===================================================================
++--- git.orig/src/version.c
+++++ git/src/version.c
++@@ -743,6 +743,8 @@ static char *(features[]) =
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
++ /**/
+++    3402,
+++/**/
++     0
++ };
++ 
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index e45f9b828d..e04c653fe3 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,7 +19,9 @@ SRC_URI = "git://github.com/vim/vim.git \
+            file://racefix.patch \
+            file://CVE-2021-3778.patch \
+            file://CVE-2021-3796.patch \
++           file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
+ "
++
+ SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+-- 
+2.31.1
 
-On Mon, 4 Oct 2021 at 18:27, Michael Halstead <mhalstead@linuxfoundation.org>
-wrote:
-
-> This error was fixed upstream
-> https://bugzilla.redhat.com/show_bug.cgi?id=1975562 kernel 4.18.0-325.x
-> which has landed in CentOS8 Stream on centos8-ty-2 but not plain CentOS8
-> where the newest kernel is still at 4.18.0-305.x.
->
-> I'll reboot into the older 4.18.0-240.15 kernel again on centos8-ty-1 as a
-> fix for now.
->
-> On Tue, Sep 28, 2021 at 6:12 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
->
->> Did we find out the reason why this was happening? I have started
->> getting this error on Centos-8 while building hardknott.
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/4045
->>
->> Thanks,
->>
->> Anuj
->>
->> On Wed, 2021-06-16 at 23:45 +0100, Richard Purdie wrote:
->> > On Sun, 2021-06-06 at 21:51 +0200, Alexander Kanavin wrote:
->> > > On Sun, 6 Jun 2021 at 01:10, Richard Purdie
->> > > <richard.purdie@linuxfoundation.org> wrote:
->> > > > I tried again with the autobuilder, still fails:
->> > > >
->> > > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3516
->> > > >
->> > > > so whatever it is, it is still "live".
->> > > >
->> > >
->> > >
->> > > I did some digging. The issue happens when:
->> > > - host is centos8
->> > > - SDKMACHINE is i686 (e.g. cmake is 32 bit)
->> > >
->> > > Then there's a failing syscall attempting to set file times:
->> > > utimensat_time64(AT_FDCWD, "../install/usr/local/lib/cmake/assimp-
->> > > 4.1/assimp-config.cmake",
->> > > [{tv_sec=1622966723, tv_nsec=6319439026193432576},
->> > > {tv_sec=1622966579, tv_nsec=17840053692309438464}], 0) = -1
->> > > EINVAL (Invalid argument)
->> > >
->> > > On latest Fedora, there's no issue:
->> > > utimensat_time64(AT_FDCWD, "../install2/usr/local/lib/cmake/assimp-
->> > > 4.1/assimp-config.cmake",
->> > > [{tv_sec=1623002886, tv_nsec=6369724778172907520},
->> > > {tv_sec=1623002886, tv_nsec=17839174083007217664}], 0) = 0
->> > >
->> > > utimensat_time64 only appeared with 5.1 kernels, however, 4.18 should
->> > > be returning ENOSYS in that case
->> > > probably?
->> >
->> > I hacked up a quick test bit of code (which makes assumptions
->> > about 32 bit):
->> >
->> > #include <unistd.h>
->> > #include <sys/syscall.h>
->> > #include <sys/types.h>
->> > #include <sys/stat.h>
->> > #include <fcntl.h>
->> > #include <stdio.h>
->> >
->> > struct timespec64 {
->> >     long long           tv_sec;                 /* seconds */
->> >     long long           tv_nsec;                /* nanoseconds */
->> > };
->> >
->> > int main() {
->> >   int fd = open("foo", O_RDWR | O_CREAT, 0644);
->> >   write(fd, "foo", 3);
->> >   struct timespec64 times[2] = {};
->> >   times[0].tv_sec = 1622966723;
->> >   times[0].tv_nsec = 631943;
->> >   times[1].tv_sec = 1622966579;
->> >   times[1].tv_nsec = 178400;
->> >   int rc = syscall(SYS_utimensat_time64, fd, NULL, &times[0], 0);
->> >   printf("rc=%d\n", rc);
->> >   close(fd);
->> >   return rc;
->> > }
->> >
->> > built with "gcc -m32 test-syscall.c -o test" and run with "strace
->> > ./test".
->> > This works on all the systems I tried it in. As does:
->> >
->> >
->> >   times[0].tv_sec = 1;
->> >   times[0].tv_nsec = 2;
->> >   times[1].tv_sec = 3;
->> >   times[1].tv_nsec = 4;
->> >
->> > however if you set (and ignore the compiler warning):
->> >
->> >   times[0].tv_sec = 1622966723;
->> >   times[0].tv_nsec = 6319439026193432576;
->> >   times[1].tv_sec = 1622966579;
->> >   times[1].tv_nsec = 17840053692309438464;
->> >
->> > then you see EINVAL on the centos system but not on my ubuntu one. It
->> > will
->> > do that until you reduce the values of tv_nsec right now. So it seems
->> > most
->> > systems accept large tv_nsec values but the Centos one does not.
->> >
->> > I think tv_nsec may be being clamped to LONG_MAX of 4 bytes but should
->> > be
->> > a LONG_LONG_MAX of 8 bytes on a 32 bit since the field is a 64 bit
->> > long.
->> >
->> > Michael: Hopefully that gives you something to raise with them?
->> >
->> > Cheers,
->> >
->> > Richard
->> >
->> >
->> >
->> >
->> >
->> >
->> >
->> >
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#156435):
->> https://lists.openembedded.org/g/openembedded-core/message/156435
->> Mute This Topic: https://lists.openembedded.org/mt/83304703/1003190
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> mhalstead@linuxfoundation.org]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
->>
->
-> --
-> Michael Halstead
-> Linux Foundation / Yocto Project
-> Systems Operations Engineer
->
-
---000000000000fb696305cd8b136e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Since the original centos 8 is going away (support-wi=
-se) in less than 3 months, should we just convert all workers to stream and=
- move on?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 4 Oct 2021 at 18:2=
-7, Michael Halstead &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org">mh=
-alstead@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr">This error was fixed upstream=
-=C2=A0<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1975562" tar=
-get=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D1975562</a> ke=
-rnel 4.18.0-325.x which has landed in CentOS8 Stream on centos8-ty-2 but no=
-t plain CentOS8 where the newest kernel is still at=C2=A04.18.0-305.x.<div>=
-<br></div><div>I&#39;ll reboot into the older=C2=A04.18.0-240.15 kernel aga=
-in on centos8-ty-1 as a fix for now.=C2=A0</div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 28, 2021 at 6:1=
-2 PM Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_bl=
-ank">anuj.mittal@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">Did we find out the reason why this was happening=
-? I have started<br>
-getting this error on Centos-8 while building hardknott.<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/63/build=
-s/4045" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/63/builds/4045</a><br>
-<br>
-Thanks,<br>
-<br>
-Anuj<br>
-<br>
-On Wed, 2021-06-16 at 23:45 +0100, Richard Purdie wrote:<br>
-&gt; On Sun, 2021-06-06 at 21:51 +0200, Alexander Kanavin wrote:<br>
-&gt; &gt; On Sun, 6 Jun 2021 at 01:10, Richard Purdie<br>
-&gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
-=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; &gt; I tried again with the autobuilder, still fails:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/bu=
-ilders/48/builds/3516" rel=3D"noreferrer" target=3D"_blank">https://autobui=
-lder.yoctoproject.org/typhoon/#/builders/48/builds/3516</a><br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; so whatever it is, it is still &quot;live&quot;.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; I did some digging. The issue happens when:<br>
-&gt; &gt; - host is centos8<br>
-&gt; &gt; - SDKMACHINE is i686 (e.g. cmake is 32 bit)<br>
-&gt; &gt; <br>
-&gt; &gt; Then there&#39;s a failing syscall attempting to set file times:<=
-br>
-&gt; &gt; utimensat_time64(AT_FDCWD, &quot;../install/usr/local/lib/cmake/a=
-ssimp-<br>
-&gt; &gt; 4.1/assimp-config.cmake&quot;,<br>
-&gt; &gt; [{tv_sec=3D1622966723, tv_nsec=3D6319439026193432576},<br>
-&gt; &gt; {tv_sec=3D1622966579, tv_nsec=3D17840053692309438464}], 0) =3D -1=
-<br>
-&gt; &gt; EINVAL (Invalid argument)<br>
-&gt; &gt; <br>
-&gt; &gt; On latest Fedora, there&#39;s no issue:<br>
-&gt; &gt; utimensat_time64(AT_FDCWD, &quot;../install2/usr/local/lib/cmake/=
-assimp-<br>
-&gt; &gt; 4.1/assimp-config.cmake&quot;,<br>
-&gt; &gt; [{tv_sec=3D1623002886, tv_nsec=3D6369724778172907520},<br>
-&gt; &gt; {tv_sec=3D1623002886, tv_nsec=3D17839174083007217664}], 0) =3D 0<=
-br>
-&gt; &gt; <br>
-&gt; &gt; utimensat_time64 only appeared with 5.1 kernels, however, 4.18 sh=
-ould<br>
-&gt; &gt; be returning ENOSYS in that case<br>
-&gt; &gt; probably?<br>
-&gt; <br>
-&gt; I hacked up a quick test bit of code (which makes assumptions=C2=A0<br=
->
-&gt; about 32 bit):<br>
-&gt; <br>
-&gt; #include &lt;unistd.h&gt;<br>
-&gt; #include &lt;sys/syscall.h&gt;<br>
-&gt; #include &lt;sys/types.h&gt;<br>
-&gt; #include &lt;sys/stat.h&gt;<br>
-&gt; #include &lt;fcntl.h&gt;<br>
-&gt; #include &lt;stdio.h&gt;<br>
-&gt; <br>
-&gt; struct timespec64 {<br>
-&gt; =C2=A0=C2=A0=C2=A0 long long=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0tv_sec;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* seconds */<b=
-r>
-&gt; =C2=A0=C2=A0=C2=A0 long long=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0tv_nsec;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* nanoseconds */<br>
-&gt; };<br>
-&gt; <br>
-&gt; int main() {<br>
-&gt; =C2=A0 int fd =3D open(&quot;foo&quot;, O_RDWR | O_CREAT, 0644);<br>
-&gt; =C2=A0 write(fd, &quot;foo&quot;, 3);<br>
-&gt; =C2=A0 struct timespec64 times[2] =3D {};<br>
-&gt; =C2=A0 times[0].tv_sec =3D 1622966723;<br>
-&gt; =C2=A0 times[0].tv_nsec =3D 631943;<br>
-&gt; =C2=A0 times[1].tv_sec =3D 1622966579;<br>
-&gt; =C2=A0 times[1].tv_nsec =3D 178400;<br>
-&gt; =C2=A0 int rc =3D syscall(SYS_utimensat_time64, fd, NULL, &amp;times[0=
-], 0);<br>
-&gt; =C2=A0 printf(&quot;rc=3D%d\n&quot;, rc);<br>
-&gt; =C2=A0 close(fd);<br>
-&gt; =C2=A0 return rc;<br>
-&gt; }<br>
-&gt; <br>
-&gt; built with &quot;gcc -m32 test-syscall.c -o test&quot; and run with &q=
-uot;strace<br>
-&gt; ./test&quot;.<br>
-&gt; This works on all the systems I tried it in. As does:<br>
-&gt; <br>
-&gt; <br>
-&gt; =C2=A0 times[0].tv_sec =3D 1;<br>
-&gt; =C2=A0 times[0].tv_nsec =3D 2;<br>
-&gt; =C2=A0 times[1].tv_sec =3D 3;<br>
-&gt; =C2=A0 times[1].tv_nsec =3D 4;<br>
-&gt; <br>
-&gt; however if you set (and ignore the compiler warning):<br>
-&gt; <br>
-&gt; =C2=A0 times[0].tv_sec =3D 1622966723;<br>
-&gt; =C2=A0 times[0].tv_nsec =3D 6319439026193432576;<br>
-&gt; =C2=A0 times[1].tv_sec =3D 1622966579;<br>
-&gt; =C2=A0 times[1].tv_nsec =3D 17840053692309438464;<br>
-&gt; <br>
-&gt; then you see EINVAL on the centos system but not on my ubuntu one. It<=
-br>
-&gt; will<br>
-&gt; do that until you reduce the values of tv_nsec right now. So it seems<=
-br>
-&gt; most=C2=A0<br>
-&gt; systems accept large tv_nsec values but the Centos one does not.<br>
-&gt; <br>
-&gt; I think tv_nsec may be being clamped to LONG_MAX of 4 bytes but should=
-<br>
-&gt; be=C2=A0<br>
-&gt; a LONG_LONG_MAX of 8 bytes on a 32 bit since the field is a 64 bit<br>
-&gt; long.<br>
-&gt; <br>
-&gt; Michael: Hopefully that gives you something to raise with them?<br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; <br>
-&gt; Richard<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#156435): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/156435" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/156435</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/83304703/1003=
-190" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/83304703/1003190</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:mhalstead@linuxfoundation.=
-org" target=3D"_blank">mhalstead@linuxfoundation.org</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Michael Halstead<div>Linux Foundation / Yocto Project</di=
-v><div>Systems Operations Engineer</div></div></div>
-</blockquote></div>
-
---000000000000fb696305cd8b136e--
 
