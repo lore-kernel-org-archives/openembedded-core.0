@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 158D8C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 14:21:14 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.10084.1633357272951541352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B7BC433F5
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 14:21:16 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web09.10126.1633357275074754509
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 07:21:13 -0700
+ Mon, 04 Oct 2021 07:21:15 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Wl4t1sZA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174,
+ header.b=DVA6F6rR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id y5so11221831pll.3
+Received: by mail-pg1-f180.google.com with SMTP id 75so16693130pga.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 07:21:12 -0700 (PDT)
+ Mon, 04 Oct 2021 07:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/+3izpQOEQ/0SOx6LbaESaQrLQLGjr0aIdKA+qH6+Ak=;
-        b=Wl4t1sZAIDBRyaBf3ic4ks7CYX62w14XBtEkFRVp8fjy2GXSmEwrB+bcgW3aaEhLRf
-         FKXP2XnylK3GLV2XzAU4GntUj9vm84MUO2pP0nNn/uShd/xONpXNpwbw1rT7yCLJYSg/
-         FWvHEPtmqONbgf7B3LhKzL+qcl/rH9dC86SBKeJLqY6SPtPLjI/OsjBE4ZNE7ANc7OdC
-         vNACg28rabmrZ4Gmw3qpSwWErD1eA1sZ4j/6XDOu6nn9HsTKJHkGoxL9svSOwxqc3mif
-         K7NAOqHhZv8RruNKWTOWzs2+G3FAK6qln+OBxQvrncXEYxCLk+EZEUrWWhvaLwkhn6mC
-         bK1g==
+        bh=ZcVawyOyruoq55RDJQgu5Buag/1Y7ltmT8P+ik+01aA=;
+        b=DVA6F6rRziJJAm8ZgZuhC0fbqzLuk/MVE9ego0iq2Rz2OlTUtbDE6yBkgFKEGZwpv9
+         ObeqT5sgAZ0KIQPaqxutNCmY41mYAwXRZk6iYYeUJ2mXXZX2TsFTh9fgTSB/1gvMi5pj
+         X8mw4EMqLXo/MpckmZUvc/L3LF5sy2stGCmOL46HYmEHYg79v8bCvOKxx9oWjLpSaZLP
+         Ch4Fbvkkuyg2qNeiD/AxIIpYcw/+dhiP2M+rOGgRBOsE8doEh/8EcRbEzNjCR5673zGQ
+         4nbK5Fny5kO6hGXrSG4DCFOxpV8jJBaq7uZ/hd2eFKbuZeTHM1QXnwK5xFN16bAilj1A
+         liWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/+3izpQOEQ/0SOx6LbaESaQrLQLGjr0aIdKA+qH6+Ak=;
-        b=KecKlDdJyeDi77/i64mdqOBrjXpQZfxZVNYhBUZ/43wIv2HlGodziFtYeYongx70pz
-         s9EuQ3PZ8tE/SSS8TXcCia7H08M+91oDnumyY9QELZhbigzrLd6k9ToRIJ5mzUjcSg3c
-         EnMlZ3ingJtz6yJHIsfJrtZy4fMHOBWIi/OSS3C01YyzpriPeLwTJM8dhjtkNoiPIRYd
-         7rPAnSGN3w42vebgTW0Q7LjVsemePdj5WBxHdqHpnTRaaefyvDrvWwSBYoG3tJKfCiPV
-         9Sk1EsXhebnDfJ+uvY44tJANSunqEIS33Wpt7aERxrDVIaNh//TB3qFVsTFz0Oehfgq9
-         tBBg==
-X-Gm-Message-State: AOAM531CXCFayZxeUUTM2dpb97DR3PWMGEGt+eVKGd2forsvEiwEYnA4
-	yLlGOYqSdPHBsutbptA6cravYMVzPM0deIwNjcI=
+        bh=ZcVawyOyruoq55RDJQgu5Buag/1Y7ltmT8P+ik+01aA=;
+        b=jSRd4TGPnLghjQa7Q5t0N10dV6ZFdp21u6hEW5P/rsPTmLpf5mnIUPmMO7fBoxlYKz
+         9QrHBPsNRp5qfm0LIZmEaS4ohZZ9dPEo/JmAtOc7W3gE/azfJfl/I22xjD0OMcS2ktHd
+         FESLrHx5JMyJ5xfUiHa9lD7Px1asQIQ83QBxevTe3UE3bgZlOX5fCBhM0iqI1NA8x0hH
+         DK3R+CWUsgFw47LNpZsXrs9VBMHX0kFhz6L7WyypOrIOmfN+aHB+Cxtn4xzgPIuFPggt
+         GZjWzwPJZo8ve8+LbxjNur+1b017D4VBQiCFf/zpq5VYWgK9ShtpCikLAsNWKpeMgyIL
+         0DYA==
+X-Gm-Message-State: AOAM533cVVxa5z7gPjqFbIVTwVmBCLMsLso/IAPIaaLWHkA+jT3nP6B3
+	UjSjBdrIFNpU5uQEtOrjlWRQ4GkwcPS1C5QhskY=
 X-Google-Smtp-Source: 
- ABdhPJy0AJojT0R/e6o7NEZ0FT7YSJMtUhlGqq2Ss1Ud8Yh1S6ldWgKMcjLbVl4WpeE/WPNcIDJe9A==
-X-Received: by 2002:a17:902:b717:b029:11a:fae3:ba7c with SMTP id
- d23-20020a170902b717b029011afae3ba7cmr1723pls.28.1633357272062;
-        Mon, 04 Oct 2021 07:21:12 -0700 (PDT)
+ ABdhPJydS5ewsTACFPqQqAOSRcgHPWVHkVyEZIZSDjBDtqYYWp5hHYu2iR4nTIRqOZJNYJ8Gk5VWFg==
+X-Received: by 2002:a63:534f:: with SMTP id
+ t15mr11249863pgl.392.1633357273976;
+        Mon, 04 Oct 2021 07:21:13 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- t4sm8313066pfj.13.2021.10.04.07.21.10
+ t4sm8313066pfj.13.2021.10.04.07.21.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 07:21:11 -0700 (PDT)
+        Mon, 04 Oct 2021 07:21:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/15] common-licenses: add "Unlicense" license
- file
-Date: Mon,  4 Oct 2021 04:18:34 -1000
+Subject: [OE-core][dunfell 07/15] bzip2: Update soname for libbz2 1.0.8
+Date: Mon,  4 Oct 2021 04:18:35 -1000
 Message-Id: 
- <7bba9d7061b14214e9392be414d87a111ea48c5d.1633356813.git.steve@sakoman.com>
+ <acb560a78ecd5403cf1f79e5a452c52cd58d1cfa.1633356813.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633356813.git.steve@sakoman.com>
 References: <cover.1633356813.git.steve@sakoman.com>
@@ -68,51 +67,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 14:21:14 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 14:21:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156599
+ https://lists.openembedded.org/g/openembedded-core/message/156600
 
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+From: Tom Pollard <tom.pollard@codethink.co.uk>
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Set shared library name as libbz2.so.1.0.8, version in configure.ac
+already synced via do_configure PV substitution.
+
+Signed-off-by: Tom Pollard <tom.pollard@codethink.co.uk>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7698f3145a9c48778d7bb79f54df169cf375349c)
+(cherry picked from commit 07e3abc9d282a54add69a6905ec4248f3104219f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/files/common-licenses/Unlicense | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 meta/files/common-licenses/Unlicense
+ meta/recipes-extended/bzip2/bzip2/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/files/common-licenses/Unlicense b/meta/files/common-licenses/Unlicense
-new file mode 100644
-index 0000000000..68a49daad8
---- /dev/null
-+++ b/meta/files/common-licenses/Unlicense
-@@ -0,0 +1,24 @@
-+This is free and unencumbered software released into the public domain.
-+
-+Anyone is free to copy, modify, publish, use, compile, sell, or
-+distribute this software, either in source code form or as a compiled
-+binary, for any purpose, commercial or non-commercial, and by any
-+means.
-+
-+In jurisdictions that recognize copyright laws, the author or authors
-+of this software dedicate any and all copyright interest in the
-+software to the public domain. We make this dedication for the benefit
-+of the public at large and to the detriment of our heirs and
-+successors. We intend this dedication to be an overt act of
-+relinquishment in perpetuity of all present and future rights to this
-+software under copyright law.
-+
-+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+OTHER DEALINGS IN THE SOFTWARE.
-+
-+For more information, please refer to <http://unlicense.org/>
+diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+index dcf64584d9..adc85a62b2 100644
+--- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
++++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+@@ -1,6 +1,6 @@
+ 
+ lib_LTLIBRARIES = libbz2.la
+-libbz2_la_LDFLAGS = -version-info 1:6:0
++libbz2_la_LDFLAGS = -version-info 1:8:0
+ 
+ libbz2_la_SOURCES = blocksort.c  \
+                     huffman.c    \
 -- 
 2.25.1
 
