@@ -1,97 +1,94 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A02C433FE
-	for <webhook@archiver.kernel.org>; Sun,  3 Oct 2021 23:42:27 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.2544.1633304546168740549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66851C433F5
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 08:51:33 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.6780.1633337491966850484
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 16:42:26 -0700
+ Mon, 04 Oct 2021 01:51:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=L485jWBM;
- spf=pass (domain: gmail.com, ip: 209.85.128.51,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id
- l18-20020a05600c4f1200b002f8cf606262so17686229wmq.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g7hyFw+0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id r7so13929295wrc.10
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Oct 2021 16:42:25 -0700 (PDT)
+ Mon, 04 Oct 2021 01:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=75zi1M/CBG0t08qZOkvZnL7OTJo3U3CQBJjKhlRePGU=;
-        b=L485jWBMG2Rkr5p/JBqUVSV4k6IQ/vHsKPMp40so2vfbEu80kX8qULMedYxXOIosGs
-         LLWf4eRXIHDnzpv6PbvyQ7i/Qtrdhwf9NJDeXPA86vEycLICG4c0zygI6FZ9S1keI1wA
-         FUogcLgg2IHhD3/2zbROs0S2FRiJvOlmO1fIsuSfVSRIkGjj3BaxADV72LHJrF8jzf+J
-         H08yUHA841FOQrst61/l+Uht6TWNBojD6ifkDo7sxPWB4tAFQSE7rBJ3pDlFDoutXVIT
-         Mq4vRmkChJfwi5KVJg9jTRdDzryKwipLA1PlbUH+tMZQg9ZQPCwmo2STF+OWVmu83TTd
-         O9MA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F5E/K90MkCIivHNfSeLZDUHobmlu5JsMW2S9oyeirXQ=;
+        b=g7hyFw+0NIOxi/PVxQltFgOEktSfdt2h01QdZLfOsD0ONjCjPlcjdn06IJ3ATaatUc
+         S0rivqjAJywAJaeqXvJsA2Uhrs2ok2z1y9Mpe3qWP9b1Z0gXyg8sYQM92dg+AFMizGPS
+         UJAqoqtGZ2Gb+7z6Ie+2N+DwDu4OSuazOsbwQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=75zi1M/CBG0t08qZOkvZnL7OTJo3U3CQBJjKhlRePGU=;
-        b=5qBlhM0IEP0Yp8YgECP8OmCIWfxEQztGwCfKj2jKPIgyG6X2iNw3DRBmwaUFk5bLYz
-         Ai6AtJ9TG98/aJtWxTxXVE6XTOyTq9fzSNfKD90WkCYtesXY6vNCX7zFik2d73FFNb1F
-         BcPJ/vj2t9kctqoqnyybfcXZgoxerpDzoo0QTw6uvX5qxGd/khkvAObK6u8kjdfBuwke
-         GxU/djaec2g352k38IDxSp+s2kfbZfrzcJwvIJeGsmdZMxBy2dvozGy4FOGaPZ5zzKhB
-         qKFNOOaIj6UXqhaJnJ1tAHFMaOrSWihuJfUYNacGVWbH/USi3Z1VB5FnAVee2Yy7QCu6
-         u8Ng==
-X-Gm-Message-State: AOAM533otasHwrHHN9S2ZzqD4YR/lrdW8Gov6nCN6tLqzy3eYGlX07Wk
-	e5VP5kaSJ2b4pROYpm94ZOh/15IqMWxaug==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F5E/K90MkCIivHNfSeLZDUHobmlu5JsMW2S9oyeirXQ=;
+        b=q1g237Jw6sN4zNilOCInlEcPV9I/ptBXOkG3BOPhx1+h3J4ufVNmCHWzRux7qN6vsE
+         sJXv0Uji2Ei+VRXVluLvL5uvX3JhFnEachARpzeHrOo+RHmKmHQ5k8ELY07IkFf93XqP
+         SBfOcA2Sy9Qaviivl5c0oDm8h+K0k8f43uUVDazn6tz0NdrHk/vhsvuL6Wig1dTgQQhF
+         g27xN6cZAARbwfXt2PZM4+0wVLIQ2TY3mMGdiWGPKj/1X+jfPLDA7nl32qLbKbb8aHgi
+         yDoTm0MuSFVOpRE1d1Cch5wTLF1uAAb490e30eo7oRkp5gclmVwQmKwAcuR61hi2urXj
+         phGg==
+X-Gm-Message-State: AOAM533lfw3PAkA7NQQTxbQcsmjUC7U/h9nIewzky0k47Of7ZtiQ9CWz
+	AYQq/5cOaSaAw4/5qsWKWVvXmrxHe9AqeWB2
 X-Google-Smtp-Source: 
- ABdhPJyp7mIaLSdETNKCKHW+HlGUnwpHE06YtiBTlSeWj5VTj26wMY3FD1kE3dcK7zb77wya28yLJg==
-X-Received: by 2002:a05:600c:1ca8:: with SMTP id
- k40mr15472623wms.27.1633304544309;
-        Sun, 03 Oct 2021 16:42:24 -0700 (PDT)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+ ABdhPJxEsKxk9RFc0kQpkz0ZDi77rRppUb0ctUN6v4Wft+RbjunBbtCiLBTA4uH6SixGFKqeMdAjQg==
+X-Received: by 2002:adf:a3d9:: with SMTP id m25mr12822233wrb.27.1633337490203;
+        Mon, 04 Oct 2021 01:51:30 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:430c:546a:1bb6:a9bc])
         by smtp.gmail.com with ESMTPSA id
- f3sm8831893wmb.12.2021.10.03.16.42.23
+ y5sm10561664wma.5.2021.10.04.01.51.29
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 16:42:23 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
+        Mon, 04 Oct 2021 01:51:29 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 12/12] gst-examples: 1.18.4 -> 1.18.5
-Date: Mon,  4 Oct 2021 00:42:06 +0100
-Message-Id: <20211003234206.949967-12-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211003234206.949967-1-quaresma.jose@gmail.com>
-References: <20211003234206.949967-1-quaresma.jose@gmail.com>
+Subject: [PATCH] bitbake.conf: Set vardepvalue for PARALLEL_MAKEINST
+Date: Mon,  4 Oct 2021 09:51:29 +0100
+Message-Id: <20211004085129.2320298-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Oct 2021 23:42:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 08:51:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156576
+ https://lists.openembedded.org/g/openembedded-core/message/156577
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+If you leave PARALLEL_MAKEINST at its default from PARALLEL_MAKE,
+sstate checksums are fine and don't change as the number of cores do.
+If you override it to a specific value, this does the cause the sstate
+checksums to change. We don't want the checksums to change if the
+value of this variable differs.
+
+Therefore set a vardepvalue so a specific value is used for checksum
+purposes.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{gst-examples_1.18.4.bb => gst-examples_1.18.5.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.18.4.bb => gst-examples_1.18.5.bb} (96%)
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.5.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.18.5.bb
-index 9d8fef86ed..a720bb73ff 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
-            file://gst-player.desktop \
-            "
- 
--SRCREV = "959bb246a5b1f5f9c78557da11c3f22b42ff89c0"
-+SRCREV = "fe9a365dc0f1ff632abcfe3322ac5527a2cf30a0"
- 
- S = "${WORKDIR}/git"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a207cbb33d2..1239206645d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -604,6 +604,7 @@ LINKER_HASH_STYLE:mipsarch:libc-musl = "sysv"
+ # Pass parallel make options to the compile task
+ EXTRA_OEMAKE:prepend:task-compile = "${PARALLEL_MAKE} "
+ PARALLEL_MAKEINST ??= "${PARALLEL_MAKE}"
++PARALLEL_MAKEINST[vardepvalue] = "1"
+ # Pass parallel make options to the install task
+ EXTRA_OEMAKE:prepend:task-install = "${PARALLEL_MAKEINST} "
  
 -- 
-2.33.0
+2.32.0
 
 
