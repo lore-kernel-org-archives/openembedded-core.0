@@ -2,65 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 175D5C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 14:21:25 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.10087.1633357284028076459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A06C433EF
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 14:21:27 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web09.10133.1633357286090211198
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 07:21:24 -0700
+ Mon, 04 Oct 2021 07:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=tkuGBCts;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=MtkF+hO+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- on12-20020a17090b1d0c00b001997c60aa29so62182pjb.1
+Received: by mail-pj1-f52.google.com with SMTP id
+ rm6-20020a17090b3ec600b0019ece2bdd20so92943pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 07:21:23 -0700 (PDT)
+ Mon, 04 Oct 2021 07:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=MwUpXdh8NJ2QheNf9UzHan0DXM1T1c/GftHwzSaU91A=;
-        b=tkuGBCtsZ6HVN3ecR8Z5IaDKHMqne5tOVsNbm1QUQ7YVw3DZAby4O1GczcS5ax6dP0
-         1lBDB9rxMnmlXQvNuGJaiqeaaBuItsH/FIDJmYnRbEHEFXBgRbnJtcyQwTdM9rFV8n1h
-         d4s4E10BhU3VMG4PWb+y+Y9PdBKDAEBCAZ4VteEgXpXtjJDQ6NxTLS17TeAdiwTPbeIl
-         +8Lb82o3b5W5SQfXyNYd4WZ2K1rkE6tzLyf12DrvyUlHgVd4wn/lAxny5AjiD4cYXyus
-         tUnNcBPkzflQ8LGgtIE7FBd9UojY6BqTlKz4HhVqKZ8M6w/M5CaujkalVSogqZuGgVYE
-         IwKw==
+        bh=YNpeQmc5dqQrGoWlNqlBzIuHeJwbGtXZSJ3yoql/gd0=;
+        b=MtkF+hO+UuAuHR/UEhAJ7ZZ3ooPDYu4DnrgrZnu7nUgp4EtqH99B4p/VBI8KQoyJqH
+         vlbdFALPyrFSogqFTZ7iCryu4x0PKU5qmTruInioBfDCvq6ADJgbIcfwJTeOzZgxCxHD
+         c9vf6sSKRWIK208oEZcn046dhP5j/w9tnm4pR38jNpzsmTY34bmuJS9O8dHf8R22WT7/
+         Q4xIxjzh3AnXZ5EmxOsmzXzpaIHje4kGM1qjBoVFqpG7xEOARfzgMbahVc//tsHSerXJ
+         dVCnDym51oI/WQhoSRs8pSFWiSj00LZBQY8Z224lzWApBT94DMK5V5GdNqMdWazowv+C
+         nyTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MwUpXdh8NJ2QheNf9UzHan0DXM1T1c/GftHwzSaU91A=;
-        b=NMp2ormHghmIdHXe8z/91DHvaeMDdbIt22kqK35scANqDubyFzOg7vSQCn2EdLwGTV
-         EhpVPUR88rJjCI8/ROlcGke0yXXhRg1eXnXfxw1V0tQqROZ2YJ/Hc2rd0Ha9dCjIyuQP
-         95eOcdVOqHStgUmtmvljR2TthDxYZZXG3mc1G3fwX8aDFRgrBTaoeRwRB5eNRcioCtoQ
-         zUGICHDvDyViYewxLzFkR/Msl0/xRs/4Fx+SfvcdhXgj4kL7NkTI5t7G7KrguelW6GjC
-         7iUB1dlxhq4cHql5QztJDFMBJa87lbSZDv4ai7NbSL2+5sjI3Ev5zUHudb34gIn6KXQK
-         kMbQ==
-X-Gm-Message-State: AOAM532drjkoH1ZTdLSz954VOReOL4qW0Brf2ftw22/NQm7m0Coj32hh
-	BBp4gq/KKGQB7J1f5wz2p3u/0Q7IY9f83ruzLGA=
+        bh=YNpeQmc5dqQrGoWlNqlBzIuHeJwbGtXZSJ3yoql/gd0=;
+        b=E32bhCZncO9gBWWK8HUtEvGOiCxBxLYDx8TAsszUUSXA3AG4z60GnwsZqhJaHVCTdk
+         j61/e9Af+FU9E+pq2C6ABpHOVgr8gHRf0FBGLMiVOD0T6vb1nfusr3ABiMINRPNl+mM5
+         MPVzliUyVj61z9qLgF9jrKZTOe64tvY7EnlsIcES70jlfC7tkjfQcO5gyPyipLSyKuEt
+         ZKjfldFn4GjLS+0qqYJ3UYz5lfFP0J62rXHYY7PXqhw7F7XdfzeT3htuHK/a9uQ0DY/u
+         b93/bIl08WtAzoPPDkCrQJu2xK4639xC6GRO9ipL6MEMEVkMw/AziCCLRwQSJ9Ydd8BW
+         lcAw==
+X-Gm-Message-State: AOAM533PL+tXSDNIYzEhx6XcD7g049k8BRNc4wJ1NiADMRGK2YH32y+C
+	s8GeMEo1pAgfOv5/dian6eqrQc2QOx4PJz0jLSY=
 X-Google-Smtp-Source: 
- ABdhPJwXLtGQN6WFH5/4eyXB1/UMTeEb11hMDMAdH/tb2ICyInPbijf7WnEAaxjmUX2RN0EsW0oNYA==
-X-Received: by 2002:a17:902:8549:b0:13e:85eb:3967 with SMTP id
- d9-20020a170902854900b0013e85eb3967mr17443497plo.80.1633357283133;
-        Mon, 04 Oct 2021 07:21:23 -0700 (PDT)
+ ABdhPJwhuo0B3yO+p0HYHhVYas0lq/I0P8FEoEjCmSEq+8ADpihI63MMbhQUbogqiFcqEqzzTR3Q7w==
+X-Received: by 2002:a17:902:ab93:b0:13d:e3b5:7ec2 with SMTP id
+ f19-20020a170902ab9300b0013de3b57ec2mr2761plr.26.1633357285174;
+        Mon, 04 Oct 2021 07:21:25 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- t4sm8313066pfj.13.2021.10.04.07.21.22
+ t4sm8313066pfj.13.2021.10.04.07.21.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 07:21:22 -0700 (PDT)
+        Mon, 04 Oct 2021 07:21:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/15] libc_package/buildstats: Fix python regex
- quoting warnings
-Date: Mon,  4 Oct 2021 04:18:39 -1000
+Subject: [OE-core][dunfell 12/15] rm_work.bbclass: Fix for files starting with
+ -
+Date: Mon,  4 Oct 2021 04:18:40 -1000
 Message-Id: 
- <dd705fccfb35f9d3fee1452a5145d4e7ad24999d.1633356813.git.steve@sakoman.com>
+ <eb65a5870a1f5c5a4fbce0df87a7dbfb38487dce.1633356813.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633356813.git.steve@sakoman.com>
 References: <cover.1633356813.git.steve@sakoman.com>
@@ -69,48 +69,58 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 14:21:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 14:21:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156604
+ https://lists.openembedded.org/g/openembedded-core/message/156605
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "William A. Kennington III" <wak@google.com>
 
+This makes it possible to name files starting with a hyphen in the work
+directory. Without this change rm will fail due to an unexpected option
+being passed.
+
+Signed-off-by: William A. Kennington III <wak@google.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6a8077317ce12e13018ec4472f728dd24880bda9)
+(cherry picked from commit 5f1a63e0de4921ef970114a16d0827fcddcdaa0e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/libc-package.bbclass | 2 +-
- meta/lib/buildstats.py            | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/rm_work.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index de3b4250c7..1143f538d6 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -355,7 +355,7 @@ python package_do_split_gconvs () {
-                 m.write("\t@echo 'Progress %d/%d'\n" % (i, total))
-                 m.write("\t" + makerecipe + "\n\n")
-         d.setVar("EXTRA_OEMAKE", "-C %s ${PARALLEL_MAKE}" % (os.path.dirname(makefile)))
--        d.setVarFlag("oe_runmake", "progress", "outof:Progress\s(\d+)/(\d+)")
-+        d.setVarFlag("oe_runmake", "progress", r"outof:Progress\s(\d+)/(\d+)")
-         bb.note("Executing binary locale generation makefile")
-         bb.build.exec_func("oe_runmake", d)
-         bb.note("collecting binary locales from locale tree")
-diff --git a/meta/lib/buildstats.py b/meta/lib/buildstats.py
-index 8627ed3c31..c52b6c3b72 100644
---- a/meta/lib/buildstats.py
-+++ b/meta/lib/buildstats.py
-@@ -43,8 +43,8 @@ class SystemStats:
-         # depends on the heartbeat event, which fires less often.
-         self.min_seconds = 1
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 01c2ab1c78..2d5a56c238 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -73,7 +73,7 @@ do_rm_work () {
+             # sstate version since otherwise we'd need to leave 'plaindirs' around
+             # such as 'packages' and 'packages-split' and these can be large. No end
+             # of chain tasks depend directly on do_package anymore.
+-            rm -f $i;
++            rm -f -- $i;
+             ;;
+         *_setscene*)
+             # Skip stamps which are already setscene versions
+@@ -90,7 +90,7 @@ do_rm_work () {
+                     ;;
+                 esac
+             done
+-            rm -f $i
++            rm -f -- $i
+         esac
+     done
  
--        self.meminfo_regex = re.compile(b'^(MemTotal|MemFree|Buffers|Cached|SwapTotal|SwapFree):\s*(\d+)')
--        self.diskstats_regex = re.compile(b'^([hsv]d.|mtdblock\d|mmcblk\d|cciss/c\d+d\d+.*)$')
-+        self.meminfo_regex = re.compile(rb'^(MemTotal|MemFree|Buffers|Cached|SwapTotal|SwapFree):\s*(\d+)')
-+        self.diskstats_regex = re.compile(rb'^([hsv]d.|mtdblock\d|mmcblk\d|cciss/c\d+d\d+.*)$')
-         self.diskstats_ltime = None
-         self.diskstats_data = None
-         self.stat_ltimes = None
+@@ -100,9 +100,9 @@ do_rm_work () {
+         # Retain only logs and other files in temp, safely ignore
+         # failures of removing pseudo folers on NFS2/3 server.
+         if [ $dir = 'pseudo' ]; then
+-            rm -rf $dir 2> /dev/null || true
++            rm -rf -- $dir 2> /dev/null || true
+         elif ! echo "$excludes" | grep -q -w "$dir"; then
+-            rm -rf $dir
++            rm -rf -- $dir
+         fi
+     done
+ }
 -- 
 2.25.1
 
