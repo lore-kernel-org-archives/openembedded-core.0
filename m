@@ -1,53 +1,57 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Subject: RFC [v2]: Make kernel upgrades via dnf work like on Red Hat
-Date: Wed, 29 Sep 2021 07:33:51 +0200
-Message-Id: <20210929053353.600644-1-zboszor@pr.hu>
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 10/11] recipes-support/ptest-runner: Bump to v2.4.2
+Date: Tue,  5 Oct 2021 00:50:54 +0800
+Message-Id: <c0993e6c4108ae65537ad6e70de90387dacc5495.1633366030.git.anuj.mittal@intel.com>
+In-Reply-To: <cover.1633366030.git.anuj.mittal@intel.com>
+References: <cover.1633366030.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
 
-I have observed two issues when upgrading to kernel versions
-successively.
+From: Anibal Limon <anibal.limon@linaro.org>
 
-One is that when installonly_limit is reached in dnf, only the
-main kernel package was removed. Patch 1 fixes this by adding
-extra RDEPENDS to the kernel subpackages on the main kernel package.
-This circular dependency helps dnf to remove all subpackages.
+Changes,
 
-dnf.conf settings "installonlypkgs", "installonly_limit" and
-others are documented at https://dnf.readthedocs.io/en/latest/conf_ref.html
+bcb8280 utils.c: add system data collection when a test gets stuck.
+c29240c utils.c: handle test timeouts directly with poll()
+d6f509f tests/utils.c: fix a memory corruption in find_word
+c10e747 main: Do not return number of failed tests when calling ptest-runner
+4958988 utils.c: fix memory leak in run_ptests()
+fcfa6a1 clang: clean-ups to avoid -Weverything warnings.
+215e52d Makefile: allow using CC env var to pick compiler
+fdd233d mem: Simplify memory management
+e5e218a mem: Fix memleak for ptest_opts
+0dc42eb git: Extend the gitignore
 
-The second issue is that when the oldest kernel version is
-removed by dnf, the /boot/bzImage symlink is also gone.
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 710fa373375beb977af704e17a925ed41c9a858d)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../{ptest-runner_2.4.1.bb => ptest-runner_2.4.2.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.1.bb => ptest-runner_2.4.2.bb} (93%)
 
-Fix this by using update-alternatives instead of hardcoded ln -s
-and rm -f. This is configurable via a new variable.
-
-This is only an RFC at this point, because
-1) The first fix is only applied in the KERNEL_SPLIT_MODULES=0 case,
-   it may need its own knob or applied unconditionally.
-
-2) There's an extra issue I found while implementing the second patch:
-   instead of using KERNEL_VERSION, I had to resort to using PV
-   because the former is dynamically set via a python function
-   and it changes its value at some point between build phases.
-   AFAIK, there are kernel recipes out there using only the major
-   version with two numbers in PV instead of the full version triplet.
-   I can live with this as my kernel recipe uses the version triplet.
-
-3) The new knob name for patch #2 is KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES.
-   It is admittedly too chatty, it can be renamed if someone suggests
-   a better name.
-
-Please advise how to fix and make it final so these fixes can be
-accepted into openembedded-core.
-
-Best regards,
-Zoltán Böszörményi
-
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+similarity index 93%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+index 6bd10d2fec..b14b947f97 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "cce0edb4282ee081d043030bfdf29f3e4052f86c"
++SRCREV = "bcb82804daa8f725b6add259dcef2067e61a75aa"
+ PV .= "+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+-- 
+2.31.1
 
