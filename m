@@ -2,81 +2,83 @@ Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD503C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 13:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7424C433FE
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 13:29:14 +0000 (UTC)
 Received: from EUR03-VE1-obe.outbound.protection.outlook.com
  (EUR03-VE1-obe.outbound.protection.outlook.com [40.92.72.30])
  by mx.groups.io with SMTP id smtpd.web12.9281.1633354152574399098
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 06:29:13 -0700
+ Mon, 04 Oct 2021 06:29:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@outlook.com
- header.s=selector1 header.b=lhwLWZZU;
+ header.s=selector1 header.b=FaHUEYyc;
  spf=pass (domain: outlook.com, ip: 40.92.72.30,
  mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CZcBzgbI+syPe1LPF+aKOlupQ4I1mY5egfpKkKfkFlUFevchoe5u5/3HRl1+7N9fklMIRUz1C8RgL8SLnDMZlrGACmDMVCf+SF6nqwIcJ+wk18rrESHHO282acvA+b3p6rHw7ezfDCXCePXxV++HDmXSuDGyeNDdv5JmM5RUgXVN/LY7+cXuzP+Cn+2BPjCCoCE1GUXmUlj7mhp/pg4x89lbJ9M5bYjckiY+xHWRc22SlxYMlezfX2JcGPvVQjDHpoZPkm8ORf3PoTgzjaQznNXBkJYQkxs+p9WcvoS3+ulcjz1RKrE+p1jWadjEcXkBDBIBJWh6RPJzOHjlY7hNrQ==
+ b=J1qopLAzDt6pyUqtnNzMGZ8w4U6FGAr4prF7bCPBIccemF4kmo3FSANhoAPlAH9vh0xW1nKM87lfylMLnyd1uYXvQg7O0IXY9YxPs8ZUrKvDvWiQMda0vYPefcltRXWoXxoDHsfIhVUrL+yaHW2TcgRYiM2av6Owo/gQrE/ZmzCIrqXmXcnRDkf0Ft4sObcx1+e1fnhtKfQ8Nvg03nCi6Ucsol/Z/SAemXK2dFWHPusWCJp3CsZQlGJJXHRYyJZUPjseBWjTL3WAXa8MNzt+huEbablrNOYfB2xSN6w4ZioeDtY7Zxd5YL10H9UqILW8AFAnYUeZIRTb7wJfX0YCEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2JjJT9w7eXKekYt/giYfBeD4nSqV5OCn6dJ7bysusM4=;
- b=ZVn9QwmajGJOQ6XrzJGsGIOElbECm26FDIayrnUYFMxWvtdRgo+ebUQxCvuzXA1S22q+yArndDsJlXFs1xABf4C+V3EdyUUr+yPR/mZCAWXTqnnDkp2iKkxnY8slnLW+v5iAhR0LQGNoCcJyCdKifCRV3bYrl7vz0kjnDeyYZehx4ENObDh8e2Lb8t5pCctnOF6Yo1JBChpYCM9oWMEkaMVvX3a+tgFdZKHSD6XwonomtdFX11b6pns9U/MRaXi6gH1tPs+h85A2aOIWG03QvI0dYHmedbGHVCXENhtIx4tT1NejLE+3sYH0bqGyBQtIrFQ53Y7F7egONKkOp4p0ag==
+ bh=GANuB9jPaaxtFIRmy2tUABsuoBwkz6SnGYtR5C7fz+c=;
+ b=DzshYko19v0XIIhvNkexdmXF6/swdsHTlTOeXnZg5J13ZTM4SsaxspxgrZXoWNJfZT1UsF3ULFTRrDaqRZeCoiIe9W6rSYFpktjm8xs+Yb53nIBjZOCTdeODM/FzaXYTypAC87Z10qjsb142f592rKr11eVy3QlZM55Ysedwg2DJcxPgbMdtH3+e3Rea2hlj8j4AC50IAEYBUe54BIZWV+L4lRN5Qu5rBQ5m525CWBm4AKxCDwXhtOu/Dwk6amm+DzoIQREPorYV6Pb1y7WYYoIppoCrkTtet7QQeIb99Hb/EGYo6nUyTx+QgvhUcniIBtGAOmmcImN8ItI/MV2jzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2JjJT9w7eXKekYt/giYfBeD4nSqV5OCn6dJ7bysusM4=;
- b=lhwLWZZU0NdnS62N9oZP7artz93OWPvFWMiKv/7dvR8ZWDVchgD2KwGwFhHRr+imA1rS3Y04d2tHQyncrXNABIOa1VFw6lA+vqv6W3pZDlN/ZIwMx+SucSQYwejVR/+TkE27Z/TwaSDxvbX/AcLfpqPVoAYB3CKBWQjFcE+j54gJSaTt6r4/Smf8TmqiyWKsE/EsT2OQlofa2zi2PlsRIQ+sl66sWl91Rb0yacnWONaoGIhQdQEDgpfARHa81Dtz+ED+Licxo0RmdT1RX2hf7gqOdNqBPuxwlNzHy4UEixtgxG/MaRnoC94ni4/80hvOHZbkMuDGQ5deMblYwiDL1A==
+ bh=GANuB9jPaaxtFIRmy2tUABsuoBwkz6SnGYtR5C7fz+c=;
+ b=FaHUEYycp0Icevqk6NId4LEUf5CXNF4wfvqzUp5SyZNBFvhU6Ux3j2Hos3E0u8LIvV7AqkNYE6dEzlcHd798amnlu6Vq20Lztw/7AXz1eju5/zWq138JHA0rLPify3SPVqsA5NUYGuR9BvBL6Ht2cwcsIbfagPswNM2vZ0glgFioU+qZt18/2ZFW3qx2JrdEBkFKjzRdjW0JkjaxLg6Iy8tftFWYyKPTwVAH+MlIpVowxMAAzZOcyxPckb09x/9h8tvefm2X8ccMJik10VIa9mCEBu2zMxcvWqNr8kUdU/5zOzCvEtZg+ZDfi6Q9Hp3k1CAsAxW8vuE+JBEa2gEvew==
 Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
  by AM0PR09MB2770.eurprd09.prod.outlook.com (2603:10a6:208:128::31) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Mon, 4 Oct
- 2021 13:29:10 +0000
+ 2021 13:29:12 +0000
 Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
  ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
  ([fe80::7c6f:9b99:3d00:f710%3]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
- 13:29:10 +0000
+ 13:29:12 +0000
 From: Konrad Weihmann <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
 CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH 1/3] libical: fix append in DEPENDS
-Date: Mon,  4 Oct 2021 15:28:51 +0200
+Subject: [PATCH 2/3] glibc: fix append in DEPENDS
+Date: Mon,  4 Oct 2021 15:28:52 +0200
 Message-ID: 
- <AM9PR09MB4642E51348B43D6184A2DE33A8AE9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <AM9PR09MB46421376B722A7A7A315BC8CA8AE9@AM9PR09MB4642.eurprd09.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211004132853.30543-1-kweihmann@outlook.com>
+References: <20211004132853.30543-1-kweihmann@outlook.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-TMN: [iI8c9V5SXWFLaGbb6BFdarwtZTv0F1T3]
+X-TMN: [Mj47EBUqcOVaoOeLgncWIbo/uClXEIcd]
 X-ClientProxiedBy: AM0PR10CA0115.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:e6::32) To AM9PR09MB4642.eurprd09.prod.outlook.com
  (2603:10a6:20b:284::24)
 X-Microsoft-Original-Message-ID: 
- <20211004132853.30543-1-kweihmann@outlook.com>
+ <20211004132853.30543-2-kweihmann@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (46.114.34.242) by
  AM0PR10CA0115.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::32) with Microsoft
  SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.21 via Frontend
- Transport; Mon, 4 Oct 2021 13:29:09 +0000
+ Transport; Mon, 4 Oct 2021 13:29:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 570603f2-6fba-49e2-347b-08d9873af292
+X-MS-Office365-Filtering-Correlation-Id: 45c88565-a448-4688-0f02-08d9873af422
 X-MS-Exchange-SLBlob-MailProps: 
-	7MJMDUNTCtwQpGLSKUvrClBBalqGM3MCwjIAW89gZaGWc1xhwdKouqWbVQ001yftvsF+z7RlWAAnXXF8HlqPUI094PO7JsLZbGRQYd6vv6ziPOWePSQZkusBK0KXSjvKV/CrgTqkxW290yWVtQn176XYigQ0wZx9kuG5rJh5lHN3pesbGoKXWJ0+jK4xqLL6P6RspDdfIzOGDhiQLWsOShSNnCC1yDWEjZqEU2pT39oAzAiPINwDTf2vb2Y2hK5ChSpNV1LKXainqz9N+aHgaRruflKJnYTtZygPYFbOytVRjiEmYeehQLFAuVZVSWC+88ieP6EkDzOuwanhQNOpyjnUy7JA8x0vxQg0IXlNEKS9kuvKjG29zxAGwj72UDDQoqU9DCoA6HMihClcM7IM5JO/eFQ1eiZmOxfTDjOUkOeCbdepJxxz7JxBYppOcyhp89sX9wIlsNtXYCZLVtDhMZUD6TujEJ6jy0uulGrl0fRbTQ8ihB1S4Efy8a7kjx5O//c+qlbH5IA3P/o/vsQb4edv7UzAoqXw5RE0Q2HhtkRSQoXTf63uKueNOfW/pe+qjaPBcYUiqJ1v+eRS+/KtBURH6hlIOqdmXqOsAu/ZLAXsZ2st9f6q3JoWAsL+7VPjjhH1ul3D15308FzSMsFh0rGjnHjHBD9S+pC61+T38eRENOV+MjZPwIcdg2b56LTx6a+I8cyanLQLrgFa0yn+JEs9TMU4SepIq2Aa8ZWj8WofKYXuaZlB3w==
+	7MJMDUNTCtwQpGLSKUvrClBBalqGM3MCwjIAW89gZaGWc1xhwdKouiuGs7LYJ4Wwb87q9UMVcGHQ82nDAqTiMXefV4LbT2CSOZN0meXm2KsJLlcebIlWFZAbZbFFGL4Z7cYE9NO+jJ0UdjPHw/ZubYJ0y3nvoed5VXq2NWumIpAlSE8pEvFsbE3l3tLxTXFCm1jqwRp32zFSZem5rzVw5LNqvbc6UpnDpzjDInhDpjell0rhCkvZvdvoqD+fsRdNaq4dphupEbmApEkfMV2l9hED7LFqGJtY0a0/0sX6cdeWcBCijhUCsEJG+mQEwtGGLWAUKdsZtn78zgJ9jhtU04dtFBPAtOoGSPYQ2r6X9urmfBv5OmIfD+hLbjztqVTV5oObMCDyYWTLZHghEVXWfiRhbKb/uwsASt2wQ6Eg32VGH3F78OLAxnGCMOMVskwRBf9LNWJfQlR4GMH1ErYzhkWLNn3gA4ex97z+N4DDm5muoSMNNexyFSB00pkseckBAwEjJxxzh9aN6RYl34UIjm3brleIrtzza19AxRAGSvSuRyM8Rs2abF6tblAONX5BqNeIUGc7f0nUPx/XBKvg9w/c2tfTOx7NWkIMovZWw97yRBCT/8JVmWFc6+GnzZWwkLcPBbBk+0a5mml1wmGg4ZAh2J5D1j9Ajn7o21rWA55SsFgcEPb1aPdQYByWZLDEiCnlUabiLXOk+fxacstf0KXs5RjDWPq+NLnqaEPIoOsqarky9/5BGA==
 X-MS-TrafficTypeDiagnostic: AM0PR09MB2770:
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Snc1wwsJy1Sbtc6Cjh9Bv1+cyXBNpN3b+6nIgwK6hZEW1NsgperNF6tk4K7y+81SKFwaXBhR2wXIItE8llIBrvlUkUEJ+kMPZGlAT8a8Y/Si0xlsNWCin5rjYbd4X6V3YXZrvqkQLqYkO4rexl8jPwY1GbPW01TZAI1PBBAmtz9kKICKGNzVFGlVXTNIIM1ZKOt1PQeuIFF7yCH71wVH8jfLcpzI66p+eXkEKaS+J2KfOOsdU2gCl4JKXFb6LZUA7KwTETJa6QR2xTo+faEJNCmfSyvabHy8Mnb53RnzWGazf+JoRkB2yD0rYoZuhXc8zI0gLGirr5+hUBb1vlpN5LrhTCbhK5gwPsc9auCCyluu0oUuMj4o/uZJHXsLSoSsxbmVUQc3tYsKfmhS/jlk4Li2uC6QEdfuJKG9kFWGKov19c2oIjrY8fXqlW7LKwz5nQiKdzrBTIy8ni9NXRBgY3mtlZ3NeJKd3rBy44cPpS8=
+	An7fgB6NJXsR9+539GSSMyfe9u/NpXZy3xBKgfmQeRTagOCsx+ZTHEV4J5gHEbLcAlXxhiL4MMOnMyDFBJc+d/eGmg3YpAc49FTLLH3FDEfEVthFRdizQnPDd3kTiN2m0fWajHu8vp42/fm47PAv1lvhReeD0IX3nBtrZGlZsFO3wgFkkDc6qU+VaN8mrJib/jSD7wZsLMZlsnYK4OHj+s/IwzWC/55ldxNV5KIzjpR+WVTpk+pSBdWplYp3FSfvppTKajoc4XmK9ElUQ/6niyHufk/MkJN/EFRh64fq/OK2pAi74S3fAXYseKYaXM6CCUH3jvAaHyOIn1ZzXXfiniQi1YOQa8Xkg9woeWpGPXK+WLqFK2tjofnNO4KcAM1UPPW485xtEU/3Sfl+3JTWuiSvmoByWN/81Vqyu0oW+acQbqXHyp1xAhdGicaA+tRg
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	/8ld/SxnTWV9ZzxruDlJwUWhdChUKa9g4B5hJg74q7L3n146T/eo6OA8JvPYX2N2Yp3UirlX5vB9LrtVs8yZ7d90DTcqoWtMB5Y9cGWWKJD5YNmKbIpgBKjEQc5MdloBulsQmSmmmMaSuNM+Y67KWg==
+	PuYCaUe6mvK8l/MH+kZHSBkG45YstfuPiopbNFDRxNxtOwlxsQ5hvPTtfbwXcQCR+H4NZMJyfgDAReGzhnTIG7cfQxmplIxrAhoEW9B2RPiJeekU/Mcqq6sJoXhrC7a1jnYxKxQ2a6noUrl44xyeaQ==
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 570603f2-6fba-49e2-347b-08d9873af292
+ 45c88565-a448-4688-0f02-08d9873af422
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 13:29:10.2732
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 13:29:12.6258
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -86,33 +88,35 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB2770
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 13:29:13 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 13:29:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156587
+ https://lists.openembedded.org/g/openembedded-core/message/156588
 
 fix the append with a leading blank, otherwise this messes up
 DEPENDS when globally inherited classes add dependecies of their own
 
 Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 ---
- meta/recipes-support/libical/libical_3.0.10.bb | 2 +-
+ meta/recipes-core/glib-2.0/glib.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libical/libical_3.0.10.bb b/meta/recipes-=
-support/libical/libical_3.0.10.bb
-index aa5f11e817..209a50217c 100644
---- a/meta/recipes-support/libical/libical_3.0.10.bb
-+++ b/meta/recipes-support/libical/libical_3.0.10.bb
-@@ -19,7 +19,7 @@ UPSTREAM_CHECK_URI =3D "https://github.com/libical/libica=
-l/releases"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2=
+.0/glib.inc
+index a34776b083..3436645f15 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -30,7 +30,7 @@ LEAD_SONAME =3D "libglib-2.0.*"
 =20
- inherit cmake pkgconfig
+ inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-ev=
+en bash-completion gio-module-cache manpages
 =20
--DEPENDS:append:class-target =3D "libical-native"
-+DEPENDS:append:class-target =3D " libical-native"
+-DEPENDS:append:class-target =3D "${@' gtk-doc' if d.getVar('GTKDOC_ENABLED=
+') =3D=3D 'True' else ''}"
++DEPENDS:append:class-target =3D " ${@' gtk-doc' if d.getVar('GTKDOC_ENABLE=
+D') =3D=3D 'True' else ''}"
 =20
- PACKAGECONFIG ??=3D "icu glib"
- PACKAGECONFIG[bdb] =3D ",-DCMAKE_DISABLE_FIND_PACKAGE_BDB=3DTrue,db"
+ GTKDOC_MESON_OPTION =3D "gtk_doc"
+=20
 --=20
 2.25.1
 
