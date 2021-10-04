@@ -1,285 +1,176 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <abeltran@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E549C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 18:31:53 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web09.14171.1633372312550130891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2430C433EF
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 20:13:38 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.15563.1633378417643907810
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 11:31:52 -0700
+ Mon, 04 Oct 2021 13:13:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="225859644"
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200";
-   d="scan'208";a="225859644"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 09:51:10 -0700
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200";
-   d="scan'208";a="483208861"
-Received: from hchai4-mobl2.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.213.128.172])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 09:51:08 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=pVFln1v4;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: abeltran@linux.microsoft.com)
+Received: from
+ abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net
+ (unknown [20.94.235.175])
+	by linux.microsoft.com (Postfix) with ESMTPSA id D19F520B861E;
+	Mon,  4 Oct 2021 13:13:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D19F520B861E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1633378416;
+	bh=a1W05EaKsKOiQggix5msC/8+m3oNuHMGx+wTHm92TY4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pVFln1v4Zdvm1gajgDcBFVZMyAL06l8ph0p+J0OLDtIgamvHUiiApbm1wzze1iU+S
+	 Xm2KbdIbdLz+ydSdZVkPwOfX6v81WdsypPN0zXUDeYsf4CY+As6h7HsD5OA1tF7mJG
+	 iCHbZf6NH4Sd/ohiq2EKuerBTOPCOUuCneK8DRNM=
+From: Andres Beltran <abeltran@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 06/11] vim: Backport fix for CVE-2021-3770
-Date: Tue,  5 Oct 2021 00:50:50 +0800
-Message-Id: 
- <27c7e46bc4dbabdcd8c5c1a9de2906c5bc8a48c4.1633366030.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1633366030.git.anuj.mittal@intel.com>
-References: <cover.1633366030.git.anuj.mittal@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Andres Beltran <abeltran@linux.microsoft.com>
+Subject: [PATCH] buildhistory: Fix package output files for SDKs
+Date: Mon,  4 Oct 2021 20:13:31 +0000
+Message-Id: <20211004201331.28401-1-abeltran@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 18:31:53 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 20:13:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156629
+ https://lists.openembedded.org/g/openembedded-core/message/156631
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Currently, installed packages are listed for images in image-info.txt, but
+not for SDKs in sdk-info.txt. Add TOOLCHAIN_HOST_TASK and
+TOOLCHAIN_TARGET_TASK to the output variables in sdk-info.txt.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54d3d023ce55ba4a7160ed25a283f0918e7d8e2e)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Moreover, package output files for the SDK host are empty because
+PKGDATA_DIR defaults to the target directory. Fix this bug and create a new
+variable called PKGDATA_DIR_SDK which stores the correct path for the SDK
+host package data.
+
+Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
 ---
- ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   2 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+ meta/classes/buildhistory.bbclass   | 21 ++++++++++++++++-----
+ meta/classes/cross-canadian.bbclass |  2 +-
+ meta/classes/nativesdk.bbclass      |  2 +-
+ meta/conf/bitbake.conf              |  1 +
+ meta/lib/oe/package_manager.py      |  2 +-
+ 5 files changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
-new file mode 100644
-index 0000000000..1cee759502
---- /dev/null
-+++ b/meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
-@@ -0,0 +1,207 @@
-+From b7081e135a16091c93f6f5f7525a5c58fb7ca9f9 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Sat, 4 Sep 2021 18:47:28 +0200
-+Subject: [PATCH] patch 8.2.3402: invalid memory access when using :retab with
-+ large value
-+
-+Problem:    Invalid memory access when using :retab with large value.
-+Solution:   Check the number is positive.
-+
-+CVE: CVE-2021-3770
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9]
-+---
-+ src/indent.c               | 34 +++++++++++++++++++++-------------
-+ src/option.c               | 12 ++++++------
-+ src/optionstr.c            |  4 ++--
-+ src/testdir/test_retab.vim |  3 +++
-+ src/version.c              |  2 ++
-+ 5 files changed, 34 insertions(+), 21 deletions(-)
-+
-+Index: git/src/indent.c
-+===================================================================
-+--- git.orig/src/indent.c
-++++ git/src/indent.c
-+@@ -18,18 +18,19 @@
-+ /*
-+  * Set the integer values corresponding to the string setting of 'vartabstop'.
-+  * "array" will be set, caller must free it if needed.
-++ * Return FAIL for an error.
-+  */
-+     int
-+ tabstop_set(char_u *var, int **array)
-+ {
-+-    int valcount = 1;
-+-    int t;
-+-    char_u *cp;
-++    int	    valcount = 1;
-++    int	    t;
-++    char_u  *cp;
-+ 
-+     if (var[0] == NUL || (var[0] == '0' && var[1] == NUL))
-+     {
-+ 	*array = NULL;
-+-	return TRUE;
-++	return OK;
-+     }
-+ 
-+     for (cp = var; *cp != NUL; ++cp)
-+@@ -43,8 +44,8 @@ tabstop_set(char_u *var, int **array)
-+ 		if (cp != end)
-+ 		    emsg(_(e_positive));
-+ 		else
-+-		    emsg(_(e_invarg));
-+-		return FALSE;
-++		    semsg(_(e_invarg2), cp);
-++		return FAIL;
-+ 	    }
-+ 	}
-+ 
-+@@ -55,26 +56,33 @@ tabstop_set(char_u *var, int **array)
-+ 	    ++valcount;
-+ 	    continue;
-+ 	}
-+-	emsg(_(e_invarg));
-+-	return FALSE;
-++	semsg(_(e_invarg2), var);
-++	return FAIL;
-+     }
-+ 
-+     *array = ALLOC_MULT(int, valcount + 1);
-+     if (*array == NULL)
-+-	return FALSE;
-++	return FAIL;
-+     (*array)[0] = valcount;
-+ 
-+     t = 1;
-+     for (cp = var; *cp != NUL;)
-+     {
-+-	(*array)[t++] = atoi((char *)cp);
-+-	while (*cp  != NUL && *cp != ',')
-++	int n = atoi((char *)cp);
-++
-++	if (n < 0 || n > 9999)
-++	{
-++	    semsg(_(e_invarg2), cp);
-++	    return FAIL;
-++	}
-++	(*array)[t++] = n;
-++	while (*cp != NUL && *cp != ',')
-+ 	    ++cp;
-+ 	if (*cp != NUL)
-+ 	    ++cp;
-+     }
-+ 
-+-    return TRUE;
-++    return OK;
-+ }
-+ 
-+ /*
-+@@ -1556,7 +1564,7 @@ ex_retab(exarg_T *eap)
-+ 
-+ #ifdef FEAT_VARTABS
-+     new_ts_str = eap->arg;
-+-    if (!tabstop_set(eap->arg, &new_vts_array))
-++    if (tabstop_set(eap->arg, &new_vts_array) == FAIL)
-+ 	return;
-+     while (vim_isdigit(*(eap->arg)) || *(eap->arg) == ',')
-+ 	++(eap->arg);
-+Index: git/src/option.c
-+===================================================================
-+--- git.orig/src/option.c
-++++ git/src/option.c
-+@@ -2292,9 +2292,9 @@ didset_options2(void)
-+ #endif
-+ #ifdef FEAT_VARTABS
-+     vim_free(curbuf->b_p_vsts_array);
-+-    tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
-++    (void)tabstop_set(curbuf->b_p_vsts, &curbuf->b_p_vsts_array);
-+     vim_free(curbuf->b_p_vts_array);
-+-    tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
-++    (void)tabstop_set(curbuf->b_p_vts,  &curbuf->b_p_vts_array);
-+ #endif
-+ }
-+ 
-+@@ -5756,7 +5756,7 @@ buf_copy_options(buf_T *buf, int flags)
-+ 	    buf->b_p_vsts = vim_strsave(p_vsts);
-+ 	    COPY_OPT_SCTX(buf, BV_VSTS);
-+ 	    if (p_vsts && p_vsts != empty_option)
-+-		tabstop_set(p_vsts, &buf->b_p_vsts_array);
-++		(void)tabstop_set(p_vsts, &buf->b_p_vsts_array);
-+ 	    else
-+ 		buf->b_p_vsts_array = 0;
-+ 	    buf->b_p_vsts_nopaste = p_vsts_nopaste
-+@@ -5914,7 +5914,7 @@ buf_copy_options(buf_T *buf, int flags)
-+ 		buf->b_p_isk = save_p_isk;
-+ #ifdef FEAT_VARTABS
-+ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
-+-		    tabstop_set(p_vts, &buf->b_p_vts_array);
-++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
-+ 		else
-+ 		    buf->b_p_vts_array = NULL;
-+ #endif
-+@@ -5929,7 +5929,7 @@ buf_copy_options(buf_T *buf, int flags)
-+ 		buf->b_p_vts = vim_strsave(p_vts);
-+ 		COPY_OPT_SCTX(buf, BV_VTS);
-+ 		if (p_vts && p_vts != empty_option && !buf->b_p_vts_array)
-+-		    tabstop_set(p_vts, &buf->b_p_vts_array);
-++		    (void)tabstop_set(p_vts, &buf->b_p_vts_array);
-+ 		else
-+ 		    buf->b_p_vts_array = NULL;
-+ #endif
-+@@ -6634,7 +6634,7 @@ paste_option_changed(void)
-+ 	    if (buf->b_p_vsts_array)
-+ 		vim_free(buf->b_p_vsts_array);
-+ 	    if (buf->b_p_vsts && buf->b_p_vsts != empty_option)
-+-		tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
-++		(void)tabstop_set(buf->b_p_vsts, &buf->b_p_vsts_array);
-+ 	    else
-+ 		buf->b_p_vsts_array = 0;
-+ #endif
-+Index: git/src/optionstr.c
-+===================================================================
-+--- git.orig/src/optionstr.c
-++++ git/src/optionstr.c
-+@@ -2166,7 +2166,7 @@ did_set_string_option(
-+ 	    if (errmsg == NULL)
-+ 	    {
-+ 		int *oldarray = curbuf->b_p_vsts_array;
-+-		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)))
-++		if (tabstop_set(*varp, &(curbuf->b_p_vsts_array)) == OK)
-+ 		{
-+ 		    if (oldarray)
-+ 			vim_free(oldarray);
-+@@ -2205,7 +2205,7 @@ did_set_string_option(
-+ 	    {
-+ 		int *oldarray = curbuf->b_p_vts_array;
-+ 
-+-		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)))
-++		if (tabstop_set(*varp, &(curbuf->b_p_vts_array)) == OK)
-+ 		{
-+ 		    vim_free(oldarray);
-+ #ifdef FEAT_FOLDING
-+Index: git/src/testdir/test_retab.vim
-+===================================================================
-+--- git.orig/src/testdir/test_retab.vim
-++++ git/src/testdir/test_retab.vim
-+@@ -74,4 +74,7 @@ endfunc
-+ func Test_retab_error()
-+   call assert_fails('retab -1',  'E487:')
-+   call assert_fails('retab! -1', 'E487:')
-++  call assert_fails('ret -1000', 'E487:')
-++  call assert_fails('ret 10000', 'E475:')
-++  call assert_fails('ret 80000000000000000000', 'E475:')
-+ endfunc
-+Index: git/src/version.c
-+===================================================================
-+--- git.orig/src/version.c
-++++ git/src/version.c
-+@@ -743,6 +743,8 @@ static char *(features[]) =
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-+ /**/
-++    3402,
-++/**/
-+     0
-+ };
-+ 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index e45f9b828d..e04c653fe3 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,7 +19,9 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://racefix.patch \
-            file://CVE-2021-3778.patch \
-            file://CVE-2021-3796.patch \
-+           file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
- "
-+
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 20609c435b..ab9d882752 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -434,11 +434,16 @@ def buildhistory_list_installed(d, rootfs_type="image"):
+     else:
+         pkgs = sdk_list_installed_packages(d, rootfs_type == "sdk_target")
  
- # Do not consider .z in x.y.z, as that is updated with every commit
++    if rootfs_type == "sdk_host":
++        pkgdata_dir = d.getVar('PKGDATA_DIR_SDK')
++    else:
++        pkgdata_dir = d.getVar('PKGDATA_DIR')
++
+     for output_type, output_file in process_list:
+         output_file_full = os.path.join(d.getVar('WORKDIR'), output_file)
+ 
+         with open(output_file_full, 'w') as output:
+-            output.write(format_pkg_list(pkgs, output_type, d.getVar('PKGDATA_DIR')))
++            output.write(format_pkg_list(pkgs, output_type, pkgdata_dir))
+ 
+ python buildhistory_list_installed_image() {
+     buildhistory_list_installed(d)
+@@ -488,13 +493,19 @@ buildhistory_get_installed() {
+ 	echo "}" >>  $1/depends.dot
+ 	rm $1/depends.tmp
+ 
++	# Set correct pkgdatadir
++	pkgdatadir=${PKGDATA_DIR}
++	if [ "$2" == "sdk" ] && [ "$3" == "host" ]; then
++		pkgdatadir="${PKGDATA_DIR_SDK}"
++	fi
++
+ 	# Produce installed package sizes list
+-	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PKGSIZE" -n -f $pkgcache > $1/installed-package-sizes.tmp
++	oe-pkgdata-util -p $pkgdatadir read-value "PKGSIZE" -n -f $pkgcache > $1/installed-package-sizes.tmp
+ 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
+ 	rm $1/installed-package-sizes.tmp
+ 
+ 	# Produce package info: runtime_name, buildtime_name, recipe, version, size
+-	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
++	oe-pkgdata-util -p $pkgdatadir read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
+ 	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
+ 	rm $1/installed-package-info.tmp
+ 
+@@ -534,7 +545,7 @@ buildhistory_get_sdk_installed() {
+ 		return
+ 	fi
+ 
+-	buildhistory_get_installed ${BUILDHISTORY_DIR_SDK}/$1 sdk
++	buildhistory_get_installed ${BUILDHISTORY_DIR_SDK}/$1 sdk $1
+ }
+ 
+ buildhistory_get_sdk_installed_host() {
+@@ -762,7 +773,7 @@ def buildhistory_get_imagevars(d):
+ def buildhistory_get_sdkvars(d):
+     if d.getVar('BB_WORKERCONTEXT') != '1':
+         return ""
+-    sdkvars = "DISTRO DISTRO_VERSION SDK_NAME SDK_VERSION SDKMACHINE SDKIMAGE_FEATURES BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_EXCLUDE"
++    sdkvars = "DISTRO DISTRO_VERSION SDK_NAME SDK_VERSION SDKMACHINE SDKIMAGE_FEATURES TOOLCHAIN_HOST_TASK TOOLCHAIN_TARGET_TASK BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_EXCLUDE"
+     if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext':
+         # Extensible SDK uses some additional variables
+         sdkvars += " SDK_LOCAL_CONF_WHITELIST SDK_LOCAL_CONF_BLACKLIST SDK_INHERIT_BLACKLIST SDK_UPDATE_URL SDK_EXT_TYPE SDK_RECRDEP_TASKS SDK_INCLUDE_PKGDATA SDK_INCLUDE_TOOLCHAIN"
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 1e54035084..1974b33943 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -167,7 +167,7 @@ USE_NLS = "${SDKUSE_NLS}"
+ # and not any particular tune that is enabled.
+ TARGET_ARCH[vardepsexclude] = "TUNE_ARCH"
+ 
+-PKGDATA_DIR = "${TMPDIR}/pkgdata/${SDK_SYS}"
++PKGDATA_DIR = "${PKGDATA_DIR_SDK}"
+ # If MLPREFIX is set by multilib code, shlibs
+ # points to the wrong place so force it
+ SHLIBSDIRS = "${PKGDATA_DIR}/nativesdk-shlibs2"
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 7f2692c51a..d2a3f0bec9 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -31,7 +31,7 @@ PACKAGE_ARCHS = "${SDK_PACKAGE_ARCHS}"
+ DEPENDS_append = " chrpath-replacement-native"
+ EXTRANATIVEPATH += "chrpath-native"
+ 
+-PKGDATA_DIR = "${TMPDIR}/pkgdata/${SDK_SYS}"
++PKGDATA_DIR = "${PKGDATA_DIR_SDK}"
+ 
+ HOST_ARCH = "${SDK_ARCH}"
+ HOST_VENDOR = "${SDK_VENDOR}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6ada0099eb..a4b00c0448 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -414,6 +414,7 @@ DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+ 
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
++PKGDATA_DIR_SDK = "${TMPDIR}/pkgdata/${SDK_SYS}"
+ 
+ ##################################################################
+ # SDK variables.
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b0660411ea..aec1feedfd 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -535,7 +535,7 @@ class PackageManager(object, metaclass=ABCMeta):
+         # TODO don't have sdk here but have a property on the superclass
+         # (and respect in install_complementary)
+         if sdk:
+-            pkgdatadir = self.d.expand("${TMPDIR}/pkgdata/${SDK_SYS}")
++            pkgdatadir = self.d.getVar("PKGDATA_DIR_SDK")
+         else:
+             pkgdatadir = self.d.getVar("PKGDATA_DIR")
+ 
 -- 
-2.31.1
+2.17.1
 
 
