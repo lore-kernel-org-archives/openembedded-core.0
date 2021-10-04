@@ -1,209 +1,394 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <mhalstead@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D3FC433EF
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 15:34:39 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (EUR01-VE1-obe.outbound.protection.outlook.com [40.92.66.19])
- by mx.groups.io with SMTP id smtpd.web12.11212.1633361677724229771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F13FC433EF
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 16:27:22 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web09.12125.1633364840679405846
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 08:34:38 -0700
+ Mon, 04 Oct 2021 09:27:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com
- header.s=selector1 header.b=FBE1v2Ci;
- spf=pass (domain: outlook.com, ip: 40.92.66.19,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FyKkRj9+tzSHvwJTydzyoE8887CZODJC4F4uHTilkmje1M9/G7G3ax6URJeobT8jFs5qveiT49I1B1PXNiE0B20CqFDITkLB/aRHWXlrhV9PPmkKAqGePLuo5xInBTbofDOXaJzKSfoiW8rjZe7G4uM4le9STm7UaVAVIFthE90L9lyMJzeATTsqybdOMy2J3mRtfN2pIcLgtrBHVMHywHuCI9pTpu5z/PTAm3Rl1aa5cVDCw9WEZIjrWI0/onmu4xhObKuV0qnoxDl++MSxzCzd7y4jnKORFq1jBENDtmJLYZb9Bh3v2zu73xm6m8yUauz7IROZyBe+ITeKmq5J/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rg5F4EXjVQZOOVvIVqIldd6+EMDAZaJzhAxamj8EvBQ=;
- b=CHwZAI1cl3tuyYoG6EEzuip2vyyQJsKdF1UjncvaWQjQouQMmghXOElWbtMKKZggmo59xEUrajkX5UHw1C5BmF4KT1NjqfClvqtsDIP9Ug2IdnY8Gu6xwTdzvjkNSsNYTF6z0xHjlcxM/Hi4T6HBOMNs7ybq1fH5xFqNMkVFLZTMVl3Ljm0PkuEnV+7nT3SOovYjojh8eQszoOY6ePLzKHJJKBc6rnymgb18qIRW5REPG6B1tc2o6Pb3QO2jPK8bL1fR779s91z8te3e96SA48VpKJkb2j2x0ohSstR+Iq84BzUaBQNGYW3ftSya1zRKqxX5b/B+hsLuVpcXkPGM0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rg5F4EXjVQZOOVvIVqIldd6+EMDAZaJzhAxamj8EvBQ=;
- b=FBE1v2CiAoCFQLhmC8/NiQBxb4IxwaiY1V4zcavfDKZ5guWDZnhiNAvj9NqL6KA5e/Ts0ejuz7oWGqpCbajOPbH6NjhMBXF8GNJrjOycvlxCAMjVe7+oCcT5xKz7R3agmF1YAlY3bRVEFgcUKtB5qUyqUMf0qk9eqaYKXvO9jCHNUj91UHcr6qTBJmsQ+S7P42OQzmv+6/3duYxAXAtgdOtceojXl9Sy5zZ/F0GcmlXG3F9I+nTzovfsjet5+x3lYD4F8NNJYECmy8YsV8TKN3SyI6bDqdQL+VHBF/mzCuG3QUMzSb7zG2Ho/dRVjIN251ye75ndY0pL9AIutz+obA==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4292.eurprd09.prod.outlook.com (2603:10a6:20b:164::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Mon, 4 Oct
- 2021 15:34:35 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%3]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
- 15:34:34 +0000
-Subject: Re: [OE-core] [PATCH 2/3] glibc: fix append in DEPENDS
-To: Martin Jansa <martin.jansa@gmail.com>
-CC: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20211004132853.30543-1-kweihmann@outlook.com>
- <AM9PR09MB46421376B722A7A7A315BC8CA8AE9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <2d32793c8dbc47a0afced79d07377812@axis.com>
- <AM9PR09MB4642623841A0B2B3EDDE44D2A8AE9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CA+chaQdjdwmsiSnyVsegyfEG192mVrBdyX0ayrQ7L==f24ypRQ@mail.gmail.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB46423E6D87FF5875BFE4334FA8AE9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Mon, 4 Oct 2021 17:34:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: 
- <CA+chaQdjdwmsiSnyVsegyfEG192mVrBdyX0ayrQ7L==f24ypRQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-TMN: [a+a//oqTRy367XsjVp108ZGZyvfCK8JJ]
-X-ClientProxiedBy: AM8P189CA0003.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::8) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <127efd6f-02e1-ded3-e488-168a76ceb9d3@outlook.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N6g9RsGY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48,
+ mailfrom: mhalstead@linuxfoundation.org)
+Received: by mail-lf1-f48.google.com with SMTP id x27so73427018lfa.9
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 04 Oct 2021 09:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EKdGJ7m9m+5pB0gCgqzFJ20f78R7j5EGwgeNJrxHe0c=;
+        b=N6g9RsGYh9LrdM6KEPw/1Uf2RgifoYUikjMqgrNnIVIiENAKP38fq+iDNgKpTe3Njd
+         UKnVhI71U4gkoSYMVdxcqHeaUfPMOGERRxzCUzj8C9j9zwB7YPxSjqElte14Gkr6VLtK
+         hfIYT87IB3xEgDo5Yv1uUr7B4DlmicPGqARBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EKdGJ7m9m+5pB0gCgqzFJ20f78R7j5EGwgeNJrxHe0c=;
+        b=aCkClRVGETXzYU71e47UjhuxJ89yiPa+TJk3Spk0cVqyPUbE4rFnJV8LRbbW32/uO6
+         K13n2ir9Adfe6Kh9GGVqUdDy5q+JY4lixC+JdUspUHOX6bUvF+0Nu98R8YhlOe5h5OnO
+         eZfVPqIUdgMB0I+FBzpMK3phL9Q//tG8BxVAS9GL1rotGig8fviPWWQ7WAz3qLQ7cXup
+         fcz+dvX7fIcBEHmK8ZyihQSCtibdgkr9vnyiLBNvGeo64QWL+fUxrqUcfihkzSZ0VHPC
+         f5PGEE2e1oScbtlSjVV+YJVXXchJ6d3zGJvKbtCAPd9elIQi7n29broRJO6jpQMI39jA
+         UB1g==
+X-Gm-Message-State: AOAM533X5cBtQGNGLjFSYcma5UwIR8ur/bbvElkXZ+TWTymRULwRM5gd
+	xVCGCA2bw+NoY3O05kaKHYm/C79OJ80rLFloo/Mu9Q==
+X-Google-Smtp-Source: 
+ ABdhPJzpQ03np8lFJPsqDHU4p5ZUIVjP6tbikWvr4lhwRK+JqBIJdaA/X5ccutPrNjbl2aODCmoFF8DtRyrZcD91rTI=
+X-Received: by 2002:a19:7701:: with SMTP id s1mr15649032lfc.592.1633364838496;
+ Mon, 04 Oct 2021 09:27:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.43.125] (46.114.34.242) by
- AM8P189CA0003.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::8) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
- Transport; Mon, 4 Oct 2021 15:34:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77907300-7d0e-4fee-672b-08d9874c77d1
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4292:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	k1vnMGvNmAkWj+BAOFG3vOhpLiVwOxklAUs7nAagIv/VU1qBYwYDS06U1zpCvAAR/vHcfwPUTuMpApygG5HKqJZa5qNdz7D9VTourmPiYmX8iAITFki2HmCJbID3KZ3jpiJ8ufz0izcQRH3x7iXIL6eEYLg0gbXbobJ56gWszucRupnfVO8uE3AwZutj6HxvtPHZtXTIpvWca0IrtXWiOZ6wWr/8j250iPkfWImQPefajLFcR+PsWTG0lLRUOdfddNREyep5KyEah1PZ0sgSgKDt3K4yhGdjK+rs3nGKYIpMRZ/0J4vD7tA5qaAnJJWvO8SpYjE9n80YAer1gf2NIc72tdYgNQcq/qmv20UqDB2xuMKxZa0qgLut/tybFDtsHB7wVLNYGXi+QvOkf72fWQN2awATA9L4ur6+HaEDx+geQneu8vAHn1NBj1Y7ct7/gCxhUvfUlT9Evz1L+cWr46llXjcr+QnpsRO5CNwKhYpI05ltbG71nK5L6iWFDnA1O8HOgYruEaOQC9laRwdffw==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	h0VSz/Fq90+z0Nlnjk6NehwmvKAeMeFYwAdNIB8GPhee3sAgCYP4LozmdUoaTM1dWLIlVTLbFo6DN4vjhTu4k08ZkC6o1ZQsTNaTVin0BTF8BhdBztU9TgVKSUTdwOffGytJbKapW5SMWiYUq7xytw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 77907300-7d0e-4fee-672b-08d9874c77d1
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 15:34:34.9023
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4292
+References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
+ <20210604091458.1381144-4-alex.kanavin@gmail.com>
+ <1685B658849E960A.4717@lists.openembedded.org>
+ <f9cc3da4399fcca66a9c43638dcf4eca162ba23a.camel@linuxfoundation.org>
+ <50a73766-dc52-0600-a6cd-7ab422030782@gmail.com>
+ <7e56d093ba6c1390cec71ef3a362abe84ce735bb.camel@linuxfoundation.org>
+ <CANNYZj_ExBZwGzRrnG8Yb2nsNmzCKkZV09FqFuMbCdxAepNSkg@mail.gmail.com>
+ <2ac70a7b01743192ae4ec42b2b1eee18becde25d.camel@linuxfoundation.org>
+ <CANNYZj-dYu4Q9PBhBd2-msPaBSreycLCfCKmZ1zm8=z=Ht+MbA@mail.gmail.com>
+ <1c55d1aca45e746034b791b2f1712e8f335b502c.camel@linuxfoundation.org>
+ <ae52185ed604614ff00bee7606b704e6c065107f.camel@intel.com>
+In-Reply-To: <ae52185ed604614ff00bee7606b704e6c065107f.camel@intel.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Mon, 4 Oct 2021 09:27:06 -0700
+Message-ID: 
+ <CADfgfobgqkfyp3GLMqJbe-T18Rdf0FYdUpVBWcU2+wkVhfMKSw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/10] cmake: update 3.20.2 -> 3.20.3
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"alex.kanavin@gmail.com" <alex.kanavin@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000fcd04605cd8962d8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 15:34:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 16:27:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156613
+ https://lists.openembedded.org/g/openembedded-core/message/156614
 
+--000000000000fcd04605cd8962d8
+Content-Type: text/plain; charset="UTF-8"
 
+This error was fixed upstream
+https://bugzilla.redhat.com/show_bug.cgi?id=1975562 kernel 4.18.0-325.x
+which has landed in CentOS8 Stream on centos8-ty-2 but not plain CentOS8
+where the newest kernel is still at 4.18.0-305.x.
 
-On 04.10.21 17:29, Martin Jansa wrote:
->  > Still this is very prone to errors, so I personally rather have a=20
-> space=C2=A0too much than to few (esp. as the else clause doesn't add a sp=
-ace).
->=20
-> The missing space in else clause is often intentional in cases like=20
-> this, so that the append has no impact on value when not enabled=20
-> with=C2=A0GTKDOC_ENABLED. Why should it add useless space when not enable=
-d?=20
-> Just for the possibility of someone adding something to else clause=20
-> without leading space there?
+I'll reboot into the older 4.18.0-240.15 kernel again on centos8-ty-1 as a
+fix for now.
 
-Partly yes, I found those conditionals rather hard to review, esp. for=20
-more complex scenarios, so I kind of would suggest to add the mandatory=20
-space for the append operation all the time and add no additional space=20
-in the stuff that is popping out of the conditional computation.
+On Tue, Sep 28, 2021 at 6:12 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
 
-But I'm also fine with dropping the last 2 patches of the series.
-Only the first patch solves a real world issue... the remaining two were=20
-just a result of a linter scan
+> Did we find out the reason why this was happening? I have started
+> getting this error on Centos-8 while building hardknott.
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/4045
+>
+> Thanks,
+>
+> Anuj
+>
+> On Wed, 2021-06-16 at 23:45 +0100, Richard Purdie wrote:
+> > On Sun, 2021-06-06 at 21:51 +0200, Alexander Kanavin wrote:
+> > > On Sun, 6 Jun 2021 at 01:10, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > I tried again with the autobuilder, still fails:
+> > > >
+> > > >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3516
+> > > >
+> > > > so whatever it is, it is still "live".
+> > > >
+> > >
+> > >
+> > > I did some digging. The issue happens when:
+> > > - host is centos8
+> > > - SDKMACHINE is i686 (e.g. cmake is 32 bit)
+> > >
+> > > Then there's a failing syscall attempting to set file times:
+> > > utimensat_time64(AT_FDCWD, "../install/usr/local/lib/cmake/assimp-
+> > > 4.1/assimp-config.cmake",
+> > > [{tv_sec=1622966723, tv_nsec=6319439026193432576},
+> > > {tv_sec=1622966579, tv_nsec=17840053692309438464}], 0) = -1
+> > > EINVAL (Invalid argument)
+> > >
+> > > On latest Fedora, there's no issue:
+> > > utimensat_time64(AT_FDCWD, "../install2/usr/local/lib/cmake/assimp-
+> > > 4.1/assimp-config.cmake",
+> > > [{tv_sec=1623002886, tv_nsec=6369724778172907520},
+> > > {tv_sec=1623002886, tv_nsec=17839174083007217664}], 0) = 0
+> > >
+> > > utimensat_time64 only appeared with 5.1 kernels, however, 4.18 should
+> > > be returning ENOSYS in that case
+> > > probably?
+> >
+> > I hacked up a quick test bit of code (which makes assumptions
+> > about 32 bit):
+> >
+> > #include <unistd.h>
+> > #include <sys/syscall.h>
+> > #include <sys/types.h>
+> > #include <sys/stat.h>
+> > #include <fcntl.h>
+> > #include <stdio.h>
+> >
+> > struct timespec64 {
+> >     long long           tv_sec;                 /* seconds */
+> >     long long           tv_nsec;                /* nanoseconds */
+> > };
+> >
+> > int main() {
+> >   int fd = open("foo", O_RDWR | O_CREAT, 0644);
+> >   write(fd, "foo", 3);
+> >   struct timespec64 times[2] = {};
+> >   times[0].tv_sec = 1622966723;
+> >   times[0].tv_nsec = 631943;
+> >   times[1].tv_sec = 1622966579;
+> >   times[1].tv_nsec = 178400;
+> >   int rc = syscall(SYS_utimensat_time64, fd, NULL, &times[0], 0);
+> >   printf("rc=%d\n", rc);
+> >   close(fd);
+> >   return rc;
+> > }
+> >
+> > built with "gcc -m32 test-syscall.c -o test" and run with "strace
+> > ./test".
+> > This works on all the systems I tried it in. As does:
+> >
+> >
+> >   times[0].tv_sec = 1;
+> >   times[0].tv_nsec = 2;
+> >   times[1].tv_sec = 3;
+> >   times[1].tv_nsec = 4;
+> >
+> > however if you set (and ignore the compiler warning):
+> >
+> >   times[0].tv_sec = 1622966723;
+> >   times[0].tv_nsec = 6319439026193432576;
+> >   times[1].tv_sec = 1622966579;
+> >   times[1].tv_nsec = 17840053692309438464;
+> >
+> > then you see EINVAL on the centos system but not on my ubuntu one. It
+> > will
+> > do that until you reduce the values of tv_nsec right now. So it seems
+> > most
+> > systems accept large tv_nsec values but the Centos one does not.
+> >
+> > I think tv_nsec may be being clamped to LONG_MAX of 4 bytes but should
+> > be
+> > a LONG_LONG_MAX of 8 bytes on a 32 bit since the field is a 64 bit
+> > long.
+> >
+> > Michael: Hopefully that gives you something to raise with them?
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156435):
+> https://lists.openembedded.org/g/openembedded-core/message/156435
+> Mute This Topic: https://lists.openembedded.org/mt/83304703/1003190
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> mhalstead@linuxfoundation.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
->=20
-> On Mon, Oct 4, 2021 at 5:14 PM Konrad Weihmann <kweihmann@outlook.com=20
-> <mailto:kweihmann@outlook.com>> wrote:
->=20
->=20
->=20
->     On 04.10.21 17:08, Peter Kjellerstedt wrote:
->      >> -----Original Message-----
->      >> From: openembedded-core@lists.openembedded.org
->     <mailto:openembedded-core@lists.openembedded.org> <openembedded-
->      >> core@lists.openembedded.org
->     <mailto:core@lists.openembedded.org>> On Behalf Of Konrad Weihmann
->      >> Sent: den 4 oktober 2021 15:29
->      >> To: openembedded-core@lists.openembedded.org
->     <mailto:openembedded-core@lists.openembedded.org>
->      >> Cc: Konrad Weihmann <kweihmann@outlook.com
->     <mailto:kweihmann@outlook.com>>
->      >> Subject: [OE-core] [PATCH 2/3] glibc: fix append in DEPENDS
->      >>
->      >> fix the append with a leading blank, otherwise this messes up
->      >> DEPENDS when globally inherited classes add dependecies of their =
-own
->      >>
->      >> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com
->     <mailto:kweihmann@outlook.com>>
->      >> ---
->      >>=C2=A0 =C2=A0meta/recipes-core/glib-2.0/glib.inc | 2 +-
->      >>=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->      >>
->      >> diff --git a/meta/recipes-core/glib-2.0/glib.inc
->     b/meta/recipes-core/glib-
->      >> 2.0/glib.inc
->      >> index a34776b083..3436645f15 100644
->      >> --- a/meta/recipes-core/glib-2.0/glib.inc
->      >> +++ b/meta/recipes-core/glib-2.0/glib.inc
->      >> @@ -30,7 +30,7 @@ LEAD_SONAME =3D "libglib-2.0.*"
->      >>
->      >>=C2=A0 =C2=A0inherit meson gettext gtk-doc pkgconfig ptest-gnome
->     upstream-version-is-
->      >> even bash-completion gio-module-cache manpages
->      >>
->      >> -DEPENDS:append:class-target =3D "${@' gtk-doc' if
->     d.getVar('GTKDOC_ENABLED') =3D=3D 'True' else ''}"
->      >> +DEPENDS:append:class-target =3D " ${@' gtk-doc' if
->     d.getVar('GTKDOC_ENABLED') =3D=3D 'True' else ''}"
->      >
->      > This change is not needed as there already is a space inside
->      > the if statement (in ' gtk-doc').
->=20
->     Still this is very prone to errors, so I personally rather have a spa=
-ce
->     too much than to few (esp. as the else clause doesn't add a space).
->=20
->     IHMO it should be for readability purpose rather " ${@'gtk-doc' if
->     d.getVar('GTKDOC_ENABLED') =3D=3D 'True' else ''}" than like it is no=
-w -
->     but
->     that's just cosmetics and I'm sure one could discuss about that a lot
->=20
->      >
->      >>
->      >>=C2=A0 =C2=A0GTKDOC_MESON_OPTION =3D "gtk_doc"
->      >>
->      >> --
->      >> 2.25.1
->      >
->      > //Peter
->      >
->=20
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#156611):
->     https://lists.openembedded.org/g/openembedded-core/message/156611
->     <https://lists.openembedded.org/g/openembedded-core/message/156611>
->     Mute This Topic: https://lists.openembedded.org/mt/86066304/3617156
->     <https://lists.openembedded.org/mt/86066304/3617156>
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe:
->     https://lists.openembedded.org/g/openembedded-core/unsub
->     <https://lists.openembedded.org/g/openembedded-core/unsub>
->     [Martin.Jansa@gmail.com <mailto:Martin.Jansa@gmail.com>]
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+-- 
+Michael Halstead
+Linux Foundation / Yocto Project
+Systems Operations Engineer
+
+--000000000000fcd04605cd8962d8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">This error was fixed upstream=C2=A0<a href=3D"https://bugz=
+illa.redhat.com/show_bug.cgi?id=3D1975562">https://bugzilla.redhat.com/show=
+_bug.cgi?id=3D1975562</a> kernel 4.18.0-325.x which has landed in CentOS8 S=
+tream on centos8-ty-2 but not plain CentOS8 where the newest kernel is stil=
+l at=C2=A04.18.0-305.x.<div><br></div><div>I&#39;ll reboot into the older=
+=C2=A04.18.0-240.15 kernel again on centos8-ty-1 as a fix for now.=C2=A0</d=
+iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Tue, Sep 28, 2021 at 6:12 PM Anuj Mittal &lt;<a href=3D"mailto:anuj.m=
+ittal@intel.com">anuj.mittal@intel.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">Did we find out the reason why this w=
+as happening? I have started<br>
+getting this error on Centos-8 while building hardknott.<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/63/build=
+s/4045" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/63/builds/4045</a><br>
+<br>
+Thanks,<br>
+<br>
+Anuj<br>
+<br>
+On Wed, 2021-06-16 at 23:45 +0100, Richard Purdie wrote:<br>
+&gt; On Sun, 2021-06-06 at 21:51 +0200, Alexander Kanavin wrote:<br>
+&gt; &gt; On Sun, 6 Jun 2021 at 01:10, Richard Purdie<br>
+&gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
+=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; &gt; I tried again with the autobuilder, still fails:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/bu=
+ilders/48/builds/3516" rel=3D"noreferrer" target=3D"_blank">https://autobui=
+lder.yoctoproject.org/typhoon/#/builders/48/builds/3516</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; so whatever it is, it is still &quot;live&quot;.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; I did some digging. The issue happens when:<br>
+&gt; &gt; - host is centos8<br>
+&gt; &gt; - SDKMACHINE is i686 (e.g. cmake is 32 bit)<br>
+&gt; &gt; <br>
+&gt; &gt; Then there&#39;s a failing syscall attempting to set file times:<=
+br>
+&gt; &gt; utimensat_time64(AT_FDCWD, &quot;../install/usr/local/lib/cmake/a=
+ssimp-<br>
+&gt; &gt; 4.1/assimp-config.cmake&quot;,<br>
+&gt; &gt; [{tv_sec=3D1622966723, tv_nsec=3D6319439026193432576},<br>
+&gt; &gt; {tv_sec=3D1622966579, tv_nsec=3D17840053692309438464}], 0) =3D -1=
+<br>
+&gt; &gt; EINVAL (Invalid argument)<br>
+&gt; &gt; <br>
+&gt; &gt; On latest Fedora, there&#39;s no issue:<br>
+&gt; &gt; utimensat_time64(AT_FDCWD, &quot;../install2/usr/local/lib/cmake/=
+assimp-<br>
+&gt; &gt; 4.1/assimp-config.cmake&quot;,<br>
+&gt; &gt; [{tv_sec=3D1623002886, tv_nsec=3D6369724778172907520},<br>
+&gt; &gt; {tv_sec=3D1623002886, tv_nsec=3D17839174083007217664}], 0) =3D 0<=
+br>
+&gt; &gt; <br>
+&gt; &gt; utimensat_time64 only appeared with 5.1 kernels, however, 4.18 sh=
+ould<br>
+&gt; &gt; be returning ENOSYS in that case<br>
+&gt; &gt; probably?<br>
+&gt; <br>
+&gt; I hacked up a quick test bit of code (which makes assumptions=C2=A0<br=
+>
+&gt; about 32 bit):<br>
+&gt; <br>
+&gt; #include &lt;unistd.h&gt;<br>
+&gt; #include &lt;sys/syscall.h&gt;<br>
+&gt; #include &lt;sys/types.h&gt;<br>
+&gt; #include &lt;sys/stat.h&gt;<br>
+&gt; #include &lt;fcntl.h&gt;<br>
+&gt; #include &lt;stdio.h&gt;<br>
+&gt; <br>
+&gt; struct timespec64 {<br>
+&gt; =C2=A0=C2=A0=C2=A0 long long=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0tv_sec;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* seconds */<b=
+r>
+&gt; =C2=A0=C2=A0=C2=A0 long long=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0tv_nsec;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* nanoseconds */<br>
+&gt; };<br>
+&gt; <br>
+&gt; int main() {<br>
+&gt; =C2=A0 int fd =3D open(&quot;foo&quot;, O_RDWR | O_CREAT, 0644);<br>
+&gt; =C2=A0 write(fd, &quot;foo&quot;, 3);<br>
+&gt; =C2=A0 struct timespec64 times[2] =3D {};<br>
+&gt; =C2=A0 times[0].tv_sec =3D 1622966723;<br>
+&gt; =C2=A0 times[0].tv_nsec =3D 631943;<br>
+&gt; =C2=A0 times[1].tv_sec =3D 1622966579;<br>
+&gt; =C2=A0 times[1].tv_nsec =3D 178400;<br>
+&gt; =C2=A0 int rc =3D syscall(SYS_utimensat_time64, fd, NULL, &amp;times[0=
+], 0);<br>
+&gt; =C2=A0 printf(&quot;rc=3D%d\n&quot;, rc);<br>
+&gt; =C2=A0 close(fd);<br>
+&gt; =C2=A0 return rc;<br>
+&gt; }<br>
+&gt; <br>
+&gt; built with &quot;gcc -m32 test-syscall.c -o test&quot; and run with &q=
+uot;strace<br>
+&gt; ./test&quot;.<br>
+&gt; This works on all the systems I tried it in. As does:<br>
+&gt; <br>
+&gt; <br>
+&gt; =C2=A0 times[0].tv_sec =3D 1;<br>
+&gt; =C2=A0 times[0].tv_nsec =3D 2;<br>
+&gt; =C2=A0 times[1].tv_sec =3D 3;<br>
+&gt; =C2=A0 times[1].tv_nsec =3D 4;<br>
+&gt; <br>
+&gt; however if you set (and ignore the compiler warning):<br>
+&gt; <br>
+&gt; =C2=A0 times[0].tv_sec =3D 1622966723;<br>
+&gt; =C2=A0 times[0].tv_nsec =3D 6319439026193432576;<br>
+&gt; =C2=A0 times[1].tv_sec =3D 1622966579;<br>
+&gt; =C2=A0 times[1].tv_nsec =3D 17840053692309438464;<br>
+&gt; <br>
+&gt; then you see EINVAL on the centos system but not on my ubuntu one. It<=
+br>
+&gt; will<br>
+&gt; do that until you reduce the values of tv_nsec right now. So it seems<=
+br>
+&gt; most=C2=A0<br>
+&gt; systems accept large tv_nsec values but the Centos one does not.<br>
+&gt; <br>
+&gt; I think tv_nsec may be being clamped to LONG_MAX of 4 bytes but should=
+<br>
+&gt; be=C2=A0<br>
+&gt; a LONG_LONG_MAX of 8 bytes on a 32 bit since the field is a 64 bit<br>
+&gt; long.<br>
+&gt; <br>
+&gt; Michael: Hopefully that gives you something to raise with them?<br>
+&gt; <br>
+&gt; Cheers,<br>
+&gt; <br>
+&gt; Richard<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#156435): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/156435" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/156435</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/83304703/1003=
+190" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/83304703/1003190</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:mhalstead@linuxfoundation.=
+org" target=3D"_blank">mhalstead@linuxfoundation.org</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Michael Halstead<div>Linux Foun=
+dation / Yocto Project</div><div>Systems Operations Engineer</div></div></d=
+iv>
+
+--000000000000fcd04605cd8962d8--
 
