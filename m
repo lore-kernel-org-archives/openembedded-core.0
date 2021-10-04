@@ -1,94 +1,117 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66851C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 08:51:33 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.6780.1633337491966850484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 955F6C433EF
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 09:22:56 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.6996.1633339375000947762
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 01:51:32 -0700
+ Mon, 04 Oct 2021 02:22:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g7hyFw+0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id r7so13929295wrc.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fb1lkY2d;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id r7so14086428wrc.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 01:51:31 -0700 (PDT)
+ Mon, 04 Oct 2021 02:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=F5E/K90MkCIivHNfSeLZDUHobmlu5JsMW2S9oyeirXQ=;
-        b=g7hyFw+0NIOxi/PVxQltFgOEktSfdt2h01QdZLfOsD0ONjCjPlcjdn06IJ3ATaatUc
-         S0rivqjAJywAJaeqXvJsA2Uhrs2ok2z1y9Mpe3qWP9b1Z0gXyg8sYQM92dg+AFMizGPS
-         UJAqoqtGZ2Gb+7z6Ie+2N+DwDu4OSuazOsbwQ=
+        bh=eTtKdIULe/u09kAjPq9lq4EgXMcZ/AcpgeBn5hnisNg=;
+        b=fb1lkY2dxQFCB6pqIjxCKOyF51Iux4taZcM39GdLmCkZJMdKb5t1pjtA6o4RyqEpeB
+         1G83KFCuk8Qa/fpi3U+Kbsly80TE061k5S8M1wvy/f6kR4W966FhPwmkPZKfz4arFssZ
+         JdC9Gqd5drbp+YHzkDMUNDZfI35mnGGwstAnqZjph1W2JLj55LfRjLmgxH1SiMUSHXvq
+         hIgLfpSqZttYY0Elohqyi0eYBEvgRxrdZPOQi/3IC42bPopIFPqVQlPv7eBUHy73VDxG
+         UYC8E9ppJ55yMhhZMfmDSTNiWcH9zNAELUnENIuV7Z74NtA7rN91kxGhb3D+XVbGtqcX
+         zW0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=F5E/K90MkCIivHNfSeLZDUHobmlu5JsMW2S9oyeirXQ=;
-        b=q1g237Jw6sN4zNilOCInlEcPV9I/ptBXOkG3BOPhx1+h3J4ufVNmCHWzRux7qN6vsE
-         sJXv0Uji2Ei+VRXVluLvL5uvX3JhFnEachARpzeHrOo+RHmKmHQ5k8ELY07IkFf93XqP
-         SBfOcA2Sy9Qaviivl5c0oDm8h+K0k8f43uUVDazn6tz0NdrHk/vhsvuL6Wig1dTgQQhF
-         g27xN6cZAARbwfXt2PZM4+0wVLIQ2TY3mMGdiWGPKj/1X+jfPLDA7nl32qLbKbb8aHgi
-         yDoTm0MuSFVOpRE1d1Cch5wTLF1uAAb490e30eo7oRkp5gclmVwQmKwAcuR61hi2urXj
-         phGg==
-X-Gm-Message-State: AOAM533lfw3PAkA7NQQTxbQcsmjUC7U/h9nIewzky0k47Of7ZtiQ9CWz
-	AYQq/5cOaSaAw4/5qsWKWVvXmrxHe9AqeWB2
+        bh=eTtKdIULe/u09kAjPq9lq4EgXMcZ/AcpgeBn5hnisNg=;
+        b=sBP1Lp4X5hYiwHYzmnkav/sgtg6O0Y1AdIFHlCHG8y01erb/61xkXSgcvBnB+bUxrO
+         pbogDg1BhIMt0P59BGnxEmZdgiY/+fBUDieKGzgpgBh5NBp4GmhyYA9EzH+QE54J0DFb
+         jCbhmUWsvhVw5SPDpvYTHi332qTnjHeDdwXjcnyi8bV4to2ZF+ckXEEjSKcD7ehRUEvS
+         JWtYgCVEX/m3uNTHpHDm25qGoHp/r69Gnhmn4tnJW+usi34WdSY8b+P0atHCbX81ftXs
+         Twue1+1j3CB08DWHAehdGCD1csD0M1967qZTyAY0Eu3da44RPfwzolh6arLVJt8Tzi0w
+         /y6w==
+X-Gm-Message-State: AOAM531Lg/md6tWTJA+UBUDvgMOfAzQ6+OfViGFZ+VAifvTcNaouZ1rr
+	XQK8qkue5D5uzPlIn3/si26cXruyBOo=
 X-Google-Smtp-Source: 
- ABdhPJxEsKxk9RFc0kQpkz0ZDi77rRppUb0ctUN6v4Wft+RbjunBbtCiLBTA4uH6SixGFKqeMdAjQg==
-X-Received: by 2002:adf:a3d9:: with SMTP id m25mr12822233wrb.27.1633337490203;
-        Mon, 04 Oct 2021 01:51:30 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:430c:546a:1bb6:a9bc])
+ ABdhPJxjW+gmexRFwGzI5Twaw1meGeEHciVLPISyZ+kFCLxi8OhQXBBW0KNj3c1Z+5rEz7ZsdQ52Vg==
+X-Received: by 2002:adf:c00a:: with SMTP id z10mr2668306wre.315.1633339373452;
+        Mon, 04 Oct 2021 02:22:53 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2a02:2454:29b:3b00:d35d:e3cf:58b5:748b])
         by smtp.gmail.com with ESMTPSA id
- y5sm10561664wma.5.2021.10.04.01.51.29
-        for <openembedded-core@lists.openembedded.org>
+ v23sm13754884wmj.4.2021.10.04.02.22.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 01:51:29 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 04 Oct 2021 02:22:52 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Set vardepvalue for PARALLEL_MAKEINST
-Date: Mon,  4 Oct 2021 09:51:29 +0100
-Message-Id: <20211004085129.2320298-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] package_rpm: use zstd instead of xz
+Date: Mon,  4 Oct 2021 11:22:48 +0200
+Message-Id: <20211004092248.384346-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 08:51:33 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 09:22:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156577
+ https://lists.openembedded.org/g/openembedded-core/message/156578
 
-If you leave PARALLEL_MAKEINST at its default from PARALLEL_MAKE,
-sstate checksums are fine and don't change as the number of cores do.
-If you override it to a specific value, this does the cause the sstate
-checksums to change. We don't want the checksums to change if the
-value of this variable differs.
+zstd has similar time and space performance in compression but is
+vastly faster in decompression, which benefits rootfs creation
+(especially when installing very large packages) and on-target
+package installation.
 
-Therefore set a vardepvalue so a specific value is used for checksum
-purposes.
+Also, ensure ZSTD_THREADS doesn't change sstate checksums. The
+detailed explanation is in the commit making similar change for
+XZ_THREADS.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/package_rpm.bbclass | 4 ++--
+ meta/conf/bitbake.conf           | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 1c62d8283b..e738806fd7 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -684,8 +684,8 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+     cmd = cmd + " --define '_build_id_links none'"
+-    cmd = cmd + " --define '_binary_payload w6T%d.xzdio'" % int(d.getVar("XZ_THREADS"))
+-    cmd = cmd + " --define '_source_payload w6T%d.xzdio'" % int(d.getVar("XZ_THREADS"))
++    cmd = cmd + " --define '_binary_payload w19T%d.zstdio'" % int(d.getVar("ZSTD_THREADS"))
++    cmd = cmd + " --define '_source_payload w19T%d.zstdio'" % int(d.getVar("ZSTD_THREADS"))
+     cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
+     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
+     cmd = cmd + " --define '_buildhost reproducible'"
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a207cbb33d2..1239206645d 100644
+index e25d632dc1..1ae377750b 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -604,6 +604,7 @@ LINKER_HASH_STYLE:mipsarch:libc-musl = "sysv"
- # Pass parallel make options to the compile task
- EXTRA_OEMAKE:prepend:task-compile = "${PARALLEL_MAKE} "
- PARALLEL_MAKEINST ??= "${PARALLEL_MAKE}"
-+PARALLEL_MAKEINST[vardepvalue] = "1"
- # Pass parallel make options to the install task
- EXTRA_OEMAKE:prepend:task-install = "${PARALLEL_MAKEINST} "
+@@ -815,6 +815,10 @@ XZ_THREADS[vardepvalue] = "1"
+ XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
+ XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
  
++# Default parallelism for zstd
++ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
++ZSTD_THREADS[vardepvalue] = "1"
++
+ # Limit the number of threads that OpenMP libraries will use. Otherwise they
+ # may fallback to using all CPUs
+ export OMP_NUM_THREADS = "${BB_NUMBER_THREADS}"
 -- 
-2.32.0
+2.31.1
 
 
