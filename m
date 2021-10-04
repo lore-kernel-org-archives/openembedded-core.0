@@ -2,63 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F33C433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 14:21:31 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.10088.1633357290656884176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 190D5C433EF
+	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 14:21:34 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.10166.1633357293156234038
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 07:21:30 -0700
+ Mon, 04 Oct 2021 07:21:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=kvrS2pt6;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
+ header.b=ti47iBpw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id q201so4035100pgq.12
+Received: by mail-pg1-f180.google.com with SMTP id 75so16694034pga.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 07:21:30 -0700 (PDT)
+ Mon, 04 Oct 2021 07:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=8dOjL5duDKBMZRC/QIBfTPGlY7t0DNYktA5hWgZWuXE=;
-        b=kvrS2pt6ZfSNFC9UZl6jpGBhntbFcYqZTMt5+ODKkqYDGxSvj5oR0HcOF7DZtzHN4G
-         vAuDqnrTBf0hiqKhciHoOlWHFfZ0WKgjPc1NL7WDDhDL6XU1QGEooSMsoNhg4fLK4spc
-         lcnECleakS4XmUKr4wkulppXbJ+U/tW67PRQOAYBiI04bPmLnocnRciadg2lvScLghJ/
-         N6vwI+ReYX+sUc/DrPFyqpsGUE+PtwelQh728t3HEeKO1ynkSuek1rek0hZjAw0r6HWu
-         cZfsxk8PRCq46e69ugigUQoWLS+zzyTMwWnE4UJX4ekTkTk/Ld5u/gUlmgp6CJaMsnlr
-         EMMQ==
+        bh=jer5mKP/4F/Pgnptsi0eItkm1Mv258RyG8JlRYb/97Y=;
+        b=ti47iBpwuQqag44DM+gZ5ugIHT+pEcVEVOMhLtihuOF28m2sJCndG86RAhgEuMpWYc
+         wSXYoyMd4ZriW78bZgFfo7qJE7Mvjx6ioPKkZryValOrl3i5KC6CQa9dN7BoeiAC8DyC
+         9bNoVeaKScSanYY8EFHDay5GxzMrNQpTyGVN0DPkag4kflBpBZC3aygVcsam7Ckkb6UN
+         t+9ouqCx2bZq9FU/oKv+jQoOugVYYmHPcVc4WsyG4zaW5qf8hEFjbT6xjgmBn/H+LfOT
+         mGtbK4agp78B6xxSLUyLWhyx0gX6bjHYWtg1diJwc/8FEOO9rVB9gBQIFEXGPWaMTqR1
+         0sVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8dOjL5duDKBMZRC/QIBfTPGlY7t0DNYktA5hWgZWuXE=;
-        b=JssmqgmRpR2Mfg4I03czso7GRPVjVCQKtdrgeaqz+SSJklcKsm+g1m/xkDadeqy/1s
-         DsDgfGYnLd482MWVNErHRqSI+fvT2bCbJDvbEfnTWt39IfzFNoTtbL9W9R9zinRFpveI
-         8oqMdwK+tnLwZLK+xPAVmF4kyKGvcOVGIDA5/idzfF3MNTMUUilrmTAeO3qCaoNbLjuH
-         QfRK9dHKwsrupsPEHTbqqt7Fcix/yDc0dqK+6SGPPrST5s2JyRuWiN4bV+YQAV1wXB7Q
-         eiP1xohzf+1N67TGVnmbxF4eSr1+KVjYqr+/qlWeiKHvS+HGT/frF9PJ/v56GSYZpR+J
-         caWQ==
-X-Gm-Message-State: AOAM530kPsj+HR1X3aPR60Fx8+XEWEhZ7oRrCfZjYuIoViVonOI5gNye
-	ziMBgAktZlIerda4qJMtY6UB8dzytXyqJDYFnc4=
+        bh=jer5mKP/4F/Pgnptsi0eItkm1Mv258RyG8JlRYb/97Y=;
+        b=qZsHyxFrZRKs+YNE+XF7GO5rD+Njl0f5ETgR1+HabYu5niOvt6vDZxxg8VQvXIjJSd
+         XebHTIFC5GTyBw2/mJUYTyIKqG5p3krDorVgA3ffT4i3nZvv+41hzBiwRwocxHMK/hRJ
+         Uneo66jc4R0o2+HC4TS25HX6Tl10bGLegTtkA5sOiAuj8X4Ugm/aE1fl3oa9d1iV0CDl
+         0qTS0Sx4qgOXrIcfuPPObQrw7f8CmUC8+miwXNCZI/jp7Pm/I73eJWtTH35Kz39r7ScM
+         oiP6NiM1r4JTRwozDxoRPKc4H1IpBaeEoTXEsNQ7yB4CXPiz6SoFH2ajxal6rPmFvL2a
+         9ZCg==
+X-Gm-Message-State: AOAM531eZfuWztcmi14B1HLtvkWjECE9mu9I9uPeIzrbNL3CERwJETNg
+	It4vCHjMZsPhsmSnYUB/ViDhOvouSY5OQwq4cHI=
 X-Google-Smtp-Source: 
- ABdhPJxeVlbYueT5ujVKN3g3QbzrkicuKTk3R/U0KGv4BdkZIGF1ZR+KF+g3XRKxeWebXo2W8nxPyw==
-X-Received: by 2002:a63:5848:: with SMTP id i8mr11123365pgm.281.1633357289747;
-        Mon, 04 Oct 2021 07:21:29 -0700 (PDT)
+ ABdhPJwsxI5N34IWGghdIm9XYE6eDWK0k+cg/GIaPypjAAQJcGHqBIWy17jss89mrwO4vD17Prt03Q==
+X-Received: by 2002:a63:7045:: with SMTP id a5mr10949467pgn.404.1633357292262;
+        Mon, 04 Oct 2021 07:21:32 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- t4sm8313066pfj.13.2021.10.04.07.21.28
+ t4sm8313066pfj.13.2021.10.04.07.21.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 07:21:29 -0700 (PDT)
+        Mon, 04 Oct 2021 07:21:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/15] oeqa/buildproject: Ensure temp directories
- are cleaned up
-Date: Mon,  4 Oct 2021 04:18:42 -1000
+Subject: [OE-core][dunfell 15/15] glew: Stop polluting /tmp during builds
+Date: Mon,  4 Oct 2021 04:18:43 -1000
 Message-Id: 
- <15db91abd152aa3d22d24f951ba7663ab59ff7eb.1633356813.git.steve@sakoman.com>
+ <d12c44df66ca065a1526c7d6885e726cf50aab46.1633356813.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633356813.git.steve@sakoman.com>
 References: <cover.1633356813.git.steve@sakoman.com>
@@ -67,65 +66,62 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 14:21:31 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 14:21:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156607
+ https://lists.openembedded.org/g/openembedded-core/message/156608
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
+Currently the glew code creates a new directory in /tmp for each make
+invocation. This is a bit ugly, don't do that. The patch does break the
+dist targets but we don't use them.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d10aff865120a5feecc42c24726bd119364e0188)
+(cherry picked from commit 3a55194f90e11da5671b24391a4aaf2b86a8e1e6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/buildproject.py | 3 +++
- meta/lib/oeqa/utils/targetbuild.py  | 4 +++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ .../glew/glew/notempdir.patch                 | 19 +++++++++++++++++++
+ meta/recipes-graphics/glew/glew_2.2.0.bb      |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-graphics/glew/glew/notempdir.patch
 
-diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
-index e6d80cc8dc..dfb9661868 100644
---- a/meta/lib/oeqa/utils/buildproject.py
-+++ b/meta/lib/oeqa/utils/buildproject.py
-@@ -18,6 +18,7 @@ class BuildProject(metaclass=ABCMeta):
-     def __init__(self, uri, foldername=None, tmpdir=None, dl_dir=None):
-         self.uri = uri
-         self.archive = os.path.basename(uri)
-+        self.tempdirobj = None
-         if not tmpdir:
-             self.tempdirobj = tempfile.TemporaryDirectory(prefix='buildproject-')
-             tmpdir = self.tempdirobj.name
-@@ -57,6 +58,8 @@ class BuildProject(metaclass=ABCMeta):
-         return self._run('cd %s; make install %s' % (self.targetdir, install_args))
+diff --git a/meta/recipes-graphics/glew/glew/notempdir.patch b/meta/recipes-graphics/glew/glew/notempdir.patch
+new file mode 100644
+index 0000000000..8d79ce0cdf
+--- /dev/null
++++ b/meta/recipes-graphics/glew/glew/notempdir.patch
+@@ -0,0 +1,19 @@
++We don't use the dist-* targets and hence DIST_DIR isn't used. The current code
++creates a new temp directory in /tmp/ for every invocation of make. Lets
++not do that.
++
++Upstream-Status: Pending [a revised version would be needed for upstream]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: glew-2.2.0/Makefile
++===================================================================
++--- glew-2.2.0.orig/Makefile
+++++ glew-2.2.0/Makefile
++@@ -56,7 +56,6 @@ DIST_SRC_ZIP ?= $(shell pwd)/$(DIST_NAME
++ DIST_SRC_TGZ ?= $(shell pwd)/$(DIST_NAME).tgz
++ DIST_WIN32   ?= $(shell pwd)/$(DIST_NAME)-win32.zip
++ 
++-DIST_DIR := $(shell mktemp -d /tmp/glew.XXXXXX)/$(DIST_NAME)
++ 
++ # To disable stripping of linked binaries either:
++ #   - use STRIP= on gmake command-line
+diff --git a/meta/recipes-graphics/glew/glew_2.2.0.bb b/meta/recipes-graphics/glew/glew_2.2.0.bb
+index 92b6083648..d7a26a3438 100644
+--- a/meta/recipes-graphics/glew/glew_2.2.0.bb
++++ b/meta/recipes-graphics/glew/glew_2.2.0.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
  
-     def clean(self):
-+        if self.tempdirobj:
-+            self.tempdirobj.cleanup()
-         if not self.needclean:
-              return
-         self._run('rm -rf %s' % self.targetdir)
-diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
-index 1055810ca3..09738add1d 100644
---- a/meta/lib/oeqa/utils/targetbuild.py
-+++ b/meta/lib/oeqa/utils/targetbuild.py
-@@ -19,6 +19,7 @@ class BuildProject(metaclass=ABCMeta):
-         self.d = d
-         self.uri = uri
-         self.archive = os.path.basename(uri)
-+        self.tempdirobj = None
-         if not tmpdir:
-             tmpdir = self.d.getVar('WORKDIR')
-             if not tmpdir:
-@@ -71,9 +72,10 @@ class BuildProject(metaclass=ABCMeta):
-         return self._run('cd %s; make install %s' % (self.targetdir, install_args))
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://0001-Fix-build-race-in-Makefile.patch \
++           file://notempdir.patch \
+            file://no-strip.patch"
  
-     def clean(self):
-+        if self.tempdirobj:
-+            self.tempdirobj.cleanup()
-         self._run('rm -rf %s' % self.targetdir)
-         subprocess.check_call('rm -f %s' % self.localarchive, shell=True)
--        pass
- 
- class TargetBuildProject(BuildProject):
- 
+ SRC_URI[md5sum] = "3579164bccaef09e36c0af7f4fd5c7c7"
 -- 
 2.25.1
 
