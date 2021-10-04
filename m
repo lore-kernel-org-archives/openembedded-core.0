@@ -1,9 +1,9 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-Subject: [hardknott][PATCH 10/11] recipes-support/ptest-runner: Bump to v2.4.2
-Date: Tue,  5 Oct 2021 00:50:54 +0800
-Message-Id: <c0993e6c4108ae65537ad6e70de90387dacc5495.1633366030.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 02/11] qemu: fix CVE-2021-3682
+Date: Tue,  5 Oct 2021 00:50:46 +0800
+Message-Id: <14783d10fb43d10a91d5e61ad9811ad469a0fb46.1633366030.git.anuj.mittal@intel.com>
 In-Reply-To: <cover.1633366030.git.anuj.mittal@intel.com>
 References: <cover.1633366030.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
@@ -12,46 +12,77 @@ Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-From: Anibal Limon <anibal.limon@linaro.org>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Changes,
-
-bcb8280 utils.c: add system data collection when a test gets stuck.
-c29240c utils.c: handle test timeouts directly with poll()
-d6f509f tests/utils.c: fix a memory corruption in find_word
-c10e747 main: Do not return number of failed tests when calling ptest-runner
-4958988 utils.c: fix memory leak in run_ptests()
-fcfa6a1 clang: clean-ups to avoid -Weverything warnings.
-215e52d Makefile: allow using CC env var to pick compiler
-fdd233d mem: Simplify memory management
-e5e218a mem: Fix memleak for ptest_opts
-0dc42eb git: Extend the gitignore
-
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 710fa373375beb977af704e17a925ed41c9a858d)
+(cherry picked from commit e16cd155c5ef7cfe8b4d3a94485cb7b13fd95036)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../{ptest-runner_2.4.1.bb => ptest-runner_2.4.2.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.1.bb => ptest-runner_2.4.2.bb} (93%)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3682.patch             | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-similarity index 93%
-rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
-rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-index 6bd10d2fec..b14b947f97 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c3eecea9d4..463339e42b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -69,6 +69,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3582.patch \
+            file://CVE-2021-3607.patch \
+            file://CVE-2021-3608.patch \
++           file://CVE-2021-3682.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRCREV = "cce0edb4282ee081d043030bfdf29f3e4052f86c"
-+SRCREV = "bcb82804daa8f725b6add259dcef2067e61a75aa"
- PV .= "+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
+new file mode 100644
+index 0000000000..50a49233d3
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
+@@ -0,0 +1,41 @@
++From 5e796671e6b8d5de4b0b423dce1b3eba144a92c9 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Thu, 22 Jul 2021 09:27:56 +0200
++Subject: [PATCH] usbredir: fix free call
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++data might point into the middle of a larger buffer, there is a separate
++free_on_destroy pointer passed into bufp_alloc() to handle that.  It is
++only used in the normal workflow though, not when dropping packets due
++to the queue being full.  Fix that.
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/491
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20210722072756.647673-1-kraxel@redhat.com>
++
++CVE: CVE-2021-3682
++Upstream-Status: Backport [5e796671e6b8d5de4b0b423dce1b3eba144a92c9]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/usb/redirect.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
++index 4ec9326e05..1ec909a63a 100644
++--- a/hw/usb/redirect.c
+++++ b/hw/usb/redirect.c
++@@ -476,7 +476,7 @@ static int bufp_alloc(USBRedirDevice *dev, uint8_t *data, uint16_t len,
++     if (dev->endpoint[EP2I(ep)].bufpq_dropping_packets) {
++         if (dev->endpoint[EP2I(ep)].bufpq_size >
++                 dev->endpoint[EP2I(ep)].bufpq_target_size) {
++-            free(data);
+++            free(free_on_destroy);
++             return -1;
++         }
++         dev->endpoint[EP2I(ep)].bufpq_dropping_packets = 0;
++-- 
++2.25.1
++
 -- 
 2.31.1
 
