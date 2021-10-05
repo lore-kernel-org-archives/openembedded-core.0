@@ -1,265 +1,168 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B339C433F5
-	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 09:40:15 +0000 (UTC)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
- [209.85.217.47])
- by mx.groups.io with SMTP id smtpd.web10.23338.1633426811070192791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1B8C433F5
+	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 10:04:34 +0000 (UTC)
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.86])
+ by mx.groups.io with SMTP id smtpd.web12.23450.1633428268873253673
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Oct 2021 02:40:11 -0700
+ Tue, 05 Oct 2021 03:04:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mv0FfG/V;
- spf=pass (domain: gmail.com, ip: 209.85.217.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f47.google.com with SMTP id w13so4889215vsa.2
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Oct 2021 02:40:10 -0700 (PDT)
+ dkim=pass header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=Qx30wzir;
+ spf=pass (domain: weidmueller.com, ip: 40.107.5.86,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S8teOdaooElYzlb04M5SeRirKEFFw/+xNBOE58KyBIeAUebBZCIHsXxjNGXWflz66n0V/AM6pv4eq5UhsT4Hv43QCdnfE8OemvoHt42bRO57dqM3pgP4VdLqorwroAp2rZLSMzQJjHvM/ckZYuwargmuXKVji4Kkl70baCAkzol0qyiZtXgLEh0D5TczIbwbYUf/mvL5w2m6Xv6nSSarANsw0fdaU9P0IGQ2kaRrGU1J0Af9CluBp6cnQVK5Rs5IOsD5sHPmjQwai8TAHeIz0T/OGx4dN25fyW2eivNwuoxBcrS2LujxQkNRZYkL4QdWNTBouEBLrYLpGo1JSm90/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jpKR9a2TJPY6Uh3kobK5Rjrwl6tWhdP3T0TG2dieSiA=;
+ b=T3BkZjX0gtSozvI8QMtSy+01rrzrj68bsd437fymbIbEd+QoG7R5kSFdKhXr4ZWuZPrwuEr8bqKj1DcDCaXgd2xT7tla5bwhpEIhbjJ7OpeOHY/HqtuPvt7reWfeY7yn5wM9iuN6JFrPJWBug2lRVwjm8lwwFMLKoGXuLkPnO4MAtlN9LGD5PfHJ/aUzBmD7T6D04mB8C2UuGnKAKaMWx6XedtpL0C5IXXTUy7jAuddm3JpupmKWyej1JGlt6PYU3BZnbrxWxFNrAXiQXjIeKp7hX+BUPjyQSRsmWlhSkeWMgWA8vcIkqLr9hnnCHAZXwki+jajkexmiLUUQYozihw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A7LLpYjiXgclsjxriq1dF6oqkzlbCS9zOGfA3lW+lpM=;
-        b=mv0FfG/V03jwlb3vzF1Ntm6KR1RIDFB2aIKNuxvs0DEKWM/E8QUp9oTGCyWdwG1Cwf
-         81p1R0pGQIR12s7Us+d7Hb6QDrUfKZ0bDXm7InjSR9iADfta7cO0T7MW2W84TMKnyTHJ
-         qYpr/ET9nqdCaT2AAVcjSqvvpzW0pOoiIwbApWdRuRTnGAuCuwdr5sWmv/yJnQYThHZ6
-         UYf8H0J07boos0ozgwVJ1MxEaJEQEBGH+oxX3aWPCtrAKCDCCtByjfz/s3EkMWmMlYHN
-         XwiUl8oEhrF9hIfo8P2su1w2uka1UWSSPOMaw7laijtIrFuuj0Fh8Tdf9LIeXwfJvleP
-         V12A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A7LLpYjiXgclsjxriq1dF6oqkzlbCS9zOGfA3lW+lpM=;
-        b=sOltjtkAnYsxtSIiEcuyKWNIDS2800GDYGxZWZ3Kj7UpbSewPELe3xF/4YmTZTYQ6o
-         /DhkNJMokO0gkBcmtlpNEPJo4bYOEPQBWs0XgncBuXhjAQYUay6gKMenocL1cl3BdcyV
-         z0yZeNtfnvoTumvrgB0LAUe4RKPc3cWTSatke9gcie3WmEOUq8P/COsWUgAkCLsnoSDT
-         Ge6/6M8S5K4Zo6HhICHAqrWFTvt0m6xFjIvDX2lolMbiubxRdUnuBBMXukn31p1RmUi5
-         qCR/SG6qEoDx4Q46Mr/CoX6DhSPdYvc4vfJcRtv17hvJczKkdMLwG+kqhlnugWUmZSnW
-         vJcQ==
-X-Gm-Message-State: AOAM530uM7qVsjpe9kJpgtj30EbkAIupC7XHjIZVrYnX7VPO3S+pkL03
-	CYJ2UTMODREx7U+D+Kbmeo3Dyl7inALPz0aRfR8=
-X-Google-Smtp-Source: 
- ABdhPJxtICm5XULWxpwB4t3h5J/7eVqm9IekNkAM5NB3lc7+BsMbPqz+Dh4UqXFffRzP9TLrLDl3fdCMgSwbTATRCSg=
-X-Received: by 2002:a67:5cc1:: with SMTP id
- q184mr16597222vsb.13.1633426810118;
- Tue, 05 Oct 2021 02:40:10 -0700 (PDT)
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jpKR9a2TJPY6Uh3kobK5Rjrwl6tWhdP3T0TG2dieSiA=;
+ b=Qx30wzirN/5izWDJP6op3SSFp3QBDLpuwR1kfx3eHfUa48z+d6s6qYcosWK26bBHarJjJh7wjPnDcsWSr1nq+Qz9hz8DsaIPZ5Thx3iskQPDR5Sway+tNHh9Uq5+HgvoXZGVkUlN6yEQxk8icGHsh1g0QEuXzaLUttsaHzhHEHs=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by PA4PR08MB5982.eurprd08.prod.outlook.com (2603:10a6:102:eb::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Tue, 5 Oct
+ 2021 10:04:26 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::8034:af5f:f101:d1f0]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::8034:af5f:f101:d1f0%4]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
+ 10:04:26 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+To: jean-marie.lemetayer@savoirfairelinux.com,
+ richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: Improve npm support to run build scripts
+Message-ID: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
+Date: Tue, 5 Oct 2021 12:04:07 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS8P251CA0012.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:2f2::33) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
-References: <20211005084141.136784-1-alexandre.belloni@bootlin.com>
-In-Reply-To: <20211005084141.136784-1-alexandre.belloni@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Oct 2021 11:39:58 +0200
-Message-ID: 
- <CANNYZj8cuHmWne7yQT55sO2g5Nr=GVBwDFyYfojhLKe=yOKvjg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libevent,btrfs-tools: fix Upstream-Status tag
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c8a6d905cd97d025"
+Received: from [192.168.178.36] (94.134.181.240) by
+ AS8P251CA0012.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:2f2::33) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Tue, 5 Oct 2021 10:04:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ddcb71ce-8a0b-4e33-3917-08d987e78344
+X-MS-TrafficTypeDiagnostic: PA4PR08MB5982:
+X-Microsoft-Antispam-PRVS: 
+	<PA4PR08MB5982F3FDAA1C16AA98B1F36ED7AF9@PA4PR08MB5982.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	9vhgeYPpbVuORpsS8bmTwNkG8mZaJ3uv66p7AJaUQmNx8ErNTGvvZmsZxkUCPWAKwrKYJf7KihF/nxu/0kSLcKqLb3/X7DHbQjiibHSuM1mhTw47tqsxWSzWKAkyOWZsGMt6l9oq8JZYNoZHlHF5bgc5ihypnsyMpnyZ6HWm/x6eD9LDiv7+n9mHoP/RFuddqK0FYUNOsi2YQOoKBd/i3jeh9hiU+pu7pYD86TFDZjjTsdXZsFpuSc3pTTX3b0xwEjzlQg0C3BPvKNfkHM4/k86pkdwbLYv943wlXbcG0IikODUaRq/oRHMPjgeHqJ3YAbNsfH8uz5vOFC5mkt2k+Ow+TKBpC7Yt/FS5PufwISWsMgW8eSS0A+YUeLVn/i4zlwSEzk6tR3XMrj8rO5PylSfb2b1vbT1hpSH/Sr7w7VnIkcGqg56ZFhVSD4q0pEMlJFDMWmX2rMf173zYqyj0sfEsRbTA03C1mqA/pHv1Ei4sB/uoxz3EcZFA+AoLtR0ufMpvywp5HQmxY+ixOtLdOJVnUwNHNkR2WpzL0iXDtgPzyOdOwvCMwRUCbj6gIilgPMbXQDI5BZNunUhIbPDYQGrzBUs92He2dYjeKNoW3e3og02Buh5ofJf0dxqqF+NlloZaGf07HklSkGE1Ov7sl+mxMbDmTSorJjv28YEg7OZ/8Zs+8cvFHPrl6m/H8Mloimo8B9fy4BHGQm/OgrdHEzymXTcuIUjLHHJR1IdAAo3wL+HoowflwSD9zb7fS7bwMsvxIKH88StWORl9ArcGsg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(16576012)(316002)(66476007)(2616005)(956004)(66946007)(86362001)(31686004)(66556008)(38100700002)(6486002)(36756003)(38350700002)(8676002)(6666004)(4326008)(52116002)(83380400001)(5660300002)(8936002)(2906002)(508600001)(26005)(186003)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VmVpbC9EVUZZcGxQRm5RZ1pzVXNFeTFQRW9kMjJhYlFaUnVycjdBTDhEN0Y1?=
+ =?utf-8?B?cUlPQ2NNT3N3R205UFBiRVpJc1JSbWZsakdRVkxQR3ZDTHJvNHpteHNLdWZH?=
+ =?utf-8?B?R2xURldSQlpuY0V3b3lTVkYyRitOdGZjLzk4aXZnQjdwUG8xQW5CY096VmZ6?=
+ =?utf-8?B?d2N1UG92SGRXQTIzSnA5UkZ6L1dienJGcktkVFY2SjhsOC8wb3Z4OWxSd01t?=
+ =?utf-8?B?UVRyTXRWWmhTUEtzcUlsWFNxdWxrU3NOWFV1R2U0b1VJL3BaMlhlblprRGRI?=
+ =?utf-8?B?c3pXWjgvSUdEamFPeU8rckY2bHJLbGhFWTBIZDUvaWduMUw2QStmN1c0STdh?=
+ =?utf-8?B?K1prS3ZsL3dZUG83bVZGT3FDNmRpcjBGV3hFeEpTY01mN2pUV1dNeG9aU3hk?=
+ =?utf-8?B?b3JxNXl6c3p0bElXQVQyRnRyTEJMUWYwL3JBL0V5VyszOGFkWlJpeHdnWVFq?=
+ =?utf-8?B?QS8wSDZGeWdhRFhZditRTGNldjZyc1hXR2wwbTFDL1RpbFVrYk50a0tNUTR3?=
+ =?utf-8?B?SjJGWjFDYlgwdFFSYmFCQ3V0UmE0K2VWWDVscTExRk40MGs1UUVNVTdRTUJO?=
+ =?utf-8?B?UnRUUmRqTDMxbXliSG9xYWw4K2Q2bkJyR2RoNTJFTHJNZFpMdUM1d2U5U1hV?=
+ =?utf-8?B?OVk1VFM4NUtMTjczTytYT3RuNDJPeU9zempSQTdkeVUwS0RtTmtPQjNUUkxj?=
+ =?utf-8?B?aldwVGpidnFieCtROHJjWHlRaC92WDNjcW9sZ0ZGVHdWWUw0cE1nK2QwQ1Ra?=
+ =?utf-8?B?VjVWWjB1NkZnQk15QnM4M1NkV2tNVDFpNVFzcm9CbEI4eWpkY2lxdEsvRnlm?=
+ =?utf-8?B?S2ZmU0pjdU5WenhvbGxqQkoreHUxR1lvV2wzTXNSV2UwRS9XcDJYWmtSWDBv?=
+ =?utf-8?B?MFhqNzJHaEN5MFBEMEJuRHk5cTN2dkxaTFdJM0RacEVic1VWWHhOTElWT2hp?=
+ =?utf-8?B?YzMvMkxQZ2RBVFB2L1BxWXB5RDBXNWZwRHpBTllJRWp4NmRoTHRNczF1SDZk?=
+ =?utf-8?B?VytWMnBKN0xoeXpHeTcvdFhCSU81WXpZbUFybDZkRjRDZC9MMnpBZjI5YkxT?=
+ =?utf-8?B?blVnbTVLTXY0Q21qU1JyOGZqMzNQL2xXOUtkeHlrZTdYQUxFRWFIVWVOQ2dM?=
+ =?utf-8?B?a1g4OHMzc0I2QlF3RklzZmY4bTZMLy9xSS9IMExuTEVFaVdVVUFuRkZMSGd6?=
+ =?utf-8?B?UlhGOHh3SnM2TlArNlRqWkhZM0xQRUFSUm1HcmMvUVM5a0lyaWZESTAzMUZ2?=
+ =?utf-8?B?OGpXRjUrU2p1dlJNNzlmcDAvMGxLODUyVno2aFlqbkpweVd4bUVRejQrK2t4?=
+ =?utf-8?B?eXZGdnRabmxUR2g5UUlYay9SRldDVjZkNWYrSExxUVpMMDJMeW5jdFA3MGR5?=
+ =?utf-8?B?R3hDYkVqR29EYWlOVGNDTEw4bjBjYWJYdUFEaU9lejNSbGtrUzE1K21lR0FU?=
+ =?utf-8?B?cittcHA5ZDFmN1BCcXFmLzVJcDh3dGN0bFNteDc2eFZKajFVdGxlNkxZcTF1?=
+ =?utf-8?B?QXVtRmxnV1gxdDI1ZG5sV2ltQndzSU9wNDZhM3NxMkNCNVZoN1hzQ0F1Q08x?=
+ =?utf-8?B?QnVHYStuZDk5bkt0eHJwdXhPMXdxZGR1MDZuK2tZZENSeVZlUEgxdVNFWWN4?=
+ =?utf-8?B?YzlhbG1tQ0JrL2VlR2g0RDErSGxHR1I5cW5ONW0xaFVHb3hDelVGVVJSY2x6?=
+ =?utf-8?B?VVZQOGU2UmZNRDJOYWhkYVZQOXJwbTJqM3FwdGMrd3luT1hWaGtqMUdCS3RH?=
+ =?utf-8?Q?qUH7kH5Mvcio8cnCcr3p6G3KokIDZxEDTq4/4eY?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ ddcb71ce-8a0b-4e33-3917-08d987e78344
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 10:04:26.0202
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 3Gk04DUH5uhb2oyj6br392q++yv9LO1JhyhgBKyeYXSvPBRYsPCRotW7Cu5LLkbSxpvhiPwQgVeLSyjwY0qEZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB5982
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 09:40:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 10:04:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156639
+ https://lists.openembedded.org/g/openembedded-core/message/156640
 
---000000000000c8a6d905cd97d025
-Content-Type: text/plain; charset="UTF-8"
+Hi Jean-Marie and Richard,
 
-The first two should say Backport and Inappropriate [oe-core specific
-...explanation]
+I must improve the npm support for our use cases but need some 
+fundamental decisions to proceed. I need to build express and angular 
+applications from git repositories.
 
-Definitions here:
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status
+I have the following changes in my pipeline until now:
+- Support npm packages with missing execute mode for directories
+- Reduce command calls in npm run
+- Add support for local tarball and local link sources
+- Rework crunch license to recognize more variants
+- Move known license checksums to CSV file
+- Pass README as fallback to guess license if a license is missing
+- Add support to pass build arguments to npm install
+- Add support to run build scripts with native packages
+- Parallelize the populate of the npm cache
 
-Alex
+The build (install) of npm packages leads to problems because of old 
+versions in the dependency tree. For example, older versions of packages 
+are incompatible with the Node.js version and older versions of node-gyp 
+require Python 2.
 
-On Tue, 5 Oct 2021 at 10:41, Alexandre Belloni <
-alexandre.belloni@bootlin.com> wrote:
+I see three solutions to integrate npm packages:
+- Build npm packages from the npm project outside of OE and only fetch 
+the data.
+- Fork the npm project repository and fix everything inside the fork. 
+Use the fork direct or create patches from the fork to build inside OE.
+- Create recipes per project and incompatible version to fix everything 
+in OE and reduce redundancy.
 
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> ---
->  ...1-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch | 2 +-
->  ...003-test-mark-util-monotonic_prc_fallback-as-retriable.patch | 2 +-
->  ...test-retriable-tests-are-marked-failed-only-when-all-a.patch | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git
-> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-> b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-> index d7188881da8d..f57089e963fe 100644
-> ---
-> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-> +++
-> b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-> @@ -18,7 +18,7 @@ add an explicit include of const.h to pickup the macro:
->  This is safe for older kernel's as well, since the header still
->  exists, and is valid to include.
->
-> -Upstream-status: OE Specific [mips64 + musl + libc-headers]
-> +Upstream-Status: OE Specific [mips64 + musl + libc-headers]
->
->  Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->  ---
-> diff --git
-> a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-> b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-> index 8a2c78983e1d..519bccf8d794 100644
-> ---
-> a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-> +++
-> b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-> @@ -5,7 +5,7 @@ Subject: [PATCH] test: mark util/monotonic_prc_fallback as
-> retriable
->
->  Refs: #1193
->
-> -Upstream-status: Backported
-> +Upstream-Status: Backported
->  ---
->   test/regress_util.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> diff --git
-> a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-> b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-> index ae7db0b7aa85..e453c80d7fcd 100644
-> ---
-> a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-> +++
-> b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-> @@ -6,7 +6,7 @@ Subject: [PATCH] test: retriable tests are marked failed
-> only when all
->
->  Fixes: #1193
->
-> -Upstream-status: Pending
-> +Upstream-Status: Pending
->
->  Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
->  ---
-> --
-> 2.31.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156638):
-> https://lists.openembedded.org/g/openembedded-core/message/156638
-> Mute This Topic: https://lists.openembedded.org/mt/86088669/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+The last solution keeps everything in OE and benefit from the existing 
+OE functions like download proxy as well as license, CVE and version 
+check. But it increases the initial costs and makes only sense if there 
+is an interest in an meta-nodejs layer.
 
---000000000000c8a6d905cd97d025
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Regards
+   Stefan
 
-<div dir=3D"ltr"><div></div><div></div><div></div><div>The first two should=
- say Backport and Inappropriate [oe-core specific ...explanation]</div><div=
-><br></div><div>Definitions here:</div><div><a href=3D"https://www.openembe=
-dded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:=
-_Upstream-Status">https://www.openembedded.org/wiki/Commit_Patch_Message_Gu=
-idelines#Patch_Header_Recommendations:_Upstream-Status</a></div><div><br></=
-div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Tue, 5 Oct 2021 at 10:41, Alexandre Belloni &lt;<=
-a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.belloni@bootlin.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Signed-off-by: Alexandre Belloni &lt;<a href=3D"mailto:alexandre.belloni@=
-bootlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>&gt;<br>
----<br>
-=C2=A0...1-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch | 2 +=
--<br>
-=C2=A0...003-test-mark-util-monotonic_prc_fallback-as-retriable.patch | 2 +=
--<br>
-=C2=A0...test-retriable-tests-are-marked-failed-only-when-all-a.patch | 2 +=
--<br>
-=C2=A03 files changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools=
--include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btr=
-fs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-wi=
-th-.patch<br>
-index d7188881da8d..f57089e963fe 100644<br>
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-includ=
-e-linux-const.h-to-fix-build-with-.patch<br>
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-includ=
-e-linux-const.h-to-fix-build-with-.patch<br>
-@@ -18,7 +18,7 @@ add an explicit include of const.h to pickup the macro:<b=
-r>
-=C2=A0This is safe for older kernel&#39;s as well, since the header still<b=
-r>
-=C2=A0exists, and is valid to include.<br>
-<br>
--Upstream-status: OE Specific [mips64 + musl + libc-headers]<br>
-+Upstream-Status: OE Specific [mips64 + musl + libc-headers]<br>
-<br>
-=C2=A0Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gm=
-ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-=C2=A0---<br>
-diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-mon=
-otonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libe=
-vent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch<br>
-index 8a2c78983e1d..519bccf8d794 100644<br>
---- a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_=
-prc_fallback-as-retriable.patch<br>
-+++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_=
-prc_fallback-as-retriable.patch<br>
-@@ -5,7 +5,7 @@ Subject: [PATCH] test: mark util/monotonic_prc_fallback as =
-retriable<br>
-<br>
-=C2=A0Refs: #1193<br>
-<br>
--Upstream-status: Backported<br>
-+Upstream-Status: Backported<br>
-=C2=A0---<br>
-=C2=A0 test/regress_util.c | 2 +-<br>
-=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tes=
-ts-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/=
-libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch<=
-br>
-index ae7db0b7aa85..e453c80d7fcd 100644<br>
---- a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-=
-marked-failed-only-when-all-a.patch<br>
-+++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-=
-marked-failed-only-when-all-a.patch<br>
-@@ -6,7 +6,7 @@ Subject: [PATCH] test: retriable tests are marked failed on=
-ly when all<br>
-<br>
-=C2=A0Fixes: #1193<br>
-<br>
--Upstream-status: Pending<br>
-+Upstream-Status: Pending<br>
-<br>
-=C2=A0Signed-off-by: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@boot=
-lin.com" target=3D"_blank">thomas.perrot@bootlin.com</a>&gt;<br>
-=C2=A0---<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#156638): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/156638" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/156638</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86088669/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86088669/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000c8a6d905cd97d025--
 
