@@ -1,161 +1,804 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15A36C433F5
-	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 19:29:24 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.22])
- by mx.groups.io with SMTP id smtpd.web11.1576.1633462162309366034
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3869AC433F5
+	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 20:23:28 +0000 (UTC)
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+ by mx.groups.io with SMTP id smtpd.web08.2210.1633465406323724077
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Oct 2021 12:29:23 -0700
+ Tue, 05 Oct 2021 13:23:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=SOUSfuPl;
- spf=pass (domain: outlook.com, ip: 40.92.89.22,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aNt3F0YpKb8gm4aitHRJN3/YYDOhbS/DFHh8p+KwhHdC9K2Odd4plh4toBYCpC6WTU8EBXEqWLYLd9PlHD1pYpPgaCXjzpm02sSIfXrKYoOdIowhRdNGuecH/r6oEQLkXj4DTqKQCgGYJteHx7n863/Ce6hqjYqNmX75eY6LrLQvY5NarSx1Qjvs1V/fSe79JT06dnZuZJG6DrydDCsGfZYIWACKblJFR97sSFD67NrAiGvLAIbKk9YVcW7kB7J0iAxOrGFtfvGVDBAjUE0hjxBXvS+GeJE2+jV7qVqkEe5a8Qw+3c0wzpmUfGFHbK+GY0ZrANUxNjZ3oiYQR8hvSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s6qYuoVOFoVBpsS4+SKRIjB8WmQ+a1xgUuJuHPy9lgg=;
- b=ac2cbxiY2dyy60CAY5nuaVhGIpW3n/Nh0a1/xy3fDDyXY9RXK1nmQ7u8Yo8V8P/q14L0+fnFvbnGvonZPAABCycJD4D77HS8Qi8KxK3wqsfmwbaxElAd9xssQsDU0BlzvLEwXPtLMdoX4D/fpiPfkAgbSWsf4HgNxYb4JHJ+KOH7kgBmmiSXZHZca7lWJkT0msPZdXBsUysOohS19zypULJruKa/UqqG1bJnM/EUFrNQCtaLZW+Yj00YTrFRSNmZqsL+rs5iVfiHqVOsyYC+1v+ra2f5rdLyT0rgnic+GheLIliy8/qNojTtkKOpUDWdjD02zdFOHpLLdb17Dw2Aaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s6qYuoVOFoVBpsS4+SKRIjB8WmQ+a1xgUuJuHPy9lgg=;
- b=SOUSfuPlgHy3aBGhawMIJN7Qa5khUztJQI+dYWruOG8H2sRbE4yGWi19iaiO8XYLxh+W5p1ogY0VusWp5RYlxBH44gssYvkXhXcyQofTIy6uZuk41KxVbTjDt+ojZXf25085U6ZvNSL0LCBscr3NZdnQxeBQE7wMcgIk8HBw0WFaLnQZ8fbZUsF6uxrgFHCdAO7UnqWB2SiEhMxr/MBUrVcPQkeD/sl5Af+gM+1o4WB8lffv0bukvp88AFwMcT75zsp0/nVrxdfrQoTPrkhQYPyrNF8GozJSiYZk3MiJ4WC1kes2Adlq4AnB5c9iSHQnPPY+tEzz1Y5jjM05acdSeA==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM4PR0902MB1684.eurprd09.prod.outlook.com (2603:10a6:200:9a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Tue, 5 Oct
- 2021 19:29:19 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4587.018; Tue, 5 Oct 2021
- 19:29:19 +0000
-Subject: Re: [OE-core] Improve npm support to run build scripts
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
- <6318d76222b819d3a165d405fc48dbcbadf29085.camel@linuxfoundation.org>
- <50d4d79f-a7cd-fd0a-0c6d-597b6dc4ca6a@weidmueller.com>
- <CANNYZj8Fns4xWre3_ajv-5QADpCi0f+WS2wRXCKXezOgj5fhzg@mail.gmail.com>
- <0bddcbc4-cf11-39da-5797-131fc59d7f6f@weidmueller.com>
- <CANNYZj_Xudaobe6W2TTnugjovq3KcHWBYsvZ8kS0kYZaWwkLCw@mail.gmail.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB464243B2852B92E67D825612A8AF9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Tue, 5 Oct 2021 21:29:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: 
- <CANNYZj_Xudaobe6W2TTnugjovq3KcHWBYsvZ8kS0kYZaWwkLCw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [RpEsYUIBh3TsftpN9/S8ONqoJNWXP34skOfl4jseeRkryBaZIs/I2WC1heTASA13]
-X-ClientProxiedBy: AM6PR08CA0034.eurprd08.prod.outlook.com
- (2603:10a6:20b:c0::22) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <54289e2b-52c0-5a18-3758-c1e05582834e@outlook.com>
+ dkim=missing;
+ spf=pass (domain: siemens.com, ip: 192.35.17.2, mailfrom: andrej.valek@siemens.com)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 195KNL14025386
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 5 Oct 2021 22:23:21 +0200
+Received: from md3hr6tc.ad001.com ([167.87.0.208])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 195KNLNG017347;
+	Tue, 5 Oct 2021 22:23:21 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Abdellatif.ElKhlifi@arm.com, Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH 1/2] featimage: refactor style
+Date: Tue,  5 Oct 2021 22:22:55 +0200
+Message-Id: <20211005202256.54023-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:3103:205c:400:313f:44c7:2540:b644]
- (2a02:3103:205c:400:313f:44c7:2540:b644) by
- AM6PR08CA0034.eurprd08.prod.outlook.com (2603:10a6:20b:c0::22) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
- Transport; Tue, 5 Oct 2021 19:29:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c3d40a9e-637f-4c5e-3f27-08d988366cf3
-X-MS-TrafficTypeDiagnostic: AM4PR0902MB1684:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	r17A3GEp0g8ZjGUAzXuVmv/0QyCCrnbyahdGeLWSGn1LUXkr/kUQWizre9EQKtQ9KG2voRyUbFMx6BigRTp30XJeScsAP147sQfIdes1s/yxNZZ2lv5j86RJ5WAOG2A2PyVqd4LR4Q0W49GtLEaeLtU8q4bXO/2BZ0OpWPar1NwmIeBLzBFIISzH/wRZRZ/ozOTXmlKcd3oj4ckkVESA29KGVAlUIcZ4pLBZijKFH02C6NyMeGTm5hW+aM+C4KC5SfjZJXAd+8zxY/432z2crDVCfSOzBuNzRf250PgyK737oL+miQbGvg1NFH5lkbf29e5hqITloWHHnkSJ6XY9LcU/DdXQO8EJBOr4jd/XLHwK5/oqdAdAnVr8/eNcFCi4w+s3Vwfn33bOxAgi3BDUXII/t7RCbKw2sZSd1Kn8eisXTFg3W11GGkmXIONArKfydHZkaJ+DekaH6/2hbn1SlPBYcDZ3nuY1Q5fMqIHLYl4Mlc3RpHpellV9IDAZ0s8/YeQamyunuXIQCHTviUOXCA==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	jbjqbt0O/GusqJ4zyVbvBUZHyH/xiShxVReIFSleayyZEGi6utwWCV6fPPW8/0yJvx8O8fUsYkQJPX9t31JNtZ2ym2/UHQoSz0N7tfBWzXi544hzc1dSnFVEDEGoV74jgDdscV3lMrDCFZmNf6hYHRf2yZmzfnJJxFqpGFXe/rkGtZ9nAHfqkJr2ZAyIyPuogwWAgs/6a0Fbx/Lezna4eg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c3d40a9e-637f-4c5e-3f27-08d988366cf3
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 19:29:19.7711
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0902MB1684
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 19:29:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 20:23:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156657
+ https://lists.openembedded.org/g/openembedded-core/message/156658
 
+- use bash variable notation without {} where possible
+  - just to make sure it looks like bash variable not bitbake variable one
+- fix indent style in "cat" commands
+- replace "! -z" -> "-n"
 
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 292 +++++++++++++--------------
+ meta/classes/uboot-sign.bbclass      |  56 ++---
+ 2 files changed, 174 insertions(+), 174 deletions(-)
 
-On 05.10.21 21:17, Alexander Kanavin wrote:
-> On Tue, 5 Oct 2021 at 19:44, Stefan Herbrechtsmeier 
-> <stefan.herbrechtsmeier-oss@weidmueller.com 
-> <mailto:stefan.herbrechtsmeier-oss@weidmueller.com>> wrote:
-> 
-> 
->      > A layer with thousands of recipes seems totally intractable.
-> 
->     What is your concern? The high number of dependencies or to handle it
->     via OE?
-> 
-> 
-> Generating recipes with a tool means the tool will be custom and 
-> non-standard, and chances of anyone outside of your company
-> understanding, using and contributing to it are rather small. There's 
-> also the problem of needing multiple versions of the same thing for 
-> different
-> consumer items, which oe doesn't easily support. The link Robert 
-> provided already exposes some of the pain points with that approach.
-> 
-> I tend to think the best way forward (or least painful at least) is to 
-> gradually improve what there already is, which is the npm class
-> and devtool, and send patches to various upstream njs projects when 
-> they're using outdated dependencies or otherwise need changing.
-> 
-> Alex
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 38e05153e3..22b77f1858 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -73,7 +73,7 @@ FIT_SIGN_INDIVIDUAL ?= "0"
+ #
+ # $1 ... .its filename
+ fitimage_emit_fit_header() {
+-	cat << EOF >> ${1}
++	cat << EOF >> $1
+ /dts-v1/;
+ 
+ / {
+@@ -94,24 +94,24 @@ EOF
+ fitimage_emit_section_maint() {
+ 	case $2 in
+ 	imagestart)
+-		cat << EOF >> ${1}
++		cat << EOF >> $1
+ 
+         images {
+ EOF
+ 	;;
+ 	confstart)
+-		cat << EOF >> ${1}
++		cat << EOF >> $1
+ 
+         configurations {
+ EOF
+ 	;;
+ 	sectend)
+-		cat << EOF >> ${1}
++		cat << EOF >> $1
+ 	};
+ EOF
+ 	;;
+ 	fitend)
+-		cat << EOF >> ${1}
++		cat << EOF >> $1
+ };
+ EOF
+ 	;;
+@@ -137,28 +137,28 @@ fitimage_emit_section_kernel() {
+ 			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
+ 	fi
+ 
+-	cat << EOF >> ${1}
+-                kernel-${2} {
++	cat << EOF >> $1
++                kernel-$2 {
+                         description = "Linux kernel";
+-                        data = /incbin/("${3}");
++                        data = /incbin/("$3");
+                         type = "kernel";
+                         arch = "${UBOOT_ARCH}";
+                         os = "linux";
+-                        compression = "${4}";
++                        compression = "$4";
+                         load = <${UBOOT_LOADADDRESS}>;
+-                        entry = <${ENTRYPOINT}>;
++                        entry = <$ENTRYPOINT>;
+                         hash-1 {
+-                                algo = "${kernel_csum}";
++                                algo = "$kernel_csum";
+                         };
+                 };
+ EOF
+ 
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${kernel_sign_keyname}" ] ; then
+-		sed -i '$ d' ${1}
+-		cat << EOF >> ${1}
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$kernel_sign_keyname" ] ; then
++		sed -i '$ d' $1
++		cat << EOF >> $1
+                         signature-1 {
+-                                algo = "${kernel_csum},${kernel_sign_algo}";
+-                                key-name-hint = "${kernel_sign_keyname}";
++                                algo = "$kernel_csum,$kernel_sign_algo";
++                                key-name-hint = "$kernel_sign_keyname";
+                         };
+                 };
+ EOF
+@@ -186,26 +186,26 @@ fitimage_emit_section_dtb() {
+ 	elif [ -n "${UBOOT_DTB_LOADADDRESS}" ]; then
+ 		dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
+ 	fi
+-	cat << EOF >> ${1}
+-                fdt-${2} {
++	cat << EOF >> $1
++                fdt-$2 {
+                         description = "Flattened Device Tree blob";
+-                        data = /incbin/("${3}");
++                        data = /incbin/("$3");
+                         type = "flat_dt";
+                         arch = "${UBOOT_ARCH}";
+                         compression = "none";
+-                        ${dtb_loadline}
++                        $dtb_loadline
+                         hash-1 {
+-                                algo = "${dtb_csum}";
++                                algo = "$dtb_csum";
+                         };
+                 };
+ EOF
+ 
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${dtb_sign_keyname}" ] ; then
+-		sed -i '$ d' ${1}
+-		cat << EOF >> ${1}
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$dtb_sign_keyname" ] ; then
++		sed -i '$ d' $1
++		cat << EOF >> $1
+                         signature-1 {
+-                                algo = "${dtb_csum},${dtb_sign_algo}";
+-                                key-name-hint = "${dtb_sign_keyname}";
++                                algo = "$dtb_csum,$dtb_sign_algo";
++                                key-name-hint = "$dtb_sign_keyname";
+                         };
+                 };
+ EOF
+@@ -220,29 +220,29 @@ EOF
+ # $3 ... Path to boot script image
+ fitimage_emit_section_boot_script() {
+ 
+-        bootscr_csum="${FIT_HASH_ALG}"
++	bootscr_csum="${FIT_HASH_ALG}"
+ 	bootscr_sign_algo="${FIT_SIGN_ALG}"
+ 	bootscr_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+ 
+-        cat << EOF >> ${1}
+-                bootscr-${2} {
++        cat << EOF >> $1
++                bootscr-$2 {
+                         description = "U-boot script";
+-                        data = /incbin/("${3}");
++                        data = /incbin/("$3");
+                         type = "script";
+                         arch = "${UBOOT_ARCH}";
+                         compression = "none";
+                         hash-1 {
+-                                algo = "${bootscr_csum}";
++                                algo = "$bootscr_csum";
+                         };
+                 };
+ EOF
+ 
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${bootscr_sign_keyname}" ] ; then
+-		sed -i '$ d' ${1}
+-		cat << EOF >> ${1}
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$bootscr_sign_keyname" ] ; then
++		sed -i '$ d' $1
++		cat << EOF >> $1
+                         signature-1 {
+-                                algo = "${bootscr_csum},${bootscr_sign_algo}";
+-                                key-name-hint = "${bootscr_sign_keyname}";
++                                algo = "$bootscr_csum,$bootscr_sign_algo";
++                                key-name-hint = "$bootscr_sign_keyname";
+                         };
+                 };
+ EOF
+@@ -259,10 +259,10 @@ fitimage_emit_section_setup() {
+ 
+ 	setup_csum="${FIT_HASH_ALG}"
+ 
+-	cat << EOF >> ${1}
+-                setup-${2} {
++	cat << EOF >> $1
++                setup-$2 {
+                         description = "Linux setup.bin";
+-                        data = /incbin/("${3}");
++                        data = /incbin/("$3");
+                         type = "x86_setup";
+                         arch = "${UBOOT_ARCH}";
+                         os = "linux";
+@@ -270,7 +270,7 @@ fitimage_emit_section_setup() {
+                         load = <0x00090000>;
+                         entry = <0x00090000>;
+                         hash-1 {
+-                                algo = "${setup_csum}";
++                                algo = "$setup_csum";
+                         };
+                 };
+ EOF
+@@ -297,28 +297,28 @@ fitimage_emit_section_ramdisk() {
+ 		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
+ 	fi
+ 
+-	cat << EOF >> ${1}
+-                ramdisk-${2} {
++	cat << EOF >> $1
++                ramdisk-$2 {
+                         description = "${INITRAMFS_IMAGE}";
+-                        data = /incbin/("${3}");
++                        data = /incbin/("$3");
+                         type = "ramdisk";
+                         arch = "${UBOOT_ARCH}";
+                         os = "linux";
+                         compression = "none";
+-                        ${ramdisk_loadline}
+-                        ${ramdisk_entryline}
++                        $ramdisk_loadline
++                        $ramdisk_entryline
+                         hash-1 {
+-                                algo = "${ramdisk_csum}";
++                                algo = "$ramdisk_csum";
+                         };
+                 };
+ EOF
+ 
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${ramdisk_sign_keyname}" ] ; then
+-		sed -i '$ d' ${1}
+-		cat << EOF >> ${1}
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$ramdisk_sign_keyname" ] ; then
++		sed -i '$ d' $1
++		cat << EOF >> $1
+                         signature-1 {
+-                                algo = "${ramdisk_csum},${ramdisk_sign_algo}";
+-                                key-name-hint = "${ramdisk_sign_keyname}";
++                                algo = "$ramdisk_csum,$ramdisk_sign_algo";
++                                key-name-hint = "$ramdisk_sign_keyname";
+                         };
+                 };
+ EOF
+@@ -343,13 +343,13 @@ fitimage_emit_section_config() {
+ 		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+ 	fi
+ 
+-	its_file="${1}"
+-	kernel_id="${2}"
+-	dtb_image="${3}"
+-	ramdisk_id="${4}"
+-	bootscr_id="${5}"
+-	config_id="${6}"
+-	default_flag="${7}"
++	its_file="$1"
++	kernel_id="$2"
++	dtb_image="$3"
++	ramdisk_id="$4"
++	bootscr_id="$5"
++	config_id="$6"
++	default_flag="$7"
+ 
+ 	# Test if we have any DTBs at all
+ 	sep=""
+@@ -364,106 +364,106 @@ fitimage_emit_section_config() {
+ 
+ 	# conf node name is selected based on dtb ID if it is present,
+ 	# otherwise its selected based on kernel ID
+-	if [ -n "${dtb_image}" ]; then
+-		conf_node=$conf_node${dtb_image}
++	if [ -n "$dtb_image" ]; then
++		conf_node=$conf_node$dtb_image
+ 	else
+-		conf_node=$conf_node${kernel_id}
++		conf_node=$conf_node$kernel_id
+ 	fi
+ 
+-	if [ -n "${kernel_id}" ]; then
++	if [ -n "$kernel_id" ]; then
+ 		conf_desc="Linux kernel"
+ 		sep=", "
+-		kernel_line="kernel = \"kernel-${kernel_id}\";"
++		kernel_line="kernel = \"kernel-$kernel_id\";"
+ 	fi
+ 
+-	if [ -n "${dtb_image}" ]; then
+-		conf_desc="${conf_desc}${sep}FDT blob"
++	if [ -n "$dtb_image" ]; then
++		conf_desc="$conf_desc${sep}FDT blob"
+ 		sep=", "
+-		fdt_line="fdt = \"fdt-${dtb_image}\";"
++		fdt_line="fdt = \"fdt-$dtb_image\";"
+ 	fi
+ 
+-	if [ -n "${ramdisk_id}" ]; then
+-		conf_desc="${conf_desc}${sep}ramdisk"
++	if [ -n "$ramdisk_id" ]; then
++		conf_desc="$conf_desc${sep}ramdisk"
+ 		sep=", "
+-		ramdisk_line="ramdisk = \"ramdisk-${ramdisk_id}\";"
++		ramdisk_line="ramdisk = \"ramdisk-$ramdisk_id\";"
+ 	fi
+ 
+-	if [ -n "${bootscr_id}" ]; then
+-		conf_desc="${conf_desc}${sep}u-boot script"
++	if [ -n "$bootscr_id" ]; then
++		conf_desc="$conf_desc${sep}u-boot script"
+ 		sep=", "
+-		bootscr_line="bootscr = \"bootscr-${bootscr_id}\";"
++		bootscr_line="bootscr = \"bootscr-$bootscr_id\";"
+ 	fi
+ 
+-	if [ -n "${config_id}" ]; then
+-		conf_desc="${conf_desc}${sep}setup"
+-		setup_line="setup = \"setup-${config_id}\";"
++	if [ -n "$config_id" ]; then
++		conf_desc="$conf_desc${sep}setup"
++		setup_line="setup = \"setup-$config_id\";"
+ 	fi
+ 
+-	if [ "${default_flag}" = "1" ]; then
++	if [ "$default_flag" = "1" ]; then
+ 		# default node is selected based on dtb ID if it is present,
+ 		# otherwise its selected based on kernel ID
+-		if [ -n "${dtb_image}" ]; then
+-			default_line="default = \"conf-${dtb_image}\";"
++		if [ -n "$dtb_image" ]; then
++			default_line="default = \"conf-$dtb_image\";"
+ 		else
+-			default_line="default = \"conf-${kernel_id}\";"
++			default_line="default = \"conf-$kernel_id\";"
+ 		fi
+ 	fi
+ 
+-	cat << EOF >> ${its_file}
+-                ${default_line}
++	cat << EOF >> $its_file
++                $default_line
+                 $conf_node {
+-			description = "${default_flag} ${conf_desc}";
+-			${kernel_line}
+-			${fdt_line}
+-			${ramdisk_line}
+-			${bootscr_line}
+-			${setup_line}
++                        description = "$default_flag $conf_desc";
++                        $kernel_line
++                        $fdt_line
++                        $ramdisk_line
++                        $bootscr_line
++                        $setup_line
+                         hash-1 {
+-                                algo = "${conf_csum}";
++                                algo = "$conf_csum";
+                         };
+ EOF
+ 
+-	if [ ! -z "${conf_sign_keyname}" ] ; then
++	if [ -n "$conf_sign_keyname" ] ; then
+ 
+ 		sign_line="sign-images = "
+ 		sep=""
+ 
+-		if [ -n "${kernel_id}" ]; then
+-			sign_line="${sign_line}${sep}\"kernel\""
++		if [ -n "$kernel_id" ]; then
++			sign_line="$sign_line${sep}\"kernel\""
+ 			sep=", "
+ 		fi
+ 
+-		if [ -n "${dtb_image}" ]; then
+-			sign_line="${sign_line}${sep}\"fdt\""
++		if [ -n "$dtb_image" ]; then
++			sign_line="$sign_line${sep}\"fdt\""
+ 			sep=", "
+ 		fi
+ 
+-		if [ -n "${ramdisk_id}" ]; then
+-			sign_line="${sign_line}${sep}\"ramdisk\""
++		if [ -n "$ramdisk_id" ]; then
++			sign_line="$sign_line${sep}\"ramdisk\""
+ 			sep=", "
+ 		fi
+ 
+-		if [ -n "${bootscr_id}" ]; then
+-			sign_line="${sign_line}${sep}\"bootscr\""
++		if [ -n "$bootscr_id" ]; then
++			sign_line="$sign_line${sep}\"bootscr\""
+ 			sep=", "
+ 		fi
+ 
+-		if [ -n "${config_id}" ]; then
+-			sign_line="${sign_line}${sep}\"setup\""
++		if [ -n "$config_id" ]; then
++			sign_line="$sign_line${sep}\"setup\""
+ 		fi
+ 
+-		sign_line="${sign_line};"
++		sign_line="$sign_line;"
+ 
+-		cat << EOF >> ${its_file}
++		cat << EOF >> $its_file
+                         signature-1 {
+-                                algo = "${conf_csum},${conf_sign_algo}";
+-                                key-name-hint = "${conf_sign_keyname}";
+-				${sign_line}
++                                algo = "$conf_csum,$conf_sign_algo";
++                                key-name-hint = "$conf_sign_keyname";
++                        $sign_line
+                         };
+ EOF
+ 	fi
+ 
+-	cat << EOF >> ${its_file}
++	cat << EOF >> $its_file
+                 };
+ EOF
+ }
+@@ -478,38 +478,38 @@ fitimage_assemble() {
+ 	kernelcount=1
+ 	dtbcount=""
+ 	DTBS=""
+-	ramdiskcount=${3}
++	ramdiskcount=$3
+ 	setupcount=""
+ 	bootscr_id=""
+-	rm -f ${1} arch/${ARCH}/boot/${2}
++	rm -f $1 arch/${ARCH}/boot/$2
+ 
+-	if [ ! -z "${UBOOT_SIGN_IMG_KEYNAME}" -a "${UBOOT_SIGN_KEYNAME}" = "${UBOOT_SIGN_IMG_KEYNAME}" ]; then
++	if [ -n "${UBOOT_SIGN_IMG_KEYNAME}" -a "${UBOOT_SIGN_KEYNAME}" = "${UBOOT_SIGN_IMG_KEYNAME}" ]; then
+ 		bbfatal "Keys used to sign images and configuration nodes must be different."
+ 	fi
+ 
+-	fitimage_emit_fit_header ${1}
++	fitimage_emit_fit_header $1
+ 
+ 	#
+ 	# Step 1: Prepare a kernel image section.
+ 	#
+-	fitimage_emit_section_maint ${1} imagestart
++	fitimage_emit_section_maint $1 imagestart
+ 
+ 	uboot_prep_kimage
+ 
+ 	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
+ 		initramfs_bundle_path="arch/"${UBOOT_ARCH}"/boot/"${KERNEL_IMAGETYPE_REPLACEMENT}".initramfs"
+-		if [ -e "${initramfs_bundle_path}" ]; then
++		if [ -e "$initramfs_bundle_path" ]; then
+ 
+ 			#
+ 			# Include the kernel/rootfs bundle.
+ 			#
+ 
+-			fitimage_emit_section_kernel ${1} "${kernelcount}" "${initramfs_bundle_path}" "${linux_comp}"
++			fitimage_emit_section_kernel $1 $kernelcount "$initramfs_bundle_path" "$linux_comp"
+ 		else
+-			bbwarn "${initramfs_bundle_path} not found."
++			bbwarn "$initramfs_bundle_pat not found."
+ 		fi
+ 	else
+-		fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
++		fitimage_emit_section_kernel $1 $kernelcount linux.bin "$linux_comp"
+ 	fi
+ 
+ 	#
+@@ -519,9 +519,9 @@ fitimage_assemble() {
+ 	if [ -n "${KERNEL_DEVICETREE}" ]; then
+ 		dtbcount=1
+ 		for DTB in ${KERNEL_DEVICETREE}; do
+-			if echo ${DTB} | grep -q '/dts/'; then
+-				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+-				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
++			if echo $DTB | grep -q '/dts/'; then
++				bbwarn "$DTB contains the full path to the the dts file, but only the dtb name should be used."
++				DTB=`basename $DTB | sed 's,\.dts$,.dtb,g'`
+ 			fi
+ 
+ 			# Skip ${DTB} if it's also provided in ${EXTERNAL_KERNEL_DEVICETREE}
+@@ -529,23 +529,23 @@ fitimage_assemble() {
+ 				continue
+ 			fi
+ 
+-			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+-			if [ ! -e "${DTB_PATH}" ]; then
+-				DTB_PATH="arch/${ARCH}/boot/${DTB}"
++			DTB_PATH="arch/${ARCH}/boot/dts/$DTB"
++			if [ ! -e "$DTB_PATH" ]; then
++				DTB_PATH="arch/${ARCH}/boot/$DTB"
+ 			fi
+ 
+-			DTB=$(echo "${DTB}" | tr '/' '_')
+-			DTBS="${DTBS} ${DTB}"
+-			fitimage_emit_section_dtb ${1} ${DTB} ${DTB_PATH}
++			DTB=$(echo "$DTB" | tr '/' '_')
++			DTBS="$DTBS $DTB"
++			fitimage_emit_section_dtb $1 $DTB $DTB_PATH
+ 		done
+ 	fi
+ 
+ 	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+ 		dtbcount=1
+ 		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n' | sort); do
+-			DTB=$(echo "${DTB}" | tr '/' '_')
+-			DTBS="${DTBS} ${DTB}"
+-			fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
++			DTB=$(echo "$DTB" | tr '/' '_')
++			DTBS="$DTBS $DTB"
++			fitimage_emit_section_dtb $1 $DTB "${EXTERNAL_KERNEL_DEVICETREE}/$DTB"
+ 		done
+ 	fi
+ 
+@@ -557,7 +557,7 @@ fitimage_assemble() {
+ 		if [ -e "${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY}" ]; then
+ 			cp ${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY} ${B}
+ 			bootscr_id="${UBOOT_ENV_BINARY}"
+-			fitimage_emit_section_boot_script ${1} "${bootscr_id}" ${UBOOT_ENV_BINARY}
++			fitimage_emit_section_boot_script ${1} "$bootscr_id" ${UBOOT_ENV_BINARY}
+ 		else
+ 			bbwarn "${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY} not found."
+ 		fi
+@@ -568,7 +568,7 @@ fitimage_assemble() {
+ 	#
+ 	if [ -e arch/${ARCH}/boot/setup.bin ]; then
+ 		setupcount=1
+-		fitimage_emit_section_setup ${1} "${setupcount}" arch/${ARCH}/boot/setup.bin
++		fitimage_emit_section_setup $1 $setupcount arch/${ARCH}/boot/setup.bin
+ 	fi
+ 
+ 	#
+@@ -577,27 +577,27 @@ fitimage_assemble() {
+ 	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+ 		# Find and use the first initramfs image archive type we find
+ 		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio; do
+-			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
++			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img"
+ 			echo "Using $initramfs_path"
+-			if [ -e "${initramfs_path}" ]; then
+-				fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" "${initramfs_path}"
++			if [ -e "$initramfs_path" ]; then
++				fitimage_emit_section_ramdisk $1 "$ramdiskcount" "$initramfs_path"
+ 				break
+ 			fi
+ 		done
+ 	fi
+ 
+-	fitimage_emit_section_maint ${1} sectend
++	fitimage_emit_section_maint $1 sectend
+ 
+ 	# Force the first Kernel and DTB in the default config
+ 	kernelcount=1
+-	if [ -n "${dtbcount}" ]; then
++	if [ -n "$dtbcount" ]; then
+ 		dtbcount=1
+ 	fi
+ 
+ 	#
+ 	# Step 6: Prepare a configurations section
+ 	#
+-	fitimage_emit_section_maint ${1} confstart
++	fitimage_emit_section_maint $1 confstart
+ 
+ 	# kernel-fitimage.bbclass currently only supports a single kernel (no less or
+ 	# more) to be added to the FIT image along with 0 or more device trees and
+@@ -608,33 +608,33 @@ fitimage_assemble() {
+ 	# the default configuration to be used is based on the dtbcount. If there is
+ 	# no dtb present than select the default configuation to be based on
+ 	# the kernelcount.
+-	if [ -n "${DTBS}" ]; then
++	if [ -n "$DTBS" ]; then
+ 		i=1
+ 		for DTB in ${DTBS}; do
+ 			dtb_ext=${DTB##*.}
+-			if [ "${dtb_ext}" = "dtbo" ]; then
+-				fitimage_emit_section_config ${1} "" "${DTB}" "" "${bootscr_id}" "" "`expr ${i} = ${dtbcount}`"
++			if [ "$dtb_ext" = "dtbo" ]; then
++				fitimage_emit_section_config $1 "" "$DTB" "" "$bootscr_id" "" "`expr $i = $dtbcount`"
+ 			else
+-				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${bootscr_id}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
++				fitimage_emit_section_config $1 $kernelcount "$DTB" "$ramdiskcount" "$bootscr_id" "$setupcount" "`expr $i = $dtbcount`"
+ 			fi
+-			i=`expr ${i} + 1`
++			i=`expr $i + 1`
+ 		done
+ 	else
+ 		defaultconfigcount=1
+-		fitimage_emit_section_config ${1} "${kernelcount}" "" "${ramdiskcount}" "${bootscr_id}"  "${setupcount}" "${defaultconfigcount}"
++		fitimage_emit_section_config $1 $kernelcount "" "$ramdiskcount" "$bootscr_id"  "$setupcount" $defaultconfigcount
+ 	fi
+ 
+-	fitimage_emit_section_maint ${1} sectend
++	fitimage_emit_section_maint $1 sectend
+ 
+-	fitimage_emit_section_maint ${1} fitend
++	fitimage_emit_section_maint $1 fitend
+ 
+ 	#
+ 	# Step 7: Assemble the image
+ 	#
+ 	${UBOOT_MKIMAGE} \
+ 		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+-		-f ${1} \
+-		arch/${ARCH}/boot/${2}
++		-f $1 \
++		arch/${ARCH}/boot/$2
+ 
+ 	#
+ 	# Step 8: Sign the image and add public key to U-Boot dtb
+@@ -651,7 +651,7 @@ fitimage_assemble() {
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 			-F -k "${UBOOT_SIGN_KEYDIR}" \
+ 			$add_key_to_u_boot \
+-			-r arch/${ARCH}/boot/${2} \
++			-r arch/${ARCH}/boot/$2 \
+ 			${UBOOT_MKIMAGE_SIGN_ARGS}
+ 	fi
+ }
+@@ -659,7 +659,7 @@ fitimage_assemble() {
+ do_assemble_fitimage() {
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+ 		cd ${B}
+-		fitimage_assemble fit-image.its fitImage
++		fitimage_assemble fit-image.its fitImage ""
+ 	fi
+ }
+ 
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index fdf153248c..bae8cada0a 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -162,8 +162,8 @@ concat_dtb() {
+ 		mkdir -p ${DEPLOYDIR}
+ 		if [ -n "${UBOOT_CONFIG}" ]; then
+ 			for config in ${UBOOT_MACHINE}; do
+-				CONFIG_B_PATH="${config}"
+-				cd ${B}/${config}
++				CONFIG_B_PATH="$config"
++				cd ${B}/$config
+ 				concat_dtb_helper
+ 			done
+ 		else
+@@ -179,8 +179,8 @@ concat_spl_dtb() {
+ 		mkdir -p ${DEPLOYDIR}
+ 		if [ -n "${UBOOT_CONFIG}" ]; then
+ 			for config in ${UBOOT_MACHINE}; do
+-				CONFIG_B_PATH="${config}"
+-				cd ${B}/${config}
++				CONFIG_B_PATH="$config"
++				cd ${B}/$config
+ 				concat_spl_dtb_helper
+ 			done
+ 		else
+@@ -231,7 +231,7 @@ do_install:append() {
+ 	if [ "${PN}" = "${UBOOT_PN}" ]; then
+ 		if [ -n "${UBOOT_CONFIG}" ]; then
+ 			for config in ${UBOOT_MACHINE}; do
+-				cd ${B}/${config}
++				cd ${B}/$config
+ 				if [ "${UBOOT_SIGN_ENABLE}" = "1" -o "${UBOOT_FITIMAGE_ENABLE}" = "1" ] && \
+ 					[ -n "${UBOOT_DTB_BINARY}" ]; then
+ 					install_helper
+@@ -286,19 +286,19 @@ addtask uboot_generate_rsa_keys before do_uboot_assemble_fitimage after do_compi
+ # Create a ITS file for the U-boot FIT, for use when
+ # we want to sign it so that the SPL can verify it
+ uboot_fitimage_assemble() {
+-	uboot_its="${1}"
+-	uboot_nodtb_bin="${2}"
+-	uboot_dtb="${3}"
+-	uboot_bin="${4}"
+-	spl_dtb="${5}"
++	uboot_its="$1"
++	uboot_nodtb_bin="$2"
++	uboot_dtb="$3"
++	uboot_bin="$4"
++	spl_dtb="$5"
+ 	uboot_csum="${UBOOT_FIT_HASH_ALG}"
+ 	uboot_sign_algo="${UBOOT_FIT_SIGN_ALG}"
+ 	uboot_sign_keyname="${SPL_SIGN_KEYNAME}"
+ 
+-	rm -f ${uboot_its} ${uboot_bin}
++	rm -f $uboot_its $uboot_bin
+ 
+ 	# First we create the ITS script
+-	cat << EOF >> ${uboot_its}
++	cat << EOF >> $uboot_its
+ /dts-v1/;
+ 
+ / {
+@@ -308,7 +308,7 @@ uboot_fitimage_assemble() {
+     images {
+         uboot {
+             description = "U-Boot image";
+-            data = /incbin/("${uboot_nodtb_bin}");
++            data = /incbin/("$uboot_nodtb_bin");
+             type = "standalone";
+             os = "u-boot";
+             arch = "${UBOOT_ARCH}";
+@@ -318,34 +318,34 @@ uboot_fitimage_assemble() {
+ EOF
+ 
+ 	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
+-		cat << EOF >> ${uboot_its}
++		cat << EOF >> $uboot_its
+             signature {
+-                algo = "${uboot_csum},${uboot_sign_algo}";
+-                key-name-hint = "${uboot_sign_keyname}";
++                algo = "$uboot_csum,$uboot_sign_algo";
++                key-name-hint = "$uboot_sign_keyname";
+             };
+ EOF
+ 	fi
+ 
+-	cat << EOF >> ${uboot_its}
++	cat << EOF >> $uboot_its
+         };
+         fdt {
+             description = "U-Boot FDT";
+-            data = /incbin/("${uboot_dtb}");
++            data = /incbin/("$uboot_dtb");
+             type = "flat_dt";
+             arch = "${UBOOT_ARCH}";
+             compression = "none";
+ EOF
+ 
+ 	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
+-		cat << EOF >> ${uboot_its}
++		cat << EOF >> $uboot_its
+             signature {
+-                algo = "${uboot_csum},${uboot_sign_algo}";
+-                key-name-hint = "${uboot_sign_keyname}";
++                algo = "$uboot_csum,$uboot_sign_algo";
++                key-name-hint = "$uboot_sign_keyname";
+             };
+ EOF
+ 	fi
+ 
+-	cat << EOF >> ${uboot_its}
++	cat << EOF >> $uboot_its
+         };
+     };
+ 
+@@ -365,8 +365,8 @@ EOF
+ 	#
+ 	${UBOOT_MKIMAGE} \
+ 		${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
+-		-f ${uboot_its} \
+-		${uboot_bin}
++		-f $uboot_its \
++		$uboot_bin
+ 
+ 	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
+ 		#
+@@ -375,8 +375,8 @@ EOF
+ 		${UBOOT_MKIMAGE_SIGN} \
+ 			${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
+ 			-F -k "${SPL_SIGN_KEYDIR}" \
+-			-K "${spl_dtb}" \
+-			-r ${uboot_bin} \
++			-K "$spl_dtb" \
++			-r $uboot_bin \
+ 			${SPL_MKIMAGE_SIGN_ARGS}
+ 	fi
+ 
+@@ -408,8 +408,8 @@ do_uboot_assemble_fitimage() {
+ 		kernel_uboot_fitimage_name=`basename ${STAGING_DATADIR}/u-boot-fitImage-*`
+ 		kernel_uboot_its_name=`basename ${STAGING_DATADIR}/u-boot-its-*`
+ 		cd ${B}
+-		uboot_fitimage_assemble ${kernel_uboot_its_name} ${UBOOT_NODTB_BINARY} \
+-					${UBOOT_DTB_BINARY} ${kernel_uboot_fitimage_name} \
++		uboot_fitimage_assemble $kernel_uboot_its_name ${UBOOT_NODTB_BINARY} \
++					${UBOOT_DTB_BINARY} $kernel_uboot_fitimage_name \
+ 					${SPL_DTB_BINARY}
+ 	fi
+ }
+-- 
+2.31.1
 
-Just to chime in :-), I like to question this approach of having 
-multiple versions of the same in an image.
-As already outlined npm is horrible in many ways, but using the lockfile 
-approach multiplies that even more.
-But I tend to agree that using the currently available oe-core code 
-would be suited best for a broader audience - in your own layer you 
-simply can do whatever you like.
-
-While personally I think in the long run, every npm dependency has to be 
-provided as a recipe of its own (even I know the costs of that pretty 
-well)... esp when CVE checking and basic packaging hygiene should be 
-enforced.
-
-Nevertheless for oe-core I wouldn't want to change a lot right now, as 
-there is simply a valid set of consumers missing that could enable us to 
-do some proper testing. But yeah fixes/improvements for devtool are very 
-welcome (also the available docu might need a touch)
-
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156656): https://lists.openembedded.org/g/openembedded-core/message/156656
-> Mute This Topic: https://lists.openembedded.org/mt/86089523/3647476
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
