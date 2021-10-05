@@ -1,441 +1,293 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E607FC433F5
-	for <webhook@archiver.kernel.org>; Mon,  4 Oct 2021 22:38:37 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.17709.1633387116370205598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D11BC433FE
+	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 00:23:25 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.18950.1633393403596321274
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 15:38:36 -0700
+ Mon, 04 Oct 2021 17:23:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UVCQPRTx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48,
- mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-lf1-f48.google.com with SMTP id e15so78029835lfr.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VrnGn4nJ;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id r201so12234239pgr.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 15:38:36 -0700 (PDT)
+ Mon, 04 Oct 2021 17:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NIw+SiurjElhWkB7YY9GxdhvUJ5EU3aYK5OddzJFDHs=;
-        b=UVCQPRTxFe764jQee9gK4Y+L38FIGOwJ65wke2D4InBVgGk0HZe9ssA/YYsHIN7MLn
-         zWcvO3Dt8mTnZv5d1ae67MSDH6p5F1M9zUyAmPYFl5yg6Nup5F818fdfhxrI6uOzdeg3
-         oKyHETGNo695KbEsoUZRs0C8lW92kryhhMrgY=
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language:importance;
+        bh=bNkANfulPePOqGMjHTjFSamjEnlJExMXPuAoJ4/9bWg=;
+        b=VrnGn4nJAjLvG9R4/WpVQn3brP2LXf1bJ1ArbFqMkNRDCMXB2Jl66GHM+SG2Z31XY4
+         1inAHivRSLYPnCNjW943rFFixXizrZWF1KMlm9PxUIPjgK4u/dXVDUjdCAjS21ZgEd4N
+         br9zuYnh3b1M56CUTVlqCYsmwkM1hcExMwc+kp6j/EB4eKalpnfD82ldTttKiWvBtI/a
+         cwloSGNFa8Z9iYkvrw0ryhzXOU2AcVNaCjbwD4I4plxkCO+ZFQmlVbCtpbqmjkYQAtOw
+         Z82QfVEcX4ZjglGmuha1nym8bEWsIYWXr3vemp2bBjGvUR+yqd/WPu54W4DVW3e0s0wj
+         b6Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NIw+SiurjElhWkB7YY9GxdhvUJ5EU3aYK5OddzJFDHs=;
-        b=ll1EGwn8UqzBfZByR7c/jsts0nAbf/SKoDxVMKusb5ux3SlvxCR2NJp7EqIyGfQzeS
-         JeCplXH1gWTQgQdpjm/IH5W7CNg6MDaT6H4sarW/dzt1HAFDtj9gJrWn0h1f7A+FYdtI
-         6a3NEP+nP1nfqOGOtEvDHSxUk5Gd5wnecGP91hCcGIdtYEBOCCMCqHQl5p3xmUU+dW8G
-         b//JBMUfLDzPqA/0oEzNKmnUNqvaQGaaUCTTshQP8VaBVSmSsApkhrEFrp/lVO95R6Xi
-         Dv0/iy/pxvPQTy/Z2vLRDLvaPLjY7AUNypSsm4kiFvwlYWHbW9ph8p1QzmEUzR09ZHrV
-         PjnQ==
-X-Gm-Message-State: AOAM531utkB5asQGDW/CBAxKZgeoDOY+atnf22vFcXawOkTqAPKYdeMo
-	HIRAAL/kR0chzxKexpnDmddc1TX6SzSiXaqhO2R0DA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language:importance;
+        bh=bNkANfulPePOqGMjHTjFSamjEnlJExMXPuAoJ4/9bWg=;
+        b=LBfIwt0IdZpU632inS59jiSN6YKm0z8nL6fq0myKaxNA8q0QoPgwStDOI7uVA+4L7v
+         Rahbo9QZBOGPKwpUyz//zCUenGPs9N0HVEqsANpe7BG120S40sg7eGuIO/2zpVA3C8cd
+         rS6C4ABbLCYl2I1Di4Mg+a1E5z1H654UIdZnFiEddx7flpLmfK+BYVABhlNZ777AlQ1H
+         iclY9h8RM/T6XVfV91VJ9V4+y53ClGAF0CU+0c0lmS14rJS8j7CWyIA7A9fmkBohCBlG
+         XgS7k9Nz36pmMlQ64RFFBueI2SmPCheQXMpwKLLBWk9L3Vp7+8ECGiYdREK0bE/fsca0
+         u/qg==
+X-Gm-Message-State: AOAM532N4u0y1SzhbhZWO9z/0uFpPTDSjcmIFVLwitNlED0jbHhvd3f3
+	mKy2sekacqXmiNlxL9aHqq58pfrATNk=
 X-Google-Smtp-Source: 
- ABdhPJxDOL7W+rAv8QWcLq6+0JrCkDdJvYLEfXxy2VJKCezJkdCQP9juY5MdnG7nfCsgxkq8INNEAc4+dRiBZnHBJEA=
-X-Received: by 2002:a2e:b608:: with SMTP id r8mr18334065ljn.248.1633387114074;
- Mon, 04 Oct 2021 15:38:34 -0700 (PDT)
+ ABdhPJyRx7knV7FJakN/ChcNiNeqosbuU0MUCJaM6AUf9LTnw6F/vLrES9EfrkgSXay/Lu1F2hdYig==
+X-Received: by 2002:a63:6941:: with SMTP id
+ e62mr13329721pgc.114.1633393402645;
+        Mon, 04 Oct 2021 17:23:22 -0700 (PDT)
+Received: from skjolley ([2600:8800:1d92:f800:a908:3bc8:effa:7d71])
+        by smtp.gmail.com with ESMTPSA id
+ z9sm5250475pgz.94.2021.10.04.17.23.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 04 Oct 2021 17:23:22 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on
+ the first Tuesday (PDT) 
+Date: Mon, 4 Oct 2021 17:23:22 -0700
+Message-ID: <0ae501d7b97f$35219f20$9f64dd60$@gmail.com>
 MIME-Version: 1.0
-References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
- <20210604091458.1381144-4-alex.kanavin@gmail.com>
- <1685B658849E960A.4717@lists.openembedded.org>
- <f9cc3da4399fcca66a9c43638dcf4eca162ba23a.camel@linuxfoundation.org>
- <50a73766-dc52-0600-a6cd-7ab422030782@gmail.com>
- <7e56d093ba6c1390cec71ef3a362abe84ce735bb.camel@linuxfoundation.org>
- <CANNYZj_ExBZwGzRrnG8Yb2nsNmzCKkZV09FqFuMbCdxAepNSkg@mail.gmail.com>
- <2ac70a7b01743192ae4ec42b2b1eee18becde25d.camel@linuxfoundation.org>
- <CANNYZj-dYu4Q9PBhBd2-msPaBSreycLCfCKmZ1zm8=z=Ht+MbA@mail.gmail.com>
- <1c55d1aca45e746034b791b2f1712e8f335b502c.camel@linuxfoundation.org>
- <ae52185ed604614ff00bee7606b704e6c065107f.camel@intel.com>
- <CADfgfobgqkfyp3GLMqJbe-T18Rdf0FYdUpVBWcU2+wkVhfMKSw@mail.gmail.com>
- <CANNYZj_tBVBPDM4++e4Ujvt2jfchc1WBgiGBr4xW=UDD0xtztQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_tBVBPDM4++e4Ujvt2jfchc1WBgiGBr4xW=UDD0xtztQ@mail.gmail.com>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Mon, 4 Oct 2021 15:38:22 -0700
-Message-ID: 
- <CADfgfobeAvTvvBp0cBijHma15qwFeaPfAVa40=+m+7dyPgaaCQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/10] cmake: update 3.20.2 -> 3.20.3
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Anuj Mittal <anuj.mittal@intel.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b7277305cd8e9215"
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0AE6_01D7B944.88C2C720"
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHOH+V5RaTNHr3OgrIi68cUa28A8Q==
+Content-Language: en-us
+Importance: High
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Oct 2021 22:38:37 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 00:23:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156633
+ https://lists.openembedded.org/g/openembedded-core/message/156634
 
---000000000000b7277305cd8e9215
-Content-Type: text/plain; charset="UTF-8"
+This is a multipart message in MIME format.
 
-I'll go ahead and switch to CentOS8-Stream once the current a-full is
-complete. If there is a need to follow RHEL8 exactly we can add a Rocky
-Linux worker in the future.
+------=_NextPart_000_0AE6_01D7B944.88C2C720
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+Just a reminder we will hold the monthly Yocto Project Technical Meeting at
+8am PST tomorrow. (10/5)  
+
+ 
+
+Yocto Project Technical Team Meeting: We encourage people attending the
+meeting to logon and announce themselves on the Yocto Project IRC chancel
+during the meeting (optional):
+
+Yocto IRC: https://web.libera.chat/#yocto 
+
+Wiki: https://www.yoctoproject.org/public-virtual-meetings/
+
+ 
+
+When            Monthly from 8am to 9am on the first Tuesday Pacific Time
+
+Where           Zoom Meeting:
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+
+ 
+
+We are tracking the minutes at:
+https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
+DH4/edit?pli=1 Please request access if you want to assist in editing them.
+The world should have view access. 
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
-On Mon, Oct 4, 2021 at 11:28 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> Since the original centos 8 is going away (support-wise) in less than 3
-> months, should we just convert all workers to stream and move on?
->
-> Alex
->
-> On Mon, 4 Oct 2021 at 18:27, Michael Halstead <
-> mhalstead@linuxfoundation.org> wrote:
->
->> This error was fixed upstream
->> https://bugzilla.redhat.com/show_bug.cgi?id=1975562 kernel 4.18.0-325.x
->> which has landed in CentOS8 Stream on centos8-ty-2 but not plain CentOS8
->> where the newest kernel is still at 4.18.0-305.x.
->>
->> I'll reboot into the older 4.18.0-240.15 kernel again on centos8-ty-1 as
->> a fix for now.
->>
->> On Tue, Sep 28, 2021 at 6:12 PM Anuj Mittal <anuj.mittal@intel.com>
->> wrote:
->>
->>> Did we find out the reason why this was happening? I have started
->>> getting this error on Centos-8 while building hardknott.
->>>
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/4045
->>>
->>> Thanks,
->>>
->>> Anuj
->>>
->>> On Wed, 2021-06-16 at 23:45 +0100, Richard Purdie wrote:
->>> > On Sun, 2021-06-06 at 21:51 +0200, Alexander Kanavin wrote:
->>> > > On Sun, 6 Jun 2021 at 01:10, Richard Purdie
->>> > > <richard.purdie@linuxfoundation.org> wrote:
->>> > > > I tried again with the autobuilder, still fails:
->>> > > >
->>> > > >
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3516
->>> > > >
->>> > > > so whatever it is, it is still "live".
->>> > > >
->>> > >
->>> > >
->>> > > I did some digging. The issue happens when:
->>> > > - host is centos8
->>> > > - SDKMACHINE is i686 (e.g. cmake is 32 bit)
->>> > >
->>> > > Then there's a failing syscall attempting to set file times:
->>> > > utimensat_time64(AT_FDCWD, "../install/usr/local/lib/cmake/assimp-
->>> > > 4.1/assimp-config.cmake",
->>> > > [{tv_sec=1622966723, tv_nsec=6319439026193432576},
->>> > > {tv_sec=1622966579, tv_nsec=17840053692309438464}], 0) = -1
->>> > > EINVAL (Invalid argument)
->>> > >
->>> > > On latest Fedora, there's no issue:
->>> > > utimensat_time64(AT_FDCWD, "../install2/usr/local/lib/cmake/assimp-
->>> > > 4.1/assimp-config.cmake",
->>> > > [{tv_sec=1623002886, tv_nsec=6369724778172907520},
->>> > > {tv_sec=1623002886, tv_nsec=17839174083007217664}], 0) = 0
->>> > >
->>> > > utimensat_time64 only appeared with 5.1 kernels, however, 4.18 should
->>> > > be returning ENOSYS in that case
->>> > > probably?
->>> >
->>> > I hacked up a quick test bit of code (which makes assumptions
->>> > about 32 bit):
->>> >
->>> > #include <unistd.h>
->>> > #include <sys/syscall.h>
->>> > #include <sys/types.h>
->>> > #include <sys/stat.h>
->>> > #include <fcntl.h>
->>> > #include <stdio.h>
->>> >
->>> > struct timespec64 {
->>> >     long long           tv_sec;                 /* seconds */
->>> >     long long           tv_nsec;                /* nanoseconds */
->>> > };
->>> >
->>> > int main() {
->>> >   int fd = open("foo", O_RDWR | O_CREAT, 0644);
->>> >   write(fd, "foo", 3);
->>> >   struct timespec64 times[2] = {};
->>> >   times[0].tv_sec = 1622966723;
->>> >   times[0].tv_nsec = 631943;
->>> >   times[1].tv_sec = 1622966579;
->>> >   times[1].tv_nsec = 178400;
->>> >   int rc = syscall(SYS_utimensat_time64, fd, NULL, &times[0], 0);
->>> >   printf("rc=%d\n", rc);
->>> >   close(fd);
->>> >   return rc;
->>> > }
->>> >
->>> > built with "gcc -m32 test-syscall.c -o test" and run with "strace
->>> > ./test".
->>> > This works on all the systems I tried it in. As does:
->>> >
->>> >
->>> >   times[0].tv_sec = 1;
->>> >   times[0].tv_nsec = 2;
->>> >   times[1].tv_sec = 3;
->>> >   times[1].tv_nsec = 4;
->>> >
->>> > however if you set (and ignore the compiler warning):
->>> >
->>> >   times[0].tv_sec = 1622966723;
->>> >   times[0].tv_nsec = 6319439026193432576;
->>> >   times[1].tv_sec = 1622966579;
->>> >   times[1].tv_nsec = 17840053692309438464;
->>> >
->>> > then you see EINVAL on the centos system but not on my ubuntu one. It
->>> > will
->>> > do that until you reduce the values of tv_nsec right now. So it seems
->>> > most
->>> > systems accept large tv_nsec values but the Centos one does not.
->>> >
->>> > I think tv_nsec may be being clamped to LONG_MAX of 4 bytes but should
->>> > be
->>> > a LONG_LONG_MAX of 8 bytes on a 32 bit since the field is a 64 bit
->>> > long.
->>> >
->>> > Michael: Hopefully that gives you something to raise with them?
->>> >
->>> > Cheers,
->>> >
->>> > Richard
->>> >
->>> >
->>> >
->>> >
->>> >
->>> >
->>> >
->>> >
->>>
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#156435):
->>> https://lists.openembedded.org/g/openembedded-core/message/156435
->>> Mute This Topic: https://lists.openembedded.org/mt/83304703/1003190
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->>> mhalstead@linuxfoundation.org]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
->>>
->>
->> --
->> Michael Halstead
->> Linux Foundation / Yocto Project
->> Systems Operations Engineer
->>
->
-
--- 
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
-
---000000000000b7277305cd8e9215
-Content-Type: text/html; charset="UTF-8"
+------=_NextPart_000_0AE6_01D7B944.88C2C720
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0597_01D7A323.053E22A0";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I&#39;ll go ahead and switch to CentOS8-Stream once t=
-he current a-full is complete. If there=C2=A0is a need to follow RHEL8 exac=
-tly we can add a=C2=A0Rocky Linux worker in the=C2=A0future.=C2=A0</div><di=
-v><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Mon, Oct 4, 2021 at 11:28 AM Alexander Kanavin &lt;<a href=
-=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><=
-div>Since the original centos 8 is going away (support-wise) in less than 3=
- months, should we just convert all workers to stream and move on?</div><di=
-v><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Mon, 4 Oct 2021 at 18:27, Michael Halstea=
-d &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org" target=3D"_blank">mh=
-alstead@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr">This error was fixed upstream=
-=C2=A0<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1975562" tar=
-get=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D1975562</a> ke=
-rnel 4.18.0-325.x which has landed in CentOS8 Stream on centos8-ty-2 but no=
-t plain CentOS8 where the newest kernel is still at=C2=A04.18.0-305.x.<div>=
-<br></div><div>I&#39;ll reboot into the older=C2=A04.18.0-240.15 kernel aga=
-in on centos8-ty-1 as a fix for now.=C2=A0</div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 28, 2021 at 6:1=
-2 PM Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_bl=
-ank">anuj.mittal@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">Did we find out the reason why this was happening=
-? I have started<br>
-getting this error on Centos-8 while building hardknott.<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/63/build=
-s/4045" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/63/builds/4045</a><br>
-<br>
-Thanks,<br>
-<br>
-Anuj<br>
-<br>
-On Wed, 2021-06-16 at 23:45 +0100, Richard Purdie wrote:<br>
-&gt; On Sun, 2021-06-06 at 21:51 +0200, Alexander Kanavin wrote:<br>
-&gt; &gt; On Sun, 6 Jun 2021 at 01:10, Richard Purdie<br>
-&gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
-=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; &gt; I tried again with the autobuilder, still fails:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/bu=
-ilders/48/builds/3516" rel=3D"noreferrer" target=3D"_blank">https://autobui=
-lder.yoctoproject.org/typhoon/#/builders/48/builds/3516</a><br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; so whatever it is, it is still &quot;live&quot;.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; I did some digging. The issue happens when:<br>
-&gt; &gt; - host is centos8<br>
-&gt; &gt; - SDKMACHINE is i686 (e.g. cmake is 32 bit)<br>
-&gt; &gt; <br>
-&gt; &gt; Then there&#39;s a failing syscall attempting to set file times:<=
-br>
-&gt; &gt; utimensat_time64(AT_FDCWD, &quot;../install/usr/local/lib/cmake/a=
-ssimp-<br>
-&gt; &gt; 4.1/assimp-config.cmake&quot;,<br>
-&gt; &gt; [{tv_sec=3D1622966723, tv_nsec=3D6319439026193432576},<br>
-&gt; &gt; {tv_sec=3D1622966579, tv_nsec=3D17840053692309438464}], 0) =3D -1=
-<br>
-&gt; &gt; EINVAL (Invalid argument)<br>
-&gt; &gt; <br>
-&gt; &gt; On latest Fedora, there&#39;s no issue:<br>
-&gt; &gt; utimensat_time64(AT_FDCWD, &quot;../install2/usr/local/lib/cmake/=
-assimp-<br>
-&gt; &gt; 4.1/assimp-config.cmake&quot;,<br>
-&gt; &gt; [{tv_sec=3D1623002886, tv_nsec=3D6369724778172907520},<br>
-&gt; &gt; {tv_sec=3D1623002886, tv_nsec=3D17839174083007217664}], 0) =3D 0<=
-br>
-&gt; &gt; <br>
-&gt; &gt; utimensat_time64 only appeared with 5.1 kernels, however, 4.18 sh=
-ould<br>
-&gt; &gt; be returning ENOSYS in that case<br>
-&gt; &gt; probably?<br>
-&gt; <br>
-&gt; I hacked up a quick test bit of code (which makes assumptions=C2=A0<br=
->
-&gt; about 32 bit):<br>
-&gt; <br>
-&gt; #include &lt;unistd.h&gt;<br>
-&gt; #include &lt;sys/syscall.h&gt;<br>
-&gt; #include &lt;sys/types.h&gt;<br>
-&gt; #include &lt;sys/stat.h&gt;<br>
-&gt; #include &lt;fcntl.h&gt;<br>
-&gt; #include &lt;stdio.h&gt;<br>
-&gt; <br>
-&gt; struct timespec64 {<br>
-&gt; =C2=A0=C2=A0=C2=A0 long long=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0tv_sec;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* seconds */<b=
-r>
-&gt; =C2=A0=C2=A0=C2=A0 long long=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0tv_nsec;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* nanoseconds */<br>
-&gt; };<br>
-&gt; <br>
-&gt; int main() {<br>
-&gt; =C2=A0 int fd =3D open(&quot;foo&quot;, O_RDWR | O_CREAT, 0644);<br>
-&gt; =C2=A0 write(fd, &quot;foo&quot;, 3);<br>
-&gt; =C2=A0 struct timespec64 times[2] =3D {};<br>
-&gt; =C2=A0 times[0].tv_sec =3D 1622966723;<br>
-&gt; =C2=A0 times[0].tv_nsec =3D 631943;<br>
-&gt; =C2=A0 times[1].tv_sec =3D 1622966579;<br>
-&gt; =C2=A0 times[1].tv_nsec =3D 178400;<br>
-&gt; =C2=A0 int rc =3D syscall(SYS_utimensat_time64, fd, NULL, &amp;times[0=
-], 0);<br>
-&gt; =C2=A0 printf(&quot;rc=3D%d\n&quot;, rc);<br>
-&gt; =C2=A0 close(fd);<br>
-&gt; =C2=A0 return rc;<br>
-&gt; }<br>
-&gt; <br>
-&gt; built with &quot;gcc -m32 test-syscall.c -o test&quot; and run with &q=
-uot;strace<br>
-&gt; ./test&quot;.<br>
-&gt; This works on all the systems I tried it in. As does:<br>
-&gt; <br>
-&gt; <br>
-&gt; =C2=A0 times[0].tv_sec =3D 1;<br>
-&gt; =C2=A0 times[0].tv_nsec =3D 2;<br>
-&gt; =C2=A0 times[1].tv_sec =3D 3;<br>
-&gt; =C2=A0 times[1].tv_nsec =3D 4;<br>
-&gt; <br>
-&gt; however if you set (and ignore the compiler warning):<br>
-&gt; <br>
-&gt; =C2=A0 times[0].tv_sec =3D 1622966723;<br>
-&gt; =C2=A0 times[0].tv_nsec =3D 6319439026193432576;<br>
-&gt; =C2=A0 times[1].tv_sec =3D 1622966579;<br>
-&gt; =C2=A0 times[1].tv_nsec =3D 17840053692309438464;<br>
-&gt; <br>
-&gt; then you see EINVAL on the centos system but not on my ubuntu one. It<=
-br>
-&gt; will<br>
-&gt; do that until you reduce the values of tv_nsec right now. So it seems<=
-br>
-&gt; most=C2=A0<br>
-&gt; systems accept large tv_nsec values but the Centos one does not.<br>
-&gt; <br>
-&gt; I think tv_nsec may be being clamped to LONG_MAX of 4 bytes but should=
-<br>
-&gt; be=C2=A0<br>
-&gt; a LONG_LONG_MAX of 8 bytes on a 32 bit since the field is a 64 bit<br>
-&gt; long.<br>
-&gt; <br>
-&gt; Michael: Hopefully that gives you something to raise with them?<br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; <br>
-&gt; Richard<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#156435): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/156435" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/156435</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/83304703/1003=
-190" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/83304703/1003190</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:mhalstead@linuxfoundation.=
-org" target=3D"_blank">mhalstead@linuxfoundation.org</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Michael Halstead<div>Linux Foundation / Yocto Project</di=
-v><div>Systems Operations Engineer</div></div></div>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Michael Halstead<div>Linux Foun=
-dation / Yocto Project</div><div>Systems Operations Engineer</div></div></d=
-iv>
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>All,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
+reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
+PST tomorrow. (10/5)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
+Project Technical Team Meeting: We encourage people attending the =
+meeting to logon and announce themselves on the Yocto Project IRC =
+chancel during the meeting (optional):</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p><span =
+style=3D'color:#1F497D'>Yocto IRC: </span><a =
+href=3D"https://web.libera.chat/#yocto">https://web.libera.chat/#yocto</a=
+><span style=3D'color:#1F497D'>&nbsp;</span><o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Wiki: </span><a =
+href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
+w.yoctoproject.org/public-virtual-meetings/</a><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 9am on the first Tuesday =
+Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
+New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; Zoom Meeting: <a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
+<o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
+tracking the minutes at: </span><a =
+href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
+wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
+4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
+style=3D'color:#1F497D'> Please request access if you want to assist in =
+editing them.&nbsp; The world should have view access. </span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Thanks,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0AE6_01D7B944.88C2C720--
 
---000000000000b7277305cd8e9215--
 
