@@ -1,296 +1,176 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <abeltran@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADC0C433EF
-	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 00:25:25 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web09.18998.1633393524036239998
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1CBEC433EF
+	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 00:34:51 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.19122.1633394091083368354
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 17:25:24 -0700
+ Mon, 04 Oct 2021 17:34:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WsbwovRx;
- spf=pass (domain: gmail.com, ip: 209.85.216.42,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id
- na16-20020a17090b4c1000b0019f5bb661f9so1099426pjb.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Oct 2021 17:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=a6H6H3v2RGvlLTwcHE0tmqtw8mC8QRsjvVTkiVwt0DM=;
-        b=WsbwovRxP/ykcRf6cKOm+JJD+XB9LSW216lCzz61UfpYtdSSiFs0Z1ucSQuxFqJ5yS
-         tpqTP5XxiaH+YiLmsUpBp9HCMPSlZ9nZa/fG3KqWWSAjF/HMNp0XTPEo4cMFC+6b7rg0
-         YONaUl0TvFGsNU6uMuyZ6bIQPFrVVNya271WwvmgMHuOxGojUoN5gocmE149IQpM27qr
-         z0tpK8rButFoDta7dO9eIk9fTILxuuOUajhTX20SwbeZaUimBjNru4vKPEiMs5hyJ0Lf
-         6ddzHr94o9udhaLo+JRwrZFSoR/4BZIT5apYgkUTDkVLLapo9JfkT8u4/MRL+Wonbcva
-         cLPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=a6H6H3v2RGvlLTwcHE0tmqtw8mC8QRsjvVTkiVwt0DM=;
-        b=5fpk008hxZsSOtqiILNjcAEE/cb7xqxncML/+0I8iSKJvKOkd8O/JpuPIrIpQtKVQP
-         pxuM7LShlaST4ARe8rXeBy/ura+IXFOcYB5tN+0A83cKip+DmPd/0tFeUT8STtgUzlJA
-         nI09oGlevR7/UQjPQhehvqViFcq2TkAm7W189kmDu9X08vEvn58Zf1PVqnNvPYdulo9s
-         ncFr2eyC+qdzHdCAseIxV/jfRp57LowWBVLjGlFdd2VqyaN5s9RVPgkU+6FS+TBOMF3k
-         P3EimF794p04k5Wo+qNtxZFfchpfFFHanEzUhVRdJ9w4LyKcVam1PflN7ThU7zeOHCFd
-         OEiQ==
-X-Gm-Message-State: AOAM5336O5ti3xkonWB5DcNSw6RLYY4LFdhGep8ZY2NY9gpyQ9O5znDX
-	umOGCBdSR6gVjrofS19aHSw=
-X-Google-Smtp-Source: 
- ABdhPJw0XNVKZgoMccPHRe756ne4OqirjR4BgqEBLsP2pHIwiw44zZac5rxrG8Uy3Dq+DPF0eycJow==
-X-Received: by 2002:a17:902:db0b:b0:13e:5dde:d35b with SMTP id
- m11-20020a170902db0b00b0013e5dded35bmr2409068plx.44.1633393523588;
-        Mon, 04 Oct 2021 17:25:23 -0700 (PDT)
-Received: from skjolley ([2600:8800:1d92:f800:a908:3bc8:effa:7d71])
-        by smtp.gmail.com with ESMTPSA id
- m28sm15361130pgl.9.2021.10.04.17.25.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Oct 2021 17:25:23 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 4 Oct 2021 17:25:23 -0700
-Message-ID: <0af401d7b97f$7d2411e0$776c35a0$@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0AF5_01D7B944.D0C539E0"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHV2jT7yl2CujnA3cbBDY0JwGopJA==
-Content-Language: en-us
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=khlnVgGK;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: abeltran@linux.microsoft.com)
+Received: from
+ abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net
+ (unknown [20.94.235.175])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6C21420B861E;
+	Mon,  4 Oct 2021 17:34:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6C21420B861E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1633394090;
+	bh=uSz6PAr2f6HLGkdGBF6qOGRLRaG1GsPAdMKAC2DYq2A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=khlnVgGKs+wl37NTsyKgJmm8fIBK7penUK7zlM+Ejb2ED10ir0ur0y1GsY4N6BxrR
+	 XQba+rG5f7ZMoKY7Qtv4bGLV44La2psgaL8fmzWJgsH5A/niqofsFwKrWS+iHMTeCa
+	 pSV0wYTRR7N4SnvE8PvCcjSGkwZyb7AAcqpuHUfA=
+From: Andres Beltran <abeltran@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andres Beltran <abeltran@linux.microsoft.com>
+Subject: [PATCH v2] buildhistory: Fix package output files for SDKs
+Date: Tue,  5 Oct 2021 00:34:15 +0000
+Message-Id: <20211005003415.2212-1-abeltran@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 00:25:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 00:34:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156635
+ https://lists.openembedded.org/g/openembedded-core/message/156636
 
-This is a multipart message in MIME format.
+Currently, installed packages are listed for images in image-info.txt, but
+not for SDKs in sdk-info.txt. Add TOOLCHAIN_HOST_TASK and
+TOOLCHAIN_TARGET_TASK to the output variables in sdk-info.txt.
 
-------=_NextPart_000_0AF5_01D7B944.D0C539E0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Moreover, package output files for the SDK host are empty because
+PKGDATA_DIR defaults to the target directory. Fix this bug and create a new
+variable called PKGDATA_DIR_SDK which stores the correct path for the SDK
+host package data.
 
-All,
+Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+---
+ meta/classes/buildhistory.bbclass       | 21 ++++++++++++++++-----
+ meta/classes/cross-canadian.bbclass     |  2 +-
+ meta/classes/nativesdk.bbclass          |  2 +-
+ meta/conf/bitbake.conf                  |  1 +
+ meta/lib/oe/package_manager/__init__.py |  2 +-
+ 5 files changed, 20 insertions(+), 8 deletions(-)
 
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index a613306270..7c44fec2d1 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -442,11 +442,16 @@ def buildhistory_list_installed(d, rootfs_type="image"):
+     else:
+         pkgs = sdk_list_installed_packages(d, rootfs_type == "sdk_target")
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
++    if rootfs_type == "sdk_host":
++        pkgdata_dir = d.getVar('PKGDATA_DIR_SDK')
++    else:
++        pkgdata_dir = d.getVar('PKGDATA_DIR')
++
+     for output_type, output_file in process_list:
+         output_file_full = os.path.join(d.getVar('WORKDIR'), output_file)
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 392
-unassigned or newcomer bugs.
-
+         with open(output_file_full, 'w') as output:
+-            output.write(format_pkg_list(pkgs, output_type, d.getVar('PKGDATA_DIR')))
++            output.write(format_pkg_list(pkgs, output_type, pkgdata_dir))
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
-being in "3.4" and then "3.5".
-
+ python buildhistory_list_installed_image() {
+     buildhistory_list_installed(d)
+@@ -496,13 +501,19 @@ buildhistory_get_installed() {
+ 	echo "}" >>  $1/depends.dot
+ 	rm $1/depends.tmp
  
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
++	# Set correct pkgdatadir
++	pkgdatadir=${PKGDATA_DIR}
++	if [ "$2" == "sdk" ] && [ "$3" == "host" ]; then
++		pkgdatadir="${PKGDATA_DIR_SDK}"
++	fi
++
+ 	# Produce installed package sizes list
+-	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PKGSIZE" -n -f $pkgcache > $1/installed-package-sizes.tmp
++	oe-pkgdata-util -p $pkgdatadir read-value "PKGSIZE" -n -f $pkgcache > $1/installed-package-sizes.tmp
+ 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
+ 	rm $1/installed-package-sizes.tmp
  
-
-Thanks,
-
+ 	# Produce package info: runtime_name, buildtime_name, recipe, version, size
+-	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
++	oe-pkgdata-util -p $pkgdatadir read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
+ 	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
+ 	rm $1/installed-package-info.tmp
  
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
+@@ -542,7 +553,7 @@ buildhistory_get_sdk_installed() {
+ 		return
+ 	fi
  
-
-
-------=_NextPart_000_0AF5_01D7B944.D0C539E0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0006_01D7B3B0.528590A0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 392 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0AF5_01D7B944.D0C539E0--
+-	buildhistory_get_installed ${BUILDHISTORY_DIR_SDK}/$1 sdk
++	buildhistory_get_installed ${BUILDHISTORY_DIR_SDK}/$1 sdk $1
+ }
+ 
+ buildhistory_get_sdk_installed_host() {
+@@ -773,7 +784,7 @@ def buildhistory_get_imagevars(d):
+ def buildhistory_get_sdkvars(d):
+     if d.getVar('BB_WORKERCONTEXT') != '1':
+         return ""
+-    sdkvars = "DISTRO DISTRO_VERSION SDK_NAME SDK_VERSION SDKMACHINE SDKIMAGE_FEATURES BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_EXCLUDE"
++    sdkvars = "DISTRO DISTRO_VERSION SDK_NAME SDK_VERSION SDKMACHINE SDKIMAGE_FEATURES TOOLCHAIN_HOST_TASK TOOLCHAIN_TARGET_TASK BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_EXCLUDE"
+     if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext':
+         # Extensible SDK uses some additional variables
+         sdkvars += " SDK_LOCAL_CONF_WHITELIST SDK_LOCAL_CONF_BLACKLIST SDK_INHERIT_BLACKLIST SDK_UPDATE_URL SDK_EXT_TYPE SDK_RECRDEP_TASKS SDK_INCLUDE_PKGDATA SDK_INCLUDE_TOOLCHAIN"
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index ffbc2167e3..ac82e86356 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -169,7 +169,7 @@ USE_NLS = "${SDKUSE_NLS}"
+ # and not any particular tune that is enabled.
+ TARGET_ARCH[vardepsexclude] = "TUNE_ARCH"
+ 
+-PKGDATA_DIR = "${TMPDIR}/pkgdata/${SDK_SYS}"
++PKGDATA_DIR = "${PKGDATA_DIR_SDK}"
+ # If MLPREFIX is set by multilib code, shlibs
+ # points to the wrong place so force it
+ SHLIBSDIRS = "${PKGDATA_DIR}/nativesdk-shlibs2"
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index c66de8c787..14e210562f 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -31,7 +31,7 @@ PACKAGE_ARCHS = "${SDK_PACKAGE_ARCHS}"
+ DEPENDS:append = " chrpath-replacement-native"
+ EXTRANATIVEPATH += "chrpath-native"
+ 
+-PKGDATA_DIR = "${TMPDIR}/pkgdata/${SDK_SYS}"
++PKGDATA_DIR = "${PKGDATA_DIR_SDK}"
+ 
+ HOST_ARCH = "${SDK_ARCH}"
+ HOST_VENDOR = "${SDK_VENDOR}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f3ff5b776b..9274322e3a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -415,6 +415,7 @@ DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+ 
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
++PKGDATA_DIR_SDK = "${TMPDIR}/pkgdata/${SDK_SYS}"
+ 
+ ##################################################################
+ # SDK variables.
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index 8f7b60e077..80bc1a6bc6 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -321,7 +321,7 @@ class PackageManager(object, metaclass=ABCMeta):
+         # TODO don't have sdk here but have a property on the superclass
+         # (and respect in install_complementary)
+         if sdk:
+-            pkgdatadir = self.d.expand("${TMPDIR}/pkgdata/${SDK_SYS}")
++            pkgdatadir = self.d.getVar("PKGDATA_DIR_SDK")
+         else:
+             pkgdatadir = self.d.getVar("PKGDATA_DIR")
+ 
+-- 
+2.17.1
 
 
