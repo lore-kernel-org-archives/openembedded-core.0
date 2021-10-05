@@ -1,310 +1,230 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jainsaloni0918@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02F45C433F5
-	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 13:14:23 +0000 (UTC)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by mx.groups.io with SMTP id smtpd.web08.132.1633439661890542949
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC05CC433F5
+	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 15:02:40 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.1861.1633446160425647193
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Oct 2021 06:14:22 -0700
+ Tue, 05 Oct 2021 08:02:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VLl/0ALE;
- spf=pass (domain: gmail.com, ip: 209.85.217.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f51.google.com with SMTP id l19so23593032vst.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JILH64pl;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43,
+ mailfrom: jainsaloni0918@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id
+ d13-20020a17090ad3cd00b0019e746f7bd4so2267741pjw.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Oct 2021 06:14:21 -0700 (PDT)
+ Tue, 05 Oct 2021 08:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T1iV8+pUnhzzjyJshKWy14WvJOs46nAefWZGNYjVF84=;
-        b=VLl/0ALE/mzN1i9LHS2QDMQyI7t+rLWUk2pM1EZMSGGGBJZik9jnXniR8uG/ziqqeN
-         r8XvgrW3kGzXzxon4ZIUoWKDhFgRh0cdYl5BX1F+U54m30XFYKCq5XNNLVBfD3vBGeal
-         RSmUJsM7tcp+wqw8hwvzcoRIH0OoFUZjSV127zUSEsc2jJU1slcn05oTbSghk4pRAFHZ
-         YG6ynLvR82p44Wk3Fnblf801aTDjZuACbUgm47o5pqAg5U6kEE4JPST5/zu3Hci25haZ
-         MbXfOtGxGsnj9eepG/KZXZHMOdOgH7A/2api3a1NUJa53OLn5M1MNawaPZYujRcPDXg5
-         CJUQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=FJoe0yvmxYBZ+rrCrq4BSYnU7pk0gGYBebpCvUwehbE=;
+        b=JILH64plwpliKsKi397U4oHbfYT8nG79ZPyiFp561sAXsT8JCNZjlEIeJ+OTxmbavw
+         DGrO9w6xvxcSbJNRpLVUuSfiz8uL/WZkworLdKaLWWb9/IZD34OGyhJ0CK+BVysFxkeN
+         AIYvo8U5J9DxrGPcRy6oC0wovXbOclFeRKoCDaCUhflPdCG4WUkRSDUIL5+4pkMpjrmG
+         tzS/buD/BKECCjAmKgEG2//dr57ICKrJ3od8dTaPln4Uu/8yNSrLqo9COxx/enAMasTD
+         Ku2M8qOP6LDqub7v2EZ/KCAVZxqv0gLPZC8k9xWO5X4cDSDyOFbQK64554nEIE4+AeA6
+         iaEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T1iV8+pUnhzzjyJshKWy14WvJOs46nAefWZGNYjVF84=;
-        b=lgjtqspJXsVNeJQLARgFH32BBeJW2S1+BdRqmbgTeJ7/3JEwE0XlvBlXI4l/QC14sZ
-         Xl/81/q2oq+ANis8MIB4c0LZtdOeXtoq3B8ZmfsqSb/BXLHepzl+q/RDL0ZYW6KUbgdR
-         F92e02j88NLCce5ju6bsxu1006zQ7rtFrBHbJhCYSQ9yFYTw+GZzeoYuwW2tHMo7laRb
-         y9CKfPRskTaRK5JCh85gFBoTNx1adimKwx6I1UmYBCtgbGH8dqJvIaCDbBknBMCpaiFZ
-         ydlFAAU4FvqWjpMzIbFcBvtQUFXkWn8VcT/Yz/uCxVDKDoIuhEmhXDQKUY0NZRPj+IaB
-         tMzg==
-X-Gm-Message-State: AOAM533F+/qJ9Y+DOOPE4EdlxtTKWImbBMjRNBox+tIYCss3lpFUjB4K
-	PKWStoY+Orbn4AZ4YwfcbC3KYKdMz6Dr3y4QZkM=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FJoe0yvmxYBZ+rrCrq4BSYnU7pk0gGYBebpCvUwehbE=;
+        b=dNNqsASc5C6yVYEfsZH1bATstF2/Ps6Y6B4DyaWBdXj9LYexvJDM4rg0oEp0AadIlt
+         f4RaoU96eG1m+t0y5zgbHhGJcXXR6M2/xXPY/2hkBltvhAuq1aX6jixmlrPs3+tXa3Bd
+         gyYdQfOuTS56P/035D+OeAoXIanKr7JayELRu99KDy5xvMHBfUVnVBnWJorytEV0/VRh
+         jGF74uYBYDvTECr13/Me1u4TeUxyXgUpnQZv9d7z3LXqkUZm0tx/ywadd0WB7Jt9osWt
+         G8Irc/ki1oF5/Omaed4DBP/e64ebxABTZMII6au7XXaMpJWtILlLsLOeEvOLSQg3IjIp
+         1sKg==
+X-Gm-Message-State: AOAM532CswzGt4LSDrCTbDFqo1MiB16qwRGCIyp4kFI0s09XtNGzL1lW
+	7Bxx1zBPPo4fU1zyElU/MKHRzQ/ue82fwA==
 X-Google-Smtp-Source: 
- ABdhPJziI0Wh+tw5azCNt5DYS9J1im4jetYKLfH00LaQ5M2sPruStjJkq4nmbHf7j53mJpzcz3N2iCh/yvfDajAR0oc=
-X-Received: by 2002:a67:bb04:: with SMTP id m4mr18281284vsn.18.1633439661067;
- Tue, 05 Oct 2021 06:14:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
- <6318d76222b819d3a165d405fc48dbcbadf29085.camel@linuxfoundation.org>
- <50d4d79f-a7cd-fd0a-0c6d-597b6dc4ca6a@weidmueller.com>
- <16AB247E1F8222C3.20282@lists.openembedded.org>
-In-Reply-To: <16AB247E1F8222C3.20282@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Oct 2021 15:14:09 +0200
-Message-ID: 
- <CANNYZj-9E3G+CKvytvEdmnPQ8qT0BK-Mwxr5=NZaziUc10dZ+g@mail.gmail.com>
-Subject: Re: [OE-core] Improve npm support to run build scripts
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c291b305cd9ace06"
+ ABdhPJwtVJEIluRNlVAp0hCADEzbQfMuspNqh10tphVbc9YdSq9RHUyRGS92SxqZtVrDMcLvDFi/Yw==
+X-Received: by 2002:a17:902:7d95:b0:13e:1272:884a with SMTP id
+ a21-20020a1709027d9500b0013e1272884amr5776108plm.34.1633446159413;
+        Tue, 05 Oct 2021 08:02:39 -0700 (PDT)
+Received: from localhost.localdomain ([27.97.41.185])
+        by smtp.gmail.com with ESMTPSA id
+ d14sm17929331pfq.61.2021.10.05.08.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 08:02:39 -0700 (PDT)
+From: Saloni Jain <jainsaloni0918@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	Saloni <salonij@kpit.com>
+Subject: [poky][dunfell][PATCH] ffmpeg: Add fix for CVEs
+Date: Tue,  5 Oct 2021 11:02:21 -0400
+Message-Id: <20211005150221.26982-1-jainsaloni0918@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 13:14:23 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 15:02:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156647
+ https://lists.openembedded.org/g/openembedded-core/message/156648
 
---000000000000c291b305cd9ace06
-Content-Type: text/plain; charset="UTF-8"
+From: Saloni <salonij@kpit.com>
 
-'devtool add' of course. Test case is in
-meta/lib/oeqa/selftest/cases/devtool.py
+Add fix for below CVE:
+CVE-2021-3566
+Link: [http://git.videolan.org/?p=ffmpeg.git;a=patch;h=3bce9e9b3ea35c54bacccc793d7da99ea5157532]
 
-Alex
+CVE-2021-38291
+Link: [http://git.videolan.org/?p=ffmpeg.git;a=patch;h=e01d306c647b5827102260b885faa223b646d2d1]
 
-On Tue, 5 Oct 2021 at 15:10, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+Signed-off-by: Saloni Jain <jainsaloni0918@gmail.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2021-3566.patch         | 61 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2021-38291.patch        | 53 ++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  4 +-
+ 3 files changed, 117 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-3566.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-38291.patch
 
-> I think the supposed workflow with the new npm.class was to use 'devtool
-> create' which would run some npm magic to to create a single recipe that
-> has all of the npm-fetched dependencies inside SRC_URI. Have you tried that?
->
-> A layer with thousands of recipes seems totally intractable.
->
-> Alex
->
-> On Tue, 5 Oct 2021 at 14:48, Stefan Herbrechtsmeier <
-> stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
->
->> Hi Richard,
->>
->> Am 05.10.2021 um 13:09 schrieb Richard Purdie:
->> > Thanks for bring this up, I've been wondering on the status of our npm
->> support.
->>
->> Do you know any npm users?
->>
->> > On Tue, 2021-10-05 at 12:04 +0200, Stefan Herbrechtsmeier wrote:
->> >> I must improve the npm support for our use cases but need some
->> >> fundamental decisions to proceed. I need to build express and angular
->> >> applications from git repositories.
->> >>
->> >> I have the following changes in my pipeline until now:
->> >> - Support npm packages with missing execute mode for directories
->> >> - Reduce command calls in npm run
->> >> - Add support for local tarball and local link sources
->> >> - Rework crunch license to recognize more variants
->> >> - Move known license checksums to CSV file
->> >> - Pass README as fallback to guess license if a license is missing
->> >> - Add support to pass build arguments to npm install
->> >> - Add support to run build scripts with native packages
->> >> - Parallelize the populate of the npm cache
->> >>
->> >> The build (install) of npm packages leads to problems because of old
->> >> versions in the dependency tree. For example, older versions of
->> packages
->> >> are incompatible with the Node.js version and older versions of
->> node-gyp
->> >> require Python 2.
->> >
->> > Hopefully over time the python2 issue should reduce and fade at least.
->> The
->> > node.js version is trickier.
->>
->> The current implementation works like an project with embedded external
->> dependencies. I both cases I have to patch the embedded dependencies or
->> replace them with external DEPENDS.
->>
->> >> I see three solutions to integrate npm packages:
->> >> - Build npm packages from the npm project outside of OE and only fetch
->> >> the data.
->> >> - Fork the npm project repository and fix everything inside the fork.
->> >> Use the fork direct or create patches from the fork to build inside OE.
->> >> - Create recipes per project and incompatible version to fix everything
->> >> in OE and reduce redundancy.
->> >>
->> >> The last solution keeps everything in OE and benefit from the existing
->> >> OE functions like download proxy as well as license, CVE and version
->> >> check. But it increases the initial costs and makes only sense if there
->> >> is an interest in an meta-nodejs layer.
->> >
->> > The latter solution sounds like the only really viable option from an OE
->> > perspective since we do need the proxy/CVE/license handling, it is a
->> huge part
->> > of our value and without it, it isn't really OE.
->>
->> The problem are the many different packages. An Angular project could
->> have more than 1000 different project. Thereby some dependencies only
->> differ in the version or needed only for development like a development
->> server or a unit test framework.
->>
->> > Creating a meta-nodejs layer isn't an issue if there are people willing
->> to look
->> > after it.
->>
->> Is a layer with more more than 1000 recipes thinkable?
->>
->> Regards
->>    Stefan
->>
->>
->>
->>
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156646):
-> https://lists.openembedded.org/g/openembedded-core/message/156646
-> Mute This Topic: https://lists.openembedded.org/mt/86089523/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-3566.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-3566.patch
+new file mode 100644
+index 0000000000..abfc024820
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-3566.patch
+@@ -0,0 +1,61 @@
++From 3bce9e9b3ea35c54bacccc793d7da99ea5157532 Mon Sep 17 00:00:00 2001
++From: Paul B Mahol <onemda@gmail.com>
++Date: Mon, 27 Jan 2020 21:53:08 +0100
++Subject: [PATCH] avformat/tty: add probe function
++
++CVE: CVE-2021-3566
++Signed-off-by: Saloni Jain <salonij@kpit.com>
++
++Upstream-Status: Backport [http://git.videolan.org/?p=ffmpeg.git;a=patch;h=3bce9e9b3ea35c54bacccc793d7da99ea5157532]
++Comment: No changes/refreshing done.
++---
++ libavformat/tty.c | 21 ++++++++++++++++++++-
++ 1 file changed, 20 insertions(+), 1 deletion(-)
++
++diff --git a/libavformat/tty.c b/libavformat/tty.c
++index 8d48f2c45c12..60f7e9f87ee7 100644
++--- a/libavformat/tty.c
+++++ b/libavformat/tty.c
++@@ -34,6 +34,13 @@
++ #include "internal.h"
++ #include "sauce.h"
++ 
+++static int isansicode(int x)
+++{
+++    return x == 0x1B || x == 0x0A || x == 0x0D || (x >= 0x20 && x < 0x7f);
+++}
+++
+++static const char tty_extensions[31] = "ans,art,asc,diz,ice,nfo,txt,vt";
+++
++ typedef struct TtyDemuxContext {
++     AVClass *class;
++     int chars_per_frame;
++@@ -42,6 +49,17 @@ typedef struct TtyDemuxContext {
++     AVRational framerate; /**< Set by a private option. */
++ } TtyDemuxContext;
++ 
+++static int read_probe(const AVProbeData *p)
+++{
+++    int cnt = 0;
+++
+++    for (int i = 0; i < p->buf_size; i++)
+++        cnt += !!isansicode(p->buf[i]);
+++
+++    return (cnt * 100LL / p->buf_size) * (cnt > 400) *
+++        !!av_match_ext(p->filename, tty_extensions);
+++}
+++
++ /**
++  * Parse EFI header
++  */
++@@ -153,8 +171,9 @@ AVInputFormat ff_tty_demuxer = {
++     .name           = "tty",
++     .long_name      = NULL_IF_CONFIG_SMALL("Tele-typewriter"),
++     .priv_data_size = sizeof(TtyDemuxContext),
+++    .read_probe     = read_probe,
++     .read_header    = read_header,
++     .read_packet    = read_packet,
++-    .extensions     = "ans,art,asc,diz,ice,nfo,txt,vt",
+++    .extensions     = tty_extensions,
++     .priv_class     = &tty_demuxer_class,
++ };
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-38291.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-38291.patch
+new file mode 100644
+index 0000000000..e5be985fc3
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-38291.patch
+@@ -0,0 +1,53 @@
++From e01d306c647b5827102260b885faa223b646d2d1 Mon Sep 17 00:00:00 2001
++From: James Almer <jamrial@gmail.com>
++Date: Wed, 21 Jul 2021 01:02:44 -0300
++Subject: [PATCH] avcodec/utils: don't return negative values in
++ av_get_audio_frame_duration()
++
++In some extrme cases, like with adpcm_ms samples with an extremely high channel
++count, get_audio_frame_duration() may return a negative frame duration value.
++Don't propagate it, and instead return 0, signaling that a duration could not
++be determined.
++
++CVE: CVE-2021-3566
++Fixes ticket #9312
++Signed-off-by: James Almer <jamrial@gmail.com>
++Signed-off-by: Saloni Jain <salonij@kpit.com>
++
++Upstream-Status: Backport [http://git.videolan.org/?p=ffmpeg.git;a=patch;h=e01d306c647b5827102260b885faa223b646d2d1]
++Comment: No changes/refreshing done.
++---
++ libavcodec/utils.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/libavcodec/utils.c b/libavcodec/utils.c
++index 5fad782f5a..cfc07cbcb8 100644
++--- a/libavcodec/utils.c
+++++ b/libavcodec/utils.c
++@@ -810,20 +810,22 @@ static int get_audio_frame_duration(enum AVCodecID id, int sr, int ch, int ba,
++ 
++ int av_get_audio_frame_duration(AVCodecContext *avctx, int frame_bytes)
++ {
++-    return get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
+++    int duration = get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
++                                     avctx->channels, avctx->block_align,
++                                     avctx->codec_tag, avctx->bits_per_coded_sample,
++                                     avctx->bit_rate, avctx->extradata, avctx->frame_size,
++                                     frame_bytes);
+++    return FFMAX(0, duration);
++ }
++ 
++ int av_get_audio_frame_duration2(AVCodecParameters *par, int frame_bytes)
++ {
++-    return get_audio_frame_duration(par->codec_id, par->sample_rate,
+++    int duration = get_audio_frame_duration(par->codec_id, par->sample_rate,
++                                     par->channels, par->block_align,
++                                     par->codec_tag, par->bits_per_coded_sample,
++                                     par->bit_rate, par->extradata, par->frame_size,
++                                     frame_bytes);
+++    return FFMAX(0, duration);
++ }
++ 
++ #if !HAVE_THREADS
++-- 
++2.20.1
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+index 0e359848fa..1d6f2e528b 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+@@ -27,7 +27,9 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+            file://CVE-2020-12284.patch \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
+-           "
++           file://CVE-2021-3566.patch \
++           file://CVE-2021-38291.patch \
++          "
+ SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
+ SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
+ 
+-- 
+2.17.1
 
---000000000000c291b305cd9ace06
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>&#39;devtool add&#39; of course. Test case is in meta=
-/lib/oeqa/selftest/cases/devtool.py</div><div><br></div><div>Alex<br></div>=
-</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-On Tue, 5 Oct 2021 at 15:10, Alexander Kanavin via <a href=3D"http://lists.=
-openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"=
-mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr"><div>I think the supposed workflow with the new npm.class wa=
-s to use &#39;devtool create&#39; which would run some npm magic to to crea=
-te a single recipe that has all of the npm-fetched dependencies inside SRC_=
-URI. Have you tried that?</div><div><br></div><div>A layer with thousands o=
-f recipes seems totally intractable.<br></div><div><br></div><div>Alex<br><=
-/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Tue, 5 Oct 2021 at 14:48, Stefan Herbrechtsmeier &lt;<a href=3D"mai=
-lto:stefan.herbrechtsmeier-oss@weidmueller.com" target=3D"_blank">stefan.he=
-rbrechtsmeier-oss@weidmueller.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Hi Richard,<br>
-<br>
-Am 05.10.2021 um 13:09 schrieb Richard Purdie:<br>
-&gt; Thanks for bring this up, I&#39;ve been wondering on the status of our=
- npm support.<br>
-<br>
-Do you know any npm users?<br>
-<br>
-&gt; On Tue, 2021-10-05 at 12:04 +0200, Stefan Herbrechtsmeier wrote:<br>
-&gt;&gt; I must improve the npm support for our use cases but need some<br>
-&gt;&gt; fundamental decisions to proceed. I need to build express and angu=
-lar<br>
-&gt;&gt; applications from git repositories.<br>
-&gt;&gt;<br>
-&gt;&gt; I have the following changes in my pipeline until now:<br>
-&gt;&gt; - Support npm packages with missing execute mode for directories<b=
-r>
-&gt;&gt; - Reduce command calls in npm run<br>
-&gt;&gt; - Add support for local tarball and local link sources<br>
-&gt;&gt; - Rework crunch license to recognize more variants<br>
-&gt;&gt; - Move known license checksums to CSV file<br>
-&gt;&gt; - Pass README as fallback to guess license if a license is missing=
-<br>
-&gt;&gt; - Add support to pass build arguments to npm install<br>
-&gt;&gt; - Add support to run build scripts with native packages<br>
-&gt;&gt; - Parallelize the populate of the npm cache<br>
-&gt;&gt;<br>
-&gt;&gt; The build (install) of npm packages leads to problems because of o=
-ld<br>
-&gt;&gt; versions in the dependency tree. For example, older versions of pa=
-ckages<br>
-&gt;&gt; are incompatible with the Node.js version and older versions of no=
-de-gyp<br>
-&gt;&gt; require Python 2.<br>
-&gt; <br>
-&gt; Hopefully over time the python2 issue should reduce and fade at least.=
- The<br>
-&gt; node.js version is trickier.<br>
-<br>
-The current implementation works like an project with embedded external <br=
->
-dependencies. I both cases I have to patch the embedded dependencies or <br=
->
-replace them with external DEPENDS.<br>
-<br>
-&gt;&gt; I see three solutions to integrate npm packages:<br>
-&gt;&gt; - Build npm packages from the npm project outside of OE and only f=
-etch<br>
-&gt;&gt; the data.<br>
-&gt;&gt; - Fork the npm project repository and fix everything inside the fo=
-rk.<br>
-&gt;&gt; Use the fork direct or create patches from the fork to build insid=
-e OE.<br>
-&gt;&gt; - Create recipes per project and incompatible version to fix every=
-thing<br>
-&gt;&gt; in OE and reduce redundancy.<br>
-&gt;&gt;<br>
-&gt;&gt; The last solution keeps everything in OE and benefit from the exis=
-ting<br>
-&gt;&gt; OE functions like download proxy as well as license, CVE and versi=
-on<br>
-&gt;&gt; check. But it increases the initial costs and makes only sense if =
-there<br>
-&gt;&gt; is an interest in an meta-nodejs layer.<br>
-&gt; <br>
-&gt; The latter solution sounds like the only really viable option from an =
-OE<br>
-&gt; perspective since we do need the proxy/CVE/license handling, it is a h=
-uge part<br>
-&gt; of our value and without it, it isn&#39;t really OE.<br>
-<br>
-The problem are the many different packages. An Angular project could <br>
-have more than 1000 different project. Thereby some dependencies only <br>
-differ in the version or needed only for development like a development <br=
->
-server or a unit test framework.<br>
-<br>
-&gt; Creating a meta-nodejs layer isn&#39;t an issue if there are people wi=
-lling to look<br>
-&gt; after it.<br>
-<br>
-Is a layer with more more than 1000 recipes thinkable?<br>
-<br>
-Regards<br>
-=C2=A0 =C2=A0Stefan<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#156646): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/156646" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/156646</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86089523/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86089523/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000c291b305cd9ace06--
 
