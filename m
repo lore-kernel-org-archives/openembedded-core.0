@@ -1,108 +1,83 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7000CC433F5
-	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 08:33:51 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web12.22841.1633422829880687202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4688C433F5
+	for <webhook@archiver.kernel.org>; Tue,  5 Oct 2021 08:41:58 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web08.22884.1633423317013531497
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Oct 2021 01:33:50 -0700
+ Tue, 05 Oct 2021 01:41:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 1C6B9C0007;
-	Tue,  5 Oct 2021 08:33:47 +0000 (UTC)
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 3A9AA24000E;
+	Tue,  5 Oct 2021 08:41:54 +0000 (UTC)
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: [PATCH] devpyshell: rename to pydevshell
-Date: Tue,  5 Oct 2021 10:33:34 +0200
-Message-Id: <20211005083334.888895-1-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] libevent,btrfs-tools: fix Upstream-Status tag
+Date: Tue,  5 Oct 2021 10:41:41 +0200
+Message-Id: <20211005084141.136784-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 08:33:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Oct 2021 08:41:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156637
+ https://lists.openembedded.org/g/openembedded-core/message/156638
 
-For consistency with "pydevshell" which is also used.
-This addresses [YOCTO #14531]
-
-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- meta/classes/devshell.bbclass    | 10 +++++-----
- meta/conf/documentation.conf     |  2 +-
- scripts/oepydevshell-internal.py |  2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ ...1-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch | 2 +-
+ ...003-test-mark-util-monotonic_prc_fallback-as-retriable.patch | 2 +-
+ ...test-retriable-tests-are-marked-failed-only-when-all-a.patch | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-index 76dd0b42ee..62dc958d9a 100644
---- a/meta/classes/devshell.bbclass
-+++ b/meta/classes/devshell.bbclass
-@@ -34,7 +34,7 @@ python () {
-        d.delVarFlag("do_devshell", "fakeroot")
- } 
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+index d7188881da8d..f57089e963fe 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+@@ -18,7 +18,7 @@ add an explicit include of const.h to pickup the macro:
+ This is safe for older kernel's as well, since the header still
+ exists, and is valid to include.
  
--def devpyshell(d):
-+def pydevshell(d):
+-Upstream-status: OE Specific [mips64 + musl + libc-headers]
++Upstream-Status: OE Specific [mips64 + musl + libc-headers]
  
-     import code
-     import select
-@@ -140,17 +140,17 @@ def devpyshell(d):
-                 os.kill(child, signal.SIGTERM)
-                 break
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+ ---
+diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+index 8a2c78983e1d..519bccf8d794 100644
+--- a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
++++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+@@ -5,7 +5,7 @@ Subject: [PATCH] test: mark util/monotonic_prc_fallback as retriable
  
--python do_devpyshell() {
-+python do_pydevshell() {
-     import signal
+ Refs: #1193
  
-     try:
--        devpyshell(d)
-+        pydevshell(d)
-     except SystemExit:
-         # Stop the SIGTERM above causing an error exit code
-         return
-     finally:
-         return
- }
--addtask devpyshell after do_patch
-+addtask pydevshell after do_patch
+-Upstream-status: Backported
++Upstream-Status: Backported
+ ---
+  test/regress_util.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+index ae7db0b7aa85..e453c80d7fcd 100644
+--- a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
++++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+@@ -6,7 +6,7 @@ Subject: [PATCH] test: retriable tests are marked failed only when all
  
--do_devpyshell[nostamp] = "1"
-+do_pydevshell[nostamp] = "1"
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index c5a38b0764..80ad8e10d5 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -17,7 +17,7 @@ do_compile_ptest_base[doc] = "Compiles the runtime test suite included in the so
- do_configure[doc] = "Configures the source by enabling and disabling any build-time and configuration options for the software being built"
- do_configure_ptest_base[doc] = "Configures the runtime test suite included in the software being built"
- do_deploy[doc] = "Writes deployable output files to the deploy directory"
--do_devpyshell[doc] = "Starts an interactive Python shell for development/debugging"
-+do_pydevshell[doc] = "Starts an interactive Python shell for development/debugging"
- do_devshell[doc] = "Starts a shell with the environment set up for development/debugging"
- do_diffconfig[doc] = "Compares the old and new config files after running do_menuconfig for the kernel"
- do_fetch[doc] = "Fetches the source code"
-diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
-index 96c078ef3d..e3c35bbe2c 100755
---- a/scripts/oepydevshell-internal.py
-+++ b/scripts/oepydevshell-internal.py
-@@ -43,7 +43,7 @@ nonblockingfd(pty)
- nonblockingfd(sys.stdin)
+ Fixes: #1193
  
+-Upstream-status: Pending
++Upstream-Status: Pending
  
--histfile = os.path.expanduser("~/.oedevpyshell-history")
-+histfile = os.path.expanduser("~/.oepydevshell-history")
- readline.parse_and_bind("tab: complete")
- try:
-     readline.read_history_file(histfile)
+ Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+ ---
 -- 
-2.25.1
+2.31.1
 
 
