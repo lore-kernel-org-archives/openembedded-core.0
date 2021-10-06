@@ -2,137 +2,124 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6999FC433EF
-	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 08:11:06 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.8931.1633507864963988276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A961C433EF
+	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 08:46:30 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web12.9046.1633509988970993330
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 01:11:05 -0700
+ Wed, 06 Oct 2021 01:46:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aBOrGiCD;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AZMFoGgV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id u18so6808018lfd.12
+Received: by mail-lf1-f45.google.com with SMTP id b20so7358702lfv.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 01:11:04 -0700 (PDT)
+ Wed, 06 Oct 2021 01:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1kHKZ7LCTpO0v8HECDiA9XTUqq7HuKRX07kqJhmuAbs=;
-        b=aBOrGiCDiThOG//bp9t7FTU/fm/KTXu8sjcCIuZXaUe0qWjFR5fpXd1MSkQqJsGxZq
-         l2Am+nURw7sdlJVb7ul72hYSQle7sqR1vtMprVmTQr2CRkex7n7VisdDDP3PdztG7uPR
-         PyP36SjchXS5akgHC60EDW6Z6T1SSLpQpGzZ28PvbQ7nEBJhRFIPLLhC51XO2cACxEMV
-         pXsYUmWPBolKVL6AzVpa2QibEsEwMhBVa5pTdyo/WV2qTBisbfcuLCVUmKDXzVICefyF
-         2g+hTqHZlh0U/zai5i/1XonsdKmXLbpt8Pqe1u7Y8q/SyzSLfnGyu18UfDTQ3AzXEmgt
-         DSzQ==
+        bh=0XJkDMf6jJ1aEXEFVetD8q86K5QGJN70VH96DYkvuhI=;
+        b=AZMFoGgVcJjeiOnrHSVt5AfJ/TKr29945HJ49secMmsQJQHAF8k0ztXMn+fzSOG6hA
+         hPq2ZAuWQqH0f1k/MskonGDGwUmwiRrrMXFnCXe0ZyQXiim1KCfUt4NrZ/kMoegsxl4/
+         KzlMUBWFzj4UsvOE+jW7J7LCHBXIlzdu+ceOx3+q3Ick4xh+CdYxuBQre15BNK+cEWIR
+         isOtVjMRHwocJScoIX5iEj7Hu/JB6GoTqXPG0wE4x/9jLbUPhWIRKc40oKVpe9RH/ma7
+         YZfUSBVEly0qGqdC7f0I1FGBdaYgyQO00FFXjzQeT+Fhi8BeyyJ3WPvmAZ6ZTFwFnjfp
+         x1ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1kHKZ7LCTpO0v8HECDiA9XTUqq7HuKRX07kqJhmuAbs=;
-        b=JfEDwxLMLHUvTVCpKyzeHQQPNsebs236NP8pc/F/SwnAOjL9MPd1FVqdd+5mScy/dL
-         3kCGiLmLYUH7pBEfhDCqta9ozo9tqiipc70dZLuQMKDEJ6rOLmB+cCXwwsVbnZ6eAv3P
-         tWV/hjUawV0mawWUOEvWvBFoBhEShq6n8OMvu3bSpPo3WbwXJJ5eFKFdttEBLHjqLoAU
-         c8F8RoEFfUgEEr6OtXWVL0tQ1paeEwDcyfqco4FCQAAwNjYml7u+TsAH5xgpA4vmqdOJ
-         U0ewGDW9RT30aZSqAt+SZg2aUNQk1xVlLuJqSEN9gZ3rE8XcyOv2NQL9Cru+a0tlbXsd
-         imng==
-X-Gm-Message-State: AOAM531S79EpcoiqokFzNi4p3dRQTpdbaC9ZmVK8+uhrQhq/HUAz5yz0
-	dlKcl0D3OfcWQ2jIzKzbPwq9ut8HtB78ILxCOzQ=
+        bh=0XJkDMf6jJ1aEXEFVetD8q86K5QGJN70VH96DYkvuhI=;
+        b=j1WZ2GCH6iNem3Br0+JtN3rcw0k+CdwVCSGM9IvHRcz5Ij5FHywbbBux0/4koPZkl8
+         A85kg4s2KGTQ3xQe/+gFub+fN/mlI99uBsrh9v0p7rAdN2BPnRKGJsaSw9keZn/RdmgH
+         1ZRY1kQFcl91yU7U0g/pSDjLzaQVop2fIuiLrJrNMgPmCLQaSguo2rZQZrbqUON9ry/4
+         AiVWtGTrJS6vZtEv3uOxltVVj26NL2sAMyjbpYy/xZdtHdpyDGniYU7WMd9GshaDJ90+
+         cnwDEQgq0D7AjwajT/xGLEPJZnoVrnlZ6rfeb4Ec2Ta9Dd/Jd9BHIv95fOrzgosyKIIQ
+         Qdrg==
+X-Gm-Message-State: AOAM530PJTwz8TrWouh/HSX07EgWbwmAZzrBQev6BywSbt/+X4F/zSLS
+	i1zkJG8iXTrLKrSeQ9WItes/VnaWJkBbvUjt+KQ=
 X-Google-Smtp-Source: 
- ABdhPJwUCRlXZP+TPQC3sQw1Px3nhpdVX+v4JrzrY15deYecDDoYVZ/2VV26MaYr7ASFGpkBd/2bdwE3VuGWMMrjsLg=
-X-Received: by 2002:a2e:87ca:: with SMTP id
- v10mr28530309ljj.369.1633507862990;
- Wed, 06 Oct 2021 01:11:02 -0700 (PDT)
+ ABdhPJy2pZj43A4+KkL/w+uP6qIYKYNMLI4eS+tdC/1e6Y2nyqk/JUewXnY+95z/maa2xwqBmB3EIZx3nQXgjgnfADE=
+X-Received: by 2002:ac2:4f01:: with SMTP id k1mr8329356lfr.94.1633509986927;
+ Wed, 06 Oct 2021 01:46:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211003213834.934065-1-quaresma.jose@gmail.com>
- <c9839c9f3bda2be330b9ee6be281b9bee237411e.camel@linuxfoundation.org>
- <CANPvuR=Gnc=QpXqQkC1=37=93SZC1f_MS8FvfLui8RKmx9r5hQ@mail.gmail.com>
- <42ad79c92bea355abe2d7d7200003f62d6e3a212.camel@linuxfoundation.org>
+References: <cover.1633478971.git.bruce.ashfield@gmail.com>
+ <6bf351545a8bf21fff5c00ff1ed8978b475f05d4.1633478971.git.bruce.ashfield@gmail.com>
 In-Reply-To: 
- <42ad79c92bea355abe2d7d7200003f62d6e3a212.camel@linuxfoundation.org>
+ <6bf351545a8bf21fff5c00ff1ed8978b475f05d4.1633478971.git.bruce.ashfield@gmail.com>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 6 Oct 2021 09:10:51 +0100
+Date: Wed, 6 Oct 2021 09:46:15 +0100
 Message-ID: 
- <CANPvuRnUJmdT_-aEc290=dSGz4oTtAeR=_Enuc6QaTKdxec-Zw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate.bbclass: adds warnings for the
- exceptions of os.utime in siginfo
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e951fa05cdaaaff9"
+ <CANPvuRnBLLeOOhurA9r5ihC_epZuESynEauXRe7PoUePa6dfWQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/7] kernel-yocto: don't apply config metadata
+ patches twice
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000082089605cdab2e3b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 08:11:06 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 08:46:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156675
+ https://lists.openembedded.org/g/openembedded-core/message/156676
 
---000000000000e951fa05cdaaaff9
+--00000000000082089605cdab2e3b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-segunda, 4/10/2021 =C3=A0(s) 21:03:
+Hi Bruce,
 
-> On Mon, 2021-10-04 at 18:59 +0100, Jose Quaresma wrote:
-> > I understand the exception for the use cases but I think it would be
-> useful
-> > to show this to the users. Will it be more appropriate perhaps to log
-> this as
-> > debug messages?
+Bruce Ashfield <bruce.ashfield@gmail.com> escreveu no dia quarta, 6/10/2021
+=C3=A0(s) 01:12:
+
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
 >
-> The trouble is in the situations that is guarding against, the user canno=
-t
-> do
-> anything about it so warnings definitely aren't appropriate and I'm not
-> sure
-> debug messages would be welcome either. Those would be less invasive
-> though.
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-
-After your explanation, it is not so useful.
-
-
-> > I have a final question that I don't understand clearly.
-> > Can the omission of these timestamps updates on siginfo invalidate the
-> use of
-> > the sstate-cache for that task,
-> > bitbake-dumpsig can complain about that?
->
-> I think there is a misunderstanding here. The timestamps I've been talkin=
-g
-> about
-> are part of reproducible builds and the SOURCE_DATE_EPOCH variable and
-> code.
-> These aim to make the output identical. If the output is identical, hash
-> equivalence is more successful and the more successful hash equivalence
-> is, the
-> more sstate reuse you get.
-
-
-> The timestamps in this part of the sstate code are simply there to handle
-> sstate
-> artefact aging (e.g. delete things which haven't been used in X weeks). T=
-he
-> timestamp change is therefore "nice" but if it doesn't happen, it isn't a
-> problem. Hope that helps clarify.
+> diff --git a/meta/classes/kernel-yocto.bbclass
+> b/meta/classes/kernel-yocto.bbclass
+> index 549dfd97a4..1d5a8cdf29 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -36,7 +36,10 @@ def find_patches(d,subdir):
+>              if subdir =3D=3D patchdir:
+>                  patch_list.append(local)
+>          else:
+> -            patch_list.append(local)
+> +            # skip the patch if a patchdir was supplied, it won't be
+> handled
+> +            # properly
+> +            if not patchdir:
+> +                patch_list.append(local)
 >
 
-Yes, it is true I have misunderstood that part of the reproducible builds
-and SOURCE_DATE_EPOCH.
-It's hard for me to figure out all the pieces involved in hash equivalence
-and sstate handling.
-One more detail that I understand better.
-Your opinions and explanations always help a lot.
+I think that will be useful to have a warning there when the patchdir was
+supplied
 
-Thank you very much.
+Jose
 
 
-> Cheers,
+>      return patch_list
 >
-> Richard
+> --
+> 2.19.1
 >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156667):
+> https://lists.openembedded.org/g/openembedded-core/message/156667
+> Mute This Topic: https://lists.openembedded.org/mt/86108495/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
@@ -141,75 +128,74 @@ Best regards,
 
 Jos=C3=A9 Quaresma
 
---000000000000e951fa05cdaaaff9
+--00000000000082089605cdab2e3b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia segunda, 4/10/2021 =C3=A0(s) 21:03:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Mon, 2021-10-04 at 18:59 +0100, =
-Jose Quaresma wrote:<br>
-&gt; I understand the exception for the use cases but I think it would be u=
-seful<br>
-&gt; to show this to the users. Will it be more appropriate perhaps to log =
-this as<br>
-&gt; debug=C2=A0messages?<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi=C2=A0Bruce,</div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">Bruce Ashfield &lt;<a href=
+=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; escre=
+veu no dia quarta, 6/10/2021 =C3=A0(s) 01:12:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D"mailto:br=
+uce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<=
+br>
 <br>
-The trouble is in the situations that is guarding against, the user cannot =
-do<br>
-anything about it so warnings definitely aren&#39;t appropriate and I&#39;m=
- not sure<br>
-debug messages would be welcome either. Those would be less invasive though=
-.<br></blockquote><div><br></div><div>After your explanation, it is not so =
-useful.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
+m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/kernel-yocto.bbclass | 5 ++++-<br>
+=C2=A01 file changed, 4 insertions(+), 1 deletion(-)<br>
 <br>
-&gt; I have a final question that I don&#39;t understand clearly.<br>
-&gt; Can the omission=C2=A0of these timestamps updates on siginfo invalidat=
-e the use of<br>
-&gt; the sstate-cache for that task,<br>
-&gt; bitbake-dumpsig can complain about that?<br>
-<br>
-I think there is a misunderstanding here. The timestamps I&#39;ve been talk=
-ing about<br>
-are part of reproducible builds and the SOURCE_DATE_EPOCH variable and code=
-.<br>
-These aim to make the output identical. If the output is identical, hash<br=
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.=
+bbclass<br>
+index 549dfd97a4..1d5a8cdf29 100644<br>
+--- a/meta/classes/kernel-yocto.bbclass<br>
++++ b/meta/classes/kernel-yocto.bbclass<br>
+@@ -36,7 +36,10 @@ def find_patches(d,subdir):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if subdir =3D=3D patchdir:<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patch_list.ap=
+pend(local)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patch_list.append(local)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # skip the patch if a patchdir w=
+as supplied, it won&#39;t be handled<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # properly<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not patchdir:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patch_list.append(=
+local)<br></blockquote><div><br></div><div>I think that will be useful to h=
+ave a warning there when the patchdir was supplied</div><div><br></div><div=
+>Jose</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
 >
-equivalence is more successful and the more successful hash equivalence is,=
- the<br>
-more sstate reuse you get.=C2=A0</blockquote><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
 <br>
-The timestamps in this part of the sstate code are simply there to handle s=
-state<br>
-artefact aging (e.g. delete things which haven&#39;t been used in X weeks).=
- The<br>
-timestamp change is therefore &quot;nice&quot; but if it doesn&#39;t happen=
-, it isn&#39;t a<br>
-problem. Hope that helps clarify.<br></blockquote><div><br></div><div><div>=
-Yes, it is true I have misunderstood that part of the reproducible builds a=
-nd SOURCE_DATE_EPOCH.</div></div><div>It&#39;s hard for me to figure out al=
-l the pieces involved in hash equivalence and sstate=C2=A0handling.</div><d=
-iv>One more detail that I understand better.</div><div>Your opinions and=C2=
-=A0explanations always help a lot.</div><div><br></div><div>Thank you very=
-=C2=A0much.</div><div><br class=3D"gmail-Apple-interchange-newline"></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0return patch_list<br>
 <br>
-Cheers,<br>
+-- <br>
+2.19.1<br>
 <br>
-Richard<br>
 <br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#156667): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/156667" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/156667</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86108495/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/86108495/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
  class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
  Quaresma</div></div></div></div>
 
---000000000000e951fa05cdaaaff9--
+--00000000000082089605cdab2e3b--
 
