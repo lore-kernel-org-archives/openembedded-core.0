@@ -1,111 +1,118 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FD4C433EF
-	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 15:13:39 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web11.13505.1633533217308211284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6E3C433FE
+	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 17:01:05 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.506.1633539664398584355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 08:13:38 -0700
+ Wed, 06 Oct 2021 10:01:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="249291227"
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200";
-   d="scan'208";a="249291227"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 08:13:36 -0700
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200";
-   d="scan'208";a="712980354"
-Received: from ychew-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.215.226.97])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 08:13:33 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/11] Pull request (cover letter only)
-Date: Wed,  6 Oct 2021 23:13:24 +0800
-Message-Id: <cover.1633533052.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qc3WdPJE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id r7so10796995wrc.10
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 06 Oct 2021 10:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=1QWVvoOWAcyn+3qG8p6zIn76Zs18PTFTqjxWI23CBYw=;
+        b=Qc3WdPJE0HtEzy3laTPDHyiEOAfXI5XTE8xsVmIi2OfqPAgfsTImkQVQ0UAd1OEUzh
+         XMs9UQvw3HFSyYoK8tZmwnPpbk2ldEwz+vh8rpfk6qlscwVudTJJ5Z5XQWve6CMBl1IQ
+         zzZytLgimP/ELVnTHnm17I3KUv3JPEgQ2Z67w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=1QWVvoOWAcyn+3qG8p6zIn76Zs18PTFTqjxWI23CBYw=;
+        b=Kl1JVYy5z9NJxuxx/Gd46VeaWY9mwBToruWWfs4Kc+ygBrKnBQ5BKXjuU5anZNlXxK
+         ZHxjhHImmpr4JO3fuo3CYoS5PF91jCuC++6QCB0P9u9SujtO5yJ5aN03UJrAi/JxZ2ex
+         ZJ3o8M6apL6AqW0r+5msOq1VgOfOp79ZnIf3MGYnGVUoHFDwgkIuCoyxNG6yft+OhG2T
+         S+72bN61GY6j4bW9e+tiQu8fB5PY0mCko5t/X8p8lbEez+R83PNraVG/zWcBX1rGfEvI
+         3J+zXhoIcn95aWYiNEJTZ5t4U5L3JLUQQ0rLZDSWVEKAJ5UyX26NGbTAILsuJ6fPzUwH
+         vFAg==
+X-Gm-Message-State: AOAM5332O9NVlU733fRMp9LqoKGjmjR8sUrJ4zExatPuzPg8Z7QhSHfi
+	QFj2iP7hX3Ixbbmdp5stVrdmdw==
+X-Google-Smtp-Source: 
+ ABdhPJxikFEoqxZrP+cqbK9c8m2ihAs9B1axqU239hNUC7+8GnOEi/C39TqgxXSgaux3D7Er/O0R2w==
+X-Received: by 2002:a1c:ed13:: with SMTP id l19mr11111137wmh.48.1633539662796;
+        Wed, 06 Oct 2021 10:01:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:afdc:71b4:d5f9:44fc?
+ ([2001:8b0:aba:5f3c:afdc:71b4:d5f9:44fc])
+        by smtp.gmail.com with ESMTPSA id
+ s13sm20694447wrv.97.2021.10.06.10.01.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Oct 2021 10:01:02 -0700 (PDT)
+Message-ID: 
+ <df755fcfe28bc98a227c99e6cb034242f7063e8b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] cairo: use ${PN} in package name
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bkylerussell@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Steven Walter <swalter@lexmark.com>
+Date: Wed, 06 Oct 2021 18:00:58 +0100
+In-Reply-To: <20211006143606.55529-1-bkylerussell@gmail.com>
+References: <20211006143606.55529-1-bkylerussell@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 15:13:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 17:01:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156697
+ https://lists.openembedded.org/g/openembedded-core/message/156698
 
-Please merge these changes.
+On Wed, 2021-10-06 at 10:36 -0400, bkylerussell@gmail.com wrote:
+> From: Steven Walter <swalter@lexmark.com>
+> 
+> Without this, bitbake complains that the license for cairo-gobject is
+> incorrect, because the license is set using ${PN}
+> 
+> Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+> ---
+>  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> index d76d935c30..b5d4b7eb22 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> @@ -77,17 +77,17 @@ do_install:append () {
+>  		rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
+>  }
+>  
+> -PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
+> +PACKAGES =+ "${PN}-gobject ${PN}-script-interpreter ${PN}-perf-utils"
+>  
+> -SUMMARY:cairo-gobject = "The Cairo library GObject wrapper library"
+> -DESCRIPTION:cairo-gobject = "A GObject wrapper library for the Cairo API."
+> +SUMMARY:${PN}-gobject = "The Cairo library GObject wrapper library"
+> +DESCRIPTION:${PN}-gobject = "A GObject wrapper library for the Cairo API."
+>  
+> -SUMMARY:cairo-script-interpreter = "The Cairo library script interpreter"
+> -DESCRIPTION:cairo-script-interpreter = "The Cairo script interpreter implements \
+> +SUMMARY:${PN}-script-interpreter = "The Cairo library script interpreter"
+> +DESCRIPTION:${PN}-script-interpreter = "The Cairo script interpreter implements \
+>  CairoScript.  CairoScript is used by tracing utilities to enable the ability \
+>  to replay rendering."
+>  
+> -DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
+> +DESCRIPTION:${PN}-perf-utils = "The Cairo library performance utilities"
+>  
+>  FILES:${PN} = "${libdir}/libcairo.so.*"
+>  FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
 
-Thanks,
+How do we reproduce the error? We're not seeing this and this change shouldn't
+be needed, PACKAGES just needs to match the variable usage which it does here.
+I'd like to understand the issue before we can try and fix it.
 
-Anuj
+Cheers,
 
-The following changes since commit 97d6a8452779fe511a354a70a72dd338f52a92cb:
-
-  bash: Ensure deterministic build (2021-09-29 16:22:10 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Alexander Kanavin (1):
-  wic: keep rootfs_size as integer
-
-Anibal Limon (1):
-  recipes-support/ptest-runner: Bump to v2.4.2
-
-Chandana kalluri (1):
-  scriptutils.py: Add check before deleting path
-
-Chen Qi (1):
-  systemd: fix CVE-2021-33910
-
-Jon Mason (1):
-  Update mailing list address
-
-Kenfe-Mickael Laventure (1):
-  package_ipk: Use localdata store when signing packages
-
-Richard Purdie (3):
-  bind: Exclude CVE-2019-6470 from cve-check
-  vim: Backport fix for CVE-2021-3770
-  glew: Stop polluting /tmp during builds
-
-Sakib Sajal (1):
-  qemu: fix CVE-2021-3682
-
-William A. Kennington III (1):
-  rm_work.bbclass: Fix for files starting with -
-
- meta/classes/package_ipk.bbclass              |   4 +-
- meta/classes/rm_work.bbclass                  |   8 +-
- meta/conf/distro/include/maintainers.inc      |   2 +-
- .../recipes-connectivity/bind/bind_9.16.16.bb |   4 +
- .../ldconfig-native-2.12.1/ldconfig.patch     |   2 +-
- ...it-name-do-not-use-strdupa-on-a-path.patch |  72 ++++++
- meta/recipes-core/systemd/systemd_247.6.bb    |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2021-3682.patch             |  41 ++++
- .../glew/glew/notempdir.patch                 |  19 ++
- meta/recipes-graphics/glew/glew_2.2.0.bb      |   1 +
- ...-runner_2.4.1.bb => ptest-runner_2.4.2.bb} |   2 +-
- ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   2 +
- scripts/lib/scriptutils.py                    |   3 +-
- scripts/lib/wic/partition.py                  |   2 +-
- 16 files changed, 360 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-basic-unit-name-do-not-use-strdupa-on-a-path.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
- create mode 100644 meta/recipes-graphics/glew/glew/notempdir.patch
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.1.bb => ptest-runner_2.4.2.bb} (93%)
- create mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
-
--- 
-2.31.1
+Richard
 
 
