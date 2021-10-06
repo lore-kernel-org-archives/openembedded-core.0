@@ -1,209 +1,177 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDD9C433EF
-	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 11:20:23 +0000 (UTC)
-Received: from forward102p.mail.yandex.net (forward102p.mail.yandex.net
- [77.88.28.102])
- by mx.groups.io with SMTP id smtpd.web11.10515.1633519221547717452
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E52C433EF
+	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 11:27:32 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web09.10484.1633519652071643689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 04:20:23 -0700
+ Wed, 06 Oct 2021 04:27:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
- header.s=mail header.b=WtIQaAYs;
- spf=pass (domain: zhukoff.net, ip: 77.88.28.102, mailfrom: pavel@zhukoff.net)
-Received: from iva5-8cd627e71aff.qloud-c.yandex.net
- (iva5-8cd627e71aff.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:7b87:0:640:8cd6:27e7])
-	by forward102p.mail.yandex.net (Yandex) with ESMTP id 60AAF393F303;
-	Wed,  6 Oct 2021 14:20:12 +0300 (MSK)
-Received: from iva4-50c21cb1cb18.qloud-c.yandex.net
- (2a02:6b8:c0c:1510:0:640:50c2:1cb1 [2a02:6b8:c0c:1510:0:640:50c2:1cb1])
-	by iva5-8cd627e71aff.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- KD5hqpQpFA-KBDaLgNI;
-	Wed, 06 Oct 2021 14:20:12 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1633519212;
-	bh=vvarjzczButdF+ayEWQ9jqHNqDlBcLvA0BlKYNibVNg=;
-	h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
-	b=WtIQaAYssfqHMr4srfhoy/U2/EGp9/pIakuwmq8uXdLKiwzulR23kyIoGI8GfeKVs
-	 wkUv4mr10SYjrgfPSXkB4XsIhHJdEJ59J+JeEEId9qr2n1IcL6EnAeYR5Cz6yeR9x/
-	 PxaicysCguXaYh5dR1uBofyiNNYlN1hrgsoyjs4k=
-Authentication-Results: iva5-8cd627e71aff.qloud-c.yandex.net;
- dkim=pass header.i=@zhukoff.net
-Received: by iva4-50c21cb1cb18.qloud-c.yandex.net (smtp/Yandex) with ESMTPS id
- Hnh6R11JGo-KAhWEDHX;
-	Wed, 06 Oct 2021 14:20:10 +0300
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client certificate not present)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Pavel Zhukov <pavel.zhukov@huawei.com>,
-	pavel@zhukoff.net,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [dunfell][PATCH v2] weston: Use systemd notify,
-Date: Wed,  6 Oct 2021 13:19:13 +0200
-Message-Id: <20211006111913.29107-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <16AB68BB0C865361.16814@lists.openembedded.org>
-References: <16AB68BB0C865361.16814@lists.openembedded.org>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eSzAanFs;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id f9so8667695edx.4
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 06 Oct 2021 04:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sBrcIAOJqHQQv0UsLk+JK1YCdGGJY1N8lUFyy03vWXI=;
+        b=eSzAanFsDscaTgWNcZBcyzFkTIIWlxN39Br1TPRh8wWJGgVm96sUx7clwIHZaFo/jm
+         CIKVnibJjxaJBz03gvzVTYtBL16DwQLtUt4CMs0qEfUvWNMdXhnDK+a3eM24vz4cGvat
+         qQZTPB7rRny87sks3ayjX1lXk6RcMwp0eYcQUThkkRfGJCj2tptKOPAAYdK1eEEsyTRd
+         gevOVjHpAqLoh66hK8Ig8l/5xnUk+eHOFkPtqIFV4XlTqgWwy8h34Irnii0tKxqqm/D5
+         QNCcPgSvjui2CEz9Gnq2fIctGeL0mp4DDfAECCxxaTKTm18wQLH5wfp9YXEWf+TUYlRW
+         Knvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sBrcIAOJqHQQv0UsLk+JK1YCdGGJY1N8lUFyy03vWXI=;
+        b=Js4OEjy2m2blOjHbSOrL6olI6Nsf/YMo8sjKfB0WdLGODlI4aaRt1YU+0CfiiVs0OM
+         KGBCSbbc0heayyQ7R8IvtPbUTNSZR2TT3qnzbgoaH8nC9UK9wHmBmiRh83vxkVduy3QG
+         GbTrYRcdS0RQWqX50MEP6CuzyXqO/iAi1R82wlIYFiwO4hargaJEWmsIrKuPv135IdVh
+         sWeCPMhQNtsZdycq2qGNB+wUSpUf4+PrbL50VQLBIAl7u0s4zmpA6e5Q8FmL1QfK6o/B
+         kiK8TESwqW1s03dMIm6H1mime2nSQ7y8ySGeU61ruB8cJBVgPA9N4nhQL7teijUHhog8
+         mElQ==
+X-Gm-Message-State: AOAM531ccwFio3KuSBPTBEC8IPAwt11egbv9aBBnhp7nJMjrMwPCpADF
+	hPAGzcOnfMca0vVP/GmndLtx4JOHFKP7gHevdeU=
+X-Google-Smtp-Source: 
+ ABdhPJyjNCkwMuly0urATf/zPpbkdHo0iKa0zHdqLBInKR8KYOgXz0/AaTpnGQcuP5saFdfY415+0EoUuWoFQKlIS58=
+X-Received: by 2002:aa7:d3ce:: with SMTP id
+ o14mr33091512edr.354.1633519650406;
+ Wed, 06 Oct 2021 04:27:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1633478971.git.bruce.ashfield@gmail.com>
+ <6bf351545a8bf21fff5c00ff1ed8978b475f05d4.1633478971.git.bruce.ashfield@gmail.com>
+ <CANPvuRnBLLeOOhurA9r5ihC_epZuESynEauXRe7PoUePa6dfWQ@mail.gmail.com>
+ <16AB6CC148A54F2E.4493@lists.openembedded.org>
+In-Reply-To: <16AB6CC148A54F2E.4493@lists.openembedded.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 6 Oct 2021 08:27:19 -0300
+Message-ID: 
+ <CADkTA4ObhsCn+2S9oHKq5jK4HcOoyABueNK4qbeKd1Y7kS0vDw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/7] kernel-yocto: don't apply config metadata
+ patches twice
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 11:20:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 11:27:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156691
+ https://lists.openembedded.org/g/openembedded-core/message/156692
 
-From: Pavel Zhukov <pavel.zhukov@huawei.com>
+On Wed, Oct 6, 2021 at 8:14 AM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> On Wed, Oct 6, 2021 at 5:46 AM Jose Quaresma <quaresma.jose@gmail.com> wr=
+ote:
+> >
+> > Hi Bruce,
+> >
+> > Bruce Ashfield <bruce.ashfield@gmail.com> escreveu no dia quarta, 6/10/=
+2021 =C3=A0(s) 01:12:
+> >>
+> >> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>
+> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >> ---
+> >>  meta/classes/kernel-yocto.bbclass | 5 ++++-
+> >>  1 file changed, 4 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-y=
+octo.bbclass
+> >> index 549dfd97a4..1d5a8cdf29 100644
+> >> --- a/meta/classes/kernel-yocto.bbclass
+> >> +++ b/meta/classes/kernel-yocto.bbclass
+> >> @@ -36,7 +36,10 @@ def find_patches(d,subdir):
+> >>              if subdir =3D=3D patchdir:
+> >>                  patch_list.append(local)
+> >>          else:
+> >> -            patch_list.append(local)
+> >> +            # skip the patch if a patchdir was supplied, it won't be =
+handled
+> >> +            # properly
+> >> +            if not patchdir:
+> >> +                patch_list.append(local)
+> >
+> >
+> > I think that will be useful to have a warning there when the patchdir w=
+as supplied
+>
+> Sure, but no one has ever hit this before in the wild, so there are
+> none known to be in existence, since if they did exist you'd get an
+> error.
+>
 
-Using systemd notify fixes the problem with dependency chain in case
-if other services depend on running weston.
-This change required more robust handling of weston modules arguments
-due to custom argument parser impmentation in weston (only last
---modules argument is accepted) and fixes the bug in modules handling
-in the weston-start script (only last argument is actually parsed by
-weston). Master branch implements systemd-notify thus backport but
-doesn't utilize modules anymore so this change is mostly dunfell
-specific.
+Actually, as it turns out. I can't warn here (at least not in a user
+visible way), since it is only being skipped for a particular run of
+my find_sccs/patches python functions. There are other calls to those
+same routines that pickup patchdir/subdir patches. So when running the
+default collection, we can't warn, otherwise that warning is
+incorrect. A log might work via, since that isn't easily visible to
+the user and shouldn't alarm anyone.
 
-Upstream-status: Backport
+But again, I'll just carry it locally for a while longer instead.
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
----
- .../wayland/weston-init/weston-start                 | 12 ++++++++++++
- .../wayland/weston-init/weston@.service              |  6 ++++++
- .../wayland/weston/systemd-notify.weston-start       |  9 +++++++++
- .../wayland/weston/xwayland.weston-start             |  3 +--
- meta/recipes-graphics/wayland/weston_8.0.0.bb        |  6 ++++++
- 5 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.w=
-eston-start
+Cheers,
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/met=
-a/recipes-graphics/wayland/weston-init/weston-start
-index ccc7093425..97471df80d 100755
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-@@ -23,6 +23,15 @@ add_openvt_argument() {
- 	openvt_args=3D"$openvt_args $1"
- }
-=20
-+## Add module to --modules argument
-+add_weston_module() {
-+	if [ -z "${weston_modules}" ]; then
-+		weston_modules=3D"--modules "
-+	fi;
-+	weston_modules=3D"${weston_modules}${1},"
-+}
-+
-+
- if [ -n "$WAYLAND_DISPLAY" ]; then
- 	echo "ERROR: A Wayland compositor is already running, nested Weston ins=
-tance is not supported yet."
- 	exit 1
-@@ -65,6 +74,9 @@ if [ -d "$modules_dir" ]; then
- 		# process module
- 		. $m
- 	done
-+	if [ -n "${weston_modules}" ]; then
-+		add_weston_argument "${weston_modules} "
-+	fi;
- fi
-=20
- if test -z "$XDG_RUNTIME_DIR"; then
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/=
-meta/recipes-graphics/wayland/weston-init/weston@.service
-index 39e193014a..70c706d75c 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston@.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
-@@ -1,3 +1,7 @@
-+# SPDX-FileCopyrightText: Huawei Inc.
-+#
-+# SPDX-License-Identifier: Apache-2.0
-+
- [Unit]
- Description=3DWeston Wayland Compositor
- RequiresMountsFor=3D/run
-@@ -5,6 +9,8 @@ Conflicts=3Dplymouth-quit.service
- After=3Dsystemd-user-sessions.service plymouth-quit-wait.service
-=20
- [Service]
-+Type=3Dnotify
-+NotifyAccess=3Dall
- User=3D%i
- PAMName=3Dlogin
- EnvironmentFile=3D-/etc/default/weston
-diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-s=
-tart b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-new file mode 100644
-index 0000000000..fdb48cb609
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-@@ -0,0 +1,9 @@
-+#!/bin/sh
-+
-+# SPDX-FileCopyrightText: Huawei Inc.
-+# SPDX-License-Identifier: Apache-2.0
-+
-+
-+if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
-+	add_weston_module "systemd-notify.so"
-+fi
-diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b=
-/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-index b483c97cf1..22984f50a4 100644
---- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-+++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-@@ -2,6 +2,5 @@
-=20
- if type Xwayland  >/dev/null 2>/dev/null; then
- 	mkdir -p /tmp/.X11-unix
--
--	add_weston_argument "--modules=3Dxwayland.so"
-+	add_weston_module "xwayland.so"
- fi
-diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes=
--graphics/wayland/weston_8.0.0.bb
-index 0b383f25f3..2b120d7404 100644
---- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-@@ -5,9 +5,11 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd79ee9e66bb0f95d3386a7acae780=
-b70 \
-                     file://libweston/compositor.c;endline=3D27;md5=3D6c5=
-3bbbd99273f4f7c4affa855c33c0a"
-=20
-+
- SRC_URI =3D "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.x=
-z \
-            file://weston.png \
-            file://weston.desktop \
-+           file://systemd-notify.weston-start \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-does=
-n-t.patch \
- "
-@@ -101,6 +103,10 @@ do_install_append() {
- 		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston=
--start/xwayland
- 	fi
-=20
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}=
-" =3D "yes" ]; then
-+	        install -Dm 644 ${WORKDIR}/systemd-notify.weston-start ${D}${da=
-tadir}/weston-start/systemd-notify
-+	fi
-+
- 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}"=
- =3D "yes" ]; then
- 		chmod u+s ${D}${bindir}/weston-launch
- 	fi
+Bruce
+
+> I'll probably just drop the patch and carry it locally.
+>
+> Bruce
+>
+> >
+> > Jose
+> >
+> >>
+> >>      return patch_list
+> >>
+> >> --
+> >> 2.19.1
+> >>
+> >>
+> >>
+> >>
+> >
+> >
+> > --
+> > Best regards,
+> >
+> > Jos=C3=A9 Quaresma
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156689): https://lists.openembedded.org/g/openembedde=
+d-core/message/156689
+> Mute This Topic: https://lists.openembedded.org/mt/86108495/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
+uce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
 --=20
-2.31.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
