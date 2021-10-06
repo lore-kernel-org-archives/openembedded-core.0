@@ -1,115 +1,86 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9443C433F5
-	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 17:59:15 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.528.1633543155047173271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5273C433F5
+	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 19:26:53 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.982.1633548412992334810
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 10:59:15 -0700
+ Wed, 06 Oct 2021 12:26:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HjY2yt5/;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- qe4-20020a17090b4f8400b0019f663cfcd1so5024187pjb.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=azpa7bQ5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id r18so11978022wrg.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 10:59:15 -0700 (PDT)
+ Wed, 06 Oct 2021 12:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=l4NcZX1gBAjySXeEbBv59I0OrRstEICMMdszJBDOYdI=;
-        b=HjY2yt5/LKWx5D7rfCeMR9dOSdOC/ncWwfctON9DIDT6D1vl770xcHn3Glq+G/6VZw
-         KHzj7wiLyfaH7DLZ0+uJ0T/DYs+/Zln9vBBNOsgnjJzVsINgX6TcEJS9OICrtZjlrCzT
-         O5AqQ0VDS0Jpv8Ubs3ALxEtpiRd7AFg9KcllnQyvgrN1OniO+4ahkVfbrA5HqLPRzagC
-         Z5ImELWLVEylTvMaLSYxgEy1fRYhdLYf+AxHmkx9dtI5KfB1vpC+TyRVfelk3c2voohb
-         ZFr+ffcebDsTreROl67rBc2/rJZ3M1tudl0mJtviaygH8B/hj7vK2TwOUPNTeXCDWJhR
-         wcSQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=0nJT+ujpgp1sm6Qc7JZ4D6zS3BfMdDpFUjFr56N9P3k=;
+        b=azpa7bQ5VqgLzfG/ggl0QAyaxNC3+WcT0Q8vN9zsKwN6GVQlgM0qDOOUfNOTLf6I4S
+         A+Rlxvd+YaaDudQxyml/Oms8DwHIiykdzU2QZ72GtE4wL2A8PoOg4arz85MLowlX4QGA
+         VxkuPA2e/Hs8sYdcpfROVbY/qhQ6aXGFP8Yfg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=l4NcZX1gBAjySXeEbBv59I0OrRstEICMMdszJBDOYdI=;
-        b=7frNn6P0ALviEApwRVLKhX1BGjPT/U690jMySniapPT6orb4N3JqUfLjIOb7dT2FiN
-         rKJzoLu99s2Kv8Zfn4CFw7MauqXILSyHfdgEmpCLDNLqieMk15dMwWUlqKSilAeLFiUp
-         crRFJdWWBh3ATz4JCPb+W3QBllStHWhl3FCAFftRe4w6hz2aHHbZGG5wFVrtKtixeVU8
-         oaYAFiuW8HDWKwHe2L0OaHIFAsG/MOxbCPiqLUWYWZgSydRZ3dEd7FfzqyjnkNcxOOf7
-         nnp4ONI2n0n+LBqVYPei6rM87sVAbecHkllCTGIEjZKZY1RiFFKH/NIACXQA6/eMa+a2
-         NTaQ==
-X-Gm-Message-State: AOAM531aWP8gjFTAkeZKthPZdDtcyr9wuUQ0tWIED95odZBjKugwfHFt
-	H98Qese+cAYMg/dFXGhCU0M=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=0nJT+ujpgp1sm6Qc7JZ4D6zS3BfMdDpFUjFr56N9P3k=;
+        b=xn+bTwWf2acdkCrXS1cGURcNEKORBUfGccyPEO9XZbdDDML0XhRcpd1ZIwuZZe+vcx
+         dhhhQVJ9RSyYQZ1dS8MBzDo6NMgmJdwVoQNk1HWbQ1XRr9bCT+fyVXOAGdXZgbfOq7NU
+         4xPDpwXNGKAHN8LNCO0GfyeLeIVuA7Is9OTINBfAzT4Sy1012sHoPd7YQFEQH8A6cBRv
+         BG5OjfRzMil8K8wvnWzs6XpoBWfMNzjCB/y99rQ5U+eIbzeU8n4gwj+JFt+dT9fTOE+Y
+         BLEkKXM6TFsjT1Vo8LeCQ1YnswKxGXoDiuAsft+961IaGukkD12KRl/8S3+2F3+iH3q8
+         o8Lg==
+X-Gm-Message-State: AOAM532lzRCE6ZnlEFwfZMAtJI+p3fyfTWiMHK5e84LFNtFumo4278+4
+	pUrbXsGQQVSBGGFgrD0mo6Rbqw==
 X-Google-Smtp-Source: 
- ABdhPJwYDrTtNMcTXUOvk4NP/DIh5M4QIvbLMoso/6EtMPsWrk2rckbaApJ2sA0AGpvxLOKcEfzDOw==
-X-Received: by 2002:a17:902:d903:b0:13e:d890:e4c4 with SMTP id
- c3-20020a170902d90300b0013ed890e4c4mr12471578plz.12.1633543154286;
-        Wed, 06 Oct 2021 10:59:14 -0700 (PDT)
-Received: from ?IPV6:2601:646:9200:a0f0:640b:32bc:c7ac:4acd?
- ([2601:646:9200:a0f0:640b:32bc:c7ac:4acd])
-        by smtp.gmail.com with ESMTPSA id
- u2sm15965148pfi.120.2021.10.06.10.59.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Oct 2021 10:59:13 -0700 (PDT)
-Message-ID: <549aecfd-e6d1-dbe0-3c80-51783f554750@gmail.com>
-Date: Wed, 6 Oct 2021 10:59:12 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.1.2
-Subject: Re: [OE-core] [PATCH] linux-yocto: add libmpc-native to DEPENDS
-Content-Language: en-US
-To: Ross Burton <ross@burtonini.com>,
- Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20211005130411.2712850-1-ross.burton@arm.com>
- <CADkTA4NFGhRcQCj+sHLENM38eWEkjE4aLT1adj_KWoj=nKmpoA@mail.gmail.com>
- <CAAnfSTtg7NmNi6Hu0+-LK41ya7--BPnwpzACFipePOUFqyX6wA@mail.gmail.com>
- <CAAnfSTuMd+8YfuwcmTsU5+W30bPXHJrqcuHRM=Axo+=evv5z_A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
+ ABdhPJyaphjrIE6HbcVqM7isig5awFe7uLFRSLKnFN1cQvsCuNzXowNo1Y6wJ3Llm1ddncBXxMIUwQ==
+X-Received: by 2002:adf:bc12:: with SMTP id
+ s18mr30171899wrg.328.1633548411360;
+        Wed, 06 Oct 2021 12:26:51 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4ef0:3e29:718c:a98a?
+ ([2001:8b0:aba:5f3c:4ef0:3e29:718c:a98a])
+        by smtp.gmail.com with ESMTPSA id y5sm6835610wma.5.2021.10.06.12.26.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Oct 2021 12:26:51 -0700 (PDT)
+Message-ID: 
+ <b65c244a80638ce5498ad75e1627fe7e2ecf66e9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] cairo: use ${PN} in package name
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steven Walter <steven.walter@lexmark.com>, "bkylerussell@gmail.com"
+	 <bkylerussell@gmail.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 06 Oct 2021 20:26:50 +0100
 In-Reply-To: 
- <CAAnfSTuMd+8YfuwcmTsU5+W30bPXHJrqcuHRM=Axo+=evv5z_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <CO1PR10MB44342798D12267B2DCF6FA9EF9B09@CO1PR10MB4434.namprd10.prod.outlook.com>
+References: <20211006143606.55529-1-bkylerussell@gmail.com>
+	 <df755fcfe28bc98a227c99e6cb034242f7063e8b.camel@linuxfoundation.org>
+	 <CO1PR10MB443438D0A26177CABAB54BCFF9B09@CO1PR10MB4434.namprd10.prod.outlook.com>
+	 <cef25f4b0dcb62b1e0bf782e66eaa3e46e1675f8.camel@linuxfoundation.org>
+	 <CO1PR10MB44342798D12267B2DCF6FA9EF9B09@CO1PR10MB4434.namprd10.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 17:59:15 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 19:26:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156700
+ https://lists.openembedded.org/g/openembedded-core/message/156701
 
+On Wed, 2021-10-06 at 19:22 +0000, Steven Walter wrote:
+> I have reproduced it with 23.0.10
 
+That sounds like dunfell and there have definitely been fixes for this since
+dunfell that weren't easily ported into the LTS.
 
-On 10/6/21 3:12 AM, Ross Burton wrote:
-> On Wed, 6 Oct 2021 at 11:10, Ross Burton <ross@burtonini.com> wrote:
->> This depends on CONFIG_GCC_PLUGINS which I don't believe is enabled in
->> any of the default configurations.  meta-arm builds a few kernels with
->> defconfig, which does.
-> 
-> Sorry, brain still not warmed up yet.
-> 
-> CONFIG_GCC_PLUGINS needs to be enabled, but the real difference is
-> that using the normal GCC pulls libmpc into the sysroot via implicit
-> dependencies.  If you use an external toolchain (like
-> meta-arm-toolchain) this doesn't happen, and the dependency needs to
-> be explicit.
-> 
+Cheers,
 
-Does it have to be native or target dependency ?
+Richard
 
-> Ross
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156686): https://lists.openembedded.org/g/openembedded-core/message/156686
-> Mute This Topic: https://lists.openembedded.org/mt/86092630/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
