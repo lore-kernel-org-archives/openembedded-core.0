@@ -1,243 +1,167 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7381C433EF
-	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 10:05:38 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (EUR04-HE1-obe.outbound.protection.outlook.com [40.92.73.50])
- by mx.groups.io with SMTP id smtpd.web12.9785.1633514737342202317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D37C433F5
+	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 10:05:44 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web12.9787.1633514743017061808
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 03:05:37 -0700
+ Wed, 06 Oct 2021 03:05:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=eTAhp2Ui;
- spf=pass (domain: outlook.com, ip: 40.92.73.50,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UrY8SLENIrXg+F00Vhb48Q+dv4ozDeyGImWYeA+hisDE+xfHexN2K+uKog6iZBfd0VII/C2fdKRTWQIAMXRVnnMVfrQmjPcZPm+OvTGo4ffsXnUfMR69lzUA+Eyxwn46WQIUaDyk3Wur4IjFbfdnK2yE9DVUU/WgUSLts5glcslf20fm0DRyUQHk3MyW5POFqiFSZSID4Xdd7gXGmZ/tOIHoy+Diq0m6saLRGjVFW7945vqBot46fDzYuznuo0+EnF/O7INswHAmn5397ipvhiaa2F6UB/uJrl9nnjObrmlc4Ukp4zMA8V1Asl0K053I2DyIFdfXyLPPaBM+jfHC4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I/mBeazVLY4G2OYZBu86k0rEN2E6fxdjLODQNO9x4aQ=;
- b=m2CSzrMzqGaC0AslRFDBmHm32ihXbcDdHZGuJG4RfJ0M346fmeDwiiAJjfzazHC8X01xEzo9pk2wR5qMfN5llVgAVy1g+KA0sYQY7uxDa+fkdXVhCoPtvD+iyl4XuANVBsFHwqWQolXUqER1+3a5LAL/E6bvw2DNdgV96+T4ec7OjbzC/K/vB3juPPSRF4hPIoIlJVoVYpy2MBJzUFeKYDiNMLaxEib9xSuUynj7/uruJXFyStawc/T4xOEyR20iG4pJhL6EGBskc414fIoDFXnScWm6NMoG8UPYnYoMaOIOx61Etw6If1OznQQlLO8wW6Lj/bUo21yexLK1UJOhQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I/mBeazVLY4G2OYZBu86k0rEN2E6fxdjLODQNO9x4aQ=;
- b=eTAhp2Uigp+xNU7I5yFjWSfJrPSybderU2sZp3P7Tvh5djlsl8UTHYr96TkgmdtbaIKivjxYYWHDQn8hIlMU8FqUdJfKVG/8DIOQO62xwGQfy5YBzOjKwYVUFjNTUIQw8Hy1IgiCsqGpktGiFzIqOsV9VBTJRFwoWK5ZceH0ezZjJvraxSpbD36/BLDZdCdDS7gX1JFmmoNxhU2/lioy5NSd/AVUbpKogcaOkB+y9FJlsybHQYXjSOExhQ+wDHhY7WhR5l2mkCBV5RiS1YrNpOyGLFAeiaXn/JjVU93f0p3j0kpYmEHMh5ziiHIwG4CwQYoCIe1wT2sFESuFxtusEg==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4226.eurprd09.prod.outlook.com (2603:10a6:208:197::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Wed, 6 Oct
- 2021 10:05:34 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4587.018; Wed, 6 Oct 2021
- 10:05:34 +0000
-Subject: Re: [OE-core] [dunfell][PATCH] weston-init: Override the systemd
- service by a notify-based one
-To: Pavel Zhukov <pavel@zhukoff.net>, openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com, Pavel Zhukov <pavel.zhukov@huawei.com>,
- Andrei Gherzan <andrei.gherzan@huawei.com>
-References: <20211006100013.24757-1-pavel@zhukoff.net>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB46424EB4DACB1420160DF7D6A8B09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Wed, 6 Oct 2021 12:05:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20211006100013.24757-1-pavel@zhukoff.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [8Md9mmNBN7T71k/GcbS/FAxXMr2SBDD4DeJbgONMwV8RLcpK3S1tq07zdw44COis]
-X-ClientProxiedBy: AS8PR04CA0131.eurprd04.prod.outlook.com
- (2603:10a6:20b:127::16) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <c96ada49-8c4f-e7bd-d76e-32545a06d171@outlook.com>
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=U4UglQLs;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.51,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f51.google.com with SMTP id k7so7016059wrd.13
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 06 Oct 2021 03:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1qOpojViiqh5dfhCI2gA13WXZq96+KdbfOzsJHSPYHI=;
+        b=U4UglQLshf7pOIWAoFWsj0uVWCr6enep9UBmDpnIByIpLFI4uveZrJSvJ4iWKlclM7
+         183HJ2V+pUr0oOQ77+tCXPR1BFJpA1N0PxzVBNdfrYX0SldhmuRWnIm/bhCkd3ea2E+s
+         hu6JgmgREA2uypsYyUemfsqeOFgdanqwShtGmhprQCb/ck/msmC7PGRgHWGUQAEn0zzw
+         DQNOPE0+gLXq7OkuLOIsmGw57EIqPPlPs4i0IMCZhL3WrI+p39YRZAStkGFyMRRj8iwe
+         8ZRwXSx09JKmzYkzIf3zvkS+yXXcEXlYFHofO0EP9k7j+jZjX0wVCrRZNVaWFj9emP42
+         0JaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1qOpojViiqh5dfhCI2gA13WXZq96+KdbfOzsJHSPYHI=;
+        b=Oqr4ZLA5mG6q8QMXBMeyyNrpnjIYdXftDttQDvh/JJk4z0AsI+YP+185GqlSppXbUn
+         8tetMXd4ClVP9nXCZF6XnvQnbv5lNVkTimqbssmDhAxQnadJ3gG9g6znmkB9saGuvMan
+         zfnkJuqC+P6+kmLuuxXLc3XS4qgGx96+qsviioGSrQfF8wMJ8uz5T9R5Xk9uo0SfzCr5
+         GiOukZSIVLBmeEE/4nkwgdmaDKzUBWvRRxOJicfx5h3Dm3SggOYndwROfIcTo1zdMNy4
+         ogBOsBud2ak+QqJoM1MXm0dq9ky7Ac3A8aOOZ6W+qcLi+J62DUQW/o1c0x4asA6tqCgR
+         M5iA==
+X-Gm-Message-State: AOAM5305/FlpTf0zih5gn7OpR+cFKLma4u5YxEFagu4p7Zwn61M6aJy8
+	6A42en+Fxr21lEKzDRMMSV2wWAXmzgqc4W8yNUsa8g==
+X-Google-Smtp-Source: 
+ ABdhPJzduglAgA4a1ho1v4VzdT9mEnGvI8z+UWA5DtvXTMh6jvurw9YsrURiz+gBAHTfLvuQoGwmQ+ZD0RBJ1236I74=
+X-Received: by 2002:a05:600c:3506:: with SMTP id
+ h6mr8684832wmq.62.1633514740844;
+ Wed, 06 Oct 2021 03:05:40 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:3103:205c:400:bc27:b3ce:9dec:8bd7]
- (2a02:3103:205c:400:bc27:b3ce:9dec:8bd7) by
- AS8PR04CA0131.eurprd04.prod.outlook.com (2603:10a6:20b:127::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
- Transport; Wed, 6 Oct 2021 10:05:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 18b64094-d2e6-44ff-e4f3-08d988b0d677
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4226:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ydcCv4tHamxjeMnZ0lXOAPlBpYUnDVXQRul/r+GcrMQ+ZVqw357Gqo5lW/Psa8CH3ROxO6h9XrcznHGtAk2iAwJ/KQodo75Y046NelHw9QVWX2S1bX8wwQl0HdrCZbl4HCLzwTq/Gf1WU56MF5Mj/lxwHNPfBtscv34qLEbqV+F75D+p7pH3B7BCfIE7asfJo17l9FAIkn2uK6/yonlUsISoOahRbmbT9X7AJSxugwXxd0QW0vXmo0b9Quq3aPrl6uimKHvfoi3SnxHVcHtApSr0Jnt3rr4g+68rThBvATX0/nxsWIKtYKrt2KfpMD4I2onzsPZ/yD7z3J0KGuFpAzg6VAuGHS09OXg5VH3Cw29MBM0RECa4PIfjQt1qIP7+THDgrf8pMCYQ0GldPg2kzjzQ68+CWHcrD9HdgaVjh4BGsxX4DC+VnaKSk2MG074az0PmYE2iywqEIzzjXUppkdkOaEnrv4O3qYHCBi4neqlQcaZmRMn0GoH7rtUrgvokjPHJnoVPVKqLR21tnIWN7w==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	P9Sk6vbLRXiNQwmYzuQXpdAoQdczf1vQ11mTnbWDNiD06G5/GjtNjpjpcynyXxlLazYA+jGPIutP51Mohbdji8cZ8X432qm2EBtA78dGYf1A2zlMP7kuB+etaIH/xTDEZm86D9+d9iI0gOl7FWjT/fHz6pidpS3XVqo0rSwUVRCsDO2/zN1CrtO09YI9TxR+Ky7cKjM/mkAwkwP7Qtn/Ew==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 18b64094-d2e6-44ff-e4f3-08d988b0d677
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2021 10:05:34.5589
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4226
+References: <cover.1633478971.git.bruce.ashfield@gmail.com>
+ <9666edbab2d32cc53726d177bb23af9976ef90c9.1633478971.git.bruce.ashfield@gmail.com>
+In-Reply-To: 
+ <9666edbab2d32cc53726d177bb23af9976ef90c9.1633478971.git.bruce.ashfield@gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Wed, 6 Oct 2021 11:05:29 +0100
+Message-ID: 
+ <CAAnfSTs=_KTfkrRNn0bAwjEsG1kDX2MT1O9-Oo9swMh4+_L7fA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/7] linux-yocto/5.14: scripts/gcc-plugins:
+ consistently use HOSTCC
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 10:05:38 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 10:05:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156683
+ https://lists.openembedded.org/g/openembedded-core/message/156684
 
-Without looking to much into the technical details of this patch,
-- it should master first (and then be backported to dunfell)
-- the patches to need an Upstream-Status field
-- changes should be brought to upstream first (and if rejected then a 
-proper explanation has to be provided in the patch metadata)
+Can you drop this.  Turns out in fixing it, I broke it more!
 
-On 06.10.21 12:00, Pavel Zhukov wrote:
-> From: Pavel Zhukov <pavel.zhukov@huawei.com>
-> 
-> Using systemd notify, a service dependency would be more robust. This
-> allows, for example, another service to depend on weston-init without
-> having to hack a sleep (or similar). This change required more robust
-> handling of weston modules argument due to custom argument parser
-> impmentation in weston (only last --modules argument is accepted).
-> 
-> Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-> Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+Ross
+
+On Wed, 6 Oct 2021 at 01:12, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Integrating the following commit(s) to linux-yocto/5.14:
+>
+>     724df5812165 scripts/gcc-plugins: consistently use HOSTCC
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->   .../wayland/weston-init/weston-start                 | 12 ++++++++++++
->   .../wayland/weston-init/weston@.service              |  6 ++++++
->   .../wayland/weston/systemd-notify.weston-start       |  9 +++++++++
->   .../wayland/weston/xwayland.weston-start             |  3 +--
->   meta/recipes-graphics/wayland/weston_8.0.0.bb        |  6 ++++++
->   5 files changed, 34 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-> 
-> diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
-> index ccc7093425..97471df80d 100755
-> --- a/meta/recipes-graphics/wayland/weston-init/weston-start
-> +++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-> @@ -23,6 +23,15 @@ add_openvt_argument() {
->   	openvt_args="$openvt_args $1"
->   }
->   
-> +## Add module to --modules argument
-> +add_weston_module() {
-> +	if [ -z "${weston_modules}" ]; then
-> +		weston_modules="--modules "
-> +	fi;
-> +	weston_modules="${weston_modules}${1},"
-> +}
-> +
-> +
->   if [ -n "$WAYLAND_DISPLAY" ]; then
->   	echo "ERROR: A Wayland compositor is already running, nested Weston instance is not supported yet."
->   	exit 1
-> @@ -65,6 +74,9 @@ if [ -d "$modules_dir" ]; then
->   		# process module
->   		. $m
->   	done
-> +	if [ -n "${weston_modules}" ]; then
-> +		add_weston_argument "${weston_modules} "
-> +	fi;
->   fi
->   
->   if test -z "$XDG_RUNTIME_DIR"; then
-> diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
-> index 39e193014a..70c706d75c 100644
-> --- a/meta/recipes-graphics/wayland/weston-init/weston@.service
-> +++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
-> @@ -1,3 +1,7 @@
-> +# SPDX-FileCopyrightText: Huawei Inc.
-> +#
-> +# SPDX-License-Identifier: Apache-2.0
-> +
->   [Unit]
->   Description=Weston Wayland Compositor
->   RequiresMountsFor=/run
-> @@ -5,6 +9,8 @@ Conflicts=plymouth-quit.service
->   After=systemd-user-sessions.service plymouth-quit-wait.service
->   
->   [Service]
-> +Type=notify
-> +NotifyAccess=all
-
-this can be also achieved with a drop-in file, which is less invasive 
-then the proposed change
-
->   User=%i
->   PAMName=login
->   EnvironmentFile=-/etc/default/weston
-> diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-> new file mode 100644
-> index 0000000000..fdb48cb609
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-> @@ -0,0 +1,9 @@
-> +#!/bin/sh
-> +
-> +# SPDX-FileCopyrightText: Huawei Inc.
-> +# SPDX-License-Identifier: Apache-2.0
-> +
-> +
-> +if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
-> +	add_weston_module "systemd-notify.so"
-> +fi
-> diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-> index b483c97cf1..22984f50a4 100644
-> --- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-> +++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-> @@ -2,6 +2,5 @@
->   
->   if type Xwayland  >/dev/null 2>/dev/null; then
->   	mkdir -p /tmp/.X11-unix
-> -
-> -	add_weston_argument "--modules=xwayland.so"
-> +	add_weston_module "xwayland.so"
->   fi
-> diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-> index 0b383f25f3..2b120d7404 100644
-> --- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-> @@ -5,9 +5,11 @@ LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
->                       file://libweston/compositor.c;endline=27;md5=6c53bbbd99273f4f7c4affa855c33c0a"
->   
-> +
->   SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->              file://weston.png \
->              file://weston.desktop \
-> +           file://systemd-notify.weston-start \
->              file://xwayland.weston-start \
->              file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
->   "
-> @@ -101,6 +103,10 @@ do_install_append() {
->   		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
->   	fi
->   
-> +	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}" = "yes" ]; then
-> +	        install -Dm 644 ${WORKDIR}/systemd-notify.weston-start ${D}${datadir}/weston-start/systemd-notify
-> +	fi
-> +
->   	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
->   		chmod u+s ${D}${bindir}/weston-launch
->   	fi
-> 
-> 
-> 
+>  .../linux/linux-yocto-rt_5.14.bb              |  4 ++--
+>  .../linux/linux-yocto-tiny_5.14.bb            |  6 ++---
+>  meta/recipes-kernel/linux/linux-yocto_5.14.bb | 22 +++++++++----------
+>  3 files changed, 16 insertions(+), 16 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
+> index a147e632e4..06064706e0 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
+> @@ -11,8 +11,8 @@ python () {
+>          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+>  }
+>
+> -SRCREV_machine ?= "7630ebb9fd510cf7aa31b6f1dd472f3b0442afb3"
+> -SRCREV_meta ?= "42d2cf670ed06f4dddd2a035611a519ea68e2d26"
+> +SRCREV_machine ?= "87e920626b63515458e304527509289993be2796"
+> +SRCREV_meta ?= "a1e3f40a0f4c5d05d1a6110a42d53eb3c3947ec8"
+>
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.14;destsuffix=${KMETA}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
+> index 20ff40d267..699c8c7da0 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
+> @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+>  KMETA = "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL = "2"
+>
+> -SRCREV_machine:qemuarm ?= "ee2ccc84e65ade5ba0f8e1a700fba29a755746a1"
+> -SRCREV_machine ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_meta ?= "42d2cf670ed06f4dddd2a035611a519ea68e2d26"
+> +SRCREV_machine:qemuarm ?= "f956536237159b85f94d70bb9e74b5894e6bf07d"
+> +SRCREV_machine ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_meta ?= "a1e3f40a0f4c5d05d1a6110a42d53eb3c3947ec8"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.14.bb b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
+> index 0c6fbff75e..809b6fa066 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.14.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
+> @@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.14/standard/base"
+>  KBRANCH:qemux86-64 ?= "v5.14/standard/base"
+>  KBRANCH:qemumips64 ?= "v5.14/standard/mti-malta64"
+>
+> -SRCREV_machine:qemuarm ?= "8226a3a65df2dbae0fe71e9ff54cba70a9ba85e5"
+> -SRCREV_machine:qemuarm64 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_machine:qemumips ?= "b5389debd85300e24b877f25c2e90381f1df7678"
+> -SRCREV_machine:qemuppc ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_machine:qemuriscv64 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_machine:qemuriscv32 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_machine:qemux86 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_machine:qemux86-64 ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_machine:qemumips64 ?= "56cc67b699194944809832f4c8f58b9828f02bf9"
+> -SRCREV_machine ?= "7ae156be3bdbf033839f7f3ec2e9a0ffffb18818"
+> -SRCREV_meta ?= "42d2cf670ed06f4dddd2a035611a519ea68e2d26"
+> +SRCREV_machine:qemuarm ?= "139cd4a6ac01e83002011680d9fbb14048c1bc3a"
+> +SRCREV_machine:qemuarm64 ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_machine:qemumips ?= "f5a73ebec6f028075220c690bbb121284313ebd3"
+> +SRCREV_machine:qemuppc ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_machine:qemuriscv64 ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_machine:qemuriscv32 ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_machine:qemux86 ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_machine:qemux86-64 ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_machine:qemumips64 ?= "912fc3d0cf57239e6fe5030b82165b2d6f0632e3"
+> +SRCREV_machine ?= "724df5812165b61d20e93866be8f3e7e1e5e6b5c"
+> +SRCREV_meta ?= "a1e3f40a0f4c5d05d1a6110a42d53eb3c3947ec8"
+>
+>  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+>  # get the <version>/base branch, which is pure upstream -stable, and the same
+> --
+> 2.19.1
+>
+>
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#156682): https://lists.openembedded.org/g/openembedded-core/message/156682
-> Mute This Topic: https://lists.openembedded.org/mt/86115689/3647476
+> View/Reply Online (#156661): https://lists.openembedded.org/g/openembedded-core/message/156661
+> Mute This Topic: https://lists.openembedded.org/mt/86108488/1676615
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>
 
