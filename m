@@ -1,361 +1,207 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F38B7C433F5
-	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 09:48:10 +0000 (UTC)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
- [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web12.9656.1633513689506951829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF86C433EF
+	for <webhook@archiver.kernel.org>; Wed,  6 Oct 2021 10:00:42 +0000 (UTC)
+Received: from forward106o.mail.yandex.net (forward106o.mail.yandex.net
+ [37.140.190.187])
+ by mx.groups.io with SMTP id smtpd.web08.9679.1633514440300301486
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 02:48:09 -0700
+ Wed, 06 Oct 2021 03:00:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=B6/mqwyt;
- spf=pass (domain: gmail.com, ip: 209.85.217.42,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id f2so2251287vsj.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Oct 2021 02:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=twa1Tt4fZdXCWELhmAUqZlJJrwdzDc0VT/HvD0vYMcM=;
-        b=B6/mqwytjOlzb4SW4J3PMtO5fIbldbTgWxvvPku/V7UkqNs9jERTmEg3q56gTWBSUC
-         7DuEdQ//xUA9ZnvGUFQn0AZ5RPlho8BOvgwV8IhnvGLNuA0L3NmWet3SQQptkrpGUrXa
-         SGkm6a+oFerJgaURhfg42FKnGWNtD9Xm68QE8AfKqdjfR99YmxhYdX70u4l+jyF3wBfv
-         H4IL5+oIBOsyXD3D56uAyRh3v7T1Au5ACNfDOivZfmKjHc2SQ4xeBAIcP7Nkc93Err7v
-         sxMZDnKXjBhRcTt9SLbQvN5kgH/YbyV2vsnfHPK4BIELO6bXJM+urDnTykDHGePho86G
-         +4oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=twa1Tt4fZdXCWELhmAUqZlJJrwdzDc0VT/HvD0vYMcM=;
-        b=i3nqs9HXn8s3XFw+4uCptp13EA+TlFwJwdWW8L/KnR7GpFOiNtWyItYuYgca1ASCOh
-         zUK+cQN+oqG2PXGWEnE2+/5ZXucA9LcBiJSBMYCQALT5HkoLVw6ZPIu22m+LVOnyTiCF
-         ui5vX864KfY3V6YpYKR3axHfOsixlJJpwn3z6XtGZkMBXUN3w8ZVRwT430N+vYTP9W5G
-         3XePpok2B0T1Ke3flWZO2pGwt3O+xWmCOl5jE2onhDt3S9oAEHH3gWrLEDRI7yb2UWZw
-         NnVze9COJOwCFurmVf2mCQ96K8M350uuNI4w6I/tB15vcZxUqz95JdTIZa9sbrTggci1
-         WxSA==
-X-Gm-Message-State: AOAM531g0FWqGPSBT28xrNFNDQ/sYd1HVmdavUsC7GZVxqIXHDp7/qJ9
-	RNSWb+cNCH9XVlilhKCyi8qsXhgRXL5jDXxHuIc=
-X-Google-Smtp-Source: 
- ABdhPJwkRIuAXT9iAl9f8Bj6mRN9d02jAiPUO6ykm22zy1i9a90R8Qo7D+CW+wthN2/2nHwCvLYbmKKPzp3q1FOppr8=
-X-Received: by 2002:a67:df18:: with SMTP id s24mr13610957vsk.40.1633513688687;
- Wed, 06 Oct 2021 02:48:08 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
+ header.s=mail header.b=2CdKT3hn;
+ spf=pass (domain: zhukoff.net, ip: 37.140.190.187,
+ mailfrom: pavel@zhukoff.net)
+Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
+	by forward106o.mail.yandex.net (Yandex) with ESMTP id B6638568C8B8;
+	Wed,  6 Oct 2021 13:00:35 +0300 (MSK)
+Received: from vla3-fd8580bf9bb2.qloud-c.yandex.net
+ (vla3-fd8580bf9bb2.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c15:2588:0:640:fd85:80bf])
+	by forward101q.mail.yandex.net (Yandex) with ESMTP id B228413E80002;
+	Wed,  6 Oct 2021 13:00:35 +0300 (MSK)
+Received: from vla1-62318bfe5573.qloud-c.yandex.net
+ (2a02:6b8:c0d:3819:0:640:6231:8bfe [2a02:6b8:c0d:3819:0:640:6231:8bfe])
+	by vla3-fd8580bf9bb2.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ kp2rdFjNnK-0ZEmxlI8;
+	Wed, 06 Oct 2021 13:00:35 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
+ t=1633514435;
+	bh=7wHBnBDw21B+0HO8/oq0rDyMgMzNvwntlNNHv4Xo0Ws=;
+	h=Message-Id:Date:Subject:To:From:Cc;
+	b=2CdKT3hnFl7XaSLDiP+/bg5XrLGNCne3lNNppJfIOkQpjLSUVYfiJw0Qpdl7wANxt
+	 nj43BB3nzEODIoFKpfFNkUZKZV+ZJ7ouAkU/kYp7t1iP9BQCxTA15pKCZvhj9AH4n2
+	 E6vRIU1Ig0KBw4huu4W0mx24br/iK1YURRLBPk6M=
+Authentication-Results: vla3-fd8580bf9bb2.qloud-c.yandex.net;
+ dkim=pass header.i=@zhukoff.net
+Received: by vla1-62318bfe5573.qloud-c.yandex.net (smtp/Yandex) with ESMTPS id
+ UiQZyXL6Fc-0YNebAol;
+	Wed, 06 Oct 2021 13:00:34 +0300
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client certificate not present)
+From: pavel@zhukoff.net
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Pavel Zhukov <pavel.zhukov@huawei.com>,
+	pavel@zhukoff.net,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [dunfell][PATCH] weston-init: Override the systemd service by a
+ notify-based one
+Date: Wed,  6 Oct 2021 12:00:13 +0200
+Message-Id: <20211006100013.24757-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
- <6318d76222b819d3a165d405fc48dbcbadf29085.camel@linuxfoundation.org>
- <50d4d79f-a7cd-fd0a-0c6d-597b6dc4ca6a@weidmueller.com>
- <CANNYZj8Fns4xWre3_ajv-5QADpCi0f+WS2wRXCKXezOgj5fhzg@mail.gmail.com>
- <0bddcbc4-cf11-39da-5797-131fc59d7f6f@weidmueller.com>
- <CANNYZj_Xudaobe6W2TTnugjovq3KcHWBYsvZ8kS0kYZaWwkLCw@mail.gmail.com>
- <AM9PR09MB464243B2852B92E67D825612A8AF9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <71df6b93-bdcc-b09f-48c7-3ec822ef3228@weidmueller.com>
- <AM9PR09MB4642A8B32B686649507B9406A8B09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642A8B32B686649507B9406A8B09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 6 Oct 2021 11:47:56 +0200
-Message-ID: 
- <CANNYZj9eeW4+uJ=-fB1pDZq4Qa0EbgwRCCXXiEjrzuGL-jcq3w@mail.gmail.com>
-Subject: Re: [OE-core] Improve npm support to run build scripts
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002667a305cdac0b46"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 09:48:10 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Oct 2021 10:00:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156681
+ https://lists.openembedded.org/g/openembedded-core/message/156682
 
---0000000000002667a305cdac0b46
-Content-Type: text/plain; charset="UTF-8"
+From: Pavel Zhukov <pavel.zhukov@huawei.com>
 
-The OE landscape is littered with unmaintained or barely maintained layers.
-By the looks of things, no one wants to maintain this proposed meta-nodejs
-layer either, which involves thousands of recipes, (so far) non-existent
-tooling to create and update them in scalable ways, and rigorous testing.
-Or such a layer would have already happened.
+Using systemd notify, a service dependency would be more robust. This
+allows, for example, another service to depend on weston-init without
+having to hack a sleep (or similar). This change required more robust
+handling of weston modules argument due to custom argument parser
+impmentation in weston (only last --modules argument is accepted).
 
-It's for this reason that I think the shrinkwrapped, self-contained recipe
-approach is more viable (even if it comes with its own pain points) and
-also matches how node.js community operates  - we can fix the CVE stuff as
-well to look into dependencies if that's a concern.
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ .../wayland/weston-init/weston-start                 | 12 ++++++++++++
+ .../wayland/weston-init/weston@.service              |  6 ++++++
+ .../wayland/weston/systemd-notify.weston-start       |  9 +++++++++
+ .../wayland/weston/xwayland.weston-start             |  3 +--
+ meta/recipes-graphics/wayland/weston_8.0.0.bb        |  6 ++++++
+ 5 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.w=
+eston-start
 
-Alex
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/met=
+a/recipes-graphics/wayland/weston-init/weston-start
+index ccc7093425..97471df80d 100755
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -23,6 +23,15 @@ add_openvt_argument() {
+ 	openvt_args=3D"$openvt_args $1"
+ }
+=20
++## Add module to --modules argument
++add_weston_module() {
++	if [ -z "${weston_modules}" ]; then
++		weston_modules=3D"--modules "
++	fi;
++	weston_modules=3D"${weston_modules}${1},"
++}
++
++
+ if [ -n "$WAYLAND_DISPLAY" ]; then
+ 	echo "ERROR: A Wayland compositor is already running, nested Weston ins=
+tance is not supported yet."
+ 	exit 1
+@@ -65,6 +74,9 @@ if [ -d "$modules_dir" ]; then
+ 		# process module
+ 		. $m
+ 	done
++	if [ -n "${weston_modules}" ]; then
++		add_weston_argument "${weston_modules} "
++	fi;
+ fi
+=20
+ if test -z "$XDG_RUNTIME_DIR"; then
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/=
+meta/recipes-graphics/wayland/weston-init/weston@.service
+index 39e193014a..70c706d75c 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston@.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
+@@ -1,3 +1,7 @@
++# SPDX-FileCopyrightText: Huawei Inc.
++#
++# SPDX-License-Identifier: Apache-2.0
++
+ [Unit]
+ Description=3DWeston Wayland Compositor
+ RequiresMountsFor=3D/run
+@@ -5,6 +9,8 @@ Conflicts=3Dplymouth-quit.service
+ After=3Dsystemd-user-sessions.service plymouth-quit-wait.service
+=20
+ [Service]
++Type=3Dnotify
++NotifyAccess=3Dall
+ User=3D%i
+ PAMName=3Dlogin
+ EnvironmentFile=3D-/etc/default/weston
+diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-s=
+tart b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+new file mode 100644
+index 0000000000..fdb48cb609
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+@@ -0,0 +1,9 @@
++#!/bin/sh
++
++# SPDX-FileCopyrightText: Huawei Inc.
++# SPDX-License-Identifier: Apache-2.0
++
++
++if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
++	add_weston_module "systemd-notify.so"
++fi
+diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b=
+/meta/recipes-graphics/wayland/weston/xwayland.weston-start
+index b483c97cf1..22984f50a4 100644
+--- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
++++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
+@@ -2,6 +2,5 @@
+=20
+ if type Xwayland  >/dev/null 2>/dev/null; then
+ 	mkdir -p /tmp/.X11-unix
+-
+-	add_weston_argument "--modules=3Dxwayland.so"
++	add_weston_module "xwayland.so"
+ fi
+diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes=
+-graphics/wayland/weston_8.0.0.bb
+index 0b383f25f3..2b120d7404 100644
+--- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
+@@ -5,9 +5,11 @@ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd79ee9e66bb0f95d3386a7acae780=
+b70 \
+                     file://libweston/compositor.c;endline=3D27;md5=3D6c5=
+3bbbd99273f4f7c4affa855c33c0a"
+=20
++
+ SRC_URI =3D "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.x=
+z \
+            file://weston.png \
+            file://weston.desktop \
++           file://systemd-notify.weston-start \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-does=
+n-t.patch \
+ "
+@@ -101,6 +103,10 @@ do_install_append() {
+ 		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston=
+-start/xwayland
+ 	fi
+=20
++	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}=
+" =3D "yes" ]; then
++	        install -Dm 644 ${WORKDIR}/systemd-notify.weston-start ${D}${da=
+tadir}/weston-start/systemd-notify
++	fi
++
+ 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}"=
+ =3D "yes" ]; then
+ 		chmod u+s ${D}${bindir}/weston-launch
+ 	fi
+--=20
+2.31.1
 
-On Wed, 6 Oct 2021 at 11:43, Konrad Weihmann <kweihmann@outlook.com> wrote:
-
->
->
-> On 06.10.21 11:18, Stefan Herbrechtsmeier wrote:
-> > Hi Konrad,
-> >
-> > Am 05.10.2021 um 21:29 schrieb Konrad Weihmann:
-> >>
-> >>
-> >> On 05.10.21 21:17, Alexander Kanavin wrote:
-> >>> On Tue, 5 Oct 2021 at 19:44, Stefan Herbrechtsmeier
-> >>> <stefan.herbrechtsmeier-oss@weidmueller.com
-> >>> <mailto:stefan.herbrechtsmeier-oss@weidmueller.com>> wrote:
-> >>>
-> >>>
-> >>>      > A layer with thousands of recipes seems totally intractable.
-> >>>
-> >>>     What is your concern? The high number of dependencies or to
-> >>> handle it
-> >>>     via OE?
-> >>>
-> >>>
-> >>> Generating recipes with a tool means the tool will be custom and
-> >>> non-standard, and chances of anyone outside of your company
-> >>> understanding, using and contributing to it are rather small. There's
-> >>> also the problem of needing multiple versions of the same thing for
-> >>> different
-> >>> consumer items, which oe doesn't easily support. The link Robert
-> >>> provided already exposes some of the pain points with that approach.
-> >>>
-> >>> I tend to think the best way forward (or least painful at least) is
-> >>> to gradually improve what there already is, which is the npm class
-> >>> and devtool, and send patches to various upstream njs projects when
-> >>> they're using outdated dependencies or otherwise need changing.
-> >>>
-> >>> Alex
-> >>
-> >> Just to chime in :-), I like to question this approach of having
-> >> multiple versions of the same in an image.
-> >> As already outlined npm is horrible in many ways, but using the
-> >> lockfile approach multiplies that even more.
-> >> But I tend to agree that using the currently available oe-core code
-> >> would be suited best for a broader audience
-> >
-> > But this audience loose the some basic features of OE (ex. version and
-> > CVE check) and have to manual fix or ignore the licenses.
-> >
-> >> - in your own layer you simply can do whatever you like.
-> >
-> > But this make it impossible to share recipes. Why don't we create a
-> > meta-nodejs with a different approach to avoid doing the same thing
-> > multiple times.
->
-> We could, but we have to think about the costs and ways to properly
-> maintain it - and that seems to be the main reason.
-> You could come up with a repo of your own and see who is interested in
-> joining the development (as I for instance did with a repo for ruby
-> gems) - still this would be hosted and maintained outside of core I
-> think, due to the limited time and resources available.
->
-> And **most important** the repo has to provide its own means of testing/CI.
->
-> BTW I remember I had a talk with someone last year about it and putting
-> a bunch of angular based apps into an image, with all npms as separate
-> recipes resulted in ~100k of files.
->
-> so CI and testing has to be extra beefy to make it work - which maybe
-> requires a good portion of automation, which then brings me back to
-> Alex's suggestion to provide some patches to devtool, if there is a need
-> for that.
->
-> >
-> >> While personally I think in the long run, every npm dependency has to
-> >> be provided as a recipe of its own (even I know the costs of that
-> >> pretty well)... esp when CVE checking and basic packaging hygiene
-> >> should be enforced.
-> >
-> > Why should OE provide a solution with doesn't support this? I think this
-> > is a main feature of OE.
->
-> It actually does, but having this lockfile based approach, basically
-> crams up all into a single recipe, which makes it a bit harder to check
-> and whitelist any false positives or n.a. items, as you might have to do
-> it for more than one recipe - but yeah, the basic CVE checking is part
-> of core and works as expected
->
-> >
-> >> Nevertheless for oe-core I wouldn't want to change a lot right now, as
-> >> there is simply a valid set of consumers missing that could enable us
-> >> to do some proper testing. But yeah fixes/improvements for devtool are
-> >> very welcome (also the available docu might need a touch)
-> >
-> > My problem is that the current approach doesn't support the build of an
-> > express or angular application. Does it makes sense to add this feature
-> > if we know that some basic OE features are missing (CVE and version
-> > check) and fixing bugs is a nightmare?
->
-> Just my personal opinion would be, to open up a layer on your own and
-> let it grow and mature first before getting it in into core - but
-> patches to devtool are very welcome
-> >
-> > Regards
-> >    Stefan
->
-
---0000000000002667a305cdac0b46
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>The OE landscape is littered with unmaintained or bar=
-ely maintained
- layers. By the looks of things, no one wants to maintain this proposed=20
-meta-nodejs layer either, which involves thousands of recipes, (so far)=20
-non-existent tooling to create and update them in scalable ways, and rigoro=
-us testing. Or
- such a layer would have already happened. <br></div><div><br></div><div>It=
-&#39;s
- for this reason that I think the shrinkwrapped, self-contained recipe=20
-approach is more viable (even if it comes with its own pain points) and als=
-o matches how node.js community operates=C2=A0
- - we can fix the CVE stuff as well to look into dependencies if that&#39;s=
- a
- concern.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 6 Oct 2021 at 11:4=
-3, Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com">kweihmann@o=
-utlook.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-<br>
-On 06.10.21 11:18, Stefan Herbrechtsmeier wrote:<br>
-&gt; Hi Konrad,<br>
-&gt; <br>
-&gt; Am 05.10.2021 um 21:29 schrieb Konrad Weihmann:<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On 05.10.21 21:17, Alexander Kanavin wrote:<br>
-&gt;&gt;&gt; On Tue, 5 Oct 2021 at 19:44, Stefan Herbrechtsmeier <br>
-&gt;&gt;&gt; &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmueller.c=
-om" target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.com</a> <br>
-&gt;&gt;&gt; &lt;mailto:<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmu=
-eller.com" target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.com</a>=
-&gt;&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0 &gt; A layer with thousands of recipe=
-s seems totally intractable.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; =C2=A0=C2=A0=C2=A0 What is your concern? The high number of de=
-pendencies or to <br>
-&gt;&gt;&gt; handle it<br>
-&gt;&gt;&gt; =C2=A0=C2=A0=C2=A0 via OE?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Generating recipes with a tool means the tool will be custom a=
-nd <br>
-&gt;&gt;&gt; non-standard, and chances of anyone outside of your company<br=
->
-&gt;&gt;&gt; understanding, using and contributing to it are rather small. =
-There&#39;s <br>
-&gt;&gt;&gt; also the problem of needing multiple versions of the same thin=
-g for <br>
-&gt;&gt;&gt; different<br>
-&gt;&gt;&gt; consumer items, which oe doesn&#39;t easily support. The link =
-Robert <br>
-&gt;&gt;&gt; provided already exposes some of the pain points with that app=
-roach.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I tend to think the best way forward (or least painful at leas=
-t) is <br>
-&gt;&gt;&gt; to gradually improve what there already is, which is the npm c=
-lass<br>
-&gt;&gt;&gt; and devtool, and send patches to various upstream njs projects=
- when <br>
-&gt;&gt;&gt; they&#39;re using outdated dependencies or otherwise need chan=
-ging.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Alex<br>
-&gt;&gt;<br>
-&gt;&gt; Just to chime in :-), I like to question this approach of having <=
-br>
-&gt;&gt; multiple versions of the same in an image.<br>
-&gt;&gt; As already outlined npm is horrible in many ways, but using the <b=
-r>
-&gt;&gt; lockfile approach multiplies that even more.<br>
-&gt;&gt; But I tend to agree that using the currently available oe-core cod=
-e <br>
-&gt;&gt; would be suited best for a broader audience<br>
-&gt; <br>
-&gt; But this audience loose the some basic features of OE (ex. version and=
- <br>
-&gt; CVE check) and have to manual fix or ignore the licenses.<br>
-&gt; <br>
-&gt;&gt; - in your own layer you simply can do whatever you like.<br>
-&gt; <br>
-&gt; But this make it impossible to share recipes. Why don&#39;t we create =
-a <br>
-&gt; meta-nodejs with a different approach to avoid doing the same thing <b=
-r>
-&gt; multiple times.<br>
-<br>
-We could, but we have to think about the costs and ways to properly <br>
-maintain it - and that seems to be the main reason.<br>
-You could come up with a repo of your own and see who is interested in <br>
-joining the development (as I for instance did with a repo for ruby <br>
-gems) - still this would be hosted and maintained outside of core I <br>
-think, due to the limited time and resources available.<br>
-<br>
-And **most important** the repo has to provide its own means of testing/CI.=
-<br>
-<br>
-BTW I remember I had a talk with someone last year about it and putting <br=
->
-a bunch of angular based apps into an image, with all npms as separate <br>
-recipes resulted in ~100k of files.<br>
-<br>
-so CI and testing has to be extra beefy to make it work - which maybe <br>
-requires a good portion of automation, which then brings me back to <br>
-Alex&#39;s suggestion to provide some patches to devtool, if there is a nee=
-d <br>
-for that.<br>
-<br>
-&gt; <br>
-&gt;&gt; While personally I think in the long run, every npm dependency has=
- to <br>
-&gt;&gt; be provided as a recipe of its own (even I know the costs of that =
-<br>
-&gt;&gt; pretty well)... esp when CVE checking and basic packaging hygiene =
-<br>
-&gt;&gt; should be enforced.<br>
-&gt; <br>
-&gt; Why should OE provide a solution with doesn&#39;t support this? I thin=
-k this <br>
-&gt; is a main feature of OE.<br>
-<br>
-It actually does, but having this lockfile based approach, basically <br>
-crams up all into a single recipe, which makes it a bit harder to check <br=
->
-and whitelist any false positives or n.a. items, as you might have to do <b=
-r>
-it for more than one recipe - but yeah, the basic CVE checking is part <br>
-of core and works as expected<br>
-<br>
-&gt; <br>
-&gt;&gt; Nevertheless for oe-core I wouldn&#39;t want to change a lot right=
- now, as <br>
-&gt;&gt; there is simply a valid set of consumers missing that could enable=
- us <br>
-&gt;&gt; to do some proper testing. But yeah fixes/improvements for devtool=
- are <br>
-&gt;&gt; very welcome (also the available docu might need a touch)<br>
-&gt; <br>
-&gt; My problem is that the current approach doesn&#39;t support the build =
-of an <br>
-&gt; express or angular application. Does it makes sense to add this featur=
-e <br>
-&gt; if we know that some basic OE features are missing (CVE and version <b=
-r>
-&gt; check) and fixing bugs is a nightmare?<br>
-<br>
-Just my personal opinion would be, to open up a layer on your own and <br>
-let it grow and mature first before getting it in into core - but <br>
-patches to devtool are very welcome<br>
-&gt; <br>
-&gt; Regards<br>
-&gt;=C2=A0 =C2=A0 Stefan<br>
-</blockquote></div>
-
---0000000000002667a305cdac0b46--
 
