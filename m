@@ -2,94 +2,89 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE9D1C433FE
-	for <webhook@archiver.kernel.org>; Thu,  7 Oct 2021 14:07:04 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.12247.1633615623616395723
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF86EC4332F
+	for <webhook@archiver.kernel.org>; Thu,  7 Oct 2021 14:28:57 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.12779.1633616936378881579
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Oct 2021 07:07:03 -0700
+ Thu, 07 Oct 2021 07:28:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OBamFN+T;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KVz+3EYQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id t2so19473093wrb.8
+Received: by mail-wr1-f42.google.com with SMTP id e12so19717515wra.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Oct 2021 07:07:03 -0700 (PDT)
+ Thu, 07 Oct 2021 07:28:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Y6BYyv1okUbWOP+HrEWIEVkNDnJlej14zJGPmtcMmts=;
-        b=OBamFN+T7JFBxmODU3JJn+GCEGlyPRo/6MajtAR+XaO3uMcv5EXyw0PqIx0qoocZGR
-         w+hVMhYuI6itLhcLV5lqOYRlNb+emCO2pL+Gl+Vw7CpOo8qpkejFoQylKHco71hCLXxV
-         eQRrAeAXc5yAzIDI0JHr2hR2zhPZzJ4RS3cfo=
+        bh=c9iEh6W0M4/JZ+7R+M2YOZW20lxPL0WQMYMR6064cqY=;
+        b=KVz+3EYQsohKW0s8cnEkXCKWjn83rEJBj+lkya8kqZMK98bt4VbHH5CChblmW8sDAZ
+         52Q5S7Eqf3cvGmfHb+sgLs3/6eULVZRTA9QoHTFhYIT9KIOlt3/tr0cJ9Yz/zLsX1XHL
+         tWSBRwnKc/D6YIq+gr6NJAOTaSjGdq5AfdaoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Y6BYyv1okUbWOP+HrEWIEVkNDnJlej14zJGPmtcMmts=;
-        b=yBpXPdLKpHJprzi3j96ukT9TAowgTwW1aOjNMawEbdf+vS/6HJ8oCdJwgVYY0q3L25
-         EsAzEyYdINOl+z4b4WnPBvTifvbgvA9i0H6ago7ebKey2wuDN4ay7Lx38gQzUoyKwH1T
-         Og4SaqK+Jn+Vno4CNU5NnQlsKuOFlkp81SHs12gY3ocVAyHDv7F5nYeVf4AJ6gtR7pGg
-         du0kkycGse1cQ9Y+Mc4pYn6nCjjzI+WXxfzqKQhF/AqqYDlfWEiQUdzfQroLd0ZhgKUy
-         11oAGVwA+z/QjNeoYqDKI6NIJZPwjLD/xBXcRVxKIUSW6qBX2RPMRyIBHMXgVI+NwFgm
-         sbwQ==
-X-Gm-Message-State: AOAM532glh+nZRKOpe4uYTuwLrUgDdWP/1Azum+Dhh34hnWvqg8ViyRF
-	ocZZtrhxvM/CcuzHNmCbc0MhThdBp9XXVg==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c9iEh6W0M4/JZ+7R+M2YOZW20lxPL0WQMYMR6064cqY=;
+        b=fJsb/zHrr3DSCQWLMJLAkyAyf5lmE+Ap+shcKXL/UWiWx5tO27d3srhM5613IjtXu2
+         tmKi8yScB+4Ve3mCWGIztU1c1skEtZz3d6lf2l1sUjmQ8VYIVEzHUs27sl0WZ58qoEsf
+         jHsuPwWEp7sbX3XPvLDBC7q5alxHlmzeBmAck7uszGaiaqyJ4LP74TRrtOJQctCMBBaa
+         T1N6kn+SfU4leBlOjdtoBN/67rMC+Vz0OUey1tuIY+ytFR4edGHQ5MCc1CB80bBx3YaT
+         ST2cYTUQI7O2uts/2pHDZifXecm75U4q13JchhBGv7qOKVitidVWG0CEozLPsoVSllRm
+         HMlg==
+X-Gm-Message-State: AOAM530/a7mBjrYFv+vZyWtQGrpymnobP+PC1qHjepk3PLxUcI3JiufV
+	GulO/PHqwDpUZeFBIj8fQTWZvwRXw4bfQQ==
 X-Google-Smtp-Source: 
- ABdhPJz31K20D7kX5a5LVhOxcIPYyPF/2LbnXcnS5KE+I1VTxDaZ09H6kDsWlP+89lhmszEvZ6flhw==
-X-Received: by 2002:adf:aa4e:: with SMTP id q14mr5739486wrd.100.1633615621926;
-        Thu, 07 Oct 2021 07:07:01 -0700 (PDT)
+ ABdhPJzXfabSc4jPpAqYp0Tz4F4mfpfqReFUqflOzec3pJVCUGJ82h21AWE7pY+kZhB6hX/mrfVI+g==
+X-Received: by 2002:a7b:c938:: with SMTP id h24mr1015043wml.41.1633616933821;
+        Thu, 07 Oct 2021 07:28:53 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:4ef0:3e29:718c:a98a])
         by smtp.gmail.com with ESMTPSA id
- d3sm27441979wrb.36.2021.10.07.07.07.01
+ w11sm5339443wmc.44.2021.10.07.07.28.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Oct 2021 07:07:01 -0700 (PDT)
+        Thu, 07 Oct 2021 07:28:53 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] rpm: Deterministically set vendor macro entry
-Date: Thu,  7 Oct 2021 15:06:59 +0100
-Message-Id: <20211007140659.2419135-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] multilib: Avoid sysroot race issues when multilib enabled
+Date: Thu,  7 Oct 2021 15:28:53 +0100
+Message-Id: <20211007142853.2422005-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211007140659.2419135-1-richard.purdie@linuxfoundation.org>
-References: <20211007140659.2419135-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Oct 2021 14:07:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Oct 2021 14:28:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156726
+ https://lists.openembedded.org/g/openembedded-core/message/156727
 
-On an aarch64 build host, vendor is found to be "unknown", on x86 systems
-it is "pc". This filters through to the PLATFORM tag in target rpms.
+Multilib changes RECIPE_SYSROOT which can make the value in PSEUDO_IGNORE_PATHS
+incorrect. Add the correct value, which fixes races over files in the sysroot.
 
-We saw reproducibility test failures where the PLATFORM tags in noarch
-rpms were changing depending upon which host built them. Forcing the
-vendor value to a consistent one makes things deterministic.
+[YOCTO #14581]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/rpm/rpm_4.16.1.3.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/conf/multilib.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index 2ff9c2b1122..aa6b5ee8aad 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -59,7 +59,8 @@ AUTOTOOLS_AUXDIR = "${S}/build-aux"
- # OE-core patches autoreconf to additionally run gnu-configize, which fails with this recipe
- EXTRA_AUTORECONF:append = " --exclude=gnu-configize"
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 8a8db582df4..7f3b9463efa 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -11,6 +11,8 @@ STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+ RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+ RECIPE_SYSROOT:class-native = "${WORKDIR}/recipe-sysroot"
  
--EXTRA_OECONF:append = " --without-lua --enable-python --with-crypto=libgcrypt"
-+# Vendor is detected differently on x86 and aarch64 hosts and can feed into target packages
-+EXTRA_OECONF:append = " --without-lua --enable-python --with-crypto=libgcrypt --with-vendor=pc"
- EXTRA_OECONF:append:libc-musl = " --disable-nls --disable-openmp"
++PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/${MLPREFIX}recipe-sysroot"
++
+ INHERIT += "multilib_global"
  
- # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
+ BBCLASSEXTEND:append = " ${MULTILIBS}"
 -- 
 2.32.0
 
