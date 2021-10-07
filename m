@@ -2,184 +2,92 @@ Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C5FC433F5
-	for <webhook@archiver.kernel.org>; Thu,  7 Oct 2021 15:06:33 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.13414.1633619192111198895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 613F0C4321E
+	for <webhook@archiver.kernel.org>; Thu,  7 Oct 2021 15:06:34 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web12.13035.1633619193579691803
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Oct 2021 08:06:32 -0700
+ Thu, 07 Oct 2021 08:06:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=PMzHTuxM;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.176,
+ header.b=cOtkVMh/;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.171,
  mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f176.google.com with SMTP id z40so4859846qko.7
+Received: by mail-qk1-f171.google.com with SMTP id 138so6225421qko.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Oct 2021 08:06:31 -0700 (PDT)
+ Thu, 07 Oct 2021 08:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=S6HcQ2Dw7ntgsn5BSHHKl19W8zCZJxprXcFSIRtyVEI=;
-        b=PMzHTuxMaXoiyLH0Au90U51UoILhwOzXENVT/L2NteB4YRvufGtuhwF+StdUvGbEDA
-         uwKeX/3ba4TmYJPOzfiknhQdThVD+Egz2iGFv+WT43EWLgCRf0LArdEps2Lru7Uf+mTY
-         CgUCJt+rrCa5G3enCt3DQ6jmimTjnhnodWJxZKQDWRPZtYHzeMNXVbgYVmKUSn531bYb
-         o75Y9J85fsva86MeljWdbyUCE1zOyHi8VGeY2dn25PMQBa99xbinCrT37Xy+xWv/smIj
-         arWP2PvHOCk6T9X0MQ/oCdjuzow9zp20LSwTb+74DZ0nABZ+08P3Jqk3x2vnqc/FQx7U
-         wJQQ==
+        bh=SlqRBoUJsvd8ckBHYJ0CxVrjYNLgPLBFLxwRwSJDKos=;
+        b=cOtkVMh/+MGlLaIMwcshiR3DTusvprtBpLSE8GJcnocrewl1aXdBXtpZuCEPs4fX6u
+         ntynSJ0gXgLeE/g/BfRiYbC0xK6dIeDz1q7JTg5EhoCbMC7iR5jB5pwCIkpLZlBbD3ea
+         cmsXn83o71sKUQGogU5vMs4k/CYv/dIvxWDZBxImJH5Yt4L3bZ3m3oG3sPB2J+z+CY67
+         Ei1p2xq/EkPoe1kwsv8kYslDpMhMUw8lSYeFlLzXE2kPdxceSkp2BUK1Mc+HStZoEX31
+         caUh7m6FYZ+hZG7JSkS9G8PstLOkkmveS/vQQlDh6CAOKY/n+dM37Sb5NE3OIUfuYrSf
+         SPJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=S6HcQ2Dw7ntgsn5BSHHKl19W8zCZJxprXcFSIRtyVEI=;
-        b=kAmn4+m08jL/8s8T+xXdl4GS8iLSRnNKffYZWnHKR35tnUcmkCOxrjoxA3GiJmMfuV
-         7g0trZe+vuzZw367EPi2vlZVeM+G9pGtRn391XHzTrHpG9T4myazyaZmDh02CK+M/bOx
-         R0WzYLsCau5iUW1NoXWjHQhH1OI4ysqmJ/xJ5qdieX3bg6vk7GdGmq3J0ZOlgffJwsNZ
-         +79j/GSGGrWyPjhTQrF/hGSzPhLPk47pRmYuzOI5g2wK/wpRkSrJvyqMe1KEF9GZoFA4
-         K+fA5FJLvd4ZfblziljtPlIZg2ySNBLqroL0Rruis83AD30qky1tWHm2YVxrtFlbaPoC
-         C6hg==
-X-Gm-Message-State: AOAM531UUtBT2Ax2bpepAl3AhkLQydz8F2I/aoL6DzCFxUGlmpEDxvVP
-	nAor1RNj1Vt3/USdjm9IU+om0+C2E+wDQg==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=SlqRBoUJsvd8ckBHYJ0CxVrjYNLgPLBFLxwRwSJDKos=;
+        b=EGmBPBOz6lNIbph26jRWoP6TuAj/wB8+FBavGf+srJIeGrn71b+h6qQcmcYu+BNDgQ
+         JDd8YZECgT+qrVgPhkpDXPg6zAXYtPPWD8qo82ne1ArcwyNjkMXUau3VP6TAeien8vI6
+         PxI8NLjo2nLlKZZbGXRa+JGF0RC4/TPZirVXpnKfM8WbSFXcQP7KB1NZIxSNE4PC97PZ
+         5nDvqkHCRcFB409zdPMa51Da1ZleNFawdJKpa1PMyEM9JWDNkVvRuadbG5Ege6UOKPzY
+         Cbv/c9gzDTRxfIt99fdorbCQPUhnJQ36chVWcqX068clXR0qUjJBc/ExxcoQCUdA/hv6
+         8Okw==
+X-Gm-Message-State: AOAM533bge4N9DHev5ronBzNUKZurysnFNGWWeeCjRRZRZqO85cnA1zB
+	pqJTSAsr6nITibvUxpGTLKPVVUccEGlIsA==
 X-Google-Smtp-Source: 
- ABdhPJwHgXvG8HfkSSNIVutsNzpLrDwlTxXEQRdERrTyQqjZ/x583pfCKTaRDLiJvdu4ubUbJgv9Jw==
-X-Received: by 2002:a37:a546:: with SMTP id o67mr3648430qke.24.1633619191016;
-        Thu, 07 Oct 2021 08:06:31 -0700 (PDT)
+ ABdhPJwSVPu1uToq6lN9E5DsYA799QJjzo84U4qroIKTMObwbB+Qmt5CKj5oigt6mrkxlA2/+GdkIg==
+X-Received: by 2002:a37:bf81:: with SMTP id
+ p123mr3790869qkf.439.1633619192675;
+        Thu, 07 Oct 2021 08:06:32 -0700 (PDT)
 Received: from localhost ([2605:a601:a650:b700:9937:f30b:7d2e:fddf])
         by smtp.gmail.com with ESMTPSA id
- bk20sm15056180qkb.13.2021.10.07.08.06.30
+ x18sm14001413qkx.94.2021.10.07.08.06.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Oct 2021 08:06:30 -0700 (PDT)
+        Thu, 07 Oct 2021 08:06:32 -0700 (PDT)
 From: Jon Mason <jdmason@kudzu.us>
 To: openembedded-core@lists.openembedded.org,
 	docs@lists.yoctoproject.org,
 	bitbake-devel@lists.openembedded.org
-Subject: [PATCH 0/8] replace http with https for URLs
-Date: Thu,  7 Oct 2021 11:06:22 -0400
-Message-Id: <20211007150630.22138-1-jdmason@kudzu.us>
+Subject: [PATCH 2/8] bitbake:toaster:test: Update SSTATE URL
+Date: Thu,  7 Oct 2021 11:06:24 -0400
+Message-Id: <20211007150630.22138-3-jdmason@kudzu.us>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211007150630.22138-1-jdmason@kudzu.us>
+References: <20211007150630.22138-1-jdmason@kudzu.us>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Oct 2021 15:06:33 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Oct 2021 15:06:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156728
+ https://lists.openembedded.org/g/openembedded-core/message/156730
 
-This started off with a simple request to change http to https in the
-documentation.  It quickly went off the rails when I decided to change
-all of the http to https, and then found broken links and a myriad of
-other things.  I broke up the patches so they can be applied to their
-respective git repos, but I'm sending as a series so that it can be
-seen as a single push to get rid of http.
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ bitbake/lib/toaster/tests/builds/buildtest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Of note: https://sstate.yoctoproject.org doesn't work (bad cert), and
-https://sources.openembedded.org doesn't work (no https).
-
-If there are problems with some of the patches, like the SSTATE URL,
-feel free to drop them.
-
-Thanks,
-Jon
-
-Jon Mason (8):
-  oeqa/manual: Fix no longer valid URLs
-  bitbake:toaster:test: Update SSTATE URL
-  meta: replace http with https for URLs
-  yocto-bsp/poky: replace http with https for URLs
-  bitbake: replace http with https for URLs
-  documentation: replace http with https for URLs
-  documentation: use YOCTO_DL_URL
-  dev-manual: remove errant /
-
- README.OE-Core.md                             | 10 +++---
- bitbake/README                                |  8 ++---
- bitbake/doc/README                            |  2 +-
- .../bitbake-user-manual-fetching.rst          |  2 +-
- .../bitbake-user-manual-hello.rst             |  4 +--
- .../bitbake-user-manual-intro.rst             |  6 ++--
- .../bitbake-user-manual-ref-variables.rst     | 10 +++---
- bitbake/lib/bb/tests/fetch.py                 | 36 +++++++++----------
- bitbake/lib/layerindexlib/__init__.py         |  4 +--
- bitbake/lib/layerindexlib/restapi.py          |  4 +--
- bitbake/lib/layerindexlib/tests/restapi.py    |  2 +-
- bitbake/lib/toaster/orm/fixtures/oe-core.xml  | 12 +++----
- bitbake/lib/toaster/orm/fixtures/poky.xml     | 24 ++++++-------
- .../orm/management/commands/lsupdates.py      |  2 +-
- bitbake/lib/toaster/tests/builds/buildtest.py |  2 +-
- .../toastergui/templates/layerdetails.html    |  2 +-
- .../templates/package_detail_base.html        |  2 +-
- documentation/dev-manual/start.rst            |  4 +--
- documentation/profile-manual/usage.rst        | 28 +++++++--------
- documentation/ref-manual/faq.rst              | 16 ++++-----
- documentation/ref-manual/variables.rst        |  8 ++---
- documentation/toaster-manual/reference.rst    |  8 ++---
- meta-poky/README.poky.md                      | 12 +++----
- meta-poky/conf/distro/poky.conf               | 16 ++++-----
- .../devtool/devtool-test-local_6.03.bb        |  2 +-
- .../devtool/devtool-test-patch-gz.bb          |  2 +-
- .../devtool/devtool-upgrade-test2_git.bb      |  2 +-
- .../devtool-upgrade-test2_git.bb.upgraded     |  2 +-
- .../git-submodule-test/git-submodule-test.bb  |  2 +-
- .../recipes-core/busybox/busybox_%.bbappend   |  2 +-
- meta-yocto-bsp/README.hardware.md             |  2 +-
- meta/classes/insane.bbclass                   |  2 +-
- meta/classes/mirrors.bbclass                  | 20 +++++------
- meta/classes/sstate.bbclass                   |  2 +-
- meta/classes/toaster.bbclass                  |  2 +-
- meta/conf/distro/include/maintainers.inc      |  2 +-
- meta/conf/distro/include/yocto-uninative.inc  |  2 +-
- meta/lib/oe/package_manager/__init__.py       |  2 +-
- meta/lib/oeqa/manual/eclipse-plugin.json      |  6 ++--
- .../lib/oeqa/manual/toaster-managed-mode.json |  8 ++---
- meta/lib/oeqa/runtime/cases/buildlzip.py      |  2 +-
- meta/lib/oeqa/sdk/cases/buildlzip.py          |  2 +-
- meta/lib/oeqa/selftest/cases/buildoptions.py  | 22 ++++++------
- meta/lib/oeqa/selftest/cases/devtool.py       |  4 +--
- meta/lib/oeqa/selftest/cases/fetch.py         |  2 +-
- meta/lib/oeqa/selftest/cases/recipetool.py    |  2 +-
- meta/recipes-core/dbus-wait/dbus-wait_git.bb  |  2 +-
- .../images/build-appliance-image_15.0.0.bb    |  2 +-
- meta/recipes-core/psplash/psplash_git.bb      |  2 +-
- meta/recipes-devtools/glide/glide_0.13.3.bb   |  4 +--
- .../opkg-utils/opkg-utils_0.4.5.bb            |  6 ++--
- meta/recipes-devtools/opkg/opkg_0.4.5.bb      |  2 +-
- meta/recipes-devtools/prelink/prelink_git.bb  |  4 +--
- .../pseudo/files/build-oldlibc                |  2 +-
- meta/recipes-devtools/pseudo/pseudo.inc       |  2 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  4 +--
- ...ssing-libraries-to-Extension-for-mul.patch |  2 +-
- ...t-fail-to-build-on-some-PPC32-config.patch |  2 +-
- meta/recipes-gnome/gcr/gcr_3.40.0.bb          |  2 +-
- .../libsecret/libsecret_0.20.4.bb             |  2 +-
- .../libfakekey/libfakekey_git.bb              |  2 +-
- .../matchbox-session/matchbox-session_0.1.bb  |  2 +-
- .../matchbox-wm/matchbox-wm_1.2.2.bb          |  2 +-
- .../mini-x-session/mini-x-session_0.1.bb      |  2 +-
- .../xcursor-transparent-theme_git.bb          |  2 +-
- ...-workarounds-in-cpu-features-detecti.patch |  2 +-
- meta/recipes-graphics/xrestop/xrestop_0.4.bb  |  2 +-
- ...der.c-when-env-var-is-set-do-not-fal.patch |  2 +-
- .../matchbox-config-gtk_0.2.bb                |  2 +-
- .../matchbox-desktop/matchbox-desktop_2.2.bb  |  2 +-
- .../matchbox-keyboard_0.1.1.bb                |  2 +-
- .../matchbox-panel-2/matchbox-panel-2_2.11.bb |  2 +-
- .../matchbox-session-sato_0.1.bb              |  2 +-
- .../matchbox-terminal_0.2.bb                  |  2 +-
- .../matchbox-theme-sato.inc                   |  2 +-
- .../sato-screenshot/sato-screenshot_0.3.bb    |  2 +-
- .../settings-daemon/settings-daemon_0.0.2.bb  |  2 +-
- meta/recipes-sato/webkit/webkitgtk_2.32.3.bb  |  2 +-
- meta/recipes-support/icu/icu_69.1.bb          |  2 +-
- .../libunwind/libunwind_1.5.0.bb              |  2 +-
- .../ptest-runner/ptest-runner_2.4.2.bb        |  2 +-
- scripts/autobuilder-worker-prereq-tests       |  6 ++--
- scripts/create-pull-request                   |  4 +--
- scripts/install-buildtools                    | 10 +++---
- scripts/lib/build_perf/html/report.html       |  2 +-
- 85 files changed, 210 insertions(+), 210 deletions(-)
-
+diff --git a/bitbake/lib/toaster/tests/builds/buildtest.py b/bitbake/lib/toaster/tests/builds/buildtest.py
+index 872bbd377510..13b51fb0d8e4 100644
+--- a/bitbake/lib/toaster/tests/builds/buildtest.py
++++ b/bitbake/lib/toaster/tests/builds/buildtest.py
+@@ -119,7 +119,7 @@ class BuildTest(unittest.TestCase):
+         if os.environ.get("TOASTER_TEST_USE_SSTATE_MIRROR"):
+             ProjectVariable.objects.get_or_create(
+                 name="SSTATE_MIRRORS",
+-                value="file://.* http://autobuilder.yoctoproject.org/pub/sstate/PATH;downloadfilename=PATH",
++                value="file://.* http://sstate.yoctoproject.org/PATH;downloadfilename=PATH",
+                 project=project)
+ 
+         ProjectTarget.objects.create(project=project,
 -- 
 2.20.1
 
