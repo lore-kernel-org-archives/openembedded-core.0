@@ -1,86 +1,110 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9E1C433F5
-	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 21:12:25 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.1214.1633727543953598775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 899B6C433F5
+	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 21:44:04 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.1650.1633729443920669609
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Oct 2021 14:12:24 -0700
+ Fri, 08 Oct 2021 14:44:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b6P2ucfo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id e12so33441439wra.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FSrTqPJf;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id q12so3611660pgq.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Oct 2021 14:12:23 -0700 (PDT)
+ Fri, 08 Oct 2021 14:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=95fVqFYHIowC2/NCx1IabQ4bkxmOax8G9U4GCghzGBQ=;
-        b=b6P2ucfo+lnm2xnS8whaiffnRnrSauATgzEOW45CtKvrOmMf/VoK/Km+lzjhhWa8Tr
-         xN7oYzI3/Z8iAETJxUpiXnxStvxTxWp5RnLuJ4+cOFF7o/4OgeSUSD9/ZQ+Pc7w76ETk
-         CIdW7Sm3kz9/RV1Ceav35UZ4PoiH0w1TBk2PQ=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7iuhyMOlfBPMJ7drOzfynZHmveakDTn323ssuKlGOnE=;
+        b=FSrTqPJfKbTDc1Xb6iBBerESnGRCVgakHeEeDdmTQei8+4GQXwOtk7MnoJNGoYRYAx
+         +kKWhY1FjYx6GvDYaXWZpwnnAXmVd1PYhfpSQbJiCkUZtKwwOYAbVeig9fM4rwPS/7Qt
+         al4Be20L4kYU9mXaZFMpUzqeV60n8HRgUqGjP5T1yWTw6u1lA/omMyikz0l+r2c2q7ep
+         7XUYKc8CYLq0d1iVD4mEHcjp8D7eI9RtKJ6Gc3Ue5Sx1NnbFtYmMCwDW0ZbXcHAhzA3X
+         k9BrCVY98eOK+2+CJQUEdtbQW4UpP1Zgg/oFuGMMwvY6iB9xy2joFNbz+6AfVZhZuhmt
+         +XaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=95fVqFYHIowC2/NCx1IabQ4bkxmOax8G9U4GCghzGBQ=;
-        b=7amPlSlRKBNa5Tzk1Asbgmb/jJZYT/Kfv8VbSvjid9jZ/RpdAuZn6uAoCIkZhi8L1m
-         OpxaRzMD7kV7OxRuDjsIjyPcUzBIi5oniVzknh8wofevuk2TnP0mmGMRdh27vgDyPgBO
-         xwmWi/hIPmZ+WV4TYGb+d5h9splyaTFGOfa6x3tOsFggmE8kltU9PIYrRgkTDgOTfoTD
-         bDWnriO3Cg2hpJd0CDQ22tTYxfSoCaJp2jMw752QjDNqvtmItdokGj+z8LBlOtKQ93ca
-         qzc7YFRDIc2m5lKwrEiausgXcq1OStKpLB9U3lyzgHStMMsR4H6zOKpm0vnYBky+8qai
-         w3tw==
-X-Gm-Message-State: AOAM531FMYPfrNGXM1ak9Fmrk4OXSJEo6uwqTlAWQhPnrTBlCx7AcpEF
-	ojGovj0TD572Bx98WYQBFONqzA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7iuhyMOlfBPMJ7drOzfynZHmveakDTn323ssuKlGOnE=;
+        b=1+ZTmbd94ELPLUlMqppoRBzxczL4txN5v4EZrLyE5EZvgcYvn4ysLOE2Xh/DiCiTAS
+         DmSXT330i6ovizmJaKIGTynhpov55ziJ7HHpIn6frnd7pl9V2sa3eS8LvltVwJnsENyv
+         wMqcHW/ko0UlV8K7LSHJc71wc89l4yZS620a1XUEeKA+n3MY6sftCX331ydmZMIkkPIE
+         REIIjjxWEqMJOjAzMwwHvO+FyPodaTe3uuloB+n0f5lR+mGRsCOmIOFL+jlc5QRyQW8E
+         j7ufwVMfkXRceBd5d6PpkIkaE5djD7GziVDBVpVno+P/hA5mdoRdoFbANEKdqsxHNVi+
+         INDw==
+X-Gm-Message-State: AOAM530mdOPQVDKnq/dMunaeIkhGqynneVWPrdtk2wxOuTj7VEtU7yFo
+	11mCWCkdl+OknOVhlhzLtstQdS+c57FUPQ==
 X-Google-Smtp-Source: 
- ABdhPJx7ojncECgxsGi2lWemU6lYHoGW4+JgwNr+RxONmzNkyJCZQXrckG2A8fdSArIJ5MGRClu9OA==
-X-Received: by 2002:adf:ee8f:: with SMTP id b15mr7031406wro.126.1633727542333;
-        Fri, 08 Oct 2021 14:12:22 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5e9b:24eb:82aa:ef28?
- ([2001:8b0:aba:5f3c:5e9b:24eb:82aa:ef28])
+ ABdhPJwHy8gd6tSybmrcSe+jzk3ymVGs9vjImtp1q+eq3iGOn7qiT5/4EIeIqU40oi/EbNxSUaSUhA==
+X-Received: by 2002:a62:3383:0:b0:438:4b0d:e50e with SMTP id
+ z125-20020a623383000000b004384b0de50emr12600321pfz.9.1633729442820;
+        Fri, 08 Oct 2021 14:44:02 -0700 (PDT)
+Received: from nereus.local ([2601:1c0:6000:1830:1ecf:6056:d182:298e])
         by smtp.gmail.com with ESMTPSA id
- g70sm259026wme.29.2021.10.08.14.12.21
+ nl18sm180846pjb.3.2021.10.08.14.44.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 14:12:22 -0700 (PDT)
-Message-ID: 
- <2c39d3ead1cee72e752e9aa990b5fd3c9173712e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ffmpeg: fix CVE-2021-38114
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kiran Surendran <kiran.surendran@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 08 Oct 2021 22:12:20 +0100
-In-Reply-To: <20211008164857.91699-1-kiran.surendran@windriver.com>
-References: <20211008164857.91699-1-kiran.surendran@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+        Fri, 08 Oct 2021 14:44:02 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [PATCH] ptest-runner: install -collect-system-data script
+Date: Fri,  8 Oct 2021 14:43:48 -0700
+Message-Id: <20211008214348.2013232-1-timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 21:12:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 21:44:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156785
+ https://lists.openembedded.org/g/openembedded-core/message/156786
 
-On Fri, 2021-10-08 at 09:48 -0700, Kiran Surendran wrote:
-> backport from upstream
-> 
-> Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-> ---
->  .../ffmpeg/ffmpeg/fix-CVE-2021-38114.patch    | 67 +++++++++++++++++++
->  .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |  3 +-
->  2 files changed, 69 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
+When ptest-runner times out or otherwise fails, it tries to
+call ptest-runner-collect-system-data, so install the script.
 
-Master has 4.4 so this doesnt apply? Which release was this targeted at?
+The script currently calls dmesg, df, free (which are provided
+by busybox, etc.) and pstree (which is a sub-package of psmisc).
 
-Cheers,
+Add pstree as an RDEPENDS.
 
-Richard
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+---
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+index 1d3c24a177..23ab48ba2b 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+@@ -15,7 +15,7 @@ SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+ 
+ S = "${WORKDIR}/git"
+ 
+-FILES:${PN} = "${bindir}/ptest-runner"
++FILES:${PN} = "${bindir}/ptest-runner ${bindir}/ptest-runner-collect-system-data"
+ 
+ EXTRA_OEMAKE = "-e MAKEFLAGS= CFLAGS="${CFLAGS} -DDEFAULT_DIRECTORY=\\\"${libdir}\\\"""
+ 
+@@ -25,6 +25,10 @@ do_compile () {
+ 
+ do_install () {
+ 	install -D -m 0755 ${S}/ptest-runner ${D}${bindir}/ptest-runner
++	install -D -m 0755 ${S}/ptest-runner-collect-system-data ${D}${bindir}/ptest-runner-collect-system-data
+ }
+ 
+ RDEPENDS:${PN}:append:libc-glibc = " libgcc"
++
++# pstree is called by ptest-runner-collect-system-data
++RDEPENDS:${PN}:append = " pstree"
+-- 
+2.30.2
 
 
