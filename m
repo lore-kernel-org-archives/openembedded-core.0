@@ -2,34 +2,34 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDC3C433F5
-	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 07:48:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DEA4C433EF
+	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 07:48:57 +0000 (UTC)
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com
  (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.63])
  by mx.groups.io with SMTP id smtpd.web12.6087.1633679334680079990
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Oct 2021 00:48:55 -0700
+ Fri, 08 Oct 2021 00:48:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=gDPVbMio;
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=0EKd/29Z;
  spf=pass (domain: weidmueller.com, ip: 40.107.6.63,
  mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QFGl8inuwqTUYn2Lw95Gh/6z0zQcUfINt3elMug4nUUlXFPS8kYw7ODRJa5QpJsY9Xsnhsdsd4rZTrs6aFzaaombaxCmrLOzsGdXZ8ajrFwwbHtrhbAIvT+qrV4/RuUdOjBpy833/8vQKhTV+BaV9zqpVar05ld+sPj4Sfj11ywKseDJGh9lJOD1NK2bLMGFCIP/sDC1HF/lPbY7EY4Zdis8adjRK2KWr6U7SGlYE3DkdcT34Aiki+aL8V0w4JZ12sI3IOzQ1AviD0HESMghye2pdGl36rDYFALBXSFx2wtoJs4Dh7kYr1h5Cd6PYsaxdxMVYT6hscowq1iqp1wP6w==
+ b=VBDMfHqEE5/074hmtYzHebInmKmRMDRThXY4q2Po0lfQtlR2/TjA+DwSrr3ox7Lf28cejJqP13U86cJwadOGgwL0Me57FqdKkGKVLB4FngHEeNIU1O9dR3eybLVQsf4h2BTmXWInrgPAbbCdtvZF1gN23cofj44c/ZoAksIE/ldBG5c89168+xe0INL3cN2eQrdm2//B0XaUCiAiSJul1RGxApZyenDvDxNKArDtAm4UTHWGXpK5SxxAuyfWPouekFSyXgzguoUqEuhamYzfuE4cmbhkhZTAefEXnZP+LvHkHaPWS0lVm3R1usl92XG7LkXcItUmydeBO8t8/I7kaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x/58Wl3Wz/JTTdLy0/SdVXBJfzcvEKMOBgMhC2dGNk0=;
- b=hNi9z87rSeKJzHb580tld+ucto0AJ22hbjxS7s2X3C2P3pPbmt/pGy6TENm7UfXc15VeNRpe8s1SbM6EMqk3RlcSOM64oR5PTXlXq9E2h4ogTYlk2MzS0n/4l4TcxCZRJ3xR0Ql5mz/nOk++3RG0VOS+1iCbWkXb05MvnXnVqemRETsS1DCzuiFZiNiUUMOw/T/fC+TsPQTJyTmWtbKIBe3wrkNMEXBF2IzHfLJGq0pugHCXJAMiLf83s+oYR5gjV2lSGdB9YhOtgFl3m2rkEF8GKxn0nXFiFRVn2P36WsRYRQbyyJIzOZVxEeWdv6jKWEQnA4GkZ5X8oLCbrUyEkw==
+ bh=oRCh8rDu5ujKwQfdK5eYUdzez6ktY7BlamG1SwsrXV0=;
+ b=GAf9IJT3LrxMxlpefwQi5b3BEuzsAuI46xiAoTYMIWGViEGIyvxApf9yqCjgVNygnO0+JsGs2t5ZpZDK/pHzS5wOg1wxaFOpz6TtJrMzw5d3W+RbOQovfEY2GPgYD93wqrxEPKP6G9glUsYioKYfgJA9tP3I9Z3sfvkTkSkU2Op5j6wKYTac6/SI5pjUXsOcFR51a5XOPuyUwu1Lkl7iuhIbT4rnCV7ASH7fj3DVXYubWD6GMeWgwhP37kOQ97o8Ku/B7Rf87Aoksy3YRtFT9d1fLQA081HbNf9dgvlGPI2KQTq7Q6y4X5IATwVptMmVfJ7Vk6+A8YXTxQBQLB2fOw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x/58Wl3Wz/JTTdLy0/SdVXBJfzcvEKMOBgMhC2dGNk0=;
- b=gDPVbMioWzzdCCiSJdHFcbv01L1+9XjQlICqkYouhqm3DjJ+MvZOm7WY5Mc+JKHTczcZR70UaWAbJ2acLekJ+tVGlUdOo1aXB7v+fsye+lBx0vxeWiEgWs3Fir1fR1BxFT3YO0HCgY1+6m86awr7eD1h0Ck1BUnNg5mF6Q1fcjA=
+ bh=oRCh8rDu5ujKwQfdK5eYUdzez6ktY7BlamG1SwsrXV0=;
+ b=0EKd/29ZEmTGtJiDdwgzY3FY+xTXsA0JQtM8JdIZ7NJ1hwNAv6f30AT2iVGxfbk3noGIuClKXhRcDQdDjarTVxRtF5AE4Ho/XYIenBVtBRKvfFDTdbnPYeEDiLlVSN0ZTRULN9fRKBtfPZJfBsuqEFcse8a70+f76Gtc20O7gPc=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=weidmueller.com;
@@ -45,11 +45,15 @@ Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [PATCH v2 01/12] npm: Add support for EXTRA_OENPM arguments
-Date: Fri,  8 Oct 2021 09:48:24 +0200
+Subject: [PATCH v2 02/12] recipetool: Move license md5sums into CSV files
+Date: Fri,  8 Oct 2021 09:48:25 +0200
 Message-ID: 
- <20211008074835.10320-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211008074835.10320-2-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: 
+ <20211008074835.10320-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: 
+ <20211008074835.10320-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: FR3P281CA0051.DEUP281.PROD.OUTLOOK.COM
@@ -62,69 +66,65 @@ Received: from DE10512.weidmueller.com (94.134.181.155) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.4 via Frontend
  Transport; Fri, 8 Oct 2021 07:48:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f3ba171-6097-449f-d9ac-08d98a301289
+X-MS-Office365-Filtering-Correlation-Id: 7cf10e81-289a-43fd-0cb2-08d98a3012bd
 X-MS-TrafficTypeDiagnostic: PA4PR08MB6127:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<PA4PR08MB612792415CE10F054D364942D7B29@PA4PR08MB6127.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:386;
+	<PA4PR08MB6127CEE35C4035234161F418D7B29@PA4PR08MB6127.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	jAIke4mFK9bd6dp7GKFB+iv517o67hSc8q5WzzoHK42p5MVZpz7Ret9eiLWCa9F7QHw0wyJPMl+Kyf3YT5FzdNdInKNrqwHY31ugRq+cUl18L7SvntNJ+d/94yW6ZybYBfooR/QR7L6O4dAXtdtZfYW39i7MPF6frZkZHoRB+OgbJw2X1aW+8ZqXTBbFA5mTxjIQRSBPc3nYZP8v2TCAhx1Qtl9+5A/Apo8UOjbwBpSEdv+RvyHstKHCkE3zpjg0TUCjhZjppF5Orc/wixapp/eQS/ympz6D15FcRimtSTkqRUnrjk6j/bmXI7lh1MUgsGufSO0U7mS28slgUVzJgc+zRdIh5awaTMbxF+p/iQH3mz4uImwE2tjnISGJpNWZ7hT+f5/c1qIJ4nsmoYnTiUT7x7b2VN9lwTgZmgf1aDBDEOSTUzzQVBxpRE3g7BR/abUsal5FecJdQTjPkdVn/PlUvWJMlv78Sn+khsRBWAPu08Diacj5ol31iHIZE0VR39s1xCsTYDNoWDdm+7EdewHJPBQtLAp88rVcBe2KPvhLDbnlM43E4RIxHB4/LXNO1QPsiDp4EV6X02e/UzUzvAMnhwJEyEks8SLJPFtZmNOUQamlNop7KSne4WyQS+u7x4XD9IjaG+TZLWIhR1Pys2XrdVvTrFeaLIYkddGvn7bykMrjS9VbW8d29/ZzQr6Xb3O9B754Ayi7iYRH92NVEQ==
+	QQwQ5He3yaRkYjS8xRdAY1jNsGJxk7gT6RruCEThvGomIs/a9hQ74mRoj+x17PFV+ko76eKWVtT38H9hgBbrSWyCVzQyajZQHYCuqBi9wreqn37H7MdQxKDKwb0Spf03YKJgmPMwxKN3kIF+xgVCTGyZ2g88+csH6YyuXkojShUCVARKcZRX7Qu7dd1D8s98ABopRsOPvO1B05thQNCmoCUwbt7RhZyKjwRy36R5FZyPxhrbcx4wbVgQ3VIFlDvNSmgqeqcAjcowo638cFPurc94YoV4DKxYUgbWScNir4g9X0jYBoxM+wY4AWa4juCDUZcFkswntalT+OWjvnORAqpOkB5/neg+x174I7rH2T1q8eD6imp7wIVOajgc2zEALAT5baLowlGNDUSZqRfnUzkjsMK4cAGjrrJnT2eC7Yz7G5BKgwTYUH9ttV1yffBpUIwmw56kZu1yBGsISK31Id++HfwA4WBDq3rqGeZijVrlYZyqbvXPuZuiUCr77Aa2oiwOIdNGXLwflhfpQ9JhjXN7R+k5nr6F9lsp8A6qXxWjF9J7fndReW8469+fZUSn6nGxBAhpiOOigrVOHoZ31lxkeOJHaOi1gZwaCYRaPkZBaV6dDeGIZdOzbcN+gWqFALnM0jvo4Rtq4/2OrJ4K3xNM08EPNfrTB+vEER/D4a3+Y++AEo3N+O/aCovF0xr+feAdc27e0xbGURM39P5OjWgVpvtJ6eKhbofSkuxu1LMseB+X6/MKG/fiMVAE/hFc
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(52116002)(186003)(7696005)(5660300002)(26005)(316002)(8936002)(107886003)(86362001)(8676002)(508600001)(66946007)(6486002)(4326008)(83380400001)(36756003)(66556008)(1076003)(66476007)(2616005)(2906002)(6666004)(956004)(38100700002)(38350700002)(6916009);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(52116002)(186003)(7696005)(5660300002)(26005)(316002)(8936002)(107886003)(86362001)(8676002)(508600001)(66946007)(6486002)(4326008)(83380400001)(36756003)(66556008)(1076003)(66476007)(2616005)(2906002)(6666004)(956004)(38100700002)(38350700002)(6916009)(42413004)(32563001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?EfSKaT/y46RxUsaja8i9qfPqsFvr+7SU5Sg3ZpV0lkc0v3tsOzwiOrZbfNKn?=
- =?us-ascii?Q?sOTNh12ffM9h+UKcqGDVf9+KGBcW6EEpSwpUCBzQLyT44VVwaoMq0I5NOAPb?=
- =?us-ascii?Q?MBflyvBIE89KDunvpPZh86B+sD1V8ALhCF6qnP4++o/V+othAoiL9wJHXvN5?=
- =?us-ascii?Q?ou/qwGN8eCUBC2mFhIsqLbQskz/li5h4bhCHI7OwRfyu9p3GaDWZvtrnUQsQ?=
- =?us-ascii?Q?ipUs4TJbbNtwqedKHyQs5B5sAZZJyscsyi1GN/zTjOrgChlpPh68e4MYAQy0?=
- =?us-ascii?Q?bQCQAc+btx1qfxDWgMRAh3iaXfMbxbR94UklA/B+gZzbvqEj3ga4kTCIknZ3?=
- =?us-ascii?Q?zyBff8Txorp4RR5i5zKLbPbBF+HnNnZwS4OHUM9+ng4QktGvIYAwYWEaBcmQ?=
- =?us-ascii?Q?SMiMXpMxyERISqc4DaEZBbe5dBBHCZnOUSZycE0j6rxghdS6bgXqEXEGKZhh?=
- =?us-ascii?Q?n60JNqrw/0R6U6hp7kXOr6ZXEWkDLyng2DJkQJ0R7uYOq8K7HUee9ix24xvA?=
- =?us-ascii?Q?o6Lbj9nkVGB8pirdXwhOohfuGQOGVyDYzZ5UKeKYxbJ7RuexUMYr762f1Hdi?=
- =?us-ascii?Q?2AAI/tV20mWRfKNzOLUJTtaqDsyNYaKOczX+PTx5Elyf9CZa/3c3ndr8lBR4?=
- =?us-ascii?Q?tga6erC4My2YRl78tAbyx18cWv4YsgoDphxs2VYC5cTRyaaZBXMhkq6EFFRo?=
- =?us-ascii?Q?8S2/bDUngRAjXhV4dPnQVwjWpGRt1qCseBe7Zwue4b9cNeL4qwZpbxyiqLKO?=
- =?us-ascii?Q?WAoYXPsRSU4z+L+YsSpcq6N6bYNS0rCNsrWy+P8puV+iMI1ImcRrfzRhXTC2?=
- =?us-ascii?Q?fOJTtFfFAHLd3ZMCv12x4PWnTvywr348vPyKft2jNF1W776NS7AK/dQaNbdt?=
- =?us-ascii?Q?rOZI4e9+LDr2y6XrIVx2O1tIUcyEorBFXKZO2OZgnEACSgfbD30XsaPVoD2M?=
- =?us-ascii?Q?t2YwunxA4e0TyZ0x+pc+BbFW7wpJM1LJrWJyye+Z3xjQUND6bB8E0DdDYO3k?=
- =?us-ascii?Q?QqEAxaFYB48+UAISz9n/Tre+1VB9rJr+voHHGC6NtOEtv1s+ZyJr8xVh1iYC?=
- =?us-ascii?Q?0go0RNV9i1b/tiRJEX3aa9NQK0J2XyO3xAv4Fi+Cfz6+ZDJ0Ps15zG4ZhbqT?=
- =?us-ascii?Q?aRAfY3jTrd8SYpzFzt5dwE2PDFYhiEHYe+Hft2BRcw8P8JPEvG9ugg1HZHP+?=
- =?us-ascii?Q?h6wjwce3PZo0zRSoMPiZ8XBB7MszC1IzkKD/dD+uEoVOzckHbqdMjK5Wo2s7?=
- =?us-ascii?Q?sOirt51LOtGO46Wbg7neMiYq2SMNvuvAWJRUyyt8dxkKmdcL8OnGKzPNS+KN?=
- =?us-ascii?Q?0a206Hj8FZfg/o776rwP7tHf?=
+	=?us-ascii?Q?MjXsmQi2scPAwGQbRDMcotQdJK7xJlTTjR3bPMFfXzPpsYNA1kliFam5zAjO?=
+ =?us-ascii?Q?WUiggu6l+enFLuH1dbCTydex871vLk1snDl+hpKGiEdLntU9Dv7urn3xSC5u?=
+ =?us-ascii?Q?GVr1CmcV2GiH9QyEVwEhmVhAlZqGt8ExAW5pgpq8Yi42YXxgObit8LxGnvPB?=
+ =?us-ascii?Q?h5Ym6Dd/2z4yY4iDAtDIzWBiDcJNkzn9WN+pPXPC3VR6xF8LM0pTfDPb1TN8?=
+ =?us-ascii?Q?B/APKnduy+EL2j92JG6OM+5LmBD6xN6NOvZ9fmwT2iFP1UqZn3P6Sc1kP7fH?=
+ =?us-ascii?Q?fSvv9J5fb5A2jUgGC8zOyU+388tZoTBXpFjIfLdcxFaB1jlfrPSVJiNXDkkb?=
+ =?us-ascii?Q?DPrGp/4IPUQ4qlgPM4zGNooU/AUmu8GAIQ6mblcugSdKjfmvUqRbnyGHRmwm?=
+ =?us-ascii?Q?fhKXzMzpVZDrWBQRE8FyrK6qF0ZJVLF8CPF2zGx1Oc2jm491EItVof7f0Yzg?=
+ =?us-ascii?Q?kvOFs/VOqb8edJnkxv0VRIwLIBFfN37lUeiZxVAcZVWZcBRBOfcmvB0KZry3?=
+ =?us-ascii?Q?OB+J75X46NiuByBYIERrEGWpGL638i1kCRDlwSe6sCj8jfQvfW2jTE8t/I5f?=
+ =?us-ascii?Q?06ibrtFJWvDIWF9CxrstBZWExaJdnu3s3FP8ZcKUPc2N8eTP1+ierNz/CiK0?=
+ =?us-ascii?Q?Kr80YDRv9ZSk/kLzoPNlYFsAgZcTpinp1Qjp9LaiqdiUAXwSDe27RtDVW/MN?=
+ =?us-ascii?Q?pKfTWYeF0wKvqD9rjb9xiA7bbNmn4Ygu8sb3c3uYIuDd+u+nQEGv4IfhXPm8?=
+ =?us-ascii?Q?XVn7eCiT9wKWjEVMPlByRkFppnlbptSRz4SQe+yDx9DGMTMmmL+RB6N5cBIo?=
+ =?us-ascii?Q?KhNYCzfoaymgEdIOX1BYL8k31Lf8GTntMSHX/YZuNlQNXe2B5baDjpmMKtI8?=
+ =?us-ascii?Q?bhxgzHImnly/JxIa+fqJ9TRcKRgjppdTs4CoqnJ8kplY8FGyvK9cQxb4oqVZ?=
+ =?us-ascii?Q?1pb1zn29i99oYGyBADKu7HKXDUeMvn4UhXCj+2ZqYHV/lGS/CJzxHoX6at5A?=
+ =?us-ascii?Q?a6+/HD9EsSNcHbSA1v47W03jLIh2ZZ8yUfT2izBKuH39PvAiCsY8IMprHUN/?=
+ =?us-ascii?Q?HHhXRomHG9aQ5Y7Y0n8n0COYOOQUMg8ueWmZyHXR5gmFZD9+HbJSvvjcgecj?=
+ =?us-ascii?Q?aYx05MHkGI9F8Ju4pNcumsfihHvo4mCRyr0crRy4TUwJKz3pIp1VLPQ3DiT8?=
+ =?us-ascii?Q?Hq7HaAT6Ifp2oMzHrgsY3iN8JfKtioENqh233Rd98xQjjcYBCNLnHPzSJAX5?=
+ =?us-ascii?Q?Dfl79o5gLzp/Faxuw1UwYvL/MstB03nSiRaKOVN9YweRq20mTbpUw/4Kzh0s?=
+ =?us-ascii?Q?z+LpihDYoAO6F2jB1v9a52hE?=
 X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 6f3ba171-6097-449f-d9ac-08d98a301289
+ 7cf10e81-289a-43fd-0cb2-08d98a3012bd
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 07:48:52.4848
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 07:48:52.8034
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- MowJis6UGO5zHd7N9wtsdl44uhRgRzIzAPhij76gIoOClogBEmHBarFtH1IWDSbZ+5GLUg33VoTVQr92xQEp1A==
+ LLFU23EvivPPUuvKL2wULrY1trC6STc/vTFOEFe7lxDd5Qw7GsfTPq3rFBUL1bk4KwQGKFJBfrhFJfBQAtqw4g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6127
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 07:48:56 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 07:48:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156758
+ https://lists.openembedded.org/g/openembedded-core/message/156759
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-
-Add support for EXTRA_OENPM arguments to set node-gyp variables for
-example. This allows use of shared librariess, avoid download
-of external sources or build from source.
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
@@ -132,34 +132,135 @@ om>
 
 (no changes since v1)
 
- meta/classes/npm.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/lib/recipetool/create.py    | 52 +++++++++--------------------
+ scripts/lib/recipetool/licenses.csv | 37 ++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 37 deletions(-)
+ create mode 100644 scripts/lib/recipetool/licenses.csv
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 91a2321116..477b40d921 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -22,6 +22,8 @@ inherit python3native
- DEPENDS:prepend =3D "nodejs-native "
- RDEPENDS:${PN}:append:class-target =3D " nodejs"
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
+te.py
+index 5cd72ea0a7..e88a4253da 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -1004,6 +1004,7 @@ def handle_license_vars(srctree, lines_before, handle=
+d, extravalues, d):
 =20
-+EXTRA_OENPM =3D ""
+ def get_license_md5sums(d, static_only=3DFalse):
+     import bb.utils
++    import csv
+     md5sums =3D {}
+     if not static_only:
+         # Gather md5sums of license files in common license dir
+@@ -1011,46 +1012,23 @@ def get_license_md5sums(d, static_only=3DFalse):
+         for fn in os.listdir(commonlicdir):
+             md5value =3D bb.utils.md5_file(os.path.join(commonlicdir, fn))
+             md5sums[md5value] =3D fn
 +
- NPM_INSTALL_DEV ?=3D "0"
+     # The following were extracted from common values in various recipes
+     # (double checking the license against the license file itself, not ju=
+st
+     # the LICENSE value in the recipe)
+-    md5sums['94d55d512a9ba36caa9b7df079bae19f'] =3D 'GPLv2'
+-    md5sums['b234ee4d69f5fce4486a80fdaf4a4263'] =3D 'GPLv2'
+-    md5sums['59530bdf33659b29e73d4adb9f9f6552'] =3D 'GPLv2'
+-    md5sums['0636e73ff0215e8d672dc4c32c317bb3'] =3D 'GPLv2'
+-    md5sums['eb723b61539feef013de476e68b5c50a'] =3D 'GPLv2'
+-    md5sums['751419260aa954499f7abaabaa882bbe'] =3D 'GPLv2'
+-    md5sums['393a5ca445f6965873eca0259a17f833'] =3D 'GPLv2'
+-    md5sums['12f884d2ae1ff87c09e5b7ccc2c4ca7e'] =3D 'GPLv2'
+-    md5sums['8ca43cbc842c2336e835926c2166c28b'] =3D 'GPLv2'
+-    md5sums['ebb5c50ab7cab4baeffba14977030c07'] =3D 'GPLv2'
+-    md5sums['c93c0550bd3173f4504b2cbd8991e50b'] =3D 'GPLv2'
+-    md5sums['9ac2e7cff1ddaf48b6eab6028f23ef88'] =3D 'GPLv2'
+-    md5sums['4325afd396febcb659c36b49533135d4'] =3D 'GPLv2'
+-    md5sums['18810669f13b87348459e611d31ab760'] =3D 'GPLv2'
+-    md5sums['d7810fab7487fb0aad327b76f1be7cd7'] =3D 'GPLv2' # the Linux ke=
+rnel's COPYING file
+-    md5sums['bbb461211a33b134d42ed5ee802b37ff'] =3D 'LGPLv2.1'
+-    md5sums['7fbc338309ac38fefcd64b04bb903e34'] =3D 'LGPLv2.1'
+-    md5sums['4fbd65380cdd255951079008b364516c'] =3D 'LGPLv2.1'
+-    md5sums['2d5025d4aa3495befef8f17206a5b0a1'] =3D 'LGPLv2.1'
+-    md5sums['fbc093901857fcd118f065f900982c24'] =3D 'LGPLv2.1'
+-    md5sums['a6f89e2100d9b6cdffcea4f398e37343'] =3D 'LGPLv2.1'
+-    md5sums['d8045f3b8f929c1cb29a1e3fd737b499'] =3D 'LGPLv2.1'
+-    md5sums['fad9b3332be894bab9bc501572864b29'] =3D 'LGPLv2.1'
+-    md5sums['3bf50002aefd002f49e7bb854063f7e7'] =3D 'LGPLv2'
+-    md5sums['9f604d8a4f8e74f4f5140845a21b6674'] =3D 'LGPLv2'
+-    md5sums['5f30f0716dfdd0d91eb439ebec522ec2'] =3D 'LGPLv2'
+-    md5sums['55ca817ccb7d5b5b66355690e9abc605'] =3D 'LGPLv2'
+-    md5sums['252890d9eee26aab7b432e8b8a616475'] =3D 'LGPLv2'
+-    md5sums['3214f080875748938ba060314b4f727d'] =3D 'LGPLv2'
+-    md5sums['db979804f025cf55aabec7129cb671ed'] =3D 'LGPLv2'
+-    md5sums['d32239bcb673463ab874e80d47fae504'] =3D 'GPLv3'
+-    md5sums['f27defe1e96c2e1ecd4e0c9be8967949'] =3D 'GPLv3'
+-    md5sums['6a6a8e020838b23406c81b19c1d46df6'] =3D 'LGPLv3'
+-    md5sums['3b83ef96387f14655fc854ddc3c6bd57'] =3D 'Apache-2.0'
+-    md5sums['385c55653886acac3821999a3ccd17b3'] =3D 'Artistic-1.0 | GPL-2.=
+0' # some perl modules
+-    md5sums['54c7042be62e169199200bc6477f04d1'] =3D 'BSD-3-Clause'
+-    md5sums['bfe1f75d606912a4111c90743d6c7325'] =3D 'MPL-1.1'
++
++    # Read license md5sums from csv file
++    scripts_path =3D os.path.dirname(os.path.realpath(__file__))
++    for path in (d.getVar('BBPATH').split(':')
++                + [os.path.join(scripts_path, '..', '..')]):
++        csv_path =3D os.path.join(path, 'lib', 'recipetool', 'licenses.csv=
+')
++        if os.path.isfile(csv_path):
++            with open(csv_path, newline=3D'') as csv_file:
++                fieldnames =3D ['md5sum', 'license']
++                reader =3D csv.DictReader(csv_file, delimiter=3D',', field=
+names=3Dfieldnames)
++                for row in reader:
++                    md5sums[row['md5sum']] =3D row['license']
++
+     return md5sums
 =20
- def npm_target_arch_map(target_arch):
-@@ -260,7 +262,8 @@ python npm_do_compile() {
-=20
-         # Pack and install the main package
-         tarball =3D npm_pack(env, d.getVar("NPM_PACKAGE"), tmpdir)
--        env.run("npm install %s" % shlex.quote(tarball), args=3Dargs, conf=
-igs=3Dconfigs)
-+        cmd =3D "npm install %s %s" % (shlex.quote(tarball), d.getVar("EXT=
-RA_OENPM"))
-+        env.run(cmd, args=3Dargs, configs=3Dconfigs)
- }
-=20
- npm_do_install() {
+ def crunch_license(licfile):
+diff --git a/scripts/lib/recipetool/licenses.csv b/scripts/lib/recipetool/l=
+icenses.csv
+new file mode 100644
+index 0000000000..0d3fb0607b
+--- /dev/null
++++ b/scripts/lib/recipetool/licenses.csv
+@@ -0,0 +1,37 @@
++0636e73ff0215e8d672dc4c32c317bb3,GPLv2
++12f884d2ae1ff87c09e5b7ccc2c4ca7e,GPLv2
++18810669f13b87348459e611d31ab760,GPLv2
++252890d9eee26aab7b432e8b8a616475,LGPLv2
++2d5025d4aa3495befef8f17206a5b0a1,LGPLv2.1
++3214f080875748938ba060314b4f727d,LGPLv2
++385c55653886acac3821999a3ccd17b3,Artistic-1.0 | GPL-2.0
++393a5ca445f6965873eca0259a17f833,GPLv2
++3b83ef96387f14655fc854ddc3c6bd57,Apache-2.0
++3bf50002aefd002f49e7bb854063f7e7,LGPLv2
++4325afd396febcb659c36b49533135d4,GPLv2
++4fbd65380cdd255951079008b364516c,LGPLv2.1
++54c7042be62e169199200bc6477f04d1,BSD-3-Clause
++55ca817ccb7d5b5b66355690e9abc605,LGPLv2
++59530bdf33659b29e73d4adb9f9f6552,GPLv2
++5f30f0716dfdd0d91eb439ebec522ec2,LGPLv2
++6a6a8e020838b23406c81b19c1d46df6,LGPLv3
++751419260aa954499f7abaabaa882bbe,GPLv2
++7fbc338309ac38fefcd64b04bb903e34,LGPLv2.1
++8ca43cbc842c2336e835926c2166c28b,GPLv2
++94d55d512a9ba36caa9b7df079bae19f,GPLv2
++9ac2e7cff1ddaf48b6eab6028f23ef88,GPLv2
++9f604d8a4f8e74f4f5140845a21b6674,LGPLv2
++a6f89e2100d9b6cdffcea4f398e37343,LGPLv2.1
++b234ee4d69f5fce4486a80fdaf4a4263,GPLv2
++bbb461211a33b134d42ed5ee802b37ff,LGPLv2.1
++bfe1f75d606912a4111c90743d6c7325,MPL-1.1
++c93c0550bd3173f4504b2cbd8991e50b,GPLv2
++d32239bcb673463ab874e80d47fae504,GPLv3
++d7810fab7487fb0aad327b76f1be7cd7,GPLv2
++d8045f3b8f929c1cb29a1e3fd737b499,LGPLv2.1
++db979804f025cf55aabec7129cb671ed,LGPLv2
++eb723b61539feef013de476e68b5c50a,GPLv2
++ebb5c50ab7cab4baeffba14977030c07,GPLv2
++f27defe1e96c2e1ecd4e0c9be8967949,GPLv3
++fad9b3332be894bab9bc501572864b29,LGPLv2.1
++fbc093901857fcd118f065f900982c24,LGPLv2.1
 --=20
 2.20.1
 
