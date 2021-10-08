@@ -1,49 +1,52 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31554C433F5
-	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 05:27:53 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
- [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web12.5279.1633670872524076013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D37D8C433EF
+	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 06:41:48 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.41])
+ by mx.groups.io with SMTP id smtpd.web09.5655.1633675305533704109
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Oct 2021 22:27:52 -0700
+ Thu, 07 Oct 2021 23:41:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FaBE7D4u;
- spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: ticotimo@gmail.com)
-Received: by mail-io1-f50.google.com with SMTP id x1so5389604iof.7
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Oct 2021 22:27:52 -0700 (PDT)
+ dkim=pass header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=OZJJnMAF;
+ spf=pass (domain: weidmueller.com, ip: 40.107.13.41,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K7ZA3GeyBhVHwDL7t+OxC6w4SgM/I/KkIdk96Nwqak44Fe9En2sficED6ZgjftnpYxxTx40IaMhRpJSGNfv4Hd9W0y1tRNQZ2nyb6gsQgeeqfaS/jvNa/RSnFk6SDs/lfF71E9l6eKsYAWbDecGW29a3EB23OHcjnahAnm/bUcmKuIHBo523HBKKX4KNjDxBvweoNNJJT2c3RAO9lU5mrvnR2OpJSST9xat4guUvq3OCyiISf/b+JnacxTnGtpkNcbR8Iy587UDlvpCnIWO/tu74IqRJspP1ZE5fzwG6whlAZFYJ/GlVWcThHiCuBEqeLczayMinHenGIZ7tINNsuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hM8+N/MQWf3nOWvOSGHK3HJX5VwleepHx+VqJcMKgH0=;
+ b=YI/9NkcDsZbv0FFYTNpQvrck90AXclf3w+IJy8QKLTvP0VzL4VTFip6hzUXkSqHNuC4BtSt8MH4OTXOmqdgBS9UsXHyB5KT4GuXfBBgf9ib5rgh3T7gZagKxQhrSsA1knENMH3IU7IbSKhWwLVWB70AoxlCGo9iNi5q6D+2Eyb4ofjvlvaLCjUCpPtEcmayu4s4wNJ1a6Y76Jh9OcdIj+3PfYVQna3VaEZh/IJD41dutQ+piZBnHqD4oP/2G38u206JF/6ocVm+9XfMarcO1rRVzpKdw3H8JKmPMSNCglSM8Icf9EU4CS+Ou3ZqbJG0biYgTnPZwQCuIICGBpr10lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UVCxHQ21OCzPl2EffmIq9BSnq3BVu8tSBHdBMgRjwnA=;
-        b=FaBE7D4uvZuBo2GCwNAQvS+tkMxiHHcSxugxoKK6cdiz4RPXpgBFGmx59G5BvfYypD
-         3GiH9Iye0Mm+vpHrO17iIhyRjd6ljFIlVgxS1vkS2RQOTXDoS2PPN8ZLHwGUheG+0Anf
-         TzFz4v6kVmAz2V07jQdR17bEFwcPTXNFDBGpM16c1DGYQTUJXm3UltEgDvhTENR48kLR
-         f3G3zobZmmZPXKno/yUP2yEagheqwwLdyu0Nls36XkkpvQDUNSsBLOza1BmK43xIosPy
-         c8tjtSPtQf7cHAl6bkzQmLsGN/6kcSuLkNpgv6+h+H8aewiL4+rqsXiN+TdFHQOqP1Do
-         dfKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UVCxHQ21OCzPl2EffmIq9BSnq3BVu8tSBHdBMgRjwnA=;
-        b=jWeEYp0t00JsK2ck+7mx6mdVBTyRbYAIz1vrJE4c8PGpQOcOVmL4/RRvfgFmFOkIqh
-         my+xJbfP7MdpRUtbceCRwIODcp0ASYlvuuduZdcvZfq0Q/2F7FAlHLIisJB0Tpxk6sG1
-         yfDqVO386Injzeld57M+LJ89dZdvmhMDi4iHV46J2LhNhXnlQfsbwgdq5uk5SMQVEifn
-         xVsSeoboWNnxN50F1I6n1xWWvldY7VCC2nsemrwY7BX2aQ4EGcmXkFCAZoJymNWTEdP/
-         ylEfRdmozruAwycbIqpKygypvbNZ+RVVuF5RY1doxsZVKncBo1Snja1oFt93ojv718BP
-         xbSQ==
-X-Gm-Message-State: AOAM532HQuF/z3wKL+AyxutMvftkYWnZVQw4T5wb/1wl9PQuzrYiZUvN
-	zBz/aYYxhmia8JySvuINjFUrFOdWpvI/xLx5sQc=
-X-Google-Smtp-Source: 
- ABdhPJxajkFbRKzTNBi12m9VR6BUrs3YirpH1jE6HT1kIQ7uhRA+0nwZncOyOG7BGbP8Idi6Df/szqX+DbB5nrxbnUo=
-X-Received: by 2002:a02:aa8e:: with SMTP id u14mr6277837jai.24.1633670871612;
- Thu, 07 Oct 2021 22:27:51 -0700 (PDT)
-MIME-Version: 1.0
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hM8+N/MQWf3nOWvOSGHK3HJX5VwleepHx+VqJcMKgH0=;
+ b=OZJJnMAFMelOheEqqqdwHtzJ6aIw1GCiycg2VCMyUvsG73+S3cL0pIJwOXLid3CoUehYyJ0tkDI9OL7xMPfyqWCJrmP1TJSgAvv6nfQlcgiyEr0rdvmgyDsmXaxg8/haLLe+SdGJe7XBfSOUJMBBx2uxWaqtkNrjQnq301EcJzA=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by PAXPR08MB6862.eurprd08.prod.outlook.com (2603:10a6:102:136::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.20; Fri, 8 Oct
+ 2021 06:41:42 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::8034:af5f:f101:d1f0]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::8034:af5f:f101:d1f0%3]) with mapi id 15.20.4587.022; Fri, 8 Oct 2021
+ 06:41:42 +0000
+Subject: Re: [OE-core] Improve npm support to run build scripts
+To: Tim Orling <ticotimo@gmail.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Konrad Weihmann <kweihmann@outlook.com>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
  <6318d76222b819d3a165d405fc48dbcbadf29085.camel@linuxfoundation.org>
  <50d4d79f-a7cd-fd0a-0c6d-597b6dc4ca6a@weidmueller.com>
@@ -54,367 +57,104 @@ References: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
  <71df6b93-bdcc-b09f-48c7-3ec822ef3228@weidmueller.com>
  <AM9PR09MB4642A8B32B686649507B9406A8B09@AM9PR09MB4642.eurprd09.prod.outlook.com>
  <CANNYZj9eeW4+uJ=-fB1pDZq4Qa0EbgwRCCXXiEjrzuGL-jcq3w@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9eeW4+uJ=-fB1pDZq4Qa0EbgwRCCXXiEjrzuGL-jcq3w@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 7 Oct 2021 22:27:40 -0700
-Message-ID: 
  <CANx9H-DK-OP=GiRkzhb6EEmdJF64p9jS8caYAiAuwLw+tmgNng@mail.gmail.com>
-Subject: Re: [OE-core] Improve npm support to run build scripts
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Konrad Weihmann <kweihmann@outlook.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Content-Type: multipart/alternative; boundary="000000000000fb7ffa05cdd0a339"
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+Message-ID: <d02d9069-d313-ddc4-51f7-fe62806dbbab@weidmueller.com>
+Date: Fri, 8 Oct 2021 08:41:39 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: 
+ <CANx9H-DK-OP=GiRkzhb6EEmdJF64p9jS8caYAiAuwLw+tmgNng@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6P192CA0053.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:209:82::30) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
+MIME-Version: 1.0
+Received: from [192.168.178.36] (94.134.181.155) by
+ AM6P192CA0053.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:82::30) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
+ Transport; Fri, 8 Oct 2021 06:41:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: de61da6d-bc94-4f33-5990-08d98a26b03d
+X-MS-TrafficTypeDiagnostic: PAXPR08MB6862:
+X-Microsoft-Antispam-PRVS: 
+	<PAXPR08MB686233E6ED8EBCD5628D3DF4D7B29@PAXPR08MB6862.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	g8dhj8zUSOKOZGJSXylzucm9PGT+ENeZdwREyrJfzrWrvQSuaHI/ZAf0dSonXfebGYa3WDcMKRzkaGnWKcCu3P/UZtU4xTufyH8r6dAD+M4OKT+EjRL2FRofrNg52B2Bm75xfBufr0Fku8J30iN946aan1c2+d/+qW/FWk8j9VsL6fM3u/QCYBNmRXiwyY7b7OIE8cBv4uZRaoHkOAAn5KfykxVdyfdAoiaYZoGq47/zjCposBbtOiUO8uhUbJgjAGmTyDTTg+erBq07x8oI1mt74xVmqaNqLnmXXSunp+HS9HD8/rCm3gFbl6sq6aJORam2eft/3Hc8KJCf/pCcBcCLz29RaSWo6opRPew0nBkXdSZrxgCi2QZCuFVofjDSKQAeMTVtv4RuNrEvv8/h/+mZtq8ggdZrATFIGN2pmwSxJd7meix0jzR9NpNaRj2Nw+4xhLmlPTK0t9SvpCrj/iLaUXwq99XzyA0jJNgvndcNmNuSh58RHhZUh6Y5diUjQaiu2tuJhHGPjv3koB8dkYWK0oC/LlgjiqQoLdTG6st8lap4+8eCXt8eC1hxE3p0GC8skk9jDBuhv95SzeI/i/l5P53jiL0BBZPHuXVrDOzomapAGjyMf4CYmiMgbxMJg3oUPvrNXYLFq31wun4Ommykpli85j22A1E/iV6Wv++vAGxVspDLka1iRnggeozBJAPp6f97RWYy6NDM7VrDVXBgty49GdmlxZLaDum5pkX1RodWKNNZt0HnpuayQQfSc9eOCkZW8gHc2gwGglP7wA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38350700002)(38100700002)(26005)(316002)(52116002)(5660300002)(83380400001)(8676002)(2616005)(4744005)(8936002)(54906003)(956004)(2906002)(6486002)(186003)(86362001)(508600001)(36756003)(110136005)(31696002)(66946007)(4326008)(66556008)(66476007)(16576012)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?MFFCSEszVnZoYVBBL3RzN25Xd2xwRmxIc200WEdaalViTU5BcG1IZkZ1UmpI?=
+ =?utf-8?B?Y09LcFFUSzV0WGcwUC9Kc2hxam5mQ3ZwZXBmTE9jT1M1b015R0FLOXdPVUlk?=
+ =?utf-8?B?cFNraEg0Mi9EM2pTZnlrL3dnbHlsNzJ3U09naFdFWDdUZVl5eUtZY0doM3lR?=
+ =?utf-8?B?eFBJdmF1emI5ZFFuSWpBWFBEWitDYWxxeHRtUFB0aG55ZTRRb29BaEIyNkZG?=
+ =?utf-8?B?TVdpQlA0Y3pMNk1jMjZoU1FWT080MHo0S0t6eWJ4Y1NoRlR5bEdjbXEvWHBZ?=
+ =?utf-8?B?UHpacFdxNTA4MHByT0tjc1JjY1ZtN2NkTTc0NkFCR01FSjVhb0RUUFFodmNu?=
+ =?utf-8?B?TkFjZ3g1SWNyT0wrWHN2TmFBbUtTSlhiOURXWDNmbmdTSFU1bUluZ2dabmNi?=
+ =?utf-8?B?UzRpR3BMWTVkTU5KZzBOWnBwRXU1Z1Rrd01Wbld6MUZwUTEvVTJ4L1BURC9V?=
+ =?utf-8?B?MEhFc0hSbStCcktsWTdZRkwvOEVRK0hocTdnMHFXS3dsRHdlVGowdnBOWExR?=
+ =?utf-8?B?R1I0MlA3RGZBcXhha2lSVUNzWm51TWY5bGZKd1NrM2xHdzVBSytxS1VOaXdp?=
+ =?utf-8?B?MGo0THJPQmN1enMrcTIzTVdSanBqZ3RQMUc2cU00aUVWZjR4QXk0a3VzUFpW?=
+ =?utf-8?B?Q0tlbWJnTUNTRnFMVENUajUzWlQvVTloUG1XVFgwMk5IbVRaQldiT3pDSVNj?=
+ =?utf-8?B?T3RrRW5zMDdhTmlpUmxjZittVXBWQnM3emdCeUplMHJFdThsYlliVk0ydTV1?=
+ =?utf-8?B?QzhSNnN1YWNYYTRhVVFQSTFIZlRTSndJL1JXeHUwdjhac3lrTE55MGpRaks2?=
+ =?utf-8?B?Z0lXejZmY09lU2Jta2ZjcWJWTmpRSHJmR0Fwb2w0U2hmMjc4UHBZOVo4dWZj?=
+ =?utf-8?B?VlBaKzJhOHFyMmh3MmxxQ1VuNzNDK2JNZkgrSkVVTGdwNEVwcGNJeFh3TW9L?=
+ =?utf-8?B?aDl2THdpZm9hWDZMdE5CYXFab1ZmVE0ybGRyWGJBV0lRL1FQWjNPeHl2ZmR3?=
+ =?utf-8?B?VEpmTmtaWUxQSUE5cjZlZTZndVhGQWs3Rm1sRnVsWXI1MFgvZWlvUlpvN1hL?=
+ =?utf-8?B?S3VYMmtVSlZIR0d0c1JZeTRrcUxDaGJ5SEk1ZnhlM3FtcHlCdmFaODNJY0tx?=
+ =?utf-8?B?YXZwZk9zNnJhTWRDUVJOdFpOR2xjS2tsWGlBZVNhbVhFbzNvbEdNUkF2V21M?=
+ =?utf-8?B?NGZSSDN6UkxIWHFJT0RPVGkzMEhvN2VJQ2FkdGllVmxDZGVWVEMwQkUrRXlG?=
+ =?utf-8?B?bGFocUFGTUNSeFJ4WVVtYWw1QU5KVGorS0tibnFWanRuandnTmViYW1TMjRa?=
+ =?utf-8?B?bC9OMnZBUGQrbEE5UzB1U3pOWE1QWi9EWUVVWG1zZ0pxcGh4c0xJUUErSy91?=
+ =?utf-8?B?eVIwc2pweEZhNFFFUnVRTjJpU1pibWt3UzBJbm0wblBINDlqbkpOYWdoSFdj?=
+ =?utf-8?B?NCtTOWU5aWFNSzJtcWNuMDFqTVFoRjl3cmpadVQ5MlBDb21jQ21hdVlTT29P?=
+ =?utf-8?B?Sm8zbUtyYXl6UFBVeU9TTTRUWlRWSUJMNmprajlOb1hUcERBTU50NVFmUDVK?=
+ =?utf-8?B?S0YvQnBXNkRqMUlyRzBDL0ZBV082bFh5dnl6aXg1K2MwWk04Q0ZrcERITzVH?=
+ =?utf-8?B?UVU5cTVUbm1sRUNhcThScGRDSHZRSlR5NWZJMU5ZT2RHK041SDg2V1BPT3p2?=
+ =?utf-8?B?VjlrQ0xZQTBybjVnWEVvZ0ZTcXhpUXJVZWpISS9ocEsyeEhMRC84QnA5SCt5?=
+ =?utf-8?Q?nHAWdc0uVw2KT7gT1Zgy8Ef75TIvOWikOPZXksy?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ de61da6d-bc94-4f33-5990-08d98a26b03d
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 06:41:42.0752
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 5wmdq6uvuNU6NNlHel4SGkxUZL3komOm2fYqi4ImP0bJ+rkNuCkdW2WW/GTcK9FSjORxHJcrgcR9mjvUsjHWYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6862
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 05:27:53 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 06:41:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156743
+ https://lists.openembedded.org/g/openembedded-core/message/156744
 
---000000000000fb7ffa05cdd0a339
-Content-Type: text/plain; charset="UTF-8"
+Hi Tim,
 
-On Wed, Oct 6, 2021 at 2:48 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Am 08.10.2021 um 07:27 schrieb Tim Orling:
+> We have discussed the severe impact on parsing time with 100k recipes. I 
+> personally worked on a node.js project with that many dependencies (but 
+> not an OE/Yocto deployment). Parsing time is already a pain point for 
+> 1000s of recipes.
 
-> The OE landscape is littered with unmaintained or barely maintained
-> layers. By the looks of things, no one wants to maintain this proposed
-> meta-nodejs layer either, which involves thousands of recipes, (so far)
-> non-existent tooling to create and update them in scalable ways, and
-> rigorous testing. Or such a layer would have already happened.
->
-> It's for this reason that I think the shrinkwrapped, self-contained recipe
-> approach is more viable (even if it comes with its own pain points) and
-> also matches how node.js community operates  - we can fix the CVE stuff as
-> well to look into dependencies if that's a concern.
->
-> Alex
->
-> On Wed, 6 Oct 2021 at 11:43, Konrad Weihmann <kweihmann@outlook.com>
-> wrote:
->
->>
->>
->> On 06.10.21 11:18, Stefan Herbrechtsmeier wrote:
->> > Hi Konrad,
->> >
->> > Am 05.10.2021 um 21:29 schrieb Konrad Weihmann:
->> >>
->> >>
->> >> On 05.10.21 21:17, Alexander Kanavin wrote:
->> >>> On Tue, 5 Oct 2021 at 19:44, Stefan Herbrechtsmeier
->> >>> <stefan.herbrechtsmeier-oss@weidmueller.com
->> >>> <mailto:stefan.herbrechtsmeier-oss@weidmueller.com>> wrote:
->> >>>
->> >>>
->> >>>      > A layer with thousands of recipes seems totally intractable.
->> >>>
->> >>>     What is your concern? The high number of dependencies or to
->> >>> handle it
->> >>>     via OE?
->> >>>
->> >>>
->> >>> Generating recipes with a tool means the tool will be custom and
->> >>> non-standard, and chances of anyone outside of your company
->> >>> understanding, using and contributing to it are rather small. There's
->> >>> also the problem of needing multiple versions of the same thing for
->> >>> different
->> >>> consumer items, which oe doesn't easily support. The link Robert
->> >>> provided already exposes some of the pain points with that approach.
->> >>>
->> >>> I tend to think the best way forward (or least painful at least) is
->> >>> to gradually improve what there already is, which is the npm class
->> >>> and devtool, and send patches to various upstream njs projects when
->> >>> they're using outdated dependencies or otherwise need changing.
->> >>>
->> >>> Alex
->> >>
->> >> Just to chime in :-), I like to question this approach of having
->> >> multiple versions of the same in an image.
->> >> As already outlined npm is horrible in many ways, but using the
->> >> lockfile approach multiplies that even more.
->> >> But I tend to agree that using the currently available oe-core code
->> >> would be suited best for a broader audience
->> >
->> > But this audience loose the some basic features of OE (ex. version and
->> > CVE check) and have to manual fix or ignore the licenses.
->> >
->> >> - in your own layer you simply can do whatever you like.
->> >
->> > But this make it impossible to share recipes. Why don't we create a
->> > meta-nodejs with a different approach to avoid doing the same thing
->> > multiple times.
->>
->> We could, but we have to think about the costs and ways to properly
->> maintain it - and that seems to be the main reason.
->> You could come up with a repo of your own and see who is interested in
->> joining the development (as I for instance did with a repo for ruby
->> gems) - still this would be hosted and maintained outside of core I
->> think, due to the limited time and resources available.
->>
->> And **most important** the repo has to provide its own means of
->> testing/CI.
->>
->> BTW I remember I had a talk with someone last year about it and putting
->> a bunch of angular based apps into an image, with all npms as separate
->> recipes resulted in ~100k of files.
->>
->
-We have discussed the severe impact on parsing time with 100k recipes. I
-personally worked on a node.js project with that many dependencies (but not
-an OE/Yocto deployment). Parsing time is already a pain point for 1000s of
-recipes.
+How do you track the version updates, check the CVE status and track the 
+licenses?
 
->
->> so CI and testing has to be extra beefy to make it work - which maybe
->> requires a good portion of automation, which then brings me back to
->> Alex's suggestion to provide some patches to devtool, if there is a need
->> for that.
->>
->> >
->> >> While personally I think in the long run, every npm dependency has to
->> >> be provided as a recipe of its own (even I know the costs of that
->> >> pretty well)... esp when CVE checking and basic packaging hygiene
->> >> should be enforced.
->> >
->> > Why should OE provide a solution with doesn't support this? I think
->> this
->> > is a main feature of OE.
->>
->> It actually does, but having this lockfile based approach, basically
->> crams up all into a single recipe, which makes it a bit harder to check
->> and whitelist any false positives or n.a. items, as you might have to do
->> it for more than one recipe - but yeah, the basic CVE checking is part
->> of core and works as expected
->>
->> >
->> >> Nevertheless for oe-core I wouldn't want to change a lot right now, as
->> >> there is simply a valid set of consumers missing that could enable us
->> >> to do some proper testing. But yeah fixes/improvements for devtool are
->> >> very welcome (also the available docu might need a touch)
->> >
->> > My problem is that the current approach doesn't support the build of an
->> > express or angular application. Does it makes sense to add this feature
->> > if we know that some basic OE features are missing (CVE and version
->> > check) and fixing bugs is a nightmare?
->>
->> Just my personal opinion would be, to open up a layer on your own and
->> let it grow and mature first before getting it in into core - but
->> patches to devtool are very welcome
->> >
->> > Regards
->> >    Stefan
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156681):
-> https://lists.openembedded.org/g/openembedded-core/message/156681
-> Mute This Topic: https://lists.openembedded.org/mt/86089523/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+How do you update a package inside the dependency tree?
 
---000000000000fb7ffa05cdd0a339
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Oct 6, 2021 at 2:48 AM Alexander Kanavin &lt;<a hre=
-f=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-left=
--color:rgb(204,204,204)"><div dir=3D"ltr"><div>The OE landscape is littered=
- with unmaintained or barely maintained
- layers. By the looks of things, no one wants to maintain this proposed=20
-meta-nodejs layer either, which involves thousands of recipes, (so far)=20
-non-existent tooling to create and update them in scalable ways, and rigoro=
-us testing. Or
- such a layer would have already happened. <br></div><div><br></div><div>It=
-&#39;s
- for this reason that I think the shrinkwrapped, self-contained recipe=20
-approach is more viable (even if it comes with its own pain points) and als=
-o matches how node.js community operates=C2=A0
- - we can fix the CVE stuff as well to look into dependencies if that&#39;s=
- a
- concern.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 6 Oct 2021 at 11:4=
-3, Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com" target=3D"_=
-blank">kweihmann@outlook.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-=
-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><br>
-<br>
-On 06.10.21 11:18, Stefan Herbrechtsmeier wrote:<br>
-&gt; Hi Konrad,<br>
-&gt; <br>
-&gt; Am 05.10.2021 um 21:29 schrieb Konrad Weihmann:<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On 05.10.21 21:17, Alexander Kanavin wrote:<br>
-&gt;&gt;&gt; On Tue, 5 Oct 2021 at 19:44, Stefan Herbrechtsmeier <br>
-&gt;&gt;&gt; &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmueller.c=
-om" target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.com</a> <br>
-&gt;&gt;&gt; &lt;mailto:<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmu=
-eller.com" target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.com</a>=
-&gt;&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0 &gt; A layer with thousands of recipe=
-s seems totally intractable.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; =C2=A0=C2=A0=C2=A0 What is your concern? The high number of de=
-pendencies or to <br>
-&gt;&gt;&gt; handle it<br>
-&gt;&gt;&gt; =C2=A0=C2=A0=C2=A0 via OE?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Generating recipes with a tool means the tool will be custom a=
-nd <br>
-&gt;&gt;&gt; non-standard, and chances of anyone outside of your company<br=
->
-&gt;&gt;&gt; understanding, using and contributing to it are rather small. =
-There&#39;s <br>
-&gt;&gt;&gt; also the problem of needing multiple versions of the same thin=
-g for <br>
-&gt;&gt;&gt; different<br>
-&gt;&gt;&gt; consumer items, which oe doesn&#39;t easily support. The link =
-Robert <br>
-&gt;&gt;&gt; provided already exposes some of the pain points with that app=
-roach.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I tend to think the best way forward (or least painful at leas=
-t) is <br>
-&gt;&gt;&gt; to gradually improve what there already is, which is the npm c=
-lass<br>
-&gt;&gt;&gt; and devtool, and send patches to various upstream njs projects=
- when <br>
-&gt;&gt;&gt; they&#39;re using outdated dependencies or otherwise need chan=
-ging.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Alex<br>
-&gt;&gt;<br>
-&gt;&gt; Just to chime in :-), I like to question this approach of having <=
-br>
-&gt;&gt; multiple versions of the same in an image.<br>
-&gt;&gt; As already outlined npm is horrible in many ways, but using the <b=
-r>
-&gt;&gt; lockfile approach multiplies that even more.<br>
-&gt;&gt; But I tend to agree that using the currently available oe-core cod=
-e <br>
-&gt;&gt; would be suited best for a broader audience<br>
-&gt; <br>
-&gt; But this audience loose the some basic features of OE (ex. version and=
- <br>
-&gt; CVE check) and have to manual fix or ignore the licenses.<br>
-&gt; <br>
-&gt;&gt; - in your own layer you simply can do whatever you like.<br>
-&gt; <br>
-&gt; But this make it impossible to share recipes. Why don&#39;t we create =
-a <br>
-&gt; meta-nodejs with a different approach to avoid doing the same thing <b=
-r>
-&gt; multiple times.<br>
-<br>
-We could, but we have to think about the costs and ways to properly <br>
-maintain it - and that seems to be the main reason.<br>
-You could come up with a repo of your own and see who is interested in <br>
-joining the development (as I for instance did with a repo for ruby <br>
-gems) - still this would be hosted and maintained outside of core I <br>
-think, due to the limited time and resources available.<br>
-<br>
-And **most important** the repo has to provide its own means of testing/CI.=
-<br>
-<br>
-BTW I remember I had a talk with someone last year about it and putting <br=
->
-a bunch of angular based apps into an image, with all npms as separate <br>
-recipes resulted in ~100k of files.<br>
-</blockquote></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">We have discussed the severe impact on parsing time with 100k recipes. I=
- personally worked on a node.js project with that many dependencies (but no=
-t an OE/Yocto deployment). Parsing time is already a pain point for 1000s o=
-f recipes.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
-der-left-color:rgb(204,204,204)"><div class=3D"gmail_quote"><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
-border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)=
-"><br>
-so CI and testing has to be extra beefy to make it work - which maybe <br>
-requires a good portion of automation, which then brings me back to <br>
-Alex&#39;s suggestion to provide some patches to devtool, if there is a nee=
-d <br>
-for that.<br>
-<br>
-&gt; <br>
-&gt;&gt; While personally I think in the long run, every npm dependency has=
- to <br>
-&gt;&gt; be provided as a recipe of its own (even I know the costs of that =
-<br>
-&gt;&gt; pretty well)... esp when CVE checking and basic packaging hygiene =
-<br>
-&gt;&gt; should be enforced.<br>
-&gt; <br>
-&gt; Why should OE provide a solution with doesn&#39;t support this? I thin=
-k this <br>
-&gt; is a main feature of OE.<br>
-<br>
-It actually does, but having this lockfile based approach, basically <br>
-crams up all into a single recipe, which makes it a bit harder to check <br=
->
-and whitelist any false positives or n.a. items, as you might have to do <b=
-r>
-it for more than one recipe - but yeah, the basic CVE checking is part <br>
-of core and works as expected<br>
-<br>
-&gt; <br>
-&gt;&gt; Nevertheless for oe-core I wouldn&#39;t want to change a lot right=
- now, as <br>
-&gt;&gt; there is simply a valid set of consumers missing that could enable=
- us <br>
-&gt;&gt; to do some proper testing. But yeah fixes/improvements for devtool=
- are <br>
-&gt;&gt; very welcome (also the available docu might need a touch)<br>
-&gt; <br>
-&gt; My problem is that the current approach doesn&#39;t support the build =
-of an <br>
-&gt; express or angular application. Does it makes sense to add this featur=
-e <br>
-&gt; if we know that some basic OE features are missing (CVE and version <b=
-r>
-&gt; check) and fixing bugs is a nightmare?<br>
-<br>
-Just my personal opinion would be, to open up a layer on your own and <br>
-let it grow and mature first before getting it in into core - but <br>
-patches to devtool are very welcome<br>
-&gt; <br>
-&gt; Regards<br>
-&gt;=C2=A0 =C2=A0 Stefan<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#156681): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/156681" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/156681</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86089523/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-86089523/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000fb7ffa05cdd0a339--
+Regards
+   Stefan
 
