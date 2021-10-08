@@ -1,108 +1,120 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B078EC433F5
-	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 08:53:47 +0000 (UTC)
-Received: from avasout04.plus.net (avasout04.plus.net [212.159.14.19])
- by mx.groups.io with SMTP id smtpd.web11.6757.1633683224615938711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3ADC433F5
+	for <webhook@archiver.kernel.org>; Fri,  8 Oct 2021 08:55:28 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.6628.1633683327054365986
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Oct 2021 01:53:47 -0700
+ Fri, 08 Oct 2021 01:55:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=ga8TznLr;
- spf=pass (domain: mcrowe.com, ip: 212.159.14.19, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id YldGmNDfm8YYhYldHm6VKX; Fri, 08 Oct 2021 09:53:37 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=PtkIkzE3 c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=8gfv0ekSlNoA:10 a=-An2I_7KAAAA:8 a=rZwJ_2cFA_g3EcyDxyUA:9
- a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=pRrVDlxXUR5/LfnjNFkf/qxhSoQqAtet975jgoDsWZ8=; b=ga
-	8TznLrsWtBbncAY7fieOswKNSCMlqfn5ZNKkcMb6tQqj8La1qIkDHPG5CTNB9iV3LZW60cDPa8Wwz
-	bSflBJjKB3KUrDGChpvGhGJnxveKQFnufp72zz4RbWuJCEPEeVdov+9BLvCdlUA8Xno/KhPBSzg0t
-	YcuhRfQX8P0KkKqiIWqdd35NS2HZ4A/xW6wRX570hy4QE6sDRqlH33kFbv6gl5IY9FhixSFBBBMR7
-	i6nmdzms6C3BjK0duTqh4UL85zhTgzwLRWsKKx0o5YJUwW+saZ4dVjH0J5U93RXT2xx5thnFVGK8E
-	Qf6S1lL+DpSp5a1qSg9ZdLr/jtf3tBrA==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.94.2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1mYldF-0094PM-Fh; Fri, 08 Oct 2021 09:53:33 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] license: Allow treating missing license as error
-Date: Fri,  8 Oct 2021 09:53:30 +0100
-Message-Id: <20211008085330.3031018-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qy2CHXvJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id r7so27418833wrc.10
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 08 Oct 2021 01:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=nQxGGN4gOHKwd8xugatTMPSG59kFfypw7izQ+PckgFQ=;
+        b=Qy2CHXvJxJc8aSTmdpC/wUAw0oQWaWCHcEDt0Cjs5y57BbOg63+SUmNiGFKRELFcUL
+         3XpFTkusH3v3o8So1cbW/mRERz1hrmW8VJz9pQx8VkNN2FRtxLk8to8vtxjGbR2x2U9H
+         gXZVQmSg7PPsR6KypqqZdRmKOE7ezVQ2ql4Yk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=nQxGGN4gOHKwd8xugatTMPSG59kFfypw7izQ+PckgFQ=;
+        b=73z3B9G5ZA6l9UeGebPRokG4Qx4SeMQ6mxXVGSG9V0SOcLxvcWkBMin2fgCdJklHl3
+         juzJbaJpNICU1efKsuiebG7tB0aNlAo6xg9wIDWKKLrWlhmswa7T+EHUCHTLla9Cqk6u
+         2f4Dtz7Dn/YbPnqUNOoaZgOqJWVew0V5vGF/YyEoQSlkWDVdvNXzjmNEXzucs76qgDLn
+         wVvaW4vkDk75tQYQIRIxof+QNZEp/qgPBGtqOwLhqe9OAZV1yrg7LQhenJq4L6yFyebX
+         v+WR4Snqzxq4yudYdHGpPv7Qyf3h6a6GbJltETX8BHNzUx806SdXB3ol3yXgetbUeH/i
+         BEYA==
+X-Gm-Message-State: AOAM532osb0fOJQGYh76eJouKz25bPOneZTCg+FWim2BgImGR7xqVaqc
+	N6ViTr36qV43SJzyhBkol2qeag==
+X-Google-Smtp-Source: 
+ ABdhPJy6rRAcfNpdvWD9TfU/g6VOXNh2VrVG9UU5ki0ZY9td4ato7Wv7ssxWdZaB+jzzcs/yrEUiPQ==
+X-Received: by 2002:a05:600c:2193:: with SMTP id
+ e19mr2095097wme.38.1633683325203;
+        Fri, 08 Oct 2021 01:55:25 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5719:ccd0:9969:333f?
+ ([2001:8b0:aba:5f3c:5719:ccd0:9969:333f])
+        by smtp.gmail.com with ESMTPSA id
+ l16sm1991194wmj.33.2021.10.08.01.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Oct 2021 01:55:24 -0700 (PDT)
+Message-ID: 
+ <7c45856599d0602f115788604a07b0105cd762aa.camel@linuxfoundation.org>
+Subject: Re: [PATCH] oeqa/selftest/reproducibile: Include rust packages
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, alex.kanavin@gmail.com, umesh.kalappa0@gmail.com
+Date: Fri, 08 Oct 2021 09:55:24 +0100
+In-Reply-To: <20211008083758.156759-1-pgowda.cve@gmail.com>
+References: <20211008083758.156759-1-pgowda.cve@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: 
- MS4wfKTczYuoxDTzH4iokMlDeZwqWXwcorRv8+xjVnXSVJO+ngehme9DqDV570mOYt3HOKtohC0Cty+nGZK8TA3T9IswuMFmWXNP9NOamKdxRfooM7RGT207
- czOGG0jMYhXfWz/nZ43WUImASai5jXf9UZ1Lyj5+w3gV8IuWRmS1pDA/tMxxzGodFlHrjuVrvMv0Sg==
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 08:53:47 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Oct 2021 08:55:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156773
+ https://lists.openembedded.org/g/openembedded-core/message/156774
 
-Use mechanism inspired by insane.bbclass to allow individual recipes or
-other configuration to determine whether a missing licence should be
-treated as a warning (as it is now) or as an error. This is controlled
-by whether the error class is in WARN_LICENSE or ERROR_LICENSE.
+On Fri, 2021-10-08 at 01:37 -0700, Pgowda wrote:
+> rust-llvm-liblto and rust-llvm-staticdev have been tested and generates
+> same ipk, rpm and deb files for reproducibleA and reproducibleB in
+> debain environment.
+> 
+> Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/reproducible.py | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+> index e4582cb82a..a147e933cc 100644
+> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> @@ -27,8 +27,6 @@ import datetime
+>  
+>  # ruby-ri-docs, meson:
+>  #https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210215-0_td9la2/packages/diff-html/
+> -# rust-llvm:
+> -#https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210825-kaihham6/
+>  exclude_packages = [
+>  	'glide',
+>  	'go-helloworld',
+> @@ -36,8 +34,6 @@ exclude_packages = [
+>  	'go_',
+>  	'go-',
+>  	'ruby-ri-docs',
+> -	'rust-llvm-liblto',
+> -	'rust-llvm-staticdev'
+>  	]
+>  
+>  def is_excluded(package):
 
-Use bb.fatal in the error case to ensure that the task really fails. If
-only bb.error is used then do_populate_lic isn't re-run on subsequent
-builds which could lead to the error being missed.
+Not sure how you checked this but here is a build where they were not:
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/license.bbclass | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/764
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 45d912741d..1805f18076 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -12,6 +12,23 @@ LICENSE_CREATE_PACKAGE ??= "0"
- LICENSE_PACKAGE_SUFFIX ??= "-lic"
- LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
- 
-+# Elect whether a given type of error is a warning or error, they may
-+# have been set by other files.
-+WARN_LICENSE ?= "no-license"
-+ERROR_LICENSE ?= ""
-+WARN_LICENSE[doc] = "Space-separated list of license problems that should be reported only as warnings"
-+ERROR_LICENSE[doc] = "Space-separated list of license problems that should be reported as errors"
-+
-+def package_license_handle_error(error_class, error_msg, d):
-+    if error_class in (d.getVar("ERROR_LICENSE") or "").split():
-+        package_qa_write_error(error_class, error_msg, d)
-+        bb.fatal("License Issue: %s [%s]" % (error_msg, error_class))
-+    elif error_class in (d.getVar("WARN_LICENSE") or "").split():
-+        package_qa_write_error(error_class, error_msg, d)
-+        bb.warn("License Issue: %s [%s]" % (error_msg, error_class))
-+    else:
-+        bb.note("QA Issue: %s [%s]" % (error_msg, error_class))
-+
- addtask populate_lic after do_patch before do_build
- do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
-@@ -190,7 +207,7 @@ def find_license_files(d):
-             # Add explicity avoid of CLOSED license because this isn't generic
-             if license_type != 'CLOSED':
-                 # And here is where we warn people that their licenses are lousy
--                bb.warn("%s: No generic license file exists for: %s in any provider" % (pn, license_type))
-+                package_license_handle_error("no-license", "%s: No generic license file exists for: %s in any provider" % (pn, license_type), d)
-             pass
- 
-     if not generic_directory:
--- 
-2.30.2
+Note the lines:
+
+
+2021-10-08 04:36:27,176 - oe-selftest - INFO - Reproducibility summary for rpm: same=8819 different=0 different_excluded=11 missing=0 total=8830
+unused_exclusions=['go-runtime', 'go_', 'ruby-ri-docs']
+
+i.e. it used the rust exclusions.
+
+Cheers,
+
+Richard
 
 
