@@ -2,49 +2,48 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5896CC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FD7C433EF
 	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:15 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web09.9553.1633945273872609238
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.9636.1633945274567164998
  for <openembedded-core@lists.openembedded.org>;
  Mon, 11 Oct 2021 02:41:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Az1FKcXS;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pQL3M5uc;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id t2so54132289wrb.8
+Received: by mail-wr1-f54.google.com with SMTP id m22so54260670wrb.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:13 -0700 (PDT)
+ Mon, 11 Oct 2021 02:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yf4WYpQawBRwuqlmo09Gq4yVfk5DBj8PiquEzKQW4xQ=;
-        b=Az1FKcXS4fmPhWudpktlpZ2HaQw3cJYAS8Ba/17TasoZpm2JhwKvKcP0j2ZgQDC54J
-         dD968wscu7oVA87WxhVYvwxaHR/+2qzzDWxkugWJfhrAXX6OAR4V1drclsdCd9QKnzf8
-         LJ6fCvkgjEQ4EqChZCOWRcuI4OgZUcTabFM5bG4KFtCZ/ILjXErAMqYOA6fp1su4z0Fc
-         3LXS3HjAOnKOPzGnY3GhKR8Gb127tkh9H44ImSBSJB48HcrmO4fPQGGHBwo3VJ5qxa4y
-         2TKSKTr+QXVV4QT4iZPrGyv2l4uZMQIrx551k5+zGaKHZqaIatSuerWwTD9KXyAiRF0m
-         z/Ig==
+        bh=i6PQgNoCC+SpZ6ChshmVSV6Hijtzjx/+djw2jxEh8WU=;
+        b=pQL3M5ucOZrfqkVnM9ncbcQuUlKuk6jhMt1eJUKpW1fOOmiyFqTkZiW0XjZJLswvsi
+         rWf4oX0E/cGst3K5vpk6Bu/otCB596/JrHteyc9fkKIDl/Regv+HpgCERK62P8h2GJHy
+         bb/bJhAwqpQNiOGV8xT65kVkOP8eTLqIrS7jbem0XPQeWVlDP2WrrMWZ3oseSzfG+vjJ
+         P/pJ166Y1plTuVLTmcf2e3/QdBbdoaTYAGIQulhRKYDbgqLekd1IW3HDqSvZBryz9W4g
+         XiZD0zjJboqLz2YYU967fjuZ/UHJXixUKEjciYvhCNjJlrIXA6d+SoEYE6fRmpfSylB1
+         psSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yf4WYpQawBRwuqlmo09Gq4yVfk5DBj8PiquEzKQW4xQ=;
-        b=iHVCs8TvbF23kZT7X3KJzi4h1pRGv1fEZ6X8qlOPn96eboXK3QsSgEzZmNOxqBWsCw
-         AZ7fkNSG+R99EtHuaM1IxKsy6qgsOI8oBcFkfFASnoe/RrKX4gHCUF44se/Z+Nko2R0w
-         7eVpVbMcbawlCdvCi3XRzrXnizkqzTeudEt2oMzBUhGJIStRtw8rNTs0EtpbsUSo0i4V
-         BlDTXGQ6JUxCijFia7FjBpUgIxcPQXfniHFRCZJ6Wv0xq56i+lcM84ixzO0TpPcPed4k
-         uhzxmuDZT5i6ckCxk72/uPvxj6GlGYg6tC5pcVMxxYvgmEgHw/N6ajg32AIQAE4zc7BV
-         9w6g==
-X-Gm-Message-State: AOAM533ranEoVi9gb6K0NeOOZtWiubF/lxxH8IsO+YtPJ3JPGFCN2ybS
-	5UoqBq/v+NoyFsNpxLAb8jdlhtF8jOc=
+        bh=i6PQgNoCC+SpZ6ChshmVSV6Hijtzjx/+djw2jxEh8WU=;
+        b=GkSq+44sQE+MOx4nKt1UBehxAspvWG1OLqc5Up32g67oAHuU8EkfPHcKoOJ43yAh9Q
+         cBxpDTWvZvVIWvaWdb3KoBAJATqrwNgJ5ogRoXXsrRABA6wQ3XNKDZ9YGxhPry7Lmwt/
+         NTAx+McGeq+FqiGsrnb+JWhOEfg8U68f8iv2Om3RFNenUvtTCIeb6J66vHkRwso3LH6Z
+         eECWRO+eSR4LI83kgVTyWsst+Us5JHfMpfCR6BTcjxr/wNzSMDyCqe8z3g/HPyipoJF4
+         EfTfYetE60v9icZugERG8gulUB3XesObb8LW8GF7KUIS466WT7Ig0PCu4clSNVIAmfrv
+         rXdA==
+X-Gm-Message-State: AOAM532B5GstaEyZ6s3C/jYmsJ0NRbLyPteoH2WFU2bKbkqIPpLeWGat
+	0FGLFiEiX6cdiEMYhBsTmoDlf4sgKNY=
 X-Google-Smtp-Source: 
- ABdhPJx5sCg87deZrHY2954E/Sh7hz22VjHb+2MRbfl6X8OQ92HR55N9m2N01uzm4EnaTWjSfcLa9Q==
-X-Received: by 2002:a05:600c:2159:: with SMTP id
- v25mr19219228wml.175.1633945272307;
-        Mon, 11 Oct 2021 02:41:12 -0700 (PDT)
+ ABdhPJyyYAp6wqcH+EpNpw4ehQEqtQT4V72/qVMsantcnlfqy/Ox5HS+rTpwS23KgClGb8LAmBHwiw==
+X-Received: by 2002:a5d:58ec:: with SMTP id f12mr22932002wrd.24.1633945271621;
+        Mon, 11 Oct 2021 02:41:11 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
@@ -55,10 +54,10 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/25] libdnf: update 0.63.1 -> 0.64.0
-Date: Mon, 11 Oct 2021 11:40:48 +0200
-Message-Id: <20211011094059.4184654-14-alex@linutronix.de>
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [PATCH 13/25] bison: update 3.7.6 -> 3.8.1
+Date: Mon, 11 Oct 2021 11:40:47 +0200
+Message-Id: <20211011094059.4184654-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
 References: <20211011094059.4184654-1-alex@linutronix.de>
@@ -69,79 +68,104 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156826
+ https://lists.openembedded.org/g/openembedded-core/message/156828
 
 Drop patch merged upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...avoid-the-use-of-non-portable-__WORD.patch | 34 -------------------
- .../{libdnf_0.63.1.bb => libdnf_0.64.0.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 36 deletions(-)
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
- rename meta/recipes-devtools/libdnf/{libdnf_0.63.1.bb => libdnf_0.64.0.bb} (93%)
+ ...001-Use-mapped-file-name-for-symbols.patch | 62 -------------------
+ .../bison/{bison_3.7.6.bb => bison_3.8.1.bb}  |  3 +-
+ 2 files changed, 1 insertion(+), 64 deletions(-)
+ delete mode 100644 meta/recipes-devtools/bison/bison/0001-Use-mapped-file-name-for-symbols.patch
+ rename meta/recipes-devtools/bison/{bison_3.7.6.bb => bison_3.8.1.bb} (93%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
+diff --git a/meta/recipes-devtools/bison/bison/0001-Use-mapped-file-name-for-symbols.patch b/meta/recipes-devtools/bison/bison/0001-Use-mapped-file-name-for-symbols.patch
 deleted file mode 100644
-index b740521fdaa..00000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
+index 568ee4df193..00000000000
+--- a/meta/recipes-devtools/bison/bison/0001-Use-mapped-file-name-for-symbols.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From fc0b81bb717db3f41513f09f6661676a7aea6dd4 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 9 Mar 2021 19:30:42 +0000
--Subject: [PATCH] libdnf/config.h: avoid the use of non-portable __WORDSIZE
+@@ -1,62 +0,0 @@
+-From 2a3db4e3b8d33bad5577c2fcfe124ee7a202ef4f Mon Sep 17 00:00:00 2001
+-From: Joshua Watt <JPEWhacker@gmail.com>
+-Date: Mon, 15 Feb 2021 20:39:57 -0600
+-Subject: [PATCH] Use mapped file name for symbols
 -
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1159]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Applies the file name mapping before exporting it as a symbol. This
+-allows the symbols to correctly respect the --file-prefix-map command
+-line option.
 -
+-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+-Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bison-patches/2021-02/msg00014.html]
 ----
-- libdnf/config.h | 9 +++------
-- 1 file changed, 3 insertions(+), 6 deletions(-)
+- src/muscle-tab.c | 4 +++-
+- src/output.c     | 8 ++++++--
+- 2 files changed, 9 insertions(+), 3 deletions(-)
 -
--diff --git a/libdnf/config.h b/libdnf/config.h
--index 01b330b4..dbd53f5e 100644
----- a/libdnf/config.h
--+++ b/libdnf/config.h
--@@ -20,14 +20,11 @@
+-diff --git a/src/muscle-tab.c b/src/muscle-tab.c
+-index b610d0b8..3e7657ca 100644
+---- a/src/muscle-tab.c
+-+++ b/src/muscle-tab.c
+-@@ -204,8 +204,10 @@ static void
+- muscle_syncline_grow (char const *key, location loc)
+- {
+-   obstack_printf (&muscle_obstack, "]b4_syncline(%d, ", loc.start.line);
+-+  char *f = map_file_name (loc.start.file);
+-   obstack_quote (&muscle_obstack,
+--                 quotearg_style (c_quoting_style, loc.start.file));
+-+                 quotearg_style (c_quoting_style, f));
+-+  free (f);
+-   obstack_sgrow (&muscle_obstack, ")dnl\n[");
+-   char const *extension = obstack_finish0 (&muscle_obstack);
+-   muscle_grow (key, extension, "", "");
+-diff --git a/src/output.c b/src/output.c
+-index 391d8e65..34dbc671 100644
+---- a/src/output.c
+-+++ b/src/output.c
+-@@ -531,7 +531,9 @@ user_actions_output (FILE *out)
+-           {
+-             fprintf (out, "b4_syncline(%d, ",
+-                      rules[r].action_loc.start.line);
+--            string_output (out, rules[r].action_loc.start.file);
+-+            char *f = map_file_name (rules[r].action_loc.start.file);
+-+            string_output (out, f);
+-+            free(f);
+-             fprintf (out, ")dnl\n");
+-           }
+-         fprintf (out, "[%*s%s]],\n[[",
+-@@ -629,8 +631,10 @@ prepare_symbol_definitions (void)
 - 
-- #ifdef __APPLE__
-- #include <stdint.h>
---#else
---#include <bits/wordsize.h>
-- #endif
--+#include <limits.h>
+-           if (p->code)
+-             {
+-+              char *f = map_file_name (p->location.start.file);
+-               SET_KEY2 (pname, "file");
+--              MUSCLE_INSERT_C_STRING (key, p->location.start.file);
+-+              MUSCLE_INSERT_C_STRING (key, f);
+-+              free (f);
 - 
---#if __WORDSIZE == 32
---#include "config-32.h"
---#elif __WORDSIZE == 64
--+#if (ULONG_MAX == 0xffffffffffffffff)
-- #include "config-64.h"
-- #else
---#error "Unknown word size"
--+#include "config-32.h"
-- #endif
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.64.0.bb
+-               SET_KEY2 (pname, "line");
+-               MUSCLE_INSERT_INT (key, p->location.start.line);
+--- 
+-2.30.0
+-
+diff --git a/meta/recipes-devtools/bison/bison_3.7.6.bb b/meta/recipes-devtools/bison/bison_3.8.1.bb
 similarity index 93%
-rename from meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.64.0.bb
-index a9f393e7225..38d3307b118 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.64.0.bb
-@@ -11,12 +11,11 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
-            file://0001-Add-WITH_TESTS-option.patch \
-            file://0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch \
-            file://enable_test_data_dir_set.patch \
--           file://0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch \
-            file://0001-drop-FindPythonInstDir.cmake.patch \
-            file://0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch \
+rename from meta/recipes-devtools/bison/bison_3.7.6.bb
+rename to meta/recipes-devtools/bison/bison_3.8.1.bb
+index c85ae049766..a6159b007ab 100644
+--- a/meta/recipes-devtools/bison/bison_3.7.6.bb
++++ b/meta/recipes-devtools/bison/bison_3.8.1.bb
+@@ -11,9 +11,8 @@ DEPENDS = "bison-native flex-native"
+ 
+ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://add-with-bisonlocaledir.patch \
+-           file://0001-Use-mapped-file-name-for-symbols.patch \
             "
+-SRC_URI[sha256sum] = "67d68ce1e22192050525643fc0a7a22297576682bef6a5c51446903f5aeef3cf"
++SRC_URI[sha256sum] = "31fc602488aad6bdecf0ccc556e0fc72fc57cdc595cf92398f020e0cf4980f15"
  
--SRCREV = "8e451380bf84bd76e3925cbae2a06bb0e56f5cd9"
-+SRCREV = "e5ecbc1e5062631f44cb94a3b73d9310db0ff386"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!4\.90)\d+(\.\d+)+)"
+ inherit autotools gettext texinfo
  
- S = "${WORKDIR}/git"
 -- 
 2.20.1
 
