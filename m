@@ -1,155 +1,107 @@
-Return-Path: <fede@evolware.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3726C433FE
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 04:43:17 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web12.7541.1633927396696281543
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA36C433F5
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 08:05:30 +0000 (UTC)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web12.8787.1633939530132405415
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Oct 2021 21:43:16 -0700
+ Mon, 11 Oct 2021 01:05:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: fede.evol@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id r17so3074943uaf.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fSF1Ykv4;
+ spf=pass (domain: gmail.com, ip: 209.85.222.51,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f51.google.com with SMTP id 64so11609360uab.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Oct 2021 21:43:16 -0700 (PDT)
+ Mon, 11 Oct 2021 01:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C2rOq4QIGIW6NrQUWpDmUFdh6ZvkObRwyz11TAktxZM=;
+        b=fSF1Ykv4XTQGgBNtAocZraP0OOOjjriXXXBuagaXjiUFFEc20Ia6X4ObdTiO8MIorq
+         mLJjbA30h85fjk8+NzCsa6J0mvLLJ1thBN0WlO/ZgUbGcrzwRGW7sT8kWCroGsFlzC6V
+         X2WihT5ulXoyx5SHGaGGhMe4D20wHOGJZ8Cpc5BVjq0e/H3EQ0Ko9CG0XovkFqnLGM1t
+         FV7dvXroTL3eeg1MpC3gNMGEqWUdRTuXTphEeQjNaOILZa62nvfUHQid0PZSEXR6O0GJ
+         wSEnaEZCmRHRzhjkRREqAkhkKid2sz/TbqP42RGoUipqMPr0y4tExyC1W/zxbHqIWdak
+         ubpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kcIuyt9Xrin4i7FMl6Kh2XnMmEQIN4ZwwXokWi3bfe8=;
-        b=kHJlmYVXoqJRP1uvye/lfLvwGC9KAaMtAHx48NIt7k3++TAJyeLo85EHgC+KFupcfh
-         NSJXcxPQmDpcqSQGg9A48dnuAyNJW5c59cGqvGdV2LOkUsEsVWyvKtZjd328xiJRFgA/
-         vwMo1wNyELyOkEPA7QYx2R0l+Mb4Dz8JKekuxw/fCbkrF8c65P5R8/GK9qUbVydvF36x
-         6NYOb9KVPGCUWvUkptmovidgSC0ElenhwjquusLtL0PjEebExWm4w1N0HOEPA18Z28t7
-         vYBwkrFYG4PEJWVSuksggMN1P+3Z4iHWHvF0Jz353jdnltBXwL4Web+lhdBcCvaWN8hB
-         W7nw==
-X-Gm-Message-State: AOAM533NPFZgrqbVfX896hoQim03AUWSokpOaiPCNlrbPqXH0XHmdZS8
-	CBucHo6G0vm0myiQRczz9L3ob1FmYLbcrGZhpuk=
+        bh=C2rOq4QIGIW6NrQUWpDmUFdh6ZvkObRwyz11TAktxZM=;
+        b=XV0ZkefR+NpE8tPrKmr+SvPAoRbOPsA9V31Wlmqhfw/xmMGN+DO5z5xecBYxbX8TOr
+         yInDx19GybnnWHKwzotqCY9TJxwmMMpM49ohR0zsyAr44syPAtldXZSIeJ6vTkKNHm8S
+         hEJaHma9U8ibvpay6hVqAvb3OauX6zpEWZNDNN/Ry0/QzBqUaxIoKHI24EHVjxcP8V34
+         V+ffL6zeSzjTN8KxVOdZDER8/fSxagZXj/3+oqp1Yw/CooeMMK+6pEIZT26p+rxLQdif
+         GNLSccr9gF9VdxLfOC5YFCtnYt3XH3n0nefvmw04djdWvg3VXR3YudJHqUKi2DC9g0Bw
+         I10Q==
+X-Gm-Message-State: AOAM530D2kl4CRGWMb/sBSVrHDiZGPflU5ETZEv4Xs0GuQMF1qRKLwJ7
+	bQBWc81fA88bgs5eshHq26XtIwmkqmItqLYdsTU=
 X-Google-Smtp-Source: 
- ABdhPJxebIsigzbkO74hE90cIDWREkh7nIyBJ4HJUJ5wNiiqJIZukD6VdtjsDavfordexRsHqR444RI85a9tCKbtRWE=
-X-Received: by 2002:ab0:3d99:: with SMTP id l25mr13510378uac.52.1633927395790;
- Sun, 10 Oct 2021 21:43:15 -0700 (PDT)
+ ABdhPJz+GpL7/k0S//OXK7HWZ88YpSJMr5yrd+/m7f5gCw3XbCfthQio89h0XGlrvN67D6/RtAGxmiPiRS2C3y/WEMA=
+X-Received: by 2002:ab0:1623:: with SMTP id k32mr13235241uae.71.1633939529068;
+ Mon, 11 Oct 2021 01:05:29 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <CAA=hcWSfqgxOX8UjwW35tD4VMC8c0SHWVo=_=z38NH7+rq6dAg@mail.gmail.com>
-In-Reply-To: 
- <CAA=hcWSfqgxOX8UjwW35tD4VMC8c0SHWVo=_=z38NH7+rq6dAg@mail.gmail.com>
-From: Federico Pellegrin <fede@evolware.org>
-Date: Mon, 11 Oct 2021 06:43:04 +0200
+References: <20210908180125.103473-1-alex.kanavin@gmail.com>
+ <e76d1475-2216-345d-cbcc-8bc682abdf6e@synaptics.com>
+In-Reply-To: <e76d1475-2216-345d-cbcc-8bc682abdf6e@synaptics.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 11 Oct 2021 10:05:17 +0200
 Message-ID: 
- <CAM6O0Zg3qNqZbtkKjTXQdSwD9LAjrKOaumshWk9Swvb7OMT8VA@mail.gmail.com>
-Subject: Re: [OE-core] How to trigger Yocto Linux /etc/profile or shell
- scripts in /etc/profile.d without shell logging in?
-To: JH <jupiter.hce@gmail.com>
-Cc: yocto <yocto@lists.yoctoproject.org>,
-	OE <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000003d35305ce0c5e2d"
+ <CANNYZj_=85L=CAUDwJT=WkyA1YfNJ_KmoY6WVdbQ4yBoCiS-AA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/26] meson: update 0.58.1 -> 0.59.1
+To: Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000036f68205ce0f3124"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 04:43:17 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 08:05:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156810
+ https://lists.openembedded.org/g/openembedded-core/message/156811
 
---00000000000003d35305ce0c5e2d
+--00000000000036f68205ce0f3124
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jupiter,
-/etc/profile and similar are interactive shell (/bash) concepts, not really
-system startup ones. So indeed: just on a login (be it local, ssh and so
-on) they are executed.
+On Mon, 11 Oct 2021 at 04:48, Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
 
-If you want to execute something else without the need for logging it, you
-should look elsewhere, depending on your system manager: if systemd you
-should create a service and enable it, if sysvinit a init.d script.
-
-HTH,
-Federico
-
-
-Il giorno lun 11 ott 2021 alle ore 06:30 JH <jupiter.hce@gmail.com> ha
-scritto:
-
-> Hi,
+> I think we should update the meson.cross.template generated by this ^^^
+> file.
 >
-> The Yocto uses /etc/profile for root login, but there is no root
-> physical login in an embedded device so the /etc/profile is never
-> called, I added a shell script to /etc/profile.d, it was not called
-> either. Both /etc/profile and scripts in /etc/profile.d can only be
-> invoked when I physically log into the debug console, that is
-> impractical. Appreciate your advice, how do you resolve that kind of
-> problem?
->
-> Thank you.
->
-> Kind regards,
->
-> - jupiter
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156808):
-> https://lists.openembedded.org/g/openembedded-core/message/156808
-> Mute This Topic: https://lists.openembedded.org/mt/86229953/5117409
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> fede@evolware.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> c_args=EF=BC=8C c_link_args=EF=BC=8C cpp_args=EF=BC=8C cpp_link_args have=
+ been moved to the
+> '[built-in options]' section. Also we need an native-file here.
+> That is what
+> 06b4910c3ada5398faf9369d686b82eee441bb19 has done for OE itself.
 >
 
---00000000000003d35305ce0c5e2d
+Can you send a patch please?
+
+Alex
+
+--00000000000036f68205ce0f3124
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><br></div><div>Hi Jupiter,</div><div>/etc/profile and=
- similar are interactive shell (/bash) concepts, not really system startup =
-ones. So indeed: just on a login (be it local, ssh and so on) they are exec=
-uted.</div><div><br></div><div>If you want to execute something else withou=
-t the need for logging it, you should look elsewhere, depending on your sys=
-tem manager: if systemd you should create a service and enable it, if sysvi=
-nit a init.d script. <br></div><div><br></div><div>HTH,</div><div>Federico<=
-/div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
-lass=3D"gmail_attr">Il giorno lun 11 ott 2021 alle ore 06:30 JH &lt;<a href=
-=3D"mailto:jupiter.hce@gmail.com">jupiter.hce@gmail.com</a>&gt; ha scritto:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 11 Oct 2021 at 04:48, Hsia-Jun Li &lt;<a href=3D"mailto:Rand=
+y.Li@synaptics.com">Randy.Li@synaptics.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">I think we should update the meso=
+n.cross.template generated by this ^^^ <br>
+file.<br>
 <br>
-The Yocto uses /etc/profile for root login, but there is no root<br>
-physical login in an embedded device so the /etc/profile is never<br>
-called, I added a shell script to /etc/profile.d, it was not called<br>
-either. Both /etc/profile and scripts in /etc/profile.d can only be<br>
-invoked when I physically log into the debug console, that is<br>
-impractical. Appreciate your advice, how do you resolve that kind of<br>
-problem?<br>
-<br>
-Thank you.<br>
-<br>
-Kind regards,<br>
-<br>
-- jupiter<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#156808): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/156808" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/156808</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86229953/5117=
-409" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86229953/5117409</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:fede@evolware.org" target=
-=3D"_blank">fede@evolware.org</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+c_args=EF=BC=8C c_link_args=EF=BC=8C cpp_args=EF=BC=8C cpp_link_args have b=
+een moved to the <br>
+&#39;[built-in options]&#39; section. Also we need an native-file here.<br>
+That is what<br>
+06b4910c3ada5398faf9369d686b82eee441bb19 has done for OE itself.<br></block=
+quote><div><br></div><div>Can you send a patch please?</div><div><br></div>=
+<div>Alex<br></div></div></div>
 
---00000000000003d35305ce0c5e2d--
+--00000000000036f68205ce0f3124--
 
