@@ -1,256 +1,1186 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35457C433EF
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 18:07:59 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.2219.1633975676811413070
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53072C433F5
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 21:58:35 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web09.5250.1633989512221461915
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 11:07:57 -0700
+ Mon, 11 Oct 2021 14:58:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=E+p0Sez+;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FpNJXjXq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id j5so79334380lfg.8
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 11 Oct 2021 14:58:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1633975677;
-  x=1665511677;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=XCK7uy7a0Eu7VNGNNRNHwGOnDSAZZ8pwZZX4emE06Jo=;
-  b=E+p0Sez+tZiV3w+yZRRI2p0b2fPk4aQywbI/4aUUDsCrH7/KwRqgS67U
-   65mcTH67PWUzHd1jpNuOm584CCisL4P2k18klkg356dF1HvA3i+dicwzK
-   or1VfchYMYIfnr0lBeE+6sPeJmT8kKM15tvgqWElwFhJPeII0DS0qRrZd
-   gfaRiyCfQt+p6Qrfi0hI+7Brmlz0wyKsukt+RFslM68WChlvp/BX4iqHO
-   UICAZjm5hWEbtPuKMKZEmcOqSmqznZJQ0uREX9YJFgwhldWsdm/4yL/Hj
-   Xh9WfBAuufQ/D3u8jOBfh63nL/8ocsLQqRIoNida/Aj7G21T6zEwVwQir
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Alexander Kanavin <alex@linutronix.de>, Hongxu Jia
-	<hongxu.jia@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: RE: [OE-core] [PATCH 07/25] openssl: update 1.1.1l -> 3.0.0
-Thread-Topic: [OE-core] [PATCH 07/25] openssl: update 1.1.1l -> 3.0.0
-Thread-Index: AQHXvoRHgAQ5jq5epkqEYcQHs5wDhKvOE03A
-Date: Mon, 11 Oct 2021 18:07:53 +0000
-Message-ID: <8cecff22cdcf4aa89bac193213219677@axis.com>
-References: <20211011094059.4184654-1-alex@linutronix.de>
- <20211011094059.4184654-7-alex@linutronix.de>
-In-Reply-To: <20211011094059.4184654-7-alex@linutronix.de>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gQm4cwI8XLE88C2B6hslcHck+7srFRIu8KB0cy5p2FA=;
+        b=FpNJXjXqObPwB7hx3ZsL8S9w3WrgJzdDoC/Q+7pq+EA3DKb/oj2mitYDirBu2LoPxt
+         QP5BNJgGOOig+YnbB8MjYBzczge+mAhA2Fb4DYB0kxHOX7hMUA3qcxfDUYWXN1UF8rhA
+         02AIviUx+fqVgELvnHqcCJrZaad+T4BL7ynNxuN4iFhXEEWmtFcZIv2MX4DB5c3n+k/s
+         RaYVvmWPEz3wc/WwJoYQ77PkPONXD+kuoTTvIJbigF41s21OTfJ7DWQvzpGt4H/VXjBx
+         30BcnWT9Z2Lx/ur8BXV1URQz2T5R7POzfIiDFp2SgXvMQO8j/LnMV/KEwY+mz9OClvXW
+         xZ5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gQm4cwI8XLE88C2B6hslcHck+7srFRIu8KB0cy5p2FA=;
+        b=D7zuYK7fDDfgqGITmAIwY+ILJ1ZdKB5QIEtyDHt+hW5jr+szOTXdip1fVmTSRWZKs+
+         izgpuRi+ktsy/33t2pgfbEWMzJ1pxxJZ930XnfJZibniZpqs43cCRdyjN71/6EKsRrW5
+         iaeVgRuiOK+I6xPbahrRNrqte5M5rVOQ1LfoqvtuAUsv2jVQkm6ZROOzH+dwtEnC9tUb
+         G133/+ngUp8hlM5cNRwHHJ6KjCfm3twXOFEMmozFzafmHdGni38BXBQbtoECC3MxTtFI
+         sbTHp6fUXFjAU/Nu3FHYzAKJ8wQSfTRF3JuZ89vst6CGqNiEEy0hNdembl6VHDmrbhSM
+         UZ/w==
+X-Gm-Message-State: AOAM5308fdO36WmzcwrvqWpv1hFRDe1x4KaEovPlc3gU5l3PjIE1lB8J
+	TvHyS8i3NUtuHRdHUYACXbRVm3ce0DJGZ5vJ2Q0=
+X-Google-Smtp-Source: 
+ ABdhPJw5BoUr2Pd37VwQHcDJBE8FnXd2hFOmlRIzNIwkK0h6eiCF5FtxMn+ChHUNiEb7qUzuhrpUN6RvvlmvZuF7enM=
+X-Received: by 2002:ac2:5484:: with SMTP id t4mr5486588lfk.94.1633989510268;
+ Mon, 11 Oct 2021 14:58:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20211011171208.3632459-1-hkleynhans@fb.com>
+ <20211011171208.3632459-2-hkleynhans@fb.com>
+In-Reply-To: <20211011171208.3632459-2-hkleynhans@fb.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 11 Oct 2021 22:58:19 +0100
+Message-ID: 
+ <CANPvuRkg+F4TjPvLbvTAGq+Vr_94rUTwVaixmAr==1sqNq41Xw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sstate: Switch to ZStandard compressor support
+To: Henry Kleynhans <henry.kleynhans@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+ poky@lists.yoctoproject.org,
+	hkleynhans@fb.com, rmikey@fb.com
+Content-Type: multipart/alternative; boundary="000000000000538a2b05ce1ad42f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 18:07:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 21:58:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156848
+ https://lists.openembedded.org/g/openembedded-core/message/156849
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEFsZXhhbmRlciBLYW5hdmluDQo+IFNlbnQ6IGRlbiAx
-MSBva3RvYmVyIDIwMjEgMTE6NDENCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcNCj4gQ2M6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+
-OyBIb25neHUgSmlhDQo+IDxob25neHUuamlhQHdpbmRyaXZlci5jb20+OyBSaWNoYXJkIFB1cmRp
-ZQ0KPiA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU3ViamVjdDogW09F
-LWNvcmVdIFtQQVRDSCAwNy8yNV0gb3BlbnNzbDogdXBkYXRlIDEuMS4xbCAtPiAzLjAuMA0KPiAN
-Cj4gRHJvcCAwMDAxLXNraXAtdGVzdF9zeW1ib2xfcHJlc2VuY2UucGF0Y2ggLSB0ZXN0aW5nIHJl
-dmVhbGVkDQo+IG5vIG5lZWQgZm9yIGl0LCBhbmQgSSBjb3VsZG4ndCBxdWl0ZSB1bmRlcnN0YW5k
-IHdoYXQgaXQgZG9lcy4NCj4gDQo+IERyb3AgcmVwcm9kdWNpYmxlLnBhdGNoIC0gdXBzdHJlYW0g
-aGFzIHJlbW92ZWQgdGhlIG5vbi1yZXByb2R1Y2libGUNCj4gYml0Lg0KPiANCj4gUHJvY2VzcyBs
-aW5lcyBpbiBydW4tcHRlc3Qgd2l0aCBzZWQgb25lIGJ5IG9uZSByYXRoZXIgdGhhbiB3aXRoDQo+
-IHBlcmwgYWZ0ZXIgdGhlIHRlc3QgY29tcGxldGVzLCBhdm9pZGluZyBwdGVzdC1ydW5uZXIgdGlt
-ZW91dCBlcnJvcnMuDQo+IA0KPiBMaWNlbnNlLVVwZGF0ZTogb3BlbnNzbCByZWxpY2Vuc2UgdG8g
-YXBhY2hlIDIuMC4gR29vZGJ5ZSBhd2t3YXJkDQo+IGdwbCBleGNlcHRpb25zIGluIGNvbnN1bWVy
-cy4NCj4gDQo+IERFUFJFQ0FURURfQ1JZUFRPX0ZMQUdTIGlzIG5vdyBlbXB0eSBieSBkZWZhdWx0
-IGJ1dCBhdmFpbGFibGUNCj4gYnkgYW55b25lIHdobyB3YW50cyB0byBzZXQgaXQuIFRyeWluZyB0
-byBjb21lIHVwIHdpdGggYSB3b3JraW5nDQo+IHNldCB3YXMgbm90IGEgZ29vZCBpZGVhIGFzIHNo
-b3duIGluIHRoZSBkZWxldGVkIGNvbW1lbnQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPg0KPiAtLS0NCj4gIC4uLjEtQ29uZmlndXJl
-LWRvLW5vdC10d2Vhay1taXBzLWNmbGFncy5wYXRjaCB8IDM2ICsrKysrKysrKw0KPiAgLi4uc3lz
-cm9vdC1hbmQtZGVidWctcHJlZml4LW1hcC1mcm9tLWNvLnBhdGNoIHwgMjEgKystLS0NCj4gIC4u
-Li8wMDAxLXNraXAtdGVzdF9zeW1ib2xfcHJlc2VuY2UucGF0Y2ggICAgICB8IDQ2IC0tLS0tLS0t
-LS0tDQo+ICAuLi4vb3BlbnNzbC9vcGVuc3NsL3JlcHJvZHVjaWJsZS5wYXRjaCAgICAgICAgfCAz
-MiAtLS0tLS0tLQ0KPiAgLi4uL29wZW5zc2wvb3BlbnNzbC9ydW4tcHRlc3QgICAgICAgICAgICAg
-ICAgIHwgIDIgKy0NCj4gIC4uLi97b3BlbnNzbF8xLjEuMWwuYmIgPT4gb3BlbnNzbF8zLjAuMC5i
-Yn0gICB8IDgxICsrKysrKysrKystLS0tLS0tLS0NCj4gIDYgZmlsZXMgY2hhbmdlZCwgOTAgaW5z
-ZXJ0aW9ucygrKSwgMTI4IGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtQ29uZmlndXJlLWRvLW5v
-dC10d2Vhay1taXBzLWNmbGFncy5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtc2tpcC10ZXN0X3N5bWJvbF9w
-cmVzZW5jZS5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvb3BlbnNzbC9vcGVuc3NsL3JlcHJvZHVjaWJsZS5wYXRjaA0KPiAgcmVuYW1lIG1ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC97b3BlbnNzbF8xLjEuMWwuYmIgPT4gb3BlbnNz
-bF8zLjAuMC5iYn0gKDc2JSkNCj4gDQoNCltjdXRdDQoNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMS4xbC5iYiBiL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuMC4wLmJiDQo+IHNpbWlsYXJpdHkgaW5k
-ZXggNzYlDQo+IHJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9v
-cGVuc3NsXzEuMS4xbC5iYg0KPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9v
-cGVuc3NsL29wZW5zc2xfMy4wLjAuYmINCj4gaW5kZXggYjI0MWJhNzhiY2MuLmQ4YzUwYTgwMTE4
-IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNz
-bF8xLjEuMWwuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29w
-ZW5zc2xfMy4wLjAuYmINCj4gQEAgLTQsMTkgKzQsMTQgQEAgSE9NRVBBR0UgPSAiaHR0cDovL3d3
-dy5vcGVuc3NsLm9yZy8iDQo+ICBCVUdUUkFDS0VSID0gImh0dHA6Ly93d3cub3BlbnNzbC5vcmcv
-bmV3cy92dWxuZXJhYmlsaXRpZXMuaHRtbCINCj4gIFNFQ1RJT04gPSAibGlicy9uZXR3b3JrIg0K
-PiANCj4gLSMgIm9wZW5zc2wiIGhlcmUgYWN0dWFsbHkgbWVhbnMgYm90aCBPcGVuU1NMIGFuZCBT
-U0xlYXkgbGljZW5zZXMgYXBwbHkNCj4gLSMgKHNlZSBtZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNl
-cy9PcGVuU1NMIHRvIHdoaWNoICJvcGVuc3NsIiBpcyBTUERYTElDRU5TRU1BUHBlZCkNCj4gLUxJ
-Q0VOU0UgPSAib3BlbnNzbCINCj4gLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
-bWQ1PWQzNDNlNjJmYzljODMzNzEwYmJiZWQyNWYyNzM2NGM4Ig0KPiAtDQo+IC1ERVBFTkRTID0g
-Imhvc3RwZXJsLXJ1bnRpbWUtbmF0aXZlIg0KPiArTElDRU5TRSA9ICJBcGFjaGUtMi4wIg0KPiAr
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1PWM3NTk4NWU3MzM3MjZi
-ZWFiYTU3YmM1MjUzZTk2ZDA0Ig0KPiANCj4gIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5vcGVuc3Ns
-Lm9yZy9zb3VyY2Uvb3BlbnNzbC0ke1BWfS50YXIuZ3ogXA0KPiAgICAgICAgICAgICBmaWxlOi8v
-cnVuLXB0ZXN0IFwNCj4gLSAgICAgICAgICAgZmlsZTovLzAwMDEtc2tpcC10ZXN0X3N5bWJvbF9w
-cmVzZW5jZS5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWJ1aWxkaW5mby1zdHJp
-cC1zeXNyb290LWFuZC1kZWJ1Zy1wcmVmaXgtbWFwLWZyb20tY28ucGF0Y2ggXA0KPiAgICAgICAg
-ICAgICBmaWxlOi8vYWZhbGcucGF0Y2ggXA0KPiAtICAgICAgICAgICBmaWxlOi8vcmVwcm9kdWNp
-YmxlLnBhdGNoIFwNCj4gKyAgICAgICAgICAgZmlsZTovLzAwMDEtQ29uZmlndXJlLWRvLW5vdC10
-d2Vhay1taXBzLWNmbGFncy5wYXRjaCBcDQo+ICAgICAgICAgICAgICINCj4gDQo+ICBTUkNfVVJJ
-OmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIFwNCj4gQEAgLTI4LDkgKzIzLDkgQEAgU1JDX1VS
-STphcHBlbmQ6cmlzY3YzMiA9ICIgXA0KPiAgICAgICAgICAgICBmaWxlOi8vMDAwNC1GaXh1cC1z
-dXBwb3J0LWZvci1pb19wZ2V0ZXZlbnRzX3RpbWU2NC1zeXNjYWxsLnBhdGNoIFwNCj4gICAgICAg
-ICAgICAgIg0KPiANCj4gLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwYjdhM2U1ZTU5YzM0ODI3ZmUw
-YzNhNzRiN2VjOGJhZWYzMDJiOThmYTgwMDg4ZDdmOTE1M2FhMTZmYTc2YmQxIg0KPiArU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjU5ZWVkZmNiNDZjMjUyMTRjOWJkMzdlZDYwNzgyOTdiNGRmMDFkMDEy
-MjY3ZmU5ZTllZWUzMWY2MWJjNzA1MzYiDQo+IA0KPiAtaW5oZXJpdCBsaWJfcGFja2FnZSBtdWx0
-aWxpYl9oZWFkZXIgbXVsdGlsaWJfc2NyaXB0IHB0ZXN0DQo+ICtpbmhlcml0IGxpYl9wYWNrYWdl
-IG11bHRpbGliX2hlYWRlciBtdWx0aWxpYl9zY3JpcHQgcHRlc3QgcGVybG5hdGl2ZQ0KPiAgTVVM
-VElMSUJfU0NSSVBUUyA9ICIke1BOfS1iaW46JHtiaW5kaXJ9L2NfcmVoYXNoIg0KPiANCj4gIFBB
-Q0tBR0VDT05GSUcgPz0gIiINCj4gQEAgLTU5LDE5ICs1NCw5IEBAIEVYVFJBX09FQ09ORjpjbGFz
-cy1uYXRpdmVzZGsgPSAiLS13aXRoLXJhbmQtc2VlZD1vcyxkZXZyYW5kb20iDQo+ICBDRkxBR1M6
-YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgLURPUEVOU1NMRElSPS9ub3QvYnVpbHRpbiAtREVOR0lO
-RVNESVI9L25vdC9idWlsdGluIg0KPiAgQ0ZMQUdTOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAi
-IC1ET1BFTlNTTERJUj0vbm90L2J1aWx0aW4gLURFTkdJTkVTRElSPS9ub3QvYnVpbHRpbiINCj4g
-DQo+IC0jIERpc2FibGUgZGVwcmVjYXRlZCBjcnlwdG8gYWxnb3JpdGhtcw0KPiAtIyBSZXRhaW5l
-ZCBmb3IgY29tcGF0aWJpbHR5DQo+IC0jIGRlcyAoY3VybCkNCj4gLSMgZGggKHB5dGhvbi1zc2wp
-DQo+IC0jIGRzYSAocnBtKQ0KPiAtIyBtZDQgKGN5cnVzLXNhc2wgZnJlZXJhZGl1cyBob3N0YXBk
-KQ0KPiAtIyBiZiAod3ZzdHJlYW1zIHBvc3RncmVzcWwgeDExdm5jIGNyZGEgem5jIGNmZW5naW5l
-KQ0KPiAtIyByYzQgKGZyZWVyZHAgbGlicnRvcnJlbnQgZXR0ZXJjYXAgeHJkcCB0cmFuc21pc3Np
-b24gcGFtLXNzaC1hZ2VudC1hdXRoIHBocCkNCj4gLSMgcmMyIChtYWlseCkNCj4gLSMgcHNrIChx
-dDUpDQo+IC0jIHNycCAobGliZXN0KQ0KPiAtIyB3aGlybHBvb2wgKHFjYSkNCj4gLURFUFJFQ0FU
-RURfQ1JZUFRPX0ZMQUdTID0gIm5vLXNzbCBuby1pZGVhIG5vLXJjNSBuby1tZDIgbm8tY2FtZWxs
-aWEgbm8tbWRjMiBuby1zY3J5cHQgbm8tc2VlZCBuby1zaXBoYXNoIG5vLXNtMiBuby1zbTMgbm8t
-c200Ig0KPiArIyBUaGlzIGFsbG93cyBkaXNhYmxpbmcgZGVwcmVjYXRlZCBvciB1bmRlc2lyYWJs
-ZSBjcnlwdG8gYWxnb3JpdGhtcy4NCj4gKyMgVGhlIGRlZmF1bHQgaXMgdG8gdHJ1c3QgdXBzdHJl
-YW0gY2hvaWNlcy4NCj4gK0RFUFJFQ0FURURfQ1JZUFRPX0ZMQUdTID89ICIiDQo+IA0KPiAgZG9f
-Y29uZmlndXJlICgpIHsNCj4gIAlvcz0ke0hPU1RfT1N9DQo+IEBAIC0xNDYsNyArMTMxLDcgQEAg
-ZG9fY29uZmlndXJlICgpIHsNCj4gIAkjIFdBUk5JTkc6IGRvIG5vdCBzZXQgY29tcGlsZXIvbGlu
-a2VyIGZsYWdzICgtSS8tRCBldGMuKSBpbiBFWFRSQV9PRUNPTkYsIGFzIHRoZXkgd2lsbCBmdWxs
-eSByZXBsYWNlIHRoZQ0KPiAgCSMgZW52aXJvbm1lbnQgdmFyaWFibGVzIHNldCBieSBiaXRiYWtl
-LiBBZGp1c3QgdGhlIGVudmlyb25tZW50IHZhcmlhYmxlcyBpbnN0ZWFkLg0KPiAgCUhBU0hCQU5H
-UEVSTD0iL3Vzci9iaW4vZW52IHBlcmwiIFBFUkw9cGVybCBQRVJMNUxJQj0iJHtTfS9leHRlcm5h
-bC9wZXJsL1RleHQtVGVtcGxhdGUtMS40Ni9saWIvIiBcDQo+IC0JcGVybCAke1N9L0NvbmZpZ3Vy
-ZSAke0VYVFJBX09FQ09ORn0gJHtQQUNLQUdFQ09ORklHX0NPTkZBUkdTfSAke0RFUFJFQ0FURURf
-Q1JZUFRPX0ZMQUdTfSAtLXByZWZpeD0kdXNlcHJlZml4IC0tb3BlbnNzbGRpcj0ke2xpYmRpcn0v
-c3NsLTEuMSAtLWxpYmRpcj0ke2xpYmRpcn0gJHRhcmdldA0KPiArCXBlcmwgJHtTfS9Db25maWd1
-cmUgJHtFWFRSQV9PRUNPTkZ9ICR7UEFDS0FHRUNPTkZJR19DT05GQVJHU30gJHtERVBSRUNBVEVE
-X0NSWVBUT19GTEFHU30gLS1wcmVmaXg9JHVzZXByZWZpeCAtLW9wZW5zc2xkaXI9JHtsaWJkaXJ9
-L3NzbC0zIC0tbGliZGlyPSR7bGliZGlyfSAkdGFyZ2V0DQo+ICAJcGVybCAke0J9L2NvbmZpZ2Rh
-dGEucG0gLS1kdW1wDQo+ICB9DQo+IA0KPiBAQCAtMTU0LDQzICsxMzksNDkgQEAgZG9faW5zdGFs
-bCAoKSB7DQo+ICAJb2VfcnVubWFrZSBERVNURElSPSIke0R9IiBNQU5ESVI9IiR7bWFuZGlyfSIg
-TUFOU1VGRklYPXNzbCBpbnN0YWxsDQo+IA0KPiAgCW9lX211bHRpbGliX2hlYWRlciBvcGVuc3Ns
-L29wZW5zc2xjb25mLmgNCj4gKwlvZV9tdWx0aWxpYl9oZWFkZXIgb3BlbnNzbC9jb25maWd1cmF0
-aW9uLmgNCj4gDQo+ICAJIyBDcmVhdGUgU1NMIHN0cnVjdHVyZSBmb3IgcGFja2FnZXMgc3VjaCBh
-cyBjYS1jZXJ0aWZpY2F0ZXMgd2hpY2gNCj4gIAkjIGNvbnRhaW4gaGFyZC1jb2RlZCBwYXRocyB0
-byAvZXRjL3NzbC4gRGViaWFuIGRvZXMgdGhlIHNhbWUuDQo+ICAJaW5zdGFsbCAtZCAke0R9JHtz
-eXNjb25mZGlyfS9zc2wNCj4gLQltdiAke0R9JHtsaWJkaXJ9L3NzbC0xLjEvY2VydHMgXA0KPiAt
-CSAgICR7RH0ke2xpYmRpcn0vc3NsLTEuMS9wcml2YXRlIFwNCj4gLQkgICAke0R9JHtsaWJkaXJ9
-L3NzbC0xLjEvb3BlbnNzbC5jbmYgXA0KPiArCW12ICR7RH0ke2xpYmRpcn0vc3NsLTMvY2VydHMg
-XA0KPiArCSAgICR7RH0ke2xpYmRpcn0vc3NsLTMvcHJpdmF0ZSBcDQo+ICsJICAgJHtEfSR7bGli
-ZGlyfS9zc2wtMy9vcGVuc3NsLmNuZiBcDQoNCkdpdmVuIHRoYXQgIiR7bGliZGlyfS9zc2wtMyIg
-aXMgYWxsIG92ZXIgdGhlIHJlY2lwZSwgd291bGRuJ3QgaXQgbWFrZSANCnNlbnNlIHRvIHR1cm4g
-aXQgaW50byBhIHZhcmlhYmxlPyBUaGVuIGl0IHdpbGwgYXQgbGVhc3Qgb25seSBiZSBvbmUgDQpw
-bGFjZSB0byB1cGRhdGUgdGhlIG5leHQgdGltZSB0aGV5IGNoYW5nZSB0aGUgdmVyc2lvbi4NCg0K
-PiAgCSAgICR7RH0ke3N5c2NvbmZkaXJ9L3NzbC8NCj4gDQo+ICAJIyBBbHRob3VnaCBhYnNvbHV0
-ZSBzeW1saW5rcyB3b3VsZCBiZSBPSyBmb3IgdGhlIHRhcmdldCwgdGhleSBiZWNvbWUNCj4gIAkj
-IGludmFsaWQgaWYgbmF0aXZlIG9yIG5hdGl2ZXNkayBhcmUgcmVsb2NhdGVkIGZyb20gc3N0YXRl
-Lg0KPiAtCWxuIC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCcke2xpYmRpcn0vc3NsLTEuMScsICck
-e3N5c2NvbmZkaXJ9L3NzbC9jZXJ0cycpfSAke0R9JHtsaWJkaXJ9L3NzbC0xLjEvY2VydHMNCj4g
-LQlsbiAtc2YgJHtAb2UucGF0aC5yZWxhdGl2ZSgnJHtsaWJkaXJ9L3NzbC0xLjEnLCAnJHtzeXNj
-b25mZGlyfS9zc2wvcHJpdmF0ZScpfSAke0R9JHtsaWJkaXJ9L3NzbC0xLjEvcHJpdmF0ZQ0KPiAt
-CWxuIC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCcke2xpYmRpcn0vc3NsLTEuMScsICcke3N5c2Nv
-bmZkaXJ9L3NzbC9vcGVuc3NsLmNuZicpfSAke0R9JHtsaWJkaXJ9L3NzbC0xLjEvb3BlbnNzbC5j
-bmYNCj4gKwlsbiAtc2YgJHtAb2UucGF0aC5yZWxhdGl2ZSgnJHtsaWJkaXJ9L3NzbC0zJywgJyR7
-c3lzY29uZmRpcn0vc3NsL2NlcnRzJyl9ICR7RH0ke2xpYmRpcn0vc3NsLTMvY2VydHMNCj4gKwls
-biAtc2YgJHtAb2UucGF0aC5yZWxhdGl2ZSgnJHtsaWJkaXJ9L3NzbC0zJywgJyR7c3lzY29uZmRp
-cn0vc3NsL3ByaXZhdGUnKX0gJHtEfSR7bGliZGlyfS9zc2wtMy9wcml2YXRlDQo+ICsJbG4gLXNm
-ICR7QG9lLnBhdGgucmVsYXRpdmUoJyR7bGliZGlyfS9zc2wtMycsICcke3N5c2NvbmZkaXJ9L3Nz
-bC9vcGVuc3NsLmNuZicpfSAke0R9JHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wuY25mDQo+ICB9DQo+
-IA0KPiAgZG9faW5zdGFsbDphcHBlbmQ6Y2xhc3MtbmF0aXZlICgpIHsNCj4gIAljcmVhdGVfd3Jh
-cHBlciAke0R9JHtiaW5kaXJ9L29wZW5zc2wgXA0KPiAtCSAgICBPUEVOU1NMX0NPTkY9JHtsaWJk
-aXJ9L3NzbC0xLjEvb3BlbnNzbC5jbmYgXA0KPiAtCSAgICBTU0xfQ0VSVF9ESVI9JHtsaWJkaXJ9
-L3NzbC0xLjEvY2VydHMgXA0KPiAtCSAgICBTU0xfQ0VSVF9GSUxFPSR7bGliZGlyfS9zc2wtMS4x
-L2NlcnQucGVtIFwNCj4gLQkgICAgT1BFTlNTTF9FTkdJTkVTPSR7bGliZGlyfS9lbmdpbmVzLTEu
-MQ0KPiArCSAgICBPUEVOU1NMX0NPTkY9JHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wuY25mIFwNCj4g
-KwkgICAgU1NMX0NFUlRfRElSPSR7bGliZGlyfS9zc2wtMy9jZXJ0cyBcDQo+ICsJICAgIFNTTF9D
-RVJUX0ZJTEU9JHtsaWJkaXJ9L3NzbC0zL2NlcnQucGVtIFwNCj4gKwkgICAgT1BFTlNTTF9FTkdJ
-TkVTPSR7bGliZGlyfS9lbmdpbmVzLTMNCj4gIH0NCj4gDQo+ICBkb19pbnN0YWxsOmFwcGVuZDpj
-bGFzcy1uYXRpdmVzZGsgKCkgew0KPiAgCW1rZGlyIC1wICR7RH0ke1NES1BBVEhOQVRJVkV9L2Vu
-dmlyb25tZW50LXNldHVwLmQNCj4gIAlpbnN0YWxsIC1tIDY0NCAke1dPUktESVJ9L2Vudmlyb25t
-ZW50LmQtb3BlbnNzbC5zaCAke0R9JHtTREtQQVRITkFUSVZFfS9lbnZpcm9ubWVudC1zZXR1cC5k
-L29wZW5zc2wuc2gNCj4gLQlzZWQgJ3N8L3Vzci9saWIvc3NsL3wvdXNyL2xpYi9zc2wtMS4xL3xn
-JyAtaSAke0R9JHtTREtQQVRITkFUSVZFfS9lbnZpcm9ubWVudC1zZXR1cC5kL29wZW5zc2wuc2gN
-Cj4gKwlzZWQgJ3N8L3Vzci9saWIvc3NsL3wvdXNyL2xpYi9zc2wtMy98ZycgLWkgJHtEfSR7U0RL
-UEFUSE5BVElWRX0vZW52aXJvbm1lbnQtc2V0dXAuZC9vcGVuc3NsLnNoDQo+ICB9DQo+IA0KPiAg
-UFRFU1RfQlVJTERfSE9TVF9GSUxFUyArPSAiY29uZmlnZGF0YS5wbSINCj4gIFBURVNUX0JVSUxE
-X0hPU1RfUEFUVEVSTiA9ICJwZXJsX3ZlcnNpb24gPSINCj4gIGRvX2luc3RhbGxfcHRlc3QgKCkg
-ew0KPiArCWluc3RhbGwgLWQgJHtEfSR7UFRFU1RfUEFUSH0vdGVzdA0KPiArCWluc3RhbGwgLW03
-NTUgJHtCfS90ZXN0L3BfdGVzdC5zbyAke0R9JHtQVEVTVF9QQVRIfS90ZXN0DQo+ICsJaW5zdGFs
-bCAtbTc1NSAke0J9L3Rlc3QvcHJvdmlkZXJfaW50ZXJuYWxfdGVzdC5jbmYgJHtEfSR7UFRFU1Rf
-UEFUSH0vdGVzdA0KPiArDQo+ICAJIyBQcnVuZSB0aGUgYnVpbGQgdHJlZQ0KPiAgCXJtIC1mICR7
-Qn0vZnV6ei8qLiogJHtCfS90ZXN0LyouKg0KPiANCj4gIAljcCAke1N9L0NvbmZpZ3VyZSAke0J9
-L2NvbmZpZ2RhdGEucG0gJHtEfSR7UFRFU1RfUEFUSH0NCj4gKwlzZWQgJ3N8JHtTfXwke1BURVNU
-X1BBVEh9fGcnIC1pICR7RH0ke1BURVNUX1BBVEh9L2NvbmZpZ2RhdGEucG0NCj4gIAljcCAtciAk
-e1N9L2V4dGVybmFsICR7Qn0vdGVzdCAke1N9L3Rlc3QgJHtCfS9mdXp6ICR7U30vdXRpbCAke0J9
-L3V0aWwgJHtEfSR7UFRFU1RfUEFUSH0NCj4gDQo+ICAJIyBGb3IgdGVzdF9zaGxpYmxvYWQNCj4g
-QEAgLTIwNCwxMCArMTk1LDIwIEBAIGRvX2luc3RhbGxfcHRlc3QgKCkgew0KPiANCj4gIAlpbnN0
-YWxsIC1kICR7RH0ke1BURVNUX1BBVEh9L2VuZ2luZXMNCj4gIAlpbnN0YWxsIC1tNzU1ICR7Qn0v
-ZW5naW5lcy9vc3NsdGVzdC5zbyAke0R9JHtQVEVTVF9QQVRIfS9lbmdpbmVzDQo+ICsJaW5zdGFs
-bCAtbTc1NSAke0J9L2VuZ2luZXMvbG9hZGVyX2F0dGljLnNvICR7RH0ke1BURVNUX1BBVEh9L2Vu
-Z2luZXMNCj4gKw0KPiArCWluc3RhbGwgLWQgJHtEfSR7UFRFU1RfUEFUSH0vcHJvdmlkZXJzDQo+
-ICsJaW5zdGFsbCAtbTc1NSAke0J9L3Byb3ZpZGVycy9sZWdhY3kuc28gJHtEfSR7UFRFU1RfUEFU
-SH0vcHJvdmlkZXJzDQo+ICsNCj4gKyAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtQVEVTVF9QQVRI
-fS9Db25maWd1cmF0aW9ucw0KPiArICAgICAgICBjcCAtcmYgJHtTfS9Db25maWd1cmF0aW9ucy8q
-ICR7RH0ke1BURVNUX1BBVEh9L0NvbmZpZ3VyYXRpb25zLw0KPiANCj4gICAgICAgICAgIyBzZWVt
-cyB0byBiZSBuZWVkZWQgd2l0aCBwZXJsIDUuMzIuMQ0KPiAgICAgICAgICBpbnN0YWxsIC1kICR7
-RH0ke1BURVNUX1BBVEh9L3V0aWwvcGVybC9yZWNpcGVzDQo+ICAgICAgICAgIGNwICR7RH0ke1BU
-RVNUX1BBVEh9L3Rlc3QvcmVjaXBlcy90Y29udmVyc2lvbi5wbCAke0R9JHtQVEVTVF9QQVRIfS91
-dGlsL3BlcmwvcmVjaXBlcy8NCj4gKw0KPiArCXNlZCAnc3wke1N9fCR7UFRFU1RfUEFUSH18Zycg
-LWkgJHtEfSR7UFRFU1RfUEFUSH0vdXRpbC93cmFwLnBsDQoNClRoZXJlIGlzIGEgbWl4IG9mIHRh
-YiBhbmQgc3BhY2UgaW5kZW50YXRpb24gYWJvdmUgKGJvdGggaW4gdGhlIG9yaWdpbmFsIA0KY29k
-ZSBhbmQgaW4gdGhlIGFkZGVkIGxpbmVzKS4NCg0KPiArDQoNClVubmVjZXNzYXJ5IGVtcHR5IGxp
-bmUuDQoNCj4gIH0NCj4gDQo+ICAjIEFkZCB0aGUgb3BlbnNzbC5jbmYgZmlsZSB0byB0aGUgb3Bl
-bnNzbC1jb25mIHBhY2thZ2UuIE1ha2UgdGhlIGxpYmNyeXB0bw0KPiBAQCAtMjIwLDEzICsyMjEs
-MTMgQEAgUEFDS0FHRVMgPSsgImxpYmNyeXB0byBsaWJzc2wgb3BlbnNzbC1jb25mICR7UE59LWVu
-Z2luZXMgJHtQTn0tbWlzYyINCj4gIEZJTEVTOmxpYmNyeXB0byA9ICIke2xpYmRpcn0vbGliY3J5
-cHRvJHtTT0xJQlN9Ig0KPiAgRklMRVM6bGlic3NsID0gIiR7bGliZGlyfS9saWJzc2wke1NPTElC
-U30iDQo+ICBGSUxFUzpvcGVuc3NsLWNvbmYgPSAiJHtzeXNjb25mZGlyfS9zc2wvb3BlbnNzbC5j
-bmYgXA0KPiAtICAgICAgICAgICAgICAgICAgICAgICR7bGliZGlyfS9zc2wtMS4xL29wZW5zc2wu
-Y25mKiBcDQo+ICsgICAgICAgICAgICAgICAgICAgICAgJHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wu
-Y25mKiBcDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIg0KPiAtRklMRVM6JHtQTn0tZW5naW5l
-cyA9ICIke2xpYmRpcn0vZW5naW5lcy0xLjEiDQo+ICtGSUxFUzoke1BOfS1lbmdpbmVzID0gIiR7
-bGliZGlyfS9lbmdpbmVzLTMiDQo+ICAjICR7cHJlZml4fSBjb21lcyBmcm9tIHdoYXQgd2UgcGFz
-cyBpbnRvIC0tcHJlZml4IGF0IGNvbmZpZ3VyZSB0aW1lICh3aGljaCBpcyB1c2VkIGZvciBJTlNU
-QUxMVE9QKQ0KPiAtRklMRVM6JHtQTn0tZW5naW5lczphcHBlbmQ6bWluZ3czMjpjbGFzcy1uYXRp
-dmVzZGsgPSAiJHtwcmVmaXh9JHtsaWJkaXJ9L2VuZ2luZXMtMV8xIg0KPiAtRklMRVM6JHtQTn0t
-bWlzYyA9ICIke2xpYmRpcn0vc3NsLTEuMS9taXNjICR7YmluZGlyfS9jX3JlaGFzaCINCj4gLUZJ
-TEVTOiR7UE59ID0rICIke2xpYmRpcn0vc3NsLTEuMS8qIg0KPiArRklMRVM6JHtQTn0tZW5naW5l
-czphcHBlbmQ6bWluZ3czMjpjbGFzcy1uYXRpdmVzZGsgPSAiJHtwcmVmaXh9JHtsaWJkaXJ9L2Vu
-Z2luZXMtMyINCj4gK0ZJTEVTOiR7UE59LW1pc2MgPSAiJHtsaWJkaXJ9L3NzbC0zL21pc2MgJHti
-aW5kaXJ9L2NfcmVoYXNoIg0KPiArRklMRVM6JHtQTn0gPSsgIiR7bGliZGlyfS9zc2wtMy8qICR7
-bGliZGlyfS9vc3NsLW1vZHVsZXMvIg0KDQpNaWdodCBhcyB3ZWxsIGNoYW5nZSB0aGUgIj0rIiB0
-byAiKz0iLg0KDQo+ICBGSUxFUzoke1BOfTphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiAke1NE
-S1BBVEhOQVRJVkV9L2Vudmlyb25tZW50LXNldHVwLmQvb3BlbnNzbC5zaCINCj4gDQo+ICBDT05G
-RklMRVM6b3BlbnNzbC1jb25mID0gIiR7c3lzY29uZmRpcn0vc3NsL29wZW5zc2wuY25mIg0KPiAt
-LQ0KPiAyLjIwLjENCg0KLy9QZXRlcg0KDQo=
+--000000000000538a2b05ce1ad42f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Henry,
+
+Henry Kleynhans <henry.kleynhans@gmail.com> escreveu no dia segunda,
+11/10/2021 =C3=A0(s) 18:12:
+
+> From: Henry Kleynhans <hkleynhans@fb.com>
+>
+> This patch switches the compressor from Gzip to ZStandard for ssate cache
+> files.
+>
+> Zstandard compression provides a significant improvement in
+> decompression speed as well as improvement in compression speed and disk
+> usage over the 'tgz' format in use.  Furthermore, its configurable
+> compression level offers a trade-off between time spent compressing
+> sstate cache files and disk space used by those files.  The reduced disk
+> usage also contributes to saving network traffic for those sharing their
+> sstate cache with others.
+>
+> Zstandard should therefore be a good choice when:
+> * disk space is at a premium
+> * network speed / resources are limited
+> * the CI server can sstate packages can be created at high compression
+> * less CPU on the build server should be used for sstate decompression
+>
+> Signed-off-by: Henry Kleynhans <hkleynhans@fb.com>
+> ---
+>  meta/classes/sstate.bbclass                 | 29 +++++++++------
+>  meta/lib/oeqa/selftest/cases/signing.py     |  8 ++---
+>  meta/lib/oeqa/selftest/cases/sstatetests.py | 24 ++++++-------
+>  scripts/sstate-cache-management.sh          | 40 ++++++++++-----------
+>  4 files changed, 55 insertions(+), 46 deletions(-)
+>
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 7f4b1f6804..3a5195267a 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -1,17 +1,19 @@
+>  SSTATE_VERSION =3D "5"
+>
+> +SSTATE_ZSTD_CLEVEL =3D "8"
+>
+
+Giving the user the ability to adjust the compression level can be useful.
+
+Using a weak default value (?? =3D "8") gives the possibility to use a
+default value (?=3D) in local.conf
+that can be overwritten at recipe level.
+
+Sets only a default value on the class can be more appropriate and fits
+most use cases.
+
+SSTATE_ZSTD_CLEVEL ?=3D "8"
+
+
+> +
+>  SSTATE_MANIFESTS ?=3D "${TMPDIR}/sstate-control"
+>  SSTATE_MANFILEPREFIX =3D
+> "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-${PN}"
+>
+>  def generate_sstatefn(spec, hash, taskname, siginfo, d):
+>      if taskname is None:
+>         return ""
+> -    extension =3D ".tgz"
+> +    extension =3D ".tar.zst"
+>      # 8 chars reserved for siginfo
+>      limit =3D 254 - 8
+>      if siginfo:
+>          limit =3D 254
+> -        extension =3D ".tgz.siginfo"
+> +        extension =3D ".tar.zst.siginfo"
+>      if not hash:
+>          hash =3D "INVALID"
+>      fn =3D spec + hash + "_" + taskname + extension
+> @@ -37,7 +39,7 @@ SSTATE_PKGNAME    =3D
+> "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PK
+>  SSTATE_PKG        =3D "${SSTATE_DIR}/${SSTATE_PKGNAME}"
+>  SSTATE_EXTRAPATH   =3D ""
+>  SSTATE_EXTRAPATHWILDCARD =3D ""
+> -SSTATE_PATHSPEC   =3D
+> "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/*/${SSTATE_PKGSPEC}*_${SSTATE=
+_PATH_CURRTASK}.tgz*"
+> +SSTATE_PATHSPEC   =3D
+> "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/*/${SSTATE_PKGSPEC}*_${SSTATE=
+_PATH_CURRTASK}.tar.zst*"
+>
+>  # explicitly make PV to depend on evaluated value of PV variable
+>  PV[vardepvalue] =3D "${PV}"
+> @@ -832,23 +834,24 @@ sstate_create_package () {
+>         mkdir --mode=3D0775 -p `dirname ${SSTATE_PKG}`
+>         TFILE=3D`mktemp ${SSTATE_PKG}.XXXXXXXX`
+>
+> -       # Use pigz if available
+> -       OPT=3D"-czS"
+> -       if [ -x "$(command -v pigz)" ]; then
+> -               OPT=3D"-I pigz -cS"
+> +       OPT=3D"-cS"
+> +       ZSTD=3D"zstd -${SSTATE_ZSTD_CLEVEL} -T${ZSTD_THREADS}"
+> +       # Use pzstd if available
+> +       if [ -x "$(command -v pzstd)" ]; then
+> +               ZSTD=3D"pzstd -${SSTATE_ZSTD_CLEVEL} -p ${ZSTD_THREADS}"
+>         fi
+>
+>         # Need to handle empty directories
+>         if [ "$(ls -A)" ]; then
+>                 set +e
+> -               tar $OPT -f $TFILE *
+> +               tar -I "$ZSTD" $OPT -f $TFILE *
+>                 ret=3D$?
+>                 if [ $ret -ne 0 ] && [ $ret -ne 1 ]; then
+>                         exit 1
+>                 fi
+>                 set -e
+>         else
+> -               tar $OPT --file=3D$TFILE --files-from=3D/dev/null
+> +               tar -I "$ZSTD" $OPT --file=3D$TFILE --files-from=3D/dev/n=
+ull
+>         fi
+>         chmod 0664 $TFILE
+>         # Skip if it was already created by some other process
+> @@ -887,7 +890,13 @@ python sstate_report_unihash() {
+>  # Will be run from within SSTATE_INSTDIR.
+>  #
+>  sstate_unpack_package () {
+> -       tar -xvzf ${SSTATE_PKG}
+> +       ZSTD=3D"zstd -T${ZSTD_THREADS}"
+> +       # Use pzstd if available
+> +       if [ -x "$(command -v pzstd)" ]; then
+> +               ZSTD=3D"pzstd -p ${ZSTD_THREADS}"
+> +       fi
+> +
+> +       tar -I "$ZSTD" -xvf ${SSTATE_PKG}
+>         # update .siginfo atime on local/NFS mirror
+>         [ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [
+> -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
+>         # Use "! -w ||" to return true for read only files
+> diff --git a/meta/lib/oeqa/selftest/cases/signing.py
+> b/meta/lib/oeqa/selftest/cases/signing.py
+> index af7a0b8b45..6f3d4aeae9 100644
+> --- a/meta/lib/oeqa/selftest/cases/signing.py
+> +++ b/meta/lib/oeqa/selftest/cases/signing.py
+> @@ -159,13 +159,13 @@ class Signing(OESelftestTestCase):
+>              bitbake('-c clean %s' % test_recipe)
+>              bitbake('-c populate_lic %s' % test_recipe)
+>
+> -            recipe_sig =3D glob.glob(sstatedir +
+> '/*/*/*:ed:*_populate_lic.tgz.sig')
+> -            recipe_tgz =3D glob.glob(sstatedir +
+> '/*/*/*:ed:*_populate_lic.tgz')
+> +            recipe_sig =3D glob.glob(sstatedir +
+> '/*/*/*:ed:*_populate_lic.tar.zst.sig')
+> +            recipe_archive =3D glob.glob(sstatedir +
+> '/*/*/*:ed:*_populate_lic.tar.zst')
+>
+>              self.assertEqual(len(recipe_sig), 1, 'Failed to find .sig
+> file.')
+> -            self.assertEqual(len(recipe_tgz), 1, 'Failed to find .tgz
+> file.')
+> +            self.assertEqual(len(recipe_archive), 1, 'Failed to find
+> .tar.zst file.')
+>
+> -            ret =3D runCmd('gpg --homedir %s --verify %s %s' %
+> (self.gpg_dir, recipe_sig[0], recipe_tgz[0]))
+> +            ret =3D runCmd('gpg --homedir %s --verify %s %s' %
+> (self.gpg_dir, recipe_sig[0], recipe_archive[0]))
+>              # gpg: Signature made Thu 22 Oct 2015 01:45:09 PM EEST using
+> RSA key ID 61EEFB30
+>              # gpg: Good signature from "testuser (nocomment) <
+> testuser@email.com>"
+>              self.assertIn('gpg: Good signature from', ret.output,
+> 'Package signed incorrectly.')
+> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> index 874f439282..3dab607eeb 100644
+> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> @@ -68,7 +68,7 @@ class SStateTests(SStateBase):
+>          results =3D self.search_sstate('|'.join(map(str, targets)),
+> distro_specific, distro_nonspecific)
+>          if distro_nonspecific:
+>              for r in results:
+> -                if r.endswith(("_populate_lic.tgz",
+> "_populate_lic.tgz.siginfo", "_fetch.tgz.siginfo", "_unpack.tgz.siginfo",
+> "_patch.tgz.siginfo")):
+> +                if r.endswith(("_populate_lic.tar.zst",
+> "_populate_lic.tar.zst.siginfo", "_fetch.tar.zst.siginfo",
+> "_unpack.tar.zst.siginfo", "_patch.tar.zst.siginfo")):
+>                      continue
+>                  file_tracker.append(r)
+>          else:
+> @@ -98,15 +98,15 @@ class SStateTests(SStateBase):
+>          bitbake(['-ccleansstate'] + targets)
+>
+>          bitbake(targets)
+> -        tgz_created =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tgz$' for s in targets])), distro_specific, distro_nonspecific)
+> -        self.assertTrue(tgz_created, msg=3D"Could not find sstate .tgz
+> files for: %s (%s)" % (', '.join(map(str, targets)), str(tgz_created)))
+> +        archives_created =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tar.zst$' for s in targets])), distro_specific, distro_nonspecific=
+)
+> +        self.assertTrue(archives_created, msg=3D"Could not find sstate
+> .tar.zst files for: %s (%s)" % (', '.join(map(str, targets)),
+> str(archives_created)))
+>
+>          siginfo_created =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.siginfo$' for s in targets])), distro_specific, distro_nonspecific=
+)
+>          self.assertTrue(siginfo_created, msg=3D"Could not find sstate
+> .siginfo files for: %s (%s)" % (', '.join(map(str, targets)),
+> str(siginfo_created)))
+>
+>          bitbake(['-ccleansstate'] + targets)
+> -        tgz_removed =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tgz$' for s in targets])), distro_specific, distro_nonspecific)
+> -        self.assertTrue(not tgz_removed, msg=3D"do_cleansstate didn't
+> remove .tgz sstate files for: %s (%s)" % (', '.join(map(str, targets)),
+> str(tgz_removed)))
+> +        archives_removed =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tar.zst$' for s in targets])), distro_specific, distro_nonspecific=
+)
+> +        self.assertTrue(not archives_removed, msg=3D"do_cleansstate didn=
+'t
+> remove .tar.zst sstate files for: %s (%s)" % (', '.join(map(str, targets)=
+),
+> str(archives_removed)))
+>
+>      def test_cleansstate_task_distro_specific_nonspecific(self):
+>          targets =3D ['binutils-cross-'+ self.tune_arch, 'binutils-native=
+']
+> @@ -129,14 +129,14 @@ class SStateTests(SStateBase):
+>          bitbake(['-ccleansstate'] + targets)
+>
+>          bitbake(targets)
+> -        results =3D self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz=
+$'
+> for s in targets])), distro_specific=3DFalse, distro_nonspecific=3DTrue)
+> +        results =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tar.zst$' for s in targets])), distro_specific=3DFalse,
+> distro_nonspecific=3DTrue)
+>          filtered_results =3D []
+>          for r in results:
+> -            if r.endswith(("_populate_lic.tgz",
+> "_populate_lic.tgz.siginfo")):
+> +            if r.endswith(("_populate_lic.tar.zst",
+> "_populate_lic.tar.zst.siginfo")):
+>                  continue
+>              filtered_results.append(r)
+>          self.assertTrue(filtered_results =3D=3D [], msg=3D"Found distro
+> non-specific sstate for: %s (%s)" % (', '.join(map(str, targets)),
+> str(filtered_results)))
+> -        file_tracker_1 =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tgz$' for s in targets])), distro_specific=3DTrue,
+> distro_nonspecific=3DFalse)
+> +        file_tracker_1 =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tar.zst$' for s in targets])), distro_specific=3DTrue,
+> distro_nonspecific=3DFalse)
+>          self.assertTrue(len(file_tracker_1) >=3D len(targets), msg =3D "=
+Not
+> all sstate files were created for: %s" % ', '.join(map(str, targets)))
+>
+>          self.track_for_cleanup(self.distro_specific_sstate + "_old")
+> @@ -145,7 +145,7 @@ class SStateTests(SStateBase):
+>
+>          bitbake(['-cclean'] + targets)
+>          bitbake(targets)
+> -        file_tracker_2 =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tgz$' for s in targets])), distro_specific=3DTrue,
+> distro_nonspecific=3DFalse)
+> +        file_tracker_2 =3D self.search_sstate('|'.join(map(str, [s +
+> r'.*?\.tar.zst$' for s in targets])), distro_specific=3DTrue,
+> distro_nonspecific=3DFalse)
+>          self.assertTrue(len(file_tracker_2) >=3D len(targets), msg =3D "=
+Not
+> all sstate files were created for: %s" % ', '.join(map(str, targets)))
+>
+>          not_recreated =3D [x for x in file_tracker_1 if x not in
+> file_tracker_2]
+> @@ -188,18 +188,18 @@ class SStateTests(SStateBase):
+>              if not sstate_arch in sstate_archs_list:
+>                  sstate_archs_list.append(sstate_arch)
+>              if target_config[idx] =3D=3D target_config[-1]:
+> -                target_sstate_before_build =3D self.search_sstate(target=
+ +
+> r'.*?\.tgz$')
+> +                target_sstate_before_build =3D self.search_sstate(target=
+ +
+> r'.*?\.tar.zst$')
+>              bitbake("-cclean %s" % target)
+>              result =3D bitbake(target, ignore_status=3DTrue)
+>              if target_config[idx] =3D=3D target_config[-1]:
+> -                target_sstate_after_build =3D self.search_sstate(target =
++
+> r'.*?\.tgz$')
+> +                target_sstate_after_build =3D self.search_sstate(target =
++
+> r'.*?\.tar.zst$')
+>                  expected_remaining_sstate +=3D [x for x in
+> target_sstate_after_build if x not in target_sstate_before_build if not
+> any(pattern in x for pattern in ignore_patterns)]
+>              self.remove_config(global_config[idx])
+>              self.remove_recipeinc(target, target_config[idx])
+>              self.assertEqual(result.status, 0, msg =3D "build of %s fail=
+ed
+> with %s" % (target, result.output))
+>
+>          runCmd("sstate-cache-management.sh -y --cache-dir=3D%s
+> --remove-duplicated --extra-archs=3D%s" % (self.sstate_path,
+> ','.join(map(str, sstate_archs_list))))
+> -        actual_remaining_sstate =3D [x for x in self.search_sstate(targe=
+t +
+> r'.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
+> +        actual_remaining_sstate =3D [x for x in self.search_sstate(targe=
+t +
+> r'.*?\.tar.zst$') if not any(pattern in x for pattern in ignore_patterns)=
+]
+>
+>          actual_not_expected =3D [x for x in actual_remaining_sstate if x
+> not in expected_remaining_sstate]
+>          self.assertFalse(actual_not_expected, msg=3D"Files should have b=
+een
+> removed but were not: %s" % ', '.join(map(str, actual_not_expected)))
+> diff --git a/scripts/sstate-cache-management.sh
+> b/scripts/sstate-cache-management.sh
+> index f1706a2229..d39671f7c6 100755
+> --- a/scripts/sstate-cache-management.sh
+> +++ b/scripts/sstate-cache-management.sh
+> @@ -114,7 +114,7 @@ echo_error () {
+>  # * Add .done/.siginfo to the remove list
+>  # * Add destination of symlink to the remove list
+>  #
+> -# $1: output file, others: sstate cache file (.tgz)
+> +# $1: output file, others: sstate cache file (.tar.zst)
+>  gen_rmlist (){
+>    local rmlist_file=3D"$1"
+>    shift
+> @@ -131,13 +131,13 @@ gen_rmlist (){
+>                dest=3D"`readlink -e $i`"
+>                if [ -n "$dest" ]; then
+>                    echo $dest >> $rmlist_file
+> -                  # Remove the .siginfo when .tgz is removed
+> +                  # Remove the .siginfo when .tar.zst is removed
+>                    if [ -f "$dest.siginfo" ]; then
+>                        echo $dest.siginfo >> $rmlist_file
+>                    fi
+>                fi
+>            fi
+> -          # Add the ".tgz.done" and ".siginfo.done" (may exist in the
+> future)
+> +          # Add the ".tar.zst.done" and ".siginfo.done" (may exist in th=
+e
+> future)
+>            base_fn=3D"${i##/*/}"
+>            t_fn=3D"$base_fn.done"
+>            s_fn=3D"$base_fn.siginfo.done"
+> @@ -188,10 +188,10 @@ remove_duplicated () {
+>    total_files=3D`find $cache_dir -name 'sstate*' | wc -l`
+>    # Save all the sstate files in a file
+>    sstate_files_list=3D`mktemp` || exit 1
+> -  find $cache_dir -name 'sstate:*:*:*:*:*:*:*.tgz*' >$sstate_files_list
+> +  find $cache_dir -iname 'sstate:*:*:*:*:*:*:*.tar.zst*'
+> >$sstate_files_list
+>
+>    echo "Figuring out the suffixes in the sstate cache dir ... "
+> -  sstate_suffixes=3D"`sed
+> 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz.*%\=
+1%g'
+> $sstate_files_list | sort -u`"
+> +  sstate_suffixes=3D"`sed
+> 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tar\.zs=
+t.*%\1%g'
+> $sstate_files_list | sort -u`"
+>    echo "Done"
+>    echo "The following suffixes have been found in the cache dir:"
+>    echo $sstate_suffixes
+> @@ -200,10 +200,10 @@ remove_duplicated () {
+>    # Using this SSTATE_PKGSPEC definition it's 6th colon separated field
+>    # SSTATE_PKGSPEC    =3D
+> "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${=
+SSTATE_PKGARCH}:${SSTATE_VERSION}:"
+>    for arch in $all_archs; do
+> -      grep -q ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tgz$=
+"
+> $sstate_files_list
+> +      grep -q
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tar\.zst$"
+> $sstate_files_list
+>        [ $? -eq 0 ] && ava_archs=3D"$ava_archs $arch"
+>        # ${builder_arch}_$arch used by toolchain sstate
+> -      grep -q
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:${builder_arch}_$arch:[^:]*:[^:]*\.tgz=
+$"
+> $sstate_files_list
+> +      grep -q
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:${builder_arch}_$arch:[^:]*:[^:]*\.tar=
+\.zst$"
+> $sstate_files_list
+>        [ $? -eq 0 ] && ava_archs=3D"$ava_archs ${builder_arch}_$arch"
+>    done
+>    echo "Done"
+> @@ -219,13 +219,13 @@ remove_duplicated () {
+>            continue
+>        fi
+>        # Total number of files including .siginfo and .done files
+> -      total_files_suffix=3D`grep
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz.*"
+> $sstate_files_list | wc -l 2>/dev/null`
+> -      total_tgz_suffix=3D`grep
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz$"
+> $sstate_files_list | wc -l 2>/dev/null`
+> +      total_files_suffix=3D`grep
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tar\.zst.*=
+"
+> $sstate_files_list | wc -l 2>/dev/null`
+> +      total_archive_suffix=3D`grep
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tar\.zst$"
+> $sstate_files_list | wc -l 2>/dev/null`
+>        # Save the file list to a file, some suffix's file may not exist
+> -      grep
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz.*"
+> $sstate_files_list >$list_suffix 2>/dev/null
+> -      local deleted_tgz=3D0
+> +      grep
+> ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tar\.zst.*=
+"
+> $sstate_files_list >$list_suffix 2>/dev/null
+> +      local deleted_archives=3D0
+>        local deleted_files=3D0
+> -      for ext in tgz tgz.siginfo tgz.done; do
+> +      for ext in tar.zst tar.zst.siginfo tar.zst.done; do
+>            echo "Figuring out the sstate:xxx_$suffix.$ext ... "
+>            # Uniq BPNs
+>            file_names=3D`for arch in $ava_archs ""; do
+> @@ -268,19 +268,19 @@ remove_duplicated () {
+>                done
+>            done
+>        done
+> -      deleted_tgz=3D`cat $rm_list.* 2>/dev/null | grep ".tgz$" | wc -l`
+> +      deleted_archives=3D`cat $rm_list.* 2>/dev/null | grep "\.tar\.zst$=
+" |
+> wc -l`
+>        deleted_files=3D`cat $rm_list.* 2>/dev/null | wc -l`
+>        [ "$deleted_files" -gt 0 -a $debug -gt 0 ] && cat $rm_list.*
+> -      echo "($deleted_tgz out of $total_tgz_suffix .tgz files for $suffi=
+x
+> suffix will be removed or $deleted_files out of $total_files_suffix when
+> counting also .siginfo and .done files)"
+> +      echo "($deleted_archives out of $total_archives_suffix .tar.zst
+> files for $suffix suffix will be removed or $deleted_files out of
+> $total_files_suffix when counting also .siginfo and .done files)"
+>        let total_deleted=3D$total_deleted+$deleted_files
+>    done
+> -  deleted_tgz=3D0
+> +  deleted_archives=3D0
+>    rm_old_list=3D$remove_listdir/sstate-old-filenames
+> -  find $cache_dir -name 'sstate-*.tgz' >$rm_old_list
+> -  [ -s "$rm_old_list" ] && deleted_tgz=3D`cat $rm_old_list | grep ".tgz$=
+" |
+> wc -l`
+> +  find $cache_dir -name 'sstate-*.tar.zst' >$rm_old_list
+> +  [ -s "$rm_old_list" ] && deleted_archives=3D`cat $rm_old_list | grep
+> "\.tar\.zst$" | wc -l`
+>    [ -s "$rm_old_list" ] && deleted_files=3D`cat $rm_old_list | wc -l`
+>    [ -s "$rm_old_list" -a $debug -gt 0 ] && cat $rm_old_list
+> -  echo "($deleted_tgz .tgz files with old sstate-* filenames will be
+> removed or $deleted_files when counting also .siginfo and .done files)"
+> +  echo "($deleted_archives or .tar.zst files with old sstate-* filenames
+> will be removed or $deleted_files when counting also .siginfo and .done
+> files)"
+>    let total_deleted=3D$total_deleted+$deleted_files
+>
+>    rm -f $list_suffix
+> @@ -289,7 +289,7 @@ remove_duplicated () {
+>        read_confirm
+>        if [ "$confirm" =3D "y" -o "$confirm" =3D "Y" ]; then
+>            for list in `ls $remove_listdir/`; do
+> -              echo "Removing $list.tgz (`cat $remove_listdir/$list | wc
+> -w` files) ... "
+> +              echo "Removing $list.tar.zst archive (`cat
+> $remove_listdir/$list | wc -w` files) ... "
+>                # Remove them one by one to avoid the argument list too
+> long error
+>                for i in `cat $remove_listdir/$list`; do
+>                    rm -f $verbose $i
+> @@ -322,7 +322,7 @@ rm_by_stamps (){
+>    find $cache_dir -type f -name 'sstate*' | sort -u -o $cache_list
+>
+>    echo "Figuring out the suffixes in the sstate cache dir ... "
+> -  local sstate_suffixes=3D"`sed
+> 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz.*%\=
+1%g'
+> $cache_list | sort -u`"
+> +  local sstate_suffixes=3D"`sed
+> 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tar\.zs=
+t.*%\1%g'
+> $cache_list | sort -u`"
+>    echo "Done"
+>    echo "The following suffixes have been found in the cache dir:"
+>    echo $sstate_suffixes
+> --
+> 2.31.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156845):
+> https://lists.openembedded.org/g/openembedded-core/message/156845
+> Mute This Topic: https://lists.openembedded.org/mt/86242479/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000538a2b05ce1ad42f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"color:rgb(0,0,0)">Hi Henry=
+,</span><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">Henry Kleynhans &lt;<a href=3D"mailto:henry.kleynhans@gmail.com=
+">henry.kleynhans@gmail.com</a>&gt; escreveu no dia segunda, 11/10/2021 =C3=
+=A0(s) 18:12:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
+om: Henry Kleynhans &lt;<a href=3D"mailto:hkleynhans@fb.com" target=3D"_bla=
+nk">hkleynhans@fb.com</a>&gt;<br>
+<br>
+This patch switches the compressor from Gzip to ZStandard for ssate cache<b=
+r>
+files.<br>
+<br>
+Zstandard compression provides a significant improvement in<br>
+decompression speed as well as improvement in compression speed and disk<br=
+>
+usage over the &#39;tgz&#39; format in use.=C2=A0 Furthermore, its configur=
+able<br>
+compression level offers a trade-off between time spent compressing<br>
+sstate cache files and disk space used by those files.=C2=A0 The reduced di=
+sk<br>
+usage also contributes to saving network traffic for those sharing their<br=
+>
+sstate cache with others.<br>
+<br>
+Zstandard should therefore be a good choice when:<br>
+* disk space is at a premium<br>
+* network speed / resources are limited<br>
+* the CI server can sstate packages can be created at high compression<br>
+* less CPU on the build server should be used for sstate decompression<br>
+<br>
+Signed-off-by: Henry Kleynhans &lt;<a href=3D"mailto:hkleynhans@fb.com" tar=
+get=3D"_blank">hkleynhans@fb.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/sstate.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 29 +++++++++------<br>
+=C2=A0meta/lib/oeqa/selftest/cases/signing.py=C2=A0 =C2=A0 =C2=A0|=C2=A0 8 =
+++---<br>
+=C2=A0meta/lib/oeqa/selftest/cases/sstatetests.py | 24 ++++++-------<br>
+=C2=A0scripts/sstate-cache-management.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+| 40 ++++++++++-----------<br>
+=C2=A04 files changed, 55 insertions(+), 46 deletions(-)<br>
+<br>
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass<br>
+index 7f4b1f6804..3a5195267a 100644<br>
+--- a/meta/classes/sstate.bbclass<br>
++++ b/meta/classes/sstate.bbclass<br>
+@@ -1,17 +1,19 @@<br>
+=C2=A0SSTATE_VERSION =3D &quot;5&quot;<br>
+<br>
++SSTATE_ZSTD_CLEVEL =3D &quot;8&quot;<br></blockquote><div><br></div><div>G=
+iving the user the ability to adjust the compression level=C2=A0can be usef=
+ul.<br></div><div><br></div><div>Using a weak default value (?? =3D &quot;8=
+&quot;) gives the possibility to use a default value (?=3D) in local.conf<b=
+r></div><div>that can be overwritten at recipe=C2=A0level.</div><div><br></=
+div><div>Sets only a default value on the class can be more appropriate and=
+ fits most use cases.</div><div><br></div><div>SSTATE_ZSTD_CLEVEL ?=3D &quo=
+t;8&quot;<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++<br>
+=C2=A0SSTATE_MANIFESTS ?=3D &quot;${TMPDIR}/sstate-control&quot;<br>
+=C2=A0SSTATE_MANFILEPREFIX =3D &quot;${SSTATE_MANIFESTS}/manifest-${SSTATE_=
+MANMACH}-${PN}&quot;<br>
+<br>
+=C2=A0def generate_sstatefn(spec, hash, taskname, siginfo, d):<br>
+=C2=A0 =C2=A0 =C2=A0if taskname is None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;&quot;<br>
+-=C2=A0 =C2=A0 extension =3D &quot;.tgz&quot;<br>
++=C2=A0 =C2=A0 extension =3D &quot;.tar.zst&quot;<br>
+=C2=A0 =C2=A0 =C2=A0# 8 chars reserved for siginfo<br>
+=C2=A0 =C2=A0 =C2=A0limit =3D 254 - 8<br>
+=C2=A0 =C2=A0 =C2=A0if siginfo:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0limit =3D 254<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 extension =3D &quot;.tgz.siginfo&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 extension =3D &quot;.tar.zst.siginfo&quot;<br>
+=C2=A0 =C2=A0 =C2=A0if not hash:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hash =3D &quot;INVALID&quot;<br>
+=C2=A0 =C2=A0 =C2=A0fn =3D spec + hash + &quot;_&quot; + taskname + extensi=
+on<br>
+@@ -37,7 +39,7 @@ SSTATE_PKGNAME=C2=A0 =C2=A0 =3D &quot;${SSTATE_EXTRAPATH}=
+${@generate_sstatefn(d.getVar(&#39;SSTATE_PK<br>
+=C2=A0SSTATE_PKG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;${SSTATE_DIR}/${SSTAT=
+E_PKGNAME}&quot;<br>
+=C2=A0SSTATE_EXTRAPATH=C2=A0 =C2=A0=3D &quot;&quot;<br>
+=C2=A0SSTATE_EXTRAPATHWILDCARD =3D &quot;&quot;<br>
+-SSTATE_PATHSPEC=C2=A0 =C2=A0=3D &quot;${SSTATE_DIR}/${SSTATE_EXTRAPATHWILD=
+CARD}*/*/${SSTATE_PKGSPEC}*_${SSTATE_PATH_CURRTASK}.tgz*&quot;<br>
++SSTATE_PATHSPEC=C2=A0 =C2=A0=3D &quot;${SSTATE_DIR}/${SSTATE_EXTRAPATHWILD=
+CARD}*/*/${SSTATE_PKGSPEC}*_${SSTATE_PATH_CURRTASK}.tar.zst*&quot;<br>
+<br>
+=C2=A0# explicitly make PV to depend on evaluated value of PV variable<br>
+=C2=A0PV[vardepvalue] =3D &quot;${PV}&quot;<br>
+@@ -832,23 +834,24 @@ sstate_create_package () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir --mode=3D0775 -p `dirname ${SSTATE_PKG}`<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 TFILE=3D`mktemp ${SSTATE_PKG}.XXXXXXXX`<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Use pigz if available<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0OPT=3D&quot;-czS&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -x &quot;$(command -v pigz)&quot; ]; then<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0OPT=3D&quot;-I pigz=
+ -cS&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0OPT=3D&quot;-cS&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ZSTD=3D&quot;zstd -${SSTATE_ZSTD_CLEVEL} -T${ZS=
+TD_THREADS}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Use pzstd if available<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -x &quot;$(command -v pzstd)&quot; ]; then=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ZSTD=3D&quot;pzstd =
+-${SSTATE_ZSTD_CLEVEL} -p ${ZSTD_THREADS}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Need to handle empty directories<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;$(ls -A)&quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set +e<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar $OPT -f $TFILE =
+*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar -I &quot;$ZSTD&=
+quot; $OPT -f $TFILE *<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret=3D$?<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ $ret -ne 0 ] &=
+amp;&amp; [ $ret -ne 1 ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 exit 1<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set -e<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar $OPT --file=3D$=
+TFILE --files-from=3D/dev/null<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar -I &quot;$ZSTD&=
+quot; $OPT --file=3D$TFILE --files-from=3D/dev/null<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 chmod 0664 $TFILE<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Skip if it was already created by some other =
+process<br>
+@@ -887,7 +890,13 @@ python sstate_report_unihash() {<br>
+=C2=A0# Will be run from within SSTATE_INSTDIR.<br>
+=C2=A0#<br>
+=C2=A0sstate_unpack_package () {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0tar -xvzf ${SSTATE_PKG}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ZSTD=3D&quot;zstd -T${ZSTD_THREADS}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Use pzstd if available<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -x &quot;$(command -v pzstd)&quot; ]; then=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ZSTD=3D&quot;pzstd =
+-p ${ZSTD_THREADS}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0tar -I &quot;$ZSTD&quot; -xvf ${SSTATE_PKG}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # update .siginfo atime on local/NFS mirror<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -O ${SSTATE_PKG}.siginfo ] &amp;&amp; [ -w ${=
+SSTATE_PKG}.siginfo ] &amp;&amp; [ -h ${SSTATE_PKG}.siginfo ] &amp;&amp; to=
+uch -a ${SSTATE_PKG}.siginfo<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Use &quot;! -w ||&quot; to return true for re=
+ad only files<br>
+diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selfte=
+st/cases/signing.py<br>
+index af7a0b8b45..6f3d4aeae9 100644<br>
+--- a/meta/lib/oeqa/selftest/cases/signing.py<br>
++++ b/meta/lib/oeqa/selftest/cases/signing.py<br>
+@@ -159,13 +159,13 @@ class Signing(OESelftestTestCase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(&#39;-c clean %s&#3=
+9; % test_recipe)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(&#39;-c populate_li=
+c %s&#39; % test_recipe)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recipe_sig =3D glob.glob(sstated=
+ir + &#39;/*/*/*:ed:*_populate_lic.tgz.sig&#39;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recipe_tgz =3D glob.glob(sstated=
+ir + &#39;/*/*/*:ed:*_populate_lic.tgz&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recipe_sig =3D glob.glob(sstated=
+ir + &#39;/*/*/*:ed:*_populate_lic.tar.zst.sig&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recipe_archive =3D glob.glob(sst=
+atedir + &#39;/*/*/*:ed:*_populate_lic.tar.zst&#39;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(len(recipe=
+_sig), 1, &#39;Failed to find .sig file.&#39;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(len(recipe_tgz)=
+, 1, &#39;Failed to find .tgz file.&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(len(recipe_arch=
+ive), 1, &#39;Failed to find .tar.zst file.&#39;)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D runCmd(&#39;gpg --homedi=
+r %s --verify %s %s&#39; % (self.gpg_dir, recipe_sig[0], recipe_tgz[0]))<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D runCmd(&#39;gpg --homedi=
+r %s --verify %s %s&#39; % (self.gpg_dir, recipe_sig[0], recipe_archive[0])=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# gpg: Signature made Thu 2=
+2 Oct 2015 01:45:09 PM EEST using RSA key ID 61EEFB30<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# gpg: Good signature from =
+&quot;testuser (nocomment) &lt;<a href=3D"mailto:testuser@email.com" target=
+=3D"_blank">testuser@email.com</a>&gt;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertIn(&#39;gpg: Goo=
+d signature from&#39;, ret.output, &#39;Package signed incorrectly.&#39;)<b=
+r>
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/se=
+lftest/cases/sstatetests.py<br>
+index 874f439282..3dab607eeb 100644<br>
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py<br>
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py<br>
+@@ -68,7 +68,7 @@ class SStateTests(SStateBase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0results =3D self.search_sstate(&#39;|&#39=
+;.join(map(str, targets)), distro_specific, distro_nonspecific)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if distro_nonspecific:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for r in results:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r.endswith((&qu=
+ot;_populate_lic.tgz&quot;, &quot;_populate_lic.tgz.siginfo&quot;, &quot;_f=
+etch.tgz.siginfo&quot;, &quot;_unpack.tgz.siginfo&quot;, &quot;_patch.tgz.s=
+iginfo&quot;)):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r.endswith((&qu=
+ot;_populate_lic.tar.zst&quot;, &quot;_populate_lic.tar.zst.siginfo&quot;, =
+&quot;_fetch.tar.zst.siginfo&quot;, &quot;_unpack.tar.zst.siginfo&quot;, &q=
+uot;_patch.tar.zst.siginfo&quot;)):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0continue<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file_tracker.=
+append(r)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+@@ -98,15 +98,15 @@ class SStateTests(SStateBase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake([&#39;-ccleansstate&#39;] + targe=
+ts)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(targets)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tgz_created =3D self.search_sstate(&#39;|&#39;=
+.join(map(str, [s + r&#39;.*?\.tgz$&#39; for s in targets])), distro_specif=
+ic, distro_nonspecific)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(tgz_created, msg=3D&quot;Could=
+ not find sstate .tgz files for: %s (%s)&quot; % (&#39;, &#39;.join(map(str=
+, targets)), str(tgz_created)))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 archives_created =3D self.search_sstate(&#39;|=
+&#39;.join(map(str, [s + r&#39;.*?\.tar.zst$&#39; for s in targets])), dist=
+ro_specific, distro_nonspecific)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(archives_created, msg=3D&quot;=
+Could not find sstate .tar.zst files for: %s (%s)&quot; % (&#39;, &#39;.joi=
+n(map(str, targets)), str(archives_created)))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0siginfo_created =3D self.search_sstate(&#=
+39;|&#39;.join(map(str, [s + r&#39;.*?\.siginfo$&#39; for s in targets])), =
+distro_specific, distro_nonspecific)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(siginfo_created, msg=3D&q=
+uot;Could not find sstate .siginfo files for: %s (%s)&quot; % (&#39;, &#39;=
+.join(map(str, targets)), str(siginfo_created)))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake([&#39;-ccleansstate&#39;] + targe=
+ts)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tgz_removed =3D self.search_sstate(&#39;|&#39;=
+.join(map(str, [s + r&#39;.*?\.tgz$&#39; for s in targets])), distro_specif=
+ic, distro_nonspecific)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(not tgz_removed, msg=3D&quot;d=
+o_cleansstate didn&#39;t remove .tgz sstate files for: %s (%s)&quot; % (&#3=
+9;, &#39;.join(map(str, targets)), str(tgz_removed)))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 archives_removed =3D self.search_sstate(&#39;|=
+&#39;.join(map(str, [s + r&#39;.*?\.tar.zst$&#39; for s in targets])), dist=
+ro_specific, distro_nonspecific)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(not archives_removed, msg=3D&q=
+uot;do_cleansstate didn&#39;t remove .tar.zst sstate files for: %s (%s)&quo=
+t; % (&#39;, &#39;.join(map(str, targets)), str(archives_removed)))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def test_cleansstate_task_distro_specific_nonspecific(s=
+elf):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0targets =3D [&#39;binutils-cross-&#39;+ s=
+elf.tune_arch, &#39;binutils-native&#39;]<br>
+@@ -129,14 +129,14 @@ class SStateTests(SStateBase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake([&#39;-ccleansstate&#39;] + targe=
+ts)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(targets)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 results =3D self.search_sstate(&#39;|&#39;.joi=
+n(map(str, [s + r&#39;.*?\.tgz$&#39; for s in targets])), distro_specific=
+=3DFalse, distro_nonspecific=3DTrue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 results =3D self.search_sstate(&#39;|&#39;.joi=
+n(map(str, [s + r&#39;.*?\.tar.zst$&#39; for s in targets])), distro_specif=
+ic=3DFalse, distro_nonspecific=3DTrue)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0filtered_results =3D []<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for r in results:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r.endswith((&quot;_populate_l=
+ic.tgz&quot;, &quot;_populate_lic.tgz.siginfo&quot;)):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r.endswith((&quot;_populate_l=
+ic.tar.zst&quot;, &quot;_populate_lic.tar.zst.siginfo&quot;)):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0filtered_results.append(r)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(filtered_results =3D=3D [=
+], msg=3D&quot;Found distro non-specific sstate for: %s (%s)&quot; % (&#39;=
+, &#39;.join(map(str, targets)), str(filtered_results)))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file_tracker_1 =3D self.search_sstate(&#39;|&#=
+39;.join(map(str, [s + r&#39;.*?\.tgz$&#39; for s in targets])), distro_spe=
+cific=3DTrue, distro_nonspecific=3DFalse)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 file_tracker_1 =3D self.search_sstate(&#39;|&#=
+39;.join(map(str, [s + r&#39;.*?\.tar.zst$&#39; for s in targets])), distro=
+_specific=3DTrue, distro_nonspecific=3DFalse)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(len(file_tracker_1) &gt;=
+=3D len(targets), msg =3D &quot;Not all sstate files were created for: %s&q=
+uot; % &#39;, &#39;.join(map(str, targets)))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.track_for_cleanup(self.distro_specif=
+ic_sstate + &quot;_old&quot;)<br>
+@@ -145,7 +145,7 @@ class SStateTests(SStateBase):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake([&#39;-cclean&#39;] + targets)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(targets)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file_tracker_2 =3D self.search_sstate(&#39;|&#=
+39;.join(map(str, [s + r&#39;.*?\.tgz$&#39; for s in targets])), distro_spe=
+cific=3DTrue, distro_nonspecific=3DFalse)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 file_tracker_2 =3D self.search_sstate(&#39;|&#=
+39;.join(map(str, [s + r&#39;.*?\.tar.zst$&#39; for s in targets])), distro=
+_specific=3DTrue, distro_nonspecific=3DFalse)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(len(file_tracker_2) &gt;=
+=3D len(targets), msg =3D &quot;Not all sstate files were created for: %s&q=
+uot; % &#39;, &#39;.join(map(str, targets)))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0not_recreated =3D [x for x in file_tracke=
+r_1 if x not in file_tracker_2]<br>
+@@ -188,18 +188,18 @@ class SStateTests(SStateBase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not sstate_arch in sstat=
+e_archs_list:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sstate_archs_=
+list.append(sstate_arch)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if target_config[idx] =3D=
+=3D target_config[-1]:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_sstate_befo=
+re_build =3D self.search_sstate(target + r&#39;.*?\.tgz$&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_sstate_befo=
+re_build =3D self.search_sstate(target + r&#39;.*?\.tar.zst$&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(&quot;-cclean %s&qu=
+ot; % target)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D bitbake(target, =
+ignore_status=3DTrue)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if target_config[idx] =3D=
+=3D target_config[-1]:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_sstate_afte=
+r_build =3D self.search_sstate(target + r&#39;.*?\.tgz$&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_sstate_afte=
+r_build =3D self.search_sstate(target + r&#39;.*?\.tar.zst$&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0expected_rema=
+ining_sstate +=3D [x for x in target_sstate_after_build if x not in target_=
+sstate_before_build if not any(pattern in x for pattern in ignore_patterns)=
+]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.remove_config(global_c=
+onfig[idx])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.remove_recipeinc(targe=
+t, target_config[idx])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(result.sta=
+tus, 0, msg =3D &quot;build of %s failed with %s&quot; % (target, result.ou=
+tput))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0runCmd(&quot;sstate-cache-management.sh -=
+y --cache-dir=3D%s --remove-duplicated --extra-archs=3D%s&quot; % (self.sst=
+ate_path, &#39;,&#39;.join(map(str, sstate_archs_list))))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_remaining_sstate =3D [x for x in self.s=
+earch_sstate(target + r&#39;.*?\.tgz$&#39;) if not any(pattern in x for pat=
+tern in ignore_patterns)]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 actual_remaining_sstate =3D [x for x in self.s=
+earch_sstate(target + r&#39;.*?\.tar.zst$&#39;) if not any(pattern in x for=
+ pattern in ignore_patterns)]<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0actual_not_expected =3D [x for x in actua=
+l_remaining_sstate if x not in expected_remaining_sstate]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertFalse(actual_not_expected, msg=
+=3D&quot;Files should have been removed but were not: %s&quot; % &#39;, &#3=
+9;.join(map(str, actual_not_expected)))<br>
+diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-mana=
+gement.sh<br>
+index f1706a2229..d39671f7c6 100755<br>
+--- a/scripts/sstate-cache-management.sh<br>
++++ b/scripts/sstate-cache-management.sh<br>
+@@ -114,7 +114,7 @@ echo_error () {<br>
+=C2=A0# * Add .done/.siginfo to the remove list<br>
+=C2=A0# * Add destination of symlink to the remove list<br>
+=C2=A0#<br>
+-# $1: output file, others: sstate cache file (.tgz)<br>
++# $1: output file, others: sstate cache file (.tar.zst)<br>
+=C2=A0gen_rmlist (){<br>
+=C2=A0 =C2=A0local rmlist_file=3D&quot;$1&quot;<br>
+=C2=A0 =C2=A0shift<br>
+@@ -131,13 +131,13 @@ gen_rmlist (){<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dest=3D&quot;`readli=
+nk -e $i`&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -n &quot;$dest&=
+quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo $=
+dest &gt;&gt; $rmlist_file<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove th=
+e .siginfo when .tgz is removed<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove th=
+e .siginfo when .tar.zst is removed<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -=
+f &quot;$dest.siginfo&quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0echo $dest.siginfo &gt;&gt; $rmlist_file<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the &quot;.tgz.done&quot; and &qu=
+ot;.siginfo.done&quot; (may exist in the future)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the &quot;.tar.zst.done&quot; and=
+ &quot;.siginfo.done&quot; (may exist in the future)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base_fn=3D&quot;${i##/*/}&quot;<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0t_fn=3D&quot;$base_fn.done&quot;<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s_fn=3D&quot;$base_fn.siginfo.done=
+&quot;<br>
+@@ -188,10 +188,10 @@ remove_duplicated () {<br>
+=C2=A0 =C2=A0total_files=3D`find $cache_dir -name &#39;sstate*&#39; | wc -l=
+`<br>
+=C2=A0 =C2=A0# Save all the sstate files in a file<br>
+=C2=A0 =C2=A0sstate_files_list=3D`mktemp` || exit 1<br>
+-=C2=A0 find $cache_dir -name &#39;sstate:*:*:*:*:*:*:*.tgz*&#39; &gt;$ssta=
+te_files_list<br>
++=C2=A0 find $cache_dir -iname &#39;sstate:*:*:*:*:*:*:*.tar.zst*&#39; &gt;=
+$sstate_files_list<br>
+<br>
+=C2=A0 =C2=A0echo &quot;Figuring out the suffixes in the sstate cache dir .=
+.. &quot;<br>
+-=C2=A0 sstate_suffixes=3D&quot;`sed &#39;s%.*/sstate:[^:]*:[^:]*:[^:]*:[^:=
+]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz.*%\1%g&#39; $sstate_files_list | sort -=
+u`&quot;<br>
++=C2=A0 sstate_suffixes=3D&quot;`sed &#39;s%.*/sstate:[^:]*:[^:]*:[^:]*:[^:=
+]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tar\.zst.*%\1%g&#39; $sstate_files_list | s=
+ort -u`&quot;<br>
+=C2=A0 =C2=A0echo &quot;Done&quot;<br>
+=C2=A0 =C2=A0echo &quot;The following suffixes have been found in the cache=
+ dir:&quot;<br>
+=C2=A0 =C2=A0echo $sstate_suffixes<br>
+@@ -200,10 +200,10 @@ remove_duplicated () {<br>
+=C2=A0 =C2=A0# Using this SSTATE_PKGSPEC definition it&#39;s 6th colon sepa=
+rated field<br>
+=C2=A0 =C2=A0# SSTATE_PKGSPEC=C2=A0 =C2=A0 =3D &quot;sstate:${PN}:${PACKAGE=
+_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_=
+VERSION}:&quot;<br>
+=C2=A0 =C2=A0for arch in $all_archs; do<br>
+-=C2=A0 =C2=A0 =C2=A0 grep -q &quot;.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:$arch=
+:[^:]*:[^:]*\.tgz$&quot; $sstate_files_list<br>
++=C2=A0 =C2=A0 =C2=A0 grep -q &quot;.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:$arch=
+:[^:]*:[^:]*\.tar\.zst$&quot; $sstate_files_list<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0[ $? -eq 0 ] &amp;&amp; ava_archs=3D&quot;$ava_a=
+rchs $arch&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0# ${builder_arch}_$arch used by toolchain sstate=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 grep -q &quot;.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:${bui=
+lder_arch}_$arch:[^:]*:[^:]*\.tgz$&quot; $sstate_files_list<br>
++=C2=A0 =C2=A0 =C2=A0 grep -q &quot;.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:${bui=
+lder_arch}_$arch:[^:]*:[^:]*\.tar\.zst$&quot; $sstate_files_list<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0[ $? -eq 0 ] &amp;&amp; ava_archs=3D&quot;$ava_a=
+rchs ${builder_arch}_$arch&quot;<br>
+=C2=A0 =C2=A0done<br>
+=C2=A0 =C2=A0echo &quot;Done&quot;<br>
+@@ -219,13 +219,13 @@ remove_duplicated () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Total number of files including .siginfo and .=
+done files<br>
+-=C2=A0 =C2=A0 =C2=A0 total_files_suffix=3D`grep &quot;.*/sstate:[^:]*:[^:]=
+*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz.*&quot; $sstate_files_list | =
+wc -l 2&gt;/dev/null`<br>
+-=C2=A0 =C2=A0 =C2=A0 total_tgz_suffix=3D`grep &quot;.*/sstate:[^:]*:[^:]*:=
+[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz$&quot; $sstate_files_list | wc =
+-l 2&gt;/dev/null`<br>
++=C2=A0 =C2=A0 =C2=A0 total_files_suffix=3D`grep &quot;.*/sstate:[^:]*:[^:]=
+*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tar\.zst.*&quot; $sstate_files_li=
+st | wc -l 2&gt;/dev/null`<br>
++=C2=A0 =C2=A0 =C2=A0 total_archive_suffix=3D`grep &quot;.*/sstate:[^:]*:[^=
+:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tar\.zst$&quot; $sstate_files_l=
+ist | wc -l 2&gt;/dev/null`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Save the file list to a file, some suffix&#39;=
+s file may not exist<br>
+-=C2=A0 =C2=A0 =C2=A0 grep &quot;.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^=
+:]*:[^:_]*_$suffix\.tgz.*&quot; $sstate_files_list &gt;$list_suffix 2&gt;/d=
+ev/null<br>
+-=C2=A0 =C2=A0 =C2=A0 local deleted_tgz=3D0<br>
++=C2=A0 =C2=A0 =C2=A0 grep &quot;.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^=
+:]*:[^:_]*_$suffix\.tar\.zst.*&quot; $sstate_files_list &gt;$list_suffix 2&=
+gt;/dev/null<br>
++=C2=A0 =C2=A0 =C2=A0 local deleted_archives=3D0<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0local deleted_files=3D0<br>
+-=C2=A0 =C2=A0 =C2=A0 for ext in tgz tgz.siginfo tgz.done; do<br>
++=C2=A0 =C2=A0 =C2=A0 for ext in tar.zst tar.zst.siginfo tar.zst.done; do<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;Figuring out the sstate=
+:xxx_$suffix.$ext ... &quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Uniq BPNs<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file_names=3D`for arch in $ava_arc=
+hs &quot;&quot;; do<br>
+@@ -268,19 +268,19 @@ remove_duplicated () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+-=C2=A0 =C2=A0 =C2=A0 deleted_tgz=3D`cat $rm_list.* 2&gt;/dev/null | grep &=
+quot;.tgz$&quot; | wc -l`<br>
++=C2=A0 =C2=A0 =C2=A0 deleted_archives=3D`cat $rm_list.* 2&gt;/dev/null | g=
+rep &quot;\.tar\.zst$&quot; | wc -l`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0deleted_files=3D`cat $rm_list.* 2&gt;/dev/null |=
+ wc -l`<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0[ &quot;$deleted_files&quot; -gt 0 -a $debug -gt=
+ 0 ] &amp;&amp; cat $rm_list.*<br>
+-=C2=A0 =C2=A0 =C2=A0 echo &quot;($deleted_tgz out of $total_tgz_suffix .tg=
+z files for $suffix suffix will be removed or $deleted_files out of $total_=
+files_suffix when counting also .siginfo and .done files)&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 echo &quot;($deleted_archives out of $total_archives_=
+suffix .tar.zst files for $suffix suffix will be removed or $deleted_files =
+out of $total_files_suffix when counting also .siginfo and .done files)&quo=
+t;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0let total_deleted=3D$total_deleted+$deleted_file=
+s<br>
+=C2=A0 =C2=A0done<br>
+-=C2=A0 deleted_tgz=3D0<br>
++=C2=A0 deleted_archives=3D0<br>
+=C2=A0 =C2=A0rm_old_list=3D$remove_listdir/sstate-old-filenames<br>
+-=C2=A0 find $cache_dir -name &#39;sstate-*.tgz&#39; &gt;$rm_old_list<br>
+-=C2=A0 [ -s &quot;$rm_old_list&quot; ] &amp;&amp; deleted_tgz=3D`cat $rm_o=
+ld_list | grep &quot;.tgz$&quot; | wc -l`<br>
++=C2=A0 find $cache_dir -name &#39;sstate-*.tar.zst&#39; &gt;$rm_old_list<b=
+r>
++=C2=A0 [ -s &quot;$rm_old_list&quot; ] &amp;&amp; deleted_archives=3D`cat =
+$rm_old_list | grep &quot;\.tar\.zst$&quot; | wc -l`<br>
+=C2=A0 =C2=A0[ -s &quot;$rm_old_list&quot; ] &amp;&amp; deleted_files=3D`ca=
+t $rm_old_list | wc -l`<br>
+=C2=A0 =C2=A0[ -s &quot;$rm_old_list&quot; -a $debug -gt 0 ] &amp;&amp; cat=
+ $rm_old_list<br>
+-=C2=A0 echo &quot;($deleted_tgz .tgz files with old sstate-* filenames wil=
+l be removed or $deleted_files when counting also .siginfo and .done files)=
+&quot;<br>
++=C2=A0 echo &quot;($deleted_archives or .tar.zst files with old sstate-* f=
+ilenames will be removed or $deleted_files when counting also .siginfo and =
+.done files)&quot;<br>
+=C2=A0 =C2=A0let total_deleted=3D$total_deleted+$deleted_files<br>
+<br>
+=C2=A0 =C2=A0rm -f $list_suffix<br>
+@@ -289,7 +289,7 @@ remove_duplicated () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0read_confirm<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$confirm&quot; =3D &quot;y&quot; -o &=
+quot;$confirm&quot; =3D &quot;Y&quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for list in `ls $remove_listdir/`;=
+ do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;Removing $list=
+.tgz (`cat $remove_listdir/$list | wc -w` files) ... &quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;Removing $list=
+.tar.zst archive (`cat $remove_listdir/$list | wc -w` files) ... &quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove them one by=
+ one to avoid the argument list too long error<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in `cat $remov=
+e_listdir/$list`; do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f =
+$verbose $i<br>
+@@ -322,7 +322,7 @@ rm_by_stamps (){<br>
+=C2=A0 =C2=A0find $cache_dir -type f -name &#39;sstate*&#39; | sort -u -o $=
+cache_list<br>
+<br>
+=C2=A0 =C2=A0echo &quot;Figuring out the suffixes in the sstate cache dir .=
+.. &quot;<br>
+-=C2=A0 local sstate_suffixes=3D&quot;`sed &#39;s%.*/sstate:[^:]*:[^:]*:[^:=
+]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz.*%\1%g&#39; $cache_list | sort -u=
+`&quot;<br>
++=C2=A0 local sstate_suffixes=3D&quot;`sed &#39;s%.*/sstate:[^:]*:[^:]*:[^:=
+]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tar\.zst.*%\1%g&#39; $cache_list | so=
+rt -u`&quot;<br>
+=C2=A0 =C2=A0echo &quot;Done&quot;<br>
+=C2=A0 =C2=A0echo &quot;The following suffixes have been found in the cache=
+ dir:&quot;<br>
+=C2=A0 =C2=A0echo $sstate_suffixes<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#156845): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/156845" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/156845</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86242479/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/86242479/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--000000000000538a2b05ce1ad42f--
 
