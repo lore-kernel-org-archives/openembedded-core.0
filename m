@@ -1,107 +1,80 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA36C433F5
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 08:05:30 +0000 (UTC)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
- [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web12.8787.1633939530132405415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D0BC433F5
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 08:30:36 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.9085.1633941035348682919
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 01:05:30 -0700
+ Mon, 11 Oct 2021 01:30:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fSF1Ykv4;
- spf=pass (domain: gmail.com, ip: 209.85.222.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id 64so11609360uab.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 01:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C2rOq4QIGIW6NrQUWpDmUFdh6ZvkObRwyz11TAktxZM=;
-        b=fSF1Ykv4XTQGgBNtAocZraP0OOOjjriXXXBuagaXjiUFFEc20Ia6X4ObdTiO8MIorq
-         mLJjbA30h85fjk8+NzCsa6J0mvLLJ1thBN0WlO/ZgUbGcrzwRGW7sT8kWCroGsFlzC6V
-         X2WihT5ulXoyx5SHGaGGhMe4D20wHOGJZ8Cpc5BVjq0e/H3EQ0Ko9CG0XovkFqnLGM1t
-         FV7dvXroTL3eeg1MpC3gNMGEqWUdRTuXTphEeQjNaOILZa62nvfUHQid0PZSEXR6O0GJ
-         wSEnaEZCmRHRzhjkRREqAkhkKid2sz/TbqP42RGoUipqMPr0y4tExyC1W/zxbHqIWdak
-         ubpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C2rOq4QIGIW6NrQUWpDmUFdh6ZvkObRwyz11TAktxZM=;
-        b=XV0ZkefR+NpE8tPrKmr+SvPAoRbOPsA9V31Wlmqhfw/xmMGN+DO5z5xecBYxbX8TOr
-         yInDx19GybnnWHKwzotqCY9TJxwmMMpM49ohR0zsyAr44syPAtldXZSIeJ6vTkKNHm8S
-         hEJaHma9U8ibvpay6hVqAvb3OauX6zpEWZNDNN/Ry0/QzBqUaxIoKHI24EHVjxcP8V34
-         V+ffL6zeSzjTN8KxVOdZDER8/fSxagZXj/3+oqp1Yw/CooeMMK+6pEIZT26p+rxLQdif
-         GNLSccr9gF9VdxLfOC5YFCtnYt3XH3n0nefvmw04djdWvg3VXR3YudJHqUKi2DC9g0Bw
-         I10Q==
-X-Gm-Message-State: AOAM530D2kl4CRGWMb/sBSVrHDiZGPflU5ETZEv4Xs0GuQMF1qRKLwJ7
-	bQBWc81fA88bgs5eshHq26XtIwmkqmItqLYdsTU=
-X-Google-Smtp-Source: 
- ABdhPJz+GpL7/k0S//OXK7HWZ88YpSJMr5yrd+/m7f5gCw3XbCfthQio89h0XGlrvN67D6/RtAGxmiPiRS2C3y/WEMA=
-X-Received: by 2002:ab0:1623:: with SMTP id k32mr13235241uae.71.1633939529068;
- Mon, 11 Oct 2021 01:05:29 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 19B8UXU7002368
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 11 Oct 2021 01:30:33 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 11 Oct 2021 01:30:32 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 11 Oct 2021 01:30:31 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] packagedata.py: silence a DeprecationWarning
+Date: Mon, 11 Oct 2021 16:28:48 +0800
+Message-ID: <20211011082848.12434-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210908180125.103473-1-alex.kanavin@gmail.com>
- <e76d1475-2216-345d-cbcc-8bc682abdf6e@synaptics.com>
-In-Reply-To: <e76d1475-2216-345d-cbcc-8bc682abdf6e@synaptics.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 11 Oct 2021 10:05:17 +0200
-Message-ID: 
- <CANNYZj_=85L=CAUDwJT=WkyA1YfNJ_KmoY6WVdbQ4yBoCiS-AA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/26] meson: update 0.58.1 -> 0.59.1
-To: Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000036f68205ce0f3124"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id
+ 19B8UXU7002368
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 08:05:30 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 08:30:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156811
+ https://lists.openembedded.org/g/openembedded-core/message/156812
 
---00000000000036f68205ce0f3124
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On Mon, 11 Oct 2021 at 04:48, Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
+Use regex strings (r=E2=80=99=E2=80=99) to silence below deprecation warn=
+ing [1]:
+ $ cat tmp/work/intel_x86_64-wrs-linux/linux-yocto/5.10.x+gitAUTOINC+917c=
+420111_373c02c3ca-r0/temp/log.do_deploy
+ [snip]
+ /build/layers/oe-core/meta/lib/oe/packagedata.py:22: DeprecationWarning:=
+ invalid escape sequence \s
+ r =3D re.compile("(^.+?):\s+(.*)")
+ [snip]
 
-> I think we should update the meson.cross.template generated by this ^^^
-> file.
->
-> c_args=EF=BC=8C c_link_args=EF=BC=8C cpp_args=EF=BC=8C cpp_link_args have=
- been moved to the
-> '[built-in options]' section. Also we need an native-file here.
-> That is what
-> 06b4910c3ada5398faf9369d686b82eee441bb19 has done for OE itself.
->
+[1] https://docs.python.org/3/library/re.html
 
-Can you send a patch please?
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/lib/oe/packagedata.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index 02c81e5a52..212f048bc6 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -19,7 +19,7 @@ def read_pkgdatafile(fn):
+         import re
+         with open(fn, 'r') as f:
+             lines =3D f.readlines()
+-        r =3D re.compile("(^.+?):\s+(.*)")
++        r =3D re.compile(r"(^.+?):\s+(.*)")
+         for l in lines:
+             m =3D r.match(l)
+             if m:
+--=20
+2.17.1
 
---00000000000036f68205ce0f3124
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 11 Oct 2021 at 04:48, Hsia-Jun Li &lt;<a href=3D"mailto:Rand=
-y.Li@synaptics.com">Randy.Li@synaptics.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">I think we should update the meso=
-n.cross.template generated by this ^^^ <br>
-file.<br>
-<br>
-c_args=EF=BC=8C c_link_args=EF=BC=8C cpp_args=EF=BC=8C cpp_link_args have b=
-een moved to the <br>
-&#39;[built-in options]&#39; section. Also we need an native-file here.<br>
-That is what<br>
-06b4910c3ada5398faf9369d686b82eee441bb19 has done for OE itself.<br></block=
-quote><div><br></div><div>Can you send a patch please?</div><div><br></div>=
-<div>Alex<br></div></div></div>
-
---00000000000036f68205ce0f3124--
 
