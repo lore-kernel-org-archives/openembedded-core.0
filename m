@@ -2,63 +2,65 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57944C4332F
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:09 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.9634.1633945268492836399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58191C433FE
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:08 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.9535.1633945267731533499
  for <openembedded-core@lists.openembedded.org>;
  Mon, 11 Oct 2021 02:41:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ku92Fq9K;
- spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h3RtLfKA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id k7so53983722wrd.13
+Received: by mail-wr1-f52.google.com with SMTP id u18so54269489wrg.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:08 -0700 (PDT)
+ Mon, 11 Oct 2021 02:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LdxNBKQ8EoOMiURRfQ3RJWFPbw93MkwqWzdCxSfZT8o=;
-        b=Ku92Fq9Kp5RY7tzNuGM33htusgBjphs2HBwc6L7346b+FHt02T4hFv1gXcQfkAmn8n
-         77IWq2zpxakepnQ2d+f7Oebp3ZqdqSt6lzhuRTIOSra/GS3Cn3IK65h3qerI5zKOIgJ3
-         6PrRp8U+Ds2mnawxeZFaI+zlJ17itAJOKhhKSzxqa1RBv5hTJotkNktmmVpEZZFccO1K
-         mztuUrEKG1+OmGCOoUS2lDOx2ne98yt+gvKlb2Bo/BT4KaulBBN+07CcxSHehtJ1za4y
-         C8MY4Tw4Xze1aKnWmKcFU7NqC0BXMDlh8wiStkUtvqh4kAYeRbRqse24Jo2yF0WwNYTb
-         JU3g==
+        bh=gax1q6b41L1LKwn1gyRVhRSichNe7wC2R0D2IszYgtk=;
+        b=h3RtLfKA8OnLxZaB6kyMFZJtd5E0sTh8jz2XH9XVjFSn139S/3kafiMu6wNgoO82Dp
+         CRUHBtDH1m4GdnvfK1tnrd+nD7AXQ5qEXxKLZipdVvOn0pO60v7hWK3PLUhrtPUj08bg
+         gohZvEXv9rYTU4aw8DIcFee3TBWSxDR7nrr0dDrEoOzMEL+n2dhCNZQ1ZDruX31bJUcG
+         vQXbUkGqnbrXNUD8RsS2zfOTtbybZ4qq+wFmgRYTy2lQhXXxAQIZuDHWMvtc4fMo6nca
+         KZNayI18mwYctz64JxrBFfnbfDWetIeQfQS8gEMUxE4Tx1ftnLLfKcgaKXrvEOK+xW2d
+         9Uhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LdxNBKQ8EoOMiURRfQ3RJWFPbw93MkwqWzdCxSfZT8o=;
-        b=FtxBkBJqje83qIheu6OWYtJxa1XOPgNFKEnsDIdzakUdm0Mx+H0QNi2pD4/k47IHrD
-         ediCGFgnIZ1phvA6Uog2Rya1+D7Vz/+amz9RLGTTHfnkEzZZnNi8KdZHnQGIiAQ7ad2P
-         areXJkO1OnPQYUvBChvlFLc8U4FmDaru0e+udqFf9xrpe+Ha1a0QtKvWSqaGg33n/YlF
-         tsHQf2Jbwmn5hokRpQK6Iwfx+D04Nc92fz/HdcClikg9Zq1fE++BbtLlOoLINhaMhv1b
-         ui+VV8452oI+Li4+Lkwk9oNlvNHjgJpLfBrwtgVzdw4MpCxEWHyKfDT/unI2u3r3kyeR
-         0sZQ==
-X-Gm-Message-State: AOAM531YKzdcdQQwNCOv6MxyYQQOLJzDwdQKPX5oBcOlZ0ZF69TjUUST
-	kcUFolS85FhaiifEmZNgcxsspyVhNIs=
+        bh=gax1q6b41L1LKwn1gyRVhRSichNe7wC2R0D2IszYgtk=;
+        b=ETVy5JxYb3eOLXY7WiNyw6v5bTof2qBx+YDvqsR0sqWPXN59uDMoWETP7jW/E2dDuc
+         RKNW/eO2Z7FJXfBQdTZVdFnxrarXGmjJOHbNMHAMFKyqljcAjjdLSnkE5zjAqlDtcQXw
+         Z/N8TXMM9CuI/bPEW4FQ2B6yeR3gV+5eTufeVmO9/XyzxfyQRKtbCynRHXzfvu5ozRYM
+         ljGRxDXAy1a58PLEfs1c8vw3w0jG3CK8fcNm2KE4x35MFmNk2MWKxVoCwLu1ssiy3o9h
+         TyRBn/nxYb0Ct6Q2fUEEimLdTId76K93TR0HGpq5WfT7rXwyqAmzWTI2/hWRdJ1g1P5+
+         GNRg==
+X-Gm-Message-State: AOAM531twW2zGw/sZ9L/Lu4UnEUi/uElaBv06yscNQz5HaBWC4775Qii
+	9you2wOilvS4tiDXPce0gxVL19K4n2s=
 X-Google-Smtp-Source: 
- ABdhPJxGUNPrHfnD2E4rUiIdElNjCEJsGOlUYxS9r6hzGzchN5Hx7RTGUzzt8HdQ+/9920czvvYcLg==
-X-Received: by 2002:a05:600c:2157:: with SMTP id
- v23mr20252673wml.120.1633945266963;
+ ABdhPJzLkx/XMPy2FMSuXw4VCLEA1A7gTvNM+eH6dvjEEvpfZL8v6C1tl//4hNRWia4bsth578/2kw==
+X-Received: by 2002:a05:600c:2109:: with SMTP id
+ u9mr13236167wml.68.1633945266297;
         Mon, 11 Oct 2021 02:41:06 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k17sm7180758wrc.93.2021.10.11.02.41.06
+ k17sm7180758wrc.93.2021.10.11.02.41.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 02:41:06 -0700 (PDT)
+        Mon, 11 Oct 2021 02:41:05 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 06/25] python3: update 3.9.6 -> 3.10.0
-Date: Mon, 11 Oct 2021 11:40:40 +0200
-Message-Id: <20211011094059.4184654-6-alex@linutronix.de>
+	Khem Raj <raj.khem@gmail.com>,
+	Stefan Ghinea <stefan.ghinea@windriver.com>,
+	Li Zhou <li.zhou@windriver.com>
+Subject: [PATCH 05/25] libssh2: update 1.9.0 -> 1.10.0
+Date: Mon, 11 Oct 2021 11:40:39 +0200
+Message-Id: <20211011094059.4184654-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
 References: <20211011094059.4184654-1-alex@linutronix.de>
@@ -67,470 +69,372 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:09 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156819
+ https://lists.openembedded.org/g/openembedded-core/message/156818
 
-native and target 0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch
-replaced by native-only 0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-which is more reboust against upstream changes, and keeps target code unmodified.
+0001-configure-Conditionally-undefine-backend-m4-macro.patch no
+longer needed; code removed upstream.
 
-This however necessitated adding 0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-to avoid hardcoding 'lib' on target builds as libdir.
-
-Drop chunk from 0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch as
-upstream now uses sysconfig directly inside distutils.
-
-Add 0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch and
-0001-multiprocessing-disable-a-failing-test.patch to address ptest failures.
-
-License-Update: copyright years, case corrections.
-
+License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/python3-dir.bbclass              |  2 +-
- ...-search-system-for-headers-libraries.patch |  6 +--
- ...e-stdin-I-O-errors-same-way-as-maste.patch | 49 +++++++++++++++++++
- ...-use-libdir-values-from-configuratio.patch | 35 -------------
- ...-use-prefix-value-from-build-configu.patch | 34 +++++++++++++
- ...fig-append-STAGING_LIBDIR-python-sys.patch | 24 ++-------
- ...ssing-libraries-to-Extension-for-mul.patch | 15 +++---
- ...g.py-use-platlibdir-also-for-purelib.patch | 30 ++++++++++++
- ...tutils-prefix-is-inside-staging-area.patch | 14 +++---
- .../python/python3/makerace.patch             | 25 +++++++---
- .../{python3_3.9.6.bb => python3_3.10.0.bb}   | 10 ++--
- 11 files changed, 160 insertions(+), 84 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
- rename meta/recipes-devtools/python/{python3_3.9.6.bb => python3_3.10.0.bb} (97%)
+ ...nviroment-to-decide-if-a-test-is-bui.patch |   6 +-
+ ...ditionally-undefine-backend-m4-macro.patch |  30 ----
+ ...EC-macro-outside-of-if-check-549-550.patch | 112 ---------------
+ .../libssh2/files/CVE-2019-17498.patch        | 131 ------------------
+ .../{libssh2_1.9.0.bb => libssh2_1.10.0.bb}   |  10 +-
+ 5 files changed, 5 insertions(+), 284 deletions(-)
+ delete mode 100644 meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch
+ delete mode 100644 meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
+ delete mode 100644 meta/recipes-support/libssh2/files/CVE-2019-17498.patch
+ rename meta/recipes-support/libssh2/{libssh2_1.9.0.bb => libssh2_1.10.0.bb} (78%)
 
-diff --git a/meta/classes/python3-dir.bbclass b/meta/classes/python3-dir.bbclass
-index f51f971fc55..ff03e584d4c 100644
---- a/meta/classes/python3-dir.bbclass
-+++ b/meta/classes/python3-dir.bbclass
+diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+index 5ff9bf84622..b1204e49eb8 100644
+--- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
++++ b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
 @@ -1,4 +1,4 @@
--PYTHON_BASEVERSION = "3.9"
-+PYTHON_BASEVERSION = "3.10"
- PYTHON_ABI = ""
- PYTHON_DIR = "python${PYTHON_BASEVERSION}"
- PYTHON_PN = "python3"
-diff --git a/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-index a94fa0a5a97..46179ba1d18 100644
---- a/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-@@ -1,4 +1,4 @@
--From 9da913bf5f39c6fe737219af7419170574d6fbfb Mon Sep 17 00:00:00 2001
-+From cebb772d718a8f798ed5ae311a6e3e61534bea95 Mon Sep 17 00:00:00 2001
- From: Jeremy Puhlman <jpuhlman@mvista.com>
- Date: Wed, 4 Mar 2020 00:06:42 +0000
- Subject: [PATCH] Don't search system for headers/libraries
-@@ -11,10 +11,10 @@ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
+-From f9e3e2ee7b18ba5bb8efe083171f3e701eb0a663 Mon Sep 17 00:00:00 2001
++From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
+ From: Your Name <you@example.com>
+ Date: Mon, 28 Dec 2020 02:08:03 +0000
+ Subject: [PATCH] Don't let host enviroment to decide if a test is build
+@@ -9,6 +9,7 @@ don't use SSHD on host to decide weither to build a test
+ Upstream-Status: Inappropriate[oe specific]
  
- diff --git a/setup.py b/setup.py
--index a0bf9ea..da099bf 100644
-+index 95e3e11..32a4d42 100644
- --- a/setup.py
- +++ b/setup.py
--@@ -674,8 +674,8 @@ class PyBuildExt(build_ext):
-+@@ -840,8 +840,8 @@ class PyBuildExt(build_ext):
-              add_dir_to_list(self.compiler.include_dirs,
-                              sysconfig.get_config_var("INCLUDEDIR"))
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-new file mode 100644
-index 00000000000..d6aa9501a70
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-@@ -0,0 +1,49 @@
-+From d8521ee967937184eadc59fff1a30740ad181a98 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Thu, 16 Sep 2021 16:35:37 +0200
-+Subject: [PATCH] Lib/pty.py: handle stdin I/O errors same way as master I/O
-+ errors
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +
-+reading stdin can throw the same I/O errors as reading from master fd does,
-+e.g. when running under Yocto's test harness:
-+======================================================================
-+ERROR: test_spawn_doesnt_hang (test.test_pty.PtyTest)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "/usr/lib/python3.10/test/test_pty.py", line 316, in test_spawn_doesnt_hang
-+    pty.spawn([sys.executable, '-c', 'print("hi there")'])
-+  File "/usr/lib/python3.10/pty.py", line 181, in spawn
-+    _copy(master_fd, master_read, stdin_read)
-+  File "/usr/lib/python3.10/pty.py", line 157, in _copy
-+    data = stdin_read(STDIN_FILENO)
-+  File "/usr/lib/python3.10/pty.py", line 132, in _read
-+    return os.read(fd, 1024)
-+OSError: [Errno 5] Input/output error
-+
-+So let's treat both channels the same.
-+
-+Upstream-Status: Submitted [https://github.com/python/cpython/pull/28388]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Lib/pty.py | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/pty.py b/Lib/pty.py
-+index 8d8ce40df5..35439c6b96 100644
-+--- a/Lib/pty.py
-++++ b/Lib/pty.py
-+@@ -154,7 +154,10 @@ def _copy(master_fd, master_read=_read, stdin_read=_read):
-+                 os.write(STDOUT_FILENO, data)
-+ 
-+         if STDIN_FILENO in rfds:
-+-            data = stdin_read(STDIN_FILENO)
-++            try:
-++                data = stdin_read(STDIN_FILENO)
-++            except OSError:
-++                data = b""
-+             if not data:
-+                 fds.remove(STDIN_FILENO)
-+             else:
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch
-deleted file mode 100644
-index 1490cdbb18a..00000000000
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From deeedd1b8799294ab276ab7dbbfdb59c1dacc9a2 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 22 Oct 2020 13:10:34 +0200
--Subject: [PATCH] Lib/sysconfig.py: use libdir values from configuration file
--
--This allows correctly substituting them for target installs using
--native python.
--
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- Lib/sysconfig.py | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
--index bf04ac5..ed0462b 100644
----- a/Lib/sysconfig.py
--+++ b/Lib/sysconfig.py
--@@ -20,10 +20,10 @@ __all__ = [
-- 
-- _INSTALL_SCHEMES = {
--     'posix_prefix': {
---        'stdlib': '{installed_base}/{platlibdir}/python{py_version_short}',
---        'platstdlib': '{platbase}/{platlibdir}/python{py_version_short}',
---        'purelib': '{base}/lib/python{py_version_short}/site-packages',
---        'platlib': '{platbase}/{platlibdir}/python{py_version_short}/site-packages',
--+        'stdlib': '{LIBDEST}',
--+        'platstdlib': '{LIBDEST}',
--+        'purelib': '{LIBDEST}/site-packages',
--+        'platlib': '{LIBDEST}/site-packages',
--         'include':
--             '{installed_base}/include/python{py_version_short}{abiflags}',
--         'platinclude':
+ ---
+  tests/Makefile.am | 6 +-----
+  1 file changed, 1 insertion(+), 5 deletions(-)
+@@ -41,6 +42,3 @@ index dc0922f..6cbc35d 100644
+ -endif
+ \ No newline at end of file
+ +endif
 --- 
--2.24.0
+-2.20.1
 -
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-new file mode 100644
-index 00000000000..b72c709130b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-@@ -0,0 +1,34 @@
-+From aceaa16e25a8ab6a00f906c340843999635c8e23 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Fri, 10 Sep 2021 12:28:31 +0200
-+Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configuration
-+ file
-+
-+This allows correctly substituting them for target installs using
-+native python.
-+
-+Upstream-Status: Inappropriate [oe-core cross builds]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Lib/sysconfig.py | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-+index 95b48f6..84f6427 100644
-+--- a/Lib/sysconfig.py
-++++ b/Lib/sysconfig.py
-+@@ -613,6 +613,11 @@ def get_config_vars(*args):
-+             _init_non_posix(_CONFIG_VARS)
-+         if os.name == 'posix':
-+             _init_posix(_CONFIG_VARS)
-++        _CONFIG_VARS['installed_base'] = _CONFIG_VARS['prefix']
-++        _CONFIG_VARS['base'] = _CONFIG_VARS['prefix']
-++        _CONFIG_VARS['installed_platbase'] = _CONFIG_VARS['prefix']
-++        _CONFIG_VARS['platbase'] = _CONFIG_VARS['prefix']
-++        _CONFIG_VARS['platlibdir'] = _CONFIG_VARS['PLATLIBDIR']
-+         # For backward compatibility, see issue19555
-+         SO = _CONFIG_VARS.get('EXT_SUFFIX')
-+         if SO is not None:
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch b/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-index b982691b365..b323ed4dd0a 100644
---- a/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-+++ b/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-@@ -1,4 +1,4 @@
--From e65bfe22c858872b08366aff49119d4145a77f40 Mon Sep 17 00:00:00 2001
-+From 3a98c2eab187289dc8c55e36738c2c0f4216d906 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 31 Jan 2019 16:46:30 +0100
- Subject: [PATCH] distutils/sysconfig: append
-@@ -10,28 +10,14 @@ Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-- Lib/distutils/sysconfig.py | 2 ++
-- Lib/sysconfig.py           | 2 ++
-- 2 files changed, 4 insertions(+)
-+ Lib/sysconfig.py | 2 ++
-+ 1 file changed, 2 insertions(+)
- 
--diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
--index b51629e..2df348c 100644
----- a/Lib/distutils/sysconfig.py
--+++ b/Lib/distutils/sysconfig.py
--@@ -438,6 +438,8 @@ def _init_posix():
--         platform=sys.platform,
--         multiarch=getattr(sys.implementation, '_multiarch', ''),
--     ))
--+    if 'STAGING_LIBDIR' in os.environ:
--+        sys.path.append(os.environ['STAGING_LIBDIR']+'/python-sysconfigdata')
--     _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
--     build_time_vars = _temp.build_time_vars
--     global _config_vars
- diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
--index b2d790b..405273c 100644
-+index a78c0b1..f5c5efe 100644
- --- a/Lib/sysconfig.py
- +++ b/Lib/sysconfig.py
--@@ -419,6 +419,8 @@ def _init_posix(vars):
-+@@ -474,6 +474,8 @@ def _init_posix(vars):
-      """Initialize the module as appropriate for POSIX systems."""
-      # _sysconfigdata is generated at build time, see _generate_posix_vars()
-      name = _get_sysconfigdata_name()
-diff --git a/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch b/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-index ea0af02e720..374433c68e5 100644
---- a/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-+++ b/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-@@ -1,4 +1,4 @@
--From 7019ba184b828ed7253750cf409fc5760ef90a54 Mon Sep 17 00:00:00 2001
-+From bad7e6a625436402a01d03021fb9ccd58bc9930f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 9 Jan 2020 17:44:05 +0100
- Subject: [PATCH] setup.py: pass missing libraries to Extension for
-@@ -50,20 +50,21 @@ Upstream-Status: Pending
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  setup.py | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/setup.py b/setup.py
--index ec3f2a4..b0f1541 100644
-+index d92face..f42bcbb 100644
- --- a/setup.py
- +++ b/setup.py
--@@ -1671,7 +1671,7 @@ class PyBuildExt(build_ext):
--                                    libraries=libs,
--                                    include_dirs=["Modules/_multiprocessing"]))
+diff --git a/meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch b/meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch
+deleted file mode 100644
+index 1128c7ea0c2..00000000000
+--- a/meta/recipes-support/libssh2/files/0001-configure-Conditionally-undefine-backend-m4-macro.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From efe7101786193eaddb749c0583af6b54aec6f289 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 2 Feb 2021 18:45:16 -0800
+-Subject: [PATCH] configure: Conditionally undefine backend m4 macro
+-
+-Unlike the M4 builtin, this macro fails if macro is not defined
+-therefore recover the behavior of the builtin.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index fe5054a..758f8c2 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -127,7 +127,7 @@ fi
+- m4_set_foreach([crypto_backends], [backend],
+-   [AM_CONDITIONAL(m4_toupper(backend), test "$found_crypto" = "backend")]
+- )
+--m4_undefine([backend])
+-+m4_ifdef([backend], [m4_undefine([backend])])
 - 
-+@@ -1836,7 +1836,7 @@ class PyBuildExt(build_ext):
-+             if (sysconfig.get_config_var('HAVE_SEM_OPEN') and not
-+                 sysconfig.get_config_var('POSIX_SEMAPHORES_NOT_ENABLED')):
-+                 multiprocessing_srcs.append('_multiprocessing/semaphore.c')
- -        self.add(Extension('_multiprocessing', multiprocessing_srcs,
- +        self.add(Extension('_multiprocessing', multiprocessing_srcs, libraries=['pthread'],
-                             include_dirs=["Modules/_multiprocessing"]))
-  
--     def detect_uuid(self):
-+         if (not MS_WINDOWS and
-diff --git a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-new file mode 100644
-index 00000000000..2b5a7d308cb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
-@@ -0,0 +1,30 @@
-+From 93346d1a2f5d4f7085391bc7c1230d85ebe00606 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Sun, 12 Sep 2021 21:44:36 +0200
-+Subject: [PATCH] sysconfig.py: use platlibdir also for purelib
-+
-+This is needed in multilib configurations where hardcoding 'lib'
-+is not correct.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Lib/sysconfig.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-+index b70d392..c418acd 100644
-+--- a/Lib/sysconfig.py
-++++ b/Lib/sysconfig.py
-+@@ -27,7 +27,7 @@ _INSTALL_SCHEMES = {
-+     'posix_prefix': {
-+         'stdlib': '{installed_base}/{platlibdir}/python{py_version_short}',
-+         'platstdlib': '{platbase}/{platlibdir}/python{py_version_short}',
-+-        'purelib': '{base}/lib/python{py_version_short}/site-packages',
-++        'purelib': '{base}/{platlibdir}/python{py_version_short}/site-packages',
-+         'platlib': '{platbase}/{platlibdir}/python{py_version_short}/site-packages',
-+         'include':
-+             '{installed_base}/include/python{py_version_short}{abiflags}',
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-index 5a39cf89331..cc64e3ecf7b 100644
---- a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-@@ -1,7 +1,7 @@
--From c52fa7948ef109db1132fdc1aee0b68f8d767b4e Mon Sep 17 00:00:00 2001
-+From f6411021856bafedd784748ec33494151e783b51 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 14 May 2013 15:00:26 -0700
--Subject: [PATCH 1/2] python3: Add target and native recipes
-+Subject: [PATCH] python3: Add target and native recipes
+- 
+- # libz
+--- 
+-2.30.0
+-
+diff --git a/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch b/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
+deleted file mode 100644
+index b331c1bf81b..00000000000
+--- a/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
++++ /dev/null
+@@ -1,112 +0,0 @@
+-From 1f76151c92e1b52e9c24ebf06adc77fbd6c062bc Mon Sep 17 00:00:00 2001
+-From: Will Cosgrove <will@panic.com>
+-Date: Tue, 26 Jan 2021 11:41:21 -0800
+-Subject: [PATCH] kex.c: move EC macro outside of if check #549 (#550)
+-
+-File: kex.c
+-
+-Notes:
+-Moved the macro LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY outside of the LIBSSH2_ECDSA since it's also now used by the ED25519 code.
+-
+-Sha 256, 384 and 512 need to be defined for all backends now even if they aren't used directly. I believe this is already the case, but just a heads up.
+-
+-Credit:
+-Stefan-Ghinea
+-
+-Upstream-Status: Backport
+-
+-Reference to upstream patch:
+-https://github.com/libssh2/libssh2/commit/1f76151c92e1b52e9c24ebf06adc77fbd6c062bc
+-
+-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+----
+- src/kex.c | 66 +++++++++++++++++++++++++++----------------------------
+- 1 file changed, 33 insertions(+), 33 deletions(-)
+-
+-diff --git a/src/kex.c b/src/kex.c
+-index cb16639..19ab6ec 100644
+---- a/src/kex.c
+-+++ b/src/kex.c
+-@@ -1885,39 +1885,6 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
+- }
+- 
+- 
+--#if LIBSSH2_ECDSA
+--
+--/* kex_session_ecdh_curve_type
+-- * returns the EC curve type by name used in key exchange
+-- */
+--
+--static int
+--kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
+--{
+--    int ret = 0;
+--    libssh2_curve_type type;
+--
+--    if(name == NULL)
+--        return -1;
+--
+--    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
+--        type = LIBSSH2_EC_CURVE_NISTP256;
+--    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
+--        type = LIBSSH2_EC_CURVE_NISTP384;
+--    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
+--        type = LIBSSH2_EC_CURVE_NISTP521;
+--    else {
+--        ret = -1;
+--    }
+--
+--    if(ret == 0 && out_type) {
+--        *out_type = type;
+--    }
+--
+--    return ret;
+--}
+--
+--
+- /* LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY
+-  *
+-  * Macro that create and verifies EC SHA hash with a given digest bytes
+-@@ -2027,6 +1994,39 @@ kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
+- }                                                                       \
+- 
+- 
+-+#if LIBSSH2_ECDSA
+-+
+-+/* kex_session_ecdh_curve_type
+-+ * returns the EC curve type by name used in key exchange
+-+ */
+-+
+-+static int
+-+kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
+-+{
+-+    int ret = 0;
+-+    libssh2_curve_type type;
+-+
+-+    if(name == NULL)
+-+        return -1;
+-+
+-+    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
+-+        type = LIBSSH2_EC_CURVE_NISTP256;
+-+    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
+-+        type = LIBSSH2_EC_CURVE_NISTP384;
+-+    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
+-+        type = LIBSSH2_EC_CURVE_NISTP521;
+-+    else {
+-+        ret = -1;
+-+    }
+-+
+-+    if(ret == 0 && out_type) {
+-+        *out_type = type;
+-+    }
+-+
+-+    return ret;
+-+}
+-+
+-+
+- /* ecdh_sha2_nistp
+-  * Elliptic Curve Diffie Hellman Key Exchange
+-  */
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/libssh2/files/CVE-2019-17498.patch b/meta/recipes-support/libssh2/files/CVE-2019-17498.patch
+deleted file mode 100644
+index 001080072b6..00000000000
+--- a/meta/recipes-support/libssh2/files/CVE-2019-17498.patch
++++ /dev/null
+@@ -1,131 +0,0 @@
+-From dedcbd106f8e52d5586b0205bc7677e4c9868f9c Mon Sep 17 00:00:00 2001
+-From: Will Cosgrove <will@panic.com>
+-Date: Fri, 30 Aug 2019 09:57:38 -0700
+-Subject: [PATCH] packet.c: improve message parsing (#402)
+-
+-* packet.c: improve parsing of packets
+-
+-file: packet.c
+-
+-notes:
+-Use _libssh2_get_string API in SSH_MSG_DEBUG/SSH_MSG_DISCONNECT. Additional uint32 bounds check in SSH_MSG_GLOBAL_REQUEST.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2019-17498
+-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+----
+- src/packet.c | 68 ++++++++++++++++++++++------------------------------
+- 1 file changed, 29 insertions(+), 39 deletions(-)
+-
+-diff --git a/src/packet.c b/src/packet.c
+-index 38ab629..2e01bfc 100644
+---- a/src/packet.c
+-+++ b/src/packet.c
+-@@ -419,8 +419,8 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+-                     size_t datalen, int macstate)
+- {
+-     int rc = 0;
+--    char *message = NULL;
+--    char *language = NULL;
+-+    unsigned char *message = NULL;
+-+    unsigned char *language = NULL;
+-     size_t message_len = 0;
+-     size_t language_len = 0;
+-     LIBSSH2_CHANNEL *channelp = NULL;
+-@@ -472,33 +472,23 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+- 
+-         case SSH_MSG_DISCONNECT:
+-             if(datalen >= 5) {
+--                size_t reason = _libssh2_ntohu32(data + 1);
+-+                uint32_t reason = 0;
+-+                struct string_buf buf;
+-+                buf.data = (unsigned char *)data;
+-+                buf.dataptr = buf.data;
+-+                buf.len = datalen;
+-+                buf.dataptr++; /* advance past type */
+- 
+--                if(datalen >= 9) {
+--                    message_len = _libssh2_ntohu32(data + 5);
+-+                _libssh2_get_u32(&buf, &reason);
+-+                _libssh2_get_string(&buf, &message, &message_len);
+-+                _libssh2_get_string(&buf, &language, &language_len);
+- 
+--                    if(message_len < datalen-13) {
+--                        /* 9 = packet_type(1) + reason(4) + message_len(4) */
+--                        message = (char *) data + 9;
+--
+--                        language_len =
+--                            _libssh2_ntohu32(data + 9 + message_len);
+--                        language = (char *) data + 9 + message_len + 4;
+--
+--                        if(language_len > (datalen-13-message_len)) {
+--                            /* bad input, clear info */
+--                            language = message = NULL;
+--                            language_len = message_len = 0;
+--                        }
+--                    }
+--                    else
+--                        /* bad size, clear it */
+--                        message_len = 0;
+--                }
+-                 if(session->ssh_msg_disconnect) {
+--                    LIBSSH2_DISCONNECT(session, reason, message,
+--                                       message_len, language, language_len);
+-+                    LIBSSH2_DISCONNECT(session, reason, (const char *)message,
+-+                                       message_len, (const char *)language,
+-+                                       language_len);
+-                 }
+-+
+-                 _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
+-                                "Disconnect(%d): %s(%s)", reason,
+-                                message, language);
+-@@ -539,24 +529,24 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+-                 int always_display = data[1];
+- 
+-                 if(datalen >= 6) {
+--                    message_len = _libssh2_ntohu32(data + 2);
+--
+--                    if(message_len <= (datalen - 10)) {
+--                        /* 6 = packet_type(1) + display(1) + message_len(4) */
+--                        message = (char *) data + 6;
+--                        language_len = _libssh2_ntohu32(data + 6 +
+--                                                        message_len);
+--
+--                        if(language_len <= (datalen - 10 - message_len))
+--                            language = (char *) data + 10 + message_len;
+--                    }
+-+                    struct string_buf buf;
+-+                    buf.data = (unsigned char *)data;
+-+                    buf.dataptr = buf.data;
+-+                    buf.len = datalen;
+-+                    buf.dataptr += 2; /* advance past type & always display */
+-+
+-+                    _libssh2_get_string(&buf, &message, &message_len);
+-+                    _libssh2_get_string(&buf, &language, &language_len);
+-                 }
+- 
+-                 if(session->ssh_msg_debug) {
+--                    LIBSSH2_DEBUG(session, always_display, message,
+--                                  message_len, language, language_len);
+-+                    LIBSSH2_DEBUG(session, always_display,
+-+                                  (const char *)message,
+-+                                  message_len, (const char *)language,
+-+                                  language_len);
+-                 }
+-             }
+-+
+-             /*
+-              * _libssh2_debug will actually truncate this for us so
+-              * that it's not an inordinate about of data
+-@@ -579,7 +569,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+-                 uint32_t len = 0;
+-                 unsigned char want_reply = 0;
+-                 len = _libssh2_ntohu32(data + 1);
+--                if(datalen >= (6 + len)) {
+-+                if((len <= (UINT_MAX - 6)) && (datalen >= (6 + len))) {
+-                     want_reply = data[5 + len];
+-                     _libssh2_debug(session,
+-                                    LIBSSH2_TRACE_CONN,
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/libssh2/libssh2_1.9.0.bb b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+similarity index 78%
+rename from meta/recipes-support/libssh2/libssh2_1.9.0.bb
+rename to meta/recipes-support/libssh2/libssh2_1.10.0.bb
+index a0cbb6af6b7..072d6819c0c 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.9.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+@@ -5,19 +5,15 @@ SECTION = "libs"
+ DEPENDS = "zlib"
  
- Upstream-Status: Inappropriate [embedded specific]
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c5cf34fc0acb44b082ef50ef5e4354ca"
++LIC_FILES_CHKSUM = "file://COPYING;md5=3e089ad0cf27edf1e7f261dfcd06acc7"
  
-@@ -17,10 +17,10 @@ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-  1 file changed, 11 insertions(+), 3 deletions(-)
- 
- diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
--index 4774e12..ccf7d58 100644
-+index 3414a76..361d3a1 100644
- --- a/Lib/distutils/sysconfig.py
- +++ b/Lib/distutils/sysconfig.py
--@@ -95,7 +95,9 @@ def get_python_inc(plat_specific=0, prefix=None):
-+@@ -277,7 +277,9 @@ def get_python_inc(plat_specific=0, prefix=None):
-      If 'prefix' is supplied, use it instead of sys.base_prefix or
-      sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-@@ -31,7 +31,7 @@ index 4774e12..ccf7d58 100644
-          prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
-      if os.name == "posix":
-          if python_build:
--@@ -138,7 +140,13 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+@@ -320,7 +322,13 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-      If 'prefix' is supplied, use it instead of sys.base_prefix or
-      sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-@@ -46,7 +46,7 @@ index 4774e12..ccf7d58 100644
-          if standard_lib:
-              prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
-          else:
--@@ -152,7 +160,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+@@ -334,7 +342,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-          else:
-              # Pure Python
-              libdir = "lib"
-@@ -56,5 +56,5 @@ index 4774e12..ccf7d58 100644
-          if standard_lib:
-              return libpython
- -- 
--2.24.0
-+2.20.1
- 
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index 96744cb5570..b150c1cb38e 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -1,3 +1,8 @@
-+From 8b8583fb4f2bb3421e31ef06d17c04deec431c7e Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Tue, 13 Jul 2021 23:19:29 +0100
-+Subject: [PATCH] python3: Fix make race
-+
- libainstall installs python-config.py but the .pyc cache files are generated
- by the libinstall target. This means some builds may not generate the pyc files
- for python-config.py depending on the order things happen in. This means builds
-@@ -8,14 +13,18 @@ Add a dependency to avoid the race.
- Upstream-Status: Pending
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--Index: Python-3.9.6/Makefile.pre.in
--===================================================================
----- Python-3.9.6.orig/Makefile.pre.in
--+++ Python-3.9.6/Makefile.pre.in
--@@ -1486,7 +1486,7 @@ LIBSUBDIRS=	tkinter tkinter/test tkinter
-- 		venv venv/scripts venv/scripts/common venv/scripts/posix \
-- 		curses pydoc_data \
-- 		zoneinfo
-+---
-+ Makefile.pre.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index 69d47a2..c471b60 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -1528,7 +1528,7 @@ TESTSUBDIRS=	ctypes/test \
-+ 		unittest/test unittest/test/testmock
-+ 
-+ TEST_MODULES=@TEST_MODULES@
- -libinstall:	build_all $(srcdir)/Modules/xxmodule.c
- +libinstall:	build_all $(srcdir)/Modules/xxmodule.c libainstall
-  	@for i in $(SCRIPTDIR) $(LIBDEST); \
-diff --git a/meta/recipes-devtools/python/python3_3.9.6.bb b/meta/recipes-devtools/python/python3_3.10.0.bb
-similarity index 97%
-rename from meta/recipes-devtools/python/python3_3.9.6.bb
-rename to meta/recipes-devtools/python/python3_3.10.0.bb
-index 8a638b142b5..2e850710b68 100644
---- a/meta/recipes-devtools/python/python3_3.9.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.0.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
- LICENSE = "PSFv2"
- SECTION = "devel/python"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c22d2438294c784731bf9dd224a467b7"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3dd7bed622743ef9b77169b3736f7990"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+-           file://CVE-2019-17498.patch \
+-           file://0001-configure-Conditionally-undefine-backend-m4-macro.patch \
             file://run-ptest \
-@@ -28,18 +28,20 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
--           file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
-            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
-            file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch \
-            file://makerace.patch \
-+           file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch \
-+           file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
-            "
+-           file://0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch \
+-"
++           "
  
- SRC_URI:append:class-native = " \
-+           file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "397920af33efc5b97f2e0b57e91923512ef89fc5b3c1d21dbfc8c4828ce0108a"
-+SRC_URI[sha256sum] = "5a99f8e7a6a11a7b98b4e75e0d1303d3832cada5534068f69c7b6222a7b1b002"
+ SRC_URI:append:ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-@@ -55,7 +57,7 @@ CVE_CHECK_WHITELIST += "CVE-2019-18348"
- # This is windows only issue.
- CVE_CHECK_WHITELIST += "CVE-2020-15523"
+-SRC_URI[md5sum] = "1beefafe8963982adc84b408b2959927"
+-SRC_URI[sha256sum] = "d5fb8bd563305fd1074dda90bd053fb2d29fc4bce048d182f96eaa466dfadafd"
++SRC_URI[sha256sum] = "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
  
--PYTHON_MAJMIN = "3.9"
-+PYTHON_MAJMIN = "3.10"
- 
- S = "${WORKDIR}/Python-${PV}"
+ inherit autotools pkgconfig ptest
  
 -- 
 2.20.1
