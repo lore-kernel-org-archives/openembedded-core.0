@@ -1,135 +1,293 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <720e9092-19d6-c045-b080-d568e533dd3f@pr.hu>
-Date: Wed, 29 Sep 2021 19:29:59 +0200
+Message-ID: <e76d1475-2216-345d-cbcc-8bc682abdf6e@synaptics.com>
+Date: Mon, 11 Oct 2021 10:47:58 +0800
+Subject: Re: [OE-core] [PATCH 01/26] meson: update 0.58.1 -> 0.59.1
+References: <20210908180125.103473-1-alex.kanavin@gmail.com>
+From: "Hsia-Jun Li" <randy.li@synaptics.com>
+In-Reply-To: <20210908180125.103473-1-alex.kanavin@gmail.com>
+Return-Path: Randy.Li@synaptics.com
 MIME-Version: 1.0
-Subject: Re: RFC [v2]: Make kernel upgrades via dnf work like on Red Hat
-References: <20210929053353.600644-1-zboszor@pr.hu>
- <CADkTA4MZJJtyGjSwL80g9RNxg7xjwdj8Q1k0Od+gsWG4ee9F=w@mail.gmail.com>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-In-Reply-To: <CADkTA4MZJJtyGjSwL80g9RNxg7xjwdj8Q1k0Od+gsWG4ee9F=w@mail.gmail.com>
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com
 
-On 2021. 09. 29. 18:06, Bruce Ashfield wrote:
-> On Wed, Sep 29, 2021 at 1:34 AM Zoltán Böszörményi <zboszor@pr.hu> wrote:
->>
->> I have observed two issues when upgrading to kernel versions
->> successively.
->>
->> One is that when installonly_limit is reached in dnf, only the
->> main kernel package was removed. Patch 1 fixes this by adding
->> extra RDEPENDS to the kernel subpackages on the main kernel package.
->> This circular dependency helps dnf to remove all subpackages.
->>
->> dnf.conf settings "installonlypkgs", "installonly_limit" and
->> others are documented at https://dnf.readthedocs.io/en/latest/conf_ref.html
->>
->> The second issue is that when the oldest kernel version is
->> removed by dnf, the /boot/bzImage symlink is also gone.
->>
->> Fix this by using update-alternatives instead of hardcoded ln -s
->> and rm -f. This is configurable via a new variable.
-> 
-> I'll comment on patch 2/2 directly, but I have a few things here as well.
-> 
->>
->> This is only an RFC at this point, because
->> 1) The first fix is only applied in the KERNEL_SPLIT_MODULES=0 case,
->>     it may need its own knob or applied unconditionally.
-> 
-> What is the outcome of the circular dependency you mention in patch
-> 1/1 ? Does DNF warn, or something else ? What do the other package
-> managers do when the circular dependency is detected ?
 
-No warning, it's just that the dnf transaction looks like this:
 
-# dnf --disablerepo="*" install kernel-*
-Dependencies resolved.
-================================================================================
-  Package                     Architecture    Version        Repository     Size
-================================================================================
-Installing:
-  kernel                      intel_corei7_64 5.14.8-r0.0    @commandline  6.4 k
-  kernel-5.14.8               intel_corei7_64 5.14.8-r0.0    @commandline   48 k
-  kernel-image-5.14.8         intel_corei7_64 5.14.8-r0.0    @commandline  6.6 k
-  kernel-image-bzimage-5.14.8 intel_corei7_64 5.14.8-r0.0    @commandline  9.1 M
-  kernel-modules-5.14.8       intel_corei7_64 5.14.8-r0.0    @commandline   53 M
-Removing:
-  kernel                      intel_corei7_64 5.14.5-r0.0    @@commandline  88
-Transaction Summary
-================================================================================
-Install  5 Packages
-Remove   1 Packages
-Total size: 75 M
-Is this ok [y/N]:
-
-instead of:
-
-# dnf --disablerepo="*" install kernel-*
-Dependencies resolved.
-================================================================================
-  Package                     Architecture    Version        Repository     Size
-================================================================================
-Installing:
-  kernel                      intel_corei7_64 5.14.8-r0.0    @commandline  6.4 k
-  kernel-5.14.8               intel_corei7_64 5.14.8-r0.0    @commandline   48 k
-  kernel-image-5.14.8         intel_corei7_64 5.14.8-r0.0    @commandline  6.6 k
-  kernel-image-bzimage-5.14.8 intel_corei7_64 5.14.8-r0.0    @commandline  9.1 M
-  kernel-modules-5.14.8       intel_corei7_64 5.14.8-r0.0    @commandline   53 M
-Removing:
-  kernel                      intel_corei7_64 5.14.5-r0.0    @@commandline  88
-Removing dependent packages:
-  kernel-5.14.5               intel_corei7_64 5.14.5-r0.0    @@commandline 222 k
-  kernel-image-5.14.5         intel_corei7_64 5.14.5-r0.0    @@commandline   0
-  kernel-image-bzimage-5.14.5 intel_corei7_64 5.14.5-r0.0    @@commandline 9.2 M
-  kernel-modules-5.14.5       intel_corei7_64 5.14.5-r0.0    @@commandline  52 M
-Transaction Summary
-================================================================================
-Install  5 Packages
-Remove   5 Packages
-Total size: 75 M
-Is this ok [y/N]:
-
-Since the dependency matches the exact version via ${EXTENDPKGV},
-I would expect other package managers to do what dnf is doing.
-
-At least, IIRC, opkg built with libsolv does.
-
-> But yes, I agree that we really don't want any more conditional code
-> in the kernel packaging, since it isn't going to get tested. So
-> whatever we do needs to work on all package managers and with or
-> without kernel module splitting.
-> 
->>
->> 2) There's an extra issue I found while implementing the second patch:
->>     instead of using KERNEL_VERSION, I had to resort to using PV
->>     because the former is dynamically set via a python function
->>     and it changes its value at some point between build phases.
->>     AFAIK, there are kernel recipes out there using only the major
->>     version with two numbers in PV instead of the full version triplet.
->>     I can live with this as my kernel recipe uses the version triplet.
->>
->> 3) The new knob name for patch #2 is KERNEL_IMAGEDEST_USE_UPDATE_ALTERNATIVES.
->>     It is admittedly too chatty, it can be renamed if someone suggests
->>     a better name.
-> 
-> I'll ponder this as well, but nothing is immediately coming to mind.
-> 
-> Bruce
-> 
->>
->> Please advise how to fix and make it final so these fixes can be
->> accepted into openembedded-core.
->>
->> Best regards,
->> Zoltán Böszörményi
->>
->>
+On 9/9/21 02:01, Alexander Kanavin wrote:
+> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
 > 
 > 
+> Drop 0003-native_bindir.patch: it doesn't seem to actually define
+> anything where the use_native parameter is set to true.
+> 
+> Also, the issue should be solved without invasive, custom patching
+> of the code: via meson.cross, custom .pc files for the items in
+> question or some other configuration mechanism.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   meta/recipes-devtools/meson/meson.inc         |  4 +-
+>   .../0001-Make-CPU-family-warnings-fatal.patch | 20 ++--
+>   .../meson/meson/0003-native_bindir.patch      | 94 -------------------
+>   .../meson/meson/gi-target-dep.patch           | 41 --------
+>   .../{meson_0.58.1.bb => meson_0.59.1.bb}      |  0
+>   ...on_0.58.1.bb => nativesdk-meson_0.59.1.bb} |  0
+>   6 files changed, 10 insertions(+), 149 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+>   delete mode 100644 meta/recipes-devtools/meson/meson/gi-target-dep.patch
+>   rename meta/recipes-devtools/meson/{meson_0.58.1.bb => meson_0.59.1.bb} (100%)
+>   rename meta/recipes-devtools/meson/{nativesdk-meson_0.58.1.bb => nativesdk-meson_0.59.1.bb} (100%)
+I think we should update the meson.cross.template generated by this ^^^ 
+file.
 
+c_args， c_link_args， cpp_args， cpp_link_args have been moved to the 
+'[built-in options]' section. Also we need an native-file here.
+That is what
+06b4910c3ada5398faf9369d686b82eee441bb19 has done for OE itself.
+
+> 
+> diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+> index f1746d2094..c83ea406f0 100644
+> --- a/meta/recipes-devtools/meson/meson.inc
+> +++ b/meta/recipes-devtools/meson/meson.inc
+> @@ -9,15 +9,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> 
+>   SRC_URI = "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_mesonbuild_meson_releases_download_-24-257BPV-257D_meson-2D-24-257BPV-257D.tar.gz&d=DwIDAg&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=gNJ7fQTAkVT-8n-Ph62ngFvOrjzapJ1INbXHP6rg2xU&s=5dqRty1dyk5ogg5-EgVkgg4YPUEY5-3UME8k0bWkEv4&e=  \
+>              file://0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch \
+> -           file://0003-native_bindir.patch \
+>              file://0001-python-module-do-not-manipulate-the-environment-when.patch \
+>              file://disable-rpath-handling.patch \
+>              file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+> -           file://gi-target-dep.patch \
+>              file://0001-Make-CPU-family-warnings-fatal.patch \
+>              file://0002-Support-building-allarch-recipes-again.patch \
+>              "
+> -SRC_URI[sha256sum] = "3144a3da662fcf79f1e5602fa929f2821cba4eba28c2c923fe0a7d3e3db04d5d"
+> +SRC_URI[sha256sum] = "db586a451650d46bbe10984a87b79d9bcdc1caebf38d8e189f8848f8d502356d"
+> 
+>   UPSTREAM_CHECK_URI = "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_mesonbuild_meson_releases&d=DwIDAg&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=gNJ7fQTAkVT-8n-Ph62ngFvOrjzapJ1INbXHP6rg2xU&s=O7nZ0g946ut7YnoPv_FaabmxnkHPuAKY-r8ztXYdtT4&e= "
+>   UPSTREAM_CHECK_REGEX = "meson-(?P<pver>\d+(\.\d+)+)\.tar"
+> diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+> index bcccfabd17..c5be526b10 100644
+> --- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+> +++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+> @@ -1,20 +1,21 @@
+> -From b64032a2eb1fb760f4ffd5b4b666e2433cf80d39 Mon Sep 17 00:00:00 2001
+> +From 6c4eef1d92e9e42fdbc888365cab3c95fb33c605 Mon Sep 17 00:00:00 2001
+>   From: Ross Burton <ross.burton@intel.com>
+>   Date: Tue, 3 Jul 2018 13:59:09 +0100
+> -Subject: [PATCH 1/2] Make CPU family warnings fatal
+> +Subject: [PATCH] Make CPU family warnings fatal
+> 
+>   Upstream-Status: Inappropriate [OE specific]
+>   Signed-off-by: Ross Burton <ross.burton@intel.com>
+> +
+>   ---
+>    mesonbuild/envconfig.py   | 2 +-
+>    mesonbuild/environment.py | 4 +---
+>    2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+>   diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+> -index c6a4df3..4d58c91 100644
+> +index 307aac3..66fb7ec 100644
+>   --- a/mesonbuild/envconfig.py
+>   +++ b/mesonbuild/envconfig.py
+> -@@ -266,7 +266,7 @@ class MachineInfo:
+> +@@ -267,7 +267,7 @@ class MachineInfo(HoldableObject):
+> 
+>            cpu_family = literal['cpu_family']
+>            if cpu_family not in known_cpu_families:
+> @@ -24,20 +25,17 @@ index c6a4df3..4d58c91 100644
+>            endian = literal['endian']
+>            if endian not in ('little', 'big'):
+>   diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+> -index fc9b703..eea8345 100644
+> +index 71286a5..179917e 100644
+>   --- a/mesonbuild/environment.py
+>   +++ b/mesonbuild/environment.py
+> -@@ -436,9 +436,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+> +@@ -352,9 +352,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+>                trial = 'ppc64'
+> 
+>        if trial not in known_cpu_families:
+> --        mlog.warning('Unknown CPU family {!r}, please report this at '
+> +-        mlog.warning(f'Unknown CPU family {trial!r}, please report this at '
+>   -                     'https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_mesonbuild_meson_issues_new&d=DwIDAg&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=gNJ7fQTAkVT-8n-Ph62ngFvOrjzapJ1INbXHP6rg2xU&s=E6p11_8xxyyW5xmKHE5K7_iKGL15ydVn4LzjxYHhyaw&e=  with the '
+> --                     'output of `uname -a` and `cat /proc/cpuinfo`'.format(trial))
+> +-                     'output of `uname -a` and `cat /proc/cpuinfo`')
+>   +        raise EnvironmentException('Unknown CPU family %s, see https://urldefense.proofpoint.com/v2/url?u=https-3A__wiki.yoctoproject.org_wiki_Meson_UnknownCPU&d=DwIDAg&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=gNJ7fQTAkVT-8n-Ph62ngFvOrjzapJ1INbXHP6rg2xU&s=LluHbSsMmrwW57hP78ICwNrhaI_HYzqgsK9MAnx37ho&e=  for directions.' % trial)
+> 
+>        return trial
+> 
+> ---
+> -2.24.0
+> -
+> diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> deleted file mode 100644
+> index 89257b9e05..0000000000
+> --- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> +++ /dev/null
+> @@ -1,94 +0,0 @@
+> -From 30e97d4090a3d3f5b7ddcaf27cfa17f3c8c1d462 Mon Sep 17 00:00:00 2001
+> -From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> -Date: Wed, 15 Nov 2017 15:05:01 +0100
+> -Subject: [PATCH] native_bindir
+> -
+> -Some libraries, like QT, have pre-processors that convert their input
+> -files into something that the cross-compiler can process. We find the
+> -path of those pre-processors via pkg-config-native instead of
+> -pkg-config.
+> -
+> -This path forces the use of pkg-config-native for host_bins arguments.
+> -
+> -There are some discussions upstream to merge this patch, but I presonaly believe
+> -that is is OE only. https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_mesonbuild_meson_issues_1849-23issuecomment-2D303730323&d=DwIDAg&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=gNJ7fQTAkVT-8n-Ph62ngFvOrjzapJ1INbXHP6rg2xU&s=IApmoQBXk9DnxLOwc7ZqQvK3y6eYJzND5r08-dht6wE&e=
+> -
+> -Upstream-Status: Inappropriate [OE specific]
+> -Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> -
+> ----
+> - mesonbuild/dependencies/base.py | 19 +++++++++++--------
+> - 1 file changed, 11 insertions(+), 8 deletions(-)
+> -
+> -diff --git a/mesonbuild/dependencies/base.py b/mesonbuild/dependencies/base.py
+> -index 14380d4..d0c443f 100644
+> ---- a/mesonbuild/dependencies/base.py
+> -+++ b/mesonbuild/dependencies/base.py
+> -@@ -179,7 +179,7 @@ class Dependency:
+> -     def get_exe_args(self, compiler):
+> -         return []
+> -
+> --    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[str, T.Any]) -> str:
+> -+    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[str, T.Any], use_native=False) -> str:
+> -         raise DependencyException(f'{self.name!r} is not a pkgconfig dependency')
+> -
+> -     def get_configtool_variable(self, variable_name):
+> -@@ -267,7 +267,7 @@ class InternalDependency(Dependency):
+> -             return True
+> -         return any(d.is_built() for d in self.ext_deps)
+> -
+> --    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[str, T.Any]) -> str:
+> -+    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[str, T.Any], use_native=False) -> str:
+> -         raise DependencyException('Method "get_pkgconfig_variable()" is '
+> -                                   'invalid for an internal dependency')
+> -
+> -@@ -645,8 +645,11 @@ class PkgConfigDependency(ExternalDependency):
+> -         return s.format(self.__class__.__name__, self.name, self.is_found,
+> -                         self.version_reqs)
+> -
+> --    def _call_pkgbin_real(self, args, env):
+> --        cmd = self.pkgbin.get_command() + args
+> -+    def _call_pkgbin_real(self, args, env, use_native=False):
+> -+        if use_native:
+> -+            cmd = [self.pkgbin.get_command()[0] + "-native"] + args
+> -+        else:
+> -+            cmd = self.pkgbin.get_command() + args
+> -         p, out, err = Popen_safe(cmd, env=env)
+> -         rc, out, err = p.returncode, out.strip(), err.strip()
+> -         call = ' '.join(cmd)
+> -@@ -674,7 +677,7 @@ class PkgConfigDependency(ExternalDependency):
+> -             if key.startswith('PKG_'):
+> -                 mlog.debug(f'env[{key}]: {value}')
+> -
+> --    def _call_pkgbin(self, args, env=None):
+> -+    def _call_pkgbin(self, args, env=None, use_native=False):
+> -         # Always copy the environment since we're going to modify it
+> -         # with pkg-config variables
+> -         if env is None:
+> -@@ -688,7 +691,7 @@ class PkgConfigDependency(ExternalDependency):
+> -         targs = tuple(args)
+> -         cache = PkgConfigDependency.pkgbin_cache
+> -         if (self.pkgbin, targs, fenv) not in cache:
+> --            cache[(self.pkgbin, targs, fenv)] = self._call_pkgbin_real(args, env)
+> -+            cache[(self.pkgbin, targs, fenv)] = self._call_pkgbin_real(args, env, use_native)
+> -         return cache[(self.pkgbin, targs, fenv)]
+> -
+> -     def _convert_mingw_paths(self, args: T.List[str]) -> T.List[str]:
+> -@@ -894,7 +897,7 @@ class PkgConfigDependency(ExternalDependency):
+> -                                       (self.name, out_raw))
+> -         self.link_args, self.raw_link_args = self._search_libs(out, out_raw)
+> -
+> --    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[str, T.Any]) -> str:
+> -+    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[str, T.Any], use_native=False) -> str:
+> -         options = ['--variable=' + variable_name, self.name]
+> -
+> -         if 'define_variable' in kwargs:
+> -@@ -907,7 +910,7 @@ class PkgConfigDependency(ExternalDependency):
+> -
+> -             options = ['--define-variable=' + '='.join(definition)] + options
+> -
+> --        ret, out, err = self._call_pkgbin(options)
+> -+        ret, out, err = self._call_pkgbin(options, use_native=use_native)
+> -         variable = ''
+> -         if ret != 0:
+> -             if self.required:
+> diff --git a/meta/recipes-devtools/meson/meson/gi-target-dep.patch b/meta/recipes-devtools/meson/meson/gi-target-dep.patch
+> deleted file mode 100644
+> index 29e164ccc7..0000000000
+> --- a/meta/recipes-devtools/meson/meson/gi-target-dep.patch
+> +++ /dev/null
+> @@ -1,41 +0,0 @@
+> -When building gobject-introspection we want the *native* binaries (as they need
+> -to be executed) but *host* gobject-introspection libraries, as otherwise the
+> -native pkg-config can be used and the build will try to link native and host
+> -binaries together.
+> -
+> -Upstream-Status: Backport [589236226856f591c9e8daf0cb7aa1aef8862388]
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -diff --git a/mesonbuild/modules/gnome.py b/mesonbuild/modules/gnome.py
+> -index f9660838e..2eefc3fc7 100644
+> ---- a/mesonbuild/modules/gnome.py
+> -+++ b/mesonbuild/modules/gnome.py
+> -@@ -84,8 +84,8 @@ class GnomeModule(ExtensionModule):
+> -                      mlog.bold('https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_mesonbuild_meson_issues_1387&d=DwIDAg&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=gNJ7fQTAkVT-8n-Ph62ngFvOrjzapJ1INbXHP6rg2xU&s=IN-Sy6yGBdhGjdLP8A2fUqMEAFSx_84xWoeH1jIeb7Q&e= '),
+> -                      once=True)
+> -
+> --    def _get_native_dep(self, state, depname, required=True):
+> --        kwargs = {'native': True, 'required': required}
+> -+    def _get_dep(self, state, depname, native=False, required=True):
+> -+        kwargs = {'native': native, 'required': required}
+> -         holder = self.interpreter.func_dependency(state.current_node, [depname], kwargs)
+> -         return holder.held_object
+> -
+> -@@ -101,7 +101,7 @@ class GnomeModule(ExtensionModule):
+> -             return ExternalProgram.from_entry(name, prog)
+> -
+> -         # Check if pkgconfig has a variable
+> --        dep = self._get_native_dep(state, depname, required=False)
+> -+        dep = self._get_dep(state, depname, native=True, required=False)
+> -         if dep.found() and dep.type_name == 'pkgconfig':
+> -             value = dep.get_pkgconfig_variable(varname, {})
+> -             if value:
+> -@@ -481,7 +481,7 @@ class GnomeModule(ExtensionModule):
+> -
+> -     def _get_gir_dep(self, state):
+> -         if not self.gir_dep:
+> --            self.gir_dep = self._get_native_dep(state, 'gobject-introspection-1.0')
+> -+            self.gir_dep = self._get_dep(state, 'gobject-introspection-1.0')
+> -             self.giscanner = self._get_native_binary(state, 'g-ir-scanner', 'gobject-introspection-1.0', 'g_ir_scanner')
+> -             self.gicompiler = self._get_native_binary(state, 'g-ir-compiler', 'gobject-introspection-1.0', 'g_ir_compiler')
+> -         return self.gir_dep, self.giscanner, self.gicompiler
+> diff --git a/meta/recipes-devtools/meson/meson_0.58.1.bb b/meta/recipes-devtools/meson/meson_0.59.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/meson/meson_0.58.1.bb
+> rename to meta/recipes-devtools/meson/meson_0.59.1.bb
+> diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.58.1.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.59.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/meson/nativesdk-meson_0.58.1.bb
+> rename to meta/recipes-devtools/meson/nativesdk-meson_0.59.1.bb
+> --
+> 2.31.1
+> 
+> 
+> 
+> 
+> 
+
+-- 
+Hsia-Jun(Randy) Li
