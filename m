@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59BC8C433F5
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:21 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web08.9428.1633945280479737371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6389BC4332F
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:22 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.9729.1633945281539195543
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:20 -0700
+ Mon, 11 Oct 2021 02:41:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Acs6FT5e;
- spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jZItpjs8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id m22so54261713wrb.0
+Received: by mail-wr1-f45.google.com with SMTP id e12so54130737wra.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:20 -0700 (PDT)
+ Mon, 11 Oct 2021 02:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YejaWJzWCYEiT6DIXPiOuWkbbIgjyl4BeQGT7LXj3MM=;
-        b=Acs6FT5ebCWaGD+kav+t7mtlAVHxQWH/BZtjq6brqCzLHP3GWZrKWVjjZtd8OQn0cs
-         W5iVki4/CCxaFBMWxHvyqunCR4iQGSAOU7lDuulq7QK73wp7JjFXBSQCfXKRYNNjzOW7
-         t93WX51Ys6V6/eGpweSFjAWosEjXZI4jFnu0W8YtgsBJ0RW79UeQuGPIvQCqLk/pZQAj
-         HlrHMgmU04eer9tIu4k4T8Jno+Ns1ie+RSjtmN6P21Ovzu+OKwOGFm1l1qJnLurOVCyr
-         ZYf/MAsYpTxobgLfTWhEaiDzRJ+tJ0ufPZjMGX5WuvOZojEebJo1uLqyTEvA2v5jAwX/
-         AM9w==
+        bh=GSkRhOt1RheDaqc/4QOGsPmB4RCcaNQE6vx1laz181o=;
+        b=jZItpjs8c2sWTEGFNGrRLy+EdRSD1GybgtWXBRM/dbbrVYx41sT2KGvTmn8idTEIh/
+         ED8F56PqNOuHeTa7JO1ay6Vy8ZLJVzjbgxBs4SMuTdfmSlAwsmceqCeIgjgAcYy4Zrun
+         Ap4aE1yY+r+o4+n4m5uCAbUBN8wWNVYOB/LHfcRy5MPfXYci9EZ9concotawXs+ZMTp8
+         eNHInLnIK7unQvIKaEOb+Y5HkCPg/FiWEz8bC3VMPC+E0/doiHuQo4nLOfWM118NnGEO
+         iZ0DAF1zgL4iVLt9D5sAmm894y1h0nAZTDjW/q01eDF+mCm9csGoafT5Lw1PIh4wQgaM
+         utbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YejaWJzWCYEiT6DIXPiOuWkbbIgjyl4BeQGT7LXj3MM=;
-        b=Qb/CYilu10Fc7qKQYCbFurXsWuApVFD7iUXBk80c0i4SbvedsRSTsr3chELKjqGotx
-         XDw0v61UKdYMK9m1eMmZ6PB1r3V6evaNninCxzgSSqm7fLeK/gli0zLv6a++KwPzVJEW
-         AbHwLrnv+ix8ArqlzwRmqBSLXrGseifOQRXD1GSJVHJE/TORGIYH7O7vKq4mdGR3y+9Y
-         i4ME09RthjcSnhH9/QAF9v336M2oIWTl9LGUHGXG2fXoUjEe+Uol+zBhv2fo2mjjsbLt
-         zQun8Mqu8pi7BQCJz/F3etUNXum0U9F2GgL1sYpPgQma0eD9c7yQyKdHpFCt59DjhLsK
-         xdyA==
-X-Gm-Message-State: AOAM53103gOLDSNY8yMY5/KabcoMmRLh+tdlNGBv4Wnaj9YHC0A/JWAL
-	unNryp2brPZcnMc8egPb9ZLvWn5IVBM=
+        bh=GSkRhOt1RheDaqc/4QOGsPmB4RCcaNQE6vx1laz181o=;
+        b=VaOH0gz2jCbKwhNgFAsrIlU62xUHmHIqJZXHkERaFwicp+pbw+wt97Wb+QrilcO3Tu
+         GxyErS27W6OP2dC80oUmud3B5jUmTmPTvPz8jNBQ16p7dFZvX+xTWvQj47OdmVBPRdGU
+         nYE3pgEt/oy1B1hMNsPJmsmVPcEhXS7scLCayJijiNu06p/U6t41vVLbqUrmmzXHaKrB
+         1FHvaT984ZmWnXpWPq8rM2kLALgwwFYnOieVfGFqXIbtm60yIBZ3zt+5I5xDT9bl+B65
+         1WS2gOGBjjAmjzOt2X2g6gdvEMbl1DCc/jhLvzznzZaRLM/j664MxDFUOUSYJKl8U7pG
+         oeJQ==
+X-Gm-Message-State: AOAM533zQm8YV5yADMB9EymEnp40DODuxU4PktPa/vx/FrHgt+WwBpqp
+	n/pM3Yg/JAKz98msfJv/cTJI6fB1dOE=
 X-Google-Smtp-Source: 
- ABdhPJx7spMhI+BXpWT0KdEJ+PlItYL3sqOajDadhiI/hXWLaV6tk0a6WPY13tHn5pT8jhNhHqpKAw==
-X-Received: by 2002:adf:b350:: with SMTP id
- k16mr22906432wrd.368.1633945278918;
-        Mon, 11 Oct 2021 02:41:18 -0700 (PDT)
+ ABdhPJzgGJDML7ghZRcennZ6pDV2wXe3M2eZSCXRZKP6aUujx5ABwQKN1R1hIwzp+eOjGlC8p4yRxg==
+X-Received: by 2002:a05:600c:190a:: with SMTP id
+ j10mr1498771wmq.184.1633945279607;
+        Mon, 11 Oct 2021 02:41:19 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k17sm7180758wrc.93.2021.10.11.02.41.18
+ k17sm7180758wrc.93.2021.10.11.02.41.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 02:41:18 -0700 (PDT)
+        Mon, 11 Oct 2021 02:41:19 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 24/25] webkitgtk: update 2.32.3 -> 2.34.0
-Date: Mon, 11 Oct 2021 11:40:58 +0200
-Message-Id: <20211011094059.4184654-24-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 25/25] epiphany: update 40.3 -> 41.0
+Date: Mon, 11 Oct 2021 11:40:59 +0200
+Message-Id: <20211011094059.4184654-25-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
 References: <20211011094059.4184654-1-alex@linutronix.de>
@@ -67,277 +66,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:21 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156837
+ https://lists.openembedded.org/g/openembedded-core/message/156838
+
+Correct an option to use libsoup 3.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-ANGLE-do-not-enable-SSE-on-x86.patch | 26 ++++++++++++++++
- ...1-Enable-THREADS_PREFER_PTHREAD_FLAG.patch | 10 +++---
- .../0001-MiniBrowser-Fix-reproduciblity.patch | 31 -------------------
- .../webkit/webkitgtk/include_xutil.patch      |  8 ++---
- .../webkitgtk/musl-lower-stack-usage.patch    | 14 ++++-----
- ...ebkitgtk_2.32.3.bb => webkitgtk_2.34.0.bb} | 23 ++++++++------
- 6 files changed, 55 insertions(+), 57 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.32.3.bb => webkitgtk_2.34.0.bb} (90%)
+ .../epiphany/{epiphany_40.3.bb => epiphany_41.0.bb}           | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_40.3.bb => epiphany_41.0.bb} (91%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
-new file mode 100644
-index 00000000000..1c6ba970376
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
-@@ -0,0 +1,26 @@
-+From c71a4e18afb4869a0fbb0efd59c4860b72f493f7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 5 Oct 2021 13:32:28 +0200
-+Subject: [PATCH] ANGLE: do not enable SSE on x86
-+
-+The code does not actually build there.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Source/ThirdParty/ANGLE/src/common/platform.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Source/ThirdParty/ANGLE/src/common/platform.h b/Source/ThirdParty/ANGLE/src/common/platform.h
-+index 41f3cf4f..cab85a82 100644
-+--- a/Source/ThirdParty/ANGLE/src/common/platform.h
-++++ b/Source/ThirdParty/ANGLE/src/common/platform.h
-+@@ -89,7 +89,7 @@
-+ #if defined(_MSC_VER) && !defined(_M_ARM) && !defined(_M_ARM64)
-+ #    include <intrin.h>
-+ #    define ANGLE_USE_SSE
-+-#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
-++#elif defined(__GNUC__) && (defined(__x86_64__))
-+ #    include <x86intrin.h>
-+ #    define ANGLE_USE_SSE
-+ #endif
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
-index 6d7d7067e4e..a65cfc8b5a4 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
-@@ -1,4 +1,4 @@
--From acf26a385d17a59ccd4b767d6303ec3dbf78e788 Mon Sep 17 00:00:00 2001
-+From b055bd199f9c40148334725a227796c0d7d14788 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 3 Feb 2020 17:06:27 -0800
- Subject: [PATCH] Enable THREADS_PREFER_PTHREAD_FLAG
-@@ -20,11 +20,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 2 insertions(+)
- 
- diff --git a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
--index f316f49..de81ce0 100644
-+index 3cb5a495..dfba9900 100644
- --- a/Source/cmake/OptionsGTK.cmake
- +++ b/Source/cmake/OptionsGTK.cmake
--@@ -6,6 +6,7 @@ WEBKIT_OPTION_BEGIN()
-- SET_PROJECT_VERSION(2 32 3)
-+@@ -7,6 +7,7 @@ SET_PROJECT_VERSION(2 34 0)
-+ 
-  
-  set(USER_AGENT_BRANDING "" CACHE STRING "Branding to add to user agent string")
- +set(THREADS_PREFER_PTHREAD_FLAG ON)
-@@ -32,7 +32,7 @@ index f316f49..de81ce0 100644
-  find_package(Cairo 1.14.0 REQUIRED)
-  find_package(Fontconfig 2.8.0 REQUIRED)
- diff --git a/Source/cmake/OptionsJSCOnly.cmake b/Source/cmake/OptionsJSCOnly.cmake
--index 1066440..d9aca95 100644
-+index e892b427..73bf9e4d 100644
- --- a/Source/cmake/OptionsJSCOnly.cmake
- +++ b/Source/cmake/OptionsJSCOnly.cmake
- @@ -1,3 +1,4 @@
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch b/meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
-deleted file mode 100644
-index 98d2d1ded96..00000000000
---- a/meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From dcf9ae0dc0b4510eddbeeea09e11edfb123f95af Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 2 May 2021 13:10:49 -0700
--Subject: [PATCH] MiniBrowser: Fix reproduciblity
--
--Do not emit references to source dir in generated sourcecode
--
--Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=225283]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Tools/MiniBrowser/gtk/CMakeLists.txt | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/Tools/MiniBrowser/gtk/CMakeLists.txt b/Tools/MiniBrowser/gtk/CMakeLists.txt
--index 93b62521..482d3b00 100644
----- a/Tools/MiniBrowser/gtk/CMakeLists.txt
--+++ b/Tools/MiniBrowser/gtk/CMakeLists.txt
--@@ -51,8 +51,8 @@ add_custom_command(
--     OUTPUT ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.c
--            ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.h
--     MAIN_DEPENDENCY ${MiniBrowser_DIR}/browser-marshal.list
---    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --body > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.c
---    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --header > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.h
--+    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --body --skip-source > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.c
--+    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --header --skip-source > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.h
--     VERBATIM)
-- 
-- if (USE_GTK4)
---- 
--2.31.1
--
-diff --git a/meta/recipes-sato/webkit/webkitgtk/include_xutil.patch b/meta/recipes-sato/webkit/webkitgtk/include_xutil.patch
-index ffe1b74be3d..e7a4cc25ade 100644
---- a/meta/recipes-sato/webkit/webkitgtk/include_xutil.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/include_xutil.patch
-@@ -1,4 +1,4 @@
--From d95f46e149226f634830e76cc1f4f8e3ee04ff5a Mon Sep 17 00:00:00 2001
-+From 2cc9d445b4c8eb70c2ab6c1723dfd208218f103e Mon Sep 17 00:00:00 2001
- From: Martin Jansa <Martin.Jansa@gmail.com>
- Date: Fri, 6 Nov 2020 04:38:13 +0100
- Subject: [PATCH] webkitgtk: fix build with x11 enabled
-@@ -21,12 +21,12 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Source/WebCore/platform/graphics/x11/PlatformDisplayX11.cpp b/Source/WebCore/platform/graphics/x11/PlatformDisplayX11.cpp
--index 2d66b9cd..424fb5a1 100644
-+index bad56eba..fc141f98 100644
- --- a/Source/WebCore/platform/graphics/x11/PlatformDisplayX11.cpp
- +++ b/Source/WebCore/platform/graphics/x11/PlatformDisplayX11.cpp
--@@ -30,6 +30,7 @@
-- 
-+@@ -31,6 +31,7 @@
-  #if PLATFORM(X11)
-+ #include <X11/Xatom.h>
-  #include <X11/Xlib.h>
- +#include <X11/Xutil.h>
-  #include <X11/extensions/Xcomposite.h>
-diff --git a/meta/recipes-sato/webkit/webkitgtk/musl-lower-stack-usage.patch b/meta/recipes-sato/webkit/webkitgtk/musl-lower-stack-usage.patch
-index f71f8452fdb..d8d36fad6b1 100644
---- a/meta/recipes-sato/webkit/webkitgtk/musl-lower-stack-usage.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/musl-lower-stack-usage.patch
-@@ -1,4 +1,4 @@
--From 04e4999c6fa2e9810634745a07f1e380f27b8e61 Mon Sep 17 00:00:00 2001
-+From 358a8f053c367aab7fba8ab059244e0530c7ff82 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 17 Mar 2021 13:24:57 -0700
- Subject: [PATCH] reduce thread stack and heap usage for javascriptcore on musl
-@@ -25,10 +25,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 19 insertions(+), 3 deletions(-)
- 
- diff --git a/Source/JavaScriptCore/runtime/OptionsList.h b/Source/JavaScriptCore/runtime/OptionsList.h
--index bb6d2f1d..a6209742 100644
-+index a0c2170e..9e107af7 100644
- --- a/Source/JavaScriptCore/runtime/OptionsList.h
- +++ b/Source/JavaScriptCore/runtime/OptionsList.h
--@@ -71,6 +71,18 @@ JS_EXPORT_PRIVATE bool canUseJITCage();
-+@@ -77,6 +77,18 @@ bool canUseWebAssemblyFastMemory();
-  // On instantiation of the first VM instance, the Options will be write protected
-  // and cannot be modified thereafter.
-  
-@@ -47,7 +47,7 @@ index bb6d2f1d..a6209742 100644
-  #define FOR_EACH_JSC_OPTION(v)                                          \
-      v(Bool, useKernTCSM, defaultTCSMValue(), Normal, "Note: this needs to go before other options since they depend on this value.") \
-      v(Bool, validateOptions, false, Normal, "crashes if mis-typed JSC options were passed to the VM") \
--@@ -86,9 +98,9 @@ JS_EXPORT_PRIVATE bool canUseJITCage();
-+@@ -92,9 +104,9 @@ bool canUseWebAssemblyFastMemory();
-      \
-      v(Bool, reportMustSucceedExecutableAllocations, false, Normal, nullptr) \
-      \
-@@ -61,11 +61,11 @@ index bb6d2f1d..a6209742 100644
-      v(Bool, crashOnDisallowedVMEntry, ASSERT_ENABLED, Normal, "Forces a crash if we attempt to enter the VM when disallowed") \
-      v(Bool, crashIfCantAllocateJITMemory, false, Normal, nullptr) \
- diff --git a/Source/WTF/wtf/Threading.h b/Source/WTF/wtf/Threading.h
--index 9495d6c1..190b3811 100644
-+index 178f9808..95ec5a85 100644
- --- a/Source/WTF/wtf/Threading.h
- +++ b/Source/WTF/wtf/Threading.h
--@@ -60,6 +60,10 @@
-- #include <dispatch/dispatch.h>
-+@@ -67,6 +67,10 @@
-+ #undef None
-  #endif
-  
- +#if OS(LINUX) && !defined(__GLIBC__)
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.32.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.0.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/webkitgtk_2.32.3.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.34.0.bb
-index db2357002c8..25e1d422cc7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.32.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.34.0.bb
-@@ -18,10 +18,10 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://include_xutil.patch \
-            file://reduce-memory-overheads.patch \
-            file://musl-lower-stack-usage.patch \
--           file://0001-MiniBrowser-Fix-reproduciblity.patch \
-+           file://0001-ANGLE-do-not-enable-SSE-on-x86.patch \
+diff --git a/meta/recipes-gnome/epiphany/epiphany_40.3.bb b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
+similarity index 91%
+rename from meta/recipes-gnome/epiphany/epiphany_40.3.bb
+rename to meta/recipes-gnome/epiphany/epiphany_41.0.bb
+index e74b75c802a..09210b68aaf 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_40.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
+@@ -28,7 +28,9 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
+            file://migrator.patch \
+            file://distributor.patch \
             "
- 
--SRC_URI[sha256sum] = "c1f496f5ac654efe4cef62fbd4f2fbeeef265a07c5e7419e5d2900bfeea52cbc"
-+SRC_URI[sha256sum] = "880c8ee626f67019f67557ca09e59a23ecf245e60f6173215f1a8823cb09af34"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
-@@ -38,7 +38,7 @@ DEPENDS = " \
-           atk \
-           libwebp \
-           gtk+3 \
--          libsoup-2.4 \
-+          libsoup \
-           libxslt \
-           libtasn1 \
-           libnotify \
-@@ -48,12 +48,13 @@ DEPENDS = " \
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2 angle', d)} \
-                    enchant \
-                    libsecret \
-                   "
- 
- PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
-+PACKAGECONFIG[angle] = "-DUSE_ANGLE_WEBGL=ON,-DUSE_ANGLE_WEBGL=OFF"
- PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
- PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
- PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
-@@ -66,6 +67,7 @@ PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
- PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
- PACKAGECONFIG[systemd] = "-DUSE_SYSTEMD=ON,-DUSE_SYSTEMD=off,systemd"
- PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
-+PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
- 
- # webkitgtk is full of /usr/bin/env python, particular for generating docs
- do_configure[postfuncs] += "setup_python_link"
-@@ -120,7 +122,7 @@ EXTRA_OECMAKE:append:x86-x32 = " -DENABLE_JIT=OFF "
- SECURITY_CFLAGS:remove:aarch64 = "-fpie"
- SECURITY_CFLAGS:append:aarch64 = " -fPIE"
- 
--FILES:${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
-+FILES:${PN} += "${libdir}/webkit2gtk-4.1/injected-bundle/libwebkit2gtkinjectedbundle.so"
- 
- RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
- 
-@@ -149,10 +151,11 @@ PACKAGE_PREPROCESS_FUNCS += "src_package_preprocess"
- src_package_preprocess () {
-         # Trim build paths from comments in generated sources to ensure reproducibility
-         sed -i -e "s,${WORKDIR},,g" \
--            ${B}/DerivedSources/webkit2gtk/webkit2/*.cpp \
--            ${B}/DerivedSources/ForwardingHeaders/JavaScriptCore/*.h \
--            ${B}/DerivedSources/JavaScriptCore/*.h \
--            ${B}/DerivedSources/JavaScriptCore/yarr/*.h \
--            ${B}/DerivedSources/MiniBrowser/*.c
-+            ${B}/JavaScriptCore/DerivedSources/*.h \
-+            ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
-+            ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
-+            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.cpp \
-+            ${B}/WebKit2Gtk/DerivedSources/webkit2/*.h
+-SRC_URI[archive.sha256sum] = "dad138b9f2d55de271128fca38b61f53fd980c587d29e1ba6b508fff3b19f564"
++SRC_URI[archive.sha256sum] = "b39d1825492595b0b74c5d6a6686a857f9419dfa4c02f8013c297bc870e26dd0"
 +
- }
++EXTRA_OEMESON += "-Dsoup2=disabled"
  
+ # Developer mode enables debugging
+ PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
 -- 
 2.20.1
 
