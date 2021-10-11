@@ -2,9 +2,9 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Subject: [PATCH 19/25] itstool: update 2.0.6 -> 2.0.7
-Date: Mon, 11 Oct 2021 11:40:53 +0200
-Message-Id: <20211011094059.4184654-19-alex@linutronix.de>
+Subject: [PATCH 20/25] nghttp2: add recipe from meta-oe
+Date: Mon, 11 Oct 2021 11:40:54 +0200
+Message-Id: <20211011094059.4184654-20-alex@linutronix.de>
 In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
 References: <20211011094059.4184654-1-alex@linutronix.de>
 MIME-Version: 1.0
@@ -14,69 +14,103 @@ List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
 
+It is needed for latest libsoup.
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ve-Don-t-use-build-time-hardcoded-python-binary-.patch | 8 +++-----
- .../itstool/{itstool_2.0.6.bb => itstool_2.0.7.bb}        | 6 +++---
- 2 files changed, 6 insertions(+), 8 deletions(-)
- rename meta/recipes-support/itstool/{itstool_2.0.6.bb => itstool_2.0.7.bb} (81%)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ ...0001-fetch-ocsp-response-use-python3.patch | 27 ++++++++++++++
+ .../recipes-support/nghttp2/nghttp2_1.45.1.bb | 35 +++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/0001-fetch-ocsp-response-use-python3.patch
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2_1.45.1.bb
 
-diff --git a/meta/recipes-support/itstool/itstool/0001-Native-Don-t-use-build-time-hardcoded-python-binary-.patch b/meta/recipes-support/itstool/itstool/0001-Native-Don-t-use-build-time-hardcoded-python-binary-.patch
-index 19a858bd75e..fdcbe46fedb 100644
---- a/meta/recipes-support/itstool/itstool/0001-Native-Don-t-use-build-time-hardcoded-python-binary-.patch
-+++ b/meta/recipes-support/itstool/itstool/0001-Native-Don-t-use-build-time-hardcoded-python-binary-.patch
-@@ -1,4 +1,4 @@
--From 335ef14fc801c9dfbe7e5692dc71cfbe72049d2b Mon Sep 17 00:00:00 2001
-+From c47820450ce7f55d22c672cf94d20a5f9fd208bf Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
- Date: Sun, 27 Oct 2019 16:38:52 +0100
- Subject: [PATCH] Native: Don't use build time hardcoded python binary path.
-@@ -16,12 +16,13 @@ don't support it [2]
- Upstream-Status: Inappropriate [OE specific]
- 
- Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e359da3cd04..c203f352caf 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -535,6 +535,7 @@ RECIPE_MAINTAINER:pn-netbase = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-nettle = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-nfs-export-root = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-nfs-utils = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-nghttp2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-ninja = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-npth = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-nss-myhostname = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-support/nghttp2/nghttp2/0001-fetch-ocsp-response-use-python3.patch b/meta/recipes-support/nghttp2/nghttp2/0001-fetch-ocsp-response-use-python3.patch
+new file mode 100644
+index 00000000000..e4db09638f8
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/0001-fetch-ocsp-response-use-python3.patch
+@@ -0,0 +1,27 @@
++From 73ec79432fc557a8be4f1500982b1c0f5fdf12a9 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
++Date: Thu, 7 Nov 2019 09:58:52 +0000
++Subject: [PATCH] fetch-ocsp-response: use python3
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
- ---
-  itstool.in | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/itstool.in b/itstool.in
--index e64cd34..05d264f 100755
-+index c21ad4b..daea177 100755
- --- a/itstool.in
- +++ b/itstool.in
- @@ -1,4 +1,4 @@
-@@ -30,6 +31,3 @@ index e64cd34..05d264f 100755
-  #
-  # Copyright (c) 2010-2018 Shaun McCance <shaunm@gnome.org>
-  #
---- 
--2.21.0
--
-diff --git a/meta/recipes-support/itstool/itstool_2.0.6.bb b/meta/recipes-support/itstool/itstool_2.0.7.bb
-similarity index 81%
-rename from meta/recipes-support/itstool/itstool_2.0.6.bb
-rename to meta/recipes-support/itstool/itstool_2.0.7.bb
-index eba53e728d1..2416835d370 100644
---- a/meta/recipes-support/itstool/itstool_2.0.6.bb
-+++ b/meta/recipes-support/itstool/itstool_2.0.7.bb
-@@ -11,13 +11,13 @@ inherit autotools python3native
- 
- DEPENDS = "libxml2-native"
- 
--SRC_URI = "http://files.itstool.org/${BPN}/${BPN}-${PV}.tar.bz2"
-+SRC_URI = "http://files.itstool.org/${BPN}/${BPN}-${PV}.tar.bz2 \
-+           "
- SRC_URI:append:class-native = " file://0001-Native-Don-t-use-build-time-hardcoded-python-binary-.patch"
- SRC_URI:append:class-nativesdk = " file://0001-Native-Don-t-use-build-time-hardcoded-python-binary-.patch"
- SRC_URI:append:class-target = " file://0002-Don-t-use-build-time-hardcoded-python-binary-path.patch"
- 
--SRC_URI[md5sum] = "4306eeba4f4aee6b393d14f9c3c57ca1"
--SRC_URI[sha256sum] = "6233cc22726a9a5a83664bf67d1af79549a298c23185d926c3677afa917b92a9"
-+SRC_URI[sha256sum] = "6b9a7cd29a12bb95598f5750e8763cee78836a1a207f85b74d8b3275b27e87ca"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
++Upstream-Status: Inappropriate [oe specific]
++Signed-off-by: André Draszik <git@andred.net>
++---
++ script/fetch-ocsp-response | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/script/fetch-ocsp-response b/script/fetch-ocsp-response
++index 0ff7461..185116b 100755
++--- a/script/fetch-ocsp-response
+++++ b/script/fetch-ocsp-response
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++ 
++ # nghttp2 - HTTP/2 C Library
++-- 
++2.23.0.rc1
++
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.45.1.bb b/meta/recipes-support/nghttp2/nghttp2_1.45.1.bb
+new file mode 100644
+index 00000000000..3de509a27c1
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2_1.45.1.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "HTTP/2 C Library and tools"
++HOMEPAGE = "https://nghttp2.org/"
++SECTION = "libs"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
++
++UPSTREAM_CHECK_URI = "https://github.com/nghttp2/nghttp2/releases"
++
++SRC_URI = "\
++    https://github.com/nghttp2/nghttp2/releases/download/v${PV}/nghttp2-${PV}.tar.xz \
++    file://0001-fetch-ocsp-response-use-python3.patch \
++"
++SRC_URI[sha256sum] = "abdc4addccadbc7d89abe27c4d6427d78e57d139f69c1f45749227393c68bf79"
++
++inherit cmake manpages python3native
++PACKAGECONFIG[manpages] = ""
++
++# examples are never installed, and don't need to be built in the
++# first place
++EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=OFF -DENABLE_HPACK_TOOLS=OFF"
++
++PACKAGES =+ "lib${PN} ${PN}-client ${PN}-proxy ${PN}-server"
++
++RDEPENDS:${PN} = "${PN}-client (>= ${PV}) ${PN}-proxy (>= ${PV}) ${PN}-server (>= ${PV})"
++RDEPENDS:${PN}:class-native = ""
++RDEPENDS:${PN}-proxy = "openssl python3-core python3-io python3-shell"
++
++ALLOW_EMPTY:${PN} = "1"
++FILES:${PN} = ""
++FILES:lib${PN} = "${libdir}/*${SOLIBS}"
++FILES:${PN}-client = "${bindir}/h2load ${bindir}/nghttp"
++FILES:${PN}-proxy = "${bindir}/nghttpx ${datadir}/${BPN}/fetch-ocsp-response"
++FILES:${PN}-server = "${bindir}/nghttpd"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.20.1
 
