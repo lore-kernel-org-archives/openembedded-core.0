@@ -1,102 +1,68 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <arabishi900@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6389BC4332F
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:22 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.9729.1633945281539195543
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC067C433F5
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:50:11 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web09.9611.1633945810885103341
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:21 -0700
+ Mon, 11 Oct 2021 02:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jZItpjs8;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id e12so54130737wra.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y81TXnDL;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177,
+ mailfrom: arabishi900@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id t63so11212178qkf.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:21 -0700 (PDT)
+ Mon, 11 Oct 2021 02:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GSkRhOt1RheDaqc/4QOGsPmB4RCcaNQE6vx1laz181o=;
-        b=jZItpjs8c2sWTEGFNGrRLy+EdRSD1GybgtWXBRM/dbbrVYx41sT2KGvTmn8idTEIh/
-         ED8F56PqNOuHeTa7JO1ay6Vy8ZLJVzjbgxBs4SMuTdfmSlAwsmceqCeIgjgAcYy4Zrun
-         Ap4aE1yY+r+o4+n4m5uCAbUBN8wWNVYOB/LHfcRy5MPfXYci9EZ9concotawXs+ZMTp8
-         eNHInLnIK7unQvIKaEOb+Y5HkCPg/FiWEz8bC3VMPC+E0/doiHuQo4nLOfWM118NnGEO
-         iZ0DAF1zgL4iVLt9D5sAmm894y1h0nAZTDjW/q01eDF+mCm9csGoafT5Lw1PIh4wQgaM
-         utbw==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=CgfBqmn5YFV7CF8MGt7MPC/AoVBEOKx0gSSBMRSUERE=;
+        b=Y81TXnDLLJjg4zDh+sdOH/ap/9HrxCc7VORzcRoFg/RRR/x1BHzyKH3dzOreWrIJdV
+         HdurXLTwSoByh1awE575GXfja8Ev21h2ag1B/M7Q8zd3HrjWVnRms0sW9BoCYXNlnEAz
+         iIFGSfbHXSccaxvddIDpp7FmRgJs2vPeGIUaOVwJOuzpUNOzrNV8257nt1dyVAE/fV3T
+         RNry3swnH5BreNy7kv4aAlVG4Wf++lKdAxlyvRSBz63g/Csmky6HD64FsnsZMkQvGp5N
+         ObSNpI/iKnGiStZklS/JFaR1d2Hzy747G2B3q5sJEpn8pfcibsQri2Ebk235oULz/n2E
+         xc/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GSkRhOt1RheDaqc/4QOGsPmB4RCcaNQE6vx1laz181o=;
-        b=VaOH0gz2jCbKwhNgFAsrIlU62xUHmHIqJZXHkERaFwicp+pbw+wt97Wb+QrilcO3Tu
-         GxyErS27W6OP2dC80oUmud3B5jUmTmPTvPz8jNBQ16p7dFZvX+xTWvQj47OdmVBPRdGU
-         nYE3pgEt/oy1B1hMNsPJmsmVPcEhXS7scLCayJijiNu06p/U6t41vVLbqUrmmzXHaKrB
-         1FHvaT984ZmWnXpWPq8rM2kLALgwwFYnOieVfGFqXIbtm60yIBZ3zt+5I5xDT9bl+B65
-         1WS2gOGBjjAmjzOt2X2g6gdvEMbl1DCc/jhLvzznzZaRLM/j664MxDFUOUSYJKl8U7pG
-         oeJQ==
-X-Gm-Message-State: AOAM533zQm8YV5yADMB9EymEnp40DODuxU4PktPa/vx/FrHgt+WwBpqp
-	n/pM3Yg/JAKz98msfJv/cTJI6fB1dOE=
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=CgfBqmn5YFV7CF8MGt7MPC/AoVBEOKx0gSSBMRSUERE=;
+        b=deYVn/iFyBqrpoGbUOhm18rDm/HQKS5ILZ79fGFgnqz9HNBfq8zD8iCSExruh4JQ3h
+         Saf5U4NROTgUg6wNZCR4F6GXVBq3Y01eWltjxjOZuxsFfWSY8n62vNo84XE0SVHV78lZ
+         LDcAnDW2tL2BrbZIP3GVu3rAJWUVwAQ7XQvGa3VSIg35U/fcUC30ofblZ1v4Ets9Vayd
+         U0g72ux0fsMdJa32XZzfHsJCjFzE2/fJJV3V7p52HStomTeagCN8s3yKZ6XudaTTZhha
+         1RgNFP3mFtimzljbSfweWo+xXoxAiHo/37DswIHCWRwPi4YwutvBNZZKfkNH7aS6+EV9
+         Xs+A==
+X-Gm-Message-State: AOAM533yqjCbMQQm/805N1UJG9BSJbGobqA/x7mvTNQEfImKHlVH0G6b
+	GOXkmAI6o7zRtB27NsB1LXOg0rd991TLbJMEh6nOBglN0wk=
 X-Google-Smtp-Source: 
- ABdhPJzgGJDML7ghZRcennZ6pDV2wXe3M2eZSCXRZKP6aUujx5ABwQKN1R1hIwzp+eOjGlC8p4yRxg==
-X-Received: by 2002:a05:600c:190a:: with SMTP id
- j10mr1498771wmq.184.1633945279607;
-        Mon, 11 Oct 2021 02:41:19 -0700 (PDT)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- k17sm7180758wrc.93.2021.10.11.02.41.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 02:41:19 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 25/25] epiphany: update 40.3 -> 41.0
-Date: Mon, 11 Oct 2021 11:40:59 +0200
-Message-Id: <20211011094059.4184654-25-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
-References: <20211011094059.4184654-1-alex@linutronix.de>
+ ABdhPJw7L3P50/l9EYQV/dcLgMZJPsBor6ZaN3bFjPx6Onq1Mz5rolURGq/ewCdrt9KMz1ndxZKZTU9MTDVV6D3EMUU=
+X-Received: by 2002:a37:2c86:: with SMTP id
+ s128mr13300082qkh.516.1633945809959;
+ Mon, 11 Oct 2021 02:50:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Akira Shibakawa <arabishi900@gmail.com>
+Date: Mon, 11 Oct 2021 18:49:59 +0900
+Message-ID: 
+ <CAE84iWW+eiFK7bEU3fRZL62G7L2xmEbSQQfAkpzj5oQwM-fWgw@mail.gmail.com>
+Subject: [meta-java] OpneJDK nativesdk recipe
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:22 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:50:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156838
+ https://lists.openembedded.org/g/openembedded-core/message/156839
 
-Correct an option to use libsoup 3.
+Hi
+I want to let my customer compile java code on Yocto SDK.
+But, there is no nativesdk recipe of OpenJDK in meta-java.
+Is there any reason to it ?
+Or, is there any plan to add it ?
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../epiphany/{epiphany_40.3.bb => epiphany_41.0.bb}           | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_40.3.bb => epiphany_41.0.bb} (91%)
-
-diff --git a/meta/recipes-gnome/epiphany/epiphany_40.3.bb b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-similarity index 91%
-rename from meta/recipes-gnome/epiphany/epiphany_40.3.bb
-rename to meta/recipes-gnome/epiphany/epiphany_41.0.bb
-index e74b75c802a..09210b68aaf 100644
---- a/meta/recipes-gnome/epiphany/epiphany_40.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-@@ -28,7 +28,9 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "dad138b9f2d55de271128fca38b61f53fd980c587d29e1ba6b508fff3b19f564"
-+SRC_URI[archive.sha256sum] = "b39d1825492595b0b74c5d6a6686a857f9419dfa4c02f8013c297bc870e26dd0"
-+
-+EXTRA_OEMESON += "-Dsoup2=disabled"
- 
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
--- 
-2.20.1
-
+thanks
 
