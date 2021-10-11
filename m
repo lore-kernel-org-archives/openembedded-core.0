@@ -2,9 +2,9 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Subject: [PATCH 07/25] openssl: update 1.1.1l -> 3.0.0
-Date: Mon, 11 Oct 2021 11:40:41 +0200
-Message-Id: <20211011094059.4184654-7-alex@linutronix.de>
+Subject: [PATCH 18/25] coreutils: update 8.32 -> 9.0
+Date: Mon, 11 Oct 2021 11:40:52 +0200
+Message-Id: <20211011094059.4184654-18-alex@linutronix.de>
 In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
 References: <20211011094059.4184654-1-alex@linutronix.de>
 MIME-Version: 1.0
@@ -12,413 +12,527 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>, Hongxu Jia <hongxu.jia@windriver.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex@linutronix.de>, Anders Wallin <wallinux@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>, Adam Borowski <kilobyte@angband.pl>, Paul Gortmaker <paul.gortmaker@windriver.com>
 
-Drop 0001-skip-test_symbol_presence.patch - testing revealed
-no need for it, and I couldn't quite understand what it does.
-
-Drop reproducible.patch - upstream has removed the non-reproducible
-bit.
-
-Process lines in run-ptest with sed one by one rather than with
-perl after the test completes, avoiding ptest-runner timeout errors.
-
-License-Update: openssl relicense to apache 2.0. Goodbye awkward
-gpl exceptions in consumers.
-
-DEPRECATED_CRYPTO_FLAGS is now empty by default but available
-by anyone who wants to set it. Trying to come up with a working
-set was not a good idea as shown in the deleted comment.
+License-Update: copyright years
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...1-Configure-do-not-tweak-mips-cflags.patch | 36 +++++++++
- ...sysroot-and-debug-prefix-map-from-co.patch | 21 ++---
- .../0001-skip-test_symbol_presence.patch      | 46 -----------
- .../openssl/openssl/reproducible.patch        | 32 --------
- .../openssl/openssl/run-ptest                 |  2 +-
- .../{openssl_1.1.1l.bb => openssl_3.0.0.bb}   | 81 ++++++++++---------
- 6 files changed, 90 insertions(+), 128 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/reproducible.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_3.0.0.bb} (76%)
+ ...-fts-remove-NOSTAT_LEAF_OPTIMIZATION.patch | 167 ------------------
+ ...8.31-behavior-on-removed-directories.patch |  99 -----------
+ .../coreutils/disable-ls-output-quoting.patch |  49 -----
+ ...6ebd536e82b15542a00c888109471936bfda.patch |  93 ++++++++++
+ .../coreutils/fix-selinux-flask.patch         |   7 +-
+ .../{coreutils_8.32.bb => coreutils_9.0.bb}   |  10 +-
+ 6 files changed, 100 insertions(+), 325 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/0001-fts-remove-NOSTAT_LEAF_OPTIMIZATION.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/disable-ls-output-quoting.patch
+ create mode 100644 meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.32.bb => coreutils_9.0.bb} (94%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-new file mode 100644
-index 00000000000..5effa6c6f61
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-@@ -0,0 +1,36 @@
-+From 326909baf81a638d51fa8be1d8227518784f5cc4 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 14 Sep 2021 12:18:25 +0200
-+Subject: [PATCH] Configure: do not tweak mips cflags
-+
-+This conflicts with mips machine definitons from yocto,
-+e.g.
-+| Error: -mips3 conflicts with the other architecture options, which imply -mips64r2
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Configure | 10 ----------
-+ 1 file changed, 10 deletions(-)
-+
-+diff --git a/Configure b/Configure
-+index 821e680..0387a74 100755
-+--- a/Configure
-++++ b/Configure
-+@@ -1422,16 +1422,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
-+         push @{$config{shared_ldflag}}, "-mno-cygwin";
-+         }
-+ 
-+-if ($target =~ /linux.*-mips/ && !$disabled{asm}
-+-        && !grep { $_ !~ /-m(ips|arch=)/ } (@{$config{CFLAGS}})) {
-+-        # minimally required architecture flags for assembly modules
-+-        my $value;
-+-        $value = '-mips2' if ($target =~ /mips32/);
-+-        $value = '-mips3' if ($target =~ /mips64/);
-+-        unshift @{$config{cflags}}, $value;
-+-        unshift @{$config{cxxflags}}, $value if $config{CXX};
-+-}
-+-
-+ # If threads aren't disabled, check how possible they are
-+ unless ($disabled{threads}) {
-+     if ($auto_threads) {
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-index 003cfbc8d89..60890c666d1 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
-@@ -1,4 +1,4 @@
--From 3e1d00481093e10775eaf69d619c45b32a4aa7dc Mon Sep 17 00:00:00 2001
-+From 5985253f2c9025d7c127443a3a9938946f80c2a1 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
- Date: Tue, 6 Nov 2018 14:50:47 +0100
- Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compiler
-@@ -21,7 +21,6 @@ https://patchwork.openembedded.org/patch/147229/
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Martin Hundebøll <martin@geanix.com>
- 
--
- Update to fix buildpaths qa issue for '-fmacro-prefix-map'.
- 
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
-@@ -31,13 +30,15 @@ Update to fix buildpaths qa issue for '-ffile-prefix-map'.
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- ---
-- Configurations/unix-Makefile.tmpl | 10 +++++++++-
-+ Configurations/unix-Makefile.tmpl | 12 +++++++++++-
-  crypto/build.info                 |  2 +-
-- 2 files changed, 10 insertions(+), 2 deletions(-)
-+ 2 files changed, 12 insertions(+), 2 deletions(-)
- 
-+diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
-+index f88a70f..528cdef 100644
- --- a/Configurations/unix-Makefile.tmpl
- +++ b/Configurations/unix-Makefile.tmpl
--@@ -420,13 +420,23 @@ BIN_LDFLAGS={- join(' ', $target{bin_lfl
-+@@ -471,13 +471,23 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
-                           '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
-  BIN_EX_LIBS=$(CNF_EX_LIBS) $(EX_LIBS)
-  
-@@ -62,14 +63,16 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  PERLASM_SCHEME= {- $target{perlasm_scheme} -}
-  
-  # For x86 assembler: Set PROCESSOR to 386 if you want to support
-+diff --git a/crypto/build.info b/crypto/build.info
-+index efca6cc..eda433e 100644
- --- a/crypto/build.info
- +++ b/crypto/build.info
--@@ -10,7 +10,7 @@ EXTRA=  ../ms/uplink-x86.pl ../ms/uplink
--         ppccpuid.pl pariscid.pl alphacpuid.pl arm64cpuid.pl armv4cpuid.pl
-+@@ -109,7 +109,7 @@ DEFINE[../libcrypto]=$UPLINKDEF
-  
-+ DEPEND[info.o]=buildinf.h
-  DEPEND[cversion.o]=buildinf.h
- -GENERATE[buildinf.h]=../util/mkbuildinf.pl "$(CC) $(LIB_CFLAGS) $(CPPFLAGS_Q)" "$(PLATFORM)"
- +GENERATE[buildinf.h]=../util/mkbuildinf.pl "$(CC_Q) $(CFLAGS_Q) $(CPPFLAGS_Q)" "$(PLATFORM)"
-- DEPEND[buildinf.h]=../configdata.pm
-  
-- GENERATE[uplink-x86.s]=../ms/uplink-x86.pl $(PERLASM_SCHEME)
-+ GENERATE[uplink-x86.s]=../ms/uplink-x86.pl
-+ GENERATE[uplink-x86_64.s]=../ms/uplink-x86_64.pl
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch b/meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch
+diff --git a/meta/recipes-core/coreutils/coreutils/0001-fts-remove-NOSTAT_LEAF_OPTIMIZATION.patch b/meta/recipes-core/coreutils/coreutils/0001-fts-remove-NOSTAT_LEAF_OPTIMIZATION.patch
 deleted file mode 100644
-index d8d9651b647..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-skip-test_symbol_presence.patch
+index 06b6307dab0..00000000000
+--- a/meta/recipes-core/coreutils/coreutils/0001-fts-remove-NOSTAT_LEAF_OPTIMIZATION.patch
 +++ /dev/null
-@@ -1,46 +0,0 @@
--From a9401b2289656c5a36dd1b0ecebf0d23e291ce70 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Tue, 2 Oct 2018 23:58:24 +0800
--Subject: [PATCH] skip test_symbol_presence
+@@ -1,167 +0,0 @@
+-From 3a48610860a9a75692d2cbedde69ac15269d540a Mon Sep 17 00:00:00 2001
+-Message-Id: <3a48610860a9a75692d2cbedde69ac15269d540a.1624302273.git.wallinux@gmail.com>
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Wed, 15 Apr 2020 20:50:32 -0700
+-Subject: [PATCH] fts: remove NOSTAT_LEAF_OPTIMIZATION
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--We cannot skip `01-test_symbol_presence.t' by configuring option `no-shared'
--as INSTALL told us the shared libraries will not be built.
+-It caused ‘find’ and ‘du’ to dump core, and it was useful
+-only for obsolescent Linux filesystems anyway.  Problem reported in:
+-https://lists.gnu.org/r/bug-gnulib/2020-04/msg00068.html
+-Quite possibly there is still a serious underlying fts bug with
+-tight-loop-check and mutating file systems, but if so this patch
+-should cause the bug to be triggered less often.
+-* lib/fts.c (enum leaf_optimization): Remove
+-NOSTAT_LEAF_OPTIMIZATION, as it’s problematic.
+-(S_MAGIC_REISERFS, S_MAGIC_XFS): Remove; no longer needed.
+-(leaf_optimization): Remove special cases for ReiserFS and XFS.
+-(fts_read): Remove NOSTAT_LEAF_OPTIMIZATION code.
+-* lib/fts_.h (struct _ftsent.fts_n_dirs_remaining):
+-Remove.  All uses removed.
 -
--[INSTALL snip]
-- Notes on shared libraries
-- -------------------------
+-Upstream-Status: Backport [upstream gnulib commit:
+-47bf2cf3184027c1eb9c1dfeea5c5b8b2d69710d]
 -
-- For most systems the OpenSSL Configure script knows what is needed to
-- build shared libraries for libcrypto and libssl. On these systems
-- the shared libraries will be created by default. This can be suppressed and
-- only static libraries created by using the "no-shared" option. On systems
-- where OpenSSL does not know how to build shared libraries the "no-shared"
-- option will be forced and only static libraries will be created.
--[INSTALL snip]
--
--Hence directly modification the case to skip it.
--
--Upstream-Status: Inappropriate [OE Specific]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-Signed-off-by: Anders Wallin <wallinux@gmail.com>
 ----
-- test/recipes/01-test_symbol_presence.t | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
+- lib/fts.c  | 56 ++++++++----------------------------------------------
+- lib/fts_.h |  5 -----
+- 2 files changed, 8 insertions(+), 53 deletions(-)
 -
--diff --git a/test/recipes/01-test_symbol_presence.t b/test/recipes/01-test_symbol_presence.t
--index 7f2a2d7..0b93745 100644
----- a/test/recipes/01-test_symbol_presence.t
--+++ b/test/recipes/01-test_symbol_presence.t
--@@ -14,8 +14,7 @@ use OpenSSL::Test::Utils;
+-diff --git a/lib/fts.c b/lib/fts.c
+-index d3a0472..ade8c33 100644
+---- a/lib/fts.c
+-+++ b/lib/fts.c
+-@@ -445,7 +445,6 @@ fts_open (char * const *argv,
+-                 if ((parent = fts_alloc(sp, "", 0)) == NULL)
+-                         goto mem2;
+-                 parent->fts_level = FTS_ROOTPARENTLEVEL;
+--                parent->fts_n_dirs_remaining = -1;
+-           }
 - 
-- setup("test_symbol_presence");
+-         /* The classic fts implementation would call fts_stat with
+-@@ -634,9 +633,8 @@ fts_close (FTS *sp)
+- }
 - 
---plan skip_all => "Only useful when building shared libraries"
---    if disabled("shared");
--+plan skip_all => "The case needs debug symbols then we just disable it";
+- /* Minimum link count of a traditional Unix directory.  When leaf
+--   optimization is OK and MIN_DIR_NLINK <= st_nlink, then st_nlink is
+--   an upper bound on the number of subdirectories (counting "." and
+--   "..").  */
+-+   optimization is OK and a directory's st_nlink == MIN_DIR_NLINK,
+-+   then the directory has no subdirectories.  */
+- enum { MIN_DIR_NLINK = 2 };
 - 
-- my @libnames = ("crypto", "ssl");
-- my $testcount = scalar @libnames;
+- /* Whether leaf optimization is OK for a directory.  */
+-@@ -645,12 +643,8 @@ enum leaf_optimization
+-     /* st_nlink is not reliable for this directory's subdirectories.  */
+-     NO_LEAF_OPTIMIZATION,
+- 
+--    /* Leaf optimization is OK, but is not useful for avoiding stat calls.  */
+--    OK_LEAF_OPTIMIZATION,
+--
+--    /* Leaf optimization is not only OK: it is useful for avoiding
+--       stat calls, because dirent.d_type does not work.  */
+--    NOSTAT_LEAF_OPTIMIZATION
+-+    /* st_nlink == 2 means the directory lacks subdirectories.  */
+-+    OK_LEAF_OPTIMIZATION
+-   };
+- 
+- #if (defined __linux__ || defined __ANDROID__) \
+-@@ -663,9 +657,7 @@ enum leaf_optimization
+- # define S_MAGIC_CIFS 0xFF534D42
+- # define S_MAGIC_NFS 0x6969
+- # define S_MAGIC_PROC 0x9FA0
+--# define S_MAGIC_REISERFS 0x52654973
+- # define S_MAGIC_TMPFS 0x1021994
+--# define S_MAGIC_XFS 0x58465342
+- 
+- # ifdef HAVE___FSWORD_T
+- typedef __fsword_t fsword;
+-@@ -782,23 +774,15 @@ dirent_inode_sort_may_be_useful (FTSENT const *p, int dir_fd)
+- }
+- 
+- /* Given an FTS entry P for a directory with descriptor DIR_FD,
+--   return true if it is both useful and valid to apply leaf optimization.
+--   The optimization is useful only for file systems that lack usable
+--   dirent.d_type info.  The optimization is valid if an st_nlink value
+--   of at least MIN_DIR_NLINK is an upper bound on the number of
+--   subdirectories of D, counting "." and ".."  as subdirectories.
+-+   return whether it is valid to apply leaf optimization.
+-+   The optimization is valid if a directory's st_nlink value equal
+-+   to MIN_DIR_NLINK means the directory has no subdirectories.
+-    DIR_FD is negative if unavailable.  */
+- static enum leaf_optimization
+- leaf_optimization (FTSENT const *p, int dir_fd)
+- {
+-   switch (filesystem_type (p, dir_fd))
+-     {
+--      /* List here the file system types that may lack usable dirent.d_type
+--         info, yet for which the optimization does apply.  */
+--    case S_MAGIC_REISERFS:
+--    case S_MAGIC_XFS: /* XFS lacked it until 2013-08-22 commit.  */
+--      return NOSTAT_LEAF_OPTIMIZATION;
+--
+-     case 0:
+-       /* Leaf optimization is unsafe if the file system type is unknown.  */
+-       FALLTHROUGH;
+-@@ -1023,26 +1007,7 @@ check_for_dir:
+-                 if (p->fts_info == FTS_NSOK)
+-                   {
+-                     if (p->fts_statp->st_size == FTS_STAT_REQUIRED)
+--                      {
+--                        FTSENT *parent = p->fts_parent;
+--                        if (parent->fts_n_dirs_remaining == 0
+--                            && ISSET(FTS_NOSTAT)
+--                            && ISSET(FTS_PHYSICAL)
+--                            && (leaf_optimization (parent, sp->fts_cwd_fd)
+--                                == NOSTAT_LEAF_OPTIMIZATION))
+--                          {
+--                            /* nothing more needed */
+--                          }
+--                        else
+--                          {
+--                            p->fts_info = fts_stat(sp, p, false);
+--                            if (S_ISDIR(p->fts_statp->st_mode)
+--                                && p->fts_level != FTS_ROOTLEVEL
+--                                && 0 < parent->fts_n_dirs_remaining
+--                                && parent->fts_n_dirs_remaining != (nlink_t) -1)
+--                                  parent->fts_n_dirs_remaining--;
+--                          }
+--                      }
+-+                      p->fts_info = fts_stat(sp, p, false);
+-                     else
+-                       fts_assert (p->fts_statp->st_size == FTS_NO_STAT_REQUIRED);
+-                   }
+-@@ -1826,11 +1791,6 @@ err:            memset(sbp, 0, sizeof(struct stat));
+-         }
+- 
+-         if (S_ISDIR(sbp->st_mode)) {
+--                p->fts_n_dirs_remaining
+--                  = ((sbp->st_nlink < MIN_DIR_NLINK
+--                      || p->fts_level <= FTS_ROOTLEVEL)
+--                     ? -1
+--                     : sbp->st_nlink - (ISSET (FTS_SEEDOT) ? 0 : MIN_DIR_NLINK));
+-                 if (ISDOT(p->fts_name)) {
+-                         /* Command-line "." and ".." are real directories. */
+-                         return (p->fts_level == FTS_ROOTLEVEL ? FTS_D : FTS_DOT);
+-diff --git a/lib/fts_.h b/lib/fts_.h
+-index 6c7d0ce..15c248c 100644
+---- a/lib/fts_.h
+-+++ b/lib/fts_.h
+-@@ -219,11 +219,6 @@ typedef struct _ftsent {
+- 
+-         size_t fts_namelen;             /* strlen(fts_name) */
+- 
+--        /* If not (nlink_t) -1, an upper bound on the number of
+--           remaining subdirectories of interest.  If this becomes
+--           zero, some work can be avoided.  */
+--        nlink_t fts_n_dirs_remaining;
+--
+- # define FTS_D           1              /* preorder directory */
+- # define FTS_DC          2              /* directory that causes cycles */
+- # define FTS_DEFAULT     3              /* none of the above */
 --- 
--2.7.4
+-2.32.0
 -
-diff --git a/meta/recipes-connectivity/openssl/openssl/reproducible.patch b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
+diff --git a/meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch b/meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
 deleted file mode 100644
-index a24260c95d0..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/reproducible.patch
+index fa900e3a761..00000000000
+--- a/meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
 +++ /dev/null
-@@ -1,32 +0,0 @@
--The value for perl_archname can vary depending on the host, e.g. 
--x86_64-linux-gnu-thread-multi or x86_64-linux-thread-multi which
--makes the ptest package non-reproducible. Its unused other than 
--these references so drop it.
+@@ -1,99 +0,0 @@
+-From 7c273e5c6041f8c70f73f5b280fbb8f27d9b5a36 Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Thu, 5 Mar 2020 17:25:29 -0800
+-Subject: [PATCH] ls: restore 8.31 behavior on removed directories
 -
--RP 2020/2/6
+-* NEWS: Mention this.
+-* src/ls.c: Do not include <sys/sycall.h>
+-(print_dir): Don't worry about whether the directory is removed.
+-* tests/ls/removed-directory.sh: Adjust to match new (i.e., old)
+-behavior.
 -
--Upstream-Status: Pending
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Backport [https://github.com/coreutils/coreutils/commit/10fcb97bd728f09d4a027eddf8ad2900f0819b0a]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- src/ls.c                      | 22 ----------------------
+- tests/ls/removed-directory.sh | 10 ++--------
+- 2 files changed, 2 insertions(+), 30 deletions(-)
 -
--Index: openssl-1.1.1d/Configure
--===================================================================
----- openssl-1.1.1d.orig/Configure
--+++ openssl-1.1.1d/Configure
--@@ -286,7 +286,7 @@ if (defined env($local_config_envname))
-- # Save away perl command information
-- $config{perl_cmd} = $^X;
-- $config{perl_version} = $Config{version};
---$config{perl_archname} = $Config{archname};
--+#$config{perl_archname} = $Config{archname};
+-diff --git a/src/ls.c b/src/ls.c
+-index 637fe7a..0111f49 100644
+---- a/src/ls.c
+-+++ b/src/ls.c
+-@@ -49,10 +49,6 @@
+- # include <sys/ptem.h>
+- #endif
 - 
-- $config{prefix}="";
-- $config{openssldir}="";
--@@ -2517,7 +2517,7 @@ _____
--                           @{$config{perlargv}}), "\n";
--         print "\nPerl information:\n\n";
--         print '    ',$config{perl_cmd},"\n";
---        print '    ',$config{perl_version},' for ',$config{perl_archname},"\n";
--+        print '    ',$config{perl_version},"\n";
--     }
--     if ($dump || $options) {
--         my $longest = 0;
-diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
-index 3fb22471f8c..8dff79101fa 100644
---- a/meta/recipes-connectivity/openssl/openssl/run-ptest
-+++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
-@@ -9,4 +9,4 @@ export TOP=.
- # OPENSSL_ENGINES is relative from the test binaries
- export OPENSSL_ENGINES=../engines
- 
--perl ./test/run_tests.pl $* | perl -0pe 's#(.*) \.*.ok#PASS: \1#g; s#(.*) \.*.skipped: (.*)#SKIP: \1 (\2)#g; s#(.*) \.*.\nDubious#FAIL: \1#;'
-+perl ./test/run_tests.pl $* | sed -u -r -e '/(.*) \.*.ok/ s/^/PASS: /g' -r -e '/Dubious(.*)/ s/^/FAIL: /g' -e '/(.*) \.*.skipped: (.*)/ s/^/SKIP: /g'
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb b/meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-similarity index 76%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-index b241ba78bcc..d8c50a80118 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-@@ -4,19 +4,14 @@ HOMEPAGE = "http://www.openssl.org/"
- BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
- SECTION = "libs/network"
- 
--# "openssl" here actually means both OpenSSL and SSLeay licenses apply
--# (see meta/files/common-licenses/OpenSSL to which "openssl" is SPDXLICENSEMAPped)
--LICENSE = "openssl"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
+--#ifdef __linux__
+--# include <sys/syscall.h>
+--#endif
+--
+- #include <stdio.h>
+- #include <assert.h>
+- #include <setjmp.h>
+-@@ -2895,7 +2891,6 @@ print_dir (char const *name, char const *realname, bool command_line_arg)
+-   struct dirent *next;
+-   uintmax_t total_blocks = 0;
+-   static bool first = true;
+--  bool found_any_entries = false;
+- 
+-   errno = 0;
+-   dirp = opendir (name);
+-@@ -2971,7 +2966,6 @@ print_dir (char const *name, char const *realname, bool command_line_arg)
+-       next = readdir (dirp);
+-       if (next)
+-         {
+--          found_any_entries = true;
+-           if (! file_ignored (next->d_name))
+-             {
+-               enum filetype type = unknown;
+-@@ -3017,22 +3011,6 @@ print_dir (char const *name, char const *realname, bool command_line_arg)
+-           if (errno != EOVERFLOW)
+-             break;
+-         }
+--#ifdef __linux__
+--      else if (! found_any_entries)
+--        {
+--          /* If readdir finds no directory entries at all, not even "." or
+--             "..", then double check that the directory exists.  */
+--          if (syscall (SYS_getdents, dirfd (dirp), NULL, 0) == -1
+--              && errno != EINVAL)
+--            {
+--              /* We exclude EINVAL as that pertains to buffer handling,
+--                 and we've passed NULL as the buffer for simplicity.
+--                 ENOENT is returned if appropriate before buffer handling.  */
+--              file_failure (command_line_arg, _("reading directory %s"), name);
+--            }
+--          break;
+--        }
+--#endif
+-       else
+-         break;
+- 
+-diff --git a/tests/ls/removed-directory.sh b/tests/ls/removed-directory.sh
+-index e8c835d..fe8f929 100755
+---- a/tests/ls/removed-directory.sh
+-+++ b/tests/ls/removed-directory.sh
+-@@ -26,20 +26,14 @@ case $host_triplet in
+-   *) skip_ 'non linux kernel' ;;
+- esac
+- 
+--LS_FAILURE=2
+--
+--cat <<\EOF >exp-err || framework_failure_
+--ls: reading directory '.': No such file or directory
+--EOF
+--
+- cwd=$(pwd)
+- mkdir d || framework_failure_
+- cd d || framework_failure_
+- rmdir ../d || framework_failure_
+- 
+--returns_ $LS_FAILURE ls >../out 2>../err || fail=1
+-+ls >../out 2>../err || fail=1
+- cd "$cwd" || framework_failure_
+- compare /dev/null out || fail=1
+--compare exp-err err || fail=1
+-+compare /dev/null err || fail=1
+- 
+- Exit $fail
+diff --git a/meta/recipes-core/coreutils/coreutils/disable-ls-output-quoting.patch b/meta/recipes-core/coreutils/coreutils/disable-ls-output-quoting.patch
+deleted file mode 100644
+index e68c2135506..00000000000
+--- a/meta/recipes-core/coreutils/coreutils/disable-ls-output-quoting.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-Subject: revert inconsistent ls quoting
 -
--DEPENDS = "hostperl-runtime-native"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c75985e733726beaba57bc5253e96d04"
+-This is a revert of upstream commit 109b9220cead6e979d22d16327c4d9f8350431cc.
+-
+-Bug-Debian: https://bugs.debian.org/813164
+-
+-Upstream-Status: Submitted
+-
+-Originally-by: Adam Borowski <kilobyte@angband.pl>
+-[PG: patch from https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=813164#78 ]
+-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+-
+----
+-
+---- coreutils-8.25.orig/NEWS
+-+++ coreutils-8.25/NEWS
+-@@ -71,9 +71,6 @@ GNU coreutils NEWS
+-   df now prefers sources towards the root of a device when
+-   eliding duplicate bind mounted entries.
+- 
+--  ls now quotes file names unambiguously and appropriate for use in a shell,
+--  when outputting to a terminal.
+--
+-   join, sort, uniq with --zero-terminated, now treat '\n' as a field delimiter.
+- 
+- ** Improvements
+---- coreutils-8.25.orig/doc/coreutils.texi
+-+++ coreutils-8.25/doc/coreutils.texi
+-@@ -7750,8 +7750,8 @@ this"} in the default C locale.  This lo
+- 
+- You can specify the default value of the @option{--quoting-style} option
+- with the environment variable @env{QUOTING_STYLE}@.  If that environment
+--variable is not set, the default value is @samp{shell-escape} when the
+--output is a terminal, and @samp{literal} otherwise.
+-+variable is not set, the default value is @samp{literal}, but this
+-+default may change to @samp{shell} in a future version of this package.
+- 
+- @item --show-control-chars
+- @opindex --show-control-chars
+---- coreutils-8.25.orig/src/ls.c
+-+++ coreutils-8.25/src/ls.c
+-@@ -1581,7 +1581,6 @@ decode_switches (int argc, char **argv)
+-       if (isatty (STDOUT_FILENO))
+-         {
+-           format = many_per_line;
+--          set_quoting_style (NULL, shell_escape_quoting_style);
+-           /* See description of qmark_funny_chars, above.  */
+-           qmark_funny_chars = true;
+-         }
+diff --git a/meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch b/meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch
+new file mode 100644
+index 00000000000..d69ee95e4a8
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch
+@@ -0,0 +1,93 @@
++From e8b56ebd536e82b15542a00c888109471936bfda Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
++Date: Fri, 24 Sep 2021 20:57:41 +0100
++Subject: [PATCH] chmod: fix exit status when ignoring symlinks
++
++* src/chmod.c: Reorder enum so CH_NOT_APPLIED
++can be treated as a non error.
++* tests/chmod/ignore-symlink.sh: A new test.
++* tests/local.mk: Reference the new test.
++* NEWS: Mention the bug fix.
++Fixes https://bugs.gnu.org/50784
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ src/chmod.c                   |  4 ++--
++ tests/chmod/ignore-symlink.sh | 31 +++++++++++++++++++++++++++++++
++ tests/local.mk                |  1 +
++ 4 files changed, 40 insertions(+), 2 deletions(-)
++ create mode 100755 tests/chmod/ignore-symlink.sh
++
++diff --git a/src/chmod.c b/src/chmod.c
++index 37b04f500..57ac47f33 100644
++--- a/src/chmod.c
+++++ b/src/chmod.c
++@@ -44,8 +44,8 @@ struct change_status
++   enum
++     {
++       CH_NO_STAT,
++-      CH_NOT_APPLIED,
++       CH_FAILED,
+++      CH_NOT_APPLIED,
++       CH_NO_CHANGE_REQUESTED,
++       CH_SUCCEEDED
++     }
++@@ -322,7 +322,7 @@ process_file (FTS *fts, FTSENT *ent)
++   if ( ! recurse)
++     fts_set (fts, ent, FTS_SKIP);
++ 
++-  return CH_NO_CHANGE_REQUESTED <= ch.status;
+++  return CH_NOT_APPLIED <= ch.status;
++ }
++ 
++ /* Recursively change the modes of the specified FILES (the last entry
++diff --git a/tests/chmod/ignore-symlink.sh b/tests/chmod/ignore-symlink.sh
++new file mode 100755
++index 000000000..5ce3de816
++--- /dev/null
+++++ b/tests/chmod/ignore-symlink.sh
++@@ -0,0 +1,31 @@
+++#!/bin/sh
+++# Test for proper exit code of chmod on a processed symlink.
+++
+++# Copyright (C) 2021 Free Software Foundation, Inc.
+++
+++# This program is free software: you can redistribute it and/or modify
+++# it under the terms of the GNU General Public License as published by
+++# the Free Software Foundation, either version 3 of the License, or
+++# (at your option) any later version.
+++
+++# This program is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+++
+++. "${srcdir=.}/tests/init.sh"; path_prepend_ ./src
+++print_ver_ chmod
+++
+++mkdir dir || framework_failure_
+++touch dir/f || framework_failure_
+++ln -s f dir/l || framework_failure_
+++
+++# This operation ignores symlinks but should succeed.
+++chmod u+w -R dir 2> out || fail=1
+++
+++compare /dev/null out || fail=1
+++
+++Exit $fail
++diff --git a/tests/local.mk b/tests/local.mk
++index 228d0e368..b5b893fb7 100644
++--- a/tests/local.mk
+++++ b/tests/local.mk
++@@ -456,6 +456,7 @@ all_tests =					\
++   tests/chmod/c-option.sh			\
++   tests/chmod/equal-x.sh			\
++   tests/chmod/equals.sh				\
+++  tests/chmod/ignore-symlink.sh			\
++   tests/chmod/inaccessible.sh			\
++   tests/chmod/octal.sh				\
++   tests/chmod/setgid.sh				\
+diff --git a/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch b/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
+index 173a57925ba..4f126ad67c6 100644
+--- a/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
++++ b/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
+@@ -1,4 +1,4 @@
+-From 7e20a7242ba2657f73311bbf5278093da67f0721 Mon Sep 17 00:00:00 2001
++From b04363018b4b9b45fdf23384f30d02caa5564602 Mon Sep 17 00:00:00 2001
+ From: Robert Yang <liezhi.yang@windriver.com>
+ Date: Tue, 16 Sep 2014 01:59:08 -0700
+ Subject: [PATCH] gnulib-comp.m4: selinux/flask.h should respect to
+@@ -19,16 +19,17 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+ diff --git a/m4/gnulib-comp.m4 b/m4/gnulib-comp.m4
+-index dead90e..0abf0bd 100644
++index 3857233..c01fb30 100644
+ --- a/m4/gnulib-comp.m4
+ +++ b/m4/gnulib-comp.m4
+-@@ -1860,10 +1860,10 @@ AC_DEFUN([gl_INIT],
++@@ -1953,11 +1953,11 @@ AC_DEFUN([gl_INIT],
+      AC_LIBOBJ([select])
+    fi
+    gl_SYS_SELECT_MODULE_INDICATOR([select])
+ -  AC_CHECK_HEADERS([selinux/flask.h])
+    gl_HEADERS_SELINUX_SELINUX_H
+    gl_HEADERS_SELINUX_CONTEXT_H
++   gl_HEADERS_SELINUX_LABEL_H
+    if test "$with_selinux" != no && test "$ac_cv_header_selinux_selinux_h" = yes; then
+ +    AC_CHECK_HEADERS([selinux/flask.h])
+      AC_LIBOBJ([getfilecon])
+diff --git a/meta/recipes-core/coreutils/coreutils_8.32.bb b/meta/recipes-core/coreutils/coreutils_9.0.bb
+similarity index 94%
+rename from meta/recipes-core/coreutils/coreutils_8.32.bb
+rename to meta/recipes-core/coreutils/coreutils_9.0.bb
+index 01acf9a8747..0800bc3b6d4 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.32.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+-                    file://src/ls.c;beginline=1;endline=15;md5=b7d80abf5b279320fb0e4b1007ed108b \
++                    file://src/ls.c;beginline=1;endline=15;md5=3b8fbaee597c8a9bb88d30840d53048c \
+                     "
+ DEPENDS = "gmp libcap"
+ DEPENDS:class-native = ""
+@@ -17,21 +17,17 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://fix-selinux-flask.patch \
+            file://0001-uname-report-processor-and-hardware-correctly.patch \
+-           file://disable-ls-output-quoting.patch \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
++           file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
             file://run-ptest \
--           file://0001-skip-test_symbol_presence.patch \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
--           file://reproducible.patch \
-+           file://0001-Configure-do-not-tweak-mips-cflags.patch \
+-           file://0001-ls-restore-8.31-behavior-on-removed-directories.patch \
+-           file://0001-fts-remove-NOSTAT_LEAF_OPTIMIZATION.patch \
             "
  
- SRC_URI:append:class-nativesdk = " \
-@@ -28,9 +23,9 @@ SRC_URI:append:riscv32 = " \
-            file://0004-Fixup-support-for-io_pgetevents_time64-syscall.patch \
-            "
+-SRC_URI[md5sum] = "022042695b7d5bcf1a93559a9735e668"
+-SRC_URI[sha256sum] = "4458d8de7849df44ccab15e16b1548b285224dbba5f08fac070c1c0e0bcc4cfa"
++SRC_URI[sha256sum] = "ce30acdf4a41bc5bb30dd955e9eaa75fa216b4e3deb08889ed32433c7b3b97ce"
  
--SRC_URI[sha256sum] = "0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1"
-+SRC_URI[sha256sum] = "59eedfcb46c25214c9bd37ed6078297b4df01d012267fe9e9eee31f61bc70536"
+ # http://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=v8.27-101-gf5d7c0842
+ # runcon is not really a sandbox command, use `runcon ... setsid ...` to avoid this particular issue.
+ CVE_CHECK_WHITELIST += "CVE-2016-2781"
  
--inherit lib_package multilib_header multilib_script ptest
-+inherit lib_package multilib_header multilib_script ptest perlnative
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+-EXTRA_OECONF:class-native = "--without-gmp"
+ EXTRA_OECONF:class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+ EXTRA_OECONF:class-nativesdk = "--enable-install-program=arch,hostname"
  
- PACKAGECONFIG ?= ""
-@@ -59,19 +54,9 @@ EXTRA_OECONF:class-nativesdk = "--with-rand-seed=os,devrandom"
- CFLAGS:append:class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
- CFLAGS:append:class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
- 
--# Disable deprecated crypto algorithms
--# Retained for compatibilty
--# des (curl)
--# dh (python-ssl)
--# dsa (rpm)
--# md4 (cyrus-sasl freeradius hostapd)
--# bf (wvstreams postgresql x11vnc crda znc cfengine)
--# rc4 (freerdp librtorrent ettercap xrdp transmission pam-ssh-agent-auth php)
--# rc2 (mailx)
--# psk (qt5)
--# srp (libest)
--# whirlpool (qca)
--DEPRECATED_CRYPTO_FLAGS = "no-ssl no-idea no-rc5 no-md2 no-camellia no-mdc2 no-scrypt no-seed no-siphash no-sm2 no-sm3 no-sm4"
-+# This allows disabling deprecated or undesirable crypto algorithms.
-+# The default is to trust upstream choices.
-+DEPRECATED_CRYPTO_FLAGS ?= ""
- 
- do_configure () {
- 	os=${HOST_OS}
-@@ -146,7 +131,7 @@ do_configure () {
- 	# WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
- 	# environment variables set by bitbake. Adjust the environment variables instead.
- 	HASHBANGPERL="/usr/bin/env perl" PERL=perl PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
--	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir} $target
-+	perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=$useprefix --openssldir=${libdir}/ssl-3 --libdir=${libdir} $target
- 	perl ${B}/configdata.pm --dump
- }
- 
-@@ -154,43 +139,49 @@ do_install () {
- 	oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
- 
- 	oe_multilib_header openssl/opensslconf.h
-+	oe_multilib_header openssl/configuration.h
- 
- 	# Create SSL structure for packages such as ca-certificates which
- 	# contain hard-coded paths to /etc/ssl. Debian does the same.
- 	install -d ${D}${sysconfdir}/ssl
--	mv ${D}${libdir}/ssl-1.1/certs \
--	   ${D}${libdir}/ssl-1.1/private \
--	   ${D}${libdir}/ssl-1.1/openssl.cnf \
-+	mv ${D}${libdir}/ssl-3/certs \
-+	   ${D}${libdir}/ssl-3/private \
-+	   ${D}${libdir}/ssl-3/openssl.cnf \
- 	   ${D}${sysconfdir}/ssl/
- 
- 	# Although absolute symlinks would be OK for the target, they become
- 	# invalid if native or nativesdk are relocated from sstate.
--	ln -sf ${@oe.path.relative('${libdir}/ssl-1.1', '${sysconfdir}/ssl/certs')} ${D}${libdir}/ssl-1.1/certs
--	ln -sf ${@oe.path.relative('${libdir}/ssl-1.1', '${sysconfdir}/ssl/private')} ${D}${libdir}/ssl-1.1/private
--	ln -sf ${@oe.path.relative('${libdir}/ssl-1.1', '${sysconfdir}/ssl/openssl.cnf')} ${D}${libdir}/ssl-1.1/openssl.cnf
-+	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/certs')} ${D}${libdir}/ssl-3/certs
-+	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/private')} ${D}${libdir}/ssl-3/private
-+	ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/openssl.cnf')} ${D}${libdir}/ssl-3/openssl.cnf
- }
- 
- do_install:append:class-native () {
- 	create_wrapper ${D}${bindir}/openssl \
--	    OPENSSL_CONF=${libdir}/ssl-1.1/openssl.cnf \
--	    SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
--	    SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
--	    OPENSSL_ENGINES=${libdir}/engines-1.1
-+	    OPENSSL_CONF=${libdir}/ssl-3/openssl.cnf \
-+	    SSL_CERT_DIR=${libdir}/ssl-3/certs \
-+	    SSL_CERT_FILE=${libdir}/ssl-3/cert.pem \
-+	    OPENSSL_ENGINES=${libdir}/engines-3
- }
- 
- do_install:append:class-nativesdk () {
- 	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
- 	install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
--	sed 's|/usr/lib/ssl/|/usr/lib/ssl-1.1/|g' -i ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
-+	sed 's|/usr/lib/ssl/|/usr/lib/ssl-3/|g' -i ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
- }
- 
- PTEST_BUILD_HOST_FILES += "configdata.pm"
- PTEST_BUILD_HOST_PATTERN = "perl_version ="
- do_install_ptest () {
-+	install -d ${D}${PTEST_PATH}/test
-+	install -m755 ${B}/test/p_test.so ${D}${PTEST_PATH}/test
-+	install -m755 ${B}/test/provider_internal_test.cnf ${D}${PTEST_PATH}/test
-+
- 	# Prune the build tree
- 	rm -f ${B}/fuzz/*.* ${B}/test/*.*
- 
- 	cp ${S}/Configure ${B}/configdata.pm ${D}${PTEST_PATH}
-+	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm
- 	cp -r ${S}/external ${B}/test ${S}/test ${B}/fuzz ${S}/util ${B}/util ${D}${PTEST_PATH}
- 
- 	# For test_shlibload
-@@ -204,10 +195,20 @@ do_install_ptest () {
- 
- 	install -d ${D}${PTEST_PATH}/engines
- 	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines
-+	install -m755 ${B}/engines/loader_attic.so ${D}${PTEST_PATH}/engines
-+
-+	install -d ${D}${PTEST_PATH}/providers
-+	install -m755 ${B}/providers/legacy.so ${D}${PTEST_PATH}/providers
-+
-+        install -d ${D}${PTEST_PATH}/Configurations
-+        cp -rf ${S}/Configurations/* ${D}${PTEST_PATH}/Configurations/
- 
-         # seems to be needed with perl 5.32.1
-         install -d ${D}${PTEST_PATH}/util/perl/recipes
-         cp ${D}${PTEST_PATH}/test/recipes/tconversion.pl ${D}${PTEST_PATH}/util/perl/recipes/
-+
-+	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/util/wrap.pl
-+
- }
- 
- # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
-@@ -220,13 +221,13 @@ PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc"
- FILES:libcrypto = "${libdir}/libcrypto${SOLIBS}"
- FILES:libssl = "${libdir}/libssl${SOLIBS}"
- FILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf \
--                      ${libdir}/ssl-1.1/openssl.cnf* \
-+                      ${libdir}/ssl-3/openssl.cnf* \
-                       "
--FILES:${PN}-engines = "${libdir}/engines-1.1"
-+FILES:${PN}-engines = "${libdir}/engines-3"
- # ${prefix} comes from what we pass into --prefix at configure time (which is used for INSTALLTOP)
--FILES:${PN}-engines:append:mingw32:class-nativesdk = " ${prefix}${libdir}/engines-1_1"
--FILES:${PN}-misc = "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
--FILES:${PN} =+ "${libdir}/ssl-1.1/*"
-+FILES:${PN}-engines:append:mingw32:class-nativesdk = " ${prefix}${libdir}/engines-3"
-+FILES:${PN}-misc = "${libdir}/ssl-3/misc ${bindir}/c_rehash"
-+FILES:${PN} =+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
- FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
- 
- CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
 -- 
 2.20.1
 
