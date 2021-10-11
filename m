@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E287C433F5
-	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:15 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web12.9538.1633945274552399680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD91C433FE
+	for <webhook@archiver.kernel.org>; Mon, 11 Oct 2021 09:41:17 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.9727.1633945275884280149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:14 -0700
+ Mon, 11 Oct 2021 02:41:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TDPxuXeO;
- spf=pass (domain: gmail.com, ip: 209.85.221.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=a9H2g2DT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id m22so54260668wrb.0
+Received: by mail-wr1-f42.google.com with SMTP id v17so54055193wrv.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 02:41:14 -0700 (PDT)
+ Mon, 11 Oct 2021 02:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=q2NuhBtGg2b8GgHZ9lEdrIvZs8S4Zr04dShJ2U0MI3A=;
-        b=TDPxuXeOrgtOmgI4GnzdhOqQvIw0Y8fMcvbgml2w5afOyDfnda+SLP4Z08c1kNUEoM
-         bncn6+SrsmM55hQ4rSzducBv+irfNoTOGrjDjlgeSjERq9tDwcehaM+fOYiUBR1Uy9Zo
-         XNGyT7vmdvCTcCX7dy0VkVXKpyxQfFPq7GaZzZOyKANzJJFQfUlkmitZt2kY97nHluRF
-         OOrGNpy84X3RhVO93/H8cPCYpkrCBK3wiuropsQ41tV5GA/lphO/HFJbfM+4iiA+0jvt
-         0Hvr5+KkzJOOMvsNhCkbJiw8gNYkzBMfVlNYzpOSVoYUbFLgFxOMm8ZA4n9nEWbPNFMJ
-         Ak6g==
+        bh=Xv1uCwbT+UO8G4nFcNPC9UyC+KFLoU6qincjlGTTUD4=;
+        b=a9H2g2DTpdJMWizn98fgHyRi55czC7OmM8Wxi1o+sj0t7NsntDhjD1XPPKHqIClBSF
+         WFasmmhLQzEEw7MyoAoSbSCaNHX1pFvE3PeTbRkB9F4WffmsNyVzU2ve3hhKQnT6sX4m
+         rvIg34YLXHU6I/V6E7XZUavH1MIBnHfB9HHeEKS68/08IUZS0FIsej+OIPJDQKPxK+9R
+         mYfXX77ez0Ev84A7VPeEfqtLKMwbN4f2XTWA1aflOvp9vo5dNbndLw8EUbD7DXZ5wIKp
+         LSVhHcD8G3wsIiTzGiqTt4r9t4UVzP+6FKVB3z7ph56e+G11YGFi8ZWQz1OjVtOt1i1A
+         /2ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q2NuhBtGg2b8GgHZ9lEdrIvZs8S4Zr04dShJ2U0MI3A=;
-        b=MqvYjpEEYBd3UO0FZcNu8/jkD9V598lYlo468N60yOtlDCVTi47NwKIDzDYn/TL7ot
-         ppubhxm01fNbFax3WSNEm8HsT7goKLbvgcMQWfeALeNqLWAfxHHr3gcHw473rCLDrMPf
-         Ow+yFTs34ipx19d6o8zR5r6lTojKWSItKJNII8bdn9Eow1QEZT1TUrkq4PHrLLghn3ae
-         xhyuwNM3iGe9uiXkuR2uaRsq21yKD5OJK8K/wuPKgu3Dx1BONGc+D7vhCccjeaRgW7om
-         QcJRqcELk3ocE2r8P/qB7Mmvab/9mujSJwG4Vkkn1bPfFjUtRA7tRlDfKN7kJVAx33fr
-         1qJg==
-X-Gm-Message-State: AOAM531zEBzGm3lJjOUhvIvJ1RpISu39GyBbLkSu/arMSfNacETMqkII
-	uvJydWeXGopoeNk927DLnO3qyMNOS/I=
+        bh=Xv1uCwbT+UO8G4nFcNPC9UyC+KFLoU6qincjlGTTUD4=;
+        b=6tNCsZkafB3BQdhq86IEN6/LOpbmxQtlXR3pYaGJmEgBPNOgP6+vpt+yV3vPwgtZUJ
+         8qnzccN7Whib2wAmEoK48xNzA5VIDGjvnlNAv7TFfUOX5CqTxX1R0YRv05iCrJgyve83
+         u4muOsidN5SBC6nCPs5Y/x70ddEzZP1S9kK0++n3E+O0X9sq0UlOQJQ21ZhcJ21Cm1Zw
+         RCjiSBRgWZ9xq+7FIi3cM03cvDiGegjzNQYNkc+SlOssvITIoBPXiC6G/c2z2lBKJW/V
+         IWF26lX2/awN2EACjboLMKqQOfaJJfbnChw5fRreeYO4zyKZQWTvLJ8H6EAcucKz8AYI
+         PdhQ==
+X-Gm-Message-State: AOAM530deH45hyOaIq4R/fgKJSQTlOfoJoA4OSKb/cYiJWJzjWxe3Erw
+	/bGvLKCH/w1d75zBPSrpQhqNhxzi8kY=
 X-Google-Smtp-Source: 
- ABdhPJwSc4zdnzF2DDO8RqMOuefhGA76/kKJ7I0l5NyRER7YoBpElVMYMWkYAt6/8NOGSqhrLaDjjg==
-X-Received: by 2002:adf:97cd:: with SMTP id
- t13mr23400100wrb.312.1633945273002;
-        Mon, 11 Oct 2021 02:41:13 -0700 (PDT)
+ ABdhPJxH2hEpW7ydYp950GktZvw0pPj8y54D33tRQv3RfP9dl5ZVXqdkFTtPNK6Hy7q7gsaMB9lbLw==
+X-Received: by 2002:a5d:6d51:: with SMTP id
+ k17mr13167419wri.233.1633945274343;
+        Mon, 11 Oct 2021 02:41:14 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k17sm7180758wrc.93.2021.10.11.02.41.12
+ k17sm7180758wrc.93.2021.10.11.02.41.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 02:41:12 -0700 (PDT)
+        Mon, 11 Oct 2021 02:41:14 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Changqing Li <changqing.li@windriver.com>
-Subject: [PATCH 15/25] libexif: update 0.6.22 -> 0.6.23
-Date: Mon, 11 Oct 2021 11:40:49 +0200
-Message-Id: <20211011094059.4184654-15-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 17/25] wget: update 1.21.1 -> 1.21.2
+Date: Mon, 11 Oct 2021 11:40:51 +0200
+Message-Id: <20211011094059.4184654-17-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211011094059.4184654-1-alex@linutronix.de>
 References: <20211011094059.4184654-1-alex@linutronix.de>
@@ -67,159 +66,45 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:15 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Oct 2021 09:41:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156827
+ https://lists.openembedded.org/g/openembedded-core/message/156830
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libexif/files/CVE-2020-0198.patch         | 66 -------------------
- .../libexif/files/CVE-2020-0452.patch         | 39 -----------
- .../{libexif_0.6.22.bb => libexif_0.6.23.bb}  |  6 +-
- 3 files changed, 2 insertions(+), 109 deletions(-)
- delete mode 100644 meta/recipes-support/libexif/files/CVE-2020-0198.patch
- delete mode 100644 meta/recipes-support/libexif/files/CVE-2020-0452.patch
- rename meta/recipes-support/libexif/{libexif_0.6.22.bb => libexif_0.6.23.bb} (75%)
+ meta/recipes-extended/wget/wget.inc                           | 2 ++
+ meta/recipes-extended/wget/{wget_1.21.1.bb => wget_1.21.2.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-extended/wget/{wget_1.21.1.bb => wget_1.21.2.bb} (60%)
 
-diff --git a/meta/recipes-support/libexif/files/CVE-2020-0198.patch b/meta/recipes-support/libexif/files/CVE-2020-0198.patch
-deleted file mode 100644
-index 2a48844cb2b..00000000000
---- a/meta/recipes-support/libexif/files/CVE-2020-0198.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--From ca71eda33fe8421f98fbe20eb4392473357c1c43 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Wed, 30 Dec 2020 10:22:47 +0800
--Subject: [PATCH] fixed another unsigned integer overflow
--
--first fixed by google in android fork,
--https://android.googlesource.com/platform/external/libexif/+/1e187b62682ffab5003c702657d6d725b4278f16%5E%21/#F0
--
--(use a more generic overflow check method, also check second overflow instance.)
--
--https://security-tracker.debian.org/tracker/CVE-2020-0198
--
--Upstream-Status: Backport[https://github.com/libexif/libexif/commit/ce03ad7ef4e8aeefce79192bf5b6f69fae396f0c]
--CVE: CVE-2020-0198
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- libexif/exif-data.c | 10 ++++++----
-- 1 file changed, 6 insertions(+), 4 deletions(-)
--
--diff --git a/libexif/exif-data.c b/libexif/exif-data.c
--index 8b280d3..34d58fc 100644
----- a/libexif/exif-data.c
--+++ b/libexif/exif-data.c
--@@ -47,6 +47,8 @@
-- #undef JPEG_MARKER_APP1
-- #define JPEG_MARKER_APP1 0xe1
-- 
--+#define CHECKOVERFLOW(offset,datasize,structsize) (( offset >= datasize) || (structsize > datasize) || (offset > datasize - structsize ))
--+
-- static const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-- 
-- struct _ExifDataPrivate
--@@ -327,7 +329,7 @@ exif_data_load_data_thumbnail (ExifData *data, const unsigned char *d,
-- 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData", "Bogus thumbnail offset (%u).", o);
-- 		return;
-- 	}
---	if (s > ds - o) {
--+	if (CHECKOVERFLOW(o,ds,s)) {
-- 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData", "Bogus thumbnail size (%u), max would be %u.", s, ds-o);
-- 		return;
-- 	}
--@@ -420,9 +422,9 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
-- 	}
-- 
-- 	/* Read the number of entries */
---	if ((offset + 2 < offset) || (offset + 2 < 2) || (offset + 2 > ds)) {
--+	if (CHECKOVERFLOW(offset, ds, 2)) {
-- 		exif_log (data->priv->log, EXIF_LOG_CODE_CORRUPT_DATA, "ExifData",
---			  "Tag data past end of buffer (%u > %u)", offset+2, ds);
--+			  "Tag data past end of buffer (%u+2 > %u)", offset, ds);
-- 		return;
-- 	}
-- 	n = exif_get_short (d + offset, data->priv->order);
--@@ -431,7 +433,7 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
-- 	offset += 2;
-- 
-- 	/* Check if we have enough data. */
---	if (offset + 12 * n > ds) {
--+	if (CHECKOVERFLOW(offset, ds, 12*n)) {
-- 		n = (ds - offset) / 12;
-- 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData",
-- 				  "Short data; only loading %hu entries...", n);
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/libexif/files/CVE-2020-0452.patch b/meta/recipes-support/libexif/files/CVE-2020-0452.patch
-deleted file mode 100644
-index a117b8b3691..00000000000
---- a/meta/recipes-support/libexif/files/CVE-2020-0452.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 302acd49eba0a125b0f20692df6abc6f7f7ca53e Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Wed, 30 Dec 2020 10:18:51 +0800
--Subject: [PATCH] fixed a incorrect overflow check that could be optimized
-- away.
--
--inspired by:
--https://android.googlesource.com/platform/external/libexif/+/8e7345f3bc0bad06ac369d6cbc1124c8ceaf7d4b
--
--https://source.android.com/security/bulletin/2020-11-01
--
--CVE-2020-0452
--
--Upsteam-Status: Backport[https://github.com/libexif/libexif/commit/9266d14b5ca4e29b970fa03272318e5f99386e06]
--CVE: CVE-2020-0452
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- libexif/exif-entry.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/libexif/exif-entry.c b/libexif/exif-entry.c
--index 5de215f..3a6ce84 100644
----- a/libexif/exif-entry.c
--+++ b/libexif/exif-entry.c
--@@ -1371,8 +1371,8 @@ exif_entry_get_value (ExifEntry *e, char *val, unsigned int maxlen)
-- 	{
-- 		unsigned char *utf16;
-- 
---		/* Sanity check the size to prevent overflow */
---		if (e->size+sizeof(uint16_t)+1 < e->size) break;
--+		/* Sanity check the size to prevent overflow. Note EXIF files are 64kb at most. */
--+		if (e->size >= 65536 - sizeof(uint16_t)*2) break;
-- 
-- 		/* The tag may not be U+0000-terminated , so make a local
-- 		   U+0000-terminated copy before converting it */
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/libexif/libexif_0.6.22.bb b/meta/recipes-support/libexif/libexif_0.6.23.bb
-similarity index 75%
-rename from meta/recipes-support/libexif/libexif_0.6.22.bb
-rename to meta/recipes-support/libexif/libexif_0.6.23.bb
-index 9ca96d548c2..b33522dfc42 100644
---- a/meta/recipes-support/libexif/libexif_0.6.22.bb
-+++ b/meta/recipes-support/libexif/libexif_0.6.23.bb
-@@ -10,12 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
- def version_underscore(v):
-     return "_".join(v.split("."))
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index cd7290be579..2491199f18c 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
  
--SRC_URI = "https://github.com/libexif/libexif/releases/download/libexif-${@version_underscore("${PV}")}-release/libexif-${PV}.tar.xz \
--           file://CVE-2020-0198.patch \
--           file://CVE-2020-0452.patch \
-+SRC_URI = "https://github.com/libexif/libexif/releases/download/v${PV}/libexif-${PV}.tar.xz \
-            "
+ inherit autotools gettext texinfo update-alternatives pkgconfig
  
--SRC_URI[sha256sum] = "5048f1c8fc509cc636c2f97f4b40c293338b6041a5652082d5ee2cf54b530c56"
-+SRC_URI[sha256sum] = "a740a99920eb81ae0aa802bb46e683ce6e0cde061c210f5d5bde5b8572380431"
++DEPENDS += "autoconf-archive"
++
+ EXTRA_OECONF = "--without-libgnutls-prefix --without-libssl-prefix \
+                 --disable-rpath"
  
- UPSTREAM_CHECK_URI = "https://github.com/libexif/libexif/releases/"
+diff --git a/meta/recipes-extended/wget/wget_1.21.1.bb b/meta/recipes-extended/wget/wget_1.21.2.bb
+similarity index 60%
+rename from meta/recipes-extended/wget/wget_1.21.1.bb
+rename to meta/recipes-extended/wget/wget_1.21.2.bb
+index 21385bbfb27..90f3eb104dc 100644
+--- a/meta/recipes-extended/wget/wget_1.21.1.bb
++++ b/meta/recipes-extended/wget/wget_1.21.2.bb
+@@ -2,6 +2,6 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+           "
  
+-SRC_URI[sha256sum] = "59ba0bdade9ad135eda581ae4e59a7a9f25e3a4bde6a5419632b31906120e26e"
++SRC_URI[sha256sum] = "e6d4c76be82c676dd7e8c61a29b2ac8510ae108a810b5d1d18fc9a1d2c9a2497"
+ 
+ require wget.inc
 -- 
 2.20.1
 
