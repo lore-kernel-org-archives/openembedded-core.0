@@ -2,61 +2,61 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57985C433EF
-	for <webhook@archiver.kernel.org>; Tue, 12 Oct 2021 02:09:10 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web09.8006.1634004549156411924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 432ACC433EF
+	for <webhook@archiver.kernel.org>; Tue, 12 Oct 2021 02:09:12 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web09.8008.1634004551432756595
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 19:09:09 -0700
+ Mon, 11 Oct 2021 19:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=D8iN2MNS;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso742045pjb.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BxKmj46a;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id y1so12456399plk.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 19:09:09 -0700 (PDT)
+ Mon, 11 Oct 2021 19:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VT1Zb4Xi5KSE4JGnfYPDdNsJbIOaytMlRJNI/Fo4teE=;
-        b=D8iN2MNSNRdL0HjeYNuljOoM6vzH4pTbXy5gaMFj2MnK0YQD/UUWltHZCGIvG6mBs0
-         AhUWv7L8BGx3ZE8+lsz8C/A7OftR82TD4JliD1J60xc5bIQdHwr1V7Y5wW36IykOexZN
-         rcvmr9nksbqJKCDY6CcmoYlh8+RuMfzVG1GFZc5nXxnF0ELxsqo8sL9TncApx/dbLqF8
-         ceU5aK96XRlMrlS6SxyTC/MCt1xHjbx5vBxYmh5MZMnxYxhe7kwAf+El/64LMQFiDAni
-         JvXZmE1CNkypTOHrBr4Kk/Ks6tcE7bVnJVQmoZRBI/Spwjxl3w7J0CLRHSEKXFfVg7Cw
-         8EFQ==
+        bh=uv4C4JZsGseZtKQKe52bMNIz5eXejyCUucoz4Lsb5+g=;
+        b=BxKmj46aD5hKmmRjM8kHxVYJZTuEYuqx+LcwJIA9pRHTwNd9N0EkCv9MZlXyLT7X18
+         ewJ37jNudW5PDZ87rhIdoCUp+HbemlDS6VtMBWpkbJ3eD8PEMHtbl7faUMdGYxf1fG7T
+         R7EMWWqgi0zL3SgkhN26DrJYG3OV6+/58dTr3kxDUHt7X7mNKEayvpEgCjK+6mzlP+Uv
+         bW7CHh6Wduatl5jLSSOR0JCB+7uNy5c+7vHrcQezGBfw7YlpsyTFLzvv5yu9hZYzBCpH
+         Gpfaeri3cjVFI0CbzWL9CJ1vfoPj1fn7FFhwYUEfPl3fFcOmqw0GWTR2bkmPJc0hhCl0
+         dgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VT1Zb4Xi5KSE4JGnfYPDdNsJbIOaytMlRJNI/Fo4teE=;
-        b=V4XIFM053iT4uj4GCR2q/p0VylExUD6q2kCjU5qg/9b3nUQCSjrPuepgjK3IKwzKbR
-         M7/0REpRXpssz8MltGebsxKGuCF96HkAjI3uIyUIkwne2wIEXonaw9wALTnrY3h38dll
-         7312BGceRVM0HA/C6YCTRuw2ePIEOXT5I7cwhg+ufcT1gfDT1Es5/iRV/nkd9fE8kCdU
-         aFRRZiaChw8xc5ZVZYb1q6vN+a6DftoLJ1Mmb3r+/kCBq4VGHTa5BNpTH94WroBr7QO3
-         4geih7mB1hIYH2JXoqpRN9TlI3JSvOGw2Fp5rXP9hzIYsY9xmSC+2J7gv5VAX0b6gkAG
-         ndGQ==
-X-Gm-Message-State: AOAM533WYLQmkWDBctiRqR9BU/e4wuX0aBERoGmkkZg5Hw1esBGiNzlO
-	70djGklFOG4ZfR6SBCChOAJuqKmJcwVCqA==
+        bh=uv4C4JZsGseZtKQKe52bMNIz5eXejyCUucoz4Lsb5+g=;
+        b=5DHxGgn5IBPIA30zaTgNUb9RhBWwKwR9DMqOqakZc9o/tW/+qK2k8E02CPxutcmojJ
+         rpsy1ywj+LYC//ltFZa5aOJm9q3HFdXFbbjD7cdm+ngQOpNcW/MPHjnTMgkjdzKuT20W
+         jory5cVCUqacKFkh5s1o9xt+CjDSx97g+3cjukxro1ElRcWTVy4rnPUTjiGcwOdkEVQQ
+         pU8oa1bl7mMawNbOb3m490X+tiwFztXEup2jkRa7+WPVpIx9i0hoyxuuvDdcrvlgSrrD
+         76Rtp4O02DergwJevUFTSQPiFlpIqCYx8s/gBklNwcRABOr3QbQ46IQcmy5TTUm+NulS
+         togg==
+X-Gm-Message-State: AOAM5334gpolClIycyz6oDGfooMjn1VBvX7Her2nJp/Fx/BUqrLBbawj
+	5Hk57jzDGf5LZMKPVMDBFkVCDUBPZPf39g==
 X-Google-Smtp-Source: 
- ABdhPJz8EjDgit0zcpAVbH+1hlf99TCAQljDi1eKbVyA/IHlPrsiBFZG7ftixlAljA8bzcaXR+H/fQ==
-X-Received: by 2002:a17:90a:4812:: with SMTP id
- a18mr2920701pjh.40.1634004548493;
-        Mon, 11 Oct 2021 19:09:08 -0700 (PDT)
+ ABdhPJy3Y7pEL54GvFD/A3mXkOwrwQOX1Ihznltq1jzuf/ImZGyu6K2GRDfD2DUI3x4zLNJouzvd7A==
+X-Received: by 2002:a17:90b:4d0b:: with SMTP id
+ mw11mr2884652pjb.135.1634004550722;
+        Mon, 11 Oct 2021 19:09:10 -0700 (PDT)
 Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::17e1])
         by smtp.gmail.com with ESMTPSA id
- l207sm8949601pfd.199.2021.10.11.19.09.08
+ l207sm8949601pfd.199.2021.10.11.19.09.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 19:09:08 -0700 (PDT)
+        Mon, 11 Oct 2021 19:09:10 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH 4/7] python3-zipp: upgrade 3.5.0 -> 3.6.0
-Date: Tue, 12 Oct 2021 02:08:51 +0000
-Message-Id: <20211012020854.2073998-4-timothy.t.orling@intel.com>
+Subject: [PATCH 5/7] libconvert-asn1-perl: upgrade 0.31 -> 0.33
+Date: Tue, 12 Oct 2021 02:08:52 +0000
+Message-Id: <20211012020854.2073998-5-timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211012020854.2073998-1-timothy.t.orling@intel.com>
 References: <20211012020854.2073998-1-timothy.t.orling@intel.com>
@@ -65,41 +65,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Oct 2021 02:09:10 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Oct 2021 02:09:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156855
+ https://lists.openembedded.org/g/openembedded-core/message/156856
 
-v3.6.0
-  #78: Only Path is exposed in the public API.
+0.33 -- Wed Sep 22 19:49:53 ADT 2021
+  * Official CPAN release of 0.33
 
-v3.5.1
-  #77: Remove news file intended only for CPython.
-
-References:
-  https://github.com/jaraco/zipp/issues/78
-  https://github.com/jaraco/zipp/issues/77
+0.32 -- Tue Sep 21 18:45:20 ADT 2021
+  * examples/x509decode: parameters are optional for AlgorithmIdentifier
+    when using [ec]dsa algorithms
+  * t/19issue14.t: issue with warnings
+  * Fixes #44 Redundant argument in printf warning
+  * examples/x509decode: fix prototype error
+  * examples/ldap: fix asn1_dump not working
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- .../python/{python3-zipp_3.5.0.bb => python3-zipp_3.6.0.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-zipp_3.5.0.bb => python3-zipp_3.6.0.bb} (84%)
+ ...bconvert-asn1-perl_0.31.bb => libconvert-asn1-perl_0.33.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-extended/perl/{libconvert-asn1-perl_0.31.bb => libconvert-asn1-perl_0.33.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.5.0.bb b/meta/recipes-devtools/python/python3-zipp_3.6.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-zipp_3.5.0.bb
-rename to meta/recipes-devtools/python/python3-zipp_3.6.0.bb
-index d6f4676542a..c98bc7a3a49 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.6.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.31.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb
+similarity index 86%
+rename from meta/recipes-extended/perl/libconvert-asn1-perl_0.31.bb
+rename to meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb
+index 1848ef67e10..4f5a78df142 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.31.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.33.bb
+@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8
  
--SRC_URI[sha256sum] = "f5812b1e007e48cff63449a5e9f4e7ebea716b4111f9c4f9a645f91d579bf0c4"
-+SRC_URI[sha256sum] = "71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832"
+ SRC_URI = "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz"
  
- DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
+-SRC_URI[md5sum] = "1e12b263a5042804bb1c59ddce899876"
+-SRC_URI[sha256sum] = "6fe4c1ba744c3a8212bf2c9b2703d93530acc153435cf2f93633540b439fbbeb"
++SRC_URI[sha256sum] = "1fdf004520c79e3a244cf9688616293516c11793d746c761f367496eb3d06076"
+ 
+ S = "${WORKDIR}/Convert-ASN1-${PV}"
  
 -- 
 2.30.2
