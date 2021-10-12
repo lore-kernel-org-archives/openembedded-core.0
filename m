@@ -1,106 +1,100 @@
-Return-Path: <zboszor@pr.hu>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2791C433EF
-	for <webhook@archiver.kernel.org>; Tue, 12 Oct 2021 09:36:17 +0000 (UTC)
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web11.11427.1634031375444646584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82C0C433F5
+	for <webhook@archiver.kernel.org>; Tue, 12 Oct 2021 10:08:17 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.11582.1634033296150388090
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Oct 2021 02:36:17 -0700
+ Tue, 12 Oct 2021 03:08:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=WB4q+Ocp;
- spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1maECh-0007qt-AX; Tue, 12 Oct 2021 11:36:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=mE4jUR0EqnSiAwNAYLgEYeRHoVy0JDgLa9+1R+FjzDA=; b=WB4q+OcpB17MZK9k2ZSkJ1SZD3
-	78830y1rbQjNPg+ONbDVwkITBMVppbhqYSG/y9r2LjiWq3BI/nUIIo851Q+y1m56ovt2Qrjyigc0D
-	WYVbEB0erqjkACJgxbRHOtpufMSlyQwtSBF6dQ/8hwA9EgERciB1XgMVs3i1B4SdObaEFHpEEOu1/
-	wUPaN7ck/lXILI+rEFtYK7hvDiPVq6ejPRXnylN/URceKPlnhEr2j/fOvDrDMIBUPygBQo3jwTkYx
-	oJd6zPfxUabWTrIdIBouXudvpZwgwDTnXEDLcGh25EXe2KTxgqW2+qwlqd5hz0V+wGveXk/iXbUd/
-	+YTXde8w==;
-Received: from host-87-242-33-29.prtelecom.hu ([87.242.33.29]
- helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <zboszor@pr.hu>)
-	id 1maECc-0007Jm-B1; Tue, 12 Oct 2021 11:36:09 +0200
-Message-ID: <a56da552-d10f-904d-0899-053959eca33e@pr.hu>
-Date: Tue, 12 Oct 2021 11:36:03 +0200
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=s8zIDP4C;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.41,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f41.google.com with SMTP id r10so65314827wra.12
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 12 Oct 2021 03:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z+NkXTkHpAd5UZatyS0zbtyF420owlnxI9P4bgIZheU=;
+        b=s8zIDP4C1OIfvm8oi/8O96+VraWKUMGjEU0HTBF+JBYZ1eX4DLcmBtSaTwNiki5F6J
+         Nz3I3NCKQRsSzxG8kzyRXHIj/946tjhFOTfd0K7rKLZ8q296a1vfmPbV4XlqTyrHO8oa
+         cuJfgI7taCGT7/0D8JO0SRYSyqiTya5paSRRuJGloLgjeV4BQCjpWMVZbuukSZXgVMDH
+         FtkXDUhChKBgopXgQVFCd1aQgw3uEWorzRNJSUb7tBVwfH6mJwUnLJjuyhAUowfwR9nq
+         sTGtqGGifmOpF+GZFH2UTThbELUh0TKT5gp4JOwIB9NgDku7FGn/t0bwHbotqGija+49
+         k88g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z+NkXTkHpAd5UZatyS0zbtyF420owlnxI9P4bgIZheU=;
+        b=O5xP9Ce5eVGYLoOqrI1edzct89o/AOC7xsPyGE5isXZxG77UaiyZFwAiRmL6idSrHh
+         vaStMgkpfht9TINm5IdpvyUrEMtd+/WRB72KCB5FV3qLghb7A7GKP9Yq/PGz8SezuFzR
+         LXIWFMWiMQ5OXqJNx2Er4yhpQZ6eWh2CWrcYWJVfnFuLCSfkRhtBjctJUfG5Pvqm2E6Z
+         lyOTvnh5Q/rFwQ0YDbNbi7f/EdlLOqrK8PNJBhgC74TR/Bff1cjuwOvHSSa/fpK5RFsx
+         29JDcZf+ka6RB3Lz/8BZZDl5IDINbmCq4C+WHp3pP5646Z5VpFqVnUdpKd66gIYH+dHp
+         KDFA==
+X-Gm-Message-State: AOAM530TMwWru5eM2jeED5antNL2GPSW1lC8aH2TZtOOXo3m8WSOUlxI
+	Wq7qC0x+MbozhRrXpX/65Ca7OJSdhqApVLQlJ67DYQ==
+X-Google-Smtp-Source: 
+ ABdhPJxvTeaQLpGp3xfhq5PKhtkRviomeSVda1SFwf5Jxcz1If+cRceFAwcABgtA1JOXzifkPP8gQHu6fPZSOz1iors=
+X-Received: by 2002:adf:f48d:: with SMTP id l13mr30346785wro.94.1634033294464;
+ Tue, 12 Oct 2021 03:08:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [OE-core] [PATCH 1/2] python3-setuptools: update to 58.0.4
-Content-Language: en-US
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
- openembedded-core@lists.openembedded.org
-References: <20210918221852.2284913-1-open.source@oleksandr-kravchuk.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-In-Reply-To: <20210918221852.2284913-1-open.source@oleksandr-kravchuk.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scan-Signature: bac636d383641ecc82643dbc9c1f3bb5
+References: <20211011094059.4184654-1-alex@linutronix.de>
+ <20211011094059.4184654-21-alex@linutronix.de>
+In-Reply-To: <20211011094059.4184654-21-alex@linutronix.de>
+From: Ross Burton <ross@burtonini.com>
+Date: Tue, 12 Oct 2021 11:08:03 +0100
+Message-ID: 
+ <CAAnfSTvdESuiPyKYzVohcF=gAfJjo_GnaZn-c7XJkHCNEbT1_w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 21/25] libsoup: add a 3.x recipe
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Oct 2021 09:36:17 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Oct 2021 10:08:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156862
+ https://lists.openembedded.org/g/openembedded-core/message/156863
 
-This version broke at least python3-jsmin 2.2.2.
+On Mon, 11 Oct 2021 at 10:41, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> +DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
 
-I am hitting this issue:
+libxml2 was removed as a build dependency.
 
-https://github.com/tikitu/jsmin/issues/33
-"error in jsmin setup command: use_2to3 is invalid."
+> +PROVIDES = "libsoup-3.0"
 
-setuptools 58 removed support for use_2to3.
-python3-jsmin must be upgraded to 3.0.0 as a result.
+As they appear to be continuing the parallel installable theme, should
+we just name the recipe libsoup-3.0 as we did with the 2.4 series?
+Otherwise when a hypothetical 4.0 comes out, what is that called?
 
-There be other fallouts, too.
+> +S = "${WORKDIR}/libsoup-${PV}"
 
-On 2021. 09. 19. 0:18, Oleksandr Kravchuk wrote:
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->   ...ython3-setuptools_57.4.0.bb => python3-setuptools_58.0.4.bb} | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->   rename meta/recipes-devtools/python/{python3-setuptools_57.4.0.bb => python3-setuptools_58.0.4.bb} (94%)
-> 
-> diff --git a/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb b/meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
-> similarity index 94%
-> rename from meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
-> rename to meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
-> index ae45936c39..2000d355a9 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
-> @@ -10,7 +10,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
->   
->   SRC_URI += "file://0001-change-shebang-to-python3.patch"
->   
-> -SRC_URI[sha256sum] = "6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"
-> +SRC_URI[sha256sum] = "f10059f0152e0b7fb6b2edd77bcb1ecd4c9ed7048a826eb2d79f72fd2e6e237b"
->   
->   DEPENDS += "${PYTHON_PN}"
->   
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#156151): https://lists.openembedded.org/g/openembedded-core/message/156151
-> Mute This Topic: https://lists.openembedded.org/mt/85708588/3617728
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@pr.hu]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Redundant if you keep PN as libsoup.
 
+> +# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Disable by default.
+
+Redundant comment, libsoup-gnome is entirely gone now.
+
+> +EXTRA_OEMESON:append = " -Dvapi=disabled -Dtls_check=false"
+
+Might be worth adding -Dtests=false to make that explicit.
+
+> +# When built without gnome support, libsoup will contain only one shared lib
+> +# and will therefore become subject to renaming by debian.bbclass. Prevent
+> +# renaming in order to keep the package name consistent regardless of whether
+> +# gnome support is enabled or disabled.
+> +DEBIAN_NOAUTONAME:${PN} = "1"
+
+Redundant, as above.
+
+Ross
 
