@@ -2,96 +2,125 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F69C433F5
-	for <webhook@archiver.kernel.org>; Tue, 12 Oct 2021 02:09:03 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.8041.1634004542415210261
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47882C433EF
+	for <webhook@archiver.kernel.org>; Tue, 12 Oct 2021 02:09:05 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.8042.1634004544537029836
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 19:09:02 -0700
+ Mon, 11 Oct 2021 19:09:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yhw2zV2P;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- pf6-20020a17090b1d8600b0019fa884ab85so738591pjb.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oW6Uvc8r;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id a73so12485711pge.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Oct 2021 19:09:02 -0700 (PDT)
+ Mon, 11 Oct 2021 19:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=O7c/QDnmqdDisoyLRWlP6xilmxrrnNL9w6gIefSOJlY=;
-        b=Yhw2zV2P0Uvt1ZOgsI4L4a+IhZgwzIho9Z1PgH8jUklVFLrAtzyqzbGVOD6VGj3wZ/
-         TBcB609lbqrURCiGeWQ+dn4NpP0g1gPheAuPui0dEExxrTIvDCLm8yo3DD/GiIOyFgON
-         1Q07dLAOL0lHk0KIfs2JsEas5+FdkbHPvxRMkOFKzcxzwLV9nfNBbKuscnizyQnFpgJj
-         CEyxXGqpgl96bHoeIQV/R2kzi7hu6BCMO50VKA2ijBbyDJRCGj5PgrJD2aYnLRihDP4u
-         pqDueMztkZkuoWclwPyeCwtgyWXVUoY3GabCiXoSGXouMT3pZ6XlPMXB1nbFMc/XJQbD
-         b3Yw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nAO7L4L2hUyIY0Kyoqf4Tbd6ZpIVr7uu9BFPDNuX8M0=;
+        b=oW6Uvc8rChH1ahX+MsxMvkp/ZeKz3AV8NZ+wzthhy34TBnvsSC+6xpeFUwHLZuhOU1
+         K8ChqkPkrKMD23wAxFie183nENT4W5hXtx+cg2xLHqyIyemD8tJ5Rc9NrJQ6SUfvTXIy
+         L2MWXMK4EWahx7twWM7GGb6kQ1CIxmhFg6IVUXeizJmd1dxQhM8Xu4fTxKjlMN7wnKjW
+         1JnmleXuV/nH3d2u2rXa4S/Hqyn8U6p3ayLm+QbIH+eUqbPWNsLBe6z0odUPMFxx56S4
+         Huv3ZveQW4s89Pfu402+2zmSVwabFnXFgJWjBSY5yJGwqY/LOFSYJ6u4+qQrtAS6njRG
+         Cx9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=O7c/QDnmqdDisoyLRWlP6xilmxrrnNL9w6gIefSOJlY=;
-        b=Twcgb7QnSeS4Y70JS1mGkU/FGJ8ZodpKbxXkmieAHqjvpIMSZdAxieet/Xn2sdHwyX
-         Yh79bDAcn03Yr24RfT8P5lf9MpLNT44AS4RWKbX2JFgocTQtRIaNDd4uEqchaZGo3r3Q
-         ApGTZM91UgJioEesPnnmIkt2m4VDc6R+7AnFKoS6c8Qb1Vybk0tHXy9VrK+C6W4ys//4
-         GsVliAJrk5/PaO0Yxf1kL3p3546FfTL9RhQJDDvqxPd6I0e1RR7KUggCN08/KWMTyegZ
-         rxDQAXJd6HXHDakmKvvxUOhy0YpllI2yvfGD0tPec/drCWesFOivWm3krXcHONu5vFu0
-         DANw==
-X-Gm-Message-State: AOAM533BT0wZ+MFyb7wxS6Fc6gHtvndGHhez98Zouf6CwsNxH+3MjJPU
-	3Pdh+Vw84bf4N2/mwCxza3bDYRZFlx04TA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nAO7L4L2hUyIY0Kyoqf4Tbd6ZpIVr7uu9BFPDNuX8M0=;
+        b=vO42QfC8lP3Ip5iWmhShGzefhtRwPVdQeXw+sMnDL2Qdn58RUzJk7oCtjUq4tCDoQ1
+         u5LyrOdNRir6VSR6uBG2X2vrDWpgix8m3ZZ9eNfPDlhUduJsT1OZieGvOdYuCYyxVW07
+         /YMveBAqutLRlRXSXgJoV6da6Juu97UUBLPI+EFU1ycoo3l+xmXIgUO5ZX7/ehmGI3as
+         ZIhZqMK/h7mcRSsIj192ai9C+h/hS/YmnU3BBGs6KlWUTaRE/tVpc68WKitCav2VxAtg
+         mmWLtK/DZjPmk8UE0exr7uBQIrTWQZBSHiDzAo1mXbxZTRmI/yV3gze1UCCO0gV+3gWT
+         f0rg==
+X-Gm-Message-State: AOAM532JjmdfMDy7wmRSHe7+v6UUaH3mJ8oSm+ODXF6qNY+Uc1UAThCa
+	iXmfY4ok+0R+WCIWf9QYIsd4darlIvzRsw==
 X-Google-Smtp-Source: 
- ABdhPJxkBvsP5okAfSQG2fCLMSgVAg4Areo4DqtGOEJG1xnhBopUuUow2B+gXtv44WGvi3FfXVdKjQ==
-X-Received: by 2002:a17:90a:eb07:: with SMTP id
- j7mr3007919pjz.20.1634004541580;
-        Mon, 11 Oct 2021 19:09:01 -0700 (PDT)
+ ABdhPJwf7psQmQ365yV4A7xDinv9wlEZQIfv+OOetvfWMFlVPFChXicn5GNOcEBwzFp+LFEkoOf3ag==
+X-Received: by 2002:a05:6a00:10c1:b0:44d:20e5:b4d6 with SMTP id
+ d1-20020a056a0010c100b0044d20e5b4d6mr9140043pfu.25.1634004543655;
+        Mon, 11 Oct 2021 19:09:03 -0700 (PDT)
 Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::17e1])
         by smtp.gmail.com with ESMTPSA id
- l207sm8949601pfd.199.2021.10.11.19.09.01
+ l207sm8949601pfd.199.2021.10.11.19.09.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 19:09:01 -0700 (PDT)
+        Mon, 11 Oct 2021 19:09:03 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH 1/7] python3-hypothesis: upgrade 6.15.0 -> 6.23.2
-Date: Tue, 12 Oct 2021 02:08:48 +0000
-Message-Id: <20211012020854.2073998-1-timothy.t.orling@intel.com>
+Subject: [PATCH 2/7] python3-importlib-metadata: upgrade 4.6.4 -> 4.8.1
+Date: Tue, 12 Oct 2021 02:08:49 +0000
+Message-Id: <20211012020854.2073998-2-timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211012020854.2073998-1-timothy.t.orling@intel.com>
+References: <20211012020854.2073998-1-timothy.t.orling@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Oct 2021 02:09:03 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Oct 2021 02:09:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156852
+ https://lists.openembedded.org/g/openembedded-core/message/156853
 
-For changes, see:
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-23-2
+v4.8.1
+  #348: Restored support for EntryPoint access by item, deprecating
+        support in the process. Users are advised to use direct member
+        access instead of item-based access:
+
+    - ep[0] -> ep.name
+    - ep[1] -> ep.value
+    - ep[2] -> ep.group
+    - ep[:] -> ep.name, ep.value, ep.group
+
+v4.8.0
+  #337: Rewrote EntryPoint as a simple class, still immutable and
+        still with the attributes, but without any expectation for
+        namedtuple functionality such as _asdict.
+
+v4.7.1
+  #344: Fixed regression in packages_distributions when neither
+        top-level.txt nor a files manifest is present.
+
+v4.7.0
+  #330: In packages_distributions, now infer top-level names from
+        .files() when a top-level.txt (Setuptools-specific metadata)
+        is not present.
+
+References:
+  https://github.com/python/importlib_metadata/issues/348
+  https://github.com/python/importlib_metadata/issues/337
+  https://github.com/python/importlib_metadata/issues/344
+  https://github.com/python/importlib_metadata/issues/330
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- ...ython3-hypothesis_6.15.0.bb => python3-hypothesis_6.23.2.bb} | 2 +-
+ ...ib-metadata_4.6.4.bb => python3-importlib-metadata_4.8.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.15.0.bb => python3-hypothesis_6.23.2.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_4.6.4.bb => python3-importlib-metadata_4.8.1.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.15.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.23.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.15.0.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.23.2.bb
-index 1ea6bb56e6d..4ffba1c612a 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.15.0.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.23.2.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.6.4.bb b/meta/recipes-devtools/python/python3-importlib-metadata_4.8.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_4.6.4.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_4.8.1.bb
+index e5aad991e4c..3f756684314 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_4.6.4.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.8.1.bb
+@@ -8,7 +8,7 @@ inherit pypi setuptools3
+ PYPI_PACKAGE = "importlib_metadata"
+ UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
  
--SRC_URI[sha256sum] = "10699f595eebb9410fd902908aa13aece19be5c437b405092be34f60f69f7999"
-+SRC_URI[sha256sum] = "b71b257916c91484716a10220ed2b9a0cf82acc3ed8ef421bb2aa0a671761053"
+-SRC_URI[sha256sum] = "7b30a78db2922d78a6f47fb30683156a14f3c6aa5cc23f77cc8967e9ab2d002f"
++SRC_URI[sha256sum] = "f284b3e11256ad1e5d03ab86bb2ccd6f5339688ff17a4d797a0fe7df326f23b1"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ S = "${WORKDIR}/importlib_metadata-${PV}"
+ 
 -- 
 2.30.2
 
