@@ -1,181 +1,145 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <afaa1c15-6d82-062d-3e39-672757ba1e29@synaptics.com>
-Date: Tue, 12 Oct 2021 19:23:25 +0800
-Subject: Re: [PATCH 2/2] [WIP]: meson: install native file in sdk
-References: <20211012101233.49978-1-randy.li@synaptics.com>
- <20211012101233.49978-3-randy.li@synaptics.com>
- <CANNYZj9wu6gCuU5_4AU6ancy=i1sjwvtwLz9YLE87gmB9QkSFA@mail.gmail.com>
-From: "Hsia-Jun Li" <randy.li@synaptics.com>
-In-Reply-To: <CANNYZj9wu6gCuU5_4AU6ancy=i1sjwvtwLz9YLE87gmB9QkSFA@mail.gmail.com>
-Return-Path: Randy.Li@synaptics.com
+Message-ID: <a8f1695ea7c270184bab45968011ac50481a4c10.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] license: Allow treating missing license as error
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Tue, 12 Oct 2021 15:08:00 +0100
+In-Reply-To: <YWWQDxSojtJScQOn@mcrowe.com>
+References: <20211010172038.206959-1-mac@mcrowe.com>
+	 <c0e3bd5fdde8c109fab6cbd6c6ce2162883128d6.camel@linuxfoundation.org>
+	 <YWWQDxSojtJScQOn@mcrowe.com>
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
+
+On Tue, 2021-10-12 at 14:39 +0100, Mike Crowe wrote:
+> On Tuesday 12 October 2021 at 14:21:05 +0100, Richard Purdie wrote:
+> > On Sun, 2021-10-10 at 18:20 +0100, Mike Crowe via lists.openembedded.org wrote:
+> > > Use mechanism inspired by insane.bbclass to allow individual recipes or
+> > > other configuration to determine whether a missing licence should be
+> > > treated as a warning (as it is now) or as an error. This is controlled
+> > > by whether the error class is in WARN_LICENSE or ERROR_LICENSE.
+> > > 
+> > > Use bb.fatal in the error case to ensure that the task really fails. If
+> > > only bb.error is used then do_populate_lic isn't re-run on subsequent
+> > > builds which could lead to the error being missed.
+> > > 
+> > > Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> > > ---
+> > >  meta/classes/license.bbclass | 19 ++++++++++++++++++-
+> > >  1 file changed, 18 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> > > index 45d912741d..f0a6c0c20e 100644
+> > > --- a/meta/classes/license.bbclass
+> > > +++ b/meta/classes/license.bbclass
+> > > @@ -12,6 +12,23 @@ LICENSE_CREATE_PACKAGE ??= "0"
+> > >  LICENSE_PACKAGE_SUFFIX ??= "-lic"
+> > >  LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
+> > >  
+> > > +# Elect whether a given type of error is a warning or error, they may
+> > > +# have been set by other files.
+> > > +WARN_LICENSE ?= "no-license"
+> > > +ERROR_LICENSE ?= ""
+> > > +WARN_LICENSE[doc] = "Space-separated list of license problems that should be reported only as warnings"
+> > > +ERROR_LICENSE[doc] = "Space-separated list of license problems that should be reported as errors"
+> > > +
+> > > +def package_license_handle_error(error_class, error_msg, d):
+> > > +    if error_class in (d.getVar("ERROR_LICENSE") or "").split():
+> > > +        package_qa_write_error(error_class, error_msg, d)
+> > > +        bb.fatal("License Issue: %s [%s]" % (error_msg, error_class))
+> > > +    elif error_class in (d.getVar("WARN_LICENSE") or "").split():
+> > > +        package_qa_write_error(error_class, error_msg, d)
+> > > +        bb.warn("License Issue: %s [%s]" % (error_msg, error_class))
+> > > +    else:
+> > > +        bb.note("License Issue: %s [%s]" % (error_msg, error_class))
+> > > +
+> > >  addtask populate_lic after do_patch before do_build
+> > >  do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
+> > >  do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
+> > > @@ -190,7 +207,7 @@ def find_license_files(d):
+> > >              # Add explicity avoid of CLOSED license because this isn't generic
+> > >              if license_type != 'CLOSED':
+> > >                  # And here is where we warn people that their licenses are lousy
+> > > -                bb.warn("%s: No generic license file exists for: %s in any provider" % (pn, license_type))
+> > > +                package_license_handle_error("no-license", "%s: No generic license file exists for: %s in any provider" % (pn, license_type), d)
+> > >              pass
+> > >  
+> > >      if not generic_directory:
+> > 
+> > I'm a little torn on this and whether we should make it use the same variables
+> > as the other QA checks? Is there a reason the user would want to configure this
+> > sanity check separately from the other sanity checks?
+> 
+> I modelled this on the QA checks in insane.bbclass because that appeared to
+> be the most likely to be an acceptable way to do it. I'd be happy to use
+> the same variables, although that does raise the question of whether
+> license.bbclass needs to inherit from insane.bbclass or those variables
+> need moving somewhere else (see below).
+
+package.bbclass inherits insane so basically they are available everywhere.
+
+We could do with a bit of a cleanup of some of the core variable definitions and
+moving some of the core functions into function libraries instead of class code.
+
+> > I'm not sure I can see a long list of different license checks we'd want to add
+> > here?
+> 
+> There are many other warnings reported by license.bbclass. Many of them
+> feel like errors to me. I'd be happy to have a single switch that converted
+> them all to errors, but I haven't tried to do so to see what problems we'd
+> run into.
+
+At least for OE-Core, we'd see warnings on the autobuilder and those would raise
+bugs so any of those warnings should already be fixed. Other layers may vary.
+
+I'd be ok with having these controlled by some license-XXX flags to the standard
+QA warnings/errors mechanism.
+
+> > The current sanity checks in insane.bbclass could do with some cleanup and
+> > refactoring so perhaps this could be come a common function (and common variable
+> > to control all the QA checks)?
+> 
+> Where would be the best place to put this function? A new qa.bbclass that
+> can be inherited by both license.bbclass and insane.bbclass?
+
+Would somewhere in meta/lib/oe/ be a better place for functions?
+
+> Did you have any particular cleanups and refactorings in mind? 
+
+Basically moving functions to a function library and trying to standardise
+things a bit more. I'd have to look at the code again to remember what other
+things I was thinking.
+
+> I must admit
+> that I was surprised by the long list in a single variable assigned with
+> ?=. It means that anyone overriding the variable won't benefit from
+> newly-added checks automatically.
+
+Default assignments and changes over time is a hard problem and I think we have
+to keep that as a tangential issue to preserve our sanity. I wish we had a good
+solution for this.
+
+> The only alternative mechanism I came up with was something like:
+> 
+>  QA_CHECK[libdir] = "warn"
+>  QA_CHECK[dev-so] = "error"
+>  QA_CHECK[mime] = "ignore"
+> 
+> and then let recipes and configurations override individual checks as they
+> wish.
+
+Effectively we allow recipes to markup specific checks that should be skipped.
+The warn/error policy is left to the distro config. Poky used to have more
+errors set but I think the defaults have now mostly moved to the same levels
+poky has.
+
+Cheers,
+
+Richard
 
 
-
-On 10/12/21 18:49, Alexander Kanavin wrote:
-> CAUTION: Email originated externally, do not click links or open 
-> attachments unless you recognize the sender and know the content is safe.
-> 
-> Can you add a nativesdk testcase for this please? Into 
-> meta/lib/oeqa/sdk/cases/.
-I see
-
-Meanwhile, this patch is buggy, I just tested it.
-I just wonder whether there is a better way to compose those properties 
-and I want to show how ugly it would be if there would not be a better 
-method.
-
-> 
-> Alex
-> 
-> On Tue, 12 Oct 2021 at 12:13, Hsia-Jun Li <randy.li@synaptics.com 
-> <mailto:randy.li@synaptics.com>> wrote:
-> 
->     From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com
->     <mailto:randy.li@synaptics.com>>
-> 
->     Without a native environment file, find_program() can't
->     locate the native program inside SDK.
-> 
->     That stops wayland compositor using wayland scanner.
-> 
->     Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com
->     <mailto:randy.li@synaptics.com>>
->     ---
->       meta/classes/meson-routines.bbclass           |  4 ++
->       .../meson/meson/meson-setup.py                |  2 +
->       .../meson/meson/meson-wrapper                 |  1 +
->       .../meson/nativesdk-meson_0.59.1.bb
->     <https://urldefense.proofpoint.com/v2/url?u=http-3A__nativesdk-2Dmeson-5F0.59.1.bb&d=DwMFaQ&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=rZRVMF0TdY-eN9YYy3VmV26Iu6PaWjRmF1zrbh4B24A&s=-45qJZTfmnPboJWsspT4Jt9sjXV0_M8sBu84n8NK7zc&e=>
->               | 38 +++++++++++++++++++
->       4 files changed, 45 insertions(+)
-> 
->     diff --git a/meta/classes/meson-routines.bbclass
->     b/meta/classes/meson-routines.bbclass
->     index be3aeedeba..a74a9916d8 100644
->     --- a/meta/classes/meson-routines.bbclass
->     +++ b/meta/classes/meson-routines.bbclass
->     @@ -4,6 +4,10 @@ def meson_array(var, d):
->           items = d.getVar(var).split()
->           return repr(items[0] if len(items) == 1 else items)
-> 
->     +def meson_list_str(var, d):
->     +    items = d.getVar(var).split()
->     +    return repr(items[0]) if len(items) == 1 else ', '.join(repr(s)
->     for s in items)
->     +
->       # Map our ARCH values to what Meson expects:
->       # http://mesonbuild.com/Reference-tables.html#cpu-families
->     <https://urldefense.proofpoint.com/v2/url?u=http-3A__mesonbuild.com_Reference-2Dtables.html-23cpu-2Dfamilies&d=DwMFaQ&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=rZRVMF0TdY-eN9YYy3VmV26Iu6PaWjRmF1zrbh4B24A&s=EapMOkBLWInOH2bqaFYDqP016Yvq4DLaXltKV6Nnmw4&e=>
->       def meson_cpu_family(var, d):
->     diff --git a/meta/recipes-devtools/meson/meson/meson-setup.py
->     b/meta/recipes-devtools/meson/meson/meson-setup.py
->     index 7ac4e3ad47..4a0a967fef 100755
->     --- a/meta/recipes-devtools/meson/meson/meson-setup.py
->     +++ b/meta/recipes-devtools/meson/meson/meson-setup.py
->     @@ -27,6 +27,8 @@ except KeyError:
-> 
->       template_file = os.path.join(sysroot,
->     'usr/share/meson/meson.cross.template')
->       cross_file = os.path.join(sysroot, 'usr/share/meson/%smeson.cross'
->     % os.environ["TARGET_PREFIX"])
->     +native_template_file = os.path.join(sysroot,
->     'usr/share/meson/meson.native.template')
->     +native_file = os.path.join(sysroot, 'usr/share/meson/meson.native')
-> 
->       with open(template_file) as in_file:
->           template = in_file.read()
->     diff --git a/meta/recipes-devtools/meson/meson/meson-wrapper
->     b/meta/recipes-devtools/meson/meson/meson-wrapper
->     index d4ffe60f9a..d4b5187f8d 100755
->     --- a/meta/recipes-devtools/meson/meson/meson-wrapper
->     +++ b/meta/recipes-devtools/meson/meson/meson-wrapper
->     @@ -11,4 +11,5 @@ unset CC CXX CPP LD AR NM STRIP
-> 
->       exec "$OECORE_NATIVE_SYSROOT/usr/bin/meson.real" \
->            --cross-file
->     "${OECORE_NATIVE_SYSROOT}/usr/share/meson/${TARGET_PREFIX}meson.cross" \
->     +     --native-file
->     "${OECORE_NATIVE_SYSROOT}/usr/share/meson/meson.native" \
->            "$@"
->     diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.59.1.bb
->     <https://urldefense.proofpoint.com/v2/url?u=http-3A__nativesdk-2Dmeson-5F0.59.1.bb&d=DwMFaQ&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=rZRVMF0TdY-eN9YYy3VmV26Iu6PaWjRmF1zrbh4B24A&s=-45qJZTfmnPboJWsspT4Jt9sjXV0_M8sBu84n8NK7zc&e=>
->     b/meta/recipes-devtools/meson/nativesdk-meson_0.59.1.bb
->     <https://urldefense.proofpoint.com/v2/url?u=http-3A__nativesdk-2Dmeson-5F0.59.1.bb&d=DwMFaQ&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=rZRVMF0TdY-eN9YYy3VmV26Iu6PaWjRmF1zrbh4B24A&s=-45qJZTfmnPboJWsspT4Jt9sjXV0_M8sBu84n8NK7zc&e=>
->     index 5657397ddc..f537204a2d 100644
->     --- a/meta/recipes-devtools/meson/nativesdk-meson_0.59.1.bb
->     <https://urldefense.proofpoint.com/v2/url?u=http-3A__nativesdk-2Dmeson-5F0.59.1.bb&d=DwMFaQ&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=rZRVMF0TdY-eN9YYy3VmV26Iu6PaWjRmF1zrbh4B24A&s=-45qJZTfmnPboJWsspT4Jt9sjXV0_M8sBu84n8NK7zc&e=>
->     +++ b/meta/recipes-devtools/meson/nativesdk-meson_0.59.1.bb
->     <https://urldefense.proofpoint.com/v2/url?u=http-3A__nativesdk-2Dmeson-5F0.59.1.bb&d=DwMFaQ&c=7dfBJ8cXbWjhc0BhImu8wQ&r=P4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=rZRVMF0TdY-eN9YYy3VmV26Iu6PaWjRmF1zrbh4B24A&s=-45qJZTfmnPboJWsspT4Jt9sjXV0_M8sBu84n8NK7zc&e=>
->     @@ -15,6 +15,44 @@ SRC_URI += "file://meson-setup.py \
->       #   them.
->       do_install:append() {
->           install -d ${D}${datadir}/meson
->     +
->     +    cat >${D}${datadir}/meson/meson.native.template <<EOF
->     +[binaries]
->     +c = ${@meson_array('BUILD_CC', d)}
->     +cpp = ${@meson_array('BUILD_CXX', d)}
->     +ar = ${@meson_array('BUILD_AR', d)}
->     +nm = ${@meson_array('BUILD_NM', d)}
->     +strip = ${@meson_array('BUILD_STRIP', d)}
->     +readelf = ${@meson_array('BUILD_READELF', d)}
->     +pkgconfig = 'pkg-config-native'
->     +
->     +[built-in options]
->     +c_args = ['-isystem' @OECORE_NATIVE_SYSROOT '${includedir_native}'
->     , ${@meson_list_str('BUILD_OPTIMIZATION', d)}]
->     +c_link_args = ['-L' @OECORE_NATIVE_SYSROOT '${libdir_native}',
->     +               '-L' @@OECORE_NATIVE_SYSROOT '${base_libdir_native}',
->     +               '-Wl,-rpath-link,' @OECORE_NATIVE_SYSROOT
->     '${libdir_native}',
->     +               '-Wl,-rpath-link,' @OECORE_NATIVE_SYSROOT
->     '${base_libdir_native}',
->     +               '-Wl,--allow-shlib-undefined',
->     +               '-Wl,--dynamic-linker=' @OECORE_NATIVE_SYSROOT
->     '${base_libdir_native}'
->     +               '${@bb.utils.contains('BUILD_ARCH', 'x86_64',
->     'ld-linux-x86-64.so.2', '', d)}
->     +                ${@bb.utils.contains('BUILD_ARCH', 'i686',
->     'ld-linux.so.2', '', d)}
->     +                ${@bb.utils.contains('BUILD_ARCH', 'aarch64',
->     'ld-linux-aarch64.so.1', '', d)}'
->     +]
->     +cpp_args = ['-isystem@OECORE_NATIVE_SYSROOT' 'usr/include',
->     ${@meson_list_str('BUILD_OPTIMIZATION', d)}]
->     +cpp_link_args = ['-L' @OECORE_NATIVE_SYSROOT '${libdir_native}',
->     +               '-L' @@OECORE_NATIVE_SYSROOT '${base_libdir_native}',
->     +               '-Wl,-rpath-link,' @OECORE_NATIVE_SYSROOT
->     '${libdir_native}',
->     +               '-Wl,-rpath-link,' @OECORE_NATIVE_SYSROOT
->     '${base_libdir_native}',
->     +               '-Wl,--allow-shlib-undefined',
->     +               '-Wl,--dynamic-linker=' @OECORE_NATIVE_SYSROOT
->     '${base_libdir_native}'
->     +               '${@bb.utils.contains('BUILD_ARCH', 'x86_64',
->     'ld-linux-x86-64.so.2', '', d)}
->     +                ${@bb.utils.contains('BUILD_ARCH', 'i686',
->     'ld-linux.so.2', '', d)}
->     +                ${@bb.utils.contains('BUILD_ARCH', 'aarch64',
->     'ld-linux-aarch64.so.1', '', d)}'
->     +]
->     +[properties]
->     +sys_root = @OECORE_NATIVE_SYSROOT
->     +EOF
->     +
->           cat >${D}${datadir}/meson/meson.cross.template <<EOF
->       [binaries]
->       c = @CC
->     -- 
->     2.17.1
-> 
-
--- 
-Hsia-Jun(Randy) Li
