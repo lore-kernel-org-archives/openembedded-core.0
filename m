@@ -1,96 +1,96 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <peter.hoyes@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38313C433F5
-	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 14:36:39 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
- [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.web10.9166.1634135797816820770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9D3C433EF
+	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 14:50:48 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.9352.1634136647516686504
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 07:36:38 -0700
+ Wed, 13 Oct 2021 07:50:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=LLv40khB;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.52,
- mailfrom: jdmason@kudzu.us)
-Received: by mail-qv1-f52.google.com with SMTP id o13so1791772qvm.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 07:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gdUlUtiK08h9qYpKa3qAj3oDH7ZbwHGMaSvHp3KScJQ=;
-        b=LLv40khBgyseLe7xGTOv2qA0GdJbUf1Isx/rCQE35dOt29yGXptALCasRKLM2zyrUt
-         zJS/rjj8dYllgqXiuHwqf7lUybzvfQ0EDe0tXy6R/Hi1wL38xSg5iApOK2D2M3r0XBvs
-         dkqSRuDUqcr5OlNxC/QOvaPvS/WFnqq5I6sLwCUgMlYfJrof8sCRUuLneBtN6lUUYX1V
-         AqjcFehgSJeizjIx4j6q+HoQYma7mKTW3i1cH/dIcWW/2L8sdfpWbG2JUwGHvF/9WF3W
-         Srjs92SRAOLh/hcqg4szCPnuxl64dL1sqyuyA0HF+32NaNdz71DYBA8Bt4W+ipuUQqeP
-         rgew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gdUlUtiK08h9qYpKa3qAj3oDH7ZbwHGMaSvHp3KScJQ=;
-        b=wHS58Fq/pNnlMQKPbJqiggqEshZALCuZQSN77RXPZYiQJ2niTxXf22p3TpTsHXkjbu
-         mGOx6620ujFGJT+0bmXyy/IDwy0aaLO9mVoes+TQTeKBL/CAN+d5PMmW+in9XA7aBgoY
-         YdEwPEcYPmeWS8wUh00f/WGGhfGuSyA7svVFpvdGf6jKiik//aRpggZT2xXz7ADZuCaA
-         qCGwNpdsuqgYE6ZimM3TGwSQwi1WsROaSrnqRcjo1XVxnksFr18dIELHGnA3QAYqUWP7
-         H8mn2lZJEFHwm1+3Tr/+NXA4/+c7lwNVEnPo2jyOzglH2N3ZMC6RFBKv6H+rPo+MDVeC
-         ePUg==
-X-Gm-Message-State: AOAM531kqWG4XXsngv5Q7pK85SSNZ6CONgb1jzJ4hLetPDpqvr/EkFYf
-	WEypaQby6d3DZgkJ7ADtI2+oCJbqfkJKiQ==
-X-Google-Smtp-Source: 
- ABdhPJyC/kz/XI2Y1RvNJJXBJGPDs+9JIMaYoOZn1FpZ6gZSwahk4/+lrq8UjZu/xLCKhGe5tdLa2g==
-X-Received: by 2002:a0c:c1c9:: with SMTP id v9mr36653869qvh.31.1634135796799;
-        Wed, 13 Oct 2021 07:36:36 -0700 (PDT)
-Received: from localhost ([2605:a601:a650:b700:d0ca:f716:ee3a:5cbd])
-        by smtp.gmail.com with ESMTPSA id
- 16sm7642003qka.80.2021.10.13.07.36.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 07:36:36 -0700 (PDT)
-From: Jon Mason <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org,
-	docs@lists.yoctoproject.org,
-	bitbake-devel@lists.openembedded.org
-Subject: [PATCH] runqemu: add DEPLOY_DIR_IMAGE replacement in QB_OPT_APPEND
-Date: Wed, 13 Oct 2021 10:36:30 -0400
-Message-Id: <20211013143630.21266-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: peter.hoyes@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0C7ED6E;
+	Wed, 13 Oct 2021 07:50:45 -0700 (PDT)
+Received: from e125920.cambridge.arm.com (unknown [10.1.199.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7098C3F694;
+	Wed, 13 Oct 2021 07:50:45 -0700 (PDT)
+From: Peter Hoyes <peter.hoyes@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Hoyes <Peter.Hoyes@arm.com>
+Subject: [OE-core] [PATCH] u-boot: Convert ${UBOOT_ENV}.cmd into
+ ${UBOOT_ENV}.scr
+Date: Wed, 13 Oct 2021 15:50:11 +0100
+Message-Id: <20211013145011.2993321-1-peter.hoyes@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 14:36:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 14:50:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156913
+ https://lists.openembedded.org/g/openembedded-core/message/156914
 
-Add the ability to replace DEPLOY_DIR_IMAGE with that path in
-QB_OPT_APPEND.  This allows for anything present in DEPLOY_DIR_IMAGE to
-be passed into the qemu parameters.  This is especially useful if you
-want to run multiple flash images (as -bios only allows for one).
+From: Peter Hoyes <Peter.Hoyes@arm.com>
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+ * Add extra SRC variables to uboot-config.class for source cmd file
+ * Add DEPENDS on u-boot-mkimage-native if UBOOT_ENV_SUFFIX is scr
+ * Compile cmd -> scr in do_compile if UBOOT_ENV_SUFFIX is scr
+
+Signed-off-by: Peter Hoyes <Peter.Hoyes@arm.com>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/uboot-config.bbclass  | 2 ++
+ meta/recipes-bsp/u-boot/u-boot.inc | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 3268bb18ada6..54f2336ba977 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1412,7 +1412,7 @@ class BaseConfig(object):
-         if not os.access(qemu_bin, os.X_OK):
-             raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
- 
--        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('QB_RNG'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
-+        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('QB_RNG'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND').replace('@DEPLOY_DIR_IMAGE@', self.get('DEPLOY_DIR_IMAGE')))
- 
-         for ovmf in self.ovmf_bios:
-             format = ovmf.rsplit('.', 1)[-1]
--- 
-2.20.1
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-confi=
+g.bbclass
+index 07a303d0a07..b9ad35821ac 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -53,6 +53,8 @@ SPL_SYMLINK ?=3D "${SPL_BINARYNAME}-${MACHINE}${SPL_DEL=
+IMITER}${SPL_SUFFIX}"
+ # include it in the SRC_URI and set the UBOOT_ENV parameter.
+ UBOOT_ENV_SUFFIX ?=3D "txt"
+ UBOOT_ENV ?=3D ""
++UBOOT_ENV_SRC_SUFFIX ?=3D "cmd"
++UBOOT_ENV_SRC ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SRC_SUFFIX}"
+ UBOOT_ENV_BINARY ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_IMAGE ?=3D "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SU=
+FFIX}"
+ UBOOT_ENV_SYMLINK ?=3D "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot=
+/u-boot.inc
+index f27fdd5998e..ec4a3d201d1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -4,6 +4,7 @@ PROVIDES =3D "virtual/bootloader"
+ PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+=20
+ DEPENDS +=3D "kern-tools-native"
++DEPENDS +=3D "${@bb.utils.contains('UBOOT_ENV_SUFFIX', 'scr', 'u-boot-mk=
+image-native', '', d)}"
+=20
+ inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1 python=
+3native kernel-arch
+=20
+@@ -106,6 +107,11 @@ do_compile () {
+             oe_runmake -C ${S} O=3D${B} u-boot-initial-env
+         fi
+     fi
++
++    if [ -n "${UBOOT_ENV}" && "${UBOOT_ENV_SUFFIX}" =3D "scr" ]
++    then
++        ${UBOOT_MKIMAGE} -C none -A ${UBOOT_ARCH} -T script -d ${WORKDIR=
+}/${UBOOT_ENV_SRC} ${WORKDIR}/${UBOOT_ENV_BINARY}
++    fi
+ }
+=20
+ do_install () {
+--=20
+2.25.1
 
 
