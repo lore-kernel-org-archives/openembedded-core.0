@@ -1,154 +1,317 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <lukma@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A8BC433EF
-	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 07:39:12 +0000 (UTC)
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
- [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web08.4988.1634110750765417602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE9BC433FE
+	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 08:35:40 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web08.5385.1634114138474526118
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 00:39:11 -0700
+ Wed, 13 Oct 2021 01:35:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@fujitsu.com
- header.s=170520fj header.b=pVkGYiDb;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1634110748; i=@fujitsu.com;
-	bh=Wul/5iBWT6hCjm5s+NQCD3+SgFoqCL0FPQgQI3kQk7w=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	b=pVkGYiDbCCEfzm7TCmm/VKbgPSynh7sHiepYslVVKOTq4wDJYHEXnOLBTNtLe0Csc
-	 OC4CTyAWUMfGQKQ9UxfdC0195CljCfka41mCYYr7+5s2y9pv0nmSG6QqZG1286CjJD
-	 4y34DoMLc7v9ncuEJmeigLIrgrR0LN94AgC2HmflCh7Z2cLv/jQlbCA1b9U3gVRwyS
-	 9vMHHo+P5uNie9Ki2gkRdJvwk5ffzzL+g0OmItfqBlr4dnyK7e6cHdHvyJoR3WcrQD
-	 EXiqY0MKEfmALNIzj/Kzo9mPY25KA6G4cvAFrfAiJ3BFhsd+iZzjydAB7bd0MbXuf1
-	 I/vVTr+pZmPfw==
-Received: from [100.113.3.182] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-a.eu-central-1.aws.symcld.net id 44/A7-29929-C1D86616;
- Wed, 13 Oct 2021 07:39:08 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBIsWRWlGSWpSXmKPExsViZ8MxSVemNy3
-  RYONXTos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPXvxamgnMiFZtP7GFpYHwr2MXIxSEk8JhR
-  YmH/SUYI5zyTRN/tyUxdjJxAzglGiQmfxUFsNgE1iem3brB2MXJwiAjoSVz9JwoSZhZQkXjxu
-  4cdxBYWsJPY3/yREcRmEVCVuN+0mhnE5hVwlvh1YTsriC0hoCAx5eF7qLigxMmZT1gg5qhKdB
-  95ygRhy0s0b53NDFGvKDH7cjMLhF0hMWtWGxOErSZx9dwm5gmMArOQjJqFZNQsJKMWMDKvYrR
-  MKspMzyjJTczM0TU0MNA1NDTWNdQ1MjDXS6zSTdRLLdVNTs0rKUoEyuollhfrFVfmJuek6OWl
-  lmxiBAZwSiHj+R2MU9980DvEKMnBpCTKW9aZlijEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgvdOB
-  1BOsCg1PbUiLTMHGE0waQkOHiUR3kk9QGne4oLE3OLMdIjUKUZFKXFeNpCEAEgiozQPrg0WwZ
-  cYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfM+7waawpOZVwI3/RXQYiagxYFRKSCLSxIRUlI
-  NTLU7r036V5g3OfjYW5kzYsfr89LVyxwfKV+N+Dz3efnc6ze26onm3Cz2Py3c+b/6qPhVH7Hg
-  q9s1FHc55CifjFS1lptd8M7g+8lO4VM5twQe1u9g3bY1UGTm6V4Rk9hDFfdkWGSj1u5+73xxX
-  d7bqOvBKrOKjl28o7r9pFnyxLvveh9438nw+zTdZLlc3UO78JANG6Q1T0YUusy8KrdEfkfk/o
-  VXz1yPYrfLqDu9R6BfFhjBMveqrE6niD0POp/+8sbzFo8pZsU52/anhTU9jFSwW8oaKdMaO/v
-  aYqWj0jPPvj914ZLoJm716U+jGjdGVP24ElUXdjeWUd/h6OyPB83zvxTWWe6cpHzo/tyFHkos
-  xRmJhlrMRcWJAMXvG9JbAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-22.tower-232.messagelabs.com!1634110747!2260531!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 32703 invoked from network); 13 Oct 2021 07:39:08 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-22.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 13 Oct 2021 07:39:08 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 7EABB1009BD
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 08:39:07 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=vZukrlVx;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 4CAF51009B2
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 08:39:07 +0100 (BST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Wed, 13 Oct 2021 08:39:00 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-pip: upgrade 21.2.4 -> 21.3
-Date: Wed, 13 Oct 2021 15:38:49 +0800
-Message-ID: <1634110729-113967-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 0D9E283116;
+	Wed, 13 Oct 2021 10:35:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1634114129;
+	bh=LJsuHU3/hx9+rTqptEoz2m/OR2KVEw5HL9c4G2Hc2sk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vZukrlVx3WC6N3bPl8n/DGbgKJhfgj2Pr1Cv/yK3/pnUvtzB/M6Qhm5F2zOP8jI2b
+	 7wf24KtqJElKCIAo1sd7ms9Ez0ttVbNDhXxos87pmUN8DOI9wS9/Bd9mHBhVNIZSym
+	 4mAmiFqi2U92/NwV1EIdX7k/BdrDqqExSVKErr92jqcOeg6NThWdXG050gjH1uUqrp
+	 MgFcnraeGtwYwM0W1wKSsVx2ECHkJaipmPNPDKXVoLp+hQ8Jrl5f4N7qFYRkCDCBq3
+	 ZGbZ0+vC+aQhbxpneLefFFGUlofJQggmM7wtj81MqsjlH1eaLFoCURXkKQOg4MyEDj
+	 g1DZSFDO+1sgQ==
+Date: Wed, 13 Oct 2021 10:35:22 +0200
+From: Lukasz Majewski <lukma@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Nathan Rossi
+ <nathan@nathanrossi.com>, Khem Raj <raj.khem@gmail.com>
+Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>, Patches and
+ discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RESEND 2/2] glibc: ptest: Add support for running glibc
+ test suite with ptest
+Message-ID: <20211013103522.3f15e078@ktm>
+In-Reply-To: <20210930104357.3906-2-lukma@denx.de>
+References: <20210930104357.3906-1-lukma@denx.de>
+	<20210930104357.3906-2-lukma@denx.de>
+Organization: denx.de
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/kmSL3IDABJPINLjeKI1I76b"; protocol="application/pgp-signature"
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 07:39:12 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 08:35:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156891
+ https://lists.openembedded.org/g/openembedded-core/message/156892
 
-Features
-Replace vendored appdirs with platformdirs. (#10202)
+--Sig_/kmSL3IDABJPINLjeKI1I76b
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Support PEP 610 to detect editable installs in pip freeze and pip list.
-The pip list column output has a new Editable project location column,
-and the JSON output has a new editable_project_location field. (#10249)
+Dear Community,
 
-pip freeze will now always fallback to reporting the editable project
-location when it encounters a VCS error while analyzing an editable requirement.
-Before, it sometimes reported the requirement as non-editable. (#10410)
+> This patch introduces new recipe - namely 'glibc-tests', which
+> builds and installs glibc test suite to OE/Yocto built image.
+>=20
+> It reuses code from already available 'glibc-testsuite' recipe,
+> which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+> to execute remotely (via SSH) tests on some emulated machine.
+>=20
+> This recipe installs eligible tests on some rootfs image.
+> Afterwards, either all of them or only time related subset, those
+> tests can be executed on the real hardware, to facilitate validation
+> of this platform with for example Y2038 problem compliance.
+>=20
+> By default all tests are executed, with 'ptest-runner glibc-tests'.
+> To test only time related subset - one needs to call:
+> cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
+> ln -s run-ptest-time run-ptest; cd -; ptest-runner glibc-tests
+>=20
+> To facilitate debugging, source files are provided by default with
+> the unstripped debugging symbols. Such approach would reduce the
+> already complex recipe (as it inherits base glibc one), so there
+> is no need to also install *-dbg and *-src packages.
+>=20
 
-pip show now sorts Requires and Required-By alphabetically. (#10422)
+Gentle ping on this patch set.
 
-Do not raise error when there are no files to remove with pip cache purge/remove.
-Instead log a warning and continue (to log that we removed 0 files). (#10459)
+> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> ---
+>  .../distro/include/ptest-packagelists.inc     |   1 +
+>  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 101
+> ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest-all   |
+> 25 +++++ meta/recipes-core/glibc/glibc/run-ptest-time  |  30 ++++++
+>  4 files changed, 157 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
+>  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-all
+>  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-time
+>=20
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> b/meta/conf/distro/include/ptest-packagelists.inc index
+> e0ae1dd971..2031c8730a 100644 ---
+> a/meta/conf/distro/include/ptest-packagelists.inc +++
+> b/meta/conf/distro/include/ptest-packagelists.inc @@ -60,6 +60,7 @@
+> PTESTS_FAST =3D "\ slang-ptest \
+>      wayland-ptest \
+>      zlib-ptest \
+> +    glibc-tests-ptest \
+>  "
+>  PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
+>  PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
+> diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> b/meta/recipes-core/glibc/glibc-tests_2.34.bb new file mode 100644
+> index 0000000000..896809f700
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> @@ -0,0 +1,101 @@
+> +require glibc_${PV}.bb
+> +require glibc-tests.inc
+> +
+> +inherit ptest
+> +
+> +SRC_URI:append =3D " \
+> +	file://run-ptest-all file://run-ptest-time \
+> +"
+> +
+> +SUMMARY =3D "glibc tests to be run with ptest"
+> +
+> +# Erase some variables already set by glibc_${PV}
+> +python __anonymous() {
+> +       # Remove packages provided by glibc build, we only need a
+> subset of them
+> +       d.setVar("PACKAGES", "${PN}")
+> +
+> +       d.setVar("PROVIDES", "${PN}")
+> +       d.setVar("RPROVIDES", "${PN} glibc-ptest")
+> +
+> +       d.setVar("RRECOMMENDS", "")
+> +}
+> +
+> +# Remove any lefovers from original glibc recipe
+> +RPROVIDES:${PN} =3D "${PN}"
+> +RRECOMMENDS:${PN} =3D ""
+> +RDEPENDS:${PN} =3D "sed"
+> +
+> +# Just build tests for target - do not run them
+> +do_check:append () {
+> +	oe_runmake -i check run-built-tests=3Dno
+> +}
+> +addtask do_check after do_compile before do_install_ptest_base
+> +
+> +glibc_strip_build_directory () {
+> +	# Delete all non executable files from build directory
+> +	find ${B} ! -executable -type f -delete
+> +
+> +	# Remove build dynamic libraries and links to them as
+> +	# those are already installed in the target device
+> +	find ${B} -type f -name "*.so" -delete
+> +	find ${B} -type l -name "*.so*" -delete
+> +
+> +	# Remove headers (installed with glibc)
+> +	find ${B} -type f -name "*.h" -delete
+> +
+> +	find ${B} -type f -name "isomac" -delete
+> +	find ${B} -type f -name "annexc" -delete
+> +}
+> +
+> +do_install_ptest_base () {
+> +	glibc_strip_build_directory
+> +
+> +	# Install build test programs to the image
+> +	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
+> +	cp -r ${B}/* ${D}${PTEST_PATH}/tests/glibc-ptest/
+> +
+> +	install -d ${D}${PTEST_PATH}
+> +	cp ${WORKDIR}/run-ptest-* ${D}${PTEST_PATH}/
+> +
+> +	# By default run all glibc tests
+> +	cd ${D}${PTEST_PATH}/
+> +	ln -s run-ptest-all run-ptest
+> +}
+> +
+> +# The datadir directory is required to allow core (and reused)
+> +# glibc cleanup function to finish correctly, as this directory
+> +# is not created for ptests
+> +stash_locale_package_cleanup:prepend () {
+> +	mkdir -p ${PKGD}${datadir}
+> +}
+> +
+> +stash_locale_sysroot_cleanup:prepend () {
+> +	mkdir -p ${SYSROOT_DESTDIR}${datadir}
+> +}
+> +
+> +# Prevent the do_package() task to set 'libc6' prefix
+> +# for glibc tests related packages
+> +python populate_packages:prepend () {
+> +    if d.getVar('DEBIAN_NAMES'):
+> +        d.setVar('DEBIAN_NAMES', '')
+> +}
+> +
+> +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
+> +
+> +EXCLUDE_FROM_SHLIBS =3D "1"
+> +
+> +# Install debug data in .debug and sources in /usr/src/debug
+> +# It is more handy to have _all_ the sources and symbols in one
+> +# place (package) as this recipe will be used for validation and
+> +# debugging.
+> +PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
+> +
+> +# glibc test cases violate by default some Yocto/OE checks
+> (staticdev, +# textrel)
+> +# 'debug-files' - add everything (including debug) into one package
+> +#                 (no need to install/build *-src package)
+> +INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
+> +
+> +deltask do_stash_locale
+> +do_install[noexec] =3D "1"
+> +do_populate_sysroot[noexec] =3D "1"
+> diff --git a/meta/recipes-core/glibc/glibc/run-ptest-all
+> b/meta/recipes-core/glibc/glibc/run-ptest-all new file mode 100755
+> index 0000000000..47bfe5238c
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/run-ptest-all
+> @@ -0,0 +1,25 @@
+> +#!/bin/sh
+> +# ptest script for glibc - to run time related tests to
+> +# facilitate Y2038 validation
+> +# Run with 'ptest-runner glibc-tests'
+> +
+> +output() {
+> +  retcode=3D$?
+> +  if [ $retcode -eq 0 ]
+> +    then echo "PASS: $i"
+> +  elif [ $retcode -eq 77 ]
+> +    then echo "SKIP: $i"
+> +  else echo "FAIL: $i"
+> +  fi
+> +}
+> +
+> +# Allow altering time on the target
+> +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
+> +
+> +tst=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*)
+> +
+> +for i in ${tst}
+> +do
+> +	$i >/dev/null 2>&1
+> +	output
+> +done
+> diff --git a/meta/recipes-core/glibc/glibc/run-ptest-time
+> b/meta/recipes-core/glibc/glibc/run-ptest-time new file mode 100755
+> index 0000000000..24dedc6e32
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/run-ptest-time
+> @@ -0,0 +1,30 @@
+> +#!/bin/sh
+> +# ptest script for glibc - to run time related tests to
+> +# facilitate Y2038 validation
+> +# Run with 'ptest-runner glibc-tests'
+> +
+> +output() {
+> +  retcode=3D$?
+> +  if [ $retcode -eq 0 ]
+> +    then echo "PASS: $i"
+> +  elif [ $retcode -eq 77 ]
+> +    then echo "SKIP: $i"
+> +  else echo "FAIL: $i"
+> +  fi
+> +}
+> +
+> +# Allow altering time on the target
+> +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
+> +
+> +tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*-time64)
+> +
+> +# Remove '-time64' suffix - those tests are also time
+> +# related
+> +tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
+> +tst_time=3D"${tst_time_tmp} ${tst_time64}"
+> +
+> +for i in ${tst_time}
+> +do
+> +	$i >/dev/null 2>&1
+> +	output
+> +done
 
-When backtracking during dependency resolution, prefer the dependencies which
-are involved in the most recent conflict. This can significantly reduce the
-amount of backtracking required. (#10479)
 
-Cache requirement objects, to improve performance reducing reparses of
-requirement strings. (#10550)
 
-Support editable installs for projects that have a pyproject.toml and
-use a build backend that supports PEP 660. (#8212)
 
-When a revision is specified in a Git URL, use git=E2=80=99s partial clone
-feature to speed up source retrieval. (#9086)
+Best regards,
 
-Add a --debug flag, to enable a mode that doesn=E2=80=99t log errors and
-propagates them to the top level instead. This is primarily to aid with
-1debugging pip=E2=80=99s crashes. (#9349)
+Lukasz Majewski
 
-If a host is explicitly specified as trusted by the user
-(via the --trusted-host option), cache HTTP responses from it in addition
-to HTTPS ones. (#9498)
+--
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../python/{python3-pip_21.2.4.bb =3D> python3-pip_21.3.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pip_21.2.4.bb =3D> python3-pip_21.3.bb} (89%)
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
 
-diff --git a/meta/recipes-devtools/python/python3-pip_21.2.4.bb b/meta/recipes-devtools/python/python3-pip_21.3.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-pip_21.2.4.bb
-rename to meta/recipes-devtools/python/python3-pip_21.3.bb
-index 1f0f707f4b..924a564f62 100644
---- a/meta/recipes-devtools/python/python3-pip_21.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-pip_21.3.bb
-@@ -10,7 +10,7 @@ inherit pypi distutils3
- 
- SRC_URI +=3D "file://0001-change-shebang-to-python3.patch"
- 
--SRC_URI[sha256sum] =3D "0eb8a1516c3d138ae8689c0c1a60fde7143310832f9dc77e11d8a4bc62de193b"
-+SRC_URI[sha256sum] =3D "741a61baab1dbce2d8ca415effa48a2b6a964564f81a9f4f1fce4c433346c034"
- 
- do_install:append() {
-     # Install as pip3 and leave pip2 as default
--- 
-2.25.1
+--Sig_/kmSL3IDABJPINLjeKI1I76b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmFmmkoACgkQAR8vZIA0
+zr2sKggA0F9936uEWiWgibjWBSCPVIe+JMkLeaO3NG/omO2sqoFJfe6PtzWOfhHi
+w5b6pJ9f5X+Y0Zt1M+2UPNT1uHSJ0NosIjNvxLKsn/gHWPyu7j5/lszBJxrpzynh
+p8mUWeYngtjGnwut9qe9vYXFDA91Da32LOdbKk08a/0fk0VGS6Oca/Jeus9ioUQy
+6H6siMkL05oZDkad0OtteO6KFXsgjlyBHAzoZLcSeTZSeT5J/EyjcdTqonjIDHZq
+FjGPSGpGc7jVCWvdtHHuSVMgznHGvGwGH4sgnDsQLYtGO33HY5F/OpkNWhkbx1cd
+pcQG1WiO7U7pm/3SDQZ9+Y/R96JPgw==
+=OZ5h
+-----END PGP SIGNATURE-----
+
+--Sig_/kmSL3IDABJPINLjeKI1I76b--
 
