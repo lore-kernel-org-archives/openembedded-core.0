@@ -1,317 +1,114 @@
-Return-Path: <lukma@denx.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE9BC433FE
-	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 08:35:40 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web08.5385.1634114138474526118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE8EC433F5
+	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 08:45:05 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.5619.1634114704803955988
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 01:35:39 -0700
+ Wed, 13 Oct 2021 01:45:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=vZukrlVx;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 0D9E283116;
-	Wed, 13 Oct 2021 10:35:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1634114129;
-	bh=LJsuHU3/hx9+rTqptEoz2m/OR2KVEw5HL9c4G2Hc2sk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=vZukrlVx3WC6N3bPl8n/DGbgKJhfgj2Pr1Cv/yK3/pnUvtzB/M6Qhm5F2zOP8jI2b
-	 7wf24KtqJElKCIAo1sd7ms9Ez0ttVbNDhXxos87pmUN8DOI9wS9/Bd9mHBhVNIZSym
-	 4mAmiFqi2U92/NwV1EIdX7k/BdrDqqExSVKErr92jqcOeg6NThWdXG050gjH1uUqrp
-	 MgFcnraeGtwYwM0W1wKSsVx2ECHkJaipmPNPDKXVoLp+hQ8Jrl5f4N7qFYRkCDCBq3
-	 ZGbZ0+vC+aQhbxpneLefFFGUlofJQggmM7wtj81MqsjlH1eaLFoCURXkKQOg4MyEDj
-	 g1DZSFDO+1sgQ==
-Date: Wed, 13 Oct 2021 10:35:22 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Nathan Rossi
- <nathan@nathanrossi.com>, Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YfECkepx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id g25so5745437wrb.2
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 13 Oct 2021 01:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=6Xzs89BYAcIvTrRBndLhMNSbhtU5auy7muCOQ93fE90=;
+        b=YfECkepx3aP9cWI9yh5XkD54NR3JURvQ8wMsNiNZvWvYAdMVqCABq2eX9ez7FNJI9E
+         B8+ROZgP9sc+hsU259tDB+k/0pyfjYizBmyHwKvfi3u0vi4j56/2Pu95K6+sP90be/Bv
+         gMo7NO1sJMrZJ8E/NcOEO37MlA/rqdvIM1PHw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=6Xzs89BYAcIvTrRBndLhMNSbhtU5auy7muCOQ93fE90=;
+        b=OeHd7tLCc2g5lcIRUW3RXSXoHDptHnVR4ZNwf9/XM7xhcptK/Cday6xfaY7ToKAHn2
+         TsG4A2UykRvkEFGykF5aE9aC37S5HJtlbt/dgXnPva+aUnp2cxgUYEToX6OGFmEUPdKh
+         UzGv243tIM1i9t+7AQEICwJvyuJPI836MJ2z8UOYwxmX7RudJdN66gp48zcXbEdZWq9w
+         buUQMGnh7eRyDOoSt9Cqlylr8YiwW6a+EDkauSQyZLQzMIsQuu4W49WIdclEuSmI6cnL
+         gzb/YiuFr0zqDAxdEn7psCcTBOhAbqCM6osO9gsFx/jS5rULwBXPPftfwqetOunCsGVd
+         Csmg==
+X-Gm-Message-State: AOAM530x1y6k47u9DmFPS9v8nob4+/0UFjVF/5HZN0gMJp/QjejoYqpf
+	LMMklCqpPEKUus7rKCkGKGNkpg==
+X-Google-Smtp-Source: 
+ ABdhPJxtz5RpGNg2Dygxowe2TqTb2rbigMqQ9KdZRgnB04SojAf1KGUTqEppaR4b8DhpEMtNCiUiNg==
+X-Received: by 2002:a1c:ac03:: with SMTP id v3mr11715825wme.127.1634114702993;
+        Wed, 13 Oct 2021 01:45:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:65b2:89df:e6ae:44c4?
+ ([2001:8b0:aba:5f3c:65b2:89df:e6ae:44c4])
+        by smtp.gmail.com with ESMTPSA id
+ j206sm2047747wmj.23.2021.10.13.01.45.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Oct 2021 01:45:02 -0700 (PDT)
+Message-ID: 
+ <e34be048ff6e037547bc7e0baf1c6d9f7d4e3e56.camel@linuxfoundation.org>
+Subject: Re: [PATCH RESEND 2/2] glibc: ptest: Add support for running glibc
+ test suite with ptest
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukasz Majewski <lukma@denx.de>, Nathan Rossi <nathan@nathanrossi.com>,
+	Khem Raj <raj.khem@gmail.com>
 Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>, Patches and
  discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RESEND 2/2] glibc: ptest: Add support for running glibc
- test suite with ptest
-Message-ID: <20211013103522.3f15e078@ktm>
-In-Reply-To: <20210930104357.3906-2-lukma@denx.de>
+Date: Wed, 13 Oct 2021 09:45:00 +0100
+In-Reply-To: <20211013103522.3f15e078@ktm>
 References: <20210930104357.3906-1-lukma@denx.de>
-	<20210930104357.3906-2-lukma@denx.de>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	 <20210930104357.3906-2-lukma@denx.de> <20211013103522.3f15e078@ktm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/kmSL3IDABJPINLjeKI1I76b"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 08:35:40 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 08:45:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156892
+ https://lists.openembedded.org/g/openembedded-core/message/156893
 
---Sig_/kmSL3IDABJPINLjeKI1I76b
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2021-10-13 at 10:35 +0200, Lukasz Majewski wrote:
+> Dear Community,
+> 
+> > This patch introduces new recipe - namely 'glibc-tests', which
+> > builds and installs glibc test suite to OE/Yocto built image.
+> > 
+> > It reuses code from already available 'glibc-testsuite' recipe,
+> > which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+> > to execute remotely (via SSH) tests on some emulated machine.
+> > 
+> > This recipe installs eligible tests on some rootfs image.
+> > Afterwards, either all of them or only time related subset, those
+> > tests can be executed on the real hardware, to facilitate validation
+> > of this platform with for example Y2038 problem compliance.
+> > 
+> > By default all tests are executed, with 'ptest-runner glibc-tests'.
+> > To test only time related subset - one needs to call:
+> > cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
+> > ln -s run-ptest-time run-ptest; cd -; ptest-runner glibc-tests
+> > 
+> > To facilitate debugging, source files are provided by default with
+> > the unstripped debugging symbols. Such approach would reduce the
+> > already complex recipe (as it inherits base glibc one), so there
+> > is no need to also install *-dbg and *-src packages.
+> > 
+> 
+> Gentle ping on this patch set.
 
-Dear Community,
+We're in the middle of trying to make a release. This change needs to wait until
+after that. We're starting to work through that backlog but easier things will
+go first.
 
-> This patch introduces new recipe - namely 'glibc-tests', which
-> builds and installs glibc test suite to OE/Yocto built image.
->=20
-> It reuses code from already available 'glibc-testsuite' recipe,
-> which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-> to execute remotely (via SSH) tests on some emulated machine.
->=20
-> This recipe installs eligible tests on some rootfs image.
-> Afterwards, either all of them or only time related subset, those
-> tests can be executed on the real hardware, to facilitate validation
-> of this platform with for example Y2038 problem compliance.
->=20
-> By default all tests are executed, with 'ptest-runner glibc-tests'.
-> To test only time related subset - one needs to call:
-> cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
-> ln -s run-ptest-time run-ptest; cd -; ptest-runner glibc-tests
->=20
-> To facilitate debugging, source files are provided by default with
-> the unstripped debugging symbols. Such approach would reduce the
-> already complex recipe (as it inherits base glibc one), so there
-> is no need to also install *-dbg and *-src packages.
->=20
+FWIW I'm still very reticent to add in two code paths doing similar things so am
+not entirely sure we will be able to take this :(
 
-Gentle ping on this patch set.
+Cheers,
 
-> Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> ---
->  .../distro/include/ptest-packagelists.inc     |   1 +
->  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 101
-> ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest-all   |
-> 25 +++++ meta/recipes-core/glibc/glibc/run-ptest-time  |  30 ++++++
->  4 files changed, 157 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
->  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-all
->  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-time
->=20
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> b/meta/conf/distro/include/ptest-packagelists.inc index
-> e0ae1dd971..2031c8730a 100644 ---
-> a/meta/conf/distro/include/ptest-packagelists.inc +++
-> b/meta/conf/distro/include/ptest-packagelists.inc @@ -60,6 +60,7 @@
-> PTESTS_FAST =3D "\ slang-ptest \
->      wayland-ptest \
->      zlib-ptest \
-> +    glibc-tests-ptest \
->  "
->  PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
->  PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
-> diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> b/meta/recipes-core/glibc/glibc-tests_2.34.bb new file mode 100644
-> index 0000000000..896809f700
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> @@ -0,0 +1,101 @@
-> +require glibc_${PV}.bb
-> +require glibc-tests.inc
-> +
-> +inherit ptest
-> +
-> +SRC_URI:append =3D " \
-> +	file://run-ptest-all file://run-ptest-time \
-> +"
-> +
-> +SUMMARY =3D "glibc tests to be run with ptest"
-> +
-> +# Erase some variables already set by glibc_${PV}
-> +python __anonymous() {
-> +       # Remove packages provided by glibc build, we only need a
-> subset of them
-> +       d.setVar("PACKAGES", "${PN}")
-> +
-> +       d.setVar("PROVIDES", "${PN}")
-> +       d.setVar("RPROVIDES", "${PN} glibc-ptest")
-> +
-> +       d.setVar("RRECOMMENDS", "")
-> +}
-> +
-> +# Remove any lefovers from original glibc recipe
-> +RPROVIDES:${PN} =3D "${PN}"
-> +RRECOMMENDS:${PN} =3D ""
-> +RDEPENDS:${PN} =3D "sed"
-> +
-> +# Just build tests for target - do not run them
-> +do_check:append () {
-> +	oe_runmake -i check run-built-tests=3Dno
-> +}
-> +addtask do_check after do_compile before do_install_ptest_base
-> +
-> +glibc_strip_build_directory () {
-> +	# Delete all non executable files from build directory
-> +	find ${B} ! -executable -type f -delete
-> +
-> +	# Remove build dynamic libraries and links to them as
-> +	# those are already installed in the target device
-> +	find ${B} -type f -name "*.so" -delete
-> +	find ${B} -type l -name "*.so*" -delete
-> +
-> +	# Remove headers (installed with glibc)
-> +	find ${B} -type f -name "*.h" -delete
-> +
-> +	find ${B} -type f -name "isomac" -delete
-> +	find ${B} -type f -name "annexc" -delete
-> +}
-> +
-> +do_install_ptest_base () {
-> +	glibc_strip_build_directory
-> +
-> +	# Install build test programs to the image
-> +	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-> +	cp -r ${B}/* ${D}${PTEST_PATH}/tests/glibc-ptest/
-> +
-> +	install -d ${D}${PTEST_PATH}
-> +	cp ${WORKDIR}/run-ptest-* ${D}${PTEST_PATH}/
-> +
-> +	# By default run all glibc tests
-> +	cd ${D}${PTEST_PATH}/
-> +	ln -s run-ptest-all run-ptest
-> +}
-> +
-> +# The datadir directory is required to allow core (and reused)
-> +# glibc cleanup function to finish correctly, as this directory
-> +# is not created for ptests
-> +stash_locale_package_cleanup:prepend () {
-> +	mkdir -p ${PKGD}${datadir}
-> +}
-> +
-> +stash_locale_sysroot_cleanup:prepend () {
-> +	mkdir -p ${SYSROOT_DESTDIR}${datadir}
-> +}
-> +
-> +# Prevent the do_package() task to set 'libc6' prefix
-> +# for glibc tests related packages
-> +python populate_packages:prepend () {
-> +    if d.getVar('DEBIAN_NAMES'):
-> +        d.setVar('DEBIAN_NAMES', '')
-> +}
-> +
-> +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-> +
-> +EXCLUDE_FROM_SHLIBS =3D "1"
-> +
-> +# Install debug data in .debug and sources in /usr/src/debug
-> +# It is more handy to have _all_ the sources and symbols in one
-> +# place (package) as this recipe will be used for validation and
-> +# debugging.
-> +PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
-> +
-> +# glibc test cases violate by default some Yocto/OE checks
-> (staticdev, +# textrel)
-> +# 'debug-files' - add everything (including debug) into one package
-> +#                 (no need to install/build *-src package)
-> +INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
-> +
-> +deltask do_stash_locale
-> +do_install[noexec] =3D "1"
-> +do_populate_sysroot[noexec] =3D "1"
-> diff --git a/meta/recipes-core/glibc/glibc/run-ptest-all
-> b/meta/recipes-core/glibc/glibc/run-ptest-all new file mode 100755
-> index 0000000000..47bfe5238c
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/run-ptest-all
-> @@ -0,0 +1,25 @@
-> +#!/bin/sh
-> +# ptest script for glibc - to run time related tests to
-> +# facilitate Y2038 validation
-> +# Run with 'ptest-runner glibc-tests'
-> +
-> +output() {
-> +  retcode=3D$?
-> +  if [ $retcode -eq 0 ]
-> +    then echo "PASS: $i"
-> +  elif [ $retcode -eq 77 ]
-> +    then echo "SKIP: $i"
-> +  else echo "FAIL: $i"
-> +  fi
-> +}
-> +
-> +# Allow altering time on the target
-> +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-> +
-> +tst=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*)
-> +
-> +for i in ${tst}
-> +do
-> +	$i >/dev/null 2>&1
-> +	output
-> +done
-> diff --git a/meta/recipes-core/glibc/glibc/run-ptest-time
-> b/meta/recipes-core/glibc/glibc/run-ptest-time new file mode 100755
-> index 0000000000..24dedc6e32
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/run-ptest-time
-> @@ -0,0 +1,30 @@
-> +#!/bin/sh
-> +# ptest script for glibc - to run time related tests to
-> +# facilitate Y2038 validation
-> +# Run with 'ptest-runner glibc-tests'
-> +
-> +output() {
-> +  retcode=3D$?
-> +  if [ $retcode -eq 0 ]
-> +    then echo "PASS: $i"
-> +  elif [ $retcode -eq 77 ]
-> +    then echo "SKIP: $i"
-> +  else echo "FAIL: $i"
-> +  fi
-> +}
-> +
-> +# Allow altering time on the target
-> +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-> +
-> +tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*-time64)
-> +
-> +# Remove '-time64' suffix - those tests are also time
-> +# related
-> +tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
-> +tst_time=3D"${tst_time_tmp} ${tst_time64}"
-> +
-> +for i in ${tst_time}
-> +do
-> +	$i >/dev/null 2>&1
-> +	output
-> +done
+Richard
 
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/kmSL3IDABJPINLjeKI1I76b
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmFmmkoACgkQAR8vZIA0
-zr2sKggA0F9936uEWiWgibjWBSCPVIe+JMkLeaO3NG/omO2sqoFJfe6PtzWOfhHi
-w5b6pJ9f5X+Y0Zt1M+2UPNT1uHSJ0NosIjNvxLKsn/gHWPyu7j5/lszBJxrpzynh
-p8mUWeYngtjGnwut9qe9vYXFDA91Da32LOdbKk08a/0fk0VGS6Oca/Jeus9ioUQy
-6H6siMkL05oZDkad0OtteO6KFXsgjlyBHAzoZLcSeTZSeT5J/EyjcdTqonjIDHZq
-FjGPSGpGc7jVCWvdtHHuSVMgznHGvGwGH4sgnDsQLYtGO33HY5F/OpkNWhkbx1cd
-pcQG1WiO7U7pm/3SDQZ9+Y/R96JPgw==
-=OZ5h
------END PGP SIGNATURE-----
-
---Sig_/kmSL3IDABJPINLjeKI1I76b--
 
