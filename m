@@ -1,127 +1,118 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 114ECC433F5
-	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 12:13:32 +0000 (UTC)
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web09.7158.1634127211164041285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B39EAC433F5
+	for <webhook@archiver.kernel.org>; Wed, 13 Oct 2021 12:25:52 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web09.7271.1634127951419332455
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 05:13:31 -0700
+ Wed, 13 Oct 2021 05:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ikbblA90;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1634127199; i=@fujitsu.com;
-	bh=fyHS5aA0PiSBanOkzoJ1ifdiMAAmr4lA+StzEu/5Nlk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ikbblA90MP/Yu4rWV15/wm1Selhu0YObXAERY2C2oFRbnVpw6WnRZA6XhsUYtx1R5
-	 rc5C/U5HbGuSmP/66Om7JdgoI9yN37RHXPgRJ51NsbRsHbyzv57ZFTwSfzBdq/VOdY
-	 TFLl6uIDNJKycuFsquwKItJO1zpcg20ffwx2zGTX6oJrozJJoqGKM+9MS/BlZtGzw8
-	 wQRYAEUrezzWHvu5Oen4ivks4eJQbulljZRjp+MukIYy6V9JcfGSG/IlpslNoJkKkQ
-	 mvumwSV7E5N/De4WzCCWFMK5IdOqulruwMaxPOJKjIZWSkWwQdNigmq+YcewWcGsxv
-	 9NE7uyXgv/5wQ==
-Received: from [100.113.6.246] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id 5C/F8-14220-F5DC6616;
- Wed, 13 Oct 2021 12:13:19 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRWlGSWpSXmKPExsViZ8ORqBt3Ni3
-  R4OIvGYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPNup0sBf95Kk4c3MvawHiKu4uRi0NI4DGj
-  xNH3J1kgnPNMEiePXWCCcE4wSiw/uwTI4eRgE1CTmH7rBmsXIweHiICexNV/oiBhZgEViRe/e
-  9hBbGEBG4mNCxazgZSwCKhK3FrHBhLmFXCWWPTgFFiJhICCxJSH75kh4oISJ2c+YYEYIyFx8M
-  ULZogaRYnZl5tZIOwKiVmz2pggbDWJq+c2MU9g5J+FpH0WkvYFjEyrGC2TijLTM0pyEzNzdA0
-  NDHQNDY11TXQNjQ30Eqt0k/RSS3WTU/NKihKBsnqJ5cV6xZW5yTkpenmpJZsYgQGZUsjStIPx
-  96sPeocYJTmYlER5WXanJQrxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4A06A5QTLEpNT61Iy8wBR
-  gdMWoKDR0mEd9MJoDRvcUFibnFmOkTqFKOilDjvOpA+AZBERmkeXBssIi8xykoJ8zIyMDAI8R
-  SkFuVmlqDKv2IU52BUEuZdeQpoCk9mXgnc9FdAi5mAFgdGpYAsLklESEk1MHnafbDRXvVt7rK
-  dskdWaFxuOFuVqJPZXW/os1Pqt80hro26n9583ry6P9fSeCrT9ZxJDA9+LLmxtbClo6Sr5t2U
-  FOt1/CUCJzbN7OGuZvF7YLTgYbaW4l+RZJmGR3F2Ecv2cYqExnD0Hjk6O+KPWOVW8031ilVmu
-  1m3OESv+HiTY7H+5hOq3at1Zaal8z2/ua3t/vbWaWL3Zxj9PSYyaQG3SrHyN46kHwfSXvpt+7
-  ovT+eky96edZHhP6U8S+f3+B1k2zbly6az1f/eh5eWPn5W573j132J/bJ3PBmO7dPV+6Tp0v3
-  j7YK5M6/LHUl+LfZoRb67/h3mrlD1B8sT4wPWG87v1t04ST1lXtyFtRFKLMUZiYZazEXFiQCj
-  rR4VQwMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-15.tower-248.messagelabs.com!1634127198!31369!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 20428 invoked from network); 13 Oct 2021 12:13:18 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-15.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 13 Oct 2021 12:13:18 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id EAB9D14B242
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 13:13:17 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id DF4B9100EDF
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Oct 2021 13:13:17 +0100 (BST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Wed, 13 Oct 2021 13:12:58 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libical: upgrade 3.0.10 -> 3.0.11
-Date: Wed, 13 Oct 2021 20:12:49 +0800
-Message-ID: <1634127169-114653-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fGH37yim;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id t16so9411146eds.9
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 13 Oct 2021 05:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MKTwULNxg8GMV+m7OfPWV/2SDKVR9gf1MN47jfIN6Hs=;
+        b=fGH37yim7trHUruEs8V5T3vALKAT5Juj9QAtXoGbqcyCEMoPbSbppjrZRVci61oxht
+         MgjU4y583ffuTQzlWCvv1a/PYZl5RAH+mT7bC9xTkxKYvxn0tJ2DcVtvoQF5f+gPAQTy
+         sPjUz17uFlzWzVFrvRekpsv/5HUetZfQEAOHbCsJSSJJ5c2UBIwB/qR5ozzimCyBD/Jx
+         RmULl0q9z0FERmZi2/u38Z59KNRVokrll4416KFk7wwcwIjxsBG3eHBYH76dzmw6VYb8
+         lgzmZT1CL7l3HB3fqdW9G2x5db0AoD5S0pXfnfLMeGYsdjxhLVTiqqaT+gtZOye//YJU
+         bpew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MKTwULNxg8GMV+m7OfPWV/2SDKVR9gf1MN47jfIN6Hs=;
+        b=m1lWS0Fa9wDzBIjmFpElCo7cfwzWEPjDHlR21KNcfBHXNGisaDSjof7DHV5I9kisXV
+         7ATyBBwGqd2m0TWTbF5i8Wl+IHx0wZoN8gMLl/yaktBfusDqZYzCPULRki5kWJqpSrOp
+         0dIFIZqG46cAa/hguOlHfPBpPrrkDh4q3w/c1DPcHRwTN69+7TFlOmZRe5sHespMgIWb
+         NYdE8jxgXCLSBSxk0Ma6Nsj8x+IHRw5YVhtNgkoWdBu5SKc4qCWFxkqYA715zc/qHW8z
+         Ta2lWYrIcF+6Qy0zV30NOkmqSLq84nWk7LJdJj8kG4+/pyWRMgl0wfbhbYf4x5g8lyb5
+         lt1A==
+X-Gm-Message-State: AOAM532ayqW7NjfmowGKvYSuDecnJDmTTetPelv51WWXbpwz/deWY3pC
+	6r2UtIl6cDHcjlh47a2HcbGL17hwVGDz/LbRoig=
+X-Google-Smtp-Source: 
+ ABdhPJy39JOFwDQJ4MrENmk2rdlpP+InPDnJW5tqPBtxENMbbZB8n/1T+s6HZ0HHPNV/7p1heGSZZNTDeKSIsDh37/k=
+X-Received: by 2002:a17:906:fca5:: with SMTP id
+ qw5mr39710134ejb.315.1634127949679;
+ Wed, 13 Oct 2021 05:25:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <20211005130411.2712850-1-ross.burton@arm.com>
+ <CADkTA4NFGhRcQCj+sHLENM38eWEkjE4aLT1adj_KWoj=nKmpoA@mail.gmail.com>
+ <CAAnfSTtg7NmNi6Hu0+-LK41ya7--BPnwpzACFipePOUFqyX6wA@mail.gmail.com>
+ <CAAnfSTuMd+8YfuwcmTsU5+W30bPXHJrqcuHRM=Axo+=evv5z_A@mail.gmail.com>
+ <549aecfd-e6d1-dbe0-3c80-51783f554750@gmail.com>
+ <CAAnfSTtj0bS5p05+dEJmLWG8MM-fyr1ZqVxB1MA_hcXHcGXfPQ@mail.gmail.com>
+ <CADkTA4OK-K0O1zMQHiMFoHATcZ=se8wZLC0Q0tKEZRF-bfrrhw@mail.gmail.com>
+ <YWar9C9+p9fPduVI@piout.net>
+In-Reply-To: <YWar9C9+p9fPduVI@piout.net>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 13 Oct 2021 08:25:38 -0400
+Message-ID: 
+ <CADkTA4PK2Dt-GSnaeZTmxgr5hJV4V-6Vw2fh8_QGu5KYtQ1tkg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto: add libmpc-native to DEPENDS
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Ross Burton <ross@burtonini.com>, Khem Raj <raj.khem@gmail.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 12:13:32 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Oct 2021 12:25:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156903
+ https://lists.openembedded.org/g/openembedded-core/message/156904
 
-Version 3.0.11 is a patch release.
-This release is binary and source compatible with version 3.0.0.
-Note that the libical-glib library is considered unstable; therefore not binary compatible with previous releases
+On Wed, Oct 13, 2021 at 5:50 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> On 12/10/2021 10:36:12-0400, Bruce Ashfield wrote:
+> > On Thu, Oct 7, 2021 at 6:13 AM Ross Burton <ross@burtonini.com> wrote:
+> > >
+> > > On Wed, 6 Oct 2021 at 18:59, Khem Raj <raj.khem@gmail.com> wrote:
+> > > > Does it have to be native or target dependency ?
+> > >
+> > > Native, as it builds compiler plugins for the host.
+> >
+> > I was out most of last week, and this was a holiday weekend here, so
+> > I'm running behind.
+> >
+> > I didn't notice this on master or master-next, so I've grabbed it and
+> > made the same change to linux-yocto-dev.
+> >
+> > I'll send them out in my next pull request.
+> >
+>
+> Actually, this has been in my kirkstone-next and now my master-next for
+> a while but not in any green a-full build yet.
 
-ReleaseNotes:
-Fix icalrecur_iterator_set_start() for hourly, minutely, and secondly recurrences
-Fix build for Berkeley DB version greater than 5
-Fix vcal for some architectures (like aarch64, ppc64le and s390x)
-Fix memory leaks in vcal
-Prevent crash when looking for tzid in initialize_rscale
-Adjust libdir and includedir in generated pkgconfig files
-Built-in timezones updated to tzdata2021c
+Can you point me at that branch ?
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../libical/{libical_3.0.10.bb => libical_3.0.11.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libical/{libical_3.0.10.bb => libical_3.0.11.bb} (95%)
+If it isn't poky master-next, or opembedded-core master-next, it might
+as well not exist, since it isn't something I'm going to check.
 
-diff --git a/meta/recipes-support/libical/libical_3.0.10.bb b/meta/recipes-support/libical/libical_3.0.11.bb
-similarity index 95%
-rename from meta/recipes-support/libical/libical_3.0.10.bb
-rename to meta/recipes-support/libical/libical_3.0.11.bb
-index 209a50217c..b16081e9e2 100644
---- a/meta/recipes-support/libical/libical_3.0.10.bb
-+++ b/meta/recipes-support/libical/libical_3.0.11.bb
-@@ -14,7 +14,7 @@ SECTION = "libs"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
- "
--SRC_URI[sha256sum] = "f933b3e6cf9d56a35bb5625e8e4a9c3a50239a85aea05ed842932c1a1dc336b4"
-+SRC_URI[sha256sum] = "1e6c5e10c5a48f7a40c68958055f0e2759d9ab3563aca17273fe35a5df7dbbf1"
- UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
- 
- inherit cmake pkgconfig
+Bruce
+
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
