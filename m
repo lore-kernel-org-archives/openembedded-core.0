@@ -2,56 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 603DCC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A545C433FE
 	for <webhook@archiver.kernel.org>; Thu, 14 Oct 2021 12:10:32 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.8335.1634213430834355200
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web08.8459.1634213431596824983
  for <openembedded-core@lists.openembedded.org>;
  Thu, 14 Oct 2021 05:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QLAXDl+O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Uukh0R7q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id e12so18772663wra.4
+Received: by mail-wr1-f42.google.com with SMTP id r18so18789616wrg.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 05:10:30 -0700 (PDT)
+ Thu, 14 Oct 2021 05:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Ym7md/jxH/APioRYXBBtJUYxMuQO+1inxWUVio4VPTE=;
-        b=QLAXDl+ODMh7CvNXoa5hpVzZcDnjeKNDdDbz1wnL6DFjklVaO7cGHSohJyFAdQ7fZL
-         ByKCL2WVzHy51Li626mH7NyiO/Xkh4Z59clKqTii0/6qLZ0xztyf3pphqf4yBkRzNAzs
-         gArrK1z98OnCmiT6dXntWTUUgBM3Eh7/c+ppM=
+        bh=F6JY7Jqt7AdVzhtthU0Uph59xQR6GvYvYc65EmwVlzA=;
+        b=Uukh0R7qHAMNftpvePlbD2XVNTspVEnsB+UspN7Udoui7t9Q0GIrw2v9+/jaes7n8S
+         JOh+SpR+/Ds43HolL79LsrLolsVbtyVuA6OD/gbE80qXHYn9SIONqHo5IF1NdGM4KM3h
+         0FT+1US+fxeKmiNrSwviQd7p1MG1IHpgeocaY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ym7md/jxH/APioRYXBBtJUYxMuQO+1inxWUVio4VPTE=;
-        b=6PhoOk6Al6etaD/RgWgGdGT6qLStVSX4foYC8hsMXXoJ8CgKB8eZqgs+b/bKf+Chta
-         G8s3a9NEgpzfZmcCUyg+3socZQ8qtZhYuXk1oTIugmerZKcuS6WR6aRcAN0ZyG6DMnXT
-         Wj+Kqr1imlflpMz8Yq27tedX0l0gXphClXgAfESf7EQxsJqmEOAYOAn8qXL8CVFf2QlE
-         6O+m8Ynhb3Btd/qSpbt53ZbChSMIk7IUsCh9DyKA1xR1u1IcviOQ07tR8T8Xv4bQXlOk
-         gHelBkOlndDSM59vb7qLOvR7hm2q45chC6v9FR4VtQyzt5UK4Gc7Ktdl7xlEThhQoJK6
-         EPTw==
-X-Gm-Message-State: AOAM531yi5ptm5yMvdrlGtHWg4Beudxn7+3obDcExwEAraDtc18Ev2i4
-	F56BfVoS2fIXNHkYcIgotnqbcwvpOroD5Q==
+        bh=F6JY7Jqt7AdVzhtthU0Uph59xQR6GvYvYc65EmwVlzA=;
+        b=QFp/9Cs/jMBzJFz7n1Uug8Z/ngD6DqlkbWtdZgNkU59vJHcTHLOJJbda1xnWzmG2mT
+         3/uuCx0KNEQlIwsOa5l/PEpmLlE8Ire5fSU15rrw7LCE9VnDvjMTfvVv3AG6dibquBTE
+         7xXRaqtDaHZoJE67v2S8rObWSrr7R/Chug8/2V839ZrKqpVoFUD1g9FBdokGu8aIVfcf
+         rEZh2XKbUam//Y4kCMcCDJUeVncV9z1tAl4moKSnCXSQ9/ec9+yJaArZ7Q20OmMyOfXm
+         fNp1cUpdKpNCe0xmuXuHAZkKZInDnJITKsaT3yFAnDX3cqOINQYkQ3ysFy7JwA1sVx1B
+         iaZg==
+X-Gm-Message-State: AOAM533BPA0uU2aebaTmMI0sIwqHu5y9Gce5wlfVLQVYa41lHmkKV0Ud
+	YFSJiGx1yqk4O0Xf6SkFyZOaTf70cPlVbA==
 X-Google-Smtp-Source: 
- ABdhPJxvpCX1kk9FI3Lmf3nmruJRmZADBJZYErjP2x50ZnOUXQzYXMDtC504z/l/jw2hpiQgp0jd/A==
-X-Received: by 2002:adf:e0cc:: with SMTP id m12mr6323404wri.62.1634213429217;
+ ABdhPJxDNIA9l4OfmBtLQETd4tRlqzVmOCzvRrcuiwU8oeFwvWJwHcwqehw/XC+fWoqR4wWNkfyl0w==
+X-Received: by 2002:adf:ab1c:: with SMTP id q28mr6312334wrc.39.1634213429907;
         Thu, 14 Oct 2021 05:10:29 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:eb5c:837c:62b1:b238])
         by smtp.gmail.com with ESMTPSA id
- 10sm4296152wme.27.2021.10.14.05.10.28
+ 10sm4296152wme.27.2021.10.14.05.10.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 14 Oct 2021 05:10:29 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/7] python: Update now reproducibile builds are the default
-Date: Thu, 14 Oct 2021 13:10:24 +0100
-Message-Id: <20211014121025.2913401-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 7/7] reproducible: Drop BUILD_REPRODUCIBLE_BINARIES variable
+Date: Thu, 14 Oct 2021 13:10:25 +0100
+Message-Id: <20211014121025.2913401-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211014121025.2913401-1-richard.purdie@linuxfoundation.org>
 References: <20211014121025.2913401-1-richard.purdie@linuxfoundation.org>
@@ -62,48 +62,203 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Oct 2021 12:10:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156941
+ https://lists.openembedded.org/g/openembedded-core/message/156943
 
-Now reproducible builds are the default move the qemu-usermode check to anon
-python code so that invalid configurations are detected.
+We want things to be reproduicble and the variable doesn't really change
+much any more. Drop the remaining uses and make those code paths always
+active.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python3_3.10.0.bb | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ meta/classes/image-prelink.bbclass    | 13 ++-----
+ meta/classes/image.bbclass            | 14 +++----
+ meta/classes/kernel.bbclass           | 54 +++++++++++++--------------
+ meta/conf/bitbake.conf                |  1 -
+ meta/lib/oe/sstatesig.py              |  2 +-
+ meta/recipes-core/busybox/busybox.inc | 10 ++---
+ 6 files changed, 41 insertions(+), 53 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.10.0.bb b/meta/recipes-devtools/python/python3_3.10.0.bb
-index 2e850710b68..e3300b6495b 100644
---- a/meta/recipes-devtools/python/python3_3.10.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.0.bb
-@@ -95,15 +95,8 @@ CACHED_CONFIGUREVARS = " \
-                 ac_cv_working_tzset=yes \
- "
+diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
+index 0da094a5518..8158eeaf4ca 100644
+--- a/meta/classes/image-prelink.bbclass
++++ b/meta/classes/image-prelink.bbclass
+@@ -46,17 +46,12 @@ prelink_image () {
+ 	dynamic_loader=${@get_linuxloader(d)}
  
--def possibly_include_pgo(d):
--    # PGO currently causes builds to not be reproducible, so disable it for
--    # now. See YOCTO #13407
--    if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) and d.getVar('BUILD_REPRODUCIBLE_BINARIES') != '1':
--        return 'pgo'
--    
--    return ''
--
--PACKAGECONFIG:class-target ??= "readline ${@possibly_include_pgo(d)} gdbm ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)}"
-+# PGO currently causes builds to not be reproducible so disable by default, see YOCTO #13407
-+PACKAGECONFIG:class-target ??= "readline gdbm ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)}"
- PACKAGECONFIG:class-native ??= "readline gdbm"
- PACKAGECONFIG:class-nativesdk ??= "readline gdbm"
- PACKAGECONFIG[readline] = ",,readline"
-@@ -320,6 +313,9 @@ python(){
-     d.setVar('PACKAGES', ' '.join(packages))
-     d.setVar('ALLOW_EMPTY:${PN}-modules', '1')
-     d.setVar('ALLOW_EMPTY:${PN}-pkgutil', '1')
-+
-+    if "pgo" in d.getVar("PACKAGECONFIG").split() and not bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d):
-+        bb.fatal("pgo cannot be enabled as there is no qemu-usermode support for this architecture/machine")
+ 	# prelink!
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+-		bbnote " prelink: BUILD_REPRODUCIBLE_BINARIES..."
+-		if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
+-			export PRELINK_TIMESTAMP=`git log -1 --pretty=%ct `
+-		else
+-			export PRELINK_TIMESTAMP=$REPRODUCIBLE_TIMESTAMP_ROOTFS
+-		fi
+-		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -am -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
++	if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
++		export PRELINK_TIMESTAMP=`git log -1 --pretty=%ct `
+ 	else
+-		${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
++		export PRELINK_TIMESTAMP=$REPRODUCIBLE_TIMESTAMP_ROOTFS
+ 	fi
++	${STAGING_SBINDIR_NATIVE}/prelink --root ${IMAGE_ROOTFS} -am -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
+ 
+ 	# Remove the prelink.conf if we had to add it.
+ 	if [ "$dummy_prelink_conf" = "true" ]; then
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index c2f32320278..2fa69a40d10 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -651,17 +651,15 @@ ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge'
+ POPULATE_SDK_PRE_TARGET_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk; ', '',d)}"
+ 
+ reproducible_final_image_task () {
+-    if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
++    if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
++        REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}" log -1 --pretty=%ct 2>/dev/null` || true
+         if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
+-            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}" log -1 --pretty=%ct 2>/dev/null` || true
+-            if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
+-                REPRODUCIBLE_TIMESTAMP_ROOTFS=`stat -c%Y ${@bb.utils.which(d.getVar("BBPATH"), "conf/bitbake.conf")}`
+-            fi
++            REPRODUCIBLE_TIMESTAMP_ROOTFS=`stat -c%Y ${@bb.utils.which(d.getVar("BBPATH"), "conf/bitbake.conf")}`
+         fi
+-        # Set mtime of all files to a reproducible value
+-        bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
+-        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
+     fi
++    # Set mtime of all files to a reproducible value
++    bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
++    find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
  }
  
- # Files needed to create a new manifest
+ systemd_preset_all () {
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 4acec1877e0..3dd9b4446db 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -324,21 +324,20 @@ addtask bundle_initramfs after do_install before do_deploy
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+-		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+-		# be set....
+-		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+-			# The source directory is not necessarily a git repository, so we
+-			# specify the git-dir to ensure that git does not query a
+-			# repository in any parent directory.
+-			SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
+-		fi
+-
+-		ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
+-		export KBUILD_BUILD_TIMESTAMP="$ts"
+-		export KCONFIG_NOTIMESTAMP=1
+-		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
++	# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
++	# be set....
++	if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
++		# The source directory is not necessarily a git repository, so we
++		# specify the git-dir to ensure that git does not query a
++		# repository in any parent directory.
++		SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
+ 	fi
++
++	ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
++	export KBUILD_BUILD_TIMESTAMP="$ts"
++	export KCONFIG_NOTIMESTAMP=1
++	bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
++
+ 	# The $use_alternate_initrd is only set from
+ 	# do_bundle_initramfs() This variable is specifically for the
+ 	# case where we are making a second pass at the kernel
+@@ -364,21 +363,20 @@ kernel_do_compile() {
+ 
+ do_compile_kernelmodules() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+-		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+-		# be set....
+-		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+-			# The source directory is not necessarily a git repository, so we
+-			# specify the git-dir to ensure that git does not query a
+-			# repository in any parent directory.
+-			SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
+-		fi
+-
+-		ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
+-		export KBUILD_BUILD_TIMESTAMP="$ts"
+-		export KCONFIG_NOTIMESTAMP=1
+-		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
++	# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
++	# be set....
++	if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
++		# The source directory is not necessarily a git repository, so we
++		# specify the git-dir to ensure that git does not query a
++		# repository in any parent directory.
++		SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
+ 	fi
++
++	ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
++	export KBUILD_BUILD_TIMESTAMP="$ts"
++	export KCONFIG_NOTIMESTAMP=1
++	bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
++
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+ 		oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+ 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1db9b3fc051..790f2f7a8c4 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -636,7 +636,6 @@ SDE_DIR = "${WORKDIR}/source-date-epoch"
+ SDE_FILE = "${SDE_DIR}/__source_date_epoch.txt"
+ SDE_DEPLOYDIR = "${WORKDIR}/deploy-source-date-epoch"
+ 
+-BUILD_REPRODUCIBLE_BINARIES = "1"
+ export PYTHONHASHSEED = "0"
+ export PERL_HASH_SEED = "0"
+ export SOURCE_DATE_EPOCH ?= "${@get_source_date_epoch_value(d)}"
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index c2e3e2f4f58..038404e377a 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -489,7 +489,7 @@ def OEOuthashBasic(path, sigfile, task, d):
+     include_timestamps = False
+     include_root = True
+     if task == "package":
+-        include_timestamps = d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1'
++        include_timestamps = True
+         include_root = False
+     extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
+ 
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 808c3dc7009..622325aabb3 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -110,9 +110,8 @@ python () {
+ }
+ 
+ do_prepare_config () {
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+-		export KCONFIG_NOTIMESTAMP=1
+-	fi
++	export KCONFIG_NOTIMESTAMP=1
++
+ 	sed -e '/CONFIG_STATIC/d' \
+ 		< ${WORKDIR}/defconfig > ${S}/.config
+ 	echo "# CONFIG_STATIC is not set" >> .config
+@@ -143,9 +142,8 @@ do_configure () {
+ 
+ do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+-		export KCONFIG_NOTIMESTAMP=1
+-	fi
++	export KCONFIG_NOTIMESTAMP=1
++
+ 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
+ 		# split the .config into two parts, and make two busybox binaries
+ 		if [ -e .config.orig ]; then
 -- 
 2.32.0
 
