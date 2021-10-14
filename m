@@ -1,95 +1,107 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ACD0C433F5
-	for <webhook@archiver.kernel.org>; Thu, 14 Oct 2021 13:23:14 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web08.9343.1634217793657223709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D59FC433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Oct 2021 13:40:54 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.9685.1634218853248636199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 06:23:14 -0700
+ Thu, 14 Oct 2021 06:40:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
- header.s=20210112 header.b=Za2+sa60;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
- ip: 209.85.167.51, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f51.google.com with SMTP id p16so27098969lfa.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aUV3l3fN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id r18so19664981wrg.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 06:23:13 -0700 (PDT)
+ Thu, 14 Oct 2021 06:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2clOg9w+aN60v0L/9Phug9EcY8xo5xbFP22viWkQ7QQ=;
-        b=Za2+sa60VQDDl+Wj32BwfLQseQ9f9/NjBrM9wrexXjrQbLgTYxdE3b5uLA+XqV6Cf+
-         0WpkzMkM5b9jb2Q98RJDtp6+4k2w13z0AlkXAlsGNrqZ0U3EeWK1QYaUnfK8b1wbnxdy
-         RuvGxOWaeNp01LlBXtiI5NmdCTXnQU3hQgvgRM3qN0GLoppr5v08zq0QuroUqTEyyBX9
-         u1sqKU82ZqQ+AZz1DmDYiejXSee7jx5zSZi1jw1VWmROsbEuuQHuelVSI5+mxezeAsgq
-         BRPnGXhwRNen5M46xxwXDdRtvsZ3VvyLgI74XWA56kDihZYhdsSnW5wikH47lveqR7jH
-         XRog==
+        bh=0UWumbLXIGW3fngAaj5nhZt5a/n45X8J63t11r9IeGI=;
+        b=aUV3l3fNxDepcArRDRRPibO7E9aBJfJTPq+GRLANMF/+e0rKQmPeLB1zeZAhkBcUFv
+         hXg1ECBjK+3yhiNVfocGmO7b2xQZ/5O21fpkfeiKSwEZIdy0LaJPFKE82SqKKcPjoQ1z
+         qVEOCho7JRjzX2b9OFuFG43l/v/T9bsEcdn1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2clOg9w+aN60v0L/9Phug9EcY8xo5xbFP22viWkQ7QQ=;
-        b=g8yRlBog+2bzuJm4vdwZratXacLZP4B0msnLhOLiAfsXCyR27r9BTiOCXu2YVGo7DJ
-         bxZ98xgVND1wedjIblZShHBdazZIfJQOKhOBFj/tu/tLnsIdnHkZ773V6FcT24INz/Ll
-         Ghaeav4AnvM3oQQHEUYelMccLLKkC04BWDvcjsJ7lK6eO2FHNpQZhG8tOgg0h4yeCJ1D
-         SAxB1t5LzHTvQm8X0v/lYLz4bJcOoBvTYWX8I97gwidtU9k2m4BnOZs7cbYtJ4FENPyS
-         1PvHPv6B3qg01NvkA8gSXn+tpcZM8oi/vWh7KjnOfQ2cleMWncKEQSifwC1JUMxTU+JV
-         fOYw==
-X-Gm-Message-State: AOAM532o/fCP+N0+7SH3d74ZZ0yETdYfck0sJzq6dCFLfVYczN8yUuM0
-	ElleQG72dDxhUYXSQAnacRGI4M2UrWoDxi0M
+        bh=0UWumbLXIGW3fngAaj5nhZt5a/n45X8J63t11r9IeGI=;
+        b=NQuOGXqiGLj6WIiCFDjL2GRn79zinnQXLv/XZZokqNxvVZWVrPyPwy/viBNPBOtBvw
+         s/ErR50sPjCIQIyPXkFB2CgZMdv06S+kvZK1WxemFurNRdHZYBurVekc8D7CeQvWrF+y
+         jt3JHk5YVrjahC3OvAzlKmIBFLfHxdBUEHABHKiL8Lb8o+zp7ndRNFKDXuSiH8uibEuf
+         IXvp+WIrKwmoP9x02cR591BOhQVr69kAKdDtGlWH//5wdMKyfW1Ys3oluQc4twZ8CLZf
+         XaDGxyXD5VAx1QA6CgqPmawxA1KNCIdhFxkXHQ+deWNtctc6xtFbOof//F8Moys0fOxa
+         KamA==
+X-Gm-Message-State: AOAM530D5MUU6bluu0ZrwYk52OtFnpRZf0vIHXCKwGCMHSmBkzleVDfy
+	5ZUwlQ+Sw/+1BCxSmKe7Wuz3+3LaJN4=
 X-Google-Smtp-Source: 
- ABdhPJySp528SscXtgEYfVgB1vypo2GYI2sFJ/1WrgxYhr9lnMBngWFLYpHz7ZzOHyJQzXH04gBsUw==
-X-Received: by 2002:a2e:97c8:: with SMTP id m8mr5861886ljj.379.1634217791292;
-        Thu, 14 Oct 2021 06:23:11 -0700 (PDT)
-Received: from localhost.localdomain
- (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
+ ABdhPJxnMvQ3H7JSiuYDxWEJHUbojfNeKFB1D8KA9D2lwhADuKnLE5M1EPOCzCj4zrLNH2oW3qX5IA==
+X-Received: by 2002:a1c:29c2:: with SMTP id
+ p185mr19447576wmp.43.1634218850783;
+        Thu, 14 Oct 2021 06:40:50 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:eb5c:837c:62b1:b238])
         by smtp.gmail.com with ESMTPSA id
- b23sm226869lff.148.2021.10.14.06.23.10
+ k22sm2422676wrd.59.2021.10.14.06.40.50
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 06:23:10 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        Thu, 14 Oct 2021 06:40:50 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libxkbcommon: update to 1.3.1
-Date: Thu, 14 Oct 2021 15:23:06 +0200
-Message-Id: <20211014132306.2427135-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH 1/2 v2] kernel: Add KERNEL_DEBUG_TIMESTAMPS variable
+Date: Thu, 14 Oct 2021 14:40:48 +0100
+Message-Id: <20211014134049.2917058-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Oct 2021 13:23:14 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Oct 2021 13:40:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156954
+ https://lists.openembedded.org/g/openembedded-core/message/156955
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Change the "binary reproducibility" configuration within the kernel to
+work off a separate variable, defaulting to reproducible builds.
+
+This allows kernel developers wanting timestamps in their images to enable
+it easily and clearly without changing the rest of the reproduciblity
+code which they likely don't need to change anyway.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../xorg-lib/{libxkbcommon_1.3.0.bb => libxkbcommon_1.3.1.bb}   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.3.0.bb => libxkbcommon_1.3.1.bb} (92%)
+ meta/classes/kernel.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb
-index 57c318cf5e..0e75ed03dc 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb
-@@ -9,7 +9,7 @@ DEPENDS = "util-macros flex-native bison-native"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 4acec1877e0..c1cea177b62 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -322,9 +322,11 @@ python do_devshell:prepend () {
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ addtask bundle_initramfs after do_install before do_deploy
  
--SRC_URI[sha256sum] = "7b09e098ea69bc3054f0c57a9a25fda571c4df22398811606e32b5fffeb75e7b"
-+SRC_URI[sha256sum] = "b3c710d27a2630054e1e1399c85b7f330ef03359b460f0c1b3b587fd01fe9234"
++KERNEL_DEBUG_TIMESTAMPS ??= "0"
++
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
++	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
+ 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+ 		# be set....
+ 		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+@@ -364,7 +366,7 @@ kernel_do_compile() {
  
- UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
- 
+ do_compile_kernelmodules() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
++	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "0" ]; then
+ 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+ 		# be set....
+ 		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
 -- 
-2.25.1
+2.32.0
 
 
