@@ -2,94 +2,94 @@ Return-Path: <open.source@oleksandr-kravchuk.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C115C433F5
-	for <webhook@archiver.kernel.org>; Thu, 14 Oct 2021 13:20:05 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web12.9153.1634217603873762870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D57EC433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Oct 2021 13:21:30 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web08.9326.1634217689314353320
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 06:20:04 -0700
+ Thu, 14 Oct 2021 06:21:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
- header.s=20210112 header.b=Tlem7C5X;
+ header.s=20210112 header.b=aZ5t4fmV;
  spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
- ip: 209.85.167.43, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f43.google.com with SMTP id n8so26771631lfk.6
+ ip: 209.85.167.51, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f51.google.com with SMTP id y15so26949792lfk.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 06:20:03 -0700 (PDT)
+ Thu, 14 Oct 2021 06:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IxekXEUYpa1UZM6olbXHU2LGNWPYCvxS4dvqpisAF08=;
-        b=Tlem7C5XUuAAXgwlYdmsft3lAQ501WpuAvz6mZzici3vIh9xkh2gSTGpTCla82Yom8
-         dOLhB24swrAsmE+ML6d5geaVMdMCdTBl4iaYrwpKNL1kAGbTvWl+u9IEh4GBda3L3djK
-         YMtPXCyHo9ueuhby4oBU8FskrQY4wc+soK/RZY19JD4KLt2/5Ub+jMZtpxvilcoJGKpO
-         OhliVBb7ZIDT1qeWuoQQRkJ6x/qjNE+lwIqqDPW5puD9ODbu9IrAtmbzFVchB4IgBLTG
-         vsC37o0UOgKlctrjNDq32mKPCy/wdeZZPilhEYX9vGEXGZb77qHqku54HaJHdStbGNXk
-         zQVg==
+        bh=RfWJolhNd2qK7+tNcOlJ/RiBRnFrya1XD2cZAo2sMGs=;
+        b=aZ5t4fmV+qG8HMfHHyDKbJpAI1SzbA8roCQYIgDlyXAW8+X1A1NMlEM8W4Aiw4TxtD
+         xTQgGftuK4fkVnl+CN8v4AxqZSaIjA46ubfETNaxHm37XKqJV9fAgV+jdAikBiB68pEo
+         UpdYwRd8MN6P9AfSI76G5uWr2RiFy4JuOHTClJlKbRTtUYclKAMmBvw8FGvtPm8cU/If
+         BRQoAf/8rsmpTF0yjxLaZLrrfcNQ8ixZ6QiAXd2BfNmi7AbNicj8/mrWk7yVtLhOMCzF
+         up5piBy46DR3fd6vjnp4hVvn27Zn5IDbYqRw8iSXVBu4mzQzDUrhN/4pAMS6TYeATZau
+         cIHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IxekXEUYpa1UZM6olbXHU2LGNWPYCvxS4dvqpisAF08=;
-        b=eNbdYwEOuqKxGCf+ggbJZO4mEwpA0g6jcL3wsFS7prKmOCdoHII28FJCt4Pu7g8KDG
-         +g45CCEhWugUFW+TlsMxGD6tdQfA12hqxzpv9JjDvvAqTmUvu3Qwb9c2YcYGBWmS+DRd
-         5ptDSzsmGqTqvuCezRl1hFQJZbcnpvMMybrpMn9KV1q5cJPac8gKCsKwEU2TDhWzd0pc
-         OWocD5mXtwRe7IaFjXxK8biZX/k1H2SQVrl21C0J3PIXlmKcyENW1MQzLF+uack40z2J
-         zPrj3DZDNihy+IKEHDYo3hNhKWBCscBsuSnRKWdsvOvoDqNaDQNNZ5sfINuQliMiMJsr
-         IO3Q==
-X-Gm-Message-State: AOAM532JjjkWKuV/FSFUWcfDduiO4yDLj2lOgFQJPkegan+mp7VEhgJ4
-	L3A4iiuxvLAoIKh296ZhygfyDrgRTJ481AYH
+        bh=RfWJolhNd2qK7+tNcOlJ/RiBRnFrya1XD2cZAo2sMGs=;
+        b=WXAMadanoFnFMrT2A1APPOoDwprR6NFvJml3bE31QN/zpZhpffswQSx+clcfjqX0aJ
+         kZEWxZT7Wdi4XIIgnO9J5rZa+W40rkSobS9E6WkOiMhP9yZf8TLzgTY7abiHzgP4Pw3A
+         BE7ZnOerkJL4TY8KFLUGkkIgjus2AHMpx8srV/c1ujXiXyhqam6mUm425eFjC1YXb77Y
+         o4YTLjWmTwfv0j8m2dqwo/BA6PBOrT7eEQSxNZZoDieyfgf+CBa1WgO/aOYJs1b4/jMx
+         C1t5/yDIYeWBZ3jMF4641XEXWhJoBP2aDj3aJAD6lkO7KjTQJssDtvG/0pHYTzR6bNa/
+         6Ckw==
+X-Gm-Message-State: AOAM530gsdFJK+nVEkSjskh+5nsrJpCAVbOD0Lq+KI1EzFh+eAfc5LYt
+	eRDMZqZBTtSAyP4DgxDB255p4sz0fTmujOS6
 X-Google-Smtp-Source: 
- ABdhPJwsW1RcfTORx4Thwo6x/JtUxkkoie1zqy0so4+2s6KZZcDHDrp3deGuTHHcjj79iG9g71mbwA==
-X-Received: by 2002:a05:651c:1025:: with SMTP id
- w5mr6009901ljm.282.1634217600612;
-        Thu, 14 Oct 2021 06:20:00 -0700 (PDT)
+ ABdhPJwMiXqpkCjZM/HW15UyXEsicdaeNVOPHNx8tFi8DUklKTPhIBBS0TK0jY+deJ28lJA1kf4SIA==
+X-Received: by 2002:a05:6512:16a7:: with SMTP id
+ bu39mr5377914lfb.578.1634217686918;
+        Thu, 14 Oct 2021 06:21:26 -0700 (PDT)
 Received: from localhost.localdomain
  (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
         by smtp.gmail.com with ESMTPSA id
- c16sm245651lfi.180.2021.10.14.06.19.59
+ h23sm261547ljl.35.2021.10.14.06.21.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 06:20:00 -0700 (PDT)
+        Thu, 14 Oct 2021 06:21:26 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] xorgproto: update to 2021.5
-Date: Thu, 14 Oct 2021 15:19:55 +0200
-Message-Id: <20211014131955.2388202-1-open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] xkeyboard-config: update to 2.34
+Date: Thu, 14 Oct 2021 15:21:22 +0200
+Message-Id: <20211014132122.2393369-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Oct 2021 13:20:05 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Oct 2021 13:21:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156952
+ https://lists.openembedded.org/g/openembedded-core/message/156953
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../{xorgproto_2021.4.99.2.bb => xorgproto_2021.5.bb}           | 2 +-
+ .../{xkeyboard-config_2.33.bb => xkeyboard-config_2.34.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-proto/{xorgproto_2021.4.99.2.bb => xorgproto_2021.5.bb} (90%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.33.bb => xkeyboard-config_2.34.bb} (92%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
-similarity index 90%
-rename from meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb
-rename to meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
-index 1780e78c56..8edb4596ad 100644
---- a/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb
-+++ b/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=dfc4bd2b0568b31725b85b0604e69b56"
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.34.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.34.bb
+index 138e451d07..5d431a4172 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.34.bb
+@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
  
- SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "c38878053179c6f8bc2daeeeeb4710b5fbf0e46db5b3134aee4a1977ffb06e7a"
-+SRC_URI[sha256sum] = "aa2f663b8dbd632960b24f7477aa07d901210057f6ab1a1db5158732569ca015"
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "657fd790d6dcf781cd395de4cf726120a5b0f93ba91dfb2628bcc70ae8b1d3bc"
++SRC_URI[sha256sum] = "b321d27686ee7e6610ffe7b56e28d5bbf60625a1f595124cd320c0caa717b8ce"
  
- inherit meson
- 
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
 -- 
 2.25.1
 
