@@ -1,91 +1,66 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Date: Thu, 14 Oct 2021 13:39:48 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-Subject: Re: [OE-core] [PATCH] libpam: Fix build with DISTRO_FEATURES usrmerge
-Message-ID: <YWgXBNvqPs7TjkGb@piout.net>
-References: <20211012111726.493810-1-zboszor@pr.hu>
- <CACS+7ZTXToShB1BjSA3WBB7CbcqWCeRotU3Ki3+WrzJDLLajqg@mail.gmail.com>
- <976419e0-eb32-d33e-d90d-b2eefc711034@pr.hu>
+Date: Thu, 14 Oct 2021 17:51:43 +0100
+From: "Mike Crowe" <mac@mcrowe.com>
+Subject: Re: [OE-core] Installing licence files for static/header-only libraries into images
+Message-ID: <YWhgH+IBiNYPBZ1P@mcrowe.com>
+References: <YWbn1yCqxTGskn+s@mcrowe.com>
+ <CAMKF1soqvKJyAcTykqAfP1aYtXsPq6FtFo6cUo-mi2-OSqcESg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <976419e0-eb32-d33e-d90d-b2eefc711034@pr.hu>
-Content-Type: text/plain; charset="iso-8859-1"
+In-Reply-To: <CAMKF1soqvKJyAcTykqAfP1aYtXsPq6FtFo6cUo-mi2-OSqcESg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: zboszor@pr.hu
-Cc: Dan McGregor <danismostlikely@gmail.com>, Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, =?iso-8859-1?B?Wm9sdOFuIEL2c3r2cm3pbnlp?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
 
-On 14/10/2021 08:54:35+0200, Zoltan Boszormenyi via lists.openembedded.org =
-wrote:
-> On 2021. 10. 13. 21:38, Dan McGregor wrote:
-> > Thanks for this. I hit it pretty immediately.
-> >=20
-> > On Tue, 12 Oct 2021 at 05:17, Zoltan Boszormenyi via
-> > lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
-> > >=20
-> > > From: Zolt=E1n B=F6sz=F6rm=E9nyi <zboszor@gmail.com>
-> > >=20
-> > > Signed-off-by: Zolt=E1n B=F6sz=F6rm=E9nyi <zboszor@gmail.com>
-> > > ---
-> > >   meta/recipes-extended/pam/libpam_1.5.2.bb | 6 ++++--
-> > >   1 file changed, 4 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes=
--extended/pam/libpam_1.5.2.bb
-> > > index a3c4a50cb3..ee3a84a3b6 100644
-> > > --- a/meta/recipes-extended/pam/libpam_1.5.2.bb
-> > > +++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-> > > @@ -147,8 +147,10 @@ do_install() {
-> > >          if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','=
-false',d)}; then
-> > >                  echo "session optional pam_systemd.so" >> ${D}${sysc=
-onfdir}/pam.d/common-session
-> > >          fi
-> > > -        install -d ${D}/${libdir}/
-> > > -       mv ${D}/${base_libdir}/pkgconfig ${D}/${libdir}/
-> > > +       if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false',=
-'true',d)}; then
-> >=20
-> > In the patch I made that I kept local for now my condition was
-> >=20
-> > if [ "${base_libdir}" !=3D "${libdir}" ]
-> >=20
-> > It could be that a user sets libdir and base_libdir to be equal
-> > without enabling usrmerge, but both checks solve the immediate
-> > problem.
->=20
-> Right, this is the correct solution.
->=20
+On Wednesday 13 October 2021 at 13:32:03 -0700, Khem Raj wrote:
+> On Wed, Oct 13, 2021 at 7:06 AM Mike Crowe via lists.openembedded.org <mac=
+> mcrowe.com@lists.openembedded.org> wrote:
+> 
+> > We're using:
+> >
+> >  EXTRA_IMAGE_FEATURES += "lic-pkgs"
+> >
+> > to install the corresponding licence packages for all the packages
+> > installed in our image. This works very well for binaries and dynamic
+> > libraries. However, I've recently noticed that it doesn't install licence
+> > files for any static or header-only libraries used during the build.
+> >
+> > The corresponding -lic packages are built for such packages, but nothing
+> > causes them to be installed since they are not runtime dependencies of
+> > anything that is installed.
+> >
+> > I thought that I could solve this problem by something like:
+> >
+> > def lic_deps(d):
+> >     deps = []
+> >     for f in d.getVar('DEPENDS').split():
+> >         if not f.endswith("-native") and not f.startswith("virtual/"):
+> >             deps.append(f + "-lic")
+> >     return ' '.join(deps)
+> 
+> 
+> It will work but in some cases it will be do more than what’s needed
+> Build time dependencies are not necessarily also runtime dependencies eg it
+> could be using a tool from that package during build
 
-The patch was just merged in master so you'd have to rebase on that
+Yes. I was attempting to avoid that to a certain extent by excluding
+-native packages.
 
-> >=20
-> >=20
-> > > +               install -d ${D}/${libdir}/
-> > > +               mv ${D}/${base_libdir}/pkgconfig ${D}/${libdir}/
-> > > +       fi
-> > >   }
-> > >=20
-> > >   do_install_ptest() {
-> > > --
-> > > 2.31.1
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
-> > >=20
->=20
+> > RDEPENDS_${PN}-lic += "${@lic_deps(d)}"
+> >
+> > but this fails for recipes that use PROVIDES or other shenanigans which
+> > means that just appending -lic to whatever is in DEPENDS is insufficient.
+> >
+> > For the time being I can add the required packages by hand, but this is
+> > brittle in the longer term.
+> >
+> > Is there a better way to solve this problem?
 
->=20
->=20
->=20
+The deficiencies in this solution made me hope that there was a better one.
+It doesn't sound like there is. :(
 
+Thanks.
 
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Mike.
