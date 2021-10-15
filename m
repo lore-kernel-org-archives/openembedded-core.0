@@ -2,95 +2,91 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7090C433FE
-	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 03:58:08 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web09.5064.1634270287202113096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 692ECC433F5
+	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 04:16:20 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web12.5162.1634271379163829916
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 20:58:07 -0700
+ Thu, 14 Oct 2021 21:16:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YxsE4W1X;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id
- qe4-20020a17090b4f8400b0019f663cfcd1so8438734pjb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DYEHiDRH;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id
+ na16-20020a17090b4c1000b0019f5bb661f9so6423172pjb.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 20:58:07 -0700 (PDT)
+ Thu, 14 Oct 2021 21:16:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nW9jn44tlTljTAJVTLDdg0WBdUPnV2ZAFtNqRSorV/c=;
-        b=YxsE4W1Xgbm0jYz1k7rQ7IiZTj4aTlgypywwWCtnSeKy5OS6X+/3ha8IY+yCJKdfhH
-         yUKyhKphX1mTq0nzC05QSa0WNq0RzaiLBzbnO00WOvtMqOItpeg982vbHDfowpZNb9U1
-         BnTwKAhc3Bz6J/2b5NZgZ9ECVPmNZ37zqZGieuJHpzDMVBjjlepV0BWSVCFuzGJkhsWy
-         MDQ9Mrvm9dKKi5JhKynaIWc6Z60a3obb03DYbUHPIDOGFohncYaO9ykOlMvGx9+XyjZZ
-         pakzf65G/nPoi+zBe6LeEuFwWOCRgZYzeO5iD2gpdQU4L6Xx2kNLS8OetKlWdcufeylp
-         O5lA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=icl0qOTXiZMect94hbS6LPa+sBc25jhZjCGVQr2SrGM=;
+        b=DYEHiDRHeEkWmW3YJa13Y7aT7ZvI+H2L/oA3CqhkuTvYXE+xQg6byTyT5E8su+CuDZ
+         rmjJ3RN49SnNm/W6fkJjNQAqaL+W0d8j0VAfegtbrbTyL0QJc6KeEOOI8fN5S6RBOP0A
+         XsYJPq9cUiLDXIqWIuFEyRTji+T1mNgV5qM3/498cs/e/FE6F9mRhCUNX+LKJJ+qL0M0
+         kBxsPEByQ2gBt+kdc35yxI4IW78aWv9Gw9ffY6/qRtxYpLy3xmiwQhCrfyAP4yVPjoC1
+         pXs8NWz5bbpfjwq1dUw7fbXJ7+zzchBwRYJ/sy8o/N6FnGlUtVvtkFF8Ufvf0H9b0yF/
+         QlcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nW9jn44tlTljTAJVTLDdg0WBdUPnV2ZAFtNqRSorV/c=;
-        b=W/wVM3xLV1uC0gLF5XPvhrLfcYxDDPwtkcbQfegWDYmvybZ6O6h8ekMAubRVN6TGfy
-         ZglbnAKRQOL8LHiYTIX6qU1MDuOX0s+oHuwTjwDi077z4X3ec6Zu6URw4D5IItHO9wg2
-         Y0cE+/M+DjPtAbU+CqgcjxFg1qR4M8Jhpq5qWuKGtCXLgGvHlK8SznbbUKNQK09M6nhc
-         MYmMLUyXtX8MSIb3dIEE0bPGpRqi97QYF+0TWttcHn6uTjlPvHL+UaunirQP09zxuiVT
-         I+F/FutiYJvUKwH3nIlyapYSOuIYMXvytdMQv4tcTHCbZNmVfR3r+3B8yK6jzlLHamOs
-         UP+A==
-X-Gm-Message-State: AOAM533awmGJ5HN5o2pPlTLARrlgO2rL4oaC0VOSHwqeW51LX8SGSf91
-	o6Nnydjzocaq+jLronGmSA1kKIIgVtz+eQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=icl0qOTXiZMect94hbS6LPa+sBc25jhZjCGVQr2SrGM=;
+        b=fQKX9nVtL7wxtNX19Z0/hDLlb87++e3neQGSkSQHCn0Cm3Yh7L7ZUgCq5cPvr72TL1
+         WY0s2K8LsN6tP7O96azHpVQTlhd+nO74lfFghhML8zj97giJB0icpTbCefh5VFlh9SRv
+         dXgq3A0JcASiTK9jp4Ul4hSaPczlEL4EJEYa17AO577iG2JiKjR7/HsnTDosC7nIy87k
+         QS0JC2zhbi24PFB1gqyAecoMEMcpeMQPdq1GURQRsxnLKGKddiMogHatBU42iyYbUEVB
+         GmOnyi0oCny7hkBNytLYjQl0tmQocUjxOc9puacaNfPpPPo8cWFQSO9SUXtsw75gPX/d
+         wNFw==
+X-Gm-Message-State: AOAM533pioZz6y8xb9G3gNQ2QGrWb2v+we/nyHoa0sAcuwanVpGYnkg/
+	LhFpTj5H8oLu4NS0Pm3uc3Pds72DfuKmzw==
 X-Google-Smtp-Source: 
- ABdhPJzwUsd6eNUyDUJixPT1367EIEW1tKnV1ufdhPt5nXAu4jM9r/Dg5s9b1G5mv27GX9ADkIPVbg==
-X-Received: by 2002:a17:902:a710:b029:12b:9b9f:c461 with SMTP id
- w16-20020a170902a710b029012b9b9fc461mr8862855plq.59.1634270286538;
-        Thu, 14 Oct 2021 20:58:06 -0700 (PDT)
+ ABdhPJw3TKC2S2MVbdjFkSY4/rJWbW/fizXA/A2tMxOVTKTcfTZNJebQ4ugdSNFfkdsEi96qrfDUnA==
+X-Received: by 2002:a17:90a:f013:: with SMTP id
+ bt19mr23019772pjb.82.1634271378391;
+        Thu, 14 Oct 2021 21:16:18 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::3fd8])
         by smtp.gmail.com with ESMTPSA id
- b10sm3735543pfi.122.2021.10.14.20.58.05
+ s17sm3953555pfs.91.2021.10.14.21.16.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 20:58:06 -0700 (PDT)
+        Thu, 14 Oct 2021 21:16:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] mesa: Enable svga for x86 only
-Date: Thu, 14 Oct 2021 20:58:03 -0700
-Message-Id: <20211015035803.1524562-2-raj.khem@gmail.com>
+Subject: [PATCH v2] qemu: Add knob for enabling PMDK pmem support
+Date: Thu, 14 Oct 2021 21:16:15 -0700
+Message-Id: <20211015041615.1846604-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211015035803.1524562-1-raj.khem@gmail.com>
-References: <20211015035803.1524562-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 03:58:08 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 04:16:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156984
+ https://lists.openembedded.org/g/openembedded-core/message/156985
 
-Enable svga only on x86/x86_64 since some arches e.g. riscv64 do not
-support it
+This ensures that libpmem dependency is added in a consistent manner
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v2: Correct dependency name to a match recipe from meta-oe
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 282671d30f..4e95911165 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -143,7 +143,9 @@ GALLIUMDRIVERS:append ="${@bb.utils.contains('PACKAGECONFIG', 'v3d', ',v3d', '',
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 54ffb85286..57e5e1a015 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -194,6 +194,7 @@ PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,,"
+ PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
+ # libnfs is currently provided by meta-kodi
+ PACKAGECONFIG[libnfs] = "--enable-libnfs,--disable-libnfs,libnfs"
++PACKAGECONFIG[pmem] = "--enable-libpmem,--disable-libpmem,pmdk"
  
- # radeonsi requires LLVM
- GALLIUMDRIVERS_RADEONSI = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',radeonsi', '', d)}"
--GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${GALLIUMDRIVERS_RADEONSI}"
-+GALLIUMDRIVERS_LLVM = "r300,nouveau${GALLIUMDRIVERS_RADEONSI}"
-+GALLIUMDRIVERS_LLVM:append:x86:class-target = ",svga"
-+GALLIUMDRIVERS_LLVM:append:x86-64:class-target = ",svga"
+ INSANE_SKIP:${PN} = "arch"
  
- PACKAGECONFIG[r600] = ""
- PACKAGECONFIG[virgl] = ""
 -- 
 2.33.1
 
