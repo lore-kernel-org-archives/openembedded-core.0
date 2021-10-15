@@ -1,190 +1,145 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4254C433EF
-	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 14:00:17 +0000 (UTC)
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
- by mx.groups.io with SMTP id smtpd.web10.9753.1634306414955043739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4238EC433F5
+	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 14:09:12 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.9891.1634306951026129718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Oct 2021 07:00:16 -0700
+ Fri, 15 Oct 2021 07:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=I8mtRJrG;
- spf=pass (domain: mcrowe.com, ip: 212.159.14.17, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id bNkpmxH9KrasdbNkqmbAzB; Fri, 15 Oct 2021 15:00:13 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=bKWN3M2Z c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=8gfv0ekSlNoA:10 a=-An2I_7KAAAA:8 a=Fop-cdjdmPSRM0QCBkkA:9
- a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19 a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description; bh=UcHsZovQSyJWAzlb27I3JW4ZBcP1abLlnvD0Hh+NfBU=; b=I8mtR
-	JrGloNp518nZ6oQssjDaC3ODV0DhhqXjTlzJFpbf6zh649zoTu1IRD0pZ7mZbXzDo/5Y3ukIZK+Cx
-	yCJlzLE8HlHy2BP2ylymudxBQgYtL2Bxrh+R83wcxJlfxmw7hv3fsqldSg1Ei/mrmaX8y1Wd7iwIC
-	gT87jKkbvoFgrcPItFVcwPLYHHy07uk8afy53ahVLo1N2igdRRHdBubh3YTGgYN/0+MCPW7Iz1N0Q
-	4JSQj2iojC8WZJWgwAb13Ezt68stMxcFK5VGF7YhDDNGKgBw1EeNEMrepEnoR2hUDFHKUaWSmh2YR
-	lIoRG0gPB0N3uyt5DYGscepcHqnqQ==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.94.2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1mbNkg-004cE4-GC; Fri, 15 Oct 2021 15:00:02 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH v4 2/2] insane,license,license_image: Allow treating license
- problems as errors
-Date: Fri, 15 Oct 2021 14:59:56 +0100
-Message-Id: 
- <43fdeb8de51f05472246420b920e996ff7479351.1634306366.git.mac@mcrowe.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g0ZIGLTE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id i12so26717738wrb.7
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 15 Oct 2021 07:09:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=zfakzPY1ohvXz9q2vdndgirHivoLE7vujxn+AfGzhLQ=;
+        b=g0ZIGLTENnlactduH7r8UmbhhnNUDGjmiF+T21MJLnHJY9eW+IS7x/foZl9ar+h7aR
+         EcmTT354nvA0+uabk6ioUaH/wYAhsuLVyURIgrCMGeMnQxHg3dST2/fLFLUxVfqDXlxR
+         IierOOly6cTSHMxC5CJslkifvztxXl7maC7do=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=zfakzPY1ohvXz9q2vdndgirHivoLE7vujxn+AfGzhLQ=;
+        b=WT0MMOXyWAawsMZ0+T8YsoyGyWib7jKUgNqWRHUuy6haB0u4h8mVDVsnQyhI6B8DN8
+         +icClDJ4+hdfnT9rHn6C4844D8+5863ejKBAQWv/JpVFE+2u6JdQ05mYfTkew4fkexqI
+         qsZhVToMjf2yoi1/2t20LUBAOJdBY7PRgd2uzu+TlcDBi79vHdNlSC/xUD3Okt3eSw/3
+         23BKuHx8tRcfNsiJeFKZDmEQQAZbZI//R3I7T+1qU2stamKhhgr7PIFdG9az+d6OJDao
+         G4HB7OUTEcMMXckn/TO+cFTkivz/12RbYga8ZgifMGL9khCUI4uOLt3dKFO3HRdRZQj/
+         hZww==
+X-Gm-Message-State: AOAM530eYDPcNvvhhNXkNECMC7knPL4N4tqku1wksoOL+T2RV7HUgVZS
+	c0TbV/KhXGw0oBiXX1U0BaqGTw==
+X-Google-Smtp-Source: 
+ ABdhPJxfEEBL7H0hra59vY5qKYTGBPxky9ig05Z+B7bvji7QH28DyX4ubA1xxdM4zmg5PwvjleMT8g==
+X-Received: by 2002:a5d:6c62:: with SMTP id r2mr15089019wrz.412.1634306949495;
+        Fri, 15 Oct 2021 07:09:09 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3c2a:82f4:3a7b:54b1?
+ ([2001:8b0:aba:5f3c:3c2a:82f4:3a7b:54b1])
+        by smtp.gmail.com with ESMTPSA id e9sm225921wrn.2.2021.10.15.07.09.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 07:09:09 -0700 (PDT)
+Message-ID: 
+ <a58827c0ad0f2c39ca4df700efe31fc9d18b1383.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 1/2] lib/oe/qa,insane: Move extra error
+ handling functions to library
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mac@mcrowe.com, openembedded-core@lists.openembedded.org
+Date: Fri, 15 Oct 2021 15:09:08 +0100
 In-Reply-To: 
  <be8780efcbcee32cc1ef6aff886e85d1b78fe627.1634306366.git.mac@mcrowe.com>
 References: 
- <be8780efcbcee32cc1ef6aff886e85d1b78fe627.1634306366.git.mac@mcrowe.com>
+	<be8780efcbcee32cc1ef6aff886e85d1b78fe627.1634306366.git.mac@mcrowe.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: 
- MS4wfEobo1Hat8M1HnB64w7B68vkHxvuZ1qxJCZQnM5MNv9EY5zsx6/vG36eKokK7WlK+sn5kK3ZBrlwMnJ9RRE55FiBQ3rSH3mRmKDdYDj8s2DVqK4J7DZv
- C9muAbiNm/G5kw1DOvpPhnIhrDVBz0oTLsoMFhaCnKZo4s/4gfyLSzl6ZUqbG5fA/YziqUUa0zV9Lw==
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 14:00:17 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 14:09:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156995
+ https://lists.openembedded.org/g/openembedded-core/message/156996
 
-Use the same WARN_WA and ERROR_QA variables as insane.bbclass to allow
-individual recipes, the distro or other configuration to determine
-whether the various detected license errors should be treated as a
-warning (as now) or as an error.
+On Fri, 2021-10-15 at 14:59 +0100, Mike Crowe via lists.openembedded.org wrote:
+> Extract package_qa_write_error, package_qa_handle_error and
+> package_qa_add_message functions from insane.bbclass to lib/oe/qa.py and
+> drop the package_qa_ prefixes.
+> 
+> Update various bbclasses to use the new functions. No import is required
+> since base.bbclass puts oe.qa in OE_IMPORTS.
+> 
+> Stop requiring callers to manually track whether a fatal error has been
+> encountered via a "sane" flag. Instead replace the QA_SANE variable with
+> QA_ERRORS_FOUND and call oe.qa.exit_if_errors or
+> oe.qa.exit_with_message_if_errors at the end of each task.
+> 
+> Inspired by discussion resulting from
+> https://lists.openembedded.org/g/openembedded-core/message/156793 and
+> https://lists.openembedded.org/g/openembedded-core/message/156900
+> 
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> ---
+>  meta/classes/buildhistory.bbclass |   3 +-
+>  meta/classes/insane.bbclass       | 180 ++++++++++++------------------
+>  meta/classes/multilib.bbclass     |   3 +-
+>  meta/classes/package.bbclass      |  26 ++---
+>  meta/classes/ptest.bbclass        |   2 +-
+>  meta/lib/oe/qa.py                 |  34 ++++++
+>  6 files changed, 121 insertions(+), 127 deletions(-)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 7c44fec2d1..62d0d781a1 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -287,7 +287,7 @@ python buildhistory_emit_pkghistory() {
+>              r = bb.utils.vercmp((pkge, pkgv, pkgr), (last_pkge, last_pkgv, last_pkgr))
+>              if r < 0:
+>                  msg = "Package version for package %s went backwards which would break package feeds (from %s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr)
+> -                package_qa_handle_error("version-going-backwards", msg, d)
+> +                oe.qa.handle_error("version-going-backwards", msg, d)
+>  
+>          pkginfo = PackageInfo(pkg)
+>          # Apparently the version can be different on a per-package basis (see Python)
+> @@ -321,6 +321,7 @@ python buildhistory_emit_pkghistory() {
+>  
+>      # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
+>      bb.build.exec_func("buildhistory_list_pkg_files", d)
+> +    oe.qa.exit_if_errors(d)
 
-oe.qa.handle_error isn't immediately fatal, so oe.qa.exit_if_errors must
-be called at the end of do_populate_lic to fail the task.
+This is a change in behaviour since currently buildhistory doesn't do that and
+I'm not sure it should.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/insane.bbclass        |  2 ++
- meta/classes/license.bbclass       | 20 +++++++++++++-------
- meta/classes/license_image.bbclass | 11 ++++++-----
- 3 files changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 2df5edf138..fa58511e87 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -28,6 +28,8 @@ WARN_QA ?= " libdir xorg-driver-abi \
-             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
-             mime mime-xdg unlisted-pkg-lics unhandled-features-check \
-             missing-update-alternatives native-last missing-ptest \
-+            license-exists license-no-generic license-syntax license-format \
-+            license-incompatible license-file-missing \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 7a34e185c7..d5480d87e2 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -29,6 +29,7 @@ python do_populate_lic() {
-     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
-         for key in sorted(info.keys()):
-             f.write("%s: %s\n" % (key, info[key]))
-+    oe.qa.exit_if_errors(d)
- }
- 
- PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '') + ' ' + d.getVar('COREBASE') + '/meta/COPYING').split())}"
-@@ -182,7 +183,8 @@ def find_license_files(d):
-             # The user may attempt to use NO_GENERIC_LICENSE for a generic license which doesn't make sense
-             # and should not be allowed, warn the user in this case.
-             if d.getVarFlag('NO_GENERIC_LICENSE', license_type):
--                bb.warn("%s: %s is a generic license, please don't use NO_GENERIC_LICENSE for it." % (pn, license_type))
-+                oe.qa.handle_error("license-no-generic",
-+                    "%s: %s is a generic license, please don't use NO_GENERIC_LICENSE for it." % (pn, license_type), d)
- 
-         elif non_generic_lic and non_generic_lic in lic_chksums:
-             # if NO_GENERIC_LICENSE is set, we copy the license files from the fetched source
-@@ -194,7 +196,8 @@ def find_license_files(d):
-             # Add explicity avoid of CLOSED license because this isn't generic
-             if license_type != 'CLOSED':
-                 # And here is where we warn people that their licenses are lousy
--                bb.warn("%s: No generic license file exists for: %s in any provider" % (pn, license_type))
-+                oe.qa.handle_error("license-exists",
-+                    "%s: No generic license file exists for: %s in any provider" % (pn, license_type), d)
-             pass
- 
-     if not generic_directory:
-@@ -219,7 +222,8 @@ def find_license_files(d):
-     except oe.license.InvalidLicense as exc:
-         bb.fatal('%s: %s' % (d.getVar('PF'), exc))
-     except SyntaxError:
--        bb.warn("%s: Failed to parse it's LICENSE field." % (d.getVar('PF')))
-+        oe.qa.handle_error("license-syntax",
-+            "%s: Failed to parse it's LICENSE field." % (d.getVar('PF')), d)
-     # Add files from LIC_FILES_CHKSUM to list of license files
-     lic_chksum_paths = defaultdict(OrderedDict)
-     for path, data in sorted(lic_chksums.items()):
-@@ -410,14 +414,16 @@ def check_license_format(d):
-     for pos, element in enumerate(elements):
-         if license_pattern.match(element):
-             if pos > 0 and license_pattern.match(elements[pos - 1]):
--                bb.warn('%s: LICENSE value "%s" has an invalid format - license names ' \
-+                oe.qa.handle_error('license-format',
-+                        '%s: LICENSE value "%s" has an invalid format - license names ' \
-                         'must be separated by the following characters to indicate ' \
-                         'the license selection: %s' %
--                        (pn, licenses, license_operator_chars))
-+                        (pn, licenses, license_operator_chars), d)
-         elif not license_operator.match(element):
--            bb.warn('%s: LICENSE value "%s" has an invalid separator "%s" that is not ' \
-+            oe.qa.handle_error('license-format',
-+                    '%s: LICENSE value "%s" has an invalid separator "%s" that is not ' \
-                     'in the valid list of separators (%s)' %
--                    (pn, licenses, element, license_operator_chars))
-+                    (pn, licenses, element, license_operator_chars), d)
- 
- SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 5490d121f1..bf70bee99b 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -75,7 +75,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                 pkg_dic[pkg]["LICENSES"] = re.sub(r'  *', ' ', pkg_dic[pkg]["LICENSES"])
-                 pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
-                 if pkg in whitelist:
--                    bb.warn("Including %s with an incompatible license %s into the image, because it has been whitelisted." %(pkg, pkg_dic[pkg]["LICENSE"]))
-+                    oe.qa.handle_error('license-incompatible', "Including %s with an incompatible license %s into the image, because it has been whitelisted." %(pkg, pkg_dic[pkg]["LICENSE"]), d)
- 
-             if not "IMAGE_MANIFEST" in pkg_dic[pkg]:
-                 # Rootfs manifest
-@@ -105,10 +105,10 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                    continue
- 
-                 if not os.path.exists(lic_file):
--                   bb.warn("The license listed %s was not in the "\ 
--                            "licenses collected for recipe %s" 
--                            % (lic, pkg_dic[pkg]["PN"]))
--
-+                    oe.qa.handle_error('license-file-missing',
-+                                       "The license listed %s was not in the "\
-+                                       "licenses collected for recipe %s"
-+                                       % (lic, pkg_dic[pkg]["PN"]), d)
-     # Two options here:
-     # - Just copy the manifest
-     # - Copy the manifest and the license directories
-@@ -274,6 +274,7 @@ do_rootfs[recrdeptask] += "do_populate_lic"
- 
- python do_populate_lic_deploy() {
-     license_deployed_manifest(d)
-+    oe.qa.exit_if_errors(d)
- }
- 
- addtask populate_lic_deploy before do_build after do_image_complete
--- 
-2.30.2
+>  }
+>  
+>  python buildhistory_emit_outputsigs() {
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 433e4dfa33..2df5edf138 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -18,7 +18,7 @@
+>  #   files under exec_prefix
+>  #  -Check if the package name is upper case
+>  
+> -QA_SANE = "True"
+> +QA_ERRORS_FOUND = "False"
+> 
+
+Lets just delete this please, we don't need a default value and it is confusing
+being isolated from the other code.
+
+Otherwise looks good, thanks!
+
+Cheers,
+
+Richard
 
 
