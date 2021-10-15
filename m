@@ -1,154 +1,154 @@
-Return-Path: <andrej.valek@siemens.com>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC3CC433F5
-	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 10:39:53 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.81])
- by mx.groups.io with SMTP id smtpd.web09.7701.1634294391858139037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFCCC433F5
+	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 11:04:54 +0000 (UTC)
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+ by mx.groups.io with SMTP id smtpd.web09.7883.1634295891781373700
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Oct 2021 03:39:52 -0700
+ Fri, 15 Oct 2021 04:04:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.onmicrosoft.com
- header.s=selector1-siemens-onmicrosoft-com header.b=o99UtGea;
- spf=pass (domain: siemens.com, ip: 40.107.21.81,
- mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hJE1AsSmlcsw7fXMR7ndD4v3FAEJg7wIPOqXiFV5Nw4bge5x9WuSzxMkqwk4yOi16+Ys0jyK2b8TpiCDWlY9TNpYPa2Ts1jsiqbFAes587opDiulC6ALvCrzlIri11uglTE2zmFMjozUh2ghBvPAYvwtBNfjkv6QVqkVjFr9wayyFifLYB4LpN7ZdCiy/2ty5aS9WUTVUuc/eg2HhKOlQoPQ2tRvCilglrWZfmV56RKZAMalWmJEYATzDq1hAKJ1Gx5lZF+pk8it7ZsPP0NPBbQumIQz8TNRZE0B5gR9Lj8vZeeImCstrpnoH+X/HR8NfzJkRdCUk51//WNLqBY+mQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vkSv69h6uM9f5M/CPVBFLa1W0+WT27hmlfwykklcock=;
- b=OHKHsuyT4mzhw9xTl0lxaL0lty3iHhqylm8WyO6Gk1tb+YiYxwh081ncaXLaPUHl9zhkGG2f7k3xvnreNbQA/0twtkq11OPDn220y8Wwjs0yBaI6GrW7Km4ZfOChtm+c5RrSoqhSz3BSqolW0TgONzV3dL49ayrEMyDLXWtpm++nRimI2/YpdqbciH1UNNg/1DgRpHSwggDrbX53v6xxXnk1CzjztWXMpVMfJr0s3lLj+XZRU6dL4TooxEM2r30gNv8o97EusANkeJYyDIUK+udtxbMW6Vl4uYNd6HckuurMltygouf2obFqhXwC4w8iLW3OhLwmXG8YpJOP3M0CyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vkSv69h6uM9f5M/CPVBFLa1W0+WT27hmlfwykklcock=;
- b=o99UtGeauaL8Wzd4WmPe1poyhGowIURV1lqDYNeWxJkQi4AGHAXBXwRkXX0MYXXs+9Hg5N/7hfRVG3arBtZezMIPCwN2hf900izo67qUz/TmOKE4rv49gPOlZxH0Oi+Yi7tPCanprKd0hBelOR6w2NAWYX98H7wLAXirsJk+snw=
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
- by DB6PR1001MB1094.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:61::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Fri, 15 Oct
- 2021 10:39:48 +0000
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::2458:1777:3472:6774]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::2458:1777:3472:6774%4]) with mapi id 15.20.4608.017; Fri, 15 Oct 2021
- 10:39:48 +0000
-From: "Valek, Andrej" <andrej.valek@siemens.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"steve@sakoman.com" <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>
-Subject: Re: [OE-core] libpsl: Add config knobs for runtime/builtin conversion
- choices
-Thread-Topic: [OE-core] libpsl: Add config knobs for runtime/builtin
- conversion choices
-Thread-Index: AQHXwGZ5SD/9Otc2fEmK+5WS2+7uFKvSwxoAgADUP4CAAD4hgIAAC6wA
-Date: Fri, 15 Oct 2021 10:39:48 +0000
-Message-ID: <4f983fee5101acf1a55c150a4a4ed1992b7199a4.camel@siemens.com>
-References: <0c5732d80a8f5810e9a26c3b1e634422cf750fbf.camel@siemens.com>
-	 <CAOSpxdaGuK2RqNGz2VJg04AhnDhVRAMYvOLS497d-OTYUoXc-Q@mail.gmail.com>
-	 <56ce3d16404402d0b6661fb067c587618a57661f.camel@siemens.com>
-	 <d1015886629914a9b2ca8dba71326ecf7b355bda.camel@linuxfoundation.org>
-In-Reply-To: 
- <d1015886629914a9b2ca8dba71326ecf7b355bda.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dc96f868-b9ff-4df4-1216-08d98fc81cd9
-x-ms-traffictypediagnostic: DB6PR1001MB1094:
-x-microsoft-antispam-prvs: 
- <DB6PR1001MB109495BB38578C5BBCEB10DD92B99@DB6PR1001MB1094.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:3044;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- eSypQR8PU/YJY250myNrTN4IaFDHacHDmwUFGfHf1kYylakQrggDlf/aPl+Hu4iGCiMgLFB3fTZuqFxxN9bSklaIthM4hfAmEIIrsMTUBcA2bGKOI5xtmLByOX+2WsRv+cJowrdjZEu/EWbA+/N+dSQEHBWWuZfBxicqY1Ew/neRz2R1v4PdBv1UGmzOM+3hx/yTtebZ0fJr46kcFgyzWXYV8kl5zHXFpDdf9MX6DxYwreCmll6X9angumtcoaVrB1rTtfGH1QXuESqcdtjjg+6FYJr/g1Yaes6BcC3LX+ZZ65LZLg4P9j8BDsyymQulOQ+I6GS4mmFho9QLQwnagUpqWkD5gJ3BtStXa5XyZ2aM++UDpfQlfyRjjp47CS0LEBLufCmVcAtPG77L5B3KPs07ktNA0CD1V6bTjOpg3JDYR+L+CP5mLqmERsnsul9JhBR2Zmp8kzytLGE8dU+OiiZdWddJVSwEV+Sh0PoJg6ui7+LkoUXlu+Cq3CEcq7GolMOdumU/7GsvwLoIb6V/ttwHvmA0EELUnPUqlwLCG/aL3gXgrLwEINoFV5R5xIPZxLLPYdOTTt4zl1jY+ps8T1gNGr5qtETJ0CLg6MwOHYOofWpnoMvkzI1rGx/vpXLrzPHUrECrGSD/aGhyFpuFs+2/olQ9rxZFThRVmPF3R5Wz828Zj3yhg1SqFmSp6PfBNLggX6Gh5P6GsiSCNdp0ZQ==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(54906003)(122000001)(86362001)(110136005)(76116006)(2616005)(316002)(4001150100001)(71200400001)(38100700002)(6512007)(2906002)(91956017)(5660300002)(26005)(4326008)(4744005)(508600001)(6486002)(36756003)(82960400001)(186003)(6506007)(8676002)(66446008)(64756008)(66556008)(66476007)(38070700005)(66946007)(8936002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?anhicXQ4Szgwamw0MWc4dncxQzZKbTduVEZ6aFh0VlB2dk1ZNzdOS1NYcmtu?=
- =?utf-8?B?cW8yYU5KZjdia3lrZkM1MFA2VVY2ZFIwb2g4bjZReHl4RTdPeGV6UUVjekFw?=
- =?utf-8?B?MDNuc0lnTUJEcTQrVXhKNnR5czBkbktDK3NEZlNVcWY2ck9rN1ppUThCYmpX?=
- =?utf-8?B?K2lZQnBoQzl3VTJXSEF2c0R6M1ozbGJCZDhEK3JIekdmS1laK3kxWGhiU1Rj?=
- =?utf-8?B?U1Z6cytPQ1VNMStXSXNLYzYwSFdHQjFnaWxXSzRrSkxNNVVScnlTL1E3ZGp0?=
- =?utf-8?B?ZVRrZEM2TWNScmxPZDhJOCtHWVBmR1pNT0EvVFNuYUlxcDhSenJybFBhaDhV?=
- =?utf-8?B?WDlxS3EraVExRnpyZ0JOYnZ2WDc3Vk1mMU55M29HRExVTEdOWXlxejR4Nndq?=
- =?utf-8?B?RmJ4K3NabkhLbDRlWGprZnEwZlRGaFR2clh6SnpOdVJpVUFKWDYzaTZvd1Jx?=
- =?utf-8?B?bEhoUFYwTXVRb0pMSDBzWmxnV1plcldaSmFCZEhRMWdGSHVvNDAyaHFDSU9k?=
- =?utf-8?B?RTFIQWZhRmR6QW05dllwL0VtWHpyTDJqVzhRcjRZQ1BIU1N0OTdCRm1Jelpm?=
- =?utf-8?B?TFdwU2VSdmZIZU53MkN2V21SdllVMktzN01DaGdzSzBMWTc3SjR0WlZZUklY?=
- =?utf-8?B?RXI5UFpRK1FZTEZUNkNWeXFHdFNYOGlId3pXWmUvdmpHUHVqSU1aanEzcGs4?=
- =?utf-8?B?WUFMNlVudFRDR1NOMkk5K0d0TWVOQnNqTzg4R1QxRkZLOE92RjZkSjBycHA3?=
- =?utf-8?B?cWowVmR2S0luRHBLZEZoQnFWS2V2dFVUMmV0VEJxZFV4RmFiZzN5TUh2eEYz?=
- =?utf-8?B?eHVidTRvR1VqaWEwajV5SE5vUUY4TDhLVTVKMHQ0bjRHRENDdlhySDdac25K?=
- =?utf-8?B?c0tUR1haWGJyMzc2UE1BbkJzNmNCZDRpZVVRWU44aUM2ZE1nVElkd0E2WERF?=
- =?utf-8?B?NHQyN25jV2xQMUJuWHFWRVNMakNUTjI2c0dmS29uNW5IbnhNdWMxMjlIR3lM?=
- =?utf-8?B?dHEwVkhlVmllR284NHJkcnEzS0FRamNjZFZ4MWNENlhHUU1kZGJhWEEwS1hD?=
- =?utf-8?B?eW84MGtjTmFMR2MwVk9iT2pxWTcxWmFtQ3hLTmF4VFdtckVWRzFWQ0oxWDlY?=
- =?utf-8?B?cWU2Rk1TWE02WFNGNFhwQmhFcXdtWGg3ekJrQ1BxY2RtY1pmSGUzNXNWQ01m?=
- =?utf-8?B?Qzkya25EMU1sbDM4eUhjUXRuci9KSm50a3l3NGxiQWFqSk9sdC80YWx6UnMz?=
- =?utf-8?B?N3Jjby9MbjJZZFBQNWNTVVpCa21xZTRSVWNFSTRrYkF4NHJKQ2tCS2RkMnNE?=
- =?utf-8?B?VHdVd2Q0ODMxMW1lYXljazJodkNxemRFK1djRVFHV1ZjWS80cG5PVEloUlZw?=
- =?utf-8?B?eVBadTZIbXRHcEtUZFgyb202Y09LdTFPUnZ2QUlIUlNaSWEvSnZMUmRSZXBw?=
- =?utf-8?B?WnlZc1A3RUQ0RWxMN1ozbENMYndQMkdZVSt1M2ZtVXVteGM4d0p3eldnalEx?=
- =?utf-8?B?U2l0bUFEN3ZXUjNrdm9Eck55YjE2VVgxbEt6Y3NjTUF2ckkvMHFMWkhJclBX?=
- =?utf-8?B?aDVFZnBUeFlyTSs3eDRpZHFIblh1MEQ2eVdyMkpZZnZtK2IyQjZjV1JXZkJB?=
- =?utf-8?B?RHQyVGc5VUhiSklLTkxNOTlsT1dYSEdmakE5QldSMVQ5NmdDa2djSEFBbU1M?=
- =?utf-8?B?ZVNzTlJpNDRGcjNwdkkvSHlSaUkvL0tPOFM2cmhiTXFaY3JlM2dWSWpDTm41?=
- =?utf-8?Q?Pdob5TRu1WBBY5LOJ3vUbs2N92AR/Oeqtr/wKks?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B33A5A46F001F843B9B7F8BC215F3F6D@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=NXwGLAuq;
+ spf=pass (domain: mcrowe.com, ip: 212.159.14.18, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id bL16mPRXJzwAFbL17mU8BV; Fri, 15 Oct 2021 12:04:50 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=FKGAO9gs c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=kj9zAlcOel0A:10 a=8gfv0ekSlNoA:10 a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8
+ a=rq-sA0nX0egYOU8aZcAA:9 a=CjuIK1q_8ugA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=zWPKxnDyjeZHkggv0AoAWwSNWz449tdCOD9kNPsKnc0=; b=NXwGL
+	AuqUbwkMQj0AXq2nxjqrKpJCOc0SfXXaBwJzd2AoLaBChW1Eg04rKmttj9A6qInELHGcwmCB3rWMR
+	/qcZgcLa5trMEhEVrLI3TdWSyQGWHVc5tmZ/fASJIcfPbwMO0XD96CIHXAZnVw37Iiz9mfAP/HW0i
+	/Wh7JCOzdBzN+88CmtCC+dDeurvUVzFarTVLmJaemxAprDZIQkh9BvKen6wkH1/UZC0DVv+kXWCcs
+	9nZOwobzgAQsDsa9qmDoHGvDtbUyeb3C8x+5AU0fupfVrXi7MiEbdYwVVyw0eMsd5YLEcTWOtr77y
+	TwT82yrhs/FhPe1GKFyi10pVt4Y5Q==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.94.2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1mbL15-004WtC-Vm; Fri, 15 Oct 2021 12:04:47 +0100
+Date: Fri, 15 Oct 2021 12:04:47 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3 2/2] license: Allow treating missing license
+ as error
+Message-ID: <YWlgTxcWsxJU+ePY@mcrowe.com>
+References: <20211013104805.646626-1-mac@mcrowe.com>
+ <20211013104805.646626-2-mac@mcrowe.com>
+ <YWhd8iAnlEd/XuR6@mcrowe.com>
+ <ba53cc97609bb6c79f513756760292a80e08612d.camel@linuxfoundation.org>
+ <YWhkR02QRrR8ubaE@mcrowe.com>
+ <9ba1f7ade04de4af7731cfd85bb0484ff0aae63e.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- dc96f868-b9ff-4df4-1216-08d98fc81cd9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2021 10:39:48.9168
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- BiZ3dXtEYiyXgjUqDUf/3f8lsFq9osZzWUQW6uXdU8/M4A1q/OdoNrRwaDufk0zSRE1a0r0PjjaJxAdg27ph73tvN71J2HIXMTyViGe2myg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR1001MB1094
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <9ba1f7ade04de4af7731cfd85bb0484ff0aae63e.camel@linuxfoundation.org>
+X-CMAE-Envelope: 
+ MS4wfA3DqIllNDr4DvOKgeBqNnsOzh8og92DYhbCYtEDCSFKMGfOSjJ/KMGroBv1n4xrc4GXhOdA3DLIYe9T198YjigNJ6LNL+MlwkHzteGG6PNRk/xFjKt9
+ iCpEUnxYhS8Fvn9ouQqdGHm0BwZSJ3i2wDC7zxdrjblvgyqA2YtLykFbXG0adPCJdIMEoLaoesvJPw==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 10:39:53 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 11:04:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156989
+ https://lists.openembedded.org/g/openembedded-core/message/156990
 
-T2ssIGJ1dCBJJ3ZlIGp1c3QgY29waWVkIHRoZSBleGlzdGluZyBjb21taXQgZnJvbSBtYXN0ZXIu
-IFNvIEkgaGF2ZSB0bw0Kc2VuZCBhIGRpZmZlcmVudCBjb25maWd1cmF0aW9uIGZvciBkdW5mZWxs
-Pw0KDQpBbmRyZWoNCg0KT24gRnJpLCAyMDIxLTEwLTE1IGF0IDEwOjU4ICswMTAwLCBSaWNoYXJk
-IFB1cmRpZSB3cm90ZToNCj4gT24gRnJpLCAyMDIxLTEwLTE1IGF0IDA2OjE1ICswMDAwLCBBbmRy
-ZWogVmFsZWsgd3JvdGU6DQo+ID4gVGhlIHJlYXNvbiwgd2h5IEkgd2FudCB0byBhcHBseSBpdCBo
-ZXJlLCB0byBzd2l0Y2ggcmVwbGFjZSBsaWJpZG4yDQo+ID4gd2l0aA0KPiA+IGljdS4gQWNjb3Jk
-aW5nIHRvIGxpYnBzbCBkb2N1bWVudGF0aW9uLCB5b3UgY2FuIGNob3NlIHdobyB3aWxsDQo+ID4g
-Z2VuZXJhdGUNCj4gPiB0aGUgUFNMIGRhdGFiYXNlIChsaWJpZG4sIGxpYmlkbjIsIGljdSkuIFNv
-IEkgZG9uJ3Qgd2FudCB0byBpbnN0YWxsDQo+ID4gYQ0KPiA+IG5ldyBjb21wb25lbnQgaWYgdGhl
-cmUgaXMgYSB2YWxpZCByZXBsYWNlbWVudCB3aGljaCBpcyBhbHJlYWR5DQo+ID4gaW5zdGFsbGVk
-Lg0KPiANCj4gSSB0aGluayB3aGF0IFN0ZXZlIGlzIHN1Z2dlc3RpbmcgaXMgYSB0d2Vha2VkIHZl
-cnNpb24gd2hpY2ggZG9lc24ndA0KPiBjaGFuZ2UgdGhlDQo+IGN1cnJlbnQgc2l0dWF0aW9uLCBq
-dXN0IGFkZHMgdGhlIFBBQ0tBR0VDT05GSUcgb3B0aW9ucyBidXQgZG9lc24ndA0KPiBjaGFuZ2Ug
-dGhlDQo+IGN1cnJlbnQgZGVmYXVsdC4NCj4gDQo+IFlvdSBjb3VsZCB0aGVuIGNoYW5nZSB0aGUg
-Y29uZmlndXJhdGlvbiBpbiB5b3VyIGRpc3Ryby4NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hh
-cmQNCj4gDQoNCg==
+On Thursday 14 October 2021 at 22:48:07 +0100, Richard Purdie wrote:
+> On Thu, 2021-10-14 at 18:09 +0100, Mike Crowe wrote:
+> > On Thursday 14 October 2021 at 17:54:18 +0100, Richard Purdie wrote:
+> > > On Thu, 2021-10-14 at 17:42 +0100, Mike Crowe via lists.openembedded.org wrote:
+> > > > On Wednesday 13 October 2021 at 11:48:05 +0100, Mike Crowe wrote:
+> > > > > Use the same WARN_WA and ERROR_QA variables as insane.bbclass to allow
+> > > > > individual recipes, the distro or other configuration to determine
+> > > > > whether a missing licence should be treated as a warning (as it is now)
+> > > > > or as an error.
+> > > > > 
+> > > > > oe.qa.handle_error isn't immediately fatal, so track the overall sanity
+> > > > > state and call bb.fatal if required at the end to ensure that the task
+> > > > > really fails. If only bb.error is used then do_populate_lic isn't re-run
+> > > > > on subsequent builds which could lead to the error being missed.
+> > > > > 
+> > > > > It seems odd for the license- error classes to be listed in
+> > > > > insane.bbclass but implemented in license.bbclass. All recommendations
+> > > > > for somewhere else to put them gratefully received.
+> > 
+> > [snip]
+> > 
+> > > > Patch series v4 coming soon.
+> > > 
+> > > I did have to rework it a bit as I also ran into a few issues and was just
+> > > trying to get around to writing them up.
+> > > 
+> > > I added:
+> > > 
+> > > http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=9e980f1a71e8b6af5ff6da9b02fac0f8bfd9d4fb
+> > > 
+> > > which means you can drop the imports.
+> > > 
+> > > You can use the nonlocal option to help the "sane" problem:
+> > > 
+> > > http://git.yoctoproject.org/cgit.cgi/poky/diff/meta/classes/license.bbclass?h=master-next&id=110fa545ac84e560691c7d9e0d1e6e8f70c66980
+> > > 
+> > > The autobuilder also shows issues as some of the functions you moved are
+> > > referenced in other classes. The patch became:
+> > > 
+> > > http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=110fa545ac84e560691c7d9e0d1e6e8f70c66980
+> > 
+> > Thanks for doing that. I thought I'd searched for other occurrences, but I
+> > must have not done so properly. :(
+> > 
+> > > I was also just thinking we should probably add a new function and add calls at
+> > > the end of the tasks like:
+> > > 
+> > > oe.qa.exit_if_errors(d)
+> > > 
+> > > with a definition similar to:
+> > > 
+> > > def exit_if_errors(d):
+> > >     qa_sane = d.getVar("QA_SANE")
+> > >     if not qa_sane:
+> > >         bb.fatal("Fatal QA errors were found.")
+> > > 
+> > > and then renaming QA_SANE to something like QA_FATAL_ERRORS and exitting if set.
+> > 
+> > That sounds like it would neaten things up greatly and avoid the risk of
+> > accidentally failing to make the error fatal. It ought to mean that many of the sane local
+> > variables can be removed too.
+> > 
+> > Would you like me to provide new versions of the existing patches or add
+> > new patches on top of the ones already in master-next?
+> 
+> I had half a patch for this last bit so I pushed it into master-next. I also
+> merged by oe.qa import change.
+
+I think that I already had equivalent changes to everything in
+master-next:a53f5758bb2e501dfd34c6a6369303e91b382792. It was slow testing
+over night! I've gone with QA_ERRORS_FOUND for the variable name since I
+thought that more accurately captured what it meant. I also have only a
+single call to oe.qa.exit_if_errors at the end of each task.
+
+> I'm happy for you to take over from here and rework the patches into whatever
+> makes the best sense for a series now we know what we're aiming for? I think
+> there is a more cleanup of the "sane" variables that can be done beyond my quick
+> patch.
+
+Thanks. I'll hopefully send a new series for review today.
+
+I'm finding myself wondering whether having oe.qa.add_messages collect
+together all the messages and reporting them all in one go is worth the
+complexity. The code that works out in advance which checks generate
+warnings and which generate errors appears to be quite old and perhaps it
+predates the current mechanism for classifying checks when they fail.
+However, any changes here would be rather large, so it would probably make
+sense to tackle this separately.
+
+Mike.
 
