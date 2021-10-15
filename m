@@ -1,93 +1,120 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alistair23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 692ECC433F5
-	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 04:16:20 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.5162.1634271379163829916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFE8C433F5
+	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 04:53:21 +0000 (UTC)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by mx.groups.io with SMTP id smtpd.web09.5451.1634273600086300765
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 21:16:19 -0700
+ Thu, 14 Oct 2021 21:53:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DYEHiDRH;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- na16-20020a17090b4c1000b0019f5bb661f9so6423172pjb.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jGZPIkvj;
+ spf=pass (domain: gmail.com, ip: 209.85.166.49,
+ mailfrom: alistair23@gmail.com)
+Received: by mail-io1-f49.google.com with SMTP id p68so6373320iof.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Oct 2021 21:16:19 -0700 (PDT)
+ Thu, 14 Oct 2021 21:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=icl0qOTXiZMect94hbS6LPa+sBc25jhZjCGVQr2SrGM=;
-        b=DYEHiDRHeEkWmW3YJa13Y7aT7ZvI+H2L/oA3CqhkuTvYXE+xQg6byTyT5E8su+CuDZ
-         rmjJ3RN49SnNm/W6fkJjNQAqaL+W0d8j0VAfegtbrbTyL0QJc6KeEOOI8fN5S6RBOP0A
-         XsYJPq9cUiLDXIqWIuFEyRTji+T1mNgV5qM3/498cs/e/FE6F9mRhCUNX+LKJJ+qL0M0
-         kBxsPEByQ2gBt+kdc35yxI4IW78aWv9Gw9ffY6/qRtxYpLy3xmiwQhCrfyAP4yVPjoC1
-         pXs8NWz5bbpfjwq1dUw7fbXJ7+zzchBwRYJ/sy8o/N6FnGlUtVvtkFF8Ufvf0H9b0yF/
-         QlcQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7k0Sid0YxB9ZoIbS0MRENezBSuHwvsi5Ohazz7h01hk=;
+        b=jGZPIkvjEqcST9Rhx7no9vrCrylwql3MAdzmXhPgKoQdzRcR4fOTQhQHkncpoqpPWY
+         RFQLNFS/Cpaxuoa1oC22v2sWRBYXwxWpyGXIBJA0aF9WzAjfGuu4wHuzT8sDe7uCm0Sh
+         q7xtuG+sIeREvNW5eJ9eNX22QnnpCEphbH+j4CMvGbt13q1/nWSO5OH3RRT3z5cA404G
+         DDFscgH08iVbzjYFB2IsYAtUwi6z4rEF8hAwyZ4BK1oK5SQ6+NjMTO5w7/SaNdOBbxlk
+         A+Exo4bVhj4aekXwibWlFOXVOo/8zUWmDa5nRNdi6Lygp94Dc199UCoihVEo8jgX3uzy
+         qSWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=icl0qOTXiZMect94hbS6LPa+sBc25jhZjCGVQr2SrGM=;
-        b=fQKX9nVtL7wxtNX19Z0/hDLlb87++e3neQGSkSQHCn0Cm3Yh7L7ZUgCq5cPvr72TL1
-         WY0s2K8LsN6tP7O96azHpVQTlhd+nO74lfFghhML8zj97giJB0icpTbCefh5VFlh9SRv
-         dXgq3A0JcASiTK9jp4Ul4hSaPczlEL4EJEYa17AO577iG2JiKjR7/HsnTDosC7nIy87k
-         QS0JC2zhbi24PFB1gqyAecoMEMcpeMQPdq1GURQRsxnLKGKddiMogHatBU42iyYbUEVB
-         GmOnyi0oCny7hkBNytLYjQl0tmQocUjxOc9puacaNfPpPPo8cWFQSO9SUXtsw75gPX/d
-         wNFw==
-X-Gm-Message-State: AOAM533pioZz6y8xb9G3gNQ2QGrWb2v+we/nyHoa0sAcuwanVpGYnkg/
-	LhFpTj5H8oLu4NS0Pm3uc3Pds72DfuKmzw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7k0Sid0YxB9ZoIbS0MRENezBSuHwvsi5Ohazz7h01hk=;
+        b=gV78FsVkgpC9WzFXZaC8e9h5M76JhEfwFoI7pBy+hjvPvRstHtZpRxFGXFYNC5AI4M
+         /I/NHCV2CAFhGabcwho0URInAdNQHNr/8R2l3LE6MWs9ur5p+3Pu1IYXykyiGpfnWwYl
+         +JbiUBQCL3nHyrbnRjJXXY+WuGCXFXZ3Mh0xVMC59rBIcjjRbKHTFD2M3cbLjQKiVFGJ
+         d9l7/lF6bwobME6dunM8prBSFa52Vq/jAiIuv/CgVj6OitzgCoXltSLcM5KBlL2sWg2y
+         P3pmQG7cMhjp9ByCTeQqFWtQbVaYaQ60PLdcNrHI21OaY9NBdaMB4Jd/dKMz6VvUUgb5
+         2tJw==
+X-Gm-Message-State: AOAM530/9iLemn1UNJbD44dHXYdqRoPW19b88xveok3IfppQDU/+Jo98
+	5eVNOoE4IbQAysS1tvIsw6f6TjbS8/f9mK767vs=
 X-Google-Smtp-Source: 
- ABdhPJw3TKC2S2MVbdjFkSY4/rJWbW/fizXA/A2tMxOVTKTcfTZNJebQ4ugdSNFfkdsEi96qrfDUnA==
-X-Received: by 2002:a17:90a:f013:: with SMTP id
- bt19mr23019772pjb.82.1634271378391;
-        Thu, 14 Oct 2021 21:16:18 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::3fd8])
-        by smtp.gmail.com with ESMTPSA id
- s17sm3953555pfs.91.2021.10.14.21.16.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 21:16:18 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] qemu: Add knob for enabling PMDK pmem support
-Date: Thu, 14 Oct 2021 21:16:15 -0700
-Message-Id: <20211015041615.1846604-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ ABdhPJzk+TYn6PTMwWhKn9qh2jq1ffdhu2woH09q6qyquSh37P1M8m4tPj0OsZ60tv/CErdqqz7U8YM0zQiJF13UcFY=
+X-Received: by 2002:a02:a786:: with SMTP id e6mr6603805jaj.117.1634273599461;
+ Thu, 14 Oct 2021 21:53:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211015031716.1049584-1-raj.khem@gmail.com>
+In-Reply-To: <20211015031716.1049584-1-raj.khem@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 Oct 2021 14:52:53 +1000
+Message-ID: 
+ <CAKmqyKPfJGBqJoytregiK3K-AN=ST=DRAkYDZZ9QtYQt-YQ8+A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] opensbi-payloads.inc: Use strings for fallback
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 04:16:20 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 04:53:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/156985
+ https://lists.openembedded.org/g/openembedded-core/message/156986
 
-This ensures that libpmem dependency is added in a consistent manner
+On Fri, Oct 15, 2021 at 1:17 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This function is evaluated during parse and some machines maynot use
+> external payload, on such machines this fails to parse
+>
+> Fixes
+> bb.data_smart.ExpansionError: Failure expanding variable do_compile[depends], expression was  ${@riscv_get_do_compile_depends(d)} which triggered exception TypeError: argument of type 'NoneType' is not iterab
+> le
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Correct dependency name to a match recipe from meta-oe
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+Alistair
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 54ffb85286..57e5e1a015 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -194,6 +194,7 @@ PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,,"
- PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
- # libnfs is currently provided by meta-kodi
- PACKAGECONFIG[libnfs] = "--enable-libnfs,--disable-libnfs,libnfs"
-+PACKAGECONFIG[pmem] = "--enable-libpmem,--disable-libpmem,pmdk"
- 
- INSANE_SKIP:${PN} = "arch"
- 
--- 
-2.33.1
-
+> ---
+>  meta/recipes-bsp/opensbi/opensbi-payloads.inc | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/opensbi/opensbi-payloads.inc b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+> index cc31ab3b1d..ce537c0587 100644
+> --- a/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+> +++ b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+> @@ -17,13 +17,13 @@ def riscv_get_extra_oemake_fdt(d):
+>      return "FW_FDT_PATH=" + deploy_dir + "/" + sbi_fdt
+>
+>  def riscv_get_do_compile_depends(d):
+> -    sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
+> -    sbi_fdt = d.getVar('RISCV_SBI_FDT')
+> +    sbi_payload = d.getVar('RISCV_SBI_PAYLOAD') or ""
+> +    sbi_fdt = d.getVar('RISCV_SBI_FDT') or ""
+>
+> -    if sbi_payload is None and sbi_fdt is None:
+> +    if sbi_payload == "" and sbi_fdt == "":
+>          return ""
+>
+> -    if sbi_fdt is not None and 'u-boot.bin' in sbi_payload:
+> +    if sbi_fdt != "" and 'u-boot.bin' in sbi_payload:
+>          return "virtual/kernel:do_deploy virtual/bootloader:do_deploy"
+>
+>      if 'linux' in sbi_payload or 'Image' in sbi_payload:
+> --
+> 2.33.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#156982): https://lists.openembedded.org/g/openembedded-core/message/156982
+> Mute This Topic: https://lists.openembedded.org/mt/86331377/3619028
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alistair23@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
