@@ -1,110 +1,89 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E73B8C433EF
-	for <webhook@archiver.kernel.org>; Fri, 15 Oct 2021 23:47:40 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.4693.1634341659633785906
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4763C433EF
+	for <webhook@archiver.kernel.org>; Sat, 16 Oct 2021 07:18:51 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web12.8204.1634368730757297242
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Oct 2021 16:47:40 -0700
+ Sat, 16 Oct 2021 00:18:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SYLyEauq;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id i12so28970775wrb.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=R6/W5rIj;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id u21so48433366lff.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Oct 2021 16:47:39 -0700 (PDT)
+ Sat, 16 Oct 2021 00:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GQ5k4K4SgwPH+mM7UnpcRnqZp35QTIuFxipv4Pmkn3Q=;
-        b=SYLyEauqJB3UhR47UbvPXeUN2syp2yph5z3ZZjCD7/SDEAgo61tBzY3l+bGdCGkRlW
-         pKhct4esd2fZuESNe3JsIXXAEKlVEY190XQfkgVJFvu/z+OWyOQ8Mof1fvgJ7qza0ZYs
-         ZErIVAxCULis/uG45X3jSMXKqz6c6OgHTJC6LIPCy1fFJoptZnyfPVRQO5/roy+HtvjK
-         QfPEdNn2jJHsn19GIc2EaftqYls72acuAajxorZ+zKhacB40MbMAZf6tl2t5+mtern1r
-         SJ6kLJwFQ3bg4UnRBpoWTxi/lu/CFW3tSZmXjqolk0Ng8Be9YOQw23/PZZyhLqv3Y2mg
-         N1WA==
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject:content-transfer-encoding;
+        bh=jSgDMe4/5/O66enkRipxuipp1AYL/GIZIgbsBDPPVtY=;
+        b=R6/W5rIjc3yN4ed5qwzJrJgRSiqkjBtyKg0jHuh94rrxM4KQ4bD0t27rVRMjErHsRB
+         l/ydZb5tFcdAkgJIp7CXTx/pTb+pNhs4WXmp/4GkfY7blMIgbtbmOcvQllOc6c7m9oy8
+         ZayLxx05sTKmnekyY8WlXcxKUm6LvhWjicvA5t4L2kBebwCkCt7i4fmKV69ke/sKOa8h
+         XtAC3FFhqWnYRHPBfpgam0gbvBTkbFWIc5WY2sgZvCRD2VaHQDJM4fQgFmqqbXLc2gKT
+         qW9pwE271VLH4OXCpIkrXLuCsMQZKPXsZi5PegzuqJsIJH5MoXZfvvKlKfkKxQvS0clP
+         IuFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GQ5k4K4SgwPH+mM7UnpcRnqZp35QTIuFxipv4Pmkn3Q=;
-        b=ZrdTCq5U5t3SQYwe2yYaQY1hoUdZ+APihn7wxDzpyBrhaVLNNXahMX+vRF3JYCV9G+
-         nMrEokVBB37OxN/LOLzhgtcRPUPV+VBaySwZSdZPxp6Wyrpc9xJtR7ZVCVu47sPsdDTS
-         U4Hc99ZWWoTei6xP6mS2BOr0PbCX/E/I1WuyZcv2SQW+KPqQN2lP47wB75zSCfFRfIad
-         cfpxxtGV+K4cz472m9goUk7ID3EmGNyq3PqJzeoccLEuNiYP6CtFN7YIya7JHWbAySPs
-         CXAEYzP1uFKEmMqYBhSttwhQ4olirQ9GWqtOx1vA/cDjzIEkkZm23zTKPj6rSMa+EXPD
-         0k3A==
-X-Gm-Message-State: AOAM530Cevpbk0L/8UoKIBsQPSKScTmupaSEQ7i0lync0daM/bE4A0ie
-	zwAV7YqHgsnQjnzn8xLf6evYlyF1XA4=
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:content-transfer-encoding;
+        bh=jSgDMe4/5/O66enkRipxuipp1AYL/GIZIgbsBDPPVtY=;
+        b=X0VHlBrA0hNYNUYHDnuZtXueajtRDyQN9YO44ZulGRaSi3sh6yXDX2IhGUlJ57c3oq
+         boAzRrUflupZlPUuC7et+zT4McVfcg/KQCKsbEM0N+pI+2CZsLDQnsosL4p9j61J3+4G
+         zQTCz4GQR7/cc2fFalHwDgH7leLJzHU7/Wsga/7Hk7Iv5Ygi3PN54oAXFJiWDJ54qDAU
+         0YzyzP/zGnMtqUerrMk078dv61j3rTXKi0mMTZSO7QI4HPESg5SJgkYlmoUj1lop26UO
+         I454RwWDc8MoT94OjrWu/QVPJ1i6RAJLWMsE9BddYZXL9z/AqoCQHL2lZ2C5zW4nORpP
+         V2Tg==
+X-Gm-Message-State: AOAM531ThQpg+5u0tcNIcYVMJIkPDpqfDMPb4vRA2tYDo8ZcIz2evFeZ
+	lJHvv99Qo14ShmRRot0v30jYsN9SA8n2FM+u
 X-Google-Smtp-Source: 
- ABdhPJxIcDlEplybQwiyC55Cg/kd2m0oBYqxEvLIbprCFmiUfNcBmaihlb8EzNrUy5jzrP0bEvItGg==
-X-Received: by 2002:adf:a48f:: with SMTP id
- g15mr17333777wrb.259.1634341657843;
-        Fri, 15 Oct 2021 16:47:37 -0700 (PDT)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+ ABdhPJz9LqjJb3aeFV4a0tRg/wkkzMVAsBX9tEqLKH+AzcTu0hu+7IAolO+apK272euesr3t5RhEhw==
+X-Received: by 2002:a2e:a78f:: with SMTP id
+ c15mr11533032ljf.119.1634368728652;
+        Sat, 16 Oct 2021 00:18:48 -0700 (PDT)
+Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
+ [37.247.29.68])
         by smtp.gmail.com with ESMTPSA id
- e1sm6372986wru.26.2021.10.15.16.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 16:47:37 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH] bitbake: cooker: check if upstream hash equivalence server is
- available
-Date: Sat, 16 Oct 2021 00:47:28 +0100
-Message-Id: <20211015234728.338196-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ c1sm822405ljr.111.2021.10.16.00.18.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Oct 2021 00:18:48 -0700 (PDT)
+Message-ID: <c256053f-1b9e-376e-4159-223c9f261407@gmail.com>
+Date: Sat, 16 Oct 2021 09:18:47 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Subject: linux-yocto: Set CONFIG_ATA_PIIX=y by default
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Oct 2021 23:47:40 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Oct 2021 07:18:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157010
+ https://lists.openembedded.org/g/openembedded-core/message/157011
 
-When the user specify an upstream hash equivalence server in
-BB_HASHSERVE_UPSTREAM abort if we can't connect otherwise the
-user will never be notified about the problem.
+Hi Bruce,
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- bitbake/lib/bb/cooker.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+My Yocto images (which uses the linux-yocto kernel) stopped booting in 
+QEMU some time ago, and after some debugging it turns out this was 
+because the upstream Linux kernel removed the legacy IDE driver. Instead 
+one should use the libata driver. However, I don't think the linux-yocto 
+kernel has builtin support for the HW that is emulated by QEMU by 
+default (PIIX), instead it is built as a module, CONFIG_ATA_PIIX=m. If I 
+set CONFIG_ATA_PIIX=y, my images boot again.
 
-diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-index af794b4c42..34603c5ea2 100644
---- a/bitbake/lib/bb/cooker.py
-+++ b/bitbake/lib/bb/cooker.py
-@@ -388,12 +388,22 @@ class BBCooker:
-             # Create a new hash server bound to a unix domain socket
-             if not self.hashserv:
-                 dbfile = (self.data.getVar("PERSISTENT_DIR") or self.data.getVar("CACHE")) + "/hashserv.db"
-+                upstream = self.data.getVar("BB_HASHSERVE_UPSTREAM") or None
-+                if upstream:
-+                    import socket
-+                    try:
-+                        sock = socket.create_connection(upstream.split(":"), 5)
-+                        sock.close()
-+                    except socket.error as e:
-+                        bb.fatal("BB_HASHSERVE_UPSTREAM is not valid, unable to connect hash equivalence server at '%s': %s" 
-+                                 % (upstream, repr(e)))
-+
-                 self.hashservaddr = "unix://%s/hashserve.sock" % self.data.getVar("TOPDIR")
-                 self.hashserv = hashserv.create_server(
-                     self.hashservaddr,
-                     dbfile,
-                     sync=False,
--                    upstream=self.data.getVar("BB_HASHSERVE_UPSTREAM") or None,
-+                    upstream=upstream,
-                 )
-                 self.hashserv.serve_as_process()
-             self.data.setVar("BB_HASHSERVE", self.hashservaddr)
--- 
-2.33.1
+I did a "make ARCH=i386 defconfig" in Torvalds master linux tree, and 
+the .config has CONFIG_ATA_PIIX=y.
 
+Do you think it would make sense to have the support builtin in 
+linux-yocto aswell ?
+
+Regards Jacob
 
