@@ -1,135 +1,90 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F0AC433EF
-	for <webhook@archiver.kernel.org>; Sat, 16 Oct 2021 09:18:57 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.8843.1634375936472378734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE9C5C433EF
+	for <webhook@archiver.kernel.org>; Sat, 16 Oct 2021 10:47:29 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web08.9373.1634381248716898881
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Oct 2021 02:18:56 -0700
+ Sat, 16 Oct 2021 03:47:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a1/Z9ng4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id r7so30681834wrc.10
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Oct 2021 02:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6e9ROL/+SBsGchAwgWu9I04RaLjm1dvMkBcPYNmVyUk=;
-        b=a1/Z9ng4ES5PjEigf+fZJ1Lc3GS/sh7tW+jYfXpZu/XcgEXc/DkS8+IKhzMj2+B5HC
-         yVnxJFrSxZ1D6ord0wUd9dL5kr+1sd2e9kouOknqf4DQ92kAEcCut6spy1NP0I1KU2Lz
-         MpPMzM8uiV6uUup0V3iGqVLYW2gA2h4FKmON4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6e9ROL/+SBsGchAwgWu9I04RaLjm1dvMkBcPYNmVyUk=;
-        b=hLKTBZxypBj4+6NO2A0IVJnK3FdXfHee5izKSO1Dy8++7m+cOFCmnAog4KtYQ9xm8T
-         KdqFF7fHJNPza2P/FcsAlpctKNrI1Dzgq6l8FWIv4rCLDcFfSUn3yqeRVZAYNTIeoHzH
-         GvS8vN8Fzb3ZnDbLZLHQOZ1LdvOwUJLi/5xUI0RsJlQJbLSW25Cx8EjyzwNhXd4R9hLb
-         nc5R1XWdo0CbvE9+vtCguSAMIQ8pgRKkc1l2O80i6ulnRuu89bpUZTOL0dMAeuPrMjCX
-         /Q82x5NySCkHUkFjTTtJzwO/eZzvNmq/OCnFtsAooN5r/7rtBX1SUR1xq2X+i2jPgVcu
-         C6Zw==
-X-Gm-Message-State: AOAM532KejNU8qHe6sc7DqUDtkSbzF7ddc+rxQy/VNNFZ2ZA9+rHEEKi
-	XcC1nU/ZqjlapdL+oesmSdiw/w==
-X-Google-Smtp-Source: 
- ABdhPJxUjzf439uza5YmnJlTJ3q97f/w04YufhfJUKaEfbOZgNAE0Hr+ArkR9h1Ir3lwgBnuC5VUuw==
-X-Received: by 2002:adf:a411:: with SMTP id
- d17mr20829104wra.393.1634375934733;
-        Sat, 16 Oct 2021 02:18:54 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ac10:8c11:13d1:3cb9?
- ([2001:8b0:aba:5f3c:ac10:8c11:13d1:3cb9])
-        by smtp.gmail.com with ESMTPSA id
- a16sm7013313wrp.14.2021.10.16.02.18.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 02:18:54 -0700 (PDT)
-Message-ID: 
- <8ce841ccb955a926ad02668a257505492a5670f7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH] populate_sdk_base: add support for zstd
- compression (and default to it)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Khem Raj
-	 <raj.khem@gmail.com>
-Date: Sat, 16 Oct 2021 10:18:50 +0100
-In-Reply-To: 
- <CANNYZj-RwGKeut0Lf2iecz-VvcMiBdLZ8TcZeAeKNN1Wn3O0vw@mail.gmail.com>
-References: <20211015170630.1069043-1-alex@linutronix.de>
-	 <5b92ee280a2f08291fa77a303d7b9edc98a61d30.camel@linuxfoundation.org>
-	 <CANNYZj-RwGKeut0Lf2iecz-VvcMiBdLZ8TcZeAeKNN1Wn3O0vw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 9A77F1BF203;
+	Sat, 16 Oct 2021 10:47:25 +0000 (UTC)
+Date: Sat, 16 Oct 2021 12:47:25 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: openembedded-core@lists.openembedded.org, Abdellatif.ElKhlifi@arm.com,
+	Walter Schweizer <walter.schweizer@siemens.com>
+Subject: Re: [OE-core][PATCH v3 2/2] kernel-fitimage: use correct kernel image
+Message-ID: <YWqtvXw2atDZgpP5@piout.net>
+References: <20211005202256.54023-1-andrej.valek@siemens.com>
+ <20211013120639.58668-2-andrej.valek@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211013120639.58668-2-andrej.valek@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Oct 2021 09:18:57 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Oct 2021 10:47:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157012
+ https://lists.openembedded.org/g/openembedded-core/message/157013
 
-On Fri, 2021-10-15 at 22:54 +0200, Alexander Kanavin wrote:
-> On Fri, 15 Oct 2021 at 19:29, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > Can you quantify "more"?
-> > 
-> > I'd be interested to know if a higher compression helps and what the
-> > time/cost
-> > tradeoff is too. Not sure I'm keep to have it increase in size. This likely
-> > increases the eSDK size a lot too?
-> > 
+Hello Andrej,
+
+On 13/10/2021 14:06:39+0200, Andrej Valek wrote:
+> Even if initramfs_bundle_path was used, a wrong compression was reflected
+> in output its template file. Use linux.bin as universal kernel image.
+> The linux.bin file covers both cases.
 > 
+> Use linux.bin as a replacement for zImage in selftest. We know,
+> that zImage is a compressed one, so get the compression type.
 > 
-> The benefit is indeed not unquestionable, hence the RFC.
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Walter Schweizer <walter.schweizer@siemens.com>
+> ---
+>  meta/classes/kernel-fitimage.bbclass     | 17 +----------------
+>  meta/lib/oeqa/selftest/cases/fitimage.py |  8 +++-----
 
-Thanks, I think we need data to be able to comment effectively! :)
+This still caused issues on the autobuilders:
 
-> 1. The eSDK is mostly made of already compressed sstate artifacts, so the
-> effect on size is minimal and the zstd's time benefit is clear:
-> 
-> $ bitbake -c populate_sdk_ext core-image-sato (to have everything ready)
-> $ bitbake -c cleansstate core-image-sato buildtools-tarball
-> $ time bitbake -c populate_sdk_ext core-image-sato
-> 
-> xz time/size
-> 4m46s 1.7G
-> 
-> zstd compression level/time/size
-> 19 3m4s 1.7G
-> 10 2m44s 1.8G
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2710/steps/15/logs/stdio
 
-For the eSDK this looks like an ok change.
+2021-10-15 17:23:26,867 - oe-selftest - INFO - fitimage.FitImageTests.test_initramfs_bundle (subunit.RemotedTestCase)
+2021-10-15 17:23:26,868 - oe-selftest - INFO -  ... FAIL
+Stderr:
+2021-10-15 14:30:44,854 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-7047/conf/local.conf
+2021-10-15 14:30:44,854 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2021-10-15 17:23:26,868 - oe-selftest - INFO - 10: 3/13 391/444 (6177.79s) (fitimage.FitImageTests.test_initramfs_bundle)
+2021-10-15 17:23:26,868 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/fitimage.py", line 801, in test_initramfs_bundle
+    self.assertTrue(test_passed == True,"kernel node does not match expectation")
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.9/unittest/case.py", line 682, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true : kernel node does not match expectation
 
-> 2. For the basic SDK (bitbake commands are similar), xz's better (but slower)
-> compression does show clearly, but zstd's time wins are similar : 
-> 
-> xz time/size
-> 5m20s 581M
-> 
-> zstd compression level/time/size:
-> 19 4m5s 837M
-> 15 3m44s 979M
-> 10 3m22s 993M
-> default(3) 3m19s 1.1G
 
-but nearly doubling the size of the standard SDK isn't going to be well received
-by people using it, those numbers don't look like they can work even if it is
-faster. The key things are primarily size and secondly decompression time,
-compression time is in third place and unfortunate but something the build
-systems can afford to pay.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/2686/steps/14/logs/stdio
 
-Cheers,
-
-Richard
+2021-10-15 15:51:53,829 - oe-selftest - INFO - fitimage.FitImageTests.test_initramfs_bundle (subunit.RemotedTestCase)
+2021-10-15 15:51:53,830 - oe-selftest - INFO -  ... FAIL
+2021-10-15 15:51:53,830 - oe-selftest - INFO - 10: 3/13 339/444 (525.77s) (fitimage.FitImageTests.test_initramfs_bundle)
+2021-10-15 15:51:53,830 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/fitimage.py", line 801, in test_initramfs_bundle
+    self.assertTrue(test_passed == True,"kernel node does not match expectation")
+  File "/usr/lib/python3.7/unittest/case.py", line 692, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true : kernel node does not match expectation
 
 
 
-
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
