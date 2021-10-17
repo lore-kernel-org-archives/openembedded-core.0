@@ -1,153 +1,94 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 174DBC433EF
-	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 13:33:04 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web12.22832.1634477582618801036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5610DC433F5
+	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 14:03:46 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web08.23397.1634479425475122971
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 06:33:02 -0700
+ Sun, 17 Oct 2021 07:03:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A1hskJl0;
- spf=pass (domain: gmail.com, ip: 209.85.208.48,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id r18so59531984edv.12
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=7EYOE/As;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id t184so348428pgd.8
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 06:33:02 -0700 (PDT)
+ Sun, 17 Oct 2021 07:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Li/qq/WppQjRP5IlHiwT218oFfDsS0F+94dTpWEszZE=;
-        b=A1hskJl05O3v/zbwaibrnFhGUWv3gFaJhoBJnm1vyfoV1bjAWKzbMEYd2Q9jAKr9a5
-         dqOiRU6WoseK5/7bsurrvFcY2pztZnYE5/z4R0Q44bBew2OStXPBp8XDZugMkes58fGr
-         XqCRJ3KrOSK/hyEr3/Lgo41vdLVBGktq5CJ1cL4pI9uQYk9+Dbh6N545QYndWtw5BW+7
-         p7ZJQdjPwQBhppCDNAv9mI3gxKpJ+MFSP+xKnvukXkFoGijV/aZty2gsnrnS7LAZ5Yms
-         xPQDDPZaxrnCI+T9I5SptEjh1UA8uyJ9M79CDFLXxrt/le36AoYb9W/5hQXsfyFmjZVZ
-         rTAw==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=sKzTEEg2JsAiRMSZWeuFIe5ajNaGioTtBSzx/GZyNJc=;
+        b=7EYOE/AsKbTpKfZLiZQQfbpobcddcxM2GgGFpHNufKNYObSBHeu2lp7+urToRtuQwh
+         khY4yRbdodIxiOSuSLdqA1e/0wiPiFSQ5rMfwLaKPxuNJ+2hD1JW0bsZPkzNdbeQTaPy
+         5hvBoNv7x3bjB/kRDp62Ywy1FFtXTW3+81dCLv396ScixGfzJi1AHQUckOkYlz5aJvTa
+         1PzsJy7d3ZgjWrtDvUpHwOcnNfE5pOO0ss3r3pDRWF+QNKQAnbwrOdusDpaRIo1oc2B5
+         ylHcX0O2LpdUrKNt6J4DT5E0xsDOZOu/onrFkNKbiOO134qo97K9lpoQDlWlp7hdj1Ky
+         Gfmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Li/qq/WppQjRP5IlHiwT218oFfDsS0F+94dTpWEszZE=;
-        b=RnxFDuBw/3wjfhg9Ct8uPCRyVteE0OiFGTqf20rJYjWrFNPXQL0RROuvnTg6RIbSbw
-         +tsMH2AzVpEdBK1wRHm8W3Lz9yd1Fs406rQkrCQ1kJR15uozP5TBPgUtrOhPaUapsSxX
-         tkUjnvlzJXGIjH2eo/MUHKMkMxt9Ef1BXo5/vRWofuBJhV595WN6N9jPbQ9QCGNCFQB6
-         TViu3cBiqzBtbckw/Z4fHu0wY7XUmOGcZSzDlyCjIdUu/zl50sqNJQFnQd5bUyXnMEYy
-         XS1C11qS9jZ1fI8emhIeEW/Ooa6M5/zkPL341efWrNYYrqgOiQJf7OgafhoCHqWVoAkq
-         HECg==
-X-Gm-Message-State: AOAM533CtaTjE57z1WSGN8v01SrGe3tqEWUeT6UTcnrNrEirfe0jErHh
-	HUxx3lUhu3DONxmsIJ3iJ8aTGSUgu+YBP6qeYIE=
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=sKzTEEg2JsAiRMSZWeuFIe5ajNaGioTtBSzx/GZyNJc=;
+        b=oNwg8/PtV+jfP9RuMq9egE8eX6FpwRudk7h90NYeCiCJJu5Yt7B83e0AXc2SnQIsF+
+         1bqHNNDs1HawlC3I5QBerzWJ9+EnvSTgU4G4K870Nc2ig2yOEWWs+VDuohHv5FtMLv4w
+         KUgnEx29U46G6PXNCWr7ehpHgPxLeUW01bbmYYBF1/IAo1BljwkZr6lAAIy3VTBDd6/v
+         Q5BYyF9ovGLoPMsJrCsmtjd8zWpjhvlaBkZE/bZFeGyoZDkuRyKoT0yb4Wo10Mri6w66
+         oIqscGwGyobeCShVgoofLShuE6NMd0PqLEHfVPPGo2SjI83qYb/RmH/NrMx9NV7wOkfJ
+         6K6w==
+X-Gm-Message-State: AOAM532LsLza/vEMRWxtIH9Jnuk3AdZaQIzE7FGS6BONzx+97Cgi8s2A
+	DZGIPQh2P7L/n02rH2QsL59b2n2JcmHHX4YzRE4=
 X-Google-Smtp-Source: 
- ABdhPJw4gKMOdG2a9ZDUyWyHYWFm1D03+LYW29x9gTDb4SYOb/DSfYj1oU/usYEVhkv28wtOv2hdDDlRK95sjoS/SoU=
-X-Received: by 2002:a50:be81:: with SMTP id b1mr36283676edk.59.1634477581009;
- Sun, 17 Oct 2021 06:33:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <16AE71B3ADB3BD09.11150@lists.openembedded.org>
- <086e00e6-0cd0-0304-8021-f25dcfeb7287@gmail.com>
-In-Reply-To: <086e00e6-0cd0-0304-8021-f25dcfeb7287@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 17 Oct 2021 09:32:49 -0400
-Message-ID: 
- <CADkTA4PyZWTHrscZF7W7mVNKTs1+61rEDakfXex8Vv1=EQOxWQ@mail.gmail.com>
-Subject: Re: [OE-core] linux-yocto: Set CONFIG_ATA_PIIX=y by default
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Saul Wold <Saul.Wold@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+ ABdhPJwKmmpwAGLMvRARaxcSD5zRPg2o2oIAW9/45KkcIkip/BBHzBrusubaRCXpnT7OS2eG0CklVA==
+X-Received: by 2002:a05:6a00:1945:b0:44c:a955:35ea with SMTP id
+ s5-20020a056a00194500b0044ca95535eamr23050119pfk.85.1634479424235;
+        Sun, 17 Oct 2021 07:03:44 -0700 (PDT)
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id
+ t22sm6229706pfg.148.2021.10.17.07.03.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 07:03:43 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id B8FEB9602D9; Sun, 17 Oct 2021 04:03:33 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 17 Oct 2021 04:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20211017140333.B8FEB9602D9@nuc.router0800d9.com>
+Date: Sun, 17 Oct 2021 04:03:33 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 13:33:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 14:03:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157039
+ https://lists.openembedded.org/g/openembedded-core/message/157040
 
-On Sun, Oct 17, 2021 at 4:26 AM Jacob Kroon <jacob.kroon@gmail.com> wrote:
->
-> Hi Bruce and Saul,
->
-> On 10/16/21 09:18, Jacob Kroon via lists.openembedded.org wrote:
-> > Hi Bruce,
-> >
-> > My Yocto images (which uses the linux-yocto kernel) stopped booting in
-> > QEMU some time ago, and after some debugging it turns out this was
-> > because the upstream Linux kernel removed the legacy IDE driver. Instead
-> > one should use the libata driver. However, I don't think the linux-yocto
-> > kernel has builtin support for the HW that is emulated by QEMU by
-> > default (PIIX), instead it is built as a module, CONFIG_ATA_PIIX=m. If I
-> > set CONFIG_ATA_PIIX=y, my images boot again.
-> >
-> > I did a "make ARCH=i386 defconfig" in Torvalds master linux tree, and
-> > the .config has CONFIG_ATA_PIIX=y.
-> >
-> > Do you think it would make sense to have the support builtin in
-> > linux-yocto aswell ?
-> >
->
-> I'm using KMACHINE = "common-pc". CC:ing Saul Wold, since I see that
-> commit 0d4f5ed5dca41a48423ce738131e52f7863d8ca6 in yocto-kernel-cache did:
->
-> > diff --git a/bsp/common-pc/common-pc-drivers.cfg b/bsp/common-pc/common-pc-drivers.cfg
-> > index 71608433..0b821903 100644
-> > --- a/bsp/common-pc/common-pc-drivers.cfg
-> > +++ b/bsp/common-pc/common-pc-drivers.cfg
-> > @@ -5,7 +5,8 @@ CONFIG_PCI_MSI=y
-> >  CONFIG_ATA=y
-> >  CONFIG_ATA_ACPI=y
-> >  CONFIG_ATA_SFF=y
-> > -CONFIG_ATA_PIIX=y
-> > +CONFIG_ATA_BMDMA=y
-> > +CONFIG_ATA_PIIX=m
-> >
-> >  CONFIG_INPUT=y
-> >  CONFIG_INPUT_MOUSEDEV=y
->
-> which changed ATA_PIIX from a builtin to a module. Maybe this wasn't
-> intentional ?
+Branch: master
 
-It was definitely intentional.
+New this week: 2 CVEs
+CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
+CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
 
-We try and keep the configuration space of the targets as small as
-possible. In particular, this is exactly why qemux86* was created, so
-we wouldn't have to enable options in either the h/w targets or the
-emulated targets that are specific to a use case on one (and vice
-versa). That being said, they still actually do share the same machine
-definitions in the kernel-cache, since nothing significant has forced
-me to use that namespace split.
+Removed this week: 6 CVEs
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2021-22945: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22945 *
+CVE-2021-22946: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22946 *
+CVE-2021-22947: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22947 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
 
-qemux86 doesn't need PIIX out of the box to boot, and the Kconfig
-indicates "set it to N unless ...", and we do know the built-ins we
-want, so it is set to 'm' as a middle ground.
-
-That being said, it isn't out of the question to enable it (slippery
-slope to giant defconfig like beasts with everything and the kitchen
-sink enabled notwithstanding .. not that this is much of a step down
-that slope!) .. just let me ask a few more things first.
-
-You say you are using KMACHINE='common-pc', that's good. But what else
-is at play ? What OE MACHINE are you building ? What image FStypes,
-etc ?
-
-I won't be able to do some build testing until Monday, but do you
-happen to have the qemu command lines (via runqemu) and machine
-definitions for qemux88 and your machine?  I'd like to look at them
-and confirm exactly what image, and boot parameters are in play, since
-one boots and the other doesn't.
-
-Cheers,
-
-Bruce
-
->
-> Regards Jacob
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Full list:  Found 11 unpatched CVEs
+CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
+CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
+CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
+CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
+CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
 
