@@ -1,124 +1,127 @@
-Return-Path: <andrej.valek@siemens.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66959C433F5
-	for <webhook@archiver.kernel.org>; Sat, 16 Oct 2021 20:02:12 +0000 (UTC)
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
- by mx.groups.io with SMTP id smtpd.web08.14953.1634414530765313717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7D6C433EF
+	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 01:41:47 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web08.18287.1634434906545659878
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Oct 2021 13:02:11 -0700
+ Sat, 16 Oct 2021 18:41:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: siemens.com, ip: 194.138.37.40, mailfrom: andrej.valek@siemens.com)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 19GK26PL027355
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 16 Oct 2021 22:02:06 +0200
-Received: from md3hr6tc.ad001.com ([167.87.32.51])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 19GK1wSS030980;
-	Sat, 16 Oct 2021 22:02:05 +0200
-From: Andrej Valek <andrej.valek@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=i+axboKo;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id g5so8883331plg.1
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 16 Oct 2021 18:41:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+SA5Q2MBDxMucabvEuZytJPL5JL2js5Zqf4FNcny5qU=;
+        b=i+axboKodnjn98JcDTI0teiO+gGBPRHmGQtHBVQEPTlywClxy96Vn7xNhjzvPuo4CA
+         YoX6cbHmGVfotmGzY6AZknikWO0hNmpJTVZxuHbOH0Jw0CYoFQ+sOS1LId1LH8AokK4f
+         IYcWbU1oAq0VGHggsT/IRg2aIgVkA+gvH2PLAKSSw8J2zLEZ/6qSgPQonYKiJ8F797Tk
+         fFVJ8TUJB9x2c50PsRqcQWrAZuB6XRLH9zzKO3G8BGuGC6h1KQsDJhAec+AbS8NqS382
+         cn3mCLtzhmJA7v7Fovn0Y7qQ9R22mRJAMbUjfbOlROEz0tFqitCKK2eIVKZQuUksjCxh
+         OdQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+SA5Q2MBDxMucabvEuZytJPL5JL2js5Zqf4FNcny5qU=;
+        b=CIpCEv4XfwybaYz4x8oco+XXS3PGU1nlQvm1VWcKkX6qJqUADoELdAOMeCbjv7tZST
+         xZzJILahkRmEvq3jB3mrmCpj7jNmIcT0/52U0LLBtgL6ag1EFECzOrXCg+Iy2sC0II8i
+         0MhLCp3DG//6jABby1RsIg9zF19AT93nH/K3+B5ayWsH4nnbpiC0vfcduKvEQ6kvdXGY
+         bKhxoprmQSpKeWndSwtPcml8qIqj7PlQ6qTTKTbWhwEkzFaJ9NcQ2Dslh35bGtiASUJj
+         dCt9PaM5BSFW2piDri/mblk21wkSbzn0X2sW7ideKGCJUDRUXVmekyZtxML5Q2LKb5sB
+         Tvjg==
+X-Gm-Message-State: AOAM531pKsgpjlG/w4CG73zS0Lgqys2Gzi9RKTiHLOQa0coarg4bkDBq
+	OFdoSGeHzAutBAiizP7MmDsG9WyuBqM=
+X-Google-Smtp-Source: 
+ ABdhPJzqueyuxuEVnW0PMH3Ih43mc/qGQBdI6sZBcXwfAPtscYzUV9QGYVan7x1u7e1usQcDKSgpQg==
+X-Received: by 2002:a17:902:c410:b0:13e:cfac:45ad with SMTP id
+ k16-20020a170902c41000b0013ecfac45admr19773811plk.68.1634434905596;
+        Sat, 16 Oct 2021 18:41:45 -0700 (PDT)
+Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::17e1])
+        by smtp.gmail.com with ESMTPSA id
+ gf23sm9227891pjb.26.2021.10.16.18.41.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Oct 2021 18:41:45 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Abdellatif.ElKhlifi@arm.com, alexandre.belloni@bootlin.com,
-        Andrej Valek <andrej.valek@siemens.com>,
-        Walter Schweizer <walter.schweizer@siemens.com>
-Subject: [OE-core][PATCH v4 2/2] kernel-fitimage: use correct kernel image
-Date: Sat, 16 Oct 2021 22:01:47 +0200
-Message-Id: <20211016200147.2319067-2-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211005202256.54023-1-andrej.valek@siemens.com>
-References: <20211005202256.54023-1-andrej.valek@siemens.com>
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [PATCH 3/3] python3-setuptools-scm: upgrade 6.0.1 -> 6.3.2
+Date: Sun, 17 Oct 2021 01:41:21 +0000
+Message-Id: <20211017014121.414803-3-timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211017014121.414803-1-timothy.t.orling@intel.com>
+References: <20211017014121.414803-1-timothy.t.orling@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Oct 2021 20:02:12 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 01:41:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157020
+ https://lists.openembedded.org/g/openembedded-core/message/157023
 
-Even if initramfs_bundle_path was used, a wrong compression was reflected
-in output its template file. Use linux.bin as universal kernel image.
-The linux.bin file covers both cases because it's beying created from
-vmlinux.
+RDEPENDS on python3-tomli instead of python3-toml
 
-We know, that vmlinux is created inside compressed directory already,
-so no external compression will be used.
+Cleanup RDEPENDS (common vs. class-target)
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Walter Schweizer <walter.schweizer@siemens.com>
+For changes, see:
+https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.rst#632
+
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- meta/classes/kernel-fitimage.bbclass     | 17 +----------------
- meta/lib/oeqa/selftest/cases/fitimage.py |  8 ++++----
- 2 files changed, 5 insertions(+), 20 deletions(-)
+ ..._6.0.1.bb => python3-setuptools-scm_6.3.2.bb} | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_6.0.1.bb => python3-setuptools-scm_6.3.2.bb} (73%)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 886ed13029..8718ce7e16 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -495,22 +495,7 @@ fitimage_assemble() {
- 	fitimage_emit_section_maint $1 imagestart
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_6.0.1.bb b/meta/recipes-devtools/python/python3-setuptools-scm_6.3.2.bb
+similarity index 73%
+rename from meta/recipes-devtools/python/python3-setuptools-scm_6.0.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools-scm_6.3.2.bb
+index afbed17a2d..bc594d9620 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_6.0.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_6.3.2.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "setuptools_scm handles managing your Python package versions in S
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
  
- 	uboot_prep_kimage
--
--	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
--		initramfs_bundle_path="arch/"${UBOOT_ARCH}"/boot/"${KERNEL_IMAGETYPE_REPLACEMENT}".initramfs"
--		if [ -e "$initramfs_bundle_path" ]; then
--
--			#
--			# Include the kernel/rootfs bundle.
--			#
--
--			fitimage_emit_section_kernel $1 $kernelcount "$initramfs_bundle_path" "$linux_comp"
--		else
--			bbwarn "$initramfs_bundle_pat not found."
--		fi
--	else
--		fitimage_emit_section_kernel $1 $kernelcount linux.bin "$linux_comp"
--	fi
-+	fitimage_emit_section_kernel $1 $kernelcount linux.bin "$linux_comp"
+-SRC_URI[sha256sum] = "d1925a69cb07e9b29416a275b9fadb009a23c148ace905b2fb220649a6c18e92"
++SRC_URI[sha256sum] = "a49aa8081eeb3514eb9728fa5040f2eaa962d6c6f4ec9c32f6c1fba88f88a0f2"
  
- 	#
- 	# Step 2: Prepare a DTB image section
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 184c8778d2..f6f6a8e795 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -742,6 +742,7 @@ UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
- UBOOT_EXTLINUX = "0"
- FIT_GENERATE_KEYS = "1"
- KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
-+FIT_KERNEL_COMP_ALG = "none"
- FIT_HASH_ALG = "sha256"
- """
-         self.write_config(config)
-@@ -763,9 +764,8 @@ FIT_HASH_ALG = "sha256"
+ PYPI_PACKAGE = "setuptools_scm"
+ inherit pypi setuptools3
+@@ -12,15 +12,15 @@ inherit pypi setuptools3
+ UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
  
-         kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
-         kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
--        initramfs_bundle_format = str(get_bb_var('KERNEL_IMAGETYPE_REPLACEMENT'))
-+        kernel_compression = str(get_bb_var('FIT_KERNEL_COMP_ALG'))
-         uboot_arch = str(get_bb_var('UBOOT_ARCH'))
--        initramfs_bundle = "arch/" + uboot_arch + "/boot/" + initramfs_bundle_format + ".initramfs"
-         fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
+ RDEPENDS:${PN} = "\
+-    ${PYTHON_PN}-debugger \
+-    ${PYTHON_PN}-json \
+-    ${PYTHON_PN}-py \
++    ${PYTHON_PN}-packaging \
++    ${PYTHON_PN}-pyparsing \
+     ${PYTHON_PN}-setuptools \
+-    ${PYTHON_PN}-toml \
++    ${PYTHON_PN}-tomli \
+ "
+-RDEPENDS:${PN}:class-native = "\
+-    ${PYTHON_PN}-setuptools-native \
+-    ${PYTHON_PN}-toml-native \
++
++RDEPENDS:${PN}:append:class-target = " \
++    ${PYTHON_PN}-debugger \
++    ${PYTHON_PN}-json \
+ "
  
-         its_file = open(fitimage_its_path)
-@@ -775,11 +775,11 @@ FIT_HASH_ALG = "sha256"
-         exp_node_lines = [
-             'kernel-1 {',
-             'description = "Linux kernel";',
--            'data = /incbin/("' + initramfs_bundle + '");',
-+            'data = /incbin/("linux.bin");',
-             'type = "kernel";',
-             'arch = "' + uboot_arch + '";',
-             'os = "linux";',
--            'compression = "none";',
-+            'compression = "' + kernel_compression + '";',
-             'load = <' + kernel_load + '>;',
-             'entry = <' + kernel_entry + '>;',
-             'hash-1 {',
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.31.1
+2.30.2
 
 
