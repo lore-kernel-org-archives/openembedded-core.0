@@ -1,112 +1,106 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B11FC433EF
-	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 14:57:42 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web08.24103.1634482661075422153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFAFCC433F5
+	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 15:02:29 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web12.23892.1634482949052623539
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 07:57:41 -0700
+ Sun, 17 Oct 2021 08:02:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
- header.s=20210112 header.b=TEJSthuZ;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
- ip: 209.85.208.174, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f174.google.com with SMTP id d13so3982775ljg.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=xJxogA+d;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id f11so8849547pfc.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 07:57:40 -0700 (PDT)
+ Sun, 17 Oct 2021 08:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JmvvxrqAXOeS7RDgrk3KQqS6pm9EYGPbqHIj0RzlwZM=;
-        b=TEJSthuZgP67akvNKIxYHXWPnpb7XH7qPidmMEeSz7KCFbeGwn7E58rD32aEAtXsZ7
-         9w7Kfo/z6JrHFZnSUxcmQoH0GyFEHtASJzd2MRfb3XNEE0j0aj9a9aw6PUk3NocpVXhF
-         TlAbEBwUO5aSzMMAPdyYvtTvVKU7lZTx4aaaqlJkBlwCaGmF4FI6RDC6fU1Vr9zieI0M
-         w8W8UqOtt5eKcjbP7Ar44W51l2gCP4zbbRBIz11fSoGxny/D4q/L2ZiXqTg+B0rUVdlM
-         useQTxnC1wkgPE0uo7cxTLt9t5zvKSGwf0XfdvbNYsUCwHMxCf+9A7OJMLI973p81+AZ
-         j8UA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=1IXjtaRAusQFUqbwqdP4vRRNIbxffUVhivD5ghis2X0=;
+        b=xJxogA+db0pgwtwvYXTYyG4SKy47krEjq/Kv9pXzihJMkm630sbOUosiOlbTzjVkeO
+         q7UOgZJxn2Jjpx8zJchPtGlW5vbiZI0X9LaLQNqEpDeWvV2hreS7kbY7q1REyMKguJ1F
+         t3Z5FLVXweDWwPSANw7UZ+YiKBvUSAMDAF+O2E9EdMe7NzZ51h7xa3oaWeW/Q6sqwsDq
+         9q71Xj3pwPHVcKGnTtoEBendffyp5MQWIAkP07PREJwEFVCVQswjkV80Sp5v3a14FITp
+         MRqmrNpM8FIx5VyMDwIJU7VODGtGFHK8+a6l34EhJqxjzAyB8uQtKO/0wnBuN7HDV84R
+         D+ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JmvvxrqAXOeS7RDgrk3KQqS6pm9EYGPbqHIj0RzlwZM=;
-        b=ihbZxvDnGk63qMu8phB/oek+BcfNuRBlWl3ziu4u/ZCzxGPmzhB5gJsv8Ql6l3WMfM
-         4R8tKr/IEPDtGBa7z4ywGceWIfCaOnaM9hA8dntP84HWoEjQkK0DTe4Kng1YChvENLix
-         BoduQ+Qfh6ZItSIi/GfYlhAKz639UJ8fSJK9CNg/r9EChQK3dnk75VhzAL5kaV/XNbRy
-         ZQv8w8oauTwMT3Am3S39Mx3Ou5419QvDhCEwFu2XEIm5nswcUh/V/j3vysg6ltv1vggV
-         NXijjtR5QeD4y6VqMS9Pbur1j8/OrfKgncfbzUPgV0rOQjdpiy9YPM5gi0a/Q/cX7mVu
-         x0Dw==
-X-Gm-Message-State: AOAM530Mc1gLabKS8s+ZAOnYJABfcWQ5iYBouAn9QnPu2gv7Ki+TjZIC
-	JqZQURc9qKaoTLZ+E9L75vi3TXM5FKEl4STr
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=1IXjtaRAusQFUqbwqdP4vRRNIbxffUVhivD5ghis2X0=;
+        b=uvtijtFHYmN0TJYst4EwLddp+js70echFCt7ECgLJAQTQ4l7lvpy7+PG6y//DIX+Jf
+         /+K16z+x0+PXjsqBWY6oGAkV6xrZSjBAnhUd0G5JZP0mX686VpEVD61xJCwIQRs6XksM
+         k83hIgitvORefwYcFMESpI1QhNKc8cxU4L8jukHbEe0ibMICF9bvPTybF6tdwR/9qjAc
+         QhmYI7QpytFQumA+0rfmJh1b1gGl3TrgWvMrGEcs19VMOC6krlVVKa94+XPcyREY+OMK
+         xSzYwk2FEJ4X6X+hO+mgnqgGrxXYpKxl/SouMgX/lgglsvccSrpBvSqaPBV9pWWBfztJ
+         58/A==
+X-Gm-Message-State: AOAM532rL11nG5KMClt82tCSwB8I/r6fMyk+6oWlK55R7Ku4S7WB5Oh2
+	szK5DtzA/018+ah3oWNe972JOJuGW3UdYld5
 X-Google-Smtp-Source: 
- ABdhPJxCGddZ4hLIk0btN19mPlBeXsesNLm7z9jGAqvhQpDTUfHPCWQvcmvxfhOPWfFX44YDr3wV/g==
-X-Received: by 2002:a05:651c:10b2:: with SMTP id
- k18mr26419196ljn.203.1634482658788;
-        Sun, 17 Oct 2021 07:57:38 -0700 (PDT)
-Received: from localhost.localdomain
- (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
+ ABdhPJw7Arg0IWfsgurAKFBV5kiZHuZBVXbqYaS8CqNcU0IC4ZGBMbDADQDwgqv0nW6CdA1XZkYdGg==
+X-Received: by 2002:a63:2d46:: with SMTP id t67mr18374027pgt.15.1634482947414;
+        Sun, 17 Oct 2021 08:02:27 -0700 (PDT)
+Received: from nuc.router0800d9.com ([172.243.4.16])
         by smtp.gmail.com with ESMTPSA id
- o12sm1172069lfl.33.2021.10.17.07.57.37
+ i2sm10305663pfa.34.2021.10.17.08.02.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 07:57:38 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3-smmap: update to 5.0.0
-Date: Sun, 17 Oct 2021 16:57:34 +0200
-Message-Id: <20211017145734.636060-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 17 Oct 2021 08:02:26 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id A6DA4963004; Sun, 17 Oct 2021 05:02:16 -1000 (HST)
+Subject: OE-core CVE metrics for hardknott on Sun 17 Oct 2021 05:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20211017150216.A6DA4963004@nuc.router0800d9.com>
+Date: Sun, 17 Oct 2021 05:02:16 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 14:57:42 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 15:02:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157043
+ https://lists.openembedded.org/g/openembedded-core/message/157044
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-devtools/python/python3-smmap_4.0.0.bb           | 3 ---
- .../python/{python-smmap.inc => python3-smmap_5.0.0.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-smmap_4.0.0.bb
- rename meta/recipes-devtools/python/{python-smmap.inc => python3-smmap_5.0.0.bb} (84%)
+Branch: hardknott
 
-diff --git a/meta/recipes-devtools/python/python3-smmap_4.0.0.bb b/meta/recipes-devtools/python/python3-smmap_4.0.0.bb
-deleted file mode 100644
-index 5f0f341d6a..0000000000
---- a/meta/recipes-devtools/python/python3-smmap_4.0.0.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--inherit setuptools3
--require python-smmap.inc
--
-diff --git a/meta/recipes-devtools/python/python-smmap.inc b/meta/recipes-devtools/python/python3-smmap_5.0.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python-smmap.inc
-rename to meta/recipes-devtools/python/python3-smmap_5.0.0.bb
-index 7d0cff5fa6..ea131ef793 100644
---- a/meta/recipes-devtools/python/python-smmap.inc
-+++ b/meta/recipes-devtools/python/python3-smmap_5.0.0.bb
-@@ -7,11 +7,11 @@ SECTION = "devel/python"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
- 
--inherit pypi
-+inherit pypi setuptools3
- 
- PYPI_PACKAGE = "smmap"
- 
--SRC_URI[sha256sum] = "7e65386bd122d45405ddf795637b7f7d2b532e7e401d46bbe3fb49b9986d5182"
-+SRC_URI[sha256sum] = "c840e62059cd3be204b0c9c9f74be2c09d5648eddd4580d9314c3ecde0b30936"
- 
- RDEPENDS:${PN} += "${PYTHON_PN}-codecs \
-                    ${PYTHON_PN}-mmap \
--- 
-2.25.1
+New this week: 0 CVEs
 
+Removed this week: 0 CVEs
+
+Full list:  Found 32 unpatched CVEs
+CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
+CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
+CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
+CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
+CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
+CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
+CVE-2021-20196: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20196 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-22922: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22922 *
+CVE-2021-22923: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22923 *
+CVE-2021-22945: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22945 *
+CVE-2021-22946: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22946 *
+CVE-2021-22947: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22947 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-33833: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33833 *
+CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
+CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
+CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
+CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
+CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-36976: libarchive https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
+CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
+CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
+CVE-2021-40528: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40528 *
+CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
 
