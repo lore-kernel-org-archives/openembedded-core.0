@@ -1,138 +1,108 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <schnitzeltony@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99045C433F5
-	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 11:41:35 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web08.22053.1634470893945490982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 136A1C433EF
+	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 12:20:17 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web09.21964.1634473216615995658
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 04:41:34 -0700
+ Sun, 17 Oct 2021 05:20:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XTg/2xyD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id g25so35506843wrb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=acwINlkl;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49,
+ mailfrom: schnitzeltony@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id
+ g13-20020a17090a3c8d00b00196286963b9so12587560pjc.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 04:41:33 -0700 (PDT)
+ Sun, 17 Oct 2021 05:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=WgluOQcfRFa7FV1NAAGDjFKMy+z4us/NscrgJtteplQ=;
-        b=XTg/2xyDuJVl/zqWalgz7E5SRjvjEwR8fseXk2EQnVz1VTbqrkjRoOoAwg8XmQ2u/8
-         ZAhRelIQNFXTROwX1tPW9o05vXAxtYHXIctj0PYXNkf3RXCyzJTiNFTMdhhn20FBlGBz
-         O6uiZ9peUmXMHM0BQqSYIKB+Um/zywoynqvwg=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=KRIjMWCHxqbty7idjQjdH9dVXHUHzQk8cBYqvc3xLYM=;
+        b=acwINlklHPHHLUvM7QDcGWI++Uzok/PCRmLOSo5zz9jPHYgiG1QbWiH6vA0db81YyF
+         598R2NJ+/MjcWPsSmYn4griAiXPSHhGm7XGif0KlxysSfWJjdxEkhOJKiMzgU+DDqoqm
+         J6dTXIM4mbj6J0Gdga4KI69GXLCI4fXkQL1wwUfKJapN+1y0MoffvyTCtNiKDMvXMpFr
+         88H9uWChbS31WpSJcwInrzbP0e9nGfJ0KDZlQWzkkwz6nYClNRiQscUKUKzfkVjRD7xb
+         ShBZUC/ywpPx2gAIWD/y9NuldbxGwVscY8paH7oxk40G/ZM2gltOwXSEpYpUuJRX0iPE
+         C1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WgluOQcfRFa7FV1NAAGDjFKMy+z4us/NscrgJtteplQ=;
-        b=GcSG3jepa3zZh5ixH43cz4U1R91bGV01VaIS/ml9WooUYk6mMrO74541YXzyoxJHjh
-         du67S+xyrtpvSaT07IFihIgkuZRoUHVkphpokSCNPd/THGxr3JKhy9oOx2bZ+jLBDkS/
-         pB/VQY6M/Tfyf/zN02ufC07jFUOkXVDRX2T1RtbT36PApP4qrtENfzwQkVion+H0z+yv
-         uqKU4Hsn3S8kxnVFvbzaEIhYemOgD6Op4ZkU3LzsuBvDM+cCCSQ4X/ST8n3UHSQfuOq2
-         p3C9W5gsAicU93we2GMv/CFKh7IHeT7hMpLagVEd7gY+iLeNJvqKIOqRwowNYJLJd+lE
-         yzwQ==
-X-Gm-Message-State: AOAM532YXKJx9szCN29gGDRzZBlSWb8WfnZN5ZscY+zouJ8g6RsE7V5F
-	SsjSWB1HUecDiWtQ0+UYPkPUOg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KRIjMWCHxqbty7idjQjdH9dVXHUHzQk8cBYqvc3xLYM=;
+        b=fkbsAefk+ERAqgp5BhZeFoSj3vBYdLgoIpUCZHgB3JVPoi94aUifiRCP8N+YcM49Fz
+         yWmzggjMlJFuthM8wUEGUj5yc3oJSZ5jAqiWJ33FluU9wmW5lNgGkd+K4waySRcbPvqi
+         8lw4f0DaEpIqybS//4mLIf+xx1OVc/0MD754Ndw2H3Ah3tEM44sRdE0DZ+uE3Qzx0Hqf
+         uAfPgyMFyVs+/iPT/H2/t/BvsdUSBxI6CSlQwHVWQv0MDNmUrHbTx3LwjvrexjSduz1Q
+         0k/66ngNInsrx736Y1acVGNZKbYnyoVgHTfq514zInEGeLzxicx8Zp5TcQUjGSfwTKHq
+         9zlw==
+X-Gm-Message-State: AOAM531YinmPYZLSfYDctTMlXKMCpAX0kMymVL/tZ9mNOPSztMA5tYRu
+	5shWTEjz1qBhfK8IzT/U1tphEfH0LvLAD1qfKcwpwziPr8U=
 X-Google-Smtp-Source: 
- ABdhPJwnGzUb3s4K8JLRJxeDAC4SbgLdALk88UVCSCb1T4lnaRebWPlX5Vy4rO7o3olGHYrZEVqAUg==
-X-Received: by 2002:adf:de0e:: with SMTP id
- b14mr27991919wrm.271.1634470892227;
-        Sun, 17 Oct 2021 04:41:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5d75:85d1:ab5f:ea09?
- ([2001:8b0:aba:5f3c:5d75:85d1:ab5f:ea09])
-        by smtp.gmail.com with ESMTPSA id
- i17sm11099441wru.18.2021.10.17.04.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 04:41:31 -0700 (PDT)
-Message-ID: 
- <41dd3fe3be3db23edd4ae17f23520709997f8d48.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] python3-setuptools-scm: upgrade 6.0.1 ->
- 6.3.2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tim Orling <ticotimo@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@intel.com>
-Date: Sun, 17 Oct 2021 12:41:30 +0100
-In-Reply-To: <20211017014121.414803-3-timothy.t.orling@intel.com>
-References: <20211017014121.414803-1-timothy.t.orling@intel.com>
-	 <20211017014121.414803-3-timothy.t.orling@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJzYjoSuLEw6j8FDmxQlzoYk7JBWcAHG9iudU2hOTPuDkxktUl21iXjX97nd8as9ecBf5VaOfeS5T2K2tNe3HcI=
+X-Received: by 2002:a17:903:1252:b0:13d:f3f6:2e1c with SMTP id
+ u18-20020a170903125200b0013df3f62e1cmr21527246plh.73.1634473216007; Sun, 17
+ Oct 2021 05:20:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211017115703.3801301-1-schnitzeltony@gmail.com>
+ <e4e32689f8bddb5de2f34b156620cd9cef488cdf.camel@linuxfoundation.org>
+In-Reply-To: 
+ <e4e32689f8bddb5de2f34b156620cd9cef488cdf.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sun, 17 Oct 2021 14:20:03 +0200
+Message-ID: 
+ <CALbNGRRMuq7_Keq=FtszASw4-8ESc8jDLUSUyJU4eDHCg0AaNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] webkitgtk: add gperf-native to DEPENDS to fix
+ build
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 11:41:35 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 12:20:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157034
+ https://lists.openembedded.org/g/openembedded-core/message/157037
 
-On Sun, 2021-10-17 at 01:41 +0000, Tim Orling wrote:
-> RDEPENDS on python3-tomli instead of python3-toml
-> 
-> Cleanup RDEPENDS (common vs. class-target)
-> 
-> For changes, see:
-> https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.rst#632
-> 
-> Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
-> ---
->  ..._6.0.1.bb => python3-setuptools-scm_6.3.2.bb} | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->  rename meta/recipes-devtools/python/{python3-setuptools-scm_6.0.1.bb => python3-setuptools-scm_6.3.2.bb} (73%)
-> 
-> diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_6.0.1.bb b/meta/recipes-devtools/python/python3-setuptools-scm_6.3.2.bb
-> similarity index 73%
-> rename from meta/recipes-devtools/python/python3-setuptools-scm_6.0.1.bb
-> rename to meta/recipes-devtools/python/python3-setuptools-scm_6.3.2.bb
-> index afbed17a2d..bc594d9620 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools-scm_6.0.1.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools-scm_6.3.2.bb
-> @@ -4,7 +4,7 @@ DESCRIPTION = "setuptools_scm handles managing your Python package versions in S
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
->  
-> -SRC_URI[sha256sum] = "d1925a69cb07e9b29416a275b9fadb009a23c148ace905b2fb220649a6c18e92"
-> +SRC_URI[sha256sum] = "a49aa8081eeb3514eb9728fa5040f2eaa962d6c6f4ec9c32f6c1fba88f88a0f2"
->  
->  PYPI_PACKAGE = "setuptools_scm"
->  inherit pypi setuptools3
-> @@ -12,15 +12,15 @@ inherit pypi setuptools3
->  UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
->  
->  RDEPENDS:${PN} = "\
-> -    ${PYTHON_PN}-debugger \
-> -    ${PYTHON_PN}-json \
-> -    ${PYTHON_PN}-py \
-> +    ${PYTHON_PN}-packaging \
-> +    ${PYTHON_PN}-pyparsing \
->      ${PYTHON_PN}-setuptools \
-> -    ${PYTHON_PN}-toml \
-> +    ${PYTHON_PN}-tomli \
->  "
-> -RDEPENDS:${PN}:class-native = "\
-> -    ${PYTHON_PN}-setuptools-native \
-> -    ${PYTHON_PN}-toml-native \
-> +
-> +RDEPENDS:${PN}:append:class-target = " \
-> +    ${PYTHON_PN}-debugger \
-> +    ${PYTHON_PN}-json \
->  "
->  
->  BBCLASSEXTEND = "native nativesdk"
+On Sun, Oct 17, 2021 at 2:03 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2021-10-17 at 13:57 +0200, Andreas M=C3=BCller wrote:
+> > >   Could NOT find Gperf (missing: GPERF_EXECUTABLE) (Required is at le=
+ast
+> > >   version "3.0.1")
+> >
+> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > ---
+> >  meta/recipes-sato/webkit/webkitgtk_2.34.0.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.0.bb b/meta/recipe=
+s-
+> > sato/webkit/webkitgtk_2.34.0.bb
+> > index 25e1d422cc..a8e067147c 100644
+> > --- a/meta/recipes-sato/webkit/webkitgtk_2.34.0.bb
+> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.34.0.bb
+> > @@ -32,6 +32,7 @@ CVE_PRODUCT =3D "webkitgtk webkitgtk\+"
+> >
+> >  DEPENDS =3D " \
+> >            ruby-native \
+> > +          gperf-native \
+> >            cairo \
+> >            harfbuzz \
+> >            jpeg \
+>
+> Out of interest, why are you seeing that and the automated testing isn't?
+>
+Asked myself same but did not find an answer. My build should use
+default PACKAGECONFIGs. Was off for a while so now pulled master
+(meta-openembedded master-next for mozjs upgrade) and started a build.
+Not helpful exactly - sorry...
 
-
-I think python3-packaging needs a nativesdk BBCLASSEXTEND for this to work:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2766/steps/13/logs/warnings
-
-Cheers,
-
-Richard
-
-
-
+Andreas
 
