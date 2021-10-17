@@ -1,118 +1,112 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 632B4C433F5
-	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 08:26:52 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web08.20866.1634459210836211361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18824C433EF
+	for <webhook@archiver.kernel.org>; Sun, 17 Oct 2021 11:02:48 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.21427.1634468567069588063
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 01:26:51 -0700
+ Sun, 17 Oct 2021 04:02:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dgenzSe0;
- spf=pass (domain: gmail.com, ip: 209.85.167.52,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id x27so60153563lfu.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LoKQGNan;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id
+ j10-20020a1c230a000000b0030d523b6693so7399258wmj.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Oct 2021 01:26:50 -0700 (PDT)
+ Sun, 17 Oct 2021 04:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:cc:from:in-reply-to:content-transfer-encoding;
-        bh=Op57Ozf5cO0IvvJQbn5V9NLcafi0aBn9zWnXY+Tjzts=;
-        b=dgenzSe0zE94Nvmq4piyv/Cd07dUv/yI1XUupcS/cMIyKPx9MMmx2QgaMqzdZ8qH+S
-         pESniZd8otzgyRolDZwKa+Arkukc2XbKC76kYauRmzxnRJ9S5sTP7RGj9t1/kYU3GCft
-         uJSRoZlm4OU/I33n2Y3JrM4/PPgRTw7Xg/7MYJtfTpTu+5lAv7LMOXmcRLqrLnEag6k+
-         w67WGynmn1Nw8T9/td4zrwmTiV15f9UzD1BMBtSBQJ6oPFfJIP8Zs+qpEyUDpat86KKU
-         tCVkF6eC4saLJu0Lca8krfC94x+hYj4F4JEfeyRqt0DafOwFyaBESPHC5EsTI3HINlXR
-         szIw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=f1KakqIwvi+ti2KGnp6Cw3EAZEP72dP4Z7g8v0SgGhU=;
+        b=LoKQGNanH9RuzW1mmazrwYrk82EWBc68hfS4NGN3FNLX8EeiOHkwznhUMVUxNSdYMU
+         hxj0Zax7XAP0wXK3p17v3OFswWAnEnUVb0Ql+GprkPLK8rFKy1L2Hsq5QjdbGgMEEWZz
+         mCykrOy/ir0ahY9ySmR12y71Bvl6igJah3LdA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:cc:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Op57Ozf5cO0IvvJQbn5V9NLcafi0aBn9zWnXY+Tjzts=;
-        b=DlDXsixYKmbxYhNxnrQFR2oLsc6jfgUVW/2nDnwdXnsMzB5zmciZCDHDtm4fMrHODw
-         lOgIp2Re25Spe5MmVgZxq9WKjRkhTe7UDTPDtHJ8AN4RbhPZPLS+yxX5ZvvDqbSF5k1G
-         Zw4vbl8ge3KrkaPLK7EwCBgyphw3yi83zHfPGvDR4Vjoq1ybYuyGp5POn9AMHf8/lD1R
-         rtpJAJqTxm/yB6OWkFVHqfqDDKYD/OR36XVbE4Trj90WMcbRnKmO17CiI5tTuHMdOzSY
-         kAKYKDLqPytyO+r7VKUdunWZhbjgjhMp3I8PjFAUW6lsrnX4Ee0CFofwQlffhSfOpMsy
-         wM8Q==
-X-Gm-Message-State: AOAM533ZRPI2KBLyGHDR/voP40akul3v1fsH3yJCUu3BckLT1GVx9+cM
-	0nCZHxvlxOUm/M8RWNjTlXRXiCPA0XW0uOMJ
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=f1KakqIwvi+ti2KGnp6Cw3EAZEP72dP4Z7g8v0SgGhU=;
+        b=rAZl+4dIgg8wVBvMp6zBUX36xDboyWbRm1Akt52ODtr4L2BmLGvy0Js1lLX6qVkR83
+         UAIfsMm1t3Y/4uRNSROFwBg84ea/sXIrDiT1CruFd6ELZyzjTlc3wmtkgtp/u/zeP6Cb
+         WgA300lRQJN31Vh7nshxf2YBmFL2IEffwDGuOklNAYSb4odJgUY3ED53rn7K5+Y71jLw
+         7bWQhM5BW4St93GuqMeD6Kb+QfInnlqMeDt03GqJ3RVeznTYSdMtQ20MB/lHK6lUL0+J
+         ohZRrgZi+XCQkU8n7FHj344o0NUwPmU+1GKPS4iO80i9LtAYbRuTnrGfwtM2d4J3Okcz
+         uPOg==
+X-Gm-Message-State: AOAM532epLNrAWTNrtTX6dvcRC41YCheJu6InjpExGX1xhqAPDY+mTBH
+	EXiEcr+ux9QKM7R5tiFlG3j5oA==
 X-Google-Smtp-Source: 
- ABdhPJxGeutxO5hVlwqn0SY4jeEOOy3hfBph8NRyQnJomsxG6IDIwSc9PLEDIqMSztdfARcipkSofg==
-X-Received: by 2002:a05:6512:de:: with SMTP id
- c30mr22911034lfp.153.1634459207786;
-        Sun, 17 Oct 2021 01:26:47 -0700 (PDT)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
+ ABdhPJyl5tITUQqOpbD+KSnG8396Fqb5GFp2oUVgMye8QienKNcrayClIFaPvOol8iBa0+LaGLKEMA==
+X-Received: by 2002:a05:600c:22ca:: with SMTP id
+ 10mr23925274wmg.90.1634468565407;
+        Sun, 17 Oct 2021 04:02:45 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5d75:85d1:ab5f:ea09?
+ ([2001:8b0:aba:5f3c:5d75:85d1:ab5f:ea09])
         by smtp.gmail.com with ESMTPSA id
- w24sm1094359lfc.99.2021.10.17.01.26.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Oct 2021 01:26:47 -0700 (PDT)
-Message-ID: <086e00e6-0cd0-0304-8021-f25dcfeb7287@gmail.com>
-Date: Sun, 17 Oct 2021 10:26:46 +0200
+ k8sm11022636wmr.32.2021.10.17.04.02.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 04:02:45 -0700 (PDT)
+Message-ID: 
+ <4f503894e0bd4013200bbd7027a929e57e412046.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v5 1/2] lib/oe/qa,insane: Move extra error
+ handling functions to library
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mac@mcrowe.com, openembedded-core@lists.openembedded.org
+Date: Sun, 17 Oct 2021 12:02:41 +0100
+In-Reply-To: 
+ <60b9c916b1bbd7488abd9366749efea9766aa3fe.1634308643.git.mac@mcrowe.com>
+References: 
+	<60b9c916b1bbd7488abd9366749efea9766aa3fe.1634308643.git.mac@mcrowe.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [OE-core] linux-yocto: Set CONFIG_ATA_PIIX=y by default
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
-References: <16AE71B3ADB3BD09.11150@lists.openembedded.org>
-Cc: Saul.Wold@windriver.com
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: <16AE71B3ADB3BD09.11150@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 08:26:52 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Oct 2021 11:02:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157031
+ https://lists.openembedded.org/g/openembedded-core/message/157032
 
-Hi Bruce and Saul,
-
-On 10/16/21 09:18, Jacob Kroon via lists.openembedded.org wrote:
-> Hi Bruce,
+On Fri, 2021-10-15 at 15:39 +0100, Mike Crowe via lists.openembedded.org wrote:
+> Extract package_qa_write_error, package_qa_handle_error and
+> package_qa_add_message functions from insane.bbclass to lib/oe/qa.py and
+> drop the package_qa_ prefixes.
 > 
-> My Yocto images (which uses the linux-yocto kernel) stopped booting in 
-> QEMU some time ago, and after some debugging it turns out this was 
-> because the upstream Linux kernel removed the legacy IDE driver. Instead 
-> one should use the libata driver. However, I don't think the linux-yocto 
-> kernel has builtin support for the HW that is emulated by QEMU by 
-> default (PIIX), instead it is built as a module, CONFIG_ATA_PIIX=m. If I 
-> set CONFIG_ATA_PIIX=y, my images boot again.
+> Update various bbclasses to use the new functions. No import is required
+> since base.bbclass puts oe.qa in OE_IMPORTS.
 > 
-> I did a "make ARCH=i386 defconfig" in Torvalds master linux tree, and 
-> the .config has CONFIG_ATA_PIIX=y.
+> Stop requiring callers to manually track whether a fatal error has been
+> encountered via a "sane" flag. Instead replace the QA_SANE variable with
+> QA_ERRORS_FOUND and call oe.qa.exit_if_errors or
+> oe.qa.exit_with_message_if_errors at the end of each task.
 > 
-> Do you think it would make sense to have the support builtin in 
-> linux-yocto aswell ?
+> Inspired by discussion resulting from
+> https://lists.openembedded.org/g/openembedded-core/message/156793 and
+> https://lists.openembedded.org/g/openembedded-core/message/156900
 > 
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> ---
+>  meta/classes/buildhistory.bbclass |   3 +-
+>  meta/classes/insane.bbclass       | 180 ++++++++++++------------------
+>  meta/classes/multilib.bbclass     |   3 +-
+>  meta/classes/package.bbclass      |  26 ++---
+>  meta/classes/ptest.bbclass        |   2 +-
+>  meta/lib/oe/qa.py                 |  34 ++++++
+>  6 files changed, 120 insertions(+), 128 deletions(-)
 
-I'm using KMACHINE = "common-pc". CC:ing Saul Wold, since I see that 
-commit 0d4f5ed5dca41a48423ce738131e52f7863d8ca6 in yocto-kernel-cache did:
+There was an indentation issue with multilib.bbclass but I fixed that and now
+have merged this, thanks.
 
-> diff --git a/bsp/common-pc/common-pc-drivers.cfg b/bsp/common-pc/common-pc-drivers.cfg
-> index 71608433..0b821903 100644
-> --- a/bsp/common-pc/common-pc-drivers.cfg
-> +++ b/bsp/common-pc/common-pc-drivers.cfg
-> @@ -5,7 +5,8 @@ CONFIG_PCI_MSI=y
->  CONFIG_ATA=y
->  CONFIG_ATA_ACPI=y
->  CONFIG_ATA_SFF=y
-> -CONFIG_ATA_PIIX=y
-> +CONFIG_ATA_BMDMA=y
-> +CONFIG_ATA_PIIX=m
->  
->  CONFIG_INPUT=y
->  CONFIG_INPUT_MOUSEDEV=y
+I think you are right about there being legacy reasons for collecting up the
+messages and the "sane" variable tracking so if you are feeling keen (or anyone
+else is) further cleanup of this code is very welcome.
 
-which changed ATA_PIIX from a builtin to a module. Maybe this wasn't 
-intentional ?
+Cheers,
 
-Regards Jacob
+Richard
+
 
