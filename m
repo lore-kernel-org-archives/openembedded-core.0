@@ -1,96 +1,115 @@
-Return-Path: <daiane.angolini@foundries.io>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C98C433EF
-	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 18:45:08 +0000 (UTC)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
- [209.85.221.171])
- by mx.groups.io with SMTP id smtpd.web10.40664.1634582707434887280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F576C433F5
+	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 18:47:25 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.40703.1634582844208689466
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 11:45:07 -0700
+ Mon, 18 Oct 2021 11:47:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries.io header.s=google header.b=ZQOe6eWo;
- spf=pass (domain: foundries.io, ip: 209.85.221.171,
- mailfrom: daiane.angolini@foundries.io)
-Received: by mail-vk1-f171.google.com with SMTP id l39so9082000vkd.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QuBc4hu8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id r7so43179922wrc.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 11:45:07 -0700 (PDT)
+ Mon, 18 Oct 2021 11:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google;
+        d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oLHoo0MHX02rr9OyMMRDiNl630HrC64o1l+7qU84A2Y=;
-        b=ZQOe6eWoNfhOVruCD5bfz1SSve7iORQVuKVh47fgspmGT1YlYuO8nhcyfiQd28ypjh
-         zywIc0kKeyZ8r7Fx1U7/XBA5VYFXj9oUQwg7F39A6Lr3LjRfQXEiTnNUY8T2ZHGgLpwi
-         CCmT7vDM7Dr+TfUG0ipp6W/OV7sOGUBAowsGsd9C/O9LrTRN1NNVjjaBe3tSWRMFFAEc
-         Wz9/xY9w96x1ysgitMiGRJ674rN/+OaE5xD3jgp9csT+I2qa+jJp08dmx3iBI1y3HFG6
-         DFA3rr5vGtQ0a1VxUPP3jg1/07o2pezKtbbdZmcCceK/z644Z4o996j1gYlSgzCSQaNg
-         CSOA==
+        bh=CFIi94CACAv3W/Jp1hSeacMnUmGi+MsikUAKt8Jb1z4=;
+        b=QuBc4hu8dHaReCM4HzvI4z1H4lIH7Oxdm9AJXSrA4I8C2+oD9w01umYDGv+vBxNxRh
+         0iwF/cg+nXMUDSRcbssKkwrXZ+YJbGYZjKpO9B772kDren5dKOtvLpjkVXrlfzzpbEcI
+         Pz/trHfsfOAVM/0djpNv8R/w4iURw1moB5Q9/E/MTvkGQvg1nQnqJTBv9gU4oKKdvCy6
+         PAqUq8OlaAwEkkvhr7lcxgaH4KXTM+BAaPy3josPbs8lKY6uxQH5UlFroSfpmCAkdYUH
+         SkAUABweDQMqgpID2TUNk2bjaaSvBy5QQXU8e9VOC1jh3p4G9hv2CMI3yaxegDeo9p2+
+         9eUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oLHoo0MHX02rr9OyMMRDiNl630HrC64o1l+7qU84A2Y=;
-        b=q3kkFUyRciIqJ0NMHGL6n9/V+E8MYPHqpYgcWJiyuzqJ9wXb3MRmP8uH+zpSoArqiu
-         a91SXE3IJZL2xtNePUwDzmWUI4eVcFF0+EL3Xe+LTLvoqhkG5Jnwt9jkQiM4qYIZPkVU
-         xH4IT6q9c9Md2Uh93sv9iGi8vxH2wsYX6q2yEnzVcdOtu5oRdzcwQO3fbJOqYDwFXlwZ
-         s/fsrBbNBUgfcpp1nKAIjc7AEksMvbNfv7JVVocDT9AsSyXvJI0JGkEXRIq1MEp9u3qt
-         Xq+5c9Utli2PJypEuY2D5VU2rBCQTSwvIz2icUQ277WkW2synYzMGTavSsI7fOPJwY1h
-         0AKw==
-X-Gm-Message-State: AOAM533dkdPWcY3dJP6uNgznDbo46EuAhr8Bfwy1aWcDEqRTd+JocAIg
-	ihLVIFjAA3PExwMPAAaZWNdpPTCWkqLYRg==
+        bh=CFIi94CACAv3W/Jp1hSeacMnUmGi+MsikUAKt8Jb1z4=;
+        b=TAANJR67zusxaEqviqKt/zAxEOD3RhaI9Hu8SKnULC/qpot0JERuTBP5nKLWQMzBZQ
+         MsPnfnVxVm4v0wP58uY/5qpXBF1Z9s5eC9awf/6mwIFDWq5riUzd3kaVkXPtXX6y88hQ
+         Ga4V7Ika8KLFJR/Am0MEEMjps1eKee25sVaAsBh3oimCCt+C9UZR2s46UovSrO787/dg
+         PThcgF88Bmw/wWsBIGWcsbkQeEQPjaiWpIb32mZnJK8e4c1cfNqjxJ0L/crW6bI82vu0
+         9rNT6uBSVMZoRiYJaO4mTQw3ZxHVhk5ZYdDWBmmpetTZov5OTIJbwhOFV/L6ruuNe0S+
+         PQqw==
+X-Gm-Message-State: AOAM530yQ3fkUtbHupEibmqWsU8jQgrx2YsT4ImqYzMqGjyJc0uERTSZ
+	breXMF0iepExd2cRA4xzDMJQX7w30Vs=
 X-Google-Smtp-Source: 
- ABdhPJxU9fE1trbco42uNI/X6oxq8ueRRdFR0TDSyOrgmP/retd8/K8gr1+O4V+ovnE9EgOamNSkGw==
-X-Received: by 2002:a1f:6047:: with SMTP id u68mr26366152vkb.15.1634582706220;
-        Mon, 18 Oct 2021 11:45:06 -0700 (PDT)
-Received: from localhost.localdomain
- ([2804:14c:3bac:19c0:f2ea:220b:6c75:81cd])
-        by smtp.gmail.com with ESMTPSA id 33sm2354049vkn.2.2021.10.18.11.45.04
+ ABdhPJxzal+0afLMDKj7hANySkfdXVVkqQX/zmCEJrRY7pSQ6VntwCyyUKPvFElp8kne7ZlFb010Mg==
+X-Received: by 2002:adf:b353:: with SMTP id
+ k19mr38249699wrd.325.1634582840932;
+        Mon, 18 Oct 2021 11:47:20 -0700 (PDT)
+Received: from CTW-01195.. ([88.157.222.244])
+        by smtp.gmail.com with ESMTPSA id
+ 133sm235989wmb.24.2021.10.18.11.47.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 11:45:05 -0700 (PDT)
-From: Daiane Angolini <daiane.angolini@foundries.io>
+        Mon, 18 Oct 2021 11:47:20 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Daiane Angolini <daiane.angolini@foundries.io>
-Subject: [OE-core] classes/lib/useradd: The option -P is deprecated
-Date: Mon, 18 Oct 2021 15:44:55 -0300
-Message-Id: <20211018184455.437741-1-daiane.angolini@foundries.io>
-X-Mailer: git-send-email 2.30.2
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] sstate: fix touching files inside pseudo
+Date: Mon, 18 Oct 2021 19:47:11 +0100
+Message-Id: <20211018184711.94970-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 18:45:08 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 18:47:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157090
+ https://lists.openembedded.org/g/openembedded-core/message/157091
 
-Since [1] the option -P is not available, so remove it from parsing lib.
+running the 'id' command inside the sstate_create_package
+function shows that this funcion run inside the pseudo:
 
-This is a partial fix for [YOCTO #14605].
+ uid=0(root) gid=0(root) groups=0(root)
 
-During the do_rootfs, the error message when using -P is:
+The check for touch files [ ! -w ${SSTATE_PKG} ]
+will always return true and the touch can fail
+when the real user don't have permission or
+in readonly filesystem.
 
-  useradd: unrecognized option '--clear-password'
+As the documentation refers, the file test operator "-w"
+check if the file has write permission (for the user running the test).
 
-Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
+We can avoid this test running the touch and mask any return errors
+that we have.
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/lib/oe/useradd.py | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/sstate.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/useradd.py b/meta/lib/oe/useradd.py
-index 8fc77568ff..63768311ee 100644
---- a/meta/lib/oe/useradd.py
-+++ b/meta/lib/oe/useradd.py
-@@ -45,7 +45,6 @@ def build_useradd_parser():
-     parser.add_argument("-N", "--no-user-group", dest="user_group", help="do not create a group with the same name as the user", action="store_const", const=False)
-     parser.add_argument("-o", "--non-unique", help="allow to create users with duplicate (non-unique UID)", action="store_true")
-     parser.add_argument("-p", "--password", metavar="PASSWORD", help="encrypted password of the new account")
--    parser.add_argument("-P", "--clear-password", metavar="CLEAR_PASSWORD", help="use this clear password for the new account")
-     parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
-     parser.add_argument("-r", "--system", help="create a system account", action="store_true")
-     parser.add_argument("-s", "--shell", metavar="SHELL", help="login shell of the new account")
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 7f034d746a..d4555150c4 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -830,7 +830,7 @@ sstate_task_postfunc[dirs] = "${WORKDIR}"
+ sstate_create_package () {
+ 	# Exit early if it already exists
+ 	if [ -e ${SSTATE_PKG} ]; then
+-		[ ! -w ${SSTATE_PKG} ] || touch ${SSTATE_PKG}
++		touch ${SSTATE_PKG} || true
+ 		return
+ 	fi
+ 
+@@ -865,7 +865,7 @@ sstate_create_package () {
+ 	else
+ 		rm $TFILE
+ 	fi
+-	[ ! -w ${SSTATE_PKG} ] || touch ${SSTATE_PKG}
++	touch ${SSTATE_PKG} || true
+ }
+ 
+ python sstate_sign_package () {
 -- 
-2.30.2
+2.33.1
 
 
