@@ -1,51 +1,49 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB2B0C433F5
-	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 14:38:28 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web08.37790.1634567907942313445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D6BC433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 14:45:57 +0000 (UTC)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
+ [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.web12.37679.1634568356198101978
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 07:38:28 -0700
+ Mon, 18 Oct 2021 07:45:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S+JA4+vz;
- spf=pass (domain: gmail.com, ip: 209.85.216.50,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- ls14-20020a17090b350e00b001a00e2251c8so121982pjb.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QIT8VF7B;
+ spf=pass (domain: gmail.com, ip: 209.85.222.46,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f46.google.com with SMTP id r17so1776308uaf.8
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 07:38:27 -0700 (PDT)
+ Mon, 18 Oct 2021 07:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=u2/UHCShvN6YHPm1ZDF1iTeyGeVd77cIPumj3vveb6U=;
-        b=S+JA4+vzWlu5u/5Gq1saV0U8LP/HjUFzKaq6La+JdKWPylly4weooZnCDdb0XU4cN6
-         JfYlxoWnc02YX7Hic+fDfUtL3Js+tn6YtkdoXVqT+ZTL2tI/Vhv+bFfOY67A73yDyuv9
-         TjpQAfZpq748Mf1EmfJLsO3BSfJ4qIxhDuJRh0FlWljMZYIiF4dFvKC5c3PS3VtWK0LM
-         GmA6Cif5Iz+iISb3owygMQxUZZcvyqQe1VRuaXph7Z6rtxSkBc+1o0IhlL4jsFXTXyLf
-         SkAFdgPNcWBw4mtWXvOrdMOlN7HNDxQObUd34PC/4hisFF6OFrvZav2VfQZXfYzjl3yb
-         nyBQ==
+        bh=iFk30OtXWPi7I18OOfXg9n44mJobVPJLUI39LKFZNSA=;
+        b=QIT8VF7BiWVmyxxfk6kUWZtbUtafUmy6kcpqG9mDWsm0Rv/ao7pTA8BqbdSGiB9nnf
+         gK0l6TK2owajRQ+HdmiMBroQs7TJCicvtvhaO31KNQn3LfC25DGPtauwGKFf7Ft1e7tr
+         VIB63YSlWCCDvZCdfSM+Ug82Z57mzzwfGRocVtcY34ShBzJnrkqBp/3lP8cfKDSl8vj1
+         r8Q3oAOE/X0OU043c+ZFCvtiQBGLROwLhQvbehtigTdEaCq6qmj6Fwx2KSewyGaMaznF
+         2HiNgokeaNvgLICgOQzYun8Z4Bm6eCk8FfYnGpy/b/yljkakAfMn6OISPky6CWGC+7gr
+         i6HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=u2/UHCShvN6YHPm1ZDF1iTeyGeVd77cIPumj3vveb6U=;
-        b=TTAOzTeLHqocwvwG3ixlFrqTOvUZN6ojL3cJzulRSp3ZAfTFPiMd9406Zl0jTXly6h
-         6OqdtooC0ob4/Mf4c2tW/ypSDWH0re3oiV8Vyqy7wzQpfGarqHc56aZjP0czK7TZ+IWV
-         Hd04caQnjtqeMwRVtvx9Bi0iFqQWw9D6NUAojz9pNg61rIdIuxDRhOb56UOsdGFm3/sA
-         nwjIbeDAJO9Y4wKt+OqCYttzdo5Bx9hoHsoU4qOJFJ/o8R8LrCzI5v+XJcdzA8TQ0WjL
-         APXgO9phMpzf91VCCSA1dcStqec4ylPAAV0WxggLRPFJEJc8HvXoxtPYOsq4Np4fmrBn
-         zs9A==
-X-Gm-Message-State: AOAM532DHKz+p2BetsTsUr9AHcJURfpttX9wfNgIjzdXnTwhIqHdB5ft
-	WURvppUbVwRlNnM5MZ4NiHh083QqUdRIKwh4o8M=
+        bh=iFk30OtXWPi7I18OOfXg9n44mJobVPJLUI39LKFZNSA=;
+        b=cldwCy/tNvaE8qaGnhbuoW/1tezC4KPGUCAvH5AvU6LdCqj64e87QKyVDSnyEDA650
+         FCt/NbsgAywIerPZU2SSH9ZNbOOZHMKQMGmzMF/w82Wxnx+q/a/FACCc1R/mqZUYaB3a
+         ib8e+uWwUyfoxjzfVaMuaPcsKcb0Hz8ExWeUzS/6r8UXB332jEJ/MKLmhN9xEihB7iQt
+         gmGJNoSi8FD7VdpIqn4pJbyLBpOrgvJW6m+GJZzYiRkt4mwo4Yl/P2PAsVQylmo2VS6S
+         ++mrQGKL0jWR7jqvhCLX+Ri0QZ1RLrA5S3SQTKYr/mTOoeP5gWCblMsTJjaVA2F2TRCs
+         PHLw==
+X-Gm-Message-State: AOAM533HjrUbymvaEcimDzqIlDokUff1IS7vzj4wQ51EivBEpXR2WZiq
+	OuCl5rY3Lb43t491P/eTVgj+PFGNTs3LX1tT8no=
 X-Google-Smtp-Source: 
- ABdhPJze5xjGSHDMpRkVmnqhtGp+ZK+esewHxvgoLpzDjkgQH1PG3sUb2Mb83IXtUStJeE1AJAgudKdUjy+6RN+lxB8=
-X-Received: by 2002:a17:90a:df0e:: with SMTP id
- gp14mr33636737pjb.35.1634567907570;
- Mon, 18 Oct 2021 07:38:27 -0700 (PDT)
+ ABdhPJzYUiH/42lvrmb+aSAUJ6PADjsaLvA/UicE4DGVvMNAuQI6Y8BD79S5BUnlJGrnZXCiLCX/cbnI3FluLS1dSQQ=
+X-Received: by 2002:ab0:3c93:: with SMTP id a19mr27273438uax.93.1634568355257;
+ Mon, 18 Oct 2021 07:45:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211018135322.246963-1-Martin.Jansa@gmail.com>
  <CANNYZj-A0eNR=GWz+-xdZQSxmWYNuU=0PGNQA-1d0w2tSp+NiA@mail.gmail.com>
@@ -53,74 +51,72 @@ References: <20211018135322.246963-1-Martin.Jansa@gmail.com>
  <CANNYZj_7uKo5qJSqVq0gfc2yjeiEW=oLh3Xvkk+JXb0bkGAQiA@mail.gmail.com>
  <CA+chaQe8qS+GrVA5+hYUH_aSrQKFLssOrg1BzLM-fC4gjXUs+g@mail.gmail.com>
  <CANNYZj_-scmARFF6BmDU-fpG3-me+AfyDyCtrt-0V9f4_-e5vQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_-scmARFF6BmDU-fpG3-me+AfyDyCtrt-0V9f4_-e5vQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 18 Oct 2021 16:38:16 +0200
-Message-ID: 
  <CA+chaQc3Y-yrP45-uYBLNMPigXzGtmZPWThMzRHvsTx2SoU7Fg@mail.gmail.com>
+In-Reply-To: 
+ <CA+chaQc3Y-yrP45-uYBLNMPigXzGtmZPWThMzRHvsTx2SoU7Fg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 18 Oct 2021 16:45:43 +0200
+Message-ID: 
+ <CANNYZj8JsSFxV8AyRvYWN7zfLGroW3XSnu3FgxXOHmrmbthqng@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] webkitgtk: add PACKAGECONFIG for opengl-or-es
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007df87805cea17f10"
+Content-Type: multipart/alternative; boundary="0000000000002d231e05cea19af7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 14:38:28 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 14:45:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157074
+ https://lists.openembedded.org/g/openembedded-core/message/157075
 
---0000000000007df87805cea17f10
+--0000000000002d231e05cea19af7
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 18, 2021 at 4:32 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+On Mon, 18 Oct 2021 at 16:38, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> On Mon, 18 Oct 2021 at 16:20, Martin Jansa <martin.jansa@gmail.com> wrote:
 >
->> OK, I'll simply PNBLACKLIST all the recipes your AUH upgrades break or
->> stop doing the CI builds completely.
+>> I do test all my upgrades on the AB. For major ones like python or
+>> openssl, I run meta-oe builds too.
 >>
->> Having latest versions is nice, but this approach to regressions
->> introduced by version upgrades is quite a pain already.
+>> If the AB gives a green pass (which it did), then the upgrade works as
+>> intended. If you think AB is not doing enough testing, find the gaps in the
+>> AB matrix and address them.
 >>
 >
-> I do test all my upgrades on the AB. For major ones like python or
-> openssl, I run meta-oe builds too.
->
-> If the AB gives a green pass (which it did), then the upgrade works as
-> intended. If you think AB is not doing enough testing, find the gaps in the
-> AB matrix and address them.
+>  nodistro build with default oe-core setup obviously isn't covered by AB.
 >
 
- nodistro build with default oe-core setup obviously isn't covered by AB.
+nodistro core-image-sato build is there, but not world. Sato doesn't
+include webkit:
 
---0000000000007df87805cea17f10
+http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json#n234
+
+Alex
+
+--0000000000002d231e05cea19af7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Oct 18, 2021 at 4:32 PM Alexander=
- Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.c=
-om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"></div><div d=
-ir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Mon, 18 Oct 2021 at 16:20, Martin Jansa &lt;<a href=3D"mailto:martin.ja=
-nsa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">OK,=
- I&#39;ll simply PNBLACKLIST all the recipes your AUH upgrades break or sto=
-p doing the CI builds completely.<div><br></div><div>Having latest versions=
- is nice, but this approach to regressions introduced by version upgrades i=
-s quite a pain already.</div></div></blockquote></div><div class=3D"gmail_q=
-uote"><br></div><div class=3D"gmail_quote">I do test all my upgrades on the=
- AB. For major ones like python or openssl, I run meta-oe builds too.<br></=
-div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">If the =
-AB gives a green pass (which it did), then the upgrade works as intended. I=
-f you think AB is not doing enough testing, find the gaps in the AB matrix =
-and address them.</div></div></div></blockquote><div><br></div><div>=C2=A0n=
-odistro build with default oe-core setup obviously isn&#39;t covered by AB.=
-</div></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 18 Oct 2021 at 16:38, Martin Jansa &lt;<a href=3D"mailto:mar=
+tin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div dir=3D"ltr"><br><div class=3D"gmail_quote">I do test all my upgrad=
+es on the AB. For major ones like python or openssl, I run meta-oe builds t=
+oo.<br></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote=
+">If the AB gives a green pass (which it did), then the upgrade works as in=
+tended. If you think AB is not doing enough testing, find the gaps in the A=
+B matrix and address them.</div></div></div></blockquote><div><br></div><di=
+v>=C2=A0nodistro build with default oe-core setup obviously isn&#39;t cover=
+ed by AB.</div></div></div></blockquote><div><br></div><div>nodistro core-i=
+mage-sato build is there, but not world. Sato doesn&#39;t include webkit:<b=
+r></div><div><br></div><div><a href=3D"http://git.yoctoproject.org/cgit/cgi=
+t.cgi/yocto-autobuilder-helper/tree/config.json#n234">http://git.yoctoproje=
+ct.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json#n234</a></di=
+v><div><br></div><div></div><div>Alex<br></div><div> <br></div></div></div>
 
---0000000000007df87805cea17f10--
+--0000000000002d231e05cea19af7--
 
