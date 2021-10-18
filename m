@@ -1,295 +1,96 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <daiane.angolini@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2735CC433F5
-	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 17:37:30 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.39770.1634578649545991362
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C98C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 18:45:08 +0000 (UTC)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
+ [209.85.221.171])
+ by mx.groups.io with SMTP id smtpd.web10.40664.1634582707434887280
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 10:37:29 -0700
+ Mon, 18 Oct 2021 11:45:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Asalx6j2;
- spf=pass (domain: gmail.com, ip: 209.85.216.52,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id
- pi19-20020a17090b1e5300b0019fdd3557d3so526111pjb.5
+ dkim=pass header.i=@foundries.io header.s=google header.b=ZQOe6eWo;
+ spf=pass (domain: foundries.io, ip: 209.85.221.171,
+ mailfrom: daiane.angolini@foundries.io)
+Received: by mail-vk1-f171.google.com with SMTP id l39so9082000vkd.7
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 10:37:29 -0700 (PDT)
+ Mon, 18 Oct 2021 11:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=VexuwZwAUyKiBV7owwezweSE5VebKI6+GxWiLzhZXK8=;
-        b=Asalx6j22zLg+fSL9poObm5UyPI6wLyHcT/fRTLlpk/JQTi0SdIeKOgKMjBo8ZBJ5p
-         q2/g4umOKqXWQqL9QKpcXdXd97yH6SqoEitX0aMZWN6RYjYMLVN3BTAnw6ClvlP1BOCk
-         +/+9IV6iwQAs5tacmOKLqAxpKxzyVPxRcHQ5fc8mjCD/2ma/JDDPrqmOrj1KJYW8nEMy
-         Dqpqty4TEGJGwqMCrg+1+fXG9AMz8NJdop4JXzOReWLuarkBkBQMk5zNFWoq96Xo+lw2
-         PFUhYhEwFQdWlsFtNKmJ0Fo8VGjA93d0kO5inCXjPJRtLm1YWZ9suWeNsXb20p8z1o88
-         tSTg==
+        d=foundries.io; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oLHoo0MHX02rr9OyMMRDiNl630HrC64o1l+7qU84A2Y=;
+        b=ZQOe6eWoNfhOVruCD5bfz1SSve7iORQVuKVh47fgspmGT1YlYuO8nhcyfiQd28ypjh
+         zywIc0kKeyZ8r7Fx1U7/XBA5VYFXj9oUQwg7F39A6Lr3LjRfQXEiTnNUY8T2ZHGgLpwi
+         CCmT7vDM7Dr+TfUG0ipp6W/OV7sOGUBAowsGsd9C/O9LrTRN1NNVjjaBe3tSWRMFFAEc
+         Wz9/xY9w96x1ysgitMiGRJ674rN/+OaE5xD3jgp9csT+I2qa+jJp08dmx3iBI1y3HFG6
+         DFA3rr5vGtQ0a1VxUPP3jg1/07o2pezKtbbdZmcCceK/z644Z4o996j1gYlSgzCSQaNg
+         CSOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=VexuwZwAUyKiBV7owwezweSE5VebKI6+GxWiLzhZXK8=;
-        b=y4zI5GeIt9X2wBY9FBdptkmwB35jGBJEXF7ruisUwaDZkSjX0tq9H3vANy2JCy3GoM
-         zaG6Qa+hjh1aerOX7jpaqDvTXMtld0aiGSHAMaVlsdKXtf+nWPeEw1+xPBWo8ukVtGpO
-         Q5sADvbju6NKAV2XrwLvlNvBGyK0nMmcfZD+I9wxgovgt7lvm5wzaGW4wxLBGGCneru4
-         65AzfgA6uaek30fznf80sPkQT9VyY+q3v9hi5BEOnZcVHeJJ3gFdrHNgCULaq2N3zsv/
-         NA9ozjVSGX37S2o5cEHWCGfCC0VLEwcQEVpYFVYPzTsUQLDhBTPhLIh5iLetL4YuOi9+
-         g7nw==
-X-Gm-Message-State: AOAM533d7+R9yTFKIPvLHDlF/EhTni8zhb2gW2HOL+qZ+ByC5t6SQ2nC
-	Jmkb5uVshR8FK9caEKosH0s=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oLHoo0MHX02rr9OyMMRDiNl630HrC64o1l+7qU84A2Y=;
+        b=q3kkFUyRciIqJ0NMHGL6n9/V+E8MYPHqpYgcWJiyuzqJ9wXb3MRmP8uH+zpSoArqiu
+         a91SXE3IJZL2xtNePUwDzmWUI4eVcFF0+EL3Xe+LTLvoqhkG5Jnwt9jkQiM4qYIZPkVU
+         xH4IT6q9c9Md2Uh93sv9iGi8vxH2wsYX6q2yEnzVcdOtu5oRdzcwQO3fbJOqYDwFXlwZ
+         s/fsrBbNBUgfcpp1nKAIjc7AEksMvbNfv7JVVocDT9AsSyXvJI0JGkEXRIq1MEp9u3qt
+         Xq+5c9Utli2PJypEuY2D5VU2rBCQTSwvIz2icUQ277WkW2synYzMGTavSsI7fOPJwY1h
+         0AKw==
+X-Gm-Message-State: AOAM533dkdPWcY3dJP6uNgznDbo46EuAhr8Bfwy1aWcDEqRTd+JocAIg
+	ihLVIFjAA3PExwMPAAaZWNdpPTCWkqLYRg==
 X-Google-Smtp-Source: 
- ABdhPJzIRgiy/rld/inLWMsNXQELIzjFUe3wg34nWaRAVrua4mu8VTy57m37QWAfa0FPRCjQ99mv0A==
-X-Received: by 2002:a17:90b:4f8a:: with SMTP id
- qe10mr275447pjb.27.1634578648888;
-        Mon, 18 Oct 2021 10:37:28 -0700 (PDT)
-Received: from skjolley ([65.155.189.2])
-        by smtp.gmail.com with ESMTPSA id
- p16sm14612229pfh.97.2021.10.18.10.37.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Oct 2021 10:37:28 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 18 Oct 2021 10:37:27 -0700
-Message-ID: <0dc201d7c446$d25639a0$7702ace0$@gmail.com>
+ ABdhPJxU9fE1trbco42uNI/X6oxq8ueRRdFR0TDSyOrgmP/retd8/K8gr1+O4V+ovnE9EgOamNSkGw==
+X-Received: by 2002:a1f:6047:: with SMTP id u68mr26366152vkb.15.1634582706220;
+        Mon, 18 Oct 2021 11:45:06 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2804:14c:3bac:19c0:f2ea:220b:6c75:81cd])
+        by smtp.gmail.com with ESMTPSA id 33sm2354049vkn.2.2021.10.18.11.45.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 11:45:05 -0700 (PDT)
+From: Daiane Angolini <daiane.angolini@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Daiane Angolini <daiane.angolini@foundries.io>
+Subject: [OE-core] classes/lib/useradd: The option -P is deprecated
+Date: Mon, 18 Oct 2021 15:44:55 -0300
+Message-Id: <20211018184455.437741-1-daiane.angolini@foundries.io>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0DC3_01D7C40C.25F824F0"
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQFxADEtZtis4oLmGlnAAX8Rpf9O3g==
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 17:37:30 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 18:45:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157089
+ https://lists.openembedded.org/g/openembedded-core/message/157090
 
-This is a multipart message in MIME format.
+Since [1] the option -P is not available, so remove it from parsing lib.
 
-------=_NextPart_000_0DC3_01D7C40C.25F824F0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+This is a partial fix for [YOCTO #14605].
 
-All,
+During the do_rootfs, the error message when using -P is:
 
- 
+  useradd: unrecognized option '--clear-password'
 
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
+Signed-off-by: Daiane Angolini <daiane.angolini@foundries.io>
+---
+ meta/lib/oe/useradd.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 397
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
-being in "3.4" and then "3.5".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0DC3_01D7C40C.25F824F0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0DAE_01D7BEB9.41196710";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 397 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0DC3_01D7C40C.25F824F0--
+diff --git a/meta/lib/oe/useradd.py b/meta/lib/oe/useradd.py
+index 8fc77568ff..63768311ee 100644
+--- a/meta/lib/oe/useradd.py
++++ b/meta/lib/oe/useradd.py
+@@ -45,7 +45,6 @@ def build_useradd_parser():
+     parser.add_argument("-N", "--no-user-group", dest="user_group", help="do not create a group with the same name as the user", action="store_const", const=False)
+     parser.add_argument("-o", "--non-unique", help="allow to create users with duplicate (non-unique UID)", action="store_true")
+     parser.add_argument("-p", "--password", metavar="PASSWORD", help="encrypted password of the new account")
+-    parser.add_argument("-P", "--clear-password", metavar="CLEAR_PASSWORD", help="use this clear password for the new account")
+     parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
+     parser.add_argument("-r", "--system", help="create a system account", action="store_true")
+     parser.add_argument("-s", "--shell", metavar="SHELL", help="login shell of the new account")
+-- 
+2.30.2
 
 
