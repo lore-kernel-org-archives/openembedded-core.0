@@ -1,137 +1,80 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <58aea8eb86686e714b631ab6609ccc015953b934.camel@igalia.com>
-Subject: Re: [OE-core][hardknott][PATCH v3] mesa: gallium/dri Make YUV formats we're going to emulate external-only
-From: "Pablo Saavedra Rodi?o" <psaavedra@igalia.com>
-Date: Mon, 18 Oct 2021 18:19:39 +0200
-In-Reply-To: <20211018161234.237101-1-psaavedra@igalia.com>
-References: 
-	<CANNYZj8+PEXuuGCUdqs2+T+-F-q1_VWczhZqdtebZeHF-9ieLw@mail.gmail.com>
-	 <20211018161234.237101-1-psaavedra@igalia.com>
+Message-ID: <74058fe34e8fcdff0337ec54674fbac5b02c559a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 14/14] layer.conf: Extend recipes not to install without explict dependencies
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Mon, 18 Oct 2021 22:08:02 +0100
+In-Reply-To: <AM9PR09MB46425E114838BDB1CB772C89A8BC9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
+	 <16A68880435BB472.28512@lists.openembedded.org>
+	 <e22062ab2915a57b1bff1217c911a97c3c647e30.camel@linuxfoundation.org>
+	 <0700251c-57a1-cc4c-dd94-a253032a02d1@gmail.com>
+	 <CAMKF1spNqjAHRh=0F2ohMCCoSdwDOTWAFRMz2RCVU9+rBiiO_g@mail.gmail.com>
+	 <CA+chaQfO61hdhNtHO-hTu_4QZbnwmHUTMAJ6XaHrDCdhww2EVg@mail.gmail.com>
+	 <CALbNGRR+VLOvuTFaZFFcp1eSR_gKw6z1EMeH1c28QjqV_YUP3w@mail.gmail.com>
+	 <CA+chaQctdc_sUpmvs-vN0RatkOx=JoMnVZCqY+WjxGfXOYX0fQ@mail.gmail.com>
+	 <CALbNGRTxs26=VO7DmHe41QOgy=acByprKzUSzenZpYSfdJ_z_A@mail.gmail.com>
+	 <AM9PR09MB46425E114838BDB1CB772C89A8BC9@AM9PR09MB4642.eurprd09.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Konrad Weihmann <kweihmann@outlook.com>, Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 
-This patch was not explicitly sent to master. Instead of this I also
-created this upgrade [1] patch for mesa from 21.2.1 -> 21.2.4. 
+On Mon, 2021-10-18 at 21:07 +0200, Konrad Weihmann wrote:
+> Just as an idea: can those knowingly breaking changes be announced 
+> upfront somehow? maybe in the architecture list?!? (and then applied on 
+> a flag day)
 
-[1] https://lists.openembedded.org/g/openembedded-core/message/157082
+This one was announced on the mailing list in patch form, in the weekly tech
+calls and I think in the weekly status emails too. It was announced enough that
+I had feedback saying "not in the release". I listened to the feedback and
+deferred it until we started merging new development for the next release. So it
+was actually pending for a while.
 
-On Mon, 2021-10-18 at 18:12 +0200, Pablo Saavedra wrote:
-> This patch fix red label issues on video for Raspberry 4-64 Mesa VC4
-> driver and for iMX53 Adreno A200 GPU using the Mesa Freedreno driver.
+> I know we all got a bit of a high workload, so it might be better to 
+> have breaking changes not hit "uncontrolled" into master.
 > 
-> Issue was originally reported in meta-webkit [1] and later contributed
-> in Mesa [2] where it was already merged in master.
-> 
-> [1] https://github.com/Igalia/meta-webkit/issues/185
-> [2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/13038
-> 
-> Signed-off-by: Pablo Saavedra <psaavedra@igalia.com>
-> ---
->  ...-YUV-formats-we-re-going-to-emulate-.patch | 52 +++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa.inc           |  1 +
->  2 files changed, 53 insertions(+)
->  create mode 100644 meta/recipes-graphics/mesa/files/0001-gallium-dri-
-> Make-YUV-formats-we-re-going-to-emulate-.patch
-> 
-> diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-dri-Make-
-> YUV-formats-we-re-going-to-emulate-.patch b/meta/recipes-
-> graphics/mesa/files/0001-gallium-dri-Make-YUV-formats-we-re-going-to-
-> emulate-.patch
-> new file mode 100644
-> index 0000000000..7436480238
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/files/0001-gallium-dri-Make-YUV-
-> formats-we-re-going-to-emulate-.patch
-> @@ -0,0 +1,52 @@
-> +commit 8bd63cd28939d79d6681943b840627eaa3614ee4
-> +Author: Pablo Saavedra <psaavedra@igalia.com>
-> +Date:   Mon Oct 18 15:48:42 2021 +0200
-> +
-> +    gallium/dri: Make YUV formats we're going to emulate external-
-> only.
-> +    
-> +    If we're going to have to bind them as separate planes with
-> colorspace
-> +    conversion for sampling on the frontend, then we need to report
-> that
-> +    they're only for external-image samplers, otherwise the lowering
-> won't be
-> +    applied.
-> +    
-> +    Fixes: 4e3a7dcf ("gallium: enable
-> EGL_EXT_image_dma_buf_import_modifiers unconditionally")
-> +    Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-> +    Part-of:
-> <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/13038>
-> +
-> +Upstream-Status: Accepted
-> [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/13038]
-> +
-> +diff --git a/src/gallium/frontends/dri/dri2.c
-> b/src/gallium/frontends/dri/dri2.c
-> +index b0c0d7e..ef8df5a 100644
-> +--- a/src/gallium/frontends/dri/dri2.c
-> ++++ b/src/gallium/frontends/dri/dri2.c
-> +@@ -1445,16 +1445,24 @@ dri2_query_dma_buf_modifiers(__DRIscreen
-> *_screen, int fourcc, int max,
-> + 
-> +    format = map->pipe_format;
-> + 
-> ++   bool native_sampling = pscreen->is_format_supported(pscreen,
-> format, screen->target, 0, 0,
-> ++                                                      
-> PIPE_BIND_SAMPLER_VIEW);
-> +    if (pscreen->is_format_supported(pscreen, format, screen->target,
-> 0, 0,
-> +-                                     PIPE_BIND_RENDER_TARGET) ||
-> +-        pscreen->is_format_supported(pscreen, format, screen->target,
-> 0, 0,
-> +-                                     PIPE_BIND_SAMPLER_VIEW) ||
-> +-        dri2_yuv_dma_buf_supported(screen, map)) {
-> +-      if (pscreen->query_dmabuf_modifiers != NULL)
-> ++                                    PIPE_BIND_RENDER_TARGET) ||
-> ++       native_sampling ||
-> ++       dri2_yuv_dma_buf_supported(screen, map))  {
-> ++      if (pscreen->query_dmabuf_modifiers != NULL) {
-> +          pscreen->query_dmabuf_modifiers(pscreen, format, max,
-> modifiers,
-> +                                          external_only, count);
-> +-      else
-> ++         if (!native_sampling && external_only) {
-> ++            /* To support it using YUV lowering, we need it to be
-> samplerExternalOES.
-> ++             */
-> ++            for (int i = 0; i < *count; i++)
-> ++               external_only[i] = true;
-> ++         }
-> ++      } else {
-> +          *count = 0;
-> ++      }
-> +       return true;
-> +    }
-> +    return false;
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
-> graphics/mesa/mesa.inc
-> index a85f94c75e..7cba03cfcf 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -19,6 +19,7 @@ SRC_URI =
-> "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             file://0002-meson.build-make-TLS-ELF-optional.patch \
->            
-> file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
->            
-> file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-> +          
-> file://0001-gallium-dri-Make-YUV-formats-we-re-going-to-emulate-.patch 
-> \
->             "
->  
->  SRC_URI[sha256sum] =
-> "565c6f4bd2d5747b919454fc1d439963024fc78ca56fd05158c3b2cde2f6912b"
+> I agree that master is a development branch, but the number of breaking 
+> changes that hit me by surprise this year is astonishingly high.
 
+I think the problem is that for a period, active development of these kinds of
+changes stagnated. That is good and bad, it gave stability but it also meant we
+didn't tackle and fix some of the hard issues we need to fix for the project to
+move forward. 
+
+For the record the bigger changes were discussed on the architecture list so
+those shouldn't have surprised anyone yet they still did :(.
+
+> That doesn't mean, that I don't appreciate the actual change made, but 
+> that way it has been applied (and the breaking changes before) makes me 
+> rethink the way I do integrate my non-core layer in the future, while I 
+> personally would like to remain on this bleeding-edge model that worked 
+> well for a long time.
+
+I think the question is more how long these things are breaking for. If things
+were broken and then spent weeks languishing in that state, there would be cause
+for concern. I'm not aware of that happening and most things do seem to be
+getting resolved quickly. Those that aren't are a warning sign as it means
+they're not being actively maintained and you need to ask other questions in
+that case.
+
+There is a balance here between being able to move the project forward and
+drowning under the shear weight of "before changing X you need to write a
+proposal, wait X weeks, get TSC approval, ensure it was in X weekly status
+reports, talked about in X weekly meetings" and so on. I actually keep asking
+myself, "why do I bother trying to change anything as I generally just get
+complaints about the work it causes people?". I get really depressed at the
+complaints I see and if I feel like this, it must be a real barrier to others
+too and it will stop things changing. I don't go out with the intent of making
+things difficult, I actually want to see the project move forward technically
+not stagnate which I think it is at serious risk of. Do we really want to put
+high barriers in place to development?
+
+I will raise this with the TSC as a concern so they can review things.
+
+Cheers,
+
+Richard
 
