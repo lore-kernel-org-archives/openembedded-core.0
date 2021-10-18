@@ -1,129 +1,144 @@
-Return-Path: <schnitzeltony@gmail.com>
+Return-Path: <kiran.surendran@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AA8C433F5
-	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 16:59:18 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.39297.1634576357645733181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E62C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 17:20:24 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.40244.1634577622866123723
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 09:59:17 -0700
+ Mon, 18 Oct 2021 10:20:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jDpPZpxM;
- spf=pass (domain: gmail.com, ip: 209.85.216.52,
- mailfrom: schnitzeltony@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id
- q2-20020a17090a2e0200b001a0fd4efd49so310082pjd.1
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 09:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=khSt7vy/BzXtYnXXL4W7vHH44FqgsaRxnCea0KMkHGM=;
-        b=jDpPZpxMQQVS0Xz4UfdUstUgPfvRToGOZFzEHNY0p2CwoWhnJoyx3H2ssgnpdhl412
-         SsJHfSxKwCUj2yZ/B9hJZ+3Xbij12b2BoeCgK/aQKQZMaL5AIqD1asMPya9iI3VHWDQg
-         I7McF26g0OWdPoTg1ewxh1S7Qr77p+ywMe+RG2Zntuxzgt2AQ+wcPmML7t/nGeinydkd
-         FCXi1helpKhudctvQBIS/07S6nc8dJBnaVp6WVU/slSU2q4mARGxp9JA9Qq7eMKsJmqX
-         8RX4cEVZ957cJsiRJVRKsrcfUSQ5vh/2x802lBCWShG8H+ZJIvswwA6sp9BmHHCOvzxQ
-         HXNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=khSt7vy/BzXtYnXXL4W7vHH44FqgsaRxnCea0KMkHGM=;
-        b=H+Y7TPGvmhhrfowxVMAHrVh5+hoK0gHEaDVdY7DjrDbtQ1qdRl0FLMvOZu55u1eBKx
-         Vj7teWqgF3JfkjpNs8/9EPfpJXCrtFeDOA9GzgooD30seNGt6Arkq8uL8LmtlAKH1VU6
-         Dgvr/b1gJ9MhAl2vg7JexL5i57r8WjgKIWmXnnNo1x7wjBVYSV8Yc66LaPuc4GLZumi0
-         qSRgs0W++2VFKTmKsmkk3yp7CxNhOJhep3Kvv84c+XgT+hsGAwQcC/0RaG8gMPXDvZff
-         5DslXXBA5pQ/C+0+D+6YUOIrQ3xFgngoFvM51ucsEBMupIv9K+d5/ftL0p2j3Gwsf6cX
-         /TeA==
-X-Gm-Message-State: AOAM533dNHoy2rAHFTv1MpBiqKZbkorcsYbH8m0Vxq0VYvfx/g5aozPo
-	n7oZnMl2YuubI8aYsDGWMcVw9JO5eYv1ROAjXHc=
-X-Google-Smtp-Source: 
- ABdhPJyg3J7J8sNqHy8h8Gf4/YxNQEjxMCPFatpCh4uzzGahtfPdgLByvrMhUb+WexYSFhJQadifCD3Cy26ACeLxJvE=
-X-Received: by 2002:a17:90b:4c0d:: with SMTP id
- na13mr49669pjb.232.1634576357088;
- Mon, 18 Oct 2021 09:59:17 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ksurendr@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 19IHKK6O030772
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 18 Oct 2021 10:20:21 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 18 Oct 2021 10:20:20 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 18 Oct 2021 10:20:20 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 22123)
+	id 1DCF8900436; Mon, 18 Oct 2021 10:20:20 -0700 (PDT)
+From: Kiran Surendran <kiran.surendran@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] ffmpeg: fix CVE-2021-38114
+Date: Mon, 18 Oct 2021 10:20:18 -0700
+Message-ID: <20211018172018.192136-1-kiran.surendran@windriver.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
- <16A68880435BB472.28512@lists.openembedded.org>
- <e22062ab2915a57b1bff1217c911a97c3c647e30.camel@linuxfoundation.org>
- <0700251c-57a1-cc4c-dd94-a253032a02d1@gmail.com>
- <CAMKF1spNqjAHRh=0F2ohMCCoSdwDOTWAFRMz2RCVU9+rBiiO_g@mail.gmail.com>
- <CA+chaQfO61hdhNtHO-hTu_4QZbnwmHUTMAJ6XaHrDCdhww2EVg@mail.gmail.com>
- <CALbNGRR+VLOvuTFaZFFcp1eSR_gKw6z1EMeH1c28QjqV_YUP3w@mail.gmail.com>
- <CA+chaQctdc_sUpmvs-vN0RatkOx=JoMnVZCqY+WjxGfXOYX0fQ@mail.gmail.com>
-In-Reply-To: 
- <CA+chaQctdc_sUpmvs-vN0RatkOx=JoMnVZCqY+WjxGfXOYX0fQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 18 Oct 2021 18:59:04 +0200
-Message-ID: 
- <CALbNGRTxs26=VO7DmHe41QOgy=acByprKzUSzenZpYSfdJ_z_A@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 14/14] layer.conf: Extend recipes not to
- install without explict dependencies
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Joshua Watt <JPEWhacker@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 16:59:18 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 17:20:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157087
+ https://lists.openembedded.org/g/openembedded-core/message/157088
 
-On Mon, Oct 18, 2021 at 4:12 PM Martin Jansa <martin.jansa@gmail.com> wrote=
-:
->
-> On Mon, Oct 18, 2021 at 1:50 AM Andreas M=C3=BCller <schnitzeltony@gmail.=
-com> wrote:
->>
->> On Fri, Oct 1, 2021 at 4:17 PM Martin Jansa <Martin.Jansa@gmail.com> wro=
-te:
->> >
->> > FWIW: I've fixed some bigger layers where pkgconfig was causing quite =
-a few build failures,
->> >
->> Had an off-oe time due to  heavy work load.
->> Think this one is the reason for the pkgconfig patch flood. You are
->> aware that there are packages not failing at build time for missing
->> pkgconfig but build output is different and bugs will pop up at
->> runtime.
->>
->> To avoid responsible maintainers have to go through EVERY recipe (and
->> combination of PACKAGECONFIGs) and check if builds are still as
->> expected - Can't believe it!
->
->
-> Not sure why this seems targeted to me.
-It was not targeted to you - just responded all in the last post - sorry
+backport from upstream
 
-Andreas
->
-> Yes I've tried to fix whatever issues this change caused in my world buil=
-ds and I'm partially responsible for pkgconfig patch flood, because I wante=
-d layers like meta-ros/*, meta-qt5, meta-qt6, meta-webosose/* to stay compa=
-tible with oe-core whenever this change from RP is merged to master.
->
-> I've also tried to compare buildhistory and image content (for ros-image-=
-world with ros1-melodic) to see if I can spot more cases of non-fatal build=
- output changes as in collada-dom and unfortunately there is a lot of noise=
- in buildhistory (due to many recipes included in this image not really bui=
-ld-reproducible), so I've used mostly installed-package-sizes.txt file to s=
-pot 2 more recipes where the size was different (but both don't seem to be =
-caused by pkgconfig-native in the end).
->
-> I did both builds from scratch without sstate, so I would assume that it =
-will catch all possible cases, but surprisingly just yesterday I've caught =
-another missing pkgconfig-native in one of meta-ros1-melodic recipes (caugh=
-t in kirkstone based build - while before I was testing on top of a bit old=
-er honister with this change cherry-picked just for test - to prepare recip=
-es to be future-proof for kirkstone).
->
-> Regards,
+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
+---
+ .../ffmpeg/ffmpeg/fix-CVE-2021-38114.patch    | 67 +++++++++++++++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb  |  3 +-
+ 2 files changed, 69 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
+
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
+new file mode 100644
+index 0000000000..ab3ecfecbb
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
+@@ -0,0 +1,67 @@
++CVE: CVE-2021-38114
++Upstream-Status: Backport
++Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
++
++From 463dbe4e78cc560ca5b09f23a07add0eb78ccee8 Mon Sep 17 00:00:00 2001
++From: maryam ebr <me22bee@outlook.com>
++Date: Tue, 3 Aug 2021 01:05:47 -0400
++Subject: [PATCH] avcodec/dnxhddec: check and propagate function return value
++
++Similar to CVE-2013-0868, here return value check for 'init_vlc' is needed.
++crafted DNxHD data can cause unspecified impact.
++
++Reviewed-by: Paul B Mahol <onemda@gmail.com>
++Signed-off-by: James Almer <jamrial@gmail.com>
++---
++ libavcodec/dnxhddec.c | 22 +++++++++++++++-------
++ 1 file changed, 15 insertions(+), 7 deletions(-)
++
++diff --git a/libavcodec/dnxhddec.c b/libavcodec/dnxhddec.c
++index c78d55aee5..9b475a6979 100644
++--- a/libavcodec/dnxhddec.c
+++++ b/libavcodec/dnxhddec.c
++@@ -112,6 +112,7 @@ static av_cold int dnxhd_decode_init(AVCodecContext *avctx)
++ 
++ static int dnxhd_init_vlc(DNXHDContext *ctx, uint32_t cid, int bitdepth)
++ {
+++    int ret;
++     if (cid != ctx->cid) {
++         const CIDEntry *cid_table = ff_dnxhd_get_cid_table(cid);
++ 
++@@ -132,19 +133,26 @@ static int dnxhd_init_vlc(DNXHDContext *ctx, uint32_t cid, int bitdepth)
++         ff_free_vlc(&ctx->dc_vlc);
++         ff_free_vlc(&ctx->run_vlc);
++ 
++-        init_vlc(&ctx->ac_vlc, DNXHD_VLC_BITS, 257,
+++        if ((ret = init_vlc(&ctx->ac_vlc, DNXHD_VLC_BITS, 257,
++                  ctx->cid_table->ac_bits, 1, 1,
++-                 ctx->cid_table->ac_codes, 2, 2, 0);
++-        init_vlc(&ctx->dc_vlc, DNXHD_DC_VLC_BITS, bitdepth > 8 ? 14 : 12,
+++                 ctx->cid_table->ac_codes, 2, 2, 0)) < 0)
+++            goto out;
+++        if ((ret = init_vlc(&ctx->dc_vlc, DNXHD_DC_VLC_BITS, bitdepth > 8 ? 14 : 12,
++                  ctx->cid_table->dc_bits, 1, 1,
++-                 ctx->cid_table->dc_codes, 1, 1, 0);
++-        init_vlc(&ctx->run_vlc, DNXHD_VLC_BITS, 62,
+++                 ctx->cid_table->dc_codes, 1, 1, 0)) < 0)
+++            goto out;
+++        if ((ret = init_vlc(&ctx->run_vlc, DNXHD_VLC_BITS, 62,
++                  ctx->cid_table->run_bits, 1, 1,
++-                 ctx->cid_table->run_codes, 2, 2, 0);
+++                 ctx->cid_table->run_codes, 2, 2, 0)) < 0)
+++            goto out;
++ 
++         ctx->cid = cid;
++     }
++-    return 0;
+++    ret = 0;
+++out:
+++    if (ret < 0)
+++        av_log(ctx->avctx, AV_LOG_ERROR, "init_vlc failed\n");
+++    return ret;
++ }
++ 
++ static int dnxhd_get_profile(int cid)
++-- 
++2.31.1
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+index 0c6af6549d..c0318ef01d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+@@ -31,7 +31,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://fix-CVE-2020-22021.patch \
+            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
+            file://fix-CVE-2021-33815.patch \
+-           file://fix-CVE-2021-38171.patch \ 
++           file://fix-CVE-2021-38171.patch \
++	   file://fix-CVE-2021-38114.patch \ 
+           "
+ SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
+ 
+-- 
+2.31.1
+
 
