@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B173C433EF
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:54:41 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.15517.1634673280649175156
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B1EC433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:54:43 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.15518.1634673282855719744
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:54:40 -0700
+ Tue, 19 Oct 2021 12:54:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=68VwuKos;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ header.b=K6Htnnf5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id t11so14453319plq.11
+Received: by mail-pg1-f172.google.com with SMTP id e65so17961215pgc.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:54:40 -0700 (PDT)
+ Tue, 19 Oct 2021 12:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=w84YQhNyFQGMd88A/nPoHO+aYmar7VTrDx9kjFh+Q/A=;
-        b=68VwuKosS95jxTmaa6rrusezqJvKAlK3CYigya7wE4fKBTOOI8W/so34ZQWHb2BKw1
-         wEefdMFmg4udqugeE0wWpNo+xhok0YKZHn18Hq2J5IYY2cpQi/JT1b/fYY5vFbFAcWpQ
-         l2TwFVFtJBFd5y34fSEVZ5k7baaAQorsK4ikua8g1Aj2mBzDUO7U62T4FkeHLAsRlFkU
-         l3PPgANeseHW19V3rh4vgmstcIlTqlcdMP4lUunonJS2nYXkEqkhI7z0UAY64qmh0GUF
-         4GU6ql9ciItYR3SE1FT8rbH+2Qp362ehMW8prArHvQNv/S5FJ773Ei2mDMwxmu5nZmUo
-         lMgw==
+        bh=Dre+yIbnqhQl6YVjlK9zeYJvS3JmPkJjqD39TiCr7nc=;
+        b=K6Htnnf5CmUKCBGTEH4rwM0tZnK7qadxoyGPVICtCDDmE/HaWqvasAeLKLqKRfxBq3
+         46HfzfC1VLchA86GroIiIt4Km/V73J2jHm5y9qMLTVkC2wFCE3xnyb2SBGO7quO2qiNb
+         gJRKf0Wa1QLYyqk+kNnlJCP2Uhq07+NEmcSn7DBgN1myTW75MjCJXtD6jG8yETXKoPAS
+         SQC+8wwF1jTxUCzQT2kxflOc/s58enow8ZxHHDezKeCbpUANd5kupJkFjdiOwYYEKL1P
+         d85u77/7tjUAxHX+gu0B5F3TKNciJjei1Hojy3l4WOE6u9+NDr5I3zZxhmepWAivMB6y
+         1rCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=w84YQhNyFQGMd88A/nPoHO+aYmar7VTrDx9kjFh+Q/A=;
-        b=QZlhxSMzwAO2IF9iP+iXF9vAywUea9b0qpIqLyl0Cfrsc9c2sOh8kn0fe3+7VlfiYZ
-         zPQbh4hPhdiYz6p+ybPCjCk6HfzI7Xdg9ugY7dRdMZXOau7jRFOH2CUrnrFP0CusRyYD
-         wlOtdQHGON6t7oSjjusurlId/xq6+hHXm4pC6DanWWtynQsLT4zsvcwG3Izs51cfmZqc
-         vwlZArP9VhUH12cd+CO660IyA+hTreHDQBpTJ/NdbTdG8F8kHS3lD2iPCI3BwIlXHZcy
-         RVHGPeO3rop/aqqXZSetru0vdx58Stcu0KBJ2QuSCyJ79NWfoLWk694dfvl/o3ZwXAYJ
-         K5WA==
-X-Gm-Message-State: AOAM533y6HdmBOEnRI2MKHAidvReZLxSxQWJlZZQw1ZRhPoONHvp/Xaf
-	a80PzkRNnBS6Z8dKBcaGwMQWg2SvoRXQS1dcVs8=
+        bh=Dre+yIbnqhQl6YVjlK9zeYJvS3JmPkJjqD39TiCr7nc=;
+        b=XYLqnvTFQEuVAJsSaKKpOq5+M1k8SRIrfKG7/dvVTCoWKCLZ+wD89DNb5vhNez47VE
+         /fOnOXkL5mIpb5IM4FflcmOKSEHin3/TbbPuhNqiwOiQRBP2YjquuA7irA0yrMBicdYJ
+         lQieCNm9IDxkHud19b4u5w6WN3XK9/znbIHrwAKZ5YsrUIni3Ya+h2R2+RZ+yCy8DTaE
+         M2izBpJY6ilZbYz5842jdy2B9Yc09biBS0DuVSmaMa8riI9au4MkL+pLs/gh4ubXvIhi
+         hS5fpYIIrjfsob/l1LwFKEHhIoS0KY4IeMXKAOnST2ngtzcbu/XFOU1zxS3kbkucJwIz
+         cN3w==
+X-Gm-Message-State: AOAM533xqJxTVouvB9q6MWX7qPDKhqSsJ5V+s40DGCM8fBR9aZr/FDfg
+	OG+2tFVjKCZyR7rAQZWc1ctuJ4AfIOrDcafUFfA=
 X-Google-Smtp-Source: 
- ABdhPJwP7oTQ3w5UEAs3rTkdg60G/CC2mcPpLhvrRjnmfqCPqQhRsqhta0rMAz/1dONUN8mb4IR07Q==
-X-Received: by 2002:a17:90b:390d:: with SMTP id
- ob13mr2040802pjb.49.1634673279692;
-        Tue, 19 Oct 2021 12:54:39 -0700 (PDT)
+ ABdhPJzXT/ruIyczFhWHLyV5zoSrjtE5Adlt0zo17yJA3XUPZPILerD7QaeWtzyOITppuGR4J79HfA==
+X-Received: by 2002:aa7:9197:0:b0:44d:a2e9:72cf with SMTP id
+ x23-20020aa79197000000b0044da2e972cfmr1797509pfa.38.1634673281807;
+        Tue, 19 Oct 2021 12:54:41 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.54.38
+        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.54.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:54:39 -0700 (PDT)
+        Tue, 19 Oct 2021 12:54:41 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/38] oeqa/selftest/sstatetests: fix typo ware ->
- were
-Date: Tue, 19 Oct 2021 09:53:25 -1000
+Subject: [OE-core][dunfell 15/38] patch.bbclass: when the patch fails show
+ more info on the fatal error
+Date: Tue, 19 Oct 2021 09:53:26 -1000
 Message-Id: 
- <043214d288998f5d822da23fb56703bf00ddace3.1634665675.git.steve@sakoman.com>
+ <af46b360b364f6b50cd389d838dc5dd3099ecc41.1634665675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
 References: <cover.1634665675.git.steve@sakoman.com>
@@ -67,61 +67,92 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:54:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:54:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157219
+ https://lists.openembedded.org/g/openembedded-core/message/157220
 
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
+There are situations when the user have the 'patchdir' defined
+as a parameter on SRC_URI. However he doesn't know that with this
+the patch is applied relatively to the receipe source dir 'S'.
+
+- When user have 'patchdir' defined check if this directory exist.
+- If the patch fails show addition info to the user:
+  - Import: show the striplevel
+  - Resolver: show the expanded 'patchdir' to the user.
+
+The next example is from opencv in meta-oe layer, here the
+patch is applied on the target directory ${WORKDIR}/git/contrib.
+
+S = "${WORKDIR}/git"
+SRCREV_FORMAT = "opencv_contrib"
+SRC_URI = "git://github.com/opencv/opencv.git;name=opencv \
+           git://github.com/opencv/opencv_contrib.git;destsuffix=contrib;name=contrib \
+           file://0001-sfm-link-with-Glog_LIBS.patch;patchdir=../contrib \
+           "
+
+* When the patch fail there are no message that indicates the real reason.
+  patchdir=../no-found-on-file-system
+
+ERROR: opencv-4.5.2-r0 do_patch: Command Error: 'quilt --quiltrc /build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+stdout: Applying patch 0001-sfm-link-with-Glog_LIBS.patch
+can't find file to patch at input line 37
+Perhaps you used the wrong -p or --strip option?
+
+* The check of the patchdir will add a new fatal error
+  when the user specifies a wrong path than don't exist.
+  patchdir=../no-found-on-file-system
+
+ERROR: opencv-4.5.2-r0 do_patch: Target directory '/build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/git/../no-found-on-file-system' not found, patchdir '../no-found-on-file-system' is incorrect in patch file '0001-sfm-link-with-Glog_LIBS.patch'
+
+* When we can't aplly the patch but the patchdir exist,
+  show the expanded patchdir on fatal error.
+  patchdir=../git
+
+ERROR: opencv-4.5.2-r0 do_patch: Applying patch '0001-sfm-link-with-Glog_LIBS.patch' on target directory '/build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/git/../git'
+Command Error: 'quilt --quiltrc /build/tmp/work/core2-64-poky-linux/opencv/4.5.2-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+stdout: Applying patch 0001-sfm-link-with-Glog_LIBS.patch
+can't find file to patch at input line 37
+Perhaps you used the wrong -p or --strip option?
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit c94a9ece226b1d2012f5ee966b81bf607d954937)
+(cherry picked from commit c44bc7c0fb8b7c2e44dd93607a3bfd9733e1df80)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/patch.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index c46e8ba489..f0c94c8422 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -137,7 +137,7 @@ class SStateTests(SStateBase):
-             filtered_results.append(r)
-         self.assertTrue(filtered_results == [], msg="Found distro non-specific sstate for: %s (%s)" % (', '.join(map(str, targets)), str(filtered_results)))
-         file_tracker_1 = self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
--        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
-+        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files were created for: %s" % ', '.join(map(str, targets)))
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index 25ec089ae1..484d27ac76 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -131,6 +131,9 @@ python patch_do_patch() {
+             patchdir = parm["patchdir"]
+             if not os.path.isabs(patchdir):
+                 patchdir = os.path.join(s, patchdir)
++            if not os.path.isdir(patchdir):
++                bb.fatal("Target directory '%s' not found, patchdir '%s' is incorrect in patch file '%s'" %
++                    (patchdir, parm["patchdir"], parm['patchname']))
+         else:
+             patchdir = s
  
-         self.track_for_cleanup(self.distro_specific_sstate + "_old")
-         shutil.copytree(self.distro_specific_sstate, self.distro_specific_sstate + "_old")
-@@ -146,13 +146,13 @@ class SStateTests(SStateBase):
-         bitbake(['-cclean'] + targets)
-         bitbake(targets)
-         file_tracker_2 = self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
--        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
-+        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files were created for: %s" % ', '.join(map(str, targets)))
+@@ -147,12 +150,12 @@ python patch_do_patch() {
+             patchset.Import({"file":local, "strippath": parm['striplevel']}, True)
+         except Exception as exc:
+             bb.utils.remove(process_tmpdir, True)
+-            bb.fatal(str(exc))
++            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], str(exc)))
+         try:
+             resolver.Resolve()
+         except bb.BBHandledException as e:
+             bb.utils.remove(process_tmpdir, True)
+-            bb.fatal(str(e))
++            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, str(e)))
  
-         not_recreated = [x for x in file_tracker_1 if x not in file_tracker_2]
--        self.assertTrue(not_recreated == [], msg="The following sstate files ware not recreated: %s" % ', '.join(map(str, not_recreated)))
-+        self.assertTrue(not_recreated == [], msg="The following sstate files were not recreated: %s" % ', '.join(map(str, not_recreated)))
- 
-         created_once = [x for x in file_tracker_2 if x not in file_tracker_1]
--        self.assertTrue(created_once == [], msg="The following sstate files ware created only in the second run: %s" % ', '.join(map(str, created_once)))
-+        self.assertTrue(created_once == [], msg="The following sstate files were created only in the second run: %s" % ', '.join(map(str, created_once)))
- 
-     def test_rebuild_distro_specific_sstate_cross_native_targets(self):
-         self.run_test_rebuild_distro_specific_sstate(['binutils-cross-' + self.tune_arch, 'binutils-native'], temp_sstate_location=True)
-@@ -202,9 +202,9 @@ class SStateTests(SStateBase):
-         actual_remaining_sstate = [x for x in self.search_sstate(target + r'.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
- 
-         actual_not_expected = [x for x in actual_remaining_sstate if x not in expected_remaining_sstate]
--        self.assertFalse(actual_not_expected, msg="Files should have been removed but ware not: %s" % ', '.join(map(str, actual_not_expected)))
-+        self.assertFalse(actual_not_expected, msg="Files should have been removed but were not: %s" % ', '.join(map(str, actual_not_expected)))
-         expected_not_actual = [x for x in expected_remaining_sstate if x not in actual_remaining_sstate]
--        self.assertFalse(expected_not_actual, msg="Extra files ware removed: %s" ', '.join(map(str, expected_not_actual)))
-+        self.assertFalse(expected_not_actual, msg="Extra files were removed: %s" ', '.join(map(str, expected_not_actual)))
- 
-     def test_sstate_cache_management_script_using_pr_1(self):
-         global_config = []
+     bb.utils.remove(process_tmpdir, True)
+     del os.environ['TMPDIR']
 -- 
 2.25.1
 
