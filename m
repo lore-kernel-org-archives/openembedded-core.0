@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53390C433EF
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:35:04 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web12.11520.1634657703502706160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53741C433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:35:05 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.11407.1634657704227267434
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:35:03 -0700
+ Tue, 19 Oct 2021 08:35:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lShu18cw;
- spf=pass (domain: gmail.com, ip: 209.85.128.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BY3+am42;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id
- b189-20020a1c1bc6000000b0030da052dd4fso3644938wmb.3
+Received: by mail-wm1-f47.google.com with SMTP id
+ a140-20020a1c7f92000000b0030d8315b593so3325414wmd.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:35:03 -0700 (PDT)
+ Tue, 19 Oct 2021 08:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Mrr5a19H0QOjBmgf3YkVc5ndkZKIS7MCHBYPXpodmqw=;
-        b=lShu18cw+eq7Cv5ChecfRMDl0TZG2+dBuUY25tQtPqUJ8554wmDGqbfkxRvhx+KC+j
-         NfcNBpr1WlQSxAeKvEckT5puz/Cr81k1aXDKwpPMsrwCG9iONqvxGMHdVyCDdQs385Nt
-         fs+yQhqvWYx6bmTD7cCuRLi7dLbtQ3VSICwVoxCxzNeLmZ1fbVsglhzeAKQ1ZEvsej2n
-         9Nr5IBYVnmz6NsuizviCq/wKwTaGN7hpgFUV8EsPiKCqZ+iW6LwkMMNxoprk1yzBGx4v
-         XklwWQv4m3lU51SibLWrMbWA3E1nNfqn/QojbHqXXT064uv5c7omkYJYq0aTcgBnzpT7
-         zAjg==
+        bh=wLfm7D7WQlHl5bZ50gT/pYy7MudGSljDUWAB6Rkw2YM=;
+        b=BY3+am42s/2G2L7Hqr4tx1jLD8/JwkBQwl9yitl6SCVD9Bn8hSw9XkopS7GTU+8Ojy
+         epehaJO+Whf80UW/wDJQAKaHZxZtBWACBSiYrsiTnjypr0mfL1vHL2cjzg2+cIzCnonx
+         DqAu6Q/Anag+jmzhxXxL1vGFPLjK3MrLGebdDrg7KW/mMy0M5xefaPtap8XQcsNEUaQr
+         ocwjStHMyZhEPdwv3SYSUb8GKjHeFxJ+bzO5QzAxw4Xh3mGzXml2BfcUzY474E+1LXzd
+         l9jWQCDbsTiY6p7krHZ/gYr/vWtG4PmBRtWmhTgjRWnCHCUrXNVEXUQY6dlGR2tk8859
+         x5ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Mrr5a19H0QOjBmgf3YkVc5ndkZKIS7MCHBYPXpodmqw=;
-        b=cuGbAcaJGuLgnFsch/bMRYL+CmFuxx5t7HOGLgzaZsfNXm1v4iGi/94EK47FubXytq
-         anvcS6wFyYqmJa3nYFucYwKVmWgJvuJwxgGW51Up1oA0V3sOYo0/RKngd6GUQ9T8Br7/
-         K1Nm7x+Y5p1CMGK+96X2z2NyMD+5gp1MagHgP0v1/XfAHcSoKKF2xTQYc+7Hbn4IyhjX
-         tANZWiyEt+CS1DS030XGYJRwKos8ytpdomgfMrdKoMqAP5VvreCZeV/ONBXkMRTNz4tZ
-         qhGrqQMkGF5wUL6h0k+2S3zXjmOeA2ule/0Tpsm3bDW7dBrMoGdtBIDb5wNB8+FlahoH
-         naKQ==
-X-Gm-Message-State: AOAM530HnW6LH3cwjtjnu5tTpDqwvWgePLwgNVPge+9CApocchgx9F1L
-	zMaDKhZGx3lYWBZDVvyQb96yZpG9xPg=
+        bh=wLfm7D7WQlHl5bZ50gT/pYy7MudGSljDUWAB6Rkw2YM=;
+        b=Dh5H9xeFTx//C6tcjRjKuJ63Jaa4aEZW8Lrw1XdW7aH8BrbTejCz4lIIKJTBR9K5xo
+         g2OjB1HAAjXJ0stEEORPzyxt+sWjZSPDT8nLio54taFh66CqL9YaD9UtXL3PGhbKaRFm
+         iM4PGDLEYvYubAYSy/FNzsS7JF78MqleSwqthN4BtSdnpBj184YNF5eTWVnoM2ckwl+L
+         DpU9HVRQbLWTXTv2P0y3oxAt8tKzOxU+t3gdtkC4mjJS83gA0tfhq5Uiz6er8vFYmUfW
+         YXRlkJK2oZv/jlREGWpD9+E/fr8n50hBzqaEp8lUc8L/sxaVcQD4tRteU6zcXvrquXuZ
+         BzEw==
+X-Gm-Message-State: AOAM533hSF/7ORXXKuzyeyOG7tllDgvkB64wN9qY1SqemQvnyqgwvblp
+	UvMyC724adX2OGS8YofBvQunJ1dzbig=
 X-Google-Smtp-Source: 
- ABdhPJwqeKQJ32mIf2CbfkGhwJ3NY54SBXPQ+QoQ337a6wsShbBUtLIKwU+cCtvrU6uDyXzCjaZiBg==
-X-Received: by 2002:a5d:64cf:: with SMTP id f15mr43432277wri.40.1634657702182;
+ ABdhPJxscnszqtlYNWdULYthdDs/J7cXNBxsM/dMZkhxWCt/Uz2BP7yH3lGRiLJiZqp9gKLd/SWdDA==
+X-Received: by 2002:a5d:4c90:: with SMTP id z16mr20760917wrs.67.1634657702836;
         Tue, 19 Oct 2021 08:35:02 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- t1sm5868537wre.32.2021.10.19.08.35.01
+ t1sm5868537wre.32.2021.10.19.08.35.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 08:35:01 -0700 (PDT)
+        Tue, 19 Oct 2021 08:35:02 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 53/65] mpg123: upgrade 1.28.2 -> 1.29.0
-Date: Tue, 19 Oct 2021 17:34:07 +0200
-Message-Id: <20211019153419.3319802-53-alex@linutronix.de>
+Subject: [PATCH 54/65] puzzles: upgrade to latest revision
+Date: Tue, 19 Oct 2021 17:34:08 +0200
+Message-Id: <20211019153419.3319802-54-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211019153419.3319802-1-alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
@@ -66,33 +66,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:35:04 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:35:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157172
+ https://lists.openembedded.org/g/openembedded-core/message/157173
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../mpg123/{mpg123_1.28.2.bb => mpg123_1.29.0.bb}               | 2 +-
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.28.2.bb => mpg123_1.29.0.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.28.2.bb b/meta/recipes-multimedia/mpg123/mpg123_1.29.0.bb
-similarity index 96%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.28.2.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.29.0.bb
-index 896162a251..0f4a36e0d3 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.28.2.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.29.0.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 298e29f559..1da9bb3676 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main \
+            "
  
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "7eefd4b68fdac7e138d04c37efe12155a8ebf25a5bccf0fb7e775af22d21db00"
-+SRC_URI[sha256sum] = "135e0172dfb6c7937a81f1188c27f9a47b0a337f7637680039ff3ee5fea3ce7d"
- 
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "8f3413c31ffd43c4ebde40894ac1b2f7cdf222c3"
++SRCREV = "42cbd7688a7f05e0a5d56a603a04293307c1e1b2"
+ PE = "2"
+ PV = "0.0+git${SRCPV}"
  
 -- 
 2.20.1
