@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A6FEC433FE
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:35:09 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web09.11494.1634657708439961245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC2FC43217
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:35:10 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.11410.1634657709003599072
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:35:08 -0700
+ Tue, 19 Oct 2021 08:35:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IM7Qa+gn;
- spf=pass (domain: gmail.com, ip: 209.85.128.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cYlKK7um;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id
- y74-20020a1c7d4d000000b00322f53b9bbfso3346156wmc.3
+Received: by mail-wm1-f44.google.com with SMTP id o24so5064512wms.0
         for <openembedded-core@lists.openembedded.org>;
  Tue, 19 Oct 2021 08:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p3jgbo6JCugiyN05cE0iyvibrL/Msaa/ubT4xzvprtE=;
-        b=IM7Qa+gnknI8l9tzJkeMKJZ77T3cECKUGkVUIP+nrG00/4Bd+7EM2+M6lKRv8CVTtY
-         XEKy0grkP+9492XZfjAGmHq0MxNKOiWtzNFuCnTgEZJpaqQRysrrRSfyg2/Dr2048l1h
-         Q5t9vlyPGRGbThFwFWZAF1UKQ/6hyUexnT3WluFZfz6Tjfjx1k7ZNwPEHK3y0rBj/mGR
-         vPNRWZcGBn9VhGGe3XJsBCJA5r/2+EfDUkFN3m2pShQDFjv4F2KOGt54GYSPIFzLDRy5
-         hs5dW7aRcKrqDgMxMPS/uCwg22lBSR4Xh6oLoiII7i1KrNsx7ihM0M+T1sEUmRd2CqxH
-         DzeA==
+        bh=uSTGCP297mUyw05kfLapkRAnz8eaAumWgNMNIjzREh4=;
+        b=cYlKK7umGqg4OO3WesXZG8dly9tbkuXSC9HEuP1JHoUZh7iJHGUfFEWBRp582o30Mr
+         DB3G/d8I1EaJLAIa2zTtu6ndxSJGdmMbbncuMgyXW4tm7UGbUvPJGL74mobEV+yisL6P
+         MYRdKMBAmvVbKEOo+t5pugjzLCqWpGhDyXvvV9YTbQvwDn6JQsyWVhp95l5AWrkwCxTK
+         TgMSI3sJf0o8vZRmbLGnuE3UMigjWTPnxQcvfOUD/4RPH2OR3D7iN6GtnrYwamJ/5P3M
+         ci0vGyHdSdAMGP/mVG+/hcahIH22aSfV/VUQvy4Dtm3hY0QnzHcfyOpcF2p+cm+zwdGC
+         0APA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p3jgbo6JCugiyN05cE0iyvibrL/Msaa/ubT4xzvprtE=;
-        b=uxZ9Fe2fep/Lfz8VYAu9If9L0ByI/j8CRD6cAFI8SNvjxgda/LuC0ouHJTK3Ijj8z4
-         DD2qyLbpxlv342PQCq6eE/nSSHrIUVJyI+x4BN8nz3sVgR2XQcQO0F1DZZyzn8moGdTa
-         ttLgs2lWLdBYha+GVVUwLhKfuoa/Zq5aCKm/i9C0X6VgzUVjd1jwy2Pc1iReD0vrFVNg
-         p8Huu07tSNb83h9MokAZI+PiPDw0RyEZinTaX9TfVP6wGTOpFObs4gs7RY39vqOsX7Sx
-         MuKkYZrkT36Fap2jLOWHJF0yCpDwkdeC5viszwNmCoVA4zQA85ZNa0tHZsEfetZsSKYj
-         dplw==
-X-Gm-Message-State: AOAM5321UZsmDu99n8NmyBefPrzdtQxOsvNjEvFReqcjU1H9YYB2nm/k
-	NLtvvQl4Hr5uluEbQ6O4GeKoiE7j7o4=
+        bh=uSTGCP297mUyw05kfLapkRAnz8eaAumWgNMNIjzREh4=;
+        b=jE2LBQhpNB8hS71/aKdbeazZQD8SXds93hIpLsRV7f8DMHHgkAfgdp1iVVZ2w+9fzz
+         T0wAM6NGGxjvkbeL8kUrWERg1ZMvHlgZjme3SbkgUznWwQTo5mqJtVnYeZbwr+I+PXSm
+         aqM2IiqZdMFEnUlPeGNktvQc3cCa4EkeMOSYTQukA+uechLUK7BNu7l2ilit7EfVT8cY
+         ZOvvJPxKeyVd6zdIpPA8sVgdd9cEFFA2iuCUseFTK/kGKlsBYjO03/gVm5vXWV+1slSQ
+         FyEG0weLgRsZYDN4CsCPzbEODhiPbYVrc+06MWbzGlHAAq7WMgU+sQsjQI29juAHYqid
+         U+kw==
+X-Gm-Message-State: AOAM531/swaWW1aLMsBUTR5eFNxB5xHAUv4yMP+uecQBNdgeEe/Qk7bc
+	nvPIKbSt2gtLg/VyvKB9Bg8pfQGwdjY=
 X-Google-Smtp-Source: 
- ABdhPJwGXbhU9rZCpNgwskCfSIzC3JvrzLjgcZStFPAj+RMvOzgB4loGxV4cVY1EngX4s5H8u93jmQ==
-X-Received: by 2002:adf:9147:: with SMTP id
- j65mr45031454wrj.163.1634657707063;
+ ABdhPJyPyZuYYRzOep34Eqra6Rhlsva+3/G4QIRvtdvkgWZe8mIyd1qmjaJTrtz33laaZe5zjT/ISQ==
+X-Received: by 2002:a05:600c:3223:: with SMTP id
+ r35mr6752411wmp.32.1634657707645;
         Tue, 19 Oct 2021 08:35:07 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- t1sm5868537wre.32.2021.10.19.08.35.06
+ t1sm5868537wre.32.2021.10.19.08.35.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 08:35:06 -0700 (PDT)
+        Tue, 19 Oct 2021 08:35:07 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 61/65] libmd: upgrade 1.0.3 -> 1.0.4
-Date: Tue, 19 Oct 2021 17:34:15 +0200
-Message-Id: <20211019153419.3319802-61-alex@linutronix.de>
+Subject: [PATCH 62/65] libsoup-2.4: upgrade 2.72.0 -> 2.74.0
+Date: Tue, 19 Oct 2021 17:34:16 +0200
+Message-Id: <20211019153419.3319802-62-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211019153419.3319802-1-alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
@@ -67,33 +66,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:35:09 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:35:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157180
+ https://lists.openembedded.org/g/openembedded-core/message/157181
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/libmd/{libmd_1.0.3.bb => libmd_1.0.4.bb} | 2 +-
+ .../libsoup/{libsoup-2.4_2.72.0.bb => libsoup-2.4_2.74.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libmd/{libmd_1.0.3.bb => libmd_1.0.4.bb} (86%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.72.0.bb => libsoup-2.4_2.74.0.bb} (94%)
 
-diff --git a/meta/recipes-support/libmd/libmd_1.0.3.bb b/meta/recipes-support/libmd/libmd_1.0.4.bb
-similarity index 86%
-rename from meta/recipes-support/libmd/libmd_1.0.3.bb
-rename to meta/recipes-support/libmd/libmd_1.0.4.bb
-index 2e6762e490..b93dc2d78d 100644
---- a/meta/recipes-support/libmd/libmd_1.0.3.bb
-+++ b/meta/recipes-support/libmd/libmd_1.0.4.bb
-@@ -9,7 +9,7 @@ LICENSE = "BSD-3-Clause & BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0436d4fb62a71f661d6e8b7812f9e1df"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.72.0.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.0.bb
+similarity index 94%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.72.0.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.74.0.bb
+index 351bc9de73..ea34373a67 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.72.0.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.0.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SRC_URI = "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.xz"
--SRC_URI[sha256sum] = "5a02097f95cc250a3f1001865e4dbba5f1d15554120f95693c0541923c52af4a"
-+SRC_URI[sha256sum] = "f51c921042e34beddeded4b75557656559cf5b1f2448033b4c1eec11c07e530f"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "170c3f8446b0f65f8e4b93603349172b1085fb8917c181d10962f02bb85f5387"
++SRC_URI[sha256sum] = "33b1d4e0d639456c675c227877e94a8078d731233e2d57689c11abcef7d3c48e"
  
- inherit autotools
+ CVE_PRODUCT = "libsoup"
  
 -- 
 2.20.1
