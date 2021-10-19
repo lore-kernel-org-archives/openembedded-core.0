@@ -2,50 +2,50 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A5CC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E701C433FE
 	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:35 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.11509.1634657674754053979
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.11472.1634657673932712924
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:35 -0700
+ Tue, 19 Oct 2021 08:34:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JEKw8zii;
- spf=pass (domain: gmail.com, ip: 209.85.128.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mBcurV59;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id
- n7-20020a05600c4f8700b00323023159e1so3362149wmq.2
+Received: by mail-wm1-f52.google.com with SMTP id
+ a140-20020a1c7f92000000b0030d8315b593so3321441wmd.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:34 -0700 (PDT)
+ Tue, 19 Oct 2021 08:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Oq8UljlhpwoqrD0aE56qt+YK4g0gziaLZBH61txoPf8=;
-        b=JEKw8zii0oXD1K2U5I5rOqCXCpbjbE86gKCrgYQ3XltN/oSr6mpDFeFv+UIu0qacWN
-         3TSFCnA6GOowxD9ZwHbtfB9K+VTMD/hFPYEVjfMJ42nelzHkh/KB5mmJ8aN4oCqs8ssM
-         Mn3Vy5ZtFFSQhMn/kKqnNbZBP6P+wn+MgfEbaIfwH99yo0I5ocMOdwkyoVCOMqxK+EMW
-         wvyGH9eBc4ZSmAa9pnV9creHJ/2nlvVGX6S+DFDZgNO8RcAjSt5knbMz1oVovyNcI9UY
-         WpBnxr7GES/VYI4qLvzIX3/pf0TvBUIIg+rw9EeI3kY2ltvwt8gCJIAWtG0xkyBzlzKm
-         6hXw==
+        bh=JYVmkghrRFVN18lkc/ufBfwGexA1dnFRPWcUUTpgp90=;
+        b=mBcurV59N9sCE16SZ2GD1GAvuuNsF6Z4ifaAR11pSUfmLhr2R5fPIgEKa6KxrSAUQI
+         jLit5bZDcHH8S5q6GPiVymHutd3Ko4IQ8iF1PzgsSzQlJTDMRFcZ8aSEK6vjs2wVJ9Oy
+         xUMNDK3rh4xigLFFvli1IVOXtvqWR0W+UkTDQQ7dBiHP/hcvYO68wFQwUtP02IVKyEQ0
+         S6KINEckl3Z2w8k2Lz9WLS6AuVn9r075Dl8rM8ZtGX6+F+kj3eMO7eftXlrd5AV+cUQY
+         /Ev7+tD9LMaENHFxZhyDH+N620ygopVCuccPq4TtdB9Vd9F6ipbmXd5uGoQQx+1WBDb6
+         4/mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Oq8UljlhpwoqrD0aE56qt+YK4g0gziaLZBH61txoPf8=;
-        b=tEtpfrVvklWDbHOPS9LKqyGFugnt6A0djsY3jv2DL3fScn7Ops32OrnIAogfl5BE3L
-         7cg/LA9wXvfMuCUAURzz1/jo5ftgsgjoxaRplKhBmg4YFsXGi3wwXlovscRqd5HQz1yq
-         Fb9H7+Tcpc3zhGGlPvikdyg6beIjV8cT02p66eASnruS3LOUgtUNtLqDtXdXyTRyQy2S
-         tPHKmbXwlfMpHAyXaXy64E02IxHbClXU8S55dnRj5Sqjwdog36gIXyB0xtAgVvmd4y4K
-         ymMNhiEKPIGLzHjtx+2Er2qGzPIrX4mQIaH7Z5fFALMpfDTuMG8m7O5Wuvs0kFpKoW/e
-         AadA==
-X-Gm-Message-State: AOAM531TgPgg4te8aJrSB9sel9Mpf8XHJvcJ0QAadIQQywWoE2dXD5f0
-	S55/y5N7Sg13VdUby2OtyURvJF98AiU=
+        bh=JYVmkghrRFVN18lkc/ufBfwGexA1dnFRPWcUUTpgp90=;
+        b=oDwJ0+h34k+fI6n0G3Kdm16xsrizdjFL68EMZNUwvC8UWiTeO0MegYjdZ9XH+wem0U
+         OGrywIdu4ezj7DRgXZirrZuH9i1buMzMdFfaT3RV2oIEBX03X/OqYnSPrv4xZUcYl2sK
+         ldnRxtbD14eA5g0I5dKvjgMVxYAPPXSUpEW5OLbYBC62SjG+FnjzITjt+WedEI2q+Zd/
+         uSrMwRJH96f8fS8jps6lnELNHOUKLvlx43OuKfsof8naDF3awPm4C/gUvcrUzF1wqm0n
+         xLbH8pNIJWPDN+8+k5uANZqsxHAseIxkbODLv7Yz7f9vNRixlPCuOjF6yc6JCoeB/+sM
+         yRAQ==
+X-Gm-Message-State: AOAM532E/VVvB0eDfjICIQ6fR2Q3yQdvfUNlutCluxt8KZW2Ou/eXoum
+	c4vZNaCb+BgAxliDWlWKEAMVmrG10NE=
 X-Google-Smtp-Source: 
- ABdhPJwgUMSGc/d/OJUmfan5dkuUpryw4AIZvd0ZafFExsFZFhtu5bwzOmTRP9RU1DYSEC0Ec0xwAw==
-X-Received: by 2002:a05:600c:4ec8:: with SMTP id
- g8mr6802037wmq.153.1634657673260;
-        Tue, 19 Oct 2021 08:34:33 -0700 (PDT)
+ ABdhPJx9e9GmhjgdaDbrINWGGTL5WoZAWNVslQlkDoUSfuNe5JORCQ054OWMlMit3Epnpx/MI0wQXw==
+X-Received: by 2002:a05:600c:4305:: with SMTP id
+ p5mr6816203wme.185.1634657672598;
+        Tue, 19 Oct 2021 08:34:32 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
@@ -56,9 +56,9 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 14/65] liberation-fonts: update 2.1.4 -> 2.1.5
-Date: Tue, 19 Oct 2021 17:33:28 +0200
-Message-Id: <20211019153419.3319802-14-alex@linutronix.de>
+Subject: [PATCH 13/65] libva: update 2.12.0 -> 2.13.0
+Date: Tue, 19 Oct 2021 17:33:27 +0200
+Message-Id: <20211019153419.3319802-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211019153419.3319802-1-alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
@@ -69,33 +69,58 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157133
+ https://lists.openembedded.org/g/openembedded-core/message/157132
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{liberation-fonts_2.1.4.bb => liberation-fonts_2.1.5.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/ttf-fonts/{liberation-fonts_2.1.4.bb => liberation-fonts_2.1.5.bb} (89%)
+ .../{libva-initial_2.12.0.bb => libva-initial_2.13.0.bb}      | 0
+ .../libva/{libva-utils_2.12.0.bb => libva-utils_2.13.0.bb}    | 4 ++--
+ meta/recipes-graphics/libva/libva.inc                         | 2 +-
+ .../libva/{libva_2.12.0.bb => libva_2.13.0.bb}                | 0
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/libva/{libva-initial_2.12.0.bb => libva-initial_2.13.0.bb} (100%)
+ rename meta/recipes-graphics/libva/{libva-utils_2.12.0.bb => libva-utils_2.13.0.bb} (90%)
+ rename meta/recipes-graphics/libva/{libva_2.12.0.bb => libva_2.13.0.bb} (100%)
 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb
-similarity index 89%
-rename from meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb
-rename to meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb
-index b8c2946371..32247b09c8 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb
-@@ -10,9 +10,9 @@ LICENSE = "OFL-1.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f96db970a9a46c5369142b99f530366b"
- PE = "1"
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.12.0.bb b/meta/recipes-graphics/libva/libva-initial_2.13.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/libva/libva-initial_2.12.0.bb
+rename to meta/recipes-graphics/libva/libva-initial_2.13.0.bb
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.12.0.bb b/meta/recipes-graphics/libva/libva-utils_2.13.0.bb
+similarity index 90%
+rename from meta/recipes-graphics/libva/libva-utils_2.12.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.13.0.bb
+index 096d80b68d..baa0719f85 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.12.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.13.0.bb
+@@ -14,8 +14,8 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
  
--SRC_URI = "https://github.com/liberationfonts/liberation-fonts/files/6418984/liberation-fonts-ttf-${PV}.tar.gz \
-+SRC_URI = "https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-${PV}.tar.gz \
-            file://30-liberation-aliases.conf"
--SRC_URI[sha256sum] = "26f85412dd0aa9d061504a1cc8aaf0aa12a70710e8d47d8b65a1251757c1a5ef"
-+SRC_URI[sha256sum] = "7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0"
- UPSTREAM_CHECK_URI = "https://github.com/liberationfonts/liberation-fonts/releases"
+-SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.11-branch"
+-SRCREV = "c0145a895ebe9b24cde5c441733f90482f1e3d71"
++SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.13-branch"
++SRCREV = "7bad184b2cf2ffaf4fb3cc71d4df63d7b142d592"
+ S = "${WORKDIR}/git"
  
- S = "${WORKDIR}/liberation-fonts-ttf-${PV}"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))$"
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+index 3d65ac501e..bcf9757c1a 100644
+--- a/meta/recipes-graphics/libva/libva.inc
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -18,7 +18,7 @@ LICENSE = "MIT"
+ 
+ SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[sha256sum] = "d3f4873715077a8c969c9bfe4ba8455a133353176be0ffe0c41ffd4155c9a8c8"
++SRC_URI[sha256sum] = "fad383f39f36115814bd0eda1496a4cc01761643bd962635400df2d4470ad460"
+ 
+ S = "${WORKDIR}/libva-${PV}"
+ 
+diff --git a/meta/recipes-graphics/libva/libva_2.12.0.bb b/meta/recipes-graphics/libva/libva_2.13.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/libva/libva_2.12.0.bb
+rename to meta/recipes-graphics/libva/libva_2.13.0.bb
 -- 
 2.20.1
 
