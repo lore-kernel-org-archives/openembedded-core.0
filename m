@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51212C433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:54:33 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web09.15346.1634673272949556940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F78C433EF
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:54:36 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web09.15348.1634673275121758418
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:54:33 -0700
+ Tue, 19 Oct 2021 12:54:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=nnn7Xfhs;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
+ header.b=1cxdrkLO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id m26so912163pff.3
+Received: by mail-pl1-f181.google.com with SMTP id n11so14471813plf.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:54:32 -0700 (PDT)
+ Tue, 19 Oct 2021 12:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=CjX3sNvpLH9naPFslmw33v36+i7CHSqrYVezWfXv2nk=;
-        b=nnn7Xfhsx3sdzqFxja+5DUyvWFjGMh20bHnBtNFqdHx6zqEfP3P6NDVLR3zW4FVuWE
-         yiemF+ls6OpJy6KuCvQVczu0qLJs6TyrsrHheAFWBx+VduZtltdphv4hjMaWAthxmZoQ
-         6GgXAbM/LJsSTX+89Z1XWJP2ylPDbBmxDt+zU2ZNHED4hcQ5vADg4/BzsveTpREOrZTN
-         ndBKxa8zf/OwieidPIJn3qZCWPMjB3kOHKjD0NAEKmq2dRSf3ioO9i2lzLo/lThhoHUt
-         tEjjAoMiZhqLBUCrVKME4sYyDJ6WFViduqieNVdJLcDh4eLlFPvxxnettgbH3wm6xNsd
-         Emlg==
+        bh=e3zNXdJxcUMbM3mGgNo9+FaMttX4u74UPVGQM3XtACA=;
+        b=1cxdrkLOCpROIVTsTB7HntsM1aUJdP/1ODxpZMq7+eCr7sxhEStHC8rS190AAnvdqP
+         8MzhBrv/Vb5Z5dQi8GaVxCkFTb6YTq97dGKVIuL3W/LZYHppc3UAQsD7zbymdFXc5z+y
+         PYFC/xt3irmcAd61+IHzzAkbqNpmfWUzeJaJH88zZy72sMCh+LNRjZf0JKnPOhb0hiYo
+         nwGar8xDwOqycGH4c88ZPlga3cpk2ZGnlLlbxYY+ZgdzoM6EFOeTb6IIZwUV0ATZf071
+         UMCwCO/kVLmFlRQ4yEGf5Cj4nXwBp3ibHLrWylpLM2D6yC7vgXbmRXLvNcUFFj3yDKAy
+         hQew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CjX3sNvpLH9naPFslmw33v36+i7CHSqrYVezWfXv2nk=;
-        b=dQ+Jphi7Fm97P7xwMihAYLK9p2V7j8H/GYU6RcH0eQKCnC40P4UmBStqi9o2trsWLP
-         tH6WuZSS8IxjdRfSEbYwPCEMnT9fmq5HohqMc0vtBs4WVm7jCXjRrzQZXUcAgRtGWTYB
-         eJ1F4XDat4hELlrRcGTMA4GSKBNtJzoPIU8MjruViymHMDTf82xqBeQs2CUobpemmTRB
-         l6ymy9BGR16pwQtjufFYA5A+JE/TBuop3R7kSHLy9HfBs5b2uTklRHMtW8e9z7AqV81/
-         owRrcbaHSaCMK+Zoy9VwqCcYuZaulg9uGqOXkrqn9mvmz6l7jqftf1qYr03U+fMFBiKn
-         6jPQ==
-X-Gm-Message-State: AOAM5319QRA2IDl92EIqr7W5/sMhwwn082xNO7xbpa1OrxM4BbWIDXw5
-	pt3zjN8kirMxB5PPRrl3dApiY+oGGg1gTW/VMNU=
+        bh=e3zNXdJxcUMbM3mGgNo9+FaMttX4u74UPVGQM3XtACA=;
+        b=QNjIBhat+8qcnBoOioRD9SHcq6353OhA4m9eUlhsbPwZZjCAcpuVO4Wu9BX4DyuwTp
+         HVcjX7nau2r9jfjJ2xAH3J0DMDTJtUygIP1DwczoRcZLm8IHxKZN/ckHmVKIYtbMvorT
+         bJRcsdUkssoynXaK/rU8CXWmduXq0VY83QDTlYIiIHPDLNa3E6z8TZ58ovOmuweNoo95
+         i7DHFuMFNeQjBuwY4gvU/r0mCOl7cjzIraDfTWTODCRtT9yoTvVLKOqmI7+oWkt/5d1S
+         mym1UDrzDCQ1IfQaPHqK1H+AMYPjrY1ARqdi1hLWyG8ASQmbaVETnqB+Vk17hKBbTC7d
+         S5VQ==
+X-Gm-Message-State: AOAM530bMHRHrrin8mZe7aHoZBYEzOBdW0FzcDDFuQJ/uiuVpO0yGzWR
+	vKcvFwIEWwnUsxVZ5+bVCU4KSWWdODTdAE9vga0=
 X-Google-Smtp-Source: 
- ABdhPJw0ElM8tDJoEL51Wr+cZ/lsf46VMxJpZzBNb/CIpjXglY8D6038ScBM47CFedMXPA7m8FQjZg==
-X-Received: by 2002:a63:200a:: with SMTP id
- g10mr29430035pgg.242.1634673271860;
-        Tue, 19 Oct 2021 12:54:31 -0700 (PDT)
+ ABdhPJztkHETvgmKjznmXlpO2Vf41XUwA0CznC+JaR2tSVyxtulpVMtsOUP8DbSgpJzV1DDd+0Q2TA==
+X-Received: by 2002:a17:90b:120c:: with SMTP id
+ gl12mr2136096pjb.50.1634673274266;
+        Tue, 19 Oct 2021 12:54:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.54.30
+        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.54.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:54:31 -0700 (PDT)
+        Tue, 19 Oct 2021 12:54:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/38] scriptutils.py: Add check before deleting
- path
-Date: Tue, 19 Oct 2021 09:53:22 -1000
+Subject: [OE-core][dunfell 12/38] rng-tools: add systemd-udev-settle wants to
+ service
+Date: Tue, 19 Oct 2021 09:53:23 -1000
 Message-Id: 
- <a21d3d8f6da9fbb71f484343244cc3a63a346337.1634665675.git.steve@sakoman.com>
+ <006b5221ed6dac9964f49a03a55de2e847118dc1.1634665675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
 References: <cover.1634665675.git.steve@sakoman.com>
@@ -67,46 +67,42 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:54:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:54:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157216
+ https://lists.openembedded.org/g/openembedded-core/message/157217
 
-From: Chandana kalluri <ckalluri@xilinx.com>
+From: Claudius Heine <ch@denx.de>
 
-Add a check before deleting path when using recipetool commands to avoid the following type of errors:
+rngd needs to start after `systemd-udev-settle` in order for the kernel
+modules of the random source hardware to be loaded before it is started.
 
-Traceback (most recent call last):
-   File "<workdir>/sources/core/scripts/lib/scriptutils.py", line 218, in fetch_url
-    shutil.rmtree(path)
-  File "/usr/local/lib/python3.7/shutil.py", line 476, in rmtree
-    onerror(os.lstat, path, sys.exc_info())
-  File "/usr/local/lib/python3.7/shutil.py", line 474, in rmtree
-    orig_st = os.lstat(path)
-FileNotFoundError: [Errno 2] No such file or directory: '<workdir>/build/tmp/work/recipetool-usg7o81n/work/recipe-sysroot'
-ERROR: Command 'script -e -q -c "recipetool --color=always create --devtool -o /tmp/devtool5sq_op37 'file:///<SRCTREE>'  -x <workdir>/build/workspace/sources/devtoolsrcxc1b9zjq -N test" /dev/null' failed
+However, since the `rngd.service` does not require or want
+`systemd-udev-settle.service` it might not be scheduled for start and
+the `After=systemd-udev-settle.service` there has no effect.
 
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Adding `Wants=systemd-udev-settle.service` provides a weak requirement
+to it, so that the `rngd` is started after it, if possible.
+
+Signed-off-by: Claudius Heine <ch@denx.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b6aa8b47e023004ffd6958d1cec18c2d9c95d77b)
+(cherry picked from commit e9715d4234eb7b45dee8b323799014646f0a1b07)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/scriptutils.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-support/rng-tools/rng-tools/rngd.service | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index f92255d8dc..3164171eb2 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -215,7 +215,8 @@ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirr
-                 pathvars = ['T', 'RECIPE_SYSROOT', 'RECIPE_SYSROOT_NATIVE']
-                 for pathvar in pathvars:
-                     path = rd.getVar(pathvar)
--                    shutil.rmtree(path)
-+                    if os.path.exists(path):
-+                        shutil.rmtree(path)
-         finally:
-             if fetchrecipe:
-                 try:
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+index aaaaa29074..f296a99e1f 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -3,6 +3,7 @@ Description=Hardware RNG Entropy Gatherer Daemon
+ DefaultDependencies=no
+ After=systemd-udev-settle.service
+ Before=sysinit.target shutdown.target
++Wants=systemd-udev-settle.service
+ Conflicts=shutdown.target
+ 
+ [Service]
 -- 
 2.25.1
 
