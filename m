@@ -2,154 +2,139 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0700C433EF
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 14:19:24 +0000 (UTC)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
- [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web09.10354.1634653164454813444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BFBC433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:26 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web09.11468.1634657665398631392
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 07:19:24 -0700
+ Tue, 19 Oct 2021 08:34:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=feH1DA1D;
- spf=pass (domain: gmail.com, ip: 209.85.222.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ghSTUIdr;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id q13so185239uaq.2
+Received: by mail-wm1-f46.google.com with SMTP id
+ n40-20020a05600c3ba800b0030da2439b21so3394129wms.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 07:19:24 -0700 (PDT)
+ Tue, 19 Oct 2021 08:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X9ahfWfDQhOmKJNiizLrRNetA2G5KibJzsld/RF0MzM=;
-        b=feH1DA1Dd+UxQSONDqwWZH97HW0w+u7zrE9WrGit20T1qB3asHkRXKJ4q9PlGn5I59
-         jG1DRlkcDJZCnSlpAuccjW9DF8ep+gMe/owJK2MqKrNAOCIsxF6QfSRBW81h8d0tDZtP
-         nDelecPW0bGKM6RyFQr7CC7cbQ7NsfBPZ3eOTtXo26Dx7YgxTsOU5SW1QHxblg5lGpOQ
-         IexhOyEwT6TCPcVFZzFPe28YUnIfpZu8S0mrhuwYeXuZkaaHw0/eO0+tqRRsQIDQLL/p
-         iL+tCKWvGsnTeDaBOfCPlpklAxBpSN5CYFMppBbUmUS3YSzThOwkTbnrTVnjAWGAxf5O
-         jHag==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9xAJjKeNWl5VO2a+XljgxroosCuae9uJsQvO97WlHys=;
+        b=ghSTUIdrRdoXrrMwYrOxsR2NycXiXB7ZDAjd1eneMwhvAzXHEdcV1GfzW+RFVCE1Dw
+         6UhjlHjCSkjKSaCInwefLxkiZH836zhkdH3fU+p5+wmq61zIE2IfC4GPk5p2zgr8Secr
+         tu12s3p+O16sg/eTrTEoL/+2/nywebv/AeUzxDFCZ5oW3hDSN4HLJgbEWgiViGSE+Krh
+         eSgHVdXIVkmsm3fSTagbnFlBqooMGAFawrtW9mFYhTiwWh5thYaz/QQRZeFVVsssdF5i
+         zp6jGqR24cfXQCYJF6b+AEgbUW1YxW06CcfYgutkQ6PQDbiFog9FduygdIErbqKgiS4v
+         SxFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X9ahfWfDQhOmKJNiizLrRNetA2G5KibJzsld/RF0MzM=;
-        b=J59a1CG2YsEzWirq0iQtvHr0xftPpGSfZp+q1eEl4I3HWnVgLaMljQvQxcow/R8Lt5
-         ix87svZpDrNXWh92LaxE1PJWpjp7PHkrscP0D/TieSKHj5VgqQqXPGc9pcq6SzCJeb1N
-         O36OADB9ldOuAeUf2nqSGHGx3t3M3v/R4JmaDraH5Vzo1Rm9GI9pYRb1zSAJYgUDwW+X
-         roeJWegUByQ29NVRdHTUY2ZLhDp3kM+M4kGn1oYAU5J3h7dYQq+piLSt7/eBwR9giVCd
-         hOKnEty+xh1B1zvpAwtWRXxCH4PuSCpM+dj86KXfkAaWV4jrOcz6iCKskZ+WblcllZYC
-         4yPA==
-X-Gm-Message-State: AOAM5329n9tah2gQcEe4qrP4MTZwO5EF0mna+BYp5ei8IRgF8GY+a+JH
-	TO4nCVn+8pmhxUJspw0oDZYlHMF0DSc5kZd7ZU8=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9xAJjKeNWl5VO2a+XljgxroosCuae9uJsQvO97WlHys=;
+        b=izRGE+mzwqK8hyVGG8LpijnE8wm+UlOkv1qfPIhLxX+j+F5t1/3jz7I/p2G2WQETkr
+         Iz70Qhq+zThpTYXOZyzLGhW5aqg3kwjQd2j70NVrhAZApqkmy6/eFqNrWvYzQgUVh4ix
+         c3A9Zd3DgxuHiO03t86j0M3UfWVvDPn7RzIq0js9k2gstOCmsNJCO/hQ0BzL8x6AvuJD
+         XaxVzu3DHviLfN1iRXTFZ8GkG/ZFCYDZ5DvwV7TSYX80efaL8F4CW3gjsVhzcGVMlMt1
+         7voqNh/i/qWZU42J22SvOIz/wBjTjW+zvPzABkvDp3ozLF9zf9Qa+SS+YvhFK8tbaI9l
+         l2+A==
+X-Gm-Message-State: AOAM530nX9/gEfqlcmBC4HN++VmxSpfR7juD2M/RRTx/etHLnN6UgTG6
+	G0naOZV2otrvIqaLkDZZOAx/c4yc37U=
 X-Google-Smtp-Source: 
- ABdhPJzxD+74W3oruRr3iR/GSl6oTVVVhozPyJosG26GaFTXQy/4EwnOcMgIBO/qqThBekKNRGwVWeTQ97JM9r+NTm8=
-X-Received: by 2002:a67:c11e:: with SMTP id d30mr36189639vsj.1.1634653163639;
- Tue, 19 Oct 2021 07:19:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <37b61ef2-5ea9-7e90-75fe-50cc662d9124@weidmueller.com>
- <6318d76222b819d3a165d405fc48dbcbadf29085.camel@linuxfoundation.org>
- <50d4d79f-a7cd-fd0a-0c6d-597b6dc4ca6a@weidmueller.com>
- <CANNYZj8Fns4xWre3_ajv-5QADpCi0f+WS2wRXCKXezOgj5fhzg@mail.gmail.com>
- <0bddcbc4-cf11-39da-5797-131fc59d7f6f@weidmueller.com>
- <CANNYZj_Xudaobe6W2TTnugjovq3KcHWBYsvZ8kS0kYZaWwkLCw@mail.gmail.com>
- <AM9PR09MB464243B2852B92E67D825612A8AF9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <71df6b93-bdcc-b09f-48c7-3ec822ef3228@weidmueller.com>
- <AM9PR09MB4642A8B32B686649507B9406A8B09@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CANNYZj9eeW4+uJ=-fB1pDZq4Qa0EbgwRCCXXiEjrzuGL-jcq3w@mail.gmail.com>
- <89e69707-d624-865d-f306-00ef8018a8de@weidmueller.com>
-In-Reply-To: <89e69707-d624-865d-f306-00ef8018a8de@weidmueller.com>
+ ABdhPJyTQPlvkGovX4Y6reWxQkT4vYUcPqdeNOmp+DGCAEUM4Ka6gqKyzdALxTqET7cZp+Egc+7oIw==
+X-Received: by 2002:a1c:4645:: with SMTP id t66mr7010394wma.179.1634657663829;
+        Tue, 19 Oct 2021 08:34:23 -0700 (PDT)
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
+ [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ t1sm5868537wre.32.2021.10.19.08.34.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 08:34:23 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 19 Oct 2021 16:19:11 +0200
-Message-ID: 
- <CANNYZj8k7YYnOC+Kb_h=t9M_f3WXEiAZRRF_5Y4284AezTDfMw@mail.gmail.com>
-Subject: Re: [OE-core] Improve npm support to run build scripts
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Konrad Weihmann <kweihmann@outlook.com>,
- OE-core <openembedded-core@lists.openembedded.org>,
-	chuckwolber@gmail.com, oecore.mailinglist@gmail.com
-Content-Type: multipart/alternative; boundary="0000000000002654be05ceb55989"
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/65] libjitterentropy: update 3.1.0 -> 3.3.0
+Date: Tue, 19 Oct 2021 17:33:15 +0200
+Message-Id: <20211019153419.3319802-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 14:19:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157118
+ https://lists.openembedded.org/g/openembedded-core/message/157120
 
---0000000000002654be05ceb55989
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ ...kefile-restore-build-reproducibility.patch | 27 -------------------
+ ...opy_3.1.0.bb => libjitterentropy_3.3.0.bb} |  7 ++---
+ 2 files changed, 2 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-support/libjitterentropy/libjitterentropy/0001-Makefile-restore-build-reproducibility.patch
+ rename meta/recipes-support/libjitterentropy/{libjitterentropy_3.1.0.bb => libjitterentropy_3.3.0.bb} (88%)
 
-On Tue, 19 Oct 2021 at 14:52, Stefan Herbrechtsmeier <
-stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
+diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy/0001-Makefile-restore-build-reproducibility.patch b/meta/recipes-support/libjitterentropy/libjitterentropy/0001-Makefile-restore-build-reproducibility.patch
+deleted file mode 100644
+index 3290ff7b18..0000000000
+--- a/meta/recipes-support/libjitterentropy/libjitterentropy/0001-Makefile-restore-build-reproducibility.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 905333229103510e9dee2fec29b261ccedb031d0 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 20 Aug 2021 19:37:04 +0000
+-Subject: [PATCH] Makefile: restore build reproducibility
+-
+-wildcards result in an unpredictable order, and thus different binary outputs
+-in otherwise identical builds.
+-
+-Upstream-Status: Submitted [https://github.com/smuellerDD/jitterentropy-library/pull/67]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- Makefile | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 42932d8..dfb96a8 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -36,7 +36,7 @@ LIBMINOR=$(shell cat $(SRCDIR)/jitterentropy-base.c | grep define | grep MINVERS
+- LIBPATCH=$(shell cat $(SRCDIR)/jitterentropy-base.c | grep define | grep PATCHLEVEL | awk '{print $$3}')
+- LIBVERSION := $(LIBMAJOR).$(LIBMINOR).$(LIBPATCH)
+- 
+--C_SRCS := $(wildcard $(SRCDIR)/*.c) 
+-+C_SRCS := $(sort $(wildcard $(SRCDIR)/*.c))
+- C_OBJS := ${C_SRCS:.c=.o}
+- OBJS := $(C_OBJS)
+- 
+diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.3.0.bb
+similarity index 88%
+rename from meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
+rename to meta/recipes-support/libjitterentropy/libjitterentropy_3.3.0.bb
+index d9fbb5e9d6..dae2fb1791 100644
+--- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
++++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.3.0.bb
+@@ -9,14 +9,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1c94a9d191202a5552f381a023551396 \
+                     file://LICENSE.gplv2;md5=eb723b61539feef013de476e68b5c50a \
+                     file://LICENSE.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
+                     "
+-SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git \
+-           file://0001-Makefile-restore-build-reproducibility.patch \
+-           "
+-SRCREV = "409828cfccf4b3b07edc40a7840a821ce074e2c3"
++SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git"
++SRCREV = "418c1e64231255aec2167cbb20aab62a0863415d"
+ S = "${WORKDIR}/git"
+ 
+ # remove at next version upgrade or when output changes
+-PR = "r1"
+ HASHEQUIV_HASH_VERSION .= ".2"
+ 
+ do_configure[noexec] = "1"
+-- 
+2.20.1
 
-> How should we run build scripts which need native npm packages and how
-> should we handle licenses of build and runtime packages?
->
-> A simplified node.js flow looks like the following
->
-> cd ${S}
-> rm -rf node_modules
-> npm install --arch=$NPM_BUILD_ARCH --dev
-> npm run-script --arch=$NPM_BUILD_ARCH build
-> rm -rf node_modules
-> npm install --arch=$NPM_TARGET_ARCH --global <OR> cp -r dist/* ${D}
->
-> Should we split it into two recipes or should we handle everything in a
-> single recipe?
->
-> Is it accepted to use the output of a native recipe as source for an
-> target recipe?
->
-
-If that output is placed in a reasonable place in sysroot-destdir/ and
-pulled in via DEPENDS, then yes, that's fine. But it's also okay to do the
-build in two steps like above from a single recipe - there are more than a
-few recipes where native helper binaries are built to aid with the target
-build, typically the build system itself is able to use BUILD_CC for it, or
-a custom task is written where CC is set to BUILD_CC explicitly.
-
-I think you should experiment with both options.
-
-Alex
-
---0000000000002654be05ceb55989
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 19 Oct 2021 at 14:52, Stefan Herbrechtsmeier &lt;<a href=3D"=
-mailto:stefan.herbrechtsmeier-oss@weidmueller.com">stefan.herbrechtsmeier-o=
-ss@weidmueller.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-How should we run build scripts which need native npm packages and how <br>
-should we handle licenses of build and runtime packages?<br>
-<br>
-A simplified node.js flow looks like the following<br>
-<br>
-cd ${S}<br>
-rm -rf node_modules<br>
-npm install --arch=3D$NPM_BUILD_ARCH --dev<br>
-npm run-script --arch=3D$NPM_BUILD_ARCH build<br>
-rm -rf node_modules<br>
-npm install --arch=3D$NPM_TARGET_ARCH --global &lt;OR&gt; cp -r dist/* ${D}=
-<br>
-<br>
-Should we split it into two recipes or should we handle everything in a <br=
->
-single recipe?<br>
-<br>
-Is it accepted to use the output of a native recipe as source for an <br>
-target recipe?<br></blockquote></div><div class=3D"gmail_quote"><br></div><=
-div class=3D"gmail_quote">If that output is placed in a reasonable place in=
- sysroot-destdir/ and pulled in via DEPENDS, then yes, that&#39;s fine. But=
- it&#39;s also okay to do the build in two steps like above from a single r=
-ecipe - there are more than a few recipes where native helper binaries are =
-built to aid with the target build, typically the build system itself is ab=
-le to use BUILD_CC for it, or a custom task is written where CC is set to B=
-UILD_CC explicitly.</div><div class=3D"gmail_quote"><br></div><div class=3D=
-"gmail_quote">I think you should experiment with both options.<br></div><di=
-v class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Alex<br></div>=
-</div>
-
---0000000000002654be05ceb55989--
 
