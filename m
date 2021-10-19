@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5229AC433FE
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:27 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.11584.1634657666238850115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C066C433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:28 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web09.11469.1634657667535510428
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:26 -0700
+ Tue, 19 Oct 2021 08:34:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Urez9bZA;
- spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T9gKfAXh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id
- o24-20020a05600c511800b0030d9da600aeso3632586wms.4
+Received: by mail-wm1-f49.google.com with SMTP id
+ n40-20020a05600c3ba800b0030da2439b21so3394391wms.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:26 -0700 (PDT)
+ Tue, 19 Oct 2021 08:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ieOJkqoQUHXSsMWFVCyrxjv7B3e1a3TePV9TNa5SqKc=;
-        b=Urez9bZAkOKWIFNLSi/Gv2OMPUu3/qkX9H9mMFO+Vx54pkrvmG0Uonr7jJbPoeWOWy
-         LMCitWVeQxILHTeNCh0S1zUciv5928k6RUNhVJbzavGUd4bgkbmZ0WUxmDOJl1N89oQ6
-         023di1Cb4qrg1eZ6Vl4XXkqBjAchPXNJERTiW/1QPob5aEbsBIsQ5ug4yzHid6zdcvHJ
-         asM+GBHxhSEDCOQCvlqlcE4RZhtvdUJrRutFc1qAfJwnfVcOmOhkGKmzbVzgp5m71SzE
-         2sq5J1qAaealrqNQe7ZWL0WDZEEz391n9o02KdxLylhhKUchFY/yIaIauFu8SsegysJ3
-         lHDg==
+        bh=921wmY62/SwIOWQhm/WyHECaxJzOMIItIWounCalyus=;
+        b=T9gKfAXhDewzTrk1T5HZWEXWCdf2jnAn9TdcAvhLfC0gXK4veNMiPhVTsoHyi2il5x
+         Kw1iRPWleG+xKPWLh/6l0TlgO/K8aGgqddr0N/828xYiyGwTXXl2cjHOWQie119iPWGO
+         a7PFsFiZ2m8wcS3FNfGbwyeQZZ00j+5AndsdEBa+GoEr0woKh4tFvuzMXnt4lNrR/Su8
+         RvNYTJtNvL8YoZbihwhe7ShZ59kc8/0Gm8oV4+oxEAmt8OEo8uhj1oZFIEnb9AGcecwd
+         nJEeNibDj4uP4gbK0gEJ+KQ0+Jil6ezdxN6oBXWaV3+SEPypeZ91y4SLff2yp5jWecA8
+         a+qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ieOJkqoQUHXSsMWFVCyrxjv7B3e1a3TePV9TNa5SqKc=;
-        b=8ALT8h9iBpFE2LrlUkg0Hk3jvEEu5IR3Y+Dek3oP9TJKJbGPPeCcdiGECPrXFzuvim
-         Eknba3HB5qbTCaeTwSK/GYDuSe/Zdafn3CpPGwilIUnG4rhUWtSWyGwPwNit//RuIl1H
-         EyZMyyUV9pJL1sR6L9OUuHEPXLEjteIHgByaYG/FtfXMhlLnROQ6a+769NzpiT4CZi26
-         RzSh6cDsq/L0bT34+8XelG0PJsPfP3AaOzeTuqI++7+atd2vtsqH17u54quKS7zyRX5L
-         qokZ3uRd/X/pw/Z/80ORrKWkAaY6y7XJO9o8rokqmUODqDfy49LJBSfHHFYEJlGZmnDa
-         7oKw==
-X-Gm-Message-State: AOAM532w8kLSNM5ksDLDxwVatOmLsMCG8JXwvL0BuhyPmZ7DFjMJEcLy
-	ZUObR/VVxArwl2TaV5jhXNoB6LsYffI=
+        bh=921wmY62/SwIOWQhm/WyHECaxJzOMIItIWounCalyus=;
+        b=mGee897ModVfl6+TMF2Di0pNYbu8teogJhATAFKOfPVNcRrSFYBdfa7WlhadPO0ur6
+         7qpGBuhXJRY/vg0j/Oqcwpdxq3MtCHgsb+ljySvYKbwzJtBU1BsMSWXV3otcTMRyi5AY
+         Wu/8IL09/G7D18HK4fuSDCyIii4p5i1nUn2cVaSLyoNh1enWI67bp8g7atjjBlxuVutZ
+         fCHZ1XDyM+5NrPecAe7xiNUG89GxBzDSUKDrJRq9xnD0gPQ4zKcLsHaHTIMifmOifNun
+         9zw5pYdqIx//iXz1anR4ulbkbjK50+zPX80Sv+xwntabAeLk28OyFIqYRsgZuzgE24cl
+         jmmw==
+X-Gm-Message-State: AOAM532t5OWoXv8Et5f2ROOVD+WmdTOX8vwsNnuL1mBt//LX30qdc+eC
+	Kyo+mbzpjv4FfuVtqM0UsSO3FMQymvo=
 X-Google-Smtp-Source: 
- ABdhPJz+jy2E+AYsi4fiR5ws+ZsQKzTrVWxSlNL4NQT06UUW028kCqE1xLatK7MkPpaemHEHwRyoHg==
-X-Received: by 2002:a5d:6245:: with SMTP id m5mr45163204wrv.148.1634657664570;
-        Tue, 19 Oct 2021 08:34:24 -0700 (PDT)
+ ABdhPJy6L4CYvepyGNXds1w05GGLz8HaGRObMczFYq4gZ9EtNCdm9EM9uuNDr+gXS+WbAa15DsN05Q==
+X-Received: by 2002:a5d:47ca:: with SMTP id o10mr8080166wrc.360.1634657666132;
+        Tue, 19 Oct 2021 08:34:26 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- t1sm5868537wre.32.2021.10.19.08.34.23
+ t1sm5868537wre.32.2021.10.19.08.34.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 08:34:24 -0700 (PDT)
+        Tue, 19 Oct 2021 08:34:25 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/65] rustfmt: remove
-Date: Tue, 19 Oct 2021 17:33:16 +0200
-Message-Id: <20211019153419.3319802-2-alex@linutronix.de>
+Subject: [PATCH 04/65] ghostscript: update 9.54.0 -> 9.55.0
+Date: Tue, 19 Oct 2021 17:33:18 +0200
+Message-Id: <20211019153419.3319802-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211019153419.3319802-1-alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
@@ -66,212 +66,54 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:27 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157121
+ https://lists.openembedded.org/g/openembedded-core/message/157123
 
-The recipes does not have any consumers, is host-only,
-is rather out of date, and is still present in meta-rust.
+jbig2dec seems no longer optional; the source for it
+is bundle with ghostscript.
 
-Rust toolchain is now tested through other items, so I don't see
-a use case for it. For a target example there's rust-hello-world.
-
+License-Update: removed patent references
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc      |   1 -
- meta/recipes-example/rustfmt/rustfmt_1.4.2.bb | 171 ------------------
- 2 files changed, 172 deletions(-)
- delete mode 100644 meta/recipes-example/rustfmt/rustfmt_1.4.2.bb
+ .../{ghostscript_9.54.0.bb => ghostscript_9.55.0.bb}        | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.54.0.bb => ghostscript_9.55.0.bb} (94%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index baec2bef4d..d26d99a43d 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -662,7 +662,6 @@ RECIPE_MAINTAINER:pn-rt-tests = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com>"
--RECIPE_MAINTAINER:pn-rustfmt = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER:pn-rust-cross-${TARGET_ARCH} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-diff --git a/meta/recipes-example/rustfmt/rustfmt_1.4.2.bb b/meta/recipes-example/rustfmt/rustfmt_1.4.2.bb
-deleted file mode 100644
-index 2e4a47eb00..0000000000
---- a/meta/recipes-example/rustfmt/rustfmt_1.4.2.bb
-+++ /dev/null
-@@ -1,171 +0,0 @@
--# Auto-Generated by cargo-bitbake 0.3.13
--#
--inherit cargo
--
--# If this is git based prefer versioned ones if they exist
--# DEFAULT_PREFERENCE = "-1"
--
--# how to get rustfmt-nightly could be as easy as but default to a git checkout:
--# SRC_URI += "crate://crates.io/rustfmt-nightly/1.4.2"
--SRC_URI += "git://github.com/rust-lang/rustfmt.git;protocol=https;nobranch=1"
--SRCREV = "aeb3496f31a0dfa90fc511520d2023634e885260"
--S = "${WORKDIR}/git"
--CARGO_SRC_DIR = ""
--EXCLUDE_FROM_WORLD = "1"
--
--# please note if you have entries that do not begin with crate://
--# you must change them to how that package can be fetched
--SRC_URI += " \
--    crate://crates.io/aho-corasick/0.7.4 \
--    crate://crates.io/annotate-snippets/0.6.1 \
--    crate://crates.io/ansi_term/0.11.0 \
--    crate://crates.io/argon2rs/0.2.5 \
--    crate://crates.io/arrayvec/0.4.11 \
--    crate://crates.io/atty/0.2.13 \
--    crate://crates.io/autocfg/0.1.5 \
--    crate://crates.io/backtrace-sys/0.1.31 \
--    crate://crates.io/backtrace/0.3.33 \
--    crate://crates.io/bitflags/1.1.0 \
--    crate://crates.io/blake2-rfc/0.2.18 \
--    crate://crates.io/bstr/0.2.6 \
--    crate://crates.io/bytecount/0.5.1 \
--    crate://crates.io/byteorder/1.3.2 \
--    crate://crates.io/c2-chacha/0.2.2 \
--    crate://crates.io/cargo_metadata/0.8.1 \
--    crate://crates.io/cc/1.0.38 \
--    crate://crates.io/cfg-if/0.1.9 \
--    crate://crates.io/clap/2.33.0 \
--    crate://crates.io/cloudabi/0.0.3 \
--    crate://crates.io/constant_time_eq/0.1.3 \
--    crate://crates.io/crossbeam-channel/0.3.9 \
--    crate://crates.io/crossbeam-deque/0.2.0 \
--    crate://crates.io/crossbeam-epoch/0.3.1 \
--    crate://crates.io/crossbeam-utils/0.2.2 \
--    crate://crates.io/crossbeam-utils/0.6.6 \
--    crate://crates.io/derive-new/0.5.7 \
--    crate://crates.io/diff/0.1.11 \
--    crate://crates.io/dirs-sys/0.3.3 \
--    crate://crates.io/dirs/2.0.1 \
--    crate://crates.io/either/1.5.2 \
--    crate://crates.io/ena/0.13.0 \
--    crate://crates.io/env_logger/0.6.2 \
--    crate://crates.io/failure/0.1.5 \
--    crate://crates.io/failure_derive/0.1.5 \
--    crate://crates.io/fnv/1.0.6 \
--    crate://crates.io/fuchsia-cprng/0.1.1 \
--    crate://crates.io/getopts/0.2.19 \
--    crate://crates.io/getrandom/0.1.6 \
--    crate://crates.io/globset/0.4.4 \
--    crate://crates.io/heck/0.3.1 \
--    crate://crates.io/humantime/1.2.0 \
--    crate://crates.io/ignore/0.4.8 \
--    crate://crates.io/indexmap/1.0.2 \
--    crate://crates.io/itertools/0.8.0 \
--    crate://crates.io/itoa/0.4.4 \
--    crate://crates.io/jobserver/0.1.16 \
--    crate://crates.io/lazy_static/1.3.0 \
--    crate://crates.io/libc/0.2.60 \
--    crate://crates.io/lock_api/0.1.5 \
--    crate://crates.io/log/0.4.7 \
--    crate://crates.io/memchr/2.2.1 \
--    crate://crates.io/memoffset/0.2.1 \
--    crate://crates.io/nodrop/0.1.13 \
--    crate://crates.io/num_cpus/1.10.1 \
--    crate://crates.io/owning_ref/0.4.0 \
--    crate://crates.io/packed_simd/0.3.3 \
--    crate://crates.io/parking_lot/0.7.1 \
--    crate://crates.io/parking_lot_core/0.4.0 \
--    crate://crates.io/ppv-lite86/0.2.5 \
--    crate://crates.io/proc-macro2/0.4.30 \
--    crate://crates.io/quick-error/1.2.2 \
--    crate://crates.io/quote/0.6.13 \
--    crate://crates.io/rand/0.6.5 \
--    crate://crates.io/rand/0.7.0 \
--    crate://crates.io/rand_chacha/0.1.1 \
--    crate://crates.io/rand_chacha/0.2.1 \
--    crate://crates.io/rand_core/0.3.1 \
--    crate://crates.io/rand_core/0.4.0 \
--    crate://crates.io/rand_core/0.5.0 \
--    crate://crates.io/rand_hc/0.1.0 \
--    crate://crates.io/rand_hc/0.2.0 \
--    crate://crates.io/rand_isaac/0.1.1 \
--    crate://crates.io/rand_jitter/0.1.4 \
--    crate://crates.io/rand_os/0.1.3 \
--    crate://crates.io/rand_pcg/0.1.2 \
--    crate://crates.io/rand_xorshift/0.1.1 \
--    crate://crates.io/rdrand/0.4.0 \
--    crate://crates.io/redox_syscall/0.1.56 \
--    crate://crates.io/redox_users/0.3.0 \
--    crate://crates.io/regex-syntax/0.6.10 \
--    crate://crates.io/regex/1.2.0 \
--    crate://crates.io/rustc-ap-arena/542.0.0 \
--    crate://crates.io/rustc-ap-graphviz/542.0.0 \
--    crate://crates.io/rustc-ap-rustc_data_structures/542.0.0 \
--    crate://crates.io/rustc-ap-rustc_errors/542.0.0 \
--    crate://crates.io/rustc-ap-rustc_lexer/542.0.0 \
--    crate://crates.io/rustc-ap-rustc_macros/542.0.0 \
--    crate://crates.io/rustc-ap-rustc_target/542.0.0 \
--    crate://crates.io/rustc-ap-serialize/542.0.0 \
--    crate://crates.io/rustc-ap-syntax/542.0.0 \
--    crate://crates.io/rustc-ap-syntax_pos/542.0.0 \
--    crate://crates.io/rustc-demangle/0.1.15 \
--    crate://crates.io/rustc-hash/1.0.1 \
--    crate://crates.io/rustc-rayon-core/0.2.0 \
--    crate://crates.io/rustc-rayon/0.2.0 \
--    crate://crates.io/rustc-workspace-hack/1.0.0 \
--    crate://crates.io/rustc_version/0.2.3 \
--    crate://crates.io/ryu/1.0.0 \
--    crate://crates.io/same-file/1.0.5 \
--    crate://crates.io/scoped-tls/1.0.0 \
--    crate://crates.io/scoped_threadpool/0.1.9 \
--    crate://crates.io/scopeguard/0.3.3 \
--    crate://crates.io/semver-parser/0.7.0 \
--    crate://crates.io/semver/0.9.0 \
--    crate://crates.io/serde/1.0.97 \
--    crate://crates.io/serde_derive/1.0.97 \
--    crate://crates.io/serde_json/1.0.40 \
--    crate://crates.io/smallvec/0.6.10 \
--    crate://crates.io/spin/0.5.0 \
--    crate://crates.io/stable_deref_trait/1.1.1 \
--    crate://crates.io/strsim/0.8.0 \
--    crate://crates.io/structopt-derive/0.2.18 \
--    crate://crates.io/structopt/0.2.18 \
--    crate://crates.io/syn/0.15.42 \
--    crate://crates.io/synstructure/0.10.2 \
--    crate://crates.io/term/0.6.0 \
--    crate://crates.io/termcolor/1.0.5 \
--    crate://crates.io/textwrap/0.11.0 \
--    crate://crates.io/thread_local/0.3.6 \
--    crate://crates.io/toml/0.5.1 \
--    crate://crates.io/ucd-util/0.1.5 \
--    crate://crates.io/unicode-segmentation/1.3.0 \
--    crate://crates.io/unicode-width/0.1.5 \
--    crate://crates.io/unicode-xid/0.1.0 \
--    crate://crates.io/unicode_categories/0.1.1 \
--    crate://crates.io/utf8-ranges/1.0.3 \
--    crate://crates.io/vec_map/0.8.1 \
--    crate://crates.io/walkdir/2.2.9 \
--    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
--    crate://crates.io/winapi-util/0.1.2 \
--    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
--    crate://crates.io/winapi/0.3.7 \
--    crate://crates.io/wincolor/1.0.1 \
--"
--
--
--
--# FIXME: update generateme with the real MD5 of the license file
--LIC_FILES_CHKSUM = " \
--    file://LICENSE-APACHE;md5=1836efb2eb779966696f473ee8540542 \
--    file://LICENSE-MIT;md5=0b29d505d9225d1f0815cbdcf602b901 \
--"
--
--SUMMARY = "Tool to find and fix Rust formatting issues"
--HOMEPAGE = "https://github.com/rust-lang/rustfmt"
--LICENSE = "Apache-2.0 | MIT"
--
--# includes this file if it exists but does not fail
--# this is useful for anything you may want to override from
--# what cargo-bitbake generates.
--include rustfmt-nightly-${PV}.inc
--include rustfmt-nightly.inc
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+similarity index 94%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 59cc560cf8..3993603dc6 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -11,7 +11,7 @@ HOMEPAGE = "http://www.ghostscript.com"
+ SECTION = "console/utils"
+ 
+ LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=70dc2bac4d0ce4448da873cd86b123fc"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f98ffa763e50cded76f49bce73aade16"
+ 
+ DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libpng"
+ DEPENDS:class-native = "libpng-native"
+@@ -45,7 +45,7 @@ SRC_URI:class-native = "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
+ 
+-SRC_URI[sha256sum] = "0646bb97f6f4d10a763f4919c54fa28b4fbdd3dff8e7de3410431c81762cade0"
++SRC_URI[sha256sum] = "31e2064be67e15b478a8da007d96d6cd4d2bee253e5be220703a225f7f79a70b"
+ 
+ # Put something like
+ #
+@@ -61,7 +61,7 @@ PACKAGECONFIG[x11] = "--with-x --x-includes=${STAGING_INCDIR} --x-libraries=${ST
+                       --without-x, virtual/libx11 libxext libxt gtk+3\
+                       "
+ 
+-EXTRA_OECONF = "--without-libpaper --with-system-libtiff --without-jbig2dec \
++EXTRA_OECONF = "--without-libpaper --with-system-libtiff --with-jbig2dec \
+                 --with-fontpath=${datadir}/fonts \
+                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
+                 --with-cups-datadir=${datadir}/cups \
 -- 
 2.20.1
 
