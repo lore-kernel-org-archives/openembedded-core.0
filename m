@@ -2,62 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5009BC433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D92C433FE
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:42 +0000 (UTC)
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
  [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web08.11517.1634657680312677113
+ by mx.groups.io with SMTP id smtpd.web09.11478.1634657681060440774
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:40 -0700
+ Tue, 19 Oct 2021 08:34:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pghFkJpb;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Od7BE732;
  spf=pass (domain: gmail.com, ip: 209.85.128.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id
- n40-20020a05600c3ba800b0030da2439b21so3395944wms.0
+Received: by mail-wm1-f52.google.com with SMTP id m42so12447653wms.2
         for <openembedded-core@lists.openembedded.org>;
  Tue, 19 Oct 2021 08:34:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=14TRhUhUDBPFkovMyN+haM1Afy0Msv9YOto44V0oCZM=;
-        b=pghFkJpbkmmbKhFpFy1TsYiJQvDFtHy7dykPSOI6i9uqZTtDtKIfzqpr2sXtM17e+0
-         yYNQnFoPV1tlih4e9VEQg5cBIg1bX3EAkLDuVOmnddFQ77ch9UyETa1ponYllUaeJT+I
-         Eb/RoaatKSoc+2nXfAPHz2Ir2TF8/kdhLVipQp0mD54Un96z+WjhtShS08HlN9Qr6hQk
-         bSqb0jzoDl6dKC/GfLEPdkN6+goHgCucmBk8oK36bfDtDbR3xS6mo95+Si0+xrxC+HoL
-         wsi85ktyaEgsgo7L8FKogei8S0Jv2cRrkVdY/lVKbfq2yX4khxBJvTIRqaT8hdT0lLBM
-         HpZQ==
+        bh=VsTv1tjRHhU1fFfGarETu/bCa5vPqVeaUUbaZH7SeVU=;
+        b=Od7BE732u3VscS6puhDTRd9lty5e9dY1lUB+lOaErNKxwZayjgzVQdlDv04UQTedwo
+         Jif4skATE/BKO74Nx6U8Kqy8Ct3mkBtJWgRUE/eGcm4FSWR0I7Bun5lUzVY/rLF8mUF9
+         ZIEIH4arxfvgHiwWchpp7bzFAoYSElQdpv3r/gGZuVsewJInhB6hdbFA+uBWidbW65CB
+         /mAAcnDGnAM/aVbxEPD8ReYZSUUWBXjUqEt2kxzrArRfXhyqDvtNEU3OFaH807IQkqOw
+         mfCGu+MSEA46PtFTWVQAfzhY2lS4WrI3SszP0CadVpNiialiRnml1SBogur2zN93Ryjf
+         OZZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=14TRhUhUDBPFkovMyN+haM1Afy0Msv9YOto44V0oCZM=;
-        b=hKPqUgwxd2ss3eIAQNBKHUfp1NI1TLB08BM2Yq+idrwYJES8438IkntvhVVgljt57z
-         3aqEz2nw5SCwa1P/EQ0b7uGuzsIa+3Covsg1DB3AuqOE7jqGkh1VcEoQPoL9sKYZ76yq
-         W9yprh99TjoTNol+flvX36ubVHLlYd+Oaew9kwse/cPvQ7vMcKJ0Vog+qHvYnR114gw0
-         nnxE+Ws5c7g4Y8SebXY3ifG4G/tRaDYKgIIFbfmlepTOdOe6yLWNZObTHJwQ0zXFzaEB
-         T//d60rwJKLbVMGWWvNBvdvnBVCs1itmvLqXoIsLSGLKxgcpnPNd3RLkz06KQ8Uc+CYs
-         +Cog==
-X-Gm-Message-State: AOAM533ErqhStcn4F5J5STfBNZjNNPp9PtrR1XxSh2llSHaeYk22baec
-	sDKtCU3lhgU77llVpZZjBzNssrp9kpo=
+        bh=VsTv1tjRHhU1fFfGarETu/bCa5vPqVeaUUbaZH7SeVU=;
+        b=Yoyy18PjKt66Czp4C9wiiEpZF0ftgTmnFPo3jGxa5W2lBpJhG+M4Gyf+wmHfTIvk9Z
+         WPQlgquEsF+Ngfjkdy5WUCyo0/Uz1wVOtPJKd25ZLDowVfufRPBtn7i/Jc1DPUPKlzJ5
+         jJko8HAt/G6WCVi5LxRVJ82aJL3EEy0shKA1aR7q7POapX8jLCa9BHjk/Karu8shMQ9q
+         Jy4FaMyjbErqo+So6qmJzDDib1qQJZzo0fNu01RQizyfn+qsdxMxw6/GHd5Z8qtmuYRU
+         bE0GH3bkfsbrT1+mlkh99nCnFOEtWJW0+vmLKqtl/E9pHOTXgEWgLmz/wOC7aWL85AtT
+         s1RQ==
+X-Gm-Message-State: AOAM530bCWx3ndmCSc72na5pA8H2VrKR8cpW9l2i9aXKX2sGr8c9tb9z
+	AvzCt5YsIW3TGHFWdDLnG/2UiWi6Um4=
 X-Google-Smtp-Source: 
- ABdhPJzHN8FCLa6HkOt0iqEYMw8kuIaXj342fj52p70xx2kadK1Qlum3n8I/E/uFCs2ovhC8C4qLcA==
-X-Received: by 2002:adf:bb49:: with SMTP id x9mr45795958wrg.413.1634657678958;
-        Tue, 19 Oct 2021 08:34:38 -0700 (PDT)
+ ABdhPJyhtyvy6dGC9zBU0l2iPvPpiPKn3/um8B3jwlGSVNayZbEZa6YeE8cqPCkwoZ7BG6Tm/jsobw==
+X-Received: by 2002:adf:e746:: with SMTP id c6mr44354627wrn.367.1634657679658;
+        Tue, 19 Oct 2021 08:34:39 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- t1sm5868537wre.32.2021.10.19.08.34.38
+ t1sm5868537wre.32.2021.10.19.08.34.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 08:34:38 -0700 (PDT)
+        Tue, 19 Oct 2021 08:34:39 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 21/65] cmake: update 3.21.2 -> 3.21.3
-Date: Tue, 19 Oct 2021 17:33:35 +0200
-Message-Id: <20211019153419.3319802-21-alex@linutronix.de>
+Subject: [PATCH 22/65] git: upgrade 2.33.0 -> 2.33.1
+Date: Tue, 19 Oct 2021 17:33:36 +0200
+Message-Id: <20211019153419.3319802-22-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211019153419.3319802-1-alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
@@ -66,42 +65,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157140
+ https://lists.openembedded.org/g/openembedded-core/message/157141
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../cmake/{cmake-native_3.21.2.bb => cmake-native_3.21.3.bb}    | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.21.2.bb => cmake_3.21.3.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.21.2.bb => cmake-native_3.21.3.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.21.2.bb => cmake_3.21.3.bb} (100%)
+ meta/recipes-devtools/git/{git_2.33.0.bb => git_2.33.1.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.33.0.bb => git_2.33.1.bb} (51%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.21.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.21.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.21.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.21.3.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 2bdfd6061a..43d4fe57fb 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
+diff --git a/meta/recipes-devtools/git/git_2.33.0.bb b/meta/recipes-devtools/git/git_2.33.1.bb
+similarity index 51%
+rename from meta/recipes-devtools/git/git_2.33.0.bb
+rename to meta/recipes-devtools/git/git_2.33.1.bb
+index f8d4dacdbf..0dbde7fdc1 100644
+--- a/meta/recipes-devtools/git/git_2.33.0.bb
++++ b/meta/recipes-devtools/git/git_2.33.1.bb
+@@ -5,5 +5,6 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
--SRC_URI[sha256sum] = "94275e0b61c84bb42710f5320a23c6dcb2c6ee032ae7d2a616f53f68b3d21659"
-+SRC_URI[sha256sum] = "d14d06df4265134ee42c4d50f5a60cb8b471b7b6a47da8e5d914d49dd783794f"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.21.2.bb b/meta/recipes-devtools/cmake/cmake_3.21.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.21.2.bb
-rename to meta/recipes-devtools/cmake/cmake_3.21.3.bb
+-SRC_URI[tarball.sha256sum] = "02d909d0bba560d3a1008bd00dd577621ffb57401b09175fab2bf6da0e9704ae"
+-SRC_URI[manpages.sha256sum] = "ba9cd0f29a3632a3b78f8ed2389f0780aa6e8fcbe258259d7c584920d19ed1f7"
++SRC_URI[tarball.sha256sum] = "02047f8dc8934d57ff5e02aadd8a2fe8e0bcf94a7158da375e48086cc46fce1d"
++SRC_URI[manpages.sha256sum] = "292b08ca1b79422ff478a6221980099c5e3c0a38aba39d952063eedb68e27d93"
++
 -- 
 2.20.1
 
