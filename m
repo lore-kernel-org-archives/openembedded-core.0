@@ -2,62 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50845C433EF
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:51 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.11393.1634657690175570108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57544C4332F
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 15:34:52 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.11394.1634657690869688412
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:50 -0700
+ Tue, 19 Oct 2021 08:34:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mWcxR+1s;
- spf=pass (domain: gmail.com, ip: 209.85.128.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VIQuU5PI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id p21so12445207wmq.1
+Received: by mail-wm1-f52.google.com with SMTP id
+ l38-20020a05600c1d2600b0030d80c3667aso3620275wms.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 08:34:49 -0700 (PDT)
+ Tue, 19 Oct 2021 08:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rXjUgd+h6oGpmg5rWf2zNT9YFcEPcaolkDyXWoq7G/E=;
-        b=mWcxR+1sCHWHaXWHJDGiWQaYKgc/0mTovX8FBM/SjEJBCdmx068kQZyq1oGcAUv7tD
-         0m4MKLiYChuuSUqLKWPU4WhTrRmeAtOLheYiAoJPcLER9A+xqmxJuIn1QOJRsWApvgUm
-         WrCJke7HGx/cqJfHQO1qcvoUyaHmjZJPhrLLf4UC+8E3zus5x9AfH7mwpLcIuwDrnRqL
-         iaIR5JZaXXIzMcbmFINLJik8OO6RHA/s3l4m51kB196FDHogQ9rWePNPyzwMiyREyw+Q
-         1PBNHWkqdRR4vz+cfRtyu/1FF3Vp02E9gCe4mEfYk6IKIALdJmqy6N6shdLNC3MCUsy8
-         OyCw==
+        bh=l0tK+Uf/gLjLibXPYb54pTEa4r6foWmae/0GWDov9BM=;
+        b=VIQuU5PIceShoTBIWPnpnltq7W7rRRn+LGxbIb963CuCu28HQk0PY9Gu8YXMAb7+p/
+         0T1MiSqWyfu4nkomqZJIiLBFmjHIukn4IHgmKktB51B7XzRn0qR+fHsxGADNXGkwyKhv
+         j3U1352W4A9TZpcRHrZH7cpG2bZ4gax7+ymMZXpybUxuAjUax7XjQF17mcUbD6A7WJAw
+         62lEp+og4czV1uEIpAa/FrsVZiV/BqClebi4FNG9LQDKY80Sm6o1AcOS4OaZVstsxOiN
+         gzt85XbUquC5AEl3DIO0kYn5SyLkJ+yg7OkzIvqEXgIfWUtEPzjUHlPJJmmPBy5jJliY
+         o8RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rXjUgd+h6oGpmg5rWf2zNT9YFcEPcaolkDyXWoq7G/E=;
-        b=nAZTSPI7jKVuKRcn2KZEzF80laGjkt2cwNR9Qln7XIICMTE/vWTk5FadwVphsaPGIg
-         3E41DtAC/jSUnVVNXAZw5dOaucbshl0lyh42lCATTniQdVutxXkS5bqKhol42CKgldhv
-         CVxFG3tw3w/M9wS734HtBNJ1YVv+4Qumt+8RYXRzcAdUoWnszQUTEEE05Kp60i4JdvpM
-         1Zfqfh1TiHFkJh1GQWwLNS8sCiJsGUXiHlcfGUkbgMpEpu+19r8Y9hqaUspg8UC/Mawq
-         OZK2ic7d9Ua2mNJM6+jTPQpQVK7TWl4U/+IFS94oWHERDYdYcLHnSemHVQvgh01NRU9F
-         u0iQ==
-X-Gm-Message-State: AOAM531Qs0V8AV53LiaI/Tiz+AUJAI4B/+MiY/hOBwi5rhSviBDGxJpp
-	wv/u8DOiJRianNrU2uwBQPIS8/kdjKs=
+        bh=l0tK+Uf/gLjLibXPYb54pTEa4r6foWmae/0GWDov9BM=;
+        b=i6H1/pRzs6m1oSYxFfbuazIQ3pBceu6wthHvKFTPu774FMFby05su2vvJMdmPqdVfq
+         S+OlVtPCcGamEew79Erg//gl2JtC9WUPG/wx2bxeuHJcGvR06ixdjdqZO0BIvBFXwI90
+         Gyt6+EJcB+JiemoqjZDeekDXx/ohqGitXiykmZDGjDmA7SF9o4v87+y2rmLfakXzGsND
+         ODQVk+EJxk0+aigiNF4wjQaCKeapw5YjWMvkdifvDbuAQZimxXJt5xbDuP0RCNUk81Vr
+         6SWX+5Suo8uCbEoxe4vK3cFxco2pAZUW7t9PnaF6R2w5mT4lExrsHGDhmry/tO2LqXgd
+         LIhQ==
+X-Gm-Message-State: AOAM530yt3IC4XMviz0Qfu3uCL3WN/Vczn/274PuUYxO7uG+g3edmT1+
+	WYhfd/+ZTRDPz3I2fPqEALpX9a6eDvE=
 X-Google-Smtp-Source: 
- ABdhPJw1rcBahOLJcoYYNkyAEbQ+GP+dV539PZLR5PSOmIROVyr7MekI4EJ2Icxt2nxflGsQXUTWjw==
-X-Received: by 2002:a05:600c:1550:: with SMTP id
- f16mr6927741wmg.5.1634657688829;
-        Tue, 19 Oct 2021 08:34:48 -0700 (PDT)
+ ABdhPJwbMGIATeyevJdjNh47bs2J+0PWm2/0Mnh91kKoFcTrEmq9MmStlY5KxG+oAawFUMy62Xij6A==
+X-Received: by 2002:a05:600c:4f81:: with SMTP id
+ n1mr6849600wmq.63.1634657689525;
+        Tue, 19 Oct 2021 08:34:49 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  t1sm5868537wre.32.2021.10.19.08.34.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 08:34:48 -0700 (PDT)
+        Tue, 19 Oct 2021 08:34:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 35/65] python3-pygobject: upgrade 3.40.1 -> 3.42.0
-Date: Tue, 19 Oct 2021 17:33:49 +0200
-Message-Id: <20211019153419.3319802-35-alex@linutronix.de>
+Subject: [PATCH 36/65] python3-setuptools: upgrade 58.0.4 -> 58.2.0
+Date: Tue, 19 Oct 2021 17:33:50 +0200
+Message-Id: <20211019153419.3319802-36-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211019153419.3319802-1-alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
@@ -66,33 +67,53 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 15:34:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157154
+ https://lists.openembedded.org/g/openembedded-core/message/157155
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...{python3-pygobject_3.40.1.bb => python3-pygobject_3.42.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.40.1.bb => python3-pygobject_3.42.0.bb} (93%)
+ ...0001-conditionally-do-not-fetch-code-by-easy_install.patch | 4 ++--
+ ...hon3-setuptools_58.0.4.bb => python3-setuptools_58.2.0.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_58.0.4.bb => python3-setuptools_58.2.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.40.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-pygobject_3.40.1.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-index a0d4f04965..461ddcfe31 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.40.1.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-@@ -16,7 +16,7 @@ SRC_URI = " \
-     http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
-     file://0001-Do-not-build-tests.patch \
- "
--SRC_URI[sha256sum] = "00c6d591f4cb40c335ab1fd3e8c17869ba15cfda54416fe363290af766790035"
-+SRC_URI[sha256sum] = "9b12616e32cfc792f9dc841d9c472a41a35b85ba67d3a6eb427e307a6fe4367b"
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 2b1f899eaf..d1c77a971c 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 4e2c87105884af6dfc3bc9f8c65b199ecc3b5186 Mon Sep 17 00:00:00 2001
++From 543f12f43e10b242802009ac1d03ded800526934 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -15,7 +15,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
  
- UNKNOWN_CONFIGURE_WHITELIST = "introspection"
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 45adb6a..9ac3342 100644
++index b88c3e9..dcd2898 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+ @@ -636,6 +636,11 @@ class easy_install(Command):
+diff --git a/meta/recipes-devtools/python/python3-setuptools_58.0.4.bb b/meta/recipes-devtools/python/python3-setuptools_58.2.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
+rename to meta/recipes-devtools/python/python3-setuptools_58.2.0.bb
+index 8df69ce920..0a05ac6079 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_58.0.4.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_58.2.0.bb
+@@ -10,7 +10,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ 
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ 
+-SRC_URI[sha256sum] = "f10059f0152e0b7fb6b2edd77bcb1ecd4c9ed7048a826eb2d79f72fd2e6e237b"
++SRC_URI[sha256sum] = "2c55bdb85d5bb460bd2e3b12052b677879cffcf46c0c688f2e5bf51d36001145"
+ 
+ DEPENDS += "${PYTHON_PN}"
  
 -- 
 2.20.1
