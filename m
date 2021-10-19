@@ -2,115 +2,113 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD39C433EF
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 16:44:50 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.12564.1634661890017613283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 254D0C433EF
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 16:47:34 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web12.12603.1634662053407470148
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 09:44:50 -0700
+ Tue, 19 Oct 2021 09:47:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WLGWtlNP;
- spf=pass (domain: gmail.com, ip: 209.85.214.178,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id v20so14064896plo.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cK1Wfv3f;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id
+ e5-20020a17090a804500b001a116ad95caso351496pjw.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 09:44:49 -0700 (PDT)
+ Tue, 19 Oct 2021 09:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:organization:in-reply-to:content-transfer-encoding;
-        bh=wvwt6xKEKYUh3vVxC0vCCnLjrYiqBKa6LXxdBRIECf8=;
-        b=WLGWtlNPr3OlHRxVQhAUPQ7rfDyYQFjdmsZcwbFJmU2h7Fv2m37ZPy6q5gsTIdxGs1
-         owQR7xMqOYTkm+f3cWmPfmBBAsox/Y9Rvu84sSewqzDkVi9DFFbzGhS21C36K2YrGquQ
-         xl7J/zpUBBnLbUX/Qtfsxstp6kXTHEfNeQArlFmGEwPmCJtrsntWmTqoed+fKxd0o1XJ
-         gi4dKtPh8G/gYyWWeDlYvbIbjSsDDWP+nj4CvYPxqGwpUlnfMdXYPAq1EBJMNJ9rHQEk
-         XXbXpxCJ9Ot6D4/otN47+TzZ1dDX7mUiiXuxHEmwUpwSG2noG+zfPy+GdLAtggkRvkNw
-         lDSg==
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=/jioD8reS4VYCIDJdgRhLcfmmC81qok0tEEoFUZrbns=;
+        b=cK1Wfv3fpNsyErqXBdsK34QEq5YweRi7TcbuKms4gobcmLBIR2lAZqU/jJ0AtcHVi5
+         PUo70LC5IvFuBUgqHIk4VOuBLYIMkfu6dEC4TmJcxLR0FoMPJHv+wrGsVrv2tTzaMEXu
+         Otgicf4DGPDr+K3GQTMBkUHeqk5CTWC+JrNcKN0CYNVSRbLxVtYKflajNEzZPlbOD8ic
+         SiXXnoeaSaiEo6mXHGfRnmOzPfF1Q6Wvr00kNw56fk4NrDJj48SsDE5zhjdnq/S2jPim
+         6tEs9HFL0EDZoP3dwCUrbxhiAbhYCTv/was2p3dpjyVtjWNi9P5q6PbwVMNepmAmoADT
+         XqWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:organization:in-reply-to
+         :content-language:to:cc:references:from:organization:in-reply-to
          :content-transfer-encoding;
-        bh=wvwt6xKEKYUh3vVxC0vCCnLjrYiqBKa6LXxdBRIECf8=;
-        b=eaAxHGCmyQc8Zt01UnWpU8Xa1KwQpjfB2oNXgX057vjIihZtZZLaqM+6u55uTyepIE
-         fjiQOE+vqZkFZJ1595j/4D7CrKLIZ0Bxt76SDY23t33SZ0y6stvfxEfUfj9TYYcmvxmM
-         IPlBLHG7nM9ME9yH8+HWfrchSHlrZBZoye3W7LkrXMUjMJro/yw447flCYPS8D331sHC
-         HzciqnC1JTeOHqTtLVBnqdPT0bnne1xYn0WxJIx9A4ypPXOLUaPIuJDoymcbyBUEXdla
-         5M7e5oS5zjMwsMWV9KJbHZ8ylGY/S16e+WrxawaBRiuqZlIHUEY/r28zpTBFcj9XrIat
-         rBNg==
-X-Gm-Message-State: AOAM532X7cAl7lOHJfJUrh/0QW4fXjInA1b/mSQDH3Svrcb8dYAcCDV2
-	eBWt7p1y5nxkLOszGP972e4=
+        bh=/jioD8reS4VYCIDJdgRhLcfmmC81qok0tEEoFUZrbns=;
+        b=R7bFAEOi1Yag0yozLPCL4Ze3CpOI6PTot2vJ5nxvhE3qKSbIbFYbWYg+RqtFugF73b
+         XEq1p/8Z/A0Iw3J9+Qau9aWYE6vWluQHSzws191F74U+EBzLSPJCaL+AdjxbvLvg8hcZ
+         YhvRCsoWR5wOaCdHB4n489e/QewIhXIu5Nq8ZjGBwuYixg5kvjL6PK0jZQXDQBPD2tPX
+         03kGJQ0Vu5UPl9HhCmWg1aG+4PZWIMLopuXb+mJpc6WPAV+kEddMQG3qktykWD2ta9CO
+         RCtXglJlNChqOf8QDE7tKiew41cInfl0W52Tl3/zbnoUEUnakNlWa1DPhVhFIrOzSIWX
+         PMiA==
+X-Gm-Message-State: AOAM5320e0yhOr+xF+213HOAwp5WQhQgbP7mA7pdTRwT+AAtY0vwG4WS
+	D6AwAsGnXlkLoeh5hGHTddfprKmQYE+7MQ==
 X-Google-Smtp-Source: 
- ABdhPJyTFPC8oZ2mWrC1EQRIyxnlGFwg3LwfOJ5BET69i653EUDBqh1EANryvuDnwlwSIMLiqkFw8Q==
-X-Received: by 2002:a17:90a:55cb:: with SMTP id
- o11mr1112597pjm.244.1634661889375;
-        Tue, 19 Oct 2021 09:44:49 -0700 (PDT)
+ ABdhPJyG2EjSwEkbPzEJtQ0Fahfc5NVLxCMz5VS2iVuXqGco38I7XdJ2yKYcyWrdpquwBa9+x0NssQ==
+X-Received: by 2002:a17:903:2304:b0:13f:2457:11dd with SMTP id
+ d4-20020a170903230400b0013f245711ddmr34039349plh.57.1634662052711;
+        Tue, 19 Oct 2021 09:47:32 -0700 (PDT)
 Received: from ?IPV6:2601:646:9200:a0f0:f9fc:73ad:7653:581d?
  ([2601:646:9200:a0f0:f9fc:73ad:7653:581d])
         by smtp.gmail.com with ESMTPSA id
- oc8sm3515213pjb.15.2021.10.19.09.44.48
+ x17sm16568059pfa.209.2021.10.19.09.47.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 09:44:49 -0700 (PDT)
-Message-ID: <968cbfa1-7d80-11d2-d6ab-e050ea855799@gmail.com>
-Date: Tue, 19 Oct 2021 09:44:48 -0700
+        Tue, 19 Oct 2021 09:47:32 -0700 (PDT)
+Message-ID: <ebae2be9-c655-3f39-cd09-eeef03b30e3d@gmail.com>
+Date: Tue, 19 Oct 2021 09:47:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.2.0
-Subject: Re: [OE-core] [PATCH 26/65] psplash: upgrade to latest revision
+Subject: Re: [OE-core] [PATCH 65/65] systemd: disable seccomp on mips32
 Content-Language: en-US
 To: Alexander Kanavin <alex.kanavin@gmail.com>,
  openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
 References: <20211019153419.3319802-1-alex@linutronix.de>
- <20211019153419.3319802-26-alex@linutronix.de>
+ <20211019153419.3319802-65-alex@linutronix.de>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-In-Reply-To: <20211019153419.3319802-26-alex@linutronix.de>
+In-Reply-To: <20211019153419.3319802-65-alex@linutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 16:44:50 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 16:47:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157187
+ https://lists.openembedded.org/g/openembedded-core/message/157188
 
 
 
-On 10/19/21 8:33 AM, Alexander Kanavin wrote:
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+On 10/19/21 8:34 AM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->   meta/recipes-core/psplash/psplash_git.bb | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   meta/recipes-core/systemd/systemd_249.5.bb | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-> index 1be7ece79d..1d410bd548 100644
-> --- a/meta/recipes-core/psplash/psplash_git.bb
-> +++ b/meta/recipes-core/psplash/psplash_git.bb
-> @@ -6,9 +6,8 @@ LICENSE = "GPLv2+"
->   LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=8;md5=8f232c1e95929eacab37f00900580224"
->   DEPENDS = "gdk-pixbuf-native"
+> diff --git a/meta/recipes-core/systemd/systemd_249.5.bb b/meta/recipes-core/systemd/systemd_249.5.bb
+> index 70f8813895..47d5209f96 100644
+> --- a/meta/recipes-core/systemd/systemd_249.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_249.5.bb
+> @@ -111,6 +111,9 @@ PACKAGECONFIG:remove:libc-musl = " \
+>       utmp \
+>   "
 >   
-> -SRCREV = "0a902f7cd875ccf018456451be369f05fa55f962"
-> +SRCREV = "f5203fdee61b90ef9552ca49c213fe16776b3e4b"
->   PV = "0.1+git${SRCPV}"
-> -PR = "r15"
+> +# https://github.com/seccomp/libseccomp/issues/347
+> +PACKAGECONFIG:remove:mips = "seccomp"
+> +
+
+this should be mipsarch
+
+>   CFLAGS:append:libc-musl = " -D__UAPI_DEF_ETHHDR=0 "
 >   
-
-Since PV is not bumped. Resetting PR will break feeds
-
-
->   SRC_URI = "git://git.yoctoproject.org/${BPN} \
->              file://psplash-init \
+>   # Some of the dependencies are weak-style recommends - if not available at runtime,
 > 
 > 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157145): https://lists.openembedded.org/g/openembedded-core/message/157145
-> Mute This Topic: https://lists.openembedded.org/mt/86442672/1997914
+> View/Reply Online (#157184): https://lists.openembedded.org/g/openembedded-core/message/157184
+> Mute This Topic: https://lists.openembedded.org/mt/86442719/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
