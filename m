@@ -2,62 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CC8C433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:27 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web12.15294.1634673326518181193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63852C433EF
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:29 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web08.15318.1634673328782848313
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:26 -0700
+ Tue, 19 Oct 2021 12:55:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=wfcvPeL4;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173,
+ header.b=4jCOvEYn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id m21so20332924pgu.13
+Received: by mail-pl1-f169.google.com with SMTP id t11so14454598plq.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:26 -0700 (PDT)
+ Tue, 19 Oct 2021 12:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KFEzwoB1E6Wms85s9DyOmWmkKNHOaNBD/Z9WGhCfNac=;
-        b=wfcvPeL4fexYEwxXLr8ZBQaqCGw/sc5WVTNkFj0yv4rNX3Wh3syKDgk6PmE14QGUFP
-         2a66rPZiP50n+PIvAETaSBk+13P7sAACIQSHIptidq8Hwh/ix/wtM8fI5XgOUtnyGMfm
-         wAt2vWpyIzuOOeSOAgb9tp8HO8ldmkmCVXmeXvy4pU3iwAB/4v15OkdzdcKqUMrOCbzp
-         PGCJg+1B4q3jZ4BtZBiPy68QDpuKTutqJ3kCdcvjGcecycIcntn/O9vOjGU8fB3msedt
-         Ru6cXj98iaMx78+bJBcVefgmVR4Rf5Jpf1Ph5hXeykE+DBKcwgNB1R2k6zwl1tCQ6Ccn
-         qF1A==
+        bh=6k8hrh/O6t+39ax552uQkY2Nsa7xeyT3uH36FIx4VjQ=;
+        b=4jCOvEYnSmI8H71Xr2HGqlBO6kvptA5q4wcy+6btZSCYHk+Dg0KzB6jW3WfUxEKfM3
+         UtM9lyO7PsheOJeUxtYdHOYWAe2PtHV3k6E9bwbF9uUfPeoORcOoUOjkDwDAGdbvlj2o
+         loUMsHVaPbFvXV13O+1DV0hKVRn38gK7uLyqfSy7RoxEhV84WOo8vMB+WijtiSyjdeRk
+         /9RcSIytHc4V+6poOa8/WYcKXPMhjpn1hJeIXh6h1RgfkRyUmNBXCgrmtNhru8R3lgG2
+         DXlyz9px5V+6k4DFba6Mkx2vUhYCaf1qpq6aVSAVNOZ2n0g0yM8lFgjyLYhnixGB5IVq
+         Y1Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KFEzwoB1E6Wms85s9DyOmWmkKNHOaNBD/Z9WGhCfNac=;
-        b=0V0C58Lrb6wcRFf3us/WQP3Jfzpk+NOzw5QVA5yAJrOncEm8+OeZkpvT2qxtxRHsFD
-         00QPN+FMY9YnMDEDFAMuWl6UGYteAAgOpFSFsRlQ4XqxZFKMSENH+36GP/2MyoLeNOT4
-         ua2sAMY4io6+MpEchPDJ/eWrfUeJVV4w5PPUMNRQvxm6jNNZp95lGJOmsNDZpcVUKe90
-         7sZniEO9ezaMOtWua92khpNJ/MCjZ8p7aqplDIRgCFt1+lVj654uhNkEmrnw/fPpjuAu
-         c0OuhnIvHit2e1EsmUvrpIMDI/PIu6q1AgoHWLQEqOIaXxZwtQLVeDon9cquwIw9NDIZ
-         L8lw==
-X-Gm-Message-State: AOAM532wBSNm7YAUREZaCxVFI0p7GFDi/wh4bfbnt/ZNxmiD90dS1nx9
-	oB2gOQDU33Ec7T385djiclwGGdTcaembWcDUfFc=
+        bh=6k8hrh/O6t+39ax552uQkY2Nsa7xeyT3uH36FIx4VjQ=;
+        b=NnRz0MP5zGQBtEMb+3HdCuvH2p1raGfidPC7SyHvJ6IEIip+v9iwaoAeTh0jmooUeX
+         kwQZJqZuLfWoK8G4BxB0DUNFW2M56yDY/CTBbURYHcRaw36b2xG6vtoSZXVGkbhsML3Z
+         2pthIYBDyc8CXB7gRX0TSIvxOYrd2Lmzu1B5hxHhmuZ1ORgivpLLZZIlmU4jUktdR6Di
+         Cj2JZMcp1nQFD4fYjkEWagkzNR+AV89JbkI3RAiVnP/CO9jcSHYWzlYn0bjKTLQxuiaz
+         3rormrfOWexTp9O9nCWq7KypUjfewQX+0SnoqIWC6dquwR9N7YFPgHslVLSkn5zp2GA0
+         eN8A==
+X-Gm-Message-State: AOAM533Jc0PrsM9AtxKjDryjOVDip43WoPaKRgAZLSpScEo1qolJpjSk
+	3URnPHrJDSo+f0UgxISiWoJCc84b0M+4e8HuLds=
 X-Google-Smtp-Source: 
- ABdhPJwJgYK6DX4yHQIr6K29zqmn0NST9og00CnIGHW3DGXj67v6Mp34tDTgkBE+sJ33tDr+AayFrA==
-X-Received: by 2002:a63:3d4a:: with SMTP id
- k71mr30395871pga.276.1634673325567;
-        Tue, 19 Oct 2021 12:55:25 -0700 (PDT)
+ ABdhPJzP9hJdTeUk2aUNAVgRo8N6dFpGxHIHlFDaaDDlSL+ihEiQwX+74u6drjWmnUTWonJK00YvmQ==
+X-Received: by 2002:a17:902:6ac5:b0:13f:ca85:3d97 with SMTP id
+ i5-20020a1709026ac500b0013fca853d97mr8966595plt.73.1634673327815;
+        Tue, 19 Oct 2021 12:55:27 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.24
+        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:55:25 -0700 (PDT)
+        Tue, 19 Oct 2021 12:55:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 33/38] externalsrc: Work with reproducible_build
-Date: Tue, 19 Oct 2021 09:53:44 -1000
+Subject: [OE-core][dunfell 34/38] externalsrc: Fix a source date epoch race in
+ reproducible builds
+Date: Tue, 19 Oct 2021 09:53:45 -1000
 Message-Id: 
- <badef50c6c9821f1975483de0ba50a75f2eda52c.1634665675.git.steve@sakoman.com>
+ <e30c2be8b9534a8dbec5520b41a00c6dc8aa65a4.1634665675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
 References: <cover.1634665675.git.steve@sakoman.com>
@@ -66,50 +67,55 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:27 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157238
+ https://lists.openembedded.org/g/openembedded-core/message/157239
 
-From: Mark Hatle <mark.hatle@xilinx.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Externalsrc removes do_fetch, do_unpack, and do_patch.  The system normally
-discovers the correct reproducible date as a postfuncs of do_unpack, so this
-date is never found, so it falls back to the default epoch.
+When reproducible builds are enabled and externalsrc is in use, the
+source date epoch function is added. The conditions on the conditional
+code removing the unpack task need to match the deltask function, else
+the source date epoch function can end up running twice and the functions
+can race with each other causing build failures or corruption.
 
-Instead we can move the discovery function to a prefuncs on the epoch
-deploy task.  This task will run before do_configure, and since the source
-is already available can run safely at anytime.
-
-Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0b7dd711a54e92ce54abe99f59fc67e683d52dfe)
+(cherry picked from commit e82095c02881410035ca23dc12692f074d8ed39b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/externalsrc.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/classes/externalsrc.bbclass | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index c7fcdca6ef..e94a5cc2af 100644
+index e94a5cc2af..0e0a3ae89c 100644
 --- a/meta/classes/externalsrc.bbclass
 +++ b/meta/classes/externalsrc.bbclass
-@@ -109,6 +109,16 @@ python () {
+@@ -108,16 +108,15 @@ python () {
+             if local_srcuri and task in fetch_tasks:
                  continue
              bb.build.deltask(task, d)
+-
+-        if bb.data.inherits_class('reproducible_build', d) and 'do_unpack' in d.getVar("SRCTREECOVEREDTASKS").split():
+-            # The reproducible_build's create_source_date_epoch_stamp function must
+-            # be run after the source is available and before the
+-            # do_deploy_source_date_epoch task.  In the normal case, it's attached
+-            # to do_unpack as a postfuncs, but since we removed do_unpack (above)
+-            # we need to move the function elsewhere.  The easiest thing to do is
+-            # move it into the prefuncs of the do_deploy_source_date_epoch task.
+-            # This is safe, as externalsrc runs with the source already unpacked.
+-            d.prependVarFlag('do_deploy_source_date_epoch', 'prefuncs', 'create_source_date_epoch_stamp ')
++            if bb.data.inherits_class('reproducible_build', d) and task == 'do_unpack':
++                # The reproducible_build's create_source_date_epoch_stamp function must
++                # be run after the source is available and before the
++                # do_deploy_source_date_epoch task.  In the normal case, it's attached
++                # to do_unpack as a postfuncs, but since we removed do_unpack (above)
++                # we need to move the function elsewhere.  The easiest thing to do is
++                # move it into the prefuncs of the do_deploy_source_date_epoch task.
++                # This is safe, as externalsrc runs with the source already unpacked.
++                d.prependVarFlag('do_deploy_source_date_epoch', 'prefuncs', 'create_source_date_epoch_stamp ')
  
-+        if bb.data.inherits_class('reproducible_build', d) and 'do_unpack' in d.getVar("SRCTREECOVEREDTASKS").split():
-+            # The reproducible_build's create_source_date_epoch_stamp function must
-+            # be run after the source is available and before the
-+            # do_deploy_source_date_epoch task.  In the normal case, it's attached
-+            # to do_unpack as a postfuncs, but since we removed do_unpack (above)
-+            # we need to move the function elsewhere.  The easiest thing to do is
-+            # move it into the prefuncs of the do_deploy_source_date_epoch task.
-+            # This is safe, as externalsrc runs with the source already unpacked.
-+            d.prependVarFlag('do_deploy_source_date_epoch', 'prefuncs', 'create_source_date_epoch_stamp ')
-+
          d.prependVarFlag('do_compile', 'prefuncs', "externalsrc_compile_prefunc ")
          d.prependVarFlag('do_configure', 'prefuncs', "externalsrc_configure_prefunc ")
- 
 -- 
 2.25.1
 
