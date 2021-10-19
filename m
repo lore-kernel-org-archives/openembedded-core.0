@@ -2,62 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59694C433EF
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:54:25 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.15513.1634673264044913648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 502F9C433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:54:27 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.15514.1634673266238515072
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:54:24 -0700
+ Tue, 19 Oct 2021 12:54:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=NHJyCHsM;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ header.b=DAvyQlde;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id y1so14450457plk.10
+Received: by mail-pj1-f44.google.com with SMTP id
+ pf6-20020a17090b1d8600b0019fa884ab85so708051pjb.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:54:24 -0700 (PDT)
+ Tue, 19 Oct 2021 12:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=IgHJIicjP1g4q1FWB1M9loQaJdQ8Zkp+GNGUtrXQH7M=;
-        b=NHJyCHsMnQTK08fuPOWBz9pGIFIiJv2DI5NGmC/Y4g2oDL1OltPsxG+suYQwQm5LiA
-         JvCKj/pPhydzESMe9QZt3wxF/uhN1LiNSDQg/3m1baDcpd47RkbThp+Ofn3T3vnqOoVg
-         tZIL7OkzgUdvIKcvRyxQlZ59IHnJCgUQAjzl0mjuPOXrX5X1Q6Cb6IWbbBQkG6vSM0uO
-         pHGB5kaPY9bsLH7qsrsR8LS5snXazxAfNh7P59Qs1VgfCGY0MvZ0lB/4bmDgSvxOIL6f
-         4+2B0h1ksMoU9ZlfzK9FrXj9TGh5Nu420cpGGcNjOltEjfPel4zHGv8l/uNsCtBgx5wn
-         3zqA==
+        bh=GO+Xq5fdn120YUri59kBvOYtRwrWE8XGoqkHU9ETaAc=;
+        b=DAvyQldelhAQcTgjNVqUBxqfH8A3h93S4eC8xuWqzqCX/xEPk1W9SJWp1rhZ/Rew9e
+         Tatm4bX252cJ/oosvtikkOk0QnP01oTnou/pV2EWTH4e3K1NVKYqOvAN+BmF/YabNPDd
+         luVbHp37Hk6lrN1mN2FGhsqkBmwVIklhqbrzxlbyYuy9XVVxFbv0qZCAVVKgdkvAZgf4
+         7dCFJf5vPELCKps2sr+8GW0Fk4RC64GZWW97Df5lxgPkLPhV7+eFwkXewkbfKInzW1bs
+         Gxk49fcmkmErJpBaJ9849RpHy+KRonxyfTw5QKFFh1C6DSGlsVM1peKumU8TyuNfr4bs
+         Iu7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IgHJIicjP1g4q1FWB1M9loQaJdQ8Zkp+GNGUtrXQH7M=;
-        b=Z8uY9ulZ+gQFHpLXQSZZMggBXpWvBSRKbyDFGEc0baOG/2EHiZeJLANfzrpQMmZTdl
-         e1+uSpp99SUdKn8aGlRRY99e618p6qL58pmDUcXDeXRNm6QeonN6k3rb/NVP1S0m1zh/
-         x0hAp9274sVSevNQVrsCHxMYpYNNiiTMsZ1dvsAPna1T9mCcKaDh4KuvFsJXVaUkUyDO
-         U6jSPGnag3wJCyTS8BySX8oAhPswzZnrqzM4XnTw+lc7nWG7F77wLvkxluwekQIP9Mug
-         HvxwUMyILg/yKW2gLLlbEcIOoJnc81NeEKSncA9ciEBt10HNVkO3dje3wfFI1CmEf8Is
-         HDcQ==
-X-Gm-Message-State: AOAM531sX11DCcmgXvp2VXVD9RHFooAShCHjAg+e6z3FiBj9/6Z2UGg1
-	AVPE/LBGmKOZDzv0lrUim3KHojrsa+7ZvfCTv7M=
+        bh=GO+Xq5fdn120YUri59kBvOYtRwrWE8XGoqkHU9ETaAc=;
+        b=cI+ianXaKd4kXVjz+d7nB9SbGAtimEc7Qr4kOPGHoeU66/9GTC5kz3g0T5Dfuc/gpY
+         3BzsfPM4J3Yb0ayY+e4zLc4tUdUr62N07SfqakQ14GBmzfpq4QYmqpRzpiNBiLzXskx/
+         GB1J211y4nULQ+ee+pGkqn/AL3Kuhl1lcu2xUm2LDU5t0GjZp/4kX0KDqKTWu8fVjYN/
+         bFaK9itpnlPdA77aVu/8p6IsosB0T0ZaZTFVBZN4NcrfpS3Xdu0V/rj8vv15VAEZZ9pg
+         3KC5oXF01ikjFTWzj0hGwvaNXPhBbatcILZni9kutfmu+Q8/OM8gjTtnzkDBBEZpoDAC
+         xLXA==
+X-Gm-Message-State: AOAM530KWKcAvp4p5XTvTdGlh05panSau8whBU+59sD+V4rJMnVYgNu/
+	IqUTNb2Pzy1kQrgbfwjL79Q73Uuqz4qQ5+gDbgg=
 X-Google-Smtp-Source: 
- ABdhPJwrUznzM7faCk/Xbf/TsZH8UNDUQYFPnCvynC67lIDDOVc6oTZ/+42deN7K8dkrpPkNdnL0KQ==
-X-Received: by 2002:a17:90b:a18:: with SMTP id
- gg24mr2203498pjb.18.1634673263082;
-        Tue, 19 Oct 2021 12:54:23 -0700 (PDT)
+ ABdhPJwONKX81BopJYeppeYV9U/B/J6/jkvgD2N0aS3aF9FHJbrVyO6aw4V3G3lqd+0110AYlgRNKA==
+X-Received: by 2002:a17:90a:7d11:: with SMTP id
+ g17mr2125299pjl.150.1634673265304;
+        Tue, 19 Oct 2021 12:54:25 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.54.21
+        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.54.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:54:22 -0700 (PDT)
+        Tue, 19 Oct 2021 12:54:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/38] weston: Use systemd notify,
-Date: Tue, 19 Oct 2021 09:53:18 -1000
+Subject: [OE-core][dunfell 08/38] multilib: Avoid sysroot race issues when
+ multilib enabled
+Date: Tue, 19 Oct 2021 09:53:19 -1000
 Message-Id: 
- <4efdcc10906945765aa28324ce1badc59cda2976.1634665675.git.steve@sakoman.com>
+ <771c7fe5fff266038954873290f4c785f66c1634.1634665675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
 References: <cover.1634665675.git.steve@sakoman.com>
@@ -66,141 +68,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:54:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:54:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157212
+ https://lists.openembedded.org/g/openembedded-core/message/157213
 
-From: Pavel Zhukov <pavel.zhukov@huawei.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Using systemd notify fixes the problem with dependency chain in case
-if other services depend on running weston.
-This change required more robust handling of weston modules arguments
-due to custom argument parser impmentation in weston (only last
---modules argument is accepted) and fixes the bug in modules handling
-in the weston-start script (only last argument is actually parsed by
-weston). Master branch implements systemd-notify thus backport but
-doesn't utilize modules anymore so this change is mostly dunfell
-specific.
+Multilib changes RECIPE_SYSROOT which can make the value in PSEUDO_IGNORE_PATHS
+incorrect. Add the correct value, which fixes races over files in the sysroot.
 
-Upstream-status: Backport
+[YOCTO #14581]
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 64003e5e1b51c0cd561681b1ac13293546b8182b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../wayland/weston-init/weston-start                 | 12 ++++++++++++
- .../wayland/weston-init/weston@.service              |  6 ++++++
- .../wayland/weston/systemd-notify.weston-start       |  9 +++++++++
- .../wayland/weston/xwayland.weston-start             |  3 +--
- meta/recipes-graphics/wayland/weston_8.0.0.bb        |  6 ++++++
- 5 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+ meta/conf/multilib.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
-index ccc7093425..97471df80d 100755
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-@@ -23,6 +23,15 @@ add_openvt_argument() {
- 	openvt_args="$openvt_args $1"
- }
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index d231107f8b..e9767c73b6 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -11,6 +11,8 @@ STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+ RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+ RECIPE_SYSROOT_class-native = "${WORKDIR}/recipe-sysroot"
  
-+## Add module to --modules argument
-+add_weston_module() {
-+	if [ -z "${weston_modules}" ]; then
-+		weston_modules="--modules "
-+	fi;
-+	weston_modules="${weston_modules}${1},"
-+}
++PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/${MLPREFIX}recipe-sysroot"
 +
-+
- if [ -n "$WAYLAND_DISPLAY" ]; then
- 	echo "ERROR: A Wayland compositor is already running, nested Weston instance is not supported yet."
- 	exit 1
-@@ -65,6 +74,9 @@ if [ -d "$modules_dir" ]; then
- 		# process module
- 		. $m
- 	done
-+	if [ -n "${weston_modules}" ]; then
-+		add_weston_argument "${weston_modules} "
-+	fi;
- fi
+ INHERIT += "multilib_global"
  
- if test -z "$XDG_RUNTIME_DIR"; then
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
-index 39e193014a..70c706d75c 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston@.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
-@@ -1,3 +1,7 @@
-+# SPDX-FileCopyrightText: Huawei Inc.
-+#
-+# SPDX-License-Identifier: Apache-2.0
-+
- [Unit]
- Description=Weston Wayland Compositor
- RequiresMountsFor=/run
-@@ -5,6 +9,8 @@ Conflicts=plymouth-quit.service
- After=systemd-user-sessions.service plymouth-quit-wait.service
- 
- [Service]
-+Type=notify
-+NotifyAccess=all
- User=%i
- PAMName=login
- EnvironmentFile=-/etc/default/weston
-diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-new file mode 100644
-index 0000000000..fdb48cb609
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-@@ -0,0 +1,9 @@
-+#!/bin/sh
-+
-+# SPDX-FileCopyrightText: Huawei Inc.
-+# SPDX-License-Identifier: Apache-2.0
-+
-+
-+if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
-+	add_weston_module "systemd-notify.so"
-+fi
-diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-index b483c97cf1..22984f50a4 100644
---- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-+++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-@@ -2,6 +2,5 @@
- 
- if type Xwayland  >/dev/null 2>/dev/null; then
- 	mkdir -p /tmp/.X11-unix
--
--	add_weston_argument "--modules=xwayland.so"
-+	add_weston_module "xwayland.so"
- fi
-diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-index 0b383f25f3..2b120d7404 100644
---- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-@@ -5,9 +5,11 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
-                     file://libweston/compositor.c;endline=27;md5=6c53bbbd99273f4f7c4affa855c33c0a"
- 
-+
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop \
-+           file://systemd-notify.weston-start \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
-@@ -101,6 +103,10 @@ do_install_append() {
- 		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
- 	fi
- 
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}" = "yes" ]; then
-+	        install -Dm 644 ${WORKDIR}/systemd-notify.weston-start ${D}${datadir}/weston-start/systemd-notify
-+	fi
-+
- 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
- 		chmod u+s ${D}${bindir}/weston-launch
- 	fi
+ BBCLASSEXTEND_append = " ${MULTILIBS}"
 -- 
 2.25.1
 
