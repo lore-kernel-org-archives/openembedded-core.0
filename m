@@ -1,110 +1,151 @@
-Return-Path: <thomas.perrot@bootlin.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84905C433EF
-	for <webhook@archiver.kernel.org>; Mon, 18 Oct 2021 23:23:37 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web08.2248.1634599411708965457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2564FC433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 01:17:27 +0000 (UTC)
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
+ [85.158.142.4])
+ by mx.groups.io with SMTP id smtpd.web12.3750.1634606245365725910
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Oct 2021 16:23:32 -0700
+ Mon, 18 Oct 2021 18:17:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: thomas.perrot@bootlin.com)
-Received: (Authenticated sender: thomas.perrot@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id A3A1CC0005;
-	Mon, 18 Oct 2021 23:23:28 +0000 (UTC)
-From: Thomas Perrot <thomas.perrot@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Perrot <thomas.perrot@bootlin.com>
-Subject: [OE-core][PATCH] image_types: allow the creation of block devices on
- top of UBI volumes
-Date: Tue, 19 Oct 2021 01:21:23 +0200
-Message-Id: <20211018232123.2674220-1-thomas.perrot@bootlin.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=hrS3WBAm;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.4,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1634606243; i=@fujitsu.com;
+	bh=nFHMdxUTzIoIZL+FbeVjFLjEV7LPjJWsha/FvVqbtZo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=hrS3WBAmW5NfeKqE6HHciY9VMRRGJrg0iP8idgs26Xyiw1YRgBnFpXBrDdrAfODJx
+	 CQs1SIChSyHF6hUkAJUFkbHzfuqRgIKXWlQi6qJDGWtbdUoNePQ+3m2uQe87j2XE5d
+	 54FZxgohHX2OKK+Hqd93GcAdVSR4m4LAnD7DawV12MU+MSV+CShk9H2jwkGO+HVaWa
+	 r3TvhIordwfmqvwyXqSkLT3fB59VIzCu7O08D93edyq7VKHZW8U9oKGV0w5cd8KWQ8
+	 GvmHc7dgkZCTtggz/kztd6Fykh93+qYC+6LozO0IfiS3M0YjeeQ0qoUeuFgNTX2L8V
+	 hNDqkRmq8OnYA==
+Received: from [100.113.0.18] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 8C/3C-09980-2AC1E616;
+ Tue, 19 Oct 2021 01:17:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRWlGSWpSXmKPExsViZ8MxVXeRTF6
+  iQXO/gMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnH7xG22gkWSFXMmfmBuYPwr2sXIxSEkMItJ
+  Ytvky8wQzglGiXOrr7B2MXJysAmoSUy/dQPI5uAQEdCTuPpPFCTMLKAi8eJ3DzuILSxgJbH12
+  F4WEJtFQFXixLarbCA2r4CzxOX2iWBjJAQUJKY8fM8MEReUODnzCQvEHAmJgy9eMEPUKErMvt
+  zMAmFXSMya1cY0gZF3FpKWWUhaFjAyrWK0TCrKTM8oyU3MzNE1NDDQNTQ01jXUNTIy00us0k3
+  USy3VTU7NKylKBMrqJZYX6xVX5ibnpOjlpZZsYgQGWEoh46MdjKdff9A7xCjJwaQkyutwMTdR
+  iC8pP6UyI7E4I76oNCe1+BCjDAeHkgSvBkdeopBgUWp6akVaZg4w2GHSEhw8SiK8IVJAad7ig
+  sTc4sx0iNQpRnuON2uXLGLmaLt3F0jOXHBwNTPH/fZDq5mFWPLy81KlxHltpYHaBEDaMkrz4I
+  bCovMSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWHeSJDlPJl5JXC7XwGdxQR01lXnHJCzShI
+  RUlINTK51vEfZRO7UlEc8Xur3dOPJSSlyubOPNE9eaLxdNeTdM+3JE01fBXzeZNbMLuBY/7lt
+  4W7F+S+4lj+M8A0RuHj+6OF9ZpP+nZ281+Ktzcn1KY/ft/i63dsj5y5wf4HIJ6fPLIY9pTFFV
+  9QfTS7rieY58vRo3uIKJg/xHKVG+y1NrasVjrtqWJgef5/Q/DurbtcVqSkTXeomly/XEthm++
+  yRtOja+ftWhP8It+mWbbWu01lacFpzeoSk+o/nKhvsH+/71rnfpeTUF+/0A0K6ofczX7h4TF/
+  v5qjanphsVu0qv4ldbRrDuuDyy3FVd85asb2UM1u75FtHoQSD3DeV/QtLOgo9N9etOfO6tHTr
+  MiWW4oxEQy3mouJEAFsSuHJJAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-11.tower-226.messagelabs.com!1634606241!14945!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 31393 invoked from network); 19 Oct 2021 01:17:22 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-11.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 19 Oct 2021 01:17:22 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 19J1HGbd009502
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 19 Oct 2021 02:17:21 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.23; Tue, 19 Oct 2021 02:17:15 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libgit2: upgrade 1.2.0 -> 1.3.0
+Date: Tue, 19 Oct 2021 09:16:29 +0800
+Message-ID: <1634606189-130388-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Oct 2021 23:23:37 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 01:17:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157097
+ https://lists.openembedded.org/g/openembedded-core/message/157098
 
-Currently, the function multiubi_mkfs doesn't allow using anything else than
-UBIFS over UBI.
+New Features
+Support custom git extensions by @ethomson in #6031
+Introduce git_email_create; deprecate git_diff_format_email by @ethomson in #6061
+Deprecated APIs
+git_oidarray_free is deprecated; callers should use git_oidarray_dispose
+Bug fixes
+remote: Mark git_remote_name_is_valid as GIT_EXTERN by @lhchavez in #6032
+Fix config parsing for multiline with multiple quoted comment chars by @basile-henry in #6043
+indexer: Avoid one mmap(2)/munmap(2) pair per git_indexer_append call by @lhchavez in #6039
+merge: Check file mode when resolving renames by @ccstolley in #6060
+Allow proxy options when connecting with a detached remote. by @lrm29 in #6058
+win32: allow empty environment variables by @ethomson in #6063
+Fixes for deprecated APIs by @ethomson in #6066
+filter: use a git_oid in filter options, not a pointer by @ethomson in #6067
+diff: update GIT_DIFF_IGNORE_BLANK_LINES by @ethomson in #6068
+Attribute lookups are always on relative paths by @ethomson in #6073
+Handle long paths when querying attributes by @ethomson in #6075
+Code cleanups
+notes: use a buffer internally by @ethomson in #6047
+Fix coding style for pointer by @punkymaniac in #6045
+Use typeof GNUC keyword for ISO C compatibility by @duncanthomson in #6041
+Discover libssh2 without pkg-config by @stac47 in #6053
+Longpath filter bug by @lrm29 in #6055
+Add test to ensure empty proxy env behaves like unset env by @sathieu in #6052
+Stdint header condition has been reverted. by @lolgear in #6020
+buf: common_prefix takes a string array by @ethomson in #6077
+oidarray: introduce git_oidarray_dispose by @ethomson in #6076
+examples: Free the git_config and git_config_entry after use by @257 in #6071
+CI Improvements
+ci: pull libssh2 from www.libssh2.org by @ethomson in #6064
+Documentation changes
+Update README.md by @shijinglu in #6050
+New Contributors
+@basile-henry made their first contribution in #6043
+@duncanthomson made their first contribution in #6041
+@stac47 made their first contribution in #6053
+@shijinglu made their first contribution in #6050
+@ccstolley made their first contribution in #6060
+@sathieu made their first contribution in #6052
+@257 made their first contribution in #6071
 
-Here, we propose to introduce two variables that allow to customize the ubinize
-configuration and the image dependency, in order to be able to build UBI
-images using the ubiblock abstraction layer and block filesystems.
-
-For example, with this change it is possible to build a UBI volume using a
-compressed squashfs, with the following configuration:
-UBI_VOLTYPE ?= "static"
-UBI_IMGTYPE ?= "squasfs-lz4"
-
-Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/classes/image_types.bbclass | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ .../libgit2/{libgit2_1.2.0.bb => libgit2_1.3.0.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libgit2/{libgit2_1.2.0.bb => libgit2_1.3.0.bb} (80%)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 32d4cd4c768c..f643ed3ce7f1 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -139,16 +139,18 @@ IMAGE_CMD:cpio () {
- }
+diff --git a/meta/recipes-support/libgit2/libgit2_1.2.0.bb b/meta/recipes-support/libgit2/libgit2_1.3.0.bb
+similarity index 80%
+rename from meta/recipes-support/libgit2/libgit2_1.2.0.bb
+rename to meta/recipes-support/libgit2/libgit2_1.3.0.bb
+index 6df42e473f..580fa41c21 100644
+--- a/meta/recipes-support/libgit2/libgit2_1.2.0.bb
++++ b/meta/recipes-support/libgit2/libgit2_1.3.0.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73fa96e40ce64f79bab087c7e1deeacd"
  
- UBI_VOLNAME ?= "${MACHINE}-rootfs"
-+UBI_VOLTYPE ?= "dynamic"
-+UBI_IMGTYPE ?= "ubifs"
+ DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
  
- multiubi_mkfs() {
- 	local mkubifs_args="$1"
- 	local ubinize_args="$2"
--    
-+
-         # Added prompt error message for ubi and ubifs image creation.
-         if [ -z "$mkubifs_args" ] || [ -z "$ubinize_args" ]; then
-             bbfatal "MKUBIFS_ARGS and UBINIZE_ARGS have to be set, see http://www.linux-mtd.infradead.org/faq/ubifs.html for details"
-         fi
--    
-+
- 	if [ -z "$3" ]; then
- 		local vname=""
- 	else
-@@ -157,9 +159,9 @@ multiubi_mkfs() {
+-SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main"
+-SRCREV = "4fd32be01c79a5c003bb47674ac1d76d948518b7"
++SRC_URI = "git://github.com/libgit2/libgit2.git;nobranch=1"
++SRCREV = "b7bad55e4bb0a285b073ba5e02b01d3f522fc95d"
  
- 	echo \[ubifs\] > ubinize${vname}-${IMAGE_NAME}.cfg
- 	echo mode=ubi >> ubinize${vname}-${IMAGE_NAME}.cfg
--	echo image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.${UBI_IMGTYPE} >> ubinize${vname}-${IMAGE_NAME}.cfg
- 	echo vol_id=0 >> ubinize${vname}-${IMAGE_NAME}.cfg
--	echo vol_type=dynamic >> ubinize${vname}-${IMAGE_NAME}.cfg
-+	echo vol_type=${UBI_VOLTYPE} >> ubinize${vname}-${IMAGE_NAME}.cfg
- 	echo vol_name=${UBI_VOLNAME} >> ubinize${vname}-${IMAGE_NAME}.cfg
- 	echo vol_flags=autoresize >> ubinize${vname}-${IMAGE_NAME}.cfg
- 	if [ -n "$vname" ]; then
-@@ -198,7 +200,7 @@ IMAGE_CMD:multiubi () {
- IMAGE_CMD:ubi () {
- 	multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}"
- }
--IMAGE_TYPEDEP:ubi = "ubifs"
-+IMAGE_TYPEDEP:ubi = "${UBI_IMGTYPE}"
+ S = "${WORKDIR}/git"
  
- IMAGE_CMD:ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
- 
-@@ -329,7 +331,7 @@ CONVERSION_DEPENDS_gzsync = "zsync-curl-native"
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
- 
--DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
-+DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
- 
- # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
- # images that will not be built at do_rootfs time: vmdk, vhd, vhdx, vdi, qcow2, hddimg, iso, etc.
 -- 
-2.31.1
+2.25.1
 
 
