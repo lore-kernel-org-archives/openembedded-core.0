@@ -1,91 +1,278 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <lukma@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E218AC433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 12:04:12 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web09.8705.1634645052280754240
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A905BC433FE
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 12:43:25 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web08.9114.1634647402840496862
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 05:04:12 -0700
+ Tue, 19 Oct 2021 05:43:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=J2JjQ2O3;
- spf=pass (domain: gmail.com, ip: 209.85.167.52,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id y15so6900328lfk.7
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 05:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=zUxX76jjoDN3/TphSzT2Nee1HMr+29JlO2tBU2C9JB8=;
-        b=J2JjQ2O3K/jYlK5/H4/eC+K4ZoBdtrZ3wRA4lqleCzFysGnnBuB+pH6DU+v0vjpLnb
-         PGy0gOUhbENIBdslqAXHgvqg50iJu60EQU/2A+XR7TGPDLQGlk66VEG/sDS8UTsDFYBb
-         wwh/TuOirFXPsz+GTY1wuB0XmG6BQ7dEE4sMiZjMdaCQqFk9wW1A8gQv0m/sJy3LNRTc
-         Efzv79HzeZ/+V26PgwTCf8GRxUL+GCUkmkuwo8871qXNH4nFg9rT62+d4JO5pcjSGTAP
-         g3l2Q+0J76mLBH5AP0ydzprOWTEe+UXlQVEPMNuV1ZtIK7VdYtxwcZLC4smhlP2aVZva
-         rmww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=zUxX76jjoDN3/TphSzT2Nee1HMr+29JlO2tBU2C9JB8=;
-        b=JOWMLJRVZ09NFiVmMbDp9XpxkwWeerPjdsE/oWfK98f+Evg8ChJOy2t5mWJbvtFLrG
-         OhDCg0AvtXT+GEfw/IKufdyvXb93JmmPue8ommaNT4MH84IEC2iff8molPFNEECUqWcd
-         zFwSvS28mqsWT0Ngwxet+0ZKtLpFjIdho1yBsgeGxsfw3Fowc01KtALSXtyX6JpIN+Fh
-         4R0AmCbK2SkXnNIVgBFvCeymw2qpQcWK9XkURL9DsLwdrz1q7R2ScJJyUdmbz94i+hbZ
-         jz7ChfiiwmmHcuKt7950vk6yD9HkBf+AS3z8Cj99tAbsse0dP0lRzrdSiyCYzH5dPv8D
-         bSpQ==
-X-Gm-Message-State: AOAM532fx34Apayt2x4cmd5rhH7tWprPApffrVaDKBT18gOzdG2+9ONR
-	x4GFkNJWStT8sAigK0Uykms=
-X-Google-Smtp-Source: 
- ABdhPJzLkiO3fz+Y602mFQTO7ZztNXQbzNmrk7QzFWI5FvlRhBSAv93WcDPkvy3F6sXtHk3vHcmMPg==
-X-Received: by 2002:a05:6512:3fa4:: with SMTP id
- x36mr6093081lfa.320.1634645050156;
-        Tue, 19 Oct 2021 05:04:10 -0700 (PDT)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- u7sm798359ljd.102.2021.10.19.05.04.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 05:04:09 -0700 (PDT)
-Message-ID: <ffc3f889-17ad-2195-08b9-52322577a832@gmail.com>
-Date: Tue, 19 Oct 2021 14:04:08 +0200
+ dkim=fail reason="body hash did not verify" header.i=@denx.de
+ header.s=phobos-20191101 header.b=P8cjYcaB;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl
+ [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 2E9A88119C;
+	Tue, 19 Oct 2021 14:43:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1634647399;
+	bh=3zq4wDvN0t8nRSJmF1HqhvsaBpSfsbM5HSKUwoFvVOk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P8cjYcaBluOCFfnHLJWUjO8VQC7/0oiwrr81mJchnBcWWpMzbg0a4a0ofnF9aXKJE
+	 Rudde7GOiDmeEVjyVG5ny4mLq7xOVtxkXyM7tRkCjSYGoZEN1zFj1obXhnCEwIwZqZ
+	 6kXf8hHP+WcJG/9qVkoeDPycI10v7dL5gRDeBpcKyT0VwgCRFRVIsi60K0LTZOFL81
+	 bbYUHrBfFDF7WViYm3JOEGJYzI/L0pqH7CsPI8OgciZzh3CZVL5Knp44r8Bxam9ERr
+	 vFwOZ3wLwCNArpUpGktPt0U2vrG9j/ec620Z66UFEbPH4j+Zmv/89pYQJcpf2A98qW
+	 n7JP6dxPhKKLw==
+From: Lukasz Majewski <lukma@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Nathan Rossi <nathan@nathanrossi.com>,
+	Khem Raj <raj.khem@gmail.com>
+Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Lukasz Majewski <lukma@denx.de>
+Subject: [PATCH v2] glibc: ptest: Add running glibc time related test suite
+ (Y2038) with ptest
+Date: Tue, 19 Oct 2021 14:43:00 +0200
+Message-Id: <20211019124300.16301-1-lukma@denx.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [OE-core] [PATCH 2/2] gawk: reduce strictness of the time test
-Content-Language: en-US
-To: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
-References: <20211019113529.1612190-1-ross.burton@arm.com>
- <20211019113529.1612190-2-ross.burton@arm.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: <20211019113529.1612190-2-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 12:04:12 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 12:43:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157112
+ https://lists.openembedded.org/g/openembedded-core/message/157113
 
-On 10/19/21 13:35, Ross Burton wrote:
-> The time.awk test does a sleep() and verifies that the actual delay is
-> close to the requested time. However on a loaded system the range of
-> acceptable durations is quite tight and will occasionally fail.
-> 
-> Solve this by increasing the range of acceptable delays slightly to
-> between 50% and 200% of the requested delay.
-> 
-> [ YOCTO #14371 ]
-> 
+This patch introduces new recipe - namely 'glibc-tests', which
+builds and installs time related (to check if Y2038 support works) glibc
+test suite to OE/Yocto built image.
 
-I would have removed the test. These load-sensitive tests are gonna fail 
-occasionally, whatever limit you put there.
+It reuses code from already available 'glibc-testsuite' recipe,
+which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+to execute remotely (via SSH) tests on some emulated machine.
 
-Jacob
+This recipe installs time related glibc tests on some rootfs image.
+Afterwards, those tests can be executed on the real hardware, to
+facilitate validation of it with Y2038 problem compliance.
+
+To test time related subset - one needs to call:
+ptest-runner glibc-tests
+then change the date after Y2038 threshold for 32 bit systems:
+date -s "20 JAN 2038 18:00:00"
+and then run ptest-runner again.
+
+To facilitate debugging, source files are provided by default with
+the unstripped debugging symbols. Such approach would reduce the
+already complex recipe (as it inherits base glibc one), so there
+is no need to also install *-dbg and *-src packages.
+
+Signed-off-by: Lukasz Majewski <lukma@denx.de>
+
+---
+Changes for v2:
+- Just focus on time related set of tests as those can be run as
+  standalone
+- Reuse of already built tests (from glibc-tests.inc) and depoloy
+  them on the HW target.
+- Provide single 'run-ptest' script.
+- Update the recipe to run with newest poky's -master
+---
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ meta/recipes-core/glibc/glibc-tests_2.34.bb   | 112 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc/run-ptest       |  37 ++++++
+ 3 files changed, 150 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
+ create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+index 2e324f8da4..fd52fa72a4 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -61,6 +61,7 @@ PTESTS_FAST =3D "\
+     slang-ptest \
+     wayland-ptest \
+     zlib-ptest \
++    glibc-tests-ptest \
+ "
+ PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
+ PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
+diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb b/meta/recipes-c=
+ore/glibc/glibc-tests_2.34.bb
+new file mode 100644
+index 0000000000..f1d5d073b6
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
+@@ -0,0 +1,112 @@
++require glibc_${PV}.bb
++require glibc-tests.inc
++
++inherit ptest
++
++SRC_URI:append =3D " \
++	file://run-ptest \
++"
++
++SUMMARY =3D "glibc tests to be run with ptest"
++
++# Erase some variables already set by glibc_${PV}
++python __anonymous() {
++       # Remove packages provided by glibc build, we only need a subset =
+of them
++       d.setVar("PACKAGES", "${PN}")
++
++       d.setVar("PROVIDES", "${PN}")
++       d.setVar("RPROVIDES", "${PN} glibc-ptest")
++
++       d.setVar("RRECOMMENDS", "")
++}
++
++# Remove any lefovers from original glibc recipe
++RPROVIDES:${PN} =3D "${PN}"
++RRECOMMENDS:${PN} =3D ""
++RDEPENDS:${PN} =3D " glibc sed"
++DEPENDS:append =3D " sed"
++
++# Just build tests for target - do not run them
++do_check:append () {
++	oe_runmake -i check run-built-tests=3Dno
++}
++addtask do_check after do_compile before do_install_ptest_base
++
++glibc_strip_build_directory () {
++	# Delete all non executable files from build directory
++	find ${B} ! -executable -type f -delete
++
++	# Remove build dynamic libraries and links to them as
++	# those are already installed in the target device
++	find ${B} -type f -name "*.so" -delete
++	find ${B} -type l -name "*.so*" -delete
++
++	# Remove headers (installed with glibc)
++	find ${B} -type f -name "*.h" -delete
++
++	find ${B} -type f -name "isomac" -delete
++	find ${B} -type f -name "annexc" -delete
++}
++
++do_install_ptest_base () {
++	glibc_strip_build_directory
++
++	ls -r ${B}/*/*-time64 > ${B}/tst_time64
++
++	# Remove '-time64' suffix - those tests are also time related
++	sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
++	tst_time=3D$(cat ${B}/tst_time_tmp ${B}/tst_time64)
++
++	rm ${B}/tst_time_tmp ${B}/tst_time64
++	echo "${tst_time}"
++
++	# Install build test programs to the image
++	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
++
++	for f in "${tst_time}"
++	do
++	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
++	done
++
++	install -d ${D}${PTEST_PATH}
++	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
++
++}
++
++# The datadir directory is required to allow core (and reused)
++# glibc cleanup function to finish correctly, as this directory
++# is not created for ptests
++stash_locale_package_cleanup:prepend () {
++	mkdir -p ${PKGD}${datadir}
++}
++
++stash_locale_sysroot_cleanup:prepend () {
++	mkdir -p ${SYSROOT_DESTDIR}${datadir}
++}
++
++# Prevent the do_package() task to set 'libc6' prefix
++# for glibc tests related packages
++python populate_packages:prepend () {
++    if d.getVar('DEBIAN_NAMES'):
++        d.setVar('DEBIAN_NAMES', '')
++}
++
++FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
++
++EXCLUDE_FROM_SHLIBS =3D "1"
++
++# Install debug data in .debug and sources in /usr/src/debug
++# It is more handy to have _all_ the sources and symbols in one
++# place (package) as this recipe will be used for validation and
++# debugging.
++PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
++
++# glibc test cases violate by default some Yocto/OE checks (staticdev,
++# textrel)
++# 'debug-files' - add everything (including debug) into one package
++#                 (no need to install/build *-src package)
++INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
++
++deltask do_stash_locale
++do_install[noexec] =3D "1"
++do_populate_sysroot[noexec] =3D "1"
+diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/=
+glibc/glibc/run-ptest
+new file mode 100755
+index 0000000000..f637986105
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/run-ptest
+@@ -0,0 +1,37 @@
++#!/bin/sh
++# ptest script for glibc - to run time related tests to
++# facilitate Y2038 validation
++# Run with 'ptest-runner glibc-tests'
++
++output() {
++  retcode=3D$?
++  if [ $retcode -eq 0 ]
++    then echo "PASS: $i"
++  elif [ $retcode -eq 77 ]
++    then echo "SKIP: $i"
++  else echo "FAIL: $i"
++  fi
++}
++
++# Allow altering time on the target
++export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
++
++tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
++
++# Remove '-time64' suffix - those tests are also time
++# related
++tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
++
++# Run tests supporting only 32 bit time
++for i in ${tst_time_tmp}
++do
++	$i >/dev/null 2>&1
++	output
++done
++
++# Run tests supporting only 64 bit time
++for i in ${tst_time64}
++do
++	$i >/dev/null 2>&1
++	output
++done
+--=20
+2.20.1
+
 
