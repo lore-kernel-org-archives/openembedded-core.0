@@ -2,62 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61022C433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:20 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.15530.1634673319467590067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58BF7C433EF
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:22 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.15314.1634673321923454225
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:19 -0700
+ Tue, 19 Oct 2021 12:55:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=bGh8JFTf;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
+ header.b=a/pmEYHF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id t184so950062pfd.0
+Received: by mail-pj1-f43.google.com with SMTP id
+ ls14-20020a17090b350e00b001a00e2251c8so737236pjb.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:19 -0700 (PDT)
+ Tue, 19 Oct 2021 12:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=sUya17hNj/K3f4JURRjXusb5m7u20Zb6ka3G51YMHpo=;
-        b=bGh8JFTf1y29cxOB4o1RPLLC74DYlWDIOaZoX1uo+5cCr0vfrPn2AVvhnRV11qsPjs
-         U3PbyqFGtNN7VyQ8KYZes6jm7xnGMRkeQTUM6c6OZrG4XBFqQT1/gccwZFYorpb6p7Bx
-         90lt1mfjkg5NCiCkGONtodSkvfSoTIe+BreIkS7W9hklolbNpZN5VAiDZBuDmMGfFi1y
-         e08A+55s4dG71DUh6t7hGCDBsPFuHbplFa9MrGExWUTmT9Ak+CfPsx5D6ihs8Gry6xe/
-         LaaEKyAdKpRdEUv6+NEU7mKOAEd3slF5oG1AQvnbqiFi85I7R+Gl76VLJdW5qa3qc+cn
-         1jEg==
+        bh=/sx/mwj50wvvIG0okeyiJAToC0bleUp/FPsASgD/NCs=;
+        b=a/pmEYHF3wyaTxPrXJSiqGJesckftelvyfXD7/mk0+JJ8ClYCQcCKgnvmxW9Ij3mkU
+         i9PdXsdz/LFuxV7LrmIsLHNmiBg9SLnPs8atkkFn9539ycZWuYOFCNMVJ2mB5kTAfTnq
+         rwhQh+wFpL/+rIxszxqxPqi0SWHn4yF9cNk8pCT82Dc1NyzkAKtKEZ6xrTUU7kGJUHDe
+         4wuLSZXWuH7qMzVtKuzeERVNAmEaa64K96wWbR2Themv2Ra2/oRaF66gPuW4PZfwPfzj
+         Ef40NARhjfP11ehkq9Ymn2519j0znM+zYt99AeVfoYEP6PLbDwn4Ej3cmFqBjfc3Z644
+         cZwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sUya17hNj/K3f4JURRjXusb5m7u20Zb6ka3G51YMHpo=;
-        b=TxWXNgwB5yx/7qzjn0YQGJN7kDiWY2omKRJ+xSjE5ON4XWaBwQaxG3VzO6NEjCATeF
-         KwDCw8kZy0JE0/yajKIH3LRHrA0tRIx5zcMLEoAEMwlvrs2k9nPRFis2MrHQdvewGA+Q
-         xJe4HraBXi6DXgoSq2Fei75HulwdP2jGfbXoBj1+FkWLYoSEvUELmmqxIFHBCQmXBxj1
-         QyLzkvse3kFzRGO2A2AgEqBjyj6qHNOsQlf+QrOqBXjn41UkEV1uuV3cZU5cf09OWMtw
-         NOnmKCYn6fwCXPihX8im3ah8yOH+cOLs34btskHlUuJ8LLLR01KpZdKTAcFnUXmA/xZN
-         9f+w==
-X-Gm-Message-State: AOAM532Z7/168zOG3VwIoBgSf0k8OLYfpqDyNUbSk97S3bjoRZFBb555
-	la7Qu/hXTxx+7eNOVKJeHV6cNUGstahr/96MCTg=
+        bh=/sx/mwj50wvvIG0okeyiJAToC0bleUp/FPsASgD/NCs=;
+        b=v562jhry0Q2LnRlmt8y1xTb2hsK1zoDLQvALuV/x2WRHWak+ugQ1aUv46daxfJsGoD
+         ymvfZLiytptiXJoFsxQZHYJI1cBRAZtdUiRtVxU3ixh77f5Ute0WPnsHwEO6aYbs0EWi
+         QWEh1O4dFh0MfNNWCCmw2LYwD47cX+l/JVed4QX+3DwS6eS9mj0qvcHc/ReZKJrf/C65
+         PnLjajOVhu0A1lCopLl0c9nLyk6pDhM9Wse/ug/pm0sRImbXcBekkGUl3FBUaul/QscJ
+         GVEmiy2AqCgyW8JogY3nkEcF/Ty6oCPOCIRO4movCMb+OfKKCLNJU/lQOXqyZycdtEON
+         hj4A==
+X-Gm-Message-State: AOAM533ddFZK1BZVSURpPBHVDsMEf3VV9kNBRZX9y/uDfsPO6+uIkfG3
+	7plduII77nhNLNSf8gehZ13rjbPjCWLI5UKMPAE=
 X-Google-Smtp-Source: 
- ABdhPJxgKTaNdzjpLyir+R/4kuUFGwIanJ98W3HTFr30RhYcgxgf+iBVfOoLEbTkzQElMMePNuHISg==
-X-Received: by 2002:a63:f62:: with SMTP id 34mr29991023pgp.159.1634673318542;
-        Tue, 19 Oct 2021 12:55:18 -0700 (PDT)
+ ABdhPJxmlOAAqN4Fi4JvTlPq0MaPzqVp94VFmfS94b9QqNmUykgCyi6b9E82NECZa27mdaBXVpa02g==
+X-Received: by 2002:a17:90a:fb8e:: with SMTP id
+ cp14mr1331319pjb.168.1634673321023;
+        Tue, 19 Oct 2021 12:55:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.17
+        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:55:18 -0700 (PDT)
+        Tue, 19 Oct 2021 12:55:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 30/38] libtool: Fix lto option passing for
- reproducible builds
-Date: Tue, 19 Oct 2021 09:53:41 -1000
+Subject: [OE-core][dunfell 31/38] libtool: Allow libtool-cross to reproduce
+Date: Tue, 19 Oct 2021 09:53:42 -1000
 Message-Id: 
- <3dcc84e37ce7e94e746304ee2a4437251af0ae41.1634665675.git.steve@sakoman.com>
+ <f1cc4b8d7503331f04d3f217ae67d0fd4cc483c5.1634665675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
 References: <cover.1634665675.git.steve@sakoman.com>
@@ -66,64 +67,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:20 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157235
+ https://lists.openembedded.org/g/openembedded-core/message/157236
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If lto is enabled, we need the prefix-map variables to be passed to the linker.
-Add these to the list of options libtool passes through.
+The hostname removal from the script is useful to make libtool-cross
+reproduce. Apply the patch everywhere as it doesn't cause any issues.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2c26d2c00b47df856fb2d9c35486b135094d46ac)
+(cherry picked from commit 3c61c6f20187154d677085fc9ccdcd762d4cdf3a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtool/libtool-2.4.6.inc                 |  1 +
- .../libtool/libtool/lto-prefix.patch          | 22 +++++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/lto-prefix.patch
+ meta/recipes-devtools/libtool/libtool-2.4.6.inc | 1 +
+ meta/recipes-devtools/libtool/libtool_2.4.6.bb  | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index e9225e140c..1bac81331d 100644
+index 1bac81331d..c8744e6d5f 100644
 --- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
 +++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
+@@ -24,6 +24,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
             file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
             file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
-+           file://lto-prefix.patch \
+            file://lto-prefix.patch \
++           file://debian-no_hostname.patch \
            "
  
  SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
-diff --git a/meta/recipes-devtools/libtool/libtool/lto-prefix.patch b/meta/recipes-devtools/libtool/libtool/lto-prefix.patch
-new file mode 100644
-index 0000000000..2bd010b8e4
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/lto-prefix.patch
-@@ -0,0 +1,22 @@
-+If lto is enabled, we need the prefix-map variables to be passed to the linker.
-+Add these to the list of options libtool passes through.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: libtool-2.4.6/build-aux/ltmain.in
-+===================================================================
-+--- libtool-2.4.6.orig/build-aux/ltmain.in
-++++ libtool-2.4.6/build-aux/ltmain.in
-+@@ -5424,9 +5424,10 @@ func_mode_link ()
-+       # --sysroot=*          for sysroot support
-+       # -O*, -g*, -flto*, -fwhopr*, -fuse-linker-plugin GCC link-time optimization
-+       # -stdlib=*            select c++ std lib with clang
-++      # -f*-prefix-map*      needed for lto linking
-+       -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
-+       -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
-+-      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*)
-++      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*|-f*-prefix-map*)
-+         func_quote_for_eval "$arg"
-+ 	arg=$func_quote_for_eval_result
-+         func_append compile_command " $arg"
+diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
+index a5715faaa9..f5fdd00e5e 100644
+--- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
++++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
+@@ -1,6 +1,6 @@
+ require libtool-${PV}.inc
+ 
+-SRC_URI += "file://multilib.patch file://debian-no_hostname.patch"
++SRC_URI += "file://multilib.patch"
+ 
+ RDEPENDS_${PN} += "bash"
+ 
 -- 
 2.25.1
 
