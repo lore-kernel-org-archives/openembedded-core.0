@@ -1,108 +1,107 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ADB8C433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:38 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.15535.1634673337427847385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F61C433F5
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:58:59 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.15588.1634673538000827179
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:37 -0700
+ Tue, 19 Oct 2021 12:58:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=cwpJF8fb;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id
- na16-20020a17090b4c1000b0019f5bb661f9so799432pjb.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DQksZJ0z;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id
+ y74-20020a1c7d4d000000b00322f53b9bbfso5128960wmc.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:37 -0700 (PDT)
+ Tue, 19 Oct 2021 12:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=1dyi4N13RlTUgmgu8o0/ZtB40YGyNL5QnDM4Dk3mCSs=;
-        b=cwpJF8fbvmycp5uS749L7ezB/KSWhUeq8V2/vg5K/Cg1tJ5xt9y5etlPGERT6YVMtj
-         GT3manr75o/D3gDlGLtCLkQ+0oECG/1Ad4R3HaCENWO1JorNnx50DOzIOh1DFFA2MK4h
-         NMP82KiZz5y9bvlM6cYLHKdLtGlvaL04X5YCdeiBdJBJw+z+Z4YWaHyna9PE7MUqfAWK
-         TmSloQkMxj+nUXeTpb0Wg/1GaNjJehEtgpCl2rB+eUisKsaF96dH86ECp10N8ZCqCu8S
-         Zc4CfznjioHXyTfI4r/LWTiJndq67jj0Z0F4VR3HbLm3uByortgqAohksi8EyaSUP6UE
-         VD7Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=gbaGFwQVoVO0tkIjqSkK+N1qoMTJxvEPccS/xom4ZjQ=;
+        b=DQksZJ0zM4zZ9bBrBqTFj0L70APwmAu58Sz4l+yexLorxrdgo+hXm7qvp8Co8BuTGi
+         28guN6iqZqpq0Ol5tOL5I5NrmqQzdCvKKRmfFR1D2Vff9uqs3btLSbt0rCbzqSiC8CoG
+         El4IT8QB7MtJ12ETXKykmiYtP5/xLlohgEoWk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1dyi4N13RlTUgmgu8o0/ZtB40YGyNL5QnDM4Dk3mCSs=;
-        b=S6dBTRFMb+YHPNoQ5GZm5GziupbBZffzlxEujGsKIJ5cyYL4yG5pieiXEJMLz3kzvk
-         crPTonbBmplFe3zgdfLhE8+iPHPxgF9oQEGzb8dlc2oxbTfxU9RI3bjCmP/vq2+GzgC2
-         o70GNDYC5eCbVucPqQwK6ETSfi9uwuUxA4GgA7LxA6gMJxs0Ow7waDen6tFuoyeBijhM
-         hCnO3Zk0KN4Hj43iDYch9ThJ6YgEExu+Jps/pqtUq+HYTLJWG6UKBcGbWhk/RIIijLbj
-         RNYXCwcaHg8h0024jnAvoF4psbi+/ohEYX2sUU2ixfCtnO0AO+z2YjY+CwDSD6jacXTz
-         X/4A==
-X-Gm-Message-State: AOAM530pqzUFrBZoZv+3Pt/5G4v/eEA0iKK7OZig+vwR5N9Fvir7ajwS
-	nRzFQZeuFGvF5iZPUZnw6wdTsCbIJ9VRuDDG
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=gbaGFwQVoVO0tkIjqSkK+N1qoMTJxvEPccS/xom4ZjQ=;
+        b=udjvWljmL0IRSvZdzRZ9FBlp5QOnM8jMlTqQC7ayjHPUxM3Eu5RZIj0QM8cEmD4ANo
+         Y4ea91N4ktVLeAujSNLj2XxG4WLYAjQFIGdpixAmLvKBxjVDWWhvRO7WOZg+lDbjgola
+         3XLp/3RXxVhzjJzp07tr7ejmiAedWZ3pynAb/MtTygP6FoygIw6xF2IQpSVDNtn/kQR6
+         cxOILIw02MyfILmZ78XhirdR3Qr97HclvBUvjiPeFnF9mc+pB/r5q3e+73EIcJTsDbJ3
+         Ij+gjrQjZj5HADFG/BdwwZ7tJwv5CWxKL4U8HDg0BCE/0vknfZ+Hs+kDL+e+pYQfhd8w
+         sB5A==
+X-Gm-Message-State: AOAM531BuORpTK+CAghi6eT+NeK9HAcFeCPoq64T7acpFD9dH7qJN8E1
+	FXk8DAtVhO4mUfEMmvWEDqJR8g==
 X-Google-Smtp-Source: 
- ABdhPJwhSjOxXhR88DToYbyQyJ9mFFpLt0nBLqa4OP2+EMrthL31j4R5p2DIC/ffpZdfTQbCYPH/mg==
-X-Received: by 2002:a17:90a:c795:: with SMTP id
- gn21mr2205065pjb.112.1634673336359;
-        Tue, 19 Oct 2021 12:55:36 -0700 (PDT)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.35
-        for <openembedded-core@lists.openembedded.org>
+ ABdhPJyWk357LWYWs3vYNayHhThZUpcNiTCr719se98uk4iX7SiKHN4czxT/RTYyARJBNUkKyc6s+g==
+X-Received: by 2002:adf:f309:: with SMTP id i9mr47162127wro.256.1634673536419;
+        Tue, 19 Oct 2021 12:58:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a6cb:20f5:1d7e:af42?
+ ([2001:8b0:aba:5f3c:a6cb:20f5:1d7e:af42])
+        by smtp.gmail.com with ESMTPSA id m15sm62406wmq.0.2021.10.19.12.58.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:55:35 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 38/38] target/ssh.py: add HostKeyAlgorithms option
- to test commands
-Date: Tue, 19 Oct 2021 09:53:49 -1000
-Message-Id: 
- <5fc4f7896fb7af94cd0eeb6370128c861193a6ea.1634665675.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
-References: <cover.1634665675.git.steve@sakoman.com>
+        Tue, 19 Oct 2021 12:58:56 -0700 (PDT)
+Message-ID: 
+ <5903b2623057b6861cef3b84562acecddb0adb14.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 02/65] rustfmt: remove
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>, Patches and discussions about
+ the oe-core layer <openembedded-core@lists.openembedded.org>, Randy MacLeod
+ <randy.macleod@windriver.com>
+Date: Tue, 19 Oct 2021 20:58:55 +0100
+In-Reply-To: 
+ <CANNYZj9Q=9hXRziLC6c3_EVRViDfFcTe3-27ifOOnpz94P7_-w@mail.gmail.com>
+References: <20211019153419.3319802-1-alex@linutronix.de>
+	 <20211019153419.3319802-2-alex@linutronix.de>
+	 <6c4d94b7-22e4-bf35-4fc1-bf9c680262e6@gmail.com>
+	 <CANNYZj8QiFX59VyR72TPZQPE2TLoy9tscTByQbFVjT75T5OqXg@mail.gmail.com>
+	 <CAMKF1srRnFs5Qe8+bxLEUq6h3hrR50w5-1Ru6NzTya88qeTNXg@mail.gmail.com>
+	 <CANNYZj_kzzBM7v96_fkivVgA4ksNBpk00hsCHPmkq4am1EpGXA@mail.gmail.com>
+	 <CAMKF1soyXWyzFd-FJTPopYt3Sds=4=A6=tVLz+fKrC59VgYKxg@mail.gmail.com>
+	 <CANNYZj9Q=9hXRziLC6c3_EVRViDfFcTe3-27ifOOnpz94P7_-w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:38 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:58:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157243
+ https://lists.openembedded.org/g/openembedded-core/message/157244
 
-After recent updates to the autobuilder tumbleweed workers there are tests where the client and
-server fail to agree on a public key algorithm for host authentication:
+On Tue, 2021-10-19 at 20:37 +0200, Alexander Kanavin wrote:
+> On Tue, 19 Oct 2021 at 20:31, Khem Raj <raj.khem@gmail.com> wrote:
+> > It would be wise to hear people who use rust and develop applications
+> > using rust, meta-rust is being used
+> > to develop field deployed products. Again I urge you to think with a
+> > little bit of wider scope.
+> > 
+> 
+> 
+> Look, it's just an example of a recipe generated with cargo-bitbake. Where is
+> this
+> cargo-bitbake in core, so we can test that it works as it should? Until it's
+> available, 
+> there's no point in keeping the recipe.
 
-DEBUG: [Running]$ ssh -l root -o PubkeyAcceptedKeyTypes=+ssh-rsa -o UserKnownHostsFile=/dev/null
-    -o StrictHostKeyChecking=no -o LogLevel=VERBOSE 192.168.7.6 export PATH=/usr/sbin:/sbin:/usr/bin:/bin; uname -a
-DEBUG: time: 1634578090.4632802, endtime: 1634578390.4592378
-DEBUG: Partial data from SSH call: Unable to negotiate with 192.168.7.6 port 22: no matching host key type found. Their offer: ssh-rsa
+Rust is a story that is more at the start than at the finish and as such I think
+it is too premature to be removing this just yet. Having a rust recipe in core
+generated by cargo-bitbake does have some value in its own right. I'd hope over
+time we find the tool becomming a first class citizen in core but that will
+likely take time.
 
-This appears to be an issue with recent versions of shh.  Add -o HostKeyAlgorithms=+ssh-rsa to
-command invocation as suggested at:
+I am curious about Randy's views on this.
 
-http://www.openssh.com/legacy.html
+Cheers,
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/core/target/ssh.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index aefb576805..af4a67f266 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -34,6 +34,7 @@ class OESSHTarget(OETarget):
-         self.timeout = timeout
-         self.user = user
-         ssh_options = [
-+                '-o', 'HostKeyAlgorithms=+ssh-rsa',
-                 '-o', 'UserKnownHostsFile=/dev/null',
-                 '-o', 'StrictHostKeyChecking=no',
-                 '-o', 'LogLevel=ERROR'
--- 
-2.25.1
+Richard
 
 
