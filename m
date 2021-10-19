@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A36C433F5
-	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:09 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web08.15310.1634673308725383996
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58BEAC433EF
+	for <webhook@archiver.kernel.org>; Tue, 19 Oct 2021 19:55:11 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web09.15357.1634673310883832340
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:08 -0700
+ Tue, 19 Oct 2021 12:55:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=kiuSOpFP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ header.b=3XtN2ZZY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id w17so2618999plg.9
+Received: by mail-pj1-f45.google.com with SMTP id
+ pf6-20020a17090b1d8600b0019fa884ab85so709283pjb.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Oct 2021 12:55:08 -0700 (PDT)
+ Tue, 19 Oct 2021 12:55:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=UyBsdahmrvbx3omHPvx8yOGPAjajjQCjnp+LyyN/43o=;
-        b=kiuSOpFP5Y7u3AYHD2O2mN10aaxIBf931joJUlk/xucYPq7x84BAdckaD1k4yjNKDQ
-         PyK/KCI4lLwsFHY7TNfTM45Xu3XbgcapdNG6ExywAnMQb2yyEww5bxDWAXr5/QzljwYZ
-         wOxYEuPWmix2gqCYI/Jmf5MG3Phj3dG7W9+Xn6TAmJFw8kaA6p9Pmz/KK97CZNhXeBh8
-         RdQh6jhBqB7iLZWaFlZ0/e39mZjLDiEcOHnIVCmm/hnZDP39yHAvU20vLMyg/1RlQQCa
-         TXsSIe1/BFYT7G1vgzBGR09y5HBMDzLwD2Iga+eucy+EGUVOZwM8ltp0jiAeKIFWg+8x
-         LBew==
+        bh=5P+1kKHQzQevgQX5MwYaqq43fG4ml/gaaS4anxPy+NI=;
+        b=3XtN2ZZYOuYH8EbD1DZ8tqbcO0K9Jyx+seGATa0Qx0szfiJgE9WjCGLl4WamH70462
+         NZvpkSOtu9MVHtQiS7RhZXp935A1qse28R0J7P4dbUrxhQAXvfByr13XzUg7LNIWED/6
+         bVHBgANq4aAkpIHUUDkih5ac3OB0NeYXqmBI9UfLAZDbah1XDUaxUw+NCLrUhgfEoLrp
+         cTy3jbbkHQ6PyHKkDjwm+jXyrqDL6kwyNpiIOD0LYKgmbuXQPBbpIPptqLfMk6D3Srmc
+         gV+KaJA3DlplDyNo+RpUko83lGfBBV8moe5fWD9UZlSSsiBhS6rPTRZnNgQPO8Nu8XcL
+         wSmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UyBsdahmrvbx3omHPvx8yOGPAjajjQCjnp+LyyN/43o=;
-        b=hxY8xIhreYqLPg8K7k92Dua3frzBu7Q1SNLdm52Bws8OJ6z+KqyLK5UQSuXXXRusx+
-         2v9V8cwAXHpcqMxle2a+Z4+MYt5NzrB3O8alzwcN3zRyZDqL+b71Fn+g1dN68eq69dbi
-         sT5WcCdQdoMt5gTS53kJYKMdsNxgYryPBU/mT9CGKdzB5S2O6gdq+WLgRBtC0MV8JAIv
-         jkl3WW760Zi70gFDrXVYF5Zc+LI/bQQAAl46DvLvodonWeR7BdFdMu0GbMEafaXA0h/v
-         plviPoQZ1hTORR7avjGJRjTtWVoQRKduKMa3ZWG+TFGiwRGZ8PpJk1+ufVtH0ptwrI4c
-         yi0w==
-X-Gm-Message-State: AOAM532iytdJgSYjPBCoKGInEnw93FH/5J14Cz3dKqTN6Q8UwTppnCn0
-	SUNtqhwBB+B2m/hZkwdREpvjDbKiJOxK/aQLgLg=
+        bh=5P+1kKHQzQevgQX5MwYaqq43fG4ml/gaaS4anxPy+NI=;
+        b=QO/PsR8ld3Cwt4VCt6BA84uUysETf9GJI5YNllt3usl0S3cowcLydVeOV6vPdFPhGD
+         T3RyWfJtXlZyKdlB6oNiXATmlNqhig6CGfidpvjJDYK9l4M5vXdmSbq7VC1lnMCAnZxO
+         9hq4WGDQcgsnh9ku3Q5tV9YONCZ0gnUAi1W5OdM9PAxUwNcw7lfpRJ9a7qqNOHeSEUws
+         WKgcRqZb+7JtRM3fMMJPTKZLY3b4ZRjTV5PohxE7OdsoS6zYsOlJAjiho4yOCErAh4LL
+         m9dPA0asKTo4wHRTpSsC7PitTo9AdtEzCMhqoMM86gJx+5o2cRNytOXDM0PQDhwNVTdO
+         KIqw==
+X-Gm-Message-State: AOAM530mbWBksro0ppZEOnOu2xiGcb48UeZF+0Je51HcPvvkEUTM0Ybs
+	VpX/1hHPlUYkUt2emSwwB6prCqJnPei0dTk5Hb4=
 X-Google-Smtp-Source: 
- ABdhPJzXFV1PtmnSc4Qtl+DOdYsfp9tSToqNQSNIU0IksPIDOTxEFqaNJQilc9g7wUbAxb1on1nKlg==
-X-Received: by 2002:a17:902:b691:b029:12d:2b6:d116 with SMTP id
- c17-20020a170902b691b029012d02b6d116mr34692189pls.71.1634673307744;
-        Tue, 19 Oct 2021 12:55:07 -0700 (PDT)
+ ABdhPJxBLY2rMvcaKNBvqHepuhwSyZIUmhPqjIB3Q7LTvwW7KhEFMOEKJlDvwzLJDXV9EVsQiBBdDQ==
+X-Received: by 2002:a17:90a:8a0a:: with SMTP id
+ w10mr2119960pjn.60.1634673309930;
+        Tue, 19 Oct 2021 12:55:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.06
+        by smtp.gmail.com with ESMTPSA id q14sm67104pfk.3.2021.10.19.12.55.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 12:55:07 -0700 (PDT)
+        Tue, 19 Oct 2021 12:55:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 25/38] uninative: Upgrade to 3.3,
- support glibc 2.34
-Date: Tue, 19 Oct 2021 09:53:36 -1000
+Subject: [OE-core][dunfell 26/38] package: Ensure pclist files are
+ deterministic and don't use full paths
+Date: Tue, 19 Oct 2021 09:53:37 -1000
 Message-Id: 
- <03b4b26ced1d3fb3646b366b5178bb6cdcb9addd.1634665675.git.steve@sakoman.com>
+ <00615c9edb8b9b644e853453603846eddfff2054.1634665675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634665675.git.steve@sakoman.com>
 References: <cover.1634665675.git.steve@sakoman.com>
@@ -67,39 +68,52 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:09 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Oct 2021 19:55:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157230
+ https://lists.openembedded.org/g/openembedded-core/message/157231
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Currently the pkgconfig pclist files contain full paths which are build
+host specific and the order of entries is not deterministic.
+
+Fix both these issues so the files are deterministic.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4aa4dcd5f31657073f2207a9a4a43247322c7eb1)
+(cherry picked from commit e422e29bca4af3ab4073e04490f38b05cd7c38c0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/classes/package.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 740cca0ecf..76f4cff565 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,9 +6,9 @@
- # to the distro running on the build machine.
- #
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 3ff74c9f31..702427fecc 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1989,12 +1989,12 @@ python package_do_pkgconfig () {
+     for pkg in packages.split():
+         pkgconfig_provided[pkg] = []
+         pkgconfig_needed[pkg] = []
+-        for file in pkgfiles[pkg]:
++        for file in sorted(pkgfiles[pkg]):
+                 m = pc_re.match(file)
+                 if m:
+                     pd = bb.data.init()
+                     name = m.group(1)
+-                    pkgconfig_provided[pkg].append(name)
++                    pkgconfig_provided[pkg].append(os.path.basename(name))
+                     if not os.access(file, os.R_OK):
+                         continue
+                     with open(file, 'r') as f:
+@@ -2017,7 +2017,7 @@ python package_do_pkgconfig () {
+         pkgs_file = os.path.join(shlibswork_dir, pkg + ".pclist")
+         if pkgconfig_provided[pkg] != []:
+             with open(pkgs_file, 'w') as f:
+-                for p in pkgconfig_provided[pkg]:
++                for p in sorted(pkgconfig_provided[pkg]):
+                     f.write('%s\n' % p)
  
--UNINATIVE_MAXGLIBCVERSION = "2.33"
-+UNINATIVE_MAXGLIBCVERSION = "2.34"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.2/"
--UNINATIVE_CHECKSUM[aarch64] ?= "4f0872cdca2775b637a8a99815ca5c8dd42146abe903a24a50ee0448358c764b"
--UNINATIVE_CHECKSUM[i686] ?= "e2eeab92e67263db37d9bb6d4c58579abd1f47ff4cded3171bde572fece124b2"
--UNINATIVE_CHECKSUM[x86_64] ?= "3ee8c7d55e2d4c7ae3887cddb97219f97b94efddfeee2e24923c0cb0e8ce84c6"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.3/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "372d31264ea7ab8e08e0a9662f003b53e99b3813cc2d9f9a4cc5c2949a1de00b"
-+UNINATIVE_CHECKSUM[i686] ?= "36436167eba8a5957a0bf9a32402dd1be8b69528c1ff25e711e6895b583b2b42"
-+UNINATIVE_CHECKSUM[x86_64] ?= "92b5e465f74d7e195e0b60fe4146f0f1475fff87ab2649bf2d57a1526ef58aec"
+     # Go from least to most specific since the last one found wins
 -- 
 2.25.1
 
