@@ -1,161 +1,124 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A760C433F5
-	for <webhook@archiver.kernel.org>; Wed, 20 Oct 2021 12:42:13 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.7312.1634733732099626463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 585F9C433EF
+	for <webhook@archiver.kernel.org>; Wed, 20 Oct 2021 12:58:25 +0000 (UTC)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+ [209.85.222.47])
+ by mx.groups.io with SMTP id smtpd.web11.7594.1634734704021911497
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Oct 2021 05:42:13 -0700
+ Wed, 20 Oct 2021 05:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=gO/u1Wfp;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=M9VLIX8p;
+ spf=pass (domain: gmail.com, ip: 209.85.222.47,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f47.google.com with SMTP id e2so6389227uax.7
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 20 Oct 2021 05:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1634733732;
-  x=1666269732;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=sk+yG93sL8z17MHunwguNyrEHQn0tf+6vw/5nwZH+vo=;
-  b=gO/u1Wfp7QroVlxUITkyKHbwbtNRw8CrBBTOSGsVqOJEUmwlUwn5qsh1
-   84Iu7174RwFxViHsHeD9f+KPDGsPkmXKN24VZgq94mCzvpefhRuLFHYdk
-   oiGRzhRyObj+c0LPnA7cfiXvWK7HPdmcJaQd0nij+GxjkyDgkMMZfLx7t
-   MLOPcfzG3EaA4+Hi2he4Ur2sba4ngHgHlol4V1DPU5BmV/FNyH/haQDrJ
-   sfUZehMOoPSTbWd3NPyQ2JtK8R/lPuf+kFhIJPAR4Hws1YlsEJ3csPEGp
-   di68FvvsQDpckSgR5oyVJ4OQCGnHaM9xHRBXQ2HLHUUbe8sFE/C9Lr4xl
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Jose Quaresma
-	<quaresma.jose@gmail.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] externalsrc.bbclass: Allow externalsrc to be
- extended with extra classes
-Thread-Topic: [OE-core] [PATCH] externalsrc.bbclass: Allow externalsrc to be
- extended with extra classes
-Thread-Index: 
- AQHXxQzZRKrAp673MEiO4EVBwiPVW6va3kzwgACyhkD///WigIAALniQ///oyYCAACdh4A==
-Date: Wed, 20 Oct 2021 12:42:08 +0000
-Message-ID: <b03ac354b3ea439890dc320bca27de6c@axis.com>
-References: <20211019170321.18270-1-pkj@axis.com>
-	 <CANPvuR=noMymOncORwNan6-D-DCkSKQDXYjjWR+8yhqx3JxY=Q@mail.gmail.com>
-	 <16AF9916496D59D2.6466@lists.openembedded.org>
-	 <0618e0381622433f86303a2d5d6968cd@axis.com>
-	 <86a6794721045c94bc4cd445a051ff1df40baa6e.camel@linuxfoundation.org>
-	 <35229a81fcb740edb3d77e35c8ebc787@axis.com>
- <4a4329e7ec5640aea90f15d5d851becd548b69c7.camel@linuxfoundation.org>
-In-Reply-To: 
- <4a4329e7ec5640aea90f15d5d851becd548b69c7.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=12Akq/E88hGncn9c8uv3Nl6Rtc4CqS4LxOQWUYtXMnU=;
+        b=M9VLIX8pDiWrwDm4Zz4ZrI+JUuJS86PsVYX4FgouqN37hzaPdKJoNzWUWj9Loph2c9
+         0qZCheKegq+K5V++E0OeL2S2tdXnWKo4ZX1OKkgis2j0HA3iMFgn6LkHLVCqTWDSRAgj
+         F4IQxm8nEZjeSQxTdeweJfOpq7Bu7vTCzoe0uFz0gchl8H2QN/KDBuybW4T4xyAP+ECw
+         DsletiMJuGuoG4dVl7w9rTG7hs72JAbJsMxKqjBYDkrfCbqaA5uHVinTmCQTdpRd4CON
+         YzcXvKr8+7Z4gWPwZ2KR9Q9wRVPhTJO3Txl5KB4w/Npt9rIK5u6XAln34LULpD65PwMp
+         7wsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=12Akq/E88hGncn9c8uv3Nl6Rtc4CqS4LxOQWUYtXMnU=;
+        b=EutFDWo9C7ciy3P4+RlccAvNGsQJIrGokQFbnIjbp5oXAb+oREAFaVfZamWg3JWBaf
+         dz+qfHDkMpdDV1+F/L2BMSQhz+3p/pOe3FUahE+ncVaQcNcWV4yj/Xa8qtRnyH9jcx4u
+         0UU6jaPayV5CWnGVjlMbHKSpSgnv91lBGytlPm1OsMzeRsqg4VgJL+/etoXCLOVkTR31
+         /iGiJxLxzFafF50BQmxNTuReE6WnfE/0qqE9MwsqNZ4S7dYKAmN5fnr1qJjC0AFEMBYO
+         2OUojZVTWg3ofkCczVHdL3m486YbcMKhNcCdHvGVJUbY9HREOYJ8HtiJWkaQkZwSqG1R
+         f8oQ==
+X-Gm-Message-State: AOAM530GLXcXATOHAzIVPbRNVXIoDQfg5/R1XTGp85vKlxUa0EKLFez2
+	IqBoDvl9jk1i0fgpR9xdKy4+mQNIqB61kAiBN3U=
+X-Google-Smtp-Source: 
+ ABdhPJxAHN7SO5CDsaMzO9xP5CfwJffkevW6y0pByreSeN3t7Vw8cxU+SOkyH0MCZjDDDeCkcvpJFjFdT4lFvdFZ4UI=
+X-Received: by 2002:a05:6102:954:: with SMTP id
+ a20mr1735614vsi.40.1634734703151;
+ Wed, 20 Oct 2021 05:58:23 -0700 (PDT)
 MIME-Version: 1.0
+References: <20211019170321.18270-1-pkj@axis.com>
+ <CANPvuR=noMymOncORwNan6-D-DCkSKQDXYjjWR+8yhqx3JxY=Q@mail.gmail.com>
+ <16AF9916496D59D2.6466@lists.openembedded.org>
+ <0618e0381622433f86303a2d5d6968cd@axis.com>
+ <86a6794721045c94bc4cd445a051ff1df40baa6e.camel@linuxfoundation.org>
+ <35229a81fcb740edb3d77e35c8ebc787@axis.com>
+ <4a4329e7ec5640aea90f15d5d851becd548b69c7.camel@linuxfoundation.org>
+ <b03ac354b3ea439890dc320bca27de6c@axis.com>
+In-Reply-To: <b03ac354b3ea439890dc320bca27de6c@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 20 Oct 2021 14:58:12 +0200
+Message-ID: 
+ <CANNYZj-Ek+Zh=+dB4aj7jYXYW1mcOqC71oGLdt8UGg1_DDxfNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] externalsrc.bbclass: Allow externalsrc to be
+ extended with extra classes
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jose Quaresma <quaresma.jose@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000488cb605cec855a3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Oct 2021 12:42:13 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Oct 2021 12:58:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157260
+ https://lists.openembedded.org/g/openembedded-core/message/157261
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAyMCBv
-a3RvYmVyIDIwMjEgMTM6MjINCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
-cnN0ZWR0QGF4aXMuY29tPjsgSm9zZSBRdWFyZXNtYQ0KPiA8cXVhcmVzbWEuam9zZUBnbWFpbC5j
-b20+DQo+IENjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZXh0ZXJuYWxzcmMuYmJjbGFz
-czogQWxsb3cgZXh0ZXJuYWxzcmMgdG8NCj4gYmUgZXh0ZW5kZWQgd2l0aCBleHRyYSBjbGFzc2Vz
-DQo+IA0KPiBPbiBXZWQsIDIwMjEtMTAtMjAgYXQgMTA6NTcgKzAwMDAsIFBldGVyIEtqZWxsZXJz
-dGVkdCB3cm90ZToNCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9t
-OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4g
-PiA+IFNlbnQ6IGRlbiAyMCBva3RvYmVyIDIwMjEgMTE6NTkNCj4gPiA+IFRvOiBQZXRlciBLamVs
-bGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IEpvc2UgUXVhcmVzbWENCj4g
-PiA+IDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4NCj4gPiA+IENjOiBPRS1jb3JlIDxvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiA+ID4gU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0hdIGV4dGVybmFsc3JjLmJiY2xhc3M6IEFsbG93IGV4dGVybmFsc3JjDQo+
-IHRvDQo+ID4gPiBiZSBleHRlbmRlZCB3aXRoIGV4dHJhIGNsYXNzZXMNCj4gPiA+DQo+ID4gPiBP
-biBXZWQsIDIwMjEtMTAtMjAgYXQgMDk6MDkgKzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90
-ZToNCj4gPiA+ID4gSSB0aG91Z2h0IG9mIGFub3RoZXIgcHJvYmxlbSB3aXRoIHRoZSB3cmFwcGVy
-IGNsYXNzIHNvbHV0aW9uOiBpZiB3ZQ0KPiA+ID4gPiBuZWVkdG8gYWN0dWFsbHkgYmFja3BvcnQg
-YSBuZXdlciB2ZXJzaW9uIG9mIHRoZSBjbGFzcyBmcm9tLCBlLmcuLA0KPiA+ID4gPiBQb2t5IG1h
-c3RlciwgdGhlbiB0aGVyZSBpcyBub3cgbm8gbmF0dXJhbCBwbGFjZSBmb3IgaXQgc2luY2UgaXQg
-aXMNCj4gPiA+ID4gb2NjdXBpZWQgYnkgdGhlIHdyYXBwZXIgY2xhc3MuIFRoYXQgbWVhbnMgd2Ug
-d291bGQgZWl0aGVyIGhhdmUgdG8NCj4gPiA+ID4gcmVuYW1lIHRoZSBiYWNrcG9ydGVkIGNsYXNz
-LCBvciBwdXQgaXQgc29tZXdoZXJlIGVsc2UgdGhhbiBpbg0KPiA+ID4gPiAiY2xhc3NlcyIuIEl0
-IGFsc28gbWVhbnMgYmFja3BvcnRpbmcgYSBjbGFzcyByZXF1aXJlcyB0aGUgd3JhcHBlcg0KPiA+
-ID4gPiBjbGFzcyB0byBiZSBtb2RpZmllZC4NCj4gPiA+ID4NCj4gPiA+ID4gSGVyZSBpcyBhIHF1
-ZXN0aW9uIGZvciBSaWNoYXJkOiB3aGF0IGRvIHlvdSB0aGluayBvZiBhbiBpZGVhIEkgaGFkDQo+
-IHRvDQo+ID4gPiA+IGFkZCBzdXBwb3J0IGluIGJpdGJha2UgZm9yIGV4dGVuZGluZyBjbGFzc2Vz
-PyBJIGRvIG5vdCBtZWFuIHRvIGFkZA0KPiA+ID4gPiBzb21ldGhpbmcgbGlrZSBiYmNsYXNzYXBw
-ZW5kLCBhcyBJIGtub3cgdGhhdCBpcyB0cm91Ymxlc29tZS4gTXkgaWRlYQ0KPiA+ID4gPiBpbnN0
-ZWFkIGlzIHNvbWV0aGluZyBsaWtlIHRoZSBwcmVmdW5jcy9wb3N0ZnVuY3MgdGhhdCB3ZSBoYXZl
-IGZvcg0KPiA+ID4gPiBmdW5jdGlvbnMuIEkuZS4sIGJlZm9yZSBhY3R1YWxseSBkb2luZyB0aGUg
-aW5oZXJpdCBvZiBhIGNsYXNzZm9vLA0KPiA+ID4gPiBiaXRiYWtlIHdvdWxkIGluaGVyaXQgYW55
-dGhpbmcgc3BlY2lmaWVkIGluIEJCQ0xBU1NfUFJFX0lOSEVSSVQ6Zm9vLA0KPiA+ID4gPiBhbmQg
-YWZ0ZXIgaW5oZXJpdGluZyB0aGUgY2xhc3MgaXQgd291bGQgYXV0b21hdGljYWxseSBpbmhlcml0
-DQo+ID4gPiA+IGFueXRoaW5nIGluIEJCQ0xBU1NfUE9TVF9JTkhFUklUOmZvby4gwqBUaGF0IHdh
-eSBvbmUgY2FuIHNpbXBseQ0KPiBleHRlbmQNCj4gPiA+ID4gYSBjbGFzcyB0aHJvdWdoIG5vcm1h
-bCB2YXJpYWJsZSBvcGVyYXRpb25zLCBtYWtpbmcgaXQgZWFzeSB0byBkbywNCj4gPiA+ID4gZS5n
-LiwgaW4gdGhlIGRpc3RybyBjb25maWd1cmF0aW9uLg0KPiA+ID4NCj4gPiA+IFRoYXQgc291bmRz
-IHZlcnkgbGlrZSBhIGJiY2xhc3NhcHBlbmQgdW5kZXIgYSBkaWZmZXJlbnQgbmFtZT8NCj4gPiA+
-DQo+ID4gPiBDaGVlcnMsDQo+ID4gPg0KPiA+ID4gUmljaGFyZA0KPiA+DQo+ID4gV2VsbCwgSSBn
-dWVzcyBpdCBpcyBzaW1pbGFyIHRvIHdoYXQgYSBiYmNsYXNzYXBwZW5kIGZpbGUgc3VmZml4IHdv
-dWxkIERvDQo+IHdlDQo+ID4gd2FudCB0byBhbGxvdyB1c2VycyB0byBkbyB3aGF0ZXZlcg0KPiA+
-IGVudGFpbCwgYnV0IG1vcmUgZmxleGlibGUgYW5kIGNvbnRyb2xsZWQuIERvIHlvdSB0aGluayBz
-b21ldGhpbmcgbGlrZQ0KPiA+IHRoaXMgd291bGQgd29yaywgb3IgaGF2ZSBJIG1pc3NlZCBzb21l
-IHRlY2huaWNhbCBwcm9ibGVtcyB0aGF0IHdvdWxkDQo+ID4gcHJldmVudCBpdD8gQW5kIGlmIHlv
-dSB0aGluayBpdCBpcyB0ZWNobmljYWxseSBwb3NzaWJsZSwgd291bGQgeW91IGJlDQo+ID4gd2ls
-bGluZyB0byBhY2NlcHQgYSBwYXRjaCB0aGF0IGltcGxlbWVudHMgaXQ/DQo+IA0KPiBIb3cgaXMg
-aXQgbW9yZSBmbGV4aWJsZSBhbmQgY29udHJvbGxlZD8gV2UnZCBzd2FwIGEgY29uY2VwdCBtb3N0
-IHVzZXJzDQo+IHVuZGVyc3RhbmQgKGJiYXBwZW5kKSBmb3Igb25lIHRoYXQgaXMgbGVzcyBvYnZp
-b3VzIGFuZCBtb3JlIGNvbXBsZXguDQoNCk1vcmUgZmxleGlibGUgaW4gdGhhdCBpdCBhbGxvd3Mg
-cHJlcGVuZGluZyBjaGFuZ2VzIGFzIHdlbGwgYXMgYXBwZW5kaW5nIHRoZW0uDQpNb3JlIGNvbnRy
-b2xsZWQgaW4gdGhhdCBpdCBpcyBub3QgYXV0b21hdGljYWxseSBhcHBsaWVkIHRoZSB3YXkgYmJh
-cHBlbmRzIGFyZSANCmp1c3QgYnkgaW5jbHVkaW5nIGEgbGF5ZXIgKHdoaWNoIEkgYmVsaWV2ZSBp
-cyBnb29kIGZyb20gYSBZb2N0byBDb21wYXRpYmxlIA0Kc3RhbmRwb2ludCkuIFlvdSBhY3R1YWxs
-eSBuZWVkIHRvIHNldCB0aGUgdmFyaWFibGVzLCB3aGljaCwgZS5nLiwgY2FuIGJlIGRvbmUgDQpk
-aWZmZXJlbnRseSBpbiBkaWZmZXJlbnQgZGlzdHJvIGZpbGVzLg0KDQo+IFRoZSBpc3N1ZSB3aXRo
-IGJiY2xhc3NhcHBlbmQgd2FzIG5ldmVyIGEgdGVjaG5pY2FsIG9uZSwgaXQgaXMgYSBxdWVzdGlv
-bg0KPiBvZiBwb2xpY3kuIFdlIGFscmVhZHkgYWxsb3cgdXNlcnMgdG8gZG8gcHJldHR5IG11Y2gg
-YW55dGhpbmcgdG8gdGhlIHN5c3RlbQ0KPiBidXQgdGhlIHF1ZXN0aW9uIGlzIGhvdyBlYXN5IHdl
-IG1ha2UgY2VydGFpbiB0aGluZ3MuIFdlJ3ZlIHRlbmRlZCB0byBiZWxpZXZlIA0KPiB0aGF0IGVu
-Y291cmFnaW5nIGNsYXNzIGNoYW5nZXMgYmFjayB0byB0aGVpciBwYXJlbnQgY2xhc3NlcyB3YXMg
-YSBnb29kIHRoaW5nDQo+IG92ZXJhbGwuDQoNCkFuZCBJIGFic29sdXRlbHkgYWdyZWUgdGhhdCBj
-aGFuZ2VzIHRoYXQgYXJlIHJlbGV2YW50IGZvciB1cHN0cmVhbSBzaG91bGQgDQpiZSB1cHN0cmVh
-bWVkLiBCdXQganVzdCBsaWtlIGJiYXBwZW5kcywgbm90IGFsbCBjaGFuZ2VzIGFyZSByZWxldmFu
-dCBmb3IgDQp1cHN0cmVhbS4gDQoNCkluIG91ciBjYXNlIHdlIGhhdmUgdGhpcyB1bml0dGVzdCBj
-bGFzcyB0aGF0IGlzIGFuIGV4dGVuc2lvbiBvZiBuYXRpdmUgYW5kIA0KaXQgaXMgdHlwaWNhbGx5
-IHVzZWQgYnkgYWRkaW5nIHRvIEJCQ0xBU1NFWFRFTkQuIEl0IGlzIHVzZWQgdG8gcnVuIG91ciAN
-CnVuaXQgdGVzdHMgYXMgbmF0aXZlLCB3aGljaCBtYWtlcyB0aGVtIGV4dHJlbWVseSBxdWljayB0
-byBydW4uIEhvd2V2ZXIsIHRoaXMgDQppcyBJTUhPIGEgaG9ycmlibGUgaGFjayB0aGF0IEkgd2lz
-aCB3ZSBoYWQgbmV2ZXIgaW52ZW50ZWQsIGJ1dCBpdCBpcyB3aGF0IA0Kd2UgaGF2ZSBhbmQgSSBk
-byBub3Qgc2VlIGFuIGVhc3kgd2F5IG91dCBvZiBpdC4gU28gb2J2aW91c2x5IEkgZG8gbm90IHdh
-bnQgDQp0byB1cHN0cmVhbSB0aGlzLCBidXQgYXQgdGhlIHNhbWUgdGltZSB3ZSBuZWVkIHRvIG1h
-a2Ugc29tZSBhZG9wdGlvbnMgdG8gDQp1cHN0cmVhbSBjbGFzc2VzIHRvIGhhbmRsZSB1bml0dGVz
-dCB3aGVyZSB0aGVyZSBhcmUgaGFyZGNvZGVkIHRlc3RzIGZvciANCm5hdGl2ZSwgbGlrZSBpbiB0
-aGUgZXh0ZXJuYWxzcmMgY2xhc3MuDQoNCj4gWW91IGFyZSBiYXNpY2FsbHkgc2F5aW5nIHdlIG5v
-IGxvbmdlciB3YW50IHRvIGRvIHRoYXQgYW5kIHN0b3AgZW5jb3VyYWdpbmcNCj4gcGVvcGxlIHRv
-IGRvIGl0LiBJJ20gbm90IHN1cmUgdGhhdCBpcyB0cnVlLCBxdWl0ZSB0aGUgb3Bwb3NpdGUuDQo+
-IA0KPiBXZSBhY3RpdmVseSBjaG9zZSBub3QgdG8gaW1wbGVtZW50IGJiY2xhc3NhcHBlbmQgYW5k
-IEknbSBub3Qgc3VyZSB0aGUNCj4gdW5kZXJseWluZyByZWFzb25zIGZvciBkb2luZyB0aGF0IGhh
-dmUgY2hhbmdlZC4NCg0KSSBkZWZpbml0ZWx5IGRvIG5vdCB3YW50IHRvIGNoYW5nZSB0aGUgcG9s
-aWN5IHRoYXQgY2hhbmdlcyB0aGF0IGNhbiBiZSANCnVwc3RyZWFtZWQgc2hvdWxkIGJlIHVwc3Ry
-ZWFtZWQuIEhvd2V2ZXIsIEkgZG8gc2VlIGEgbmVlZCBmb3Igc3VwcG9ydGluZyANCmNoYW5nZXMg
-dGhhdCBjYW5ub3QgYmUgdXBzdHJlYW1lZC4gQW5kIHN1cmUsIHRoZXJlIGFyZSBhbHdheXMgd29y
-a2Fyb3VuZHM7IA0Kd2UgY2FuIG1hbmFnZSB3aXRoIGFuIGV4dGVybmFsc3JjIHdyYXBwZXIgY2xh
-c3MsIHNvIGl0IGlzIG5vdCBsaWtlIHdlIA0KY2Fubm90IHByb2NlZWQsIGJ1dCBpdCB3b3VsZCBo
-YXZlIGJlZW4gbmljZXIgdG8gdXNlIGFuIG9mZmljaWFsbHkgc3VwcG9ydGVkIA0KbWV0aG9kIGZv
-ciBleHRlbmRpbmcgY2xhc3NlcyByYXRoZXIgdGhhbiBoYWNraW5nIGFyb3VuZCBpdC4NCg0KU28s
-IEkgd2lsbCBub3QgcHVzaCBmb3IgdGhpcyBjaGFuZ2UuIEkgdGhpbmsgaXQgd291bGQgaGF2ZSBi
-ZWVuIG5pY2Ugd2l0aCANCmFuIG9mZmljaWFsIHdheSB0byBleHRlbmQgY2xhc3NlcyBhbmQgSSBh
-bSB3aWxsaW5nIHRvIGltcGxlbWVudCBpdCwgYnV0IGlmIA0KeW91IHRoaW5rIGl0IGlzIHRvbyBt
-dWNoIG9mIGFuIGlzc3VlIGFuZCBzdG9wcyBlbmNvdXJhZ2luZyBwZW9wbGUgdG8gDQp1cHN0cmVh
-bSB0aGVpciBjaGFuZ2VzLCB0aGVuIHdlIHdpbGwgbWFrZSBkbyB3aXRoIHRoZSB3b3JrYXJvdW5k
-cy4gSXQgaXMgDQpub3QgbGlrZSB3ZSBoYXZlIHRvIGJhY2twb3J0IHRoYXQgbWFueSBjbGFzc2Vz
-LCBzbyBpdCBpcyBkZWZpbml0ZWx5IA0KbWFuYWdlYWJsZSwgYWxiZWl0IGEgYml0IGluY29udmVu
-aWVudC4NCg0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoNCi8vUGV0ZXINCg0K
+--000000000000488cb605cec855a3
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, 20 Oct 2021 at 14:42, Peter Kjellerstedt <
+peter.kjellerstedt@axis.com> wrote:
+
+> So, I will not push for this change. I think it would have been nice with
+> an official way to extend classes and I am willing to implement it, but if
+> you think it is too much of an issue and stops encouraging people to
+> upstream their changes, then we will make do with the workarounds. It is
+> not like we have to backport that many classes, so it is definitely
+> manageable, albeit a bit inconvenient.
+>
+
+I would not want a mechanism for extending classes for a different reason:
+it makes it a lot harder to understand and reason about the build.
+bbappends are already bad enough, but at least they're influencing only
+specific recipes unconditionally; conditional class appends would just end
+up producing horrible spaghetti.
+
+Alex
+
+--000000000000488cb605cec855a3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 20 Oct 2021 at 14:42, Peter Kjellerstedt &lt;<a href=3D"mail=
+to:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">So, I will not p=
+ush for this change. I think it would have been nice with <br>
+an official way to extend classes and I am willing to implement it, but if =
+<br>
+you think it is too much of an issue and stops encouraging people to <br>
+upstream their changes, then we will make do with the workarounds. It is <b=
+r>
+not like we have to backport that many classes, so it is definitely <br>
+manageable, albeit a bit inconvenient.<br></blockquote></div><div class=3D"=
+gmail_quote"><br></div><div class=3D"gmail_quote">I would not want a mechan=
+ism for extending classes for a different reason: it makes it a lot harder =
+to understand and reason about the build. <br></div><div class=3D"gmail_quo=
+te">bbappends are already bad enough, but at least they&#39;re influencing =
+only specific recipes unconditionally; conditional class appends would just=
+ end up producing horrible spaghetti.</div><div class=3D"gmail_quote"><br><=
+/div><div class=3D"gmail_quote">Alex<br></div></div>
+
+--000000000000488cb605cec855a3--
 
