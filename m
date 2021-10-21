@@ -1,90 +1,113 @@
-Return-Path: <bluelightning@bluelightning.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC06C433EF
-	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 01:14:49 +0000 (UTC)
-Received: from mail-61-r20.ipv4.per01.ds.network
- (mail-61-r20.ipv4.per01.ds.network [27.123.24.217])
- by mx.groups.io with SMTP id smtpd.web11.3293.1634778886739504325
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5707FC433F5
+	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 02:21:02 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.3960.1634782860240524080
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Oct 2021 18:14:48 -0700
+ Wed, 20 Oct 2021 19:21:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default
- header.b=Tcg7GdyX;
- spf=none, err=permanent DNS error (domain: bluelightning.org,
- ip: 27.123.24.217, mailfrom: bluelightning@bluelightning.org)
-Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network
- [122.201.124.108])
-	by halon-out02.au.ds.network (Halon) with ESMTPS
-	id 32113ab3-320c-11ec-bc81-f8bc1204ff90;
-	Thu, 21 Oct 2021 09:14:10 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=juAKTOoJqsZ8xj0yyu9gumfdlG0TXWpglesD+qOrYms=; b=Tcg7GdyXgDrhXlnOHleidKct/W
-	X3zZIu25tVVsViJpbVm7PFCTHm+HcWyQMqvz2Y/Co9rWUAoEFOCPbdTzrZAcHb/OOmFW7dbr1gFMb
-	8yie/j7z2GdUEM8bEYQghTah1bVFfjJ7I/pBrFA9kmbbBFxofBtPZx/OD9iCc/fwa2m2pfTsz7n/P
-	vcdhLB92RJPEcygOIXSMz5LgOXPDwgMCH/My2wExlXLp+TttebDa9HSXcyK6hvdu7hluD2vdh0XeL
-	Eg6dp7KMB/SabOUoT6UvF+NAGeoqz1BsfYXIsg3yflO3IIv1mIACQRz2iwdCsjnGti41pd7PVElK1
-	SMVCyxtw==;
-Received: from [151.210.149.31] (port=34272 helo=linc.localnet)
-	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <bluelightning@bluelightning.org>)
-	id 1mdMfG-007w2f-VA; Thu, 21 Oct 2021 12:14:39 +1100
-From: Paul Eggleton <bluelightning@bluelightning.org>
-To: Jon Mason <jon.mason@arm.com>
-Cc: openembedded-core@lists.openembedded.org,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH 18/65] u-boot: upgrade 2021.07 -> 2021.10
-Date: Thu, 21 Oct 2021 14:14:37 +1300
-Message-ID: <4686739.31r3eYUQgx@linc>
-In-Reply-To: <20211019153419.3319802-18-alex@linutronix.de>
-References: <20211019153419.3319802-1-alex@linutronix.de>
- <20211019153419.3319802-18-alex@linutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=BYgraZSf;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1634782860;
+  x=1666318860;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=MJVktAV1isVR06mMfdkAsQsblKju2r2DpEk9RrdUoVQ=;
+  b=BYgraZSfPhtOuipM0EVRv8wczTJ93xRq8z52EViwb9VoHJO/VrSIhsqs
+   IdfSTx+xCJEIiFdpDPqo2K1zmPpHSoqiurvgX1URyS/2iF64egUgD9a2y
+   F5hS/fyqLAWHIuwuEr5vPcIlj6qU9QjuDBZ5ce+JTwe8ndObmtfIfDuaQ
+   suudM75gB0UkG9x+Fom9UGbHA8iBymVlB4fLQXwJV6PIpjhwxUoOEswBo
+   pS8jZGxUaY+TTnvZPl1FSs2/RScCVRU4/6X7N/MdYTOjoUOCPI4LsxyDF
+   e7eULsavUR0f26yeg/1sbqUxcELEMrTOAN+v8G6cqGAR3M2J8ASljCPSk
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] meson.bblcass: Remove empty egg-info
+ directories before running meson
+Thread-Topic: [OE-core] [PATCH] meson.bblcass: Remove empty egg-info
+ directories before running meson
+Thread-Index: AQHXxbxbEAcpuWZj5Ey4HYqa4qEPoqvcuMLg
+Date: Thu, 21 Oct 2021 02:20:56 +0000
+Message-ID: <9c909b50fcfe4f278700882dff84f5ab@axis.com>
+References: <16AFC2867DC0EAA4.1370@lists.openembedded.org>
+In-Reply-To: <16AFC2867DC0EAA4.1370@lists.openembedded.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 Content-Type: text/plain; charset="us-ascii"
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - bluelightning.org
-X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id:
- paul@softec.co.nz
-X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 01:14:49 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 02:21:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157270
+ https://lists.openembedded.org/g/openembedded-core/message/157271
 
-On Wednesday, 20 October 2021 04:33:32 NZDT Alexander Kanavin wrote:
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 20 oktober 2021 16:11
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] meson.bblcass: Remove empty egg-info
+> directories before running meson
+
+Just noticed a tiny typo above: meson.bblcass -> meson.bbclass
+
+//Peter
+
+>=20
+> sstate.bbclass no longer removes empty directories to avoid a race (see
+> commit 4f94d929 "sstate/staging: Handle directory creation race issue").
+> Unfortunately Python apparently treats an empty egg-info directory as if
+> the version it previously contained still exists and fails if a newer
+> version is required, which Meson does. To avoid this, make sure there
+> are no empty egg-info directories from previous versions left behind.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 > ---
->  ...ls-image-host-fix-wrong-return-value.patch | 41 -------------------
->  meta/recipes-bsp/u-boot/u-boot-common.inc     |  2 +-
->  .../u-boot/u-boot-tools_2021.07.bb            |  4 --
->  .../u-boot/u-boot-tools_2021.10.bb            |  2 +
->  .../{u-boot_2021.07.bb => u-boot_2021.10.bb}  |  1 +
-
-Not sure what the official protocol for this kind of thing is, but meta-arm will 
-naturally need an update for this (as seen via autobuilder warnings).
-
-Cheers
-Paul
-
-
+>=20
+> RP: This is the solution I came up with regarding our discussion at the
+> meeting yesterday. With this in place the upgrade to meson 0.59.1 now
+> went without a hitch.
+>=20
+>  meta/classes/meson.bbclass | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index e124d18144..d07b34fc5e 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -103,6 +103,14 @@ meson_do_configure() {
+>      #
+> https://github.com/mesonbuild/meson/commit/ef9aeb188ea2bc7353e59916c18901=
+c
+> de90fa2b3
+>      unset LD
+>=20
+> +    # sstate.bbclass no longer removes empty directories to avoid a race
+> (see
+> +    # commit 4f94d929 "sstate/staging: Handle directory creation race
+> issue").
+> +    # Unfortunately Python apparently treats an empty egg-info directory
+> as if
+> +    # the version it previously contained still exists and fails if a
+> newer
+> +    # version is required, which Meson does. To avoid this, make sure
+> there are
+> +    # no empty egg-info directories from previous versions left behind.
+> +    rmdir --ignore-fail-on-non-empty
+> ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages/*.egg-info
+> +
+>      # Work around "Meson fails if /tmp is mounted with noexec #2972"
+>      mkdir -p "${B}/meson-private/tmp"
+>      export TMPDIR=3D"${B}/meson-private/tmp"
 
