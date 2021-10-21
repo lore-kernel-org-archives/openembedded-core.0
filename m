@@ -1,150 +1,176 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <kergoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 856F6C433FE
-	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 19:19:04 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web08.2650.1634843943322757660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE8DC433EF
+	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 21:53:43 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web09.800.1634853221798268365
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 12:19:03 -0700
+ Thu, 21 Oct 2021 14:53:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=O022TZuG;
- spf=pass (domain: gmail.com, ip: 209.85.208.175,
- mailfrom: uvv.mail@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id l5so382997lja.13;
-        Thu, 21 Oct 2021 12:19:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qt3kgv88;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: kergoth@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id d3so4398965edp.3
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 21 Oct 2021 14:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:cc:from:in-reply-to;
-        bh=ec/7LV7rI2THg9hattXg93FyllsEIEELgjQOMXshTn0=;
-        b=O022TZuGaU5wsn8iyu/Baiqz1ViHKb8Xjij3ui3MRX3KLz1t5law1Z4Q0AVFRrtPy8
-         T3PKTa5tNk/TBcHYwxIMQM83xc2NpU2MknZ6ebfvT/DGEq3pvGM79/h1/n2zBt06V50B
-         kDZ6YTpiDwRFmSkUdBbbASSl2O1aa7ln9zReAfsEEvrSLffz/FlL6FZtTT4ptWZsvOnA
-         uiXv/WhUKcLK+mNU6P9WFEFxyTcDMyqeHJs1g4EIXQpH+ykpGpd2qa7QbahZ9egPh2To
-         w6XkQgvWFPYlP57r73MFoSFsIyiqj5IZU4pPj3aSq7oufyK4iqlkfqMf6IjVvIiQ8upS
-         nQmg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hClsCS5m71LCtCW9p1IhF3l7IVY3LMOLqdZp7uyicFo=;
+        b=Qt3kgv88IpRkoqekz7CHuV9Xxf4MzLb4yNPujqS3VgeRLnDSkvo2z0CdzsZCVpqcvo
+         GOkzPONkobdEe6dt5OL3JeNhCvQ4AW+7rduJlpWm8/xZQ0P+b4CPJPLBGdtEsu7tr+wt
+         o/ol8uRZRCuIZH/upD8QCi/g0xmIfhncTDT/ljRmmRAiOKHmUz5sEDT1g9lwByisFaGb
+         a+7CfZTv2EtltFer8pxjKPzCabs5dzkd8fDhxMAfoEYzMKxRCcWHp8ZPaa49MP9UVd+O
+         JRpT4k2no9Uhh0dvLyPwxv0eMtFDUjFuiQcq6FDwNTpsw1gdqS8+y1p+MAqfOzWlNnPy
+         +Frw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:cc:from:in-reply-to;
-        bh=ec/7LV7rI2THg9hattXg93FyllsEIEELgjQOMXshTn0=;
-        b=BxLVwsSFqa6WdOsXgxsxvMqA3rIPkMacr/LDu+ndioFj3+cCjgVcJSI2xiQ0hDCNHm
-         S5QFy/hkQZH6SY/nW78stgOcqhd3pety3GJqov8/cD5IKq8ig0MzfpeSohf0bHP4A1dp
-         mn/f6NqxsO6mGlAZeYWOcRNJBY0mkbG6ExuIo0kKAzW+W6fusz96vnlT/B1u21zTiRaZ
-         gr9Cu/jZidyuNucJWBTx3Z8V15WomE1DYyIoGBFaGq59zCT6bWGmeqxFTNstC3NC05MY
-         TJQw09lZocyfELbtpG6uAycVaMaZ4D4J2/c2TVWwsO0DW5GelzzmzcXIr3L5ksxR3vH8
-         p2Yg==
-X-Gm-Message-State: AOAM532L4fg+gfMD4w1u3aCXLfH72L5of+G9wwXKgRkYogzGD5il1I+O
-	J1t+cZ+RRlAawAnUV+boXj8PHRWa36anKA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hClsCS5m71LCtCW9p1IhF3l7IVY3LMOLqdZp7uyicFo=;
+        b=bfkQMBu5iSgV8hUzryEMzI5xBuIZj9I/4jrp4jpIKyXnQTBJXf8zjseSrWhHgsbHJs
+         0bfTSW5a38vugQdAOva4LnjJT2T6s2FPS8J0Ztlm5XCwEWbOPDAds3w1IJ/S07cmpH9a
+         2aZGwuJ+aZ5ip2FAn0IRmpn7xvLvBOTWDFhgOd4Dffm7/wGo+thgYsciqGDFcf8dqrcP
+         AGccE3tvtdiW8AodyhDfVS5r8zDrlsx/YXo8+nb5n2Vfl2Hg8CIaRNj6TVIsZpmqSFYu
+         SQHvNj2sD88Lo79BO8IsgwbgLblkbFMnvOtlluAmYvL9LehPDgCFiMYyGCIvUNlcnlwa
+         OXXQ==
+X-Gm-Message-State: AOAM531HoGrtAPG2oHlBeJ9g/P5lODC72chuzhNOSAe1ArKKdyVUr6Kv
+	/qWaqNt74BNleXMrI37QDjRJBzy8NB6ykupqENE=
 X-Google-Smtp-Source: 
- ABdhPJzFlHUC3jXmCtIoVw8UL7X3VLgZrg9M5Cdu6n+6ZO4RiBOKGwfrl5vyObFmC4rnlOfjYpAJcw==
-X-Received: by 2002:a2e:5c8:: with SMTP id 191mr8108549ljf.107.1634843940726;
-        Thu, 21 Oct 2021 12:19:00 -0700 (PDT)
-Received: from [10.133.221.89] ([185.253.97.12])
-        by smtp.gmail.com with ESMTPSA id
- w16sm532424lfl.189.2021.10.21.12.18.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 12:19:00 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------8B1LW0UXoSDp3WM5ovsfkvZa"
-Message-ID: <743957ea-092b-b8d8-27a2-b183619b507d@gmail.com>
-Date: Thu, 21 Oct 2021 21:18:58 +0200
+ ABdhPJzIM7Ch6ZmMqFqaAKygr1a1FO+aUV4M7iDShDNs0e39dtmT3JxQcBUuxs8tizNNFjf610py/puV88wSHicB4rs=
+X-Received: by 2002:a17:906:4fc7:: with SMTP id
+ i7mr10223050ejw.236.1634853219912;
+ Thu, 21 Oct 2021 14:53:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.0
-Subject: Re: [OE-core] [meta-java] why openjdk-8-native is need to build
- openjdk-8 ?
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: 
- <CAE84iWU4=MKr2VK5aK2bZrY_q2xaaX-fVsD=7Z7p6F8NhawrDQ@mail.gmail.com>
-Cc: openembedded-devel@lists.openembedded.org
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: 
- <CAE84iWU4=MKr2VK5aK2bZrY_q2xaaX-fVsD=7Z7p6F8NhawrDQ@mail.gmail.com>
+References: <20211021143010.803736-1-ross.burton@arm.com>
+In-Reply-To: <20211021143010.803736-1-ross.burton@arm.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 21 Oct 2021 14:53:28 -0700
+Message-ID: 
+ <CABcZAN=WLDgnkcq1=4T63v872YXKYkwadF=rcyK3=PnE_QCw_w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] strace: show test suite log on failure
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006ed00105cee3edee"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 19:19:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 21:53:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157288
+ https://lists.openembedded.org/g/openembedded-core/message/157289
 
-This is a multi-part message in MIME format.
---------------8B1LW0UXoSDp3WM5ovsfkvZa
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--0000000000006ed00105cee3edee
+Content-Type: text/plain; charset="UTF-8"
 
-I believe this should be sent to openembedded-devel@lists.openembedded.org
+I'm not familiar enough with the ptest-runner to say, but does the exit
+code of run-ptest get used at all, or only the output in the expected
+format? Just noticed this will suppress the non-zero exit code of run-ptest.
 
-Vyacheslav
+On Thu, Oct 21, 2021 at 7:30 AM Ross Burton <ross@burtonini.com> wrote:
 
-On 21.10.2021 12:11, Akira Shibakawa wrote:
-> Hi.
-> I have a question about openjdk-8 recipe.
+> If the tests fail, dump the log so we can see the failures.
 >
-> openjdk-8 seems to be built using openjdk-8-native as boot JDK.
-> And the openjdk-8-native seems to be built using icedtea7 as boot JDK.
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/strace/strace/run-ptest | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Why openjdk-8-native is need to build openjdk-8 ?
-> Isn't it simpler to build openjdk-8 using icedtea7 as boot JDK?
+> diff --git a/meta/recipes-devtools/strace/strace/run-ptest
+> b/meta/recipes-devtools/strace/strace/run-ptest
+> index 3a51fb0be9..42ececdc4f 100755
+> --- a/meta/recipes-devtools/strace/strace/run-ptest
+> +++ b/meta/recipes-devtools/strace/strace/run-ptest
+> @@ -3,4 +3,4 @@ export TIMEOUT_DURATION=240
+>  chown nobody tests
+>  chown nobody tests/*
+>  chown nobody ../ptest
+> -su nobody -c "make -B -C tests -k test-suite.log"
+> +su nobody -c "make -B -C tests -k test-suite.log" || cat
+> tests/test-suite.log
+> --
+> 2.25.1
 >
-> regards
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157279):https://lists.openembedded.org/g/openembedded-core/message/157279
-> Mute This Topic:https://lists.openembedded.org/mt/86486039/4455192
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [uvv.mail@gmail.com]
+> View/Reply Online (#157284):
+> https://lists.openembedded.org/g/openembedded-core/message/157284
+> Mute This Topic: https://lists.openembedded.org/mt/86490861/3617123
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> kergoth@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
---------------8B1LW0UXoSDp3WM5ovsfkvZa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+>
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">I believe this should be sent to
-      <a class="moz-txt-link-abbreviated" href="mailto:openembedded-devel@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a><br>
-      <br>
-      Vyacheslav<br>
-      <br>
-      On 21.10.2021 12:11, Akira Shibakawa wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAE84iWU4=MKr2VK5aK2bZrY_q2xaaX-fVsD=7Z7p6F8NhawrDQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">Hi.
-I have a question about openjdk-8 recipe.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-openjdk-8 seems to be built using openjdk-8-native as boot JDK.
-And the openjdk-8-native seems to be built using icedtea7 as boot JDK.
+--0000000000006ed00105cee3edee
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Why openjdk-8-native is need to build openjdk-8 ?
-Isn't it simpler to build openjdk-8 using icedtea7 as boot JDK?
+<div dir=3D"ltr">I&#39;m not familiar enough with the ptest-runner to say, =
+but does the exit code of run-ptest get used at all, or only the output in =
+the expected format? Just noticed this will suppress the non-zero exit code=
+ of run-ptest.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Oct 21, 2021 at 7:30 AM Ross Burton &lt;<a href=3D"=
+mailto:ross@burtonini.com">ross@burtonini.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">If the tests fail, dump the lo=
+g so we can see the failures.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/strace/strace/run-ptest | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/strace/strace/run-ptest b/meta/recipes-d=
+evtools/strace/strace/run-ptest<br>
+index 3a51fb0be9..42ececdc4f 100755<br>
+--- a/meta/recipes-devtools/strace/strace/run-ptest<br>
++++ b/meta/recipes-devtools/strace/strace/run-ptest<br>
+@@ -3,4 +3,4 @@ export TIMEOUT_DURATION=3D240<br>
+=C2=A0chown nobody tests<br>
+=C2=A0chown nobody tests/*<br>
+=C2=A0chown nobody ../ptest<br>
+-su nobody -c &quot;make -B -C tests -k test-suite.log&quot;<br>
++su nobody -c &quot;make -B -C tests -k test-suite.log&quot; || cat tests/t=
+est-suite.log<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#157284): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/157284" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/157284</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86490861/3617=
+123" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/86490861/3617123</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:kergoth@gmail.com" target=
+=3D"_blank">kergoth@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christoph=
+er Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, O=
+penZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></d=
+iv>
 
-regards
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#157279): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/157279">https://lists.openembedded.org/g/openembedded-core/message/157279</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/86486039/4455192">https://lists.openembedded.org/mt/86486039/4455192</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:uvv.mail@gmail.com">uvv.mail@gmail.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
---------------8B1LW0UXoSDp3WM5ovsfkvZa--
-
+--0000000000006ed00105cee3edee--
 
