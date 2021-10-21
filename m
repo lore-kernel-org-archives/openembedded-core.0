@@ -1,176 +1,233 @@
-Return-Path: <kergoth@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE8DC433EF
-	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 21:53:43 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web09.800.1634853221798268365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6BF3C4321E
+	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 22:20:44 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web09.228.1634854842763303953
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 14:53:42 -0700
+ Thu, 21 Oct 2021 15:20:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qt3kgv88;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: kergoth@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id d3so4398965edp.3
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=yc13P4Nx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d9so1912513pfl.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 14:53:41 -0700 (PDT)
+ Thu, 21 Oct 2021 15:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hClsCS5m71LCtCW9p1IhF3l7IVY3LMOLqdZp7uyicFo=;
-        b=Qt3kgv88IpRkoqekz7CHuV9Xxf4MzLb4yNPujqS3VgeRLnDSkvo2z0CdzsZCVpqcvo
-         GOkzPONkobdEe6dt5OL3JeNhCvQ4AW+7rduJlpWm8/xZQ0P+b4CPJPLBGdtEsu7tr+wt
-         o/ol8uRZRCuIZH/upD8QCi/g0xmIfhncTDT/ljRmmRAiOKHmUz5sEDT1g9lwByisFaGb
-         a+7CfZTv2EtltFer8pxjKPzCabs5dzkd8fDhxMAfoEYzMKxRCcWHp8ZPaa49MP9UVd+O
-         JRpT4k2no9Uhh0dvLyPwxv0eMtFDUjFuiQcq6FDwNTpsw1gdqS8+y1p+MAqfOzWlNnPy
-         +Frw==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=chvDY31+De9BRmgzuOBe+4meFYUeSkvj8ynTLZpjMCs=;
+        b=yc13P4NxHU2cZ9BpWIuE7WcKsJIU2SMTuxqNAPUI8d8VxPu836ViFTvxHmniiWojc+
+         kaW+U7fIimyvVNP2i4hr6TkqEFOa10yNsEm5G9q0uey2+JcDCFSM9iQZsmmtde4Z9cFg
+         PsJMr3ssGAVfeOKn7EY8OIGOcZYS8+XuZQe8fMQjQmlHCeSZDxfBsCTqZnMREbFzQ1pF
+         ONE8ZQCs/CtFtlJG6GwQgJ3Xw+MZaOf6/bGHNW+12nmHnIJegOleQt0t7W8+br/6wvG9
+         MiZ971jklsfvlQjrmiEzqZP/QaUjYhgmYkPxzM8kM7UJsuKHbByPgohv2IrhVj1y4K/W
+         y4Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hClsCS5m71LCtCW9p1IhF3l7IVY3LMOLqdZp7uyicFo=;
-        b=bfkQMBu5iSgV8hUzryEMzI5xBuIZj9I/4jrp4jpIKyXnQTBJXf8zjseSrWhHgsbHJs
-         0bfTSW5a38vugQdAOva4LnjJT2T6s2FPS8J0Ztlm5XCwEWbOPDAds3w1IJ/S07cmpH9a
-         2aZGwuJ+aZ5ip2FAn0IRmpn7xvLvBOTWDFhgOd4Dffm7/wGo+thgYsciqGDFcf8dqrcP
-         AGccE3tvtdiW8AodyhDfVS5r8zDrlsx/YXo8+nb5n2Vfl2Hg8CIaRNj6TVIsZpmqSFYu
-         SQHvNj2sD88Lo79BO8IsgwbgLblkbFMnvOtlluAmYvL9LehPDgCFiMYyGCIvUNlcnlwa
-         OXXQ==
-X-Gm-Message-State: AOAM531HoGrtAPG2oHlBeJ9g/P5lODC72chuzhNOSAe1ArKKdyVUr6Kv
-	/qWaqNt74BNleXMrI37QDjRJBzy8NB6ykupqENE=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=chvDY31+De9BRmgzuOBe+4meFYUeSkvj8ynTLZpjMCs=;
+        b=h5H/pxaa9XMub2IU8nYW9nycNanaBSKKuWzgqDd6WCoQbGRbzuSxFiM3JaSaqLFJhT
+         FBLKBofG3NF0E/L2GQEdMpHTKNBPKJxPkEEfbayePXa9VH3OwETRktWlqpLfv1ApizdI
+         pEbZi6KTU8BGCiJ2Ijo68F25Eox8NKpe/7u56NqXlt7pz7Bw3Dklc5eBRl2uG1ENAEHc
+         of8wrwuVFcu/qSxORLZuODRpeJ/e/R6i1bHevfe0T7Fb6lo38kMyKR2FR24MFYkR8dWH
+         taPylHlu0jHmxk9SBJzOVRKN6vKePAxg62YQlGn/B14T22UekjddNy3/sfbZdSed5Ahj
+         IDmw==
+X-Gm-Message-State: AOAM530qE825mAROG78TESIW3Pzx+AJxkc7NUTLjQW3ksLjnxxceGLgM
+	EwhXbxmvaQ0zu2nQffcMERVS5flG3fERGBhfzcc=
 X-Google-Smtp-Source: 
- ABdhPJzIM7Ch6ZmMqFqaAKygr1a1FO+aUV4M7iDShDNs0e39dtmT3JxQcBUuxs8tizNNFjf610py/puV88wSHicB4rs=
-X-Received: by 2002:a17:906:4fc7:: with SMTP id
- i7mr10223050ejw.236.1634853219912;
- Thu, 21 Oct 2021 14:53:39 -0700 (PDT)
+ ABdhPJwgUaw9DuWAWvYaeabJMyMeDEvCubS7/xlzvGAFpwVLju3K+XrKEUWKv/I4BlM+i1i1Ut3OhQ==
+X-Received: by 2002:a62:6543:0:b0:44c:61a0:555a with SMTP id
+ z64-20020a626543000000b0044c61a0555amr8041974pfb.14.1634854841252;
+        Thu, 21 Oct 2021 15:20:41 -0700 (PDT)
+Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id
+ x7sm7046498pfj.28.2021.10.21.15.20.40
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Oct 2021 15:20:40 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/38] Pull request (cover letter only)
+Date: Thu, 21 Oct 2021 12:20:28 -1000
+Message-Id: <cover.1634854770.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211021143010.803736-1-ross.burton@arm.com>
-In-Reply-To: <20211021143010.803736-1-ross.burton@arm.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Thu, 21 Oct 2021 14:53:28 -0700
-Message-ID: 
- <CABcZAN=WLDgnkcq1=4T63v872YXKYkwadF=rcyK3=PnE_QCw_w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] strace: show test suite log on failure
-To: Ross Burton <ross@burtonini.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006ed00105cee3edee"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 21:53:43 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 22:20:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157289
+ https://lists.openembedded.org/g/openembedded-core/message/157290
 
---0000000000006ed00105cee3edee
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit d12c44df66ca065a1526c7d6885e726cf50aab46:
 
-I'm not familiar enough with the ptest-runner to say, but does the exit
-code of run-ptest get used at all, or only the output in the expected
-format? Just noticed this will suppress the non-zero exit code of run-ptest.
+  glew: Stop polluting /tmp during builds (2021-09-30 04:20:38 -1000)
 
-On Thu, Oct 21, 2021 at 7:30 AM Ross Burton <ross@burtonini.com> wrote:
+are available in the Git repository at:
 
-> If the tests fail, dump the log so we can see the failures.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-devtools/strace/strace/run-ptest | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/strace/strace/run-ptest
-> b/meta/recipes-devtools/strace/strace/run-ptest
-> index 3a51fb0be9..42ececdc4f 100755
-> --- a/meta/recipes-devtools/strace/strace/run-ptest
-> +++ b/meta/recipes-devtools/strace/strace/run-ptest
-> @@ -3,4 +3,4 @@ export TIMEOUT_DURATION=240
->  chown nobody tests
->  chown nobody tests/*
->  chown nobody ../ptest
-> -su nobody -c "make -B -C tests -k test-suite.log"
-> +su nobody -c "make -B -C tests -k test-suite.log" || cat
-> tests/test-suite.log
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157284):
-> https://lists.openembedded.org/g/openembedded-core/message/157284
-> Mute This Topic: https://lists.openembedded.org/mt/86490861/3617123
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> kergoth@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (1):
+  e2fsprogs: update to 1.45.6
+
+Alexandre Belloni (1):
+  oeqa/selftest/sstatetests: fix typo ware -> were
+
+Andrej Valek (1):
+  libpsl: Add config knobs for runtime/builtin conversion choices
+
+Bruce Ashfield (3):
+  linux-yocto/5.4: update to v5.4.149
+  linux-yocto/5.4: update to v5.4.150
+  linux-yocto/5.4: update to v5.4.153
+
+Chandana kalluri (1):
+  scriptutils.py: Add check before deleting path
+
+Christian Eggers (1):
+  binutils: Fix a missing break in case statement
+
+Claudius Heine (1):
+  rng-tools: add systemd-udev-settle wants to service
+
+Hongxu Jia (1):
+  nativesdk-pseudo: Fix to work with glibc 2.34 systems
+
+Jon Mason (1):
+  oeqa/manual: Fix no longer valid URLs
+
+Jose Quaresma (1):
+  patch.bbclass: when the patch fails show more info on the fatal error
+
+Khem Raj (2):
+  m4: Do not use SIGSTKSZ
+  gpgme: Use glibc provided closefrom API when available
+
+Mark Hatle (1):
+  externalsrc: Work with reproducible_build
+
+Markus Volk (1):
+  util-linux: disable raw
+
+Michael Halstead (1):
+  uninative: Upgrade to 3.3, support glibc 2.34
+
+Pavel Zhukov (1):
+  weston: Use systemd notify,
+
+Ralph Siemsen (1):
+  tar: filter CVEs using vendor name
+
+Richard Purdie (13):
+  multilib: Avoid sysroot race issues when multilib enabled
+  pseudo: Fix to work with glibc 2.34 systems
+  pseudo: Update with fcntl and glibc 2.34 fixes
+  package: Ensure pclist files are deterministic and don't use full
+    paths
+  mesa: Ensure megadrivers runtime mappings are deterministic
+  gnupg: Be deterministic about sendmail
+  libtool: Fix lto option passing for reproducible builds
+  libtool: Allow libtool-cross to reproduce
+  gobject-introspection: Don't write $HOME into scripts
+  externalsrc: Fix a source date epoch race in reproducible builds
+  libxml2: Use python3targetconfig to fix reproducibility issue
+  libnewt: Use python3targetconfig to fix reproducibility issue
+  python3: Add a fix for a make install race
+
+Ross Burton (1):
+  uninative: Improve glob to handle glibc 2.34
+
+Saloni (1):
+  ffmpeg: Add fix for CVEs
+
+Steve Sakoman (3):
+  gcc: fix missing dependencies for selftests
+  util-linux: Fix reproducibility
+  target/ssh.py: add HostKeyAlgorithms option to test commands
+
+Wang Mingyu (1):
+  e2fsprogs: upgrade 1.45.6 -> 1.45.7
+
+ meta/classes/externalsrc.bbclass              |  9 ++
+ meta/classes/package.bbclass                  |  6 +-
+ meta/classes/patch.bbclass                    |  7 +-
+ meta/classes/uninative.bbclass                |  2 +-
+ meta/conf/distro/include/yocto-uninative.inc  | 10 +--
+ meta/conf/multilib.conf                       |  2 +
+ meta/lib/oeqa/core/target/ssh.py              |  1 +
+ meta/lib/oeqa/manual/eclipse-plugin.json      |  6 +-
+ meta/lib/oeqa/selftest/cases/sstatetests.py   | 12 +--
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +-
+ meta/recipes-core/util-linux/util-linux.inc   |  7 +-
+ ...-system-directories-when-cross-linki.patch | 26 +++---
+ ...-t-try-to-rehash-a-deleted-directory.patch | 49 -----------
+ ...ate_inode.c-set-dir-s-mode-correctly.patch | 41 ---------
+ .../e2fsprogs/e2fsprogs/CVE-2019-5188.patch   | 57 -------------
+ ...fix-use-after-free-in-calculate_tree.patch | 76 -----------------
+ ...-missing-check-for-permission-denied.patch |  2 +-
+ .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |  2 +-
+ ...2fsprogs_1.45.4.bb => e2fsprogs_1.45.7.bb} |  6 +-
+ meta/recipes-devtools/gcc/gcc-9.3.inc         |  1 +
+ ...x-missing-dependencies-for-selftests.patch | 45 ++++++++++
+ .../libtool/libtool-2.4.6.inc                 |  2 +
+ .../libtool/libtool/lto-prefix.patch          | 22 +++++
+ .../recipes-devtools/libtool/libtool_2.4.6.bb |  2 +-
+ meta/recipes-devtools/m4/m4-1.4.18.inc        |  1 +
+ .../m4/0001-c-stack-stop-using-SIGSTKSZ.patch | 84 +++++++++++++++++++
+ .../pseudo/files/build-oldlibc                | 20 +++++
+ .../pseudo/files/older-glibc-symbols.patch    | 57 +++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  9 +-
+ .../python/python3/makerace.patch             | 23 +++++
+ .../recipes-devtools/python/python3_3.8.11.bb |  1 +
+ meta/recipes-extended/newt/libnewt_0.52.21.bb |  2 +-
+ meta/recipes-extended/tar/tar_1.32.bb         |  6 +-
+ .../gobject-introspection_1.62.0.bb           |  2 +-
+ meta/recipes-graphics/mesa/mesa.inc           |  2 +-
+ .../wayland/weston-init/weston-start          | 12 +++
+ .../wayland/weston-init/weston@.service       |  6 ++
+ .../weston/systemd-notify.weston-start        |  9 ++
+ .../wayland/weston/xwayland.weston-start      |  3 +-
+ meta/recipes-graphics/wayland/weston_8.0.0.bb |  6 ++
+ .../linux/linux-yocto-rt_5.4.bb               |  6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++---
+ .../ffmpeg/ffmpeg/CVE-2021-3566.patch         | 61 ++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2021-38291.patch        | 53 ++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  4 +-
+ meta/recipes-support/gnupg/gnupg_2.2.27.bb    |  1 +
+ ...se-closefrom-on-linux-and-glibc-2.34.patch | 24 ++++++
+ meta/recipes-support/gpgme/gpgme_1.13.1.bb    |  3 +-
+ meta/recipes-support/libpsl/libpsl_0.21.0.bb  |  7 +-
+ .../rng-tools/rng-tools/rngd.service          |  1 +
+ scripts/lib/scriptutils.py                    |  3 +-
+ 52 files changed, 529 insertions(+), 302 deletions(-)
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-correctly.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5188.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsck-fix-use-after-free-in-calculate_tree.patch
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.45.4.bb => e2fsprogs_1.45.7.bb} (94%)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0040-fix-missing-dependencies-for-selftests.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/lto-prefix.patch
+ create mode 100644 meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
+ create mode 100755 meta/recipes-devtools/pseudo/files/build-oldlibc
+ create mode 100644 meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+ create mode 100644 meta/recipes-devtools/python/python3/makerace.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-3566.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2021-38291.patch
+ create mode 100644 meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
 
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+2.25.1
 
---0000000000006ed00105cee3edee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m not familiar enough with the ptest-runner to say, =
-but does the exit code of run-ptest get used at all, or only the output in =
-the expected format? Just noticed this will suppress the non-zero exit code=
- of run-ptest.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Oct 21, 2021 at 7:30 AM Ross Burton &lt;<a href=3D"=
-mailto:ross@burtonini.com">ross@burtonini.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">If the tests fail, dump the lo=
-g so we can see the failures.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/strace/strace/run-ptest | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/strace/strace/run-ptest b/meta/recipes-d=
-evtools/strace/strace/run-ptest<br>
-index 3a51fb0be9..42ececdc4f 100755<br>
---- a/meta/recipes-devtools/strace/strace/run-ptest<br>
-+++ b/meta/recipes-devtools/strace/strace/run-ptest<br>
-@@ -3,4 +3,4 @@ export TIMEOUT_DURATION=3D240<br>
-=C2=A0chown nobody tests<br>
-=C2=A0chown nobody tests/*<br>
-=C2=A0chown nobody ../ptest<br>
--su nobody -c &quot;make -B -C tests -k test-suite.log&quot;<br>
-+su nobody -c &quot;make -B -C tests -k test-suite.log&quot; || cat tests/t=
-est-suite.log<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#157284): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/157284" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/157284</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86490861/3617=
-123" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86490861/3617123</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:kergoth@gmail.com" target=
-=3D"_blank">kergoth@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christoph=
-er Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, O=
-penZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></d=
-iv>
-
---0000000000006ed00105cee3edee--
 
