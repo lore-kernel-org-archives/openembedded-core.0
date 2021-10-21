@@ -1,264 +1,135 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B5FC433F5
-	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 08:12:06 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.6420.1634803925412892811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63799C433F5
+	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 08:14:25 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.92.90.44])
+ by mx.groups.io with SMTP id smtpd.web10.6562.1634804063794133311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 01:12:05 -0700
+ Thu, 21 Oct 2021 01:14:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UO8yEksT;
- spf=pass (domain: gmail.com, ip: 209.85.167.42,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id y26so932630lfa.11
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 01:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=vRp0NlThCqrhjxT8ozXK0jgM/hQ0cmeEtU8+kulAajY=;
-        b=UO8yEksTPeRqxlnZ5zWe+c0ap4WwJWTKsIpGqTPpPCSgvQVN8PqO211L5fHCkwQK5G
-         fQZQ9lHIGQmtfKa6Mai7Rpm+C5XfI9YAhcUHUDqbnft6dJD69X/nign9K8KnKsM6NtMp
-         fjkgM71H69il95cG9w4/wYQpEEXxH1dm95LqORcNJSK63QgXo7pDPALXeYwt18kzmeOe
-         hFiIojV4FLP1G7HW7ysH7zTqW7JNNOk15Gr47l8LnFQXtp72c06x/uD9UGwMhDIumvnF
-         7dXPUOP6gzxYMqolORltUFj+NLH9+7LJkfVlCYcU+k+S3fCpKEzFAVNP84FUbWEzJop6
-         Y7Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=vRp0NlThCqrhjxT8ozXK0jgM/hQ0cmeEtU8+kulAajY=;
-        b=IaWWnmTuhH0kDcfJlis9HX8aP2MUh04LVyxJ/k4X6EDxe5n4xhu3dr3cjknwX9sAPo
-         ErmfXIleiO8mmUDY7hipgoDsdqZNVYp1JTvzuT6k/aYJL5L3412PMcfN8ZDA8+L1arPC
-         bua+SHTibTvfg6ULJLvgNKl4HkLBGHXv38IOk8nCgVF5R0+K7HPW4QftezUwOhlte0V4
-         d55oDLZQ21FpCx9AZudSCogI9WBSBvpNeCnkP6KH6w+UVMd2Fsysduj+YGaP/IClP5o6
-         g2l0/0w66Epqf2OJ9zITFUM0qahkiI/qz7rcqSZJ7byH5Y7e3p/dZgk4hAdDhb8IzOx5
-         fkgQ==
-X-Gm-Message-State: AOAM530tzzmBu30Rk7pBXh4s498xYyQ4ahbVeCn71GSBotL4pKc+1gRY
-	xfDB0kswstWXRvAF8cLLv9ODh40HiTQ6WRDHlj3zmbQc
-X-Google-Smtp-Source: 
- ABdhPJyakYfWTCbKyQn8gaartxHSs4/3f711E80EjLey0VqXbf+EzwJoEJFyrp87wGpQ30nTsD3yBVBSa8c5u7ddXBA=
-X-Received: by 2002:a19:c10a:: with SMTP id r10mr3973279lff.95.1634803923229;
- Thu, 21 Oct 2021 01:12:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211003215405.935683-1-quaresma.jose@gmail.com>
-In-Reply-To: <20211003215405.935683-1-quaresma.jose@gmail.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 21 Oct 2021 09:11:52 +0100
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=segHdkij;
+ spf=pass (domain: outlook.com, ip: 40.92.90.44,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KPaYQsxsrs695PbCqMhswk8oFbx2MaTJK8mxNt6CCRr0vgydtP0Y4aphXzuOjLVD55p+xzDiIyvaoUnE+S1yadkZhb85CxOM2DLvs+B3hkIMKi7bfIRGk/Rf6i1MZ2S79po48uEcQKoU3oWgi6fTL6q8rxDV+XZaCRdmGjtsRrL9Yl4sIvJB6Db7hE4IRYZoKTbARAxi95KYwh1filfCb20grypyuDOzAzwP9WeLllQueZ2rpaVoWcqsqVJbHSiTAwVXDxK10oaBXF31PhK/afu/D/orgIpUv1kd/0JL3FjA97hUQmYA3Nh5ww4q1HdSxGgqtzuAt7/04f1Diu1hxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jz7zSEMaAVgHJMDW5dfke0Ubjp1AUXhMREsyVCeeMXo=;
+ b=CmQBFmBS1kk+99twhxFfEIACjwkOj9MDUVFoMcX2YkdMJHlq96P+NDRihkG1Mhr/wpIj+VMIQKTvWnL7TPiH9XoDmcwPFrQTnJN0zY4X7wUkyyqMueFPfrU/4YkIVY4PqGPs8bMza+n1DRCVSo5ze7RK5l1hB/lKo7B+Ojdi3O7JdfjylJG06RvOm7SsCL2ln+opec99wNLk4KmOd6t3k4rnky6f18ZEBCcOkrATY9Hw2amPIn1Zn5LjMtRdfniCuMTyq6CtAI0D6KQyG9MW6GXCZ3gz491PscQAIU0coCSWsdERe+UPQkhxRGklMl1Wc4N4v6ZEhEKCrUqGdeniDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jz7zSEMaAVgHJMDW5dfke0Ubjp1AUXhMREsyVCeeMXo=;
+ b=segHdkij3I8dIFop4/MMOsi6SFdASE52snlLpCVE8MfyeFgVtkopYKRf2Gb9fcw4r26ycGv/R3MP4WhZZhszdKQsI6SbfgA4YqtNZDRziCYBbk5RC/EtkKGfAExazfsLGSw9xf/NlAMBLsbBPtHvl7CHHl/xi/tcSdioI7LcOV9Mvdabx56VOkRVMgfYNGBgAFDbaopPeOTsKw4OAsxvu7TN1I21cpzyenCZwTw17VTj3mM3r1EHmcXb+/JGXjvhl5bhIpub2Ucs6zS8vFmesw7MR9Om6N0X2WISEH9KzCnJ61E/WAjyg/HYN04bzY5xuDr/imxhv3a73/WyRVQLAA==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM9PR09MB4802.eurprd09.prod.outlook.com (2603:10a6:20b:2de::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16; Thu, 21 Oct
+ 2021 08:14:21 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4628.018; Thu, 21 Oct 2021
+ 08:14:21 +0000
+Subject: Re: [OE-core] [PATCH 2/2] stress-ng: convert to git, website is down
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+References: <20211021070242.16025-1-alex@linutronix.de>
+ <20211021070242.16025-2-alex@linutronix.de>
+From: Konrad Weihmann <kweihmann@outlook.com>
 Message-ID: 
- <CANPvuR=6m5yp6LnpXw6Y6RUh45W3mx+EPn+3QDGZSDWgy1m_5A@mail.gmail.com>
-Subject: Re: [PATCH] sstate.bbclass: count the files on mirrors using the pre
- local files
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001f208105ced87366"
+ <AM9PR09MB4642914F1784EAD19A8EFADFA8BF9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Thu, 21 Oct 2021 10:14:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20211021070242.16025-2-alex@linutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TMN: [WE6ttKD42JWdM+iltBD/SktGzX9f9maZcRHX7pN+LVp2klYJzAoAFn+kGKS9IzO6]
+X-ClientProxiedBy: AM6P191CA0099.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:8a::40) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <a2d36c66-3716-d1f0-a72c-c931c75c0be0@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
+ (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
+ AM6P191CA0099.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::40) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18 via Frontend
+ Transport; Thu, 21 Oct 2021 08:14:20 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6c1e03a9-95b1-43b6-ee52-08d9946ac8ce
+X-MS-TrafficTypeDiagnostic: AM9PR09MB4802:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tzESOHxvjdGujcjNwgFJ9FzSVSa1F9w1FdzIJcby7Vv8kKCCcCRkGlQJsRqnywr9nWBm5VGelNSyaXxItxWsnDMaC2OMgS1rFgUBWnBerVjg3rst02+tEn4Z8Z6H4l2+g4ZGdi3iU3RzFqNCYirBmOyTCKKXT9a6sC1Y6qi2bYm0P25ckBq6aTDsAVkrj4k35k3648MeY3chk8pVTFBp+Gb62TsGz+NBqbbQtPh1ICMLJUf3EJIkXEiCNSKeA69MvpzYwLchnFmEUcV35kIL626jkrNAxeig59byo4ToeeZe3EGdN9ZovxkNoSUhGnDiYcawZRGZGJtkTiJbmqphrli8KCsljMxB7TR+2VMKorflIRa6pfMypHZ1A8IUZIHsa9xThTLW8C3SXanda6g81snIdxwHMO8iEW958wWFMAUHRMRbQkr0idpwctc89VcKUNArMIRHsBu8jEZtPdTwXElPalsrF2PhZWUB66Fp+DAg1qlKgGaWtBVjqgrTXLr8n25wMi3hz2qRaB4eQDN2DEWvfqY+kvc3ugPmi5+mW0shrlejuUFUqiKRa+nOS82va7iWt0cC+9OQVNWP8PLd9w==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	fo8daz7QmDxHxRgMuq7xNfNWbIQmBThKBsH3EM57y4pyrpHggv8tFSFSDhFkJfsbc6uixaNModUrDoTlHabs77+edGgKzBb808e3c4IUP+kEquTro8PXo/lbHa4LU1sm3ZKpyKYDsaOYUPEGk/2V2fIZ0Nx/TSIImxSEtdqTjvm6a1w3EplD1jvC3c7Ep0Xtgi4r5Ep7znnxn32AueeaJ0rraxTVwzMx317NDnmYwR1K2YmnO/5AbS0TtJzboQi7Bm5kbr36Luw+uKgZhAv9InsZyEDg1wa6QwkFoKkzlQzwMUrwHy71QflOY+QUY5s+vXuoXaDwhmLSR13g6O50hO2uMxU5jvkHjTOgcOy0/YrSclBZJ0Ea4RhW4VRQea9AQY2gkNvdazKgHtp+4vXmsjowgvSAoUVkC5oCKF0IwyHb8geuNVKoyjPP1I5VSedhB5RDMjy1Gr66cnn8GN3piZavYwUPPp8emeKCfatqGv/cvYpuRWLhXkI3AEhsQz3I17ZqGXGSVisGq9jJIM0bLt+yeoO4IdmAyEAYDykafzMORCmQdZFYI1MrCCXzSl9ibVmGbjCL6EYY+M37r4c0sqjghb019Owu62Hd9ysQdiMuzt74wS4xA0WdD825kSPNR2GFu7mL2fK0aU8Q7bYC1jTLjTSZLkLF8I5kJmEseiHUPQKAk5BcUJZWnMSbtlNfaCmnvq0KR3L6P1H2BrClC2mPI1dJzje74PQmZovlzGHogZor0v7kELsXPSlI8ZpPJbMMoKRCoWBiBICwiIbcvSLEW4nKTG0yoZl4RUp0VkB2Yb4bGkHMTjhDVsqaFnowFcJEZebj7/LeOXJEDmF9F7ohZBYY3TXcsFCmWqPjcaT+ChmrO29vlBx6EukEaR1c
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 6c1e03a9-95b1-43b6-ee52-08d9946ac8ce
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2021 08:14:20.9489
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-UserPrincipalName: kweihmann@outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR09MB4802
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 08:12:06 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 08:14:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157274
+ https://lists.openembedded.org/g/openembedded-core/message/157275
 
---0000000000001f208105ced87366
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Could you in this case adjust the HOMEPAGE var as well
 
-ping
-
-Jose Quaresma <quaresma.jose@gmail.com> escreveu no dia domingo, 3/10/2021
-=C3=A0(s) 22:54:
-
-> We don't need extra python collections to count the found files
-> on the sstate cache and sstate mirrors.
->
-> The main found collections provides all the files that were found.
-> Then we only need to store the nunber of files that found on the
-> local sstate cache and the files that found on the sstate cache
-> mirror is derived from that.
->
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+On 21.10.21 09:02, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  meta/classes/sstate.bbclass | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 92a73114bb..f06778a3ee 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -893,8 +893,6 @@ BB_HASHCHECK_FUNCTION =3D "sstate_checkhashes"
->
->  def sstate_checkhashes(sq_data, d, siginfo=3DFalse, currentcount=3D0,
-> summary=3DTrue, **kwargs):
->      found =3D set()
-> -    foundLocal =3D set()
-> -    foundNet =3D set()
->      missed =3D set()
->
->      def gethash(task):
-> @@ -925,14 +923,13 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
-> currentcount=3D0, summary=3DTrue,
->          sstatefile =3D d.expand("${SSTATE_DIR}/" + extrapath +
-> generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
->
->          if os.path.exists(sstatefile):
-> -            bb.debug(2, "SState: Found valid sstate file %s" % sstatefil=
-e)
->              found.add(tid)
-> -            foundLocal.add(tid)
-> -            continue
-> +            bb.debug(2, "SState: Found valid sstate file %s" % sstatefil=
-e)
->          else:
->              missed.add(tid)
->              bb.debug(2, "SState: Looked for but didn't find file %s" %
-> sstatefile)
->
-> +    foundLocal =3D len(found)
->      mirrors =3D d.getVar("SSTATE_MIRRORS")
->      if mirrors:
->          # Copy the data object and override DL_DIR and SRC_URI
-> @@ -973,7 +970,6 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
-> currentcount=3D0, summary=3DTrue,
->                  fetcher.checkstatus()
->                  bb.debug(2, "SState: Successful fetch test for %s" %
-> srcuri)
->                  found.add(tid)
-> -                foundNet.add(tid)
->                  if tid in missed:
->                      missed.remove(tid)
->              except:
-> @@ -1034,7 +1030,8 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
-> currentcount=3D0, summary=3DTrue,
->          match =3D 0
->          if total:
->              match =3D len(found) / total * 100
-> -        bb.plain("Sstate summary: Wanted %d Local %d Network %d Missed %=
-d
-> Current %d (%d%% match, %d%% complete)" % (total, len(foundLocal),
-> len(foundNet),len(missed), currentcount, match, complete))
-> +        bb.plain("Sstate summary: Wanted %d Local %d Mirrors %d Missed %=
-d
-> Current %d (%d%% match, %d%% complete)" %
-> +            (total, foundLocal, len(found)-foundLocal, len(missed),
-> currentcount, match, complete))
->
->      if hasattr(bb.parse.siggen, "checkhashes"):
->          bb.parse.siggen.checkhashes(sq_data, missed, found, d)
-> --
-> 2.33.0
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000001f208105ced87366
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">ping<br><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.=
-com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt; escreveu no dia domi=
-ngo, 3/10/2021 =C3=A0(s) 22:54:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">We don&#39;t need extra python collections to count the fou=
-nd files<br>
-on the sstate cache and sstate mirrors.<br>
-<br>
-The main found collections provides all the files that were found.<br>
-Then we only need to store the nunber of files that found on the<br>
-local sstate cache and the files that found on the sstate cache<br>
-mirror is derived from that.<br>
-<br>
-Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com"=
- target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/sstate.bbclass | 11 ++++-------<br>
-=C2=A01 file changed, 4 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass<br>
-index 92a73114bb..f06778a3ee 100644<br>
---- a/meta/classes/sstate.bbclass<br>
-+++ b/meta/classes/sstate.bbclass<br>
-@@ -893,8 +893,6 @@ BB_HASHCHECK_FUNCTION =3D &quot;sstate_checkhashes&quot=
-;<br>
-<br>
-=C2=A0def sstate_checkhashes(sq_data, d, siginfo=3DFalse, currentcount=3D0,=
- summary=3DTrue, **kwargs):<br>
-=C2=A0 =C2=A0 =C2=A0found =3D set()<br>
--=C2=A0 =C2=A0 foundLocal =3D set()<br>
--=C2=A0 =C2=A0 foundNet =3D set()<br>
-=C2=A0 =C2=A0 =C2=A0missed =3D set()<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def gethash(task):<br>
-@@ -925,14 +923,13 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse, c=
-urrentcount=3D0, summary=3DTrue,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sstatefile =3D d.expand(&quot;${SSTATE_DI=
-R}/&quot; + extrapath + generate_sstatefn(spec, gethash(tid), tname, siginf=
-o, d))<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.exists(sstatefile):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;SState: Found =
-valid sstate file %s&quot; % sstatefile)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0found.add(tid)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 foundLocal.add(tid)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;SState: Found =
-valid sstate file %s&quot; % sstatefile)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0missed.add(tid)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.debug(2, &quot;SState: L=
-ooked for but didn&#39;t find file %s&quot; % sstatefile)<br>
-<br>
-+=C2=A0 =C2=A0 foundLocal =3D len(found)<br>
-=C2=A0 =C2=A0 =C2=A0mirrors =3D d.getVar(&quot;SSTATE_MIRRORS&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0if mirrors:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Copy the data object and override DL_DI=
-R and SRC_URI<br>
-@@ -973,7 +970,6 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse, cur=
-rentcount=3D0, summary=3DTrue,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fetcher.check=
-status()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.debug(2, &=
-quot;SState: Successful fetch test for %s&quot; % srcuri)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0found.add(tid=
-)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 foundNet.add(tid)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if tid in mis=
-sed:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0missed.remove(tid)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except:<br>
-@@ -1034,7 +1030,8 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse, c=
-urrentcount=3D0, summary=3DTrue,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0match =3D 0<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if total:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0match =3D len(found) / tota=
-l * 100<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Sstate summary: Wanted %d Local=
- %d Network %d Missed %d Current %d (%d%% match, %d%% complete)&quot; % (to=
-tal, len(foundLocal), len(foundNet),len(missed), currentcount, match, compl=
-ete))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Sstate summary: Wanted %d Local=
- %d Mirrors %d Missed %d Current %d (%d%% match, %d%% complete)&quot; %<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (total, foundLocal, len(found)-f=
-oundLocal, len(missed), currentcount, match, complete))<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if hasattr(bb.parse.siggen, &quot;checkhashes&quot;):<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.parse.siggen.checkhashes(sq_data, miss=
-ed, found, d)<br>
--- <br>
-2.33.0<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
-></div>
-
---0000000000001f208105ced87366--
+>   meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
+> index 198f7e87c7..8a37940bc3 100644
+> --- a/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
+> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
+> @@ -5,10 +5,11 @@ HOMEPAGE = "https://kernel.ubuntu.com/~cking/stress-ng/"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>   
+> -SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+> +SRC_URI = "git://github.com/ColinIanKing/stress-ng.git \
+>              file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+>              "
+> -SRC_URI[sha256sum] = "1cefe4a3057c1522b146e62f61b80ce6e2e99da2d85ebe25bc03fc45228e58cd"
+> +SRCREV = "61b454b4a3a9d052e63c78a9574ccf8a650575dc"
+> +S = "${WORKDIR}/git"
+>   
+>   DEPENDS = "coreutils-native"
+>   
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157273): https://lists.openembedded.org/g/openembedded-core/message/157273
+> Mute This Topic: https://lists.openembedded.org/mt/86484339/3647476
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
