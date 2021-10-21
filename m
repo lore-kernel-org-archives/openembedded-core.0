@@ -1,169 +1,150 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B1AC433F5
-	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 15:33:39 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web12.11039.1634830418144430053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 856F6C433FE
+	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 19:19:04 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web08.2650.1634843943322757660
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 08:33:38 -0700
+ Thu, 21 Oct 2021 12:19:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=jpiUE7V1;
- spf=pass (domain: burtonini.com, ip: 209.85.128.50,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f50.google.com with SMTP id o24so133169wms.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 08:33:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=O022TZuG;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175,
+ mailfrom: uvv.mail@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id l5so382997lja.13;
+        Thu, 21 Oct 2021 12:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0GlAxpDWkLyYj2FKGnviAKOZ+SUEI5eLipno1pjrF5U=;
-        b=jpiUE7V1yNfEVl2Ks+1dEagAckmRMAxJ2Cnz57wFtVhLHTHF+CKAVZMpfmoO6K/Ww5
-         bw1oNkIYDJV8z+aqn4qw/ebr+sH5E396iRkw104GRJtfzfAFMlKUTze+/PFYaeBv5TkW
-         /7666ZrMlwFgB5kqBbINzeJeewnUw+ed/bAPTSFGJ/mrHj6mrltXwhAwF4MDgHeU4R/i
-         P43PVaTrM1AzdDSU17X6okS14Kld09V0qFHoflMUXl8x2ppEmA2/C8fa6qlXNN1TnWTX
-         YYFQgsvFPyO900w6HzrUBjXggFRQaIQ1ffQeOA/LIIODUuAB4j8CxCKCv1g9zAJMbRTw
-         /Iuw==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:cc:from:in-reply-to;
+        bh=ec/7LV7rI2THg9hattXg93FyllsEIEELgjQOMXshTn0=;
+        b=O022TZuGaU5wsn8iyu/Baiqz1ViHKb8Xjij3ui3MRX3KLz1t5law1Z4Q0AVFRrtPy8
+         T3PKTa5tNk/TBcHYwxIMQM83xc2NpU2MknZ6ebfvT/DGEq3pvGM79/h1/n2zBt06V50B
+         kDZ6YTpiDwRFmSkUdBbbASSl2O1aa7ln9zReAfsEEvrSLffz/FlL6FZtTT4ptWZsvOnA
+         uiXv/WhUKcLK+mNU6P9WFEFxyTcDMyqeHJs1g4EIXQpH+ykpGpd2qa7QbahZ9egPh2To
+         w6XkQgvWFPYlP57r73MFoSFsIyiqj5IZU4pPj3aSq7oufyK4iqlkfqMf6IjVvIiQ8upS
+         nQmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0GlAxpDWkLyYj2FKGnviAKOZ+SUEI5eLipno1pjrF5U=;
-        b=iiOVF0uAKaKowEuvLlq5pY58CUwXkKvy2B3731gaJ5KWaNq5UmO+EtAb01ARMXngQd
-         kTrO6uf4Ije26jEj1f3uowhLqJX2JNQnM1tUGdnUkOzriKekP3iHE3nymETeYPHHwW5L
-         TP0TUQd6PdbzUdNhewOgUwc/uBMq8/S6HUxrpzg529Y6VYHdXIMCaqPMeUj3ETNPp4sy
-         tOjjmK3je5ETLsLcCzLve3rhAbLqJsfki4fAMYNz2VhLkxiHZhEtOl7L4a0r+cXvmB8P
-         k/9UnfnEaaHybfDz9MIE02lyOhMDffgpXStxbPn1+ucONAHFMctuzSOa6lfTiJ+BX5tX
-         CkdA==
-X-Gm-Message-State: AOAM533V/Naq6NBoqnTRNTr50d5URkejMOfwMHA2C39yP74gRXBPEoN7
-	NqGQewHEbKST4SO6M3jpkznkYy6Yz+iOihMCGv8GBg==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:cc:from:in-reply-to;
+        bh=ec/7LV7rI2THg9hattXg93FyllsEIEELgjQOMXshTn0=;
+        b=BxLVwsSFqa6WdOsXgxsxvMqA3rIPkMacr/LDu+ndioFj3+cCjgVcJSI2xiQ0hDCNHm
+         S5QFy/hkQZH6SY/nW78stgOcqhd3pety3GJqov8/cD5IKq8ig0MzfpeSohf0bHP4A1dp
+         mn/f6NqxsO6mGlAZeYWOcRNJBY0mkbG6ExuIo0kKAzW+W6fusz96vnlT/B1u21zTiRaZ
+         gr9Cu/jZidyuNucJWBTx3Z8V15WomE1DYyIoGBFaGq59zCT6bWGmeqxFTNstC3NC05MY
+         TJQw09lZocyfELbtpG6uAycVaMaZ4D4J2/c2TVWwsO0DW5GelzzmzcXIr3L5ksxR3vH8
+         p2Yg==
+X-Gm-Message-State: AOAM532L4fg+gfMD4w1u3aCXLfH72L5of+G9wwXKgRkYogzGD5il1I+O
+	J1t+cZ+RRlAawAnUV+boXj8PHRWa36anKA==
 X-Google-Smtp-Source: 
- ABdhPJwflVdNt0sFRdrT7fqniG78W9RRpx+zHFqQkwbAbKepNpIQGJHNzM+ZaUPcpPze5DnJ9jGkNeDy0lg2J3a9xvg=
-X-Received: by 2002:a05:600c:283:: with SMTP id
- 3mr7614438wmk.157.1634830416438;
- Thu, 21 Oct 2021 08:33:36 -0700 (PDT)
+ ABdhPJzFlHUC3jXmCtIoVw8UL7X3VLgZrg9M5Cdu6n+6ZO4RiBOKGwfrl5vyObFmC4rnlOfjYpAJcw==
+X-Received: by 2002:a2e:5c8:: with SMTP id 191mr8108549ljf.107.1634843940726;
+        Thu, 21 Oct 2021 12:19:00 -0700 (PDT)
+Received: from [10.133.221.89] ([185.253.97.12])
+        by smtp.gmail.com with ESMTPSA id
+ w16sm532424lfl.189.2021.10.21.12.18.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Oct 2021 12:19:00 -0700 (PDT)
+Content-Type: multipart/alternative;
+ boundary="------------8B1LW0UXoSDp3WM5ovsfkvZa"
+Message-ID: <743957ea-092b-b8d8-27a2-b183619b507d@gmail.com>
+Date: Thu, 21 Oct 2021 21:18:58 +0200
 MIME-Version: 1.0
-References: <20211019192614.153903-1-ross.burton@arm.com>
- <20211019192614.153903-2-ross.burton@arm.com>
- <YXFvkNkKhWFhFzTz@piout.net>
- <CAAnfSTtB9W0++zS4k3Sn_1Qg5EKQDm5Ct0jtcB3_9K7seddBtQ@mail.gmail.com>
- <YXGCzZIz09EXsJWV@piout.net>
-In-Reply-To: <YXGCzZIz09EXsJWV@piout.net>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 21 Oct 2021 16:33:25 +0100
-Message-ID: 
- <CAAnfSTtftg7FDSWwu9pZ6NoxKDV+70ZxXQq01FGiOCmw=uJQfg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] strace: handle loaded test systems
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.0
+Subject: Re: [OE-core] [meta-java] why openjdk-8-native is need to build
+ openjdk-8 ?
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: 
+ <CAE84iWU4=MKr2VK5aK2bZrY_q2xaaX-fVsD=7Z7p6F8NhawrDQ@mail.gmail.com>
+Cc: openembedded-devel@lists.openembedded.org
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: 
+ <CAE84iWU4=MKr2VK5aK2bZrY_q2xaaX-fVsD=7Z7p6F8NhawrDQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 15:33:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 19:19:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157287
+ https://lists.openembedded.org/g/openembedded-core/message/157288
 
-Ha, idiot me.  I didn't see that bit of the regex and the test suite
-takes so long I didn't actually test it...
+This is a multi-part message in MIME format.
+--------------8B1LW0UXoSDp3WM5ovsfkvZa
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Other opinions on whether to we skip the test or relax the bounds?
+I believe this should be sent to openembedded-devel@lists.openembedded.org
 
-Ross
+Vyacheslav
 
-On Thu, 21 Oct 2021 at 16:10, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
+On 21.10.2021 12:11, Akira Shibakawa wrote:
+> Hi.
+> I have a question about openjdk-8 recipe.
 >
-> On 21/10/2021 15:20:04+0100, Ross Burton wrote:
-> > Sigh.  I'll just remove the test entirely then.
+> openjdk-8 seems to be built using openjdk-8-native as boot JDK.
+> And the openjdk-8-native seems to be built using icedtea7 as boot JDK.
 >
-> Actually, I think your regex is not correct because it also failed on
-> qemux86. I believe you are missing a digit in the case it takes more
-> than one second, before you had '1.[01]' then 5 digits, you changed it to
-> '1.' and 5 digits, this should be 6
+> Why openjdk-8-native is need to build openjdk-8 ?
+> Isn't it simpler to build openjdk-8 using icedtea7 as boot JDK?
 >
-> >
-> > Ross
-> >
-> > On Thu, 21 Oct 2021 at 14:48, Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >
-> > > Hi Ross,
-> > >
-> > > On 19/10/2021 20:26:13+0100, Ross Burton wrote:
-> > > > If the host is loaded when running the tests there is a good chance
-> > > > that strace-T.test will fail, as it does a sleep(1) and checks that
-> > > > the nanosleep() call lasted for 0.9-1.1 seconds.
-> > > >
-> > > > Relax the test so that the test passes if the call takes less than two
-> > > > seconds.
-> > > >
-> > > > [ YOCTO #14596 ]
-> > > >
-> > > > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > > > ---
-> > > >  meta/recipes-devtools/strace/strace/ptest-sleep.patch | 7 +++++++
-> > > >  meta/recipes-devtools/strace/strace_5.14.bb           | 1 +
-> > > >  2 files changed, 8 insertions(+)
-> > > >  create mode 100644 meta/recipes-devtools/strace/strace/ptest-sleep.patch
-> > > >
-> > > > diff --git a/meta/recipes-devtools/strace/strace/ptest-sleep.patch b/meta/recipes-devtools/strace/strace/ptest-sleep.patch
-> > > > new file mode 100644
-> > > > index 0000000000..5629dec319
-> > > > --- /dev/null
-> > > > +++ b/meta/recipes-devtools/strace/strace/ptest-sleep.patch
-> > > > @@ -0,0 +1,7 @@
-> > > > +diff --git a/tests/strace-T.expected b/tests/strace-T.expected
-> > > > +index 1ea020465..f78d3e2c8 100644
-> > > > +--- a/tests/strace-T.expected
-> > > > ++++ b/tests/strace-T.expected
-> > > > +@@ -1 +1 @@
-> > > > +-nanosleep\(\{tv_sec=1, tv_nsec=0\}, NULL\) = 0 <(1\.[01]|0\.9)[[:digit:]]{5}>
-> > > > ++nanosleep\(\{tv_sec=1, tv_nsec=0\}, NULL\) = 0 <(1\.|0\.9)[[:digit:]]{5}>
-> > >
-> > > Those two builds have the patch and reliably failed:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/2425/steps/12/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/2428/steps/12/logs/stdio
-> > >
-> > > > diff --git a/meta/recipes-devtools/strace/strace_5.14.bb b/meta/recipes-devtools/strace/strace_5.14.bb
-> > > > index a81bda04ba..9ae1367337 100644
-> > > > --- a/meta/recipes-devtools/strace/strace_5.14.bb
-> > > > +++ b/meta/recipes-devtools/strace/strace_5.14.bb
-> > > > @@ -13,6 +13,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-> > > >             file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-> > > >             file://ptest-spacesave.patch \
-> > > >             file://0001-strace-fix-reproducibilty-issues.patch \
-> > > > +           file://ptest-sleep.patch \
-> > > >             "
-> > > >  SRC_URI[sha256sum] = "901bee6db5e17debad4530dd9ffb4dc9a96c4a656edbe1c3141b7cb307b11e73"
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
-> > >
-> > > >
-> > > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > > Links: You receive all messages sent to this group.
-> > > > View/Reply Online (#157202): https://lists.openembedded.org/g/openembedded-core/message/157202
-> > > > Mute This Topic: https://lists.openembedded.org/mt/86448553/3617179
-> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > >
-> > >
-> > >
-> > > --
-> > > Alexandre Belloni, co-owner and COO, Bootlin
-> > > Embedded Linux and Kernel engineering
-> > > https://bootlin.com
+> regards
 >
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157279):https://lists.openembedded.org/g/openembedded-core/message/157279
+> Mute This Topic:https://lists.openembedded.org/mt/86486039/4455192
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [uvv.mail@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+--------------8B1LW0UXoSDp3WM5ovsfkvZa
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">I believe this should be sent to
+      <a class="moz-txt-link-abbreviated" href="mailto:openembedded-devel@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a><br>
+      <br>
+      Vyacheslav<br>
+      <br>
+      On 21.10.2021 12:11, Akira Shibakawa wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAE84iWU4=MKr2VK5aK2bZrY_q2xaaX-fVsD=7Z7p6F8NhawrDQ@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">Hi.
+I have a question about openjdk-8 recipe.
+
+openjdk-8 seems to be built using openjdk-8-native as boot JDK.
+And the openjdk-8-native seems to be built using icedtea7 as boot JDK.
+
+Why openjdk-8-native is need to build openjdk-8 ?
+Isn't it simpler to build openjdk-8 using icedtea7 as boot JDK?
+
+regards
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#157279): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/157279">https://lists.openembedded.org/g/openembedded-core/message/157279</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/86486039/4455192">https://lists.openembedded.org/mt/86486039/4455192</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:uvv.mail@gmail.com">uvv.mail@gmail.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+--------------8B1LW0UXoSDp3WM5ovsfkvZa--
+
 
