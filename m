@@ -1,135 +1,103 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3E6C433EF
-	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 08:15:25 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.26])
- by mx.groups.io with SMTP id smtpd.web12.6369.1634804124578083607
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F4EC433FE
+	for <webhook@archiver.kernel.org>; Thu, 21 Oct 2021 08:41:05 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.6556.1634805664342048366
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 01:15:25 -0700
+ Thu, 21 Oct 2021 01:41:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=hNwh5d6l;
- spf=pass (domain: outlook.com, ip: 40.92.64.26,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mM3EiDKH8QrzlwQRIMglYjUtYFTrTpq0zgeD3cqMyJB60tPlbP4OLrxPluJkz6uYhqkFuHP7k+AhhhfOOjktVPKpkdTO2eN0oPv02vxp5ao92o3iudigm/txz+S0AIaUeALPkA7WsPYJagQmhG7gAKssN5KLDU/GWaW0jVgxm/DsBpZNa/5qpTbcF+YcXNNI+ZyBF4ZRmq05wRTTunNngMZx+NraNv07+kSZmuiklZZtb7Z19PMgR4Cz6hVaE3fx/FSSCMzgdgnysPIOosXKK5OpOn5+XZwj6eiQ38lAGCJfOG5qn+s4PFHdEv6FKT1CyrjR+NOXlOiYYMyS8AdEWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WlcweXwkV0q489r7umUZtyGgWMF4uV2hTJvImCC95gQ=;
- b=l5AfSeKSL7HPbYo0IK75LHtmrjZ4aFxcB72TUnDLN2nBdW8nsdqPiLgdzpuzQx8R2P5YMdSxF5XPj6Sws5r/1R95RxQhcyN3E0XPNfYqb6CuW7JPU4mo66rPXjkTR/HxMVN8bJA0z/W2hv0tohmaRQMJ1+qvHWDK6xmZ/gMCKP5Zw/JTUS3G2vEkC4Y6N9LESHGNe04ldWf/HEY3FTCMjZ7iZ7i4wbJGN3/3Z9VZAWcCYkhuX5m4cDmdJrHjlWSxmBukbDeQDMTmHelHNy3XLxcbzjpfhbZ4ODBFS3Dc+H7I36IEuh5RPgKfQQQ6JHGEsOY4MZkkmI4QkYJ9hscvFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WlcweXwkV0q489r7umUZtyGgWMF4uV2hTJvImCC95gQ=;
- b=hNwh5d6lG+B6D35tcL/4Kj4cnIbqSHfvDNxnGNP+J5gQsqefyI6OjDCaz8d0tLseJaclfZuUGfe+lvkpBtDTqdw3AqUb5h9FxuNig4PivPkwCOjjXOcLpPwqWqMPacXVXXkOMSYQ3pfZwrxcjOFuG2SXltdHZMbC//STFu9Obh8OpgAZBEKPThia+pE5NJittap55Ah2nSjZLp8JKpR15foyRU1kDLufQNfO+UyNaMz1dziCP2+ZMmIuLgMlOa8HAc5YPcH0WleVl2a1Nhez/cGvfZqz1CQ1CUDW0hIaHxuZ+H59QPwodpH5G3ZcS7qTCFErghIHRYxAl6hG/SNjkA==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4465.eurprd09.prod.outlook.com (2603:10a6:20b:163::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15; Thu, 21 Oct
- 2021 08:15:22 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4628.018; Thu, 21 Oct 2021
- 08:15:22 +0000
-Subject: Re: [OE-core] [PATCH 1/2] waffle: convert to git, website is down
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CX7Cvya3;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id d3so547375wrh.8
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 21 Oct 2021 01:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=59wfaqPaSqvx5NDRGAbJlPSv0g9pQhzt+aybdFwQa+k=;
+        b=CX7Cvya38Nq4JAd9cUdM8pCKItKnQtnV/XPDwcnIY114ZhfmoCeDZib+JkRbHjxk1V
+         TZfXLTNjy+SvRGQGBAeNxmcpGuBWsoh/KO6Y5b35YE54iVA/GD72eM7tRHpU28I628nT
+         uydqYo4UtCA2Me7zmVipU3YrvL1t6XQcrdL52e+fkQtinXd1V4UZx+Yr267rRFIZ47nK
+         pBkpAvZcyjZDyLWPJUUP9//Ip4uqf0lD6SgjwYCp9t49kfBHYIznCwXq7AfNz6CQL+RF
+         E6dFuGYql61ZKmSk8EWBLa9P6oByMl72Zjop1F88pLPdIKVOD+vsYhpurhRmNNyF2q2E
+         694w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=59wfaqPaSqvx5NDRGAbJlPSv0g9pQhzt+aybdFwQa+k=;
+        b=RELT777uVWDz/wKy1owfQnxss6vtIHiu6vl0YfQ6AfYyHKO0cuyMoBaEyVlkl/6xZp
+         Z+qNUXCIgrLh1elqdrhMGH48Lf57Co3JJYs95otFxJbjcsADRhb7hcrsphHj9lIIoLvA
+         yan+8RQ8v0Se5E4rzZ05Eub+77KfudnBDNpDNF6ZaR+10xsr9yYsmKAM2FCn9BHdwY/z
+         683U+DE3qR9n+4exksuCqO28zmVjzBpIhtMUMpxLU8SThyrvvuXiVZA/51jLoB1lbkZX
+         wBHPcxMV0t/yWrmXprVPEGjBcGxGLAOrH55v7EWF4E8ax5lQCBiPeKgpVzaVfSXk/i22
+         Oshg==
+X-Gm-Message-State: AOAM532SP0pRdt/kubCMmXwfGwiIObbpfH1oSDmEz+nRIAZCeAIK8fE+
+	t+ckg2e44IjaPK+vmPbF1P/3p4ngkhY=
+X-Google-Smtp-Source: 
+ ABdhPJz1VZd1JZYfl9iyUhYuynMtWG5MQLXEbmQy8fG9dboVR0Hhbo9b8NvYRV5YsKToML918f9dvA==
+X-Received: by 2002:adf:b19b:: with SMTP id q27mr5694602wra.125.1634805662978;
+        Thu, 21 Oct 2021 01:41:02 -0700 (PDT)
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
+ [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ 25sm7384126wmo.18.2021.10.21.01.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Oct 2021 01:41:02 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-References: <20211021070242.16025-1-alex@linutronix.de>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB4642829AB7DD59DEB0524D6CA8BF9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Thu, 21 Oct 2021 10:15:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20211021070242.16025-1-alex@linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [5LdZMFydB9sfkZ6cNg4AsXeuQ+HXbVw4Jmy50fBeRlHVcEHv61vo/EgLG12gVKOG]
-X-ClientProxiedBy: AM6P191CA0091.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:209:8a::32) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <e9b95489-2694-69cd-88c1-7bb87bcbf50e@outlook.com>
+Subject: [PATCH 2/2] stress-ng: convert to git, website is down
+Date: Thu, 21 Oct 2021 10:40:59 +0200
+Message-Id: <20211021084059.977697-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211021084059.977697-1-alex@linutronix.de>
+References: <20211021084059.977697-1-alex@linutronix.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
- (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
- AM6P191CA0091.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::32) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend
- Transport; Thu, 21 Oct 2021 08:15:22 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 03a658c3-ffca-4b23-abf4-08d9946aeda5
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4465:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	aabRyQKZu/lNM0XSOnIYD+61Dc/2er60UbZdFp0tELJwfq2TL4Pa4H+6Dly9L3R/kmZfPr+1AsRN57o8AoOzACPk09A7ZgpQLS7apyMZXGra0A32opHu+toiOu+Z1qMKu2ZXArd7WdiuQbZYVXNekawoPuquMBKozKs/Cthut7G0tozo2kDqYJ/+9zBOvgRAosOD3EZ9nL16UBsMZdAxe1mfNCh/RejrgbhfcWjiUrpsONTFi8HFRcBYCZzyUujWewFLR896Q4CN995MK1tjcQUEmVyhrW+Fe7Z/xZvZQtHqXoD+/MezSHI7VB3AFRH8PazIc16hvYsPMqyJR0hMAjzjFkJSVtDso9ILdXJYIpE2/uYh+U5aIQgADr/PsbvnfCShRM8uPddmlgAUTUJhCISeRyrz1Z7tjUzW0bWLiFOetQREa61RT4UckdXpzeB06Lzww8CQ8CnhiDdAzRdmWeiVL/giQMukgIGNt83GPK/o8iOIVaCl1Luc4eSECCoagjKNMmJQQu0IE5n0cBK9F6dTXgOxU1DL4kyklUHf8CL800TxLEEo7veBX5/emmB6Q46GrMjwIYNazDg7JtiH8g==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	WA73aJAfBODR9rPNs/Qt/8DF7Uxtrrl0z6pU/zClnNmo3VHUFjq+QxjYAUgxHZfJehITq/14Kwnjbp0+QiBLMO9RLFvA0GsK6udQ7nrnSxGeAgz/AZ+y1JGMtl9lPTclDtkpcyUhpd2mtNlmwsssGZkWo/s3bukgiKv6O/zxXegKhpljGN0K50XhRte1yoKsicymElSz3N+gIi9XAgPXZXk9oWqL5XEfyqGrmOnQsxO7fIQXH7+XM/XaGahzTzKEmFKKvUIFfjuJDMT2HchrdNPmYEL3VCE5QPIoN1CcsapQVTYl3LJlG8Yg+zD9MRn1DpG3wNkNdeu0BRrxabn/0nROaeef9DMduOwycSdZ0Ygvi4mpUVnwKAvub4YcCF4cA0LQAkAtWjpLSKmusnwxrUvLxxiTltC2ymX9AGcAxDPe3CU6+OUOHM1NMs2n4JcM2EyYIl4pT1hD+/x/dtKFU6mWaihVX3zRTNGfF/XI1cuckxuSpHkysV9KZijFlJe4XqZhJgEqt5HpaYlxnghDthmSMywyd/Stf+LMMadAIxELNc09QQhLjWL/WoGbAY9VukphjYYHbfI+vUnzH9NwJ48jDdR79aUy6y7N0Hw7Esm6Nn731R0JSU6AHfqmNBS5VRUkG0ifypb6cJhHrj+m+BYsrA98an2l77mMASMCPyqhYiZbGsfpLUauTAWo8e8yOpVbcZ3qeCA3d9S87M/PPvyQA7snFo60k0CPkKoGLixK1ZLUWTbq6MuLrwVYFinSnkkmcoAmbnwW4MjmQ6+cAvz2zHiyicAT9i3M5VTwsY4qlhUyXKn0rVdO4HXfiZ0TROfFhHn6CFTmDBoxOg3wvH5i1aPJ03KPu2rTR/9bXRmGyRztRo1gsjQNWeHOIk4S
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 03a658c3-ffca-4b23-abf4-08d9946aeda5
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2021 08:15:22.6238
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-UserPrincipalName: kweihmann@outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4465
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 08:15:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Oct 2021 08:41:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157276
+ https://lists.openembedded.org/g/openembedded-core/message/157277
 
-Same here, the HOMEPAGE point into nirvana now, pls adjust
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-On 21.10.21 09:02, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->   meta/recipes-graphics/waffle/waffle_1.6.1.bb | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/waffle/waffle_1.6.1.bb b/meta/recipes-graphics/waffle/waffle_1.6.1.bb
-> index 395494018a..12984f5068 100644
-> --- a/meta/recipes-graphics/waffle/waffle_1.6.1.bb
-> +++ b/meta/recipes-graphics/waffle/waffle_1.6.1.bb
-> @@ -9,11 +9,9 @@ LICENSE = "BSD-2-Clause"
->   LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
->                       file://include/waffle/waffle.h;endline=24;md5=61dbf8697f61c78645e75a93c585b1bf"
->   
-> -SRC_URI = "http://waffle-gl.org/files/release/${BPN}-${PV}/${BPN}-${PV}.tar.xz"
-> -SRC_URI[md5sum] = "c91529e579483f44fb330052872b9c73"
-> -SRC_URI[sha256sum] = "31565649ff0e2d8dff1b8f7f2264ab7a78452063c7e04adfc4ce03e64b655080"
-> -
-> -UPSTREAM_CHECK_URI = "http://www.waffle-gl.org/releases.html"
-> +SRC_URI = "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=https;branch=maint-1.6"
-> +SRCREV = "d7e8c4759704b3c571fa3697c716279c26fd05eb"
-> +S = "${WORKDIR}/git"
->   
->   inherit meson features_check lib_package bash-completion pkgconfig
->   
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157272): https://lists.openembedded.org/g/openembedded-core/message/157272
-> Mute This Topic: https://lists.openembedded.org/mt/86484338/3647476
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
+index 198f7e87c7..f9dcdda0af 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
+@@ -1,14 +1,15 @@
+ SUMMARY = "System load testing utility"
+ DESCRIPTION = "Deliberately simple workload generator for POSIX systems. It \
+ imposes a configurable amount of CPU, memory, I/O, and disk stress on the system."
+-HOMEPAGE = "https://kernel.ubuntu.com/~cking/stress-ng/"
++HOMEPAGE = "https://github.com/ColinIanKing/stress-ng#readme"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
++SRC_URI = "git://github.com/ColinIanKing/stress-ng.git \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            "
+-SRC_URI[sha256sum] = "1cefe4a3057c1522b146e62f61b80ce6e2e99da2d85ebe25bc03fc45228e58cd"
++SRCREV = "61b454b4a3a9d052e63c78a9574ccf8a650575dc"
++S = "${WORKDIR}/git"
+ 
+ DEPENDS = "coreutils-native"
+ 
+-- 
+2.20.1
+
 
