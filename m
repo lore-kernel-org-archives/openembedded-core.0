@@ -1,171 +1,117 @@
-Return-Path: <flowergom@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33B60C433F5
-	for <webhook@archiver.kernel.org>; Fri, 22 Oct 2021 03:42:09 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web12.3625.1634874123129398409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F42C433F5
+	for <webhook@archiver.kernel.org>; Fri, 22 Oct 2021 09:42:39 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.6193.1634895758389687260
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 20:42:03 -0700
+ Fri, 22 Oct 2021 02:42:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pp2I3ou5;
- spf=pass (domain: gmail.com, ip: 209.85.216.49,
- mailfrom: flowergom@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id oa4so1980540pjb.2
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=G2AG/fg1;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.52,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f52.google.com with SMTP id u18so3831818wrg.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Oct 2021 20:42:03 -0700 (PDT)
+ Fri, 22 Oct 2021 02:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8yx3s9lSyADPfaMXrzmeN+R3QJcqH+Fc15tUq07S2S0=;
-        b=pp2I3ou5F37gNFpQOH6zdfIw5UVRWeTFRBi4KEM0IWXhB16GB6asyRowBeH/QiWaWV
-         bKNjxLcR7dYcPZJSWfLoko8BfyACGVDyIqJPI473g5MFXPyuKbHd3OEYCuEZe5buzr/b
-         ZK5NsDTu+JfY2ioibe8MdlFKlEFZmkmMF1XW/OPHWjJnpZmSXt86s3zBAhX/riGSeOP3
-         KuoJcu9tCzQxIsFGIaPna2jyd8OdqIhpIwgDN9K0+5Tm2tZEVjNH7B5ZudizS5yPwyZg
-         iw3O8NmfiXFt0YFU+lIEhWdmK0gaNjTlolbPDA0iXQ+42+y63qmpcfa9EXcrP9QSkya7
-         gd+g==
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SMMRqqscqpX51nrcD5vP3GZ651PsgXb6lQ6RhVsaSUM=;
+        b=G2AG/fg1y7YgHTyIsM+40UdyI8/NjtRz3ykoiRaqJOd1gd4ryU1TFW0SBw6MUddLu/
+         QtbNubNAktEhIwn+ZPfDLa5U+IUh/bw3W252zy25zoriTTETroh1Us97U5yir4eAC4k2
+         5lR2YLEssfQnPFT5HXReBekBvE0AUzWSEG9TPPaiBj6DR7G10M/4xpuYxvtoUy9rD/gc
+         yENn0LZWcSRd5Us/gIL2KunIH8U2e5wz+YhvLMuHw5zQUrwVVaPnSnNahF1Img6c6RiL
+         ZVvZL33B87RxV4jw15PdwWKeGnip6HUm1jpY18x/zngykaA8V//5nxOkKibapxjIPuq8
+         1CVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8yx3s9lSyADPfaMXrzmeN+R3QJcqH+Fc15tUq07S2S0=;
-        b=rFFxT8hGrlvYBYaJMT4jayINf8pVQySqOh60hCZCKgIi35DMmXtOwII8+F23RyFg3V
-         DpvqxGpErV/4PtJvPERl3tg5xLROOavI/nbkzkIgQZ8lUIhfJIlwGj5OuVEDffkX/bKr
-         hp5dSdWRBGSTUilx51jCwPFN4wOnxMZyGBgt97KGDp8EpfxETEvWch6xmB02R1zX9Qsb
-         k4lXBbmXmhaFd61eFDdPD96gRTJej3rZs8OH38X+I9NsdzBsTpr01BqBJ4GFlt6Z+CFw
-         xAoKWaUfgavRVLSbbLLozRpzW/HLql0mtojiZayjS5aO8uY+g5KJit2Y34/Pube94UXv
-         BGtg==
-X-Gm-Message-State: AOAM531Wh1sF7ITZjkyl2jmHcYBrgfADFK9WSNsEqU21IsE9+q7gox0t
-	GuhKFEv2RE1X4tmpynchIyBhIAXeYx1mjLp5RpU=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SMMRqqscqpX51nrcD5vP3GZ651PsgXb6lQ6RhVsaSUM=;
+        b=BErQzcki+lRNltVypUfIHVis0P+joXH7pf+bOj9uSN+IQ0g+LoUiOiniMiBj67CcFp
+         ZmV2dQoF1jSlnZgq818XcGAtnkqTaKfJCg0pbBkSmbtQC1+IJmXPmGag26AxxsU234/R
+         ZMuYOWfj04AJP4a882svsDIJRUHpzo8eYllI3Mso6Zpk8nPCiZ3d1oCKdN81Ww4n54t2
+         onfaJwKjhSR7dPipSfQSdzc9C/wvUDc7Hc3fP7+6oWTHAnEnOqu/A239uI9dECwSpEGp
+         PYN/oJ2h5pZZPEr3zhadTr+jJwQdxHXbWta9riTzU/StgC1CPdUlv9tJTcJTs6+RUwQB
+         NcXw==
+X-Gm-Message-State: AOAM5328T/em8CRSiY2eb9/i2j6ccmBvA2H6BooIfIQScSXms63assNi
+	2iOa5ivpBpXDURPi5OYUDcXQ93wi8muA1Vk1vUGaIQ==
 X-Google-Smtp-Source: 
- ABdhPJxZD7RE/DaiLk9lDoxCHJR1WRWEHSuUpGJYH+6fSjy5bgRjkSwdk9eisK8MbSmCulieOTLPxg==
-X-Received: by 2002:a17:902:e883:b0:13f:1393:d185 with SMTP id
- w3-20020a170902e88300b0013f1393d185mr9121887plg.64.1634874122204;
-        Thu, 21 Oct 2021 20:42:02 -0700 (PDT)
-Received: from localhost.localdomain ([59.6.144.168])
-        by smtp.gmail.com with ESMTPSA id
- a20sm7432561pfn.136.2021.10.21.20.42.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 Oct 2021 20:42:01 -0700 (PDT)
-From: Minjae Kim <flowergom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH] vim: fix 2021-3796
-Date: Fri, 22 Oct 2021 12:41:56 +0900
-Message-Id: <20211022034156.1551-1-flowergom@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+ ABdhPJw3ilJ+X9u6ZZjCWyTNu6vqCETdYmZYVWlc2G32/vQJL10aWeLY3F3NtKQT96KFN1fPXAQFOHxE7zp2dvzoEh4=
+X-Received: by 2002:adf:8b45:: with SMTP id v5mr14248471wra.211.1634895756685;
+ Fri, 22 Oct 2021 02:42:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211021143010.803736-1-ross.burton@arm.com>
+ <CABcZAN=WLDgnkcq1=4T63v872YXKYkwadF=rcyK3=PnE_QCw_w@mail.gmail.com>
+In-Reply-To: 
+ <CABcZAN=WLDgnkcq1=4T63v872YXKYkwadF=rcyK3=PnE_QCw_w@mail.gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Fri, 22 Oct 2021 10:42:25 +0100
+Message-ID: 
+ <CAAnfSTtbfPQTzKOZCmXsrkxbUg-F7fYRvSV0-nJOY9WN=4cQEw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] strace: show test suite log on failure
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Oct 2021 03:42:09 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Oct 2021 09:42:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157293
+ https://lists.openembedded.org/g/openembedded-core/message/157294
 
-vim is vulnerable to Use After Free
-Problem: Checking first character of url twice.
+You're right, it will.
 
-reference:
-https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3
----
- .../vim/files/CVE-2021-3796.patch             | 70 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
+I'm on a roll this week. :/
 
-diff --git a/meta/recipes-support/vim/files/CVE-2021-3796.patch b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-new file mode 100644
-index 0000000000..08becb4d9a
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-@@ -0,0 +1,70 @@
-+From 296bf20889e66e3235e199838c6e360db2c4166d Mon Sep 17 00:00:00 2001
-+From: Minjae Kim <flowergom@gmail.com>
-+Date: Fri, 22 Oct 2021 02:24:32 +0000
-+Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
-+
-+Problem:    Using freed memory when replacing. (Dhiraj Mishra)
-+Solution:   Get the line pointer after calling ins_copychar().
-+
-+Upstream-Status: Accepted [https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3]
-+CVE: CVE-2021-3796
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+---
-+ src/normal.c              | 11 +++++++----
-+ src/testdir/test_edit.vim | 12 ++++++++++++
-+ 2 files changed, 19 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/normal.c b/src/normal.c
-+index c4963e621..277c92595 100644
-+--- a/src/normal.c
-++++ b/src/normal.c
-+@@ -5009,19 +5009,22 @@ nv_replace(cmdarg_T *cap)
-+           {
-+               /*
-+                * Get ptr again, because u_save and/or showmatch() will have
-+-               * released the line.  At the same time we let know that the
-++               * released the line. This may also happen in ins_copychar().
-++               * At the same time we let know that the
-+                * line will be changed.
-+                */
-+-              ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-+               if (cap->nchar == Ctrl_E || cap->nchar == Ctrl_Y)
-+               {
-+                 int c = ins_copychar(curwin->w_cursor.lnum
-+                                          + (cap->nchar == Ctrl_Y ? -1 : 1));
-++
-++                ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-+                 if (c != NUL)
-+                   ptr[curwin->w_cursor.col] = c;
-+-              }
-+-              else
-++              } else {
-+                   ptr[curwin->w_cursor.col] = cap->nchar;
-++                  ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-++              }
-+               if (p_sm && msg_silent == 0)
-+                   showmatch(cap->nchar);
-+               ++curwin->w_cursor.col;
-+diff --git a/src/testdir/test_edit.vim b/src/testdir/test_edit.vim
-+index 4e29e7fe1..d7565e1ea 100644
-+--- a/src/testdir/test_edit.vim
-++++ b/src/testdir/test_edit.vim
-+@@ -1519,3 +1519,15 @@ func Test_edit_noesckeys()
-+   bwipe!
-+   set esckeys
-+ endfunc
-++
-++" Test for getting the character of the line below after "p"
-++func Test_edit_put_CTRL_E()
-++  set encoding=latin1
-++  new
-++  let @" = ''
-++  sil! norm orggRx
-++  sil! norm pr
-++  call assert_equal(['r', 'r'], getline(1, 2))
-++  bwipe!
-++  set encoding=utf-8
-++endfunc
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index fc4e205b74..0973a368c0 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://racefix.patch \
-            file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
- 	   file://CVE-2021-3778.patch \
-+           file://CVE-2021-3796.patch \
- "
- 
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
--- 
-2.30.1 (Apple Git-130)
+Ross
 
+On Thu, 21 Oct 2021 at 22:53, Christopher Larson <kergoth@gmail.com> wrote:
+>
+> I'm not familiar enough with the ptest-runner to say, but does the exit code of run-ptest get used at all, or only the output in the expected format? Just noticed this will suppress the non-zero exit code of run-ptest.
+>
+> On Thu, Oct 21, 2021 at 7:30 AM Ross Burton <ross@burtonini.com> wrote:
+>>
+>> If the tests fail, dump the log so we can see the failures.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@arm.com>
+>> ---
+>>  meta/recipes-devtools/strace/strace/run-ptest | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/strace/strace/run-ptest b/meta/recipes-devtools/strace/strace/run-ptest
+>> index 3a51fb0be9..42ececdc4f 100755
+>> --- a/meta/recipes-devtools/strace/strace/run-ptest
+>> +++ b/meta/recipes-devtools/strace/strace/run-ptest
+>> @@ -3,4 +3,4 @@ export TIMEOUT_DURATION=240
+>>  chown nobody tests
+>>  chown nobody tests/*
+>>  chown nobody ../ptest
+>> -su nobody -c "make -B -C tests -k test-suite.log"
+>> +su nobody -c "make -B -C tests -k test-suite.log" || cat tests/test-suite.log
+>> --
+>> 2.25.1
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#157284): https://lists.openembedded.org/g/openembedded-core/message/157284
+>> Mute This Topic: https://lists.openembedded.org/mt/86490861/3617123
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kergoth@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+>
+>
+> --
+> Christopher Larson
+> kergoth at gmail dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Senior Software Engineer, Mentor Graphics
 
