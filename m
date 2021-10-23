@@ -1,252 +1,216 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 753DCC433F5
-	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 10:16:06 +0000 (UTC)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
- [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web12.4965.1634984165300956912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFC0C433EF
+	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 10:22:08 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.4929.1634984526924995498
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Oct 2021 03:16:05 -0700
+ Sat, 23 Oct 2021 03:22:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ahDjZ0E9;
- spf=pass (domain: gmail.com, ip: 209.85.222.52,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id a17so12290581uax.12
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Oct 2021 03:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SER56UlEcrFmLY/495Iyes40W7PP154BMUKD+USxVRk=;
-        b=ahDjZ0E914YgJ+8/rEX5dzOywfHqtQM0Iv748Z/uLXggsdtFDh9CRCEk9trSR62Mam
-         4Wji3EJx7/vy4LuPFEPLBe6CThTdA3QyNIigxbIq48p9lwU4yaaVt9SNNSSQIEKhr+wK
-         bh8Ecvqwpu+7MX+8Wh8gEkLszPXXrR+QfQnnSMpgSA1dxGjEiCGY47N9MwUIAzxAYFlF
-         d4WzAF9xcfXAZwvemSPQrwzNWGn3wJx3P/jyVZz/z3tlH6VsEbjTWNqxezX3FQno7I+G
-         3R9U8mayWUqBMCKhY4gE1NfqfpWWwV/hL8qTKrrk8Qm4YU8aDdX2RJPp7KCrHQSDMMDM
-         VnIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SER56UlEcrFmLY/495Iyes40W7PP154BMUKD+USxVRk=;
-        b=pRewSkYWX6OjmEd7dcvbwibpu8jHOCpJ3LIGzQqmLIQOlJhkZacdP7AvGD2eLct7wX
-         m726yF3ZxKH1VwNwQJpXMc/3yxN1g523eiWOt+RWEQeLCqDEWEUcTNjQqwIowN/pph73
-         zbMoQ/sepNrdpD7LrGMOCDzV3oFMsm2EYyrdHIrCBPut6P98o3RD3GtRiZDz9s6WVeAE
-         jLMQbGC4HsVz/ZKtQ5/G/4iaR1mlBamSf1mAbRTPQzmvRqB8OzGC6q/9L+lQCJEI7Mtm
-         qjdM8FsX5RqGaPNKqCDrjqyawjYdqS7IW01aEURpqVQ4zy4ruD1CuZixqkGQ9/HBgvq8
-         BhXw==
-X-Gm-Message-State: AOAM530lXP/T9PjjvezfSAVcuQp3Bt0tih4yk8YePqRPXrz5JICD840q
-	9ykmHdIVlWI4uqdaYWpFhD6PF2KOZju+scnZRO9CZue4
-X-Google-Smtp-Source: 
- ABdhPJwf++Nvdavodoz+mnMUp48wE6PraxjN+3anIeHo5bebXjFbBM9YlPt+wWm9XDE7c+cgliv9K6I4XnJcuy67io0=
-X-Received: by 2002:a05:6102:942:: with SMTP id
- a2mr398101vsi.18.1634984164392;
- Sat, 23 Oct 2021 03:16:04 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 448F3240005;
+	Sat, 23 Oct 2021 10:22:03 +0000 (UTC)
+Date: Sat, 23 Oct 2021 12:22:03 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] meson.bblcass: Remove empty egg-info
+ directories before running meson
+Message-ID: <YXPiS+J7K/xx3Kp+@piout.net>
+References: <20211020141104.27627-1-pkj@axis.com>
 MIME-Version: 1.0
-References: <20211021084059.977697-1-alex@linutronix.de>
- <20211021084059.977697-2-alex@linutronix.de>
- <YXL9Hhw9H4hLs9jX@piout.net>
-In-Reply-To: <YXL9Hhw9H4hLs9jX@piout.net>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 23 Oct 2021 12:15:52 +0200
-Message-ID: 
- <CANNYZj_tTKQ2eSCaNSMguvY1675WQXDwhd-LEtQge59_6f4gWg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] stress-ng: convert to git, website is down
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000055035d05cf026a35"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211020141104.27627-1-pkj@axis.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 10:16:06 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 10:22:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157300
+ https://lists.openembedded.org/g/openembedded-core/message/157301
 
---00000000000055035d05cf026a35
-Content-Type: text/plain; charset="UTF-8"
+Hello Peter,
 
-Thanks, I will correct this in my next batch.
+This causes issues with qemux86-world-alt builds:
 
-Alex
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/2232/ste=
+ps/11/logs/stdio
 
-On Fri, 22 Oct 2021 at 20:04, Alexandre Belloni <
-alexandre.belloni@bootlin.com> wrote:
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/qemux86-w=
+orld-alt/build/build/tmp/work/core2-64-poky-linux/pango/1.48.10-r0/temp/log=
+=2Edo_configure.24847
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['virtual:native:/home/pokybuild/yocto-work=
+er/qemux86-world-alt/build/meta/recipes-gnome/gobject-introspection/gobject=
+-introspection_1.70.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worke=
+r/qemux86-world-alt/build/meta/recipes-gnome/gobject-introspection/gobject-=
+introspection_1.70.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybui=
+ld/yocto-worker/qemux86-world-alt/build/meta/recipes-devtools/meson/meson_0=
+=2E59.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-work=
+er/qemux86-world-alt/build/meta/recipes-devtools/python/python3_3.10.0.bb:d=
+o_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/qemux86-w=
+orld-alt/build/meta/recipes-core/glib-2.0/glib-2.0_2.70.0.bb:do_populate_sy=
+sroot', 'virtual:native:/home/pokybuild/yocto-worker/qemux86-world-alt/buil=
+d/meta/recipes-devtools/ninja/ninja_1.10.2.bb:do_populate_sysroot', '/home/=
+pokybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-graphics/xorg-l=
+ib/libxft_2.3.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/qemu=
+x86-world-alt/build/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb:do_popula=
+te_sysroot', '/home/pokybuild/yocto-worker/qemux86-world-alt/build/meta/rec=
+ipes-devtools/gcc/gcc-runtime_11.2.bb:do_populate_sysroot', '/home/pokybuil=
+d/yocto-worker/qemux86-world-alt/build/meta/recipes-devtools/gcc/gcc-cross_=
+11.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/qemux86-world-a=
+lt/build/meta/recipes-graphics/freetype/freetype_2.11.0.bb:do_populate_sysr=
+oot', 'virtual:native:/home/pokybuild/yocto-worker/qemux86-world-alt/build/=
+meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', '/home/pok=
+ybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-devtools/quilt/qui=
+lt-native_0.66.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/qemux=
+86-world-alt/build/meta/recipes-devtools/qemu/qemu-native_6.1.0.bb:do_popul=
+ate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/qemux86-world-al=
+t/build/meta/recipes-devtools/prelink/prelink_git.bb:do_populate_sysroot', =
+'/home/pokybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-support/=
+fribidi/fribidi_1.0.11.bb:do_populate_sysroot', 'virtual:native:/home/pokyb=
+uild/yocto-worker/qemux86-world-alt/build/meta/recipes-devtools/patch/patch=
+_2.7.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/qemux86-world=
+-alt/build/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_populate_sysro=
+ot', 'virtual:native:/home/pokybuild/yocto-worker/qemux86-world-alt/build/m=
+eta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', '/hom=
+e/pokybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-graphics/font=
+config/fontconfig_2.13.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-wo=
+rker/qemux86-world-alt/build/meta/recipes-core/glib-2.0/glib-2.0_2.70.0.bb:=
+do_populate_sysroot', '/home/pokybuild/yocto-worker/qemux86-world-alt/build=
+/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot', '/home/p=
+okybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-graphics/harfbuz=
+z/harfbuzz_3.0.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/qem=
+ux86-world-alt/build/meta/recipes-core/glibc/glibc_2.34.bb:do_populate_sysr=
+oot', 'virtual:native:/home/pokybuild/yocto-worker/qemux86-world-alt/build/=
+meta/recipes-gnome/gi-docgen/gi-docgen_git.bb:do_populate_sysroot', 'virtua=
+l:native:/home/pokybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-=
+extended/xz/xz_5.2.5.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['gobject-introspection-nati=
+ve', 'gobject-introspection', 'meson-native', 'python3-native', 'glib-2.0-n=
+ative', 'ninja-native', 'libxft', 'gi-docgen', 'gcc-runtime', 'gcc-cross-x8=
+6_64', 'freetype', 'pseudo-native', 'quilt-native', 'qemu-native', 'prelink=
+-native', 'fribidi', 'patch-native', 'libx11', 'pkgconfig-native', 'fontcon=
+fig', 'glib-2.0', 'cairo', 'harfbuzz', 'glibc', 'gi-docgen-native', 'xz-nat=
+ive', 'zlib-native', 'libffi-native', 'flex-native', 'gtk-doc-native', 'lib=
+ffi', 'zlib', 'python3', 'autoconf-archive', 'opkg-utils', 'python3-setupto=
+ols-native', 'libnsl2-native', 'libtirpc-native', 'gdbm-native', 'openssl-n=
+ative', 'readline-native', 'sqlite3-native', 'bzip2-native', 'util-linux-na=
+tive', 'libtool-native', 'gettext-minimal-native', 'libpcre-native', 'gette=
+xt-native', 're2c-native', 'util-macros', 'libxrender', 'libgcc', 'linux-li=
+bc-headers', 'libmpc-native', 'mpfr-native', 'binutils-cross-x86_64', 'gnu-=
+config-native', 'texinfo-dummy-native', 'gmp-native', 'libpng', 'binutils-n=
+ative', 'elfutils-native', 'libsm', 'mesa', 'libxext', 'pixman', 'libxcb', =
+'attr-native', 'xorgproto', 'xtrans', 'expat', 'util-linux', 'gtk-doc', 'db=
+us', 'libpcre', 'bash-completion', 'icu', 'python3-toml-native', 'python3-t=
+ypogrify-native', 'python3-markupsafe-native', 'python3-markdown-native', '=
+python3-jinja2-native', 'python3-pygments-native', 'm4-native', 'xmlto-nati=
+ve', 'libxslt-native', 'python3-six-native', 'xz', 'openssl', 'sqlite3', 'r=
+eadline', 'libtirpc', 'libxcrypt', 'gdbm', 'libnsl2', 'bzip2', 'perl-native=
+', 'ncurses-native', 'libpcre2-native', 'libcap-ng-native', 'util-linux-lib=
+uuid-native', 'libmicrohttpd-native', 'curl-native', 'libarchive-native', '=
+libice', 'libdrm', 'wayland-protocols', 'libxxf86vm', 'libxdamage', 'libxsh=
+mfence', 'libxfixes', 'xrandr', 'wayland', 'libpthread-stubs', 'libxdmcp', =
+'xcb-proto', 'libxau', 'ncurses', 'libpam', 'libcap-ng', 'util-linux-libuui=
+d', 'python3-six', 'python3-pygments', 'shadow', 'base-passwd', 'shadow-nat=
+ive', 'base-files', 'systemd', 'shadow-sysroot', 'python3-smartypants-nativ=
+e', 'docbook-xsl-stylesheets-native', 'libxml2-native', 'docbook-xml-dtd4-n=
+ative', 'perlcross-native', 'libgcrypt-native', 'gnutls-native', 'e2fsprogs=
+-native', 'zstd-native', 'lzo-native', 'libpciaccess', 'libxrandr', 'libxml=
+2', 'cracklib', 'flex', 'attr', 'acl', 'libseccomp', 'zstd', 'kmod', 'libxk=
+bcommon', 'libcap', 'libgpg-error-native', 'libcap-native', 'libunistring-n=
+ative', 'libidn2-native', 'nettle-native', 'xkeyboard-config', 'gperf-nativ=
+e']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| rmdir: failed to remove '/home/pokybuild/yocto-worker/qemux86-world-alt/b=
+uild/build/tmp/work/core2-64-poky-linux/pango/1.48.10-r0/recipe-sysroot-nat=
+ive/usr/lib/python3.10/site-packages/smartypants-2.0.0-py3.10.egg-info': No=
+t a directory
+| WARNING: /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/w=
+ork/core2-64-poky-linux/pango/1.48.10-r0/temp/run.do_configure.24847:172 ex=
+it 1 from 'rmdir --ignore-fail-on-non-empty /home/pokybuild/yocto-worker/qe=
+mux86-world-alt/build/build/tmp/work/core2-64-poky-linux/pango/1.48.10-r0/r=
+ecipe-sysroot-native/usr/lib/python3.10/site-packages/*.egg-info'
+| WARNING: Backtrace (BB generated script):
+| 	#1: meson_do_configure, /home/pokybuild/yocto-worker/qemux86-world-alt/b=
+uild/build/tmp/work/core2-64-poky-linux/pango/1.48.10-r0/temp/run.do_config=
+ure.24847, line 172
+| 	#2: do_configure, /home/pokybuild/yocto-worker/qemux86-world-alt/build/b=
+uild/tmp/work/core2-64-poky-linux/pango/1.48.10-r0/temp/run.do_configure.24=
+847, line 157
+| 	#3: main, /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp=
+/work/core2-64-poky-linux/pango/1.48.10-r0/temp/run.do_configure.24847, lin=
+e 203
 
-> Hello Alex,
->
-> This makes the reproducible builds fail:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/870/steps/12/logs/stdio
->
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20211022-8ziugi_1/packages/diff-html/
->
->
-> On 21/10/2021 10:40:59+0200, Alexander Kanavin wrote:
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > ---
-> >  meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
-> b/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
-> > index 198f7e87c7..f9dcdda0af 100644
-> > --- a/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
-> > +++ b/meta/recipes-extended/stress-ng/stress-ng_0.13.00.bb
-> > @@ -1,14 +1,15 @@
-> >  SUMMARY = "System load testing utility"
-> >  DESCRIPTION = "Deliberately simple workload generator for POSIX
-> systems. It \
-> >  imposes a configurable amount of CPU, memory, I/O, and disk stress on
-> the system."
-> > -HOMEPAGE = "https://kernel.ubuntu.com/~cking/stress-ng/"
-> > +HOMEPAGE = "https://github.com/ColinIanKing/stress-ng#readme"
-> >  LICENSE = "GPLv2"
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> >
-> > -SRC_URI = "
-> https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-> > +SRC_URI = "git://github.com/ColinIanKing/stress-ng.git \
-> >
->  file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-> >             "
-> > -SRC_URI[sha256sum] =
-> "1cefe4a3057c1522b146e62f61b80ce6e2e99da2d85ebe25bc03fc45228e58cd"
-> > +SRCREV = "61b454b4a3a9d052e63c78a9574ccf8a650575dc"
-> > +S = "${WORKDIR}/git"
-> >
-> >  DEPENDS = "coreutils-native"
-> >
-> > --
-> > 2.20.1
-> >
->
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#157277):
-> https://lists.openembedded.org/g/openembedded-core/message/157277
-> > Mute This Topic: https://lists.openembedded.org/mt/86484339/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+On 20/10/2021 16:11:04+0200, Peter Kjellerstedt wrote:
+> sstate.bbclass no longer removes empty directories to avoid a race (see
+> commit 4f94d929 "sstate/staging: Handle directory creation race issue").
+> Unfortunately Python apparently treats an empty egg-info directory as if
+> the version it previously contained still exists and fails if a newer
+> version is required, which Meson does. To avoid this, make sure there
+> are no empty egg-info directories from previous versions left behind.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>=20
+> RP: This is the solution I came up with regarding our discussion at the
+> meeting yesterday. With this in place the upgrade to meson 0.59.1 now
+> went without a hitch.
+>=20
+>  meta/classes/meson.bbclass | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index e124d18144..d07b34fc5e 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -103,6 +103,14 @@ meson_do_configure() {
+>      # https://github.com/mesonbuild/meson/commit/ef9aeb188ea2bc7353e5991=
+6c18901cde90fa2b3
+>      unset LD
+> =20
+> +    # sstate.bbclass no longer removes empty directories to avoid a race=
+ (see
+> +    # commit 4f94d929 "sstate/staging: Handle directory creation race is=
+sue").
+> +    # Unfortunately Python apparently treats an empty egg-info directory=
+ as if
+> +    # the version it previously contained still exists and fails if a ne=
+wer
+> +    # version is required, which Meson does. To avoid this, make sure th=
+ere are
+> +    # no empty egg-info directories from previous versions left behind.
+> +    rmdir --ignore-fail-on-non-empty ${STAGING_LIBDIR_NATIVE}/${PYTHON_D=
+IR}/site-packages/*.egg-info
+> +
+>      # Work around "Meson fails if /tmp is mounted with noexec #2972"
+>      mkdir -p "${B}/meson-private/tmp"
+>      export TMPDIR=3D"${B}/meson-private/tmp"
 
---00000000000055035d05cf026a35
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157262): https://lists.openembedded.org/g/openembedde=
+d-core/message/157262
+> Mute This Topic: https://lists.openembedded.org/mt/86465686/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-<div dir=3D"ltr"><div>Thanks, I will correct this in my next batch.</div><d=
-iv><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Fri, 22 Oct 2021 at 20:04, Alexandre Bel=
-loni &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.belloni=
-@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">Hello Alex,<br>
-<br>
-This makes the reproducible builds fail:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/119/buil=
-ds/870/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/119/builds/870/steps/12/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2021=
-1022-8ziugi_1/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20211022-8ziugi_1/=
-packages/diff-html/</a><br>
-<br>
-<br>
-On 21/10/2021 10:40:59+0200, Alexander Kanavin wrote:<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix=
-.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-extended/stress-ng/<a href=3D"http://stress-ng_0.13=
-.00.bb" rel=3D"noreferrer" target=3D"_blank">stress-ng_0.13.00.bb</a> | 7 +=
-+++---<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-extended/stress-ng/<a href=3D"http://stress-=
-ng_0.13.00.bb" rel=3D"noreferrer" target=3D"_blank">stress-ng_0.13.00.bb</a=
-> b/meta/recipes-extended/stress-ng/<a href=3D"http://stress-ng_0.13.00.bb"=
- rel=3D"noreferrer" target=3D"_blank">stress-ng_0.13.00.bb</a><br>
-&gt; index 198f7e87c7..f9dcdda0af 100644<br>
-&gt; --- a/meta/recipes-extended/stress-ng/<a href=3D"http://stress-ng_0.13=
-.00.bb" rel=3D"noreferrer" target=3D"_blank">stress-ng_0.13.00.bb</a><br>
-&gt; +++ b/meta/recipes-extended/stress-ng/<a href=3D"http://stress-ng_0.13=
-.00.bb" rel=3D"noreferrer" target=3D"_blank">stress-ng_0.13.00.bb</a><br>
-&gt; @@ -1,14 +1,15 @@<br>
-&gt;=C2=A0 SUMMARY =3D &quot;System load testing utility&quot;<br>
-&gt;=C2=A0 DESCRIPTION =3D &quot;Deliberately simple workload generator for=
- POSIX systems. It \<br>
-&gt;=C2=A0 imposes a configurable amount of CPU, memory, I/O, and disk stre=
-ss on the system.&quot;<br>
-&gt; -HOMEPAGE =3D &quot;<a href=3D"https://kernel.ubuntu.com/~cking/stress=
--ng/" rel=3D"noreferrer" target=3D"_blank">https://kernel.ubuntu.com/~cking=
-/stress-ng/</a>&quot;<br>
-&gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/ColinIanKing/stress-=
-ng#readme" rel=3D"noreferrer" target=3D"_blank">https://github.com/ColinIan=
-King/stress-ng#readme</a>&quot;<br>
-&gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
-&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d69f5fce4=
-486a80fdaf4a4263&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI =3D &quot;<a href=3D"https://kernel.ubuntu.com/~cking/tarball=
-s/$%7BBPN%7D/$%7BBP%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https:/=
-/kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz</a> \<br>
-&gt; +SRC_URI =3D &quot;git://<a href=3D"http://github.com/ColinIanKing/str=
-ess-ng.git" rel=3D"noreferrer" target=3D"_blank">github.com/ColinIanKing/st=
-ress-ng.git</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Do-not-pres=
-erve-ownership-when-installing-example-jo.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; -SRC_URI[sha256sum] =3D &quot;1cefe4a3057c1522b146e62f61b80ce6e2e99da2=
-d85ebe25bc03fc45228e58cd&quot;<br>
-&gt; +SRCREV =3D &quot;61b454b4a3a9d052e63c78a9574ccf8a650575dc&quot;<br>
-&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 DEPENDS =3D &quot;coreutils-native&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -- <br>
-&gt; 2.20.1<br>
-&gt; <br>
-<br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#157277): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/157277" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/157277</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86484339=
-/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/86484339/3617179</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
-tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-<br>
--- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div>
 
---00000000000055035d05cf026a35--
+--=20
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
