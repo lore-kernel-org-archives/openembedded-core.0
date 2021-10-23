@@ -1,167 +1,98 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C73E3C433F5
-	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 15:57:38 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.8017.1635004657049914145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2059CC433F5
+	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 17:33:44 +0000 (UTC)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web12.9107.1635010422473695557
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Oct 2021 08:57:38 -0700
+ Sat, 23 Oct 2021 10:33:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 10F1A240005;
-	Sat, 23 Oct 2021 15:57:34 +0000 (UTC)
-Date: Sat, 23 Oct 2021 17:57:34 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Minjae Kim <flowergom@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] vim: fix 2021-3796
-Message-ID: <YXQw7r4KD+GsihFy@piout.net>
-References: <20211022024506.1011-1-flowergom@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k7TvGCQ1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.51,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f51.google.com with SMTP id u9so3771178uac.8
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 23 Oct 2021 10:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RefHWSHHqJIFZUiov/ZyfjTFX76GIAzTcgnDLJymAWU=;
+        b=k7TvGCQ1jQQ+RXgKCWuGS71o4J8K8vnyO74jPx0sj4VnnfMCcuvCs0oponbmDLJcIq
+         gYRzkCzmO+CH9Ws/jPmYSaCuQrb26r20BshKfe4W3c2vdqIoQhpB5AtYiB8pVVLK1+S3
+         MbKxaWsmq7WXTmtjWhFazgY8zY9kVcRUA6R0EN/aMLaK8X5TebS7tr3D5rwrl6FNGf0A
+         r3Fr359D07tKigzKCUJSjEPwmIVUPUq+9gU7MpbAnK+iGbFgCjG8dC+6vo0GXfiC3Qod
+         h43PQRUu2w6UfODmWxT1B++PqCt9H7WQOH8SHu9mfJjU5wRfN80Ts+qwCsKlItYXnvTC
+         8Ddw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RefHWSHHqJIFZUiov/ZyfjTFX76GIAzTcgnDLJymAWU=;
+        b=2XxGzTKU9seF0DASX4LutHdE4KFwaQSei49PqME6VismGhSROSzviKbGzpMkji13Ch
+         5931L/rhgQjrT/Hnp8DPw8qcJ6mSxmzegponQR/ZLDq/DwrsUeENZE0iX7jOo2LSItjZ
+         T5hgDrmUsAv950/BiUd0uwNNxYrtU56g3qImfO+VZHTnBEt6PudmEuVeGmGw9Vw39o/t
+         /1MTJBabqHRKNhkpqfIM7SN6ExqO9UKpEDDvnPfD5UE5ZBxrDy5q1yo8rr0G5azxuBpP
+         xSric3odD8nBQIAfo0Mht/yL1Ql/tV5gKMkM4//Z01sFUU6NP808Ydg/SDLBrdqTmtQz
+         oV2A==
+X-Gm-Message-State: AOAM533kU8qyZ84uQmRD+Yv/8hFov91W7VBCZ2/3cNMwCMpJWjkHIG9O
+	Xg4x7N1QEtJtCXgql3Zu8ZkQm2zfFhs7Zm7uyAA=
+X-Google-Smtp-Source: 
+ ABdhPJzfeIsatY5Ns1AVQ1Uxxxoe4Y/xKTK/WsJvfIIspmsS17Oa67hNsuUyaPAm5GmBVF5LTjflZrdvVEdCDuv8X2o=
+X-Received: by 2002:ab0:30e1:: with SMTP id d1mr4032418uam.22.1635010421483;
+ Sat, 23 Oct 2021 10:33:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211022024506.1011-1-flowergom@gmail.com>
+References: <20211019153419.3319802-1-alex@linutronix.de>
+ <20211019153419.3319802-18-alex@linutronix.de>
+ <4686739.31r3eYUQgx@linc>
+In-Reply-To: <4686739.31r3eYUQgx@linc>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 23 Oct 2021 19:33:29 +0200
+Message-ID: 
+ <CANNYZj_LwDStdwbCP0NrrgbUQXumck1AqdZA35iAu+OvsRJsaw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 18/65] u-boot: upgrade 2021.07 -> 2021.10
+To: Paul Eggleton <bluelightning@bluelightning.org>
+Cc: Jon Mason <jon.mason@arm.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000606d0505cf0887cb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 15:57:38 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 17:33:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157302
+ https://lists.openembedded.org/g/openembedded-core/message/157303
 
-Hello,
+--000000000000606d0505cf0887cb
+Content-Type: text/plain; charset="UTF-8"
 
-On 22/10/2021 11:45:06+0900, Minjae Kim wrote:
-> vim is vulnerable to Use After Free
-> Problem:    Checking first character of url twice.
-> 
-> reference:
-> https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3
-> ---
->  .../vim/files/CVE-2021-3796.patch             | 70 +++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |  3 +-
->  2 files changed, 72 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
-> 
-> diff --git a/meta/recipes-support/vim/files/CVE-2021-3796.patch b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-> new file mode 100644
-> index 0000000000..08becb4d9a
-> --- /dev/null
-> +++ b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-> @@ -0,0 +1,70 @@
-> +From 296bf20889e66e3235e199838c6e360db2c4166d Mon Sep 17 00:00:00 2001
-> +From: Minjae Kim <flowergom@gmail.com>
-> +Date: Fri, 22 Oct 2021 02:24:32 +0000
-> +Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
-> +
-> +Problem:    Using freed memory when replacing. (Dhiraj Mishra)
-> +Solution:   Get the line pointer after calling ins_copychar().
-> +
-> +Upstream-Status: Accepted [https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3]
-> +CVE: CVE-2021-3796
-> +Signed-off-by: Minjae Kim <flowergom@gmail.com>
+On Thu, 21 Oct 2021 at 03:14, Paul Eggleton <bluelightning@bluelightning.org>
+wrote:
 
+> Not sure what the official protocol for this kind of thing is, but
+> meta-arm will
+> naturally need an update for this (as seen via autobuilder warnings).
+>
 
-The patch doesn't seem to apply properly:
+Yes, I think it's usually done after the fact though.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/866/steps/13/logs/stdio
+Alex
 
-Can you check?
+--000000000000606d0505cf0887cb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +---
-> + src/normal.c              | 11 +++++++----
-> + src/testdir/test_edit.vim | 12 ++++++++++++
-> + 2 files changed, 19 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/src/normal.c b/src/normal.c
-> +index c4963e621..277c92595 100644
-> +--- a/src/normal.c
-> ++++ b/src/normal.c
-> +@@ -5009,19 +5009,22 @@ nv_replace(cmdarg_T *cap)
-> +           {
-> +               /*
-> +                * Get ptr again, because u_save and/or showmatch() will have
-> +-               * released the line.  At the same time we let know that the
-> ++               * released the line. This may also happen in ins_copychar().
-> ++               * At the same time we let know that the
-> +                * line will be changed.
-> +                */
-> +-              ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> +               if (cap->nchar == Ctrl_E || cap->nchar == Ctrl_Y)
-> +               {
-> +                 int c = ins_copychar(curwin->w_cursor.lnum
-> +                                          + (cap->nchar == Ctrl_Y ? -1 : 1));
-> ++
-> ++                ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> +                 if (c != NUL)
-> +                   ptr[curwin->w_cursor.col] = c;
-> +-              }
-> +-              else
-> ++              } else {
-> +                   ptr[curwin->w_cursor.col] = cap->nchar;
-> ++                  ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> ++              }
-> +               if (p_sm && msg_silent == 0)
-> +                   showmatch(cap->nchar);
-> +               ++curwin->w_cursor.col;
-> +diff --git a/src/testdir/test_edit.vim b/src/testdir/test_edit.vim
-> +index 4e29e7fe1..d7565e1ea 100644
-> +--- a/src/testdir/test_edit.vim
-> ++++ b/src/testdir/test_edit.vim
-> +@@ -1519,3 +1519,15 @@ func Test_edit_noesckeys()
-> +   bwipe!
-> +   set esckeys
-> + endfunc
-> ++
-> ++" Test for getting the character of the line below after "p"
-> ++func Test_edit_put_CTRL_E()
-> ++  set encoding=latin1
-> ++  new
-> ++  let @" = ''
-> ++  sil! norm orggRx
-> ++  sil! norm pr
-> ++  call assert_equal(['r', 'r'], getline(1, 2))
-> ++  bwipe!
-> ++  set encoding=utf-8
-> ++endfunc
-> +-- 
-> +2.17.1
-> +
-> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-> index db1e9caf4d..917f82404b 100644
-> --- a/meta/recipes-support/vim/vim.inc
-> +++ b/meta/recipes-support/vim/vim.inc
-> @@ -18,7 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git \
->             file://no-path-adjust.patch \
->             file://racefix.patch \
->             file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
-> -          file://CVE-2021-3778.patch \
-> +           file://CVE-2021-3778.patch \
-> +          file://CVE-2021-3796.patch \
->  "
->  
->  SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
-> -- 
-> 2.30.1 (Apple Git-130)
-> 
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 21 Oct 2021 at 03:14, Paul Eggleton &lt;<a href=3D"mailto:bl=
+uelightning@bluelightning.org">bluelightning@bluelightning.org</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Not sure what=
+ the official protocol for this kind of thing is, but meta-arm will <br>
+naturally need an update for this (as seen via autobuilder warnings).<br></=
+blockquote><div><br></div><div>Yes, I think it&#39;s usually done after the=
+ fact though.</div><div><br></div><div>Alex<br></div></div></div>
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157291): https://lists.openembedded.org/g/openembedded-core/message/157291
-> Mute This Topic: https://lists.openembedded.org/mt/86505722/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--000000000000606d0505cf0887cb--
 
