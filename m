@@ -1,109 +1,90 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bluelightning@bluelightning.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C00C433F5
-	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 21:16:44 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web12.11658.1635023803061850023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 189F9C433EF
+	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 21:17:35 +0000 (UTC)
+Received: from mail-61-r20.ipv4.per01.ds.network
+ (mail-61-r20.ipv4.per01.ds.network [27.123.24.217])
+ by mx.groups.io with SMTP id smtpd.web10.11556.1635023852968220798
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Oct 2021 14:16:43 -0700
+ Sat, 23 Oct 2021 14:17:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MBZjLmDH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id
- z11-20020a1c7e0b000000b0030db7b70b6bso8215813wmc.1
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Oct 2021 14:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=yT5T55OCtfDzzdAGQFa/lmQ6kuDMeGi3ersMDe8wfsM=;
-        b=MBZjLmDHV7DO3dj3vDLxCZmx/5GDNUGLARKwCdbm0aPr3KTw4jcf4AJ4SbXNGj7U00
-         8xgOY4JlG96cvGJHThkyj9eY/A0EwKKMNS6e/LCmK+zfVcMuKy0EadXlZxt9+9T03btB
-         zLPy6NMH87xA0wtm4Ncu29TERAE6mYjgHp9G8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=yT5T55OCtfDzzdAGQFa/lmQ6kuDMeGi3ersMDe8wfsM=;
-        b=CCqonZ+yPYAl/HOOSiMlVDUMsV4uMUdFJJFMd2uhIdpuhKE3xRqs/xftQEBIo1TcuU
-         IJGkq6dV1OCV1tTDzyqbtPITTFeP9Xu5CwoFnvZH1eoz+U5qB5lb7Q16qeFS2t2//8oS
-         kkmqGfQ6DziLzJO4Fu5tTK7Uxo85eSx3W8g5vdWCv32E8e/DRt4K0v6iIJ16KitWGBV5
-         BjBn2znS1JRPcXR+oFnEnpwEYQkC6XAPrkUw2BqULCNochbw+JLMztdCHuJQR7p/3obP
-         JkabF/9SII4BRNFHIFJVCm+B3mZ5KmH14odR8FNaYEWuR5xmxFzeLezlrFHROLNWIMB3
-         N8RA==
-X-Gm-Message-State: AOAM532H84rmWyrUcElbchrjE6aSg0JizxJYSYTT1+fgHINu9kuvWFIE
-	/G2DyS7ci+shvcJ3iDe/bSjuKQ==
-X-Google-Smtp-Source: 
- ABdhPJyxDQiOMxWOxM5jNyqdHOBzROXY5CzaPdgBzeinkoIY+S2uxlEMJZK0uHguZiCOzFNJ2rYYew==
-X-Received: by 2002:a1c:2246:: with SMTP id i67mr39157744wmi.72.1635023801492;
-        Sat, 23 Oct 2021 14:16:41 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:57a7:1a1b:1d71:50eb?
- ([2001:8b0:aba:5f3c:57a7:1a1b:1d71:50eb])
-        by smtp.gmail.com with ESMTPSA id
- z26sm2109139wmi.45.2021.10.23.14.16.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Oct 2021 14:16:41 -0700 (PDT)
-Message-ID: 
- <fbc96f2c9631b7d8b36f1fac8362abd32e520197.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] classes/populate_sdk_base: Add setscene tasks
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <JPEWhacker@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 23 Oct 2021 22:16:39 +0100
-In-Reply-To: <20211022214422.2176030-1-JPEWhacker@gmail.com>
-References: <20211022214422.2176030-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default
+ header.b=fR6KICu4;
+ spf=none, err=permanent DNS error (domain: bluelightning.org,
+ ip: 27.123.24.217, mailfrom: bluelightning@bluelightning.org)
+Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network
+ [122.201.124.108])
+	by halon-out02.au.ds.network (Halon) with ESMTPS
+	id 8a5024bd-3446-11ec-bc81-f8bc1204ff90;
+	Sun, 24 Oct 2021 05:16:51 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=R6CBkZuigrumbMjHVKwBPlm1NU/qluncVdMz5j9XyMA=; b=fR6KICu48v4tx6a93Fm6KTgqqh
+	1x5+kSVlKfyl/kAsYIpZaOGCIlVnGrVZl/F0PSgPx5XPPEradOsD+Pl95Cq4b9w+hoTSJN9/lcGMh
+	K7L9EuJPKCzhfJJmPNiVLCIGmOZ6f46d0v0lW24U3ovcvHu6Dg7LuGJ7xiXYHolXPBV2ByTluwq1q
+	ZHEJ34qnZo3jo1Vr0JWQt4BtWxWzB9NeBE/hOBWAiFQMBjIlIHVd7d0CTexPDUOlQsbS16vx9QZaj
+	wVji7U0dEgOflbgWW7PH3RXvKlKhwUnCEtgkYpUmGMvwQpu4kZNYZfd7BQn0Lall9X0w4515RKpp2
+	0EzMSD+A==;
+Received: from [151.210.149.31] (port=56502 helo=linc.localnet)
+	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <bluelightning@bluelightning.org>)
+	id 1meOOM-00Be0x-N2; Sun, 24 Oct 2021 08:17:26 +1100
+From: Paul Eggleton <bluelightning@bluelightning.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Jon Mason <jon.mason@arm.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 18/65] u-boot: upgrade 2021.07 -> 2021.10
+Date: Sun, 24 Oct 2021 10:17:26 +1300
+Message-ID: <2080098.irdbgypaU6@linc>
+In-Reply-To: 
+ <CANNYZj_LwDStdwbCP0NrrgbUQXumck1AqdZA35iAu+OvsRJsaw@mail.gmail.com>
+References: <20211019153419.3319802-1-alex@linutronix.de>
+ <4686739.31r3eYUQgx@linc>
+ <CANNYZj_LwDStdwbCP0NrrgbUQXumck1AqdZA35iAu+OvsRJsaw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bluelightning.org
+X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id:
+ paul@softec.co.nz
+X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 21:16:44 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 21:17:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157315
+ https://lists.openembedded.org/g/openembedded-core/message/157316
 
-On Fri, 2021-10-22 at 16:44 -0500, Joshua Watt wrote:
-> do_populate_sdk was added to SSTATETASKS, but had no _setscene task
-> created to allow it to actually run from sstate. Add it so that SDKs can
-> be restored from sstate.
+On Sunday, 24 October 2021 06:33:29 NZDT Alexander Kanavin wrote:
+> On Thu, 21 Oct 2021 at 03:14, Paul Eggleton
+> <bluelightning@bluelightning.org>
+> wrote:
+> > Not sure what the official protocol for this kind of thing is, but
+> > meta-arm will
+> > naturally need an update for this (as seen via autobuilder warnings).
 > 
-> Note that like do_image_complete, do_populate_sdk is marked with
-> SSTATE_SKIP_CREATION by default so sstate is not used for them; adding
-> this task will allow it to work if the user overrides this default
-> though.
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/populate_sdk_base.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index 49e166e697..fafdd96749 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -179,6 +179,10 @@ do_populate_sdk[cleandirs] = "${SDKDEPLOYDIR}"
->  do_populate_sdk[sstate-inputdirs] = "${SDKDEPLOYDIR}"
->  do_populate_sdk[sstate-outputdirs] = "${SDK_DEPLOY}"
->  do_populate_sdk[stamp-extra-info] = "${MACHINE_ARCH}${SDKMACHINE}"
-> +python do_populate_sdk_setscene () {
-> +    sstate_setscene(d)
-> +}
-> +addtask do_populate_sdk_setscene
->  
-> 
+> Yes, I think it's usually done after the fact though.
 
-That was deliberately missing since we don't use/need it. I've merged this since
-I guess you want to use it but it isn't something I particularly want to
-support. It simply won't work for eSDK either.
+Absolutely, I just wanted to make a note of it ahead of time.
 
-Cheers,
+Cheers
+Paul
 
-Richard
 
 
