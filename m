@@ -1,90 +1,83 @@
-Return-Path: <bluelightning@bluelightning.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 189F9C433EF
-	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 21:17:35 +0000 (UTC)
-Received: from mail-61-r20.ipv4.per01.ds.network
- (mail-61-r20.ipv4.per01.ds.network [27.123.24.217])
- by mx.groups.io with SMTP id smtpd.web10.11556.1635023852968220798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54286C433EF
+	for <webhook@archiver.kernel.org>; Sat, 23 Oct 2021 21:20:39 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.11609.1635024037568477567
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Oct 2021 14:17:34 -0700
+ Sat, 23 Oct 2021 14:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default
- header.b=fR6KICu4;
- spf=none, err=permanent DNS error (domain: bluelightning.org,
- ip: 27.123.24.217, mailfrom: bluelightning@bluelightning.org)
-Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network
- [122.201.124.108])
-	by halon-out02.au.ds.network (Halon) with ESMTPS
-	id 8a5024bd-3446-11ec-bc81-f8bc1204ff90;
-	Sun, 24 Oct 2021 05:16:51 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=R6CBkZuigrumbMjHVKwBPlm1NU/qluncVdMz5j9XyMA=; b=fR6KICu48v4tx6a93Fm6KTgqqh
-	1x5+kSVlKfyl/kAsYIpZaOGCIlVnGrVZl/F0PSgPx5XPPEradOsD+Pl95Cq4b9w+hoTSJN9/lcGMh
-	K7L9EuJPKCzhfJJmPNiVLCIGmOZ6f46d0v0lW24U3ovcvHu6Dg7LuGJ7xiXYHolXPBV2ByTluwq1q
-	ZHEJ34qnZo3jo1Vr0JWQt4BtWxWzB9NeBE/hOBWAiFQMBjIlIHVd7d0CTexPDUOlQsbS16vx9QZaj
-	wVji7U0dEgOflbgWW7PH3RXvKlKhwUnCEtgkYpUmGMvwQpu4kZNYZfd7BQn0Lall9X0w4515RKpp2
-	0EzMSD+A==;
-Received: from [151.210.149.31] (port=56502 helo=linc.localnet)
-	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <bluelightning@bluelightning.org>)
-	id 1meOOM-00Be0x-N2; Sun, 24 Oct 2021 08:17:26 +1100
-From: Paul Eggleton <bluelightning@bluelightning.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Jon Mason <jon.mason@arm.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 18/65] u-boot: upgrade 2021.07 -> 2021.10
-Date: Sun, 24 Oct 2021 10:17:26 +1300
-Message-ID: <2080098.irdbgypaU6@linc>
-In-Reply-To: 
- <CANNYZj_LwDStdwbCP0NrrgbUQXumck1AqdZA35iAu+OvsRJsaw@mail.gmail.com>
-References: <20211019153419.3319802-1-alex@linutronix.de>
- <4686739.31r3eYUQgx@linc>
- <CANNYZj_LwDStdwbCP0NrrgbUQXumck1AqdZA35iAu+OvsRJsaw@mail.gmail.com>
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 0EFB91BF203;
+	Sat, 23 Oct 2021 21:20:34 +0000 (UTC)
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH v2] libevent,btrfs-tools: fix Upstream-Status tag
+Date: Sat, 23 Oct 2021 23:20:30 +0200
+Message-Id: <20211023212030.391269-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - bluelightning.org
-X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id:
- paul@softec.co.nz
-X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 21:17:35 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Oct 2021 21:20:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157316
+ https://lists.openembedded.org/g/openembedded-core/message/157317
 
-On Sunday, 24 October 2021 06:33:29 NZDT Alexander Kanavin wrote:
-> On Thu, 21 Oct 2021 at 03:14, Paul Eggleton
-> <bluelightning@bluelightning.org>
-> wrote:
-> > Not sure what the official protocol for this kind of thing is, but
-> > meta-arm will
-> > naturally need an update for this (as seen via autobuilder warnings).
-> 
-> Yes, I think it's usually done after the fact though.
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ ...1-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch | 2 +-
+ ...003-test-mark-util-monotonic_prc_fallback-as-retriable.patch | 2 +-
+ ...test-retriable-tests-are-marked-failed-only-when-all-a.patch | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Absolutely, I just wanted to make a note of it ahead of time.
-
-Cheers
-Paul
-
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+index d7188881da8d..be942388a504 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+@@ -18,7 +18,7 @@ add an explicit include of const.h to pickup the macro:
+ This is safe for older kernel's as well, since the header still
+ exists, and is valid to include.
+ 
+-Upstream-status: OE Specific [mips64 + musl + libc-headers]
++Upstream-Status: Inappropriate [mips64 + musl + libc-headers]
+ 
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+ ---
+diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+index 8a2c78983e1d..ddc19c495f1d 100644
+--- a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
++++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
+@@ -5,7 +5,7 @@ Subject: [PATCH] test: mark util/monotonic_prc_fallback as retriable
+ 
+ Refs: #1193
+ 
+-Upstream-status: Backported
++Upstream-Status: Backport
+ ---
+  test/regress_util.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+index ae7db0b7aa85..ea17e876ea3f 100644
+--- a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
++++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
+@@ -6,7 +6,7 @@ Subject: [PATCH] test: retriable tests are marked failed only when all
+ 
+ Fixes: #1193
+ 
+-Upstream-status: Pending
++Upstream-Status: Accepted
+ 
+ Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+ ---
+-- 
+2.31.1
 
 
