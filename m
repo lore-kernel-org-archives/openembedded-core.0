@@ -2,113 +2,209 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0178C433EF
-	for <webhook@archiver.kernel.org>; Sun, 24 Oct 2021 15:03:04 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.19735.1635087783912464361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 349EBC433EF
+	for <webhook@archiver.kernel.org>; Sun, 24 Oct 2021 17:17:12 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.21204.1635095830937217276
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Oct 2021 08:03:04 -0700
+ Sun, 24 Oct 2021 10:17:11 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=A0Ll+r8Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
+ header.b=TjRXAdbJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.54,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- k2-20020a17090ac50200b001a218b956aaso2277650pjt.2
+Received: by mail-wr1-f54.google.com with SMTP id s19so8177755wra.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Oct 2021 08:03:03 -0700 (PDT)
+ Sun, 24 Oct 2021 10:17:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=Dqbs6ZbR7AKVTZ40zEKGKzEI4yftcO2lyogRyPmW/AQ=;
-        b=A0Ll+r8ZCFGlfcK59j2BPN0oO7s8l4RelZ639G69FrabY8hOZZuY0UeJ/mkSBtsHyJ
-         T8dRp3Bcz1cLTVO05bi0CiwF5mwajCajLQjFGEvERobkEKpBa6eYBU39iaE+BfS5qZWw
-         Z7uuX/IMIo75CqR29CAb7Iym108QsfeVxcTMP0iYxSPkApvls38ekwfpoAbMlAmuGhQj
-         s05+jBNnFbyFT4+d0KrVGq/MlbFEo5MS5yurWjlgdSPF1L3lLMZSUFohpWPwNSDhLLPX
-         pjiUVmVS7XeJboLishhVVNGUVt1bqGakTzDJCvDKuheiHz3U6kTEJ2ozOtUV9z7SFF8J
-         My+A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=veg6FGFzwHwd8rFy3Nys0cmHYYPOAa4sQLtofJj3kxE=;
+        b=TjRXAdbJKZfRqQJCM2ORWsKL0eWeouamPXEsqbiYCmWF/Zk98V5KgoxkzwrW9mjfUR
+         +xI4OHYPdor1n1rF+oh6BKWhJpxVEh6tLTa8e1x/KYrjwzufkwbPKir5Ksy9fjyJ2paR
+         lHQ/JLjnTOTKwzEdJukP0BngvyXFSNM6hkGmOLllGaYx4qzits3D9/qop1WNGFLtb5+E
+         wpFVBtyct86Y9/sOp7n2ciQ2fe7DJWjbtvBnrHBsob3jp12k6YBVvJIbulGgMgsVTsrq
+         XV/GdTQSQ8YFchAAXex9EGurH70YaKFKaLeUiuh2UvE3V9qgBcLIjQR30mEMh2hsF+oJ
+         nFkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=Dqbs6ZbR7AKVTZ40zEKGKzEI4yftcO2lyogRyPmW/AQ=;
-        b=5jlK95fa3fnc91nFykq4vfVxCPriXHQiAH1YsoPN7+DycHNJmerNEejdh4LsAju1Ft
-         W+J0h31Zprpi/w7peRCnY/UWSAW5GzPUlQaPk01pDqUZmBkUmoqRXq+a7aKFPEsdXYmk
-         AfbdnSeYlBLvh9osA86Bgfg8buuYYesEP8ltfQ0VUinC1H4eiCloJtOTQeBRq5xsfob0
-         NFw1QlS/GUXgDNYJnijMa/Js1xCSzyOvKmvXXiansqSuDjvOffF8Twe/4ufTMV3cHUcS
-         tHNn69L/bi+mhszI3F9kcgu6BYLQUz2UUahNueY1YKYPIVUIUOfJvEYCrrhvdQ/IOUh4
-         /1Dg==
-X-Gm-Message-State: AOAM532HhxephmqGIzs7YkQ/Q0zfUzzRFmoEhWJYGtoWKifTUEQe3Lw5
-	G6hiOITmEZ/74aCZuCX836AvQ6UPShOtkvlr7yY=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=veg6FGFzwHwd8rFy3Nys0cmHYYPOAa4sQLtofJj3kxE=;
+        b=kQKUMTxxOxZhw7EswVbWTKf+X/M+Awal5L7B8K//HS/uL/KZdBvcPvZGPMAqFbrToB
+         mcW79zmC6EHKwL+806/P2W7dOdLbjPLquyvuMAMjeZRvTs67tIfCTuMlURbnNe+hk+4l
+         W5eba95uF0hC+iQ5e1rN4f/iOpjo5qkUvQrvHAkZb69moBc0eMc+dFESzCy87k/FMeoA
+         Dtd3bkTp3pt4OTqKMsLBYOeY+n33/96JJaJrX/RMLyP2r4bsG+Ud1UYrY2ax7+6/reip
+         0bJ9RrdpeNdAweNIFmtXvmbynEDYsgqL2enPjCeCBBBmNCFuldrBiaF61boWtPRdfdOH
+         bpQQ==
+X-Gm-Message-State: AOAM530Dl/nr32pXVB6XyneIAbB8tom7MdbW2Tj/x0OYh7ml1qqwbJUR
+	xwa6W2jmEAtOGO8z0p67v2ox+4kUt6CkX3AA77CH0Q==
 X-Google-Smtp-Source: 
- ABdhPJwpgzotFVjRgGHepwUyaPBOdOYGNZY5YOwJDfvFPzn639EwUX3tw/macaqqttDZBItRpCTVnQ==
-X-Received: by 2002:a17:90b:3ecd:: with SMTP id
- rm13mr14150612pjb.189.1635087782718;
-        Sun, 24 Oct 2021 08:03:02 -0700 (PDT)
-Received: from nuc.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id
- g16sm11175567pfv.192.2021.10.24.08.03.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Oct 2021 08:03:02 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 79DD79602D9; Sun, 24 Oct 2021 05:02:53 -1000 (HST)
-Subject: OE-core CVE metrics for hardknott on Sun 24 Oct 2021 05:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20211024150253.79DD79602D9@nuc.router0800d9.com>
-Date: Sun, 24 Oct 2021 05:02:53 -1000 (HST)
+ ABdhPJwhdkR3AFE1QrSV2fMIk2Q0HYEzW4doW8zAVDv6KRv2wQehVsYBgaBPJGaCQPQWaN1PoZWWK9DjMXtT1ByJ4X4=
+X-Received: by 2002:adf:8bc4:: with SMTP id w4mr2797036wra.36.1635095829118;
+ Sun, 24 Oct 2021 10:17:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211022034156.1551-1-flowergom@gmail.com>
+In-Reply-To: <20211022034156.1551-1-flowergom@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sun, 24 Oct 2021 07:16:57 -1000
+Message-ID: 
+ <CAOSpxdYTPVpwQ3LELVmRwdHo=WDnCRVFDwg4UQF1Yq_yYX0Q=g@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] vim: fix 2021-3796
+To: Minjae Kim <flowergom@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Oct 2021 15:03:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Oct 2021 17:17:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157327
+ https://lists.openembedded.org/g/openembedded-core/message/157328
 
-Branch: hardknott
+On Thu, Oct 21, 2021 at 5:42 PM Minjae Kim <flowergom@gmail.com> wrote:
+>
+> vim is vulnerable to Use After Free
+> Problem: Checking first character of url twice.
+>
+> reference:
+> https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3
 
-New this week: 3 CVEs
-CVE-2021-38297: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
-CVE-2021-3872: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3872 *
-CVE-2021-3875: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3875 *
+Missing your Signed-off-by:
 
-Removed this week: 0 CVEs
+The patch also fails to apply on dunfell:
 
-Full list:  Found 35 unpatched CVEs
-CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
-CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20196: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20196 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-22922: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22922 *
-CVE-2021-22923: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22923 *
-CVE-2021-22945: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22945 *
-CVE-2021-22946: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22946 *
-CVE-2021-22947: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22947 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33833: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33833 *
-CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
-CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
-CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
-CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-36976: libarchive https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-38297: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
-CVE-2021-3872: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3872 *
-CVE-2021-3875: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3875 *
-CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
-CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
-CVE-2021-40528: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40528 *
-CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
+stdio: ERROR: vim-native-8.2-r0 do_patch: Applying patch
+'CVE-2021-3796.patch' on target directory
+'/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/git'
+stdio: ERROR: Logfile of failure stored in:
+/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/temp/log.do_patch.2931142
+stdio: ERROR: Task
+(virtual:native:/home/pokybuild/yocto-worker/reproducible-centos/build/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+failed with exit code '1'
+stdio: ERROR: vim-native-8.2-r0 do_patch: Applying patch
+'CVE-2021-3796.patch' on target directory
+'/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/git'
+stdio: ERROR: Logfile of failure stored in:
+/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/temp/log.do_patch.2931142
+stdio: ERROR: Task
+(virtual:native:/home/pokybuild/yocto-worker/reproducible-centos/build/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+failed with exit code '1'
+stdio: ERROR: Command . ./oe-init-build-env; ${SCRIPTSDIR}/checkvnc;
+OEQA_DEBUGGING_SAVED_OUTPUT=/srv/autobuilder/autobuilder.yoctoproject.org/pub/repro-fail/
+DISPLAY=:1 oe-selftest -r reproducible -j 1 failed with exit code 1,
+see errors above. (1635095597.6: 33.1)
+
+Probably a similar issue to the master version.
+
+Thanks!
+
+Steve
+> ---
+>  .../vim/files/CVE-2021-3796.patch             | 70 +++++++++++++++++++
+>  meta/recipes-support/vim/vim.inc              |  1 +
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
+>
+> diff --git a/meta/recipes-support/vim/files/CVE-2021-3796.patch b/meta/recipes-support/vim/files/CVE-2021-3796.patch
+> new file mode 100644
+> index 0000000000..08becb4d9a
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/files/CVE-2021-3796.patch
+> @@ -0,0 +1,70 @@
+> +From 296bf20889e66e3235e199838c6e360db2c4166d Mon Sep 17 00:00:00 2001
+> +From: Minjae Kim <flowergom@gmail.com>
+> +Date: Fri, 22 Oct 2021 02:24:32 +0000
+> +Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
+> +
+> +Problem:    Using freed memory when replacing. (Dhiraj Mishra)
+> +Solution:   Get the line pointer after calling ins_copychar().
+> +
+> +Upstream-Status: Accepted [https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3]
+> +CVE: CVE-2021-3796
+> +Signed-off-by: Minjae Kim <flowergom@gmail.com>
+> +---
+> + src/normal.c              | 11 +++++++----
+> + src/testdir/test_edit.vim | 12 ++++++++++++
+> + 2 files changed, 19 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/src/normal.c b/src/normal.c
+> +index c4963e621..277c92595 100644
+> +--- a/src/normal.c
+> ++++ b/src/normal.c
+> +@@ -5009,19 +5009,22 @@ nv_replace(cmdarg_T *cap)
+> +           {
+> +               /*
+> +                * Get ptr again, because u_save and/or showmatch() will have
+> +-               * released the line.  At the same time we let know that the
+> ++               * released the line. This may also happen in ins_copychar().
+> ++               * At the same time we let know that the
+> +                * line will be changed.
+> +                */
+> +-              ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
+> +               if (cap->nchar == Ctrl_E || cap->nchar == Ctrl_Y)
+> +               {
+> +                 int c = ins_copychar(curwin->w_cursor.lnum
+> +                                          + (cap->nchar == Ctrl_Y ? -1 : 1));
+> ++
+> ++                ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
+> +                 if (c != NUL)
+> +                   ptr[curwin->w_cursor.col] = c;
+> +-              }
+> +-              else
+> ++              } else {
+> +                   ptr[curwin->w_cursor.col] = cap->nchar;
+> ++                  ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
+> ++              }
+> +               if (p_sm && msg_silent == 0)
+> +                   showmatch(cap->nchar);
+> +               ++curwin->w_cursor.col;
+> +diff --git a/src/testdir/test_edit.vim b/src/testdir/test_edit.vim
+> +index 4e29e7fe1..d7565e1ea 100644
+> +--- a/src/testdir/test_edit.vim
+> ++++ b/src/testdir/test_edit.vim
+> +@@ -1519,3 +1519,15 @@ func Test_edit_noesckeys()
+> +   bwipe!
+> +   set esckeys
+> + endfunc
+> ++
+> ++" Test for getting the character of the line below after "p"
+> ++func Test_edit_put_CTRL_E()
+> ++  set encoding=latin1
+> ++  new
+> ++  let @" = ''
+> ++  sil! norm orggRx
+> ++  sil! norm pr
+> ++  call assert_equal(['r', 'r'], getline(1, 2))
+> ++  bwipe!
+> ++  set encoding=utf-8
+> ++endfunc
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+> index fc4e205b74..0973a368c0 100644
+> --- a/meta/recipes-support/vim/vim.inc
+> +++ b/meta/recipes-support/vim/vim.inc
+> @@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git \
+>             file://racefix.patch \
+>             file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
+>            file://CVE-2021-3778.patch \
+> +           file://CVE-2021-3796.patch \
+>  "
+>
+>  SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+> --
+> 2.30.1 (Apple Git-130)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157293): https://lists.openembedded.org/g/openembedded-core/message/157293
+> Mute This Topic: https://lists.openembedded.org/mt/86506415/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
