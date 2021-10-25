@@ -1,210 +1,152 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <randy.li@synaptics.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 349EBC433EF
-	for <webhook@archiver.kernel.org>; Sun, 24 Oct 2021 17:17:12 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.21204.1635095830937217276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 316A7C433F5
+	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 03:38:19 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.46])
+ by mx.groups.io with SMTP id smtpd.web09.27532.1635133097896671238
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Oct 2021 10:17:11 -0700
+ Sun, 24 Oct 2021 20:38:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=TjRXAdbJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.54,
- mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f54.google.com with SMTP id s19so8177755wra.2
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Oct 2021 10:17:10 -0700 (PDT)
+ dkim=fail reason="body hash did not verify"
+ header.i=@synaptics.onmicrosoft.com
+ header.s=selector2-synaptics-onmicrosoft-com header.b=mEPFyExF;
+ spf=pass (domain: synaptics.com, ip: 40.107.236.46,
+ mailfrom: randy.li@synaptics.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bgFLRx+m3oaTU988cOe0FAgswpTl2xRLz1ZGwr//aZf4xyWItfGxCxqYxHIWAGHy0x6fr5DKvaLmF4NRaiLBRFGO8AevStkWOlh+CmAqsxzvDDJMW2nSk75fcEnPxka0KLo2PqMKah+4pj96davOQkQE2Ly89Fyz4euAvY+1BBOuFRWit5YXb2So8Uwr4ZlRoqCpCwU4HjoLtkfLRa+T1uRVKye7sWwTOsEaaCAEtR8yqYJMhEw1TGxUH70ZiOQTz5iJlrZw0qoKoMaFZkWnaAxXl8ufFDkkFrAVMuaU41fQHPMaVixqIfwFiUumezuLwi0xTqKdGkVpf2P9MsPj+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N8ABKD0vjvu6dB1px9Sv8487vEfYC9SBJXMrVGGhh2U=;
+ b=B/iGF5J62pA39kuZ/P6ljwFrrMHyvCERGQsUWu2Gly18Fc9xEM2w6kms96ZXr3P9sSPtQN8K2CatK25D1+N5sXVtYMQKsaO1x3agAxohhiZgwSxBqKLnnAc7IWxOaTXI8v+0eYj1yAdetc9yvYhtlfo6Vdw84raT5w6+0O2sGV5zjOoK0GKCk9DgmoLoW+E0h6PicuFJk67dqNO9FpPcO+XJdRwuzN7a6XE3GIOzQrkC/FC2llvlPMogEwN3lrNVBNXk7ClbSp2MK6M7USPcKJAnkYxaTJ8pKLehhgiTPASdaIDHkHLGPnOHYNNtJkDB9Mbwwd5WC2ptPoVU8gWNTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=veg6FGFzwHwd8rFy3Nys0cmHYYPOAa4sQLtofJj3kxE=;
-        b=TjRXAdbJKZfRqQJCM2ORWsKL0eWeouamPXEsqbiYCmWF/Zk98V5KgoxkzwrW9mjfUR
-         +xI4OHYPdor1n1rF+oh6BKWhJpxVEh6tLTa8e1x/KYrjwzufkwbPKir5Ksy9fjyJ2paR
-         lHQ/JLjnTOTKwzEdJukP0BngvyXFSNM6hkGmOLllGaYx4qzits3D9/qop1WNGFLtb5+E
-         wpFVBtyct86Y9/sOp7n2ciQ2fe7DJWjbtvBnrHBsob3jp12k6YBVvJIbulGgMgsVTsrq
-         XV/GdTQSQ8YFchAAXex9EGurH70YaKFKaLeUiuh2UvE3V9qgBcLIjQR30mEMh2hsF+oJ
-         nFkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=veg6FGFzwHwd8rFy3Nys0cmHYYPOAa4sQLtofJj3kxE=;
-        b=kQKUMTxxOxZhw7EswVbWTKf+X/M+Awal5L7B8K//HS/uL/KZdBvcPvZGPMAqFbrToB
-         mcW79zmC6EHKwL+806/P2W7dOdLbjPLquyvuMAMjeZRvTs67tIfCTuMlURbnNe+hk+4l
-         W5eba95uF0hC+iQ5e1rN4f/iOpjo5qkUvQrvHAkZb69moBc0eMc+dFESzCy87k/FMeoA
-         Dtd3bkTp3pt4OTqKMsLBYOeY+n33/96JJaJrX/RMLyP2r4bsG+Ud1UYrY2ax7+6/reip
-         0bJ9RrdpeNdAweNIFmtXvmbynEDYsgqL2enPjCeCBBBmNCFuldrBiaF61boWtPRdfdOH
-         bpQQ==
-X-Gm-Message-State: AOAM530Dl/nr32pXVB6XyneIAbB8tom7MdbW2Tj/x0OYh7ml1qqwbJUR
-	xwa6W2jmEAtOGO8z0p67v2ox+4kUt6CkX3AA77CH0Q==
-X-Google-Smtp-Source: 
- ABdhPJwhdkR3AFE1QrSV2fMIk2Q0HYEzW4doW8zAVDv6KRv2wQehVsYBgaBPJGaCQPQWaN1PoZWWK9DjMXtT1ByJ4X4=
-X-Received: by 2002:adf:8bc4:: with SMTP id w4mr2797036wra.36.1635095829118;
- Sun, 24 Oct 2021 10:17:09 -0700 (PDT)
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N8ABKD0vjvu6dB1px9Sv8487vEfYC9SBJXMrVGGhh2U=;
+ b=mEPFyExFcfh6fvrDeKpAsvVwpeC+i9mT4XSSOVuJgyh8n8oJs9VP3jCCyZDO+x5xhoU7hL9C82wEea3mPuLsxMbDPykASqxSpUDnpSJKwRoPfivdZy4p9QlEcoHzNjYcG8z4JJchvnoUkDIunZ96X95/D0xttFuW4+nmDHizyo0=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by DM6PR03MB4427.namprd03.prod.outlook.com (2603:10b6:5:10d::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.20; Mon, 25 Oct
+ 2021 03:38:15 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::1994:3844:6596:1d13]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::1994:3844:6596:1d13%8]) with mapi id 15.20.4628.020; Mon, 25 Oct 2021
+ 03:38:15 +0000
+From: Hsia-Jun Li <randy.li@synaptics.com>
+To: openembedded-core@lists.openembedded.org
+CC: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+Subject: [PATCH v2 0/2] fix environmemt files in SDK
+Date: Mon, 25 Oct 2021 11:37:42 +0800
+Message-ID: <20211025033744.753260-1-randy.li@synaptics.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0094.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::9) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
-References: <20211022034156.1551-1-flowergom@gmail.com>
-In-Reply-To: <20211022034156.1551-1-flowergom@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sun, 24 Oct 2021 07:16:57 -1000
-Message-ID: 
- <CAOSpxdYTPVpwQ3LELVmRwdHo=WDnCRVFDwg4UQF1Yq_yYX0Q=g@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] vim: fix 2021-3796
-To: Minjae Kim <flowergom@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from randy-t14s.synaptics.com (192.147.44.15) by
+ SJ0PR03CA0094.namprd03.prod.outlook.com (2603:10b6:a03:333::9) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend
+ Transport; Mon, 25 Oct 2021 03:38:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7c657e3a-0cb8-4649-6633-08d99768e05a
+X-MS-TrafficTypeDiagnostic: DM6PR03MB4427:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR03MB4427F8091BF28FFA7AAD48CA86839@DM6PR03MB4427.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ZPooEhCcnWsFEkq06iLECkUnRDgbxMDwR2M0om35Hu3+HFRIdkBdRbE1w+b51R/fasL8xyZ4yLl7e57foaR4/PpX3AoB+L/X+c7WDTsSllrxEAg65vTK4A3r5VmAyFDhv4so39MPy7CA4+Py+mSl1zFrtVgTfe2GA+BcnrCDzaAEerhxmBvk3s9yRNXNMhPpWeDS6U7x03ZolDkgSayPBt1lM/7dEo6ZWDe0Kr+9CcCzOCid4WoV3m14gaMqS84b00d5xvtcY9JTAj7bLDX+ah1mhVvp2OBHxyd5LJDQHBNdGt5bI0y7jtsd1WRvuuj9OaI+T1RcHGgIwJmXbr0BXZidFOJOrxj6qZxpMNh4v3scbKU58YFfQS6/nZt/SOE9c+qYU64c3OQRlyp3YxOTuoQ4ZxVwHbXjcyHN/sPTJ81xhQhwxwbFhxDyT296Y9lL+dgemtt0D/G6vYpGc4BeflYDY9VEqYFEsSOq0zeF6BuEWuMeZ/X3Afq5WCmBLQhq7R8nMyqwWikwY1JhbiixhjvDX5WHpWn2qt1dZTX9ZyMHwX2dsI61+PPR5oEFKmMTs7vdwa7uWBtb/HRF/yoihVOQ1YioDvSRFU6NqQ8VxLlhJgjej6lEMAzQPRRQZzz3y+RQDXjJEKSqMnot6f4cNScaML3JSLmX+JodyaSBfa6uxexgqrJgQiaPrItr8Y7CbHmY5TSUXJuZaSVs4aISxw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(38100700002)(38350700002)(52116002)(8676002)(956004)(107886003)(8936002)(7696005)(36756003)(6486002)(316002)(2616005)(186003)(26005)(1076003)(4326008)(5660300002)(83380400001)(4744005)(6916009)(6666004)(66476007)(66946007)(2906002)(66556008)(508600001)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?D+21nvBp+VMJlueKlAZsahDvgPktBf71nMrcpriJKCV1Fp1UMTn5DUzBzbWd?=
+ =?us-ascii?Q?Aeb2T/15icewHQk6nW6tifgnsBaug7s9v0e3sOz38D8uKJixOizoRxTmOwOy?=
+ =?us-ascii?Q?LiR6v/lG6ABkbhr/FHCThRlUGeY5wtS5gTzO/Yg6eyr7W1zR538MVQ4F0V3s?=
+ =?us-ascii?Q?1IzL5xOo/a3NGHkvBsxGkLKs+Ugp4O+fw+b+mVetTkK5WqUM8fFg/Nj3ReVh?=
+ =?us-ascii?Q?I4dfpvmKnSXeSd90HDvVM0JaraBKQUb7huf6rG92G/VAryA8i9YcPoRIn2y1?=
+ =?us-ascii?Q?OeC65MSyRKN92tQXBJF38Fxuki0+7m8wRA2M8E464kqqjvwB1qaXjomavsyg?=
+ =?us-ascii?Q?saZz4L+6Ljs78PxxEyam+WC3xv9XeBwxxQMovs0kLnbykEiffsEy+Wlzi4a5?=
+ =?us-ascii?Q?aq/wWgXJ56WUuHvu43HxoPpkF8M/Vcavox4nqQEgYbMFIAia2v6E3FAgxxjv?=
+ =?us-ascii?Q?b7AiCFt+So6ucZ3koEu8Dh4XJmTa7sVvBJsF7XhInWWN+BaVISJSAsZYvUhF?=
+ =?us-ascii?Q?lZuA3DeQ2WdYMPUVhF2DHbKHEL0jnaA0lYASnn8JIzjy/8vL8dpQv47Ey9GA?=
+ =?us-ascii?Q?2+zAd8lvlLJqcTNCUcPG+8plLNE3iOqgwNwIa0EdNUyKtztOxUNSK2vCUEse?=
+ =?us-ascii?Q?E67s1uWLJZkSpiy83JeV2bBnbS0cUe4vaFHhvQJBvoIjUxFgfv5mPqoDe+UK?=
+ =?us-ascii?Q?fCFNtMd49oGoC0cYiXnHh2Wk/3SA7GZ6zxFLC7WjV3c2kXrmeMvTSZnobmw7?=
+ =?us-ascii?Q?kiblJiLTXJZMOXcU1ivuRpbZIPQEPOJtauiepDtyVn71iQMp82wk0zDGLvgN?=
+ =?us-ascii?Q?8QqgDYCsoy4Bx8SMeBrlebGxY42ZmnIZVMMowwKkzgIco+gBTrz0qtLMFdxz?=
+ =?us-ascii?Q?AhWPgc4smaUynsO+SDiS4DXbgWsIYmK3UJ8lj3ewgPJ/kN2FdBUlGYEHdIJs?=
+ =?us-ascii?Q?sTVQI8kaYcEYLP2yHrk3m8payTvsz/GL4h2mQSZZlHDMEoKRxqGY4bNrNhWW?=
+ =?us-ascii?Q?xn2rYjpGCzwEBxTbuk+pcglz6xnjBBQg2yp2HfJD5dBs7S/p8wQQFqUn6j+n?=
+ =?us-ascii?Q?YWyLzPAlnu+jaRrDXz1rgwyAqKYaJczjFluxF4l4RHT9+Q8qJg/T3W8lhOqJ?=
+ =?us-ascii?Q?qWSCuPLnAGPBYaJUMy/HgJiCnAJGxiz2NgUtWqng6xmIXvkcLWpavTtRERUS?=
+ =?us-ascii?Q?q8b3HOlYngKZUgpWL2BNqWQvCHvhfovVbTpIpcG8zr4lV7sqJav602gg10sE?=
+ =?us-ascii?Q?Z/QUw4mthdyxg+/1PopvKWLuMTQ7K4F739uA8rUYzWHovGSgQZfgpuBEyq7f?=
+ =?us-ascii?Q?kKx2vEQUCgS2/pwPOfapqikkgHKNHAmBhr9Z/etqX34QBJdZXtAbhoztQdDZ?=
+ =?us-ascii?Q?HQorRHB6Zb0XzjR/W4heWCbBpSUjgZ4Zth6iCSKDYr3WsIP+XtLM572fubPP?=
+ =?us-ascii?Q?lZixRlpYjpk4KzN2VsZQM3U11BYn0c9tj5nqZsfNk6qdu1OXoqko0keEwcPJ?=
+ =?us-ascii?Q?5lCQou+HXAYxL/I8K6/ztPRGHv+G9TDUdDcVmAVoRPcaWoojMEZfB2s9Xawo?=
+ =?us-ascii?Q?Pw74CZSO51ojIa0mJkmUuHSFIgwtgIv9ZxPaSpfx63fSEOC8HYYm8aPBPoS6?=
+ =?us-ascii?Q?URbFeRHPM6SA3eMzLttBLfA=3D?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 7c657e3a-0cb8-4649-6633-08d99768e05a
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2021 03:38:14.9106
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ Ggsx0MkigaD4u7B5r8VT6dU5bbOMIbpNdG48MmCpGXILwyoGY31Ng1e8xmNlNX0zih6H6/BAcwvCOjT+mgRsuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB4427
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Oct 2021 17:17:12 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 03:38:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157328
+ https://lists.openembedded.org/g/openembedded-core/message/157329
 
-On Thu, Oct 21, 2021 at 5:42 PM Minjae Kim <flowergom@gmail.com> wrote:
->
-> vim is vulnerable to Use After Free
-> Problem: Checking first character of url twice.
->
-> reference:
-> https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3
+From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 
-Missing your Signed-off-by:
+I am sorry I am very busy recently, so I don't have time
+to add an QA test class this time. Thoses patches were
+verified two days from mail last time, I just don't have
+time to send them.
 
-The patch also fails to apply on dunfell:
+Changelog:
+v2
+The script generates native file in nativesdk should work now.
 
-stdio: ERROR: vim-native-8.2-r0 do_patch: Applying patch
-'CVE-2021-3796.patch' on target directory
-'/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/git'
-stdio: ERROR: Logfile of failure stored in:
-/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/temp/log.do_patch.2931142
-stdio: ERROR: Task
-(virtual:native:/home/pokybuild/yocto-worker/reproducible-centos/build/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-failed with exit code '1'
-stdio: ERROR: vim-native-8.2-r0 do_patch: Applying patch
-'CVE-2021-3796.patch' on target directory
-'/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/git'
-stdio: ERROR: Logfile of failure stored in:
-/home/pokybuild/yocto-worker/reproducible-centos/build/build-st-2929716/tmp/work/x86_64-linux/vim-native/8.2-r0/temp/log.do_patch.2931142
-stdio: ERROR: Task
-(virtual:native:/home/pokybuild/yocto-worker/reproducible-centos/build/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-failed with exit code '1'
-stdio: ERROR: Command . ./oe-init-build-env; ${SCRIPTSDIR}/checkvnc;
-OEQA_DEBUGGING_SAVED_OUTPUT=/srv/autobuilder/autobuilder.yoctoproject.org/pub/repro-fail/
-DISPLAY=:1 oe-selftest -r reproducible -j 1 failed with exit code 1,
-see errors above. (1635095597.6: 33.1)
+Hsia-Jun(Randy) Li (1):
+  meson: install native file in sdk
 
-Probably a similar issue to the master version.
+Randy Li (1):
+  meson: move lang args to the right section
 
-Thanks!
+ meta/recipes-devtools/meson/meson/meson-setup.py   |  8 ++++
+ meta/recipes-devtools/meson/meson/meson-wrapper    |  1 +
+ .../meson/nativesdk-meson_0.59.2.bb                | 52 ++++++++++++++++++=
++++-
+ 3 files changed, 59 insertions(+), 2 deletions(-)
 
-Steve
-> ---
->  .../vim/files/CVE-2021-3796.patch             | 70 +++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |  1 +
->  2 files changed, 71 insertions(+)
->  create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
->
-> diff --git a/meta/recipes-support/vim/files/CVE-2021-3796.patch b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-> new file mode 100644
-> index 0000000000..08becb4d9a
-> --- /dev/null
-> +++ b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-> @@ -0,0 +1,70 @@
-> +From 296bf20889e66e3235e199838c6e360db2c4166d Mon Sep 17 00:00:00 2001
-> +From: Minjae Kim <flowergom@gmail.com>
-> +Date: Fri, 22 Oct 2021 02:24:32 +0000
-> +Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
-> +
-> +Problem:    Using freed memory when replacing. (Dhiraj Mishra)
-> +Solution:   Get the line pointer after calling ins_copychar().
-> +
-> +Upstream-Status: Accepted [https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3]
-> +CVE: CVE-2021-3796
-> +Signed-off-by: Minjae Kim <flowergom@gmail.com>
-> +---
-> + src/normal.c              | 11 +++++++----
-> + src/testdir/test_edit.vim | 12 ++++++++++++
-> + 2 files changed, 19 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/src/normal.c b/src/normal.c
-> +index c4963e621..277c92595 100644
-> +--- a/src/normal.c
-> ++++ b/src/normal.c
-> +@@ -5009,19 +5009,22 @@ nv_replace(cmdarg_T *cap)
-> +           {
-> +               /*
-> +                * Get ptr again, because u_save and/or showmatch() will have
-> +-               * released the line.  At the same time we let know that the
-> ++               * released the line. This may also happen in ins_copychar().
-> ++               * At the same time we let know that the
-> +                * line will be changed.
-> +                */
-> +-              ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> +               if (cap->nchar == Ctrl_E || cap->nchar == Ctrl_Y)
-> +               {
-> +                 int c = ins_copychar(curwin->w_cursor.lnum
-> +                                          + (cap->nchar == Ctrl_Y ? -1 : 1));
-> ++
-> ++                ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> +                 if (c != NUL)
-> +                   ptr[curwin->w_cursor.col] = c;
-> +-              }
-> +-              else
-> ++              } else {
-> +                   ptr[curwin->w_cursor.col] = cap->nchar;
-> ++                  ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> ++              }
-> +               if (p_sm && msg_silent == 0)
-> +                   showmatch(cap->nchar);
-> +               ++curwin->w_cursor.col;
-> +diff --git a/src/testdir/test_edit.vim b/src/testdir/test_edit.vim
-> +index 4e29e7fe1..d7565e1ea 100644
-> +--- a/src/testdir/test_edit.vim
-> ++++ b/src/testdir/test_edit.vim
-> +@@ -1519,3 +1519,15 @@ func Test_edit_noesckeys()
-> +   bwipe!
-> +   set esckeys
-> + endfunc
-> ++
-> ++" Test for getting the character of the line below after "p"
-> ++func Test_edit_put_CTRL_E()
-> ++  set encoding=latin1
-> ++  new
-> ++  let @" = ''
-> ++  sil! norm orggRx
-> ++  sil! norm pr
-> ++  call assert_equal(['r', 'r'], getline(1, 2))
-> ++  bwipe!
-> ++  set encoding=utf-8
-> ++endfunc
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-> index fc4e205b74..0973a368c0 100644
-> --- a/meta/recipes-support/vim/vim.inc
-> +++ b/meta/recipes-support/vim/vim.inc
-> @@ -19,6 +19,7 @@ SRC_URI = "git://github.com/vim/vim.git \
->             file://racefix.patch \
->             file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
->            file://CVE-2021-3778.patch \
-> +           file://CVE-2021-3796.patch \
->  "
->
->  SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
-> --
-> 2.30.1 (Apple Git-130)
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157293): https://lists.openembedded.org/g/openembedded-core/message/157293
-> Mute This Topic: https://lists.openembedded.org/mt/86506415/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+--=20
+2.7.4
+
 
