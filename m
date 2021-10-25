@@ -1,192 +1,523 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2699C433F5
-	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 18:51:12 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.1230.1635187871212272145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0512CC433F5
+	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 18:53:07 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web08.1368.1635187985886698469
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Oct 2021 11:51:11 -0700
+ Mon, 25 Oct 2021 11:53:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Un+9ZGNx;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.54,
- mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f54.google.com with SMTP id e4so14560364wrc.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NE3um1Ns;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id g17so11211634qtk.8
         for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Oct 2021 11:51:10 -0700 (PDT)
+ Mon, 25 Oct 2021 11:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VbHexJ3PoE5MoftHEVqOHs++dCa9fL/A1UI/aMylqds=;
-        b=Un+9ZGNxuOtvJ+oJbtU0nm+4fkXvYmj+w/x02q+XBIMx7fQU1J+NnsKPvBhJIxS9wT
-         Fjj9Qs2sOzjFV+GgMdf5/WnfeM5CVjk9/RJo905QdV6ZhAbiihu9iHW0s8PHK8J3fpsq
-         VYGu+q1wPg2Sgh4EIFAn+0U2jcVM/vAtPxRfclGNEdOMLe48vfYQI6lFEgKzcBSfqSgT
-         5QtHai91XMuvFzKgjmW68+3W3ogGZPK6Xl/YMkekKAt96UEaG292WPYyn45Zl5jAmXRr
-         WGFPinlkS6Rq2bm6keCA0b2AmQtep6vrcEgr+qE/knAM90S+VdT6Ul5D38BNuxQVSFUt
-         k2ow==
+         :cc:content-transfer-encoding;
+        bh=Sp3TNOjJ3rgK27z16QR90X2A4jpgcJdEdACjtlgDEXk=;
+        b=NE3um1Nsc5D4egyV3f4AxrVlLvr1q095DhTc4xbXCaJGU0kAF6zGA0FPGcN52L7GKH
+         tktl6ceGlQZ1no5N6tFDCZr2UJ1hCoPytkwcgmnD2KldJq6QuEs6jgoeayi0/tiNl8bM
+         pEM5nxNPcl6CW0z0OCeewJxHP8844AaW3z+75W1ctxu60ilXlgg6iafSJwZ5MrmPZXap
+         Y83TErj8tv2/4p9MWGzL9kB3cMncf42EqZq5Dw8DjALaWLVZCe9CDdeNFeK2NAwKX9Gr
+         fntpj3wze+KcRc0fje2RDEAhdamqYUxbIhWr6ZQ9+jeVZgcnTqs3t5XMLPnGp/fQAa1p
+         pkqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VbHexJ3PoE5MoftHEVqOHs++dCa9fL/A1UI/aMylqds=;
-        b=gt5DMGyVYbV4sHtOfNS3KgMoXvt87BtcSgu0QcZWdlD+LDgrhBd+c+MUNgQcGg0w3w
-         EPH0yNC3tspnGA3EFt/V/1GwyvmMdmjyittRurD76mII2bINAbZsX2dJ/LmJQhB/0VCg
-         IrueW2G5DWfRhS0xastYg2mo2FknQ6bYIYUgjfQdwXkpUff03pA4SnbFtVMVG+JP9Tdj
-         5OU1w2qjzHXr+wOl/PlLzpHRRsnBbf5C3OqJCiBL65qeCg0d7bZAKvhYRvAWakzlh9Cc
-         cLoUE9zJRp5o1ZRsZAn6d6nkSOi2quH5jgjvdZl0NyJm//iYyKP4TA040vvGAT2Dfkq/
-         QxLA==
-X-Gm-Message-State: AOAM530Uz1MD8152/c2bSeVBNf9Y3IO1Ym7a4P2YpIz0wvGHoKQmmPl/
-	770sE9wLf3TTTXVGCXx3b+VhnhLUiTn/9kLQVQxWTA==
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Sp3TNOjJ3rgK27z16QR90X2A4jpgcJdEdACjtlgDEXk=;
+        b=SRaC+lFOej+AHLGte+yh38NZB559owC24nUiYyc5N3MiBnnOq3GnBYDh4Va5Myk3Vj
+         Bgc8GM6tMI5sLQREBBXOOUctnofoA+kS2sFY1DuvnfNq4fzjZVYOiutlqvcY9HUJmOw4
+         CQ1e8UYxyS9L8IeUkNIJyOdw7Cv4ogAxiKKjqcL4CQ3tqoSBdC6cIeU7iKD2X4R1GKBV
+         dV170S+dQsDc8E6NiGnz/e3NbdV2OVARbS99lgKBd7I9V0qdjo/YVsGNr0G+/c2i4/T/
+         4DBJ7i8AwfiVT8G7ZC++It0sVy6uNNwqx38L62uM81MexCRTPZTnviQRzYRutIQgkACE
+         1dsQ==
+X-Gm-Message-State: AOAM532gXTbRABWCdNKvsSeYgA3zpD4HGDdS3jzAOzm4wwBaD8JQQkdo
+	tM6m8Samw/c0lbl6cpYYznoy6Goh2bMhUmL9LIg=
 X-Google-Smtp-Source: 
- ABdhPJymN8S3XvCZm6XeTg66wQcy/ocbzsBbQeXcE9EjOjivXoqZE0SPNd56P7GA0vO2hfIQyv0K/MVoAa3UcpNgfP8=
-X-Received: by 2002:adf:ebd0:: with SMTP id
- v16mr21068933wrn.291.1635187869335;
- Mon, 25 Oct 2021 11:51:09 -0700 (PDT)
+ ABdhPJwi1O3P/OPWYr01C74cj7JAxpo0gt5oHnsP4zkv5ZVWg3XC2YGlWWGpS3LPjDKDCti5iF68izkpkLhE7YN6xdI=
+X-Received: by 2002:a05:622a:13cc:: with SMTP id
+ p12mr19848958qtk.227.1635187984799;
+ Mon, 25 Oct 2021 11:53:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211025072857.910-1-flowergom@gmail.com>
- <16B153BAA3F7E703.19570@lists.openembedded.org>
- <16B157E496184ECA.20619@lists.openembedded.org>
-In-Reply-To: <16B157E496184ECA.20619@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 25 Oct 2021 08:50:57 -1000
+References: <1635172017-18309-1-git-send-email-wangmy@fujitsu.com>
+ <1635172017-18309-5-git-send-email-wangmy@fujitsu.com>
+ <YXb3SXeWBzWvk7sY@piout.net>
+In-Reply-To: <YXb3SXeWBzWvk7sY@piout.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Oct 2021 11:52:38 -0700
 Message-ID: 
- <CAOSpxdb0EALiLZp-3Pu2G95uhYbYpiaxY1t57N8rfNy+vPvqOA@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH v2] vim: fix 2021-3796
-To: steve@sakoman.com
-Cc: Minjae Kim <flowergom@gmail.com>, openembedded-core@lists.openembedded.org
+ <CAMKF1sp8R5Twff8KUSbvfBs4_92vqqizLBjcNiXK2XJya051AA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] lttng-tools: upgrade 2.13.0 -> 2.13.1
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: wangmy <wangmy@fujitsu.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 18:51:12 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 18:53:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157358
+ https://lists.openembedded.org/g/openembedded-core/message/157359
 
-On Mon, Oct 25, 2021 at 7:59 AM Steve Sakoman via
-lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-wrote:
+On Mon, Oct 25, 2021 at 11:28 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
 >
-> On Mon, Oct 25, 2021 at 6:43 AM Steve Sakoman via
-> lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-> wrote:
-> >
-> > On Sun, Oct 24, 2021 at 9:29 PM Minjae Kim <flowergom@gmail.com> wrote:
-> > >
-> > > vim is vulnerable to Use After Free
-> > > Problem: Checking first character of url twice.
-> > >
-> > > reference:
-> > > https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3
-> > >
-> > > Signed-off-by: Minjae Kim <flowergom@gmail.com>
-> > > ---
-> > >  .../vim/files/CVE-2021-3796.patch             | 50 +++++++++++++++++++
-> > >  1 file changed, 50 insertions(+)
-> > >  create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
-> >
-> > You don't seem to be adding the patch to the SRC_URI in the recipe!
+> Hello,
 >
-> I fixed that issue, but now once again the patch file fails to apply:
+> I did fix it up but as this is the second time this is happening, I want
+> to let you know that git am fails while applying this patch:
 >
-> stdio: ERROR: vim-8.2-r0 do_patch: Applying patch
-> 'CVE-2021-3796.patch' on target directory
-> '/home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/core2-64-poky-linux/vim/8.2-r0/git'
-> stdio: ERROR: Logfile of failure stored in:
-> /home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/core2-64-poky-linux/vim/8.2-r0/temp/log.do_patch.7612
-> stdio: ERROR: Task
-> (/home/pokybuild/yocto-worker/no-x11/build/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-> failed with exit code '1'
+> error: cannot convert from y to UTF-8
+> fatal: could not parse patch
+>
+> Indeed, the declared charset is y which isn't a thing. I think that what
+> happens is that you get to the following prompt:
+>
+> The following files are 8bit, but do not declare a Content-Transfer-Encod=
+ing.
+> something.patch
+> Which 8bit encoding should I declare [UTF-8]?
+>
+> At that point, you probably pressed y but you should simply press enter.
+>
 
-Perhaps you are having some issues with your mailer that is corrupting
-the patch?  I see that the master version is also having problems.
+Yeah most likely that's the cause. You can also change defaults to use
+utf-8 and perhaps that might help
 
-Do you have a git repo I could try pulling from?
+git config sendemail.composeencoding UTF-8
 
-Steve
+in individual repos or perhaps globally if you want to do that
 
 >
-> Steve
+> On 25/10/2021 22:26:56+0800, wangmy wrote:
+> > 2021-10-18 lttng-tools 2.13.1 (National Chocolate Cupcake Day)
+> >  Fix: ust: app stuck on recv message during UST comm timeout scenario
+> >  Fix: ust: UST communication can return -EAGAIN
+> >  Fix: ust: segfault on lttng start on filter bytecode copy
+> >  Fix: sessiond: previously created channel cannot be enabled
+> >  Build fix: Missing message in LTTNG_DEPRECATED invocation
+> >  Fix: notification-thread: handling event from a removed tracer event s=
+rc
+> >  include: add missing "extern"
+> >  include: remove spurious spaces in condition/session-rotation.h
+> >  tests: fix header of regression/ust/getcpu-override/run-getcpu-overrid=
+e
+> >  fix: wrong define used for GCC version check
+> >  Fix: userspace-probe: unreported error on string copy error
+> >  Fix: userspace-probe: truncating binary path for SDT
+> >  Fix: lttng: add-trigger: don't provide a default event rule type
+> >  Fix: statements with side-effects in assert statements
+> >  Fix: lttng_trace_archive_location_serialize is called on freed memory
+> >  Fix: sessiond: ust session is inactive during ust_app_global_update
+> >  Fix: common: error query for trigger action protocol error
+> >  Fix: common: un-hide two rate policy functions
+> >  Fix: include: remove unneeded declaration of lttng_session_descriptor_=
+get_session_name
+> >  Fix: Tests: race condition in test_ns_contexts_change
+> >  Fix: Tests: race condition in test_event_tracker
+> >  Fix: man: lttng-rotate: trace file count/size limitation does not appl=
+y
+> >  Fix: runas: less-than-zero comparison of an unsigned value
+> >  Fix: runas: supplementary groups are ignored on lttng save
+> >  Docs: lttng-event-rule(7): --exclude does not exist, use --exclude-nam=
+e
+> >  sessiond: logging typo: {triger, triggger} -> trigger
+> >  Fix: lttng: free sessions in cmd_destroy
+> >  Fix: lttng: free domains and channels in get_session_stats_str
+> >
+> > 0001-Fix-Tests-race-condition-in-test_event_tracker.patch
+> > 0002-Fix-Tests-race-condition-in-test_ns_contexts_change.patch
+> > are removed since they're included in 2.13.1
+> >
+> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > ---
+> >  ...race-condition-in-test_event_tracker.patch | 221 ------------------
+> >  ...condition-in-test_ns_contexts_change.patch |  46 ----
+> >  ...-tools_2.13.0.bb =3D> lttng-tools_2.13.1.bb} |   4 +-
+> >  3 files changed, 1 insertion(+), 270 deletions(-)
+> >  delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-Fix-Test=
+s-race-condition-in-test_event_tracker.patch
+> >  delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0002-Fix-Test=
+s-race-condition-in-test_ns_contexts_change.patch
+> >  rename meta/recipes-kernel/lttng/{lttng-tools_2.13.0.bb =3D> lttng-too=
+ls_2.13.1.bb} (97%)
+> >
+> > diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-Tests-race-=
+condition-in-test_event_tracker.patch b/meta/recipes-kernel/lttng/lttng-too=
+ls/0001-Fix-Tests-race-condition-in-test_event_tracker.patch
+> > deleted file mode 100644
+> > index 10020e1ecf..0000000000
+> > --- a/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-Tests-race-conditi=
+on-in-test_event_tracker.patch
+> > +++ /dev/null
+> > @@ -1,221 +0,0 @@
+> > -From d3392e4850532c02e53e3c3ff1cc27df7e51c941 Mon Sep 17 00:00:00 2001
+> > -From: Francis Deslauriers <francis.deslauriers@efficios.com>
+> > -Date: Tue, 7 Sep 2021 17:10:31 -0400
+> > -Subject: [PATCH 1/2] Fix: Tests: race condition in test_event_tracker
+> > -MIME-Version: 1.0
+> > -Content-Type: text/plain; charset=3DUTF-8
+> > -Content-Transfer-Encoding: 8bit
+> > -
+> > -Background
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > -The `test_event_tracker` file contains test cases when the event
+> > -generating app in executed in two distinct steps. Those two steps are
+> > -preparation and execution.
+> > -  1. the preparation is the launching the app in the background, and
+> > -  2. the execution is actually generating the event that should or
+> > -     should not be traced depending on the test case.
+> > -
+> > -This is useful to test the tracker feature since we want to ensure tha=
+t
+> > -already running apps are notified properly when changing their trackin=
+g
+> > -status.
+> > -
+> > -Issue
+> > -=3D=3D=3D=3D=3D
+> > -The `test_event_vpid_track_untrack` test case suffers from a race
+> > -condition that is easy to reproduce on Yocto.
+> > -
+> > -The issue is that sometimes events are end up the trace when none is
+> > -expected.
+> > -
+> > -This is due to the absence of synchronization point at the launch of t=
+he
+> > -app which leads to the app being scheduled in-between the track-untrac=
+k
+> > -calls leading to events being recorded to the trace.
+> > -
+> > -It's easy to reproduce this issue on my machine by adding a `sleep 5`
+> > -between the track and untrack calls and setting the `NR_USEC_WAIT`
+> > -variable to 1.
+> > -
+> > -Fix
+> > -=3D=3D=3D
+> > -Using the testapp `--sync-before-last-event-touch` flag to make the ap=
+p
+> > -create a file when all but the last event are executed. We then have t=
+he
+> > -app wait until we create a file (`--sync-before-last-event`) to genera=
+te
+> > -that last event. This way, we are sure no event will be generated when
+> > -running the track and untrack commands.
+> > -
+> > -Notes
+> > -=3D=3D=3D=3D=3D
+> > -- This issue affects other test cases in this file.
+> > -- This commit fixes a typo in the test header.
+> > -- This commit adds `diag` calls to help tracking to what test the outp=
+ut
+> > -  relates to when reading the log.
+> > -
+> > -Signed-off-by: Francis Deslauriers <francis.deslauriers@efficios.com>
+> > -Signed-off-by: J=C3=A9r=C3=A9mie Galarneau <jeremie.galarneau@efficios=
+.com>
+> > -Change-Id: Ia2b68128dc9a805526f9748f31ec2c2d95566f31
+> > -Upstream-Status: Backport
+> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ----
+> > - .../tools/tracker/test_event_tracker          | 56 ++++++++++++++----=
+-
+> > - 1 file changed, 42 insertions(+), 14 deletions(-)
+> > -
+> > -diff --git a/tests/regression/tools/tracker/test_event_tracker b/tests=
+/regression/tools/tracker/test_event_tracker
+> > -index feb3787..cc0f698 100755
+> > ---- a/tests/regression/tools/tracker/test_event_tracker
+> > -+++ b/tests/regression/tools/tracker/test_event_tracker
+> > -@@ -5,7 +5,7 @@
+> > - #
+> > - # SPDX-License-Identifier: GPL-2.0-only
+> > -
+> > --TEST_DESC=3D"LTTng - Event traker test"
+> > -+TEST_DESC=3D"LTTng - Event tracker test"
+> > -
+> > - CURDIR=3D$(dirname "$0")/
+> > - TESTDIR=3D"$CURDIR/../../.."
+> > -@@ -15,7 +15,7 @@ TESTAPP_KERNEL_NAME=3D"gen-kernel-test-events"
+> > - TESTAPP_BIN=3D"$TESTAPP_PATH/$TESTAPP_NAME/$TESTAPP_NAME"
+> > - TESTAPP_KERNEL_BIN=3D"$TESTAPP_PATH/$TESTAPP_KERNEL_NAME/$TESTAPP_KER=
+NEL_NAME"
+> > - SESSION_NAME=3D"tracker"
+> > --NR_ITER=3D100
+> > -+NR_ITER=3D1
+> > - NUM_GLOBAL_TESTS=3D2
+> > - NUM_UST_TESTS=3D283
+> > - NUM_KERNEL_TESTS=3D462
+> > -@@ -30,27 +30,41 @@ SCRIPT_GROUPNAME=3D"$(id -gn)"
+> > -
+> > - CHILD_PID=3D-1
+> > - WAIT_PATH=3D
+> > --AFTER_FIRST_PATH=3D
+> > --BEFORE_LAST_PATH=3D
+> > -+TOUCH_BEFORE_LAST_PATH=3D
+> > -+SYNC_BEFORE_LAST_PATH=3D
+> > -
+> > - source $TESTDIR/utils/utils.sh
+> > -
+> > -+# Launch the testapp and execute it up until right before the last ev=
+ent. It is
+> > -+# useful to do it in two seperate steps in order to test tracking and
+> > -+# untracking on an active app.
+> > - function prepare_ust_app
+> > - {
+> > --    AFTER_FIRST_PATH=3D$(mktemp --tmpdir -u tmp.${FUNCNAME[0]}_sync_a=
+fter_first.XXXXXX)
+> > --    BEFORE_LAST_PATH=3D$(mktemp --tmpdir -u tmp.${FUNCNAME[0]}_sync_b=
+efore_last.XXXXXX)
+> > -+    TOUCH_BEFORE_LAST_PATH=3D$(mktemp --tmpdir -u tmp.${FUNCNAME[0]}_=
+touch_before_last.XXXXXX)
+> > -+    SYNC_BEFORE_LAST_PATH=3D$(mktemp --tmpdir -u tmp.${FUNCNAME[0]}_s=
+ync_before_last.XXXXXX)
+> > -+
+> > -+    $TESTAPP_BIN -i $NR_ITER -w $NR_USEC_WAIT \
+> > -+            --sync-before-last-event-touch "$TOUCH_BEFORE_LAST_PATH" =
+\
+> > -+            --sync-before-last-event "$SYNC_BEFORE_LAST_PATH" &
+> > -
+> > --    $TESTAPP_BIN -i $NR_ITER -w $NR_USEC_WAIT -a "$AFTER_FIRST_PATH" =
+-b "$BEFORE_LAST_PATH" &
+> > -     CHILD_PID=3D$!
+> > -+
+> > -+    # Wait for the app to execute all the way to right before the las=
+t
+> > -+    # event.
+> > -+    while [ ! -f "${TOUCH_BEFORE_LAST_PATH}" ]; do
+> > -+            sleep 0.5
+> > -+    done
+> > - }
+> > -
+> > -+# Generate the last event.
+> > - function trace_ust_app
+> > - {
+> > --    touch "$BEFORE_LAST_PATH"
+> > --    wait
+> > -+    # Ask the test app to generate the last event.
+> > -+    touch "$SYNC_BEFORE_LAST_PATH"
+> > -+    wait "$CHILD_PID"
+> > -     ok $? "Traced application stopped."
+> > --    rm "$BEFORE_LAST_PATH"
+> > --    rm "$AFTER_FIRST_PATH"
+> > -+    rm "$SYNC_BEFORE_LAST_PATH"
+> > -+    rm "$TOUCH_BEFORE_LAST_PATH"
+> > - }
+> > -
+> > - function prepare_kernel_app
+> > -@@ -64,7 +78,7 @@ function prepare_kernel_app
+> > - function trace_kernel_app
+> > - {
+> > -     touch "$WAIT_PATH"
+> > --    wait
+> > -+    wait "$CHILD_PID"
+> > -     ok $? "Traced application stopped."
+> > -     rm "$WAIT_PATH"
+> > - }
+> > -@@ -78,6 +92,8 @@ function test_event_tracker()
+> > -     local tracker=3D"$4"
+> > -     local channel=3D''
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -117,6 +133,8 @@ function test_event_vpid_tracker()
+> > -     local wildcard=3D"$3"
+> > -     local channel=3D''
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -160,6 +178,8 @@ function test_event_pid_tracker()
+> > -     local wildcard=3D"$3"
+> > -     local channel=3D''
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -203,6 +223,8 @@ function test_event_tracker_fail()
+> > -     local wildcard=3D"$2"
+> > -     local tracker=3D"$3"
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -222,6 +244,8 @@ function test_event_track_untrack()
+> > -     local tracker=3D"$4"
+> > -     local channel=3D''
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -262,6 +286,8 @@ function test_event_vpid_track_untrack()
+> > -     local wildcard=3D"$3"
+> > -     local channel=3D''
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -302,6 +328,8 @@ function test_event_pid_track_untrack()
+> > -     local wildcard=3D"$3"
+> > -     local channel=3D''
+> > -
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -+
+> > -     trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_path.X=
+XXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path"
+> > -@@ -336,9 +364,9 @@ function test_event_pid_track_untrack()
+> > -
+> > - function test_event_ust_vpid_untrack_snapshot()
+> > - {
+> > --    local trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_=
+path.XXXXXX)
+> > -+    diag "${FUNCNAME[0]} $*"
+> > -
+> > --    diag "Test_event_ust_vpid_untrack_snapshot"
+> > -+    local trace_path=3D$(mktemp --tmpdir -d tmp.${FUNCNAME[0]}_trace_=
+path.XXXXXX)
+> > -
+> > -     create_lttng_session_ok $SESSION_NAME "$trace_path" "--snapshot"
+> > -
+> > ---
+> > -2.20.1
+> > -
+> > diff --git a/meta/recipes-kernel/lttng/lttng-tools/0002-Fix-Tests-race-=
+condition-in-test_ns_contexts_change.patch b/meta/recipes-kernel/lttng/lttn=
+g-tools/0002-Fix-Tests-race-condition-in-test_ns_contexts_change.patch
+> > deleted file mode 100644
+> > index a8d983105a..0000000000
+> > --- a/meta/recipes-kernel/lttng/lttng-tools/0002-Fix-Tests-race-conditi=
+on-in-test_ns_contexts_change.patch
+> > +++ /dev/null
+> > @@ -1,46 +0,0 @@
+> > -From d284752e616dfc4c9288be3bb21c04ea78cdd967 Mon Sep 17 00:00:00 2001
+> > -From: Francis Deslauriers <francis.deslauriers@efficios.com>
+> > -Date: Wed, 8 Sep 2021 10:16:23 -0400
+> > -Subject: [PATCH 2/2] Fix: Tests: race condition in test_ns_contexts_ch=
+ange
+> > -MIME-Version: 1.0
+> > -Content-Type: text/plain; charset=3DUTF-8
+> > -Content-Transfer-Encoding: 8bit
+> > -
+> > -Issue
+> > -=3D=3D=3D=3D=3D
+> > -The test script doesn't wait for the test application to complete befo=
+re
+> > -stopping the tracing session. The race is that depending on the
+> > -scheduling the application is not always done generating events when t=
+he
+> > -session is stopped.
+> > -
+> > -Fix
+> > -=3D=3D=3D
+> > -Make the test script wait for the termination of the test app before
+> > -stopping the session.
+> > -
+> > -Signed-off-by: Francis Deslauriers <francis.deslauriers@efficios.com>
+> > -Signed-off-by: J=C3=A9r=C3=A9mie Galarneau <jeremie.galarneau@efficios=
+.com>
+> > -Change-Id: I29d9b41d2a2ed60a6c42020509c2067442ae332c
+> > -Upstream-Status: Backport
+> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ----
+> > - tests/regression/ust/namespaces/test_ns_contexts_change | 3 +++
+> > - 1 file changed, 3 insertions(+)
+> > -
+> > -diff --git a/tests/regression/ust/namespaces/test_ns_contexts_change b=
+/tests/regression/ust/namespaces/test_ns_contexts_change
+> > -index c0af15e..8a4b62c 100755
+> > ---- a/tests/regression/ust/namespaces/test_ns_contexts_change
+> > -+++ b/tests/regression/ust/namespaces/test_ns_contexts_change
+> > -@@ -79,6 +79,9 @@ function test_ns()
+> > -
+> > -     touch "$file_sync_before_last"
+> > -
+> > -+    # Wait for the test app to generate all expected events and exit.
+> > -+    wait $app_pid
+> > -+
+> > -     # stop and destroy
+> > -     stop_lttng_tracing_ok "$session_name"
+> > -     destroy_lttng_session_ok "$session_name"
+> > ---
+> > -2.20.1
+> > -
+> > diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb b/meta/rec=
+ipes-kernel/lttng/lttng-tools_2.13.1.bb
+> > similarity index 97%
+> > rename from meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb
+> > rename to meta/recipes-kernel/lttng/lttng-tools_2.13.1.bb
+> > index 1491aff618..063d8e8c2d 100644
+> > --- a/meta/recipes-kernel/lttng/lttng-tools_2.13.0.bb
+> > +++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.1.bb
+> > @@ -37,11 +37,9 @@ SRC_URI =3D "https://lttng.org/files/lttng-tools/ltt=
+ng-tools-${PV}.tar.bz2 \
+> >             file://lttng-sessiond.service \
+> >             file://determinism.patch \
+> >             file://0001-src-common-correct-header-location.patch \
+> > -           file://0001-Fix-Tests-race-condition-in-test_event_tracker.=
+patch \
+> > -           file://0002-Fix-Tests-race-condition-in-test_ns_contexts_ch=
+ange.patch \
+> >             "
+> >
+> > -SRC_URI[sha256sum] =3D "8dc894f9a7a840e943c1c344345c75f001a9529daa9157=
+f1a0e6175c081c29e6"
+> > +SRC_URI[sha256sum] =3D "cfe6df7da831fc07fd07ce46b442c2ec1074c167af73f3=
+a1b1d2fba0c453c8b5"
+> >
+> >  inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+> >
+> > --
+> > 2.25.1
+> >
 >
 > >
-> > Steve
-> >
-> > >
-> > > diff --git a/meta/recipes-support/vim/files/CVE-2021-3796.patch b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-> > > new file mode 100644
-> > > index 0000000000..666bd5c48b
-> > > --- /dev/null
-> > > +++ b/meta/recipes-support/vim/files/CVE-2021-3796.patch
-> > > @@ -0,0 +1,50 @@
-> > > +From 6d02e1429771c00046b48f26e53ca4123c3ce4e1 Mon Sep 17 00:00:00 2001
-> > > +From: Bram Moolenaar <Bram@vim.org>
-> > > +Date: Fri, 24 Sep 2021 16:01:09 +0800
-> > > +Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
-> > > +
-> > > +Problem:    Using freed memory when replacing. (Dhiraj Mishra)
-> > > +Solution:   Get the line pointer after calling ins_copychar().
-> > > +
-> > > +Upstream-Status: Backport [https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3]
-> > > +CVE: CVE-2021-3796
-> > > +
-> > > +Signed-off-by: Minjae Kim  <flowergom@gmail.com>
-> > > +---
-> > > + src/normal.c | 10 +++++++---
-> > > + 1 file changed, 7 insertions(+), 3 deletions(-)
-> > > +
-> > > +diff --git a/src/normal.c b/src/normal.c
-> > > +index c4963e621..305b514bc 100644
-> > > +--- a/src/normal.c
-> > > ++++ b/src/normal.c
-> > > +@@ -5009,19 +5009,23 @@ nv_replace(cmdarg_T *cap)
-> > > +           {
-> > > +               /*
-> > > +                * Get ptr again, because u_save and/or showmatch() will have
-> > > +-               * released the line.  At the same time we let know that the
-> > > +-               * line will be changed.
-> > > ++               * released the line. This may also happen in ins_copychar().
-> > > ++               * At the same time we let know that the line will be changed.
-> > > +                */
-> > > +-              ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> > > +               if (cap->nchar == Ctrl_E || cap->nchar == Ctrl_Y)
-> > > +               {
-> > > +                 int c = ins_copychar(curwin->w_cursor.lnum
-> > > +                                          + (cap->nchar == Ctrl_Y ? -1 : 1));
-> > > ++
-> > > ++                ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> > > +                 if (c != NUL)
-> > > +                   ptr[curwin->w_cursor.col] = c;
-> > > +               }
-> > > +               else
-> > > ++              {
-> > > ++                  ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-> > > +                   ptr[curwin->w_cursor.col] = cap->nchar;
-> > > ++              }
-> > > +               if (p_sm && msg_silent == 0)
-> > > +                   showmatch(cap->nchar);
-> > > +               ++curwin->w_cursor.col;
-> > > +--
-> > > +2.17.1
-> > > +
-> > > --
-> > > 2.30.1 (Apple Git-130)
-> > >
-> > >
-> > >
-> > >
-> >
 > >
 > >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157353): https://lists.openembedded.org/g/openembedded-core/message/157353
-> Mute This Topic: https://lists.openembedded.org/mt/86572003/3620601
+> View/Reply Online (#157357): https://lists.openembedded.org/g/openembedde=
+d-core/message/157357
+> Mute This Topic: https://lists.openembedded.org/mt/86578262/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
