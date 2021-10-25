@@ -1,123 +1,92 @@
-Return-Path: <lukma@denx.de>
+Return-Path: <dbjoyner@amazon.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A37C433EF
-	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 10:53:15 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web09.30523.1635159193102836748
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F92C433EF
+	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 13:24:53 +0000 (UTC)
+Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com
+ [99.78.197.218])
+ by mx.groups.io with SMTP id smtpd.web11.31982.1635168291453779113
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Oct 2021 03:53:14 -0700
+ Mon, 25 Oct 2021 06:24:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=bxDg6wqp;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 0A157834B9;
-	Mon, 25 Oct 2021 12:53:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1635159189;
-	bh=eTAaWymXsAxrhQ3E8J7VucPKn+BTUehSsiJD8l3g8D0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bxDg6wqp8NnKgBHNKN/y0PTZ+zZ3AmuzCDoId6Sf7p4td3CnRl/VpvETMnzQlv6FE
-	 Jqfn4P1WEWgu8drPgcwfAYqd4lKsw18kB7l1cV/5VyNMtkrRC4bul2glok6fxCpTCE
-	 HrjRMGHDaFW6S2U57Wi0o4F+7BJUh9BARoY8cK47gkr8REvOI8ViaV0RLzdVe9Ops9
-	 8F/aE8Euas7TI72xxImOXZnjJUuDNu3Bxa6ttkyyZzo6uxe1gxTkEb4m7cfV31VkCG
-	 aifmFxj1/YacE9UVirNJdt+uz/eaqeOeLfnH5ecFIPzNEFhe/x/2o0IivGTiIvoYCn
-	 zXdzHBXxCPUfA==
-Date: Mon, 25 Oct 2021 12:53:07 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Szabolcs Nagy <Szabolcs.Nagy@arm.com>, =?UTF-8?B?RsSBbmctcnXDrCBTw7Ju?=
- =?UTF-8?B?Zw==?= <maskray@google.com>, "H.J. Lu" <hjl.tools@gmail.com>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, Patches and
- discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Andreas Schwab
- <schwab@linux-m68k.org>, Joseph Myers <joseph@codesourcery.com>, Carlos
- O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH v2] dl: Use "adr" assembler command to get proper load
- address on ARM
-Message-ID: <20211025125307.1fa34445@ktm>
-In-Reply-To: <878ryhwgd7.fsf@oldenburg.str.redhat.com>
-References: <20210907131616.23472-1-lukma@denx.de>
-	<20211015075417.29931-1-lukma@denx.de>
-	<20211015120915.GD1982710@arm.com>
-	<CAMe9rOpPM7RmA65MzTNr2DtoC_wMFt87mnyJ4pgvmK5TAorCCQ@mail.gmail.com>
-	<20211015145831.5d0fafcd@ktm>
-	<CAFP8O3+DBOregW5SuaPErkHUt+5aqb=bL98wHGtXu-OwFwud+w@mail.gmail.com>
-	<20211018110818.GE1982710@arm.com>
-	<871r4iftvc.fsf@oldenburg.str.redhat.com>
-	<20211025121819.16f63048@ktm>
-	<878ryhwgd7.fsf@oldenburg.str.redhat.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=Tsn8mRb0;
+ spf=pass (domain: amazon.com, ip: 99.78.197.218,
+ mailfrom: prvs=925fa30f5=dbjoyner@amazon.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1635168291; x=1666704291;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=E9EoCd/TKC0X8PlpzL4RfUqMv7V/YSy93zOI160iIKU=;
+  b=Tsn8mRb0Ep+H5gdOGtK/462vwSJK4Qw76zNEd129Wkg25MEP0wd9tym/
+   3bOfYYK5/l8hGa4POdpMxCnfcKpajq3y3GYwnAA3iwEM8223XnQ+Kce2f
+   fVmKEMluiXQ+ZR3q2f5KJw1EoVTesE13WVH5PDTN5b5maYFUZxf2im6zn
+   w=;
+X-IronPort-AV: E=Sophos;i="5.87,180,1631577600";
+   d="scan'208";a="36689972"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
+ email-inbound-relay-pdx-2b-05e8af15.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP;
+ 25 Oct 2021 13:24:41 +0000
+Received: from EX13MTAUWB001.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+	by email-inbound-relay-pdx-2b-05e8af15.us-west-2.amazon.com (Postfix) with
+ ESMTPS id A3ACAA2A2D
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Oct 2021 13:24:41 +0000 (UTC)
+Received: from EX13D03ANB003.ant.amazon.com (10.43.156.81) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.24; Mon, 25 Oct 2021 13:24:41 +0000
+Received: from EX13MTAUWA001.ant.amazon.com (10.43.160.58) by
+ EX13D03ANB003.ant.amazon.com (10.43.156.81) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.24; Mon, 25 Oct 2021 13:24:39 +0000
+Received: from dev-dsk-dbjoyner-2a-2a2a7571.us-west-2.amazon.com
+ (172.19.60.178) by mail-relay.amazon.com (10.43.160.118) with Microsoft SMTP
+ Server id 15.0.1497.24 via Frontend Transport; Mon, 25 Oct 2021 13:24:38
+ +0000
+From: David Joyner <dbjoyner@amazon.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: David Joyner <dbjoyner@amazon.com>
+Subject: [PATCH] rust: add support for big endian 64-bit PowerPC
+Date: Mon, 25 Oct 2021 13:24:28 +0000
+Message-ID: <20211025132428.9357-1-dbjoyner@amazon.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/Egx3_PkkMq4zghNkfc/pwbe"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 10:53:15 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 13:24:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157336
+ https://lists.openembedded.org/g/openembedded-core/message/157337
 
---Sig_/Egx3_PkkMq4zghNkfc/pwbe
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: David Joyner <dbjoyner@amazon.com>
+---
+ meta/recipes-devtools/rust/rust-common.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Hi Florian,
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index 7f92602e16..ceeee97863 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -216,6 +216,14 @@ TARGET_POINTER_WIDTH[powerpc] = "32"
+ TARGET_C_INT_WIDTH[powerpc] = "32"
+ MAX_ATOMIC_WIDTH[powerpc] = "32"
+ 
++## powerpc64-unknown-linux-{gnu, musl}
++DATA_LAYOUT[powerpc64] = "E-m:e-i64:64-n32:64-S128-v256:256:256-v512:512:512"
++LLVM_TARGET[powerpc64] = "${RUST_TARGET_SYS}"
++TARGET_ENDIAN[powerpc64] = "big"
++TARGET_POINTER_WIDTH[powerpc64] = "64"
++TARGET_C_INT_WIDTH[powerpc64] = "64"
++MAX_ATOMIC_WIDTH[powerpc64] = "64"
++
+ ## powerpc64le-unknown-linux-{gnu, musl}
+ DATA_LAYOUT[powerpc64le] = "e-m:e-i64:64-n32:64-v256:256:256-v512:512:512"
+ LLVM_TARGET[powerpc64le] = "${RUST_TARGET_SYS}"
+-- 
+2.32.0
 
-> * Lukasz Majewski:
->=20
-> > Do we have any idea on how to move forward with this issue? =20
->=20
-> Either fix the prelink tool not to prelink shared objects that do not
-> have a dependency on libc.so.6, or fix the dynamic loader to work if
-> prelinked on AArch64.
-
-Just for the correctness - both 64 and 32 bit ARMs are affected.
-
-> I do not have a strong opinion.
-
-Thanks for your opinion. Let's wait for other community members
-opinions.
-
->=20
-> Thanks,
-> Florian
->=20
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/Egx3_PkkMq4zghNkfc/pwbe
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmF2jJMACgkQAR8vZIA0
-zr3ELwgAhrGX3/FR1XqytxntH1yQG4MKKU7rx35hMSD/gKrFJSxL9T9DZWv9TkhQ
-9gN7nm3d8HbUJs/v0iAPZrUisezDE6/VcNJZVedMU05rTLJ9xTyyaREVGDOAPnOw
-oslJ0S+D61hAUJoo5v7VrpfkNKjlxRVrOvkgo1TOMaACe363ExT2MB9bO2OOSl0C
-vbwHhuEOt7BJcTP2fiCDx7vxP8IUhEFHeZAr7/neiVMMC+/BNg7rc/QjmbRqj8XY
-SYVNYn5Q/IvUs63jioHgRH2XA+VbhCLrQR9YQx3gzY44M5/lV529GYM8a1vHpadN
-5YKzloXriT9KNdivOzzIJfGVJjtOkw==
-=kZPx
------END PGP SIGNATURE-----
-
---Sig_/Egx3_PkkMq4zghNkfc/pwbe--
 
