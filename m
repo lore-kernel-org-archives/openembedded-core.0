@@ -1,157 +1,192 @@
-Return-Path: <lukma@denx.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD0BDC433F5
-	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 18:25:49 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web09.921.1635186348114485891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2699C433F5
+	for <webhook@archiver.kernel.org>; Mon, 25 Oct 2021 18:51:12 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.1230.1635187871212272145
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Oct 2021 11:25:49 -0700
+ Mon, 25 Oct 2021 11:51:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=k3TelBY0;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 6F43F80607;
-	Mon, 25 Oct 2021 20:25:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1635186344;
-	bh=AT+CPkAU9D9gIqAB97hGSh4DcTqEL/sSwzHjGnhkecg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k3TelBY0h24QFvJ+n3sWjQIuXlYTiPhgfESOnHgSFD7NaXqaXZMGPpYIxAtIU9r/U
-	 kXz2ppSqfVFOAoYF0nxMiuQKwocZR3FwH4pyNznmkdqqmnQ0lavDU2PBZqCRUZ15ZT
-	 A6mp8eJ3j1NXxIPOiJGgVDMT0Cp+qftHjVneELzR/gufhMOzYL59dP+tlfd0HVU+A4
-	 hZf5Ts1I4/D6BAqg+Agobxxz8NGkhZjobpvslFAtmV900kCEQPj3qWZmdhmGv1Dr9U
-	 e4EVCJ+pKiCXX7VVe6qLC8JGC2LDhNer3LbdilgzGDrhNbl5Ji6iH0iumeYu52CVdM
-	 OIAoMV72VGGzw==
-Date: Mon, 25 Oct 2021 20:25:42 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc: Florian Weimer <fweimer@redhat.com>, =?UTF-8?B?RsSBbmctcnXDrCBTw7Ju?=
- =?UTF-8?B?Zw==?= <maskray@google.com>, "H.J. Lu" <hjl.tools@gmail.com>,
- "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, Patches and
- discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Andreas Schwab
- <schwab@linux-m68k.org>, Joseph Myers <joseph@codesourcery.com>, Carlos
- O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH v2] dl: Use "adr" assembler command to get proper load
- address on ARM
-Message-ID: <20211025202542.38a79fc9@ktm>
-In-Reply-To: <20211025150904.GO1982710@arm.com>
-References: 
- <CAMe9rOpPM7RmA65MzTNr2DtoC_wMFt87mnyJ4pgvmK5TAorCCQ@mail.gmail.com>
-	<20211015145831.5d0fafcd@ktm>
-	<CAFP8O3+DBOregW5SuaPErkHUt+5aqb=bL98wHGtXu-OwFwud+w@mail.gmail.com>
-	<20211018110818.GE1982710@arm.com>
-	<871r4iftvc.fsf@oldenburg.str.redhat.com>
-	<20211025121819.16f63048@ktm>
-	<878ryhwgd7.fsf@oldenburg.str.redhat.com>
-	<20211025125307.1fa34445@ktm>
-	<20211025133425.GN1982710@arm.com>
-	<20211025160444.09f0c5e0@ktm>
-	<20211025150904.GO1982710@arm.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=Un+9ZGNx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.54,
+ mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f54.google.com with SMTP id e4so14560364wrc.7
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Oct 2021 11:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VbHexJ3PoE5MoftHEVqOHs++dCa9fL/A1UI/aMylqds=;
+        b=Un+9ZGNxuOtvJ+oJbtU0nm+4fkXvYmj+w/x02q+XBIMx7fQU1J+NnsKPvBhJIxS9wT
+         Fjj9Qs2sOzjFV+GgMdf5/WnfeM5CVjk9/RJo905QdV6ZhAbiihu9iHW0s8PHK8J3fpsq
+         VYGu+q1wPg2Sgh4EIFAn+0U2jcVM/vAtPxRfclGNEdOMLe48vfYQI6lFEgKzcBSfqSgT
+         5QtHai91XMuvFzKgjmW68+3W3ogGZPK6Xl/YMkekKAt96UEaG292WPYyn45Zl5jAmXRr
+         WGFPinlkS6Rq2bm6keCA0b2AmQtep6vrcEgr+qE/knAM90S+VdT6Ul5D38BNuxQVSFUt
+         k2ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VbHexJ3PoE5MoftHEVqOHs++dCa9fL/A1UI/aMylqds=;
+        b=gt5DMGyVYbV4sHtOfNS3KgMoXvt87BtcSgu0QcZWdlD+LDgrhBd+c+MUNgQcGg0w3w
+         EPH0yNC3tspnGA3EFt/V/1GwyvmMdmjyittRurD76mII2bINAbZsX2dJ/LmJQhB/0VCg
+         IrueW2G5DWfRhS0xastYg2mo2FknQ6bYIYUgjfQdwXkpUff03pA4SnbFtVMVG+JP9Tdj
+         5OU1w2qjzHXr+wOl/PlLzpHRRsnBbf5C3OqJCiBL65qeCg0d7bZAKvhYRvAWakzlh9Cc
+         cLoUE9zJRp5o1ZRsZAn6d6nkSOi2quH5jgjvdZl0NyJm//iYyKP4TA040vvGAT2Dfkq/
+         QxLA==
+X-Gm-Message-State: AOAM530Uz1MD8152/c2bSeVBNf9Y3IO1Ym7a4P2YpIz0wvGHoKQmmPl/
+	770sE9wLf3TTTXVGCXx3b+VhnhLUiTn/9kLQVQxWTA==
+X-Google-Smtp-Source: 
+ ABdhPJymN8S3XvCZm6XeTg66wQcy/ocbzsBbQeXcE9EjOjivXoqZE0SPNd56P7GA0vO2hfIQyv0K/MVoAa3UcpNgfP8=
+X-Received: by 2002:adf:ebd0:: with SMTP id
+ v16mr21068933wrn.291.1635187869335;
+ Mon, 25 Oct 2021 11:51:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/4aN61=gbbTXF0Loina0Z+BD"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20211025072857.910-1-flowergom@gmail.com>
+ <16B153BAA3F7E703.19570@lists.openembedded.org>
+ <16B157E496184ECA.20619@lists.openembedded.org>
+In-Reply-To: <16B157E496184ECA.20619@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 25 Oct 2021 08:50:57 -1000
+Message-ID: 
+ <CAOSpxdb0EALiLZp-3Pu2G95uhYbYpiaxY1t57N8rfNy+vPvqOA@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH v2] vim: fix 2021-3796
+To: steve@sakoman.com
+Cc: Minjae Kim <flowergom@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 18:25:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Oct 2021 18:51:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157356
+ https://lists.openembedded.org/g/openembedded-core/message/157358
 
---Sig_/4aN61=gbbTXF0Loina0Z+BD
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 25, 2021 at 7:59 AM Steve Sakoman via
+lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+wrote:
+>
+> On Mon, Oct 25, 2021 at 6:43 AM Steve Sakoman via
+> lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+> wrote:
+> >
+> > On Sun, Oct 24, 2021 at 9:29 PM Minjae Kim <flowergom@gmail.com> wrote:
+> > >
+> > > vim is vulnerable to Use After Free
+> > > Problem: Checking first character of url twice.
+> > >
+> > > reference:
+> > > https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3
+> > >
+> > > Signed-off-by: Minjae Kim <flowergom@gmail.com>
+> > > ---
+> > >  .../vim/files/CVE-2021-3796.patch             | 50 +++++++++++++++++++
+> > >  1 file changed, 50 insertions(+)
+> > >  create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
+> >
+> > You don't seem to be adding the patch to the SRC_URI in the recipe!
+>
+> I fixed that issue, but now once again the patch file fails to apply:
+>
+> stdio: ERROR: vim-8.2-r0 do_patch: Applying patch
+> 'CVE-2021-3796.patch' on target directory
+> '/home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/core2-64-poky-linux/vim/8.2-r0/git'
+> stdio: ERROR: Logfile of failure stored in:
+> /home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/core2-64-poky-linux/vim/8.2-r0/temp/log.do_patch.7612
+> stdio: ERROR: Task
+> (/home/pokybuild/yocto-worker/no-x11/build/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+> failed with exit code '1'
 
-Hi Szabolcs,
+Perhaps you are having some issues with your mailer that is corrupting
+the patch?  I see that the master version is also having problems.
 
-> The 10/25/2021 16:04, Lukasz Majewski wrote:
-> > > > > Either fix the prelink tool not to prelink shared objects
-> > > > > that do not have a dependency on libc.so.6, or fix the
-> > > > > dynamic loader to work if prelinked on AArch64.   =20
-> > > >=20
-> > > > Just for the correctness - both 64 and 32 bit ARMs are
-> > > > affected.   =20
-> > >=20
-> > > last time i looked, prelinking did not support tlsdesc
-> > > correctly so it is unusable for aarch64.
-> > >=20
-> > > does yocto/oe use prelinking on aarch64? =20
-> >=20
-> > I think yes - the=20
-> > USER_CLASSES ?=3D "buildstats image-prelink"
-> >=20
-> > is added by default to local.conf =20
->=20
-> ok, i think we need the patches upstream for that like
-> https://sourceware.org/pipermail/libc-alpha/2015-November/066153.html
->=20
+Do you have a git repo I could try pulling from?
 
-Oh... I see.
+Steve
 
-> > > > > I do not have a strong opinion.   =20
-> > > >=20
-> > > > Thanks for your opinion. Let's wait for other community members
-> > > > opinions.   =20
-> > >=20
-> > > i think fixing the arm load address computation makes
-> > > sense (small extra cost of a relative reloc). i think
-> > > the c code proposal i made in the thread is nicer than
-> > > the old asm.
-> > >=20
-> > > (i'm happy to make the same change on aarch64 too if
-> > > prelinking is used there, but i think that's broken.) =20
-> >=20
-> > +1 =20
->=20
-> since you have a prelink setup, can you prepare the
-> arm and aarch64 patches?
->=20
-
-I can prepare the patch - no problem.
-
-Beforehand, I would like to hear from the community if we do have a
-consensus about this solution...
-
-> (i suspect x86 would need the same fix, but probably
-> prelink is not used there anymore..?)
-
-I do assume that in yocto at least it would use prelink by default as
-well.
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/4aN61=gbbTXF0Loina0Z+BD
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmF29qYACgkQAR8vZIA0
-zr10jAgA0hTDDzgDT4HSY+YEnh7OIHWfTPvLMuowvFsm8XM3R67jytbfky0ELjdM
-95JKRXOi8TmfT6j1CSruqG682KLZdlFoYZI7q1x1MvBbDfHmROb5u3991Z0Gf637
-4GRsVogOlm4F8yzqM17aUDeaZKi5BmrWKiQfR19ghwR2bpfIsTavDdUHAy0xczlb
-k2Rgah0Qnt5U9sgCVXYv7y1WL8YUhKbp1OekNi/rMLvkmiFt9IvsdgBjr6O9kKkt
-WEjkrEAYfUdBlvVP8U8OmQLEU3JIw66fZNYFKLpSIoZdGhvizprQyOUjxtX2Vy0F
-K35u1WumQbJIkVb+LbH/s93ApZLTVw==
-=Z2P6
------END PGP SIGNATURE-----
-
---Sig_/4aN61=gbbTXF0Loina0Z+BD--
+>
+> Steve
+>
+> >
+> > Steve
+> >
+> > >
+> > > diff --git a/meta/recipes-support/vim/files/CVE-2021-3796.patch b/meta/recipes-support/vim/files/CVE-2021-3796.patch
+> > > new file mode 100644
+> > > index 0000000000..666bd5c48b
+> > > --- /dev/null
+> > > +++ b/meta/recipes-support/vim/files/CVE-2021-3796.patch
+> > > @@ -0,0 +1,50 @@
+> > > +From 6d02e1429771c00046b48f26e53ca4123c3ce4e1 Mon Sep 17 00:00:00 2001
+> > > +From: Bram Moolenaar <Bram@vim.org>
+> > > +Date: Fri, 24 Sep 2021 16:01:09 +0800
+> > > +Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
+> > > +
+> > > +Problem:    Using freed memory when replacing. (Dhiraj Mishra)
+> > > +Solution:   Get the line pointer after calling ins_copychar().
+> > > +
+> > > +Upstream-Status: Backport [https://github.com/vim/vim/commit/35a9a00afcb20897d462a766793ff45534810dc3]
+> > > +CVE: CVE-2021-3796
+> > > +
+> > > +Signed-off-by: Minjae Kim  <flowergom@gmail.com>
+> > > +---
+> > > + src/normal.c | 10 +++++++---
+> > > + 1 file changed, 7 insertions(+), 3 deletions(-)
+> > > +
+> > > +diff --git a/src/normal.c b/src/normal.c
+> > > +index c4963e621..305b514bc 100644
+> > > +--- a/src/normal.c
+> > > ++++ b/src/normal.c
+> > > +@@ -5009,19 +5009,23 @@ nv_replace(cmdarg_T *cap)
+> > > +           {
+> > > +               /*
+> > > +                * Get ptr again, because u_save and/or showmatch() will have
+> > > +-               * released the line.  At the same time we let know that the
+> > > +-               * line will be changed.
+> > > ++               * released the line. This may also happen in ins_copychar().
+> > > ++               * At the same time we let know that the line will be changed.
+> > > +                */
+> > > +-              ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
+> > > +               if (cap->nchar == Ctrl_E || cap->nchar == Ctrl_Y)
+> > > +               {
+> > > +                 int c = ins_copychar(curwin->w_cursor.lnum
+> > > +                                          + (cap->nchar == Ctrl_Y ? -1 : 1));
+> > > ++
+> > > ++                ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
+> > > +                 if (c != NUL)
+> > > +                   ptr[curwin->w_cursor.col] = c;
+> > > +               }
+> > > +               else
+> > > ++              {
+> > > ++                  ptr = ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
+> > > +                   ptr[curwin->w_cursor.col] = cap->nchar;
+> > > ++              }
+> > > +               if (p_sm && msg_silent == 0)
+> > > +                   showmatch(cap->nchar);
+> > > +               ++curwin->w_cursor.col;
+> > > +--
+> > > +2.17.1
+> > > +
+> > > --
+> > > 2.30.1 (Apple Git-130)
+> > >
+> > >
+> > >
+> > >
+> >
+> >
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157353): https://lists.openembedded.org/g/openembedded-core/message/157353
+> Mute This Topic: https://lists.openembedded.org/mt/86572003/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
