@@ -1,158 +1,225 @@
-Return-Path: <Ahmed.Hossam@opensynergy.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D954EC433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 18:57:48 +0000 (UTC)
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.137])
- by mx.groups.io with SMTP id smtpd.web08.982.1635274666868491828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D27C433FE
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 19:38:23 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.1510.1635277102849501059
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 11:57:47 -0700
+ Tue, 26 Oct 2021 12:38:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@opensynergy.com header.s=selector1 header.b=mmc3jdwe;
- spf=pass (domain: opensynergy.com, ip: 40.107.5.137,
- mailfrom: ahmed.hossam@opensynergy.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MeK/bv80gjQXOpuULYkwl+jDsWEQACCxY/w26wdOwZsKRGHpEZ537v7RArc+4LpN5pUQ47ddS+Bo/vDTWYMWWftH6BilHckZHY/N+u1HBWZ2jwwMHNHvQvGTqHS/OfBsTcwWhQOvZC6TcXEyHzcdSFy0E3tUA4pglD36/nl/4K4Hn2U4TufjTYlo9g9Rms9iqN7mOaiRR1BqhN4YkAmwCMrXEZzazCR5IDRPaGi1d0RlSOtL9LABUKX7XpiQKPGAhltIuZ9J2FdW48k4sh4sbTVDwJorrxG6VHIFM+Rr41G4VVxVNDejH1khWMnKI7cHdFalOhI1GIEpKDKPbX9QPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DZFkllUuHA/Z7EB2zqUmt+NFT7Wug75Q2MotYeiqYTo=;
- b=d/P7FDzlONAxTp1VlWpl9Qk8MgFcqf+xI6U2NknCVofnv1Qn+/jiImLrmGZgDvZ5VscOlvqYofkgyFQrxHFiCsC1cGwFaVTMV5fX7uHNynoqZaoVNRn+xn/FIPgl2vxZqAjD/aP8kt8Tj2S0M7BVa5jEDq+We8WrM4tryTPjqyWdqEK13argYXFvbz7n0CRGDOzJ+ZU3cVQA5JvisPezjINBLHBYmp+3UaWFmU53A++bherrB1M+zVXrVpcy2mJsAOMQImr3s693lhGchCw0ItwlyUfKsCO/E/RVybcbLdvgmWrul90oWJWC/N8FW2dzrdMRga02Uyld4qBxW6mkQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=opensynergy.com; dmarc=pass action=none
- header.from=opensynergy.com; dkim=pass header.d=opensynergy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opensynergy.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DZFkllUuHA/Z7EB2zqUmt+NFT7Wug75Q2MotYeiqYTo=;
- b=mmc3jdweDFNmZg4U3EYjJBx75GubPHxhBM+pnPqJmStgw7Q0OwP1D9EcuNz0H81ijY6PK2QAOtN3E+hQTitlUjZBNISA+FRFXVMn68fyqvqjSSiXTvN82U+naJp2f/qDW1dN96oEdIHjJXqlz1nMbuCWRcNai1Al6XiXHOabL6Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=opensynergy.com;
-From: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
-Subject: [PATCH] go.bbclass: Allow adding parameters to go ldflags
-Date: Tue, 26 Oct 2021 20:56:42 +0200
-Message-Id: <20211026185642.13747-1-Ahmed.Hossam@opensynergy.com>
-X-Mailer: git-send-email 2.33.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AM5PR0101CA0024.eurprd01.prod.exchangelabs.com
- (2603:10a6:206:16::37) To PAXPR04MB8349.eurprd04.prod.outlook.com
- (2603:10a6:102:1bd::9)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HBAFKdua;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id a26so424368pfr.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 26 Oct 2021 12:38:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jxNn3R/2n2f196hj5Kypv4LTMvHjlAE1Po33AeSVcpQ=;
+        b=HBAFKduaDNb3oZQsd+oo+8TbZp3SDh2+6iOK0hwhe5+lRalv9o209l4awW/1gkjkc+
+         Pk5fTGczvqPJJ9+k4Vzr9My0cbAVQ5VlmKMElo4fepR41wN2zTmq1lY5V999Q1ibO4In
+         woBebta1MKIi5uyA6yIHTV7SmaXLaLx5N4KcoaIQVlUHeDjyS1x54t/itBeDYjKfCnUu
+         QKpKBKTWXZ/zeSyk4CGC7WhpPBHw5wtJJ/FsI53jrMqvW6AVEsP88+hiBZ17cKobozNZ
+         c2QH8my9gYLCObfpmZMnjOk3nRl29PF8UaciWdEmOX7waefQnYJryCw/mTt1lDc9jZAm
+         6IiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jxNn3R/2n2f196hj5Kypv4LTMvHjlAE1Po33AeSVcpQ=;
+        b=WcRSKXaK+4wZzAPcmLrG1lSlGatva+etUeF5ySkIAxB3VQ/nkNIVU7YUs2AlsF4fl5
+         Acs2dY+3dr0nOwOFXiKw8EzoXbrYMpIq6W5wT+sUyLA5fxbAuEgrSd7haDctVK+KdMYN
+         s+P1Ff1LNCrWVjmfVcWQ9z5eJahq2dxd55Rs5ddN8jMzRu7XgiogI7uXiWhCg79+HhmB
+         TJ1kjxw4P9TGLEuT4wv4LG5R6BBofxEWU04Fy49b1kZbzHaBI5Zl4xy3Jcs9R1mOIKlY
+         ocy4/wN0eA3Bv7oVnPw/DEILCLfhhbL9i9ISZHiLSt2KiJZupETmGuzfgg6WMANBcrS8
+         /j+Q==
+X-Gm-Message-State: AOAM530xMVMfAtkApTyMBaTBd0rO0G2UNHUFvGuFfrCvNEzfwQ6UZ6p/
+	19oQzOMV9joCG1FrHa+NB6k32o4Z1Fd1mAS6D6M=
+X-Google-Smtp-Source: 
+ ABdhPJxSMiE3HAHt6oJRMFr3F6/Npi8tkvZ/oxGdCIGPvHnRytxxe86R44wUZtlNPgicayfXwDHI6RAhqIR5P67p4go=
+X-Received: by 2002:a63:7102:: with SMTP id m2mr20875378pgc.100.1635277102090;
+ Tue, 26 Oct 2021 12:38:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f741c098-a46a-48bf-1450-08d998b27e48
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7535:
-X-Microsoft-Antispam-PRVS: 
-	<PA4PR04MB7535106A3298CF88B45C0B7C8C849@PA4PR04MB7535.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fmnt5czYlGP1Dlxg+DBTfKTxR9wBzeFz9IMfbnQ7T5yMLhUwdy+6cKCXN/HFunillDJBc8CtyLe6/zJqecfALpvPsbFpQmdU71BWHLE1LAtjbtGusYVzqemNWbUDtM9wn/ysVnHZnlLIPiF67vVu8K4CrcHL5T3T4tAaUcBGx6JGWB7+5ZWEWhSbZ/3uaC8GnQHNtUhPXO84moHO1yCJ5VAPc6kFEoXt7qxLJ9dZN4/XxQ6xchjLtcs5CVaJLEcxmvCcg8S5ANiZmxReiBzosKtAZZvSCX2r6hxZTQez1kg+G911ohu1XuLdPCnKju213ZnRJkgx2vovzqaZ1LAeOt1L+koX8Bkei/RpaoFaHqNuv8K8FZTAX/Ub0zaZg2hrWXQwSGIlIi7gLEmDDOYqkwel0MA2FGcJqGUSuo5rbERxDzwRgue3pKI9EW9LLzJjo7tuxPg+3dZy4+VblpMfqSF1FmsaCmAemBk8KITzI2hWvEfDS4ayX73eLD32N0uaQtWqhIj29vwkcOzNmF09qpFcjPCDSlFSZfDUGsYDa1t7CCnjf7apzhYytEPDuHKSrWNqXXL15Dv7+cx0yfcmYlGhQg77LcKOx5H9UWM/x9eONRtehciW82O0AzVCPvlxM5UCNbqlUVF8ElS/rbOZVQSFBR/oJPz4t7aWDQp046/lCRu8JrT3nXSU/cWfZ2Ta1UWEWTm+Wvv9eJVx9EoMUg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8349.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(366004)(39830400003)(136003)(376002)(6916009)(26005)(86362001)(8936002)(2616005)(36756003)(83380400001)(38100700002)(55236004)(52116002)(38350700002)(2906002)(4326008)(1076003)(5660300002)(66946007)(8676002)(316002)(42186006)(508600001)(107886003)(186003)(66556008)(66476007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Cb+v9OFcNduddYs2flgdP8xydeZtPzRAdnse8bRz3qsNe+Uz0MEsmb5wIwU2?=
- =?us-ascii?Q?y8Deex6OKF5MJV4MA/ZCZNuHo4G5KCzTW7g7FOAugf5lzOo1VrQylxIzbxt9?=
- =?us-ascii?Q?iCSCm4DfGlub6ABjfFFxEeZf4axkhr1EYvKNLFDwzThecwS2RdRx8RS0gh+b?=
- =?us-ascii?Q?Y+cvy06QS93WtwaMv4HAZK2UA13n23mswZ6LBbLYVhpvFP3OFSfrfbpcm+dS?=
- =?us-ascii?Q?htmD9zt27xVyapaWh6wHZjqd2NKK2fJGNPojzt1WiNA1gaSAWFvw7uA7C4gp?=
- =?us-ascii?Q?wK5R6LeuO7QyqQoE/HxBntbIKtiWJBLTlXRVRpYmW5SSI1Wffnm1lKwnOFJR?=
- =?us-ascii?Q?d5pzTlvBD1s03kj7yXatjuz5P+qoasRPwfvrWffz4tie8e83rm8ixTTYreGv?=
- =?us-ascii?Q?YkTQDHKZprrYt1NyorvoPkAHpGmIxC/MKe5Qva2TmnvAve26/B4EQi2R86nb?=
- =?us-ascii?Q?Xd8jModHYVUnx0oJkL6zwA7LB0uGC59WihdlWRt5t4n7I72TReVxk4XCXqDG?=
- =?us-ascii?Q?sDTWOwbMLmnN64mMfZNN1rRR2Em/B9PROBk8Y0GyajVgFxelrLwQUvoZC8K4?=
- =?us-ascii?Q?z+AzUDffUGu84uwJKqdcsuKgT97xQq8ydweqCzK7VDI0R5pfc0hSBfPiUGUy?=
- =?us-ascii?Q?WSnrnwX/Au199u0DLH/l5hcTaBs1d3uJwfEVUipcqlVuz8Df4TGYZTc8VKOp?=
- =?us-ascii?Q?MUnTS425NKEuNW+udbphzetMn09V1RokuwsGNiAtjgQ16IUq7sRzVIeuiWJJ?=
- =?us-ascii?Q?v+PIngho7/lqWIyag5atqtHIDXsSFvkhRCi2XMfTGABYBa1OT1CzSiWir0Zn?=
- =?us-ascii?Q?ZgyXxJms9Lo9myx5EyyEDG864uxl2OSideBQw9DMOq3b43r7kewF8U1SK6Te?=
- =?us-ascii?Q?wNcTkV2TxzxVV3W6rErJ+W3SSbjJBj7Y0DG7p3imGMbHZI0c+ubLg0cT1faJ?=
- =?us-ascii?Q?4n2aU+XJV0beQYUw5zt5WAeBkfXn9kwzhJPbpuS0FbTUeRCdLn634+nIPj5t?=
- =?us-ascii?Q?x228JNOieKmW/mLVhaolo5Hh7KVgCmzoBV0Mqb+voUyyt8LDv22QhCbx5hP9?=
- =?us-ascii?Q?vXRuVSvGox2+jTA7mMcbGbnzQN9zYxcKg1ysLxEiUvZVxHn7bQubULMJEkjD?=
- =?us-ascii?Q?otwi1Bb19fErhV9Yl48QbT2WrVuYZ7v0ZAZJlMD+nmDID3M7Fo2gnLf4N8OI?=
- =?us-ascii?Q?GiSpoQ8N1Ts9kXsrUzxmJyO/h7mE0zM4QMS8uIO04UBCcqd3xT5JdYLsUl4/?=
- =?us-ascii?Q?oeJGHb42yc9jNnK0HznD30utWcCRTvcMC98NulNKZOUt7SxsedRDkkMFo/qr?=
- =?us-ascii?Q?4PTlxTTFcpUBlp8Xx2AD6r723dc5bVDpUp6lZmrBv8WTdOhhUiG3wrG99nCc?=
- =?us-ascii?Q?72whWw3kU8oG/FP8N64lFnlQ+soAODbBbuI+7Rx04aZAfo4XFDWSaU//A2FZ?=
- =?us-ascii?Q?XMnUJ3sixPChU+Y4w8c+xE40ovf+vrV1q4ZkUH44FkTvjTgag2epaW+oI1sn?=
- =?us-ascii?Q?k9C/PpfozD8twLdU+WLQ8Zcrc68jgRhs/qx3lrkpYGhfBHRQRradWXnND2Tf?=
- =?us-ascii?Q?fJHRF7yV4Sg+7nSlpbD13HkOROQzfJHu2GBzxeADTjsVKSX0/ihFTrM6VG7P?=
- =?us-ascii?Q?NtUWpHXxPIWwNDkdVTtwOlM=3D?=
-X-OriginatorOrg: opensynergy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- f741c098-a46a-48bf-1450-08d998b27e48
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8349.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 18:57:44.1472
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 800fae25-9b1b-4edc-993d-c939c4e84a64
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- +Jn/l10/YNaiGaqYjP9vjjkhh+x8gCMWWuhxVuJF/OKWFtD9VOUs6upsbvezvIocZXJRDVJs3tUWi3ilbiby3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7535
+References: <20211011094059.4184654-1-alex@linutronix.de>
+ <20211011094059.4184654-24-alex@linutronix.de>
+In-Reply-To: <20211011094059.4184654-24-alex@linutronix.de>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 26 Oct 2021 21:38:11 +0200
+Message-ID: 
+ <CA+chaQc7S7fmdDaWQfqPGv+o6UYrp_hUKgdr08uoegESuDPqew@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 24/25] webkitgtk: update 2.32.3 -> 2.34.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c78e7005cf469e2e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 18:57:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 19:38:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157449
+ https://lists.openembedded.org/g/openembedded-core/message/157450
 
-Currently, there is no clean way to pass extra parameters to the go tool li=
-nk,
-which is passed by the go build ldflags flag, the append needs to happen in=
-side
-the quotes of the ldflags parameter
+--000000000000c78e7005cf469e2e
+Content-Type: text/plain; charset="UTF-8"
 
-See [YOCTO #14554].
+On Mon, Oct 11, 2021 at 11:42 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-Add a variable to allow adding extra parameters to -ldflags in the GO_LDFLA=
-GS
-variable, one of the main usecases is setting the application version.
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../0001-ANGLE-do-not-enable-SSE-on-x86.patch | 26 ++++++++++++++++
+>  ...1-Enable-THREADS_PREFER_PTHREAD_FLAG.patch | 10 +++---
+>  .../0001-MiniBrowser-Fix-reproduciblity.patch | 31 -------------------
+>  .../webkit/webkitgtk/include_xutil.patch      |  8 ++---
+>  .../webkitgtk/musl-lower-stack-usage.patch    | 14 ++++-----
+>  ...ebkitgtk_2.32.3.bb => webkitgtk_2.34.0.bb} | 23 ++++++++------
+>  6 files changed, 55 insertions(+), 57 deletions(-)
+>  create mode 100644
+> meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
+>  delete mode 100644
+> meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
+>  rename meta/recipes-sato/webkit/{webkitgtk_2.32.3.bb =>
+> webkitgtk_2.34.0.bb} (90%)
+>
+> diff --git
+> a/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
+> b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
+> new file mode 100644
+> index 00000000000..1c6ba970376
+> --- /dev/null
+> +++
+> b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
+> @@ -0,0 +1,26 @@
+> +From c71a4e18afb4869a0fbb0efd59c4860b72f493f7 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Tue, 5 Oct 2021 13:32:28 +0200
+> +Subject: [PATCH] ANGLE: do not enable SSE on x86
+> +
+> +The code does not actually build there.
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> +---
+> + Source/ThirdParty/ANGLE/src/common/platform.h | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Source/ThirdParty/ANGLE/src/common/platform.h
+> b/Source/ThirdParty/ANGLE/src/common/platform.h
+> +index 41f3cf4f..cab85a82 100644
+> +--- a/Source/ThirdParty/ANGLE/src/common/platform.h
+> ++++ b/Source/ThirdParty/ANGLE/src/common/platform.h
+> +@@ -89,7 +89,7 @@
+> + #if defined(_MSC_VER) && !defined(_M_ARM) && !defined(_M_ARM64)
+> + #    include <intrin.h>
+> + #    define ANGLE_USE_SSE
+> +-#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
+> ++#elif defined(__GNUC__) && (defined(__x86_64__))
+> + #    include <x86intrin.h>
+> + #    define ANGLE_USE_SSE
+> + #endif
+>
 
-For example, adding to the recipe something like
-GO_EXTRA_LDFLAGS=3D"-X main.Version=3Dv1.0.0"
-or
-GO_EXTRA_LDFLAGS=3D"-X main.Version=3D${PV}"
+Can you improve the commit message of this patch to show what "does not
+actually build there"?
 
-Signed-off-by: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
----
- meta/classes/go.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Because it fails to build here for qemux86 with:
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index 0dd0c5f1d2..aa54b4a08c 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -41,7 +41,8 @@ GO_EXTLDFLAGS ?=3D "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} $=
-{GO_RPATH_LINK} ${LDFLAGS
- GO_LINKMODE ?=3D ""
- GO_LINKMODE:class-nativesdk =3D "--linkmode=3Dexternal"
- GO_LINKMODE:class-native =3D "--linkmode=3Dexternal"
--GO_LDFLAGS ?=3D '-ldflags=3D"${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_=
-EXTLDFLAGS}'"'
-+GO_EXTRA_LDFLAGS ?=3D ""
-+GO_LDFLAGS ?=3D '-ldflags=3D"${GO_RPATH} ${GO_LINKMODE} ${GO_EXTRA_LDFLAGS=
-} -extldflags '${GO_EXTLDFLAGS}'"'
- export GOBUILDFLAGS ?=3D "-v ${GO_LDFLAGS} -trimpath"
- export GOPATH_OMIT_IN_ACTIONID ?=3D "1"
- export GOPTESTBUILDFLAGS ?=3D "${GOBUILDFLAGS} -c"
---
-2.33.1
+webkitgtk/2.34.0-r0/webkitgtk-2.34.0/Source/ThirdParty/ANGLE/src/libANGLE/Constants.h:20:7:
+error: 'size_t' does not name a type
+   20 | const size_t kDefaultMaxProgramCacheMemoryBytes = 0;
+      |       ^~~~~~
 
+and deleting this patch fixes the build.
 
-Please mind our privacy notice<https://www.opensynergy.com/datenschutzerkla=
-erung/privacy-notice-for-business-partners-pursuant-to-article-13-of-the-ge=
-neral-data-protection-regulation-gdpr/> pursuant to Art. 13 GDPR. // Unsere=
- Hinweise zum Datenschutz gem. Art. 13 DSGVO finden Sie hier.<https://www.o=
-pensynergy.com/de/datenschutzerklaerung/datenschutzhinweise-fuer-geschaefts=
-partner-gem-art-13-dsgvo/>
+--000000000000c78e7005cf469e2e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Oct 11, 2021 at 11:42 AM Alexande=
+r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
+com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Signed-off-by: Alexander Kanavin &lt;<a href=
+=3D"mailto:alex@linutronix.de" target=3D"_blank">alex@linutronix.de</a>&gt;=
+<br>
+---<br>
+=C2=A0.../0001-ANGLE-do-not-enable-SSE-on-x86.patch | 26 ++++++++++++++++<b=
+r>
+=C2=A0...1-Enable-THREADS_PREFER_PTHREAD_FLAG.patch | 10 +++---<br>
+=C2=A0.../0001-MiniBrowser-Fix-reproduciblity.patch | 31 ------------------=
+-<br>
+=C2=A0.../webkit/webkitgtk/include_xutil.patch=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+8 ++---<br>
+=C2=A0.../webkitgtk/musl-lower-stack-usage.patch=C2=A0 =C2=A0 | 14 ++++----=
+-<br>
+=C2=A0...<a href=3D"http://ebkitgtk_2.32.3.bb" rel=3D"noreferrer" target=3D=
+"_blank">ebkitgtk_2.32.3.bb</a> =3D&gt; <a href=3D"http://webkitgtk_2.34.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.34.0.bb</a>} | 23 ++++=
+++++------<br>
+=C2=A06 files changed, 55 insertions(+), 57 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-n=
+ot-enable-SSE-on-x86.patch<br>
+=C2=A0delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowse=
+r-Fix-reproduciblity.patch<br>
+=C2=A0rename meta/recipes-sato/webkit/{<a href=3D"http://webkitgtk_2.32.3.b=
+b" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.32.3.bb</a> =3D&gt; <a =
+href=3D"http://webkitgtk_2.34.0.bb" rel=3D"noreferrer" target=3D"_blank">we=
+bkitgtk_2.34.0.bb</a>} (90%)<br>
+<br>
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SS=
+E-on-x86.patch b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enabl=
+e-SSE-on-x86.patch<br>
+new file mode 100644<br>
+index 00000000000..1c6ba970376<br>
+--- /dev/null<br>
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x8=
+6.patch<br>
+@@ -0,0 +1,26 @@<br>
++From c71a4e18afb4869a0fbb0efd59c4860b72f493f7 Mon Sep 17 00:00:00 2001<br>
++From: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" target=
+=3D"_blank">alex@linutronix.de</a>&gt;<br>
++Date: Tue, 5 Oct 2021 13:32:28 +0200<br>
++Subject: [PATCH] ANGLE: do not enable SSE on x86<br>
++<br>
++The code does not actually build there.<br>
++<br>
++Upstream-Status: Pending<br>
++Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de"=
+ target=3D"_blank">alex@linutronix.de</a>&gt;<br>
++---<br>
++ Source/ThirdParty/ANGLE/src/common/platform.h | 2 +-<br>
++ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
++<br>
++diff --git a/Source/ThirdParty/ANGLE/src/common/platform.h b/Source/ThirdP=
+arty/ANGLE/src/common/platform.h<br>
++index 41f3cf4f..cab85a82 100644<br>
++--- a/Source/ThirdParty/ANGLE/src/common/platform.h<br>
+++++ b/Source/ThirdParty/ANGLE/src/common/platform.h<br>
++@@ -89,7 +89,7 @@<br>
++ #if defined(_MSC_VER) &amp;&amp; !defined(_M_ARM) &amp;&amp; !defined(_M_=
+ARM64)<br>
++ #=C2=A0 =C2=A0 include &lt;intrin.h&gt;<br>
++ #=C2=A0 =C2=A0 define ANGLE_USE_SSE<br>
++-#elif defined(__GNUC__) &amp;&amp; (defined(__x86_64__) || defined(__i386=
+__))<br>
+++#elif defined(__GNUC__) &amp;&amp; (defined(__x86_64__))<br>
++ #=C2=A0 =C2=A0 include &lt;x86intrin.h&gt;<br>
++ #=C2=A0 =C2=A0 define ANGLE_USE_SSE<br>
++ #endif<br></blockquote><div><br></div><div>Can you improve the commit mes=
+sage of this patch to show what &quot;does not actually build there&quot;?<=
+/div><div><br></div><div>Because it fails to build here for qemux86 with:</=
+div><div><br></div><div>webkitgtk/2.34.0-r0/webkitgtk-2.34.0/Source/ThirdPa=
+rty/ANGLE/src/libANGLE/Constants.h:20:7: error: &#39;size_t&#39; does not n=
+ame a type<br>=C2=A0 =C2=A020 | const size_t kDefaultMaxProgramCacheMemoryB=
+ytes =3D 0;<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 ^~~~~~<br></div>=
+<div><br></div><div>and deleting this patch fixes the build.</div></div></d=
+iv>
+
+--000000000000c78e7005cf469e2e--
 
