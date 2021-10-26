@@ -1,83 +1,79 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FB8C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 20:21:48 +0000 (UTC)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
- [209.85.222.53])
- by mx.groups.io with SMTP id smtpd.web08.2123.1635279704907649112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D246AC433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 20:40:58 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web12.2438.1635280858366000144
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 13:21:45 -0700
+ Tue, 26 Oct 2021 13:40:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZfsxTskW;
- spf=pass (domain: gmail.com, ip: 209.85.222.53,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f53.google.com with SMTP id x3so624567uar.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z6o4etjD;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id v16so387869ple.9
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 13:21:44 -0700 (PDT)
+ Tue, 26 Oct 2021 13:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aCAJvuriMWYZFBN7NUCWjAdvBO22QWmiF6DpzOz6qkM=;
-        b=ZfsxTskWqDlE58u6bWMkk7OsaM5wwLr3NzzKcik6tv1E5olUentyfnWxaJnGaPd1Oz
-         cNlNXNRZ6RaECJuOdMbrUgElfjT2uG01zPBVrJFahQTMb7bMQax7Wl2S1tbaQeidTxVf
-         hkiSHrVPxBzvrvrQCNgp4PafJqbr1XbG6H9gN6ndjgZV/D9c3sWa8c7E57kb+B1mMn17
-         5BV5cRcuNGxptuJU2rw+8UOhqsLiI5ztXLeejBLkScUcEUBEYDOXeCu6WqZNW+StwCIf
-         ez5VsL64gTmQwDZcvFWRD7kEEBbqeFmX4u1fbhry0HMnXdeUufCsLkswX+DGD83UJbrf
-         Ifmg==
+        bh=sc+aNuuhnxRYgKdc7xTAgorCkvp8skFLwJRst6FcEQo=;
+        b=Z6o4etjDybK9UJ5IqTRk/tlkQst3B+jrZwTHw3/zMtGCxw1vNy0uGZPozy1aqC/WWL
+         YpV5vPGSUM7FDCYwLaRNe7NR9A95IUBS1gT0+QbnXg31P7QoikRLqMfCWLfq2f4W0w5v
+         4mgrVBY8ktC0Usn5k64vMotOQrucaUFz3VdLoASEahWInExzTF3XCLhqBMw4BvaBx5YE
+         Xh0IXAKObazITkKGJPcy7FTePh1JqAToFThdZ6OYEqgxcvOQ5msOROUvNiM3Aryw2WBZ
+         HinbiCq0tuzhD78PvyODsHYxqXeZ3gvWNXJi5zMUPquTIqJnORKduR7aUOMc2446OL3s
+         kszg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aCAJvuriMWYZFBN7NUCWjAdvBO22QWmiF6DpzOz6qkM=;
-        b=Gbfcsxoph0Y2K1GB48mDXvkokiZkd9mfeDSigYKy+CjZfvaPX9OEDxRapO8id/OZHa
-         CqgwnwHc6xwsRSd+XAloGHZCwI08hZ+AspiAmqO8ZhUtpo9Ysnc3yBCgHqAXXBe3obIp
-         CaAhmSvQxOzgEJbC/BxzdRkeMhdSfEz1scEp9vxf0IsY58UivuFN7NmTA1vKY4QIw6K5
-         sqHMwB3v7aDVR+fq7fYOKFT0Uix71XJ+0x+OBNRUiV++qcilHki52TebesaYd40K9A39
-         fD5xsRwaxFx02snvr3yXwyTVsX0WlRcEKBFYaw6InUbvqS0dWU1sd3Xispncfu4/+3vD
-         GM5w==
-X-Gm-Message-State: AOAM532ppeurtqQC8E7cVwoxMTTnrMgkF0HUqh3sqUy0ZWpnp1iK6qUG
-	5ZXKuJUEwhPdASRqbUvUvfB3aOFCFYeKMlr6RRY=
+        bh=sc+aNuuhnxRYgKdc7xTAgorCkvp8skFLwJRst6FcEQo=;
+        b=0JiGS/bRRFtycBau9g6cU2MJE4EQeXxqnZbARNxkVdQNJ6tx897WSPo2r9JIFK1wtV
+         /ET2DX2v94OLHGHSQz/igzKzng32dQ55uKN42rIw/uKCjuLk2IRoq3ZLYHdvNbktD4pv
+         UIETJtWA/+VMaOUbfMv+Ya/3WrSqQJbPntadltcVtYpgusvWS3KFdemb4v+s4vbfYGWD
+         ElQAuZ1EtLZzT7ayo29NWJycAt5hJiXX86prYHYftwivn5TafcY1LseNn4yA2RibXpl0
+         Xb1dbPrudRr97kC8EkN/ETfS/vHbuwQz0ar+Z5NdOkLKyAJZd1c/nI+HEeQcKyMPUBfq
+         EkoA==
+X-Gm-Message-State: AOAM530vOBHHFzWU90HC+4umskf6jC601i3lmtTpssBncO/SzIQ10arn
+	c8zSehpWInlntmcBBrC8iGujmP/z8/fy3kLf5Qk=
 X-Google-Smtp-Source: 
- ABdhPJxJ7x+J9pcDNnWSXjs0c0y8C1fUSaf5HmO1MPCghK17AKsSsuJb0L5sWISNnbDK8m4DfX5TGz77gid/iKRr6TQ=
-X-Received: by 2002:a05:6102:a30:: with SMTP id
- 16mr5985813vsb.1.1635279704083;
- Tue, 26 Oct 2021 13:21:44 -0700 (PDT)
+ ABdhPJzQT36sL7J87Uifs4Y9X1Isy8n82bHAxwh7oC/zez6bYc1s4hy9CMGqPsm1zP9qLG0LrzHm9WpdaLKSDBrLSgI=
+X-Received: by 2002:a17:90a:fe8a:: with SMTP id
+ co10mr1121277pjb.183.1635280857931;
+ Tue, 26 Oct 2021 13:40:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211011094059.4184654-1-alex@linutronix.de>
  <20211011094059.4184654-24-alex@linutronix.de>
  <CA+chaQc7S7fmdDaWQfqPGv+o6UYrp_hUKgdr08uoegESuDPqew@mail.gmail.com>
- <16B1AD7283CD4D45.19566@lists.openembedded.org>
-In-Reply-To: <16B1AD7283CD4D45.19566@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 26 Oct 2021 22:21:32 +0200
+ <CANNYZj8NPhV_b9QapAG=SYqhy60Z6cRxqE76Cpxs=qpjQ0F=7g@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8NPhV_b9QapAG=SYqhy60Z6cRxqE76Cpxs=qpjQ0F=7g@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 26 Oct 2021 22:40:46 +0200
 Message-ID: 
- <CANNYZj8-nCE0RU5wJzrfRB8HARNFP2X7o_hNXf_sDYmPAu5+dw@mail.gmail.com>
+ <CA+chaQc13DNKNTFUc4u1EBvOs3ejtNaFiggEVL7rqtfXymq-Bw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 24/25] webkitgtk: update 2.32.3 -> 2.34.0
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
 	Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000ded19805cf4739a4"
+Content-Type: multipart/alternative; boundary="000000000000a524b905cf477eba"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 20:21:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 20:40:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157452
+ https://lists.openembedded.org/g/openembedded-core/message/157453
 
---000000000000ded19805cf4739a4
+--000000000000a524b905cf477eba
 Content-Type: text/plain; charset="UTF-8"
 
-I'll run a build now to reproduce again.
-
-Alex
-
-On Tue, 26 Oct 2021 at 22:07, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+On Tue, Oct 26, 2021 at 10:07 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
 > On Tue, 26 Oct 2021 at 21:38, Martin Jansa <martin.jansa@gmail.com> wrote:
 >
@@ -125,30 +121,19 @@ On Tue, 26 Oct 2021 at 22:07, Alexander Kanavin via lists.openembedded.org
 > Is it in the same 'building nodistro without enabling opengl' setup?
 > Please try to use plain poky, with opengl, and you'll see the issue.
 >
-> Alex
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157451):
-> https://lists.openembedded.org/g/openembedded-core/message/157451
-> Mute This Topic: https://lists.openembedded.org/mt/86232785/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
 
---000000000000ded19805cf4739a4
+No, this one was with opengl enabled, which was failing in do_configure do
+to missing gperf-native, but now when that was fixed it fails in do_compile.
+
+Build without opengl still works with works with my patch.
+
+--000000000000a524b905cf477eba
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I&#39;ll run a build now to reproduce again.</div><di=
-v><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Tue, 26 Oct 2021 at 22:07, Alexander Kana=
-vin via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a=
-> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gm=
-ail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D=
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Oct 26, 2021 at 10:07 PM Alexande=
+r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
+com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D=
 "gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
 04,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><=
 div dir=3D"ltr" class=3D"gmail_attr">On Tue, 26 Oct 2021 at 21:38, Martin J=
@@ -194,27 +179,11 @@ ytes =3D 0;<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 ^~~~~~<br></div>=
 <div><br></div><div>and deleting this patch fixes the build.</div></div></d=
 iv></blockquote><div><br></div><div>Is it in the same &#39;building nodistr=
 o without enabling opengl&#39; setup? Please try to use plain poky, with op=
-engl, and you&#39;ll see the issue.</div><div><br></div><div>Alex<br></div>=
-</div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#157451): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/157451" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/157451</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86232785/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86232785/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+engl, and you&#39;ll see the issue.<br></div></div></div></blockquote><div>=
+<br></div><div>No, this one was with opengl enabled, which was failing in d=
+o_configure do to missing gperf-native, but now when that was fixed it fail=
+s in do_compile.</div><div><br></div><div>Build without opengl still works =
+with works with my patch.</div></div></div>
 
---000000000000ded19805cf4739a4--
+--000000000000a524b905cf477eba--
 
