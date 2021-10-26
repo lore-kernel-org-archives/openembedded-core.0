@@ -2,58 +2,58 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1062C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 15:52:25 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web12.14110.1635263544490374622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0CAC433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 15:52:46 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web08.14256.1635263566050559930
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 08:52:24 -0700
+ Tue, 26 Oct 2021 08:52:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UnXpH0We;
- spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Be8PC9Sd;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id f1so739859qto.9
+Received: by mail-qt1-f182.google.com with SMTP id w8so13943836qts.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 08:52:24 -0700 (PDT)
+ Tue, 26 Oct 2021 08:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lrLZcDJlL+D5nve3oWKWuGOyUsECczjzG/cBQRKdFYw=;
-        b=UnXpH0WeHrLORKB/TPY2hB+PbZKkD9NwyxbtZiL/3LI36+xfP83No1hWUqPItXEoaY
-         jx8xbt4pvtJKFauflSZHXR86bsnww/gheFxi6w8f0+DHMV2koouABjtXHkWENfek+LSo
-         gZvAUwRkxu6F6qYeATEiiHNFarjVpnG8I7nvwjl2hb7CZ8I+o8xAzf4KQ/AUnKghoxjv
-         PQODG/A0khcBGllzDMWoBzuFcZayGG9gm66uRwzuhhs7cgJ8ZlsQrbGxBIe9FTEexavZ
-         7KcC658tuJQL5JaTmh3zSg+BkKDdq/zSfiVAUnUhnJIdHFDNsN85BU9+j+m6L01CT5Gu
-         WBjg==
+        bh=ZlklNGQb58E+gGddkhdi0cMMUFYLKQnrKhaqkEQSCo8=;
+        b=Be8PC9Sd19rzRdquomSJD+dnM1zHYn2LGxBC9j1j1zSr7RnVk4rcLuu+Ja9sEJ/zFr
+         Zgqt970m0TZz8t84teggIJ2qeiV6Tm8PErJedCVWSg2+KFYpDwMiEfPjPGDBGw/t2YpB
+         qhA26z663Bo8jjRnfEzPW7b5X/dSgvKBA3Hapc2ud75BBzaoE/gbC1dFRCzhzFULmw3q
+         eYqjKXdCm7m+TiSTUHhRxBKXQEMaJdxSXwNcxUYAShPWiTLdGWRY+4Q/qH/Kzh5b9qoH
+         +zp9MEf3b7K6luWLLEC72kzipw5g9Gb9uRb9mMdeREErpbzakgeuZGaruq9+nqPag3u8
+         nNtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lrLZcDJlL+D5nve3oWKWuGOyUsECczjzG/cBQRKdFYw=;
-        b=aUSDWel9PHbMShznEKoQl0k0BoCl7GZbuq9YDOBoOcvI84p3/BluchL5zluEnD0Dfc
-         5sLBVCSTmDtzlpCFwtGVPJF35CvRTlSJljJvpJkhJxUXbiKATr3in0uNGFFa535/hWDP
-         wn8VlvVSkci9KSqpjZHfB9WD793KKNnageG/xd4hrGZLSQx6lO7lqT9h+2WqXVeAlj1M
-         X4XaAZCowY6/fWPz+jOyoDB4gGAaUi3NuLnUqUFG/fgNWBoB6ivYCuHqm3y68ZMalEzI
-         FKbRPqU68aF6BEUvE8eW8ZV93X6irNq05VNmsGB77zMReY5avG4bJvV5jceX4EbMlQjF
-         0lEg==
-X-Gm-Message-State: AOAM533ijdD1LZo/BSF77xkTNtskygI74HV8OR6NlE2TbBljZGDzoSHf
-	/C7XlvfgOIQqnQ99mm5vJv0eSDiR0Ej4k7M9kcc=
+        bh=ZlklNGQb58E+gGddkhdi0cMMUFYLKQnrKhaqkEQSCo8=;
+        b=t38WRAdArvnHArSo5WWq1kSjqXJXGDl4840OOvC6YuvQT/vqaYRNPhMlAvvaRoPlN5
+         8DgdCTEnfep09xWrk0kcLbdkhSaET82/qnEAZfBBhdGMU7RbBUgf/cfKhQYPHKnPgwXx
+         6oxGnrQHfafymXWk+4JdGPDkJiIjAvLx06nZlnlh3luOT2Rp/0DzzwipCE0rGJzAzlAN
+         TRv6HkjMt7cu+PbEMmYHzoCk0NEr/oqAPUiAxlF3IXztzvFLuDqbcnrAlUHZdILWQ6iQ
+         JXDMUmubdjijl8VlV45SAH1odVdN6k7bZviyQwZCTqwmw1Ea7iaa4Mgu/9bqenv5PJDx
+         1JQw==
+X-Gm-Message-State: AOAM530RcuaDJHhrdyd/tyzCsTWWgMrhWH829HuxLOhrE+bw7imLNHcg
+	X4AnHA8HYE0masvhRBVjOROgRY/rolLxiJxyyWtX2NUX
 X-Google-Smtp-Source: 
- ABdhPJyPI82uzbnoCjOUUyciz+IO1QDczz+CduqIhOmzpOx1qrK7IKTZlPm0zMa43GEObd+HgOi8JEi7ZU7db/fp6Dw=
-X-Received: by 2002:ac8:1e0b:: with SMTP id
- n11mr24931005qtl.274.1635263543479;
- Tue, 26 Oct 2021 08:52:23 -0700 (PDT)
+ ABdhPJwrOVTmRUBN22E+44wuekt6iOv7wdNliq7KLhMpofRMuMSlf19y4ztLtDKFRDE0ZpvJz7w1qS9bUfoQbObm+Og=
+X-Received: by 2002:a05:622a:13cc:: with SMTP id
+ p12mr25975802qtk.227.1635263565154;
+ Tue, 26 Oct 2021 08:52:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211026111140.3298966-1-richard.purdie@linuxfoundation.org>
- <20211026111140.3298966-3-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20211026111140.3298966-3-richard.purdie@linuxfoundation.org>
+ <20211026111140.3298966-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20211026111140.3298966-2-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Oct 2021 08:51:57 -0700
+Date: Tue, 26 Oct 2021 08:52:19 -0700
 Message-ID: 
- <CAMKF1spX3O-jdGUxXQrOhjBzAGz6dFa_kR13ZbyLixpgZUu=jQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] gcc: Fix nolibstdc++ patch
+ <CAMKF1srcgKdVWFF=AC=wAoVDHd955SF6sB_n1tSwCJpiymfy=Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/4] gcc: Drop sdt (dtrace) header patch
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
@@ -61,87 +61,162 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 15:52:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 15:52:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157400
+ https://lists.openembedded.org/g/openembedded-core/message/157401
 
-thanks, I guess since it was documentation no one noticed it.
+ok
 
 On Tue, Oct 26, 2021 at 4:11 AM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 >
-> Somewhere along the line the docs patch was corrupted with incorrect
-> changes. Strip these out and clean up the patch.
+> Since we now have recipe specific sysroots we no longer need this patch
+> to avoid the dtrace headers affecting the build of gcc-runtime. Drop
+> the patch.
 >
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../gcc/gcc/0005-optional-libstdc.patch       | 28 ++-----------------
->  1 file changed, 2 insertions(+), 26 deletions(-)
+>  meta/recipes-devtools/gcc/gcc-11.2.inc        |   1 -
+>  .../gcc/gcc/0013-Disable-sdt.patch            | 110 ------------------
+>  2 files changed, 111 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/gcc/gcc/0013-Disable-sdt.patch
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-> index c921ac3340c..c64fbf6a976 100644
-> --- a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-> +++ b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-> @@ -55,12 +55,10 @@ diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
->  index 6659a903bf0..9ee63dbe52f 100644
->  --- a/gcc/doc/invoke.texi
->  +++ b/gcc/doc/invoke.texi
-> -@@ -239,6 +239,9 @@ in the following sections.
-> +@@ -239,6 +239,7 @@ in the following sections.
->   -fno-weak  -nostdinc++ @gol
->   -fvisibility-inlines-hidden @gol
->   -fvisibility-ms-compat @gol
-> -+-fvtable-verify=@r{[}std@r{|}preinit@r{|}none@r{]} @gol
-> -+-fvtv-counts -fvtv-debug @gol
->  +-nostdlib++ @gol
->   -fext-numeric-literals @gol
->   -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
-> @@ -74,7 +72,7 @@ index 6659a903bf0..9ee63dbe52f 100644
->   -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
->   -u @var{symbol}  -z @var{keyword}}
->
-> -@@ -15708,6 +15711,33 @@ Specify that the program entry point is @var{entry}.  The argument is
-> +@@ -15708,6 +15711,11 @@ Specify that the program entry point is @var{entry}.  The argument is
->   interpreted by the linker; the GNU linker accepts either a symbol name
->   or an address.
->
-> @@ -82,28 +80,6 @@ index 6659a903bf0..9ee63dbe52f 100644
->  +@opindex nostdlib++
->  +Do not use the standard system C++ runtime libraries when linking.
->  +Only the libraries you specify will be passed to the linker.
-> -+
-> -+@cindex @option{-lgcc}, use with @option{-nostdlib}
-> -+@cindex @option{-nostdlib} and unresolved references
-> -+@cindex unresolved references and @option{-nostdlib}
-> -+@cindex @option{-lgcc}, use with @option{-nodefaultlibs}
-> -+@cindex @option{-nodefaultlibs} and unresolved references
-> -+@cindex unresolved references and @option{-nodefaultlibs}
-> -+One of the standard libraries bypassed by @option{-nostdlib} and
-> -+@option{-nodefaultlibs} is @file{libgcc.a}, a library of internal subroutines
-> -+which GCC uses to overcome shortcomings of particular machines, or special
-> -+needs for some languages.
-> -+(@xref{Interface,,Interfacing to GCC Output,gccint,GNU Compiler
-> -+Collection (GCC) Internals},
-> -+for more discussion of @file{libgcc.a}.)
-> -+In most cases, you need @file{libgcc.a} even when you want to avoid
-> -+other standard libraries.  In other words, when you specify @option{-nostdlib}
-> -+or @option{-nodefaultlibs} you should usually specify @option{-lgcc} as well.
-> -+This ensures that you have no unresolved references to internal GCC
-> -+library subroutines.
-> -+(An example of such an internal subroutine is @code{__main}, used to ensure C++
-> -+constructors are called; @pxref{Collect2,,@code{collect2}, gccint,
-> -+GNU Compiler Collection (GCC) Internals}.)
->  +
->   @item -pie
->   @opindex pie
+> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
+> index 6fa344e9612..1ab779533ca 100644
+> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
+> @@ -42,7 +42,6 @@ SRC_URI = "\
+>             file://0010-MIPS64-Default-to-N64-ABI.patch \
+>             file://0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch \
+>             file://0012-gcc-Fix-argument-list-too-long-error.patch \
+> -           file://0013-Disable-sdt.patch \
+>             file://0014-libtool.patch \
+>             file://0015-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
+>             file://0016-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
+> diff --git a/meta/recipes-devtools/gcc/gcc/0013-Disable-sdt.patch b/meta/recipes-devtools/gcc/gcc/0013-Disable-sdt.patch
+> deleted file mode 100644
+> index 1e657666df9..00000000000
+> --- a/meta/recipes-devtools/gcc/gcc/0013-Disable-sdt.patch
+> +++ /dev/null
+> @@ -1,110 +0,0 @@
+> -From 7928a4eddc4a6d821a6aa6eaaea1fd60d54e3da9 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Fri, 29 Mar 2013 09:28:10 +0400
+> -Subject: [PATCH] Disable sdt.
+> -
+> -We don't list dtrace in DEPENDS so we shouldn't be depending on this header.
+> -It may or may not exist from preivous builds though. To be determinstic, disable
+> -sdt.h usage always. This avoids build failures if the header is removed after configure
+> -but before libgcc is compiled for example.
+> -
+> -RP 2012/8/7
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> -Disable sdt for libstdc++-v3.
+> -
+> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> -
+> -Upstream-Status: Inappropriate [hack]
+> ----
+> - gcc/configure             | 12 ++++++------
+> - gcc/configure.ac          | 18 +++++++++---------
+> - libstdc++-v3/configure    |  6 +++---
+> - libstdc++-v3/configure.ac |  2 +-
+> - 4 files changed, 19 insertions(+), 19 deletions(-)
+> -
+> -diff --git a/gcc/configure b/gcc/configure
+> -index c5d3bc4ee2d..5160917d73e 100755
+> ---- a/gcc/configure
+> -+++ b/gcc/configure
+> -@@ -30812,12 +30812,12 @@ fi
+> - { $as_echo "$as_me:${as_lineno-$LINENO}: checking sys/sdt.h in the target C library" >&5
+> - $as_echo_n "checking sys/sdt.h in the target C library... " >&6; }
+> - have_sys_sdt_h=no
+> --if test -f $target_header_dir/sys/sdt.h; then
+> --  have_sys_sdt_h=yes
+> --
+> --$as_echo "#define HAVE_SYS_SDT_H 1" >>confdefs.h
+> --
+> --fi
+> -+#if test -f $target_header_dir/sys/sdt.h; then
+> -+#  have_sys_sdt_h=yes
+> -+#
+> -+#$as_echo "#define HAVE_SYS_SDT_H 1" >>confdefs.h
+> -+#
+> -+#fi
+> - { $as_echo "$as_me:${as_lineno-$LINENO}: result: $have_sys_sdt_h" >&5
+> - $as_echo "$have_sys_sdt_h" >&6; }
+> -
+> -diff --git a/gcc/configure.ac b/gcc/configure.ac
+> -index f83420326d6..50f78308e8a 100644
+> ---- a/gcc/configure.ac
+> -+++ b/gcc/configure.ac
+> -@@ -6653,15 +6653,15 @@ fi
+> - AC_SUBST([enable_default_ssp])
+> -
+> - # Test for <sys/sdt.h> on the target.
+> --GCC_TARGET_TEMPLATE([HAVE_SYS_SDT_H])
+> --AC_MSG_CHECKING(sys/sdt.h in the target C library)
+> --have_sys_sdt_h=no
+> --if test -f $target_header_dir/sys/sdt.h; then
+> --  have_sys_sdt_h=yes
+> --  AC_DEFINE(HAVE_SYS_SDT_H, 1,
+> --            [Define if your target C library provides sys/sdt.h])
+> --fi
+> --AC_MSG_RESULT($have_sys_sdt_h)
+> -+#GCC_TARGET_TEMPLATE([HAVE_SYS_SDT_H])
+> -+#AC_MSG_CHECKING(sys/sdt.h in the target C library)
+> -+#have_sys_sdt_h=no
+> -+#if test -f $target_header_dir/sys/sdt.h; then
+> -+#  have_sys_sdt_h=yes
+> -+#  AC_DEFINE(HAVE_SYS_SDT_H, 1,
+> -+#            [Define if your target C library provides sys/sdt.h])
+> -+#fi
+> -+#AC_MSG_RESULT($have_sys_sdt_h)
+> -
+> - # Check if TFmode long double should be used by default or not.
+> - # Some glibc targets used DFmode long double, but with glibc 2.4
+> -diff --git a/libstdc++-v3/configure b/libstdc++-v3/configure
+> -index a310e9feb6c..c879445b8a6 100755
+> ---- a/libstdc++-v3/configure
+> -+++ b/libstdc++-v3/configure
+> -@@ -22014,11 +22014,11 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+> - ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+> - ac_compiler_gnu=$ac_cv_c_compiler_gnu
+> -
+> --  if test $glibcxx_cv_sys_sdt_h = yes; then
+> -+#  if test $glibcxx_cv_sys_sdt_h = yes; then
+> -
+> --$as_echo "#define HAVE_SYS_SDT_H 1" >>confdefs.h
+> -+#$as_echo "#define HAVE_SYS_SDT_H 1" >>confdefs.h
+> -
+> --  fi
+> -+#  fi
+> -   { $as_echo "$as_me:${as_lineno-$LINENO}: result: $glibcxx_cv_sys_sdt_h" >&5
+> - $as_echo "$glibcxx_cv_sys_sdt_h" >&6; }
+> -
+> -diff --git a/libstdc++-v3/configure.ac b/libstdc++-v3/configure.ac
+> -index 3c799be82b1..3f63a8ec9ce 100644
+> ---- a/libstdc++-v3/configure.ac
+> -+++ b/libstdc++-v3/configure.ac
+> -@@ -240,7 +240,7 @@ GLIBCXX_CHECK_SC_NPROCESSORS_ONLN
+> - GLIBCXX_CHECK_SC_NPROC_ONLN
+> - GLIBCXX_CHECK_PTHREADS_NUM_PROCESSORS_NP
+> - GLIBCXX_CHECK_SYSCTL_HW_NCPU
+> --GLIBCXX_CHECK_SDT_H
+> -+#GLIBCXX_CHECK_SDT_H
+> -
+> - # Check for available headers.
+> - AC_CHECK_HEADERS([endian.h execinfo.h float.h fp.h ieeefp.h inttypes.h \
 > --
 > 2.32.0
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157385): https://lists.openembedded.org/g/openembedded-core/message/157385
-> Mute This Topic: https://lists.openembedded.org/mt/86599749/1997914
+> View/Reply Online (#157384): https://lists.openembedded.org/g/openembedded-core/message/157384
+> Mute This Topic: https://lists.openembedded.org/mt/86599748/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
