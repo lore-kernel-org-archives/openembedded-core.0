@@ -1,279 +1,158 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Ahmed.Hossam@opensynergy.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E6AC433FE
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 18:25:34 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.569.1635272733502348118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D954EC433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 18:57:48 +0000 (UTC)
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.137])
+ by mx.groups.io with SMTP id smtpd.web08.982.1635274666868491828
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 11:25:33 -0700
+ Tue, 26 Oct 2021 11:57:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SwHwP7LV;
- spf=pass (domain: gmail.com, ip: 209.85.219.42,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id v10so45976qvb.10
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 11:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ds8WfFYLC/+e6L5WTEeV2NI/rkD7Bx0SX/DgSeZ8zco=;
-        b=SwHwP7LVIgkgpQ9X0Ol3LeDVzf8DgSEVDsHsXCE+Rp0XP2LlkZ4/LC3Fgp5DDGJDK6
-         HQlxeg+07QHAusMlPJh/FGD7e++jHOK/8jKMVQoQj8gJgL56hMgaDQNaXe4fImYe6P9K
-         VtjLZTYZEZcCsK0fEKmTv3WQCjNtD2U6Od4nQqgtzO9lXt12RVD6kMgYXOK0xkmswTxC
-         urShj0E2zf4GHqKFjTZIN9ZV9HMm+MDWrodoURmGaATe5D2AhLfz0vjeREbmsRHurhhx
-         yllvmRJ1OAF/Oyg0pNvzBg34hlfsZHxt/R6tjeksNbkVkQW8bqWE8IHRZKTLmaPG2yVf
-         IT1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ds8WfFYLC/+e6L5WTEeV2NI/rkD7Bx0SX/DgSeZ8zco=;
-        b=AHj9kk4PW8WlGaTrBTIsNrjn8RED75rZLRL95lRQov3/5qiGJ/FYdGQKd5j/vk8eI+
-         hWEXtNOggwQquCCMQ/bGEkkOW7PlzN5N4KAmpqwRxBHe9xMiMKdroeKwkYZR1OlC2DPP
-         9TrNkEeZQIXrN0NuheXAPnVkdCoDI5eyweESMm0F617G4M1I6xMF3VRLkj9tcXmfJVt6
-         RBRVNlMSFnE7Oz1dYqDFVIq+RCDGfBddUa94BKfvjVMgJMtDDZb5BxA50NMGCB+Ntsv7
-         5M5Ezoj0rrfwFSdQmtNeGVT7URpYRMpUUrxCbZz6yahiUNVrIs53NwjyOHw2eVvjJnYl
-         IBwA==
-X-Gm-Message-State: AOAM531ib1u0d38D+AX22ofreZS0SY/zDBvSttNeiSpmVLdvSJ8P+rcY
-	AiPeB3IFLGIIQf9pJVv21NhLOPvjiiDlTg==
-X-Google-Smtp-Source: 
- ABdhPJxFcBFV9PaJyM619X0kP1xdiLPOXtgNMHlxAzmvnod4sPC89bX4wws+Lu+Xj/EqgcgxqQBHFQ==
-X-Received: by 2002:ad4:5949:: with SMTP id eo9mr10899575qvb.44.1635272732451;
-        Tue, 26 Oct 2021 11:25:32 -0700 (PDT)
-Received: from build.lan
- (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id
- x16sm10608460qtp.56.2021.10.26.11.25.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 11:25:31 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] linux-yocto/5.10: update to v5.10.75
-Date: Tue, 26 Oct 2021 14:25:24 -0400
-Message-Id: 
- <b49974a74541318c9cb284d1d603479d4805eb60.1635272591.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1635272591.git.bruce.ashfield@gmail.com>
-References: <cover.1635272591.git.bruce.ashfield@gmail.com>
+ dkim=pass header.i=@opensynergy.com header.s=selector1 header.b=mmc3jdwe;
+ spf=pass (domain: opensynergy.com, ip: 40.107.5.137,
+ mailfrom: ahmed.hossam@opensynergy.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MeK/bv80gjQXOpuULYkwl+jDsWEQACCxY/w26wdOwZsKRGHpEZ537v7RArc+4LpN5pUQ47ddS+Bo/vDTWYMWWftH6BilHckZHY/N+u1HBWZ2jwwMHNHvQvGTqHS/OfBsTcwWhQOvZC6TcXEyHzcdSFy0E3tUA4pglD36/nl/4K4Hn2U4TufjTYlo9g9Rms9iqN7mOaiRR1BqhN4YkAmwCMrXEZzazCR5IDRPaGi1d0RlSOtL9LABUKX7XpiQKPGAhltIuZ9J2FdW48k4sh4sbTVDwJorrxG6VHIFM+Rr41G4VVxVNDejH1khWMnKI7cHdFalOhI1GIEpKDKPbX9QPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DZFkllUuHA/Z7EB2zqUmt+NFT7Wug75Q2MotYeiqYTo=;
+ b=d/P7FDzlONAxTp1VlWpl9Qk8MgFcqf+xI6U2NknCVofnv1Qn+/jiImLrmGZgDvZ5VscOlvqYofkgyFQrxHFiCsC1cGwFaVTMV5fX7uHNynoqZaoVNRn+xn/FIPgl2vxZqAjD/aP8kt8Tj2S0M7BVa5jEDq+We8WrM4tryTPjqyWdqEK13argYXFvbz7n0CRGDOzJ+ZU3cVQA5JvisPezjINBLHBYmp+3UaWFmU53A++bherrB1M+zVXrVpcy2mJsAOMQImr3s693lhGchCw0ItwlyUfKsCO/E/RVybcbLdvgmWrul90oWJWC/N8FW2dzrdMRga02Uyld4qBxW6mkQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=opensynergy.com; dmarc=pass action=none
+ header.from=opensynergy.com; dkim=pass header.d=opensynergy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opensynergy.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DZFkllUuHA/Z7EB2zqUmt+NFT7Wug75Q2MotYeiqYTo=;
+ b=mmc3jdweDFNmZg4U3EYjJBx75GubPHxhBM+pnPqJmStgw7Q0OwP1D9EcuNz0H81ijY6PK2QAOtN3E+hQTitlUjZBNISA+FRFXVMn68fyqvqjSSiXTvN82U+naJp2f/qDW1dN96oEdIHjJXqlz1nMbuCWRcNai1Al6XiXHOabL6Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=opensynergy.com;
+From: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
+Subject: [PATCH] go.bbclass: Allow adding parameters to go ldflags
+Date: Tue, 26 Oct 2021 20:56:42 +0200
+Message-Id: <20211026185642.13747-1-Ahmed.Hossam@opensynergy.com>
+X-Mailer: git-send-email 2.33.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: AM5PR0101CA0024.eurprd01.prod.exchangelabs.com
+ (2603:10a6:206:16::37) To PAXPR04MB8349.eurprd04.prod.outlook.com
+ (2603:10a6:102:1bd::9)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f741c098-a46a-48bf-1450-08d998b27e48
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7535:
+X-Microsoft-Antispam-PRVS: 
+	<PA4PR04MB7535106A3298CF88B45C0B7C8C849@PA4PR04MB7535.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	fmnt5czYlGP1Dlxg+DBTfKTxR9wBzeFz9IMfbnQ7T5yMLhUwdy+6cKCXN/HFunillDJBc8CtyLe6/zJqecfALpvPsbFpQmdU71BWHLE1LAtjbtGusYVzqemNWbUDtM9wn/ysVnHZnlLIPiF67vVu8K4CrcHL5T3T4tAaUcBGx6JGWB7+5ZWEWhSbZ/3uaC8GnQHNtUhPXO84moHO1yCJ5VAPc6kFEoXt7qxLJ9dZN4/XxQ6xchjLtcs5CVaJLEcxmvCcg8S5ANiZmxReiBzosKtAZZvSCX2r6hxZTQez1kg+G911ohu1XuLdPCnKju213ZnRJkgx2vovzqaZ1LAeOt1L+koX8Bkei/RpaoFaHqNuv8K8FZTAX/Ub0zaZg2hrWXQwSGIlIi7gLEmDDOYqkwel0MA2FGcJqGUSuo5rbERxDzwRgue3pKI9EW9LLzJjo7tuxPg+3dZy4+VblpMfqSF1FmsaCmAemBk8KITzI2hWvEfDS4ayX73eLD32N0uaQtWqhIj29vwkcOzNmF09qpFcjPCDSlFSZfDUGsYDa1t7CCnjf7apzhYytEPDuHKSrWNqXXL15Dv7+cx0yfcmYlGhQg77LcKOx5H9UWM/x9eONRtehciW82O0AzVCPvlxM5UCNbqlUVF8ElS/rbOZVQSFBR/oJPz4t7aWDQp046/lCRu8JrT3nXSU/cWfZ2Ta1UWEWTm+Wvv9eJVx9EoMUg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8349.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(366004)(39830400003)(136003)(376002)(6916009)(26005)(86362001)(8936002)(2616005)(36756003)(83380400001)(38100700002)(55236004)(52116002)(38350700002)(2906002)(4326008)(1076003)(5660300002)(66946007)(8676002)(316002)(42186006)(508600001)(107886003)(186003)(66556008)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Cb+v9OFcNduddYs2flgdP8xydeZtPzRAdnse8bRz3qsNe+Uz0MEsmb5wIwU2?=
+ =?us-ascii?Q?y8Deex6OKF5MJV4MA/ZCZNuHo4G5KCzTW7g7FOAugf5lzOo1VrQylxIzbxt9?=
+ =?us-ascii?Q?iCSCm4DfGlub6ABjfFFxEeZf4axkhr1EYvKNLFDwzThecwS2RdRx8RS0gh+b?=
+ =?us-ascii?Q?Y+cvy06QS93WtwaMv4HAZK2UA13n23mswZ6LBbLYVhpvFP3OFSfrfbpcm+dS?=
+ =?us-ascii?Q?htmD9zt27xVyapaWh6wHZjqd2NKK2fJGNPojzt1WiNA1gaSAWFvw7uA7C4gp?=
+ =?us-ascii?Q?wK5R6LeuO7QyqQoE/HxBntbIKtiWJBLTlXRVRpYmW5SSI1Wffnm1lKwnOFJR?=
+ =?us-ascii?Q?d5pzTlvBD1s03kj7yXatjuz5P+qoasRPwfvrWffz4tie8e83rm8ixTTYreGv?=
+ =?us-ascii?Q?YkTQDHKZprrYt1NyorvoPkAHpGmIxC/MKe5Qva2TmnvAve26/B4EQi2R86nb?=
+ =?us-ascii?Q?Xd8jModHYVUnx0oJkL6zwA7LB0uGC59WihdlWRt5t4n7I72TReVxk4XCXqDG?=
+ =?us-ascii?Q?sDTWOwbMLmnN64mMfZNN1rRR2Em/B9PROBk8Y0GyajVgFxelrLwQUvoZC8K4?=
+ =?us-ascii?Q?z+AzUDffUGu84uwJKqdcsuKgT97xQq8ydweqCzK7VDI0R5pfc0hSBfPiUGUy?=
+ =?us-ascii?Q?WSnrnwX/Au199u0DLH/l5hcTaBs1d3uJwfEVUipcqlVuz8Df4TGYZTc8VKOp?=
+ =?us-ascii?Q?MUnTS425NKEuNW+udbphzetMn09V1RokuwsGNiAtjgQ16IUq7sRzVIeuiWJJ?=
+ =?us-ascii?Q?v+PIngho7/lqWIyag5atqtHIDXsSFvkhRCi2XMfTGABYBa1OT1CzSiWir0Zn?=
+ =?us-ascii?Q?ZgyXxJms9Lo9myx5EyyEDG864uxl2OSideBQw9DMOq3b43r7kewF8U1SK6Te?=
+ =?us-ascii?Q?wNcTkV2TxzxVV3W6rErJ+W3SSbjJBj7Y0DG7p3imGMbHZI0c+ubLg0cT1faJ?=
+ =?us-ascii?Q?4n2aU+XJV0beQYUw5zt5WAeBkfXn9kwzhJPbpuS0FbTUeRCdLn634+nIPj5t?=
+ =?us-ascii?Q?x228JNOieKmW/mLVhaolo5Hh7KVgCmzoBV0Mqb+voUyyt8LDv22QhCbx5hP9?=
+ =?us-ascii?Q?vXRuVSvGox2+jTA7mMcbGbnzQN9zYxcKg1ysLxEiUvZVxHn7bQubULMJEkjD?=
+ =?us-ascii?Q?otwi1Bb19fErhV9Yl48QbT2WrVuYZ7v0ZAZJlMD+nmDID3M7Fo2gnLf4N8OI?=
+ =?us-ascii?Q?GiSpoQ8N1Ts9kXsrUzxmJyO/h7mE0zM4QMS8uIO04UBCcqd3xT5JdYLsUl4/?=
+ =?us-ascii?Q?oeJGHb42yc9jNnK0HznD30utWcCRTvcMC98NulNKZOUt7SxsedRDkkMFo/qr?=
+ =?us-ascii?Q?4PTlxTTFcpUBlp8Xx2AD6r723dc5bVDpUp6lZmrBv8WTdOhhUiG3wrG99nCc?=
+ =?us-ascii?Q?72whWw3kU8oG/FP8N64lFnlQ+soAODbBbuI+7Rx04aZAfo4XFDWSaU//A2FZ?=
+ =?us-ascii?Q?XMnUJ3sixPChU+Y4w8c+xE40ovf+vrV1q4ZkUH44FkTvjTgag2epaW+oI1sn?=
+ =?us-ascii?Q?k9C/PpfozD8twLdU+WLQ8Zcrc68jgRhs/qx3lrkpYGhfBHRQRradWXnND2Tf?=
+ =?us-ascii?Q?fJHRF7yV4Sg+7nSlpbD13HkOROQzfJHu2GBzxeADTjsVKSX0/ihFTrM6VG7P?=
+ =?us-ascii?Q?NtUWpHXxPIWwNDkdVTtwOlM=3D?=
+X-OriginatorOrg: opensynergy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ f741c098-a46a-48bf-1450-08d998b27e48
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8349.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 18:57:44.1472
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 800fae25-9b1b-4edc-993d-c939c4e84a64
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ +Jn/l10/YNaiGaqYjP9vjjkhh+x8gCMWWuhxVuJF/OKWFtD9VOUs6upsbvezvIocZXJRDVJs3tUWi3ilbiby3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7535
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 18:25:34 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 18:57:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157448
+ https://lists.openembedded.org/g/openembedded-core/message/157449
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Currently, there is no clean way to pass extra parameters to the go tool li=
+nk,
+which is passed by the go build ldflags flag, the append needs to happen in=
+side
+the quotes of the ldflags parameter
 
-Updating linux-yocto/5.10 to the latest korg -stable release that comprises
-the following commits:
+See [YOCTO #14554].
 
-    3a9842b42e42 Linux 5.10.75
-    3e2873652163 net: dsa: mv88e6xxx: don't use PHY_DETECT on internal PHY's
-    3593fa147c86 ionic: don't remove netdev->dev_addr when syncing uc list
-    f33890d9bb59 net: mscc: ocelot: warn when a PTP IRQ is raised for an unknown skb
-    9c546af181bc nfp: flow_offload: move flow_indr_dev_register from app init to app start
-    6da9af2d2531 r8152: select CRC32 and CRYPTO/CRYPTO_HASH/CRYPTO_SHA256
-    ecfd4fa15b06 qed: Fix missing error code in qed_slowpath_start()
-    51f6e72ca656 mqprio: Correct stats in mqprio_dump_class_stats().
-    fdaff7f9e806 platform/x86: intel_scu_ipc: Fix busy loop expiry time
-    057ee6843bbb acpi/arm64: fix next_platform_timer() section mismatch error
-    c6b2400095ba drm/msm/dsi: fix off by one in dsi_bus_clk_enable error handling
-    2c5658717428 drm/msm/dsi: Fix an error code in msm_dsi_modeset_init()
-    b28586fb04f3 drm/msm/a6xx: Track current ctx by seqno
-    abd11864159b drm/msm/mdp5: fix cursor-related warnings
-    91a340768b01 drm/msm: Fix null pointer dereference on pointer edp
-    a7b45024f66f drm/edid: In connector_bad_edid() cap num_of_ext by num_blocks read
-    d0f0e1710397 drm/panel: olimex-lcd-olinuxino: select CRC32
-    a4a37e6516f8 spi: bcm-qspi: clear MSPI spifie interrupt during probe
-    d9428f08e1c3 platform/mellanox: mlxreg-io: Fix read access of n-bytes size attributes
-    c216cebdd245 platform/mellanox: mlxreg-io: Fix argument base in kstrtou32() call
-    e59d839743b5 mlxsw: thermal: Fix out-of-bounds memory accesses
-    7eef482db728 ata: ahci_platform: fix null-ptr-deref in ahci_platform_enable_regulators()
-    116932c0e45e pata_legacy: fix a couple uninitialized variable bugs
-    50cb95487c26 NFC: digital: fix possible memory leak in digital_in_send_sdd_req()
-    3f2960b39f22 NFC: digital: fix possible memory leak in digital_tg_listen_mdaa()
-    2f21f06a5e7a nfc: fix error handling of nfc_proto_register()
-    ba39f55952a2 vhost-vdpa: Fix the wrong input in config_cb
-    84e0f2fc662e ethernet: s2io: fix setting mac address during resume
-    e19c10d6e07c net: encx24j600: check error in devm_regmap_init_encx24j600
-    f2e1de075018 net: dsa: microchip: Added the condition for scheduling ksz_mib_read_work
-    9053c5b4594c net: stmmac: fix get_hw_feature() on old hardware
-    12da46cb6a90 net/mlx5e: Mutually exclude RX-FCS and RX-port-timestamp
-    4f7bddf8c5c0 net/mlx5e: Fix memory leak in mlx5_core_destroy_cq() error path
-    afb0c67dfdb5 net: korina: select CRC32
-    33ca85010511 net: arc: select CRC32
-    17a027aafd52 gpio: pca953x: Improve bias setting
-    d84a69ac410f sctp: account stream padding length for reconf chunk
-    6fecdb5b54a5 nvme-pci: Fix abort command id
-    2d937cc12c14 ARM: dts: bcm2711-rpi-4-b: Fix pcie0's unit address formatting
-    6e6082250b53 ARM: dts: bcm2711-rpi-4-b: fix sd_io_1v8_reg regulator states
-    48613e687e28 ARM: dts: bcm2711: fix MDIO #address- and #size-cells
-    6e6e3018d3ce ARM: dts: bcm2711-rpi-4-b: Fix usb's unit address
-    76644f94595b tee: optee: Fix missing devices unregister during optee_remove
-    07f885682486 iio: dac: ti-dac5571: fix an error code in probe()
-    6c0024bcaadc iio: ssp_sensors: fix error code in ssp_print_mcu_debug()
-    0fbc3cf7dd9a iio: ssp_sensors: add more range checking in ssp_parse_dataframe()
-    abe5b13dd959 iio: adc: max1027: Fix the number of max1X31 channels
-    41e84a4f25b6 iio: light: opt3001: Fixed timeout error when 0 lux
-    e811506f609a iio: mtk-auxadc: fix case IIO_CHAN_INFO_PROCESSED
-    1671cfd31b66 iio: adc: max1027: Fix wrong shift with 12-bit devices
-    f931076d32b6 iio: adc128s052: Fix the error handling path of 'adc128_probe()'
-    4425d059aa2e iio: adc: ad7793: Fix IRQ flag
-    d078043a1775 iio: adc: ad7780: Fix IRQ flag
-    a8177f0576fa iio: adc: ad7192: Add IRQ flag
-    be8ef91d6166 driver core: Reject pointless SYNC_STATE_ONLY device links
-    d5f13bbb5104 drivers: bus: simple-pm-bus: Add support for probing simple bus only devices
-    b45923f66eb6 iio: adc: aspeed: set driver data when adc probe.
-    ea947267eb6f powerpc/xive: Discard disabled interrupts in get_irqchip_state()
-    9e46bdfb55a3 x86/Kconfig: Do not enable AMD_MEM_ENCRYPT_ACTIVE_BY_DEFAULT automatically
-    57e48886401b nvmem: Fix shift-out-of-bound (UBSAN) with byte size cells
-    a7bd0dd3f2ed EDAC/armada-xp: Fix output of uncorrectable error counter
-    92e6e08ca2b0 virtio: write back F_VERSION_1 before validate
-    86e3ad8b759d misc: fastrpc: Add missing lock before accessing find_vma()
-    3f0ca245a834 USB: serial: option: add prod. id for Quectel EG91
-    ecad614b0c68 USB: serial: option: add Telit LE910Cx composition 0x1204
-    bf26bc72dc59 USB: serial: option: add Quectel EC200S-CN module support
-    d4b77900cffe USB: serial: qcserial: add EM9191 QDL support
-    3147f5721588 Input: xpad - add support for another USB ID of Nacon GC-100
-    9d89e2871167 usb: musb: dsps: Fix the probe error path
-    3b4275140142 efi: Change down_interruptible() in virt_efi_reset_system() to down_trylock()
-    5100dc4489ab efi/cper: use stack buffer for error record decoding
-    2c5dd2a8af77 cb710: avoid NULL pointer subtraction
-    d40e193abd07 xhci: Enable trust tx length quirk for Fresco FL11 USB controller
-    dec944bb7079 xhci: Fix command ring pointer corruption while aborting a command
-    dc3e0a20dbb9 xhci: guard accesses to ep_state in xhci_endpoint_reset()
-    0ee66290f006 USB: xhci: dbc: fix tty registration race
-    9f0d6c781cb5 mei: me: add Ice Lake-N device id.
-    e4f7171c2395 x86/resctrl: Free the ctrlval arrays when domain_setup_mon_state() fails
-    0e32a2b85c7d btrfs: fix abort logic in btrfs_replace_file_extents
-    52924879ed45 btrfs: update refs for any root except tree log roots
-    352349aa4948 btrfs: check for error when looking up inode during dir entry replay
-    4ed68471bc37 btrfs: deal with errors when adding inode reference during log replay
-    95d3aba5febe btrfs: deal with errors when replaying dir entry during log replay
-    206868a5b6c1 btrfs: unlock newly allocated extent buffer after error
-    e7e3ed5c92b6 drm/msm: Avoid potential overflow in timeout_to_jiffies()
-    a31c33aa80a5 arm64/hugetlb: fix CMA gigantic page order for non-4K PAGE_SIZE
-    0c97008859ca csky: Fixup regs.sr broken in ptrace
-    5dab6e8f141a csky: don't let sigreturn play with priveleged bits of status register
-    e3c37135c9ca clk: socfpga: agilex: fix duplicate s2f_user0_clk
-    faba7916cdc0 s390: fix strrchr() implementation
-    7ef43c0f68fb nds32/ftrace: Fix Error: invalid operands (*UND* and *UND* sections) for `^'
-    c3bf276fd7c8 ALSA: hda/realtek: Fix the mic type detection issue for ASUS G551JW
-    1099953b32c6 ALSA: hda/realtek: Fix for quirk to enable speaker output on the Lenovo 13s Gen2
-    554a5027f536 ALSA: hda/realtek: Add quirk for TongFang PHxTxX1
-    0fa256509b9f ALSA: hda/realtek - ALC236 headset MIC recording issue
-    1e10c6bf15d2 ALSA: hda/realtek: Add quirk for Clevo X170KM-G
-    8a5f01f4b01c ALSA: hda/realtek: Complete partial device name to avoid ambiguity
-    c6e5290e6cc1 ALSA: hda - Enable headphone mic on Dell Latitude laptops with ALC3254
-    9bb1659ac594 ALSA: hda/realtek: Enable 4-speaker output for Dell Precision 5560 laptop
-    7680631ac7ab ALSA: seq: Fix a potential UAF by wrong private_free call order
-    4aab156d302c ALSA: pcm: Workaround for a wrong offset in SYNC_PTR compat ioctl
-    f077d699c1d2 ALSA: usb-audio: Add quirk for VF0770
+Add a variable to allow adding extra parameters to -ldflags in the GO_LDFLA=
+GS
+variable, one of the main usecases is setting the application version.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+For example, adding to the recipe something like
+GO_EXTRA_LDFLAGS=3D"-X main.Version=3Dv1.0.0"
+or
+GO_EXTRA_LDFLAGS=3D"-X main.Version=3D${PV}"
+
+Signed-off-by: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
 ---
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ meta/classes/go.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 6df672273a..2795887b92 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "8048444fc7e44c6fc04a5e0b35d6117fe51c17fc"
--SRCREV_meta ?= "7676dde0569ceba548579dafcf8235b4eececbc8"
-+SRCREV_machine ?= "1d0eb980c3f825c193b07e925090a1a3dd752dbc"
-+SRCREV_meta ?= "9ff1e75562075e35b5c8649b0a1aece50d8531b7"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.10.74"
-+LINUX_VERSION ?= "5.10.75"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 2e1e5ba97d..94d0473098 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.10.74"
-+LINUX_VERSION ?= "5.10.75"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine:qemuarm ?= "e6536f1c95e7201db0ebb64495fe4efcd939f354"
--SRCREV_machine ?= "92dd39e841df0bf33d81965843543c30597688be"
--SRCREV_meta ?= "7676dde0569ceba548579dafcf8235b4eececbc8"
-+SRCREV_machine:qemuarm ?= "773ad5db722c1cbac17a944ab2fd4f1d9d72c55d"
-+SRCREV_machine ?= "b1ee56b4baf8a85fa02965b76dbc4ba7de898540"
-+SRCREV_meta ?= "9ff1e75562075e35b5c8649b0a1aece50d8531b7"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 243bb3a717..e7f8cc188f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.10/standard/base"
- KBRANCH:qemux86-64 ?= "v5.10/standard/base"
- KBRANCH:qemumips64 ?= "v5.10/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "65c6899db7f84ee81bf9fe7b73b5f5d181636351"
--SRCREV_machine:qemuarm64 ?= "6d43c23b8d3aa1161644880d85b83491f8f39729"
--SRCREV_machine:qemumips ?= "4b9a9768850a12d2e806b87e0ceeab5083495035"
--SRCREV_machine:qemuppc ?= "4db24c929502797874a3cc30a7d04022526b6e8a"
--SRCREV_machine:qemuriscv64 ?= "9e84a42af61ff9c6feb89ab8d61ee5f25fb35c72"
--SRCREV_machine:qemuriscv32 ?= "9e84a42af61ff9c6feb89ab8d61ee5f25fb35c72"
--SRCREV_machine:qemux86 ?= "9e84a42af61ff9c6feb89ab8d61ee5f25fb35c72"
--SRCREV_machine:qemux86-64 ?= "9e84a42af61ff9c6feb89ab8d61ee5f25fb35c72"
--SRCREV_machine:qemumips64 ?= "66e7684e39bbe9b36b8673792a07c51a394c5766"
--SRCREV_machine ?= "9e84a42af61ff9c6feb89ab8d61ee5f25fb35c72"
--SRCREV_meta ?= "7676dde0569ceba548579dafcf8235b4eececbc8"
-+SRCREV_machine:qemuarm ?= "eaf94169288a0cdaa7f919e81b9cde11637328a0"
-+SRCREV_machine:qemuarm64 ?= "0a2409ae4ca5c3efc6633891d807c189f8c2e6ec"
-+SRCREV_machine:qemumips ?= "73ca3b526488435d4f2a404642078b3b111879af"
-+SRCREV_machine:qemuppc ?= "14edaae440f2835071ffacced9f240cdd8cf7094"
-+SRCREV_machine:qemuriscv64 ?= "97699547a2625645320510db2237e8619a7954ef"
-+SRCREV_machine:qemuriscv32 ?= "97699547a2625645320510db2237e8619a7954ef"
-+SRCREV_machine:qemux86 ?= "97699547a2625645320510db2237e8619a7954ef"
-+SRCREV_machine:qemux86-64 ?= "97699547a2625645320510db2237e8619a7954ef"
-+SRCREV_machine:qemumips64 ?= "9e86c3417c2c6a61a52664ebcfdd541f6af7e099"
-+SRCREV_machine ?= "97699547a2625645320510db2237e8619a7954ef"
-+SRCREV_meta ?= "9ff1e75562075e35b5c8649b0a1aece50d8531b7"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE:qemuarm ?= "qemuarma15"
-@@ -32,7 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.10.74"
-+LINUX_VERSION ?= "5.10.75"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
--- 
-2.19.1
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 0dd0c5f1d2..aa54b4a08c 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -41,7 +41,8 @@ GO_EXTLDFLAGS ?=3D "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} $=
+{GO_RPATH_LINK} ${LDFLAGS
+ GO_LINKMODE ?=3D ""
+ GO_LINKMODE:class-nativesdk =3D "--linkmode=3Dexternal"
+ GO_LINKMODE:class-native =3D "--linkmode=3Dexternal"
+-GO_LDFLAGS ?=3D '-ldflags=3D"${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_=
+EXTLDFLAGS}'"'
++GO_EXTRA_LDFLAGS ?=3D ""
++GO_LDFLAGS ?=3D '-ldflags=3D"${GO_RPATH} ${GO_LINKMODE} ${GO_EXTRA_LDFLAGS=
+} -extldflags '${GO_EXTLDFLAGS}'"'
+ export GOBUILDFLAGS ?=3D "-v ${GO_LDFLAGS} -trimpath"
+ export GOPATH_OMIT_IN_ACTIONID ?=3D "1"
+ export GOPTESTBUILDFLAGS ?=3D "${GOBUILDFLAGS} -c"
+--
+2.33.1
 
+
+Please mind our privacy notice<https://www.opensynergy.com/datenschutzerkla=
+erung/privacy-notice-for-business-partners-pursuant-to-article-13-of-the-ge=
+neral-data-protection-regulation-gdpr/> pursuant to Art. 13 GDPR. // Unsere=
+ Hinweise zum Datenschutz gem. Art. 13 DSGVO finden Sie hier.<https://www.o=
+pensynergy.com/de/datenschutzerklaerung/datenschutzhinweise-fuer-geschaefts=
+partner-gem-art-13-dsgvo/>
 
