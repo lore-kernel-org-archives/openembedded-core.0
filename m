@@ -1,112 +1,144 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <martyn.welch@collabora.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E73AC433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 14:59:18 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.13430.1635260357148559979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E65C433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 15:32:34 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by mx.groups.io with SMTP id smtpd.web08.13940.1635262353501047841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 07:59:18 -0700
+ Tue, 26 Oct 2021 08:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=YY1lWtXi;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1635260357;
-  x=1666796357;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=Ap9zTeEW5hOKjAUANL+U2WgRfAwjW4BnJZOO8h8mqpA=;
-  b=YY1lWtXi5v2IcghVbhfYMB0SrpsGHP7acBw4bmnSXlhqVnqeERAQxTLk
-   w9LZmUyvy7miHyNnNK/JoidmPoYm4/O5zeXCJrjtrJvVojlTJdxR2ah/R
-   TzSBHQTWz54h3loPCQgg65ymlgs4Ue27xYCIqzGQoV53/pz1hKlqAmWj2
-   iSli/rDmGNv0p7v/DQnSssZOGoDC7R2xHUZxRgeTnrHBnMp4QiqaNpxdA
-   YN0A5hihm2UhVlQYhMYZeSiZ8jhBP9iAvrW5XtdZEcq//JfQDYRni4D5m
-   22wbvcDd45LD3rsNK6WBDYsdGDfP4yzJGPPk2lq/TxiJsTfz1dJlYH2Pm
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Konrad Weihmann <kweihmann@outlook.com>, Martyn Welch
-	<martyn.welch@collabora.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
+ dkim=missing;
+ spf=pass (domain: collabora.com, ip: 46.235.227.227, mailfrom: martyn.welch@collabora.com)
+Received: from [IPv6:2a00:23c6:c31a:b300:6338:938c:ab16:fa48] (unknown
+ [IPv6:2a00:23c6:c31a:b300:6338:938c:ab16:fa48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: martyn)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DB3521F426FE;
+	Tue, 26 Oct 2021 16:32:31 +0100 (BST)
+Message-ID: <83e703f86472f188406fa1f6004aca66ffb0ff0a.camel@collabora.com>
+Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
  IMAGE_QA_PROHIBIT_PATHS variable
-Thread-Topic: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
- IMAGE_QA_PROHIBIT_PATHS variable
-Thread-Index: AQHXyluTp75eAILDD0KnORei7CBV5KvlAcqAgABbkFA=
-Date: Tue, 26 Oct 2021 14:59:14 +0000
-Message-ID: <c8a699291831478184b420e37a2b10ee@axis.com>
+From: Martyn Welch <martyn.welch@collabora.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Konrad Weihmann
+ <kweihmann@outlook.com>, OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Oct 2021 16:32:29 +0100
+In-Reply-To: <c8a699291831478184b420e37a2b10ee@axis.com>
 References: <e133da623f5a357c570efc036daa84098dbc691c.camel@collabora.com>
- <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
- <AM9PR09MB46428E00E810D2C55427FBA7A8849@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB46428E00E810D2C55427FBA7A8849@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	 <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
+	 <AM9PR09MB46428E00E810D2C55427FBA7A8849@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <c8a699291831478184b420e37a2b10ee@axis.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.0-2 
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 14:59:18 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 15:32:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157397
+ https://lists.openembedded.org/g/openembedded-core/message/157398
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEtvbnJhZCBXZWlobWFubg0KPiBTZW50OiBkZW4gMjYg
-b2t0b2JlciAyMDIxIDEzOjI0DQo+IFRvOiBNYXJ0eW4gV2VsY2ggPG1hcnR5bi53ZWxjaEBjb2xs
-YWJvcmEuY29tPjsgT0UtY29yZSA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHY2IDIvMl0gY29yZS1p
-bWFnZS5iYmNsYXNzOiBhZGQgZGVmYXVsdA0KPiBJTUFHRV9RQV9QUk9ISUJJVF9QQVRIUyB2YXJp
-YWJsZQ0KPiANCj4gDQo+IA0KPiBPbiAyNi4xMC4yMSAxMzoyMSwgTWFydHluIFdlbGNoIHdyb3Rl
-Og0KPiA+IE5vdGUgdG8gc2VsZiAtIHJlbWVtYmVyIHRvIHJlcGx5IHRvIGxpc3QuLi4NCj4gPg0K
-PiA+IC0tLS0tLS0tIEZvcndhcmRlZCBNZXNzYWdlIC0tLS0tLS0tDQo+ID4gRnJvbTogTWFydHlu
-IFdlbGNoIDxtYXJ0eW4ud2VsY2hAY29sbGFib3JhLmNvbT4NCj4gPiBUbzogS29ucmFkIFdlaWht
-YW5uIDxrd2VpaG1hbm5Ab3V0bG9vay5jb20+DQo+ID4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-UEFUQ0ggdjYgMi8yXSBjb3JlLWltYWdlLmJiY2xhc3M6IGFkZCBkZWZhdWx0DQo+ID4gSU1BR0Vf
-UUFfUFJPSElCSVRfUEFUSFMgdmFyaWFibGUNCj4gPiBEYXRlOiBUdWUsIDI2IE9jdCAyMDIxIDEy
-OjEyOjExICswMTAwDQo+ID4NCj4gPiBPbiBUdWUsIDIwMjEtMTAtMjYgYXQgMTI6NTYgKzAyMDAs
-IEtvbnJhZCBXZWlobWFubiB3cm90ZToNCj4gPj4NCj4gPj4NCj4gPj4gT24gMjYuMTAuMjEgMTI6
-NTAsIE1hcnR5biBXZWxjaCB3cm90ZToNCj4gPj4+IEZyb206IE1hcnR5biBXZWxjaCA8bWFydHlu
-LndlbGNoQGNvbGxhYm9yYS5jby51az4NCj4gPj4+DQo+ID4+PiBBZGQgYSBkZWZhdWx0IElNQUdF
-X1FBX1BST0hJQklUX1BBVEhTIHZhcmlhYmxlIGNvbnRhaW5pbmcgcGF0aHMNCj4gPj4+IGtub3du
-IHRvDQo+ID4+PiBiZSBtb3VudGVkIGluIHRoZSBkZWZhdWx0IGZzdGFiLCB3aGljaCBhcmUga25v
-d24gbW91bnQgcG9pbnRzIG9yDQo+ID4+PiBkaXJlY3RvcmllcyB3aGljaCBzaG91bGQgYmUgcG9w
-dWxhdGVkIGF0IHJ1bnRpbWUuDQo+ID4+Pg0KPiA+Pj4gU3VnZ2VzdGVkLWJ5OiBBbGV4YW5kZXIg
-S2FuYXZpbiA8YWxleGFuZGVyLmthbmF2aW5AbGludXguaW50ZWwuY29tPg0KPiA+Pg0KPiA+PiBU
-aGF0IGNhbid0IGJlIHRydWUgLSBvciB0aGUgaW5pdGlhbCBpZGVhIGlzIHZlcnkgdmVyeSBvbGQg
-Oi0pIHBscyB1c2UNCj4gPj4gQWxleCdzIGdtYWlsIGluc3RlYWQNCj4gPg0KPiA+IEl0J3MgYSB2
-ZXJ5IG9sZCBwYXRjaCBzZXJpZXMsIG9yaWdpbmFsbHkgcG9zdGVkIGluIDIwMTcgKGFzIG1lbnRp
-b25lZA0KPiA+IGluIHBhdGNoIDEvMikuIEp1c3Qgbm90aWNlZCBpdCBuZXZlciBnb3QgYXBwbGll
-ZC4uLg0KPiA+DQo+ID4+PiArIyBJTUFHRV9RQV9QUk9ISUJJVEVEX1BBVEhTDQo+ID4+PiArIyBF
-bnN1cmUgaW1hZ2VzIGFyZW4ndCBpbmNsdWRpbmcgZmlsZXMgaW4gcGxhY2VzIHRoYXQgd2lsbCBi
-ZSB1c2VkIGFzIG1vdW50IHBvaW50cyBvciB0aGF0IGFyZQ0KPiA+Pj4gKyMgcmVzZXJ2ZWQgZm9y
-IHJ1bnRpbWUgZGF0YS4NCj4gPj4+ICtJTUFHRV9RQV9QUk9ISUJJVEVEX1BBVEhTID89ICIvZGV2
-L3B0cy8qOi9tZWRpYS8qOi9tbnQvKjovcHJvYy8qOi9ydW4vKjovdG1wLyo6L3Zhci9ydW4vKjov
-dmFyL3RtcC8qOi92YXIvdm9sYXRpbGUvKiINCj4gPj4NCj4gPj4gSSBsaWtlIHRoZSBpZGVhLCBi
-dXQgd291bGRuJ3QgbWFrZSBtb3JlIHNlbnNlIHRvIGRvIHRoYXQgb24gYSBwYWNrYWdlDQo+ID4+
-IGxldmVsLCBhcyBoZXJlIHRoZSB1c2VyIGlzIG1vcmUgb3IgbGVzcyBsZWZ0IGFsb25lIGluIGd1
-ZXNzaW5nIHdoZXJlDQo+ID4+IHRoZSBmaWxlIGFjdHVhbGx5IGRvZXMgY29tZSBmcm9tDQo+ID4N
-Cj4gPiBJIGxpa2UgdGhhdCBpZGVhLCBob3dldmVyIGl0IHdvdWxkIG1ha2UgdG8gYXNzdW1wdGlv
-biB0aGF0IHRoZXJlIHdhc24ndA0KPiA+IGFueSB0d2Vha3MgYmVpbmcgbWFkZSBhcyBwYXJ0IG9m
-IGltYWdlIGdlbmVyYXRpb24gdGhhdCB3b3VsZCBlbmQgdXANCj4gPiB2aW9sYXRpbmcgdGhpcy4g
-QSBxdWljayBjaGVjayBzdWdnZXN0cyB0aGUgImJ1aWxkLWFwcGxpYW5jZS0NCj4gPiBpbWFnZV8x
-NS4wLjAuYmIiIGltYWdlIGRvZXMgdGhpcyBraW5kIG9mIHRoaW5nIGluIHRoZSBjb3JlIGltYWdl
-IHR5cGVzLg0KPiANCj4gQXMgQWxleCBqdXN0IHdyb3RlLCBJIG1pZ2h0IGJlIGJlbmVmaWNpYWwg
-dG8gZG8gYm90aA0KPiANCj4gPiBNYXJ0eW4NCg0KV2UgaGF2ZSBhbiBhbHRlcm5hdGl2ZSBzb2x1
-dGlvbiB0aGF0IGhvb2tzIGludG8gdGhlIHBhY2thZ2UgUUEuIEl0IA0KZm9jdXNlcyBvbiBkaXJl
-Y3RvcmllcyB0aGF0IGFyZSBzdXBwb3NlZCB0byBiZSBlbXB0eS4gSW4gYWRkaXRpb24gdG8gDQpm
-YWlsaW5nIHRoZSBidWlsZCBpZiB0aGVyZSBhcmUgZmlsZXMgaW4gc3VjaCBhIGRpcmVjdG9yeSwg
-aXQgYWxzbyANCmFsbG93cyB0byBzcGVjaWZ5IGZvciBlYWNoIGRpcmVjdG9yeSB3aHkgaXQgc2hv
-dWxkIGJlIGVtcHR5LiBXZSBoYXZlIA0KdXNlZCB0aGlzLCBlLmcuLCB0byBtYXJrIGNvbW1vbiBk
-aXJlY3RvcmllcyB0aGF0IGhhdmUgYmVlbiByZW5hbWVkIA0KdG8gZ2l2ZSBhbiBpbmRpY2F0aW9u
-IG9mIHdoZXJlIHRoZSBmaWxlcyB3ZXJlIHN1cHBvc2VkIHRvIGhhdmUgYmVlbiANCmluc3RhbGxl
-ZC4NCg0KRG8geW91IHdhbnQgbWUgdG8gZ2VuZXJhbGl6ZSB0aGlzIGFuZCBzZW5kIGEgcGF0Y2gg
-Zm9yIGl0Pw0KDQovL1BldGVyDQoNCg==
+On Tue, 2021-10-26 at 14:59 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org=C2=A0<openembedded-
+> > core@lists.openembedded.org> On Behalf Of Konrad Weihmann
+> > Sent: den 26 oktober 2021 13:24
+> > To: Martyn Welch <martyn.welch@collabora.com>; OE-core
+> > <openembedded-
+> > core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add
+> > default
+> > IMAGE_QA_PROHIBIT_PATHS variable
+> >=20
+> >=20
+> >=20
+> > On 26.10.21 13:21, Martyn Welch wrote:
+> > > Note to self - remember to reply to list...
+> > >=20
+> > > -------- Forwarded Message --------
+> > > From: Martyn Welch <martyn.welch@collabora.com>
+> > > To: Konrad Weihmann <kweihmann@outlook.com>
+> > > Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add
+> > > default
+> > > IMAGE_QA_PROHIBIT_PATHS variable
+> > > Date: Tue, 26 Oct 2021 12:12:11 +0100
+> > >=20
+> > > On Tue, 2021-10-26 at 12:56 +0200, Konrad Weihmann wrote:
+> > > >=20
+> > > >=20
+> > > > On 26.10.21 12:50, Martyn Welch wrote:
+
+<snip>
+
+> > > > > +# IMAGE_QA_PROHIBITED_PATHS
+> > > > > +# Ensure images aren't including files in places that will
+> > > > > be used as mount points or that are
+> > > > > +# reserved for runtime data.
+> > > > > +IMAGE_QA_PROHIBITED_PATHS ?=3D
+> > > > > "/dev/pts/*:/media/*:/mnt/*:/proc/*:/run/*:/tmp/*:/var/run/*:
+> > > > > /var/tmp/*:/var/volatile/*"
+> > > >=20
+> > > > I like the idea, but wouldn't make more sense to do that on a
+> > > > package
+> > > > level, as here the user is more or less left alone in guessing
+> > > > where
+> > > > the file actually does come from
+> > >=20
+> > > I like that idea, however it would make to assumption that there
+> > > wasn't
+> > > any tweaks being made as part of image generation that would end
+> > > up
+> > > violating this. A quick check suggests the "build-appliance-
+> > > image_15.0.0.bb" image does this kind of thing in the core image
+> > > types.
+> >=20
+> > As Alex just wrote, I might be beneficial to do both
+> >=20
+> > > Martyn
+>=20
+> We have an alternative solution that hooks into the package QA. It=20
+> focuses on directories that are supposed to be empty. In addition to=20
+> failing the build if there are files in such a directory, it also=20
+> allows to specify for each directory why it should be empty. We have=20
+> used this, e.g., to mark common directories that have been renamed=20
+> to give an indication of where the files were supposed to have been=20
+> installed.
+>=20
+> Do you want me to generalize this and send a patch for it?
+>=20
+
+Hi Peter,
+
+It would be great if we could merge these approaches, i.e. have one way
+to specify directories that need to be empty and test both as part of
+package QA and also image QA.
+
+I was just working on adding some package QA support to what I've had,
+but can pause that.
+
+Would you be able to provide show how you'd propose managing the
+prohibited directories? I'll try and tweak the image QA stuff already
+posted to fit that.
+
+Martyn
+
+> //Peter
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157397):
+> https://lists.openembedded.org/g/openembedded-core/message/157397
+> Mute This Topic: https://lists.openembedded.org/mt/86599458/6512429
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> martyn.welch@collabora.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
 
