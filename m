@@ -2,50 +2,50 @@ Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C071C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC9CC433FE
 	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 23:36:24 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
  [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.4593.1635291383288944984
+ by mx.groups.io with SMTP id smtpd.web12.4654.1635291383510908827
  for <openembedded-core@lists.openembedded.org>;
  Tue, 26 Oct 2021 16:36:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=EzYS61H7;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ofr4cw/8;
  spf=pass (domain: windriver.com, ip: 205.220.178.238,
  mailfrom: prvs=59335ce822=saul.wold@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19QNVq6I015160
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19QNVq6J015160
 	for <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 23:36:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=8JfLXqpw/Ft710lFW6eZluInpbipf7vWVolwgirtie4=;
- b=EzYS61H7GveGatbweRd3Sl9oOE813MzluS+EBa3Y6rqTgMQbbeTgzI5ohjo/3OUAZeM2
- GAWZ3NLa0AsNUFYlzUTvVof/dbI1IgzX7JTJbjaUCy2e/t/G94Rr21SL1O1AJ7Bfsidc
- CwOutvX72Zv7S9KUAXHE0yTTglGzYVTHyYUUPRnT1B8iBgPsOa97VodFROov/ik45BVm
- AdVWxfjIFWfVprybARzcKpwrWf77DafR9Y1k73faAUFqSfH1qNCURVj5bd8UE9ErPtRs
- KJiSHzPIkBO5s3/fqYtm6UkUcjnQgOm4+HIJhX/CJ6J6Y5sUVU6JuZRjLvaNdsphBEkK +w==
+ bh=VTCgvhccDA0HzlXHo0YJ4sj4pJNVVHfxSVc4c+1H5ns=;
+ b=ofr4cw/8+67XSS+KtKu5QZxU3R2c0VG1vZI/b+su/iYItrr0K//MTmSONvkNiw9yKqXf
+ 4mDMCpw+MQioNAseoWoq+oNGEyyFUmv4rXMzWzD4X5d9VWnUBAskd6E1jozKpZO60jC6
+ PifGD5czSel0ITAdRICPkcZALsO2eym+vYZRS5GtCOMeX3DaBMEFUGu+6ByxxpAAM6NR
+ QYHXHNACBQ36n2kfrD53NCKNDGqNKbSUvsg5QugLY4oXp0hOaCQWp7VJg396jnRJ//L1
+ MpYTKVlsgUbyYvZQ7pBlgXIhDmWDWH9BIkvylsj3ittecJMZ46bbt49jo8crVa93mgHT WQ==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bx4egs181-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bx4egs183-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
  Tue, 26 Oct 2021 23:36:22 +0000
 Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19QNaLQp023500
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19QNaLQr023500
 	for <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 23:36:22 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
  (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bx4egs17w-2
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bx4egs17w-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Oct 2021 23:36:21 +0000
+	Tue, 26 Oct 2021 23:36:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fduZ6kxYCTQKq7aNwY8LN5O+5GD9V8G52Jz213AOGeykPeE9BQ45F/CGOr9ATBDigumrY6uGoq0PyH78jgmKAVtA+4YARP2HMZISZNw/rz8VyjSDoxrwHZyjrnCpiuRRc8LkeCe4LpHtO/Uf3b+n36ZMHqKQcq6W0Roh2BgXUatrsNKWTg5KNZRy8nv6ReVmxESigXEG0QnolV8Zq5W8++vf0mdtReBjBU849Gsxe99bqMFyp5SOAQHg3BSvmfDimBDGW7X4WMoO/lHK8DqIEGpWBOK8PNg/XbyF/aSB3Q7dpzCLhdqPH64hJQjakYY+q3i7J6FEHQTHC6ENxCrz4A==
+ b=i5b2BKhNr5CeNLAlBoSS419XaUnA1T1Zti51ilcRgXGF5SYm6QJUuA05f+lpHTMAJlifDpZn81uOMzN1Vh76AZgDLeQlxy/hdCrw8xo3DxekahF6D0ui5efBDjPIaMf5ZKhL4jweFSjzXheROmilEiGitfQmLoW2jTjZtVmCSg14auzCSRcjp3WuLL8xGl2vdqVzS5QWxuy0+R3bGMC2kb/TUgjyOkgHzfhzarl6Y8efwklDOO+SljhTNnxQRdqJA7CA7E5TzyqCtUJKDEotYpdmWNYVjNEh9UFXvj98w3j8ilAZjqwLnx1utKK1g5uXcs/BvrsGCpOCh0EJo1PyJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8JfLXqpw/Ft710lFW6eZluInpbipf7vWVolwgirtie4=;
- b=B4T3qB1vyHy7YieKCoyPpA6B/+OS2MxP8+QiHSFhlyFoqMgvocBVeurwJAr7ajHpPaiOXZItfm+BCcqs7VwzS7/avRTo0bmYkcBl+3KIWhymlL8NOV2d8VDyGXvDpsMwDUUGS/su/upO0Ved5QLYX6twQ+uLKAhuqeer5GfU4U8E3FQIfQab55olR7RSdBXM47sJ10P6hhJO/ETiOFFqb3PWwPCB2dbkb4UPi28eCy3lryGBskRYKCqF7/PhltKiY/HlMz5fgC6YYbz73aVXxzrXugWS9Hm3kXgN74he9T1Ki2W7i4iGTqGq1w8ZSy9rsqMDWXV8jcpANEHznAVBjg==
+ bh=VTCgvhccDA0HzlXHo0YJ4sj4pJNVVHfxSVc4c+1H5ns=;
+ b=L6IYJhhdma1zYbhEJCnPXeEZnVh8YIYAwi5sSMDKupZ0dMaXvcZ2pD48JAf5dQ/wNx8bwAXT206NV5LNOYTcJ+C5SqSbc5HPCwEfKgs0nQfCDLvNESfXkZETNfRMBRGiEq7StZgeLSIi/vTXY3hM6NywA49oTc0TJjNxaIU09fS1nChIrhiTFwiXtgUG53gYjymsS6uGb5O/CZqyKDDEmbn2O2IQl8HI3hk6oIP3KsKv8Pkeyqu5yVrRgUb7fhBWqZlcKCtbzGRrO/CzbskOQHDc1bbvKcYdFcWFV+loI4r0Um0Dw3BeKSb94cSR7VZYrRnuHCOnCZy+BGx8gkEBrw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -56,17 +56,17 @@ Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
  by MW5PR11MB5881.namprd11.prod.outlook.com (2603:10b6:303:19d::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 26 Oct
- 2021 23:36:19 +0000
+ 2021 23:36:20 +0000
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::61b9:f111:c64:3c74]) by CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::61b9:f111:c64:3c74%8]) with mapi id 15.20.4628.020; Tue, 26 Oct 2021
- 23:36:19 +0000
+ 23:36:20 +0000
 From: Saul Wold <saul.wold@windriver.com>
 To: openembedded-core@lists.openembedded.org, jpewhacker@gmail.com
 Cc: Saul Wold <saul.wold@windriver.com>
-Subject: [PATCH 1/3] spdx.py: Add annotation to relationship
-Date: Tue, 26 Oct 2021 16:36:00 -0700
-Message-Id: <20211026233602.71762-2-saul.wold@windriver.com>
+Subject: [PATCH 2/3] create-spdx: add create_annotation function
+Date: Tue, 26 Oct 2021 16:36:01 -0700
+Message-Id: <20211026233602.71762-3-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211026233602.71762-1-saul.wold@windriver.com>
 References: <20211026233602.71762-1-saul.wold@windriver.com>
@@ -82,69 +82,69 @@ Received: from ala-lpggp3.wrs.com (147.11.105.124) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.12 via Frontend
  Transport; Tue, 26 Oct 2021 23:36:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2af7ddd7-efb8-4954-c0fe-08d998d9694d
+X-MS-Office365-Filtering-Correlation-Id: 7ca779a4-b1a4-48ec-2330-08d998d969bb
 X-MS-TrafficTypeDiagnostic: MW5PR11MB5881:
 X-Microsoft-Antispam-PRVS: 
-	<MW5PR11MB5881AA9786A9E409F7F1DD10EE849@MW5PR11MB5881.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+	<MW5PR11MB58816669A8029135D09A8F39EE849@MW5PR11MB5881.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:416;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	jHeiOO5m7MHfc8HhSu4TNe4+GJLeh1GrElxpoxBPKyzBlIIsFbOk4/cFZ0b1Ph2/izTQFhaiGLVn4P+4NuXB38H3QedYdWebWTUF6QJvBYVHDrS19YMe+83CM750pcbSwZiVytbZ6LBTQBK2LGz4oKC7uWdDVICt/j3htvv5zwwih1VlElD+ePr5eJ3Y44uVJF529zj1z5EJ/2E37YVRvT09bI0MGhaqG6R/o6CwEo8fiy1yMI3AuAzI6/luzuRzs7a55Dk4AO4nQ3bev0xbqWQUjXsGJreiV6zP8VbfiJGtPQPx2PyS3xPSwliovaOJgjqf4DHGZDKS54FR56htEEgbPD7Ts0BmPldCsXTp/pRqEF3NHbPzVBTFFJJS4mU9+k98MKSU5Sv8tMV5q/LVfJ15bhWlJ3lJsc+2mbS6xiYYRYYNaePOBhTDCQQhSUHu/Zn9xrzirY9BYk3kklF+BZPLKoFTOaE4Xp356jMGQIDJA163tscJTCn19pMgMUN746/xipEdp1JUI9HZ+F21g+iJHYTYSm+ax1pBRegxm6Wp8Y0+NlmI3J074Dpho9uWSA2sWQwOUQQKZjY9WOOcJrO/DzDbRwJateJz75BvbXdN3zrTbwyDuOsA1FsMf0iAY2N/SD0LKd1Og+DNgBJqqcGCnxBpomNTA7fmG0UFcqR46DApobr4Gqtb5bYzhkXZKzNwdVQCmqbRqmVBDWa0mg==
+	S1Hj3uj937FfhaQ8WggIb+/B73+0WAVXXm3hqszWkcVNDQ/CkKNluHlAmc0AeTu8XXOrOaWzxFzirbDfHGCzUxIsjmXx3OpXIYbAERKPsSlzXFsPsEXt4y5A8f/tzxJ96nE8NGOIZfBkR//ov6J5XaL1ob0x/r07bS10Kw3f4u2QL0x2Af4DLA3CaplGj0Y06fGOXL2gXdGo8wUrB3wewF5eaj8ijyvse3ulsmciFoMZ9m0t/U+mPa5Yujht452GA0C/nhydVfwdC0WuN5cwT7HdSLBCZDeZnGHRJ9GPHCpsL9+9q5ZOp3FD3gPHrq+uwcRMPf+wtbUzOP9YaOyVHnt9N4GxppxKfGlW0dcms7f4oexciSzeNuTv/fil5lDNYs4Ad950w0EsLs5UmHC0eRIO2pSXdNdCYFPs/kCgTKzSBBPNofU50IFXE7/TNLJRD9sRazRulepJAiB9goTCkuXjYs4kA4GsfpqcnpZEQwhCy/G1S++rAvYGPUvHWRAo55bODh6Bg0yN3GuAMQD18ebmoFGEtHMxa3q9C26fsPkrplJ4W4Dk/ngYlJa4oW3qDlrxY+YxWR9AgYFRIoGsHZ32u3puXJJP/CJiivdNUjhrTsHo7c1yBSEo5fpSCkIcBYhV+lOHUtzlbIbNA1d4/KwtqHine4MMY2X5Z2f76GpEFKKGPj7szqyw8p6u8moqA5oh52zGkyh/byDE3XIR3w==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(107886003)(26005)(38350700002)(8676002)(66946007)(66556008)(38100700002)(44832011)(6486002)(1076003)(66476007)(6666004)(6506007)(36756003)(2616005)(508600001)(186003)(956004)(4326008)(316002)(5660300002)(52116002)(6512007)(8936002)(86362001)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SIJczuTW8SfOxWVguZLOqL6xPVYGLeCBrXPUlG5j2hHwmuzE0af5Gf1PqT6d?=
- =?us-ascii?Q?OjmvOTIHilmT7SCQhgFbWzbSpBt849NWKAW05bmXbWcOobxtCalPqq3PC9Po?=
- =?us-ascii?Q?/lUOe3yS1X/xNHxgBGyJ4aOxZED5NftCBCf1XPND8pepnC9l45iQLeFyYBDV?=
- =?us-ascii?Q?4FsIc1KxTzvFc8EwGHt5vZ1FV4u8bUVkmTirjfyhD5uxwcbQyDjMvtvAwiTI?=
- =?us-ascii?Q?G+V4yGJGct9VX4+EBnLfBp23/XmpFYIw2tZtJcNhUR3ghNBaw+VNyB72D7wV?=
- =?us-ascii?Q?QMTxkv6aEgLbhNCDtJ1pT204no8jskTSNo8f8uPiPzFOKWyqEBnL5Zo1/xrH?=
- =?us-ascii?Q?Wo/KHbzrDnZnJ0ILt28MtsTI1SRXT9V+g8X48BNM4km8GobT1+H8eiKuYjZx?=
- =?us-ascii?Q?QdyNDlfXoyDx6JymYysmqentniTj8P52q6YJWjeOeoHTbkprUNBWqhY5rTwo?=
- =?us-ascii?Q?+Z6oFYq2tvRpwI+svB9sYi0PqcVpwoFcqCKB0EBwedTRcjNEjC9070GUAvry?=
- =?us-ascii?Q?JWuKqzzqzBd/Kjbwn52dwshgYfn4N59PFBOtCTg7KXOLAeT0hv5Nj8IJoZK3?=
- =?us-ascii?Q?6LckbTHln8lw5ME2lxLqICAbZoUdX0bIeTS7F5zAlr2MkxbiEQvtj5W6sUKs?=
- =?us-ascii?Q?Z5fAtLvFacJpmgXP2UQer1XUZ2JcfzpBOJyXmhX+g4ZbQaMrTsF/gIOHMaHc?=
- =?us-ascii?Q?VvzyijI7jRok/PT47fKZ0f9dsKw5Jp3xGQf6FLXfvAlV4E7QMHRONSK8Se4N?=
- =?us-ascii?Q?PlFxxneAO8tZV2cj9GTt2ofoqCGazVZF0FgniGkAjxd4Vb17cgzER5JUhFa+?=
- =?us-ascii?Q?xFOzyoe4tuK4pxVaqX2KcFi3n0g+nPxXUMJvkNP2lEN8YjSP043Q6oEJlWAi?=
- =?us-ascii?Q?vNC19HD709nbamsKhDxHeX1s9kCI0J/FDrhMb0WkmdhnslP7w8lmnyNTyOOI?=
- =?us-ascii?Q?H3yhC3YOAPAwWN+Sidcj7evQ3qDf9kezGtFYnqU3WmlXj05nMcVGcfu8iVes?=
- =?us-ascii?Q?qBO3aHj/jRRbyXvcNb/2pPDUD3wXBjDw/d1vG29qs0EaKzwu1fsLHBAvX1A6?=
- =?us-ascii?Q?K7IUEkajWzGPsIpc5x7R8ap5ZwzZDWJGKVI6l14Vve3Da3LyQmWJ83ITUTjZ?=
- =?us-ascii?Q?iq1ctQ3H8dLsXEFMkrDwxAh9dTNAn1sqnLES6WMGmoxM+++Uq7sA+r2ttyQz?=
- =?us-ascii?Q?guXJ0SuV+v2PpimlQPr3W/RMpNOfDRGVoxlKcinzoRFOGSy7O2M11XvahS5t?=
- =?us-ascii?Q?jWuTUe0RCFjDagCKdq/TO0cvftmP1w3ZH10xoH2wpq3Jz2eyUbdn3mCWYBmw?=
- =?us-ascii?Q?EIAaUxJLm9Z+55vo93LAqLxuNGSpJhsb2KyxIr1pbSBfzLdx9Y9HzGsZOZte?=
- =?us-ascii?Q?KkmqZtcHEcLtpf6tiGpNla9meex4kLwGxHbBf/ORt/d7u4hqoTI5FgOgnyxz?=
- =?us-ascii?Q?O60dtY+RsuUtt+XQxWFrBwM66nT42Fiy7EtNKFvVN+JeWu1s+rRPg2MyRCe/?=
- =?us-ascii?Q?3P+G2765eeV/8PQzLWWDDXpVjaii0QgVRTleI9pCU2xZQT9QOaZ2cSuTk2eE?=
- =?us-ascii?Q?KPqF05IG9bLapQALGriNpO3Fw2XwCQv04gT9RiP/4hWNeiTYhOFzrtOXOo6d?=
- =?us-ascii?Q?ssz4MFOyP0vWnkiKbPVcEmE=3D?=
+	=?us-ascii?Q?pQvJxoaITEzPfPY806fWiU6qUpmudFyo9/GNVd2/CGfy94ppVEOnhIekGCh8?=
+ =?us-ascii?Q?jHw0fDA8etu6VP46gYicR7CgY3T+vYkdPchvToAZenyo55ecsCEov6IF+uJE?=
+ =?us-ascii?Q?lSgbCHRDFiQE6VfyNwRlb/7HWooee1uqZjssAMZhyzb/TtqE1u+l6cxEmkwE?=
+ =?us-ascii?Q?i4yArdrxDmwsj/AnjRSAHV17uH5AfnjSljHhhyRM0U1mwotj51itf1Si+4ZJ?=
+ =?us-ascii?Q?gIzRGnf4qfhd8E7bKs/qui/MJwt+YclErGy3/kAXUYC102L3mmLT+MM9bZM4?=
+ =?us-ascii?Q?+C6IS2pA6UvTAVyEbaCfh3rKrVpsvr9LlOQAeMHGerDQ8HyE52UZpjEr4xlh?=
+ =?us-ascii?Q?KM/I0dMT8Z2Jq08V2xCRfdGjTkJILEwdti04UVqftoPx4m5qDJQQJJeWNuS4?=
+ =?us-ascii?Q?85/+r+II/xWqHwxocwkAXaFHT87HidNvPRYlaQHJiMajuRlnalJSnF9icJ2l?=
+ =?us-ascii?Q?OrfipW1ADPfPmHhjJjF5LS5A7bLgiizEFaoqcJWodsss8JZlB6eqmUF10O/X?=
+ =?us-ascii?Q?+bbhkxTAjkUatFSpziMbGD6N7KRe90A78Ezgf9h0Z0e6MfbERI1+gwXfyoG4?=
+ =?us-ascii?Q?MV0CAC2ZD6Gpq5tpOE7Wqo2m0qMNvBHBeAzws3sp0Qdy4nxGdGm2UtnQ3v+p?=
+ =?us-ascii?Q?3VREnXfblKIy/dyIvdqyDpSr3AOPBGXiy5VbqmkuzcZswfUU6Il7uzI5oJzg?=
+ =?us-ascii?Q?Nlc2EBQJItscCQIVh4265/pboftxPWY0O12lmSD4yFYAr7G19SoEkOSDhZEN?=
+ =?us-ascii?Q?7lhSybRvv0mY1FN4/KrNFAyfHEfi/CTJKHPeuxk3uw2T39iv8la3dQSI/I0b?=
+ =?us-ascii?Q?zW9uTxCD4ikcfXsrZrDB7IN4MT7iiP6n4kxywmXZFjUlmjNpckX6hPLfKErm?=
+ =?us-ascii?Q?pjrRbElSvqKNr7rMUE0C2Q9Po1CqxPvRnWabJF1ftBPfxvYgm5Rjh+P7Gq+z?=
+ =?us-ascii?Q?jxEbxKLClk6huPYFYFQtd88NwnCTshqbzA9gv/ZJ8RQ1PAAUOdEMBzQq7Yac?=
+ =?us-ascii?Q?pbFCjIJbcDm3/ynK6xQfS0XnjnGpITYz3QemOTEbmruTM+AlZNnTlHCl1js4?=
+ =?us-ascii?Q?ukdsvOqkEh9srSGxX+8WxJvzetfqzbIC9e+eUnsi8RjpvOYETL0PfNhz+CsJ?=
+ =?us-ascii?Q?BbCxdOk46JMKTiKV4k3LKytUfl8JYA69EGIYZagPufbKZvuWrFbvvub+sJvB?=
+ =?us-ascii?Q?OYV183f+HMTXz6ZR8G+Vi8Dh47KoPvG3hHF7mM8Yp0z73Hv55vsFhAi0PELb?=
+ =?us-ascii?Q?3nfgF/nisyVTWIZl6ilPMgLq/PX0SwREXwI/7q39MZD4k2b7AbnXDggY1Mdr?=
+ =?us-ascii?Q?7iHQL5SgLnR4GWr/ctzZXkFYIoBFHlqTFSqMvPHbDWqnc0O182+Zk8QYfRxd?=
+ =?us-ascii?Q?JpZYy9yXaOHH7vozY8b3sStnBGCR73QiKvhOz6x4DDZErXnidIFVvgcYy/BT?=
+ =?us-ascii?Q?QAEsB+4VtCP2MZI/gwtUopYs9e3A35G1psBipt63CQrh94YMpkTj4WgfTxEo?=
+ =?us-ascii?Q?Le+xvjjDi0Xt+PpMz3K3aeor0qVWWDc28Acl1XoQCm7gQtxgt9Dg2Vw150LA?=
+ =?us-ascii?Q?yApARJ3rIoLvuKb/va5fz6L7M/Af6qFkqMoAK2fSJ6uRxpHjRaBmWLFpeAOF?=
+ =?us-ascii?Q?Bgz+dZVDj2Pw7fRvIGtSsJU=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 2af7ddd7-efb8-4954-c0fe-08d998d9694d
+ 7ca779a4-b1a4-48ec-2330-08d998d969bb
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 23:36:19.5009
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 23:36:20.1471
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- NTa/7yhP6UtS9z8jBbs6zuQXuyIwmTqS5ai3HKmCXwAfYotly9OOkD4topOefg85wl5+/lLDm588qMgSLze2LA==
+ G2qqBPHfkN97WYmU4vmQuvHAWjagqkJincBTBi9v1ST570XbceiRs0XYEWsFlzL34j36iYI9wpeJyOjGjTbINg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5881
-X-Proofpoint-GUID: CBCDYvR-tcOhHwRnrO9QaeLmcyV38XnD
-X-Proofpoint-ORIG-GUID: vZ3nVM8J_LFyRQLEvQMxIlRB5uoEjlex
+X-Proofpoint-GUID: ESqrFMrr5kIW3ZBdtpH8Px6pvvsAiE_J
+X-Proofpoint-ORIG-GUID: EiLn1gP1D-8jjzRWZY686BVLsTO_aRLl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-10-26_07,2021-10-26_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  impostorscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=656 suspectscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 mlxlogscore=847 suspectscore=0 clxscore=1015 phishscore=0
  bulkscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2110260129
@@ -153,47 +153,51 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 23:36:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157457
+ https://lists.openembedded.org/g/openembedded-core/message/157458
 
-Having annotations on relationship can provide additional information
-about the relationship such as how it was derived.
+This allows code reuse and future usage with relationship annotations
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- lib/oe/spdx.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ classes/create-spdx.bbclass | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/lib/oe/spdx.py b/lib/oe/spdx.py
-index 4416194..9e7ced5 100644
---- a/lib/oe/spdx.py
-+++ b/lib/oe/spdx.py
-@@ -196,6 +196,7 @@ class SPDXRelationship(SPDXObject):
-     relatedSpdxElement = _String()
-     relationshipType = _String()
-     comment = _String()
-+    annotations = _ObjectList(SPDXAnnotation)
+diff --git a/classes/create-spdx.bbclass b/classes/create-spdx.bbclass
+index dd341db..72a9b55 100644
+--- a/classes/create-spdx.bbclass
++++ b/classes/create-spdx.bbclass
+@@ -35,6 +35,17 @@ def get_doc_namespace(d, doc):
+     namespace_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, d.getVar("SPDX_UUID_NAMESPACE"))
+     return "%s/%s-%s" % (d.getVar("SPDX_NAMESPACE_PREFIX"), doc.name, str(uuid.uuid5(namespace_uuid, doc.name)))
  
- 
- class SPDXExternalReference(SPDXObject):
-@@ -300,7 +301,7 @@ class SPDXDocument(SPDXObject):
-     def from_json(cls, f):
-         return cls(**json.load(f))
- 
--    def add_relationship(self, _from, relationship, _to, *, comment=None):
-+    def add_relationship(self, _from, relationship, _to, *, comment=None, annotation=None):
-         if isinstance(_from, SPDXObject):
-             from_spdxid = _from.SPDXID
-         else:
-@@ -320,6 +321,9 @@ class SPDXDocument(SPDXObject):
-         if comment is not None:
-             r.comment = comment
- 
-+        if annotation is not None:
-+            r.annotations.append(annotation)
++def create_annotation(d, comment):
++    from datetime import datetime, timezone
 +
-         self.relationships.append(r)
++    creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
++    annotation = oe.spdx.SPDXAnnotation()
++    annotation.annotationDate = creation_time
++    annotation.annotationType = "OTHER"
++    annotation.annotator = "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION"))
++    annotation.comment = comment
++    return annotation
++
+ def recipe_spdx_is_native(d, recipe):
+     return any(a.annotationType == "OTHER" and
+       a.annotator == "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION")) and
+@@ -408,12 +419,7 @@ python do_create_spdx() {
+     recipe.versionInfo = d.getVar("PV")
+     recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
+     if bb.data.inherits_class("native", d):
+-        annotation = oe.spdx.SPDXAnnotation()
+-        annotation.annotationDate = creation_time
+-        annotation.annotationType = "OTHER"
+-        annotation.annotator = "Tool: %s - %s" % (d.getVar("SPDX_TOOL_NAME"), d.getVar("SPDX_TOOL_VERSION"))
+-        annotation.comment = "isNative"
+-        recipe.annotations.append(annotation)
++        recipe.annotations.append(create_annotation(d, "isNative"))
  
-     def find_by_spdxid(self, spdxid):
+     for s in d.getVar('SRC_URI').split():
+         if not s.startswith("file://"):
 -- 
 2.31.1
 
