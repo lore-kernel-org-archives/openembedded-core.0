@@ -1,211 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBAB2C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 15:54:07 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web10.14309.1635263647021239271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D5EC433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 15:59:05 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web10.14398.1635263943689041253
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 08:54:07 -0700
+ Tue, 26 Oct 2021 08:59:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QQdg6Be1;
- spf=pass (domain: gmail.com, ip: 209.85.222.180,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id bp7so15509810qkb.12
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 08:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0gtdlx0dgYsMjq0m/0TklXSmx1P8KC2crkHmLly5fco=;
-        b=QQdg6Be17CcRvkhxqZiC5gTbhWrO+0Qv9s5PiGRbEMoeTevxCNXFUwGJQTnVzQQn05
-         mQNzjBueLtLtcMIUtyUvqCs+4to71i0o7bV8oIpFiBsO/9sUPeaKnTfNsrRFPQO5tqll
-         pameiNG4cvHNzYqLoR1y+4287HmSDC6cZHtPaczTBUgihZgwn1zeF2vKsWjQdgZkm780
-         i4TAaQXiRDSDwkaAWbzdtIyde5HNTmFjMQoWKtSeLF0Qia1aEwwhVLNnnpzwUU+s31io
-         lZAW05GQ2pSV0wj2FDABRh9IiWM07UrRlqviYt+ktMPsbYXDjGXrhzfBCGQPzgEXX8j/
-         FXBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0gtdlx0dgYsMjq0m/0TklXSmx1P8KC2crkHmLly5fco=;
-        b=gCmPk9gRHn4IWAtTvWUYiDKQQayGcuLM/t74pa39neNK+yeUxdzrIpHP/I9LIbs+J0
-         5xIWjCsM/166BUFh/TwweKY5AsP1ufsKQyekV8SYwQs98dxCT9NgbgkiMMgK9WB4Gn3a
-         TAI0aC1E0o528bzUzhSG3SzvNKb02W+l6WQ+ZL2n01dDKdrOcCflyCUctmR8IUlrIRvx
-         NVDcmcy66X8yj5SYuz6HVAJ9aQxPbVlfs5/4jCIUsMDHc/i7bF0lcCMUPTJT+jV/+3sW
-         Ry0smcliXqogDrCvFvBvRmzG0Uw59Xr9aSWrXNZeBFjHvJC9zrHAfK9Ob+o4QaWwJ079
-         wJUg==
-X-Gm-Message-State: AOAM5302WtZfcCPCYjN1WmezRgMYUyPDjZUHtxqCh8+SAk4FFSaqHWFC
-	Y6oUgJaDOX0UB3lqSD8MgeIGqudUKR610yMQ5PU=
-X-Google-Smtp-Source: 
- ABdhPJzl2GSGw+YJgRhPpjiwNDjnDUSL/ajpox8D+66C/A/fcZrDRtzQLbAXyFrkLakGz+3xjP2P498Vd5HQ7vtTcG4=
-X-Received: by 2002:a37:9ec7:: with SMTP id
- h190mr19656566qke.105.1635263646100;
- Tue, 26 Oct 2021 08:54:06 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="290783260"
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800";
+   d="scan'208";a="290783260"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 08:59:00 -0700
+X-IronPort-AV: E=Sophos;i="5.87,184,1631602800";
+   d="scan'208";a="578786309"
+Received: from wandsuan-mobl.gar.corp.intel.com (HELO
+ anmitta2-mobl1.gar.corp.intel.com) ([10.215.231.17])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2021 08:58:59 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 02/37] oeqa/selftest/sstatetests: fix typo ware ->
+ were
+Date: Tue, 26 Oct 2021 23:57:33 +0800
+Message-Id: 
+ <0c8d02830ebac3c8ba563a46d304b1ef2a282b9f.1635257336.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1635257336.git.anuj.mittal@intel.com>
+References: <cover.1635257336.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-References: <20211026111140.3298966-1-richard.purdie@linuxfoundation.org>
- <20211026111140.3298966-4-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20211026111140.3298966-4-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Oct 2021 08:53:40 -0700
-Message-ID: 
- <CAMKF1sovwgOet_n23KHgzRMyptqq=MYq7W1ZKM-VWj0Sy14CoA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] gcc: Drop broken/unneeded patch
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 15:54:07 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 15:59:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157402
+ https://lists.openembedded.org/g/openembedded-core/message/157405
 
-On Tue, Oct 26, 2021 at 4:11 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> This patch looks obsolete because it looks like part of an upstream
-> backport on a very old gcc version (4.3.3) and looks incomplete. The
-> diff also has little context making it likely to be a rebase error.
->
-> Builds seem find without it so drop it.
->
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-IIRC it was not accepted upstream but perhaps a different one was.
-However if it builds for us without issues then drop it.
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit c94a9ece226b1d2012f5ee966b81bf607d954937)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 -
->  ...-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch | 70 -------------------
->  2 files changed, 71 deletions(-)
->  delete mode 100644 meta/recipes-devtools/gcc/gcc/0003-gcc-4.3.3-SYSROOT_=
-CFLAGS_FOR_TARGET.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-11.2.inc
-> index 1ab779533ca..23dfea2319e 100644
-> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> @@ -32,7 +32,6 @@ SRC_URI =3D "\
->             ${BASEURI} \
->             file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
->             file://0002-gcc-poison-system-directories.patch \
-> -           file://0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
->             file://0004-64-bit-multilib-hack.patch \
->             file://0005-optional-libstdc.patch \
->             file://0006-COLLECT_GCC_OPTIONS.patch \
-> diff --git a/meta/recipes-devtools/gcc/gcc/0003-gcc-4.3.3-SYSROOT_CFLAGS_=
-FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc/0003-gcc-4.3.3-SYSROOT_CFL=
-AGS_FOR_TARGET.patch
-> deleted file mode 100644
-> index 7a676545557..00000000000
-> --- a/meta/recipes-devtools/gcc/gcc/0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TAR=
-GET.patch
-> +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -From 274a27da6fe355c4c49953b3b69c8949d2412c62 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Fri, 29 Mar 2013 09:08:31 +0400
-> -Subject: [PATCH] gcc-4.3.3: SYSROOT_CFLAGS_FOR_TARGET
-> -
-> -Before committing, I noticed that PR/32161 was marked as a dup of PR/320=
-09, but my previous patch did not fix it.
-> -
-> -This alternative patch is better because it lets you just use CFLAGS_FOR=
-_TARGET to set the compilation flags for libgcc. Since bootstrapped target =
-libraries are never compiled with the native compiler, it makes little sens=
-e to use different flags for stage1 and later stages. And it also makes lit=
-tle sense to use a different variable than CFLAGS_FOR_TARGET.
-> -
-> -Other changes I had to do include:
-> -
-> -- moving the creation of default CFLAGS_FOR_TARGET from Makefile.am to c=
-onfigure.ac, because otherwise the BOOT_CFLAGS are substituted into CFLAGS_=
-FOR_TARGET (which is "-O2 -g $(CFLAGS)") via $(CFLAGS). It is also cleaner =
-this way though.
-> -
-> -- passing the right CFLAGS to configure scripts as exported environment =
-variables
-> -
-> -I also stopped passing LIBCFLAGS to configure scripts since they are unu=
-sed in the whole src tree. And I updated the documentation as H-P reminded =
-me to do.
-> -
-> -Bootstrapped/regtested i686-pc-linux-gnu, will commit to 4.4 shortly. Ok=
- for 4.3?
-> -
-> -Signed-off-by: Paolo Bonzini  <bonzini@gnu.org>
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Upstream-Status: Pending
-> ----
-> - configure | 32 ++++++++++++++++++++++++++++++++
-> - 1 file changed, 32 insertions(+)
-> -
-> -diff --git a/configure b/configure
-> -index bcebad264ec..86e4ee7c383 100755
-> ---- a/configure
-> -+++ b/configure
-> -@@ -8977,6 +8977,38 @@ fi
-> -
-> -
-> -
-> -+# During gcc bootstrap, if we use some random cc for stage1 then CFLAGS
-> -+# might be empty or "-g".  We don't require a C++ compiler, so CXXFLAGS
-> -+# might also be empty (or "-g", if a non-GCC C++ compiler is in the pat=
-h).
-> -+# We want to ensure that TARGET libraries (which we know are built with
-> -+# gcc) are built with "-O2 -g", so include those options when setting
-> -+# CFLAGS_FOR_TARGET and CXXFLAGS_FOR_TARGET.
-> -+if test "x$CFLAGS_FOR_TARGET" =3D x; then
-> -+  CFLAGS_FOR_TARGET=3D$CFLAGS
-> -+  case " $CFLAGS " in
-> -+    *" -O2 "*) ;;
-> -+    *) CFLAGS_FOR_TARGET=3D"-O2 $CFLAGS" ;;
-> -+  esac
-> -+  case " $CFLAGS " in
-> -+    *" -g "* | *" -g3 "*) ;;
-> -+    *) CFLAGS_FOR_TARGET=3D"-g $CFLAGS" ;;
-> -+  esac
-> -+fi
-> -+
-> -+
-> -+if test "x$CXXFLAGS_FOR_TARGET" =3D x; then
-> -+  CXXFLAGS_FOR_TARGET=3D$CXXFLAGS
-> -+  case " $CXXFLAGS " in
-> -+    *" -O2 "*) ;;
-> -+    *) CXXFLAGS_FOR_TARGET=3D"-O2 $CXXFLAGS" ;;
-> -+  esac
-> -+  case " $CXXFLAGS " in
-> -+    *" -g "* | *" -g3 "*) ;;
-> -+    *) CXXFLAGS_FOR_TARGET=3D"-g $CXXFLAGS" ;;
-> -+  esac
-> -+fi
-> -+
-> -+
-> - # Handle --with-headers=3DXXX.  If the value is not "yes", the contents=
- of
-> - # the named directory are copied to $(tooldir)/sys-include.
-> - if test x"${with_headers}" !=3D x && test x"${with_headers}" !=3D xno ;=
- then
-> --
-> 2.32.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157386): https://lists.openembedded.org/g/openembedde=
-d-core/message/157386
-> Mute This Topic: https://lists.openembedded.org/mt/86599750/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 17a1545506..874f439282 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -137,7 +137,7 @@ class SStateTests(SStateBase):
+             filtered_results.append(r)
+         self.assertTrue(filtered_results == [], msg="Found distro non-specific sstate for: %s (%s)" % (', '.join(map(str, targets)), str(filtered_results)))
+         file_tracker_1 = self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
+-        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
++        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files were created for: %s" % ', '.join(map(str, targets)))
+ 
+         self.track_for_cleanup(self.distro_specific_sstate + "_old")
+         shutil.copytree(self.distro_specific_sstate, self.distro_specific_sstate + "_old")
+@@ -146,13 +146,13 @@ class SStateTests(SStateBase):
+         bitbake(['-cclean'] + targets)
+         bitbake(targets)
+         file_tracker_2 = self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
+-        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
++        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files were created for: %s" % ', '.join(map(str, targets)))
+ 
+         not_recreated = [x for x in file_tracker_1 if x not in file_tracker_2]
+-        self.assertTrue(not_recreated == [], msg="The following sstate files ware not recreated: %s" % ', '.join(map(str, not_recreated)))
++        self.assertTrue(not_recreated == [], msg="The following sstate files were not recreated: %s" % ', '.join(map(str, not_recreated)))
+ 
+         created_once = [x for x in file_tracker_2 if x not in file_tracker_1]
+-        self.assertTrue(created_once == [], msg="The following sstate files ware created only in the second run: %s" % ', '.join(map(str, created_once)))
++        self.assertTrue(created_once == [], msg="The following sstate files were created only in the second run: %s" % ', '.join(map(str, created_once)))
+ 
+     def test_rebuild_distro_specific_sstate_cross_native_targets(self):
+         self.run_test_rebuild_distro_specific_sstate(['binutils-cross-' + self.tune_arch, 'binutils-native'], temp_sstate_location=True)
+@@ -202,9 +202,9 @@ class SStateTests(SStateBase):
+         actual_remaining_sstate = [x for x in self.search_sstate(target + r'.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
+ 
+         actual_not_expected = [x for x in actual_remaining_sstate if x not in expected_remaining_sstate]
+-        self.assertFalse(actual_not_expected, msg="Files should have been removed but ware not: %s" % ', '.join(map(str, actual_not_expected)))
++        self.assertFalse(actual_not_expected, msg="Files should have been removed but were not: %s" % ', '.join(map(str, actual_not_expected)))
+         expected_not_actual = [x for x in expected_remaining_sstate if x not in actual_remaining_sstate]
+-        self.assertFalse(expected_not_actual, msg="Extra files ware removed: %s" ', '.join(map(str, expected_not_actual)))
++        self.assertFalse(expected_not_actual, msg="Extra files were removed: %s" ', '.join(map(str, expected_not_actual)))
+ 
+     def test_sstate_cache_management_script_using_pr_1(self):
+         global_config = []
+-- 
+2.31.1
+
 
