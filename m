@@ -1,161 +1,206 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66634C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 11:24:24 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (EUR04-VI1-obe.outbound.protection.outlook.com [40.92.75.49])
- by mx.groups.io with SMTP id smtpd.web09.10665.1635247463167148549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 274A6C433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 12:06:38 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.11209.1635249997573906151
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 04:24:24 -0700
+ Tue, 26 Oct 2021 05:06:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=n2bpxQ2M;
- spf=pass (domain: outlook.com, ip: 40.92.75.49,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IGG9rFQq/g5hzySElQqVFtyQ3GUjitRHTzVxK3ouqf1+NK091rpa600JIy9BDxPMHyX6aj4xKkk8tjeK45Zg8DqDJ6SzVYyjvT3DnH2vrTHkCA23BiKM1upQB7S2eDTJS6kE9gxPElYl48dJLM+t2bLreFKYLd0Uorda24KazI1fWfpuvs19971J19LvSa0bXF0UJ/hAgBx1E2R7yWSaAPkcZKbiLQYP5GUVEXeoM2lJgUK7nxjYcPVYN08yT5GF2EAbIa2sBGUItZUTOtHg03umHCnW3JSsdtSllRDyjqCfM1S9DIXgk0l1n+zrGzmdf/9yFMVLgB7PQsOBnBK/CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XCansmG6SYSwjO7AzIz9t9veE1z3y6oHo3ae6O8VjV4=;
- b=GqmEW/e450LPl07NKGhqCS+14ZyKQlWDdN1QN5hk3HmoufX8HoF2uq/hmWGA5nS3kkPXEf5pmXA84q2DLas0tRiKcNM5MWhKR6pb/yB+Yg7Q+9ABYaVUJSsdUjxUrA0opCtg8pzHcRnNk/bVd1gzymU0bRPAWccuEd6bPgyWwdBt210H9InZzCVtElRY9pOqwfRLzzNj2EK81OFYakdRVbBHlPk5mpYa5n9EbEaREpRl448g2PiFWWMQUeju0kMkDQTS6Mb/374gaKE3BpIVzNp5TsJtwgE1y0HHE13RyiVwvTCs+tFRWiPSkuIUJISSIFi3oI2vcl976fE1vgSSfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XCansmG6SYSwjO7AzIz9t9veE1z3y6oHo3ae6O8VjV4=;
- b=n2bpxQ2MwU/P9jGrVQ7nLr9aYLumk36MzjFBgphYO7jroa7xw8eAKqCyZKV1TAuyn4jcWCcExIjBlO9SaccIGpCbu826wQ68wN4sOwr1myHEgpTY3BQPRc2hm9gYJZJlI93NCwQCv3YtMg8+/Lj72xSDterezEu5pPxUoIzSXeYkJdQ5Ez2tvksjF58FnqL+w69aVq2aqnpCivW5/N+7/IJaXMknoQ1DSl9KnbtlxFZE2dgGNt9XhbZHa7uejCclku4DJKS8M7mi6uIy7q/ubV9iWCq5yZ0E/O0iOzh+PtwHyFTjsJ7uon3Z7LhD9cfNB6tBjxxE+LA9P9c/QG47IQ==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB3921.eurprd09.prod.outlook.com (2603:10a6:208:1a1::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.13; Tue, 26 Oct
- 2021 11:24:20 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4628.020; Tue, 26 Oct 2021
- 11:24:20 +0000
-Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
- IMAGE_QA_PROHIBIT_PATHS variable
-To: Martyn Welch <martyn.welch@collabora.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <e133da623f5a357c570efc036daa84098dbc691c.camel@collabora.com>
- <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB46428E00E810D2C55427FBA7A8849@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Tue, 26 Oct 2021 13:24:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [HfMZxm5xaF+xv0VHNyNZilzwcx+9wfQU95MtprUaqAtzZExOIbuyC4mpC1onaq68]
-X-ClientProxiedBy: AS8PR04CA0020.eurprd04.prod.outlook.com
- (2603:10a6:20b:310::25) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <be1f609e-1c36-e8e5-3ef3-ce8eceb34901@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HQ3S6e2f;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id 187so14082250pfc.10
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 26 Oct 2021 05:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7jCEKMKVtwJIgiMnPNaJZM9a9zonu+l4Gfh7JASKj7M=;
+        b=HQ3S6e2fZSBUHB8rgjRIz3vPfGRgKNFomxqYOuzDjt+0WMGUpOncVEqDwjqgHZmkAo
+         18wH25+Pb2Pc/vYOerWK05tRilVjQp8u6Si546G0Jpo9BqLbwx83DLGBiIDHfQGV5k4R
+         K+1arkCVscPmXBR8D2ROjfzxmOfoPPKA5dBnQYD7LDp01445PjMD/j4Wb+X9cNrypOir
+         TrPPqPXaXKNv4V2xHxROyY1lge+N5kFNI6KD0IomBzFZgOPVAPYzPA7yhhlQnvSBtDC/
+         a5j1Iz97ho3Ku/yiO159+24bc7XUifgAeQPiE4Mx+anebxH0EM9wZUNQj05rUE4agQ/K
+         yokA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7jCEKMKVtwJIgiMnPNaJZM9a9zonu+l4Gfh7JASKj7M=;
+        b=fE8AAyUSKyGUQ82xo/eOUxt63KnXZvlOJlbBgKtatlDNV4vEzuAUwPPH5NVEW6FYFn
+         gOvepHcgyixqXtN27hB+JeWvMmBk38OT4hcEcnECl43H4WXEQH/8nc33Tf13ycVM4ORO
+         nTxCDTFIEK2pSY5P77CluQJgmLUQVBekWeg8Krfg2wL54IxQRGtBR9ZaRjtCwJK0zFRK
+         6gHdSW/QtBi8gA6amr/Tfl+3/RplJ3GRL6aBt+yWmuQnG+MNBaWPUzlIO6wjFSPYLcs6
+         Vd7Bsw8e9lZCtcCP3ZsqRDJvyLrr159oLFYQnGvu1UJkalEDM0WkLXMmQNnJO0uTcjyD
+         oIhg==
+X-Gm-Message-State: AOAM532pwMlolaePWO9SVi/tjeou15qU046LbYztGPluSDd1GdjXX+jg
+	yzB86WttXyTVQ3xZjm8GJPmf5TXlE+1RhWx6bs0=
+X-Google-Smtp-Source: 
+ ABdhPJw7262uzifUiu3aeC8Xt4zdoK5QeAhBn+t4GeiDuIxuuc29DCNjQMGHqhHtssrkrc8hKCwBbEtGb5piIuyTDOk=
+X-Received: by 2002:a05:6a00:a8e:b0:47b:a658:7f4d with SMTP id
+ b14-20020a056a000a8e00b0047ba6587f4dmr24641693pfl.82.1635249997017; Tue, 26
+ Oct 2021 05:06:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
- (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
- AS8PR04CA0020.eurprd04.prod.outlook.com (2603:10a6:20b:310::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend
- Transport; Tue, 26 Oct 2021 11:24:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a9be4d99-4a95-4170-1143-08d9987327a3
-X-MS-TrafficTypeDiagnostic: AM0PR09MB3921:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	oFsfQqxpZG63K8dZT0HWRX4KMVVWTCNiBfzRT3duboXG5XyC7QQUOXo7TyAN4YntntbwdlbuLINYJQHtcnx7C6l53/ro7jMxehgMe+m81c49RVp6hLvQHBdBVXIJ3wd13ZOi7A6EeHPCR6avFvru44DE4TOpRAuoDM76m+g7TAExXHPi0fhZGL2tHGuUBkT+edGQo+Gt36F3rBkb3zcWIRor4UO86KgAeeDcoNT+ngjiY7hnyzmSe8PVI1myzo58cneki5iGQmnBPvPeCrmJCUWCJiexhp+0NVHi1QBQkBkwRlkXkK/lwEVeKbW1TBMQHtIzkny6JBimpYVAUpIFZdQYbcUNmUGhAPSYq9rOgVpOK+e3s+ZSVcZGC37Lf5E3JAGh3mpsO9ynFORx9iHFX0CV92xL7s3M2mEVuTi0GBtlzegjTFhdj4MYgTdkHF+TH019Dwh83kX/nvLLEC15FI/bJRQwQ2j5/PhbOcflgEXsg8OPx53vNNnuaNKwWA4or4Q0v/OsJJIpHMXKBDayh7jOSZEWxpfsDFoe8Vsmif1Js4egJd4pd8SKpuzspnBFYa1mSGrjCe70Y3EBJBXuYz2Z+GgPxvjEcvyzQdHj9p7eplmmU8nyxoFPVbKrKapf
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	b6AA+5VvcOkoRfPtV8zSqbmLG0B49SxuzFqMGNOX49xqKTI940BwYp7OqaJnLXSbqYJFZ3mY+tjTg1ROY7ipsLLNzL5A4D1q7IxZqgQSYcsQ+6HdgDh0DcPanGalQLAwxnhavixitvCuZ4/JX9RWbUX7Z2lmY5YOeYKY/oWyjLh0G25U0FgbK0d/zvBX6X2po5j5qcaDcBpML07IR8KBm8xbMs55kG3E7n7maOWp/pqHmM5wgKoNUEbJQi39O4Kivrdfk/VSTkk95WcyAGklqEQuNEwaTEch0UHW80P+AyXbYdIYVgXhubwRTX6m9AWSba64NTQ6q6rKKLD+mKPB9LuR3cy2Eshfi9Msn+Mp43qteYqZkuocZukfEubpp9jufVE0GxnmZMHtOCtsgk8TLm3MP8sE9dcb+SDnDskodnIpWVLuZ8Ejsu5lUMZdWkscHHm43pBr1rov9+CO3mDaB/yRWhW8rGBCeu4bXoblt3VpKXMrFI0gXGWBtGCiItIU3wgWDLUuOrsvNlt/I2gUhrO0wud6KnQ48RP+5xkUxbGM4/+YJiH7VjlxyN6E4OWqAmkjk464v1IijElwgcf/X3vT7vBSMSN9khZDKYqA65iL2//2yVRO1dyw5M+owH42JXSTTxL44ifB4alVt1yM3aiwDEmP7b569cymoiPVsGZaaWUkrDOsNWWC8he1iwErgGDAwGaptdNBe0NrZORg4umRjGYGPLzHbcE22is0uYz+IbwXhAxjXcZCqEHynDvPgCEVQpr6sXYVj5zKC5kCEA==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- a9be4d99-4a95-4170-1143-08d9987327a3
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 11:24:20.5614
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB3921
+References: <20211023065203.1624178-1-raj.khem@gmail.com>
+In-Reply-To: <20211023065203.1624178-1-raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 26 Oct 2021 14:06:26 +0200
+Message-ID: 
+ <CA+chaQeRiBT0=4Zen24PP-E2kPc-NOgNyWR5Kq5Aphznc_=-Eg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: Upgrade to 1.56.0
+To: Khem Raj <raj.khem@gmail.com>, Randy MacLeod <randy.macleod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000030f74e05cf404fe9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 11:24:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 12:06:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157389
+ https://lists.openembedded.org/g/openembedded-core/message/157390
 
+--00000000000030f74e05cf404fe9
+Content-Type: text/plain; charset="UTF-8"
 
+On Sat, Oct 23, 2021 at 8:52 AM Khem Raj <raj.khem@gmail.com> wrote:
 
-On 26.10.21 13:21, Martyn Welch wrote:
-> Note to self - remember to reply to list...
-> 
-> -------- Forwarded Message --------
-> From: Martyn Welch <martyn.welch@collabora.com>
-> To: Konrad Weihmann <kweihmann@outlook.com>
-> Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
-> IMAGE_QA_PROHIBIT_PATHS variable
-> Date: Tue, 26 Oct 2021 12:12:11 +0100
-> 
-> On Tue, 2021-10-26 at 12:56 +0200, Konrad Weihmann wrote:
->>
->>
->> On 26.10.21 12:50, Martyn Welch wrote:
->>> From: Martyn Welch <martyn.welch@collabora.co.uk>
->>>
->>> Add a default IMAGE_QA_PROHIBIT_PATHS variable containing paths
->>> known to
->>> be mounted in the default fstab, which are known mount points or
->>> directories which should be populated at runtime.
->>>
->>> Suggested-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->>
->> That can't be true - or the initial idea is very very old :-) pls use
->> Alex's gmail instead
-> 
-> It's a very old patch series, originally posted in 2017 (as mentioned
-> in patch 1/2). Just noticed it never got applied...
-> 
->>> +# IMAGE_QA_PROHIBITED_PATHS
->>> +# Ensure images aren't including files in places that will be used
->>> as mount points or that are
->>> +# reserved for runtime data.
->>> +IMAGE_QA_PROHIBITED_PATHS ?=
->>> "/dev/pts/*:/media/*:/mnt/*:/proc/*:/run/*:/tmp/*:/var/run/*:/var/t
->>> mp/*:/var/volatile/*"
->>
->> I like the idea, but wouldn't make more sense to do that on a package
->> level, as here the user is more or less left alone in guessing where
->> the
->> file actually does come from
-> 
-> I like that idea, however it would make to assumption that there wasn't
-> any tweaks being made as part of image generation that would end up
-> violating this. A quick check suggests the "build-appliance-
-> image_15.0.0.bb" image does this kind of thing in the core image types.
-> 
+> This is latest major release, changes are here [1]
+>
+> Forward port libstd-rs patches and refresh musl/rv64 port
+>
+> [1] https://github.com/rust-lang/rust/releases/tag/1.56.0
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Randy MacLeod <Randy.MacLeod@windriver.com>
+>
 
-As Alex just wrote, I might be beneficial to do both
+Anyone seeing libstd-rs failing to build?
 
-> Martyn
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157387): https://lists.openembedded.org/g/openembedded-core/message/157387
-> Mute This Topic: https://lists.openembedded.org/mt/86599458/3647476
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+e.g. for raspberrypi4 it fails with:
+
+| error: could not compile `core`
+|
+| Caused by:
+|   process didn't exit successfully: `rustc --crate-name core
+--edition=2018 library/core/src/lib.rs --error-format=json
+--json=diagnostic-rendered-ansi,artifacts --crate-type lib
+--emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C
+metadata=1c41b1708b174d1e -C extra-filename=-1c41b1708b174d1e --out-dir
+/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/arm-oe-linux-gnueabi/release/deps
+--target arm-oe-linux-gnueabi -C
+linker=/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/wrapper/target-rust-ccld
+-L
+dependency=/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/arm-oe-linux-gnueabi/release/deps
+-L
+dependency=/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/release/deps
+-L
+/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/recipe-sysroot/usr/lib/rust
+--remap-path-prefix=/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0=/usr/src/debug/libstd-rs/1.56.0-r0
+-Cembed-bitcode=yes -L
+/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/recipe-sysroot/usr/lib
+-C link-arg=-Wl,-soname,libstd.so` (signal: 11, SIGSEGV: invalid memory
+reference)
+| warning: build failed, waiting for other jobs to finish...
+
+with qemuarm it fails as well:
+| error: could not compile `core`
+|
+| Caused by:
+|   process didn't exit successfully: `rustc --crate-name core
+--edition=2018 library/core/src/lib.rs --error-format=json
+--json=diagnostic-rendered-ansi,artifacts --crate-type lib
+--emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C
+metadata=1c41b1708b174d1e -C extra-filename=-1c41b1708b174d1e --out-dir
+/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/arm-oe-linux-gnueabi/release/deps
+--target arm-oe-linux-gnueabi -C
+linker=/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/wrapper/target-rust-ccld
+-L
+dependency=/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/arm-oe-linux-gnueabi/release/deps
+-L
+dependency=/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/release/deps
+-L
+/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/recipe-sysroot/usr/lib/rust
+--remap-path-prefix=/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0=/usr/src/debug/libstd-rs/1.56.0-r0
+-Cembed-bitcode=yes -L
+/OE/build/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/recipe-sysroot/usr/lib
+-C link-arg=-Wl,-soname,libstd.so` (signal: 11, SIGSEGV: invalid memory
+reference)
+| warning: build failed, waiting for other jobs to finish...
+
+Will try to downgrade to 1.55.0.
+
+--00000000000030f74e05cf404fe9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Oct 23, 2021 at 8:52 AM Khem Raj =
+&lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">This is latest major release, changes are here [1]<br>
+<br>
+Forward port libstd-rs patches and refresh musl/rv64 port<br>
+<br>
+[1] <a href=3D"https://github.com/rust-lang/rust/releases/tag/1.56.0" rel=
+=3D"noreferrer" target=3D"_blank">https://github.com/rust-lang/rust/release=
+s/tag/1.56.0</a><br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+Cc: Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windriver.com" target=
+=3D"_blank">Randy.MacLeod@windriver.com</a>&gt;<br></blockquote><div><br></=
+div><div>Anyone seeing libstd-rs failing to build?</div><div><br></div><div=
+>e.g. for raspberrypi4 it fails with:</div><div><br></div><div>| error: cou=
+ld not compile `core`</div>|<br>| Caused by:<br>| =C2=A0 process didn&#39;t=
+ exit successfully: `rustc --crate-name core --edition=3D2018 library/core/=
+src/<a href=3D"http://lib.rs">lib.rs</a> --error-format=3Djson --json=3Ddia=
+gnostic-rendered-ansi,artifacts --crate-type lib --emit=3Ddep-info,metadata=
+,link -C opt-level=3D3 -C embed-bitcode=3Dno -C metadata=3D1c41b1708b174d1e=
+ -C extra-filename=3D-1c41b1708b174d1e --out-dir /OE/build/oe-core/tmp-glib=
+c/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/a=
+rm-oe-linux-gnueabi/release/deps --target arm-oe-linux-gnueabi -C linker=3D=
+/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/l=
+ibstd-rs/1.56.0-r0/wrapper/target-rust-ccld -L dependency=3D/OE/build/oe-co=
+re/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0=
+-r0/build/arm-oe-linux-gnueabi/release/deps -L dependency=3D/OE/build/oe-co=
+re/tmp-glibc/work/cortexa7t2hf-neon-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0=
+-r0/build/release/deps -L /OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neo=
+n-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/recipe-sysroot/usr/lib/rust --=
+remap-path-prefix=3D/OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neon-vfpv=
+4-oe-linux-gnueabi/libstd-rs/1.56.0-r0=3D/usr/src/debug/libstd-rs/1.56.0-r0=
+ -Cembed-bitcode=3Dyes -L /OE/build/oe-core/tmp-glibc/work/cortexa7t2hf-neo=
+n-vfpv4-oe-linux-gnueabi/libstd-rs/1.56.0-r0/recipe-sysroot/usr/lib -C link=
+-arg=3D-Wl,-soname,libstd.so` (signal: 11, SIGSEGV: invalid memory referenc=
+e)<br>| warning: build failed, waiting for other jobs to finish...<br></div=
+><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">with qemua=
+rm it fails as well:</div><div class=3D"gmail_quote">| error: could not com=
+pile `core`<br>|<br>| Caused by:<br>| =C2=A0 process didn&#39;t exit succes=
+sfully: `rustc --crate-name core --edition=3D2018 library/core/src/<a href=
+=3D"http://lib.rs">lib.rs</a> --error-format=3Djson --json=3Ddiagnostic-ren=
+dered-ansi,artifacts --crate-type lib --emit=3Ddep-info,metadata,link -C op=
+t-level=3D3 -C embed-bitcode=3Dno -C metadata=3D1c41b1708b174d1e -C extra-f=
+ilename=3D-1c41b1708b174d1e --out-dir /OE/build/oe-core/tmp-glibc/work/cort=
+exa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/arm-oe-linux-gnue=
+abi/release/deps --target arm-oe-linux-gnueabi -C linker=3D/OE/build/oe-cor=
+e/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/wr=
+apper/target-rust-ccld -L dependency=3D/OE/build/oe-core/tmp-glibc/work/cor=
+texa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/arm-oe-linux-gnu=
+eabi/release/deps -L dependency=3D/OE/build/oe-core/tmp-glibc/work/cortexa1=
+5t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/build/release/deps -L /OE/b=
+uild/oe-core/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1=
+.56.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=3D/OE/build/oe-cor=
+e/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0=3D=
+/usr/src/debug/libstd-rs/1.56.0-r0 -Cembed-bitcode=3Dyes -L /OE/build/oe-co=
+re/tmp-glibc/work/cortexa15t2hf-neon-oe-linux-gnueabi/libstd-rs/1.56.0-r0/r=
+ecipe-sysroot/usr/lib -C link-arg=3D-Wl,-soname,libstd.so` (signal: 11, SIG=
+SEGV: invalid memory reference)<br>| warning: build failed, waiting for oth=
+er jobs to finish...<br></div><div class=3D"gmail_quote"><br></div><div cla=
+ss=3D"gmail_quote">Will try to downgrade to 1.55.0.</div></div>
+
+--00000000000030f74e05cf404fe9--
 
