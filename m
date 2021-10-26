@@ -1,136 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martyn.welch@collabora.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D13C433EF
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 11:11:49 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.10660.1635246703767059336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A7D5C433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 11:21:15 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by mx.groups.io with SMTP id smtpd.web08.10774.1635247273643801718
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 04:11:44 -0700
+ Tue, 26 Oct 2021 04:21:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X9YaFU0U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id
- 136-20020a1c008e000000b0032ccae3b331so1147418wma.0
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 04:11:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=S/OudJek1fJjfH/KG33l3E4rsAu99rzF7eAzS37g6nU=;
-        b=X9YaFU0UHgsFy9QglpRbTkyxvmAcwSUdqIEFRIqawbhOjiVNYSpYfVSE9VkmgOHqcB
-         vptltPS6OyjWvB0Cv3YUzLLRrZGHNrTyGihho1psDK2eyX/GIqLCkWc+UE2gQYNcVg4z
-         cffCJMEWzBAABTSXSVb5+8gVrrpdMIlaY6ma8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S/OudJek1fJjfH/KG33l3E4rsAu99rzF7eAzS37g6nU=;
-        b=1ohGUaZAiOB8jPg0OnA77ydcs3lYLngv5TJfT9hZmcvgdsJD7WP7PKr2kCGhpBoXqf
-         Ec0Gj5+F3fa04/M0DHb4VpHaYjxcukNR2wxSwlEDmRX8uexSj+6PaBBfduBXGHyL0UAe
-         3hU+qhZ6oJQ1l5Wd7rmY+k3ZoHRuiy6LXYcEEboKeWa5/ng5xiTYPBNVC0kFKO6EUDpg
-         yLroNHmBmBrpIF7ZTRfm8D4OWehaxrbKYnfCeBRlm14ExwY59N5dnYJ1XEENckOed+Pg
-         KjEJGgmbFFrSGuqK/qb03fUr8XR7ZzWT7yzmluWMwgIeG0ZPLDTDv+ZoJcXzLNC+8Kfp
-         j2mA==
-X-Gm-Message-State: AOAM533aZPQxcxgnpIw+YDsEbWsjrRe8T8Pr+6DiURsyIiNEwief1LZ/
-	UovShl2puJH6qSxpuQxk2xsSIuVog16ezA==
-X-Google-Smtp-Source: 
- ABdhPJzvK0XMnEu1Xx4QLESYmFpWJKLT7Oq+QycTreiM/bhq9x+NjeLB6TdbLKVEoGgn5nIdO7Qpig==
-X-Received: by 2002:a05:600c:4ed3:: with SMTP id
- g19mr7078249wmq.85.1635246702218;
-        Tue, 26 Oct 2021 04:11:42 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6b9e:385e:1583:4f40])
-        by smtp.gmail.com with ESMTPSA id
- f17sm11403510wrv.89.2021.10.26.04.11.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 04:11:42 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] gcc: Fix nolibstdc++ patch
-Date: Tue, 26 Oct 2021 12:11:39 +0100
-Message-Id: <20211026111140.3298966-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211026111140.3298966-1-richard.purdie@linuxfoundation.org>
-References: <20211026111140.3298966-1-richard.purdie@linuxfoundation.org>
+ dkim=missing;
+ spf=pass (domain: collabora.com, ip: 46.235.227.227, mailfrom: martyn.welch@collabora.com)
+Received: from [IPv6:2a00:23c6:c31a:b300:6338:938c:ab16:fa48] (unknown
+ [IPv6:2a00:23c6:c31a:b300:6338:938c:ab16:fa48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: martyn)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6D95A1F434A3
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 26 Oct 2021 12:21:11 +0100 (BST)
+Message-ID: <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
+Subject: Fwd: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
+ IMAGE_QA_PROHIBIT_PATHS variable
+From: Martyn Welch <martyn.welch@collabora.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Oct 2021 12:21:09 +0100
+References: <e133da623f5a357c570efc036daa84098dbc691c.camel@collabora.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.0-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 11:11:49 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 11:21:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157385
+ https://lists.openembedded.org/g/openembedded-core/message/157387
 
-Somewhere along the line the docs patch was corrupted with incorrect
-changes. Strip these out and clean up the patch.
+Note to self - remember to reply to list...
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../gcc/gcc/0005-optional-libstdc.patch       | 28 ++-----------------
- 1 file changed, 2 insertions(+), 26 deletions(-)
+-------- Forwarded Message --------
+From: Martyn Welch <martyn.welch@collabora.com>
+To: Konrad Weihmann <kweihmann@outlook.com>
+Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
+IMAGE_QA_PROHIBIT_PATHS variable
+Date: Tue, 26 Oct 2021 12:12:11 +0100
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-index c921ac3340c..c64fbf6a976 100644
---- a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-@@ -55,12 +55,10 @@ diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
- index 6659a903bf0..9ee63dbe52f 100644
- --- a/gcc/doc/invoke.texi
- +++ b/gcc/doc/invoke.texi
--@@ -239,6 +239,9 @@ in the following sections.
-+@@ -239,6 +239,7 @@ in the following sections.
-  -fno-weak  -nostdinc++ @gol
-  -fvisibility-inlines-hidden @gol
-  -fvisibility-ms-compat @gol
--+-fvtable-verify=@r{[}std@r{|}preinit@r{|}none@r{]} @gol
--+-fvtv-counts -fvtv-debug @gol
- +-nostdlib++ @gol
-  -fext-numeric-literals @gol
-  -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
-@@ -74,7 +72,7 @@ index 6659a903bf0..9ee63dbe52f 100644
-  -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
-  -u @var{symbol}  -z @var{keyword}}
-  
--@@ -15708,6 +15711,33 @@ Specify that the program entry point is @var{entry}.  The argument is
-+@@ -15708,6 +15711,11 @@ Specify that the program entry point is @var{entry}.  The argument is
-  interpreted by the linker; the GNU linker accepts either a symbol name
-  or an address.
-  
-@@ -82,28 +80,6 @@ index 6659a903bf0..9ee63dbe52f 100644
- +@opindex nostdlib++
- +Do not use the standard system C++ runtime libraries when linking.
- +Only the libraries you specify will be passed to the linker.
--+
--+@cindex @option{-lgcc}, use with @option{-nostdlib}
--+@cindex @option{-nostdlib} and unresolved references
--+@cindex unresolved references and @option{-nostdlib}
--+@cindex @option{-lgcc}, use with @option{-nodefaultlibs}
--+@cindex @option{-nodefaultlibs} and unresolved references
--+@cindex unresolved references and @option{-nodefaultlibs}
--+One of the standard libraries bypassed by @option{-nostdlib} and
--+@option{-nodefaultlibs} is @file{libgcc.a}, a library of internal subroutines
--+which GCC uses to overcome shortcomings of particular machines, or special
--+needs for some languages.
--+(@xref{Interface,,Interfacing to GCC Output,gccint,GNU Compiler
--+Collection (GCC) Internals},
--+for more discussion of @file{libgcc.a}.)
--+In most cases, you need @file{libgcc.a} even when you want to avoid
--+other standard libraries.  In other words, when you specify @option{-nostdlib}
--+or @option{-nodefaultlibs} you should usually specify @option{-lgcc} as well.
--+This ensures that you have no unresolved references to internal GCC
--+library subroutines.
--+(An example of such an internal subroutine is @code{__main}, used to ensure C++
--+constructors are called; @pxref{Collect2,,@code{collect2}, gccint,
--+GNU Compiler Collection (GCC) Internals}.)
- +
-  @item -pie
-  @opindex pie
--- 
-2.32.0
+On Tue, 2021-10-26 at 12:56 +0200, Konrad Weihmann wrote:
+> 
+> 
+> On 26.10.21 12:50, Martyn Welch wrote:
+> > From: Martyn Welch <martyn.welch@collabora.co.uk>
+> > 
+> > Add a default IMAGE_QA_PROHIBIT_PATHS variable containing paths
+> > known to
+> > be mounted in the default fstab, which are known mount points or
+> > directories which should be populated at runtime.
+> > 
+> > Suggested-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> 
+> That can't be true - or the initial idea is very very old :-) pls use
+> Alex's gmail instead
+
+It's a very old patch series, originally posted in 2017 (as mentioned
+in patch 1/2). Just noticed it never got applied...
+
+> > +# IMAGE_QA_PROHIBITED_PATHS
+> > +# Ensure images aren't including files in places that will be used
+> > as mount points or that are
+> > +# reserved for runtime data.
+> > +IMAGE_QA_PROHIBITED_PATHS ?=
+> > "/dev/pts/*:/media/*:/mnt/*:/proc/*:/run/*:/tmp/*:/var/run/*:/var/t
+> > mp/*:/var/volatile/*"
+> 
+> I like the idea, but wouldn't make more sense to do that on a package
+> level, as here the user is more or less left alone in guessing where
+> the 
+> file actually does come from
+
+I like that idea, however it would make to assumption that there wasn't
+any tweaks being made as part of image generation that would end up
+violating this. A quick check suggests the "build-appliance-
+image_15.0.0.bb" image does this kind of thing in the core image types.
+
+Martyn
 
 
