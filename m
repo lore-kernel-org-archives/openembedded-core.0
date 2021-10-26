@@ -1,348 +1,158 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <lukma@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B23E2C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 13:08:10 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web08.11869.1635253689464367891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF0EC433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 13:52:40 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web12.12427.1635256358573788442
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 06:08:09 -0700
+ Tue, 26 Oct 2021 06:52:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AQEfQO3A;
- spf=pass (domain: gmail.com, ip: 209.85.208.47,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id w12so7656570edd.11
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 06:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NLc2EjAt15FhXZwNZBwM3TYQAzbsRdAbTth5io23qE0=;
-        b=AQEfQO3A7DjGahisMsbAIbGGvy1dkkysZt2Hm88geN/q36Cm/f+XD+C8KIoc4F7j+y
-         lSNZF08YtAaxgcYWaW1H0LWG+Hn249g4wkS+uQu7nztu+0h3NgVtKVLWcuffBrVjkY1j
-         lSW38VtA4XU4Nv9crKHN/7ZqeDxaEZg4hMWtnKlwfBrBMIUQqQ/elERqOYSIHdDKQbFz
-         3dCwsBjj7XCFniofWJg121mZMV8ZOXWDmMxOWLVMPSGvFsLnbnLk10a9DnL9wdXT9Sjl
-         GtKL+pHtCbhXpC4ncKgqA5PG8Vt41MtETlPxohFNkBZCTMAJR9Y7nNKkGMgK852KrZfm
-         zBZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NLc2EjAt15FhXZwNZBwM3TYQAzbsRdAbTth5io23qE0=;
-        b=HgfAsdOc8MOcZUXqINSdO1CZpsrHE60U/Re4PijPUTmjw7MsLg4rE69l8xvlhxFClA
-         d0EUuBfwoI7p+CKODQF+G0+KAMoBas5vrP3DF9nc9rN8F0gP+sAWhPTtaO8TL5cumSbJ
-         LLaMj7SOJTQ3mIQPo4Z3MWYwOYGscr/1i0JgMNpDKdD+Go1Hf7lwtGj3G74cd7ZoevlW
-         ffqh0SDFHRtPKLFJyOtl+EOKDZ9eZ3LFwp8mTVFd2C5XTvjxZwfwsBwkAXCtFhTVJUYM
-         XFpkie7CipCl4jhZJLAePLoDHmHVTq3ORy6N7oAX9ds3YLHyMBPZ86B8qyo9gU5McYyv
-         IjzQ==
-X-Gm-Message-State: AOAM533b2dOo0O4l0TRmr0tPfmBokbALlnLZMCUWkcj3cWs9KjplRnoW
-	JhmzBNO4Xh/S74PqGSWpkMkyZFEZFWsUtiLqmIU=
-X-Google-Smtp-Source: 
- ABdhPJybyqYZvmh9fIan54swl5Kxo8nkagV4Iq/my+pIqFni64hr9xpar68msWmqmhbC5RENtS5enyaw+0D6EWwk08Y=
-X-Received: by 2002:a17:906:9bf9:: with SMTP id
- de57mr14464153ejc.35.1635253673204;
- Tue, 26 Oct 2021 06:07:53 -0700 (PDT)
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=pPeI7aft;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 02DDC80F1A;
+	Tue, 26 Oct 2021 15:52:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1635256355;
+	bh=f0Y4SQtYlJS5W+rhBVIstqzy5GCt99q8/eV5OuTUBSc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pPeI7aft1a5u/whFI4Uyv2ECmsibAGHQcD2yAAZiqkz8pYjQdtVY1D0J7DZEh2HQS
+	 dkX13Mgy6HtO+Bo1a+wYkZRdfE4nl38e7Ix4+oXV2nG73m2cmjhgIPrlJsTjdIO5zS
+	 q4+1Wb4x3c8iwoYJYYOksoSmS0AL+HoftMgpYNJgfNxMAxZx8c3GFGxT0gjD3TPCP/
+	 Tqf9CPpHiTZOkqWzXGNWGKIEXV396mJ8FvJof6K4r9finYJU0e5n63X+1m4yBGYBD8
+	 CjpvlEtv0FrOjj3fEKdGQOqc+XDikF9gCn9ElrSx0rcvDL2dSA2nkNrH29R7NuHWM1
+	 0mhy7v2+SyOXw==
+Date: Tue, 26 Oct 2021 15:52:27 +0200
+From: Lukasz Majewski <lukma@denx.de>
+To: Joseph Myers <joseph@codesourcery.com>, Szabolcs Nagy
+ <Szabolcs.Nagy@arm.com>
+Cc: Florian Weimer <fweimer@redhat.com>, "libc-alpha@sourceware.org"
+ <libc-alpha@sourceware.org>, Patches and discussions about the oe-core
+ layer <openembedded-core@lists.openembedded.org>, Andreas Schwab
+ <schwab@linux-m68k.org>
+Subject: Re: [PATCH v2] dl: Use "adr" assembler command to get proper load
+ address on ARM
+Message-ID: <20211026155227.302d53b3@ktm>
+In-Reply-To: 
+ <alpine.DEB.2.22.394.2110251718420.1572984@digraph.polyomino.org.uk>
+References: 
+ <CAMe9rOpPM7RmA65MzTNr2DtoC_wMFt87mnyJ4pgvmK5TAorCCQ@mail.gmail.com>
+	<20211015145831.5d0fafcd@ktm>
+	<CAFP8O3+DBOregW5SuaPErkHUt+5aqb=bL98wHGtXu-OwFwud+w@mail.gmail.com>
+	<20211018110818.GE1982710@arm.com>
+	<871r4iftvc.fsf@oldenburg.str.redhat.com>
+	<20211025121819.16f63048@ktm>
+	<878ryhwgd7.fsf@oldenburg.str.redhat.com>
+	<20211025125307.1fa34445@ktm>
+	<20211025133425.GN1982710@arm.com>
+	<20211025160444.09f0c5e0@ktm>
+	<20211025150904.GO1982710@arm.com>
+	<alpine.DEB.2.22.394.2110251718420.1572984@digraph.polyomino.org.uk>
+Organization: denx.de
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20211026073406.3516-1-tomasz.dziendzielski@gmail.com>
-In-Reply-To: <20211026073406.3516-1-tomasz.dziendzielski@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 26 Oct 2021 09:07:42 -0400
-Message-ID: 
- <CADkTA4OaJLX05_oNFPu+LvOkZpEUtJxTDGUa=cDJRgKT+EaQuQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-yocto: Add KERNEL_SKIP_BRANCH_CONVERSION
- var to skip branch conversion from remote to local
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Jan Brzezanski <jan.brzezanski@gmail.com>,
- Ricardo Rodrigues <rrodrigues80@gmail.com>,
-	Szymon Czarnuch <szymek125.14@gmail.com>, Kamil Kwiek <kamil.kwiek@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000004f205305cf412a17"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/OKRpRjSuhwGhP8Vkx1O5S5P"; protocol="application/pgp-signature"
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 13:08:10 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 13:52:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157393
+ https://lists.openembedded.org/g/openembedded-core/message/157394
 
---0000000000004f205305cf412a17
-Content-Type: text/plain; charset="UTF-8"
-
-It's typically a good idea to cc' me on kernel-yocto commits, but I did
-happen to notice this one, so all is well.
-
-On Tue, Oct 26, 2021 at 3:34 AM Tomasz Dziendzielski <
-tomasz.dziendzielski@gmail.com> wrote:
-
-> Introduced poky upstream commit:
-> 14df6d53b6 linux-yocto: improve checkout error handling and reporting
->
-> converts all remote branches to local branches.
-> Our Linux repo has ~4500 remote branches:
-> git branch -a | grep remotes |wc -l  -> 4575
->
->
-One would argue that having that many remote branches isn't a great idea ..
-but I'll stay out of that. A wise person doesn't mess with someone else's
-repository structure and workflow :)
-
-
-
-> This costs our best workstations ~20 minutes to simply do that conversion
-> in do_kernel_checkout which is not needed (at least I do not see any
-> benefit after testing with this patch).
->
-> Since this conversion is required for some linux-yocto workflows we
-> introduce variable that allows skipping this on demand.
->
-
-Right, it definitely is required for quite a few.
-
-
->
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> Signed-off-by: Jan Brzezanski <jan.brzezanski@gmail.com>
-> Signed-off-by: Ricardo Rodrigues <rrodrigues80@gmail.com>
-> Signed-off-by: Szymon Czarnuch <szymek125.14@gmail.com>
-> Signed-off-by: Kamil Kwiek <kamil.kwiek@gmail.com>
-> ---
->  meta/classes/kernel-yocto.bbclass | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/classes/kernel-yocto.bbclass
-> b/meta/classes/kernel-yocto.bbclass
-> index 1d5a8cdf29..68fb1af821 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -363,13 +363,15 @@ do_kernel_checkout() {
->                 cd ${S}
->
->                 # convert any remote branches to local tracking ones
-> -               for i in `git branch -a --no-color | grep remotes | grep
-> -v HEAD`; do
-> -                       b=`echo $i | cut -d' ' -f2 | sed
-> 's%remotes/origin/%%'`;
-> -                       git show-ref --quiet --verify -- "refs/heads/$b"
-> -                       if [ $? -ne 0 ]; then
-> -                               git branch $b $i > /dev/null
-> -                       fi
-> -               done
-> +               if [ "${KERNEL_SKIP_BRANCH_CONVERSION}" != "1" ]; then
->
-
-A new variable like this would need to be documented, so an accompanying
-patch to documentation would be required.
-
-As for the variable, something like KERNEL_YOCTO_REMOTES_TO_LOCAL would be
-better, and set the default to non-zero (i.e. "t" )
-
-so it could be: if [ -n "${KERNEL_YOCTO_REMOTES_TO_LOCAL}" ]; then
-...
-
-
-
-> +                       for i in `git branch -a --no-color | grep remotes
-> | grep -v HEAD`; do
-> +                               b=`echo $i | cut -d' ' -f2 | sed
-> 's%remotes/origin/%%'`;
-> +                               git show-ref --quiet --verify --
-> "refs/heads/$b"
-> +                               if [ $? -ne 0 ]; then
-> +                                       git branch $b $i > /dev/null
-> +                               fi
-> +                       done
-> +               fi
->
->
-Not all git versions automatically track a remote -> local, which is why
-that code was initially required. To be safe this needs to at least convert
-KBRANCH to a local, since it will be checked out by the code that follows.
-
-There are other parts of the patching/merging/meta processes that need
-local branches, but since this wouldn't be on by default, we don't have to
-worry about converting the other possible branches to local.
-
-Bruce
-
-
-
->                 # Create a working tree copy of the kernel by checking out
-> a branch
->                 machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
-> --
-> 2.33.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157376):
-> https://lists.openembedded.org/g/openembedded-core/message/157376
-> Mute This Topic: https://lists.openembedded.org/mt/86597675/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000004f205305cf412a17
-Content-Type: text/html; charset="UTF-8"
+--Sig_/OKRpRjSuhwGhP8Vkx1O5S5P
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">It&#39;s typically a good idea to cc&#39; me on kernel-yocto =
-commits, but I did happen to notice this one, so all is well.</div></div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, =
-Oct 26, 2021 at 3:34 AM Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.d=
-ziendzielski@gmail.com">tomasz.dziendzielski@gmail.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">Introduced poky upstr=
-eam commit:<br>
-14df6d53b6 linux-yocto: improve checkout error handling and reporting<br>
-<br>
-converts all remote branches to local branches.<br>
-Our Linux repo has ~4500 remote branches:<br>
-git branch -a | grep remotes |wc -l=C2=A0 -&gt; 4575<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">One would argue that having that many remote branches isn&=
-#39;t a great idea .. but I&#39;ll stay out of that. A wise person doesn&#3=
-9;t mess with someone else&#39;s repository structure and workflow :)</div>=
-<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
-This costs our best workstations ~20 minutes to simply do that conversion<b=
-r>
-in do_kernel_checkout which is not needed (at least I do not see any<br>
-benefit after testing with this patch).<br>
-<br>
-Since this conversion is required for some linux-yocto workflows we<br>
-introduce variable that allows skipping this on demand.<br></blockquote><di=
-v><br></div><div class=3D"gmail_default" style=3D"font-size:small">Right, i=
-t definitely is required for quite a few.</div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.dziendziel=
-ski@gmail.com" target=3D"_blank">tomasz.dziendzielski@gmail.com</a>&gt;<br>
-Signed-off-by: Jan Brzezanski &lt;<a href=3D"mailto:jan.brzezanski@gmail.co=
-m" target=3D"_blank">jan.brzezanski@gmail.com</a>&gt;<br>
-Signed-off-by: Ricardo Rodrigues &lt;<a href=3D"mailto:rrodrigues80@gmail.c=
-om" target=3D"_blank">rrodrigues80@gmail.com</a>&gt;<br>
-Signed-off-by: Szymon Czarnuch &lt;<a href=3D"mailto:szymek125.14@gmail.com=
-" target=3D"_blank">szymek125.14@gmail.com</a>&gt;<br>
-Signed-off-by: Kamil Kwiek &lt;<a href=3D"mailto:kamil.kwiek@gmail.com" tar=
-get=3D"_blank">kamil.kwiek@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/kernel-yocto.bbclass | 16 +++++++++-------<br>
-=C2=A01 file changed, 9 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.=
-bbclass<br>
-index 1d5a8cdf29..68fb1af821 100644<br>
---- a/meta/classes/kernel-yocto.bbclass<br>
-+++ b/meta/classes/kernel-yocto.bbclass<br>
-@@ -363,13 +363,15 @@ do_kernel_checkout() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${S}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # convert any remot=
-e branches to local tracking ones<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in `git branc=
-h -a --no-color | grep remotes | grep -v HEAD`; do<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0b=3D`echo $i | cut -d&#39; &#39; -f2 | sed &#39;s%remotes/origin/=
-%%&#39;`;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0git show-ref --quiet --verify -- &quot;refs/heads/$b&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if [ $? -ne 0 ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git branch $b $i &gt; /dev/null<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0fi<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${KERNEL=
-_SKIP_BRANCH_CONVERSION}&quot; !=3D &quot;1&quot; ]; then<br></blockquote><=
-div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">A=
- new variable like this would need to be documented, so an accompanying pat=
-ch to documentation would be required.</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">As for the variable, something like KERNEL_YOCTO_REMOTES_TO_L=
-OCAL would be better, and set the default to non-zero (i.e. &quot;t&quot; )=
-<br></div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
-<div class=3D"gmail_default" style=3D"font-size:small">so it could be: if [=
- -n &quot;${KERNEL_YOCTO_REMOTES_TO_LOCAL}&quot; ]; then</div><div class=3D=
-"gmail_default" style=3D"font-size:small">...</div><br></div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0for i in `git branch -a --no-color | grep remotes | grep -v HEAD`=
-; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0b=3D`echo $i | cut -d&#39; &#39; -f2 =
-| sed &#39;s%remotes/origin/%%&#39;`;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git show-ref --quiet --verify -- &quo=
-t;refs/heads/$b&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git branc=
-h $b $i &gt; /dev/null<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0done<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">Not all git versions automatically track a remote -&gt; lo=
-cal, which is why that code was initially required. To be safe this needs t=
-o at least convert KBRANCH to a local, since it will be checked out by the =
-code that follows.</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll"><br></div><div class=3D"gmail_default" style=3D"font-size:small">There =
-are other parts of the patching/merging/meta processes that need local bran=
-ches, but since this wouldn&#39;t be on by default, we don&#39;t have to wo=
-rry about converting the other possible branches to local.</div><div class=
-=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Create a working =
-tree copy of the kernel by checking out a branch<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 machine_branch=3D&q=
-uot;${@ get_machine_branch(d, &quot;${KBRANCH}&quot; )}&quot;<br>
--- <br>
-2.33.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#157376): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/157376" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/157376</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86597675/1050=
-810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86597675/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
+Hi Joseph, Szabolcs=20
 
---0000000000004f205305cf412a17--
+> On Mon, 25 Oct 2021, Szabolcs Nagy via Libc-alpha wrote:
+>=20
+> > ok, i think we need the patches upstream for that like
+> > https://sourceware.org/pipermail/libc-alpha/2015-November/066153.html
+> > =20
+>=20
+> The AArch64 prelink support isn't in the upstream Yocto
+> cross-prelink, and the version written by Samsung in 2015 and on the
+> cross_prelink_aarch64 branch has various problems resulting in test
+> failures, in my experience.
+
+Ok.
+
+>=20
+> I sent patches (on top of a merge of the upstream cross_prelink and=20
+> cross_prelink_aarch64 branches) to the maintainer in May 2020 (the
+> Yocto project mailing list doesn't accept email from non-subscribers,
+> so won't have seen those patches), which made it work well enough to
+> get clean prelink test results, but so far they haven't been
+> committed to the upstream cross_prelink branch (or any other upstream
+> branch).  I've now made those available at
+> https://github.com/jsm28/prelink (cross_prelink_aarch64_fixes branch).
+>=20
+
+So this branch shall be pulled by yocto's cross-prelink maintainer.
+Without it the cross-prelink doesn't support aarch64?
+
+> Note however that, like the original patches from Samsung, this
+> version does indeed depend on a hack in _dl_tlsdesc_undefweak to work
+> with TLS descriptors.
+>=20
+
+To properly solve this issue we shall:
+
+1. For arm
+- Fix the cross-prelink (no patches available)
+
+or
+
+- Fix glibc (as proposed by Szabolcs)
+
+2. For aarch64
+
+- Try to upstream patches from Joseph to OE/Yocto's cross-prelink
+
+or
+
+- Fix glibc (if required)
+
+or
+
+- Do nothing (aarch64 will not be prelinked in OE/Yocto, which means
+  that it will work correctly)
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/OKRpRjSuhwGhP8Vkx1O5S5P
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmF4CBsACgkQAR8vZIA0
+zr107wf/bA7wg2o8ACjRP7shmfgGHpJgTmYGw6NZwXrtrs7o4u6eKVkfRsVx64X/
+Cm6k7cZxVhtXzF2Jn6CRkR4yu1aRPrbP0433Vm8S0hojp33T2bVwFbzPguWAfc9b
+gsjPOPvX8nFyK3PMOZWlJDZtJKo2PmdSuYGuEJiV86ZHwbaO/RSa7CWiA77DtAHl
+Rj8BEOn2l94imnNFJJl+cvVDUZhncv8hriuIK9YgVibeqSkyyCtEh6YVZ9lL7sfb
+xc2Tsyy//PSDL48ZqJ5XGc4Vo2qUdLO6nFca4j8y7Q5EiB0peZPUEbkuCUWuh4qu
+l6rk3MdZMjYqbOJT0CYxxPtfptKyYA==
+=R0di
+-----END PGP SIGNATURE-----
+
+--Sig_/OKRpRjSuhwGhP8Vkx1O5S5P--
 
