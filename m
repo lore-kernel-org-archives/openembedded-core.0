@@ -1,149 +1,114 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E362C433FE
-	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 16:00:47 +0000 (UTC)
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web12.14261.1635264046458013187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B580CC433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Oct 2021 18:25:28 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.566.1635272727301272841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 09:00:46 -0700
+ Tue, 26 Oct 2021 11:25:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="290783561"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800";
-   d="scan'208";a="290783561"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 08:59:44 -0700
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800";
-   d="scan'208";a="578786720"
-Received: from wandsuan-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.215.231.17])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2021 08:59:43 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 34/37] ffmpeg: fix CVE-2021-38114
-Date: Tue, 26 Oct 2021 23:58:05 +0800
-Message-Id: 
- <b9a3ca0f4f70ebdb58e59e94e917242b7e9d2111.1635257336.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1635257336.git.anuj.mittal@intel.com>
-References: <cover.1635257336.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SsrNte3i;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id d6so77676qvb.3
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 26 Oct 2021 11:25:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WRHkXCLzrOZOFB+wo4wd4IByKcGQU6M+BP2yNHTyawc=;
+        b=SsrNte3iGaV4cDOTSMEWFOLLJtLprDiOfml+LJwVK20Ecgulol9B0HcpTf+oQhJWp4
+         GHJiEV/s9HGasFlGNd/3Esxt9HDoOX0mgoDlBgG6reWnFn+Wlb/UJQWd5n/OaS5vsSTd
+         pgxYxIhf6zG7KUE+YagfUQ+NbKjspjDgq4kOjk3VYc4FP3UNr1ycUb6T7CUfuLscGXUR
+         8WnICI2wynm1dBvKuEvTYaKzYNJ4qoBYoVUXHWNc1qDMovSrIqlaueO8gnXmZoZNPx5e
+         rephNZOqbV69bGvlzI+aqWXr3VZXuZfPtSZ6XNM0BaYEQNVKGVTkl/oqK0zQt7EHpgkd
+         lcrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WRHkXCLzrOZOFB+wo4wd4IByKcGQU6M+BP2yNHTyawc=;
+        b=rAm9EYvYp3I7OLlvjNW0hM6kR7hJJhuqtsukoD2uFlKsjbel03rHTpzfdaH+i7p3Sv
+         a/1NaMRBiPYhRHxks1EVdzlvPQc1ugMvQnljfCyB3qs/f96JGYapXWdzNJplLBNLVtE/
+         nTWxOm0AF8PxYzgMdtdeTGf2PXR/6E0otEnFkMNaj8sDen7GIqNt15lyVGoNHrEhXQxB
+         wsSjpTBcjlezA9itIN3199aUSQYk97rYDes7RVPs+xga9XgMvJM6uIqDsi7lt5wDsQ7N
+         49gojGG/1q2bmbT2VXBzVdR+Oo9BEB1fZbD0k13erPWGtSQebA5c8IkaoZxwYloY1MeD
+         ySsw==
+X-Gm-Message-State: AOAM531i8hgSB5mHPyS6pT+CeM6E5U8qCcBjqK/eRQHWOVK9pOi2BFPB
+	XD1zYC/woFRksqRgILOixyQ=
+X-Google-Smtp-Source: 
+ ABdhPJxHHymLAk+9vM/wd10MgeF7Bw+ZTaAZswe7gd9wc846mzcwCrbptirNWGiIHVqCaDhPvyCB2A==
+X-Received: by 2002:a05:6214:9c7:: with SMTP id
+ dp7mr4539437qvb.16.1635272726283;
+        Tue, 26 Oct 2021 11:25:26 -0700 (PDT)
+Received: from build.lan
+ (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id
+ x16sm10608460qtp.56.2021.10.26.11.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 11:25:25 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] linux-yocto: -stable updates
+Date: Tue, 26 Oct 2021 14:25:17 -0400
+Message-Id: <cover.1635272591.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 16:00:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Oct 2021 18:25:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157440
+ https://lists.openembedded.org/g/openembedded-core/message/157441
 
-From: Kiran Surendran <kiran.surendran@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-backport from upstream
+Richard,
 
-Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fe9cdf74f7ef3637ed7c600182f8a0ba40510d2a)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../ffmpeg/ffmpeg/fix-CVE-2021-38114.patch    | 67 +++++++++++++++++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb  |  3 +-
- 2 files changed, 69 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
+These are the -stable merges that I've been testing/queuing while the
+release was being completed. Each of these represents a point that I
+tested, so I don't expect a surprise (that being said, there are quite
+a few here, so you never know).
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
-new file mode 100644
-index 0000000000..ab3ecfecbb
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
-@@ -0,0 +1,67 @@
-+CVE: CVE-2021-38114
-+Upstream-Status: Backport
-+Signed-off-by: Kiran Surendran <kiran.surendran@windriver.com>
-+
-+From 463dbe4e78cc560ca5b09f23a07add0eb78ccee8 Mon Sep 17 00:00:00 2001
-+From: maryam ebr <me22bee@outlook.com>
-+Date: Tue, 3 Aug 2021 01:05:47 -0400
-+Subject: [PATCH] avcodec/dnxhddec: check and propagate function return value
-+
-+Similar to CVE-2013-0868, here return value check for 'init_vlc' is needed.
-+crafted DNxHD data can cause unspecified impact.
-+
-+Reviewed-by: Paul B Mahol <onemda@gmail.com>
-+Signed-off-by: James Almer <jamrial@gmail.com>
-+---
-+ libavcodec/dnxhddec.c | 22 +++++++++++++++-------
-+ 1 file changed, 15 insertions(+), 7 deletions(-)
-+
-+diff --git a/libavcodec/dnxhddec.c b/libavcodec/dnxhddec.c
-+index c78d55aee5..9b475a6979 100644
-+--- a/libavcodec/dnxhddec.c
-++++ b/libavcodec/dnxhddec.c
-+@@ -112,6 +112,7 @@ static av_cold int dnxhd_decode_init(AVCodecContext *avctx)
-+ 
-+ static int dnxhd_init_vlc(DNXHDContext *ctx, uint32_t cid, int bitdepth)
-+ {
-++    int ret;
-+     if (cid != ctx->cid) {
-+         const CIDEntry *cid_table = ff_dnxhd_get_cid_table(cid);
-+ 
-+@@ -132,19 +133,26 @@ static int dnxhd_init_vlc(DNXHDContext *ctx, uint32_t cid, int bitdepth)
-+         ff_free_vlc(&ctx->dc_vlc);
-+         ff_free_vlc(&ctx->run_vlc);
-+ 
-+-        init_vlc(&ctx->ac_vlc, DNXHD_VLC_BITS, 257,
-++        if ((ret = init_vlc(&ctx->ac_vlc, DNXHD_VLC_BITS, 257,
-+                  ctx->cid_table->ac_bits, 1, 1,
-+-                 ctx->cid_table->ac_codes, 2, 2, 0);
-+-        init_vlc(&ctx->dc_vlc, DNXHD_DC_VLC_BITS, bitdepth > 8 ? 14 : 12,
-++                 ctx->cid_table->ac_codes, 2, 2, 0)) < 0)
-++            goto out;
-++        if ((ret = init_vlc(&ctx->dc_vlc, DNXHD_DC_VLC_BITS, bitdepth > 8 ? 14 : 12,
-+                  ctx->cid_table->dc_bits, 1, 1,
-+-                 ctx->cid_table->dc_codes, 1, 1, 0);
-+-        init_vlc(&ctx->run_vlc, DNXHD_VLC_BITS, 62,
-++                 ctx->cid_table->dc_codes, 1, 1, 0)) < 0)
-++            goto out;
-++        if ((ret = init_vlc(&ctx->run_vlc, DNXHD_VLC_BITS, 62,
-+                  ctx->cid_table->run_bits, 1, 1,
-+-                 ctx->cid_table->run_codes, 2, 2, 0);
-++                 ctx->cid_table->run_codes, 2, 2, 0)) < 0)
-++            goto out;
-+ 
-+         ctx->cid = cid;
-+     }
-+-    return 0;
-++    ret = 0;
-++out:
-++    if (ret < 0)
-++        av_log(ctx->avctx, AV_LOG_ERROR, "init_vlc failed\n");
-++    return ret;
-+ }
-+ 
-+ static int dnxhd_get_profile(int cid)
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-index 0c6af6549d..c0318ef01d 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-@@ -31,7 +31,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://fix-CVE-2020-22021.patch \
-            file://fix-CVE-2020-22033-CVE-2020-22019.patch \
-            file://fix-CVE-2021-33815.patch \
--           file://fix-CVE-2021-38171.patch \ 
-+           file://fix-CVE-2021-38171.patch \
-+	   file://fix-CVE-2021-38114.patch \ 
-           "
- SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
- 
+Along with -stable, we get one configuration tweak to get qemu booting
+out of the box for the generic x86 targets.
+
+Bruce
+
+
+The following changes since commit 0d4c97c24dd4bc25760bce00f3ff65e88508e882:
+
+  releases: update to include 3.4 honister (2021-10-26 14:04:19 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/5.10: update to v5.10.73
+  linux-yocto/5.14: update to v5.14.12
+  linux-yocto/5.14: update to v5.14.13
+  linux-yocto/5.10: update to v5.10.74
+  linux-yocto/5.14: common-pc: enable CONFIG_ATA_PIIX as built-in
+  linux-yocto/5.14: update to v5.14.14
+  linux-yocto/5.10: update to v5.10.75
+
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.14.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ .../linux/linux-yocto-tiny_5.14.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 +++++++++----------
+ 6 files changed, 39 insertions(+), 39 deletions(-)
+
 -- 
-2.31.1
+2.19.1
 
 
