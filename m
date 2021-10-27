@@ -1,345 +1,306 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2951FC433EF
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 01:43:45 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.6066.1635299023882143539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A5FC433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 02:30:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web12.6514.1635301830654628182
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 18:43:44 -0700
+ Tue, 26 Oct 2021 19:30:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Lwfbw+Yl;
- spf=pass (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=5934bce628=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19R1MITx012580
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 18:43:41 -0700
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=pjgK2yY+;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=5934ff6c8b=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19R2EORe027568
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 02:30:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=subject : from :
- to : cc : references : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=84sT/CKW4TbHnvmJLn5tpmikTNvPMZEUaeI2t/k+EDE=;
- b=Lwfbw+Yldoxup52U5nw8XXypAnInYQ2QapUSHQD6BFnQmcUQVXbq146UbhrNlVLHLvDj
- lhElWFEvdNwMDtHZFRYWYROEv00ariOvwTcmpiNCL35GBau7fznw4MrM5wtKFeEo1FyW
- 5GMhAu8wjFTHi3EWpwkPifJNE89e0zs3U5jOFdTUvXhU4c2htM+R9sfLtFX+AYhKzruv
- JeXJwsxm7ADGzkpvZLL+fxCik4tXm2bvLfqHrkQF7NMEZk0gZFa5dOnouK3oE9mmtHWZ
- HqtCPemnx3ICs4buz7dhc6iZ1Krk4HLt8cxxtMoA+SjBjIM2oXwX18JpWX+IkTeoy3Rr Pg==
+ h=subject : to :
+ references : from : message-id : date : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=DYue83zMo01pkVUcLx9+hU/RZ1WqBMNArKJyCZ1+rcI=;
+ b=pjgK2yY+AvIAJGkGV8a0KZ0Llfj0TRRJmCjBgVVFPp8hyRNbc62MtQ4JyfEyQPv+d19K
+ L+7ltw+jM8vmEWd8y+lOjggqX/fk/tTAs8NGX0jRlHkeyO8aYDhwwtmHuQOXqclj78Li
+ rhxdB3nkpEyTL/ds3L1yiCypJpyoxFEOOqcwVOI9itzYbJz8+JQwUoqijFlBTcnxCyPo
+ QfEF2ZcaxFhe3FsS2mkQ/GjFw/r/WIkHVTktKJXTZDydJL33ylxSbIDkizpQVnivhjjX
+ 8R2ldb5w5MW3wPOT4W+BjG2H7Djep+VK4M64PYKss8HDfofHNeLsN+W/mHHmAzK2Ba3o cw==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bx55dh374-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bx4egs4rj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 18:43:41 -0700
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19R1hfVh014709
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 18:43:41 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3bx55dh373-1
+ Wed, 27 Oct 2021 02:30:29 +0000
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19R2UTr3017044
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 02:30:29 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3bx4egs4rg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Oct 2021 18:43:41 -0700
+	Wed, 27 Oct 2021 02:30:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FndGUojhPrX3xvaR5Kgz8oLvnvSVp9kvMbBs+1G5GYAcuPgRQMIRz7VbYPY2uoHncJgZGe8UOx1qevY5wvvaInyIk7bEWVpRD0SItbrSMmrqz0ill7+sDEiKJqq1hV0uBlpAjer1ReBzOQA9FRwiyhS0CpEnLg9dF7BhFQznvO7SWTYMTX79gILDGc5gKcVGaWn2p4o4b3qVaWZLXiJcXWdXd2NKE8XDR0Sxil1vDa53j6LL9DFffvDFcWyC2RjH5a13OP+vhvJU+gnu6uBab0xi+vB4VvzdCRR4+CdIISJww1pT2/CUf8FpaWyIwznsgd2WOLqjouEhmJutFiIuAw==
+ b=oe+hHSNvxZuE1CuUMjcvH7yTegujSFpzk7b913xFZ1o2B8j0iutmxFjfAoysmRad2idQxgkiuCheO2BmgxdqBWJ8oJ4uwV+BYxo3nkt0X7HCsMHh+PtMeaJiqdEF6T+OS6VF0NDV+eoA0V7hB0ly6+oipsML/y87UYorBBVqGvMZfGyFuJ/p5ADKgh07okN8c7/ssgs1xPZAzl8fLnsm/RFGWEJu8ee+XlMvQAugmPno/990dGFMg728BMrkp0FLJ5qjwMTE5mM8OM4bFmpcyUmh3Usx7dNKRbPab3VtiTX3sW2R31IH5y1Xw751cmQxgAgZT3RAb6EPQA+P9YyVsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=84sT/CKW4TbHnvmJLn5tpmikTNvPMZEUaeI2t/k+EDE=;
- b=nD6VGx8Gma6oKiPPjD2+mTYoL7Ysow0pB9fzZZbim86WNElxjYBsFMAaB6RNLuOwh2179XGf80uwyl3AffMoywUTT8lDrx8OU77RRixOcbJzErm0k1sERiB8MZXLMFj1qzBcU/oNESc4i39xjSPyFIMUo5EYef8Msi0BZC4PT0JeMr/vcF2wl1mm57qTJJEarzny01ncABdz4fLzE5q46zhFDTpXie1QhT+vzX0DAH7LyRMVDjo9JTtS4Uchysc/Y5POodJrMMRxZF/wyddYCccU2IAT/AHojOn/vv3EGfYK80hdVqzDYUzmWzQZnuss6UKUEvof1FwtdoAFu02okg==
+ bh=DYue83zMo01pkVUcLx9+hU/RZ1WqBMNArKJyCZ1+rcI=;
+ b=my97Hs7x+gDOWfiCM9lxOB2Z/l81veIGOrGcPGNyzW035HAbqDe7WeEguNwPODVedCEDM5ytRwozBVrZhynvCx8QY6aOXE9ZEphyu83WN1I7XFm3HC9OuoEwd2Vv3W8AH0ynr4BCqv1FCPrTS6T7gqWqv+fwawTXaVtaKQJwFC3w0SEAT/0YQztMP3j1A42KjuO/LAFQvlzPJ1WRVsn862ui6hty7ROsr1JxVgoDgpyCngnpA1AVG7lcg7qbNcmRv+td42jzSUSB+yAp+2Bi5yqqTi7a+nUEzvt+JL9w0L+qeYGPKd0HHBhH60d4veO6Ty6fNwPc6/AUd3srKl3YvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM5PR11MB1306.namprd11.prod.outlook.com (2603:10b6:3:b::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4628.18; Wed, 27 Oct 2021 01:43:37 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::5021:c72e:2201:1a62]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::5021:c72e:2201:1a62%6]) with mapi id 15.20.4628.020; Wed, 27 Oct 2021
- 01:43:37 +0000
-Subject: Re: [OE-core] [PATCH 02/65] rustfmt: remove
-From: Randy MacLeod <randy.macleod@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Alexander Kanavin <alex.kanavin@gmail.com>,
-        Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex@linutronix.de>,
-        Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-        Pgowda <pgowda.cve@gmail.com>
-References: <20211019153419.3319802-1-alex@linutronix.de>
- <20211019153419.3319802-2-alex@linutronix.de>
- <6c4d94b7-22e4-bf35-4fc1-bf9c680262e6@gmail.com>
- <CANNYZj8QiFX59VyR72TPZQPE2TLoy9tscTByQbFVjT75T5OqXg@mail.gmail.com>
- <CAMKF1srRnFs5Qe8+bxLEUq6h3hrR50w5-1Ru6NzTya88qeTNXg@mail.gmail.com>
- <CANNYZj_kzzBM7v96_fkivVgA4ksNBpk00hsCHPmkq4am1EpGXA@mail.gmail.com>
- <CAMKF1soyXWyzFd-FJTPopYt3Sds=4=A6=tVLz+fKrC59VgYKxg@mail.gmail.com>
- <CANNYZj9Q=9hXRziLC6c3_EVRViDfFcTe3-27ifOOnpz94P7_-w@mail.gmail.com>
- <5903b2623057b6861cef3b84562acecddb0adb14.camel@linuxfoundation.org>
- <16AF97EEFE1D519C.12113@lists.openembedded.org>
-Message-ID: <4ed3688d-6050-f4c5-846f-b98fced3d6ef@windriver.com>
-Date: Tue, 26 Oct 2021 21:43:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <16AF97EEFE1D519C.12113@lists.openembedded.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0048.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::23) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
-MIME-Version: 1.0
-Received: from [172.25.44.7] (198.48.226.187) by
- SJ0PR05CA0048.namprd05.prod.outlook.com (2603:10b6:a03:33f::23) with
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by CO6PR11MB5569.namprd11.prod.outlook.com (2603:10b6:303:139::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.13 via Frontend
- Transport; Wed, 27 Oct 2021 01:43:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Wed, 27 Oct
+ 2021 02:30:26 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::98c4:c603:2360:7b8b]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::98c4:c603:2360:7b8b%9]) with mapi id 15.20.4649.014; Wed, 27 Oct 2021
+ 02:30:26 +0000
+Subject: Re: [OE-core] [RFC PATCH 11/14] populate_sdk_base/images: Drop use of
+ 'meta' class and hence do_build dependencies
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20210920124621.1576702-1-richard.purdie@linuxfoundation.org>
+ <20210920124621.1576702-11-richard.purdie@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <c5a8296f-bd0b-e0db-9b1e-7f32ebd5c100@windriver.com>
+Date: Wed, 27 Oct 2021 10:43:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
+In-Reply-To: <20210920124621.1576702-11-richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative;
+ boundary="------------64AC23848449FE8B50646D11"
+X-ClientProxiedBy: SG2PR02CA0036.apcprd02.prod.outlook.com
+ (2603:1096:3:18::24) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+Received: from [128.224.162.158] (60.247.85.82) by
+ SG2PR02CA0036.apcprd02.prod.outlook.com (2603:1096:3:18::24) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.4628.22 via Frontend
+ Transport; Wed, 27 Oct 2021 02:30:24 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34a3df1a-e610-446e-04a2-08d998eb31e8
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1306:
+X-MS-Office365-Filtering-Correlation-Id: 91aaa57f-bc24-4ae0-c32d-08d998f1bbd8
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5569:
 X-Microsoft-Antispam-PRVS: 
-	<DM5PR11MB1306383734D832957F0B0FC7F8859@DM5PR11MB1306.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+	<CO6PR11MB5569053274A5D4C8A91941CBED859@CO6PR11MB5569.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	UMSEEYF0o/198RM5rIWSrCn9st7yk1EE0JVMBO6OCXuRlRxSTxxtHMVqT05TWwNMJcVzjORhSMTdLPLbQWYDnRk0pkR0H0Ek7XlCdxCpHMf7k0tlGPS5ghro71Kj0n3Xz6pnf+cU2Nvi178sRKRAWBGxduUDs5zZNAfH4T+yawqBowzqdKOyS7SJwo3AfKnDx1C6mJNd+cPzJwZg09+Xl/PfH6thwB+T/WWM5TNbGPvStw53QoZUxBN+cv0A7oUCxObkVeeNxxe5p3ys73EpZ7SlOe/EChNoasA7248vQRL4bhkPqSo2YSmmd+GVB3Kqd86Kuv21gXhVtZVzsDNFVUnOBBq7GpwdDWqIAAHeGjcWfmfPelyKCps2I5Z8CuMXpjWW87fkntuVgorUTIIbdHkV2Q61YKm6qpQRx/BzfFC/xkFy2Xv4XKzWHtXjFHpxPtoZrA+98bjmRmyNbuhAyKwTARTJFea/bGRXNi3X1+2ch8xBQ8UhLAUbeiw/teUKxrid+fkSkXkY2z9eY6v5zDIbYId1ACzdUUnryZSUMp5TND9XUVlCYquJ1HLQ3pXeVGsKTOUT9yhW1l7Czd9VVRB1fgY88M7mGJ8wKSCgLJWUfXiMqHCsP6yvr/Obpgm76j2UWfhDHyGaS3CEpzVOCqxrGf8iLosZnbBUjG0kIij8VFrKVoFXD9zwWUsiDu7TTJRVKQCy0g9TNiE7lZE6OVMriDTDCTIB7tvg4lp8eqWKmq+08wDLMk3n2jK5pa1cz1jam9wM4AL3VGF2+b7uXO7e/w+5CQWR8LUNIOzXXrscTerltJJ+ZIMfMPP5KzCiMDdzmsnX373StbGdSIw5/yOtqmM8TBaaRyVmRUe0TD3rqgInAK5MbWmsUCsNQKQ/eN7qb2LnuvvwGji3RNfJIg==
+	aFcbgZR7B+MN4CK0VCfhEuFqMRlSjqW1h7VrmrptSe85Kx5rATEo2gXbA9TIpdZZKVvgjpIifodpkabN7rnasVXFjrWCrnBBB2aoBJDNrtkzcD5OE6bae/stYqWVe0MZVP9lna7iJB43nMRj2YkO79e3tGxAEqFZ977ilIYRu1pcEOGO3iUfPTQPvHhdjO8jy9l0R4Vq9tlQKtRxFEhhFZxSwarA3QsR8r/gdXDdYZzKqh3iPIjWbuAEFNNBaPrWC9ujFU4X9d9q4Z/Eg0SanY7J5wEpw+WnWUPblHVg8YUxWBrwhWdGHRyQ84RIboF36eaNAumT00/Jzz1p/x4s61AAhDdoArXZkVbXoN1iixoZi01LqbBIjj3TtV2ot1LD4OZjmIZA1An/rNfbgu8rT+FVusBNpKXLSLzk34GTxClJMPDAFDTkamPf0ztz1NmGHI1vXrQxMSJ7UVoTvOtWSYankBBlXFP/nfUOvgbJ3By04wUDrVAJ319jbO0CRlU8Dn9xmnKzG2XLf45f2wkyp9I5ytxLw8wG9IuRg9G5UooLIIdYdE0ebXzxQixoc51onRskNtl1RaDJV78R3RbIPdhqV5ak7GzcF/UBTzKqSmUR3tnQO/+cuui+uvYgt19iBp5IH4wAKorg6vP6dcLkFr3rBYoPBUYT3ZUxHbTyPGekCEhBr89fxHYrNGRRL3Ojzl15UwKNQ/VDm6WjZ8z8h7bZ/ejdEVlckKuxCuMNi3uthHioMdka0kjdvlODLzSlIjf8ydh/zyrx2KnblfTbwBWP8gXy8Af7pAmkdE4+5B1MUqSR1rVNZVrWGMl2zAOpgcKifTflRnubWUeL2+C1Ip0tOKo1Z0Q1C2Q9oZFkMKosyaVgHiU72Nd6wti7J5xqbaLMeWO4p7XvqEsgdCuKQUWJ2Q/tTAJ/mzdOlXfKoAU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(2616005)(86362001)(4001150100001)(83380400001)(31696002)(316002)(26005)(16576012)(54906003)(6666004)(31686004)(186003)(52116002)(66556008)(66946007)(38100700002)(6486002)(38350700002)(110136005)(508600001)(8676002)(36756003)(2906002)(53546011)(956004)(5660300002)(8936002)(966005)(66476007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(508600001)(6666004)(38350700002)(38100700002)(2616005)(31686004)(6486002)(86362001)(966005)(2906002)(5660300002)(66556008)(66476007)(66946007)(166002)(956004)(53546011)(31696002)(52116002)(33964004)(26005)(316002)(83380400001)(8676002)(16576012)(6706004)(36756003)(186003)(8936002)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Q3J4d3VQT04vakVodWlzd2tYcmtxT1pkdkFMazdzQVQrbkhmT2lvMEFnNTBI?=
- =?utf-8?B?RVNOSmpPK0x3NFVFRGwyUnNzZlNvN0t0d3ppNWplZVNDOHA5cy9UK0Z5Tnpy?=
- =?utf-8?B?elNuYkRaY0tueUk4WVUzOFU2WnRTbHJMOGVmVTlJOE5udUk4YTlKaG02TUZr?=
- =?utf-8?B?am1YWU5FU1F0N29jYTBLNHRuT1hsKzV2WTFVaVhPRUl3NjBYdmNNQXorazJC?=
- =?utf-8?B?ZHZOdjVRaFEzRDkxaWN0U0k0WFVOMHZEMURtVzhPSVdvZ0lRZy9mZHhEaEp2?=
- =?utf-8?B?UE1vTHNaVEpKemd6cXBmMGxxWHlwQlJwOEpvQUl6a0pNdm9TclduUEI3VjNq?=
- =?utf-8?B?a2VPdGJhUW9uODBBeEx2RlNMWjZTKzdTazVxQUVWWGcwZ1U0UDJYN1lWTUdy?=
- =?utf-8?B?djJ5RjBTQ1RpOW5QT0NpY3ErNGVCaCtSSGtuOXo5SWJpaWtEbzF3V0Y4UStI?=
- =?utf-8?B?dVVURmk0TVNYY1ZHWUtWV2pvNGxrZ0VXVGJ5Nktzdm80YlEzODZMY201QnNn?=
- =?utf-8?B?MUNIY1VDc0g2c2FKQnZDbmk3bng2VXhGRkZoYUxqc0VYaU9PSm96RnBERlFh?=
- =?utf-8?B?dGVSZTM1MmFuMlhDZThoUFozSmdBaVNML2sxai9YSDJNa1RNMWpkUDU2cVMx?=
- =?utf-8?B?TGM0MkRzZmtqOE9ZbmhaZGRGOHVUNk44NVh6cmozMmxrOEVkZm9Hb1g5VjdX?=
- =?utf-8?B?NzR1WnluTDQ4UFVSNzlsL2svSy9wRHpDZ1BFME5td3YvUjdja0xWc3NJU08y?=
- =?utf-8?B?M0R6dlR2cUxHYStscmFXOWl2eHN0OVI0TzIwS2l5VFlhQmN6eXJ4QTNONmRI?=
- =?utf-8?B?eHRZaUNMODRoTVVETUNxVFZIRmxPVzUvZzVYdG5kM3QvckxvQjJZb3NJUm96?=
- =?utf-8?B?S3JMWUkyQXVPRll1K20vZVM4NmtqR2V6RVlsN1RzSUduc04rQkhrUGh2NDEr?=
- =?utf-8?B?TWoxVmVFV2FqNTNoNDJ1NTlBakhpN0ZPQmtiMkdXa2ROL25Mb1BKOHVpWXJO?=
- =?utf-8?B?eEVYdE4xSGwvSUczbE92dnMwaUtrQ0lzbDhCM0F6eGhUQ3JUWlJvYVVkQm1Y?=
- =?utf-8?B?ajdkdDZqWGlTbll3ZTdPZS9VVGVRNk1VSnNyMFBlOHpPeU1oMzhVOUlvN25s?=
- =?utf-8?B?VjBkMnhvOHV2Tk5mN3VQWWhZVFNWbHBLWEFuQU1Tb2hxanZ1aWtrVXU1MmRT?=
- =?utf-8?B?RDI4YkdJUTdQQUx2OTFLR3JXZCtwSUNKQjNnempxeFRpN2lVdHM2M1dTTGV3?=
- =?utf-8?B?WmdIQ2RzaUtiekdXM1Q0TUFxaXU1d2laSDBpckFyRnJFbTc2S0lTUzY1TnhV?=
- =?utf-8?B?MzVkbndhVzFJdjJDOVBCeVRERklBZnFQQUlXZUt3eHF2Qm9oQkFTY01EVXA2?=
- =?utf-8?B?VW04Rmdlb3RxSVJxUi9lcjMzQ1ZSaEIyc0F5YlFranJBYjRSempRZTd1MUZM?=
- =?utf-8?B?SDdHRElJWElabkRoME9zeGtsSEdEMzBIYi9CSUd5M0t1YVFpS1hEMFBHRFBV?=
- =?utf-8?B?OGZUdStsbW0vbkkvYWhscVhxNGFUUi9iclF2VnBaN25RelFObWVWMVZoaGdC?=
- =?utf-8?B?SGlRL210Q1I4YkVMbVNEeVRPZXVmRlF0bDNybW1xVi8vemVvTURxMkpadlJQ?=
- =?utf-8?B?TWI1Qlo1R3N5YmRITUlrUnJlSTRDZmtmcndCTExhVndFU0dVR0ZnOXNNYWhr?=
- =?utf-8?B?cW1XUDkzTmxpMTVmSEIzeXlYWWZYTG1kM3Z1dno1ZlNpSnNsM3NSZHJWTWpR?=
- =?utf-8?B?NnFJT1Z5TG9VQ1FEd3g4WWh1aDFoL1F1cmFBNUVNRkVMQWNBMjhWcG9mRXdv?=
- =?utf-8?B?Q05mNGJkUUtmMDBiM2dKdUFGTjdMajlLTE5rVFJmOU10Nm5RRWVvZnQvdktj?=
- =?utf-8?B?VHc0WTRPS0JHNHRuVGdtMXZKb2t2S3FUdmNZem0wTzZkSENOMTYxSCtpaDBm?=
- =?utf-8?B?QjhCYTM1SlBPSGFkYUVPOWVqYjd5QzVkblQxSVExRmVXRWxjdlZxZEhYTGh0?=
- =?utf-8?B?WFE4ejQwS2UvcDdpcDFMbElGejBNTzFSNFRETkpQQlprWDVUUmJ0U3YvUFVr?=
- =?utf-8?B?NVVPTVZvbW5PMnRNdmtOL2cxTDdaSWI0WTBQV2swTXpZZDUvRFZId3FUbnVR?=
- =?utf-8?B?blVDcVR6YmQxWDZkdXFwNE1ObWVYdWxIKzcwZFZRYmY4ZDNQaVpucCtFVWdV?=
- =?utf-8?B?K1JWaTk2ZlRvOCtrVFJuWC9NNmVsR2U3Wm51czMrTnpPS1lNR2dINmxGVWxZ?=
- =?utf-8?Q?U7JboaTcJwTvCQjeV88vkVENfU3GaE4Gi8oqAcklFk=3D?=
+	=?utf-8?B?aTdHNnlvZkZpdG9wK2Mzd05zbWR1VGMzLzZ3ZEowNGZwUDUzOU13RlJKMmRq?=
+ =?utf-8?B?K1AzeFJXeWR2MXJRTFh1bGNjc3EyTEh1b3g4QkVIS3M0d296WHdMYlpnSjgy?=
+ =?utf-8?B?bUdWTGYzUStwYWIwMFp3Y2dkUXdIbHRjVU8rK3lVQWNwNkpOTThsdTE3UDVP?=
+ =?utf-8?B?WC9paUhta2c0ZzZjaSttdXJVVnpZaFFVZUQ3ZEJqU3Zqb0VKNURFOElhR0lI?=
+ =?utf-8?B?bXR2cFJVQTVZbmprYmRKbXROV1N4QWR6aWVHL3NQYWdUaWRvN05ReEV3ZUJS?=
+ =?utf-8?B?MEJKNGV4L3R4T3o0aEhmclZxcmFyNFVvZ2FReHRNTVpuSmNzekdlNmVWTVFV?=
+ =?utf-8?B?dXg2UXEwS3ZuUHdJYmdqT0Y4cWtGNWo0REhiUWN1dzMySEZ1UEdMaDkyZjNq?=
+ =?utf-8?B?M2VUSGZRZ2NPMjJPZmRkTzgzT295S2NzTmFkMjYzZFAzRno4Y2pPM2RJMnBq?=
+ =?utf-8?B?eFBXYnN2cTBHTVpIZEh2TTQ0TVZIY1QydVNLWUlRRUlaMEdwWkh6MHp3ZDF1?=
+ =?utf-8?B?VW5OTnljcVVQdTBvUlhtOTFpTmZEcEl5MTMyejB2aEFMQ0dBa2NpL3EyY3Jk?=
+ =?utf-8?B?TXRtcmZmWjRLVDZFVTFieFk5UUNaenZUMXNzUVZldk9ONnZGS1EzdUk2Rlpt?=
+ =?utf-8?B?NXNKanRUR251K2ZiU0ZLaFJvYTY3YnVDTlBLWU9zM3FuckxJWmg3MytZYVNn?=
+ =?utf-8?B?NVBwbzY4blpqVUJBN0N6Z0x4NytPTE5ES092OXYzSEhLSHhoc2N5azcxSm1t?=
+ =?utf-8?B?a1FnWkdpZVk0L2tJK3NyMVlpRWlJVk5EQzJZeGQ0WGEyZFZNOG40V3A2azkw?=
+ =?utf-8?B?SU1EWmdha0xjc2czaFhiWjN0d25vamJBcjdBQ05HQXhMQlY2S1NkejZWbWta?=
+ =?utf-8?B?WTNPenFSbFo0Uk9VU0w1cXNBVmV6ZmNlenBvWngwbzJhN2FpSUZMcmYyUTJq?=
+ =?utf-8?B?Wk9RMGxPZHRqUjRDWmNjczBCVmsyZkR4NjdOWkdTT0c3dndOTHdPM1NFZndV?=
+ =?utf-8?B?S2hiT0d0eTVjSXhHUTJOb1htUGxKN3N5bDJqVk83SWo0eUo0S2owWmh4aStt?=
+ =?utf-8?B?K0NoTmJHeEtaeWpkUFIyOVRVTlBYQjlLTlRvYzVhVjNOQzdIdjNjMjdGb2VP?=
+ =?utf-8?B?UXpVdVg4M0MwTkE0QVFvdGJFeVZwRWRVT09pbFRIQ2syVXJTWWtiZFc1eWxw?=
+ =?utf-8?B?aHFIQWJrcW9YcWt3YVlwdndXWlpRMzZhYXl3RDBRV09nTjBoaSszbmtmYjlx?=
+ =?utf-8?B?dmlpL3JuejA1YkppOFBtRVo0cVRyQ1AzQUs1UWJRVDZDM2U2NGhCQ2JhSEoz?=
+ =?utf-8?B?SUQ5ZTJEeGY0UXhac2V1dU9rTTBUdHFtMURMdVhHNFkvelp5cnhQTTQ0M2ly?=
+ =?utf-8?B?ZGNOWFdOVUxkODZ6ZDZTb09LSDRzTmNYbmNjRXh3ZktJbVkrank5SWxNREFM?=
+ =?utf-8?B?UGlsVzBDOWNCNDZkenpXaHJ4QVBmMlRaVTVqTmtsSUxBWmEzZWFmOElYTlhL?=
+ =?utf-8?B?QmJkS2RaRGw1M2tnbExQb2JxQU5wSTVFTWFNaUdWSFRmSGQvL3Bkd2tQTjRa?=
+ =?utf-8?B?bHVCUDM2a1JFek1QT25UUk4wM3Q1NnJnaWl4VEhJcWhBdWtEaWplRjgvWGJq?=
+ =?utf-8?B?TlFaMGszdm9kdy9lOW1FRkFJY2FXanNHSjU1elE5a0lpbWZaekpsZjFLYzMw?=
+ =?utf-8?B?T2FINDR1ay9US0lsWU1FV1MwWlhibFBmQnFuK0NuOVU2ZUJXQWRwNmk0TEtz?=
+ =?utf-8?B?eWNVRi80Z1NkUU1qbXVJYjJ6bHhnRWl1RDEwNGw1NFZKaStXZzNCZDlDU0d2?=
+ =?utf-8?B?S1lKRCtleW80eGg5b3VJZjNkcUF6QUxJZGltWDV0OU02T1hzRHlSWVh1T0Zt?=
+ =?utf-8?B?d0JpSXRIMS9UMUIwTkFzSGtJWkV0OWlVTlU0TndnRnVVWCtoenMvOEI2c3M3?=
+ =?utf-8?B?VU1YOElOUXFHTjhzVWJQZmlDY2VzM1FoT2VBNzBjZzNhdllwL2ovQ21yM3Bq?=
+ =?utf-8?B?cXhzbE1saEo4cFBxTHhHZUFFdGE5MTFWOHp6ZGNWUzBiR3U3K2tUNllaVmhX?=
+ =?utf-8?B?R0VMRFJJeWQxMGtyQmpWK3BYdGovMi9LRnRVVzU4bDRIZUF4WjIraFovL2hu?=
+ =?utf-8?B?MlFWZ0FuY3NDNTBXUmlDUTNuNFNHalNYVkNkVjd6aHBCczdNalhQWHJzTVgv?=
+ =?utf-8?Q?85J65FxaYcgPOjGqb9WSA6I=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 34a3df1a-e610-446e-04a2-08d998eb31e8
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+ 91aaa57f-bc24-4ae0-c32d-08d998f1bbd8
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2021 01:43:37.3300
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2021 02:30:25.9653
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- Fz3VTwSanyw8C+kT41nRrQT+CUcG30K1mH+PoZmEBtoceiZr3fgTHwWXjHN9AmwD2f2nv1Qs3Aj6lUSSRKjRIzA7p+y6wjxaa4uoYJ5zU3A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1306
-X-Proofpoint-ORIG-GUID: EcNyb4pbDeVlpcxp1c9qaB6dCXCsvsBh
-X-Proofpoint-GUID: ieMR4sy2x5AuUZ5EOkNZN8P7QIqPSmPd
+ zEJBvWa1a6hOa1xgIkgRnX7QYHjQpNbqATntuL6Ss7rnX817Fe1HlP/aO/nIRUuxPc+/teOY6RNtq/+p9aL+3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5569
+X-Proofpoint-GUID: xpFSlg-hC4Ql0aKYTnWT2kxM_kpsNYgg
+X-Proofpoint-ORIG-GUID: IhaGCzBLC4xI3F9fyJDxdnrePt__mPZX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-10-26_07,2021-10-26_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 phishscore=0 clxscore=1015
- impostorscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2110270007
+ impostorscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=869 suspectscore=0 clxscore=1011 phishscore=0
+ bulkscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2110270011
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 01:43:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 02:30:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157471
+ https://lists.openembedded.org/g/openembedded-core/message/157472
 
-On 2021-10-19 9:10 p.m., Randy MacLeod wrote:
-> On 2021-10-19 3:58 p.m., Richard Purdie wrote:
->> On Tue, 2021-10-19 at 20:37 +0200, Alexander Kanavin wrote:
->>> On Tue, 19 Oct 2021 at 20:31, Khem Raj <raj.khem@gmail.com> wrote:
->>>> It would be wise to hear people who use rust and develop applications
->>>> using rust, meta-rust is being used
->>>> to develop field deployed products. Again I urge you to think with a
->>>> little bit of wider scope.
->>>>
->>> Look, it's just an example of a recipe generated with cargo-bitbake. 
->>> Where is
->>> this
->>> cargo-bitbake in core, so we can test that it works as it should? 
->>> Until it's
->>> available,
->>> there's no point in keeping the recipe.
->> Rust is a story that is more at the start than at the finish and as 
->> such I think
->> it is too premature to be removing this just yet. Having a rust recipe 
->> in core
->> generated by cargo-bitbake does have some value in its own right. I'd 
->> hope over
->> time we find the tool becomming a first class citizen in core but that 
->> will
->> likely take time.
->>
->> I am curious about Randy's views on this.
-> 
-> I can see both points of view.
-> 
-> It is nice to have an example cargo bitbake recipe and that's why this 
-> one was added to meta-rust and oe-core:
-> 
-> https://github.com/meta-rust/meta-rust/commit/49d94ef0a74bb3274ffcb3fe25011b64865b80bc 
+--------------64AC23848449FE8B50646D11
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ok, I've looked at this for a little while tonight and I've changed my mind.
+Hi Richard,
 
-We should have an example recipe generated using using cargo bitbake.
-Maybe the best example is cargo-bitbake itself!? See below.
+I like this change. However, it causes problem of 'rm_work'.
+Now some native recipes don't get cleaned up with 'rm_work' enabled.
 
+e.g.
+INHERIT += "rm_work"
+bitbake core-image-minimal
+A few native recipes don't get clean up such as alsa-lib-native, 
+createrepo-c-native, dnf-native, etc.
 
-I see that rustfmt is not exactly an easy package to serve in that role 
-so we should
-remove it. rustfmt seems to be tightly coupled to rust's internals and I 
-wasn't able
-to easily compile it even outside of bitbake due to a rustc_ast crate 
-fetch error.
-rustc_ast seems to be a crate that is internal to the rustc compiler:
+Do you have any idea how to fix it? Or should we accept the current 
+situation?
 
-    https://github.com/rust-lang/rust/tree/master/compiler/rustc_ast
-Have I missed something here?
+Regards,
+Qi
 
-
-We could write a cargo-hello-world example or use 'simpler' packages 
-such as
-ripgrep or fd-find. The latter two packages still have ~95 crates that they
-depend on so they are not exactly simple. That's why I looked into using
-cargo-bitbake itself as the example.
-
-Does anyone have a better existing package to use as a 'cargo bitbake' 
-example
-that has say fewer than 10 crates that it depends upon?
-
-> 
-> 
-> It's also possible that some users would not want to use anything except 
-> the version of
-> rust and associated tools that are provided by oe-core and that populate 
-> an SDK.
-> I don't have that requirement yet but I expect it may come given that 
-> some organization's
-> systems are tightly controlled.
-
-
-We can consider adding rustfmt back if we find that having it in the SDK
-or eventually for self-hosted development is useful.
-
-> 
-> I started to update my cargo-bitbake and the rustfmt recipe so let me 
-> finish that and we'll see what makes sense.
-
-cargo-bitbake depends on 170 crates so it's not simple but
-I did look at using it as an example anyway and so far it's failing to build
-with the error:
-
-| error: failed to run custom build command for `openssl-sys v0.9.54` 
-
-
-
-I'll fix that bug next, hopefully tomorrow.
-
-
-I also found a simple overrides change that I'll send upstream (1).
-
-All for tonight,
-
-../Randy
-
-
-
-1)
-git diff
-
-diff --git a/src/main.rs b/src/main.rs
-
-index b2ed5d0..0fe5159 100644
-
---- a/src/main.rs
-
-+++ b/src/main.rs
-
-@@ -360,7 +360,7 @@ fn real_main(options: Args, config: &mut Config) -> 
-CliResult {
-
-      let git_srcpv = if !project_repo.tag && project_repo.rev.len() > 10 {
-
-          // we should be using ${SRCPV} here but due to a bitbake bug 
-we cannot. see:
-
-          // https://github.com/meta-rust/meta-rust/issues/136
-
--        format!("PV_append = \".AUTOINC+{}\"", &project_repo.rev[..10])
-
-+        format!("PV:append = \".AUTOINC+{}\"", &project_repo.rev[..10])
-
-      } else {
-
-          // its a tag so nothing needed
-
-          "".into()
-
-
-
-I should look into that bitbake bug.
-
-> 
-> ../Randy
-> 
-> 
-> 
->> Cheers,
->>
->> Richard
->>
-> 
-> 
-> 
+On 09/20/2021 08:46 PM, Richard Purdie wrote:
+> The 'meta' is old and not very useful. It empties PACKAGES and creates
+> recursive do_build dependencies.
+>
+> We shouldn't need such recursive build dependencies any more so simplify the code.
+>
+> This does cause behaviour changes as some dependencies are no longer built.
+> It did show up issues with qemu-helper-native handling for example but those
+> issues look like real races and the underlying dependency chains were not correct.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/classes/populate_sdk_base.bbclass | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index ccfe2232895..49e166e697d 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -1,4 +1,6 @@
+> -inherit meta image-postinst-intercepts image-artifact-names
+> +PACKAGES = ""
+> +
+> +inherit image-postinst-intercepts image-artifact-names
+>   
+>   # Wildcards specifying complementary packages to install for every package that has been explicitly
+>   # installed into the rootfs
+>
+>
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157247): https://lists.openembedded.org/g/openembedded-core/message/157247
-> Mute This Topic: https://lists.openembedded.org/mt/86442640/3616765
+> View/Reply Online (#156182): https://lists.openembedded.org/g/openembedded-core/message/156182
+> Mute This Topic: https://lists.openembedded.org/mt/85739582/3618072
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@windriver.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>
 
 
--- 
-# Randy MacLeod
-# Wind River Linux
+--------------64AC23848449FE8B50646D11
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">Hi Richard,<br>
+      <br>
+      I like this change. However, it causes problem of 'rm_work'.<br>
+      Now some native recipes don't get cleaned up with 'rm_work'
+      enabled.<br>
+      <br>
+      e.g.<br>
+      INHERIT += &quot;rm_work&quot;<br>
+      bitbake core-image-minimal<br>
+      A few native recipes don't get clean up such as alsa-lib-native,
+      createrepo-c-native, dnf-native, etc.<br>
+      <br>
+      Do you have any idea how to fix it? Or should we accept the
+      current situation?<br>
+      <br>
+      Regards,<br>
+      Qi<br>
+      <br>
+      On 09/20/2021 08:46 PM, Richard Purdie wrote:<br>
+    </div>
+    <blockquote cite="mid:20210920124621.1576702-11-richard.purdie@linuxfoundation.org" type="cite">
+      <pre wrap="">The 'meta' is old and not very useful. It empties PACKAGES and creates
+recursive do_build dependencies.
+
+We shouldn't need such recursive build dependencies any more so simplify the code.
+
+This does cause behaviour changes as some dependencies are no longer built.
+It did show up issues with qemu-helper-native handling for example but those
+issues look like real races and the underlying dependency chains were not correct.
+
+Signed-off-by: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+---
+ meta/classes/populate_sdk_base.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index ccfe2232895..49e166e697d 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -1,4 +1,6 @@
+-inherit meta image-postinst-intercepts image-artifact-names
++PACKAGES = &quot;&quot;
++
++inherit image-postinst-intercepts image-artifact-names
+ 
+ # Wildcards specifying complementary packages to install for every package that has been explicitly
+ # installed into the rootfs
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#156182): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/156182">https://lists.openembedded.org/g/openembedded-core/message/156182</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/85739582/3618072">https://lists.openembedded.org/mt/85739582/3618072</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------64AC23848449FE8B50646D11--
 
