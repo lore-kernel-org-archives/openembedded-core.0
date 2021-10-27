@@ -2,49 +2,48 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D09CC43217
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:44 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.9241.1635325663558815459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A5CCC4332F
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:43 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.9292.1635325662972435534
  for <openembedded-core@lists.openembedded.org>;
  Wed, 27 Oct 2021 02:07:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cJTwENO9;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=M8J+m8Eq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id m22so2967032wrb.0
+Received: by mail-wr1-f53.google.com with SMTP id i9so2900163wrc.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 02:07:43 -0700 (PDT)
+ Wed, 27 Oct 2021 02:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LHMO763YmW+5Xbohgjq59pHj6Jr3ZfOO5TkdgkAkGx8=;
-        b=cJTwENO9KxtrBgzdt1iBphcrJuKo2KLxvi/iBDhLwy0oaFiiNK1Qd5u+hMrxrghOSP
-         4AfoGcbnEZaP6WOApx+u0GdMs7PP5WTZIaxNOXzRr6p3KmOOHHufcWun09OkdJlHRGXB
-         HWWR6yPrXZliM3SuOalHd4yARl4BTijr5H74TS5LcsjqPh/oDmL/iYGPmlW7wE4511Vs
-         ugJ9z3IvlTy37rm1F16RwxcaKgkudtf84c3SSf/cFznvSyQkQlNnYNmRRBl8O9srTeDm
-         q8ycxOT9lEIkOs7YXCtGebiXijfJ5Lv7W9TRWiO3niSrBFfXEo8RkyX0IGmqA55BWqds
-         KGhA==
+        bh=KWVPFsABOZh+NNb7GDGpXx6mLDrWKj7uR5oopOLpkU4=;
+        b=M8J+m8EqesjO4K+Jy7ZL7gcTTzHb5P49iRfBtS7QMlAKjjhYHe9YrZlPy2xNkFYGno
+         UUophQ8X5QQRJ8QeHEHSMU+5fzyl+VLu3n/NR6cgCJAynOBTXQTZBPCp1yMyOKnE8qbV
+         THodyRJRsJnZSKRp+fAsEohXge9Bj0PMGRQoo33WIu0qWudmk389z3nChSmMwsVJFePN
+         E3JaHCN7pv2csjvgWUOp1wgogSZcJzJf9+ePBa/PdUQu2gisF0MDKPzWXfL7gQ4xYxcz
+         jnnUPbmcDjrO0LSw+XTVfb43ezwlleGXLmlSjh+eVQJC4Oe1d+QVt4LhApcy/rtNUyVK
+         Fkkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LHMO763YmW+5Xbohgjq59pHj6Jr3ZfOO5TkdgkAkGx8=;
-        b=buHmwEzNWCCZDn6NZoQCsXEHPLJEmqNn7O0m6QZCRa1gGhvlplX3E2fSApYiHhNh/8
-         5Azk5wLn0MT7N2Ybr2BPkezzA32iETYi63Y1UedOS5N4Nmv+LHGkS0YfcS0X0GAY25bu
-         sLa/zePOffoP6kOV7milSMlLap5E0pFs2o4YHogknJbur/S5r/BxOKuUU8rJ4JABqWRb
-         7/Pj19DQGGv0N9NrHfeygy9M+N/7gvWQe0N4d0DmU3WBoG9USU5p9zvBXyIuuumZp7Wd
-         e7npr8eevbcnCaMAbwZqsM2t2n0O0qomrX0iakjZIIKzqEM0nULXlVCyrkS2w6Rm6Hhw
-         JaVQ==
-X-Gm-Message-State: AOAM533pVa95i5Whsvvh6n0lF2TEKFAk1MCBkhgnMEU/0wJy8SfKaWgi
-	LtHCEoxkd736jcEedeQN114eo8IXYLo=
+        bh=KWVPFsABOZh+NNb7GDGpXx6mLDrWKj7uR5oopOLpkU4=;
+        b=cf3XKSjo4AuVp/coFBSBOcauZku+bxHOGY3fsdnfjnQAAId84jCACHtuMskav2Zv4r
+         TAqBSbUauxF18CCHn/TI5llwXOvBLRyjhnRVFCxi1e+a6Bg9bLYn4nxwZRa9v2I9X8/b
+         UJKvF9N92D5sFd/CNrN8RJ7zjbYy6Iol+W+rPGivltVaFfKiaYxrAc7JaAWnDtrlzuFg
+         vs4fDjnh7RrozbrFHLbag4BQxW6mDNEQcXAJD1AQhXcrA27xf3zyLXFRA0/zc4hXgQys
+         KhN5g4OY0dNRh998dgH9Wj3bskNev6mThtvOIfU/vjmaBv+HrX+de/j/FuD/nzX9iZ2z
+         Dslg==
+X-Gm-Message-State: AOAM532uXfHGffj/PBtnPIkYFaus8U9KxWFhcDjCeXol3AcH2+ki40As
+	NAb8NBn2xGWTrRMfghoYhU1Nm3LcCQ4=
 X-Google-Smtp-Source: 
- ABdhPJwpAnc2YIpMsXrLNchvavT08C9up/Y70m4dxUDjTTLCiXQ+td4fEBaddPGAfoETmNFNS7isQQ==
-X-Received: by 2002:adf:b1d7:: with SMTP id
- r23mr39282427wra.145.1635325662231;
-        Wed, 27 Oct 2021 02:07:42 -0700 (PDT)
+ ABdhPJwGEpvTIIMQpbtyNyJeSK0vHQGzqWmd11S0xaptTfWZw4n7XC94WKJ1ZgJ1LDkYt6bCzgKdIg==
+X-Received: by 2002:a5d:4ac4:: with SMTP id y4mr39307137wrs.190.1635325661586;
+        Wed, 27 Oct 2021 02:07:41 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.41
@@ -54,9 +53,9 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 06/30] python3-pip: upgrade 21.3 -> 21.3.1
-Date: Wed, 27 Oct 2021 11:07:12 +0200
-Message-Id: <20211027090736.2546759-6-alex@linutronix.de>
+Subject: [PATCH 05/30] python3-numpy: upgrade 1.21.2 -> 1.21.3
+Date: Wed, 27 Oct 2021 11:07:11 +0200
+Message-Id: <20211027090736.2546759-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027090736.2546759-1-alex@linutronix.de>
 References: <20211027090736.2546759-1-alex@linutronix.de>
@@ -65,34 +64,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:44 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157482
+ https://lists.openembedded.org/g/openembedded-core/message/157481
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../python/{python3-pip_21.3.bb => python3-pip_21.3.1.bb}       | 2 +-
+ .../{python3-numpy_1.21.2.bb => python3-numpy_1.21.3.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pip_21.3.bb => python3-pip_21.3.1.bb} (89%)
+ rename meta/recipes-devtools/python-numpy/{python3-numpy_1.21.2.bb => python3-numpy_1.21.3.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_21.3.bb b/meta/recipes-devtools/python/python3-pip_21.3.1.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-pip_21.3.bb
-rename to meta/recipes-devtools/python/python3-pip_21.3.1.bb
-index 924a564f62..6ddb1d6296 100644
---- a/meta/recipes-devtools/python/python3-pip_21.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_21.3.1.bb
-@@ -10,7 +10,7 @@ inherit pypi distutils3
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.21.2.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.21.3.bb
+similarity index 96%
+rename from meta/recipes-devtools/python-numpy/python3-numpy_1.21.2.bb
+rename to meta/recipes-devtools/python-numpy/python3-numpy_1.21.3.bb
+index 8e09585712..4a289c2c7b 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.21.2.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.21.3.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://run-ptest \
+ "
+-SRC_URI[sha256sum] = "76af194fbc117934ec5bbe2ff15177adbd05aeed23f18ee209ed88edcd777e05"
++SRC_URI[sha256sum] = "d0bba24083c01ae43457514d875f10d9ce4c1125d55b1e2573277b2410f2d068"
  
- SRC_URI += "file://0001-change-shebang-to-python3.patch"
- 
--SRC_URI[sha256sum] = "741a61baab1dbce2d8ca415effa48a2b6a964564f81a9f4f1fce4c433346c034"
-+SRC_URI[sha256sum] = "fd11ba3d0fdb4c07fbc5ecbba0b1b719809420f25038f8ee3cd913d3faa3033a"
- 
- do_install:append() {
-     # Install as pip3 and leave pip2 as default
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.20.1
 
