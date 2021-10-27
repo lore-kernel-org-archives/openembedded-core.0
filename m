@@ -2,61 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D771C4332F
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:56 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.9299.1635325675675491668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D916C433F5
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:57 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.9130.1635325676382805164
  for <openembedded-core@lists.openembedded.org>;
  Wed, 27 Oct 2021 02:07:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cVrOLahO;
- spf=pass (domain: gmail.com, ip: 209.85.128.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zyrg4neR;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id
- 131-20020a1c0489000000b0032cca9883b5so4318356wme.0
+Received: by mail-wm1-f41.google.com with SMTP id v127so1897162wme.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 02:07:55 -0700 (PDT)
+ Wed, 27 Oct 2021 02:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OQezZIkEaMjQNPYqq0a12H/6OOJXGJVQ3FdAa0gqUj0=;
-        b=cVrOLahOlQxAdfYUNdV1Fa/dKgotQnJKTMMOOIEA2NdOP+K2tj6ebvd7FfoCjP8+aY
-         0sKZ9AM1Vc+5/FlcAlO1XKjTgVRP24Q7ryTBwml9Y4CC9IJW7NqmXJW8X4IlZ+zE/uAy
-         xs5fYKONm0LlJ+d5Xh7HWpbrI+9kIRF/6c3Wox6PfIY21DcrUG1+exqWrmyMMLPWWJvb
-         Oe9WEQpWziFgwN7H66xfdXTgbT8ut/8nnED5L91y9YOS1rgo1AtoF6f/MFOdwlYlSoTp
-         ukszks6LcW3tIxeMhV2uEBUN4SZtjj+SuJdW3HoxbrH8FbdDTtFvykqVdZucKdjq+5UM
-         KbYw==
+        bh=fDInaWHFw76Gl3Hk75DqdSJ7Sbx+ekwcw7f5PAsdRpE=;
+        b=Zyrg4neRuNa/LL2DhSrrXz6fiG8TOOB8uMtnG1ObL2JnIAnrdORWU55PjOXR+GJp1z
+         uvovi0WJRHaCSxkhq8V63qDP2sWlWNGDLACdDj50hoJXUkufva7fm0Bu3qdVDsCMXLJq
+         7VgngexP3M0+NN0S59y41jFphimY5LDi2yhfS5Cjnvmee6lj5y9UN1tI+hSsZG+XjkWa
+         SSATKfybK5m2N0N0PPQDHTWJEGkE+1zB/1lZCpQawoTxOxW/jQ9kxXT75fP1/gvGPqWO
+         5aeLcoib3CuIJGRroOupNavTaj4azFUOiLOM9v6uyG9BZ8RzOBHgUMZLbQdkJkV01lby
+         +DMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OQezZIkEaMjQNPYqq0a12H/6OOJXGJVQ3FdAa0gqUj0=;
-        b=dlSQiQbLWR4K8HQ4w5NB8IgUuqpLP0b6/2s0wADqOH/jHsUQox9wW6yVAYqi6WI90C
-         hxj7/tY8OVzp06Le5y+Ozv2El4HtTBh84TQd2Cu/b/0FWhLWOxdWsoWA5rbF/h4/fJcK
-         wPl61NZspFVKYaHA6GU0pMBeFvdU1PPEw62kZwRo5z6B5XVQXizIvmyQ7GYn9u5rxiwX
-         39rwZHpdpOwJ6zhcotEnYtaVrX4kxZvd2o++GQ2GxxZ3BC1nTgfx8WmmWobZbG9Y0z03
-         Eik2yLZYtMC4/ONhniQCdLIKQ7lEIDsKSMo8n5kRNFCdUPJ7pcH2ImRTRAi2aT6t4S8I
-         batg==
-X-Gm-Message-State: AOAM533Cevn7Yjh/u3tIoVj2jy1Nn7s15hztTd0UYsS81/PLaLgl7hCj
-	dr3faQ/8Gt6ukWZbXGEzbyR1FU3urSk=
+        bh=fDInaWHFw76Gl3Hk75DqdSJ7Sbx+ekwcw7f5PAsdRpE=;
+        b=DJW/9Dzv2jVE7N9OxLY2RnXNR3PdaUQCYc+g1xhsKVhKjd6zVjztEOUz89WZo8uhWW
+         1Axg3OXuvztz2kNrpNbY6ovjFGj7bUcir8F16vncYZmFf9e7Et/fS0b5kP0GbUOmKnY3
+         ISB+ibayeHN5R4yVMzCuj80NAmv8EvpWd8+iYZ4/WRYzwkGYJA5BKdFChQATfIc2vpn3
+         HUoveTF3U6toj8urVNt/YJx2ifLgBBJVADUrFztwUrM9YDcm56VnJk9Ctxq4Pn0XF6t5
+         imQF84L6UUgho7wL+/MsPoyxcht9fIlc16HPvXOnILpD7eoycVp2CUzRsKXvE8rVrwFR
+         Cbcw==
+X-Gm-Message-State: AOAM530+6kbv8B4ncB4LSOAsTNAXk3WG+EEMozFPizLi6knfHYAAjsVz
+	BFuwtg/YH8FKg0XbcbWcdr4xi9/tD/U=
 X-Google-Smtp-Source: 
- ABdhPJzA0+zIurlJ7R0XJqBMr4U5G6Ih/uGUVIdUAxT3DVXXM78SoKWi3s907d4IACWiF7KahBHkhw==
-X-Received: by 2002:a1c:19c5:: with SMTP id 188mr4498105wmz.145.1635325674252;
-        Wed, 27 Oct 2021 02:07:54 -0700 (PDT)
+ ABdhPJydX8eioM5NFnv/W64D3y5q3G9xsumtyDOloTtySP+mg0tQQw90K13fP8/RaQqDxHVkYi2hVw==
+X-Received: by 2002:a7b:c744:: with SMTP id w4mr4512086wmk.51.1635325675042;
+        Wed, 27 Oct 2021 02:07:55 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.53
+        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 02:07:53 -0700 (PDT)
+        Wed, 27 Oct 2021 02:07:54 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 24/30] gptfdisk: address ncurses 6.3 compatibility
-Date: Wed, 27 Oct 2021 11:07:30 +0200
-Message-Id: <20211027090736.2546759-24-alex@linutronix.de>
+Subject: [PATCH 25/30] powertop: address ncurses 6.3 compatibility
+Date: Wed, 27 Oct 2021 11:07:31 +0200
+Message-Id: <20211027090736.2546759-25-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027090736.2546759-1-alex@linutronix.de>
 References: <20211027090736.2546759-1-alex@linutronix.de>
@@ -65,134 +64,91 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157500
+ https://lists.openembedded.org/g/openembedded-core/message/157501
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...gptcurses-correct-ncurses-6.3-errors.patch | 99 +++++++++++++++++++
- meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch
+ ...c-fix-compatibility-with-ncurses-6.3.patch | 52 +++++++++++++++++++
+ meta/recipes-kernel/powertop/powertop_2.14.bb |  5 +-
+ 2 files changed, 55 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch
 
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch b/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch
+diff --git a/meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch b/meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch
 new file mode 100644
-index 0000000000..9d0443e524
+index 0000000000..84b05ac971
 --- /dev/null
-+++ b/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch
-@@ -0,0 +1,99 @@
-+From e301f7dd650c9e56f954a7c49661d938079e1a9b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/powertop/powertop/0001-src-fix-compatibility-with-ncurses-6.3.patch
+@@ -0,0 +1,52 @@
++From 76d3f0851520bc8488e432f423941f1e72cc7405 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex@linutronix.de>
-+Date: Mon, 25 Oct 2021 17:27:51 +0200
-+Subject: [PATCH] gptcurses: correct ncurses 6.3 errors
++Date: Mon, 25 Oct 2021 17:47:23 +0200
++Subject: [PATCH] src: fix compatibility with ncurses 6.3
 +
-+Upstream-Status: Pending
++Upstream-Status: Submitted [https://github.com/fenrus75/powertop/pull/92]
 +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ gptcurses.cc | 28 ++++++++++++++--------------
-+ 1 file changed, 14 insertions(+), 14 deletions(-)
++ src/devices/devfreq.cpp | 2 +-
++ src/display.cpp         | 2 +-
++ src/lib.cpp             | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/gptcurses.cc b/gptcurses.cc
-+index d0de024..70be999 100644
-+--- a/gptcurses.cc
-++++ b/gptcurses.cc
-+@@ -235,22 +235,22 @@ Space* GPTDataCurses::ShowSpace(int spaceNum, int lineNum) {
-+       ClearLine(lineNum);
-+       if (space->partNum == -1) { // space is empty
-+          move(lineNum, 12);
-+-         printw(BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
-++         printw("%s",BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
-+          move(lineNum, 24);
-+-         printw("free space");
-++         printw("%s","free space");
-+       } else { // space holds a partition
-+          move(lineNum, 3);
-+          printw("%d", space->partNum + 1);
-+          move(lineNum, 12);
-+-         printw(BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
-++         printw("%s",BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
-+          move(lineNum, 24);
-+-         printw(space->origPart->GetTypeName().c_str());
-++         printw("%s",space->origPart->GetTypeName().c_str());
-+          move(lineNum, 50);
-+          #ifdef USE_UTF16
-+          space->origPart->GetDescription().extract(0, 39, temp, 39);
-+-         printw(temp);
-++         printw("%s",temp);
-+          #else
-+-         printw(space->origPart->GetDescription().c_str());
-++         printw("%s",space->origPart->GetDescription().c_str());
-+          #endif
-+       } // if/else
-+    } // if
-+@@ -267,10 +267,10 @@ int GPTDataCurses::DisplayParts(int selected) {
++diff --git a/src/devices/devfreq.cpp b/src/devices/devfreq.cpp
++index 0509d0f..b194ac4 100644
++--- a/src/devices/devfreq.cpp
+++++ b/src/devices/devfreq.cpp
++@@ -297,7 +297,7 @@ void display_devfreq_devices(void)
++ 			df->fill_freq_utilization(j, buf);
++ 			strcat(fline, buf);
++ 			strcat(fline, "\n");
++-			wprintw(win, fline);
+++			wprintw(win, "%s", fline);
++ 		}
++ 		wprintw(win, "\n");
++ 	}
++diff --git a/src/display.cpp b/src/display.cpp
++index 7131144..cc03919 100644
++--- a/src/display.cpp
+++++ b/src/display.cpp
++@@ -125,7 +125,7 @@ void show_tab(unsigned int tab)
 + 
-+    move(lineNum++, 0);
-+    theLine = "Part. #     Size        Partition Type            Partition Name";
-+-   printw(theLine.c_str());
-++   printw("%s",theLine.c_str());
-+    move(lineNum++, 0);
-+    theLine = "----------------------------------------------------------------";
-+-   printw(theLine.c_str());
-++   printw("%s",theLine.c_str());
-+    numToShow = LINES - RESERVED_TOP - RESERVED_BOTTOM;
-+    pageNum = selected / numToShow;
-+    for (i = pageNum * numToShow; i <= (pageNum + 1) * numToShow - 1; i++) {
-+@@ -284,7 +284,7 @@ int GPTDataCurses::DisplayParts(int selected) {
-+             } else {
-+                currentSpace = ShowSpace(i, lineNum);
-+                move(lineNum++, 0);
-+-               printw(">");
-++               printw("%s",">");
-+             }
-+             DisplayOptions(i);
-+             retval = selected;
-+@@ -632,7 +632,7 @@ void GPTDataCurses::DisplayOptions(char selectedKey) {
-+          } // if/else
-+       } // for
-+       move(LINES - 1, (COLS - optionDesc.length()) / 2);
-+-      printw(optionDesc.c_str());
-++      printw("%s",optionDesc.c_str());
-+       currentKey = selectedKey;
-+    } // if
-+ } // GPTDataCurses::DisplayOptions()
-+@@ -744,11 +744,11 @@ void GPTDataCurses::DrawMenu(void) {
++ 	c = bottom_lines[tab_names[tab]].c_str();
++ 	if (c && strlen(c) > 0)
++-		mvwprintw(bottom_line, 0,0, c);
+++		mvwprintw(bottom_line, 0,0, "%s", c);
++ 	else
++ 		mvwprintw(bottom_line, 0, 0,
++ 			"<ESC> %s | <TAB> / <Shift + TAB> %s | ", _("Exit"),
++diff --git a/src/lib.cpp b/src/lib.cpp
++index 5e48f37..5cd1c4a 100644
++--- a/src/lib.cpp
+++++ b/src/lib.cpp
++@@ -583,7 +583,7 @@ void ui_notify_user_ncurses(const char *frmt, ...)
++ 	 * buffer */
++ 	vsnprintf(notify, UI_NOTIFY_BUFF_SZ - 1, frmt, list);
++ 	va_end(list);
++-	mvprintw(1, 0, notify);
+++	mvprintw(1, 0, "%s", notify);
++ 	attroff(COLOR_PAIR(1));
++ }
 + 
-+    clear();
-+    move(0, (COLS - title.length()) / 2);
-+-   printw(title.c_str());
-++   printw("%s",title.c_str());
-+    move(2, (COLS - drive.length()) / 2);
-+-   printw(drive.c_str());
-++   printw("%s",drive.c_str());
-+    move(3, (COLS - size.str().length()) / 2);
-+-   printw(size.str().c_str());
-++   printw("%s",size.str().c_str());
-+    DisplayParts(currentSpaceNum);
-+ } // DrawMenu
-+ 
-+@@ -798,7 +798,7 @@ void PromptToContinue(void) {
-+ void Report(string theText) {
-+    clear();
-+    move(0, 0);
-+-   printw(theText.c_str());
-++   printw("%s", theText.c_str());
-+    move(LINES - 2, (COLS - 29) / 2);
-+    printw("Press any key to continue....");
-+    cbreak();
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
-index 16fe540968..c5a153ab0c 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
-@@ -9,6 +9,7 @@ DEPENDS = "util-linux"
+diff --git a/meta/recipes-kernel/powertop/powertop_2.14.bb b/meta/recipes-kernel/powertop/powertop_2.14.bb
+index c176cba388..3a7c3ba31e 100644
+--- a/meta/recipes-kernel/powertop/powertop_2.14.bb
++++ b/meta/recipes-kernel/powertop/powertop_2.14.bb
+@@ -7,8 +7,9 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
-            file://0001-gptcurses-correctly-include-curses.h.patch \
-+           file://0001-gptcurses-correct-ncurses-6.3-errors.patch \
-            "
- SRC_URI[sha256sum] = "95d19856f004dabc4b8c342b2612e8d0a9eebdd52004297188369f152e9dc6df"
+ SRC_URI = "git://github.com/fenrus75/powertop;protocol=https \
+-    file://0001-wakeup_xxx.h-include-limits.h.patch \
+-"
++           file://0001-wakeup_xxx.h-include-limits.h.patch \
++           file://0001-src-fix-compatibility-with-ncurses-6.3.patch \
++           "
+ SRCREV = "52f022f9bbe6e060fba11701d657a8d9762702ba"
  
+ S = "${WORKDIR}/git"
 -- 
 2.20.1
 
