@@ -2,33 +2,33 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE09C433FE
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 15:17:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB9BC433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 15:17:46 +0000 (UTC)
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
  by mx.groups.io with SMTP id smtpd.web10.13304.1635347862317087601
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 08:17:46 -0700
+ Wed, 27 Oct 2021 08:17:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230456914"
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230456906"
 X-IronPort-AV: E=Sophos;i="5.87,187,1631602800";
-   d="scan'208";a="230456914"
+   d="scan'208";a="230456906"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 08:17:46 -0700
+ 27 Oct 2021 08:17:45 -0700
 X-IronPort-AV: E=Sophos;i="5.87,187,1631602800";
-   d="scan'208";a="537617271"
+   d="scan'208";a="537617267"
 Received: from hchai4-mobl2.gar.corp.intel.com (HELO
  anmitta2-mobl1.gar.corp.intel.com) ([10.215.231.47])
   by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 08:17:45 -0700
+ 27 Oct 2021 08:17:44 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 34/36] go: upgrade 1.16.7 -> 1.16.8
-Date: Wed, 27 Oct 2021 23:16:42 +0800
+Subject: [hardknott][PATCH 33/36] ruby: fix the reproducibility issue
+Date: Wed, 27 Oct 2021 23:16:41 +0800
 Message-Id: 
- <5b6c68759f28fd684be316b3a5e33f41e4107f7b.1635347406.git.anuj.mittal@intel.com>
+ <eea2f854fdd0f036dae2671ae52ba4695a83df68.1635347406.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1635347406.git.anuj.mittal@intel.com>
 References: <cover.1635347406.git.anuj.mittal@intel.com>
@@ -37,102 +37,233 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 15:17:47 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 15:17:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157549
+ https://lists.openembedded.org/g/openembedded-core/message/157548
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Thomas Perrot <thomas.perrot@bootlin.com>
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 97a2f406635f51bad1ab070f018a6466209f257b)
+Apply some changes on the Ruby makefiles in order to fix the reproducibility:
+- use a fixed timestamp,
+- sort linked objects,
+- doesn't use the current date,
+- and use UTC date.
+
+[YOCTO #14268]
+
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 59b07ab51ff932a4632a31675445ba4192bae36b)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/go/{go-1.16.7.inc => go-1.16.8.inc}     | 4 ++--
- ...{go-binary-native_1.16.7.bb => go-binary-native_1.16.8.bb} | 4 ++--
- ...o-cross-canadian_1.16.7.bb => go-cross-canadian_1.16.8.bb} | 0
- .../go/{go-cross_1.16.7.bb => go-cross_1.16.8.bb}             | 0
- .../go/{go-crosssdk_1.16.7.bb => go-crosssdk_1.16.8.bb}       | 0
- .../go/{go-native_1.16.7.bb => go-native_1.16.8.bb}           | 0
- .../go/{go-runtime_1.16.7.bb => go-runtime_1.16.8.bb}         | 0
- meta/recipes-devtools/go/{go_1.16.7.bb => go_1.16.8.bb}       | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.7.inc => go-1.16.8.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.7.bb => go-binary-native_1.16.8.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.7.bb => go-cross-canadian_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.7.bb => go-cross_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.7.bb => go-crosssdk_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.7.bb => go-native_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.7.bb => go-runtime_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.7.bb => go_1.16.8.bb} (100%)
+ ...doc-build-reproducible-documentation.patch | 35 ++++++++++
+ ...-list-of-object-files-in-generated-M.patch | 28 ++++++++
+ ...eproducible-change-fixing-784225-too.patch | 28 ++++++++
+ .../0006-Make-gemspecs-reproducible.patch     | 67 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.0.1.bb      |  4 ++
+ 5 files changed, 162 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.16.7.inc b/meta/recipes-devtools/go/go-1.16.8.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.16.7.inc
-rename to meta/recipes-devtools/go/go-1.16.8.inc
-index 9eca1caeeb..acc2300a28 100644
---- a/meta/recipes-devtools/go/go-1.16.7.inc
-+++ b/meta/recipes-devtools/go/go-1.16.8.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
+diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+new file mode 100644
+index 0000000000..f92f0e1ba6
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
+@@ -0,0 +1,35 @@
++From: Christian Hofstaedtler <zeha@debian.org>
++Date: Tue, 10 Oct 2017 15:04:34 -0300
++Subject: rdoc: build reproducible documentation
++
++- provide a fixed timestamp to the gzip compression
++
++Upstream-Status: Backport [debian]
++
++Signed-off-by: Antonio Terceiro <terceiro@debian.org>
++Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
++---
++ lib/rdoc/generator/json_index.rb | 4 ++--
++ lib/rdoc/rdoc.rb                 | 2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++--- a/lib/rdoc/generator/json_index.rb
+++++ b/lib/rdoc/generator/json_index.rb
++@@ -178,7 +178,7 @@
++     debug_msg "Writing gzipped search index to %s" % outfile
++
++     Zlib::GzipWriter.open(outfile) do |gz|
++-      gz.mtime = File.mtime(search_index_file)
+++      gz.mtime = -1
++       gz.orig_name = search_index_file.basename.to_s
++       gz.write search_index
++       gz.close
++@@ -196,7 +196,7 @@
++         debug_msg "Writing gzipped file to %s" % outfile
++
++         Zlib::GzipWriter.open(outfile) do |gz|
++-          gz.mtime = File.mtime(dest)
+++          gz.mtime = -1
++           gz.orig_name = dest.basename.to_s
++           gz.write data
++           gz.close
+diff --git a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
+new file mode 100644
+index 0000000000..e0aca0dcfc
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
+@@ -0,0 +1,28 @@
++From: Reiner Herrmann <reiner@reiner-h.de>
++Date: Tue, 10 Oct 2017 15:06:13 -0300
++Subject: lib/mkmf.rb: sort list of object files in generated Makefile
++
++Without sorting the list explicitly, its order is indeterministic,
++because readdir() is also not deterministic.
++When the list of object files varies between builds, they are linked
++in a different order, which results in an unreproducible build.
++
++Upstream-Status: Backport [debian]
++
++Signed-off-by: Antonio Terceiro <terceiro@debian.org>
++Signed-off-by: Reiner Herrmann <reiner@reiner-h.de>
++---
++ lib/mkmf.rb | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- a/lib/mkmf.rb
+++++ b/lib/mkmf.rb
++@@ -2315,7 +2315,7 @@
++ LIBS = #{$LIBRUBYARG} #{$libs} #{$LIBS}
++ ORIG_SRCS = #{orig_srcs.collect(&File.method(:basename)).join(' ')}
++ SRCS = $(ORIG_SRCS) #{(srcs - orig_srcs).collect(&File.method(:basename)).join(' ')}
++-OBJS = #{$objs.join(" ")}
+++OBJS = #{$objs.sort.join(" ")}
++ HDRS = #{hdrs.map{|h| '$(srcdir)/' + File.basename(h)}.join(' ')}
++ LOCAL_HDRS = #{$headers.join(' ')}
++ TARGET = #{target}
+diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+new file mode 100644
+index 0000000000..b7faa58655
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+@@ -0,0 +1,28 @@
++From: Christian Hofstaedtler <zeha@debian.org>
++Date: Tue, 10 Oct 2017 15:07:11 -0300
++Subject: Mark Gemspec-reproducible change fixing #784225, too
++
++I think the UTC date change will fix the Multi-Arch not-same file issue,
++too.
++
++Upstream-Status: Backport [debian]
++
++Signed-off-by: Antonio Terceiro <terceiro@debian.org>
++Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
++---
++ lib/rubygems/specification.rb | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++--- a/lib/rubygems/specification.rb
+++++ b/lib/rubygems/specification.rb
++@@ -1695,7 +1695,9 @@
++                 raise(Gem::InvalidSpecificationException,
++                       "invalid date format in specification: #{date.inspect}")
++               end
++-            when Time, DateLike then
+++            when Time then
+++              Time.utc(date.utc.year, date.utc.month, date.utc.day)
+++            when DateLike then
++               Time.utc(date.year, date.month, date.day)
++             else
++               TODAY
+diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+new file mode 100644
+index 0000000000..504893b4b4
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
+@@ -0,0 +1,67 @@
++From: Lucas Kanashiro <kanashiro@debian.org>
++Date: Fri, 1 Nov 2019 15:25:17 -0300
++Subject: Make gemspecs reproducible
++
++Without an explicit date, they will get the current date and make the
++build unreproducible
++
++Upstream-Status: Backport [debian]
++
++---
++ ext/bigdecimal/bigdecimal.gemspec | 1 +
++ ext/fiddle/fiddle.gemspec         | 1 +
++ ext/io/console/io-console.gemspec | 2 +-
++ lib/ipaddr.gemspec                | 1 +
++ lib/rdoc/rdoc.gemspec             | 1 +
++ 5 files changed, 5 insertions(+), 1 deletion(-)
++
++--- a/ext/bigdecimal/bigdecimal.gemspec
+++++ b/ext/bigdecimal/bigdecimal.gemspec
++@@ -6,6 +6,7 @@
++   s.name          = "bigdecimal"
++   s.version       = bigdecimal_version
++   s.authors       = ["Kenta Murata", "Zachary Scott", "Shigeo Kobayashi"]
+++  s.date          = RUBY_RELEASE_DATE
++   s.email         = ["mrkn@mrkn.jp"]
++
++   s.summary       = "Arbitrary-precision decimal floating-point number library."
++--- a/ext/fiddle/fiddle.gemspec
+++++ b/ext/fiddle/fiddle.gemspec
++@@ -8,6 +8,7 @@
++ Gem::Specification.new do |spec|
++   spec.name          = "fiddle"
++   spec.version       = version_module::Fiddle::VERSION
+++  spec.date          = RUBY_RELEASE_DATE
++   spec.authors       = ["Aaron Patterson", "SHIBATA Hiroshi"]
++   spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
++
++--- a/ext/io/console/io-console.gemspec
+++++ b/ext/io/console/io-console.gemspec
++@@ -4,6 +4,7 @@
++ Gem::Specification.new do |s|
++   s.name = "io-console"
++   s.version = _VERSION
+++  s.date = RUBY_RELEASE_DATE
++   s.summary = "Console interface"
++   s.email = "nobu@ruby-lang.org"
++   s.description = "add console capabilities to IO instances."
++--- a/lib/ipaddr.gemspec
+++++ b/lib/ipaddr.gemspec
++@@ -6,6 +6,7 @@
++ Gem::Specification.new do |spec|
++   spec.name          = "ipaddr"
++   spec.version       = "1.2.2"
+++  spec.date          = RUBY_RELEASE_DATE
++   spec.authors       = ["Akinori MUSHA", "Hajimu UMEMOTO"]
++   spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
++
++--- a/lib/rdoc/rdoc.gemspec
+++++ b/lib/rdoc/rdoc.gemspec
++@@ -7,6 +7,7 @@
++
++ Gem::Specification.new do |s|
++   s.name = "rdoc"
+++  s.date = RUBY_RELEASE_DATE
++   s.version = RDoc::VERSION
++
++   s.authors = [
+diff --git a/meta/recipes-devtools/ruby/ruby_3.0.1.bb b/meta/recipes-devtools/ruby/ruby_3.0.1.bb
+index 4ac7383a97..a348946972 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.0.1.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.0.1.bb
+@@ -9,6 +9,10 @@ SRC_URI += " \
+            file://CVE-2021-31810.patch \
+            file://CVE-2021-32066.patch \
+            file://CVE-2021-31799.patch \
++           file://0003-rdoc-build-reproducible-documentation.patch \
++           file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch \
++           file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
++           file://0006-Make-gemspecs-reproducible.patch \
+            "
  
- GO_BASEVERSION = "1.16"
--PV = "1.16.7"
-+PV = "1.16.8"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -18,7 +18,7 @@ SRC_URI += "\
-     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
-     file://0001-encoding-xml-handle-leading-trailing-or-double-colon.patch \
- "
--SRC_URI[main.sha256sum] = "1a9f2894d3d878729f7045072f30becebe243524cf2fce4e0a7b248b1e0654ac"
-+SRC_URI[main.sha256sum] = "8f2a8c24b793375b3243df82fdb0c8387486dcc8a892ca1c991aa99ace086b98"
- 
- # Upstream don't believe it is a signifiant real world issue and will only
- # fix in 1.17 onwards where we can drop this.
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.7.bb b/meta/recipes-devtools/go/go-binary-native_1.16.8.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.16.8.bb
-index cb54c2868e..926222089d 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.16.8.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
- 
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "7fe7a73f55ba3e2285da36f8b085e5c0159e9564ef5f63ee0ed6b818ade8ef04"
--SRC_URI[go_linux_arm64.sha256sum] = "63d6b53ecbd2b05c1f0e9903c92042663f2f68afdbb67f4d0d12700156869bac"
-+SRC_URI[go_linux_amd64.sha256sum] = "f32501aeb8b7b723bc7215f6c373abb6981bbc7e1c7b44e9f07317e1a300dce2"
-+SRC_URI[go_linux_arm64.sha256sum] = "430dbe185417204f6788913197ab3b189b6deae9c9b524f262858e53dab239c2"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.7.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.16.7.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.16.8.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.16.7.bb b/meta/recipes-devtools/go/go-cross_1.16.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.16.7.bb
-rename to meta/recipes-devtools/go/go-cross_1.16.8.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.7.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.16.7.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.16.8.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.16.7.bb b/meta/recipes-devtools/go/go-native_1.16.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.16.7.bb
-rename to meta/recipes-devtools/go/go-native_1.16.8.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.16.7.bb b/meta/recipes-devtools/go/go-runtime_1.16.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.16.7.bb
-rename to meta/recipes-devtools/go/go-runtime_1.16.8.bb
-diff --git a/meta/recipes-devtools/go/go_1.16.7.bb b/meta/recipes-devtools/go/go_1.16.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.16.7.bb
-rename to meta/recipes-devtools/go/go_1.16.8.bb
+ SRC_URI[sha256sum] = "369825db2199f6aeef16b408df6a04ebaddb664fb9af0ec8c686b0ce7ab77727"
 -- 
 2.31.1
 
