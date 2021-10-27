@@ -2,61 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7551AC433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:43 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web09.9295.1635325662508927989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7542CC433FE
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:42 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.9294.1635325661745789297
  for <openembedded-core@lists.openembedded.org>;
  Wed, 27 Oct 2021 02:07:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VsHXMPrF;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fFQzWxSR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id e12so2893859wra.4
+Received: by mail-wr1-f53.google.com with SMTP id i9so2900065wrc.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 02:07:42 -0700 (PDT)
+ Wed, 27 Oct 2021 02:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L0NL5OclHp9YxPbfBqqzZ9G0ZvxetRND5TgZl0aNnsQ=;
-        b=VsHXMPrFoRo7N9ancEiD7NXYujPsC9gF0F9kqVeLZyXTUPPd4iKGQrYKu4QQFKv/bz
-         TaI5G2S1fEXC4ddhsx9kTFfqR/l3YGOH7eaget9dJGnouVwLTc2x75flgbsMeKH9rVNp
-         u3OvAGrkOS82ujgQ88hURh2hcf8Fp7z/CCMsJ+9/8Oel+HcEq2/nBubt7xdNj9Gf1IkU
-         cZYF8gfmlbLvkxSYTkC+dkU/SH8G/pJTabX1zvTjEcGzN2VhTfgafk7lNtn05i/Ba+mf
-         Nn0RnQIUJ6lbDEqFFAoeh6abREA64NPEcAVg/jEc7p2gUCEsk7if86w7Jk/23lasqrmJ
-         FXLA==
+        bh=GhnNrli//9MtywRSg1bZWoZNIH+dnBA3sy2VcsYVpQk=;
+        b=fFQzWxSRB+7c3vj2LQxfxkzU+kVEhiBMBJmRUOgYL8jweXwHvHId84yEcbQjDRwbHp
+         rz5CbKEzX39UtpN/+QqMy1A3dSPLCI6aygcnBEi2ylVfuiZstA1/P2wKMGKWLTIlDeQf
+         sC6r2JmKSSN6jdP7+gU64Z567G4q46LuztRnA1/cBCT1ArQZJYNVt9eYGNR3FZZGClbJ
+         fSHbYRzOKrI6g7tNmKd1Yq54sYGRra6cdr6Nl/5gWOlI2tyShqBUwGpwAseydq0xew6y
+         PW4wO+Say0f05uD1uA8pu4QT1nL9QnnIG4PZlW9q/IIYycDG9AkpOV90YPq28HkhN3vW
+         aDIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L0NL5OclHp9YxPbfBqqzZ9G0ZvxetRND5TgZl0aNnsQ=;
-        b=hJcL3Wnj9KqNwMDiqUWSdcMTdmQPjprEFhh/gC+ptyt7P/Sf0hLoMTxdDoWHjdpcyY
-         p/r3tZYZmn60TuyhA7Saafx8GOEnPSRmKuvcyYSUH1WFLJKHN7G6ruHJ3H61RlZPNZMV
-         gY2Zx8iHQ5gDOUZpnDvp7cOy6y4/NM5YJTQ+8KP6Vyb4TozVLK6S/NjUMrL0ru22f71s
-         V7BX/iT8xvdOqo9sB3ZjuKDPzMMmmtn5CfdLVmGb6IgErESc4/x2ihcVZ47NvuhUZtdC
-         4za+2pyk8Z1I30k4A+H+TNrqk/6R5Yu9kB4DZseaqRaCa3rs0nK+Fi7pQVgjMjTGmIlJ
-         ZPdw==
-X-Gm-Message-State: AOAM532WvDhbVxY0rpJffCegWglWX8yPht583LYpzWfSp4Yuz/cnc676
-	jmEp9R4GH+X5roxmWoHqoCk/9QpQeBI=
+        bh=GhnNrli//9MtywRSg1bZWoZNIH+dnBA3sy2VcsYVpQk=;
+        b=eEp/8EIwbIiAP8v4V36dfYIoP+rbWCzTlhiuAOL6+9OjYqLGJfLKjesE9yqnvlyPqh
+         MirHavdxp7eSOBWqnHg4qi4Br9sVhe+zKzLwu1BhtfWrc6agE8gXE56cFpsvCr8Owlg3
+         zZ5QjwU5rv0vnuDrASjFCZRvg3IA1aC5fRd20IcJuRM8SeufzbIcNjjNp3uvrFvWbMJl
+         kxy5NeEBz7WSfTTWttvhVbnAAnNNzRA2QFxCBME36l/4PH6rdlijDfsjZh6R6ptC4G1o
+         zP0EqzznEsXYcrhnFd24V+i4XbgWMPQM6fYNrJB4ooFMfupWNVanzObghNgVBeNNA2S7
+         QliA==
+X-Gm-Message-State: AOAM5328MzQXgooJTtsYyB50/p5hDD7/2CSRaJro7jgILhrl+DqxbYyY
+	VAzt3U9uiUsCQf9HMPDbd0Rqxg6RgCA=
 X-Google-Smtp-Source: 
- ABdhPJy6spQbg5MC5bJQGXQvJic1K8IdwLbojJQtfm/LA2eTo5nrMxXRKvZ+5PrPCGE3XEc/CcI6IQ==
-X-Received: by 2002:adf:a31d:: with SMTP id
- c29mr38862729wrb.381.1635325661010;
-        Wed, 27 Oct 2021 02:07:41 -0700 (PDT)
+ ABdhPJzzGQjXd7EGPvwqHhAJuUiNNhvikjE7kFtMfAhHjq11gB9KZf8VcR3W/+Ln4CFedTc6ARTrhA==
+X-Received: by 2002:adf:ca09:: with SMTP id o9mr37960083wrh.303.1635325660357;
+        Wed, 27 Oct 2021 02:07:40 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.40
+        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 27 Oct 2021 02:07:40 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 04/30] createrepo-c: upgrade 0.17.6 -> 0.17.7
-Date: Wed, 27 Oct 2021 11:07:10 +0200
-Message-Id: <20211027090736.2546759-4-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 03/30] json-c: correct upstream version check
+Date: Wed, 27 Oct 2021 11:07:09 +0200
+Message-Id: <20211027090736.2546759-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027090736.2546759-1-alex@linutronix.de>
 References: <20211027090736.2546759-1-alex@linutronix.de>
@@ -65,34 +64,28 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157480
+ https://lists.openembedded.org/g/openembedded-core/message/157479
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{createrepo-c_0.17.6.bb => createrepo-c_0.17.7.bb}          | 2 +-
+ meta/recipes-devtools/json-c/json-c_0.15.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.17.6.bb => createrepo-c_0.17.7.bb} (96%)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.6.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb
-similarity index 96%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.17.6.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb
-index f9fa8f52d3..739a2dcf7d 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.6.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
+diff --git a/meta/recipes-devtools/json-c/json-c_0.15.bb b/meta/recipes-devtools/json-c/json-c_0.15.bb
+index 863463ca51..a4673a2f0e 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.15.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.15.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
  
--SRCREV = "d764fe9b386aa8da1aca58b9bc3dc061f52e8f28"
-+SRCREV = "c4e6808c710ec68e56bd93b0366f3b6cbeee3167"
+ SRC_URI[sha256sum] = "b8d80a1ddb718b3ba7492916237bbf86609e9709fb007e7f7d4322f02341a4c6"
  
- S = "${WORKDIR}/git"
+-UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
++UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
  
+ RPROVIDES:${PN} = "libjson"
 -- 
 2.20.1
 
