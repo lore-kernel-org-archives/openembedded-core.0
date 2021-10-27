@@ -1,94 +1,85 @@
-Return-Path: <ranjitsinhrathod1991@gmail.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B6CC433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 12:56:37 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.11192.1635339396453167265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D52C433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 14:04:24 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.12051.1635343463289312344
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 05:56:36 -0700
+ Wed, 27 Oct 2021 07:04:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WL8OR6Vk;
- spf=pass (domain: gmail.com, ip: 209.85.215.172,
- mailfrom: ranjitsinhrathod1991@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id l186so2820362pge.7
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 05:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=ohfbJwamojPUr23+PlD+9EFhKRDTMDoi9ipJIstbP9U=;
-        b=WL8OR6Vk2ufget3pZb6ita9+tFML/5azv7Xi0iZvR/zKFLpKRT9biEG/Nu5NFu0MmD
-         Wpw8jW/xNDV81MfiXPp77EqqJZ7ZoYjMF0sOBpanN2yB/1MQz3AHdbOgKPYLapXL5YwD
-         X/DsFyiU7AEnZtTJyGrL6N2v9Jr9+1G5DEI072d68ZEj3ziAY7/hENZNVdjTaWcuqo+x
-         0ervEk62L/3AxNFeGzE8+uIcpGeeEEWoMoCYvJhKrYvk0bagSBV0eceof1Z2FCsUgzBw
-         KbR7m1rc8raQduwa2YhR6O+rX3eSoj2JvWKMk2AaR0x5a3e6iiD/S1+YiucBMgENYfGY
-         9onQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=ohfbJwamojPUr23+PlD+9EFhKRDTMDoi9ipJIstbP9U=;
-        b=n27eyqfD6HzfE/rvhUW0kbvRUfXl4nDhE2poK/RPfZpciyOFfE5bmHwmQoF4lEAELy
-         e9eBwbj3g8pMf0wmbjgJHtaHIpvlhMOP6+Kj+9Hx/OtFZzldn/8tCVaVmVTUFkkxsYLR
-         Qsw3YKvZacpcKPrL1vu7j/+M2K+g2qnwsUCXleqC/XfkCFWwYEtsAt10NXs/c3ujhnkQ
-         OQxjGEFsjDFJVwn71BfwvXGZr8g7K0EMC2abOdvresXm+UCkGoU8rwxedj8gJOqNHLTm
-         lM3wI9mkg9pQFbmmyMaTEsYs8Ejxv0SCJU9kMEc4nO9oi9n8JA7LevsiHD0k3rQdEPef
-         hT1g==
-X-Gm-Message-State: AOAM533VuxxCTzvijF7eWU784+Qf9SxNPHF0hgMR3nkf1KI7UHywf6aj
-	PhFRbKZYxMiQEDPF/3MXX9bTK9nByBS4cg==
-X-Google-Smtp-Source: 
- ABdhPJz/AnyR+qHyKWlzrt+1/+seySdhXnzSCsK4+eVmTMPo6mrMA0JCB6/0jtkEkVpiQZtLkyuclQ==
-X-Received: by 2002:a63:6dc5:: with SMTP id
- i188mr21981628pgc.58.1635339395579;
-        Wed, 27 Oct 2021 05:56:35 -0700 (PDT)
-Received: from localhost.localdomain ([103.238.107.247])
-        by smtp.gmail.com with ESMTPSA id
- f15sm29125478pfe.132.2021.10.27.05.56.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 05:56:35 -0700 (PDT)
-From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: thomas.perrot@bootlin.com)
+Received: (Authenticated sender: thomas.perrot@bootlin.com)
+	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 383A3C0002;
+	Wed, 27 Oct 2021 14:04:20 +0000 (UTC)
+From: Thomas Perrot <thomas.perrot@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Subject: [meta][dunfell][PATCH] curl: Whitelist CVE-2021-22897
-Date: Wed, 27 Oct 2021 18:26:18 +0530
-Message-Id: <20211027125618.1617-1-ranjitsinhrathod1991@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Thomas Perrot <thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH] uboot-sign: fix the concatenation when multiple
+ U-BOOT configurations are specified
+Date: Wed, 27 Oct 2021 16:04:12 +0200
+Message-Id: <20211027140412.1663212-1-thomas.perrot@bootlin.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 12:56:37 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 14:04:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157512
+ https://lists.openembedded.org/g/openembedded-core/message/157513
 
-CVE-2021-22897 is affecting only Windows, hence whitelisting this CVE.
-Link: https://security-tracker.debian.org/tracker/CVE-2021-22897
-Link: https://ubuntu.com/security/CVE-2021-22897
+Some BSPs, especially those of meta-freescale and meta-ti allow to build U-Boot
+binaries using different configuration for a given target, for example:
+- UBOOT_CONFIG ??= "tfa-secure-boot tfa"
+- UBOOT_CONFIG ??= "nand sdcard spi nor"
 
-Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+When this is the case the public key wasn't concatenated to all U-Boot binaries
+built.
+
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 ---
- meta/recipes-support/curl/curl_7.69.1.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/uboot-sign.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index d7ffb2dc50..bc1b993e9e 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -34,6 +34,11 @@ SRC_URI[sha256sum] = "2ff5e5bd507adf6aa88ff4bbafd4c7af464867ffb688be93b9930717a5
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
- CVE_CHECK_WHITELIST = "CVE-2021-22922 CVE-2021-22923 CVE-2021-22926 CVE-22945"
- 
-+# As per link https://security-tracker.debian.org/tracker/CVE-2021-22897
-+# and https://ubuntu.com/security/CVE-2021-22897
-+# This CVE issue affects Windows only Hence whitelisting this CVE
-+CVE_CHECK_WHITELIST += "CVE-2021-22897"
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index bae8cada0ac3..8d136e940589 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -131,6 +131,20 @@ concat_dtb_helper() {
+ 		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
+ 			cd ${DEPLOYDIR}
+ 			cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${CONFIG_B_PATH}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
 +
- inherit autotools pkgconfig binconfig multilib_header
++			if [ -n "${UBOOT_CONFIG}" ]
++			then
++				for config in ${UBOOT_MACHINE}; do
++					i=$(expr $i + 1);
++					for type in ${UBOOT_CONFIG}; do
++						j=$(expr $j + 1);
++						if [ $j -eq $i ]
++						then
++							cp ${UBOOT_IMAGE} ${B}/${CONFIG_B_PATH}/u-boot-$type.${UBOOT_SUFFIX}
++						fi
++					done
++				done
++			fi
+ 		else
+ 			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
+ 		fi
+@@ -205,7 +219,7 @@ install_helper() {
+ 	fi
+ }
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls libidn proxy threaded-resolver verbose zlib"
+-# Install SPL dtb and u-boot nodtb to datadir, 
++# Install SPL dtb and u-boot nodtb to datadir,
+ install_spl_helper() {
+ 	if [ -f "${SPL_DIR}/${SPL_DTB_BINARY}" ]; then
+ 		install -Dm 0644 ${SPL_DIR}/${SPL_DTB_BINARY} ${D}${datadir}/${SPL_DTB_IMAGE}
 -- 
-2.17.1
+2.31.1
 
 
