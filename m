@@ -2,60 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79397C433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:07:59 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.9300.1635325678652145136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79383C433FE
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:08:00 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.9131.1635325679382860463
  for <openembedded-core@lists.openembedded.org>;
  Wed, 27 Oct 2021 02:07:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iJrlz/Mn;
- spf=pass (domain: gmail.com, ip: 209.85.221.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qzXeguQj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id z14so2878243wrg.6
+Received: by mail-wr1-f48.google.com with SMTP id e4so2871841wrc.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 02:07:58 -0700 (PDT)
+ Wed, 27 Oct 2021 02:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iRHUs9OYdf0gnpRWKTIwDt+Ro+G8N31ML2bdReJITAU=;
-        b=iJrlz/MnEXd+vqFdb7RD+Q5pdAT1GvJsSlbvcEh/W17EFsORXOCHeb9p2GyAuIwkfU
-         /42azp3DCFnT1Vb1I0DKD0YrW/0Y241b/QRC3zb6XxM8MXCS5jjnfC9sxQOfnEhn9oNN
-         gvl6RuZKtulSJAlNVz71H8r5SKOzNPHbQXX/vuqgda+wiB+oDxGb5EQLJS/NFVdb2S5x
-         szmK6bB1NbQeGW2H7TKZ5Bfba+k/ymT22UdXQw9z1lKIdovVwdxzral0bDumb501witu
-         EcQOme7XF044/cOXyf3SelMQ4WD6UR6DILIFHWTLAl3BwxfMQ192QPmJDPV6XIbmb5tf
-         Kgyw==
+        bh=8Y8xcfqs7JAi3FPJhewfChTzBxssLeQKIKKxgXQcN0U=;
+        b=qzXeguQjCGTB7aSW12BMFERJqjc/C/elG78sdgtUnOr1lRE1maKfdpOMQqAlMAgmQj
+         4eaV1q+gCuDcGk0Rtnao2e1O+0CGrS9qSiHgsa9jsC2TSPvHHGfkP5XSRhCVKztdKUf2
+         Z8uet0F1etjyMIRUpmBQmqjz2rDFS+PE1sAXFUOAjK5x2AkOKvACBI9RMx7YV7as4IqU
+         dK9ITK+sSCv9OLTpjTi+oHxhLPioVjLrbjBPf2jlNizatHHvRu6oZLbHv5qq3bTzbcUu
+         J5uu5bEe/ihp86xGrHdZw260RBa0NTG/bvexFOTNYvzCMrEjGeMK1Jb1129Gc1dg1ptE
+         bS/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iRHUs9OYdf0gnpRWKTIwDt+Ro+G8N31ML2bdReJITAU=;
-        b=Kk6oJ0klmbaveOuKRkTETKDm2YBj7CM3GdYEpYDUGU/1GmJXkMqxk2XL5OcBT20XIv
-         PMcuKxdBNIg6rSAaJx4AbGPZuw09Zxj8gEaWbhNP5s3ifcPvzC9xxm7VpGUT1GJ1ZCgF
-         jjdjZVBAIvQ5obG6/h06G3ajV4+TWwv7JPU/1NBl12ktH6Do1yU2ryJT29IAQXoR/50e
-         h9q41kqpN1nnF78ch5K5QVzeZKgsNUzkYpK6TpYPDbm1fGghHeJeaNSu4x9JEDbzz+qr
-         H6JoLW5dFDRC7pkFSbYU05ZWu/VAT7ieJN+g997QLJjPt+Gh9qOfL7u4J6fjXQccgD8U
-         thtA==
-X-Gm-Message-State: AOAM530Q1fUMCwO7W1LaYqClQWoIrJsVFH0xtwQi+jEwCqY7982J8gBE
-	61Nox4yNkw4VBDg6hskVjPbwtFwk3lk=
+        bh=8Y8xcfqs7JAi3FPJhewfChTzBxssLeQKIKKxgXQcN0U=;
+        b=w3Y3ELW4R0w/pQRrZq6tCgbzMQG3kbAsaobeyFqPHiFpgjaFzRl55pQxMDsTnEM4mJ
+         C2Q38sWkosYKEXHMlutVNLAuVXw0BUmwfcMVuoSh/mUshyvVJg2dkHQhKmnIt22PwemE
+         Q3YGuFRWqsPKCpolpB2M5IjLadURf0GYqUAQXwcm8XMi18qBUJVlRyK3sVLcdRKt+Q+M
+         SXrgUIPIumDRKiBiGvELJPOlQnNkmx3O7OIPb5szV/UIzzfMVH4lwmefYyXIDSNzd8YZ
+         uFUGvicGQ9FiNqcIHbirSdXdpkX9+Dr3g5ZYtGKWwR8wUjYoSTYc7o4GY4AqcfFZm9Ey
+         JJXA==
+X-Gm-Message-State: AOAM530ayUxhOcKQlDEcg3FOMJW+e6kdSnMK2/sAP8Ngdyiz9PyQNKa2
+	JVUQCPsGicOg0JQ3GwVlgCc5IatA/d4=
 X-Google-Smtp-Source: 
- ABdhPJxYSDLdFrS86gi6iRwZGiPfYorWJQnzi5gzu9X0aboar38AckFUaCb1B2hchmB1YIlcOzK12A==
-X-Received: by 2002:a5d:4e81:: with SMTP id e1mr38147612wru.242.1635325677246;
+ ABdhPJwN/99IduWOYwB1xdvwVhqPC9esQSu8Jg6wDKHAIpx+vsypFpXrt6AqMtgBa+Gg9Ct0Z0Mrkw==
+X-Received: by 2002:a5d:6d81:: with SMTP id l1mr38315450wrs.110.1635325677996;
         Wed, 27 Oct 2021 02:07:57 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.56
+        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 02:07:56 -0700 (PDT)
+        Wed, 27 Oct 2021 02:07:57 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 28/30] python3-pygobject: do not supply unknown g-i options
-Date: Wed, 27 Oct 2021 11:07:34 +0200
-Message-Id: <20211027090736.2546759-28-alex@linutronix.de>
+Subject: [PATCH 29/30] gstreamer1.0-python: do not supply unknown g-i options
+Date: Wed, 27 Oct 2021 11:07:35 +0200
+Message-Id: <20211027090736.2546759-29-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027090736.2546759-1-alex@linutronix.de>
 References: <20211027090736.2546759-1-alex@linutronix.de>
@@ -64,31 +64,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:07:59 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:08:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157504
+ https://lists.openembedded.org/g/openembedded-core/message/157505
 
 meson 0.60 turns unknown options into them hard errors, so instead of relying on g-i class
 (where the options are mandatory) add g-i dependencies explicitly.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../python/python3-pygobject_3.42.0.bb              | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ .../gstreamer/gstreamer1.0-python_1.18.5.bb          | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-index 461ddcfe31..7ff7c5b4dd 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-@@ -6,10 +6,19 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
+index 74dd15b3eb..a32805d129 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
+@@ -21,6 +21,14 @@ EXTRA_OEMESON += "-Dlibpython-dir=${libdir}"
  
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
-+inherit gnomebase distutils3-base upstream-version-is-even
+ # gobject-introspection is mandatory and cannot be configured
+ REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
+-UNKNOWN_CONFIGURE_WHITELIST:append = " introspection"
  
- DEPENDS += "python3 glib-2.0"
- 
+-inherit meson pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
++inherit meson pkgconfig distutils3-base upstream-version-is-even features_check
++
 +# Generating introspection data depends on a combination of native and target
 +# introspection tools, and qemu to run the target tools.
 +DEPENDS:append:class-target = " gobject-introspection gobject-introspection-native qemu-native prelink-native"
@@ -97,19 +97,6 @@ index 461ddcfe31..7ff7c5b4dd 100644
 +# needed for m4 macros.
 +DEPENDS:append:class-native = " gobject-introspection-native"
 +DEPENDS:append:class-nativesdk = " gobject-introspection-native"
-+
- SRCNAME="pygobject"
- 
- SRC_URI = " \
-@@ -18,8 +27,6 @@ SRC_URI = " \
- "
- SRC_URI[sha256sum] = "9b12616e32cfc792f9dc841d9c472a41a35b85ba67d3a6eb427e307a6fe4367b"
- 
--UNKNOWN_CONFIGURE_WHITELIST = "introspection"
--
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wayland', 'x11' ], 'cairo', '', d)}"
 -- 
 2.20.1
 
