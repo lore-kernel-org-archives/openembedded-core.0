@@ -2,60 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79383C433FE
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:08:00 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.9131.1635325679382860463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E120C433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 09:08:01 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web12.9302.1635325680083622377
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 02:07:59 -0700
+ Wed, 27 Oct 2021 02:08:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qzXeguQj;
- spf=pass (domain: gmail.com, ip: 209.85.221.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UKPMwReT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id e4so2871841wrc.7
+Received: by mail-wr1-f49.google.com with SMTP id v17so2850406wrv.9
         for <openembedded-core@lists.openembedded.org>;
  Wed, 27 Oct 2021 02:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8Y8xcfqs7JAi3FPJhewfChTzBxssLeQKIKKxgXQcN0U=;
-        b=qzXeguQjCGTB7aSW12BMFERJqjc/C/elG78sdgtUnOr1lRE1maKfdpOMQqAlMAgmQj
-         4eaV1q+gCuDcGk0Rtnao2e1O+0CGrS9qSiHgsa9jsC2TSPvHHGfkP5XSRhCVKztdKUf2
-         Z8uet0F1etjyMIRUpmBQmqjz2rDFS+PE1sAXFUOAjK5x2AkOKvACBI9RMx7YV7as4IqU
-         dK9ITK+sSCv9OLTpjTi+oHxhLPioVjLrbjBPf2jlNizatHHvRu6oZLbHv5qq3bTzbcUu
-         J5uu5bEe/ihp86xGrHdZw260RBa0NTG/bvexFOTNYvzCMrEjGeMK1Jb1129Gc1dg1ptE
-         bS/g==
+        bh=5KFNxZK//cIw0CmV2yR24BjmB3an6NxXleGQeVXiNaU=;
+        b=UKPMwReT93OwKayqXjn358B1wdkwqJ3P8OFA1E7sN1KR3/pgBC8JUnIF1wEVCAiGKu
+         oGEXWxs4WHodl5OsOSz2kT8nEJBPxikV+3MZWJ4sruQHDNts5H29BGv1u4F4ofyOii6W
+         kf0X621JB+SfDc/y5uH2zwnQ33oBHQ9WWm9+S0/okv6n9zahg+bOWDhnBsuDkWZpOBoM
+         L/uosPi9/9ppR2k9E7BkiEaaOoFI2D+Fa2YN9Zbd1EhKbg6h0CaLuUol1atutpRMmVyX
+         mmQD0Fc6AglhoLTv/qRPaxzx5lBNuvbMVep+V+juVKQroIMd8JuUSWGfFWBpXvOBcL6G
+         U9wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8Y8xcfqs7JAi3FPJhewfChTzBxssLeQKIKKxgXQcN0U=;
-        b=w3Y3ELW4R0w/pQRrZq6tCgbzMQG3kbAsaobeyFqPHiFpgjaFzRl55pQxMDsTnEM4mJ
-         C2Q38sWkosYKEXHMlutVNLAuVXw0BUmwfcMVuoSh/mUshyvVJg2dkHQhKmnIt22PwemE
-         Q3YGuFRWqsPKCpolpB2M5IjLadURf0GYqUAQXwcm8XMi18qBUJVlRyK3sVLcdRKt+Q+M
-         SXrgUIPIumDRKiBiGvELJPOlQnNkmx3O7OIPb5szV/UIzzfMVH4lwmefYyXIDSNzd8YZ
-         uFUGvicGQ9FiNqcIHbirSdXdpkX9+Dr3g5ZYtGKWwR8wUjYoSTYc7o4GY4AqcfFZm9Ey
-         JJXA==
-X-Gm-Message-State: AOAM530ayUxhOcKQlDEcg3FOMJW+e6kdSnMK2/sAP8Ngdyiz9PyQNKa2
-	JVUQCPsGicOg0JQ3GwVlgCc5IatA/d4=
+        bh=5KFNxZK//cIw0CmV2yR24BjmB3an6NxXleGQeVXiNaU=;
+        b=s5ignzuVcWhilAgA4zzGQ9tmlduIAB8ckef0dtpR7dGFN5HwL6iSrEuSz9ePhHVjFX
+         0aAO7dmbFzeiRWHk060rAmTue8ZKqh2u/SGq/UQHxOfYQBi+zGEnUccUeoFWsKgm4kzY
+         5+aBxJiY5Rcd8t8qzfuezs+Yigwh8aIF4WbOuWPPdoIkWVBzdsWnX6oaQtGu9I6SJkjD
+         42lhqoVZxFVOtNJDGBwKfZJlUXIoNN6Yop/Yw3oOM0zj9n7umOwD/oB+sw8I0xGi2+4r
+         F9jSJ28yzV/P/U/+d/aL669sbTlYNqEecV+dDmrteWY6LyzW27IyjS0ETNLCmIFRC4Ay
+         Tx2w==
+X-Gm-Message-State: AOAM532vmrtOGklkceUyF5591xz4Eag6r7r1Km6UxuoObAQf77So65GE
+	DC1b3dlRmamHn60lf9T2M1zFBD7/YeA=
 X-Google-Smtp-Source: 
- ABdhPJwN/99IduWOYwB1xdvwVhqPC9esQSu8Jg6wDKHAIpx+vsypFpXrt6AqMtgBa+Gg9Ct0Z0Mrkw==
-X-Received: by 2002:a5d:6d81:: with SMTP id l1mr38315450wrs.110.1635325677996;
-        Wed, 27 Oct 2021 02:07:57 -0700 (PDT)
+ ABdhPJwTuGvQjrs4AnlOyZ4Hf9A2veHjWldhYSV1vIqFwD8gSfuADnsP21HqCR/yL8Spy6AWTSFnUw==
+X-Received: by 2002:a5d:6da5:: with SMTP id u5mr38036827wrs.436.1635325678702;
+        Wed, 27 Oct 2021 02:07:58 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.57
+        by smtp.gmail.com with ESMTPSA id 3sm2962790wms.5.2021.10.27.02.07.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 02:07:57 -0700 (PDT)
+        Wed, 27 Oct 2021 02:07:58 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 29/30] gstreamer1.0-python: do not supply unknown g-i options
-Date: Wed, 27 Oct 2021 11:07:35 +0200
-Message-Id: <20211027090736.2546759-29-alex@linutronix.de>
+Subject: [PATCH 30/30] webkitgtk: drop unnecessary SSE disabling patch
+Date: Wed, 27 Oct 2021 11:07:36 +0200
+Message-Id: <20211027090736.2546759-30-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211027090736.2546759-1-alex@linutronix.de>
 References: <20211027090736.2546759-1-alex@linutronix.de>
@@ -64,39 +64,61 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:08:00 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 09:08:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157505
-
-meson 0.60 turns unknown options into them hard errors, so instead of relying on g-i class
-(where the options are mandatory) add g-i dependencies explicitly.
+ https://lists.openembedded.org/g/openembedded-core/message/157506
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../gstreamer/gstreamer1.0-python_1.18.5.bb          | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ .../0001-ANGLE-do-not-enable-SSE-on-x86.patch | 26 -------------------
+ meta/recipes-sato/webkit/webkitgtk_2.34.1.bb  |  1 -
+ 2 files changed, 27 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
-index 74dd15b3eb..a32805d129 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
-@@ -21,6 +21,14 @@ EXTRA_OEMESON += "-Dlibpython-dir=${libdir}"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch b/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
+deleted file mode 100644
+index 1c6ba97037..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-ANGLE-do-not-enable-SSE-on-x86.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From c71a4e18afb4869a0fbb0efd59c4860b72f493f7 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Tue, 5 Oct 2021 13:32:28 +0200
+-Subject: [PATCH] ANGLE: do not enable SSE on x86
+-
+-The code does not actually build there.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- Source/ThirdParty/ANGLE/src/common/platform.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Source/ThirdParty/ANGLE/src/common/platform.h b/Source/ThirdParty/ANGLE/src/common/platform.h
+-index 41f3cf4f..cab85a82 100644
+---- a/Source/ThirdParty/ANGLE/src/common/platform.h
+-+++ b/Source/ThirdParty/ANGLE/src/common/platform.h
+-@@ -89,7 +89,7 @@
+- #if defined(_MSC_VER) && !defined(_M_ARM) && !defined(_M_ARM64)
+- #    include <intrin.h>
+- #    define ANGLE_USE_SSE
+--#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
+-+#elif defined(__GNUC__) && (defined(__x86_64__))
+- #    include <x86intrin.h>
+- #    define ANGLE_USE_SSE
+- #endif
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.1.bb
+index dde8963d04..4e2562df14 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.34.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.34.1.bb
+@@ -18,7 +18,6 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://include_xutil.patch \
+            file://reduce-memory-overheads.patch \
+            file://musl-lower-stack-usage.patch \
+-           file://0001-ANGLE-do-not-enable-SSE-on-x86.patch \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            "
  
- # gobject-introspection is mandatory and cannot be configured
- REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
--UNKNOWN_CONFIGURE_WHITELIST:append = " introspection"
- 
--inherit meson pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
-+inherit meson pkgconfig distutils3-base upstream-version-is-even features_check
-+
-+# Generating introspection data depends on a combination of native and target
-+# introspection tools, and qemu to run the target tools.
-+DEPENDS:append:class-target = " gobject-introspection gobject-introspection-native qemu-native prelink-native"
-+
-+# Even though introspection is disabled on -native, gobject-introspection package is still
-+# needed for m4 macros.
-+DEPENDS:append:class-native = " gobject-introspection-native"
-+DEPENDS:append:class-nativesdk = " gobject-introspection-native"
 -- 
 2.20.1
 
