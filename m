@@ -1,179 +1,189 @@
-Return-Path: <martyn.welch@collabora.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B9DC433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 16:58:23 +0000 (UTC)
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by mx.groups.io with SMTP id smtpd.web08.25.1635353900922055569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A1BC433F5
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 18:00:45 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web12.673.1635357644254440333
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 09:58:21 -0700
+ Wed, 27 Oct 2021 11:00:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: collabora.com, ip: 46.235.227.227, mailfrom: martyn.welch@collabora.com)
-Received: from [IPv6:2a00:23c6:c31a:b300:7353:f37b:e749:b5d9] (unknown
- [IPv6:2a00:23c6:c31a:b300:7353:f37b:e749:b5d9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: martyn)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 15B571F4474B;
-	Wed, 27 Oct 2021 17:58:19 +0100 (BST)
-Message-ID: <750238e7cd9b0804df692109ddc5c03d21abc271.camel@collabora.com>
-Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
- IMAGE_QA_PROHIBIT_PATHS variable
-From: Martyn Welch <martyn.welch@collabora.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Konrad Weihmann
- <kweihmann@outlook.com>, OE-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Oct 2021 17:58:16 +0100
-In-Reply-To: <74fe18d0a46440768666c0aacb7f0479@axis.com>
-References: <e133da623f5a357c570efc036daa84098dbc691c.camel@collabora.com>
-	 <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
-	 <AM9PR09MB46428E00E810D2C55427FBA7A8849@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <c8a699291831478184b420e37a2b10ee@axis.com>
-	 <83e703f86472f188406fa1f6004aca66ffb0ff0a.camel@collabora.com>
-	 <74fe18d0a46440768666c0aacb7f0479@axis.com>
-Organization: Collabora Ltd.
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HwjlQck6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id
+ z81-20020a1c7e54000000b0032cc97975e4so3012603wmc.4
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Oct 2021 11:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ZlzFxMid6FoD12VlC6WU/47Z0Epe8ULaapOhcGf04PQ=;
+        b=HwjlQck6qQHlRg5Ag46z28PLT+T4HqRG9IlwmkswTnbbRPcZrM50MRNSmKjniFzRh+
+         rdGt68CvOUD0CMfrLKyaecZ28duBLOZciG25ido9RD81lGPHLtI6Sc7Ua0Uwh5CWOdQy
+         9rN2XRkK5spGHoh6QprV0U78ezQ/LMlizJJGI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ZlzFxMid6FoD12VlC6WU/47Z0Epe8ULaapOhcGf04PQ=;
+        b=dtLbLu0Oy4cVVWUCEX7V1dE9o0HB4UNJ6YMoA45pyagRGWGtX8Ray+OJkKr6pp/ZTw
+         Y4d3E28+LrRqCybFKXkN3WF98LwJ59pYzESUp1lecn9km6Bx18OHg4Yv4LI3z21ejL0K
+         QcJ34hus6Fh5+pPg5Jyd9woQoEXPFxDkU78Xu+5bwwEm3IVxnUShJ1fdv2tjdlCiDNPA
+         UDtG2Q/hvJ76ZWFiLri2ZvX7osg0FcdCh9E6ovUJRwt229o74nX8eO7bL/Xw1w5OmrTh
+         pFKABdc1ruEeVONiNz6BjZLPUmkt4HC1emt0LjgrmnPCP0Ir4GGWdJI1KpMRL8bhREtK
+         piDQ==
+X-Gm-Message-State: AOAM532XqK4uN0DdbCV08kLhZbxdnkYiW2eLAGNgCSxvmtCUNBH/4lXX
+	mGW0iNm9mZkyb6nUn4mlwjgHuw==
+X-Google-Smtp-Source: 
+ ABdhPJxxizpOSeZ7ea7Scv247/sQe5vCNfm9ui19oojrbq6Gvs0biH7Yx58U2g8EuM7clM+G5tV9wQ==
+X-Received: by 2002:a1c:4b05:: with SMTP id y5mr7164725wma.106.1635357642638;
+        Wed, 27 Oct 2021 11:00:42 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a2a1:45e8:949d:3f5c?
+ ([2001:8b0:aba:5f3c:a2a1:45e8:949d:3f5c])
+        by smtp.gmail.com with ESMTPSA id o1sm508932wrp.95.2021.10.27.11.00.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Oct 2021 11:00:42 -0700 (PDT)
+Message-ID: 
+ <c44874c177d7aa9041d1ce266bdbfdbec9dc305d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc: Improve reproducibility
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: oobitots@cisco.com, openembedded-core@lists.openembedded.org
+Date: Wed, 27 Oct 2021 19:00:38 +0100
+In-Reply-To: <20211027140954.76185-1-oobitots@cisco.com>
+References: <20211027140954.76185-1-oobitots@cisco.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.0-2 
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 16:58:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 18:00:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157560
+ https://lists.openembedded.org/g/openembedded-core/message/157561
 
-On Wed, 2021-10-27 at 16:43 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: Martyn Welch <martyn.welch@collabora.com>
-> > Sent: den 26 oktober 2021 17:32
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Konrad
-> > Weihmann
-> > <kweihmann@outlook.com>; OE-core <openembedded-
-> > core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add
-> > default
-> > IMAGE_QA_PROHIBIT_PATHS variable
-> >=20
-> > On Tue, 2021-10-26 at 14:59 +0000, Peter Kjellerstedt wrote:
-> > > > -----Original Message-----
-> > > > From: openembedded-core@lists.openembedded.org=C2=A0<openembedded=
--
-> > > > core@lists.openembedded.org> On Behalf Of Konrad Weihmann
-> > > > Sent: den 26 oktober 2021 13:24
-> > > > To: Martyn Welch <martyn.welch@collabora.com>; OE-core
-> > > > <openembedded-
-> > > > core@lists.openembedded.org>
-> > > > Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add
-> > > > default
-> > > > IMAGE_QA_PROHIBIT_PATHS variable
-> > > >=20
-> > > >=20
-> > > >=20
-> > > > On 26.10.21 13:21, Martyn Welch wrote:
-> > > > > Note to self - remember to reply to list...
-> > > > >=20
-> > > > > -------- Forwarded Message --------
-> > > > > From: Martyn Welch <martyn.welch@collabora.com>
-> > > > > To: Konrad Weihmann <kweihmann@outlook.com>
-> > > > > Subject: Re: [OE-core] [PATCH v6 2/2] core-image.bbclass: add
-> > > > > default
-> > > > > IMAGE_QA_PROHIBIT_PATHS variable
-> > > > > Date: Tue, 26 Oct 2021 12:12:11 +0100
-> > > > >=20
-> > > > > On Tue, 2021-10-26 at 12:56 +0200, Konrad Weihmann wrote:
-> > > > > >=20
-> > > > > >=20
-> > > > > > On 26.10.21 12:50, Martyn Welch wrote:
-> >=20
-> > <snip>
-> >=20
-> > > > > > > +# IMAGE_QA_PROHIBITED_PATHS
-> > > > > > > +# Ensure images aren't including files in places that
-> > > > > > > will
-> > > > > > > be used as mount points or that are
-> > > > > > > +# reserved for runtime data.
-> > > > > > > +IMAGE_QA_PROHIBITED_PATHS ?=3D
-> > > > > > > "/dev/pts/*:/media/*:/mnt/*:/proc/*:/run/*:/tmp/*:/var/ru
-> > > > > > > n/*:
-> > > > > > > /var/tmp/*:/var/volatile/*"
-> > > > > >=20
-> > > > > > I like the idea, but wouldn't make more sense to do that on
-> > > > > > a
-> > > > > > package
-> > > > > > level, as here the user is more or less left alone in
-> > > > > > guessing
-> > > > > > where
-> > > > > > the file actually does come from
-> > > > >=20
-> > > > > I like that idea, however it would make to assumption that
-> > > > > there
-> > > > > wasn't
-> > > > > any tweaks being made as part of image generation that would
-> > > > > end
-> > > > > up
-> > > > > violating this. A quick check suggests the "build-appliance-
-> > > > > image_15.0.0.bb" image does this kind of thing in the core
-> > > > > image
-> > > > > types.
-> > > >=20
-> > > > As Alex just wrote, I might be beneficial to do both
-> > > >=20
-> > > > > Martyn
-> > >=20
-> > > We have an alternative solution that hooks into the package QA.
-> > > It
-> > > focuses on directories that are supposed to be empty. In addition
-> > > to
-> > > failing the build if there are files in such a directory, it also
-> > > allows to specify for each directory why it should be empty. We
-> > > have
-> > > used this, e.g., to mark common directories that have been
-> > > renamed
-> > > to give an indication of where the files were supposed to have
-> > > been
-> > > installed.
-> > >=20
-> > > Do you want me to generalize this and send a patch for it?
-> >=20
-> > Hi Peter,
-> >=20
-> > It would be great if we could merge these approaches, i.e. have one
-> > way
-> > to specify directories that need to be empty and test both as part
-> > of
-> > package QA and also image QA.
-> >=20
-> > I was just working on adding some package QA support to what I've
-> > had,
-> > but can pause that.
-> >=20
-> > Would you be able to provide show how you'd propose managing the
-> > prohibited directories? I'll try and tweak the image QA stuff
-> > already
-> > posted to fit that.
-> >=20
-> > Martyn
-> >=20
-> > > //Peter
->=20
-> I have sent two patches now. The first makes systemd not install=20
-> anything in /var/log, as it otherwise conflicts with the suggested=20
-> defaults. And then one patch that adds the package QA check for=20
-> empty directories. I used the same defaults as suggested in your=20
-> patch, except I removed /mnt since it is not obvious it should be=20
-> empty. At least we use subdirectories in /mnt for our mountpoints.
->=20
+On Wed, 2021-10-27 at 07:09 -0700, Oleksiy Obitotskyy via lists.openembedded.org
+wrote:
+> Checksum depends on options that could be
+> different from build to build, e.g. absolute patch.
+> Remove checksum-options from
+> executable checksum calculation.
+> 
+> Change-Id: Ifa184febecd2d517826beee784ca5ac7a1fb17fe
+> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 +
+>  ...emove-checksum-options-from-checksum.patch | 77 +++++++++++++++++++
+>  2 files changed, 78 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0050-gcc-Remove-checksum-options-from-checksum.patch
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
+> index 23dfea2319..ecac893980 100644
+> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
+> @@ -64,6 +64,7 @@ SRC_URI = "\
+>             file://0036-mingw32-Enable-operation_not_supported.patch \
+>             file://0037-libatomic-Do-not-enforce-march-on-aarch64.patch \
+>             file://0041-apply-debug-prefix-maps-before-checksumming-DIEs.patch \
+> +           file://0050-gcc-Remove-checksum-options-from-checksum.patch \
+>  "
+>  SRC_URI[sha256sum] = "d08edc536b54c372a1010ff6619dd274c0f1603aa49212ba20f7aa2cda36fa8b"
+>  
+> diff --git a/meta/recipes-devtools/gcc/gcc/0050-gcc-Remove-checksum-options-from-checksum.patch b/meta/recipes-devtools/gcc/gcc/0050-gcc-Remove-checksum-options-from-checksum.patch
+> new file mode 100644
+> index 0000000000..50cff38c68
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0050-gcc-Remove-checksum-options-from-checksum.patch
+> @@ -0,0 +1,77 @@
+> +From 67402bb4013ea886b68a9f4ee1c2cb1472652dbf Mon Sep 17 00:00:00 2001
+> +From: Oleksiy Obitotskyy <oobitots@cisco.com>
+> +Date: Tue, 26 Jan 2021 04:32:27 -0800
+> +Subject: [PATCH] gcc: Remove checksum-options from checksum
+> +
+> +Executable checksum calculated from object
+> +files and options. Options could contain
+> +absolute path and affect reproducibility.
+> +To improve reproducibility remove
+> +checksum-options conditionally from
+> +executable checksum generation.
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+> +---
+> + gcc/c/Make-lang.in     | 2 +-
+> + gcc/cp/Make-lang.in    | 2 +-
+> + gcc/objc/Make-lang.in  | 3 ++-
+> + gcc/objcp/Make-lang.in | 2 +-
+> + 4 files changed, 5 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/gcc/c/Make-lang.in b/gcc/c/Make-lang.in
+> +index a1cdee872..6ee5c103b 100644
+> +--- a/gcc/c/Make-lang.in
+> ++++ b/gcc/c/Make-lang.in
+> +@@ -78,7 +78,7 @@ cc1-checksum.c : build/genchecksum$(build_exeext) checksum-options \
+> + 	  cp ../prev-gcc/cc1-checksum.c cc1-checksum.c; \
+> + 	else \
+> + 	  build/genchecksum$(build_exeext) $(C_OBJS) $(BACKEND) $(LIBDEPS) \
+> +-                     checksum-options > cc1-checksum.c.tmp && 		 \
+> ++                     $(if $(SOURCE_DATE_EPOCH),,checksum-options) > cc1-checksum.c.tmp && 		 \
+> + 	  $(srcdir)/../move-if-change cc1-checksum.c.tmp cc1-checksum.c; \
+> + 	fi
+> + 
+> +diff --git a/gcc/cp/Make-lang.in b/gcc/cp/Make-lang.in
+> +index 155be74ef..0ac6daa53 100644
+> +--- a/gcc/cp/Make-lang.in
+> ++++ b/gcc/cp/Make-lang.in
+> +@@ -127,7 +127,7 @@ cc1plus-checksum.c : build/genchecksum$(build_exeext) checksum-options \
+> + 	   cp ../prev-gcc/cc1plus-checksum.c cc1plus-checksum.c; \
+> + 	else \
+> + 	  build/genchecksum$(build_exeext) $(CXX_OBJS) $(BACKEND) $(CODYLIB) $(LIBDEPS) \
+> +-                     checksum-options > cc1plus-checksum.c.tmp &&	   \
+> ++                     $(if $(SOURCE_DATE_EPOCH),,checksum-options) > cc1plus-checksum.c.tmp &&	   \
+> + 	  $(srcdir)/../move-if-change cc1plus-checksum.c.tmp cc1plus-checksum.c; \
+> + 	fi
+> + 
+> +diff --git a/gcc/objc/Make-lang.in b/gcc/objc/Make-lang.in
+> +index c91148a57..a83938ee7 100644
+> +--- a/gcc/objc/Make-lang.in
+> ++++ b/gcc/objc/Make-lang.in
+> +@@ -60,7 +60,8 @@ objc_OBJS = $(OBJC_OBJS) cc1obj-checksum.o
+> + cc1obj-checksum.c : build/genchecksum$(build_exeext) checksum-options \
+> +         $(OBJC_OBJS) $(C_AND_OBJC_OBJS) $(BACKEND) $(LIBDEPS)
+> + 	build/genchecksum$(build_exeext) $(OBJC_OBJS) $(C_AND_OBJC_OBJS) \
+> +-        $(BACKEND) $(LIBDEPS) checksum-options > cc1obj-checksum.c.tmp && \
+> ++        $(BACKEND) $(LIBDEPS) \
+> ++		$(if $(SOURCE_DATE_EPOCH),,checksum-options) > cc1obj-checksum.c.tmp && \
+> + 	$(srcdir)/../move-if-change cc1obj-checksum.c.tmp cc1obj-checksum.c
+> + 
+> + cc1obj$(exeext): $(OBJC_OBJS) $(C_AND_OBJC_OBJS) cc1obj-checksum.o $(BACKEND) \
+> +diff --git a/gcc/objcp/Make-lang.in b/gcc/objcp/Make-lang.in
+> +index dfa4d230e..ef16001c2 100644
+> +--- a/gcc/objcp/Make-lang.in
+> ++++ b/gcc/objcp/Make-lang.in
+> +@@ -63,7 +63,7 @@ obj-c++_OBJS = $(OBJCXX_OBJS) cc1objplus-checksum.o
+> + cc1objplus-checksum.c : build/genchecksum$(build_exeext) checksum-options \
+> + 	$(OBJCXX_OBJS) $(BACKEND) $(CODYLIB) $(LIBDEPS)
+> + 	build/genchecksum$(build_exeext) $(OBJCXX_OBJS) $(BACKEND) $(CODYLIB) \
+> +-		$(LIBDEPS) checksum-options > cc1objplus-checksum.c.tmp && \
+> ++		$(LIBDEPS) $(if $(SOURCE_DATE_EPOCH),,checksum-options) > cc1objplus-checksum.c.tmp && \
+> + 	$(srcdir)/../move-if-change cc1objplus-checksum.c.tmp \
+> + 	cc1objplus-checksum.c
+> + 
 
-Thanks Peter,
 
-Looks good to me. I'll adapt the mine to be an image QA test that
-complements this.
+Do you know why we wouldn't see this issue on the autobuilder tests?
 
-Martyn
+Also, do you plan to submit something upstream? Has this been discussed with
+them? I'm starting to become reluctant to taking patches marked as "Pending"
+which just sit in our tree forever...
 
-> //Peter
->=20
+Cheers,
+
+Richard
+
 
 
