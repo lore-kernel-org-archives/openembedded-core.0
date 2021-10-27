@@ -1,107 +1,117 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC94C433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 15:18:33 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web11.13210.1635347912852474029
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F2CCC433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 15:38:29 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.13527.1635349107603447655
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 08:18:32 -0700
+ Wed, 27 Oct 2021 08:38:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230456843"
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800";
-   d="scan'208";a="230456843"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 08:17:30 -0700
-X-IronPort-AV: E=Sophos;i="5.87,187,1631602800";
-   d="scan'208";a="537617226"
-Received: from hchai4-mobl2.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.215.231.47])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 08:17:29 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 24/36] gpgme: Use glibc provided closefrom API when
- available
-Date: Wed, 27 Oct 2021 23:16:32 +0800
-Message-Id: 
- <f03762543ad8f05c2b5aea2c33f86d5eeef2e8bc.1635347406.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1635347406.git.anuj.mittal@intel.com>
-References: <cover.1635347406.git.anuj.mittal@intel.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=Hm2WSwiY;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1635349107;
+  x=1666885107;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=SKuQiuTr/5tSpwJt5Q6hdvIijokRKYpKmLt1gmfpY30=;
+  b=Hm2WSwiYB/LvPTvXThn4IJPPqh7fBmQLoCowiLH0B2avhi3BQQpDgkGG
+   qh4LC3YbxdXsWuLgpC5vLrPU3gcnA709fG7NCnL52AeQzvrhofIlJ2q3r
+   aICpgKtRhz+pbTTQ2g+UrtHLqphCAhA+m75i7xhl6NgGRQ9gg/P3IRo21
+   RL/5XrhO2DdAMltI7eQr1fnokAY6HRbsFGsfMT0G/8fjVur893lJ30+BY
+   zQwSzFc/JQ9Xv5Klo1k7MA7L0AxPPQrh4afPj9FpfhaCWyN+4up0NgBbq
+   Jes2zgdRRBYZRWr6s/RzmI+/DEPfx//gweZ4uEjlgIXvs6dyetHnvKe29
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCHv2 1/2] meson.bblcass: Remove empty egg-info
+ directories before running meson
+Thread-Topic: [OE-core] [PATCHv2 1/2] meson.bblcass: Remove empty egg-info
+ directories before running meson
+Thread-Index: AQHXyamkqRYL0z2Cd0mBadvBys59Lavm/UEg
+Date: Wed, 27 Oct 2021 15:38:24 +0000
+Message-ID: <47dc344778544b8e87c5afa446f6591f@axis.com>
+References: <16B14B36E28CA53E.25242@lists.openembedded.org>
+In-Reply-To: <16B14B36E28CA53E.25242@lists.openembedded.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 15:18:33 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 15:38:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157552
+ https://lists.openembedded.org/g/openembedded-core/message/157553
 
-From: Khem Raj <raj.khem@gmail.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 25 oktober 2021 16:07
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCHv2 1/2] meson.bblcass: Remove empty egg-info dir=
+ectories before running meson
+>=20
+> sstate.bbclass no longer removes empty directories to avoid a race (see
+> commit 4f94d929 "sstate/staging: Handle directory creation race issue").
+> Unfortunately Python apparently treats an empty egg-info directory as if
+> the version it previously contained still exists and fails if a newer
+> version is required, which Meson does. To avoid this, make sure there
+> are no empty egg-info directories from previous versions left behind.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>=20
+> PATCHv2: Ignore all errors from rmdir since apparently egg-info may be
+>          files rather than directories.
+>=20
+>  meta/classes/meson.bbclass | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index e124d18144..da58cb4bec 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -103,6 +103,16 @@ meson_do_configure() {
+>      # https://github.com/mesonbuild/meson/commit/ef9aeb188ea2bc7353e5991=
+6c18901cde90fa2b3
+>      unset LD
+>=20
+> +    # sstate.bbclass no longer removes empty directories to avoid a race=
+ (see
+> +    # commit 4f94d929 "sstate/staging: Handle directory creation race is=
+sue").
+> +    # Unfortunately Python apparently treats an empty egg-info directory=
+ as if
+> +    # the version it previously contained still exists and fails if a ne=
+wer
+> +    # version is required, which Meson does. To avoid this, make sure th=
+ere are
+> +    # no empty egg-info directories from previous versions left behind. =
+Ignore
+> +    # all errors from rmdir since the egg-info may be a file rather than=
+ a
+> +    # directory.
+> +    rmdir ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages/*.egg-inf=
+o 2>/dev/null || :
+> +
+>      # Work around "Meson fails if /tmp is mounted with noexec #2972"
+>      mkdir -p "${B}/meson-private/tmp"
+>      export TMPDIR=3D"${B}/meson-private/tmp"
 
-glibc 2.34+ has added this API new
+Can this patch and the corresponding qemu.inc patch please be backported=20
+to Honister now that they have been accepted for master?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a2b2479d20d029f5a11dba8cf7f7ca3e4a5bbbe2)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- ...se-closefrom-on-linux-and-glibc-2.34.patch | 24 +++++++++++++++++++
- meta/recipes-support/gpgme/gpgme_1.15.1.bb    |  3 ++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-new file mode 100644
-index 0000000000..1c46684c6d
---- /dev/null
-+++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-@@ -0,0 +1,24 @@
-+From adb1d4e5498a19e9d591ac8f42f9ddfdb23a1354 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 15 Jul 2021 12:33:13 -0700
-+Subject: [PATCH] use closefrom() on linux and glibc 2.34+
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/posix-io.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/posix-io.c b/src/posix-io.c
-+index e712ef2..ab8ded9 100644
-+--- a/src/posix-io.c
-++++ b/src/posix-io.c
-+@@ -570,7 +570,7 @@ _gpgme_io_spawn (const char *path, char *const argv[], unsigned int flags,
-+               if (fd_list[i].fd > fd)
-+                 fd = fd_list[i].fd;
-+             fd++;
-+-#if defined(__sun) || defined(__FreeBSD__)
-++#if defined(__sun) || defined(__FreeBSD__) || (defined(__GLIBC__) && __GNUC_PREREQ(2, 34))
-+             closefrom (fd);
-+             max_fds = fd;
-+ #else /*!__sun */
-diff --git a/meta/recipes-support/gpgme/gpgme_1.15.1.bb b/meta/recipes-support/gpgme/gpgme_1.15.1.bb
-index dc38aa8e3c..f207e81687 100644
---- a/meta/recipes-support/gpgme/gpgme_1.15.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.15.1.bb
-@@ -20,7 +20,8 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0006-fix-build-path-issue.patch \
-            file://0007-python-Add-variables-to-tests.patch \
-            file://0008-do-not-auto-check-var-PYTHON.patch \
--          "
-+           file://0001-use-closefrom-on-linux-and-glibc-2.34.patch \
-+           "
- 
- SRC_URI[sha256sum] = "eebc3c1b27f1c8979896ff361ba9bb4778b508b2496c2fc10e3775a40b1de1ad"
- 
--- 
-2.31.1
+//Peter
 
 
