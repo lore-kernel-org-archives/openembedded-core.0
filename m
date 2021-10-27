@@ -2,130 +2,130 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 393EEC433FE
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 16:37:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DD3C433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 16:43:53 +0000 (UTC)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.14447.1635352643742823335
+ by mx.groups.io with SMTP id smtpd.web11.14568.1635353032096698461
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 09:37:25 -0700
+ Wed, 27 Oct 2021 09:43:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=gB7Fy38U;
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=HZyFmGGn;
  spf=pass (domain: axis.com, ip: 195.60.68.18,
  mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1635352645;
-  x=1666888645;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=GAgPmB2x4lIDbe0SNQmJVz6OmNSXVzyZNDVCU7U2kh8=;
-  b=gB7Fy38U32FISg9VRatQxCvv+asyBDp+azjh9mWRF049PF98KSpj2xhm
-   V63NEIBP4SJHArVqgBUyKmLJj1e4gbcIj05DYURn8bGCj226CZXu96Uss
-   7HpAUgD3rxquN7qIHSPnNyRFpeln/w/gCSsdPbhzNqSBS2Sxxti0gLo1u
-   uurrmVXrLJ7CvSh0Ajiibriwn+//n11XsfJfD2S5QVnhJnWYVEqGrioTT
-   3bwtLul53Ngrf4JmBT7JRFLJ4LosL0zCWMpDEw5/9lqOs6lTdkYyfNnML
-   KeHoT5/oXUwJxemFj+GSfEqXGEuF5Oy32IjbNz7afYRL1sfD/eeNwsxmy
+  d=axis.com; q=dns/txt; s=axis-central1; t=1635353032;
+  x=1666889032;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=xEh2Hnus+VNmacmIb7/jBtN5JFxjRI4fotmYdgr4COw=;
+  b=HZyFmGGnxsDiItiEReFWOdtAR9FEEXrRDecbNMC/6bwZTD24ZXvLLam5
+   jG/6/SIbFxsCFjAH1nljL5lUO5i+VRzFNLQWGhRSi2EKa8/EvZlzl28P6
+   F6b5/bhuMFsp/CH56qj62LtRaji8rft6oP9AE2s9g/BKvFOE8d+2EE0Mt
+   VIgcZnhIhvksFzB6dmU/hGD58YQrnhRTdQ1hmiq8z9sTHs1LalHVsqQPi
+   X+55Q/RffL9gEGclTJZKrE++nARjy9wnA0qEU6QM6Toc77c8sLpKL0PwT
+   Qhi7WMHJ4RMKV1GQaPD0Dy3x6Ttubb84+xGfMsOmMNjIyX0hDpzmgDd8/
    g==;
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] insane.bbclass: Add a check for directories that are
- expected to be empty
-Date: Wed, 27 Oct 2021 18:37:13 +0200
-Message-ID: <20211027163713.17300-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20211027163713.17300-1-pkj@axis.com>
-References: <20211027163713.17300-1-pkj@axis.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Martyn Welch <martyn.welch@collabora.com>, Konrad Weihmann
+	<kweihmann@outlook.com>, OE-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
+ IMAGE_QA_PROHIBIT_PATHS variable
+Thread-Topic: [OE-core] [PATCH v6 2/2] core-image.bbclass: add default
+ IMAGE_QA_PROHIBIT_PATHS variable
+Thread-Index: AQHXyluTp75eAILDD0KnORei7CBV5KvlAcqAgABbkFD//+nGgIABxg3Q
+Date: Wed, 27 Oct 2021 16:43:50 +0000
+Message-ID: <74fe18d0a46440768666c0aacb7f0479@axis.com>
+References: <e133da623f5a357c570efc036daa84098dbc691c.camel@collabora.com>
+	 <63d5cd9f7264871df79099b1831d5a8a85ca34b1.camel@collabora.com>
+	 <AM9PR09MB46428E00E810D2C55427FBA7A8849@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <c8a699291831478184b420e37a2b10ee@axis.com>
+ <83e703f86472f188406fa1f6004aca66ffb0ff0a.camel@collabora.com>
+In-Reply-To: <83e703f86472f188406fa1f6004aca66ffb0ff0a.camel@collabora.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 16:37:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 16:43:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157556
+ https://lists.openembedded.org/g/openembedded-core/message/157557
 
-The empty-dirs QA check verifies that all directories specified in
-QA_EMPTY_DIRS are empty. It is possible to specify why a directory is
-expected to be empty by defining QA_EMPTY_DIRS_RECOMMENDATION:<path>,
-which will then be included in the error message if the directory is
-not empty. If it is not specified for a directory, then "but it is
-expected to be empty" will be used.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/insane.bbclass  | 33 ++++++++++++++++++++++++++++++++-
- meta/conf/documentation.conf |  2 ++
- 2 files changed, 34 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 1e2f1b768a..1675adf6ac 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -37,7 +37,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             configure-gettext perllocalpod shebang-size \
-             already-stripped installed-vs-shipped ldflags compile-host-path \
-             install-host-path pn-overrides unknown-configure-option \
--            useless-rpaths rpaths staticdev \
-+            useless-rpaths rpaths staticdev empty-dirs \
-             "
- # Add usrmerge QA check based on distro feature
- ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
-@@ -50,6 +50,21 @@ ALL_QA = "${WARN_QA} ${ERROR_QA}"
- 
- UNKNOWN_CONFIGURE_WHITELIST ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --with-libtool-sysroot --disable-static"
- 
-+# This is a list of directories that are expected to be empty.
-+QA_EMPTY_DIRS ?= " \
-+    /dev/pts \
-+    /media \
-+    /proc \
-+    /run \
-+    /tmp \
-+    ${localstatedir}/run \
-+    ${localstatedir}/volatile \
-+"
-+# It is possible to specify why a directory is expected to be empty by defining
-+# QA_EMPTY_DIRS_RECOMMENDATION:<path>, which will then be included in the error
-+# message if the directory is not empty. If it is not specified for a directory,
-+# then "but it is expected to be empty" will be used.
-+
- def package_qa_clean_path(path, d, pkg=None):
-     """
-     Remove redundant paths from the path for display.  If pkg isn't set then
-@@ -885,6 +900,22 @@ def package_qa_check_unlisted_pkg_lics(package, d, messages):
-                            "listed in LICENSE" % (package, ' '.join(unlisted)))
-     return False
- 
-+QAPKGTEST[empty-dirs] = "package_qa_check_empty_dirs"
-+def package_qa_check_empty_dirs(pkg, d, messages):
-+    """
-+    Check for the existence of files in directories that are expected to be
-+    empty.
-+    """
-+
-+    pkgd = oe.path.join(d.getVar('PKGDEST'), pkg)
-+    for dir in (d.getVar('QA_EMPTY_DIRS') or "").split():
-+        empty_dir = oe.path.join(pkgd, dir)
-+        if os.path.exists(empty_dir) and os.listdir(empty_dir):
-+            recommendation = (d.getVar('QA_EMPTY_DIRS_RECOMMENDATION:' + dir) or
-+                              "but it is expected to be empty")
-+            msg = "%s installs files in %s, %s" % (pkg, dir, recommendation)
-+            oe.qa.add_message(messages, "empty-dirs", msg)
-+
- def package_qa_check_encoding(keys, encode, d):
-     def check_encoding(key, enc):
-         sane = True
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 80ad8e10d5..45cd01374a 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -345,6 +345,8 @@ PYPI_SRC_URI[doc] = "The URI to use to fetch from pypi, default uses pythonhoste
- 
- #Q
- 
-+QA_EMPTY_DIRS[doc] = "A list of directories that are expected to be empty."
-+QA_EMPTY_DIRS_RECOMMENDATION[doc] = "This specifies a recommendation for a directory why it must be empty, which will be included in the error message if the directory is not empty."
- QMAKE_PROFILES[doc] = "Specifies your own subset of .pro files to be built for use with qmake."
- 
- #R
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXJ0eW4gV2VsY2ggPG1hcnR5
+bi53ZWxjaEBjb2xsYWJvcmEuY29tPg0KPiBTZW50OiBkZW4gMjYgb2t0b2JlciAyMDIxIDE3OjMy
+DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47
+IEtvbnJhZCBXZWlobWFubg0KPiA8a3dlaWhtYW5uQG91dGxvb2suY29tPjsgT0UtY29yZSA8b3Bl
+bmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJl
+OiBbT0UtY29yZV0gW1BBVENIIHY2IDIvMl0gY29yZS1pbWFnZS5iYmNsYXNzOiBhZGQgZGVmYXVs
+dA0KPiBJTUFHRV9RQV9QUk9ISUJJVF9QQVRIUyB2YXJpYWJsZQ0KPiANCj4gT24gVHVlLCAyMDIx
+LTEwLTI2IGF0IDE0OjU5ICswMDAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4gPiAt
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZ8KgPG9wZW5lbWJlZGRlZC0NCj4gPiA+IGNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEtvbnJhZCBXZWlobWFubg0KPiA+ID4gU2Vu
+dDogZGVuIDI2IG9rdG9iZXIgMjAyMSAxMzoyNA0KPiA+ID4gVG86IE1hcnR5biBXZWxjaCA8bWFy
+dHluLndlbGNoQGNvbGxhYm9yYS5jb20+OyBPRS1jb3JlDQo+ID4gPiA8b3BlbmVtYmVkZGVkLQ0K
+PiA+ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiA+ID4gU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0ggdjYgMi8yXSBjb3JlLWltYWdlLmJiY2xhc3M6IGFkZA0KPiA+ID4gZGVm
+YXVsdA0KPiA+ID4gSU1BR0VfUUFfUFJPSElCSVRfUEFUSFMgdmFyaWFibGUNCj4gPiA+DQo+ID4g
+Pg0KPiA+ID4NCj4gPiA+IE9uIDI2LjEwLjIxIDEzOjIxLCBNYXJ0eW4gV2VsY2ggd3JvdGU6DQo+
+ID4gPiA+IE5vdGUgdG8gc2VsZiAtIHJlbWVtYmVyIHRvIHJlcGx5IHRvIGxpc3QuLi4NCj4gPiA+
+ID4NCj4gPiA+ID4gLS0tLS0tLS0gRm9yd2FyZGVkIE1lc3NhZ2UgLS0tLS0tLS0NCj4gPiA+ID4g
+RnJvbTogTWFydHluIFdlbGNoIDxtYXJ0eW4ud2VsY2hAY29sbGFib3JhLmNvbT4NCj4gPiA+ID4g
+VG86IEtvbnJhZCBXZWlobWFubiA8a3dlaWhtYW5uQG91dGxvb2suY29tPg0KPiA+ID4gPiBTdWJq
+ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NiAyLzJdIGNvcmUtaW1hZ2UuYmJjbGFzczogYWRk
+DQo+ID4gPiA+IGRlZmF1bHQNCj4gPiA+ID4gSU1BR0VfUUFfUFJPSElCSVRfUEFUSFMgdmFyaWFi
+bGUNCj4gPiA+ID4gRGF0ZTogVHVlLCAyNiBPY3QgMjAyMSAxMjoxMjoxMSArMDEwMA0KPiA+ID4g
+Pg0KPiA+ID4gPiBPbiBUdWUsIDIwMjEtMTAtMjYgYXQgMTI6NTYgKzAyMDAsIEtvbnJhZCBXZWlo
+bWFubiB3cm90ZToNCj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gT24gMjYuMTAuMjEg
+MTI6NTAsIE1hcnR5biBXZWxjaCB3cm90ZToNCj4gDQo+IDxzbmlwPg0KPiANCj4gPiA+ID4gPiA+
+ICsjIElNQUdFX1FBX1BST0hJQklURURfUEFUSFMNCj4gPiA+ID4gPiA+ICsjIEVuc3VyZSBpbWFn
+ZXMgYXJlbid0IGluY2x1ZGluZyBmaWxlcyBpbiBwbGFjZXMgdGhhdCB3aWxsDQo+ID4gPiA+ID4g
+PiBiZSB1c2VkIGFzIG1vdW50IHBvaW50cyBvciB0aGF0IGFyZQ0KPiA+ID4gPiA+ID4gKyMgcmVz
+ZXJ2ZWQgZm9yIHJ1bnRpbWUgZGF0YS4NCj4gPiA+ID4gPiA+ICtJTUFHRV9RQV9QUk9ISUJJVEVE
+X1BBVEhTID89DQo+ID4gPiA+ID4gPiAiL2Rldi9wdHMvKjovbWVkaWEvKjovbW50Lyo6L3Byb2Mv
+KjovcnVuLyo6L3RtcC8qOi92YXIvcnVuLyo6DQo+ID4gPiA+ID4gPiAvdmFyL3RtcC8qOi92YXIv
+dm9sYXRpbGUvKiINCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEkgbGlrZSB0aGUgaWRlYSwgYnV0IHdv
+dWxkbid0IG1ha2UgbW9yZSBzZW5zZSB0byBkbyB0aGF0IG9uIGENCj4gPiA+ID4gPiBwYWNrYWdl
+DQo+ID4gPiA+ID4gbGV2ZWwsIGFzIGhlcmUgdGhlIHVzZXIgaXMgbW9yZSBvciBsZXNzIGxlZnQg
+YWxvbmUgaW4gZ3Vlc3NpbmcNCj4gPiA+ID4gPiB3aGVyZQ0KPiA+ID4gPiA+IHRoZSBmaWxlIGFj
+dHVhbGx5IGRvZXMgY29tZSBmcm9tDQo+ID4gPiA+DQo+ID4gPiA+IEkgbGlrZSB0aGF0IGlkZWEs
+IGhvd2V2ZXIgaXQgd291bGQgbWFrZSB0byBhc3N1bXB0aW9uIHRoYXQgdGhlcmUNCj4gPiA+ID4g
+d2Fzbid0DQo+ID4gPiA+IGFueSB0d2Vha3MgYmVpbmcgbWFkZSBhcyBwYXJ0IG9mIGltYWdlIGdl
+bmVyYXRpb24gdGhhdCB3b3VsZCBlbmQNCj4gPiA+ID4gdXANCj4gPiA+ID4gdmlvbGF0aW5nIHRo
+aXMuIEEgcXVpY2sgY2hlY2sgc3VnZ2VzdHMgdGhlICJidWlsZC1hcHBsaWFuY2UtDQo+ID4gPiA+
+IGltYWdlXzE1LjAuMC5iYiIgaW1hZ2UgZG9lcyB0aGlzIGtpbmQgb2YgdGhpbmcgaW4gdGhlIGNv
+cmUgaW1hZ2UNCj4gPiA+ID4gdHlwZXMuDQo+ID4gPg0KPiA+ID4gQXMgQWxleCBqdXN0IHdyb3Rl
+LCBJIG1pZ2h0IGJlIGJlbmVmaWNpYWwgdG8gZG8gYm90aA0KPiA+ID4NCj4gPiA+ID4gTWFydHlu
+DQo+ID4NCj4gPiBXZSBoYXZlIGFuIGFsdGVybmF0aXZlIHNvbHV0aW9uIHRoYXQgaG9va3MgaW50
+byB0aGUgcGFja2FnZSBRQS4gSXQNCj4gPiBmb2N1c2VzIG9uIGRpcmVjdG9yaWVzIHRoYXQgYXJl
+IHN1cHBvc2VkIHRvIGJlIGVtcHR5LiBJbiBhZGRpdGlvbiB0bw0KPiA+IGZhaWxpbmcgdGhlIGJ1
+aWxkIGlmIHRoZXJlIGFyZSBmaWxlcyBpbiBzdWNoIGEgZGlyZWN0b3J5LCBpdCBhbHNvDQo+ID4g
+YWxsb3dzIHRvIHNwZWNpZnkgZm9yIGVhY2ggZGlyZWN0b3J5IHdoeSBpdCBzaG91bGQgYmUgZW1w
+dHkuIFdlIGhhdmUNCj4gPiB1c2VkIHRoaXMsIGUuZy4sIHRvIG1hcmsgY29tbW9uIGRpcmVjdG9y
+aWVzIHRoYXQgaGF2ZSBiZWVuIHJlbmFtZWQNCj4gPiB0byBnaXZlIGFuIGluZGljYXRpb24gb2Yg
+d2hlcmUgdGhlIGZpbGVzIHdlcmUgc3VwcG9zZWQgdG8gaGF2ZSBiZWVuDQo+ID4gaW5zdGFsbGVk
+Lg0KPiA+DQo+ID4gRG8geW91IHdhbnQgbWUgdG8gZ2VuZXJhbGl6ZSB0aGlzIGFuZCBzZW5kIGEg
+cGF0Y2ggZm9yIGl0Pw0KPiANCj4gSGkgUGV0ZXIsDQo+IA0KPiBJdCB3b3VsZCBiZSBncmVhdCBp
+ZiB3ZSBjb3VsZCBtZXJnZSB0aGVzZSBhcHByb2FjaGVzLCBpLmUuIGhhdmUgb25lIHdheQ0KPiB0
+byBzcGVjaWZ5IGRpcmVjdG9yaWVzIHRoYXQgbmVlZCB0byBiZSBlbXB0eSBhbmQgdGVzdCBib3Ro
+IGFzIHBhcnQgb2YNCj4gcGFja2FnZSBRQSBhbmQgYWxzbyBpbWFnZSBRQS4NCj4gDQo+IEkgd2Fz
+IGp1c3Qgd29ya2luZyBvbiBhZGRpbmcgc29tZSBwYWNrYWdlIFFBIHN1cHBvcnQgdG8gd2hhdCBJ
+J3ZlIGhhZCwNCj4gYnV0IGNhbiBwYXVzZSB0aGF0Lg0KPiANCj4gV291bGQgeW91IGJlIGFibGUg
+dG8gcHJvdmlkZSBzaG93IGhvdyB5b3UnZCBwcm9wb3NlIG1hbmFnaW5nIHRoZQ0KPiBwcm9oaWJp
+dGVkIGRpcmVjdG9yaWVzPyBJJ2xsIHRyeSBhbmQgdHdlYWsgdGhlIGltYWdlIFFBIHN0dWZmIGFs
+cmVhZHkNCj4gcG9zdGVkIHRvIGZpdCB0aGF0Lg0KPiANCj4gTWFydHluDQo+IA0KPiA+IC8vUGV0
+ZXINCg0KSSBoYXZlIHNlbnQgdHdvIHBhdGNoZXMgbm93LiBUaGUgZmlyc3QgbWFrZXMgc3lzdGVt
+ZCBub3QgaW5zdGFsbCANCmFueXRoaW5nIGluIC92YXIvbG9nLCBhcyBpdCBvdGhlcndpc2UgY29u
+ZmxpY3RzIHdpdGggdGhlIHN1Z2dlc3RlZCANCmRlZmF1bHRzLiBBbmQgdGhlbiBvbmUgcGF0Y2gg
+dGhhdCBhZGRzIHRoZSBwYWNrYWdlIFFBIGNoZWNrIGZvciANCmVtcHR5IGRpcmVjdG9yaWVzLiBJ
+IHVzZWQgdGhlIHNhbWUgZGVmYXVsdHMgYXMgc3VnZ2VzdGVkIGluIHlvdXIgDQpwYXRjaCwgZXhj
+ZXB0IEkgcmVtb3ZlZCAvbW50IHNpbmNlIGl0IGlzIG5vdCBvYnZpb3VzIGl0IHNob3VsZCBiZSAN
+CmVtcHR5LiBBdCBsZWFzdCB3ZSB1c2Ugc3ViZGlyZWN0b3JpZXMgaW4gL21udCBmb3Igb3VyIG1v
+dW50cG9pbnRzLg0KDQovL1BldGVyDQoNCg==
 
