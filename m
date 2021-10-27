@@ -1,64 +1,200 @@
+Return-Path: <open.source@oleksandr-kravchuk.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-Subject: [honister][PATCH 33/37] systemd: add missing include for musl
-Date: Tue, 26 Oct 2021 23:58:04 +0800
-Message-Id: <1c4c9f68f13d40bfea489fe27556b85e59255da8.1635257336.git.anuj.mittal@intel.com>
-In-Reply-To: <cover.1635257336.git.anuj.mittal@intel.com>
-References: <cover.1635257336.git.anuj.mittal@intel.com>
+Message-ID: <bca08ee4-f424-5eb8-9d1d-5bd22e7971d6@oleksandr-kravchuk.com>
+Date: Wed, 27 Oct 2021 23:12:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [OE-core] [PATCH] libxcvt: add recipe
+References: <20211027210338.3320083-1-open.source@oleksandr-kravchuk.com>
+ <CAMKF1spyTN8SHPdw+OyF5qoOKZfyMmg2zzPOzWBRt2tTJNbZUg@mail.gmail.com>
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+In-Reply-To: <CAMKF1spyTN8SHPdw+OyF5qoOKZfyMmg2zzPOzWBRt2tTJNbZUg@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------yG00KF0ge1aM3US0nKr9bQzf"
+Content-Language: en-US
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 
-From: Yureka <yuka@yuka.dev>
+--------------yG00KF0ge1aM3US0nKr9bQzf
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-Fixes "error: ‘FTW_ACTIONRETVAL’ undeclared (first use in this
-function)" in src/shared/mount-setup.c.
+On 27/10/2021 23:09, Khem Raj wrote:
+>
+>
+> On Wed, Oct 27, 2021 at 2:03 PM Oleksandr Kravchuk 
+> <open.source@oleksandr-kravchuk.com> wrote:
+>
+>     This library is a dependancy of xserver-xorg 21.1.0.
+>
+>
+> I wonder if we need this to be in core layer though
+Could you please clarify why it shouldn't if the package that needs is 
+part of the core layer?
+>
+>
+>     Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+>     ---
+>      .../xorg-lib/libxcvt_0.1.1.bb <http://libxcvt_0.1.1.bb>          
+>          | 19 +++++++++++++++++++
+>      1 file changed, 19 insertions(+)
+>      create mode 100644
+>     meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+>     <http://libxcvt_0.1.1.bb>
+>
+>     diff --git a/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+>     <http://libxcvt_0.1.1.bb>
+>     b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+>     <http://libxcvt_0.1.1.bb>
+>     new file mode 100644
+>     index 0000000000..628ccfb647
+>     --- /dev/null
+>     +++ b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+>     <http://libxcvt_0.1.1.bb>
+>     @@ -0,0 +1,19 @@
+>     +SUMMARY = "Library providing a standalone version of the X server \
+>     +implementation of the VESA CVT standard timing modelines generator"
+>     +HOMEPAGE = "https://gitlab.freedesktop.org/xorg/lib/libxcvt"
+>     +BUGTRACKER =
+>     "https://gitlab.freedesktop.org/xorg/lib/libxcvt/-/issues"
+>     +LICENSE = "MIT"
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=129947a06984d6faa6f9a9788fa2a03f"
+>     +SECTION = "x11/libs"
+>     +
+>     +SRC_URI =
+>     "git://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=https
+>     <http://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=https>"
+>     +SRCREV = "6fe840b9295cfdc41bd734586c5b8756f6af6f9b"
+>     +
+>     +S = "${WORKDIR}/git"
+>     +
+>     +inherit meson
+>     +
+>     +FILES:${PN} = " \
+>     +    ${libdir}/libxcvt.so.0* \
+>     +    ${bindir}/cvt \
+>     +"
+>     -- 
+>     2.25.1
+>
+>
+>     
+>
 
-Signed-off-by: Yureka <yuka@yuka.dev>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7707d08bb10db5eb782a2476be58ebe4b8bba154)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../0008-add-missing-FTW_-macros-for-musl.patch  | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+--------------yG00KF0ge1aM3US0nKr9bQzf
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-diff --git a/meta/recipes-core/systemd/systemd/0008-add-missing-FTW_-macros-for-musl.patch b/meta/recipes-core/systemd/systemd/0008-add-missing-FTW_-macros-for-musl.patch
-index 1de7ccf150..444e123854 100644
---- a/meta/recipes-core/systemd/systemd/0008-add-missing-FTW_-macros-for-musl.patch
-+++ b/meta/recipes-core/systemd/systemd/0008-add-missing-FTW_-macros-for-musl.patch
-@@ -10,10 +10,10 @@ This is to avoid build failures like below for musl.
- Upstream-Status: Inappropriate [musl specific]
- 
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
--
- ---
-  src/basic/missing_type.h | 20 ++++++++++++++++++++
-- 1 file changed, 20 insertions(+)
-+ src/shared/mount-setup.c |  1 +
-+ 2 files changed, 21 insertions(+)
- 
- diff --git a/src/basic/missing_type.h b/src/basic/missing_type.h
- index aeaf6ad5ec..3df1084ef2 100644
-@@ -43,3 +43,15 @@ index aeaf6ad5ec..3df1084ef2 100644
- +#ifndef FTW_SKIP_SIBLINGS
- +#define FTW_SKIP_SIBLINGS 3
- +#endif
-+diff --git a/src/shared/mount-setup.c b/src/shared/mount-setup.c
-+index ef3527e9a7..c1cab40eb8 100644
-+--- a/src/shared/mount-setup.c
-++++ b/src/shared/mount-setup.c
-+@@ -32,6 +32,7 @@
-+ #include "strv.h"
-+ #include "user-util.h"
-+ #include "virt.h"
-++#include "missing_type.h"
-+ 
-+ typedef enum MountMode {
-+         MNT_NONE           = 0,
--- 
-2.31.1
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 27/10/2021 23:09, Khem Raj wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAMKF1spyTN8SHPdw+OyF5qoOKZfyMmg2zzPOzWBRt2tTJNbZUg@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div><br>
+      </div>
+      <div><br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Wed, Oct 27, 2021 at 2:03
+            PM Oleksandr Kravchuk &lt;<a
+              href="mailto:open.source@oleksandr-kravchuk.com"
+              moz-do-not-send="true" class="moz-txt-link-freetext">open.source@oleksandr-kravchuk.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">This
+            library is a dependancy of xserver-xorg 21.1.0.<br>
+          </blockquote>
+          <div dir="auto"><br>
+          </div>
+          <div dir="auto">I wonder if we need this to be in core layer
+            though</div>
+        </div>
+      </div>
+    </blockquote>
+    Could you please clarify why it shouldn't if the package that needs
+    is part of the core layer?
+    <blockquote type="cite"
+cite="mid:CAMKF1spyTN8SHPdw+OyF5qoOKZfyMmg2zzPOzWBRt2tTJNbZUg@mail.gmail.com">
+      <div>
+        <div class="gmail_quote">
+          <div dir="auto"><br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+            Signed-off-by: Oleksandr Kravchuk &lt;<a
+              href="mailto:open.source@oleksandr-kravchuk.com"
+              target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">open.source@oleksandr-kravchuk.com</a>&gt;<br>
+            ---<br>
+             .../xorg-lib/<a href="http://libxcvt_0.1.1.bb"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">libxcvt_0.1.1.bb</a> 
+                           | 19 +++++++++++++++++++<br>
+             1 file changed, 19 insertions(+)<br>
+             create mode 100644 meta/recipes-graphics/xorg-lib/<a
+              href="http://libxcvt_0.1.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libxcvt_0.1.1.bb</a><br>
+            <br>
+            diff --git a/meta/recipes-graphics/xorg-lib/<a
+              href="http://libxcvt_0.1.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libxcvt_0.1.1.bb</a>
+            b/meta/recipes-graphics/xorg-lib/<a
+              href="http://libxcvt_0.1.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libxcvt_0.1.1.bb</a><br>
+            new file mode 100644<br>
+            index 0000000000..628ccfb647<br>
+            --- /dev/null<br>
+            +++ b/meta/recipes-graphics/xorg-lib/<a
+              href="http://libxcvt_0.1.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libxcvt_0.1.1.bb</a><br>
+            @@ -0,0 +1,19 @@<br>
+            +SUMMARY = "Library providing a standalone version of the X
+            server \<br>
+            +implementation of the VESA CVT standard timing modelines
+            generator"<br>
+            +HOMEPAGE = "<a
+              href="https://gitlab.freedesktop.org/xorg/lib/libxcvt"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://gitlab.freedesktop.org/xorg/lib/libxcvt</a>"<br>
+            +BUGTRACKER = "<a
+              href="https://gitlab.freedesktop.org/xorg/lib/libxcvt/-/issues"
+              rel="noreferrer" target="_blank" moz-do-not-send="true"
+              class="moz-txt-link-freetext">https://gitlab.freedesktop.org/xorg/lib/libxcvt/-/issues</a>"<br>
+            +LICENSE = "MIT"<br>
+            +LIC_FILES_CHKSUM =
+            <a class="moz-txt-link-rfc2396E" href="file://COPYING;md5=129947a06984d6faa6f9a9788fa2a03f">"file://COPYING;md5=129947a06984d6faa6f9a9788fa2a03f"</a><br>
+            +SECTION = "x11/libs"<br>
+            +<br>
+            +SRC_URI = "<a class="moz-txt-link-freetext" href="git://">git://</a><a
+              href="http://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=https"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=https</a>"<br>
+            +SRCREV = "6fe840b9295cfdc41bd734586c5b8756f6af6f9b"<br>
+            +<br>
+            +S = "${WORKDIR}/git"<br>
+            +<br>
+            +inherit meson<br>
+            +<br>
+            +FILES:${PN} = " \<br>
+            +    ${libdir}/libxcvt.so.0* \<br>
+            +    ${bindir}/cvt \<br>
+            +"<br>
+            -- <br>
+            2.25.1<br>
+            <br>
+            <br>
+            <br>
+            <br>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+  </body>
+</html>
 
+--------------yG00KF0ge1aM3US0nKr9bQzf--
