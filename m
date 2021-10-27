@@ -1,126 +1,271 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <tomasz.dziendzielski@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C851C433EF
-	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 06:25:39 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.8088.1635315937714491784
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47773C433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Oct 2021 08:04:31 +0000 (UTC)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
+ [209.85.221.170])
+ by mx.groups.io with SMTP id smtpd.web11.8569.1635321870033342592
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 23:25:38 -0700
+ Wed, 27 Oct 2021 01:04:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CVwNRVXN;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id x27so3926126lfu.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PecMbq4q;
+ spf=pass (domain: gmail.com, ip: 209.85.221.170,
+ mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-vk1-f170.google.com with SMTP id 144so646086vky.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Oct 2021 23:25:37 -0700 (PDT)
+ Wed, 27 Oct 2021 01:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=Hf1KvKUBP7AS3uEBM/N6o3kD/Op/2m9yG6ozQEgLHYc=;
-        b=CVwNRVXNRgw4yOZkxyVcnXbw1GK8bi85WzbtqVza+CZLpHWT+SISkXYypoWUln3RM/
-         LLpeEzYf3CK6TwKCHBKxF9fDgYZh+P2uS3u4AH958jKeCx87bo1VMiMEzd1lpRMXUfKc
-         0BBhnkoupbddsmeGcW5K6iV02ZW8CQ6WJApAOGjCcULMc75Q84BBF+csdV0K7qV24x7W
-         B6dBRbd6Jd4rYywtsK4aXQ1ypP3wID+XlOkVvFbLMWDL2lLTrX2tOdbd212JkoOuRdzf
-         EJZnEKDRZNBT69TTNCjM7kyJNSZSOi4/DNgQEoprOpGNRwiFvVnAU+Bx3e+KdOcepLb9
-         1b8w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FldILVHd9q+6IuGsDWLqdv69bzhEhRoNqCM2xjet93M=;
+        b=PecMbq4q2QU4eAQdkD8dRBe2w0BrNnAjE8sdt7Js1f3tf1JXr8AigVxPxSBI9/gFBW
+         yhtfhD0GGSubF/WIYnXbnlKjzBS02JUQrL7pyEfJ4i6TwLd0W/o0g/Z5/8GOPqGvJCBQ
+         xw7jLIrI3vT56gjT+H7xvgxuwCZPOvjcVK6AI8dMHeqepOTvGaAw7onOFkpbg/5xbuTg
+         ACfVCjijqF0q96iXO+KTen/6ZZM/zuMLhPqkLsX3sOl/pw5Py2Wb+1bOg/gsChoVtOl5
+         vCuqaHxjUH+F4LzGyIKKq2zYam4gZzhXGZMpM53fNZwH62LLvwLcFqmWtkZnmdcezmaT
+         qzBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Hf1KvKUBP7AS3uEBM/N6o3kD/Op/2m9yG6ozQEgLHYc=;
-        b=YlVzVckgoh+HwtX4gzG6jA7uhzMGpVRjNIYwHOp7GrdG5XGqjXIwsg5YkTvxW/DsNv
-         kT9nfTPqYmR2IWCMAczBmtCdsOSwl8y4OYcc3wFaep0UJ4/rWWETnLS1l0nPDbret8R2
-         n19Gjd2CYslubFv1ae6wmmJ8l2kkmEGS6q3kTsBZ3oTW+wrG3YqstPlOuDOacaK0+Vhm
-         g+UWvARBCHIIYSP6EkYYtoRO+TKjN4gKLta56mpQnkauoeHaSMa8kwW3x585MFcZ40yy
-         mcZjuZNgUDo93vpRSbdwP7LZIASJnomQVaY7rYdamJ/lKS9v5++UYNPaEHhLBZQuVmHz
-         16Jg==
-X-Gm-Message-State: AOAM532DReBkE3GCiIA7HDvPLuXosAU55EpXLtI6tPNlXH9GSq3Iggue
-	GbgwJUagaMJmXw8DK36qooCGBLOaNGU=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FldILVHd9q+6IuGsDWLqdv69bzhEhRoNqCM2xjet93M=;
+        b=pjko3Z1HtiiI+XW77Pienbu7wbS2UTkDkqXJ/9OrHxOMajou/Ks5hRO9GvjUY+WrCx
+         uAEx45CraNzuwJAtWPrcciVQoT/IJwPoUF1JdypSZ6MCjXPjw8oXR1ofMMMfjIscOlah
+         ZtYh6qeKhI2jI1KlVOEv+kGQ/C/PMOLzhFF779wGzT6Khl7Wp2TcIPvyBiaOfECmuR5h
+         Pon40OKdNjJiFWwpi1loSkzZ3EbNUX2WgOZFZQZVqptlPyRsF7OIacWvrRck6M4a27q8
+         His9BU75noXW3Xcd6CmpDzL4MXcvuxuJPg8xGvi3hbMqE1XGGBKS9C3zzBer0ELoA74j
+         hedw==
+X-Gm-Message-State: AOAM531tMoY4UaUH0+naxazQYXJViaF0HUIL3SBWZJPZNVSZpowNIbKR
+	hveATtcDYmGVt71s70radoXWfNKJRWdCQQF0D6Q=
 X-Google-Smtp-Source: 
- ABdhPJzxLMkpcGpAslFAns3A754OKsUVNSRNYdRHAq2jin1oecL8Nt0ApNsRNiamKv3GTTXqOCugpQ==
-X-Received: by 2002:a05:6512:3d0e:: with SMTP id
- d14mr915921lfv.20.1635315935575;
-        Tue, 26 Oct 2021 23:25:35 -0700 (PDT)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- x24sm88816lji.138.2021.10.26.23.25.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Oct 2021 23:25:34 -0700 (PDT)
-Message-ID: <b3a3dc01-64e1-6b20-0fe6-bb0b324c1fc4@gmail.com>
-Date: Wed, 27 Oct 2021 08:25:33 +0200
+ ABdhPJxRtVjNVTfGg6G5zfxAIQ744sj+BYOHz0oYmd34j0tzeg3C7f2rzhmhUn5mgkzljS3joTdmaJ9t6LnM7HJL54E=
+X-Received: by 2002:a05:6122:550:: with SMTP id
+ y16mr28973901vko.18.1635321869156;
+ Wed, 27 Oct 2021 01:04:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [OE-core] [PATCH 1/4] gcc: Merge three related patches together
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <20211026111140.3298966-1-richard.purdie@linuxfoundation.org>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: <20211026111140.3298966-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211026073249.3424-1-tomasz.dziendzielski@gmail.com>
+ <e72e9ae071bc25c6d14749c1604fb9b4b890a0ae.camel@linuxfoundation.org>
+In-Reply-To: 
+ <e72e9ae071bc25c6d14749c1604fb9b4b890a0ae.camel@linuxfoundation.org>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Date: Wed, 27 Oct 2021 10:06:11 +0200
+Message-ID: 
+ <CAJkqNs0mS8YTdnidQ+tXOWOVEihY+pACG3jThrPTi0GfMRNsPQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] license_image: Prevent do_populate_lic_deploy
+ from using image recipes' recipeinfo
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Jan Brzezanski <jan.brzezanski@gmail.com>,
+ Ricardo Rodrigues <rrodrigues80@gmail.com>,
+	Szymon Czarnuch <szymek125.14@gmail.com>, Kamil Kwiek <kamil.kwiek@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000001ac7c005cf510b7b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 06:25:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Oct 2021 08:04:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157474
+ https://lists.openembedded.org/g/openembedded-core/message/157475
 
-On 10/26/21 13:11, Richard Purdie wrote:
-> The SYSTEMLIBS_DIR change was spread over three patches, merge these
-> together since there is no value in having them separate.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-devtools/gcc/gcc-11.2.inc        |  2 -
->   ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 52 ++++++++++---------
->   ...IR-replacement-instead-of-hardcoding.patch | 26 ----------
->   ...22-aarch64-Add-support-for-musl-ldso.patch | 25 ---------
->   4 files changed, 28 insertions(+), 77 deletions(-)
->   delete mode 100644 meta/recipes-devtools/gcc/gcc/0021-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
->   delete mode 100644 meta/recipes-devtools/gcc/gcc/0022-aarch64-Add-support-for-musl-ldso.patch
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> index 9fd30f52a88..6fa344e9612 100644
-> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> @@ -50,8 +50,6 @@ SRC_URI = "\
->              file://0018-export-CPP.patch \
->              file://0019-Ensure-target-gcc-headers-can-be-included.patch \
->              file://0020-Don-t-search-host-directory-during-relink-if-inst_pr.patch \
-> -           file://0021-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
-> -           file://0022-aarch64-Add-support-for-musl-ldso.patch \
->              file://0023-libcc1-fix-libcc1-s-install-path-and-rpath.patch \
->              file://0024-handle-sysroot-support-for-nativesdk-gcc.patch \
->              file://0025-Search-target-sysroot-gcc-version-specific-dirs-with.patch \
-> diff --git a/meta/recipes-devtools/gcc/gcc/0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-> index 4726267a80f..0884730786c 100644
-> --- a/meta/recipes-devtools/gcc/gcc/0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-> +++ b/meta/recipes-devtools/gcc/gcc/0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-> @@ -30,8 +30,7 @@ Upstream-Status: Inappropriate [OE configuration]
->    gcc/config/sparc/linux64.h   |  4 ++--
->    12 files changed, 29 insertions(+), 34 deletions(-)
->   
-> -diff --git a/gcc/config/alpha/linux-elf.h b/gcc/config/alpha/linux-elf.h
-> -index c1dae8ca2cf..3ce2b76c1a4 100644
-> +unchanged:
->   --- a/gcc/config/alpha/linux-elf.h
->   +++ b/gcc/config/alpha/linux-elf.h
->   @@ -23,8 +23,8 @@ along with GCC; see the file COPYING3.  If not see
-> @@ -45,8 +44,7 @@ index c1dae8ca2cf..3ce2b76c1a4 100644
->    #if DEFAULT_LIBC == LIBC_UCLIBC
->    #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
->    #elif DEFAULT_LIBC == LIBC_GLIBC
-> -diff --git a/gcc/config/arm/linux-eabi.h b/gcc/config/arm/linux-eabi.h
-> -index 85d0136e76e..6bd95855827 100644
-> +unchanged:
+--0000000000001ac7c005cf510b7b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Doesn't the above change how the patch is applied ?
+>a) we can't tell the difference between a broken recipe which failed to
+generate
+>recipeinfo for some reason and an image target
+We can, only image targets generate image_license.manifest and
+license.manifest, that's why in the patch I'm checking for it.
+
+>b) The license info is effectively lost/ignored for the second image
+Maybe I'll try to merge license.manifest from the first image target to the
+second image.
+
+Best regards,
+Tomasz Dziendzielski
+
+wt., 26 pa=C5=BA 2021 o 14:55 Richard Purdie <richard.purdie@linuxfoundatio=
+n.org>
+napisa=C5=82(a):
+
+> On Tue, 2021-10-26 at 09:32 +0200, Tomasz Dziendzielski wrote:
+> > If image recipe depends on another image recipe it will try to use
+> > license recipeinfo that is not deployed. It will result in:
+> > > Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> > > 'TMPDIR/deploy/licenses/foo-image/recipeinfo'
+> >
+> > In such case check for image_license.manifest file (which means dep is
+> > an image recipe) and skip if true.
+> >
+> > Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> > Signed-off-by: Jan Brzezanski <jan.brzezanski@gmail.com>
+> > Signed-off-by: Ricardo Rodrigues <rrodrigues80@gmail.com>
+> > Signed-off-by: Szymon Czarnuch <szymek125.14@gmail.com>
+> > Signed-off-by: Kamil Kwiek <kamil.kwiek@gmail.com>
+> > ---
+> >  meta/classes/license_image.bbclass | 15 +++++++++++----
+> >  1 file changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/classes/license_image.bbclass
+> b/meta/classes/license_image.bbclass
+> > index bf70bee99b..cc1d9ea651 100644
+> > --- a/meta/classes/license_image.bbclass
+> > +++ b/meta/classes/license_image.bbclass
+> > @@ -201,10 +201,17 @@ def license_deployed_manifest(d):
+> >          man_dic[dep]["PN"] =3D dep
+> >          man_dic[dep]["FILES"] =3D \
+> >              " ".join(get_deployed_files(dep_dic[dep]))
+> > -        with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") as f:
+> > -            for line in f.readlines():
+> > -                key,val =3D line.split(": ", 1)
+> > -                man_dic[dep][key] =3D val[:-1]
+> > +        try:
+> > +            with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") a=
+s
+> f:
+> > +                for line in f.readlines():
+> > +                    key,val =3D line.split(": ", 1)
+> > +                    man_dic[dep][key] =3D val[:-1]
+> > +        except FileNotFoundError:
+> > +            if os.path.exists(os.path.join(
+> > +                    lic_dir, "%s-%s" % (dep, d.getVar("MACHINE")),
+> "image_license.manifest")):
+> > +                del man_dic[dep]
+> > +            else:
+> > +                raise
+> >
+> >      lic_manifest_dir =3D os.path.join(d.getVar('LICENSE_DIRECTORY'),
+> >                                      d.getVar('IMAGE_NAME'))
+>
+> We've seen this issue before. I don't like the fixes I've seen for two
+> reasons:
+>
+> a) we can't tell the difference between a broken recipe which failed to
+> generate
+> recipeinfo for some reason and an image target
+>
+> b) The license info is effectively lost/ignored for the second image
+>
+> I think we need to do something better than this.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
+--0000000000001ac7c005cf510b7b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">&gt;a) we can&#39;t tell the difference between a broken r=
+ecipe which failed to generate<br><div>
+&gt;recipeinfo for some reason and an image target</div><div>We can, only i=
+mage targets generate image_license.manifest and license.manifest, that&#39=
+;s why in the patch I&#39;m checking for it.</div><div><br></div><div>&gt;b=
+) The license info is effectively lost/ignored for the second image<br></di=
+v><div>Maybe I&#39;ll try to merge license.manifest from the first image ta=
+rget to the second image.</div><div><br></div><div>Best regards,</div><div>=
+Tomasz Dziendzielski<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">wt., 26 pa=C5=BA 2021 o 14:55=C2=A0Richard Pu=
+rdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purd=
+ie@linuxfoundation.org</a>&gt; napisa=C5=82(a):<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Tue, 2021-10-26 at 09:32 +0200, Tomasz =
+Dziendzielski wrote:<br>
+&gt; If image recipe depends on another image recipe it will try to use<br>
+&gt; license recipeinfo that is not deployed. It will result in:<br>
+&gt; &gt; Exception: FileNotFoundError: [Errno 2] No such file or directory=
+:<br>
+&gt; &gt; &#39;TMPDIR/deploy/licenses/foo-image/recipeinfo&#39;<br>
+&gt; <br>
+&gt; In such case check for image_license.manifest file (which means dep is=
+<br>
+&gt; an image recipe) and skip if true.<br>
+&gt; <br>
+&gt; Signed-off-by: Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.dzien=
+dzielski@gmail.com" target=3D"_blank">tomasz.dziendzielski@gmail.com</a>&gt=
+;<br>
+&gt; Signed-off-by: Jan Brzezanski &lt;<a href=3D"mailto:jan.brzezanski@gma=
+il.com" target=3D"_blank">jan.brzezanski@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Ricardo Rodrigues &lt;<a href=3D"mailto:rrodrigues80@gm=
+ail.com" target=3D"_blank">rrodrigues80@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Szymon Czarnuch &lt;<a href=3D"mailto:szymek125.14@gmai=
+l.com" target=3D"_blank">szymek125.14@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Kamil Kwiek &lt;<a href=3D"mailto:kamil.kwiek@gmail.com=
+" target=3D"_blank">kamil.kwiek@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/license_image.bbclass | 15 +++++++++++----<br>
+&gt;=C2=A0 1 file changed, 11 insertions(+), 4 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes/license_image.bbclass b/meta/classes/license=
+_image.bbclass<br>
+&gt; index bf70bee99b..cc1d9ea651 100644<br>
+&gt; --- a/meta/classes/license_image.bbclass<br>
+&gt; +++ b/meta/classes/license_image.bbclass<br>
+&gt; @@ -201,10 +201,17 @@ def license_deployed_manifest(d):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 man_dic[dep][&quot;PN&quot;] =3D dep=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 man_dic[dep][&quot;FILES&quot;] =3D =
+\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot; &quot;.join(get=
+_deployed_files(dep_dic[dep]))<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(os.path.join(lic_dir, dep, &quo=
+t;recipeinfo&quot;), &quot;r&quot;) as f:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in f.readlines():<=
+br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 key,val =3D l=
+ine.split(&quot;: &quot;, 1)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 man_dic[dep][=
+key] =3D val[:-1]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(os.path.join(lic_=
+dir, dep, &quot;recipeinfo&quot;), &quot;r&quot;) as f:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in f=
+.readlines():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ key,val =3D line.split(&quot;: &quot;, 1)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ man_dic[dep][key] =3D val[:-1]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except FileNotFoundError:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(os.path.j=
+oin(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lic_dir, &quot;%s-%s&quot; % (dep, d.getVar(&quot;MACHINE&quot;)), &quot;i=
+mage_license.manifest&quot;)):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 del man_dic[d=
+ep]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 lic_manifest_dir =3D os.path.join(d.getVar(&#39;LI=
+CENSE_DIRECTORY&#39;),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(&#3=
+9;IMAGE_NAME&#39;))<br>
+<br>
+We&#39;ve seen this issue before. I don&#39;t like the fixes I&#39;ve seen =
+for two reasons:<br>
+<br>
+a) we can&#39;t tell the difference between a broken recipe which failed to=
+ generate<br>
+recipeinfo for some reason and an image target<br>
+<br>
+b) The license info is effectively lost/ignored for the second image<br>
+<br>
+I think we need to do something better than this.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000001ac7c005cf510b7b--
 
