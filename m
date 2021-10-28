@@ -1,282 +1,117 @@
-Return-Path: <lukma@denx.de>
+Return-Path: <tomasz.dziendzielski@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C364BC433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 12:00:44 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web08.11865.1635422438667504788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A13DBC433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 12:44:05 +0000 (UTC)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by mx.groups.io with SMTP id smtpd.web11.12406.1635425044722951115
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 05:00:40 -0700
+ Thu, 28 Oct 2021 05:44:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de
- header.s=phobos-20191101 header.b=Tdea1KwQ;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl
- [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 245E7831D3;
-	Thu, 28 Oct 2021 14:00:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1635422435;
-	bh=1i6aEgd1LqNENe1MOW00z2XLKXx9JbynCY5FatJRAtg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Tdea1KwQcx2kV9ZUEM3JPQ6PsC3wQZBx32CChUYgr0U0N33yRX46feJ4nnMLYdlRz
-	 c6MtrZLjAlETPfI+lHOmsqhqmcrlWrGoA76uwTDU2dxjG0Url9HMeI3El66ENnxtDb
-	 29vj/g9edOi70uAKb3zCtBwgZJr+gcygnzC6hW+0zQ64jw+261AfkgiYh92/o+Wq+W
-	 8x47b/hSQhzYnvSlbUXsTwveM1O1iAOMRcm48rRa2bFFCcqOXckyUqvQmYaDvt/C+1
-	 5zgALK6LXE0smuLVwwWB8H6Gx/syrgGa4yy2qDwxGtnSbVspzvWyCQyDpO8mzV0FDG
-	 v09wNHLdw55yA==
-From: Lukasz Majewski <lukma@denx.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Nathan Rossi <nathan@nathanrossi.com>,
-	Khem Raj <raj.khem@gmail.com>
-Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Lukasz Majewski <lukma@denx.de>
-Subject: [PATCH v3] glibc: ptest: Add running glibc time related test suite
- (Y2038) with ptest
-Date: Thu, 28 Oct 2021 14:00:20 +0200
-Message-Id: <20211028120020.23276-1-lukma@denx.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NP7suPr9;
+ spf=pass (domain: gmail.com, ip: 209.85.221.178,
+ mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-vk1-f178.google.com with SMTP id u130so2916437vku.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 28 Oct 2021 05:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t90D/m6mFgQIOYEtzf/RylyWBnVoT2D7+WmE8CGHINk=;
+        b=NP7suPr9Z5ZzPm1Fd15y1E9kZB7uHLNxnjFCLpPLfK6DI8Qkp0ZdfGheYR0S8mLLtd
+         d8gsUiYzd7pk36/szx338gkdSEVNhdeHOAcYIXBgtjUJaZWp0Zv7xOx0UtPfBoWfnMvG
+         j6uRvj6COhk3BJ6exs7jAwYU09xI2u9j9CeVXIIPQlvakdY2mDHTKLUdVDeiPIKe8297
+         /MQVnAJD9H3OdUJ1pAek3hOWh5WctoBXCzNc4868K6ljw1QI/+kKCOk66vHccAtH858z
+         AhGHDSRK5ZZi4L/W+8iQkUx89DjZ6RlYfm6nN+Q81ZK/eY+SlU2eVCdJph43b/yA467J
+         kXyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t90D/m6mFgQIOYEtzf/RylyWBnVoT2D7+WmE8CGHINk=;
+        b=edJL/YfxtzAG2vdb66USCL6ch7FdZhksJ1iNfTOWjVZN4FuY0J0+wqdAyKjjF7hMjq
+         MeYDVnARangupRmfNH2QxTkbhKLR1E/+7qXV9jvL3aGfCxom2cNk1SXp7c54BOxj0IsA
+         WYEDRcI2+6gc8KCPUa06s4xLiX9BW6QQdyro3kMxIBm4ciV2cTi6zx+FQ1MVQriLX+RB
+         /vhL8O4ETIWPavNCeIYb22Pq80HDADzLa+InF/0cRjdooh1fK5F6ouXrDJpcIyArwTVw
+         rDmsZ2hfBCUTeJZ3CsHsD2H8g9Z+aPK1YFeakWw1OeWmWDm3nU07nF0DbQ8GZ69lHi0W
+         vJog==
+X-Gm-Message-State: AOAM533RPGALeTE6ybkWuKHDt+VE3Q9yKQu/fxoF7Asc4eRXEpUQlJmS
+	rGQde4RTNxrDAL3vNQtCODEA7AzrwkChqPlvDV0=
+X-Google-Smtp-Source: 
+ ABdhPJy2Wj5PLLp+063UlXLERun/7ZXI48g5EK70cB9as7be73GZv6moaaDC8AeKqtzQb44Jt9Z6uF9hvZQuTFFULsQ=
+X-Received: by 2002:a1f:324d:: with SMTP id y74mr3933593vky.20.1635425043591;
+ Thu, 28 Oct 2021 05:44:03 -0700 (PDT)
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+References: <20211026073249.3424-1-tomasz.dziendzielski@gmail.com>
+ <e72e9ae071bc25c6d14749c1604fb9b4b890a0ae.camel@linuxfoundation.org>
+ <16B1D493AACBF55D.19566@lists.openembedded.org>
+In-Reply-To: <16B1D493AACBF55D.19566@lists.openembedded.org>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Date: Thu, 28 Oct 2021 14:45:46 +0200
+Message-ID: 
+ <CAJkqNs38_N1zvpDu0UhObo_KMjYQO-GTCgboVXyMA4dJdwmoCA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] license_image: Prevent do_populate_lic_deploy
+ from using image recipes' recipeinfo
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Jan Brzezanski <jan.brzezanski@gmail.com>,
+ Ricardo Rodrigues <rrodrigues80@gmail.com>,
+	Szymon Czarnuch <szymek125.14@gmail.com>, Kamil Kwiek <kamil.kwiek@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c7b4db05cf69103e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 12:00:44 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 12:44:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157595
+ https://lists.openembedded.org/g/openembedded-core/message/157596
 
-This patch introduces new recipe - namely 'glibc-tests', which
-builds and installs time related (to check if Y2038 support works) glibc
-test suite to OE/Yocto built image.
+--000000000000c7b4db05cf69103e
+Content-Type: text/plain; charset="UTF-8"
 
-It reuses code from already available 'glibc-testsuite' recipe,
-which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-to execute remotely (via SSH) tests on some emulated machine.
+Unfortunately from what I just checked we cannot merge license manifests
+because new manifest creation would require additional package sstate-cache
+manifests (to get package contents) or to use package manager to get FILES
+contect. That's also not really correct, since in license.manifest we don't
+collect package data. Also current way license manifest creation does not
+really care about RDEPENDS, for example it does not the real content of
+packagegroups or kernel-modules packages that are under main kernel-modules
+package. I don't find this correct and in my opinion this should be changed
+in the future.
 
-This recipe installs time related glibc tests on some rootfs image.
-Afterwards, those tests can be executed on the real hardware, to
-facilitate validation of it with Y2038 problem compliance.
+Having all that in mind I think the most reasonable way to keep the just
+copy the manifests from intermediate image target to the final target, e.g.
+copy foo-<machine>/image_license.manifest to
+bar-<machine>/foo-<machine>-image_license.manifest. That way we will have
+full knowledge about where the packages came from. I'll send a patch in a
+moment.
 
-To test time related subset - one needs to call:
-ptest-runner glibc-tests
-then change the date after Y2038 threshold for 32 bit systems:
-date -s "20 JAN 2038 18:00:00"
-and then run ptest-runner again.
+Best regards,
+Tomasz Dziendzielski
 
-To facilitate debugging, source files are provided by default with
-the unstripped debugging symbols. Such approach would reduce the
-already complex recipe (as it inherits base glibc one), so there
-is no need to also install *-dbg and *-src packages.
+--000000000000c7b4db05cf69103e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lukasz Majewski <lukma@denx.de>
+<div dir=3D"ltr"><div dir=3D"ltr">Unfortunately from what I just checked we=
+ cannot merge license manifests because new manifest creation would require=
+ additional package sstate-cache manifests (to get package contents) or to =
+use package manager to get FILES contect. That&#39;s also not really correc=
+t, since in license.manifest we don&#39;t collect package data. Also curren=
+t way license manifest creation does not really care about RDEPENDS, for ex=
+ample it does not the real content of packagegroups or kernel-modules packa=
+ges that are under main kernel-modules package. I don&#39;t find this corre=
+ct and in my opinion this should be changed in the future.<br></div><div di=
+r=3D"ltr"><br></div><div>Having all that in mind I think the most reasonabl=
+e way to keep the just copy the manifests from intermediate image target to=
+ the final target, e.g. copy foo-&lt;machine&gt;/image_license.manifest to =
+bar-&lt;machine&gt;/foo-&lt;machine&gt;-image_license.manifest. That way we=
+ will have full knowledge about where the packages came from. I&#39;ll send=
+ a patch in a moment.</div><div><br></div><div>Best regards,</div><div>Toma=
+sz Dziendzielski<br></div><div dir=3D"ltr"><br></div><br></div>
 
----
-Changes for v3:
-- Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
-  RPROVIDES variables
-
-Changes for v2:
-- Just focus on time related set of tests as those can be run as
-  standalone
-- Reuse of already built tests (from glibc-tests.inc) and depoloy
-  them on the HW target.
-- Provide single 'run-ptest' script.
-- Update the recipe to run with newest poky's -master
----
- .../distro/include/ptest-packagelists.inc     |   1 +
- meta/recipes-core/glibc/glibc-tests_2.34.bb   | 112 ++++++++++++++++++
- meta/recipes-core/glibc/glibc/run-ptest       |  37 ++++++
- 3 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
- create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-index 2e324f8da4..fd52fa72a4 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -61,6 +61,7 @@ PTESTS_FAST =3D "\
-     slang-ptest \
-     wayland-ptest \
-     zlib-ptest \
-+    glibc-tests-ptest \
- "
- PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
- PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb b/meta/recipes-c=
-ore/glibc/glibc-tests_2.34.bb
-new file mode 100644
-index 0000000000..0a6920eef4
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-@@ -0,0 +1,112 @@
-+require glibc_${PV}.bb
-+require glibc-tests.inc
-+
-+inherit ptest
-+
-+SRC_URI:append =3D " \
-+	file://run-ptest \
-+"
-+
-+SUMMARY =3D "glibc tests to be run with ptest"
-+
-+# Erase some variables already set by glibc_${PV}
-+python __anonymous() {
-+       # Remove packages provided by glibc build, we only need a subset =
-of them
-+       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
-+
-+       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
-+       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
-+
-+       d.setVar("RRECOMMENDS", "")
-+}
-+
-+# Remove any lefovers from original glibc recipe
-+RPROVIDES:${PN} =3D "${PN}"
-+RRECOMMENDS:${PN} =3D ""
-+RDEPENDS:${PN} =3D " glibc sed"
-+DEPENDS:append =3D " sed"
-+
-+# Just build tests for target - do not run them
-+do_check:append () {
-+	oe_runmake -i check run-built-tests=3Dno
-+}
-+addtask do_check after do_compile before do_install_ptest_base
-+
-+glibc_strip_build_directory () {
-+	# Delete all non executable files from build directory
-+	find ${B} ! -executable -type f -delete
-+
-+	# Remove build dynamic libraries and links to them as
-+	# those are already installed in the target device
-+	find ${B} -type f -name "*.so" -delete
-+	find ${B} -type l -name "*.so*" -delete
-+
-+	# Remove headers (installed with glibc)
-+	find ${B} -type f -name "*.h" -delete
-+
-+	find ${B} -type f -name "isomac" -delete
-+	find ${B} -type f -name "annexc" -delete
-+}
-+
-+do_install_ptest_base () {
-+	glibc_strip_build_directory
-+
-+	ls -r ${B}/*/*-time64 > ${B}/tst_time64
-+
-+	# Remove '-time64' suffix - those tests are also time related
-+	sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
-+	tst_time=3D$(cat ${B}/tst_time_tmp ${B}/tst_time64)
-+
-+	rm ${B}/tst_time_tmp ${B}/tst_time64
-+	echo "${tst_time}"
-+
-+	# Install build test programs to the image
-+	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-+
-+	for f in "${tst_time}"
-+	do
-+	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
-+	done
-+
-+	install -d ${D}${PTEST_PATH}
-+	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
-+
-+}
-+
-+# The datadir directory is required to allow core (and reused)
-+# glibc cleanup function to finish correctly, as this directory
-+# is not created for ptests
-+stash_locale_package_cleanup:prepend () {
-+	mkdir -p ${PKGD}${datadir}
-+}
-+
-+stash_locale_sysroot_cleanup:prepend () {
-+	mkdir -p ${SYSROOT_DESTDIR}${datadir}
-+}
-+
-+# Prevent the do_package() task to set 'libc6' prefix
-+# for glibc tests related packages
-+python populate_packages:prepend () {
-+    if d.getVar('DEBIAN_NAMES'):
-+        d.setVar('DEBIAN_NAMES', '')
-+}
-+
-+FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-+
-+EXCLUDE_FROM_SHLIBS =3D "1"
-+
-+# Install debug data in .debug and sources in /usr/src/debug
-+# It is more handy to have _all_ the sources and symbols in one
-+# place (package) as this recipe will be used for validation and
-+# debugging.
-+PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
-+
-+# glibc test cases violate by default some Yocto/OE checks (staticdev,
-+# textrel)
-+# 'debug-files' - add everything (including debug) into one package
-+#                 (no need to install/build *-src package)
-+INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
-+
-+deltask do_stash_locale
-+do_install[noexec] =3D "1"
-+do_populate_sysroot[noexec] =3D "1"
-diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/=
-glibc/glibc/run-ptest
-new file mode 100755
-index 0000000000..f637986105
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/run-ptest
-@@ -0,0 +1,37 @@
-+#!/bin/sh
-+# ptest script for glibc - to run time related tests to
-+# facilitate Y2038 validation
-+# Run with 'ptest-runner glibc-tests'
-+
-+output() {
-+  retcode=3D$?
-+  if [ $retcode -eq 0 ]
-+    then echo "PASS: $i"
-+  elif [ $retcode -eq 77 ]
-+    then echo "SKIP: $i"
-+  else echo "FAIL: $i"
-+  fi
-+}
-+
-+# Allow altering time on the target
-+export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-+
-+tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
-+
-+# Remove '-time64' suffix - those tests are also time
-+# related
-+tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
-+
-+# Run tests supporting only 32 bit time
-+for i in ${tst_time_tmp}
-+do
-+	$i >/dev/null 2>&1
-+	output
-+done
-+
-+# Run tests supporting only 64 bit time
-+for i in ${tst_time64}
-+do
-+	$i >/dev/null 2>&1
-+	output
-+done
---=20
-2.20.1
-
+--000000000000c7b4db05cf69103e--
 
