@@ -1,384 +1,316 @@
-Return-Path: <jay.shen.teoh@intel.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF326C433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 10:15:30 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web11.11074.1635416129022300801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE93C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 10:15:49 +0000 (UTC)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com
+ [209.85.221.174])
+ by mx.groups.io with SMTP id smtpd.web10.10930.1635416147808117244
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 03:15:29 -0700
+ Thu, 28 Oct 2021 03:15:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com
- header.s=selector2-intel-onmicrosoft-com header.b=dRiRCOhZ;
- spf=pass (domain: intel.com, ip: 192.55.52.120,
- mailfrom: jay.shen.teoh@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="229124053"
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800";
-   d="scan'208,217";a="229124053"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2021 03:15:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,189,1631602800";
-   d="scan'208,217";a="725674458"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Oct 2021 03:15:26 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 28 Oct 2021 03:15:26 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Thu, 28 Oct 2021 03:15:26 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.174)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Thu, 28 Oct 2021 03:15:23 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nFdKxrH230R8ZWpx/TmVGnJ5wOkTsvpkLneWOXlLDawFA4+qpC4FYQSapyqZg1rAEQHhK0IrWWh4r5bNEaIubTiu3TQgI6nGBe2+YlZxpL9HKV0CTRbogcA9I8/b3EyceJa7qWsRtiuwSRwZF4BY5uLGoxclb9CHL7vfYajB0Q1+OyQqFjyCTm9HgL8KNSDVPZ0eYLsyiU5CmL3KR4TnTNzXF+kbiXjMnkI/ApB/DIuBu0nNrDwXtI/oNjbtN4Aa40dAzfp+QcI459yd7jgji65xdCONsfITXS9LHKH1E6ETucCydkDAkoPOlozBLoorEHX0MeNu4lWOhkj/kHbKZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7Qi44VXIemG9WG6hp63X+E4LHz6Ea6Ghrk73wB2cMBs=;
- b=ShzB/+C6A6PLS7VV9WzfuB7TNBk+5dWNc5JJiro4Tgxay8zscAT0dByHU2exErTWF9gnSbfFTiXq2vTKTjiYdM9LF0f8RLTEpXNddQ1U6cSZ9R5r+Eyf+JA+R99LBLsLtwRd3y1u6HLanKQjB+SNhmcN7SgpgYBExTSrOLqC36qhWHtp/hlP+3Djpcsb3N178b1UISknYTg3hlCij2BAcbxfIn/CFRolaKCtW5ir/0BQKg1FsuB3yzQ4TGBSpXXrjeC2Xqd40PIaGE19HoykYVnj/1wgwMpK/x5xVKcIaDft1HBJYOH3/NcaZCGg+ku6NSgMEu8icvXL7gcsoqPgqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7Qi44VXIemG9WG6hp63X+E4LHz6Ea6Ghrk73wB2cMBs=;
- b=dRiRCOhZ2NS1T/sU/0WlH/XRbVxoRaLLBMH4snqHaW2nPhc1hHFOMfu2jVeIMCqphbrZyJdwUbB3bG2T1XTiIYzIsdNgoGlC4XgfrxnPeJdoFFTzWZuLD2L4zW4xBW7uUHcH6tqiDmAVEqRbeGdupn9AdTN8wcaFh+b3sC8Pas8=
-Received: from BL1PR11MB5367.namprd11.prod.outlook.com (2603:10b6:208:318::11)
- by BL1PR11MB5495.namprd11.prod.outlook.com (2603:10b6:208:317::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Thu, 28 Oct
- 2021 10:15:17 +0000
-Received: from BL1PR11MB5367.namprd11.prod.outlook.com
- ([fe80::d473:cd2e:6109:1e92]) by BL1PR11MB5367.namprd11.prod.outlook.com
- ([fe80::d473:cd2e:6109:1e92%6]) with mapi id 15.20.4649.015; Thu, 28 Oct 2021
- 10:15:17 +0000
-From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: Khem Raj <raj.khem@gmail.com>, Jose Quaresma <quaresma.jose@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] oeqa/runtime/parselogs: whitelist drm failure
- in common errors list
-Thread-Topic: [OE-core] [PATCH] oeqa/runtime/parselogs: whitelist drm failure
- in common errors list
-Thread-Index: AQHXyxSAEL5iLRJCYUWTjBWM3c6xk6vnBemAgAEq9wCAAADKgIAAARaw
-Date: Thu, 28 Oct 2021 10:15:17 +0000
-Message-ID: 
- <BL1PR11MB5367158FCC6E65266141EF81BB869@BL1PR11MB5367.namprd11.prod.outlook.com>
-References: <20211027091252.5781-1-jay.shen.teoh@intel.com>
- <CANPvuRmrxFqVk4Mmz=cDrbwUZ1RPLRpD8=aF241LguR=uFjrDQ@mail.gmail.com>
- <CAMKF1sqCVwThX=i1LzTF52u8oGzNmJ7gA7VJxYg9eqnOt7GGzg@mail.gmail.com>
- <BL1PR11MB5367289A3AAA022BB7F6F195BB869@BL1PR11MB5367.namprd11.prod.outlook.com>
- <CANNYZj-Ejox8Nm+inugABfyD2oAS+HcXe1KiRX0E7tKrW=Ja=w@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj-Ejox8Nm+inugABfyD2oAS+HcXe1KiRX0E7tKrW=Ja=w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.200.16
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 20ae391e-d322-4b02-e410-08d999fbd6f0
-x-ms-traffictypediagnostic: BL1PR11MB5495:
-x-microsoft-antispam-prvs: 
- <BL1PR11MB5495FDE4F02E2817AD2D78D7BB869@BL1PR11MB5495.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- /2yqkBxZtbqGjt+yLnauJ9gf3XZg/4mwlE6lif9kQbpz5sskxf3uw9VbkQJWrv8LyeMyYSOesu8KrFsVn0A4kA1nRNHwwb7kpaxoqTkrcrs+QPMgIVs7JmoS0lG1dIhldRx/N7RwVO/NqT5uE8OwSh8IW6Xo6JJ/zaVjOz3Kq70r1x0Uq8lEsaeOGT+SbYTrVwayicirLf/dyAPgrkguI6NS5tYOWjriFxV69nU+S/nUdb2cpQMf80tGwAHDbtVd2oguwoyvpKse+KP4qEX9syTGO6LE3JlNM4x66epgp0pLZ/OsWaE0xETq8IkCnWX5mV/lwiLtE5n6trotNVOIdTIEFm947V3/ZykQM8YhRLg3fgaho6bjDIK1AF8D4l+ffKEoBTDbWqTbTxXryQtvm7onOXc0pJQk5LCxRDoXoS06ixhFLPpP4xTvzD52f4vkC+xyevpId5p37xikhkoDANRkrMcnpLE9CGAiiSG0ImAC30Dyjoz2BnYtYgkpPv10hv5iue7A96gfy5i77EkRUcKnsv4IFegE6+Cd0MIwK6qCijUpnU0ajt7LAzvnz2X3biB79LbLCO7TfkwY+1HST0faCKSpLy6idkyaUQU1WxKb5qNSd5wd0mb406VAJVzfs81baWauOvEukZCSqUa99F3lCRbOnvnmMYU7EC83trhp7GqIleRVb7mwfvUUy4TKp0EgaAS72k6Fp0eX5FvG8cmFUgR3vGk0JSAwx6YYrNcTS7HI9b3lcvMnGqVLGB/Q3PWgPTus8UsGpPH1Z4tglAR73Zbnp/Uh6rPIYsHeMf2wG4YY5IEhUFykVOCvXiwhy6ZNtaxUUEm0pKtLFyoDKg==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5367.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(33656002)(52536014)(2906002)(53546011)(6506007)(966005)(8676002)(508600001)(55016002)(5660300002)(8936002)(83380400001)(4326008)(6916009)(7696005)(86362001)(54906003)(71200400001)(9686003)(316002)(66476007)(38070700005)(66946007)(186003)(76116006)(64756008)(66446008)(166002)(38100700002)(122000001)(66556008)(82960400001)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aWREZUlxdFh6Um5QSmhyVVA4WTFOSG9nZlM4TG94V0w0U216TFk4UTlsSExa?=
- =?utf-8?B?MUp4TkFmMUVTRWJKWEx2Mjh6L3VJdU95cVgxTmtnYnFqeDJrQnlOc0diM3Fu?=
- =?utf-8?B?R1lWeHY4ejZVTXlsNHJlZU9mV3hnbnpqQkxBWkIyamNQQUlkUmlVQWhrVUdr?=
- =?utf-8?B?TEVPTzkwaFMxek5iRjhINk5TbDFvVW1LUUxodE5sRlRLUmRxS0hmenoxSEN4?=
- =?utf-8?B?T0RDV0NER0V0ZlgxUktSWUFqN3puWDliYWQxdTdaS25vdVVZb1FrUnRBRVpp?=
- =?utf-8?B?ZTd1OFd0b0RhcStKZittQWtMVnppcFNReXBmNC9MbDdUYzJKOEZCd0JuUW1j?=
- =?utf-8?B?cTEweWladGRWZXR4SEZPWkU3WlhDNlgySXMrV0g2b04zUlNtaktDcitMSWJp?=
- =?utf-8?B?VU9jbkdPVGt1Tm1UQTJVQkVYbGFUQ1c1dnZRZXBUOWtMZDIyMTBLSHNOWHBm?=
- =?utf-8?B?ejQ1VDRXeVVVRGt2b2FoUXYxTytxaFVhdTh6V0tIc2ZkWThpR2w0QXR1REN5?=
- =?utf-8?B?OG1HbEd6ang0TFo0bml5Tk5lT1FiQVlOSmJ5bnBkY1ZpeE9iZ0tGeG1hWndF?=
- =?utf-8?B?RUJVSldCRkV0a1ljSmhUMkFLZGcrQW5PNjNPS3MxWkJLam9VZU44SmlqOE5K?=
- =?utf-8?B?eXRvTEFwZWlyUXd6eE5jYzBBa0U0K3dwOUFveGhOSXpuL05UMUp6dDg4ZmVo?=
- =?utf-8?B?M3UwejBhOGdHWTlZYkxnZ0ZKU2hFSW1PME1LcVVHM1c2YW43OWhQOVkyOU05?=
- =?utf-8?B?THpzYitvOGFFRWw3eitQQzI0ZlU4TU9nM2tMSThjRHQ0SWYyMVRlbmh1QVRn?=
- =?utf-8?B?dXVpZVZ3NTAxY3FZYVpGbGVOMGV5OWhNeHlPQXhtV0ZIZ0g4YU5FODZUNGhV?=
- =?utf-8?B?ZXNkLzJkL292am9YeXJKLy96Y3BsMkN4VTRvWnpGZ0ZPN0dsaDNuWlhlNlNB?=
- =?utf-8?B?VlJHR2RQdU11ZU50bW5lV0dzZWV5LzU4NU9ydGprM1p0bU5VSWpNajFMMkNq?=
- =?utf-8?B?SG5LaEQxUkwzNmQwNEJnU2s1VVYyRkdlVDdZTVJHMnJLTlE4WHBjUE05bjdL?=
- =?utf-8?B?dXdxUWhhT3FDMFVUOE93WlRyTjMwWmRDY0cyaWhtN3FwbzRLUFE5OUlHMERw?=
- =?utf-8?B?aWNxVVE0ZTUrUVZYb2IrVzFrNXVodnVyclVYWjQrZG9FUVFPSHEwYUt2WXhX?=
- =?utf-8?B?anNDbHAySXpVQk9XcExDa1V3WFdaZ09sZDZwZ3JMdFBPRldjTEZFbU5LMTBo?=
- =?utf-8?B?aGUxK0JPWk93Zk9DdzZab0cvMXpWNW91YlhGcVBDZXpyNWhZaHhsMTFGa1Bv?=
- =?utf-8?B?WDI5Mzd5dXpnM2liMzgvK3lPNXRjU2NadSsybG9yNW5JbEl0U1BzZmlUK0hI?=
- =?utf-8?B?L051MVBtQjFJRm5ybGdRNFd6WmlBK2h4QnhvR29TT1ZFaE5YVkZqbmpMTVRq?=
- =?utf-8?B?UVQzMUl3dFFiWmJUdm4rM3lMV3Z2c2RHOThZWHpGNjhzRVBKZFlnTjhYVHRK?=
- =?utf-8?B?VGlOM3dyWE0xN3prUWZOQWxDZDVDUkhxUGlYWnlMVEhpMnRTdzc3UVpRVnd0?=
- =?utf-8?B?NDJ3eHBnMEdjQVk2N3NsWnd6TEZOZzJWNDdRSFd3ZzlLcHN1RDhoSEJQeGl5?=
- =?utf-8?B?SE9YWjVBNlBmc0Y5YWR6NHRmWmthNWtkK1ByMlI2djdQaVhuZXlZclJ2aVVP?=
- =?utf-8?B?dHY2TDdUR1YzR3JQS0NhZHVxYUZzN09PR0E1ZXlEV2FHT2t1YWVqL3J3UWlr?=
- =?utf-8?B?SnhmdktPdkJHWVRqWGo1NmZhby9XOEE0ZFU2cUkrcHZLK1E3OWIrcWZxblNG?=
- =?utf-8?B?MnQyZVR2YVZxSnBITGM1UDZLcTIyZjNDNkR6c1lVUU9YSnVDMEwyNVRjczE2?=
- =?utf-8?B?dXVta2ppcHQ1R1M1UFpWYXQzTC93dkJaVWR0MWxWbzV2VzBOa2dRTm00MjBY?=
- =?utf-8?B?dnNvS3RpVzhBeWp6QktmUEMvQ0l4WEFnRFhoOFk0aVVUZXUvMDg2dEpwOEFJ?=
- =?utf-8?B?cGFNV0N2RngrZHgyeEJKNHIyWHhBUk9lQ0VnSDhWUkhMRUFvcUdtcWtNdWRW?=
- =?utf-8?B?TFkxRTJDeFA1ZDU3M2ppUUF1akR4RWpsTnk3TThBeUxJYk95OG1sQ0xOUjk1?=
- =?utf-8?B?VzBHdlpOc3EvbUV4eGR3SEpDTU5NNGlNaGJTWWRzaVFQZjNLdmxGaGxpTW1k?=
- =?utf-8?Q?Oyjuh/qcZ1JFxIe5lhm+zw8=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_BL1PR11MB5367158FCC6E65266141EF81BB869BL1PR11MB5367namp_"
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ikJpKkNW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.174,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-vk1-f174.google.com with SMTP id bc10so2715426vkb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 28 Oct 2021 03:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q7TqyqCr5zuGUfzlZU9lhANyMaju4R6oMG4+fXiCWFY=;
+        b=ikJpKkNWWyl8YKIy0KbgneF+kWh+klxea26acwCEazFyKoTAkjlD0b25R9T6G+jASk
+         Bu8vYG/MOQMWbpWtkf/302nwfVlWcY5n6gYLSRHXjzlxG7XkBCwlAAiEOeqDdlaXqwrf
+         Ms5IAzUrkOkA+tkkdlxSTTk48taZeoAAoOGxHHCd5XQqHQryJLNXlpF3o4sq8+UXowxx
+         Jeqpsm/AK72ARLrAYZbBPXwoDqUccK3hDOxiIayZGF3S84X7hLNWQvNxd37fNgE2JWRu
+         f2jtazoiIXOW3rLQEO70e7Tw2CdbClN1aCyp6Ew7Y7D+17RwLLFVy2CYGtB9l7+JY4Xl
+         sKRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q7TqyqCr5zuGUfzlZU9lhANyMaju4R6oMG4+fXiCWFY=;
+        b=6/GWQnb542stBlocwYk4XZlYJqlhF5vOTe6Il31t0UfOTJwAVH8bgh1lAUhQI6s7Rf
+         PMtCuTOOHiCrelircUm88Dl8F5K1o0sepHlETj6FcFdatyd/u635x6tHsmk4AIfK04c5
+         ZOLYVIwYng1mqq7rQePNH7dIj37FfU5wlGtabLQ/b+mwX962A6m46TeJlsrWGKcPqyhg
+         at32GUGUJy63rvsmkMvI5tr/2p95vL8hUCfzMUCRCtTKrvuMktrCBasiHbAgn5VtE9GJ
+         BR/RnWvl2Yem6MpdOFcYuDFPBmnKyq34NO/CJOMZqPHoEXqzMV+5VJ35j4iZOlz+AGsd
+         RktA==
+X-Gm-Message-State: AOAM531joa3ihB5MPKMaxWLb5vPHMSVH9VJxNOQ7Hy5/OsdGALsnQOB7
+	DkxuXqmPwqkzHCxiqj0tLWFUmOVrkCuDnbFdUOk=
+X-Google-Smtp-Source: 
+ ABdhPJzBPhLK3ZFWgPMHLmy+BEQyQjk0I4h5SjyAROFckfXDy14fi9X0i2dbIEV8/VEoBim767OsYX9+9A9Y9riDB3c=
+X-Received: by 2002:a05:6122:2e8:: with SMTP id
+ b8mr2588241vko.23.1635416146670;
+ Thu, 28 Oct 2021 03:15:46 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5367.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 20ae391e-d322-4b02-e410-08d999fbd6f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2021 10:15:17.0313
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- 5yz8bmvn9edszmvkzi+0A6YsMDR3ZAXeEq5xpzoE4V+knNSP8dHT7Dh3Vbk1WqxSsERp0+IBWAIG/HJIszut0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5495
-X-OriginatorOrg: intel.com
+References: <20211028095814.171717-1-pgowda.cve@gmail.com>
+ <0c8605845a24803452ebb70082330af16dead6e4.camel@intel.com>
+In-Reply-To: <0c8605845a24803452ebb70082330af16dead6e4.camel@intel.com>
+From: pgowda cve <pgowda.cve@gmail.com>
+Date: Thu, 28 Oct 2021 15:45:36 +0530
+Message-ID: 
+ <CALY4985BksEzoDLUBN=Jvv=q7f1UOtRxEE+6Fc_8OQmZ_r1QOQ@mail.gmail.com>
+Subject: Re: [hardknott][PATCH v2] binutils: Fix CVE-2021-3530
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"rwmacleod@gmail.com" <rwmacleod@gmail.com>,
+ "umesh.kalappa0@gmail.com" <umesh.kalappa0@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 10:15:30 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 10:15:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157587
+ https://lists.openembedded.org/g/openembedded-core/message/157588
 
---_000_BL1PR11MB5367158FCC6E65266141EF81BB869BL1PR11MB5367namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+>> Did you mean CVE-2021-3530 here and in the patches below as well?
 
-Iltkcm1dIENhbm5vdCBmaW5kIGFueSBjcnRjIG9yIHNpemVzIiwNCiJbZHJtXSBDYW5ub3QgZmlu
-ZCBhbnkgY3J0YyBvciBzaXplcyAtIGdvaW5nIDEwMjR4NzY4IiwNCg0KQm90aCBsaW5lcyBhcmUg
-Y292ZXJpbmcgZGlmZmVyZW5jZSBjYXNlLCB0aGUgZmlyc3QgbGluZSBjb3ZlcnMgdGhlIGNhc2Ug
-d2hlbiBubyBmYWxsYmFjayBzaXplIGlzIHNldCwgYW5kIHNlY29uZCBsaW5lIGNvdmVycyB0aGUg
-Y2FzZSB3aGVuIGZhbGxiYWNrIHNpemUgaXMgc2V0Lg0KDQpUaGFua3MsDQpKYXkNCg0KRnJvbTog
-QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQpTZW50OiBUaHVyc2Rh
-eSwgMjggT2N0b2JlciwgMjAyMSA2OjEwIFBNDQpUbzogVGVvaCwgSmF5IFNoZW4gPGpheS5zaGVu
-LnRlb2hAaW50ZWwuY29tPg0KQ2M6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+OyBKb3Nl
-IFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT47IE9FLWNvcmUgPG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
-QVRDSF0gb2VxYS9ydW50aW1lL3BhcnNlbG9nczogd2hpdGVsaXN0IGRybSBmYWlsdXJlIGluIGNv
-bW1vbiBlcnJvcnMgbGlzdA0KDQpCdXQgdGhlbiB5b3UgY2FuIHJlbW92ZSB0aGUgcHJldmlvdXMg
-bGluZSwgcmlnaHQ/DQoNCkFsZXgNCg0KT24gVGh1LCAyOCBPY3QgMjAyMSBhdCAxMjowOCwgVGVv
-aCwgSmF5IFNoZW4gPGpheS5zaGVuLnRlb2hAaW50ZWwuY29tPG1haWx0bzpqYXkuc2hlbi50ZW9o
-QGludGVsLmNvbT4+IHdyb3RlOg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4g
-RnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbTxtYWlsdG86cmFqLmtoZW1AZ21haWwu
-Y29tPj4NCj4gU2VudDogVGh1cnNkYXksIDI4IE9jdG9iZXIsIDIwMjEgMTI6MTcgQU0NCj4gVG86
-IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPG1haWx0bzpxdWFyZXNtYS5q
-b3NlQGdtYWlsLmNvbT4+DQo+IENjOiBUZW9oLCBKYXkgU2hlbiA8amF5LnNoZW4udGVvaEBpbnRl
-bC5jb208bWFpbHRvOmpheS5zaGVuLnRlb2hAaW50ZWwuY29tPj47IE9FLWNvcmUgPG9wZW5lbWJl
-ZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpjb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+Pg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2VxYS9y
-dW50aW1lL3BhcnNlbG9nczogd2hpdGVsaXN0IGRybSBmYWlsdXJlIGluDQo+IGNvbW1vbiBlcnJv
-cnMgbGlzdA0KPg0KPiBPbiBXZWQsIE9jdCAyNywgMjAyMSBhdCAyOjI0IEFNIEpvc2UgUXVhcmVz
-bWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPG1haWx0bzpxdWFyZXNtYS5qb3NlQGdtYWlsLmNv
-bT4+DQo+IHdyb3RlOg0KPiA+DQo+ID4NCj4gPg0KPiA+IFRlb2gsIEpheSBTaGVuIDxqYXkuc2hl
-bi50ZW9oQGludGVsLmNvbTxtYWlsdG86amF5LnNoZW4udGVvaEBpbnRlbC5jb20+PiBlc2NyZXZl
-dSBubyBkaWEgcXVhcnRhLA0KPiAyNy8xMC8yMDIxIMOgKHMpIDEwOjEyOg0KPiA+Pg0KPiA+PiBG
-cm9tOiBUZW9oIEpheSBTaGVuIDxqYXkuc2hlbi50ZW9oQGludGVsLmNvbTxtYWlsdG86amF5LnNo
-ZW4udGVvaEBpbnRlbC5jb20+Pg0KPiA+Pg0KPiA+PiBBZGQgdGhlIGZvbGxvd2luZyBsaW5lIHRv
-IGNvbW1vbl9lcnJvcnMgbGlzdC4NCj4gPj4NCj4gPj4gICBbZHJtXSBDYW5ub3QgZmluZCBhbnkg
-Y3J0YyBvciBzaXplcw0KPiA+Pg0KPiA+PiBUaGlzIG1lc3NhZ2UgaXMgbm90IGhhcm1mdWwsIGl0
-IGV4dGVuZGVkIHRoZSBjb3ZlcmFnZSBmb3IgZHJtIGVycm9yIG1lc3NhZ2UuDQo+ID4+DQo+ID4+
-IFNpZ25lZC1vZmYtYnk6IFRlb2ggSmF5IFNoZW4gPGpheS5zaGVuLnRlb2hAaW50ZWwuY29tPG1h
-aWx0bzpqYXkuc2hlbi50ZW9oQGludGVsLmNvbT4+DQo+ID4+IC0tLQ0KPiA+PiAgbWV0YS9saWIv
-b2VxYS9ydW50aW1lL2Nhc2VzL3BhcnNlbG9ncy5weSB8IDEgKw0KPiA+PiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspDQo+ID4+DQo+ID4+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFh
-L3J1bnRpbWUvY2FzZXMvcGFyc2Vsb2dzLnB5DQo+IGIvbWV0YS9saWIvb2VxYS9ydW50aW1lL2Nh
-c2VzL3BhcnNlbG9ncy5weQ0KPiA+PiBpbmRleCAyYjg4OTNkODQyLi45NmRhMGI0ZjVjIDEwMDY0
-NA0KPiA+PiAtLS0gYS9tZXRhL2xpYi9vZXFhL3J1bnRpbWUvY2FzZXMvcGFyc2Vsb2dzLnB5DQo+
-ID4+ICsrKyBiL21ldGEvbGliL29lcWEvcnVudGltZS9jYXNlcy9wYXJzZWxvZ3MucHkNCj4gPj4g
-QEAgLTMyLDYgKzMyLDcgQEAgY29tbW9uX2Vycm9ycyA9IFsNCj4gPj4gICAgICAiRmFpbGVkIHRv
-IGxvYWQgbW9kdWxlIFwiZmJkZXZcIiIsDQo+ID4+ICAgICAgIkZhaWxlZCB0byBsb2FkIG1vZHVs
-ZSBmYmRldiIsDQo+ID4+ICAgICAgIkZhaWxlZCB0byBsb2FkIG1vZHVsZSBnbHgiLA0KPiA+PiAr
-ICAgICJbZHJtXSBDYW5ub3QgZmluZCBhbnkgY3J0YyBvciBzaXplcyIsDQo+ID4+ICAgICAgIltk
-cm1dIENhbm5vdCBmaW5kIGFueSBjcnRjIG9yIHNpemVzIC0gZ29pbmcgMTAyNHg3NjgiLA0KPiA+
-DQo+ID4NCj4gPiBJIHRoaW5rIHRoaXMgb25lIF4gY2FuIGJlIHJlbW92ZWQNCj4NCj4gd2lsbCB0
-aGUgZmlyc3QgZW50cnkgY292ZXIgdGhlIGNhc2Ugd2hlbiBhIGZhbGxiYWNrIHNpemUgaXMgc2V0
-ID8NCg0KSW4gdGhhdCBjYXNlLCBpdCB3b24ndCBjb3ZlciBpdC4gVGhhdCdzIHdoeSBJIGFtIGFk
-ZGluZyBhIG5ldyBsaW5lIHRvIGV4cGFuZCB0aGUgY292ZXJhZ2UNCg0KPg0KPiA+DQo+ID4+DQo+
-ID4+ICAgICAgIl9PU0MgZmFpbGVkIChBRV9OT1RfRk9VTkQpOyBkaXNhYmxpbmcgQVNQTSIsDQo+
-ID4+ICAgICAgIk9wZW4gQUNQSSBmYWlsZWQgKC92YXIvcnVuL2FjcGlkLnNvY2tldCkgKE5vIHN1
-Y2ggZmlsZSBvciBkaXJlY3RvcnkpIiwNCj4gPj4gLS0NCj4gPj4gMi4zMy4xDQo+ID4+DQo+ID4+
-DQo+ID4+DQo+ID4+DQo+ID4NCj4gPg0KPiA+IC0tDQo+ID4gQmVzdCByZWdhcmRzLA0KPiA+DQo+
-ID4gSm9zw6kgUXVhcmVzbWENCj4gPg0KPiA+DQo+ID4NCg0KLT0tPS09LT0tPS09LT0tPS09LT0t
-PS0NCkxpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0K
-Vmlldy9SZXBseSBPbmxpbmUgKCMxNTc1ODQpOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE1NzU4NA0KTXV0ZSBUaGlzIFRvcGljOiBo
-dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvODY2MjM0ODMvMTY4NjQ4OQ0KR3JvdXAg
-T3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFp
-bHRvOm9wZW5lbWJlZGRlZC1jb3JlJTJCb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClVu
-c3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQt
-Y29yZS91bnN1YiBbYWxleC5rYW5hdmluQGdtYWlsLmNvbTxtYWlsdG86YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT5dDQotPS09LT0tPS09LT0tPS09LT0tPS09LQ0K
+Should I have it in the commit message or in the patches?
 
---_000_BL1PR11MB5367158FCC6E65266141EF81BB869BL1PR11MB5367namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Thanks,
+Naveen
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
-bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5k
-b3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
-CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
-cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
-IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
-PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
-b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tTVkiIGxpbms9
-ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2
-IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+JnF1b3Q7W2RybV0g
-Q2Fubm90IGZpbmQgYW55IGNydGMgb3Igc2l6ZXMmcXVvdDssPGJyPg0KJnF1b3Q7W2RybV0gQ2Fu
-bm90IGZpbmQgYW55IGNydGMgb3Igc2l6ZXMgLSBnb2luZyAxMDI0eDc2OCZxdW90Oyw8bzpwPjwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+Qm90aCBsaW5lcyBhcmUgY292ZXJpbmcgZGlmZmVyZW5jZSBjYXNl
-LCB0aGUgZmlyc3QgbGluZSBjb3ZlcnMgdGhlIGNhc2Ugd2hlbiBubyBmYWxsYmFjayBzaXplIGlz
-IHNldCwgYW5kIHNlY29uZCBsaW5lIGNvdmVycyB0aGUgY2FzZSB3aGVuIGZhbGxiYWNrIHNpemUg
-aXMgc2V0Lg0KPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFn
-ZTpFTi1VUyI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+SmF5PG86cD48L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJl
-YXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0
-eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNt
-IDBjbSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10
-b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNw
-YW4gbGFuZz0iRU4tVVMiPiBBbGV4YW5kZXIgS2FuYXZpbiAmbHQ7YWxleC5rYW5hdmluQGdtYWls
-LmNvbSZndDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBUaHVyc2RheSwgMjggT2N0b2JlciwgMjAyMSA2
-OjEwIFBNPGJyPg0KPGI+VG86PC9iPiBUZW9oLCBKYXkgU2hlbiAmbHQ7amF5LnNoZW4udGVvaEBp
-bnRlbC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBLaGVtIFJhaiAmbHQ7cmFqLmtoZW1AZ21haWwu
-Y29tJmd0OzsgSm9zZSBRdWFyZXNtYSAmbHQ7cXVhcmVzbWEuam9zZUBnbWFpbC5jb20mZ3Q7OyBP
-RS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2VxYS9ydW50aW1lL3Bh
-cnNlbG9nczogd2hpdGVsaXN0IGRybSBmYWlsdXJlIGluIGNvbW1vbiBlcnJvcnMgbGlzdDxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-QnV0IHRoZW4geW91IGNhbiByZW1vdmUgdGhlIHByZXZpb3VzIGxpbmUsIHJpZ2h0PzxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5BbGV4PG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
-cDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFRodSwg
-MjggT2N0IDIwMjEgYXQgMTI6MDgsIFRlb2gsIEpheSBTaGVuICZsdDs8YSBocmVmPSJtYWlsdG86
-amF5LnNoZW4udGVvaEBpbnRlbC5jb20iPmpheS5zaGVuLnRlb2hAaW50ZWwuY29tPC9hPiZndDsg
-d3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6
-bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20g
-Ni4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPjxicj4NCjxicj4NCiZndDsgLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS08YnI+DQomZ3Q7IEZyb206IEtoZW0gUmFqICZsdDs8YSBo
-cmVmPSJtYWlsdG86cmFqLmtoZW1AZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+cmFqLmtoZW1A
-Z21haWwuY29tPC9hPiZndDs8YnI+DQomZ3Q7IFNlbnQ6IFRodXJzZGF5LCAyOCBPY3RvYmVyLCAy
-MDIxIDEyOjE3IEFNPGJyPg0KJmd0OyBUbzogSm9zZSBRdWFyZXNtYSAmbHQ7PGEgaHJlZj0ibWFp
-bHRvOnF1YXJlc21hLmpvc2VAZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+cXVhcmVzbWEuam9z
-ZUBnbWFpbC5jb208L2E+Jmd0Ozxicj4NCiZndDsgQ2M6IFRlb2gsIEpheSBTaGVuICZsdDs8YSBo
-cmVmPSJtYWlsdG86amF5LnNoZW4udGVvaEBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5qYXku
-c2hlbi50ZW9oQGludGVsLmNvbTwvYT4mZ3Q7OyBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtPGJy
-Pg0KJmd0OyA8YSBocmVmPSJtYWlsdG86Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJn
-ZXQ9Il9ibGFuayI+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPiZndDs8YnI+DQomZ3Q7
-IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBvZXFhL3J1bnRpbWUvcGFyc2Vsb2dzOiB3
-aGl0ZWxpc3QgZHJtIGZhaWx1cmUgaW48YnI+DQomZ3Q7IGNvbW1vbiBlcnJvcnMgbGlzdDxicj4N
-CiZndDsgPGJyPg0KJmd0OyBPbiBXZWQsIE9jdCAyNywgMjAyMSBhdCAyOjI0IEFNIEpvc2UgUXVh
-cmVzbWEgJmx0OzxhIGhyZWY9Im1haWx0bzpxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbSIgdGFyZ2V0
-PSJfYmxhbmsiPnF1YXJlc21hLmpvc2VAZ21haWwuY29tPC9hPiZndDs8YnI+DQomZ3Q7IHdyb3Rl
-Ojxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsg
-Jmd0OyBUZW9oLCBKYXkgU2hlbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmpheS5zaGVuLnRlb2hAaW50
-ZWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+amF5LnNoZW4udGVvaEBpbnRlbC5jb208L2E+Jmd0OyBl
-c2NyZXZldSBubyBkaWEgcXVhcnRhLDxicj4NCiZndDsgMjcvMTAvMjAyMSDDoChzKSAxMDoxMjo8
-YnI+DQomZ3Q7ICZndDsmZ3Q7PGJyPg0KJmd0OyAmZ3Q7Jmd0OyBGcm9tOiBUZW9oIEpheSBTaGVu
-ICZsdDs8YSBocmVmPSJtYWlsdG86amF5LnNoZW4udGVvaEBpbnRlbC5jb20iIHRhcmdldD0iX2Js
-YW5rIj5qYXkuc2hlbi50ZW9oQGludGVsLmNvbTwvYT4mZ3Q7PGJyPg0KJmd0OyAmZ3Q7Jmd0Ozxi
-cj4NCiZndDsgJmd0OyZndDsgQWRkIHRoZSBmb2xsb3dpbmcgbGluZSB0byBjb21tb25fZXJyb3Jz
-IGxpc3QuPGJyPg0KJmd0OyAmZ3Q7Jmd0Ozxicj4NCiZndDsgJmd0OyZndDsmbmJzcDsgJm5ic3A7
-W2RybV0gQ2Fubm90IGZpbmQgYW55IGNydGMgb3Igc2l6ZXM8YnI+DQomZ3Q7ICZndDsmZ3Q7PGJy
-Pg0KJmd0OyAmZ3Q7Jmd0OyBUaGlzIG1lc3NhZ2UgaXMgbm90IGhhcm1mdWwsIGl0IGV4dGVuZGVk
-IHRoZSBjb3ZlcmFnZSBmb3IgZHJtIGVycm9yIG1lc3NhZ2UuPGJyPg0KJmd0OyAmZ3Q7Jmd0Ozxi
-cj4NCiZndDsgJmd0OyZndDsgU2lnbmVkLW9mZi1ieTogVGVvaCBKYXkgU2hlbiAmbHQ7PGEgaHJl
-Zj0ibWFpbHRvOmpheS5zaGVuLnRlb2hAaW50ZWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+amF5LnNo
-ZW4udGVvaEBpbnRlbC5jb208L2E+Jmd0Ozxicj4NCiZndDsgJmd0OyZndDsgLS0tPGJyPg0KJmd0
-OyAmZ3Q7Jmd0OyZuYnNwOyBtZXRhL2xpYi9vZXFhL3J1bnRpbWUvY2FzZXMvcGFyc2Vsb2dzLnB5
-IHwgMSArPGJyPg0KJmd0OyAmZ3Q7Jmd0OyZuYnNwOyAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyk8YnI+DQomZ3Q7ICZndDsmZ3Q7PGJyPg0KJmd0OyAmZ3Q7Jmd0OyBkaWZmIC0tZ2l0IGEv
-bWV0YS9saWIvb2VxYS9ydW50aW1lL2Nhc2VzL3BhcnNlbG9ncy5weTxicj4NCiZndDsgYi9tZXRh
-L2xpYi9vZXFhL3J1bnRpbWUvY2FzZXMvcGFyc2Vsb2dzLnB5PGJyPg0KJmd0OyAmZ3Q7Jmd0OyBp
-bmRleCAyYjg4OTNkODQyLi45NmRhMGI0ZjVjIDEwMDY0NDxicj4NCiZndDsgJmd0OyZndDsgLS0t
-IGEvbWV0YS9saWIvb2VxYS9ydW50aW1lL2Nhc2VzL3BhcnNlbG9ncy5weTxicj4NCiZndDsgJmd0
-OyZndDsgKysrIGIvbWV0YS9saWIvb2VxYS9ydW50aW1lL2Nhc2VzL3BhcnNlbG9ncy5weTxicj4N
-CiZndDsgJmd0OyZndDsgQEAgLTMyLDYgKzMyLDcgQEAgY29tbW9uX2Vycm9ycyA9IFs8YnI+DQom
-Z3Q7ICZndDsmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJnF1b3Q7RmFpbGVkIHRvIGxvYWQgbW9k
-dWxlIFwmcXVvdDtmYmRldlwmcXVvdDsmcXVvdDssPGJyPg0KJmd0OyAmZ3Q7Jmd0OyZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZxdW90O0ZhaWxlZCB0byBsb2FkIG1vZHVsZSBmYmRldiZxdW90Oyw8YnI+
-DQomZ3Q7ICZndDsmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJnF1b3Q7RmFpbGVkIHRvIGxvYWQg
-bW9kdWxlIGdseCZxdW90Oyw8YnI+DQomZ3Q7ICZndDsmZ3Q7ICsmbmJzcDsgJm5ic3A7ICZxdW90
-O1tkcm1dIENhbm5vdCBmaW5kIGFueSBjcnRjIG9yIHNpemVzJnF1b3Q7LDxicj4NCiZndDsgJmd0
-OyZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmcXVvdDtbZHJtXSBDYW5ub3QgZmluZCBhbnkgY3J0
-YyBvciBzaXplcyAtIGdvaW5nIDEwMjR4NzY4JnF1b3Q7LDxicj4NCiZndDsgJmd0Ozxicj4NCiZn
-dDsgJmd0Ozxicj4NCiZndDsgJmd0OyBJIHRoaW5rIHRoaXMgb25lIF4gY2FuIGJlIHJlbW92ZWQ8
-YnI+DQomZ3Q7IDxicj4NCiZndDsgd2lsbCB0aGUgZmlyc3QgZW50cnkgY292ZXIgdGhlIGNhc2Ug
-d2hlbiBhIGZhbGxiYWNrIHNpemUgaXMgc2V0ID88YnI+DQo8YnI+DQpJbiB0aGF0IGNhc2UsIGl0
-IHdvbid0IGNvdmVyIGl0LiBUaGF0J3Mgd2h5IEkgYW0gYWRkaW5nIGEgbmV3IGxpbmUgdG8gZXhw
-YW5kIHRoZSBjb3ZlcmFnZTxicj4NCjxicj4NCiZndDsgPGJyPg0KJmd0OyAmZ3Q7PGJyPg0KJmd0
-OyAmZ3Q7Jmd0Ozxicj4NCiZndDsgJmd0OyZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmcXVvdDtf
-T1NDIGZhaWxlZCAoQUVfTk9UX0ZPVU5EKTsgZGlzYWJsaW5nIEFTUE0mcXVvdDssPGJyPg0KJmd0
-OyAmZ3Q7Jmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZxdW90O09wZW4gQUNQSSBmYWlsZWQgKC92
-YXIvcnVuL2FjcGlkLnNvY2tldCkgKE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkpJnF1b3Q7LDxi
-cj4NCiZndDsgJmd0OyZndDsgLS08YnI+DQomZ3Q7ICZndDsmZ3Q7IDIuMzMuMTxicj4NCiZndDsg
-Jmd0OyZndDs8YnI+DQomZ3Q7ICZndDsmZ3Q7PGJyPg0KJmd0OyAmZ3Q7Jmd0Ozxicj4NCiZndDsg
-Jmd0OyZndDs8YnI+DQomZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgLS08
-YnI+DQomZ3Q7ICZndDsgQmVzdCByZWdhcmRzLDxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0
-OyBKb3PDqSBRdWFyZXNtYTxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyA8YnI+DQomZ3Q7
-ICZndDs8YnI+DQo8YnI+DQotPS09LT0tPS09LT0tPS09LT0tPS09LTxicj4NCkxpbmtzOiBZb3Ug
-cmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLjxicj4NClZpZXcvUmVwbHkg
-T25saW5lICgjMTU3NTg0KTogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
-L2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNTc1ODQiIHRhcmdldD0iX2JsYW5rIj4NCmh0
-dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2Uv
-MTU3NTg0PC9hPjxicj4NCk11dGUgVGhpcyBUb3BpYzogPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5v
-cGVuZW1iZWRkZWQub3JnL210Lzg2NjIzNDgzLzE2ODY0ODkiIHRhcmdldD0iX2JsYW5rIj4NCmh0
-dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC84NjYyMzQ4My8xNjg2NDg5PC9hPjxicj4N
-Ckdyb3VwIE93bmVyOiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUlMkJvd25lckBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+DQpvcGVuZW1iZWRkZWQtY29y
-ZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxicj4NClVuc3Vic2NyaWJlOiA8YSBo
-cmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91
-bnN1YiIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
-b3BlbmVtYmVkZGVkLWNvcmUvdW5zdWI8L2E+IFs8YSBocmVmPSJtYWlsdG86YWxleC5rYW5hdmlu
-QGdtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFsZXgua2FuYXZpbkBnbWFpbC5jb208L2E+XTxi
-cj4NCi09LT0tPS09LT0tPS09LT0tPS09LT0tPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
-
---_000_BL1PR11MB5367158FCC6E65266141EF81BB869BL1PR11MB5367namp_--
+On Thu, Oct 28, 2021 at 3:32 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Thu, 2021-10-28 at 02:58 -0700, Pgowda wrote:
+> > CVE: CVE-2015-3530
+>
+> Did you mean CVE-2021-3530 here and in the patches below as well?
+>
+> Thanks,
+>
+> Anuj
+>
+> > Upstream-Status:
+> > Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=25162c795b1a2becf936bb3581d86a307ea491eb
+> > ]
+> > Upstream-Status:
+> > Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=999566402e3
+> > ]
+> >
+> > Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+> > ---
+> >  .../binutils/binutils-2.36.inc                |   2 +
+> >  .../binutils/0017-CVE-2021-3530.patch         | 102
+> > ++++++++++++++++++
+> >  .../binutils/0018-CVE-2021-3530.patch         |  64 +++++++++++
+> >  3 files changed, 168 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-
+> > 2021-3530.patch
+> >  create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-
+> > 2021-3530.patch
+> >
+> > diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc
+> > b/meta/recipes-devtools/binutils/binutils-2.36.inc
+> > index 9d770db5a8..7d0824e060 100644
+> > --- a/meta/recipes-devtools/binutils/binutils-2.36.inc
+> > +++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
+> > @@ -44,5 +44,7 @@ SRC_URI = "\
+> >       file://0001-CVE-2021-20197.patch \
+> >       file://0002-CVE-2021-20197.patch \
+> >       file://0003-CVE-2021-20197.patch \
+> > +     file://0017-CVE-2021-3530.patch \
+> > +     file://0018-CVE-2021-3530.patch \
+> >  "
+> >  S  = "${WORKDIR}/git"
+> > diff --git a/meta/recipes-devtools/binutils/binutils/0017-CVE-2021-
+> > 3530.patch b/meta/recipes-devtools/binutils/binutils/0017-CVE-2021-
+> > 3530.patch
+> > new file mode 100644
+> > index 0000000000..3eba99132b
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/binutils/binutils/0017-CVE-2021-
+> > 3530.patch
+> > @@ -0,0 +1,102 @@
+> > +From 25162c795b1a2becf936bb3581d86a307ea491eb Mon Sep 17 00:00:00
+> > 2001
+> > +From: Nick Clifton <nickc@redhat.com>
+> > +Date: Thu, 15 Jul 2021 16:51:56 +0100
+> > +Subject: [PATCH] Fix a stack exhaustion problem in the Rust
+> > demangling code in
+> > + the libiberty library.
+> > +
+> > +       PR 99935
+> > +       * rust-demangle.c: Add recursion limit.
+> > +
+> > +CVE: CVE-2015-3530
+> > +Upstream-Status:
+> > Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=25162c795b1a2becf936bb3581d86a307ea491eb
+> > ]
+> > +Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+> > +
+> > +---
+> > + libiberty/ChangeLog       |  5 +++++
+> > + libiberty/rust-demangle.c | 31 +++++++++++++++++++++++++------
+> > + 2 files changed, 30 insertions(+), 6 deletions(-)
+> > +
+> > +diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
+> > +index bc1b35b97c4..8e39fd28eba 100644
+> > +--- a/libiberty/ChangeLog
+> > ++++ b/libiberty/ChangeLog
+> > +@@ -1,3 +1,8 @@
+> > ++2021-07-15  Nick Clifton  <nickc@redhat.com>
+> > ++
+> > ++      PR 99935
+> > ++      * rust-demangle.c: Add recursion limit.
+> > ++
+> > + 2021-01-04  Martin Liska  <mliska@suse.cz>
+> > +
+> > +       * strverscmp.c: Convert to utf8 from iso8859.
+> > +diff --git a/libiberty/rust-demangle.c b/libiberty/rust-demangle.c
+> > +index 449941b56dc..df09b7b8fdd 100644
+> > +--- a/libiberty/rust-demangle.c
+> > ++++ b/libiberty/rust-demangle.c
+> > +@@ -74,6 +74,12 @@ struct rust_demangler
+> > +   /* Rust mangling version, with legacy mangling being -1. */
+> > +   int version;
+> > +
+> > ++  /* Recursion depth.  */
+> > ++  uint recursion;
+> > ++  /* Maximum number of times demangle_path may be called
+> > recursively.  */
+> > ++#define RUST_MAX_RECURSION_COUNT  1024
+> > ++#define RUST_NO_RECURSION_LIMIT   ((uint) -1)
+> > ++
+> > +   uint64_t bound_lifetime_depth;
+> > + };
+> > +
+> > +@@ -671,6 +677,15 @@ demangle_path (struct rust_demangler *rd
+> > +   if (rdm->errored)
+> > +     return;
+> > +
+> > ++  if (rdm->recursion != RUST_NO_RECURSION_LIMIT)
+> > ++    {
+> > ++      ++ rdm->recursion;
+> > ++      if (rdm->recursion > RUST_MAX_RECURSION_COUNT)
+> > ++      /* FIXME: There ought to be a way to report
+> > ++         that the recursion limit has been reached.  */
+> > ++      goto fail_return;
+> > ++    }
+> > ++
+> > +   switch (tag = next (rdm))
+> > +     {
+> > +     case 'C':
+> > +@@ -688,10 +703,7 @@ demangle_path (struct rust_demangler *rd
+> > +     case 'N':
+> > +       ns = next (rdm);
+> > +       if (!ISLOWER (ns) && !ISUPPER (ns))
+> > +-        {
+> > +-          rdm->errored = 1;
+> > +-          return;
+> > +-        }
+> > ++      goto fail_return;
+> > +
+> > +       demangle_path (rdm, in_value);
+> > +
+> > +@@ -776,9 +788,15 @@ demangle_path (struct rust_demangler *rd
+> > +         }
+> > +       break;
+> > +     default:
+> > +-      rdm->errored = 1;
+> > +-      return;
+> > ++      goto fail_return;
+> > +     }
+> > ++  goto pass_return;
+> > ++
+> > ++ fail_return:
+> > ++  rdm->errored = 1;
+> > ++ pass_return:
+> > ++  if (rdm->recursion != RUST_NO_RECURSION_LIMIT)
+> > ++    -- rdm->recursion;
+> > + }
+> > +
+> > + static void
+> > +@@ -1317,6 +1335,7 @@ rust_demangle_callback (const char *mang
+> > +   rdm.skipping_printing = 0;
+> > +   rdm.verbose = (options & DMGL_VERBOSE) != 0;
+> > +   rdm.version = 0;
+> > ++  rdm.recursion = (options & DMGL_NO_RECURSE_LIMIT) ?
+> > RUST_NO_RECURSION_LIMIT : 0;
+> > +   rdm.bound_lifetime_depth = 0;
+> > +
+> > +   /* Rust symbols always start with _R (v0) or _ZN (legacy). */
+> > diff --git a/meta/recipes-devtools/binutils/binutils/0018-CVE-2021-
+> > 3530.patch b/meta/recipes-devtools/binutils/binutils/0018-CVE-2021-
+> > 3530.patch
+> > new file mode 100644
+> > index 0000000000..857ac5b3d0
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/binutils/binutils/0018-CVE-2021-
+> > 3530.patch
+> > @@ -0,0 +1,64 @@
+> > +From 999566402e3d7c69032bbf47e28b44fc0926fe62 Mon Sep 17 00:00:00
+> > 2001
+> > +From: Christopher Wellons <wellons@nullprogram.com>
+> > +Date: Sun, 18 Jul 2021 16:57:19 -0400
+> > +Subject: [PATCH] Change "uint" to "unsigned"
+> > +
+> > +This fixes a defect introduced in 25162c795. The "uint" type has not
+> > +been explicitly defined here on mingw, causing compilation to fail.
+> > +
+> > +On linux we have this in /usr/include/sys/types.h
+> > +
+> > +/* Old compatibility names for C types.  */
+> > +typedef unsigned long int ulong;
+> > +typedef unsigned short int ushort;
+> > +typedef unsigned int uint;
+> > +
+> > +So it's easy to see how such bugs can creep in.
+> > +
+> > +       * rust-demangle.c (struct rust_demangler): Change type of
+> > +       "recursion" to unsigned.
+> > +       (RUST_NO_RECURSION_LIMIT): Similarly in cast.
+> > +
+> > +CVE: CVE-2015-3530
+> > +Upstream-Status:
+> > Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=999566402e3
+> > ]
+> > +Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+> > +
+> > +---
+> > + libiberty/ChangeLog       | 6 ++++++
+> > + libiberty/rust-demangle.c | 4 ++--
+> > + 2 files changed, 8 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
+> > +index 8e39fd28eba..3f749455f05 100644
+> > +--- a/libiberty/ChangeLog
+> > ++++ b/libiberty/ChangeLog
+> > +@@ -1,3 +1,9 @@
+> > ++2021-07-19  Christopher Wellons  <wellons@nullprogram.com>
+> > ++
+> > ++      * rust-demangle.c (struct rust_demangler): Change type of
+> > ++      "recursion" to unsigned.
+> > ++      (RUST_NO_RECURSION_LIMIT): Similarly in cast.
+> > ++
+> > + 2021-07-15  Nick Clifton  <nickc@redhat.com>
+> > +
+> > +       PR 99935
+> > +diff --git a/libiberty/rust-demangle.c b/libiberty/rust-demangle.c
+> > +index df09b7b8fdd..ac1eb8eb02c 100644
+> > +--- a/libiberty/rust-demangle.c
+> > ++++ b/libiberty/rust-demangle.c
+> > +@@ -75,10 +75,10 @@ struct rust_demangler
+> > +   int version;
+> > +
+> > +   /* Recursion depth.  */
+> > +-  uint recursion;
+> > ++  unsigned recursion;
+> > +   /* Maximum number of times demangle_path may be called
+> > recursively.  */
+> > + #define RUST_MAX_RECURSION_COUNT  1024
+> > +-#define RUST_NO_RECURSION_LIMIT   ((uint) -1)
+> > ++#define RUST_NO_RECURSION_LIMIT   ((unsigned) -1)
+> > +
+> > +   uint64_t bound_lifetime_depth;
+> > + };
+> > +--
+> > +2.27.0
+> > +
+>
 
