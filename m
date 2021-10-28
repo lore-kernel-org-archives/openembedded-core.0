@@ -1,212 +1,282 @@
-Return-Path: <martyn.welch@collabora.com>
+Return-Path: <lukma@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9801AC433F5
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 11:53:38 +0000 (UTC)
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by mx.groups.io with SMTP id smtpd.web09.12236.1635422016590255358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C364BC433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 12:00:44 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web08.11865.1635422438667504788
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 04:53:37 -0700
+ Thu, 28 Oct 2021 05:00:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: collabora.com, ip: 46.235.227.227, mailfrom: martyn.welch@collabora.com)
-Received: from [IPv6:2a00:23c6:c31a:b300:ee2f:9265:f233:6c40] (unknown
- [IPv6:2a00:23c6:c31a:b300:ee2f:9265:f233:6c40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dkim=fail reason="body hash did not verify" header.i=@denx.de
+ header.s=phobos-20191101 header.b=Tdea1KwQ;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl
+ [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: martyn)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 63A161F44F14;
-	Thu, 28 Oct 2021 12:53:33 +0100 (BST)
-Message-ID: <cb70421426fac6c4a04d3d5594df3c40b65b5038.camel@collabora.com>
-Subject: Re: [OE-core] [PATCHv2 2/2] insane.bbclass: Add a check for
- directories that are expected to be empty
-From: Martyn Welch <martyn.welch@collabora.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 28 Oct 2021 12:53:30 +0100
-In-Reply-To: <16B224206AAEB8D4.30289@lists.openembedded.org>
-References: <20211027180522.19680-1-pkj@axis.com>
-	 <20211027180522.19680-2-pkj@axis.com>
-	 <16B224206AAEB8D4.30289@lists.openembedded.org>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.0-2 
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 245E7831D3;
+	Thu, 28 Oct 2021 14:00:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1635422435;
+	bh=1i6aEgd1LqNENe1MOW00z2XLKXx9JbynCY5FatJRAtg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Tdea1KwQcx2kV9ZUEM3JPQ6PsC3wQZBx32CChUYgr0U0N33yRX46feJ4nnMLYdlRz
+	 c6MtrZLjAlETPfI+lHOmsqhqmcrlWrGoA76uwTDU2dxjG0Url9HMeI3El66ENnxtDb
+	 29vj/g9edOi70uAKb3zCtBwgZJr+gcygnzC6hW+0zQ64jw+261AfkgiYh92/o+Wq+W
+	 8x47b/hSQhzYnvSlbUXsTwveM1O1iAOMRcm48rRa2bFFCcqOXckyUqvQmYaDvt/C+1
+	 5zgALK6LXE0smuLVwwWB8H6Gx/syrgGa4yy2qDwxGtnSbVspzvWyCQyDpO8mzV0FDG
+	 v09wNHLdw55yA==
+From: Lukasz Majewski <lukma@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Nathan Rossi <nathan@nathanrossi.com>,
+	Khem Raj <raj.khem@gmail.com>
+Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Lukasz Majewski <lukma@denx.de>
+Subject: [PATCH v3] glibc: ptest: Add running glibc time related test suite
+ (Y2038) with ptest
+Date: Thu, 28 Oct 2021 14:00:20 +0200
+Message-Id: <20211028120020.23276-1-lukma@denx.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 11:53:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 12:00:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157594
+ https://lists.openembedded.org/g/openembedded-core/message/157595
 
-On Thu, 2021-10-28 at 09:22 +0100, Martyn Welch wrote:
-> On Wed, 2021-10-27 at 20:05 +0200, Peter Kjellerstedt wrote:
-> > The empty-dirs QA check verifies that all directories specified in
-> > QA_EMPTY_DIRS are empty. It is possible to specify why a directory is
-> > expected to be empty by defining QA_EMPTY_DIRS_RECOMMENDATION:<path>,
-> > which will then be included in the error message if the directory is
-> > not empty. If it is not specified for a directory, then "but it is
-> > expected to be empty" will be used.
-> >=20
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >=20
-> > PATCHv2: No changes.
-> >=20
-> > =C2=A0meta/classes/insane.bbclass=C2=A0 | 33 ++++++++++++++++++++++++=
-++++++++-
-> > =C2=A0meta/conf/documentation.conf |=C2=A0 2 ++
-> > =C2=A02 files changed, 34 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes/insane.bbclass
-> > b/meta/classes/insane.bbclass
-> > index 1e2f1b768a..1675adf6ac 100644
-> > --- a/meta/classes/insane.bbclass
-> > +++ b/meta/classes/insane.bbclass
-> > @@ -37,7 +37,7 @@ ERROR_QA ?=3D "dev-so debug-deps dev-deps debug-fil=
-es
-> > arch pkgconfig la \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 configure-gettext perllocalpod shebang-size \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 already-stripped installed-vs-shipped ldflags compile-
-> > host-path \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 install-host-path pn-overrides unknown-configure-option
-> > \
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u=
-seless-rpaths rpaths staticdev \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u=
-seless-rpaths rpaths staticdev empty-dirs \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 "
-> > =C2=A0# Add usrmerge QA check based on distro feature
-> > =C2=A0ERROR_QA:append =3D "${@bb.utils.contains('DISTRO_FEATURES',
-> > 'usrmerge', ' usrmerge', '', d)}"
-> > @@ -50,6 +50,21 @@ ALL_QA =3D "${WARN_QA} ${ERROR_QA}"
-> > =C2=A0
-> > =C2=A0UNKNOWN_CONFIGURE_WHITELIST ?=3D "--enable-nls --disable-nls --
-> > disable-silent-rules --disable-dependency-tracking --with-libtool-
-> > sysroot --disable-static"
-> > =C2=A0
-> > +# This is a list of directories that are expected to be empty.
-> > +QA_EMPTY_DIRS ?=3D " \
-> > +=C2=A0=C2=A0=C2=A0 /dev/pts \
-> > +=C2=A0=C2=A0=C2=A0 /media \
-> > +=C2=A0=C2=A0=C2=A0 /proc \
-> > +=C2=A0=C2=A0=C2=A0 /run \
-> > +=C2=A0=C2=A0=C2=A0 /tmp \
-> > +=C2=A0=C2=A0=C2=A0 ${localstatedir}/run \
-> > +=C2=A0=C2=A0=C2=A0 ${localstatedir}/volatile \
-> > +"
-> > +# It is possible to specify why a directory is expected to be empty
-> > by defining
-> > +# QA_EMPTY_DIRS_RECOMMENDATION:<path>, which will then be included
-> > in the error
-> > +# message if the directory is not empty. If it is not specified for
-> > a directory,
-> > +# then "but it is expected to be empty" will be used.
-> > +
->=20
-> One thing I've just noticed is that this is more strictly limited to
-> ensuring certain directories are empty, rather than ensuring certain
-> paths (which may include the existance of an empty directory or a
-> file). Could this be modified to allow wildcard entries, as with the
-> proposal I originally submitted?
->=20
+This patch introduces new recipe - namely 'glibc-tests', which
+builds and installs time related (to check if Y2038 support works) glibc
+test suite to OE/Yocto built image.
 
-Hmm, actually, this would probably really complicate the
-QA_EMPTY_DIRS_RECOMMENDATION functionality and it looks like we really
-only check for empty directories, so:
+It reuses code from already available 'glibc-testsuite' recipe,
+which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+to execute remotely (via SSH) tests on some emulated machine.
 
-Acked-by: Martyn Welch <martyn.welch@collabora.com>
-Tested-by: Martyn Welch <martyn.welch@collabora.com>
+This recipe installs time related glibc tests on some rootfs image.
+Afterwards, those tests can be executed on the real hardware, to
+facilitate validation of it with Y2038 problem compliance.
 
-> > =C2=A0def package_qa_clean_path(path, d, pkg=3DNone):
-> > =C2=A0=C2=A0=C2=A0=C2=A0 """
-> > =C2=A0=C2=A0=C2=A0=C2=A0 Remove redundant paths from the path for dis=
-play.=C2=A0 If pkg isn't
-> > set then
-> > @@ -885,6 +900,22 @@ def package_qa_check_unlisted_pkg_lics(package,
-> > d, messages):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 "listed in LICENSE" % (package, '
-> > '.join(unlisted)))
-> > =C2=A0=C2=A0=C2=A0=C2=A0 return False
-> > =C2=A0
-> > +QAPKGTEST[empty-dirs] =3D "package_qa_check_empty_dirs"
-> > +def package_qa_check_empty_dirs(pkg, d, messages):
-> > +=C2=A0=C2=A0=C2=A0 """
-> > +=C2=A0=C2=A0=C2=A0 Check for the existence of files in directories t=
-hat are
-> > expected to be
-> > +=C2=A0=C2=A0=C2=A0 empty.
-> > +=C2=A0=C2=A0=C2=A0 """
-> > +
-> > +=C2=A0=C2=A0=C2=A0 pkgd =3D oe.path.join(d.getVar('PKGDEST'), pkg)
-> > +=C2=A0=C2=A0=C2=A0 for dir in (d.getVar('QA_EMPTY_DIRS') or "").spli=
-t():
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 empty_dir =3D oe.path.joi=
-n(pkgd, dir)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if os.path.exists(empty_d=
-ir) and os.listdir(empty_dir):
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
-ecommendation =3D
-> > (d.getVar('QA_EMPTY_DIRS_RECOMMENDATION:' + dir) or
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "but it is expected to be empty")
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 m=
-sg =3D "%s installs files in %s, %s" % (pkg, dir,
-> > recommendation)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 o=
-e.qa.add_message(messages, "empty-dirs", msg)
-> > +
-> > =C2=A0def package_qa_check_encoding(keys, encode, d):
-> > =C2=A0=C2=A0=C2=A0=C2=A0 def check_encoding(key, enc):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sane =3D True
-> > diff --git a/meta/conf/documentation.conf
-> > b/meta/conf/documentation.conf
-> > index 80ad8e10d5..45cd01374a 100644
-> > --- a/meta/conf/documentation.conf
-> > +++ b/meta/conf/documentation.conf
-> > @@ -345,6 +345,8 @@ PYPI_SRC_URI[doc] =3D "The URI to use to fetch fr=
-om
-> > pypi, default uses pythonhoste
-> > =C2=A0
-> > =C2=A0#Q
-> > =C2=A0
-> > +QA_EMPTY_DIRS[doc] =3D "A list of directories that are expected to b=
-e
-> > empty."
-> > +QA_EMPTY_DIRS_RECOMMENDATION[doc] =3D "This specifies a recommendati=
-on
-> > for a directory why it must be empty, which will be included in the
-> > error message if the directory is not empty."
-> > =C2=A0QMAKE_PROFILES[doc] =3D "Specifies your own subset of .pro file=
-s to be
-> > built for use with qmake."
-> > =C2=A0
-> > =C2=A0#R
-> >=20
-> >=20
-> >=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157579):
-> https://lists.openembedded.org/g/openembedded-core/message/157579
-> Mute This Topic: https://lists.openembedded.org/mt/86634477/6512429
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[martyn.w=
-elch@collabora.com
-> ]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+To test time related subset - one needs to call:
+ptest-runner glibc-tests
+then change the date after Y2038 threshold for 32 bit systems:
+date -s "20 JAN 2038 18:00:00"
+and then run ptest-runner again.
+
+To facilitate debugging, source files are provided by default with
+the unstripped debugging symbols. Such approach would reduce the
+already complex recipe (as it inherits base glibc one), so there
+is no need to also install *-dbg and *-src packages.
+
+Signed-off-by: Lukasz Majewski <lukma@denx.de>
+
+---
+Changes for v3:
+- Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
+  RPROVIDES variables
+
+Changes for v2:
+- Just focus on time related set of tests as those can be run as
+  standalone
+- Reuse of already built tests (from glibc-tests.inc) and depoloy
+  them on the HW target.
+- Provide single 'run-ptest' script.
+- Update the recipe to run with newest poky's -master
+---
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ meta/recipes-core/glibc/glibc-tests_2.34.bb   | 112 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc/run-ptest       |  37 ++++++
+ 3 files changed, 150 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
+ create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+index 2e324f8da4..fd52fa72a4 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -61,6 +61,7 @@ PTESTS_FAST =3D "\
+     slang-ptest \
+     wayland-ptest \
+     zlib-ptest \
++    glibc-tests-ptest \
+ "
+ PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
+ PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
+diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb b/meta/recipes-c=
+ore/glibc/glibc-tests_2.34.bb
+new file mode 100644
+index 0000000000..0a6920eef4
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
+@@ -0,0 +1,112 @@
++require glibc_${PV}.bb
++require glibc-tests.inc
++
++inherit ptest
++
++SRC_URI:append =3D " \
++	file://run-ptest \
++"
++
++SUMMARY =3D "glibc tests to be run with ptest"
++
++# Erase some variables already set by glibc_${PV}
++python __anonymous() {
++       # Remove packages provided by glibc build, we only need a subset =
+of them
++       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
++
++       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
++       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
++
++       d.setVar("RRECOMMENDS", "")
++}
++
++# Remove any lefovers from original glibc recipe
++RPROVIDES:${PN} =3D "${PN}"
++RRECOMMENDS:${PN} =3D ""
++RDEPENDS:${PN} =3D " glibc sed"
++DEPENDS:append =3D " sed"
++
++# Just build tests for target - do not run them
++do_check:append () {
++	oe_runmake -i check run-built-tests=3Dno
++}
++addtask do_check after do_compile before do_install_ptest_base
++
++glibc_strip_build_directory () {
++	# Delete all non executable files from build directory
++	find ${B} ! -executable -type f -delete
++
++	# Remove build dynamic libraries and links to them as
++	# those are already installed in the target device
++	find ${B} -type f -name "*.so" -delete
++	find ${B} -type l -name "*.so*" -delete
++
++	# Remove headers (installed with glibc)
++	find ${B} -type f -name "*.h" -delete
++
++	find ${B} -type f -name "isomac" -delete
++	find ${B} -type f -name "annexc" -delete
++}
++
++do_install_ptest_base () {
++	glibc_strip_build_directory
++
++	ls -r ${B}/*/*-time64 > ${B}/tst_time64
++
++	# Remove '-time64' suffix - those tests are also time related
++	sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
++	tst_time=3D$(cat ${B}/tst_time_tmp ${B}/tst_time64)
++
++	rm ${B}/tst_time_tmp ${B}/tst_time64
++	echo "${tst_time}"
++
++	# Install build test programs to the image
++	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
++
++	for f in "${tst_time}"
++	do
++	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
++	done
++
++	install -d ${D}${PTEST_PATH}
++	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
++
++}
++
++# The datadir directory is required to allow core (and reused)
++# glibc cleanup function to finish correctly, as this directory
++# is not created for ptests
++stash_locale_package_cleanup:prepend () {
++	mkdir -p ${PKGD}${datadir}
++}
++
++stash_locale_sysroot_cleanup:prepend () {
++	mkdir -p ${SYSROOT_DESTDIR}${datadir}
++}
++
++# Prevent the do_package() task to set 'libc6' prefix
++# for glibc tests related packages
++python populate_packages:prepend () {
++    if d.getVar('DEBIAN_NAMES'):
++        d.setVar('DEBIAN_NAMES', '')
++}
++
++FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
++
++EXCLUDE_FROM_SHLIBS =3D "1"
++
++# Install debug data in .debug and sources in /usr/src/debug
++# It is more handy to have _all_ the sources and symbols in one
++# place (package) as this recipe will be used for validation and
++# debugging.
++PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
++
++# glibc test cases violate by default some Yocto/OE checks (staticdev,
++# textrel)
++# 'debug-files' - add everything (including debug) into one package
++#                 (no need to install/build *-src package)
++INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
++
++deltask do_stash_locale
++do_install[noexec] =3D "1"
++do_populate_sysroot[noexec] =3D "1"
+diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/=
+glibc/glibc/run-ptest
+new file mode 100755
+index 0000000000..f637986105
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/run-ptest
+@@ -0,0 +1,37 @@
++#!/bin/sh
++# ptest script for glibc - to run time related tests to
++# facilitate Y2038 validation
++# Run with 'ptest-runner glibc-tests'
++
++output() {
++  retcode=3D$?
++  if [ $retcode -eq 0 ]
++    then echo "PASS: $i"
++  elif [ $retcode -eq 77 ]
++    then echo "SKIP: $i"
++  else echo "FAIL: $i"
++  fi
++}
++
++# Allow altering time on the target
++export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
++
++tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
++
++# Remove '-time64' suffix - those tests are also time
++# related
++tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
++
++# Run tests supporting only 32 bit time
++for i in ${tst_time_tmp}
++do
++	$i >/dev/null 2>&1
++	output
++done
++
++# Run tests supporting only 64 bit time
++for i in ${tst_time64}
++do
++	$i >/dev/null 2>&1
++	output
++done
+--=20
+2.20.1
 
 
