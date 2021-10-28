@@ -1,235 +1,126 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D57C433F5
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 05:27:35 +0000 (UTC)
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web12.7336.1635398845738709673
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 080EAC433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 06:28:17 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web09.8094.1635402496003017879
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Oct 2021 22:27:26 -0700
+ Wed, 27 Oct 2021 23:28:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="230275153"
-X-IronPort-AV: E=Sophos;i="5.87,188,1631602800";
-   d="scan'208";a="230275153"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 22:27:22 -0700
-X-IronPort-AV: E=Sophos;i="5.87,188,1631602800";
-   d="scan'208";a="495212553"
-Received: from jeesinle-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.215.231.140])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2021 22:27:21 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/37] Pull request (cover letter only)
-Date: Thu, 28 Oct 2021 13:27:14 +0800
-Message-Id: <cover.1635398699.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: changqing.li@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 19S6SEMA018564
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Oct 2021 23:28:14 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 19S6SEHq017968
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Oct 2021 23:28:14 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 27 Oct 2021 23:28:13 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 27 Oct 2021 23:28:13 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] openssh: fix CVE-2021-41617
+Date: Thu, 28 Oct 2021 14:27:00 +0800
+Message-ID: <20211028062700.17162-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 05:27:35 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 06:28:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157575
+ https://lists.openembedded.org/g/openembedded-core/message/157576
 
-Please merge these changes.
+From: Changqing Li <changqing.li@windriver.com>
 
-Thanks,
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../openssh/openssh/CVE-2021-41617.patch      | 49 +++++++++++++++++++
+ .../openssh/openssh_8.5p1.bb                  |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
 
-Anuj
-
-The following changes since commit bb1dea6806f084364b6017db2567f438e805aef0:
-
-  build-appliance-image: Update to honister head revision (2021-10-11 11:06:36 +0100)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
-
-Alexander Kanavin (5):
-  lttng-tools: replace ad hoc ptest fixup with upstream fixes
-  ca-certificates: update 20210119 -> 20211016
-  ovmf: update 202105 -> 202108
-  linux-firmware: upgrade 20210818 -> 20210919
-  wireless-regdb: upgrade 2021.07.14 -> 2021.08.28
-
-Alexandre Belloni (1):
-  oeqa/selftest/sstatetests: fix typo ware -> were
-
-Andrej Valek (1):
-  busybox: 1.34.0 -> 1.34.1
-
-Andres Beltran (1):
-  buildhistory: Fix package output files for SDKs
-
-Jose Quaresma (14):
-  gstreamer1.0-plugins-base: 1.18.4 -> 1.18.5
-  gstreamer1.0-plugins-good: 1.18.4 -> 1.18.5
-  gstreamer1.0-plugins-bad: 1.18.4 -> 1.18.5
-  gstreamer1.0-plugins-ugly: 1.18.4 -> 1.18.5
-  gstreamer1.0-rtsp-server: 1.18.4 -> 1.18.5
-  gstreamer1.0-libav: 1.18.4 -> 1.18.5
-  gstreamer1.0-vaapi: 1.18.4 -> 1.18.5
-  gstreamer1.0-omx: 1.18.4 -> 1.18.5
-  gstreamer1.0-python: 1.18.4 -> 1.18.5
-  gst-devtools: 1.18.4 -> 1.18.5
-  gst-examples: 1.18.4 -> 1.18.5
-  gstreamer1.0: 1.18.4 -> 1.18.5
-  patch.bbclass: when the patch fails show more info on the fatal error
-  sstate: fix touching files inside pseudo
-
-Khem Raj (1):
-  mesa: Enable svga for x86 only
-
-Kiran Surendran (1):
-  ffmpeg: fix CVE-2021-38114
-
-Oleksandr Kravchuk (1):
-  python3: update to 3.9.7
-
-Pablo Saavedra Rodi?o (1):
-  mesa: upgrade 21.2.1 -> 21.2.4
-
-Ralph Siemsen (1):
-  tar: filter CVEs using vendor name
-
-Richard Purdie (5):
-  libxml2: Use python3targetconfig to fix reproducibility issue
-  libnewt: Use python3targetconfig to fix reproducibility issue
-  linux-yocto-dev: Ensure DEPENDS matches recent 5.14 kernel changes
-  oeqa: Update cleanup code to wait for hashserv exit
-  bootchart2: Don't compile python modules
-
-Ross Burton (3):
-  linux-yocto: add libmpc-native to DEPENDS
-  curl: fix CVE-2021-22945 through -22947
-  testimage: fix unclosed testdata file
-
-Sakib Sajal (1):
-  go: upgrade 1.16.7 -> 1.16.8
-
-Yureka (1):
-  systemd: add missing include for musl
-
- meta/classes/buildhistory.bbclass             |  21 +-
- meta/classes/cross-canadian.bbclass           |   2 +-
- meta/classes/nativesdk.bbclass                |   2 +-
- meta/classes/patch.bbclass                    |   7 +-
- meta/classes/sstate.bbclass                   |   4 +-
- meta/classes/testimage.bbclass                |   7 +-
- meta/conf/bitbake.conf                        |   1 +
- meta/lib/oe/package_manager/__init__.py       |   2 +-
- meta/lib/oeqa/sdk/buildtools-cases/build.py   |   2 +-
- meta/lib/oeqa/selftest/cases/eSDK.py          |   2 +-
- meta/lib/oeqa/selftest/cases/sstatetests.py   |  12 +-
- meta/lib/oeqa/selftest/context.py             |   2 +-
- ...ab_1.34.0.bb => busybox-inittab_1.34.1.bb} |   0
- .../{busybox_1.34.0.bb => busybox_1.34.1.bb}  |   2 +-
- meta/recipes-core/libxml/libxml2_2.9.12.bb    |   2 +-
- meta/recipes-core/ovmf/ovmf_git.bb            |   4 +-
- ...008-add-missing-FTW_-macros-for-musl.patch |  16 +-
- .../bootchart2/bootchart2_0.14.9.bb           |   6 +-
- .../go/{go-1.16.7.inc => go-1.16.8.inc}       |   4 +-
- ...e_1.16.7.bb => go-binary-native_1.16.8.bb} |   4 +-
- ..._1.16.7.bb => go-cross-canadian_1.16.8.bb} |   0
- ...{go-cross_1.16.7.bb => go-cross_1.16.8.bb} |   0
- ...osssdk_1.16.7.bb => go-crosssdk_1.16.8.bb} |   0
- ...o-native_1.16.7.bb => go-native_1.16.8.bb} |   0
- ...runtime_1.16.7.bb => go-runtime_1.16.8.bb} |   0
- .../go/{go_1.16.7.bb => go_1.16.8.bb}         |   0
- .../{python3_3.9.6.bb => python3_3.9.7.bb}    |   2 +-
- meta/recipes-extended/newt/libnewt_0.52.21.bb |   2 +-
- meta/recipes-extended/tar/tar_1.34.bb         |   6 +-
- .../mesa/files/without-neon.patch             |  53 ---
- .../{mesa-gl_21.2.1.bb => mesa-gl_21.2.4.bb}  |   0
- meta/recipes-graphics/mesa/mesa.inc           |   7 +-
- .../mesa/{mesa_21.2.1.bb => mesa_21.2.4.bb}   |   0
- ...20210818.bb => linux-firmware_20210919.bb} |   4 +-
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |   1 +
- meta/recipes-kernel/linux/linux-yocto_5.14.bb |   2 +-
- ...race-condition-in-test_event_tracker.patch | 221 +++++++++++
- ...more-before-analysing-traces-or-star.patch |  88 -----
- ...condition-in-test_ns_contexts_change.patch |  46 +++
- .../lttng/lttng-tools_2.13.0.bb               |   3 +-
- ....07.14.bb => wireless-regdb_2021.08.28.bb} |   2 +-
- .../ffmpeg/ffmpeg/fix-CVE-2021-38114.patch    |  67 ++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb  |   3 +-
- ...tools_1.18.4.bb => gst-devtools_1.18.5.bb} |   2 +-
- ...mples_1.18.4.bb => gst-examples_1.18.5.bb} |   2 +-
- ...1.18.4.bb => gstreamer1.0-libav_1.18.5.bb} |   2 +-
- ...x_1.18.4.bb => gstreamer1.0-omx_1.18.5.bb} |   2 +-
- ....bb => gstreamer1.0-plugins-bad_1.18.5.bb} |   2 +-
- ...c91697a141fea7317aff7f0f28e5a861db99.patch |  50 ---
- ...bb => gstreamer1.0-plugins-base_1.18.5.bb} |   3 +-
- ...Fix-parsing-of-the-mediaclk-direct-f.patch |  33 --
- ...from-static-vars-to-fix-build-with-g.patch | 100 -----
- ...bb => gstreamer1.0-plugins-good_1.18.5.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-ugly_1.18.5.bb} |   2 +-
- ....18.4.bb => gstreamer1.0-python_1.18.5.bb} |   2 +-
- ....bb => gstreamer1.0-rtsp-server_1.18.5.bb} |   2 +-
- ...1.18.4.bb => gstreamer1.0-vaapi_1.18.5.bb} |   2 +-
- ...002-Remove-unused-valgrind-detection.patch |  14 +-
- ...er1.0_1.18.4.bb => gstreamer1.0_1.18.5.bb} |   2 +-
- ...ertdata2pem.py-print-a-warning-for-e.patch |  80 ++++
- .../ca-certificates/sbindir.patch             |  26 --
- ...pdate-ca-certificates-support-Toybox.patch |  33 --
- ...0210119.bb => ca-certificates_20211016.bb} |   5 +-
- .../curl/curl/cve-2021-22945.patch            |  34 ++
- .../curl/curl/cve-2021-22946.patch            | 332 ++++++++++++++++
- .../curl/curl/cve-2021-22947.patch            | 355 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.78.0.bb      |   3 +
- 67 files changed, 1244 insertions(+), 457 deletions(-)
- rename meta/recipes-core/busybox/{busybox-inittab_1.34.0.bb => busybox-inittab_1.34.1.bb} (100%)
- rename meta/recipes-core/busybox/{busybox_1.34.0.bb => busybox_1.34.1.bb} (95%)
- rename meta/recipes-devtools/go/{go-1.16.7.inc => go-1.16.8.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.7.bb => go-binary-native_1.16.8.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.7.bb => go-cross-canadian_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.7.bb => go-cross_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.7.bb => go-crosssdk_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.7.bb => go-native_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.7.bb => go-runtime_1.16.8.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.7.bb => go_1.16.8.bb} (100%)
- rename meta/recipes-devtools/python/{python3_3.9.6.bb => python3_3.9.7.bb} (99%)
- delete mode 100644 meta/recipes-graphics/mesa/files/without-neon.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_21.2.1.bb => mesa-gl_21.2.4.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.2.1.bb => mesa_21.2.4.bb} (100%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210818.bb => linux-firmware_20210919.bb} (99%)
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-Fix-Tests-race-condition-in-test_event_tracker.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-wait-some-more-before-analysing-traces-or-star.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0002-Fix-Tests-race-condition-in-test_ns_contexts_change.patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.07.14.bb => wireless-regdb_2021.08.28.bb} (94%)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2021-38114.patch
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.18.4.bb => gst-devtools_1.18.5.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.18.4.bb => gst-examples_1.18.5.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.18.4.bb => gstreamer1.0-libav_1.18.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.18.4.bb => gstreamer1.0-omx_1.18.5.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.18.4.bb => gstreamer1.0-plugins-bad_1.18.5.bb} (98%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.18.4.bb => gstreamer1.0-plugins-base_1.18.5.bb} (96%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.18.4.bb => gstreamer1.0-plugins-good_1.18.5.bb} (93%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.18.4.bb => gstreamer1.0-plugins-ugly_1.18.5.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.18.4.bb => gstreamer1.0-python_1.18.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.18.4.bb => gstreamer1.0-rtsp-server_1.18.5.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.18.4.bb => gstreamer1.0-vaapi_1.18.5.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.18.4.bb => gstreamer1.0_1.18.5.bb} (97%)
- create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
- rename meta/recipes-support/ca-certificates/{ca-certificates_20210119.bb => ca-certificates_20211016.bb} (95%)
- create mode 100644 meta/recipes-support/curl/curl/cve-2021-22945.patch
- create mode 100644 meta/recipes-support/curl/curl/cve-2021-22946.patch
- create mode 100644 meta/recipes-support/curl/curl/cve-2021-22947.patch
-
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+new file mode 100644
+index 0000000000..9ca7c2f202
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+@@ -0,0 +1,49 @@
++From 1f0707e8e78ef290fd0f229df3fcd2236f29db89 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 28 Oct 2021 11:11:05 +0800
++Subject: [PATCH] upstream: need initgroups() before setresgid(); reported by
++ anton@,
++
++ok deraadt@
++
++OpenBSD-Commit-ID: 6aa003ee658b316960d94078f2a16edbc25087ce
++
++CVE: CVE-2021-41617
++Upstream-Status: [Backport]
++https://github.com/openssh/openssh-portable/commit/f3cbe43e28fe71427d41cfe3a17125b972710455
++https://github.com/openssh/openssh-portable/commit/bf944e3794eff5413f2df1ef37cddf96918c6bde
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ misc.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/misc.c b/misc.c
++index d988ce3..33eca1c 100644
++--- a/misc.c
+++++ b/misc.c
++@@ -56,6 +56,7 @@
++ #ifdef HAVE_PATHS_H
++ # include <paths.h>
++ #include <pwd.h>
+++#include <grp.h>
++ #endif
++ #ifdef SSH_TUN_OPENBSD
++ #include <net/if.h>
++@@ -2629,6 +2630,13 @@ subprocess(const char *tag, const char *command,
++ 		}
++ 		closefrom(STDERR_FILENO + 1);
++ 
+++		if (geteuid() == 0 &&
+++		    initgroups(pw->pw_name, pw->pw_gid) == -1) {
+++			error("%s: initgroups(%s, %u): %s", tag,
+++			    pw->pw_name, (u_int)pw->pw_gid, strerror(errno));
+++			_exit(1);
+++		}
+++
++ 		if (setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) == -1) {
++ 			error("%s: setresgid %u: %s", tag, (u_int)pw->pw_gid,
++ 			    strerror(errno));
++-- 
++2.17.1
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.5p1.bb b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+index c6de519884..9a5f37bc39 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
++           file://CVE-2021-41617.patch \
+            "
+ SRC_URI[sha256sum] = "f52f3f41d429aa9918e38cf200af225ccdd8e66f052da572870c89737646ec25"
+ 
 -- 
-2.31.1
+2.17.1
 
 
