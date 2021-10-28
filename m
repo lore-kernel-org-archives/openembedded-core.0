@@ -1,117 +1,151 @@
-Return-Path: <tomasz.dziendzielski@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A13DBC433F5
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 12:44:05 +0000 (UTC)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by mx.groups.io with SMTP id smtpd.web11.12406.1635425044722951115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 947CBC433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 14:24:14 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.13641.1635431052833271930
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 05:44:04 -0700
+ Thu, 28 Oct 2021 07:24:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NP7suPr9;
- spf=pass (domain: gmail.com, ip: 209.85.221.178,
- mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-vk1-f178.google.com with SMTP id u130so2916437vku.2
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 05:44:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t90D/m6mFgQIOYEtzf/RylyWBnVoT2D7+WmE8CGHINk=;
-        b=NP7suPr9Z5ZzPm1Fd15y1E9kZB7uHLNxnjFCLpPLfK6DI8Qkp0ZdfGheYR0S8mLLtd
-         d8gsUiYzd7pk36/szx338gkdSEVNhdeHOAcYIXBgtjUJaZWp0Zv7xOx0UtPfBoWfnMvG
-         j6uRvj6COhk3BJ6exs7jAwYU09xI2u9j9CeVXIIPQlvakdY2mDHTKLUdVDeiPIKe8297
-         /MQVnAJD9H3OdUJ1pAek3hOWh5WctoBXCzNc4868K6ljw1QI/+kKCOk66vHccAtH858z
-         AhGHDSRK5ZZi4L/W+8iQkUx89DjZ6RlYfm6nN+Q81ZK/eY+SlU2eVCdJph43b/yA467J
-         kXyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t90D/m6mFgQIOYEtzf/RylyWBnVoT2D7+WmE8CGHINk=;
-        b=edJL/YfxtzAG2vdb66USCL6ch7FdZhksJ1iNfTOWjVZN4FuY0J0+wqdAyKjjF7hMjq
-         MeYDVnARangupRmfNH2QxTkbhKLR1E/+7qXV9jvL3aGfCxom2cNk1SXp7c54BOxj0IsA
-         WYEDRcI2+6gc8KCPUa06s4xLiX9BW6QQdyro3kMxIBm4ciV2cTi6zx+FQ1MVQriLX+RB
-         /vhL8O4ETIWPavNCeIYb22Pq80HDADzLa+InF/0cRjdooh1fK5F6ouXrDJpcIyArwTVw
-         rDmsZ2hfBCUTeJZ3CsHsD2H8g9Z+aPK1YFeakWw1OeWmWDm3nU07nF0DbQ8GZ69lHi0W
-         vJog==
-X-Gm-Message-State: AOAM533RPGALeTE6ybkWuKHDt+VE3Q9yKQu/fxoF7Asc4eRXEpUQlJmS
-	rGQde4RTNxrDAL3vNQtCODEA7AzrwkChqPlvDV0=
-X-Google-Smtp-Source: 
- ABdhPJy2Wj5PLLp+063UlXLERun/7ZXI48g5EK70cB9as7be73GZv6moaaDC8AeKqtzQb44Jt9Z6uF9hvZQuTFFULsQ=
-X-Received: by 2002:a1f:324d:: with SMTP id y74mr3933593vky.20.1635425043591;
- Thu, 28 Oct 2021 05:44:03 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id C742F1BF209;
+	Thu, 28 Oct 2021 14:24:10 +0000 (UTC)
+Date: Thu, 28 Oct 2021 16:24:10 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCHv2 2/2] insane.bbclass: Add a check for
+ directories that are expected to be empty
+Message-ID: <YXqyioSQw07XYzx4@piout.net>
+References: <20211027180522.19680-1-pkj@axis.com>
+ <20211027180522.19680-2-pkj@axis.com>
 MIME-Version: 1.0
-References: <20211026073249.3424-1-tomasz.dziendzielski@gmail.com>
- <e72e9ae071bc25c6d14749c1604fb9b4b890a0ae.camel@linuxfoundation.org>
- <16B1D493AACBF55D.19566@lists.openembedded.org>
-In-Reply-To: <16B1D493AACBF55D.19566@lists.openembedded.org>
-From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Date: Thu, 28 Oct 2021 14:45:46 +0200
-Message-ID: 
- <CAJkqNs38_N1zvpDu0UhObo_KMjYQO-GTCgboVXyMA4dJdwmoCA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] license_image: Prevent do_populate_lic_deploy
- from using image recipes' recipeinfo
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Jan Brzezanski <jan.brzezanski@gmail.com>,
- Ricardo Rodrigues <rrodrigues80@gmail.com>,
-	Szymon Czarnuch <szymek125.14@gmail.com>, Kamil Kwiek <kamil.kwiek@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000c7b4db05cf69103e"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211027180522.19680-2-pkj@axis.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 12:44:05 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 14:24:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157596
+ https://lists.openembedded.org/g/openembedded-core/message/157597
 
---000000000000c7b4db05cf69103e
-Content-Type: text/plain; charset="UTF-8"
 
-Unfortunately from what I just checked we cannot merge license manifests
-because new manifest creation would require additional package sstate-cache
-manifests (to get package contents) or to use package manager to get FILES
-contect. That's also not really correct, since in license.manifest we don't
-collect package data. Also current way license manifest creation does not
-really care about RDEPENDS, for example it does not the real content of
-packagegroups or kernel-modules packages that are under main kernel-modules
-package. I don't find this correct and in my opinion this should be changed
-in the future.
+Hi Peter,
 
-Having all that in mind I think the most reasonable way to keep the just
-copy the manifests from intermediate image target to the final target, e.g.
-copy foo-<machine>/image_license.manifest to
-bar-<machine>/foo-<machine>-image_license.manifest. That way we will have
-full knowledge about where the packages came from. I'll send a patch in a
-moment.
+This seems to fail on the AB:
 
-Best regards,
-Tomasz Dziendzielski
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/4544/steps/11/logs/stdio
 
---000000000000c7b4db05cf69103e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The same failure is seen in other builds too.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Unfortunately from what I just checked we=
- cannot merge license manifests because new manifest creation would require=
- additional package sstate-cache manifests (to get package contents) or to =
-use package manager to get FILES contect. That&#39;s also not really correc=
-t, since in license.manifest we don&#39;t collect package data. Also curren=
-t way license manifest creation does not really care about RDEPENDS, for ex=
-ample it does not the real content of packagegroups or kernel-modules packa=
-ges that are under main kernel-modules package. I don&#39;t find this corre=
-ct and in my opinion this should be changed in the future.<br></div><div di=
-r=3D"ltr"><br></div><div>Having all that in mind I think the most reasonabl=
-e way to keep the just copy the manifests from intermediate image target to=
- the final target, e.g. copy foo-&lt;machine&gt;/image_license.manifest to =
-bar-&lt;machine&gt;/foo-&lt;machine&gt;-image_license.manifest. That way we=
- will have full knowledge about where the packages came from. I&#39;ll send=
- a patch in a moment.</div><div><br></div><div>Best regards,</div><div>Toma=
-sz Dziendzielski<br></div><div dir=3D"ltr"><br></div><br></div>
+On 27/10/2021 20:05:22+0200, Peter Kjellerstedt wrote:
+> The empty-dirs QA check verifies that all directories specified in
+> QA_EMPTY_DIRS are empty. It is possible to specify why a directory is
+> expected to be empty by defining QA_EMPTY_DIRS_RECOMMENDATION:<path>,
+> which will then be included in the error message if the directory is
+> not empty. If it is not specified for a directory, then "but it is
+> expected to be empty" will be used.
+> 
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+> 
+> PATCHv2: No changes.
+> 
+>  meta/classes/insane.bbclass  | 33 ++++++++++++++++++++++++++++++++-
+>  meta/conf/documentation.conf |  2 ++
+>  2 files changed, 34 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 1e2f1b768a..1675adf6ac 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -37,7 +37,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>              configure-gettext perllocalpod shebang-size \
+>              already-stripped installed-vs-shipped ldflags compile-host-path \
+>              install-host-path pn-overrides unknown-configure-option \
+> -            useless-rpaths rpaths staticdev \
+> +            useless-rpaths rpaths staticdev empty-dirs \
+>              "
+>  # Add usrmerge QA check based on distro feature
+>  ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+> @@ -50,6 +50,21 @@ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+>  
+>  UNKNOWN_CONFIGURE_WHITELIST ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --with-libtool-sysroot --disable-static"
+>  
+> +# This is a list of directories that are expected to be empty.
+> +QA_EMPTY_DIRS ?= " \
+> +    /dev/pts \
+> +    /media \
+> +    /proc \
+> +    /run \
+> +    /tmp \
+> +    ${localstatedir}/run \
+> +    ${localstatedir}/volatile \
+> +"
+> +# It is possible to specify why a directory is expected to be empty by defining
+> +# QA_EMPTY_DIRS_RECOMMENDATION:<path>, which will then be included in the error
+> +# message if the directory is not empty. If it is not specified for a directory,
+> +# then "but it is expected to be empty" will be used.
+> +
+>  def package_qa_clean_path(path, d, pkg=None):
+>      """
+>      Remove redundant paths from the path for display.  If pkg isn't set then
+> @@ -885,6 +900,22 @@ def package_qa_check_unlisted_pkg_lics(package, d, messages):
+>                             "listed in LICENSE" % (package, ' '.join(unlisted)))
+>      return False
+>  
+> +QAPKGTEST[empty-dirs] = "package_qa_check_empty_dirs"
+> +def package_qa_check_empty_dirs(pkg, d, messages):
+> +    """
+> +    Check for the existence of files in directories that are expected to be
+> +    empty.
+> +    """
+> +
+> +    pkgd = oe.path.join(d.getVar('PKGDEST'), pkg)
+> +    for dir in (d.getVar('QA_EMPTY_DIRS') or "").split():
+> +        empty_dir = oe.path.join(pkgd, dir)
+> +        if os.path.exists(empty_dir) and os.listdir(empty_dir):
+> +            recommendation = (d.getVar('QA_EMPTY_DIRS_RECOMMENDATION:' + dir) or
+> +                              "but it is expected to be empty")
+> +            msg = "%s installs files in %s, %s" % (pkg, dir, recommendation)
+> +            oe.qa.add_message(messages, "empty-dirs", msg)
+> +
+>  def package_qa_check_encoding(keys, encode, d):
+>      def check_encoding(key, enc):
+>          sane = True
+> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> index 80ad8e10d5..45cd01374a 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -345,6 +345,8 @@ PYPI_SRC_URI[doc] = "The URI to use to fetch from pypi, default uses pythonhoste
+>  
+>  #Q
+>  
+> +QA_EMPTY_DIRS[doc] = "A list of directories that are expected to be empty."
+> +QA_EMPTY_DIRS_RECOMMENDATION[doc] = "This specifies a recommendation for a directory why it must be empty, which will be included in the error message if the directory is not empty."
+>  QMAKE_PROFILES[doc] = "Specifies your own subset of .pro files to be built for use with qmake."
+>  
+>  #R
 
---000000000000c7b4db05cf69103e--
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157564): https://lists.openembedded.org/g/openembedded-core/message/157564
+> Mute This Topic: https://lists.openembedded.org/mt/86634477/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
