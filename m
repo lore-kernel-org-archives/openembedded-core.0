@@ -1,119 +1,133 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
+Return-Path: <sakoman@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B3EC433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 18:44:08 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web12.2005.1635446646512663870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251F2C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 18:47:48 +0000 (UTC)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by mx.groups.io with SMTP id smtpd.web09.1982.1635446867321234395
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 11:44:07 -0700
+ Thu, 28 Oct 2021 11:47:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
- header.s=20210112 header.b=mCcjLRDx;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
- ip: 209.85.167.42, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f42.google.com with SMTP id i13so6006254lfe.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D4RWnNfd;
+ spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f178.google.com with SMTP id 131so6188049ybc.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 11:44:06 -0700 (PDT)
+ Thu, 28 Oct 2021 11:47:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Lli82AnL3ACnCbSoD3LQ6s8qLz2MGaA4xR3xF4MQPho=;
-        b=mCcjLRDxwUBV2M+BiARp/KSCQP0sS0/h/sjMn/Tag948odrlWcxdbV2Y5R5g7j4ghZ
-         2qDkS6kBCX86lOzbSGvRTAZI4OukSg3kSpIjFcePLBjTi9NNZAiqFyB/kQoz+Pqg6nVT
-         kSdXEgRCq2Cp2WEl+SebMV0yn4QrzpPkKvojTmz4YYrrwaLCJnTdFpV/a/hgzdp+Fjrq
-         59SnuoYglsHQVdBRJhTs8FyNP8bbA7U2OBNg556arECEM3b8otnDFNniHqGb0roP1RGs
-         mUbBe09g3/k2T6qXQiKNQQrsZnhZn4GWHyC5rf1RQQFQglWG9xU0kdshQE2Lzvtnm7+v
-         scaQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=u2toh8KQ6BeXrBPWS+p4LLbF4c8589ZYgtsp73Ywgdo=;
+        b=D4RWnNfdlAQHDa7dGg9dqMlyCuAyNB7YoFhOIUIsuzaixuru2V1LPiYBC5ruk6cK0r
+         l2TIaPJGCoDvKXZpeUQ84fVNIBugvfdSJJoFvKTcki2CHtU07VA/eKlIU+bB5no68R73
+         RN7gz5PzTHnHZZoJBuO+XKrqqTysQS+re9EoaUa2qWw8IlbYdnCNJ/pV6hfOjH5ckhz/
+         BcKiVRSGr/Nz4IrhdLVy2h8/CyeVqCydumEAqIwaKmbiayW8jvowYPeC1EM35xSsSida
+         E0sAuSoMbbg7o7sVa1XZVKaXnrjnSeQl6a6W42iSuCN0HHhFaLMj/KO4BGC1pusr//o7
+         vSYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Lli82AnL3ACnCbSoD3LQ6s8qLz2MGaA4xR3xF4MQPho=;
-        b=ig++GE396X8Y25evLzmgGHrcHusbPzDyy54Kloz1V+o1Mmw0YR56ac5mzNebp0QkZN
-         FsKq1AJMSXdXqR+YXy3IByayRK/JkWhUj2OgEvpX9znP//f+qJJBZHevc3lk3R1+yFcU
-         JYwvUyiJcuSTxLf05HZnatJ/FtP5MgivQ94jOJ2urlAikuJOx6FlDYCPDJOq85vxbG41
-         ZBwT9aBVGk4xjHt1igTSYWuWvpN93DJCPTW4m8yDnFrqn900eAbH3lZRsTKb4i5fll14
-         vf4H6AT0FlzkazbZUUAu8oAUvMcKLkTeo2PHYmMqi8L76E097qJneqsQ7Yw+CLueDtXH
-         CALA==
-X-Gm-Message-State: AOAM532rGbnjas6s/Hh3eO6Z7N5rWMctBAdTQGuQCGdBj0vsQYtUv3CN
-	EmJpdbWOF5VudKhRGlK4yVQ9TwIvqhIDNHwF
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=u2toh8KQ6BeXrBPWS+p4LLbF4c8589ZYgtsp73Ywgdo=;
+        b=qs8t+S9K3BSPcKu/sg4Pa7b76OEQcmiVCstXkIEbCA0hOmRoSawO8unwdvEdydzlwj
+         yOJu+upZg9mjfxThcLDSd6dpEb7Vyepx745MAKg73ZAQHDWy5RB7xJElUXBOUcTisbdg
+         YMWyfmpDO5qW//dVFxg/z1xycEzOUZp070RJeLJr6QUXVnpZwlvEoKvb6GD/HgQ+w29T
+         vZRL88TKmdiJy7G8+5osXS7Pghih9ZQPeZDGDJZ/TtPp5T/PAx6edORCpoV9WPZOsBwq
+         j/Sxoj6Tz9k6fU9hTr8dDhUx6tg17F0DFQ3FOpjnkybxpMSMXTc6aMZu7JRS+g2ManiC
+         dmiA==
+X-Gm-Message-State: AOAM533dxJ1Gk8S98O0Uv418tHOBmSi9cuE9ZJxt70ilu1PoXZTKTv4y
+	h01lNeyFqzd2htqq57cTKQhf+qRkwVTUPd+L6ajnz7qE
 X-Google-Smtp-Source: 
- ABdhPJww/sY3cD/nu8qIf5oGhsa/bY1EwydTvS2i9Wya1NjBG1vyzgNlUE9kVbeHB5BT7vXSFR+JpQ==
-X-Received: by 2002:a19:c157:: with SMTP id r84mr5985060lff.412.1635446644101;
-        Thu, 28 Oct 2021 11:44:04 -0700 (PDT)
-Received: from localhost.localdomain
- (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
-        by smtp.gmail.com with ESMTPSA id
- o19sm391683lfk.42.2021.10.28.11.44.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 11:44:03 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH 1/2] libxcvt: add recipe
-Date: Thu, 28 Oct 2021 20:43:55 +0200
-Message-Id: <20211028184356.3890493-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+ ABdhPJxQT6CPQijXSJJrZ1bDQGj/cAQcjrqs/ZRR9NI4i9zUWBvOqd/pzwldCYpya5hIJyLabktGv+S0yIwY9FiJaPk=
+X-Received: by 2002:a25:f211:: with SMTP id i17mr6899836ybe.378.1635446866568;
+ Thu, 28 Oct 2021 11:47:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211027013050.137364-1-saul.wold@windriver.com>
+ <CANPvuRkxEFt7LHO_BAnQpEWU=T9ctFh45d+SzFfe=jBHUOH1aQ@mail.gmail.com>
+In-Reply-To: 
+ <CANPvuRkxEFt7LHO_BAnQpEWU=T9ctFh45d+SzFfe=jBHUOH1aQ@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+Date: Thu, 28 Oct 2021 08:47:35 -1000
+Message-ID: 
+ <CAGDS+nkJ4en5JjLGSMuePSQUY+mvLiek4X67q5Go+LA8307ApQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] SPDX: Add annotations to relationship
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Saul Wold <Saul.Wold@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <jpewhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 18:44:08 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 18:47:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157602
+ https://lists.openembedded.org/g/openembedded-core/message/157604
 
-This library is a dependancy of xserver-xorg 21.1.0.
+On Tue, Oct 26, 2021 at 10:41 PM Jose Quaresma <quaresma.jose@gmail.com> wr=
+ote:
+>
+> Hi all,
+>
+> There are any plans or is it possible to backport the SBOM/SPDX to the du=
+nfell branch?
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../xorg-lib/libxcvt_0.1.1.bb                 | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+I'm going to yield to Saul as to whether he thinks this is
+desirable/possible or not.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8f0b8d39b5..f3e0a75d56 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -413,6 +413,7 @@ RECIPE_MAINTAINER:pn-libwpe = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libx11 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libxau = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libxcb = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-libxcvt = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER:pn-libxcomposite = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libxcursor = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libxcrypt = "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
-new file mode 100644
-index 0000000000..628ccfb647
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Library providing a standalone version of the X server \
-+implementation of the VESA CVT standard timing modelines generator"
-+HOMEPAGE = "https://gitlab.freedesktop.org/xorg/lib/libxcvt"
-+BUGTRACKER = "https://gitlab.freedesktop.org/xorg/lib/libxcvt/-/issues"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=129947a06984d6faa6f9a9788fa2a03f"
-+SECTION = "x11/libs"
-+
-+SRC_URI = "git://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=https"
-+SRCREV = "6fe840b9295cfdc41bd734586c5b8756f6af6f9b"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit meson
-+
-+FILES:${PN} = " \
-+    ${libdir}/libxcvt.so.0* \
-+    ${bindir}/cvt \
-+"
--- 
-2.25.1
+Steve
 
+> Doing a quick look on it I see that it is not too intrusive and the most =
+one is in
+>  classes/package: Add extended packaged data
+>  7ec54b174304e940ec66f21ac512f7b50fa637b3
+>
+> Jose
+>
+> Saul Wold <Saul.Wold@windriver.com> escreveu no dia quarta, 27/10/2021 =
+=C3=A0(s) 02:31:
+>>
+>> Add annotations to relationships and refactor code to add
+>> create_annotation() function for code reuse.
+>>
+>> Ensure that "cross" recipes are factored into isNative also.
+>>
+>> v2: removed leftover and unused annotation per Joshua
+>>
+>> Sau!
+>>
+>> Saul Wold (3):
+>>   spdx.py: Add annotation to relationship
+>>   create-spdx: add create_annotation function
+>>   create-spdx: cross recipes are native also
+>>
+>>  classes/create-spdx.bbclass | 22 ++++++++++++++--------
+>>  lib/oe/spdx.py              |  6 +++++-
+>>  2 files changed, 19 insertions(+), 9 deletions(-)
+>>
+>> --
+>> 2.31.1
+>>
+>>
+>>
+>>
+>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157476): https://lists.openembedded.org/g/openembedde=
+d-core/message/157476
+> Mute This Topic: https://lists.openembedded.org/mt/86616599/3617601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sa=
+koman@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
