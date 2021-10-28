@@ -1,97 +1,95 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A829C433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 16:15:46 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web12.15186.1635437745853516024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AABAFC433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 18:37:48 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web08.1801.1635446267062983884
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 09:15:46 -0700
+ Thu, 28 Oct 2021 11:37:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=URQ6KQ0W;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id x66so6409253pfx.13
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 09:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IIRE2UCveBdqJnZNyZqs1dc3pMnmm2WF8XQO4nsqHKk=;
-        b=URQ6KQ0W7JN1xrMjuCIRUVfUC78NLVOu+5v+0yNgkVSaKwAfXFKMlQUvVkhUAijPZA
-         9ZHy2NHCgqLi/sErQXRsuxRb9y3e4dyNrLHWrvxH+CBID9nloEc/kyxY1bEABgM8QpII
-         iopiTlETdoI02/mb8mJLg9KykYrKWZ3RjFOrtnjk1FgkrIIwlMXkmRoW0bcxFyklD8oS
-         FeFw4a3kSm0L1452vw8i6HYY/YUgzBwdKb5oZ03D9+qCgqRm8ufMLgppN9BYZsg+4l1k
-         ogNtlGwzJ4RxyENYNzvWF1E1ADs0UQcrsVSDX9/dxPqm5Y5PaX/HSWbI6I4M2EreC0PV
-         xsmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IIRE2UCveBdqJnZNyZqs1dc3pMnmm2WF8XQO4nsqHKk=;
-        b=UCtjOx+pguVpmuFi0/ByE+fWKv681DVxUjQZtYOiETkPIS3mUVQluwCNeZTit7KYEV
-         0C2hYWJDGYNsZiMbq5HdGtVOcuwXduq6vh++xCRI2Br4q7kYKXDwpqkqcIVoQkxcFMEA
-         c5abX1lWPSUcvZtUWABTJg8R721thD73BR5U67pt/m1mcljfYgWRQ03sqmNfhcSAldIS
-         kZrwAFLpH6XIE+CtjH0JE8V8p9oWPk+/LavCO1SsBmOXsjd0d1uS7kvWapBayEXhblP9
-         6TgJGruNTewvTKR+Bo+g4wy7JWu09O5uwslNfhiJxLzv1UzinxpMY7N8LT0vGexUqb52
-         Ubbg==
-X-Gm-Message-State: AOAM5325ppOY+bdVw7cTTPqzherxX1++uoAIwwfFWLt8Q9WpwUb7ZJBA
-	UVHKzqePQhesIq7MNu0tsJHIUTSaPoxVPfkhOlc=
-X-Google-Smtp-Source: 
- ABdhPJy+lesGnO4eCTDbxmh8xHOa0q2ESmIR+tQ5R7eVY4tA9q0SbzO8lgKovjZ7VELdtWYd6q+wHw==
-X-Received: by 2002:a63:9049:: with SMTP id a70mr3924182pge.228.1635437744288;
-        Thu, 28 Oct 2021 09:15:44 -0700 (PDT)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- me3sm8854434pjb.3.2021.10.28.09.15.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 09:15:43 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/4] Pull request (cover letter only)
-Date: Thu, 28 Oct 2021 06:15:32 -1000
-Message-Id: <cover.1635437681.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9334620005;
+	Thu, 28 Oct 2021 18:37:44 +0000 (UTC)
+Date: Thu, 28 Oct 2021 20:37:44 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] libxcvt: add recipe
+Message-ID: <YXrt+LYiPcQsmJke@piout.net>
+References: <20211027210338.3320083-1-open.source@oleksandr-kravchuk.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211027210338.3320083-1-open.source@oleksandr-kravchuk.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 16:15:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 18:37:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157599
+ https://lists.openembedded.org/g/openembedded-core/message/157600
 
-The following changes since commit 62cdc20a2186ecd54d3a7131ec8f6937aa0229ed:
+Unfortunately, this fails with:
 
-  uninative: Upgrade to 3.4 (2021-10-25 10:23:54 +0100)
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+libxcvt (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb)
 
-are available in the Git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+On 27/10/2021 23:03:38+0200, Oleksandr Kravchuk wrote:
+> This library is a dependancy of xserver-xorg 21.1.0.
+> 
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  .../xorg-lib/libxcvt_0.1.1.bb                 | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+> 
+> diff --git a/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+> new file mode 100644
+> index 0000000000..628ccfb647
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.1.bb
+> @@ -0,0 +1,19 @@
+> +SUMMARY = "Library providing a standalone version of the X server \
+> +implementation of the VESA CVT standard timing modelines generator"
+> +HOMEPAGE = "https://gitlab.freedesktop.org/xorg/lib/libxcvt"
+> +BUGTRACKER = "https://gitlab.freedesktop.org/xorg/lib/libxcvt/-/issues"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=129947a06984d6faa6f9a9788fa2a03f"
+> +SECTION = "x11/libs"
+> +
+> +SRC_URI = "git://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=https"
+> +SRCREV = "6fe840b9295cfdc41bd734586c5b8756f6af6f9b"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit meson
+> +
+> +FILES:${PN} = " \
+> +    ${libdir}/libxcvt.so.0* \
+> +    ${bindir}/cvt \
+> +"
+> -- 
+> 2.25.1
+> 
 
-Joshua Watt (1):
-  classes/reproducible_build: Use atomic rename for SDE file
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157569): https://lists.openembedded.org/g/openembedded-core/message/157569
+> Mute This Topic: https://lists.openembedded.org/mt/86638516/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-Richard Purdie (2):
-  rpm: Deterministically set vendor macro entry
-  reproducible_build: Work around caching issues
-
-Steve Sakoman (1):
-  selftest/reproducible: adjust exclusion list for dunfell
-
- meta/classes/reproducible_build.bbclass      | 24 +++++++++++---------
- meta/lib/oeqa/selftest/cases/reproducible.py |  5 ----
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb    |  3 ++-
- 3 files changed, 15 insertions(+), 17 deletions(-)
 
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
