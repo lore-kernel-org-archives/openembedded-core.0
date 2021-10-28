@@ -2,99 +2,94 @@ Return-Path: <open.source@oleksandr-kravchuk.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB08C433FE
-	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 21:09:57 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web08.98.1635455396171452814
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC70C433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Oct 2021 21:10:58 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.111.1635455456998329153
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 14:09:56 -0700
+ Thu, 28 Oct 2021 14:10:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
- header.s=20210112 header.b=ho/mDvcW;
+ header.s=20210112 header.b=i3UJIxAc;
  spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
- ip: 209.85.167.50, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f50.google.com with SMTP id p16so16395102lfa.2
+ ip: 209.85.167.45, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f45.google.com with SMTP id bi35so16304596lfb.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Oct 2021 14:09:55 -0700 (PDT)
+ Thu, 28 Oct 2021 14:10:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=h/eZl7Tpif/e2RvbCSHYt/pklc0uhqha+5FkRczn6Ck=;
-        b=ho/mDvcW+t24t7yy0RjqHJnzsi/3lLd131ofGNMosDDqN8o8/vCEpoFGtmoklZeaPU
-         MDpTjNxET5BtSjg4WSSPX/OU6lz4l8FSSJM322od/NkyaQKbbr334nvk9ds0i4YtjaA/
-         goL1fXsTDwr4bi1lOp3N5at4bAe1jKea+i/pQmNy4k9jfudWTwlDoGAm5/L/IuB0oYjt
-         FwOnFUTL0/plh8Ks0BnKBiEIW5xMRL4j7Zmm4yA3EAtYD5vFR8PbjXbTTe72qN+dvJqW
-         136/4AS1nb44IoTSanIfDUS0zvLb9Jb5n9XVzePtkrk+I1keNHrpZXfu+j31LqBrPiOW
-         tDvQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z/bif4ZE33rtDdsixQHm/2dHp9p1y8SfREBzdNt2N8k=;
+        b=i3UJIxAcSy+j1xVSO522YzEPAk57eQfLIP1EaxwIiuJ0hkAf7PW2/U90J/+bNMW4l1
+         V1/cQr92WHjVjLL2JbTpiqeydX8rcH6Nh1N+D6+CeqWsDEUIGOjQzgk0xMUouRqKw+VD
+         b9ib36GDSArttk8D24RYvlmD0nd3fP74a0cFfeqy+j5DQ2Gv+/8xWq7o45P5hxZpmzI6
+         2Xawhg+TecWzTBohg2cbD6J90khGO5emg7VywY9dmrtfra17UPHEy/NaUMec6ba/YE54
+         dDzSqrjCcRo3ub2UuywC5188quGDi1eu6iGH9wYoszzHySG25OSw+Se0fXp58FwnBHQa
+         we6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=h/eZl7Tpif/e2RvbCSHYt/pklc0uhqha+5FkRczn6Ck=;
-        b=RUV1+e9wTT5uAkvHwNfMxTTQAugjz9UeRqruW4fZmSBGvs9nFppSYHocWuxvj2SSi5
-         dq5Twqra8B5orOZJesrZVL6UTIffMD21mt8PV/ZeHQ4l7Qq2Y4hFPm0uM+8d1KGExQmk
-         nCoAkTehojVlxvOwYHUCedzdO+/OMDdz+CKLK3y7O/uCMfsqd0NEG6mvKeZqw3Hw9195
-         H3QlyTWmLavAF45VeYEZw323aTLzeCKjFIIsbxqESiO5Dsu3Z0OiwNqOqBWWL7pGah3y
-         Z1qTUyASnE5qBsUqMPMuXHnmBO8/tQmd/R9rud358GcnHuIj1PWgG5j+n+hWCYDjknzm
-         WhRQ==
-X-Gm-Message-State: AOAM533SnyVxXpTqccC1Ljl3Li+IYH8oDDP4MARQnH3ot/Rtjvm79deS
-	08XTj7JzyvgyEG9ujpUg5XifZwnN6dUGAb68
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z/bif4ZE33rtDdsixQHm/2dHp9p1y8SfREBzdNt2N8k=;
+        b=73MYrb5VxONmK9QuBV4jAjiVi19U/FoWI1oie5ZKFbJGAnj/fa/a2NXB0bzjR55XmJ
+         deiHYm4ywUzpj/A7ID6eBRmaaH3Zy3fyG5OTQ1TGPytjxHklRe7E9Vee+J7sKwIT085V
+         Qx1EhSBDODtvkUtio+uEqJFa5QoTL/v+cC+w1LCL8AxSd0AaTy/euPkbKxW12MJXX4TO
+         WJm0uw8Fm74+5CqXlcoVFsYiJtM6Mazb2kzRxHIMojxvWatAck6DhkYjxe6WUffp63lF
+         qybuxGywgvspKnBD0/rQHJARvVjB345Thexw6UjUu+iz2Kbb+NZUSzxZ1dyeFnYjTmik
+         5zOQ==
+X-Gm-Message-State: AOAM533zqV0V+b0h8Ng8ZmBvMOi+aTSTVSjx+Dlc89Zo9p3cJS0zL1Gk
+	IdgA1AvEnZ4SXoqxBqE5iKsYYUbGsJQS7wBz
 X-Google-Smtp-Source: 
- ABdhPJx05GUCWg+fYjR4c/NRWA4vNoeqWfHEU7zuJp7HJhIFzvh9i2Bt2Hg8vFYO4JMSWHa6DESuGA==
-X-Received: by 2002:a05:6512:22cc:: with SMTP id
- g12mr6539917lfu.668.1635455393906;
-        Thu, 28 Oct 2021 14:09:53 -0700 (PDT)
+ ABdhPJzzys/Dj5VJXi6enY5ircY1XjYpF4cKXPghm4ztnZsZmEjlqzSw7oW78u8GroephZF8K6tDAQ==
+X-Received: by 2002:ac2:47e4:: with SMTP id b4mr6537333lfp.276.1635455454932;
+        Thu, 28 Oct 2021 14:10:54 -0700 (PDT)
 Received: from localhost.localdomain
  (c-7a22524e.023-160-67626725.bbcust.telenor.se. [78.82.34.122])
         by smtp.gmail.com with ESMTPSA id
- t2sm420371lff.165.2021.10.28.14.09.53
+ c19sm383009ljj.130.2021.10.28.14.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 14:09:53 -0700 (PDT)
+        Thu, 28 Oct 2021 14:10:54 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH 2/2] protobuf: update to 3.19.0
-Date: Thu, 28 Oct 2021 23:09:49 +0200
-Message-Id: <20211028210949.1273230-2-open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-imageio: update to 2.10.1
+Date: Thu, 28 Oct 2021 23:10:52 +0200
+Message-Id: <20211028211052.1273629-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211028210949.1273230-1-open.source@oleksandr-kravchuk.com>
-References: <20211028210949.1273230-1-open.source@oleksandr-kravchuk.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 21:09:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Oct 2021 21:10:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157607
+ https://lists.openembedded.org/g/openembedded-core/message/157608
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../protobuf/{protobuf_3.18.0.bb => protobuf_3.19.0.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-oe/recipes-devtools/protobuf/{protobuf_3.18.0.bb => protobuf_3.19.0.bb} (98%)
+ .../{python3-imageio_2.9.0.bb => python3-imageio_2.10.1.bb}    | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta-python/recipes-devtools/python/{python3-imageio_2.9.0.bb => python3-imageio_2.10.1.bb} (73%)
 
-diff --git a/meta-oe/recipes-devtools/protobuf/protobuf_3.18.0.bb b/meta-oe/recipes-devtools/protobuf/protobuf_3.19.0.bb
-similarity index 98%
-rename from meta-oe/recipes-devtools/protobuf/protobuf_3.18.0.bb
-rename to meta-oe/recipes-devtools/protobuf/protobuf_3.19.0.bb
-index 46ebef978..94e8695af 100644
---- a/meta-oe/recipes-devtools/protobuf/protobuf_3.18.0.bb
-+++ b/meta-oe/recipes-devtools/protobuf/protobuf_3.19.0.bb
-@@ -10,9 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=37b5762e07f0af8c74ce80a8bda4266b"
- DEPENDS = "zlib"
- DEPENDS:append:class-target = " protobuf-native"
+diff --git a/meta-python/recipes-devtools/python/python3-imageio_2.9.0.bb b/meta-python/recipes-devtools/python/python3-imageio_2.10.1.bb
+similarity index 73%
+rename from meta-python/recipes-devtools/python/python3-imageio_2.9.0.bb
+rename to meta-python/recipes-devtools/python/python3-imageio_2.10.1.bb
+index 2783669b4..ea9ed1869 100644
+--- a/meta-python/recipes-devtools/python/python3-imageio_2.9.0.bb
++++ b/meta-python/recipes-devtools/python/python3-imageio_2.10.1.bb
+@@ -6,8 +6,7 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=7b9bbbb543b6af3e6b53f9b7fb68f71d"
  
--SRCREV = "89b14b1d16eba4d44af43256fc45b24a6a348557"
-+SRCREV = "17b30e96476be70b8773b2b807bab857fd3ceb39"
  
--SRC_URI = "git://github.com/protocolbuffers/protobuf.git;branch=3.18.x \
-+SRC_URI = "git://github.com/protocolbuffers/protobuf.git;branch=3.19.x \
-            file://run-ptest \
-            file://0001-protobuf-fix-configure-error.patch \
-            file://0001-Makefile.am-include-descriptor.cc-when-building-libp.patch \
+-SRC_URI[md5sum] = "d22757338542e3742a335cea6210e419"
+-SRC_URI[sha256sum] = "52ddbaeca2dccf53ba2d6dec5676ca7bc3b2403ef8b37f7da78b7654bb3e10f0"
++SRC_URI[sha256sum] = "1fbf909bac3f07faabd05a3f71b3c49428709c3c55f43770a3f76e0eb1b525d1"
+ 
+ inherit pypi setuptools3
+ 
 -- 
 2.25.1
 
