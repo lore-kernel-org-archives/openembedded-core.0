@@ -1,144 +1,96 @@
-Return-Path: <thomas.perrot@bootlin.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77472C433EF
-	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 22:17:14 +0000 (UTC)
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
- [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web10.12327.1635545833004714129
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6FCC433F5
+	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 23:13:16 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.13010.1635549195629221913
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Oct 2021 15:17:13 -0700
+ Fri, 29 Oct 2021 16:13:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.178.231, mailfrom: thomas.perrot@bootlin.com)
-Received: (Authenticated sender: thomas.perrot@bootlin.com)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id CB821100006;
-	Fri, 29 Oct 2021 22:17:10 +0000 (UTC)
-Message-ID: <d1ac45a3bfc568fad63da0007b44cfaf0cc15afd.camel@bootlin.com>
-Subject: Re: [OE-core][PATCH] uboot-sign: fix the concatenation when
- multiple U-BOOT configurations are specified
-From: Thomas Perrot <thomas.perrot@bootlin.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 30 Oct 2021 00:17:09 +0200
-In-Reply-To: 
- <2c10a8f09a5d08a41627c443774596aaf6feac82.camel@linuxfoundation.org>
-References: <20211027140412.1663212-1-thomas.perrot@bootlin.com>
-	 <2c10a8f09a5d08a41627c443774596aaf6feac82.camel@linuxfoundation.org>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-K0JFOLKIYhABHTk4HeuA"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=II+/SaUx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id v17so19074279wrv.9
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 29 Oct 2021 16:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5dgDP3tgUDfN/LcAzBp+zTLlh0uSKIDvrzAIaygmMys=;
+        b=II+/SaUx+5fCoLePBcxvebGneeUZbsykRNG+GUpT5D3kYq18xJ0RAcXtrprc1+9Jlu
+         mmMF9wt4J5ePtccyy5kNKlliGfFGPlyNVazVfKmtXwv+FBg2QD/wOsZKa2uiwBOwqVxg
+         w9ZyVL/GipLCcgai/gH8PrlmCpXnhKr8ohcsR5B/49AGANnwncAgH2PQUkAz6dwILxoH
+         QcAmg9UiEXGYKi79+OXiWOgAAZB7H6um4g0ZdnTOX7r7c22l8FyVlR3RT60+ydekKP+5
+         8DC6RKYNU6+SFZIi4R+1f1EJl1yI8q2z0CCuI8f24H+8Svk9PLccJau6EDfEqSVwtiFL
+         dqPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5dgDP3tgUDfN/LcAzBp+zTLlh0uSKIDvrzAIaygmMys=;
+        b=XxRmcsCPpGLsBKwA1++ksGbl5TouBOU1DBvxOlTFaxw8GAlQlIVA6SVlK50VxTu+rK
+         RlxhmcMStwx+hmCdO6sUl6N3hxhB4z6qkLCOiHFnS/Cw9ka0ArFnIAoF8aQ+nQbWyVYZ
+         Izwkmw1NuyRooLlEP74lZoab+gEN+1BQw3xQtDzzFG+isAI+7YQKH+TAJJW9J2bk5mon
+         CcM5T91V8PL4+d7RfpdSEYgwjkLShxpZLmBw13Uf8+tnqJZnXcMvzpxQSMcnT+cS1QCR
+         uIiZD0rdbAE0x5ievPnBONv8TzLiL1qAdQGxmP/UudgaS+N4WPVPjGwlmv7v2YCamAtE
+         XNDw==
+X-Gm-Message-State: AOAM530z8M5AaImndwH9G5ZwGJwrKZGXOHiZS1oWo2g92J9R3S+g0Ngg
+	05NnHadCW4cBa3RL2E9W31DSUyKZdto=
+X-Google-Smtp-Source: 
+ ABdhPJzGHHBpQcSMsSeIDCzEVNkOVfduFQghL8kaKZ8pH4vBN0i7hEtmxJjI1ABG7cD5f+rT33m9kQ==
+X-Received: by 2002:adf:e34d:: with SMTP id n13mr17672880wrj.97.1635549193641;
+        Fri, 29 Oct 2021 16:13:13 -0700 (PDT)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ v7sm6762265wrq.25.2021.10.29.16.13.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Oct 2021 16:13:13 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH 1/2] sstate.bbclass: exceptions on mirror fetcher is not fatal
+Date: Sat, 30 Oct 2021 00:13:05 +0100
+Message-Id: <20211029231306.16066-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 22:17:14 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 23:13:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157641
+ https://lists.openembedded.org/g/openembedded-core/message/157642
 
+An exceptions in sstate_checkhashes sstate mirror fetcher
+is not fatal for the build and it can be a warning.
 
---=-K0JFOLKIYhABHTk4HeuA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+If we can't check status in the fetcher we can assume that sstate
+file don't exist on the mirror and build it from sources, ignoring
+the sstate cache.
 
-SGVsbG8gUmljaGFyZCwKCk9uIFdlZCwgMjAyMS0xMC0yNyBhdCAxOTowMiArMDEwMCwgUmljaGFy
-ZCBQdXJkaWUgd3JvdGU6Cj4gT24gV2VkLCAyMDIxLTEwLTI3IGF0IDE2OjA0ICswMjAwLCBUaG9t
-YXMgUGVycm90IHdyb3RlOgo+ID4gU29tZSBCU1BzLCBlc3BlY2lhbGx5IHRob3NlIG9mIG1ldGEt
-ZnJlZXNjYWxlIGFuZCBtZXRhLXRpIGFsbG93IHRvCj4gPiBidWlsZCBVLUJvb3QKPiA+IGJpbmFy
-aWVzIHVzaW5nIGRpZmZlcmVudCBjb25maWd1cmF0aW9uIGZvciBhIGdpdmVuIHRhcmdldCwgZm9y
-Cj4gPiBleGFtcGxlOgo+ID4gLSBVQk9PVF9DT05GSUcgPz89ICJ0ZmEtc2VjdXJlLWJvb3QgdGZh
-Igo+ID4gLSBVQk9PVF9DT05GSUcgPz89ICJuYW5kIHNkY2FyZCBzcGkgbm9yIgo+ID4gCj4gPiBX
-aGVuIHRoaXMgaXMgdGhlIGNhc2UgdGhlIHB1YmxpYyBrZXkgd2Fzbid0IGNvbmNhdGVuYXRlZCB0
-byBhbGwgVS0KPiA+IEJvb3QgYmluYXJpZXMKPiA+IGJ1aWx0Lgo+ID4gCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBUaG9tYXMgUGVycm90IDx0aG9tYXMucGVycm90QGJvb3RsaW4uY29tPgo+ID4gLS0tCj4g
-PiDCoG1ldGEvY2xhc3Nlcy91Ym9vdC1zaWduLmJiY2xhc3MgfCAxNiArKysrKysrKysrKysrKyst
-Cj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4g
-PiAKPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvdWJvb3Qtc2lnbi5iYmNsYXNzIGIvbWV0
-YS9jbGFzc2VzL3Vib290LQo+ID4gc2lnbi5iYmNsYXNzCj4gPiBpbmRleCBiYWU4Y2FkYTBhYzMu
-LjhkMTM2ZTk0MDU4OSAxMDA2NDQKPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy91Ym9vdC1zaWduLmJi
-Y2xhc3MKPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy91Ym9vdC1zaWduLmJiY2xhc3MKPiA+IEBAIC0x
-MzEsNiArMTMxLDIwIEBAIGNvbmNhdF9kdGJfaGVscGVyKCkgewo+ID4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBlbGlmIFsgLWUgIiR7REVQTE9ZRElSfS8ke1VCT09UX05PRFRCX0lN
-QUdFfSIgLWEgLWUKPiA+ICIkZGVwbG95ZWRfdWJvb3RfZHRiX2JpbmFyeSIgXTsgdGhlbgo+ID4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2QgJHtERVBM
-T1lESVJ9Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBjYXQgJHtVQk9PVF9OT0RUQl9JTUFHRX0KPiA+ICRkZXBsb3llZF91Ym9vdF9kdGJfYmluYXJ5
-IHwgdGVlCj4gPiAke0J9LyR7Q09ORklHX0JfUEFUSH0vJHtVQk9PVF9CSU5BUll9ID4gJHtVQk9P
-VF9JTUFHRX0KPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgaWYgWyAtbiAiJHtVQk9PVF9DT05GSUd9IiBdCj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRoZW4KPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZvciBjb25maWcg
-aW4gJHtVQk9PVF9NQUNISU5FfTsgZG8KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpPSQoZXhw
-ciAkaSArIDEpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZvciB0eXBlIGluCj4gPiAke1VC
-T09UX0NPTkZJR307IGRvCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGo9JChleHByICRqICsgMSk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGlmIFsgJGogLWVxICRpIF0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgdGhlbgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgY3AKPiA+ICR7VUJPT1RfSU1BR0V9ICR7Qn0vJHtDT05GSUdfQl9QQVRIfS91
-LWJvb3QtJHR5cGUuJHtVQk9PVF9TVUZGSVh9Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoGZpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG9uZQo+ID4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ZG9uZQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBm
-aQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlbHNlCj4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBiYndhcm4gIkZhaWx1cmUgd2hp
-bGUgYWRkaW5nIHB1YmxpYyBrZXkgdG8KPiA+IHUtYm9vdCBiaW5hcnkuIFZlcmlmaWVkIGJvb3Qg
-d29uJ3QgYmUgYXZhaWxhYmxlLiIKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ZmkKPiA+IEBAIC0yMDUsNyArMjE5LDcgQEAgaW5zdGFsbF9oZWxwZXIoKSB7Cj4gPiDCoMKgwqDC
-oMKgwqDCoMKgZmkKPiA+IMKgfQo+ID4gwqAKPiA+IC0jIEluc3RhbGwgU1BMIGR0YiBhbmQgdS1i
-b290IG5vZHRiIHRvIGRhdGFkaXIsIAo+ID4gKyMgSW5zdGFsbCBTUEwgZHRiIGFuZCB1LWJvb3Qg
-bm9kdGIgdG8gZGF0YWRpciwKPiA+IMKgaW5zdGFsbF9zcGxfaGVscGVyKCkgewo+ID4gwqDCoMKg
-wqDCoMKgwqDCoGlmIFsgLWYgIiR7U1BMX0RJUn0vJHtTUExfRFRCX0JJTkFSWX0iIF07IHRoZW4K
-PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW5zdGFsbCAtRG0gMDY0NCAke1NQ
-TF9ESVJ9LyR7U1BMX0RUQl9CSU5BUll9Cj4gPiAke0R9JHtkYXRhZGlyfS8ke1NQTF9EVEJfSU1B
-R0V9Cj4gCj4gCj4gV2Ugc2VlbSB0byBiZSBqdXN0IHBpbGluZyBtb3JlIGFuZCBtb3JlIGNvbmRp
-dGlvbmFsIGNvZGUgaW50byB0aGVzZQo+IGNsYXNzZXMgZm9yCj4gZGlmZmVyZW50IHdlaXJkIGNv
-cm5lciBjYXNlcy4KPiAKPiBBcmUgdGhlcmUgc29tZSB0ZXN0cyB3ZSBzaG91bGQgYmUgYWRkaW5n
-IHRvIGVuc3VyZSBwZW9wbGUgdW5kZXJzdGFuZAo+IHdoeSB0aGlzCj4gY29kZSBpcyBoZXJlIGFu
-ZCBpZi9hcy93aGVuIHNvbWV0aGluZyBlbHNlIGNoYW5nZXMgaXQgYW5kIHJlZ3Jlc3Nlcwo+IGl0
-Pwo+IAoKSSBzaG91bGQgYmUgYWJsZSB0byBhZGQgYSB0ZXN0IGluICJvZXFhL3NlbGZ0ZXN0L2Zp
-dGltYWdlIi4gSSB3aWxsCnJlc3VibWl0IHdoZW4gaXQncyBkb25lLgoKQmVzdCByZWdhcmRzLApU
-aG9tYXMKCj4gQ2hlZXJzLAo+IAo+IFJpY2hhcmQKPiAKPiAKPiAKPiAtPS09LT0tPS09LT0tPS09
-LT0tPS09LQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdy
-b3VwLgo+IFZpZXcvUmVwbHkgT25saW5lICgjMTU3NTYyKTogCj4gaHR0cHM6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNTc1NjIKPiBNdXRlIFRo
-aXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC84NjYyODMyMi81NDQz
-MDkzCj4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcKPiBVbnN1YnNjcmliZToKPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
-Zy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YsKgW3Rob21hcy5wZXJyb3RAYm9vdGxpbi5jb20KPiBd
-Cj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0KPiAKCi0tIApUaG9tYXMgUGVycm90LCBCb290bGlu
-CkVtYmVkZGVkIExpbnV4IGFuZCBrZXJuZWwgZW5naW5lZXJpbmcKaHR0cHM6Ly9ib290bGluLmNv
-bQoK
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
---=-K0JFOLKIYhABHTk4HeuA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmF8cuUACgkQn8ALBXH+
-Cu2Qlwv9GHIWh6aS7U26HE4PqSnPTxX11/a4ynLzo/ojs1Ge1r+5TGmytLsOCoJk
-t6vDCr0BgIVrCj+ZXJSOtXCmtWHZpZm1iVQLvWJOiDMiwgUMTVWaYRsxpUxJCg0C
-cq1XRXFyuKIH7vh9IPGrOpnuyxHfiwltzLm5jiJ6EB3iPP6Lj2+vnRo7ogd3XERU
-naaGj90C+PUQ/HgUV9qIZBBsMeENRX4YHVMVX4BqcdgLkSip6/o1fBPBx4uwnwIZ
-0/S0idf+6dINltHEVkLl1/V+vjF3Me3tQZ0AxPQzJ4aMFc1iM6c+VMxbWN3NSlSX
-PVvXOqBesYTEWCNmKLpWlPjHvnen8uxggxdjOTCESm8UZM5x3o68qCcMS44OURkE
-bbcoBdEjYr6tw7sCJ9OnINVg3kxcfmhAAT1N88NGZ/KysiuRVbFwViSQfIGMf8t/
-wYMHWX2uzraWXF8uYmCof3AqnLTS9UDQ0M8QuwN3joQPSZ2V8zfeyxT16QbJ8/wW
-4aMgKBOM
-=mBME
------END PGP SIGNATURE-----
-
---=-K0JFOLKIYhABHTk4HeuA--
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 6e4eb09f8e..54d38ed42d 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -995,7 +995,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+                 missed.add(tid)
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s (%s)" % (srcuri, e))
+             except Exception as e:
+-                bb.error("SState: cannot test %s: %s" % (srcuri, e))
++                bb.warn("SState: cannot test file %s from mirrors '%s': (%s)" % (srcuri, mirrors, e))
+             if len(tasklist) >= min_tasks:
+                 bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
+ 
+-- 
+2.33.1
 
 
