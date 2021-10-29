@@ -2,138 +2,107 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7203AC4332F
-	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 17:10:27 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.8404.1635527427114167420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3A1C433EF
+	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 18:04:57 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web08.9321.1635530696916588554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Oct 2021 10:10:27 -0700
+ Fri, 29 Oct 2021 11:04:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lpXAYY2I;
- spf=pass (domain: gmail.com, ip: 209.85.214.172,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id f8so7229395plo.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Dr25k+M8;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id b11so3504246qvm.7
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Oct 2021 10:10:27 -0700 (PDT)
+ Fri, 29 Oct 2021 11:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=M1qMUA0RnaBK/F0eWVnjN6Dg44kmeLBHFNABM2rOxs8=;
-        b=lpXAYY2Ik0AW8qBmo2cSJZKYxNwBA59MrNcEezn9mkCPT9jPTW1iAm0MVfhznU3K/o
-         6NY9NGZp8tBq15Ava0fwu69V5KsybO1NMQ0cj1VB0DXX11Ogd4EEZ8iSFXlp/TJd6ClB
-         16A6g79+hnGgkqfTyKr4Hy39WJEv8KZs0W2LCw9lC5zx5ZKug2DMGX4J/hGUcboytwnm
-         s5i9LiwLUix7jySFFPG9vUororFH5m/ZXGQ7kw8BL151pAF8oeOgdFc7hGmdRqkrUnjv
-         Z6E8Zwk0T92E9ntB1PZmffRw6irXGhc0IBC26q0dPlpR16puPHkaVxHfeMrFDKQmw3+g
-         SLSw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y0ILAWPCHP0Xw83alqBtLSctZZzDLdK+Q3bHgYktVZo=;
+        b=Dr25k+M8Fs9BmzOpv10KIwcsElgTf6huq8zWxBSq3vdItpBSSN4tfqfGiSukHHM9yb
+         //ACbPwgBhsErIftJ9tiPD9OuBxWXBDU5wkADnodaaRD6Mdx+HZATp2SVL1yCUkVdv9n
+         ttcQnni0wP4TWgcMOKYGsCaXQftY5seTXbjfDap7A1Giun7/gu1M2huy1KQqVe1o2ONR
+         YQOC/LtzLyltyUBnXEnCk1yJE+Rt5hmc/6my5S0g7Eh11+m3EntKf9b6iF3HYyHluDVu
+         0jH17k1o3UjdnL37kAaKBhz2ViYYcJaKk/zELdkXijbLX/UmIZUpBpdf25jcZA3KHzJ5
+         EjCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=M1qMUA0RnaBK/F0eWVnjN6Dg44kmeLBHFNABM2rOxs8=;
-        b=WhhO7KG1TDDp/P4OWpo4oGJVzjlWgP81Ovop9b21gJ0hG08/EXfTyiXsSg5Rz52FoN
-         SHns1rd5jufsl8MEP2o7TOJqWWoWdk5jH229LBQVUbTzkLqy4n/JNvj8Ekw3TjPjJpaL
-         yzYtIXLkmCnNYFhxH/vlAJuhJfH20WyzHpmd0XabmXD38P/pajSdVXdNLAIpyVyn9X48
-         rTrNBu7diDSiLq73dX1SQNiaNh4RprA5roTg0Q1tu9q7fy2npKK0PStKu17Uq3D5PVYg
-         VljG7w38p4DPVkmmtpOeVNQEeMgwbj4sY85qLXYAVQfFki08X9C1Vy2viceMiOTCSdxD
-         HU+g==
-X-Gm-Message-State: AOAM532Fzfct3VyXwLn22SJqwgTQsnS0pNrPHVT/0GjgTsG64/lRZvi9
-	NEqtndVVEMb2j3bTxNkDuBxd5GoOwzc=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y0ILAWPCHP0Xw83alqBtLSctZZzDLdK+Q3bHgYktVZo=;
+        b=XkZZ7ORH9yUGoOCKc2JypcN1wjdiDT/WsG0PJaP0HaAmU0gZLHF0zPJVRiBATuRrX1
+         TJvFV/Aplg0bUIKvgyiAWKN9XNK7VbfoF2Fd1JdOe5eyWwmuWKTV87qVvfjOreRPbDGO
+         +2pR+tTam9Da3ghKdQTQ2BrwaIN94KMYIdtdRthG4kUKnveaQjouFA1HtoIuAYTqREWl
+         y29lIbwI5jHG2hScsFKAYmnvUMtFhwKODktpBZIsONMwF7TN9CmKyyhdY1bBYpZUIMbM
+         3dFOpVtZfCswkVIZMglsvACGO21QVAlx+IACmvkAvSShTXi8VwG86PgcEGk0J2I0kdBC
+         DdJA==
+X-Gm-Message-State: AOAM530U9D8ZEoqS29BRG/Gh557qcmWjG0gXdceZlJ7Dwpt/aHdnZrc0
+	C95YSW2C1LbKNeOu2LuNaH/GkOYsegetV9Mne6LZanxZlYY=
 X-Google-Smtp-Source: 
- ABdhPJzuyeboBfu4OA+ujDsPEqkDhhKrWikPuCqbFv2VBZDMNpLSFYsCzlUaNBQ0cA5Bb+JKEWZtCQ==
-X-Received: by 2002:a17:90b:1c8e:: with SMTP id
- oo14mr21239468pjb.224.1635527426392;
-        Fri, 29 Oct 2021 10:10:26 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::f94a])
-        by smtp.gmail.com with ESMTPSA id
- z7sm5887805pgo.11.2021.10.29.10.10.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Oct 2021 10:10:25 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 3/3] libsolv: Enable correct qsort_r on musl
-Date: Fri, 29 Oct 2021 10:10:22 -0700
-Message-Id: <20211029171022.1279107-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211029171022.1279107-1-raj.khem@gmail.com>
-References: <20211029171022.1279107-1-raj.khem@gmail.com>
+ ABdhPJwtvriwUKVF00ipbKJLYGQ3tL3ShMADHqZWh398ItK1Y8AudRbIR1KnpdYf5rvkwdS8Mk7FKCV38JuERFiUfWE=
+X-Received: by 2002:a05:6214:242a:: with SMTP id
+ gy10mr12471172qvb.62.1635530695886;
+ Fri, 29 Oct 2021 11:04:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211027090736.2546759-1-alex@linutronix.de>
+ <20211027090736.2546759-15-alex@linutronix.de>
+In-Reply-To: <20211027090736.2546759-15-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 29 Oct 2021 11:04:29 -0700
+Message-ID: 
+ <CAMKF1sqcKQAQpVNf9d08MF-f-HZv57A3nphbZp7G9XOkBdtRQg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 15/30] wpebackend-fdo: upgrade 1.10.0 -> 1.12.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 17:10:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 18:04:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157633
+ https://lists.openembedded.org/g/openembedded-core/message/157634
 
-Newer musl now has this function implemented and signatures are same as
-glibc, current codepaths forces it on BSD path which is wrong for musl
-and results in random segfaults in apps using libsolv e.g. opkg
+seeing https://errors.yoctoproject.org/Errors/Details/615439/
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Rebased on master-next
-
- ...s-Conside-musl-when-wrapping-qsort_r.patch | 34 +++++++++++++++++++
- .../libsolv/libsolv_0.7.20.bb                 |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
-
-diff --git a/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch b/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
-new file mode 100644
-index 0000000000..6f0dea2e9c
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
-@@ -0,0 +1,34 @@
-+From 06321f1a2aa89b8e028946e793344657eaad0165 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 28 Oct 2021 22:28:45 -0700
-+Subject: [PATCH] utils: Conside musl when wrapping qsort_r
-+
-+musl now has implemented qsort_r, the signature however matches glibc
-+and not BSD, current check makes it such that it falls into BSD case
-+when building for musl, which clearly is wrong, therefore instead of
-+just checking for glibc check for linux to decide which qsort_r
-+signature to use. This covers both glibc and musl
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/util.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/util.c b/src/util.c
-+index 72426e09..8f29bc5a 100644
-+--- a/src/util.c
-++++ b/src/util.c
-+@@ -159,7 +159,7 @@ solv_setcloexec(int fd, int state)
-+ 
-+    see also: http://sources.redhat.com/ml/libc-alpha/2008-12/msg00003.html
-+  */
-+-#if (defined(__GLIBC__) || defined(__NEWLIB__)) && (defined(HAVE_QSORT_R) || defined(HAVE___QSORT_R))
-++#if (defined(__linux__) || defined(__NEWLIB__)) && (defined(HAVE_QSORT_R) || defined(HAVE___QSORT_R))
-+ 
-+ void
-+ solv_sort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *, void *), void *compard)
-+-- 
-+2.33.1
-+
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.20.bb b/meta/recipes-extended/libsolv/libsolv_0.7.20.bb
-index 6861def533..21017c3902 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.20.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.20.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- DEPENDS = "expat zlib"
- 
- SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master \
-+           file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
- "
- 
- SRCREV = "f618e6aae1d44be633b2ab91d4fd4f4f974f4d40"
--- 
-2.33.1
-
+On Wed, Oct 27, 2021 at 2:08 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> From: Alexander Kanavin <alex.kanavin@gmail.com>
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../{wpebackend-fdo_1.10.0.bb => wpebackend-fdo_1.12.0.bb}      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-sato/webkit/{wpebackend-fdo_1.10.0.bb => wpebackend-fdo_1.12.0.bb} (89%)
+>
+> diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.10.0.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb
+> similarity index 89%
+> rename from meta/recipes-sato/webkit/wpebackend-fdo_1.10.0.bb
+> rename to meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb
+> index f2d640f07a..ba6c54412a 100644
+> --- a/meta/recipes-sato/webkit/wpebackend-fdo_1.10.0.bb
+> +++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb
+> @@ -13,7 +13,7 @@ inherit meson features_check pkgconfig
+>  REQUIRED_DISTRO_FEATURES = "opengl"
+>
+>  SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+> -SRC_URI[sha256sum] = "b89dfd3500a4dec711132cd7bff72599e67d56a419d000730e14bb99547509cc"
+> +SRC_URI[sha256sum] = "6239c9c15523410798d66315de6b491712ab30009ba180f3e0dd076d9b0074ac"
+>
+>  # This is a tweak of upstream-version-is-even needed because
+>  # ipstream directory contains tarballs for other components as well.
+> --
+> 2.20.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157491): https://lists.openembedded.org/g/openembedded-core/message/157491
+> Mute This Topic: https://lists.openembedded.org/mt/86623392/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
