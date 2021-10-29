@@ -1,288 +1,144 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE13FC433EF
-	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 22:03:07 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.12157.1635544986286860187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77472C433EF
+	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 22:17:14 +0000 (UTC)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
+ [217.70.178.231])
+ by mx.groups.io with SMTP id smtpd.web10.12327.1635545833004714129
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Oct 2021 15:03:06 -0700
+ Fri, 29 Oct 2021 15:17:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id AF0C3240007;
-	Fri, 29 Oct 2021 22:02:57 +0000 (UTC)
-Date: Sat, 30 Oct 2021 00:02:57 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: ?ukasz Majewski <lukma@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Nathan Rossi <nathan@nathanrossi.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Adhemerval Zanella <adhemerval.zanella@linaro.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v3] glibc: ptest: Add running glibc time
- related test suite (Y2038) with ptest
-Message-ID: <YXxvkWzBlNaHkybQ@piout.net>
-References: <20211028120020.23276-1-lukma@denx.de>
+ spf=pass (domain: bootlin.com, ip: 217.70.178.231, mailfrom: thomas.perrot@bootlin.com)
+Received: (Authenticated sender: thomas.perrot@bootlin.com)
+	by relay11.mail.gandi.net (Postfix) with ESMTPSA id CB821100006;
+	Fri, 29 Oct 2021 22:17:10 +0000 (UTC)
+Message-ID: <d1ac45a3bfc568fad63da0007b44cfaf0cc15afd.camel@bootlin.com>
+Subject: Re: [OE-core][PATCH] uboot-sign: fix the concatenation when
+ multiple U-BOOT configurations are specified
+From: Thomas Perrot <thomas.perrot@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 30 Oct 2021 00:17:09 +0200
+In-Reply-To: 
+ <2c10a8f09a5d08a41627c443774596aaf6feac82.camel@linuxfoundation.org>
+References: <20211027140412.1663212-1-thomas.perrot@bootlin.com>
+	 <2c10a8f09a5d08a41627c443774596aaf6feac82.camel@linuxfoundation.org>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-K0JFOLKIYhABHTk4HeuA"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211028120020.23276-1-lukma@denx.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 22:03:07 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 22:17:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157640
-
-Hello,
-
-There is a remaining issue:
-
-WARNING: Nothing RPROVIDES 'nativesdk-ptest-runner' (but virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/glibc/glibc-tests_2.34.bb RDEPENDS on or otherwise requires it)
-NOTE: Runtime target 'nativesdk-ptest-runner' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['nativesdk-ptest-runner']
-
-On 28/10/2021 14:00:20+0200, ?ukasz Majewski wrote:
-> This patch introduces new recipe - namely 'glibc-tests', which
-> builds and installs time related (to check if Y2038 support works) glibc
-> test suite to OE/Yocto built image.
-> 
-> It reuses code from already available 'glibc-testsuite' recipe,
-> which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-> to execute remotely (via SSH) tests on some emulated machine.
-> 
-> This recipe installs time related glibc tests on some rootfs image.
-> Afterwards, those tests can be executed on the real hardware, to
-> facilitate validation of it with Y2038 problem compliance.
-> 
-> To test time related subset - one needs to call:
-> ptest-runner glibc-tests
-> then change the date after Y2038 threshold for 32 bit systems:
-> date -s "20 JAN 2038 18:00:00"
-> and then run ptest-runner again.
-> 
-> To facilitate debugging, source files are provided by default with
-> the unstripped debugging symbols. Such approach would reduce the
-> already complex recipe (as it inherits base glibc one), so there
-> is no need to also install *-dbg and *-src packages.
-> 
-> Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> 
-> ---
-> Changes for v3:
-> - Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
->   RPROVIDES variables
-> 
-> Changes for v2:
-> - Just focus on time related set of tests as those can be run as
->   standalone
-> - Reuse of already built tests (from glibc-tests.inc) and depoloy
->   them on the HW target.
-> - Provide single 'run-ptest' script.
-> - Update the recipe to run with newest poky's -master
-> ---
->  .../distro/include/ptest-packagelists.inc     |   1 +
->  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 112 ++++++++++++++++++
->  meta/recipes-core/glibc/glibc/run-ptest       |  37 ++++++
->  3 files changed, 150 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
->  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
-> 
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index 2e324f8da4..fd52fa72a4 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -61,6 +61,7 @@ PTESTS_FAST = "\
->      slang-ptest \
->      wayland-ptest \
->      zlib-ptest \
-> +    glibc-tests-ptest \
->  "
->  PTESTS_FAST:remove:mips64 = "qemu-ptest"
->  PTESTS_PROBLEMS:append:mips64 = "qemu-ptest"
-> diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> new file mode 100644
-> index 0000000000..0a6920eef4
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> @@ -0,0 +1,112 @@
-> +require glibc_${PV}.bb
-> +require glibc-tests.inc
-> +
-> +inherit ptest
-> +
-> +SRC_URI:append = " \
-> +	file://run-ptest \
-> +"
-> +
-> +SUMMARY = "glibc tests to be run with ptest"
-> +
-> +# Erase some variables already set by glibc_${PV}
-> +python __anonymous() {
-> +       # Remove packages provided by glibc build, we only need a subset of them
-> +       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
-> +
-> +       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
-> +       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
-> +
-> +       d.setVar("RRECOMMENDS", "")
-> +}
-> +
-> +# Remove any lefovers from original glibc recipe
-> +RPROVIDES:${PN} = "${PN}"
-> +RRECOMMENDS:${PN} = ""
-> +RDEPENDS:${PN} = " glibc sed"
-> +DEPENDS:append = " sed"
-> +
-> +# Just build tests for target - do not run them
-> +do_check:append () {
-> +	oe_runmake -i check run-built-tests=no
-> +}
-> +addtask do_check after do_compile before do_install_ptest_base
-> +
-> +glibc_strip_build_directory () {
-> +	# Delete all non executable files from build directory
-> +	find ${B} ! -executable -type f -delete
-> +
-> +	# Remove build dynamic libraries and links to them as
-> +	# those are already installed in the target device
-> +	find ${B} -type f -name "*.so" -delete
-> +	find ${B} -type l -name "*.so*" -delete
-> +
-> +	# Remove headers (installed with glibc)
-> +	find ${B} -type f -name "*.h" -delete
-> +
-> +	find ${B} -type f -name "isomac" -delete
-> +	find ${B} -type f -name "annexc" -delete
-> +}
-> +
-> +do_install_ptest_base () {
-> +	glibc_strip_build_directory
-> +
-> +	ls -r ${B}/*/*-time64 > ${B}/tst_time64
-> +
-> +	# Remove '-time64' suffix - those tests are also time related
-> +	sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
-> +	tst_time=$(cat ${B}/tst_time_tmp ${B}/tst_time64)
-> +
-> +	rm ${B}/tst_time_tmp ${B}/tst_time64
-> +	echo "${tst_time}"
-> +
-> +	# Install build test programs to the image
-> +	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-> +
-> +	for f in "${tst_time}"
-> +	do
-> +	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
-> +	done
-> +
-> +	install -d ${D}${PTEST_PATH}
-> +	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
-> +
-> +}
-> +
-> +# The datadir directory is required to allow core (and reused)
-> +# glibc cleanup function to finish correctly, as this directory
-> +# is not created for ptests
-> +stash_locale_package_cleanup:prepend () {
-> +	mkdir -p ${PKGD}${datadir}
-> +}
-> +
-> +stash_locale_sysroot_cleanup:prepend () {
-> +	mkdir -p ${SYSROOT_DESTDIR}${datadir}
-> +}
-> +
-> +# Prevent the do_package() task to set 'libc6' prefix
-> +# for glibc tests related packages
-> +python populate_packages:prepend () {
-> +    if d.getVar('DEBIAN_NAMES'):
-> +        d.setVar('DEBIAN_NAMES', '')
-> +}
-> +
-> +FILES:${PN} = "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-> +
-> +EXCLUDE_FROM_SHLIBS = "1"
-> +
-> +# Install debug data in .debug and sources in /usr/src/debug
-> +# It is more handy to have _all_ the sources and symbols in one
-> +# place (package) as this recipe will be used for validation and
-> +# debugging.
-> +PACKAGE_DEBUG_SPLIT_STYLE = "debug"
-> +
-> +# glibc test cases violate by default some Yocto/OE checks (staticdev,
-> +# textrel)
-> +# 'debug-files' - add everything (including debug) into one package
-> +#                 (no need to install/build *-src package)
-> +INSANE_SKIP:${PN} += "staticdev textrel debug-files rpaths"
-> +
-> +deltask do_stash_locale
-> +do_install[noexec] = "1"
-> +do_populate_sysroot[noexec] = "1"
-> diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/glibc/glibc/run-ptest
-> new file mode 100755
-> index 0000000000..f637986105
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/run-ptest
-> @@ -0,0 +1,37 @@
-> +#!/bin/sh
-> +# ptest script for glibc - to run time related tests to
-> +# facilitate Y2038 validation
-> +# Run with 'ptest-runner glibc-tests'
-> +
-> +output() {
-> +  retcode=$?
-> +  if [ $retcode -eq 0 ]
-> +    then echo "PASS: $i"
-> +  elif [ $retcode -eq 77 ]
-> +    then echo "SKIP: $i"
-> +  else echo "FAIL: $i"
-> +  fi
-> +}
-> +
-> +# Allow altering time on the target
-> +export GLIBC_TEST_ALLOW_TIME_SETTING="1"
-> +
-> +tst_time64=$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
-> +
-> +# Remove '-time64' suffix - those tests are also time
-> +# related
-> +tst_time_tmp=$(sed -e "s/-time64$//" <<< ${tst_time64})
-> +
-> +# Run tests supporting only 32 bit time
-> +for i in ${tst_time_tmp}
-> +do
-> +	$i >/dev/null 2>&1
-> +	output
-> +done
-> +
-> +# Run tests supporting only 64 bit time
-> +for i in ${tst_time64}
-> +do
-> +	$i >/dev/null 2>&1
-> +	output
-> +done
-> -- 
-> 2.20.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157595): https://lists.openembedded.org/g/openembedded-core/message/157595
-> Mute This Topic: https://lists.openembedded.org/mt/86650301/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+ https://lists.openembedded.org/g/openembedded-core/message/157641
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--=-K0JFOLKIYhABHTk4HeuA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+SGVsbG8gUmljaGFyZCwKCk9uIFdlZCwgMjAyMS0xMC0yNyBhdCAxOTowMiArMDEwMCwgUmljaGFy
+ZCBQdXJkaWUgd3JvdGU6Cj4gT24gV2VkLCAyMDIxLTEwLTI3IGF0IDE2OjA0ICswMjAwLCBUaG9t
+YXMgUGVycm90IHdyb3RlOgo+ID4gU29tZSBCU1BzLCBlc3BlY2lhbGx5IHRob3NlIG9mIG1ldGEt
+ZnJlZXNjYWxlIGFuZCBtZXRhLXRpIGFsbG93IHRvCj4gPiBidWlsZCBVLUJvb3QKPiA+IGJpbmFy
+aWVzIHVzaW5nIGRpZmZlcmVudCBjb25maWd1cmF0aW9uIGZvciBhIGdpdmVuIHRhcmdldCwgZm9y
+Cj4gPiBleGFtcGxlOgo+ID4gLSBVQk9PVF9DT05GSUcgPz89ICJ0ZmEtc2VjdXJlLWJvb3QgdGZh
+Igo+ID4gLSBVQk9PVF9DT05GSUcgPz89ICJuYW5kIHNkY2FyZCBzcGkgbm9yIgo+ID4gCj4gPiBX
+aGVuIHRoaXMgaXMgdGhlIGNhc2UgdGhlIHB1YmxpYyBrZXkgd2Fzbid0IGNvbmNhdGVuYXRlZCB0
+byBhbGwgVS0KPiA+IEJvb3QgYmluYXJpZXMKPiA+IGJ1aWx0Lgo+ID4gCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBUaG9tYXMgUGVycm90IDx0aG9tYXMucGVycm90QGJvb3RsaW4uY29tPgo+ID4gLS0tCj4g
+PiDCoG1ldGEvY2xhc3Nlcy91Ym9vdC1zaWduLmJiY2xhc3MgfCAxNiArKysrKysrKysrKysrKyst
+Cj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4g
+PiAKPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvdWJvb3Qtc2lnbi5iYmNsYXNzIGIvbWV0
+YS9jbGFzc2VzL3Vib290LQo+ID4gc2lnbi5iYmNsYXNzCj4gPiBpbmRleCBiYWU4Y2FkYTBhYzMu
+LjhkMTM2ZTk0MDU4OSAxMDA2NDQKPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy91Ym9vdC1zaWduLmJi
+Y2xhc3MKPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy91Ym9vdC1zaWduLmJiY2xhc3MKPiA+IEBAIC0x
+MzEsNiArMTMxLDIwIEBAIGNvbmNhdF9kdGJfaGVscGVyKCkgewo+ID4gwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBlbGlmIFsgLWUgIiR7REVQTE9ZRElSfS8ke1VCT09UX05PRFRCX0lN
+QUdFfSIgLWEgLWUKPiA+ICIkZGVwbG95ZWRfdWJvb3RfZHRiX2JpbmFyeSIgXTsgdGhlbgo+ID4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2QgJHtERVBM
+T1lESVJ9Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBjYXQgJHtVQk9PVF9OT0RUQl9JTUFHRX0KPiA+ICRkZXBsb3llZF91Ym9vdF9kdGJfYmluYXJ5
+IHwgdGVlCj4gPiAke0J9LyR7Q09ORklHX0JfUEFUSH0vJHtVQk9PVF9CSU5BUll9ID4gJHtVQk9P
+VF9JTUFHRX0KPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgaWYgWyAtbiAiJHtVQk9PVF9DT05GSUd9IiBdCj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRoZW4KPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZvciBjb25maWcg
+aW4gJHtVQk9PVF9NQUNISU5FfTsgZG8KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpPSQoZXhw
+ciAkaSArIDEpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZvciB0eXBlIGluCj4gPiAke1VC
+T09UX0NPTkZJR307IGRvCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oGo9JChleHByICRqICsgMSk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGlmIFsgJGogLWVxICRpIF0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgdGhlbgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgY3AKPiA+ICR7VUJPT1RfSU1BR0V9ICR7Qn0vJHtDT05GSUdfQl9QQVRIfS91
+LWJvb3QtJHR5cGUuJHtVQk9PVF9TVUZGSVh9Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoGZpCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG9uZQo+ID4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+ZG9uZQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBm
+aQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlbHNlCj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBiYndhcm4gIkZhaWx1cmUgd2hp
+bGUgYWRkaW5nIHB1YmxpYyBrZXkgdG8KPiA+IHUtYm9vdCBiaW5hcnkuIFZlcmlmaWVkIGJvb3Qg
+d29uJ3QgYmUgYXZhaWxhYmxlLiIKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+ZmkKPiA+IEBAIC0yMDUsNyArMjE5LDcgQEAgaW5zdGFsbF9oZWxwZXIoKSB7Cj4gPiDCoMKgwqDC
+oMKgwqDCoMKgZmkKPiA+IMKgfQo+ID4gwqAKPiA+IC0jIEluc3RhbGwgU1BMIGR0YiBhbmQgdS1i
+b290IG5vZHRiIHRvIGRhdGFkaXIsIAo+ID4gKyMgSW5zdGFsbCBTUEwgZHRiIGFuZCB1LWJvb3Qg
+bm9kdGIgdG8gZGF0YWRpciwKPiA+IMKgaW5zdGFsbF9zcGxfaGVscGVyKCkgewo+ID4gwqDCoMKg
+wqDCoMKgwqDCoGlmIFsgLWYgIiR7U1BMX0RJUn0vJHtTUExfRFRCX0JJTkFSWX0iIF07IHRoZW4K
+PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW5zdGFsbCAtRG0gMDY0NCAke1NQ
+TF9ESVJ9LyR7U1BMX0RUQl9CSU5BUll9Cj4gPiAke0R9JHtkYXRhZGlyfS8ke1NQTF9EVEJfSU1B
+R0V9Cj4gCj4gCj4gV2Ugc2VlbSB0byBiZSBqdXN0IHBpbGluZyBtb3JlIGFuZCBtb3JlIGNvbmRp
+dGlvbmFsIGNvZGUgaW50byB0aGVzZQo+IGNsYXNzZXMgZm9yCj4gZGlmZmVyZW50IHdlaXJkIGNv
+cm5lciBjYXNlcy4KPiAKPiBBcmUgdGhlcmUgc29tZSB0ZXN0cyB3ZSBzaG91bGQgYmUgYWRkaW5n
+IHRvIGVuc3VyZSBwZW9wbGUgdW5kZXJzdGFuZAo+IHdoeSB0aGlzCj4gY29kZSBpcyBoZXJlIGFu
+ZCBpZi9hcy93aGVuIHNvbWV0aGluZyBlbHNlIGNoYW5nZXMgaXQgYW5kIHJlZ3Jlc3Nlcwo+IGl0
+Pwo+IAoKSSBzaG91bGQgYmUgYWJsZSB0byBhZGQgYSB0ZXN0IGluICJvZXFhL3NlbGZ0ZXN0L2Zp
+dGltYWdlIi4gSSB3aWxsCnJlc3VibWl0IHdoZW4gaXQncyBkb25lLgoKQmVzdCByZWdhcmRzLApU
+aG9tYXMKCj4gQ2hlZXJzLAo+IAo+IFJpY2hhcmQKPiAKPiAKPiAKPiAtPS09LT0tPS09LT0tPS09
+LT0tPS09LQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdy
+b3VwLgo+IFZpZXcvUmVwbHkgT25saW5lICgjMTU3NTYyKTogCj4gaHR0cHM6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNTc1NjIKPiBNdXRlIFRo
+aXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC84NjYyODMyMi81NDQz
+MDkzCj4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcKPiBVbnN1YnNjcmliZToKPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
+Zy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YsKgW3Rob21hcy5wZXJyb3RAYm9vdGxpbi5jb20KPiBd
+Cj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0KPiAKCi0tIApUaG9tYXMgUGVycm90LCBCb290bGlu
+CkVtYmVkZGVkIExpbnV4IGFuZCBrZXJuZWwgZW5naW5lZXJpbmcKaHR0cHM6Ly9ib290bGluLmNv
+bQoK
+
+
+--=-K0JFOLKIYhABHTk4HeuA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCAAdFiEEh0B3xqajCiMDqBIhn8ALBXH+Cu0FAmF8cuUACgkQn8ALBXH+
+Cu2Qlwv9GHIWh6aS7U26HE4PqSnPTxX11/a4ynLzo/ojs1Ge1r+5TGmytLsOCoJk
+t6vDCr0BgIVrCj+ZXJSOtXCmtWHZpZm1iVQLvWJOiDMiwgUMTVWaYRsxpUxJCg0C
+cq1XRXFyuKIH7vh9IPGrOpnuyxHfiwltzLm5jiJ6EB3iPP6Lj2+vnRo7ogd3XERU
+naaGj90C+PUQ/HgUV9qIZBBsMeENRX4YHVMVX4BqcdgLkSip6/o1fBPBx4uwnwIZ
+0/S0idf+6dINltHEVkLl1/V+vjF3Me3tQZ0AxPQzJ4aMFc1iM6c+VMxbWN3NSlSX
+PVvXOqBesYTEWCNmKLpWlPjHvnen8uxggxdjOTCESm8UZM5x3o68qCcMS44OURkE
+bbcoBdEjYr6tw7sCJ9OnINVg3kxcfmhAAT1N88NGZ/KysiuRVbFwViSQfIGMf8t/
+wYMHWX2uzraWXF8uYmCof3AqnLTS9UDQ0M8QuwN3joQPSZ2V8zfeyxT16QbJ8/wW
+4aMgKBOM
+=mBME
+-----END PGP SIGNATURE-----
+
+--=-K0JFOLKIYhABHTk4HeuA--
+
 
