@@ -2,99 +2,94 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F171C433FE
-	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 17:10:26 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web12.8339.1635527425432892809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C3BC43217
+	for <webhook@archiver.kernel.org>; Fri, 29 Oct 2021 17:10:27 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web08.8595.1635527426202824095
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Oct 2021 10:10:25 -0700
+ Fri, 29 Oct 2021 10:10:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Hdovk/4Z;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id
- ls14-20020a17090b350e00b001a00e2251c8so7800495pjb.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EE3QvuVj;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id n18so7266788plc.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Oct 2021 10:10:25 -0700 (PDT)
+ Fri, 29 Oct 2021 10:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1eg+fCSOk6hqvGbBQgCSA6Y7i792r0CwhKRFUeMOQ1o=;
-        b=Hdovk/4ZlR8PI9WMOHr5cIHLz8pfwpEXibAP0MgiZnJECVcLuVF1jxlibz9qrP7Uii
-         lbj89Ksp+3oe62cnLCCskG9EzAkBFfl5851aYdwMLR3BgvvYDJHY/IhCdKpRvXPjOdeC
-         Fd4wz2dolMj1YEIZ4rHbXdTVeLMLojWB9pPu69eJdGMGWDd4oD/SPxrCf0sk0U6i/s/o
-         lbFMZ1erCGu7eg1m6JWcpuoxGL31ThkS1CKXynofD8ZCunFIPQDEivguzMb4SArJMjrN
-         zMoTThrl/EMs/TWy5hzr44tVQiTAAtPfGeOGtihicl26jmybW3Hoi7N5KjxefkBpD8pQ
-         dLBw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=u/HnhJDtgDSKsO4exPvReQu/m1U8Vx7bvTbu8f+fJzE=;
+        b=EE3QvuVjbr+YK7cfYVdst7peMUr0Or4/1UsVxWQMjPXcb5ncZ1qUzMIgSB5q/SNP4m
+         /ZvgIfHGU4oIe08QabwLAX7nVq0Rt5ZXaD8ggQA9S9csmmWWF5oxNL6lVGEDK0S94Xax
+         uN5Artn4fuAO1yQSS2w/FEzH4FaaSKAxIHs5PEW10s9nsUKJk4GAu2EGd0mTuxlIBhos
+         GAdnRqsiR7rnmblQGi94We8fSBFRSKkEI/SWtJSbT0yyxziTpYey7J3pR8i/zGxvkj/K
+         v34eQXr7SE7U+3TZ8QDMkRyYwXq8CoyDd94ePltVoukRhOpWgOMgTilvVbA7yle0KdS7
+         UT3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1eg+fCSOk6hqvGbBQgCSA6Y7i792r0CwhKRFUeMOQ1o=;
-        b=3r6GHV7Dc8Yy7KZqBaPSpMMd18BoFeS1HJIoOschFBBiIlanV9r5cepmKZBEvwwqaS
-         B3+a105BOOLDm0D7/syzI963zwE1Lhn3hJ914Rahn285t8AtklOa5ds1sGcLJ7Uu2vNh
-         pvPYXZ+nFAbAVZudH8qoZpbhE7lgCU2l0m3nZuLisvqFo15HZbdiwopVc/mua4QHPTSG
-         Xg/Y8D85MJsJs90qcTcZCOnTEr4sj70xkZeHEas/dkbl+6+7rXgbJ0PPhOO7Uf39tceW
-         p2VYLuPJqPyTqhEoFcftWgQGuNPGYQrFxgxg18oXkTHPB/7uHi9+XsSbAh9LdNfkESoD
-         CWCw==
-X-Gm-Message-State: AOAM533XXDZq/PSk0JvwKB85gz1YaHqRMsy2DDRu7SaqimCrCib2KdQc
-	u65mbr+KZOdLIeBysc+uH+jaKWXRXGo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=u/HnhJDtgDSKsO4exPvReQu/m1U8Vx7bvTbu8f+fJzE=;
+        b=AriNvzl6hzw3okTxp8cFIXsIjNKhfYJIpuOB91MTCnjC01MHqPlzqVpodpjM5Y1EyW
+         K8AuxyzXt4vOWnModw3u4F8o4mD+gKDqbEqcwJeBGJkM3T9iVlIhhEV/PJOyEaaGR4jY
+         3s7yU6a05bb1yIcbx2ETXQ4B639H9jttRb5qG5eVokHPYjcV+xb/vVzjlIDotbp1JzU7
+         WvRuLo7eeCacyu1Lqt/KyEW5rA0IbtQHZq3CSiXZi4pWoNQFredorOF/KSaWHKOno7Nr
+         3v8QrF8TDzox3Q5KfuoNrvWqB3La7xD9BlLHC54lA6GDzRE3o8xduwqadoYRsTK54Rp8
+         z6kQ==
+X-Gm-Message-State: AOAM531bzgbJXUV2sQHd9bfVz78aUZ/IRlqlCZAPP/e9i18tMDbArGdh
+	b2o+5fpSk+iHN9FDLcCNOdyr2m2TvP0=
 X-Google-Smtp-Source: 
- ABdhPJwX937Mu5AL3KW3Y9FHpcT7kd5ji38+0sQA/iDfRvr3B0Pgd/1J9TtsnwLkE8TP3xFGsVxbXg==
-X-Received: by 2002:a17:90b:4a8d:: with SMTP id
- lp13mr13002423pjb.32.1635527424752;
-        Fri, 29 Oct 2021 10:10:24 -0700 (PDT)
+ ABdhPJxKhp3iVQ0EPa/YL87EmdQ6Iff+2qkaq30/UE7sJReyiC7hKj4pPPQcJDWqDyn5E2YAZDWIsA==
+X-Received: by 2002:a17:90b:1c92:: with SMTP id
+ oo18mr21093840pjb.56.1635527425457;
+        Fri, 29 Oct 2021 10:10:25 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::f94a])
         by smtp.gmail.com with ESMTPSA id
  z7sm5887805pgo.11.2021.10.29.10.10.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Oct 2021 10:10:24 -0700 (PDT)
+        Fri, 29 Oct 2021 10:10:25 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 1/3] musl: Update to tip of trunk
-Date: Fri, 29 Oct 2021 10:10:20 -0700
-Message-Id: <20211029171022.1279107-1-raj.khem@gmail.com>
+Subject: [PATCH v2 2/3] site/common-musl: Enable qsort_r in glib
+Date: Fri, 29 Oct 2021 10:10:21 -0700
+Message-Id: <20211029171022.1279107-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211029171022.1279107-1-raj.khem@gmail.com>
+References: <20211029171022.1279107-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 17:10:26 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Oct 2021 17:10:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157631
+ https://lists.openembedded.org/g/openembedded-core/message/157632
 
-This brings following fixes
-
-* b76f37fd add qsort_r and make qsort a wrapper around it
-* 7be59733 add SPE FPU support to powerpc-sf
-* e3e7189c fix undefined behavior in getdelim via null pointer arithmetic and memcpy
-* b713b8b2 fix excessively slow TLS performance on some mips models
-* 3eed6a6f fix error checking in pthread_getname_np
+musl now has qsort_r
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: No change
-v3: Rebased on master-next
+v2: Rebased on master-next
 
- meta/recipes-core/musl/musl_git.bb | 2 +-
+ meta/site/common-musl | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index a2f96f1dbe..03ab0a449f 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
+diff --git a/meta/site/common-musl b/meta/site/common-musl
+index 44a7a1aea9..d990c4e072 100644
+--- a/meta/site/common-musl
++++ b/meta/site/common-musl
+@@ -23,7 +23,7 @@ ac_cv_func_snprintf_c99=${ac_cv_func_snprintf_c99=yes}
+ ac_cv_func_vsnprintf_c99=${ac_cv_func_vsnprintf_c99=yes}
+ glib_cv_compliant_posix_memalign=${glib_cv_compliant_posix_memalign=1}
+ glib_cv_long_long_format=${glib_cv_long_long_format=ll}
+-glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
++glib_cv_have_qsort_r=${glib_cv_have_qsort_r=yes}
  
--SRCREV = "3f701faace7addc75d16dea8a6cd769fa5b3f260"
-+SRCREV = "b76f37fd5625d038141b52184956fb4b7838e9a5"
- 
- BASEVER = "1.2.2"
- 
+ #dbus-glib
+ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
 -- 
 2.33.1
 
