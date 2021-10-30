@@ -1,105 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E351C433F5
-	for <webhook@archiver.kernel.org>; Sat, 30 Oct 2021 21:46:48 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web09.24564.1635630406707102069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E38C433F5
+	for <webhook@archiver.kernel.org>; Sat, 30 Oct 2021 22:10:43 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.24196.1635631841684080279
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Oct 2021 14:46:47 -0700
+ Sat, 30 Oct 2021 15:10:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VMAZuqrn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id s13so15086454wrb.3
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Oct 2021 14:46:46 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=Cp7gYcbZ;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Ey7hqawHB9HTN2PUwMpFiZvWfnoWnDzpkhwVRGGqG6k=;
-        b=VMAZuqrnzxYH1nYROdLdxEEymV/NzBWjm+lI/YjWISJq6CBrByiFELnMxTu4QjVq0I
-         KaxCQiSqnw0vPOS21EUH94WE2ri2NNIAnnTINKWncZn2BJrLfgmnctpnf/B3X68N2f3k
-         TCaPAtEkf59QYekSI+UZA2eH1WCx2QF0I7lDU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Ey7hqawHB9HTN2PUwMpFiZvWfnoWnDzpkhwVRGGqG6k=;
-        b=gPzT4cGr4fBjq4wcd73wy8T3nlBYaFqnhacjJpA3vFvMK4I3WtUf8SZ3JejVz79X+6
-         9eyQn3lnUZJd+c2hrULSr3a6wCBZU9EPj0Y4U6J6JLPN1Rgy3DlNsTuFUkdqcsTjyamY
-         vljrOFX5/5hOLmFUIXEgsevcD2wPb14FqEgPmEbOOZ3ftOc5DkiNJRqSi0MQWyyBOPdB
-         r3WQC4J8OqxaXcnJ4eKpWpkKMYv+M5BGj146n4nhDoRObTkBoCEjgohknDPjYhGvl0gz
-         uzBkFFzIrWbYCxbF4+Ebxs6Sz02Us1biPRRKnRxKng1nveKC3BxfW6uQIJkWHsi1jIke
-         y4Ig==
-X-Gm-Message-State: AOAM531tPdUkwnnI+qhptP3f/BqTjtwitJ9+nQ4HT8UCvvqaIMz6gsVR
-	J8v9TsFI14LTzZdNgtN6X41GxQ==
-X-Google-Smtp-Source: 
- ABdhPJxWQPukiSfP27LFrKdN0M0gWJ7vn3+eXdv5ZG0Zw76CdIXKPHMqZQGVKZiU0sN3xFaYxUbA3w==
-X-Received: by 2002:a5d:59aa:: with SMTP id p10mr24839425wrr.45.1635630405029;
-        Sat, 30 Oct 2021 14:46:45 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b85c:77c5:c945:ad1c?
- ([2001:8b0:aba:5f3c:b85c:77c5:c945:ad1c])
-        by smtp.gmail.com with ESMTPSA id
- v191sm8634909wme.36.2021.10.30.14.46.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Oct 2021 14:46:44 -0700 (PDT)
-Message-ID: 
- <658f56df6d3b814dd0228f8c0d23f327facf6507.camel@linuxfoundation.org>
-Subject: Re: [OE-core] ERROR: Task
- (.../kernel-module-something.bb:do_package) failed with exit code '134'
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Vasyl Vavrychuk <vvavrychuk@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 30 Oct 2021 22:46:42 +0100
-In-Reply-To: 
- <CAGj4m+7jjDzf6ZXWDsEUhkzD5X1MoSWP7HWCknL_fKQ==x=dOA@mail.gmail.com>
-References: <W5wi.1632764687377274770.mOgu@lists.openembedded.org>
-	 <e47d11b76cd90e456330dd111f9ca37fbd39bb4e.camel@linuxfoundation.org>
-	 <CAGj4m+7jjDzf6ZXWDsEUhkzD5X1MoSWP7HWCknL_fKQ==x=dOA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1635631841;
+  x=1667167841;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=o2LPRc2IS9Zk34kj99A3NM2k/7dJ8/6W7wn6A85s2v0=;
+  b=Cp7gYcbZl/Gs4/3jZ/F3y7DIr5XdTDiV9z/Dy7BOjhPMVTMZZZWDgSdf
+   wA6mtVdbHe5/JlG2g1u16RqUHDwUBww2k4FILTix5NBQbsi2LtpFCD9qF
+   hitqqNJIUaZzc+jQWecGZCm//FSBYy8alLVJ99ltZJDZaMSSMMEsQmH2b
+   Fbzaugj06b42VNaneZ7pegX5K0wNb6NG3KD9wL0S4wobeGdudwUNFrR9s
+   +rm8PqRQTQ7GcHTQdxC/KurnRU9V5QLi0XYY2f7q0etbZClntBUXtHP7/
+   eBkQiygx7CHtki6i6bGRmdX5XCiLzoiTJ8omHwsSRvqZF9+MmmCqKMk7B
+   w==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Alexander Kanavin <alex@linutronix.de>
+Subject: RE: [OE-core] [PATCH] wpebackend-fdo: Add -Wno-c++11-narrowing
+Thread-Topic: [OE-core] [PATCH] wpebackend-fdo: Add -Wno-c++11-narrowing
+Thread-Index: AQHXzcaoubrF1/9SH0u5FhxqIujXj6vsGYmQ
+Date: Sat, 30 Oct 2021 22:10:38 +0000
+Message-ID: <ac9a683a3c9c4af69b03c878732a5f38@axis.com>
+References: <20211030194501.2751905-1-raj.khem@gmail.com>
+In-Reply-To: <20211030194501.2751905-1-raj.khem@gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Oct 2021 21:46:48 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Oct 2021 22:10:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157651
+ https://lists.openembedded.org/g/openembedded-core/message/157652
 
-On Sat, 2021-10-30 at 23:21 +0300, Vasyl Vavrychuk wrote:
-> Hi, Richard,
-> 
-> > Even if you can't reproduce the error, you can likely look at the pseudo
-> > database (in WORKDIR/pseudo/) as it is a relatively simple sqlite3 database. You
-> > can check the inode numbers in the database compared to the files on disk and
-> > the issue is fixed when the numbers match up.
-> 
-> I have checked files.db but it did not help. I have found that ino in
-> sqllite db is what is printed in pseudo.log, and, it does not match
-> actual ino on the file system, as it is printed in pseudo.log too:
-> 
->   inode mismatch:
-> '../kernel-module-smth/1.0-r0/image/lib/modules/5.10.25-yocto-standard/extra/smth.ko'
-> ino 701049753 in db, 639582649 in request.
-> 
-> The question is what has led to this mismatch. How can I debug it when
-> I get this situation randomly (or not randomly, but pattern is not
-> clear for me at the moment)?
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Khem Raj
+> Sent: den 30 oktober 2021 21:45
+> To: openembedded-core@lists.openembedded.org
+> Cc: Khem Raj <raj.khem@gmail.com>; lexander Kanavin <alex@linutronix.de>
+> Subject: [OE-core] [PATCH] wpebackend-fdo: Add -Wno-c++11-narrowing
+>=20
+> This commit https://github.com/Igalia/WPEBackend-fdo/commit/e4c578f23359d=
+ba4d5abbd14b108f59e1b0701c1
+> causes this warning due to int to uint conversion without static casts
+> unless its fixes properly by upstream make behaviour same as g++ where
+> this is flagged too but only as a warning unlike clang which is pedantic
+> and enables it as error
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: lexander Kanavin <alex@linutronix.de>
 
-What I was trying to highlight is that if you do a comparison of the files on
-disk with the inodes in the database, you'd be able to detect whether there was
-corruption whether there was an actual conflict through reuse or not.
+Typo: lexander -> Alexander
 
-If you can detect the corruption more easily, you can then narrow down what is
-causing it and which set of files aren't matching.
+//Peter
 
-Cheers,
-
-Richard
+> ---
+>  meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb b/meta/rec=
+ipes-sato/webkit/wpebackend-fdo_1.12.0.bb
+> index ba6c54412a..4a18467ea4 100644
+> --- a/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb
+> +++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb
+> @@ -15,6 +15,10 @@ REQUIRED_DISTRO_FEATURES =3D "opengl"
+>  SRC_URI =3D "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+>  SRC_URI[sha256sum] =3D "6239c9c15523410798d66315de6b491712ab30009ba180f3=
+e0dd076d9b0074ac"
+>=20
+> +# Especially helps compiling with clang which enable this as error when
+> +# using c++11
+> +CXXFLAGS +=3D "-Wno-c++11-narrowing"
+> +
+>  # This is a tweak of upstream-version-is-even needed because
+>  # ipstream directory contains tarballs for other components as well.
+>  UPSTREAM_CHECK_REGEX =3D "wpebackend-fdo-(?P<pver>\d+\.(\d*[02468])+(\.\=
+d+)+)\.tar"
+> --
+> 2.33.1
 
 
