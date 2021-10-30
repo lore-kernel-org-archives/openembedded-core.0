@@ -1,113 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF543C433EF
-	for <webhook@archiver.kernel.org>; Sat, 30 Oct 2021 10:10:09 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.17561.1635588608228997156
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C8F6C433EF
+	for <webhook@archiver.kernel.org>; Sat, 30 Oct 2021 14:35:09 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
+ [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web11.19247.1635604503353359387
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Oct 2021 03:10:08 -0700
+ Sat, 30 Oct 2021 07:35:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I2CpgYGJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id
- a20-20020a1c7f14000000b003231d13ee3cso13596114wmd.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GGC8Twpz;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id h14so11079554qtb.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Oct 2021 03:10:08 -0700 (PDT)
+ Sat, 30 Oct 2021 07:35:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ffBVeCVunCCiUUtTi+/PV8jcdTaZB/fl3+cIxtSnlKc=;
-        b=I2CpgYGJ/q1B8aDyQ4CSjtq/OfxStJQxmE5hnI9pTam/LXmT08VE8hKbCn3BFLRAeh
-         S1fxZyMJIei8lclrC6VD/0Uxz0D84OmeIANX0EdP0ccO0l4Xar6fdQli1HAJsGEqSRQf
-         wOa9oY2aFtvTM4LML8+uGv6TKTXuXePIqLCOs=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kz+VEXt6FsJOriybplA8TNuT0vXJ9HK4C++ddEmuVSc=;
+        b=GGC8Twpzb4y4FvF4H6BEiTaWQuBVCD19aQ+Z6yj7iZFODEJbkHoWqFnIFn3Jm7NXbS
+         Cy/yF6jGhPqKkNADkVtMBsr8h0bs72uELiIPgm4nchB9+JRljzhBJQp9jYqI/VR75Y0X
+         AY+fAw3CFe+FK+DrV+LsrnbK+7oov6McCecggwa2wW7cMtz6aCUCmsR6Bv8/sBY/y0i8
+         S+Bm/Jbxe9oAI52L9lcoOeBwhX5Qdweaj1hUk2ETLlqrgnftai/5rws3BUcOVvvh2Lfr
+         +fNNItz0twigrlFk8Z01oZH3IraqPCHVUMr89RxkcJo1z1hSqgmqxrh5NFY5ZLNMB9Au
+         sKYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ffBVeCVunCCiUUtTi+/PV8jcdTaZB/fl3+cIxtSnlKc=;
-        b=mRyZIL5DpDpei4cla7wMHBZ3WLwSi/ClESeX3QsGTr/TBKFuwesZ9IuP5lSiIhfqGH
-         tSPrDGV67jjQwE2pyR4lR+PA+9m3w4g1kf7tcSHvIzTd6vNJN8ADYU0RoubQndpcQyWg
-         +mlQVkgajCAO+phzvJMrvP4y93WGOALkOV0hAkGIuto9ZWqxtIKRDOVo0n+OcpkB2jeS
-         e1hfoStIhvslVG+ow25n0y2uSgwA60zhrgdf9rh7GMQFNmzSJxOSMEnFLWGp3QRRYtMf
-         OzaA5GoRUOYGMWQ97d9t6pqomPFKfcECHvVdHKW5QLQeenEtaI3VxqUc31EkaFzLJ/AO
-         l2vw==
-X-Gm-Message-State: AOAM532KoL60Bk6fslXRjk8fgekOf53unM6D0vnccpYg8x3D05PoMGyd
-	mSwdrWwYzg9NvDpc2xDsab5zFA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kz+VEXt6FsJOriybplA8TNuT0vXJ9HK4C++ddEmuVSc=;
+        b=KaKsc+SRwQRQ7c1WdEFRFVpf+fPLbF6G8pLMmZkmV1sTCdEPcSlJkACpEVrVb7bcIr
+         dBS2ug+eqM06F7rsH3I/0yU/OczhCOHFV8JQJeH8iCKjwxEUks+U9e0/fhZSQIlXwTBK
+         opHgs17L7JJeBTsQILrq+mG1/kblE4+aQQVt5jtWsnTURZOhrLvk4rfWzAQ856G8pKvW
+         fjvA7pEAtcqzGyCytMahgF73GjSfBH6ddT8Bi6noLmTrGiCkRr+oowKnFO7j3MVKb2Wc
+         VUFzbPkPGKNmLSvnzd+ra7y3lSIv6ur7yXZnWhYbO1AHy4LGafLTZkYYc/JQVFTchgqw
+         rHJQ==
+X-Gm-Message-State: AOAM5317vmzB+MN0pp96l940bF6V/EKW+6bEP0S0Rf6r29hwIUFIollr
+	FpSgG1YAitZKmIc9euulojsXpnfVj7u6KhbgjyQ=
 X-Google-Smtp-Source: 
- ABdhPJwWQl8I4gCP+nKkboQPIMFS7iw/dZxirwnPGmcL7ounhcTSgdsVrPMj69VB5I+UyJiAy9b4sQ==
-X-Received: by 2002:a1c:a904:: with SMTP id s4mr9649238wme.163.1635588606649;
-        Sat, 30 Oct 2021 03:10:06 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:af33:8564:b018:31d5?
- ([2001:8b0:aba:5f3c:af33:8564:b018:31d5])
-        by smtp.gmail.com with ESMTPSA id
- v3sm8231658wrg.23.2021.10.30.03.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Oct 2021 03:10:06 -0700 (PDT)
-Message-ID: 
- <d4ceae27aca5b21cb70bed22c34596ceae369527.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 3/3] libsolv: Enable correct qsort_r on musl
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 30 Oct 2021 11:10:02 +0100
-In-Reply-To: <20211029171022.1279107-3-raj.khem@gmail.com>
-References: <20211029171022.1279107-1-raj.khem@gmail.com>
-	 <20211029171022.1279107-3-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJy6TdJc3jJSa/dDox9RV+IIxe7G0NYADR2H/BMX87MzMApPOu1dyJwgw+9oGuIWbvwz7/Jx10V3u23O99xL7uM=
+X-Received: by 2002:a05:622a:1788:: with SMTP id
+ s8mr19080872qtk.116.1635604502126;
+ Sat, 30 Oct 2021 07:35:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211029171022.1279107-1-raj.khem@gmail.com>
+ <20211029171022.1279107-3-raj.khem@gmail.com>
+ <d4ceae27aca5b21cb70bed22c34596ceae369527.camel@linuxfoundation.org>
+In-Reply-To: 
+ <d4ceae27aca5b21cb70bed22c34596ceae369527.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 30 Oct 2021 07:34:36 -0700
+Message-ID: 
+ <CAMKF1sqD98++7Gzw5RKVp80tcW4kMx0kKJ=_0MLy1dQW_Y3_GA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] libsolv: Enable correct qsort_r on musl
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Oct 2021 10:10:09 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Oct 2021 14:35:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157644
+ https://lists.openembedded.org/g/openembedded-core/message/157645
 
-On Fri, 2021-10-29 at 10:10 -0700, Khem Raj wrote:
-> Newer musl now has this function implemented and signatures are same as
-> glibc, current codepaths forces it on BSD path which is wrong for musl
-> and results in random segfaults in apps using libsolv e.g. opkg
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Rebased on master-next
-> 
->  ...s-Conside-musl-when-wrapping-qsort_r.patch | 34 +++++++++++++++++++
->  .../libsolv/libsolv_0.7.20.bb                 |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
-> 
-> diff --git a/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch b/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
-> new file mode 100644
-> index 0000000000..6f0dea2e9c
-> --- /dev/null
-> +++ b/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
-> @@ -0,0 +1,34 @@
-> +From 06321f1a2aa89b8e028946e793344657eaad0165 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Thu, 28 Oct 2021 22:28:45 -0700
-> +Subject: [PATCH] utils: Conside musl when wrapping qsort_r
-> +
-> +musl now has implemented qsort_r, the signature however matches glibc
-> +and not BSD, current check makes it such that it falls into BSD case
-> +when building for musl, which clearly is wrong, therefore instead of
-> +just checking for glibc check for linux to decide which qsort_r
-> +signature to use. This covers both glibc and musl
-> +
-> +Upstream-Status: Pending
+On Sat, Oct 30, 2021 at 3:10 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2021-10-29 at 10:10 -0700, Khem Raj wrote:
+> > Newer musl now has this function implemented and signatures are same as
+> > glibc, current codepaths forces it on BSD path which is wrong for musl
+> > and results in random segfaults in apps using libsolv e.g. opkg
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > v2: Rebased on master-next
+> >
+> >  ...s-Conside-musl-when-wrapping-qsort_r.patch | 34 +++++++++++++++++++
+> >  .../libsolv/libsolv_0.7.20.bb                 |  1 +
+> >  2 files changed, 35 insertions(+)
+> >  create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
+> >
+> > diff --git a/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch b/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
+> > new file mode 100644
+> > index 0000000000..6f0dea2e9c
+> > --- /dev/null
+> > +++ b/meta/recipes-extended/libsolv/libsolv/0001-utils-Conside-musl-when-wrapping-qsort_r.patch
+> > @@ -0,0 +1,34 @@
+> > +From 06321f1a2aa89b8e028946e793344657eaad0165 Mon Sep 17 00:00:00 2001
+> > +From: Khem Raj <raj.khem@gmail.com>
+> > +Date: Thu, 28 Oct 2021 22:28:45 -0700
+> > +Subject: [PATCH] utils: Conside musl when wrapping qsort_r
+> > +
+> > +musl now has implemented qsort_r, the signature however matches glibc
+> > +and not BSD, current check makes it such that it falls into BSD case
+> > +when building for musl, which clearly is wrong, therefore instead of
+> > +just checking for glibc check for linux to decide which qsort_r
+> > +signature to use. This covers both glibc and musl
+> > +
+> > +Upstream-Status: Pending
+>
+> Can we submit this upstream?
+>
+> It is a bit unfortunate that it looks like you can't build with old and new musl
+> at the same time :(
 
-Can we submit this upstream?
+Yes I plan to, but I have realized that replacing glibc only check
+with linux check is
+a bit too greedy where it will include other linux platforms like
+android and additionally
+ignore some like kfreebsd. So need to confirm that even though it does
+not bother
+OE it might bother upstream.
 
-It is a bit unfortunate that it looks like you can't build with old and new musl
-at the same time :(
+interesting that it does not work with older musl since I expect the
+second part of check to
+trigger, so I wonder why configure defines HAVE_QSORT_R or HAVE___QSORT_R
+when they are absent in older musl.
 
-Cheers,
-
-Richard
-
+>
+> Cheers,
+>
+> Richard
+>
 
