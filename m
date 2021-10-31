@@ -2,110 +2,177 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E7A0C433F5
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:13 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web12.32820.1635699492405823482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33EA2C433FE
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:14 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.33155.1635699480223654627
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:12 -0700
+ Sun, 31 Oct 2021 09:58:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=OFhmpAgK;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
+ header.b=RXmHPmzf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id i5so10091941pla.5
+Received: by mail-pj1-f51.google.com with SMTP id
+ y14-20020a17090a2b4e00b001a5824f4918so7584199pjc.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:12 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JZKKOtrcZL3c/5Gh1PjJFY6uVLUScioLSwSmOj3n+UQ=;
-        b=OFhmpAgKSARCOjKZHzpJ3JUR1kFNsBhoSTVUcrWg4NQOe78Y/elyaacE4aaXplxitZ
-         4V+IjrD50NJa3h0X9j13ybovsMKgGxRGopk4I5khMyzewY6MJTutVVNVwEic1p08Zxu/
-         stzsOeoWOVScoB3y6u/N5C+dtX3YRjgklS2jxaqtw4SRYkl8svnajbhVKchkbXDuZImM
-         klFDvXBBASoWb3VSvYcfajR4c/PJ4sgRTOrtsc2FyDc6UHiSHkn8Dw+vOcDD1zFSOy/t
-         LlLDG3zPrEZ82aGWHo1gOQ5IbRJYRNZ6F+6IC9R4iXeo0N5B66t5MUtW6OdNAnfe27Pt
-         AuJA==
+        bh=lbMGwqQK6c27Y+s+sbMqL9pHv7znoqkY0I3yWwsvxV8=;
+        b=RXmHPmzfJLdI0RVcUP6vhkpwx4YiNrJWWc3mZR+ylLjBjPfH/ao6pzVvmtCl7Awlop
+         xNcnhQapXPIFeEivOH4TOqUk/U+EvlXPqp4Ekt4ixe4NIcgQwVuxHvHnx6FmMQGGb4s1
+         NspRhk5R7c5wYJe16/65KYBbdwHBD+SVQ0ae8GyF1298SL57aTiegHOgbIW1Ac2yb4G9
+         xzDnov7HgcvE2XUT0+Dvf1iQ5arPude3JXuzsmE7zD+ZSY8H1oul8LkV24QqQVun/3TM
+         QH2pI/3miWAeam86SqBKVd1RNenhXTthEboP/PndB2LbK4wg1/0Lrlh4/UlEiCqCIlnk
+         mibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JZKKOtrcZL3c/5Gh1PjJFY6uVLUScioLSwSmOj3n+UQ=;
-        b=yG7/wioyns3QJXZpdjwZX7UZCOfJz608oKVcznPUTIKRGuI0hwza/jsK/XqLASOh9j
-         bevnv4/AVSvX83747tjRGJY4Opb2fQ0FhtsWUhOYkYc4TOTJsFaDuOQLSz6qt/Cou+1m
-         DagEUjANRKJCCZ7tZeg4+srasOdDP/J4wR44+fjjEH4/6OZO2k6DXo0IARK245AkcQ16
-         +XLsYCDHWjLK2PJoxud3hEiHjnz/Ak+fdXDZ/Gf0Mx6tg6wbbQ+9J8FyfsD6tgNM8o4J
-         O+1PjOCUQPJoQAp6EsuVtaHd7+W6AKq86e/x3U5CFwJpZAKopUDEgGU3yRF5Pz2U2/YU
-         JLQA==
-X-Gm-Message-State: AOAM530gc5jM5WiRuAa2tkVfs7aOHXQtZYE0iTYIUIiQfQqGoA8G7LxK
-	nBvNnJmxqO32S1sVLo6eMvtTfyLbUFuTvP69wDY=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lbMGwqQK6c27Y+s+sbMqL9pHv7znoqkY0I3yWwsvxV8=;
+        b=HGi0/h8p4pmJzTI/3no1frNZdKeYgqorQWZXME8yexRdq4pbjOWEiTKrXt/vCYZFs4
+         PR9BiNwnsxK0rnbfLnM3XMGRDjYf9rPRqT/LKuWjsn+Bxg0FhLfUwBMY7LZfiS1Qmj58
+         wiz4GMwy9e01Sn/xtvKeFXACY8IpDQg+L26Nk+jQ5a9G+19wmKJu2B+6KFC8bKH01Ree
+         P1bx9NBV/xN0CYHkoNzEz1GZaBPGPE3Ap2ChYKsLV925kCMCLYM5BYxEGfx5wgyn6nR6
+         KF8h2P5VTdP46RjfWZI5C07etWsTchD2C9ScrENqX7ocQ0I5M16LtWn7Hz6AgX7WWxU0
+         Pc7A==
+X-Gm-Message-State: AOAM533VdA6J6z22M2BTRRpwlKjWyO117yiiDt0IfLgS+xAiyN6UVOI+
+	2VlFTK335UcYRXDR/kC7YifUoxV2oKbBTj7zuZU=
 X-Google-Smtp-Source: 
- ABdhPJzsJaaoJjt4NUr5sHS7bofq+F+e/KLmmRkF+cK708CMAd4C/Hp528TKi0tyx+hEAWaoIGz8Ag==
-X-Received: by 2002:a17:902:7201:b0:140:2591:f638 with SMTP id
- ba1-20020a170902720100b001402591f638mr20837933plb.31.1635699491422;
-        Sun, 31 Oct 2021 09:58:11 -0700 (PDT)
+ ABdhPJyQfuH7RMbpQU45bhky+d7duYaeoi29C65WXhGGkW8WhxMuifBbHuhfpIdZUpzkrca4eXVf6g==
+X-Received: by 2002:a17:90a:5303:: with SMTP id
+ x3mr30458615pjh.226.1635699479071;
+        Sun, 31 Oct 2021 09:57:59 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.10
+ s21sm13476617pfk.175.2021.10.31.09.57.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:10 -0700 (PDT)
+        Sun, 31 Oct 2021 09:57:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/29] sstate: don't silently handle all exceptions
- in sstate_checkhashes
-Date: Sun, 31 Oct 2021 06:57:24 -1000
-Message-Id: 
- <f16803718a19ace7b582c5b73924fe3112502927.1635699172.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 00/29] Patch review
+Date: Sun, 31 Oct 2021 06:57:19 -1000
+Message-Id: <cover.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
-References: <cover.1635699172.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:13 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157663
+ https://lists.openembedded.org/g/openembedded-core/message/157658
 
-From: Ross Burton <ross@burtonini.com>
+Please review this set of patches for dunfell and have comments back by end
+of day Tuesday.
 
-If checkstatus returns an exception we should silently handle
-FetchError, as this means the fetch failed for 'normal' reasons such as
-file not found.  However, other exceptions may be raised, and these
-should be made visible.
+Passed a-full on autobuilder:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 50d99faf88a1d82cbd939b9bd6e33ebed2b1ffd8)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/sstate.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2833
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a2496dce2b..38dc3bff30 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -950,10 +950,11 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                 found.add(tid)
-                 if tid in missed:
-                     missed.remove(tid)
--            except:
-+            except bb.fetch2.FetchError as e:
-                 missed.add(tid)
--                bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
--                pass
-+                bb.debug(2, "SState: Unsuccessful fetch test for %s (%s)" % (srcuri, e))
-+            except Exception as e:
-+                bb.error("SState: cannot test %s: %s" % (srcuri, e))
-             if len(tasklist) >= min_tasks:
-                 bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
- 
+The following changes since commit a7520c47573cd166d441e504737492b86f5aa42e:
+
+  selftest/reproducible: adjust exclusion list for dunfell (2021-10-25 13:28:19 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (7):
+  linux-firmware: upgrade 20210511 -> 20210818
+  linux-firmware: upgrade 20210818 -> 20210919
+  wireless-regdb: upgrade 2021.04.21 -> 2021.07.14
+  wireless-regdb: upgrade 2021.07.14 -> 2021.08.28
+  ca-certificates: update 20210119 -> 20211016
+  tzdata: upgrade 2021a -> 2021d
+  tzdata: update 2021d -> 2021e
+
+Daniel McGregor (1):
+  bitbake.conf: Add gpg-agent as a host tool
+
+Jose Quaresma (1):
+  sstate: fix touching files inside pseudo
+
+Minjae Kim (1):
+  vim: fix 2021-3796
+
+Oleksandr Kravchuk (1):
+  mirrors.bbclass: remove dead infozip mirrors
+
+Ranjitsinh Rathod (1):
+  curl: Whitelist CVE-2021-22897
+
+Richard Purdie (5):
+  base: Clean up unneeded len() calls
+  base: Use repr() for printing exceptions
+  reproducible_build: Drop obsolete sstate workaround
+  patch: Use repr() with exceptions instead of str()
+  git: Fix determinism issue
+
+Ross Burton (8):
+  devtool: fix modify with patches in override directories
+  sstate: don't silently handle all exceptions in sstate_checkhashes
+  oe/license: implement ast.NodeVisitor.visit_Constant
+  license.bbclass: implement ast.NodeVisitor.visit_Constant
+  oe/utils: log exceptions in ThreadedWorker functions
+  testimage: fix unclosed testdata file
+  oeqa/runtime: load modules using importlib
+  oeqa/runtime: search sys.path explicitly for modules
+
+Steve Sakoman (3):
+  waffle: old website is down, update to new project URLs
+  stress-ng: convert to git, website is down
+  stress-ng: improve reproducibility
+
+Teoh Jay Shen (1):
+  oeqa/runtime/parselogs: modified drm error in common errors list
+
+ meta/classes/base.bbclass                     | 12 +--
+ meta/classes/devtool-source.bbclass           |  4 +-
+ meta/classes/license.bbclass                  |  4 +
+ meta/classes/mirrors.bbclass                  |  1 -
+ meta/classes/patch.bbclass                    |  4 +-
+ meta/classes/reproducible_build.bbclass       |  4 -
+ meta/classes/sstate.bbclass                   | 11 +--
+ meta/classes/testimage.bbclass                |  7 +-
+ meta/conf/bitbake.conf                        |  2 +-
+ meta/lib/oe/license.py                        |  6 ++
+ meta/lib/oe/utils.py                          |  3 +-
+ meta/lib/oeqa/runtime/cases/parselogs.py      |  2 +-
+ meta/lib/oeqa/runtime/context.py              | 29 +++----
+ meta/lib/oeqa/selftest/cases/bbtests.py       |  3 -
+ meta/recipes-devtools/git/git.inc             |  2 +-
+ meta/recipes-devtools/git/git/fixsort.patch   | 36 +++++++++
+ ...write-the-timestamp-into-compressed-.patch | 26 ++++++
+ .../stress-ng/stress-ng_0.11.17.bb            |  7 +-
+ meta/recipes-extended/timezone/timezone.inc   |  7 +-
+ meta/recipes-graphics/waffle/waffle_1.6.0.bb  | 12 +--
+ ...20210511.bb => linux-firmware_20210919.bb} |  6 +-
+ ....04.21.bb => wireless-regdb_2021.08.28.bb} |  2 +-
+ ...ertdata2pem.py-print-a-warning-for-e.patch | 80 +++++++++++++++++++
+ .../ca-certificates/sbindir.patch             | 26 ------
+ ...pdate-ca-certificates-support-Toybox.patch | 33 --------
+ ...0210119.bb => ca-certificates_20211016.bb} |  5 +-
+ meta/recipes-support/curl/curl_7.69.1.bb      |  5 ++
+ .../vim/files/CVE-2021-3796.patch             | 50 ++++++++++++
+ 28 files changed, 266 insertions(+), 123 deletions(-)
+ create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210511.bb => linux-firmware_20210919.bb} (99%)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.04.21.bb => wireless-regdb_2021.08.28.bb} (94%)
+ create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20210119.bb => ca-certificates_20211016.bb} (95%)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
+
 -- 
 2.25.1
 
