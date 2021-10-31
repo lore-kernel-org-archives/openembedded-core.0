@@ -2,63 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38280C433F5
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:48 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web12.32835.1635699527167138033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39416C433FE
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:50 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web12.32836.1635699529289080629
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:47 -0700
+ Sun, 31 Oct 2021 09:58:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=1XhmqCQW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
+ header.b=oUOX1Xx+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id s24so10126650plp.0
+Received: by mail-pg1-f174.google.com with SMTP id j9so6913652pgh.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:47 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=R5bnXChyzvxjw7JaRBB8YvxKyUG1/Z9FKgbR4Mr/ZEA=;
-        b=1XhmqCQWjeLVe+tiuO3MpNsIUASY9nytgj3k1iw0rUQSizP7eG/iKCDJVOBo3LZtUl
-         I6IZw6Q2+dpYUPTTC8yvc6US3S2mn/sb1rTIB5+t/b6/fJlIBiqoVr9E6xDo27hX7uvZ
-         NVHo5RkL2dQ2FZQeVvz+jaVSY1RvDpSeZrc4aFYiTFb23KgzAQzeoNrsA2EXQ/PI+KzZ
-         B7xcBMMA0bs3SLga+S75rg0yiyUV64v4zaYUKBlurfIYnGiHFQ8KtB50++d+7oJ9ABIp
-         HGdSXBEyJRE5qozGSvCs/jQz8G1pJS0GTj3FRHHfmdGkcLqwwwYHEJ5RllSZ3g/uoggK
-         arkg==
+        bh=XJfIdTS56JhAyIWRXg7r47goeF2sMAFbfGlJ0SdOmlc=;
+        b=oUOX1Xx+lmuCOnAmQkf58OLBvcRa+cbPNuG9rYCguH3+Dr/NSU2ZC6WFjIPSXwDhib
+         RvfPqjgOG62b9OCPa+dXcAjpIyTdi8EHglC9huWcnVGMFzQPNiUTiRifXqLkAwtoW5bo
+         HJfC6mgCVzZjfuSnwO2wpvQZ8vG+Tcqortd1x032Fppdh3pykftQGfUP/JtXFEXx3MCR
+         CrKlOrJ9mtFed3coPs5SHIU9VhUVoxVeYOS1ZGrT5igT3U3lo8m04Y5oUXglqUQTC5VK
+         NuXlN0BCBzFiA5nipxbtK+rbjPawV0kB6ESjvjwGTRMAfwop8mzA5cGhqWUp8ciLw6If
+         RzMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=R5bnXChyzvxjw7JaRBB8YvxKyUG1/Z9FKgbR4Mr/ZEA=;
-        b=j13U3Ie3JPs72gf9buUpZPoMxCfTosPeYWRLIO6mUAoU5Qltp1rWgeQns3b5kXHzY7
-         88mK51HdkdNAlUmppngEIYUbeKEtv2iHXOYNrNHuHYGqf/qJAh14lbIP0KL/8uAwx6gx
-         uDRrB2otd3ZZauMbFnsheSSeoU2gLDRNh/ivi5BcOptPWHzw2P3XLhGzmhxbX0QdilVJ
-         wsjyqCfRi0xMQ9cNiOQ0UUYhqZHVO6TG44Vpq1nldOCgxboihqCPf+wPptFNIW8S8R2y
-         UtDaeSy6yGTGppMgo2NSEVJsv19D5bwNG1/MEd3kmuT8QNnd7jhgGU1DUvtce/QNrYhX
-         4vYQ==
-X-Gm-Message-State: AOAM530tcQHell7qhz7Wy42avpgvruYx9tEP3uOrfgKHu0iSie6lnT6M
-	qB7Yg8sgVSiosXrkn9nKESDy2jc6q5W/1ob4S2M=
+        bh=XJfIdTS56JhAyIWRXg7r47goeF2sMAFbfGlJ0SdOmlc=;
+        b=703a9Mlgl4rMsEqBKD3cn3cnoowuz7O/iV+d+Wr0Xw4buad9JEPZ01hvYzuVX21aF7
+         aSvVYL8/PcoypYPrZQsJ4Hc1ozotz7wtK/ajMS6/c6CJhzkUyI+MwptDUikGf1JR6+oz
+         8Bj/FkuO8se0X0t/d0ewMj9qD62L0pDVcMdrO/CRgxQb1yVaKC2iaUnLPEeOO14DmGnV
+         ee1ZTDthHotJT6FG5281UQ/lIOhA0bYgPJmGhkyh9bNgC3lF6aus0huEtx+L33FTGyn2
+         Ej/9kTCB/9o7EgX9qvVIVFBwmFRpiS0jodVz775RE1s9Y5Ye9P0+cdi8UrvH6s+3YxO6
+         kntg==
+X-Gm-Message-State: AOAM532lvq9YDU3L7vMjwR4Ua/6QbdJd43gVFCr5qt12KWW2FhdMm9oC
+	YqbIvhRkpaDOQAJus7FU2ozqt0BqdlPe2vZZCfc=
 X-Google-Smtp-Source: 
- ABdhPJzcL1utMGz98laa3Vi3DMvfdCx5U04FW3YqIeJZQmM0nqPr0JBcNiA5e6TNwwplZxQZPrKnrQ==
-X-Received: by 2002:a17:90b:4f4c:: with SMTP id
- pj12mr4095744pjb.218.1635699526113;
-        Sun, 31 Oct 2021 09:58:46 -0700 (PDT)
+ ABdhPJxMIGJIGsHfQWj8vQTh/WXtgcKIaXL7TY6EQZvTLw6VepAuvkeTCBYoLYI0iAAEzFbg1OTpRQ==
+X-Received: by 2002:a63:df06:: with SMTP id u6mr18172397pgg.148.1635699528239;
+        Sun, 31 Oct 2021 09:58:48 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.44
+ s21sm13476617pfk.175.2021.10.31.09.58.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:45 -0700 (PDT)
+        Sun, 31 Oct 2021 09:58:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 22/29] git: Fix determinism issue
-Date: Sun, 31 Oct 2021 06:57:41 -1000
+Subject: [OE-core][dunfell 23/29] linux-firmware: upgrade 20210511 -> 20210818
+Date: Sun, 31 Oct 2021 06:57:42 -1000
 Message-Id: 
- <c0a30230fc6dc509f3b20b150f6e152c6c772a17.1635699172.git.steve@sakoman.com>
+ <7b07f9562c5f2967e83591107e52b61e59a86816.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
 References: <cover.1635699172.git.steve@sakoman.com>
@@ -67,76 +66,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:48 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157680
+ https://lists.openembedded.org/g/openembedded-core/message/157681
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
+License-Update: new firmware files, copyright years, file names
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9ae740939f8315c64fe7571f912404127a29dc89)
+(cherry picked from commit bfceaba4f38771047dfdfdfdbf16b794006dfd78)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/git/git.inc           |  2 +-
- meta/recipes-devtools/git/git/fixsort.patch | 36 +++++++++++++++++++++
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
+ ...inux-firmware_20210511.bb => linux-firmware_20210818.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210511.bb => linux-firmware_20210818.bb} (99%)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 738a429875..2b75bed055 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -10,7 +10,7 @@ PROVIDES_append_class-native = " git-replacement-native"
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
- 	   file://CVE-2021-21300.patch \
--"
-+           file://fixsort.patch"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210818.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20210818.bb
+index 513932984e..7f6db18b69 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210818.bb
+@@ -97,7 +97,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
+                     file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
+                     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
+-                    file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
++                    file://LICENCE.iwlwifi_firmware;md5=2ce6786e0fc11ac6e36b54bb9b799f1b \
+                     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
+                     file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
+                     file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=727d0d4e2d420f41d89d098f6322e779 \
++                    file://WHENCE;md5=15ad289bf2359e8ecf613f3b04f72fab \
+                     "
  
- S = "${WORKDIR}/git-${PV}"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -205,7 +205,7 @@ PE = "1"
  
-diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
-new file mode 100644
-index 0000000000..eec1f84945
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/fixsort.patch
-@@ -0,0 +1,36 @@
-+[PATCH] generate-cmdlist.sh: Fix determinism issue
-+
-+Currently git binaries are not entirely reproducible, at least partly 
-+due to config-list.h differing in order depending on the system's
-+locale settings. Under different locales, the entries:
-+
-+"sendemail.identity",
-+"sendemail.<identity>.*",
-+
-+would differ in order for example and this leads to differences in 
-+the debug symbols for the binaries.
-+
-+This can be fixed by specifying the C locale for the sort in the
-+shell script generating the header.
-+
-+Note: This is a backport of Richard Purdie's original patch for a more
-+recent version of git. The offending code in this older version is
-+in generate-cmdlist.sh. The upstream current version has this code
-+in generate-configlist.sh.
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Signed-off-by: Steve Sakoman <steve@sakoman.com>
-+Upstream-Status: Submitted [https://public-inbox.org/git/f029a942dd3d50d85e60bd37d8e454524987842f.camel@linuxfoundation.org/T/#u]
-+
-+index 71158f7..c137091 100755
-+--- a/generate-cmdlist.sh
-++++ b/generate-cmdlist.sh
-+@@ -82,7 +82,7 @@ static const char *config_name_list[] = {
-+ EOF
-+ 	grep -h '^[a-zA-Z].*\..*::$' Documentation/*config.txt Documentation/config/*.txt |
-+ 	sed '/deprecated/d; s/::$//; s/,  */\n/g' |
-+-	sort |
-++	LC_ALL=C sort |
-+ 	while read line
-+ 	do
-+ 		echo "	\"$line\","
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "2aa6ae8b9808408f9811ac38f00c188e53e984a2b3990254f6c9c02c1ab13417"
++SRC_URI[sha256sum] = "bef3d317c348d962b3a1b95cb4e19ea4f282e18112b2c669cff74f9267ce3893"
+ 
+ inherit allarch
+ 
 -- 
 2.25.1
 
