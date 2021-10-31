@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 384F4C433F5
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:46 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.33171.1635699525046142760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38280C433F5
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:48 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web12.32835.1635699527167138033
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:45 -0700
+ Sun, 31 Oct 2021 09:58:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=MonJu4ZX;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176,
+ header.b=1XhmqCQW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id r28so15136648pga.0
+Received: by mail-pl1-f180.google.com with SMTP id s24so10126650plp.0
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:45 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=pGfTrv+KyUaNXM4hCNxRA5kOkPqcOoFmxO/9FPe612Q=;
-        b=MonJu4ZX7RKBbYuooCtJnXmSTqSqXBiDMKp5WHETeX9h0ZPQ7ezoMNikcg5d457dDX
-         3X4k4zWinoWvU9XihKXCrM0y19QpLman8R9cyBk4yMpK+EAoaU4LHhvx8H0HDdFEZJP3
-         6bf1zPOOhXvU/xGT0FnKT2gH8puEq4VxooekPSJLSikYrwmppqKgXiE6aX/mIEumh2ci
-         FiLleS8KVPuDAVJFhfp/EIYWeVyF/WFRmZI4tyzO4ZpLb+XbeVggxPVMqyKXzSoSBcR1
-         w3t1lScBvM6cB/OZeBTMdACb1czqmv2Nn6NmSexD63n+T0DYmFcoRPjTJW5m6czhr0BP
-         QLdQ==
+        bh=R5bnXChyzvxjw7JaRBB8YvxKyUG1/Z9FKgbR4Mr/ZEA=;
+        b=1XhmqCQWjeLVe+tiuO3MpNsIUASY9nytgj3k1iw0rUQSizP7eG/iKCDJVOBo3LZtUl
+         I6IZw6Q2+dpYUPTTC8yvc6US3S2mn/sb1rTIB5+t/b6/fJlIBiqoVr9E6xDo27hX7uvZ
+         NVHo5RkL2dQ2FZQeVvz+jaVSY1RvDpSeZrc4aFYiTFb23KgzAQzeoNrsA2EXQ/PI+KzZ
+         B7xcBMMA0bs3SLga+S75rg0yiyUV64v4zaYUKBlurfIYnGiHFQ8KtB50++d+7oJ9ABIp
+         HGdSXBEyJRE5qozGSvCs/jQz8G1pJS0GTj3FRHHfmdGkcLqwwwYHEJ5RllSZ3g/uoggK
+         arkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pGfTrv+KyUaNXM4hCNxRA5kOkPqcOoFmxO/9FPe612Q=;
-        b=D0qR5VHR7VcJQ0SAa1zJ+zFseEG2LwHTnVlx373pr7+5raH2OOCyzjbmPlIQUXxzDZ
-         XU+QczzVx8Wkd6bBJ1bKi8FbtIUxam3L1J2SQTkZBq6YjRYpEejskN5ZbSElSEfhBn24
-         kRtIOhGiFVhwTwRME39ZMYL0IONfUs+4dkcZXbo2wyFiQhVlinLDSASnk9SHxRILs7Ap
-         3LwyvkKLXzRSxN0Jkly74ivZQtuZHgvEGmbQ/c0wNy29XykMh80One2VuZum9CBe76qH
-         UynZM0WUSF/ckvXX87wJu/sfaAkimLMHN2ywuS5LLBkTdp9shZDuQLshHykWjJcJq8oM
-         bp7A==
-X-Gm-Message-State: AOAM532Y8l/8VP+oRLZezH9vYYN1b7u1H01Q5k2r6kodtcYHktfFOLL3
-	XsuR6n9ZQDJfkxN7VCG8qtl/Y68QhP4En2bnSyQ=
+        bh=R5bnXChyzvxjw7JaRBB8YvxKyUG1/Z9FKgbR4Mr/ZEA=;
+        b=j13U3Ie3JPs72gf9buUpZPoMxCfTosPeYWRLIO6mUAoU5Qltp1rWgeQns3b5kXHzY7
+         88mK51HdkdNAlUmppngEIYUbeKEtv2iHXOYNrNHuHYGqf/qJAh14lbIP0KL/8uAwx6gx
+         uDRrB2otd3ZZauMbFnsheSSeoU2gLDRNh/ivi5BcOptPWHzw2P3XLhGzmhxbX0QdilVJ
+         wsjyqCfRi0xMQ9cNiOQ0UUYhqZHVO6TG44Vpq1nldOCgxboihqCPf+wPptFNIW8S8R2y
+         UtDaeSy6yGTGppMgo2NSEVJsv19D5bwNG1/MEd3kmuT8QNnd7jhgGU1DUvtce/QNrYhX
+         4vYQ==
+X-Gm-Message-State: AOAM530tcQHell7qhz7Wy42avpgvruYx9tEP3uOrfgKHu0iSie6lnT6M
+	qB7Yg8sgVSiosXrkn9nKESDy2jc6q5W/1ob4S2M=
 X-Google-Smtp-Source: 
- ABdhPJxi8Il6IouaaVZr0KuQEY+dx2BNtNYxAvmSFfnCk/L57Wf7uiemdNRxPC7sLjr9gb812GES0A==
-X-Received: by 2002:a62:3842:0:b0:480:fae5:267a with SMTP id
- f63-20020a623842000000b00480fae5267amr5703516pfa.17.1635699524053;
-        Sun, 31 Oct 2021 09:58:44 -0700 (PDT)
+ ABdhPJzcL1utMGz98laa3Vi3DMvfdCx5U04FW3YqIeJZQmM0nqPr0JBcNiA5e6TNwwplZxQZPrKnrQ==
+X-Received: by 2002:a17:90b:4f4c:: with SMTP id
+ pj12mr4095744pjb.218.1635699526113;
+        Sun, 31 Oct 2021 09:58:46 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.42
+ s21sm13476617pfk.175.2021.10.31.09.58.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:43 -0700 (PDT)
+        Sun, 31 Oct 2021 09:58:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 21/29] stress-ng: improve reproducibility
-Date: Sun, 31 Oct 2021 06:57:40 -1000
+Subject: [OE-core][dunfell 22/29] git: Fix determinism issue
+Date: Sun, 31 Oct 2021 06:57:41 -1000
 Message-Id: 
- <41db4f315c0b4a95232c3380918fb944477c2f3f.1635699172.git.steve@sakoman.com>
+ <c0a30230fc6dc509f3b20b150f6e152c6c772a17.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
 References: <cover.1635699172.git.steve@sakoman.com>
@@ -67,61 +67,76 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:46 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157679
+ https://lists.openembedded.org/g/openembedded-core/message/157680
 
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9ae740939f8315c64fe7571f912404127a29dc89)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...write-the-timestamp-into-compressed-.patch | 26 +++++++++++++++++++
- .../stress-ng/stress-ng_0.11.17.bb            |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch
+ meta/recipes-devtools/git/git.inc           |  2 +-
+ meta/recipes-devtools/git/git/fixsort.patch | 36 +++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng/0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch b/meta/recipes-extended/stress-ng/stress-ng/0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch
-new file mode 100644
-index 0000000000..9dfca0441b
---- /dev/null
-+++ b/meta/recipes-extended/stress-ng/stress-ng/0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch
-@@ -0,0 +1,26 @@
-+From 2386cd8f907b379ae5cc1ce2888abef7d30e709a Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Sat, 23 Oct 2021 20:20:59 +0200
-+Subject: [PATCH] Makefile: do not write the timestamp into compressed manpage.
-+
-+This helps reproducibility.
-+
-+Upstream-Status: Submitted [https://github.com/ColinIanKing/stress-ng/pull/156]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 886018f9..f4290f9c 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -412,7 +412,7 @@ git-commit-id.h:
-+ $(OBJS): stress-ng.h Makefile
-+ 
-+ stress-ng.1.gz: stress-ng.1
-+-	gzip -c $< > $@
-++	gzip -n -c $< > $@
-+ 
-+ .PHONY: dist
-+ dist:
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
-index af8e77ece2..0533a0e19b 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 738a429875..2b75bed055 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -10,7 +10,7 @@ PROVIDES_append_class-native = " git-replacement-native"
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
+ 	   file://CVE-2021-21300.patch \
+-"
++           file://fixsort.patch"
  
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-+           file://0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch \
-            "
- SRCREV = "e045bcd711178c11b7e797ef6b4c524658468596"
- S = "${WORKDIR}/git"
+ S = "${WORKDIR}/git-${PV}"
+ 
+diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
+new file mode 100644
+index 0000000000..eec1f84945
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/fixsort.patch
+@@ -0,0 +1,36 @@
++[PATCH] generate-cmdlist.sh: Fix determinism issue
++
++Currently git binaries are not entirely reproducible, at least partly 
++due to config-list.h differing in order depending on the system's
++locale settings. Under different locales, the entries:
++
++"sendemail.identity",
++"sendemail.<identity>.*",
++
++would differ in order for example and this leads to differences in 
++the debug symbols for the binaries.
++
++This can be fixed by specifying the C locale for the sort in the
++shell script generating the header.
++
++Note: This is a backport of Richard Purdie's original patch for a more
++recent version of git. The offending code in this older version is
++in generate-cmdlist.sh. The upstream current version has this code
++in generate-configlist.sh.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Signed-off-by: Steve Sakoman <steve@sakoman.com>
++Upstream-Status: Submitted [https://public-inbox.org/git/f029a942dd3d50d85e60bd37d8e454524987842f.camel@linuxfoundation.org/T/#u]
++
++index 71158f7..c137091 100755
++--- a/generate-cmdlist.sh
+++++ b/generate-cmdlist.sh
++@@ -82,7 +82,7 @@ static const char *config_name_list[] = {
++ EOF
++ 	grep -h '^[a-zA-Z].*\..*::$' Documentation/*config.txt Documentation/config/*.txt |
++ 	sed '/deprecated/d; s/::$//; s/,  */\n/g' |
++-	sort |
+++	LC_ALL=C sort |
++ 	while read line
++ 	do
++ 		echo "	\"$line\","
 -- 
 2.25.1
 
