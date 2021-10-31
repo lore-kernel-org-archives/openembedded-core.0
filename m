@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D7CC433F5
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:23 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.32830.1635699502489807730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3083DC433EF
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:25 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.32832.1635699504599170530
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:22 -0700
+ Sun, 31 Oct 2021 09:58:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=TdUALlzM;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
+ header.b=NlLZTsPj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id
- n36-20020a17090a5aa700b0019fa884ab85so14372488pji.5
+Received: by mail-pj1-f47.google.com with SMTP id gn3so10634845pjb.0
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:22 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=EMpmrhvB6GiG7hdOf1kjgq3kBX4GDhIzXyir1PxqrsU=;
-        b=TdUALlzM61DNFeAQ4iUChmjfrb58AeAGzGhrGP+K6GpzCuGYCDiRT0wokCAuasE0QN
-         WJvv7qGyangyi/A9zHz9DMZOLe+P1XnYshwoswxWmbAmsXupzOwy82V4Y2UiT5c1DVtq
-         a+HybnnFs+5ArLtrw2qJ2g5HTObJunWqEmDG1xmEb+d8L/oiErzD4D/djkDjUQ9tW9L8
-         SAfQxPhG+Jbb97YLeEH2rvRJEKJoT1VhLb+A2hEg2WSTBd7a6tusfaK7FAmwL2+B7qLn
-         r29x5af1+gbo4VLS3k73f86fY/Ab8fw7Xe/uqbPpvAtDP7f1FdCy3cRwd9XgWvkCVjaz
-         jO/w==
+        bh=rLMDnQRJ/OVBJibpQ1fq+N8QxgCWN9yEWvRIcJ0tgHI=;
+        b=NlLZTsPjLl5y65KXCPDQcLTwl1PiOnXSSAAhnck8c4EuOiZNML3Z0XEBoS/TmwP4Db
+         qvsIJPLBYJAtjzOJW4+rEBEjSQA4PPsrfM532kYNefvf1ax4vmZHPnrB5/7AP1zxNCLR
+         el8xtSV1YZdhInyMpjFDa13lSQL25cDn+2Z/jiqrHNviOVyoapso3IXLM/WNxig9I9/e
+         37teY2tG5kYw0usODSVoS9ORBk3aMU1cR0dfmT7Ipzb0pJxALmsj+gmPyFqOh7JALy75
+         2x3y12Cw14Ss9Sud9xKymGjMIZ0+EckyzY60VbHGLvcQFaYqgrPYn8ApX03LrctWH3+T
+         8a2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EMpmrhvB6GiG7hdOf1kjgq3kBX4GDhIzXyir1PxqrsU=;
-        b=qo6MgZrHujrpr5i7kJ04fdFfZ4vitkNNYEsvriz6HVk6jmsrH9/Xu6SH4K/kraBIth
-         kTskTASLIGRuoi0HY+2R3g+RrLRPjne8izIUSfvjUlcx+sDdJtYLihb/2b3kpjAQ4qxU
-         DpdsCbSmjbQ0Ba1mVgne4snT28AkNA1+5O55xmcVFlt0qo3BK6rTwDaCH1YxLMHBc3vd
-         4tC6cBmJGu2tYy3+jXkEjCIPjXVs4Mmyx4CRa3hBe6oGFdN60Kk0s5PhZRgVaeoIfsrR
-         uBcEaQmQDmFYDY4XZRc7sWGt7XJQnL7bPtfbDBtIzUufU7LUcS5lBAtrm0L8cSItlcqh
-         NQZw==
-X-Gm-Message-State: AOAM530auf/wGbRPWqZtrRX8M7dp6UoImjwA8bFHf49z7DxwUXHGIbzG
-	qbNGyIB2KqIUq78JAuYU79o1gk7Uc6pdXAUFQUQ=
+        bh=rLMDnQRJ/OVBJibpQ1fq+N8QxgCWN9yEWvRIcJ0tgHI=;
+        b=hOw4qLqPzbQk+W14uI03PDsqYBjem5mpS8N4FwzbtzCy+/VyvCQ9W6c8NJzmGSWDYG
+         fEYJhse+J0es/FUh7pNPjwHHRFc1WrO9toXPDQdVtn8FsoP71s56hKqNd4Qir1vFV+QE
+         F7cJsa4zhRtLn/HN06iT9NLmOj9ve6GanUybqDpq6h7wL3sApuoVX55kEJUmO5iOKUCH
+         aprZAF3eSUTfk1OB2RtVhn65neULkL51XTJvc18NLlqBpDhN3k696dijl43omTnJQs+h
+         6Po1+cwOtlB8AFO73MDuuBCTgof5g6fwBXcHEXgia+nBCN3jNU9pbjbNQv8u5BD0devo
+         NpVA==
+X-Gm-Message-State: AOAM530ZA7lTp8ncPf1GUqSuqURPi30lfMAq3uq5DhZ5NRPA4l8GNZUS
+	aSGN2pLZMXVjO5Ra15sZptQmYGzdDXbv34PfQoc=
 X-Google-Smtp-Source: 
- ABdhPJw1Y4LgzRhxTJlwl+or73N1yHz6DbmuO5F6aCsoTMOUGWO0Au3w1hHVT8qSdz8FzeXMJ4NPsg==
-X-Received: by 2002:a17:902:db07:b0:141:ea12:218b with SMTP id
- m7-20020a170902db0700b00141ea12218bmr1395658plx.46.1635699501537;
-        Sun, 31 Oct 2021 09:58:21 -0700 (PDT)
+ ABdhPJyzFoiwe28RgILKxuoSVbCEXCozHEpRNemrHlfyyUcKZ2DXrv8xGTq9lhSZ5NPBgrNBjVp1Pw==
+X-Received: by 2002:a17:902:d4d0:b0:141:c13d:6c20 with SMTP id
+ o16-20020a170902d4d000b00141c13d6c20mr9670145plg.44.1635699503633;
+        Sun, 31 Oct 2021 09:58:23 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.20
+ s21sm13476617pfk.175.2021.10.31.09.58.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:21 -0700 (PDT)
+        Sun, 31 Oct 2021 09:58:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/29] license.bbclass: implement
- ast.NodeVisitor.visit_Constant
-Date: Sun, 31 Oct 2021 06:57:29 -1000
+Subject: [OE-core][dunfell 11/29] oe/utils: log exceptions in ThreadedWorker
+ functions
+Date: Sun, 31 Oct 2021 06:57:30 -1000
 Message-Id: 
- <d91fe6ecb9fbb410b3bab6ced66b7fe5f869cf83.1635699172.git.steve@sakoman.com>
+ <3bad17c8cf58b2bfc36a1de754fa47fb344bd5d8.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
 References: <cover.1635699172.git.steve@sakoman.com>
@@ -69,40 +68,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:23 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157668
+ https://lists.openembedded.org/g/openembedded-core/message/157669
 
 From: Ross Burton <ross@burtonini.com>
 
-Since Python 3.8 visit_Num(), visit_Str() and so on are all deprecated
-and replaced with visit_Constant.  We can't yet remove the deprecated
-functions until we require 3.8, but we can implement visit_Constant to
-silence the deprecation warnings.
+If the function a ThreadedWorker is executing raises an exception, don't
+use print() as that mostly disappears.  Instead, output it to the logger.
+
+This is done using bb.mainlogger.debug directly instead of bb.debug() as
+this allows us to pass the exception instance directly, which is then
+incorporated into the log stream.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 875a944392a3c93f40081a14af357f70b6b8264f)
+(cherry picked from commit 2f1ea25c222b344dd8b784b2bc73a6540ab30274)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/license.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oe/utils.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 73f99e87a8..6b03221c7f 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -153,6 +153,10 @@ def find_license_files(d):
-             find_license(node.s.replace("+", "").replace("*", ""))
-             self.generic_visit(node)
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 83d298906b..3e016244c5 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -481,7 +481,8 @@ class ThreadedWorker(Thread):
+             try:
+                 func(self, *args, **kargs)
+             except Exception as e:
+-                print(e)
++                # Eat all exceptions
++                bb.mainlogger.debug("Worker task raised %s" % e, exc_info=e)
+             finally:
+                 self.tasks.task_done()
  
-+        def visit_Constant(self, node):
-+            find_license(node.value.replace("+", "").replace("*", ""))
-+            self.generic_visit(node)
-+
-     def find_license(license_type):
-         try:
-             bb.utils.mkdirhier(gen_lic_dest)
 -- 
 2.25.1
 
