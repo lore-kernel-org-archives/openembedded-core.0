@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE41C433F5
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:09 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web09.33237.1635699488098663953
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46271C433EF
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:11 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.33161.1635699490183072361
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:08 -0700
+ Sun, 31 Oct 2021 09:58:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=hDNeXv3q;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175,
+ header.b=TN1BELHq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id y1so10069140plk.10
+Received: by mail-pg1-f181.google.com with SMTP id b4so7995082pgh.10
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:08 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=OUQrc2pmcfXKCim7WnaN0u1iMPBPrG6o+SCAbLmEw2w=;
-        b=hDNeXv3qoHRrmVYeHmFkZYEHktbIAQ1G6oUYWqk8zuTvRR1klrbYw4pgbEwrv2weDQ
-         bu6ldj5Y7KF0ESNWEF2Ev3a8lCcIi9ZAYG1COuAz2W9ucQXg9IK9f69gGWnSlrPYyLxU
-         tDB4PnesE4tVI9NAY7nVnQPhvn8h/pNhF6EGOlAFcirBYrXnaeeItV6nA65fdJCM03i8
-         Yujj441cSGm3ugImDeWusr0h0P78cFEqj4N5x5t+BDXMAeNAelu6H9tDWScjEZuRz8RS
-         jOjfzdIF/QyKYeIEEmJrPhluYZDeYK2K6vJRcXpRVr87gWRwwSdQEfWvbAtu5DG7Pgad
-         g81A==
+        bh=UC3Fuv6W0f1qgIPZRqt3hRC7JCGnF+4QEw7dTHxWnYY=;
+        b=TN1BELHqQBUxHWatfA7NxHDzJL/TARJ8fon0g56kXazSFgywudZUSwfujKKkzkClxz
+         HR4LYTvfdIRVzzjiu41eNnPttDgeK5EINTgS++YGImD/gdBK5drJOgtol5X64cfzA2F5
+         x4ylMFGlGyEO8uJ6kmNOGX/qXg0WUnnJZCr1033fIxzVwbetvuwkSXle3sFoFHNOTGdj
+         nd8PtpKDwxNbhPf9aHWNI7gROF9VLb7+TdjcjIfwt8uB18F+qqp2ytuMDaGKYH2FyWo0
+         7H83RXpfC9VgpIXC5rgelf9pXvBgdZ+JTkEoc8u9TFsNwBJCUhTpyztqnzK+NXzd9qsK
+         0Kbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OUQrc2pmcfXKCim7WnaN0u1iMPBPrG6o+SCAbLmEw2w=;
-        b=Yd/B1W0sgAozJDyPG5F8GoNxNKDXDE5mevhWJTptYHpyQT6nrmt06SBIlgJfirq/Q2
-         PH4nDK4qvzSRcwUTBZYEq2b93Xe+SzYTizsBjw+c1BtB1tkuHb7Wfo1PinJHGcNok8ir
-         VgvRMg2UolxhmnYdg8HlqMwUCr2uz122iAvs/QmAYsGTgY8Qw3qaA6Z6UuBlNeapqob+
-         Abir6psz75U8DRXVTbE0LQVGN6c5p24nevoBcOW4tpQuwhf12lkrgjaAd99VQh9nuUAO
-         vK40IdwT5ZZ2jf8PSbHfDg5fj0RtZV8ms0QljTfbTrthRdxizRhofLI43dkiaN3qiimE
-         gMKg==
-X-Gm-Message-State: AOAM530GSKwzR/ysTWSpC/I6Nepnfab41I37h5S0uzftpnk4HKVvfBII
-	rb6LEpcyuAkGlULwdVK028Iln2ph+KsD9nC25D4=
+        bh=UC3Fuv6W0f1qgIPZRqt3hRC7JCGnF+4QEw7dTHxWnYY=;
+        b=CpvB8zCB8PY/gdvZB4N920Pnw7V7KY7K7RPSw93fAOM/zPP8EjbKr7nqbUjNbCpWW2
+         oQlWDlpzYuEDFTRF2QGSvt2+ygppfKBa1iuPlLL7pzka3LQ/z10k7OrTnFoZtdj/hife
+         9PpRkXatGynT+UykHvcxZT79Lyo1Kmn6WV2Xn7TOaxuifGNFV6Ugje2M6jtiVaaUegHD
+         k1FBbxQUNvSmsOZ1suuHNArMQ0FWIiAB48axm10ikCSZxERcQ2zQABOteJ44uVR+uQzQ
+         a4FTLNKc+kDhYx0eOuUKAo3ClWyyW82soyjTKzBIGVNCEgFY23afj3Z2pKXxYzIsuQXi
+         7nLQ==
+X-Gm-Message-State: AOAM5321Xzlko9IkgCNMXeTQEsbwRnRy121csa5EHahzw3+i4cNUHIka
+	MOHVRpRG4poLbMaSMYUMGPtT2c+EpkRpEyF+J2U=
 X-Google-Smtp-Source: 
- ABdhPJzsy1Z8HitXOYyZSD7tDOae9Rodp55KGwfoVkoexxX542uJqeEffVHv4x3mSin9QR/Jhx9KYA==
-X-Received: by 2002:a17:90b:4d92:: with SMTP id
- oj18mr18066811pjb.237.1635699487032;
-        Sun, 31 Oct 2021 09:58:07 -0700 (PDT)
+ ABdhPJyMcBOUpM211l2rJiyaoyLhwiBLmdrAH7pprqG22YaaoC09JehCJcwHVo56dO6tR6St0Y1S9Q==
+X-Received: by 2002:aa7:848a:0:b0:47f:d648:2df4 with SMTP id
+ u10-20020aa7848a000000b0047fd6482df4mr11864702pfn.63.1635699489135;
+        Sun, 31 Oct 2021 09:58:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.05
+ s21sm13476617pfk.175.2021.10.31.09.58.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:06 -0700 (PDT)
+        Sun, 31 Oct 2021 09:58:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/29] sstate: fix touching files inside pseudo
-Date: Sun, 31 Oct 2021 06:57:22 -1000
+Subject: [OE-core][dunfell 04/29] devtool: fix modify with patches in override
+ directories
+Date: Sun, 31 Oct 2021 06:57:23 -1000
 Message-Id: 
- <590de1dd89cfd5f0ca7395880ba88b27ee35470d.1635699172.git.steve@sakoman.com>
+ <b20699229671ef37daac8b0ed1133aacb477f6a0.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
 References: <cover.1635699172.git.steve@sakoman.com>
@@ -67,59 +68,64 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:09 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157661
+ https://lists.openembedded.org/g/openembedded-core/message/157662
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Ross Burton <ross@burtonini.com>
 
-running the 'id' command inside the sstate_create_package
-function shows that this funcion run inside the pseudo:
+If a recipe applies patches which are in machine-specific override
+directories, devtool will fail to fetch the patches that don't match the
+default configuration.  For example where there are patches at
+qemux86/x86.patch and qemuarm/arm.patch:
 
- uid=0(root) gid=0(root) groups=0(root)
+SRC_URI = "file://source"
+SRC_URI_append_qemuarm = " file://arm.patch"
+SRC_URI_append_qemux86 = " file://x86.patch"
 
-The check for touch files [ ! -w ${SSTATE_PKG} ]
-will always return true and the touch can fail
-when the real user don't have permission or
-in readonly filesystem.
+The patch apply phase sets OVERRIDES but does not set FILESOVERRIDES, so
+it cannot find the patch files as the search path isn't correct.  Fix
+this by setting FILESOVERRIDES too.
 
-As the documentation refers, the file test operator "-w"
-check if the file has write permission (for the user running the test).
+Also when iterating through the overrides we need to be sure that other
+overrides that are used are not enabled, so extend no_overrides instead of
+simply appending the current override.
 
-We can avoid this test running the touch and mask any return errors
-that we have.
+Fixes most but not all of [ YOCTO #14060 ].
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(From OE-Core rev: a372cdf8e175423c47faeecc98ad076ee26bbec8)
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f6e7445c94443544e92fda97a017ce93393c5f84)
+(cherry picked from commit 4a35bcc9d164ac038a31356a15a0f61ccdd38be2)
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sstate.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/devtool-source.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 2ff0d6850c..a2496dce2b 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -796,7 +796,7 @@ sstate_task_postfunc[dirs] = "${WORKDIR}"
- sstate_create_package () {
- 	# Exit early if it already exists
- 	if [ -e ${SSTATE_PKG} ]; then
--		[ ! -w ${SSTATE_PKG} ] || touch ${SSTATE_PKG}
-+		touch ${SSTATE_PKG} 2>/dev/null || true
- 		return
- 	fi
- 
-@@ -830,7 +830,7 @@ sstate_create_package () {
- 	else
- 		rm $TFILE
- 	fi
--	[ ! -w ${SSTATE_PKG} ] || touch ${SSTATE_PKG}
-+	touch ${SSTATE_PKG} 2>/dev/null || true
- }
- 
- python sstate_sign_package () {
+diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
+index 280d6009f3..41900e651f 100644
+--- a/meta/classes/devtool-source.bbclass
++++ b/meta/classes/devtool-source.bbclass
+@@ -199,6 +199,7 @@ python devtool_post_patch() {
+             # Run do_patch function with the override applied
+             localdata = bb.data.createCopy(d)
+             localdata.setVar('OVERRIDES', ':'.join(no_overrides))
++            localdata.setVar('FILESOVERRIDES', ':'.join(no_overrides))
+             bb.build.exec_func('do_patch', localdata)
+             rm_patches()
+             # Now we need to reconcile the dev branch with the no-overrides one
+@@ -216,7 +217,8 @@ python devtool_post_patch() {
+                 # Reset back to the initial commit on a new branch
+                 bb.process.run('git checkout %s -b devtool-override-%s' % (initial_rev, override), cwd=srcsubdir)
+                 # Run do_patch function with the override applied
+-                localdata.appendVar('OVERRIDES', ':%s' % override)
++                localdata.setVar('OVERRIDES', ':'.join(no_overrides + [override]))
++                localdata.setVar('FILESOVERRIDES', ':'.join(no_overrides + [override]))
+                 bb.build.exec_func('do_patch', localdata)
+                 rm_patches()
+                 # Now we need to reconcile the new branch with the no-overrides one
 -- 
 2.25.1
 
