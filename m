@@ -2,65 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 304E6C433EF
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:21 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web08.33504.1635699500497843734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D7CC433F5
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:23 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.32830.1635699502489807730
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:20 -0700
+ Sun, 31 Oct 2021 09:58:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=kqAoPxAn;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ header.b=TdUALlzM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id
- l10-20020a17090a4d4a00b001a678eed8abso974957pjh.3
+Received: by mail-pj1-f46.google.com with SMTP id
+ n36-20020a17090a5aa700b0019fa884ab85so14372488pji.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:20 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=aIFyjR8OGSY+JUeWZ+q7/M+cvWXsGSq3vBWT3sVFNqc=;
-        b=kqAoPxAndZY+w0qIC/HSRuV/ZIg+vdksnc2fOdxZk2Iv+O1InYhqdniiDhYxsc9DgS
-         px0F6MvJHuHM/g/Vx3TaI5+7AIqtjnu9uD5uFTk/nlufYup5wQAxXpIH8AILWDMhuLXN
-         MJZiPwAu1y20Kjt96Iru8BKWVPeih3KmCjvIq0lc7mHkc1nvqNwzIIR+BI6h5hwbIu82
-         YMKhNSfBEOfh7PsmT+VfSVhb1kKwVoyB9x9DLyClzv4cJ9NYtLU1C0SD5zv/nauhpXAI
-         TCrs7YZfcGND3KtrgQOsIFaHNMkm0oiNaDKU0q4Huv/ZqGRXtDiEjp3mYvPl5ZX8WdqS
-         E5ig==
+        bh=EMpmrhvB6GiG7hdOf1kjgq3kBX4GDhIzXyir1PxqrsU=;
+        b=TdUALlzM61DNFeAQ4iUChmjfrb58AeAGzGhrGP+K6GpzCuGYCDiRT0wokCAuasE0QN
+         WJvv7qGyangyi/A9zHz9DMZOLe+P1XnYshwoswxWmbAmsXupzOwy82V4Y2UiT5c1DVtq
+         a+HybnnFs+5ArLtrw2qJ2g5HTObJunWqEmDG1xmEb+d8L/oiErzD4D/djkDjUQ9tW9L8
+         SAfQxPhG+Jbb97YLeEH2rvRJEKJoT1VhLb+A2hEg2WSTBd7a6tusfaK7FAmwL2+B7qLn
+         r29x5af1+gbo4VLS3k73f86fY/Ab8fw7Xe/uqbPpvAtDP7f1FdCy3cRwd9XgWvkCVjaz
+         jO/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aIFyjR8OGSY+JUeWZ+q7/M+cvWXsGSq3vBWT3sVFNqc=;
-        b=FF50L9vLgpc0JNE/7Jp78BgUGIS0yQ/33m6vpdZqqsGqtFFBMb8xYF4PqHRCLFi07L
-         4p7MTFAglNTStJADmAqLAymZUDvLT0VN+kQcTg14yjFTGE6zK9c4u6k8/cpL1oJtTvhI
-         tzP6QJS4iePtQxJH+GRqWXp34D4YAjBXM8KLsZcPp6X8Erm/Zk5IufWMKOyR8MGeH8St
-         +LEOnNNhclprlSGhh79U1VxIti9o78U6bFugLroJuBjV13qq56LRh2N6AOZnN5JKoNAf
-         05RkVEXaoc0cdtdm+JJXOAw0D3lfFp53AckLbWTKst1eYM9o0QNj+c8nk2pZzDbld+0Z
-         laWA==
-X-Gm-Message-State: AOAM5336nG2gkxQ6IutmTLtkOUFouGtL66XkknXSBB/9phT6FDCoUukU
-	Lod5qGyYE1JNRKv+v/BJlgWdwAsN/8hAcYMIg5g=
+        bh=EMpmrhvB6GiG7hdOf1kjgq3kBX4GDhIzXyir1PxqrsU=;
+        b=qo6MgZrHujrpr5i7kJ04fdFfZ4vitkNNYEsvriz6HVk6jmsrH9/Xu6SH4K/kraBIth
+         kTskTASLIGRuoi0HY+2R3g+RrLRPjne8izIUSfvjUlcx+sDdJtYLihb/2b3kpjAQ4qxU
+         DpdsCbSmjbQ0Ba1mVgne4snT28AkNA1+5O55xmcVFlt0qo3BK6rTwDaCH1YxLMHBc3vd
+         4tC6cBmJGu2tYy3+jXkEjCIPjXVs4Mmyx4CRa3hBe6oGFdN60Kk0s5PhZRgVaeoIfsrR
+         uBcEaQmQDmFYDY4XZRc7sWGt7XJQnL7bPtfbDBtIzUufU7LUcS5lBAtrm0L8cSItlcqh
+         NQZw==
+X-Gm-Message-State: AOAM530auf/wGbRPWqZtrRX8M7dp6UoImjwA8bFHf49z7DxwUXHGIbzG
+	qbNGyIB2KqIUq78JAuYU79o1gk7Uc6pdXAUFQUQ=
 X-Google-Smtp-Source: 
- ABdhPJzC950Ch9kiS6yojpaliiM0RyB0WQqNtLJlOwkoV0IUkF8DL5D2VPWBQEEII2APJOOoqD2v1w==
-X-Received: by 2002:a17:90b:224e:: with SMTP id
- hk14mr24598055pjb.224.1635699499581;
-        Sun, 31 Oct 2021 09:58:19 -0700 (PDT)
+ ABdhPJw1Y4LgzRhxTJlwl+or73N1yHz6DbmuO5F6aCsoTMOUGWO0Au3w1hHVT8qSdz8FzeXMJ4NPsg==
+X-Received: by 2002:a17:902:db07:b0:141:ea12:218b with SMTP id
+ m7-20020a170902db0700b00141ea12218bmr1395658plx.46.1635699501537;
+        Sun, 31 Oct 2021 09:58:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.18
+ s21sm13476617pfk.175.2021.10.31.09.58.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:18 -0700 (PDT)
+        Sun, 31 Oct 2021 09:58:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/29] oe/license: implement
+Subject: [OE-core][dunfell 10/29] license.bbclass: implement
  ast.NodeVisitor.visit_Constant
-Date: Sun, 31 Oct 2021 06:57:28 -1000
+Date: Sun, 31 Oct 2021 06:57:29 -1000
 Message-Id: 
- <18f10a51387cdee7c7058a3cb3f7c8c24c57c36a.1635699172.git.steve@sakoman.com>
+ <d91fe6ecb9fbb410b3bab6ced66b7fe5f869cf83.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
 References: <cover.1635699172.git.steve@sakoman.com>
@@ -69,9 +69,9 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:21 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157667
+ https://lists.openembedded.org/g/openembedded-core/message/157668
 
 From: Ross Burton <ross@burtonini.com>
 
@@ -82,36 +82,27 @@ silence the deprecation warnings.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit abc93390a3f19bc4cc159c5690a478b9e2270906)
+(cherry picked from commit 875a944392a3c93f40081a14af357f70b6b8264f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/license.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/license.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index c1274a61de..c4efbe142b 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -81,6 +81,9 @@ class FlattenVisitor(LicenseVisitor):
-     def visit_Str(self, node):
-         self.licenses.append(node.s)
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 73f99e87a8..6b03221c7f 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -153,6 +153,10 @@ def find_license_files(d):
+             find_license(node.s.replace("+", "").replace("*", ""))
+             self.generic_visit(node)
  
-+    def visit_Constant(self, node):
-+        self.licenses.append(node.value)
++        def visit_Constant(self, node):
++            find_license(node.value.replace("+", "").replace("*", ""))
++            self.generic_visit(node)
 +
-     def visit_BinOp(self, node):
-         if isinstance(node.op, ast.BitOr):
-             left = FlattenVisitor(self.choose_licenses)
-@@ -234,6 +237,9 @@ class ListVisitor(LicenseVisitor):
-     def visit_Str(self, node):
-         self.licenses.add(node.s)
- 
-+    def visit_Constant(self, node):
-+        self.licenses.add(node.value)
-+
- def list_licenses(licensestr):
-     """Simply get a list of all licenses mentioned in a license string.
-        Binary operators are not applied or taken into account in any way"""
+     def find_license(license_type):
+         try:
+             bb.utils.mkdirhier(gen_lic_dest)
 -- 
 2.25.1
 
