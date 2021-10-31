@@ -2,63 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBA9C433EF
-	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:19 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.32829.1635699498344350027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 304E6C433EF
+	for <webhook@archiver.kernel.org>; Sun, 31 Oct 2021 16:58:21 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web08.33504.1635699500497843734
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:18 -0700
+ Sun, 31 Oct 2021 09:58:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=yjnnjDtt;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
+ header.b=kqAoPxAn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id om14so10594826pjb.5
+Received: by mail-pj1-f48.google.com with SMTP id
+ l10-20020a17090a4d4a00b001a678eed8abso974957pjh.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 09:58:18 -0700 (PDT)
+ Sun, 31 Oct 2021 09:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=meTbud7z4q9QJjZ9UxTyUaOBNjN55a2fI4ohFoAHkgA=;
-        b=yjnnjDtt7vNdHD1qnwJmNUyCSoXHA2M2LfcymJj9fFQDgxUpQ+xNlDvoWErM8dND7m
-         +GYHoCCiFYZxkoOp64JpHCeQeRar27nnukd/b4sTIosGJRdT7I+aCM5lwMbWiLfuARRm
-         +oW3Uz1+CdOXkKf0ivWHR42VoWnPFQSZUmwXMyAP5bKp1LaW1vRPIbaeEeGYfxo94TTN
-         9bXEVlO1O99KJ/27NP+m6B0c5pOGD5ZCUhOdT5aKlUVcWnX5kIpKg2nLOitagMskg/9X
-         iQ25pia5KHTUevcdrhZuGFWJZsAboBoqafHJRht6mYJxIzMKYKj9LppOvVTdSdmDhE+Q
-         0pLQ==
+        bh=aIFyjR8OGSY+JUeWZ+q7/M+cvWXsGSq3vBWT3sVFNqc=;
+        b=kqAoPxAndZY+w0qIC/HSRuV/ZIg+vdksnc2fOdxZk2Iv+O1InYhqdniiDhYxsc9DgS
+         px0F6MvJHuHM/g/Vx3TaI5+7AIqtjnu9uD5uFTk/nlufYup5wQAxXpIH8AILWDMhuLXN
+         MJZiPwAu1y20Kjt96Iru8BKWVPeih3KmCjvIq0lc7mHkc1nvqNwzIIR+BI6h5hwbIu82
+         YMKhNSfBEOfh7PsmT+VfSVhb1kKwVoyB9x9DLyClzv4cJ9NYtLU1C0SD5zv/nauhpXAI
+         TCrs7YZfcGND3KtrgQOsIFaHNMkm0oiNaDKU0q4Huv/ZqGRXtDiEjp3mYvPl5ZX8WdqS
+         E5ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=meTbud7z4q9QJjZ9UxTyUaOBNjN55a2fI4ohFoAHkgA=;
-        b=YPYgBH0ycSaJTZFW6V7g3of4peh+l1vas/OKntayrRLifPzNvNv4/TukCxcOFP3b56
-         jvbDIbK98qaAiPN2f6hH/M4PllE05OW5bgYQ7D8zYRvDxEplPoGqwqg5uRMdwuJtuHnO
-         f9srZNbN8agkEhFbdG4kJcv8nTqaW6dfXTnOnJXQs6COwsOy6DKhwJCc21PF7csW1eoF
-         EQSEsHdM+pamr2NAE5/MfmxUFzG/rYbOYyA7kL7ndsYATKeu9yVAHcHb3nGGG0UMR7cg
-         te/yD8MPed1E7mgcItgbOVBh3t/fXANw6LXL5x3e9rgMN+yd/Rl89smx2w51hKAhdyYb
-         tOog==
-X-Gm-Message-State: AOAM533BLnXspJd3Tg2uPI2vKeY/eaXWbzBlpFFQ0XeisO+7qdjZlmLu
-	5COaAx+8h2aK9sh1bXVjEnCEgRkk6obr06S5tJc=
+        bh=aIFyjR8OGSY+JUeWZ+q7/M+cvWXsGSq3vBWT3sVFNqc=;
+        b=FF50L9vLgpc0JNE/7Jp78BgUGIS0yQ/33m6vpdZqqsGqtFFBMb8xYF4PqHRCLFi07L
+         4p7MTFAglNTStJADmAqLAymZUDvLT0VN+kQcTg14yjFTGE6zK9c4u6k8/cpL1oJtTvhI
+         tzP6QJS4iePtQxJH+GRqWXp34D4YAjBXM8KLsZcPp6X8Erm/Zk5IufWMKOyR8MGeH8St
+         +LEOnNNhclprlSGhh79U1VxIti9o78U6bFugLroJuBjV13qq56LRh2N6AOZnN5JKoNAf
+         05RkVEXaoc0cdtdm+JJXOAw0D3lfFp53AckLbWTKst1eYM9o0QNj+c8nk2pZzDbld+0Z
+         laWA==
+X-Gm-Message-State: AOAM5336nG2gkxQ6IutmTLtkOUFouGtL66XkknXSBB/9phT6FDCoUukU
+	Lod5qGyYE1JNRKv+v/BJlgWdwAsN/8hAcYMIg5g=
 X-Google-Smtp-Source: 
- ABdhPJy2JpPq3Qf3RtsNj2rmtfSY93wDFki1dJqFV8TgaQ54nMBPgsHMZBobRARaPh2+MOHEkwE3VQ==
-X-Received: by 2002:a17:90a:5d09:: with SMTP id
- s9mr32632964pji.163.1635699497448;
-        Sun, 31 Oct 2021 09:58:17 -0700 (PDT)
+ ABdhPJzC950Ch9kiS6yojpaliiM0RyB0WQqNtLJlOwkoV0IUkF8DL5D2VPWBQEEII2APJOOoqD2v1w==
+X-Received: by 2002:a17:90b:224e:: with SMTP id
+ hk14mr24598055pjb.224.1635699499581;
+        Sun, 31 Oct 2021 09:58:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s21sm13476617pfk.175.2021.10.31.09.58.16
+ s21sm13476617pfk.175.2021.10.31.09.58.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Oct 2021 09:58:17 -0700 (PDT)
+        Sun, 31 Oct 2021 09:58:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/29] bitbake.conf: Add gpg-agent as a host tool
-Date: Sun, 31 Oct 2021 06:57:27 -1000
+Subject: [OE-core][dunfell 09/29] oe/license: implement
+ ast.NodeVisitor.visit_Constant
+Date: Sun, 31 Oct 2021 06:57:28 -1000
 Message-Id: 
- <f9649bca64771e845a74475b621a3c91ca0a6901.1635699172.git.steve@sakoman.com>
+ <18f10a51387cdee7c7058a3cb3f7c8c24c57c36a.1635699172.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1635699172.git.steve@sakoman.com>
 References: <cover.1635699172.git.steve@sakoman.com>
@@ -67,38 +69,49 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:19 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 31 Oct 2021 16:58:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157666
+ https://lists.openembedded.org/g/openembedded-core/message/157667
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+From: Ross Burton <ross@burtonini.com>
 
-If gpg is used, it will find the first gpg agent in the path, this
-may lead to issues where gpg comes from the host, and the agent
-comes from a gnupg-native due to package signing. The versions
-being out of sync causes gpg to fail.
+Since Python 3.8 visit_Num(), visit_Str() and so on are all deprecated
+and replaced with visit_Constant.  We can't yet remove the deprecated
+functions until we require 3.8, but we can implement visit_Constant to
+silence the deprecation warnings.
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2b59fb9d52a405a32a1d069d4c5320b72fbd35ce)
+(cherry picked from commit abc93390a3f19bc4cc159c5690a478b9e2270906)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/license.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f442a6593a..91f003d6dd 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -502,7 +502,7 @@ HOSTTOOLS += " \
- HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d) or any(x in (d.getVar("BBINCLUDED") or "") for x in ["testimage.bbclass", "testsdk.bbclass"])) else ''}"
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index c1274a61de..c4efbe142b 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -81,6 +81,9 @@ class FlattenVisitor(LicenseVisitor):
+     def visit_Str(self, node):
+         self.licenses.append(node.s)
  
- # Link to these if present
--HOSTTOOLS_NONFATAL += "aws gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
-+HOSTTOOLS_NONFATAL += "aws gcc-ar gpg gpg-agent ld.bfd ld.gold nc pigz sftp socat ssh sudo"
++    def visit_Constant(self, node):
++        self.licenses.append(node.value)
++
+     def visit_BinOp(self, node):
+         if isinstance(node.op, ast.BitOr):
+             left = FlattenVisitor(self.choose_licenses)
+@@ -234,6 +237,9 @@ class ListVisitor(LicenseVisitor):
+     def visit_Str(self, node):
+         self.licenses.add(node.s)
  
- # Temporary add few more detected in bitbake world
- HOSTTOOLS_NONFATAL += "join nl size yes zcat"
++    def visit_Constant(self, node):
++        self.licenses.add(node.value)
++
+ def list_licenses(licensestr):
+     """Simply get a list of all licenses mentioned in a license string.
+        Binary operators are not applied or taken into account in any way"""
 -- 
 2.25.1
 
