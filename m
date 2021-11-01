@@ -2,33 +2,33 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CF15C433FE
-	for <webhook@archiver.kernel.org>; Mon,  1 Nov 2021 15:34:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 122DAC433EF
+	for <webhook@archiver.kernel.org>; Mon,  1 Nov 2021 15:34:28 +0000 (UTC)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
  by mx.groups.io with SMTP id smtpd.web12.45535.1635780864510944525
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Nov 2021 08:34:26 -0700
+ Mon, 01 Nov 2021 08:34:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="218228514"
+X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="218228521"
 X-IronPort-AV: E=Sophos;i="5.87,200,1631602800";
-   d="scan'208";a="218228514"
+   d="scan'208";a="218228521"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 08:34:25 -0700
+ 01 Nov 2021 08:34:26 -0700
 X-IronPort-AV: E=Sophos;i="5.87,200,1631602800";
-   d="scan'208";a="488694182"
+   d="scan'208";a="488694187"
 Received: from aaronhpe-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl1.gar.corp.intel.com) ([10.215.232.69])
   by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2021 08:34:24 -0700
+ 01 Nov 2021 08:34:25 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 01/18] ghostscript: Fix CVE-2021-3781
-Date: Mon,  1 Nov 2021 23:33:56 +0800
+Subject: [hardknott][PATCH 02/18] binutils: Fix CVE-2021-3530
+Date: Mon,  1 Nov 2021 23:33:57 +0800
 Message-Id: 
- <db413a3a4fa42ac05824c2217f633a0af7ab50cd.1635780638.git.anuj.mittal@intel.com>
+ <b9c13f5bc6be0fa63640caeef4947c4c2ca1d290.1635780638.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1635780638.git.anuj.mittal@intel.com>
 References: <cover.1635780638.git.anuj.mittal@intel.com>
@@ -37,281 +37,215 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Nov 2021 15:34:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Nov 2021 15:34:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157708
+ https://lists.openembedded.org/g/openembedded-core/message/157709
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Pgowda <pgowda.cve@gmail.com>
 
-Backport a patch file from upstream, since doing an uprev of the recipe
-to the version with the fix (9.55) would introduce functional changes.
+Upstream-Status: Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=25162c795b1a2becf936bb3581d86a307ea491eb]
+Upstream-Status: Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=999566402e3]
 
-CVE: CVE-2021-3781
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...de-device-specifier-strings-in-acces.patch | 238 ++++++++++++++++++
- .../ghostscript/ghostscript_9.53.3.bb         |   1 +
- 2 files changed, 239 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-Bug-704342-Include-device-specifier-strings-in-acces.patch
+ .../binutils/binutils-2.36.inc                |   2 +
+ .../binutils/0017-CVE-2021-3530.patch         | 102 ++++++++++++++++++
+ .../binutils/0018-CVE-2021-3530.patch         |  64 +++++++++++
+ 3 files changed, 168 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-2021-3530.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2021-3530.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/0001-Bug-704342-Include-device-specifier-strings-in-acces.patch b/meta/recipes-extended/ghostscript/ghostscript/0001-Bug-704342-Include-device-specifier-strings-in-acces.patch
-new file mode 100644
-index 0000000000..44bdfbba35
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/0001-Bug-704342-Include-device-specifier-strings-in-acces.patch
-@@ -0,0 +1,238 @@
-+From a9bd3dec9fde03327a4a2c69dad1036bf9632e20 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Tue, 7 Sep 2021 20:36:12 +0100
-+Subject: [PATCH] Bug 704342: Include device specifier strings in access
-+ validation
-+
-+for the "%pipe%", %handle%" and %printer% io devices.
-+
-+We previously validated only the part after the "%pipe%" Postscript device
-+specifier, but this proved insufficient.
-+
-+This rebuilds the original file name string, and validates it complete. The
-+slight complication for "%pipe%" is it can be reached implicitly using
-+"|" so we have to check both prefixes.
-+
-+Addresses CVE-2021-3781
-+
-+CVE: CVE-2021-3781
-+
-+Upstream-Status: Backport (http://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=a9bd3dec9fde03327a4a2c69dad1036bf9632e20)
-+
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+---
-+ base/gdevpipe.c | 22 +++++++++++++++-
-+ base/gp_mshdl.c | 11 +++++++-
-+ base/gp_msprn.c | 10 ++++++-
-+ base/gp_os2pr.c | 13 +++++++++-
-+ base/gslibctx.c | 69 ++++++++++---------------------------------------
-+ 5 files changed, 65 insertions(+), 60 deletions(-)
-+
-+diff --git a/base/gdevpipe.c b/base/gdevpipe.c
-+index 96d71f5d8..5bdc485be 100644
-+--- a/base/gdevpipe.c
-++++ b/base/gdevpipe.c
-+@@ -72,8 +72,28 @@ pipe_fopen(gx_io_device * iodev, const char *fname, const char *access,
-+ #else
-+     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
-+     gs_fs_list_t *fs = ctx->core->fs;
-++    /* The pipe device can be reached in two ways, explicltly with %pipe%
-++       or implicitly with "|", so we have to check for both
-++     */
-++    char f[gp_file_name_sizeof];
-++    const char *pipestr = "|";
-++    const size_t pipestrlen = strlen(pipestr);
-++    const size_t preflen = strlen(iodev->dname);
-++    const size_t nlen = strlen(fname);
-++    int code1;
-++
-++    if (preflen + nlen >= gp_file_name_sizeof)
-++        return_error(gs_error_invalidaccess);
-++
-++    memcpy(f, iodev->dname, preflen);
-++    memcpy(f + preflen, fname, nlen + 1);
-++
-++    code1 = gp_validate_path(mem, f, access);
-++
-++    memcpy(f, pipestr, pipestrlen);
-++    memcpy(f + pipestrlen, fname, nlen + 1);
-+ 
-+-    if (gp_validate_path(mem, fname, access) != 0)
-++    if (code1 != 0 && gp_validate_path(mem, f, access) != 0 )
-+         return gs_error_invalidfileaccess;
-+ 
-+     /*
-+diff --git a/base/gp_mshdl.c b/base/gp_mshdl.c
-+index 2b964ed74..8d87ceadc 100644
-+--- a/base/gp_mshdl.c
-++++ b/base/gp_mshdl.c
-+@@ -95,8 +95,17 @@ mswin_handle_fopen(gx_io_device * iodev, const char *fname, const char *access,
-+     long hfile;	/* Correct for Win32, may be wrong for Win64 */
-+     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
-+     gs_fs_list_t *fs = ctx->core->fs;
-++    char f[gp_file_name_sizeof];
-++    const size_t preflen = strlen(iodev->dname);
-++    const size_t nlen = strlen(fname);
-+ 
-+-    if (gp_validate_path(mem, fname, access) != 0)
-++    if (preflen + nlen >= gp_file_name_sizeof)
-++        return_error(gs_error_invalidaccess);
-++
-++    memcpy(f, iodev->dname, preflen);
-++    memcpy(f + preflen, fname, nlen + 1);
-++
-++    if (gp_validate_path(mem, f, access) != 0)
-+         return gs_error_invalidfileaccess;
-+ 
-+     /* First we try the open_handle method. */
-+diff --git a/base/gp_msprn.c b/base/gp_msprn.c
-+index ed4827968..746a974f7 100644
-+--- a/base/gp_msprn.c
-++++ b/base/gp_msprn.c
-+@@ -168,8 +168,16 @@ mswin_printer_fopen(gx_io_device * iodev, const char *fname, const char *access,
-+     uintptr_t *ptid = &((tid_t *)(iodev->state))->tid;
-+     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
-+     gs_fs_list_t *fs = ctx->core->fs;
-++    const size_t preflen = strlen(iodev->dname);
-++    const size_t nlen = strlen(fname);
-+ 
-+-    if (gp_validate_path(mem, fname, access) != 0)
-++    if (preflen + nlen >= gp_file_name_sizeof)
-++        return_error(gs_error_invalidaccess);
-++
-++    memcpy(pname, iodev->dname, preflen);
-++    memcpy(pname + preflen, fname, nlen + 1);
-++
-++    if (gp_validate_path(mem, pname, access) != 0)
-+         return gs_error_invalidfileaccess;
-+ 
-+     /* First we try the open_printer method. */
-+diff --git a/base/gp_os2pr.c b/base/gp_os2pr.c
-+index f852c71fc..ba54cde66 100644
-+--- a/base/gp_os2pr.c
-++++ b/base/gp_os2pr.c
-+@@ -107,9 +107,20 @@ os2_printer_fopen(gx_io_device * iodev, const char *fname, const char *access,
-+            FILE ** pfile, char *rfname, uint rnamelen)
-+ {
-+     os2_printer_t *pr = (os2_printer_t *)iodev->state;
-+-    char driver_name[256];
-++    char driver_name[gp_file_name_sizeof];
-+     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
-+     gs_fs_list_t *fs = ctx->core->fs;
-++    const size_t preflen = strlen(iodev->dname);
-++    const int size_t = strlen(fname);
-++
-++    if (preflen + nlen >= gp_file_name_sizeof)
-++        return_error(gs_error_invalidaccess);
-++
-++    memcpy(driver_name, iodev->dname, preflen);
-++    memcpy(driver_name + preflen, fname, nlen + 1);
-++
-++    if (gp_validate_path(mem, driver_name, access) != 0)
-++        return gs_error_invalidfileaccess;
-+ 
-+     /* First we try the open_printer method. */
-+     /* Note that the loop condition here ensures we don't
-+diff --git a/base/gslibctx.c b/base/gslibctx.c
-+index 6dfed6cd5..318039fad 100644
-+--- a/base/gslibctx.c
-++++ b/base/gslibctx.c
-+@@ -655,82 +655,39 @@ rewrite_percent_specifiers(char *s)
-+ int
-+ gs_add_outputfile_control_path(gs_memory_t *mem, const char *fname)
-+ {
-+-    char *fp, f[gp_file_name_sizeof];
-+-    const int pipe = 124; /* ASCII code for '|' */
-+-    const int len = strlen(fname);
-+-    int i, code;
-++    char f[gp_file_name_sizeof];
-++    int code;
-+ 
-+     /* Be sure the string copy will fit */
-+-    if (len >= gp_file_name_sizeof)
-++    if (strlen(fname) >= gp_file_name_sizeof)
-+         return gs_error_rangecheck;
-+     strcpy(f, fname);
-+-    fp = f;
-+     /* Try to rewrite any %d (or similar) in the string */
-+     rewrite_percent_specifiers(f);
-+-    for (i = 0; i < len; i++) {
-+-        if (f[i] == pipe) {
-+-           fp = &f[i + 1];
-+-           /* Because we potentially have to check file permissions at two levels
-+-              for the output file (gx_device_open_output_file and the low level
-+-              fopen API, if we're using a pipe, we have to add both the full string,
-+-              (including the '|', and just the command to which we pipe - since at
-+-              the pipe_fopen(), the leading '|' has been stripped.
-+-            */
-+-           code = gs_add_control_path(mem, gs_permit_file_writing, f);
-+-           if (code < 0)
-+-               return code;
-+-           code = gs_add_control_path(mem, gs_permit_file_control, f);
-+-           if (code < 0)
-+-               return code;
-+-           break;
-+-        }
-+-        if (!IS_WHITESPACE(f[i]))
-+-            break;
-+-    }
-+-    code = gs_add_control_path(mem, gs_permit_file_control, fp);
-++
-++    code = gs_add_control_path(mem, gs_permit_file_control, f);
-+     if (code < 0)
-+         return code;
-+-    return gs_add_control_path(mem, gs_permit_file_writing, fp);
-++    return gs_add_control_path(mem, gs_permit_file_writing, f);
-+ }
-+ 
-+ int
-+ gs_remove_outputfile_control_path(gs_memory_t *mem, const char *fname)
-+ {
-+-    char *fp, f[gp_file_name_sizeof];
-+-    const int pipe = 124; /* ASCII code for '|' */
-+-    const int len = strlen(fname);
-+-    int i, code;
-++    char f[gp_file_name_sizeof];
-++    int code;
-+ 
-+     /* Be sure the string copy will fit */
-+-    if (len >= gp_file_name_sizeof)
-++    if (strlen(fname) >= gp_file_name_sizeof)
-+         return gs_error_rangecheck;
-+     strcpy(f, fname);
-+-    fp = f;
-+     /* Try to rewrite any %d (or similar) in the string */
-+-    for (i = 0; i < len; i++) {
-+-        if (f[i] == pipe) {
-+-           fp = &f[i + 1];
-+-           /* Because we potentially have to check file permissions at two levels
-+-              for the output file (gx_device_open_output_file and the low level
-+-              fopen API, if we're using a pipe, we have to add both the full string,
-+-              (including the '|', and just the command to which we pipe - since at
-+-              the pipe_fopen(), the leading '|' has been stripped.
-+-            */
-+-           code = gs_remove_control_path(mem, gs_permit_file_writing, f);
-+-           if (code < 0)
-+-               return code;
-+-           code = gs_remove_control_path(mem, gs_permit_file_control, f);
-+-           if (code < 0)
-+-               return code;
-+-           break;
-+-        }
-+-        if (!IS_WHITESPACE(f[i]))
-+-            break;
-+-    }
-+-    code = gs_remove_control_path(mem, gs_permit_file_control, fp);
-++    rewrite_percent_specifiers(f);
-++
-++    code = gs_remove_control_path(mem, gs_permit_file_control, f);
-+     if (code < 0)
-+         return code;
-+-    return gs_remove_control_path(mem, gs_permit_file_writing, fp);
-++    return gs_remove_control_path(mem, gs_permit_file_writing, f);
-+ }
-+ 
-+ int
-+-- 
-+2.33.0
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-index 35826c2549..216822478f 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-@@ -33,6 +33,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://do-not-check-local-libpng-source.patch \
-                 file://avoid-host-contamination.patch \
-                 file://mkdir-p.patch \
-+                file://0001-Bug-704342-Include-device-specifier-strings-in-acces.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc b/meta/recipes-devtools/binutils/binutils-2.36.inc
+index 9d770db5a8..7d0824e060 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.36.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
+@@ -44,5 +44,7 @@ SRC_URI = "\
+      file://0001-CVE-2021-20197.patch \
+      file://0002-CVE-2021-20197.patch \
+      file://0003-CVE-2021-20197.patch \
++     file://0017-CVE-2021-3530.patch \
++     file://0018-CVE-2021-3530.patch \
  "
- 
- SRC_URI = "${SRC_URI_BASE} \
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-CVE-2021-3530.patch b/meta/recipes-devtools/binutils/binutils/0017-CVE-2021-3530.patch
+new file mode 100644
+index 0000000000..fa10a6c99a
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-CVE-2021-3530.patch
+@@ -0,0 +1,102 @@
++From 25162c795b1a2becf936bb3581d86a307ea491eb Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Thu, 15 Jul 2021 16:51:56 +0100
++Subject: [PATCH] Fix a stack exhaustion problem in the Rust demangling code in
++ the libiberty library.
++
++	PR 99935
++	* rust-demangle.c: Add recursion limit.
++
++CVE: CVE-2021-3530
++Upstream-Status: Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=25162c795b1a2becf936bb3581d86a307ea491eb]
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++
++---
++ libiberty/ChangeLog       |  5 +++++
++ libiberty/rust-demangle.c | 31 +++++++++++++++++++++++++------
++ 2 files changed, 30 insertions(+), 6 deletions(-)
++
++diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
++index bc1b35b97c4..8e39fd28eba 100644
++--- a/libiberty/ChangeLog
+++++ b/libiberty/ChangeLog
++@@ -1,3 +1,8 @@
+++2021-07-15  Nick Clifton  <nickc@redhat.com>
+++
+++	PR 99935
+++	* rust-demangle.c: Add recursion limit.
+++
++ 2021-01-04  Martin Liska  <mliska@suse.cz>
++ 
++ 	* strverscmp.c: Convert to utf8 from iso8859.
++diff --git a/libiberty/rust-demangle.c b/libiberty/rust-demangle.c
++index 449941b56dc..df09b7b8fdd 100644
++--- a/libiberty/rust-demangle.c
+++++ b/libiberty/rust-demangle.c
++@@ -74,6 +74,12 @@ struct rust_demangler
++   /* Rust mangling version, with legacy mangling being -1. */
++   int version;
++ 
+++  /* Recursion depth.  */
+++  uint recursion;
+++  /* Maximum number of times demangle_path may be called recursively.  */
+++#define RUST_MAX_RECURSION_COUNT  1024
+++#define RUST_NO_RECURSION_LIMIT   ((uint) -1)
+++
++   uint64_t bound_lifetime_depth;
++ };
++ 
++@@ -671,6 +677,15 @@ demangle_path (struct rust_demangler *rd
++   if (rdm->errored)
++     return;
++ 
+++  if (rdm->recursion != RUST_NO_RECURSION_LIMIT)
+++    {
+++      ++ rdm->recursion;
+++      if (rdm->recursion > RUST_MAX_RECURSION_COUNT)
+++	/* FIXME: There ought to be a way to report
+++	   that the recursion limit has been reached.  */
+++	goto fail_return;
+++    }
+++
++   switch (tag = next (rdm))
++     {
++     case 'C':
++@@ -688,10 +703,7 @@ demangle_path (struct rust_demangler *rd
++     case 'N':
++       ns = next (rdm);
++       if (!ISLOWER (ns) && !ISUPPER (ns))
++-        {
++-          rdm->errored = 1;
++-          return;
++-        }
+++	goto fail_return;
++ 
++       demangle_path (rdm, in_value);
++ 
++@@ -776,9 +788,15 @@ demangle_path (struct rust_demangler *rd
++         }
++       break;
++     default:
++-      rdm->errored = 1;
++-      return;
+++      goto fail_return;
++     }
+++  goto pass_return;
+++
+++ fail_return:
+++  rdm->errored = 1;
+++ pass_return:
+++  if (rdm->recursion != RUST_NO_RECURSION_LIMIT)
+++    -- rdm->recursion;
++ }
++ 
++ static void
++@@ -1317,6 +1335,7 @@ rust_demangle_callback (const char *mang
++   rdm.skipping_printing = 0;
++   rdm.verbose = (options & DMGL_VERBOSE) != 0;
++   rdm.version = 0;
+++  rdm.recursion = (options & DMGL_NO_RECURSE_LIMIT) ? RUST_NO_RECURSION_LIMIT : 0;
++   rdm.bound_lifetime_depth = 0;
++ 
++   /* Rust symbols always start with _R (v0) or _ZN (legacy). */
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-CVE-2021-3530.patch b/meta/recipes-devtools/binutils/binutils/0018-CVE-2021-3530.patch
+new file mode 100644
+index 0000000000..e569a6bc47
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0018-CVE-2021-3530.patch
+@@ -0,0 +1,64 @@
++From 999566402e3d7c69032bbf47e28b44fc0926fe62 Mon Sep 17 00:00:00 2001
++From: Christopher Wellons <wellons@nullprogram.com>
++Date: Sun, 18 Jul 2021 16:57:19 -0400
++Subject: [PATCH] Change "uint" to "unsigned"
++
++This fixes a defect introduced in 25162c795. The "uint" type has not
++been explicitly defined here on mingw, causing compilation to fail.
++
++On linux we have this in /usr/include/sys/types.h
++
++/* Old compatibility names for C types.  */
++typedef unsigned long int ulong;
++typedef unsigned short int ushort;
++typedef unsigned int uint;
++
++So it's easy to see how such bugs can creep in.
++
++	* rust-demangle.c (struct rust_demangler): Change type of
++	"recursion" to unsigned.
++	(RUST_NO_RECURSION_LIMIT): Similarly in cast.
++
++CVE: CVE-2021-3530
++Upstream-Status: Backport[https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=999566402e3]
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++
++---
++ libiberty/ChangeLog       | 6 ++++++
++ libiberty/rust-demangle.c | 4 ++--
++ 2 files changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
++index 8e39fd28eba..3f749455f05 100644
++--- a/libiberty/ChangeLog
+++++ b/libiberty/ChangeLog
++@@ -1,3 +1,9 @@
+++2021-07-19  Christopher Wellons  <wellons@nullprogram.com>
+++
+++	* rust-demangle.c (struct rust_demangler): Change type of
+++	"recursion" to unsigned.
+++	(RUST_NO_RECURSION_LIMIT): Similarly in cast.
+++
++ 2021-07-15  Nick Clifton  <nickc@redhat.com>
++ 
++ 	PR 99935
++diff --git a/libiberty/rust-demangle.c b/libiberty/rust-demangle.c
++index df09b7b8fdd..ac1eb8eb02c 100644
++--- a/libiberty/rust-demangle.c
+++++ b/libiberty/rust-demangle.c
++@@ -75,10 +75,10 @@ struct rust_demangler
++   int version;
++ 
++   /* Recursion depth.  */
++-  uint recursion;
+++  unsigned recursion;
++   /* Maximum number of times demangle_path may be called recursively.  */
++ #define RUST_MAX_RECURSION_COUNT  1024
++-#define RUST_NO_RECURSION_LIMIT   ((uint) -1)
+++#define RUST_NO_RECURSION_LIMIT   ((unsigned) -1)
++ 
++   uint64_t bound_lifetime_depth;
++ };
++-- 
++2.27.0
++
 -- 
 2.31.1
 
