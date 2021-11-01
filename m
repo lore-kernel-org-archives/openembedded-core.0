@@ -2,35 +2,35 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D52BBC433F5
-	for <webhook@archiver.kernel.org>; Mon,  1 Nov 2021 00:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE91C433EF
+	for <webhook@archiver.kernel.org>; Mon,  1 Nov 2021 00:03:53 +0000 (UTC)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
  by mx.groups.io with SMTP id smtpd.web12.37494.1635725030866346734
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Oct 2021 17:03:51 -0700
+ Sun, 31 Oct 2021 17:03:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=f9XB8/z3;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=kQM4rVfU;
  spf=pass (domain: axis.com, ip: 195.60.68.18,
  mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1635725031;
-  x=1667261031;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1635725032;
+  x=1667261032;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=HUEuED5xWZyF4lhgd1di58h78q+gJbJetrSO314ugK8=;
-  b=f9XB8/z3JuvbgU1jPqjhBp6o7GwJHEarJWRDQiWb56OqZ6HRg2W0RJAU
-   1j7EzsCdPH+fs3jWx8rzG2FMcTw7Kq6uQbhaXWO2PR1CuOyo1mCYwzmip
-   1S/iiYgH0xWYu5cRGAt7UF+se8j69b3RZu4yVyrWp6tiI55/YszDxbd9e
-   ZiNGD9RskJdT3oEQLHFbLk9uUljyklI3keY9QAWL+S6qj0Nzo2NfXvFZZ
-   kRb55i1nO0CEPCkQBx8m2ZF03rYL6JJq2O0i3sg0ZNtqLkgv4qCzsbPjP
-   zUoIuRHdgl/R3g9UuAGtHk6tK/7NCSEPCUguT6lpSTfXX/atlOleEis/r
-   A==;
+  bh=b0moJEpD6Tc8/lEPF+n69sMQdaH1YIY0k6gyKnRAB9U=;
+  b=kQM4rVfUY8EZ5X2SW2P1zO0So0OSBx1Q7nIfWKsqXjC0eIypnl1y5S/S
+   XJeUfDSZhfd+ntHnO4/YWRWWUXEjTNzMx2i3tN889+QWNq7kx5dYR0nwU
+   +dOZ3xPOMn0R+cmfNg44EpGvs8OUg0CbpS1oKQ69zP2cftoFI3w3k3Kda
+   B79ewXcpF3XNaXqSjv360SQQ/TZ1EBpItAX8Y+Em1Xhms0ag43lXYiIvx
+   Xrqmwu5ZsFR/Y+zC7DW1XlW2UdaWwpi36YFFE6x7USemouDxepF9WC+XY
+   Qbft10VCxOBwC3601ULDdXhGMJEXJ03bqnKX1LGJa2HUC/NftU4zt71l8
+   w==;
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv4 2/4] base-files: Ignore the empty-dirs QA error due to files
- in /var/volatile
-Date: Mon, 1 Nov 2021 01:03:41 +0100
-Message-ID: <20211101000343.18979-2-pkj@axis.com>
+Subject: [PATCHv4 4/4] insane.bbclass: Add a check for directories that are
+ expected to be empty
+Date: Mon, 1 Nov 2021 01:03:43 +0100
+Message-ID: <20211101000343.18979-4-pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20211101000343.18979-1-pkj@axis.com>
 References: <20211101000343.18979-1-pkj@axis.com>
@@ -40,31 +40,97 @@ Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Nov 2021 00:03:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Nov 2021 00:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157694
+ https://lists.openembedded.org/g/openembedded-core/message/157695
+
+The empty-dirs QA check verifies that all directories specified in
+QA_EMPTY_DIRS are empty. It is possible to specify why a directory is
+expected to be empty by defining QA_EMPTY_DIRS_RECOMMENDATION:<path>,
+which will then be included in the error message if the directory is
+not empty. If it is not specified for a directory, then "but it is
+expected to be empty" will be used.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
 
-PATCHv3: An alternative to skipping the empty-dirs QA test for
-base-files would be to remove /var/volatile/tmp and /var/volatile/log,
-but I do not know if there are any consequences of doing that, e.g., due
-to them not existing before the tmpfs has been mounted on top of
-/var/volatile. Thus I have left them in place.
+PATCHv2: No changes.
+PATCHv3: No changes.
 PATCHv4: No changes.
 
- meta/recipes-core/base-files/base-files_3.0.14.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/insane.bbclass  | 33 ++++++++++++++++++++++++++++++++-
+ meta/conf/documentation.conf |  2 ++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 032827a0d0..c3ecd81c4a 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -182,3 +182,5 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 1e2f1b768a..1675adf6ac 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -37,7 +37,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             configure-gettext perllocalpod shebang-size \
+             already-stripped installed-vs-shipped ldflags compile-host-path \
+             install-host-path pn-overrides unknown-configure-option \
+-            useless-rpaths rpaths staticdev \
++            useless-rpaths rpaths staticdev empty-dirs \
+             "
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+@@ -50,6 +50,21 @@ ALL_QA = "${WARN_QA} ${ERROR_QA}"
  
- CONFFILES:${PN} = "${sysconfdir}/fstab ${@['', '${sysconfdir}/hostname ${sysconfdir}/hosts'][(d.getVar('hostname') != '')]} ${sysconfdir}/shells"
- CONFFILES:${PN} += "${sysconfdir}/motd ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile"
+ UNKNOWN_CONFIGURE_WHITELIST ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --with-libtool-sysroot --disable-static"
+ 
++# This is a list of directories that are expected to be empty.
++QA_EMPTY_DIRS ?= " \
++    /dev/pts \
++    /media \
++    /proc \
++    /run \
++    /tmp \
++    ${localstatedir}/run \
++    ${localstatedir}/volatile \
++"
++# It is possible to specify why a directory is expected to be empty by defining
++# QA_EMPTY_DIRS_RECOMMENDATION:<path>, which will then be included in the error
++# message if the directory is not empty. If it is not specified for a directory,
++# then "but it is expected to be empty" will be used.
 +
-+INSANE_SKIP:${PN} += "empty-dirs"
+ def package_qa_clean_path(path, d, pkg=None):
+     """
+     Remove redundant paths from the path for display.  If pkg isn't set then
+@@ -885,6 +900,22 @@ def package_qa_check_unlisted_pkg_lics(package, d, messages):
+                            "listed in LICENSE" % (package, ' '.join(unlisted)))
+     return False
+ 
++QAPKGTEST[empty-dirs] = "package_qa_check_empty_dirs"
++def package_qa_check_empty_dirs(pkg, d, messages):
++    """
++    Check for the existence of files in directories that are expected to be
++    empty.
++    """
++
++    pkgd = oe.path.join(d.getVar('PKGDEST'), pkg)
++    for dir in (d.getVar('QA_EMPTY_DIRS') or "").split():
++        empty_dir = oe.path.join(pkgd, dir)
++        if os.path.exists(empty_dir) and os.listdir(empty_dir):
++            recommendation = (d.getVar('QA_EMPTY_DIRS_RECOMMENDATION:' + dir) or
++                              "but it is expected to be empty")
++            msg = "%s installs files in %s, %s" % (pkg, dir, recommendation)
++            oe.qa.add_message(messages, "empty-dirs", msg)
++
+ def package_qa_check_encoding(keys, encode, d):
+     def check_encoding(key, enc):
+         sane = True
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 80ad8e10d5..45cd01374a 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -345,6 +345,8 @@ PYPI_SRC_URI[doc] = "The URI to use to fetch from pypi, default uses pythonhoste
+ 
+ #Q
+ 
++QA_EMPTY_DIRS[doc] = "A list of directories that are expected to be empty."
++QA_EMPTY_DIRS_RECOMMENDATION[doc] = "This specifies a recommendation for a directory why it must be empty, which will be included in the error message if the directory is not empty."
+ QMAKE_PROFILES[doc] = "Specifies your own subset of .pro files to be built for use with qmake."
+ 
+ #R
 
