@@ -2,33 +2,36 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FA0C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE0AEC433EF
 	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 16:47:13 +0000 (UTC)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web09.531.1635871631913336930
+ by mx.groups.io with SMTP id smtpd.web09.532.1635871632891398573
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 09:47:12 -0700
+ Tue, 02 Nov 2021 09:47:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218509658"
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218509685"
 X-IronPort-AV: E=Sophos;i="5.87,203,1631602800";
-   d="scan'208";a="218509658"
+   d="scan'208";a="218509685"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:44:21 -0700
+ 02 Nov 2021 09:44:27 -0700
 X-IronPort-AV: E=Sophos;i="5.87,203,1631602800";
-   d="scan'208";a="599575060"
+   d="scan'208";a="599575106"
 Received: from myap-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.82])
   by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:44:20 -0700
+ 02 Nov 2021 09:44:26 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/24] Review request
-Date: Wed,  3 Nov 2021 00:43:48 +0800
-Message-Id: <cover.1635871270.git.anuj.mittal@intel.com>
+Subject: [honister][PATCH 04/24] classes/populate_sdk_base: Add setscene tasks
+Date: Wed,  3 Nov 2021 00:43:52 +0800
+Message-Id: 
+ <292cd79bfb9a9e62f1cb4afaef7d8c7f2c4aac98.1635871270.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1635871270.git.anuj.mittal@intel.com>
+References: <cover.1635871270.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -36,101 +39,43 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 16:47:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157786
+ https://lists.openembedded.org/g/openembedded-core/message/157790
 
-Please review these changes for honister. Two intermittent AB failures seen
-while testing but those aren't related to these changes.
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2868
+do_populate_sdk was added to SSTATETASKS, but had no _setscene task
+created to allow it to actually run from sstate. Add it so that SDKs can
+be restored from sstate.
 
-Thanks,
+Note that like do_image_complete, do_populate_sdk is marked with
+SSTATE_SKIP_CREATION by default so sstate is not used for them; adding
+this task will allow it to work if the user overrides this default
+though.
 
-Anuj
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1f204592903a2fd9375b0f3c9c52e7dde0467460)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The following changes since commit 6ca6c9c12c93c6df7b18f49ebdbfb69433ff5158:
-
-  bootchart2: Don't compile python modules (2021-10-26 21:42:27 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/honister
-
-Ahmed Hossam (1):
-  go.bbclass: Allow adding parameters to go ldflags
-
-Alexander Kanavin (4):
-  waffle: convert to git, website is down
-  stress-ng: convert to git, website is down
-  tzdata: upgrade 2021a -> 2021d
-  tzdata: update 2021d -> 2021e
-
-Bruce Ashfield (7):
-  linux-yocto/5.10: update to v5.10.73
-  linux-yocto/5.14: update to v5.14.12
-  linux-yocto/5.14: update to v5.14.13
-  linux-yocto/5.10: update to v5.10.74
-  linux-yocto/5.14: common-pc: enable CONFIG_ATA_PIIX as built-in
-  linux-yocto/5.14: update to v5.14.14
-  linux-yocto/5.10: update to v5.10.75
-
-Hsia-Jun(Randy) Li (1):
-  meson: install native file in sdk
-
-Joshua Watt (1):
-  classes/populate_sdk_base: Add setscene tasks
-
-Peter Kjellerstedt (2):
-  meson.bblcass: Remove empty egg-info directories before running meson
-  qemu.inc: Remove empty egg-info directories before running meson
-
-Randy Li (1):
-  meson: move lang args to the right section
-
-Richard Purdie (1):
-  staging: Fix autoconf-native rebuild failure
-
-Ross Burton (1):
-  strace: show test suite log on failure
-
-Saul Wold (3):
-  spdx.py: Add annotation to relationship
-  create-spdx: add create_annotation function
-  create-spdx: cross recipes are native also
-
-Teoh Jay Shen (1):
-  oeqa/runtime/parselogs: modified drm error in common errors list
-
-Tim Orling (1):
-  python3-setuptools: _distutils/sysconfig fix
-
- meta/classes/create-spdx.bbclass              | 22 +++++---
- meta/classes/go.bbclass                       |  3 +-
- meta/classes/meson.bbclass                    | 10 ++++
- meta/classes/populate_sdk_base.bbclass        |  4 ++
- meta/classes/staging.bbclass                  |  2 +-
- meta/lib/oe/spdx.py                           |  6 ++-
- meta/lib/oeqa/runtime/cases/parselogs.py      |  2 +-
- .../meson/meson/meson-setup.py                |  8 +++
- .../meson/meson/meson-wrapper                 |  1 +
- .../meson/nativesdk-meson_0.58.1.bb           | 52 ++++++++++++++++++-
- ...nfig-append-STAGING_LIBDIR-python-sy.patch | 34 ++++++++++++
- .../python/python3-setuptools_57.4.0.bb       |  5 +-
- meta/recipes-devtools/qemu/qemu.inc           |  8 ++-
- meta/recipes-devtools/strace/strace/run-ptest |  9 ++++
- ...write-the-timestamp-into-compressed-.patch | 26 ++++++++++
- .../stress-ng/stress-ng_0.13.00.bb            |  8 +--
- meta/recipes-extended/timezone/timezone.inc   |  7 +--
- meta/recipes-graphics/waffle/waffle_1.6.1.bb  | 10 ++--
- .../linux/linux-yocto-rt_5.10.bb              |  6 +--
- .../linux/linux-yocto-rt_5.14.bb              |  6 +--
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +--
- .../linux/linux-yocto-tiny_5.14.bb            |  8 +--
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++-----
- meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 +++++-----
- 24 files changed, 227 insertions(+), 68 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
- create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0001-Makefile-do-not-write-the-timestamp-into-compressed-.patch
-
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 49e166e697..fafdd96749 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -179,6 +179,10 @@ do_populate_sdk[cleandirs] = "${SDKDEPLOYDIR}"
+ do_populate_sdk[sstate-inputdirs] = "${SDKDEPLOYDIR}"
+ do_populate_sdk[sstate-outputdirs] = "${SDK_DEPLOY}"
+ do_populate_sdk[stamp-extra-info] = "${MACHINE_ARCH}${SDKMACHINE}"
++python do_populate_sdk_setscene () {
++    sstate_setscene(d)
++}
++addtask do_populate_sdk_setscene
+ 
+ PSEUDO_IGNORE_PATHS .= ",${SDKDEPLOYDIR},${WORKDIR}/oe-sdk-repo,${WORKDIR}/sstate-build-populate_sdk"
+ 
 -- 
 2.31.1
 
