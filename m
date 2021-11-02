@@ -1,88 +1,95 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF2F4C433EF
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 20:06:42 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.724.1635883601106549782
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 110F6C433F5
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 20:12:34 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.776.1635883952767351577
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 13:06:41 -0700
+ Tue, 02 Nov 2021 13:12:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=B33+8hqB;
- spf=pass (domain: burtonini.com, ip: 209.85.128.52,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f52.google.com with SMTP id
- b2-20020a1c8002000000b0032fb900951eso2891019wmd.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IVYkH7r9;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id 19so348629qtt.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 13:06:40 -0700 (PDT)
+ Tue, 02 Nov 2021 13:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=C1l/dVR3WedcO23EXGZSRN+xSZ5e0Pyb1eukBKsJOtY=;
-        b=B33+8hqBqZXkBNHlSUd27qO742/Famb232X70vPgADbf2qyux5AaLKgbPMSwFaS23x
-         xjls9KRVy57YSFAevVEww2pm62PNZKzh11iCe88h5geCQFp9xsCGMgxkVAU162x968sZ
-         YgbPkE0kYmaHrL+QExAUsPOnodmm2ovzfJJYHHQPogGCvFwSTOdfl02Dq2w0roMYRhUB
-         MIknO/SAZync2EmSoV/OeNLv8RRqWV58tEkrKmLVVzKkgotI+auisU1XHq2PtOf+HkOz
-         2Oq8Jkc+mreOb6uXBevtx7kmrnhU63QKkCYj0cDNCbORaaaAmUksREobypRIJldH1DrH
-         NSwA==
+        bh=r9XII9uMenzhg097GlQx5suLrVwHIOVFIQAK8jQw6oE=;
+        b=IVYkH7r9S8+jc4N55oNEr74tkgpKLtXZ9HyBb59Dqvd8CSK+JNkvLEoOZuxbjWKDco
+         8WZyUecE0nAJIu9YvSahQmuuaLAnjJQvPJBGc0nVdRkM6Dy7SAm0RjMexQhk6LtvC+K+
+         VAMvLCqDfpHBS0KQwdkHF4oIrQ9CG70ScIPhrvL2gG86UAOCO4/7iCTDXRbFAF6FUPJl
+         /JP5rmuN9mnYLIkq47UMjWa7HEDmtre3HBupz6/+1o314kcPvzBuvpdVN6UTXjS2u5Tw
+         a6znikAwgPB6N8ePe6IVTkuGDzctaQTgVvetO/H4Cy4a26Fb3DIN+4tPYNqDSIvJZ3NM
+         Pc+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=C1l/dVR3WedcO23EXGZSRN+xSZ5e0Pyb1eukBKsJOtY=;
-        b=iOEpRekuO/WRpGtfnROMNeGEpr+J4c5OowhVMQpIZqdtpq6rkgPpXzJoZ02YehCLqF
-         NJd3E1kxdCADyVIEvKL4ChuZtmbCr+qEF/wceK5DLZ8d6WtD00SkGavDzx6ut2igHnvV
-         Z3jdQbeD4mh+CaC/toJERUKgQknt+lA47XsQqa1zPP8t4tOeiZYF2RsohoEOVGXel5FE
-         pP2WKSFdggPD781MdX5pzyATPcYt2CukrqboUcuuJ4BFF3hvoeOw96vD8Nt2PLFIsBZy
-         L1J2hl+26pDeJEzw4XGumFjQxNrahMqZv90NYLL75Plq8HrN2IJHKlsaMIcOI16sq1bB
-         5bqw==
-X-Gm-Message-State: AOAM530qc0JxETPmRZNaJ7CAJuUd9d1DuImhHIQPyxizCqR4uki3zzhC
-	NxyUntWmSANDJMcfm4Bi7Osq/kbX0P/lkAQqCbW3xA==
+        bh=r9XII9uMenzhg097GlQx5suLrVwHIOVFIQAK8jQw6oE=;
+        b=vnfqMmErVCSXe42WqLDKj8Kaf1CAYblVUCcAnK2Czl1FUZPz59cf8AGSR4uLFj3Gn1
+         sclM1ZB7mzIaYWBXrLeKwjZw5D1MTiP3gXprp4FHzziRzWRoGXtkwmAEZ+B92knZ093J
+         r2StnEjURn6o7ISdogwKZNw/8LonXo9TLa3C3Ihh8TalVyS9bLafYQ4eeJxrRjHpxkM1
+         K4uu1sHMHoGGupfyJunplTHX3Yxgoi41GvSIpg5ItI60V2THHUqWLKcGRc77+AHmuv+D
+         UI7N9C73h7YqdKtvG7IsC2xB76zhzqZDBTi9BFsq9OIagoFXcCsKj/Bq3O0HSeeVuyJ1
+         DE6A==
+X-Gm-Message-State: AOAM530try65iDuAdcDak9+F2Lvfu7/i0/du3MSFLpIbSdXqoJTGclYS
+	HlaQ9t6C+3ib/TqSLpV3KCOHUmAyoOPtSHKcLs4=
 X-Google-Smtp-Source: 
- ABdhPJxEPkF+lz3iZL/y/6wvYiALVarjaO3ltvvaAgiSkpGx0zmRAVp0txXhBidOSky5kJcyXqEZARDgDUZZW+PGAsE=
-X-Received: by 2002:a05:600c:4f04:: with SMTP id
- l4mr9600621wmq.25.1635883599384;
- Tue, 02 Nov 2021 13:06:39 -0700 (PDT)
+ ABdhPJza212ZrP4romF6YCOr0wqWwFydlRLWZI7yS71WP7bVbjzUE3iKJm6xr5H8PC2dD9dioMJO8rFrThNj8gz/t+M=
+X-Received: by 2002:a05:622a:13cc:: with SMTP id
+ p12mr41541258qtk.227.1635883951679;
+ Tue, 02 Nov 2021 13:12:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211102180233.4104293-1-ross.burton@arm.com>
  <CAMKF1spVJSF9tpjK5nz7WYVB_XXEjXvuXARvXnpTKjOa4S-Brg@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1spVJSF9tpjK5nz7WYVB_XXEjXvuXARvXnpTKjOa4S-Brg@mail.gmail.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Tue, 2 Nov 2021 20:06:27 +0000
-Message-ID: 
  <CAAnfSTs3mb+KxE+LbMR3Jj-HdKPXQFro0YCx=15vXzPAiVG6XQ@mail.gmail.com>
+In-Reply-To: 
+ <CAAnfSTs3mb+KxE+LbMR3Jj-HdKPXQFro0YCx=15vXzPAiVG6XQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 2 Nov 2021 13:12:05 -0700
+Message-ID: 
+ <CAMKF1soAqszOxP5q_FsjTWpcgr1G-8gYCUWC1cAdHx_++3m3pw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] python3: silence DeprecationWarnings in
  python3-config
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 20:06:42 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 20:12:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157814
+ https://lists.openembedded.org/g/openembedded-core/message/157815
 
-On Tue, 2 Nov 2021 at 18:06, Khem Raj <raj.khem@gmail.com> wrote:
-> So shouldn=E2=80=99t we fix python3-config to not use distutils and switc=
-h to setup tools instead ?
+On Tue, Nov 2, 2021 at 1:06 PM Ross Burton <ross@burtonini.com> wrote:
 >
-> I am afraid that masking the warning will come biting soon when this is t=
-urned into a hard error
+> On Tue, 2 Nov 2021 at 18:06, Khem Raj <raj.khem@gmail.com> wrote:
+> > So shouldn=E2=80=99t we fix python3-config to not use distutils and swi=
+tch to setup tools instead ?
+> >
+> > I am afraid that masking the warning will come biting soon when this is=
+ turned into a hard error
+>
+> That is a much bigger question that needs to be done, but most likely
+> involves rewriting large chunks of the cross integration as from what
+> I can tell, setuptools doesn't expose sysconfig (and we patch
+> distutils.sysconfig).
+>
+> We can continue hacking the hack, until we solve this properly.  This
+> may happen as part of the pyo3 rust/python problem.
 
-That is a much bigger question that needs to be done, but most likely
-involves rewriting large chunks of the cross integration as from what
-I can tell, setuptools doesn't expose sysconfig (and we patch
-distutils.sysconfig).
+I guess, this patch is fine for what it is solving for now, I was
+hopeful that converting to not use
+distutils would be easy :)
 
-We can continue hacking the hack, until we solve this properly.  This
-may happen as part of the pyo3 rust/python problem.
-
-Ross
+>
+> Ross
 
