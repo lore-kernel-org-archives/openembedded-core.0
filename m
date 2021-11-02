@@ -1,94 +1,85 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A147C433F5
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 05:12:09 +0000 (UTC)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
- [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web08.5329.1635829928241822365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2D8C433F5
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 05:25:36 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.5411.1635830730657573654
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Nov 2021 22:12:08 -0700
+ Mon, 01 Nov 2021 22:25:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cQBkHKqI;
- spf=pass (domain: gmail.com, ip: 209.85.222.48,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id i6so21559166uae.6
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Nov 2021 22:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f3L98/hU9UQ7bhtNHlmCmGM2j0gLnSgz97O8D/x0iao=;
-        b=cQBkHKqIcbKtDRGvtVjaFuHBx+X7ex52q1ot2OiRWVXtuRZzQq2P4zCz9MEeVLJKzW
-         zETX/pNrVLlTpctrtkQGv5CKSNKq7m2uowklQjDVk2rewCL4Qp+TLd38wzK2KpevM7cT
-         ZTElTgdocw63RJMQ3fEVt66sNZoudHb6q5QPrh/iQ8p92DjhflPH+7cT970O7G8JoDqU
-         2lB2eY7utirkJsL6lVRi35tkiB71UY6L8FaKKAokU0aGla3vzAo+ub5qNXeXsYhQM73K
-         yyIKs869w3ggRrkRvdF2eDnTie3PbMtody529QzbKroZIzgPlrpf3L7I3Yap2Vx4AB6/
-         87Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f3L98/hU9UQ7bhtNHlmCmGM2j0gLnSgz97O8D/x0iao=;
-        b=3JMLhHwrUxUqvZRKRTKA74JeffyXcBwrq8HObuarWmphMJW8v6dI14AjjBwJPPyRxz
-         w6rpsm7zM/hCZqrMFBBixgioiZMpVpW9rDmQyZkkoG4dD7RhwB4sKVil2yFllkZi+pTF
-         ZLoqbwq9h5uAhD8e0+MBhLtsO5/AGY7gnMexJw58tEq4YZCRpzkS0gyz8VU0H10eieQf
-         +2znRSp68x+2cShv+2V33JsMm2Im2A/8V9LJ9faQtq3+rTByjVnEaD26AbWv89EjdoKt
-         64Pww/VzGynsVnKS4nIFkMf/IYQ9SYXFK4CrOKKmd3DL5QMgJGwamTJkrJ/ABDmucB+M
-         MhJw==
-X-Gm-Message-State: AOAM532SOkR1smkXU78ImEVX5+wLf4oUp0fXYV8zSNZyn8/dAIcA8LyQ
-	kAXE5OUvi08PevkjPfhbhMuJ6kfyBMvonYS78MA=
-X-Google-Smtp-Source: 
- ABdhPJy7b/F9xPPJfnI29dCmvGYmi9yuEEbL52mpPI6UU+7G5s0C6sXxdtLZUN+FFXhWxqQBAuXQ30D5XYw4vaokQ2s=
-X-Received: by 2002:a05:6102:b01:: with SMTP id
- b1mr20547728vst.58.1635829926277;
- Mon, 01 Nov 2021 22:12:06 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1A25PT97002543
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 1 Nov 2021 22:25:29 -0700
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 1 Nov 2021 22:25:28 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Mon, 1 Nov 2021 22:25:28 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 1 Nov 2021 22:25:28 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] opkg: use oe.qa.add_message istead of
+ package_qa_add_message
+Date: Mon, 1 Nov 2021 22:25:28 -0700
+Message-ID: <20211102052528.38144-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <YVTwuSLx+HyyIDkV@piout.net>
- <16A988E1BC842A91.3292@lists.openembedded.org>
- <CALY49845oK2-9FQz0Qo5GM0eZ35FePWhuB_Baa=_tK8TC99a=A@mail.gmail.com>
- <YW/IZh8+WQlBWSlw@piout.net>
-In-Reply-To: <YW/IZh8+WQlBWSlw@piout.net>
-From: pgowda cve <pgowda.cve@gmail.com>
-Date: Tue, 2 Nov 2021 10:42:00 +0530
-Message-ID: 
- <CALY4985qUwZYSswozfRVZ2Xc2L82-Shn7UxX09wbmXzuPeKSTQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Re: [OE-core] [PATCH v2 2/3] Rust cross testing file
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
- Randy MacLeod <rwmacleod@gmail.com>,
-	alex.kanavin@gmail.com, umesh.kalappa0@gmail.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 05:12:09 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 05:25:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157736
+ https://lists.openembedded.org/g/openembedded-core/message/157737
 
-Hi Alexandre,
+Since the following commit, package_qa_add_message is no longer
+available, use oe.qa.add_message instead.
 
->> There are still issues with that series and I replied the following a
->> https://lists.openembedded.org/g/openembedded-core/message/156655
+"""
+commit f0ad152ef4cc15c042bc9eeefb6af096d054b220
+Author: Mike Crowe <mac@mcrowe.com>
+Date:   Fri Oct 15 15:39:53 2021 +0100
 
-I had a detailed investigation on the cryptic errors which was
-mentioned in the build.
-Those are the tests that are supposed to FAIL in the rust testsuite.
-The current patch provides the framework to run the rust testsuite
-from rust sources.
-It does not modify the test case or results and hence is unable to
-deal with failures
-from rust source.
+    lib/oe/qa,insane: Move extra error handling functions to library
 
-Hence, we see the final message as "command failed" at the end of testsuite run
-due to some test case failures from rust source.
-Can you please let me know how to deal with this?
-Is there a way we can provide these failures as expected or ignore them?
+    Extract package_qa_write_error, package_qa_handle_error and
+    package_qa_add_message functions from insane.bbclass to lib/oe/qa.py and
+    drop the package_qa_ prefixes.
+...
+"""
 
-Thanks,
-Pgowda
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-devtools/opkg/opkg_0.4.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/opkg/opkg_0.4.5.bb b/meta/recipes-devtools/opkg/opkg_0.4.5.bb
+index ef18ccf63a..f5c7d11191 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.4.5.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.4.5.bb
+@@ -67,7 +67,7 @@ def package_qa_check_openssl_deprecation (package, d, messages):
+ 
+     pkgconfig = (d.getVar("PACKAGECONFIG") or "").split()
+     if pkgconfig and 'openssl' in pkgconfig:
+-        package_qa_add_message(messages, 'openssl-deprecation', '"openssl" in opkg.bb PACKAGECONFIG. Feed signature checking with OpenSSL will be deprecated in the next opkg release. Consider using GPG checking instead.')
++        oe.qa.add_message(messages, 'openssl-deprecation', '"openssl" in opkg.bb PACKAGECONFIG. Feed signature checking with OpenSSL will be deprecated in the next opkg release. Consider using GPG checking instead.')
+         sane = False
+ 
+     return sane
+-- 
+2.33.0
+
 
