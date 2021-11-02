@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7715BC433F5
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 08:43:21 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web12.6557.1635842600496371519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D12C433EF
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 08:43:24 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.6617.1635842603401399963
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 01:43:20 -0700
+ Tue, 02 Nov 2021 01:43:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=q4iKYd/+;
- spf=pass (domain: gmail.com, ip: 209.85.128.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mNeX5cDu;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so1473916wmb.5
+Received: by mail-wr1-f50.google.com with SMTP id o14so31913551wra.12
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 01:43:20 -0700 (PDT)
+ Tue, 02 Nov 2021 01:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xv5YcbIeesFaJR/Vam9ufIZKwKm7I6j80kFBe91Z0d8=;
-        b=q4iKYd/+v+PxEVsIqmgdnzAORWscmx0BZSWPJLSdGiniC5Rg0QV9t4l1ZFDw9paMhK
-         Z7CFwgKrGhhHTT+MK1ptoaMK/8XRiEX07A1hMiqAUHSWjf9p7hGusF6yz6TAbk4fhCOy
-         3EtnTppkgVcfwBEU07TtO9N4lfraOZOk7kK2YKWyUMUruOov/nYp0vy0G98jfCmQMqkn
-         tddpWr6wQToXCZSMdjkX/IsLuT8hsczsEkee7FYkaCn0s2KSzAmj/7qkY/f29ynNyqrq
-         UvWwSW4Or020hhfcziGCj+NUpN/AKUtZtgRlVfE0kgqB3qV/ULxG1UlJnaJg+qRZzx5x
-         0JZA==
+        bh=hxOlLYW3H137mK/ynkDC3WV8CgTr0MroWF9HNymbBbQ=;
+        b=mNeX5cDuDnwdoNKIJC7pGYWv7WVHI1lTApH1V/V+x7fD3rS0QGMWrwe8+ACLAgw1Y1
+         TAPGv+Wc3zL2u2RcNwbH9J2LFCyxFn0cM0XY/O2y1DLlnv68+meurH4hgnTrDuTcBpQl
+         KEazepKPqnyrqLaSws0oDDMT21KoRsFBy30WlEzaZ9Z9NxL8r5CKGLXvXlcFLentvR5W
+         yMxhcLmEMvHznJborWFUIBVcW5t9x9Pr/dSZxuPduL+b4xnhoqlm3YWPk61rMNvamb2u
+         5o25NpNMBRlwB3M26EAguI55wb56YxmCkS08hdo+CRkJudIz3SFWb6xRkRHRsQZJGDyf
+         aNOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xv5YcbIeesFaJR/Vam9ufIZKwKm7I6j80kFBe91Z0d8=;
-        b=XeaDVX2+Rn93LKRrM+l7fxmmBqS2+tkH99v5gM5QxfPid8M5vAqRCadL1IG2UgpDfG
-         SmqquRIjzJIfivRWlHIoisQQsCsRu88UfZLfne3S3accIJfB6TO56WThL6PzUwfmWZqb
-         WRsn1re6z4o4xfzxq6Hhv7M0Psy2oyEwQjDgQncOQ3srctRPLEfEFiok5qC+0Wfwjcwh
-         572pRh8pSzu4o3z3A6ck/8N762kOOT131n/2NN7CdMbJqKHXA/cjgg+BBuFyjlVbMkZw
-         W5mLZhAYkKy0jkl0W50HaFJ/v8gdCwOEDA/0joKg2cYnAS87u/DIOvj1u6BCaJT1O4DZ
-         /YlQ==
-X-Gm-Message-State: AOAM533gWfglj+RjcCbv9Sggz72eSj942qaYtw9/vg4m0sZHg4qO+Fyj
-	ImL3d1SMAF9TBAtEC3f0jU9Mmy8HocE=
+        bh=hxOlLYW3H137mK/ynkDC3WV8CgTr0MroWF9HNymbBbQ=;
+        b=uxEL45Yh0Pohz53BAolAspkW59ZQk7rZCDbRVYWbnubEj6iyPswULiFtEernl2V6lm
+         dxL59Vs2Mg106WrnCgIFq/CEt0Zxs4OxHX8buU4HFucXIe5MhVnDzU7pAQcnQhszqP2w
+         c6vcS6AWI3U+2QD4cV2+/9L1SB4EvZbUqVDic0xjGiO9EpSH3yG2ecbxRw+QaB6MEpfm
+         Yw4jNQokUP+zCjLHOWh47nTSs6Movc76b1F9SejLfgNcIDhVSqvpV0vWswzd6nOZBIY3
+         Mgakusv/q+qsL5MlmzjczABblD8dqrgY7bIF6Qg9PVlBgdGYNuogfimWlKKicqPJTxbr
+         1qqQ==
+X-Gm-Message-State: AOAM532bQEQFq/RVIF7z4m3sHVa6cxZp9lnV4x/Qo/MH+rbF7HU77Vh0
+	8jWX7vOl3YT6otQGn89+Be7RKNgvtzw=
 X-Google-Smtp-Source: 
- ABdhPJzNkSwxRI7800rgDHmGPAE3amOtH30QA4rLnccJrpxh6cGzngzYIKUz50OlyIEgp8ctna5DKw==
-X-Received: by 2002:a05:600c:350f:: with SMTP id
- h15mr5253180wmq.62.1635842599085;
-        Tue, 02 Nov 2021 01:43:19 -0700 (PDT)
+ ABdhPJxKpJaZtscavLMkVOJIlT1rtqYaaM8shktmKDW+QR5EX4IQHDlF2sJffJONGmiswowSpWKYCw==
+X-Received: by 2002:a05:6000:10cb:: with SMTP id
+ b11mr33232103wrx.71.1635842602047;
+        Tue, 02 Nov 2021 01:43:22 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- v191sm1761890wme.36.2021.11.02.01.43.18
+ v191sm1761890wme.36.2021.11.02.01.43.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 01:43:18 -0700 (PDT)
+        Tue, 02 Nov 2021 01:43:21 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 22/33] diffoscope: upgrade 188 -> 189
-Date: Tue,  2 Nov 2021 09:42:52 +0100
-Message-Id: <20211102084303.2974802-22-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 26/33] cmake: update 3.21.3 -> 3.21.4
+Date: Tue,  2 Nov 2021 09:42:56 +0100
+Message-Id: <20211102084303.2974802-26-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211102084303.2974802-1-alex@linutronix.de>
 References: <20211102084303.2974802-1-alex@linutronix.de>
@@ -67,34 +66,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 08:43:21 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 08:43:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157760
+ https://lists.openembedded.org/g/openembedded-core/message/157763
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../diffoscope/{diffoscope_188.bb => diffoscope_189.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_188.bb => diffoscope_189.bb} (92%)
+ .../cmake/{cmake-native_3.21.3.bb => cmake-native_3.21.4.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.21.3.bb => cmake_3.21.4.bb} | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.21.3.bb => cmake-native_3.21.4.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.21.3.bb => cmake_3.21.4.bb} (100%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_188.bb b/meta/recipes-support/diffoscope/diffoscope_189.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_188.bb
-rename to meta/recipes-support/diffoscope/diffoscope_189.bb
-index d4fd112e37..d3c70b47c5 100644
---- a/meta/recipes-support/diffoscope/diffoscope_188.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_189.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.21.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.21.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.21.3.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.21.4.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 43d4fe57fb..8b1b0db30d 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
  
- inherit pypi setuptools3
+-SRC_URI[sha256sum] = "d14d06df4265134ee42c4d50f5a60cb8b471b7b6a47da8e5d914d49dd783794f"
++SRC_URI[sha256sum] = "d9570a95c215f4c9886dd0f0564ca4ef8d18c30750f157238ea12669c2985978"
  
--SRC_URI[sha256sum] = "cdbc401c78d59779ad8ebbb8e2008166f912e77c7ed3be8dc788d36948712ff5"
-+SRC_URI[sha256sum] = "2ec8d94af13e905ec1a905ebfb2654971cf977b149d296f8bf2aeff6bcab3d8a"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
- RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
- 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.21.3.bb b/meta/recipes-devtools/cmake/cmake_3.21.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.21.3.bb
+rename to meta/recipes-devtools/cmake/cmake_3.21.4.bb
 -- 
 2.20.1
 
