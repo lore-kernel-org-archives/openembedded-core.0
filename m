@@ -2,33 +2,33 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE0EAC4332F
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 16:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A8EC43219
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 16:47:14 +0000 (UTC)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
  by mx.groups.io with SMTP id smtpd.web09.531.1635871631913336930
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 09:47:13 -0700
+ Tue, 02 Nov 2021 09:47:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218509694"
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218509662"
 X-IronPort-AV: E=Sophos;i="5.87,203,1631602800";
-   d="scan'208";a="218509694"
+   d="scan'208";a="218509662"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:44:29 -0700
+ 02 Nov 2021 09:44:22 -0700
 X-IronPort-AV: E=Sophos;i="5.87,203,1631602800";
-   d="scan'208";a="599575114"
+   d="scan'208";a="599575073"
 Received: from myap-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.82])
   by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:44:27 -0700
+ 02 Nov 2021 09:44:21 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 05/24] staging: Fix autoconf-native rebuild failure
-Date: Wed,  3 Nov 2021 00:43:53 +0800
+Subject: [honister][PATCH 01/24] python3-setuptools: _distutils/sysconfig fix
+Date: Wed,  3 Nov 2021 00:43:49 +0800
 Message-Id: 
- <f79fa476c0d0d57ab5ce59728fdb9fff4cd54df1.1635871270.git.anuj.mittal@intel.com>
+ <2f9a362bfebc83ea6459b5294a6fab3c77ea6cb2.1635871270.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1635871270.git.anuj.mittal@intel.com>
 References: <cover.1635871270.git.anuj.mittal@intel.com>
@@ -37,45 +37,89 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 16:47:13 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 16:47:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157791
+ https://lists.openembedded.org/g/openembedded-core/message/157787
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Tim Orling <ticotimo@gmail.com>
 
-When rebuilds are triggered, autoconf-native can fail with:
+Add patch to append STAGING_LIBDIR python-sysconfigdata to sys.path so
+that packages which set SETUPTOOLS_USE_DISUTILS='local' cross-compile
+properly with python3-setuptools-native.
 
-| DEBUG: Executing shell function update_gnu_config
-| install: cannot stat '[BUILDPATH]tmp/work/x86_64-linux/autoconf-native/2.71-r0/recipe-sysroot-native/usr/share/gnu-config/config.guess': No such file or directory
+Fixes:
+ModuleNotFoundError: No module named '_sysconfigdata'
 
-which is due to update_gnu_config running before extend_recipe_sysroot.
-This only happens rarely since usually the prepare_recipe_sysroot
-function would already have set things up and only in the invalidated
-task hash cases does this rebuild in this way from configure only.
+References:
+https://setuptools.pypa.io/en/latest/deprecated/distutils-legacy.html#porting-from-distutils
 
-Fix the code to prepend this function instead of appending which
-resolves the ordering issue.
-
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b9535f513366536b13d0522058f517d2e04451b5)
+(cherry picked from commit f6fb99c53f779966fc902a629d0a8bbd9f84c6be)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/staging.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...nfig-append-STAGING_LIBDIR-python-sy.patch | 34 +++++++++++++++++++
+ .../python/python3-setuptools_57.4.0.bb       |  5 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 65a6cd5120..25f77c7735 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -620,7 +620,7 @@ python staging_taskhandler() {
-     for task in bbtasks:
-         deps = d.getVarFlag(task, "depends")
-         if task == "do_configure" or (deps and "populate_sysroot" in deps):
--            d.appendVarFlag(task, "prefuncs", " extend_recipe_sysroot")
-+            d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
- }
- staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
- addhandler staging_taskhandler
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+new file mode 100644
+index 0000000000..565cf8ae8d
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+@@ -0,0 +1,34 @@
++From 44349672cbff8945693c8d2821c82e9f04bfc8b5 Mon Sep 17 00:00:00 2001
++From: Tim Orling <timothy.t.orling@intel.com>
++Date: Wed, 20 Oct 2021 17:38:10 +0000
++Subject: [PATCH] _distutils/sysconfig: append
++ STAGING_LIBDIR/python-sysconfigdata to sys.path
++
++When python modules set SETUPTOOLS_USE_DISTULS='local', this uses the
++vendored _distutils in setuptools rather than distutils in the Standard
++Library. This is needed so that target configuration can be used with
++python3-setuptools-native.
++
++Based on python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
++from Alex Kanavin <alex.kanavin@gmail.com>
++
++Upstream-Status: Inappropriate [oe-specific]
++
++Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
++---
++ setuptools/_distutils/sysconfig.py | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
++index 8832b3e..bbc7c08 100644
++--- a/setuptools/_distutils/sysconfig.py
+++++ b/setuptools/_distutils/sysconfig.py
++@@ -461,6 +461,8 @@ def _init_posix():
++         platform=sys.platform,
++         multiarch=getattr(sys.implementation, '_multiarch', ''),
++     ))
+++    if 'STAGING_LIBDIR' in os.environ:
+++        sys.path.append(os.environ['STAGING_LIBDIR']+'/python-sysconfigdata')
++     try:
++         _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
++     except ImportError:
+diff --git a/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb b/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
+index ae45936c39..fcf20e9efd 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
+@@ -8,7 +8,10 @@ inherit pypi setuptools3
+ 
+ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+-SRC_URI += "file://0001-change-shebang-to-python3.patch"
++SRC_URI += "\
++    file://0001-change-shebang-to-python3.patch \
++    file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
++"
+ 
+ SRC_URI[sha256sum] = "6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"
+ 
 -- 
 2.31.1
 
