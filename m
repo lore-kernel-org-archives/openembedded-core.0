@@ -2,33 +2,33 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA2DC433F5
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 16:45:06 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web10.476.1635871500505143435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9ECAC433F5
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 16:45:13 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web08.458.1635871511923037907
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 09:45:05 -0700
+ Tue, 02 Nov 2021 09:45:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="212072575"
+ spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="294769975"
 X-IronPort-AV: E=Sophos;i="5.87,203,1631602800";
-   d="scan'208";a="212072575"
+   d="scan'208";a="294769975"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:44:49 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 09:44:53 -0700
 X-IronPort-AV: E=Sophos;i="5.87,203,1631602800";
-   d="scan'208";a="599575240"
+   d="scan'208";a="599575253"
 Received: from myap-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.82])
   by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 09:44:48 -0700
+ 02 Nov 2021 09:44:52 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 18/24] tzdata: update 2021d -> 2021e
-Date: Wed,  3 Nov 2021 00:44:06 +0800
+Subject: [honister][PATCH 21/24] create-spdx: cross recipes are native also
+Date: Wed,  3 Nov 2021 00:44:09 +0800
 Message-Id: 
- <f598f13dd642fc6451a3700ea77bef4a841e81c1.1635871270.git.anuj.mittal@intel.com>
+ <9edd5e3eeec447a1d90ebbfc681c84d7047933ec.1635871270.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1635871270.git.anuj.mittal@intel.com>
 References: <cover.1635871270.git.anuj.mittal@intel.com>
@@ -37,41 +37,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 16:45:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 16:45:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157779
+ https://lists.openembedded.org/g/openembedded-core/message/157782
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Saul Wold <Saul.Wold@windriver.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Recipes that inherit cross should also be categorized as isNative
+
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 660f932c21fed410ad092ec610749e7090b6a324)
+(cherry picked from commit ee113e3894deb1cfb18622085a3fe0600e1ef01d)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/create-spdx.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 6221ff9c60..43d14d7f12 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index aa9514121d..c35dbe1184 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -422,7 +422,7 @@ python do_create_spdx() {
+     recipe.name = d.getVar("PN")
+     recipe.versionInfo = d.getVar("PV")
+     recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
+-    if bb.data.inherits_class("native", d):
++    if bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d):
+         recipe.annotations.append(create_annotation(d, "isNative"))
  
--PV = "2021d"
-+PV = "2021e"
+     for s in d.getVar('SRC_URI').split():
+@@ -614,7 +614,7 @@ python do_create_runtime_spdx() {
  
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-@@ -14,6 +14,6 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     spdx_deploy = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
+-    is_native = bb.data.inherits_class("native", d)
++    is_native = bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
  
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "ed0d02be79b54f4449ba1f239aeaf9315da490bf32f401d302dcbba4921f591d"
--SRC_URI[tzdata.sha256sum] = "d7c188a2b33d4a3c25ee4a9fdc68c1ff462bfdb302cf41343d84ca5942dbddf6"
-+SRC_URI[tzcode.sha256sum] = "584666393a5424d13d27ec01183da17703273664742e049d4f62f62dab631775"
-+SRC_URI[tzdata.sha256sum] = "07ec42b737d0d3c6be9c337f8abb5f00554a0f9cc4fcf01a703d69403b6bb2b1"
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
  
 -- 
 2.31.1
