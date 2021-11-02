@@ -2,62 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A9D8C433FE
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 08:43:22 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.6558.1635842601266936564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ADD5C43219
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 08:43:25 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web09.6595.1635842604039997967
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 01:43:21 -0700
+ Tue, 02 Nov 2021 01:43:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bKHHtFTc;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JMoJg3Gz;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id u1so421390wru.13
+Received: by mail-wr1-f45.google.com with SMTP id d3so31988227wrh.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 01:43:21 -0700 (PDT)
+ Tue, 02 Nov 2021 01:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JUiCUotWJHIfTl3JdVP9elkZM5jj64EE1KVDwGTBtv0=;
-        b=bKHHtFTcvAX99b5Us0h3ePErRufI/dMwP/jm+ypHuH/fq1y6Xr26Tmqh+T7mDPeJJ7
-         9J+oVvKh9asCT6rA5909sAfHKgNvkRggZUr3CvpZJuqM3+fk80a3Z6kGGLJs9Yg2I3RA
-         UIHc64bjvv5FCCa5NsJuUTYYLIvU0H34MfUWlPQ/D1QNJhwmbwFNumGJTLOotqGPpXTh
-         4pFq/D2UJA92V6E11bqPe+STMt7EuTeSj9PqzXE1rqFCD+Wj4LBLbK5HVbMaeYg8sUnd
-         jdLeGLzM7EUKv47RMcDdM9VAgJ+xU4fQAu3xbwiTYAvfEc9nmF/j8ZbhNh6ef/WxV+r9
-         iJEw==
+        bh=lCqtlW7b+J3P5KOHTF7ELTVGIGq1g6cSUyeyG3QRoCg=;
+        b=JMoJg3GzKRuRMHnZUaxd18egUPYpLxkrbf90IpiUZG7CQXFNIzLsjANsx+1EBCT5aS
+         2fcDJ8PJ1WuW9w4gxUBIv1IN3NiSHiAICzHNVlQ5vRUBRHpwnHCby7vHtQ69r5itYvL+
+         L0cuuo/AWB/BUt5zXR6VH87nO5DECMpgqglhb+C6lLzxm35GGv7QhDe1moonZFrz38p8
+         OqvNLrZ7+TCYJ3tnmmGEPVcvG5Efoxi4Wh7luORxceLKonrlHa46iM2JwQm9tmfkhD5u
+         FOWXdQQVR4Pwasyc+BBV3yFVuV/CfqiVt2jw4n0KIK8M6d7rLUhf438paN0xzlWjmerQ
+         D1fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JUiCUotWJHIfTl3JdVP9elkZM5jj64EE1KVDwGTBtv0=;
-        b=esiwH7PyyyuVLFgWySdaEQ9Q69ZxZA53UJLC7ayZkJCDEhJYPpfdKSC+fncsHiamnt
-         qpT3Pl8TrFf/JuGYnJh8xCnJ/QBGh1v01SV0n/6xlu8rkRMif0rOAEMpSzsRu4R5/N5e
-         BsTFXVWWTEsjPTGskhFP4fWMMmgVLtv3yLJ7eKlRWUzHYUCvq8xEKlbvfq6J7qUcrM3H
-         zjHFF9w40HlyA4poZRI09wV0emzCWQVd6UUB9XhpJaznQb8LlKMLGmy8EAx5NFLmHkNF
-         NCnyttB6oYbeSTWp27mXx7M9O4UMDlwYJ58dAMgz77ZfnlLVrCIFVOzzQjy4QjAQDF9d
-         o9PQ==
-X-Gm-Message-State: AOAM530vS8eViDqIxShGU/fsdI0PIPVYoJjG5tjhK9720Fb1ykkewNAr
-	5lzsNEBWIhe+vbrMjzloLTNG15WXQpI=
+        bh=lCqtlW7b+J3P5KOHTF7ELTVGIGq1g6cSUyeyG3QRoCg=;
+        b=1ZqOcm9ipbayDIamvvAikz4YMaxSP8jCYIlx9+kiusXJOb6LhKuhLgm+KnB5eTesI4
+         w33r0VdNCqwKqljvaE8pKNdB0vX7MxE2CeSxwMfnnax9qLgI9rGc2gKpRruWcPmvMnaP
+         Eplei7TM8zX0Btj6Zy1yeiwjtGPgBX/4Ba3dJEXrOnABKsVlhfJeaYlIPKRTUYPUbrMw
+         6QH1QRV1Ki4h3G5cwPsLASeqU+wyZAbNOaQ+eWn4kTew85i2oZCa3uyG6GBSufPPxMFk
+         cK8xkIVOwD3Ck/8DbXsMjXMbNhZFGakBIZA4DGdcz9sPrHhohYydrxSYT1mR49p4giVH
+         8CVQ==
+X-Gm-Message-State: AOAM531OKCNMX52O22R1f5C48PuhTqHwzJItoYbDYHRtfZTUk1oEqfUc
+	ZuNm0lbXdC6+vvCs7vcKTsYaG2ZrTIk=
 X-Google-Smtp-Source: 
- ABdhPJzqQnO5sbHg0vmU6mDGlb4TipmC7N4e3BV7hbp5V1RBSnKzsNuSre0Lt27hpniFicux8IGE5A==
-X-Received: by 2002:a5d:604b:: with SMTP id j11mr22468480wrt.22.1635842599904;
-        Tue, 02 Nov 2021 01:43:19 -0700 (PDT)
+ ABdhPJwgHRKlVccTrxizRfyG03aTwbGnNle8BjnWNnrOM9hX7NEC9d9Ak0eUt3z2PnM7nZPGsR/hPA==
+X-Received: by 2002:a5d:4e09:: with SMTP id p9mr30631940wrt.28.1635842602653;
+        Tue, 02 Nov 2021 01:43:22 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- v191sm1761890wme.36.2021.11.02.01.43.19
+ v191sm1761890wme.36.2021.11.02.01.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 01:43:19 -0700 (PDT)
+        Tue, 02 Nov 2021 01:43:22 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH 23/33] gawk: update 5.1.0 -> 5.1.1
-Date: Tue,  2 Nov 2021 09:42:53 +0100
-Message-Id: <20211102084303.2974802-23-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 27/33] icu: update 69.1 -> 70.1
+Date: Tue,  2 Nov 2021 09:42:57 +0100
+Message-Id: <20211102084303.2974802-27-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211102084303.2974802-1-alex@linutronix.de>
 References: <20211102084303.2974802-1-alex@linutronix.de>
@@ -66,76 +65,92 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 08:43:22 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 08:43:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157761
+ https://lists.openembedded.org/g/openembedded-core/message/157765
+
+License-Update: formatting, updated copyright holders
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-Use-cross-AR-during-compile.patch    | 30 -------------------
- .../gawk/{gawk_5.1.0.bb => gawk_5.1.1.bb}     |  6 ++--
- 2 files changed, 2 insertions(+), 34 deletions(-)
- delete mode 100644 meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch
- rename meta/recipes-extended/gawk/{gawk_5.1.0.bb => gawk_5.1.1.bb} (89%)
+ .../icu/icu/0001-icu-Added-armeb-support.patch       | 12 +++++-------
+ .../recipes-support/icu/{icu_69.1.bb => icu_70.1.bb} | 10 +++++-----
+ 2 files changed, 10 insertions(+), 12 deletions(-)
+ rename meta/recipes-support/icu/{icu_69.1.bb => icu_70.1.bb} (93%)
 
-diff --git a/meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch b/meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch
-deleted file mode 100644
-index be6dbe1e57..0000000000
---- a/meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 47dce6a7002a8d7b818c19d574d81327b769871b Mon Sep 17 00:00:00 2001
--From: "Arnold D. Robbins" <arnold@skeeve.com>
--Date: Fri, 5 Jun 2020 13:14:54 +0300
--Subject: Allow for cross-compile version of ar.
--
-----
-- configure.ac | 3 +++
-- 1 file changed, 3 insertions(+)
--
--(limited to 'configure.ac')
--
--diff --git a/configure.ac b/configure.ac
--index 31364ab8..8c256f21 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -105,6 +105,9 @@ AC_EXEEXT
-- AC_PROG_INSTALL
-- AC_PROG_MAKE_SET
-- 
--+# support/ builds libsupport.a, allow for cross version of ar
--+AM_PROG_AR
--+
-- # This is mainly for my use during testing and development.
-- # Yes, it's a bit of a hack.
-- AC_MSG_CHECKING([for special development options])
+diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+index c5dc0611c2..578517b57f 100644
+--- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
++++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+@@ -1,4 +1,4 @@
+-From 500321387ceca48934bb0f323779117cd518bab6 Mon Sep 17 00:00:00 2001
++From e3c25af4b40d64f098e7b8ae5a91fdc3c90163c4 Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@cn.fujitsu.com>
+ Date: Wed, 8 May 2019 14:42:30 +0900
+ Subject: [PATCH] icu: Added armeb support.
+@@ -8,12 +8,13 @@ Make icu support arm32 BE.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++
+ ---
+  i18n/double-conversion-utils.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
+-index c937463..feaad0f 100644
++diff --git a/source/i18n/double-conversion-utils.h b/source/i18n/double-conversion-utils.h
++index 7f23e0a..7f89094 100644
+ --- a/i18n/double-conversion-utils.h
+ +++ b/i18n/double-conversion-utils.h
+ @@ -115,7 +115,7 @@ int main(int argc, char** argv) {
+@@ -24,7 +25,4 @@ index c937463..feaad0f 100644
+ +    defined(__arm__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
+      defined(__hppa__) || defined(__ia64__) || \
+      defined(__mips__) || \
+-     defined(__nios2__) || defined(__ghs) || \
 --- 
--cgit v1.2.1
-diff --git a/meta/recipes-extended/gawk/gawk_5.1.0.bb b/meta/recipes-extended/gawk/gawk_5.1.1.bb
-similarity index 89%
-rename from meta/recipes-extended/gawk/gawk_5.1.0.bb
-rename to meta/recipes-extended/gawk/gawk_5.1.1.bb
-index 0961efa897..215ac8c860 100644
---- a/meta/recipes-extended/gawk/gawk_5.1.0.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.1.1.bb
-@@ -17,12 +17,10 @@ PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
+-2.25.1
+-
++     defined(__loongarch__) || \
+diff --git a/meta/recipes-support/icu/icu_69.1.bb b/meta/recipes-support/icu/icu_70.1.bb
+similarity index 93%
+rename from meta/recipes-support/icu/icu_69.1.bb
+rename to meta/recipes-support/icu/icu_70.1.bb
+index 4daf0fe82e..0988ae8b8e 100644
+--- a/meta/recipes-support/icu/icu_69.1.bb
++++ b/meta/recipes-support/icu/icu_70.1.bb
+@@ -6,8 +6,8 @@ same results on all platforms."
+ HOMEPAGE = "http://site.icu-project.org/"
  
- SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-            file://run-ptest \
--           file://0001-Use-cross-AR-during-compile.patch \
-            file://test-time.patch \
--"
-+           "
+ LICENSE = "ICU"
+-DEPENDS = "icu-native"
+-DEPENDS:class-native = ""
++DEPENDS = "icu-native autoconf-archive"
++DEPENDS:class-native = "autoconf-archive-native"
  
--SRC_URI[md5sum] = "f719bc9966df28e67fc6ebc405e7ea03"
--SRC_URI[sha256sum] = "03a0360edcd84bec156fe211bbc4fc8c78790973ce4e8b990a11d778d40b1a26"
-+SRC_URI[sha256sum] = "6168d8d1dc8f74bd17d9dc22fa9634c49070f232343b744901da15fb4f06bffd"
+ CVE_PRODUCT = "international_components_for_unicode"
  
- inherit autotools gettext texinfo update-alternatives
+@@ -83,7 +83,7 @@ FILES:libicuio = "${libdir}/libicuio.so.*"
  
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-LIC_FILES_CHKSUM = "file://../LICENSE;md5=002d2fdc32d17f0ec06e9a47f2c0c8d0"
++LIC_FILES_CHKSUM = "file://../LICENSE;md5=dc9d616e558490c389609a0e8b81ae6d"
+ 
+ def icu_download_version(d):
+     pvsplit = d.getVar('PV').split('.')
+@@ -112,8 +112,8 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+ SRC_URI:append:class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[code.sha256sum] = "4cba7b7acd1d3c42c44bb0c14be6637098c7faf2b330ce876bc5f3b915d09745"
+-SRC_URI[data.sha256sum] = "4fc2d8cfc3343673123586fca3967404abd4e346fba5515829204533b3bae4bf"
++SRC_URI[code.sha256sum] = "8d205428c17bf13bb535300669ed28b338a157b1c01ae66d31d0d3e2d47c3fd5"
++SRC_URI[data.sha256sum] = "c72723ddba3300ffb231d6b09e2a728ea6e89de10ed5927f74bacbd77042336e"
+ 
+ UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
+ UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
 -- 
 2.20.1
 
