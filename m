@@ -2,35 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 1/3] bitbake.conf: Fix corruption of GNOME mirror url
-Date: Tue,  2 Nov 2021 11:42:56 +0000
-Message-Id: <20211102114258.3540995-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] scripts/convert-srcuri: Update SRC_URI conversion script to handle github url changes
+Date: Tue,  2 Nov 2021 11:42:57 +0000
+Message-Id: <20211102114258.3540995-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20211102114258.3540995-1-richard.purdie@linuxfoundation.org>
+References: <20211102114258.3540995-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-The url changes from the script accidentally corrupted this mirror
-url, fix it.
+Github are dropping support for git:// protocol fetching. Update the script
+to learn about corner cases found in the previous conversion and
+support remapping the github urls as needed too.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/contrib/convert-srcuri.py | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d9c4b4e5ada..790f2f7a8c4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -657,7 +657,7 @@ APACHE_MIRROR = "https://archive.apache.org/dist"
- CPAN_MIRROR = "https://search.cpan.org/CPAN"
- DEBIAN_MIRROR = "http://ftp.debian.org/debian/pool"
- GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
--GNOME_GIT = "git://gitlab.gnome.org/GNOME;branch=master"
-+GNOME_GIT = "git://gitlab.gnome.org/GNOME"
- GNOME_MIRROR = "https://download.gnome.org/sources/"
- GNU_MIRROR = "https://ftp.gnu.org/gnu"
- GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
+diff --git a/scripts/contrib/convert-srcuri.py b/scripts/contrib/convert-srcuri.py
+index 4bf9e3013d3..5b362ea2e84 100755
+--- a/scripts/contrib/convert-srcuri.py
++++ b/scripts/contrib/convert-srcuri.py
+@@ -19,19 +19,33 @@ if len(sys.argv) < 2:
+     sys.exit(1)
+ 
+ def processfile(fn):
++    def matchline(line):
++        if "MIRROR" in line or ".*" in line or "GNOME_GIT" in line:
++            return False
++        return True
+     print("processing file '%s'" % fn)
+     try:
++        if "distro_alias.inc" in fn or "linux-yocto-custom.bb" in fn:
++            return
+         fh, abs_path = tempfile.mkstemp()
+         modified = False
+         with os.fdopen(fh, 'w') as new_file:
+             with open(fn, "r") as old_file:
+                 for line in old_file:
+-                    if ("git://" in line or "gitsm://" in line) and "branch=" not in line and "MIRROR" not in line and ".*" not in line:
++                    if ("git://" in line or "gitsm://" in line) and "branch=" not in line and matchline(line):
+                         if line.endswith('"\n'):
+                             line = line.replace('"\n', ';branch=master"\n')
+                         elif line.endswith(" \\\n"):
+                             line = line.replace(' \\\n', ';branch=master \\\n')
+                         modified = True
++                    if ("git://" in line or "gitsm://" in line) and "github.com" in line and "protocol=https" not in line and matchline(line):
++                        if "protocol=git" in line:
++                            line = line.replace('protocol=git', 'protocol=https')
++                        elif line.endswith('"\n'):
++                            line = line.replace('"\n', ';protocol=https"\n')
++                        elif line.endswith(" \\\n"):
++                            line = line.replace(' \\\n', ';protocol=https \\\n')
++                        modified = True
+                     new_file.write(line)
+         if modified:
+             shutil.copymode(fn, abs_path)
 -- 
 2.32.0
 
