@@ -2,184 +2,113 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B52E1C433F5
-	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 03:36:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E03FC433EF
+	for <webhook@archiver.kernel.org>; Tue,  2 Nov 2021 03:36:22 +0000 (UTC)
 Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web11.4658.1635824166038039310
+ by mx.groups.io with SMTP id smtpd.web09.4762.1635824179933014976
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Nov 2021 20:36:06 -0700
+ Mon, 01 Nov 2021 20:36:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=neutral (domain: fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@fujitsu.com)
-IronPort-Data: =?us-ascii?q?A9a23=3ANA+8GKP1L+QYuzPvrR2FlcFynXyQoLVcMsFnjC/?=
- =?us-ascii?q?WdQPqgmhzhjBRzTFLXT3TbPjZZGD9cth3YYq+o0wEuJGEm99gGjLY11k3ESsS9?=
- =?us-ascii?q?pCt6fd1j6vIF3rLaJWFFSqL1u1GAjX7BJ1yHiC0SiuFaOC79CAljfjQHdIQNca?=
- =?us-ascii?q?fUsxPbV49IMseoUI78wIJqtYAbemRW2thi/uryyHsEAPNNwpPD44hw/nrRCWDE?=
- =?us-ascii?q?xjFkGhwUlQWPZintbJF/pUfJMp3yaqZdxMUTmTId9NWSdovzJnhlo/Y1xwrTN2?=
- =?us-ascii?q?4kLfnaVBMSbnXVeSMoiMOHfH83V4Z/Wpvuko4HKN0hUN/lDyPkNVg4NtQt52sU?=
- =?us-ascii?q?hpvNarJ8AgYe0ABTX4jYfAeodcrJlD666R/1XbudGPhxfhrBkw6MYAUv+1wG2x?=
- =?us-ascii?q?m8f0DNCtLaQiOge+zyr+3RuRgwMM5I6HW0Ck30p175WiBS694HtaYGOOXjeK0F?=
- =?us-ascii?q?QwY3qhmdcsyreJAAda3UCn9Xg=3D=3D?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AKk17ZKroHdfM+YKjCxDKimoaV5pOeYIsimQD?=
- =?us-ascii?q?101hICG9E/b5qynAppkmPHPP4gr5O0tApTnjAsa9qBrnnPYf3WB4B8bAYOCMgg?=
- =?us-ascii?q?eVxe9Zg7ff/w=3D=3D?=
+IronPort-Data: =?us-ascii?q?A9a23=3A0rtDA6KBHCTZIe/qFE+R8ZclxSXFcZb7ZxGrkP8?=
+ =?us-ascii?q?bfHC9hT100mcDnWsZWG+GP6qMMWOheN9xbImxoU8E6MDdx4NqS1BcGVNFFSwT8?=
+ =?us-ascii?q?ZWfbTi6wuYcBwvLd4ubChsPA/w2MrEsF+hpCC+DzvuRGuK59yAljPnRHuGU5NP?=
+ =?us-ascii?q?sYUideyc1EU/Ntjozw4bVsqYw6TSIK1vlVeHa+qUzC3f5s9JACV/43orYwP9ZU?=
+ =?us-ascii?q?FsejxtD1rA2TagjUFYzDBD5BrpHTU26ByOQroW5goeHq+j/ILGRpgs1/j8mDJW?=
+ =?us-ascii?q?rj7T6blYXBLXVOGBiiFIPA+773EcE/Xd0j87XN9JFAatToyqAmd902f1DqJ6xV?=
+ =?us-ascii?q?Rw0eKbLnYzxVjEBSn8hYPEbouavzX+X9Jb7I1f9W3z0zvNjCUs7MYEV9qN8Bnt?=
+ =?us-ascii?q?D3fgZMywWKBebiuS7xbi2RuVhioIkNsaDAW+1khmM1hmAVbB/H8+FGP6MuLdlM?=
+ =?us-ascii?q?P4LrpgmNZ7jiwAxMFKDtCj9XiA=3D?=
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AdhQ5eq/m8T6/jLmL7Yhuk+C9I+orL9Y04lQ7?=
+ =?us-ascii?q?vn2ZKCY0TiX2ra2TdZggvyMc6wxxZJhDo7+90cC7KBu2yXcc2/hzAV7IZmXbUQ?=
+ =?us-ascii?q?WTQr1f0Q=3D=3D?=
 X-IronPort-AV: E=Sophos;i="5.87,201,1631548800";
-   d="scan'208";a="116754501"
+   d="scan'208";a="116754521"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 02 Nov 2021 11:36:00 +0800
+  by heian.cn.fujitsu.com with ESMTP; 02 Nov 2021 11:36:18 +0800
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id DAEA04D0DC98
+	by cn.fujitsu.com (Postfix) with ESMTP id 260044D0F90F
 	for <openembedded-core@lists.openembedded.org>;
- Tue,  2 Nov 2021 11:35:59 +0800 (CST)
+ Tue,  2 Nov 2021 11:36:16 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Tue, 2 Nov 2021 11:35:55 +0800
+ (TLS) id 15.0.1497.23; Tue, 2 Nov 2021 11:36:11 +0800
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] bind: upgrade 9.16.21 -> 9.16.22
-Date: Tue, 2 Nov 2021 11:35:09 +0800
-Message-ID: <1635824112-40302-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] glib-2.0: upgrade 2.70.0 -> 2.70.1
+Date: Tue, 2 Nov 2021 11:35:10 +0800
+Message-ID: <1635824112-40302-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1635824112-40302-1-git-send-email-wangmy@fujitsu.com>
+References: <1635824112-40302-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: DAEA04D0DC98.AACB4
+X-yoursite-MailScanner-ID: 260044D0F90F.A5CEE
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@fujitsu.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 03:36:16 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Nov 2021 03:36:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157730
+ https://lists.openembedded.org/g/openembedded-core/message/157731
 
---- 9.16.22 released ---
+Fix network changes not being signalled from NetworkManager (work by
+Julian Andres Klode) (#2505)
 
-5726.[security]	The "lame-ttl" option is now forcibly set to 0. This
-			effectively disables the lame server cache, as it could
-			previously be abused by an attacker to significantly
-			degrade resolver performance. (CVE-2021-25219)
-			[GL #2899]
+Fix build when building with --fatal-meson-warnings (work by Eli Schwartz) (!2304)
 
-5724.[bug]		Address a potential deadlock when checking zone content
-			consistency. [GL #2908]
+Bugs fixed:
 
-5723.[bug]		Change 5709 broke backward compatibility for the
-			"check-names master ..." and "check-names slave ..."
-			options. This has been fixed. [GL #2911]
+2245 gdesktopappinfo: Do not call xterm when it does not exist, inform the caller the launch failed
 
-5720.[contrib]	Old-style DLZ drivers that had to be enabled at
-			build-time have been marked as deprecated. [GL #2814]
+2253 Backport 2251 "GString: Bump minimum size" to glib-2-70
 
-5719.[func]		The "map" zone file format has been marked as
-			deprecated. [GL #2882]
+2256 Backport 2254 "Small optimization for g_object_set" to glib-2-70
 
-5717.[func]		The "cache-file" option, which was documented as "for
-			testing purposes only" and not to be used, has been
-			removed. [GL #2903]
+2259 Backport 2257 "Fix documentation for g_dbus_object_manager_get_object()." to glib-2-70
 
-5716.[bug]		Multiple library names were mistakenly passed to the
-			krb5-config utility when ./configure was invoked with
-			the --with-gssapi=[/path/to/]krb5-config option. This
-			has been fixed by invoking krb5-config separately for
-			each required library. [GL #2866]
+2262 Backport 2244 "gutils: Avoid segfault in g_get_user_database_entry" to glib-2-70
 
-5715.[func]		Add a check for ports specified in "*-source(-v6)"
-			options clashing with a global listening port. Such a
-			configuration was already unsupported, but it failed
-			silently; it is now treated as an error. [GL #2888]
+2271 Backport 2266 "fix uninitial variable" to glib-2-70
 
-5714.[bug]		Remove the "adjust interface" mechanism which was
-			responsible for setting up listeners on interfaces when
-			the "*-source(-v6)" address and port were the same as
-			the "listen-on(-v6)" address and port. Such a
-			configuration is no longer supported; under certain
-			timing conditions, that mechanism could prevent named
-			from listening on some TCP ports. This has been fixed.
-			[GL #2852]
+2276 Backport 2274 "Do not try to access errno after calling getpwnam_r." to glib-2-70
 
-5712.[doc]		Add deprecation notice about removing native PKCS#11
-			support in the next major BIND 9 release. [GL #2691]
+2300 Backport 2285 "fix issues found by svace static code analyzer" to glib-2-70
+
+2301 Backport 2293 "glib-private: Fix MSVC build with AddressSanitizer" to glib-2-70
+
+2302 Backport 2291 "gnetworkmonitornm: Stop using removed PropertiesChanged signal" to glib-2-70
+
+2304 meson: fix warnings for extract_all_objects function
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.16.21 => bind-9.16.22}/bind9                   | 0
- .../bind/{bind-9.16.21 => bind-9.16.22}/conf.patch              | 0
- .../bind/{bind-9.16.21 => bind-9.16.22}/generate-rndc-key.sh    | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.16.21 => bind-9.16.22}/named.service           | 0
- .../bind/{bind_9.16.21.bb => bind_9.16.22.bb}                   | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.21 => bind-9.16.22}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.21.bb => bind_9.16.22.bb} (98%)
+ .../glib-2.0/{glib-2.0_2.70.0.bb => glib-2.0_2.70.1.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.70.0.bb => glib-2.0_2.70.1.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.22/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.22/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.22/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.22/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.22/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.22/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/bind9 b/meta/recipes-connectivity/bind/bind-9.16.22/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.22/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.22/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.22/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.22/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.22/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.22/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.22/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.22/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.22/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.21/named.service b/meta/recipes-connectivity/bind/bind-9.16.22/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.21/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.22/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.21.bb b/meta/recipes-connectivity/bind/bind_9.16.22.bb
-similarity index 98%
-rename from meta/recipes-connectivity/bind/bind_9.16.21.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.22.bb
-index 390c84248d..bde9a793b0 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.21.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.22.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.70.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.70.1.bb
+similarity index 96%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.70.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.70.1.bb
+index 8217aaa8d0..f7bb62f74b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.70.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.70.1.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
             "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
  
--SRC_URI[sha256sum] = "65da5fd4fb80b7d0d7452876f81fd6d67cdcee54a5e3c1d65610334665dfa815"
-+SRC_URI[sha256sum] = "65e7b2af6479db346e2fc99bcfb6ec3240066468e09dbec575ebc7c57d994061"
+-SRC_URI[sha256sum] = "200d7df811c5ba634afbf109f14bb40ba7fde670e89389885da14e27c0840742"
++SRC_URI[sha256sum] = "f9b7bce7f51753a1f43853bbcaca8bf09e15e994268e29cfd7a76f65636263c0"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.25.1
 
