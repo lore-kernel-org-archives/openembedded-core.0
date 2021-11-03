@@ -1,125 +1,173 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF2BEC433EF
-	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 08:43:13 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web09.4781.1635928993273612987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B6BFC433EF
+	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 10:14:25 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web11.5540.1635934463557766992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Nov 2021 01:43:13 -0700
+ Wed, 03 Nov 2021 03:14:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mINC/a6Y;
- spf=pass (domain: gmail.com, ip: 209.85.222.46,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id i6so2954775uae.6
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Nov 2021 01:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=U60XGIxQgUCkxCv98QQT2x82aO75iIzXHTMdC5yLKz8=;
-        b=mINC/a6YayYoYYF8Di6KXEcy3eJDSUcy5ggBaCiBTqceu27Fv6jexzkSXMzglVV0Ml
-         48HYepLnuI+b8ObHwWYYX6h3/nYewl0PQULMp+TZ+Y6H18UNancpLagrMh+8mVz+fGiN
-         YN8Keb/ct+kbQnaS+0w1F7Q0n6uBjI/R+Pnrlnnyi+iTFpSLfecjH7lgWPtJAV0AfSW/
-         qN2kjo5s1jAAYxBDl6zqq4/MsPfEl5cx8aoh8G08KflCTOxgXB1laYNwyQaOvj5Gacuu
-         lSVjZ5pCgH7TPbr1EE2Ss1VFn3dHqvfBikFYiyySXa0XpzMLuEkLhVB6IDX7FJggg2A7
-         utwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U60XGIxQgUCkxCv98QQT2x82aO75iIzXHTMdC5yLKz8=;
-        b=ofAO8U95A7UatfXtMmme8bz54kqLE5cwpRuvANa7a7s4wWS2o22cB3+xC/v1heW9uO
-         7hPyu9cAD9CYyRPxQbiKQ5k6UQbFitpQT3uvZYmi7OOycP30p6LLzPYA2idueW+ZGkQh
-         mk8ZaBK8qbnaR8mULQFBYr6phbRfl8U1CXSE2r2FhhoNqvLqL/6gTIaq1HbqEXxrCR+m
-         OD9klvOUgwil4utVqpz2HhcGEWDbaFbEPqWbR2eZDzbfqkabCB7otg6rbkq1yjBjzVV9
-         gS1ZAiqX0N77gS/TVGh/u4pjS+ne0Bs+O5bZkDlFw+Ctwvx4SPdqXsp54Y7G6naD3yHu
-         hc5g==
-X-Gm-Message-State: AOAM532AEp6nKxTKf3+Y8VOwh/voPt7TJodjR46c0IQiiLz/pO46EbrE
-	YmKAWL/pdYp95QuL4gbjphda8WWtnYzrwuMiTMI=
-X-Google-Smtp-Source: 
- ABdhPJzY3TBRib3a8myZ2KLE6fB0NPuTsfyINly0G5LtqqP/Ch6uKrOJDc6v1+O1JzD5e9DfIZyC1jv+uTCQQy76l7c=
-X-Received: by 2002:a05:6102:358e:: with SMTP id
- h14mr48182596vsu.13.1635928992351;
- Wed, 03 Nov 2021 01:43:12 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="294917575"
+X-IronPort-AV: E=Sophos;i="5.87,205,1631602800";
+   d="scan'208";a="294917575"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2021 03:14:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,205,1631602800";
+   d="scan'208";a="541643916"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Nov 2021 03:14:21 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH] inetutils: fix CVE-2021-40491
+Date: Wed,  3 Nov 2021 18:14:20 +0800
+Message-Id: <20211103101420.46886-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211102084303.2974802-1-alex@linutronix.de>
- <20211102084303.2974802-33-alex@linutronix.de>
- <0da19b5aa737377b8020330e6c6bb1e928da4b68.camel@linuxfoundation.org>
-In-Reply-To: 
- <0da19b5aa737377b8020330e6c6bb1e928da4b68.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 3 Nov 2021 09:43:01 +0100
-Message-ID: 
- <CANNYZj_e_Orf1Rrp4SuQ_HuThfQn5EFe+Vg2sWqM47SrCj7MHQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 33/33] perl: backport gdbm 1.2x compatibility
- fixes
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="000000000000778b7a05cfde66f8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 08:43:13 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 10:14:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157825
+ https://lists.openembedded.org/g/openembedded-core/message/157826
 
---000000000000778b7a05cfde66f8
-Content-Type: text/plain; charset="UTF-8"
+From: Yi Zhao <yi.zhao@windriver.com>
 
-On Wed, 3 Nov 2021 at 09:39, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+CVE-2021-40491:
+The ftp client in GNU Inetutils before 2.2 does not validate addresses
+returned by PASV/LSPV responses to make sure they match the server
+address. This is similar to CVE-2020-8284 for curl.
 
->
-> I noticed we had a perl gdbm failure on both:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2782/steps/12/logs/stdio
-> and
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/2498
->
-> (as well as lttng-tools)
->
-> Is that related to this? The commit doesn't say why we need gdbm
-> compatibility
-> fixes?
->
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2021-40491
 
-Yes, the patches are needed to address the ptest failure when gdbm is
-updated from 1.19 to 1.2something.
+Patch from:
+https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=58cb043b190fd04effdaea7c9403416b436e50dd
 
-Alex
+(From OE-Core rev: 1b857807f1cf8fee3175f8479a0c7cb1850bd9a9)
 
---000000000000778b7a05cfde66f8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../inetutils/inetutils/CVE-2021-40491.patch  | 88 +++++++++++++++++++
+ .../inetutils/inetutils_2.0.bb                |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2021-40491.patch
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 3 Nov 2021 at 09:39, Richard Purdie &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-I noticed we had a perl gdbm failure on both:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
-s/2782/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2782/steps/12/logs/=
-stdio</a><br>
-and<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
-s/2498" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/82/builds/2498</a><br>
-<br>
-(as well as lttng-tools)<br>
-<br>
-Is that related to this? The commit doesn&#39;t say why we need gdbm compat=
-ibility<br>
-fixes?<br></blockquote></div><div class=3D"gmail_quote"><br></div><div clas=
-s=3D"gmail_quote">Yes, the patches are needed to address the ptest failure =
-when gdbm is updated from 1.19 to 1.2something.</div><div class=3D"gmail_qu=
-ote"><br></div><div class=3D"gmail_quote">Alex<br></div></div>
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2021-40491.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2021-40491.patch
+new file mode 100644
+index 0000000000..202488f75c
+--- /dev/null
++++ b/meta/recipes-connectivity/inetutils/inetutils/CVE-2021-40491.patch
+@@ -0,0 +1,88 @@
++From 98ccabf68e5b3f0a177bd1925581753d10041448 Mon Sep 17 00:00:00 2001
++From: Simon Josefsson <simon@josefsson.org>
++Date: Wed, 1 Sep 2021 09:09:50 +0200
++Subject: [PATCH] ftp: check that PASV/LSPV addresses match.
++
++* NEWS: Mention change.
++* ftp/ftp.c (initconn): Validate returned addresses.
++
++CVE: CVE-2021-40491
++
++Upstream-Status: Backport
++[https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=58cb043b190fd04effdaea7c9403416b436e50dd]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ NEWS      |  9 +++++++++
++ ftp/ftp.c | 21 +++++++++++++++++++++
++ 2 files changed, 30 insertions(+)
++
++diff --git a/NEWS b/NEWS
++index 7c5e62c..bd9a4da 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -4,6 +4,15 @@ GNU inetutils NEWS -- history of user-visible changes.
++ 
++ ** ftp
++ 
+++The ftp client now validate addresses returned by PASV/LSPV responses,
+++to make sure they match the server address.  Reported by ZeddYu Lu in
+++<https://lists.gnu.org/archive/html/bug-inetutils/2021-06/msg00002.html>.
+++
+++Thanks to Luke Mewburn <lukem@netbsd.org> for discussion and fix to
+++NetBSD code, we used a similar solution.
+++
+++** ftp
+++
++ Disable use of readline when environment variable TERM is unset or set
++ to "dumb" (caused problems with Emacs AngeFTP on MacOS).  Thanks to
++ Alex Bochannek for report, debugging and patch.
++diff --git a/ftp/ftp.c b/ftp/ftp.c
++index d21dbdd..7513539 100644
++--- a/ftp/ftp.c
+++++ b/ftp/ftp.c
++@@ -1365,6 +1365,13 @@ initconn (void)
++ 		  uint32_t *pu32 = (uint32_t *) &data_addr_sa4->sin_addr.s_addr;
++ 		  pu32[0] = htonl ( (h[0] << 24) | (h[1] << 16) | (h[2] << 8) | h[3]);
++ 		}
+++		if (data_addr_sa4->sin_addr.s_addr
+++		    != ((struct sockaddr_in *) &hisctladdr)->sin_addr.s_addr)
+++		  {
+++		    printf ("Passive mode address mismatch.\n");
+++		    (void) command ("ABOR");	/* Cancel any open connection.  */
+++		    goto bad;
+++		  }
++ 	    } /* LPSV IPv4 */
++ 	  else /* IPv6 */
++ 	    {
++@@ -1395,6 +1402,13 @@ initconn (void)
++ 		  pu32[2] = htonl ( (h[8] << 24) | (h[9] << 16) | (h[10] << 8) | h[11]);
++ 		  pu32[3] = htonl ( (h[12] << 24) | (h[13] << 16) | (h[14] << 8) | h[15]);
++ 		}
+++		if (data_addr_sa6->sin6_addr.s6_addr
+++		    != ((struct sockaddr_in6 *) &hisctladdr)->sin6_addr.s6_addr)
+++		  {
+++		    printf ("Passive mode address mismatch.\n");
+++		    (void) command ("ABOR");	/* Cancel any open connection.  */
+++		    goto bad;
+++		  }
++ 	    } /* LPSV IPv6 */
++ 	}
++       else /* !EPSV && !LPSV */
++@@ -1415,6 +1429,13 @@ initconn (void)
++ 			 | ((a2 & 0xff) << 8) | (a3 & 0xff) );
++ 	      data_addr_sa4->sin_port =
++ 		  htons (((p0 & 0xff) << 8) | (p1 & 0xff));
+++	      if (data_addr_sa4->sin_addr.s_addr
+++		  != ((struct sockaddr_in *) &hisctladdr)->sin_addr.s_addr)
+++		{
+++		  printf ("Passive mode address mismatch.\n");
+++		  (void) command ("ABOR");	/* Cancel any open connection.  */
+++		  goto bad;
+++		}
++ 	    } /* PASV */
++ 	  else
++ 	    {
++-- 
++2.17.1
++
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.0.bb b/meta/recipes-connectivity/inetutils/inetutils_2.0.bb
+index a4d05b0542..d299bc359e 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_2.0.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_2.0.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
+            file://tftpd.xinetd.inetutils \
+            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
+            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
++           file://CVE-2021-40491.patch \
+ "
+ 
+ SRC_URI[md5sum] = "5e1018502cd131ed8e42339f6b5c98aa"
+-- 
+2.33.1
 
---000000000000778b7a05cfde66f8--
 
