@@ -1,120 +1,280 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B73DBC433F5
-	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 11:21:18 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web12.6050.1635938477287377600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B00AAC433FE
+	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 12:34:32 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web08.6722.1635942871237070087
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Nov 2021 04:21:17 -0700
+ Wed, 03 Nov 2021 05:34:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Rq/c+WzS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id
- y84-20020a1c7d57000000b00330cb84834fso4313977wmc.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kU0mSxXT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id i5so3354949wrb.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Nov 2021 04:21:17 -0700 (PDT)
+ Wed, 03 Nov 2021 05:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=43r9t36iSUEWjc6gQOXYwexCgqjXNzEX2t7X2YMHmBw=;
-        b=Rq/c+WzS5VOyzCjC+FMNLOK9hiIPQhPIARFHGVyhonbAh7sxzo/ZIQnB70Wl50f56S
-         mf14Rr7AFdpitfsiJVqzBOK9CojswtJ7Y9n103cgxpv5BUVnt2doYJ4HIYg3L7yYHF4k
-         sDv/nfVJ0/Jr69fw6WuHFgR0SCna4Ryk5fAIM=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nAhjCYCp4f7cT5uLL6185G+tvprUSnuwpMpJRYDAloQ=;
+        b=kU0mSxXT0M/YwqMvFsv9Iw5uofgqIF3IlKLPwU7wY0gdF+14WYtv3NmyydoTOveQeR
+         c6X9AT48JmRv1YT0vEryzKSDj3R+ilIKsNtTnmBWrdJ+ZHutp9qWkuWFiSloieoewwy8
+         Xdu4yZ/LPb/M0qNG5Iui0KSil3n5sxcEpjPAWGJfPQFF/nL6n7oYla8bOdzkenylt3fy
+         1URZykt3Tox8NwS2RWb1jQdyfYKGKtvDKURDv8+9wvIL+qpxPL5+bqCAC8xL36KeIEJZ
+         urlfLzI6MYqKD6dhrGLbplIWumFo+/oPAwqwGbczEXYqz/GD40Ewi6yeOAlFl1O8wIOC
+         pIhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=43r9t36iSUEWjc6gQOXYwexCgqjXNzEX2t7X2YMHmBw=;
-        b=XOvHLNhJm9oEDq9+Q+Sz8Ro0GKxygyOKiSYO1kZrulFIHsSSrJ9Jv4S0wmtfg5aRcH
-         dNzrIdH7JhFqKFpmn9hgjNltG58BFzuzC+zZvvfo62Bd3IcpvQbTXbM3rdDIMSHGnPnt
-         cmrWJb6uLWcc3TZ8oq1O5apl43zlblulavovIPn+gK0UGHigNh4GAve2tOouaB0eHmPq
-         TR+q6Txo/S1m8rMMiDh5rZ3eRxCrBpYQ02xDlIXUVhpXymQ2EG0krbLbVgxD9JnP8mNj
-         uaqkQsN6gPowTM8NhWH5f+Wf2RsFXmwQUZNdpt1/lIRUJjkAJ91vHfySe10nZg20A401
-         2AEw==
-X-Gm-Message-State: AOAM5328anG3CUm6TFacG2zq5pqlgEsUsxDlMYsGyJKJnW1rebeD1Pye
-	eTHuuKzUr8YD+Ca69GmBl7MaCA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nAhjCYCp4f7cT5uLL6185G+tvprUSnuwpMpJRYDAloQ=;
+        b=iVfy/0o09co4VcN9PbPsutz6KxVYeXHPmd1TtauHrixGQ6577Zt2Zr0TfzygnNHwsM
+         Wsqrkg7xyc1C05T8ivdEh/GioHIbDfTUpPCSt0m5wdTByYg238mMIQ0X7R7LN2XhbEn+
+         ZKdQXwqI1x4xLpKPJ5OwYTSJwpw/8ffcWjqQBmLVBvS2oobSfXL7PKPnvMt2Q3KM5Bij
+         QNaDPy2MQPU+SXricbxdWBUuNGNSCyZnJrA3G/L1fG4snxbYM/ajI1izY+0NdJXoh7rx
+         YM7dAzoJAv/j/0k88Wde8bUKRI6N3ox2z37F209fY/Jh5pMP8Z7aWb+047ABKtfAy03X
+         EzVQ==
+X-Gm-Message-State: AOAM5331VdNOL/TnyfAf/QVREfY8o74wNcy+qOHIzmyLfj6Hq3rpK4yv
+	gDp7860jjLAFIZJHKbuWO+rqioZrj+eD6Q==
 X-Google-Smtp-Source: 
- ABdhPJwWvuFrU1X5SVS4girIAV1VbEsE9fd3JFK6eIS+5nEDWGo+GdgJAdC4ihQcQDW2S+tM5cO5yw==
-X-Received: by 2002:a1c:8093:: with SMTP id
- b141mr14598284wmd.129.1635938475526;
-        Wed, 03 Nov 2021 04:21:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:52dc:b819:4029:149f?
- ([2001:8b0:aba:5f3c:52dc:b819:4029:149f])
+ ABdhPJxYBKY0Ar45snAhv7lC7usb2JH2D36C9Ol3ggSxOOF58LW3WFXXa8JnV0MeBdz3O4Khql+50w==
+X-Received: by 2002:adf:df0c:: with SMTP id
+ y12mr14160436wrl.168.1635942869341;
+        Wed, 03 Nov 2021 05:34:29 -0700 (PDT)
+Received: from localhost.localdomain ([80.215.138.144])
         by smtp.gmail.com with ESMTPSA id
- o3sm1881296wms.10.2021.11.03.04.21.14
+ z7sm5029982wmi.33.2021.11.03.05.34.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 04:21:14 -0700 (PDT)
-Message-ID: 
- <2078f5ba21c984af336d79feaa7b1833a7391e6a.camel@linuxfoundation.org>
-Subject: Re: [OE-core][dunfell 00/29] Pull request (cover letter only)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 03 Nov 2021 11:21:12 +0000
-In-Reply-To: <cover.1635898227.git.steve@sakoman.com>
-References: <cover.1635898227.git.steve@sakoman.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+        Wed, 03 Nov 2021 05:34:29 -0700 (PDT)
+From: Marta Rybczynska <rybczynska@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Marta Rybczynska <rybczynska@gmail.com>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Subject: [dunfell][meta-oe][PATCH] nss: add a patch for CVE-2020-12403
+Date: Wed,  3 Nov 2021 13:34:20 +0100
+Message-Id: <20211103123420.297271-1-rybczynska@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 11:21:18 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 12:34:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157827
+ https://lists.openembedded.org/g/openembedded-core/message/157828
 
-On Tue, 2021-11-02 at 14:11 -1000, Steve Sakoman wrote:
-> The following changes since commit a7520c47573cd166d441e504737492b86f5aa42e:
-> 
->   selftest/reproducible: adjust exclusion list for dunfell (2021-10-25 13:28:19 -1000)
-> 
-> are available in the Git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
->   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-> 
-> Alexander Kanavin (7):
->   linux-firmware: upgrade 20210511 -> 20210818
->   linux-firmware: upgrade 20210818 -> 20210919
->   wireless-regdb: upgrade 2021.04.21 -> 2021.07.14
->   wireless-regdb: upgrade 2021.07.14 -> 2021.08.28
->   ca-certificates: update 20210119 -> 20211016
->   tzdata: upgrade 2021a -> 2021d
->   tzdata: update 2021d -> 2021e
-> 
-> Daniel McGregor (1):
->   bitbake.conf: Add gpg-agent as a host tool
-> 
-> Jose Quaresma (1):
->   sstate: fix touching files inside pseudo
-> 
-> Minjae Kim (1):
->   vim: fix 2021-3796
-> 
-> Oleksandr Kravchuk (1):
->   mirrors.bbclass: remove dead infozip mirrors
-> 
-> Ranjitsinh Rathod (1):
->   curl: Whitelist CVE-2021-22897
-> 
-> Richard Purdie (5):
->   base: Clean up unneeded len() calls
->   base: Use repr() for printing exceptions
->   reproducible_build: Drop obsolete sstate workaround
->   patch: Use repr() with exceptions instead of str()
+From the description:
+  A flaw was found in the way CHACHA20-POLY1305 was implemented in
+  NSS in versions before 3.55. When using multi-part Chacha20,
+  it could cause out-of-bounds reads.
 
-The above patch did have at least one fix and further discussion and proposed
-patches so I'm not sure about that one. I didn't take it now as it at least
-needs my followup fix too.
+The fix includes two patches: one checking the length, and the
+other disabling the multi-part ChaCha20.
 
-Cheers,
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+---
+ .../nss/nss/CVE-2020-12403.patch              | 68 +++++++++++++
+ .../nss/nss/CVE-2020-12403_2.patch            | 96 +++++++++++++++++++
+ meta-oe/recipes-support/nss/nss_3.51.1.bb     |  2 +
+ 3 files changed, 166 insertions(+)
+ create mode 100644 meta-oe/recipes-support/nss/nss/CVE-2020-12403.patch
+ create mode 100644 meta-oe/recipes-support/nss/nss/CVE-2020-12403_2.patch
 
-Richard
+diff --git a/meta-oe/recipes-support/nss/nss/CVE-2020-12403.patch b/meta-oe/recipes-support/nss/nss/CVE-2020-12403.patch
+new file mode 100644
+index 000000000..3ed8faf52
+--- /dev/null
++++ b/meta-oe/recipes-support/nss/nss/CVE-2020-12403.patch
+@@ -0,0 +1,68 @@
++From c6c2243be1a1359b4f22ffa51a90e84dc43b98d0 Mon Sep 17 00:00:00 2001
++From: Marta Rybczynska <marta.rybczynska@huawei.com>
++Date: Wed, 3 Nov 2021 12:12:37 +0100
++Subject: [PATCH] nss: fix CVE-2020-12403
++
++# HG changeset patch
++# User Benjamin Beurdouche <bbeurdouche@mozilla.com>
++# Date 1595031218 0
++# Node ID c25adfdfab34ddb08d3262aac3242e3399de1095
++# Parent  f282556e6cc7715f5754aeaadda6f902590e7e38
++Bug 1636771 - Fix incorrect call to Chacha20Poly1305 by PKCS11. r=jcj,kjacobs,rrelyea
++
++Differential Revision: https://phabricator.services.mozilla.com/D74801
++
++Upstream-Status: Backport
++
++CVE: CVE-2020-12403
++
++Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
++---
++ .../pk11_gtest/pk11_chacha20poly1305_unittest.cc      | 11 +++++++++--
++ nss/lib/freebl/chacha20poly1305.c                     |  2 +-
++ 2 files changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/nss/gtests/pk11_gtest/pk11_chacha20poly1305_unittest.cc b/nss/gtests/pk11_gtest/pk11_chacha20poly1305_unittest.cc
++index 2663441..a461977 100644
++--- a/nss/gtests/pk11_gtest/pk11_chacha20poly1305_unittest.cc
+++++ b/nss/gtests/pk11_gtest/pk11_chacha20poly1305_unittest.cc
++@@ -44,7 +44,7 @@ class Pkcs11ChaCha20Poly1305Test
++     SECItem params = {siBuffer, reinterpret_cast<unsigned char*>(&aead_params),
++                       sizeof(aead_params)};
++ 
++-    // Encrypt with bad parameters.
+++    // Encrypt with bad parameters (TagLen is too long).
++     unsigned int encrypted_len = 0;
++     std::vector<uint8_t> encrypted(data_len + aead_params.ulTagLen);
++     aead_params.ulTagLen = 158072;
++@@ -53,9 +53,16 @@ class Pkcs11ChaCha20Poly1305Test
++                      &encrypted_len, encrypted.size(), data, data_len);
++     EXPECT_EQ(SECFailure, rv);
++     EXPECT_EQ(0U, encrypted_len);
++-    aead_params.ulTagLen = 16;
+++
+++    // Encrypt with bad parameters (TagLen is too short).
+++    aead_params.ulTagLen = 2;
+++    rv = PK11_Encrypt(key.get(), kMech, &params, encrypted.data(),
+++                      &encrypted_len, encrypted.size(), data, data_len);
+++    EXPECT_EQ(SECFailure, rv);
+++    EXPECT_EQ(0U, encrypted_len);
++ 
++     // Encrypt.
+++    aead_params.ulTagLen = 16;
++     rv = PK11_Encrypt(key.get(), kMech, &params, encrypted.data(),
++                       &encrypted_len, encrypted.size(), data, data_len);
++ 
++diff --git a/nss/lib/freebl/chacha20poly1305.c b/nss/lib/freebl/chacha20poly1305.c
++index 4daba2a..9d94f59 100644
++--- a/nss/lib/freebl/chacha20poly1305.c
+++++ b/nss/lib/freebl/chacha20poly1305.c
++@@ -60,7 +60,7 @@ ChaCha20Poly1305_InitContext(ChaCha20Poly1305Context *ctx,
++         PORT_SetError(SEC_ERROR_BAD_KEY);
++         return SECFailure;
++     }
++-    if (tagLen == 0 || tagLen > 16) {
+++    if (tagLen != 16) {
++         PORT_SetError(SEC_ERROR_INPUT_LEN);
++         return SECFailure;
++     }
+diff --git a/meta-oe/recipes-support/nss/nss/CVE-2020-12403_2.patch b/meta-oe/recipes-support/nss/nss/CVE-2020-12403_2.patch
+new file mode 100644
+index 000000000..18b1e58bf
+--- /dev/null
++++ b/meta-oe/recipes-support/nss/nss/CVE-2020-12403_2.patch
+@@ -0,0 +1,96 @@
++From 930bc9c5b0f9e6ed8dc9f9cd237eede41591a64e Mon Sep 17 00:00:00 2001
++From: Marta Rybczynska <marta.rybczynska@huawei.com>
++Date: Wed, 3 Nov 2021 12:21:44 +0100
++Subject: [PATCH] nss: followup CVE-2020-12403
++
++# HG changeset patch
++# User Benjamin Beurdouche <bbeurdouche@mozilla.com>
++# Date 1595031194 0
++# Node ID f282556e6cc7715f5754aeaadda6f902590e7e38
++# Parent  89733253df83ef7fe8dd0d49f6370b857e93d325
++Bug 1636771 - Disable PKCS11 incremental mode for ChaCha20. r=kjacobs,rrelyea
++
++Depends on D74801
++
++Differential Revision: https://phabricator.services.mozilla.com/D83994
++
++Upstream-Status: Backport
++
++CVE: CVE-2020-12403
++
++Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
++---
++ .../pk11_gtest/pk11_cipherop_unittest.cc      | 49 +++++++++++++++++++
++ nss/lib/softoken/pkcs11c.c                    |  1 +
++ 2 files changed, 50 insertions(+)
++
++diff --git a/nss/gtests/pk11_gtest/pk11_cipherop_unittest.cc b/nss/gtests/pk11_gtest/pk11_cipherop_unittest.cc
++index 38982fd..700750c 100644
++--- a/nss/gtests/pk11_gtest/pk11_cipherop_unittest.cc
+++++ b/nss/gtests/pk11_gtest/pk11_cipherop_unittest.cc
++@@ -77,4 +77,53 @@ TEST(Pkcs11CipherOp, SingleCtxMultipleUnalignedCipherOps) {
++   NSS_ShutdownContext(globalctx);
++ }
++ 
+++TEST(Pkcs11CipherOp, SingleCtxMultipleUnalignedCipherOpsChaCha20) {
+++  PK11SlotInfo* slot;
+++  PK11SymKey* key;
+++  PK11Context* ctx;
+++
+++  NSSInitContext* globalctx =
+++      NSS_InitContext("", "", "", "", NULL,
+++                      NSS_INIT_READONLY | NSS_INIT_NOCERTDB | NSS_INIT_NOMODDB |
+++                          NSS_INIT_FORCEOPEN | NSS_INIT_NOROOTINIT);
+++
+++  const CK_MECHANISM_TYPE cipher = CKM_NSS_CHACHA20_CTR;
+++
+++  slot = PK11_GetInternalSlot();
+++  ASSERT_TRUE(slot);
+++
+++  // Use arbitrary bytes for the ChaCha20 key and IV
+++  uint8_t key_bytes[32];
+++  for (size_t i = 0; i < 32; i++) {
+++    key_bytes[i] = i;
+++  }
+++  SECItem keyItem = {siBuffer, key_bytes, 32};
+++
+++  uint8_t iv_bytes[16];
+++  for (size_t i = 0; i < 16; i++) {
+++    key_bytes[i] = i;
+++  }
+++  SECItem ivItem = {siBuffer, iv_bytes, 16};
+++
+++  SECItem* param = PK11_ParamFromIV(cipher, &ivItem);
+++
+++  key = PK11_ImportSymKey(slot, cipher, PK11_OriginUnwrap, CKA_ENCRYPT,
+++                          &keyItem, NULL);
+++  ctx = PK11_CreateContextBySymKey(cipher, CKA_ENCRYPT, key, param);
+++  ASSERT_TRUE(key);
+++  ASSERT_TRUE(ctx);
+++
+++  uint8_t outbuf[128];
+++  // This is supposed to fail for Chacha20. This is because the underlying
+++  // PK11_CipherOp operation is calling the C_EncryptUpdate function for
+++  // which multi-part is disabled for ChaCha20 in counter mode.
+++  ASSERT_EQ(GetBytes(ctx, outbuf, 7), SECFailure);
+++
+++  PK11_FreeSymKey(key);
+++  PK11_FreeSlot(slot);
+++  SECITEM_FreeItem(param, PR_TRUE);
+++  PK11_DestroyContext(ctx, PR_TRUE);
+++  NSS_ShutdownContext(globalctx);
+++}
+++
++ }  // namespace nss_test
++diff --git a/nss/lib/softoken/pkcs11c.c b/nss/lib/softoken/pkcs11c.c
++index 6f3c2aa..53ec5f4 100644
++--- a/nss/lib/softoken/pkcs11c.c
+++++ b/nss/lib/softoken/pkcs11c.c
++@@ -1205,6 +1205,7 @@ sftk_CryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism,
++             break;
++ 
++         case CKM_NSS_CHACHA20_CTR:
+++            context->multi = PR_FALSE;
++             if (key_type != CKK_NSS_CHACHA20) {
++                 crv = CKR_KEY_TYPE_INCONSISTENT;
++                 break;
+diff --git a/meta-oe/recipes-support/nss/nss_3.51.1.bb b/meta-oe/recipes-support/nss/nss_3.51.1.bb
+index ac046ed0f..220610dea 100644
+--- a/meta-oe/recipes-support/nss/nss_3.51.1.bb
++++ b/meta-oe/recipes-support/nss/nss_3.51.1.bb
+@@ -37,6 +37,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://0001-Bug-1631576-Force-a-fixed-length-for-DSA-exponentiat.patch \
+            file://CVE-2020-12401.patch \
+            file://CVE-2020-6829_12400.patch \
++           file://CVE-2020-12403.patch \
++           file://CVE-2020-12403_2.patch \
+            "
+ 
+ SRC_URI[md5sum] = "6acaf1ddff69306ae30a908881c6f233"
+-- 
+2.33.0
 
 
