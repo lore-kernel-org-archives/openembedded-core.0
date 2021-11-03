@@ -1,137 +1,167 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED362C433EF
-	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 06:54:30 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web10.4205.1635922469286061570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F40C433EF
+	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 07:20:30 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web08.4230.1635924029525640515
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 23:54:30 -0700
+ Wed, 03 Nov 2021 00:20:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="231695349"
-X-IronPort-AV: E=Sophos;i="5.87,205,1631602800";
-   d="scan'208";a="231695349"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 23:54:28 -0700
-X-IronPort-AV: E=Sophos;i="5.87,205,1631602800";
-   d="scan'208";a="638488899"
-Received: from syasyapu-mobl1.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.213.135.212])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 23:54:27 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Bw/9ugSB;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id r8so2045356wra.7
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 03 Nov 2021 00:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cv0hqbRb1yaRuX4pTJzmVafdaGICfGyzy7Re7rIH2xM=;
+        b=Bw/9ugSBq2gDsPzbiJRUbWoCLBsA6y6kYmEyBsu/yOrnBQwYIRpjOcCOjkt/xpbRI+
+         h0ztFNl4bGGE5Rn22BGVUEnRrTJQUzHXiXU4+6QjiF2Kvj9SKw9htiYymSI2dijNygWn
+         y9eMkN0fZ7qa0UoSTyKuSMeoXwRsEXhSdOxwWbHRNFEnMugaO/kZFiCKInOxBoGdvBV/
+         8L79mt0FZGqS5/XzDBTti8FMQzUn/aCdcTMvDH445oYfVE3ApbCn1RIa1vPdl3oIl+ab
+         LXBHRIBITmO3EM4rPVSmXo9fFJZDNpvuFt+rqpnY7sXW4bUbbsrilejwiRmx/9wFfl9E
+         E9hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cv0hqbRb1yaRuX4pTJzmVafdaGICfGyzy7Re7rIH2xM=;
+        b=wu9ESOcYCCsmATatPAc1Dx5jIlpJNZiipzlBam26LomoZiSQcAPg2LwxBlIAWeJi76
+         IMl8522oLWJgKSJipuuuQKlD9N4Vpjyn5lpP2gL+C6AmNo837KjJmhp3nj0v9dlg8QcH
+         IBAHm8RSOMc5OLcAqEKFjOCdWadIdpeGkCFuC++AqEBXNwnwxto245U5+j8WsIecNchU
+         LtHwR1PBML2VpYN+FFKA2UDr+RnT5mJXbKQ8XjHRmhgQkk2JiU6Vtv/Toopp8Jro+j0q
+         5vZr9Vt8UgotQK0fyZcG1fGh7GjdLHcCUgFb3S3oujEqLu7j2wJhCFaUb9gJ4Fhaidqd
+         +zqg==
+X-Gm-Message-State: AOAM530zvXOy85OfzByoNGJ/dKG462gqWToamNnyNtwAlNuo14lqaK2n
+	BEWdR3G53ddM33LE+zrHC+suy67GUnD1Rw==
+X-Google-Smtp-Source: 
+ ABdhPJwQS3DCqagavrDNm0S4nh0mQ6fYVSmLyPBlkJh/o6tunjvgRfYoYpxM7+pLiuxAyhC/fVYKOA==
+X-Received: by 2002:a5d:4b0f:: with SMTP id
+ v15mr10838966wrq.264.1635924027433;
+        Wed, 03 Nov 2021 00:20:27 -0700 (PDT)
+Received: from localhost.localdomain ([80.215.138.144])
+        by smtp.gmail.com with ESMTPSA id
+ h15sm671790wmq.32.2021.11.03.00.20.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Nov 2021 00:20:26 -0700 (PDT)
+From: Marta Rybczynska <rybczynska@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/18] Pull request (cover letter only)
-Date: Wed,  3 Nov 2021 14:54:21 +0800
-Message-Id: <cover.1635922422.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+Cc: steve@sakoman.com,
+	Marta Rybczynska <rybczynska@gmail.com>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Subject: [dunfell][meta-oe][PATCH] networkmanager: update to 1.22.16
+Date: Wed,  3 Nov 2021 08:20:15 +0100
+Message-Id: <20211103072015.7401-1-rybczynska@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 06:54:30 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 07:20:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157820
+ https://lists.openembedded.org/g/openembedded-core/message/157821
 
-Please merge these changes.
+NetworkManager 1.22.16 contains a fix for CVE-2020-10754.
 
-Thanks,
+This version includes an additional option by default for firewalld zones,
+--enable-firewalld-zone that installs additional files. Disable it to
+keep the old behaviour if no firewalld.
 
-Anuj
+Also include a patch for fixing reallocarray usage from gatesgarth
+meta-openembedded 165ad9ad4c86c9e63f3afcf3172c8e1d3629f3a5 required
+for the build.
 
-The following changes since commit 47e638ada946af7d69fb65619858a1e4564613c4:
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+---
+ .../fix_reallocarray_check.patch              | 27 +++++++++++++++++++
+ ...r_1.22.10.bb => networkmanager_1.22.16.bb} |  7 ++++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta-networking/recipes-connectivity/networkmanager/networkmanager/fix_reallocarray_check.patch
+ rename meta-networking/recipes-connectivity/networkmanager/{networkmanager_1.22.10.bb => networkmanager_1.22.16.bb} (95%)
 
-  uninative: Upgrade to 3.4 (2021-11-01 10:36:28 +0000)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Alexander Kanavin (6):
-  waffle: convert to git, website is down
-  linux-firmware: upgrade 20210818 -> 20210919
-  wireless-regdb: upgrade 2021.04.21 -> 2021.07.14
-  wireless-regdb: upgrade 2021.07.14 -> 2021.08.28
-  ca-certificates: update 20210119 -> 20211016
-  tzdata: upgrade 2021a -> 2021d
-
-Anuj Mittal (1):
-  meta: bump HASHEQUIV_HASH_VERSION after RPM fix
-
-Bruce Ashfield (3):
-  linux-yocto/5.10: update to v5.10.73
-  linux-yocto/5.10: update to v5.10.74
-  linux-yocto/5.10: update to v5.10.75
-
-Changqing Li (1):
-  openssh: fix CVE-2021-41617
-
-Jose Quaresma (1):
-  sstate: fix touching files inside pseudo
-
-Pgowda (1):
-  binutils: Fix CVE-2021-3530
-
-Richard Purdie (1):
-  bootchart2: Don't compile python modules
-
-Ross Burton (3):
-  testimage: fix unclosed testdata file
-  oe/utils: log exceptions in ThreadedWorker functions
-  strace: show test suite log on failure
-
-Trevor Gamblin (1):
-  ghostscript: Fix CVE-2021-3781
-
- meta/classes/sstate.bbclass                   |   4 +-
- meta/classes/testimage.bbclass                |   7 +-
- meta/lib/oe/utils.py                          |   3 +-
- .../openssh/openssh/CVE-2021-41617.patch      |  49 ++++
- .../openssh/openssh_8.5p1.bb                  |   1 +
- .../binutils/binutils-2.36.inc                |   2 +
- .../binutils/0017-CVE-2021-3530.patch         | 102 ++++++++
- .../binutils/0018-CVE-2021-3530.patch         |  64 +++++
- .../bootchart2/bootchart2_0.14.9.bb           |   6 +-
- meta/recipes-devtools/strace/strace/run-ptest |   9 +
- ...de-device-specifier-strings-in-acces.patch | 238 ++++++++++++++++++
- .../ghostscript/ghostscript_9.53.3.bb         |   1 +
- meta/recipes-extended/timezone/timezone.inc   |   7 +-
- .../hicolor-icon-theme_0.17.bb                |   4 +
- meta/recipes-graphics/waffle/waffle_1.6.1.bb  |  10 +-
- .../wayland/wayland-protocols_1.20.bb         |   4 +
- .../xorg-font/encodings_1.0.5.bb              |   4 +
- ...20210818.bb => linux-firmware_20210919.bb} |   4 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- ....04.21.bb => wireless-regdb_2021.08.28.bb} |   6 +-
- .../alsa/alsa-topology-conf_1.2.4.bb          |   4 +
- .../alsa/alsa-ucm-conf_1.2.4.bb               |   4 +
- .../pulseaudio-client-conf-sato_1.bb          |   4 +
- .../shutdown-desktop/shutdown-desktop.bb      |   5 +-
- ...ertdata2pem.py-print-a-warning-for-e.patch |  80 ++++++
- .../ca-certificates/sbindir.patch             |  26 --
- ...pdate-ca-certificates-support-Toybox.patch |  33 ---
- ...0210119.bb => ca-certificates_20211016.bb} |   5 +-
- .../iso-codes/iso-codes_4.6.0.bb              |   4 +
- 31 files changed, 627 insertions(+), 101 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-2021-3530.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2021-3530.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-Bug-704342-Include-device-specifier-strings-in-acces.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210818.bb => linux-firmware_20210919.bb} (99%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.04.21.bb => wireless-regdb_2021.08.28.bb} (89%)
- create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
- rename meta/recipes-support/ca-certificates/{ca-certificates_20210119.bb => ca-certificates_20211016.bb} (95%)
-
+diff --git a/meta-networking/recipes-connectivity/networkmanager/networkmanager/fix_reallocarray_check.patch b/meta-networking/recipes-connectivity/networkmanager/networkmanager/fix_reallocarray_check.patch
+new file mode 100644
+index 000000000..0a8de5410
+--- /dev/null
++++ b/meta-networking/recipes-connectivity/networkmanager/networkmanager/fix_reallocarray_check.patch
+@@ -0,0 +1,27 @@
++reallocarray() is coming from stdlib.h which maybe indirectly included
++by malloc.h but not on all libc implementations
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/meson.build
+++++ b/meson.build
++@@ -114,7 +114,7 @@ config_h.set10('HAVE_GETRANDOM', use_sys
++ # FIXME secure_getenv check is not useful?
++ config_h.set('HAVE_SECURE_GETENV', cc.has_function('secure_getenv'))
++ config_h.set('HAVE___SECURE_GETENV', cc.has_function('__secure_getenv'))
++-config_h.set10('HAVE_DECL_REALLOCARRAY', cc.has_function('reallocarray', prefix: '#include <malloc.h>'))
+++config_h.set10('HAVE_DECL_REALLOCARRAY', cc.has_function('reallocarray', prefix: '#include <stdlib.h>'))
++ config_h.set10('HAVE_DECL_EXPLICIT_BZERO', cc.has_function('explicit_bzero', prefix: '#include <string.h>'))
++ config_h.set10('HAVE_DECL_MEMFD_CREATE', cc.has_function('memfd_create', prefix: '#include <sys/mman.h>'))
++ 
++--- a/configure.ac
+++++ b/configure.ac
++@@ -82,7 +82,7 @@ AC_CHECK_DECLS([
++ AC_CHECK_DECLS([
++ 	reallocarray],
++ 	[], [], [[
++-#include <malloc.h>
+++#include <stdlib.h>
++ ]])
++ 
++ AC_CHECK_DECLS([
+diff --git a/meta-networking/recipes-connectivity/networkmanager/networkmanager_1.22.10.bb b/meta-networking/recipes-connectivity/networkmanager/networkmanager_1.22.16.bb
+similarity index 95%
+rename from meta-networking/recipes-connectivity/networkmanager/networkmanager_1.22.10.bb
+rename to meta-networking/recipes-connectivity/networkmanager/networkmanager_1.22.16.bb
+index 33a2b7c0c..ff784b8ce 100644
+--- a/meta-networking/recipes-connectivity/networkmanager/networkmanager_1.22.10.bb
++++ b/meta-networking/recipes-connectivity/networkmanager/networkmanager_1.22.16.bb
+@@ -26,6 +26,7 @@ SRC_URI = " \
+     file://${BPN}.initd \
+     file://0001-Fixed-configure.ac-Fix-pkgconfig-sysroot-locations.patch \
+     file://0002-Do-not-create-settings-settings-property-documentati.patch \
++    file://fix_reallocarray_check.patch \
+ "
+ SRC_URI_append_libc-musl = " \
+     file://musl/0001-Fix-build-with-musl-systemd-specific.patch \
+@@ -33,7 +34,7 @@ SRC_URI_append_libc-musl = " \
+     file://musl/0003-Fix-build-with-musl-for-n-dhcp4.patch \
+     file://musl/0004-Fix-build-with-musl-systemd-specific.patch \
+ "
+-SRC_URI[sha256sum] = "2b29ccc1531ba7ebba95a97f40c22b963838e8b6833745efe8e6fb71fd8fca77"
++SRC_URI[sha256sum] = "377aa053752eaa304b72c9906f9efcd9fbd5f7f6cb4cd4ad72425a68982cffc6"
+ 
+ S = "${WORKDIR}/NetworkManager-${PV}"
+ 
+@@ -71,6 +72,7 @@ PACKAGECONFIG[bluez5] = "--enable-bluez5-dun,--disable-bluez5-dun,bluez5"
+ # consolekit is not picked by shlibs, so add it to RDEPENDS too
+ PACKAGECONFIG[consolekit] = "--with-session-tracking=consolekit,,consolekit,consolekit"
+ PACKAGECONFIG[modemmanager] = "--with-modem-manager-1=yes,--with-modem-manager-1=no,modemmanager"
++PACKAGECONFIG[firewalld] = "--enable-firewalld-zone,--disable-firewalld-zone,firewalld"
+ PACKAGECONFIG[ppp] = "--enable-ppp,--disable-ppp,ppp,ppp"
+ # Use full featured dhcp client instead of internal one
+ PACKAGECONFIG[dhclient] = "--with-dhclient=${base_sbindir}/dhclient,,,dhcp-client"
+@@ -151,6 +153,9 @@ ALTERNATIVE_${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','resolv-co
+ ALTERNATIVE_TARGET[resolv-conf] = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${sysconfdir}/resolv-conf.NetworkManager','',d)}"
+ ALTERNATIVE_LINK_NAME[resolv-conf] = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${sysconfdir}/resolv.conf','',d)}"
+ 
++# Issue introduced in 1.26
++CVE_CHECK_WHITELIST = "CVE-2021-20297 "
++
+ do_install_append() {
+     install -Dm 0755 ${WORKDIR}/${BPN}.initd ${D}${sysconfdir}/init.d/network-manager
+ 
 -- 
-2.31.1
+2.33.0
 
 
