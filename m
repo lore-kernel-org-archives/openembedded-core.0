@@ -1,428 +1,1216 @@
-Return-Path: <petr.vorel@gmail.com>
+Return-Path: <open.source@oleksandr-kravchuk.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Petr Vorel" <petr.vorel@gmail.com>
-Subject: [PATCH v2 1/1] ltp: Update to 20210927
-Date: Sat,  2 Oct 2021 19:19:38 +0200
-Message-Id: <20211002171938.18672-1-petr.vorel@gmail.com>
+Message-ID: <84c302ee-3c80-d8d2-0751-eff415c59085@oleksandr-kravchuk.com>
+Date: Wed, 3 Nov 2021 17:47:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [OE-core] [PATCH 2/2] WIP: xserver-xorg: update to 21.1.0
+References: <20211028184356.3890493-1-open.source@oleksandr-kravchuk.com>
+ <20211028184356.3890493-2-open.source@oleksandr-kravchuk.com>
+ <CANNYZj9qAo=6JOHJ=RDsj+-8e4_n1Daq3mU7DhpESWq=Yj4LqA@mail.gmail.com>
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+In-Reply-To: <CANNYZj9qAo=6JOHJ=RDsj+-8e4_n1Daq3mU7DhpESWq=Yj4LqA@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------bnA1nDnq0FnpT3OqQUf495oi"
+Content-Language: en-US
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Petr Vorel <petr.vorel@gmail.com>, Anders Roxell <anders.roxell@linaro.org>, Naresh Kamboju <naresh.kamboju@linaro.org>, =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 
-New patches to fix functionality:
-* 0002-lib-fix-MemAvailable-parsing.patch
-* 0003-lapi-rtnetlink.h-Fix-include-guards.patch
-* 0004-lapi-Create-if_addr.h-and-reuse-it-in-rtnetlink.h.patch
-* 0005-lapi-if_addr.h-Define-IFA_FLAGS.patch
+--------------bnA1nDnq0FnpT3OqQUf495oi
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-Removed patch from this release
-* 0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch
+On 01/11/2021 19:58, Alexander Kanavin wrote:
+> I have a recipe that builds and runs now:
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates-later
+>
+> There are significant issues with this new release:
+> - upstream forgot to include important files in the tarball; autotools 
+> build works but meson build does not.
 
-Rebased patch
-* 0001-Remove-OOM-tests-from-runtest-mm.patch
+Yeah, that's why I've changed SRC_URI to use gitlab's snapshot.
 
-* Updated copying (reduced files in 5eff445d4 ("Reduce LICENCE/COPYING files"))
 
-* Updated removed musl incompatible files in
-  remove_broken_musl_sources() (process.c was removed in 926d3b906
-  ("sched: Remove process.c")), also update link to CI file.
+> - the binary crashes everywhere except x86.
+>
+> There should be a 21.1.1 coming soon, let's see if it does better. X 
+> is still dying, this all seems like hobbyist work with no corporate 
+> backing.
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Warning: untested, please test it.
+It's older than you, but will actually die after you retire ;)
 
-Changes v1->v2:
-* Update licence files in LIC_FILES_CHKSUM (reported by Daniel Díaz)
 
-Kind regards,
-Petr
+>
+> Alex
+>
+> On Thu, 28 Oct 2021 at 20:44, Oleksandr Kravchuk 
+> <open.source@oleksandr-kravchuk.com> wrote:
+>
+>     This dirty work-in-progress patch is an open call for anyone
+>     interested
+>     to help with its testing.
+>
+>     Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+>     ---
+>      .../xorg-xserver/xserver-xorg.inc             | 62
+>     ++++++++-----------
+>      ...-duplicate-definitions-of-IOPortBase.patch | 45 --------------
+>      ...probing-a-non-PCI-platform-device-on.patch | 34 ----------
+>      ...t-xtest-Initialize-array-with-braces.patch | 36 -----------
+>      .../xorg-xserver/xserver-xorg/pkgconfig.patch | 34 ----------
+>      .../xserver-xorg/sdksyms-no-build-path.patch  | 50 ---------------
+>      ...xorg_1.20.13.bb <http://xorg_1.20.13.bb> =>
+>     xserver-xorg_21.1.0.bb <http://xserver-xorg_21.1.0.bb>} | 11 +---
+>      7 files changed, 29 insertions(+), 243 deletions(-)
+>      delete mode 100644
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+>      delete mode 100644
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+>      delete mode 100644
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch
+>      delete mode 100644
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
+>      delete mode 100644
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch
+>      rename
+>     meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.13.bb
+>     <http://xserver-xorg_1.20.13.bb> => xserver-xorg_21.1.0.bb
+>     <http://xserver-xorg_21.1.0.bb>} (60%)
+>
+>     diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>     index e1fc0a06dc..3732601a4a 100644
+>     --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>     +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>     @@ -12,24 +12,23 @@ PROVIDES = "virtual/xserver-xf86"
+>      # Other packages tend to just care that there is *an* X server:
+>      PROVIDES += "virtual/xserver"
+>
+>     -PE = "2"
+>     -
+>      XORG_PN = "xorg-server"
+>     -SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.xz"
+>     +#SRC_URI =
+>     "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.xz"
+>     +SRC_URI =
+>     "https://gitlab.freedesktop.org/xorg/xserver/-/archive/master/xserver-master.tar.gz"
+>
+>      UPSTREAM_CHECK_REGEX = "xorg-server-(?P<pver>\d+(\.(?!99)\d+)+)\.tar"
+>
+>      CVE_PRODUCT = "xorg-server"
+>
+>     -S = "${WORKDIR}/${XORG_PN}-${PV}"
+>     +#S = "${WORKDIR}/${XORG_PN}-${PV}"
+>     +S = "${WORKDIR}/xserver-master"
+>
+>     -inherit autotools pkgconfig
+>     +inherit meson features_check pkgconfig
+>
+>     -inherit features_check
+>      REQUIRED_DISTRO_FEATURES = "x11"
+>
+>      LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp
+>     libdrm libxkbfile libpciaccess"
+>     -DEPENDS = "xorgproto ${LIB_DEPS} font-util"
+>     +DEPENDS = "xorgproto ${LIB_DEPS} font-util libxcvt libepoxy"
+>
+>      # Split out some modules and extensions from the main package
+>      # These aren't needed for basic operations and only take up space:
+>     @@ -52,7 +51,7 @@ PACKAGES =+ "${PN}-sdl \
+>                   ${PN}-xephyr \
+>                   ${PN}-xwayland \
+>                   ${PN}-multimedia-modules \
+>     -             ${PN}-extension-dri \
+>     +             ${PN}-extension-dri1 \
+>                   ${PN}-extension-dri2 \
+>                   ${PN}-extension-glx \
+>                   ${PN}-extension-record \
+>     @@ -67,6 +66,7 @@ PACKAGES =+ "${PN}-sdl \
+>                   ${PN}-module-xaa \
+>                   ${PN}-module-libxf1bpp \
+>                   ${PN}-module-libxf4bpp \
+>     +             ${PN}-module-inputtest \
+>                   xf86-video-modesetting"
+>
+>     SUMMARY:xf86-video-modesetting = "X.Org X server -- modesetting
+>     display driver"
+>     @@ -88,7 +88,7 @@ FILES:${PN}-utils = "${bindir}/scanpci
+>     ${bindir}/pcitweak ${bindir}/ioport ${bin
+>     FILES:${PN}-xephyr = "${bindir}/Xephyr"
+>     FILES:${PN}-xwayland = "${bindir}/Xwayland"
+>     FILES:${PN}-multimedia-modules =
+>     "${libdir}/xorg/modules/multimedia/*drv*"
+>     -FILES:${PN}-extension-dri =
+>     "${libdir}/xorg/modules/extensions/libdri.so"
+>     +FILES:${PN}-extension-dri1 =
+>     "${libdir}/xorg/modules/extensions/libdri.so"
+>     FILES:${PN}-extension-dri2 =
+>     "${libdir}/xorg/modules/extensions/libdri2.so"
+>     FILES:${PN}-extension-glx =
+>     "${libdir}/xorg/modules/extensions/libglx.so"
+>     FILES:${PN}-extension-record =
+>     "${libdir}/xorg/modules/extensions/librecord.so"
+>     @@ -103,6 +103,7 @@ FILES:${PN}-module-exa =
+>     "${libdir}/xorg/modules/libexa.so"
+>     FILES:${PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"
+>     FILES:${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
+>     FILES:${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
+>     +FILES:${PN}-module-inputtest =
+>     "${libdir}/xorg/modules/input/inputtest_drv.so"
+>     FILES:xf86-video-modesetting =
+>     "${libdir}/xorg/modules/drivers/modesetting_drv.so"
+>
+>      EXTRA_OECONF += "--with-fop=no \
+>     @@ -121,41 +122,30 @@ EXTRA_OECONF += "--with-fop=no \
+>                       --with-os-name=Linux \
+>      "
+>
+>     -OPENGL_PKGCONFIGS = "dri glx glamor dri3 xshmfence"
+>     -PACKAGECONFIG ??= "dga dri2 udev ${XORG_CRYPTO} \
+>     +OPENGL_PKGCONFIGS = "dri1 glx glamor dri3"
+>     +PACKAGECONFIG ??= "dga dri2 udev ${SHA1} \
+>                         ${@bb.utils.contains('DISTRO_FEATURES',
+>     'opengl', '${OPENGL_PKGCONFIGS}', '', d)} \
+>                         ${@bb.utils.contains('DISTRO_FEATURES',
+>     'systemd', 'systemd systemd-logind', '', d)} \
+>      "
+>
+>     -PACKAGECONFIG[udev] =
+>     "--enable-config-udev,--disable-config-udev,udev"
+>     -PACKAGECONFIG[dga] = "--enable-dga,--disable-dga"
+>     -PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,virtual/mesa"
+>     -PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2"
+>     +PACKAGECONFIG[udev] = "-Dudev=true,-Dudev=false, udev"
+>     +PACKAGECONFIG[dga] = "-Ddga=true,-Ddga=false"
+>     +PACKAGECONFIG[dri1] = "-Ddri1=true,-Ddri1=false, virtual/mesa"
+>     +PACKAGECONFIG[dri2] = "-Ddri2=true,-Ddri2=false"
+>      # DRI3 requires xshmfence to also be enabled
+>     -PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3"
+>     -PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/libgl
+>     virtual/libx11"
+>     -PACKAGECONFIG[glamor] =
+>     "--enable-glamor,--disable-glamor,libepoxy virtual/libgbm,libegl"
+>     -PACKAGECONFIG[unwind] =
+>     "--enable-libunwind,--disable-libunwind,libunwind"
+>     -PACKAGECONFIG[xshmfence] =
+>     "--enable-xshmfence,--disable-xshmfence,libxshmfence"
+>     -PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto,
+>     xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+>     -PACKAGECONFIG[systemd-logind] =
+>     "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
+>     -PACKAGECONFIG[systemd] =
+>     "--with-systemd-daemon,--without-systemd-daemon,systemd"
+>     -PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama"
+>     -PACKAGECONFIG[xwayland] =
+>     "--enable-xwayland,--disable-xwayland,wayland wayland-native
+>     wayland-protocols libepoxy"
+>     +PACKAGECONFIG[dri3] = "-Ddri3=true,-Ddri3=false"
+>     +PACKAGECONFIG[glx] = "-Dglx=true,-Dglx=false"
+>     +PACKAGECONFIG[glamor] = "-Dglamor=true,-Dglamor=false"
+>     +PACKAGECONFIG[libunwind] =
+>     "-Dlibunwind=true,-Dlibunwind=false,libunwind"
+>     +PACKAGECONFIG[systemd-logind] =
+>     "-Dsystemdd_logind=true,-Dsystemd_logind=false, dbus,"
+>     +PACKAGECONFIG[xinerama] = "-Dxinerama=true,-Dxinerama=false"
+>     +PACKAGECONFIG[xwayland] =
+>     "-Dxwayland=true,-Dxwayland=false,wayland wayland-native
+>     wayland-protocols libepoxy"
+>
+>      # Xorg requires a SHA1 implementation, pick one
+>     -XORG_CRYPTO ??= "openssl"
+>     -PACKAGECONFIG[openssl] = "--with-sha1=libcrypto,,openssl"
+>     -PACKAGECONFIG[nettle] = "--with-sha1=libnettle,,nettle"
+>     -PACKAGECONFIG[gcrypt] = "--with-sha1=libgcrypt,,libgcrypt"
+>     -
+>     -do_install:append () {
+>     -       # Its assumed base-files creates this for us
+>     -       rmdir ${D}${localstatedir}/log/
+>     -        sed -i -e
+>     's,${libdir}/xorg/modules,${prefix}/lib*/xorg/modules,'
+>     ${D}${mandir}/man5/xorg.conf.5
+>     -}
+>     +SHA1 ??= "sha1"
+>     +# TODO: more options
+>     +PACKAGECONFIG[sha1] = "-Dsha1=libgcrypt,,libgcrypt"
+>
+>     -# Add runtime provides for the ABI versions of the video and
+>     input subsystems,
+>      # so that drivers can depend on the relevant version.
+>      python populate_packages:prepend() {
+>          import subprocess
+>     diff --git
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+>     deleted file mode 100644
+>     index 4737040675..0000000000
+>     ---
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+>     +++ /dev/null
+>     @@ -1,45 +0,0 @@
+>     -From fc04acfd948ac99d04a5dc08c78f3b13bc0c5c41 Mon Sep 17 00:00:00
+>     2001
+>     -From: Khem Raj <raj.khem@gmail.com>
+>     -Date: Mon, 17 Aug 2020 10:50:51 -0700
+>     -Subject: [PATCH] Avoid duplicate definitions of IOPortBase
+>     -
+>     -This fixed build with gcc10/-fno-common
+>     -
+>     -Fixes
+>     -compiler.h:528: multiple definition of `IOPortBase';
+>     -
+>     -Upstream-Status: Pending
+>     -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>     ----
+>     - hw/xfree86/common/compiler.h            | 2 +-
+>     - hw/xfree86/os-support/linux/lnx_video.c | 1 +
+>     - 2 files changed, 2 insertions(+), 1 deletion(-)
+>     -
+>     -diff --git a/hw/xfree86/common/compiler.h
+>     b/hw/xfree86/common/compiler.h
+>     -index 2b2008b..c7d617e 100644
+>     ---- a/hw/xfree86/common/compiler.h
+>     -+++ b/hw/xfree86/common/compiler.h
+>     -@@ -525,7 +525,7 @@ xf86WriteMmio32Le(__volatile__ void *base,
+>     const unsigned long offset,
+>     - #define PORT_SIZE short
+>     - #endif
+>     -
+>     --_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O
+>     port area */
+>     -+extern _X_EXPORT unsigned int IOPortBase;      /* Memory mapped
+>     I/O port area */
+>     -
+>     - static __inline__ void
+>     - outb(unsigned PORT_SIZE port, unsigned char val)
+>     -diff --git a/hw/xfree86/os-support/linux/lnx_video.c
+>     b/hw/xfree86/os-support/linux/lnx_video.c
+>     -index 04e4509..9dc7316 100644
+>     ---- a/hw/xfree86/os-support/linux/lnx_video.c
+>     -+++ b/hw/xfree86/os-support/linux/lnx_video.c
+>     -@@ -78,6 +78,7 @@ xf86OSInitVidMem(VidMemInfoPtr pVidMem)
+>     -
+>     /***************************************************************************/
+>     - /* I/O Permissions section                */
+>     -
+>     /***************************************************************************/
+>     -+_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O
+>     port area */
+>     -
+>     - #if defined(__powerpc__)
+>     - volatile unsigned char *ioBase = NULL;
+>     ---
+>     -2.28.0
+>     -
+>     diff --git
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+>     deleted file mode 100644
+>     index 8b687d612d..0000000000
+>     ---
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+>     +++ /dev/null
+>     @@ -1,34 +0,0 @@
+>     -From e50c85f4ebf559a3bac4817b41074c43d4691779 Mon Sep 17 00:00:00
+>     2001
+>     -From: Eric Anholt <eric@anholt.net>
+>     -Date: Fri, 26 Oct 2018 17:47:30 -0700
+>     -Subject: [PATCH] Fix segfault on probing a non-PCI platform
+>     device on a system
+>     - with PCI.
+>     -
+>     -Some Broadcom set-top-box boards have PCI busses, but the GPU is
+>     still
+>     -probed through DT.  We would dereference a null busid here in that
+>     -case.
+>     -
+>     -Signed-off-by: Eric Anholt <eric@anholt.net>
+>     -
+>     -Upstream-Status: Backport
+>     [https://github.com/freedesktop/xorg-xserver/commit/e50c85f4e]
+>     -Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+>     ----
+>     - hw/xfree86/common/xf86platformBus.c | 2 +-
+>     - 1 file changed, 1 insertion(+), 1 deletion(-)
+>     -
+>     -diff --git a/hw/xfree86/common/xf86platformBus.c
+>     b/hw/xfree86/common/xf86platformBus.c
+>     -index cef47da03..dadbac6c8 100644
+>     ---- a/hw/xfree86/common/xf86platformBus.c
+>     -+++ b/hw/xfree86/common/xf86platformBus.c
+>     -@@ -289,7 +289,7 @@ xf86platformProbe(void)
+>     -     for (i = 0; i < xf86_num_platform_devices; i++) {
+>     -         char *busid = xf86_platform_odev_attributes(i)->busid;
+>     -
+>     --        if (pci && (strncmp(busid, "pci:", 4) == 0)) {
+>     -+        if (pci && busid && (strncmp(busid, "pci:", 4) == 0)) {
+>     -  platform_find_pci_info(&xf86_platform_devices[i], busid);
+>     -         }
+>     -
+>     ---
+>     -2.28.0
+>     -
+>     diff --git
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch
+>     deleted file mode 100644
+>     index c0c242814b..0000000000
+>     ---
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch
+>     +++ /dev/null
+>     @@ -1,36 +0,0 @@
+>     -From 8a382c015cd3c69fcfc146ef03dcbf30c77ff207 Mon Sep 17 00:00:00
+>     2001
+>     -From: Khem Raj <raj.khem@gmail.com>
+>     -Date: Fri, 1 Mar 2019 09:47:57 -0800
+>     -Subject: [PATCH] test/xtest: Initialize array with braces
+>     -
+>     -Fixes an error when extra warnings are enabled, this is caught
+>     with clang
+>     -
+>     -test/xtest.c:64:23: error: suggest braces around initialization
+>     of subobject [-Werror,-Wmissing-braces]
+>     -    WindowRec root = {0};
+>     -                      ^
+>     -                      {}
+>     -1 error generated.
+>     -
+>     -Upstream-Status: Pending
+>     -
+>     -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>     ----
+>     - test/xtest.c | 2 +-
+>     - 1 file changed, 1 insertion(+), 1 deletion(-)
+>     -
+>     -diff --git a/test/xtest.c b/test/xtest.c
+>     -index fc5e433..d7e6620 100644
+>     ---- a/test/xtest.c
+>     -+++ b/test/xtest.c
+>     -@@ -61,7 +61,7 @@ xtest_init_devices(void)
+>     - {
+>     -     ScreenRec screen = {0};
+>     -     ClientRec server_client = {0};
+>     --    WindowRec root = {0};
+>     -+    WindowRec root = {{0}};
+>     -     WindowOptRec optional = {0};
+>     -
+>     -     /* random stuff that needs initialization */
+>     ---
+>     -2.21.0
+>     -
+>     diff --git
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
+>     deleted file mode 100644
+>     index 2ef9fa9fe4..0000000000
+>     --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
+>     +++ /dev/null
+>     @@ -1,34 +0,0 @@
+>     -Upstream-Status: Submitted
+>     [https://gitlab.freedesktop.org/xorg/xserver/merge_requests/22]
+>     -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>     -
+>     -From 5f65a6246fe752764045dd1e38912f1dccec71e4 Mon Sep 17 00:00:00
+>     2001
+>     -From: Ross Burton <ross.burton@intel.com>
+>     -Date: Thu, 20 Sep 2018 20:12:24 +0100
+>     -Subject: [PATCH] xorg-server.m4: just all cflags instead of just
+>     sdkdir
+>     -
+>     -Instead of fetching just the sdkdir variable of xorg-server using
+>     pkg-config,
+>     -simply get all of the CFLAGS.  Aside from completeness, this
+>     helps builds in
+>     -sysroots as pkg-config knows what to do with --cflags but doesn't
+>     remap
+>     -arbitrary variables.
+>     -
+>     -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>     ----
+>     - xorg-server.m4 | 2 +-
+>     - 1 file changed, 1 insertion(+), 1 deletion(-)
+>     -
+>     -diff --git a/xorg-server.m4 b/xorg-server.m4
+>     -index 18255b91a..195bda5d8 100644
+>     ---- a/xorg-server.m4
+>     -+++ b/xorg-server.m4
+>     -@@ -31,7 +31,7 @@ dnl
+>     - AC_DEFUN([XORG_DRIVER_CHECK_EXT],[
+>     -       AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+>     -       SAVE_CFLAGS="$CFLAGS"
+>     --      CFLAGS="$CFLAGS -I`$PKG_CONFIG --variable=sdkdir xorg-server`"
+>     -+      CFLAGS="$CFLAGS `$PKG_CONFIG --cflags xorg-server`"
+>     -       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+>     - #include "xorg-server.h"
+>     - #if !defined $1
+>     ---
+>     -2.11.0
+>     -
+>     diff --git
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch
+>     deleted file mode 100644
+>     index be198ece49..0000000000
+>     ---
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch
+>     +++ /dev/null
+>     @@ -1,50 +0,0 @@
+>     -Upstream-Status: Backport
+>     [https://gitlab.freedesktop.org/xorg/xserver/merge_requests/253]
+>     -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>     -
+>     -From ca832598d38ba55a001088b57d73c6d7261dc9a7 Mon Sep 17 00:00:00
+>     2001
+>     -From: Ross Burton <ross.burton@intel.com>
+>     -Date: Thu, 1 Aug 2019 15:24:51 +0100
+>     -Subject: [PATCH] sdksyms.sh: don't embed the build path
+>     -
+>     -This script generates a header that has a comment containing the
+>     build path for
+>     -no real reason.  As this source can end up deployed on targets in
+>     debug packages
+>     -this means there is both potentially sensitive information
+>     leakage about the
+>     -build environment, and a source of change for reproducible builds.
+>     ----
+>     - hw/xfree86/sdksyms.sh | 7 +++++--
+>     - 1 file changed, 5 insertions(+), 2 deletions(-)
+>     -
+>     -diff --git a/hw/xfree86/sdksyms.sh b/hw/xfree86/sdksyms.sh
+>     -index 39e33711d..bdf47a71a 100755
+>     ---- a/hw/xfree86/sdksyms.sh
+>     -+++ b/hw/xfree86/sdksyms.sh
+>     -@@ -302,13 +302,16 @@ LC_ALL=C
+>     - export LC_ALL
+>     - ${CPP:-cpp} "$@" sdksyms.c > /dev/null || exit $?
+>     - ${CPP:-cpp} "$@" sdksyms.c | ${AWK:-awk} -v topdir=$topdir '
+>     -+function basename(file) {
+>     -+    sub(".*/", "", file)
+>     -+    return file
+>     -+}
+>     - BEGIN {
+>     -     sdk = 0;
+>     -     print("/*");
+>     -     print(" * These symbols are referenced to ensure they");
+>     -     print(" * will be available in the X Server binary.");
+>     -     print(" */");
+>     --    printf("/* topdir=%s */\n", topdir);
+>     -     print("_X_HIDDEN void *xorg_symbols[] = {");
+>     -
+>     -     printf("sdksyms.c:") > "sdksyms.dep";
+>     -@@ -337,7 +340,7 @@ BEGIN {
+>     -       # remove quotes
+>     -       gsub(/"/, "", $3);
+>     -       line = $2;
+>     --      header = $3;
+>     -+      header = basename($3);
+>     -       if (! headers[$3]) {
+>     -           printf(" \\\n  %s", $3) >> "sdksyms.dep";
+>     -           headers[$3] = 1;
+>     ---
+>     -2.20.1
+>     -
+>     diff --git
+>     a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+>     <http://xserver-xorg_1.20.13.bb>
+>     b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.0.bb
+>     <http://xserver-xorg_21.1.0.bb>
+>     similarity index 60%
+>     rename from
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+>     <http://xserver-xorg_1.20.13.bb>
+>     rename to
+>     meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.0.bb
+>     <http://xserver-xorg_21.1.0.bb>
+>     index 01a54070c7..8cb92884b5 100644
+>     --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+>     <http://xserver-xorg_1.20.13.bb>
+>     +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.0.bb
+>     <http://xserver-xorg_21.1.0.bb>
+>     @@ -1,14 +1,9 @@
+>      require xserver-xorg.inc
+>
+>     -SRC_URI +=
+>     "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
+>     \
+>     - file://pkgconfig.patch \
+>     - file://0001-test-xtest-Initialize-array-with-braces.patch \
+>     - file://sdksyms-no-build-path.patch \
+>     - file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
+>     - file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+>     -
+>     file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+>     \
+>     +SRC_URI += " \
+>                 "
+>     -SRC_URI[sha256sum] =
+>     "40aa4e96a56a81a301f15a9b10e06a22700f12b42d9e0e453c7f11d354386300"
+>     +#SRC_URI[sha256sum] =
+>     "50c316dd8f4472cb60dfb285aa46ca6855d7626cecfd8330f6c51da743c1fe42"
+>     +SRC_URI[sha256sum] =
+>     "d8381e02919ca4683bdee5d399f7dc40dff8eb5a64d8bf9e4ee7c09edd51c086"
+>
+>      # These extensions are now integrated into the server, so declare
+>     the migration
+>      # path for in-place upgrades.
+>     -- 
+>     2.25.1
+>
+>
+>     
+>
 
- ...001-Remove-OOM-tests-from-runtest-mm.patch | 12 ++--
- ...s05.c-ioctl_ns06.c-Fix-too-small-buf.patch | 59 ------------------
- .../0002-lib-fix-MemAvailable-parsing.patch   | 36 +++++++++++
- ...-lapi-rtnetlink.h-Fix-include-guards.patch | 37 ++++++++++++
- ...f_addr.h-and-reuse-it-in-rtnetlink.h.patch | 58 ++++++++++++++++++
- ...0005-lapi-if_addr.h-Define-IFA_FLAGS.patch | 60 +++++++++++++++++++
- .../ltp/{ltp_20210524.bb => ltp_20210927.bb}  | 17 +++---
- 7 files changed, 206 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0002-lib-fix-MemAvailable-parsing.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0003-lapi-rtnetlink.h-Fix-include-guards.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0004-lapi-Create-if_addr.h-and-reuse-it-in-rtnetlink.h.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0005-lapi-if_addr.h-Define-IFA_FLAGS.patch
- rename meta/recipes-extended/ltp/{ltp_20210524.bb => ltp_20210927.bb} (86%)
+--------------bnA1nDnq0FnpT3OqQUf495oi
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
-index e51950f153..6d945700be 100644
---- a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
-+++ b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
-@@ -1,4 +1,4 @@
--From 93772c511d954d755cc9128c58ed8968a5af541b Mon Sep 17 00:00:00 2001
-+From e87c2ad1e16cdbd62ba71b2ace3270503decaa56 Mon Sep 17 00:00:00 2001
- From: "Mingde (Matthew) Zeng" <matthewzmd@gmail.com>
- Date: Wed, 29 Jul 2020 08:47:09 -0400
- Subject: [PATCH] Remove OOM tests from runtest/mm
-@@ -7,16 +7,17 @@ Disable OOM tests, as they might cause oeqa ssh connection lost
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
--
-+[ pvorel: rebased for 20210927 ]
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
- ---
-  runtest/mm | 6 ------
-  1 file changed, 6 deletions(-)
- 
- diff --git a/runtest/mm b/runtest/mm
--index 481d39691..cf207d10e 100644
-+index 6537666a9..e5a091a5a 100644
- --- a/runtest/mm
- +++ b/runtest/mm
--@@ -74,12 +74,6 @@ ksm06_2 ksm06 -n 10000
-+@@ -73,12 +73,6 @@ ksm06_2 ksm06 -n 8000
-  
-  cpuset01 cpuset01
-  
-@@ -29,3 +30,6 @@ index 481d39691..cf207d10e 100644
-  swapping01 swapping01 -i 5
-  
-  thp01 thp01 -I 120
-+-- 
-+2.33.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch
-deleted file mode 100644
-index 08b88a38f3..0000000000
---- a/meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From af2b6f5ee6b171078b18246dd73f71cf6e350859 Mon Sep 17 00:00:00 2001
--From: Marius Hillenbrand <mhillen@linux.ibm.com>
--Date: Mon, 19 Jul 2021 13:58:35 +0800
--Subject: [PATCH] syscalls/ioctl_ns05.c, ioctl_ns06.c: Fix too small buffer for
-- path
--
--commit af2b6f5ee6b171078b18246dd73f71cf6e350859 upstream.
--
--Resize the buffer used for paths into /proc/ to grant enough space
--for long PIDs. While at it, replace sprintf with snprintf to avoid
--buffer overflows if we ever ran out of space again.
--
--Fixes: #847
--Signed-off-by: Marius Hillenbrand <mhillen@linux.ibm.com>
--Reviewed-by: Yang Xu <xuyang2018.jy@fujitsu.com>
--Upstream-Status: Backport
--Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
--
--diff --git a/testcases/kernel/syscalls/ioctl/ioctl_ns05.c b/testcases/kernel/syscalls/ioctl/ioctl_ns05.c
--index a67ddbe2c66f..52613810c7ce 100644
----- a/testcases/kernel/syscalls/ioctl/ioctl_ns05.c
--+++ b/testcases/kernel/syscalls/ioctl/ioctl_ns05.c
--@@ -59,10 +59,10 @@ static void run(void)
-- 	if (pid == -1)
-- 		tst_brk(TBROK | TERRNO, "ltp_clone failed");
-- 
---	char child_namespace[20];
--+	char child_namespace[30];
-- 	int my_fd, child_fd, parent_fd;
-- 
---	sprintf(child_namespace, "/proc/%i/ns/pid", pid);
--+	snprintf(child_namespace, sizeof(child_namespace), "/proc/%i/ns/pid", pid);
-- 	my_fd = SAFE_OPEN("/proc/self/ns/pid", O_RDONLY);
-- 	child_fd = SAFE_OPEN(child_namespace, O_RDONLY);
-- 	parent_fd = ioctl(child_fd, NS_GET_PARENT);
--diff --git a/testcases/kernel/syscalls/ioctl/ioctl_ns06.c b/testcases/kernel/syscalls/ioctl/ioctl_ns06.c
--index b6ac80208d02..c30f7de91e09 100644
----- a/testcases/kernel/syscalls/ioctl/ioctl_ns06.c
--+++ b/testcases/kernel/syscalls/ioctl/ioctl_ns06.c
--@@ -51,14 +51,14 @@ static int child(void *arg LTP_ATTRIBUTE_UNUSED)
-- 
-- static void run(void)
-- {
---	char child_namespace[20];
--+	char child_namespace[30];
-- 
-- 	pid_t pid = ltp_clone(CLONE_NEWUSER | SIGCHLD, &child, 0,
-- 		STACK_SIZE, child_stack);
-- 	if (pid == -1)
-- 		tst_brk(TBROK | TERRNO, "ltp_clone failed");
-- 
---	sprintf(child_namespace, "/proc/%i/ns/user", pid);
--+	snprintf(child_namespace, sizeof(child_namespace), "/proc/%i/ns/user", pid);
-- 	int my_fd, child_fd, parent_fd;
-- 
-- 	my_fd = SAFE_OPEN("/proc/self/ns/user", O_RDONLY);
---- 
--2.32.0
--
-diff --git a/meta/recipes-extended/ltp/ltp/0002-lib-fix-MemAvailable-parsing.patch b/meta/recipes-extended/ltp/ltp/0002-lib-fix-MemAvailable-parsing.patch
-new file mode 100644
-index 0000000000..4a9a5b2363
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0002-lib-fix-MemAvailable-parsing.patch
-@@ -0,0 +1,36 @@
-+From 29a096fe2bd356f419bd8a8404d5b652c996b92f Mon Sep 17 00:00:00 2001
-+From: Ralph Siemsen <ralph.siemsen@linaro.org>
-+Date: Mon, 27 Sep 2021 22:18:50 -0400
-+Subject: [PATCH] lib: fix MemAvailable parsing
-+
-+The amount of available memory was not being returned correctly, which
-+resulted in tests being executed when they should have been skipped.
-+
-+Fixes: 8759f4 ("lib: adjust the tmpfs size according to .dev_min_size and MemAvailable")
-+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-+Signed-off-by: Li Wang <liwang@redhat.com>
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+[ upstream status: e42149e28 ("lib: fix MemAvailable parsing") ]
-+---
-+ lib/tst_memutils.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/tst_memutils.c b/lib/tst_memutils.c
-+index ae1cad29b..a46de78f5 100644
-+--- a/lib/tst_memutils.c
-++++ b/lib/tst_memutils.c
-+@@ -65,9 +65,9 @@ void tst_pollute_memory(size_t maxsize, int fillchar)
-+ 
-+ long long tst_available_mem(void)
-+ {
-+-	long long mem_available;
-++	unsigned long long mem_available = 0;
-+ 
-+-	if (FILE_LINES_SCANF("/proc/meminfo", "MemAvailable: %ld",
-++	if (FILE_LINES_SCANF("/proc/meminfo", "MemAvailable: %llu",
-+ 		&mem_available)) {
-+ 		mem_available = SAFE_READ_MEMINFO("MemFree:")
-+ 			+ SAFE_READ_MEMINFO("Cached:");
-+-- 
-+2.33.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp/0003-lapi-rtnetlink.h-Fix-include-guards.patch b/meta/recipes-extended/ltp/ltp/0003-lapi-rtnetlink.h-Fix-include-guards.patch
-new file mode 100644
-index 0000000000..3c1b1ea486
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0003-lapi-rtnetlink.h-Fix-include-guards.patch
-@@ -0,0 +1,37 @@
-+From 881709d1e4d1bba5bf8ca365bc058f338bd72dc2 Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <petr.vorel@gmail.com>
-+Date: Wed, 29 Sep 2021 19:38:42 +0200
-+Subject: [PATCH] lapi/rtnetlink.h: Fix include guards
-+
-+Fixes: 5fea0638a ("lapi: Add missing IFA_FLAGS")
-+
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+[ upstream status: a2a212cf8 ("lapi/rtnetlink.h: Fix include guards") ]
-+---
-+ include/lapi/rtnetlink.h | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/include/lapi/rtnetlink.h b/include/lapi/rtnetlink.h
-+index 8a1b5385b..04e9ad51a 100644
-+--- a/include/lapi/rtnetlink.h
-++++ b/include/lapi/rtnetlink.h
-+@@ -1,8 +1,8 @@
-+ // SPDX-License-Identifier: GPL-2.0-or-later
-+ /* Copyright (c) 2021 Petr Vorel <petr.vorel@gmail.com> */
-+
-+-#ifndef LAPI_IF_ADDR_H__
-+-# define LAPI_IF_ADDR_H__
-++#ifndef LAPI_RTNETLINK_H__
-++# define LAPI_RTNETLINK_H__
-+
-+ #include <linux/rtnetlink.h>
-+
-+@@ -10,4 +10,4 @@
-+ # define IFA_FLAGS 8
-+ #endif
-+
-+-#endif	/* LAPI_IF_ADDR_H__ */
-++#endif	/* LAPI_RTNETLINK_H__ */
-+--
-+2.33.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp/0004-lapi-Create-if_addr.h-and-reuse-it-in-rtnetlink.h.patch b/meta/recipes-extended/ltp/ltp/0004-lapi-Create-if_addr.h-and-reuse-it-in-rtnetlink.h.patch
-new file mode 100644
-index 0000000000..e3108eeeeb
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0004-lapi-Create-if_addr.h-and-reuse-it-in-rtnetlink.h.patch
-@@ -0,0 +1,58 @@
-+From b13440627bd4a9f060a33d400a47a40daa2bc12e Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <petr.vorel@gmail.com>
-+Date: Wed, 29 Sep 2021 19:37:19 +0200
-+Subject: [PATCH] lapi: Create if_addr.h and reuse it in rtnetlink.h
-+
-+There will be fix in next commit for missing IFA_F_NOPREFIXROUTE which
-+requires creating lapi/if_addr.h. Thus move IFA_FLAGS to lapi/if_addr.h,
-+as it belongs there and reuse lapi/if_addr.h in lapi/rtnetlink.h just
-+like <linux/rtnetlink.h> includes <linux/if_addr.h>.
-+
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+[ upstream status: https://lore.kernel.org/ltp/20210930183058.5240-3-petr.vorel@gmail.com/T/#u ]
-+---
-+ include/lapi/if_addr.h   | 16 ++++++++++++++++
-+ include/lapi/rtnetlink.h |  5 +----
-+ 2 files changed, 17 insertions(+), 4 deletions(-)
-+ create mode 100644 include/lapi/if_addr.h
-+
-+diff --git a/include/lapi/if_addr.h b/include/lapi/if_addr.h
-+new file mode 100644
-+index 000000000..4e50a0a4e
-+--- /dev/null
-++++ b/include/lapi/if_addr.h
-+@@ -0,0 +1,16 @@
-++// SPDX-License-Identifier: GPL-2.0-or-later
-++/*
-++ * Copyright (c) 2021 Petr Vorel <petr.vorel@gmail.com>
-++ */
-++
-++#ifndef LAPI_IF_ADDR_H__
-++#define LAPI_IF_ADDR_H__
-++
-++#include <linux/if_addr.h>
-++
-++#ifndef IFA_FLAGS
-++# define IFA_FLAGS 8
-++#endif
-++
-++
-++#endif /* LAPI_IF_ADDR_H__ */
-+diff --git a/include/lapi/rtnetlink.h b/include/lapi/rtnetlink.h
-+index 04e9ad51a..089bf1a0d 100644
-+--- a/include/lapi/rtnetlink.h
-++++ b/include/lapi/rtnetlink.h
-+@@ -5,9 +5,6 @@
-+ # define LAPI_RTNETLINK_H__
-+
-+ #include <linux/rtnetlink.h>
-+-
-+-#ifndef IFA_FLAGS
-+-# define IFA_FLAGS 8
-+-#endif
-++#include "lapi/if_addr.h"
-+
-+ #endif	/* LAPI_RTNETLINK_H__ */
-+--
-+2.33.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp/0005-lapi-if_addr.h-Define-IFA_FLAGS.patch b/meta/recipes-extended/ltp/ltp/0005-lapi-if_addr.h-Define-IFA_FLAGS.patch
-new file mode 100644
-index 0000000000..639091ae52
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0005-lapi-if_addr.h-Define-IFA_FLAGS.patch
-@@ -0,0 +1,60 @@
-+From 9e357fb4fc00ab9c303e314b85b9ae3836141f81 Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <petr.vorel@gmail.com>
-+Date: Wed, 29 Sep 2021 19:56:29 +0200
-+Subject: [PATCH] lapi/if_addr.h: Define IFA_FLAGS
-+
-+and use it in icmp_rate_limit01.c.
-+
-+This fixes error on toolchains with very old kernel headers, e.g.
-+Buildroot sourcery-arm:
-+
-+icmp_rate_limit01.c:82:3: error: 'IFA_F_NOPREFIXROUTE' undeclared (first use in this function)
-+   IFA_F_NOPREFIXROUTE);
-+
-+Fixed because IFA_F_NOPREFIXROUTE was added in 3.14 and the oldest
-+system we still support is Cent0S 7 with 3.10 kernel.
-+
-+NOTE: Cent0S 7 is obviously heavily patched thus it contains
-+IFA_F_NOPREFIXROUTE and therefore CI build didn't catch this error.
-+
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+[ upstream status: https://lore.kernel.org/ltp/20210930183058.5240-4-petr.vorel@gmail.com/T/#u ]
-+---
-+ include/lapi/if_addr.h            | 3 +++
-+ testcases/cve/icmp_rate_limit01.c | 3 ++-
-+ 2 files changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/lapi/if_addr.h b/include/lapi/if_addr.h
-+index 4e50a0a4e..0f7e44784 100644
-+--- a/include/lapi/if_addr.h
-++++ b/include/lapi/if_addr.h
-+@@ -12,5 +12,8 @@
-+ # define IFA_FLAGS 8
-+ #endif
-+
-++#ifndef IFA_F_NOPREFIXROUTE
-++# define IFA_F_NOPREFIXROUTE	0x200
-++#endif
-+
-+ #endif /* LAPI_IF_ADDR_H__ */
-+diff --git a/testcases/cve/icmp_rate_limit01.c b/testcases/cve/icmp_rate_limit01.c
-+index b3a237b30..3ada32675 100644
-+--- a/testcases/cve/icmp_rate_limit01.c
-++++ b/testcases/cve/icmp_rate_limit01.c
-+@@ -27,11 +27,12 @@
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+-#include <linux/if_addr.h>
-+ #include <linux/errqueue.h>
-+
-+ #include <sched.h>
-+ #include <limits.h>
-++
-++#include "lapi/if_addr.h"
-+ #include "tst_test.h"
-+ #include "tst_netdevice.h"
-+
-+--
-+2.33.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20210524.bb b/meta/recipes-extended/ltp/ltp_20210927.bb
-similarity index 86%
-rename from meta/recipes-extended/ltp/ltp_20210524.bb
-rename to meta/recipes-extended/ltp/ltp_20210927.bb
-index 20e2deffa5..359a00132e 100644
---- a/meta/recipes-extended/ltp/ltp_20210524.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210927.bb
-@@ -5,13 +5,8 @@ SECTION = "console/utils"
- LICENSE = "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
- LIC_FILES_CHKSUM = "\
-     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--    file://testcases/kernel/controllers/freezer/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
--    file://testcases/kernel/controllers/freezer/run_freezer.sh;beginline=5;endline=17;md5=86a61d2c042d59836ffb353a21456498 \
--    file://testcases/kernel/hotplug/memory_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
--    file://testcases/kernel/hotplug/cpu_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
-     file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947 \
--    file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
--    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-+    file://testcases/network/can/filter-tests/COPYING;md5=5b155ea7d7f86eae8e8832955d8b70bc \
- "
- 
- DEPENDS = "attr libaio libcap acl openssl zip-native"
-@@ -27,11 +22,14 @@ CFLAGS:append:x86-64 = " -fomit-frame-pointer"
- 
- CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
--SRCREV = "0fb171f2beddaf64bd27597577c206c0f892b3cd"
-+SRCREV = "12beeda351b5d758a729aaf695b836ccc9eb5304"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
--           file://0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch \
-+           file://0002-lib-fix-MemAvailable-parsing.patch \
-+           file://0003-lapi-rtnetlink.h-Fix-include-guards.patch \
-+           file://0004-lapi-Create-if_addr.h-and-reuse-it-in-rtnetlink.h.patch \
-+           file://0005-lapi-if_addr.h-Define-IFA_FLAGS.patch \
-            "
- 
- S = "${WORKDIR}/git"
-@@ -119,9 +117,8 @@ remove_broken_musl_sources() {
- 	echo "WARNING: remove unsupported tests (until they're fixed)"
- 
- 	# sync with upstream
--	# https://github.com/linux-test-project/ltp/blob/master/travis/alpine.sh#L33
-+	# https://github.com/linux-test-project/ltp/blob/master/ci/alpine.sh#L33
- 	rm -rfv \
--		testcases/kernel/sched/process_stress/process.c \
- 		testcases/kernel/syscalls/confstr/confstr01.c \
- 		testcases/kernel/syscalls/fmtmsg/fmtmsg01.c \
- 		testcases/kernel/syscalls/getcontext/getcontext01.c \
--- 
-2.33.0
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 01/11/2021 19:58, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj9qAo=6JOHJ=RDsj+-8e4_n1Daq3mU7DhpESWq=Yj4LqA@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div>I have a recipe that builds and runs now:</div>
+        <div><a
+href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates-later"
+            moz-do-not-send="true" class="moz-txt-link-freetext">http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates-later</a></div>
+        <div><br>
+        </div>
+        <div>There are significant issues with this new release:</div>
+        <div>- upstream forgot to include important files in the
+          tarball; autotools build works but meson build does not.</div>
+      </div>
+    </blockquote>
+    <p>Yeah, that's why I've changed SRC_URI to use gitlab's snapshot.<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANNYZj9qAo=6JOHJ=RDsj+-8e4_n1Daq3mU7DhpESWq=Yj4LqA@mail.gmail.com">
+      <div dir="ltr">
+        <div>- the binary crashes everywhere except x86.</div>
+        <div><br>
+        </div>
+        <div>There should be a 21.1.1 coming soon, let's see if it does
+          better. X is still dying, this all seems like hobbyist work
+          with no corporate backing.</div>
+      </div>
+    </blockquote>
+    <p>It's older than you, but will actually die after you retire ;)<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANNYZj9qAo=6JOHJ=RDsj+-8e4_n1Daq3mU7DhpESWq=Yj4LqA@mail.gmail.com">
+      <div dir="ltr">
+        <div><br>
+        </div>
+        <div>Alex<br>
+        </div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Thu, 28 Oct 2021 at 20:44,
+          Oleksandr Kravchuk &lt;<a
+            href="mailto:open.source@oleksandr-kravchuk.com"
+            moz-do-not-send="true" class="moz-txt-link-freetext">open.source@oleksandr-kravchuk.com</a>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This
+          dirty work-in-progress patch is an open call for anyone
+          interested<br>
+          to help with its testing.<br>
+          <br>
+          Signed-off-by: Oleksandr Kravchuk &lt;<a
+            href="mailto:open.source@oleksandr-kravchuk.com"
+            target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">open.source@oleksandr-kravchuk.com</a>&gt;<br>
+          ---<br>
+           .../xorg-xserver/xserver-xorg.inc             | 62
+          ++++++++-----------<br>
+           ...-duplicate-definitions-of-IOPortBase.patch | 45
+          --------------<br>
+           ...probing-a-non-PCI-platform-device-on.patch | 34 ----------<br>
+           ...t-xtest-Initialize-array-with-braces.patch | 36
+          -----------<br>
+           .../xorg-xserver/xserver-xorg/pkgconfig.patch | 34 ----------<br>
+           .../xserver-xorg/sdksyms-no-build-path.patch  | 50
+          ---------------<br>
+           ...<a href="http://xorg_1.20.13.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xorg_1.20.13.bb</a>
+          =&gt; <a href="http://xserver-xorg_21.1.0.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">xserver-xorg_21.1.0.bb</a>}
+          | 11 +---<br>
+           7 files changed, 29 insertions(+), 243 deletions(-)<br>
+           delete mode 100644
+meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch<br>
+           delete mode 100644
+meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch<br>
+           delete mode 100644
+meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch<br>
+           delete mode 100644
+          meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch<br>
+           delete mode 100644
+meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch<br>
+           rename meta/recipes-graphics/xorg-xserver/{<a
+            href="http://xserver-xorg_1.20.13.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_1.20.13.bb</a>
+          =&gt; <a href="http://xserver-xorg_21.1.0.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">xserver-xorg_21.1.0.bb</a>}
+          (60%)<br>
+          <br>
+          diff --git
+          a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+          b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc<br>
+          index e1fc0a06dc..3732601a4a 100644<br>
+          --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc<br>
+          +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc<br>
+          @@ -12,24 +12,23 @@ PROVIDES = "virtual/xserver-xf86"<br>
+           # Other packages tend to just care that there is *an* X
+          server:<br>
+           PROVIDES += "virtual/xserver"<br>
+          <br>
+          -PE = "2"<br>
+          -<br>
+           XORG_PN = "xorg-server"<br>
+          -SRC_URI =
+          "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.xz"<br>
+          +#SRC_URI =
+          "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.xz"<br>
+          +SRC_URI = "<a
+href="https://gitlab.freedesktop.org/xorg/xserver/-/archive/master/xserver-master.tar.gz"
+            rel="noreferrer" target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">https://gitlab.freedesktop.org/xorg/xserver/-/archive/master/xserver-master.tar.gz</a>"<br>
+          <br>
+           UPSTREAM_CHECK_REGEX =
+          "xorg-server-(?P&lt;pver&gt;\d+(\.(?!99)\d+)+)\.tar"<br>
+          <br>
+           CVE_PRODUCT = "xorg-server"<br>
+          <br>
+          -S = "${WORKDIR}/${XORG_PN}-${PV}"<br>
+          +#S = "${WORKDIR}/${XORG_PN}-${PV}"<br>
+          +S = "${WORKDIR}/xserver-master"<br>
+          <br>
+          -inherit autotools pkgconfig<br>
+          +inherit meson features_check pkgconfig<br>
+          <br>
+          -inherit features_check<br>
+           REQUIRED_DISTRO_FEATURES = "x11"<br>
+          <br>
+           LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp
+          libdrm libxkbfile libpciaccess"<br>
+          -DEPENDS = "xorgproto ${LIB_DEPS} font-util"<br>
+          +DEPENDS = "xorgproto ${LIB_DEPS} font-util libxcvt libepoxy"<br>
+          <br>
+           # Split out some modules and extensions from the main package<br>
+           # These aren't needed for basic operations and only take up
+          space:<br>
+          @@ -52,7 +51,7 @@ PACKAGES =+ "${PN}-sdl \<br>
+                        ${PN}-xephyr \<br>
+                        ${PN}-xwayland \<br>
+                        ${PN}-multimedia-modules \<br>
+          -             ${PN}-extension-dri \<br>
+          +             ${PN}-extension-dri1 \<br>
+                        ${PN}-extension-dri2 \<br>
+                        ${PN}-extension-glx \<br>
+                        ${PN}-extension-record \<br>
+          @@ -67,6 +66,7 @@ PACKAGES =+ "${PN}-sdl \<br>
+                        ${PN}-module-xaa \<br>
+                        ${PN}-module-libxf1bpp \<br>
+                        ${PN}-module-libxf4bpp \<br>
+          +             ${PN}-module-inputtest \<br>
+                        xf86-video-modesetting"<br>
+          <br>
+           <a class="moz-txt-link-freetext" href="SUMMARY:xf86-video-modesetting">SUMMARY:xf86-video-modesetting</a> = "X.Org X server --
+          modesetting display driver"<br>
+          @@ -88,7 +88,7 @@ <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-utils = "${bindir}/scanpci
+          ${bindir}/pcitweak ${bindir}/ioport ${bin<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-xephyr = "${bindir}/Xephyr"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-xwayland = "${bindir}/Xwayland"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-multimedia-modules =
+          "${libdir}/xorg/modules/multimedia/*drv*"<br>
+          -FILES:${PN}-extension-dri =
+          "${libdir}/xorg/modules/extensions/libdri.so"<br>
+          +FILES:${PN}-extension-dri1 =
+          "${libdir}/xorg/modules/extensions/libdri.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-extension-dri2 =
+          "${libdir}/xorg/modules/extensions/libdri2.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-extension-glx =
+          "${libdir}/xorg/modules/extensions/libglx.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-extension-record =
+          "${libdir}/xorg/modules/extensions/librecord.so"<br>
+          @@ -103,6 +103,7 @@ <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-module-exa =
+          "${libdir}/xorg/modules/libexa.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-module-libxf1bpp =
+          "${libdir}/xorg/modules/libxf1bpp.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:$">FILES:$</a>{PN}-module-libxf4bpp =
+          "${libdir}/xorg/modules/libxf4bpp.so"<br>
+          +FILES:${PN}-module-inputtest =
+          "${libdir}/xorg/modules/input/inputtest_drv.so"<br>
+           <a class="moz-txt-link-freetext" href="FILES:xf86-video-modesetting">FILES:xf86-video-modesetting</a> =
+          "${libdir}/xorg/modules/drivers/modesetting_drv.so"<br>
+          <br>
+           EXTRA_OECONF += "--with-fop=no \<br>
+          @@ -121,41 +122,30 @@ EXTRA_OECONF += "--with-fop=no \<br>
+                            --with-os-name=Linux \<br>
+           "<br>
+          <br>
+          -OPENGL_PKGCONFIGS = "dri glx glamor dri3 xshmfence"<br>
+          -PACKAGECONFIG ??= "dga dri2 udev ${XORG_CRYPTO} \<br>
+          +OPENGL_PKGCONFIGS = "dri1 glx glamor dri3"<br>
+          +PACKAGECONFIG ??= "dga dri2 udev ${SHA1} \<br>
+                              ${@bb.utils.contains('DISTRO_FEATURES',
+          'opengl', '${OPENGL_PKGCONFIGS}', '', d)} \<br>
+                              ${@bb.utils.contains('DISTRO_FEATURES',
+          'systemd', 'systemd systemd-logind', '', d)} \<br>
+           "<br>
+          <br>
+          -PACKAGECONFIG[udev] =
+          "--enable-config-udev,--disable-config-udev,udev"<br>
+          -PACKAGECONFIG[dga] = "--enable-dga,--disable-dga"<br>
+          -PACKAGECONFIG[dri] =
+          "--enable-dri,--disable-dri,virtual/mesa"<br>
+          -PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2"<br>
+          +PACKAGECONFIG[udev] = "-Dudev=true,-Dudev=false, udev"<br>
+          +PACKAGECONFIG[dga] = "-Ddga=true,-Ddga=false"<br>
+          +PACKAGECONFIG[dri1] = "-Ddri1=true,-Ddri1=false,
+          virtual/mesa"<br>
+          +PACKAGECONFIG[dri2] = "-Ddri2=true,-Ddri2=false"<br>
+           # DRI3 requires xshmfence to also be enabled<br>
+          -PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3"<br>
+          -PACKAGECONFIG[glx] =
+          "--enable-glx,--disable-glx,virtual/libgl virtual/libx11"<br>
+          -PACKAGECONFIG[glamor] =
+          "--enable-glamor,--disable-glamor,libepoxy
+          virtual/libgbm,libegl"<br>
+          -PACKAGECONFIG[unwind] =
+          "--enable-libunwind,--disable-libunwind,libunwind"<br>
+          -PACKAGECONFIG[xshmfence] =
+          "--enable-xshmfence,--disable-xshmfence,libxshmfence"<br>
+          -PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto,
+          xmlto-native docbook-xml-dtd4-native
+          docbook-xsl-stylesheets-native"<br>
+          -PACKAGECONFIG[systemd-logind] =
+          "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"<br>
+          -PACKAGECONFIG[systemd] =
+          "--with-systemd-daemon,--without-systemd-daemon,systemd"<br>
+          -PACKAGECONFIG[xinerama] =
+          "--enable-xinerama,--disable-xinerama"<br>
+          -PACKAGECONFIG[xwayland] =
+          "--enable-xwayland,--disable-xwayland,wayland wayland-native
+          wayland-protocols libepoxy"<br>
+          +PACKAGECONFIG[dri3] = "-Ddri3=true,-Ddri3=false"<br>
+          +PACKAGECONFIG[glx] = "-Dglx=true,-Dglx=false"<br>
+          +PACKAGECONFIG[glamor] = "-Dglamor=true,-Dglamor=false"<br>
+          +PACKAGECONFIG[libunwind] =
+          "-Dlibunwind=true,-Dlibunwind=false,libunwind"<br>
+          +PACKAGECONFIG[systemd-logind] =
+          "-Dsystemdd_logind=true,-Dsystemd_logind=false, dbus,"<br>
+          +PACKAGECONFIG[xinerama] = "-Dxinerama=true,-Dxinerama=false"<br>
+          +PACKAGECONFIG[xwayland] =
+          "-Dxwayland=true,-Dxwayland=false,wayland wayland-native
+          wayland-protocols libepoxy"<br>
+          <br>
+           # Xorg requires a SHA1 implementation, pick one<br>
+          -XORG_CRYPTO ??= "openssl"<br>
+          -PACKAGECONFIG[openssl] = "--with-sha1=libcrypto,,openssl"<br>
+          -PACKAGECONFIG[nettle] = "--with-sha1=libnettle,,nettle"<br>
+          -PACKAGECONFIG[gcrypt] = "--with-sha1=libgcrypt,,libgcrypt"<br>
+          -<br>
+          -do_<a class="moz-txt-link-freetext" href="install:append">install:append</a> () {<br>
+          -       # Its assumed base-files creates this for us<br>
+          -       rmdir ${D}${localstatedir}/log/<br>
+          -        sed -i -e
+          's,${libdir}/xorg/modules,${prefix}/lib*/xorg/modules,'
+          ${D}${mandir}/man5/xorg.conf.5<br>
+          -}<br>
+          +SHA1 ??= "sha1"<br>
+          +# TODO: more options<br>
+          +PACKAGECONFIG[sha1] = "-Dsha1=libgcrypt,,libgcrypt"<br>
+          <br>
+          -# Add runtime provides for the ABI versions of the video and
+          input subsystems,<br>
+           # so that drivers can depend on the relevant version.<br>
+           python populate_<a class="moz-txt-link-freetext" href="packages:prepend()">packages:prepend()</a> {<br>
+               import subprocess<br>
+          diff --git
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch<br>
+          deleted file mode 100644<br>
+          index 4737040675..0000000000<br>
+          ---
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch<br>
+          +++ /dev/null<br>
+          @@ -1,45 +0,0 @@<br>
+          -From fc04acfd948ac99d04a5dc08c78f3b13bc0c5c41 Mon Sep 17
+          00:00:00 2001<br>
+          -From: Khem Raj &lt;<a href="mailto:raj.khem@gmail.com"
+            target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">raj.khem@gmail.com</a>&gt;<br>
+          -Date: Mon, 17 Aug 2020 10:50:51 -0700<br>
+          -Subject: [PATCH] Avoid duplicate definitions of IOPortBase<br>
+          -<br>
+          -This fixed build with gcc10/-fno-common<br>
+          -<br>
+          -Fixes<br>
+          -compiler.h:528: multiple definition of `IOPortBase';<br>
+          -<br>
+          -Upstream-Status: Pending<br>
+          -Signed-off-by: Khem Raj &lt;<a
+            href="mailto:raj.khem@gmail.com" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">raj.khem@gmail.com</a>&gt;<br>
+          ----<br>
+          - hw/xfree86/common/compiler.h            | 2 +-<br>
+          - hw/xfree86/os-support/linux/lnx_video.c | 1 +<br>
+          - 2 files changed, 2 insertions(+), 1 deletion(-)<br>
+          -<br>
+          -diff --git a/hw/xfree86/common/compiler.h
+          b/hw/xfree86/common/compiler.h<br>
+          -index 2b2008b..c7d617e 100644<br>
+          ---- a/hw/xfree86/common/compiler.h<br>
+          -+++ b/hw/xfree86/common/compiler.h<br>
+          -@@ -525,7 +525,7 @@ xf86WriteMmio32Le(__volatile__ void
+          *base, const unsigned long offset,<br>
+          - #define PORT_SIZE short<br>
+          - #endif<br>
+          - <br>
+          --_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O
+          port area */<br>
+          -+extern _X_EXPORT unsigned int IOPortBase;      /* Memory
+          mapped I/O port area */<br>
+          - <br>
+          - static __inline__ void<br>
+          - outb(unsigned PORT_SIZE port, unsigned char val)<br>
+          -diff --git a/hw/xfree86/os-support/linux/lnx_video.c
+          b/hw/xfree86/os-support/linux/lnx_video.c<br>
+          -index 04e4509..9dc7316 100644<br>
+          ---- a/hw/xfree86/os-support/linux/lnx_video.c<br>
+          -+++ b/hw/xfree86/os-support/linux/lnx_video.c<br>
+          -@@ -78,6 +78,7 @@ xf86OSInitVidMem(VidMemInfoPtr pVidMem)<br>
+          -
+/***************************************************************************/<br>
+          - /* I/O Permissions section                                 
+                         */<br>
+          -
+/***************************************************************************/<br>
+          -+_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O
+          port area */<br>
+          - <br>
+          - #if defined(__powerpc__)<br>
+          - volatile unsigned char *ioBase = NULL;<br>
+          --- <br>
+          -2.28.0<br>
+          -<br>
+          diff --git
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch<br>
+          deleted file mode 100644<br>
+          index 8b687d612d..0000000000<br>
+          ---
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch<br>
+          +++ /dev/null<br>
+          @@ -1,34 +0,0 @@<br>
+          -From e50c85f4ebf559a3bac4817b41074c43d4691779 Mon Sep 17
+          00:00:00 2001<br>
+          -From: Eric Anholt &lt;<a href="mailto:eric@anholt.net"
+            target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">eric@anholt.net</a>&gt;<br>
+          -Date: Fri, 26 Oct 2018 17:47:30 -0700<br>
+          -Subject: [PATCH] Fix segfault on probing a non-PCI platform
+          device on a system<br>
+          - with PCI.<br>
+          -<br>
+          -Some Broadcom set-top-box boards have PCI busses, but the GPU
+          is still<br>
+          -probed through DT.  We would dereference a null busid here in
+          that<br>
+          -case.<br>
+          -<br>
+          -Signed-off-by: Eric Anholt &lt;<a
+            href="mailto:eric@anholt.net" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">eric@anholt.net</a>&gt;<br>
+          -<br>
+          -Upstream-Status: Backport [<a
+            href="https://github.com/freedesktop/xorg-xserver/commit/e50c85f4e"
+            rel="noreferrer" target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">https://github.com/freedesktop/xorg-xserver/commit/e50c85f4e</a>]<br>
+          -Signed-off-by: Aníbal Limón &lt;<a
+            href="mailto:anibal.limon@linaro.org" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">anibal.limon@linaro.org</a>&gt;<br>
+          ----<br>
+          - hw/xfree86/common/xf86platformBus.c | 2 +-<br>
+          - 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+          -<br>
+          -diff --git a/hw/xfree86/common/xf86platformBus.c
+          b/hw/xfree86/common/xf86platformBus.c<br>
+          -index cef47da03..dadbac6c8 100644<br>
+          ---- a/hw/xfree86/common/xf86platformBus.c<br>
+          -+++ b/hw/xfree86/common/xf86platformBus.c<br>
+          -@@ -289,7 +289,7 @@ xf86platformProbe(void)<br>
+          -     for (i = 0; i &lt; xf86_num_platform_devices; i++) {<br>
+          -         char *busid =
+          xf86_platform_odev_attributes(i)-&gt;busid;<br>
+          - <br>
+          --        if (pci &amp;&amp; (strncmp(busid, "pci:", 4) == 0))
+          {<br>
+          -+        if (pci &amp;&amp; busid &amp;&amp; (strncmp(busid,
+          "pci:", 4) == 0)) {<br>
+          -           
+           platform_find_pci_info(&amp;xf86_platform_devices[i], busid);<br>
+          -         }<br>
+          - <br>
+          --- <br>
+          -2.28.0<br>
+          -<br>
+          diff --git
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch<br>
+          deleted file mode 100644<br>
+          index c0c242814b..0000000000<br>
+          ---
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch<br>
+          +++ /dev/null<br>
+          @@ -1,36 +0,0 @@<br>
+          -From 8a382c015cd3c69fcfc146ef03dcbf30c77ff207 Mon Sep 17
+          00:00:00 2001<br>
+          -From: Khem Raj &lt;<a href="mailto:raj.khem@gmail.com"
+            target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">raj.khem@gmail.com</a>&gt;<br>
+          -Date: Fri, 1 Mar 2019 09:47:57 -0800<br>
+          -Subject: [PATCH] test/xtest: Initialize array with braces<br>
+          -<br>
+          -Fixes an error when extra warnings are enabled, this is
+          caught with clang<br>
+          -<br>
+          -test/<a class="moz-txt-link-freetext" href="xtest.c:64:23">xtest.c:64:23</a>: error: suggest braces around
+          initialization of subobject [-Werror,-Wmissing-braces]<br>
+          -    WindowRec root = {0};<br>
+          -                      ^<br>
+          -                      {}<br>
+          -1 error generated.<br>
+          -<br>
+          -Upstream-Status: Pending<br>
+          -<br>
+          -Signed-off-by: Khem Raj &lt;<a
+            href="mailto:raj.khem@gmail.com" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">raj.khem@gmail.com</a>&gt;<br>
+          ----<br>
+          - test/xtest.c | 2 +-<br>
+          - 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+          -<br>
+          -diff --git a/test/xtest.c b/test/xtest.c<br>
+          -index fc5e433..d7e6620 100644<br>
+          ---- a/test/xtest.c<br>
+          -+++ b/test/xtest.c<br>
+          -@@ -61,7 +61,7 @@ xtest_init_devices(void)<br>
+          - {<br>
+          -     ScreenRec screen = {0};<br>
+          -     ClientRec server_client = {0};<br>
+          --    WindowRec root = {0};<br>
+          -+    WindowRec root = {{0}};<br>
+          -     WindowOptRec optional = {0};<br>
+          - <br>
+          -     /* random stuff that needs initialization */<br>
+          --- <br>
+          -2.21.0<br>
+          -<br>
+          diff --git
+          a/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch<br>
+          deleted file mode 100644<br>
+          index 2ef9fa9fe4..0000000000<br>
+          ---
+          a/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch<br>
+          +++ /dev/null<br>
+          @@ -1,34 +0,0 @@<br>
+          -Upstream-Status: Submitted [<a
+            href="https://gitlab.freedesktop.org/xorg/xserver/merge_requests/22"
+            rel="noreferrer" target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">https://gitlab.freedesktop.org/xorg/xserver/merge_requests/22</a>]<br>
+          -Signed-off-by: Ross Burton &lt;<a
+            href="mailto:ross.burton@intel.com" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">ross.burton@intel.com</a>&gt;<br>
+          -<br>
+          -From 5f65a6246fe752764045dd1e38912f1dccec71e4 Mon Sep 17
+          00:00:00 2001<br>
+          -From: Ross Burton &lt;<a href="mailto:ross.burton@intel.com"
+            target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">ross.burton@intel.com</a>&gt;<br>
+          -Date: Thu, 20 Sep 2018 20:12:24 +0100<br>
+          -Subject: [PATCH] xorg-server.m4: just all cflags instead of
+          just sdkdir<br>
+          -<br>
+          -Instead of fetching just the sdkdir variable of xorg-server
+          using pkg-config,<br>
+          -simply get all of the CFLAGS.  Aside from completeness, this
+          helps builds in<br>
+          -sysroots as pkg-config knows what to do with --cflags but
+          doesn't remap<br>
+          -arbitrary variables.<br>
+          -<br>
+          -Signed-off-by: Ross Burton &lt;<a
+            href="mailto:ross.burton@intel.com" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">ross.burton@intel.com</a>&gt;<br>
+          ----<br>
+          - xorg-server.m4 | 2 +-<br>
+          - 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+          -<br>
+          -diff --git a/xorg-server.m4 b/xorg-server.m4<br>
+          -index 18255b91a..195bda5d8 100644<br>
+          ---- a/xorg-server.m4<br>
+          -+++ b/xorg-server.m4<br>
+          -@@ -31,7 +31,7 @@ dnl<br>
+          - AC_DEFUN([XORG_DRIVER_CHECK_EXT],[<br>
+          -       AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+          -       SAVE_CFLAGS="$CFLAGS"<br>
+          --      CFLAGS="$CFLAGS -I`$PKG_CONFIG --variable=sdkdir
+          xorg-server`"<br>
+          -+      CFLAGS="$CFLAGS `$PKG_CONFIG --cflags xorg-server`"<br>
+          -       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[<br>
+          - #include "xorg-server.h"<br>
+          - #if !defined $1<br>
+          --- <br>
+          -2.11.0<br>
+          -<br>
+          diff --git
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch
+b/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch<br>
+          deleted file mode 100644<br>
+          index be198ece49..0000000000<br>
+          ---
+a/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-path.patch<br>
+          +++ /dev/null<br>
+          @@ -1,50 +0,0 @@<br>
+          -Upstream-Status: Backport [<a
+            href="https://gitlab.freedesktop.org/xorg/xserver/merge_requests/253"
+            rel="noreferrer" target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">https://gitlab.freedesktop.org/xorg/xserver/merge_requests/253</a>]<br>
+          -Signed-off-by: Ross Burton &lt;<a
+            href="mailto:ross.burton@intel.com" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">ross.burton@intel.com</a>&gt;<br>
+          -<br>
+          -From ca832598d38ba55a001088b57d73c6d7261dc9a7 Mon Sep 17
+          00:00:00 2001<br>
+          -From: Ross Burton &lt;<a href="mailto:ross.burton@intel.com"
+            target="_blank" moz-do-not-send="true"
+            class="moz-txt-link-freetext">ross.burton@intel.com</a>&gt;<br>
+          -Date: Thu, 1 Aug 2019 15:24:51 +0100<br>
+          -Subject: [PATCH] sdksyms.sh: don't embed the build path<br>
+          -<br>
+          -This script generates a header that has a comment containing
+          the build path for<br>
+          -no real reason.  As this source can end up deployed on
+          targets in debug packages<br>
+          -this means there is both potentially sensitive information
+          leakage about the<br>
+          -build environment, and a source of change for reproducible
+          builds.<br>
+          ----<br>
+          - hw/xfree86/sdksyms.sh | 7 +++++--<br>
+          - 1 file changed, 5 insertions(+), 2 deletions(-)<br>
+          -<br>
+          -diff --git a/hw/xfree86/sdksyms.sh b/hw/xfree86/sdksyms.sh<br>
+          -index 39e33711d..bdf47a71a 100755<br>
+          ---- a/hw/xfree86/sdksyms.sh<br>
+          -+++ b/hw/xfree86/sdksyms.sh<br>
+          -@@ -302,13 +302,16 @@ LC_ALL=C<br>
+          - export LC_ALL<br>
+          - ${<a class="moz-txt-link-freetext" href="CPP:-cpp">CPP:-cpp</a>} "$@" sdksyms.c &gt; /dev/null || exit $?<br>
+          - ${<a class="moz-txt-link-freetext" href="CPP:-cpp">CPP:-cpp</a>} "$@" sdksyms.c | ${<a class="moz-txt-link-freetext" href="AWK:-awk">AWK:-awk</a>} -v topdir=$topdir '<br>
+          -+function basename(file) {<br>
+          -+    sub(".*/", "", file)<br>
+          -+    return file<br>
+          -+}<br>
+          - BEGIN {<br>
+          -     sdk = 0;<br>
+          -     print("/*");<br>
+          -     print(" * These symbols are referenced to ensure they");<br>
+          -     print(" * will be available in the X Server binary.");<br>
+          -     print(" */");<br>
+          --    printf("/* topdir=%s */\n", topdir);<br>
+          -     print("_X_HIDDEN void *xorg_symbols[] = {");<br>
+          - <br>
+          -     printf("sdksyms.c:") &gt; "sdksyms.dep";<br>
+          -@@ -337,7 +340,7 @@ BEGIN {<br>
+          -       # remove quotes<br>
+          -       gsub(/"/, "", $3);<br>
+          -       line = $2;<br>
+          --      header = $3;<br>
+          -+      header = basename($3);<br>
+          -       if (! headers[$3]) {<br>
+          -           printf(" \\\n  %s", $3) &gt;&gt; "sdksyms.dep";<br>
+          -           headers[$3] = 1;<br>
+          --- <br>
+          -2.20.1<br>
+          -<br>
+          diff --git a/meta/recipes-graphics/xorg-xserver/<a
+            href="http://xserver-xorg_1.20.13.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_1.20.13.bb</a>
+          b/meta/recipes-graphics/xorg-xserver/<a
+            href="http://xserver-xorg_21.1.0.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_21.1.0.bb</a><br>
+          similarity index 60%<br>
+          rename from meta/recipes-graphics/xorg-xserver/<a
+            href="http://xserver-xorg_1.20.13.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_1.20.13.bb</a><br>
+          rename to meta/recipes-graphics/xorg-xserver/<a
+            href="http://xserver-xorg_21.1.0.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_21.1.0.bb</a><br>
+          index 01a54070c7..8cb92884b5 100644<br>
+          --- a/meta/recipes-graphics/xorg-xserver/<a
+            href="http://xserver-xorg_1.20.13.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_1.20.13.bb</a><br>
+          +++ b/meta/recipes-graphics/xorg-xserver/<a
+            href="http://xserver-xorg_21.1.0.bb" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">xserver-xorg_21.1.0.bb</a><br>
+          @@ -1,14 +1,9 @@<br>
+           require xserver-xorg.inc<br>
+          <br>
+          -SRC_URI +=
+          "<a class="moz-txt-link-freetext" href="file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch">file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch</a>
+          \<br>
+          -           <a class="moz-txt-link-freetext" href="file://pkgconfig.patch">file://pkgconfig.patch</a> \<br>
+          -         
+           <a class="moz-txt-link-freetext" href="file://0001-test-xtest-Initialize-array-with-braces.patch">file://0001-test-xtest-Initialize-array-with-braces.patch</a> \<br>
+          -           <a class="moz-txt-link-freetext" href="file://sdksyms-no-build-path.patch">file://sdksyms-no-build-path.patch</a> \<br>
+          -         
+           <a class="moz-txt-link-freetext" href="file://0001-drmmode_display.c-add-missing-mi.h-include.patch">file://0001-drmmode_display.c-add-missing-mi.h-include.patch</a>
+          \<br>
+          -         
+           <a class="moz-txt-link-freetext" href="file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch">file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch</a> \<br>
+          -         
+           <a class="moz-txt-link-freetext" href="file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch">file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch</a>
+          \<br>
+          +SRC_URI += " \<br>
+                      "<br>
+          -SRC_URI[sha256sum] =
+          "40aa4e96a56a81a301f15a9b10e06a22700f12b42d9e0e453c7f11d354386300"<br>
+          +#SRC_URI[sha256sum] =
+          "50c316dd8f4472cb60dfb285aa46ca6855d7626cecfd8330f6c51da743c1fe42"<br>
+          +SRC_URI[sha256sum] =
+          "d8381e02919ca4683bdee5d399f7dc40dff8eb5a64d8bf9e4ee7c09edd51c086"<br>
+          <br>
+           # These extensions are now integrated into the server, so
+          declare the migration<br>
+           # path for in-place upgrades.<br>
+          -- <br>
+          2.25.1<br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </blockquote>
+      </div>
+    </blockquote>
+  </body>
+</html>
 
+--------------bnA1nDnq0FnpT3OqQUf495oi--
