@@ -1,197 +1,137 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D331C433EF
-	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 06:37:04 +0000 (UTC)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
- [209.85.222.41])
- by mx.groups.io with SMTP id smtpd.web11.4008.1635921423426029957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED362C433EF
+	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 06:54:30 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web10.4205.1635922469286061570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 23:37:03 -0700
+ Tue, 02 Nov 2021 23:54:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YZfcVnKK;
- spf=pass (domain: gmail.com, ip: 209.85.222.41,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f41.google.com with SMTP id az37so2445390uab.13
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Nov 2021 23:37:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Y6P6POdXCg0BGxW30b2aYHvRH7QBU5hTNLzEYZ/2jkg=;
-        b=YZfcVnKKAdiqY/I+3rc81zOYpGKBuFm/EjW8DQ1F6eQYKl03zl/BDeY2V5tvTUKO9g
-         VGbjHCxf+MudC2nKH6lJw7T4sS9fbRNhCuptBigJX5SK3COqsRuo10ZhBnVDR2NJghrs
-         iorLcL3tDv/z735Zo0RoGVS8K3uWdF1P5uCbpOBQcQo1sqW3ypAoeT/eNtAoh54B3RbW
-         /nStC+LUXLwojfru4ZjTYWmMJ7o5tvYTtvRn5RWWesJBdQ+NYAUT1DzPTwM3hlHstkWW
-         s91MjR2vk3SGkDvWDNVEUgbyk80JO3y5GaazmnBE4cVw2Mclt3JUvYmMH61emHO431pI
-         OrOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y6P6POdXCg0BGxW30b2aYHvRH7QBU5hTNLzEYZ/2jkg=;
-        b=nhVLBqQ/Nxt/tRDr1fnOEuplDTmWV1eRNs9Kg0roctFWQ5vOc9XHilXhZgdAOk6mM2
-         2hMtxNdWTIuqK3RNCIWpr6w3wyiFXWTmxBPiSBkEIyCHh/4rvSi6QgbM64Xa7DMHShX7
-         0TBziVKo/kJbnJRwL5FeU8lzSM41mH4XFSExAsEg3j3yAMCDKi0YFgGZGIF5hlU65pQr
-         wzHq4k96hK3j+60n753qNNFohlXqcXqdiTRf9vYxFgMVWlVVASwh22RWOg9nucOSFQkw
-         tSjwmJ0Ob9jyxjcVUpxIJRzijQmZpV7+g5o/hCBygfMX9OWDYLaOND4B0zrMzUZlQygr
-         O2SA==
-X-Gm-Message-State: AOAM531PQuExRQzRcGwWuMASGvK9hDFv6bVmYb2JU3CNwvEI4lWkS66c
-	J+kIFasnicM/C4z5LjpF98lE8d2HLpuW06+My/PGb4Bu
-X-Google-Smtp-Source: 
- ABdhPJzG57LPrpkTuEfN1lTFMyM3XQOVZpOrryvT9HrsQpMYDYHsrINcnRaXRAgydW9bb3ofuKMNM1PoQDFhkJE2wAI=
-X-Received: by 2002:a67:ae47:: with SMTP id u7mr48657258vsh.7.1635921422466;
- Tue, 02 Nov 2021 23:37:02 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="231695349"
+X-IronPort-AV: E=Sophos;i="5.87,205,1631602800";
+   d="scan'208";a="231695349"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 23:54:28 -0700
+X-IronPort-AV: E=Sophos;i="5.87,205,1631602800";
+   d="scan'208";a="638488899"
+Received: from syasyapu-mobl1.gar.corp.intel.com (HELO
+ anmitta2-mobl1.gar.corp.intel.com) ([10.213.135.212])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 23:54:27 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 00/18] Pull request (cover letter only)
+Date: Wed,  3 Nov 2021 14:54:21 +0800
+Message-Id: <cover.1635922422.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211103054834.8003-1-changqing.li@windriver.com>
-In-Reply-To: <20211103054834.8003-1-changqing.li@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 3 Nov 2021 07:36:51 +0100
-Message-ID: 
- <CANNYZj_O1AcmhHYm=uuOS74Ma=JU9MP7uXxWVE8Hy5apOx66DA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ruby: workaround ptest hang problem
-To: Changqing Li <changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000044413105cfdca3f5"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 06:37:04 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 06:54:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157819
+ https://lists.openembedded.org/g/openembedded-core/message/157820
 
---00000000000044413105cfdca3f5
-Content-Type: text/plain; charset="UTF-8"
+Please merge these changes.
 
-Thanks, does this mean ruby-zotest can be moved out of ptest_problems list?
+Thanks,
 
-Alex
+Anuj
 
-On Wed 3. Nov 2021 at 6.50, Changqing Li <changqing.li@windriver.com> wrote:
+The following changes since commit 47e638ada946af7d69fb65619858a1e4564613c4:
 
-> From: Changqing Li <changqing.li@windriver.com>
->
-> since openssl 3 not compatible problem, ruby have disable openssl
-> extention. But disable openssl extention make test_smtp.rs hang at
-> test case "test_start".
->
-> Net::TestSMTP#test_start:
-> NameError: uninitialized constant Net::SMTP::OpenSSL
-> Did you mean? Open3
-> /usr/lib64/ruby/3.0.0/net/smtp.rb:195:in `default_ssl_context'
-> /usr/lib64/ruby/3.0.0/net/smtp.rb:552:in `start'
-> /usr/lib64/ruby/3.0.0/net/smtp.rb:475:in `start'
-> /usr/lib64/ruby/ptest/test/net/smtp/test_smtp.rb:199:in `test_start'
->
-> temporarily remove the hang case to make other testcases can be run.
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-devtools/ruby/ruby.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-devtools/ruby/ruby.inc
-> b/meta/recipes-devtools/ruby/ruby.inc
-> index 2b5caf35f5..776c409f6c 100644
-> --- a/meta/recipes-devtools/ruby/ruby.inc
-> +++ b/meta/recipes-devtools/ruby/ruby.inc
-> @@ -42,3 +42,7 @@ do_configure:prepend() {
->  do_configure:prepend() {
->      rm -rf ${S}/ext/openssl/extconf.rb
->  }
-> +# Remove this test temporarily until it compatible with openssl 3
-> +do_install_ptest:append() {
-> +    rm -rf ${D}${PTEST_PATH}/test/net/smtp/test_smtp.rb
-> +}
-> --
-> 2.17.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157818):
-> https://lists.openembedded.org/g/openembedded-core/message/157818
-> Mute This Topic: https://lists.openembedded.org/mt/86785429/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+  uninative: Upgrade to 3.4 (2021-11-01 10:36:28 +0000)
 
---00000000000044413105cfdca3f5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+are available in the Git repository at:
 
-<div dir=3D"auto">Thanks, does this mean ruby-zotest can be moved out of pt=
-est_problems list?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex<=
-/div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Wed 3. Nov 2021 at 6.50, Changqing Li &lt;<a href=3D"mailto:changqin=
-g.li@windriver.com">changqing.li@windriver.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
-04,204,204)">From: Changqing Li &lt;<a href=3D"mailto:changqing.li@windrive=
-r.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
-<br>
-since openssl 3 not compatible problem, ruby have disable openssl<br>
-extention. But disable openssl extention make <a href=3D"http://test_smtp.r=
-s" rel=3D"noreferrer" target=3D"_blank">test_smtp.rs</a> hang at<br>
-test case &quot;test_start&quot;.<br>
-<br>
-Net::TestSMTP#test_start:<br>
-NameError: uninitialized constant Net::SMTP::OpenSSL<br>
-Did you mean? Open3<br>
-/usr/lib64/ruby/3.0.0/net/smtp.rb:195:in `default_ssl_context&#39;<br>
-/usr/lib64/ruby/3.0.0/net/smtp.rb:552:in `start&#39;<br>
-/usr/lib64/ruby/3.0.0/net/smtp.rb:475:in `start&#39;<br>
-/usr/lib64/ruby/ptest/test/net/smtp/test_smtp.rb:199:in `test_start&#39;<br=
->
-<br>
-temporarily remove the hang case to make other testcases can be run.<br>
-<br>
-Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.co=
-m" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/ruby/ruby.inc | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ru=
-by/ruby.inc<br>
-index 2b5caf35f5..776c409f6c 100644<br>
---- a/meta/recipes-devtools/ruby/ruby.inc<br>
-+++ b/meta/recipes-devtools/ruby/ruby.inc<br>
-@@ -42,3 +42,7 @@ do_configure:prepend() {<br>
-=C2=A0do_configure:prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0rm -rf ${S}/ext/openssl/extconf.rb<br>
-=C2=A0}<br>
-+# Remove this test temporarily until it compatible with openssl 3<br>
-+do_install_ptest:append() {<br>
-+=C2=A0 =C2=A0 rm -rf ${D}${PTEST_PATH}/test/net/smtp/test_smtp.rb<br>
-+}<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#157818): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/157818" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/157818</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86785429/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86785429/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
 
---00000000000044413105cfdca3f5--
+Alexander Kanavin (6):
+  waffle: convert to git, website is down
+  linux-firmware: upgrade 20210818 -> 20210919
+  wireless-regdb: upgrade 2021.04.21 -> 2021.07.14
+  wireless-regdb: upgrade 2021.07.14 -> 2021.08.28
+  ca-certificates: update 20210119 -> 20211016
+  tzdata: upgrade 2021a -> 2021d
+
+Anuj Mittal (1):
+  meta: bump HASHEQUIV_HASH_VERSION after RPM fix
+
+Bruce Ashfield (3):
+  linux-yocto/5.10: update to v5.10.73
+  linux-yocto/5.10: update to v5.10.74
+  linux-yocto/5.10: update to v5.10.75
+
+Changqing Li (1):
+  openssh: fix CVE-2021-41617
+
+Jose Quaresma (1):
+  sstate: fix touching files inside pseudo
+
+Pgowda (1):
+  binutils: Fix CVE-2021-3530
+
+Richard Purdie (1):
+  bootchart2: Don't compile python modules
+
+Ross Burton (3):
+  testimage: fix unclosed testdata file
+  oe/utils: log exceptions in ThreadedWorker functions
+  strace: show test suite log on failure
+
+Trevor Gamblin (1):
+  ghostscript: Fix CVE-2021-3781
+
+ meta/classes/sstate.bbclass                   |   4 +-
+ meta/classes/testimage.bbclass                |   7 +-
+ meta/lib/oe/utils.py                          |   3 +-
+ .../openssh/openssh/CVE-2021-41617.patch      |  49 ++++
+ .../openssh/openssh_8.5p1.bb                  |   1 +
+ .../binutils/binutils-2.36.inc                |   2 +
+ .../binutils/0017-CVE-2021-3530.patch         | 102 ++++++++
+ .../binutils/0018-CVE-2021-3530.patch         |  64 +++++
+ .../bootchart2/bootchart2_0.14.9.bb           |   6 +-
+ meta/recipes-devtools/strace/strace/run-ptest |   9 +
+ ...de-device-specifier-strings-in-acces.patch | 238 ++++++++++++++++++
+ .../ghostscript/ghostscript_9.53.3.bb         |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |   7 +-
+ .../hicolor-icon-theme_0.17.bb                |   4 +
+ meta/recipes-graphics/waffle/waffle_1.6.1.bb  |  10 +-
+ .../wayland/wayland-protocols_1.20.bb         |   4 +
+ .../xorg-font/encodings_1.0.5.bb              |   4 +
+ ...20210818.bb => linux-firmware_20210919.bb} |   4 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
+ ....04.21.bb => wireless-regdb_2021.08.28.bb} |   6 +-
+ .../alsa/alsa-topology-conf_1.2.4.bb          |   4 +
+ .../alsa/alsa-ucm-conf_1.2.4.bb               |   4 +
+ .../pulseaudio-client-conf-sato_1.bb          |   4 +
+ .../shutdown-desktop/shutdown-desktop.bb      |   5 +-
+ ...ertdata2pem.py-print-a-warning-for-e.patch |  80 ++++++
+ .../ca-certificates/sbindir.patch             |  26 --
+ ...pdate-ca-certificates-support-Toybox.patch |  33 ---
+ ...0210119.bb => ca-certificates_20211016.bb} |   5 +-
+ .../iso-codes/iso-codes_4.6.0.bb              |   4 +
+ 31 files changed, 627 insertions(+), 101 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-2021-3530.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-CVE-2021-3530.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-Bug-704342-Include-device-specifier-strings-in-acces.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210818.bb => linux-firmware_20210919.bb} (99%)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.04.21.bb => wireless-regdb_2021.08.28.bb} (89%)
+ create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20210119.bb => ca-certificates_20211016.bb} (95%)
+
+-- 
+2.31.1
+
 
