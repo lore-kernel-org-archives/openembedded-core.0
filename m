@@ -1,146 +1,119 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DBBC433F5
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:47:34 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.12812.1636037253449406746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38A30C433EF
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 15:42:32 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web12.13530.1636040550987204749
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:47:33 -0700
+ Thu, 04 Nov 2021 08:42:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RBKKRv/A;
- spf=pass (domain: gmail.com, ip: 209.85.221.47,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id d13so9006424wrf.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cDwpXTJa;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 71so4857861wma.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:47:33 -0700 (PDT)
+ Thu, 04 Nov 2021 08:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vkTLe4k1fxebODo7dOOCXyxjXoMLX2linfnz/AypAsM=;
-        b=RBKKRv/Am/ffLmiOBxfJ5MJiCCwgkS0ite0arn+M3xF6pnCYQKof9wF+ymCp/jpREl
-         XEmc5qo04p1sVQGoWwLRrj6ty9hti6wDDmA7gB0WjjbAnuWmx1vh2xPf3RDpWtP/+yef
-         CSqxNsrw3P8R4kp4GJfAkA6LtRklIQ5slegN91TUSQdaRweyU4ftxUlw/Fd4Y0WcZ8rM
-         Rp2b4fAfl8+dC/IjgfdLu+EPBV6yQsqC46joUWF5hGe6yGZjsQ4a4OCoY/AeyGxiN/Ks
-         FotG4EILxdtqGNVgtPfzKHRbzrafhOolyeCV5dYKOJxI0wqTerL28+14v6AKc2EnBVO3
-         AfHQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yuE6RlzD6n/iruEF0Umc6BQK/dhZvs9/Ic222mh/jX8=;
+        b=cDwpXTJan/SuMR29Fn4Jc1jPwVXqKGR+GYrvxk9vvRLesSpDRkufo0vEWciFzpfSFI
+         A5CdbvJIQEmSqDMSd0HsczM0BBHX8EMvLFSHZI77UjMxWHFnWeB+6xN8bsyN/FEBSXcI
+         19wzQp20K6UulmAGLU3uTIGNUbNwTINURShFu8Ro5mLFC2/DAwDv3B/BvHVjuMGiaQkQ
+         1xQFABAej+peu5o2SFMjTlES5iFYtSfwh98ia/V48rdpxJpQjZDzrh2T96hS5S0k+I9a
+         qZvg61G31iwIqJ+FjQ/vRBMmksOFWJIa+LKrh+567ndjDHYTpx3Ij9UMs3EPtfs8KJsY
+         Otkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vkTLe4k1fxebODo7dOOCXyxjXoMLX2linfnz/AypAsM=;
-        b=UOtqxmWLgI3uefcMXODq6pY/KFVszKJZFj8OlnD9VGvw0oOEEIfhEvsLkvZZqSnKwf
-         1YAeKIQyRHEL+kWa1Hz8/vSXXVDyg10gbKz+xq9UR1bVBnVwluwgbTW6SX3lLkFznKC4
-         gZzXTqcZXtqhfBmLZFe+ShbMk6odCGvgvN6ctgfWNUSfIXwVtvRxXbIV4vGQmakAOVyM
-         3waXkfVVIDpU2cCmePHZ1ImCjkM0D4Y+ssU1cOZ0phzXCai3PB6fjLUQeeaqVdk+51uB
-         d4qhNRMfeA+p/nlAeVmaef+4XHuOF+hyvLwPYiz6m9p2xvvQqANllzyD3P+4qHj5+KZM
-         /9Mw==
-X-Gm-Message-State: AOAM532Onc2wNA+NvSq95fsqHno5dHlEEhWGK/dz6I/9/opqa5IpkcC2
-	NpnzUrZNpZP7K2Rx4spqriL294OlyBSlaUahpTU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yuE6RlzD6n/iruEF0Umc6BQK/dhZvs9/Ic222mh/jX8=;
+        b=KlY5fR4dknrFpkN1CIzI5vO/UCCYbOUpcwXnLdZH9uMpw9kOLqAUGg67930vWN4A/j
+         g3Y2wL5/gKKon6zzPWVXXjW6ysgqF79SnUmkpZzram++a1JfjfxtKbQZVGJM7S5qgVge
+         D/O+dn0sgnGm+uZe0cmFc4ZCv0DBM5yaxLFG+MUJ1y1fuA0ZisbQDAcJ6QC04nINrePJ
+         QYqW1lb57rtOnOXgNm0NzpzpSuSb05giNBTlY4K5JsESmYxgNz2coXXMHEtYKdAGOjSJ
+         u8dOIMI24vohLfLsZ9OMlS/2fnagazkRdHvSTkQx9IrKoIsLHLe6RDQWv7NhnzDxVNik
+         jbNA==
+X-Gm-Message-State: AOAM530YCoRfh8OwRnytK2GQ8H5xElAGfYcIEth3L4qdp1U+jCXZd53B
+	WB9hspmG3YaB1ZxYiNjMObfxJ4z8Hvs=
 X-Google-Smtp-Source: 
- ABdhPJy7cwcLLJFzsoKwbYtMRq3aBb7fv+HTkpy0fuig3DHr5MUeNhIm34dAKXOpeOw3+qN5hegG+2/taixrTd2hd5Y=
-X-Received: by 2002:a5d:64cd:: with SMTP id
- f13mr10735887wri.382.1636037251933;
- Thu, 04 Nov 2021 07:47:31 -0700 (PDT)
+ ABdhPJykT/Q+osOaGpzlCy7FLBnGBmM7zQl/luQ25FyvmXrGFnNyKI3yZ8Z2nQVvy6ZjUeDGGYOKYw==
+X-Received: by 2002:a7b:cc8f:: with SMTP id
+ p15mr21161749wma.158.1636040549099;
+        Thu, 04 Nov 2021 08:42:29 -0700 (PDT)
+Received: from CTW-01195.. ([88.157.222.244])
+        by smtp.gmail.com with ESMTPSA id
+ c16sm5249628wrx.96.2021.11.04.08.42.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Nov 2021 08:42:28 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] sstate: another fix for touching files inside pseudo
+Date: Thu,  4 Nov 2021 15:42:21 +0000
+Message-Id: <20211104154221.57948-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20210902162435.1375245-1-ross.burton@arm.com>
- <20210902162435.1375245-11-ross.burton@arm.com>
- <16B23C3CDA8BCB16.30289@lists.openembedded.org>
- <ce5f46365f6d4d38a6017b04ee1564f0@axis.com>
- <CAAnfSTt6OZp8Kh-DT8NrPBB+DDreRpM6rzmOANak1+sNrJL-pQ@mail.gmail.com>
-In-Reply-To: 
- <CAAnfSTt6OZp8Kh-DT8NrPBB+DDreRpM6rzmOANak1+sNrJL-pQ@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 4 Nov 2021 09:47:21 -0500
-Message-ID: 
- <CAJdd5GYHDprn8OO=qLsAZxi7gEszisctoWPvfMEnsXh8fu8vww@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 11/14] libx11-compose-data: set precise BSD
- license
-To: Ross Burton <ross@burtonini.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:47:34 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 15:42:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157850
+ https://lists.openembedded.org/g/openembedded-core/message/157851
 
-On Thu, Nov 4, 2021 at 6:33 AM Ross Burton <ross@burtonini.com> wrote:
->
-> Sorry, missed this email.
->
-> I copied the license from libx11, as it is the same tarball.  It was
-> Joshua Watt who introduced the expanded licenses in
-> 44fd2aa731956fe0a0f74d36959c88b0b87adab5.
+This patch is a fixup for 676757f "sstate: fix touching files inside pseudo"
 
-I don't recall the reasoning for BSD-4-Clause in that specific recipe.
-I can go back and look again. It's also possible I just got it wrong;
-if you have a better idea what it should be, that would save me the
-trouble :)
+running the 'id' command inside the sstate_unpack_package
+function shows that this funcion run inside the pseudo:
 
->
-> Ross
->
-> On Thu, 4 Nov 2021 at 11:19, Peter Kjellerstedt
-> <peter.kjellerstedt@axis.com> wrote:
-> >
-> > Ross: any comment to my question below?
-> >
-> > > -----Original Message-----
-> > > From: openembedded-core@lists.openembedded.org <openembedded-
-> > > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > > Sent: den 28 oktober 2021 17:44
-> > > To: Ross Burton <ross@burtonini.com>
-> > > Cc: openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core] [PATCH 11/14] libx11-compose-data: set precise BSD
-> > > license
-> > >
-> > > > -----Original Message-----
-> > > > From: openembedded-core@lists.openembedded.org <openembedded-
-> > > > core@lists.openembedded.org> On Behalf Of Ross Burton
-> > > > Sent: den 2 september 2021 18:25
-> > > > To: openembedded-core@lists.openembedded.org
-> > > > Subject: [OE-core] [PATCH 11/14] libx11-compose-data: set precise BSD
-> > > > license
-> > > >
-> > > > "BSD" is ambiguous, use the precise licenses BSD-2-Clause BSD-4-Clause.
-> > > >
-> > > > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > > > ---
-> > > >  meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-> > > > b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-> > > > index 7519b4c018d..e53ccc6aea8 100644
-> > > > --- a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-> > > > +++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-> > > > @@ -8,7 +8,7 @@ python () {
-> > > >
-> > > >  require xorg-lib-common.inc
-> > > >
-> > > > -LICENSE = "MIT & MIT-style & BSD"
-> > > > +LICENSE = "MIT & MIT-style & BSD-4-Clause & BSD-2-Clause"
-> > >
-> > > Why is this marked as BSD-4-Clause? Looking at the COPYING file and
-> > > searching the code I can find no trace of any license text with the
-> > > advertising clause from BSD-4-Clause. What am I missing?
-> > >
-> > > >  LIC_FILES_CHKSUM =
-> > > "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
-> > > >
-> > > >  SRC_URI[md5sum] = "c5fa5a86a20e3591bed6c046498d4b8f"
-> > > > --
-> > > > 2.25.1
-> > >
-> > > //Peter
-> >
-> > //Peter
-> >
+ uid=0(root) gid=0(root) groups=0(root)
+
+The check for [ -w ${SSTATE_PKG} ] and [ -O ${SSTATE_PKG}.siginfo ]
+will always return true and the touch can fail when the real user
+don't have permission or in readonly filesystem.
+
+As the documentation refers:
+- the file test operator "-w" check if the file has write permission
+(for the user running the test).
+- the file test operator "-O" check if you are owner of file
+
+We can avoid this test running the touch and mask any return errors
+that we have.
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/classes/sstate.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 8182010047..e4d58639f3 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -900,12 +900,12 @@ sstate_unpack_package () {
+ 	fi
+ 
+ 	tar -I "$ZSTD" -xvf ${SSTATE_PKG}
+-	# update .siginfo atime on local/NFS mirror
+-	[ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
+-	# Use "! -w ||" to return true for read only files
+-	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
+-	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
+-	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo
++	# update .siginfo atime on local/NFS mirror if it is a symbolic link
++	[ ! -h ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
++	# update each symbolic link instead of any referenced file
++	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
++	touch --no-dereference ${SSTATE_PKG}.siginfo 2>/dev/null || true
++	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig 2>/dev/null || true
+ }
+ 
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+-- 
+2.33.1
+
 
