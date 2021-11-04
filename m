@@ -1,230 +1,169 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40539C433F5
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 20:04:25 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web08.3042.1636056264363584213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3F4C433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 20:57:20 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.387.1636059439669370940
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 13:04:24 -0700
+ Thu, 04 Nov 2021 13:57:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Esc9339D;
- spf=pass (domain: gmail.com, ip: 209.85.167.50,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id g29so146658lfv.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ndkamm+y;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id p17so6510096pgj.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 13:04:24 -0700 (PDT)
+ Thu, 04 Nov 2021 13:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mzJ1Hw1a9/860Oq6MRkoOdDDEBn+Ajs7YsgR1BIJVBY=;
-        b=Esc9339D8eNCxAL1ItWyaoRdV7P2bRww3nNZqxQIQyHiLR/5/OCfoGh2+W/ApCe427
-         OWNqriuDLsqJ2VXavC145h4kQL5hdBBhvp7E+JiX0d+2okGm1JnT2FTvndL2bacegFHQ
-         AkZson+vW8ivwHFm6kzC4sYOGBdd9yQ+hb82ft15zSBclAHHqeSww/xbTq7uFVrv/R+j
-         pnXO6SUWfvtEiWxcLTkJ4AegKdEzKhNVPTmFgMuvRl2765wVU5etJ8+d4CElJUQhdo9T
-         qui/FcZfFztkcCWbtO5ETckg9OfAZDldl5/bhkOJQt0g4yU7IDSLRpIr7dIIuTbYhiD1
-         Kq9w==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=b3/FAZAZwmfzoFZkkKXPSrLHALSstfMUOf52how4/gs=;
+        b=ndkamm+y8GeWNDvStPBpP+rMXUc+JXoeBphLY42JYoactVBUBdBXHEP5eAtmWdXdsg
+         ZX5NUsAFV97onQICcWrsytBr7VgO4bkQdmc5CtS+rR3i4ERIxUKYpK38gJAT+Z5d2bAw
+         cgdi338gKaJR5hPgB9f9bm3j19jwRwECI246VfHh4eDrBHdRUu4k5ga+2KAXfTe6kTBh
+         S5CYMvX322w4P/JAAE+ZFx+4jFyCei7YQ0EelajS5Pt91Uon4RI97Q8qxmtyu6eppPvr
+         IBIn8Knz9ljHGTZhY7+R4UNnlHUquHanXbCzziHtHS9uA8gVEy5bmQUSjy+dSa68dMXO
+         Zh/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mzJ1Hw1a9/860Oq6MRkoOdDDEBn+Ajs7YsgR1BIJVBY=;
-        b=k92EeqnlpYRvvV5yh30ldWEWKbRTxhgOvJAxl2IqKP/QbH1FiRXGLzEolJr/94aH93
-         eW6CQeUq5QMiHG8dGvcr+RINyeQhLfqaPcK+p9dFYhMv9QWO5d+Yfsxd+oIQ5/yUhkJ7
-         BLWTkOJJ8S3X2J7T5StnS4A7uK13E6OUtmfjzmoF5I9LGHbJrM4Ldb4rcLAk+wGrZHUN
-         zh+qlmufgu3vTYRaiSumsbgEjqPAiKI0Qafs0eGgeotJtl7RiWCdWTGclxm90Kffyq54
-         3BNhResy4j06jRkTECsr0i10lY9zu3plZ74uXr1nKpjJ6NBTZKjgjDROLUBFVGTkGKY1
-         1n6g==
-X-Gm-Message-State: AOAM533Cq0aO0jcLYuyZpx1e1cb4teQ7bDJ0WtvN/3/RbgQKPuF804jN
-	XlgdI/rblOc5Fe0S1Z+BCrldvREnsewF6A4i6ci83Qe6SnU=
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=b3/FAZAZwmfzoFZkkKXPSrLHALSstfMUOf52how4/gs=;
+        b=rQpIM/zGkquSAg1NO8ZFh2Hi0X+cRSpFxRf5AF/qRautS/TZv/haIEW6/UMyuDYeBd
+         M2HD5WaA53mRjVIw9FrbnrcMKWQNPtDf2Wph3WEHrqiHLrqAfzePaymV1BaUlG+ewjj9
+         TolgHiE46p44pKD/uhc4/5hX57K1ZjQ1zgLUCiBJSmLjmembtSeFmYDNrGhmcd1egdN5
+         9Rgqq21hJ8m3Rv6hCq68z3AfhKvhLP2+FHbh4GBaJAX7PwZEJPkls8hXSMaBbVFEUn5a
+         MppPm/Z05nEaCKuOpGxIHv7wkltTNRmCume1cyoXyywEyJ6skWJj/SMGKuCxFO9u/fAj
+         r+pA==
+X-Gm-Message-State: AOAM531ZLtztgVz50yTmHkG6bWrAecBsIqsWqJJOdq0/dzJE4kGyFW5P
+	url5iN9Bmbw6lsankkOrz1c=
 X-Google-Smtp-Source: 
- ABdhPJxFGkwD5MrejEGyDH/bK8IlJxb5ZLfa5wE/qfz6uLnNVEUpZps5FN6nP1r1CMvXndtwNdvL7avchbZMWVLgfE0=
-X-Received: by 2002:a05:6512:b21:: with SMTP id
- w33mr48173711lfu.447.1636056262630;
- Thu, 04 Nov 2021 13:04:22 -0700 (PDT)
+ ABdhPJzWG7quESTFtwOyvVVEOhxuGVB8WkyNLT0yicX9t/pfv8PLws3NnQb4fknRFqjs5+WUZJEDZw==
+X-Received: by 2002:a05:6a00:2181:b0:44d:c18d:7af9 with SMTP id
+ h1-20020a056a00218100b0044dc18d7af9mr54963979pfi.16.1636059438991;
+        Thu, 04 Nov 2021 13:57:18 -0700 (PDT)
+Received: from ?IPV6:2601:646:9200:a0f0:9103:5ab5:3527:3728?
+ ([2601:646:9200:a0f0:9103:5ab5:3527:3728])
+        by smtp.gmail.com with ESMTPSA id
+ k13sm6123808pfc.197.2021.11.04.13.57.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Nov 2021 13:57:18 -0700 (PDT)
+Message-ID: <12549bda-6366-a38d-e5fb-7261788f362b@gmail.com>
+Date: Thu, 4 Nov 2021 13:57:17 -0700
 MIME-Version: 1.0
-References: <20211102122639.2422915-1-ross.burton@arm.com>
- <bee9058cd7cf3c2d92f7eb7b85eb4ac382e9379b.camel@linuxfoundation.org>
-In-Reply-To: 
- <bee9058cd7cf3c2d92f7eb7b85eb4ac382e9379b.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 4 Nov 2021 20:04:11 +0000
-Message-ID: 
- <CANPvuRkWwTe2LGHy3rzearuxiFESxWWt-FR_DcXfvDXjeOnb2A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] patch.bbclass: don't repr() the exception,
- use str()
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005de3a905cffc0875"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.0
+Subject: Re: [OE-core] [PATCH 0/6] kernel: consolidated pull request
+Content-Language: en-US
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+References: <cover.1636054726.git.bruce.ashfield@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <cover.1636054726.git.bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 20:04:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 20:57:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157871
+ https://lists.openembedded.org/g/openembedded-core/message/157875
 
---0000000000005de3a905cffc0875
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia ter=C3=
-=A7a,
-2/11/2021 =C3=A0(s) 12:36:
 
-> On Tue, 2021-11-02 at 12:26 +0000, Ross Burton wrote:
-> > repr() results in formatting characters such as extra quotation marks
-> > which are pointless.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/classes/patch.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> > index 8de7025491..079ee33e3c 100644
-> > --- a/meta/classes/patch.bbclass
-> > +++ b/meta/classes/patch.bbclass
-> > @@ -155,7 +155,7 @@ python patch_do_patch() {
-> >              resolver.Resolve()
-> >          except bb.BBHandledException as e:
-> >              bb.utils.remove(process_tmpdir, True)
-> > -            bb.fatal("Applying patch '%s' on target directory '%s'\n%s=
-"
-> % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
->
+On 11/4/21 12:48 PM, Bruce Ashfield wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
+> Richard,
+> 
+> Here's a broad set of kernel updates:
+> 
+>   - stable for 5.14
+>   - stable for 5.10
+> 
+> And then the bigger, a way earlier than normal:
+> 
+>   - libc-headers bump to 5.15
+>   - 5.15 reference kernel recipes
+> 
+> As everyone has probably heard, 5.15 is the next kernel LTS, so I
+> wanted to establish it for the next release earlier than normal. Due
+> to the -dev testing, things like lttng, perf and devsrc are already
+> ready to go, so this is a smaller pull request than normal.
+> 
+> I had to fixup strace, and the vboxguest drivers (patch sent to
+> meta-oe)
+> 
+> I've run it through the AB and everything came back green, as well
+> as my local testing.
+> 
+> This isn't the default for any of the machines yet (but I have
+> local patches for that as well). The h/w reference boards
+> stil use 5.14 and need to be updated, but the plan is to remove 5.14,
+> and eventually 5.10 from master, and we'll go with 5.15, and 5.16+
+> in the spring 2022 release.
 
-Replace the "str(e)" with "repr(e).replace("\\n", "\n")" is a bit ugly, can
-this be moved to bb.utils or something like that?
+also 5.10 ? I think there perhaps will be enough folks needing 5.10 
+Since next YP release is also LTS, I wonder if we should keep kernel 
+UAPIs as a LTS kernel too.
 
-> +            bb.fatal("Applying patch '%s' on target directory '%s'\n%s"
-> % (parm['patchname'], patchdir, str(e).replace("\\n", "\n")))
-> >
-> >      bb.utils.remove(process_tmpdir, True)
-> >      del os.environ['TMPDIR']
->
-> Full circle:
->
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dec6edfc27f2cfa990d=
-d0f8b2bbc6f9472a50a839
->
-> :(
->
-> (the original issue being that str(e) on exceptions can hide a lot of
-> useful
-> info)
->
+> 
 > Cheers,
->
-> Richard
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> Bruce
+> 
+> The following changes since commit 3e9c4801216111496acffdfdccf1deae3b3d6b96:
+> 
+>    insane.bbclass: Add a check for directories that are expected to be empty (2021-11-03 11:12:26 +0000)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.yoctoproject.org/poky-contrib zedd/kernel
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+> 
+> Bruce Ashfield (6):
+>    linux-yocto/5.14: update to v5.14.15
+>    linux-yocto/5.10: update to v5.10.76
+>    linux-libc-headers: update to v5.15
+>    linux-yocto-rt/5.10: update to -rt54
+>    linux-yocto/5.15: introduce recipes
+>    strace: fix build against 5.15 kernel/kernel-headers
+> 
+>   meta/conf/distro/include/tcmode-default.inc   |   2 +-
+>   ...1-Avoid-relying-on-presence-of-ipx.h.patch | 151 ++++++++++++++++++
+>   meta/recipes-devtools/strace/strace_5.14.bb   |   1 +
+>   ...ers_5.14.bb => linux-libc-headers_5.15.bb} |   4 +-
+>   .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+>   .../linux/linux-yocto-rt_5.14.bb              |   6 +-
+>   .../linux/linux-yocto-rt_5.15.bb              |  45 ++++++
+>   .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+>   .../linux/linux-yocto-tiny_5.14.bb            |   8 +-
+>   .../linux/linux-yocto-tiny_5.15.bb            |  32 ++++
+>   meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
+>   meta/recipes-kernel/linux/linux-yocto_5.14.bb |  26 +--
+>   meta/recipes-kernel/linux/linux-yocto_5.15.bb |  68 ++++++++
+>   13 files changed, 339 insertions(+), 42 deletions(-)
+>   create mode 100644 meta/recipes-devtools/strace/strace/0001-Avoid-relying-on-presence-of-ipx.h.patch
+>   rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.14.bb => linux-libc-headers_5.15.bb} (81%)
+>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157776):
-> https://lists.openembedded.org/g/openembedded-core/message/157776
-> Mute This Topic: https://lists.openembedded.org/mt/86764324/5052612
+> View/Reply Online (#157862): https://lists.openembedded.org/g/openembedded-core/message/157862
+> Mute This Topic: https://lists.openembedded.org/mt/86824892/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000005de3a905cffc0875
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia ter=C3=A7a, 2/11/2021 =C3=A0(s) 12:36:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">On Tue, 2021-11-02 at 12:26 +000=
-0, Ross Burton wrote:<br>
-&gt; repr() results in formatting characters such as extra quotation marks<=
-br>
-&gt; which are pointless.<br>
-&gt; <br>
-&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" =
-target=3D"_blank">ross.burton@arm.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/patch.bbclass | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass<b=
-r>
-&gt; index 8de7025491..079ee33e3c 100644<br>
-&gt; --- a/meta/classes/patch.bbclass<br>
-&gt; +++ b/meta/classes/patch.bbclass<br>
-&gt; @@ -155,7 +155,7 @@ python patch_do_patch() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resolver.Resolve()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except bb.BBHandledException as e:<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.remove(proces=
-s_tmpdir, True)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Applying pat=
-ch &#39;%s&#39; on target directory &#39;%s&#39;\n%s&quot; % (parm[&#39;pat=
-chname&#39;], patchdir, repr(e).replace(&quot;\\n&quot;, &quot;\n&quot;)))<=
-br></blockquote><div><br></div><div>Replace the &quot;str(e)&quot; with &qu=
-ot;repr(e).replace(&quot;\\n&quot;, &quot;\n&quot;)&quot; is a bit ugly, ca=
-n this be moved to bb.utils or something like that?</div><div><br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Applying pat=
-ch &#39;%s&#39; on target directory &#39;%s&#39;\n%s&quot; % (parm[&#39;pat=
-chname&#39;], patchdir, str(e).replace(&quot;\\n&quot;, &quot;\n&quot;)))<b=
-r>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bb.utils.remove(process_tmpdir, True)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 del os.environ[&#39;TMPDIR&#39;]<br>
-<br>
-Full circle:<br>
-<br>
-<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dec6edfc27=
-f2cfa990dd0f8b2bbc6f9472a50a839" rel=3D"noreferrer" target=3D"_blank">http:=
-//git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dec6edfc27f2cfa990dd0f8b2b=
-bc6f9472a50a839</a><br>
-<br>
-:(<br>
-<br>
-(the original issue being that str(e) on exceptions can hide a lot of usefu=
-l<br>
-info)<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#157776): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/157776" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/157776</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86764324/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/86764324/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---0000000000005de3a905cffc0875--
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
