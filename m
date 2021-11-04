@@ -1,115 +1,146 @@
-Return-Path: <mikko.rapeli@bmw.de>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A491C433EF
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:35:47 +0000 (UTC)
-Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com
- [207.54.72.34])
- by mx.groups.io with SMTP id smtpd.web08.12522.1636036536180439762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DBBC433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:47:34 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.12812.1636037253449406746
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:35:37 -0700
+ Thu, 04 Nov 2021 07:47:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
- header.b=ecjgyzpV;
- spf=pass (domain: bmw.de, ip: 207.54.72.34,
- mailfrom: prvs=935a4eeab=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RBKKRv/A;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id d13so9006424wrf.11
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 04 Nov 2021 07:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1636036536; x=1667572536;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=rZI0LKORv0/ZPlEc/xbvg3voA4Mfo/2HzL4p+Epkqpg=;
-  b=ecjgyzpVYl7ad5CwPwhDNMTSJ1YZ0BOoTOSVR5x0UCfQWCgR3cfnPsby
-   aaf9YKYHF6RsKPMjpIeDmAjkhfo0BK/mrIynmgQbSlA3QdxZXNJg+WlKU
-   0KbU1+IV4ZfvlY5PaqxJKk+pQ+AAwgt6quaL7V/BZhtu/fR94GV0EY0W1
-   s=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 04 Nov 2021 15:35:33 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
- 04 Nov 2021 15:35:32 +0100
-Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp)
- ([160.46.167.66])
- by esabb3.muc with ESMTP/TLS; 04 Nov 2021 15:35:32 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
- smucm33j.europe.bmw.corp
- (160.46.167.66) with Microsoft SMTP Server (TLS;
- Thu, 4 Nov 2021 15:35:32 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.024; Thu,
- 4 Nov 2021 15:35:32 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] opkg: Fix poor operator combination choice
-Thread-Topic: [OE-core] [PATCH] opkg: Fix poor operator combination choice
-Thread-Index: AQHX0YTFd4idNGCFcE+quOaC5dBzI6vzXqEA
-Date: Thu, 4 Nov 2021 14:35:32 +0000
-Message-ID: <YYPvsoYTwoCH3PRT@korppu>
-References: <20211104140257.3622680-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20211104140257.3622680-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6FC496264A1B3246AAAFB73FB2E1374C@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vkTLe4k1fxebODo7dOOCXyxjXoMLX2linfnz/AypAsM=;
+        b=RBKKRv/Am/ffLmiOBxfJ5MJiCCwgkS0ite0arn+M3xF6pnCYQKof9wF+ymCp/jpREl
+         XEmc5qo04p1sVQGoWwLRrj6ty9hti6wDDmA7gB0WjjbAnuWmx1vh2xPf3RDpWtP/+yef
+         CSqxNsrw3P8R4kp4GJfAkA6LtRklIQ5slegN91TUSQdaRweyU4ftxUlw/Fd4Y0WcZ8rM
+         Rp2b4fAfl8+dC/IjgfdLu+EPBV6yQsqC46joUWF5hGe6yGZjsQ4a4OCoY/AeyGxiN/Ks
+         FotG4EILxdtqGNVgtPfzKHRbzrafhOolyeCV5dYKOJxI0wqTerL28+14v6AKc2EnBVO3
+         AfHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vkTLe4k1fxebODo7dOOCXyxjXoMLX2linfnz/AypAsM=;
+        b=UOtqxmWLgI3uefcMXODq6pY/KFVszKJZFj8OlnD9VGvw0oOEEIfhEvsLkvZZqSnKwf
+         1YAeKIQyRHEL+kWa1Hz8/vSXXVDyg10gbKz+xq9UR1bVBnVwluwgbTW6SX3lLkFznKC4
+         gZzXTqcZXtqhfBmLZFe+ShbMk6odCGvgvN6ctgfWNUSfIXwVtvRxXbIV4vGQmakAOVyM
+         3waXkfVVIDpU2cCmePHZ1ImCjkM0D4Y+ssU1cOZ0phzXCai3PB6fjLUQeeaqVdk+51uB
+         d4qhNRMfeA+p/nlAeVmaef+4XHuOF+hyvLwPYiz6m9p2xvvQqANllzyD3P+4qHj5+KZM
+         /9Mw==
+X-Gm-Message-State: AOAM532Onc2wNA+NvSq95fsqHno5dHlEEhWGK/dz6I/9/opqa5IpkcC2
+	NpnzUrZNpZP7K2Rx4spqriL294OlyBSlaUahpTU=
+X-Google-Smtp-Source: 
+ ABdhPJy7cwcLLJFzsoKwbYtMRq3aBb7fv+HTkpy0fuig3DHr5MUeNhIm34dAKXOpeOw3+qN5hegG+2/taixrTd2hd5Y=
+X-Received: by 2002:a5d:64cd:: with SMTP id
+ f13mr10735887wri.382.1636037251933;
+ Thu, 04 Nov 2021 07:47:31 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210902162435.1375245-1-ross.burton@arm.com>
+ <20210902162435.1375245-11-ross.burton@arm.com>
+ <16B23C3CDA8BCB16.30289@lists.openembedded.org>
+ <ce5f46365f6d4d38a6017b04ee1564f0@axis.com>
+ <CAAnfSTt6OZp8Kh-DT8NrPBB+DDreRpM6rzmOANak1+sNrJL-pQ@mail.gmail.com>
+In-Reply-To: 
+ <CAAnfSTt6OZp8Kh-DT8NrPBB+DDreRpM6rzmOANak1+sNrJL-pQ@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 4 Nov 2021 09:47:21 -0500
+Message-ID: 
+ <CAJdd5GYHDprn8OO=qLsAZxi7gEszisctoWPvfMEnsXh8fu8vww@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/14] libx11-compose-data: set precise BSD
+ license
+To: Ross Burton <ross@burtonini.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:35:47 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:47:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157849
+ https://lists.openembedded.org/g/openembedded-core/message/157850
 
-On Thu, Nov 04, 2021 at 02:02:57PM +0000, Richard Purdie wrote:
-> Combining :append with +=3D rarely makes sense. Improve it to use the sta=
-ndard
-> format (and tweak the implied spacing).
+On Thu, Nov 4, 2021 at 6:33 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> Sorry, missed this email.
+>
+> I copied the license from libx11, as it is the same tarball.  It was
+> Joshua Watt who introduced the expanded licenses in
+> 44fd2aa731956fe0a0f74d36959c88b0b87adab5.
 
-Maybe I'm silly but I find :append with +=3D safer to do than manually reme=
-mbring
-to add the space character.
+I don't recall the reasoning for BSD-4-Clause in that specific recipe.
+I can go back and look again. It's also possible I just got it wrong;
+if you have a better idea what it should be, that would save me the
+trouble :)
 
--Mikko
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/opkg/opkg_0.4.5.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/opkg/opkg_0.4.5.bb b/meta/recipes-devt=
-ools/opkg/opkg_0.4.5.bb
-> index 2760fc58786..8af047a51ff 100644
-> --- a/meta/recipes-devtools/opkg/opkg_0.4.5.bb
-> +++ b/meta/recipes-devtools/opkg/opkg_0.4.5.bb
-> @@ -60,7 +60,7 @@ do_install_ptest () {
->  	sed -i -e '/@PYTHONPATH=3D. $(PYTHON) $^/a\\t@if [ "$$?" !=3D "0" ];the=
-n echo "FAIL:"$^;else echo "PASS:"$^;fi' ${D}${PTEST_PATH}/tests/Makefile
->  }
-> =20
-> -WARN_QA:append +=3D "openssl-deprecation"
-> +WARN_QA:append =3D " openssl-deprecation"
->  QAPKGTEST[openssl-deprecation] =3D "package_qa_check_openssl_deprecation=
-"
->  def package_qa_check_openssl_deprecation (package, d, messages):
->      sane =3D True
-> --=20
-> 2.32.0
->=20
-
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157844): https://lists.openembedded.org/g/openembedde=
-d-core/message/157844
-> Mute This Topic: https://lists.openembedded.org/mt/86816265/3616751
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mi=
-kko.rapeli@bmw.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>
+> Ross
+>
+> On Thu, 4 Nov 2021 at 11:19, Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com> wrote:
+> >
+> > Ross: any comment to my question below?
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > > Sent: den 28 oktober 2021 17:44
+> > > To: Ross Burton <ross@burtonini.com>
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH 11/14] libx11-compose-data: set precise BSD
+> > > license
+> > >
+> > > > -----Original Message-----
+> > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > core@lists.openembedded.org> On Behalf Of Ross Burton
+> > > > Sent: den 2 september 2021 18:25
+> > > > To: openembedded-core@lists.openembedded.org
+> > > > Subject: [OE-core] [PATCH 11/14] libx11-compose-data: set precise BSD
+> > > > license
+> > > >
+> > > > "BSD" is ambiguous, use the precise licenses BSD-2-Clause BSD-4-Clause.
+> > > >
+> > > > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > > ---
+> > > >  meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
+> > > > b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
+> > > > index 7519b4c018d..e53ccc6aea8 100644
+> > > > --- a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
+> > > > +++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
+> > > > @@ -8,7 +8,7 @@ python () {
+> > > >
+> > > >  require xorg-lib-common.inc
+> > > >
+> > > > -LICENSE = "MIT & MIT-style & BSD"
+> > > > +LICENSE = "MIT & MIT-style & BSD-4-Clause & BSD-2-Clause"
+> > >
+> > > Why is this marked as BSD-4-Clause? Looking at the COPYING file and
+> > > searching the code I can find no trace of any license text with the
+> > > advertising clause from BSD-4-Clause. What am I missing?
+> > >
+> > > >  LIC_FILES_CHKSUM =
+> > > "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+> > > >
+> > > >  SRC_URI[md5sum] = "c5fa5a86a20e3591bed6c046498d4b8f"
+> > > > --
+> > > > 2.25.1
+> > >
+> > > //Peter
+> >
+> > //Peter
+> >
 
