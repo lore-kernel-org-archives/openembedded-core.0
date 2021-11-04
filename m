@@ -1,134 +1,145 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CB5C433EF
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 17:01:21 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.502.1636045279533241640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A03CC433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 17:46:32 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web09.1106.1636047991603061651
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 10:01:20 -0700
+ Thu, 04 Nov 2021 10:46:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=UopuNC9J;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kGbCq9gd;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id
+ r9-20020a7bc089000000b00332f4abf43fso5607949wmh.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 04 Nov 2021 10:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1636045279;
-  x=1667581279;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=o+3j4vBt3JYU8EyeWOCqtz2lkAE2qQThNUmGYZzs89w=;
-  b=UopuNC9Jb1t2G1YoH66A/KS+Ke8xl3Bfg3H1zADBJlOM0x7+wHOLvVoi
-   hNpH/VzIAP4SqSVXG5F6Wbi0JNXFynK7isHsvb74HHLblH4rcNpz/aeUk
-   ByTIace5Ag323N7qO19f60yJRGs2izLnuUzJUcTESf8HlB+hMpNK+6GBY
-   GjtV0uZr9QbnsNRjNZfLV4Zwq284O1noclYlhBGzPrEnTjPJdzs7ZPDoN
-   eztrCFTm/1wxpn3QDP38WGZ0Z1VO4mQurp8A3s49G664obbdFf+z+pAjP
-   CreJjME2rKwQb9ziOhy4c/IsToI/ErEM/8hMSU70ly2n0GWJ55EMexOjT
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jose Quaresma <quaresma.jose@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] sstate: another fix for touching files inside
- pseudo
-Thread-Topic: [OE-core] [PATCH] sstate: another fix for touching files inside
- pseudo
-Thread-Index: AQHX0ZKnnBtLjSCdSUCePDC6R8ImbqvzlpZA
-Date: Thu, 4 Nov 2021 17:01:10 +0000
-Message-ID: <ec28e677b4354353ac6f93564fb68f72@axis.com>
-References: <20211104154221.57948-1-quaresma.jose@gmail.com>
-In-Reply-To: <20211104154221.57948-1-quaresma.jose@gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RgU5fEE+l4sUvn5fk86/Z/nLLDG8580BbRTqa/T3pfA=;
+        b=kGbCq9gd6h/Iiu3SaQ+JfmNi+0QINFLu8z9Nv4z0y1CmSvHCMEbGjZHprtxxokSnaX
+         Z8eTTDyebw3idPfxCd1py67KBrztwq3R66iE7uvOoasp8rCWEgaftNj1ohHcrcIkmbkH
+         qpArXVxmcBFd6zepCwBsF3i+BIdGH+u5RgGWc9LJoYOdr2KUc+HNLPojR5Ndi9kGndBT
+         ObJmLSaneLyy45PwkNWf0I9QyiJ8H+4LwThNrM/LsgT8ZCG+jpgvpBb8nGPzH+ezB0ev
+         E6Y8arXiZrEycAqZBzl0vkmbtyGTy5o9PHp2H7k/oxWj7A+7BIdPXFr8toSxoQyoi5hN
+         ZLEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RgU5fEE+l4sUvn5fk86/Z/nLLDG8580BbRTqa/T3pfA=;
+        b=bFRMBI2KCySRtN73vw1kvWqESbD7TYp7Tx/lv0vVpJSaminzz975FBWg3Yql2Yw1uC
+         UoTXNhkH4qBkNreW7rO2vi8NLPIYxZeee6HQPIHzlgXi+0h4OVgmQQiW+yI+9VXY95YS
+         fXGs4kpM5SI+QLBAUreFMph2u0y0iy65+sr96MzIxcKsifwkvvF3XqFaEFe/ZaEJqcaG
+         kS65so3x1f5+NU8HmveIiazNZyZWGvE1FM4+qwAarA34uRZkBtNcbcMFGcOwbDF2tj6G
+         hiGk4PKs7aElfNin26mfO0+SBJqprU78XzyB0VL9IZeT8KPoxEhLOtFAQAE1nPSnvyU1
+         D/lg==
+X-Gm-Message-State: AOAM5310pKomtORAKmizkb4J88K/Da1T1hrC0t9G/wfw3aGMPTdNSeLd
+	G/J7Pi2OdIQlkEmDxQ9WYKEXpETcP96+NeISIrQ=
+X-Google-Smtp-Source: 
+ ABdhPJwwqQh+pBTRIL/Wy1u+JrOYdL0ytsFG1L7ABTc9/TL2s0ICwNTsghaWDE1CKHkEA8qMUfQwAOxzL/UnIrGrKfM=
+X-Received: by 2002:a7b:cd03:: with SMTP id f3mr25170890wmj.89.1636047989810;
+ Thu, 04 Nov 2021 10:46:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20211104164856.2835-1-abeltran@linux.microsoft.com>
+In-Reply-To: <20211104164856.2835-1-abeltran@linux.microsoft.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 4 Nov 2021 12:46:18 -0500
+Message-ID: 
+ <CAJdd5GYc8_osEj8q9kAQabQUrR+FKYZ=zn8W9ctx5g-tiFW=nQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] create-spdx: Set the Organization field via a
+ variable
+To: Andres Beltran <abeltran@linux.microsoft.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 17:01:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 17:46:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157855
+ https://lists.openembedded.org/g/openembedded-core/message/157856
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Jose Quaresma
-> Sent: den 4 november 2021 16:42
-> To: openembedded-core@lists.openembedded.org
-> Cc: Jose Quaresma <quaresma.jose@gmail.com>
-> Subject: [OE-core] [PATCH] sstate: another fix for touching files inside
-> pseudo
->=20
-> This patch is a fixup for 676757f "sstate: fix touching files inside
-> pseudo"
->=20
-> running the 'id' command inside the sstate_unpack_package
-> function shows that this funcion run inside the pseudo:
->=20
->  uid=3D0(root) gid=3D0(root) groups=3D0(root)
->=20
-> The check for [ -w ${SSTATE_PKG} ] and [ -O ${SSTATE_PKG}.siginfo ]
-> will always return true and the touch can fail when the real user
-> don't have permission or in readonly filesystem.
->=20
-> As the documentation refers:
-> - the file test operator "-w" check if the file has write permission
-> (for the user running the test).
-> - the file test operator "-O" check if you are owner of file
->=20
-> We can avoid this test running the touch and mask any return errors
-> that we have.
->=20
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+On Thu, Nov 4, 2021 at 11:49 AM Andres Beltran
+<abeltran@linux.microsoft.com> wrote:
+>
+> Currently, the "Organization" field for SBOMs is hard-coded in
+> create-spdx. Create a new variable SPDX_ORG to make this field more
+> generic.
+>
+> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+
+LGTM
+
+Reviewed-By: Joshua Watt <JPEWhacker@gmail.com>
+
 > ---
->  meta/classes/sstate.bbclass | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 8182010047..e4d58639f3 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -900,12 +900,12 @@ sstate_unpack_package () {
->  	fi
->=20
->  	tar -I "$ZSTD" -xvf ${SSTATE_PKG}
-> -	# update .siginfo atime on local/NFS mirror
-> -	[ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${=
-SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
-> -	# Use "! -w ||" to return true for read only files
-> -	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
-> -	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-=
-dereference ${SSTATE_PKG}.sig
-> -	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || tou=
-ch --no-dereference ${SSTATE_PKG}.siginfo
-> +	# update .siginfo atime on local/NFS mirror if it is a symbolic link
-> +	[ ! -h ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev=
-/null || true
-> +	# update each symbolic link instead of any referenced file
-> +	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
-> +	touch --no-dereference ${SSTATE_PKG}.siginfo 2>/dev/null || true
-
-To match the original code this should be:
-
-	[ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.sig=
-info 2>/dev/null || true
-
-Or was there some reason you removed the test for if the siginfo=20
-file exists before touching it? If so, then the commit message=20
-should state this.
-
-> +	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig =
-2>/dev/null || true
->  }
->=20
->  BB_HASHCHECK_FUNCTION =3D "sstate_checkhashes"
+>  meta/classes/create-spdx.bbclass | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+> index c35dbe11849..eb1d446f3fb 100644
+> --- a/meta/classes/create-spdx.bbclass
+> +++ b/meta/classes/create-spdx.bbclass
+> @@ -28,6 +28,8 @@ SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdoc"
+>
+>  SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
+>
+> +SPDX_ORG ??= "OpenEmbedded ()"
+> +
+>  do_image_complete[depends] = "virtual/kernel:do_create_spdx"
+>
+>  def get_doc_namespace(d, doc):
+> @@ -415,7 +417,7 @@ python do_create_spdx() {
+>      doc.creationInfo.comment = "This document was created by analyzing recipe files during the build."
+>      doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
+>      doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+> -    doc.creationInfo.creators.append("Organization: OpenEmbedded ()")
+> +    doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+>      doc.creationInfo.creators.append("Person: N/A ()")
+>
+>      recipe = oe.spdx.SPDXPackage()
+> @@ -519,7 +521,7 @@ python do_create_spdx() {
+>              package_doc.creationInfo.comment = "This document was created by analyzing packages created during the build."
+>              package_doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
+>              package_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+> -            package_doc.creationInfo.creators.append("Organization: OpenEmbedded ()")
+> +            package_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+>              package_doc.creationInfo.creators.append("Person: N/A ()")
+>              package_doc.externalDocumentRefs.append(recipe_ref)
+>
+> @@ -653,7 +655,7 @@ python do_create_runtime_spdx() {
+>              runtime_doc.creationInfo.comment = "This document was created by analyzing package runtime dependencies."
+>              runtime_doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
+>              runtime_doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+> -            runtime_doc.creationInfo.creators.append("Organization: OpenEmbedded ()")
+> +            runtime_doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+>              runtime_doc.creationInfo.creators.append("Person: N/A ()")
+>
+>              package_ref = oe.spdx.SPDXExternalDocumentRef()
+> @@ -813,7 +815,7 @@ python image_combine_spdx() {
+>      doc.creationInfo.comment = "This document was created by analyzing the source of the Yocto recipe during the build."
+>      doc.creationInfo.licenseListVersion = d.getVar("SPDX_LICENSE_DATA")["licenseListVersion"]
+>      doc.creationInfo.creators.append("Tool: OpenEmbedded Core create-spdx.bbclass")
+> -    doc.creationInfo.creators.append("Organization: OpenEmbedded ()")
+> +    doc.creationInfo.creators.append("Organization: %s" % d.getVar("SPDX_ORG"))
+>      doc.creationInfo.creators.append("Person: N/A ()")
+>
+>      image = oe.spdx.SPDXPackage()
 > --
-> 2.33.1
-
-//Peter
-
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157854): https://lists.openembedded.org/g/openembedded-core/message/157854
+> Mute This Topic: https://lists.openembedded.org/mt/86820747/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
