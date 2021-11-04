@@ -1,117 +1,232 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9864DC433EF
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 19:48:44 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web11.2763.1636055313075890343
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 139E7C433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 19:59:31 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web08.2967.1636055969680401328
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 12:48:33 -0700
+ Thu, 04 Nov 2021 12:59:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CHuTyCAb;
- spf=pass (domain: gmail.com, ip: 209.85.219.54,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id v2so6014998qve.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fe3IcssP;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id f3so14159741lfu.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 12:48:32 -0700 (PDT)
+ Thu, 04 Nov 2021 12:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EhE1YlWj9vdNK3h9SDxv9IoNUDPc1agwuLsbAU8jsPk=;
-        b=CHuTyCAb3d2IhbM6+aHdTDIgLnaXffymAgOmWWD0ZQY5hBBfX/FHv4oB+9wPghvnsh
-         CpLCJuJDjJZI3SbZw/7N00qrJePP76Bm4LNLv3UZnDvX8hSoCgh8lfFefkq62B4jmjFF
-         v89qt/gaqvXF4bWg9gBv8YNuUuvf3nYu7DkfIexYcSEKb3PG84OV1GVZZ1rIc6sLy6wX
-         XKhbutqhJeVQf3iozmV8yCrwX1/Qhe8MWwilApoI8dVXTkAdnEhSLsuEC1X4gHkxOMC0
-         C/O6+3Y3Pp+PvhjGGeCJRaZKqfCX9dj3ocffdNUB42JPAhpgqNqwBWuV9fqmGqVYkNTD
-         facA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4gi9/cdfrX7n5kb0DQ6ACjjAmSeF3bWsw6fg8Z3PPWc=;
+        b=fe3IcssPBwPh7cyI5I0+RdabgmXFR9qxK+gfcutrm2kgTtddebvamurKDy2a+hYufU
+         2GFGZ6HJgXzo4A6F5H7LaxlQkCHFQdauWj8cbxf4yVfSZYVwj7KYXLfZqiohMcUVOAbq
+         NSnPYxJvHMEK8cUzkv1SAk4wfPIjrNlNCuvXhJuDv1N074Ic5Gzfjpsh8jXjFTdEgwQ8
+         jSSCGoS9G/9LzMqU42DerD6fdf6iPUBlUpmdnMANVX3nRtIGFX2R8sutNk511JokICeT
+         9SX2JtAGEo00V/roHs7RwUtbZXQ+MQW7aHVuPXgXbmsuOtXQ0dZVex+jGQ9qSjPpDvAG
+         LMKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EhE1YlWj9vdNK3h9SDxv9IoNUDPc1agwuLsbAU8jsPk=;
-        b=5ZFjjJXoGjCNWSeUFS7I1r9LU5p0AMR9X9MMziEnYKxt9XZj7m6kaOMYRsmw5V/QsP
-         o4oCHbdn5ffyK0nA7mjQNu3bOWXfnUahiz4rHq3rm/QqVVTsdTjmw7vyGxlGpXsburqq
-         bR36Bl1kBliuD8aMMKnJhqgE/SOCgwnOAUZcServW/zMCDuSk/kql/4vkVSin6nwNid+
-         Av7KmIv5iY7atWGOWm+kcJmWTtj1cI7SofrEqt4IeDf3tG5x31SBJJmBn+EvwQ8/CDc5
-         kMUFtgBPMBI5GRw8Dv55G1tvb1TGdEC9Q9lI4u2H7afvcTKjoCMEpe86R68ThSWNf1WS
-         Bkyw==
-X-Gm-Message-State: AOAM5334uocwCKsB+nN3OpoCIyyETLSQCD38d6u+aB2imk7vjJX93Jzm
-	JBI1RRwMteFgWdZpkwjmZhzNTqhCYg722Q==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4gi9/cdfrX7n5kb0DQ6ACjjAmSeF3bWsw6fg8Z3PPWc=;
+        b=TTl8JxCTmHZxW33wqHxHPDwqhTfs9P6MlEk2d4XRlRJQXkzECKVuxxqVCMFpJuAvE5
+         R2Ai7kGsNrjaJRQ9RswuA4lJU9Ndvri6RTkBUn5skJR5gqpIGOOy3fJ5AcG4XzZQeVXD
+         1zxyFLi2c73TD4h9KhalOK6X9Jq53nM4Lq6EM3F8FBqGyDC8N924pGzIpkz6soCYt5gX
+         7GYaQLW+rj3nbSqMebWxAwWd6eXnINILh9pBXiSr2KxeFCIH6h8uH48MIuanYNX91xuw
+         gGLv6ZA+6bOXEC98ifilaLcW4Ek+/metFYmXRhdOARDlQPmRnRsVfDEGq0KrmJUjg4Gt
+         c5yQ==
+X-Gm-Message-State: AOAM532Kf7EQDeKSfCtWO+1eagASmDdTLbCZcu/0UElZik/X8/LUXSds
+	0/yJ7H6D4k1kvpemihl5oA6c3WyYg+8swOEwnTQ=
 X-Google-Smtp-Source: 
- ABdhPJxhRtUoyuS7wLAKVrZvZvWkNBlqEYXn4/9SDagyC1IubxwqQwKAauc3iXe/iCcteOkdNAdoRQ==
-X-Received: by 2002:ad4:50c7:: with SMTP id e7mr34773257qvq.53.1636055312289;
-        Thu, 04 Nov 2021 12:48:32 -0700 (PDT)
-Received: from build.lan
- (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id
- br17sm4276771qkb.10.2021.11.04.12.48.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Nov 2021 12:48:31 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/6] linux-libc-headers: update to v5.15
-Date: Thu,  4 Nov 2021 15:48:23 -0400
-Message-Id: 
- <57d58cf2b9094e474cf01c17e475b0526ee969d8.1636054726.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1636054726.git.bruce.ashfield@gmail.com>
-References: <cover.1636054726.git.bruce.ashfield@gmail.com>
+ ABdhPJzvyKemc2s1jYtLqoPLsjEtZci5Qr80kPVS7VsGVrgpEqM09E+coKrhBZdl2uwDIPbZ78trQssoQRjAbK8RIPw=
+X-Received: by 2002:a19:f703:: with SMTP id z3mr18951405lfe.555.1636055967838;
+ Thu, 04 Nov 2021 12:59:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211029231306.16066-1-quaresma.jose@gmail.com>
+ <e1aaf911870cae93d089ec745fbc243910863666.camel@linuxfoundation.org>
+In-Reply-To: 
+ <e1aaf911870cae93d089ec745fbc243910863666.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 4 Nov 2021 19:59:16 +0000
+Message-ID: 
+ <CANPvuRkg-op9iKgBkTGYpgsGsp0ZK8EgLi1jcqYXrWy_rHNeeg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] sstate.bbclass: exceptions on mirror
+ fetcher is not fatal
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000cbb6c505cffbf6d4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 19:48:44 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 19:59:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157865
+ https://lists.openembedded.org/g/openembedded-core/message/157869
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+--000000000000cbb6c505cffbf6d4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No patches needed refreshing or removal, so we just update the
-SRC_URI and pick up the latest uapi / kernel headers.
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia s=C3=A1=
+bado,
+30/10/2021 =C3=A0(s) 22:34:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/conf/distro/include/tcmode-default.inc                   | 2 +-
- ...{linux-libc-headers_5.14.bb => linux-libc-headers_5.15.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.14.bb => linux-libc-headers_5.15.bb} (81%)
+> On Sat, 2021-10-30 at 00:13 +0100, Jose Quaresma wrote:
+> > An exceptions in sstate_checkhashes sstate mirror fetcher
+> > is not fatal for the build and it can be a warning.
+> >
+> > If we can't check status in the fetcher we can assume that sstate
+> > file don't exist on the mirror and build it from sources, ignoring
+> > the sstate cache.
+> >
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta/classes/sstate.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> > index 6e4eb09f8e..54d38ed42d 100644
+> > --- a/meta/classes/sstate.bbclass
+> > +++ b/meta/classes/sstate.bbclass
+> > @@ -995,7 +995,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
+> currentcount=3D0, summary=3DTrue,
+> >                  missed.add(tid)
+> >                  bb.debug(2, "SState: Unsuccessful fetch test for %s
+> (%s)" % (srcuri, e))
+> >              except Exception as e:
+> > -                bb.error("SState: cannot test %s: %s" % (srcuri, e))
+> > +                bb.warn("SState: cannot test file %s from mirrors '%s'=
+:
+> (%s)" % (srcuri, mirrors, e))
+> >              if len(tasklist) >=3D min_tasks:
+> >                  bb.event.fire(bb.event.ProcessProgress(msg,
+> len(tasklist) - thread_worker.tasks.qsize()), d)
+> >
+>
+> This has been discussed a bit before. Whilst the issue isn't fatal to the
+> build
+> I do think this should be an error and have bitbake return an exit code
+> that
+> there was an issue as there is something wrong somewhere if we're hitting
+> this
+> code path.
+>
+> As an example:
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/4230/st=
+eps/15/logs/stdio
+>
+> which might have not shown up if it wasn't an error.
+>
+>
+I was not aware that this subject had already been discussed.
+But it makes sense that when we have the sstate mirrors, if we can't
+communicate with the server we have a problem.
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 58f49800c4..86a6b50433 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -21,7 +21,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.37%"
- GDBVERSION ?= "10.%"
- GLIBCVERSION ?= "2.34"
--LINUXLIBCVERSION ?= "5.14%"
-+LINUXLIBCVERSION ?= "5.15%"
- QEMUVERSION ?= "6.1%"
- GOVERSION ?= "1.16%"
- # This can not use wildcards like 8.0.% since it is also used in mesa to denote
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.14.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.15.bb
-similarity index 81%
-rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.14.bb
-rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.15.bb
-index 282c04d79c..588cc3acd1 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.14.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.15.bb
-@@ -14,7 +14,7 @@ SRC_URI:append = "\
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
--SRC_URI[md5sum] = "a082ef5748b813abca0649dab8be5f52"
--SRC_URI[sha256sum] = "7e068b5e0d26a62b10e5320b25dce57588cbbc6f781c090442138c9c9c3271b2"
-+SRC_URI[md5sum] = "071d49ff4e020d58c04f9f3f76d3b594"
-+SRC_URI[sha256sum] = "57b2cf6991910e3b67a1b3490022e8a0674b6965c74c12da1e99d138d1991ee8"
- 
- 
--- 
-2.19.1
+My assumption in this patch can hide these issues as it will always build
+from the sources and the warning can go unnoticed.
 
+Cheers,
+>
+> Richard
+>
+>
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000cbb6c505cffbf6d4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia s=C3=A1bado, 30/10/2021 =C3=A0(s) 22:34:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">On Sat, 2021-10-30 at 00:13 +0=
+100, Jose Quaresma wrote:<br>
+&gt; An exceptions in sstate_checkhashes sstate mirror fetcher<br>
+&gt; is not fatal for the build and it can be a warning.<br>
+&gt; <br>
+&gt; If we can&#39;t check status in the fetcher we can assume that sstate<=
+br>
+&gt; file don&#39;t exist on the mirror and build it from sources, ignoring=
+<br>
+&gt; the sstate cache.<br>
+&gt; <br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
+.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/sstate.bbclass | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass=
+<br>
+&gt; index 6e4eb09f8e..54d38ed42d 100644<br>
+&gt; --- a/meta/classes/sstate.bbclass<br>
+&gt; +++ b/meta/classes/sstate.bbclass<br>
+&gt; @@ -995,7 +995,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse=
+, currentcount=3D0, summary=3DTrue,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 missed.a=
+dd(tid)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug=
+(2, &quot;SState: Unsuccessful fetch test for %s (%s)&quot; % (srcuri, e))<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as e:=
+<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quo=
+t;SState: cannot test %s: %s&quot; % (srcuri, e))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot=
+;SState: cannot test file %s from mirrors &#39;%s&#39;: (%s)&quot; % (srcur=
+i, mirrors, e))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(tasklist) &gt;=
+=3D min_tasks:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.event=
+.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsi=
+ze()), d)<br>
+&gt;=C2=A0 <br>
+<br>
+This has been discussed a bit before. Whilst the issue isn&#39;t fatal to t=
+he build<br>
+I do think this should be an error and have bitbake return an exit code tha=
+t<br>
+there was an issue as there is something wrong somewhere if we&#39;re hitti=
+ng this<br>
+code path.<br>
+<br>
+As an example:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/63/build=
+s/4230/steps/15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/63/builds/4230/steps/15/logs/=
+stdio</a><br>
+<br>
+which might have not shown up if it wasn&#39;t an error.<br>
+<br></blockquote><div><br></div><div>I was not aware that this subject had =
+already been discussed.</div><div>But it makes sense that when we have the =
+sstate=C2=A0mirrors, if we can&#39;t communicate with the server we have a =
+problem.<br></div><div><br></div><div>My assumption in this patch can hide =
+these issues as it will always build from the sources and the warning=C2=A0=
+can go unnoticed.</div><div><br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--000000000000cbb6c505cffbf6d4--
 
