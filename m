@@ -2,111 +2,99 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26340C433EF
-	for <webhook@archiver.kernel.org>; Wed,  3 Nov 2021 21:56:45 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.3496.1635976603733744946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E464BC433EF
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 01:30:29 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web12.6068.1635989429005355340
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Nov 2021 14:56:43 -0700
+ Wed, 03 Nov 2021 18:30:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SSfyLNRY;
- spf=pass (domain: gmail.com, ip: 209.85.214.172,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hLEDKNX+;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id t21so3838264plr.6
+Received: by mail-pf1-f176.google.com with SMTP id 127so4252453pfu.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Nov 2021 14:56:43 -0700 (PDT)
+ Wed, 03 Nov 2021 18:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LW4wwjmuGU0LqXcV3DhuA8j6CBvSYhCWlyl/0iFbLMQ=;
-        b=SSfyLNRY2TYZnZojkCgNN822RrxqtbVKKcL4V6r+/+1H729djkq79lg/lDAg7ZeESU
-         av+qtC8azg27831BieSfPKCDSGx2TtIgNp8+yomZrat/GpzLvfxplKogq6V5Ug9cN+zN
-         xEBp5N9ALS0CfpNRQrkxtkVwin5+89xwPo710JcGc4hoLOzCAPfaC6+4BQm65j7rX5kK
-         FepfmrXvNxyx94ABGbalc8/VcOl4O2E64qJBvrg416pmuD+yonQ2NEfDI6sTVTIvOVhl
-         5X0XjmYjK/dFLVK8GEuw7QLvmUq245H+SLSrtTLoMSEucfpObirucOkNhIlhIuacI/Sd
-         FCQw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5FWdAKXtOg8AF1CAVOoIVtrjm0+DZJ06J2X3wIMPgBM=;
+        b=hLEDKNX+QtKAvTj4zWEXQLFFQ5pW0otaOsIAIQnBgfzZSHzYV+s6R+fhBHKZL7JKDS
+         Cu/2hkONnaqAmVu7+Hj8nHjHwwJlOM6UfGyfMg6jDka2kLTCGeSjg5wTmbYRYiylaL0/
+         PO7cB0IqrYHeNUxhxg2x46t2telNFNOZLUVVgdIZnSEy5NzZpaFI39sHSMlLnxCoiRwz
+         /4WBirPjKX1+jmhrEJ9oiHCkxWTSh+m4o5hkL0hCAJS/otNOke6UCHZvqaAo/p1tuMFL
+         LqVlKI00Wjt/PsspAz+bAaYiYlHvOpEUpVJuidZCK6fSe6K03g133vHj5d+CerVPXOgp
+         4Mkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LW4wwjmuGU0LqXcV3DhuA8j6CBvSYhCWlyl/0iFbLMQ=;
-        b=eJiSTGNu7B7n1ljbI3FTh/Ro39plQAGb6+j/9GIOUYu0cjcDb3BzJHxrKi8Csr9Tzh
-         pHofxMiAZ0jnqTGkK6jmitTKB6sL4KCLkVypWAgFmeaGqt2CGGfanCixfCoCpHm7sFyk
-         O8yEUp6HAYAyRh7pB1wSfrxxwoNeLgioMAG88nTcWMPNz2LwWT7oW2l7BNCnkMXjkktC
-         5Is9hXGHDRLQULUME55raNa0boSRdeuo7B+Ni8r3MVltjU/0jRZzgkA9/g5XzPECHrU8
-         xLFE/ivV3J5r8MkK7YncB1ZFa/BjPWJecTiuwqz/Pr9DfmCNt6/J1wrq/7/NHLU0/DC0
-         EAzQ==
-X-Gm-Message-State: AOAM5300fCix07RMfBuoS1kDV9KkW9S5m9/0E+brdafhzbxTl9HfMWjA
-	Fz9RZOk6UOl5XnKEq3UT06vX3iqZDmk=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5FWdAKXtOg8AF1CAVOoIVtrjm0+DZJ06J2X3wIMPgBM=;
+        b=1MW0O/iTs/oSLnUE0cGuXq7jRiI2sQv1jtXRGr8t+BoFv341bnQpbDbjtz3YqWgVyE
+         WC3VgWkqvi73n7nkkkfepeMaCZbvGoddFFfzg1uo6oMltJYICpK01/j1aJM6MgYZH4j/
+         htzNkv0B1mgUZLVbVPQrIvifyEY6pxV/yUIciDFIaHwR0fALVgI5zc66zNdKImuLSsAS
+         juCRlciBAU/xE1Q5Lx1KDsfyf8HI573padpC34bbuiMt3dHsGiNJzeei6MN/PGhj3Md+
+         MYMCjgLV58QPvihdCapGyVon/RcWI3QViyOG+b2LvYuO1k7eoPW+3LnpG9d1xL/zKPOB
+         4AdQ==
+X-Gm-Message-State: AOAM5313edT8IBvPsYjrWpnWf5bXxRBjp/SJ02N9wEulx2l56LhKsfHt
+	UM8nz04i9W5ZtBBpNi/nMfEvi80raRQ=
 X-Google-Smtp-Source: 
- ABdhPJz5Et8USKCpyxZYnllra51FjeTYQuilyofrR8Olpib8hOpTuBBHGGo166/n2e9s3GTtT9sIuw==
-X-Received: by 2002:a17:903:32c2:b0:141:eed4:ec0a with SMTP id
- i2-20020a17090332c200b00141eed4ec0amr20592170plr.74.1635976602791;
-        Wed, 03 Nov 2021 14:56:42 -0700 (PDT)
+ ABdhPJzdddhvZmnGH2NB+edyuWmkuk/qVCwknhpcRbU3qn4Yt3Eb/KZ3hJ86tO3RbFYpApYiPh12nw==
+X-Received: by 2002:a63:7e48:: with SMTP id o8mr36747325pgn.157.1635989428054;
+        Wed, 03 Nov 2021 18:30:28 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::f94a])
         by smtp.gmail.com with ESMTPSA id
- t24sm3344937pfg.118.2021.11.03.14.56.42
+ k4sm2748101pjl.20.2021.11.03.18.30.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 14:56:42 -0700 (PDT)
+        Wed, 03 Nov 2021 18:30:27 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [PATCH] kernel-devsrc: Add vdso.lds and other build files for riscv64
- as well
-Date: Wed,  3 Nov 2021 14:56:39 -0700
-Message-Id: <20211103215639.3517924-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] gdb: Add dependency on libgmp
+Date: Wed,  3 Nov 2021 18:30:24 -0700
+Message-Id: <20211104013024.3517635-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211104013024.3517635-1-raj.khem@gmail.com>
+References: <20211104013024.3517635-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Nov 2021 21:56:45 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 01:30:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157832
+ https://lists.openembedded.org/g/openembedded-core/message/157833
 
-These additional bits are needed on riscv64 as well
-Fixes
-make[1]: *** No rule to make target 'arch/riscv/kernel/vdso/vdso.lds', needed by 'arch/riscv/kernel/vdso/vdso.so.dbg'.  Stop.
-make: *** [arch/riscv/Makefile:114: vdso_prepare] Error 2
+gdb 11 has added this library as must have
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gdb/gdb-common.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index d39573965f..f22fac5bd6 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -109,8 +109,8 @@ do_install() {
- 	    fi
- 	fi
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 0fe7b4e5b0..f3ab3544da 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -2,7 +2,7 @@ SUMMARY = "GNU debugger"
+ HOMEPAGE = "http://www.gnu.org/software/gdb/"
+ DESCRIPTION = "GDB, the GNU Project debugger, allows you to see what is going on inside another program while it executes -- or what another program was doing at the moment it crashed."
+ SECTION = "devel"
+-DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
++DEPENDS = "expat gmp zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
  
--	if [ "${ARCH}" = "arm64" ]; then
--	    cp -a --parents arch/arm64/kernel/vdso/vdso.lds $kerneldir/build/
-+	if [ "${ARCH}" = "arm64" -o "${ARCH}" = "riscv" ]; then
-+	    cp -a --parents arch/${ARCH}/kernel/vdso/vdso.lds $kerneldir/build/
- 	fi
- 	if [ "${ARCH}" = "powerpc" ]; then
- 	    cp -a --parents arch/powerpc/kernel/vdso32/vdso32.lds $kerneldir/build 2>/dev/null || :
-@@ -185,6 +185,12 @@ do_install() {
- 	    cp -a --parents arch/${ARCH}/kernel/vdso32/* $kerneldir/build/ 2>/dev/null || :
- 	    cp -a --parents arch/${ARCH}/kernel/vdso64/* $kerneldir/build/ 2>/dev/null || :
- 	fi
-+	if [ "${ARCH}" = "riscv" ]; then
-+            cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
-+            cp -a --parents arch/riscv/kernel/vdso/note.S $kerneldir/build/
-+            cp -a --parents arch/riscv/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
-+	    cp -a --parents arch/riscv/kernel/vdso/* $kerneldir/build/ 2>/dev/null || :
-+	fi
+ LTTNGUST = "lttng-ust"
+ LTTNGUST:arc = ""
+@@ -27,6 +27,7 @@ EXTRA_OECONF = "--disable-gdbtk --disable-x --disable-werror \
+                 --disable-gas --disable-binutils \
+                 --disable-ld --disable-gold \
+                 --disable-gprof \
++                --with-libgmp-prefix=${STAGING_EXECPREFIXDIR} \
+ "
  
- 	# include the machine specific headers for ARM variants, if available.
- 	if [ "${ARCH}" = "arm" ]; then
+ PACKAGECONFIG ??= "readline ${@bb.utils.filter('DISTRO_FEATURES', 'debuginfod', d)}"
 -- 
 2.33.1
 
