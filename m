@@ -2,211 +2,178 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 393E0C433F5
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:07:05 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web12.12139.1636034824336253490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3A8C433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:07:19 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web09.12103.1636034838153996610
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:07:04 -0700
+ Thu, 04 Nov 2021 07:07:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=54rfjRjl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
+ header.b=rsG3e+Se;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id g18so1186382pfk.5
+Received: by mail-pf1-f179.google.com with SMTP id g18so1187070pfk.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:07:04 -0700 (PDT)
+ Thu, 04 Nov 2021 07:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bheSPd0v7876HMqvy56FBXjI/7w3aciLgXZ72vcLSLI=;
-        b=54rfjRjlznbek1PQ0h+b+TEDwegd6zxvO8Z6toc/8FoLNaowwUyKDhjk8goBA+sFk1
-         aV3pwI6zd4Eif0cCVcGjnpB+jyVMsy2Bon3rZFwHUBn8e2hOlhXtBiCEinRFYPUQb5SD
-         OTBCzntpiCX0koNbI6wDuTFN/tLkE5Z+6pxXVezqJO5dyq3+HO/hnKjzqgYFFcwz4/mT
-         73Vi4h/ZvbDbJUQ10xrAPIaxW9rIFHKwVvkQHJYb2ab4I5oVa0O5Vq5MKcnlzSeoVxtR
-         zSsO9ZzhQXYY5s4v9alYqtJ3VHpgdWxfB33hvv41OycmR/5GXhCMu2+vOPmiowwVs2Ek
-         56cA==
+        bh=iAIJuYCdrGuzT5KQTsg9LpjpdCV66NsJODy3dGL2vx0=;
+        b=rsG3e+Se2HsNWO6bq+83lRBaXQOCzwN1llMmQLXGVfnw/BBoUY6hUNMgmOcli9Me9o
+         zDfUVQ9z7jOJlV6HfQrC9BgKc2ndKNlElCcxHRpAy+KzuQc1/dnI3GN+Mct4Wwkr0jki
+         aTsZMRGxVJZ8aBLzS/RMHki1Un+hqT70iyVsnn3x6ZDCNxaaW8iXiGip7de2Mt3jJwVp
+         yfvzhqY5ah5YUVHSj7pVF2ymneqvBS0m2YeT4md+koDcPDlWs9KEJA7+HUqLYSVuDQiQ
+         rMYbvlgxoEYG6MpTQK3wnoPjNKY3xg+cRnuzYerJSpmTO6FxTu6nEr9jmpoIKCrdV5Yk
+         D0Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bheSPd0v7876HMqvy56FBXjI/7w3aciLgXZ72vcLSLI=;
-        b=FMf7f3QYy91zJSwVLbtdle8z6z3sa3Fb/5TN/dbb81KcKIaJqH81g7j/VAxZ21SJfi
-         peBchdw5ACwNru3D42O7LQWSMr5bX5pCB4Vgjjp4H81WSnmbFSJPcNdyRg9wPM54R1bR
-         Tbw4wX2xkbL0sQm5ymR/PmV//kJEZGFKwqCW+BbiwSg/VTUkLFfvMExU12Jn6CTNzGGp
-         1wQjNaRJA6AnjR08E2PK9anrmkx66z1X7HwOZiP0E+DMz0jNjZG4wol3BGsfVE/55kqn
-         Q16Xw6d8biWdrUdXvMfb08s0XSySpEz1IrEnwZLG6B46JgAXgnmHTMYXm776eEhKZZmG
-         FWag==
-X-Gm-Message-State: AOAM532JczmArvuAMIFBMMCwemWSmhqEiMUAKMgIfRsDymSoICpg6l3t
-	LNNjLjbTRd5WFMjDijnbMspv6IfEmgS8OPjiCQ0=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=iAIJuYCdrGuzT5KQTsg9LpjpdCV66NsJODy3dGL2vx0=;
+        b=gJLBTEGS71u2aTgh29xqScKZsKH1R5k/l0UWPlY6RF4QmlY+nx/EgC8rZPraKZTDjs
+         UI6cHMedwbkptzVy61DMjHdLcTDT/7zvI5r18AaxxfTl20YM+VyvcYUyNYhc+Z1ExQDw
+         85oU4P0ndYP6DKRtT7dnV0dcL2HujHVCDhmY67hcdnuV6Y4NIlJJXboHQQjaS2LJw5QW
+         /cZEY3Mcf3TBpz0UPlth5+lA80/ZF4oR1VZSuMFUVHSbsqklXibskt/tOnjdA3xX0cqk
+         sPwSS7zWnruMUY5TI599WWQWDpvSmFjtDhc2SUwym0Xpa6h2GsmGkpmLb1XaXhuIjKFu
+         MoGg==
+X-Gm-Message-State: AOAM5333MIWHxDVzoQ0GZXEvFbshI0b8YqAhXCRCJxOf7H1oO7ofQ90R
+	jqG4+0uFJGpRRUSGTn3PXSD38KTh3+4ep/VZs/g=
 X-Google-Smtp-Source: 
- ABdhPJwkJFQa572beHkzylOPLX/F2L+ffy9nqSDSJ01yBdozPDrsJUXDjOZA3J24jYFE8ynOZEnbmg==
-X-Received: by 2002:a05:6a00:1413:b0:47d:2415:a021 with SMTP id
- l19-20020a056a00141300b0047d2415a021mr52461510pfu.43.1636034823241;
-        Thu, 04 Nov 2021 07:07:03 -0700 (PDT)
+ ABdhPJwc+rnwM8xlsYMhvzpWmHuvbUFEhipvpU8qmi83DDqIKVEl3aa6nF1EFXRNqXVSJ5PK1eXJ8Q==
+X-Received: by 2002:a05:6a00:a8e:b0:47b:a658:7f4d with SMTP id
+ b14-20020a056a000a8e00b0047ba6587f4dmr51736133pfl.82.1636034836975;
+        Thu, 04 Nov 2021 07:07:16 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- m22sm4973291pfo.71.2021.11.04.07.07.02
+ m22sm4973291pfo.71.2021.11.04.07.07.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Nov 2021 07:07:02 -0700 (PDT)
+        Thu, 04 Nov 2021 07:07:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/3] Patch review
-Date: Thu,  4 Nov 2021 04:06:46 -1000
-Message-Id: <cover.1636034660.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/3] scripts/convert-srcuri: Backport SRC_URI
+ conversion script from master branch
+Date: Thu,  4 Nov 2021 04:06:47 -1000
+Message-Id: 
+ <904bdbab712e2f3c332c4d85d08ed83c957e249f.1636034660.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1636034660.git.steve@sakoman.com>
+References: <cover.1636034660.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:07:05 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:07:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157845
+ https://lists.openembedded.org/g/openembedded-core/message/157846
 
-Please review these patches for dunfell and have comments back by end of day
-Monday.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+This script handles two emerging issues:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2876
+1. There is uncertainty about the default branch name in git going forward.
+To try and cover the different possible outcomes, add branch names to all
+git:// and gitsm:// SRC_URI entries.
 
-The following changes since commit 6cd21ddc6f998eec4d9be05f080e32072fddd2bd:
+2. Github are dropping support for git:// protocol fetching, so remap github
+ urls as needed. For more details see:
 
-  tzdata: update 2021d -> 2021e (2021-11-03 11:17:55 +0000)
+https://github.blog/2021-09-01-improving-git-protocol-security-github/
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Richard Purdie (2):
-  scripts/convert-srcuri: Backport SRC_URI conversion script from master
-    branch
-  meta/scripts: Manual git url branch additions
-
-Steve Sakoman (1):
-  meta: Add explict branch to git SRC_URIs, handle github url changes
-
- .../devtool/devtool-upgrade-test2_git.bb      |  2 +-
- .../devtool-upgrade-test2_git.bb.upgraded     |  2 +-
- meta/classes/devupstream.bbclass              |  2 +-
- .../distro/include/default-distrovars.inc     |  2 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |  4 +-
- meta/lib/oeqa/selftest/cases/recipetool.py    |  6 +-
- meta/lib/oeqa/selftest/cases/sstatetests.py   |  2 +-
- meta/recipes-bsp/efibootmgr/efibootmgr_17.bb  |  2 +-
- meta/recipes-bsp/efivar/efivar_37.bb          |  2 +-
- meta/recipes-bsp/opensbi/opensbi_0.6.bb       |  2 +-
- meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb  |  2 +-
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  2 +-
- .../connman/connman-gnome_0.7.bb              |  2 +-
- .../libnss-mdns/libnss-mdns_0.14.1.bb         |  2 +-
- .../mobile-broadband-provider-info_git.bb     |  2 +-
- .../resolvconf/resolvconf_1.82.bb             |  2 +-
- meta/recipes-core/dbus-wait/dbus-wait_git.bb  |  2 +-
- meta/recipes-core/expat/expat_2.2.9.bb        |  2 +-
- meta/recipes-core/fts/fts_1.2.7.bb            |  2 +-
- .../glibc/cross-localedef-native_2.31.bb      |  2 +-
- meta/recipes-core/glibc/glibc-version.inc     |  2 +-
- meta/recipes-core/ifupdown/ifupdown_0.8.35.bb |  2 +-
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  2 +-
- meta/recipes-core/musl/libucontext_git.bb     |  2 +-
- meta/recipes-core/musl/musl-obstack.bb        |  2 +-
- meta/recipes-core/musl/musl-utils.bb          |  2 +-
- meta/recipes-core/musl/musl_git.bb            |  2 +-
- meta/recipes-core/ncurses/ncurses.inc         |  2 +-
- meta/recipes-core/psplash/psplash_git.bb      |  2 +-
- meta/recipes-core/systemd/systemd.inc         |  2 +-
- .../update-rc.d/update-rc.d_0.8.bb            |  2 +-
- .../bootchart2/bootchart2_0.14.9.bb           |  2 +-
- .../btrfs-tools/btrfs-tools_5.4.1.bb          |  2 +-
- .../build-compare/build-compare_git.bb        |  2 +-
- .../createrepo-c/createrepo-c_0.15.7.bb       |  2 +-
- meta/recipes-devtools/distcc/distcc_3.3.3.bb  |  2 +-
- meta/recipes-devtools/dnf/dnf_4.2.2.bb        |  2 +-
- meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |  2 +-
- meta/recipes-devtools/file/file_5.38.bb       |  2 +-
- meta/recipes-devtools/glide/glide_0.13.3.bb   |  2 +-
- .../gnu-config/gnu-config_git.bb              |  2 +-
- meta/recipes-devtools/go/go-dep_0.5.4.bb      |  2 +-
- .../libcomps/libcomps_0.1.15.bb               |  2 +-
- meta/recipes-devtools/libdnf/libdnf_0.28.1.bb |  2 +-
- .../librepo/librepo_1.11.2.bb                 |  2 +-
- meta/recipes-devtools/llvm/llvm_git.bb        |  2 +-
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |  2 +-
- meta/recipes-devtools/ninja/ninja_1.10.0.bb   |  2 +-
- .../patchelf/patchelf_0.10.bb                 |  2 +-
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |  2 +-
- .../squashfs-tools/squashfs-tools_git.bb      |  2 +-
- .../systemd-bootchart_233.bb                  |  2 +-
- .../tcf-agent/tcf-agent_git.bb                |  2 +-
- meta/recipes-devtools/unfs3/unfs3_git.bb      |  2 +-
- .../go-examples/go-helloworld_0.1.bb          |  2 +-
- .../iputils/iputils_s20190709.bb              |  2 +-
- .../recipes-extended/libaio/libaio_0.3.111.bb |  2 +-
- meta/recipes-extended/libnsl/libnsl2_git.bb   |  2 +-
- .../recipes-extended/libnss-nis/libnss-nis.bb |  2 +-
- .../libsolv/libsolv_0.7.10.bb                 |  2 +-
- meta/recipes-extended/ltp/ltp_20200120.bb     |  2 +-
- meta/recipes-extended/procps/procps_3.3.16.bb |  2 +-
- meta/recipes-extended/psmisc/psmisc_23.3.bb   |  2 +-
- .../rpcsvc-proto/rpcsvc-proto.bb              |  2 +-
- .../stress-ng/stress-ng_0.11.17.bb            |  2 +-
- meta/recipes-extended/sysklogd/sysklogd.inc   |  2 +-
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb |  2 +-
- .../libfakekey/libfakekey_git.bb              |  2 +-
- .../libmatchbox/libmatchbox_1.12.bb           |  2 +-
- .../libva/libva-utils_2.6.0.bb                |  2 +-
- .../matchbox-wm/matchbox-wm_1.2.2.bb          |  2 +-
- meta/recipes-graphics/mx/mx-1.0_1.4.7.bb      |  2 +-
- meta/recipes-graphics/piglit/piglit_git.bb    |  2 +-
- .../virglrenderer/virglrenderer_0.8.2.bb      |  2 +-
- meta/recipes-graphics/vulkan/assimp_5.0.1.bb  |  2 +-
- .../vulkan/vulkan-demos_git.bb                |  6 +-
- .../vulkan/vulkan-headers_1.1.126.0.bb        |  2 +-
- .../vulkan/vulkan-loader_1.1.126.0.bb         |  2 +-
- .../vulkan/vulkan-tools_1.1.126.0.bb          |  2 +-
- .../xinput-calibrator_git.bb                  |  2 +-
- .../xorg-driver/xf86-video-intel_git.bb       |  2 +-
- meta/recipes-kernel/blktrace/blktrace_git.bb  |  2 +-
- meta/recipes-kernel/cryptodev/cryptodev.inc   |  2 +-
- meta/recipes-kernel/dtc/dtc.inc               |  2 +-
- .../kern-tools/kern-tools-native_git.bb       |  2 +-
- meta/recipes-kernel/kmod/kmod.inc             |  2 +-
- meta/recipes-kernel/powertop/powertop_2.10.bb |  2 +-
- .../systemtap/systemtap_git.inc               |  2 +-
- .../gstreamer/gst-examples_1.16.0.bb          |  2 +-
- meta/recipes-multimedia/x264/x264_git.bb      |  2 +-
- meta/recipes-sato/l3afpad/l3afpad_git.bb      |  2 +-
- .../matchbox-config-gtk_0.2.bb                |  2 +-
- .../matchbox-desktop/matchbox-desktop_2.2.bb  |  2 +-
- .../matchbox-panel-2/matchbox-panel-2_2.11.bb |  2 +-
- .../matchbox-terminal_0.2.bb                  |  2 +-
- .../matchbox-theme-sato_0.2.bb                |  2 +-
- meta/recipes-sato/puzzles/puzzles_git.bb      |  2 +-
- .../sato-screenshot/sato-screenshot_0.3.bb    |  2 +-
- .../settings-daemon/settings-daemon_0.0.2.bb  |  2 +-
- .../bmap-tools/bmap-tools_3.5.bb              |  2 +-
- .../ca-certificates_20211016.bb               |  2 +-
- .../dos2unix/dos2unix_7.4.1.bb                |  2 +-
- .../gnome-desktop-testing_2018.1.bb           |  2 +-
- .../libjitterentropy_2.2.0.bb                 |  2 +-
- meta/recipes-support/lz4/lz4_1.9.2.bb         |  2 +-
- .../p11-kit/p11-kit_0.23.22.bb                |  2 +-
- .../ptest-runner/ptest-runner_2.4.0.bb        |  2 +-
- .../rng-tools/rng-tools_6.9.bb                |  2 +-
- .../shared-mime-info/shared-mime-info_git.bb  |  2 +-
- meta/recipes-support/vim/vim.inc              |  2 +-
- scripts/contrib/convert-srcuri.py             | 77 +++++++++++++++++++
- scripts/lib/recipetool/create.py              |  3 +
- 112 files changed, 195 insertions(+), 115 deletions(-)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ scripts/contrib/convert-srcuri.py | 77 +++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
  create mode 100755 scripts/contrib/convert-srcuri.py
 
+diff --git a/scripts/contrib/convert-srcuri.py b/scripts/contrib/convert-srcuri.py
+new file mode 100755
+index 0000000000..5b362ea2e8
+--- /dev/null
++++ b/scripts/contrib/convert-srcuri.py
+@@ -0,0 +1,77 @@
++#!/usr/bin/env python3
++#
++# Conversion script to update SRC_URI to add branch to git urls
++#
++# Copyright (C) 2021 Richard Purdie
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++import re
++import os
++import sys
++import tempfile
++import shutil
++import mimetypes
++
++if len(sys.argv) < 2:
++    print("Please specify a directory to run the conversion script against.")
++    sys.exit(1)
++
++def processfile(fn):
++    def matchline(line):
++        if "MIRROR" in line or ".*" in line or "GNOME_GIT" in line:
++            return False
++        return True
++    print("processing file '%s'" % fn)
++    try:
++        if "distro_alias.inc" in fn or "linux-yocto-custom.bb" in fn:
++            return
++        fh, abs_path = tempfile.mkstemp()
++        modified = False
++        with os.fdopen(fh, 'w') as new_file:
++            with open(fn, "r") as old_file:
++                for line in old_file:
++                    if ("git://" in line or "gitsm://" in line) and "branch=" not in line and matchline(line):
++                        if line.endswith('"\n'):
++                            line = line.replace('"\n', ';branch=master"\n')
++                        elif line.endswith(" \\\n"):
++                            line = line.replace(' \\\n', ';branch=master \\\n')
++                        modified = True
++                    if ("git://" in line or "gitsm://" in line) and "github.com" in line and "protocol=https" not in line and matchline(line):
++                        if "protocol=git" in line:
++                            line = line.replace('protocol=git', 'protocol=https')
++                        elif line.endswith('"\n'):
++                            line = line.replace('"\n', ';protocol=https"\n')
++                        elif line.endswith(" \\\n"):
++                            line = line.replace(' \\\n', ';protocol=https \\\n')
++                        modified = True
++                    new_file.write(line)
++        if modified:
++            shutil.copymode(fn, abs_path)
++            os.remove(fn)
++            shutil.move(abs_path, fn)
++    except UnicodeDecodeError:
++        pass
++
++ourname = os.path.basename(sys.argv[0])
++ourversion = "0.1"
++
++if os.path.isfile(sys.argv[1]):
++    processfile(sys.argv[1])
++    sys.exit(0)
++
++for targetdir in sys.argv[1:]:
++    print("processing directory '%s'" % targetdir)
++    for root, dirs, files in os.walk(targetdir):
++        for name in files:
++            if name == ourname:
++                continue
++            fn = os.path.join(root, name)
++            if os.path.islink(fn):
++                continue
++            if "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff"):
++                continue
++            processfile(fn)
++
++print("All files processed with version %s" % ourversion)
 -- 
 2.25.1
 
