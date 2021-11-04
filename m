@@ -2,120 +2,110 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC22C433F5
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 19:13:58 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web08.2337.1636053236892681634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4C1C433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 19:29:50 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.2510.1636054189616114222
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 12:13:57 -0700
+ Thu, 04 Nov 2021 12:29:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ofX7QN/N;
- spf=pass (domain: gmail.com, ip: 209.85.128.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WiBAw/44;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id y196so5328317wmc.3
+Received: by mail-wr1-f41.google.com with SMTP id c4so10245513wrd.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 12:13:56 -0700 (PDT)
+ Thu, 04 Nov 2021 12:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=SBrJX0Ml+HkXTePV16l5qtLYLEigGnwVQk/yn/boUhk=;
-        b=ofX7QN/NvFUdrbM2BYJLJGKjNFAVUYpmOXJXqKm4jFkNNus03KUfH88Dh6kn1b/tg/
-         FI1Aa+GT/xluYQbS+d49JeRWXLemaltoJWXVPjVgTxrjtAN1117xJ+u2cuvVRYvJK3NN
-         JxzU2QQ0Hgk1/AE+rwpQguNtMXzJfVCxhv8wTTC6tUIppwrDldYTkR2c+EP09UcflSN1
-         gSGSy3zc5e36dLigKHz4LLXDHf2Z0eIXTVoshorUf52MbDdC800tTBUMvulI5EZ/BuYW
-         3sJHl0IKtLJqMMBtebYAwNRxY21n6Dcoun/sQ3a5Q8ZbYCJwtFI/eayiuGGc7hqOtsrz
-         6imw==
+        bh=wLeBhLkdNfPu+41lAuayKEJ8/reSZKpOfV5nvg0fxWI=;
+        b=WiBAw/44KrxvNysI0JQtR4YP+G2r0kKGBJv1bK329d6SUlWEFgRbguzEgJOpmm2d8y
+         zKRLrbCpyjeR9fvrwyPhXQsOq2xcBAtKf1JZKJlE0ZHQrTFGroo4av/eal/EIK9y2MQ2
+         GC2sHQGjLdni5IPLeAFj0jOoookBh39vgtVAakaVpeZfyieoLwRvVmkwuTYLVhCTg2do
+         6nY7sOHxvExUd3snrFebVPdtwyhhPKq2gH387Kbh4/RS1AyvMuRYW/tpPPjWe0CQVZLs
+         T69EyND70+Jvy9AHQn8K8nTiKudPMEqUZyKOYA0GuL/Gnt1aW9Eb48K4d18UgX4qjpT1
+         9r9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=SBrJX0Ml+HkXTePV16l5qtLYLEigGnwVQk/yn/boUhk=;
-        b=jM81Ww9VttbAN6mA+tCVgFJE5R16Oik3LmPGZMDCjiaM/sTKL1AI7/PR1bWykoBNMi
-         xDTxbqRx5I98bQnXh3tBYuLBk3uFeTI8NEzDlJVs4c7MMeFU7A9lPkWkYedVhlfjA5Zy
-         pa3+qzU44fxII8yJ/44oLyNOhBDETv+f/EyCRB4/cS+RiIbp4wqi2SfUCj/tVUQS6M4y
-         BVcNr11kASaVKkWvzWP4hs+/09VoRHFm2/9YtyoplbJbK7gf7ZxrlXdt1JslrFstC25E
-         ptf95HTQMfLwu1FMkKNKUfAAxcNkzrzI3EBI7mNxtKeY8GsO2mq5aorhviweOYV4Gt+e
-         zilg==
-X-Gm-Message-State: AOAM5334Kc0DrJCcduVLrn5tPMFBJOtRjowX1pysIXbiWUGNIjk+5hD5
-	ryFoVRjKb18fALRNpqiD+nTsoyi/BWI=
+        bh=wLeBhLkdNfPu+41lAuayKEJ8/reSZKpOfV5nvg0fxWI=;
+        b=tLKtlzgBZvWTm7Hme6qCUPTvQQDm0jtjNHCQVgB3Gup7cZ/GJSNYBcu5YMVNXy3Rf0
+         7tpef5oXdBe1wZCueYJ2p+7AjJ0SQ3uOgTvrO4qrTNAHL+1EaQ8dQlwt+SKWxKy/5wak
+         3CuZ9NMw7Lmfj0vThS/cU7g+kG+1Zrz7pJxIHt94LRNN3f/K5nuHvIDItt45ciT4fiOP
+         IxnoWDluSm8KiSlnww3/zYxJwP6k/kTOwDplx8W9XkYfGRpIDIfMCGo+49YFiX9WWuLS
+         MPB6nCiMZkjDWck0kdykLnADfuWAlhV/NYzySjnSxX0Ep9uN5bdc2deqGAtd6uCq4i9u
+         YkNQ==
+X-Gm-Message-State: AOAM5313hFcfhNXz9CAdPl3DBRK8hr6P4VT0/Ar1VjDSFLoYMOtGGWS4
+	b+71UL3miRLF4leYEqfYp4QRUYcr8wg=
 X-Google-Smtp-Source: 
- ABdhPJzqDFDcL55tABD9qwLnl6ktDCfvJF9NCgWFFbgL9x2gZlBHNyMouQpIrpoD91Qswi6kfISfjQ==
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr26591452wmm.133.1636053235022;
-        Thu, 04 Nov 2021 12:13:55 -0700 (PDT)
+ ABdhPJzhxbwc4MphmF746UpvieRl0WRqYFgMqldvXr8KVXRhn3r8DAu8OgmC1XEj3Mk63Gip9cgIWg==
+X-Received: by 2002:adf:959a:: with SMTP id
+ p26mr66310101wrp.342.1636054187869;
+        Thu, 04 Nov 2021 12:29:47 -0700 (PDT)
 Received: from CTW-01195.. ([88.157.222.244])
         by smtp.gmail.com with ESMTPSA id
- q1sm5618162wmj.20.2021.11.04.12.13.54
+ s24sm5632478wmj.26.2021.11.04.12.29.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Nov 2021 12:13:54 -0700 (PDT)
+        Thu, 04 Nov 2021 12:29:47 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2] sstate: another fix for touching files inside pseudo
-Date: Thu,  4 Nov 2021 19:12:23 +0000
-Message-Id: <20211104191222.85277-1-quaresma.jose@gmail.com>
+Subject: [PATCH v2] bitbake: cooker: check if upstream hash equivalence server
+ is available
+Date: Thu,  4 Nov 2021 19:28:20 +0000
+Message-Id: <20211104192819.88251-1-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 19:13:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 19:29:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157858
+ https://lists.openembedded.org/g/openembedded-core/message/157859
 
-This patch is a fixup for 676757f "sstate: fix touching files inside pseudo"
-
-running the 'id' command inside the sstate_unpack_package
-function shows that this funcion run inside the pseudo:
-
- uid=0(root) gid=0(root) groups=0(root)
-
-The check for [ -w ${SSTATE_PKG} ] and [ -O ${SSTATE_PKG}.siginfo ]
-will always return true and the touch can fail when the real user
-don't have permission or in readonly filesystem.
-
-As the documentation refers:
-- the file test operator "-w" check if the file has write permission
-(for the user running the test).
-- the file test operator "-O" check if you are owner of file
-
-We can avoid this test running the touch and mask any return errors
-that we have.
+When the user specify an invalid upstream hash equivalence server in
+BB_HASHSERVE_UPSTREAM notify the user that we can't connect the server.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
 
-V2: match the original code
+v2: make it a warning instaed of fatal
 
- meta/classes/sstate.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ bitbake/lib/bb/cooker.py | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 8182010047..849723d4dc 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -900,12 +900,12 @@ sstate_unpack_package () {
- 	fi
- 
- 	tar -I "$ZSTD" -xvf ${SSTATE_PKG}
--	# update .siginfo atime on local/NFS mirror
--	[ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
--	# Use "! -w ||" to return true for read only files
--	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
--	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
--	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo
-+	# update .siginfo atime on local/NFS mirror if it is a symbolic link
-+	[ ! -h ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
-+	# update each symbolic link instead of any referenced file
-+	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
-+	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig 2>/dev/null || true
-+	[ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo 2>/dev/null || true
- }
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
+index 194595ce8b..2b92744998 100644
+--- a/bitbake/lib/bb/cooker.py
++++ b/bitbake/lib/bb/cooker.py
+@@ -388,12 +388,22 @@ class BBCooker:
+             # Create a new hash server bound to a unix domain socket
+             if not self.hashserv:
+                 dbfile = (self.data.getVar("PERSISTENT_DIR") or self.data.getVar("CACHE")) + "/hashserv.db"
++                upstream = self.data.getVar("BB_HASHSERVE_UPSTREAM") or None
++                if upstream:
++                    import socket
++                    try:
++                        sock = socket.create_connection(upstream.split(":"), 5)
++                        sock.close()
++                    except socket.error as e:
++                        bb.warn("BB_HASHSERVE_UPSTREAM is not valid, unable to connect hash equivalence server at '%s': %s" 
++                                 % (upstream, repr(e)))
++
+                 self.hashservaddr = "unix://%s/hashserve.sock" % self.data.getVar("TOPDIR")
+                 self.hashserv = hashserv.create_server(
+                     self.hashservaddr,
+                     dbfile,
+                     sync=False,
+-                    upstream=self.data.getVar("BB_HASHSERVE_UPSTREAM") or None,
++                    upstream=upstream,
+                 )
+                 self.hashserv.serve_as_process()
+             self.data.setVar("BB_HASHSERVE", self.hashservaddr)
 -- 
 2.33.1
 
