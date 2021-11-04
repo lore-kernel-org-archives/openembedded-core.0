@@ -2,105 +2,135 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B3EBC433F5
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 20:01:04 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web12.2937.1636056056735518922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40539C433F5
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 20:04:25 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web08.3042.1636056264363584213
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 13:00:57 -0700
+ Thu, 04 Nov 2021 13:04:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RuxKIgun;
- spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Esc9339D;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id y26so14197048lfa.11
+Received: by mail-lf1-f50.google.com with SMTP id g29so146658lfv.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 13:00:56 -0700 (PDT)
+ Thu, 04 Nov 2021 13:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9PCvSzIEmZfqa97OvJInmKxwtk4g/BcPh1U67VjOpYU=;
-        b=RuxKIgunucxmdtsGSgpsNO4bmY9COeuMFM+f2lXqDQirdXUziwgKQhXNyeQIYYX/Cu
-         SULhckoKB7nrR1/Amo1fpmierWcTylqE3HXbKwhTpDT9Vj9rrBQZa/uPHjza1pb3szHa
-         Ea46UiDC5CcVdP0EBvInBygVH11y8oQmsRr7mGgf+WCUdf6ZpPrF0epEAC7dEjiMZULN
-         +/HZnslPLGottE208Gixs6ipXCGhSDa2RZ1+t1pXkcr0UZ5TwoprPgESWnR+KXv+GLda
-         PvuaIF/aRxZnEXQk6E3BLPEMWML6NU7mnkA5jP1nzov4myFTaTp0PtTVvbFcxz7tXADn
-         IJAA==
+        bh=mzJ1Hw1a9/860Oq6MRkoOdDDEBn+Ajs7YsgR1BIJVBY=;
+        b=Esc9339D8eNCxAL1ItWyaoRdV7P2bRww3nNZqxQIQyHiLR/5/OCfoGh2+W/ApCe427
+         OWNqriuDLsqJ2VXavC145h4kQL5hdBBhvp7E+JiX0d+2okGm1JnT2FTvndL2bacegFHQ
+         AkZson+vW8ivwHFm6kzC4sYOGBdd9yQ+hb82ft15zSBclAHHqeSww/xbTq7uFVrv/R+j
+         pnXO6SUWfvtEiWxcLTkJ4AegKdEzKhNVPTmFgMuvRl2765wVU5etJ8+d4CElJUQhdo9T
+         qui/FcZfFztkcCWbtO5ETckg9OfAZDldl5/bhkOJQt0g4yU7IDSLRpIr7dIIuTbYhiD1
+         Kq9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9PCvSzIEmZfqa97OvJInmKxwtk4g/BcPh1U67VjOpYU=;
-        b=PLNoPiHm8mQjJh/ipfu6Ua6ZvgA+UDBceXZK6MZYAnZgHrDQuhjFh3C8iUHfYh4ski
-         FjbJPV4QbE/BQSTvjvsjM5xzSYtHzmfU0OCJYKgIjo6zWaG0Pk+duVCVksru4WVVOAM6
-         B3uAgUMF/N0wMqidXwSJMF46rDKCPG/C2rV3iCW07rr2q69zKpa015FJoYIAKCemfJto
-         KZD5sUW09RzV/qpZcb6QE+OM7e2XdCNGSCLKUnAHHnPsGSTc10aip4omGL/Q5pW/Lp31
-         jLNLU9nEt92p9ErHYLIGcrX8HmvH2IwYEpUlJd+hqNgGaGrfzU9FXr2oCX6bN45kbUF1
-         ab0Q==
-X-Gm-Message-State: AOAM530FKwy/BPa92+gb+HAYGmNTVynzFtmweqCH3clcU1rGFlsoJP43
-	3qfFtmDTQMLcjNka3LsZkpMtMPnyU23Cb5UDgQw=
+        bh=mzJ1Hw1a9/860Oq6MRkoOdDDEBn+Ajs7YsgR1BIJVBY=;
+        b=k92EeqnlpYRvvV5yh30ldWEWKbRTxhgOvJAxl2IqKP/QbH1FiRXGLzEolJr/94aH93
+         eW6CQeUq5QMiHG8dGvcr+RINyeQhLfqaPcK+p9dFYhMv9QWO5d+Yfsxd+oIQ5/yUhkJ7
+         BLWTkOJJ8S3X2J7T5StnS4A7uK13E6OUtmfjzmoF5I9LGHbJrM4Ldb4rcLAk+wGrZHUN
+         zh+qlmufgu3vTYRaiSumsbgEjqPAiKI0Qafs0eGgeotJtl7RiWCdWTGclxm90Kffyq54
+         3BNhResy4j06jRkTECsr0i10lY9zu3plZ74uXr1nKpjJ6NBTZKjgjDROLUBFVGTkGKY1
+         1n6g==
+X-Gm-Message-State: AOAM533Cq0aO0jcLYuyZpx1e1cb4teQ7bDJ0WtvN/3/RbgQKPuF804jN
+	XlgdI/rblOc5Fe0S1Z+BCrldvREnsewF6A4i6ci83Qe6SnU=
 X-Google-Smtp-Source: 
- ABdhPJwmdb3QaXIm9mVy2LRo3TkeNPMxCetS11ZXPaWoWUvPvcOzZDsnx2Sv/FBd1HIS105yNb1Z3nCIyW7XoEopxWI=
-X-Received: by 2002:a19:ad0d:: with SMTP id
- t13mr49876854lfc.161.1636056055140;
- Thu, 04 Nov 2021 13:00:55 -0700 (PDT)
+ ABdhPJxFGkwD5MrejEGyDH/bK8IlJxb5ZLfa5wE/qfz6uLnNVEUpZps5FN6nP1r1CMvXndtwNdvL7avchbZMWVLgfE0=
+X-Received: by 2002:a05:6512:b21:: with SMTP id
+ w33mr48173711lfu.447.1636056262630;
+ Thu, 04 Nov 2021 13:04:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211027013050.137364-1-saul.wold@windriver.com>
- <CANPvuRkxEFt7LHO_BAnQpEWU=T9ctFh45d+SzFfe=jBHUOH1aQ@mail.gmail.com>
- <CAGDS+nkJ4en5JjLGSMuePSQUY+mvLiek4X67q5Go+LA8307ApQ@mail.gmail.com>
- <5a8c05846279f160ee2d5fe7ef7502c29e1bfee1.camel@linuxfoundation.org>
+References: <20211102122639.2422915-1-ross.burton@arm.com>
+ <bee9058cd7cf3c2d92f7eb7b85eb4ac382e9379b.camel@linuxfoundation.org>
 In-Reply-To: 
- <5a8c05846279f160ee2d5fe7ef7502c29e1bfee1.camel@linuxfoundation.org>
+ <bee9058cd7cf3c2d92f7eb7b85eb4ac382e9379b.camel@linuxfoundation.org>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 4 Nov 2021 20:00:44 +0000
+Date: Thu, 4 Nov 2021 20:04:11 +0000
 Message-ID: 
- <CANPvuRnT027cnayyR=2XO_VtjhKd27rhXG=ieX4KZmDFC2yuCQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/3] SPDX: Add annotations to relationship
+ <CANPvuRkWwTe2LGHy3rzearuxiFESxWWt-FR_DcXfvDXjeOnb2A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] patch.bbclass: don't repr() the exception,
+ use str()
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <sakoman@gmail.com>, Saul Wold <Saul.Wold@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Joshua Watt <jpewhacker@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000ffd36b05cffbfba3"
+Cc: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000005de3a905cffc0875"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 20:01:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 20:04:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157870
+ https://lists.openembedded.org/g/openembedded-core/message/157871
 
---000000000000ffd36b05cffbfba3
+--0000000000005de3a905cffc0875
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-28/10/2021 =C3=A0(s) 21:58:
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia ter=C3=
+=A7a,
+2/11/2021 =C3=A0(s) 12:36:
 
-> On Thu, 2021-10-28 at 08:47 -1000, Steve Sakoman wrote:
-> > On Tue, Oct 26, 2021 at 10:41 PM Jose Quaresma <quaresma.jose@gmail.com=
->
-> wrote:
-> > >
-> > > Hi all,
-> > >
-> > > There are any plans or is it possible to backport the SBOM/SPDX to th=
-e
-> dunfell branch?
+> On Tue, 2021-11-02 at 12:26 +0000, Ross Burton wrote:
+> > repr() results in formatting characters such as extra quotation marks
+> > which are pointless.
 > >
-> > I'm going to yield to Saul as to whether he thinks this is
-> > desirable/possible or not.
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/classes/patch.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+> > index 8de7025491..079ee33e3c 100644
+> > --- a/meta/classes/patch.bbclass
+> > +++ b/meta/classes/patch.bbclass
+> > @@ -155,7 +155,7 @@ python patch_do_patch() {
+> >              resolver.Resolve()
+> >          except bb.BBHandledException as e:
+> >              bb.utils.remove(process_tmpdir, True)
+> > -            bb.fatal("Applying patch '%s' on target directory '%s'\n%s=
+"
+> % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
 >
-> The packagedata changes are pretty invasive unfortunately and likely not
-> something you're going to want in dunfell sadly.
+
+Replace the "str(e)" with "repr(e).replace("\\n", "\n")" is a bit ugly, can
+this be moved to bb.utils or something like that?
+
+> +            bb.fatal("Applying patch '%s' on target directory '%s'\n%s"
+> % (parm['patchname'], patchdir, str(e).replace("\\n", "\n")))
+> >
+> >      bb.utils.remove(process_tmpdir, True)
+> >      del os.environ['TMPDIR']
 >
-
-Thanks for the clarification.
-
-
+> Full circle:
+>
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dec6edfc27f2cfa990d=
+d0f8b2bbc6f9472a50a839
+>
+> :(
+>
+> (the original issue being that str(e) on exceptions can hide a lot of
+> useful
+> info)
 >
 > Cheers,
 >
 > Richard
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157776):
+> https://lists.openembedded.org/g/openembedded-core/message/157776
+> Mute This Topic: https://lists.openembedded.org/mt/86764324/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
@@ -109,43 +139,92 @@ Best regards,
 
 Jos=C3=A9 Quaresma
 
---000000000000ffd36b05cffbfba3
+--0000000000005de3a905cffc0875
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
 <div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
 richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 28/10/2021 =C3=A0(s) 21:58:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, 2021-10-28 at 08:47 -1000, =
-Steve Sakoman wrote:<br>
-&gt; On Tue, Oct 26, 2021 at 10:41 PM Jose Quaresma &lt;<a href=3D"mailto:q=
-uaresma.jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt; w=
-rote:<br>
-&gt; &gt; <br>
-&gt; &gt; Hi all,<br>
-&gt; &gt; <br>
-&gt; &gt; There are any plans or is it possible to backport the SBOM/SPDX t=
-o the dunfell branch?<br>
+gt; escreveu no dia ter=C3=A7a, 2/11/2021 =C3=A0(s) 12:36:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">On Tue, 2021-11-02 at 12:26 +000=
+0, Ross Burton wrote:<br>
+&gt; repr() results in formatting characters such as extra quotation marks<=
+br>
+&gt; which are pointless.<br>
 &gt; <br>
-&gt; I&#39;m going to yield to Saul as to whether he thinks this is<br>
-&gt; desirable/possible or not.<br>
+&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" =
+target=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/patch.bbclass | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass<b=
+r>
+&gt; index 8de7025491..079ee33e3c 100644<br>
+&gt; --- a/meta/classes/patch.bbclass<br>
+&gt; +++ b/meta/classes/patch.bbclass<br>
+&gt; @@ -155,7 +155,7 @@ python patch_do_patch() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resolver.Resolve()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except bb.BBHandledException as e:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.remove(proces=
+s_tmpdir, True)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Applying pat=
+ch &#39;%s&#39; on target directory &#39;%s&#39;\n%s&quot; % (parm[&#39;pat=
+chname&#39;], patchdir, repr(e).replace(&quot;\\n&quot;, &quot;\n&quot;)))<=
+br></blockquote><div><br></div><div>Replace the &quot;str(e)&quot; with &qu=
+ot;repr(e).replace(&quot;\\n&quot;, &quot;\n&quot;)&quot; is a bit ugly, ca=
+n this be moved to bb.utils or something like that?</div><div><br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Applying pat=
+ch &#39;%s&#39; on target directory &#39;%s&#39;\n%s&quot; % (parm[&#39;pat=
+chname&#39;], patchdir, str(e).replace(&quot;\\n&quot;, &quot;\n&quot;)))<b=
+r>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bb.utils.remove(process_tmpdir, True)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 del os.environ[&#39;TMPDIR&#39;]<br>
 <br>
-The packagedata changes are pretty invasive unfortunately and likely not<br=
->
-something you&#39;re going to want in dunfell sadly.<br></blockquote><div><=
-br></div><div>Thanks for the clarification.</div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
+Full circle:<br>
+<br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dec6edfc27=
+f2cfa990dd0f8b2bbc6f9472a50a839" rel=3D"noreferrer" target=3D"_blank">http:=
+//git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dec6edfc27f2cfa990dd0f8b2b=
+bc6f9472a50a839</a><br>
+<br>
+:(<br>
+<br>
+(the original issue being that str(e) on exceptions can hide a lot of usefu=
+l<br>
+info)<br>
 <br>
 Cheers,<br>
 <br>
 Richard<br>
 <br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#157776): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/157776" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/157776</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86764324/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/86764324/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
  class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
  Quaresma</div></div></div></div>
 
---000000000000ffd36b05cffbfba3--
+--0000000000005de3a905cffc0875--
 
