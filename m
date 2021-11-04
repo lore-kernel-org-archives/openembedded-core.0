@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3A8C433F5
-	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:07:19 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web09.12103.1636034838153996610
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 212D2C433FE
+	for <webhook@archiver.kernel.org>; Thu,  4 Nov 2021 14:07:25 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.12316.1636034844588126339
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:07:18 -0700
+ Thu, 04 Nov 2021 07:07:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=rsG3e+Se;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
+ header.b=w4WPKMzu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id g18so1187070pfk.5
+Received: by mail-pl1-f169.google.com with SMTP id p18so7323356plf.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Nov 2021 07:07:18 -0700 (PDT)
+ Thu, 04 Nov 2021 07:07:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=iAIJuYCdrGuzT5KQTsg9LpjpdCV66NsJODy3dGL2vx0=;
-        b=rsG3e+Se2HsNWO6bq+83lRBaXQOCzwN1llMmQLXGVfnw/BBoUY6hUNMgmOcli9Me9o
-         zDfUVQ9z7jOJlV6HfQrC9BgKc2ndKNlElCcxHRpAy+KzuQc1/dnI3GN+Mct4Wwkr0jki
-         aTsZMRGxVJZ8aBLzS/RMHki1Un+hqT70iyVsnn3x6ZDCNxaaW8iXiGip7de2Mt3jJwVp
-         yfvzhqY5ah5YUVHSj7pVF2ymneqvBS0m2YeT4md+koDcPDlWs9KEJA7+HUqLYSVuDQiQ
-         rMYbvlgxoEYG6MpTQK3wnoPjNKY3xg+cRnuzYerJSpmTO6FxTu6nEr9jmpoIKCrdV5Yk
-         D0Cg==
+        bh=n30hgHWkVWk3gq40QYym7UUQhCg+e7wrxlBNPP6SWFA=;
+        b=w4WPKMzuPTdbod0xFZ5AIAmUdU1FgWyQFrGIvoJGqOKBerjAYRVHCv2hL15UjAhZ6K
+         wxGqf8M0poGPSb0fsEr2wmYc/WgraGLUB14XfHCVPv8aUYfcBLpG4qytfEos1i+BarSW
+         qRC9jXBTvvnD9y8sV0IKVa57AG++mq52+ezZfS5Qz8mRMqmTwQgUershvovgzlqc6lhu
+         X6U1gj5Ii8S4OZzO5IHfRzgFZsYKGgQ4ay8UajUw/ovQQScjDQMLdURkGmtFznSK4x5t
+         bfG32LwMJ0SG8KmMNlmnNv1KDeHV11lOpKG0fyzTf5UiFKMcY4A66fPcosnMdCwQSPqG
+         nu7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iAIJuYCdrGuzT5KQTsg9LpjpdCV66NsJODy3dGL2vx0=;
-        b=gJLBTEGS71u2aTgh29xqScKZsKH1R5k/l0UWPlY6RF4QmlY+nx/EgC8rZPraKZTDjs
-         UI6cHMedwbkptzVy61DMjHdLcTDT/7zvI5r18AaxxfTl20YM+VyvcYUyNYhc+Z1ExQDw
-         85oU4P0ndYP6DKRtT7dnV0dcL2HujHVCDhmY67hcdnuV6Y4NIlJJXboHQQjaS2LJw5QW
-         /cZEY3Mcf3TBpz0UPlth5+lA80/ZF4oR1VZSuMFUVHSbsqklXibskt/tOnjdA3xX0cqk
-         sPwSS7zWnruMUY5TI599WWQWDpvSmFjtDhc2SUwym0Xpa6h2GsmGkpmLb1XaXhuIjKFu
-         MoGg==
-X-Gm-Message-State: AOAM5333MIWHxDVzoQ0GZXEvFbshI0b8YqAhXCRCJxOf7H1oO7ofQ90R
-	jqG4+0uFJGpRRUSGTn3PXSD38KTh3+4ep/VZs/g=
+        bh=n30hgHWkVWk3gq40QYym7UUQhCg+e7wrxlBNPP6SWFA=;
+        b=Fgfu/46H5bfbsDlPjHODAuyrUEmV0BOOkfVipQgLwliECEAdfX/ZZE8+oLsBpOU3xE
+         r5Uw2/+ZZdLXTf496BphpomWr74JuJbundx9xmj/0Yiytt5wzyOpYwWMArzcMyDaCyz5
+         wCgupgbPGC1FxgNCrFeixfm6gRhD3bMvCP01UuVyEbSTLIbx77qxUXkqtyaULhAQiaLn
+         EeKB9ZPTWlUxC2VawHhlD0f7FdhHTzxshwKUSbREqsnF9AeikedHdNo/kTfMpyjsIMZy
+         HA1pz8SI2RCAW0NoFUmxNqlyRjKVrpNm2az8SHA5ByJl9DX9icuD0mfQRMdtvOrWYTQo
+         qldw==
+X-Gm-Message-State: AOAM5336m4z7Y4xWj3++xCgvIrGRnZyAHuF64xDSRhxvHXyIaAxSHMFd
+	L32hpO1qK6O9V5rViK4dHgr0WZ7SphXlphxzn+g=
 X-Google-Smtp-Source: 
- ABdhPJwc+rnwM8xlsYMhvzpWmHuvbUFEhipvpU8qmi83DDqIKVEl3aa6nF1EFXRNqXVSJ5PK1eXJ8Q==
-X-Received: by 2002:a05:6a00:a8e:b0:47b:a658:7f4d with SMTP id
- b14-20020a056a000a8e00b0047ba6587f4dmr51736133pfl.82.1636034836975;
-        Thu, 04 Nov 2021 07:07:16 -0700 (PDT)
+ ABdhPJybdYTHYXMXojA2vPx+uM6f9cUo1Mrx9/HLQ9HprDPF5J4VJq35/xYHmJXxQ351ZMN3tahydA==
+X-Received: by 2002:a17:90a:4a82:: with SMTP id
+ f2mr22806155pjh.236.1636034843601;
+        Thu, 04 Nov 2021 07:07:23 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- m22sm4973291pfo.71.2021.11.04.07.07.15
+ m22sm4973291pfo.71.2021.11.04.07.07.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Nov 2021 07:07:16 -0700 (PDT)
+        Thu, 04 Nov 2021 07:07:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/3] scripts/convert-srcuri: Backport SRC_URI
- conversion script from master branch
-Date: Thu,  4 Nov 2021 04:06:47 -1000
+Subject: [OE-core][dunfell 3/3] meta/scripts: Manual git url branch additions
+Date: Thu,  4 Nov 2021 04:06:49 -1000
 Message-Id: 
- <904bdbab712e2f3c332c4d85d08ed83c957e249f.1636034660.git.steve@sakoman.com>
+ <38fc0807eea14dc12610da4ba73c082d5a4b0744.1636034660.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1636034660.git.steve@sakoman.com>
 References: <cover.1636034660.git.steve@sakoman.com>
@@ -68,112 +67,118 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:07:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Nov 2021 14:07:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157846
+ https://lists.openembedded.org/g/openembedded-core/message/157848
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This script handles two emerging issues:
+Following the scripted conversion adding branches to git://
+SRC_URI entries, add the remaining references, mainly in the selftests
+and recipetool.
 
-1. There is uncertainty about the default branch name in git going forward.
-To try and cover the different possible outcomes, add branch names to all
-git:// and gitsm:// SRC_URI entries.
-
-2. Github are dropping support for git:// protocol fetching, so remap github
- urls as needed. For more details see:
-
-https://github.blog/2021-09-01-improving-git-protocol-security-github/
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5340c0d688036c1be6c938f05d8a8c1e3b49ec38)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/contrib/convert-srcuri.py | 77 +++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100755 scripts/contrib/convert-srcuri.py
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py         | 4 ++--
+ meta/lib/oeqa/selftest/cases/recipetool.py      | 6 +++---
+ meta/lib/oeqa/selftest/cases/sstatetests.py     | 2 +-
+ scripts/lib/recipetool/create.py                | 3 +++
+ 5 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/contrib/convert-srcuri.py b/scripts/contrib/convert-srcuri.py
-new file mode 100755
-index 0000000000..5b362ea2e8
---- /dev/null
-+++ b/scripts/contrib/convert-srcuri.py
-@@ -0,0 +1,77 @@
-+#!/usr/bin/env python3
-+#
-+# Conversion script to update SRC_URI to add branch to git urls
-+#
-+# Copyright (C) 2021 Richard Purdie
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+import re
-+import os
-+import sys
-+import tempfile
-+import shutil
-+import mimetypes
-+
-+if len(sys.argv) < 2:
-+    print("Please specify a directory to run the conversion script against.")
-+    sys.exit(1)
-+
-+def processfile(fn):
-+    def matchline(line):
-+        if "MIRROR" in line or ".*" in line or "GNOME_GIT" in line:
-+            return False
-+        return True
-+    print("processing file '%s'" % fn)
-+    try:
-+        if "distro_alias.inc" in fn or "linux-yocto-custom.bb" in fn:
-+            return
-+        fh, abs_path = tempfile.mkstemp()
-+        modified = False
-+        with os.fdopen(fh, 'w') as new_file:
-+            with open(fn, "r") as old_file:
-+                for line in old_file:
-+                    if ("git://" in line or "gitsm://" in line) and "branch=" not in line and matchline(line):
-+                        if line.endswith('"\n'):
-+                            line = line.replace('"\n', ';branch=master"\n')
-+                        elif line.endswith(" \\\n"):
-+                            line = line.replace(' \\\n', ';branch=master \\\n')
-+                        modified = True
-+                    if ("git://" in line or "gitsm://" in line) and "github.com" in line and "protocol=https" not in line and matchline(line):
-+                        if "protocol=git" in line:
-+                            line = line.replace('protocol=git', 'protocol=https')
-+                        elif line.endswith('"\n'):
-+                            line = line.replace('"\n', ';protocol=https"\n')
-+                        elif line.endswith(" \\\n"):
-+                            line = line.replace(' \\\n', ';protocol=https \\\n')
-+                        modified = True
-+                    new_file.write(line)
-+        if modified:
-+            shutil.copymode(fn, abs_path)
-+            os.remove(fn)
-+            shutil.move(abs_path, fn)
-+    except UnicodeDecodeError:
-+        pass
-+
-+ourname = os.path.basename(sys.argv[0])
-+ourversion = "0.1"
-+
-+if os.path.isfile(sys.argv[1]):
-+    processfile(sys.argv[1])
-+    sys.exit(0)
-+
-+for targetdir in sys.argv[1:]:
-+    print("processing directory '%s'" % targetdir)
-+    for root, dirs, files in os.walk(targetdir):
-+        for name in files:
-+            if name == ourname:
-+                continue
-+            fn = os.path.join(root, name)
-+            if os.path.islink(fn):
-+                continue
-+            if "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff"):
-+                continue
-+            processfile(fn)
-+
-+print("All files processed with version %s" % ourversion)
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 433d4b6651..0240589c81 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -47,5 +47,5 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
+ # The CONNECTIVITY_CHECK_URIS are used to test whether we can succesfully
+ # fetch from the network (and warn you if not). To disable the test set
+ # the variable to be empty.
+-# Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master
++# Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
+ CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 0985434238..713efd71bd 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -340,7 +340,7 @@ class DevtoolAddTests(DevtoolBase):
+         checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'
+         checkvars['S'] = '${WORKDIR}/git'
+         checkvars['PV'] = '0.1+git${SRCPV}'
+-        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https'
++        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https;branch=master'
+         checkvars['SRCREV'] = srcrev
+         checkvars['DEPENDS'] = set(['dbus'])
+         self._test_recipe_contents(recipefile, checkvars, [])
+@@ -880,7 +880,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+ 
+         result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
+-        addlines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git"']
++        addlines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"']
+         srcurilines = src_uri.split()
+         srcurilines[0] = 'SRC_URI = "' + srcurilines[0]
+         srcurilines.append('"')
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index c2ade2543a..e8aeea3023 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -370,7 +370,7 @@ class RecipetoolTests(RecipetoolBase):
+         tempsrc = os.path.join(self.tempdir, 'srctree')
+         os.makedirs(tempsrc)
+         recipefile = os.path.join(self.tempdir, 'libmatchbox.bb')
+-        srcuri = 'git://git.yoctoproject.org/libmatchbox'
++        srcuri = 'git://git.yoctoproject.org/libmatchbox;branch=master'
+         result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri + ";rev=9f7cf8895ae2d39c465c04cc78e918c157420269", '-x', tempsrc])
+         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
+         checkvars = {}
+@@ -456,7 +456,7 @@ class RecipetoolTests(RecipetoolBase):
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+         checkvars['LICENSE'] = set(['Apache-2.0'])
+-        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https'
++        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https;branch=master'
+         inherits = ['setuptools3']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+@@ -523,7 +523,7 @@ class RecipetoolTests(RecipetoolBase):
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+         checkvars['LICENSE'] = set(['GPLv2'])
+-        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/matchbox-terminal;protocol=http'
++        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/matchbox-terminal;protocol=http;branch=master'
+         inherits = ['pkgconfig', 'autotools']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index f0c94c8422..1bfe88c87d 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -39,7 +39,7 @@ class SStateTests(SStateBase):
+ 
+         recipefile = os.path.join(tempdir, "recipes-test", "dbus-wait-test", 'dbus-wait-test_git.bb')
+         os.makedirs(os.path.dirname(recipefile))
+-        srcuri = 'git://' + srcdir + ';protocol=file'
++        srcuri = 'git://' + srcdir + ';protocol=file;branch=master'
+         result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri])
+         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
+ 
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 566c75369a..116bdfd697 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -389,6 +389,9 @@ def reformat_git_uri(uri):
+                 parms.update({('protocol', 'ssh')})
+         elif (scheme == "http" or scheme == 'https' or scheme == 'ssh') and not ('protocol' in parms):
+             parms.update({('protocol', scheme)})
++        # We assume 'master' branch if not set
++        if not 'branch' in parms:
++            parms.update({('branch', 'master')})
+         # Always append 'git://'
+         fUrl = bb.fetch2.encodeurl(('git', host, path, user, pswd, parms))
+         return fUrl
 -- 
 2.25.1
 
