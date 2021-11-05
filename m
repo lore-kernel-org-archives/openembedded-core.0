@@ -2,62 +2,64 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C9AC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9591C433EF
 	for <webhook@archiver.kernel.org>; Fri,  5 Nov 2021 08:48:21 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web09.2744.1636102100261150975
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web09.2746.1636102100933596979
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 01:48:20 -0700
+ Fri, 05 Nov 2021 01:48:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nAi+qnxl;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MQZHvfi5;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id u18so12546094wrg.5
+Received: by mail-wm1-f41.google.com with SMTP id 71so6420505wma.4
         for <openembedded-core@lists.openembedded.org>;
  Fri, 05 Nov 2021 01:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V5cVB5P3TeOYtCOLEXB9ysYlUgYKEba0iXM1aPINRdY=;
-        b=nAi+qnxlmUasfYsMi3Z5bXOiewu6nhW1CXsUSZQBvnRwG37a42VLEsY24U9UVFZ+jS
-         V2LSlYqD9taz7Pcq8XVUzPmapFVu7f2VO7Fvz9ZtgFqq3x9V98l28TKC1Alqo1g7vUi5
-         gAyUcYW7qiZevNWbtCQenlrDbzxP7wXZ8p6eCnLgEW06lCUJM9DNKAyXsy0sJAWBQG6/
-         RNpepqMlUoSy6+NBehSS73MvT4h/gh/E3WS707N2Lw4A4gIL0toRKUtM9HK5ds9YF0UM
-         6MXIf4UTsIqNMLMbSaL5x9vPQyG3D5lxv566trjUR60A1PXRnKuayWq0bnWlgfbQaiIw
-         y+PQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YWBBomf2z93SqO+dpxg6JtL+coG2HEiXlT+j/npXFWQ=;
+        b=MQZHvfi5ooP3+2qC0nz2/x0rVwceELKRpet48TYZUi6L5j5wSnlQDzawcu2S4ibK1y
+         kfgxtFJIrXDXzPHXMAjX1kHLRPfwybVgSg7m8bVkQnc0974oVbQS7RDrzTL+zpVbLkOK
+         ClxTjPfWKVmRGMNCLe+lbLa47pQm7FGffFAbNSHmAsADYXyKP6+RoYOLRGT5RrMcB/x5
+         oIFckr/6gP1cW7K401sxemRCpCirjq6z5O8r90l5mRuE0hIB029HJ1GaYChaJ9m/OkNn
+         zYG+rURc0CcqJtyAcwBzbORQ+4pcbzAjEi8qCr9ItcoKvaQ4NakOg1y1GxX7CCImHx9C
+         jhXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V5cVB5P3TeOYtCOLEXB9ysYlUgYKEba0iXM1aPINRdY=;
-        b=cRFox7tbUrIVISuoiJT5rBIgIoFfdCA4LMj3r9p57GLgc2UXBIDrRdLnVJauuusfmv
-         TiuELJUPOQsZzI0ZjGuldnNHMoAMTleRdtqIfiWC+EYxptbIIfdIJq1zRHL8AhTrtHIo
-         M8016fnnFCXmM+2WO4QiTUztaBrkCoObXt9T5wWdJUCkIRnA9O3+QsTgPvNLrPHIHJP3
-         0Nx461W50K9xxR6JKGLDtS92OqR8SVRYrWoVe8VDBz0eteMOjkoIKXJEe9G/zO3YXulK
-         B3iEMWWYnEJCZpWBD/WZfGJE013e/ABNDEaKZ4yrqR32zRwfuma2t2NnCAxrjQYiuTKI
-         GeOQ==
-X-Gm-Message-State: AOAM532/u0lxQpw+Z5o7MYuyfDb0wAZVaXs6hA+rPm6cyTIiMjg0/zI4
-	tM1VOLYxd9Cawo0ylGFyQGtcvZghAPI=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YWBBomf2z93SqO+dpxg6JtL+coG2HEiXlT+j/npXFWQ=;
+        b=k/rHEoZU6jZmJ+a25pX68uCaYnJ2NOTMahXTyv2c8fzJU5cp19mSpEJ7yrG+YNA/tg
+         sDpqiqCs6aGiCqWURnkuF7j9aOA+RU/UAOOUVDL2/SoxrXFJuvAMFRfo5LLimEZoQahY
+         rGVaq/Q39R6ovzKRI3EOjUhHoh/h9FFzr9Ze74WAH7S15blVnjJNejM6nW36ZHvVPluN
+         Kw9bVcrUOJnxKCxytiejd7FqmYun2v8hyAwdc+nlyH9PPGPNPlOCE+omqgOPINIp/AL/
+         Z1Ecw6boAo1JHRunEuygUWefub1ANdc4L9KN++myQNOU8SRSAVhrk5k+nErxZEqihBxV
+         BojQ==
+X-Gm-Message-State: AOAM5327V2xqvv73HVbPFS+x8jf6Zh3Sc0t8JlrYI4Ehf9bD6ZPhUH/R
+	hy/Ti7L1I8X/FFUANsDjLGQC5Yy/oH0=
 X-Google-Smtp-Source: 
- ABdhPJzYfVn4h0uX3F8xm/QaK+k0EkRZjb3aTnFZDGDaXlyM6+diDJqZBDxVAqyJfHJR7m9KSKXDMA==
-X-Received: by 2002:a5d:550f:: with SMTP id
- b15mr63135834wrv.212.1636102098765;
-        Fri, 05 Nov 2021 01:48:18 -0700 (PDT)
+ ABdhPJwl22QZHSTPF3MNEe32SXCq3pvsMWXl941v5tbV/l7bnngVeX0NVT+louZyKJHmID0/aKFp6A==
+X-Received: by 2002:a05:600c:19c8:: with SMTP id
+ u8mr792465wmq.155.1636102099482;
+        Fri, 05 Nov 2021 01:48:19 -0700 (PDT)
 Received: from nereus.lab.linutronix.de. ([109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- d7sm7230432wrw.87.2021.11.05.01.48.17
+ d7sm7230432wrw.87.2021.11.05.01.48.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 01:48:18 -0700 (PDT)
+        Fri, 05 Nov 2021 01:48:19 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/7] gdbm: upgrade 1.19 -> 1.22
-Date: Fri,  5 Nov 2021 09:48:06 +0100
-Message-Id: <20211105084812.1828227-1-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/7] perl: backport gdbm 1.2x compatibility fixes
+Date: Fri,  5 Nov 2021 09:48:07 +0100
+Message-Id: <20211105084812.1828227-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211105084812.1828227-1-alex@linutronix.de>
+References: <20211105084812.1828227-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -65,78 +67,147 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Nov 2021 08:48:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157882
+ https://lists.openembedded.org/g/openembedded-core/message/157883
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-support/gdbm/files/ptest.patch    | 18 +++++++++---------
- .../gdbm/{gdbm_1.19.bb => gdbm_1.22.bb}        |  3 +--
- 2 files changed, 10 insertions(+), 11 deletions(-)
- rename meta/recipes-support/gdbm/{gdbm_1.19.bb => gdbm_1.22.bb} (90%)
+ ...e5fdd87aa205011512cd1e6cc655bcf677fd.patch | 31 ++++++++++++++
+ ...2398e766500cb5d83c4d76b642fcf31d997a.patch | 40 +++++++++++++++++++
+ ...297a58b8f10ab885c19eec48ea076116cc1f.patch | 25 ++++++++++++
+ meta/recipes-devtools/perl/perl_5.34.0.bb     |  3 ++
+ 4 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/5bc1e5fdd87aa205011512cd1e6cc655bcf677fd.patch
+ create mode 100644 meta/recipes-devtools/perl/files/aacd2398e766500cb5d83c4d76b642fcf31d997a.patch
+ create mode 100644 meta/recipes-devtools/perl/files/ea57297a58b8f10ab885c19eec48ea076116cc1f.patch
 
-diff --git a/meta/recipes-support/gdbm/files/ptest.patch b/meta/recipes-support/gdbm/files/ptest.patch
-index 1e67dbd554..187f09655d 100644
---- a/meta/recipes-support/gdbm/files/ptest.patch
-+++ b/meta/recipes-support/gdbm/files/ptest.patch
-@@ -1,4 +1,4 @@
--From 41448708e163c8ec1f980464e7dd6741db427c8a Mon Sep 17 00:00:00 2001
-+From 8bea84a598b51a7ac7e50aa8f0f20857a9b6b07b Mon Sep 17 00:00:00 2001
- From: Josep Puigdemont <josep.puigdemont@enea.com>
- Date: Sun, 4 May 2014 16:02:07 +0200
- Subject: [PATCH] Add install-ptest rules.
-@@ -13,12 +13,12 @@ Upstream-Status: Pending
-  2 files changed, 16 insertions(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index ecc03df..9fbbda5 100644
-+index 25e200d..03d5ef0 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -55,3 +55,8 @@ ChangeLog:
--                 awk -f $(top_srcdir)/git2chg.awk                            \
--                     -v append=$(top_srcdir)/$(prev_change_log) > ChangeLog; \
-+@@ -64,3 +64,8 @@ ChangeLog:
-+             mv ChangeLog.tmp ChangeLog;                                     \
-+           rm -f ChangeLog.tmp;                                              \
-          fi
- +
- +install-ptest:
-@@ -26,12 +26,12 @@ index ecc03df..9fbbda5 100644
- +		$(MAKE) -C $$subdir DESTDIR=$(DESTDIR)/$$subdir $@; \
- +	done
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index dbe17dd..06f537f 100644
-+index 337cbed..92ec3be 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -169,3 +169,14 @@ EXTRA_DIST += \
--   gdbmtool/base.exp\
--   config/default.exp
-+@@ -139,3 +139,14 @@ d_creat_ce_LDADD = ../src/libgdbm.la ../compat/libgdbm_compat.la
+diff --git a/meta/recipes-devtools/perl/files/5bc1e5fdd87aa205011512cd1e6cc655bcf677fd.patch b/meta/recipes-devtools/perl/files/5bc1e5fdd87aa205011512cd1e6cc655bcf677fd.patch
+new file mode 100644
+index 0000000000..1cb65d932c
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/5bc1e5fdd87aa205011512cd1e6cc655bcf677fd.patch
+@@ -0,0 +1,31 @@
++From 5bc1e5fdd87aa205011512cd1e6cc655bcf677fd Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Wed, 23 Jun 2021 15:31:42 +0300
++Subject: [PATCH] Fix definition of ITEM_NOT_FOUND for pre-1.13 versions.
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ ext/GDBM_File/GDBM_File.xs | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/ext/GDBM_File/GDBM_File.xs b/ext/GDBM_File/GDBM_File.xs
++index 494c2889ca89..0125b5dcac4d 100644
++--- a/ext/GDBM_File/GDBM_File.xs
+++++ b/ext/GDBM_File/GDBM_File.xs
++@@ -145,10 +145,11 @@ output_datum(pTHX_ SV *arg, char *str, int size)
++ #define gdbm_setopt(db,optflag,optval,optlen) not_here("gdbm_setopt")
++ #endif
 + 
-+ SUBDIRS = gdbmtool
-  
- +buildtests: $(check_PROGRAMS) $(TESTSUITE)
- +
-diff --git a/meta/recipes-support/gdbm/gdbm_1.19.bb b/meta/recipes-support/gdbm/gdbm_1.22.bb
-similarity index 90%
-rename from meta/recipes-support/gdbm/gdbm_1.19.bb
-rename to meta/recipes-support/gdbm/gdbm_1.22.bb
-index 1d1a0c8dd1..5cb12cd57c 100644
---- a/meta/recipes-support/gdbm/gdbm_1.19.bb
-+++ b/meta/recipes-support/gdbm/gdbm_1.22.bb
-@@ -13,8 +13,7 @@ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
-            file://ptest.patch \
-           "
- 
--SRC_URI[md5sum] = "aeb29c6a90350a4c959cd1df38cd0a7e"
--SRC_URI[sha256sum] = "37ed12214122b972e18a0d94995039e57748191939ef74115b1d41d8811364bc"
-+SRC_URI[sha256sum] = "f366c823a6724af313b6bbe975b2809f9a157e5f6a43612a72949138d161d762"
- 
- inherit autotools gettext texinfo lib_package ptest
- 
++-#if GDBM_VERSION_MAJOR == 1 && GDBM_VERSION_MINOR < 13        
++-/* Prior to 1.13, gdbm_fetch family functions set gdbm_errno to GDBM_NO_ERROR
++-   if the requested key did not exist */
++-# define ITEM_NOT_FOUND()  (gdbm_errno == GDBM_NO_ERROR)
+++#if GDBM_VERSION_MAJOR == 1 && GDBM_VERSION_MINOR < 13
+++/* Prior to 1.13, only gdbm_fetch set GDBM_ITEM_NOT_FOUND if the requested
+++   key did not exist.  Other similar function wouls set GDBM_NO_ERROR instead.
+++   The GDBM_ITEM_NOT_FOUND existeds as early as in 1.7.3 */
+++# define ITEM_NOT_FOUND()  (gdbm_errno == GDBM_NO_ERROR || gdbm_errno == GDBM_ITEM_NOT_FOUND)
++ #else
++ # define ITEM_NOT_FOUND()  (gdbm_errno == GDBM_ITEM_NOT_FOUND)
++ #endif
+diff --git a/meta/recipes-devtools/perl/files/aacd2398e766500cb5d83c4d76b642fcf31d997a.patch b/meta/recipes-devtools/perl/files/aacd2398e766500cb5d83c4d76b642fcf31d997a.patch
+new file mode 100644
+index 0000000000..628903f41c
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/aacd2398e766500cb5d83c4d76b642fcf31d997a.patch
+@@ -0,0 +1,40 @@
++From aacd2398e766500cb5d83c4d76b642fcf31d997a Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Wed, 23 Jun 2021 10:26:50 +0300
++Subject: [PATCH] Fix GDBM_File to compile with version 1.20 and earlier
++
++* ext/GDBM_File/GDBM_File.xs (ITEM_NOT_FOUND): Define conditionally,
++depending on the GDBM_VERSION_MAJOR and GDBM_VERSION_MINOR.
++Don't assume GDBM_ITEM_NOT_FOUND is a define (it isn't since
++gdbm commit d3e27957).
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ ext/GDBM_File/GDBM_File.xs | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
++
++diff --git a/ext/GDBM_File/GDBM_File.xs b/ext/GDBM_File/GDBM_File.xs
++index cd0bb6f26ffa..494c2889ca89 100644
++--- a/ext/GDBM_File/GDBM_File.xs
+++++ b/ext/GDBM_File/GDBM_File.xs
++@@ -145,14 +145,13 @@ output_datum(pTHX_ SV *arg, char *str, int size)
++ #define gdbm_setopt(db,optflag,optval,optlen) not_here("gdbm_setopt")
++ #endif
++ 
++-#ifndef GDBM_ITEM_NOT_FOUND
++-# define GDBM_ITEM_NOT_FOUND GDBM_NO_ERROR
++-#endif
++-
+++#if GDBM_VERSION_MAJOR == 1 && GDBM_VERSION_MINOR < 13        
++ /* Prior to 1.13, gdbm_fetch family functions set gdbm_errno to GDBM_NO_ERROR
++    if the requested key did not exist */
++-#define ITEM_NOT_FOUND()                                                \
++-    (gdbm_errno == GDBM_ITEM_NOT_FOUND || gdbm_errno == GDBM_NO_ERROR)
+++# define ITEM_NOT_FOUND()  (gdbm_errno == GDBM_NO_ERROR)
+++#else
+++# define ITEM_NOT_FOUND()  (gdbm_errno == GDBM_ITEM_NOT_FOUND)
+++#endif
++ 
++ #define CHECKDB(db) do {                        \
++     if (!db->dbp) {                             \
+diff --git a/meta/recipes-devtools/perl/files/ea57297a58b8f10ab885c19eec48ea076116cc1f.patch b/meta/recipes-devtools/perl/files/ea57297a58b8f10ab885c19eec48ea076116cc1f.patch
+new file mode 100644
+index 0000000000..3864f1a121
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/ea57297a58b8f10ab885c19eec48ea076116cc1f.patch
+@@ -0,0 +1,25 @@
++From ea57297a58b8f10ab885c19eec48ea076116cc1f Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Wed, 23 Jun 2021 14:24:47 +0300
++Subject: [PATCH] Raise version number in ext/GDBM_File/GDBM_File.pm
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ ext/GDBM_File/GDBM_File.pm | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/ext/GDBM_File/GDBM_File.pm b/ext/GDBM_File/GDBM_File.pm
++index d837536f804c..cb08d091b829 100644
++--- a/ext/GDBM_File/GDBM_File.pm
+++++ b/ext/GDBM_File/GDBM_File.pm
++@@ -363,7 +363,7 @@ require XSLoader;
++ );
++ 
++ # This module isn't dual life, so no need for dev version numbers.
++-$VERSION = '1.19';
+++$VERSION = '1.20';
++ 
++ XSLoader::load();
++ 
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index 89de558979..16d45ccff3 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -18,6 +18,9 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0002-Constant-Fix-up-shebang.patch \
+            file://determinism.patch \
+            file://CVE-2021-36770.patch \
++           file://aacd2398e766500cb5d83c4d76b642fcf31d997a.patch \
++           file://ea57297a58b8f10ab885c19eec48ea076116cc1f.patch \
++           file://5bc1e5fdd87aa205011512cd1e6cc655bcf677fd.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
 -- 
 2.20.1
 
