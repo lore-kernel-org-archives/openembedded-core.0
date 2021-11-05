@@ -1,120 +1,141 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA408C433EF
-	for <webhook@archiver.kernel.org>; Fri,  5 Nov 2021 11:19:11 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.4157.1636111150881495773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB0FC433EF
+	for <webhook@archiver.kernel.org>; Fri,  5 Nov 2021 12:46:59 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web09.4929.1636116417576513385
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 04:19:11 -0700
+ Fri, 05 Nov 2021 05:46:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eP2BAnvG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id
- b2-20020a1c8002000000b0032fb900951eso9292640wmd.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JbV4CvSr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id r12so32637949edt.6
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 04:19:10 -0700 (PDT)
+ Fri, 05 Nov 2021 05:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=6u2s7NHaIT3w8SK/n+FQrO5v8ZO3C+G7DXugN1kDqyQ=;
-        b=eP2BAnvG8SP4MjQuZ0T1cC+4eRri/hrT4QH5+urCyJ2bX/+9h7rhsPpq4EtDD7grAk
-         tttdYzA9gijmfoiFVw6ued8sxJp4Pa5hugIohPJIHckbp1bGg31WHd1CG//m2RMZZcCS
-         bN0jkahNpBdb2bwzQKWMjMdnM0KpoZNMOTs08=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v+dD53iYHx3ther44sNKaalVKgE8nezhFiTuJGaeaXY=;
+        b=JbV4CvSrQ/ryBexc9DeTvroEZNscrvkA79JW03hmcHUhObHByu6iVGedv3VXq2PIOI
+         oEnD+zuabTQA+pOEGQEnw76s/lnAZVjDJOr4GKSE3ia1zC1Ex7H5Of16MTfLvsNkEaPA
+         u/RxPFWhHtDkQwq+ra6xFWsSJAgg9q6C/dpdR7uOLl8+kSAvy0UGiE+qs5T3ngbTvXkv
+         XjttDb025gXoxsLz6/jB3rJTQw7jGrrOGWdkL/PXnAsyfCGKXu4p7Xm+SjJJRXpVvyro
+         mxBXuxI4jnG1jyL84lNWS9wmJUa8NfJU+qctJrR/72N6PrHxSV8DsX8vbKa7plGV4h61
+         2eSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6u2s7NHaIT3w8SK/n+FQrO5v8ZO3C+G7DXugN1kDqyQ=;
-        b=Oim+8wSlJlgGimSXTti3c96R7eONa2QRbkTchD3XK6eJHbs7tPpxvd15xEwLi9Jw6u
-         b7mEG60Ku9pHmzSMboCQXHyzAncpLvl++QiIX1foZM//Y4kkoB5bmcM7qOcRY5x96l+4
-         3xZJwsVxAomgVxErWXGQK2Uc6Sntgx5FaQUqpRMcY76FccYAv8RWbxZ5ZCYrLI+GeoKY
-         7LxWAvi+iauA3QiZir7KABCr+bVa4JL2ArTtoByHRiqJ2x9N/MDQRjyyeE4UAvayeil5
-         eQXAfG+iRDdMDdaBvMLYYOn6VoR54s1zM52DQoMg3z3HWCph4OYTNYO99w9YJGFnRju6
-         hnfw==
-X-Gm-Message-State: AOAM530nua2t5Xgy9Bdlbl5ZdsqWQ39J5NCwq2YUx26LSJUQuY6L8whT
-	jEGGWJStV1OcKi7frY1BZPkNCw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v+dD53iYHx3ther44sNKaalVKgE8nezhFiTuJGaeaXY=;
+        b=TXh5WIJxlwm/vbIjObyUApgI825aqSwqnUpPHZ49ObZr/RMkI3PZtU/Y5iLRDalDqS
+         KST24OvMNPzIRkhUg5E1BjldcCPdgXMMpaRXkJPuMYW1Ux5dthxLRxnxYOejuXz5OaGE
+         Ciwpx7mQpfWvVjxhdbx34unPzJl67zOLM/oNs+wL9aGPUOiABU+FxEwGeLekqAR6AQ/+
+         vM2bQ7dRNpyW54EBfGEGYVFEPh7Nh8uI71aTd6QWe5tVpDhv6+0rx+NqsaNaAUvrJSgu
+         YR4qhoPvxtfwXqi2T/Wa20OrncnouGAvZ2/FupiUz3L2PVVpXdlhbUJzyc7AwXxWoFqH
+         rRYA==
+X-Gm-Message-State: AOAM532T8Y7gPxJ0sVh3yst5TihsHOw7e8GnvC3cnHZ6PWQoI5Rvdrbk
+	7IS4GkI/+w872vwbzTVtNliTgI6/TyZ6oafFohM=
 X-Google-Smtp-Source: 
- ABdhPJymCsuPbMGCrIt1RhMRVcwMgyjUW7WRXFHtkxNOp+stlno1tbPVi57+8RK6WPJhoM1al09eqQ==
-X-Received: by 2002:a7b:c1cb:: with SMTP id a11mr30564454wmj.30.1636111149338;
-        Fri, 05 Nov 2021 04:19:09 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:38e6:15ea:3134:28e5?
- ([2001:8b0:aba:5f3c:38e6:15ea:3134:28e5])
-        by smtp.gmail.com with ESMTPSA id
- p12sm9310259wrr.10.2021.11.05.04.19.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 04:19:09 -0700 (PDT)
-Message-ID: 
- <4f0010a081d65b32d7f883aa1c04fb696884200c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] gdb: Upgrade to 11.1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org,
-  Joshua Watt <JPEWhacker@gmail.com>
-Date: Fri, 05 Nov 2021 11:19:08 +0000
-In-Reply-To: <20211104013024.3517635-1-raj.khem@gmail.com>
-References: <20211104013024.3517635-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJx6ggtjGiOXn+JUkMAng5wHH6qcI9y7XCGOK/dDJcDO4ASoYp4d14Zfm6SGKigNIuBxakh2WSv1ZLoiGWNSl6A=
+X-Received: by 2002:a17:906:48cd:: with SMTP id
+ d13mr7220202ejt.35.1636116415857;
+ Fri, 05 Nov 2021 05:46:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <cover.1636054726.git.bruce.ashfield@gmail.com>
+ <57d58cf2b9094e474cf01c17e475b0526ee969d8.1636054726.git.bruce.ashfield@gmail.com>
+ <c13e0bd91696d38e2a42292f2098324591a6a6d0.camel@linuxfoundation.org>
+In-Reply-To: 
+ <c13e0bd91696d38e2a42292f2098324591a6a6d0.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 5 Nov 2021 08:46:44 -0400
+Message-ID: 
+ <CADkTA4PcSaeCTNOhencoQzydgcMfRByQYMOvq06=idJVirGm7Q@mail.gmail.com>
+Subject: Re: [PATCH 3/6] linux-libc-headers: update to v5.15
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Nov 2021 11:19:11 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Nov 2021 12:46:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157890
+ https://lists.openembedded.org/g/openembedded-core/message/157891
 
-On Wed, 2021-11-03 at 18:30 -0700, Khem Raj wrote:
-> Drop backported patches
-> Changes are here [1]
-> 
-> [1] https://sourceware.org/pipermail/gdb-announce/2021/000129.html
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/distro/include/tcmode-default.inc   |   2 +-
->  .../gdb/{gdb-10.2.inc => gdb-11.1.inc}        |  14 +-
->  ...ian_10.2.bb => gdb-cross-canadian_11.1.bb} |   0
->  .../{gdb-cross_10.2.bb => gdb-cross_11.1.bb}  |   0
->  ...make-man-install-relative-to-DESTDIR.patch |  20 +-
->  ...ux-nat-Define-_ABIO32-if-not-defined.patch |   8 +-
->  ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch |  10 +-
->  ...port-for-Renesas-SH-sh4-architecture.patch |  39 +-
->  ...readline.a-when-using-disable-static.patch |  12 +-
->  .../gdb/gdb/0006-use-asm-sgidefs.h.patch      |   8 +-
->  ...atch => 0007-Change-order-of-CFLAGS.patch} |  12 +-
->  ...8-resolve-restrict-keyword-conflict.patch} |   8 +-
->  ...> 0009-Fix-invalid-sigprocmask-call.patch} |   8 +-
->  ...h => 0010-gdbserver-ctrl-c-handling.patch} |  10 +-
->  ...-arc-Add-support-for-signal-handlers.patch | 218 ---------
->  ...-for-signal-frames-for-Linux-targets.patch | 232 ----------
->  ...count-the-REGNUM-in-supply-collect-g.patch | 104 -----
->  ...-native-support-for-ARC-in-GNU-Linux.patch | 414 ------------------
->  .../gdb/{gdb_10.2.bb => gdb_11.1.bb}          |   0
->  19 files changed, 74 insertions(+), 1045 deletions(-)
->  rename meta/recipes-devtools/gdb/{gdb-10.2.inc => gdb-11.1.inc} (56%)
->  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_10.2.bb => gdb-cross-canadian_11.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/{gdb-cross_10.2.bb => gdb-cross_11.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/gdb/{0008-Change-order-of-CFLAGS.patch => 0007-Change-order-of-CFLAGS.patch} (75%)
->  rename meta/recipes-devtools/gdb/gdb/{0009-resolve-restrict-keyword-conflict.patch => 0008-resolve-restrict-keyword-conflict.patch} (91%)
->  rename meta/recipes-devtools/gdb/gdb/{0010-Fix-invalid-sigprocmask-call.patch => 0009-Fix-invalid-sigprocmask-call.patch} (90%)
->  rename meta/recipes-devtools/gdb/gdb/{0011-gdbserver-ctrl-c-handling.patch => 0010-gdbserver-ctrl-c-handling.patch} (82%)
->  delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-arc-Add-support-for-signal-handlers.patch
->  delete mode 100644 meta/recipes-devtools/gdb/gdb/0013-arc-Add-support-for-signal-frames-for-Linux-targets.patch
->  delete mode 100644 meta/recipes-devtools/gdb/gdb/0014-arc-Take-into-account-the-REGNUM-in-supply-collect-g.patch
->  delete mode 100644 meta/recipes-devtools/gdb/gdb/0015-gdb-Add-native-support-for-ARC-in-GNU-Linux.patch
->  rename meta/recipes-devtools/gdb/{gdb_10.2.bb => gdb_11.1.bb} (100%)
+On Fri, Nov 5, 2021 at 7:18 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2021-11-04 at 15:48 -0400, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > No patches needed refreshing or removal, so we just update the
+> > SRC_URI and pick up the latest uapi / kernel headers.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  meta/conf/distro/include/tcmode-default.inc                   | 2 +-
+> >  ...{linux-libc-headers_5.14.bb => linux-libc-headers_5.15.bb} | 4 ++--
+> >  2 files changed, 3 insertions(+), 3 deletions(-)
+> >  rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.14.bb => linux-libc-headers_5.15.bb} (81%)
+> >
+> > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> > index 58f49800c4..86a6b50433 100644
+> > --- a/meta/conf/distro/include/tcmode-default.inc
+> > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > @@ -21,7 +21,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+> >  BINUVERSION ?= "2.37%"
+> >  GDBVERSION ?= "10.%"
+> >  GLIBCVERSION ?= "2.34"
+> > -LINUXLIBCVERSION ?= "5.14%"
+> > +LINUXLIBCVERSION ?= "5.15%"
+> >  QEMUVERSION ?= "6.1%"
+> >  GOVERSION ?= "1.16%"
+> >  # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+> > diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.14.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.15.bb
+> > similarity index 81%
+> > rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.14.bb
+> > rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.15.bb
+> > index 282c04d79c..588cc3acd1 100644
+> > --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.14.bb
+> > +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.15.bb
+> > @@ -14,7 +14,7 @@ SRC_URI:append = "\
+> >
+> >  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+> >
+> > -SRC_URI[md5sum] = "a082ef5748b813abca0649dab8be5f52"
+> > -SRC_URI[sha256sum] = "7e068b5e0d26a62b10e5320b25dce57588cbbc6f781c090442138c9c9c3271b2"
+> > +SRC_URI[md5sum] = "071d49ff4e020d58c04f9f3f76d3b594"
+> > +SRC_URI[sha256sum] = "57b2cf6991910e3b67a1b3490022e8a0674b6965c74c12da1e99d138d1991ee8"
+> >
+> >
+>
+> Looks like there is a musl issue with the ipx.h header in ppp:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/4299
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/4313
 
-Breaks on mingw:
+ahah. Something my a-quick build didn't hit.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/4299
+I'll fire up a build here and see how we work around ipx.h going away.
 
-Cheers,
+Bruce
 
-Richard
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
