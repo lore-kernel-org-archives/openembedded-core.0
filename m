@@ -1,205 +1,135 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD6FC433FE
-	for <webhook@archiver.kernel.org>; Fri,  5 Nov 2021 16:32:28 +0000 (UTC)
-Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
- by mx.groups.io with SMTP id smtpd.web10.8005.1636129947078230292
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FF8C433EF
+	for <webhook@archiver.kernel.org>; Fri,  5 Nov 2021 16:51:57 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web11.8368.1636131116256386149
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 09:32:28 -0700
+ Fri, 05 Nov 2021 09:51:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: iris-sensing.com,
- ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.irisgmbh.de (Postfix) with ESMTP id B537B31E0346;
-	Fri,  5 Nov 2021 17:32:18 +0100 (CET)
-X-Virus-Scanned: amavisd-new at irisgmbh.de
-Received: from mail.irisgmbh.de ([127.0.0.1])
-	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new,
- port 10027)
-	with ESMTP; Fri,  5 Nov 2021 17:32:18 +0100 (CET)
-Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
-	by mail.irisgmbh.de (Postfix) with ESMTPS id 9A64C31E033F;
-	Fri,  5 Nov 2021 17:32:18 +0100 (CET)
-Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
- ([172.30.10.11]) with mapi id 14.03.0513.000; Fri, 5 Nov 2021 17:32:18 +0100
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "peter.kjellerstedt@axis.com"
-	<peter.kjellerstedt@axis.com>, "jasper@fancydomain.eu"
-	<jasper@fancydomain.eu>
-CC: "martin@mko.dev" <martin@mko.dev>, Daniel Baumgart
-	<Daniel.Baumgart@iris-sensing.com>, "bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>
-Subject: Re: [bitbake-devel] [oe-core][PATCH v2 1/2] devtools: Initial
- recipe for repo 2.17.3
-Thread-Topic: [bitbake-devel] [oe-core][PATCH v2 1/2] devtools: Initial
- recipe for repo 2.17.3
-Thread-Index: AQHX0lpJkrCrf4+z/USCFJKJPHTeI6v1Cg0AgAAF3gA=
-Date: Fri, 5 Nov 2021 16:32:17 +0000
-Message-ID: <b29ee121a5e17b03e8b803594a81e3f6190d8a88.camel@iris-sensing.com>
-References: <20211105153135.26033-1-jasper@fancydomain.eu>
-	 <361859de452742cdbd666b45babcbf51@axis.com>
-In-Reply-To: <361859de452742cdbd666b45babcbf51@axis.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.10.1]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C8E4EA310A534546A61F4717579736F5@irisgmbh.local>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h2Yr7/ix;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id w9so2616567qtk.13
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 05 Nov 2021 09:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lwaIH1pqq4PlEA39gIjLnlZ5hso7sdLZzN7R9IKEfAU=;
+        b=h2Yr7/ixEzEpRRHRfImvEQHf/9sIXHUrxOLI+l8i1MH4zcoCUjzYIFXbcyxEbd4o79
+         dAokVuTYy0t/Vj3evtzIFSLl8mf6eWG3yA9gtOtpRNFG7HFgWi6hNkPqePGZe9ygYQO8
+         r56E58MEr/HBqLif2wdecctQneSV1Wol0j45ZS2uQPho35FF530b0hAg+Eaqn0uayKG1
+         oPmF5N6fDSMy1OMEgu8AGTDuHALD4pXoCBhxDgguTEnxRpzr3dHtWAHCBZQzIPBtDWbg
+         XZ3Y0fXai2rMdEDoeNq//ok6MaVpC2BswoyJpxCJ/3CHwOjzQonDh7R1OS21pa2Eo6H4
+         n5sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lwaIH1pqq4PlEA39gIjLnlZ5hso7sdLZzN7R9IKEfAU=;
+        b=oC+37GINWdSt6Wc78SrQTwp1NHUnBqhTnxPAAeVSk1pRprzEs7mxZZmOewn6fNdAcT
+         JyJFDgCV1KlJCCDEbUtmhekG7AH8Ho9d/6zqBZTaRrjAzMymejISXINbnsuO1A2ZZ2US
+         RFCmCByFVF12o4MC/W3C9pj8HCMBCg4bnD/nZgufShze1uofUlk/0vVhrQ2dlazUE8VK
+         ZRPHbfQHq9XE74/ASP2Pui1U/Ywnv4Y9JZEP2A8nB9Mf5R4KN0Vlh8KzRvqtbfqfjv06
+         cjLHJRe+GTdmpeXXU54bVPHlEOmHIjMh5b3Rf6+wrzhCclAbmJ2nYR+zijo0Hb4dwWO5
+         0img==
+X-Gm-Message-State: AOAM532L473tubd0vI6sX26YmR7jbkOiJ2LeUofaSD5ww1UMTMFbNrUp
+	oCyUTApna51p13OrH5mO667PBkRZO44M0kHr/7A=
+X-Google-Smtp-Source: 
+ ABdhPJzNoDGaolOidgGiSL6XQf1Khb2t3la/miklYw9qFENv+TURoSnq2WNlLyqgXtGPRCDONm2bR6vzu9xLz6mtXj8=
+X-Received: by 2002:a05:622a:58e:: with SMTP id
+ c14mr59498469qtb.225.1636131115258;
+ Fri, 05 Nov 2021 09:51:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <20211104013024.3517635-1-raj.khem@gmail.com>
+ <4f0010a081d65b32d7f883aa1c04fb696884200c.camel@linuxfoundation.org>
+In-Reply-To: 
+ <4f0010a081d65b32d7f883aa1c04fb696884200c.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 5 Nov 2021 09:51:29 -0700
+Message-ID: 
+ <CAMKF1sppVQ1R56qR03UkqGzz8QWhevX-1CJ=tpWzPEDtK+ZXJA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] gdb: Upgrade to 11.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <JPEWhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Nov 2021 16:32:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Nov 2021 16:51:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157910
+ https://lists.openembedded.org/g/openembedded-core/message/157911
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkhpIFBl
-dGVyLA0KDQo+IENoYW5nZSB0byBSREVQRU5EUzoke1BOfSBhbmQgbW92ZSBpdCB0byBiZXR3ZWVu
-IGRvX2luc3RhbGwoKSBhbmQgDQo+IEJCQ0xBU1NFWFRFTkQuDQoNCldoYXQgZG9lcyB0aGlzIGRv
-PyBUaGUgWW9jdG8gbWFudWFsIG9ubHkgbWVudGlvbnMgUkRFUEVORFNfJHtQTn0uDQoNCmFjayB0
-byB0aGUgcmVzdC4NCg0KLSAtLSANCldpdGggYmVzdCByZWdhcmRzDQoNCkphc3BlciBPcnNjaHVs
-a28NCkRldk9wcyBFbmdpbmVlcg0KDQpUZWwuICs0OSAzMCA1OCA1OCAxNCAyNjUNCkZheCArNDkg
-MzAgNTggNTggMTQgOTk5DQpKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20NCg0K4oCi
-IOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg
-4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAog0KDQppcmlzLUdtYkgN
-CmluZnJhcmVkICYgaW50ZWxsaWdlbnQgc2Vuc29ycw0KU2NobmVsbGVyc3RyYcOfZSAxLTUgfCAx
-MjQzOSBCZXJsaW4NCg0KaHR0cHM6Ly9pcmlzLXNlbnNpbmcuY29tLw0KDQoNCg0KDQoNCk9uIEZy
-aSwgMjAyMS0xMS0wNSBhdCAxNjoxMSArMDAwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0K
-PiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gRnJvbToNCj4gPiBiaXRiYWtlLWRl
-dmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmfCoDxiaXRiYWtlLWRldmVsQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4gPiA+IE9uIEJlaGFsZiBPZiBKYXNwZXIgT3JzY2h1bGtvIHZpYSBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+ID4gU2VudDogZGVuIDUgbm92ZW1iZXIgMjAyMSAxNjozMg0KPiA+
-IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gQ2M6IG1h
-cnRpbkBta28uZGV2OyBEYW5pZWwuQmF1bWdhcnRAaXJpcy1zZW5zaW5nLmNvbTsNCj4gPiBiaXRi
-YWtlLWRldmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IEphc3BlciBPcnNjaHVsa28NCj4gPiA8
-SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29tPg0KPiA+IFN1YmplY3Q6IFtiaXRiYWtl
-LWRldmVsXSBbb2UtY29yZV1bUEFUQ0ggdjIgMS8yXSBkZXZ0b29sczogSW5pdGlhbA0KPiA+IHJl
-Y2lwZSBmb3IgcmVwbyAyLjE3LjMNCj4gDQo+IENoYW5nZSB0aGUgR2l0IHN1YmplY3QgdG86DQo+
-IA0KPiByZXBvOiBBZGQgcmVjaXBlIGZvciAyLjE3LjMNCj4gDQo+ID4gDQo+ID4gRnJvbTogSmFz
-cGVyIE9yc2NodWxrbyA8SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29tPg0KPiA+IA0K
-PiA+IEFkZCBhIHJlY2lwZSBmb3IgcmVwbywgcHJlcmVxdWlzaXRlIGZvciB0aGUgcmVwbyBmZXRj
-aGVyLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IEphc3BlciBPcnNjaHVsa28gPEphc3Blci5P
-cnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbT4NCj4gPiAtLS0NCj4gPiDCoC4uLi9yZXBvL2ZpbGVz
-LzAwMDEtcHl0aG9uMy1zaGViYW5nLnBhdGNowqDCoMKgwqAgfCAyMSArKysrKysrKysrKysNCj4g
-PiDCoC4uLi8wMDAxLVNldC1SRVBPX1JFVi10by12Mi4xNy4zLnBhdGNowqDCoMKgwqDCoMKgwqAg
-fCAzMw0KPiA+ICsrKysrKysrKysrKysrKysrKysNCj4gPiDCoG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9yZXBvL3JlcG8uaW5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyNSArKysrKysrKysrKysrKw0K
-PiA+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjE3LjMuYmLCoMKgwqDCoCB8
-wqAgNyArKysrDQo+ID4gwqA0IGZpbGVzIGNoYW5nZWQsIDg2IGluc2VydGlvbnMoKykNCj4gPiDC
-oGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9maWxlcy8wMDAx
-LXB5dGhvbjMtDQo+ID4gc2hlYmFuZy5wYXRjaA0KPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG8tMi4xNy4zLzAwMDEtU2V0LQ0KPiA+IFJFUE9f
-UkVWLXRvLXYyLjE3LjMucGF0Y2gNCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcmVwby9yZXBvLmluYw0KPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi4xNy4zLmJiDQo+ID4gDQo+ID4gZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL2ZpbGVzLzAwMDEtcHl0aG9uMy0NCj4gPiBz
-aGViYW5nLnBhdGNoID4gYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9maWxlcy8wMDAxLXB5
-dGhvbjMtDQo+ID4gc2hlYmFuZy5wYXRjaA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4g
-aW5kZXggMDAwMDAwMDAwMC4uMDljY2Y1ODI2NA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9maWxlcy8wMDAxLXB5dGhvbjMtc2hlYmFuZy5w
-YXRjaA0KPiA+IEBAIC0wLDAgKzEsMjEgQEANCj4gPiArRnJvbSBiOGU4NGIyMDJjZDMwMmE3Yzk5
-Mjg4ZDM4MzVkYzljNjMwNzFmOGYyIE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gPiAyMDAxDQo+ID4g
-K0Zyb206IEphc3BlciBPcnNjaHVsa28gPEphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNv
-bT4NCj4gPiArRGF0ZTogVHVlLCAxNCBTZXAgMjAyMSAxNjo0Njo1MSArMDIwMA0KPiA+ICtTdWJq
-ZWN0OiBbUEFUQ0hdIHB5dGhvbjMgc2hlYmFuZw0KPiA+ICsNCj4gPiArLS0tDQo+ID4gKyByZXBv
-IHwgMiArLQ0KPiA+ICsgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pDQo+ID4gKw0KPiA+ICtkaWZmIC0tZ2l0IGEvcmVwbyBiL3JlcG8NCj4gPiAraW5kZXggYjEz
-ZTM0Yy4uMjA1ZTBlNSAxMDA3NTUNCj4gPiArLS0tIGEvcmVwbw0KPiA+ICsrKysgYi9yZXBvDQo+
-ID4gK0BAIC0xLDQgKzEsNCBAQA0KPiA+ICstIyEvdXNyL2Jpbi9lbnYgcHl0aG9uDQo+ID4gKysj
-IS91c3IvYmluL2VudiBweXRob24zDQo+ID4gKyAjIC0qLSBjb2Rpbmc6dXRmLTggLSotDQo+ID4g
-KyAjDQo+ID4gKyAjIENvcHlyaWdodCAoQykgMjAwOCBUaGUgQW5kcm9pZCBPcGVuIFNvdXJjZSBQ
-cm9qZWN0DQo+ID4gKy0tDQo+ID4gKzIuMzMuMA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcmVwby9yZXBvLTIuMTcuMy8wMDAxLVNldC0NCj4gPiBSRVBPX1JFVi10by12
-Mi4xNy4zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwby0NCj4gPiAyLjE3
-LjMvMDAwMS1TZXQtUkVQT19SRVYtdG8tdjIuMTcuMy5wYXRjaA0KPiA+IG5ldyBmaWxlIG1vZGUg
-MTAwNjQ0DQo+ID4gaW5kZXggMDAwMDAwMDAwMC4uNGQ3NmJmYzVkMg0KPiA+IC0tLSAvZGV2L251
-bGwNCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvLTIuMTcuMy8wMDAx
-LVNldC1SRVBPX1JFVi10by0NCj4gPiB2Mi4xNy4zLnBhdGNoDQo+ID4gQEAgLTAsMCArMSwzMyBA
-QA0KPiA+ICtGcm9tIGJkZDJhNTI4ZGE1OWMyOGRiOGFlMjk4NjgzNDkyNmRlN2NlYmYzYWIgTW9u
-IFNlcCAxNyAwMDowMDowMA0KPiA+IDIwMDENCj4gPiArRnJvbTogSmFzcGVyIE9yc2NodWxrbyA8
-SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29tPg0KPiA+ICtEYXRlOiBUaHUsIDQgTm92
-IDIwMjEgMTY6NTU6MTIgKzAxMDANCj4gPiArU3ViamVjdDogW1BBVENIXSBTZXQgUkVQT19SRVYg
-dG8gdjIuMTcuMw0KPiA+ICsNCj4gPiArcmVwbyBpcyBhbiB1bnVzdWFsIHRvb2wgYmVjYXVzZSBp
-dCBkb3dubG9hZHMgYWxsIG9mIGl0cyBvd24gUHl0aG9uDQo+ID4gbW9kdWxlcw0KPiA+ICt1c2lu
-ZyBHUEctc2lnbmVkIGdpdCB0YWdzLCBhbmQgc3RvcmVzIHRob3NlIGZpbGVzIGFzIHBhcnQgb2Yg
-dGhlDQo+ID4gcHJvamVjdA0KPiA+ICt0aGF0IGl0IGlzIHdvcmtpbmcgd2l0aC4NCj4gPiArDQo+
-ID4gK1NvIGluIG9yZGVyIHRvIGhhdmUgYSByZXByb2R1Y2libGUgcmVwbyBpbnN0YWxsYXRpb24g
-d2l0aGluIHRoZQ0KPiA+IHByb2plY3QNCj4gPiArZm9sZGVycywgd2UgaGFyZGNvZGUgdGhlIFJF
-UE9fUkVWIHZhcmlhYmxlIHRvIHRoaXMgcmVjaXBlcyBQVi4NCj4gDQo+IENoYW5nZSAidGhpcyBy
-ZWNpcGVzIFBWIiB0byAiYSBTSEExIHRoYXQgY29ycmVzcG9uZHMgdG8gdGhlIHZlcnNpb24gDQo+
-IG9mIHRoZSByZWNpcGUuIg0KPiANCj4gPiArDQo+ID4gK1Vwc3RyZWFtLVN0YXR1czogSW5hcHBy
-b3ByaWF0ZSBbY29uZmlndXJhdGlvbl0NCj4gPiArU2lnbmVkLW9mZi1ieTogSmFzcGVyIE9yc2No
-dWxrbyA8SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29tPg0KPiA+ICstLS0NCj4gPiAr
-IHJlcG8gfCAyICstDQo+ID4gKyAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkNCj4gPiArDQo+ID4gK2RpZmYgLS1naXQgYS9yZXBvIGIvcmVwbw0KPiA+ICtpbmRl
-eCA0Y2RkYmYxLi5jZjVmNmIxIDEwMDc1NQ0KPiA+ICstLS0gYS9yZXBvDQo+ID4gKysrKyBiL3Jl
-cG8NCj4gPiArQEAgLTE0Miw3ICsxNDIsNyBAQCBpZiBfX25hbWVfXyA9PSAnX19tYWluX18nOg0K
-PiA+ICsgUkVQT19VUkwgPSBvcy5lbnZpcm9uLmdldCgnUkVQT19VUkwnLCBOb25lKQ0KPiA+ICsg
-aWYgbm90IFJFUE9fVVJMOg0KPiA+ICvCoMKgIFJFUE9fVVJMID0gJ2h0dHBzOi8vZ2Vycml0Lmdv
-b2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8nDQo+ID4gKy1SRVBPX1JFViA9IG9zLmVudmlyb24uZ2V0
-KCdSRVBPX1JFVicpDQo+ID4gKytSRVBPX1JFViA9ICcxMWIzMGI5MWRmMWYwZTAzYjUzZGE5NzBl
-YzI1ODhlODU4MTdiYWNjJw0KPiA+ICsgaWYgbm90IFJFUE9fUkVWOg0KPiA+ICvCoMKgIFJFUE9f
-UkVWID0gJ3N0YWJsZScNCj4gPiArICMgVVJMIHRvIGZpbGUgYnVnIHJlcG9ydHMgZm9yIHJlcG8g
-dG9vbCBpc3N1ZXMuDQo+ID4gKy0tDQo+ID4gKzIuMzMuMQ0KPiA+IGRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvLmluYyBiL21ldGEvcmVjaXBlcy0NCj4gPiBkZXZ0
-b29scy9yZXBvL3JlcG8uaW5jDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAw
-MDAwMDAwMDAwLi42MGIzMmU0ZDc0DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG8uaW5jDQo+ID4gQEAgLTAsMCArMSwyNSBAQA0KPiA+
-ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQNCj4gPiArIyBDb3B5cmlnaHQgKEMpIDIw
-MjEgaXJpcy1HbWJIIGluZnJhcmVkICYgaW50ZWxsaWdlbnQgc2Vuc29ycw0KPiA+ICsNCj4gPiAr
-U1VNTUFSWSA9ICJUb29sIGZvciBtYW5hZ2luZyBtYW55IEdpdCByZXBvc2l0b3JpZXMiDQo+ID4g
-K0RFU0NSSVBUSU9OID0gIlJlcG8gaXMgYSB0b29sIGJ1aWx0IG9uIHRvcCBvZiBHaXQuIFJlcG8g
-aGVscHMgbWFuYWdlDQo+ID4gbWFueSBHaXQgcmVwb3NpdG9yaWVzLCBkb2VzIHRoZSB1cGxvYWRz
-IHRvIHJldmlzaW9uIGNvbnRyb2wgc3lzdGVtcywNCj4gPiBhbmQgYXV0b21hdGVzIHBhcnRzIG9m
-IHRoZSBkZXZlbG9wbWVudCB3b3JrZmxvdy4iDQo+ID4gK0hPTUVQQUdFID0gImh0dHBzOi8vYW5k
-cm9pZC5nb29nbGVzb3VyY2UuY29tL3Rvb2xzL3JlcG8iDQo+ID4gK1NFQ1RJT04gPSAiY29uc29s
-ZS91dGlscyINCj4gPiArDQo+ID4gK0xJQ0VOU0UgPSAiQXBhY2hlLTIuMCINCj4gPiArDQo+ID4g
-K1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0QGdlcnJpdC5nb29nbGVzb3VyY2UuY29tL2dpdC0NCj4gPiBy
-ZXBvLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiINCj4gDQo+IEkgZG8gbm90IHRoaW5r
-IHlvdSBuZWVkIHRvIHNwZWNpZnkgImdpdEAiIGZvciB0aGlzIFVSTC4NCj4gDQo+ID4gK01JUlJP
-UlMgPSAiZ2l0Oi8vZ2l0QGdlcnJpdC5nb29nbGVzb3VyY2UuY29tL2dpdC1yZXBvLmdpdA0KPiA+
-IGdpdDovL2dpdGh1Yi5jb20vR2Vycml0Q29kZVJldmlldy9naXQtcmVwby5naXQgXG4iDQo+IA0K
-PiBJdCBpcyBwcm9iYWJseSBiZXR0ZXIgdG8gdXNlICs9IGFuZCBhZGQgdG8gTUlSUk9SUy4NCj4g
-DQo+ID4gKw0KPiA+ICtTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS1weXRob24zLXNoZWJhbmcucGF0
-Y2giDQo+IA0KPiBJIHdvdWxkIHJld3JpdGUgdGhlIGFib3ZlIGxpbmVzIGFzOg0KPiANCj4gU1JD
-X1VSSSA9ICJnaXQ6Ly9nZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9naXQtDQo+IHJlcG8uZ2l0O3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIg0KPiBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS1weXRo
-b24zLXNoZWJhbmcucGF0Y2giDQo+IA0KPiBNSVJST1JTICs9ICJnaXQ6Ly9nZXJyaXQuZ29vZ2xl
-c291cmNlLmNvbS9naXQtcmVwby5naXQNCj4gZ2l0Oi8vZ2l0aHViLmNvbS9HZXJyaXRDb2RlUmV2
-aWV3L2dpdC1yZXBvLmdpdCBcbiINCj4gDQo+ID4gKw0KPiA+ICtTID0gIiR7V09SS0RJUn0vZ2l0
-Ig0KPiA+ICsNCj4gPiArUkRFUEVORFNfJHtQTn0gPSAicHl0aG9uMyINCj4gDQo+IENoYW5nZSB0
-byBSREVQRU5EUzoke1BOfSBhbmQgbW92ZSBpdCB0byBiZXR3ZWVuIGRvX2luc3RhbGwoKSBhbmQg
-DQo+IEJCQ0xBU1NFWFRFTkQuDQo+IA0KPiA+ICsNCj4gPiArZG9faW5zdGFsbCgpIHsNCj4gPiAr
-wqDCoMKgIGluc3RhbGwgLWQgJHtEfSR7YmluZGlyfQ0KPiA+ICvCoMKgwqAgaW5zdGFsbCAtbSA3
-NTUgJHtXT1JLRElSfS9naXQvcmVwbyAke0R9JHtiaW5kaXJ9DQo+IA0KPiBVc2UgdGFicyB0byBp
-bmRlbnQgc2hlbGwgY29kZSBpbiBPRS1Db3JlLiBZb3UgY2FuIGFsc28gcmVtb3ZlICItbSA3NTUi
-IA0KPiBhcyB0aGF0IGlzIHRoZSBkZWZhdWx0IGZvciBpbnN0YWxsLg0KPiANCj4gPiArfQ0KPiA+
-ICsNCj4gPiArQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIg0KPiA+IGRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuMTcuMy5iYg0KPiA+IGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjE3LjMuYmINCj4gPiBuZXcgZmlsZSBtb2Rl
-IDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLmMyNjI2NGI5ZTkNCj4gPiAtLS0gL2Rldi9u
-dWxsDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjE3LjMuYmIN
-Cj4gPiBAQCAtMCwwICsxLDcgQEANCj4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlU
-DQo+ID4gKyMgQ29weXJpZ2h0IChDKSAyMDIxIGlyaXMtR21iSCBpbmZyYXJlZCAmIGludGVsbGln
-ZW50IHNlbnNvcnMNCj4gPiArDQo+ID4gK3JlcXVpcmUgcmVjaXBlcy1kZXZ0b29scy9yZXBvL3Jl
-cG8uaW5jDQo+IA0KPiBNZXJnZSB0aGUgcmVwby5pbmMgd2l0aCB0aGUgcmVjaXBlIGFzIHRoZXJl
-IGlzIG9ubHkgb25lIHVzZXIgb2YgaXQuDQo+IA0KPiA+ICsNCj4gPiArU1JDUkVWID0gIjExYjMw
-YjkxZGYxZjBlMDNiNTNkYTk3MGVjMjU4OGU4NTgxN2JhY2MiDQo+ID4gK0xJQ19GSUxFU19DSEtT
-VU0gPQ0KPiA+ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNj
-NmJkNTciDQo+ID4gLS0NCj4gPiAyLjMzLjENCj4gDQo+IC8vUGV0ZXINCj4gDQotLS0tLUJFR0lO
-IFBHUCBTSUdOQVRVUkUtLS0tLQ0KDQppUUV6QkFFQkNBQWRGaUVFNFd5UE1JQzVBcDQrT29vMVln
-cWV3MDdWTU5VRkFtR0ZYSkFBQ2drUVlncWV3MDdWDQpNTlZ4MXdmK0o1ZlhsNlNsQzJDNE42RjQ4
-Zm54VzBiSzR2K3hhS2VVamxRSjZvTjJpNlNEQWdIS2l4NTRTT2h6DQp6OFJiZXBVM0dIaWtTazIv
-R1huL2NYNmdOekc4c3hCZkFiaFQwTWVUamlKRWZiaHV5cVlXbzNXK2k1dDhOUHVMDQo3NkdtNXlh
-NGxqbkFUSXRBaElnQkMxV3lHZ3FicE1DYWpCODJnTHcxWEVDNm1sRDRmVW9tYTJTQklXZkdoOTR5
-DQpqYlU2aXhVS0YwdWxtU3lLMnEyMHl6WGpxNmpkKytTaERhWWVTUHg1UDFzMEMxTmVXb1RNOGxs
-YWFhZ25KM1IxDQpDbmovdUZWZmY3YTQ2aTR5ZDRwYks2bzRvajhzTm9CY0JwUmtYOXN6SEJGNHhB
-TEY5djZzQUFENHFrWXRHd3EwDQpDd04zcHN1dFkxb3A0aEhTNE9GQ0pnOFZsOEFIcHc9PQ0KPWJ3
-ZFoNCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQ0K
+On Fri, Nov 5, 2021 at 4:19 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2021-11-03 at 18:30 -0700, Khem Raj wrote:
+> > Drop backported patches
+> > Changes are here [1]
+> >
+> > [1] https://sourceware.org/pipermail/gdb-announce/2021/000129.html
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/conf/distro/include/tcmode-default.inc   |   2 +-
+> >  .../gdb/{gdb-10.2.inc => gdb-11.1.inc}        |  14 +-
+> >  ...ian_10.2.bb => gdb-cross-canadian_11.1.bb} |   0
+> >  .../{gdb-cross_10.2.bb => gdb-cross_11.1.bb}  |   0
+> >  ...make-man-install-relative-to-DESTDIR.patch |  20 +-
+> >  ...ux-nat-Define-_ABIO32-if-not-defined.patch |   8 +-
+> >  ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch |  10 +-
+> >  ...port-for-Renesas-SH-sh4-architecture.patch |  39 +-
+> >  ...readline.a-when-using-disable-static.patch |  12 +-
+> >  .../gdb/gdb/0006-use-asm-sgidefs.h.patch      |   8 +-
+> >  ...atch => 0007-Change-order-of-CFLAGS.patch} |  12 +-
+> >  ...8-resolve-restrict-keyword-conflict.patch} |   8 +-
+> >  ...> 0009-Fix-invalid-sigprocmask-call.patch} |   8 +-
+> >  ...h => 0010-gdbserver-ctrl-c-handling.patch} |  10 +-
+> >  ...-arc-Add-support-for-signal-handlers.patch | 218 ---------
+> >  ...-for-signal-frames-for-Linux-targets.patch | 232 ----------
+> >  ...count-the-REGNUM-in-supply-collect-g.patch | 104 -----
+> >  ...-native-support-for-ARC-in-GNU-Linux.patch | 414 ------------------
+> >  .../gdb/{gdb_10.2.bb => gdb_11.1.bb}          |   0
+> >  19 files changed, 74 insertions(+), 1045 deletions(-)
+> >  rename meta/recipes-devtools/gdb/{gdb-10.2.inc => gdb-11.1.inc} (56%)
+> >  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_10.2.bb => gdb-cross-canadian_11.1.bb} (100%)
+> >  rename meta/recipes-devtools/gdb/{gdb-cross_10.2.bb => gdb-cross_11.1.bb} (100%)
+> >  rename meta/recipes-devtools/gdb/gdb/{0008-Change-order-of-CFLAGS.patch => 0007-Change-order-of-CFLAGS.patch} (75%)
+> >  rename meta/recipes-devtools/gdb/gdb/{0009-resolve-restrict-keyword-conflict.patch => 0008-resolve-restrict-keyword-conflict.patch} (91%)
+> >  rename meta/recipes-devtools/gdb/gdb/{0010-Fix-invalid-sigprocmask-call.patch => 0009-Fix-invalid-sigprocmask-call.patch} (90%)
+> >  rename meta/recipes-devtools/gdb/gdb/{0011-gdbserver-ctrl-c-handling.patch => 0010-gdbserver-ctrl-c-handling.patch} (82%)
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-arc-Add-support-for-signal-handlers.patch
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0013-arc-Add-support-for-signal-frames-for-Linux-targets.patch
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0014-arc-Take-into-account-the-REGNUM-in-supply-collect-g.patch
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0015-gdb-Add-native-support-for-ARC-in-GNU-Linux.patch
+> >  rename meta/recipes-devtools/gdb/{gdb_10.2.bb => gdb_11.1.bb} (100%)
+>
+> Breaks on mingw:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/4299
+>
+
+I see
+
+| sys-linux.c:140:10: fatal error: linux/ipx.h: No such file or directory
+|   140 | #include <linux/ipx.h>
+|       |          ^~~~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: sys-linux.o] Error 1
+| make[1]: Leaving directory
+'/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ppp/2.4.9-r0/ppp-2.4.9/pppd'
+
+perhaps wrong link ?
+
+> Cheers,
+>
+> Richard
+>
 
