@@ -1,117 +1,136 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DA8C433EF
-	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 00:37:43 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web08.13969.1636159056838863889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6741C433F5
+	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 00:48:36 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web08.14063.1636159715656853951
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 17:37:36 -0700
+ Fri, 05 Nov 2021 17:48:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cxpzUq2w;
- spf=pass (domain: gmail.com, ip: 209.85.210.173,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id x131so5089724pfc.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DC7rOTi1;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id v23so17686401ljk.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 17:37:36 -0700 (PDT)
+ Fri, 05 Nov 2021 17:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yiktE0dPBLpYz1Qs3sVq55zxdlufL7vlhqtTzpag0+c=;
-        b=cxpzUq2wXaEXc0/JkBn6/vmvXlCbgSpqVPl/adJzGp2YOk0xJTQ5H0dPwob4BW3cYS
-         nwtSBv3fgyN86FUy5APf/bJ12HeN+NY+7ihDXclOeXl6Bi45+pdQ+QLRjQEB7w2LV3Iz
-         o9VjnvmEdcM/eKuGZPTwZuPvL/mKoxPYN1qNoLW+6UzTokpgJohNophvdFeIaMF7XbTr
-         ZKFM2QSuBwRgI9nzwoTFzKXCuc39Yi7Yj1Nxc8/OlCys8OVlbFEjgTiOdJim6A7Z1nF4
-         J04sO5t3JgngtPAL8DMMfnPdmw98ePelNC1/2MeDYGixgv8zyXNpMRDIci9oIytJ0g7E
-         yN3w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R0x/E9DiOUhB4A01xM+K6GaPBPXAi3+WsYyo1F9pbqs=;
+        b=DC7rOTi18MJcVsDVyzpFSwSVpfV/12lIeYlSsMasH+D3wlxU88nHVkg+s3FadBKoIB
+         GoFYAVRI3ghks7BIcJ/prBiEOhXszJE9gdfGnWoWHz23Wj0I8J+kNBg9ZztZDPYWPJhb
+         ULh+05xyZcd5X4c8CvNN5sFSfqlTjgEwfHkaSMVwuA3ZNcS5ngxhB1pb1P5CDdBtiWr9
+         /5VNh9ye03dqR1lGhVgDvkwwF5enloLXlAyK+Du6qx5VvOQqA3srrVpVDQoYtWNKuztC
+         WFyUTzjDTTczttbyqa0a3JUqy1L3OjmxeLKpLjPeZSf/8TSXFHbhSYmfbxh0L+2FYJdH
+         xoqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yiktE0dPBLpYz1Qs3sVq55zxdlufL7vlhqtTzpag0+c=;
-        b=kyr6YVAMdEI9n1xo8hTYmnsw57sG6ok51yCSR/sWBdK29+NbByn+6EmJg9WhGFC9w1
-         38V05atKNHxoYkN4iLz8IFa0pqBpaRiQs9suvEoPrsMNk3/14lAnDAs9QxhT0oZVNKUP
-         rbY4QW4rcBVASbkck7KLR13fEmyZZs4kVXZE4R1dY3ViTS7ZszUS1SVfO6UKQ8giVvh7
-         hfHJTSlpLp+cQsa3ot74FIw5dxGsB8t1gxvKJG12EM+WLG9fZe7tSaBOBA5Ayb39EbZw
-         1q03J6FttGd7QpEKKA4HeGUDv9zYL4xUoLAfdzkRa34/BBSlePCGpHjnUxfvFirLq1ZT
-         aPog==
-X-Gm-Message-State: AOAM532jR+FLzjwXoifHaNd9dNjMXn3N/EhyKXxSP1fHXvt2zSMYD6uK
-	O1Pv+lpbjOTMnyg9d0zjHDzw4DACmLg=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R0x/E9DiOUhB4A01xM+K6GaPBPXAi3+WsYyo1F9pbqs=;
+        b=1UcjgNlCUsk+VVtQ6JxLPJL2I1CLXBeymRrGXtpRnXElnjGvaFZ4L3piOhHuVHcJ/X
+         VAOcOuK4GDhYwNi2qeU4hYLm+w9X5wI3ft/dufFMv/JCAf86DPlemlBTJn28ErIRXQRJ
+         9dMKy0LF3ozEKH3zeqT/EXrc4Byco+zvsWU2iUFk5zELOB/6OPE951Ej/OMLid2Ck3ku
+         ZboOldyzfJSYYIvUGzmKlV6ukPkAdpH0mphzvLuTThuR2j3QMk9dGyoV/leaFa/HAeGu
+         oYKN+A36ZsYxk6kugzdEdboo5DuHWsjADhDQ09rUttOJiJndQwMHrZs5g1gFu49mlpoY
+         3fDA==
+X-Gm-Message-State: AOAM530XETG2MbxcnKarJzc8hgiY3WDaBPgt+JIN5/ygmpzfSYrM4utp
+	2t7sjPapE4OezK3pgKPbkB1tJaNAFInL4fb6NxY=
 X-Google-Smtp-Source: 
- ABdhPJwh6Twbl/GKTPK+YvvUvhaicD7L+SD9G0DsFT7Bu6BYRBTVXbA+1rXcnQcpqb1DNo/ngWJ1xA==
-X-Received: by 2002:a62:e514:0:b0:47c:12f6:3aae with SMTP id
- n20-20020a62e514000000b0047c12f63aaemr63741243pff.26.1636159055733;
-        Fri, 05 Nov 2021 17:37:35 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::f94a])
-        by smtp.gmail.com with ESMTPSA id
- s15sm2522146pjs.51.2021.11.05.17.37.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 17:37:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gdb: Add dependency on libgmp
-Date: Fri,  5 Nov 2021 17:37:33 -0700
-Message-Id: <20211106003733.2858436-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ ABdhPJxU4fcJiloh13663U9uelHyMtWXma+ePhr8eCC3XsFyYmlt6BP/9Gw+mv9qZCm3Pdgp8eb7P5b5Fv/L0q5/cWg=
+X-Received: by 2002:a05:651c:905:: with SMTP id
+ e5mr65236522ljq.238.1636159713591;
+ Fri, 05 Nov 2021 17:48:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CAFR_W8oXpAQ7y7iCDKkDruGUjfE3DXQ6CQQq1ou5XP7nDcfJZQ@mail.gmail.com>
+In-Reply-To: 
+ <CAFR_W8oXpAQ7y7iCDKkDruGUjfE3DXQ6CQQq1ou5XP7nDcfJZQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 5 Nov 2021 17:48:17 -0700
+Message-ID: 
+ <CAJ86T=WoKMWUoYe4D45-Heucs-hYG_JaHHjLDGVXqtrGCKsFFA@mail.gmail.com>
+Subject: Re: [OE-core] Depending on other package's config
+To: maxims@google.com
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 00:37:43 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 00:48:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157930
+ https://lists.openembedded.org/g/openembedded-core/message/157931
 
-gdb 11 has added this library as must have
+On Fri, Nov 5, 2021 at 3:25 PM Maxim Sloyko via lists.openembedded.org
+<maxims=google.com@lists.openembedded.org> wrote:
+>
+> Hi all,
+>
+> Posting this to openembedded-core, as it was suggested to me.
+>
+> The recipe that I'm working on for our system (let's call it A) has a
+> dependency on a certain feature being enabled in another package (B).
+> So, in B, we have:
+>
+> PACKAGECONFIG[nice-feature] = "..."
+>
+> and my recipe (or rather, the tool built by the recipe), needs that
+> feature to be enabled to work properly. What's worse, is that this is
+> a runtime dependency, so if somebody just forgets to enable that
+> feature, the image will build fine, but the tool won't work. I would
+> like this to be a build time failure.
+>
+> My plan is to change recipe A, so that if the "nice-feature" is
+> enabled, the package will PROVIDE one more thing:
+>
+> PROVIDES += "${PN}-nice-feature"
+>
+> and in my recipe B, I'll declare this as a dependency:
+>
+> RDEPENDS:${PN} += "package-a-nice-feature".
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Add gmp dependency for gdb-cross-canadian as well
-    mingw needs it.
+You're doing that just to generate a build time error if the two
+recipe's configurations are not consistent?
 
- meta/recipes-devtools/gdb/gdb-common.inc         | 3 ++-
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+The normal approach would be to define a global variable (e.g. a
+distro feature) which both recipes can check and use to configure
+themselves appropriately.
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index 0fe7b4e5b0..f3ab3544da 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -2,7 +2,7 @@ SUMMARY = "GNU debugger"
- HOMEPAGE = "http://www.gnu.org/software/gdb/"
- DESCRIPTION = "GDB, the GNU Project debugger, allows you to see what is going on inside another program while it executes -- or what another program was doing at the moment it crashed."
- SECTION = "devel"
--DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
-+DEPENDS = "expat gmp zlib ncurses virtual/libiconv ${LTTNGUST} bison-native"
- 
- LTTNGUST = "lttng-ust"
- LTTNGUST:arc = ""
-@@ -27,6 +27,7 @@ EXTRA_OECONF = "--disable-gdbtk --disable-x --disable-werror \
-                 --disable-gas --disable-binutils \
-                 --disable-ld --disable-gold \
-                 --disable-gprof \
-+                --with-libgmp-prefix=${STAGING_EXECPREFIXDIR} \
- "
- 
- PACKAGECONFIG ??= "readline ${@bb.utils.filter('DISTRO_FEATURES', 'debuginfod', d)}"
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index dfacba29a0..836c51a3de 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -6,7 +6,7 @@ SUMMARY = "GNU debugger (cross-canadian gdb for ${TARGET_ARCH} target)"
- PN = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "gdb"
- 
--DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext \
-+DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext nativesdk-gmp \
-            virtual/${HOST_PREFIX}gcc-crosssdk virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-libc"
- 
- GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
--- 
-2.33.1
-
+> Now I'm thinking, wouldn't it be great if package A could specify
+> extra PROVIDES when the feature is configured? This would be similar
+> to the way it's done for package's R?DEPENDS:
+>
+> PACKAGECONFIG ??= "f1 f2 f3 ..."
+>      PACKAGECONFIG[f1] = "\
+>                           --with-f1, \
+>                           --without-f1, \
+>                           build-deps-for-f1, \
+>                           runtime-deps-for-f1, \
+>                           runtime-recommends-for-f1, \
+>                           packageconfig-conflicts-for-f1 \
+>                           provides-for-f1 \
+>                           "
+>
+> The last line would be a change that I propose. It looks like it would
+> be relatively easy to implement this in base.bbclass
+>
+> What do you think? Will this be useful? Did I miss an existing way to do this?
+>
+> Thanks,
+>
+> --
+> -MS
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157929): https://lists.openembedded.org/g/openembedded-core/message/157929
+> Mute This Topic: https://lists.openembedded.org/mt/86853514/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
