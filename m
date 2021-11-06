@@ -2,60 +2,70 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1181EC433EF
-	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 09:27:41 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web12.17087.1636190860288330146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A203BC433EF
+	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 09:43:09 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.17283.1636191788408955670
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Nov 2021 02:27:40 -0700
+ Sat, 06 Nov 2021 02:43:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pz5ZdPY2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NRjzFwX3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id u18so17511245wrg.5
+Received: by mail-wm1-f50.google.com with SMTP id v127so8984435wme.5
         for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Nov 2021 02:27:40 -0700 (PDT)
+ Sat, 06 Nov 2021 02:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=rbPbkiPwqhyVyr5EW/IE6mzl75sfRcOyAhcu1/dMHpU=;
-        b=Pz5ZdPY22H9yyJQncsPFATJ/xP42umuiWcHCilkoMIelWS4X/7i6JDJSnA4c9ueEZ0
-         VO7zrA00n682OR6tMyCnCn0ko5t5fOmDKC3qLfNZx/QyvlTruUrjpIm6qrukPC1wnede
-         gFJyjJzwrmFinS7NY19ZomI/Uq2pM1iRaCixE=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=jzxWsN5zAHi9lWS22PLL1Vuyv8cXhnUvjn+nMV8bxTU=;
+        b=NRjzFwX3o0uWlAfraAMSY5h7/phFYVXo8iaKIhKQHefAI1NgZ0X+Hlq/fheu4xgVFs
+         zAFYLi4Lv+doOHvtlY6HJJHF7w8RaqPA8tWP4BW2R1DDfOLQYmg9eCQhcJGicyegqAk8
+         a6M8NXyCCn/J9oiqYZAWZHd//gRVIgu64UghE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rbPbkiPwqhyVyr5EW/IE6mzl75sfRcOyAhcu1/dMHpU=;
-        b=QMcUx+URXsKISH1qZJRCb2PgZlHB78nkdmPkraCqNdIkdJ/Gvnfv1u8IqtDDZc1sRg
-         sAHqToBsgurYXe5/R2cl8VKFPXkmHC32vSBxIz7KuRYmNHCu9Qp9bz3i2xAEojLjhutN
-         5Yj3VpeSxI5EDwtQULiMGH14htS0jA2lX0y3K8cvg37nWt83WV2iLJ8HM9T+I1WdhMLz
-         9WZukfbQPU4MxJno7s+11qT6Dnf+yNZVbb3euNhu4Cw8AO7BII2dE/CHmwhTSHWRqTv/
-         uw8GWlIEnViCKFL2h2UmXdgMvBm3/P82cMCojO6+7wWn+nUSIov80xSadtBL9C8BH8I7
-         kR7A==
-X-Gm-Message-State: AOAM533Sjpe1aXT3PxutyCt20QeS1UoUzktHfOlw6G3lGgNgCSMUSCUM
-	9aVPfFHYhiCs9lODkh2AeUPLLA==
+        bh=jzxWsN5zAHi9lWS22PLL1Vuyv8cXhnUvjn+nMV8bxTU=;
+        b=iotM5SbAMyJAUrCHttMLwGMMn5QaEgcK9uTDvobBF+BmW7+tAEypwD5my6dcYqOJuR
+         A8QPp9hRhl2sLrVGsrRd/E8uabkDVp0aE9DPfOaznMaVtZlFn4JraUQXqI3wrtr4KEQA
+         1vMSAjMOjWHcaizmbcSq/yYjXrdu4Zzaazb8cVR92zMdLyyaKHYZ8F84kvqMfOtIpvXe
+         6RRSZUeMXaFyUQ5CsljLNyVV/Ob9Po/I5xkhfSQpZg5AYJGH5vvZL0ompFi2z3zBbfpk
+         Kf8zhU7WiOYeIezna9Mnj7+FyZmtkbed+Z25YdpB4/ZCov/B1jmc2eztxq1mQFmkCfHw
+         SYPA==
+X-Gm-Message-State: AOAM530mSRnQOfeG1Yt/HmtcFyXuImSymAfUL5/DY02ZhlQrwP2hqSGA
+	keLYwTszik0j4DLjHXFpsxUeIQ==
 X-Google-Smtp-Source: 
- ABdhPJz0qjnYFRV6mPP6WCzsSOncoH6CaiPlbsvLTYm3eKYUhVZhrcJoSP3C1+EQalPYxVkres8ZAw==
-X-Received: by 2002:adf:fb09:: with SMTP id c9mr23303378wrr.223.1636190858588;
-        Sat, 06 Nov 2021 02:27:38 -0700 (PDT)
+ ABdhPJziBYQsXSpDOVROxWt9UsAVtDKJ/bcFBABU+YBWN0KHxA4QYTmdrwQNMLN0pLUC1DCWSfc0Vw==
+X-Received: by 2002:a1c:7ed3:: with SMTP id
+ z202mr36681323wmc.110.1636191786606;
+        Sat, 06 Nov 2021 02:43:06 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:23d0:3dc5:c03:c6aa?
  ([2001:8b0:aba:5f3c:23d0:3dc5:c03:c6aa])
         by smtp.gmail.com with ESMTPSA id
- l15sm5801002wme.47.2021.11.06.02.27.38
+ r17sm10317944wmq.11.2021.11.06.02.43.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Nov 2021 02:27:38 -0700 (PDT)
+        Sat, 06 Nov 2021 02:43:06 -0700 (PDT)
 Message-ID: 
- <69bc0138e89d4f77b6062e451dc6fd81e48becbc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [V3][PATCH] ruby: workaround ptest hang problem
+ <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
+Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
+ for repo 2.17.3
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 06 Nov 2021 09:27:35 +0000
-In-Reply-To: <20211105021848.6807-1-changqing.li@windriver.com>
-References: <20211105021848.6807-1-changqing.li@windriver.com>
+To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, "kweihmann@outlook.com"
+	 <kweihmann@outlook.com>, "jasper@fancydomain.eu" <jasper@fancydomain.eu>
+Cc: "martin@mko.dev" <martin@mko.dev>, "Daniel.Baumgart@iris-sensing.net"
+	 <Daniel.Baumgart@iris-sensing.net>, "bitbake-devel@lists.openembedded.org"
+	 <bitbake-devel@lists.openembedded.org>
+Date: Sat, 06 Nov 2021 09:43:05 +0000
+In-Reply-To: <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
+References: <20211105133104.19895-1-jasper@fancydomain.eu>
+	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
+	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
@@ -63,55 +73,35 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 09:27:41 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 09:43:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157935
+ https://lists.openembedded.org/g/openembedded-core/message/157936
 
-On Fri, 2021-11-05 at 10:18 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On Fri, 2021-11-05 at 14:09 +0000, Jasper Orschulko wrote:
+> Actually, I don't believe this to be an issue for the following
+> reasons:
 > 
-> since openssl 3 not compatible problem, ruby have disable openssl
-> extention. But disable openssl extention make test_smtp.rs hang at
-> test case "test_start".
-> 
-> Net::TestSMTP#test_start:
-> NameError: uninitialized constant Net::SMTP::OpenSSL
-> Did you mean? Open3
-> /usr/lib64/ruby/3.0.0/net/smtp.rb:195:in `default_ssl_context'
-> /usr/lib64/ruby/3.0.0/net/smtp.rb:552:in `start'
-> /usr/lib64/ruby/3.0.0/net/smtp.rb:475:in `start'
-> /usr/lib64/ruby/ptest/test/net/smtp/test_smtp.rb:199:in `test_start'
-> 
-> temporarily remove the hang case to make other testcases can be run.
-> 
-> Meantime, move ruby-ptest out of the PTESTS_PROBLEMS list.
-> On 48 core host, run ruby ptest in qemux86-64:
-> root@qemux86-64:/usr/lib64/ruby/ptest# time ./run-ptest
-> PASS: test/test_set.rb
-> PASS: test/stringio/test_stringio.rb
-> ...
-> PASS: test/did_you_mean/test_tree_spell_checker.rb
-> PASS: test/test_mutex_m.rb
-> 
-> real	5m42.872s
-> user	3m50.923s
-> sys	0m44.136s
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/conf/distro/include/ptest-packagelists.inc | 3 +--
->  meta/recipes-devtools/ruby/ruby.inc             | 4 ++++
->  2 files changed, 5 insertions(+), 2 deletions(-)
+> [...]
+>
+> 2. When using repo within the yocto build itself (with the repo
+> fetcher), the repo binary is only ever called during the do_fetch step,
+> which obviously has no issues with any network access.
 
-Unfortunately the success rate isn't like that when we tried this on the
-autobuilder, it failed on both arm64 and x86_64 with multiple failures:
+This is not true. The system may be configured for no network access and is
+meant just to be building from MIRRORS/PREMIRRORS (see also BB_NO_NETWORK).
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2791
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/2507
+One of the reasons for the fetcher abstraction is to allow us to support
+features like that. do_fetch is where network access should happen, if the
+system is configured for it.
 
+I guess the question becomes whether the usages of repo when using DL_DIR as a
+cache will still touch the network?
 
 Cheers,
 
 Richard
+
+
+
 
 
