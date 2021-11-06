@@ -1,149 +1,134 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FB6C433EF
-	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 00:54:18 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web09.13946.1636160056911298600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B7BC433EF
+	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 06:39:38 +0000 (UTC)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+ [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.web08.16600.1636180771918875044
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 17:54:17 -0700
+ Fri, 05 Nov 2021 23:39:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iBiqUwA8;
- spf=pass (domain: gmail.com, ip: 209.85.222.180,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id bl12so10248236qkb.13
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 17:54:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pjkBEN1y;
+ spf=pass (domain: gmail.com, ip: 209.85.222.43,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f43.google.com with SMTP id b3so21246155uam.1;
+        Fri, 05 Nov 2021 23:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SM32kzD4XjeBjGQE/CLKzP0d4rgqhdfDrgdU76NJM3A=;
-        b=iBiqUwA8wCWtRju8Iwu4zJhQXkxCZRkT0XqvMv1kJ0p9W0dLwWw3DDNR32M5jwULZT
-         8dT3f8rcl32ZKPP/n/3b78eXaE+5zSTIj2vqUmnXnyA+Kcha6cHfhAiJVebN4zBBx9Mw
-         fPiYxt/JrdOk5XXp7R3Up6Gr0w3lL0uIVG71UYKXnWNCesQkXulojHwai4KxIO7imzZ5
-         f2DOQp3RAdw6yaMqZFfqidGMGbahyUqlkAEgEJI68oVtG13o31Y6wjIko5knkaV4s/Lp
-         7MXrWeXx5WHD4GARWr4NZlqGxCiodR5OsdbYRmJzeSvP6hIGz94R50GYCkYsDXM90Dix
-         X8Pg==
+        bh=/+796WBaRvuP7KiqPo+BKCHhoj9yk1+g3NupYYjPRIw=;
+        b=pjkBEN1yU4RlaDSUjcMDrWYL1IA85QGyEgZptZOAeUv4/Q9hgPovX+8rQqwRamMuN4
+         f8UMGdF2PAHOgboP7xxjQaAar6gxMHX8reDhYFWzFacmdpcUSCAuzIEZe7IfV8I1gSjK
+         iB6Xr68zV3hv7zJMjd/AzjjOWAvPTXSFLacohx1+rMtaeNtiZNmOTgFZNO5dGzHqzVCz
+         +2fJbrdQOAuHPU+GPxKRXBzCk89CqlvAY76AqctBoAMwEPhagv9qup4IKeh0GJaPnI3P
+         FFXbWcvpxJExuJDkpr+P726ncTHsLlG3GH5CqrIkbU7vhBZU+Tu9MdgEfae1HeDMxex0
+         7qwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SM32kzD4XjeBjGQE/CLKzP0d4rgqhdfDrgdU76NJM3A=;
-        b=DU0GMNO3zC0/Hm+TChv8Zb7B5yJFbV2Wc/LQCHCaKNWVel34v0GU5afZsz5LijFE4z
-         PdZK7+zap0AWMbgS9MS4MfXmzto6d2/B5Mf60pNJmPhpW9Uhv/SS6YerNi1e1SY2fFEc
-         gw/8IL47Rux1Mb5ihwHhaeu77EoKfEXi0RKzvfRffj4bGgvoWqbV2GATJaO08ax9Vj6W
-         +T+CdjkdC+kkfcPvQxMrS0oHgblZfXsZJoHAhw/6pvetnCcZ4iefqe73cEMZCFU8+nAV
-         dc3scmBjPyXpf8l1egWtxQ+XaFTu43W36rzOAG0p5MsXfJ8sgR1Xlk1CsIn+iBw6ZQ3e
-         2Lfw==
-X-Gm-Message-State: AOAM531luqS9B4J8kUSkQxcUU8A2j5JtfczB2zmtXvi/47IqWEjLqJlK
-	aGXwKEVnWn4agsC3zyLZtyTptXiCQUUhI8Dq5IXCb4OsL+E=
+        bh=/+796WBaRvuP7KiqPo+BKCHhoj9yk1+g3NupYYjPRIw=;
+        b=26eKTcwvGDS/Zhh51KsltDgxkM6EbQPktJtT6DfKaI9p6dI7impkCRoyxWRqNA1hpV
+         zG1Wg+nK8d6mspoDhbnwjdqkXKFH0WVdHfuS4+K8MtCi4T2xpJOC1TdqzXUKZfxZsy0r
+         d3fRAObv6JIQlAg45rapCUjCdN+mQn/9Z1jIhLw7iinKFsUDWyo/ArCHq6tF+9Y3KVXl
+         iLPyfOn0nQRM8wwkBPlzVTYMrp+GUW+tWmGYHeKL3FGR2kMlSGoEbdqTACXo428Xz4OR
+         Yep832Oa1Y16pldIxjbCtJNRFm7DjSDY3FJS9FIJWjAbKGmZoXlinbJJMUdUlNH+0wjd
+         HGlw==
+X-Gm-Message-State: AOAM530GHyAb4Q+TIGuadkNonu5mXnJtpb0RgbHpXmbCzOokaj8+/IYR
+	bFoRCe5PAFGe8iN7sWlZhY3Au0xQSIaYXZLIVhI=
 X-Google-Smtp-Source: 
- ABdhPJy6bAdutIuuFf0/IAj3sAae5nHM87LavykFx5PbIc1VnJTuiFl8rF27xSrC7ByIC8eQJLzG1hrDx+TTTa+KqSE=
-X-Received: by 2002:ae9:eb91:: with SMTP id
- b139mr10650075qkg.98.1636160055860;
- Fri, 05 Nov 2021 17:54:15 -0700 (PDT)
+ ABdhPJwSAhUGTHawn1yzUunaXzNKx+2J1i3yL5nrAETITuRyJi/PMxkQw7BWVMlVKo7M/DSMPclyPCcWWtQA6PVzWZA=
+X-Received: by 2002:ab0:30e1:: with SMTP id d1mr71943934uam.22.1636180771100;
+ Fri, 05 Nov 2021 23:39:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211104013024.3517635-1-raj.khem@gmail.com>
- <4f0010a081d65b32d7f883aa1c04fb696884200c.camel@linuxfoundation.org>
- <CAMKF1sppVQ1R56qR03UkqGzz8QWhevX-1CJ=tpWzPEDtK+ZXJA@mail.gmail.com>
- <47e38a73464f82ce9aacfe6d772886a2e335be30.camel@linuxfoundation.org>
-In-Reply-To: 
- <47e38a73464f82ce9aacfe6d772886a2e335be30.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 5 Nov 2021 17:53:50 -0700
+References: <20211105133104.19895-1-jasper@fancydomain.eu>
+ <CANNYZj_s8_PkKfMQnBxNZLs-p0F5xb4StCXiF84OkbE5zpptqw@mail.gmail.com>
+ <ea3f24549a6e54f880e925e8f5cf6128fc5629f9.camel@iris-sensing.com>
+ <CANNYZj9sxmakRNGKUuH+ZAWDMJs2EhKT5O4f8HRxd=ovhQPpug@mail.gmail.com>
+ <281CD8F4-9B15-40A6-9AAE-F2C0D633E5AD@fancydomain.eu>
+ <CANNYZj-pKjvRT+Y39mT-t3G+GBON0Z=xZFURJH8AhPGfjOf7yw@mail.gmail.com>
+ <37710923b54b6675d315124f3916eb9c19c233e1.camel@iris-sensing.com>
+In-Reply-To: <37710923b54b6675d315124f3916eb9c19c233e1.camel@iris-sensing.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 6 Nov 2021 07:39:19 +0100
 Message-ID: 
- <CAMKF1sqTAU76suuf6ncW4OVUPaq58HwjFx5+37jZ6Hf2pSFQ4w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] gdb: Upgrade to 11.1
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+ <CANNYZj9jhht0X12ktW7JCAS5o=FCZbxS9=x=CBX84Xku1GL4ng@mail.gmail.com>
+Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe for
+ repo 2.17.3
+To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+Cc: "jasper@fancydomain.eu" <jasper@fancydomain.eu>,
+	"openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>,
-	Joshua Watt <JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+	"martin@mko.dev" <martin@mko.dev>,
+ Daniel Baumgart <Daniel.Baumgart@iris-sensing.com>,
+	"bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a65ad605d0190586"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 00:54:18 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 06:39:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157932
+ https://lists.openembedded.org/g/openembedded-core/message/157933
 
-On Fri, Nov 5, 2021 at 12:57 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2021-11-05 at 09:51 -0700, Khem Raj wrote:
-> > On Fri, Nov 5, 2021 at 4:19 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Wed, 2021-11-03 at 18:30 -0700, Khem Raj wrote:
-> > > > Drop backported patches
-> > > > Changes are here [1]
-> > > >
-> > > > [1] https://sourceware.org/pipermail/gdb-announce/2021/000129.html
-> > > >
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >  meta/conf/distro/include/tcmode-default.inc   |   2 +-
-> > > >  .../gdb/{gdb-10.2.inc => gdb-11.1.inc}        |  14 +-
-> > > >  ...ian_10.2.bb => gdb-cross-canadian_11.1.bb} |   0
-> > > >  .../{gdb-cross_10.2.bb => gdb-cross_11.1.bb}  |   0
-> > > >  ...make-man-install-relative-to-DESTDIR.patch |  20 +-
-> > > >  ...ux-nat-Define-_ABIO32-if-not-defined.patch |   8 +-
-> > > >  ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch |  10 +-
-> > > >  ...port-for-Renesas-SH-sh4-architecture.patch |  39 +-
-> > > >  ...readline.a-when-using-disable-static.patch |  12 +-
-> > > >  .../gdb/gdb/0006-use-asm-sgidefs.h.patch      |   8 +-
-> > > >  ...atch => 0007-Change-order-of-CFLAGS.patch} |  12 +-
-> > > >  ...8-resolve-restrict-keyword-conflict.patch} |   8 +-
-> > > >  ...> 0009-Fix-invalid-sigprocmask-call.patch} |   8 +-
-> > > >  ...h => 0010-gdbserver-ctrl-c-handling.patch} |  10 +-
-> > > >  ...-arc-Add-support-for-signal-handlers.patch | 218 ---------
-> > > >  ...-for-signal-frames-for-Linux-targets.patch | 232 ----------
-> > > >  ...count-the-REGNUM-in-supply-collect-g.patch | 104 -----
-> > > >  ...-native-support-for-ARC-in-GNU-Linux.patch | 414 ------------------
-> > > >  .../gdb/{gdb_10.2.bb => gdb_11.1.bb}          |   0
-> > > >  19 files changed, 74 insertions(+), 1045 deletions(-)
-> > > >  rename meta/recipes-devtools/gdb/{gdb-10.2.inc => gdb-11.1.inc} (56%)
-> > > >  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_10.2.bb => gdb-cross-canadian_11.1.bb} (100%)
-> > > >  rename meta/recipes-devtools/gdb/{gdb-cross_10.2.bb => gdb-cross_11.1.bb} (100%)
-> > > >  rename meta/recipes-devtools/gdb/gdb/{0008-Change-order-of-CFLAGS.patch => 0007-Change-order-of-CFLAGS.patch} (75%)
-> > > >  rename meta/recipes-devtools/gdb/gdb/{0009-resolve-restrict-keyword-conflict.patch => 0008-resolve-restrict-keyword-conflict.patch} (91%)
-> > > >  rename meta/recipes-devtools/gdb/gdb/{0010-Fix-invalid-sigprocmask-call.patch => 0009-Fix-invalid-sigprocmask-call.patch} (90%)
-> > > >  rename meta/recipes-devtools/gdb/gdb/{0011-gdbserver-ctrl-c-handling.patch => 0010-gdbserver-ctrl-c-handling.patch} (82%)
-> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-arc-Add-support-for-signal-handlers.patch
-> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0013-arc-Add-support-for-signal-frames-for-Linux-targets.patch
-> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0014-arc-Take-into-account-the-REGNUM-in-supply-collect-g.patch
-> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0015-gdb-Add-native-support-for-ARC-in-GNU-Linux.patch
-> > > >  rename meta/recipes-devtools/gdb/{gdb_10.2.bb => gdb_11.1.bb} (100%)
-> > >
-> > > Breaks on mingw:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/4299
-> > >
-> >
-> > I see
-> >
-> > > sys-linux.c:140:10: fatal error: linux/ipx.h: No such file or directory
-> > >   140 | #include <linux/ipx.h>
-> > >       |          ^~~~~~~~~~~~~
-> > > compilation terminated.
-> > > make[1]: *** [<builtin>: sys-linux.o] Error 1
-> > > make[1]: Leaving directory
-> > '/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ppp/2.4.9-r0/ppp-2.4.9/pppd'
-> >
-> > perhaps wrong link ?
->
-> Sorry, https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/4293
+--000000000000a65ad605d0190586
+Content-Type: text/plain; charset="UTF-8"
+
+On Fri, 5 Nov 2021 at 21:32, Jasper Orschulko <
+Jasper.Orschulko@iris-sensing.com> wrote:
+
+> So yeah... as far as I can tell, there are multiple ways to approach
+> this issue, but none of them seem straight forward nor pretty. Bitbake
+> as it is is just fundamentally not good at handling highly dynamic
+> configurations. The combination with KAS somewhat defuses the
+> situation, but there are still some situations where there is no easy
+> answer.
 >
 
-sent a fix to ml and also queued a build :)
+Yes, yocto does not support 'variations' of the build that is already set
+up. Once you set the distro, and the machine, there's only one way to build
+a recipe; if you want another way, you need to indeed make another recipe,
+or another distro. I would still say making a set of distros is still the
+proper 'yocto way' to solve your problem. There are examples in meta-poky:
+poky-altcfg and poky-tiny, and there has been poky-bleeding-revisions or
+similar in the past.
 
-https://autobuilder.yoctoproject.org/typhoon/#/buildrequests/238205
+This is a reoccurring topic; there have been proposal in the past to
+introduce 'variants' as yet another abstraction, but they add so much
+complexity on top of what is already very complex, that the tradeoff is not
+acceptable to the project.
 
-> Cheers,
->
-> Richard
->
->
+Alex
+
+--000000000000a65ad605d0190586
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Fri, 5 Nov 2021 at 21:32, Jasper Orschulko &lt;<a href=3D"mailto:=
+Jasper.Orschulko@iris-sensing.com">Jasper.Orschulko@iris-sensing.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+So yeah... as far as I can tell, there are multiple ways to approach<br>
+this issue, but none of them seem straight forward nor pretty. Bitbake<br>
+as it is is just fundamentally not good at handling highly dynamic<br>
+configurations. The combination with KAS somewhat defuses the<br>
+situation, but there are still some situations where there is no easy<br>
+answer.<br></blockquote><div><br></div>Yes, yocto does not support &#39;var=
+iations&#39; of the build that is already set up. Once you set the distro, =
+and the machine, there&#39;s only one way to build a recipe; if you want an=
+other way, you need to indeed make another recipe, or another distro. I wou=
+ld still say making a set of distros is still the proper &#39;yocto way&#39=
+; to solve your problem. There are examples in meta-poky: poky-altcfg and p=
+oky-tiny, and there has been poky-bleeding-revisions or similar in the past=
+.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">This=
+ is a reoccurring topic; there have been proposal in the past to introduce =
+&#39;variants&#39; as yet another abstraction, but they add so much complex=
+ity on top of what is already very complex, that the tradeoff is not accept=
+able to the project.</div><div class=3D"gmail_quote"><br></div><div class=
+=3D"gmail_quote">Alex<br></div></div>
+
+--000000000000a65ad605d0190586--
 
