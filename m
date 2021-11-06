@@ -1,136 +1,149 @@
-Return-Path: <armccurdy@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6741C433F5
-	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 00:48:36 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web08.14063.1636159715656853951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FB6C433EF
+	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 00:54:18 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web09.13946.1636160056911298600
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 17:48:36 -0700
+ Fri, 05 Nov 2021 17:54:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DC7rOTi1;
- spf=pass (domain: gmail.com, ip: 209.85.208.180,
- mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id v23so17686401ljk.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iBiqUwA8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id bl12so10248236qkb.13
         for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Nov 2021 17:48:35 -0700 (PDT)
+ Fri, 05 Nov 2021 17:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=R0x/E9DiOUhB4A01xM+K6GaPBPXAi3+WsYyo1F9pbqs=;
-        b=DC7rOTi18MJcVsDVyzpFSwSVpfV/12lIeYlSsMasH+D3wlxU88nHVkg+s3FadBKoIB
-         GoFYAVRI3ghks7BIcJ/prBiEOhXszJE9gdfGnWoWHz23Wj0I8J+kNBg9ZztZDPYWPJhb
-         ULh+05xyZcd5X4c8CvNN5sFSfqlTjgEwfHkaSMVwuA3ZNcS5ngxhB1pb1P5CDdBtiWr9
-         /5VNh9ye03dqR1lGhVgDvkwwF5enloLXlAyK+Du6qx5VvOQqA3srrVpVDQoYtWNKuztC
-         WFyUTzjDTTczttbyqa0a3JUqy1L3OjmxeLKpLjPeZSf/8TSXFHbhSYmfbxh0L+2FYJdH
-         xoqQ==
+        bh=SM32kzD4XjeBjGQE/CLKzP0d4rgqhdfDrgdU76NJM3A=;
+        b=iBiqUwA8wCWtRju8Iwu4zJhQXkxCZRkT0XqvMv1kJ0p9W0dLwWw3DDNR32M5jwULZT
+         8dT3f8rcl32ZKPP/n/3b78eXaE+5zSTIj2vqUmnXnyA+Kcha6cHfhAiJVebN4zBBx9Mw
+         fPiYxt/JrdOk5XXp7R3Up6Gr0w3lL0uIVG71UYKXnWNCesQkXulojHwai4KxIO7imzZ5
+         f2DOQp3RAdw6yaMqZFfqidGMGbahyUqlkAEgEJI68oVtG13o31Y6wjIko5knkaV4s/Lp
+         7MXrWeXx5WHD4GARWr4NZlqGxCiodR5OsdbYRmJzeSvP6hIGz94R50GYCkYsDXM90Dix
+         X8Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=R0x/E9DiOUhB4A01xM+K6GaPBPXAi3+WsYyo1F9pbqs=;
-        b=1UcjgNlCUsk+VVtQ6JxLPJL2I1CLXBeymRrGXtpRnXElnjGvaFZ4L3piOhHuVHcJ/X
-         VAOcOuK4GDhYwNi2qeU4hYLm+w9X5wI3ft/dufFMv/JCAf86DPlemlBTJn28ErIRXQRJ
-         9dMKy0LF3ozEKH3zeqT/EXrc4Byco+zvsWU2iUFk5zELOB/6OPE951Ej/OMLid2Ck3ku
-         ZboOldyzfJSYYIvUGzmKlV6ukPkAdpH0mphzvLuTThuR2j3QMk9dGyoV/leaFa/HAeGu
-         oYKN+A36ZsYxk6kugzdEdboo5DuHWsjADhDQ09rUttOJiJndQwMHrZs5g1gFu49mlpoY
-         3fDA==
-X-Gm-Message-State: AOAM530XETG2MbxcnKarJzc8hgiY3WDaBPgt+JIN5/ygmpzfSYrM4utp
-	2t7sjPapE4OezK3pgKPbkB1tJaNAFInL4fb6NxY=
+        bh=SM32kzD4XjeBjGQE/CLKzP0d4rgqhdfDrgdU76NJM3A=;
+        b=DU0GMNO3zC0/Hm+TChv8Zb7B5yJFbV2Wc/LQCHCaKNWVel34v0GU5afZsz5LijFE4z
+         PdZK7+zap0AWMbgS9MS4MfXmzto6d2/B5Mf60pNJmPhpW9Uhv/SS6YerNi1e1SY2fFEc
+         gw/8IL47Rux1Mb5ihwHhaeu77EoKfEXi0RKzvfRffj4bGgvoWqbV2GATJaO08ax9Vj6W
+         +T+CdjkdC+kkfcPvQxMrS0oHgblZfXsZJoHAhw/6pvetnCcZ4iefqe73cEMZCFU8+nAV
+         dc3scmBjPyXpf8l1egWtxQ+XaFTu43W36rzOAG0p5MsXfJ8sgR1Xlk1CsIn+iBw6ZQ3e
+         2Lfw==
+X-Gm-Message-State: AOAM531luqS9B4J8kUSkQxcUU8A2j5JtfczB2zmtXvi/47IqWEjLqJlK
+	aGXwKEVnWn4agsC3zyLZtyTptXiCQUUhI8Dq5IXCb4OsL+E=
 X-Google-Smtp-Source: 
- ABdhPJxU4fcJiloh13663U9uelHyMtWXma+ePhr8eCC3XsFyYmlt6BP/9Gw+mv9qZCm3Pdgp8eb7P5b5Fv/L0q5/cWg=
-X-Received: by 2002:a05:651c:905:: with SMTP id
- e5mr65236522ljq.238.1636159713591;
- Fri, 05 Nov 2021 17:48:33 -0700 (PDT)
+ ABdhPJy6bAdutIuuFf0/IAj3sAae5nHM87LavykFx5PbIc1VnJTuiFl8rF27xSrC7ByIC8eQJLzG1hrDx+TTTa+KqSE=
+X-Received: by 2002:ae9:eb91:: with SMTP id
+ b139mr10650075qkg.98.1636160055860;
+ Fri, 05 Nov 2021 17:54:15 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <CAFR_W8oXpAQ7y7iCDKkDruGUjfE3DXQ6CQQq1ou5XP7nDcfJZQ@mail.gmail.com>
+References: <20211104013024.3517635-1-raj.khem@gmail.com>
+ <4f0010a081d65b32d7f883aa1c04fb696884200c.camel@linuxfoundation.org>
+ <CAMKF1sppVQ1R56qR03UkqGzz8QWhevX-1CJ=tpWzPEDtK+ZXJA@mail.gmail.com>
+ <47e38a73464f82ce9aacfe6d772886a2e335be30.camel@linuxfoundation.org>
 In-Reply-To: 
- <CAFR_W8oXpAQ7y7iCDKkDruGUjfE3DXQ6CQQq1ou5XP7nDcfJZQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 5 Nov 2021 17:48:17 -0700
+ <47e38a73464f82ce9aacfe6d772886a2e335be30.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 5 Nov 2021 17:53:50 -0700
 Message-ID: 
- <CAJ86T=WoKMWUoYe4D45-Heucs-hYG_JaHHjLDGVXqtrGCKsFFA@mail.gmail.com>
-Subject: Re: [OE-core] Depending on other package's config
-To: maxims@google.com
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+ <CAMKF1sqTAU76suuf6ncW4OVUPaq58HwjFx5+37jZ6Hf2pSFQ4w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] gdb: Upgrade to 11.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <JPEWhacker@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 00:48:36 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 00:54:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157931
+ https://lists.openembedded.org/g/openembedded-core/message/157932
 
-On Fri, Nov 5, 2021 at 3:25 PM Maxim Sloyko via lists.openembedded.org
-<maxims=google.com@lists.openembedded.org> wrote:
+On Fri, Nov 5, 2021 at 12:57 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Hi all,
+> On Fri, 2021-11-05 at 09:51 -0700, Khem Raj wrote:
+> > On Fri, Nov 5, 2021 at 4:19 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Wed, 2021-11-03 at 18:30 -0700, Khem Raj wrote:
+> > > > Drop backported patches
+> > > > Changes are here [1]
+> > > >
+> > > > [1] https://sourceware.org/pipermail/gdb-announce/2021/000129.html
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > >  meta/conf/distro/include/tcmode-default.inc   |   2 +-
+> > > >  .../gdb/{gdb-10.2.inc => gdb-11.1.inc}        |  14 +-
+> > > >  ...ian_10.2.bb => gdb-cross-canadian_11.1.bb} |   0
+> > > >  .../{gdb-cross_10.2.bb => gdb-cross_11.1.bb}  |   0
+> > > >  ...make-man-install-relative-to-DESTDIR.patch |  20 +-
+> > > >  ...ux-nat-Define-_ABIO32-if-not-defined.patch |   8 +-
+> > > >  ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch |  10 +-
+> > > >  ...port-for-Renesas-SH-sh4-architecture.patch |  39 +-
+> > > >  ...readline.a-when-using-disable-static.patch |  12 +-
+> > > >  .../gdb/gdb/0006-use-asm-sgidefs.h.patch      |   8 +-
+> > > >  ...atch => 0007-Change-order-of-CFLAGS.patch} |  12 +-
+> > > >  ...8-resolve-restrict-keyword-conflict.patch} |   8 +-
+> > > >  ...> 0009-Fix-invalid-sigprocmask-call.patch} |   8 +-
+> > > >  ...h => 0010-gdbserver-ctrl-c-handling.patch} |  10 +-
+> > > >  ...-arc-Add-support-for-signal-handlers.patch | 218 ---------
+> > > >  ...-for-signal-frames-for-Linux-targets.patch | 232 ----------
+> > > >  ...count-the-REGNUM-in-supply-collect-g.patch | 104 -----
+> > > >  ...-native-support-for-ARC-in-GNU-Linux.patch | 414 ------------------
+> > > >  .../gdb/{gdb_10.2.bb => gdb_11.1.bb}          |   0
+> > > >  19 files changed, 74 insertions(+), 1045 deletions(-)
+> > > >  rename meta/recipes-devtools/gdb/{gdb-10.2.inc => gdb-11.1.inc} (56%)
+> > > >  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_10.2.bb => gdb-cross-canadian_11.1.bb} (100%)
+> > > >  rename meta/recipes-devtools/gdb/{gdb-cross_10.2.bb => gdb-cross_11.1.bb} (100%)
+> > > >  rename meta/recipes-devtools/gdb/gdb/{0008-Change-order-of-CFLAGS.patch => 0007-Change-order-of-CFLAGS.patch} (75%)
+> > > >  rename meta/recipes-devtools/gdb/gdb/{0009-resolve-restrict-keyword-conflict.patch => 0008-resolve-restrict-keyword-conflict.patch} (91%)
+> > > >  rename meta/recipes-devtools/gdb/gdb/{0010-Fix-invalid-sigprocmask-call.patch => 0009-Fix-invalid-sigprocmask-call.patch} (90%)
+> > > >  rename meta/recipes-devtools/gdb/gdb/{0011-gdbserver-ctrl-c-handling.patch => 0010-gdbserver-ctrl-c-handling.patch} (82%)
+> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-arc-Add-support-for-signal-handlers.patch
+> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0013-arc-Add-support-for-signal-frames-for-Linux-targets.patch
+> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0014-arc-Take-into-account-the-REGNUM-in-supply-collect-g.patch
+> > > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0015-gdb-Add-native-support-for-ARC-in-GNU-Linux.patch
+> > > >  rename meta/recipes-devtools/gdb/{gdb_10.2.bb => gdb_11.1.bb} (100%)
+> > >
+> > > Breaks on mingw:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/4299
+> > >
+> >
+> > I see
+> >
+> > > sys-linux.c:140:10: fatal error: linux/ipx.h: No such file or directory
+> > >   140 | #include <linux/ipx.h>
+> > >       |          ^~~~~~~~~~~~~
+> > > compilation terminated.
+> > > make[1]: *** [<builtin>: sys-linux.o] Error 1
+> > > make[1]: Leaving directory
+> > '/home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ppp/2.4.9-r0/ppp-2.4.9/pppd'
+> >
+> > perhaps wrong link ?
 >
-> Posting this to openembedded-core, as it was suggested to me.
+> Sorry, https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/4293
 >
-> The recipe that I'm working on for our system (let's call it A) has a
-> dependency on a certain feature being enabled in another package (B).
-> So, in B, we have:
->
-> PACKAGECONFIG[nice-feature] = "..."
->
-> and my recipe (or rather, the tool built by the recipe), needs that
-> feature to be enabled to work properly. What's worse, is that this is
-> a runtime dependency, so if somebody just forgets to enable that
-> feature, the image will build fine, but the tool won't work. I would
-> like this to be a build time failure.
->
-> My plan is to change recipe A, so that if the "nice-feature" is
-> enabled, the package will PROVIDE one more thing:
->
-> PROVIDES += "${PN}-nice-feature"
->
-> and in my recipe B, I'll declare this as a dependency:
->
-> RDEPENDS:${PN} += "package-a-nice-feature".
 
-You're doing that just to generate a build time error if the two
-recipe's configurations are not consistent?
+sent a fix to ml and also queued a build :)
 
-The normal approach would be to define a global variable (e.g. a
-distro feature) which both recipes can check and use to configure
-themselves appropriately.
+https://autobuilder.yoctoproject.org/typhoon/#/buildrequests/238205
 
-> Now I'm thinking, wouldn't it be great if package A could specify
-> extra PROVIDES when the feature is configured? This would be similar
-> to the way it's done for package's R?DEPENDS:
+> Cheers,
 >
-> PACKAGECONFIG ??= "f1 f2 f3 ..."
->      PACKAGECONFIG[f1] = "\
->                           --with-f1, \
->                           --without-f1, \
->                           build-deps-for-f1, \
->                           runtime-deps-for-f1, \
->                           runtime-recommends-for-f1, \
->                           packageconfig-conflicts-for-f1 \
->                           provides-for-f1 \
->                           "
+> Richard
 >
-> The last line would be a change that I propose. It looks like it would
-> be relatively easy to implement this in base.bbclass
->
-> What do you think? Will this be useful? Did I miss an existing way to do this?
->
-> Thanks,
->
-> --
-> -MS
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157929): https://lists.openembedded.org/g/openembedded-core/message/157929
-> Mute This Topic: https://lists.openembedded.org/mt/86853514/3619030
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
