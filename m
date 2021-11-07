@@ -1,169 +1,111 @@
-Return-Path: <sakoman@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D73DC433EF
-	for <webhook@archiver.kernel.org>; Sat,  6 Nov 2021 21:18:22 +0000 (UTC)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by mx.groups.io with SMTP id smtpd.web09.24080.1636233501980573915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A92C433EF
+	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 08:54:59 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web12.29029.1636275299154347176
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Nov 2021 14:18:22 -0700
+ Sun, 07 Nov 2021 01:54:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jFsOQbH9;
- spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f179.google.com with SMTP id a129so32322780yba.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=id53zIja;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id r8so21184614wra.7
         for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Nov 2021 14:18:21 -0700 (PDT)
+ Sun, 07 Nov 2021 01:54:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Yv1jieo3trFAhBtW9c+9xEr53ajZDSdZkrALtyuLnWg=;
-        b=jFsOQbH9TWHnLJWN5w+y7WK7vaQN5XmMGumBQu/YAOnxvJ9ySki5OaTe27TpSoUemc
-         J3GP0/eCjQfGvVMiwpnlpVroTr9zHRK96im02/juFqBKYBSIiK1DPhfwr3UiEq3YRtbE
-         yRY5KMK5RZpg3lLGiB0Dn2YE7cCwxstgf1QZjVJa+F9HmNpilEkxTrwS32Qd0nel9hd5
-         N6YN+xcRbAfklhBQTEDw3vNR5k5gPfDUEquixTlV2NMxRl6Oqwd/WYfiGHyPzFmGPl9N
-         zVKZGPUu6VWA75etRhUdQ7uqGMc5RKK+ExuMgC+r0pvB00tZrqKOcY6F1jElAo0Q6yDg
-         sJQg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=PYn1YsWmDGHBE73S11+NRPpyeUtGg+d79r24H2Q+Ngo=;
+        b=id53zIja37UevhD7oSYf1qEwEQ/MQB9Km4r6FWtxwqbcXMgr8I83iZUlq9vsdqXQAc
+         2F6bZJHIlQNznU2xknuI3rO0P7yS4gMbsfQ6qK/o6Fasv1RBtwM5eA2PSBLoIzdUgO0L
+         PFhPkiEnsHsEZoK8gzgHCDGWcBZOMzpxXCt8Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Yv1jieo3trFAhBtW9c+9xEr53ajZDSdZkrALtyuLnWg=;
-        b=zYvHhE77OYUOITL9cgAi4IZ8XV4B+nZ6NH0HWw5GKAHDGigRCpOEFjEAmcIrm+jLEi
-         JP6DMtf8IyjS8KBDDKxEUgtj+GB32hMOIlPpIYR9mhx9NjmjKosAC/mZrQR3yN7aRsdk
-         JPimNJU6VRSFNgWtUslnSv0iLN/IZ/tnlv6UtqbIjm9gMU1WqoPEVpFJ1KqXAhovavdc
-         OKbM2yddWXdHTRm/8SaewnehF2Fx6hQljzIaRIHYKS9Y9hdWbWUHC5yALPRw6Opy6ynv
-         s9ti46hBUUAVyEoslJIHh8QWIiuj136rpWef/pUyflNTvo5foAjvp5L4HlDptCy19nmB
-         AHhQ==
-X-Gm-Message-State: AOAM532JzxECd0LEAO2PvzT0J9gHRTD3AiLP3QjRHpdzsHah6HPGkF5D
-	l5X9a5Xl4KSRAvqStNufU53jKcl4TQeLGexdkIE=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=PYn1YsWmDGHBE73S11+NRPpyeUtGg+d79r24H2Q+Ngo=;
+        b=yhzOF18iqjxFOg26ostGik2dK2mprFsbdLxIZ5ZK/PZvipScyupygbBDkXqvhKUkOO
+         vpawW0QHvBCfF740aMj723yywmDGCSN6fJZfg6O49+LN3x7LKIu6tOtC1vNJJcQjalZs
+         Vabo+Xz87cyUAfbhlQvAQ+iO467pRvJ6nPdZr9JQibu83JTOVrCjv1jxiq56VTYGkVen
+         Um5kIAieoFbARpTnxig9lrh6TmXGRfm2gexZ9F9Z4L3L9qeFbjAYM/XEyqQ3UU4vWC3t
+         BVP3YuC2/LKmsEwhrilZgaIQsLex0H5xTZoEnjsKHxHzZQmZ04sHu/ycFJym+sw4OBN6
+         JziA==
+X-Gm-Message-State: AOAM532fAV0ntTatqCuOq5cinj7ZpjDtlFB9yqA5Akbi/9sXI4J/wdLo
+	jkAK4mr3LTaFou/z480pIbN9dg==
 X-Google-Smtp-Source: 
- ABdhPJyvjCSsGcGTvlTPM7tTq462fFLGWt0AiH8+ASqTDf0sTS5YEUxaUfaWDYzDyRDGjQkYbyT/IaSdbh/q+IoDkC4=
-X-Received: by 2002:a25:37cb:: with SMTP id
- e194mr58348232yba.449.1636233501223;
- Sat, 06 Nov 2021 14:18:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <16B46DC051798307.25609@lists.openembedded.org>
- <CANPvuRkNsLegEXwZBzjx6OHSwb36RHAhN8qH2HTZgBBFrE0_TQ@mail.gmail.com>
-In-Reply-To: 
- <CANPvuRkNsLegEXwZBzjx6OHSwb36RHAhN8qH2HTZgBBFrE0_TQ@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-Date: Sat, 6 Nov 2021 11:18:10 -1000
+ ABdhPJw/I14/w66f0BT5kY+EyyMelTFM0cTQe303Zp8p/0wc0ktl+HV1VWu1ky2s2gdm9fW5k4gQPg==
+X-Received: by 2002:a5d:4a0a:: with SMTP id
+ m10mr65932112wrq.221.1636275297264;
+        Sun, 07 Nov 2021 01:54:57 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fdfa:2bc:4272:d318?
+ ([2001:8b0:aba:5f3c:fdfa:2bc:4272:d318])
+        by smtp.gmail.com with ESMTPSA id
+ h3sm12680371wrv.69.2021.11.07.01.54.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Nov 2021 01:54:56 -0700 (PDT)
 Message-ID: 
- <CAGDS+nmSC2FO9aOWdD39ciMn37s--kqwpWGBKg8UQpR2G-oKLg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] sstate: another fix for touching files
- inside pseudo
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <cf04f6c310491ca861ce5073dc14554bcba99ebc.camel@linuxfoundation.org>
+Subject: Re: [bitbake-devel] [PATCH 2/2] fetch2: Fix race condition in
+ latest_revision
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: jasper@fancydomain.eu, bitbake-devel@lists.openembedded.org
+Cc: martin@mko.dev, Daniel.Baumgart@iris-sensing.net,
+	openembedded-core@lists.openembedded.org, Jasper Orschulko
+	 <Jasper.Orschulko@iris-sensing.com>
+Date: Sun, 07 Nov 2021 08:54:55 +0000
+In-Reply-To: <20211105133048.19879-2-jasper@fancydomain.eu>
+References: <20211105133048.19879-1-jasper@fancydomain.eu>
+	 <20211105133048.19879-2-jasper@fancydomain.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 Nov 2021 21:18:22 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 08:54:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157946
+ https://lists.openembedded.org/g/openembedded-core/message/157947
 
-On Sat, Nov 6, 2021 at 8:09 AM Jose Quaresma <quaresma.jose@gmail.com> wrot=
-e:
->
-> Hi Steve,
->
-> Can this patch be backported to dunfell branch to land in the next releas=
-e 3.1.12?
+On Fri, 2021-11-05 at 14:30 +0100, Jasper Orschulko via lists.openembedded.org
+wrote:
+> From: Martin Koppehel <martin@mko.dev>
+> 
+> Setting latest_revision contained a race condition, where it would be
+> set to an empty string, if the hash calculation function would take to
+> long.
+> 
+> Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> ---
+>  lib/bb/fetch2/__init__.py | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
+> index 6a38cb09..9dc23d05 100644
+> --- a/lib/bb/fetch2/__init__.py
+> +++ b/lib/bb/fetch2/__init__.py
+> @@ -1602,7 +1602,9 @@ class FetchMethod(object):
+>          try:
+>              return revs[key]
+>          except KeyError:
+> -            revs[key] = rev = self._latest_revision(ud, d, name)
+> +            rev = self._latest_revision(ud, d, name)
+> +            if rev != '':
+> +                revs[key] = rev
+>              return rev
+>  
+>      def sortable_revision(self, ud, d, name):
 
-This patch won't apply due to the zstd related changes in master.
-Could you submit a dunfell version of the patch?
+I'm afraid I don't understand why this is a race condition? Where is the timeout
+that stops one being set?
 
-Steve
+Cheers,
 
->
-> Jose
->
-> Jose Quaresma via lists.openembedded.org <quaresma.jose=3Dgmail.com@lists=
-.openembedded.org> escreveu no dia quinta, 4/11/2021 =C3=A0(s) 19:14:
->>
->> This patch is a fixup for 676757f "sstate: fix touching files inside pse=
-udo"
->>
->> running the 'id' command inside the sstate_unpack_package
->> function shows that this funcion run inside the pseudo:
->>
->>  uid=3D0(root) gid=3D0(root) groups=3D0(root)
->>
->> The check for [ -w ${SSTATE_PKG} ] and [ -O ${SSTATE_PKG}.siginfo ]
->> will always return true and the touch can fail when the real user
->> don't have permission or in readonly filesystem.
->>
->> As the documentation refers:
->> - the file test operator "-w" check if the file has write permission
->> (for the user running the test).
->> - the file test operator "-O" check if you are owner of file
->>
->> We can avoid this test running the touch and mask any return errors
->> that we have.
->>
->> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
->> ---
->>
->> V2: match the original code
->>
->>  meta/classes/sstate.bbclass | 12 ++++++------
->>  1 file changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
->> index 8182010047..849723d4dc 100644
->> --- a/meta/classes/sstate.bbclass
->> +++ b/meta/classes/sstate.bbclass
->> @@ -900,12 +900,12 @@ sstate_unpack_package () {
->>         fi
->>
->>         tar -I "$ZSTD" -xvf ${SSTATE_PKG}
->> -       # update .siginfo atime on local/NFS mirror
->> -       [ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && =
-[ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
->> -       # Use "! -w ||" to return true for read only files
->> -       [ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
->> -       [ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touc=
-h --no-dereference ${SSTATE_PKG}.sig
->> -       [ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ]=
- || touch --no-dereference ${SSTATE_PKG}.siginfo
->> +       # update .siginfo atime on local/NFS mirror if it is a symbolic =
-link
->> +       [ ! -h ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo=
- 2>/dev/null || true
->> +       # update each symbolic link instead of any referenced file
->> +       touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
->> +       [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PK=
-G}.sig 2>/dev/null || true
->> +       [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTAT=
-E_PKG}.siginfo 2>/dev/null || true
->>  }
->>
->>  BB_HASHCHECK_FUNCTION =3D "sstate_checkhashes"
->> --
->> 2.33.1
->>
->>
->>
->>
->
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#157943): https://lists.openembedded.org/g/openembedde=
-d-core/message/157943
-> Mute This Topic: https://lists.openembedded.org/mt/86824160/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sa=
-koman@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Richard
+
 
