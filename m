@@ -1,227 +1,132 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 465D2C433FE
-	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 09:05:10 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.29093.1636275909035904121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3166C433EF
+	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 11:37:46 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.30033.1636285065492159795
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 01:05:09 -0800
+ Sun, 07 Nov 2021 03:37:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SmfRyDFj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id n29so9540430wra.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UW1mfsJT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id b12so21669384wrh.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 01:05:08 -0800 (PST)
+ Sun, 07 Nov 2021 03:37:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=rG7e45k7GPNBpObYiBaaLMwwIs2Y5+NtOjHhqSMb2bE=;
-        b=SmfRyDFjGow1Ktv1Eaj9ZtiUpMFcz7aqdIkOdXTv1e2SV9U3rttwGsndSV6yv4aZ9V
-         vtPIbuOcqw0zFDcb5sUrKQjikD+c3lMblMy5ApWjcku0LNQfkn6DPhPFnBcLuGWRR/sQ
-         L9EPiXHbRdabNdRVpM8yWYyyCBE176dsD5DYA=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sc3dNVAM4Ds3RwWkgJHrMIzPoiiQQPqxg07xZ3q/Wyg=;
+        b=UW1mfsJTBtBPhqKKhOj+WS1JozVbQRQkWztqIDMPoX4rWRcOizmw/OFQ+E8dIyNXSM
+         ia4dCVuUX5ilXBpevPbTTgBuyRxz6gYlOKl4QDSNIfw7298LWnNy6Qfsxxt7x06bmEwX
+         mYJ+BB1YHwUATLvfuzhgGSdF396tFEH1QQElOZnm53qs2+wmYEum7pkwqQI/WLiUtL3r
+         2yrXIF77xT+mca9zXFxUw769I1A030e9hiYIt6vwcOlAjVIwlctP55+u853QPJU/4hcQ
+         9UmzK6x6TQ7VbCKIAFr32dwGRGdBQG9ltpObaJFZsJGGdE4A4qXVBe1Tr9o748gHuTQr
+         Z81w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rG7e45k7GPNBpObYiBaaLMwwIs2Y5+NtOjHhqSMb2bE=;
-        b=vYSMJ/cB/POTAq1dVxaxIm9SQf6yaN/u5j99SuM1fGy32gDiwbkSARuLfssJFwOfwH
-         g6sFHa028XR1IQXeHGChHUNwp2LGJkmZ5bBEswG6dpJJUfxC6aoe2/WLWF9OP8pDIaXW
-         vNdbfsBVuHHyIgve+nKDbaV+gsob4/kjH58OkI3+Bogh0+IFHxnsKf/uuRN/hfg1mZ3c
-         u5h7IU21g1VmP0ECAfV6762/6rzj8n69XUVDZo7dglT4A7cP2ONySSi5AZODObODMCOU
-         05gSYPH6vpluv/jlw7NTLgOgbFdYq/QzdrZfXnKjP11kKnIkNftIRsTl8prePire3U09
-         RKHw==
-X-Gm-Message-State: AOAM530O38xJb8luGQknUds2pXQy2ZGX9VY492RjaZm9bBeLMxjVwdwt
-	QRtoQufYz8Z17TKHgsAgpsJ/pA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sc3dNVAM4Ds3RwWkgJHrMIzPoiiQQPqxg07xZ3q/Wyg=;
+        b=PWi19zqTIzbzcgJHcXod8jK8kZ9VjI0v1YEHZA5benzGrhub0CBGvLCNhMyl5z2n0r
+         Xry2marNGITduGezWQEWBLoKlj6cPhs78vglwzVaeAaXAejIpoa3HhxhoNO7SnAep9y8
+         z/2W6oyVMX7a2MTwQlJekqxskxCu+KEx0xa2a37Ni+kKqNTyC383CYzdq9KI8nUPLd7Z
+         r2LIcMVPOAVtk+f/LloykYMmp+31wDbPviT+WvsgMtD9rMATMGk+RxyqKywXesiD5z09
+         T5QR+/f/DsvY1UbeqbPDXSTwcWrMbQ1ariSeRG+7QO4NNtQmr7iow5tm4HGK+qdRFgIh
+         cgdQ==
+X-Gm-Message-State: AOAM533VWrWv+krlOobqzlb8enbWkV7PBJaSJrdEYZjGptE3suN55YfT
+	LinpnsUhpyjJgg9rVH8dRk22fzDm960=
 X-Google-Smtp-Source: 
- ABdhPJzfuSkeNubcJexZrtE1hVgiAytn5XXI0xBKbt+cHzZ4YBNGBrCdGbczhaKKyhydiTrpetrAQQ==
-X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr62817745wrt.31.1636275907496;
-        Sun, 07 Nov 2021 01:05:07 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fdfa:2bc:4272:d318?
- ([2001:8b0:aba:5f3c:fdfa:2bc:4272:d318])
+ ABdhPJwYH5RAaFR26MKNf+IBOfkXYFGQ6ZOffga6aN53T4qGrIxL+5wK3CRE1ntK3IWWiILESb1iPA==
+X-Received: by 2002:a05:6000:1043:: with SMTP id
+ c3mr64956717wrx.64.1636285063305;
+        Sun, 07 Nov 2021 03:37:43 -0800 (PST)
+Received: from localhost.localdomain (176.57.115.89.rev.vodafone.pt.
+ [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- n15sm16994013wmq.38.2021.11.07.01.05.07
+ f19sm14359755wmq.34.2021.11.07.03.37.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 01:05:07 -0800 (PST)
-Message-ID: 
- <4d9824a6a12bbdb28cd3d898b82118356712959b.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jasper@fancydomain.eu, openembedded-core@lists.openembedded.org
-Cc: martin@mko.dev, Daniel.Baumgart@iris-sensing.net,
-	bitbake-devel@lists.openembedded.org, Jasper Orschulko
-	 <Jasper.Orschulko@iris-sensing.com>
-Date: Sun, 07 Nov 2021 09:05:06 +0000
-In-Reply-To: <20211105133104.19895-1-jasper@fancydomain.eu>
-References: <20211105133104.19895-1-jasper@fancydomain.eu>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+        Sun, 07 Nov 2021 03:37:42 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH v2] sstate: another fix for touching files inside
+ pseudo
+Date: Sun,  7 Nov 2021 11:36:52 +0000
+Message-Id: <20211107113651.182107-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 09:05:10 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 11:37:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157948
+ https://lists.openembedded.org/g/openembedded-core/message/157949
 
-On Fri, 2021-11-05 at 14:31 +0100, Jasper Orschulko via lists.openembedded.org
-wrote:
-> From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> 
-> Add a recipe for repo, prerequisite for the repo fetcher.
-> 
-> Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> ---
->  .../repo/files/0001-python3-shebang.patch     | 21 ++++++++++++
->  .../0001-Set-REPO_REV-to-v2.17.3.patch        | 33 +++++++++++++++++++
->  meta/recipes-devtools/repo/repo.inc           | 25 ++++++++++++++
->  meta/recipes-devtools/repo/repo_2.17.3.bb     |  7 ++++
->  4 files changed, 86 insertions(+)
->  create mode 100644 meta/recipes-devtools/repo/files/0001-python3-shebang.patch
->  create mode 100644 meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
->  create mode 100644 meta/recipes-devtools/repo/repo.inc
->  create mode 100644 meta/recipes-devtools/repo/repo_2.17.3.bb
+This patch is a fixup for 676757f "sstate: fix touching files inside pseudo"
 
-This basically looks ok to me, I've some minor comments below.
+running the 'id' command inside the sstate_unpack_package
+function shows that this funcion run inside the pseudo:
 
-The patch is missing adding an entry to:
+ uid=0(root) gid=0(root) groups=0(root)
 
-meta/conf/distro/include/maintainers.inc
+The check for [ -w ${SSTATE_PKG} ] and [ -O ${SSTATE_PKG}.siginfo ]
+will always return true and the touch can fail when the real user
+don't have permission or in readonly filesystem.
 
-which is required for OE-Core recipes and will trip up automated testing if we
-don't.
+As the documentation refers:
+- the file test operator "-w" check if the file has write permission
+(for the user running the test).
+- the file test operator "-O" check if you are owner of file
 
-> 
-> diff --git a/meta/recipes-devtools/repo/files/0001-python3-shebang.patch b/meta/recipes-devtools/repo/files/0001-python3-shebang.patch
-> new file mode 100644
-> index 0000000000..09ccf58264
-> --- /dev/null
-> +++ b/meta/recipes-devtools/repo/files/0001-python3-shebang.patch
+We can avoid this test running the touch and mask any return errors
+that we have.
 
+(From OE-Core rev: 29fc85997ade490ae46ffca37ef8e1a56957c876)
 
-I'd put this in a folder called "repo" rather than files.
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5b9210d66c78bb3f79056e5586cea7b0edd714a9)
+---
 
-> @@ -0,0 +1,21 @@
-> +From b8e84b202cd302a7c99288d3835dc9c63071f8f2 Mon Sep 17 00:00:00 2001
-> +From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> +Date: Tue, 14 Sep 2021 16:46:51 +0200
-> +Subject: [PATCH] python3 shebang
-> +
-> +---
-> + repo | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+The patch sent to master branch don't apply on dunfell branch
+because of the ZSTD changes.
 
-Missing Upstream-Status: (you got the second one ok though! :)
+V2: match the original code
 
-> +diff --git a/repo b/repo
-> +index b13e34c..205e0e5 100755
-> +--- a/repo
-> ++++ b/repo
-> +@@ -1,4 +1,4 @@
-> +-#!/usr/bin/env python
-> ++#!/usr/bin/env python3
-> + # -*- coding:utf-8 -*-
-> + #
-> + # Copyright (C) 2008 The Android Open Source Project
-> +--
-> +2.33.0
-> diff --git a/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
-> new file mode 100644
-> index 0000000000..294a3af53a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
-> @@ -0,0 +1,33 @@
-> +From bdd2a528da59c28db8ae2986834926de7cebf3ab Mon Sep 17 00:00:00 2001
-> +From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> +Date: Thu, 4 Nov 2021 16:55:12 +0100
-> +Subject: [PATCH] Set REPO_REV to v2.17.3
-> +
-> +repo is an unusual tool because it downloads all of its own Python modules
-> +using GPG-signed git tags, and stores those files as part of the project
-> +that it is working with.
-> +
-> +So in order to have a reproducible repo installation within the project
-> +folders, we hardcode the REPO_REV variable to this recipes PV.
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> +---
-> + repo | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/repo b/repo
-> +index 4cddbf1..cf5f6b1 100755
-> +--- a/repo
-> ++++ b/repo
-> +@@ -142,7 +142,7 @@ if __name__ == '__main__':
-> + REPO_URL = os.environ.get('REPO_URL', None)
-> + if not REPO_URL:
-> +   REPO_URL = 'https://gerrit.googlesource.com/git-repo'
-> +-REPO_REV = os.environ.get('REPO_REV')
-> ++REPO_REV = 'v2.17.3'
-> + if not REPO_REV:
-> +   REPO_REV = 'stable'
-> + # URL to file bug reports for repo tool issues.
-> +--
-> +2.33.1
-> diff --git a/meta/recipes-devtools/repo/repo.inc b/meta/recipes-devtools/repo/repo.inc
-> new file mode 100644
-> index 0000000000..60b32e4d74
-> --- /dev/null
-> +++ b/meta/recipes-devtools/repo/repo.inc
-> @@ -0,0 +1,25 @@
-> +# SPDX-License-Identifier: MIT
-> +# Copyright (C) 2021 iris-GmbH infrared & intelligent sensors
-> +
-> +SUMMARY = "Tool for managing many Git repositories"
-> +DESCRIPTION = "Repo is a tool built on top of Git. Repo helps manage many Git repositories, does the uploads to revision control systems, and automates parts of the development workflow."
-> +HOMEPAGE = "https://android.googlesource.com/tools/repo"
-> +SECTION = "console/utils"
-> +
-> +LICENSE = "Apache-2.0"
-> +
-> +SRC_URI = "git://git@gerrit.googlesource.com/git-repo.git;protocol=https;branch=main"
-> +MIRRORS = "git://git@gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git \n"
+ meta/classes/sstate.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-You shouldn't be clearing MIRRORS with "=" as the user may have something set in
-there the system needs to work, you probably want += here.
-
-> +
-> +SRC_URI += "file://0001-python3-shebang.patch"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +RDEPENDS_${PN} = "python3"
-
-This is old overrides syntax, it is RDEPENDS:${PN} now as others have mentioned.
-
-> +
-> +do_install() {
-> +    install -d ${D}${bindir}
-> +    install -m 755 ${WORKDIR}/git/repo ${D}${bindir}
-> +}
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-devtools/repo/repo_2.17.3.bb b/meta/recipes-devtools/repo/repo_2.17.3.bb
-> new file mode 100644
-> index 0000000000..c26264b9e9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/repo/repo_2.17.3.bb
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: MIT
-> +# Copyright (C) 2021 iris-GmbH infrared & intelligent sensors
-> +
-> +require recipes-devtools/repo/repo.inc
-> +
-> +SRCREV = "11b30b91df1f0e03b53da970ec2588e85817bacc"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 38dc3bff30..930d87424f 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -859,12 +859,12 @@ python sstate_report_unihash() {
+ #
+ sstate_unpack_package () {
+ 	tar -xvzf ${SSTATE_PKG}
+-	# update .siginfo atime on local/NFS mirror
+-	[ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
+-	# Use "! -w ||" to return true for read only files
+-	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
+-	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
+-	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo
++	# update .siginfo atime on local/NFS mirror if it is a symbolic link
++	[ ! -h ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
++	# update each symbolic link instead of any referenced file
++	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
++	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig 2>/dev/null || true
++	[ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo 2>/dev/null || true
+ }
+ 
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+-- 
+2.33.1
 
 
