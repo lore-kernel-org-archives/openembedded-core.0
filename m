@@ -1,124 +1,193 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <tom.hochstein@nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A908C433F5
-	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 15:59:12 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (EUR01-HE1-obe.outbound.protection.outlook.com [40.92.65.61])
- by mx.groups.io with SMTP id smtpd.web08.32775.1636300750528030758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F0DEC433F5
+	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 16:01:22 +0000 (UTC)
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (EUR02-VE1-obe.outbound.protection.outlook.com [40.107.2.45])
+ by mx.groups.io with SMTP id smtpd.web12.32557.1636300880577636477
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 07:59:11 -0800
+ Sun, 07 Nov 2021 08:01:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=MElfrf8X;
- spf=pass (domain: outlook.com, ip: 40.92.65.61,
- mailfrom: kweihmann@outlook.com)
+ dkim=fail reason="body hash did not verify" header.i=@nxp.com
+ header.s=selector2 header.b=ReYyKoFk;
+ spf=pass (domain: nxp.com, ip: 40.107.2.45, mailfrom: tom.hochstein@nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XCfzyT/uZpQuwXejwHtOMJHuw3XhfeYWArMesiGTHqY2XOgIVHFo4DMn4DiGl62vpGKCUBdO9uuQ4LyP0+jjon3GSCP/WQrGBNPNbtk47sPS+nOSY5iZcstQoiIj3qC2eUZRoGoHRVTvpmPYpvMrLegj/498hE74OM6eStjxMO6mZRxD8Dyw4tKrVFMfJx2k7b4Dms3rhHQFaYezYRKrXxKEvUQyHQu6q8vDpU8Motihj9/ganeVXl2gDWCTeqObI/0XxFuu23VLoFo8wtEx1xM7MJo5B7EfwmM8PWZrmvW1MrlfqKa7HEMxPZsVXIzxJqy5tqzGTadIhpKbmi27eQ==
+ b=SgufC+irm7HSAM/OD3EM8TXftraIwljkYMCDNlZ3DNV4lteOCDfxyPEkSWNAA/oX9aqTa8rnnRxZX2QezXHEC4CAfprJwlaaZVCRG+QPmB0JvdKyNAKlOjhZn/HRLch+GXQ5JBBbYfmLk3rH6KnAfzC6jOcfpqjDC2fKYSyv9yFFXBtAXCrpz9fz9r/TFUj2dPbseneTtf0p3ZJE7pbW99sNEzTZuYkG6trPc8Dgmpspa/XL/Q2y1Z2g55e6EFD30pV0QjD3BZIQiZj6lbyfdtdX6hiWZfY4WT08D/xduWaO2HNt67mvpoxYKvsIkrvIawkniGOdjBe1AA81uOa3tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pQpcVJAi/vJylVLL5VPOINNoi8oYaaEiX2r3jIynNrE=;
- b=jji+LuP1cgMSREwEooddqobC6NiISF8S07h0YJLsJ7XU+bUxBL5o3TDTUMZTYcxgTY0jsj9C+VkGOnOYWnt4nFm+NW3jsXBgL+VmG6uvD0GjRdgNPKWdaGtvls8aOJLCeS2id1aCt0ILhPl0lAw4bh3IPLpsZvwxf3YIUEJKjkAShOv5Ce43wAG7sgsOsCdZpvPlVP5htheheAW6FRgFD7Oj7vc2LMy+5C4uBEw1PgYf8gzQWvTND1/yC8UMixvyALCwZGP70/HpemzDVBans0hq42am5tNgQJuyS+BCPlQxBapIUbDZvtakM0laU8oVS6xptBZ2Kb9O7JDqY6GIAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=DHW/1EsqOSFBo/pG3tRG2TvzReUJsmE1iQgwKdJzErk=;
+ b=jZ2SwmJQNjdXL2NUe/cRE8EsyUcgLukT/my2ExK6I0ZosMAbOf9nuWUTj1Q8/VRthZpdCvwVx7wbdH8ZhINKF5t/Lkykqdb+HGe22BIaQEeDk0ArhLj61dwHU3XXU3g5FdLVrsVOChojmBJXjvMeblyRsHQMpT4c/D++4pZldrlwHdeEBPgC5liVM0Pt/8mhjUVZjko61nf7d1OMRpzDLf8/E1cfDOU4B9VqC89AtCAsiEIj4ypjM7YcWyLguTq/4+WJ2WJkz9ikrSy4/ZwKX5h0Jq0bF/EDxEgoDuM6shjRYj2Y/SICt7M+bE0XJUjGcJ2gTcYWmhX3852+tbcfEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pQpcVJAi/vJylVLL5VPOINNoi8oYaaEiX2r3jIynNrE=;
- b=MElfrf8XE4S9g/bHdVXxSj7PCGML12qpmILQ1ShQFIYJBx2PzrMnBAVs5r3vKu0o4GaBL8mz3XqVGtqe8WNyx/TYn2FaZMIFXW/l/74a24R2GnYDgZtEDWWYLtkLEsGz2qlSIEfHGxi+mauM+btbj+ML6ZTgJqY+QrGuq+H8OPK9brlglyCFhcribTrqpWgKFalSbFyWl6L3K4y4HXYrU2kq9EV3lFyXLUUIySPW9WS9uEFpJLNK478ns/EI1pn2jjJ4yNu37LyZiY8mEHzs0STMFKbqWOcTx02CNQCs0HuiBH1JVvbb6BwzjJL+DhYicSiYIdFxL208XbpVZLxVNg==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4499.eurprd09.prod.outlook.com (2603:10a6:208:17d::16) with
+ bh=DHW/1EsqOSFBo/pG3tRG2TvzReUJsmE1iQgwKdJzErk=;
+ b=ReYyKoFkTpzhEFC3bsHe88wxUfvN8As/TWvM2kukg0nGEdB9XJR7xE65EkIQbwW1+fAJR5iVe2Luia4TN8h80VikbkJgnkydLj5UpBV1nvubtjh5/PfvVEfFl5FXJT7ownNJ59ez2o5FYH5oityGmqhP4Bfi739UZkdj0w2uvLs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DBBPR04MB7753.eurprd04.prod.outlook.com (2603:10a6:10:1e1::5)
+ by DB7PR04MB5259.eurprd04.prod.outlook.com (2603:10a6:10:1b::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Sun, 7 Nov
- 2021 15:59:08 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4669.016; Sun, 7 Nov 2021
- 15:59:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.15; Sun, 7 Nov
+ 2021 16:01:17 +0000
+Received: from DBBPR04MB7753.eurprd04.prod.outlook.com
+ ([fe80::25a8:33dc:5634:180a]) by DBBPR04MB7753.eurprd04.prod.outlook.com
+ ([fe80::25a8:33dc:5634:180a%3]) with mapi id 15.20.4669.015; Sun, 7 Nov 2021
+ 16:01:17 +0000
+From: Tom Hochstein <tom.hochstein@nxp.com>
 To: openembedded-core@lists.openembedded.org
-From: Konrad Weihmann <kweihmann@outlook.com>
-Subject: Setting COMPATIBLE_MACHINE in nativesdk only recipe
-Message-ID: 
- <AM9PR09MB4642DA0CD2B546B22CBFE911A8909@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Sun, 7 Nov 2021 16:59:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [Qn316t/6cHoRApoYVGerlt0l/CjGVxOCno1cbCYodMpoyw8eEXRiRBwLaWMnqFTo]
-X-ClientProxiedBy: AM0PR03CA0057.eurprd03.prod.outlook.com (2603:10a6:208::34)
- To AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <915f3365-22e5-0702-63d2-28fa78dcf8b2@outlook.com>
+CC: Tom Hochstein <tom.hochstein@nxp.com>
+Subject: [PATCH 1/3] wayland: Fix wayland-tools packaging problems
+Date: Sun,  7 Nov 2021 10:00:04 -0600
+Message-ID: <20211107160006.25440-1-tom.hochstein@nxp.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BY3PR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::12) To DBBPR04MB7753.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e1::5)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
- (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
- AM0PR03CA0057.eurprd03.prod.outlook.com (2603:10a6:208::34) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend
- Transport; Sun, 7 Nov 2021 15:59:07 +0000
+Received: from lsv07069.swis.us-cdc01.nxp.com (192.88.158.246) by
+ BY3PR05CA0007.namprd05.prod.outlook.com (2603:10b6:a03:254::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.5 via Frontend
+ Transport; Sun, 7 Nov 2021 16:01:16 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1cd9a610-097a-4cfb-0f11-08d9a20787ce
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4499:
+X-MS-Office365-Filtering-Correlation-Id: 96b0fce9-1f4b-4709-187a-08d9a207d52c
+X-MS-TrafficTypeDiagnostic: DB7PR04MB5259:
+X-Microsoft-Antispam-PRVS: 
+	<DB7PR04MB5259EDC742620326219B54AAE2909@DB7PR04MB5259.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	5rUCaw7JvFQ6oazfv1S8z5oAICXvi8VMszVXxV8uVyVH9NRoSfnz4LYbw3lqt1FPJcymBJgd/crbAlpDqg7V5YuRKA2FqmFq1AVn2JCv5q8KOtY5NRpq+UgmYr+H5J228SC3fel3EvRfdQpsMY3ObfD7nn9wYrjuhNIm6y+pymrNDNnmc5EspyPCNzdKpF0es/c9Aeo7BtIcmDnCTiQ6OxPh5/RQPLScEHv1r2r21tn2uF4nysOBqjZy9llpRwC/cQ6cyG8yL6LSMUcN8RrJkB4/sPvh4ifaYyg2QxCK1a3Usnn0U3xNDLq1S4RViB2kE/Xo/M5CKQdhP7miHeBzj9fgb3IXKMQML57fd0eXfEO6r2rdCar3t4VQiuP0seXOztKiCmQREWVj2P7RyZdavba+iPYPnXQyllaLCwFpZs3/kCFEq5EO+QJglmwmlrbyAS9/FnMlrohwIYxB5HcsA+zgDcNm71SXq4me3juk+uhg6ecY+2c96VYt6J3nz7JOL66BJDfehxPei0TlTD8Bp0Jb2cAtVLCq7NpH7VUdy8Y=
+	4Jv9faZIjWxLW3otoMhHaUv+TYB5izljj38agCHZkKxfzXWpCo5MNGzAseuSzRyCoMbaGM/8daoFENvHbn+h5oJ7iGnyDo29J4abyMKLjLkCw9CdRBl6BYIVnblx3MIt88BzQBeOUw1+5G6TiCIC1+A2votXT63guaf3xHTeqXDEN9p/yTwK7jlntq2FVRIJiDNKtLYz6hpq35naluSBALnWkKYjyoMKHTlfg5JxBgwj4ftXsKxPwNW/sEBqdPTCkqp9GLly3hI0b+AGQOFMHeDRiZ3a6wQqkW36k4vKtDNy7hPCPgL+Ki9FTtxXaoMbm2YxgruayMP+zhz0rZb+YaGGYSMRGVrDXK4Xz9hHJB+ekwO/t+Ffocrq4T6hPWLOhsbUC+zacR2sHOUqwdeBi/xrw0kdAJ+HpXVbG3qMAAi1ODnMw/rIpHnmoJmrVvZ4rYjsW6jhK0wvGT/aNadF10pyLHkqL/EyZMIvI1sbMNHqgFUkX2Ma6qxZbsHEskxoHiDDcpvR96SKeRFzbH+3295YobO8r9ceOOpjnPAslDyWGAVY0S8j1m0U7vd9SPDWkvJtGSQOdAr9O7IiUjUftkXBDiBarJTXn1jnbUHHFGWMrdngdoSbhbS59myHuw07JW7yAMWGKgcw7j5ysKslvi57vFna+8yS701c0bVY9Z2YnWFMB4lToO9iscC4C3dgNRSGhQYT/aZrtvNsMKL0Mw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7753.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(86362001)(5660300002)(38100700002)(6916009)(38350700002)(52116002)(7696005)(508600001)(1076003)(66946007)(6666004)(8676002)(66556008)(6486002)(66476007)(8936002)(2616005)(2906002)(26005)(44832011)(186003)(316002)(4326008)(36756003)(83380400001)(956004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	+kgWGV2uCzBooztRIF8bBRHxh93R8avafuI1AkXLtmP0/4AqiBw3GTxcDfpcigQf4Q+0XfgGks22eCSDNnwu7DZOzL8qd+YQgKqwQMc2fuXLwoiZfVIuaMfiixT2daGLnJ2S8L8lDu1zxNllpEB3X4QrzeSRv7FO4N8fIe2o8qBPORlC45x4+OuR7MIogb0NHe8uQSMIf9ybfnhGBo4PufZMRQ4uHTR96sOWtp9xVH+NlD0ipTdFpRQiuFWDpZZ0V0wqMqRsXs+k1LqHtEivDfatlQw7L1vSclA74s9+p21ckSuhTPokTmqxRu9gL0In5/hm7MnqWONk+DgpjFe91IFKvgOnYdXS3i9msne98KiW1VgBXxA7cQDDJG0OcHlzFW9eTJ9P7p3pHFE5eryKSMDnYhl8OxZNFcphiIQ5+xoWfEpvD21DOaWs1S0TBWX8MQcz/2lTM4aKhqOvcw+lE73MgjRz4jEpvU9kISvZnMJ5o//Xl9OOOUQyEosAKqKatHGZXi6d2MbGIAmevjiHebhn1Ephuz8N6H41Tx7eSBifw0k7KCzEi1Ew4RdhVkNWiy7O2rqJbiMNCd0ZpXMHU2cBZqzeRA3IfLisX07On5DSaoC0G9TCXyMqKFoNmwThgGPBlK6yOXnmRhM+NksmUqI4j1pdIxi5mJAwO4pVvtVV2twhsmljCnONSwAGc1qhOWWVa+Hj6MS0IEOOXM2Z+JiDSlsL2avMCR3DhkoYjMeB385aoltB9fA4GUvjvDRHnooMZ9cHHsghiigqKzr6ew==
-X-OriginatorOrg: outlook.com
+	=?us-ascii?Q?PBJkzAU5ahIbSLXH0WNILBMBwpSlsBtybENJBPXPLrR1X6s2Cs8s3DoSRHdY?=
+ =?us-ascii?Q?5N/7pdXotAQMervGDNEspWVTgq25FzfBbF3fGLeXp16X/TgiYcTOTiuf9aid?=
+ =?us-ascii?Q?scddbAkZ2t11mvi4kYXApLig9HYR5jNNp16Qe4vcbTP78XcLLuEyMVrdjQZQ?=
+ =?us-ascii?Q?TEuePe4Iy7SHW9bvBM/bjht5W060Z348bH7XqwFF86zJHjDB74GRhLeOgemQ?=
+ =?us-ascii?Q?VKYsKaGV0eU+UWkGNhg6VHD4SnN9Hvn7EeRwVtV29ArmxpXnAXM1aJT0gkqE?=
+ =?us-ascii?Q?6tUfym5nWrOiaKn91+q+pVoj1e8Xn6HgmyBtEDYGnrZVKxDCjxbbyBXEfC8U?=
+ =?us-ascii?Q?ZC6SXcpOXEEDbQ0GHuVUvi7z8pFcT93nk/aysQ0B2g7VEdjTcHMhinQchLAD?=
+ =?us-ascii?Q?vm6jN7wtIhZqRTX+U8GkZIiAqB3T1oi4ChYRP8yNeJVcUVErNJ3DN9VUmJgR?=
+ =?us-ascii?Q?ctTzD7hJSAqpxluvf64m9993nb9wreBMmjMZC7DYf2W3FI6J1Yyhj/3ZDaLF?=
+ =?us-ascii?Q?jKvLdGbCQrf2hbzVPdammhJeBXHub/U/LqhPp9vpeIPkUn0t3ZMxbjbCfFjS?=
+ =?us-ascii?Q?edIdvAE4Mg2mggKaIk1cyORp8VSbke6BQSwVXuABdWcT4UbzjOn1qw6x3tMY?=
+ =?us-ascii?Q?Yy9yM+H2lSIfaApGp40/WSGKHNHBJwnzfFGqy23NNbDAEw5uZVMPK4cWC6sK?=
+ =?us-ascii?Q?ICLbA6zizn2QXqcx6Ak+nSc1LBK0BrqIE4f96kWjo/3a5U92mnuZXsdbK3Gm?=
+ =?us-ascii?Q?IIcSr/kg1fXoKfk+t1fnCuoSvMJU2XF9vSMfCY0q3cFU9c4cBzSvsmQOJlQo?=
+ =?us-ascii?Q?/Ozy84if7aeGhWqPXmZRS/UpEyDPmYirlWO5Do7eylvWBhqllC43X84D5DEb?=
+ =?us-ascii?Q?wHKYlGnASAuaC59H3KmG6fIY4ZxOT5AlDwkqGGEtCZe4X9rp5tSBhaxQz6nX?=
+ =?us-ascii?Q?/2Gzbc2fp+mT4WpF7hejDXqBduMEpr8bb6mzOtgzSBDRKXgW2IVVPyT5sSyY?=
+ =?us-ascii?Q?BhoTz9+DunxpXmGRlQuylSZheLaGYcrHCSiY5rETbGvm0KggWzmasFaW2t7E?=
+ =?us-ascii?Q?YEZ1EavrFLrXN5LlxYvGDFxuowaXz4HmIZpLOfPq12YjpHKziIC62OyKU7AJ?=
+ =?us-ascii?Q?ZaQBfk2lj13MiLhAZpjjF1oW9LRjcBp8h/ApSKi32B0KYuMjAo3oIOm+318I?=
+ =?us-ascii?Q?VjusaGWFKs0VgGw9cyeif4OiDOlHEcjdmSzhi3lV7UqOFczGPSqSRWb4mEym?=
+ =?us-ascii?Q?D4xzZkc9nIFxebNDUs+FWpCP0JbxjEVrZ9pwSOyuWlyNrMh0htpCvWmXRWyl?=
+ =?us-ascii?Q?q20DgcSeQMpptVbP0M6uLErISGSLH8HHpX7U8VK2nwkTBgEcQCbO4JnubQHX?=
+ =?us-ascii?Q?M1JCQf7MzyYZcnlfcTJpy+oBwYMjVZYw3TxyS4jtd06xLNifyC5jInSM2I5/?=
+ =?us-ascii?Q?8yNJiO3+ou/J2L3xwOd1C3wiJCtn9pAcPGCtqC0jMl3zdXl2ULYtd2n1S5Jn?=
+ =?us-ascii?Q?/hBsOYKhu64PzkCoxwB4PjHP+R2Srxp4wiCaohS4I77/lCbNLqk6mNYUg97O?=
+ =?us-ascii?Q?/4mHHWFbIsQmWDO1nBIiMImmIzzEXoA0W2yTpKAZUUBegPKLp4bQHXxWrjKs?=
+ =?us-ascii?Q?ugXsNOcWT+cj5uM8t2fWN9s=3D?=
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 1cd9a610-097a-4cfb-0f11-08d9a20787ce
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+ 96b0fce9-1f4b-4709-187a-08d9a207d52c
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7753.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2021 15:59:07.9880
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2021 16:01:17.5967
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4499
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ FMJz6a7GVBcPLJKzUGcuGTOzy+wgaRDd7PPgujrZoZE2/BLIA5JmO4BLMWioPxv9868NMZ2Akw0K0cGCS7HMaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB5259
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 15:59:12 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 16:01:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157953
+ https://lists.openembedded.org/g/openembedded-core/message/157954
 
-Hi all,
+There are several packaging problems due to the wayland-tools packaging
+implementation. The wayland-tools package currently looks like this:
 
-I got a nativesdk-only recipe
+wayland-tools
+=E2=94=94=E2=94=80=E2=94=80 usr
+    =E2=94=9C=E2=94=80=E2=94=80 bin
+    =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 wayland-scanner
+    =E2=94=94=E2=94=80=E2=94=80 share
+        =E2=94=94=E2=94=80=E2=94=80 wayland
+            =E2=94=9C=E2=94=80=E2=94=80 wayland.dtd
+            =E2=94=9C=E2=94=80=E2=94=80 wayland-scanner.mk
+            =E2=94=94=E2=94=80=E2=94=80 wayland.xml
 
-...
-COMPATIBLE_MACHINE = "^.*x86-64"
+The files wayland-scanner.pc and wayland-scanner.m4 are incorrectly
+located in the main package. The files wayland.dtd and wayland.xml
+are incorrectly located here but belong in the main package.
 
-inherit nativesdk
-...
+Fix the problems by moving wayland-tools before the other packages,
+adding wayland-tools-dev, and dropping the main package FILES
+variable override as no longer needed.
 
-as I need to limit the targets (SDK hosts) to x64 machines only.
+After the fix wayland-tools and wayland-tools-dev look like this:
 
-Unfortunately this doesn't build, as the recipe is rejected claiming 
-"qemux86-64" is not in the comp-list
+wayland-tools
+=E2=94=94=E2=94=80=E2=94=80 usr
+    =E2=94=94=E2=94=80=E2=94=80 bin
+        =E2=94=94=E2=94=80=E2=94=80 wayland-scanner
+wayland-tools-dev
+=E2=94=94=E2=94=80=E2=94=80 usr
+    =E2=94=9C=E2=94=80=E2=94=80 lib
+    =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 pkgconfig
+    =E2=94=82=C2=A0=C2=A0     =E2=94=94=E2=94=80=E2=94=80 wayland-scanner.p=
+c
+    =E2=94=94=E2=94=80=E2=94=80 share
+        =E2=94=9C=E2=94=80=E2=94=80 aclocal
+        =E2=94=82=C2=A0  =E2=94=94=E2=94=80=E2=94=80 wayland-scanner.m4
+        =E2=94=94=E2=94=80=E2=94=80 wayland
+            =E2=94=94=E2=94=80=E2=94=80 wayland-scanner.mk
 
-Looking at base.bbclass the following is done
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+---
+ meta/recipes-graphics/wayland/wayland_1.19.0.bb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-need_machine = d.getVar('COMPATIBLE_MACHINE')
-if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
-     import re
-     compat_machines = (d.getVar('MACHINEOVERRIDES') or "").split(":")
-     for m in compat_machines:
-         if re.match(need_machine, m):
-             break
+diff --git a/meta/recipes-graphics/wayland/wayland_1.19.0.bb b/meta/recipes=
+-graphics/wayland/wayland_1.19.0.bb
+index d6e468497d..74d6d65e9e 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.19.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+@@ -52,10 +52,14 @@ sysroot_stage_all:append:class-target () {
+ 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR=
+}/${datadir}/aclocal/
+ }
+=20
+-PACKAGES +=3D "${PN}-tools"
++PACKAGES =3D+ "${PN}-tools ${PN}-tools-dev"
+=20
+-FILES:${PN} =3D "${libdir}/*${SOLIBS}"
+-FILES:${PN}-tools +=3D "${bindir} ${datadir}/wayland"
++FILES:${PN}-tools =3D "${bindir}/wayland-scanner"
++FILES:${PN}-tools-dev =3D " \
++    ${libdir}/pkgconfig/wayland-scanner.pc \
++    ${datadir}/aclocal/wayland-scanner.m4 \
++    ${datadir}/wayland/wayland-scanner.mk \
++"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+--=20
+2.17.1
 
-which is fine, but since d09e6d883042e5d094cd08d829327c4bbbfae135 (yeah 
-it's been a while) all MACHINEOVERRIDES for nativesdk recipe are 
-forcefully reset (reasoning is in the commit message).
-
-Is there any way to limit the target machines for such a corner case?
-
-Cheers
-Konrad
 
