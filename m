@@ -1,74 +1,89 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <bcb52516-3875-6b91-0956-c2190a6bb2a1@pr.hu>
-Date: Sat, 6 Nov 2021 19:30:01 +0100
+Message-ID: <d56cc2db74fe40828567c9c7df8507479cdecea3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/3] wayland: Fix wayland-tools packaging problems
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Sun, 07 Nov 2021 16:15:18 +0000
+In-Reply-To: <20211107160006.25440-1-tom.hochstein@nxp.com>
+References: <20211107160006.25440-1-tom.hochstein@nxp.com>
 MIME-Version: 1.0
-Subject: Re: [OE-core] cargo-native do_fetch error
-References: <f0e5dc36-2447-1501-84da-862f43ed5f83@pr.hu>
- <AM9PR09MB4642477F746163FF39C94CAAA88F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-In-Reply-To: <AM9PR09MB4642477F746163FF39C94CAAA88F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, openembedded-core@lists.openembedded.org
+To: Tom Hochstein <tom.hochstein@nxp.com>, openembedded-core@lists.openembedded.org
 
-2021. 11. 06. 14:02 keltezéssel, Konrad Weihmann írta:
+On Sun, 2021-11-07 at 10:00 -0600, Tom Hochstein wrote:
+> There are several packaging problems due to the wayland-tools packaging
+> implementation. The wayland-tools package currently looks like this:
 > 
+> wayland-tools
+> └── usr
+>     ├── bin
+>     │   └── wayland-scanner
+>     └── share
+>         └── wayland
+>             ├── wayland.dtd
+>             ├── wayland-scanner.mk
+>             └── wayland.xml
 > 
-> On 06.11.21 13:49, Zoltan Boszormenyi via lists.openembedded.org wrote:
->> I tried building my custom OS rebased on current master.
->>
->> I got this error:
->>
->> ERROR: cargo-native-1.56.0-r0 do_fetch: No checksum specified for 
->> '/data/genericx86-64-yocto-3.5/downloads/rustc-1.56.0-src.tar.xz', please add at least 
->> one to the recipe:
->> SRC_URI[rust.sha256sum] = 
->> "f13468889833c88e744ad579c5d8fbb7ecb53216159b54481a90e5dcdaa9e320"
->> ERROR: cargo-native-1.56.0-r0 do_fetch: Bitbake Fetcher Error: NoChecksumError('Missing 
->> SRC_URI checksum', 'https://static.rust-lang.org/dist/rustc-1.56.0-src.tar.xz;name=rust')
->> ERROR: Logfile of failure stored in: 
->> /data/genericx86-64-yocto-3.5/tmp-sicom-glibc/work/x86_64-linux/cargo-native/1.56.0-r0/temp/log.do_fetch.3495409 
+> The files wayland-scanner.pc and wayland-scanner.m4 are incorrectly
+> located in the main package. The files wayland.dtd and wayland.xml
+> are incorrectly located here but belong in the main package.
 > 
+> Fix the problems by moving wayland-tools before the other packages,
+> adding wayland-tools-dev, and dropping the main package FILES
+> variable override as no longer needed.
 > 
-> Could you kindly double check your setup, because at 
-> meta/recipes-devtools/rust/rust-source.inc one will find
+> After the fix wayland-tools and wayland-tools-dev look like this:
 > 
-> SRC_URI += "https://static.rust-lang.org/dist/rustc-${PV}-src.tar.xz;name=rust"
-> SRC_URI[rust.sha256sum] = "f13468889833c88e744ad579c5d8fbb7ecb53216159b54481a90e5dcdaa9e320"
+> wayland-tools
+> └── usr
+>     └── bin
+>         └── wayland-scanner
+> wayland-tools-dev
+> └── usr
+>     ├── lib
+>     │   └── pkgconfig
+>     │       └── wayland-scanner.pc
+>     └── share
+>         ├── aclocal
+>         │   └── wayland-scanner.m4
+>         └── wayland
+>             └── wayland-scanner.mk
 > 
-> which looks okayish to me.
-> And this include is direct injected in meta/recipes-devtools/cargo/cargo_1.56.0.bb right 
-> at the first line
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> ---
+>  meta/recipes-graphics/wayland/wayland_1.19.0.bb | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/wayland/wayland_1.19.0.bb b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+> index d6e468497d..74d6d65e9e 100644
+> --- a/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+> +++ b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+> @@ -52,10 +52,14 @@ sysroot_stage_all:append:class-target () {
+>  	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
+>  }
+>  
+> -PACKAGES += "${PN}-tools"
+> +PACKAGES =+ "${PN}-tools ${PN}-tools-dev"
+>  
+> -FILES:${PN} = "${libdir}/*${SOLIBS}"
+> -FILES:${PN}-tools += "${bindir} ${datadir}/wayland"
+> +FILES:${PN}-tools = "${bindir}/wayland-scanner"
+> +FILES:${PN}-tools-dev = " \
+> +    ${libdir}/pkgconfig/wayland-scanner.pc \
+> +    ${datadir}/aclocal/wayland-scanner.m4 \
+> +    ${datadir}/wayland/wayland-scanner.mk \
+> +"
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+> 
 
-I saw that file and that's why I wondered.
+Shouldn't these just go into wayland-dev?
 
-> Maybe this file went missing or was otherwise masked in your setup
+Cheers,
 
-No, it's there and not masked.
+Richard
 
-The problem was that I didn't realize that oe-core master has merged meta-rust.
-I still had the standalone meta-rust in my repo manifest xml.
-After removing it, cargo(-native) can be fetched and built just fine.
-
-Sorry for the noise.
-
-> 
-> 
->>
->> ERROR: Task 
->> (virtual:native:/data/genericx86-64-yocto-3.5/conf/../layers/openembedded-core/meta/recipes-devtools/cargo/cargo_1.56.0.bb:do_fetch) 
->> failed with exit code '1'
->>
->> I found no bbappend for cargo or rust in any layers I currently use
->> so it must be a genuine bug in Yocto 3.5 at the moment.
->>
->> Best regards,
->> Zoltán Böszörményi
->>
->>
->> 
->>
 
