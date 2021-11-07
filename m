@@ -2,65 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A92C433EF
-	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 08:54:59 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web12.29029.1636275299154347176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 465D2C433FE
+	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 09:05:10 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.29093.1636275909035904121
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 01:54:59 -0700
+ Sun, 07 Nov 2021 01:05:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=id53zIja;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SmfRyDFj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id r8so21184614wra.7
+Received: by mail-wr1-f46.google.com with SMTP id n29so9540430wra.11
         for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 01:54:58 -0700 (PDT)
+ Sun, 07 Nov 2021 01:05:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=PYn1YsWmDGHBE73S11+NRPpyeUtGg+d79r24H2Q+Ngo=;
-        b=id53zIja37UevhD7oSYf1qEwEQ/MQB9Km4r6FWtxwqbcXMgr8I83iZUlq9vsdqXQAc
-         2F6bZJHIlQNznU2xknuI3rO0P7yS4gMbsfQ6qK/o6Fasv1RBtwM5eA2PSBLoIzdUgO0L
-         PFhPkiEnsHsEZoK8gzgHCDGWcBZOMzpxXCt8Q=
+        bh=rG7e45k7GPNBpObYiBaaLMwwIs2Y5+NtOjHhqSMb2bE=;
+        b=SmfRyDFjGow1Ktv1Eaj9ZtiUpMFcz7aqdIkOdXTv1e2SV9U3rttwGsndSV6yv4aZ9V
+         vtPIbuOcqw0zFDcb5sUrKQjikD+c3lMblMy5ApWjcku0LNQfkn6DPhPFnBcLuGWRR/sQ
+         L9EPiXHbRdabNdRVpM8yWYyyCBE176dsD5DYA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=PYn1YsWmDGHBE73S11+NRPpyeUtGg+d79r24H2Q+Ngo=;
-        b=yhzOF18iqjxFOg26ostGik2dK2mprFsbdLxIZ5ZK/PZvipScyupygbBDkXqvhKUkOO
-         vpawW0QHvBCfF740aMj723yywmDGCSN6fJZfg6O49+LN3x7LKIu6tOtC1vNJJcQjalZs
-         Vabo+Xz87cyUAfbhlQvAQ+iO467pRvJ6nPdZr9JQibu83JTOVrCjv1jxiq56VTYGkVen
-         Um5kIAieoFbARpTnxig9lrh6TmXGRfm2gexZ9F9Z4L3L9qeFbjAYM/XEyqQ3UU4vWC3t
-         BVP3YuC2/LKmsEwhrilZgaIQsLex0H5xTZoEnjsKHxHzZQmZ04sHu/ycFJym+sw4OBN6
-         JziA==
-X-Gm-Message-State: AOAM532fAV0ntTatqCuOq5cinj7ZpjDtlFB9yqA5Akbi/9sXI4J/wdLo
-	jkAK4mr3LTaFou/z480pIbN9dg==
+        bh=rG7e45k7GPNBpObYiBaaLMwwIs2Y5+NtOjHhqSMb2bE=;
+        b=vYSMJ/cB/POTAq1dVxaxIm9SQf6yaN/u5j99SuM1fGy32gDiwbkSARuLfssJFwOfwH
+         g6sFHa028XR1IQXeHGChHUNwp2LGJkmZ5bBEswG6dpJJUfxC6aoe2/WLWF9OP8pDIaXW
+         vNdbfsBVuHHyIgve+nKDbaV+gsob4/kjH58OkI3+Bogh0+IFHxnsKf/uuRN/hfg1mZ3c
+         u5h7IU21g1VmP0ECAfV6762/6rzj8n69XUVDZo7dglT4A7cP2ONySSi5AZODObODMCOU
+         05gSYPH6vpluv/jlw7NTLgOgbFdYq/QzdrZfXnKjP11kKnIkNftIRsTl8prePire3U09
+         RKHw==
+X-Gm-Message-State: AOAM530O38xJb8luGQknUds2pXQy2ZGX9VY492RjaZm9bBeLMxjVwdwt
+	QRtoQufYz8Z17TKHgsAgpsJ/pA==
 X-Google-Smtp-Source: 
- ABdhPJw/I14/w66f0BT5kY+EyyMelTFM0cTQe303Zp8p/0wc0ktl+HV1VWu1ky2s2gdm9fW5k4gQPg==
-X-Received: by 2002:a5d:4a0a:: with SMTP id
- m10mr65932112wrq.221.1636275297264;
-        Sun, 07 Nov 2021 01:54:57 -0700 (PDT)
+ ABdhPJzfuSkeNubcJexZrtE1hVgiAytn5XXI0xBKbt+cHzZ4YBNGBrCdGbczhaKKyhydiTrpetrAQQ==
+X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr62817745wrt.31.1636275907496;
+        Sun, 07 Nov 2021 01:05:07 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:fdfa:2bc:4272:d318?
  ([2001:8b0:aba:5f3c:fdfa:2bc:4272:d318])
         by smtp.gmail.com with ESMTPSA id
- h3sm12680371wrv.69.2021.11.07.01.54.56
+ n15sm16994013wmq.38.2021.11.07.01.05.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 01:54:56 -0700 (PDT)
+        Sun, 07 Nov 2021 01:05:07 -0800 (PST)
 Message-ID: 
- <cf04f6c310491ca861ce5073dc14554bcba99ebc.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] [PATCH 2/2] fetch2: Fix race condition in
- latest_revision
+ <4d9824a6a12bbdb28cd3d898b82118356712959b.camel@linuxfoundation.org>
+Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
+ for repo 2.17.3
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jasper@fancydomain.eu, bitbake-devel@lists.openembedded.org
+To: jasper@fancydomain.eu, openembedded-core@lists.openembedded.org
 Cc: martin@mko.dev, Daniel.Baumgart@iris-sensing.net,
-	openembedded-core@lists.openembedded.org, Jasper Orschulko
+	bitbake-devel@lists.openembedded.org, Jasper Orschulko
 	 <Jasper.Orschulko@iris-sensing.com>
-Date: Sun, 07 Nov 2021 08:54:55 +0000
-In-Reply-To: <20211105133048.19879-2-jasper@fancydomain.eu>
-References: <20211105133048.19879-1-jasper@fancydomain.eu>
-	 <20211105133048.19879-2-jasper@fancydomain.eu>
+Date: Sun, 07 Nov 2021 09:05:06 +0000
+In-Reply-To: <20211105133104.19895-1-jasper@fancydomain.eu>
+References: <20211105133104.19895-1-jasper@fancydomain.eu>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
@@ -68,44 +66,162 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 08:54:59 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 09:05:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157947
+ https://lists.openembedded.org/g/openembedded-core/message/157948
 
-On Fri, 2021-11-05 at 14:30 +0100, Jasper Orschulko via lists.openembedded.org
+On Fri, 2021-11-05 at 14:31 +0100, Jasper Orschulko via lists.openembedded.org
 wrote:
-> From: Martin Koppehel <martin@mko.dev>
+> From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
 > 
-> Setting latest_revision contained a race condition, where it would be
-> set to an empty string, if the hash calculation function would take to
-> long.
+> Add a recipe for repo, prerequisite for the repo fetcher.
 > 
 > Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
 > ---
->  lib/bb/fetch2/__init__.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  .../repo/files/0001-python3-shebang.patch     | 21 ++++++++++++
+>  .../0001-Set-REPO_REV-to-v2.17.3.patch        | 33 +++++++++++++++++++
+>  meta/recipes-devtools/repo/repo.inc           | 25 ++++++++++++++
+>  meta/recipes-devtools/repo/repo_2.17.3.bb     |  7 ++++
+>  4 files changed, 86 insertions(+)
+>  create mode 100644 meta/recipes-devtools/repo/files/0001-python3-shebang.patch
+>  create mode 100644 meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
+>  create mode 100644 meta/recipes-devtools/repo/repo.inc
+>  create mode 100644 meta/recipes-devtools/repo/repo_2.17.3.bb
+
+This basically looks ok to me, I've some minor comments below.
+
+The patch is missing adding an entry to:
+
+meta/conf/distro/include/maintainers.inc
+
+which is required for OE-Core recipes and will trip up automated testing if we
+don't.
+
 > 
-> diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-> index 6a38cb09..9dc23d05 100644
-> --- a/lib/bb/fetch2/__init__.py
-> +++ b/lib/bb/fetch2/__init__.py
-> @@ -1602,7 +1602,9 @@ class FetchMethod(object):
->          try:
->              return revs[key]
->          except KeyError:
-> -            revs[key] = rev = self._latest_revision(ud, d, name)
-> +            rev = self._latest_revision(ud, d, name)
-> +            if rev != '':
-> +                revs[key] = rev
->              return rev
->  
->      def sortable_revision(self, ud, d, name):
+> diff --git a/meta/recipes-devtools/repo/files/0001-python3-shebang.patch b/meta/recipes-devtools/repo/files/0001-python3-shebang.patch
+> new file mode 100644
+> index 0000000000..09ccf58264
+> --- /dev/null
+> +++ b/meta/recipes-devtools/repo/files/0001-python3-shebang.patch
 
-I'm afraid I don't understand why this is a race condition? Where is the timeout
-that stops one being set?
 
-Cheers,
+I'd put this in a folder called "repo" rather than files.
 
-Richard
+> @@ -0,0 +1,21 @@
+> +From b8e84b202cd302a7c99288d3835dc9c63071f8f2 Mon Sep 17 00:00:00 2001
+> +From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +Date: Tue, 14 Sep 2021 16:46:51 +0200
+> +Subject: [PATCH] python3 shebang
+> +
+> +---
+> + repo | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+
+Missing Upstream-Status: (you got the second one ok though! :)
+
+> +diff --git a/repo b/repo
+> +index b13e34c..205e0e5 100755
+> +--- a/repo
+> ++++ b/repo
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/env python
+> ++#!/usr/bin/env python3
+> + # -*- coding:utf-8 -*-
+> + #
+> + # Copyright (C) 2008 The Android Open Source Project
+> +--
+> +2.33.0
+> diff --git a/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
+> new file mode 100644
+> index 0000000000..294a3af53a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
+> @@ -0,0 +1,33 @@
+> +From bdd2a528da59c28db8ae2986834926de7cebf3ab Mon Sep 17 00:00:00 2001
+> +From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +Date: Thu, 4 Nov 2021 16:55:12 +0100
+> +Subject: [PATCH] Set REPO_REV to v2.17.3
+> +
+> +repo is an unusual tool because it downloads all of its own Python modules
+> +using GPG-signed git tags, and stores those files as part of the project
+> +that it is working with.
+> +
+> +So in order to have a reproducible repo installation within the project
+> +folders, we hardcode the REPO_REV variable to this recipes PV.
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +---
+> + repo | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/repo b/repo
+> +index 4cddbf1..cf5f6b1 100755
+> +--- a/repo
+> ++++ b/repo
+> +@@ -142,7 +142,7 @@ if __name__ == '__main__':
+> + REPO_URL = os.environ.get('REPO_URL', None)
+> + if not REPO_URL:
+> +   REPO_URL = 'https://gerrit.googlesource.com/git-repo'
+> +-REPO_REV = os.environ.get('REPO_REV')
+> ++REPO_REV = 'v2.17.3'
+> + if not REPO_REV:
+> +   REPO_REV = 'stable'
+> + # URL to file bug reports for repo tool issues.
+> +--
+> +2.33.1
+> diff --git a/meta/recipes-devtools/repo/repo.inc b/meta/recipes-devtools/repo/repo.inc
+> new file mode 100644
+> index 0000000000..60b32e4d74
+> --- /dev/null
+> +++ b/meta/recipes-devtools/repo/repo.inc
+> @@ -0,0 +1,25 @@
+> +# SPDX-License-Identifier: MIT
+> +# Copyright (C) 2021 iris-GmbH infrared & intelligent sensors
+> +
+> +SUMMARY = "Tool for managing many Git repositories"
+> +DESCRIPTION = "Repo is a tool built on top of Git. Repo helps manage many Git repositories, does the uploads to revision control systems, and automates parts of the development workflow."
+> +HOMEPAGE = "https://android.googlesource.com/tools/repo"
+> +SECTION = "console/utils"
+> +
+> +LICENSE = "Apache-2.0"
+> +
+> +SRC_URI = "git://git@gerrit.googlesource.com/git-repo.git;protocol=https;branch=main"
+> +MIRRORS = "git://git@gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git \n"
+
+You shouldn't be clearing MIRRORS with "=" as the user may have something set in
+there the system needs to work, you probably want += here.
+
+> +
+> +SRC_URI += "file://0001-python3-shebang.patch"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +RDEPENDS_${PN} = "python3"
+
+This is old overrides syntax, it is RDEPENDS:${PN} now as others have mentioned.
+
+> +
+> +do_install() {
+> +    install -d ${D}${bindir}
+> +    install -m 755 ${WORKDIR}/git/repo ${D}${bindir}
+> +}
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-devtools/repo/repo_2.17.3.bb b/meta/recipes-devtools/repo/repo_2.17.3.bb
+> new file mode 100644
+> index 0000000000..c26264b9e9
+> --- /dev/null
+> +++ b/meta/recipes-devtools/repo/repo_2.17.3.bb
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: MIT
+> +# Copyright (C) 2021 iris-GmbH infrared & intelligent sensors
+> +
+> +require recipes-devtools/repo/repo.inc
+> +
+> +SRCREV = "11b30b91df1f0e03b53da970ec2588e85817bacc"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+
 
 
