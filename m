@@ -1,97 +1,124 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D033C433EF
-	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 15:33:11 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web12.32257.1636299190075702599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A908C433F5
+	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 15:59:12 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (EUR01-HE1-obe.outbound.protection.outlook.com [40.92.65.61])
+ by mx.groups.io with SMTP id smtpd.web08.32775.1636300750528030758
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 07:33:10 -0800
+ Sun, 07 Nov 2021 07:59:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=n0AhE6Iy;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id
- n11-20020a17090a2bcb00b001a1e7a0a6a6so6895190pje.0
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 07:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=q0CfySvfHNv1yGLRGvtF4RVCksJ9t1YRdfPWkbxPYlc=;
-        b=n0AhE6IyveRciQMEtnbi4LQotcidF6gvBg2oYiuvvHIOgNdlS82/KjoGlXkdCs9QUH
-         R6/wKx5Z37zL3fHOsayhUG+Ka+1rRbr8zNoe+8lR0QiCHaPU3z+ivf2ZDE0IHwYHzEHn
-         CZR4rlwZcZiWkBrHacrDFAAxQcmaZl0KJPvTI7aRvrCk9DXlDh44JgSjLhEcDtg0g2l+
-         RtGUbPyAMUxzmCZiFzO4J8NToT7UF0V2bpOW72Xu6x35S8ImDTsXCs4Ub46liDCeOG2O
-         1lr/YockOUFrkuYUlVP6OedEdXdck//5ojmjh/MmI1I4f73o8XK/Cq63bAc5O5uhx+cb
-         ghkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=q0CfySvfHNv1yGLRGvtF4RVCksJ9t1YRdfPWkbxPYlc=;
-        b=kvbGhfrP6by4yZvzvYkCL9rJMpX6iA4i0UKDGgkR70mDbEPA3N4z7GbJRr5y3LWWiT
-         SwgKd0/33GzgoCNY7SS6s1juyWJHXhKsXQf1jI5Tk4O7wFTFGGifdyqorlJ3iqtB4n1Y
-         3Z6L0lxHlcVRy4BDuMmyQaOqYHY3buaf4vcPlgXMYy8pdD0oLxahV/5dBJTJ9C6N0a7l
-         iEhMqYxsvmvB+kwQSWCIk7V3/yBOw8OS6c4gp48zww3BpzxQWWasGv6CRD1MJhUndJzL
-         14JwBaRypAJEN346+IzSRPu9yEy4FO8Dk81xnIwMoEhk+OtZ8UvBfOr620UsslX/KX3c
-         5g3g==
-X-Gm-Message-State: AOAM532IIhrat9/RiTtCKBNJcXlA6y4voDwQFjvK4XYZU+PNVf9AMzyy
-	eJJ09QgzUFF1S0R9SNrboiGgu2xy/OMbO+jh/LU=
-X-Google-Smtp-Source: 
- ABdhPJyWXg4Ox2bNUVviSI8TeiTx4UZgc1kojoMkbFqCzNJAwg68K8e6wOE+q9YrUDEPjlpIjNruGw==
-X-Received: by 2002:a17:90a:6b4d:: with SMTP id
- x13mr45730464pjl.208.1636299188654;
-        Sun, 07 Nov 2021 07:33:08 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- f3sm4844223pfg.167.2021.11.07.07.33.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 07:33:08 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 382399602FC; Sun,  7 Nov 2021 05:33:06 -1000 (HST)
-Subject: OE-core CVE metrics for honister on Sun 07 Nov 2021 05:30:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20211107153306.382399602FC@nuc.router0800d9.com>
-Date: Sun,  7 Nov 2021 05:33:06 -1000 (HST)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=MElfrf8X;
+ spf=pass (domain: outlook.com, ip: 40.92.65.61,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XCfzyT/uZpQuwXejwHtOMJHuw3XhfeYWArMesiGTHqY2XOgIVHFo4DMn4DiGl62vpGKCUBdO9uuQ4LyP0+jjon3GSCP/WQrGBNPNbtk47sPS+nOSY5iZcstQoiIj3qC2eUZRoGoHRVTvpmPYpvMrLegj/498hE74OM6eStjxMO6mZRxD8Dyw4tKrVFMfJx2k7b4Dms3rhHQFaYezYRKrXxKEvUQyHQu6q8vDpU8Motihj9/ganeVXl2gDWCTeqObI/0XxFuu23VLoFo8wtEx1xM7MJo5B7EfwmM8PWZrmvW1MrlfqKa7HEMxPZsVXIzxJqy5tqzGTadIhpKbmi27eQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pQpcVJAi/vJylVLL5VPOINNoi8oYaaEiX2r3jIynNrE=;
+ b=jji+LuP1cgMSREwEooddqobC6NiISF8S07h0YJLsJ7XU+bUxBL5o3TDTUMZTYcxgTY0jsj9C+VkGOnOYWnt4nFm+NW3jsXBgL+VmG6uvD0GjRdgNPKWdaGtvls8aOJLCeS2id1aCt0ILhPl0lAw4bh3IPLpsZvwxf3YIUEJKjkAShOv5Ce43wAG7sgsOsCdZpvPlVP5htheheAW6FRgFD7Oj7vc2LMy+5C4uBEw1PgYf8gzQWvTND1/yC8UMixvyALCwZGP70/HpemzDVBans0hq42am5tNgQJuyS+BCPlQxBapIUbDZvtakM0laU8oVS6xptBZ2Kb9O7JDqY6GIAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pQpcVJAi/vJylVLL5VPOINNoi8oYaaEiX2r3jIynNrE=;
+ b=MElfrf8XE4S9g/bHdVXxSj7PCGML12qpmILQ1ShQFIYJBx2PzrMnBAVs5r3vKu0o4GaBL8mz3XqVGtqe8WNyx/TYn2FaZMIFXW/l/74a24R2GnYDgZtEDWWYLtkLEsGz2qlSIEfHGxi+mauM+btbj+ML6ZTgJqY+QrGuq+H8OPK9brlglyCFhcribTrqpWgKFalSbFyWl6L3K4y4HXYrU2kq9EV3lFyXLUUIySPW9WS9uEFpJLNK478ns/EI1pn2jjJ4yNu37LyZiY8mEHzs0STMFKbqWOcTx02CNQCs0HuiBH1JVvbb6BwzjJL+DhYicSiYIdFxL208XbpVZLxVNg==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM0PR09MB4499.eurprd09.prod.outlook.com (2603:10a6:208:17d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Sun, 7 Nov
+ 2021 15:59:08 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c6f:9b99:3d00:f710%4]) with mapi id 15.20.4669.016; Sun, 7 Nov 2021
+ 15:59:08 +0000
+To: openembedded-core@lists.openembedded.org
+From: Konrad Weihmann <kweihmann@outlook.com>
+Subject: Setting COMPATIBLE_MACHINE in nativesdk only recipe
+Message-ID: 
+ <AM9PR09MB4642DA0CD2B546B22CBFE911A8909@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Sun, 7 Nov 2021 16:59:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TMN: [Qn316t/6cHoRApoYVGerlt0l/CjGVxOCno1cbCYodMpoyw8eEXRiRBwLaWMnqFTo]
+X-ClientProxiedBy: AM0PR03CA0057.eurprd03.prod.outlook.com (2603:10a6:208::34)
+ To AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <915f3365-22e5-0702-63d2-28fa78dcf8b2@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
+ (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
+ AM0PR03CA0057.eurprd03.prod.outlook.com (2603:10a6:208::34) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend
+ Transport; Sun, 7 Nov 2021 15:59:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1cd9a610-097a-4cfb-0f11-08d9a20787ce
+X-MS-TrafficTypeDiagnostic: AM0PR09MB4499:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	5rUCaw7JvFQ6oazfv1S8z5oAICXvi8VMszVXxV8uVyVH9NRoSfnz4LYbw3lqt1FPJcymBJgd/crbAlpDqg7V5YuRKA2FqmFq1AVn2JCv5q8KOtY5NRpq+UgmYr+H5J228SC3fel3EvRfdQpsMY3ObfD7nn9wYrjuhNIm6y+pymrNDNnmc5EspyPCNzdKpF0es/c9Aeo7BtIcmDnCTiQ6OxPh5/RQPLScEHv1r2r21tn2uF4nysOBqjZy9llpRwC/cQ6cyG8yL6LSMUcN8RrJkB4/sPvh4ifaYyg2QxCK1a3Usnn0U3xNDLq1S4RViB2kE/Xo/M5CKQdhP7miHeBzj9fgb3IXKMQML57fd0eXfEO6r2rdCar3t4VQiuP0seXOztKiCmQREWVj2P7RyZdavba+iPYPnXQyllaLCwFpZs3/kCFEq5EO+QJglmwmlrbyAS9/FnMlrohwIYxB5HcsA+zgDcNm71SXq4me3juk+uhg6ecY+2c96VYt6J3nz7JOL66BJDfehxPei0TlTD8Bp0Jb2cAtVLCq7NpH7VUdy8Y=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	+kgWGV2uCzBooztRIF8bBRHxh93R8avafuI1AkXLtmP0/4AqiBw3GTxcDfpcigQf4Q+0XfgGks22eCSDNnwu7DZOzL8qd+YQgKqwQMc2fuXLwoiZfVIuaMfiixT2daGLnJ2S8L8lDu1zxNllpEB3X4QrzeSRv7FO4N8fIe2o8qBPORlC45x4+OuR7MIogb0NHe8uQSMIf9ybfnhGBo4PufZMRQ4uHTR96sOWtp9xVH+NlD0ipTdFpRQiuFWDpZZ0V0wqMqRsXs+k1LqHtEivDfatlQw7L1vSclA74s9+p21ckSuhTPokTmqxRu9gL0In5/hm7MnqWONk+DgpjFe91IFKvgOnYdXS3i9msne98KiW1VgBXxA7cQDDJG0OcHlzFW9eTJ9P7p3pHFE5eryKSMDnYhl8OxZNFcphiIQ5+xoWfEpvD21DOaWs1S0TBWX8MQcz/2lTM4aKhqOvcw+lE73MgjRz4jEpvU9kISvZnMJ5o//Xl9OOOUQyEosAKqKatHGZXi6d2MbGIAmevjiHebhn1Ephuz8N6H41Tx7eSBifw0k7KCzEi1Ew4RdhVkNWiy7O2rqJbiMNCd0ZpXMHU2cBZqzeRA3IfLisX07On5DSaoC0G9TCXyMqKFoNmwThgGPBlK6yOXnmRhM+NksmUqI4j1pdIxi5mJAwO4pVvtVV2twhsmljCnONSwAGc1qhOWWVa+Hj6MS0IEOOXM2Z+JiDSlsL2avMCR3DhkoYjMeB385aoltB9fA4GUvjvDRHnooMZ9cHHsghiigqKzr6ew==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 1cd9a610-097a-4cfb-0f11-08d9a20787ce
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2021 15:59:07.9880
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4499
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 15:33:11 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 15:59:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157952
+ https://lists.openembedded.org/g/openembedded-core/message/157953
 
-Branch: honister
+Hi all,
 
-New this week: 2 CVEs
-CVE-2021-25219: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25219 *
-CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
+I got a nativesdk-only recipe
 
-Removed this week: 0 CVEs
+...
+COMPATIBLE_MACHINE = "^.*x86-64"
 
-Full list:  Found 18 unpatched CVEs
-CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-25219: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25219 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
-CVE-2021-38297: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
-CVE-2021-3872: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3872 *
-CVE-2021-3875: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3875 *
-CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
-CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
-CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
-CVE-2021-42762: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
+inherit nativesdk
+...
+
+as I need to limit the targets (SDK hosts) to x64 machines only.
+
+Unfortunately this doesn't build, as the recipe is rejected claiming 
+"qemux86-64" is not in the comp-list
+
+Looking at base.bbclass the following is done
+
+need_machine = d.getVar('COMPATIBLE_MACHINE')
+if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
+     import re
+     compat_machines = (d.getVar('MACHINEOVERRIDES') or "").split(":")
+     for m in compat_machines:
+         if re.match(need_machine, m):
+             break
+
+which is fine, but since d09e6d883042e5d094cd08d829327c4bbbfae135 (yeah 
+it's been a while) all MACHINEOVERRIDES for nativesdk recipe are 
+forcefully reset (reasoning is in the commit message).
+
+Is there any way to limit the target machines for such a corner case?
+
+Cheers
+Konrad
 
