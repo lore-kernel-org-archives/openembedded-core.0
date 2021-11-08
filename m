@@ -1,96 +1,355 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <lukma@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B096C433EF
-	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 14:23:21 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.45443.1636381400134171360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB02C433F5
+	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 16:31:20 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.623.1636389077790734735
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 06:23:20 -0800
+ Mon, 08 Nov 2021 08:31:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=hRnGnvw0;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1636381400;
-  x=1667917400;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=M0rSBSYrdi1wgaDOCn2/pUVtRxS3f98VnGik5RhW07w=;
-  b=hRnGnvw0KB3XmdPOuU9J9o5XNW+4HDGjbjb9Xh/1qnoBwKJe8W/PtnUI
-   sI/rlVus57lMfmVyHh2dmzzeAGLirKhAsmCT6Zynk8n5Y/GW6CioGpW7m
-   GyKxxcG9Fd5etztcxCAurzrahuOMLPOi5K5Rrh5Hjh7ct8IMr/oBkiOni
-   WUQpcg7ZZh7XrybiguGwiBk2ZyuBEyaVIFWqide391clJOisv8CH9TSDB
-   +QOQ5trIm9eYNjB38oXM62DQupyKb78fhbBRBqRP2nb+gN06/hdy/0giZ
-   DP9ucuwRm+MQvccCph4xR1bMAnU5mNSMpCVkW80l6QaIz7JRYdedR48/l
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 1/2] libx11: Update LICENSE to better reflect
- reality
-Thread-Topic: [OE-core] [PATCH 1/2] libx11: Update LICENSE to better reflect
- reality
-Thread-Index: AQHX0ncISJDEWNhSqU6On+zwrw5kFqv5slyw
-Date: Mon, 8 Nov 2021 14:23:08 +0000
-Message-ID: <94ef310748074602b2f6964808a97bca@axis.com>
-References: <16B4BB71F21BB771.453@lists.openembedded.org>
-In-Reply-To: <16B4BB71F21BB771.453@lists.openembedded.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=zwrMORYE;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 94D02838A9;
+	Mon,  8 Nov 2021 17:31:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1636389075;
+	bh=UPGFMGKot1kqoMQd289+Od6iW2ZSC6dBaNKO7xgy3A4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=zwrMORYEqpgZV2O4FDTJKlBFwAJzD51VBCD1P40bVHZuZM+Rj1PtNYiVISkOEWqgg
+	 e3k1YzDA8WXR+dCWLyYGXUq85crc6uk0KLc/wotUYKmIBPEzWYv4eGzhdREwawgtaI
+	 9XKp51SsW+cqlaBI0ok/H25dD/afoYgcFsfPNlYtCeDM13kCThjn5xzsFiM3AK3uri
+	 gu3NBvHUvORQZjBqOeDmqKe1VOWQv3WwJFvpovIEwAeMQAK2hDF/7gxs12tuRmga8H
+	 ojM1h3+A8UaKbpYWHvGj53sv9EQburwR7shIZpYbwfU9eKT+x7e74hx7BVMBSq1oIA
+	 4uQtFz2uWw5cA==
+Date: Mon, 8 Nov 2021 17:31:07 +0100
+From: Lukasz Majewski <lukma@denx.de>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Nathan Rossi
+ <nathan@nathanrossi.com>, Khem Raj <raj.khem@gmail.com>, Adhemerval Zanella
+ <adhemerval.zanella@linaro.org>, Patches and discussions about the oe-core
+ layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3] glibc: ptest: Add running glibc time
+ related test suite (Y2038) with ptest
+Message-ID: <20211108173107.277af6a0@ktm>
+In-Reply-To: <YXxvkWzBlNaHkybQ@piout.net>
+References: <20211028120020.23276-1-lukma@denx.de>
+	<YXxvkWzBlNaHkybQ@piout.net>
+Organization: denx.de
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/Kc0VL/x=.yySAydO/Cn1qrp"; protocol="application/pgp-signature"
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 14:23:21 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 16:31:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157984
+ https://lists.openembedded.org/g/openembedded-core/message/157985
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 5 november 2021 19:58
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/2] libx11: Update LICENSE to better reflect r=
-eality
->=20
-> There are no traces of neither the BSD-2-Clause license nor the
-> BSD-4-Clause license being used in the code. There is one occurrence
-> of the BSD-1-Clause license. On the other hand, HPND and
-> HPND-sell-variant are all over the place.
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb b/meta/recipe=
-s-graphics/xorg-lib/libx11_1.7.2.bb
-> index 7ee2a9c16a..f429daaf47 100644
-> --- a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-> @@ -20,7 +20,7 @@ SRC_URI[sha256sum] =3D "1cfa35e37aaabbe4792e9bb690468ef=
-efbfbf6b147d9c69d6f90d13c30
->  PROVIDES =3D "virtual/libx11"
->=20
->  XORG_PN =3D "libX11"
-> -LICENSE =3D "MIT & MIT-style & BSD-4-Clause & BSD-2-Clause"
-> +LICENSE =3D "MIT & MIT-style & BSD-1-Clause & HPND & HPND-sell-variant"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D172255dee66bb0151435b2d5d709f=
-cf7"
->=20
->  DEPENDS +=3D "xorgproto xtrans libxcb"
+--Sig_/Kc0VL/x=.yySAydO/Cn1qrp
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Please cherry-pick this (and the corresponding change for=20
-libx11-compose-data) to Honister.
+Hi Alexandre.
 
-//Peter
+Sorry for the late reply - I've must overlooked this reply...
 
+> Hello,
+>=20
+> There is a remaining issue:
+>=20
+> WARNING: Nothing RPROVIDES 'nativesdk-ptest-runner' (but
+> virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta=
+/recipes-core/glibc/glibc-tests_2.34.bb
+> RDEPENDS on or otherwise requires it) NOTE: Runtime target
+> 'nativesdk-ptest-runner' is unbuildable, removing... Missing or
+> unbuildable dependency chain was: ['nativesdk-ptest-runner']
+
+Could you share your setup?
+
+I've been trying to reproduce this problem with:
+MACHINE=3Dqemuarm64 bitbake core-image-ptest-all -c populate_sdk
+
+but no warnings were observed.
+
+Thanks in advance.
+
+>=20
+> On 28/10/2021 14:00:20+0200, ?ukasz Majewski wrote:
+> > This patch introduces new recipe - namely 'glibc-tests', which
+> > builds and installs time related (to check if Y2038 support works)
+> > glibc test suite to OE/Yocto built image.
+> >=20
+> > It reuses code from already available 'glibc-testsuite' recipe,
+> > which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+> > to execute remotely (via SSH) tests on some emulated machine.
+> >=20
+> > This recipe installs time related glibc tests on some rootfs image.
+> > Afterwards, those tests can be executed on the real hardware, to
+> > facilitate validation of it with Y2038 problem compliance.
+> >=20
+> > To test time related subset - one needs to call:
+> > ptest-runner glibc-tests
+> > then change the date after Y2038 threshold for 32 bit systems:
+> > date -s "20 JAN 2038 18:00:00"
+> > and then run ptest-runner again.
+> >=20
+> > To facilitate debugging, source files are provided by default with
+> > the unstripped debugging symbols. Such approach would reduce the
+> > already complex recipe (as it inherits base glibc one), so there
+> > is no need to also install *-dbg and *-src packages.
+> >=20
+> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> >=20
+> > ---
+> > Changes for v3:
+> > - Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
+> >   RPROVIDES variables
+> >=20
+> > Changes for v2:
+> > - Just focus on time related set of tests as those can be run as
+> >   standalone
+> > - Reuse of already built tests (from glibc-tests.inc) and depoloy
+> >   them on the HW target.
+> > - Provide single 'run-ptest' script.
+> > - Update the recipe to run with newest poky's -master
+> > ---
+> >  .../distro/include/ptest-packagelists.inc     |   1 +
+> >  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 112
+> > ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest       |
+> > 37 ++++++ 3 files changed, 150 insertions(+)
+> >  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
+> >  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
+> >=20
+> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> > b/meta/conf/distro/include/ptest-packagelists.inc index
+> > 2e324f8da4..fd52fa72a4 100644 ---
+> > a/meta/conf/distro/include/ptest-packagelists.inc +++
+> > b/meta/conf/distro/include/ptest-packagelists.inc @@ -61,6 +61,7 @@
+> > PTESTS_FAST =3D "\ slang-ptest \
+> >      wayland-ptest \
+> >      zlib-ptest \
+> > +    glibc-tests-ptest \
+> >  "
+> >  PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
+> >  PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
+> > diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> > b/meta/recipes-core/glibc/glibc-tests_2.34.bb new file mode 100644
+> > index 0000000000..0a6920eef4
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> > @@ -0,0 +1,112 @@
+> > +require glibc_${PV}.bb
+> > +require glibc-tests.inc
+> > +
+> > +inherit ptest
+> > +
+> > +SRC_URI:append =3D " \
+> > +	file://run-ptest \
+> > +"
+> > +
+> > +SUMMARY =3D "glibc tests to be run with ptest"
+> > +
+> > +# Erase some variables already set by glibc_${PV}
+> > +python __anonymous() {
+> > +       # Remove packages provided by glibc build, we only need a
+> > subset of them
+> > +       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
+> > +
+> > +       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
+> > +       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
+> > +
+> > +       d.setVar("RRECOMMENDS", "")
+> > +}
+> > +
+> > +# Remove any lefovers from original glibc recipe
+> > +RPROVIDES:${PN} =3D "${PN}"
+> > +RRECOMMENDS:${PN} =3D ""
+> > +RDEPENDS:${PN} =3D " glibc sed"
+> > +DEPENDS:append =3D " sed"
+> > +
+> > +# Just build tests for target - do not run them
+> > +do_check:append () {
+> > +	oe_runmake -i check run-built-tests=3Dno
+> > +}
+> > +addtask do_check after do_compile before do_install_ptest_base
+> > +
+> > +glibc_strip_build_directory () {
+> > +	# Delete all non executable files from build directory
+> > +	find ${B} ! -executable -type f -delete
+> > +
+> > +	# Remove build dynamic libraries and links to them as
+> > +	# those are already installed in the target device
+> > +	find ${B} -type f -name "*.so" -delete
+> > +	find ${B} -type l -name "*.so*" -delete
+> > +
+> > +	# Remove headers (installed with glibc)
+> > +	find ${B} -type f -name "*.h" -delete
+> > +
+> > +	find ${B} -type f -name "isomac" -delete
+> > +	find ${B} -type f -name "annexc" -delete
+> > +}
+> > +
+> > +do_install_ptest_base () {
+> > +	glibc_strip_build_directory
+> > +
+> > +	ls -r ${B}/*/*-time64 > ${B}/tst_time64
+> > +
+> > +	# Remove '-time64' suffix - those tests are also time
+> > related
+> > +	sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
+> > +	tst_time=3D$(cat ${B}/tst_time_tmp ${B}/tst_time64)
+> > +
+> > +	rm ${B}/tst_time_tmp ${B}/tst_time64
+> > +	echo "${tst_time}"
+> > +
+> > +	# Install build test programs to the image
+> > +	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
+> > +
+> > +	for f in "${tst_time}"
+> > +	do
+> > +	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
+> > +	done
+> > +
+> > +	install -d ${D}${PTEST_PATH}
+> > +	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
+> > +
+> > +}
+> > +
+> > +# The datadir directory is required to allow core (and reused)
+> > +# glibc cleanup function to finish correctly, as this directory
+> > +# is not created for ptests
+> > +stash_locale_package_cleanup:prepend () {
+> > +	mkdir -p ${PKGD}${datadir}
+> > +}
+> > +
+> > +stash_locale_sysroot_cleanup:prepend () {
+> > +	mkdir -p ${SYSROOT_DESTDIR}${datadir}
+> > +}
+> > +
+> > +# Prevent the do_package() task to set 'libc6' prefix
+> > +# for glibc tests related packages
+> > +python populate_packages:prepend () {
+> > +    if d.getVar('DEBIAN_NAMES'):
+> > +        d.setVar('DEBIAN_NAMES', '')
+> > +}
+> > +
+> > +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
+> > +
+> > +EXCLUDE_FROM_SHLIBS =3D "1"
+> > +
+> > +# Install debug data in .debug and sources in /usr/src/debug
+> > +# It is more handy to have _all_ the sources and symbols in one
+> > +# place (package) as this recipe will be used for validation and
+> > +# debugging.
+> > +PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
+> > +
+> > +# glibc test cases violate by default some Yocto/OE checks
+> > (staticdev, +# textrel)
+> > +# 'debug-files' - add everything (including debug) into one package
+> > +#                 (no need to install/build *-src package)
+> > +INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
+> > +
+> > +deltask do_stash_locale
+> > +do_install[noexec] =3D "1"
+> > +do_populate_sysroot[noexec] =3D "1"
+> > diff --git a/meta/recipes-core/glibc/glibc/run-ptest
+> > b/meta/recipes-core/glibc/glibc/run-ptest new file mode 100755
+> > index 0000000000..f637986105
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glibc/glibc/run-ptest
+> > @@ -0,0 +1,37 @@
+> > +#!/bin/sh
+> > +# ptest script for glibc - to run time related tests to
+> > +# facilitate Y2038 validation
+> > +# Run with 'ptest-runner glibc-tests'
+> > +
+> > +output() {
+> > +  retcode=3D$?
+> > +  if [ $retcode -eq 0 ]
+> > +    then echo "PASS: $i"
+> > +  elif [ $retcode -eq 77 ]
+> > +    then echo "SKIP: $i"
+> > +  else echo "FAIL: $i"
+> > +  fi
+> > +}
+> > +
+> > +# Allow altering time on the target
+> > +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
+> > +
+> > +tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
+> > +
+> > +# Remove '-time64' suffix - those tests are also time
+> > +# related
+> > +tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
+> > +
+> > +# Run tests supporting only 32 bit time
+> > +for i in ${tst_time_tmp}
+> > +do
+> > +	$i >/dev/null 2>&1
+> > +	output
+> > +done
+> > +
+> > +# Run tests supporting only 64 bit time
+> > +for i in ${tst_time64}
+> > +do
+> > +	$i >/dev/null 2>&1
+> > +	output
+> > +done
+> > --=20
+> > 2.20.1
+> >  =20
+>=20
+> >=20
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#157595):
+> > https://lists.openembedded.org/g/openembedded-core/message/157595
+> > Mute This Topic: https://lists.openembedded.org/mt/86650301/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub
+> > [alexandre.belloni@bootlin.com] -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
+=3D-=3D-=20
+>=20
+>=20
+
+
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/Kc0VL/x=.yySAydO/Cn1qrp
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmGJUMsACgkQAR8vZIA0
+zr38dggAt3c1BLheXwy6yG/50w93MtBw8mw0IAvtjnzBPIwd5pT+OxkqjZRFb75e
+AvzOB7m1HcJwHVCTl3/2iBcEZ6I1AvM9Tkp/Yw74tXypXrBbA/f8gdAvcrfm316p
+MMJyVfYGpkk2i5iGQNylmeIJKv1sbKrSh4lqqm+mnYHeFadvuy49fypXKvHcdPyl
+FVPEU2y8UcHtC3O4b8DxirRXtKoj4E+WdwOqQ7yg1JXJpGDUhpKeObhx5Y4/8Ak3
+2aPEotVhFpF+3YU9nu1VuoBtfgIfSDDWYrG8wuzAScc3zMI/NW+jXydBAWhHW7MA
+YUj/wSO1F/hM7AAfPLDphzcqK/z0hg==
+=TTEA
+-----END PGP SIGNATURE-----
+
+--Sig_/Kc0VL/x=.yySAydO/Cn1qrp--
 
