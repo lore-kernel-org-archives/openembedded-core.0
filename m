@@ -1,119 +1,161 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sakoman@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03144C433F5
-	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 13:47:48 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.45099.1636379262817029712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F5CC433F5
+	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 14:03:06 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web10.45100.1636380185996399925
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 05:47:43 -0800
+ Mon, 08 Nov 2021 06:03:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NEluA7/c;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso11668404wme.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jmgJyy5F;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id q74so43749104ybq.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 05:47:42 -0800 (PST)
+ Mon, 08 Nov 2021 06:03:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=8+r0tVqqMc4z9CMAwglSdEeDCMR1ZAs6tVL3u1oujXw=;
-        b=NEluA7/cbsH2nTxZe1Iq7wqKSELtQ8mHhffGzxXi4BDcSX0ofxo1mzAyCxF8nZYNTm
-         kEt46GPGxLmHaC2sIqL4mAgEV+T4fnvsa2WlXKu9n8g5yxpSgWhByHSyxkzcYnkJkTaO
-         JoIrrSQxNMv6OYz/ArJBy0WYtFB+o7MKslsfA=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=37Vdeewy5IOom86cu65OvQa1RLuvg2zkOxwRGSTpvuM=;
+        b=jmgJyy5FteDDXJX8khe70r2Sd8zG8tjBgMLUkF2GejgIikI3x2cErAnwf4eqy5pIiZ
+         nzZ2Wf46v/RqhN0e5X1/xxZZu8gbcLKrgEyot8k68fC03DZku3GaSV84GMYrgDR3SHUA
+         G7jMwHn1Z/n7Q6xcMSybGVWD4ooT4o1iMonyI/s6s0e5K+NKs8Uo/roCU6o9OpJ20qJ4
+         lS3b4wYcchj9/FM54ubINHoJy0HlEvmVpxaIxu2qdFGtHgZTjI22jMSCMShZAU29z0LO
+         G7ilHPDm0dX/QcjuEz7A97QsmNmx+bL1KB5j3iivrB6M5ePqLe6CQhjkdFlmGNr9cr3Z
+         bKmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=8+r0tVqqMc4z9CMAwglSdEeDCMR1ZAs6tVL3u1oujXw=;
-        b=q8pMrXQVD3eEF3a/t9TJvZQM/nM9YxGDeyJTJ3zVyxMweKThQdWcFJz3fI0UhBkYRb
-         6aepE521WdMS69/caS56hOnnESRggbAG+laXdvm1tNXJCFF//9q4pPxWgW8/VIVFkSj5
-         oOnfw7xwWS5lTXAzELnghUyR8et/+xYlaJ3WVwhQ0ZoKaxJxIqbciE6vxx6olXAcHFN1
-         Hw9BoSnwUvicXdQFG/aAYbrZW7lDiIkkDRmTwar1+4CrrPH87gFJHTTOPiJWZk95yf4O
-         7II/61MfkYdu0YwFe2c+Ig0AzXedaBRqoimAdptv5FYBLrMDR/zpL23yq2xl74DZArUX
-         pdLQ==
-X-Gm-Message-State: AOAM530cn/WnhKaeDgcqFp83RHQODTi2f8/tBPlgHc1JocVG8e0c2Ex8
-	xDL1/LZbgDIbZtUyS9n6i9F5dA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=37Vdeewy5IOom86cu65OvQa1RLuvg2zkOxwRGSTpvuM=;
+        b=pQ1tfZGS0LjdrnYi/5Z5JF4sLX0UiBiBI+WwCyy3Cw0+eT04OmdZA5Bm1kuv/vzBP7
+         YFJBUt+YCjFc/8EmbWFLKXXyJke8VMb5vhRfpwggRyQXhfKF+qYGP4/xHPDkIR0FBH62
+         I3/f8iITFuPJohG+kq0w9wGi2pUB2QPc7rExBw8xTnu5nSOie4gvzeG0j9TZfLL5sdhS
+         neNAMNMfk4F8pvHLFhagXwMW4EBgjrXXOJviLGRnXGlw41nzzAYhxUamZuxRE+zBn7ZG
+         f4iaMiudHOxXSaxGvCwI7fYgS+UVCsaK9CXrgLIbkoyftBSoegc2UECRi8e60JOW+xzw
+         DiDA==
+X-Gm-Message-State: AOAM532Lbe7FztsyffhyTZFoa7oAM1Uarpu4F3K8QenyHGUF5Xf16FO9
+	mJgFeXRVzYLdi+I03Ego1W+BAPld0JLh/73cbbk=
 X-Google-Smtp-Source: 
- ABdhPJzOY6DeK9H45WFi3QggiX/wF9XvWDsuppjLd0zyk462d7KQQfRT4ahBfZXMIcitq4b0qfVgbA==
-X-Received: by 2002:a1c:f712:: with SMTP id v18mr53101006wmh.37.1636379261106;
-        Mon, 08 Nov 2021 05:47:41 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5c39:dba0:779a:3673?
- ([2001:8b0:aba:5f3c:5c39:dba0:779a:3673])
-        by smtp.gmail.com with ESMTPSA id
- f8sm15326457wmf.2.2021.11.08.05.47.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 05:47:40 -0800 (PST)
-Message-ID: 
- <6211c23fa5df4aee234e246364aa88ad753d0a93.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3] glibc: ptest: Add running glibc time related test
- suite (Y2038) with ptest
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Lukasz Majewski <lukma@denx.de>, Nathan Rossi <nathan@nathanrossi.com>,
-	Khem Raj <raj.khem@gmail.com>
-Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Date: Mon, 08 Nov 2021 13:47:39 +0000
-In-Reply-To: <20211108144217.5be89bde@ktm>
-References: <20211028120020.23276-1-lukma@denx.de>
-	 <20211108144217.5be89bde@ktm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJxqx4V8I/cUTS2gSp1UKEDYUFOeWLlk0Gbs7KuwZYflJ/UccOqvm0UQX997x/1pkQ29SqO/lnWS9I27DWu4TLw=
+X-Received: by 2002:a25:4146:: with SMTP id
+ o67mr33360679yba.378.1636380185100;
+ Mon, 08 Nov 2021 06:03:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: 
+ <CAAfyv37SVDPteJkaLzZB7bYRdCPGK4ndKJ=gZig75GoxYAvR-A@mail.gmail.com>
+ <7fc00066616717818068558463b78a300cdb5e6e.camel@linuxfoundation.org>
+ <CAAfyv35N15Ec_LU3UqcDfWRtuo6BgFWmiqLTpG5YSRDyLRGv-g@mail.gmail.com>
+ <f14d3a8317338299c2cccebc59e15e4e8ce35738.camel@linuxfoundation.org>
+ <CAAfyv37n27_1q5Pj3HTHTAo-_8qo7ah4=w3jk9Sdmg+egrgdHg@mail.gmail.com>
+In-Reply-To: 
+ <CAAfyv37n27_1q5Pj3HTHTAo-_8qo7ah4=w3jk9Sdmg+egrgdHg@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+Date: Mon, 8 Nov 2021 04:02:54 -1000
+Message-ID: 
+ <CAGDS+nmK=bfE4BHJ+u+9ye8EijAkDKN5O4gL9Mxg54yT_q7PaQ@mail.gmail.com>
+Subject: Re: [OE-core] broken dunfell
+To: Marek Belisko <marek.belisko@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, maira.canal@usp.br,
+	akuster808 <akuster808@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 13:47:48 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 14:03:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157981
+ https://lists.openembedded.org/g/openembedded-core/message/157982
 
-On Mon, 2021-11-08 at 14:42 +0100, Lukasz Majewski wrote:
-> Dear Community,
-> 
-> > This patch introduces new recipe - namely 'glibc-tests', which
-> > builds and installs time related (to check if Y2038 support works)
-> > glibc test suite to OE/Yocto built image.
-> > 
-> > It reuses code from already available 'glibc-testsuite' recipe,
-> > which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-> > to execute remotely (via SSH) tests on some emulated machine.
-> > 
-> > This recipe installs time related glibc tests on some rootfs image.
-> > Afterwards, those tests can be executed on the real hardware, to
-> > facilitate validation of it with Y2038 problem compliance.
-> > 
-> > To test time related subset - one needs to call:
-> > ptest-runner glibc-tests
-> > then change the date after Y2038 threshold for 32 bit systems:
-> > date -s "20 JAN 2038 18:00:00"
-> > and then run ptest-runner again.
-> > 
-> > To facilitate debugging, source files are provided by default with
-> > the unstripped debugging symbols. Such approach would reduce the
-> > already complex recipe (as it inherits base glibc one), so there
-> > is no need to also install *-dbg and *-src packages.
-> > 
-> 
-> Gentle ping on this patch ...
+On Mon, Nov 8, 2021 at 1:44 AM Marek Belisko <marek.belisko@gmail.com> wrote:
+>
+> On Mon, Nov 8, 2021 at 12:30 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Mon, 2021-11-08 at 12:23 +0100, Belisko Marek wrote:
+> > > On Mon, Nov 8, 2021 at 12:08 PM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >
+> > > > On Mon, 2021-11-08 at 11:53 +0100, Marek Belisko wrote:
+> > > > > Hello, latest commit in meta-openembedded on dunfell branch raise an error:
+> > > > >
+> > > > > meta-openembedded/meta-python/recipes-devtools/python/python3-fasteners_0.16.3.bb:14:
+> > > > > unparsed line: 'RDEPENDS:${PN} += "    ${PYTHON_PN}-logging
+> > > > > ${PYTHON_PN}-fcntl "'
+> > > > >
+> > > > > Seems new syntax is used in this commit, fix is simple:
+> > > > >
+> > > > > diff --git a/meta-python/recipes-devtools/python/python3-fasteners_0.16.3.bb
+> > > > > b/meta-python/recipes-devtools/python/python3-fasteners_0.16.3.bb
+> > > > > index 1ba2c6f..7ebaa45 100644
+> > > > > --- a/meta-python/recipes-devtools/python/python3-fasteners_0.16.3.bb
+> > > > > +++ b/meta-python/recipes-devtools/python/python3-fasteners_0.16.3.bb
+> > > > > @@ -8,7 +8,7 @@ SRC_URI[sha256sum] =
+> > > > > "b1ab4e5adfbc28681ce44b3024421c4f567e705cc3963c732bf1cba334
+> > > > >
+> > > > >  inherit pypi setuptools3
+> > > > >
+> > > > > -RDEPENDS:${PN} += "\
+> > > > > +RDEPENDS_${PN} += "\
+> > > > >      ${PYTHON_PN}-logging \
+> > > > >      ${PYTHON_PN}-fcntl \
+> > > > >  "
+> > > > >
+> > > > > Thanks and BR,
+> > > >
+> > > >
+> > > > Whilst that probably shouldn't be there, I suspect if you upgrade bitbake you
+> > > > won't see that issue.
+> > > I want to say on dunfell due fact it's LTS release ;)
+> > >
+> >
+> > Bitbake as well as OE-Core, meta-openembedded and Poky have LTS branches. I
+> > doubt you're using the most recent revisions of bitbake on that LTS branch.
 
-There is a reply from Alexandre on the 29th which says:
+> OK sorry for confusion I was at: dunfell-23.0.6 branch in poky repo.
 
-"""
-There is a remaining issue:
+That is your issue!  The support for the new override syntax was
+introduced in dunfell-23.0.11.
 
-WARNING: Nothing RPROVIDES 'nativesdk-ptest-runner' (but virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/glibc/glibc-tests_2.34.bb RDEPENDS on or otherwise requires it)
-NOTE: Runtime target 'nativesdk-ptest-runner' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['nativesdk-ptest-runner']
-"""
+If you upgrade to that, you should be OK.
 
-Cheers,
+Steve
 
-Richard
-
+> >
+> > I wasn't suggesting you upgrade to the latest master.
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+>
+> BR,
+>
+> marek
+>
+> --
+> as simple and primitive as possible
+> -------------------------------------------------
+> Marek Belisko - OPEN-NANDRA
+> Freelance Developer
+>
+> Ruska Nova Ves 219 | Presov, 08005 Slovak Republic
+> Tel: +421 915 052 184
+> skype: marekwhite
+> twitter: #opennandra
+> web: http://open-nandra.com
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#157973): https://lists.openembedded.org/g/openembedded-core/message/157973
+> Mute This Topic: https://lists.openembedded.org/mt/86902854/3617601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
