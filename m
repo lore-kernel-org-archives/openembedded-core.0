@@ -1,150 +1,158 @@
-Return-Path: <tom.hochstein@nxp.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E910FC433F5
-	for <webhook@archiver.kernel.org>; Sun,  7 Nov 2021 18:50:58 +0000 (UTC)
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com
- (EUR03-DB5-obe.outbound.protection.outlook.com [40.107.4.76])
- by mx.groups.io with SMTP id smtpd.web11.34810.1636311057838376141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D95C433F5
+	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 02:39:43 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web08.39968.1636339177811803470
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Nov 2021 10:50:58 -0800
+ Sun, 07 Nov 2021 18:39:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nxp.com header.s=selector2 header.b=lAitCfxu;
- spf=pass (domain: nxp.com, ip: 40.107.4.76, mailfrom: tom.hochstein@nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MUrAk7qPOTvmTjBH6EKCRoJf9zIcBN60tYgNr39TranGHDT7x4fVFG6+4xuI5Y2stEmjYi09xBZNGq8oOzOPAsfp+SqEGjFKK+sW6r5vpnpfkS9ntoklkyGBfDuUSdI1dvabM0YI1pkZ/dMCEDzbAVOJoyBmjzT22KZj6pkSyjXOvrY2mSAZreGs1zkWVXKRQDCWWtUWraBivEadPFCda8uYQqgjwmqLPuYmPGSOw9PP5yE9IMzpRequchxCXSK/fqUm2GAEPOF/1ZirDlV/l7NaoosKFaiwLZAihOLVldKmkPabhU5OrTiQ225RYwjLEA5N5MLqp02EAdpVwPkWZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nz08e/gYiDRQUmKallxALXjbUVa+kyC8MI6SXwwEYc0=;
- b=Ods6EV8rPwibTXCXa5KeOVIcMgiwGzD67lLcg0D/pxTzq+Bu4Yx+WCQ2dVVAPZIpJjTSGauVGHnW8VTTi5rpaZf9pIER5dxUVfGPvzisCAQ/7RxZRqY0EeEfNqBSuzRx0rj43dJBwxQCDSG7KIM5fjzQoMVx4mbNWzuS5Dh1LA0Y1PCZbLsMgoVIekLepU04Uf4oqaKVEFJ1giCE/d4+GEe9X5DMq+O0bXiwjwOkoYhj1ljmP2y1VsfOch5RXPLSSXY0/x2/sIuwfdtPwEiZEGMOEYxuOrjz0/YMEAfe+9wWNpswqcRC44b5k8JRhFY1cQmOlROsfr+PtARi7SjEag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nz08e/gYiDRQUmKallxALXjbUVa+kyC8MI6SXwwEYc0=;
- b=lAitCfxuWcpEb/tE9Ey3LxYCsNi9hLBSbsSOg0H9pPWSJ36pJ3p+ReBdZ66KwrAlEEgDFVWF8FtPeh2cEouie8MIfD9vlLWAB+R8h66UhgFWs7t80fvvxTYq7+5DLYCWcakk19vJ8vnFSzUdCYufyD/2tEWJqBu2xoSPKQjc1Vk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DBBPR04MB7753.eurprd04.prod.outlook.com (2603:10a6:10:1e1::5)
- by DB8PR04MB6890.eurprd04.prod.outlook.com (2603:10a6:10:117::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Sun, 7 Nov
- 2021 18:50:55 +0000
-Received: from DBBPR04MB7753.eurprd04.prod.outlook.com
- ([fe80::25a8:33dc:5634:180a]) by DBBPR04MB7753.eurprd04.prod.outlook.com
- ([fe80::25a8:33dc:5634:180a%3]) with mapi id 15.20.4669.016; Sun, 7 Nov 2021
- 18:50:55 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [PATCH v2 3/3] bitbake.conf: Use wayland distro feature for native
- builds
-Date: Sun,  7 Nov 2021 12:50:16 -0600
-Message-Id: <20211107185016.28794-3-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211107185016.28794-1-tom.hochstein@nxp.com>
-References: <20211107185016.28794-1-tom.hochstein@nxp.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0068.namprd05.prod.outlook.com
- (2603:10b6:a03:332::13) To DBBPR04MB7753.eurprd04.prod.outlook.com
- (2603:10a6:10:1e1::5)
-MIME-Version: 1.0
-Received: from lsv07069.swis.us-cdc01.nxp.com (192.88.158.246) by
- SJ0PR05CA0068.namprd05.prod.outlook.com (2603:10b6:a03:332::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.8 via Frontend
- Transport; Sun, 7 Nov 2021 18:50:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5186993c-0346-4a27-2232-08d9a21f8757
-X-MS-TrafficTypeDiagnostic: DB8PR04MB6890:
-X-Microsoft-Antispam-PRVS: 
-	<DB8PR04MB68908263F267547F937B0899E2909@DB8PR04MB6890.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	95mUFbwvQxf4Uw4ujV3tvcS4tzmg7a2YDWbpvfBbNLtqgkRIPmYtfsU0twzLQ9JTeOIw/sq2EGTkgayNMJhJxy3Slb86LJDnEYoWeZYliIiJLO+vdKS9B/WREVzvBfsfYS+J8YWfRhquAwfDHb1dT9G9VGsxdm5dsiLc7VMjT+Y+OkCin77K06MVlqE5NWJStIo3QdXndsX8tQAR+rbhbAq9uTi2Ozrcz36pLa7t2FsJCM+KMHzhMf8IqO3yk/zdaWI0m3Uus+rYOPx+4nGC+DtNDRhpWGLC4gMQaQTQJoZs9rzWt+7a5QPcfhZ60LyHieCg+By9r7Q+P3x97x08+qt5gfRPku1cJMUEgm+Db0thxxe1+haTlllWTghmvfouj3GGw2vrF+nYDhN6j3rg+gbGl6Vcf+I8aiBHLOOt4zgMHkJNB3fI4oSeEMt1908mi3hl9PSzfBw8dpsL5NxdBZpSkfMYPBXUkfdqBIx3/dQ6aHHTPkBqVbtHtVXmgBZJip+ggeDf9UW9CnUNBpNIpLpBZXnCrV/DW5ppGNq6odE+qx+J+PwCaaOoLLedxDNEtAsCjHdnuDhCAkgMO/C7demYCMhtL3F78CjaZRXe3Ptx6kTiamyLLBRsvcL6vt78shmCZ2u/JBdspeV9HdEsh+PKqMEdb96MIRgYDEIPg/XNp1gH3rcJAxTOs/evIJ58LWINRbKbUaawUE6erzqdNQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7753.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(6486002)(6916009)(52116002)(38100700002)(38350700002)(26005)(6666004)(186003)(66946007)(66556008)(66476007)(36756003)(44832011)(83380400001)(86362001)(8936002)(956004)(1076003)(8676002)(508600001)(2616005)(2906002)(316002)(7696005)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4sQ8EvKIOdPi8x3Xd1rNj+y4lDJxR7lVB830wQuEIKyid69gDrllSbjfWOw7?=
- =?us-ascii?Q?WEm+Hn2kqiACqVUizSkEV0echoIJQe9fqGwPtaXkstYure8BdANsza1ZIBEF?=
- =?us-ascii?Q?iJbncQMsWkZHHnYRHR+JwQg2FW2UonccP8HYiAyItH/lv356OfHivr18Uc4k?=
- =?us-ascii?Q?mSjSql/XeJxlaniIEzZIvTOACgeIpOsWSWicZwbOf9AX5bZPoA5uEgQ8xWAr?=
- =?us-ascii?Q?6i7HCMWYRERRnj2DLb4aXOoLJTfly/LfeRAklvr7XPycX3unRbPrEA5g+6b2?=
- =?us-ascii?Q?ApEjATeBT9IPOjr8oGIIupPD7ms3DhyvSLop/LdhCbsluF+wJJsjmdAQR8XQ?=
- =?us-ascii?Q?di2PfdKmcnZXXrQEbaU7kPdiTlj1e3Z+0FMp1B6tRYjKoPHm9V2KIxOufkgf?=
- =?us-ascii?Q?BIUIURH5UkPf5fbACAya7lBGR/nvMAg4scDIMJNCfzUdOqrE8B6UUXtp4wCA?=
- =?us-ascii?Q?/RjNH/3WojocL5LIry2sfpmIgC6qDcFJphRETl8eUgBg6WMH1PVZgCdsStpk?=
- =?us-ascii?Q?mfszFUz5DABdTXmqRjOb714+3F8lyXmCvpDuj7CrlFZWzkRDAzI5FN5AxO3y?=
- =?us-ascii?Q?hmJzl22q73JJE8QueawfcVQVrT+Rlp5RUIxwA4E1ytD4uhjc51/lHj//NKgl?=
- =?us-ascii?Q?HF1ICkjJJECp0ioSBgRW1kkINUDQvBTnoXxNPmdzVlNMnovF9Jw0h2C015jA?=
- =?us-ascii?Q?fGdzWDTJK9maBF4zMJtnd4V4HQAMVYjPPxYWm4yPd7+5chZ0PRxwO4nKoTrb?=
- =?us-ascii?Q?2I1tBDviU23yWFYgz04OBj8/9nkxFsOF1pTpJPRB8j1+BPvZvSIMGNzGbyIq?=
- =?us-ascii?Q?V22mkte6dmL80XNg4BftBafbAHVV2wOZv9EwEUeIybxoypvXYpWwtPJaZ4db?=
- =?us-ascii?Q?WXLRMpu5xI9D0QdukjqKQBZYdRueWP5mb7yh4jhe9NbeFTXEYacaL4QT228h?=
- =?us-ascii?Q?/S4hnzQnjbz6f5jr/T4lXVJ1+G2ZuwT4gOkMfAhPQrcyQ08LX8vAJChvP75K?=
- =?us-ascii?Q?z+bzBPA8WZn21MaM1Z4FCHa49TmuuK+7DkHh4bHPbGW1XIkqZMBd2GG5x8PY?=
- =?us-ascii?Q?AlBkMiBibO/UW72Ah2t9rEouNaJMK3sjrCgBxr/hWXN33/aDW7QWSC/p1bA1?=
- =?us-ascii?Q?uFbM0hLQGZ0yJOqBUx+2sJxlqwOTjpkNk8JRiEq40dwScPQaUS9u16fVmkA2?=
- =?us-ascii?Q?CGIuUrHN6Ufm4Kxictf1r8b8+QahQRlB0wi+A2hi/fXUIOolT+OFMr5uWlHl?=
- =?us-ascii?Q?lG7QZdycfOdXKxSLFvT1ac43mJukzBXfdhH1rk49HyI7M0kZVTjpHFV5MoXt?=
- =?us-ascii?Q?KtbgemRAIv/mz/PvqEUGFZN3VpFCjFEw4IC2ppEsjh8v/Gv5zo1965TVO96B?=
- =?us-ascii?Q?K4a/QIBkRZnlbL2SYfjYLPhsvuaZBDjRqZKywx03qnkvezRj77dHef1MsOyZ?=
- =?us-ascii?Q?33zVRReY605+NxouxF0QMF6CBRzYqfG9UlkRgy5+Pg4RLo/0gsih3G7N54RL?=
- =?us-ascii?Q?O2LcpMChD/djyVlAvo/VDM9AQKoQ9KnpTXg/ZomLwRmk8sFzl0lk5SKSo8cv?=
- =?us-ascii?Q?E2I2NrVy5859D3HU0WwXf2GUiAfeI0afDkK+Y+V7uXMTpY8Oq3ILdx0Lm9Cd?=
- =?us-ascii?Q?Z/Bygf3xFvA1+fUh5Z0Ib1s=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 5186993c-0346-4a27-2232-08d9a21f8757
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7753.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2021 18:50:55.0853
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- PxJN28m7Nx+YUwCy7YOpXSlSgqywVaap/T6HIFSaFCttxCbqsfKH1z+j00bHnmQKnbYFJTQRY8cUKmnUAzyF/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6890
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=SdkBgb9d;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so7636736pjb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 07 Nov 2021 18:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=Wjl3jbnxNFCLqfS4YTR5FOFLyF8ebFJX0nt8QBQuJ3A=;
+        b=SdkBgb9d5j1aRle0JkrAYWSKlmscp28yCGr4jPEitj2WjU5bBlG8ZySUle2AdxJeSA
+         hQAR3FS/V4+XIXq+i61mRHAkioc51FDEXcdciXQkVw9odUE9EQYi0Xi6nwwMIz2lciyA
+         Rw0e956f5gbWROsiJl9ocN4l4In9Mgy69YbYbuirU8CZw0IUcxLbBsOHfs9lu6j9VVFK
+         pJPRfWF/o1S6mkXsEeaPBSbA+BJMGqQJQ9KS9ncyxELKF6Ql3VaAPduLYIWnA8diuItc
+         8ijq4VsGA6dkU2ydrvR14O2EOT+f/pzd3xj6lbsPBVXT2ldtAUsj7NS6vJWIDVTCW5PA
+         sreg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=Wjl3jbnxNFCLqfS4YTR5FOFLyF8ebFJX0nt8QBQuJ3A=;
+        b=mG2nZ0m/H44hOYUpXNpKsf0Hs7hGjjt7I1UsoJwHenTeSbuYwsJdprVHEOXsVbjtZU
+         iBoW90y+zmzlTDpb8AweNmU8jSOLu+weCPVBGMpYsP07t084FLhBiswOxsLTzIOJkK+I
+         MdOz9jzdNdnhkKJuKhkPu5Jx1h6IBT8Cq5LPguycMs8P1qEmJyUvjIiQDrmVQoYFUW4v
+         XWp4LPe7sh97RYAI3/jk4F7AfT/2pDNgiB3XnKBG1ugNDIK8RfEtjmo/1oGLGp8/HjJw
+         N948GpMfBmnLXnRXzlTQF56smFABWV/wXyCky4reRBY9MDYmrq1nlUEPu/dhsx1+dFHw
+         CTgg==
+X-Gm-Message-State: AOAM530/9IRTDRFY0fWFG205S5fkVajGVSLB48wZkNsYz3oOfl+tOHGx
+	VYQKBHIz948/Qy9Kf8o2Cht0rlUKpuOBmeEK6p8=
+X-Google-Smtp-Source: 
+ ABdhPJwJaPecNkceXbySephTKgkxviWBf+ZmOB1TtUTtKrxk86BC1FOAP8Orw1EGE1iEXKAVhrzW5A==
+X-Received: by 2002:a17:90a:5303:: with SMTP id
+ x3mr48171796pjh.226.1636339176572;
+        Sun, 07 Nov 2021 18:39:36 -0800 (PST)
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id
+ e8sm10928935pgn.46.2021.11.07.18.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Nov 2021 18:39:36 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id ED4B19605EB; Sun,  7 Nov 2021 16:39:26 -1000 (HST)
+Subject: OE-core CVE metrics for dunfell on Sun 07 Nov 2021 04:26:47 PM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20211108023926.ED4B19605EB@nuc.router0800d9.com>
+Date: Sun,  7 Nov 2021 16:39:26 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Nov 2021 18:50:58 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 02:39:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157960
+ https://lists.openembedded.org/g/openembedded-core/message/157961
 
-The wayland-scanner is missing from SDKs with weston, but the weston build
-requires wayland-scanner. Allow the distro feature in order to include
-the wayland-scanner packages via nativesdk-packagegroup-sdk-host.bb.
+Branch: dunfell
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- meta/conf/bitbake.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+New this week: 2 CVEs
+CVE-2021-25219: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25219 *
+CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 790f2f7a8c..71c1e52ad6 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -869,8 +869,8 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
- 
- # Normally target distro features will not be applied to native builds:
- # Native distro features on this list will use the target feature value
--DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl"
--DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl"
-+DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl wayland"
-+DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl wayland"
- 
- DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
- MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
--- 
-2.17.1
+Removed this week: 1 CVEs
+CVE-2021-22897: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22897 *
 
+Full list:  Found 79 unpatched CVEs
+CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
+CVE-2018-21232: re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-13253: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
+CVE-2020-13754: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
+CVE-2020-13791: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
+CVE-2020-14372: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15469: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
+CVE-2020-15705: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15859: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-16590: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16590 *
+CVE-2020-16591: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16591 *
+CVE-2020-16599: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16599 *
+CVE-2020-17380: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17380 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2020-25632: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-27661: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27661 *
+CVE-2020-27749: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
+CVE-2020-29510: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29510 *
+CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2020-35504: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35504 *
+CVE-2020-35505: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35505 *
+CVE-2020-35506: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
+CVE-2020-36254: dropbear https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-36254 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2021-0129: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-0129 *
+CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
+CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
+CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
+CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
+CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
+CVE-2021-20225: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20294: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20294 *
+CVE-2021-25219: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25219 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-27218: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27218 *
+CVE-2021-27219: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27219 *
+CVE-2021-27918: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27918 *
+CVE-2021-28153: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28153 *
+CVE-2021-28966: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28966 *
+CVE-2021-29921: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29921 *
+CVE-2021-31525: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31525 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-33194: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33194 *
+CVE-2021-33195: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33195 *
+CVE-2021-33198: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33198 *
+CVE-2021-33833: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33833 *
+CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
+CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
+CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
+CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
+CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
+CVE-2021-3418: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
+CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-36221: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36221 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
+CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
+CVE-2021-38297: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
+CVE-2021-3872: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3872 *
+CVE-2021-3875: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3875 *
+CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
+CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
+CVE-2021-40330: git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40330 *
+CVE-2021-40491: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40491 *
+CVE-2021-40528: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-40528 *
+CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
+CVE-2021-42762: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
 
