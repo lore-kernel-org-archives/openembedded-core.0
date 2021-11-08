@@ -1,170 +1,178 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA6AC433F5
-	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 08:08:43 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.41991.1636358909541490643
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44586C433F5
+	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 10:28:38 +0000 (UTC)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web10.43134.1636367316668548449
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 00:08:30 -0800
+ Mon, 08 Nov 2021 02:28:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=MU2dS/K1;
- spf=pass (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=69465cb01b=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1A87OVRs007672
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Nov 2021 08:08:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=cQif/bQIBBPmPBbZe+6p1hBT6zDd7CbU/47IA+rBaLU=;
- b=MU2dS/K1Wl9G63AB6lRPVVdKMdimFMo2IGkCHu2nqG1z0C1pw7pFIBbA+iSZDZdYpDLj
- VQMxDOtrwXWr9nVsuagBF/wVPbmM4BDwxT+EN2TqCHM6d2hihysb8jo7Y3qUkTueDW58
- M/w9dKsE5EaF+CslpqqWVih4UznQYwIl03bEZ2FOHCa7QG6iGKe5DVs/f65KI/KpLzQr
- vCJuJK8SLkOZZgAZ/sBdSuEaCJd1J4mwbLq1qXE/1/Q3JI5ptOXObmYNmDnVz2PqQinv
- TCYXCYWT0hixiGdCnDqs3GmI3gmmVXmqhmiv0rUIyTbZ2nMXd0JU3jETPJivI7Av1q64 /Q==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3c6rqag7sy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 08:08:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HrVKttS3aMyokfuxRwCLSbJRkuwobxEqjc64gQYupXe9F1lrKvHLFyEcgK7JGP1uSaUGQhJYdDNYTcikX88P7mm0q+3PwRe0dztkqMy8yRMeZFqCHQ87jb7bIhn/0aP6tad63JBLqf0ag0lFko/eLUWNfuO7Ahd/A3uxgVf0JOYUUo226jpmfOu6Wd7aS/4Iawy84mPwd7/UxhewOHcoZtJ1Krnp53lgxIz1+j0859CUxjGlu1FAjMA6rRcqEnS3D/E9EO11oVhFDhnDTkTU608RhGwkr9AACTv0lKSjNrBR5H1eMZOrJiOWEVcTbomHhD0DlOyNUc9elidSXMnC5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cQif/bQIBBPmPBbZe+6p1hBT6zDd7CbU/47IA+rBaLU=;
- b=l+z8IoKHDitqTjsiYYOnvMfANA+X19eF+btBvAI8Gqm422R+qtGX2NnFKKXWD8dDjm+JtYC8ocMR3b8UH72bJNOMN9oYmj3mq1mphWjkSCUosnanePNG/q7ievZDj0wJ4xnjOtKCmvQbGoKfqa/qXkA+TmgpmvvBXk2bkHfoWjr1FwxU2ylZdpxEAwYnLWifWU6XW+nLSHMVE5LvRJ30qrhPgYvhsAeDgywQ/6cU++rtj2hVqZqb1UmLyEd/2NfOKl2+Xc5UU2SYJ0d9zI5TkYh9OFoZjrgDvJg34kRVI4FW7suXWG4ori6HDZHJcDAATdP3Fb/UHqut+yHD7cu5Ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CO6PR11MB5651.namprd11.prod.outlook.com (2603:10b6:5:356::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Mon, 8 Nov
- 2021 08:08:26 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::98c4:c603:2360:7b8b]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::98c4:c603:2360:7b8b%9]) with mapi id 15.20.4669.011; Mon, 8 Nov 2021
- 08:08:25 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] avahi: update CVE id fixed by local-ping.patch
-Date: Mon,  8 Nov 2021 00:08:07 -0800
-Message-Id: <20211108080807.61655-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YT2PR01CA0029.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:38::34) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jgIkd4ON;
+ spf=pass (domain: gmail.com, ip: 209.85.222.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f41.google.com with SMTP id q13so30483295uaq.2;
+        Mon, 08 Nov 2021 02:28:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lvpOOjvbUDMt7yg623YyHzyTJnSyhZTLnCIzK/K91TU=;
+        b=jgIkd4ONEzZbmzcUwInCiF3HgJCJ1cMOBif0bLQ4Eqny5odOozx/jPkIZuqed9TGPU
+         vgH8JD+yvrGy+K4H/qHG4sZ+nzIJVtph/tBz0RpE/DwFBaNlqrTQElyN87UYVTdsUnYV
+         SsaPYRIqwDjB3j2+kHlFiM78qg0FFbwCh0+tFRhWp4YNFEf1f5ya3o52aZ2LFlUzjFxc
+         r/tmuyHx8VahL5qZhrcodb5u+Vow1hS2QRlyEWnynzrGrveQnLJIQBR2PW8ubFH//yRz
+         TrCwBEbLFSekHGJ6e7mNm0dQtuBW+02lT8oTMEoaMSLybnbFzREoQZCtGMUFiRZbnT3p
+         rEuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lvpOOjvbUDMt7yg623YyHzyTJnSyhZTLnCIzK/K91TU=;
+        b=vQc2coWpnGm9nCBVYQPjfSZIj8cx9BO2eh1iQ72w8TpN+C3C3nq+aDkuB63WFNkKk3
+         L4V8hq9bfRzNrfpWZdOsWzgCJsHjE4E06CGfxqwaxNjC3PkgkOTLvhD72NGhmaBCVJ+d
+         PFYIzjKe/uLYwVy4ntST5lsx4Mz7yT3lk0GXOZn6aLMP4Wi8+NpwBsFWRQ9UcaM105kp
+         kjxJF0GWAAWI9S7VVeZ65V7W55LAdyf1LPVcPhlvIU7cUATQckPptdp75ykTVSsGbUyF
+         sHJ7Jl+ZUSXw59ujEesZUtUFN2qBizu/VH54FT+LVAUsyaoVM1xDoLRO4P7W6pjAowed
+         0Nsg==
+X-Gm-Message-State: AOAM532n85Ukv6nVxhdAymwQrWTvzC2eoMXjkI3nITgTWecgs8EzHunV
+	NUw+LN8OnuDNp3/7OwiZoQssxRbfXjDwxmstdeY=
+X-Google-Smtp-Source: 
+ ABdhPJw3rdr7nTXE/qzBZWbxCWas6Tm9IzVMvArH5VIXEZyCzNbfIkBIQUrr3dwWvVhVXseVcn9z0mxiPbD0gfPBSSQ=
+X-Received: by 2002:a67:ca8f:: with SMTP id a15mr49788669vsl.18.1636367315646;
+ Mon, 08 Nov 2021 02:28:35 -0800 (PST)
 MIME-Version: 1.0
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by
- YT2PR01CA0029.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:38::34) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
- Transport; Mon, 8 Nov 2021 08:08:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 898286a8-532d-461c-1f54-08d9a28ef0a5
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5651:
-X-Microsoft-Antispam-PRVS: 
-	<CO6PR11MB5651765B87388AAED6C0A9D9ED919@CO6PR11MB5651.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	dYeyEgZHp9/pj+KZmkEmpxbZh2st/xE88xLcjVghS2IqcYYETfWPFGWdjiH/Ot8qymiBNr0FZFGKnbhkKgKnZk3kDUePKQLNLX6XxnmcbkfQQSIvHZAgHLm4i+Kf9vpQjM3MVLW3oXw/HqtJlD+GlDbHIGe71pn6pQv2TgH/yaE2mfuTiPMQbxmunCj3qzKlcGFQcEu0dfF8KqFfNBqVU4VV37cLJ0sbWJbuVCLGX/tPfoTaYGJaZW3cSP++rVmxqm7udnZsxEfFkmnXT52Byq3tA/gjtL82FP7Xl76aAbvk+DWHdD1Q7MQh69cPL6TS873svP6GSUeJC+IAMT2XekobY8Dpd6uswIiBRTQiftkFfUKIl669G86lnZCgU+jYCrflJwHu25XpggFA51zWcghhmnLyEBX56mzVkcxRjYTsd4B/5FsrbtL0PE+bTLtKk4Urbtc0rp2tAFethENRKtPu6zoIsAD0yXmAyIxJrTTYfoqW0fVMCbaEOcw4DP3juQ/L+0lImKHk9FBZL8uNJyGyJwmlNouBvfVnShQGoWmu8wJAuaggLAtLWaqKmQaPp7IezWYlbOTOktdol84Lo8y+Jj2EZx62R0yRtnBnY70GS2t/hb+5mNuCTzGuk645Z5tgWIjeKCylSM652HNVoVh9ZGrSAbTm2yi559kQhoTFUxt9fBWSbCj7jhg/xyUc9P8MCwRu+o4NECDGHEXWPg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38100700002)(52116002)(38350700002)(1076003)(83380400001)(5660300002)(6916009)(8676002)(66946007)(508600001)(4744005)(956004)(66556008)(2616005)(86362001)(316002)(6506007)(6666004)(6512007)(2906002)(6486002)(36756003)(26005)(8936002)(66476007)(186003)(15650500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?I2bobePFMp41zsHrz8hGWSuyWcYB8M2qWzWFoCYkaNQfHkqeGBx33DO4hl2+?=
- =?us-ascii?Q?fjqBnVygoo53yg4egXIdn+RSsftxyaYuydienr1+0JGpE4uK/TWOJWRv4mAx?=
- =?us-ascii?Q?Ij0jG80Oj26YT8SwXE50wZ3/ampL+ZZ1oqKgrfUJfiJ4qMbwZh6et0DQ6BJg?=
- =?us-ascii?Q?hMm/zibDhr86ngkmVBvJhLmgesL5wauCq7qAoeQhTtGnq0zKxQqvUjrncqk5?=
- =?us-ascii?Q?k4g15dIMjUg0cTzjAK2FpnYEIHLA4DvUegQl9glT3C1AnED34s27Dy4J8GyD?=
- =?us-ascii?Q?FHtKSOd7CinTIwSSKrcClwUtAbusSVESwi6sMVYyOcSK5QN+uFsbi0ZPGbaN?=
- =?us-ascii?Q?OAohagzT0KRDavxWrjkAIuU/EJ3XQHbHd9+Q5iPNxXMwd87pH0VawJHu7582?=
- =?us-ascii?Q?t3QOa6TJo41cvM/MA/M61AXgfqSfAkz6SxgTL9GoEfFMkqT8cA+SzZ8BJ54Y?=
- =?us-ascii?Q?MOcUQ6GsuUg9umIO+Em+zpq5QC/UK3tM0TSA57c108bdfWU/lB8GnB7zNvq2?=
- =?us-ascii?Q?QjuGbV7gJThKn84UezMTaf66JHduSlYIaEwtWIKikjW+zVvLNaj5zNe4Dl8O?=
- =?us-ascii?Q?gfey0gPhYKJOaUHDOR/3DxuwevsWyw6LdgLXCYts3z/a0xrW6qrv5FoctJ6h?=
- =?us-ascii?Q?uk0/BlSgMISUjJW6yrLzA6SQ2gqeLVCEzgWvs2bhQt72sWq9lNT3F45AabZO?=
- =?us-ascii?Q?V7ICkScH6oti4JiXncilKhK4bMoHWttUkEMv4tQPuzd00ZDamg0zUzLCPxXC?=
- =?us-ascii?Q?9J01lvlkBoU7SBUE6UEcwJI5XF3oKLoDg+vAoRgHU9sUV+qs0pULYmYaYm/r?=
- =?us-ascii?Q?V1okzfHT/1kHXNLx/STKos+LcGwJroP4k8zPZiItLiCOoUkgFUmvfkFsdpwL?=
- =?us-ascii?Q?qZPlsAfzt5logD29eVKUFx00Fa8bcOYKDZB9ibnIg4oRYFBrESD0p/o/aeBP?=
- =?us-ascii?Q?iZVbESGBaxU/lOSzqhD17RnP0kEkeDdS1rfmO2bAfZleEEOs1ZcWYVhhfu+G?=
- =?us-ascii?Q?CiBHykpPr3NNDw76kYMynuY2lNxx8QGoMfCk+Iz7zr50FwMVJ/WKrc5fWNpN?=
- =?us-ascii?Q?JRpreAJskc5q53jSMNsOhn23iyAaCe15gJfkFI7W33qNZV7OfmGpevtEGi9R?=
- =?us-ascii?Q?y+IjFsSXRQi1GM8vphckq8gvkvwnOe6OAwRVl6ZYRnCFEv+5TzRkjn5x+x+g?=
- =?us-ascii?Q?dOUDSn3BmQkATuE7djk8RMdRjehhG0mYdehUFD6jhCcPKvIwtkp2mMwoiCh1?=
- =?us-ascii?Q?CR0aQE7rdOzZ59ZJaZ/T3i7CpaXhEqnbc2LZ5dYhiaH790yn/NVzGhoQhXrR?=
- =?us-ascii?Q?H32hmjRdQCowOIW1UtnpBH0Zbmbi5MiEQbBx/Y4Mvb7dCoiVqHsAQisdibu4?=
- =?us-ascii?Q?DyS8yrneMbdzXrbNBhWsAyBkm21bx849tNays5N1AFTC9h1w8yTR6cbs/oXT?=
- =?us-ascii?Q?X5Tl9H/Ns0v7oFysw2reUT6Dtxk0qO06o8HbfqlnQODETn8NfGvcgd5Y9Fne?=
- =?us-ascii?Q?B6ye4lNI1/54GT72/A86uHUbPCzjijKNu2LIyMpIKf5OYieek7I0vxNWidyf?=
- =?us-ascii?Q?yBqj0pfy/r9JNCddcn8DIa6gUvbUKfgfLx59h783ciFlLhTZaCCX0xQgxss2?=
- =?us-ascii?Q?KtHDNsy0LAZ8CpmUsy1U+Fw=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 898286a8-532d-461c-1f54-08d9a28ef0a5
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2021 08:08:25.8334
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- UAmtjnz5qF1FmuGYlv1y6QufjXWg4o7h33GxFcccMMh6GVolL58wJNIfURs43m3hbt+PjqicMzS4aVkVp78Tlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5651
-X-Proofpoint-ORIG-GUID: zNPtQ3hQ13sspUQ7TI69yTii7JZD3zxf
-X-Proofpoint-GUID: zNPtQ3hQ13sspUQ7TI69yTii7JZD3zxf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-08_03,2021-11-03_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 clxscore=1015
- bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=636 phishscore=0
- impostorscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2111080050
+References: <20211105133048.19879-1-jasper@fancydomain.eu>
+ <20211105133048.19879-2-jasper@fancydomain.eu>
+ <cf04f6c310491ca861ce5073dc14554bcba99ebc.camel@linuxfoundation.org>
+ <5538dd6d-94df-af1f-8141-4d6b63f119d1@mko.dev>
+In-Reply-To: <5538dd6d-94df-af1f-8141-4d6b63f119d1@mko.dev>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 8 Nov 2021 11:28:24 +0100
+Message-ID: 
+ <CANNYZj8vpBCLhaUywM-EOSkCMgh0968WbS7BND9U-jHbO4Q=og@mail.gmail.com>
+Subject: Re: [bitbake-devel] [PATCH 2/2] fetch2: Fix race condition in
+ latest_revision
+To: Martin Koppehel <martin@mko.dev>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>,
+ Daniel.Baumgart@iris-sensing.net,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+Content-Type: multipart/alternative; boundary="000000000000923d7c05d04474a2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 08:08:43 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 10:28:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157966
+ https://lists.openembedded.org/g/openembedded-core/message/157967
 
-CVE-2021-36217 is treated as a duplicate of CVE-2021-3502.
-Update the local-ping.patch to mark it resolve both.
+--000000000000923d7c05d04474a2
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-connectivity/avahi/files/local-ping.patch | 1 +
- 1 file changed, 1 insertion(+)
+It helps if you can provide a specific example/test case for this.
 
-diff --git a/meta/recipes-connectivity/avahi/files/local-ping.patch b/meta/recipes-connectivity/avahi/files/local-ping.patch
-index 94116ad1f3..29c192d296 100644
---- a/meta/recipes-connectivity/avahi/files/local-ping.patch
-+++ b/meta/recipes-connectivity/avahi/files/local-ping.patch
-@@ -1,4 +1,5 @@
- CVE: CVE-2021-36217
-+CVE: CVE-2021-3502
- Upstream-Status: Backport
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- 
--- 
-2.33.0
+Alex
 
+On Mon, 8 Nov 2021 at 11:26, Martin Koppehel <martin@mko.dev> wrote:
+
+> -- snip
+> > I'm afraid I don't understand why this is a race condition? Where is the
+> timeout
+> > that stops one being set?
+>
+> The commit message is misleading here, will change that. It is actually
+> not a race condition as we originally thought, but more a problem of
+> recursive calls to _latest_revision.
+>
+> The git fetcher does something similar in _lsremote, where the git
+> lsremote would be called recursively to populate the environment, and
+> there's code in place to prevent that.
+>
+> In our case, since we persist the revs, we have to filter out empty revs
+> because otherwise the next repo fetcher invocation would also try to
+> populate the environment but then revs[key] would already be set to an
+> empty string, causing a metadata mismatch later.
+>
+> Therefore we only populate the revision cache if _latest_revision
+> actually returns a valid value.
+> We did reproduce this with multiple recipes that used up the same
+> SRC_URI and therefore influencing each other, this case works fine now.
+>
+> Cheers,
+> Martin
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#12933):
+> https://lists.openembedded.org/g/bitbake-devel/message/12933
+> Mute This Topic: https://lists.openembedded.org/mt/86840265/1686489
+> Group Owner: bitbake-devel+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/bitbake-devel/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000923d7c05d04474a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>It helps if you can provide a specific example/test c=
+ase for this.</div><div><br></div><div>Alex<br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 8 Nov 2021 a=
+t 11:26, Martin Koppehel &lt;<a href=3D"mailto:martin@mko.dev">martin@mko.d=
+ev</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">-- snip<br>
+&gt; I&#39;m afraid I don&#39;t understand why this is a race condition? Wh=
+ere is the timeout<br>
+&gt; that stops one being set?<br>
+<br>
+The commit message is misleading here, will change that. It is actually <br=
+>
+not a race condition as we originally thought, but more a problem of <br>
+recursive calls to _latest_revision.<br>
+<br>
+The git fetcher does something similar in _lsremote, where the git <br>
+lsremote would be called recursively to populate the environment, and <br>
+there&#39;s code in place to prevent that.<br>
+<br>
+In our case, since we persist the revs, we have to filter out empty revs <b=
+r>
+because otherwise the next repo fetcher invocation would also try to <br>
+populate the environment but then revs[key] would already be set to an <br>
+empty string, causing a metadata mismatch later.<br>
+<br>
+Therefore we only populate the revision cache if _latest_revision <br>
+actually returns a valid value.<br>
+We did reproduce this with multiple recipes that used up the same <br>
+SRC_URI and therefore influencing each other, this case works fine now.<br>
+<br>
+Cheers,<br>
+Martin<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#12933): <a href=3D"https://lists.openembedded.org/g/bit=
+bake-devel/message/12933" rel=3D"noreferrer" target=3D"_blank">https://list=
+s.openembedded.org/g/bitbake-devel/message/12933</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86840265/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/86840265/1686489</a><br>
+Group Owner: <a href=3D"mailto:bitbake-devel%2Bowner@lists.openembedded.org=
+" target=3D"_blank">bitbake-devel+owner@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/bitbake-devel/unsu=
+b" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/bi=
+tbake-devel/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"=
+_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000923d7c05d04474a2--
 
