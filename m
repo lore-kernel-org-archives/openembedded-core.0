@@ -1,107 +1,87 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F74C433EF
-	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 21:56:39 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.3511.1636408597945745270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 508FBC433F5
+	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 22:15:44 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web08.3791.1636409743171410320
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 13:56:38 -0800
+ Mon, 08 Nov 2021 14:15:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CSmfu3eM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 71so14173660wma.4
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=DTWudtwP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id b13so17196835plg.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 13:56:37 -0800 (PST)
+ Mon, 08 Nov 2021 14:15:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=e7qJ1tmB8Wy218L7rSskKZEv6stexpO7wmEUqLjyIRs=;
-        b=CSmfu3eM16F3H4FCwDRLzdx7mq+T/uwhoCVs5ESK4J/zSYOBj8fhPXd/yhfjzhf77c
-         JLPlXb/CnPg13yPAUu4vw3U4bf8lMwn4BIo/4CQ/baUcyj5frEtoJWqPpMhuO3t0At3U
-         JcA/1l+srXhpeW/i464wiIWhw4V3kxMDt3yHo=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=PjfVyMXxIf9CbDSVaD2HiTfLhp5UoYwRGCOdys3sYx0=;
+        b=DTWudtwPob3rGJ+adfeaYUN4jyirbLc1auASwvbnRAcbRa3aTRoARu3yZf7kdiUX1F
+         OhvXJJkCYrOCsO/E7GoAsqeIaZzX9lvmpmBPdzXDrUYHd0lPdjW2oBodX2xlaAKTCYrg
+         8V7YQS3TZJtWyM1hrq8xNSwf0ZCkguDesSFU6fFaKMRBpQzZop7aiD9SEkrtb4dBxh5N
+         3+f6CMpi997sjfsnmDfUcJ6ddj6+rwxl4xDOf6kHeor9Twyz1QVMqm3pYm+p9V2riU04
+         95BUf0bYW6KTXK26P6aIVX/NnFw/CQU4PEDwr+Yu5HxHsNU1bI6qRhJKS/sWW1eSicnf
+         yXHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=e7qJ1tmB8Wy218L7rSskKZEv6stexpO7wmEUqLjyIRs=;
-        b=25MI4sRxYNFrrJd4vNJj+5xwGU9w6ooLD8x+/hfpWS6zSAKHaNsj1fduE9F6/G7Jt3
-         GSW/Sii8qBjqVxtcB/Mr+FiSaFtc/Hx6ZgJPw2Q1dLywLC2fSIfND1ULxH0Zg1/VxN93
-         epI+2ueeYIeoQutWAG2nyvsKmS18KXDSzpT0GS7BR6GrOx0nkr4hgAUif4qwWQKqANTR
-         3ePQexzoP6gXxdfEpQBeqoBHWILl05AYM01JXfOcerIEqUbMthsqv7wOMJJ+dEPNIW8Y
-         a0GvUJJwWBfwgXHPrxLfWGWtqke1OndlIrXu0UrpMBwE5Z5ffQKpeo/sbORTUmnuv2Ua
-         oxNw==
-X-Gm-Message-State: AOAM531mMafMQnOcMhBhf8UzNtWkHQt6rsdvaTGv1JZLJYeYhCNTLsQn
-	Bq5n8Xo33nOVMgMMCRMcUN3oJg==
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=PjfVyMXxIf9CbDSVaD2HiTfLhp5UoYwRGCOdys3sYx0=;
+        b=iUJZRCljBABc8QLwj8F5KwDOZ7Nw05av9eowlJkupbNpRcWdYGtOUXU6L6kgRxpgae
+         Tr7PQ5TgCfPg9uQxNG82dU27d65gsex5JTFIKlapqD9MJDg9b9ULkNsGLYT0ak903o6y
+         mRGfE9w8piB5fVNe2hLmwN22RRs8HTX1Cuk0azCBOU32Hk/g0bXNAPkpqTGgVi3nvEQ+
+         tAkOg1rW/qbDaqT7VWOjzdfUMXlarG0dvw23D8N8DrEq2PqwKD+JUBJwckNDQESwoWXE
+         ESp+n0HsKcaR33sbVx4zzVl6gNJ2ObOiadJzUVoEb/aMgZasHk0dKiwD6ZrzhJBFluJc
+         qCBA==
+X-Gm-Message-State: AOAM531UVfSCj0mr4h6VXNzHzSXiilZ5katqlqqC3VklB+0E3g1gVpOY
+	loFDuX5kumQw22PJT7kWgck1lrt4AtVUZgJynYY=
 X-Google-Smtp-Source: 
- ABdhPJxl9hDDWo0z3X20lvcZJ/PTxr0udVgY4vvnyX9g23jxHeOaQPSyqqe+XC13Uw6njDtRjXfpZw==
-X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr1565037wmj.149.1636408596339;
-        Mon, 08 Nov 2021 13:56:36 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c?
- ([2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c])
-        by smtp.gmail.com with ESMTPSA id
- l26sm523502wms.15.2021.11.08.13.56.35
+ ABdhPJyUXzfIhx7Pygl+rCo/x3rqoqg7MJGgyiFaAhK9paEms9Jg/CXI+H1qiXZmpTFBPX+OOFwgtw==
+X-Received: by 2002:a17:90a:1190:: with SMTP id
+ e16mr1768389pja.209.1636409741826;
+        Mon, 08 Nov 2021 14:15:41 -0800 (PST)
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id m15sm83380pjc.35.2021.11.08.14.15.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 13:56:35 -0800 (PST)
-Message-ID: 
- <5a504e34529cf69e28b9f1e3810ecdd3797cd1f3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-nose: translate to python3 code
- before build
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 08 Nov 2021 21:56:35 +0000
-In-Reply-To: <20211108065510.25048-1-yi.zhao@windriver.com>
-References: <20211108065510.25048-1-yi.zhao@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Mon, 08 Nov 2021 14:15:41 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id A2A0D960387; Mon,  8 Nov 2021 12:15:32 -1000 (HST)
+Subject: OE-core CVE metrics for master on Mon 08 Nov 2021 12:10:50 PM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20211108221532.A2A0D960387@nuc.router0800d9.com>
+Date: Mon,  8 Nov 2021 12:15:32 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 21:56:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 22:15:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157989
+ https://lists.openembedded.org/g/openembedded-core/message/157990
 
-On Mon, 2021-11-08 at 14:55 +0800, Yi Zhao wrote:
-> Setuptools has removed support for 2to3 during builds since version
-> 58[1]. But the nose's setup.py relies on use_2to3 option in setuptools,
-> it is failing an import and building without running 2to3 and generating
-> valid python3 code. As a workaround, we use command line 2to3 tool to
-> translate to Python3 code before build it.
-> 
-> Fixes:
-> $ python3
-> > > > import nose
-> Traceback (most recent call last):
-> File "<stdin>", line 1, in <module>
-> File "/usr/lib/python3.10/site-packages/nose/_init_.py", line 1, in <module>
-> from nose.core import collector, main, run, run_exit, runmodule
-> File "/usr/lib/python3.10/site-packages/nose/core.py", line 153
-> print "%s version %s" % (os.path.basename(sys.argv[0]), _version_)
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?
-> > > > 
-> 
-> [1] https://github.com/pypa/setuptools/issues/2086
-> 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  meta/recipes-devtools/python/python-nose.inc  |  6 ++
->  .../python3-nose/0001-Remove-use_2to3.patch   | 71 +++++++++++++++++++
->  2 files changed, 77 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-nose/0001-Remove-use_2to3.patch
+Branch: master
 
-This failed in testing unfortunately:
+New this week: 1 CVEs
+CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/4323/steps/14/logs/stdio
+Removed this week: 0 CVEs
 
-Cheers,
-
-Richard
-
+Full list:  Found 12 unpatched CVEs
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
+CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
+CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
+CVE-2021-38297: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
+CVE-2021-3872: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3872 *
+CVE-2021-3875: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3875 *
+CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
 
