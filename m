@@ -1,142 +1,107 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5019AC433F5
-	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 20:42:03 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web09.2511.1636404122449117558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F74C433EF
+	for <webhook@archiver.kernel.org>; Mon,  8 Nov 2021 21:56:39 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web12.3511.1636408597945745270
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 12:42:02 -0800
+ Mon, 08 Nov 2021 13:56:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lHYl6fUS;
- spf=pass (domain: gmail.com, ip: 209.85.215.173,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id 188so3874970pgb.7
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CSmfu3eM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 71so14173660wma.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 12:42:02 -0800 (PST)
+ Mon, 08 Nov 2021 13:56:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xgYt737MUoapKbtvnnqRmZ+WOaBTb7+OgI5A3WJ7DGo=;
-        b=lHYl6fUSMNEz1vZ9XqTuBlHsLkjBupIhOOnxOHeKDW8Kq2KmQcQQzotTq1URjDRpEn
-         6RdPWNS9oBT0CzBMgKkpL+mPJ+tVD/bjevKpA6qsQGY8Qjzb25ZIlyG29zTFudUFYA6x
-         l89EbWsKkJ6Utn0F3L9A2WR2TH12mv56ku95mTAaPrYaSoz0jDLU4xp2sCfuokuvrBKi
-         lGJ4+idB85+dD6hOM3wrwsKWDQ53KtI5YohBT8O61LjQuhmY0OxwVOF10XbhwPboPamj
-         Qj9wuqqmavp032mvPVcRXyhJi132Ei4H1rF2+lPLPUWWVsOYUpRDHlP78NBgWwRgdmzt
-         QHMA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=e7qJ1tmB8Wy218L7rSskKZEv6stexpO7wmEUqLjyIRs=;
+        b=CSmfu3eM16F3H4FCwDRLzdx7mq+T/uwhoCVs5ESK4J/zSYOBj8fhPXd/yhfjzhf77c
+         JLPlXb/CnPg13yPAUu4vw3U4bf8lMwn4BIo/4CQ/baUcyj5frEtoJWqPpMhuO3t0At3U
+         JcA/1l+srXhpeW/i464wiIWhw4V3kxMDt3yHo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xgYt737MUoapKbtvnnqRmZ+WOaBTb7+OgI5A3WJ7DGo=;
-        b=N9PzAdZZ/qqcluzNpjaLhiaotwCax3jdfhLBwVMZzmg6FHAHLTrH2hQG7/l4lRq1PT
-         yb2uPAgThIxeNcQkU4zy8mFEJRCGYqpks2n+/3e+2yslC51fdpigZA3VOumGKW1u/btu
-         GXhq1GbA28rIrSx9X+HA5FymraA84hCrsCSdaOrDP+c4s1GNXMYJmd8P69YpuuG11a/Y
-         LHiq9wIW2uaajAqWTUZASgSGi8LAKuzuWZaaFZXueya6ADOGs1gDttzgnJMIF6OYAnC+
-         KH8oxyu6RKh+7RsOLfV1OqZIWoHVuVe1+lzFLyGu+qaHz1ZYliD44LaiKdymtS9LSvC5
-         jQ+Q==
-X-Gm-Message-State: AOAM530d2JaEmOOj5lsmckyYGvPQDWdUAmX0QzwcvJXst3i26+6Ff1l6
-	HIc3UEkAcllbIE4NroMOY4mmGzem+Tk=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=e7qJ1tmB8Wy218L7rSskKZEv6stexpO7wmEUqLjyIRs=;
+        b=25MI4sRxYNFrrJd4vNJj+5xwGU9w6ooLD8x+/hfpWS6zSAKHaNsj1fduE9F6/G7Jt3
+         GSW/Sii8qBjqVxtcB/Mr+FiSaFtc/Hx6ZgJPw2Q1dLywLC2fSIfND1ULxH0Zg1/VxN93
+         epI+2ueeYIeoQutWAG2nyvsKmS18KXDSzpT0GS7BR6GrOx0nkr4hgAUif4qwWQKqANTR
+         3ePQexzoP6gXxdfEpQBeqoBHWILl05AYM01JXfOcerIEqUbMthsqv7wOMJJ+dEPNIW8Y
+         a0GvUJJwWBfwgXHPrxLfWGWtqke1OndlIrXu0UrpMBwE5Z5ffQKpeo/sbORTUmnuv2Ua
+         oxNw==
+X-Gm-Message-State: AOAM531mMafMQnOcMhBhf8UzNtWkHQt6rsdvaTGv1JZLJYeYhCNTLsQn
+	Bq5n8Xo33nOVMgMMCRMcUN3oJg==
 X-Google-Smtp-Source: 
- ABdhPJyPYtlByw8KXz38nu5PiK/q5K5MngRlh0T69DxL6Qe6QIOmitYwNbgJ7cIcYAjF2xYpgMDxag==
-X-Received: by 2002:aa7:9e9c:0:b0:49f:c7cf:ff5 with SMTP id
- p28-20020aa79e9c000000b0049fc7cf0ff5mr2116976pfq.62.1636404121672;
-        Mon, 08 Nov 2021 12:42:01 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::f94a])
+ ABdhPJxl9hDDWo0z3X20lvcZJ/PTxr0udVgY4vvnyX9g23jxHeOaQPSyqqe+XC13Uw6njDtRjXfpZw==
+X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr1565037wmj.149.1636408596339;
+        Mon, 08 Nov 2021 13:56:36 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c?
+ ([2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c])
         by smtp.gmail.com with ESMTPSA id
- mi9sm204407pjb.33.2021.11.08.12.42.00
+ l26sm523502wms.15.2021.11.08.13.56.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 12:42:01 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] qemu: Fix build on aarch64/musl
-Date: Mon,  8 Nov 2021 12:41:57 -0800
-Message-Id: <20211108204157.2910907-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        Mon, 08 Nov 2021 13:56:35 -0800 (PST)
+Message-ID: 
+ <5a504e34529cf69e28b9f1e3810ecdd3797cd1f3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-nose: translate to python3 code
+ before build
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 08 Nov 2021 21:56:35 +0000
+In-Reply-To: <20211108065510.25048-1-yi.zhao@windriver.com>
+References: <20211108065510.25048-1-yi.zhao@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 20:42:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Nov 2021 21:56:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157988
+ https://lists.openembedded.org/g/openembedded-core/message/157989
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...nux-user-Replace-__u64-with-uint64_t.patch | 31 +++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_6.1.0.bb      |  2 ++
- 3 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-Replace-__u64-with-uint64_t.patch
+On Mon, 2021-11-08 at 14:55 +0800, Yi Zhao wrote:
+> Setuptools has removed support for 2to3 during builds since version
+> 58[1]. But the nose's setup.py relies on use_2to3 option in setuptools,
+> it is failing an import and building without running 2to3 and generating
+> valid python3 code. As a workaround, we use command line 2to3 tool to
+> translate to Python3 code before build it.
+> 
+> Fixes:
+> $ python3
+> > > > import nose
+> Traceback (most recent call last):
+> File "<stdin>", line 1, in <module>
+> File "/usr/lib/python3.10/site-packages/nose/_init_.py", line 1, in <module>
+> from nose.core import collector, main, run, run_exit, runmodule
+> File "/usr/lib/python3.10/site-packages/nose/core.py", line 153
+> print "%s version %s" % (os.path.basename(sys.argv[0]), _version_)
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?
+> > > > 
+> 
+> [1] https://github.com/pypa/setuptools/issues/2086
+> 
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta/recipes-devtools/python/python-nose.inc  |  6 ++
+>  .../python3-nose/0001-Remove-use_2to3.patch   | 71 +++++++++++++++++++
+>  2 files changed, 77 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-nose/0001-Remove-use_2to3.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 33052a9d492..8cc4600cad5 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -26,6 +26,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://mmap2.patch \
-            file://determinism.patch \
-            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
-+           file://0001-linux-user-Replace-__u64-with-uint64_t.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-Replace-__u64-with-uint64_t.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-Replace-__u64-with-uint64_t.patch
-new file mode 100644
-index 00000000000..3d5c890b0fb
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-Replace-__u64-with-uint64_t.patch
-@@ -0,0 +1,31 @@
-+From 5cc7b63299602d0aa8b57c684bbd9829856d54ad Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 8 Nov 2021 11:39:26 -0800
-+Subject: [PATCH] linux-user: Replace __u64 with uint64_t
-+
-+uint64_t is available in all userspaces via compiler include stdint.h
-+therefore use it instead of __u64 which is linux internal type, it fixes
-+build on some platforms eg. aarch64 systems using musl C library
-+
-+Upstream-Status: Submitted [https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg01955.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ linux-user/host/aarch64/hostdep.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
-+index a8d41a21ad..34d934f665 100644
-+--- a/linux-user/host/aarch64/hostdep.h
-++++ b/linux-user/host/aarch64/hostdep.h
-+@@ -25,7 +25,7 @@ extern char safe_syscall_end[];
-+ static inline void rewind_if_in_safe_syscall(void *puc)
-+ {
-+     ucontext_t *uc = puc;
-+-    __u64 *pcreg = &uc->uc_mcontext.pc;
-++    uint64_t *pcreg = &uc->uc_mcontext.pc;
-+ 
-+     if (*pcreg > (uintptr_t)safe_syscall_start
-+         && *pcreg < (uintptr_t)safe_syscall_end) {
-+-- 
-+2.33.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_6.1.0.bb b/meta/recipes-devtools/qemu/qemu_6.1.0.bb
-index 017a054d5d6..c9a53e3b05b 100644
---- a/meta/recipes-devtools/qemu/qemu_6.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_6.1.0.bb
-@@ -4,6 +4,8 @@ require qemu.inc
- 
- DEPENDS = "glib-2.0 zlib pixman bison-native ninja-native meson-native"
- 
-+DEPENDS:append:libc-musl = " libucontext"
-+
- RDEPENDS:${PN}:class-target += "bash"
- 
- EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
--- 
-2.33.1
+This failed in testing unfortunately:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/4323/steps/14/logs/stdio
+
+Cheers,
+
+Richard
 
 
