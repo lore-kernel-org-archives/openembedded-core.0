@@ -1,118 +1,139 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 008EAC433EF
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 10:26:32 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web08.10389.1636453590788329314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06841C433EF
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 10:30:03 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.10422.1636453802408824022
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 02:26:31 -0800
+ Tue, 09 Nov 2021 02:30:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VqnOfNi5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id d3so32067912wrh.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DrGnkr69;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id
+ o4-20020a1c7504000000b0032cab7473caso1412872wmc.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 02:26:30 -0800 (PST)
+ Tue, 09 Nov 2021 02:30:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=tc29NCsDKBqcIFDR+0ru+ht/Hkk7tgYiiddOu3rkI8c=;
-        b=VqnOfNi5lAansyGz8mgrv2ejhO+HMTaDqx/WkEHquBxec0q454OFwUxlMjSgutoeu4
-         /KsTSFYGS3OUuqx2fTKqmlGczAhObpNK5G7808zQX386P5m8tkm9KYDHLVhibzmGzsmm
-         9Ks6n8MjmvpI1u3s2yzbESNdbPxKxrp57NTH8=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dmGaQh1Q4oefqkRSNzlAvxIhqIARRCtz2pBEtB4sbXY=;
+        b=DrGnkr69OCf9lg5gRxr8tkG2M/7uIyumASced+k8hAxa8mGFFe8HVlRWilvWdccddQ
+         LufmeSZlajYeRvvkIqfS01zCdCmq5+QbCUdBIKlUzM2hiCIrWJRw5pQe6YsvRmaz3NLw
+         ofgUO4HB6i4gTOFsIUZq57gBVvUWU3rKtk3J9tYni89xD57g5KS45V/9z3dtO3uRL/JZ
+         tbgvTMxUmPDAPj8V1eyYF/svZ9xZezhvfrsqU4XRH0VHiYjpOxlRtarTzFgie+LC+10G
+         cso+NQUSYc8Ey2IKToNR189CYAGcrYxEpgnRsHYZwJH7DcrkACv0TjdVYiDi/wpiHoqA
+         lFcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=tc29NCsDKBqcIFDR+0ru+ht/Hkk7tgYiiddOu3rkI8c=;
-        b=cW6eI4yVywfW7JJ6a2BB/GPfABzSnSjDawu8BxcVcv2RdIpx5TFHqctOoFmfiifUuS
-         jSYjwwVNiqGcYYJZzFz8w9DcNhS8eKGYGPBfHVTYVn12lJ1zpf4XhOkYv3XRWMzUdNfM
-         61AoE/eWwcLlUYE6BcaZHOUYswHpxHhuJwZkplSny+xM53eIr+dkXtU1uRzhPklfFotE
-         eA17eJ3bBAUE5wyrpoUe4a80mRoGBqSZtuIXFbhe10ULHJavL2Ux7yTiNwvtlCbF4wp0
-         YqRCOxC6w4zFs2hON8IOe3zPIhWdQaT+LjK1A4ygebtCBqrCylfBG12zOxslIJ7suzFk
-         b4rQ==
-X-Gm-Message-State: AOAM530UNT8kNjxcMe+iOvR+s5UTRj6hQniQXU1/XcDaJITcanMTvmip
-	xLiHt3mP269QchCuZEG5pd7CHg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dmGaQh1Q4oefqkRSNzlAvxIhqIARRCtz2pBEtB4sbXY=;
+        b=Ku720KH+6nc9vfRDbvqzY8KcaCc6CfWIljZhmWcx6IPgnobTUmXz6NGNc8V9feQ61H
+         H0BquTQFFHdqs32XCZScrng9En7SNdu9vlEriw0WKgd06YgmlaUC6qSQE3HlSq0mqMXp
+         BoBoXeHABPGiDBNBK2ptzuWrIVQ98yB61JMSdx4oERQn7okuc4tq9Oe+zWIWB5szHqTB
+         aepKxuQinYCPtQ+Fl/J2WRbmVuAEA7GLfW1uM/e2z4uI0kB16Qkz6JpFr9kZ7ZcAZ6pn
+         vWNbx82BBS4Xe+Un1l05RS5HH7khRQHFNIX+ThRRYimidWzn1DUGhrQ9gmEGl9PH1Jyg
+         Snxg==
+X-Gm-Message-State: AOAM5330ZBI9WrmvL8VG0NnQ+3+1lXMEkxjqJ0HbziP6vERP9klZoZJH
+	kPdnmRUdp0xROkyvtkyeQjUNj8d4pbk=
 X-Google-Smtp-Source: 
- ABdhPJwOxc3KKqK6USczAz4CwDE6UARbSKHEA8XDFfH2x2ceU0uC5DUg5AduEmoG25HILA09urK3tQ==
-X-Received: by 2002:a05:6000:1688:: with SMTP id
- y8mr7910272wrd.420.1636453589259;
-        Tue, 09 Nov 2021 02:26:29 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c?
- ([2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c])
+ ABdhPJyBoEcEbbo8uEUPiP0n/n4aHLpOA6O0MJ8ho2tjCthmrgPhKJT0DtlXghkjuReBYIp7EWCCmw==
+X-Received: by 2002:a05:600c:190c:: with SMTP id
+ j12mr3200528wmq.117.1636453801036;
+        Tue, 09 Nov 2021 02:30:01 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
         by smtp.gmail.com with ESMTPSA id
- l18sm20347028wrt.81.2021.11.09.02.26.28
+ f3sm2096076wmb.12.2021.11.09.02.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Nov 2021 02:26:28 -0800 (PST)
-Message-ID: 
- <4cea3606226d54d229d0103281160343b041eb3f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] bitbake.conf: Set ZSTD_THREADS to half of
- cpu number
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Robert Yang
-	 <liezhi.yang@windriver.com>
-Cc: Konrad Weihmann <kweihmann@outlook.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 Nov 2021 10:26:28 +0000
-In-Reply-To: 
- <CANNYZj9RmumFVXjgoLzEM9eUAk0-rc6+oWjuDUfk+m6uFqP1jQ@mail.gmail.com>
-References: <cover.1636447679.git.liezhi.yang@windriver.com>
-	 <5e10cddcd2697c7b762c8c8d245bb76f8666aefc.1636447679.git.liezhi.yang@windriver.com>
-	 <AM9PR09MB46429C45C98E52EAF652EBF0A8929@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <f4b8c857-395d-2091-00c5-5c96a2ce536a@windriver.com>
-	 <CANNYZj9HcjwtHKqLwY2icgTrvK_SJzD5ue-4Gf38hrwPH8Yo3g@mail.gmail.com>
-	 <dc06a051-c271-892f-ef5d-ce265ac45151@windriver.com>
-	 <CANNYZj9RmumFVXjgoLzEM9eUAk0-rc6+oWjuDUfk+m6uFqP1jQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+        Tue, 09 Nov 2021 02:30:00 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] gdb-cross: add dependency on gmp-native
+Date: Tue,  9 Nov 2021 11:29:58 +0100
+Message-Id: <20211109102958.22207-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 10:26:31 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 10:30:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158009
+ https://lists.openembedded.org/g/openembedded-core/message/158010
 
-On Tue, 2021-11-09 at 10:56 +0100, Alexander Kanavin wrote:
-> On Tue, 9 Nov 2021 at 10:51, Robert Yang <liezhi.yang@windriver.com> wrote:
-> > > Maybe, but once we start doing tweaks like this, where do they stop? Hey,
-> > I'd 
-> > 
-> > I think that it's not only a performance tweak, but this should be
-> > considered
-> > as
-> > a bug since it would be failed to build on powerful machine, which isn't
-> > good
-> > for oe-core's user experience.
-> > 
-> 
-> 
-> I managed to bring down a powerful machine just yesterday by building webkit
-> and llvm together at the same time. They together ate all the RAM, and someone
-> in the office had to go and reset the box.
-> Do I see it as a bug? Absolutely not: it's in fact my fault for not ensuring
-> system resource consumption doesn't overwhelm the machine. This is the same:
-> if you do not have RAM to match the cores on your specific rig, add RAM or
-> limit the threads.
+* it was already added for target and cross-canadian gdb in:
+  commit 4643d1eb222151384f77d13a936537aae5ca3fe6
+  Author: Khem Raj <raj.khem@gmail.com>
+  Date:   Fri Nov 5 17:37:33 2021 -0700
 
-I can see both sides of this. If we had a pool for all the threads and the
-pieces of the system all used the same pool, it would work well as implemented.
-Sadly the bitbake threads, the make processes and now the compression threads
-are all separate.
+    gdb: Add dependency on libgmp
 
-We do see the autobuilder break due to load issues too and on that we have
-scaled back some of the defaults but not ZSTD as yet that I recall.
+    gdb 11 has added this library as must have
 
-As such I think limiting the upper value on number of threads may be a good
-compromise, both for compression and maybe for parallel make too.
+* but gdb-cross.inc overwrites DEPENDS from gdb-common.inc
+  and needs the dependency as well as shown in log.do_compile:
 
-Cheers,
+  checking for libgmp... no
+  configure: error: GMP is missing or unusable
+  make[1]: *** [Makefile:9418: configure-gdb] Error 1
 
-Richard
+  and in gdb-cross-i686/11.1-r0/build-i686-oe-linux/gdb/config.log:
+
+  configure:10402: checking for libgmp
+  configure:10422: gcc  -o conftest -isystem/OE/tmp-glibc/work/x86_64-linux=
+/gdb-cross-i686/11.1-r0/recipe-sysroot-native/usr/include -O2 -pipe     -is=
+ystem/OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11.1-r0/recipe-sysroot-=
+native/usr/include -I/OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11.1-r0=
+/recipe-sysroot-native/usr/include  -L/OE/tmp-glibc/work/x86_64-linux/gdb-c=
+ross-i686/11.1-r0/recipe-sysroot-native/usr/lib                         -L/=
+OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11.1-r0/recipe-sysroot-native=
+/lib                         -Wl,--enable-new-dtags                        =
+ -Wl,-rpath-link,/OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11.1-r0/rec=
+ipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/OE/tmp-=
+glibc/work/x86_64-linux/gdb-cross-i686/11.1-r0/recipe-sysroot-native/lib   =
+                      -Wl,-rpath,/OE/tmp-glibc/work/x86_64-linux/gdb-cross-=
+i686/11.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpa=
+th,/OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11.1-r0/recipe-sysroot-na=
+tive/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--=
+dynamic-linker=3D/OE/tmp-glibc/sysroots-uninative/x86_64-linux/lib/ld-linux=
+-x86-64.so.2 conftest.c -lncursesw -lm -ldl  -lgmp >&5
+  conftest.c:52:10: fatal error: gmp.h: No such file or directory
+     52 | #include <gmp.h>
+        |          ^~~~~~~
+
+* this fails only when the host OS doesn't have GMP installed
+  otherwise it will use libgmp from host and ignore
+  --with-libgmp-prefix=3D/OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11.=
+1-r0/recipe-sysroot-native/OE/tmp-glibc/work/x86_64-linux/gdb-cross-i686/11=
+.1-r0/recipe-sysroot-native/usr
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtool=
+s/gdb/gdb-cross.inc
+index 4e50cd5ab0..9f9675c1b3 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+@@ -1,6 +1,6 @@
+ require gdb-common.inc
+=20
+-DEPENDS =3D "expat-native ncurses-native flex-native bison-native"
++DEPENDS =3D "expat-native gmp-native ncurses-native flex-native bison-nati=
+ve"
+=20
+ inherit python3native pkgconfig
+=20
+--=20
+2.32.0
 
 
