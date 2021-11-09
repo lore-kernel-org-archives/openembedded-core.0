@@ -1,407 +1,262 @@
-Return-Path: <lukma@denx.de>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4425DC433F5
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 14:22:12 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web10.12479.1636467729875469671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D10C43217
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 14:36:29 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web12.12876.1636468588980328864
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 06:22:11 -0800
+ Tue, 09 Nov 2021 06:36:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=CH3Q3/De;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 44450835AE;
-	Tue,  9 Nov 2021 15:22:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1636467726;
-	bh=/RLoG6xWkIUzNro/mOWRKREGbu+s0PbHIhNHcO9a+M0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CH3Q3/DeJf/2jCGb+Gy63prTOY2RPz0K+WhC14GAipItPq0c5V3M5zqva2sYQ43H8
-	 NZonzWmFt6OupepWdy0hEAVUH2PcF/uF61YB4G2X8PU+edVXvoYAPnJ2ZaefO7hPS8
-	 yT/hzE/B8RUoVj7dvRYz8jFfp9iG7h4/vGWjBYGDcNCzV/aExaiIlKZsXzJVfchqk1
-	 ja9w5Gi/GV21HpxAelDQ3NVzkYUFcwipoh/M5IVcOip1GXI3Y9IYmNohufjqUtQ6Fi
-	 kb37CdqdmPro2K8arjGyANy4TnNgKx1vxS7CT/QzmThVreErPvlNZPSZQ6hYbGZ9/i
-	 Wsub6YkVMXL7w==
-Date: Tue, 9 Nov 2021 15:21:59 +0100
-From: Lukasz Majewski <lukma@denx.de>
-To: "Lee Chee Yang" <chee.yang.lee@intel.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Richard Purdie
- <richard.purdie@linuxfoundation.org>, Nathan Rossi
- <nathan@nathanrossi.com>, Khem Raj <raj.khem@gmail.com>, Adhemerval Zanella
- <adhemerval.zanella@linaro.org>, "Patches and discussions about the oe-core
- layer" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v3] glibc: ptest: Add running glibc time
- related test suite (Y2038) with ptest
-Message-ID: <20211109152159.09f15b7c@ktm>
-In-Reply-To: 
- <DM6PR11MB41050BCAF7D1ABF5EA7E01F5B9929@DM6PR11MB4105.namprd11.prod.outlook.com>
-References: <20211028120020.23276-1-lukma@denx.de>
-	<YXxvkWzBlNaHkybQ@piout.net>
-	<20211108173107.277af6a0@ktm>
-	<DM6PR11MB41050BCAF7D1ABF5EA7E01F5B9929@DM6PR11MB4105.namprd11.prod.outlook.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@intel.onmicrosoft.com
+ header.s=selector2-intel-onmicrosoft-com header.b=ONZWNYbb;
+ spf=pass (domain: intel.com, ip: 134.134.136.31,
+ mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="293285361"
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800";
+   d="scan'208";a="293285361"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2021 06:36:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800";
+   d="scan'208";a="503524440"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2021 06:36:28 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 9 Nov 2021 06:36:27 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 9 Nov 2021 06:36:27 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 9 Nov 2021 06:36:26 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 9 Nov 2021 06:36:26 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jPxu3ZF/vU/jvWR43CeRpxzydMO97W+vIr8rlEiKZLe3/MTm/Ml/V1fXyewFUrRln0VvmXoRU+24CGcgjozXfQ7iURodwUZoNK47a1qWUPzqIG31P+OZRnhXS4DkfAMN89y+UJduB9W5PLm5tB1nsWdiFuaH5+v0qVjXSZ946r/h39h4NNBRt54g6P0dvx5aE6P5OqW+gqP4YPGZeY1Og92v9VlMnfsMMXuRXp/X+PT7vv+Vt3B96OYTc/KvnDvanhcszKL5QZslkxJ5fgidSpAXT0s36V4WSeaM0NVdqp0zMl8hQ0pBfQ7M7GHtgyU2P2SQzalnWHqsPsvQmJMOEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FVWWRWe9VJsgxE5jlCt5gvEyQyDT/2cdYqyqYCZzGBU=;
+ b=a1WYy9hwM2NivSp+cR78BNXonNeiT5VipSYBxgZpp0x+alhMwvliPyTY/68zYFpIapVWJUF6wTsKJiaYAz70XcARGghHRiWH0cPCtNeS4keFf2KR9TbmclOxfUV7SRG3vH1nBWwA6njnS9MbZkj6pzq5co8SAr0U6AyFR9sfi+7kl/obnpwqjT/t5kAtsYlcXqhDAc0ioNDoKtYwp8Ew9KaXDd0vl7Pax67vd7piVgUQvmnlLIugwPJY40nIKfUWtAcw10KKvVH5NCm5MTS1c2aiES0ovrEelVNyXigb3Tn1jh/CkqbrxuqKYQdKQa3oj+dIkCNby2ISF7UKwqrcCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FVWWRWe9VJsgxE5jlCt5gvEyQyDT/2cdYqyqYCZzGBU=;
+ b=ONZWNYbbHUCh2TkXqdnVa02sulxbSz0ztE2Isrf/Tu6ZU6QWeLgIE9iO/o6gF7mMJeKAdUIR6h8slb9PDAh5GJwyh6E0rV9aq53gT+dQqSVNgNbrSaPOvkwmFWF+QGogjOiXHjgcx1ESI6pxa1srIg7UK0eM4cwJBMm+Q9x5EfU=
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
+ by BY5PR11MB4008.namprd11.prod.outlook.com (2603:10b6:a03:186::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Tue, 9 Nov
+ 2021 14:36:23 +0000
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::2c3d:dccb:aa85:53c5]) by SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::2c3d:dccb:aa85:53c5%2]) with mapi id 15.20.4669.016; Tue, 9 Nov 2021
+ 14:36:23 +0000
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "peter.kjellerstedt@axis.com"
+	<peter.kjellerstedt@axis.com>
+Subject: Re: [OE-core] [honister][PATCH] insane.bbclass: Add a check for
+ directories that are expected to be empty
+Thread-Topic: [OE-core] [honister][PATCH] insane.bbclass: Add a check for
+ directories that are expected to be empty
+Thread-Index: AQHX1MXXPdu1Ad1JoU6Ewruq/uhJcqv7RMeA
+Date: Tue, 9 Nov 2021 14:36:22 +0000
+Message-ID: <a5024677e6141ec6c93bda07a2d77c6b0a9a5110.camel@intel.com>
+References: <20211108171057.23971-1-pkj@axis.com>
+In-Reply-To: <20211108171057.23971-1-pkj@axis.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bfeabeb1-356c-44bf-5dc5-08d9a38e4d9a
+x-ms-traffictypediagnostic: BY5PR11MB4008:
+x-microsoft-antispam-prvs: 
+ <BY5PR11MB4008CE85BCB6AA364AE65F3FF8929@BY5PR11MB4008.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ J4SX0IZunY6tbn98yMO3vB7j2ideANRZbJBnyg7EeGx0GVO/ZZSBF0AVS0gql6S12lXNIigN9wfhCKO52QbP0lO2qi0i1UntHUhR7hdZy2MnjedwCWFvrXO9H35xRsFV5uNVV3kYh3YrLcsC5rF+bNv+9Y+zsuaUxG6CyR1UBodWPx18Q4pvNwWd+rsrZCj4bVglMV7oKAgKeil3NiriPjn5HTw/MpDGmqtL5YZRvc513E2pvIFSVsNNgRjyqr4/XEBLgQ0RK7cdH26S+Zl+pDu0u2RGgqCtS0cGhEy5KtDcTMXzDtwaKKrLZRmBNkZ7fyvbk2gYFcFAU1sQu+sfmIDIQkFdIxawkH1b0MD2p0G3rsfw5vkOiM6vB70iUQpjHHaQBE5hEaNVzMiKuV9jiMSHOt8x8nKztHxEOKrhJRyrddwRWFdCNP1vEOLJFZffm6u3/5n9cRQYqe4qO+2BMlzrsaK/o/K5GjXbUIgn5V6tTFoMNUDsRL2jsj0niY7QZU9gf6VhEu6ntn3L9+9E/OD+CV33nnk2qUwDjBTXPG1twPEWGcupTpkzIFeEp9OSQdVxLaI/ja9jZ33TP+4Gh222Qh900I8seAINJ2fnZhq/KTK6/Ck6dU3YA8mTUkG5WTWCpZKbCZm88AaPsOUitZn7GL9tkxbgPRu6aE2sVWX8ERrr2eLtKlt/ourqa1YavYqANfZmL3+kUKFfZciEufx+FaCuTL/62nR6oU0OQEgzOw1z/2J+FWPY0z0fi+33AN9ByMHRTKw62FTWsbJcdM/Snd4zLwRPNlOLSmsWX3Ea9CkKz3epQKT4p8Sei8jw6J2GKxMDly/dVV5974GQQg==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(86362001)(110136005)(26005)(5660300002)(316002)(64756008)(76116006)(82960400001)(66446008)(966005)(38100700002)(6512007)(2906002)(6506007)(6486002)(38070700005)(508600001)(8676002)(122000001)(186003)(83380400001)(2616005)(66476007)(66556008)(71200400001)(8936002)(91956017)(36756003)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bVNZUnRjRSsyODgwTUdMdHZrYXVuNnZ0NkxBTHdFYmRTbzRDZytaTFU1aHBi?=
+ =?utf-8?B?TlZmTURHdDQ3OXpid3FaOFBJN3dDeGc1ZGZ1eEFlU05IZFlpL2tCUzYvTFR6?=
+ =?utf-8?B?WmZ1K1EwbzJoVnh2blN1aDJOOGZTL0hLWFltT0RQTUhaTG9uMW9aSkk2ZnU1?=
+ =?utf-8?B?Vm9NTS9JUWFmUnZhOFVsTnZVOXZrRkZXUVl6QUl0Z1UzWUFnckxFaHdweUFw?=
+ =?utf-8?B?VDhSNkNqS3h3d3l0NVhlcStKVGlwZFkzNTI5NWtTRFplaXR1bmNTNFJUbkEv?=
+ =?utf-8?B?THBZd1NOQ3gyN29Ua0lqY1pmNlJoSExGL0NpSlJtUjBTNjA2ZVJuWkRHRUxX?=
+ =?utf-8?B?bENwYXN5QnFBSnVXZDFsKy9ZR2Q3d2pDYXh4d1UweTlJRTZyTlR6T1U3SEdT?=
+ =?utf-8?B?UjZSZ0N5aGVCalJWRUNCUVZPZTlWWnh5SFlVWmdXRUgzL3N3ek5KSnkrUlNk?=
+ =?utf-8?B?Q1dvZk1oZ1MzbUQ1bFVFbVlHcWVvd2dOenV5M3h4WWlnU1dRNXZCazU2NU9z?=
+ =?utf-8?B?QU1TcTJXQXk0VStXNTk2Rm5jNEl0d2hOV1hCQkMwMXNoWk4zMEhzemxIRmRT?=
+ =?utf-8?B?V1psL0dDVzQ2akQ3RmtEWXJ4bTZjTW5EYTJiK25lSitHVlN1bCtVcEVmc2Y5?=
+ =?utf-8?B?UUc2bUNmUEJPWmNiRE1aTHRlVERMbGlMOG9Ic3NDSSt0TFVvQUNLSCtINWJt?=
+ =?utf-8?B?NUNGY1h3MENGSzhWVU5jTzFGcWpWYWhlcjZyRnhnNXl6anFFVGhyTlBzN0RX?=
+ =?utf-8?B?ZmxjRWZWa01HcnMzaEkzTHpWcC9Dd2txKzV5RWpYODBiUGtIRUNKSHRpK0Fq?=
+ =?utf-8?B?Mk14dUlVanVUaFBhaFFUelRqbmRZQThsdzk3aTlLWXJibkxMdk1QMytFQ2Rs?=
+ =?utf-8?B?UlhLN0lFWDZ3OXgrMnZyRHJXWXBjYjJ3VzZDL2JwQVRvSmtmQW1GUWlzemY0?=
+ =?utf-8?B?eGNLVEJwS0N5S3RiMlB2K0o2THEzMkNvbGxyenlwWTEweDVLK2ZqRTJWYWNO?=
+ =?utf-8?B?b09MUDAwdm9RY1Fld2xmSVJGNHluK2FEbm55azh1WmV6TWNqYTB1N2hUVkJz?=
+ =?utf-8?B?aytLVGUzUmJWZUM3TERaY0xUUGhuQ1hoYzBQYnExQjNsTWoyWEFwR1l5b1Nk?=
+ =?utf-8?B?WFRMZ0Y3WEVWUXNFZ2FFVitiR1FBRGVSdTc2NUZScC9yRDZWazFRa3FueFli?=
+ =?utf-8?B?WFdTN2NDUmtVTldQUGRkT2FGdnpURkxNN2JyUjBxemlUUXJEeGcrWkVDUHhY?=
+ =?utf-8?B?Uk1ERUJlY0hLQ3hCblhqUDNLbnhEeHR3a2xsNnpCOW5FcitaUk5aZHhnTkox?=
+ =?utf-8?B?a0NiV21nU1l6R05KQ24rTW1iTXpxNW92SGVuNkpMMmRDclRienBYc3d3dEhC?=
+ =?utf-8?B?V1FzU3dRR1UwQmo5YnFCMGdIdWgxZm5RT1JZK3lxbFhBci82M2dISjZNK2lk?=
+ =?utf-8?B?T1RIdmZvMzU5cG4xdGlJQ1U2L2ZNYzBqZkhsQVFuL3JIYXlHNjlrcXNTUlRR?=
+ =?utf-8?B?NTdnMCtIMnV6NTVlQ3hINFVLTUpFOW9wdU50QVR6VWo5Tmw2TUZUYjdhWjRo?=
+ =?utf-8?B?UjRKOERYT1JBTGNIQTEzUWEzMkZTdWNsVjhKZkU4VGVmeWF1SDl0TUR2SEdl?=
+ =?utf-8?B?WXNBRkRZRlpHSFhOMFdlOTVxZWthSDE3Z1ZKQXZqa3phengwRGV3SmNQdVBW?=
+ =?utf-8?B?djNOdG1IZkZFNHRlUThmNnBOVjY2M3ZtL1ZFLzlhRzlpM3c5L01hV0g1c0V1?=
+ =?utf-8?B?RTFxcHRBNGVRcFBBNURBVnBkQnV4eTczd1cyRWtjMUN0RWRQOFQ0bjN4WHVx?=
+ =?utf-8?B?UVBIVXJmTmxIRXJtU0tWSnZ1ZEd2bVhIS1lzQmRxNkF3aHQrR3hwSUFlWXhh?=
+ =?utf-8?B?NXp5Qlp1ZnVqcmJTdkFBcTJTOEM5ek96TlBOQTNHSWZBeCtFSlBZMnpMSFFI?=
+ =?utf-8?B?NVlCZUJzdWpoQ0NRRHMzdXpUcE1TTmxyUWlpQ25sTkdNcXZ2ZkNhbm5CSjQv?=
+ =?utf-8?B?ZDBMbDJNWjQ5RGo0VE5mYStZV1ZERmJkRDlwNWQ0TU45Ym1QODBFNWo2QjVF?=
+ =?utf-8?B?V1Q1OStMKzVjbjNOZno1SlRoeDNxTG83R2ZQUGd4b0lNd3I4TWRxVHVxK0F0?=
+ =?utf-8?B?UVBHQjNNL09XSG0vWm1qY3lCSDU1Ry9Va3h3UGV6bHJ5MDhtcFc5ckZ6VmI3?=
+ =?utf-8?Q?qmk8sP9lJDHd7F/E5Z/YJCOCEqxvwhTsGy58XiCgpPuk?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <466B4EF46F0B9B40A7B9D8856EAF765E@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/oU2nQIUPAMTkddvZXq7x7Aa"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ bfeabeb1-356c-44bf-5dc5-08d9a38e4d9a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2021 14:36:23.0290
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ 0aoLl5ePD/3d7rsIv6MT0Uy0rDzTEzFlgNLrxB0THWct2Rv0eLbv8NC4loSR2axq8h+Q9sMbUplqDn5aFdrnHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4008
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 14:22:12 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 14:36:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158019
+ https://lists.openembedded.org/g/openembedded-core/message/158020
 
---Sig_/oU2nQIUPAMTkddvZXq7x7Aa
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi Lee Chee,
-
-> Hi,=20
->=20
-> I think need to fix this too=20
->=20
-
-Thanks for pointing out those issues.
-
-> AssertionError:
-> The following recipes do not have a maintainer assigned to them.
-> Please add an entry to meta/conf/distro/include/maintainers.inc file.
-> glibc-tests
-> (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-core/=
-glibc/glibc-tests_2.34.bb)
->=20
-> full log:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2807/st=
-eps/15/logs/stdio
->=20
->=20
-> also for issue with=20
-> "Missing or unbuildable dependency chain was:
-> ['nativesdk-ptest-runner']" you may refer to these build for build
-> config
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/4598/st=
-eps/11/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/3629/st=
-eps/12/logs/stdio
->=20
->=20
-
-I will fix them and prepare v4.
-
->=20
-> >-----Original Message-----
-> >From: openembedded-core@lists.openembedded.org <openembedded- =20
-> >core@lists.openembedded.org> On Behalf Of ?ukasz Majewski =20
-> >Sent: Tuesday, 9 November, 2021 12:31 AM
-> >To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> >Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; Nathan Rossi
-> ><nathan@nathanrossi.com>; Khem Raj <raj.khem@gmail.com>; Adhemerval
-> >Zanella <adhemerval.zanella@linaro.org>; Patches and discussions
-> >about the oe- core layer <openembedded-core@lists.openembedded.org>
-> >Subject: Re: [OE-core] [PATCH v3] glibc: ptest: Add running glibc
-> >time related test suite (Y2038) with ptest
-> >
-> >Hi Alexandre.
-> >
-> >Sorry for the late reply - I've must overlooked this reply...
-> > =20
-> >> Hello,
-> >>
-> >> There is a remaining issue:
-> >>
-> >> WARNING: Nothing RPROVIDES 'nativesdk-ptest-runner' (but
-> >> virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/m
-> >> eta/recipes-core/glibc/glibc-tests_2.34.bb
-> >> RDEPENDS on or otherwise requires it) NOTE: Runtime target
-> >> 'nativesdk-ptest-runner' is unbuildable, removing... Missing or
-> >> unbuildable dependency chain was: ['nativesdk-ptest-runner'] =20
-> >
-> >Could you share your setup?
-> >
-> >I've been trying to reproduce this problem with:
-> >MACHINE=3Dqemuarm64 bitbake core-image-ptest-all -c populate_sdk
-> >
-> >but no warnings were observed.
-> >
-> >Thanks in advance.
-> > =20
-> >>
-> >> On 28/10/2021 14:00:20+0200, ?ukasz Majewski wrote: =20
-> >> > This patch introduces new recipe - namely 'glibc-tests', which
-> >> > builds and installs time related (to check if Y2038 support
-> >> > works) glibc test suite to OE/Yocto built image.
-> >> >
-> >> > It reuses code from already available 'glibc-testsuite' recipe,
-> >> > which is run with 'bitbake glibc-testsuite -c check' and uses
-> >> > qemu to execute remotely (via SSH) tests on some emulated
-> >> > machine.
-> >> >
-> >> > This recipe installs time related glibc tests on some rootfs
-> >> > image. Afterwards, those tests can be executed on the real
-> >> > hardware, to facilitate validation of it with Y2038 problem
-> >> > compliance.
-> >> >
-> >> > To test time related subset - one needs to call:
-> >> > ptest-runner glibc-tests
-> >> > then change the date after Y2038 threshold for 32 bit systems:
-> >> > date -s "20 JAN 2038 18:00:00"
-> >> > and then run ptest-runner again.
-> >> >
-> >> > To facilitate debugging, source files are provided by default
-> >> > with the unstripped debugging symbols. Such approach would
-> >> > reduce the already complex recipe (as it inherits base glibc
-> >> > one), so there is no need to also install *-dbg and *-src
-> >> > packages.
-> >> >
-> >> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> >> >
-> >> > ---
-> >> > Changes for v3:
-> >> > - Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
-> >> >   RPROVIDES variables
-> >> >
-> >> > Changes for v2:
-> >> > - Just focus on time related set of tests as those can be run as
-> >> >   standalone
-> >> > - Reuse of already built tests (from glibc-tests.inc) and depoloy
-> >> >   them on the HW target.
-> >> > - Provide single 'run-ptest' script.
-> >> > - Update the recipe to run with newest poky's -master
-> >> > ---
-> >> >  .../distro/include/ptest-packagelists.inc     |   1 +
-> >> >  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 112
-> >> > ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest
-> >> > | 37 ++++++ 3 files changed, 150 insertions(+)  create mode
-> >> > 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
-> >> >  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
-> >> >
-> >> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> >> > b/meta/conf/distro/include/ptest-packagelists.inc index
-> >> > 2e324f8da4..fd52fa72a4 100644 ---
-> >> > a/meta/conf/distro/include/ptest-packagelists.inc +++
-> >> > b/meta/conf/distro/include/ptest-packagelists.inc @@ -61,6 +61,7
-> >> > @@ PTESTS_FAST =3D "\ slang-ptest \
-> >> >      wayland-ptest \
-> >> >      zlib-ptest \
-> >> > +    glibc-tests-ptest \
-> >> >  "
-> >> >  PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
-> >> >  PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
-> >> > diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> >> > b/meta/recipes-core/glibc/glibc-tests_2.34.bb new file mode
-> >> > 100644 index 0000000000..0a6920eef4
-> >> > --- /dev/null
-> >> > +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> >> > @@ -0,0 +1,112 @@
-> >> > +require glibc_${PV}.bb
-> >> > +require glibc-tests.inc
-> >> > +
-> >> > +inherit ptest
-> >> > +
-> >> > +SRC_URI:append =3D " \
-> >> > +	file://run-ptest \
-> >> > +"
-> >> > +
-> >> > +SUMMARY =3D "glibc tests to be run with ptest"
-> >> > +
-> >> > +# Erase some variables already set by glibc_${PV} python
-> >> > +__anonymous() {
-> >> > +       # Remove packages provided by glibc build, we only need a
-> >> > subset of them
-> >> > +       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
-> >> > +
-> >> > +       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
-> >> > +       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
-> >> > +
-> >> > +       d.setVar("RRECOMMENDS", "")
-> >> > +}
-> >> > +
-> >> > +# Remove any lefovers from original glibc recipe
-> >> > RPROVIDES:${PN} =3D +"${PN}"
-> >> > +RRECOMMENDS:${PN} =3D ""
-> >> > +RDEPENDS:${PN} =3D " glibc sed"
-> >> > +DEPENDS:append =3D " sed"
-> >> > +
-> >> > +# Just build tests for target - do not run them do_check:append
-> >> > () +{
-> >> > +	oe_runmake -i check run-built-tests=3Dno } addtask
-> >> > do_check after +do_compile before do_install_ptest_base
-> >> > +
-> >> > +glibc_strip_build_directory () {
-> >> > +	# Delete all non executable files from build directory
-> >> > +	find ${B} ! -executable -type f -delete
-> >> > +
-> >> > +	# Remove build dynamic libraries and links to them as
-> >> > +	# those are already installed in the target device
-> >> > +	find ${B} -type f -name "*.so" -delete
-> >> > +	find ${B} -type l -name "*.so*" -delete
-> >> > +
-> >> > +	# Remove headers (installed with glibc)
-> >> > +	find ${B} -type f -name "*.h" -delete
-> >> > +
-> >> > +	find ${B} -type f -name "isomac" -delete
-> >> > +	find ${B} -type f -name "annexc" -delete }
-> >> > +
-> >> > +do_install_ptest_base () {
-> >> > +	glibc_strip_build_directory
-> >> > +
-> >> > +	ls -r ${B}/*/*-time64 > ${B}/tst_time64
-> >> > +
-> >> > +	# Remove '-time64' suffix - those tests are also time
-> >> > related
-> >> > +	sed -e "s/-time64$//" ${B}/tst_time64 >
-> >> > ${B}/tst_time_tmp
-> >> > +	tst_time=3D$(cat ${B}/tst_time_tmp ${B}/tst_time64)
-> >> > +
-> >> > +	rm ${B}/tst_time_tmp ${B}/tst_time64
-> >> > +	echo "${tst_time}"
-> >> > +
-> >> > +	# Install build test programs to the image
-> >> > +	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-> >> > +
-> >> > +	for f in "${tst_time}"
-> >> > +	do
-> >> > +	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
-> >> > +	done
-> >> > +
-> >> > +	install -d ${D}${PTEST_PATH}
-> >> > +	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
-> >> > +
-> >> > +}
-> >> > +
-> >> > +# The datadir directory is required to allow core (and reused) #
-> >> > +glibc cleanup function to finish correctly, as this directory #
-> >> > is +not created for ptests stash_locale_package_cleanup:prepend
-> >> > () {
-> >> > +	mkdir -p ${PKGD}${datadir}
-> >> > +}
-> >> > +
-> >> > +stash_locale_sysroot_cleanup:prepend () {
-> >> > +	mkdir -p ${SYSROOT_DESTDIR}${datadir} }
-> >> > +
-> >> > +# Prevent the do_package() task to set 'libc6' prefix # for
-> >> > glibc +tests related packages python populate_packages:prepend
-> >> > () {
-> >> > +    if d.getVar('DEBIAN_NAMES'):
-> >> > +        d.setVar('DEBIAN_NAMES', '') }
-> >> > +
-> >> > +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-> >> > +
-> >> > +EXCLUDE_FROM_SHLIBS =3D "1"
-> >> > +
-> >> > +# Install debug data in .debug and sources in /usr/src/debug #
-> >> > It +is more handy to have _all_ the sources and symbols in one #
-> >> > place +(package) as this recipe will be used for validation and #
-> >> > +debugging.
-> >> > +PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
-> >> > +
-> >> > +# glibc test cases violate by default some Yocto/OE checks
-> >> > (staticdev, +# textrel)
-> >> > +# 'debug-files' - add everything (including debug) into one
-> >> > package +#                 (no need to install/build *-src
-> >> > package) +INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files
-> >> > rpaths" +
-> >> > +deltask do_stash_locale
-> >> > +do_install[noexec] =3D "1"
-> >> > +do_populate_sysroot[noexec] =3D "1"
-> >> > diff --git a/meta/recipes-core/glibc/glibc/run-ptest
-> >> > b/meta/recipes-core/glibc/glibc/run-ptest new file mode 100755
-> >> > index 0000000000..f637986105
-> >> > --- /dev/null
-> >> > +++ b/meta/recipes-core/glibc/glibc/run-ptest
-> >> > @@ -0,0 +1,37 @@
-> >> > +#!/bin/sh
-> >> > +# ptest script for glibc - to run time related tests to #
-> >> > +facilitate Y2038 validation # Run with 'ptest-runner
-> >> > glibc-tests' +
-> >> > +output() {
-> >> > +  retcode=3D$?
-> >> > +  if [ $retcode -eq 0 ]
-> >> > +    then echo "PASS: $i"
-> >> > +  elif [ $retcode -eq 77 ]
-> >> > +    then echo "SKIP: $i"
-> >> > +  else echo "FAIL: $i"
-> >> > +  fi
-> >> > +}
-> >> > +
-> >> > +# Allow altering time on the target export
-> >> > +GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-> >> > +
-> >> > +tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
-> >> > +
-> >> > +# Remove '-time64' suffix - those tests are also time # related
-> >> > +tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
-> >> > +
-> >> > +# Run tests supporting only 32 bit time for i in
-> >> > ${tst_time_tmp} do
-> >> > +	$i >/dev/null 2>&1
-> >> > +	output
-> >> > +done
-> >> > +
-> >> > +# Run tests supporting only 64 bit time for i in ${tst_time64}
-> >> > do
-> >> > +	$i >/dev/null 2>&1
-> >> > +	output
-> >> > +done
-> >> > --
-> >> > 2.20.1
-> >> > =20
-> >> =20
-> >> >
-> >> > =20
-> >>
-> >> =20
-> >
-> >
-> >
-> >
-> >Best regards,
-> >
-> >Lukasz Majewski
-> >
-> >--
-> >
-> >DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> >HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> >Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> >lukma@denx.de =20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/oU2nQIUPAMTkddvZXq7x7Aa
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmGKhAcACgkQAR8vZIA0
-zr0LGAf+Jgvl8faxwa+/dGge+pJrymNJaiVhSHxJv6selermdHdo58UfVJ+/I/pM
-AGa43YFM75wG3bS39b4ipdDNgezW0gZ3DiXcLO8NTMYyPxWwA/aflutct/3s41D7
-CnmP/hZeuxj14xW9A9tiMlAJAxUZPhb91V4zQqYnPflLeQdAsn03JnIJbyGh1x9r
-XHJF8QmP2xA7wnjEjCYcMJbm4bNzdrS0InBatrOOdA6WzfqqlqJdcHS/qwbDu2br
-Mee2tODDsBDClbrma6TsP51vGFC4TB76vjxWhutVCYPkr+KaFj5oQPQ1vDkD4FI6
-/QwkDRpRYb0KF9fqGFTlOWfY7iOCtg==
-=5E3D
------END PGP SIGNATURE-----
-
---Sig_/oU2nQIUPAMTkddvZXq7x7Aa--
+T24gTW9uLCAyMDIxLTExLTA4IGF0IDE4OjEwICswMTAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3Jv
+dGU6DQo+IEZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
+Y29tPg0KPiANCj4gVGhlIGVtcHR5LWRpcnMgUUEgY2hlY2sgdmVyaWZpZXMgdGhhdCBhbGwgZGly
+ZWN0b3JpZXMgc3BlY2lmaWVkIGluDQo+IFFBX0VNUFRZX0RJUlMgYXJlIGVtcHR5LiBJdCBpcyBw
+b3NzaWJsZSB0byBzcGVjaWZ5IHdoeSBhIGRpcmVjdG9yeSBpcw0KPiBleHBlY3RlZCB0byBiZSBl
+bXB0eSBieSBkZWZpbmluZyBRQV9FTVBUWV9ESVJTX1JFQ09NTUVOREFUSU9OOjxwYXRoPiwNCj4g
+d2hpY2ggd2lsbCB0aGVuIGJlIGluY2x1ZGVkIGluIHRoZSBlcnJvciBtZXNzYWdlIGlmIHRoZSBk
+aXJlY3RvcnkgaXMNCj4gbm90IGVtcHR5LiBJZiBpdCBpcyBub3Qgc3BlY2lmaWVkIGZvciBhIGRp
+cmVjdG9yeSwgdGhlbiAiYnV0IGl0IGlzDQo+IGV4cGVjdGVkIHRvIGJlIGVtcHR5IiB3aWxsIGJl
+IHVzZWQuDQo+IA0KPiBDaGFuZ2UtSWQ6IEljNjEwMTk1MjhmNGIyMmYyNmU0MmU3ODEyNWE5OTY2
+NmFlMjdjN2Y1DQo+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2pl
+bGxlcnN0ZWR0QGF4aXMuY29tPg0KPiAtLS0NCj4gDQo+IENvbXBhcmVkIHRvIHRoZSBjb3JyZXNw
+b25kaW5nIHBhdGNoIGZvciBtYXN0ZXIsIHRoZXJlIGFyZSB0d28NCj4gZGlmZmVyZW5jZXM6DQo+
+IA0KPiAqICIvdmFyL3ZvbGF0aWxlIiBpcyBub3QgYWRkZWQgdG8gUUFfRU1QVFlfRElSUyBieSBk
+ZWZhdWx0Lg0KPiAqICJlbXB0eS1kaXJzIiBpcyBhZGRlZCB0byBXQVJOX1FBIGluc3RlYWQgb2Yg
+RVJST1JfUUEuDQo+IA0KPiBUaGlzIHNob3VsZCBtYWtlIGl0IHNhZmUgdG8gYWRkIHRoaXMgUUEg
+dGVzdCB0byBIb25pc3RlciB3aXRob3V0DQo+IGludHJvZHVzaW5nIGFueSBuZXcgUUEgZXJyb3Jz
+LCB3aGlsZSBzdGlsbCBhbGxvd2luZyB0aGUgUUEgdGVzdCB0byBiZQ0KPiBhY3RpdmF0ZWQgZm9y
+IHRob3NlIHdobyB3YW50cyB0byB1c2UgaXQuDQoNCkRvZXMgaXQgaGF2ZSB0byBiZSBlbmFibGVk
+IGJ5IGRlZmF1bHQ/DQoNClRoYW5rcywNCg0KQW51ag0KDQo+IA0KPiDCoG1ldGEvY2xhc3Nlcy9p
+bnNhbmUuYmJjbGFzc8KgIHwgMzIgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0NCj4g
+wqBtZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mIHzCoCAyICsrDQo+IMKgMiBmaWxlcyBjaGFu
+Z2VkLCAzMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+bWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzDQo+IGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNs
+YXNzDQo+IGluZGV4IGYyZDJjYTM2ODkuLjdkNGJhMjhlNDAgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
+Y2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KPiArKysgYi9tZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xh
+c3MNCj4gQEAgLTI3LDcgKzI3LDcgQEAgV0FSTl9RQSA/PSAiIGxpYmRpciB4b3JnLWRyaXZlci1h
+YmkgXA0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5mb2RpciBidWlsZC1kZXBzIHNyYy11
+cmktYmFkIHN5bWxpbmstdG8tc3lzcm9vdA0KPiBtdWx0aWxpYiBcDQo+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBpbnZhbGlkLXBhY2thZ2Vjb25maWcgaG9zdC11c2VyLWNvbnRhbWluYXRlZCB1
+cHBlcmNhc2UtDQo+IHBuIHBhdGNoLWZ1enogXA0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+bWltZSBtaW1lLXhkZyB1bmxpc3RlZC1wa2ctbGljcyB1bmhhbmRsZWQtZmVhdHVyZXMtY2hlY2sN
+Cj4gXA0KPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtaXNzaW5nLXVwZGF0ZS1hbHRlcm5hdGl2
+ZXMgbmF0aXZlLWxhc3QgbWlzc2luZy1wdGVzdCBcDQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IG1pc3NpbmctdXBkYXRlLWFsdGVybmF0aXZlcyBuYXRpdmUtbGFzdCBtaXNzaW5nLXB0ZXN0DQo+
+IGVtcHR5LWRpcnMgXA0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIg0KPiDCoEVSUk9SX1FB
+ID89ICJkZXYtc28gZGVidWctZGVwcyBkZXYtZGVwcyBkZWJ1Zy1maWxlcyBhcmNoIHBrZ2NvbmZp
+Zw0KPiBsYSBcDQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwZXJtcyBkZXAtY21wIHBrZ3Zh
+cmNoZWNrIHBlcm0tY29uZmlnIHBlcm0tbGluZSBwZXJtLQ0KPiBsaW5rIFwNCj4gQEAgLTUwLDYg
+KzUwLDIwIEBAIEFMTF9RQSA9ICIke1dBUk5fUUF9ICR7RVJST1JfUUF9Ig0KPiDCoA0KPiDCoFVO
+S05PV05fQ09ORklHVVJFX1dISVRFTElTVCA/PSAiLS1lbmFibGUtbmxzIC0tZGlzYWJsZS1ubHMg
+LS0NCj4gZGlzYWJsZS1zaWxlbnQtcnVsZXMgLS1kaXNhYmxlLWRlcGVuZGVuY3ktdHJhY2tpbmcg
+LS13aXRoLWxpYnRvb2wtDQo+IHN5c3Jvb3QgLS1kaXNhYmxlLXN0YXRpYyINCj4gwqANCj4gKyMg
+VGhpcyBpcyBhIGxpc3Qgb2YgZGlyZWN0b3JpZXMgdGhhdCBhcmUgZXhwZWN0ZWQgdG8gYmUgZW1w
+dHkuDQo+ICtRQV9FTVBUWV9ESVJTID89ICIgXA0KPiArwqDCoMKgIC9kZXYvcHRzIFwNCj4gK8Kg
+wqDCoCAvbWVkaWEgXA0KPiArwqDCoMKgIC9wcm9jIFwNCj4gK8KgwqDCoCAvcnVuIFwNCj4gK8Kg
+wqDCoCAvdG1wIFwNCj4gK8KgwqDCoCAke2xvY2Fsc3RhdGVkaXJ9L3J1biBcDQo+ICsiDQo+ICsj
+IEl0IGlzIHBvc3NpYmxlIHRvIHNwZWNpZnkgd2h5IGEgZGlyZWN0b3J5IGlzIGV4cGVjdGVkIHRv
+IGJlIGVtcHR5DQo+IGJ5IGRlZmluaW5nDQo+ICsjIFFBX0VNUFRZX0RJUlNfUkVDT01NRU5EQVRJ
+T046PHBhdGg+LCB3aGljaCB3aWxsIHRoZW4gYmUgaW5jbHVkZWQNCj4gaW4gdGhlIGVycm9yDQo+
+ICsjIG1lc3NhZ2UgaWYgdGhlIGRpcmVjdG9yeSBpcyBub3QgZW1wdHkuIElmIGl0IGlzIG5vdCBz
+cGVjaWZpZWQgZm9yDQo+IGEgZGlyZWN0b3J5LA0KPiArIyB0aGVuICJidXQgaXQgaXMgZXhwZWN0
+ZWQgdG8gYmUgZW1wdHkiIHdpbGwgYmUgdXNlZC4NCj4gKw0KPiDCoGRlZiBwYWNrYWdlX3FhX2Ns
+ZWFuX3BhdGgocGF0aCwgZCwgcGtnPU5vbmUpOg0KPiDCoMKgwqDCoCAiIiINCj4gwqDCoMKgwqAg
+UmVtb3ZlIHJlZHVuZGFudCBwYXRocyBmcm9tIHRoZSBwYXRoIGZvciBkaXNwbGF5LsKgIElmIHBr
+ZyBpc24ndA0KPiBzZXQgdGhlbg0KPiBAQCAtOTE3LDYgKzkzMSwyMiBAQCBkZWYgcGFja2FnZV9x
+YV9jaGVja191bmxpc3RlZF9wa2dfbGljcyhwYWNrYWdlLA0KPiBkLCBtZXNzYWdlcyk6DQo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibGlz
+dGVkIGluIExJQ0VOU0UiICUgKHBhY2thZ2UsICcNCj4gJy5qb2luKHVubGlzdGVkKSkpDQo+IMKg
+wqDCoMKgIHJldHVybiBGYWxzZQ0KPiDCoA0KPiArUUFQS0dURVNUW2VtcHR5LWRpcnNdID0gInBh
+Y2thZ2VfcWFfY2hlY2tfZW1wdHlfZGlycyINCj4gK2RlZiBwYWNrYWdlX3FhX2NoZWNrX2VtcHR5
+X2RpcnMocGtnLCBkLCBtZXNzYWdlcyk6DQo+ICvCoMKgwqAgIiIiDQo+ICvCoMKgwqAgQ2hlY2sg
+Zm9yIHRoZSBleGlzdGVuY2Ugb2YgZmlsZXMgaW4gZGlyZWN0b3JpZXMgdGhhdCBhcmUNCj4gZXhw
+ZWN0ZWQgdG8gYmUNCj4gK8KgwqDCoCBlbXB0eS4NCj4gK8KgwqDCoCAiIiINCj4gKw0KPiArwqDC
+oMKgIHBrZ2QgPSBvZS5wYXRoLmpvaW4oZC5nZXRWYXIoJ1BLR0RFU1QnKSwgcGtnKQ0KPiArwqDC
+oMKgIGZvciBkaXIgaW4gKGQuZ2V0VmFyKCdRQV9FTVBUWV9ESVJTJykgb3IgIiIpLnNwbGl0KCk6
+DQo+ICvCoMKgwqDCoMKgwqDCoCBlbXB0eV9kaXIgPSBvZS5wYXRoLmpvaW4ocGtnZCwgZGlyKQ0K
+PiArwqDCoMKgwqDCoMKgwqAgaWYgb3MucGF0aC5leGlzdHMoZW1wdHlfZGlyKSBhbmQgb3MubGlz
+dGRpcihlbXB0eV9kaXIpOg0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZWNvbW1lbmRhdGlv
+biA9DQo+IChkLmdldFZhcignUUFfRU1QVFlfRElSU19SRUNPTU1FTkRBVElPTjonICsgZGlyKSBv
+cg0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAiYnV0IGl0IGlzIGV4cGVjdGVkIHRvIGJlIGVtcHR5IikNCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgbXNnID0gIiVzIGluc3RhbGxzIGZpbGVzIGluICVzLCAlcyIgJSAocGtnLCBk
+aXIsDQo+IHJlY29tbWVuZGF0aW9uKQ0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvZS5xYS5h
+ZGRfbWVzc2FnZShtZXNzYWdlcywgImVtcHR5LWRpcnMiLCBtc2cpDQo+ICsNCj4gwqBkZWYgcGFj
+a2FnZV9xYV9jaGVja19lbmNvZGluZyhrZXlzLCBlbmNvZGUsIGQpOg0KPiDCoMKgwqDCoCBkZWYg
+Y2hlY2tfZW5jb2Rpbmcoa2V5LCBlbmMpOg0KPiDCoMKgwqDCoMKgwqDCoMKgIHNhbmUgPSBUcnVl
+DQo+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mDQo+IGIvbWV0YS9j
+b25mL2RvY3VtZW50YXRpb24uY29uZg0KPiBpbmRleCBjNWEzOGIwNzY0Li5kMzhhODhmYjQ5IDEw
+MDY0NA0KPiAtLS0gYS9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mDQo+ICsrKyBiL21ldGEv
+Y29uZi9kb2N1bWVudGF0aW9uLmNvbmYNCj4gQEAgLTM0NSw2ICszNDUsOCBAQCBQWVBJX1NSQ19V
+UklbZG9jXSA9ICJUaGUgVVJJIHRvIHVzZSB0byBmZXRjaCBmcm9tDQo+IHB5cGksIGRlZmF1bHQg
+dXNlcyBweXRob25ob3N0ZQ0KPiDCoA0KPiDCoCNRDQo+IMKgDQo+ICtRQV9FTVBUWV9ESVJTW2Rv
+Y10gPSAiQSBsaXN0IG9mIGRpcmVjdG9yaWVzIHRoYXQgYXJlIGV4cGVjdGVkIHRvIGJlDQo+IGVt
+cHR5LiINCj4gK1FBX0VNUFRZX0RJUlNfUkVDT01NRU5EQVRJT05bZG9jXSA9ICJUaGlzIHNwZWNp
+ZmllcyBhIHJlY29tbWVuZGF0aW9uDQo+IGZvciBhIGRpcmVjdG9yeSB3aHkgaXQgbXVzdCBiZSBl
+bXB0eSwgd2hpY2ggd2lsbCBiZSBpbmNsdWRlZCBpbiB0aGUNCj4gZXJyb3IgbWVzc2FnZSBpZiB0
+aGUgZGlyZWN0b3J5IGlzIG5vdCBlbXB0eS4iDQo+IMKgUU1BS0VfUFJPRklMRVNbZG9jXSA9ICJT
+cGVjaWZpZXMgeW91ciBvd24gc3Vic2V0IG9mIC5wcm8gZmlsZXMgdG8gYmUNCj4gYnVpbHQgZm9y
+IHVzZSB3aXRoIHFtYWtlLiINCj4gwqANCj4gwqAjUg0KPiANCj4gLT0tPS09LT0tPS09LT0tPS09
+LT0tPS0NCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3Jv
+dXAuDQo+IFZpZXcvUmVwbHkgT25saW5lICgjMTU3OTg2KToNCj4gaHR0cHM6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNTc5ODYNCj4gTXV0ZSBU
+aGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvODY5MTA5MTEvMzYx
+NjcwMg0KPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZw0KPiBVbnN1YnNjcmliZToNCj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
+b3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWLCoFsNCj4gYW51ai5taXR0YWxAaW50ZWwuY29t
+XQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiANCg0K
 
