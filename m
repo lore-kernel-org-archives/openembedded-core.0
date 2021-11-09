@@ -2,70 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC23C4332F
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 15:07:10 +0000 (UTC)
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com
- [195.245.230.1])
- by mx.groups.io with SMTP id smtpd.web10.13170.1636470429125710991
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EFBC433F5
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 15:07:17 +0000 (UTC)
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
+ [85.158.142.5])
+ by mx.groups.io with SMTP id smtpd.web12.13332.1636470435965570158
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 07:07:09 -0800
+ Tue, 09 Nov 2021 07:07:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Y6DZbDC4;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.1,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=XddQoSbX;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.5,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1636470426; i=@fujitsu.com;
-	bh=lNeQddpeLI5yL/eFy3FF2RqHUgJiq5tASOgb9cfe87M=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Y6DZbDC4WeXYnGYJLNegwdyUOFzzTdp8ASsVoE40SG5ZaYeaXmpEPQf9DRKwOFoPd
-	 z+eukHGli9IyngSiIP2gTVR4yq6J00ivP/sqajGCypyvOn77uMqFw5GvtrASIBraDV
-	 y7aJvElaPQeSVWha3i+Mk2uknsXJDshRFc6pIBkf31Yfz5C1aTo0+YWFGsDvC6tAS5
-	 mjRZ52IpQrMZg3x0kUnK9is2v7IIaWfP5WGMHKS5ui1t4pXMkTtQIRnBhOnyze2WGs
-	 y/y0GYaLdXCAvDNMoWKCTKACYkqjXBWsVQuw18hfopv+tCmXVx7AQzDx4SV7wWMWA2
-	 u58/gXBtw1a5g==
-Received: from [100.112.193.107] (using TLSv1.2 with cipher
+	s=170520fj; t=1636470433; i=@fujitsu.com;
+	bh=UxtEmqFvt4enDqadhlBRh6OzAE1u1PFaQ7q/u1IM/Ds=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=XddQoSbXR0HYCcux5XgyJ3cXr1H7Z/zyRGLLHOjBytppb9JrV05/ecojVuZb/sBXB
+	 eZgtIdYfm6JEQQ1igldAPvqczutY7pZY1V93gNIkdFsOfvWTxkQ8tckqgzgXaM2Wmz
+	 ZUQV488fWKDMxHHX87FrBD3Jb+Wexn3ugtyEQNT5t8NuTFOGsa9nI2O4mHic0TdDLh
+	 LqJ/NcVOI6a6CYZOmjBB92Bjoc0RbPu1mpHfCm9Scx9zq0l7dewCNOuHrypxQSOmAY
+	 Pqoe0sWeljeCcXRLpadz0TGoG782s0Vz4K08ny/zL6rzzEfhI2bTuYNjCUm6TKNRlx
+	 drWlf1JMFwIsQ==
+Received: from [100.113.0.18] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-a.eu-west-1.aws.symcld.net id 7E/1A-02128-A9E8A816;
- Tue, 09 Nov 2021 15:07:06 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRWlGSWpSXmKPExsViZ8MxRXdWX1e
-  iwa5NYhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aet74FS3kqTu7pYG9g7ODuYuTkEBKYziTx
-  dr1xFyMXkH2cUeLSzmlsIAk2ATWJ6bdusHYxcnCICOhJXP0nChJmFlCRePG7hx3EFhawlph9e
-  QIjiM0CFL/Xc5cFpJxXwEli+sM4kLCEgILElIfvmUFsXgFBiZMzn7BAjJGQOPjiBTNEjSLQmG
-  YWCLtCYtasNqYJjLyzkLTMQtKygJFpFaNFUlFmekZJbmJmjq6hgYGuoaGRrqGlka6RgYleYpV
-  uol5qqW55anGJrqFeYnmxXnFlbnJOil5easkmRmBgpRQcOLOD8dTrD3qHGCU5mJREef91dSUK
-  8SXlp1RmJBZnxBeV5qQWH2KU4eBQkuDdApITLEpNT61Iy8wBBjlMWoKDR0mEV6wDKM1bXJCYW
-  5yZDpE6xagoJc7bXw+UEABJZJTmwbXBIusSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWHepF
-  6gKTyZeSVw018BLWYCWnzwSzvI4pJEhJRUAxP3pQyDP2HbM+OWtWmKtHwwk7Bvy+zj6SzRXSL
-  8n9ndNDD1CdvP9NrC/wk6VXqBUVd/Tbjlfj87q/+Jil3/s5sv1xR4sT6Q9mv3ubRAtPdEeP33
-  20dr2IyOsznfZahoUtTTLt9b8bw8PyRggQ9z+pN8tc69+cuvfGiymLhZM8i0QelIs2tq7PbAf
-  b3Gr03u/Nuz/fpf5TTWuK/hecsD1r/V3sS55KTR+5+XO0J2yj4uZ+SWXvto16R2R7/VQmdas3
-  9cCFd00rt59cbzM8GBd3ftX2XC81G6JemMf5t9T22Ovulbo09XhHceCpu1Uazocdf6g3pCC2S
-  1dF5rHV0TZPHcoTrinc/7c9/EZ0yZqcRSnJFoqMVcVJwIABWykFMnAwAA
+	by server-5.bemta.az-a.eu-central-1.aws.symcld.net id BD/4B-11692-1AE8A816;
+ Tue, 09 Nov 2021 15:07:13 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MxVXdhX1e
+  iwcKXEhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b5DpWC3RwVnW95Ghifs3cxcnEICUxnkmg6
+  2AnlHGeUWDNxBlMXIycHm4CaxPRbN1i7GDk4RAT0JK7+EwUJMwuoSLz43cMOEhYWsJLY1ygDE
+  mYBCj9fN48ZxOYVcJJYsuEdI4gtIaAgMeXhe7A4p4CzxJMFj9lBbCGgmov3L7BD1AtKnJz5hA
+  VivITEwRcvmCF6FSVmX25mgbArJGbNamOawMg/C0nLLCQtCxiZVjFaJhVlpmeU5CZm5ugaGhj
+  oGhoa6xrpGhma6SVW6SbqpZbqJqfmlRQlAmX1EsuL9Yorc5NzUvTyUks2MQJDMaWQ6cYOxm+v
+  P+gdYpTkYFIS5f3X1ZUoxJeUn1KZkVicEV9UmpNafIhRhoNDSYJ3C0hOsCg1PbUiLTMHGBcwa
+  QkOHiURXrEOoDRvcUFibnFmOkTqFKOilDhvfz1QQgAkkVGaB9cGi8VLjLJSwryMDAwMQjwFqU
+  W5mSWo8q8YxTkYlYR5k3qBpvBk5pXATX8FtJgJaPHBL+0gi0sSEVJSDUyGn05NSWBhr7z8Udp
+  sOrNC5PtSJZP+DI/s2dF59U0ZOjIvDsc+WLjKf92xa53nClmmOujURNy945PwdtW2hSdeaYUa
+  d7fPWPF/jZe26RLmgyV/T/kw7bt68kBd0wr+BeYZNccDZMzV6rhvbGY4mjjn9sP+uRFXl27jD
+  RbdJ7/zr9K5ECanpdO+JR93tOi+q5V844rkjeDa+VOM9k57VytSeSH7+aIajhyDpluF5w/Jvj
+  OdHHliT1HMxi1K/7YIJH6/FaZ+3cL+TVPU+4iQT0YH+vQ8fk/b3cVQaJGVvr63Tzrk8aTq2+p
+  XeFTqOKyvxq9otZyhlbu7p8k6r+mB8ISfM54a//8fLSjpPd1YoVmJpTgj0VCLuag4EQCY8OCT
+  QAMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-8.tower-267.messagelabs.com!1636470426!36905!1
-X-Originating-IP: [62.60.8.148]
+X-Msg-Ref: server-9.tower-232.messagelabs.com!1636470433!11521!1
+X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 1992 invoked from network); 9 Nov 2021 15:07:06 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-8.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 9 Nov 2021 15:07:06 -0000
+Received: (qmail 30795 invoked from network); 9 Nov 2021 15:07:13 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-9.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 9 Nov 2021 15:07:13 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1A9F75cP032237
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1A9F76Kh013464
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 9 Nov 2021 15:07:06 GMT
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Nov 2021 15:07:13 GMT
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.24; Tue, 9 Nov 2021 15:07:03 +0000
+ (TLS) id 15.0.1497.24; Tue, 9 Nov 2021 15:07:07 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libpcre2: upgrade 10.37 -> 10.39
-Date: Tue, 9 Nov 2021 23:06:53 +0800
-Message-ID: <1636470414-60993-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] msmtp: upgrade 1.8.18 -> 1.8.19
+Date: Tue, 9 Nov 2021 23:06:54 +0800
+Message-ID: <1636470414-60993-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1636470414-60993-1-git-send-email-wangmy@fujitsu.com>
+References: <1636470414-60993-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -74,44 +78,31 @@ X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 15:07:10 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 15:07:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158054
-
-This release is mainly to fix an important JIT bug, but it also
-contains an update to Unicode 14.0.0 and some code and configuration tidies.
-
-License-Update: 
- Add "Retired from" before "University of Cambridge Computing Service"
+ https://lists.openembedded.org/g/openembedded-core/message/158055
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libpcre/{libpcre2_10.37.bb => libpcre2_10.39.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre2_10.37.bb => libpcre2_10.39.bb} (91%)
+ .../recipes-extended/msmtp/{msmtp_1.8.18.bb => msmtp_1.8.19.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.18.bb => msmtp_1.8.19.bb} (91%)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.37.bb b/meta/recipes-support/libpcre/libpcre2_10.39.bb
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.18.bb b/meta/recipes-extended/msmtp/msmtp_1.8.19.bb
 similarity index 91%
-rename from meta/recipes-support/libpcre/libpcre2_10.37.bb
-rename to meta/recipes-support/libpcre/libpcre2_10.39.bb
-index ccedf688d7..b5ec62fe18 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.37.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.39.bb
-@@ -8,13 +8,13 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
- HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=6b3022283c9a79238d521848ea9dcb4d"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=43cfa999260dd853cd6cb174dc396f3d"
+rename from meta/recipes-extended/msmtp/msmtp_1.8.18.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.19.bb
+index 1a6cf72392..29f0e07fe4 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.18.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.19.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
  
- SRC_URI = "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "14fc62af37ebdcc5ed19a245a05eb8376efe7016118f00c9c594bc999d5560a5"
++SRC_URI[sha256sum] = "34a1e1981176874dbe4ee66ee0d9103c90989aa4dcdc4861e4de05ce7e44526b"
  
- UPSTREAM_CHECK_URI = "https://github.com/PhilipHazel/pcre2/releases"
- 
--SRC_URI[sha256sum] = "4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270"
-+SRC_URI[sha256sum] = "0f03caf57f81d9ff362ac28cd389c055ec2bf0678d277349a1a4bee00ad6d440"
- 
- CVE_PRODUCT = "pcre2"
+ inherit gettext autotools update-alternatives pkgconfig
  
 -- 
 2.25.1
