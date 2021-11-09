@@ -2,34 +2,34 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D07E8C433F5
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 14:39:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D64B8C43217
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 14:39:02 +0000 (UTC)
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
  by mx.groups.io with SMTP id smtpd.web11.12796.1636468740845062503
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 06:39:00 -0800
+ Tue, 09 Nov 2021 06:39:01 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="229915969"
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="229915982"
 X-IronPort-AV: E=Sophos;i="5.87,220,1631602800";
-   d="scan'208";a="229915969"
+   d="scan'208";a="229915982"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2021 06:38:36 -0800
+ 09 Nov 2021 06:38:38 -0800
 X-IronPort-AV: E=Sophos;i="5.87,220,1631602800";
-   d="scan'208";a="641956940"
+   d="scan'208";a="641956945"
 Received: from chinboon-mobl1.gar.corp.intel.com (HELO
  anmitta2-mobl1.gar.corp.intel.com) ([10.215.234.207])
   by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2021 06:38:34 -0800
+ 09 Nov 2021 06:38:37 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 18/26] nativesdk-packagegroup-sdk-host.bb: Update
- host tools for wayland
-Date: Tue,  9 Nov 2021 22:37:53 +0800
+Subject: [honister][PATCH 20/26] linunistring: Add missing gperf-native
+ dependency
+Date: Tue,  9 Nov 2021 22:37:55 +0800
 Message-Id: 
- <adee9d40023b6197f121ec0cf1115ce229c2a26f.1636467986.git.anuj.mittal@intel.com>
+ <04d181a8cc90f73a36e2665087c030ec4c12b3b3.1636467986.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1636467986.git.anuj.mittal@intel.com>
 References: <cover.1636467986.git.anuj.mittal@intel.com>
@@ -38,39 +38,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 14:39:01 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 14:39:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158039
+ https://lists.openembedded.org/g/openembedded-core/message/158041
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The wayland-scanner host tool required to build weston is moved to the
-wayland-tools package, so update the SDK host tools list accordingly.
-
-Also, the weston build requires wayland-scanner.pc to find wayland-scanner,
-so add wayland-dev.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 31ed91bdbb0ec05730fb98d7cc523bb46aca50e3)
+(cherry picked from commit 73d3efbaeb2f412ab8d3491d2da3f3124fc009f3)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../packagegroups/nativesdk-packagegroup-sdk-host.bb            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/libunistring/libunistring_0.9.10.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 39e5002bb7..9166a0851f 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -25,7 +25,7 @@ RDEPENDS:${PN} = "\
-     nativesdk-makedevs \
-     nativesdk-cmake \
-     nativesdk-meson \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland-tools nativesdk-wayland-dev', '', d)} \
-     nativesdk-sdk-provides-dummy \
-     nativesdk-bison \
-     nativesdk-flex \
+diff --git a/meta/recipes-support/libunistring/libunistring_0.9.10.bb b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
+index 0a7b18ed08..589faacb05 100644
+--- a/meta/recipes-support/libunistring/libunistring_0.9.10.bb
++++ b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
+@@ -18,6 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+                     file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
+                     file://doc/libunistring.texi;md5=287fa6075f78a3c85c1a52b0a92547cd \
+                    "
++DEPENDS = "gperf-native"
+ 
+ SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
 -- 
 2.31.1
 
