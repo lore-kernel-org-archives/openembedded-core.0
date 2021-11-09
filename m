@@ -1,125 +1,141 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <Jasper.Orschulko@iris-sensing.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CAA2C433EF
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 11:12:04 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.10706.1636456324123869822
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 472E6C433F5
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 11:26:18 +0000 (UTC)
+Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
+ by mx.groups.io with SMTP id smtpd.web09.10741.1636457176310007327
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 03:12:04 -0800
+ Tue, 09 Nov 2021 03:26:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fo9ppBYl;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id b12so32320454wrh.4
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 03:12:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BFMeESYu+CzIMuWBYMeIN78x6UVyAyedy36l/Mz3Dr8=;
-        b=Fo9ppBYldjTnRvX/s0SUz28yT7LEOzJWVRO3H2Mub9JZ0BjAe5T1rQOjxpxioNlXMw
-         3ibIaKRN8FZJt01+S86BmcLW16KsQUnHVDSPSQPqm+5BxsnMzbBFFa9i3mA+tCZVr02R
-         zP13h/S32rhea2EWjVCEJ33Q10rBlb3EsyT2JLp7GSHQWaDM2Ogg++yAfUpco1FIL0kD
-         iZ6/Toi2eeg+HLO7z94RR7DdLI8o4i8tz+mW6x6UVOBFzwGZQuluGhif2kOwGHyTMihd
-         IgsAiyQOhfaB0mbRkncvnMaIFXdOH7nLpLLmr5e4wfOsbiK6f9m0FYc3Gw+3MMTt3MAk
-         LPDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BFMeESYu+CzIMuWBYMeIN78x6UVyAyedy36l/Mz3Dr8=;
-        b=rSs7PGxhxJKx0yYXvVw3DcjLiusA7PoxY6wk0h649u6DSo0fOoxs7d+J3yf52viL3E
-         lVyAMjpqhQQCxoLS/+euLmb8/DQB+JUNEK0C5ACj5rfGBOhZEpijmGJLgj0geSC6Qjs1
-         l2rWS7Xk/4Vf6v1cnsHkL7OdLFMsk+BUNnPSXNkPq3/w0MROLPXEbJPEH43Qq6/Pl1Qy
-         qQyMc3uB+4oA0NP5Lkv7BdWsnxS1m04Om0rbRYa3/R6S8P+A3mJ8JXDSDyHl9lQE7c0I
-         enMAM1wX+x3Q9byoZE7orIYZMBZwBFsisMJB7GXltT6TJJm3SHJ8JVRwAS+7vzJU3hnG
-         MJAw==
-X-Gm-Message-State: AOAM530IG2KaqwV0WBeOT1R2X9QCzoWs/0o2uCBmtRqz5m0h6Qd08ebi
-	UQtYRAnTbQe/PjAUTgEuqg8A5ORUuz4=
-X-Google-Smtp-Source: 
- ABdhPJzUdCEzP3e4cDeioyFgNjcb9l8EG/ZS+BhYamXECVznBuza9T0eX3Th2Nj1Z3oT+r1MHQMM0A==
-X-Received: by 2002:a5d:5244:: with SMTP id k4mr8406207wrc.77.1636456322411;
-        Tue, 09 Nov 2021 03:12:02 -0800 (PST)
-Received: from CTW-01195.. ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id
- c16sm19043389wrx.96.2021.11.09.03.12.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Nov 2021 03:12:02 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 3/3] sstate: add a function to get the sstate file name in
- sstate_checkhashes
-Date: Tue,  9 Nov 2021 11:11:48 +0000
-Message-Id: <20211109111148.136675-3-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211109111148.136675-1-quaresma.jose@gmail.com>
-References: <20211109111148.136675-1-quaresma.jose@gmail.com>
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: iris-sensing.com,
+ ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.irisgmbh.de (Postfix) with ESMTP id 810EE31E034A;
+	Tue,  9 Nov 2021 12:26:13 +0100 (CET)
+X-Virus-Scanned: amavisd-new at irisgmbh.de
+Received: from mail.irisgmbh.de ([127.0.0.1])
+	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new,
+ port 10027)
+	with ESMTP; Tue,  9 Nov 2021 12:26:13 +0100 (CET)
+Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
+	by mail.irisgmbh.de (Postfix) with ESMTPS id 684F831E02E8;
+	Tue,  9 Nov 2021 12:26:13 +0100 (CET)
+Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
+ ([172.30.10.11]) with mapi id 14.03.0513.000; Tue, 9 Nov 2021 12:26:12 +0100
+From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "kweihmann@outlook.com"
+	<kweihmann@outlook.com>, "jasper@fancydomain.eu" <jasper@fancydomain.eu>
+CC: "martin@mko.dev" <martin@mko.dev>, "Daniel.Baumgart@iris-sensing.net"
+	<Daniel.Baumgart@iris-sensing.net>, "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>
+Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
+ for repo 2.17.3
+Thread-Topic: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
+ for repo 2.17.3
+Thread-Index: AQHX0klmUmLVPFJtF0Ob3PuHG3t8+6v03rAAgAADSACAAAYMgIABSAqAgATTzgA=
+Date: Tue, 9 Nov 2021 11:26:11 +0000
+Message-ID: <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
+References: <20211105133104.19895-1-jasper@fancydomain.eu>
+	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
+	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
+	 <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
+In-Reply-To: 
+ <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.10.1]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C8B3090C016DEC4692FA72DE5E8A2AA3@irisgmbh.local>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 11:12:04 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 11:26:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158013
+ https://lists.openembedded.org/g/openembedded-core/message/158014
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/classes/sstate.bbclass | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 88bd84a06c..0a78a2fb69 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -934,12 +934,13 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
- 
-         return spec, extrapath, tname
- 
-+    def getsstatefile(tid, siginfo, d):
-+        spec, extrapath, tname = getpathcomponents(tid, d)
-+        return extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d)
- 
-     for tid in sq_data['hash']:
- 
--        spec, extrapath, tname = getpathcomponents(tid, d)
--
--        sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
-+        sstatefile = d.expand("${SSTATE_DIR}/" + getsstatefile(tid, siginfo, d))
- 
-         if os.path.exists(sstatefile):
-             found.add(tid)
-@@ -1000,8 +1001,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
- 
-         tasklist = []
-         for tid in missed:
--            spec, extrapath, tname = getpathcomponents(tid, d)
--            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
-+            sstatefile = d.expand(getsstatefile(tid, siginfo, d))
-             tasklist.append((tid, sstatefile))
- 
-         if tasklist:
-@@ -1028,12 +1028,10 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-     if "toaster" in inheritlist:
-         evdata = {'missed': [], 'found': []};
-         for tid in missed:
--            spec, extrapath, tname = getpathcomponents(tid, d)
--            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, False, d))
-+            sstatefile = d.expand(getsstatefile(tid, False, d))
-             evdata['missed'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
-         for tid in found:
--            spec, extrapath, tname = getpathcomponents(tid, d)
--            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, False, d))
-+            sstatefile = d.expand(getsstatefile(tid, False, d))
-             evdata['found'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
-         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
- 
--- 
-2.33.1
-
+LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkhpIFJp
+Y2hhcmQsDQoNCkkgdGhpbmsgb3VyIGltcGxlbWVudGF0aW9uIG9mIHRoZSByZXBvIGZldGNoZXIg
+Y2hlY2tzIHRoZSAod2hhdCBJDQpiZWxpZXZlIHRvIGJlKSBtb3N0IHJlbGV2YW50IHBhcnRzIG9m
+IHlvdXIgY2hlY2tsaXN0ICh0aGFua3MgZm9yIHRoZQ0Kd3JpdGUtdXApLiBNYXJ0aW4sIHBsZWFz
+ZSBjb3JyZW50IG1lIGlmIEknbSBtaXNzaW5nIHNvbWV0aGluZzoNCg0KPiBhKSBuZXR3b3JrIGFj
+Y2VzcyBmb3Igc291cmNlcyBpcyBvbmx5IGV4cGVjdGVkIHRvIGhhcHBlbiBpbiB0aGUNCj4gZG9f
+ZmV0Y2ggc3RlcC4NCj4gVGhpcyBpcyBub3QgZW5mb3JjZWQgb3IgdGVzdGVkIGJ1dCBpcyByZXF1
+aXJlZCBzbyB0aGF0IHdlIGNhbjoNCj4gDQo+IMKgaSkgYXVkaXQgdGhlIHNvdXJjZXMgdXNlZCAo
+aS5lLiBmb3IgbGljZW5zZS9tYW5pZmVzdCByZWFzb25zKQ0KPiDCoGlpKSBzdXBwb3J0IG9mZmxp
+bmUgYnVpbGRzIHdpdGggYSBzdWl0YWJsZSBjYWNoZQ0KPiDCoGlpaSkgYWxsb3cgd29yayB0byBj
+b250aW51ZSBldmVuIHdpdGggZG93bnRpbWUgdXBzdHJlYW0NCj4gwqBpdikgYWxsb3cgZm9yIGNo
+YW5nZXMgdXBzdHJlYW0gaW4gaW5jb21wYXRpYmxlIHdheXMNCj4gwqB2KSBhbGxvdyByZWJ1aWxk
+aW5nIG9mIHRoZSBzb2Z0d2FyZSBpbiBYIHllYXJzIHRpbWUNCg0KY2hlY2sNCg0KPiBiKSBuZXR3
+b3JrIGFjY2VzcyBpcyBub3QgZXhwZWN0ZWQgaW4gZG9fdW5wYWNrDQoNCmNoZWNrIA0KDQo+IGMp
+IHlvdSBjYW4gdGFrZSBETF9ESVIgYW5kIHVzZSBpdCBhcyBhIG1pcnJvciBmb3Igb2ZmbGluZSBi
+dWlsZHMNCg0KY2hlY2sNCg0KPiBkKSBhY2Nlc3MgdG8gdGhlIG5ldHdvcmsgaXMgb25seSBtYWRl
+IHdoZW4gZXhwbGljaXRseSBjb25maWd1cmVkIGluDQo+IHJlY2lwZXMNCj4gwqAoZS5nLiB1c2Ug
+b2YgQVVUT1JFViwgb3IgdXNlIG9mIGdpdCB0YWdzIHdoaWNoIGNoYW5nZSByZXZpc2lvbikNCg0K
+Y2hlY2sNCg0KPiBlKSBmZXRjaGVyIG91dHB1dCBpcyBkZXRlcm1pbmlzdGljDQo+IMKgKGkuZS4g
+aWYgeW91IGZldGNoIGNvbmZpZ3VyYXRpb24gWFhYIG5vdyBpdCB3aWxsIG1hdGNoIGluIGZ1dHVy
+ZQ0KPiBleGFjdGx5IGluIA0KPiDCoGEgY2xlYW4gYnVpbGQgd2l0aCBhIG5ldyBETF9ESVIpDQoN
+CmNoZWNrLiBXaGVuIGEgZml4ZWQgcmVmc3BlYyBpcyBzZXQgd2l0aGluIHRoZSByZWNpcGUsIHRo
+ZSBmZXRjaGVyIHdpbGwNCmNoZWNrLCBpZiBhbGwgcmVwb3NpdG9yaWVzIGluIHRoZSByZXBvIG1h
+bmlmZXN0IGFyZSBzZXQgdG8gYSBmaXhlZA0KcmVmc3BlYyBhcyB3ZWxsIGFuZCBvdGhlcndpc2Ug
+dGhyb3cgYW4gZXJyb3IuDQoNCj4gZikgbmV0d29yayBhY2Nlc3MgaXMgZXhwZWN0ZWQgdG8gd29y
+ayB3aXRoIHRoZSBzdGFuZGFyZCBsaW51eCBwcm94eQ0KPiB2YXJpYWJsZXMNCj4gwqBlbnZpcm9u
+bWVudCBidXQgb25seSBpbiB0aGUgZG9fZmV0Y2ggdGFza3MpDQoNCnRoaXMgc2hvdWxkIHdvcmss
+IGFzIHdlIGtlZXAgdGhlIEdJVF9QUk9YWV9DT01NQU5EIGVudmlyb25tZW50IGFuZCBydW4NCnJl
+cG8gdmlhIHJ1bmZldGNoY21kKCkuIE5vdCBmdXJ0aGVyIHRlc3RlZCB0aG91Z2guDQoNCj4gZykg
+YWNjZXNzIGR1cmluZyBwYXJzaW5nIGhhcyB0byBiZSBtaW5pbWFsLCBhICJnaXQgbHMtcmVtb3Rl
+IiBmb3IgYW4NCj4gQVVUT1JFViANCj4gwqBnaXQgcmVjaXBlIG1pZ2h0IGJlIG9rIGJ1dCB5b3Ug
+Y2FuJ3QgZXhwZWN0IHRvIGNoZWNrb3V0IGEgZ2l0IHRyZWUNCg0KdW5mb3J0dW5hdGVseSwgZG8g
+dG8gdGhlIG5hdHVyZSBvZiByZXBvLCB3ZSBuZWVkIHRvIGNsb25lIHRoZSBtYW5pZmVzdA0KcmVw
+bywgc28gdGhhdCB3ZSBjYW4gcnVuICJnaXQgbHMtcmVtb3RlIiBvbiB0aGUgcmVmZXJlbmNlZCBn
+aXQgcmVwb3MNCmFuZCB0aGVyZWZvcmUgZW5zdXJlIHRoYXQgDQoNCj4gaCkgd2UgbmVlZCB0byBw
+cm92aWRlIHJldmlzaW9uIGluZm9ybWF0aW9uIGR1cmluZyBwYXJzaW5nIHN1Y2ggdGhhdCBhDQo+
+IHZlcnNpb24NCj4gwqBmb3IgdGhlIHJlY2lwZSBjYW4gYmUgY29uc3RydWN0ZWQuDQoNCmNoZWNr
+LiBXZSBjcmVhdGUgYSBoYXNoIHZhbHVlIGZyb20gZ2l0IGxzLXJlbW90ZSBvZiB0aGUgcmVjaXBl
+IGZpbGUsIGFzDQp3ZWxsIGFzIHRoZSBnaXQgbHMtcmVtb3RlIG9mIGVhY2ggcmVwbyByZWZlcmVu
+Y2VkIGluIHRoZSBtYW5pZmVzdC4NCg0KPiBpKSB2ZXJzaW9ucyBhcmUgZXhwZWN0ZWQgdG8gYmUg
+YWJsZSB0byBpbmNyZWFzZSBpbiBhIHdheSB3aGljaCBzb3J0cw0KPiBhbGxvd2luZyANCj4gwqBw
+YWNrYWdlIGZlZWRzIHRvIG9wZXJhdGUgKHNlZSBQUiBzZXJ2ZXIgcmVxdWlyZWQgZm9yIGdpdCBy
+ZXZpc2lvbnMgdG8NCj4gc29ydCkNCg0KY2hlY2suIFdlIHVzZSB0aGUgUFIgc2VydmVyIGFuZCBk
+aWRuJ3Qgbm90aWNlIGFueSBpc3N1ZXMuDQoNCj4gaikgQVBJIHRvIHF1ZXJ5IGZvciBwb3NzaWJs
+ZSB2ZXJzaW9uIHVwZ3JhZGVzIG9mIGEgdXJsIGlzIGhpZ2hseQ0KPiBkZXNpcmVhYmxlIHRvIA0K
+PiDCoGFsbG93IG91dCBhdXRvbWF0ZWQgdXBncmFnZSBjb2RlIHRvIGZ1bmN0aW9uIChpdCBpcyBp
+bXBsaWVkIHRoaXMgZG9lcw0KPiBhbHdheXMgDQo+IMKgaGF2ZSBuZXR3b3JrIGFjY2VzcykNCg0K
+Y2hlY2sgKGlmIEkgdW5kZXJzdGFuZCB5b3UgY29ycmVjdGx5KS4gV2Ugc3VwcG9ydCBBVVRPSU5D
+Lg0KDQo+IGspIFdoZXJlIGZpeGVzIG9yIGNoYW5nZXMgdG8gYmVoYXZpb3VyIGluIHRoZSBmZXRj
+aGVyIGFyZSBtYWRlLCB3ZSBhc2sNCj4gdGhhdCANCj4gwqB0ZXN0IGNhc2VzIGFyZSBhZGRlZCAo
+cnVuIHdpdGggImJpdGJha2Utc2VsZnRlc3QgYmIudGVzdHMuZmV0Y2giKS4gV2UNCj4gZG8gDQo+
+IMKgaGF2ZSBmYWlybHkgZXh0ZW5zaXZlIHRlc3QgY292ZXJhZ2Ugb2YgdGhlIGZldGNoZXIgYXMg
+aXQgaXMgdGhlIG9ubHkNCj4gd2F5DQo+IMKgdG8gdHJhY2sgYWxsIG9mIGl0J3MgY29ybmVyIGNh
+c2VzLCBpdCBzdGlsbCBkb2Vzbid0IGdpdmUgZW50aXJlDQo+IGNvdmVyYWdlIA0KPiDCoHRob3Vn
+aCBzYWRseS4NCg0KV2UgYXJlIGN1cnJlbnRseSBzdGlsbCBtaXNzaW5nIGFueSB0ZXN0cyBmb3Ig
+dGhlIG5ldyBmZXRjaGVyLiBXZSB3aWxsDQphZGQgdGhlbSBpbiB0aGUgY291cnNlIG9mIHRoZSBu
+ZXh0IGRheXMuIE1lYW53aGlsZSwgSSBoYXZlIHByZXBhcmVkIGENCmRlbW8gZW52aXJvbm1lbnQg
+c28gaWYgYW55bWVvbmUgaXMgaW50ZXJlc3RlZCBpbiBkb2luZyBzb21lIGZ1cnRoZXINCnRlc3Rp
+bmcsIGZlZWwgZnJlZTrCoGh0dHBzOi8vZ2l0aHViLmNvbS9KYXNwZXItQmVuL2RlbW8ta2FzIDop
+DQoNCi0gLS0gDQpXaXRoIGJlc3QgcmVnYXJkcw0KDQpKYXNwZXIgT3JzY2h1bGtvDQpEZXZPcHMg
+RW5naW5lZXINCg0KVGVsLiArNDkgMzAgNTggNTggMTQgMjY1DQpGYXggKzQ5IDMwIDU4IDU4IDE0
+IDk5OQ0KSmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29tDQoNCuKAoiDigKIg4oCiIOKA
+oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
+IOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKINCg0KaXJpcy1HbWJIDQppbmZyYXJlZCAm
+IGludGVsbGlnZW50IHNlbnNvcnMNClNjaG5lbGxlcnN0cmHDn2UgMS01IHwgMTI0MzkgQmVybGlu
+DQoNCmh0dHBzOi8vaXJpcy1zZW5zaW5nLmNvbS8NCj4gDQotLS0tLUJFR0lOIFBHUCBTSUdOQVRV
+UkUtLS0tLQ0KDQppUUV6QkFFQkNBQWRGaUVFNFd5UE1JQzVBcDQrT29vMVlncWV3MDdWTU5VRkFt
+R0tXdFFBQ2drUVlncWV3MDdWDQpNTlUzTGdmK1BsRE55SHhvQ2l2ZTNITDhWMDBLbGZyc2pUY3VR
+VllpT0RhdjM5bi9oL2NSdnE4RjhXaDdOaXlNDQpIanJyOU83TUNPWkxOR1FpVzl2Qk4vUjZGYldF
+U1orc3hsMm5MZEdIOThlQ1lQS0J1cmNIenZJWGxKZ2luY2MrDQpkTDFIdHhEcWpkazlUT0hmYUtB
+RDJ6YzhVMHRZNnh1NkhnajdRSUFxRUx0OEhBd09RZUloZXJBdUlRdzdnK0tIDQplV1k1eGhuOCtL
+clkvL1Jsbm5SbURNTzIwTEJZNjhiZGtDT0NIM2tBSUJmY1NJemo4ZnpmMUE0UFpoR0ZpOEFNDQpk
+eWRWQ0JNckt2UGczYmZKbmVuWnJWUGlqV25iODJwT3dqV3pvWmx0ell4dENqcUFod2V2b0NyOHR3
+R05EYng0DQpJVlBjRXF0TVdScmY4cnBRaUhzWkZUaGVhcDhCZEE9PQ0KPWhkaXINCi0tLS0tRU5E
+IFBHUCBTSUdOQVRVUkUtLS0tLQ0K
 
