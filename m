@@ -1,125 +1,90 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E948FC433EF
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 12:09:41 +0000 (UTC)
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
- [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web09.11103.1636459780960697090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D76C433EF
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 13:21:34 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web08.11911.1636464094023858193
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 04:09:41 -0800
+ Tue, 09 Nov 2021 05:21:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=L5AjtAst;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1636459778; i=@fujitsu.com;
-	bh=ESwNO7VAFfYtM8clgaVjSWm0X3nHQ/9Mljk7oOo0q6M=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=L5AjtAstOPtb4a38Vempd2GVfrQvs1mswJa5CJOcG7bpDIlv06SdjSWM6WeKIBWXN
-	 Q2ebRJyJqqiBKZmj/+1PMIfSqFgBKhVjW2xiptcMS9GXjCnSdSPpYltPc5ORwQlxmw
-	 z/7BX0C1tTnXwqxZ1lsVOAYUZj4PUCJRsIPkfrnxMGgZETGf3XUKr6IV2+1EJ2rk5m
-	 F0CSB8K881EAaRH+qnKwz2c0pQWv9GMlBCfDZZAJ52hpqYnevekZlJRzreCKOtko42
-	 5J1t5Eqlkp+NawQF/QfSvt+QjE8lfrAm7bEpXx86bI7dxWSYTvngdzNRTcCDBdvUzQ
-	 hYvDBTpBQAn2A==
-Received: from [100.113.7.62] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-b.eu-central-1.aws.symcld.net id F6/98-01506-2056A816;
- Tue, 09 Nov 2021 12:09:38 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxSZcptSv
-  R4MQ6MYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPz55usBR95Kt5O2M3cwLiFu4uRi0NI4DGj
-  RPvKe+xdjJxAznkmiQWdLBCJ44wSGxbcZwVJsAmoSUy/dQPI5uAQEdCTuPpPFCTMLKAi8eJ3D
-  1ivsICdRNPvPywgNgtQfN/1T+wg5bwCThLTJluAhCUEFCSmPHzPDGLzCghKnJz5hAVijITEwR
-  cvmCFqFCVmX25mgbArJGbNamOCsNUkrp7bxDyBkX8WkvZZSNoXMDKtYrRMKspMzyjJTczM0TU
-  0MNA1NDTWNdU1MjHUS6zSTdJLLdVNTs0rKUoEyuollhfrFVfmJuek6OWllmxiBIZjSiHrxx2M
-  h15/0DvEKMnBpCTKe1msK1GILyk/pTIjsTgjvqg0J7X4EKMMB4eSBG9fElBOsCg1PbUiLTMHG
-  BswaQkOHiURXuNkoDRvcUFibnFmOkTqFKOilDjvT5CEAEgiozQPrg0Wj5cYZaWEeRkZGBiEeA
-  pSi3IzS1DlXzGKczAqCfOuTgSawpOZVwI3/RXQYiagxQe/tIMsLklESEk1MNmd84xx5WArmLb
-  0vFm5yT3v5qCc9rUNYct9P7pfXi50UNUy+I5noqFXjYvIP++vVvGh6TIpV3/WdcYebb/euYI1
-  illEPuDJrJVH1J/MsZLg/7jk3cKg49VuX7U09R8v8ovVyPPeanG1J4CLyzOASWpG+2PlRNawR
-  czVsR9/zk5tE5Q+u6n8gbOgA9P97Q/ZJiRkv3eV6X4evzxmmc5lv8lbHPfyv7ulYsyd1GqRor
-  On68szn58TteM50izE7e629SppJSvwc4Y4rFApzW3KX7zg+4JpG/o2zJxwjH+OZ3z9x8/OJhe
-  P6v1eVzpx56qrJ1ceNq+zUl1fl/ZXxfO3U+0k6X13lzfwp7owHbyuxFKckWioxVxUnAgAec3c
-  IUIDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-2.tower-245.messagelabs.com!1636459778!387432!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 27779 invoked from network); 9 Nov 2021 12:09:38 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-2.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 9 Nov 2021 12:09:38 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id CC99510046B
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  9 Nov 2021 12:09:37 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id C0375100441
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  9 Nov 2021 12:09:37 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.24; Tue, 9 Nov 2021 12:09:16 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] btrfs-tools: upgrade 5.14.2 -> 5.15
-Date: Tue, 9 Nov 2021 20:09:03 +0800
-Message-ID: <1636459745-60491-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aBB6tgtX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id o29so12003766wms.2
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 09 Nov 2021 05:21:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9S5VV0ODafD7/ANZn7e8382IPfKwp6D54QwwFsHx6s0=;
+        b=aBB6tgtXbIJD1snIoa7dvU472vlM52XB5gEdxc7RJEtbpbGVnmoR8esrVdmz7+9sCw
+         piUOp+eDkLIOzt5k9Rv7elgAHUGqLWgj8h1myiOmHS2N5zy8M5H9UJG0K4W2wQIZX6Gs
+         jwhtQXj+yGnyI96Z2GIdI3BDYtcEK2efHZPV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9S5VV0ODafD7/ANZn7e8382IPfKwp6D54QwwFsHx6s0=;
+        b=AWXPevZvOUy8pFfEdODzRhI4f7r+JeMQnY+NpJ56aApNRfGz6mmOCsTSmhpxFb8Xbd
+         YWrIjbpDZxmszfmdCTRkOMxgs2/0bMG7y/oXCOr80wV9XOYjTJuAfitHlvymRu2eiSey
+         uz267CRQGQDSsphA83DRbu1kH8If4PyQpoJmBppkNNNTw3EUoK2rAFPIJfsBOqhLk5Q8
+         lZCRGIs95ZhhMJQCNuvba38BcKlzUyTh3ipJ949ZjaAplnSKmOu5a/v1GL+uFVNs7HAb
+         v5nxnjw5kRDG64IMutF07Vt3vgbRghxvxTOMTaG4wUwpwdXdoagtK78jxi6qzeJafHpy
+         f5ag==
+X-Gm-Message-State: AOAM530KE2Cc3s9BiJPIf0LvfSWYCRQKLsVrJtRMzbJffXLPkBV30vMs
+	eehb992VI8k5Yc+s9AnsUmcjARrlXIROgw==
+X-Google-Smtp-Source: 
+ ABdhPJwYIDCcOrks4hZCEciG9Ly3s7foX1EZ1Rgl85Q6QzUWMDJzgO0Eq4v5TxKh8l4Z6FfreBALuQ==
+X-Received: by 2002:a7b:ce8a:: with SMTP id q10mr4431417wmj.55.1636464092158;
+        Tue, 09 Nov 2021 05:21:32 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:10b7:e9c6:d1a:6f7c])
+        by smtp.gmail.com with ESMTPSA id
+ l26sm2570095wms.15.2021.11.09.05.21.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Nov 2021 05:21:31 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] mirrors: Add uninative mirror on kernel.org
+Date: Tue,  9 Nov 2021 13:21:31 +0000
+Message-Id: <20211109132131.3789773-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 12:09:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 13:21:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158017
+ https://lists.openembedded.org/g/openembedded-core/message/158018
 
-Changelog v5.15 (Nov 2021)
+At the last nas outage, we realised that we don't have good mirrors of the
+uninative tarball if our main system can't be accessed. kernel.org mirrors
+some Yocto Project data so we've ensured uninative is there. Add the appropriate
+mirror url to make use of that.
 
-mkfs: new defaults!
-no-holes
-free-space-tree
-DUP for metadata unconditionally
-libbtrfsutil: add missing profile defines
-libbtrfs: minimize its impact on the other code, refactor and separate implementation where needed, cleanup afterwards, reduced header exports
-documentation: introduce sphinx build and RST versions of manual pages, will become the new format and replace asciidoc
-fixes: fix warning regarding v1 space cache when only v2 (free space tree) is enabled
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../btrfs-tools/{btrfs-tools_5.14.2.bb => btrfs-tools_5.15.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.14.2.bb => btrfs-tools_5.15.bb} (98%)
+ meta/classes/mirrors.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.14.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb
-similarity index 98%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.14.2.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb
-index ba4ad0f438..399ba17e3e 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.14.2.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb
-@@ -19,7 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;b
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-            file://0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch \
-            "
--SRCREV = "35f17bc49cdf760d8f3710fe2c301b933d991fd6"
-+SRCREV = "4d06e4a13d1ce1849a60b68969bc385ab736ddf7"
- S = "${WORKDIR}/git"
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index ba325a658bc..75eb86a7243 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -62,6 +62,7 @@ ftp://.*/.*     http://sources.openembedded.org/ \n \
+ npm://.*/?.*    http://sources.openembedded.org/ \n \
+ ${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
+ ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
++https?$://downloads.yoctoproject.org/releases/uninative/ https://mirrors.kernel.org/yocto/uninative/ \n \
+ "
  
- PACKAGECONFIG ??= " \
+ # Use MIRRORS to provide git repo fallbacks using the https protocol, for cases
 -- 
-2.25.1
+2.32.0
 
 
