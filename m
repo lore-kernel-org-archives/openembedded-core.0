@@ -2,71 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D798AC4332F
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 15:03:07 +0000 (UTC)
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com
- [195.245.230.83])
- by mx.groups.io with SMTP id smtpd.web09.13248.1636470186124385772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC089C433EF
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 15:03:28 +0000 (UTC)
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com
+ [195.245.230.5])
+ by mx.groups.io with SMTP id smtpd.web12.13272.1636470207462848950
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 07:03:06 -0800
+ Tue, 09 Nov 2021 07:03:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=hFLeFYfA;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.83,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=oo/IvO8d;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.5,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1636470183; i=@fujitsu.com;
-	bh=nxeTCW3zexcFe1oqNuuKGjMVquh1nnB2/hCgDuGIpFg=;
+	s=170520fj; t=1636470205; i=@fujitsu.com;
+	bh=adMPcJhqWaX8ihw+fdhNk8S3L5sh+PDSwPbC3i90/qQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=hFLeFYfAk23QcmCVX64DIOm9d1ik0X/LVfvJ3gkPb8Ez7gkPe+7yBiWg8T4gLbsNl
-	 6bGr/EWtIINIvGaaP1sveKYEib+5eZmAkSg5JE9N1UqIAw0EOCSOKs9Sn5b1lkLAvt
-	 e/NsePhCK5pR1IiyC33yhjqTdFZ89mI0nt2IA0tycbl2SHIfidwGnFWZ6CqsZaeVqf
-	 9Or6tWI5B8KmhyKAjcwf/TF96TAtu2Y5dj/XswTiFwrkmXET8/u/+rOD+uHv9y3mqb
-	 v0WYVd2N+5InUSiAEFg/SnFPPSoVk+rZUYpXSx+W4ANWRyRqX9JrUMo7NEkuIaSjtf
-	 UkDBltgQTbPkQ==
-Received: from [100.112.197.16] (using TLSv1.2 with cipher
+	b=oo/IvO8d+B6PMHohFfugSHOVfvuWjI/0z7yiU5rbmt9C/6Ntw71pfKP353tD2+mCh
+	 qBuD2jwrB42ZpSmTkA0svGGRhbLfMJE5HwT7OOvL3Woeu9jbR/aTVPhSI0Zzq9O/UL
+	 rBVm3J3hEsVdgYhyG/j31AkeHRbfP7YJRj9QDDyPmuMfflSUkTfPs8beartDWbRYk9
+	 /X920WHGEOBq+Jv+ucNbc5Em3+ZOxCVH8YfYNGYk06g0FkbEBUVVpMa4X6FYSGIcNn
+	 INP6kGlJtOdrPZPYzWexVEfbKgHFW/mX7/MRkSwv4G7fr3tRswNbWR/BWj+ik6jjbR
+	 NLwnaDDEGPi5A==
+Received: from [100.112.195.167] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id 64/21-09147-7AD8A816;
- Tue, 09 Nov 2021 15:03:03 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBIsWRWlGSWpSXmKPExsViZ8MxVXd5b1e
-  iwb8mHos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePfxfdMBf/4Kh6fn8bWwNjJ28XIySEkMJ1J
-  4tIk5S5GLiD7OKPEjkOXWUASbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHidw87iC0sYCMxZ
-  88NsHIWoPjp0z2MIOW8Ak4S6z7GgYQlBBQkpjx8zwxicwo4S5zve8cMsdZJ4tS+W2A2r4CgxM
-  mZT1ggxktIHHzxghmiV1Fi9uVmFgi7QmLWrDamCYz8s5C0zELSsoCRaRWjeVJRZnpGSW5iZo6
-  uoYGBrqGhka6hpZmumYleYpVukl5qqW55anGJrqFeYnmxXnFlbnJOil5easkmRmAgphQccdjB
-  eP/1B71DjJIcTEqivP+6uhKF+JLyUyozEosz4otKc1KLDzHKcHAoSfBuAckJFqWmp1akZeYAo
-  wImLcHBoyTCK9YBlOYtLkjMLc5Mh0idYtTlePdz8SJmIZa8/LxUKXHe/nqgIgGQoozSPLgRsA
-  i9xCgrJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYd0MP0BSezLwSuE2vgI5gAjri4Jd2kCNKEhF
-  SUg1MtlH/WKOFbe9+uXSnQDEhe/OiGxrmcw0TF/Jfd8xTOS9y7sbZN9tNBeYu0fTZ/jx9TVFF
-  d2y1gHef2U7GTQrnm/5s5zb4VHOTOen2N81mjSznH9dTv1nOXRp6Jmt3+429V5Q+VdzmlBRbl
-  FJcvTlx46Gkko9bp1w9Hhf80UZx084ZF92MzTkC/DiSMl72BhzJKE9K5VY69Ofjp7cNhQ1JmS
-  wOS/46ffFZNzNqfauhpFeo6hXBz0vzGw42LBHSZ1PWehdeyv2/6tXSvQt+My+eq5ApUve9UYZ
-  dv/dx2tP9857LbFh7/8jsd796zDIqvuzao9FlyXXEYuvLDwxT8/fwxD4qkJ/c6/uvkZFLZkaX
-  EktxRqKhFnNRcSIApG8Kk0sDAAA=
+	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id EE/84-11077-DBD8A816;
+ Tue, 09 Nov 2021 15:03:25 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRWlGSWpSXmKPExsViZ8MxSXdvb1e
+  iwffb4hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aPmUvYCuaxVxw5uo+lgfEIWxcjF4eQwGNG
+  ie+33rFAOOeZJPo2/mSEcI4zSrycvZupi5GTg01ATWL6rRusXYwcHCICehJX/4mChJkFVCRe/
+  O5hB7GFBYwk/ky9A2azAMXvzrjGBmLzCjhJdE79BjZGQkBBYsrD98wgNqeAs8T5vndgthBQza
+  l9t5gh6gUlTs58wgIxX0Li4IsXzBC9ihKzLzezQNgVErNmtUHNVJO4em4T8wRGwVlI2mchaV/
+  AyLSK0TypKDM9oyQ3MTNH19DAQNfQ0EjX0NJU19hEL7FKN1EvtVS3PLW4RNdQL7G8WK+4Mjc5
+  J0UvL7VkEyMwfFMKDivtYHz3+oPeIUZJDiYlUd5/XV2JQnxJ+SmVGYnFGfFFpTmpxYcYZTg4l
+  CR4t4DkBItS01Mr0jJzgLEEk5bg4FES4RXrAErzFhck5hZnpkOkTjEqSonz9tcDJQRAEhmleX
+  BtsPi9xCgrJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYd0MP0BSezLwSuOmvgBYzAS0++KUdZHF
+  JIkJKqoGJb4lZ4evb7/w2mTKE3Pz/5ROjxgWr206rHi8+vWVO2/R5fGFH7y8IqRFT37mZ9YS0
+  WMeraIfSs0d67Q0vTWy+wLs48b7iC5uLO0usPmodm3nAZOPNDdftgpeFr/s2fT9DV7HAxvBEz
+  2iBfytnRH7LyTD7zXj057nr675fOmCZu1LgRo531c+ZPZKimh4GU6rf8LVrbUjjb/dOPnOkuT
+  iy1OTCwellLAZpdow9RfPn2zEu9IuR8RPK+7Z570T+rywTzzV8mu2etum49NN62T6GxJYrBS3
+  cnbfSrgqobK4U/C/nEGV6+fPF8hs/Nrq1f96jk8FmWCnPoRAX7XH4cW2mv+r/t99zblf95jqw
+  eIW5EktxRqKhFnNRcSIAuohGi1oDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-285.messagelabs.com!1636470182!10709!1
-X-Originating-IP: [62.60.8.149]
+X-Msg-Ref: server-9.tower-267.messagelabs.com!1636470205!319532!1
+X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 17621 invoked from network); 9 Nov 2021 15:03:03 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-5.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 9 Nov 2021 15:03:03 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1A9F2uOE010951
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 9 Nov 2021 15:03:02 GMT
+Received: (qmail 28500 invoked from network); 9 Nov 2021 15:03:25 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-9.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 9 Nov 2021 15:03:25 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id D2778100465
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  9 Nov 2021 15:03:24 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id C6257100441
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  9 Nov 2021 15:03:24 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.24; Tue, 9 Nov 2021 15:03:00 +0000
+ (TLS) id 15.0.1497.24; Tue, 9 Nov 2021 15:03:03 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] iso-codes: upgrade 4.7.0 -> 4.8.0
-Date: Tue, 9 Nov 2021 23:02:43 +0800
-Message-ID: <1636470164-60899-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] iw: upgrade 5.9 -> 5.16
+Date: Tue, 9 Nov 2021 23:02:44 +0800
+Message-ID: <1636470164-60899-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636470164-60899-1-git-send-email-wangmy@fujitsu.com>
 References: <1636470164-60899-1-git-send-email-wangmy@fujitsu.com>
@@ -75,55 +81,36 @@ Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 15:03:07 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 15:03:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158050
-
-- ISO 3166-1: Add flag emoji to countries. Thanks to Pander
-  for the suggestion. Fixes #19
-- ISO 639-5: New translation for Chinese (Simplified)
-
-- ISO 3166-2: Major update of data.
-  Thanks to the script of Kevin Kaiser, which enables
-  the download of ISO pages and parses the data.
-  Fixes #15, #16, #27
-- Rename ChangeLog.md to CHANGELOG.md and follow the suggestions
-  from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
-- Move all CHANGELOG entries from versions before 4.0 to an
-  archive file (CHANGELOG-PRE-4.0.md) in order to reduce the
-  massive size of this CHANGELOG.
-- Translation updates for ISO 3166-1
-- Translation updates for ISO 3166-2
-- Translation updates for ISO 639-2
-- Translation updates for ISO 639-3
-- Translation updates for ISO 639-5
-- Translation updates for ISO 15924
+ https://lists.openembedded.org/g/openembedded-core/message/158052
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../iso-codes/{iso-codes_4.7.0.bb => iso-codes_4.8.0.bb}        | 2 +-
+ meta/recipes-connectivity/iw/{iw_5.9.bb => iw_5.16.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/iso-codes/{iso-codes_4.7.0.bb => iso-codes_4.8.0.bb} (94%)
+ rename meta/recipes-connectivity/iw/{iw_5.9.bb => iw_5.16.bb} (90%)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_4.7.0.bb b/meta/recipes-support/iso-codes/iso-codes_4.8.0.bb
-similarity index 94%
-rename from meta/recipes-support/iso-codes/iso-codes_4.7.0.bb
-rename to meta/recipes-support/iso-codes/iso-codes_4.8.0.bb
-index 46988a7e80..2f3f589e7c 100644
---- a/meta/recipes-support/iso-codes/iso-codes_4.7.0.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_4.8.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/iw/iw_5.9.bb b/meta/recipes-connectivity/iw/iw_5.16.bb
+similarity index 90%
+rename from meta/recipes-connectivity/iw/iw_5.9.bb
+rename to meta/recipes-connectivity/iw/iw_5.16.bb
+index 3d1e1c7e79..cf176a349f 100644
+--- a/meta/recipes-connectivity/iw/iw_5.9.bb
++++ b/meta/recipes-connectivity/iw/iw_5.16.bb
+@@ -14,7 +14,7 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
  
- SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=https;branch=main;"
--SRCREV = "59767ed869f3952575f7d0f639a290a4c4b315e5"
-+SRCREV = "5d0a5515f26b3858e27939c8f9a732d8bd4271ab"
+-SRC_URI[sha256sum] = "6e7d3c9f8b4ee68e412f20fe229c9854c2dba383e3e650ce6af8eb8dbd12efc3"
++SRC_URI[sha256sum] = "9c91f2560b258d9660e656ad37fa5bd100ac255865dcfb26076a576b10d8f3a7"
  
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
- # are inhibited by allarch
+ inherit pkgconfig
+ 
 -- 
 2.25.1
 
