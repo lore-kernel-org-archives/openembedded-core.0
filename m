@@ -1,82 +1,78 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9510FC433F5
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 02:04:16 +0000 (UTC)
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.6443.1636423455196608718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ACBBC433EF
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 08:12:07 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web10.9146.1636445525977531227
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Nov 2021 18:04:15 -0800
+ Tue, 09 Nov 2021 00:12:06 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
+ spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: liezhi.yang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1A98C4ep021875
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 9 Nov 2021 00:12:05 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1A924ADh001528
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1A98C41j021942
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 8 Nov 2021 18:04:10 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ Tue, 9 Nov 2021 00:12:04 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 8 Nov 2021 18:04:09 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Mon, 8 Nov 2021 18:04:09 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ 15.1.2242.12; Tue, 9 Nov 2021 00:12:04 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 8 Nov 2021 18:04:08 -0800
-From: <kai.kang@windriver.com>
+ 15.1.2242.12 via Frontend Transport; Tue, 9 Nov 2021 00:12:03 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] squashfs-tools: follow-up fix for CVE-2021-41072
-Date: Tue, 9 Nov 2021 10:04:05 +0800
-Message-ID: <20211109020405.6549-1-kai.kang@windriver.com>
+Subject: [PATCH 1/1] bitbake.conf: Set ZSTD_THREADS to half of cpu number
+Date: Tue, 9 Nov 2021 16:48:48 +0800
+Message-ID: 
+ <5e10cddcd2697c7b762c8c8d245bb76f8666aefc.1636447679.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1636447679.git.liezhi.yang@windriver.com>
+References: <cover.1636447679.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 02:04:16 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 08:12:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/157997
+ https://lists.openembedded.org/g/openembedded-core/message/157998
 
-From: Kai Kang <kai.kang@windriver.com>
+The original value is very easy to cause do_packge error when cpu number is
+larger, for example, 128 cores and 512G mem:
 
-Squash a follow-up fix for CVE-2021-41072 from upstream:
-https://github.com/plougher/squashfs-tools/commit/19fcc93
+error: create archive failed: cpio: write failed - Cannot allocate memory"
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Set the ZSTD_THREADS to half of the CPU number can avoid the error in my
+testing.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../squashfs-tools/squashfs-tools/CVE-2021-41072.patch      | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
-index 94d6da4b14..f807af60bc 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
-@@ -1,6 +1,10 @@
- CVE: CVE-2021-41072
- Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/e048580]
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 71c1e52ad6..46ebf5113f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -833,7 +833,7 @@ XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
+ XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
  
-+Update on 20211109:
-+Squash a follow-up fix for CVE-2021-41072 from upstream:
-+https://github.com/plougher/squashfs-tools/commit/19fcc93
-+
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ # Default parallelism for zstd
+-ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
++ZSTD_THREADS ?= "${@int(oe.utils.cpu_count(at_least=4)/2)}"
+ ZSTD_THREADS[vardepvalue] = "1"
  
- From e0485802ec72996c20026da320650d8362f555bd Mon Sep 17 00:00:00 2001
-@@ -65,7 +69,7 @@ index 7262a2e..1b544ed 100755
-  
-  unsquash-1234.o: unsquash-1234.c unsquashfs_error.h
-  
--+unsquash-1234.o: unsquash-12.c
-++unsquash-12.o: unsquash-12.c unsquashfs.h
- +
-  unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h unsquashfs_error.h
-  
+ # Limit the number of threads that OpenMP libraries will use. Otherwise they
 -- 
 2.17.1
 
