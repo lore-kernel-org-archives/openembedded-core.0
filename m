@@ -1,777 +1,221 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <yi.zhao@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A5CC4167B
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 14:39:03 +0000 (UTC)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web11.12796.1636468740845062503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4EAC433F5
+	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 15:03:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.13151.1636470180231092957
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 06:39:03 -0800
+ Tue, 09 Nov 2021 07:03:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="229916016"
-X-IronPort-AV: E=Sophos;i="5.87,220,1631602800";
-   d="scan'208";a="229916016"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2021 06:38:49 -0800
-X-IronPort-AV: E=Sophos;i="5.87,220,1631602800";
-   d="scan'208";a="641956954"
-Received: from chinboon-mobl1.gar.corp.intel.com (HELO
- anmitta2-mobl1.gar.corp.intel.com) ([10.215.234.207])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2021 06:38:47 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 25/26] recipes: Update github.com urls to use https
-Date: Tue,  9 Nov 2021 22:38:00 +0800
-Message-Id: 
- <8b83eddda83327d25247bb9b61a049b0a8698a45.1636467986.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1636467986.git.anuj.mittal@intel.com>
-References: <cover.1636467986.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ZJ0bNymS;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=6947224753=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 1A9D0BKl026810
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Nov 2021 15:02:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=subject : to :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=ST2XEJ0Eg3uIvI75NEyW42GJLayCFW1bTLa4Uk4f3og=;
+ b=ZJ0bNymSDfEB/vKysydKqz/PFW0tYRbf566mhZl7Y8VpmW3aq7aiiMXKyiM6Q/brmA3Y
+ Qh+BO+w/pyiQf5t8QS6XPW9jBdy2djajdvj2CfdWjMON2eK7vwgzPMxJQxDZ9pOZKE6Q
+ bYji6LO7ei9k+3M+BS+dPqNCgD0mpMrD+Apo3oFDj+VPpRUSAoKlMsFGhHWqZXErEyi6
+ LbmYlYuEL4Cytn1G/IPnd+OKSvPZluTiuArNdz4xBtjt4zPDyFT2GrA56MwVlLPrj5jY
+ ncq6+k3N//2scg4DbKYVIt8EkIdiKmUkra4kN+nySD/rEKj7D2hA+FuvRV0g3p0KbdYI NQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3c7sf1r4cp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 09 Nov 2021 15:02:57 +0000
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.1.2/8.16.1.2) with ESMTP id 1A9F1rGi029636
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Nov 2021 15:02:56 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3c7sf1r4cj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Nov 2021 15:02:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JBOJ0dRCmwjM3tudI7T3yjsd2dfA2OtAKMhpA+DaWhyUkGZsmoEgqbs+xze5OQsm/XqeaT7l7nD2YGirVvvCrolELsxt1wQ/Yat5ZWAs7M0+3hYmQlwuEFFbFEDOcN1wvBIWEv845yCT+/JXDBrpYg/9ipx2xdr4OmgBPote9vvFgdZOWiLrHTaTzT3bNr8uke9R/BanWrh0M/+EekgRGy3ao4NzQmlLakNKrCYsNvOrMYfy1ZBiXg1zl69IS+IIDeRQ+f0ORTIt91mwC3Q5pYiPqR7SWUWdgCY+gvo7LgjXc5yoHQGEg05wYlz8bAPYDZlBdQD0TAZNvmCm0YKY6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ST2XEJ0Eg3uIvI75NEyW42GJLayCFW1bTLa4Uk4f3og=;
+ b=mBc36d2Jm0eHpF62MBUQTtLaFwc9OxvkDUOd5rSQTzXsp9jnyqp9WLOU+Pv3vT/HTBrb8GwfCTQnFEHh2rwXJcThyJ6Fx123bnxJALgt+YDtsG4ehYu5j1m9qXPpvWY5jWWh//5AbgU1aGtRW8ez9PLLZl7g47BdftID+CxaCUn0icCebiDKYjJ2e0l0X+kjcM7UL5uH/o0dN3e+drsvEElSm+sML4KUuAhLX0ZzE9DnVqImL/fxXMOsRE6hZvl9T9vNNUFMo2vBNkjIM26cW/qKAuJ8gN0rMaVywJI7Hz3lkGXvoplUrUv75HoTJ5yNXIGJW+RL/a0gZOROMg6w4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
+ by MWHPR11MB1280.namprd11.prod.outlook.com (2603:10b6:300:2b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.13; Tue, 9 Nov
+ 2021 15:02:53 +0000
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::455e:9cfb:d106:4480]) by CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::455e:9cfb:d106:4480%9]) with mapi id 15.20.4669.016; Tue, 9 Nov 2021
+ 15:02:53 +0000
+Subject: Re: [OE-core] [PATCH] python3-nose: translate to python3 code before
+ build
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20211108065510.25048-1-yi.zhao@windriver.com>
+ <5a504e34529cf69e28b9f1e3810ecdd3797cd1f3.camel@linuxfoundation.org>
+From: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <a4138f05-8136-1d34-f340-6d211d7bb38a@windriver.com>
+Date: Tue, 9 Nov 2021 23:02:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: 
+ <5a504e34529cf69e28b9f1e3810ecdd3797cd1f3.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: HK2PR02CA0191.apcprd02.prod.outlook.com
+ (2603:1096:201:21::27) To CO1PR11MB4867.namprd11.prod.outlook.com
+ (2603:10b6:303:9a::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from [128.224.162.174] (60.247.85.82) by
+ HK2PR02CA0191.apcprd02.prod.outlook.com (2603:1096:201:21::27) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
+ Transport; Tue, 9 Nov 2021 15:02:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0287976a-7618-4bb7-24ef-08d9a3920156
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1280:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB128024045E3924046A6FE004F9929@MWHPR11MB1280.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	mRB1kNTkHoOvCKxxA2PwuxTer4InYxniDPCgrr0ZhKPq1M6cP+PMNG8RCd18rF8obvVFcmSlTCbBA+bVbZ2PzXfa+gywwjtX6HuywTEEM/RgaoX1NOASsZdzyTRqpKVQIbkN+Es3yHBbyeAY9v00yzeU17HlNK7fJ5kQZ9RSz/WI8lz9dcPa4cvgbx7vnmJONoHNnCgV+MBroXFQtOVOPfvbSb1uxwKRhlJIFQ3ejXcSG77TKuNtXmgT2dKUNBwaJalVI15gGiblAJ9BSSNjTM4d3QGHzYzikaOSJmz1YppcYW2enn9H2fImscdmiJJ+qq8dRC7MYxIcOImbP2txQ9HnEQrPxenizFlGBtwHFX1kCaZFk9vc80Dpm2fVK1wJQekwd/uN7WFiRuc9ZmiKiaH5cMsZq3QNqIlbEq4RzoeqaEkKnk5SiBDDd1cO9XyoYPtUS4UbyyDXjBRKtWUmnUvIcpH7SnE/HLhuUkD29uPK6dD5OA7uMyBcsOemFk99EfvGzmxlrlAFxm35Lw5b1OMmf62mupzaPf6khLQXBn0Bf2vU7GzRrnBRYdkRapDUHZL3lb0cqiDNhcjyGDiC6i16e2HUed3l6SrHkFaiZebW74gbGgJow+GYQlvQOSZh2UzfRh9TTej44vNHvIrT+7zRVcxcIOvuX9lhcSfx7RqdGesBz5Zm/UfKE/1slX2TXb4ciDFkQX2pnfvgP3rIomv9xlvSxF91BgkJHF3+pI490A2zqpNvj8HiqcUogGwUpOyOu9i+4JLCWAjYlEVBT3nQepVEsJNC2HHZUok+4gCR84krSwpkDKXffFiJ0G+CXLv+w1GZ52j7EiGKBO2M5ylf4Z7JLqKuPuZk9BhDEWyBxuMNisaNboF4aWRQYyuEFSxgbFndGgsJD8MmtU4Wd8gr8KMm2/a8YYRsWkjHW/8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66476007)(31696002)(36756003)(66556008)(316002)(5660300002)(86362001)(8676002)(38100700002)(31686004)(2906002)(38350700002)(16576012)(966005)(66946007)(6666004)(26005)(44832011)(52116002)(6706004)(2616005)(6486002)(508600001)(956004)(53546011)(186003)(8936002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?S1hjYlNPSk55WTMvRnppTFVLV1Q1TFFJYVFiTkE4ZDhvRFYwdURhd2FCeFZm?=
+ =?utf-8?B?L0lpSThiaC8reHFKZFZYMHVrMkZBWHFUOFdmdGVUK2RTR1o3bW1rdnF2SkRy?=
+ =?utf-8?B?WjRYNHJjOS9FOHc3M1NZdlVOS2xhREFqdW1zS3A2VERZMjg0eVdzU1lUcXcz?=
+ =?utf-8?B?K2pVYjZEdjFYQUZBWlhRMEJmd0pma1dXbFJUcThRV00wMDlianN1UTNPVmtj?=
+ =?utf-8?B?NkNob3NwMnlFSjFVSUdVRU9tWEVyVEFqdVlocThkbFVvMTRVY2JUMDIxWHVL?=
+ =?utf-8?B?S0xGQmF3NVl6RlE5eWM0RjZ3SGZ3VDBzSmYxeVZNdXVQWEdXZmRxT0FDY2Z4?=
+ =?utf-8?B?Q0R3V3lQUUtTU0R2cW1FSGR3cmZFeTM2cmNLUVN0TmVCeFhBVURJM0tWVExw?=
+ =?utf-8?B?NjUrNFhieXFKNmlaOVZtclZQZWZiWFFML3BYRjd4dFMwNXlEK3dmR0RrK01u?=
+ =?utf-8?B?VzRYYW5ORzB5ZWlaMDdLc1FWUnlEMmJqRHdrTzhlR0o2VHpTYWhOZzBkQTNS?=
+ =?utf-8?B?clBJeW9HMXBYZmZjT29WTW8xaDBPZGsweDB5UHpvQVFFVEpsOVpGdUpkN3Nx?=
+ =?utf-8?B?c3JUMnBJRmJPc3RYdDVEakdVOG9MU2Nxak9PeCtHV3lBNzFjL21IdXkxVWds?=
+ =?utf-8?B?MkZDWmVsbUl1NTlGWGtKTXBSM0pheVJ6NXFTYW5scEoyWVpnbThLVDBkeGJU?=
+ =?utf-8?B?eGt3Yys2WXh1T0JPUkpBU0FHU3VHSkxNUVo0cHlyVVppZlNCc2UzYkxUdTdW?=
+ =?utf-8?B?cnNuMWVQWHZSMXpwSXROc1JPN1JSazZSejI5UmRSQ0R3ZWRodHRaMC8vbWFw?=
+ =?utf-8?B?RGJOVDVCeno0bXBPVUdadHlOcUhlYjY5NXlVRm9GRGhyMlFzZll3S0FZelRm?=
+ =?utf-8?B?RUlrRTlwSXdPTFRURUVlOVp3bVh3OWFZazZxY2d0OWk3d0hNQXYxRU5RdDVw?=
+ =?utf-8?B?SUJoazJnK3JMWXJBZlZKWUlDZFlMWlJjR0V6b1hLdDVveDZRb055M0tJWXhl?=
+ =?utf-8?B?MUwvK2dnanY0eXpybG5kQ2hlaWJTNFdJSlpwMEFLNWpObXlHOEIvR1dDa1Nj?=
+ =?utf-8?B?eGVDbENZVDhsWW5jc1E4ais5aGpJUldJN3FQY0RiUTgwOHBFemV1T0g1NVgz?=
+ =?utf-8?B?eFhid0NIa01CUFhaRVRyM25QV0xFY0ZIZ3pibkxtanZ6dWFidXhkalN6MVl5?=
+ =?utf-8?B?M2NDU0ZDdjhUeWplRFlKeW81MGd5T09hcW1NNWs5ZkE3aUJEMzBOQ3JPaVVJ?=
+ =?utf-8?B?UTdYNjBwZFp1WnFTMFFtRXpIeStQQzdrc0tVSDhhdVRSeWVEME9xMEE0NjY2?=
+ =?utf-8?B?TDhBNitoVzJLUGVDUEJnVDFzZjVnMmdvSVUyVnVKdnRTaGlZNkR3SGpxcmpo?=
+ =?utf-8?B?dkk1L3EwZHVXeFlrcU1pMjcycmdrMXJ3Z3kxYkJCdTdSUlYraXZWN1ppeVph?=
+ =?utf-8?B?dHhzbWNnWnV2Tmo2NnB3ZE9RcExRSjR6UXNxMmo4WU45eHFxaDFRNGlQb0ZL?=
+ =?utf-8?B?akREMitHdEZOKzFqbEEvNW02TW5oYnR6MVZNS1lJZ2M4UWhYRUhFNEpvc3hi?=
+ =?utf-8?B?c1d0SGpNN3JwSk54bVNtOGRtTzUrVUt3N3BQQU9uNzRtUHdaL2hTa1pxQjI3?=
+ =?utf-8?B?bVAweXJSTWFlUU0xMVRmNXNSZm1vMVdKdkdFTU1FL01oemZtcFk3WUhlbnFv?=
+ =?utf-8?B?OTVTdFNDK3NRODRYdW9OK1AxelBtOUlBaDNKSnZMb2czTjRGbTRPU3F2bmV4?=
+ =?utf-8?B?L1g1Yy9WUDdzdXRkdGpHSjFyNHVaUmxaYStJUW1ETXNUVFpaUFYya3FjM3pu?=
+ =?utf-8?B?RCtWNHBNbFFrVEhrWWVidjBkdkN5Tm42Snl5N1ppVGpXdkQ4anh5OEpjUkps?=
+ =?utf-8?B?MlBMTnBQU1dDdTRtMzJXZS9OM1dKcldhaFRxTzd2RVFlaWJMc1NYVFdyZXBp?=
+ =?utf-8?B?ZjdkeWtSdmhYR0hyNXpZNmRMc0hqUjEyWE5jUjFoV0VwcG1rT1dXVll3MUtJ?=
+ =?utf-8?B?Nkt4cExaVlFnK0U1L0svNkQ3RDMwY3F4OHJvTkxBVHZRNmhwcFB6SSszSEdC?=
+ =?utf-8?B?SGNoZHc4Y21yU05Vd0JsK3ZsZ1pRemRTcFBDZWR6eldrbzV3YzU0QkYxUUx5?=
+ =?utf-8?B?QUtWUG1vcHZ4VHVlcUZVaDdtZUJTWHFMUUZpZEVTZnI0Z2dRVVBBeUlwYjFT?=
+ =?utf-8?Q?N8O7bF4ue8vpQW02s/S7Trs=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 0287976a-7618-4bb7-24ef-08d9a3920156
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 15:02:53.4154
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ jgSrCeAeBgOwQVMdbIo+EWRKPlJFj0zfbSa9P6pzb4GMDdArBZ6ydO3ssBxCY4wp8uLP7vJLkSKvtY9ihAshdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1280
+X-Proofpoint-GUID: uMWxeaNRbk8Bgd-bK3PONJf2JC7QSMDT
+X-Proofpoint-ORIG-GUID: SwpdVn-xG9Y3UIEnMzOmsLGf9sw0h6Eg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-09_03,2021-11-08_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0
+ clxscore=1011 mlxscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111090090
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 14:39:03 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 15:03:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158045
+ https://lists.openembedded.org/g/openembedded-core/message/158048
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Github has announced there will be no more git:// fetching from their servers:
+On 11/9/21 5:56 AM, Richard Purdie wrote:
+> On Mon, 2021-11-08 at 14:55 +0800, Yi Zhao wrote:
+>> Setuptools has removed support for 2to3 during builds since version
+>> 58[1]. But the nose's setup.py relies on use_2to3 option in setuptools,
+>> it is failing an import and building without running 2to3 and generating
+>> valid python3 code. As a workaround, we use command line 2to3 tool to
+>> translate to Python3 code before build it.
+>>
+>> Fixes:
+>> $ python3
+>>>>> import nose
+>> Traceback (most recent call last):
+>> File "<stdin>", line 1, in <module>
+>> File "/usr/lib/python3.10/site-packages/nose/_init_.py", line 1, in <module>
+>> from nose.core import collector, main, run, run_exit, runmodule
+>> File "/usr/lib/python3.10/site-packages/nose/core.py", line 153
+>> print "%s version %s" % (os.path.basename(sys.argv[0]), _version_)
+>> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?
+>> [1] https://github.com/pypa/setuptools/issues/2086
+>>
+>> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+>> ---
+>>   meta/recipes-devtools/python/python-nose.inc  |  6 ++
+>>   .../python3-nose/0001-Remove-use_2to3.patch   | 71 +++++++++++++++++++
+>>   2 files changed, 77 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/python/python3-nose/0001-Remove-use_2to3.patch
+> This failed in testing unfortunately:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/4323/steps/14/logs/stdio
 
-https://github.blog/2021-09-01-improving-git-protocol-security-github/#no-more-unauthenticated-git
+Hi Richard,
 
-and they're about to start having brownout periods to encourage people
-to update. This runs the conversion script over OE-Core to update our
-urls to use https instead of git.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b37b61e9a1e448a34957db9ae39285d21352552e)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-bsp/efivar/efivar_37.bb                            | 2 +-
- meta/recipes-bsp/opensbi/opensbi_0.9.bb                         | 2 +-
- meta/recipes-connectivity/connman/connman-gnome_0.7.bb          | 2 +-
- meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb     | 2 +-
- meta/recipes-connectivity/libuv/libuv_1.42.0.bb                 | 2 +-
- meta/recipes-core/fts/fts_1.2.7.bb                              | 2 +-
- meta/recipes-core/glibc/cross-localedef-native_2.34.bb          | 2 +-
- meta/recipes-core/libxcrypt/libxcrypt.inc                       | 2 +-
- meta/recipes-core/musl/libucontext_git.bb                       | 2 +-
- meta/recipes-core/musl/musl-obstack.bb                          | 2 +-
- meta/recipes-core/musl/musl-utils.bb                            | 2 +-
- meta/recipes-core/systemd/systemd.inc                           | 2 +-
- meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb           | 2 +-
- meta/recipes-devtools/createrepo-c/createrepo-c_0.17.4.bb       | 2 +-
- meta/recipes-devtools/distcc/distcc_3.4.bb                      | 2 +-
- meta/recipes-devtools/dnf/dnf_4.8.0.bb                          | 2 +-
- meta/recipes-devtools/file/file_5.40.bb                         | 2 +-
- meta/recipes-devtools/libcomps/libcomps_0.1.17.bb               | 2 +-
- meta/recipes-devtools/libdnf/libdnf_0.63.1.bb                   | 2 +-
- meta/recipes-devtools/librepo/librepo_1.14.1.bb                 | 2 +-
- meta/recipes-devtools/llvm/llvm_git.bb                          | 2 +-
- meta/recipes-devtools/ninja/ninja_1.10.2.bb                     | 2 +-
- meta/recipes-devtools/rpm/rpm_4.16.1.3.bb                       | 2 +-
- meta/recipes-extended/iputils/iputils_20210722.bb               | 2 +-
- meta/recipes-extended/libnsl/libnsl2_git.bb                     | 2 +-
- meta/recipes-extended/libnss-nis/libnss-nis.bb                  | 2 +-
- meta/recipes-extended/libsolv/libsolv_0.7.19.bb                 | 2 +-
- meta/recipes-extended/ltp/ltp_20210524.bb                       | 2 +-
- meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb              | 2 +-
- meta/recipes-extended/sysklogd/sysklogd_2.2.3.bb                | 2 +-
- meta/recipes-extended/zstd/zstd_1.5.0.bb                        | 2 +-
- meta/recipes-graphics/libva/libva-utils_2.12.0.bb               | 2 +-
- meta/recipes-graphics/spir/spirv-tools_2021.2.bb                | 2 +-
- meta/recipes-graphics/vulkan/vulkan-headers_1.2.182.0.bb        | 2 +-
- meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb         | 2 +-
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb              | 2 +-
- meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb          | 2 +-
- .../recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb | 2 +-
- meta/recipes-kernel/cryptodev/cryptodev.inc                     | 2 +-
- meta/recipes-multimedia/x264/x264_git.bb                        | 2 +-
- meta/recipes-sato/l3afpad/l3afpad_git.bb                        | 2 +-
- meta/recipes-support/bmap-tools/bmap-tools_3.6.bb               | 2 +-
- meta/recipes-support/libgit2/libgit2_1.1.1.bb                   | 2 +-
- meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb | 2 +-
- meta/recipes-support/libseccomp/libseccomp_2.5.1.bb             | 2 +-
- meta/recipes-support/lz4/lz4_1.9.3.bb                           | 2 +-
- meta/recipes-support/numactl/numactl_git.bb                     | 2 +-
- meta/recipes-support/p11-kit/p11-kit_0.24.0.bb                  | 2 +-
- meta/recipes-support/rng-tools/rng-tools_6.14.bb                | 2 +-
- meta/recipes-support/vim/vim.inc                                | 2 +-
- meta/recipes-support/xxhash/xxhash_0.8.0.bb                     | 2 +-
- 51 files changed, 51 insertions(+), 51 deletions(-)
+I can not reproduce this issue in my local. Is there any detail log that 
+I can find ? Maybe it is a parallel build issue.
 
-diff --git a/meta/recipes-bsp/efivar/efivar_37.bb b/meta/recipes-bsp/efivar/efivar_37.bb
-index 6340020cef..fc36913f30 100644
---- a/meta/recipes-bsp/efivar/efivar_37.bb
-+++ b/meta/recipes-bsp/efivar/efivar_37.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6626bb1e20189cfa95f2c508ba286393"
- 
- COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- 
--SRC_URI = "git://github.com/rhinstaller/efivar.git;branch=master \
-+SRC_URI = "git://github.com/rhinstaller/efivar.git;branch=master;protocol=https \
-            file://determinism.patch \
-            file://no-werror.patch"
- SRCREV = "c1d6b10e1ed4ba2be07f385eae5bceb694478a10"
-diff --git a/meta/recipes-bsp/opensbi/opensbi_0.9.bb b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
-index cb9f346dc0..1956fbf9ff 100644
---- a/meta/recipes-bsp/opensbi/opensbi_0.9.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
-@@ -9,7 +9,7 @@ require opensbi-payloads.inc
- inherit autotools-brokensep deploy
- 
- SRCREV = "234ed8e427f4d92903123199f6590d144e0d9351"
--SRC_URI = "git://github.com/riscv/opensbi.git;branch=master \
-+SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https \
-            file://0001-Makefile-Don-t-specify-mabi-or-march.patch \
-           "
- 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index eb6d1f7181..7e1619aab2 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -10,7 +10,7 @@ DEPENDS = "gtk+3 dbus-glib dbus-glib-native intltool-native gettext-native"
- 
- # 0.7 tag
- SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
--SRC_URI = "git://github.com/connectivity/connman-gnome.git;branch=master \
-+SRC_URI = "git://github.com/connectivity/connman-gnome.git;branch=master;protocol=https \
-            file://0001-Removed-icon-from-connman-gnome-about-applet.patch \
-            file://null_check_for_ipv4_config.patch \
-            file://images/ \
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
-index cfe474d72e..f5c87f7291 100644
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
-+++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- DEPENDS = "avahi"
- 
--SRC_URI = "git://github.com/lathiat/nss-mdns;branch=master \
-+SRC_URI = "git://github.com/lathiat/nss-mdns;branch=master;protocol=https \
-            "
- 
- SRCREV = "4b3cfe818bf72d99a02b8ca8b8813cb2d6b40633"
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.42.0.bb b/meta/recipes-connectivity/libuv/libuv_1.42.0.bb
-index 169bd6206b..2dfbb8b895 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.42.0.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.42.0.bb
-@@ -6,7 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
- 
- SRCREV = "6ce14710da7079eb248868171f6343bc409ea3a4"
--SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
-+SRC_URI = "git://github.com/libuv/libuv;branch=v1.x;protocol=https"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-core/fts/fts_1.2.7.bb b/meta/recipes-core/fts/fts_1.2.7.bb
-index f907a35a90..d3b0f31eda 100644
---- a/meta/recipes-core/fts/fts_1.2.7.bb
-+++ b/meta/recipes-core/fts/fts_1.2.7.bb
-@@ -10,7 +10,7 @@ SECTION = "libs"
- 
- SRCREV = "0bde52df588e8969879a2cae51c3a4774ec62472"
- 
--SRC_URI = "git://github.com/pullmoll/musl-fts.git;branch=master"
-+SRC_URI = "git://github.com/pullmoll/musl-fts.git;branch=master;protocol=https"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.34.bb b/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
-index 6100f3d4c4..482e53cf5d 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
-@@ -20,7 +20,7 @@ inherit native
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
- 
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
--           git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
-+           git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef;protocol=https \
-            \
-            file://0001-localedef-Add-hardlink-resolver-from-util-linux.patch \
-            file://0002-localedef-fix-ups-hardlink-to-make-it-compile.patch \
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 29b941d380..0411de3637 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=afed27a72ae2a8075978299eebaa1f5d \
- 
- inherit autotools pkgconfig
- 
--SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
-+SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https"
- SRCREV = "b9116ef2245abb128a22a975d187b1272312a80c"
- SRCBRANCH ?= "develop"
- 
-diff --git a/meta/recipes-core/musl/libucontext_git.bb b/meta/recipes-core/musl/libucontext_git.bb
-index 1a8d1c4b21..9061cf0b1b 100644
---- a/meta/recipes-core/musl/libucontext_git.bb
-+++ b/meta/recipes-core/musl/libucontext_git.bb
-@@ -10,7 +10,7 @@ DEPENDS = ""
- 
- PV = "1.1+${SRCPV}"
- SRCREV = "335ee864ef6f4a5d4b525453fd9dbfb3507cfecc"
--SRC_URI = "git://github.com/kaniini/libucontext;branch=master \
-+SRC_URI = "git://github.com/kaniini/libucontext;branch=master;protocol=https \
-            file://0001-meson-Add-option-to-pass-cpu.patch \
-            "
- 
-diff --git a/meta/recipes-core/musl/musl-obstack.bb b/meta/recipes-core/musl/musl-obstack.bb
-index 3748047496..74de48c2cd 100644
---- a/meta/recipes-core/musl/musl-obstack.bb
-+++ b/meta/recipes-core/musl/musl-obstack.bb
-@@ -10,7 +10,7 @@ SECTION = "libs"
- 
- PV = "1.1"
- SRCREV = "d2ad66b0df44a4b784956f7f7f2717131ddc05f4"
--SRC_URI = "git://github.com/pullmoll/musl-obstack;branch=master"
-+SRC_URI = "git://github.com/pullmoll/musl-obstack;branch=master;protocol=https"
- 
- UPSTREAM_CHECK_COMMITS = "1"
- 
-diff --git a/meta/recipes-core/musl/musl-utils.bb b/meta/recipes-core/musl/musl-utils.bb
-index fa49d1da04..00d088d089 100644
---- a/meta/recipes-core/musl/musl-utils.bb
-+++ b/meta/recipes-core/musl/musl-utils.bb
-@@ -11,7 +11,7 @@ SECTION = "utils"
- PV = "20170421"
- 
- SRCREV = "fb5630138ccabbbc14a19d372096a04e42573c7d"
--SRC_URI = "git://github.com/boltlinux/musl-utils;branch=master"
-+SRC_URI = "git://github.com/boltlinux/musl-utils;branch=master;protocol=https"
- 
- UPSTREAM_CHECK_COMMITS = "1"
- 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 05341724f4..13b8b61af6 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
- 
- SRCREV = "090378dcb1de5ca66900503210e85d63075fa70a"
- SRCBRANCH = "v249-stable"
--SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH} \
-+SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
- "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-index 6ef5298a3b..59fcd8c78a 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-@@ -90,7 +90,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=44ac4678311254db62edf8fd39cb8124"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
--SRC_URI = "git://github.com/xrmx/bootchart.git;branch=master \
-+SRC_URI = "git://github.com/xrmx/bootchart.git;branch=master;protocol=https \
-            file://bootchartd_stop.sh \
-            file://0001-collector-Allocate-space-on-heap-for-chunks.patch \
-            file://0001-bootchart2-support-usrmerge.patch \
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.4.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.4.bb
-index 68284a1190..7a9656bf86 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.4.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.4.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/rpm-software-management/createrepo_c/wiki"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master \
-+SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
- 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.4.bb b/meta/recipes-devtools/distcc/distcc_3.4.bb
-index c1cce24d11..93983f6aee 100644
---- a/meta/recipes-devtools/distcc/distcc_3.4.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.4.bb
-@@ -15,7 +15,7 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
- 
- RRECOMMENDS:${PN}-server = "avahi-daemon"
- 
--SRC_URI = "git://github.com/distcc/distcc.git;branch=master \
-+SRC_URI = "git://github.com/distcc/distcc.git;branch=master;protocol=https \
-            file://default \
-            file://distcc \
-            file://distcc.service \
-diff --git a/meta/recipes-devtools/dnf/dnf_4.8.0.bb b/meta/recipes-devtools/dnf/dnf_4.8.0.bb
-index 9929da6fa4..9070077270 100644
---- a/meta/recipes-devtools/dnf/dnf_4.8.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.8.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://PACKAGE-LICENSING;md5=4a0548e303dbc77f067335b4d688e745 \
-                     "
- 
--SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master \
-+SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protocol=https \
-            file://0001-Corretly-install-tmpfiles.d-configuration.patch \
-            file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
-            file://0005-Do-not-prepend-installroot-to-logdir.patch \
-diff --git a/meta/recipes-devtools/file/file_5.40.bb b/meta/recipes-devtools/file/file_5.40.bb
-index 3c083be192..0360eb5ec7 100644
---- a/meta/recipes-devtools/file/file_5.40.bb
-+++ b/meta/recipes-devtools/file/file_5.40.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=2;md5=0251eaec1188b20d9a72c502ecfdd
- DEPENDS = "file-replacement-native"
- DEPENDS:class-native = "bzip2-replacement-native"
- 
--SRC_URI = "git://github.com/file/file.git;branch=master"
-+SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https"
- 
- SRCREV = "f49fda6f52a9477d817dbd9c06afab02daf025f8"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/libcomps/libcomps_0.1.17.bb b/meta/recipes-devtools/libcomps/libcomps_0.1.17.bb
-index 1a59fc1a7b..09861d9c26 100644
---- a/meta/recipes-devtools/libcomps/libcomps_0.1.17.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_0.1.17.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "Libcomps is alternative for yum.comps library. It's written in pu
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/rpm-software-management/libcomps.git;branch=master \
-+SRC_URI = "git://github.com/rpm-software-management/libcomps.git;branch=master;protocol=https \
-            file://0001-Add-crc32.c-to-sources-list.patch \
-            file://0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
-index 282c28e2c4..6294509d2e 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.63.1.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "This library provides a high level package-manager. It's core lib
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
-+SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;protocol=https \
-            file://0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch \
-            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
-            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
-diff --git a/meta/recipes-devtools/librepo/librepo_1.14.1.bb b/meta/recipes-devtools/librepo/librepo_1.14.1.bb
-index 19a2bd612e..cdb5946905 100644
---- a/meta/recipes-devtools/librepo/librepo_1.14.1.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.14.1.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "${SUMMARY}"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master \
-+SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https \
-            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
-            "
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 4167080653..d9efa53499 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -28,7 +28,7 @@ LLVM_DIR = "llvm${LLVM_RELEASE}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
- SRCREV = "fed41342a82f5a3a9201819a82bf7a48313e296b"
--SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
-+SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-diff --git a/meta/recipes-devtools/ninja/ninja_1.10.2.bb b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
-index c908bcb738..7270321d6e 100644
---- a/meta/recipes-devtools/ninja/ninja_1.10.2.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
-@@ -8,7 +8,7 @@ DEPENDS = "re2c-native ninja-native"
- 
- SRCREV = "e72d1d581c945c158ed68d9bc48911063022a2c6"
- 
--SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release"
-+SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index aa6b5ee8aa..cb15415d7f 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
- LICENSE = "GPL-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
- 
--SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-+SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x;protocol=https \
-            file://environment.d-rpm.sh \
-            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-            file://0001-Do-not-read-config-files-from-HOME.patch \
-diff --git a/meta/recipes-extended/iputils/iputils_20210722.bb b/meta/recipes-extended/iputils/iputils_20210722.bb
-index c92bc830bc..d81f787dd8 100644
---- a/meta/recipes-extended/iputils/iputils_20210722.bb
-+++ b/meta/recipes-extended/iputils/iputils_20210722.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=55aa8c9fcad0691cef0ecd420361e390"
- 
- DEPENDS = "gnutls"
- 
--SRC_URI = "git://github.com/iputils/iputils;branch=master \
-+SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-            file://0001-meson-Make-tests-optional.patch \
-            "
-diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
-index 6194d90177..3f6ccbad70 100644
---- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-+++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-@@ -14,7 +14,7 @@ PV = "2.0.0"
- 
- SRCREV = "82245c0c58add79a8e34ab0917358217a70e5100"
- 
--SRC_URI = "git://github.com/thkukuk/libnsl;branch=master \
-+SRC_URI = "git://github.com/thkukuk/libnsl;branch=master;protocol=https \
-           "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis.bb
-index bc2e292f40..478e9e2be3 100644
---- a/meta/recipes-extended/libnss-nis/libnss-nis.bb
-+++ b/meta/recipes-extended/libnss-nis/libnss-nis.bb
-@@ -17,7 +17,7 @@ PV = "3.1+git${SRCPV}"
- 
- SRCREV = "062f31999b35393abf7595cb89dfc9590d5a42ad"
- 
--SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master \
-+SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https \
-           "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.19.bb b/meta/recipes-extended/libsolv/libsolv_0.7.19.bb
-index 768682f885..a3a4fc7896 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.19.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.19.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- 
- DEPENDS = "expat zlib"
- 
--SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master \
-+SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
- "
- 
- SRCREV = "c773294be6b0a2425f344a8999f173fb00cfd16f"
-diff --git a/meta/recipes-extended/ltp/ltp_20210524.bb b/meta/recipes-extended/ltp/ltp_20210524.bb
-index b728dffc19..0636cb92cb 100644
---- a/meta/recipes-extended/ltp/ltp_20210524.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210524.bb
-@@ -29,7 +29,7 @@ CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
- SRCREV = "0fb171f2beddaf64bd27597577c206c0f892b3cd"
- 
--SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master \
-+SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-            file://0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch \
-            "
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-index 81bd40bf61..c08e9d52c3 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-@@ -19,7 +19,7 @@ PV = "1.4.2"
- 
- SRCREV = "6f54e54455c073d08a56ea627c6cd2355a40eb53"
- 
--SRC_URI = "git://github.com/thkukuk/${BPN};branch=master \
-+SRC_URI = "git://github.com/thkukuk/${BPN};branch=master;protocol=https \
-            file://0001-Use-cross-compiled-rpcgen.patch \
-           "
- 
-diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.2.3.bb b/meta/recipes-extended/sysklogd/sysklogd_2.2.3.bb
-index eca531d05d..f4ecb7d459 100644
---- a/meta/recipes-extended/sysklogd/sysklogd_2.2.3.bb
-+++ b/meta/recipes-extended/sysklogd/sysklogd_2.2.3.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5b4be4b2549338526758ef479c040943 \
- 
- inherit update-rc.d update-alternatives systemd autotools
- 
--SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
-+SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1;protocol=https \
-            file://sysklogd \
-            "
- 
-diff --git a/meta/recipes-extended/zstd/zstd_1.5.0.bb b/meta/recipes-extended/zstd/zstd_1.5.0.bb
-index 978812fddb..51305d0562 100644
---- a/meta/recipes-extended/zstd/zstd_1.5.0.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.5.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "BSD-3-Clause & GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c7f0b161edbe52f5f345a3d1311d0b32 \
-                     file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0"
- 
--SRC_URI = "git://github.com/facebook/zstd.git;branch=release \
-+SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https \
-            file://0001-Makefile-sort-all-wildcard-file-list-expansions.patch \
-            file://0001-MinGW-Build-Fixes.patch \
-            "
-diff --git a/meta/recipes-graphics/libva/libva-utils_2.12.0.bb b/meta/recipes-graphics/libva/libva-utils_2.12.0.bb
-index 096d80b68d..3550ad0c59 100644
---- a/meta/recipes-graphics/libva/libva-utils_2.12.0.bb
-+++ b/meta/recipes-graphics/libva/libva-utils_2.12.0.bb
-@@ -14,7 +14,7 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
- 
--SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.11-branch"
-+SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.11-branch;protocol=https"
- SRCREV = "c0145a895ebe9b24cde5c441733f90482f1e3d71"
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_2021.2.bb b/meta/recipes-graphics/spir/spirv-tools_2021.2.bb
-index a22ceb6bfd..314ab0c1a1 100644
---- a/meta/recipes-graphics/spir/spirv-tools_2021.2.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_2021.2.bb
-@@ -8,7 +8,7 @@ LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
- SRCREV = "e198c6a785d388db68eb9166b43ac5e5208fd5cc"
--SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master \
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master;protocol=https \
-            file://0001-fix-strncpy-bound-error.patch \
-           "
- UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
-diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.182.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.182.0.bb
-index 5ae56ec076..26f4f58b26 100644
---- a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.182.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.182.0.bb
-@@ -9,7 +9,7 @@ SECTION = "libs"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=master"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
- 
- SRCREV = "37164a5726f7e6113810f9557903a117498421cf"
- 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb
-index eb16c547b7..41632f25ce 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb
-@@ -9,7 +9,7 @@ SECTION = "libs"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=master \
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=master;protocol=https \
-            "
- SRCREV = "1896143df69d439b0933c1bb485f5a4587bdf2dc"
- 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 4827e3a22c..c1ffc7ecde 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- 
--SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master \
-+SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;protocol=https \
-            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
-            file://debugfix.patch \
-            "
-diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb
-index d0a298ecfc..b7966f6333 100644
---- a/meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb
-@@ -6,7 +6,7 @@ SECTION = "libs"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.2.182"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.2.182;protocol=https"
- SRCREV = "9d3305731c3be8de05c9f223a79959d448506a37"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-index 2553d89529..49c42bd68a 100644
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-@@ -12,7 +12,7 @@ inherit autotools pkgconfig features_check
- REQUIRED_DISTRO_FEATURES = "x11"
- 
- SRCREV = "18ec53f1cada39f905614ebfaffed5c7754ecf46"
--SRC_URI = "git://github.com/kreijack/xinput_calibrator.git;branch=libinput \
-+SRC_URI = "git://github.com/kreijack/xinput_calibrator.git;branch=libinput;protocol=https \
-            file://30xinput_calibrate.sh \
-            file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
-            file://0001-calibrator.hh-Include-string-to-get-std-string.patch \
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index e4a7922ad1..6ada0b0295 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -8,7 +8,7 @@ API is compatible with OpenBSD's cryptodev userspace API (/dev/crypto)."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux;branch=master \
-+SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux;branch=master;protocol=https \
-            "
- SRCREV = "e0c25e289d6baf1d83c2b9cb523d3bc237d0c0c9"
- 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 9f23794df1..c49e935d1c 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- DEPENDS = "nasm-native"
- 
--SRC_URI = "git://github.com/mirror/x264;branch=stable \
-+SRC_URI = "git://github.com/mirror/x264;branch=stable;protocol=https \
-            file://don-t-default-to-cortex-a9-with-neon.patch \
-            file://Fix-X32-build-by-disabling-asm.patch \
-            "
-diff --git a/meta/recipes-sato/l3afpad/l3afpad_git.bb b/meta/recipes-sato/l3afpad/l3afpad_git.bb
-index 034e19dc7a..50f6da24f3 100644
---- a/meta/recipes-sato/l3afpad/l3afpad_git.bb
-+++ b/meta/recipes-sato/l3afpad/l3afpad_git.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- DEPENDS = "gtk+3 intltool-native gettext-native"
- 
- PV = "0.8.18.1.11+git${SRCPV}"
--SRC_URI = "git://github.com/stevenhoneyman/l3afpad.git;branch=master"
-+SRC_URI = "git://github.com/stevenhoneyman/l3afpad.git;branch=master;protocol=https"
- SRCREV ="3cdccdc9505643e50f8208171d9eee5de11a42ff"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
-index 37cec13842..c66ff3a7da 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
-@@ -9,7 +9,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/intel/${BPN};branch=master"
-+SRC_URI = "git://github.com/intel/${BPN};branch=master;protocol=https"
- 
- SRCREV = "c0673962a8ec1624b5189dc1d24f33fe4f06785a"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-support/libgit2/libgit2_1.1.1.bb b/meta/recipes-support/libgit2/libgit2_1.1.1.bb
-index ae30a7a100..fcf80e4809 100644
---- a/meta/recipes-support/libgit2/libgit2_1.1.1.bb
-+++ b/meta/recipes-support/libgit2/libgit2_1.1.1.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b002a195fb7ea2d8d583f07eaff3a8e"
- 
- DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
- 
--SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.1"
-+SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.1;protocol=https"
- SRCREV = "8a0dc6783c340e61a44c179c48f832165ad2053c"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
-index f740e4a729..b5d816f864 100644
---- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
-+++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.1.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1c94a9d191202a5552f381a023551396 \
-                     file://LICENSE.gplv2;md5=eb723b61539feef013de476e68b5c50a \
-                     file://LICENSE.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
-                     "
--SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git;branch=master \
-+SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git;branch=master;protocol=https \
-            file://0001-Makefile-restore-build-reproducibility.patch \
-            "
- SRCREV = "409828cfccf4b3b07edc40a7840a821ce074e2c3"
-diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
-index 74bface4a1..27954ca6b1 100644
---- a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
-+++ b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
-@@ -10,7 +10,7 @@ DEPENDS += "gperf-native"
- PV .= "+git${SRCPV}"
- SRCREV = "5822e50c2920ce597d038077dea4a0eedf193f86"
- 
--SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=main \
-+SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=main;protocol=https \
-            file://0001-configure.ac-Bump-version-to-2.5.99.patch \
-            file://0001-arch-Add-riscv32-architecture-support.patch \
-            file://0002-Regenerate-syscall-cvs-file-from-5.13-rc5-kernel.patch \
-diff --git a/meta/recipes-support/lz4/lz4_1.9.3.bb b/meta/recipes-support/lz4/lz4_1.9.3.bb
-index b22eea3156..a3c48bccfb 100644
---- a/meta/recipes-support/lz4/lz4_1.9.3.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.3.bb
-@@ -12,7 +12,7 @@ PE = "1"
- 
- SRCREV = "d44371841a2f1728a3f36839fd4b7e872d0927d3"
- 
--SRC_URI = "git://github.com/lz4/lz4.git;branch=release \
-+SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https \
-            file://CVE-2021-3520.patch \
-            "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
-diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
-index 66e826304f..19f2293a51 100644
---- a/meta/recipes-support/numactl/numactl_git.bb
-+++ b/meta/recipes-support/numactl/numactl_git.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://README.md;beginline=19;endline=32;md5=f8ff2391624f28e
- SRCREV = "dd6de072c92c892a86e18c0fd0dfa1ba57a9a05d"
- PV = "2.0.14"
- 
--SRC_URI = "git://github.com/numactl/numactl;branch=master \
-+SRC_URI = "git://github.com/numactl/numactl;branch=master;protocol=https \
-            file://Fix-the-test-output-format.patch \
-            file://Makefile \
-            file://run-ptest \
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb b/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
-index d8330f460c..7fe3c37fde 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
-@@ -10,7 +10,7 @@ DEPENDS = "libtasn1 libtasn1-native libffi"
- 
- DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
- 
--SRC_URI = "git://github.com/p11-glue/p11-kit;branch=master"
-+SRC_URI = "git://github.com/p11-glue/p11-kit;branch=master;protocol=https"
- SRCREV = "34826623f58399b24c21f1788e2cdaea34521b7b"
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.14.bb b/meta/recipes-support/rng-tools/rng-tools_6.14.bb
-index 72d1e3f3db..222d7cc630 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.14.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.14.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- DEPENDS = "sysfsutils openssl"
- 
--SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master \
-+SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https \
-            file://init \
-            file://default \
-            file://rngd.service \
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 616b38b28b..50e215d20f 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -11,7 +11,7 @@ RSUGGESTS:${PN} = "diffutils"
- LICENSE = "vim"
- LIC_FILES_CHKSUM = "file://runtime/doc/uganda.txt;endline=287;md5=a19edd7ec70d573a005d9e509375a99a"
- 
--SRC_URI = "git://github.com/vim/vim.git;branch=master \
-+SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
-            file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-diff --git a/meta/recipes-support/xxhash/xxhash_0.8.0.bb b/meta/recipes-support/xxhash/xxhash_0.8.0.bb
-index 4e48365a71..686fbea591 100644
---- a/meta/recipes-support/xxhash/xxhash_0.8.0.bb
-+++ b/meta/recipes-support/xxhash/xxhash_0.8.0.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://www.xxhash.com/"
- LICENSE = "BSD-2-Clause & GPL-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b335320506abb0505437e39295e799cb"
- 
--SRC_URI = "git://github.com/Cyan4973/xxHash.git;branch=release;protocol=git \
-+SRC_URI = "git://github.com/Cyan4973/xxHash.git;branch=release;protocol=https \
-            file://0001-Makefile-escape-special-regex-characters-in-paths.patch \
-            "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
--- 
-2.31.1
 
+Thanks,
+
+Yi
+
+
+> Cheers,
+>
+> Richard
+>
 
