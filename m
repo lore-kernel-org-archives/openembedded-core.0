@@ -2,61 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 135F8C43219
-	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 19:39:55 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.334.1636573193850841763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E374C433F5
+	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 19:39:56 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web12.336.1636573195387427779
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 11:39:54 -0800
+ Wed, 10 Nov 2021 11:39:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gHlOznJ8;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mrBJadDE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id b12so5925043wrh.4
+Received: by mail-wm1-f50.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso242773wmr.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 11:39:53 -0800 (PST)
+ Wed, 10 Nov 2021 11:39:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vQOV0XEIraeqEqeZt1Sy1dLVVcJAcbT8yOpTr8kWIcQ=;
-        b=gHlOznJ8Ux2O+5VCOBP1aRo8egEyT6NTXPXFyeGVnca1zrzxomkhEbf2k4jnc4Mx2j
-         XyQTO8TzTmAZt+Ap0V/lKiFU9nWNQZd/Jh6NnTEA+2rNLfCsFrN/oCqpjz6W2As+hMAK
-         qi1vWiSA8Q4W/nvxOcnxKSsX+DyecZXlX6iU25tQErF8Ip5zCV2NQ2/RNPth+IAxvjrl
-         Q7gAY1Li15WqjNTKG8IkIv5M1Fu94aJRI0y43zehyHG1cd7yisGVUy1AB1+2LL4QwqRN
-         0YzC1iK4dVhXxLgWse7azB9mDLwaWndAJ7YwCWQ4/SOFpaJl7SiWzZtARXMGf4NKd5AX
-         YEqg==
+        bh=GEau+A/xWBhCx577HytQVCM7lt+59UTh2nqQgnJ6uDY=;
+        b=mrBJadDEN9H41uBuD2V9bTcb1Sf1hW+q2IWRAVIlHhNTBtIg1r3AkTqRltIyjwYTFu
+         sfVG2NjE9Q7VLtbPHwijLTXOJBP2PzB9HTt++p64LLe9lRuiB3EbllUbk9UPpChGHo29
+         So7VAZRDawJ8kAofbU0MwdDktAELcFbsEHxRD5se2bEmUk1FGzK6QDpVjJo0yKK+SgNv
+         KeXJcYZl52rvYUeLIlFMN+vwv5s40W2rRrjj5/QvqsMea0nQ221eEJbjfPBC3w38Bm2i
+         +yfh6Oyn1NLXp5rqs8IXlX0n3gq3rp0WqapdRVZaAyC7oj+yOeWNeJl03QrkFYYZHS9f
+         lhKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vQOV0XEIraeqEqeZt1Sy1dLVVcJAcbT8yOpTr8kWIcQ=;
-        b=lve/xbhGhD006a5Ol5pe1926EaWG3VSbTKW9kEK7B4B3bqGzQYputrUvw4Pf7qwZrH
-         QQTloqvdV+YwOLV0IIDBB8Zn1tqCx6uZsEXi0d/xKoCQJUJbebwW3kCSnXtXbhFJzeKw
-         /JtzsYdu7LKYBFz1tXDWh82xEu7rY+peP3mejnafMg58LLVlw1Fa0uAAl+1Q2o2IP2tu
-         1g9mWgckUcd28x8Vw7WyYweXkRQPQhhjxy86iHLgmz7cSDYp/cUhqOOuZp41z8EV22pb
-         ocWOBSWQUAmHmqo7/dbITKgyeAfppmAI2WFdM0pKgKYqFvUMSKwfVXRiDfsQPh/DuzWa
-         2aIw==
-X-Gm-Message-State: AOAM531XjECgBcNzegUKId4cjDeEHWJWMXyhgHm5U+CFYhCFgd+CYPTP
-	U0VnP+nDk9hLbTooL+4tLRSnE6H5+hA=
+        bh=GEau+A/xWBhCx577HytQVCM7lt+59UTh2nqQgnJ6uDY=;
+        b=at98hfNJzov6MdX7AB5OA/AT1FUX0UShGWvdSCl192R79AUkTO2C9/Bko12DGwd561
+         tzfEUoGmugbDgpiGNkvGq5nWQshb1HFCd8Oi+uLUsLPWdeu44XaVIUqkDx972hjXt7DC
+         E9Ai101DbEDLYnhRzm6V/PlJaduS6Pw7rgpZasv9QEVQn4tK8dC+2d4JZxPPDovZGXLk
+         T+8QipbDYFIq68gGrPuwHoVfHpVq80GES5y4gzxsgm1HwhbeolP4j+7q8mELhxbDA/VR
+         fWDKHsNKY1rTQ+XwxzEnR7h+2vHDI7zVcw/SIDq3iVO1PqeyKfO59Vp6XbTvBXB954XN
+         86fA==
+X-Gm-Message-State: AOAM532SmaU8tBThfT+i1phv2LEKE0K2qhe+ZYQzFPPsrnwSYZJlE1kr
+	9QX9Sdjy6BsGwzKdfrXn5uS7eJJhlMw=
 X-Google-Smtp-Source: 
- ABdhPJxFMUbIZt0t+V+i5ImdNBQodGRzgtnvz91ZHuJPHnql39P7DujG/cQOcD+L2Z1+9pAgzW+kLA==
-X-Received: by 2002:adf:a28f:: with SMTP id s15mr1801900wra.138.1636573192494;
-        Wed, 10 Nov 2021 11:39:52 -0800 (PST)
+ ABdhPJx3+3l/fjSJ6CkGEQ0q7YhD7sbcr+tBHKsTmCMzrM/TrZyIzu34XHGxkJRFzINIJelTgHdXIw==
+X-Received: by 2002:a1c:ac86:: with SMTP id v128mr1888734wme.3.1636573193829;
+        Wed, 10 Nov 2021 11:39:53 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- q18sm6865124wmc.7.2021.11.10.11.39.51
+ q18sm6865124wmc.7.2021.11.10.11.39.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 11:39:51 -0800 (PST)
+        Wed, 10 Nov 2021 11:39:53 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 15/24] python3-setuptools: upgrade 58.3.0 -> 58.5.3
-Date: Wed, 10 Nov 2021 20:39:28 +0100
-Message-Id: <20211110193937.2606747-15-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 17/24] vulkan-samples: update to latest revision
+Date: Wed, 10 Nov 2021 20:39:30 +0100
+Message-Id: <20211110193937.2606747-17-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211110193937.2606747-1-alex@linutronix.de>
 References: <20211110193937.2606747-1-alex@linutronix.de>
@@ -65,44 +66,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 19:39:55 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 19:39:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158099
+ https://lists.openembedded.org/g/openembedded-core/message/158101
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Mark as incompatible with 32 bit x86: there are several failures
+and I do not think anyone is interested in vulkan on that platform.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
- ...ython3-setuptools_58.3.0.bb => python3-setuptools_58.5.3.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_58.3.0.bb => python3-setuptools_58.5.3.bb} (94%)
+ meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-index 46546ebba6..c5d6c64eda 100644
---- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-+++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-@@ -1,4 +1,4 @@
--From 58b614411867a31cf5f9684a45fe519b8e4f3e7b Mon Sep 17 00:00:00 2001
-+From dd77d2f4486079380235ed0466d2eab110f7bdc5 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 17 Jul 2018 10:13:38 +0800
- Subject: [PATCH] conditionally do not fetch code by easy_install
-diff --git a/meta/recipes-devtools/python/python3-setuptools_58.3.0.bb b/meta/recipes-devtools/python/python3-setuptools_58.5.3.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-setuptools_58.3.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_58.5.3.bb
-index 47107ba61d..ddc3fca354 100644
---- a/meta/recipes-devtools/python/python3-setuptools_58.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_58.5.3.bb
-@@ -13,7 +13,7 @@ SRC_URI += "\
-     file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
- "
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index c1ffc7ecde..613ed592c6 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -11,12 +11,13 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;prot
+            "
  
--SRC_URI[sha256sum] = "b0c2461641b58fe30e11d4c3dfba316c513bdf9ec85f9fed0c871c678447205e"
-+SRC_URI[sha256sum] = "dae6b934a965c8a59d6d230d3867ec408bb95e73bd538ff77e71fedf1eaca729"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "d2187278cb6632ce35920575832eb6f6e2b2e46c"
++SRCREV = "ae6e4a3712cebde49a29e5996a3bd2f403566890"
  
- DEPENDS += "${PYTHON_PN}"
+ UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ S = "${WORKDIR}/git"
+ 
+ REQUIRED_DISTRO_FEATURES = 'vulkan'
++COMPATIBLE_HOST:x86 = "null"
+ 
+ inherit cmake features_check
  
 -- 
 2.20.1
