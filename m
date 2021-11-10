@@ -2,317 +2,232 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5113FC433EF
-	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 17:12:29 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web09.1151.1636564348643551917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8A0C433EF
+	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 17:20:04 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web12.1263.1636564803890535916
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 09:12:28 -0800
+ Wed, 10 Nov 2021 09:20:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=a9Tpjsky;
- spf=pass (domain: gmail.com, ip: 209.85.222.173,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=i8h5yt9R;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id i9so3182435qki.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 09:12:28 -0800 (PST)
+Received: by mail-pl1-f178.google.com with SMTP id b11so3521896pld.12;
+        Wed, 10 Nov 2021 09:20:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1vhykyfP31INYM5XsOkffueRDralp3c5Ey/CbDuhyo8=;
-        b=a9TpjskyY5JFAUpf58FWK2658GPYl5eTxPbj33cCOsPsZrV1iSPJvJgUiIMYAwDI+4
-         s4if1QmzktzDD7wwd5luyZ8QLWmL4H/v/3CSg4orlEegNnFU0EIOrTzzJ5uX7pBYEMak
-         qTR2ASLPmQlr9VX4wb6Hx/nVpOyMkU9pmzDZ5H5PSCK9CGzWAJQgqN6RS4KvcqVDLVfB
-         +CvULOHc8OSsiAXHkBrIGg9BBIQSTQGWS1P6YfaoqxpfR8Tnx0vL/UIa0KgDf1fSo1m6
-         IAW5zzsBdxxx41Vo6bovEnBRrpFxxgzB5Mtu3KfK41oKiZipddwt/6waGagU0OCOsOJo
-         Dc6w==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=nHmRlZft6yaNKqC0gWZDBDN5S7QALwAMq9TyyLEbZL8=;
+        b=i8h5yt9RzoqY1RO4joqMQ8OSFGa1KCoyNvDd8Uf/UyMwncCgH1eG6W/olFKCLrH+EK
+         gBB/dpLXgye5nQS/W6fDALE6HWqWOvidFm/Naq89TWRwI06WDhMi+ehs3aRcpHKXFg3p
+         IMyfhWkQiNuWKbP2GtmTl7SwUMpGSJAuxkzcvhzZGNj1N4fAxHpBKpd4Mw3E0XrKuCQd
+         td90aaQ0XjMXjfmAZR9/WjDj2c9VckqrSP5aTuJCIce1oEfGU78oNWtgZs5joCN+F0Wj
+         HrlkqIDi4q/rfzbn3kFjWt/i8mIgCrfRsZq7Rs1LQ41/6dxewJDf8TnQH91P3QrKu2pR
+         UOLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1vhykyfP31INYM5XsOkffueRDralp3c5Ey/CbDuhyo8=;
-        b=5DIn5uv0nhpQO2WjBjYZn0VrWU3VvmUnV6TXULN98TKS1NmESKdwBKObN3F33DtMEe
-         FFr0T3/4wH8uS/C9JA1W/wmBDBcVTM9RVdM96lYOKpLuqXXSKrsQOw06UNsn8fYZpVDB
-         vQO5e8oNXN9VGINAERSCvthdvThYSoi09Li2VcNI22i189JrZahhPeKO97O7xTO6lb+G
-         IsSIuKFNuuN+0IdugGUFLhDT0Ij/KbAHSAbnTwZLGq7kkK4xiN3ni8K316YzCWijfrrI
-         sbbM48CHr9ELlxqFrf0RPSxsQ0aLiVxhhqwVaeHbGcNk+aucGiDirgxBfjPSOKakssPX
-         wnuQ==
-X-Gm-Message-State: AOAM532ygGOwUuyeq/XPYpyYgWRbrvbkVfSbJkwnw9M8m0uAk46Isjoe
-	6rJ9x8XI42rNifF3HSWs/m6P9B1y5shc+E6uiwE=
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=nHmRlZft6yaNKqC0gWZDBDN5S7QALwAMq9TyyLEbZL8=;
+        b=FrFH0mbVOQjSPH4oocC9nvMZqWljDE78avb2MjZCh4Yc3aBOMSeKEE8qf5RVabyVt3
+         al5qB5enyVRCX6piCWAVtZ9OAqfDJ5a0bptgMy5dqCX7IsT+brlLGGn5TUjR84uAfv4i
+         Yu+ToNgeyUA7gojFlKgG4QtQFngnKohs6IRXMOwCiJzzZoZgGEa02uELXKvzXYgJPBij
+         OAfDZIfu8Kv9C1DteaPy9ASw4X7HTAmEmpusK0Abutv6b0q4x2U1Lr3pEwQPdd8Vs0p0
+         r22BaPUkQFggvIm5gCSgMzbXk10RhEOmEeIZ6DAv49/ppz/OA1TJGfoknuo4m/8PKpLz
+         fdjg==
+X-Gm-Message-State: AOAM532sb3r7J9qSnepX8wjKhFmcp3ultN666gE0xc4oDUSaYhMFnx+j
+	dRI/K3RnRHdaR5OEPJAcxvQ=
 X-Google-Smtp-Source: 
- ABdhPJyNujbqi3j23sMKbIDD/egL6doiYpPyUsXo2ZOumWSH+Mnm3Ef957qZwLkhfWxCaTmLemVLOxxe6hSh7hqfWzc=
-X-Received: by 2002:a37:9507:: with SMTP id x7mr747354qkd.105.1636564347653;
- Wed, 10 Nov 2021 09:12:27 -0800 (PST)
+ ABdhPJzhlrYifqXuuqTqJEsGKsyeGMPAh6SBYAOGAFwMMsAFAFPGuVBmje7vOuxgJ3PEHoJyn07Pfw==
+X-Received: by 2002:a17:903:246:b0:13f:2ff9:8b93 with SMTP id
+ j6-20020a170903024600b0013f2ff98b93mr621666plh.54.1636564803247;
+        Wed, 10 Nov 2021 09:20:03 -0800 (PST)
+Received: from ?IPV6:2601:646:9200:a0f0:7cfe:7a02:cfe2:7296?
+ ([2601:646:9200:a0f0:7cfe:7a02:cfe2:7296])
+        by smtp.gmail.com with ESMTPSA id
+ mn15sm218474pjb.35.2021.11.10.09.20.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Nov 2021 09:20:02 -0800 (PST)
+Message-ID: <b9f45c83-9be2-96bc-4a5a-d163c14d32b4@gmail.com>
+Date: Wed, 10 Nov 2021 09:20:01 -0800
 MIME-Version: 1.0
-References: <20211109152851.8137-1-lukma@denx.de>
-In-Reply-To: <20211109152851.8137-1-lukma@denx.de>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.0
+Subject: Re: [bitbake-devel] [oe-core][PATCH v4 1/2] repo: Add recipe for
+ 2.17.3
+Content-Language: en-US
+To: jasper@fancydomain.eu, openembedded-core@lists.openembedded.org
+Cc: martin@mko.dev, Daniel.Baumgart@iris-sensing.com,
+ bitbake-devel@lists.openembedded.org,
+ Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+References: <20211110155332.578088-1-jasper@fancydomain.eu>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 10 Nov 2021 09:12:01 -0800
-Message-ID: 
- <CAMKF1spswf07YOPg4WOHmvnaTi4LQT09GAnXEukBObNawEMyBg@mail.gmail.com>
-Subject: Re: [PATCH v4] glibc: ptest: Add running glibc time related test
- suite (Y2038) with ptest
-To: Lukasz Majewski <lukma@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Nathan Rossi <nathan@nathanrossi.com>,
- Adhemerval Zanella <adhemerval.zanella@linaro.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Lee Chee Yang <chee.yang.lee@intel.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: HIMVIS LLC
+In-Reply-To: <20211110155332.578088-1-jasper@fancydomain.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 17:12:29 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 17:20:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158083
+ https://lists.openembedded.org/g/openembedded-core/message/158084
 
-seeing this
 
-https://errors.yoctoproject.org/Errors/Details/616955/
 
-On Tue, Nov 9, 2021 at 7:29 AM Lukasz Majewski <lukma@denx.de> wrote:
->
-> This patch introduces new recipe - namely 'glibc-tests', which
-> builds and installs time related (to check if Y2038 support works) glibc
-> test suite to OE/Yocto built image.
->
-> It reuses code from already available 'glibc-testsuite' recipe,
-> which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-> to execute remotely (via SSH) tests on some emulated machine.
->
-> This recipe installs time related glibc tests on some rootfs image.
-> Afterwards, those tests can be executed on the real hardware, to
-> facilitate validation of it with Y2038 problem compliance.
->
-> To test time related subset - one needs to call:
-> ptest-runner glibc-tests
-> then change the date after Y2038 threshold for 32 bit systems:
-> date -s "20 JAN 2038 18:00:00"
-> and then run ptest-runner again.
->
-> To facilitate debugging, source files are provided by default with
-> the unstripped debugging symbols. Such approach would reduce the
-> already complex recipe (as it inherits base glibc one), so there
-> is no need to also install *-dbg and *-src packages.
->
-> Signed-off-by: Lukasz Majewski <lukma@denx.de>
->
+On 11/10/21 7:53 AM, Jasper Orschulko via lists.openembedded.org wrote:
+> From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> 
+> Add a recipe for repo 2.17.3, prerequisite for the repo fetcher.
+> 
+> Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
 > ---
-> Changes for v4:
-> - Add entry for 'glibc-tests' in the maintainers.inc file
-> - Remove nativesdk from BBCLASSEXTEND as this resipe is not supposed
->   to be the part of SDK
->
-> Changes for v3:
-> - Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
->   RPROVIDES variables
->
-> Changes for v2:
-> - Just focus on time related set of tests as those can be run as
->   standalone
-> - Reuse of already built tests (from glibc-tests.inc) and depoloy
->   them on the HW target.
-> - Provide single 'run-ptest' script.
-> - Update the recipe to run with newest poky's -master
-> ---
->  meta/conf/distro/include/maintainers.inc      |   1 +
->  .../distro/include/ptest-packagelists.inc     |   1 +
->  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 113 ++++++++++++++++++
->  meta/recipes-core/glibc/glibc/run-ptest       |  37 ++++++
->  4 files changed, 152 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
->  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
->
+>   meta/conf/distro/include/maintainers.inc      |  1 +
+>   .../0001-Set-REPO_REV-to-v2.17.3.patch        | 34 +++++++++++++++++++
+>   .../repo/repo/0001-python3-shebang.patch      | 26 ++++++++++++++
+>   meta/recipes-devtools/repo/repo_2.17.3.bb     | 29 ++++++++++++++++
+>   4 files changed, 90 insertions(+)
+>   create mode 100644 meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
+>   create mode 100644 meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+>   create mode 100644 meta/recipes-devtools/repo/repo_2.17.3.bb
+> 
 > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index baec2bef4d..7104e091fc 100644
+> index f3e0a75d56..58a0a9615f 100644
 > --- a/meta/conf/distro/include/maintainers.inc
 > +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -209,6 +209,7 @@ RECIPE_MAINTAINER:pn-glibc = "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-glibc-locale = "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
-> +RECIPE_MAINTAINER:pn-glibc-tests = "Lukasz Majewski <lukma@denx.de>"
->  RECIPE_MAINTAINER:pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
->  RECIPE_MAINTAINER:pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
->  RECIPE_MAINTAINER:pn-gmp = "Khem Raj <raj.khem@gmail.com>"
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index 2e324f8da4..fd52fa72a4 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -61,6 +61,7 @@ PTESTS_FAST = "\
->      slang-ptest \
->      wayland-ptest \
->      zlib-ptest \
-> +    glibc-tests-ptest \
->  "
->  PTESTS_FAST:remove:mips64 = "qemu-ptest"
->  PTESTS_PROBLEMS:append:mips64 = "qemu-ptest"
-> diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb b/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> @@ -652,6 +652,7 @@ RECIPE_MAINTAINER:pn-quilt-native = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-quota = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-re2c = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-readline = "Hongxu Jia <hongxu.jia@windriver.com>"
+> +RECIPE_MAINTAINER:pn-repo = "Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>"
+>   RECIPE_MAINTAINER:pn-resolvconf = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-rgb = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
+> diff --git a/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
 > new file mode 100644
-> index 0000000000..d2d3cfff91
+> index 0000000000..3086f8eb42
 > --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> @@ -0,0 +1,113 @@
-> +require glibc_${PV}.bb
-> +require glibc-tests.inc
+> +++ b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3.patch
+> @@ -0,0 +1,34 @@
+> +From bdd2a528da59c28db8ae2986834926de7cebf3ab Mon Sep 17 00:00:00 2001
+> +From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +Date: Thu, 4 Nov 2021 16:55:12 +0100
+> +Subject: [PATCH] Set REPO_REV to v2.17.3
 > +
-> +inherit ptest
+> +repo is an unusual tool because it downloads all of its own Python modules
+> +using GPG-signed git tags, and stores those files as part of the project
+> +that it is working with.
 > +
-> +SRC_URI:append = " \
-> +       file://run-ptest \
-> +"
+> +So in order to have a reproducible repo installation within the project
+> +folders, we hardcode the REPO_REV variable to a SHA1 that corresponds to
+> +the version of the recipe.
 > +
-> +SUMMARY = "glibc tests to be run with ptest"
+> +Upstream-Status: Inappropriate [configuration]
+> +Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +---
+> + repo | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
 > +
-> +# Erase some variables already set by glibc_${PV}
-> +python __anonymous() {
-> +       # Remove packages provided by glibc build, we only need a subset of them
-> +       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
-> +
-> +       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
-> +       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
-> +
-> +       d.setVar("BBCLASSEXTEND", "")
-> +       d.setVar("RRECOMMENDS", "")
-> +}
-> +
-> +# Remove any lefovers from original glibc recipe
-> +RPROVIDES:${PN} = "${PN}"
-> +RRECOMMENDS:${PN} = ""
-> +RDEPENDS:${PN} = " glibc sed"
-> +DEPENDS:append = " sed"
-> +
-> +# Just build tests for target - do not run them
-> +do_check:append () {
-> +       oe_runmake -i check run-built-tests=no
-> +}
-> +addtask do_check after do_compile before do_install_ptest_base
-> +
-> +glibc_strip_build_directory () {
-> +       # Delete all non executable files from build directory
-> +       find ${B} ! -executable -type f -delete
-> +
-> +       # Remove build dynamic libraries and links to them as
-> +       # those are already installed in the target device
-> +       find ${B} -type f -name "*.so" -delete
-> +       find ${B} -type l -name "*.so*" -delete
-> +
-> +       # Remove headers (installed with glibc)
-> +       find ${B} -type f -name "*.h" -delete
-> +
-> +       find ${B} -type f -name "isomac" -delete
-> +       find ${B} -type f -name "annexc" -delete
-> +}
-> +
-> +do_install_ptest_base () {
-> +       glibc_strip_build_directory
-> +
-> +       ls -r ${B}/*/*-time64 > ${B}/tst_time64
-> +
-> +       # Remove '-time64' suffix - those tests are also time related
-> +       sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
-> +       tst_time=$(cat ${B}/tst_time_tmp ${B}/tst_time64)
-> +
-> +       rm ${B}/tst_time_tmp ${B}/tst_time64
-> +       echo "${tst_time}"
-> +
-> +       # Install build test programs to the image
-> +       install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-> +
-> +       for f in "${tst_time}"
-> +       do
-> +           cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
-> +       done
-> +
-> +       install -d ${D}${PTEST_PATH}
-> +       cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
-> +
-> +}
-> +
-> +# The datadir directory is required to allow core (and reused)
-> +# glibc cleanup function to finish correctly, as this directory
-> +# is not created for ptests
-> +stash_locale_package_cleanup:prepend () {
-> +       mkdir -p ${PKGD}${datadir}
-> +}
-> +
-> +stash_locale_sysroot_cleanup:prepend () {
-> +       mkdir -p ${SYSROOT_DESTDIR}${datadir}
-> +}
-> +
-> +# Prevent the do_package() task to set 'libc6' prefix
-> +# for glibc tests related packages
-> +python populate_packages:prepend () {
-> +    if d.getVar('DEBIAN_NAMES'):
-> +        d.setVar('DEBIAN_NAMES', '')
-> +}
-> +
-> +FILES:${PN} = "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-> +
-> +EXCLUDE_FROM_SHLIBS = "1"
-> +
-> +# Install debug data in .debug and sources in /usr/src/debug
-> +# It is more handy to have _all_ the sources and symbols in one
-> +# place (package) as this recipe will be used for validation and
-> +# debugging.
-> +PACKAGE_DEBUG_SPLIT_STYLE = "debug"
-> +
-> +# glibc test cases violate by default some Yocto/OE checks (staticdev,
-> +# textrel)
-> +# 'debug-files' - add everything (including debug) into one package
-> +#                 (no need to install/build *-src package)
-> +INSANE_SKIP:${PN} += "staticdev textrel debug-files rpaths"
-> +
-> +deltask do_stash_locale
-> +do_install[noexec] = "1"
-> +do_populate_sysroot[noexec] = "1"
-> diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/glibc/glibc/run-ptest
-> new file mode 100755
-> index 0000000000..f637986105
+> +diff --git a/repo b/repo
+> +index 4cddbf1..cf5f6b1 100755
+> +--- a/repo
+> ++++ b/repo
+> +@@ -142,7 +142,7 @@ if __name__ == '__main__':
+> + REPO_URL = os.environ.get('REPO_URL', None)
+> + if not REPO_URL:
+> +   REPO_URL = 'https://gerrit.googlesource.com/git-repo'
+> +-REPO_REV = os.environ.get('REPO_REV')
+> ++REPO_REV = '11b30b91df1f0e03b53da970ec2588e85817bacc'
+> + if not REPO_REV:
+> +   REPO_REV = 'stable'
+> + # URL to file bug reports for repo tool issues.
+> +--
+> +2.33.1
+> diff --git a/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch b/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+> new file mode 100644
+> index 0000000000..d3888c8bb2
 > --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/run-ptest
-> @@ -0,0 +1,37 @@
-> +#!/bin/sh
-> +# ptest script for glibc - to run time related tests to
-> +# facilitate Y2038 validation
-> +# Run with 'ptest-runner glibc-tests'
+> +++ b/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+> @@ -0,0 +1,26 @@
+> +From b8e84b202cd302a7c99288d3835dc9c63071f8f2 Mon Sep 17 00:00:00 2001
+> +From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +Date: Tue, 14 Sep 2021 16:46:51 +0200
+> +Subject: [PATCH] python3 shebang
 > +
-> +output() {
-> +  retcode=$?
-> +  if [ $retcode -eq 0 ]
-> +    then echo "PASS: $i"
-> +  elif [ $retcode -eq 77 ]
-> +    then echo "SKIP: $i"
-> +  else echo "FAIL: $i"
-> +  fi
+> +Yocto does not symlink from python to python3, thus change the shebang from
+> +python to python3.
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+> +---
+> + repo | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/repo b/repo
+> +index b13e34c..205e0e5 100755
+> +--- a/repo
+> ++++ b/repo
+> +@@ -1,4 +1,4 @@
+> +-#!/usr/bin/env python
+> ++#!/usr/bin/env python3
+> + # -*- coding:utf-8 -*-
+> + #
+> + # Copyright (C) 2008 The Android Open Source Project
+> +--
+> +2.33.0
+> diff --git a/meta/recipes-devtools/repo/repo_2.17.3.bb b/meta/recipes-devtools/repo/repo_2.17.3.bb
+> new file mode 100644
+> index 0000000000..20f5d465d3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/repo/repo_2.17.3.bb
+> @@ -0,0 +1,29 @@
+> +# SPDX-License-Identifier: MIT
+> +# Copyright (C) 2021 iris-GmbH infrared & intelligent sensors
+> +
+> +SUMMARY = "Tool for managing many Git repositories"
+> +DESCRIPTION = "Repo is a tool built on top of Git. Repo helps manage many Git repositories, does the uploads to revision control systems, and automates parts of the development workflow."
+> +HOMEPAGE = "https://android.googlesource.com/tools/repo"
+> +SECTION = "console/utils"
+> +
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> +
+> +SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main"
+> +SRCREV = "11b30b91df1f0e03b53da970ec2588e85817bacc"
+> +
+> +SRC_URI += "file://0001-python3-shebang.patch \
+> +            file://0001-Set-REPO_REV-to-v2.17.3.patch"
+> +
+> +MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git \n"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +do_install() {
+> +	install -d ${D}${bindir}
+> +	install ${WORKDIR}/git/repo ${D}${bindir}
+
+to be on safer side perhaps use below single line instead of above two.
+
+install -Dm 0755 ${WORKDIR}/git/repo ${D}${bindir}/repo
+
 > +}
 > +
-> +# Allow altering time on the target
-> +export GLIBC_TEST_ALLOW_TIME_SETTING="1"
+> +RDEPENDS:${PN} = "python3"
 > +
-> +tst_time64=$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
-> +
-> +# Remove '-time64' suffix - those tests are also time
-> +# related
-> +tst_time_tmp=$(sed -e "s/-time64$//" <<< ${tst_time64})
-> +
-> +# Run tests supporting only 32 bit time
-> +for i in ${tst_time_tmp}
-> +do
-> +       $i >/dev/null 2>&1
-> +       output
-> +done
-> +
-> +# Run tests supporting only 64 bit time
-> +for i in ${tst_time64}
-> +do
-> +       $i >/dev/null 2>&1
-> +       output
-> +done
-> --
-> 2.20.1
->
+> +BBCLASSEXTEND = "native nativesdk"
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#12990): https://lists.openembedded.org/g/bitbake-devel/message/12990
+> Mute This Topic: https://lists.openembedded.org/mt/86960071/1997914
+> Group Owner: bitbake-devel+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/bitbake-devel/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
