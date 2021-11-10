@@ -2,432 +2,457 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90117C4332F
-	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 22:11:19 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.2293.1636582278663840621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DBFC433F5
+	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 22:16:04 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web12.2374.1636582564096738451
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 14:11:18 -0800
+ Wed, 10 Nov 2021 14:16:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EU6GoEMt;
- spf=pass (domain: gmail.com, ip: 209.85.222.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=omYHjDIs;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id r8so3989747qkp.4
+Received: by mail-qt1-f170.google.com with SMTP id f20so3288744qtb.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 14:11:18 -0800 (PST)
+ Wed, 10 Nov 2021 14:16:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=D8xeWCJDRmA6s0HZRm1D3J635R93sab2EL49Yk+rXjg=;
-        b=EU6GoEMtwTeopDbc6l6GkCWvfiCGGBb+2Yau3nN9H3LC7SnRukT+87mbQZUdZhU+05
-         lw8TvudJ6BxbD0h/cv+IDS7fl/+1dgqEWmNp2Z3CeO+oOF9XGVnqn98vDsWlOdrL6Zmj
-         5RgW8jWjlYoh06m33ECnsWm+9bVTTd4WhQ+4FtFCLWGyAcFHMnTy7Adi3KzztOFz/zvI
-         F2XPieBLBdIDhkCTzcSQOHJYJgJRFL6XcgDAvu6gecByNnITW5CMgLYNm/LKtcIutldj
-         apMPixSgYNi/OgA+Ci6BkwquR66CqZiUGowCrwsnw2QWPt7LgqAh7McZ6aU9pj+h5wYC
-         yOqA==
+        bh=iZLNs+0qcN9+2+g/8b9aEKCgVV3O5VtVtUFnNN5BVRk=;
+        b=omYHjDIsF2p8HFPA0LqcvJisndzpZ/lweC04egNahdtZdzJw/jrJiyjUFElXP+cki7
+         J+wc7uARCokAPhhCuPNFuXbsrMdDs+lFityog6/8vnSZHhb0sSCBf9zc6Mwgd/Z2cVyM
+         ejMVPSO+uOpT8PrjpcbSZ+Dj+SyShoRLDfUze8p3l7dQbeJT5Q3nyYSnPOGNCDT2EutQ
+         qbscsKXVBa+q6GUV55DFw4vFptYloIpBD3sFoOXOGmR3lOHDlMrwF0xZ+c5XWv9KlIpn
+         6NL10qPxocy0rpVyrXX7fi+QlE2UOPcMYzQ/PBuJ9ccBopIs+LAIboUHu/bPdw/tAUML
+         Kzfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D8xeWCJDRmA6s0HZRm1D3J635R93sab2EL49Yk+rXjg=;
-        b=FGmaNcZA4TKrZFxII1eaoJWrXtyjpNpxNkM4CyzOsEyxuHCUhOd7J05EzF2lH3zLZE
-         GNJ/tRaYb3o1fvTKBEtV6p4vnmSo2Fqmqy1eygBqo7yPRYwJyuZkBaH+DLePBZErwI09
-         4hxUFDxXYqXJBnwL73P8+uMvFG1uwsJ2n1820kMUs1inG+Yn88pWyZHXvU46Dd0b6fM4
-         vqKtCpEhYivLpkgAv6STBK2B0W3nMTcd+rFFHRv9N2X71nDWSHuYR4pzYAjosXdw3aCQ
-         0FtaenlFHAPLwrmBv0h5bAh7IhCMos28WBc+3/YD2iY+IXcOXQYK+x22ePq+93kLAAjp
-         ZC0A==
-X-Gm-Message-State: AOAM530o6KvoTxuRLW0If+HS1C2IKL2J59dWdEHtW/46PAu4FKym9m63
-	YcmBsEEPTN771RIwl7dj6i+xpRen5zBKjCWj84U=
+        bh=iZLNs+0qcN9+2+g/8b9aEKCgVV3O5VtVtUFnNN5BVRk=;
+        b=VkQ6CwCsLAj5WzZSy8IYNJDtGbzVDLO1ruYfdwa5U4CpJiC6iMot4V5WhShlEoMKUu
+         d6QsdHbg8Z4DI6rePXDftGrUrADdj4rxmj9YC0BdRwyjGzRbZlWZbusYx0DjVLlEPWos
+         d9++KBu9qDkSQ1SrINUWRzFvqD9ANStj1llRQ24f71GXCf68UDzMPd9UJtthwBwa7Mvt
+         7Xi6eBRvcNssd8+X4gr97e6HTsZiqUgBfq6TpBrY78o1d4aiQy84ncIqYJh9TQ962zBM
+         1r/fBXetPoo6pQBvfpuirw2wW52zaIdizhh42d+IfIvHo+SG3JrPjSUB/KreNh2EXGU2
+         TLUg==
+X-Gm-Message-State: AOAM533VOurcKbajWdb4H611UIvzJ/PCe7gDq6mFY7RszzdT7A/07ePp
+	sDvH/wwRtGb/O9/GqC6qxG6Ye+cx4c7diQyglRU=
 X-Google-Smtp-Source: 
- ABdhPJxFy5SzRwWyglQbzdhoYpXLW+0KPuzZpmRrfcHHly9GV21tQazgKNqWoBd1yX7kH3K2UjUA1u9zKGopbzbXKeM=
-X-Received: by 2002:ae9:dc84:: with SMTP id
- q126mr2420919qkf.128.1636582277505;
- Wed, 10 Nov 2021 14:11:17 -0800 (PST)
+ ABdhPJxp8+R5Z+C0p0gP9zTG20g+zpuQyVxeV5RrnuowJSBrE4w4yJI+j/J8hIToX71zSfuUtHxneIKDSc7zAgOHGMs=
+X-Received: by 2002:ac8:45d2:: with SMTP id e18mr2770806qto.112.1636582563065;
+ Wed, 10 Nov 2021 14:16:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20211110193937.2606747-1-alex@linutronix.de>
- <20211110193937.2606747-6-alex@linutronix.de>
-In-Reply-To: <20211110193937.2606747-6-alex@linutronix.de>
+ <20211110193937.2606747-4-alex@linutronix.de>
+In-Reply-To: <20211110193937.2606747-4-alex@linutronix.de>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 10 Nov 2021 14:10:51 -0800
+Date: Wed, 10 Nov 2021 14:15:37 -0800
 Message-ID: 
- <CAMKF1sq1ufM=pGSCMBkAcGh4eau07VJrojpOYPDb0m+eH08SJw@mail.gmail.com>
-Subject: Re: [PATCH 06/24] rust: update 1.56.0 -> 1.56.1
+ <CAMKF1soOYzBrECYF_-WTNTYxQBw2VPwo6GxaVKUbP=nwCr4JoQ@mail.gmail.com>
+Subject: Re: [PATCH 04/24] xserver-xorg: update 1.20.13 -> 21.1.1
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+	Alexander Kanavin <alex@linutronix.de>, Eric Anholt <eric@anholt.net>,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>,
+	Ross Burton <ross.burton@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 22:11:19 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 22:16:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158114
+ https://lists.openembedded.org/g/openembedded-core/message/158115
+
+lgtm
 
 On Wed, Nov 10, 2021 at 11:39 AM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
 >
-> This update includes fixes for the 'trojan source' vulnerability:
-> https://blog.rust-lang.org/2021/11/01/Rust-1.56.1.html
+> libxcvt is a new dependency (thanks Oleksandr!).
 >
-> Drop two unused patches.
-
-this is fine, these patches are already upstreamed in rust compiler. I
-think some portion of it is still required for rv32/musl
-standard library but it will be a different patch. So its fine to delete th=
-em.
-
+> Include ${libdir}/xorg/modules/input/*.so into the main
+> package (if for someone separate packaging matters, please
+> investigate what they do).
+>
+> Remove options no longer present upstream.
+>
+> Remove patches available upstream; drop a chunk as well.
 >
 > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  meta/conf/distro/include/tcmode-default.inc   |  2 +-
->  ...56.0.bb =3D> cargo-cross-canadian_1.56.1.bb} |  0
->  .../{cargo_1.56.0.bb =3D> cargo_1.56.1.bb}      |  0
->  .../rust/files/riscv-march.patch              | 73 -------------------
->  meta/recipes-devtools/rust/files/rv64gc.patch | 37 ----------
->  ...ibstd-rs_1.56.0.bb =3D> libstd-rs_1.56.1.bb} |  0
->  ....56.0.bb =3D> rust-cross-canadian_1.56.1.bb} |  0
->  ...t-cross_1.56.0.bb =3D> rust-cross_1.56.1.bb} |  0
->  ...-llvm-allow-env-override-of-exe-path.patch |  1 +
->  ...ust-llvm_1.56.0.bb =3D> rust-llvm_1.56.1.bb} |  0
->  meta/recipes-devtools/rust/rust-snapshot.inc  | 16 ++--
->  meta/recipes-devtools/rust/rust-source.inc    |  2 +-
->  ...bb =3D> rust-tools-cross-canadian_1.56.1.bb} |  0
->  .../rust/{rust_1.56.0.bb =3D> rust_1.56.1.bb}   |  0
->  14 files changed, 11 insertions(+), 120 deletions(-)
->  rename meta/recipes-devtools/cargo/{cargo-cross-canadian_1.56.0.bb =3D> =
-cargo-cross-canadian_1.56.1.bb} (100%)
->  rename meta/recipes-devtools/cargo/{cargo_1.56.0.bb =3D> cargo_1.56.1.bb=
-} (100%)
->  delete mode 100644 meta/recipes-devtools/rust/files/riscv-march.patch
->  delete mode 100644 meta/recipes-devtools/rust/files/rv64gc.patch
->  rename meta/recipes-devtools/rust/{libstd-rs_1.56.0.bb =3D> libstd-rs_1.=
-56.1.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.56.0.bb =3D> ru=
-st-cross-canadian_1.56.1.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust-cross_1.56.0.bb =3D> rust-cross_=
-1.56.1.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust-llvm_1.56.0.bb =3D> rust-llvm_1.=
-56.1.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust-tools-cross-canadian_1.56.0.bb =
-=3D> rust-tools-cross-canadian_1.56.1.bb} (100%)
->  rename meta/recipes-devtools/rust/{rust_1.56.0.bb =3D> rust_1.56.1.bb} (=
-100%)
+>  .../xorg-xserver/xserver-xorg.inc             |  7 +--
+>  ...-duplicate-definitions-of-IOPortBase.patch | 24 ++-------
+>  ...probing-a-non-PCI-platform-device-on.patch | 34 -------------
+>  ...t-xtest-Initialize-array-with-braces.patch | 36 -------------
+>  .../xorg-xserver/xserver-xorg/pkgconfig.patch | 34 -------------
+>  .../xserver-xorg/sdksyms-no-build-path.patch  | 50 -------------------
+>  ...xorg_1.20.13.bb =3D> xserver-xorg_21.1.1.bb} |  6 +--
+>  7 files changed, 7 insertions(+), 184 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-=
+Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-=
+test-xtest-Initialize-array-with-braces.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgco=
+nfig.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksy=
+ms-no-build-path.patch
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.13.bb =3D> =
+xserver-xorg_21.1.1.bb} (77%)
 >
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dist=
-ro/include/tcmode-default.inc
-> index 609f2fd0eb..d5167ee9ad 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -27,7 +27,7 @@ GOVERSION ?=3D "1.16%"
->  # This can not use wildcards like 8.0.% since it is also used in mesa to=
- denote
->  # llvm version being used, so always bump it with llvm recipe version bu=
-mp
->  LLVMVERSION ?=3D "12.0.1"
-> -RUSTVERSION ?=3D "1.56.0"
-> +RUSTVERSION ?=3D "1.56.1"
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/r=
+ecipes-graphics/xorg-xserver/xserver-xorg.inc
+> index e1fc0a06dc..6a5f274046 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> @@ -28,7 +28,7 @@ inherit autotools pkgconfig
+>  inherit features_check
+>  REQUIRED_DISTRO_FEATURES =3D "x11"
 >
->  PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
->  PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
-> diff --git a/meta/recipes-devtools/cargo/cargo-cross-canadian_1.56.0.bb b=
-/meta/recipes-devtools/cargo/cargo-cross-canadian_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/cargo/cargo-cross-canadian_1.56.0.bb
-> rename to meta/recipes-devtools/cargo/cargo-cross-canadian_1.56.1.bb
-> diff --git a/meta/recipes-devtools/cargo/cargo_1.56.0.bb b/meta/recipes-d=
-evtools/cargo/cargo_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/cargo/cargo_1.56.0.bb
-> rename to meta/recipes-devtools/cargo/cargo_1.56.1.bb
-> diff --git a/meta/recipes-devtools/rust/files/riscv-march.patch b/meta/re=
-cipes-devtools/rust/files/riscv-march.patch
+> -LIB_DEPS =3D "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm lib=
+xkbfile libpciaccess"
+> +LIB_DEPS =3D "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm lib=
+xkbfile libpciaccess libxcvt"
+>  DEPENDS =3D "xorgproto ${LIB_DEPS} font-util"
+>
+>  # Split out some modules and extensions from the main package
+> @@ -78,7 +78,7 @@ RRECOMMENDS:${PN}-xwayland +=3D "${XSERVER_RRECOMMENDS}=
+"
+>  RDEPENDS:${PN}-xvfb +=3D "xkeyboard-config"
+>  RDEPENDS:${PN}-module-exa =3D "${PN} (=3D ${EXTENDPKGV})"
+>
+> -FILES:${PN} =3D "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${l=
+ibdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xor=
+g/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.con=
+f.d"
+> +FILES:${PN} =3D "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${l=
+ibdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xor=
+g/modules/input/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/pr=
+otocol.txt ${datadir}/X11/xorg.conf.d"
+>  FILES:${PN}-dev +=3D "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules=
+/*/*.la"
+>  FILES:${PN}-doc +=3D "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/READ=
+ME.compiled ${localstatedir}/lib/xkb/README.compiled"
+>  FILES:${PN}-sdl =3D "${bindir}/Xsdl"
+> @@ -109,7 +109,6 @@ EXTRA_OECONF +=3D "--with-fop=3Dno \
+>                   --with-pic \
+>                   --disable-static \
+>                   --disable-record \
+> -                 --disable-dmx \
+>                   --disable-xnest \
+>                   --enable-xvfb \
+>                   --enable-composite \
+> @@ -118,7 +117,6 @@ EXTRA_OECONF +=3D "--with-fop=3Dno \
+>                   --sysconfdir=3D/etc/X11 \
+>                   --localstatedir=3D/var \
+>                   --with-xkb-output=3D/var/lib/xkb \
+> -                 --with-os-name=3DLinux \
+>  "
+>
+>  OPENGL_PKGCONFIGS =3D "dri glx glamor dri3 xshmfence"
+> @@ -141,7 +139,6 @@ PACKAGECONFIG[xmlto] =3D "--with-xmlto, --without-xml=
+to, xmlto-native docbook-xml-
+>  PACKAGECONFIG[systemd-logind] =3D "--enable-systemd-logind=3Dyes,--enabl=
+e-systemd-logind=3Dno,dbus,"
+>  PACKAGECONFIG[systemd] =3D "--with-systemd-daemon,--without-systemd-daem=
+on,systemd"
+>  PACKAGECONFIG[xinerama] =3D "--enable-xinerama,--disable-xinerama"
+> -PACKAGECONFIG[xwayland] =3D "--enable-xwayland,--disable-xwayland,waylan=
+d wayland-native wayland-protocols libepoxy"
+>
+>  # Xorg requires a SHA1 implementation, pick one
+>  XORG_CRYPTO ??=3D "openssl"
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-d=
+uplicate-definitions-of-IOPortBase.patch b/meta/recipes-graphics/xorg-xserv=
+er/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+> index 4737040675..11d5546537 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicat=
+e-definitions-of-IOPortBase.patch
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicat=
+e-definitions-of-IOPortBase.patch
+> @@ -1,4 +1,4 @@
+> -From fc04acfd948ac99d04a5dc08c78f3b13bc0c5c41 Mon Sep 17 00:00:00 2001
+> +From ce3b8a230a3805c9b557c1f106795675bd034860 Mon Sep 17 00:00:00 2001
+>  From: Khem Raj <raj.khem@gmail.com>
+>  Date: Mon, 17 Aug 2020 10:50:51 -0700
+>  Subject: [PATCH] Avoid duplicate definitions of IOPortBase
+> @@ -10,26 +10,13 @@ compiler.h:528: multiple definition of `IOPortBase';
+>
+>  Upstream-Status: Pending
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +
+>  ---
+> - hw/xfree86/common/compiler.h            | 2 +-
+>   hw/xfree86/os-support/linux/lnx_video.c | 1 +
+> - 2 files changed, 2 insertions(+), 1 deletion(-)
+> + 1 file changed, 1 insertion(+)
+>
+> -diff --git a/hw/xfree86/common/compiler.h b/hw/xfree86/common/compiler.h
+> -index 2b2008b..c7d617e 100644
+> ---- a/hw/xfree86/common/compiler.h
+> -+++ b/hw/xfree86/common/compiler.h
+> -@@ -525,7 +525,7 @@ xf86WriteMmio32Le(__volatile__ void *base, const uns=
+igned long offset,
+> - #define PORT_SIZE short
+> - #endif
+> -
+> --_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O port area =
+*/
+> -+extern _X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O por=
+t area */
+> -
+> - static __inline__ void
+> - outb(unsigned PORT_SIZE port, unsigned char val)
+>  diff --git a/hw/xfree86/os-support/linux/lnx_video.c b/hw/xfree86/os-sup=
+port/linux/lnx_video.c
+> -index 04e4509..9dc7316 100644
+> +index fd83022..1d0d96e 100644
+>  --- a/hw/xfree86/os-support/linux/lnx_video.c
+>  +++ b/hw/xfree86/os-support/linux/lnx_video.c
+>  @@ -78,6 +78,7 @@ xf86OSInitVidMem(VidMemInfoPtr pVidMem)
+> @@ -40,6 +27,3 @@ index 04e4509..9dc7316 100644
+>
+>   #if defined(__powerpc__)
+>   volatile unsigned char *ioBase =3D NULL;
+> ---
+> -2.28.0
+> -
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-seg=
+fault-on-probing-a-non-PCI-platform-device-on.patch b/meta/recipes-graphics=
+/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-=
+device-on.patch
 > deleted file mode 100644
-> index a10b3a4d93..0000000000
-> --- a/meta/recipes-devtools/rust/files/riscv-march.patch
+> index 8b687d612d..0000000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-o=
+n-probing-a-non-PCI-platform-device-on.patch
 > +++ /dev/null
-> @@ -1,73 +0,0 @@
-> -Add suppor for riscv64 and riscv32 musl targets
+> @@ -1,34 +0,0 @@
+> -From e50c85f4ebf559a3bac4817b41074c43d4691779 Mon Sep 17 00:00:00 2001
+> -From: Eric Anholt <eric@anholt.net>
+> -Date: Fri, 26 Oct 2018 17:47:30 -0700
+> -Subject: [PATCH] Fix segfault on probing a non-PCI platform device on a =
+system
+> - with PCI.
+> -
+> -Some Broadcom set-top-box boards have PCI busses, but the GPU is still
+> -probed through DT.  We would dereference a null busid here in that
+> -case.
+> -
+> -Signed-off-by: Eric Anholt <eric@anholt.net>
+> -
+> -Upstream-Status: Backport [https://github.com/freedesktop/xorg-xserver/c=
+ommit/e50c85f4e]
+> -Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+> ----
+> - hw/xfree86/common/xf86platformBus.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/hw/xfree86/common/xf86platformBus.c b/hw/xfree86/common/xf8=
+6platformBus.c
+> -index cef47da03..dadbac6c8 100644
+> ---- a/hw/xfree86/common/xf86platformBus.c
+> -+++ b/hw/xfree86/common/xf86platformBus.c
+> -@@ -289,7 +289,7 @@ xf86platformProbe(void)
+> -     for (i =3D 0; i < xf86_num_platform_devices; i++) {
+> -         char *busid =3D xf86_platform_odev_attributes(i)->busid;
+> -
+> --        if (pci && (strncmp(busid, "pci:", 4) =3D=3D 0)) {
+> -+        if (pci && busid && (strncmp(busid, "pci:", 4) =3D=3D 0)) {
+> -             platform_find_pci_info(&xf86_platform_devices[i], busid);
+> -         }
+> -
+> ---
+> -2.28.0
+> -
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xt=
+est-Initialize-array-with-braces.patch b/meta/recipes-graphics/xorg-xserver=
+/xserver-xorg/0001-test-xtest-Initialize-array-with-braces.patch
+> deleted file mode 100644
+> index c0c242814b..0000000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-test-xtest-Ini=
+tialize-array-with-braces.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -From 8a382c015cd3c69fcfc146ef03dcbf30c77ff207 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Fri, 1 Mar 2019 09:47:57 -0800
+> -Subject: [PATCH] test/xtest: Initialize array with braces
+> -
+> -Fixes an error when extra warnings are enabled, this is caught with clan=
+g
+> -
+> -test/xtest.c:64:23: error: suggest braces around initialization of subob=
+ject [-Werror,-Wmissing-braces]
+> -    WindowRec root =3D {0};
+> -                      ^
+> -                      {}
+> -1 error generated.
 > -
 > -Upstream-Status: Pending
+> -
 > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - test/xtest.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
 > -
-> ---- a/vendor/cc/src/lib.rs
-> -+++ b/vendor/cc/src/lib.rs
-> -@@ -2361,6 +2361,7 @@ impl Build {
-> -                 "riscv-none-embed",
-> -             ]),
-> -             "riscv64gc-unknown-linux-gnu" =3D> Some("riscv64-linux-gnu"=
-),
-> -+            "riscv64gc-unknown-linux-musl" =3D> Some("riscv64-linux-mus=
-l"),
-> -             "s390x-unknown-linux-gnu" =3D> Some("s390x-linux-gnu"),
-> -             "sparc-unknown-linux-gnu" =3D> Some("sparc-linux-gnu"),
-> -             "sparc64-unknown-linux-gnu" =3D> Some("sparc64-linux-gnu"),
-> ---- a/compiler/rustc_target/src/spec/mod.rs
-> -+++ b/compiler/rustc_target/src/spec/mod.rs
-> -@@ -641,9 +641,11 @@ supported_targets! {
-> -     ("riscv32imc-unknown-none-elf", riscv32imc_unknown_none_elf),
-> -     ("riscv32imac-unknown-none-elf", riscv32imac_unknown_none_elf),
-> -     ("riscv32gc-unknown-linux-gnu", riscv32gc_unknown_linux_gnu),
-> -+    ("riscv32gc-unknown-linux-musl", riscv32gc_unknown_linux_musl),
-> -     ("riscv64imac-unknown-none-elf", riscv64imac_unknown_none_elf),
-> -     ("riscv64gc-unknown-none-elf", riscv64gc_unknown_none_elf),
-> -     ("riscv64gc-unknown-linux-gnu", riscv64gc_unknown_linux_gnu),
-> -+    ("riscv64gc-unknown-linux-musl", riscv64gc_unknown_linux_musl),
+> -diff --git a/test/xtest.c b/test/xtest.c
+> -index fc5e433..d7e6620 100644
+> ---- a/test/xtest.c
+> -+++ b/test/xtest.c
+> -@@ -61,7 +61,7 @@ xtest_init_devices(void)
+> - {
+> -     ScreenRec screen =3D {0};
+> -     ClientRec server_client =3D {0};
+> --    WindowRec root =3D {0};
+> -+    WindowRec root =3D {{0}};
+> -     WindowOptRec optional =3D {0};
 > -
-> -     ("aarch64-unknown-none", aarch64_unknown_none),
-> -     ("aarch64-unknown-none-softfloat", aarch64_unknown_none_softfloat),
-> ---- /dev/null
-> -+++ b/compiler/rustc_target/src/spec/riscv32gc_unknown_linux_musl.rs
-> -@@ -0,0 +1,19 @@
-> -+use crate::spec::{CodeModel, Target, TargetOptions};
-> -+
-> -+pub fn target() -> Target {
-> -+    Target {
-> -+        llvm_target: "riscv32-unknown-linux-musl".to_string(),
-> -+        pointer_width: 32,
-> -+        data_layout: "e-m:e-p:32:32-i64:64-n32-S128".to_string(),
-> -+        arch: "riscv32".to_string(),
-> -+        options: TargetOptions {
-> -+            unsupported_abis: super::riscv_base::unsupported_abis(),
-> -+            code_model: Some(CodeModel::Medium),
-> -+            cpu: "generic-rv32".to_string(),
-> -+            features: "+m,+a,+f,+d,+c".to_string(),
-> -+            llvm_abiname: "ilp32d".to_string(),
-> -+            max_atomic_width: Some(32),
-> -+            ..super::linux_musl_base::opts()
-> -+        },
-> -+    }
-> -+}
-> ---- /dev/null
-> -+++ b/compiler/rustc_target/src/spec/riscv64gc_unknown_linux_musl.rs
-> -@@ -0,0 +1,19 @@
-> -+use crate::spec::{CodeModel, Target, TargetOptions};
-> -+
-> -+pub fn target() -> Target {
-> -+    Target {
-> -+        llvm_target: "riscv64-unknown-linux-musl".to_string(),
-> -+        pointer_width: 64,
-> -+        data_layout: "e-m:e-p:64:64-i64:64-i128:128-n64-S128".to_string=
-(),
-> -+        arch: "riscv64".to_string(),
-> -+        options: TargetOptions {
-> -+            unsupported_abis: super::riscv_base::unsupported_abis(),
-> -+            code_model: Some(CodeModel::Medium),
-> -+            cpu: "generic-rv64".to_string(),
-> -+            features: "+m,+a,+f,+d,+c".to_string(),
-> -+            llvm_abiname: "lp64d".to_string(),
-> -+            max_atomic_width: Some(64),
-> -+            ..super::linux_musl_base::opts()
-> -+        },
-> -+    }
-> -+}
-> diff --git a/meta/recipes-devtools/rust/files/rv64gc.patch b/meta/recipes=
--devtools/rust/files/rv64gc.patch
+> -     /* random stuff that needs initialization */
+> ---
+> -2.21.0
+> -
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.pa=
+tch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
 > deleted file mode 100644
-> index aab1e18453..0000000000
-> --- a/meta/recipes-devtools/rust/files/rv64gc.patch
+> index 2ef9fa9fe4..0000000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/pkgconfig.patch
 > +++ /dev/null
-> @@ -1,37 +0,0 @@
-> ---- a/vendor/cc-1.0.60/.cargo-checksum.json
-> -+++ b/vendor/cc-1.0.60/.cargo-checksum.json
-> -@@ -1 +1 @@
-> --{"files":{"Cargo.lock":"30b9e23f97015aea3eed3e17c6d76d565c2924efec8bdae=
-64c899080847afe89","Cargo.toml":"f6f22b69df3df57c58373cdee72b22218ffa030bc3=
-75b36632660037dd72c866","LICENSE-APACHE":"a60eea817514531668d7e00765731449f=
-e14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2=
-d7b2ba96f1c7917dd6be0713f88305dbda397","README.md":"51405d284d2e0620db62c65=
-5c652fc0ec84f20c1cb30529227355c9575a9e6dd","src/bin/gcc-shim.rs":"b77907875=
-029494b6288841c3aed2e4939ed40708c7f597fca5c9e2570490ca6","src/com.rs":"bcda=
-f1c28b71e6ef889c6b08d1ce9d7c0761344a677f523bc4c3cd297957f804","src/lib.rs":=
-"903c5f2f5dd0cc7d04f99f605a95e6abde8b38156fd4e73eefc58493f55a4e5a","src/reg=
-istry.rs":"3cc1b5a50879fa751572878ae1d0afbfc960c11665258492754b2c8bccb0ff5d=
-","src/setup_config.rs":"7014103587d3382eac599cb76f016e2609b8140970861b2237=
-982d1db24af265","src/winapi.rs":"ea8b7edbb9ff87957254f465c2334e714c5d6b3b19=
-a8d757c48ea7ca0881c50c","src/windows_registry.rs":"52afe8554f577c87841c48dd=
-ee3ba7ffe70a00129e1d6eeb2ec0efb3d2b9aa11","tests/cc_env.rs":"e02b3b0824ad03=
-9b47e4462c5ef6dbe6c824c28e7953af94a0f28f7b5158042e","tests/cflags.rs":"57f0=
-6eb5ce1557e5b4a032d0c4673e18fbe6f8d26c1deb153126e368b96b41b3","tests/cxxfla=
-gs.rs":"c2c6c6d8a0d7146616fa1caed26876ee7bc9fcfffd525eb4743593cade5f3371","=
-tests/support/mod.rs":"16274867f23871e9b07614eda4c7344da13d1751fed63d4f6338=
-57e40be86394","tests/test.rs":"65c073e0e2cf4aa0433066102788e9f57442719e6f32=
-f5ad5248aa7132bb4597"},"package":"ef611cc68ff783f18535d77ddd080185275713d85=
-2c4f5cbb6122c462a7a825c"}
-> -\ No newline at end of file
-> -+{"files":{"Cargo.lock":"30b9e23f97015aea3eed3e17c6d76d565c2924efec8bdae=
-64c899080847afe89","Cargo.toml":"f6f22b69df3df57c58373cdee72b22218ffa030bc3=
-75b36632660037dd72c866","LICENSE-APACHE":"a60eea817514531668d7e00765731449f=
-e14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2=
-d7b2ba96f1c7917dd6be0713f88305dbda397","README.md":"51405d284d2e0620db62c65=
-5c652fc0ec84f20c1cb30529227355c9575a9e6dd","src/bin/gcc-shim.rs":"b77907875=
-029494b6288841c3aed2e4939ed40708c7f597fca5c9e2570490ca6","src/com.rs":"bcda=
-f1c28b71e6ef889c6b08d1ce9d7c0761344a677f523bc4c3cd297957f804","src/lib.rs":=
-"2788af2bdf425f267b33bc524f3e627851b52422e38f480a7e39eb834264fd73","src/reg=
-istry.rs":"3cc1b5a50879fa751572878ae1d0afbfc960c11665258492754b2c8bccb0ff5d=
-","src/setup_config.rs":"7014103587d3382eac599cb76f016e2609b8140970861b2237=
-982d1db24af265","src/winapi.rs":"ea8b7edbb9ff87957254f465c2334e714c5d6b3b19=
-a8d757c48ea7ca0881c50c","src/windows_registry.rs":"52afe8554f577c87841c48dd=
-ee3ba7ffe70a00129e1d6eeb2ec0efb3d2b9aa11","tests/cc_env.rs":"e02b3b0824ad03=
-9b47e4462c5ef6dbe6c824c28e7953af94a0f28f7b5158042e","tests/cflags.rs":"57f0=
-6eb5ce1557e5b4a032d0c4673e18fbe6f8d26c1deb153126e368b96b41b3","tests/cxxfla=
-gs.rs":"c2c6c6d8a0d7146616fa1caed26876ee7bc9fcfffd525eb4743593cade5f3371","=
-tests/support/mod.rs":"16274867f23871e9b07614eda4c7344da13d1751fed63d4f6338=
-57e40be86394","tests/test.rs":"65c073e0e2cf4aa0433066102788e9f57442719e6f32=
-f5ad5248aa7132bb4597"},"package":"ef611cc68ff783f18535d77ddd080185275713d85=
-2c4f5cbb6122c462a7a825c"}
-> ---- a/vendor/cc-1.0.60/src/lib.rs
-> -+++ b/vendor/cc-1.0.60/src/lib.rs
-> -@@ -1639,14 +1639,17 @@ impl Build {
-> -                     let mut parts =3D target.split('-');
-> -                     if let Some(arch) =3D parts.next() {
-> -                         let arch =3D &arch[5..];
-> --                        cmd.args.push(("-march=3Drv".to_owned() + arch)=
-.into());
-> -                         if target.contains("linux") && arch.starts_with=
-("64") {
-> -+                            cmd.args.push(("-march=3Drv64gc").into());
-> -                             cmd.args.push("-mabi=3Dlp64d".into());
-> -                         } else if target.contains("linux") && arch.star=
-ts_with("32") {
-> -+                            cmd.args.push(("-march=3Drv32gc").into());
-> -                             cmd.args.push("-mabi=3Dilp32d".into());
-> -                         } else if arch.starts_with("64") {
-> -+                            cmd.args.push(("-march=3Drv".to_owned() + a=
-rch).into());
-> -                             cmd.args.push("-mabi=3Dlp64".into());
-> -                         } else {
-> -+                            cmd.args.push(("-march=3Drv".to_owned() + a=
-rch).into());
-> -                             cmd.args.push("-mabi=3Dilp32".into());
-> -                         }
-> -                         cmd.args.push("-mcmodel=3Dmedany".into());
-> -@@ -2332,6 +2335,9 @@ impl Build {
-> -                 "riscv-none-embed",
-> -             ]),
-> -             "riscv64gc-unknown-linux-gnu" =3D> Some("riscv64-linux-gnu"=
-),
-> -+            "riscv32gc-unknown-linux-gnu" =3D> Some("riscv32-linux-gnu"=
-),
-> -+            "riscv64gc-unknown-linux-musl" =3D> Some("riscv64-linux-mus=
-l"),
-> -+            "riscv32gc-unknown-linux-musl" =3D> Some("riscv32-linux-mus=
-l"),
-> -             "s390x-unknown-linux-gnu" =3D> Some("s390x-linux-gnu"),
-> -             "sparc-unknown-linux-gnu" =3D> Some("sparc-linux-gnu"),
-> -             "sparc64-unknown-linux-gnu" =3D> Some("sparc64-linux-gnu"),
-> diff --git a/meta/recipes-devtools/rust/libstd-rs_1.56.0.bb b/meta/recipe=
-s-devtools/rust/libstd-rs_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/rust/libstd-rs_1.56.0.bb
-> rename to meta/recipes-devtools/rust/libstd-rs_1.56.1.bb
-> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.56.0.bb b/m=
-eta/recipes-devtools/rust/rust-cross-canadian_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/rust/rust-cross-canadian_1.56.0.bb
-> rename to meta/recipes-devtools/rust/rust-cross-canadian_1.56.1.bb
-> diff --git a/meta/recipes-devtools/rust/rust-cross_1.56.0.bb b/meta/recip=
-es-devtools/rust/rust-cross_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/rust/rust-cross_1.56.0.bb
-> rename to meta/recipes-devtools/rust/rust-cross_1.56.1.bb
-> diff --git a/meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-env-ove=
-rride-of-exe-path.patch b/meta/recipes-devtools/rust/rust-llvm/0002-llvm-al=
-low-env-override-of-exe-path.patch
-> index 943c2118bb..9be26677a9 100644
-> --- a/meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-env-override-o=
-f-exe-path.patch
-> +++ b/meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-env-override-o=
-f-exe-path.patch
-> @@ -8,6 +8,7 @@ return the libraries, include directories, etc. from insi=
-de the sysroot rather
->  than from the native sysroot. Thus provide an env override for calling
->  llvm-config from a target sysroot.
+> @@ -1,34 +0,0 @@
+> -Upstream-Status: Submitted [https://gitlab.freedesktop.org/xorg/xserver/=
+merge_requests/22]
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 5f65a6246fe752764045dd1e38912f1dccec71e4 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Thu, 20 Sep 2018 20:12:24 +0100
+> -Subject: [PATCH] xorg-server.m4: just all cflags instead of just sdkdir
+> -
+> -Instead of fetching just the sdkdir variable of xorg-server using pkg-co=
+nfig,
+> -simply get all of the CFLAGS.  Aside from completeness, this helps build=
+s in
+> -sysroots as pkg-config knows what to do with --cflags but doesn't remap
+> -arbitrary variables.
+> -
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ----
+> - xorg-server.m4 | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/xorg-server.m4 b/xorg-server.m4
+> -index 18255b91a..195bda5d8 100644
+> ---- a/xorg-server.m4
+> -+++ b/xorg-server.m4
+> -@@ -31,7 +31,7 @@ dnl
+> - AC_DEFUN([XORG_DRIVER_CHECK_EXT],[
+> -       AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> -       SAVE_CFLAGS=3D"$CFLAGS"
+> --      CFLAGS=3D"$CFLAGS -I`$PKG_CONFIG --variable=3Dsdkdir xorg-server`=
+"
+> -+      CFLAGS=3D"$CFLAGS `$PKG_CONFIG --cflags xorg-server`"
+> -       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+> - #include "xorg-server.h"
+> - #if !defined $1
+> ---
+> -2.11.0
+> -
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-b=
+uild-path.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-n=
+o-build-path.patch
+> deleted file mode 100644
+> index be198ece49..0000000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/sdksyms-no-build-pa=
+th.patch
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/m=
+erge_requests/253]
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From ca832598d38ba55a001088b57d73c6d7261dc9a7 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Thu, 1 Aug 2019 15:24:51 +0100
+> -Subject: [PATCH] sdksyms.sh: don't embed the build path
+> -
+> -This script generates a header that has a comment containing the build p=
+ath for
+> -no real reason.  As this source can end up deployed on targets in debug =
+packages
+> -this means there is both potentially sensitive information leakage about=
+ the
+> -build environment, and a source of change for reproducible builds.
+> ----
+> - hw/xfree86/sdksyms.sh | 7 +++++--
+> - 1 file changed, 5 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/hw/xfree86/sdksyms.sh b/hw/xfree86/sdksyms.sh
+> -index 39e33711d..bdf47a71a 100755
+> ---- a/hw/xfree86/sdksyms.sh
+> -+++ b/hw/xfree86/sdksyms.sh
+> -@@ -302,13 +302,16 @@ LC_ALL=3DC
+> - export LC_ALL
+> - ${CPP:-cpp} "$@" sdksyms.c > /dev/null || exit $?
+> - ${CPP:-cpp} "$@" sdksyms.c | ${AWK:-awk} -v topdir=3D$topdir '
+> -+function basename(file) {
+> -+    sub(".*/", "", file)
+> -+    return file
+> -+}
+> - BEGIN {
+> -     sdk =3D 0;
+> -     print("/*");
+> -     print(" * These symbols are referenced to ensure they");
+> -     print(" * will be available in the X Server binary.");
+> -     print(" */");
+> --    printf("/* topdir=3D%s */\n", topdir);
+> -     print("_X_HIDDEN void *xorg_symbols[] =3D {");
+> -
+> -     printf("sdksyms.c:") > "sdksyms.dep";
+> -@@ -337,7 +340,7 @@ BEGIN {
+> -       # remove quotes
+> -       gsub(/"/, "", $3);
+> -       line =3D $2;
+> --      header =3D $3;
+> -+      header =3D basename($3);
+> -       if (! headers[$3]) {
+> -           printf(" \\\n  %s", $3) >> "sdksyms.dep";
+> -           headers[$3] =3D 1;
+> ---
+> -2.20.1
+> -
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb b=
+/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.1.bb
+> similarity index 77%
+> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.1.bb
+> index 01a54070c7..5793e078ee 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.1.bb
+> @@ -1,14 +1,10 @@
+>  require xserver-xorg.inc
 >
-> +Upstream-Status: Inappropriate [oe-core specific]
->  Signed-off-by: Martin Kelly <mkelly@xevo.com>
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->  ---
-> diff --git a/meta/recipes-devtools/rust/rust-llvm_1.56.0.bb b/meta/recipe=
-s-devtools/rust/rust-llvm_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/rust/rust-llvm_1.56.0.bb
-> rename to meta/recipes-devtools/rust/rust-llvm_1.56.1.bb
-> diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-=
-devtools/rust/rust-snapshot.inc
-> index 18e98d70a0..3418a2e0ba 100644
-> --- a/meta/recipes-devtools/rust/rust-snapshot.inc
-> +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-> @@ -2,17 +2,17 @@
->  ## snapshot info is taken from rust/src/stage0.txt
->  ## TODO: find a way to add additional SRC_URIs based on the contents of =
-an
->  ##       earlier SRC_URI.
-> -RS_VERSION =3D "1.56.0"
-> -CARGO_VERSION =3D "1.56.0"
-> +RS_VERSION =3D "1.56.1"
-> +CARGO_VERSION =3D "1.56.1"
+>  SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
+ardwar.patch \
+> -           file://pkgconfig.patch \
+> -           file://0001-test-xtest-Initialize-array-with-braces.patch \
+> -           file://sdksyms-no-build-path.patch \
+>             file://0001-drmmode_display.c-add-missing-mi.h-include.patch =
+\
+>             file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+> -           file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device=
+-on.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "40aa4e96a56a81a301f15a9b10e06a22700f12b42d9e0e45=
+3c7f11d354386300"
+> +SRC_URI[sha256sum] =3D "782e7fef2ca0c7cbe60a937b8bf42dac69c904fb841950fd=
+0363e1c2346ea755"
 >
->  # TODO: Add hashes for other architecture toolchains as well. Make a scr=
-ipt?
-> -SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "f693e4f41a959d62528e004=
-3b0b010c4815fb9f5887267ae34ff8b860f8ec4ae"
-> -SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "2a5f919e2036496c02ab4707a5=
-eb8bd8a4ce6ea589e01cb39f25d213a26dcdfe"
-> -SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "f972125810d2db7df2e0af56d9=
-f6a3dcdacc52d983bdf0ca17309b45fc44209b"
-> +SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "b01011cbb5503c456ecc6a5=
-57a38e099994b8497df545c661ce8fd48c5beadc6"
-> +SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "a7001d1218b62d377cab15522d=
-1b1c376b073c05f7d0ff32cf278871a5eeda3d"
-> +SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "dfed65a50e2b58b6807c1fb6f8=
-afa7abd5c3b22c682d505721d615823687c708"
->
-> -SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "3cd1c69c618e5efaf578a1=
-56c2a950c93964f9b47ba4d705d5700bdc64880231"
-> -SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "0d2491a59f697d2ea52fc429b=
-8d4665acb5f79b0e16703f3604b61b8aa68d1c4"
-> -SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "9d97cd655845572846c058577=
-f68ea74b6111f8ea7649db308f786475f764a09"
-> +SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "a83416d15354e4dfa1c1e4=
-a756282c6be7169679f2b04eca82ed34e2116b93f0"
-> +SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "77aec6a8c5f3d33941c79a48c=
-da3bb08878c23dd1947dc027dfe5c4da41305b3"
-> +SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "3d263eb1871b5d6ca4b198b96=
-11925923e9353e1f5c2becf8c7b784298e88743"
->
->  SRC_URI +=3D " \
->      https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=
-=3Drust-std-snapshot-${BUILD_ARCH};subdir=3Drust-snapshot-components \
-> diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-de=
-vtools/rust/rust-source.inc
-> index 326a592544..e197604716 100644
-> --- a/meta/recipes-devtools/rust/rust-source.inc
-> +++ b/meta/recipes-devtools/rust/rust-source.inc
-> @@ -1,5 +1,5 @@
->  SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${PV}-src.tar.xz;n=
-ame=3Drust"
-> -SRC_URI[rust.sha256sum] =3D "f13468889833c88e744ad579c5d8fbb7ecb53216159=
-b54481a90e5dcdaa9e320"
-> +SRC_URI[rust.sha256sum] =3D "61fdcc8bc2530ee18f91318347e09b7cc07e9ca04b1=
-c627c135ecc8dcb8f2ac5"
->
->  RUSTSRC =3D "${WORKDIR}/rustc-${PV}-src"
->
-> diff --git a/meta/recipes-devtools/rust/rust-tools-cross-canadian_1.56.0.=
-bb b/meta/recipes-devtools/rust/rust-tools-cross-canadian_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/rust/rust-tools-cross-canadian_1.56.0.b=
-b
-> rename to meta/recipes-devtools/rust/rust-tools-cross-canadian_1.56.1.bb
-> diff --git a/meta/recipes-devtools/rust/rust_1.56.0.bb b/meta/recipes-dev=
-tools/rust/rust_1.56.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/rust/rust_1.56.0.bb
-> rename to meta/recipes-devtools/rust/rust_1.56.1.bb
+>  # These extensions are now integrated into the server, so declare the mi=
+gration
+>  # path for in-place upgrades.
 > --
 > 2.20.1
 >
