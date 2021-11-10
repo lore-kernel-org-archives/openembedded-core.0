@@ -1,465 +1,97 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 721D8C433EF
-	for <webhook@archiver.kernel.org>; Tue,  9 Nov 2021 23:13:12 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.4609.1636499590675377676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D17CEC433F5
+	for <webhook@archiver.kernel.org>; Wed, 10 Nov 2021 06:07:47 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.8455.1636524458022754656
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Nov 2021 15:13:11 -0800
+ Tue, 09 Nov 2021 22:07:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D547ED1
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  9 Nov 2021 15:13:09 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0E703F800
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  9 Nov 2021 15:13:08 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hVfNIMzo;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id np3so676863pjb.4
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 09 Nov 2021 22:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DkbPcgZ2Arih32fQ39xQirFrX4CKyuoMrg9eIWIqEOA=;
+        b=hVfNIMzoSa6r6gFnNzkhYJpN/2lRGtgR3rf3jpt2186zzKfuJ+c9KJ3VKcuRnpppOi
+         U3xqc6TcSH0lur69bTpRicZ/fRfcrAj1a0NER0Wd4eGZhvFPy1rI7arR7O662vOTfSTu
+         o1sh475M8uit1GY2x2NQnHGzNCOA0G1qEtnLgfoSkZMTT/RfvdSgtow4rHrDD8EAkHpC
+         EXCYJ33C3b7nthOmxzTb3ngMcJz1bopOKrblaxDRCkc9fVlLSQHtXBjBLyk2qe/IcMLw
+         bpJMkViLRzKRA51qcO88iTYHIS9elB8v/tgzyiuq8vDA95txRUwc+4GVuTgpchlsPQ1n
+         gQOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DkbPcgZ2Arih32fQ39xQirFrX4CKyuoMrg9eIWIqEOA=;
+        b=AEBcxsvg9/3GiABhuoQUD/EBtU5I4uqnvzzrdjxPRr86s7BHrj0nTRtQ0VKgUw4wWF
+         wCF6G8Grgh/nQ6nX5DAwoTWgGIoj8dvNzA1Myw1AlXvGYR7beqIf7dAmWwXw8rf0EdhP
+         8fVUCZ12PaZc0XKtjSw0i1vDW93hg4nPRIAwfe7dBrhT3CYO9YXfOveseRljGWQHfWhC
+         5yOtqLDy5lmCyllogZalwrKtufk3BjyihCRHO70cAF8OVyGkYmyjgOgSGByGr8AiE7yD
+         HvXfbDkIU5iRBN655qeU9j0O7UpTjXy23qC182nrDuElrE9549Fo9knAFKDg78AjdXgS
+         BfMQ==
+X-Gm-Message-State: AOAM531RseKCrMH7ik3MNBm3fPZFfkf4O2hIIqUleX4tYSjdEko7dQHJ
+	HhDGPQ3W0k0KnHCHlfr5gYrt7EJwQUo=
+X-Google-Smtp-Source: 
+ ABdhPJxyNUoDbT5ofSOIJVcuSTDgoye0h960KE7Snij+SJ+f+e4iFZSjboIsXdr3spI7jGkBEOGdxg==
+X-Received: by 2002:a17:90a:1f8a:: with SMTP id
+ x10mr14109376pja.215.1636524457225;
+        Tue, 09 Nov 2021 22:07:37 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::7905])
+        by smtp.gmail.com with ESMTPSA id
+ ne7sm4267623pjb.36.2021.11.09.22.07.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Nov 2021 22:07:36 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: fix CVE-2021-3796, CVE-2021-3872, and CVE-2021-3875
-Date: Tue,  9 Nov 2021 23:13:07 +0000
-Message-Id: <20211109231307.2006314-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Joshua Watt <JPEWhacker@gmail.com>,
+	Devendra Tewari <devendra.tewari@gmail.com>
+Subject: [PATCH] wic: Use os.rename instead of bb.utils.rename
+Date: Tue,  9 Nov 2021 22:07:33 -0800
+Message-Id: <20211110060733.2342458-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Nov 2021 23:13:12 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Nov 2021 06:07:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158060
+ https://lists.openembedded.org/g/openembedded-core/message/158061
 
-Backport patches from upstream to fix these CVEs.
+This is not invoked with bitbake context as a result bb.utils is not
+visible when this function is called during image creation and builds
+fail e.g.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+NameError: name 'bb' is not defined
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Cc: Devendra Tewari <devendra.tewari@gmail.com>
 ---
- ...28-using-freed-memory-when-replacing.patch | 83 ++++++++++++++++
- ...llegal-memory-access-if-buffer-name-.patch | 86 ++++++++++++++++
- ...ml_get-error-after-search-with-range.patch | 72 ++++++++++++++
- ...nvalid-memory-access-when-scrolling-.patch | 97 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  8 +-
- 5 files changed, 344 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3428-us=
-ing-freed-memory-when-replacing.patch
- create mode 100644 meta/recipes-support/vim/files/0003-patch-8.2.3487-il=
-legal-memory-access-if-buffer-name-.patch
- create mode 100644 meta/recipes-support/vim/files/0004-patch-8.2.3489-ml=
-_get-error-after-search-with-range.patch
- create mode 100644 meta/recipes-support/vim/files/0005-patch-8.2.3564-in=
-valid-memory-access-when-scrolling-.patch
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/vim/files/0002-patch-8.2.3428-using-fre=
-ed-memory-when-replacing.patch b/meta/recipes-support/vim/files/0002-patc=
-h-8.2.3428-using-freed-memory-when-replacing.patch
-new file mode 100644
-index 0000000000..ecfae0301e
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0002-patch-8.2.3428-using-freed-memo=
-ry-when-replacing.patch
-@@ -0,0 +1,83 @@
-+CVE: CVE-2021-3796
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 1160e5f74b229336502fc376416f21108d36cfc2 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Sat, 11 Sep 2021 21:14:20 +0200
-+Subject: [PATCH] patch 8.2.3428: using freed memory when replacing
-+
-+Problem:    Using freed memory when replacing. (Dhiraj Mishra)
-+Solution:   Get the line pointer after calling ins_copychar().
-+---
-+ src/normal.c              | 10 +++++++---
-+ src/testdir/test_edit.vim | 14 ++++++++++++++
-+ src/version.c             |  2 ++
-+ 3 files changed, 23 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/normal.c b/src/normal.c
-+index c4963e621..d6333b948 100644
-+--- a/src/normal.c
-++++ b/src/normal.c
-+@@ -5009,19 +5009,23 @@ nv_replace(cmdarg_T *cap)
-+ 	    {
-+ 		/*
-+ 		 * Get ptr again, because u_save and/or showmatch() will have
-+-		 * released the line.  At the same time we let know that the
-+-		 * line will be changed.
-++		 * released the line.  This may also happen in ins_copychar().
-++		 * At the same time we let know that the line will be changed.
-+ 		 */
-+-		ptr =3D ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-+ 		if (cap->nchar =3D=3D Ctrl_E || cap->nchar =3D=3D Ctrl_Y)
-+ 		{
-+ 		  int c =3D ins_copychar(curwin->w_cursor.lnum
-+ 					   + (cap->nchar =3D=3D Ctrl_Y ? -1 : 1));
-++
-++		  ptr =3D ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-+ 		  if (c !=3D NUL)
-+ 		    ptr[curwin->w_cursor.col] =3D c;
-+ 		}
-+ 		else
-++		{
-++		    ptr =3D ml_get_buf(curbuf, curwin->w_cursor.lnum, TRUE);
-+ 		    ptr[curwin->w_cursor.col] =3D cap->nchar;
-++		}
-+ 		if (p_sm && msg_silent =3D=3D 0)
-+ 		    showmatch(cap->nchar);
-+ 		++curwin->w_cursor.col;
-+diff --git a/src/testdir/test_edit.vim b/src/testdir/test_edit.vim
-+index 4e29e7fe1..f94e6c181 100644
-+--- a/src/testdir/test_edit.vim
-++++ b/src/testdir/test_edit.vim
-+@@ -1519,3 +1519,17 @@ func Test_edit_noesckeys()
-+   bwipe!
-+   set esckeys
-+ endfunc
-++
-++" Test for getting the character of the line below after "p"
-++func Test_edit_put_CTRL_E()
-++  set encoding=3Dlatin1
-++  new
-++  let @" =3D ''
-++  sil! norm or=03ggRx
-++  sil! norm pr=05
-++  call assert_equal(['r', 'r'], getline(1, 2))
-++  bwipe!
-++  set encoding=3Dutf-8
-++endfunc
-++
-++" vim: shiftwidth=3D2 sts=3D2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 85bdfc601..1046993d6 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3428,
-+ /**/
-+     3409,
-+ /**/
-diff --git a/meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-m=
-emory-access-if-buffer-name-.patch b/meta/recipes-support/vim/files/0003-=
-patch-8.2.3487-illegal-memory-access-if-buffer-name-.patch
-new file mode 100644
-index 0000000000..576664f436
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-memory-a=
-ccess-if-buffer-name-.patch
-@@ -0,0 +1,86 @@
-+CVE: CVE-2021-3872
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 61629ea24a2fff1f89c37479d3fb52f17c3480fc Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Fri, 8 Oct 2021 18:39:28 +0100
-+Subject: [PATCH] patch 8.2.3487: illegal memory access if buffer name is=
- very
-+ long
-+
-+Problem:    Illegal memory access if buffer name is very long.
-+Solution:   Make sure not to go over the end of the buffer.
-+---
-+ src/drawscreen.c                | 10 +++++-----
-+ src/testdir/test_statusline.vim | 11 +++++++++++
-+ src/version.c                   |  2 ++
-+ 3 files changed, 18 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/drawscreen.c b/src/drawscreen.c
-+index 3a88ee979..9acb70552 100644
-+--- a/src/drawscreen.c
-++++ b/src/drawscreen.c
-+@@ -446,13 +446,13 @@ win_redr_status(win_T *wp, int ignore_pum UNUSED)
-+ 	    *(p + len++) =3D ' ';
-+ 	if (bt_help(wp->w_buffer))
-+ 	{
-+-	    STRCPY(p + len, _("[Help]"));
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", _("[Help]"));
-+ 	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+ #ifdef FEAT_QUICKFIX
-+ 	if (wp->w_p_pvw)
-+ 	{
-+-	    STRCPY(p + len, _("[Preview]"));
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", _("[Preview]")=
-);
-+ 	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+ #endif
-+@@ -462,12 +462,12 @@ win_redr_status(win_T *wp, int ignore_pum UNUSED)
-+ #endif
-+ 		)
-+ 	{
-+-	    STRCPY(p + len, "[+]");
-+-	    len +=3D 3;
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", "[+]");
-++	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+ 	if (wp->w_buffer->b_p_ro)
-+ 	{
-+-	    STRCPY(p + len, _("[RO]"));
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", _("[RO]"));
-+ 	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+=20
-+diff --git a/src/testdir/test_statusline.vim b/src/testdir/test_statusli=
-ne.vim
-+index 1f705b847..91bce1407 100644
-+--- a/src/testdir/test_statusline.vim
-++++ b/src/testdir/test_statusline.vim
-+@@ -393,3 +393,14 @@ func Test_statusline_visual()
-+   bwipe! x1
-+   bwipe! x2
-+ endfunc
-++" Used to write beyond allocated memory.  This assumes MAXPATHL is 4096=
- bytes.
-++func Test_statusline_verylong_filename()
-++  let fname =3D repeat('x', 4090)
-++  exe "new " .. fname
-++  set buftype=3Dhelp
-++  set previewwindow
-++  redraw
-++  bwipe!
-++endfunc
-++
-++" vim: shiftwidth=3D2 sts=3D2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 1046993d6..2b5de5ccf 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3487,
-+ /**/
-+     3428,
-+ /**/
-diff --git a/meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-er=
-ror-after-search-with-range.patch b/meta/recipes-support/vim/files/0004-p=
-atch-8.2.3489-ml_get-error-after-search-with-range.patch
-new file mode 100644
-index 0000000000..045081579c
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-error-aft=
-er-search-with-range.patch
-@@ -0,0 +1,72 @@
-+CVE: CVE-2021-3875
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From b8968e26d7508e7d64bfc86808142818b0a9288c Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Sat, 9 Oct 2021 13:58:55 +0100
-+Subject: [PATCH] patch 8.2.3489: ml_get error after search with range
-+
-+Problem:    ml_get error after search with range.
-+Solution:   Limit the line number to the buffer line count.
-+---
-+ src/ex_docmd.c              |  6 ++++--
-+ src/testdir/test_search.vim | 17 +++++++++++++++++
-+ src/version.c               |  2 ++
-+ 3 files changed, 23 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/ex_docmd.c b/src/ex_docmd.c
-+index fb07450f8..fde726477 100644
-+--- a/src/ex_docmd.c
-++++ b/src/ex_docmd.c
-+@@ -3586,8 +3586,10 @@ get_address(
-+=20
-+ 		    // When '/' or '?' follows another address, start from
-+ 		    // there.
-+-		    if (lnum !=3D MAXLNUM)
-+-			curwin->w_cursor.lnum =3D lnum;
-++		    if (lnum > 0 && lnum !=3D MAXLNUM)
-++			curwin->w_cursor.lnum =3D
-++				lnum > curbuf->b_ml.ml_line_count
-++					   ? curbuf->b_ml.ml_line_count : lnum;
-+=20
-+ 		    // Start a forward search at the end of the line (unless
-+ 		    // before the first line).
-+diff --git a/src/testdir/test_search.vim b/src/testdir/test_search.vim
-+index 187671305..e142c3547 100644
-+--- a/src/testdir/test_search.vim
-++++ b/src/testdir/test_search.vim
-+@@ -1366,3 +1366,20 @@ func Test_searchdecl()
-+=20
-+   bwipe!
-+ endfunc
-++
-++func Test_search_with_invalid_range()
-++  new
-++  let lines =3D<< trim END
-++    /\%.v
-++    5/
-++    c
-++  END
-++  call writefile(lines, 'Xrangesearch')
-++  source Xrangesearch
-++
-++  bwipe!
-++  call delete('Xrangesearch')
-++endfunc
-++
-++
-++" vim: shiftwidth=3D2 sts=3D2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 2b5de5ccf..092864bbb 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3489,
-+ /**/
-+     3487,
-+ /**/
-diff --git a/meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-m=
-emory-access-when-scrolling-.patch b/meta/recipes-support/vim/files/0005-=
-patch-8.2.3564-invalid-memory-access-when-scrolling-.patch
-new file mode 100644
-index 0000000000..7184b37cad
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-memory-a=
-ccess-when-scrolling-.patch
-@@ -0,0 +1,97 @@
-+CVE: CVE-2021-3903
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From b15919c1fe0f7fc3d98ff5207ed2feb43c59009d Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Mon, 25 Oct 2021 17:07:04 +0100
-+Subject: [PATCH] patch 8.2.3564: invalid memory access when scrolling wi=
-thout
-+ valid screen
-+
-+Problem:    Invalid memory access when scrolling without a valid screen.
-+Solution:   Do not set VALID_BOTLINE in w_valid.
-+---
-+ src/move.c                  |  1 -
-+ src/testdir/test_normal.vim | 23 ++++++++++++++++++++---
-+ src/version.c               |  2 ++
-+ 3 files changed, 22 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/move.c b/src/move.c
-+index 8e53d8bcb..10165ef4d 100644
-+--- a/src/move.c
-++++ b/src/move.c
-+@@ -198,7 +198,6 @@ update_topline(void)
-+     {
-+ 	curwin->w_topline =3D curwin->w_cursor.lnum;
-+ 	curwin->w_botline =3D curwin->w_topline;
-+-	curwin->w_valid |=3D VALID_BOTLINE|VALID_BOTLINE_AP;
-+ 	curwin->w_scbind_pos =3D 1;
-+ 	return;
-+     }
-+diff --git a/src/testdir/test_normal.vim b/src/testdir/test_normal.vim
-+index d45cf4159..ca87928f5 100644
-+--- a/src/testdir/test_normal.vim
-++++ b/src/testdir/test_normal.vim
-+@@ -33,14 +33,14 @@ func CountSpaces(type, ...)
-+   else
-+     silent exe "normal! `[v`]y"
-+   endif
-+-  let g:a=3Dstrlen(substitute(@@, '[^ ]', '', 'g'))
-++  let g:a =3D strlen(substitute(@@, '[^ ]', '', 'g'))
-+   let &selection =3D sel_save
-+   let @@ =3D reg_save
-+ endfunc
-+=20
-+ func OpfuncDummy(type, ...)
-+   " for testing operatorfunc
-+-  let g:opt=3D&linebreak
-++  let g:opt =3D &linebreak
-+=20
-+   if a:0  " Invoked from Visual mode, use gv command.
-+     silent exe "normal! gvy"
-+@@ -51,7 +51,7 @@ func OpfuncDummy(type, ...)
-+   endif
-+   " Create a new dummy window
-+   new
-+-  let g:bufnr=3Dbufnr('%')
-++  let g:bufnr =3D bufnr('%')
-+ endfunc
-+=20
-+ fun! Test_normal00_optrans()
-+@@ -718,6 +718,23 @@ func Test_normal17_z_scroll_hor2()
-+   bw!
-+ endfunc
-+=20
-++
-++func Test_scroll_in_ex_mode()
-++  " This was using invalid memory because w_botline was invalid.
-++  let lines =3D<< trim END
-++      diffsplit
-++      norm os0=030(=04
-++      call writefile(['done'], 'Xdone')
-++      qa!
-++  END
-++  call writefile(lines, 'Xscript')
-++  call assert_equal(1, RunVim([], [], '--clean -X -Z -e -s -S Xscript')=
-)
-++  call assert_equal(['done'], readfile('Xdone'))
-++
-++  call delete('Xscript')
-++  call delete('Xdone')
-++endfunc
-++
-+ func Test_normal18_z_fold()
-+   " basic tests for foldopen/folddelete
-+   if !has("folding")
-+diff --git a/src/version.c b/src/version.c
-+index 092864bbb..a9e8be0e7 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3564,
-+ /**/
-+     3489,
-+ /**/
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-index 50e215d20f..943856e07c 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,12 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmas=
-ter;protocol=3Dhttps \
-            file://no-path-adjust.patch \
-            file://racefix.patch \
-            file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
--          file://CVE-2021-3778.patch \
--"
-+           file://CVE-2021-3778.patch \
-+           file://0002-patch-8.2.3428-using-freed-memory-when-replacing.=
-patch \
-+           file://0003-patch-8.2.3487-illegal-memory-access-if-buffer-na=
-me-.patch \
-+           file://0004-patch-8.2.3489-ml_get-error-after-search-with-ran=
-ge.patch \
-+           file://0005-patch-8.2.3564-invalid-memory-access-when-scrolli=
-ng-.patch \
-+           "
-=20
- SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
-=20
---=20
-2.25.1
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 495518fac81..c7bc2469ab5 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -619,5 +619,5 @@ class PartitionedImage():
+                              part.start + part.size_sec - 1, part.size_sec)
+ 
+                 partimage = self.path + '.p%d' % part.num
+-                bb.utils.rename(source, partimage)
++                os.rename(source, partimage)
+                 self.partimages.append(partimage)
+-- 
+2.33.1
 
 
