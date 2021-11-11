@@ -1,122 +1,163 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F155C433EF
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 14:11:27 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.10934.1636639885361208530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76429C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 14:16:53 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web08.11119.1636640212245612236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 06:11:26 -0800
+ Thu, 11 Nov 2021 06:16:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=Xa//Xgl5;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=AkLuQQzV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.43,
+ mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f43.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so4537083wmd.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Nov 2021 06:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1636639885;
-  x=1668175885;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=oayd5XAeIrg6zXPeo0EvVRS/GGTUEJhz8nqvyckwalY=;
-  b=Xa//Xgl5yDmO3Ov/JD+krs8pXSLv+DgOZnaNB+gmOGkU07mRC50G90bm
-   vQ3NO2/Z4GDCmGWdf37VFIK5gBehTY5fm+XwKHJIWsmihn3D70U0KzBnh
-   bzYjHK20Ea2aab5RCUN2GT7NWDSxlV5MkKTDO3A7dZPQaItuWwirmsQRE
-   wfd58yeqo0VO1kft+e2+y+Yq+ynsc3g631/+q7L00o4BzSRKsb3k3yGVt
-   rmd9hwiW411nG2R5qg+UnP04SA3cTH2DKZo3DtpuWuPAeHGZgjGxrq2y3
-   k/c3EZAs29A+KKg2zdXlePp4eD5Fi2HyDbrLzNMjibYxEz2ZWkWa6mxoi
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "kweihmann@outlook.com"
-	<kweihmann@outlook.com>, "jasper@fancydomain.eu" <jasper@fancydomain.eu>
-CC: "martin@mko.dev" <martin@mko.dev>, Daniel Baumgart
-	<Daniel.Baumgart@iris-sensing.com>, "bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>
-Subject: RE: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe for
- repo 2.17.3
-Thread-Topic: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Index: 
- AQHX0klyDNlqBsVJg0ODnUI5/vjSvKv03rAAgAADRwCAAAYOAIABSAmAgATTzYCAAnMggIAAmsEAgAAm3FD///xLgIAAMIdA
-Date: Thu, 11 Nov 2021 14:11:22 +0000
-Message-ID: <64e41080db7642d0b54818bdcf916dac@axis.com>
-References: <20211105133104.19895-1-jasper@fancydomain.eu>
-	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
-	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
-	 <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
-	 <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
-	 <dd07e5137044429f805caf23114a2e72@axis.com>
-	 <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
-	 <83886954b53b47eb93b6ab8a7feebf19@axis.com>
- <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
-In-Reply-To: <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P5PjPTBAIpFMn1zK6vfM66acrrmKoFgkt7yZia/cUfk=;
+        b=AkLuQQzVXYTd7XcGZrf7Y0POZTYaob9EHxtNcXEgjHjwWvT41+FV/AEbADqFYthRlV
+         6hRgJxvLLehSyuftcWNk6xUQbMBKdl8F5hY6vQly2OJvaqqvRs8h4GsKoi8ytwR+3Wxf
+         7qtW/VjbjsNVe83/3jK3YodxCsA0sy6kYijEZgTqb7no5JfxDe+Jt95tLkGMA/cIi9YL
+         pE3/kUGtH2LUrO+kw0Lo5TJZvC5XfCbox2lklQrrKctHJQtBC7uBGr0vAqn6aTYpPIFJ
+         Rs4rTQxaluqFxLj9HVcMMdO9angZ9hzxMwZXG7QJoRa8qcYHIPQAKIpM2PNMyeJr429r
+         olJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P5PjPTBAIpFMn1zK6vfM66acrrmKoFgkt7yZia/cUfk=;
+        b=Ub26pWADe9RLzMhR3iIKf1iegd0gXcfThbOAYWIVBw0GwQiNTzdY+IrvY4tq1lBUkO
+         WI0u7o28+73QyRwNGv7AcbjeaaYW5kYHERpXeWU9299rmpsi6hewY8X7jNS9k6M7ABtM
+         Mu8GKbWgCgL1i3D6ig6pGyEpjH4GMy8a4Th1CxB8IZgmOTnpnymYLYsPUe3Qev3EbprK
+         IhAauNU2s8tmFO3CGMjcayurQToW7P5dK2fkudhvvc5OdMuAPCXaBlDm6z+p7WbjqpfT
+         3TzM0Uazlp+R8rG6RHaPYzuxbBOIXgh/BUi7jfRk6nNWqJR7hqqmsEXwl7HgJaLsLj6+
+         IHOw==
+X-Gm-Message-State: AOAM533n2hq1lvH0ct9nSjFcdch3RB0xYAOwA422ngKg2CwkNy91+h1n
+	Q+Bn2DAOUa4s1KmMVyDuG6oZvsA9obfFX+0TCZ8Izw==
+X-Google-Smtp-Source: 
+ ABdhPJxilVyuu5/pAR/KNzu5koBBmZtHMnoYlLFmwQhTOD3ZGXpMijudh/oOBNxzk2vN48bUdHTigU852a1nAC1nKQI=
+X-Received: by 2002:a1c:9851:: with SMTP id
+ a78mr25777339wme.116.1636640210653;
+ Thu, 11 Nov 2021 06:16:50 -0800 (PST)
 MIME-Version: 1.0
+References: <16B6626DB9B02798.14836@lists.openembedded.org>
+In-Reply-To: <16B6626DB9B02798.14836@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 11 Nov 2021 04:16:39 -1000
+Message-ID: 
+ <CAOSpxdYrXKpF8mwr0bFC5F-z=O+TkW7QT3vRy_Vuzr6xSfo-Gg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/14] Patch review
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 14:11:27 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 14:16:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158182
+ https://lists.openembedded.org/g/openembedded-core/message/158183
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKYXNwZXIgT3JzY2h1bGtvIDxK
-YXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20+DQo+IFNlbnQ6IGRlbiAxMSBub3ZlbWJl
-ciAyMDIxIDEzOjEwDQo+IFRvOiByaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnOyBv
-cGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsga3dlaWhtYW5uQG91
-dGxvb2suY29tOyBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
-LmNvbT47IGphc3BlckBmYW5jeWRvbWFpbi5ldQ0KPiBDYzogbWFydGluQG1rby5kZXY7IERhbmll
-bCBCYXVtZ2FydCA8RGFuaWVsLkJhdW1nYXJ0QGlyaXMtc2Vuc2luZy5jb20+Ow0KPiBiaXRiYWtl
-LWRldmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtiaXRiYWtlLWRl
-dmVsXSBbb2UtY29yZV1bUEFUQ0ggMS8yXSBkZXZ0b29sczogSW5pdGlhbCByZWNpcGUNCj4gZm9y
-IHJlcG8gMi4xNy4zDQo+IA0KPiAtLS0tLUJFR0lOIFBHUCBTSUdORUQgTUVTU0FHRS0tLS0tDQo+
-IEhhc2g6IFNIQTI1Ng0KPiANCj4gSGkgUGV0ZXIsDQo+IA0KPiA+IEhvd2V2ZXIsIHRoaXMgbWVh
-bnMNCj4gPiB0aGF0IG9ubHkgdGhlIHNvdXJjZSBmb3IgdGhlIHJlcG8gd3JhcHBlciBpcyBhdmFp
-bGFibGUgaW4gRExfRElSLiBTbw0KPiA+IHdoZW4gdGhlIHJlcG8gd3JhcHBlciBleGVjdXRlcyBp
-dCB3aWxsIHRyeSB0byBnbyBvbiB0aGUgSW50ZXJuZXQgdG8NCj4gPiBmZXRjaCB0aGUgcmVzdCBv
-ZiB0aGUgcmVwbyBzb3VyY2UsIHdoaWNoIHdpbGwgZmFpbC4NCj4gDQo+IGp1c3QgdG8gY2xlYXJp
-Znk6IEFyZSB3ZSB0YWxraW5nIGFib3V0IGluc3RhbGxpbmcgcmVwbyBvbiBhIHRhcmdldCwgb3IN
-Cj4gYXJlIHdlIHRhbGtpbmcgYWJvdXQgdGhlIHJlcG8gZmV0Y2hlcj8NCg0KVGhlIHJlcG8gZmV0
-Y2hlciwgaS5lLiwgd2hlbiByZXBvIGlzIHVzZWQgYnkgYml0YmFrZS4NCg0KPiBXaGVuIGluc3Rh
-bGxpbmcgcmVwbyBvbiB0aGUgdGFyZ2V0LCB3ZSBkbyBub3QgY2FsbCBhbnkgInJlcG8iIGNvbW1h
-bmQNCj4gd2l0aGluIHRoZSBiaXRiYWtlIGJ1aWxkIHByb2Nlc3MuIFdlIGp1c3QgY2xvbmUgdGhl
-IGdpdCByZXBvIGNvbnRhaW5pbmcNCj4gdGhlIHdyYXBwZXIgc2NyaXB0IGFuZCBpbnN0YWxsIHRo
-ZSB3cmFwcGVyIHNjcmlwdCBpbnRvIHRoZSBzeXNyb290LiBBdA0KPiB0aGF0IHBvaW50IHRoZSBi
-aXRiYWtlIGJ1aWxkIHByb2Nlc3MgaXMgZmluaXNoZWQgYW5kIHRoZSB1c2VyIGVuZHMgdXANCj4g
-d2l0aCBqdXN0IHRoZSB3cmFwcGVyIHNjcmlwdCBvbiBoaXMgZGV2aWNlLiBKdXN0IGFzIGhlIHdv
-dWxkIHdoZW4NCj4gaW5zdGFsbGluZyByZXBvIGZyb20gdGhlIHN5c3RlbSByZXBvc2l0b3JpZXMg
-b24gZGViaWFuLCBhcmNoLCBldGMuDQo+IA0KPiBXaGVuIHVzaW5nIHRoZSBmZXRjaGVyLCB0aGUg
-cmVwbyBzb3VyY2VzIGFyZSBmZXRjaGVkIGR1cmluZyB0aGUgaW5pdGlhbA0KPiBkb19mZXRjaCAo
-dGhpcyBhbHNvIHdvcmtzIHdpdGggYGJpdGJha2UgLS1ydW5vbmx5PWRvX2ZldGNoYCkgYW5kIHBs
-YWNlZA0KPiBpbnRvIHRoZSBETF9ESVIgKGluIHRoZSAucmVwbyBmb2xkZXIsIG5leHQgdG8gdGhl
-IHNvdXJjZXMgYXMgZGVzY3JpYmVkDQo+IGluIHRoZSByZXBvIG1hbmlmZXN0KS4gU28gdW5sZXNz
-IHRoZSB1c2VyIGNoYW5nZXMgc29tZXRoaW5nIGZldGNoZXINCj4gcmVsYXRlZCBpbiB0aGUgcmVj
-aXBlIG9yIGRlbGV0ZXMgaGlzIERMX0RJUiwgaGUgY2FuIHVzZSB0aGlzIGJ1aWxkDQo+IGVudmly
-b25tZW50IGZvciBhbiBvZmZsaW5lIGJ1aWxkLg0KDQpIb3cgY2FuIGl0IHdvcms/IFRoZSByZXBv
-IHNvdXJjZSwgd2hpY2ggaXMgZmV0Y2hlZCBieSB0aGUgcmVwbyB3cmFwcGVyLCANCndpbGwgbm90
-IGJlIGluIERMX0RJUiBvciBoYW5kbGVkIGJ5IGJpdGJha2UgYXQgYWxsLiBUaGlzIG1lYW5zIHRo
-ZSANCnJlcG8gd3JhcHBlciB3aWxsIHRyeSB0byBjb250YWN0IGdvb2dsZXNvdXJjZS5jb20gZGly
-ZWN0bHkgYW5kIGZldGNoIGl0IA0Kd2hlbiBpdCBpcyBydW4gYnkgYml0YmFrZSwgd2hpY2ggY2Fu
-bm90IHdvcmsgc2luY2UgdGhlIGhvc3QgaXMgDQpkaXNjb25uZWN0ZWQgZnJvbSB0aGUgbmV0d29y
-ay4gSG93IG9yIGZyb20gd2hlcmUgd291bGQgaXQgYmUgYWJsZSB0byANCmdldCB0aGUgc291cmNl
-cyBpdCBuZWVkcz8NCg0KPiBZb3UgY2FuIHRyeSB0aGlzIGZvciB5b3Vyc2VsZiwgaWYgeW91IGxp
-a2U6DQo+IA0KPiAxKSBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vSmFzcGVyLUJlbi9kZW1vLWth
-cw0KPiAyKSAod2l0aCBkb2NrZXIgYW5kIGRvY2tlci1jb21wb3NlIGluc3RhbGxlZCkgcnVuIGBt
-YWtlIG9mZmxpbmUtYnVpbGRgDQo+IA0KPiAtIC0tDQo+IFdpdGggYmVzdCByZWdhcmRzDQo+IA0K
-PiBKYXNwZXIgT3JzY2h1bGtvDQo+IERldk9wcyBFbmdpbmVlcg0KPiANCj4gVGVsLiArNDkgMzAg
-NTggNTggMTQgMjY1DQo+IEZheCArNDkgMzAgNTggNTggMTQgOTk5DQo+IEphc3Blci5PcnNjaHVs
-a29AaXJpcy1zZW5zaW5nLmNvbQ0KPiANCj4g4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKA
-oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
-IOKAoiDigKIg4oCiIOKAog0KPiANCj4gaXJpcy1HbWJIDQo+IGluZnJhcmVkICYgaW50ZWxsaWdl
-bnQgc2Vuc29ycw0KPiBTY2huZWxsZXJzdHJhw59lIDEtNSB8IDEyNDM5IEJlcmxpbg0KPiANCj4g
-aHR0cHM6Ly9pcmlzLXNlbnNpbmcuY29tLw0KDQovL1BldGVyDQoNCg==
+On Wed, Nov 10, 2021 at 6:08 PM Steve Sakoman via
+lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+wrote:
+>
+> Please review this set of patches for dunfell and have comments back by end
+> of day Friday.
+
+I forgot to add:
+
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2910
+
+>
+> The following changes since commit 38fc0807eea14dc12610da4ba73c082d5a4b0744:
+>
+>   meta/scripts: Manual git url branch additions (2021-11-03 08:43:53 -1000)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+>
+> Jose Quaresma (1):
+>   sstate: another fix for touching files inside pseudo
+>
+> Joshua Watt (1):
+>   oeqa: reproducible: Fix test not producing diffs
+>
+> Khem Raj (1):
+>   webkitgtk: Fix reproducibility in minibrowser
+>
+> Marek Vasut (1):
+>   piglit: upgrade to latest revision
+>
+> Mark Hatle (1):
+>   reproducible_build: Remove BUILD_REPRODUCIBLE_BINARIES checking
+>
+> Mingli Yu (1):
+>   python3-magic: add the missing rdepends
+>
+> Richard Purdie (6):
+>   linunistring: Add missing gperf-native dependency
+>   pseudo: Add in ability to flush database with shutdown request
+>   pseudo: Add fcntl64 wrapper
+>   mirrors: Add uninative mirror on kernel.org
+>   sstate: Ensure SDE is accounted for in package task timestamps
+>   sstate: Avoid deploy_source_date_epoch sstate when unneeded
+>
+> Steve Sakoman (2):
+>   python3-magic: add missing DEPENDS
+>   selftest/reproducible: add webkitgtk back to exclusion list for
+>     dunfell
+>
+>  meta/classes/mirrors.bbclass                  |  1 +
+>  meta/classes/reproducible_build.bbclass       | 53 ++++++++++++-------
+>  meta/classes/sstate.bbclass                   | 34 +++++++++---
+>  .../oeqa/selftest/cases/diffoscope/A/file.txt |  1 +
+>  .../oeqa/selftest/cases/diffoscope/B/file.txt |  1 +
+>  meta/lib/oeqa/selftest/cases/reproducible.py  | 29 +++++++++-
+>  meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +-
+>  .../python/python3-magic_0.4.15.bb            |  7 ++-
+>  ...ssing-include-for-htobe32-definition.patch | 27 ++++++++++
+>  ...file.py-make-test-lists-reproducible.patch | 31 +++++++++++
+>  ...gen_tcs-tes_input_tests.py-do-not-ha.patch | 44 +++++++++++++++
+>  ...lizer.py-make-.gz-files-reproducible.patch | 30 +++++++++++
+>  ...sort-the-file-list-before-working-on.patch | 28 ++++++++++
+>  ...t-shader.c-do-not-hardcode-build-pat.patch | 30 +++++++++++
+>  meta/recipes-graphics/piglit/piglit_git.bb    | 12 ++++-
+>  .../0001-MiniBrowser-Fix-reproduciblity.patch | 31 +++++++++++
+>  meta/recipes-sato/webkit/webkitgtk_2.28.4.bb  |  1 +
+>  .../libunistring/libunistring_0.9.10.bb       |  1 +
+>  18 files changed, 333 insertions(+), 30 deletions(-)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/diffoscope/A/file.txt
+>  create mode 100644 meta/lib/oeqa/selftest/cases/diffoscope/B/file.txt
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0001-Add-a-missing-include-for-htobe32-definition.patch
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0001-framework-profile.py-make-test-lists-reproducible.patch
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0001-generated_tests-gen_tcs-tes_input_tests.py-do-not-ha.patch
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0001-serializer.py-make-.gz-files-reproducible.patch
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-shader.py-sort-the-file-list-before-working-on.patch
+>  create mode 100644 meta/recipes-graphics/piglit/piglit/0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+>  create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
+>
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158132): https://lists.openembedded.org/g/openembedded-core/message/158132
+> Mute This Topic: https://lists.openembedded.org/mt/86975084/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
