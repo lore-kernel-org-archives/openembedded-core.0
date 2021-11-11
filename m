@@ -1,113 +1,73 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A00E0C433EF
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 10:11:57 +0000 (UTC)
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.8580.1636625516276018053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8768C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 10:16:16 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.8643.1636625775397317789
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 02:11:56 -0800
+ Thu, 11 Nov 2021 02:16:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1ABABsRa013734
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 02:11:55 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 11 Nov 2021 02:11:54 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Thu, 11 Nov 2021 02:11:50 -0800
-Received: from localhost.localdomain (128.224.72.50) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 11 Nov 2021 02:11:47 -0800
-From: Sakib Sajal <sakib.sajal@windriver.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=or4Rc3av;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1636625775;
+  x=1668161775;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=miNbK9+oHHgkXWrxRGwHx1EbGPqDXKutjd3lK4i9ONQ=;
+  b=or4Rc3avy+mS/PfCYuu7RFAjcIPygrOSFAxKtyfL3hOAui4IKZuCDNbj
+   kqC6c505YmEMQAK7xVKIrTKqGAVBpC4evVyAUphl5c4YsCHccytuiu6/M
+   kDngt2PAT25dIZereyXHIj2Mw6rVQmgucS9Q6Oh4t8tp1fg0NkWOmddGo
+   8E56re4yzbkge/bjaut7tyvAz+oBM9DylB3o28ouZl0v9c6cJGjnID1qV
+   VqxjWza1pb5FlVSfXANVx0mOAFcFPG+0EIa/uYUzSDzWJgY6BMHh8kT8l
+   KJQJ+++Kg5WJ1+QahuBHGZR+7lPysseJbAfg0WN9L6E0dQ1oUwLqbSYlz
+   g==;
+From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [pseudo] pseudo_fix_path: do not expand symlinks in /proc
-Date: Thu, 11 Nov 2021 05:11:43 -0500
-Message-ID: <20211111101143.145750-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] gcc-common.inc: Remove mirrors that are no longer available
+Date: Thu, 11 Nov 2021 11:16:09 +0100
+Message-ID: <20211111101609.14090-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 10:11:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 10:16:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158154
+ https://lists.openembedded.org/g/openembedded-core/message/158155
 
-From: Matt Cowell <matt.cowell@nokia.com>
+Also switch to https for https://gcc.gnu.org/pub/gcc/releases/
 
-Some symlinks in /proc, such as those under /proc/[pid]/fd,
-/proc/[pid]/cwd, and /proc/[pid]/exe that are not real and should not
-have readlink called on them.  These look like symlinks, but behave like
-hardlinks.  Readlink does not return actual paths.  Previously
-pseudo_fix_path would expand files such as /dev/stdin to paths such as
-/proc/6680/fd/pipe:[1270830076] which do not exist.
-
-This issue affects:
-- deleted files
-- deleted directories
-- fifos
-- sockets
-- anon_inodes (epoll, eventfd, inotify, signalfd, timerfd, etc)
-
-Testing:
-- run_tests: all tests passed (3 tests check the new code path).
-             Checked test output to make sure the new codepath gets executed.
-- perftest: measured time before and after applying the patch
-            had insignificant differences (roughly ~1%)
-- world build: completed without warning/errors
-
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- pseudo_util.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/pseudo_util.c b/pseudo_util.c
-index b6980c2..b9de81e 100644
---- a/pseudo_util.c
-+++ b/pseudo_util.c
-@@ -29,6 +29,11 @@
- #include "pseudo_ipc.h"
- #include "pseudo_db.h"
+This patch is based on top of the other patches I sent related to
+MIRRORS.
+
+ meta/recipes-devtools/gcc/gcc-common.inc | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 0d950e780d..0f70be7dd4 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -86,11 +86,7 @@ get_tune_parameters[vardepsexclude] = "AVAILTUNES TUNE_CCARGS OVERRIDES TUNE_FEA
+ DEBIANNAME:${MLPREFIX}libgcc = "libgcc1"
  
-+/* O_PATH is defined in glibc 2.16 and later only */
-+#ifndef O_PATH
-+#define O_PATH          010000000
-+#endif
-+
- struct pseudo_variables {
- 	char *key;
- 	size_t key_len;
-@@ -678,6 +683,18 @@ pseudo_append_element(char *newpath, char *root, size_t allocated, char **pcurre
- 	 */
- 	if (!leave_this && is_dir) {
- 		int is_link = S_ISLNK(buf->st_mode);
-+
-+		/* do not expand symlinks in the proc filesystem, since they may not be real
-+		 * check if newpath starts with "/proc/"
-+		 * strlen of "/proc/" = 6
-+		 */
-+		if (is_link && (strncmp("/proc/", newpath, 6) == 0)) {
-+			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE,
-+				"pae: '%s' is procfs symlink, not expanding\n",
-+				newpath);
-+			is_link = 0;
-+		}
-+
- 		if (link_recursion >= PSEUDO_MAX_LINK_RECURSION && is_link) {
- 			pseudo_diag("link recursion too deep, not expanding path '%s'.\n", newpath);
- 			is_link = 0;
--- 
-2.25.1
-
+ MIRRORS =+ "\
+-    ${GNU_MIRROR}/gcc ftp://gcc.gnu.org/pub/gcc/releases/ \
+-    ${GNU_MIRROR}/gcc ftp://gd.tuwien.ac.at/gnu/gcc/ \
+-    ${GNU_MIRROR}/gcc http://mirrors.rcn.net/pub/sourceware/gcc/releases/ \
+-    ${GNU_MIRROR}/gcc http://gcc.get-software.com/releases/ \
+-    ${GNU_MIRROR}/gcc http://gcc.get-software.com/releases/ \
++    ${GNU_MIRROR}/gcc https://gcc.gnu.org/pub/gcc/releases/ \
+ "
+ #
+ # Set some default values
 
