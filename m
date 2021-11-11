@@ -1,76 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <anibal.limon@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3e515dd10b0cf1fdda6a1291d289c6804628389c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] mirrors: Add uninative mirror on kernel.org
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 10 Nov 2021 20:54:36 +0000
-In-Reply-To: <93b2df22824c47ff9c08365792a805d2@axis.com>
-References: <20211109132131.3789773-1-richard.purdie@linuxfoundation.org>
-	 <93b2df22824c47ff9c08365792a805d2@axis.com>
+From: "Anibal Limon" <anibal.limon@linaro.org>
+Subject: [PATCH] recipe-graphics: Add depends on cmake-native
+Date: Wed, 10 Nov 2021 18:44:07 -0600
+Message-Id: <20211111004407.3036301-1-anibal.limon@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org, =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
 
-On Wed, 2021-11-10 at 20:44 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 9 november 2021 14:22
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] mirrors: Add uninative mirror on kernel.org
-> > 
-> > At the last nas outage, we realised that we don't have good mirrors of the
-> > uninative tarball if our main system can't be accessed. kernel.org mirrors
-> > some Yocto Project data so we've ensured uninative is there. Add the
-> > appropriate
-> > mirror url to make use of that.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta/classes/mirrors.bbclass | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-> > index ba325a658bc..75eb86a7243 100644
-> > --- a/meta/classes/mirrors.bbclass
-> > +++ b/meta/classes/mirrors.bbclass
-> > @@ -62,6 +62,7 @@ ftp://.*/.*     http://sources.openembedded.org/ \n \
-> >  npm://.*/?.*    http://sources.openembedded.org/ \n \
-> >  ${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
-> >  ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
-> > +https?$://downloads.yoctoproject.org/releases/uninative/
-> > https://mirrors.kernel.org/yocto/uninative/ \n \
-> 
-> The above looked very odd to me, having that dollar sign in the middle of 
-> the regular expression. It wasn't until I was deep into the fetcher's code 
-> that I realized that it is not actually one regular expression above, but 
-> three, formatted as a URL...
+Fixes,
 
-It is all a bit crazy. This format is from the days of the fetcher before my
-involvement and before it was the fetcher.
+...
+  File "/home/builds/oe-rpb-master/build-410c/tmp-rpb-glibc/work/cortexa53-linaro-linux/waffle/1.7.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/mesonbuild/modules/cmake.py", line 241, in detect_cmake
+    p, stdout, stderr = mesonlib.Popen_safe(cmakebin.get_command() + ['--system-information', '-G', 'Ninja'])[0:3]
+  File "/home/builds/oe-rpb-master/build-410c/tmp-rpb-glibc/work/cortexa53-linaro-linux/waffle/1.7.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/mesonbuild/mesonlib/universal.py", line 1397, in Popen_safe
+    p = subprocess.Popen(args, universal_newlines=True, close_fds=False,
+  File "/home/builds/oe-rpb-master/build-410c/tmp-rpb-glibc/work/cortexa53-linaro-linux/waffle/1.7.0-r0/recipe-sysroot-native/usr/lib/python3.10/subprocess.py", line 966, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/home/builds/oe-rpb-master/build-410c/tmp-rpb-glibc/work/cortexa53-linaro-linux/waffle/1.7.0-r0/recipe-sysroot-native/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    and os.path.dirname(executable)
+  File "/home/builds/oe-rpb-master/build-410c/tmp-rpb-glibc/work/cortexa53-linaro-linux/waffle/1.7.0-r0/recipe-sysroot-native/usr/lib/python3.10/posixpath.py", line 152, in dirname
+    p = os.fspath(p)
+...
 
-> However, based on the code in bitbake/lib/bb/fetch2/__init__.py:uri_replace(),
-> AFAICT, the dollar sign should not be needed above, as it will be added for 
-> the URI type regexp automatically. The same goes for the other two URLs in 
-> mirrors.bbclass that use that formatting.
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ meta/recipes-graphics/waffle/waffle_1.7.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Right, I think I remember added the anchoring fix. We haven't cleaned up all the
-urls out in the wild and I was being consistent with the other entries in this
-case.
-
-> While investigating this, I also tried to look in the bitbake documentation 
-> for a description of the format used for the PREMIRRORS and MIRRORS variables,
-> but I could not find any. There is only a simple example, without any 
-> explanation for the actual format that is being used.
-
-That doesn't surprise me, I still have trouble remembering all the
-idiosyncrasies when trying to fix the mirror url code too. It would be good to
-document it if anyone fancies trying.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/waffle/waffle_1.7.0.bb b/meta/recipes-graphics/waffle/waffle_1.7.0.bb
+index 6284af3076..ea11309940 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.7.0.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.7.0.bb
+@@ -17,7 +17,7 @@ S = "${WORKDIR}/git"
+ 
+ inherit meson features_check lib_package bash-completion pkgconfig
+ 
+-DEPENDS:append = " python3"
++DEPENDS:append = " python3 cmake-native"
+ 
+ # This should be overridden per-machine to reflect the capabilities of the GL
+ # stack.
+-- 
+2.33.1
 
