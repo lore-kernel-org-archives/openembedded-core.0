@@ -1,88 +1,152 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <Awais_Belal@mentor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D73FC433EF
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 18:08:13 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.3456.1636654092098151807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F1ECC433F5
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 18:45:47 +0000 (UTC)
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+ by mx.groups.io with SMTP id smtpd.web12.3845.1636656346407391584
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 10:08:12 -0800
+ Thu, 11 Nov 2021 10:45:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=7BxtVuB8;
- spf=pass (domain: burtonini.com, ip: 209.85.221.48,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f48.google.com with SMTP id u1so11175548wru.13
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 10:08:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=baHfmio5Sg/3ubJkbdBUC78sfByZqPij0kAa6aLEJQ0=;
-        b=7BxtVuB8iiCuikH2Xle2YJqEEJeeveEbWU6Tx0BQwOKZrC5i1My0O2scMD8JW6nwt9
-         7+IwIeHtFBJfusiBfEB7kif5n1pSF8grHT+vsFLg5vMJJMYJUo2CosqSa6pT74Ua3aMx
-         2BvVoSdZhRONQ5H6Qrj5nggDBZCG2qJvTEZrfN8VsaC9sfKj42P+WG7R3em14sGR8I+w
-         5Wg2pOhKznUAzVK/qZDenWslNz7NnWNxrA6golZ2AiftJVyu5/HxfyP4mj+52vFTAfHr
-         REbWJrkYYPounSgSpQuAgnYssJ6QavjRsH2zTpzR5OvweFmAs/KK9vd5eQaH1/cj8aPb
-         jjyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=baHfmio5Sg/3ubJkbdBUC78sfByZqPij0kAa6aLEJQ0=;
-        b=JhGLr84QGdX44kebEyVLlZFr2/ijhkQQXb6Zfo6VT/EvYFsxdwbUypseCdYHR6ruMi
-         EdtbB38MRR9VUSTdh1ulaEhl5TCKzZAVzg8ZloJQEacXajxv94No3PM1kwS584v/qVir
-         fyB6zYeT+y04N52t6BME9SsBuGzfy/e5lWKcxn16llUx8sCXoHirwpDK1cEJiJEOSmrr
-         p7DIcVu/Sx/QazBaXxMQhYnEy0IISZHHyA4QBaCpjhS6W6mqG15geeUU7SbH9xi0hn+N
-         WaVHTHBLTM5LQvOsLWx6vWzcZjNnqFzDZ0kpxHRHn52QUKdml15teROOt7zm2LbzI9lY
-         XcbA==
-X-Gm-Message-State: AOAM531uYhY3IOfsTEY3KnoSrnv8PncCPTaV593he5Q5tpQvfm0nJFhq
-	709S7OoMKYWq1gwPlBd4QlN3D7nSBBq/sVe0gY/ilw==
-X-Google-Smtp-Source: 
- ABdhPJxm0T4g0FvtHhwCDI5t4bz1zFtM3Q83lj0n+BJwLWfbCBSiby0UoHbhEshanvj/xw44SA4vsA3Jox3icQ2tFmM=
-X-Received: by 2002:a5d:6843:: with SMTP id o3mr10863377wrw.174.1636654090367;
- Thu, 11 Nov 2021 10:08:10 -0800 (PST)
+ dkim=missing;
+ spf=pass (domain: mentor.com, ip: 68.232.141.98, mailfrom: awais_belal@mentor.com)
+IronPort-SDR: 
+ 8UbL5Yx2kTH0806wnWShV8si9UrTFZn33E3ccngTdUtBlokzdwqBZOmRqBx+txppPTD2Lsew44
+ iMWQv2AfQRhSiNwLNepJ9Iy8BX1Jf0gk/wKqWQme8CFIz+VHncVqUTWikohvbTKGK20T0I8cfg
+ K72n8Yuqia2ua9vCCcbnCrVTbatmGFkVXm5be6nbniveymFov5MpL8ma/5ZS04F/HDsKZVLBpO
+ M0/3CGjR7gEnbKNmtpdFnPxONw24876PXI4KSb/JY4e0pbZ/Vm44N7d5MNZg9QxYQ49TesIth+
+ cLtu9SxySW08gKdXhmoG/CJV
+X-IronPort-AV: E=Sophos;i="5.87,226,1631606400";
+   d="scan'208,217";a="68382634"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa2.mentor.iphmx.com with ESMTP; 11 Nov 2021 10:45:42 -0800
+IronPort-SDR: 
+ Jg8+tGzwyIDlU1bKuyvTQvbVXItwC8h1h0DBZGVVIK/ePKqVB3Uni3x2gnEx+O13u3Ex0Q6awO
+ YdJIfvPp9nL+uaRzCpnhkh7AqJkVRzIBbsvzZyRhWKGZV7aLRim3Lq4O9y7WInSHX537Ieljbf
+ 6dRUqZFfZAslc1RNs0fRQLzp78t0/k0U/1XE3cNmreRLOSZrntuCithtFLsKm/JOJUU1Csg5Hl
+ 68WvX3qHNoI6n2G1Bp8JeV18j+WeYVlkG05kw6LpA3vzuCm+HaCg6pDSgRdoWrk1ujhHL5b6+J
+ Nag=
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: linux-firmware: discrepancy around the brcmfmac/cyfmac43430
+Thread-Topic: linux-firmware: discrepancy around the brcmfmac/cyfmac43430
+Thread-Index: AQHX1ysgwkUk4YGLnUGG232Q0DG0fw==
+Date: Thu, 11 Nov 2021 18:45:37 +0000
+Message-ID: <1636656337497.93588@mentor.com>
+Accept-Language: en-US, en-IE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
+Content-Type: multipart/alternative;
+	boundary="_000_163665633749793588mentorcom_"
 MIME-Version: 1.0
-References: <20211111170650.3112950-1-anibal.limon@linaro.org>
- <CAAnfSTs0RK0KnKiQgJF6F83d4QrMs+Rj2q4-bJzenwLx0MVffQ@mail.gmail.com>
- <CANNYZj8oBXJDN2r9y7L-u6FW=FdfKntKDW8SBjR4L+Bfh5V0cQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8oBXJDN2r9y7L-u6FW=FdfKntKDW8SBjR4L+Bfh5V0cQ@mail.gmail.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 11 Nov 2021 18:07:59 +0000
-Message-ID: 
- <CAAnfSTuaVnUFrYTDw6kFPuFogcjimKBh4XU=1RgpzuHGn4GyBw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv2] recipe-graphics/waffle: Add depends on
- cmake-native
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Anibal Limon <anibal.limon@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 18:08:13 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 18:45:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158198
+ https://lists.openembedded.org/g/openembedded-core/message/158199
 
-> Maybe this?
-> https://gitlab.freedesktop.org/mesa/waffle/-/blob/master/src/waffle/meson.build#L238
+--_000_163665633749793588mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Well that's annoying that it needs cmake just to write a configuration file.
+Hi all,
 
-I suggest rewriting the commit message:
 
-waffle: add explicit dependency to cmake-native
+It seems like there's a discrepancy regarding the license of the brcmfmac/c=
+yfmac43430 firmware or maybe I am misunderstanding something. If I look at =
+the original source (kernel git) for the linux-firmware components the WHEN=
+CE file mentions
 
-cmake-native can get pulled into the sysroot via dependencies, but it
-is always needed:
+File: cypress/cyfmac43430-sdio.bin
+Link: brcm/brcmfmac43430-sdio.bin -> ../cypress/cyfmac43430-sdio.bin
 
-| Program cmake found: NO
-| ERROR: meson failed
 
-Ross
+under the LICENCE.broadcom_bcm43xx (https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/firmware/linux-firmware.git/tree/WHENCE#n2830) however the OE-core=
+ recipe uses a cypress license for these
+
+
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-kernel/lin=
+ux-firmware/linux-firmware_20211027.bb#n743
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-kernel/lin=
+ux-firmware/linux-firmware_20211027.bb#n762
+
+
+Maybe I do not have a clear background on this and someone can explain a li=
+ttle. Any comments on this will be appreciated.
+
+
+BR,
+Awais
+
+--_000_163665633749793588mentorcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
+ottom:0;} --></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:10pt;color:#000000;background-color:#F=
+FFFFF;font-family:Tahoma,Geneva,sans-serif;">
+<p>Hi all,</p>
+<p><br>
+</p>
+<p>It seems like there's a discrepancy regarding the license of the brcmfma=
+c/cyfmac43430 firmware or maybe I am misunderstanding something. If I look =
+at the original source (kernel git) for the linux-firmware components the W=
+HENCE file mentions
+<br>
+</p>
+<div><br>
+</div>
+<div>File: cypress/cyfmac43430-sdio.bin</div>
+Link: brcm/brcmfmac43430-sdio.bin -&gt; ../cypress/cyfmac43430-sdio.bin
+<p><br>
+</p>
+<p>under the LICENCE.broadcom_bcm43xx (<a href=3D"https://git.kernel.org/pu=
+b/scm/linux/kernel/git/firmware/linux-firmware.git/tree/WHENCE#n2830">https=
+://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree=
+/WHENCE#n2830</a>) however the OE-core
+ recipe uses a cypress license for these</p>
+<p><br>
+</p>
+<div><a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/re=
+cipes-kernel/linux-firmware/linux-firmware_20211027.bb#n743">https://git.op=
+enembedded.org/openembedded-core/tree/meta/recipes-kernel/linux-firmware/li=
+nux-firmware_20211027.bb#n743</a></div>
+<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/recipes=
+-kernel/linux-firmware/linux-firmware_20211027.bb#n762">https://git.openemb=
+edded.org/openembedded-core/tree/meta/recipes-kernel/linux-firmware/linux-f=
+irmware_20211027.bb#n762</a><br>
+<p><br>
+</p>
+<p>Maybe I do not have a clear background on this and someone can explain a=
+ little. Any comments on this will be appreciated.<br>
+</p>
+<p><br>
+</p>
+<div id=3D"Signature">
+<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
+ont>
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
+<div style=3D"margin:0">BR,</div>
+<div style=3D"margin:0"><i>Awais</i></div>
+</span></font></div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+</body>
+</html>
+
+--_000_163665633749793588mentorcom_--
 
