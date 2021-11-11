@@ -1,118 +1,165 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B97C433EF
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 19:20:21 +0000 (UTC)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
- [209.85.222.42])
- by mx.groups.io with SMTP id smtpd.web08.4459.1636658420508301666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F59C433F5
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 21:28:57 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.6289.1636666136109022337
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 11:20:20 -0800
+ Thu, 11 Nov 2021 13:28:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lmh9AFjP;
- spf=pass (domain: gmail.com, ip: 209.85.222.42,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f42.google.com with SMTP id e10so14098482uab.3;
-        Thu, 11 Nov 2021 11:20:20 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c9OFbtsC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 77-20020a1c0450000000b0033123de3425so8382955wme.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Nov 2021 13:28:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vKC8Kh1ajafubHHeZ9/9PODH2lX7MWX7Fb6ysrZMlZ0=;
-        b=lmh9AFjPl7i2/rTy9MMC0kz9rSeSPWQjvkKTHz1hFI8MsP3QISbzpSI4RWHGe78KfL
-         Fo82WhCzHbAoTjtor6RBB6BMc1JORSxvuMe/EeLFIjP6Mu/9QpGWTzpv5s6FGJ2nW3T+
-         PjNDtRttwmyaz0KgPZ6Pg63WBmP1q/tkjY35dSTrIxRk8ZS8tZTpyK4FsKfAugQdAFRJ
-         7n/5vTtCJgfrF8GG3u3C/KDP2kJJ1ztbq2RciHML78QSzp2sE2TJ0NrDi4tq0DMdKHyV
-         gpiXtC242jN6rmsPwJuNRUYqNnyRMMg9rUp2OqRlzFeg7Wjhllgt+pTd3j7CR+s7pyl2
-         nTIA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=rB8SxCBX+dszBTivjL6I4YB8WC5N0nkeLgWpA8TSe6c=;
+        b=c9OFbtsCKjBFjTZNMrWiKZJPr+kUGtAzHw/+3DwRrBWKzpbNyBWKCiVnSksz01ltYZ
+         sljBBi76FbRAyYAdAl2rsnFV1GvLUTOKMKOxqFqP5HgzHz0YvUrwJZUFRuH/ezzBBwcW
+         6soQVKkJOGFMviYT6zh/CGYOyL5Cttm4olba0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vKC8Kh1ajafubHHeZ9/9PODH2lX7MWX7Fb6ysrZMlZ0=;
-        b=cRenCIdLMCvIqW7mVPfO5i4PheDAHFzzLRY9Xtr09D4fEkHWhjRMdtWTwjdqg4sshP
-         nI1pj0GRjb7Wy6PKGsUSmg3v2kAYr5+ph3mZRmtHd7GLKq+f6Fy8DnE7W761PMglGi0C
-         BUNM1cobeRi63GUf2mb+6LuLDopcZ0Ix0QAfr/l2r4fsUiHs7KRJfmB2R9O/AliM0YuZ
-         5Ar5UvRnugySbVYt8o6PVyMin1RxwGaOMJiFaeRkUKqOgSeUJHJ86XYR78ito7oD/Qc6
-         py59zoyv0oKlfuGW5/0WK13qTmadYYtEKa7BBWw10jwPbS1e5cXfsynm/3XH4EsI/9BG
-         oGQw==
-X-Gm-Message-State: AOAM5309lxKAkjSVf8LzGZVBPlS+0HVtj7r+Yl/2X++zLiO2Yn8WdfH8
-	hf0UYndqlQqgu7RSYmfbPcS6vGziXzAP74fC7L0=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=rB8SxCBX+dszBTivjL6I4YB8WC5N0nkeLgWpA8TSe6c=;
+        b=2h3tleUH3YJa3QfBrtBO0UIhVMTgauW9PeVUxD1rF825wBHz+DcXEc9BSD4f6l/xZL
+         ysb6GvN7XAbSWIu8gSNvdcazZT1T7SNMeddEOuqI+BOMnfMD8LGACNA1ADH1doWSHujy
+         GHmFb4eUkJdgHtDqeGOKiITC1Bo8rVyaFbRFGMIbm4Ce3l2j7dYjjyQwmHl7EAoItesU
+         cdOLymhS3jtMvDJaYGSvJ6DBJF2Huh7fD9KJJM14AgA5LDMjvR8joyNpAumoD67Nh+5F
+         O9VpEAeC8sbwRLvO9rxKB8h7sfXt6heSnAoSQMiTEq71b0gPBKRe1BNjPBx23heZO63h
+         erbw==
+X-Gm-Message-State: AOAM530I8qKSiM8YwpmAbkw0FCM985tO6rg1WkyQQwT52QRw6uw3FcOB
+	csOBr9Th480vcNkLkP+p5JljlQ==
 X-Google-Smtp-Source: 
- ABdhPJxR4bN79y77OIT+q2FF3Iusi6VUtEXFk5JhgthkMJmH7IA3QnSJUGdAs/tt3qxtqSxlYi+0g/1gZOfapoFu5LE=
-X-Received: by 2002:a67:ca8f:: with SMTP id a15mr1408196vsl.18.1636658419547;
- Thu, 11 Nov 2021 11:20:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20211105133104.19895-1-jasper@fancydomain.eu>
- <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
- <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
- <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
- <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
- <dd07e5137044429f805caf23114a2e72@axis.com>
- <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
- <83886954b53b47eb93b6ab8a7feebf19@axis.com>
- <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
- <64e41080db7642d0b54818bdcf916dac@axis.com>
- <699b2927411dbdfdfd01e64ffb16dc057d5bb320.camel@iris-sensing.com>
-In-Reply-To: <699b2927411dbdfdfd01e64ffb16dc057d5bb320.camel@iris-sensing.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Nov 2021 20:20:08 +0100
+ ABdhPJwktzYd4OnPwnj28tYLJLKeh2p+uiQhV5SJ8FrNcKvvF7a5ZrPUzls0XzwsRlG6iV7HNepudw==
+X-Received: by 2002:a05:600c:2147:: with SMTP id
+ v7mr874789wml.36.1636666134445;
+        Thu, 11 Nov 2021 13:28:54 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c0bd:72b4:105a:2914?
+ ([2001:8b0:aba:5f3c:c0bd:72b4:105a:2914])
+        by smtp.gmail.com with ESMTPSA id
+ o4sm5068145wry.80.2021.11.11.13.28.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Nov 2021 13:28:53 -0800 (PST)
 Message-ID: 
- <CANNYZj9LXZjLq9mTxJ7g0T1Zz0XzZHhjiNud9o_kAbuyVb76UA@mail.gmail.com>
-Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe for
- repo 2.17.3
-To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	"kweihmann@outlook.com" <kweihmann@outlook.com>,
-	"peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>,
-	"jasper@fancydomain.eu" <jasper@fancydomain.eu>,
- "martin@mko.dev" <martin@mko.dev>,
-	Daniel Baumgart <Daniel.Baumgart@iris-sensing.com>,
-	"bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b7488a05d0883b1c"
+ <023667d47dfa5b3e08858b06596d15986cdc26c2.camel@linuxfoundation.org>
+Subject: Re: [PATCH v4] glibc: ptest: Add running glibc time related test
+ suite (Y2038) with ptest
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Lukasz Majewski <lukma@denx.de>
+Cc: Nathan Rossi <nathan@nathanrossi.com>, Adhemerval Zanella
+	 <adhemerval.zanella@linaro.org>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>, Lee Chee Yang <chee.yang.lee@intel.com>,
+	Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Nov 2021 21:28:50 +0000
+In-Reply-To: 
+ <CAMKF1srQjFZ4DfGGVsV47SS0ma1LewE24Luwgtw-FwcCsOU_DQ@mail.gmail.com>
+References: <20211109152851.8137-1-lukma@denx.de>
+	 <CAMKF1srQjFZ4DfGGVsV47SS0ma1LewE24Luwgtw-FwcCsOU_DQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 19:20:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 21:28:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158200
+ https://lists.openembedded.org/g/openembedded-core/message/158201
 
---000000000000b7488a05d0883b1c
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 2021-11-11 at 05:51 -0800, Khem Raj wrote:
+> On Tue, Nov 9, 2021 at 7:29 AM Lukasz Majewski <lukma@denx.de> wrote:
+> > 
+> > This patch introduces new recipe - namely 'glibc-tests', which
+> > builds and installs time related (to check if Y2038 support works) glibc
+> > test suite to OE/Yocto built image.
+> > 
+> > It reuses code from already available 'glibc-testsuite' recipe,
+> > which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+> > to execute remotely (via SSH) tests on some emulated machine.
+> > 
+> > This recipe installs time related glibc tests on some rootfs image.
+> > Afterwards, those tests can be executed on the real hardware, to
+> > facilitate validation of it with Y2038 problem compliance.
+> > 
+> > To test time related subset - one needs to call:
+> > ptest-runner glibc-tests
+> > then change the date after Y2038 threshold for 32 bit systems:
+> > date -s "20 JAN 2038 18:00:00"
+> > and then run ptest-runner again.
+> > 
+> > To facilitate debugging, source files are provided by default with
+> > the unstripped debugging symbols. Such approach would reduce the
+> > already complex recipe (as it inherits base glibc one), so there
+> > is no need to also install *-dbg and *-src packages.
+> > 
+> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> > 
+> > ---
+> > Changes for v4:
+> > - Add entry for 'glibc-tests' in the maintainers.inc file
+> > - Remove nativesdk from BBCLASSEXTEND as this resipe is not supposed
+> >   to be the part of SDK
+> > 
+> > Changes for v3:
+> > - Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
+> >   RPROVIDES variables
+> > 
+> > Changes for v2:
+> > - Just focus on time related set of tests as those can be run as
+> >   standalone
+> > - Reuse of already built tests (from glibc-tests.inc) and depoloy
+> >   them on the HW target.
+> > - Provide single 'run-ptest' script.
+> > - Update the recipe to run with newest poky's -master
+> > ---
+> >  meta/conf/distro/include/maintainers.inc      |   1 +
+> >  .../distro/include/ptest-packagelists.inc     |   1 +
+> >  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 113 ++++++++++++++++++
+> >  meta/recipes-core/glibc/glibc/run-ptest       |  37 ++++++
+> >  4 files changed, 152 insertions(+)
+> >  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
+> >  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
+> > 
+> > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> > index baec2bef4d..7104e091fc 100644
+> > --- a/meta/conf/distro/include/maintainers.inc
+> > +++ b/meta/conf/distro/include/maintainers.inc
+> > @@ -209,6 +209,7 @@ RECIPE_MAINTAINER:pn-glibc = "Khem Raj <raj.khem@gmail.com>"
+> >  RECIPE_MAINTAINER:pn-glibc-locale = "Khem Raj <raj.khem@gmail.com>"
+> >  RECIPE_MAINTAINER:pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
+> >  RECIPE_MAINTAINER:pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
+> > +RECIPE_MAINTAINER:pn-glibc-tests = "Lukasz Majewski <lukma@denx.de>"
+> >  RECIPE_MAINTAINER:pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
+> >  RECIPE_MAINTAINER:pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+> >  RECIPE_MAINTAINER:pn-gmp = "Khem Raj <raj.khem@gmail.com>"
+> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+> > index 2e324f8da4..fd52fa72a4 100644
+> > --- a/meta/conf/distro/include/ptest-packagelists.inc
+> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> > @@ -61,6 +61,7 @@ PTESTS_FAST = "\
+> >      slang-ptest \
+> >      wayland-ptest \
+> >      zlib-ptest \
+> > +    glibc-tests-ptest \
+> 
+> this will break musl. So lets change this to
+> 
+> PTESTS_FAST:append:libc-glibc = " glibc-tests-ptest"
 
-On Thu, 11 Nov 2021 at 16:08, Jasper Orschulko <
-Jasper.Orschulko@iris-sensing.com> wrote:
+FWIW I tested a tweak in master-next for that...
 
-> So if you have done this initial fetch of your sources and stash your
-> working dir away, you can do an offline build.
->
+Cheers,
 
-But can you do an offline build without a prepopulated working dir? That's
-the crucial point: offline build should work in a freshly set up build
-directory, without sstate cache, and with prepopulated DL_DIR only.
+Richard
 
-Alex
-
---000000000000b7488a05d0883b1c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 11 Nov 2021 at 16:08, Jasper Orschulko &lt;<a href=3D"mailto=
-:Jasper.Orschulko@iris-sensing.com">Jasper.Orschulko@iris-sensing.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-So if you have done this initial fetch of your sources and stash your<br>
-working dir away, you can do an offline build.<br></blockquote></div><div c=
-lass=3D"gmail_quote"><br></div><div class=3D"gmail_quote">But can you do an=
- offline build without a prepopulated working dir? That&#39;s the crucial p=
-oint: offline build should work in a freshly set up build directory, withou=
-t sstate cache, and with prepopulated DL_DIR only.</div><div class=3D"gmail=
-_quote"><br></div><div class=3D"gmail_quote">Alex<br></div></div>
-
---000000000000b7488a05d0883b1c--
 
