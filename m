@@ -1,100 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB26C433F5
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 17:45:59 +0000 (UTC)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web12.2942.1636652759104148015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D73FC433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 18:08:13 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.3456.1636654092098151807
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 09:45:59 -0800
+ Thu, 11 Nov 2021 10:08:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XzlVbO2i;
- spf=pass (domain: gmail.com, ip: 209.85.222.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id e2so13492135uax.7
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=7BxtVuB8;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.48,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f48.google.com with SMTP id u1so11175548wru.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 09:45:58 -0800 (PST)
+ Thu, 11 Nov 2021 10:08:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3g8Hd0QCRvUoFlzDpnsx19YdaXUe3jmOt7oIBbuhS5g=;
-        b=XzlVbO2iOSNVt7N35oeeThXTHQIE1PxYGWMmX6rwupcAcQtk66HCQNcLSlGMYtbD4/
-         8yD+MUPi12s2Xw8qKfFz8lhSWfnEfD8aAI7YGzJV+0VhfQyU06txAfQWvPeNbbBzltUg
-         0+1UzHTDyStKafGagbKciPQ/8YxwQbg5xo+jVBmKy1Ay/FdN0m8tBcHYBVOU58MyuB28
-         sQJRyDfqaNSdfXSTzvzxWD0igxItwicazNUm1wgSqXgpyLzyQI4njGo+V9W7gwjtde2y
-         HyE9U8jTFVrqlpqWwgl1qPEqiLeQQlWPOzRH8hulTqOq5MxGi5s9ITTBcZqGTEYFRNXE
-         xGdA==
+        bh=baHfmio5Sg/3ubJkbdBUC78sfByZqPij0kAa6aLEJQ0=;
+        b=7BxtVuB8iiCuikH2Xle2YJqEEJeeveEbWU6Tx0BQwOKZrC5i1My0O2scMD8JW6nwt9
+         7+IwIeHtFBJfusiBfEB7kif5n1pSF8grHT+vsFLg5vMJJMYJUo2CosqSa6pT74Ua3aMx
+         2BvVoSdZhRONQ5H6Qrj5nggDBZCG2qJvTEZrfN8VsaC9sfKj42P+WG7R3em14sGR8I+w
+         5Wg2pOhKznUAzVK/qZDenWslNz7NnWNxrA6golZ2AiftJVyu5/HxfyP4mj+52vFTAfHr
+         REbWJrkYYPounSgSpQuAgnYssJ6QavjRsH2zTpzR5OvweFmAs/KK9vd5eQaH1/cj8aPb
+         jjyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3g8Hd0QCRvUoFlzDpnsx19YdaXUe3jmOt7oIBbuhS5g=;
-        b=HmqdvOzpYxNnHNI01S59zBgmSfUsH+LCYgBC0vYMdLQmbxHp30qj5ZtaNPZbz9MjvA
-         L61dRFPFB6Pk08ajc2X6rHjEbbxeKQ+kXhebXUz9cyHschXuS55livES2cyiqWrQ5Z4H
-         ZLHLk1tJdi0R0TMW5/qWuW4rLHwQYM7tMaaJ2dCLhcPX9ZR2uuTZeMZfeF/ZBbfwTjEl
-         f3ShQcBS1mlonYPmnDRI0kOOcKqJhL/bdtw4kaZhOZc4zsYZiU1s7v2kqSYEPLEA1Pv3
-         qasKYs3ZwlLknJghgqsxh24Fr0gtID53n+SXfJQF2IfAFjHXQYs8d95b3PnjPjSI+ycV
-         t15A==
-X-Gm-Message-State: AOAM531PePqAJhhEjUbhCVTqiFS4TssCNlNxMtep0Xx290jn7ikaU1NW
-	I6y5Tu0cecPoJoo2p9FA7trWjcD4xlGKOXAYSjM=
+        bh=baHfmio5Sg/3ubJkbdBUC78sfByZqPij0kAa6aLEJQ0=;
+        b=JhGLr84QGdX44kebEyVLlZFr2/ijhkQQXb6Zfo6VT/EvYFsxdwbUypseCdYHR6ruMi
+         EdtbB38MRR9VUSTdh1ulaEhl5TCKzZAVzg8ZloJQEacXajxv94No3PM1kwS584v/qVir
+         fyB6zYeT+y04N52t6BME9SsBuGzfy/e5lWKcxn16llUx8sCXoHirwpDK1cEJiJEOSmrr
+         p7DIcVu/Sx/QazBaXxMQhYnEy0IISZHHyA4QBaCpjhS6W6mqG15geeUU7SbH9xi0hn+N
+         WaVHTHBLTM5LQvOsLWx6vWzcZjNnqFzDZ0kpxHRHn52QUKdml15teROOt7zm2LbzI9lY
+         XcbA==
+X-Gm-Message-State: AOAM531uYhY3IOfsTEY3KnoSrnv8PncCPTaV593he5Q5tpQvfm0nJFhq
+	709S7OoMKYWq1gwPlBd4QlN3D7nSBBq/sVe0gY/ilw==
 X-Google-Smtp-Source: 
- ABdhPJwh0a4twioBzVelUo20nM3X4VveMFZf1cax9rCtkRN4O65afDqcMlyihk7zKjiZmXiT7QDZFl8OOZHkYFwQUL8=
-X-Received: by 2002:a9f:2c98:: with SMTP id w24mr12588273uaj.89.1636652758236;
- Thu, 11 Nov 2021 09:45:58 -0800 (PST)
+ ABdhPJxm0T4g0FvtHhwCDI5t4bz1zFtM3Q83lj0n+BJwLWfbCBSiby0UoHbhEshanvj/xw44SA4vsA3Jox3icQ2tFmM=
+X-Received: by 2002:a5d:6843:: with SMTP id o3mr10863377wrw.174.1636654090367;
+ Thu, 11 Nov 2021 10:08:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20211111170650.3112950-1-anibal.limon@linaro.org>
  <CAAnfSTs0RK0KnKiQgJF6F83d4QrMs+Rj2q4-bJzenwLx0MVffQ@mail.gmail.com>
-In-Reply-To: 
- <CAAnfSTs0RK0KnKiQgJF6F83d4QrMs+Rj2q4-bJzenwLx0MVffQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Nov 2021 18:45:46 +0100
-Message-ID: 
  <CANNYZj8oBXJDN2r9y7L-u6FW=FdfKntKDW8SBjR4L+Bfh5V0cQ@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8oBXJDN2r9y7L-u6FW=FdfKntKDW8SBjR4L+Bfh5V0cQ@mail.gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Thu, 11 Nov 2021 18:07:59 +0000
+Message-ID: 
+ <CAAnfSTuaVnUFrYTDw6kFPuFogcjimKBh4XU=1RgpzuHGn4GyBw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCHv2] recipe-graphics/waffle: Add depends on
  cmake-native
-To: Ross Burton <ross@burtonini.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Anibal Limon <anibal.limon@linaro.org>,
 	OE-core <openembedded-core@lists.openembedded.org>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000046812105d086ea4d"
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 17:45:59 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 18:08:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158197
+ https://lists.openembedded.org/g/openembedded-core/message/158198
 
---00000000000046812105d086ea4d
-Content-Type: text/plain; charset="UTF-8"
+> Maybe this?
+> https://gitlab.freedesktop.org/mesa/waffle/-/blob/master/src/waffle/meson.build#L238
 
-On Thu, 11 Nov 2021 at 18:40, Ross Burton <ross@burtonini.com> wrote:
+Well that's annoying that it needs cmake just to write a configuration file.
 
->
-> But why does the Meson build want CMake?
->
+I suggest rewriting the commit message:
 
-Maybe this?
-https://gitlab.freedesktop.org/mesa/waffle/-/blob/master/src/waffle/meson.build#L238
+waffle: add explicit dependency to cmake-native
 
-Alex
+cmake-native can get pulled into the sysroot via dependencies, but it
+is always needed:
 
---00000000000046812105d086ea4d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+| Program cmake found: NO
+| ERROR: meson failed
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 11 Nov 2021 at 18:40, Ross Burton &lt;<a href=3D"mailto:ross=
-@burtonini.com">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex"><br>
-But why does the Meson build want CMake?<br></blockquote><div><br></div><di=
-v>Maybe this?</div><div><a href=3D"https://gitlab.freedesktop.org/mesa/waff=
-le/-/blob/master/src/waffle/meson.build#L238">https://gitlab.freedesktop.or=
-g/mesa/waffle/-/blob/master/src/waffle/meson.build#L238</a></div><div><br><=
-/div><div>Alex<br> </div></div></div>
-
---00000000000046812105d086ea4d--
+Ross
 
