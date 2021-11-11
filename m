@@ -1,84 +1,146 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF1BC433F5
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 03:48:20 +0000 (UTC)
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.6113.1636602499140696251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BCA3C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 04:08:58 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.6185.1636603737409573639
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 19:48:19 -0800
+ Wed, 10 Nov 2021 20:08:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AB3mH4H029507
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 19:48:17 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 10 Nov 2021 19:48:16 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 10 Nov 2021 19:48:16 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 10 Nov 2021 19:48:15 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] convert-srcuri.py: remove extra spaces before backslash
-Date: Thu, 11 Nov 2021 11:48:14 +0800
-Message-ID: <20211111034814.16625-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=ocGk7VDZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id b13so4782628plg.2
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Nov 2021 20:08:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YtaAVJ0/lv6dB458nVkTmAnppCU7dMNA3JOLArAKa8A=;
+        b=ocGk7VDZaX8G1ULIrQ6iL0/vRkGlsCgAllXUHRSaRln8aGkfzd9aNyDgYsnsfnmuC3
+         RGr9+9kQRb9CWRwjx0Bk7HbSea5fICp/79xIpj/shXkML+0KwmRIlJWPmMZg7p0fXb7m
+         7XblG2MDzdBPee8VtmBSE6xmJobJ3tUkkE5tPS6rrQvKeeEKRtMnx2cztrrNLtJkAXru
+         nnbi7JwJvDsRJal8OsKzXJhAPcCmYnMdZCYxVXWQI4jqotelQPEkAAmV1EZ9oiJ4lidq
+         6hqR8BgDms8/s0peUAXFlfgKBbnnRdH4MJBzm7qbC0Htx1xcpG3VKjwjLYRNl00pEbYc
+         xHDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YtaAVJ0/lv6dB458nVkTmAnppCU7dMNA3JOLArAKa8A=;
+        b=jcUJoCVcnJ1DjGjzMiCYCyd7j+ax1mKmBNwJVIOxPGRXVN5ReqaTZEp2KaCrJzGvII
+         EQViOYX54v6yKg1MZrIOT2gWiA/4gvvdB1KsHG/Ndold/f2MrkdWpYkM6t+sOqOulH3E
+         iRJhb0a3rit9BMOF79Nvf/Goa6/i7RL+Q7lT8gHTi8vF4NnVO9vASJyvFoVIBNd/w5H3
+         bgIFcXziKnwl7AVu2R2DY4jLtlw3eylNF4exCdpRpimoMYXHl5ljlwzvXCbUhSaoJAlo
+         S2OxYia/MCxlDP5oDHXtTfeD3JQnaiLLHbw18jFTsjahvhQbubZwlzVwt/D8iijcX2A5
+         fNwA==
+X-Gm-Message-State: AOAM530/CGpkARTckXTyqg2WSoqNOz51It7UiS/agE0AE6Q9ABjj19Ng
+	CHhSTcUOPB4l09XPmYoZK4scpPEhChdeVfdFHs8=
+X-Google-Smtp-Source: 
+ ABdhPJwoKRClMyjsGiPJ8c/KrJTW+8egWV87BB03t9GXhkNZohQUFqKuP5TlM6jABXktZhLCqZc1/w==
+X-Received: by 2002:a17:902:b909:b0:13a:2d8e:12bc with SMTP id
+ bf9-20020a170902b90900b0013a2d8e12bcmr4891104plb.6.1636603735722;
+        Wed, 10 Nov 2021 20:08:55 -0800 (PST)
+Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id
+ i2sm1207686pfg.90.2021.11.10.20.08.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Nov 2021 20:08:55 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/14] Patch review
+Date: Wed, 10 Nov 2021 18:08:25 -1000
+Message-Id: <cover.1636591208.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 03:48:20 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 04:08:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158131
+ https://lists.openembedded.org/g/openembedded-core/message/158132
 
-From: Kai Kang <kai.kang@windriver.com>
+Please review this set of patches for dunfell and have comments back by end
+of day Friday.
 
-There may be more than one spaces before backslash in SRC_URI. Strip
-them otherwise it forges a malformed uri such as open-iscsi-user in
-meta-openstack:
+The following changes since commit 38fc0807eea14dc12610da4ba73c082d5a4b0744:
 
-SRC_URI = "git://github.com/open-iscsi/open-iscsi.git;protocol=https  ;branch=master \
+  meta/scripts: Manual git url branch additions (2021-11-03 08:43:53 -1000)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- scripts/contrib/convert-srcuri.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+are available in the Git repository at:
 
-diff --git a/scripts/contrib/convert-srcuri.py b/scripts/contrib/convert-srcuri.py
-index 5b362ea2e8..e7a97fdbd4 100755
---- a/scripts/contrib/convert-srcuri.py
-+++ b/scripts/contrib/convert-srcuri.py
-@@ -36,7 +36,7 @@ def processfile(fn):
-                         if line.endswith('"\n'):
-                             line = line.replace('"\n', ';branch=master"\n')
-                         elif line.endswith(" \\\n"):
--                            line = line.replace(' \\\n', ';branch=master \\\n')
-+                            line = line.replace(' \\\n', '').rstrip() + ';branch=master \\\n'
-                         modified = True
-                     if ("git://" in line or "gitsm://" in line) and "github.com" in line and "protocol=https" not in line and matchline(line):
-                         if "protocol=git" in line:
-@@ -44,7 +44,7 @@ def processfile(fn):
-                         elif line.endswith('"\n'):
-                             line = line.replace('"\n', ';protocol=https"\n')
-                         elif line.endswith(" \\\n"):
--                            line = line.replace(' \\\n', ';protocol=https \\\n')
-+                            line = line.replace(' \\\n', '').rstrip() + ';protocol=https \\\n'
-                         modified = True
-                     new_file.write(line)
-         if modified:
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Jose Quaresma (1):
+  sstate: another fix for touching files inside pseudo
+
+Joshua Watt (1):
+  oeqa: reproducible: Fix test not producing diffs
+
+Khem Raj (1):
+  webkitgtk: Fix reproducibility in minibrowser
+
+Marek Vasut (1):
+  piglit: upgrade to latest revision
+
+Mark Hatle (1):
+  reproducible_build: Remove BUILD_REPRODUCIBLE_BINARIES checking
+
+Mingli Yu (1):
+  python3-magic: add the missing rdepends
+
+Richard Purdie (6):
+  linunistring: Add missing gperf-native dependency
+  pseudo: Add in ability to flush database with shutdown request
+  pseudo: Add fcntl64 wrapper
+  mirrors: Add uninative mirror on kernel.org
+  sstate: Ensure SDE is accounted for in package task timestamps
+  sstate: Avoid deploy_source_date_epoch sstate when unneeded
+
+Steve Sakoman (2):
+  python3-magic: add missing DEPENDS
+  selftest/reproducible: add webkitgtk back to exclusion list for
+    dunfell
+
+ meta/classes/mirrors.bbclass                  |  1 +
+ meta/classes/reproducible_build.bbclass       | 53 ++++++++++++-------
+ meta/classes/sstate.bbclass                   | 34 +++++++++---
+ .../oeqa/selftest/cases/diffoscope/A/file.txt |  1 +
+ .../oeqa/selftest/cases/diffoscope/B/file.txt |  1 +
+ meta/lib/oeqa/selftest/cases/reproducible.py  | 29 +++++++++-
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +-
+ .../python/python3-magic_0.4.15.bb            |  7 ++-
+ ...ssing-include-for-htobe32-definition.patch | 27 ++++++++++
+ ...file.py-make-test-lists-reproducible.patch | 31 +++++++++++
+ ...gen_tcs-tes_input_tests.py-do-not-ha.patch | 44 +++++++++++++++
+ ...lizer.py-make-.gz-files-reproducible.patch | 30 +++++++++++
+ ...sort-the-file-list-before-working-on.patch | 28 ++++++++++
+ ...t-shader.c-do-not-hardcode-build-pat.patch | 30 +++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb    | 12 ++++-
+ .../0001-MiniBrowser-Fix-reproduciblity.patch | 31 +++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.28.4.bb  |  1 +
+ .../libunistring/libunistring_0.9.10.bb       |  1 +
+ 18 files changed, 333 insertions(+), 30 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/diffoscope/A/file.txt
+ create mode 100644 meta/lib/oeqa/selftest/cases/diffoscope/B/file.txt
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-Add-a-missing-include-for-htobe32-definition.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-framework-profile.py-make-test-lists-reproducible.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-generated_tests-gen_tcs-tes_input_tests.py-do-not-ha.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-serializer.py-make-.gz-files-reproducible.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-shader.py-sort-the-file-list-before-working-on.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0002-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
+
 -- 
-2.17.1
+2.25.1
 
 
