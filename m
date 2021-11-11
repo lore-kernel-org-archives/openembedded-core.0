@@ -1,151 +1,158 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A0EBC433F5
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 11:30:00 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web08.9211.1636630199684501089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C74D8C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 11:34:26 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.9226.1636630465593604829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 03:30:00 -0800
+ Thu, 11 Nov 2021 03:34:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ITXOgb/k;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id c4so9207614wrd.9
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 03:29:59 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=KQpgvrnN;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=hbAWuBHG6N7v2JDB0ImGVvrfcfDLu1iCreWAYtWxnJA=;
-        b=ITXOgb/khF+EAgNGVEycBr/4gOoMCdU4UQ2TvHS9bXfEhNIjxX8uB7YLaBjmBuaaoF
-         k75Hwlg167sqV9eXNAtwFIS7U7eyNXC33OCoW6mzIZARDIBzm42Cs1SYqa61heHt7ySh
-         E9qO7ReUuGVl95Kjj8POzlSasF3rkXWJneKn0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=hbAWuBHG6N7v2JDB0ImGVvrfcfDLu1iCreWAYtWxnJA=;
-        b=TBh9FM1bWaG03WJz/OlMeTVgvGd9CS26x6jZpkrR0K8g19g7z96gXpoJdUbldlq0Ee
-         S+orek+Ak2hnMPNvnFwUARkbRXN6suRTrnlaoGLXDKvkSpeIeDO6Hk2q4z418LL/MFbK
-         bDMZ/dDskl0MwnY/4nvMEH2Eb66uoJBwW6AdOvKErgIWy08nZ3GWIE7XMA0k7ufBQ0W9
-         NYQuTyJRzl81KFNGCjMy1C6ek9fxwC/GBjJpkgtYC1gNztlqLCB4ZI6wLAMfCB6Rca+e
-         CyPqfpbJo5gpoluDSHrR8r9NVlKq2yR1Ll1AkMqAkkbQZiPankfCnxzoYsZTq+/wgCb9
-         N8aA==
-X-Gm-Message-State: AOAM533DvQWXQxpr1jgK4HR3lna0ccnn4FzOdMAxJYGZsI50y92onEID
-	3/Tjq/5rRCmzFZbkTZv2Z9pZyA==
-X-Google-Smtp-Source: 
- ABdhPJy18kx3mhA49WQLgAyAZfnYnLq8G14gCwRqz3JNqlaGMosDe+2yLxFtUEy72WNL/SY34EFhgw==
-X-Received: by 2002:a05:6000:143:: with SMTP id
- r3mr8104782wrx.236.1636630197881;
-        Thu, 11 Nov 2021 03:29:57 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b19:11f4:a3d9:cabc?
- ([2001:8b0:aba:5f3c:b19:11f4:a3d9:cabc])
-        by smtp.gmail.com with ESMTPSA id
- q26sm2679628wrc.39.2021.11.11.03.29.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 03:29:57 -0800 (PST)
-Message-ID: 
- <91a6b862e1e0f695271ee2e11820412aa29bef2a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [pseudo] pseudo_fix_path: do not expand symlinks in
- /proc
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sakib Sajal <sakib.sajal@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 11 Nov 2021 11:29:56 +0000
-In-Reply-To: <20211111101143.145750-1-sakib.sajal@windriver.com>
-References: <20211111101143.145750-1-sakib.sajal@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1636630467;
+  x=1668166467;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=TEt/LWZ4Zct776xCvKFzRB6+EdP6U3YpwhcxUfBYS3U=;
+  b=KQpgvrnNPjR6FvOToe0iCBM7K/rizdZwtMhW1EbVei7YY8gcSDnT2PHE
+   mMO4ffq3UkOIgiviBu+HRKGijfhrr6E31mJzWdotoAuyWfb3bNVmrwJss
+   tMSGVeCo7BZDpOethz/D0a7puEB9ByM9FAyP3d2E3ey0urhqqnyeRAve3
+   MW3KPutX8e0ePSIa+F7mMZuQyY31Y7CbrcnivWOVqfo8NmiFGoXPlOfF6
+   WQfXo6I6xJYMYN+P1zONUhgNMeHaQQOKOaHBt5XQpAIQb1jOJrnJD8vyE
+   58Y+e/quxEa3pufsTUBBOqXpp/XnYwmcVuhKp8/E1OcwZO2YIWeT6/6qM
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "kweihmann@outlook.com"
+	<kweihmann@outlook.com>, "jasper@fancydomain.eu" <jasper@fancydomain.eu>
+CC: "martin@mko.dev" <martin@mko.dev>, Daniel Baumgart
+	<Daniel.Baumgart@iris-sensing.com>, "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>
+Subject: RE: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe for
+ repo 2.17.3
+Thread-Topic: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
+ for repo 2.17.3
+Thread-Index: 
+ AQHX0klyDNlqBsVJg0ODnUI5/vjSvKv03rAAgAADRwCAAAYOAIABSAmAgATTzYCAAnMggIAAmsEAgAAm3FA=
+Date: Thu, 11 Nov 2021 11:34:23 +0000
+Message-ID: <83886954b53b47eb93b6ab8a7feebf19@axis.com>
+References: <20211105133104.19895-1-jasper@fancydomain.eu>
+	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
+	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
+	 <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
+	 <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
+	 <dd07e5137044429f805caf23114a2e72@axis.com>
+ <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
+In-Reply-To: <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 11:30:00 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 11:34:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158168
+ https://lists.openembedded.org/g/openembedded-core/message/158169
 
-On Thu, 2021-11-11 at 05:11 -0500, Sakib Sajal wrote:
-> From: Matt Cowell <matt.cowell@nokia.com>
-> 
-> Some symlinks in /proc, such as those under /proc/[pid]/fd,
-> /proc/[pid]/cwd, and /proc/[pid]/exe that are not real and should not
-> have readlink called on them.  These look like symlinks, but behave like
-> hardlinks.  Readlink does not return actual paths.  Previously
-> pseudo_fix_path would expand files such as /dev/stdin to paths such as
-> /proc/6680/fd/pipe:[1270830076] which do not exist.
-> 
-> This issue affects:
-> - deleted files
-> - deleted directories
-> - fifos
-> - sockets
-> - anon_inodes (epoll, eventfd, inotify, signalfd, timerfd, etc)
-> 
-> Testing:
-> - run_tests: all tests passed (3 tests check the new code path).
->              Checked test output to make sure the new codepath gets executed.
-> - perftest: measured time before and after applying the patch
->             had insignificant differences (roughly ~1%)
-> - world build: completed without warning/errors
-> 
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> ---
->  pseudo_util.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/pseudo_util.c b/pseudo_util.c
-> index b6980c2..b9de81e 100644
-> --- a/pseudo_util.c
-> +++ b/pseudo_util.c
-> @@ -29,6 +29,11 @@
->  #include "pseudo_ipc.h"
->  #include "pseudo_db.h"
->  
-> +/* O_PATH is defined in glibc 2.16 and later only */
-> +#ifndef O_PATH
-> +#define O_PATH          010000000
-> +#endif
-> +
->  struct pseudo_variables {
->  	char *key;
->  	size_t key_len;
-> @@ -678,6 +683,18 @@ pseudo_append_element(char *newpath, char *root, size_t allocated, char **pcurre
->  	 */
->  	if (!leave_this && is_dir) {
->  		int is_link = S_ISLNK(buf->st_mode);
-> +
-> +		/* do not expand symlinks in the proc filesystem, since they may not be real
-> +		 * check if newpath starts with "/proc/"
-> +		 * strlen of "/proc/" = 6
-> +		 */
-> +		if (is_link && (strncmp("/proc/", newpath, 6) == 0)) {
-> +			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE,
-> +				"pae: '%s' is procfs symlink, not expanding\n",
-> +				newpath);
-> +			is_link = 0;
-> +		}
-> +
->  		if (link_recursion >= PSEUDO_MAX_LINK_RECURSION && is_link) {
->  			pseudo_diag("link recursion too deep, not expanding path '%s'.\n", newpath);
->  			is_link = 0;
-
-I merged this into the pseudo repo and put an updated pseudo recipe into a
-master-next build. This resulted in issues:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/122/builds/485/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/961
-https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/922
-
-I've stopped the build since it is clear there is something wrong.
-
-Cheers,
-
-Richard
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKYXNwZXIgT3JzY2h1bGtvIDxK
+YXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20+DQo+IFNlbnQ6IGRlbiAxMSBub3ZlbWJl
+ciAyMDIxIDExOjA1DQo+IFRvOiByaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnOyBv
+cGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsga3dlaWhtYW5uQG91
+dGxvb2suY29tOyBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
+LmNvbT47IGphc3BlckBmYW5jeWRvbWFpbi5ldQ0KPiBDYzogbWFydGluQG1rby5kZXY7IERhbmll
+bCBCYXVtZ2FydCA8RGFuaWVsLkJhdW1nYXJ0QGlyaXMtc2Vuc2luZy5jb20+Ow0KPiBiaXRiYWtl
+LWRldmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtiaXRiYWtlLWRl
+dmVsXSBbb2UtY29yZV1bUEFUQ0ggMS8yXSBkZXZ0b29sczogSW5pdGlhbCByZWNpcGUNCj4gZm9y
+IHJlcG8gMi4xNy4zDQo+IA0KPiAtLS0tLUJFR0lOIFBHUCBTSUdORUQgTUVTU0FHRS0tLS0tDQo+
+IEhhc2g6IFNIQTI1Ng0KPiANCj4gSGkgUGV0ZXIsDQo+IA0KPiA+IEhvdyBkbyB5b3UgYXZvaWQg
+dGhlIHJlcG8gd3JhcHBlciBmZXRjaGluZyB0aGUgcmVwbyBzb3VyY2UgaXRzZWxmDQo+ID4gYW5k
+IGluc3RlYWQgZmV0Y2ggaXQgdXNpbmcgdGhlIGJpdGJha2UgZmV0Y2hlcj8gSSBoYXZlIHNlZW4g
+bm90aGluZw0KPiA+IHRvIHRoYXQgZXh0ZW50IGluIHRoZSBwYXRjaGVzIHNvIGZhci4NCj4gDQo+
+IHdlIGRvbid0LiBUaGlzIHJlY2lwZSBvbmx5IGluc3RhbGxzIHRoZSByZXBvIHdyYXBwZXIuIFRo
+ZSBzb3VyY2UgY29kZQ0KPiBpcyBkb3dubG9hZGVkIGFuZCBpbnN0YWxsZWQgd2hlbiBydW5uaW5n
+IGByZXBvIGluaXRgLg0KPiANCj4gSG93ZXZlciwgaW4gb3VyIG9waW5pb24gdGhpcyBpcyBub3Qg
+YW4gaXNzdWUuIFdoZW4gaW5zdGFsbGluZyByZXBvIGFzIGENCj4gcGFja2FnZSB0byBhIHRhcmdl
+dCwgdGhpcyBpcyB0aGUgZXhwZWN0ZWQgYmVoYXZpb3VyLiBUaGUgdGFyZ2V0IHdvdWxkDQo+IG9u
+bHkgaGF2ZSB0aGUgcmVwbyB3cmFwcGVyIGluc3RhbGxlZCwganVzdCBsaWtlIG9uIGFueSBvdGhl
+ciBsaW51eA0KPiBkaXN0cm9idXRpb24uIFRoZSBhY3R1YWwgdXNhZ2Ugb2YgcmVwbyBvbiB0aGUg
+dGFyZ2V0IGlzIGRlY291cGxlZCBmcm9tDQo+IHRoZSBiaXRiYWtlIGJ1aWxkIHByb2Nlc3MuDQoN
+Ckl0IG1pZ2h0IGJlIGhvdyByZXBvIGlzIGRlc2lnbmVkLCBidXQgaXQgd2lsbCBzdGlsbCBicmVh
+ayB0aGUgYml0YmFrZSANCmV4cGVjdGF0aW9ucy4gSS5lLiwgaWYgSSBoYXZlIGFuIGVudmlyb25t
+ZW50IHdpdGggdGhlIGxheWVycyBhdmFpbGFibGUsIA0KYSBwb3B1bGF0ZWQgRExfRElSIGFuZCBC
+Ql9OT19ORVRXT1JLID0gIjEiLCBhbmQgdGhlbiBkaXNjb25uZWN0IHRoZSANCmJ1aWxkIGhvc3Qg
+ZnJvbSB0aGUgSW50ZXJuZXQsIEkgc2hvdWxkIHN0aWxsIGJlIGFibGUgdG8gc291cmNlIA0Kb2Ut
+aW5pdC1idWlsZC1lbnYgZm9yIGEgbmV3IG1hY2hpbmUgYW5kIGJ1aWxkIGl0LiBIb3dldmVyLCB0
+aGlzIG1lYW5zIA0KdGhhdCBvbmx5IHRoZSBzb3VyY2UgZm9yIHRoZSByZXBvIHdyYXBwZXIgaXMg
+YXZhaWxhYmxlIGluIERMX0RJUi4gU28gDQp3aGVuIHRoZSByZXBvIHdyYXBwZXIgZXhlY3V0ZXMg
+aXQgd2lsbCB0cnkgdG8gZ28gb24gdGhlIEludGVybmV0IHRvIA0KZmV0Y2ggdGhlIHJlc3Qgb2Yg
+dGhlIHJlcG8gc291cmNlLCB3aGljaCB3aWxsIGZhaWwuDQoNCj4gV2hlbiB1c2luZyB0aGUgcmVw
+byBmZXRjaGVyLCB0aGUgcmVwbyBzb3VyY2UgaXMgZmV0Y2hlZCBkdXJpbmcgdGhlDQo+IGRvX2Zl
+dGNoIHN0YWdlIGJ5IHJ1bm5pbmcgYHJlcG8gaW5pdGAgKHdoZW4gU1JDUkVWID0gQVVUT1JFViwg
+Y2hhbmdlcw0KPiB0byB0aGUgcmVjaXBlIG9yIG5vIHByZXZpb3VzIHNvdXJjZXMgYXZhaWxhYmxl
+IGluIERMX0RJUikuIEJ5IGV4ZWN1dGluZw0KPiB0aGlzIHdpdGhpbiB0aGUgInJ1bmZldGNoY21k
+IiBmdW5jdGlvbiwgdGhpcyBhbHNvIHdvcmtzIHdpdGggdGhlIHVzdWFsDQo+IG5ldHdvcmsgZmVh
+dHVyZXMgYml0YmFrZSBwcm92aWRlcywgZS5nLiBwcm94eS4NCj4gSWYgdGhlIHJlY2lwZSBoYXMg
+bm90IGNoYW5nZWQgYW5kIHNvdXJjZXMgYXJlIGFscmVhZHkgYXZhaWxhYmxlIGZyb20gYQ0KPiBw
+cmV2aW91cyBydW4sIHJlcG8gd2lsbCBub3QgYmUgcmVydW4uIEFzIHN1Y2gsIHJlcHJvZHVjaW5n
+IGEgYnVpbGQNCj4gb2ZmbGluZSBpcyBhbHNvIHBvc3NpYmxlLg0KPiANCj4gLSAtLQ0KPiBXaXRo
+IGJlc3QgcmVnYXJkcw0KPiANCj4gSmFzcGVyIE9yc2NodWxrbw0KPiBEZXZPcHMgRW5naW5lZXIN
+Cj4gDQo+IFRlbC4gKzQ5IDMwIDU4IDU4IDE0IDI2NQ0KPiBGYXggKzQ5IDMwIDU4IDU4IDE0IDk5
+OQ0KPiBKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20NCj4gDQo+IOKAoiDigKIg4oCi
+IOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg
+4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKINCj4gDQo+IGlyaXMtR21iSA0KPiBp
+bmZyYXJlZCAmIGludGVsbGlnZW50IHNlbnNvcnMNCj4gU2NobmVsbGVyc3RyYcOfZSAxLTUgfCAx
+MjQzOSBCZXJsaW4NCj4gDQo+IGh0dHBzOi8vaXJpcy1zZW5zaW5nLmNvbS8NCj4gDQo+IA0KPiAN
+Cj4gDQo+IA0KPiBPbiBXZWQsIDIwMjEtMTEtMTAgYXQgMjM6NTUgKzAwMDAsIFBldGVyIEtqZWxs
+ZXJzdGVkdCB3cm90ZToNCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBG
+cm9tOiBiaXRiYWtlLWRldmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmfCoDxiaXRiYWtlLQ0KPiA+
+ID4gZGV2ZWxAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEphc3BlciBPcnNj
+aHVsa28NCj4gPiA+IFNlbnQ6IGRlbiA5IG5vdmVtYmVyIDIwMjEgMTI6MjYNCj4gPiA+IFRvOiBy
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnOyBvcGVuZW1iZWRkZWQtDQo+ID4gPiBj
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IGt3ZWlobWFubkBvdXRsb29rLmNvbTsNCj4gPiA+
+IGphc3BlckBmYW5jeWRvbWFpbi5ldQ0KPiA+ID4gQ2M6IG1hcnRpbkBta28uZGV2OyBEYW5pZWwu
+QmF1bWdhcnRAaXJpcy1zZW5zaW5nLm5ldDsgYml0YmFrZS0NCj4gPiA+IGRldmVsQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbYml0YmFrZS1kZXZlbF0gW29lLWNv
+cmVdW1BBVENIIDEvMl0gZGV2dG9vbHM6IEluaXRpYWwNCj4gPiA+IHJlY2lwZQ0KPiA+ID4gZm9y
+IHJlcG8gMi4xNy4zDQo+ID4gPg0KPiA+ID4gLS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0Ut
+LS0tLQ0KPiA+ID4gSGFzaDogU0hBMjU2DQo+ID4gPg0KPiA+ID4gSGkgUmljaGFyZCwNCj4gPiA+
+DQo+ID4gPiBJIHRoaW5rIG91ciBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgcmVwbyBmZXRjaGVyIGNo
+ZWNrcyB0aGUgKHdoYXQgSQ0KPiA+ID4gYmVsaWV2ZSB0byBiZSkgbW9zdCByZWxldmFudCBwYXJ0
+cyBvZiB5b3VyIGNoZWNrbGlzdCAodGhhbmtzIGZvciB0aGUNCj4gPiA+IHdyaXRlLXVwKS4gTWFy
+dGluLCBwbGVhc2UgY29ycmVudCBtZSBpZiBJJ20gbWlzc2luZyBzb21ldGhpbmc6DQo+ID4gPg0K
+PiA+ID4gPiBhKSBuZXR3b3JrIGFjY2VzcyBmb3Igc291cmNlcyBpcyBvbmx5IGV4cGVjdGVkIHRv
+IGhhcHBlbiBpbiB0aGUNCj4gPiA+ID4gZG9fZmV0Y2ggc3RlcC4NCj4gPiA+ID4gVGhpcyBpcyBu
+b3QgZW5mb3JjZWQgb3IgdGVzdGVkIGJ1dCBpcyByZXF1aXJlZCBzbyB0aGF0IHdlIGNhbjoNCj4g
+PiA+ID4NCj4gPiA+ID4gwqBpKSBhdWRpdCB0aGUgc291cmNlcyB1c2VkIChpLmUuIGZvciBsaWNl
+bnNlL21hbmlmZXN0IHJlYXNvbnMpDQo+ID4gPiA+IMKgaWkpIHN1cHBvcnQgb2ZmbGluZSBidWls
+ZHMgd2l0aCBhIHN1aXRhYmxlIGNhY2hlDQo+ID4gPiA+IMKgaWlpKSBhbGxvdyB3b3JrIHRvIGNv
+bnRpbnVlIGV2ZW4gd2l0aCBkb3dudGltZSB1cHN0cmVhbQ0KPiA+ID4gPiDCoGl2KSBhbGxvdyBm
+b3IgY2hhbmdlcyB1cHN0cmVhbSBpbiBpbmNvbXBhdGlibGUgd2F5cw0KPiA+ID4gPiDCoHYpIGFs
+bG93IHJlYnVpbGRpbmcgb2YgdGhlIHNvZnR3YXJlIGluIFggeWVhcnMgdGltZQ0KPiA+ID4NCj4g
+PiA+IGNoZWNrDQo+ID4gPg0KPiA+ID4gPiBiKSBuZXR3b3JrIGFjY2VzcyBpcyBub3QgZXhwZWN0
+ZWQgaW4gZG9fdW5wYWNrDQo+ID4gPg0KPiA+ID4gY2hlY2sNCj4gPg0KPiA+IEhvdyBkbyB5b3Ug
+YXZvaWQgdGhlIHJlcG8gd3JhcHBlciBmZXRjaGluZyB0aGUgcmVwbyBzb3VyY2UgaXRzZWxmDQo+
+ID4gYW5kIGluc3RlYWQgZmV0Y2ggaXQgdXNpbmcgdGhlIGJpdGJha2UgZmV0Y2hlcj8gSSBoYXZl
+IHNlZW4gbm90aGluZw0KPiA+IHRvIHRoYXQgZXh0ZW50IGluIHRoZSBwYXRjaGVzIHNvIGZhci4N
+Cj4gPg0KPiA+IC8vUGV0ZXINCj4gPg0KPiAtLS0tLUJFR0lOIFBHUCBTSUdOQVRVUkUtLS0tLQ0K
+PiANCj4gaVFFekJBRUJDQUFkRmlFRTRXeVBNSUM1QXA0K09vbzFZZ3FldzA3Vk1OVUZBbUdNNnJV
+QUNna1FZZ3FldzA3Vg0KPiBNTlVDSUFmK01YR3A5SG5meG11Kzh3M0Jhc1ZzUDJON3R0VzJGTjNa
+cm9peXIvaEtySnplcS9xRFF3TysvSzNVDQo+IHpXWko4NUg2TDJlVGpPUDhmUGFIYlZNUkQxalVv
+WVZwWVVBRS9mTjY0RmJoQ0JtdXJWdVdGckxvL3U2R3kyY1UNCj4gRENkM1NJZWpYaWRCMjVFUVJv
+UzRCZmwyNWlsMXdHNGlNdzFwQ0ZBNmt1NXJHaGI4cTVqdmZaRUNmMFd1aGg3WA0KPiBGbk1RbEkz
+VlpzU2s0Q2FrRjNnODhBRlRMRnJzUVljTjJ2RFVza2RoTWZUWnB1UkE4ZHVJdlc0clZnT3ZISlFU
+DQo+IHYwN3JBU05SLzl5elBSVmt6cGdQVUk5VmwyTEEzdkVaM1JjY3czanNjWUhGd2t6ajAwOTZE
+TzQramVEd3l6YTUNCj4gZkZtMGREVDlIakd1elR6NjZjNUpMOHNkWlppOXB3PT0NCj4gPUFPeXAN
+Cj4gLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tDQo=
 
