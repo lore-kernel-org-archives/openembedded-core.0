@@ -1,100 +1,114 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43DC8C433EF
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 01:41:58 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.4872.1636594916992469968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF97C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 02:18:00 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.5235.1636597080072299052
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 17:41:57 -0800
+ Wed, 10 Nov 2021 18:18:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=khm/4bsa;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FMNciFjr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id k2so1486710lji.4
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Nov 2021 18:17:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1636594918;
-  x=1668130918;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=GOobU1SO2wZzcJlwF9iH5brmJR1I0gPz0RcQzLkdRdo=;
-  b=khm/4bsafA4pkkwWkH+Krd70um5sce8rmPPlbXHuRu+tURtM4P8Sj36j
-   SfY/ypUt7q8r651MfCzjKOO6J+AZFAlijxcnEqeISYM1qMRMGuEIWCYbh
-   4/wDq6Co64gxNc8B5jfyKAt1++qKyozuQj3o+as7KhVPKFaQ1v9zvNKnZ
-   nOT/UXmAr3MqcaACqtuK9x3ftq3ZoxVzOXjaVx5HmZ9zccDEkiaPPuNZ7
-   M15GWuJG1SiRdTcuRvzqD5ithG0h4NIf/k6/iilIk1GNGwochox33U8vj
-   p8b+uftwYRyL4sds8C8t0+DMQs2eVcMrOwk9ZRfamcLTTp22Gz8MG8rZm
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Anibal Limon <anibal.limon@linaro.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Subject: RE: [OE-core] [PATCH] recipe-graphics: Add depends on cmake-native
-Thread-Topic: [OE-core] [PATCH] recipe-graphics: Add depends on cmake-native
-Thread-Index: AQHX1pVF5cvbxnbr4k+fop37yXZvAqv9jGiw
-Date: Thu, 11 Nov 2021 01:41:48 +0000
-Message-ID: <3e7d66a3e2484c9a830a37b3d2cc91ba@axis.com>
-References: <20211111004407.3036301-1-anibal.limon@linaro.org>
-In-Reply-To: <20211111004407.3036301-1-anibal.limon@linaro.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DdvYU6CiXm44hyrCt/dj9kRc6scJxvqF4oizQVmbgcw=;
+        b=FMNciFjrsSSQghOQP/i9sNG0Y7N1sgQDhOUQLaX0xw1YcRkEb/S2WxhZvD0lypXyrl
+         O2WQpNh4dt2XpPjulmv3k3kIphlOJinnfHGxJOaHbEys5b3iExzRjNfCXPTwgtXRcwGs
+         g1pu46zenCPAEqZxXW6+lTObksrAb+b5rIdSwpK3lmJxdGzbPwAfzKHUI5aUfVerTt0A
+         kKvVhmTiIjIOWU1ZG1VtpMTxhZ0iBuI7ZRoqgNls4F0HW/RQYDx9Vg/1VR0ysV0N3xI5
+         5ABSKiB1TpIZtfff7c/9SVgxLU3dWuG+f8wev5MqurHlCKeyMEVjGgsa0aKFWqmrw3gN
+         An2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DdvYU6CiXm44hyrCt/dj9kRc6scJxvqF4oizQVmbgcw=;
+        b=rS+yqlovQUc2eHQ3WrmNGomKYFCucwbhNkjSXuzmRA1GGcHuwzqmKSgkUwD8HXjW9L
+         RXSrvDbJ5MYDEzGqT5AxHORCCbAZqr/BAVwp2KFa154gM2so3bmLcnGZgy7pmiFHRyVC
+         YW7lWx7tflpjH+WuZpZHGZZUjGhqvhom9t6p7TeYt8Q7s86tPu4Qpsc9KcOOw9i37SU2
+         tAK12UTSb5gP5JIitu+VM2C9dOnqZZ+QU82NvYfKfUuoYH6japKaaHgJ1fVUVkxGjKFt
+         s4rMt0aqhK+nucvZA46JTsvVy6i0aFisMIrt3nqyY9RevDNYpM/8zhak6snadTvUUQVs
+         vXlA==
+X-Gm-Message-State: AOAM531i63pJwNObfsqQsF0io5e2h+vXTzjozXqkA+vkn4L1Rg+jXfqx
+	il376kJg5/JNJIZtDLsMV7jxiCI/1kqVyX+L6/o=
+X-Google-Smtp-Source: 
+ ABdhPJzyA9PCNtzO/ha00xdu1Xl1Yy2Pw2MbrO+UlYCP5hpytfoxMWvHvgqSnagHSi6dYxAvSIOuwFWsN1BqFa7YrWA=
+X-Received: by 2002:a2e:9ec3:: with SMTP id h3mr3652877ljk.151.1636597078117;
+ Wed, 10 Nov 2021 18:17:58 -0800 (PST)
 MIME-Version: 1.0
+References: <20211110231856.5799-1-pkj@axis.com>
+ <20211110231856.5799-3-pkj@axis.com>
+In-Reply-To: <20211110231856.5799-3-pkj@axis.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 10 Nov 2021 18:17:42 -0800
+Message-ID: 
+ <CAJ86T=Vn=2gi=8m2hskxWsStR91GJ_B3DNzMGnhfQnoS1bc9Ow@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/5] gcc-common.inc: Clean up the additions to
+ MIRRORS
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 01:41:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 02:18:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158126
+ https://lists.openembedded.org/g/openembedded-core/message/158127
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgQW5pYmFsIExpbW9uDQo+IFNlbnQ6IGRlbiAxMSBub3ZlbWJl
-ciAyMDIxIDAxOjQ0DQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+IENjOiByaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnOyBBbsOtYmFsIExp
-bcOzbiA8YW5pYmFsLmxpbW9uQGxpbmFyby5vcmc+DQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFU
-Q0hdIHJlY2lwZS1ncmFwaGljczogQWRkIGRlcGVuZHMgb24gY21ha2UtbmF0aXZlDQoNCkNoYW5n
-ZSAicmVjaXBlLWdyYXBoaWNzIiB0byAid2FmZmxlIi4NCg0KLy9QZXRlcg0KDQo+IA0KPiBGaXhl
-cywNCj4gDQo+IC4uLg0KPiAgIEZpbGUgIi9ob21lL2J1aWxkcy9vZS1ycGItbWFzdGVyL2J1aWxk
-LTQxMGMvdG1wLXJwYi1nbGliYy93b3JrL2NvcnRleGE1My1saW5hcm8tbGludXgvd2FmZmxlLzEu
-Ny4wLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3B5dGhvbjMuMTAvc2l0ZS1wYWNr
-YWdlcy9tZXNvbmJ1aWxkL21vZHVsZXMvY21ha2UucHkiLCBsaW5lIDI0MSwgaW4gZGV0ZWN0X2Nt
-YWtlDQo+ICAgICBwLCBzdGRvdXQsIHN0ZGVyciA9IG1lc29ubGliLlBvcGVuX3NhZmUoY21ha2Vi
-aW4uZ2V0X2NvbW1hbmQoKSArIFsnLS1zeXN0ZW0taW5mb3JtYXRpb24nLCAnLUcnLCAnTmluamEn
-XSlbMDozXQ0KPiAgIEZpbGUgIi9ob21lL2J1aWxkcy9vZS1ycGItbWFzdGVyL2J1aWxkLTQxMGMv
-dG1wLXJwYi1nbGliYy93b3JrL2NvcnRleGE1My1saW5hcm8tbGludXgvd2FmZmxlLzEuNy4wLXIw
-L3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvbGliL3B5dGhvbjMuMTAvc2l0ZS1wYWNrYWdlcy9t
-ZXNvbmJ1aWxkL21lc29ubGliL3VuaXZlcnNhbC5weSIsIGxpbmUgMTM5NywgaW4gUG9wZW5fc2Fm
-ZQ0KPiAgICAgcCA9IHN1YnByb2Nlc3MuUG9wZW4oYXJncywgdW5pdmVyc2FsX25ld2xpbmVzPVRy
-dWUsIGNsb3NlX2Zkcz1GYWxzZSwNCj4gICBGaWxlICIvaG9tZS9idWlsZHMvb2UtcnBiLW1hc3Rl
-ci9idWlsZC00MTBjL3RtcC1ycGItZ2xpYmMvd29yay9jb3J0ZXhhNTMtbGluYXJvLWxpbnV4L3dh
-ZmZsZS8xLjcuMC1yMC9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjEwL3N1
-YnByb2Nlc3MucHkiLCBsaW5lIDk2NiwgaW4gX19pbml0X18NCj4gICAgIHNlbGYuX2V4ZWN1dGVf
-Y2hpbGQoYXJncywgZXhlY3V0YWJsZSwgcHJlZXhlY19mbiwgY2xvc2VfZmRzLA0KPiAgIEZpbGUg
-Ii9ob21lL2J1aWxkcy9vZS1ycGItbWFzdGVyL2J1aWxkLTQxMGMvdG1wLXJwYi1nbGliYy93b3Jr
-L2NvcnRleGE1My1saW5hcm8tbGludXgvd2FmZmxlLzEuNy4wLXIwL3JlY2lwZS1zeXNyb290LW5h
-dGl2ZS91c3IvbGliL3B5dGhvbjMuMTAvc3VicHJvY2Vzcy5weSIsIGxpbmUgMTcxNywgaW4gX2V4
-ZWN1dGVfY2hpbGQNCj4gICAgIGFuZCBvcy5wYXRoLmRpcm5hbWUoZXhlY3V0YWJsZSkNCj4gICBG
-aWxlICIvaG9tZS9idWlsZHMvb2UtcnBiLW1hc3Rlci9idWlsZC00MTBjL3RtcC1ycGItZ2xpYmMv
-d29yay9jb3J0ZXhhNTMtbGluYXJvLWxpbnV4L3dhZmZsZS8xLjcuMC1yMC9yZWNpcGUtc3lzcm9v
-dC1uYXRpdmUvdXNyL2xpYi9weXRob24zLjEwL3Bvc2l4cGF0aC5weSIsIGxpbmUgMTUyLCBpbiBk
-aXJuYW1lDQo+ICAgICBwID0gb3MuZnNwYXRoKHApDQo+IC4uLg0KPiANCj4gU2lnbmVkLW9mZi1i
-eTogQW7DrWJhbCBMaW3Ds24gPGFuaWJhbC5saW1vbkBsaW5hcm8ub3JnPg0KPiAtLS0NCj4gIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy93YWZmbGUvd2FmZmxlXzEuNy4wLmJiIHwgMiArLQ0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dhZmZsZS93YWZmbGVfMS43LjAuYmIgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3Mvd2FmZmxlL3dhZmZsZV8xLjcuMC5iYg0KPiBpbmRleCA2Mjg0YWYz
-MDc2Li5lYTExMzA5OTQwIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2Fm
-ZmxlL3dhZmZsZV8xLjcuMC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2FmZmxl
-L3dhZmZsZV8xLjcuMC5iYg0KPiBAQCAtMTcsNyArMTcsNyBAQCBTID0gIiR7V09SS0RJUn0vZ2l0
-Ig0KPiANCj4gIGluaGVyaXQgbWVzb24gZmVhdHVyZXNfY2hlY2sgbGliX3BhY2thZ2UgYmFzaC1j
-b21wbGV0aW9uIHBrZ2NvbmZpZw0KPiANCj4gLURFUEVORFM6YXBwZW5kID0gIiBweXRob24zIg0K
-PiArREVQRU5EUzphcHBlbmQgPSAiIHB5dGhvbjMgY21ha2UtbmF0aXZlIg0KPiANCj4gICMgVGhp
-cyBzaG91bGQgYmUgb3ZlcnJpZGRlbiBwZXItbWFjaGluZSB0byByZWZsZWN0IHRoZSBjYXBhYmls
-aXRpZXMgb2YgdGhlIEdMDQo+ICAjIHN0YWNrLg0KPiAtLQ0KPiAyLjMzLjENCg0K
+On Wed, Nov 10, 2021 at 3:19 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> Since commit 044fb04d in bitbake (fetch2: Allow whitespace only mirror
+> entries) there is no need to separate the entries in MIRRORS with "\n".
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-common.inc | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+> index 74190644e6..0d950e780d 100644
+> --- a/meta/recipes-devtools/gcc/gcc-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
+> @@ -86,11 +86,11 @@ get_tune_parameters[vardepsexclude] = "AVAILTUNES TUNE_CCARGS OVERRIDES TUNE_FEA
+>  DEBIANNAME:${MLPREFIX}libgcc = "libgcc1"
+>
+>  MIRRORS =+ "\
+> -${GNU_MIRROR}/gcc    ftp://gcc.gnu.org/pub/gcc/releases/ \n \
+> -${GNU_MIRROR}/gcc      ftp://gd.tuwien.ac.at/gnu/gcc/ \n \
+> -${GNU_MIRROR}/gcc      http://mirrors.rcn.net/pub/sourceware/gcc/releases/ \n \
+> -${GNU_MIRROR}/gcc   http://gcc.get-software.com/releases/ \n \
+> -${GNU_MIRROR}/gcc      http://gcc.get-software.com/releases/ \n \
+> +    ${GNU_MIRROR}/gcc ftp://gcc.gnu.org/pub/gcc/releases/ \
+> +    ${GNU_MIRROR}/gcc ftp://gd.tuwien.ac.at/gnu/gcc/ \
+> +    ${GNU_MIRROR}/gcc http://mirrors.rcn.net/pub/sourceware/gcc/releases/ \
+> +    ${GNU_MIRROR}/gcc http://gcc.get-software.com/releases/ \
+> +    ${GNU_MIRROR}/gcc http://gcc.get-software.com/releases/ \
+
+Last two lines are duplicates. ftp mirrors should probably be replaced
+with https.
+
+Are these even useful at all? They were added in 2012...
+
+>  "
+>  #
+>  # Set some default values
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158118): https://lists.openembedded.org/g/openembedded-core/message/158118
+> Mute This Topic: https://lists.openembedded.org/mt/86970465/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
