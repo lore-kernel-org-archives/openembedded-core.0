@@ -1,94 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E776C433F5
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 10:05:36 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web09.8670.1636625135775531072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A00E0C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 10:11:57 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.8580.1636625516276018053
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 02:05:36 -0800
+ Thu, 11 Nov 2021 02:11:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YJwaDV4F;
- spf=pass (domain: gmail.com, ip: 209.85.128.53,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id z200so4576126wmc.1
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 02:05:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xXPlOXWsvrzV1gLRDA+DjaVZt8OL6S4/7vN+wKCbmGU=;
-        b=YJwaDV4FcixemQWjdpBKel5U5M+OWcmfAAJHfpqNxfj2KGnAzztyRD5ax8qhqRYY3A
-         hwSKyjOJ9I55t3T59ybHb+8ST79BoWVpccNgYsnurcNIsKAmqOCgUb8/oAy4vkHeRzsR
-         KWj9iDCFVx3Tv7A1ZjtRGRLWM8g8xWlxlPiHMkiGYYezmE7A4xbH/Gj/DEc5bXlxpHel
-         NwYLqpbICo9xFSIWiYMy1rTEwhdJo/OLvMjl/axzvAPO+5qvMmT9tunn1Y8MkBws3t3j
-         taHH+b7sdwys7D/BCFUjVgzzLLod8nXsClHUZYPu95DuiWSq4eUSZUP7wvTOPD1/cYue
-         xxnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xXPlOXWsvrzV1gLRDA+DjaVZt8OL6S4/7vN+wKCbmGU=;
-        b=lYA69QGwJakbdXs24yyNJlo3+sUs+Atlb38FgP1lKpfDUyS2ZrPEShiogkIGTmwvAd
-         tH5Nm2ARxbrxblKhDrkuICmmp1bi+9A9czB/frpFhUOAFO6GPYAqRJSqOuSedoDSM+Pz
-         9053IiPG3/KKDO8gt4vhoytDYxEsSHT1f0HfONkT6PybN3PK6KDyJl4IkRH80+4IJmGe
-         DPw3UY639rt3w9/KjmOSs+SsaGCGBpvwPJHgEwuwo78AIcrQOTDdTqU8GbV94P5EsF4r
-         18bmtDt8iRBunDvFT7Q+b9Yg89dkJhB0zAGudh5ecqdi3EJk4sbPSGdfNUn1ry8pk/ec
-         Zs1A==
-X-Gm-Message-State: AOAM532UC58bnytI0rzlTDaozRI3dWX+1+iu/le4sRC4tv8UAXfjE145
-	XWhWRibIKb6HiaMgVATy1g1tzwUfSJ0=
-X-Google-Smtp-Source: 
- ABdhPJw3vY8IWbNFWxU5XsYJRsn8UDNv08I+IXI8PXPRsLVnF18ZYdJ8HQ23DJBmmFrVqhUU9CR4xQ==
-X-Received: by 2002:a05:600c:3b1b:: with SMTP id
- m27mr7165051wms.125.1636625134182;
-        Thu, 11 Nov 2021 02:05:34 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- t189sm2378239wma.8.2021.11.11.02.05.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 02:05:33 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] xserver-xorg: add missing libtirpc dependency
-Date: Thu, 11 Nov 2021 11:05:31 +0100
-Message-Id: <20211111100531.3822580-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=missing;
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1ABABsRa013734
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Nov 2021 02:11:55 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 11 Nov 2021 02:11:54 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 11 Nov 2021 02:11:50 -0800
+Received: from localhost.localdomain (128.224.72.50) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 11 Nov 2021 02:11:47 -0800
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [pseudo] pseudo_fix_path: do not expand symlinks in /proc
+Date: Thu, 11 Nov 2021 05:11:43 -0500
+Message-ID: <20211111101143.145750-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 10:05:36 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 10:11:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158153
+ https://lists.openembedded.org/g/openembedded-core/message/158154
 
-This wasn't a problem in poky, but was exposed with a nodistro build.
+From: Matt Cowell <matt.cowell@nokia.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Some symlinks in /proc, such as those under /proc/[pid]/fd,
+/proc/[pid]/cwd, and /proc/[pid]/exe that are not real and should not
+have readlink called on them.  These look like symlinks, but behave like
+hardlinks.  Readlink does not return actual paths.  Previously
+pseudo_fix_path would expand files such as /dev/stdin to paths such as
+/proc/6680/fd/pipe:[1270830076] which do not exist.
+
+This issue affects:
+- deleted files
+- deleted directories
+- fifos
+- sockets
+- anon_inodes (epoll, eventfd, inotify, signalfd, timerfd, etc)
+
+Testing:
+- run_tests: all tests passed (3 tests check the new code path).
+             Checked test output to make sure the new codepath gets executed.
+- perftest: measured time before and after applying the patch
+            had insignificant differences (roughly ~1%)
+- world build: completed without warning/errors
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ pseudo_util.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 4a7048aced..71c934ef38 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -28,7 +28,7 @@ inherit meson pkgconfig
- inherit features_check
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/pseudo_util.c b/pseudo_util.c
+index b6980c2..b9de81e 100644
+--- a/pseudo_util.c
++++ b/pseudo_util.c
+@@ -29,6 +29,11 @@
+ #include "pseudo_ipc.h"
+ #include "pseudo_db.h"
  
--LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt"
-+LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess libxcvt libtirpc"
- DEPENDS = "xorgproto ${LIB_DEPS} font-util"
- 
- # Split out some modules and extensions from the main package
++/* O_PATH is defined in glibc 2.16 and later only */
++#ifndef O_PATH
++#define O_PATH          010000000
++#endif
++
+ struct pseudo_variables {
+ 	char *key;
+ 	size_t key_len;
+@@ -678,6 +683,18 @@ pseudo_append_element(char *newpath, char *root, size_t allocated, char **pcurre
+ 	 */
+ 	if (!leave_this && is_dir) {
+ 		int is_link = S_ISLNK(buf->st_mode);
++
++		/* do not expand symlinks in the proc filesystem, since they may not be real
++		 * check if newpath starts with "/proc/"
++		 * strlen of "/proc/" = 6
++		 */
++		if (is_link && (strncmp("/proc/", newpath, 6) == 0)) {
++			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE,
++				"pae: '%s' is procfs symlink, not expanding\n",
++				newpath);
++			is_link = 0;
++		}
++
+ 		if (link_recursion >= PSEUDO_MAX_LINK_RECURSION && is_link) {
+ 			pseudo_diag("link recursion too deep, not expanding path '%s'.\n", newpath);
+ 			is_link = 0;
 -- 
-2.20.1
+2.25.1
 
 
