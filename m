@@ -1,156 +1,99 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2391BC433FE
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 15:08:40 +0000 (UTC)
-Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
- by mx.groups.io with SMTP id smtpd.web10.708.1636643318053859851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD7D7C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 15:25:31 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.966.1636644330406217941
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 07:08:38 -0800
+ Thu, 11 Nov 2021 07:25:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: iris-sensing.com,
- ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.irisgmbh.de (Postfix) with ESMTP id A16E531E033F;
-	Thu, 11 Nov 2021 16:08:29 +0100 (CET)
-X-Virus-Scanned: amavisd-new at irisgmbh.de
-Received: from mail.irisgmbh.de ([127.0.0.1])
-	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new,
- port 10027)
-	with ESMTP; Thu, 11 Nov 2021 16:08:29 +0100 (CET)
-Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
-	by mail.irisgmbh.de (Postfix) with ESMTPS id 864B831E02E9;
-	Thu, 11 Nov 2021 16:08:29 +0100 (CET)
-Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
- ([172.30.10.11]) with mapi id 14.03.0513.000; Thu, 11 Nov 2021 16:08:29 +0100
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "kweihmann@outlook.com"
-	<kweihmann@outlook.com>, "peter.kjellerstedt@axis.com"
-	<peter.kjellerstedt@axis.com>, "jasper@fancydomain.eu"
-	<jasper@fancydomain.eu>
-CC: "martin@mko.dev" <martin@mko.dev>, Daniel Baumgart
-	<Daniel.Baumgart@iris-sensing.com>, "bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>
-Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Topic: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Index: 
- AQHX0klmUmLVPFJtF0Ob3PuHG3t8+6v03rAAgAADSACAAAYMgIABSAqAgATTzgCAAmPRAIAAqg6AgAAZFICAAAoTAIAAIckAgAAP84A=
-Date: Thu, 11 Nov 2021 15:08:28 +0000
-Message-ID: <699b2927411dbdfdfd01e64ffb16dc057d5bb320.camel@iris-sensing.com>
-References: <20211105133104.19895-1-jasper@fancydomain.eu>
-	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
-	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
-	 <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
-	 <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
-	 <dd07e5137044429f805caf23114a2e72@axis.com>
-	 <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
-	 <83886954b53b47eb93b6ab8a7feebf19@axis.com>
-	 <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
-	 <64e41080db7642d0b54818bdcf916dac@axis.com>
-In-Reply-To: <64e41080db7642d0b54818bdcf916dac@axis.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.10.1]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <899EB4915C961540BFAABEF2F0129E32@irisgmbh.local>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WjgLfR8g;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id w29so10378673wra.12
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Nov 2021 07:25:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tXKsafQNJsrQ201V84+AbGvwHZvgxbeoBXJKuy7zxd8=;
+        b=WjgLfR8gOPsKWPRf0oinoJuCTh2FR8vZxaYQAd1zf4f/EMaMBioeWEr2qBLeeR8VJg
+         UWrZJOw0cZEcUdXv61ZIueOmWwVyDCrR4E9ll/4ukGBEz8sWhj5GkpLk3Wy1CHUHOEqt
+         LabK/iqJcRT/u225cQ4lTyrQ2oEr4ij6AgTe8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tXKsafQNJsrQ201V84+AbGvwHZvgxbeoBXJKuy7zxd8=;
+        b=tWupTTEO0PSDiOcRV5VG0gQ0ESIzzVgYJM1shOPgRPxs3n8LT2M5R7t8VYJn8jKYhr
+         WH1xWbDapxLgKLbpvjMtxIkuGnyHYpdKYJv7zCn185Fwl5v55z03wwoHCYv2wTF7fGBG
+         6Ja4u/F3G03Q3knxvJ9700FA+SGUM6ZABblgRj1YvZhOuUh93XoEQjon+1yDEOsmYkaa
+         TYX7HutmTJylHyR5iVtFQ0IGPyvMoeybkxxVTFr5PViikE2bHsxS2eyzdkD0wivF7GMw
+         tdNlm3/dzaxhpkzIzyNNtDKTWBUyMiwEFAMD7kjcsw69qNa7jY6fzfG5iVfy0M6cbP6X
+         uaEQ==
+X-Gm-Message-State: AOAM531a381N/+xiMiL4IwDSGtKjLsc5eZ1vfKtThB5GNkbdZM9FwBRk
+	NmI+Kc7cxGNI4+VoYrny21upqMZLqUgKtQ==
+X-Google-Smtp-Source: 
+ ABdhPJw1nkeeQsiSbIC+1zF7or2CLm2dEucXhaRERCXNlJaPn9xAx7Y0BKLR6Y42hEiV6NYO3EA+nQ==
+X-Received: by 2002:a5d:53cb:: with SMTP id a11mr9686854wrw.357.1636644328699;
+        Thu, 11 Nov 2021 07:25:28 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:b19:11f4:a3d9:cabc])
+        by smtp.gmail.com with ESMTPSA id
+ x13sm3374108wrr.47.2021.11.11.07.25.28
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Nov 2021 07:25:28 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] scripts/oe-package-browser: Fix after overrides change
+Date: Thu, 11 Nov 2021 15:25:26 +0000
+Message-Id: <20211111152527.3862621-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 15:08:40 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 15:25:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158186
+ https://lists.openembedded.org/g/openembedded-core/message/158188
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkhpIFBl
-dGVyLA0KDQpkdXJpbmcgdGhpcyBpbml0aWFsIGZldGNoIGl0IGlzIHRydWUsIHRoYXQgdGhlIHJl
-cG8gZmV0Y2hlciBoYXMgdG8NCmRvd25sb2FkIHRoZSByZXBvIHNvdXJjZXMgZnJvbSBnb29nbGVz
-b3VyY2UuY29tLiBCdXQgZHVyaW5nIHRoaXMgZmlyc3QNCmZldGNoIHRoZSBmZXRjaGVyIGFsc28g
-bmVlZHMgdG8gZG93bmxvYWQgYW55IHNvdXJjZXMgbGlzdGVkIGluIHRoZSByZXBvDQptYW5pZmVz
-dCBhbnl3YXksIHNvIGludGVybmV0IGFjY2VzcyBpcyBhIGdpdmVuLg0KDQpDb25zZXF1ZW50aWFs
-IGZldGNoZXMgd2lsbCBvbmx5IHJlLXJ1biByZXBvIGlmOg0KYSkgdGhlIFNSQ19VUkkgb3IgU1JD
-UkVWIGhhcyBjaGFuZ2VkIHdpdGhpbiB0aGUgcmVjaXBlDQpiKSB0aGUgU1JDUkVWIGlzIHNldCB0
-byBBVVRPUkVWDQoNCkJvdGggY2FzZXMgZG8gbm90IGFwcGx5IHdoZW4gcmVwcm9kdWNpbmcgYSBi
-dWlsZCBvZmZsaW5lLg0KDQpTbyBpZiB5b3UgaGF2ZSBkb25lIHRoaXMgaW5pdGlhbCBmZXRjaCBv
-ZiB5b3VyIHNvdXJjZXMgYW5kIHN0YXNoIHlvdXINCndvcmtpbmcgZGlyIGF3YXksIHlvdSBjYW4g
-ZG8gYW4gb2ZmbGluZSBidWlsZC4NCg0KLSAtLSANCg0KV2l0aCBiZXN0IHJlZ2FyZHMNCg0KSmFz
-cGVyIE9yc2NodWxrbw0KRGV2T3BzIEVuZ2luZWVyDQoNClRlbC4gKzQ5IDMwIDU4IDU4IDE0IDI2
-NQ0KRmF4ICs0OSAzMCA1OCA1OCAxNCA5OTkNCkphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5n
-LmNvbQ0KDQrigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDi
-gKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiDQoN
-CmlyaXMtR21iSA0KaW5mcmFyZWQgJiBpbnRlbGxpZ2VudCBzZW5zb3JzDQpTY2huZWxsZXJzdHJh
-w59lIDEtNSB8IDEyNDM5IEJlcmxpbg0KDQpodHRwczovL2lyaXMtc2Vuc2luZy5jb20vDQoNCg0K
-DQoNCg0KT24gVGh1LCAyMDIxLTExLTExIGF0IDE0OjExICswMDAwLCBQZXRlciBLamVsbGVyc3Rl
-ZHQgd3JvdGU6DQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBKYXNw
-ZXIgT3JzY2h1bGtvIDxKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20+DQo+ID4gU2Vu
-dDogZGVuIDExIG5vdmVtYmVyIDIwMjEgMTM6MTANCj4gPiBUbzogcmljaGFyZC5wdXJkaWVAbGlu
-dXhmb3VuZGF0aW9uLm9yZzsgb3BlbmVtYmVkZGVkLQ0KPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZzsga3dlaWhtYW5uQG91dGxvb2suY29tOyBQZXRlcg0KPiA+IEtqZWxsZXJzdGVkdA0K
-PiA+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBqYXNwZXJAZmFuY3lkb21haW4uZXUN
-Cj4gPiBDYzogbWFydGluQG1rby5kZXY7IERhbmllbCBCYXVtZ2FydA0KPiA+IDxEYW5pZWwuQmF1
-bWdhcnRAaXJpcy1zZW5zaW5nLmNvbT47DQo+ID4gYml0YmFrZS1kZXZlbEBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+ID4gU3ViamVjdDogUmU6IFtiaXRiYWtlLWRldmVsXSBbb2UtY29yZV1bUEFU
-Q0ggMS8yXSBkZXZ0b29sczogSW5pdGlhbA0KPiA+IHJlY2lwZQ0KPiA+IGZvciByZXBvIDIuMTcu
-Mw0KPiA+IA0KPiA+IC0tLS0tQkVHSU4gUEdQIFNJR05FRCBNRVNTQUdFLS0tLS0NCj4gPiBIYXNo
-OiBTSEEyNTYNCj4gPiANCj4gPiBIaSBQZXRlciwNCj4gPiANCj4gPiA+IEhvd2V2ZXIsIHRoaXMg
-bWVhbnMNCj4gPiA+IHRoYXQgb25seSB0aGUgc291cmNlIGZvciB0aGUgcmVwbyB3cmFwcGVyIGlz
-IGF2YWlsYWJsZSBpbiBETF9ESVIuDQo+ID4gPiBTbw0KPiA+ID4gd2hlbiB0aGUgcmVwbyB3cmFw
-cGVyIGV4ZWN1dGVzIGl0IHdpbGwgdHJ5IHRvIGdvIG9uIHRoZSBJbnRlcm5ldA0KPiA+ID4gdG8N
-Cj4gPiA+IGZldGNoIHRoZSByZXN0IG9mIHRoZSByZXBvIHNvdXJjZSwgd2hpY2ggd2lsbCBmYWls
-Lg0KPiA+IA0KPiA+IGp1c3QgdG8gY2xlYXJpZnk6IEFyZSB3ZSB0YWxraW5nIGFib3V0IGluc3Rh
-bGxpbmcgcmVwbyBvbiBhIHRhcmdldCwNCj4gPiBvcg0KPiA+IGFyZSB3ZSB0YWxraW5nIGFib3V0
-IHRoZSByZXBvIGZldGNoZXI/DQo+IA0KPiBUaGUgcmVwbyBmZXRjaGVyLCBpLmUuLCB3aGVuIHJl
-cG8gaXMgdXNlZCBieSBiaXRiYWtlLg0KPiANCj4gPiBXaGVuIGluc3RhbGxpbmcgcmVwbyBvbiB0
-aGUgdGFyZ2V0LCB3ZSBkbyBub3QgY2FsbCBhbnkgInJlcG8iDQo+ID4gY29tbWFuZA0KPiA+IHdp
-dGhpbiB0aGUgYml0YmFrZSBidWlsZCBwcm9jZXNzLiBXZSBqdXN0IGNsb25lIHRoZSBnaXQgcmVw
-bw0KPiA+IGNvbnRhaW5pbmcNCj4gPiB0aGUgd3JhcHBlciBzY3JpcHQgYW5kIGluc3RhbGwgdGhl
-IHdyYXBwZXIgc2NyaXB0IGludG8gdGhlIHN5c3Jvb3QuDQo+ID4gQXQNCj4gPiB0aGF0IHBvaW50
-IHRoZSBiaXRiYWtlIGJ1aWxkIHByb2Nlc3MgaXMgZmluaXNoZWQgYW5kIHRoZSB1c2VyIGVuZHMN
-Cj4gPiB1cA0KPiA+IHdpdGgganVzdCB0aGUgd3JhcHBlciBzY3JpcHQgb24gaGlzIGRldmljZS4g
-SnVzdCBhcyBoZSB3b3VsZCB3aGVuDQo+ID4gaW5zdGFsbGluZyByZXBvIGZyb20gdGhlIHN5c3Rl
-bSByZXBvc2l0b3JpZXMgb24gZGViaWFuLCBhcmNoLCBldGMuDQo+ID4gDQo+ID4gV2hlbiB1c2lu
-ZyB0aGUgZmV0Y2hlciwgdGhlIHJlcG8gc291cmNlcyBhcmUgZmV0Y2hlZCBkdXJpbmcgdGhlDQo+
-ID4gaW5pdGlhbA0KPiA+IGRvX2ZldGNoICh0aGlzIGFsc28gd29ya3Mgd2l0aCBgYml0YmFrZSAt
-LXJ1bm9ubHk9ZG9fZmV0Y2hgKSBhbmQNCj4gPiBwbGFjZWQNCj4gPiBpbnRvIHRoZSBETF9ESVIg
-KGluIHRoZSAucmVwbyBmb2xkZXIsIG5leHQgdG8gdGhlIHNvdXJjZXMgYXMNCj4gPiBkZXNjcmli
-ZWQNCj4gPiBpbiB0aGUgcmVwbyBtYW5pZmVzdCkuIFNvIHVubGVzcyB0aGUgdXNlciBjaGFuZ2Vz
-IHNvbWV0aGluZyBmZXRjaGVyDQo+ID4gcmVsYXRlZCBpbiB0aGUgcmVjaXBlIG9yIGRlbGV0ZXMg
-aGlzIERMX0RJUiwgaGUgY2FuIHVzZSB0aGlzIGJ1aWxkDQo+ID4gZW52aXJvbm1lbnQgZm9yIGFu
-IG9mZmxpbmUgYnVpbGQuDQo+IA0KPiBIb3cgY2FuIGl0IHdvcms/IFRoZSByZXBvIHNvdXJjZSwg
-d2hpY2ggaXMgZmV0Y2hlZCBieSB0aGUgcmVwbw0KPiB3cmFwcGVyLCANCj4gd2lsbCBub3QgYmUg
-aW4gRExfRElSIG9yIGhhbmRsZWQgYnkgYml0YmFrZSBhdCBhbGwuIFRoaXMgbWVhbnMgdGhlIA0K
-PiByZXBvIHdyYXBwZXIgd2lsbCB0cnkgdG8gY29udGFjdCBnb29nbGVzb3VyY2UuY29tIGRpcmVj
-dGx5IGFuZCBmZXRjaA0KPiBpdCANCj4gd2hlbiBpdCBpcyBydW4gYnkgYml0YmFrZSwgd2hpY2gg
-Y2Fubm90IHdvcmsgc2luY2UgdGhlIGhvc3QgaXMgDQo+IGRpc2Nvbm5lY3RlZCBmcm9tIHRoZSBu
-ZXR3b3JrLiBIb3cgb3IgZnJvbSB3aGVyZSB3b3VsZCBpdCBiZSBhYmxlIHRvIA0KPiBnZXQgdGhl
-IHNvdXJjZXMgaXQgbmVlZHM/DQo+IA0KPiA+IFlvdSBjYW4gdHJ5IHRoaXMgZm9yIHlvdXJzZWxm
-LCBpZiB5b3UgbGlrZToNCj4gPiANCj4gPiAxKSBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vSmFz
-cGVyLUJlbi9kZW1vLWthcw0KPiA+IDIpICh3aXRoIGRvY2tlciBhbmQgZG9ja2VyLWNvbXBvc2Ug
-aW5zdGFsbGVkKSBydW4gYG1ha2Ugb2ZmbGluZS0NCj4gPiBidWlsZGANCj4gPiANCj4gPiAtIC0t
-DQo+ID4gV2l0aCBiZXN0IHJlZ2FyZHMNCj4gPiANCj4gPiBKYXNwZXIgT3JzY2h1bGtvDQo+ID4g
-RGV2T3BzIEVuZ2luZWVyDQo+ID4gDQo+ID4gVGVsLiArNDkgMzAgNTggNTggMTQgMjY1DQo+ID4g
-RmF4ICs0OSAzMCA1OCA1OCAxNCA5OTkNCj4gPiBKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2lu
-Zy5jb20NCj4gPiANCj4gPiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg
-4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDi
-gKIg4oCiDQo+ID4gDQo+ID4gaXJpcy1HbWJIDQo+ID4gaW5mcmFyZWQgJiBpbnRlbGxpZ2VudCBz
-ZW5zb3JzDQo+ID4gU2NobmVsbGVyc3RyYcOfZSAxLTUgfCAxMjQzOSBCZXJsaW4NCj4gPiANCj4g
-PiBodHRwczovL2lyaXMtc2Vuc2luZy5jb20vDQo+IA0KPiAvL1BldGVyDQo+IA0KLS0tLS1CRUdJ
-TiBQR1AgU0lHTkFUVVJFLS0tLS0NCg0KaVFFekJBRUJDQUFkRmlFRTRXeVBNSUM1QXA0K09vbzFZ
-Z3FldzA3Vk1OVUZBbUdOTWVzQUNna1FZZ3FldzA3Vg0KTU5VLy9BZitJRkZxbWJ0Vi9rM1NzY01V
-V1lSTkRwblNlSzZlbHdmcHduRGk4NHRRSGpSbzY2WHRyemkxMkQrSA0Kenp5YTNIODd1blZZM0JX
-cVduUUlFM0s0YVNocXV6K3A5dFFBN3p1emxBUkltQ3lxQXNEUXpLZGREN2hoSzdBSQ0KNHRvTm9i
-T3FOb0paMkQxa0pReXU3bzdWc252Yml5dll6OFo4bCt0NEZGMzUrYndVMjZhRTBpQ0ZGNjN0b1pT
-aQ0KR0x2bVR6TGlnWU5BdTlVVVcrVWdTVUFoSFZzYUN5T29sbkd3QmRIRUpXM05saUNaRU9MRGY4
-b21EeWdHM3hEcA0KVU9LY1gyUTIzOHNHTjJmQ3dBZVMyQUJDNGZmTU5EZnJwekFTMFExcXkyV1Zt
-aGVXbW10R29ha3NXMnozc0Raaw0KRkt4TGxSV05RdlBXT3kvdFkySkx5QjFRTnllZHlnPT0NCj1j
-MjBsDQotLS0tLUVORCBQR1AgU0lHTkFUVVJFLS0tLS0NCg==
+After the overrides change, the format of pkgdata changed and this
+usage of configparser no longer works. This change is a bandaid to make
+things work but the pkgdata format isn't very similar to ini files
+so this may need to be reimplmented in a better way in the long run.
+
+[YOCTO #14619]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/oe-pkgdata-browser | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
+index 8d223185a43..e07005b8070 100755
+--- a/scripts/oe-pkgdata-browser
++++ b/scripts/oe-pkgdata-browser
+@@ -49,11 +49,11 @@ def load(filename, suffix=None):
+     from configparser import ConfigParser
+     from itertools import chain
+ 
+-    parser = ConfigParser()
++    parser = ConfigParser(delimiters=('='))
+     if suffix:
+-        parser.optionxform = lambda option: option.replace("_" + suffix, "")
++        parser.optionxform = lambda option: option.replace(":" + suffix, "")
+     with open(filename) as lines:
+-        lines = chain(("[fake]",), lines)
++        lines = chain(("[fake]",), (line.replace(": ", " = ", 1) for line in lines))
+         parser.read_file(lines)
+ 
+     # TODO extract the data and put it into a real dict so we can transform some
+-- 
+2.32.0
+
 
