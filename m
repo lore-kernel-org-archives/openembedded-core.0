@@ -2,62 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07853C433EF
-	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 04:09:11 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.6205.1636603750075367597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F00C433EF
+	for <webhook@archiver.kernel.org>; Thu, 11 Nov 2021 04:09:13 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web12.6188.1636603752245843443
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 20:09:10 -0800
+ Wed, 10 Nov 2021 20:09:12 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=5s+gwt0G;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173,
+ header.b=ykTiNqjS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id s136so4068019pgs.4
+Received: by mail-pg1-f171.google.com with SMTP id 188so4065276pgb.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Nov 2021 20:09:10 -0800 (PST)
+ Wed, 10 Nov 2021 20:09:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=HeRqM1D0Ew87uVMzB0Ax7q4qnazU1WMKkkL68/dG9Wc=;
-        b=5s+gwt0G1sE9wA0uvsc+82Ew8gs83de/jqXY7+SIIfqfH4ypFDV079A5c3FXwMMGOI
-         kRxrB/vIzqztFWYAX0YPer6VrAbFeGovmduyunHKSTsfW7Dz3JbLQHNTofvK/qzt2SGq
-         uICQlq3is7roLPY3siuwd93KDexk60X8yWlZlDtebsdDKlW+qxGzPYc/GPC8FwPoISPY
-         NsvI02CVG0DjqfPk31LkDJ26VVTRBdW6OXiXqJ+sXU4RTVMw4rryp/dmfhr0xY3oe5fk
-         6i4CHGggqRt7BxkHIXVml9I+gHiq37kkd1+s6dlB8ITKBIYvyVGKouJjfFVZIFtfw5BP
-         khJg==
+        bh=y4LcuLKjMqaWt/HqVlCPEs2d0zrv2iXBHBzE9biSB5A=;
+        b=ykTiNqjSE58hdi0N20xxHDFN0NzyV3J9Jzkm/f6YQB8WzdXjjUuiPHk0LL6AYPYPCh
+         D3NTDMefmGvryZSmOW4lmjs1f+g91GCh4EYhemMv8Qr9jZ2PCFJNdry2eTzqdSxStN9j
+         n6Tpr/5dJkKQHLRqfnv6mK8RlUZ26tU03eFK+Y96uy0dk+TnbSj4AnXMQxJbzym+AMA9
+         /jurrxwOSSr8geTZFXhuvIgulqSQ8godntubcb9zgaB+Ji4snpm9eLxmNdnUNR6NJz1G
+         /RnptmNTInkeX7sq8QsbQMxraWExUO7FpyN/l1HFosw9AcEXNcuHEhf07yF30tYc0U+F
+         /5+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HeRqM1D0Ew87uVMzB0Ax7q4qnazU1WMKkkL68/dG9Wc=;
-        b=ZyN38Ziq+vo6+HIKh/I24l+jqpOsdLdqV0XGobxRnVjzvQ30pdcp3hk5L3/UNiXT7U
-         N1KQ1pwlDQK0AC8AOVg6aQrGvW2LnmO+NS4GYoPHYyuCAMaL5B4ywhmDKmMFLQn1QGPX
-         AT0gio5ovJpiE3apBzL0LriKjnuel2nbxUxZxyPhxDwtyRKSR/BizWsoAFoYjtlGKHFw
-         cd2/2jKsfhmMD3wWUlSWDRl2e5KpWQDQwMkLKNLFp2b18O9Z/DvibbJ6CBcDTonMbFLJ
-         BRMkizQIoMxxMiL3SS1gr3vn/b/2+q7XA549AOAJIeAgxUe92n1UC+Q/3DrWvICPP25p
-         716w==
-X-Gm-Message-State: AOAM530gozdMbw/Ix805gHC27GYD1gxGOA1tBjhda5tMrnSLMGt8USpF
-	PifVrxpXqKLwQyeAw7PY//ZkYNLcpEJXVU/g8Ro=
+        bh=y4LcuLKjMqaWt/HqVlCPEs2d0zrv2iXBHBzE9biSB5A=;
+        b=wU56GUnnNyL1aCTmY0cRo8foWWK1gE9Quz+KHDEcriL5VXVPuQ9zEUzLm3kVZ6HoxR
+         fWlN/xkxbbxWlMwylQjAyCTgQlmgpGLBjl1ivXEB/MTSrlBaHs2lbO0j8BUQh3bXj0Ud
+         zIFBmS+IjlQoQBBXCdkfLSvMkYbFe6YPSsvwmxhMTD3gD04xkFsR1E/8nmHvR0EhNOGU
+         7+GD3WbJXLiBaLgZACC1z3PgHiJhKQB2zkj/2R50kI4akR/0AwMMaheH8TrCKy3ZdxW2
+         PAlu16RTsNqs8+Bh98pNyaxbibPfsDlo9G4089pzFUD8A/v07gaCYdiS5sUFmHrzaOvX
+         +T9g==
+X-Gm-Message-State: AOAM533FlyTct1m1CtgUXgYtytwH9m8C2shVDtAwnEDEH1ozj1clDEpZ
+	1BXtC1PJbaK7gQgow5MUwR091Yeo9dc2k3pcb/w=
 X-Google-Smtp-Source: 
- ABdhPJxJT7+yK1+0j6LsCa2PH76AKNPnVYRC0ZSXnwlWjgFtZZHdD+oLi7ILKpZgPQq2DheW8YyopA==
-X-Received: by 2002:a63:7c41:: with SMTP id l1mr2644832pgn.372.1636603749203;
-        Wed, 10 Nov 2021 20:09:09 -0800 (PST)
+ ABdhPJwaF752pPnIdH7ZJOGIcWpcv+KlemJdjDRyBSOzs4w/p/hWW9MdShuOLaNluWe0L7zH+Lch6Q==
+X-Received: by 2002:a05:6a00:114c:b0:47b:b98b:2210 with SMTP id
+ b12-20020a056a00114c00b0047bb98b2210mr4087009pfm.75.1636603751219;
+        Wed, 10 Nov 2021 20:09:11 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- i2sm1207686pfg.90.2021.11.10.20.09.08
+ i2sm1207686pfg.90.2021.11.10.20.09.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 20:09:08 -0800 (PST)
+        Wed, 10 Nov 2021 20:09:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/14] python3-magic: add missing DEPENDS
-Date: Wed, 10 Nov 2021 18:08:29 -1000
+Subject: [OE-core][dunfell 05/14] linunistring: Add missing gperf-native
+ dependency
+Date: Wed, 10 Nov 2021 18:08:30 -1000
 Message-Id: 
- <dcd8294f826f6e061cdd01c6c3594789ed46732e.1636591208.git.steve@sakoman.com>
+ <fc7dddf939b04dbd5b5d92ecf3a5c422ee5caf15.1636591208.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1636591208.git.steve@sakoman.com>
 References: <cover.1636591208.git.steve@sakoman.com>
@@ -66,35 +68,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 04:09:11 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Nov 2021 04:09:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158136
+ https://lists.openembedded.org/g/openembedded-core/message/158137
 
-Since file-native is ASSUME_PROVIDED magic.mgc is not being staged.  As
-a result diffoscope-native is failing with:
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-magic.MagicException: b'could not find any valid magic files!
-
-Fix this by adding dependency on file-replacement-native
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 73d3efbaeb2f412ab8d3491d2da3f3124fc009f3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/python/python3-magic_0.4.15.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/libunistring/libunistring_0.9.10.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python3-magic_0.4.15.bb b/meta/recipes-devtools/python/python3-magic_0.4.15.bb
-index 09b24fb7f3..b73310c808 100644
---- a/meta/recipes-devtools/python/python3-magic_0.4.15.bb
-+++ b/meta/recipes-devtools/python/python3-magic_0.4.15.bb
-@@ -14,6 +14,8 @@ inherit pypi setuptools3
- SRC_URI[md5sum] = "e384c95a47218f66c6501cd6dd45ff59"
- SRC_URI[sha256sum] = "f3765c0f582d2dfc72c15f3b5a82aecfae9498bd29ca840d72f37d7bd38bfcd5"
+diff --git a/meta/recipes-support/libunistring/libunistring_0.9.10.bb b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
+index 97fac4ecfa..2197b6656d 100644
+--- a/meta/recipes-support/libunistring/libunistring_0.9.10.bb
++++ b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
+@@ -18,6 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+                     file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
+                     file://doc/libunistring.texi;md5=287fa6075f78a3c85c1a52b0a92547cd \
+                    "
++DEPENDS = "gperf-native"
  
-+DEPENDS_append_class-native = " file-replacement-native"
-+
- RDEPENDS_${PN} += "file \
-                    ${PYTHON_PN}-ctypes \
-                    ${PYTHON_PN}-io \
+ SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
+            file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
 -- 
 2.25.1
 
