@@ -1,171 +1,134 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 688D1C433EF
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 04:16:06 +0000 (UTC)
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.11052.1636690564893799590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D774EC433F5
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 04:57:04 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web09.11436.1636693024130620048
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 20:16:05 -0800
+ Thu, 11 Nov 2021 20:57:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AC4G3Uk030299
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Nov 2021 20:16:03 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 11 Nov 2021 20:16:02 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 11 Nov 2021 20:16:01 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V4] ruby:  workaround ptest hang problem
-Date: Fri, 12 Nov 2021 12:14:05 +0800
-Message-ID: <20211112041405.33691-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QdKtrq1s;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id np3so5756236pjb.4
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Nov 2021 20:57:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LhgDPlVuEdyDXXUGv2BfKS/p/T3c6RrZhncbLjyCmbI=;
+        b=QdKtrq1s3PvftLSjQ3jLH3C21frALleWsKD6jb868Qj0nM+JpjrTLjc1+BMTu1bC6W
+         8LNY8VOoWbZc559IxPj6RGNvMe8eNX9ohG1E8g8tZzAJ+HpEhczOGQnF2e5zF8+PzXU3
+         uwGYUDGl83cUY3vNzyoLmy2AV2vccTTUAkneCMd2viVM8FABu1aSvxQsejVESYZCrj3M
+         LBIh6Ue/+syOCKJxzUtNyHDHfo5Ow99aegrQxo0GWUOqEN2APMwUqjO9kxrCfzrKe27G
+         /QO3/LCvDBvkUHPsztm67Vq5CU9OLf1PAmEuy/0eI8Ysl0FGLLV8/AFjmjj3tCwRIzR3
+         oQbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LhgDPlVuEdyDXXUGv2BfKS/p/T3c6RrZhncbLjyCmbI=;
+        b=7UcAnJyVT4Wsyns8tvbrc+JrNiZHaRspsLTDMDjv3oUzqZJttmTSb73VyTeEu+wlZr
+         3bYqiSFwPHnYwJUHsBaRY6uW25RiQWo17WztZC9/XRoijZELXOvjURQjy4znyr0P4Sw8
+         0XpO5oIYBZBugciOuowfNZZnYQKt2Pl9LRQYBmDNpqM0SerT11Vb4ftHhd9ccXXSJOmP
+         tfpvs5PAbezXvaZFaWpaaHUePXGIdSveNqtvIkm7qYzbFLdfJEwa4nB3gQpt3B0sVsVQ
+         K5xdR4hyWWmE6dILSATUqHo4o/jGuJGrb4pLemjKc/yX8iXgCvHD298uSRmpF5RErx9a
+         l4dg==
+X-Gm-Message-State: AOAM530uvOSuYnXyE8oancGj3Y6q7e5B/F676kCRGpGB6oidOv4v16CC
+	/+9cBDdWvL/LE8W2ZDNnl3BRCukT9jQ=
+X-Google-Smtp-Source: 
+ ABdhPJyOhGk5O6rbWfJu0BwE4KLY24hVJGNEnQFqWpdtxaSIQMfTpUtUvLcHF115kXvunURODsjiOA==
+X-Received: by 2002:a17:90a:bb12:: with SMTP id
+ u18mr14496802pjr.44.1636693023113;
+        Thu, 11 Nov 2021 20:57:03 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::7905])
+        by smtp.gmail.com with ESMTPSA id
+ e15sm4424831pfc.134.2021.11.11.20.57.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Nov 2021 20:57:02 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] vulkan-samples: Fix cmake errors about plain signature
+Date: Thu, 11 Nov 2021 20:56:58 -0800
+Message-Id: <20211112045658.1343768-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 04:16:06 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 04:57:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158206
+ https://lists.openembedded.org/g/openembedded-core/message/158207
 
-From: Changqing Li <changqing.li@windriver.com>
-
-* workaround ptest hang problem
-
-since openssl 3 not compatible problem, ruby have disable openssl
-extention. But disable openssl extention make test_smtp.rs hang at
-test case "test_start".
-
-Net::TestSMTP#test_start:
-NameError: uninitialized constant Net::SMTP::OpenSSL
-Did you mean? Open3
-/usr/lib64/ruby/3.0.0/net/smtp.rb:195:in `default_ssl_context'
-/usr/lib64/ruby/3.0.0/net/smtp.rb:552:in `start'
-/usr/lib64/ruby/3.0.0/net/smtp.rb:475:in `start'
-/usr/lib64/ruby/ptest/test/net/smtp/test_smtp.rb:199:in `test_start'
-
-temporarily remove the hang case to make other testcases can be run.
-
-* mask out known failed case, and enable it by default
-
-Mask out known failed case, and move ruby-ptest out of the PTESTS_PROBLEMS list.
-On 48 core host, run ruby ptest in qemux86-64:
-root@qemux86-64:/usr/lib64/ruby/ptest# time ./run-ptest
-PASS: test/test_prime.rb
-PASS: test/test_syslog.rb
-...
-PASS: test/did_you_mean/tree_spell/test_human_typo.rb
-PASS: test/did_you_mean/tree_spell/test_change_word.rb
-
-real	4m55.233s
-user	3m25.262s
-sys	0m31.037s
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  3 +-
- meta/recipes-devtools/ruby/ruby.inc           | 51 +++++++++++++++++++
- 2 files changed, 52 insertions(+), 2 deletions(-)
+ ...-mix-plain-and-keyword-target_link_l.patch | 38 +++++++++++++++++++
+ .../vulkan/vulkan-samples_git.bb              |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-do-not-mix-plain-and-keyword-target_link_l.patch
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 2e324f8da4..f1c40ac813 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -81,6 +81,7 @@ PTESTS_SLOW = "\
-     openssl-ptest \
-     perl-ptest \
-     python3-ptest \
-+    ruby-ptest \
-     strace-ptest \
-     tcl-ptest \
-     util-linux-ptest \
-@@ -90,7 +91,6 @@ PTESTS_SLOW = "\
- PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
- PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-do-not-mix-plain-and-keyword-target_link_l.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-do-not-mix-plain-and-keyword-target_link_l.patch
+new file mode 100644
+index 00000000000..66ed8bb47d3
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-do-not-mix-plain-and-keyword-target_link_l.patch
+@@ -0,0 +1,38 @@
++From 64b806ab702a6f445fd84aca5f03bb85b86a66e3 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 11 Nov 2021 18:37:09 -0800
++Subject: [PATCH] framework: do not mix plain and keyword
++ target_link_libraries() signatures
++
++Fixes
++| CMake Error at framework/CMakeLists.txt:461 (target_link_libraries):
++|   The plain signature for target_link_libraries has already been used with
++|   the target "framework".  All uses of target_link_libraries with a target                                            |   must be either all-keyword or all-plain.
++|
++|   The uses of the plain signature are here:
++|                                                                                                                       |    * framework/CMakeLists.txt:453 (target_link_libraries)
++|
++
++Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/395]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ framework/CMakeLists.txt | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/framework/CMakeLists.txt b/framework/CMakeLists.txt
++index 948c796..13d3324 100644
++--- a/framework/CMakeLists.txt
+++++ b/framework/CMakeLists.txt
++@@ -450,7 +450,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
++     plugins)
++ 
++ if(${NEED_LINK_ATOMIC})
++-    target_link_libraries(${PROJECT_NAME} atomic)
+++    target_link_libraries(${PROJECT_NAME} PUBLIC atomic)
++ endif()
++ 
++ # Link platform specific libraries
++-- 
++2.33.1
++
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 613ed592c61..8a2f3d89b19 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
  
--#    ruby-ptest \ # Timeout
- #    lz4-ptest \ # Needs a rewrite
- #    rt-tests-ptest \ # Needs to be checked whether it runs at all
- #    bash-ptest \ # Test outcomes are non-deterministic by design
-@@ -103,7 +103,6 @@ PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
- #    python3-numpy-ptest \ # requires even more RAM and (possibly) disk space; multiple failures
+ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;protocol=https \
+            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
++           file://0001-framework-do-not-mix-plain-and-keyword-target_link_l.patch \
+            file://debugfix.patch \
+            "
  
- PTESTS_PROBLEMS = "\
--    ruby-ptest \
-     lz4-ptest \
-     rt-tests-ptest \
-     bash-ptest \
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index 2b5caf35f5..03742826e7 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -42,3 +42,54 @@ do_configure:prepend() {
- do_configure:prepend() {
-     rm -rf ${S}/ext/openssl/extconf.rb
- }
-+do_install_ptest:append() {
-+    #ruby-ptest have about 800+ cases, following test cases are known failed cases,
-+    #mask out these cases so that we can enable ruby-ptest by default in core-image-ptest-all,
-+    #It is better the root cause of failing case is addressed and remove out from this list
-+    #TODO:test_smtp.rb is removed temporarily until it compatible with openssl 3
-+    known_failed_cases="
-+test/erb/test_erb_command.rb
-+test/irb/test_completion.rb
-+test/mkmf/test_constant.rb
-+test/mkmf/test_convertible.rb
-+test/mkmf/test_find_executable.rb
-+test/mkmf/test_flags.rb
-+test/mkmf/test_framework.rb
-+test/mkmf/test_have_func.rb
-+test/mkmf/test_have_library.rb
-+test/mkmf/test_have_macro.rb
-+test/mkmf/test_install.rb
-+test/mkmf/test_libs.rb
-+test/mkmf/test_signedness.rb
-+test/mkmf/test_sizeof.rb
-+test/net/smtp/test_sslcontext.rb
-+test/net/smtp/test_smtp.rb
-+test/net/smtp/test_starttls.rb
-+test/openssl/test_pkey.rb
-+test/racc/test_racc_command.rb
-+test/ripper/test_files_ext.rb
-+test/ripper/test_files_sample.rb
-+test/rubygems/test_gem_commands_cleanup_command.rb
-+test/rubygems/test_gem_commands_environment_command.rb
-+test/rubygems/test_gem_commands_install_command.rb
-+test/rubygems/test_gem_commands_setup_command.rb
-+test/rubygems/test_gem_commands_uninstall_command.rb
-+test/rubygems/test_gem_commands_update_command.rb
-+test/rubygems/test_gem.rb
-+test/rubygems/test_gem_rdoc.rb
-+test/rubygems/test_gem_server.rb
-+test/rubygems/test_gem_specification.rb
-+test/rubygems/test_gem_uninstaller.rb
-+test/rubygems/test_require.rb
-+test/ruby/test_jit_debug.rb
-+test/ruby/test_jit.rb
-+test/ruby/test_rubyoptions.rb
-+test/ruby/test_rubyvm_mjit.rb
-+test/ruby/test_thread.rb
-+test/test_extlibs.rb
-+test/test_tmpdir.rb
-+"
-+    for i in $known_failed_cases; do
-+        rm -rf ${D}${PTEST_PATH}/$i
-+    done
-+}
 -- 
-2.17.1
+2.33.1
 
 
