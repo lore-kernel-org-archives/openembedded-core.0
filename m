@@ -1,98 +1,90 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A5EC433F5
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 16:11:49 +0000 (UTC)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web12.17735.1636733508862528617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE6FC433F5
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 17:14:48 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web09.19.1636737287463719121
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 08:11:49 -0800
+ Fri, 12 Nov 2021 09:14:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Kts4UTQ7;
- spf=pass (domain: gmail.com, ip: 209.85.222.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id p37so18161653uae.8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ae5PcY48;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 133so8346835wme.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 08:11:48 -0800 (PST)
+ Fri, 12 Nov 2021 09:14:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=oMs6RhBMUJH7iifMibWW+Bu/lnRBt0kTP0YX3TiwACs=;
-        b=Kts4UTQ76QSejffIGB0wN4SG6w+j+vRtYKbpK4g2ua2CUpK78hs7vWh83AjPGMxZ1t
-         0qw0GuEMxGTmINBM+zWk4aYoPkc6JGls/TdsTtCzUgBdhCyYVU5MO6qFU0665tM2o1O2
-         rLmxijiUGV8ExWEEuHyuLvhLVudiFXiGVpuyxb1DNU14WA6N/5ciDut1JVG89EzNaFbO
-         FNbH6elikxwmSM0oc9q1IJIg08GMXBVAtFKHu3ygyZ3F/FuJOJ+AYK1CDBlHg8uYQIii
-         v3W/zfFBtIMlvMrndyFPxDoJm9QobOfih1A35PrmJ0dkJg7Oa1GbEpaDHGzs7wsCpawt
-         EqNQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1hsyJI7brER7wkStH5QEY5UyWaNiL1Qau5eSZpqTEXs=;
+        b=ae5PcY48o1lpPDCgE0EvjRC4ZRkwxeIH5elNQmzoqoqMw8m8l0wrCoty68zIlJ6Q1q
+         zHrVr5uU0yUW15WKrl+AQajcHE9JYHGmTxgTxBfOPd5obuP/4o1Ih4UCrxoxvNwaNOqR
+         Awj5V5670tyHaOHfcB/nABgMs5RWn9NSxnr/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=oMs6RhBMUJH7iifMibWW+Bu/lnRBt0kTP0YX3TiwACs=;
-        b=SxVlIEa/7OuUs5L60rm3fvx2kWssyjmLyu/N2RtQ3hAojPqDQYtZEZkyx+jbv6znJ/
-         DSmw8AtPvhbCYXDrpbeN3GS00X9u0h84MXnxBTYy9sIqEUkJv0QUQOfAFgZp0zKxNs0u
-         BKnJEnbaFo2CUHZfCyvHYfB7bp2NB2gEiYhturIVPt8QTWjsl3lcaNOKYifK6cW2Ncdr
-         y0aiNOylf4NrCEHnGmUPraaYdUaqxz3TNqqkdr+NPw+F4a2/9iLKU4RLJ9RBGwTXnYBf
-         hzY8hSO3xPT90Oecwq3Xqr9ZSuWELbS3OG9mI9v4YNF+aLrGVBjD8dKu29OaKdkLZja/
-         NzDQ==
-X-Gm-Message-State: AOAM5315tjsvahJw5lYXHRhTuo2OsMlG2YVnv81xWnQVPFqH7CUJZ+Cm
-	EDXvhgYSfnh51bgbcFSEIR+mufur8c6UPE8Xy6YoT7EHmbU=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1hsyJI7brER7wkStH5QEY5UyWaNiL1Qau5eSZpqTEXs=;
+        b=P9WXFVC5g1vAlGyuYk6SR83Ka1pyeJ2OGpLjYPNmlB9BSneh36oQiSw9QyCsREia+r
+         eITrvFlGLrE0UbJt3o40BHjuZYUOfZ6m38/Z2w34Zy8GgE8tmnEonbW5o6a2btaoIbxx
+         WX2O7ej9TxpDEBdG0G1+ISB2TmhSeGMKzhJDJH1LVJx5Sgv58cn295eTKEYGBwnemKKl
+         yDFhcOpkEoG+zMrcP20JuplKVd74ebQscvR4iKRs5b/Tw2x4HlN/pv20Od9pXsaop6sK
+         NMSqKGRV09xAgvQ0Lo/8bsXUwYkkQM2+vLXgwNbdDVrFhPM0qCDkk/J79ZN5oMqNQUFO
+         /GpQ==
+X-Gm-Message-State: AOAM531dF54HhPBuJ+/BY2vMmeTSHlMHqjW0doyg3QMuFAlaKfOGdZhG
+	CrXKvehIAuZSvGMfVkwNdlRv8VeXq9PA8g==
 X-Google-Smtp-Source: 
- ABdhPJw68egQkFcuXMnDUEv5Zk4gutyB5WfiRRPvPpAI+HLHUfV/7lUpp7JuwDmFqi3BgjlqG6eRe/L0abtQKJmrMqE=
-X-Received: by 2002:a67:ae47:: with SMTP id u7mr11777946vsh.7.1636733507915;
- Fri, 12 Nov 2021 08:11:47 -0800 (PST)
+ ABdhPJza+joUutJlE0DOKfhit53KerWaU/94U3GrQD3FZA8xshSL8t01d5PK3fclLpDFy+fYr23l5A==
+X-Received: by 2002:a7b:c452:: with SMTP id l18mr18847667wmi.46.1636737285738;
+        Fri, 12 Nov 2021 09:14:45 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c0bd:72b4:105a:2914])
+        by smtp.gmail.com with ESMTPSA id e3sm6263833wrp.8.2021.11.12.09.14.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 09:14:45 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] packagegroup-core-buildessential: Mark as TUNE_PKGARCH
+ specific
+Date: Fri, 12 Nov 2021 17:14:41 +0000
+Message-Id: <20211112171444.3898562-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 12 Nov 2021 17:11:37 +0100
-Message-ID: 
- <CANNYZj9wM6ECR7GeGqyQrLCOhHWEcjr_DFrWcBjjWWP4LK2FHw@mail.gmail.com>
-Subject: logrotate patch - please rework and re-submit upstream (link to
- upstream review included)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000054d21a05d099b78c"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 16:11:49 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 17:14:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158226
+ https://lists.openembedded.org/g/openembedded-core/message/158227
 
---00000000000054d21a05d099b78c
-Content-Type: text/plain; charset="UTF-8"
+The libstdc++ dependency is debian renamed so this shouldn't be allarch,
+mark accordingly.
 
-Hello Robert,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../packagegroups/packagegroup-core-buildessential.bb          | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I submitted act-as-mv-when-rotate.patch from logrotate upstream, and they
-requested significant changes:
-https://github.com/logrotate/logrotate/pull/429
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+index 32f4ac35861..2cd67ad05f8 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+@@ -5,6 +5,9 @@
+ 
+ SUMMARY = "Essential build dependencies"
+ 
++# libstdc++ gets debian renamed
++PACKAGE_ARCH = "${TUNE_PKGARCH}"
++
+ inherit packagegroup
+ 
+ RDEPENDS:packagegroup-core-buildessential = "\
+-- 
+2.32.0
 
-I'm afraid that is beyond what I can do, so I'm going to close the
-submission, mark the current patch as Inappropriate [link to review] and I
-request that you rework the patch and resubmit it.
-
-Please note that invasive changes like that are always at risk of being
-dropped on version upgrades; submission to upstream first guarantees that's
-not going to happen.
-
-Alex
-
---00000000000054d21a05d099b78c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello Robert,</div><div><br></div><div>I submitted ac=
-t-as-mv-when-rotate.patch from logrotate upstream, and they requested signi=
-ficant changes:</div><div><a href=3D"https://github.com/logrotate/logrotate=
-/pull/429">https://github.com/logrotate/logrotate/pull/429</a></div><div><b=
-r></div><div>I&#39;m afraid that is beyond what I can do, so I&#39;m going =
-to close the submission, mark the current patch as Inappropriate [link to r=
-eview] and I request that you rework the patch and resubmit it. <br></div><=
-div><br></div><div>Please note that invasive changes like that are always a=
-t risk of being dropped on version upgrades; submission to upstream first g=
-uarantees that&#39;s not going to happen.</div><div><br></div><div>Alex<br>=
-</div></div>
-
---00000000000054d21a05d099b78c--
 
