@@ -1,86 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E79C433F5
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 09:48:32 +0000 (UTC)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.web10.13808.1636710511265387513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02AC9C433EF
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 10:05:35 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.13660.1636711534011390187
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 01:48:31 -0800
+ Fri, 12 Nov 2021 02:05:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MdfUoDBZ;
- spf=pass (domain: gmail.com, ip: 209.85.222.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id p2so17578959uad.11
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 01:48:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=a3N5XmtTm5QqbMiRbvKsfjMrdL7SHW2Yyspg31EvkD0=;
-        b=MdfUoDBZ4C1Fk66f/l4IKWaml1z/vL5N1SzAAq7lMqbsESFh5M3a02B7e4MGFHndCx
-         QSvnm0VT6x8EkHqoYG+/hWXo0ytwIw4pVQsur7G1wFbzbauyWozCpxDn1wlK2nTXwimc
-         +nSFfEdeWykQ/CZfhQq+LcpFjN9ark8RxqlFRBc4U/ogn6sSFHzOR8Wi7+y//HOWoT+p
-         j62MKKObHJVXBy0rLMww1FmH7nxr6iCUeaXusCn4efNMq29Jaw7cL7GPynbPj/O2/6Xy
-         jwYQ93dbJtjUq+IlSCRN/bmmxxt8B6X78iCesUZAHeNdeskP1MCiiEIxwLUGSpckjkSV
-         Yu4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=a3N5XmtTm5QqbMiRbvKsfjMrdL7SHW2Yyspg31EvkD0=;
-        b=bSiuNsRhCYL8dvsyD24cpXFPV+Q88WPqtsfohG4V9WM1B8QW91iumBFyhEQTlVoEbH
-         wVgj5qiECaC5CQZNmGQ0V5iccO+DOhMAZS70LO/Ha7Kp92XRWMBvo59jH88/VX0zyL9k
-         agn6Cw5bFblSZumTTuR82qQHirhxgmPam6xMlmduvCkc7iaEGAscziQDECkceeGHog3C
-         YVfac8i/hIn26Sd1YqgNsUMCOcyzDdew1OlQva7AfG18wi+2LvBOXSJmwIGfHcusHkvI
-         0Vv0ii2m0G/AqkVjmmufh+1K6c6/0z6uvse8KhmC7FZE9/ahzXq143OjHGjlzAUJenCa
-         LCcw==
-X-Gm-Message-State: AOAM530kmypKZC6CWstt6+TNxPqFGbQl0sEXaiGxMa+zt4bksUSHiCEf
-	bHDwjUaVpOz/WUM5lYU/psQZBgGgi4x/neC0VOrrkzkTh3o=
-X-Google-Smtp-Source: 
- ABdhPJycPWL/ZDkEKvdC6qx2vOOZJg+RSVjkpT3lG0ulxtZ/TVcJZDoxgP4IbG1bH4Vi9w3cuXPWKkpeFaM6N4rUn2U=
-X-Received: by 2002:a67:ae47:: with SMTP id u7mr8565335vsh.7.1636710507341;
- Fri, 12 Nov 2021 01:48:27 -0800 (PST)
+ dkim=missing;
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1ACA5WOd013690
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 12 Nov 2021 02:05:32 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 12 Nov 2021 02:05:31 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 02:05:31 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 12 Nov 2021 02:05:30 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] util-linux: fix tabfiles-tags case failure
+Date: Fri, 12 Nov 2021 18:03:33 +0800
+Message-ID: <20211112100333.13948-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 12 Nov 2021 10:48:16 +0100
-Message-ID: 
- <CANNYZj8h4kDhv-ZqkKqMY_aXAezOVYmmrV28jn-jQjdK-d3N2Q@mail.gmail.com>
-Subject: pls comment on weston non-PAM patch (link inside)
-To: OE-core <openembedded-core@lists.openembedded.org>, tom.hochstein@nxp.com,
-	Denys Dmytriyenko <denys@ti.com>, Denys Dmytriyenko <denis@denix.org>
-Cc: ppaalanen@gmail.com
-Content-Type: multipart/alternative; boundary="00000000000063ea9705d0945c09"
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 09:48:32 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 10:05:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158213
+ https://lists.openembedded.org/g/openembedded-core/message/158214
 
---00000000000063ea9705d0945c09
-Content-Type: text/plain; charset="UTF-8"
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Hello folks,
+Pass "--use-system-commands" option when run tabfiles-tags case as
+we don't deploy the command under /usr/lib64/util-linux/ptest folder
+by default.
+ Fixes:
+ # cd /usr/lib64/util-linux/ptest/
+ # ./tests/ts/libmount/tabfiles-tags
+ [snip]
+ ./ts/libmount/../../functions.sh: line 652: /usr/lib64/util-linux/ptest/blkid: No such file or directory
+ FAILED (libmount/tabfiles-tags)'
 
-I sent the weston non-PAM patch upstream and they have raised questions
-about its validity, can you please comment on it?
-https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/725
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc   |  1 +
+ ...-tags-add-use-system-commands-option.patch | 35 +++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
 
-Thanks,
-Alex
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 1e3cd28801..6aebe22036 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -35,6 +35,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://run-ptest \
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
++           file://0001-tabfiles-tags-add-use-system-commands-option.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "6a0764c1aae7fb607ef8a6dd2c0f6c47d5e5fd27aa08820abaad9ec14e28e9d9"
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch b/meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
+new file mode 100644
+index 0000000000..9f5a3c2d02
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
+@@ -0,0 +1,35 @@
++From be3ecff8b1bc1de4d29ca6381ee9ab42e6c15947 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Fri, 12 Nov 2021 15:33:53 +0800
++Subject: [PATCH] tabfiles-tags: add use-system-commands option
++
++Pass --use-system-commands option to make blkid command available
++Fixes:
++ # ./ts/libmount/tabfiles-tags
++ [snip]
++ ./ts/libmount/../../functions.sh: line 652: /usr/lib64/util-linux/ptest/blkid: No such file or directory
++ FAILED (libmount/tabfiles-tags)'
++
++Upstream-Status: Inappropriate [configuration specific]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tests/ts/libmount/tabfiles-tags | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tests/ts/libmount/tabfiles-tags b/tests/ts/libmount/tabfiles-tags
++index 69b06a9..17176ef 100755
++--- a/tests/ts/libmount/tabfiles-tags
+++++ b/tests/ts/libmount/tabfiles-tags
++@@ -4,7 +4,7 @@ TS_TOPDIR="${0%/*}/../.."
++ TS_DESC="tags"
++ 
++ . $TS_TOPDIR/functions.sh
++-ts_init "$*"
+++ts_init "$* --use-system-commands"
++ 
++ ts_skip_nonroot
++ 
++-- 
++2.17.1
++
+-- 
+2.17.1
 
---00000000000063ea9705d0945c09
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello folks,</div><div><br></div><div>I sent the west=
-on non-PAM patch upstream and they have raised questions about its validity=
-, can you please comment on it?</div><div><a href=3D"https://gitlab.freedes=
-ktop.org/wayland/weston/-/merge_requests/725">https://gitlab.freedesktop.or=
-g/wayland/weston/-/merge_requests/725</a></div><div><br></div><div>Thanks,<=
-/div><div>Alex<br></div><div><br></div><div><br></div><div><br></div></div>
-
---00000000000063ea9705d0945c09--
 
