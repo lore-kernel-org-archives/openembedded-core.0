@@ -1,193 +1,148 @@
-Return-Path: <lukma@denx.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40BEDC433F5
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 08:48:48 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web12.13100.1636706926364820937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C82C433EF
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 08:54:29 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web08.13266.1636707268622659840
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 00:48:47 -0800
+ Fri, 12 Nov 2021 00:54:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=ppNGu9uU;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 7406682F65;
-	Fri, 12 Nov 2021 09:48:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1636706924;
-	bh=gnzprrymr2daIoAd7Wn9jIe/qxnkfeckmrY4mponWMA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ppNGu9uULJbpPAvNJtD5GBnIkMbA/x0jwR3THGhGg5XRET31pZklROlzXsfT4YYKe
-	 6IP6KNY3xai0S6tnMhRdvHG3XBpPAqYqXP1EpZ3pcbOh2q3H45IdC0rqajGL2z1qrI
-	 ej/qWvDkvCctZNiVy9CLP4J5WVZqXbL2fIm1rXrUl0sn/Ed9cYcRxNWWG3smX5T6gI
-	 LRqqVy+0Qm8rF2+wXJ4d6A34uYBMa0XL0I5aE5lZDOIB+hkFHrR+1hmOsiLu64RDmO
-	 GGotxgbLFoGueQHaWuDHiOjyBWwC5GgO2hIRj2mKBuAQawPissuGUeGZaZP7gPD/uy
-	 d2uIjXxUHBdOQ==
-Date: Fri, 12 Nov 2021 09:48:42 +0100
-From: Lukasz Majewski <lukma@denx.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
- <raj.khem@gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=deSGxBmN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id b12so14302445wrh.4
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 12 Nov 2021 00:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=SJUjDG1gvMEg/MnjIBGYASW+kbRA4ff26UD53AUnlgc=;
+        b=deSGxBmNOYWTIwAHdCMah+7Zf2LUdCwvA/nhtYNd+Pqeoc4YpPw4HKFN7+sL9xDDRp
+         XFnlJKnpknq7O55edtESpcmE6J6tsNldrhXJuCjDuzeV3ZKynOJKJvzBGq1t12B+lOck
+         T/zwdjm4I65ashBe6ul+a6AVUQ1WoneMwgwXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=SJUjDG1gvMEg/MnjIBGYASW+kbRA4ff26UD53AUnlgc=;
+        b=gqhOOkLvPXcD8Kw6UZ2CXteQlRhdf9mJ+Vt5jbIsp8mQKRFu1k9WC1fKm8CzXY4krl
+         i36sHvalvbIIEq9KYGjn54buuqbh76D3Vat/r0Fty4JBW9USQim82ROXR4Otktdf6IRC
+         k0O4SC66gBBqZrBg1v+BjZSHQTndACNrIKO7ScN1kxjTotYoiYv2bK+8Lj4Cy+g7AzIK
+         0SNAMgelqhbBoJFtF+pK3Rn336SC5qP9/PcXWo2f97oUO5nuNfqLR5D3QcmK76KvgpsF
+         24T7piVCX0XOvzbMJktY2Q19XodC8p4E2SRZ7rBUlaM284D5qSgksx3PRcQ1BBCuH4uC
+         lr2Q==
+X-Gm-Message-State: AOAM531eHFf+nWNC8suqIJGpd7YOY62UiRaU/KMcyiPYOuoaZU8duPsH
+	8DzUMoA9TB+iSFMaPpK8OmlR/w==
+X-Google-Smtp-Source: 
+ ABdhPJxrMsnITeY9Rzvaj/T+KfW1XCCiNsF9DGARK2VL4DIZoLlyxxO+RqZ27nFcXus8l+sv8smKFg==
+X-Received: by 2002:a5d:4411:: with SMTP id z17mr16264076wrq.59.1636707267106;
+        Fri, 12 Nov 2021 00:54:27 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c0bd:72b4:105a:2914?
+ ([2001:8b0:aba:5f3c:c0bd:72b4:105a:2914])
+        by smtp.gmail.com with ESMTPSA id
+ m14sm7407076wrp.28.2021.11.12.00.54.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 00:54:26 -0800 (PST)
+Message-ID: 
+ <15d0a240c146628550e6867ca0e3c46ebfb14959.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4] glibc: ptest: Add running glibc time
+ related test suite (Y2038) with ptest
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukasz Majewski <lukma@denx.de>, Khem Raj <raj.khem@gmail.com>
 Cc: Nathan Rossi <nathan@nathanrossi.com>, Adhemerval Zanella
- <adhemerval.zanella@linaro.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Lee Chee Yang <chee.yang.lee@intel.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] glibc: ptest: Add running glibc time related test
- suite (Y2038) with ptest
-Message-ID: <20211112094842.1a636a88@ktm>
-In-Reply-To: 
- <023667d47dfa5b3e08858b06596d15986cdc26c2.camel@linuxfoundation.org>
+	 <adhemerval.zanella@linaro.org>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>, Lee Chee Yang <chee.yang.lee@intel.com>,
+	Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Nov 2021 08:54:25 +0000
+In-Reply-To: <20211112094116.2509d8f3@ktm>
 References: <20211109152851.8137-1-lukma@denx.de>
-	<CAMKF1srQjFZ4DfGGVsV47SS0ma1LewE24Luwgtw-FwcCsOU_DQ@mail.gmail.com>
-	<023667d47dfa5b3e08858b06596d15986cdc26c2.camel@linuxfoundation.org>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	 <CAMKF1spswf07YOPg4WOHmvnaTi4LQT09GAnXEukBObNawEMyBg@mail.gmail.com>
+	 <20211112094116.2509d8f3@ktm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/DWJ7yb=SE4f0tlqYffyFJLa"; protocol="application/pgp-signature"
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 08:48:48 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 08:54:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158211
+ https://lists.openembedded.org/g/openembedded-core/message/158212
 
---Sig_/DWJ7yb=SE4f0tlqYffyFJLa
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2021-11-12 at 09:41 +0100, Lukasz Majewski wrote:
+> Hi Khem,
+> 
+> > seeing this
+> > 
+> > https://errors.yoctoproject.org/Errors/Details/616955/
+> 
+> The error is about autoconf version:
+> 
+> DEBUG: Executing shell function do_configure
+> aclocal.m4:6: error: Exactly version 2.69 of Autoconf is required but
+> you have 2.71
+> 
+> aclocal.m4:6: the top level
+> autom4te: error: m4 failed with exit status: 63
+> 
+> This is strange, as on my setup (qemuarm, qemuarm64, qemux86) the glibc
+> and glibc-tests are built without any issues with autoconf version 2.71.
+> 
+> 
+> I've built the glibc-tests without issues with:
+> 
+> Build Configuration:
+> BB_VERSION           = "1.52.0"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "universal"
+> TARGET_SYS           = "riscv64-poky-linux"
+> MACHINE              = "qemuriscv64"
+> DISTRO               = "poky"
+> DISTRO_VERSION       = "3.4"
+> TUNE_FEATURES        = "riscv64"
+> meta
+> meta-poky
+> meta-yocto-bsp       =
+> "glibc-ptest_v4:164923f0586ac189f01938a32fa102c2df7cc447"
+> 
+> DISTRO=poky MACHINE=qemuriscv64 bitbake glibc-tests
+> 
+> 
+> Khem, could you help me with setting up environment to reproduce this
+> issue?
 
-Hi Richard, Khem
+The autoconf version message isn't a fatal error and if you look at your own
+build logs you probably have that too. What looks like it is the issue is:
 
-> On Thu, 2021-11-11 at 05:51 -0800, Khem Raj wrote:
-> > On Tue, Nov 9, 2021 at 7:29 AM Lukasz Majewski <lukma@denx.de>
-> > wrote: =20
-> > >=20
-> > > This patch introduces new recipe - namely 'glibc-tests', which
-> > > builds and installs time related (to check if Y2038 support
-> > > works) glibc test suite to OE/Yocto built image.
-> > >=20
-> > > It reuses code from already available 'glibc-testsuite' recipe,
-> > > which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-> > > to execute remotely (via SSH) tests on some emulated machine.
-> > >=20
-> > > This recipe installs time related glibc tests on some rootfs
-> > > image. Afterwards, those tests can be executed on the real
-> > > hardware, to facilitate validation of it with Y2038 problem
-> > > compliance.
-> > >=20
-> > > To test time related subset - one needs to call:
-> > > ptest-runner glibc-tests
-> > > then change the date after Y2038 threshold for 32 bit systems:
-> > > date -s "20 JAN 2038 18:00:00"
-> > > and then run ptest-runner again.
-> > >=20
-> > > To facilitate debugging, source files are provided by default with
-> > > the unstripped debugging symbols. Such approach would reduce the
-> > > already complex recipe (as it inherits base glibc one), so there
-> > > is no need to also install *-dbg and *-src packages.
-> > >=20
-> > > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> > >=20
-> > > ---
-> > > Changes for v4:
-> > > - Add entry for 'glibc-tests' in the maintainers.inc file
-> > > - Remove nativesdk from BBCLASSEXTEND as this resipe is not
-> > > supposed to be the part of SDK
-> > >=20
-> > > Changes for v3:
-> > > - Provide missing ${PN}-ptest for PACKAGES, PROVIDES and
-> > >   RPROVIDES variables
-> > >=20
-> > > Changes for v2:
-> > > - Just focus on time related set of tests as those can be run as
-> > >   standalone
-> > > - Reuse of already built tests (from glibc-tests.inc) and depoloy
-> > >   them on the HW target.
-> > > - Provide single 'run-ptest' script.
-> > > - Update the recipe to run with newest poky's -master
-> > > ---
-> > >  meta/conf/distro/include/maintainers.inc      |   1 +
-> > >  .../distro/include/ptest-packagelists.inc     |   1 +
-> > >  meta/recipes-core/glibc/glibc-tests_2.34.bb   | 113
-> > > ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest
-> > > |  37 ++++++ 4 files changed, 152 insertions(+)
-> > >  create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
-> > >  create mode 100755 meta/recipes-core/glibc/glibc/run-ptest
-> > >=20
-> > > diff --git a/meta/conf/distro/include/maintainers.inc
-> > > b/meta/conf/distro/include/maintainers.inc index
-> > > baec2bef4d..7104e091fc 100644 ---
-> > > a/meta/conf/distro/include/maintainers.inc +++
-> > > b/meta/conf/distro/include/maintainers.inc @@ -209,6 +209,7 @@
-> > > RECIPE_MAINTAINER:pn-glibc =3D "Khem Raj <raj.khem@gmail.com>"
-> > > RECIPE_MAINTAINER:pn-glibc-locale =3D "Khem Raj
-> > > <raj.khem@gmail.com>" RECIPE_MAINTAINER:pn-glibc-mtrace =3D "Khem
-> > > Raj <raj.khem@gmail.com>" RECIPE_MAINTAINER:pn-glibc-scripts =3D
-> > > "Khem Raj <raj.khem@gmail.com>" +RECIPE_MAINTAINER:pn-glibc-tests
-> > > =3D "Lukasz Majewski <lukma@denx.de>"
-> > > RECIPE_MAINTAINER:pn-glibc-testsuite =3D "Khem Raj
-> > > <raj.khem@gmail.com>" RECIPE_MAINTAINER:pn-glide =3D "Otavio
-> > > Salvador <otavio.salvador@ossystems.com.br>"
-> > > RECIPE_MAINTAINER:pn-gmp =3D "Khem Raj <raj.khem@gmail.com>" diff
-> > > --git a/meta/conf/distro/include/ptest-packagelists.inc
-> > > b/meta/conf/distro/include/ptest-packagelists.inc index
-> > > 2e324f8da4..fd52fa72a4 100644 ---
-> > > a/meta/conf/distro/include/ptest-packagelists.inc +++
-> > > b/meta/conf/distro/include/ptest-packagelists.inc @@ -61,6 +61,7
-> > > @@ PTESTS_FAST =3D "\ slang-ptest \ wayland-ptest \ zlib-ptest \
-> > > +    glibc-tests-ptest \ =20
-> >=20
-> > this will break musl. So lets change this to
-> >=20
-> > PTESTS_FAST:append:libc-glibc =3D " glibc-tests-ptest" =20
->=20
-> FWIW I tested a tweak in master-next for that...
->=20
+checking if riscv64-yoe-linux-clang -target riscv64-yoe-linux    -mlittle-endian -mno-relax -Qunused-arguments -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=TOPDIR/build/tmp/work/riscv64-yoe-linux/glibc-tests/2.34-r0/recipe-sysroot is sufficient to build libc... no
 
-Shall I prepare v5 with fix for that, or will you keep patches from
-master-next (with your fix for this) ?
+which I think leads to:
 
-(I would prefer personally the latter option :-) ).
+configure: error: 
+*** These critical programs are missing or too old: compiler
 
-> Cheers,
->=20
-> Richard
->=20
+Khem was implying this was a musl build, I can't see that from the logs but if
+it is a musl build, it shouldn't be building glibc tests.
+
+For that reason I did add:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=f54774199ef09b655de1b586045995e0f284925a
+
+to master-next since I believe that was the remaining issue blocking the patch
+apart from a typo Khem also mentioned which I meant to find and tweak.
+
+I still am concerned about having duplication of tests but I don't see any way
+around that since you want to get this patch merged and I don't have any
+solution for that.
+
+Cheers,
+
+Richard
 
 
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/DWJ7yb=SE4f0tlqYffyFJLa
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmGOKmoACgkQAR8vZIA0
-zr2J2Qf+OjGt4ZpiZdy9Iz9xMoANNWUmweaW2fZWOyjCUy3TQOuBER83d5SwEAVL
-gyXfktVkCX4I1Qdnf2zwlN+IZQbq+KhfvaqboumslfE0Xf+cQj2sfUplQKtj/M6Q
-ca3PQE59bD33ktGyudOtDGia+PFjWOTC1N5yDc6DZez5h/9Tcm8wFeBsfG5AqIw6
-4xT8UsRuZwxWS2gtuHyW95D5jnpHXvd7dLcEen8sObytQdhWn1GZJYbdIM8b3mkA
-RgWyrx0JuiJAhsRNoMeU0QMXoV0oKy3zazyEdmdMmaV2H72/exXBVqSpL8mIpT08
-mMruDHMYY9PimCo//49Ir0jfZDdCiQ==
-=g5Je
------END PGP SIGNATURE-----
-
---Sig_/DWJ7yb=SE4f0tlqYffyFJLa--
 
