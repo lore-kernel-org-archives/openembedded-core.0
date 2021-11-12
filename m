@@ -1,106 +1,111 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE003C433F5
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 12:23:04 +0000 (UTC)
-Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
- by mx.groups.io with SMTP id smtpd.web08.14937.1636719777657270645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C89C433EF
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 13:57:09 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web12.15868.1636725424209992000
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 04:22:58 -0800
+ Fri, 12 Nov 2021 05:57:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: iris-sensing.com,
- ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.irisgmbh.de (Postfix) with ESMTP id 6C3D131E034B;
-	Fri, 12 Nov 2021 13:22:54 +0100 (CET)
-X-Virus-Scanned: amavisd-new at irisgmbh.de
-Received: from mail.irisgmbh.de ([127.0.0.1])
-	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new,
- port 10027)
-	with ESMTP; Fri, 12 Nov 2021 13:22:54 +0100 (CET)
-Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
-	by mail.irisgmbh.de (Postfix) with ESMTPS id C182731E0355;
-	Fri, 12 Nov 2021 13:22:53 +0100 (CET)
-Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
- ([172.30.10.11]) with mapi id 14.03.0513.000; Fri, 12 Nov 2021 13:22:53 +0100
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "jasper@fancydomain.eu" <jasper@fancydomain.eu>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>,
-	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>, "martin@mko.dev" <martin@mko.dev>,
-	"kweihmann@outlook.com" <kweihmann@outlook.com>, Daniel Baumgart
-	<Daniel.Baumgart@iris-sensing.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Topic: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Index: 
- AQHX0klmUmLVPFJtF0Ob3PuHG3t8+6v03rAAgAADSACAAAYMgIABSAqAgATTzgCAAmPRAIAAqg6AgAAZFICAAAoTAIAAIckAgAAP84CAAEZSAIABHcAA
-Date: Fri, 12 Nov 2021 12:22:52 +0000
-Message-ID: <9cc55c0f408862bfcd23fe5f154c4b4a7f3ee2c8.camel@iris-sensing.com>
-References: <20211105133104.19895-1-jasper@fancydomain.eu>
-	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
-	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
-	 <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
-	 <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
-	 <dd07e5137044429f805caf23114a2e72@axis.com>
-	 <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
-	 <83886954b53b47eb93b6ab8a7feebf19@axis.com>
-	 <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
-	 <64e41080db7642d0b54818bdcf916dac@axis.com>
-	 <699b2927411dbdfdfd01e64ffb16dc057d5bb320.camel@iris-sensing.com>
-	 <CANNYZj9LXZjLq9mTxJ7g0T1Zz0XzZHhjiNud9o_kAbuyVb76UA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9LXZjLq9mTxJ7g0T1Zz0XzZHhjiNud9o_kAbuyVb76UA@mail.gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.10.1]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F61CA1A677024F44BB5FF4138ACCDD19@irisgmbh.local>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HBSwmQAe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso4645147wmr.4
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 12 Nov 2021 05:57:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HE5XosUSRPkJR8rVqm9Vtc4PTy6JojgHW7IiwgHCtuA=;
+        b=HBSwmQAeXCEaVncsMHjkSkEV2PG6WM+EgAkzIblRrBm2Jq+gzpQp/4GTtIVO7DSwcw
+         oHah4hMPK+cDxDF1TROCpKRn95u0zOycAYPSqlPWe1SzeDpFJpXTMqQP6nimj8Rs0RJQ
+         z61GrdcE2/9qHdW9UJfrC+3l0rtcd02vzFaD8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HE5XosUSRPkJR8rVqm9Vtc4PTy6JojgHW7IiwgHCtuA=;
+        b=USYTxnHrEEkniGT4kBVs8xbwg9TkDqw6/+ROOH2oHNkts2keq3uzl8T4wFU3nsfkQy
+         /4v+ZdcpghwckRDc5vyhaLPVdX00MyAW6vA3/BuqltMVIRPm/yvDROweNJDli/7xYOW6
+         mVDtKCpAnl4RUyieJUy/OEr6eFkwmLTLQH2RWcHsrOivbGCkiloIfIRYZhO+e4NpSj/x
+         ceI6TavTYm0NhknCJcVQyPg3xf/0bSmF5fXst3GI+lux+Gy+5ZZyQaB5as9R+LTd6JkH
+         Q/x5DB7p74OSXX2ELRpbMtqxtPJz+38vSPpavN03mEMeUicgplFEGAOvTHKBjFtUbaUe
+         4ybw==
+X-Gm-Message-State: AOAM532mqWnzNGjXhGfYZVrLTUTpkT5BIPFv6aU8KIB4JZnovhRhlp8e
+	tC+unu0eHgXGp9t1Pb7+oHE9BDeqLsKwTg==
+X-Google-Smtp-Source: 
+ ABdhPJxVk02+TGA20kL8r+lmyYnxAk2uYCegMGVFDtB+8J1nUngCG7g67lWhoeTNM50NZIrLxZls6A==
+X-Received: by 2002:a7b:cbc3:: with SMTP id n3mr17333601wmi.15.1636725422425;
+        Fri, 12 Nov 2021 05:57:02 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c0bd:72b4:105a:2914])
+        by smtp.gmail.com with ESMTPSA id
+ r68sm7043237wmr.45.2021.11.12.05.57.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 05:57:02 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] uninative: Add version to uninative tarball name
+Date: Fri, 12 Nov 2021 13:57:01 +0000
+Message-Id: <20211112135701.3893672-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 12:23:04 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 13:57:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158217
+ https://lists.openembedded.org/g/openembedded-core/message/158218
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkhpIEFs
-ZXgsDQoNCnRoYW5rcyBmb3IgeW91ciBpbnB1dC4gWW91IGFyZSBhYnNvbHV0ZWx5IGNvcnJlY3Qs
-IHRoaXMgY3VycmVudGx5IGRvZXMNCm5vdCB3b3JrLiBXZSdsbCBsb29rIGludG8gdGhpcy4NCg0K
-LSAtLSANCldpdGggYmVzdCByZWdhcmRzDQoNCkphc3BlciBPcnNjaHVsa28NCkRldk9wcyBFbmdp
-bmVlcg0KDQpUZWwuICs0OSAzMCA1OCA1OCAxNCAyNjUNCkZheCArNDkgMzAgNTggNTggMTQgOTk5
-DQpKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20NCg0K4oCiIOKAoiDigKIg4oCiIOKA
-oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
-IOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAog0KDQppcmlzLUdtYkgNCmluZnJhcmVkICYgaW50
-ZWxsaWdlbnQgc2Vuc29ycw0KU2NobmVsbGVyc3RyYcOfZSAxLTUgfCAxMjQzOSBCZXJsaW4NCg0K
-aHR0cHM6Ly9pcmlzLXNlbnNpbmcuY29tLw0KDQoNCg0KDQoNCk9uIFRodSwgMjAyMS0xMS0xMSBh
-dCAyMDoyMCArMDEwMCwgQWxleGFuZGVyIEthbmF2aW4gd3JvdGU6DQo+IE9uIFRodSwgMTEgTm92
-IDIwMjEgYXQgMTY6MDgsIEphc3BlciBPcnNjaHVsa28NCj4gPEphc3Blci5PcnNjaHVsa29AaXJp
-cy1zZW5zaW5nLmNvbT4gd3JvdGU6DQo+ID4gU28gaWYgeW91IGhhdmUgZG9uZSB0aGlzIGluaXRp
-YWwgZmV0Y2ggb2YgeW91ciBzb3VyY2VzIGFuZCBzdGFzaA0KPiA+IHlvdXINCj4gPiB3b3JraW5n
-IGRpciBhd2F5LCB5b3UgY2FuIGRvIGFuIG9mZmxpbmUgYnVpbGQuDQo+IA0KPiBCdXQgY2FuIHlv
-dSBkbyBhbiBvZmZsaW5lIGJ1aWxkIHdpdGhvdXQgYSBwcmVwb3B1bGF0ZWQgd29ya2luZyBkaXI/
-DQo+IFRoYXQncyB0aGUgY3J1Y2lhbCBwb2ludDogb2ZmbGluZSBidWlsZCBzaG91bGQgd29yayBp
-biBhIGZyZXNobHkgc2V0DQo+IHVwIGJ1aWxkIGRpcmVjdG9yeSwgd2l0aG91dCBzc3RhdGUgY2Fj
-aGUsIGFuZCB3aXRoIHByZXBvcHVsYXRlZA0KPiBETF9ESVIgb25seS4NCj4gDQo+IEFsZXgNCi0t
-LS0tQkVHSU4gUEdQIFNJR05BVFVSRS0tLS0tDQoNCmlRRXpCQUVCQ0FBZEZpRUU0V3lQTUlDNUFw
-NCtPb28xWWdxZXcwN1ZNTlVGQW1HT1hKd0FDZ2tRWWdxZXcwN1YNCk1OWGF4d2YrTkRPeDVUWVI0
-ZFk0aUNzYjBJZmRmb0IwMStIN1VEWlIyczVHWktLQTlUeU1LYkVxQmRackhCZGoNClBUcVpKMzM5
-SU9YQmxrczFLUEFVY2kwVk9YQmR3SG95YlIyWEZNR0VOVG5yajZYQSs5WXI5Nm9mU1BIcVFUV3IN
-CmFtRC9sb3cwY0Z2ZnFaQ2xiK21kL0ZjeGhuVks0NXJGaGZMSmNrS0VsUGlZbUtqY2docy9QWEFX
-YmgrVHc2UzcNCm01S0NxOGFnUHFYbmFVL2JXRG1qMmVDOXQ2dCtWVC8wT25DMHRRdG9oTWJZVmQ4
-d3VsNGNmNUljM0ppbGVjakkNCnFDSDRySzdFQkZmeldoczFXVFlER2VYWDVpV05tWk9zZHVmcFhG
-MFVSSmE1Y3BqR0E1YmhqZnlYam9VWlB6Q1INCld4RXJEMWNuUVNOUXF5c3FXbG5CNUVnTTN5K2NC
-Zz09DQo9cTB6Wg0KLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tDQo=
+uninative works via hashes and doesn't need the version in the tarball name but
+it does make things easier to inspect in DL_DIR. There were reasons such as
+ease of publication of the build tarballs but we can handle those differently
+now and the signature issues from the early code aren't an issue now. From 3.4
+onwards we can use a version'd name.
+
+[YOCTO #12970]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/uninative.bbclass               | 2 +-
+ meta/conf/distro/include/yocto-uninative.inc | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 3c7ccd66f43..4412d7c567c 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -2,7 +2,7 @@ UNINATIVE_LOADER ?= "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/
+ UNINATIVE_STAGING_DIR ?= "${STAGING_DIR}"
+ 
+ UNINATIVE_URL ?= "unset"
+-UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.xz"
++UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc-${UNINATIVE_VERSION}.tar.xz"
+ # Example checksums
+ #UNINATIVE_CHECKSUM[aarch64] = "dead"
+ #UNINATIVE_CHECKSUM[i686] = "dead"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 3165fc93b89..6833072cd3a 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,8 +7,9 @@
+ #
+ 
+ UNINATIVE_MAXGLIBCVERSION = "2.34"
++UNINATIVE_VERSION = "3.4"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.4/"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+ UNINATIVE_CHECKSUM[aarch64] ?= "3013cdda8f0dc6639ce1c80f33eabce66f06b890bd5b58739a6d7a92a0bb7100"
+ UNINATIVE_CHECKSUM[i686] ?= "abed500de584aad63ec237546db20cdd0c69d8870a6f8e94ac31721ace64b376"
+ UNINATIVE_CHECKSUM[x86_64] ?= "126f4f7f6f21084ee140dac3eb4c536b963837826b7c38599db0b512c3377ba2"
+-- 
+2.32.0
+
 
