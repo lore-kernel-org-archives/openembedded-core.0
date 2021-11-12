@@ -1,148 +1,86 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C82C433EF
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 08:54:29 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web08.13266.1636707268622659840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E79C433F5
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 09:48:32 +0000 (UTC)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+ [209.85.222.47])
+ by mx.groups.io with SMTP id smtpd.web10.13808.1636710511265387513
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 00:54:29 -0800
+ Fri, 12 Nov 2021 01:48:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=deSGxBmN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id b12so14302445wrh.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MdfUoDBZ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.47,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f47.google.com with SMTP id p2so17578959uad.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 00:54:28 -0800 (PST)
+ Fri, 12 Nov 2021 01:48:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=SJUjDG1gvMEg/MnjIBGYASW+kbRA4ff26UD53AUnlgc=;
-        b=deSGxBmNOYWTIwAHdCMah+7Zf2LUdCwvA/nhtYNd+Pqeoc4YpPw4HKFN7+sL9xDDRp
-         XFnlJKnpknq7O55edtESpcmE6J6tsNldrhXJuCjDuzeV3ZKynOJKJvzBGq1t12B+lOck
-         T/zwdjm4I65ashBe6ul+a6AVUQ1WoneMwgwXU=
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=a3N5XmtTm5QqbMiRbvKsfjMrdL7SHW2Yyspg31EvkD0=;
+        b=MdfUoDBZ4C1Fk66f/l4IKWaml1z/vL5N1SzAAq7lMqbsESFh5M3a02B7e4MGFHndCx
+         QSvnm0VT6x8EkHqoYG+/hWXo0ytwIw4pVQsur7G1wFbzbauyWozCpxDn1wlK2nTXwimc
+         +nSFfEdeWykQ/CZfhQq+LcpFjN9ark8RxqlFRBc4U/ogn6sSFHzOR8Wi7+y//HOWoT+p
+         j62MKKObHJVXBy0rLMww1FmH7nxr6iCUeaXusCn4efNMq29Jaw7cL7GPynbPj/O2/6Xy
+         jwYQ93dbJtjUq+IlSCRN/bmmxxt8B6X78iCesUZAHeNdeskP1MCiiEIxwLUGSpckjkSV
+         Yu4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=SJUjDG1gvMEg/MnjIBGYASW+kbRA4ff26UD53AUnlgc=;
-        b=gqhOOkLvPXcD8Kw6UZ2CXteQlRhdf9mJ+Vt5jbIsp8mQKRFu1k9WC1fKm8CzXY4krl
-         i36sHvalvbIIEq9KYGjn54buuqbh76D3Vat/r0Fty4JBW9USQim82ROXR4Otktdf6IRC
-         k0O4SC66gBBqZrBg1v+BjZSHQTndACNrIKO7ScN1kxjTotYoiYv2bK+8Lj4Cy+g7AzIK
-         0SNAMgelqhbBoJFtF+pK3Rn336SC5qP9/PcXWo2f97oUO5nuNfqLR5D3QcmK76KvgpsF
-         24T7piVCX0XOvzbMJktY2Q19XodC8p4E2SRZ7rBUlaM284D5qSgksx3PRcQ1BBCuH4uC
-         lr2Q==
-X-Gm-Message-State: AOAM531eHFf+nWNC8suqIJGpd7YOY62UiRaU/KMcyiPYOuoaZU8duPsH
-	8DzUMoA9TB+iSFMaPpK8OmlR/w==
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=a3N5XmtTm5QqbMiRbvKsfjMrdL7SHW2Yyspg31EvkD0=;
+        b=bSiuNsRhCYL8dvsyD24cpXFPV+Q88WPqtsfohG4V9WM1B8QW91iumBFyhEQTlVoEbH
+         wVgj5qiECaC5CQZNmGQ0V5iccO+DOhMAZS70LO/Ha7Kp92XRWMBvo59jH88/VX0zyL9k
+         agn6Cw5bFblSZumTTuR82qQHirhxgmPam6xMlmduvCkc7iaEGAscziQDECkceeGHog3C
+         YVfac8i/hIn26Sd1YqgNsUMCOcyzDdew1OlQva7AfG18wi+2LvBOXSJmwIGfHcusHkvI
+         0Vv0ii2m0G/AqkVjmmufh+1K6c6/0z6uvse8KhmC7FZE9/ahzXq143OjHGjlzAUJenCa
+         LCcw==
+X-Gm-Message-State: AOAM530kmypKZC6CWstt6+TNxPqFGbQl0sEXaiGxMa+zt4bksUSHiCEf
+	bHDwjUaVpOz/WUM5lYU/psQZBgGgi4x/neC0VOrrkzkTh3o=
 X-Google-Smtp-Source: 
- ABdhPJxrMsnITeY9Rzvaj/T+KfW1XCCiNsF9DGARK2VL4DIZoLlyxxO+RqZ27nFcXus8l+sv8smKFg==
-X-Received: by 2002:a5d:4411:: with SMTP id z17mr16264076wrq.59.1636707267106;
-        Fri, 12 Nov 2021 00:54:27 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c0bd:72b4:105a:2914?
- ([2001:8b0:aba:5f3c:c0bd:72b4:105a:2914])
-        by smtp.gmail.com with ESMTPSA id
- m14sm7407076wrp.28.2021.11.12.00.54.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 00:54:26 -0800 (PST)
-Message-ID: 
- <15d0a240c146628550e6867ca0e3c46ebfb14959.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4] glibc: ptest: Add running glibc time
- related test suite (Y2038) with ptest
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Lukasz Majewski <lukma@denx.de>, Khem Raj <raj.khem@gmail.com>
-Cc: Nathan Rossi <nathan@nathanrossi.com>, Adhemerval Zanella
-	 <adhemerval.zanella@linaro.org>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>, Lee Chee Yang <chee.yang.lee@intel.com>,
-	Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Nov 2021 08:54:25 +0000
-In-Reply-To: <20211112094116.2509d8f3@ktm>
-References: <20211109152851.8137-1-lukma@denx.de>
-	 <CAMKF1spswf07YOPg4WOHmvnaTi4LQT09GAnXEukBObNawEMyBg@mail.gmail.com>
-	 <20211112094116.2509d8f3@ktm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJycPWL/ZDkEKvdC6qx2vOOZJg+RSVjkpT3lG0ulxtZ/TVcJZDoxgP4IbG1bH4Vi9w3cuXPWKkpeFaM6N4rUn2U=
+X-Received: by 2002:a67:ae47:: with SMTP id u7mr8565335vsh.7.1636710507341;
+ Fri, 12 Nov 2021 01:48:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 12 Nov 2021 10:48:16 +0100
+Message-ID: 
+ <CANNYZj8h4kDhv-ZqkKqMY_aXAezOVYmmrV28jn-jQjdK-d3N2Q@mail.gmail.com>
+Subject: pls comment on weston non-PAM patch (link inside)
+To: OE-core <openembedded-core@lists.openembedded.org>, tom.hochstein@nxp.com,
+	Denys Dmytriyenko <denys@ti.com>, Denys Dmytriyenko <denis@denix.org>
+Cc: ppaalanen@gmail.com
+Content-Type: multipart/alternative; boundary="00000000000063ea9705d0945c09"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 08:54:29 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 09:48:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158212
+ https://lists.openembedded.org/g/openembedded-core/message/158213
 
-On Fri, 2021-11-12 at 09:41 +0100, Lukasz Majewski wrote:
-> Hi Khem,
-> 
-> > seeing this
-> > 
-> > https://errors.yoctoproject.org/Errors/Details/616955/
-> 
-> The error is about autoconf version:
-> 
-> DEBUG: Executing shell function do_configure
-> aclocal.m4:6: error: Exactly version 2.69 of Autoconf is required but
-> you have 2.71
-> 
-> aclocal.m4:6: the top level
-> autom4te: error: m4 failed with exit status: 63
-> 
-> This is strange, as on my setup (qemuarm, qemuarm64, qemux86) the glibc
-> and glibc-tests are built without any issues with autoconf version 2.71.
-> 
-> 
-> I've built the glibc-tests without issues with:
-> 
-> Build Configuration:
-> BB_VERSION           = "1.52.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "riscv64-poky-linux"
-> MACHINE              = "qemuriscv64"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "3.4"
-> TUNE_FEATURES        = "riscv64"
-> meta
-> meta-poky
-> meta-yocto-bsp       =
-> "glibc-ptest_v4:164923f0586ac189f01938a32fa102c2df7cc447"
-> 
-> DISTRO=poky MACHINE=qemuriscv64 bitbake glibc-tests
-> 
-> 
-> Khem, could you help me with setting up environment to reproduce this
-> issue?
+--00000000000063ea9705d0945c09
+Content-Type: text/plain; charset="UTF-8"
 
-The autoconf version message isn't a fatal error and if you look at your own
-build logs you probably have that too. What looks like it is the issue is:
+Hello folks,
 
-checking if riscv64-yoe-linux-clang -target riscv64-yoe-linux    -mlittle-endian -mno-relax -Qunused-arguments -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=TOPDIR/build/tmp/work/riscv64-yoe-linux/glibc-tests/2.34-r0/recipe-sysroot is sufficient to build libc... no
+I sent the weston non-PAM patch upstream and they have raised questions
+about its validity, can you please comment on it?
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/725
 
-which I think leads to:
+Thanks,
+Alex
 
-configure: error: 
-*** These critical programs are missing or too old: compiler
+--00000000000063ea9705d0945c09
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Khem was implying this was a musl build, I can't see that from the logs but if
-it is a musl build, it shouldn't be building glibc tests.
+<div dir=3D"ltr"><div>Hello folks,</div><div><br></div><div>I sent the west=
+on non-PAM patch upstream and they have raised questions about its validity=
+, can you please comment on it?</div><div><a href=3D"https://gitlab.freedes=
+ktop.org/wayland/weston/-/merge_requests/725">https://gitlab.freedesktop.or=
+g/wayland/weston/-/merge_requests/725</a></div><div><br></div><div>Thanks,<=
+/div><div>Alex<br></div><div><br></div><div><br></div><div><br></div></div>
 
-For that reason I did add:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=f54774199ef09b655de1b586045995e0f284925a
-
-to master-next since I believe that was the remaining issue blocking the patch
-apart from a typo Khem also mentioned which I meant to find and tweak.
-
-I still am concerned about having duplication of tests but I don't see any way
-around that since you want to get this patch merged and I don't have any
-solution for that.
-
-Cheers,
-
-Richard
-
-
+--00000000000063ea9705d0945c09--
 
