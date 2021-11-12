@@ -1,101 +1,75 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B1EC433F5
-	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 10:32:15 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.14071.1636713134134148604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541ADC433F5
+	for <webhook@archiver.kernel.org>; Fri, 12 Nov 2021 12:07:55 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.14862.1636718873785267764
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 02:32:14 -0800
+ Fri, 12 Nov 2021 04:07:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tp+PXuHZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso6383145wme.3
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Nov 2021 02:32:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=V4lYbR6bwwv+IWehRgMbTdQt8gwYJo8fHL9LduviA8Q=;
-        b=Tp+PXuHZVH9zkh0QMYiB4XmgX0B2GF5ZW65ZBwpUPq788uFRleRgnNRJVEa55DFL/i
-         Hb7Az2U/f0mfl6Cl4MyscJ08jMRicZM8xGi3qxNIFc3u5StblICGTpWPm32mn81F8urj
-         q/IHGJw62cB6odls1Ea8BECNVBHhKQwXL6NI0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=V4lYbR6bwwv+IWehRgMbTdQt8gwYJo8fHL9LduviA8Q=;
-        b=LXgzwLOtS0c4H6N7RPL4IWg+DcDHpjrN5pOKhgrr8L9uqfQ8PM8fkY0Cs4gLP8NzaM
-         yWhz1SKxG9e/pAdb8dyEISDgTvWsCdLRQIdNO7osQfTb4b/SzzmC0dkUlyK2pDJvrKhP
-         TctLIuQ+r9QBD1JKR2Lgeq5+mRYygrsUKbbgav9gM6t1Qa2XHwHaonUrCQ5GqAtk64EK
-         i9DEajmbQiF0hzZwvig30nIqd4x+5hpkzSV1tYr35xdKih3dm46jtHoTtekS5bbi9Htd
-         Bj1/tENYElIetfomRMZhi6f4uQFbf0GOaMbv2u6x4gcg+eSz5Kygr1IMJp1ceOKKOIEO
-         CLVg==
-X-Gm-Message-State: AOAM530+6+EgVFFk7j5NXEr/lakQRpQBnC55s03lltetkBW7lgNKxKpJ
-	BZgxbLa95KnktwB2JlBbjMusHg==
-X-Google-Smtp-Source: 
- ABdhPJyD8Sju0t6imNty9SZOE4XeDEENHNaNY63NAZ1cIlFbiHIgN1LRWXqHu/EOLaCv1c8SEXxaug==
-X-Received: by 2002:a05:600c:4f10:: with SMTP id
- l16mr16185982wmq.47.1636713132563;
-        Fri, 12 Nov 2021 02:32:12 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c0bd:72b4:105a:2914?
- ([2001:8b0:aba:5f3c:c0bd:72b4:105a:2914])
-        by smtp.gmail.com with ESMTPSA id
- m14sm7552137wrp.28.2021.11.12.02.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 02:32:12 -0800 (PST)
-Message-ID: 
- <896e6085c5f109c969a04ae65887bde5c0018ceb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] util-linux: fix tabfiles-tags case failure
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 12 Nov 2021 10:32:09 +0000
-In-Reply-To: <20211112100333.13948-1-mingli.yu@windriver.com>
-References: <20211112100333.13948-1-mingli.yu@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 15302ED1
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 12 Nov 2021 04:07:52 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B3F0D3F70D
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 12 Nov 2021 04:07:51 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] insane: remove unrecognised option check for Meson
+Date: Fri, 12 Nov 2021 12:07:49 +0000
+Message-Id: <20211112120749.3656222-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 10:32:15 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Nov 2021 12:07:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158215
+ https://lists.openembedded.org/g/openembedded-core/message/158216
 
-On Fri, 2021-11-12 at 18:03 +0800, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> Pass "--use-system-commands" option when run tabfiles-tags case as
-> we don't deploy the command under /usr/lib64/util-linux/ptest folder
-> by default.
->  Fixes:
->  # cd /usr/lib64/util-linux/ptest/
->  # ./tests/ts/libmount/tabfiles-tags
->  [snip]
->  ./ts/libmount/../../functions.sh: line 652: /usr/lib64/util-linux/ptest/blkid: No such file or directory
->  FAILED (libmount/tabfiles-tags)'
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc   |  1 +
->  ...-tags-add-use-system-commands-option.patch | 35 +++++++++++++++++++
->  2 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
+Meson 0.60 onwards no longer simply warns when an unrecognised option is
+passed, it errors out instead. This means we can remove the logic in
+insane.bbclass to check for the warnings.
 
-I don't really want to carry a patch for this forever. Could we create a symlink
-in do_install_ptest that handles this instead?
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes/insane.bbclass | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Also, why isn't isn't failure showing up on the autobuilder test runs?
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 1675adf6ac..27b1a00fb9 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1229,15 +1229,12 @@ Rerun configure task after fixing this."""
+     ####################################################################=
+#######
+     # Check unrecognised configure options (with a white list)
+     ####################################################################=
+#######
+-    if bb.data.inherits_class("autotools", d) or bb.data.inherits_class(=
+"meson", d):
++    if bb.data.inherits_class("autotools", d):
+         bb.note("Checking configure output for unrecognised options")
+         try:
+             if bb.data.inherits_class("autotools", d):
+                 flag =3D "WARNING: unrecognized options:"
+                 log =3D os.path.join(d.getVar('B'), 'config.log')
+-            if bb.data.inherits_class("meson", d):
+-                flag =3D "WARNING: Unknown options:"
+-                log =3D os.path.join(d.getVar('T'), 'log.do_configure')
+             output =3D subprocess.check_output(['grep', '-F', flag, log]=
+).decode("utf-8").replace(', ', ' ').replace('"', '')
+             options =3D set()
+             for line in output.splitlines():
+--=20
+2.25.1
 
 
