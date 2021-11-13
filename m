@@ -1,111 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30679C433EF
-	for <webhook@archiver.kernel.org>; Sat, 13 Nov 2021 16:08:17 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.265.1636819696447815645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28037C433EF
+	for <webhook@archiver.kernel.org>; Sat, 13 Nov 2021 16:27:55 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web09.491.1636820873749256836
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Nov 2021 08:08:16 -0800
+ Sat, 13 Nov 2021 08:27:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hGOgaW+H;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- j5-20020a17090a318500b001a6c749e697so8097344pjb.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f00nNXir;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id
+ f7-20020a1c1f07000000b0032ee11917ceso9076642wmf.0
         for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Nov 2021 08:08:16 -0800 (PST)
+ Sat, 13 Nov 2021 08:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mOaafSqaQkJX8oLn3Of1xoljRevCGr+1izrWWhDyUjc=;
-        b=hGOgaW+HC1EjSHeTGkerGj3R0ZvbsSt9IV+f/jAIcxMJaMYkdY5lzUVWGF9uR1tuOH
-         oBk0ywaIIUS108Vk/9cplH+d3RUXuK/WFDfrfCs56AXT1qm6MQ906l5DF6CB5sLfpNBr
-         SNzK+xa/PA2PJ9VeOuQxQGGkIC/f50xFaLA0696LR5SX8acDaBFytnqU965jGk6BOVN6
-         uGOC9lKQ2NYQoIJK0E4Pqo+6LcKa4HD2LUm8JLSc6fSAFhncb8I3wXTmVCRt44dlqv5t
-         eNrP9QQIlF+2+yi4SAk5x/x+1uWENMQ/UAsNFRupTynu1pxt1qJLXMPpxDYN5rX/nrEC
-         la3Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=VRLGyxNqiJF2zvDWNJ9EPB0l2F1XlQE4yIIBSsZcCyw=;
+        b=f00nNXirtrbOPj7y5VbGIu4RxmsfuY2ZLW1Ym9xWmzoPbIJHSP4FvUBn/5YA4Mpara
+         WOGnKssBJTsonxGNQsI7DJUOqcRtEWnoZ8AMKbwwrRVaIGFHxADBkkNlJjFj3br5hJWT
+         7f4H1Spkw3FXfq+JWrKDmMVqys6pyHDF3eCh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mOaafSqaQkJX8oLn3Of1xoljRevCGr+1izrWWhDyUjc=;
-        b=vE1htO3D61flWNb4kufsev2czRc+VVjpNow7W/tp/I1bKSqBAv7uKuHVm/VIDHUa2P
-         zO9VdL2CtT6hD9/oixi/hzPN+15S/9Jf709MqnpQwYbPwwcap696yV2Ex866H/+pcttM
-         YwiX9WHHh35nv4jZCJHAGxtZX3tvONXe+l20epEUkNWV73H2c0OONZYbuklSq9joxJkH
-         nFhjcC7zXpB49tqpRyOKTIXE8uTufbKUPhGyXYvc/xORbe/NlH2tsMBpgVASLK4PN8nH
-         BcOvPPeotcsyroRrLjRfOCLvKMr1DxOzyPNkZMhPnTW1NUXts0zTcXE3ycThfeJGW+iV
-         0S6A==
-X-Gm-Message-State: AOAM531Uea7JjAi9X1LuOvRBwihL65d1mNj7i40HEv/Pp/ij7vLXLb0k
-	JfU3sEoVrYRQGIcaJYQ0ZSFkOAF3c/M=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VRLGyxNqiJF2zvDWNJ9EPB0l2F1XlQE4yIIBSsZcCyw=;
+        b=k7ErKt9HLCTQFXSPYFXucm7/xQXkoag+bE9J3MfQk86jwf7Zu1wfhCRC1h6NYQv6Or
+         ismiu40JiQ3EaXoaJ8F/xJnmdPY0VDiBpNV3iMgQ6SyFmS1PtHdmb3FqorQViF8npMFv
+         8Qd/NvOlWC8HvW/UAHzh7dDIvk1ZNV1hvp7AKc5A5ZF47/Xf55VUBklBcRdiHRe3K9zn
+         aQSikGf/tOFIzxHPmEWt85ed5kax60dpiCgtZ6Mk8Tuolnl04Yq+owA7fLWVzASLykJA
+         220Xaxx/irxDYx5r7XRf4J6yEUH95aIN97zVVZMGvJGObAEG82uX6lMPmRprmrG8ZJaZ
+         MeJQ==
+X-Gm-Message-State: AOAM533eKH5NIaWFWnQqwBowKBoNDL9faVrq5c027bDTQzF69qYKcnHn
+	zXbO+ko5kCITVGM0BlnPoW9qoQ==
 X-Google-Smtp-Source: 
- ABdhPJypl/SyPvHzJfunuOWBB+ndGJ/h8idNSJ5JbHOeqGe8oXf43wED7sTE3TV5ktj9dQoVKk8l0Q==
-X-Received: by 2002:a17:902:b588:b0:143:b732:834 with SMTP id
- a8-20020a170902b58800b00143b7320834mr4395242pls.22.1636819695820;
-        Sat, 13 Nov 2021 08:08:15 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::7905])
+ ABdhPJxhSCzpHlLPnjnBeEbjyir0FXSa7LI+9YLgXxOkfkXIE3hYxl9qoPf/H7mPBAfVV84zb4FksA==
+X-Received: by 2002:a05:600c:a55:: with SMTP id
+ c21mr44362241wmq.191.1636820872186;
+        Sat, 13 Nov 2021 08:27:52 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4f1d:7b2:7d47:57f5?
+ ([2001:8b0:aba:5f3c:4f1d:7b2:7d47:57f5])
         by smtp.gmail.com with ESMTPSA id
- z22sm9854045pfe.93.2021.11.13.08.08.15
+ o3sm16305194wms.10.2021.11.13.08.27.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Nov 2021 08:08:15 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/2] python3-pygobject: Do not add -Dintrospection
-Date: Sat, 13 Nov 2021 08:08:13 -0800
-Message-Id: <20211113160813.2011818-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211113160813.2011818-1-raj.khem@gmail.com>
-References: <20211113160813.2011818-1-raj.khem@gmail.com>
+        Sat, 13 Nov 2021 08:27:51 -0800 (PST)
+Message-ID: 
+ <ba2b422b552fa9690698041e4b8199a115b2a3dd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python-numpy: move recipe to python directory
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com
+Date: Sat, 13 Nov 2021 16:27:49 +0000
+In-Reply-To: <20211113134505.353043-1-yi.zhao@windriver.com>
+References: <20211113134505.353043-1-yi.zhao@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Nov 2021 16:08:17 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Nov 2021 16:27:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158246
+ https://lists.openembedded.org/g/openembedded-core/message/158247
 
-This also reverts commit 9c0cc06a3d857124c0e1c1c9342f79ba5a3b10bc.
+On Sat, 2021-11-13 at 21:45 +0800, Yi Zhao wrote:
+> This recipe had been moved out from python directory since 2016[1] in
+> order to share patches between python2 and python3. But now there is no
+> reason to keep it in its own directory as we only keep python3-nump.
+> Move it back to python directory.
+> 
+> [1] https://git.openembedded.org/openembedded-core/commit/?id=9bffe2f9fb4ce6c0b265f27e5b484fbe076c6349
+> 
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  ...01-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch | 0
+>  .../python3-numpy}/0001-numpy-core-Define-RISCV-32-support.patch | 0
+>  .../{python-numpy/files => python/python3-numpy}/run-ptest       | 0
+>  .../{python-numpy => python}/python3-numpy_1.21.4.bb             | 1 +
+>  4 files changed, 1 insertion(+)
+>  rename meta/recipes-devtools/{python-numpy/files => python/python3-numpy}/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch (100%)
+>  rename meta/recipes-devtools/{python-numpy/files => python/python3-numpy}/0001-numpy-core-Define-RISCV-32-support.patch (100%)
+>  rename meta/recipes-devtools/{python-numpy/files => python/python3-numpy}/run-ptest (100%)
+>  rename meta/recipes-devtools/{python-numpy => python}/python3-numpy_1.21.4.bb (98%)
+> 
+> diff --git a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+> rename to meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+> diff --git a/meta/recipes-devtools/python-numpy/files/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/python-numpy/files/0001-numpy-core-Define-RISCV-32-support.patch
+> rename to meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
+> diff --git a/meta/recipes-devtools/python-numpy/files/run-ptest b/meta/recipes-devtools/python/python3-numpy/run-ptest
+> similarity index 100%
+> rename from meta/recipes-devtools/python-numpy/files/run-ptest
+> rename to meta/recipes-devtools/python/python3-numpy/run-ptest
+> diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.21.4.bb b/meta/recipes-devtools/python/python3-numpy_1.21.4.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/python-numpy/python3-numpy_1.21.4.bb
+> rename to meta/recipes-devtools/python/python3-numpy_1.21.4.bb
+> index 8988a5bc39..a3ea4ab5aa 100644
+> --- a/meta/recipes-devtools/python-numpy/python3-numpy_1.21.4.bb
+> +++ b/meta/recipes-devtools/python/python3-numpy_1.21.4.bb
+> @@ -47,6 +47,7 @@ RDEPENDS:${PN} = "${PYTHON_PN}-unittest \
+>                    ${PYTHON_PN}-ctypes \
+>                    ${PYTHON_PN}-threading \
+>                    ${PYTHON_PN}-multiprocessing \
+> +                  ${PYTHON_PN}-json \
+>  "
+>  RDEPENDS:${PN}-ptest += "${PYTHON_PN}-pytest \
+>                           ${PYTHON_PN}-hypothesis \
 
-meson 0.60 turns unknown options into hard errors
+Looks like there is a dependency being changed too which isn't in the commit
+message?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Squash revert and fix typo
+Cheers,
 
- .../python/python3-pygobject_3.42.0.bb              | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-index 7ff7c5b4dd5..b07969c5efb 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-@@ -6,18 +6,11 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- 
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase distutils3-base upstream-version-is-even
-+GIR_MESON_OPTION = ""
- 
--DEPENDS += "python3 glib-2.0"
--
--# Generating introspection data depends on a combination of native and target
--# introspection tools, and qemu to run the target tools.
--DEPENDS:append:class-target = " gobject-introspection gobject-introspection-native qemu-native prelink-native"
-+inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
- 
--# Even though introspection is disabled on -native, gobject-introspection package is still
--# needed for m4 macros.
--DEPENDS:append:class-native = " gobject-introspection-native"
--DEPENDS:append:class-nativesdk = " gobject-introspection-native"
-+DEPENDS += "python3 glib-2.0"
- 
- SRCNAME="pygobject"
- 
--- 
-2.33.1
+Richard
 
 
