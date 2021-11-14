@@ -1,119 +1,132 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3821C433EF
-	for <webhook@archiver.kernel.org>; Sun, 14 Nov 2021 19:51:17 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.13147.1636919476409225935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1776AC433F5
+	for <webhook@archiver.kernel.org>; Sun, 14 Nov 2021 19:58:36 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.13239.1636919914454082723
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Nov 2021 11:51:16 -0800
+ Sun, 14 Nov 2021 11:58:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VHpVejun;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id
- o4-20020a1c7504000000b0032cab7473caso10059231wmc.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bR/eMWlT;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id b40so37632153lfv.10
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Nov 2021 11:51:16 -0800 (PST)
+ Sun, 14 Nov 2021 11:58:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=CCcTnF1g+9pKIopBt6phXF4r7iSw67B5UuC2Ur7wvt4=;
-        b=VHpVejunaPXM3jfgDAF5LyuwmikVhhKKyXoBB2Q2vM4y1DDyjkFen+DwVtNmalBiSk
-         ZPSJxvHQNt96Z0SdKtNtukx8wKopO2nBRi6thGVBAqhXgT8wpZzCsA0BxIishBYMLvpW
-         7yZJ4F9j2gBg3UGQyOf5LiIZcmJGq8w8is7uQ=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=8tNJ5aJs8Uvh1kajAy9+v1K6olhBP4o/3C5dyESp5Hw=;
+        b=bR/eMWlTEiqXUTXxkgfT+Nr8iUAKDZb7YcM9gjx8nFV4PNX9mJohlrO0am9cgfYITT
+         /lWLWeLVog+pcF57uc4nH7Rhz6ekvEZIM+pEkobDDPEHtWEBIuRo4MC05sdT4Y0scR85
+         bKAQrFCNysA52Z0C76FHmMuV+f/OenvVbfMfrEdoY4HCS8gqymNM4NnDIE4Q6bLfSddb
+         ZKkP2ESmeV6PaGpexLsDJgC4C37srkT18NKfKEzDpZIyuGuBdGkAOtlhRdzi67IaDMAt
+         6ghr/RjOP6Q8tHbywYhDjwdnrHd6JCIdWYGM6tb3zUpDqPL2tegu1E826J9+AXMY/2pX
+         E8Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=CCcTnF1g+9pKIopBt6phXF4r7iSw67B5UuC2Ur7wvt4=;
-        b=ODaHAJ4KXXCH1nrNwF4cFf/lymPZFzTqtMG9g/ac+QrUuijOR8Eyia3N5J74LDjnAj
-         kNUZdmuF2cYZxj5L1HW493Y+OliFmiWmATAG98ddd5GM3T9iwBkkhCsu1eMpbHdDHyAM
-         rc7iTifr91N5+PqwwtgwgA8v+po+o3tigzUDSOKTU4O1pBsEZQoloCs0ProepITdiuJf
-         Pk5HjhbH1CUBR/xatuJmao0P++IkEi+R0RyK6F82sWAOe3Khs0Hdq9NgfqgFOXX/0PPQ
-         j+BgaxyQl4mSy0YPRluTP+Y4Bi9MioD9OwVkYoyQH7C5RYHeGO9X2YeIf/XDSVWG7mZ6
-         Vktg==
-X-Gm-Message-State: AOAM532ja2Ur9t5fBM+X2vIFSpOpYXFgX37jJo+tEDHlJ6AZJ2BqBM9j
-	H/GWkkgc7AN12S8yNmPEZQZ2ZA==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=8tNJ5aJs8Uvh1kajAy9+v1K6olhBP4o/3C5dyESp5Hw=;
+        b=YjMM7wiG0Yqf2FC3cXZM/a2ENWNputjB4PafPC9IGfzSWppgLe4ZGZ+sLv4UDeH2Jn
+         SMNNatx9B1BesErdnzdWwkqHslSLXGh10l3y2gaeMvkC76yDfMYRZTGM+b8PJ/VTDj9s
+         kb0YCqqf+djFmb6XcbqYuSUtIRuYGkgq/CEh730+XQu1TTxN31EKRL4L+erpEoLcNCwA
+         IcMhjDHYRBBUW4NkdqO2Omzrca9qhLZhJtkPwMeJej9A9qe3ujj9UNrhg4yyP8w8eCLH
+         RJJoUvcv8SyIBsBivYais4iZXm4XcAb61j9R1mXVExO/4FGtBAWJXs0tZHpQgBzbtJuk
+         7ybg==
+X-Gm-Message-State: AOAM530wXNS/PSI+HJ+z11epDBC+eiIGPq9oh6BjNLW5Jk83NZIZSRPQ
+	m5nNkvW8ZB7uFmGW5B80krY=
 X-Google-Smtp-Source: 
- ABdhPJzhU9uQlv6i1oXPntJgIxn8QP701JTVDFOqiFC+Aax0WpkQYJeKwPKlninVA+52f1l7jy7v2w==
-X-Received: by 2002:a05:600c:22d0:: with SMTP id
- 16mr14282575wmg.37.1636919474666;
-        Sun, 14 Nov 2021 11:51:14 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2532:5b3a:7e94:ed1b?
- ([2001:8b0:aba:5f3c:2532:5b3a:7e94:ed1b])
+ ABdhPJxj5nLO5D+QyRJjGIx2Q3SFX0aWTLtsVeOzthfcmQpzNgNzVnFqKaXZcbIGjvyBzgKc69xCeg==
+X-Received: by 2002:a05:6512:3b2a:: with SMTP id
+ f42mr29868437lfv.282.1636919912627;
+        Sun, 14 Nov 2021 11:58:32 -0800 (PST)
+Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
+ [37.247.29.68])
         by smtp.gmail.com with ESMTPSA id
- e8sm8381236wrr.26.2021.11.14.11.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 11:51:14 -0800 (PST)
-Message-ID: 
- <24dd6bb7c3d4bb755281b3697ed18c7116a5d101.camel@linuxfoundation.org>
-Subject: Re: [hardknott][PATCH] mklibs: remove recipes and class
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jacob Kroon <jacob.kroon@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 14 Nov 2021 19:51:13 +0000
-In-Reply-To: <c02ee82c-4d14-d704-6fa0-50578f9f746f@gmail.com>
-References: <20211114065008.3899-1-jacob.kroon@gmail.com>
-	 <dfc7b7fc105d153303d7d5933689d9b469fb5a22.camel@linuxfoundation.org>
-	 <c02ee82c-4d14-d704-6fa0-50578f9f746f@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ l4sm1077897ljg.60.2021.11.14.11.58.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Nov 2021 11:58:32 -0800 (PST)
+Message-ID: <ada55396-37c7-5c35-433a-71c98b319c14@gmail.com>
+Date: Sun, 14 Nov 2021 20:58:31 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [hardknott][PATCH] mklibs: remove recipes and class
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20211114065008.3899-1-jacob.kroon@gmail.com>
+ <dfc7b7fc105d153303d7d5933689d9b469fb5a22.camel@linuxfoundation.org>
+ <c02ee82c-4d14-d704-6fa0-50578f9f746f@gmail.com>
+ <24dd6bb7c3d4bb755281b3697ed18c7116a5d101.camel@linuxfoundation.org>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: 
+ <24dd6bb7c3d4bb755281b3697ed18c7116a5d101.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Nov 2021 19:51:17 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Nov 2021 19:58:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158264
+ https://lists.openembedded.org/g/openembedded-core/message/158265
 
-On Sun, 2021-11-14 at 20:47 +0100, Jacob Kroon wrote:
-> On 11/14/21 20:36, Richard Purdie wrote:
-> > On Sun, 2021-11-14 at 07:50 +0100, Jacob Kroon wrote:
-> > > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > 
-> > > This is not enabled or tested by default, and has never been
-> > > ported to python 3 upstream[1], which means it doesn't work at all
-> > > with plain poky. If you need it, please put it in a separate layer
-> > > and/or modernize to work with py3.
-> > > 
-> > > https://salsa.debian.org/installer-team/mklibs/-/blob/master/src/mklibs
-> > > 
-> > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > (cherry picked from commit 908df863b419d1cad7317153101fc827e7e3a354)
-> > 
-> > What issue is it causing in hardknott? Normally we don't backport invasive
-> > changes like that...
-> > 
+On 11/14/21 20:51, Richard Purdie wrote:
+> On Sun, 2021-11-14 at 20:47 +0100, Jacob Kroon wrote:
+>> On 11/14/21 20:36, Richard Purdie wrote:
+>>> On Sun, 2021-11-14 at 07:50 +0100, Jacob Kroon wrote:
+>>>> From: Alexander Kanavin <alex.kanavin@gmail.com>
+>>>>
+>>>> This is not enabled or tested by default, and has never been
+>>>> ported to python 3 upstream[1], which means it doesn't work at all
+>>>> with plain poky. If you need it, please put it in a separate layer
+>>>> and/or modernize to work with py3.
+>>>>
+>>>> https://salsa.debian.org/installer-team/mklibs/-/blob/master/src/mklibs
+>>>>
+>>>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>>>> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>> (cherry picked from commit 908df863b419d1cad7317153101fc827e7e3a354)
+>>>
+>>> What issue is it causing in hardknott? Normally we don't backport invasive
+>>> changes like that...
+>>>
+>>
+>> The problem is that mklibs-native doesn't build with gcc 11, and
+>> "image-mklibs" was in USER_CLASSES by default in hardknott.
+>>
+>> I sent a patch to fix mklibs build here:
+>>
+>> https://lists.openembedded.org/g/openembedded-core/message/151982
+>>
+>> but after some discussions we just decided to drop mklibs support
+>> entirely with the proposed patch.
 > 
-> The problem is that mklibs-native doesn't build with gcc 11, and 
-> "image-mklibs" was in USER_CLASSES by default in hardknott.
+> ok, that is something we should fix. My worry is that the backport as is will
+> need everyone to update their local.conf since the class will no longer be there
+> and it will throw errors if people try and include it. This isn't what people
+> expect from a point release.
 > 
-> I sent a patch to fix mklibs build here:
+> Could we just remove it from local.conf in hardknott? That should solve the
+> issue but reduce risk to anyone who has hardknott already working fine with an
+> older gcc.
 > 
-> https://lists.openembedded.org/g/openembedded-core/message/151982
-> 
-> but after some discussions we just decided to drop mklibs support 
-> entirely with the proposed patch.
 
-ok, that is something we should fix. My worry is that the backport as is will
-need everyone to update their local.conf since the class will no longer be there
-and it will throw errors if people try and include it. This isn't what people
-expect from a point release.
+Yeah I'm ok with that, I'm even ok with leaving it as it is :-)
 
-Could we just remove it from local.conf in hardknott? That should solve the
-issue but reduce risk to anyone who has hardknott already working fine with an
-older gcc.
+Or perhaps we should forward-port
 
-Cheers,
+ef8b7946b4793db653ef7dd716e1d3f919a84725
 
-Richard
+in dunfell branch to hardknott, which also should take care of it.
 
+/Jacob
 
