@@ -1,105 +1,95 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCEEC433F5
-	for <webhook@archiver.kernel.org>; Sun, 14 Nov 2021 15:33:29 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.10272.1636904008082941616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9787BC433FE
+	for <webhook@archiver.kernel.org>; Sun, 14 Nov 2021 16:52:39 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.11137.1636908759182327247
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Nov 2021 07:33:28 -0800
+ Sun, 14 Nov 2021 08:52:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=QCI4TiOa;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id x64so12846847pfd.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iVOYs2Dp;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id q126so12491051pgq.13
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Nov 2021 07:33:28 -0800 (PST)
+ Sun, 14 Nov 2021 08:52:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=O0h9g0OBSqrmjJJqbumL8FFxGN+jRFMmKhXDLBfjQXk=;
-        b=QCI4TiOaDaeJTQ/dCxjhdUMy9E3KMdCk2x9VSqNKXRl9iA0HTPQLuNBk4W04zIe9Yt
-         VZcUNjrupz4MqJ5HE58yWf1o5l3GH658dNgemBkYkOZvbmv+U03wepgSOARJUmoa8oev
-         AIqQhMspd+FeUf6JhiLZkyBNNOYWn34r58jsjGp2Q5a14niLpLJuhIcg+MQzvUlKIyAe
-         9qVqDJqoV2QDk8vl2O7LDw8R8Om8lCluij0vHY3mo0x0lodW5Ih8cwM3iApYSPGJ+N9R
-         ecalI5HQrp0nYuRSNalrH3ic5YNANrTuDsg0Kbk6uYRMZ98SZqEPeMdJi5EK/nxyY+we
-         MJZQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=KMzVbb07oAxPIDYpYBwRTGK8B91OPXW5kUPD8K/L3fM=;
+        b=iVOYs2DpOPCU6Npy+QaFFctk2GQeaw/uO+SGEjQdvG2fBkawhn4ls+U/IpHfIIOTmr
+         pVMuyEXVQ2RAwLWIC4nmybaf9sH6T+UE8u7kye5ErfvIe3511q1mWDc1IoTqlrw9PiMy
+         nXj32uHxZiGs2az+ojJ5FG/joQdJO2S27oX/4TJbwQ0MOpYYwpl10bRg8gPtVRx9mb33
+         rEMyvQDwF3BwixDcZJAnf498ysgW+vcOX7/ihrN9OpLnOipJ+e2T1R3eEIatP6bogiAH
+         SwwZdTuXAZgXSh+NY0CnacF5CuEdSQ7gFUKU0zZCR5PmqqJKDbjqsmeew+VOC9T9Joie
+         /A6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=O0h9g0OBSqrmjJJqbumL8FFxGN+jRFMmKhXDLBfjQXk=;
-        b=XyvgikAGOU4eDSDN3dLIC3FWhx1weSkJOsA5OfwFEOIcAOLO4J+5Bp+wLacEAZF56Q
-         X7Rs3QxsZhA3NK5JPHHJHzX3igC+hH5RWTjOpi+TcemVOZ2Xlr7nfuVKf7WXfrzVMwQS
-         dGRl4UsvT2zz60Oe0SsHFizgAK72ZRbS4/l/rlXu5OsOvDx/xz0XemDymJGG2AIqCjTL
-         ah5Z5clBug2D63sazNK8v7brWuuCftZQghQbDQTrThg2fVPPrY42xYzzmCeLgqxDih+A
-         RTrozcvA9QyUmcMXVKEe/zf7EQWqgufVWKQ5b9HhDNIpcmhNcdszM+Drd7+mZ4o3vIfG
-         5VRA==
-X-Gm-Message-State: AOAM532FXvU1TmLX/5J0HPeiKPVBq5zqSFOVOAfUJ17ipKoYfk1nCrs/
-	Sa8S1HY1IXb3/rJMPo1ZEAzw8gon1otAZ0nB8f0=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KMzVbb07oAxPIDYpYBwRTGK8B91OPXW5kUPD8K/L3fM=;
+        b=5vTZAtZgyXMskpaVSaHGDMei6TwWcUlnUYcse8ZnhMfqP5VVPd5ZUPpJhWfURBiXsd
+         M+ijzzu2V2cAS/Z8VF1i+EMLtbs4P1bPwCGpsEKHFDUjFMrIJ8YTIQ96j3OIdjcL4nwS
+         14EBT3qa7O3NrfmMLjp0aOwa671dOFA2dYy5Q6CJnENuum5X18YlLRmIOKiBUB5WFuzg
+         NLkFRdo02Jz/jQypFiyGeK1UHaiRNFAflAJ5AsfyMssaI3M1n3Zyf5aVH7H0ot81R7Sk
+         Ru3InUuGWIj+lkoXwxiwxqCCOJYM/a4ymi0IvPKTnhoAJLH5wtrNApf1Xsrq2GN+PG1G
+         5/Lw==
+X-Gm-Message-State: AOAM531kYiPBdMw8xrOGHorTIPY3ZIFIKdzwc8W9sr6aGRqEch7QdHtY
+	Q8JiIMGV4hJG/t/flYeZEAvLuahRlEww6Q==
 X-Google-Smtp-Source: 
- ABdhPJz3b8H2dGyrAv/WlgNiAOPmJ1xek83+fST6PWXoQyU38PCy+tGtypMvfZnNrbrdk8JRcpRMWw==
-X-Received: by 2002:a63:42:: with SMTP id 63mr19771562pga.127.1636904006969;
-        Sun, 14 Nov 2021 07:33:26 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ ABdhPJw+IES9Z94YzacRwJcIP0a7v0lAhpYZIHmftIgOuqxYJ9QV/ryCAM4dWDaGV8xLQo+nzE7dfA==
+X-Received: by 2002:a63:4f44:: with SMTP id p4mr12080023pgl.398.1636908758474;
+        Sun, 14 Nov 2021 08:52:38 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::7905])
         by smtp.gmail.com with ESMTPSA id
- i68sm11885881pfc.158.2021.11.14.07.33.26
+ a8sm13395625pfv.176.2021.11.14.08.52.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 07:33:26 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 86C799603EA; Sun, 14 Nov 2021 05:33:24 -1000 (HST)
-Subject: OE-core CVE metrics for honister on Sun 14 Nov 2021 05:30:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20211114153324.86C799603EA@nuc.router0800d9.com>
-Date: Sun, 14 Nov 2021 05:33:24 -1000 (HST)
+        Sun, 14 Nov 2021 08:52:37 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] vulkan-samples: Enable for architectures where it builds
+Date: Sun, 14 Nov 2021 08:52:35 -0800
+Message-Id: <20211114165235.3053064-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211114165235.3053064-1-raj.khem@gmail.com>
+References: <20211114165235.3053064-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Nov 2021 15:33:29 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Nov 2021 16:52:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158259
+ https://lists.openembedded.org/g/openembedded-core/message/158261
 
-Branch: honister
+With last upgade it has stopped working on arm/mips/x86/rv32
+basically all 32bit architectures. Until this is fixed enable it
+for architectures where its known to build now.
 
-New this week: 6 CVEs
-CVE-2021-3927: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3927 *
-CVE-2021-3928: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3928 *
-CVE-2021-41771: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41771 *
-CVE-2021-41772: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41772 *
-CVE-2021-43396: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-43396 *
-CVE-2021-43400: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-43400 *
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Removed this week: 0 CVEs
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 81d8c6faf91..1e45e9f04bf 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -19,7 +19,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ S = "${WORKDIR}/git"
+ 
+ REQUIRED_DISTRO_FEATURES = 'vulkan'
+-COMPATIBLE_HOST:x86 = "null"
++COMPATIBLE_HOST = "(x86_64|aarch64|mips64|powerpc64|riscv64).*-linux"
+ 
+ inherit cmake features_check
+ 
+-- 
+2.33.1
 
-Full list:  Found 24 unpatched CVEs
-CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-25219: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25219 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-3796: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3796 *
-CVE-2021-38297: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
-CVE-2021-3872: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3872 *
-CVE-2021-3875: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3875 *
-CVE-2021-3903: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3903 *
-CVE-2021-3927: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3927 *
-CVE-2021-3928: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3928 *
-CVE-2021-39537: ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39537 *
-CVE-2021-41617: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41617 *
-CVE-2021-41771: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41771 *
-CVE-2021-41772: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41772 *
-CVE-2021-42762: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
-CVE-2021-43396: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-43396 *
-CVE-2021-43400: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-43400 *
 
