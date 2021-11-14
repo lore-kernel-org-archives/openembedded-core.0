@@ -2,131 +2,533 @@ Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1776AC433F5
-	for <webhook@archiver.kernel.org>; Sun, 14 Nov 2021 19:58:36 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.13239.1636919914454082723
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E8DC433F5
+	for <webhook@archiver.kernel.org>; Sun, 14 Nov 2021 20:04:57 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web12.13377.1636920296089658278
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Nov 2021 11:58:34 -0800
+ Sun, 14 Nov 2021 12:04:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bR/eMWlT;
- spf=pass (domain: gmail.com, ip: 209.85.167.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iiS4Z4GI;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45,
  mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id b40so37632153lfv.10
+Received: by mail-lf1-f45.google.com with SMTP id m27so13276624lfj.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Nov 2021 11:58:34 -0800 (PST)
+ Sun, 14 Nov 2021 12:04:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=8tNJ5aJs8Uvh1kajAy9+v1K6olhBP4o/3C5dyESp5Hw=;
-        b=bR/eMWlTEiqXUTXxkgfT+Nr8iUAKDZb7YcM9gjx8nFV4PNX9mJohlrO0am9cgfYITT
-         /lWLWeLVog+pcF57uc4nH7Rhz6ekvEZIM+pEkobDDPEHtWEBIuRo4MC05sdT4Y0scR85
-         bKAQrFCNysA52Z0C76FHmMuV+f/OenvVbfMfrEdoY4HCS8gqymNM4NnDIE4Q6bLfSddb
-         ZKkP2ESmeV6PaGpexLsDJgC4C37srkT18NKfKEzDpZIyuGuBdGkAOtlhRdzi67IaDMAt
-         6ghr/RjOP6Q8tHbywYhDjwdnrHd6JCIdWYGM6tb3zUpDqPL2tegu1E826J9+AXMY/2pX
-         E8Yg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EXUwlSRgf56RUuf+UzE52xUcoZOVKlmxdCnqCSWttks=;
+        b=iiS4Z4GIfxjR3H5BsQTlBZN7GF+Gu4ZnQ9dkk778qDsaP9mthQPwydPiggOxK+5yik
+         g62aaIGWZ8TF6k19bQD1E+Dnjr3GF86dmkEURTgbi1UqUW8TKflPs078W31lU348EhID
+         bPV+P1S2wYgpQNfk7S8JjaVLwiUZh5VuoG1pJLLtjjk/Sm98aYcZoMyoqQWax/NhYU9M
+         bSK80nh5VxlJ5kYyZnUNIYZ08NNnnu4QEFax7ZZ6GBqExEr17cz49l1gQ0+mvvxmD/wV
+         gUVrGEeo7Mw06bJM2KseiZ9ehc9XV25gZdWiX+nc3RadNJbBaCjCRChZmXVnbByzGdOl
+         0E2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8tNJ5aJs8Uvh1kajAy9+v1K6olhBP4o/3C5dyESp5Hw=;
-        b=YjMM7wiG0Yqf2FC3cXZM/a2ENWNputjB4PafPC9IGfzSWppgLe4ZGZ+sLv4UDeH2Jn
-         SMNNatx9B1BesErdnzdWwkqHslSLXGh10l3y2gaeMvkC76yDfMYRZTGM+b8PJ/VTDj9s
-         kb0YCqqf+djFmb6XcbqYuSUtIRuYGkgq/CEh730+XQu1TTxN31EKRL4L+erpEoLcNCwA
-         IcMhjDHYRBBUW4NkdqO2Omzrca9qhLZhJtkPwMeJej9A9qe3ujj9UNrhg4yyP8w8eCLH
-         RJJoUvcv8SyIBsBivYais4iZXm4XcAb61j9R1mXVExO/4FGtBAWJXs0tZHpQgBzbtJuk
-         7ybg==
-X-Gm-Message-State: AOAM530wXNS/PSI+HJ+z11epDBC+eiIGPq9oh6BjNLW5Jk83NZIZSRPQ
-	m5nNkvW8ZB7uFmGW5B80krY=
+        bh=EXUwlSRgf56RUuf+UzE52xUcoZOVKlmxdCnqCSWttks=;
+        b=FACin/umigi+whA8L926A8LCkQt4JcKJlRkQn/0s1mSvyllBFExSDf2Xpd7DihNe6X
+         mUc/FM7d2Ilr40ZW7p857o90KzhfdyThho27FYnJ225p4GUOXH75TlJlmUq9K5j2lPEq
+         mq4HmazhXWpQAYeN2Z+EP6+aYGZI/6mhq8OljrBEUnRwgGNHJ3bPLuq1J9LDOz5yO5J/
+         JCqLmpdAsX+FfRvQTgv3fq9Chm6dDYlnwOh/ykJle2GfjPO74uuhzmemLMaWPA0Pi2vU
+         Ix66H7YDJSzildzANcv7Ody1OrcFlCl1v2FkVNtwlLVq6cscj8TjyUAv/5XPMlHOwcnE
+         e8KA==
+X-Gm-Message-State: AOAM532vGSJ4Aff7YCKbmbYgN49gCEMg1HXc7sCe6bSqX2p82GXliGVD
+	/lETfaDwEo7LhGRaSjSUhJ6oGKre0WTxXTbo
 X-Google-Smtp-Source: 
- ABdhPJxj5nLO5D+QyRJjGIx2Q3SFX0aWTLtsVeOzthfcmQpzNgNzVnFqKaXZcbIGjvyBzgKc69xCeg==
-X-Received: by 2002:a05:6512:3b2a:: with SMTP id
- f42mr29868437lfv.282.1636919912627;
-        Sun, 14 Nov 2021 11:58:32 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
+ ABdhPJyattvYmkclcoCG6HqhFx6MUuK0Zgb/Nw0hXJUQIKcr5WnBDLQ+m0NF1bQvZ8rqm19kGyKVjQ==
+X-Received: by 2002:a19:4312:: with SMTP id
+ q18mr30581550lfa.299.1636920293777;
+        Sun, 14 Nov 2021 12:04:53 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
  [37.247.29.68])
         by smtp.gmail.com with ESMTPSA id
- l4sm1077897ljg.60.2021.11.14.11.58.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Nov 2021 11:58:32 -0800 (PST)
-Message-ID: <ada55396-37c7-5c35-433a-71c98b319c14@gmail.com>
-Date: Sun, 14 Nov 2021 20:58:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [hardknott][PATCH] mklibs: remove recipes and class
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20211114065008.3899-1-jacob.kroon@gmail.com>
- <dfc7b7fc105d153303d7d5933689d9b469fb5a22.camel@linuxfoundation.org>
- <c02ee82c-4d14-d704-6fa0-50578f9f746f@gmail.com>
- <24dd6bb7c3d4bb755281b3697ed18c7116a5d101.camel@linuxfoundation.org>
+ n15sm1264885ljm.32.2021.11.14.12.04.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Nov 2021 12:04:53 -0800 (PST)
 From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: 
- <24dd6bb7c3d4bb755281b3697ed18c7116a5d101.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: openembedded-core@lists.openembedded.org
+Cc: Andrej Valek <andrej.valek@siemens.com>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [hardknott][PATCH] mklibs-native: drop deprecated cpp17 exceptions
+Date: Sun, 14 Nov 2021 21:04:34 +0100
+Message-Id: <20211114200434.76866-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Nov 2021 19:58:36 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Nov 2021 20:04:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158265
+ https://lists.openembedded.org/g/openembedded-core/message/158266
 
-On 11/14/21 20:51, Richard Purdie wrote:
-> On Sun, 2021-11-14 at 20:47 +0100, Jacob Kroon wrote:
->> On 11/14/21 20:36, Richard Purdie wrote:
->>> On Sun, 2021-11-14 at 07:50 +0100, Jacob Kroon wrote:
->>>> From: Alexander Kanavin <alex.kanavin@gmail.com>
->>>>
->>>> This is not enabled or tested by default, and has never been
->>>> ported to python 3 upstream[1], which means it doesn't work at all
->>>> with plain poky. If you need it, please put it in a separate layer
->>>> and/or modernize to work with py3.
->>>>
->>>> https://salsa.debian.org/installer-team/mklibs/-/blob/master/src/mklibs
->>>>
->>>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->>>> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
->>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>> (cherry picked from commit 908df863b419d1cad7317153101fc827e7e3a354)
->>>
->>> What issue is it causing in hardknott? Normally we don't backport invasive
->>> changes like that...
->>>
->>
->> The problem is that mklibs-native doesn't build with gcc 11, and
->> "image-mklibs" was in USER_CLASSES by default in hardknott.
->>
->> I sent a patch to fix mklibs build here:
->>
->> https://lists.openembedded.org/g/openembedded-core/message/151982
->>
->> but after some discussions we just decided to drop mklibs support
->> entirely with the proposed patch.
-> 
-> ok, that is something we should fix. My worry is that the backport as is will
-> need everyone to update their local.conf since the class will no longer be there
-> and it will throw errors if people try and include it. This isn't what people
-> expect from a point release.
-> 
-> Could we just remove it from local.conf in hardknott? That should solve the
-> issue but reduce risk to anyone who has hardknott already working fine with an
-> older gcc.
-> 
+From: Andrej Valek <andrej.valek@siemens.com>
 
-Yeah I'm ok with that, I'm even ok with leaving it as it is :-)
+gcc11 has -std=gnu++17 as default. Remove deprecated C++17 exceptions based
+on http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html.
 
-Or perhaps we should forward-port
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit ef8b7946b4793db653ef7dd716e1d3f919a84725)
+---
+ ...ecated-exception-specification-cpp17.patch | 431 ++++++++++++++++++
+ .../mklibs/mklibs-native_0.1.44.bb            |   1 +
+ 2 files changed, 432 insertions(+)
+ create mode 100644 meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
 
-ef8b7946b4793db653ef7dd716e1d3f919a84725
-
-in dunfell branch to hardknott, which also should take care of it.
-
-/Jacob
+diff --git a/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+new file mode 100644
+index 0000000000..f96cc7d302
+--- /dev/null
++++ b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+@@ -0,0 +1,431 @@
++From 597c7a8333df84a87cc48fb8477b603ffbf372a6 Mon Sep 17 00:00:00 2001
++From: Andrej Valek <andrej.valek@siemens.com>
++Date: Mon, 23 Aug 2021 12:45:11 +0200
++Subject: [PATCH] feat(cpp17): remove deprecated exception specifications for
++ C++ 17
++
++Upstream-Status: Submitted [https://salsa.debian.org/installer-team/mklibs/-/merge_requests/2]
++
++based on: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
++
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++---
++ src/mklibs-readelf/elf.cpp      | 48 ++++++++++++++++++++---------------------
++ src/mklibs-readelf/elf.hpp      | 18 ++++++++--------
++ src/mklibs-readelf/elf_data.hpp | 36 +++++++++++++++----------------
++ 3 files changed, 51 insertions(+), 51 deletions(-)
++
++diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
++index 0e4c0f3..2e6d0f6 100644
++--- a/src/mklibs-readelf/elf.cpp
+++++ b/src/mklibs-readelf/elf.cpp
++@@ -36,7 +36,7 @@ file::~file () throw ()
++     delete *it;
++ }
++ 
++-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
+++file *file::open (const char *filename) throw ()
++ {
++   struct stat buf;
++   int fd;
++@@ -72,7 +72,7 @@ file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_erro
++ }
++ 
++ template<typename _class>
++-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+++file *file::open_class(uint8_t *mem, size_t len) throw ()
++ {
++   switch (mem[EI_DATA])
++   {
++@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::run
++ }
++ 
++ template <typename _class, typename _data>
++-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+++file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw ()
++ : file(mem, len)
++ {
++   if (mem[EI_CLASS] != _class::id)
++@@ -190,7 +190,7 @@ section_data<_class, _data>::section_data(Shdr *shdr, uint8_t *mem) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
+++void section_data<_class, _data>::update(const file &file) throw ()
++ {
++   const section_type<section_type_STRTAB> &section =
++     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
++@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~section_type() throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data>(header, mem)
++ {
++   if (this->type != SHT_DYNAMIC)
++@@ -221,7 +221,7 @@ section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, ui
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update(file);
++ 
++@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~section_type() throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data>(header, mem)
++ {
++   if (this->type != SHT_DYNSYM)
++@@ -260,7 +260,7 @@ section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uin
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update (file);
++ 
++@@ -285,7 +285,7 @@ const version_definition *section_type<section_type_GNU_VERDEF>::get_version_def
++ }
++ 
++ template <typename _class, typename _data>
++-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data>(header, mem)
++ {
++   if (this->type != SHT_GNU_verdef)
++@@ -307,7 +307,7 @@ section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header,
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update(file);
++ 
++@@ -333,7 +333,7 @@ const version_requirement_entry *section_type<section_type_GNU_VERNEED>::get_ver
++ 
++ template <typename _class, typename _data>
++ section_real<_class, _data, section_type_GNU_VERNEED>::
++-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data> (header, mem)
++ {
++   if (this->type != SHT_GNU_verneed)
++@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update(file);
++ 
++@@ -372,7 +372,7 @@ void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &f
++ 
++ template <typename _class, typename _data>
++ section_real<_class, _data, section_type_GNU_VERSYM>::
++-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real (Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data> (header, mem)
++ {
++   if (this->type != SHT_GNU_versym)
++@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_data (Phdr *phdr, uint8_t *mem) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
+++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw ()
++ : segment_data<_class, _data> (header, mem)
++ {
++   if (this->type != PT_INTERP)
++@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_data (Dyn *dyn) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   if (is_string)
++     val_string = section.get_string(val);
++ }
++ 
++-std::string symbol::get_version () const throw (std::bad_alloc)
+++std::string symbol::get_version () const throw ()
++ {
++   if (verneed)
++     return verneed->get_name();
++@@ -445,7 +445,7 @@ std::string symbol::get_version () const throw (std::bad_alloc)
++   return "Base";
++ }
++ 
++-std::string symbol::get_version_file () const throw (std::bad_alloc)
+++std::string symbol::get_version_file () const throw ()
++ {
++   if (verneed)
++     return verneed->get_file();
++@@ -453,7 +453,7 @@ std::string symbol::get_version_file () const throw (std::bad_alloc)
++   return "None";
++ }
++ 
++-std::string symbol::get_name_version () const throw (std::bad_alloc)
+++std::string symbol::get_name_version () const throw ()
++ {
++   std::string ver;
++ 
++@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data (Sym *sym) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   name_string = section.get_string(name);
++ }
++ 
++ template <typename _class, typename _data>
++-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
+++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw ()
++ {
++   if (!file.get_section_GNU_VERSYM())
++     return;
++@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::version_definition_data (Verdef *verdef)
++ }
++ 
++ template <typename _class, typename _data>
++-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
++     names_string.push_back(section.get_string(*it));
++ }
++ 
++-version_requirement::version_requirement() throw (std::bad_alloc)
+++version_requirement::version_requirement() throw ()
++ : file_string("None")
++ { }
++ 
++@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>::version_requirement_data (Verneed *vern
++ 
++ template <typename _class, typename _data>
++ void version_requirement_data<_class, _data>::
++-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   file_string = section.get_string(file);
++ 
++@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *vna, const version_requirement &verneed)
++ 
++ template <typename _class, typename _data>
++ void version_requirement_entry_data<_class, _data>::
++-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   name_string = section.get_string(name);
++ }
++diff --git a/src/mklibs-readelf/elf.hpp b/src/mklibs-readelf/elf.hpp
++index 70e61cd..afb0c9e 100644
++--- a/src/mklibs-readelf/elf.hpp
+++++ b/src/mklibs-readelf/elf.hpp
++@@ -49,7 +49,7 @@ namespace Elf
++       const uint16_t get_shstrndx() const throw () { return shstrndx; }
++ 
++       const std::vector<section *> get_sections() const throw () { return sections; };
++-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
+++      const section &get_section(unsigned int i) const throw () { return *sections.at(i); };
++       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
++       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
++       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
++@@ -59,13 +59,13 @@ namespace Elf
++       const std::vector<segment *> get_segments() const throw () { return segments; };
++       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
++ 
++-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
+++      static file *open(const char *filename) throw ();
++ 
++     protected:
++-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
+++      file(uint8_t *mem, size_t len) throw () : mem(mem), len(len) { }
++ 
++       template<typename _class>
++-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
+++        static file *open_class(uint8_t *, size_t) throw ();
++ 
++       uint16_t type;
++       uint16_t machine;
++@@ -128,7 +128,7 @@ namespace Elf
++     class section_type<section_type_STRTAB> : public virtual section
++     {
++       public:
++-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
+++        std::string get_string(uint32_t offset) const throw ()
++         {
++           return std::string(reinterpret_cast<const char *> (mem + offset));
++         }
++@@ -263,10 +263,10 @@ namespace Elf
++       uint8_t get_bind () const throw () { return bind; }
++       uint8_t get_type () const throw () { return type; }
++       const std::string &get_name_string() const throw () { return name_string; }
++-      std::string get_version() const throw (std::bad_alloc);
++-      std::string get_version_file() const throw (std::bad_alloc);
+++      std::string get_version() const throw ();
+++      std::string get_version_file() const throw ();
++       uint16_t get_version_data() const throw () { return versym; }
++-      std::string get_name_version() const throw (std::bad_alloc);
+++      std::string get_name_version() const throw ();
++ 
++     protected:
++       uint32_t name;
++@@ -305,7 +305,7 @@ namespace Elf
++   class version_requirement
++   {
++     public:
++-      version_requirement() throw (std::bad_alloc);
+++      version_requirement() throw ();
++       virtual ~version_requirement () throw () { }
++ 
++       const std::string &get_file() const throw () { return file_string; }
++diff --git a/src/mklibs-readelf/elf_data.hpp b/src/mklibs-readelf/elf_data.hpp
++index 05effee..3871982 100644
++--- a/src/mklibs-readelf/elf_data.hpp
+++++ b/src/mklibs-readelf/elf_data.hpp
++@@ -94,7 +94,7 @@ namespace Elf
++     class file_data : public file
++     {
++       public:
++-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
+++        file_data(uint8_t *, size_t len) throw ();
++ 
++         const uint8_t get_class() const throw () { return _class::id; }
++         const uint8_t get_data() const throw () { return _data::id; }
++@@ -109,7 +109,7 @@ namespace Elf
++       public:
++         section_data(Shdr *, uint8_t *) throw ();
++ 
++-        virtual void update(const file &) throw (std::bad_alloc);
+++        virtual void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data, typename _type>
++@@ -133,9 +133,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -147,9 +147,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -161,9 +161,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -175,9 +175,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -189,7 +189,7 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -220,7 +220,7 @@ namespace Elf
++         typedef typename _elfdef<_class>::Phdr Phdr;
++ 
++       public:
++-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
+++        segment_real (Phdr *, uint8_t *) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -232,7 +232,7 @@ namespace Elf
++       public:
++         dynamic_data (Dyn *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -244,8 +244,8 @@ namespace Elf
++       public:
++         symbol_data (Sym *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
++-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+++        virtual void update_version (const file &, uint16_t) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -257,7 +257,7 @@ namespace Elf
++ 
++         version_definition_data (Verdef *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -269,7 +269,7 @@ namespace Elf
++ 
++         version_requirement_data (Verneed *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -280,7 +280,7 @@ namespace Elf
++ 
++         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ }
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+index 1784af1f4c..07142e57e0 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
+ 	file://avoid-failure-on-symbol-provided-by-application.patch \
+ 	file://show-GNU-unique-symbols-as-provided-symbols.patch \
+ 	file://fix_cross_compile.patch \
++	file://remove-deprecated-exception-specification-cpp17.patch \
+ "
+ 
+ SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
 
