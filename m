@@ -1,161 +1,204 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C02C433F5
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 15:39:49 +0000 (UTC)
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com
- [195.245.230.68])
- by mx.groups.io with SMTP id smtpd.web11.23902.1636990787512279001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BFEC433EF
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 16:19:09 +0000 (UTC)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web11.24472.1636993148972141427
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 07:39:48 -0800
+ Mon, 15 Nov 2021 08:19:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=h0VEtmA0;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.68,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1636990785; i=@fujitsu.com;
-	bh=lqQDeWbawi9jogFkQc5vFysOdqkvm6SYFnVuqNZOR4w=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=h0VEtmA0Meeod9YWzGG1+d4svKWiE1Y31M9Xd6CGwDfMFLfAFuLMHdmBxNlkOrmdQ
-	 QOTqrlKtEIrhtUhu1CdNySTCZL8ZacXUHvijJTQ6EywTfIDr6PPXxFfcHsW2oJ4Sig
-	 v1mZRzP8OdB2jN2lPn7rjnwZah4HZToU5qPSM0ovLNEuGoL2F95FVu1Gf1h40mW9/J
-	 BTgPapU4TBDvd91A4jGovBAYjg9L/zPR3FymA4/4LGMDZz35ntNt26VrlQ8w5cMWuT
-	 f3TNcAWWQ2gAxDQ5Fenc+y5k5QRrUECR/sXaOul1rB5EEiwxHaOQVvqbcfC23pxMyv
-	 VheO4zEZZGrEQ==
-Received: from [100.112.198.7] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-west-1.aws.symcld.net id A0/FA-08711-04F72916;
- Mon, 15 Nov 2021 15:39:44 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxSdehflK
-  iwaq3ChZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0b3vWtMBVvFKu7e6WdsYJwn0sXIxSEk8JhR
-  4s7/VhYI5zyTxJtbM5ghnBOMEq/f7WXvYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv
-  3vASoQFbCXetv4BK2ERUJVovpkPEuYVcJLY9OQsI4gtIaAgMeXhe2aIuKDEyZlPWCDGSEgcfP
-  GCGaJGUWL25WYWCLtCYtasNiYIW03i6rlNzBMY+WchaZ+FpH0BI9MqRoukosz0jJLcxMwcXUM
-  DA11DQyNdQ0szXSNDY73EKt0kvdRS3fLU4hJdQ73E8mK94src5JwUvbzUkk2MwHBMKThydQdj
-  95sPeocYJTmYlER5/+hPShTiS8pPqcxILM6ILyrNSS0+xCjDwaEkwbu7FCgnWJSanlqRlpkDj
-  A2YtAQHj5II74YqoDRvcUFibnFmOkTqFKOilDjvsVqghABIIqM0D64NFo+XGGWlhHkZGRgYhH
-  gKUotyM0tQ5V8xinMwKgnzbq4BmsKTmVcCN/0V0GImoMX29/pBFpckIqSkGpj2fOx6IyuqGyx
-  tfOKrzFGR5q2LmOtPv+JpnL5i/k0t670+jHsvRJpLKvIt4v1y6+266cXxWsbMTXkFU7LnTIx2
-  Wer0O3vn0eum/g+5Sxc2VE3kfFB6fUIOy1QWpdU5cw14PTfKnb0f3vmjde6yWXWu11iTUk4Uh
-  fPeZr88pbnkNecim5WxKTxx6/ovCa0N1nilrxiy99A9O8WryfG3Or2PneBh5bHf5GteIeu48o
-  DBh/o51bNdZN0EJtTYmAjHRO2Njv1mtartWNCx5SsVOO+qXzq88VfkscLVE49Nemyb81j4UMM
-  Sl5C94VJ1nKZ6/2w2acnJXZ2rueGRfoV2eVGNsZghz1fxgtlz5fOmKCmxFGckGmoxFxUnAgBx
-  DSfmQgMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-9.tower-291.messagelabs.com!1636990784!501351!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31925 invoked from network); 15 Nov 2021 15:39:44 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-9.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 15 Nov 2021 15:39:44 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 17728100465
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 15:39:44 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 0B0F5100440
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 15:39:44 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.24; Mon, 15 Nov 2021 15:39:22 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libtasn1: upgrade 4.17.0 -> 4.18.0
-Date: Mon, 15 Nov 2021 23:39:10 +0800
-Message-ID: <1636990751-78972-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oPf4zVWQ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id p37so34362395uae.8
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 15 Nov 2021 08:19:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nK48toPWNDqnGcJUMnG/D1x4K4AnruiyRbI4fJ/Q3f0=;
+        b=oPf4zVWQVu904H4+EX1fz9GBZHGSKacAuIgdlAD2oRn1JLC5pl+Pk6hyYptYioIgL7
+         n3p0rkFVcV0AwzN3w5xorZkJCHrxlKfLLt6fC0khsiR+bsUewAbfQUPpi61i2M746en1
+         SyytLjJAV79E+LOXZ7WXR3QTSOG/3V2JqyuuKm8avW4rDGKl8xiKHNk+QIsK14zOpkhh
+         hCEF58RJl1RuFyO6cr9E5pWKGHftnMJzW3yjNX9inVc51aQJSwWZ/53NIYmhMgv1RRaE
+         cATZ3fYajQTjsyky8c5uJDB+Klv+2XT7DntXwjxoiMwtAsrBPLvJ9B4/ctGN+ioUk5Zm
+         FgSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nK48toPWNDqnGcJUMnG/D1x4K4AnruiyRbI4fJ/Q3f0=;
+        b=8G6KFLriQp8s7tYohxY/sDGQi/ALgBtFNgfzyNRlDfEFqQPLF0r5eR8SI22pC84dF/
+         3q5Ll0ewpgtWwNp08LlqAvlA9WwzyIT0lBLpsfAggpuZjFFRLdqtWdWM7Cq+Yr3e4rVT
+         GM3Y4o/+07EGa2hAr6AyezWr5k3J1+xu/zWTPQLtjWYdndqtvmY1CZ6KDYkFaVMcu6OG
+         UdPH646MCEO/UMtlX6qwMlE9Px/QHCpc/xjWWumbdUcM/OiVNepUdfMfA4Tekgdvs0Bs
+         Kr5zD0HZbT9Slr6oMXc8Ho3Ud/uCRGno/FSBxZUMdR44UPXW1GzjAQtNGL/AfS9C+VI6
+         RpIQ==
+X-Gm-Message-State: AOAM533BuLd0Ek6YbNEZuPw6lO2D4ripreHl6vqp3LfHjln3fKzu8Igr
+	5s4+0UI8/XseLA0mRgsnuEW2v2oxyl6xQdk0nJw=
+X-Google-Smtp-Source: 
+ ABdhPJwFSdSM6LbiBtJ+VCSxHPY2ur+Ezns8IQ0zeqmJ3RpBM0xOzylqOOlELqp6lXa5OMrTOFpBt4nbBoydMt2El60=
+X-Received: by 2002:ab0:484:: with SMTP id 4mr59791067uaw.71.1636993148157;
+ Mon, 15 Nov 2021 08:19:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <1636990751-78972-1-git-send-email-wangmy@fujitsu.com>
+ <1636990751-78972-2-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1636990751-78972-2-git-send-email-wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 15 Nov 2021 17:18:57 +0100
+Message-ID: 
+ <CANNYZj-us8u_WrRLXjVEXuOR6uT0=so2-bE-BR=diTv=q2-nsg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd-boot: upgrade 249.5 -> 249.6
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000018822105d0d62ba1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 15:39:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 16:19:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158303
+ https://lists.openembedded.org/g/openembedded-core/message/158304
 
-* Noteworthy changes in release 4.18.0 (2021-11-09) [stable]
-- Improve GTK-DOC manual.  Closes: #35.
-- Improve --help and --version for tools with gnulib.  Closes: #37.
-- Update gnulib files and various maintenance fixes.
+--00000000000018822105d0d62ba1
+Content-Type: text/plain; charset="UTF-8"
 
-refresh dont-depend-on-help2man.patch
+Thanks, this needs to be updated together with systems itself. You can
+squash the two updates together as they share the .inc.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../libtasn1/dont-depend-on-help2man.patch    | 26 ++++++++++++++-----
- ...{libtasn1_4.17.0.bb => libtasn1_4.18.0.bb} |  3 +--
- 2 files changed, 20 insertions(+), 9 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_4.17.0.bb => libtasn1_4.18.0.bb} (84%)
+Alex
 
-diff --git a/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
-index 2ac89f3b32..216d636793 100644
---- a/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
-+++ b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
-@@ -1,14 +1,26 @@
-+From 629fc6427710e48b78f8b1f300dd698fe898cfd4 Mon Sep 17 00:00:00 2001
-+From: Marko Lindqvist <cazfi74@gmail.com>
-+Date: Mon, 7 Jan 2013 01:49:40 +0200
-+Subject: [PATCH] libtasn1: remove help2man dependency
-+
- Upstream-Status: Inappropriate
- 
- Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd libtasn1-2.14/doc/Makefile.am libtasn1-2.14/doc/Makefile.am
----- libtasn1-2.14/doc/Makefile.am	2012-09-24 15:08:42.000000000 +0300
--+++ libtasn1-2.14/doc/Makefile.am	2013-01-03 07:35:26.702763403 +0200
--@@ -31,7 +31,7 @@
-- AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS) \
--	--no-split --number-sections --css-include=texinfo.css
- 
-+---
-+ doc/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/doc/Makefile.am b/doc/Makefile.am
-+index a0171a5..8aa4d3d 100644
-+--- a/doc/Makefile.am
-++++ b/doc/Makefile.am
-+@@ -28,7 +28,7 @@ libtasn1_TEXINFOS += asn1Coding-help.texi asn1Decoding-help.texi asn1Parser-help
-+ 
-+ AM_MAKEINFOHTMLFLAGS = --no-split $(AM_MAKEINFOFLAGS)
-+ 
- -dist_man_MANS = $(gdoc_MANS) asn1Parser.1 asn1Coding.1 asn1Decoding.1
- +dist_man_MANS = $(gdoc_MANS)
--
-+ 
-  HELP2MAN_OPTS = --info-page libtasn1
-+ 
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.17.0.bb b/meta/recipes-support/gnutls/libtasn1_4.18.0.bb
-similarity index 84%
-rename from meta/recipes-support/gnutls/libtasn1_4.17.0.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.18.0.bb
-index 111f5ac13d..a0b91ee576 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.17.0.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.18.0.bb
-@@ -16,8 +16,7 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
- 
- DEPENDS = "bison-native"
- 
--SRC_URI[md5sum] = "c46f6eb3bd1287031ae5d36465094402"
--SRC_URI[sha256sum] = "ece7551cea7922b8e10d7ebc70bc2248d1fdd73351646a2d6a8d68a9421c45a5"
-+SRC_URI[sha256sum] = "4365c154953563d64c67a024b607d1ee75c6db76e0d0f65709ea80a334cd1898"
- 
- inherit autotools texinfo lib_package gtk-doc
- 
--- 
-2.25.1
+On Mon 15. Nov 2021 at 16.39, wangmy <wangmy@fujitsu.com> wrote:
 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../systemd/{systemd-boot_249.5.bb => systemd-boot_249.6.bb}    | 0
+>  meta/recipes-core/systemd/systemd.inc                           | 2 +-
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/systemd/{systemd-boot_249.5.bb =>
+> systemd-boot_249.6.bb} (100%)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-boot_249.5.bb
+> b/meta/recipes-core/systemd/systemd-boot_249.6.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd-boot_249.5.bb
+> rename to meta/recipes-core/systemd/systemd-boot_249.6.bb
+> diff --git a/meta/recipes-core/systemd/systemd.inc
+> b/meta/recipes-core/systemd/systemd.inc
+> index 4e4cdd2e2f..f3ce32efc2 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+>  LIC_FILES_CHKSUM =
+> "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>
+>  file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+>
+> -SRCREV = "00b0393e65252bf631670604f58b844780b08c50"
+> +SRCREV = "deda69dad784f9c4367533555ff4d7bf6308c0ff"
+>  SRCBRANCH = "v249-stable"
+>  SRC_URI = "git://
+> github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}
+> <http://github.com/systemd/systemd-stable.git;protocol=https;branch=$%7BSRCBRANCH%7D>
+> \
+>  "
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158302):
+> https://lists.openembedded.org/g/openembedded-core/message/158302
+> Mute This Topic: https://lists.openembedded.org/mt/87071795/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--00000000000018822105d0d62ba1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Thanks, this needs to be updated together with systems it=
+self. You can squash the two updates together as they share the .inc.</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 15. Nov 2021 =
+at 16.39, wangmy &lt;<a href=3D"mailto:wangmy@fujitsu.com">wangmy@fujitsu.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-l=
+eft:1ex;border-left-color:rgb(204,204,204)">Signed-off-by: Wang Mingyu &lt;=
+<a href=3D"mailto:wangmy@fujitsu.com" target=3D"_blank">wangmy@fujitsu.com<=
+/a>&gt;<br>
+---<br>
+=C2=A0.../systemd/{<a href=3D"http://systemd-boot_249.5.bb" rel=3D"noreferr=
+er" target=3D"_blank">systemd-boot_249.5.bb</a> =3D&gt; <a href=3D"http://s=
+ystemd-boot_249.6.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249=
+.6.bb</a>}=C2=A0 =C2=A0 | 0<br>
+=C2=A0meta/recipes-core/systemd/systemd.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br=
+>
+=C2=A02 files changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-core/systemd/{<a href=3D"http://systemd-boot_249.=
+5.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.5.bb</a> =3D&gt=
+; <a href=3D"http://systemd-boot_249.6.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">systemd-boot_249.6.bb</a>} (100%)<br>
+<br>
+diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_249.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.5.bb</a> b/meta/=
+recipes-core/systemd/<a href=3D"http://systemd-boot_249.6.bb" rel=3D"norefe=
+rrer" target=3D"_blank">systemd-boot_249.6.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-core/systemd/<a href=3D"http://systemd-boot_249.5.=
+bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.5.bb</a><br>
+rename to meta/recipes-core/systemd/<a href=3D"http://systemd-boot_249.6.bb=
+" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.6.bb</a><br>
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
+emd/systemd.inc<br>
+index 4e4cdd2e2f..f3ce32efc2 100644<br>
+--- a/meta/recipes-core/systemd/systemd.inc<br>
++++ b/meta/recipes-core/systemd/systemd.inc<br>
+@@ -14,7 +14,7 @@ LICENSE =3D &quot;GPLv2 &amp; LGPLv2.1&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.GPL2;md5=3D751419260aa95449=
+9f7abaabaa882bbe \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd255951079008b364516c&quot;<br>
+<br>
+-SRCREV =3D &quot;00b0393e65252bf631670604f58b844780b08c50&quot;<br>
++SRCREV =3D &quot;deda69dad784f9c4367533555ff4d7bf6308c0ff&quot;<br>
+=C2=A0SRCBRANCH =3D &quot;v249-stable&quot;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/systemd/systemd-=
+stable.git;protocol=3Dhttps;branch=3D$%7BSRCBRANCH%7D" rel=3D"noreferrer" t=
+arget=3D"_blank">github.com/systemd/systemd-stable.git;protocol=3Dhttps;bra=
+nch=3D${SRCBRANCH}</a> \<br>
+=C2=A0&quot;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#158302): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/158302" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/158302</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87071795/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87071795/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000018822105d0d62ba1--
 
