@@ -1,721 +1,218 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A697C433EF
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 12:14:47 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web09.21560.1636978486433446990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A572C433EF
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 12:53:33 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.21641.1636980812294269306
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 04:14:46 -0800
+ Mon, 15 Nov 2021 04:53:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=a6MCZZlR;
- spf=pass (domain: gmail.com, ip: 209.85.216.52,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id x7so12625666pjn.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 04:14:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0IIPfoL5oYD9oSXagd/XtpKk9sV++YSQmSyN9WNaq5w=;
-        b=a6MCZZlR/MxgI+7WxS4KjRoEeU1cywdqKCcIbVV6ysR1KgUYvim+vVLfRK383Y61Uj
-         TTe9RVsGgpclWlppV+574A7KQIxP+FLmce0tfnl5CZLQ8CUazku4yAtZNyK8pYlpGk8x
-         FGyI+XMIK6QYWRosFxopnM80X41IGhTTAyqGpd3+9AAK0T116JsDC9UApjdb/ft/O7Fr
-         H6HThmmwUvJx4ewT8WO+Qx1PM6ssXLGHpCbMnTf1TqMBDhYIKGrKqiV7WMjvdhu4+9Sn
-         IPxhq1DgMR4DdXe/DeF/nxbVc8hFCHIeeHvDe8Cjm7I2kSQ+i0CXIQEoxHEnSEkQoDtj
-         PWXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0IIPfoL5oYD9oSXagd/XtpKk9sV++YSQmSyN9WNaq5w=;
-        b=q8P66H7Xa46J1RmZtU/BNYtbw2WEN2w6yYTm3hdV9fdJX70i1cjOBMz1vYC/acKIdz
-         2D0fpl2NV0B/wHx6/pkaCjBWGMaYaEaXZbBTHP66GCBgnJTRnhgUQ2cpT6Im+MnTkmWj
-         298CFFQSKZm+zKFp0v+Jx1lVQaDJNZJ82eUdXkM9CejxOY1ZRL/IFx++4cWV5XBYvO3l
-         SX7Hn/U0nJmt8qvR8PI4cJpIiV56UqOWnm71HOFIwpkb7nnDYfrQ0CZ5XItAkqE2hF2P
-         k2s0UvJWdgJejs9mQmLnXPh7d4EvcjuUB7+UWXv+TOlgija2RpplkYZMK6kNUwtadwpq
-         I4xQ==
-X-Gm-Message-State: AOAM533LSeEIzII0RBV21Wg58xgnXrNRV8AnsutcE1bwXIa35awQVAy/
-	tV6ltXwFvBP/94pBJL+bUuNZVnyFMQnUug==
-X-Google-Smtp-Source: 
- ABdhPJxkgCVn+Pe9/hWVSSmbdNZeX+P4/ET5WZFnMkDUcTbbvCodbLNUoeKxicy58sJ/NydeWbwvwQ==
-X-Received: by 2002:a17:902:7c02:b0:143:9d6a:8e42 with SMTP id
- x2-20020a1709027c0200b001439d6a8e42mr34348916pll.80.1636978484430;
-        Mon, 15 Nov 2021 04:14:44 -0800 (PST)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id
- d6sm14503805pfh.190.2021.11.15.04.14.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 04:14:44 -0800 (PST)
-From: Pgowda <pgowda.cve@gmail.com>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 050416D
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 15 Nov 2021 04:53:31 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FAC13F766
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 15 Nov 2021 04:53:30 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	alex.kanavin@gmail.com,
-	umesh.kalappa0@gmail.com,
-	Pgowda <pgowda.cve@gmail.com>
-Subject: [hardknott][PATCH] gcc: Fix CVE-2021-35465
-Date: Mon, 15 Nov 2021 04:14:40 -0800
-Message-Id: <20211115121440.70359-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [PATCH] vim: fix CVE-2021-3927 and CVE-2021-3928
+Date: Mon, 15 Nov 2021 12:53:28 +0000
+Message-Id: <20211115125328.2663570-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 12:14:47 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 12:53:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158282
+ https://lists.openembedded.org/g/openembedded-core/message/158283
 
-source : https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102035
-
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=3929bca9ca95de9d35e82ae8828b188029e3eb70]
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=574e7950bd6b34e9e2cacce18c802b45505d1d0a]
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=30461cf8dba3d3adb15a125e4da48800eb2b9b8f]
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=809330ab8450261e05919b472783bf15e4b000f7]
-
-Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/gcc/gcc-10.2.inc        |   4 +
- .../gcc/gcc/0001-CVE-2021-35465.patch         | 138 ++++++++
- .../gcc/gcc/0002-CVE-2021-35465.patch         |  40 +++
- .../gcc/gcc/0003-CVE-2021-35465.patch         | 103 ++++++
- .../gcc/gcc/0004-CVE-2021-35465.patch         | 304 ++++++++++++++++++
- 5 files changed, 589 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
+ ...1-reading-character-past-end-of-line.patch | 62 ++++++++++++++++++
+ ...eading-uninitialized-memory-when-giv.patch | 63 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  2 +
+ 3 files changed, 127 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-re=
+ading-character-past-end-of-line.patch
+ create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-re=
+ading-uninitialized-memory-when-giv.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-10.2.inc b/meta/recipes-devtools/gcc/gcc-10.2.inc
-index c0cd8b31d5..248e002106 100644
---- a/meta/recipes-devtools/gcc/gcc-10.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-10.2.inc
-@@ -70,6 +70,10 @@ SRC_URI = "\
-            file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
-            file://0001-aarch64-Fix-up-__aarch64_cas16_acq_rel-fallback.patch \
-            file://0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch \
-+           file://0001-CVE-2021-35465.patch \
-+           file://0002-CVE-2021-35465.patch \
-+           file://0003-CVE-2021-35465.patch \
-+           file://0004-CVE-2021-35465.patch \
- "
- SRC_URI[sha256sum] = "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
+diff --git a/meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-c=
+haracter-past-end-of-line.patch b/meta/recipes-support/vim/files/0001-pat=
+ch-8.2.3581-reading-character-past-end-of-line.patch
 new file mode 100644
-index 0000000000..b9bca49dd8
+index 0000000000..28c61cd782
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
-@@ -0,0 +1,138 @@
-+From 3929bca9ca95de9d35e82ae8828b188029e3eb70 Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Fri, 11 Jun 2021 16:02:05 +0100
-+Subject: [PATCH] arm: Add command-line option for enabling CVE-2021-35465
-+ mitigation [PR102035]
++++ b/meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-characte=
+r-past-end-of-line.patch
+@@ -0,0 +1,62 @@
++CVE: CVE-2021-3927
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
-+Add a new option, -mfix-cmse-cve-2021-35465 and document it.  Enable it
-+automatically for cortex-m33, cortex-m35p and cortex-m55.
++From 93b427c6e729260d0700c3b2804ec153bc8284fa Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Thu, 4 Nov 2021 15:10:11 +0000
++Subject: [PATCH] patch 8.2.3581: reading character past end of line
 +
-+gcc:
-+	PR target/102035
-+	* config/arm/arm.opt (mfix-cmse-cve-2021-35465): New option.
-+	* doc/invoke.texi (Arm Options): Document it.
-+	* config/arm/arm-cpus.in (quirk_vlldm): New feature bit.
-+	(ALL_QUIRKS): Add quirk_vlldm.
-+	(cortex-m33): Add quirk_vlldm.
-+	(cortex-m35p, cortex-m55): Likewise.
-+	* config/arm/arm.c (arm_option_override): Enable fix_vlldm if
-+	targetting an affected CPU and not explicitly controlled on
-+	the command line.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=3929bca9ca95de9d35e82ae8828b188029e3eb70]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
++Problem:    Reading character past end of line.
++Solution:   Correct the cursor column.
 +---
-+ gcc/config/arm/arm-cpus.in | 9 +++++++--
-+ gcc/config/arm/arm.c       | 9 +++++++++
-+ gcc/config/arm/arm.opt     | 4 ++++
-+ gcc/doc/invoke.texi        | 9 +++++++++
-+ 4 files changed, 29 insertions(+), 2 deletions(-)
++ src/ex_docmd.c           |  1 +
++ src/testdir/test_put.vim | 12 ++++++++++++
++ src/version.c            |  2 ++
++ 3 files changed, 15 insertions(+)
 +
-+diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
-+--- a/gcc/config/arm/arm.c	2020-07-22 23:35:17.344384552 -0700
-++++ b/gcc/config/arm/arm.c	2021-11-11 20:16:19.761241867 -0800
-+@@ -3595,6 +3595,15 @@ arm_option_override (void)
-+ 	fix_cm3_ldrd = 0;
++diff --git a/src/ex_docmd.c b/src/ex_docmd.c
++index fde726477..59e245bee 100644
++--- a/src/ex_docmd.c
+++++ b/src/ex_docmd.c
++@@ -6905,6 +6905,7 @@ ex_put(exarg_T *eap)
++ 	eap->forceit =3D TRUE;
 +     }
-+ 
-++  /* Enable fix_vlldm by default if required.  */
-++  if (fix_vlldm == 2)
-++    {
-++      if (bitmap_bit_p (arm_active_target.isa, isa_bit_quirk_vlldm))
-++	fix_vlldm = 1;
-++      else
-++	fix_vlldm = 0;
-++    }
++     curwin->w_cursor.lnum =3D eap->line2;
+++    check_cursor_col();
++     do_put(eap->regname, eap->forceit ? BACKWARD : FORWARD, 1L,
++ 						       PUT_LINE|PUT_CURSLINE);
++ }
++diff --git a/src/testdir/test_put.vim b/src/testdir/test_put.vim
++index 225ebd1f3..922e5b269 100644
++--- a/src/testdir/test_put.vim
+++++ b/src/testdir/test_put.vim
++@@ -113,3 +113,15 @@ func Test_put_p_indent_visual()
++   call assert_equal('select that text', getline(2))
++   bwipe!
++ endfunc
 ++
-+   /* Hot/Cold partitioning is not currently supported, since we can't
-+      handle literal pool placement in that case.  */
-+   if (flag_reorder_blocks_and_partition)
-+diff --git a/gcc/config/arm/arm-cpus.in b/gcc/config/arm/arm-cpus.in
-+--- a/gcc/config/arm/arm-cpus.in	2020-07-22 23:35:17.340384509 -0700
-++++ b/gcc/config/arm/arm-cpus.in	2021-11-11 20:17:01.364573561 -0800
-+@@ -190,6 +190,9 @@ define feature quirk_armv6kz
-+ # Cortex-M3 LDRD quirk.
-+ define feature quirk_cm3_ldrd
-+ 
-++# v8-m/v8.1-m VLLDM errata.
-++define feature quirk_vlldm
+++func Test_put_above_first_line()
+++  new
+++  let @" =3D 'text'
+++  silent! normal 0o00
+++  0put
+++  call assert_equal('text', getline(1))
+++  bwipe!
+++endfunc
 ++
-+ # Don't use .cpu assembly directive
-+ define feature quirk_no_asmcpu
-+ 
-+@@ -314,7 +317,7 @@ define fgroup DOTPROD	NEON dotprod
-+ # architectures.
-+ # xscale isn't really a 'quirk', but it isn't an architecture either and we
-+ # need to ignore it for matching purposes.
-+-define fgroup ALL_QUIRKS   quirk_no_volatile_ce quirk_armv6kz quirk_cm3_ldrd xscale quirk_no_asmcpu
-++define fgroup ALL_QUIRKS   quirk_no_volatile_ce quirk_armv6kz quirk_cm3_ldrd quirk_vlldm xscale quirk_no_asmcpu
-+ 
-+ # Architecture entries
-+ # format:
-+@@ -1492,6 +1495,7 @@ begin cpu cortex-m33
-+  architecture armv8-m.main+dsp+fp
-+  option nofp remove ALL_FP
-+  option nodsp remove armv7em
-++ isa quirk_vlldm
-+  costs v7m
-+ end cpu cortex-m33
-+ 
-+@@ -1501,6 +1505,7 @@ begin cpu cortex-m35p
-+  architecture armv8-m.main+dsp+fp
-+  option nofp remove ALL_FP
-+  option nodsp remove armv7em
-++ isa quirk_vlldm
-+  costs v7m
-+ end cpu cortex-m35p
-+ 
-+@@ -1508,7 +1513,7 @@ begin cpu cortex-m55
-+  cname cortexm55
-+  tune flags LDSCHED
-+  architecture armv8.1-m.main+mve.fp+fp.dp
-+- isa quirk_no_asmcpu
-++ isa quirk_no_asmcpu quirk_vlldm
-+  costs v7m
-+  vendor 41
-+ end cpu cortex-m55
-+diff --git a/gcc/config/arm/arm.opt b/gcc/config/arm/arm.opt
-+--- a/gcc/config/arm/arm.opt	2020-07-22 23:35:17.344384552 -0700
-++++ b/gcc/config/arm/arm.opt	2021-11-11 20:16:19.761241867 -0800
-+@@ -271,6 +271,10 @@ Target Report Var(fix_cm3_ldrd) Init(2)
-+ Avoid overlapping destination and address registers on LDRD instructions
-+ that may trigger Cortex-M3 errata.
-+ 
-++mfix-cmse-cve-2021-35465
-++Target Var(fix_vlldm) Init(2)
-++Mitigate issues with VLLDM on some M-profile devices (CVE-2021-35465).
 ++
-+ munaligned-access
-+ Target Report Var(unaligned_access) Init(2) Save
-+ Enable unaligned word and halfword accesses to packed data.
-+diff -upr a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
-+--- a/gcc/doc/invoke.texi	2021-11-11 19:30:56.264523105 -0800
-++++ b/gcc/doc/invoke.texi	2021-11-11 20:16:19.769241739 -0800
-+@@ -773,6 +773,7 @@ Objective-C and Objective-C++ Dialects}.
-+ -mverbose-cost-dump @gol
-+ -mpure-code @gol
-+ -mcmse @gol
-++-mfix-cmse-cve-2021-35465 @gol
-+ -mfdpic}
-+ 
-+ @emph{AVR Options}
-+@@ -21233,6 +21234,14 @@ Use multiply and add/subtract instructio
-+ 
-+ Do not use multiply and add/subtract instructions.
-+ 
-++@item -mfix-cmse-cve-2021-35465
-++@opindex mfix-cmse-cve-2021-35465
-++Mitigate against a potential security issue with the @code{VLLDM} instruction
-++in some M-profile devices when using CMSE (CVE-2021-365465).  This option is
-++enabled by default when the option @option{-mcpu=} is used with
-++@code{cortex-m33}, @code{cortex-m35p} or @code{cortex-m55}.  The option
-++@option{-mno-fix-cmse-cve-2021-35465} can be used to disable the mitigation.
-++
-+ @item -mfdpic
-+ @opindex mfdpic
-+ 
-diff --git a/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
+++" vim: shiftwidth=3D2 sts=3D2 expandtab
++diff --git a/src/version.c b/src/version.c
++index a9e8be0e7..df4ec9a47 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -742,6 +742,8 @@ static char *(features[]) =3D
++=20
++ static int included_patches[] =3D
++ {   /* Add new patch number below this line */
+++/**/
+++    3581,
++ /**/
++     3564,
++ /**/
+diff --git a/meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-u=
+ninitialized-memory-when-giv.patch b/meta/recipes-support/vim/files/0002-=
+patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
 new file mode 100644
-index 0000000000..38d02dc770
+index 0000000000..d117a98893
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
-@@ -0,0 +1,40 @@
-+From 574e7950bd6b34e9e2cacce18c802b45505d1d0a Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Fri, 18 Jun 2021 17:16:25 +0100
-+Subject: [PATCH] arm: add erratum mitigation to __gnu_cmse_nonsecure_call
-+ [PR102035]
++++ b/meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitia=
+lized-memory-when-giv.patch
+@@ -0,0 +1,63 @@
++CVE: CVE-2021-3928
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
-+Add the recommended erratum mitigation sequence to
-+__gnu_cmse_nonsecure_call for use on Armv8-m.main devices. Since this
-+is in the library code we cannot know in advance whether the core we
-+are running on will be affected by this, so always enable it.
++From ade0f0481969f1453c60e7c8354b00dfe4238739 Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Thu, 4 Nov 2021 15:46:05 +0000
++Subject: [PATCH] patch 8.2.3582: reading uninitialized memory when givin=
+g
++ spell suggestions
 +
-+libgcc:
-+	PR target/102035
-+	* config/arm/cmse_nonsecure_call.S (__gnu_cmse_nonsecure_call):
-+	Add vlldm erratum work-around.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=574e7950bd6b34e9e2cacce18c802b45505d1d0a]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
++Problem:    Reading uninitialized memory when giving spell suggestions.
++Solution:   Check that preword is not empty.
 +---
-+ libgcc/config/arm/cmse_nonsecure_call.S | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ src/spellsuggest.c         | 2 +-
++ src/testdir/test_spell.vim | 8 ++++++++
++ src/version.c              | 2 ++
++ 3 files changed, 11 insertions(+), 1 deletion(-)
 +
-+diff --git a/libgcc/config/arm/cmse_nonsecure_call.S b/libgcc/config/arm/cmse_nonsecure_call.S
-+index 00830ade98e..c8e0fbbe665 100644
-+--- a/libgcc/config/arm/cmse_nonsecure_call.S
-++++ b/libgcc/config/arm/cmse_nonsecure_call.S
-+@@ -102,6 +102,11 @@ blxns	    r4
-+ #ifdef __ARM_PCS_VFP
-+ vpop.f64    {d8-d15}
-+ #else
-++/* VLLDM erratum mitigation sequence. */
-++mrs	    r5, control
-++tst	    r5, #8	  /* CONTROL_S.SFPA */
-++it	    ne
-++.inst.w	    0xeeb00a40	  /* vmovne s0, s0 */
-+ vlldm	    sp		  /* Lazy restore of d0-d16 and FPSCR.  */
-+ add	    sp, sp, #0x88 /* Free space used to save floating point registers.  */
-+ #endif /* __ARM_PCS_VFP */
-diff --git a/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-new file mode 100644
-index 0000000000..d87be19866
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-@@ -0,0 +1,103 @@
-+From 30461cf8dba3d3adb15a125e4da48800eb2b9b8f Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Fri, 18 Jun 2021 17:18:37 +0100
-+Subject: [PATCH] arm: fix vlldm erratum for Armv8.1-m [PR102035]
-+
-+For Armv8.1-m we generate code that emits VLLDM directly and do not
-+rely on support code in the library, so emit the mitigation directly
-+as well, when required.  In this case, we can use the compiler options
-+to determine when to apply the fix and when it is safe to omit it.
-+
-+gcc:
-+	PR target/102035
-+	* config/arm/arm.md (attribute arch): Add fix_vlldm.
-+	(arch_enabled): Use it.
-+	* config/arm/vfp.md (lazy_store_multiple_insn): Add alternative to
-+	use when erratum mitigation is needed.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=30461cf8dba3d3adb15a125e4da48800eb2b9b8f]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
-+---
-+ gcc/config/arm/arm.md | 11 +++++++++--
-+ gcc/config/arm/vfp.md | 10 +++++++---
-+ 2 files changed, 16 insertions(+), 5 deletions(-)
-+
-+diff -upr a/gcc/config/arm/arm.md b/gcc/config/arm/arm.md
-+--- a/gcc/config/arm/arm.md	2020-07-22 23:35:17.344384552 -0700
-++++ b/gcc/config/arm/arm.md	2021-11-11 20:33:58.431543947 -0800
-+@@ -132,9 +132,12 @@
-+ ; TARGET_32BIT, "t1" or "t2" to specify a specific Thumb mode.  "v6"
-+ ; for ARM or Thumb-2 with arm_arch6, and nov6 for ARM without
-+ ; arm_arch6.  "v6t2" for Thumb-2 with arm_arch6 and "v8mb" for ARMv8-M
-+-; Baseline.  This attribute is used to compute attribute "enabled",
-++; Baseline.  "fix_vlldm" is for fixing the v8-m/v8.1-m VLLDM erratum.
-++; This attribute is used to compute attribute "enabled",
-+ ; use type "any" to enable an alternative in all cases.
-+-(define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,v6t2,v8mb,iwmmxt,iwmmxt2,armv6_or_vfpv3,neon,mve"
-++(define_attr "arch" "any, a, t, 32, t1, t2, v6,nov6, v6t2, \
-++		     v8mb, fix_vlldm, iwmmxt, iwmmxt2, armv6_or_vfpv3, \
-++		     neon, mve"
-+   (const_string "any"))
-+ 
-+ (define_attr "arch_enabled" "no,yes"
-+@@ -177,6 +180,10 @@
-+ 	      (match_test "TARGET_THUMB1 && arm_arch8"))
-+ 	 (const_string "yes")
-+ 
-++	 (and (eq_attr "arch" "fix_vlldm")
-++	      (match_test "fix_vlldm"))
-++	 (const_string "yes")
++diff --git a/src/spellsuggest.c b/src/spellsuggest.c
++index 9d6df7930..8615d5280 100644
++--- a/src/spellsuggest.c
+++++ b/src/spellsuggest.c
++@@ -1600,7 +1600,7 @@ suggest_trie_walk(
++ 		    // char, e.g., "thes," -> "these".
++ 		    p =3D fword + sp->ts_fidx;
++ 		    MB_PTR_BACK(fword, p);
++-		    if (!spell_iswordp(p, curwin))
+++		    if (!spell_iswordp(p, curwin) && *preword !=3D NUL)
++ 		    {
++ 			p =3D preword + STRLEN(preword);
++ 			MB_PTR_BACK(preword, p);
++diff --git a/src/testdir/test_spell.vim b/src/testdir/test_spell.vim
++index 79fb8927c..e435e9172 100644
++--- a/src/testdir/test_spell.vim
+++++ b/src/testdir/test_spell.vim
++@@ -498,6 +498,14 @@ func Test_spell_screendump()
++   call delete('XtestSpell')
++ endfunc
++=20
+++func Test_spell_single_word()
+++  new
+++  silent! norm 0R00
+++  spell! =C3=9F=C3=82
+++  silent 0norm 0r$ Dvz=3D
+++  bwipe!
+++endfunc
 ++
-+ 	 (and (eq_attr "arch" "iwmmxt2")
-+ 	      (match_test "TARGET_REALLY_IWMMXT2"))
-+ 	 (const_string "yes")
-+diff -upr a/gcc/config/arm/vfp.md b/gcc/config/arm/vfp.md
-+--- a/gcc/config/arm/vfp.md	2020-07-22 23:35:17.356384684 -0700
-++++ b/gcc/config/arm/vfp.md	2021-11-11 20:33:58.431543947 -0800
-+@@ -1703,12 +1703,15 @@
-+    (set_attr "type" "mov_reg")]
-+ )
-+ 
-++;; Both this and the next instruction are treated by GCC in the same
-++;; way as a blockage pattern.  That's perhaps stronger than it needs
-++;; to be, but we do not want accesses to the VFP register bank to be
-++;; moved across either instruction.
-++
-+ (define_insn "lazy_store_multiple_insn"
-+-  [(set (match_operand:SI 0 "s_register_operand" "+&rk")
-+-	(post_dec:SI (match_dup 0)))
-+-   (unspec_volatile [(const_int 0)
-+-		     (mem:SI (post_dec:SI (match_dup 0)))]
-+-		    VUNSPEC_VLSTM)]
-++  [(unspec_volatile
-++    [(mem:BLK (match_operand:SI 0 "s_register_operand" "rk"))]
-++    VUNSPEC_VLSTM)]
-+   "use_cmse && reload_completed"
-+   "vlstm%?\\t%0"
-+   [(set_attr "predicable" "yes")
-+@@ -1716,14 +1719,16 @@
-+ )
-+ 
-+ (define_insn "lazy_load_multiple_insn"
-+-  [(set (match_operand:SI 0 "s_register_operand" "+&rk")
-+-	(post_inc:SI (match_dup 0)))
-+-   (unspec_volatile:SI [(const_int 0)
-+-			(mem:SI (match_dup 0))]
-+-		       VUNSPEC_VLLDM)]
-++  [(unspec_volatile
-++    [(mem:BLK (match_operand:SI 0 "s_register_operand" "rk,rk"))]
-++    VUNSPEC_VLLDM)]
-+   "use_cmse && reload_completed"
-+-  "vlldm%?\\t%0"
-+-  [(set_attr "predicable" "yes")
-++  "@
-++   vscclrm\\t{vpr}\;vlldm\\t%0
-++   vlldm\\t%0"
-++  [(set_attr "arch" "fix_vlldm,*")
-++   (set_attr "predicable" "no")
-++   (set_attr "length" "8,4")
-+    (set_attr "type" "load_4")]
-+ )
-+ 
-diff --git a/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-new file mode 100644
-index 0000000000..9f7a38ed2e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-@@ -0,0 +1,304 @@
-+From 809330ab8450261e05919b472783bf15e4b000f7 Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Tue, 6 Jul 2021 15:10:18 +0100
-+Subject: [PATCH] arm: Add tests for VLLDM mitigation [PR102035]
-+
-+New tests for the erratum mitigation.
-+
-+gcc/testsuite:
-+	PR target/102035
-+	* gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c: New test.
-+	* gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c: Likewise.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=809330ab8450261e05919b472783bf15e4b000f7]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
-+---
-+ .../arm/cmse/mainline/8_1m/soft/cmse-13a.c    | 31 +++++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/soft/cmse-7a.c     | 28 +++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/soft/cmse-8a.c     | 30 ++++++++++++++++++
-+ .../cmse/mainline/8_1m/softfp-sp/cmse-7a.c    | 27 ++++++++++++++++
-+ .../cmse/mainline/8_1m/softfp-sp/cmse-8a.c    | 29 +++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/softfp/cmse-13a.c  | 30 ++++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/softfp/cmse-7a.c   | 27 ++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/softfp/cmse-8a.c   | 29 +++++++++++++++++
-+ 8 files changed, 231 insertions(+)
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c
-+
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,31 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=soft -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=soft" } } */
-++
-++#include "../../../cmse-13.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr2, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr3, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r1, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[1,4-9\]|r10|fp|ip), ){9}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[1,4-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler-not "vmov" } } */
-++/* { dg-final { scan-assembler-not "vmsr" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,28 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=soft -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=soft" } } */
-++
-++#include "../../../cmse-7.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r0, )?(r1, )?(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[0-9\]|r10|fp|ip), ){12}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[0-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler-not "vmov" } } */
-++/* { dg-final { scan-assembler-not "vmsr" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,30 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=soft -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=soft" } } */
-++
-++#include "../../../cmse-8.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr1, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[2-9\]|r10|fp|ip), ){10}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[2-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler-not "vmov" } } */
-++/* { dg-final { scan-assembler-not "vmsr" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,30 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing single precision" {*-*-*} {"-mfpu=*-sp-*"} {""} } */
-++
-++#include "../../../cmse-13.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr2, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr3, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r1, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[1,4-9\]|r10|fp|ip), ){9}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[1,4-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,27 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing single precision" {*-*-*} {"-mfpu=*-sp-*"} {""} } */
-++
-++#include "../../../cmse-7.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r0, )?(r1, )?(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[0-9\]|r10|fp|ip), ){12}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[0-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c	2021-11-11 20:38:44.290766017 -0800
-+@@ -0,0 +1,29 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing single precision" {*-*-*} {"-mfpu=*-sp-*"} {""} } */
-++
-++#include "../../../cmse-8.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr1, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[2-9\]|r10|fp|ip), ){10}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[2-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,27 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-sp-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing double precision" {*-*-*} {"-mfpu=fpv[4-5]-d16"} {""} } */
-++
-++#include "../../../cmse-7.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r0, )?(r1, )?(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[0-9\]|r10|fp|ip), ){12}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[0-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,29 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-sp-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing double precision" {*-*-*} {"-mfpu=fpv[4-5]-d16"} {""} } */
-++
-++#include "../../../cmse-8.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr1, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[2-9\]|r10|fp|ip), ){10}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[2-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
--- 
-2.31.1
++ let g:test_data_aff1 =3D [
++       \"SET ISO8859-1",
++       \"TRY esianrtolcdugmphbyfvkwjkqxz-\xEB\xE9\xE8\xEA\xEF\xEE\xE4\xE=
+0\xE2\xF6\xFC\xFB'ESIANRTOLCDUGMPHBYFVKWJKQXZ",
++diff --git a/src/version.c b/src/version.c
++index df4ec9a47..e1bc0d09b 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -742,6 +742,8 @@ static char *(features[]) =3D
++=20
++ static int included_patches[] =3D
++ {   /* Add new patch number below this line */
+++/**/
+++    3582,
++ /**/
++     3581,
++ /**/
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
+vim.inc
+index 943856e07c..d0957bfeae 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -23,6 +23,8 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmast=
+er;protocol=3Dhttps \
+            file://0003-patch-8.2.3487-illegal-memory-access-if-buffer-na=
+me-.patch \
+            file://0004-patch-8.2.3489-ml_get-error-after-search-with-ran=
+ge.patch \
+            file://0005-patch-8.2.3564-invalid-memory-access-when-scrolli=
+ng-.patch \
++           file://0001-patch-8.2.3581-reading-character-past-end-of-line=
+.patch \
++           file://0002-patch-8.2.3582-reading-uninitialized-memory-when-=
+giv.patch \
+            "
+=20
+ SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
+--=20
+2.25.1
 
 
