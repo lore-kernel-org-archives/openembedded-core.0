@@ -1,208 +1,156 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bluelightning@bluelightning.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57DE1C433F5
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 20:56:44 +0000 (UTC)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com
- [209.85.221.174])
- by mx.groups.io with SMTP id smtpd.web09.497.1637009803677295018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF92C433F5
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 22:44:41 +0000 (UTC)
+Received: from mail-49-r22.ipv4.per01.ds.network
+ (mail-49-r22.ipv4.per01.ds.network [27.123.26.153])
+ by mx.groups.io with SMTP id smtpd.web09.1955.1637016278664038291
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 12:56:43 -0800
+ Mon, 15 Nov 2021 14:44:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eYS59xd2;
- spf=pass (domain: gmail.com, ip: 209.85.221.174,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f174.google.com with SMTP id q21so1402561vkn.2
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 12:56:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zjg3FAPOxVhN1rf8jrpAqOKG4FK/5gspiHfO5mv5QTM=;
-        b=eYS59xd2M+uT9kt5+nkE1l+37i1AzRGMn8i70NzKVYIM2hqh7979XYJ/Ox52dUqvS6
-         5ahiI5WVw9X4wP0h5fhElBhwEW+LdcA9saJ2PlHFbfGb1q0TPl/eqqNBOf91Q0JEx7nS
-         5a4pIqCn4Plru2NGDHxzK2TPd/AV52m+xdQD/5rHNp+cRiwzI6Djy9w2Ajcvd5x2h+9m
-         2Wa5z7zOW4GLDqL+uts4ebr6fHlQLLEuEZIqBOL3FyTBG4HMSMzANfOGLMhX4q52LfgS
-         sP75X2jvHYUK/9YbscYKI5twFQPUIv7bM576fFBLIeI93OgiVfISAYOFRNUxprls35om
-         mBXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zjg3FAPOxVhN1rf8jrpAqOKG4FK/5gspiHfO5mv5QTM=;
-        b=LzE8bBaFEnPSI4CXTOnqWDGr6UGiwbBJqug+v9MPZWqaGcbQtM3JODO1bl1x68N4qt
-         tQm8+dsdtWsh9SNvCPq0mjxOaYG4beV8lmEHsvcx2UGUwv4aT+KelqOyJ59kx7rfykPT
-         VhJsfI0beJJC4xBaLY49Z4+ToHqyTYqMDgGoRYqrJaYs3BfkBCYCUh5rRofN2TMz91tX
-         4S4AsnPB2YmjF2BFhqeitU6PhbYqdR3ULmRfGQ3nN8dAEjV/+Kzw09zMrysBxDRNulsG
-         JLygJ1meWCk9edxD0TKw7mHsyzqrxpDOGtEpiW2xiYmTan2YcFHKIY/MrrOfGGweUBKE
-         JfLg==
-X-Gm-Message-State: AOAM533CDjuBFGkbGHqYMlCdCDZpOBJp+xvV7jhwvt4u37k6Jcjf6uR4
-	nr4uzDS3B1T6DALrX2qA8ma07gvgAvQGpxMlhcg=
-X-Google-Smtp-Source: 
- ABdhPJxP2VJZKv65ltirxzBVqHqc1Tn0o/iH575YcMqT0kEBlkA/fvg+242n4xrAlWVprJtzf6JtUlCp7geTGQhdeqo=
-X-Received: by 2002:a05:6122:a02:: with SMTP id
- 2mr64062561vkn.6.1637009802807;
- Mon, 15 Nov 2021 12:56:42 -0800 (PST)
+ dkim=fail reason="no key for verify" header.i=@softec.co.nz header.s=default
+ header.b=c3pehvVM;
+ spf=none, err=permanent DNS error (domain: bluelightning.org,
+ ip: 27.123.26.153, mailfrom: bluelightning@bluelightning.org)
+Received: from server-72-r70.ipv4.per01.ds.network (cp-fp06.syd02.ds.network
+ [122.201.124.108])
+	by halon-out01.au.ds.network (Halon) with ESMTPS
+	id 99dd24c3-4665-11ec-bdeb-f8db88ea9a09;
+	Tue, 16 Nov 2021 06:44:33 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=softec.co.nz; s=default; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=I4niuzAUgBSRaSv9mByw+21mJO9+IClZ4a+JGX/d9vc=; b=c3pehvVM11j4P/Kfw8EEd47M41
+	HR8+mi6o18288CnNrqvblqqMJK3PECqHZdD4jWwdbFycldbrChEouIdSlNbCCNfvybmTmU2jfa2Cf
+	ZwU+4pH7qOYy5OX0yhzJc670s38zCHIgpQ3gDsiKzgh+Wg9G6lExFezEXz/xECsKKmrwwPjU/j/TK
+	B/7jRrvGZJUkcHkdZLv7p5gJWgFU5GFhxdYoHGsWZxAa2FLResV17ONLiyoKl33OD/MGugL1OjxAx
+	cCYewFBIZWtG3WpYkGbCgMr8Mc+qug0sECiH5fw2eHfli0fFJ8U9HG1H7K1oNt5O2JtZCQsWVEFrv
+	g0jthqvg==;
+Received: from [151.210.145.152] (port=54364 helo=linc.localnet)
+	by cp-fp06.syd02.ds.network with esmtpsa  (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <bluelightning@bluelightning.org>)
+	id 1mmkiG-00C6fH-La; Tue, 16 Nov 2021 09:44:32 +1100
+From: Paul Eggleton <bluelightning@bluelightning.org>
+To: Joshua Watt <jpewhacker@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Jose Quaresma <quaresma.jose@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Steve Sakoman <sakoman@gmail.com>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+ Saul Wold <Saul.Wold@windriver.com>,
+ Andres Beltran <abeltran@linux.microsoft.com>
+Subject: Re: [OE-core] [PATCH 0/3] SPDX: Add annotations to relationship
+Date: Tue, 16 Nov 2021 11:44:31 +1300
+Message-ID: <3381838.aeNJFYEL58@linc>
+In-Reply-To: <9c6aa6d7-ddb5-0bab-8639-063e71379101@windriver.com>
+References: <20211027013050.137364-1-saul.wold@windriver.com>
+ <89232e41-ac8b-def5-94b9-22d08b7e01d3@gmail.com>
+ <9c6aa6d7-ddb5-0bab-8639-063e71379101@windriver.com>
 MIME-Version: 1.0
-References: <8a12d84e-fdb1-3383-ce9e-10ddc75130cf@gmail.com>
- <CANNYZj-xeJS_+3r-Lwg=Nzyr+KrtFA8hCpGj-DeDpaihzB_TQg@mail.gmail.com>
- <d897665a-3746-80f0-9771-875165d16b2b@gmail.com>
- <CANNYZj-UTWzhnRoxTpTn3kqp4d7FiRk0NPD_Mon0cOd6Js13UQ@mail.gmail.com>
- <7f35ae7d-d12b-8ba3-5459-c2fb92f3f38f@gmail.com>
-In-Reply-To: <7f35ae7d-d12b-8ba3-5459-c2fb92f3f38f@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 15 Nov 2021 21:56:31 +0100
-Message-ID: 
- <CANNYZj_6BSsJb+k-6n95zMFwUFpqM0=nXDC5D7sSg-ynWx5qJQ@mail.gmail.com>
-Subject: Re: [OE-core] Suggestion to use python-parameterized for QA
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ca4b2205d0da0b39"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cp-fp06.syd02.ds.network
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bluelightning.org
+X-Get-Message-Sender-Via: cp-fp06.syd02.ds.network: authenticated_id:
+ paul@softec.co.nz
+X-Authenticated-Sender: cp-fp06.syd02.ds.network: paul@softec.co.nz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 20:56:44 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 22:44:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158315
+ https://lists.openembedded.org/g/openembedded-core/message/158316
 
---000000000000ca4b2205d0da0b39
-Content-Type: text/plain; charset="UTF-8"
+On Tuesday, 9 November 2021 08:01:38 NZDT Saul Wold wrote:
+> On 11/4/21 2:20 PM, Joshua Watt wrote:
+> > On 11/4/21 3:50 PM, Richard Purdie wrote:
+> >> On Thu, 2021-11-04 at 15:45 -0500, Joshua Watt wrote:
+> >>> On 11/4/21 3:43 PM, Richard Purdie wrote:
+> >>>> On Thu, 2021-11-04 at 20:00 +0000, Jose Quaresma wrote:
+> >>>>> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+> >>>>> quinta,
+> >>>>>=20
+> >>>>> 28/10/2021 =E0(s) 21:58:
+> >>>>>> On Thu, 2021-10-28 at 08:47 -1000, Steve Sakoman wrote:
+> >>>>>>> On Tue, Oct 26, 2021 at 10:41 PM Jose Quaresma
+> >>>>>>> <quaresma.jose@gmail.com>
+> >>>>>>=20
+> >>>>>> wrote:
+> >>>>>>>> Hi all,
+> >>>>>>>>=20
+> >>>>>>>> There are any plans or is it possible to backport the SBOM/SPDX
+> >>>>>>>> to the
+> >>>>>>=20
+> >>>>>> dunfell branch?
+> >>>>>>=20
+> >>>>>>> I'm going to yield to Saul as to whether he thinks this is
+> >>>>>>> desirable/possible or not.
+> >>>>>>=20
+> >>>>>> The packagedata changes are pretty invasive unfortunately and
+> >>>>>> likely not
+> >>>>>> something you're going to want in dunfell sadly.
+> >>>>>=20
+> >>>>> Thanks for the clarification.
+> >>>>=20
+> >>>> I have been thinking a bit more about this. I did wonder if we
+> >>>> should consider a
+> >>>> mixin layer of some kind for it that could work with dunfell?
+> >>>>=20
+> >>>> We could host it, it is just a question of writing the mixin layer a=
+nd
+> >>>> maintaining it.
+> >>>=20
+> >>> I don't think it's going to be possible with a pure mixin layer, since
+> >>> it relies on the extended package data?
+> >>=20
+> >> I suspect that could perhaps be patched in through a layer though? You
+> >> might
+> >> choose to drop the compression piece or do it differently for the
+> >> backport?
+> >=20
+> > I'm not sure if a layer could hook in well enough to get the data
+> > needed...  maybe worth an experiment though
+>=20
+> Yeah, I am not sure an mixin could track the changes for package.bbclass
+>=20
+> > With a backport, I would probably either use GZip compression or no
+> > compression. The zstd compression was designed as a drop in replacement
+> > for Gzip if we wanted to go that route.
+>=20
+> I will say that we did something similar with Hardknott for WRLinux, but
+> did not propose it upstream as Hardknott was knot going to be supported
+> longer term.
+>=20
+> Having the spdx class standalone with the correctly backported changes
+> seems to be working
 
-Can't we achieve the same by abstracting the common part into a function
-and defining the two tests explicitly?
+=46YI Andres and I have done this backport to dunfell - should I post it? T=
+hat=20
+said, I did just take the hit on some of the invasive parts (e.g. LICENSE=20
+value changes). I think given regulatory requirements this is important for=
+=20
+lots of folks, so we probably need to do something here. Happy to be part o=
+f=20
+it.
 
-Alex
+Cheers
+Paul
 
-On Mon, 15 Nov 2021 at 21:26, Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
 
-> It's substituted further down into
-> def test_sbin_init(self, _, origInit):
->
-> parameterized.expand generates two tests out of it. The string parameter
-> is used as a suffix for the test, the rest is used as input parameters,
-> i.e. the first test would be called with origInit=True, the second one with
-> origInit=False.
->
-> The sample output looks like this:
->
-> 2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
-> overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_0_original: PASSED
-> (295.73s)
-> 2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
-> overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_1_preinit: PASSED
-> (177.97s)
->
-> Vyacheslav
->
-> On 15.11.2021 21:20, Alexander Kanavin wrote:
->
-> I can't understand what is supposed to happen, perhaps because it's
-> incomplete? There's
->
-> @parameterized.expand([
-> ("original", True),
-> ("preinit", False),
-> ])
->
-> but where is that used?
->
-> Alex
->
->
->
 
---000000000000ca4b2205d0da0b39
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Can&#39;t we achieve the same by abstracting the comm=
-on part into a function and defining the two tests explicitly?</div><div><b=
-r></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Mon, 15 Nov 2021 at 21:26, Vyacheslav Yurkov =
-&lt;<a href=3D"mailto:uvv.mail@gmail.com">uvv.mail@gmail.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
- =20
-   =20
- =20
-  <div>
-    <div>It&#39;s substituted further down into<br>
-      <span><span>def</span> <span>test_sbin_init</span>(<span>self</span>,
-        <span>_</span>, <span>origInit</span>):<br>
-        <br>
-      </span>parameterized.expand generates two tests out of it. The
-      string parameter is used as a suffix for the test, the rest is
-      used as input parameters, i.e. the first test would be called with
-      origInit=3DTrue, the second one with origInit=3DFalse.<br>
-      <br>
-      The sample output looks like this:<br>
-      <br>
-      2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
-      overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_0_original:
-      PASSED (295.73s)<br>
-      2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
-      overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_1_preinit:
-      PASSED (177.97s)<br>
-      <br>
-      Vyacheslav<br>
-      <br>
-      On 15.11.2021 21:20, Alexander Kanavin wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">
-        <div>I can&#39;t understand what is supposed to happen, perhaps
-          because it&#39;s incomplete? There&#39;s</div>
-        <div>
-          <table>
-            <tbody>
-              <tr>
-                <td><span>
-                    <span><br>
-                      @<span>parameterized</span>.<span>expand</span>([</sp=
-an></span></td>
-              </tr>
-              <tr>
-              </tr>
-            </tbody>
-          </table>
-          <table>
-            <tbody>
-              <tr>
-                <td> <span><span> (<span>&quot;original&quot;</span>,
-                      <span>True</span>),</span></span></td>
-              </tr>
-              <tr>
-              </tr>
-            </tbody>
-          </table>
-          <table>
-            <tbody>
-              <tr>
-                <td> <span><span> (<span>&quot;preinit&quot;</span>,
-                      <span>False</span>),</span></span></td>
-              </tr>
-              <tr>
-              </tr>
-            </tbody>
-          </table>
-          <span><span> ])</span></span></div>
-        <div><span><span><br>
-            </span></span></div>
-        <div><span><span>but where is that used?<br>
-            </span></span></div>
-        <div><span><span><br>
-            </span></span></div>
-        <div><span><span>Alex<br>
-            </span></span></div>
-      </div>
-      <br>
-    </blockquote>
-    <br>
-  </div>
-</blockquote></div>
-
---000000000000ca4b2205d0da0b39--
 
