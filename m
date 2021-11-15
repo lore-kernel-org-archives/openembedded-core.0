@@ -1,94 +1,242 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB345C433F5
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 13:03:36 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.21817.1636981415484112744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0905EC433FE
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 13:06:02 +0000 (UTC)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web09.22082.1636981561012980657
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 05:03:35 -0800
+ Mon, 15 Nov 2021 05:06:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Rfa9BwTJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id y196so13855689wmc.3
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 05:03:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XVuIw6D+;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id y5so16747853ual.7;
+        Mon, 15 Nov 2021 05:06:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6LfYkhFsb4tJz9xoiKWB9mmyJ04ZY5X2qJaeYV5tPxo=;
-        b=Rfa9BwTJXskwhVBGRV1rgN/qQmBXBLXeLuSG2nUj86LduHqnGjELRlf9bQfaOeNhyT
-         wBjYiBDyj//3RA1tRBbfvvJv2E8wgHs+go3WZCet71Crj73amW9sIOTcpuUo3w+4k4wr
-         aDOEjGaN1VNV/BGkKyTGBqaX0Ii5k76ytn2RE=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Bi39+cI6apzPc8O+Ogr8L4zewT3F7+isNXvRVyU3Myw=;
+        b=XVuIw6D+6fwqq7PbHeBApQw+CpmOcLTz6BTef0ZuTV/ErSzGq7mjPX41E0N5q7qUoL
+         +vZRcUQGN/BWKCyd1n1roWIntjPPPxm6ISjNYZhXoAFLLrvIs2ZF8NfZU3FZYTUPnH0A
+         yJ3YzOTLxNLoM/z2RCs61JZfJVWZ02WJbr77mSQITmzhmpJQ25r/jHmMQbb9Iy8giJ3W
+         6JOWxwoIo/bepN/anqbozLYWVzFcsj+E1tWZAqJ3jO95rkdVI8+PQaeMS/IuRZV3J+l1
+         tqiYbytMz+UdQbAE3EjP7aBR8nWJBrMvcS/0whYww6DDcfFDSpM+iV3r+P4etl8H9n6A
+         TttQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6LfYkhFsb4tJz9xoiKWB9mmyJ04ZY5X2qJaeYV5tPxo=;
-        b=Yq2tByBXPZlyPkHNAyIhxDNfjj1oZFmaEs66XOCvAQKa61lOFOxW28rGBeuF6Z5+mA
-         A5SZo7pcvCrqajqg7BhSJZUo1fK5ciFki7Q/2tTknr2XlQolsUvGNAHNxdRuSaoZdTaS
-         fbxHnWE9lC0nguz3noETg12GYdQxDNTXNlMiiFm2Hunajwb1vDeNFkNgu1+OFM2tPi3H
-         t8kgKYgYY1lDIX0N6yI4dy5e2gMBC/UNSdQUhKD9gw9w5BWjNLrXknl48JoiIUg9rsJ6
-         fW6zikV0UrUE1Xk6xYLJ4SgKkTcLTMz3WsSc37emC2EwFNTvcUyYfIhWCpD6akwSljaJ
-         v6XA==
-X-Gm-Message-State: AOAM530VvQUc4gFi4UzaIG0hL312UaEQrDfS0LFkxs8dxdNZFXXIcplK
-	8E5CS1AOY50h14ldmRqn2Q3inQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Bi39+cI6apzPc8O+Ogr8L4zewT3F7+isNXvRVyU3Myw=;
+        b=WRINyAqhnAr4wYAkbf7psEGZVe6kCBGr5LamtxEM/j5iCVc3LC0NBuChSnAaguMpmS
+         ZPFuieUyuOMvDU8Jiu4OAdXjxbYKO2B7ReQt+8HL0vtoquDCqtPMxMF0vWeeT3/Enw7h
+         7+oTqTBo4N3zh+Vpz3EGNA1q+crW3sFjkLnqRZiisNXGCQ7GzRZ55tnigFLZWQNNT2gn
+         NBA7/WW1Kt8bOSte0yA5/exlIRfprLLs8TPngVguyf6XXFLwBHRfifTwhgKNE8rLZOhl
+         ZGtTnivwiGIN6GplgD7BgZYpR7UAu04HdZaHJOzpBm6SJPgz70vPqGLA9lXBOZXAz1w6
+         KGXg==
+X-Gm-Message-State: AOAM531kVlHKW6jmVE23DpdcG1ZhbFB7P8lnK1Ft5+vi3VvR6W9lMW7p
+	GegGKtrkV72p9+hDvn1HMqkyIL0rF3pbafXDgg0=
 X-Google-Smtp-Source: 
- ABdhPJyDZ0W6LtZ6pnU1G2/kee5/FJHfews/SKpevHBvvFjFa6P/u4XMjll6T9hRua9OibiEEhk8LA==
-X-Received: by 2002:a05:600c:3227:: with SMTP id
- r39mr63527583wmp.120.1636981411984;
-        Mon, 15 Nov 2021 05:03:31 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c4af:9769:123a:c249?
- ([2001:8b0:aba:5f3c:c4af:9769:123a:c249])
-        by smtp.gmail.com with ESMTPSA id
- k13sm9634241wri.6.2021.11.15.05.03.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 05:03:31 -0800 (PST)
-Message-ID: 
- <4fe9727134f24a4368d9620000b5c2817c9d7892.camel@linuxfoundation.org>
-Subject: Re: [PATCH] Fix Bug-14613
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com
-Date: Mon, 15 Nov 2021 13:03:30 +0000
-In-Reply-To: <20211115125853.123820-1-pgowda.cve@gmail.com>
-References: <20211115125853.123820-1-pgowda.cve@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJxaV+o/dT2XPwOEnqHYnnSB80I6FAdkk3F1yP3byDRFQCLtu2i9thhjnRw+NJPD3XO5u8OMl5fY1Dn6bl6Y6MM=
+X-Received: by 2002:ab0:6f14:: with SMTP id r20mr40743669uah.22.1636981560026;
+ Mon, 15 Nov 2021 05:06:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211105133104.19895-1-jasper@fancydomain.eu>
+ <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
+ <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
+ <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
+ <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
+ <dd07e5137044429f805caf23114a2e72@axis.com>
+ <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
+ <83886954b53b47eb93b6ab8a7feebf19@axis.com>
+ <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
+ <64e41080db7642d0b54818bdcf916dac@axis.com>
+ <699b2927411dbdfdfd01e64ffb16dc057d5bb320.camel@iris-sensing.com>
+ <CANNYZj9LXZjLq9mTxJ7g0T1Zz0XzZHhjiNud9o_kAbuyVb76UA@mail.gmail.com>
+ <2a8ac0a3f85436df2651d4388569dda36a7bfca8.camel@iris-sensing.com>
+In-Reply-To: <2a8ac0a3f85436df2651d4388569dda36a7bfca8.camel@iris-sensing.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 15 Nov 2021 14:05:47 +0100
+Message-ID: 
+ <CANNYZj_J1XaShxLv1d3vsjMV7qdy=L-6a4KvZ0RXDF0A8xRqKg@mail.gmail.com>
+Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe for
+ repo 2.17.3
+To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+Cc: "jasper@fancydomain.eu" <jasper@fancydomain.eu>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>,
+	"bitbake-devel@lists.openembedded.org"
+ <bitbake-devel@lists.openembedded.org>, "martin@mko.dev" <martin@mko.dev>,
+	"kweihmann@outlook.com" <kweihmann@outlook.com>,
+ Daniel Baumgart <Daniel.Baumgart@iris-sensing.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000063aa4c05d0d37821"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 13:03:36 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 13:06:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158288
+ https://lists.openembedded.org/g/openembedded-core/message/158289
 
-On Mon, 2021-11-15 at 04:58 -0800, Pgowda wrote:
-> Source:- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14613
-> 
-> Adds TUNE_PKGARCH to PN so that it picks correct TUNE_FEATURES.
-> 
+--00000000000063aa4c05d0d37821
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Also, the short log needs to be in the format matching our commit guidelines so
-something like:
+Thanks, maybe you should write a test for offline builds as well then :)
 
-rust-cross: Replace TARGET_ARCH with TUNE_PKGARCH
+Alex
 
-and then the full log needs to describe what issues there were, why the commit
-is necessary and how this fixes it. It should be readable without looking at the
-bugzilla entry.
+On Mon, 15 Nov 2021 at 13:59, Jasper Orschulko <
+Jasper.Orschulko@iris-sensing.com> wrote:
 
-The format for a link to the bugzilla entry is:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA256
+>
+> Hi Alexander,
+>
+> "[PATCH v3] fetch2/repo: Implement AUTOREV for repo fetcher" contains a
+> fix for this issue. Reproducing a build offline with only the DL_DIR
+> should work now.
+>
+> We are currently still lacking the appropriate tests for the fetcher.
+> These will follow soon.
+>
+> - --
+> With best regards
+>
+> Jasper Orschulko
+> DevOps Engineer
+>
+> Tel. +49 30 58 58 14 265
+> Fax +49 30 58 58 14 999
+> Jasper.Orschulko@iris-sensing.com
+>
+> =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=
+=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=
+=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =
+=E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2
+>
+> iris-GmbH
+> infrared & intelligent sensors
+> Schnellerstra=C3=9Fe 1-5 | 12439 Berlin
+>
+> https://iris-sensing.com/
+>
+>
+>
+>
+>
+> On Thu, 2021-11-11 at 20:20 +0100, Alexander Kanavin wrote:
+> > On Thu, 11 Nov 2021 at 16:08, Jasper Orschulko
+> > <Jasper.Orschulko@iris-sensing.com> wrote:
+> > > So if you have done this initial fetch of your sources and stash
+> > > your
+> > > working dir away, you can do an offline build.
+> >
+> > But can you do an offline build without a prepopulated working dir?
+> > That's the crucial point: offline build should work in a freshly set
+> > up build directory, without sstate cache, and with prepopulated
+> > DL_DIR only.
+> >
+> > Alex
+> -----BEGIN PGP SIGNATURE-----
+>
+> iQEzBAEBCAAdFiEE4WyPMIC5Ap4+Ooo1Ygqew07VMNUFAmGSWb4ACgkQYgqew07V
+> MNVUYQgAgA6+8XI+JxtA532FNNIMAZG5ZGZ12GKvVkjoJErnzRf0RZxUG3UyNYmm
+> pSDcfbuodBmBbHxDBpN8VspToKZy8dKcm/jfe9UY7f9U39bZSNXSS3hNPqkqKP5J
+> jCg1zQfxjbW1aVSHJkQB5MoY/EDeoQVv7RI6RmcVsLJZxozPeYaOQWSdTNG/7czg
+> oFjKr6jtSOYO45teMGt3+2+AtAXhlzTgKZo33rX/tknS7f1+kkyNGLv0ssSP5Jcf
+> Bd8YbcdG9lqXKUo0A7rn9Q83YBdpIyA6+By159zzPy7bP8j9aqMH8nNWauahhcFS
+> sY39fiky57aEgMe7g1OZX8oRODowPA=3D=3D
+> =3DhpAK
+> -----END PGP SIGNATURE-----
+>
 
-[YOCTO #14613]
+--00000000000063aa4c05d0d37821
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div>Thanks, maybe you should write a test for offline bui=
+lds as well then :)</div><div><br></div><div>Alex<br></div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 15 Nov 2=
+021 at 13:59, Jasper Orschulko &lt;<a href=3D"mailto:Jasper.Orschulko@iris-=
+sensing.com">Jasper.Orschulko@iris-sensing.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">-----BEGIN PGP SIGNED MESSAGE=
+-----<br>
+Hash: SHA256<br>
+<br>
+Hi Alexander,<br>
+<br>
+&quot;[PATCH v3] fetch2/repo: Implement AUTOREV for repo fetcher&quot; cont=
+ains a<br>
+fix for this issue. Reproducing a build offline with only the DL_DIR<br>
+should work now.<br>
+<br>
+We are currently still lacking the appropriate tests for the fetcher.<br>
+These will follow soon.<br>
+<br>
+- -- <br>
+With best regards<br>
+<br>
+Jasper Orschulko<br>
+DevOps Engineer<br>
+<br>
+Tel. +49 30 58 58 14 265<br>
+Fax +49 30 58 58 14 999<br>
+<a href=3D"mailto:Jasper.Orschulko@iris-sensing.com" target=3D"_blank">Jasp=
+er.Orschulko@iris-sensing.com</a><br>
+<br>
+=E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=
+=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=
+=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =
+=E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2<br>
+<br>
+iris-GmbH<br>
+infrared &amp; intelligent sensors<br>
+Schnellerstra=C3=9Fe 1-5 | 12439 Berlin<br>
+<br>
+<a href=3D"https://iris-sensing.com/" rel=3D"noreferrer" target=3D"_blank">=
+https://iris-sensing.com/</a><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+On Thu, 2021-11-11 at 20:20 +0100, Alexander Kanavin wrote:<br>
+&gt; On Thu, 11 Nov 2021 at 16:08, Jasper Orschulko<br>
+&gt; &lt;<a href=3D"mailto:Jasper.Orschulko@iris-sensing.com" target=3D"_bl=
+ank">Jasper.Orschulko@iris-sensing.com</a>&gt; wrote:<br>
+&gt; &gt; So if you have done this initial fetch of your sources and stash<=
+br>
+&gt; &gt; your<br>
+&gt; &gt; working dir away, you can do an offline build.<br>
+&gt; <br>
+&gt; But can you do an offline build without a prepopulated working dir?<br=
+>
+&gt; That&#39;s the crucial point: offline build should work in a freshly s=
+et<br>
+&gt; up build directory, without sstate cache, and with prepopulated<br>
+&gt; DL_DIR only.<br>
+&gt; <br>
+&gt; Alex<br>
+-----BEGIN PGP SIGNATURE-----<br>
+<br>
+iQEzBAEBCAAdFiEE4WyPMIC5Ap4+Ooo1Ygqew07VMNUFAmGSWb4ACgkQYgqew07V<br>
+MNVUYQgAgA6+8XI+JxtA532FNNIMAZG5ZGZ12GKvVkjoJErnzRf0RZxUG3UyNYmm<br>
+pSDcfbuodBmBbHxDBpN8VspToKZy8dKcm/jfe9UY7f9U39bZSNXSS3hNPqkqKP5J<br>
+jCg1zQfxjbW1aVSHJkQB5MoY/EDeoQVv7RI6RmcVsLJZxozPeYaOQWSdTNG/7czg<br>
+oFjKr6jtSOYO45teMGt3+2+AtAXhlzTgKZo33rX/tknS7f1+kkyNGLv0ssSP5Jcf<br>
+Bd8YbcdG9lqXKUo0A7rn9Q83YBdpIyA6+By159zzPy7bP8j9aqMH8nNWauahhcFS<br>
+sY39fiky57aEgMe7g1OZX8oRODowPA=3D=3D<br>
+=3DhpAK<br>
+-----END PGP SIGNATURE-----<br>
+</blockquote></div>
 
-Richard
-
+--00000000000063aa4c05d0d37821--
 
