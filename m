@@ -1,218 +1,457 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <jasper@fancydomain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A572C433EF
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 12:53:33 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.21641.1636980812294269306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 971CDC433F5
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 12:55:11 +0000 (UTC)
+Received: from mx.walter.deinstapel.de (mx.walter.deinstapel.de
+ [116.202.209.171])
+ by mx.groups.io with SMTP id smtpd.web12.21884.1636980908579245958
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 04:53:32 -0800
+ Mon, 15 Nov 2021 04:55:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 050416D
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 04:53:31 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FAC13F766
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 04:53:30 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: fix CVE-2021-3927 and CVE-2021-3928
-Date: Mon, 15 Nov 2021 12:53:28 +0000
-Message-Id: <20211115125328.2663570-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ dkim=fail reason="no key for verify" header.i=@fancydomain.eu header.s=mail
+ header.b=e6tQkfCv;
+ spf=pass (domain: fancydomain.eu, ip: 116.202.209.171,
+ mailfrom: jasper@fancydomain.eu)
+From: jasper@fancydomain.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fancydomain.eu;
+	s=mail; t=1636980905;
+	bh=UWSFgnoT6I4iHTx5ASjmR29LQ50vjpAmn15wIWt0MYE=;
+	h=From:To:Cc:Subject;
+	b=e6tQkfCvx+8ORn/2dio4JMp3s+rvTJGvKE2sur1YI29rpXgFKBCSN0LrrpsNk2Dxv
+	 AYIgHgLbmfSyA1IqMRBf5Uc0oFaEXXk+fg94ByuCR+xNdJJ1dl0e1ULRMNXzqueOS5
+	 OaUFrcvBHzzCsBCgVehZI8UgTCktmxJkFddJm8j5YOWBoy4AobfpLtB3aMCam/qRtD
+	 h1geAzw+1uwMFxK9ncWw9U/RrpeQsuHbnefIrc5j1fAhS/mlyK5kqgl0nbIsolkZX7
+	 JRGsIvaGhB9NyHm5DOamu3rr7Neyir+bCpw6NCiqEbJliVtnoCgHJoilMHzVzNoE8G
+	 byVdW6dZuArdw==
+To: bitbake-devel@lists.openembedded.org
+Cc: martin@mko.dev,
+	Daniel.Baumgart@iris-sensing.com,
+	openembedded-core@lists.openembedded.org,
+	Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+Subject: [PATCH v3] fetch2/repo: Implement AUTOREV for repo fetcher
+Date: Mon, 15 Nov 2021 13:54:35 +0100
+Message-Id: <20211115125435.1001033-1-jasper@fancydomain.eu>
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 12:53:33 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 12:55:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158283
+ https://lists.openembedded.org/g/openembedded-core/message/158284
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+From: Martin Koppehel <martin@mko.dev>
+
+- Implement AUTOINC and submodule support for REPO provider
+- Implement full srcrev support
+- Add comments and fixup empty DL_DIR initialization
+- Distinguish between artificial and plain rev
+- Comments/documentation
+
+The previous implementation of the repo fetcher could not handle updates
+to the repo manifest file, nor deal with dynamic refspecs within this
+manifest.
+
+This patch fixes these shortcomings as follows:
+During the recipe parsing phase, the repository containing the repo
+manifest is cloned. This is done, as we need to parse the XML file
+contained within, in order to discover all involved git repositories. A
+combined hash is then calculated from the manifest repo, as well as any
+git repo specified in the manifest. This hash is used for determining the
+necessity of an update.
+
+Additionally, the recipe will throw an error if the repo source is set to
+a fixed revision but one or more repositories within the manifest
+reference a dynamic refspec. This is done to ensure the reproducibility
+of a version-pinned recipe.
+
+Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
 ---
- ...1-reading-character-past-end-of-line.patch | 62 ++++++++++++++++++
- ...eading-uninitialized-memory-when-giv.patch | 63 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  2 +
- 3 files changed, 127 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-re=
-ading-character-past-end-of-line.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-re=
-ading-uninitialized-memory-when-giv.patch
+ lib/bb/fetch2/repo.py | 259 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 230 insertions(+), 29 deletions(-)
 
-diff --git a/meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-c=
-haracter-past-end-of-line.patch b/meta/recipes-support/vim/files/0001-pat=
-ch-8.2.3581-reading-character-past-end-of-line.patch
-new file mode 100644
-index 0000000000..28c61cd782
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-characte=
-r-past-end-of-line.patch
-@@ -0,0 +1,62 @@
-+CVE: CVE-2021-3927
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 93b427c6e729260d0700c3b2804ec153bc8284fa Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Thu, 4 Nov 2021 15:10:11 +0000
-+Subject: [PATCH] patch 8.2.3581: reading character past end of line
-+
-+Problem:    Reading character past end of line.
-+Solution:   Correct the cursor column.
-+---
-+ src/ex_docmd.c           |  1 +
-+ src/testdir/test_put.vim | 12 ++++++++++++
-+ src/version.c            |  2 ++
-+ 3 files changed, 15 insertions(+)
-+
-+diff --git a/src/ex_docmd.c b/src/ex_docmd.c
-+index fde726477..59e245bee 100644
-+--- a/src/ex_docmd.c
-++++ b/src/ex_docmd.c
-+@@ -6905,6 +6905,7 @@ ex_put(exarg_T *eap)
-+ 	eap->forceit =3D TRUE;
-+     }
-+     curwin->w_cursor.lnum =3D eap->line2;
-++    check_cursor_col();
-+     do_put(eap->regname, eap->forceit ? BACKWARD : FORWARD, 1L,
-+ 						       PUT_LINE|PUT_CURSLINE);
-+ }
-+diff --git a/src/testdir/test_put.vim b/src/testdir/test_put.vim
-+index 225ebd1f3..922e5b269 100644
-+--- a/src/testdir/test_put.vim
-++++ b/src/testdir/test_put.vim
-+@@ -113,3 +113,15 @@ func Test_put_p_indent_visual()
-+   call assert_equal('select that text', getline(2))
-+   bwipe!
-+ endfunc
-++
-++func Test_put_above_first_line()
-++  new
-++  let @" =3D 'text'
-++  silent! normal 0o00
-++  0put
-++  call assert_equal('text', getline(1))
-++  bwipe!
-++endfunc
-++
-++
-++" vim: shiftwidth=3D2 sts=3D2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index a9e8be0e7..df4ec9a47 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3581,
-+ /**/
-+     3564,
-+ /**/
-diff --git a/meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-u=
-ninitialized-memory-when-giv.patch b/meta/recipes-support/vim/files/0002-=
-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
-new file mode 100644
-index 0000000000..d117a98893
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitia=
-lized-memory-when-giv.patch
-@@ -0,0 +1,63 @@
-+CVE: CVE-2021-3928
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From ade0f0481969f1453c60e7c8354b00dfe4238739 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Thu, 4 Nov 2021 15:46:05 +0000
-+Subject: [PATCH] patch 8.2.3582: reading uninitialized memory when givin=
-g
-+ spell suggestions
-+
-+Problem:    Reading uninitialized memory when giving spell suggestions.
-+Solution:   Check that preword is not empty.
-+---
-+ src/spellsuggest.c         | 2 +-
-+ src/testdir/test_spell.vim | 8 ++++++++
-+ src/version.c              | 2 ++
-+ 3 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/spellsuggest.c b/src/spellsuggest.c
-+index 9d6df7930..8615d5280 100644
-+--- a/src/spellsuggest.c
-++++ b/src/spellsuggest.c
-+@@ -1600,7 +1600,7 @@ suggest_trie_walk(
-+ 		    // char, e.g., "thes," -> "these".
-+ 		    p =3D fword + sp->ts_fidx;
-+ 		    MB_PTR_BACK(fword, p);
-+-		    if (!spell_iswordp(p, curwin))
-++		    if (!spell_iswordp(p, curwin) && *preword !=3D NUL)
-+ 		    {
-+ 			p =3D preword + STRLEN(preword);
-+ 			MB_PTR_BACK(preword, p);
-+diff --git a/src/testdir/test_spell.vim b/src/testdir/test_spell.vim
-+index 79fb8927c..e435e9172 100644
-+--- a/src/testdir/test_spell.vim
-++++ b/src/testdir/test_spell.vim
-+@@ -498,6 +498,14 @@ func Test_spell_screendump()
-+   call delete('XtestSpell')
-+ endfunc
-+=20
-++func Test_spell_single_word()
-++  new
-++  silent! norm 0R00
-++  spell! =C3=9F=C3=82
-++  silent 0norm 0r$ Dvz=3D
-++  bwipe!
-++endfunc
-++
-+ let g:test_data_aff1 =3D [
-+       \"SET ISO8859-1",
-+       \"TRY esianrtolcdugmphbyfvkwjkqxz-\xEB\xE9\xE8\xEA\xEF\xEE\xE4\xE=
-0\xE2\xF6\xFC\xFB'ESIANRTOLCDUGMPHBYFVKWJKQXZ",
-+diff --git a/src/version.c b/src/version.c
-+index df4ec9a47..e1bc0d09b 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3582,
-+ /**/
-+     3581,
-+ /**/
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-index 943856e07c..d0957bfeae 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -23,6 +23,8 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmast=
-er;protocol=3Dhttps \
-            file://0003-patch-8.2.3487-illegal-memory-access-if-buffer-na=
-me-.patch \
-            file://0004-patch-8.2.3489-ml_get-error-after-search-with-ran=
-ge.patch \
-            file://0005-patch-8.2.3564-invalid-memory-access-when-scrolli=
-ng-.patch \
-+           file://0001-patch-8.2.3581-reading-character-past-end-of-line=
-.patch \
-+           file://0002-patch-8.2.3582-reading-uninitialized-memory-when-=
-giv.patch \
-            "
+diff --git a/lib/bb/fetch2/repo.py b/lib/bb/fetch2/repo.py
+index fa4cb814..706d37fa 100644
+--- a/lib/bb/fetch2/repo.py
++++ b/lib/bb/fetch2/repo.py
+@@ -3,6 +3,7 @@ BitBake "Fetch" repo (git) implementation
 =20
- SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
+ """
+=20
++# Copyright (C) 2021 Martin Koppehel <martin@mko.dev>, iris-GmbH infrare=
+d & intelligent sensors
+ # Copyright (C) 2009 Tom Rini <trini@embeddedalley.com>
+ #
+ # Based on git.py which is:
+@@ -13,9 +14,11 @@ BitBake "Fetch" repo (git) implementation
+=20
+ import os
+ import bb
++import hashlib
++import xml.etree.ElementTree as ET
+ from   bb.fetch2 import FetchMethod
+ from   bb.fetch2 import runfetchcmd
+-from   bb.fetch2 import logger
++
+=20
+ class Repo(FetchMethod):
+     """Class to fetch a module or modules from repo (git) repositories""=
+"
+@@ -27,46 +30,84 @@ class Repo(FetchMethod):
+=20
+     def urldata_init(self, ud, d):
+         """
+-        We don"t care about the git rev of the manifests repository, but
+-        we do care about the manifest to use.  The default is "default".
+-        We also care about the branch or tag to be used.  The default is
+-        "master".
++        We do care about the rev of the manifests repository, as well as=
+ the
++        manifest file. However, when SRCREV=3DAUTOINC, then we use the s=
+pecified
++        branch in SRC_URI, with a fallback to master.
++        use sm=3Dfetch to fetch possibly referenced submodules in reposi=
+tories.
+         """
+=20
+         ud.basecmd =3D d.getVar("FETCHCMD_repo") or "/usr/bin/env repo"
++        ud.gitcmd =3D d.getVar("FETCHCMD_git") or "git -c core.fsyncobje=
+ctfiles=3D0"
+=20
+         ud.proto =3D ud.parm.get('protocol', 'git')
+         ud.branch =3D ud.parm.get('branch', 'master')
++
++        ud.submodules =3D ud.parm.get('sm', 'fetch')
+         ud.manifest =3D ud.parm.get('manifest', 'default.xml')
+         if not ud.manifest.endswith('.xml'):
+             ud.manifest +=3D '.xml'
+=20
+-        ud.localfile =3D d.expand("repo_%s%s_%s_%s.tar.gz" % (ud.host, u=
+d.path.replace("/", "."), ud.manifest, ud.branch))
++        repodir =3D d.getVar("REPODIR") or (d.getVar("DL_DIR") + "/repo"=
+)
++        gitsrcname =3D "%s%s.%s" % (ud.host, ud.path.replace("/", "."), =
+ud.manifest)
++        ud.codir =3D os.path.join(repodir, d.getVar("BPN"), gitsrcname)
++
++        if ud.user:
++            ud.username =3D ud.user + "@"
++        else:
++            ud.username =3D ""
++        ud.remoteRepo =3D "%s://%s%s%s" % (ud.proto, ud.username, ud.hos=
+t, ud.path)
++
++        ud.repodir =3D os.path.join(ud.codir, "repo")
++        # a temporary directory to compute _latest_revision
++        ud.tempdir =3D os.path.join(ud.codir, "temp")
++        ud.stampfile =3D os.path.join(ud.codir, "__hash.txt")
++        ud.setup_revisions(d)
++
++        # ud.localfile is used to fill localpath, where the downloaded t=
+arball is stored.
++        # in our case, we want something like repo_$GIT_URL_$MANIFEST_$S=
+RCREV
++        # todo: do we want the packagename?
++        ud.localfile =3D "repo_%s%s_%s_%s.tar.gz" % (ud.host, ud.path.re=
+place("/", "."), ud.manifest, ud.revision)
++
++    def need_update(self, ud, d):
++        if ud.revision.startswith("_"):
++          return True
++        return not os.path.exists(ud.localfile)
+=20
+     def download(self, ud, d):
+         """Fetch url"""
+=20
+-        if os.access(os.path.join(d.getVar("DL_DIR"), ud.localfile), os.=
+R_OK):
+-            logger.debug("%s already exists (or was stashed). Skipping r=
+epo init / sync.", ud.localpath)
+-            return
++        bb.utils.mkdirhier(ud.repodir)
+=20
+-        repodir =3D d.getVar("REPODIR") or (d.getVar("DL_DIR") + "/repo"=
+)
+-        gitsrcname =3D "%s%s" % (ud.host, ud.path.replace("/", "."))
+-        codir =3D os.path.join(repodir, gitsrcname, ud.manifest)
+-
+-        if ud.user:
+-            username =3D ud.user + "@"
++        # we want to run a repo init *always* in case the branch or mani=
+fest name changes.
++        # if not os.path.exists(os.path.join(repodir, ".repo")):
++        if ud.submodules =3D=3D "fetch":
++            submodules =3D "--fetch-submodules"
+         else:
+-            username =3D ""
++            submodules =3D ""
+=20
+-        repodir =3D os.path.join(codir, "repo")
+-        bb.utils.mkdirhier(repodir)
+-        if not os.path.exists(os.path.join(repodir, ".repo")):
+-            bb.fetch2.check_network_access(d, "%s init -m %s -b %s -u %s=
+://%s%s%s" % (ud.basecmd, ud.manifest, ud.branch, ud.proto, username, ud.=
+host, ud.path), ud.url)
+-            runfetchcmd("%s init -m %s -b %s -u %s://%s%s%s" % (ud.basec=
+md, ud.manifest, ud.branch, ud.proto, username, ud.host, ud.path), d, wor=
+kdir=3Drepodir)
++        # fixup the revision -> when it starts with underscore, it's an =
+artificial one
++        # therefore we then use the specified remote branch used to gene=
+rate
++        # the artificial revision in _latest_revision
++        realRevision =3D ud.revision
++        if ud.revision.startswith("_"):
++            realRevision =3D ud.branch
+=20
+-        bb.fetch2.check_network_access(d, "%s sync %s" % (ud.basecmd, ud=
+.url), ud.url)
+-        runfetchcmd("%s sync" % ud.basecmd, d, workdir=3Drepodir)
++        # always run repo init, because we might want to switch branch o=
+r manifests.
++        bb.fetch2.check_network_access(d, "%s init -m %s -b %s -u %s" % =
+(ud.basecmd, ud.manifest, realRevision, ud.remoteRepo), ud.url)
++        runfetchcmd("%s init -m %s -b %s -u %s" % (ud.basecmd, ud.manife=
+st, realRevision, ud.remoteRepo), d, workdir=3Dud.repodir)
++
++        bb.fetch2.check_network_access(d, "%s sync %s %s" % (ud.basecmd,=
+ submodules, ud.url), ud.url)
++        runfetchcmd("%s sync %s" % (ud.basecmd, submodules), d, workdir=3D=
+ud.repodir)
++
++        # at this point, we have a checked out version, so make sure tha=
+t revisions are pinned if the user requests that
++        if self._checkIsFixedRevision(ud, d, realRevision, ud.repodir):
++            # our manifest repo has a tag or a fixed sha revision =3D> e=
+nsure all linked repos have the same.
++            def projectIterator(project, remote, revision):
++                if not self._checkIsFixedRevision(ud, d, revision, os.pa=
+th.join(ud.repodir, project.get("path"))):
++                    raise bb.fetch2.FetchError("repo recipe is set to a =
+fixed revision but project %s has variable revision %s.\nTo fix this, spe=
+cify tags or SHA-hashes in your repo manifest file.\nThis is important to=
+ guarantee reproducibility." % (project.get('name'), revision), ud.url)
++
++            output =3D runfetchcmd("%s manifest" % ud.basecmd, d, workdi=
+r=3Dud.repodir)
++            self._scanRepoManifest(ud, d, output, projectIterator, conte=
+nt=3DTrue)
+=20
+         scmdata =3D ud.parm.get("scmdata", "")
+         if scmdata =3D=3D "keep":
+@@ -75,13 +116,173 @@ class Repo(FetchMethod):
+             tar_flags =3D "--exclude=3D'.repo' --exclude=3D'.git'"
+=20
+         # Create a cache
+-        runfetchcmd("tar %s -czf %s %s" % (tar_flags, ud.localpath, os.p=
+ath.join(".", "*") ), d, workdir=3Dcodir)
++        runfetchcmd("tar %s -czf %s %s" % (tar_flags, ud.localpath, os.p=
+ath.join(".", "*")), d, workdir=3Dud.codir)
+=20
+     def supports_srcrev(self):
+-        return False
++        return True
++
++    def clean(self, ud, d):
++        """ clean the repo directory """
++
++        to_remove =3D [ud.localpath, ud.repodir, ud.tempdir, ud.stampfil=
+e]
++        # The localpath is a symlink to clonedir when it is cloned from =
+a
++        # mirror, so remove both of them.
++        if os.path.islink(ud.localpath):
++            clonedir =3D os.path.realpath(ud.localpath)
++            to_remove.append(clonedir)
++
++        for r in to_remove:
++            if os.path.exists(r):
++                bb.utils.remove(r, True)
++
++    # this is taken from the git fetcher
++    def _lsremote(self, ud, d, search, repo):
++        """
++        Run git ls-remote with the specified search string
++        """
++        # Prevent recursion e.g. in OE if SRCPV is in PV, PV is in WORKD=
+IR,
++        # and WORKDIR is in PATH (as a result of RSS), our call to
++        # runfetchcmd() exports PATH so this function will get called ag=
+ain (!)
++        # In this scenario the return call of the function isn't actuall=
+y
++        # important - WORKDIR isn't needed in PATH to call git ls-remote
++        # anyway.
++        if d.getVar('_BB_REPO_IN_LSREMOTE', False):
++            return ''
++        d.setVar('_BB_REPO_IN_LSREMOTE', '1')
++        try:
++            cmd =3D "%s ls-remote \"%s\" %s" % \
++                (ud.gitcmd, repo, search)
++            if ud.proto.lower() !=3D 'file':
++                bb.fetch2.check_network_access(d, cmd, ud.remoteRepo)
++            output =3D runfetchcmd(cmd, d, True)
++            if not output:
++                raise bb.fetch2.FetchError("The command %s gave empty ou=
+tput unexpectedly" % cmd, ud.url)
++        finally:
++            d.delVar('_BB_REPO_IN_LSREMOTE')
++        return output
++
++    # simple helper function to check if a specific object exists.
++    # used to check that things reference commits
++    def _revParse(self, ud, d, obj, repoDir, expect):
++        try:
++            cmd =3D "%s rev-parse -q %s" % (ud.gitcmd, obj)
++            runfetchcmd(cmd, d, workdir =3D repoDir)
++        except:
++            return not expect
++        return expect
++
++    # checks that the given revision is *not* a branch.
++    def _checkIsFixedRevision(self, ud, d, commithash, repodir):
++        if not self._revParse(ud, d, "refs/heads/%s" % commithash, repod=
+ir, False):
++            return False
++        return self._revParse(ud, d, "refs/tags/%s" % commithash, repodi=
+r, True) or self._revParse(ud, d, commithash, repodir, True)
++
++    def _resolveBranchToSHA1(self, ud, d, name, repo):
++        output =3D self._lsremote(ud, d, name, repo)
++        searchstring =3D "refs/heads/%s" % name
++        found =3D False
++        for line in output.strip().split('\n'):
++            sha1, ref =3D line.split()
++            if searchstring =3D=3D ref:
++                return sha1
++                break
++
++        if not found:
++            raise bb.fetch2.FetchError("Could not determine remote ref!"=
+)
++
++    def _scanRepoManifest(self, ud, d, path, callback, content=3DFalse):
++        # parse the specified XML manifest
++        if content:
++          xml =3D ET.fromstring(path)
++        else:
++          xml =3D ET.parse(path)
++
++        # repo manifest *may* specify a <default> element, specifying fa=
+llback remotes and revisions
++        defaultObject =3D xml.find('default')
++
++        # parse all remotes and their corresponding default revisions
++        remotes =3D {}
++        remoteRevisions =3D {}
++        for remote in xml.findall('remote'):
++            remotes[remote.get('name')] =3D remote.get('fetch')
++            remoteRevisions[remote.get('name')] =3D remote.get('revision=
+')
++
++
++        # iterate through the <project> elements, resolving the correct =
+remote
++        # and revision
++        for project in xml.findall('project'):
++            # resolve the remote of the project
++            # when no remote is specified in the project take the one fr=
+om <default>
++            # when both aren't specified, throw
++            remoteName =3D project.get('remote')
++            if remoteName is None and defaultObject is not None:
++                remoteName =3D defaultObject.get('remote')
++            if remoteName is None:
++                raise bb.fetch2.FetchError("repo manifest specifies no r=
+emote for %s" % project.get('name'))
++
++            # resolve the remoteName to a git remote URL and optionally
++            # the revision if it was specified in <remote>
++            if remotes[remoteName] is not None:
++                remoteRev =3D remoteRevisions[remoteName]
++                remote =3D remotes[remoteName]
++
++            # use revision in the project, when not specified use the on=
+e from <remote>
++            # when that is not specified use <default> and when we not h=
+ave anything specified
++            # throw an exception
++            revision =3D project.get('revision') or remoteRev
++            if revision is None and defaultObject is not None:
++                revision =3D defaultObject.get('revision')
++            if revision is None:
++                raise bb.fetch2.FetchError("repo manifest specifies no r=
+evision for %s" % project.get('name'))
++            callback(project, remote, revision)
++
++    def _build_revision(self, ud, d, name):
++        return ud.revisions[name]
++
++    def _revision_key(self, ud, d, name):
++        return "%s-%s" % (d.getVar("BPN"), name)
++
++    def _latest_revision(self, ud, d, name):
++        """
++        Computes an artificial revision from the manifest repository and=
+ all
++        referenced repositories and their remote revisions.
++        name is ignored because we can only have a single branch/name
++        """
++        if d.getVar('_BB_REPO_IN_LATEST_REV', False):
++            return ''
++        d.setVar('_BB_REPO_IN_LATEST_REV', '1')
++
++        # we use a sha256 to mixup all the hashes we have
++        hashCalc =3D hashlib.sha256()
++
++        # first, add the hash of the repo itself
++        sha1 =3D self._resolveBranchToSHA1(ud, d, ud.branch, ud.remoteRe=
+po)
++        hashUpdate =3D bytes(sha1, 'utf-8')
++        hashCalc.update(hashUpdate)
++
++        # Parse the repo XML files, remove things
++        try:
++            # create/cleanup temporary dir where to clone the repo-manif=
+est URL
++            if os.path.isdir(ud.tempdir):
++                bb.utils.prunedir(ud.tempdir)
++            bb.utils.mkdirhier(ud.tempdir)
++
++            # clone the manifest repo to the temporary dir we just set u=
+p
++            bb.fetch2.check_network_access(d, "%s clone -b %s --depth 1 =
+--single-branch %s ." % (ud.gitcmd, ud.branch, ud.remoteRepo), ud.url)
++            runfetchcmd("%s clone -b %s --depth 1 --single-branch %s %s"=
+ % (ud.gitcmd, ud.branch, ud.remoteRepo, ud.tempdir), d, workdir=3Dud.tem=
+pdir)
++
++            def projectIterator(project, remote, revision):
++                # perform an ls-remote on the branch, update the checksu=
+m with the commit hash
++                gitRemotePath =3D "%s/%s" % (remote, project.get('name')=
+)
++
++                sha1 =3D self._resolveBranchToSHA1(ud, d, revision, gitR=
+emotePath)
++                hashUpdate =3D bytes(sha1, 'utf-8')
++                hashCalc.update(hashUpdate)
++
++            self._scanRepoManifest(ud, d, "%s/%s" % (ud.tempdir, ud.mani=
+fest), projectIterator)
++        finally:
++            d.delVar('_BB_REPO_IN_LATEST_REV')
++        digest =3D "_" + hashCalc.hexdigest()
++        return digest
+=20
+-    def _build_revision(self, ud, d):
+-        return ud.manifest
+=20
+-    def _want_sortable_revision(self, ud, d):
+-        return False
 --=20
-2.25.1
+2.33.1
 
 
