@@ -1,82 +1,143 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B01C433F5
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 19:34:11 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web09.1340.1637004848154823194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5328CC433EF
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 19:38:36 +0000 (UTC)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web10.1528.1637005115230890039
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 11:34:08 -0800
+ Mon, 15 Nov 2021 11:38:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XGuQZF7x;
- spf=pass (domain: gmail.com, ip: 209.85.222.182,
- mailfrom: uvv.mail@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id i9so18049559qki.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=P1o1Eb1f;
+ spf=pass (domain: gmail.com, ip: 209.85.222.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f41.google.com with SMTP id y5so19347069ual.7
         for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 11:34:08 -0800 (PST)
+ Mon, 15 Nov 2021 11:38:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:content-language:from
-         :subject:content-transfer-encoding;
-        bh=YbVziG/2E4zAU7mK9FUP5Cx/mOAHwc2s0ttYDNZidgg=;
-        b=XGuQZF7xCtsBUxWa4m2Gq3UvhZXOn6uU4wU4yJW+gXGlIe4OB31n2KXDtufpCIUWPn
-         23I+zAQPR6npYzUyFx16Sbt2Abjy58pw/kQ5Ci7rRR7T5eP2LHXpfk9fOE9nVma76uQl
-         bQdvRwUZV1fXKzyfABIBOWxvah5N1uul2NLeJeTdvE4vPPubA8As+hbzOCuMirta9CVA
-         NJ/hrbsBhimrif9pkToaPY2ohRwQyNnTNFCIYfh8KBT5IYMGrC8gIqvb8YWHUrrrUJEu
-         S1myV+4SUntRI1jMbY44BVZg6ZUFQ7b57aW+etbZeMqQFfIbkRc+SyQfMeBjKOBfQJtk
-         WqjQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xhboWRuASeLQLCdZravpJHJSH1EP+FqqeiEj5wTyil8=;
+        b=P1o1Eb1fYZMRTUqIi+K69UapqyklWRsM6hmvrUgYllaxOZOMGqHRBCp5LjzxebvSYJ
+         lS1AVZFo9yr99grIW+fvasw1QBO3hv79pvcDO2EQ+yGIvMcTlr5iuT1CeomR6Tzx7sLO
+         LqWXlsO3wBPLY+i/TAmwWD4dWs5cyDD5Tg5K4ltnPPD927nFgs5K4Gni+Q4PomoSwN3M
+         Gv6klXMz4zolw3Lj/y+iAPAX091wZXXz6RsSpyKbxYBoJgNNifC+n+UMoZT8p04yBst8
+         178bHNjY/TCCg/XNJ7WRGsdBtLL7/AKkImn92GFulRjLR4jumofsvIBgCAoW+YnEWQCb
+         4Htw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to
-         :content-language:from:subject:content-transfer-encoding;
-        bh=YbVziG/2E4zAU7mK9FUP5Cx/mOAHwc2s0ttYDNZidgg=;
-        b=oThcD7vjQeMEvb2yvMS8XT7iCO0Dc7IKOCASD2JaJagvNQTW93/MjNIqalLJaCoetc
-         PobPygLLtd1QyngFQfdxpAgv2LBi1HOuHbPuRiu6K8n/eKUUUCItklZdhJpHJBfeUAB9
-         bzCgpNoEcpEcL4upgAUucUdm40Zj+N4Q5RMVNWTiXEsFBVgAgh6SWzLz6QviJb4jx3um
-         OWtGZ/aCTkDyHm8pSYAmRufYwycJChbUgAnOOgQ9aowGTxMYTDuVVEqVk3kPk+IDKVT0
-         Gz9DgaBjNVuZPabzM39I0LU2iV2ziZDhCdQd5MiP1vPFQlWwrcgON8GDfYMB5UNWsKaL
-         RlOg==
-X-Gm-Message-State: AOAM530PNwyOrZviH2gsrwUNTPh1quDra7aVFZFzsN+N9QfN/9mfTKf7
-	WTJdmUbTWr3g62wQhd7yO2g4rJhLwqc6zqlu
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xhboWRuASeLQLCdZravpJHJSH1EP+FqqeiEj5wTyil8=;
+        b=u1os4UzsoaepaIBw9KKp+dOiH68l/ifJ1o/D58Xv6eRZxCSbdepo4WyZsZErGjmcP9
+         uKDhjIvMUj8J2SRE1GLO8UgbQlsGG7slquwSm/1/tV2LT/INkIExbSLZnxPKvASJB6nu
+         g3X5pKL6J2SZbwMIKaNBUqHpBR8P1aJpuVXTsyV9XjPU7qmB8jpxA7gygPFsIOo3tI+p
+         pWbANn9fZPBR5yH3G5epnFX5e0obIHXjYiQm6YJ6CO4QyiOezCIQY5aV5PLbXjkoH2E5
+         UqTHhcyvfI+wGVcZieP42nw12QlC+Rak/OzIlnZIkgEeN56FuN4wG4myiHtBhu0QMbhf
+         QVog==
+X-Gm-Message-State: AOAM531wOy3Wfm1T+Fmp1DIjt5oy0tufyKbyOfSqg3PuvGWi1ZEKRBNQ
+	REVePnTJu7OZiYpFxKTy2hUiXxg3TlNdDuo2HGk=
 X-Google-Smtp-Source: 
- ABdhPJzvVCljTeNhCOFhW3QoiCcu5gOtW9KBwi5DXLW1ogOpr3BKyDsIgflG4n7OThIIZYBpvdI1Rw==
-X-Received: by 2002:a05:620a:1226:: with SMTP id
- v6mr1285994qkj.240.1637004847057;
-        Mon, 15 Nov 2021 11:34:07 -0800 (PST)
-Received: from [10.129.163.78] ([37.120.205.172])
-        by smtp.gmail.com with ESMTPSA id
- g5sm2315042qko.12.2021.11.15.11.34.05
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 11:34:06 -0800 (PST)
-Message-ID: <8a12d84e-fdb1-3383-ce9e-10ddc75130cf@gmail.com>
-Date: Mon, 15 Nov 2021 20:34:02 +0100
+ ABdhPJyrfWkazQ5K6Vfl3Y/NMNeBJ8jtOGNbxuthkBSE2TFOGCVWIFHlSlwDmPmkGBzHVj3W1FO+dIslR4iTf8OZGyw=
+X-Received: by 2002:a05:6102:2c6:: with SMTP id
+ h6mr47570981vsh.13.1637005114383;
+ Mon, 15 Nov 2021 11:38:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.0
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Language: en-US
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: Suggestion to use python-parameterized for QA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <8a12d84e-fdb1-3383-ce9e-10ddc75130cf@gmail.com>
+In-Reply-To: <8a12d84e-fdb1-3383-ce9e-10ddc75130cf@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 15 Nov 2021 20:38:23 +0100
+Message-ID: 
+ <CANNYZj-xeJS_+3r-Lwg=Nzyr+KrtFA8hCpGj-DeDpaihzB_TQg@mail.gmail.com>
+Subject: Re: [OE-core] Suggestion to use python-parameterized for QA
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000056a1ad05d0d8f4d3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 19:34:11 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 19:38:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158309
+ https://lists.openembedded.org/g/openembedded-core/message/158310
 
-Hi guys,
-I have a suggestion to add https://pypi.org/project/parameterized/ as a 
-required package for QA selftests. Together with python unittest module 
-it can be useful to increase code coverage and reduce duplication in 
-case you want to do the same test with different input values.
+--00000000000056a1ad05d0d8f4d3
+Content-Type: text/plain; charset="UTF-8"
 
-Anything speaks against it?
+It would be helpful to provide an example of improvements that can be
+enabled with it.
 
-Cheers,
-Vyacheslav
+Alex
+
+On Mon, 15 Nov 2021 at 20:34, Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+
+> Hi guys,
+> I have a suggestion to add https://pypi.org/project/parameterized/ as a
+> required package for QA selftests. Together with python unittest module
+> it can be useful to increase code coverage and reduce duplication in
+> case you want to do the same test with different input values.
+>
+> Anything speaks against it?
+>
+> Cheers,
+> Vyacheslav
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158309):
+> https://lists.openembedded.org/g/openembedded-core/message/158309
+> Mute This Topic: https://lists.openembedded.org/mt/87078063/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--00000000000056a1ad05d0d8f4d3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>It would be helpful to provide an example of improvem=
+ents that can be enabled with it.</div><div><br></div><div>Alex<br></div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Mon, 15 Nov 2021 at 20:34, Vyacheslav Yurkov &lt;<a href=3D"mailto:uvv.mai=
+l@gmail.com">uvv.mail@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">Hi guys,<br>
+I have a suggestion to add <a href=3D"https://pypi.org/project/parameterize=
+d/" rel=3D"noreferrer" target=3D"_blank">https://pypi.org/project/parameter=
+ized/</a> as a <br>
+required package for QA selftests. Together with python unittest module <br=
+>
+it can be useful to increase code coverage and reduce duplication in <br>
+case you want to do the same test with different input values.<br>
+<br>
+Anything speaks against it?<br>
+<br>
+Cheers,<br>
+Vyacheslav<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#158309): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/158309" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/158309</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87078063/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87078063/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000056a1ad05d0d8f4d3--
 
