@@ -1,149 +1,206 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDB8C433F5
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 13:13:03 +0000 (UTC)
-Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
- by mx.groups.io with SMTP id smtpd.web09.22167.1636981981981853953
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F80C433F5
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 13:57:34 +0000 (UTC)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+ [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.web08.22711.1636984653207310984
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 05:13:02 -0800
+ Mon, 15 Nov 2021 05:57:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: iris-sensing.com,
- ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.irisgmbh.de (Postfix) with ESMTP id 0216131E034B;
-	Mon, 15 Nov 2021 14:13:00 +0100 (CET)
-X-Virus-Scanned: amavisd-new at irisgmbh.de
-Received: from mail.irisgmbh.de ([127.0.0.1])
-	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new,
- port 10027)
-	with ESMTP; Mon, 15 Nov 2021 14:12:59 +0100 (CET)
-Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
-	by mail.irisgmbh.de (Postfix) with ESMTPS id DA47131E02E9;
-	Mon, 15 Nov 2021 14:12:59 +0100 (CET)
-Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
- ([172.30.10.11]) with mapi id 14.03.0513.000; Mon, 15 Nov 2021 14:12:59 +0100
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "jasper@fancydomain.eu" <jasper@fancydomain.eu>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>,
-	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>, "martin@mko.dev" <martin@mko.dev>,
-	"kweihmann@outlook.com" <kweihmann@outlook.com>, Daniel Baumgart
-	<Daniel.Baumgart@iris-sensing.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Topic: [bitbake-devel] [oe-core][PATCH 1/2] devtools: Initial recipe
- for repo 2.17.3
-Thread-Index: 
- AQHX0klmUmLVPFJtF0Ob3PuHG3t8+6v03rAAgAADSACAAAYMgIABSAqAgATTzgCAAmPRAIAAqg6AgAAZFICAAAoTAIAAIckAgAAP84CAAEZSAIAF3wiAgAABtICAAAH/AA==
-Date: Mon, 15 Nov 2021 13:12:57 +0000
-Message-ID: <11fb4cda62bcc685bd45378071e28f40ce8e8f0e.camel@iris-sensing.com>
-References: <20211105133104.19895-1-jasper@fancydomain.eu>
-	 <AM9PR09MB4642AA3727D430C698E95EE5A88E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <b8897c8a436f384ef0a41d708816c2f61f9e22c7.camel@iris-sensing.com>
-	 <d87ff011218f55d97e5aa48ff9b06d216f6d477a.camel@iris-sensing.com>
-	 <029d18fa589265e32476c7cc45c9977f7b4bb9aa.camel@linuxfoundation.org>
-	 <3101a847508371b09b2949434f9ca09c672a7097.camel@iris-sensing.com>
-	 <dd07e5137044429f805caf23114a2e72@axis.com>
-	 <c1b45d484d3f55f9522cfa85c58e2acfa7d0e3f1.camel@iris-sensing.com>
-	 <83886954b53b47eb93b6ab8a7feebf19@axis.com>
-	 <e0ac884bc63e94e0c01a020ef178b7358779776b.camel@iris-sensing.com>
-	 <64e41080db7642d0b54818bdcf916dac@axis.com>
-	 <699b2927411dbdfdfd01e64ffb16dc057d5bb320.camel@iris-sensing.com>
-	 <CANNYZj9LXZjLq9mTxJ7g0T1Zz0XzZHhjiNud9o_kAbuyVb76UA@mail.gmail.com>
-	 <2a8ac0a3f85436df2651d4388569dda36a7bfca8.camel@iris-sensing.com>
-	 <CANNYZj_J1XaShxLv1d3vsjMV7qdy=L-6a4KvZ0RXDF0A8xRqKg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_J1XaShxLv1d3vsjMV7qdy=L-6a4KvZ0RXDF0A8xRqKg@mail.gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.10.1]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0E89D45593C83B43B6DDA6B0A026C59E@irisgmbh.local>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UkAMoAVO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.43,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f43.google.com with SMTP id o1so2146877uap.4
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 15 Nov 2021 05:57:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YPAqtr0QL7lwDTNFPrO1nXh0j02vvkRVX9qPPGOXeWY=;
+        b=UkAMoAVOJKxCPKedwGDJ5n0KxqXsEnJA9pp1ac8aooyAPdAOGFKiYzXL46ioKV8mh3
+         iCFtpIFjAMCeVkpefXwU406xFlvRYDbX99+GEd7JwqcbXvv56ekDmRQWK1FuDg7CWGuN
+         80YGMNV9FBMLH/bspvWMKS8JqhARk89hhzQl4QB5fEI4ASd57DDzlTlPwgFYR5RKAdvR
+         M8xtwgko2yDBovyPCXsFnOuM8WQov8omocuod7Z6MQE3PZU5U5uuGWD+Rd4Sz9JinkC7
+         vl+Rb+n2FDgTGsSuyI6UzWElAxM3mLWaAUdMS1ZQvLTIrSxvznmYLUod/BqUALjg0Z2C
+         esmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YPAqtr0QL7lwDTNFPrO1nXh0j02vvkRVX9qPPGOXeWY=;
+        b=SahnQjkT3rGKqJWinLNw2bJ7wek9XbMXV1NJHA+L70YDpuCc8ww3W7VgPWMJuxQP5K
+         lEaodrpGORFzAXBniGomODZxNI5okeFjRbE7Cs8hWjQnX0QTxGwiCngz0+G+2h28qB2d
+         IVjiPbnJW/eMKox6ng4OaxTHfmZdO60mfnlT0+1vrQMQqXP7zdRWtqBu95HzgDdyqoL0
+         A89nCP95sK942AW1y8GdPFwJO1h3iyqc7UYS+jpcIOK0mcTBwbvxxhkNCTFRc7Gzf5YY
+         BCT4S+zMpJGarfwec8g6fVopI4uqs2arucK16ZrXrllECLCmzkWb/1jaV1qUmCxvA9CA
+         7EpA==
+X-Gm-Message-State: AOAM531YA0rLaGOFcVV9nOcsxqj5GLogRZ/RKtOpwG/NVaUdoQhv42AD
+	b/OrEEioNBHBlyGaPEB7fnq5q0LX0+/6kGzIQ5o=
+X-Google-Smtp-Source: 
+ ABdhPJzDy1fxwtVG6Swj2iE3Ym3j4V2ck+B/sMs23FGiStNo5MqJbhpWXCuxwHudOxeAjISDliVvv6wmdFSWzWAONMk=
+X-Received: by 2002:ab0:484:: with SMTP id 4mr58406065uaw.71.1636984652398;
+ Mon, 15 Nov 2021 05:57:32 -0800 (PST)
 MIME-Version: 1.0
+References: <20211114202648.316923-1-quaresma.jose@gmail.com>
+In-Reply-To: <20211114202648.316923-1-quaresma.jose@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 15 Nov 2021 14:57:20 +0100
+Message-ID: 
+ <CANNYZj8pUc4Af9zoC0KGOFcbDT7e=5SQMCnv6LL_OcSnV3QQ+g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] spirv-headers: upgrade 1.5.4 -> 1.5.5
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000b5852405d0d4302f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 13:13:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 13:57:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158290
+ https://lists.openembedded.org/g/openembedded-core/message/158291
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCldpbGwg
-ZG8hIDopDQoNClRoaXMgb25seSBhZmZlY3RzIHRoZSBvdGhlciBwYXRjaCBzZXJpZXMgdGhvdWdo
-LCB0aGUgcmVjaXBlIGl0c2VsZg0Kc2hvdWxkIGJlIGZpbmUgbm93Lg0KDQpJdCBzZWVtcyB0aGUg
-b25seSBxdWVzdGlvbiBsZWZ0IG9wZW4gaXMgdGhpczoNCg0KPiA+IEkgdGhpbmsgd2UgY2FuIHJl
-cGxhY2UgdGhlIHBhdGNoIDAwMDEtU2V0LVJFUE9fUkVWLXRvLXYyLjE3LjMucGF0Y2gNCj4gPiB3
-aXRoIGEgcG9zdCBmdW5jdGlvbg0KPiA+IGFuZCB3aXRoIGl0IHdlIGNhbiByZXVzZSB0aGUgU1JD
-UkVWIG9mIHRoZSByZWNpcGUuIFNvbWV0aGluZyBsaWtlOg0KPiA+IA0KPiA+IGRvX2ZpeF9yZXYo
-KXsNCj4gPiAgICAgc2VkIC1pICJzL1JFUE9fUkVWID0gJ3N0YWJsZScvUkVQT19SRVYgPSAnJHtT
-UkNSRVZ9JyIgJHtTfS9yZXBvDQo+ID4gfQ0KPiA+IA0KPiA+IGRvX3BhdGNoW3Bvc3RmdW5jc10g
-Kz0gImRvX2ZpeF9yZXYiDQo+IA0KPiBZZWFoLi4uIHdhcyB0aGlua2luZyBhYm91dCB0aGF0IGFz
-IHdlbGwuIFdhc24ndCBzdXJlIHRob3VnaCBpZiB0aGlzDQo+IHdvdWxkIGJlIGNvbnNpZGVyZWQg
-YmFkIHByYWN0aXNlLiBXaGF0IGRvIHRoZSBvdGhlcnMgdGhpbmsgYWJvdXQNCj4gdGhpcz8NCg0K
-U29tZSBmZWVkYmFjayBvbiB0aGlzIHdvdWxkIGJlIGFwcHJlY2lhdGVkLiBUaGFua3MhDQoNCi0g
-LS0gDQpXaXRoIGJlc3QgcmVnYXJkcw0KDQpKYXNwZXIgT3JzY2h1bGtvDQpEZXZPcHMgRW5naW5l
-ZXINCg0KVGVsLiArNDkgMzAgNTggNTggMTQgMjY1DQpGYXggKzQ5IDMwIDU4IDU4IDE0IDk5OQ0K
-SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29tDQoNCuKAoiDigKIg4oCiIOKAoiDigKIg
-4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDi
-gKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKINCg0KaXJpcy1HbWJIDQppbmZyYXJlZCAmIGludGVs
-bGlnZW50IHNlbnNvcnMNClNjaG5lbGxlcnN0cmHDn2UgMS01IHwgMTI0MzkgQmVybGluDQoNCmh0
-dHBzOi8vaXJpcy1zZW5zaW5nLmNvbS8NCg0KDQoNCg0KDQpPbiBNb24sIDIwMjEtMTEtMTUgYXQg
-MTQ6MDUgKzAxMDAsIEFsZXhhbmRlciBLYW5hdmluIHdyb3RlOg0KPiBUaGFua3MsIG1heWJlIHlv
-dSBzaG91bGQgd3JpdGUgYSB0ZXN0IGZvciBvZmZsaW5lIGJ1aWxkcyBhcyB3ZWxsIHRoZW4NCj4g
-OikNCj4gDQo+IEFsZXgNCj4gDQo+IE9uIE1vbiwgMTUgTm92IDIwMjEgYXQgMTM6NTksIEphc3Bl
-ciBPcnNjaHVsa28NCj4gPEphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbT4gd3JvdGU6
-DQo+ID4gLS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KPiA+IEhhc2g6IFNIQTI1
-Ng0KPiA+IA0KPiA+IEhpIEFsZXhhbmRlciwNCj4gPiANCj4gPiAiW1BBVENIIHYzXSBmZXRjaDIv
-cmVwbzogSW1wbGVtZW50IEFVVE9SRVYgZm9yIHJlcG8gZmV0Y2hlciINCj4gPiBjb250YWlucw0K
-PiA+IGENCj4gPiBmaXggZm9yIHRoaXMgaXNzdWUuIFJlcHJvZHVjaW5nIGEgYnVpbGQgb2ZmbGlu
-ZSB3aXRoIG9ubHkgdGhlDQo+ID4gRExfRElSDQo+ID4gc2hvdWxkIHdvcmsgbm93Lg0KPiA+IA0K
-PiA+IFdlIGFyZSBjdXJyZW50bHkgc3RpbGwgbGFja2luZyB0aGUgYXBwcm9wcmlhdGUgdGVzdHMg
-Zm9yIHRoZQ0KPiA+IGZldGNoZXIuDQo+ID4gVGhlc2Ugd2lsbCBmb2xsb3cgc29vbi4NCj4gPiAN
-Cj4gPiAtIC0tIA0KPiA+IFdpdGggYmVzdCByZWdhcmRzDQo+ID4gDQo+ID4gSmFzcGVyIE9yc2No
-dWxrbw0KPiA+IERldk9wcyBFbmdpbmVlcg0KPiA+IA0KPiA+IFRlbC4gKzQ5IDMwIDU4IDU4IDE0
-IDI2NQ0KPiA+IEZheCArNDkgMzAgNTggNTggMTQgOTk5DQo+ID4gSmFzcGVyLk9yc2NodWxrb0Bp
-cmlzLXNlbnNpbmcuY29tDQo+ID4gDQo+ID4g4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKA
-oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
-IOKAoiDigKIg4oCiIOKAog0KPiA+IA0KPiA+IGlyaXMtR21iSA0KPiA+IGluZnJhcmVkICYgaW50
-ZWxsaWdlbnQgc2Vuc29ycw0KPiA+IFNjaG5lbGxlcnN0cmHDn2UgMS01IHwgMTI0MzkgQmVybGlu
-DQo+ID4gDQo+ID4gaHR0cHM6Ly9pcmlzLXNlbnNpbmcuY29tLw0KPiA+IA0KPiA+IA0KPiA+IA0K
-PiA+IA0KPiA+IA0KPiA+IE9uIFRodSwgMjAyMS0xMS0xMSBhdCAyMDoyMCArMDEwMCwgQWxleGFu
-ZGVyIEthbmF2aW4gd3JvdGU6DQo+ID4gPiBPbiBUaHUsIDExIE5vdiAyMDIxIGF0IDE2OjA4LCBK
-YXNwZXIgT3JzY2h1bGtvDQo+ID4gPiA8SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29t
-PiB3cm90ZToNCj4gPiA+ID4gU28gaWYgeW91IGhhdmUgZG9uZSB0aGlzIGluaXRpYWwgZmV0Y2gg
-b2YgeW91ciBzb3VyY2VzIGFuZA0KPiA+ID4gPiBzdGFzaA0KPiA+ID4gPiB5b3VyDQo+ID4gPiA+
-IHdvcmtpbmcgZGlyIGF3YXksIHlvdSBjYW4gZG8gYW4gb2ZmbGluZSBidWlsZC4NCj4gPiA+IA0K
-PiA+ID4gQnV0IGNhbiB5b3UgZG8gYW4gb2ZmbGluZSBidWlsZCB3aXRob3V0IGEgcHJlcG9wdWxh
-dGVkIHdvcmtpbmcNCj4gPiA+IGRpcj8NCj4gPiA+IFRoYXQncyB0aGUgY3J1Y2lhbCBwb2ludDog
-b2ZmbGluZSBidWlsZCBzaG91bGQgd29yayBpbiBhIGZyZXNobHkNCj4gPiBzZXQNCj4gPiA+IHVw
-IGJ1aWxkIGRpcmVjdG9yeSwgd2l0aG91dCBzc3RhdGUgY2FjaGUsIGFuZCB3aXRoIHByZXBvcHVs
-YXRlZA0KPiA+ID4gRExfRElSIG9ubHkuDQo+ID4gPiANCj4gPiA+IEFsZXgNCj4gPiAtLS0tLUJF
-R0lOIFBHUCBTSUdOQVRVUkUtLS0tLQ0KPiA+IA0KPiA+IGlRRXpCQUVCQ0FBZEZpRUU0V3lQTUlD
-NUFwNCtPb28xWWdxZXcwN1ZNTlVGQW1HU1diNEFDZ2tRWWdxZXcwN1YNCj4gPiBNTlZVWVFnQWdB
-Nis4WEkrSnh0QTUzMkZOTklNQVpHNVpHWjEyR0t2Vmtqb0pFcm56UmYwUlp4VUczVXlOWW1tDQo+
-ID4gcFNEY2ZidW9kQm1CYkh4REJwTjhWc3BUb0taeThkS2NtL2pmZTlVWTdmOVUzOWJaU05YU1Mz
-aE5QcWtxS1A1Sg0KPiA+IGpDZzF6UWZ4amJXMWFWU0hKa1FCNU1vWS9FRGVvUVZ2N1JJNlJtY1Zz
-TEpaeG96UGVZYU9RV1NkVE5HLzdjemcNCj4gPiBvRmpLcjZqdFNPWU80NXRlTUd0MysyK0F0QVho
-bHpUZ0tabzMzclgvdGtuUzdmMStra3lOR0x2MHNzU1A1SmNmDQo+ID4gQmQ4WWJjZEc5bHFYS1Vv
-MEE3cm45UTgzWUJkcEl5QTYrQnkxNTl6elB5N2JQOGo5YXFNSDhuTldhdWFoaGNGUw0KPiA+IHNZ
-MzlmaWt5NTdhRWdNZTdnMU9aWDhvUk9Eb3dQQT09DQo+ID4gPWhwQUsNCj4gPiAtLS0tLUVORCBQ
-R1AgU0lHTkFUVVJFLS0tLS0NCi0tLS0tQkVHSU4gUEdQIFNJR05BVFVSRS0tLS0tDQoNCmlRRXpC
-QUVCQ0FBZEZpRUU0V3lQTUlDNUFwNCtPb28xWWdxZXcwN1ZNTlVGQW1HU1hOa0FDZ2tRWWdxZXcw
-N1YNCk1OVUttUWYvVVlUVVJQS1owaVkyTUtQRkI2MFdkbm1zVEtKTWpvdFFsY1ZCVXBpd1E2TGhT
-cGtmV1JxT0ZMcE4NCm5hOWNOWmJZakdGZUROZEwzZDBJTE9FUStvVmhMWTdiUXBqNVhiMm5Ec0lX
-c3BqbEhnMUlra3ZDVkdhOXpGYjMNClhBTGFEckdCcmxhZDlLTmhJNEMyQ21YamRKWmd4M3lCdXV2
-SzZtU2lnYTVmczQ0UUIvbEJiOUpPUUdZdWNSdCsNClFlTGtJYXR2Rm8xSnh6bWM2dE5rUnIzb3Nn
-YWNRcm9hZ0hqNENJU2g1VytleldxdGRXSEE1bmRmNEh2Q053SlYNCmhrcHlYdHhlUURJTkdWR0Jz
-TW5Ka09JV1JTU3RPdmlMNjZRMWg1L2RnYkoyM0ZYUXVFa005Q3lEMTlrWFdTSVcNClpTSTZhczRi
-empEcURWUHpDUFdIRG1RZFNuSnlYUT09DQo9YU5LNg0KLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0t
-LS0tDQo=
+--000000000000b5852405d0d4302f
+Content-Type: text/plain; charset="UTF-8"
+
+There is no 1.5.5 release or tag here:
+https://github.com/KhronosGroup/SPIRV-Headers
+so this breaks version checks and automated updates.
+
+If you want to bump SRCREV to a post-release commit, PV should be set like
+this:
+PV = "1.5.4+git${SRCPV}"
+
+I'll send a patch to correct this.
+
+Alex
+
+On Sun, 14 Nov 2021 at 21:27, Jose Quaresma <quaresma.jose@gmail.com> wrote:
+
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  .../spir/{spirv-headers_1.5.4.bb => spirv-headers_1.5.5.bb}     | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/spir/{spirv-headers_1.5.4.bb =>
+> spirv-headers_1.5.5.bb} (92%)
+>
+> diff --git a/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+> b/meta/recipes-graphics/spir/spirv-headers_1.5.5.bb
+> similarity index 92%
+> rename from meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+> rename to meta/recipes-graphics/spir/spirv-headers_1.5.5.bb
+> index 6c978ce51a..101a2e2948 100644
+> --- a/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+> +++ b/meta/recipes-graphics/spir/spirv-headers_1.5.5.bb
+> @@ -7,7 +7,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
+>
+> -SRCREV = "6cae8216a6ea19ff3f237af01e54378c1ff81fcd"
+> +SRCREV = "c8213b3c5a2cf3a0f5c4d1e7d7b8fc2ac9f4806d"
+>  SRC_URI = "git://
+> github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=master"
+>  UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
+>  S = "${WORKDIR}/git"
+> --
+> 2.33.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158267):
+> https://lists.openembedded.org/g/openembedded-core/message/158267
+> Mute This Topic: https://lists.openembedded.org/mt/87054847/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b5852405d0d4302f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>There is no 1.5.5 release or tag here:</div><div><a h=
+ref=3D"https://github.com/KhronosGroup/SPIRV-Headers">https://github.com/Kh=
+ronosGroup/SPIRV-Headers</a></div><div>so this breaks version checks and au=
+tomated updates.</div><div><br></div><div>If you want to bump SRCREV to a p=
+ost-release commit, PV should be set like this:</div><div>PV =3D &quot;1.5.=
+4+git${SRCPV}&quot;</div><div><br></div><div>I&#39;ll send a patch to corre=
+ct this.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 14 Nov 2021 at 21:2=
+7, Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com">quaresma.jo=
+se@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jos=
+e@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../spir/{<a href=3D"http://spirv-headers_1.5.4.bb" rel=3D"noreferrer=
+" target=3D"_blank">spirv-headers_1.5.4.bb</a> =3D&gt; <a href=3D"http://sp=
+irv-headers_1.5.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.=
+5.5.bb</a>}=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-graphics/spir/{<a href=3D"http://spirv-headers_1.=
+5.4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.5.4.bb</a> =3D=
+&gt; <a href=3D"http://spirv-headers_1.5.5.bb" rel=3D"noreferrer" target=3D=
+"_blank">spirv-headers_1.5.5.bb</a>} (92%)<br>
+<br>
+diff --git a/meta/recipes-graphics/spir/<a href=3D"http://spirv-headers_1.5=
+.4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.5.4.bb</a> b/me=
+ta/recipes-graphics/spir/<a href=3D"http://spirv-headers_1.5.5.bb" rel=3D"n=
+oreferrer" target=3D"_blank">spirv-headers_1.5.5.bb</a><br>
+similarity index 92%<br>
+rename from meta/recipes-graphics/spir/<a href=3D"http://spirv-headers_1.5.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.5.4.bb</a><br>
+rename to meta/recipes-graphics/spir/<a href=3D"http://spirv-headers_1.5.5.=
+bb" rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.5.5.bb</a><br>
+index 6c978ce51a..101a2e2948 100644<br>
+--- a/meta/recipes-graphics/spir/<a href=3D"http://spirv-headers_1.5.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.5.4.bb</a><br>
++++ b/meta/recipes-graphics/spir/<a href=3D"http://spirv-headers_1.5.5.bb" =
+rel=3D"noreferrer" target=3D"_blank">spirv-headers_1.5.5.bb</a><br>
+@@ -7,7 +7,7 @@ HOMEPAGE =3D &quot;<a href=3D"https://www.khronos.org/regis=
+try/spir-v" rel=3D"noreferrer" target=3D"_blank">https://www.khronos.org/re=
+gistry/spir-v</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dc938b85bceb8fb26c1a80=
+7f28a52ae2d&quot;<br>
+<br>
+-SRCREV =3D &quot;6cae8216a6ea19ff3f237af01e54378c1ff81fcd&quot;<br>
++SRCREV =3D &quot;c8213b3c5a2cf3a0f5c4d1e7d7b8fc2ac9f4806d&quot;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/KhronosGroup/SPI=
+RV-Headers;protocol=3Dhttps;branch=3Dmaster" rel=3D"noreferrer" target=3D"_=
+blank">github.com/KhronosGroup/SPIRV-Headers;protocol=3Dhttps;branch=3Dmast=
+er</a>&quot;<br>
+=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;^(?P&lt;pver&gt;\d+(\.\d+)+)$&qu=
+ot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+-- <br>
+2.33.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#158267): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/158267" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/158267</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87054847/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87054847/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000b5852405d0d4302f--
 
