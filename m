@@ -1,204 +1,114 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BFEC433EF
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 16:19:09 +0000 (UTC)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
- [209.85.222.50])
- by mx.groups.io with SMTP id smtpd.web11.24472.1636993148972141427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D8AEC433EF
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 17:19:10 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.228.1636996749692170421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 08:19:09 -0800
+ Mon, 15 Nov 2021 09:19:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oPf4zVWQ;
- spf=pass (domain: gmail.com, ip: 209.85.222.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f50.google.com with SMTP id p37so34362395uae.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Nn9M5l11;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id b4so15106446pgh.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 08:19:08 -0800 (PST)
+ Mon, 15 Nov 2021 09:19:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nK48toPWNDqnGcJUMnG/D1x4K4AnruiyRbI4fJ/Q3f0=;
-        b=oPf4zVWQVu904H4+EX1fz9GBZHGSKacAuIgdlAD2oRn1JLC5pl+Pk6hyYptYioIgL7
-         n3p0rkFVcV0AwzN3w5xorZkJCHrxlKfLLt6fC0khsiR+bsUewAbfQUPpi61i2M746en1
-         SyytLjJAV79E+LOXZ7WXR3QTSOG/3V2JqyuuKm8avW4rDGKl8xiKHNk+QIsK14zOpkhh
-         hCEF58RJl1RuFyO6cr9E5pWKGHftnMJzW3yjNX9inVc51aQJSwWZ/53NIYmhMgv1RRaE
-         cATZ3fYajQTjsyky8c5uJDB+Klv+2XT7DntXwjxoiMwtAsrBPLvJ9B4/ctGN+ioUk5Zm
-         FgSQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=bBsVKk0Tnxt3+JJqCIyGN+uUHUcGxC/qGjAyv1i0ekU=;
+        b=Nn9M5l11vOYi1kFEUmaLy5tkmzYuVX8TZxyVpME7iT03nQSO6LJJU11jTd9oFCwbrZ
+         GxSOCkYZ1bPXUy8GZfk1MCKs/iJJGTITNSejF/kbcvRhQdWF6xtM5Xvp5ISPnC59ZPxt
+         TVWd7jkIk/bjjU2KupBNZsLstVYRDUoyYh8w/2k4WqBK+fFkDyY/dSISz8ekWQCZ4xMP
+         EtSeo2w/PzhDaP0x7pzfbXORDeAQjRAVkseE9WFbHBh+dqXlkIF2hhdt+BUaVzJ98GSS
+         8xBT3Qd4nPw5/7XvUttRkR6UKcXIs95wpV8Qfhbiw4FzxTVTRlFSt3TbUWGzhuSWXG0g
+         5h1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nK48toPWNDqnGcJUMnG/D1x4K4AnruiyRbI4fJ/Q3f0=;
-        b=8G6KFLriQp8s7tYohxY/sDGQi/ALgBtFNgfzyNRlDfEFqQPLF0r5eR8SI22pC84dF/
-         3q5Ll0ewpgtWwNp08LlqAvlA9WwzyIT0lBLpsfAggpuZjFFRLdqtWdWM7Cq+Yr3e4rVT
-         GM3Y4o/+07EGa2hAr6AyezWr5k3J1+xu/zWTPQLtjWYdndqtvmY1CZ6KDYkFaVMcu6OG
-         UdPH646MCEO/UMtlX6qwMlE9Px/QHCpc/xjWWumbdUcM/OiVNepUdfMfA4Tekgdvs0Bs
-         Kr5zD0HZbT9Slr6oMXc8Ho3Ud/uCRGno/FSBxZUMdR44UPXW1GzjAQtNGL/AfS9C+VI6
-         RpIQ==
-X-Gm-Message-State: AOAM533BuLd0Ek6YbNEZuPw6lO2D4ripreHl6vqp3LfHjln3fKzu8Igr
-	5s4+0UI8/XseLA0mRgsnuEW2v2oxyl6xQdk0nJw=
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=bBsVKk0Tnxt3+JJqCIyGN+uUHUcGxC/qGjAyv1i0ekU=;
+        b=LYBI5FcYQuRxGgcaPwUOpOnP4SXSEFGVK171igrXmuPRch2y/rWevU/Ks/Iz40MXpg
+         Wm4xky4bCVYFWerZTNF67XQBHZEi4lymLI7kn/Oinly7foZLncufHsmqBBOrUacetD2K
+         MieABNgy4ZnAuu2h+jKaIwvBi4vIF+LlEFX+tAQqUaEcBTRMJKubxoJAzffox/sGrWDm
+         Ujs2PHP9ywQBdkFGbaJfNTTdY4RSK3R2OYVFfuodck0mvVuNiozRBpP+3Mm98GvbXPgA
+         P85uR0HgTVQ7IefdfPQofcqa9WClD4Ll4WxXYGfuoaqODePVYxyLffy9jcMUfWjQRG7d
+         n8rw==
+X-Gm-Message-State: AOAM530dkUZDKvnMhWPMEnAPoGl8s1jBr3pFMMrtW+s8fl4X+ozdUSUK
+	aHisW+xCwu4vx9wovU3UcFI=
 X-Google-Smtp-Source: 
- ABdhPJwFSdSM6LbiBtJ+VCSxHPY2ur+Ezns8IQ0zeqmJ3RpBM0xOzylqOOlELqp6lXa5OMrTOFpBt4nbBoydMt2El60=
-X-Received: by 2002:ab0:484:: with SMTP id 4mr59791067uaw.71.1636993148157;
- Mon, 15 Nov 2021 08:19:08 -0800 (PST)
+ ABdhPJz2lcH8IiiSOXGxK5cS8+H1reMjbNrvi8U7QBRGnyuEZxuVg/oleVwQLsBeMWuWdSKULQeiaQ==
+X-Received: by 2002:a63:4542:: with SMTP id u2mr309255pgk.396.1636996749115;
+        Mon, 15 Nov 2021 09:19:09 -0800 (PST)
+Received: from ?IPV6:2601:646:9200:a0f0:bc73:9bbe:f6ac:7062?
+ ([2601:646:9200:a0f0:bc73:9bbe:f6ac:7062])
+        by smtp.gmail.com with ESMTPSA id
+ f16sm12724957pgi.28.2021.11.15.09.19.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Nov 2021 09:19:08 -0800 (PST)
+Message-ID: <2cb6e686-7b33-6059-596d-7429d2a796f5@gmail.com>
+Date: Mon, 15 Nov 2021 09:19:07 -0800
 MIME-Version: 1.0
-References: <1636990751-78972-1-git-send-email-wangmy@fujitsu.com>
- <1636990751-78972-2-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1636990751-78972-2-git-send-email-wangmy@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 15 Nov 2021 17:18:57 +0100
-Message-ID: 
- <CANNYZj-us8u_WrRLXjVEXuOR6uT0=so2-bE-BR=diTv=q2-nsg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd-boot: upgrade 249.5 -> 249.6
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000018822105d0d62ba1"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.0
+Subject: Re: [OE-core] [PATCH] gcc: Dropping mips workaround
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20211115112308.3974991-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <20211115112308.3974991-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 16:19:09 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 17:19:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158304
+ https://lists.openembedded.org/g/openembedded-core/message/158306
 
---00000000000018822105d0d62ba1
-Content-Type: text/plain; charset="UTF-8"
+lgtm
 
-Thanks, this needs to be updated together with systems itself. You can
-squash the two updates together as they share the .inc.
-
-Alex
-
-On Mon 15. Nov 2021 at 16.39, wangmy <wangmy@fujitsu.com> wrote:
-
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+On 11/15/21 3:23 AM, Richard Purdie wrote:
+> I've tested without this and the ptest results for mips are the same with
+> and without it so the issue this was fixing in gcc 9 was likely resolved
+> by gcc 11.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../systemd/{systemd-boot_249.5.bb => systemd-boot_249.6.bb}    | 0
->  meta/recipes-core/systemd/systemd.inc                           | 2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/systemd/{systemd-boot_249.5.bb =>
-> systemd-boot_249.6.bb} (100%)
->
-> diff --git a/meta/recipes-core/systemd/systemd-boot_249.5.bb
-> b/meta/recipes-core/systemd/systemd-boot_249.6.bb
-> similarity index 100%
-> rename from meta/recipes-core/systemd/systemd-boot_249.5.bb
-> rename to meta/recipes-core/systemd/systemd-boot_249.6.bb
-> diff --git a/meta/recipes-core/systemd/systemd.inc
-> b/meta/recipes-core/systemd/systemd.inc
-> index 4e4cdd2e2f..f3ce32efc2 100644
-> --- a/meta/recipes-core/systemd/systemd.inc
-> +++ b/meta/recipes-core/systemd/systemd.inc
-> @@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
->  LIC_FILES_CHKSUM =
-> "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
->
->  file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
->
-> -SRCREV = "00b0393e65252bf631670604f58b844780b08c50"
-> +SRCREV = "deda69dad784f9c4367533555ff4d7bf6308c0ff"
->  SRCBRANCH = "v249-stable"
->  SRC_URI = "git://
-> github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}
-> <http://github.com/systemd/systemd-stable.git;protocol=https;branch=$%7BSRCBRANCH%7D>
-> \
->  "
-> --
-> 2.25.1
->
->
+>   meta/recipes-devtools/binutils/binutils_2.37.bb | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/binutils/binutils_2.37.bb b/meta/recipes-devtools/binutils/binutils_2.37.bb
+> index 7430bf13425..12a6fb55776 100644
+> --- a/meta/recipes-devtools/binutils/binutils_2.37.bb
+> +++ b/meta/recipes-devtools/binutils/binutils_2.37.bb
+> @@ -27,10 +27,6 @@ EXTRA_OECONF:class-native = "--enable-targets=all \
+>   
+>   PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'debuginfod', d)}"
+>   PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod, elfutils"
+> -# gcc9.0 end up mis-compiling libbfd.so with O2 which then crashes on target
+> -# So remove -O2 and use -Os as workaround
+> -SELECTED_OPTIMIZATION:remove:mipsarch = "-O2"
+> -SELECTED_OPTIMIZATION:append:mipsarch = " -Os"
+>   
+>   do_install:class-native () {
+>   	autotools_do_install
+> 
+> 
+> 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#158302):
-> https://lists.openembedded.org/g/openembedded-core/message/158302
-> Mute This Topic: https://lists.openembedded.org/mt/87071795/1686489
+> View/Reply Online (#158279): https://lists.openembedded.org/g/openembedded-core/message/158279
+> Mute This Topic: https://lists.openembedded.org/mt/87066754/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000018822105d0d62ba1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thanks, this needs to be updated together with systems it=
-self. You can squash the two updates together as they share the .inc.</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 15. Nov 2021 =
-at 16.39, wangmy &lt;<a href=3D"mailto:wangmy@fujitsu.com">wangmy@fujitsu.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-l=
-eft:1ex;border-left-color:rgb(204,204,204)">Signed-off-by: Wang Mingyu &lt;=
-<a href=3D"mailto:wangmy@fujitsu.com" target=3D"_blank">wangmy@fujitsu.com<=
-/a>&gt;<br>
----<br>
-=C2=A0.../systemd/{<a href=3D"http://systemd-boot_249.5.bb" rel=3D"noreferr=
-er" target=3D"_blank">systemd-boot_249.5.bb</a> =3D&gt; <a href=3D"http://s=
-ystemd-boot_249.6.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249=
-.6.bb</a>}=C2=A0 =C2=A0 | 0<br>
-=C2=A0meta/recipes-core/systemd/systemd.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br=
->
-=C2=A02 files changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-core/systemd/{<a href=3D"http://systemd-boot_249.=
-5.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.5.bb</a> =3D&gt=
-; <a href=3D"http://systemd-boot_249.6.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">systemd-boot_249.6.bb</a>} (100%)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_249.5=
-.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.5.bb</a> b/meta/=
-recipes-core/systemd/<a href=3D"http://systemd-boot_249.6.bb" rel=3D"norefe=
-rrer" target=3D"_blank">systemd-boot_249.6.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-core/systemd/<a href=3D"http://systemd-boot_249.5.=
-bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.5.bb</a><br>
-rename to meta/recipes-core/systemd/<a href=3D"http://systemd-boot_249.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">systemd-boot_249.6.bb</a><br>
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
-emd/systemd.inc<br>
-index 4e4cdd2e2f..f3ce32efc2 100644<br>
---- a/meta/recipes-core/systemd/systemd.inc<br>
-+++ b/meta/recipes-core/systemd/systemd.inc<br>
-@@ -14,7 +14,7 @@ LICENSE =3D &quot;GPLv2 &amp; LGPLv2.1&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.GPL2;md5=3D751419260aa95449=
-9f7abaabaa882bbe \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd255951079008b364516c&quot;<br>
-<br>
--SRCREV =3D &quot;00b0393e65252bf631670604f58b844780b08c50&quot;<br>
-+SRCREV =3D &quot;deda69dad784f9c4367533555ff4d7bf6308c0ff&quot;<br>
-=C2=A0SRCBRANCH =3D &quot;v249-stable&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/systemd/systemd-=
-stable.git;protocol=3Dhttps;branch=3D$%7BSRCBRANCH%7D" rel=3D"noreferrer" t=
-arget=3D"_blank">github.com/systemd/systemd-stable.git;protocol=3Dhttps;bra=
-nch=3D${SRCBRANCH}</a> \<br>
-=C2=A0&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#158302): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/158302" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/158302</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87071795/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87071795/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000018822105d0d62ba1--
+> 
 
