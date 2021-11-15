@@ -1,123 +1,86 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC13C433EF
-	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 14:03:49 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.22824.1636985028449860984
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 703ECC433EF
+	for <webhook@archiver.kernel.org>; Mon, 15 Nov 2021 14:06:35 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.22561.1636985194362859434
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 06:03:48 -0800
+ Mon, 15 Nov 2021 06:06:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NOv+AsXo;
- spf=pass (domain: gmail.com, ip: 209.85.210.174,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id x5so4445115pfr.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TtO5MRxD;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id d5so30970391wrc.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 06:03:48 -0800 (PST)
+ Mon, 15 Nov 2021 06:06:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3aymu1OGxwwmt0YUUbvFDaYxNEbWnqdjTsoTjcqufRw=;
-        b=NOv+AsXotWvSFSbwgpjS9NtLLCOBjWrBcrtFBilf0u02GuY+AtP6sJhIB3IFxPQDos
-         qwL5NTOfh/4KhO/+83mLiowBIhzjfJbl59QFTkQFYyCVTV0vfLtwyvkXS4/AFU6Ymufo
-         0yH9jfauetzHUIBmkIehev81oS7XgE47IZzy42DsP8t71+y+J7SUvyCfPDZaH5JQxkZ/
-         9Sr4sjEWPSZ4JljndNtBMWS1gQ/Br9faA8NNAbxM7Oh1exISgODlbgDpuILmua25eJj+
-         j0OUPZyeNd2ESfGOGf4paY7L72XJscDDftJGDuStRj3pqSEktk5AxI/D1+RWYLNCGdtG
-         ZS3A==
+        bh=0e33qIoMKhbBr0zXMee0GQiEWlVs+B6hR2U2C5pZwL4=;
+        b=TtO5MRxDyvnhmtVzPa4TafgoRQOhiQA2OpfhB4tBxDqzSb0nRdP3a1DYRUEBTzqx4m
+         Vud3wTVN5YwoNrUMgpuPKHj5PiggH9OqBLgcYrZwP7fGV0oXrcmoaTLLC9RwxDlxM0Tf
+         514oFrkk4tQluGNg6anLm1G7GmR+w5uvKN9kKhaPmL/PlsJQtJhMxz+JLfJzGxWZCz1a
+         pLTkACUZRr4zT1cSdSMOyiZF1/ZvyrETPBQCucFPMtzzNb+/q0qnpzNPAm2/XLRtVs1O
+         fR412fE82JcuY8V7UvJ30rSVIkROM0RCFJqnZMQAeAB8/LlcOnt0/UCsQ5Gw5O9a2x0U
+         /Xqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3aymu1OGxwwmt0YUUbvFDaYxNEbWnqdjTsoTjcqufRw=;
-        b=y03h/XfaHzzrobhATcFnIW4grSNRcXymbtEwvO38dJv+SzOl6b4tkUvdRmvcE9ZSIQ
-         jd2MOKhzmXYjuUFgp30NbiWEYJUEXCye4A2/EF0xiGpccMuInkedR8r5aOdz27CHjx10
-         5PTOLBf1qNIqwG41SA0VvC2a/Ijd43iuNm5L6n5WFM8QUCnxOIFwy35cVrGIAvTIbTd6
-         PZfaKpftj4KdyZ1eyRTq4/aKYvbTd1qCSQaJHTbt0UBYV1sbncGhovnpSp7DBKdxzU49
-         Q1RBWcv/aLiiOZFrtKa/IiZZijvIXGoSabila+xe7tVCwXikAPlT/AOhNZKUAJNxbYn2
-         WOAQ==
-X-Gm-Message-State: AOAM532MwOoN4jmJVNKhE6VernFyxTKgrHvY/wRGMMFCOJdIBBBgUsLJ
-	tIdJ4qVhndgoS4y8GiSAv7lDyaIp30s2QA==
+        bh=0e33qIoMKhbBr0zXMee0GQiEWlVs+B6hR2U2C5pZwL4=;
+        b=GOqv/O1UIA/20t7ZrP0mDOJxAPuMj3hxwc3/CeKnfrYdrZWSBn7yJxiWXsz+LQjWUK
+         xygvA4Qj2JWQU0Fz0pA63CJ2GZJo0RY+/Rvju0cgw6uKhDq4Ey+gtqvkrJ+SE/5ijD8E
+         meoO7JTKJe/I8Su3kbVmmO7tgWqzSPmiWdDxKLzY3vJqmxo3ToeMxbPWqLWAA0H17K7Y
+         OQkLp5jo5PwlupUIwVA4Cm0KPXHzNmSs0EoDy+nUIKCqKQbIIXswGOf/4fR6ZaOaA6Tc
+         fm3QNAObH4wiX1d/uAgmO4blZLVs3qFTb0avP+20Z1Fl22/YCbiDpkxSzwF1oXIg3QbK
+         kGVA==
+X-Gm-Message-State: AOAM533p2Bnvlrukf095HeG9x8jZtawr6JWYkUfzSTpE8+0s4ve160+O
+	K9SC0DPsuLYDi4EdW7OVSVh+pa58ox8=
 X-Google-Smtp-Source: 
- ABdhPJxFU2kkKJANFsZH+P1huz7U+0nTGnJu3r4mPKc/xWsYGMTCH+3htVFWe3E5/855to7M13krkw==
-X-Received: by 2002:a65:6554:: with SMTP id
- a20mr24491436pgw.107.1636985023857;
-        Mon, 15 Nov 2021 06:03:43 -0800 (PST)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
+ ABdhPJyroaR8ks5UsOPkMCG8PrI6UM56OoR5M0SQIAJzChcZ/LYJk1N1UnNmqeIi8be+Jfq30jHV9A==
+X-Received: by 2002:a5d:5144:: with SMTP id u4mr45416907wrt.91.1636985192530;
+        Mon, 15 Nov 2021 06:06:32 -0800 (PST)
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
+ [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- n16sm14575927pfj.47.2021.11.15.06.03.42
+ 126sm19562148wmz.28.2021.11.15.06.06.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 06:03:43 -0800 (PST)
-From: Pgowda <pgowda.cve@gmail.com>
+        Mon, 15 Nov 2021 06:06:32 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	Pgowda <pgowda.cve@gmail.com>
-Subject: [hardknott][PATCH v2] rust-cross: Replace TARGET_ARCH with
- TUNE_PKGARCH
-Date: Mon, 15 Nov 2021 06:03:40 -0800
-Message-Id: <20211115140340.8047-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] spirv-headers: PV should be 1.5.4
+Date: Mon, 15 Nov 2021 15:06:30 +0100
+Message-Id: <20211115140630.222488-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 14:03:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Nov 2021 14:06:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158292
+ https://lists.openembedded.org/g/openembedded-core/message/158293
 
-rust-cross-* imported from meta-rust has incorrect signatures,
-depending on MACHINEOVERRIDES making it effectively MACHINE_ARCH
-as shown by sstate-diff-machines.sh:
+As upstream hasn't actually tagged 1.5.5, we should
+continue to use 1.5.4 until it does.
 
-openembedded-core/scripts/sstate-diff-machines.sh --tmpdir=tmp-glibc \
---machines="qemuarm64 qemuarm64copy" --targets=rust-cross-aarch64-glibc \
---analyze
-
- === Comparing signatures for task do_configure.sigdata between
- qemuarm64 and qemuarm64copy ===
-ERROR: gcc-runtime different signature for task do_configure.sigdata
-between qemuarm64 and qemuarm64copy
-NOTE: Starting bitbake server...
-Hash for dependent task gcc/gcc-runtime_11.2.bb:do_prepare_recipe_sysroot
-changed from
-da4ebf1b272cb73153145a0a95e6438d2955ae2d36f84db10f6880b2781ec331 to
-47a0ebb7a88c9f896fb9dbce269f575ab8a6faabb2b9e62d164be6e71c5e4e40
-Unable to find matching sigdata for
-openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_11.2.bb:
-do_prepare_recipe_sysroot with hashes
-da4ebf1b272cb73153145a0a95e6438d2955ae2d36f84db10f6880b2781ec331 or
-47a0ebb7a88c9f896fb9dbce269f575ab8a6faabb2b9e62d164be6e71c5e4e40
-
-The following patch takes TUNE_PKGARCH into consideration instead
-of TARGET_ARCH and results in signatures as expected.
-
-[YOCTO #14613]
-
-Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/rust/rust-cross.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../spir/{spirv-headers_1.5.5.bb => spirv-headers_1.5.4.bb}       | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.5.5.bb => spirv-headers_1.5.4.bb} (100%)
 
-diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
-index bb625f4240..a77f7d5122 100644
---- a/meta/recipes-devtools/rust/rust-cross.inc
-+++ b/meta/recipes-devtools/rust/rust-cross.inc
-@@ -34,7 +34,7 @@ DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs vir
- DEPENDS += "rust-native"
- 
- PROVIDES = "virtual/${TARGET_PREFIX}rust"
--PN = "rust-cross-${TARGET_ARCH}-${TCLIBC}"
-+PN = "rust-cross-${TUNE_PKGARCH}-${TCLIBC}"
- 
- # In the cross compilation case, rustc doesn't seem to get the rpath quite
- # right. It manages to include '../../lib/${TARGET_PREFIX}', but doesn't
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.5.5.bb b/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+similarity index 100%
+rename from meta/recipes-graphics/spir/spirv-headers_1.5.5.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
 -- 
-2.31.1
+2.20.1
 
 
