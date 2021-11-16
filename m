@@ -1,183 +1,193 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0025FC433F5
-	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 06:16:40 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.6439.1637043400205608600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FC6C433F5
+	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 09:15:41 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.7634.1637054138937276570
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 22:16:40 -0800
+ Tue, 16 Nov 2021 01:15:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qWXaeHO4;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: uvv.mail@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id s9so13028825qvk.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 22:16:40 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ECnBQccc;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=Oj876/iqIOhuC9ub580ziQfPVJwzszwyE16+Q/YGSoY=;
-        b=qWXaeHO4X/TVqXYbPsLXuAqgGk8lIq84DtkU8TBLV3swt4/4g2UVDDCwgrq8LWiBHx
-         JAwvp+m1kl99OCkEx8NN+eCHrBCGYJE6zuAsfdzGu/swz2doN7cfiuDc48+kUeabL1rc
-         DvULFnVwyKKkv5sv4ClUhf3kqvgjLFn0Uh5XEi5fBymWQIKnVAKpNx7BoqnpS23E/OHd
-         AuY5AtmSkoqz4FEX27wBdYdzOUUV2MxZgTpmUnI2+mI+OXXxImlg1xICIoBLU80BHy+P
-         zzFVD5POVU9a527WCC6ML7dyPNKX17jPvtHsUJi0QoLvaDThzlQ+sAM3uYyobbsSf3Fz
-         rzmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=Oj876/iqIOhuC9ub580ziQfPVJwzszwyE16+Q/YGSoY=;
-        b=Vgx6BP1/vVhY3+5LUa7qhig7BRbnq7MZy1I1S3Rn1pZqvbxAgPZ6W6cXh5dYi+Vx2m
-         jPvjdAv2c1siLXQ6QdTIfb8G/71msk9AWQcKWAJ30rl8qQrqTJfiaLnLnzl+onWBirKI
-         i/CBuoL38h7+Wb8DnM1Jk0iR2WljznuJOmvYcwjQvlVhFZaXumPhcfwIYg8L2ZbUKX1s
-         I3aHZa7Pq+B/R2JSuWaMX1MLGobCpVecF/mZdI4FC3t4aIUg4lav4b/4Sryw7usxeAzH
-         6xbYP0pHy+6j+4UESyeZhErJlhBCEVXctktyglj46pKkegWuabJkF3KBIS+nfeqQzkIY
-         /lXQ==
-X-Gm-Message-State: AOAM533oodQfWXeLbMm1l2kc9jfEuzzAFrDtkt1f2jj2Vs+hUgmDI2w3
-	hA/VBQkqtpTeMMVkjFvcL9Y=
-X-Google-Smtp-Source: 
- ABdhPJyekqTxBesJ5bKV1E0W/J2dbAYXcSHza+ubwp4j+mEQ7kRKgKfYl1tWJhVZpxDO5aXi2rp1uw==
-X-Received: by 2002:a05:6214:21ee:: with SMTP id
- p14mr43891071qvj.11.1637043399353;
-        Mon, 15 Nov 2021 22:16:39 -0800 (PST)
-Received: from [10.129.149.96] ([37.120.205.162])
-        by smtp.gmail.com with ESMTPSA id
- t64sm7889640qkd.71.2021.11.15.22.16.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 22:16:39 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------314VHKFEbBSmpNm1Ofcw1DXp"
-Message-ID: <3882908e-02f1-2855-45a3-f96971598021@gmail.com>
-Date: Tue, 16 Nov 2021 07:16:36 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.0
-Subject: Re: [OE-core] Suggestion to use python-parameterized for QA
+  d=axis.com; q=dns/txt; s=axis-central1; t=1637054139;
+  x=1668590139;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=UszR451kbfbtp+ENR8K0UphhZeiuT4cWpAw76X4gEDE=;
+  b=ECnBQcccyqc/9GYrm3LJxzqAuIX/qDLvoJUpn+PPxY0aUPEmd9JuFMjy
+   LxA1L2z2C6YehDFthfQQNyKKgGNsn2n9gvQO2aVnFngeqcfYD0fz7nayR
+   KPzGSyCsdkUFWqRV3e6Mv6aWu9CRfUaynhXqgp48iKDKU5tDn3xBgkAhS
+   /MPKR0QV01IsC+iSuGi/OgQdwyxyS5FPUNN7XWTLejxgKAzlojVaaAEqK
+   EVSqWRhRM421P8ONm8ltCzQ+/k4On5t4Te9aG3J3JkBwhzOjUkMFV82kG
+   WmkpBw7BkLSF2CX4kad20NAi5d6noflo9TpoWhJIyoNIin6pOh99kXMsp
+   w==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: wangmy <wangmy@fujitsu.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v2] systemd-boot: upgrade 249.5 -> 249.6
+Thread-Topic: [OE-core] [PATCH v2] systemd-boot: upgrade 249.5 -> 249.6
+Thread-Index: AQHX2olw3JUEnywYU0yayLoVkSPm+6wF36WQ
+Date: Tue, 16 Nov 2021 09:15:36 +0000
+Message-ID: <56e561cd621948cd8d15ab89a45f4c8d@axis.com>
+References: <1637026122-80256-1-git-send-email-wangmy@fujitsu.com>
+ <1637026122-80256-2-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1637026122-80256-2-git-send-email-wangmy@fujitsu.com>
+Accept-Language: en-US, sv-SE
 Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <8a12d84e-fdb1-3383-ce9e-10ddc75130cf@gmail.com>
- <CANNYZj-xeJS_+3r-Lwg=Nzyr+KrtFA8hCpGj-DeDpaihzB_TQg@mail.gmail.com>
- <d897665a-3746-80f0-9771-875165d16b2b@gmail.com>
- <CANNYZj-UTWzhnRoxTpTn3kqp4d7FiRk0NPD_Mon0cOd6Js13UQ@mail.gmail.com>
- <7f35ae7d-d12b-8ba3-5459-c2fb92f3f38f@gmail.com>
- <CANNYZj_6BSsJb+k-6n95zMFwUFpqM0=nXDC5D7sSg-ynWx5qJQ@mail.gmail.com>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: 
- <CANNYZj_6BSsJb+k-6n95zMFwUFpqM0=nXDC5D7sSg-ynWx5qJQ@mail.gmail.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 06:16:40 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 09:15:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158341
+ https://lists.openembedded.org/g/openembedded-core/message/158342
 
-This is a multi-part message in MIME format.
---------------314VHKFEbBSmpNm1Ofcw1DXp
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of wangmy
+> Sent: den 16 november 2021 02:29
+> To: openembedded-core@lists.openembedded.org
+> Cc: Wang Mingyu <wangmy@fujitsu.com>
+> Subject: [OE-core] [PATCH v2] systemd-boot: upgrade 249.5 -> 249.6
 
-Yes, technically it would be the same. Thanks for the hint.
+Please change the subject to:
 
-Vyacheslav
+systemd, systemd-boot: upgrade 249.5 -> 249.6
 
-On 15.11.2021 21:56, Alexander Kanavin wrote:
-> Can't we achieve the same by abstracting the common part into a 
-> function and defining the two tests explicitly?
->
-> Alex
->
-> On Mon, 15 Nov 2021 at 21:26, Vyacheslav Yurkov <uvv.mail@gmail.com> 
-> wrote:
->
->     It's substituted further down into
->     def test_sbin_init(self, _, origInit):
->
->     parameterized.expand generates two tests out of it. The string
->     parameter is used as a suffix for the test, the rest is used as
->     input parameters, i.e. the first test would be called with
->     origInit=True, the second one with origInit=False.
->
->     The sample output looks like this:
->
->     2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
->     overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_0_original:
->     PASSED (295.73s)
->     2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
->     overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_1_preinit:
->     PASSED (177.97s)
->
->     Vyacheslav
->
---------------314VHKFEbBSmpNm1Ofcw1DXp
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+//Peter
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Yes, technically it would be the same.
-      Thanks for the hint.<br>
-      <br>
-      Vyacheslav<br>
-      <br>
-      On 15.11.2021 21:56, Alexander Kanavin wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANNYZj_6BSsJb+k-6n95zMFwUFpqM0=nXDC5D7sSg-ynWx5qJQ@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div>Can't we achieve the same by abstracting the common part
-          into a function and defining the two tests explicitly?</div>
-        <div><br>
-        </div>
-        <div>Alex<br>
-        </div>
-      </div>
-      <br>
-      <div class="gmail_quote">
-        <div dir="ltr" class="gmail_attr">On Mon, 15 Nov 2021 at 21:26,
-          Vyacheslav Yurkov &lt;<a href="mailto:uvv.mail@gmail.com"
-            moz-do-not-send="true" class="moz-txt-link-freetext">uvv.mail@gmail.com</a>&gt;
-          wrote:<br>
-        </div>
-        <blockquote class="gmail_quote" style="margin:0px 0px 0px
-          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-          <div>
-            <div>It's substituted further down into<br>
-              <span><span>def</span> <span>test_sbin_init</span>(<span>self</span>,
-                <span>_</span>, <span>origInit</span>):<br>
-                <br>
-              </span>parameterized.expand generates two tests out of it.
-              The string parameter is used as a suffix for the test, the
-              rest is used as input parameters, i.e. the first test
-              would be called with origInit=True, the second one with
-              origInit=False.<br>
-              <br>
-              The sample output looks like this:<br>
-              <br>
-              2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
-              overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_0_original:
-              PASSED (295.73s)<br>
-              2021-11-15 20:21:15,740 - oe-selftest - INFO - RESULTS -
-              overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_1_preinit:
-              PASSED (177.97s)<br>
-              <br>
-              Vyacheslav<br>
-              <br>
-            </div>
-          </div>
-        </blockquote>
-      </div>
-    </blockquote>
-  </body>
-</html>
---------------314VHKFEbBSmpNm1Ofcw1DXp--
+>=20
+> 0001-meson-use-partial_dependency-to-get-include-director.patch
+> removed since it is included in 249.6
+>=20
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...md-boot_249.5.bb =3D> systemd-boot_249.6.bb} |  0
+>  meta/recipes-core/systemd/systemd.inc         |  2 +-
+>  ...l_dependency-to-get-include-director.patch | 46 -------------------
+>  .../{systemd_249.5.bb =3D> systemd_249.6.bb}    |  1 -
+>  4 files changed, 1 insertion(+), 48 deletions(-)
+>  rename meta/recipes-core/systemd/{systemd-boot_249.5.bb =3D> systemd-
+> boot_249.6.bb} (100%)
+>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-use-
+> partial_dependency-to-get-include-director.patch
+>  rename meta/recipes-core/systemd/{systemd_249.5.bb =3D> systemd_249.6.bb=
+}
+> (99%)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd-boot_249.5.bb
+> b/meta/recipes-core/systemd/systemd-boot_249.6.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd-boot_249.5.bb
+> rename to meta/recipes-core/systemd/systemd-boot_249.6.bb
+> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-
+> core/systemd/systemd.inc
+> index 4e4cdd2e2f..f3ce32efc2 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -14,7 +14,7 @@ LICENSE =3D "GPLv2 & LGPLv2.1"
+>  LIC_FILES_CHKSUM =3D
+> "file://LICENSE.GPL2;md5=3D751419260aa954499f7abaabaa882bbe \
+>=20
+> file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd255951079008b364516c"
+>=20
+> -SRCREV =3D "00b0393e65252bf631670604f58b844780b08c50"
+> +SRCREV =3D "deda69dad784f9c4367533555ff4d7bf6308c0ff"
+>  SRCBRANCH =3D "v249-stable"
+>  SRC_URI =3D "git://github.com/systemd/systemd-
+> stable.git;protocol=3Dhttps;branch=3D${SRCBRANCH} \
+>  "
+> diff --git a/meta/recipes-core/systemd/systemd/0001-meson-use-
+> partial_dependency-to-get-include-director.patch b/meta/recipes-
+> core/systemd/systemd/0001-meson-use-partial_dependency-to-get-include-
+> director.patch
+> deleted file mode 100644
+> index 51ee5d8623..0000000000
+> --- a/meta/recipes-core/systemd/systemd/0001-meson-use-partial_dependency=
+-
+> to-get-include-director.patch
+> +++ /dev/null
+> @@ -1,46 +0,0 @@
+> -From 260e871fda979f040c94d2011545e8122bed68ca Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Mon, 18 Oct 2021 10:13:07 +0200
+> -Subject: [PATCH] meson: use partial_dependency() to get include director=
+y
+> -
+> -Getting the variable directly from pkg-config is prone to host
+> -contamination when building in sysroots as the
+> -compiler starts looking for the headers on the host in addition to
+> -the sysroot.
+> -
+> -Upstream-Status: Submitted
+> [https://github.com/systemd/systemd/pull/21027]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - meson.build | 9 ++++-----
+> - 1 file changed, 4 insertions(+), 5 deletions(-)
+> -
+> -diff --git a/meson.build b/meson.build
+> -index df53c6156d..38fb37dd75 100644
+> ---- a/meson.build
+> -+++ b/meson.build
+> -@@ -2618,18 +2618,17 @@ endif
+> -
+> - if conf.get('ENABLE_LOCALED') =3D=3D 1
+> -         if conf.get('HAVE_XKBCOMMON') =3D=3D 1
+> --                # logind will load libxkbcommon.so dynamically on its
+> own
+> --                deps =3D [libdl]
+> --                extra_includes =3D
+> [libxkbcommon.get_pkgconfig_variable('includedir')]
+> -+                # logind will load libxkbcommon.so dynamically on its
+> own, but we still
+> -+                # need to specify where the headers are
+> -+                deps =3D [libdl,
+> libxkbcommon.partial_dependency(compile_args: true)]
+> -         else
+> -                 deps =3D []
+> --                extra_includes =3D []
+> -         endif
+> -
+> -         executable(
+> -                 'systemd-localed',
+> -                 systemd_localed_sources,
+> --                include_directories : includes + extra_includes,
+> -+                include_directories : includes,
+> -                 link_with : [libshared],
+> -                 dependencies : deps,
+> -                 install_rpath : rootlibexecdir,
+> ---
+> -2.20.1
+> -
+> diff --git a/meta/recipes-core/systemd/systemd_249.5.bb b/meta/recipes-
+> core/systemd/systemd_249.6.bb
+> similarity index 99%
+> rename from meta/recipes-core/systemd/systemd_249.5.bb
+> rename to meta/recipes-core/systemd/systemd_249.6.bb
+> index 8bdc0ca028..242a53d22a 100644
+> --- a/meta/recipes-core/systemd/systemd_249.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_249.6.bb
+> @@ -25,7 +25,6 @@ SRC_URI +=3D "file://touchscreen.rules \
+>             file://0003-implment-systemd-sysv-install-for-OE.patch \
+>             file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-
+> slash.patch \
+>             file://0001-test-parse-argument-Include-signal.h.patch \
+> -           file://0001-meson-use-partial_dependency-to-get-include-
+> director.patch \
+>             "
+>=20
+>  # patches needed by musl
+> --
+> 2.25.1
 
 
