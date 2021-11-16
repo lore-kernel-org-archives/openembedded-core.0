@@ -1,127 +1,102 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <jim.wilson.gcc@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED9BC433EF
-	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 01:29:24 +0000 (UTC)
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com
- [195.245.230.83])
- by mx.groups.io with SMTP id smtpd.web11.3831.1637026160251165897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11A78C4167B
+	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 01:44:29 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web09.4077.1637027058637282665
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 17:29:21 -0800
+ Mon, 15 Nov 2021 17:44:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=VWbeMiom;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.83,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1637026158; i=@fujitsu.com;
-	bh=fjvpp3SQOv3H87fGFvO0xHuWV1Qn2GooMkFAG9x+fxw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VWbeMiom7ihI8jeZVyLpUf2nt0VdgV9sTVcsUbl/Bep9yX3wDLIMOaTPzkr3Rxt7h
-	 Jxm9Z9YFsw+5JexvvgH5Zcu6KXPwosENrdS4msEVfH5SuT04M4AlgaT3XDScFqdqe4
-	 NlZmvZfYJ/SW5VlFnHHh9Q/bNqLKryW+UuXfrkhHm9c5uX6/iqCNld7uWrSy38nFYm
-	 YRNHgAujd0ACKpIMgJZTApBiEAL4wO7jAB7vEn3Um6EGUY1V6QKXWwZxDw09u8Fdzf
-	 xahX4rvo+3ba0dOXQfzide1tck+OKw7Yd79Pv4gvOrQU7aLrGqbOVRwI/xoMjPxNQM
-	 scWO4aThxb5zA==
-Received: from [100.112.196.154] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id 85/AC-09147-D6903916;
- Tue, 16 Nov 2021 01:29:17 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8ORqJvLOTn
-  R4MBEKYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePW6+WMBYv4KrpP32RpYHzP08XIxSEk8JhR
-  4tf5p0wQznkmiZUPr0E5Jxgleg7NYuli5ORgE1CTmH7rBmsXIweHiICexNV/oiBhZgEViRe/e
-  9hBbGEBa4k3Ez+zg5SwCKhK7JmnBxLmFXCSeDxpNiOILSGgIDHl4XtmiLigxMmZT1ggxkhIHH
-  zxghmiRlFi9uVmFgi7QmLWrDYmCFtN4uq5TcwTGPlnIWmfhaR9ASPTKkaLpKLM9IyS3MTMHF1
-  DAwNdQ0MjXUNLc11DY3O9xCrdJL3UUt3y1OISXUO9xPJiveLK3OScFL281JJNjMBwTCk42rmD
-  8derD3qHGCU5mJREeeMWTUoU4kvKT6nMSCzOiC8qzUktPsQow8GhJMGrzjo5UUiwKDU9tSItM
-  wcYGzBpCQ4eJRHePjagNG9xQWJucWY6ROoUo6KUOK8SB1BCACSRUZoH1waLx0uMslLCvIwMDA
-  xCPAWpRbmZJajyrxjFORiVhHmtQKbwZOaVwE1/BbSYCWix/b1+kMUliQgpqQYmC49Cof1S/1R
-  PnaybN5erot3t4vYk6yvvK98/SmbwlfviYhez+8WXmZ2xrjEGMmWGD5RtDdXqV7wUi9K+oXSe
-  73tb96VL7N6tAm18jjrfhdS/f7ljtUxE84Vjau/HPoMPJ85+fvp6kl24y7f2uWvOv5JeaNw7Z
-  3HrYVPt+NbbfCuyc50kLONvPvq3PlPoXJpgweHLT/dWf59i2+i6sXIbu+L7q0H7nWu2u8jrvv
-  q2e/qc1CWZEeyfpXms5z6oXfW1y7N0ot/rx5Jd1fcMFNuvhTzPmrt9smMFSxOX6Mmtdtdcvjy
-  Y7ua7deeTV4JHosSKet3aaub8nb26daeleWbs3m182ndSLWarx4b+uO6uxFKckWioxVxUnAgA
-  G5DIeUIDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-19.tower-285.messagelabs.com!1637026157!535826!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 19316 invoked from network); 16 Nov 2021 01:29:17 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-19.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 16 Nov 2021 01:29:17 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id E8E6910022F
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Nov 2021 01:29:16 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id DD36D100226
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Nov 2021 01:29:16 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.24; Tue, 16 Nov 2021 01:28:54 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] ethtool: upgrade 5.14 -> 5.15
-Date: Tue, 16 Nov 2021 09:28:41 +0800
-Message-ID: <1637026122-80256-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CNCLU2oK;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173,
+ mailfrom: jim.wilson.gcc@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id c4so16644972pfj.2
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 15 Nov 2021 17:44:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aSX8i1WUMGZdeqHfBxzGpjSz8j0y1396zCaZYUbhYgU=;
+        b=CNCLU2oKroDoZucKL7FcQO29RgBYztUzI7FFWzGhQxcL8jS+kuuxByXY8IWqzCUs18
+         0UG/D+wyYO1JRg3q5jeoy4LVczekPlEtsjHx3x22HOAN8N3ILwbWvdBHFnTyZ312ret9
+         e4ufrSg6mvpxkV1VlIp9DTj2HDitvt9tRzLhd+2lli5S688Fv5ZHArD2pkKJOmJVup5G
+         iNr5q84IKru2FRwkJqFdamGULokHZxz8vHfimDvAsgyPs8Sssovl/FnIuKNONdy6mzhz
+         urH7Wk8uCTrNr5tFwEaGPX8eGSc3CQdI//+nKXfdp4+Kqdi6BOtIRccBE9vcyp6Jlah0
+         J8eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aSX8i1WUMGZdeqHfBxzGpjSz8j0y1396zCaZYUbhYgU=;
+        b=bZ1LDa+wyoI/QIqdIrYz5ZHk986+Tb1YV1/+aZly5C2cbWrq8h6qKG5kgCtc7xiUvh
+         4K0/sAHreRvB2BWPmKIsUj6G7semUMxAkPH00Flhm5RnL2dKh2tNKlrLf251UhBj9Fox
+         yuxr6ktK08oeDxFoQ6+UykzjVNxuE8trw3nJV00PBaiPQNNTn3hMQ4KjtQaZui4gmsQg
+         Crh479teznbtGc3Vs2Cgn1QvCt0lF30tBpG2SmCSoVbClCASNSdGHSqjneL1q/c7Cmns
+         gCTHlvApqXGECT9YfmJZStEbmGyNE1Wzk/QAVkGOPNN0g7QVv9+B4gO0w0aZXh9g245M
+         Zcsw==
+X-Gm-Message-State: AOAM531aB3VNorSto5xk7mqkIs/f93+Ea1rb9g6+MJwVtGpGwbXTKBPr
+	ZL5M9fxMitpT77TTiXjIPSHcQoDhnpX6IQ==
+X-Google-Smtp-Source: 
+ ABdhPJxf+LskhJSFnRP19H3Aeo5EmG2R6aJtH2HrDM4Atypi5yizO6ftjW1N6IyQ9M++QLvc22whuw==
+X-Received: by 2002:a05:6a00:1242:b0:44c:2025:29e3 with SMTP id
+ u2-20020a056a00124200b0044c202529e3mr37860241pfi.59.1637027057761;
+        Mon, 15 Nov 2021 17:44:17 -0800 (PST)
+Received: from bree.hsd1.ca.comcast.net
+ ([2601:646:c180:b150:28aa:23e0:8daf:ff49])
+        by smtp.googlemail.com with ESMTPSA id
+ 17sm12756465pgw.1.2021.11.15.17.44.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 17:44:17 -0800 (PST)
+From: Jim Wilson <jim.wilson.gcc@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jim Wilson <jim.wilson.gcc@gmail.com>
+Subject: [PATCH] gdb-common: Add --with-liblzma-prefix in xz PACKAGECONFIG.
+Date: Mon, 15 Nov 2021 17:44:13 -0800
+Message-Id: <20211116014413.419573-1-jim.wilson.gcc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 01:29:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 01:44:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158318
+ https://lists.openembedded.org/g/openembedded-core/message/158320
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+This fixes an arch linux gdb configure error with liblzma installed.
+
+Without the --with-liblzma-prefix option, when configuring the target
+gdb, gdb configure may find the native liblzma (on a non-multiarch
+system) and try to use it, which gives a configure error.  We already
+use --with-libexpat-prefix for expat, we just need to do the same for
+liblzma.
+
+This was reported here:
+https://github.com/sifive/meta-sifive/issues/34
+https://github.com/sifive/freedom-u-sdk/issues/148
+
+Signed-off-by: Jim Wilson <jim.wilson.gcc@gmail.com>
 ---
- .../recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch | 2 +-
- .../ethtool/{ethtool_5.14.bb => ethtool_5.15.bb}                | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_5.14.bb => ethtool_5.15.bb} (93%)
+ meta/recipes-devtools/gdb/gdb-common.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index e4abadb05d..0ec3537198 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -19,7 +19,7 @@ index 6c9453c..7c0f829 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 5.14, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 5.15, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu subdir-objects])
-diff --git a/meta/recipes-extended/ethtool/ethtool_5.14.bb b/meta/recipes-extended/ethtool/ethtool_5.15.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_5.14.bb
-rename to meta/recipes-extended/ethtool/ethtool_5.15.bb
-index 28a49f4f8a..4192dec300 100644
---- a/meta/recipes-extended/ethtool/ethtool_5.14.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_5.15.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index f3ab3544da..925b0c2f80 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -37,7 +37,7 @@ PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python
+ PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
+ # ncurses is already a hard DEPENDS, but would be added here if it weren't
+ PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
+-PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
++PACKAGECONFIG[xz] = "--with-lzma --with-liblzma-prefix=${STAGING_DIR_HOST},--without-lzma,xz"
+ PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod, elfutils"
  
--SRC_URI[sha256sum] = "9868604c913e5483000c00d5dcb2bb3169a05252de47f62174702ff19cf6de7a"
-+SRC_URI[sha256sum] = "a6a1638192209269ca74a29d73903f28531ebdf0794f3e0bdfdbdee2dc75d98b"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
- 
+ GDBPROPREFIX = "--program-prefix=''"
 -- 
 2.25.1
 
