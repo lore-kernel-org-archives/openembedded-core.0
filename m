@@ -1,294 +1,193 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D47AC433EF
-	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 00:05:51 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.2879.1637021149832858704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0A0C433EF
+	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 01:29:22 +0000 (UTC)
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com
+ [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web10.3943.1637026160851102106
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 16:05:49 -0800
+ Mon, 15 Nov 2021 17:29:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ly5Y2h3U;
- spf=pass (domain: gmail.com, ip: 209.85.210.172,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id x5so5774088pfr.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 16:05:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=7Ftk8LznKVTshrYbjU58BZwkoGrXw3fjR3XbFNubRQ4=;
-        b=Ly5Y2h3UHudXN+Im9If2/UfQD0a9EKq4J5aHN322qAQiJef0aK9sXhf+r8TbtURU2F
-         xCC7gRBH8FmG2iaVkdo3hVi7uMzeT2LHaTSODScxBAbM12grAcILOktrRzBQhOa5hpqX
-         DHs5adMwY14m9hVrN6IKm97Cdna7PX82/WSMcRAM1+5KVlj5D47umVu7zm33cVnHqMdg
-         AAXeN0kFkbx+uf6bkPhsjEo35EqfjBbR9sWLzHuc0bC7HOTFTXizSKmzsvN2/8p/tlE/
-         4Oc1lxezUcMP9X6JFlyH6V2ALX3mT7ZXKPnI2Ts78OLaUnR1b1YN0WoU2bSu+3jWTTLB
-         /AKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=7Ftk8LznKVTshrYbjU58BZwkoGrXw3fjR3XbFNubRQ4=;
-        b=0Cb+GhncrpVjFOWd1MwkWPyzpFj5Bffsjwc2sO+L8WubtU/yFd83uPFJ9hqZkVi4PM
-         GO8UY8mHWfB6+xyKUKI5yQZgbMrXYE4HpAT/oip86s8ZhuvYvETRiHRbJ/v9HXn5z8Wd
-         J3Br95TtZv5Q0XNpihzVQ8Ncrvg0u5bxNgrR35GdC+JXceH6UjbTEulYdARQbjQVF56j
-         PSBfbOtmJxYd5jTbSeriQjqkK8zdVB9cxflL8eoZboHJ0N1H1H0Lf5J0h7zdhMAw/A6F
-         MlOYupl4fQm/rYJkGft2bgPDl7EyAjzExdaNkvSKeI/r+RVcJ7nBgh41d9jX5N7F/SoJ
-         S3Ag==
-X-Gm-Message-State: AOAM5327OtPlwDynKBD51kF/VAyt2AjWQQZk3WUeZ8++20XWWGZeCIUG
-	zoLAifS2gaxjcMgUhSdaDz6jtBBVjPQ=
-X-Google-Smtp-Source: 
- ABdhPJxiUspp3tN9Lc0tqGISZXB1nmDW1HA3ECGRIO5eZtyzNQNKlP5O0I/7yU5YKaYTl4NUSEe3kw==
-X-Received: by 2002:a63:5308:: with SMTP id h8mr1960981pgb.287.1637021149238;
-        Mon, 15 Nov 2021 16:05:49 -0800 (PST)
-Received: from skjolley ([2600:8800:1d92:f800:906b:c67d:3319:b37d])
-        by smtp.gmail.com with ESMTPSA id
- v10sm4022598pfu.123.2021.11.15.16.05.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Nov 2021 16:05:48 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 15 Nov 2021 17:05:47 -0700
-Message-ID: <0d2901d7da7d$b6298320$227c8960$@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=oczNeNO3;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1637026158; i=@fujitsu.com;
+	bh=aELiHkKtdgD71SfT/Nz53Vt4PhqdjJndcpggegfMjnE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=oczNeNO3xUsUgEchBPQXxpdRnQX+kvGIGZikD8xMI5s1zXwbIMYiSo8AGaJ7vWb8q
+	 MR3/Z8egEacP6zIy1/VfA4nRkOzM4JZOffVG6gIKVwJB+TOGaqxDrVTm0zNMu2CNhP
+	 sBENKvv7Mn3LVetZZXjZzK+BgNPPr0tt94PzfUkouQ5nXA8z/SnV0WO0fMnXETdVdu
+	 tDyfJxlGjJ0K/UhTd5/h52MWGnZH5tw41lorqaF+c+aN583kRWT2xEpwqfgf7MZ0v3
+	 vHYQnBV8DwWybVq16ygoew8G/RaPloJODg5GcTopUjHCHZ51BdEsCxHEG+aznNhJvE
+	 rbZ/dQd7X3Img==
+Received: from [100.112.196.154] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 0A/4E-17294-D6903916;
+ Tue, 16 Nov 2021 01:29:17 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEIsWRWlGSWpSXmKPExsViZ8ORqJvLOTn
+  RoOW8tMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvFg7XHWgtfKFcePb2NtYGyQ62Lk4hASeMwo
+  sWzzYiYI5zyTxP2t29kgnBOMEnMurADKcHKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
+  ewgYWEBJ4nbZxhBwiwCqhKt+/awgNi8QOFJ8y6xg9gSAgoSUx6+ZwaxOQWcJR7u38IM0ioEVH
+  NwbTREuaDEyZlPWCCmS0gcfPGCGaJVUWL25WYWCLtCYtasNiYIW03i6rlNzBMYBWchaZ+FpH0
+  BI9MqRoukosz0jJLcxMwcXUMDA11DQyNdQ0sLXUNjA73EKt0kvdRS3fLU4hJdQ73E8mK94src
+  5JwUvbzUkk2MwOBNKTjWtIPx5OsPeocYJTmYlER54xZNShTiS8pPqcxILM6ILyrNSS0+xCjDw
+  aEkwavOOjlRSLAoNT21Ii0zBxhJMGkJDh4lEd4+NqA0b3FBYm5xZjpE6hSjLse7n4sXMQux5O
+  XnpUqJ8ypxABUJgBRllObBjYBF9SVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrxWIFN4MvN
+  K4Da9AjqCCegI+3v9IEeUJCKkpBqYJn9q/+U1x/d2Q+1z7tjOvamHJJd9mWj5JEjs2/5Dsp82
+  vWfRvH/P7XtzW+6VS0v/PPXWbg4PdmA+Ephjpb+4+HB5tOzZg7tSddYtbbgvVduw6F+8Wd3NW
+  ed1udQ6JsdfSihOsjP7vvXZo7nLzy3SetwldFpkfZxCkXmeYlGo/Dtftgf9j2JWZMf21vye/d
+  PqFefya6JPsozc71zO7d2R6avoJnn4ndaekh2xAg7pza8zJkR/7fu1+Z3L1ZO7LV18N3rs+RU
+  784H9PNfMv5uclmvNTHmx7Wy44PenX52mK27W+Zz3fJJkiUHMm2K7b9+XHynr5Q2wY3HY2/Dx
+  qg1fXRTvPEMBydz2wPjNv8NblViKMxINtZiLihMBcxbjYmUDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-11.tower-291.messagelabs.com!1637026157!452285!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 4603 invoked from network); 16 Nov 2021 01:29:17 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-11.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 16 Nov 2021 01:29:17 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id EF45E100235
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 16 Nov 2021 01:29:16 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id DEB7F100229
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 16 Nov 2021 01:29:16 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.24; Tue, 16 Nov 2021 01:28:57 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] systemd-boot: upgrade 249.5 -> 249.6
+Date: Tue, 16 Nov 2021 09:28:42 +0800
+Message-ID: <1637026122-80256-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1637026122-80256-1-git-send-email-wangmy@fujitsu.com>
+References: <1637026122-80256-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0D2A_01D7DA43.09CCF510"
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIEJ8sI8YHdRt+dEroJupYbHFRU5A==
-Content-Language: en-us
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 00:05:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 01:29:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158317
+ https://lists.openembedded.org/g/openembedded-core/message/158319
 
-This is a multipart message in MIME format.
+0001-meson-use-partial_dependency-to-get-include-director.patch
+removed since it is included in 249.6
 
-------=_NextPart_000_0D2A_01D7DA43.09CCF510
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...md-boot_249.5.bb => systemd-boot_249.6.bb} |  0
+ meta/recipes-core/systemd/systemd.inc         |  2 +-
+ ...l_dependency-to-get-include-director.patch | 46 -------------------
+ .../{systemd_249.5.bb => systemd_249.6.bb}    |  1 -
+ 4 files changed, 1 insertion(+), 48 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_249.5.bb => systemd-boot_249.6.bb} (100%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-use-partial_dependency-to-get-include-director.patch
+ rename meta/recipes-core/systemd/{systemd_249.5.bb => systemd_249.6.bb} (99%)
 
-All,
-
+diff --git a/meta/recipes-core/systemd/systemd-boot_249.5.bb b/meta/recipes-core/systemd/systemd-boot_249.6.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_249.5.bb
+rename to meta/recipes-core/systemd/systemd-boot_249.6.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 4e4cdd2e2f..f3ce32efc2 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
+-SRCREV = "00b0393e65252bf631670604f58b844780b08c50"
++SRCREV = "deda69dad784f9c4367533555ff4d7bf6308c0ff"
+ SRCBRANCH = "v249-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
+ "
+diff --git a/meta/recipes-core/systemd/systemd/0001-meson-use-partial_dependency-to-get-include-director.patch b/meta/recipes-core/systemd/systemd/0001-meson-use-partial_dependency-to-get-include-director.patch
+deleted file mode 100644
+index 51ee5d8623..0000000000
+--- a/meta/recipes-core/systemd/systemd/0001-meson-use-partial_dependency-to-get-include-director.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 260e871fda979f040c94d2011545e8122bed68ca Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Mon, 18 Oct 2021 10:13:07 +0200
+-Subject: [PATCH] meson: use partial_dependency() to get include directory
+-
+-Getting the variable directly from pkg-config is prone to host
+-contamination when building in sysroots as the
+-compiler starts looking for the headers on the host in addition to
+-the sysroot.
+-
+-Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/21027]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- meson.build | 9 ++++-----
+- 1 file changed, 4 insertions(+), 5 deletions(-)
+-
+-diff --git a/meson.build b/meson.build
+-index df53c6156d..38fb37dd75 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -2618,18 +2618,17 @@ endif
+- 
+- if conf.get('ENABLE_LOCALED') == 1
+-         if conf.get('HAVE_XKBCOMMON') == 1
+--                # logind will load libxkbcommon.so dynamically on its own
+--                deps = [libdl]
+--                extra_includes = [libxkbcommon.get_pkgconfig_variable('includedir')]
+-+                # logind will load libxkbcommon.so dynamically on its own, but we still
+-+                # need to specify where the headers are
+-+                deps = [libdl, libxkbcommon.partial_dependency(compile_args: true)]
+-         else
+-                 deps = []
+--                extra_includes = []
+-         endif
+- 
+-         executable(
+-                 'systemd-localed',
+-                 systemd_localed_sources,
+--                include_directories : includes + extra_includes,
+-+                include_directories : includes,
+-                 link_with : [libshared],
+-                 dependencies : deps,
+-                 install_rpath : rootlibexecdir,
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-core/systemd/systemd_249.5.bb b/meta/recipes-core/systemd/systemd_249.6.bb
+similarity index 99%
+rename from meta/recipes-core/systemd/systemd_249.5.bb
+rename to meta/recipes-core/systemd/systemd_249.6.bb
+index 8bdc0ca028..242a53d22a 100644
+--- a/meta/recipes-core/systemd/systemd_249.5.bb
++++ b/meta/recipes-core/systemd/systemd_249.6.bb
+@@ -25,7 +25,6 @@ SRC_URI += "file://touchscreen.rules \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
+            file://0001-test-parse-argument-Include-signal.h.patch \
+-           file://0001-meson-use-partial_dependency-to-get-include-director.patch \
+            "
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 392
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
-being in "3.4" and then "3.5".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0D2A_01D7DA43.09CCF510
-Content-Type: text/html;
-	boundary="----=_NextPart_000_00BA_01D7D4BD.E430F480";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 392 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0D2A_01D7DA43.09CCF510--
+ # patches needed by musl
+-- 
+2.25.1
 
 
