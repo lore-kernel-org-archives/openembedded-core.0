@@ -2,34 +2,34 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C129C433F5
-	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 03:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B31BC433EF
+	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 03:24:55 +0000 (UTC)
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  by mx.groups.io with SMTP id smtpd.web12.5109.1637033083559436548
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Nov 2021 19:24:48 -0800
+ Mon, 15 Nov 2021 19:24:54 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="213649298"
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="213649314"
 X-IronPort-AV: E=Sophos;i="5.87,237,1631602800";
-   d="scan'208";a="213649298"
+   d="scan'208";a="213649314"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 19:24:48 -0800
+ 15 Nov 2021 19:24:54 -0800
 X-IronPort-AV: E=Sophos;i="5.87,237,1631602800";
-   d="scan'208";a="567023995"
+   d="scan'208";a="567024048"
 Received: from jli90-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.214.145.204])
   by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2021 19:24:46 -0800
+ 15 Nov 2021 19:24:53 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 10/14] scripts/convert-srcuri: Backport SRC_URI
- conversion script from master branch
-Date: Tue, 16 Nov 2021 11:24:16 +0800
+Subject: [hardknott][PATCH 12/14] meta/scripts: Manual git url branch
+ additions
+Date: Tue, 16 Nov 2021 11:24:18 +0800
 Message-Id: 
- <b0667c83c65c9900d63a7d8a2ce88384dcc2ccc5.1637032974.git.anuj.mittal@intel.com>
+ <87ac0c0a643cca436784dfcd86472adcf2e04130.1637032974.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637032974.git.anuj.mittal@intel.com>
 References: <cover.1637032974.git.anuj.mittal@intel.com>
@@ -38,113 +38,118 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 03:24:49 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 03:24:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158333
+ https://lists.openembedded.org/g/openembedded-core/message/158335
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This script handles two emerging issues:
+Following the scripted conversion adding branches to git://
+SRC_URI entries, add the remaining references, mainly in the selftests
+and recipetool.
 
-1. There is uncertainty about the default branch name in git going forward.
-To try and cover the different possible outcomes, add branch names to all
-git:// and gitsm:// SRC_URI entries.
-
-2. Github are dropping support for git:// protocol fetching, so remap github
- urls as needed. For more details see:
-
-https://github.blog/2021-09-01-improving-git-protocol-security-github/
-
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5340c0d688036c1be6c938f05d8a8c1e3b49ec38)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/contrib/convert-srcuri.py | 77 +++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100755 scripts/contrib/convert-srcuri.py
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py         | 4 ++--
+ meta/lib/oeqa/selftest/cases/recipetool.py      | 6 +++---
+ meta/lib/oeqa/selftest/cases/sstatetests.py     | 2 +-
+ scripts/lib/recipetool/create.py                | 3 +++
+ 5 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/contrib/convert-srcuri.py b/scripts/contrib/convert-srcuri.py
-new file mode 100755
-index 0000000000..5b362ea2e8
---- /dev/null
-+++ b/scripts/contrib/convert-srcuri.py
-@@ -0,0 +1,77 @@
-+#!/usr/bin/env python3
-+#
-+# Conversion script to update SRC_URI to add branch to git urls
-+#
-+# Copyright (C) 2021 Richard Purdie
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+import re
-+import os
-+import sys
-+import tempfile
-+import shutil
-+import mimetypes
-+
-+if len(sys.argv) < 2:
-+    print("Please specify a directory to run the conversion script against.")
-+    sys.exit(1)
-+
-+def processfile(fn):
-+    def matchline(line):
-+        if "MIRROR" in line or ".*" in line or "GNOME_GIT" in line:
-+            return False
-+        return True
-+    print("processing file '%s'" % fn)
-+    try:
-+        if "distro_alias.inc" in fn or "linux-yocto-custom.bb" in fn:
-+            return
-+        fh, abs_path = tempfile.mkstemp()
-+        modified = False
-+        with os.fdopen(fh, 'w') as new_file:
-+            with open(fn, "r") as old_file:
-+                for line in old_file:
-+                    if ("git://" in line or "gitsm://" in line) and "branch=" not in line and matchline(line):
-+                        if line.endswith('"\n'):
-+                            line = line.replace('"\n', ';branch=master"\n')
-+                        elif line.endswith(" \\\n"):
-+                            line = line.replace(' \\\n', ';branch=master \\\n')
-+                        modified = True
-+                    if ("git://" in line or "gitsm://" in line) and "github.com" in line and "protocol=https" not in line and matchline(line):
-+                        if "protocol=git" in line:
-+                            line = line.replace('protocol=git', 'protocol=https')
-+                        elif line.endswith('"\n'):
-+                            line = line.replace('"\n', ';protocol=https"\n')
-+                        elif line.endswith(" \\\n"):
-+                            line = line.replace(' \\\n', ';protocol=https \\\n')
-+                        modified = True
-+                    new_file.write(line)
-+        if modified:
-+            shutil.copymode(fn, abs_path)
-+            os.remove(fn)
-+            shutil.move(abs_path, fn)
-+    except UnicodeDecodeError:
-+        pass
-+
-+ourname = os.path.basename(sys.argv[0])
-+ourversion = "0.1"
-+
-+if os.path.isfile(sys.argv[1]):
-+    processfile(sys.argv[1])
-+    sys.exit(0)
-+
-+for targetdir in sys.argv[1:]:
-+    print("processing directory '%s'" % targetdir)
-+    for root, dirs, files in os.walk(targetdir):
-+        for name in files:
-+            if name == ourname:
-+                continue
-+            fn = os.path.join(root, name)
-+            if os.path.islink(fn):
-+                continue
-+            if "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff"):
-+                continue
-+            processfile(fn)
-+
-+print("All files processed with version %s" % ourversion)
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 433d4b6651..0240589c81 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -47,5 +47,5 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
+ # The CONNECTIVITY_CHECK_URIS are used to test whether we can succesfully
+ # fetch from the network (and warn you if not). To disable the test set
+ # the variable to be empty.
+-# Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master
++# Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
+ CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 3385546e8e..66e326253e 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -340,7 +340,7 @@ class DevtoolAddTests(DevtoolBase):
+         checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'
+         checkvars['S'] = '${WORKDIR}/git'
+         checkvars['PV'] = '0.1+git${SRCPV}'
+-        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https'
++        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https;branch=master'
+         checkvars['SRCREV'] = srcrev
+         checkvars['DEPENDS'] = set(['dbus'])
+         self._test_recipe_contents(recipefile, checkvars, [])
+@@ -904,7 +904,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+ 
+         result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
+-        addlines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git"']
++        addlines = ['SRCREV = ".*"', 'SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"']
+         srcurilines = src_uri.split()
+         srcurilines[0] = 'SRC_URI = "' + srcurilines[0]
+         srcurilines.append('"')
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 9d56e9e1e3..3621492998 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -357,7 +357,7 @@ class RecipetoolTests(RecipetoolBase):
+         tempsrc = os.path.join(self.tempdir, 'srctree')
+         os.makedirs(tempsrc)
+         recipefile = os.path.join(self.tempdir, 'libmatchbox.bb')
+-        srcuri = 'git://git.yoctoproject.org/libmatchbox'
++        srcuri = 'git://git.yoctoproject.org/libmatchbox;branch=master'
+         result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri + ";rev=9f7cf8895ae2d39c465c04cc78e918c157420269", '-x', tempsrc])
+         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
+         checkvars = {}
+@@ -447,7 +447,7 @@ class RecipetoolTests(RecipetoolBase):
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+         checkvars['LICENSE'] = set(['Apache-2.0'])
+-        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https'
++        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https;branch=master'
+         inherits = ['setuptools3']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+@@ -514,7 +514,7 @@ class RecipetoolTests(RecipetoolBase):
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+         checkvars['LICENSE'] = set(['GPLv2'])
+-        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/matchbox-terminal;protocol=http'
++        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/matchbox-terminal;protocol=http;branch=master'
+         inherits = ['pkgconfig', 'autotools']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index c46e8ba489..e2fe38be87 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -39,7 +39,7 @@ class SStateTests(SStateBase):
+ 
+         recipefile = os.path.join(tempdir, "recipes-test", "dbus-wait-test", 'dbus-wait-test_git.bb')
+         os.makedirs(os.path.dirname(recipefile))
+-        srcuri = 'git://' + srcdir + ';protocol=file'
++        srcuri = 'git://' + srcdir + ';protocol=file;branch=master'
+         result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri])
+         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
+ 
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 566c75369a..116bdfd697 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -389,6 +389,9 @@ def reformat_git_uri(uri):
+                 parms.update({('protocol', 'ssh')})
+         elif (scheme == "http" or scheme == 'https' or scheme == 'ssh') and not ('protocol' in parms):
+             parms.update({('protocol', scheme)})
++        # We assume 'master' branch if not set
++        if not 'branch' in parms:
++            parms.update({('branch', 'master')})
+         # Always append 'git://'
+         fUrl = bb.fetch2.encodeurl(('git', host, path, user, pswd, parms))
+         return fUrl
 -- 
 2.33.1
 
