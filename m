@@ -2,119 +2,69 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D33C433EF
-	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 16:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD819C433FE
+	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 16:32:07 +0000 (UTC)
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
  by mx.groups.io with SMTP id smtpd.web09.378.1637080325948614472
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Nov 2021 08:32:06 -0800
+ Tue, 16 Nov 2021 08:32:07 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="214448448"
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="214448455"
 X-IronPort-AV: E=Sophos;i="5.87,239,1631602800";
-   d="scan'208";a="214448448"
+   d="scan'208";a="214448455"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 08:32:05 -0800
+ 16 Nov 2021 08:32:06 -0800
 X-IronPort-AV: E=Sophos;i="5.87,239,1631602800";
-   d="scan'208";a="535956650"
+   d="scan'208";a="535956657"
 Received: from mmohdso1-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.237.91])
   by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 08:32:04 -0800
+ 16 Nov 2021 08:32:05 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/17] Review request
-Date: Wed, 17 Nov 2021 00:31:41 +0800
-Message-Id: <cover.1637080067.git.anuj.mittal@intel.com>
+Subject: [honister][PATCH 01/17] avahi: update CVE id fixed by
+ local-ping.patch
+Date: Wed, 17 Nov 2021 00:31:42 +0800
+Message-Id: 
+ <efb82a8e56c9af7846b391a031511ab60d12ced4.1637080067.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1637080067.git.anuj.mittal@intel.com>
+References: <cover.1637080067.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 16:32:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 16:32:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158348
+ https://lists.openembedded.org/g/openembedded-core/message/158349
 
-Please review these changes for honister. No issues seen on autobuilder.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2930
+CVE-2021-36217 is treated as a duplicate of CVE-2021-3502.
+Update the local-ping.patch to mark it resolve both.
 
-Thanks,
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4d75d6c39f1faeb38191b55f1fa9311b63fcfb29)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-connectivity/avahi/files/local-ping.patch | 1 +
+ 1 file changed, 1 insertion(+)
 
-Anuj
-
-The following changes since commit d2cba06c27c87c64423636153c0f186c5f45b147:
-
-  glibc-version.inc: remove branch= from GLIBC_GIT_URI (2021-11-12 10:57:32 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/honister
-
-Bruce Ashfield (4):
-  linux-yocto/5.14: update to v5.14.16
-  linux-yocto/5.10: update to v5.10.77
-  linux-yocto/5.14: update to v5.14.17
-  linux-yocto/5.10: update to v5.10.78
-
-Chen Qi (1):
-  avahi: update CVE id fixed by local-ping.patch
-
-Jon Mason (1):
-  scripts/lib/wic/help.py: Update Fedora Kickstart URLs
-
-Kai Kang (2):
-  squashfs-tools: follow-up fix for CVE-2021-41072
-  convert-srcuri.py: use regex to check space in SRC_URI
-
-Peter Kjellerstedt (1):
-  insane.bbclass: Add a check for directories that are expected to be
-    empty
-
-Richard Purdie (6):
-  mirrors: Add uninative mirror on kernel.org
-  scripts/oe-package-browser: Fix after overrides change
-  scripts/oe-package-browser: Handle no packages being built
-  wpa-supplicant: Match package override to PACKAGES for pkg_postinst
-  uninative: Add version to uninative tarball name
-  mirrors: Add kernel.org sources mirror for downloads.yoctoproject.org
-
-Ross Burton (2):
-  vim: fix CVE-2021-3796, CVE-2021-3872, and CVE-2021-3875
-  vim: add patch number to CVE-2021-3778 patch
-
- meta/classes/insane.bbclass                   | 30 ++++++
- meta/classes/mirrors.bbclass                  |  2 +
- meta/classes/uninative.bbclass                |  2 +-
- meta/conf/distro/include/yocto-uninative.inc  |  3 +-
- meta/conf/documentation.conf                  |  2 +
- .../avahi/files/local-ping.patch              |  1 +
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |  2 +-
- .../squashfs-tools/CVE-2021-41072.patch       |  6 +-
- .../linux/linux-yocto-rt_5.10.bb              |  6 +-
- .../linux/linux-yocto-rt_5.14.bb              |  6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +-
- .../linux/linux-yocto-tiny_5.14.bb            |  8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++---
- meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 ++---
- ...28-using-freed-memory-when-replacing.patch | 83 ++++++++++++++++
- ...llegal-memory-access-if-buffer-name-.patch | 86 ++++++++++++++++
- ...ml_get-error-after-search-with-range.patch | 72 ++++++++++++++
- ...nvalid-memory-access-when-scrolling-.patch | 97 +++++++++++++++++++
- .../vim/files/CVE-2021-3778.patch             | 37 ++++---
- meta/recipes-support/vim/vim.inc              |  8 +-
- scripts/contrib/convert-srcuri.py             |  8 +-
- scripts/lib/wic/help.py                       |  4 +-
- scripts/oe-pkgdata-browser                    |  8 +-
- 23 files changed, 464 insertions(+), 65 deletions(-)
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3428-using-freed-memory-when-replacing.patch
- create mode 100644 meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-memory-access-if-buffer-name-.patch
- create mode 100644 meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-error-after-search-with-range.patch
- create mode 100644 meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-memory-access-when-scrolling-.patch
-
+diff --git a/meta/recipes-connectivity/avahi/files/local-ping.patch b/meta/recipes-connectivity/avahi/files/local-ping.patch
+index 94116ad1f3..29c192d296 100644
+--- a/meta/recipes-connectivity/avahi/files/local-ping.patch
++++ b/meta/recipes-connectivity/avahi/files/local-ping.patch
+@@ -1,4 +1,5 @@
+ CVE: CVE-2021-36217
++CVE: CVE-2021-3502
+ Upstream-Status: Backport
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ 
 -- 
 2.33.1
 
