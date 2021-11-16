@@ -2,34 +2,34 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD85BC433EF
-	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 16:32:32 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web09.383.1637080346426941201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1858C433EF
+	for <webhook@archiver.kernel.org>; Tue, 16 Nov 2021 16:32:49 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web12.420.1637080369344062201
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Nov 2021 08:32:32 -0800
+ Tue, 16 Nov 2021 08:32:49 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="319941165"
+ spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="233669501"
 X-IronPort-AV: E=Sophos;i="5.87,239,1631602800";
-   d="scan'208";a="319941165"
+   d="scan'208";a="233669501"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 08:32:31 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 08:32:24 -0800
 X-IronPort-AV: E=Sophos;i="5.87,239,1631602800";
-   d="scan'208";a="535956827"
+   d="scan'208";a="535956786"
 Received: from mmohdso1-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.237.91])
   by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 08:32:30 -0800
+ 16 Nov 2021 08:32:22 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 17/17] insane.bbclass: Add a check for directories
- that are expected to be empty
-Date: Wed, 17 Nov 2021 00:31:58 +0800
+Subject: [honister][PATCH 12/17] scripts/oe-package-browser: Handle no
+ packages being built
+Date: Wed, 17 Nov 2021 00:31:53 +0800
 Message-Id: 
- <9f3fbfc02ae6fadffbcc1bda1fa75dfe140d05c5.1637080067.git.anuj.mittal@intel.com>
+ <879a176f7159d1b3f5a9dc2116017b4a08172468.1637080067.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637080067.git.anuj.mittal@intel.com>
 References: <cover.1637080067.git.anuj.mittal@intel.com>
@@ -38,93 +38,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 16:32:32 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Nov 2021 16:32:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158360
+ https://lists.openembedded.org/g/openembedded-core/message/158361
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The empty-dirs QA check verifies that all directories specified in
-QA_EMPTY_DIRS are empty. It is possible to specify why a directory is
-expected to be empty by defining QA_EMPTY_DIRS_RECOMMENDATION:<path>,
-which will then be included in the error message if the directory is
-not empty. If it is not specified for a directory, then "but it is
-expected to be empty" will be used.
+Give the user a proper error message if there aren't packages built,
+rather than a less friendly traceback.
 
-Compared to the corresponding patch for master, there are two
-differences:
+[YOCTO #14619]
 
-* "/var/volatile" is not added to QA_EMPTY_DIRS by default, and
-* "empty-dirs" is not enabled in ERROR_QA (nor in WARN_QA).
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b14c176b7dd74b7d63ca0f72e6e00fbf209f5a0b)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/insane.bbclass  | 30 ++++++++++++++++++++++++++++++
- meta/conf/documentation.conf |  2 ++
- 2 files changed, 32 insertions(+)
+ scripts/oe-pkgdata-browser | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index f2d2ca3689..bfaf2577d0 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -50,6 +50,20 @@ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
+index e07005b807..a3a381923b 100755
+--- a/scripts/oe-pkgdata-browser
++++ b/scripts/oe-pkgdata-browser
+@@ -236,6 +236,8 @@ class PkgUi():
+         update_deps("RPROVIDES", "Provides: ", self.provides_label, clickable=False)
  
- UNKNOWN_CONFIGURE_WHITELIST ?= "--enable-nls --disable-nls --disable-silent-rules --disable-dependency-tracking --with-libtool-sysroot --disable-static"
- 
-+# This is a list of directories that are expected to be empty.
-+QA_EMPTY_DIRS ?= " \
-+    /dev/pts \
-+    /media \
-+    /proc \
-+    /run \
-+    /tmp \
-+    ${localstatedir}/run \
-+"
-+# It is possible to specify why a directory is expected to be empty by defining
-+# QA_EMPTY_DIRS_RECOMMENDATION:<path>, which will then be included in the error
-+# message if the directory is not empty. If it is not specified for a directory,
-+# then "but it is expected to be empty" will be used.
-+
- def package_qa_clean_path(path, d, pkg=None):
-     """
-     Remove redundant paths from the path for display.  If pkg isn't set then
-@@ -917,6 +931,22 @@ def package_qa_check_unlisted_pkg_lics(package, d, messages):
-                            "listed in LICENSE" % (package, ' '.join(unlisted)))
-     return False
- 
-+QAPKGTEST[empty-dirs] = "package_qa_check_empty_dirs"
-+def package_qa_check_empty_dirs(pkg, d, messages):
-+    """
-+    Check for the existence of files in directories that are expected to be
-+    empty.
-+    """
-+
-+    pkgd = oe.path.join(d.getVar('PKGDEST'), pkg)
-+    for dir in (d.getVar('QA_EMPTY_DIRS') or "").split():
-+        empty_dir = oe.path.join(pkgd, dir)
-+        if os.path.exists(empty_dir) and os.listdir(empty_dir):
-+            recommendation = (d.getVar('QA_EMPTY_DIRS_RECOMMENDATION:' + dir) or
-+                              "but it is expected to be empty")
-+            msg = "%s installs files in %s, %s" % (pkg, dir, recommendation)
-+            oe.qa.add_message(messages, "empty-dirs", msg)
-+
- def package_qa_check_encoding(keys, encode, d):
-     def check_encoding(key, enc):
-         sane = True
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index c5a38b0764..d38a88fb49 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -345,6 +345,8 @@ PYPI_SRC_URI[doc] = "The URI to use to fetch from pypi, default uses pythonhoste
- 
- #Q
- 
-+QA_EMPTY_DIRS[doc] = "A list of directories that are expected to be empty."
-+QA_EMPTY_DIRS_RECOMMENDATION[doc] = "This specifies a recommendation for a directory why it must be empty, which will be included in the error message if the directory is not empty."
- QMAKE_PROFILES[doc] = "Specifies your own subset of .pro files to be built for use with qmake."
- 
- #R
+     def load_recipes(self):
++        if not os.path.exists(pkgdata):
++            sys.exit("Error: Please ensure %s exists by generating packages before using this tool." % pkgdata)
+         for recipe in sorted(os.listdir(pkgdata)):
+             if os.path.isfile(os.path.join(pkgdata, recipe)):
+                 self.recipe_iters[recipe] = self.recipe_store.append([recipe])
 -- 
 2.33.1
 
