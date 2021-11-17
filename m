@@ -1,200 +1,152 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E89C433F5
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 12:53:34 +0000 (UTC)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.web10.6494.1637153613196882258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DD4C433F5
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:00:01 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web12.8155.1637161200146132910
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 04:53:33 -0800
+ Wed, 17 Nov 2021 07:00:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=o5i0vgmW;
- spf=pass (domain: gmail.com, ip: 209.85.222.49,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id ay21so5572479uab.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AXfRrHnu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id z10so12344764edc.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 04:53:33 -0800 (PST)
+ Wed, 17 Nov 2021 06:59:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A2n5VfIICgb6YMMM9LJA/yn9RXKtZXhTYdKi9GQ5mVc=;
-        b=o5i0vgmWn6Q1ETq6lOvWZN7lL4CyGxnDmE6XzxZ48gj29B2cZrmcjr/CCAYa1JTLXr
-         0kJnlQ9cJG+Mc2p65q0yaui6R1FUt9mpzgRfMYIbD2BKszzdHu8A2uIymy0RdCl5rl0b
-         YiDYo1XZIPtSykFP4kYWRFaoCWN45+T1uZQPJLPbTOLBjL5+wZ+wJGt+KIyFzmzIrpzq
-         kHX0t9l8owBhD1YUsiGlJVerEplYpACw7DP090sdMyn99wMUhpedTV/2wNo4lhx1JOug
-         N8CEBd8xCVOD4Kq1h/q1yP0c2oxZuhgQ+5ZDrfhoKCYnMTLuGBk5S0wqzm9sF/2Sj8v+
-         52nw==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=B2YnrbjMjxDivJwPnqzXO2voqOQ2fJ8Dp7Nsfz9fFEY=;
+        b=AXfRrHnu5Drohb2bP7kXNORvXGJ8+mmcVT6JWs3Z3R8qiMn9Ak9N1jkR3lMBSKlPBw
+         9T+2WwMZduqBsnVxz9eMUVjbJatw5sIPezGGVqkiILbiJ5n/dwcE2r2lc9U3E43Y7C9M
+         EETHBPR0pGDUnOqGloTd9jwBxu0OE8Kh6UfHEYHWFppqFekVsm/A5dPdIIswSMloGrQT
+         yPdxbpAdnjl0q05QnFWDr3ZJNUP6sSxT8EYXCIh4cYXlGJGoc+dkZaslkKz4r03Ko7+l
+         je+uTkvgqzOekqJh/2yIL/QyTfU2yxilnSh+O57+1wOR00oXm1kra0fTefWpE9A4A/3u
+         ANsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A2n5VfIICgb6YMMM9LJA/yn9RXKtZXhTYdKi9GQ5mVc=;
-        b=Fd3TYKQDUPL7FsB+w8VshBCE+OrEZX8QnlOGJZlLN9f/XXQs75z8UDA8X/YagtKJsj
-         qcsFD5jZ4U9NDWaL//b88ju10DPzAMh+6oifrQniF/Ke+mZ9UEcdk1eE8jVH84wjPI0S
-         oaZhHwObG5vok0l9K+jQX3tXFTDJ+t6NySjSbQxV7mPwhU6mHHnXyH2Mlcm4JWRi2141
-         wKqGeAY2vVyRofy2+5+WXFXGQ/DMuOK1p1ZI5xcdZ1FztHqsHEfnNCAMrExET13ItJkR
-         CH8ZXtaAVJ3BTnFCW0SuJj6HrkFDta9sgyim51jsA+BXp0BZaRBkEqVO9tczrsESXA6P
-         tXJg==
-X-Gm-Message-State: AOAM530SdlBfLIBVELwKgN01bD1oC6bJAwPYdgMcNh8t74ZKtA58VIti
-	vzbOyNKp03EUSf45KrHgbi1qrid3JKAIj3yzzp0=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=B2YnrbjMjxDivJwPnqzXO2voqOQ2fJ8Dp7Nsfz9fFEY=;
+        b=nf3d+p47bQ9UF+DD3oyFUbPU1UBGTDGZK4FFCexCREOLvc2eIjd9PSjaO9LpyejtL2
+         4FHqYcQ1Rl15f/rkrS75LQ4t7HVyTjrAJiote1mvi8EQ1QbnXwcwMbSZVdTb5DMPZXON
+         97mK7RWNHaVNkfdzd5QeC55nzTUd3fcvk/F6e+JyhDplngpJkffTF8+N3ziNrt/STbhJ
+         9aH7FWD5xYtaiGMk0tRs+GKn5Bmt+E/tlAGuSZGu8R9WoS0lZpG7YEB+ujLSWj5qXw8x
+         ZU6bhI/S0BOsALFWoHvEZ33EFRpo9Y/knmIgnhlsm0iP0pm4Db9+Ue8fQyb7qnG27cja
+         bZIw==
+X-Gm-Message-State: AOAM531fgo1W14ZBFfi6fcmqpEBge/eKEAnDCXrOZQ03MHvw97srR7Hc
+	7tOY5FaESkBQ8CitOOCJoic=
 X-Google-Smtp-Source: 
- ABdhPJyEqOh1ED5MXeDwNBnsLLjX0y38CLE2zc5cwlb9SlMNEjXncRufbGlM04gALqDFRMY0oy8RP+bI4LJDCxNih3s=
-X-Received: by 2002:ab0:6f14:: with SMTP id r20mr23799594uah.22.1637153612298;
- Wed, 17 Nov 2021 04:53:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20211117123201.111905-1-luca.boccassi@gmail.com>
-In-Reply-To: <20211117123201.111905-1-luca.boccassi@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 17 Nov 2021 13:53:20 +0100
-Message-ID: 
- <CANNYZj-tjH20-ocHq_7DWC6qaPA0XhKfk4cGXMPNbs-_YXp8jg@mail.gmail.com>
+ ABdhPJzVcIDWlMmPdAW01kypyHBh4SPOGP3F0KvqLz5Mx8TKFG+UJsJg4LxOHPkOEysUNnfKP4Owmg==
+X-Received: by 2002:a05:6402:1911:: with SMTP id
+ e17mr22792966edz.43.1637161198054;
+        Wed, 17 Nov 2021 06:59:58 -0800 (PST)
+Received: from [192.168.1.112] ([137.220.125.106])
+        by smtp.gmail.com with ESMTPSA id mp5sm65183ejc.68.2021.11.17.06.59.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 06:59:57 -0800 (PST)
+Message-ID: <510650712bc36f761fc9c43d47a1761bc4d60366.camel@gmail.com>
 Subject: Re: [OE-core] [PATCH 0/8] systemd: allow building for nativesdk
-To: Luca Bocassi <luca.boccassi@gmail.com>
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>,
- paul.eggleton@microsoft.com
-Content-Type: multipart/alternative; boundary="00000000000080fb5e05d0fb877c"
+	paul.eggleton@microsoft.com
+Date: Wed, 17 Nov 2021 14:59:55 +0000
+In-Reply-To: 
+ <CANNYZj-tjH20-ocHq_7DWC6qaPA0XhKfk4cGXMPNbs-_YXp8jg@mail.gmail.com>
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+	 <CANNYZj-tjH20-ocHq_7DWC6qaPA0XhKfk4cGXMPNbs-_YXp8jg@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-2E+Xc58WVFL5itGCwFjO"
+User-Agent: Evolution 3.38.3-1+plugin 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 12:53:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:00:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158393
+ https://lists.openembedded.org/g/openembedded-core/message/158394
 
---00000000000080fb5e05d0fb877c
+
+--=-2E+Xc58WVFL5itGCwFjO
 Content-Type: text/plain; charset="UTF-8"
-
-Shouldn't this be enabled in regular yocto builds first, e.g. allow
-systemd-native and then add the needed checks to systemd.bbclass? Maybe
-nativesdk support isn't then needed at all?
-
-Alex
-
-On Wed, 17 Nov 2021 at 13:32, Luca Bocassi <luca.boccassi@gmail.com> wrote:
-
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
->
-> systemd-analyze in the next release will gain the ability to
-> run the 'security' and 'verify' verbs offline, on local units.
-> This is very useful at build time and/or in CI systems to detect
-> errors and issues before changes are deployed, as a static
-> analyzer tool.
-> This series enables building the systemd recipe for the nativesdk
-> targets, so that systemd-analyze can be included in the SDK and
-> called by users/build systems/CI systems.
->
-> Luca Boccassi (8):
->   systemd: skip chown when building for nativesdk
->   systemd: skip postinst in nativesdk builds
->   systemd: remove /var in nativesdk builds
->   volatile-binds: remove /var in nativesdk builds
->   volatile-binds: add nativesdk
->   kbd: add nativesdk
->   os-release: add nativesdk
->   systemd: add nativesdk
->
->  meta/recipes-core/kbd/kbd_2.4.0.bb            |  2 +-
->  meta/recipes-core/os-release/os-release.bb    |  2 ++
->  meta/recipes-core/systemd/systemd-conf_1.0.bb |  2 ++
->  .../systemd/systemd-serialgetty.bb            |  2 ++
->  meta/recipes-core/systemd/systemd_249.5.bb    | 29 +++++++++++++++++--
->  .../volatile-binds/volatile-binds.bb          |  7 +++++
->  6 files changed, 41 insertions(+), 3 deletions(-)
->
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158384):
-> https://lists.openembedded.org/g/openembedded-core/message/158384
-> Mute This Topic: https://lists.openembedded.org/mt/87118013/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000080fb5e05d0fb877c
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Shouldn&#39;t this be enabled in regular yocto builds=
- first, e.g. allow systemd-native and then add the needed checks to systemd=
-.bbclass? Maybe nativesdk support isn&#39;t then needed at all?<br></div><d=
-iv><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Wed, 17 Nov 2021 at 13:32, Luca Bocassi =
-&lt;<a href=3D"mailto:luca.boccassi@gmail.com">luca.boccassi@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
- Luca Boccassi &lt;<a href=3D"mailto:luca.boccassi@microsoft.com" target=3D=
-"_blank">luca.boccassi@microsoft.com</a>&gt;<br>
-<br>
-systemd-analyze in the next release will gain the ability to<br>
-run the &#39;security&#39; and &#39;verify&#39; verbs offline, on local uni=
-ts.<br>
-This is very useful at build time and/or in CI systems to detect<br>
-errors and issues before changes are deployed, as a static<br>
-analyzer tool.<br>
-This series enables building the systemd recipe for the nativesdk<br>
-targets, so that systemd-analyze can be included in the SDK and<br>
-called by users/build systems/CI systems.<br>
-<br>
-Luca Boccassi (8):<br>
-=C2=A0 systemd: skip chown when building for nativesdk<br>
-=C2=A0 systemd: skip postinst in nativesdk builds<br>
-=C2=A0 systemd: remove /var in nativesdk builds<br>
-=C2=A0 volatile-binds: remove /var in nativesdk builds<br>
-=C2=A0 volatile-binds: add nativesdk<br>
-=C2=A0 kbd: add nativesdk<br>
-=C2=A0 os-release: add nativesdk<br>
-=C2=A0 systemd: add nativesdk<br>
-<br>
-=C2=A0meta/recipes-core/kbd/<a href=3D"http://kbd_2.4.0.bb" rel=3D"noreferr=
-er" target=3D"_blank">kbd_2.4.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +-<br>
-=C2=A0meta/recipes-core/os-release/<a href=3D"http://os-release.bb" rel=3D"=
-noreferrer" target=3D"_blank">os-release.bb</a>=C2=A0 =C2=A0 |=C2=A0 2 ++<b=
-r>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd-conf_1.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd-conf_1.0.bb</a> |=C2=A0 2 ++<br>
-=C2=A0.../systemd/<a href=3D"http://systemd-serialgetty.bb" rel=3D"noreferr=
-er" target=3D"_blank">systemd-serialgetty.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_249.5.bb" rel=3D"=
-noreferrer" target=3D"_blank">systemd_249.5.bb</a>=C2=A0 =C2=A0 | 29 ++++++=
-+++++++++++--<br>
-=C2=A0.../volatile-binds/<a href=3D"http://volatile-binds.bb" rel=3D"norefe=
-rrer" target=3D"_blank">volatile-binds.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 7 +++++<br>
-=C2=A06 files changed, 41 insertions(+), 3 deletions(-)<br>
-<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#158384): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/158384" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/158384</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87118013/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87118013/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+On Wed, 2021-11-17 at 13:53 +0100, Alexander Kanavin wrote:
+> Shouldn't this be enabled in regular yocto builds first, e.g. allow
+> systemd-native and then add the needed checks to systemd.bbclass?
+> Maybe nativesdk support isn't then needed at all?
+>=20
+> Alex
 
---00000000000080fb5e05d0fb877c--
+I'm not sure I follow, that would break the build? These changes are
+necessary to make it work. I am including the package in the local sdk
+configuration, without these patches it does not build.
+
+> On Wed, 17 Nov 2021 at 13:32, Luca Bocassi <luca.boccassi@gmail.com>
+> wrote:
+> > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> >=20
+> > systemd-analyze in the next release will gain the ability to
+> > run the 'security' and 'verify' verbs offline, on local units.
+> > This is very useful at build time and/or in CI systems to detect
+> > errors and issues before changes are deployed, as a static
+> > analyzer tool.
+> > This series enables building the systemd recipe for the nativesdk
+> > targets, so that systemd-analyze can be included in the SDK and
+> > called by users/build systems/CI systems.
+> >=20
+> > Luca Boccassi (8):
+> > =C2=A0 systemd: skip chown when building for nativesdk
+> > =C2=A0 systemd: skip postinst in nativesdk builds
+> > =C2=A0 systemd: remove /var in nativesdk builds
+> > =C2=A0 volatile-binds: remove /var in nativesdk builds
+> > =C2=A0 volatile-binds: add nativesdk
+> > =C2=A0 kbd: add nativesdk
+> > =C2=A0 os-release: add nativesdk
+> > =C2=A0 systemd: add nativesdk
+> >=20
+> > =C2=A0meta/recipes-core/kbd/kbd_2.4.0.bb=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 2 +-
+> > =C2=A0meta/recipes-core/os-release/os-release.bb=C2=A0 =C2=A0 |=C2=A0 2=
+ ++
+> > =C2=A0meta/recipes-core/systemd/systemd-conf_1.0.bb |=C2=A0 2 ++
+> > =C2=A0.../systemd/systemd-serialgetty.bb=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 2 ++
+> > =C2=A0meta/recipes-core/systemd/systemd_249.5.bb=C2=A0 =C2=A0 | 29
+> > +++++++++++++++++--
+> > =C2=A0.../volatile-binds/volatile-binds.bb=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 7 +++++
+> > =C2=A06 files changed, 41 insertions(+), 3 deletions(-)
+> >=20
+
+
+--=-2E+Xc58WVFL5itGCwFjO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmGVGOsACgkQKGv37813
+JB4hyhAAtsJ64PqZIb9t+dO6OzlM/HgHluFesdys3Pc7SXYINq1vzC04sz76UgQL
+0gJRD2y/YHvCE8cZlPzokLd2PChrZvGKg814kVIPRuAnCsneE/zJ553RL+mfBWx2
+Zhs4pe3e0IQOu7BTM67L15KktGnlqTJKYb2uSotD6ubQWdgVAKN/nIXi94iNYc/X
+6qartzv6dKbowE1gcsjlkoilOzC3uueaev2IFOtipvvLxM7c3Ur3NUZEWMG9Ei2d
+sW4umZDuyfv5fo59VWIHYXu+9isTi2SlHOPPd2vsv51TPx2frVRtbEnkl/pJXgoB
+iIjuGC9es/PhUR4iBkObx3XmOVJarAtV4BlrztNgfHU2ssnZbZ3XObotQvNRB8e3
+KzhMEv+UbraDuamN3KNG99CYFfZzxATitfImu1YU4atrn+NyBDYooeTFS8mac/v/
+lG4G1+TFtxNSAZN/KKN45DvjyDQ6VjaNY+elpmzseDbfk2O6EAU5v1dGguOMPJxM
+etcHWwhSOJDSOKAMKw/qGEFpTab7khnQFHf9F1vl8i1b5wFkb15u2Rb/FDX5pxJ6
+7LmdDod3qwwxbzFU588ikIbDWnfPaaGzI/eWpl8Ifi5FXCJkOUlNq2FszF0TJvr8
+GV9YMUZFCVoORF9C5yQwrwREVIQxxOXmcvSPI5BJeZdAHKJ7JuI=
+=fBkH
+-----END PGP SIGNATURE-----
+
+--=-2E+Xc58WVFL5itGCwFjO--
+
 
