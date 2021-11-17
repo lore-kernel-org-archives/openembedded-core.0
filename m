@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C442C4332F
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:31 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web09.8792.1637163330069959504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A215C433F5
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:32 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.8729.1637163331150536763
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:30 -0800
+ Wed, 17 Nov 2021 07:35:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VseFhD4f;
- spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mh++AlVL;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id b12so5492583wrh.4
+Received: by mail-wr1-f45.google.com with SMTP id d24so5576036wra.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:29 -0800 (PST)
+ Wed, 17 Nov 2021 07:35:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ul/FfYX1stGw7Rsa0fZ8HtaEMQc3oNR8J84dfMSgOvU=;
-        b=VseFhD4f2f/56aMK1/WpiGI80v9eRdX5dNUd7xwz4hkJL1w014mWv/l8u7200L0f7N
-         aaOsuwp13BeUNHIqKGJ1n4wO8FOHAftgqlSjJitaApVPASWyQAdXrupcavJz4paHIUMs
-         OwSSLCgHu/Hlvdxfng43DXUC4BSYFw+y0SoiPEqmwCK0MJK/JaR7K+/RCN55tBK5OLOX
-         iBKZ1bVFIfCUG0IoeKvC00zZpj7ddo1GSx5helQMPK6ybcWO26lW/5Kce6ZuuLJ55oBw
-         r+GwLCx/L3cpZ7lEZKcWtDm8Aq3BXdeEOmQRlquda0+Do+Y7GpJj2p/MLtcgvFWK3Gpd
-         wOgw==
+        bh=gGBznOuAQS3KpomZN2bfb3/5oWYg/d7ksCc7zwPCNvE=;
+        b=mh++AlVLKzUOD3DYcAOoyUYYMPkI+voLzBzzO047VOVQ6mbBcOz5nR2/cpLNCS32bu
+         Y0l62Ois38takQLY9pnmOFMDuAQAmLThTPGzLVVKaeCunUabYW8OeQ31EGhdKCqJLcKb
+         fDbXjMmfoCUpeHlI6AD5TyGEpu7ly53TbzDIVlxmSECCW8ALRSptYLPicKBWEoGmGAHL
+         YMOpPZl8qB6rXVwplMvTEbQbKW3hWfQm8tAVS1FgCgW1fH06RdvOS3YyNOGR92j76BJ5
+         wlLDmWa90Rln2+0vKoy4ufC3gnPXmUikKJBuj7bAmZqJzeJ9QU17vPhVd0MUE/bSp4lU
+         2TNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ul/FfYX1stGw7Rsa0fZ8HtaEMQc3oNR8J84dfMSgOvU=;
-        b=ZlKGYwS5UL6NlE0uDfj6HHHMOOZcFhQm7olgYJv+AEpJP2yVmu1wosJXQp/sqRNi9w
-         Sj0gEwbGo7lrzvsyxu4GV9ux6pioND4r7m2inB8zq9mxqkX/6W3A6EvsCPYHTpplWh6j
-         jKvMB9msaSFw6sKx5fnQtc9RviR3zKakG3KJSrhue8cDWN0SIBsCFDlITXVDb6HUWz5V
-         8BDRALgUOcD+tqAEEsfAqQ4vuzd5Ks0X3JICXfMr2bx4SvD61D57wt5R4D71bFDaRMIE
-         fSrn3PHwUqh5X5+6WoDvHt7yVlHKhe6Ri27b9ZLbylo9wwxCAX0xmU9RLdL5rZTRLsBM
-         Ha8A==
-X-Gm-Message-State: AOAM531Xvu8DqYK2uLiWWw/AvfYsp3vmSOnwGwe6et7DDqTTBQLPcVjN
-	wxGrB8+/+gqS9JPOTsqEe8lng1q3UHk=
+        bh=gGBznOuAQS3KpomZN2bfb3/5oWYg/d7ksCc7zwPCNvE=;
+        b=7BJ4mmL155L8aFnyILNRxtdQgG5mbQ5Z5IemF5HUkawhDq7NAQcOTgAjKznuecN81h
+         C+5257YN7thEZfIBXfW+/PYO6JAhLbZ14BMkJk9pcNcZdL+ECtXIEqIOGilQ1iN/4KO7
+         N81yh3Zdq6UwPeowS7a2SwkeRWIa3gJrhyb/A8gieM02nGnSEQS61iuB4iCj/eeEONYR
+         OkOrDKG8urZa9JdOwT0gtLRKmeHs5hZpdGPWV7IE2YQ5lBrII781UgAwcChNLjRkKhM9
+         zTTho7NjlBmK2fubNhmeBYnd53XhzOUOD8thbfQV4F8ONFAFpb2aRWhRHxmIIzoQVLMb
+         W3tg==
+X-Gm-Message-State: AOAM533t4C8j1H/GPdP9xDyC0FKIXvv85ULklxWeEKYKGEdeKEGt2mwj
+	MYB77P7GILWlB/oXkOyUuHZ6vipmhhc=
 X-Google-Smtp-Source: 
- ABdhPJzqA8hGvojfQU2RQNoPzkYFr+FUxX6cusTmZG78aBhHTie0AGgkEHEmHQ8O+19F/Uvy4Rj6aA==
-X-Received: by 2002:a5d:6091:: with SMTP id w17mr20760173wrt.65.1637163328412;
-        Wed, 17 Nov 2021 07:35:28 -0800 (PST)
+ ABdhPJz+tU9lufsQKZACV2s/ixVLvTxb3E6uV+mRqnItorzcVr7aM0gbnG/6Wwth2CXalGp8sNss9A==
+X-Received: by 2002:a05:6000:18ac:: with SMTP id
+ b12mr19817070wri.355.1637163329742;
+        Wed, 17 Nov 2021 07:35:29 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.27
+        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 07:35:28 -0800 (PST)
+        Wed, 17 Nov 2021 07:35:29 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 03/36] logrotate: add a link to upstream review for one of the
- patch
-Date: Wed, 17 Nov 2021 16:34:52 +0100
-Message-Id: <20211117153525.257146-3-alex@linutronix.de>
+Subject: [PATCH 05/36] db: mark all patches as non-upstreamable
+Date: Wed, 17 Nov 2021 16:34:54 +0100
+Message-Id: <20211117153525.257146-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211117153525.257146-1-alex@linutronix.de>
 References: <20211117153525.257146-1-alex@linutronix.de>
@@ -65,31 +65,102 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:31 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158398
+ https://lists.openembedded.org/g/openembedded-core/message/158400
 
-The patch author (Robert Yang) has been asked by email
-to rework the patch.
+Since Oracle relicensed bdb, the open source community
+is slowly but surely replacing bdb with supported and
+open source friendly alternatives.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../logrotate/logrotate/act-as-mv-when-rotate.patch             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch | 2 +-
+ ...1-atomic-Rename-local-__atomic_compare_exchange-to-avo.patch | 2 +-
+ .../db/db/0001-clock-Do-not-define-own-timespec.patch           | 2 +-
+ ...1-configure-Add-explicit-tag-options-to-libtool-invoca.patch | 2 +-
+ meta/recipes-support/db/db/fix-parallel-build.patch             | 2 +-
+ meta/recipes-support/db/db/sequence-type.patch                  | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch b/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
-index 671fce4ac8..4efd471906 100644
---- a/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
-+++ b/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Act as the "mv" command when rotate log
- Act as the "mv" command when rotate log, first rename, if failed, then
- read and write.
+diff --git a/meta/recipes-support/db/db/0001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch b/meta/recipes-support/db/db/0001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch
+index a4ff2ecb0c..c82e7c375f 100644
+--- a/meta/recipes-support/db/db/0001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch
++++ b/meta/recipes-support/db/db/0001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch
+@@ -7,7 +7,7 @@ db5 does not build because it is redefining a C++11 standard
+ library identifier, atomic_init().  Therefore prefix all
+ its internal defines with '__db_', to avoid collisions.
  
 -Upstream-Status: Pending
-+Upstream-Status: Inappropriate [needs a rework according to https://github.com/logrotate/logrotate/pull/429]
++Upstream-Status: Inappropriate [as far as open source community is concerned, upstream is dead]
  
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+diff --git a/meta/recipes-support/db/db/0001-atomic-Rename-local-__atomic_compare_exchange-to-avo.patch b/meta/recipes-support/db/db/0001-atomic-Rename-local-__atomic_compare_exchange-to-avo.patch
+index 571708e03e..2374885e77 100644
+--- a/meta/recipes-support/db/db/0001-atomic-Rename-local-__atomic_compare_exchange-to-avo.patch
++++ b/meta/recipes-support/db/db/0001-atomic-Rename-local-__atomic_compare_exchange-to-avo.patch
+@@ -11,7 +11,7 @@ Fixes
+ ../db-5.3.28/src/dbinc/atomic.h:179:19: error: definition of builtin function '__atomic_compare_exchange'
+ static inline int __atomic_compare_exchange(
  
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [as far as open source community is concerned, upstream is dead]
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+diff --git a/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch b/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+index 9d51a44a26..d238b0f063 100644
+--- a/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
++++ b/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+@@ -10,7 +10,7 @@ its 12-bytes here and libc has 16-bytes
+ 
+ This can cause problems especially with 64bit time_t
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [as far as open source community is concerned, upstream is dead]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  src/dbinc/clock.h | 17 +----------------
+diff --git a/meta/recipes-support/db/db/0001-configure-Add-explicit-tag-options-to-libtool-invoca.patch b/meta/recipes-support/db/db/0001-configure-Add-explicit-tag-options-to-libtool-invoca.patch
+index cb28db1343..a574cf67b9 100644
+--- a/meta/recipes-support/db/db/0001-configure-Add-explicit-tag-options-to-libtool-invoca.patch
++++ b/meta/recipes-support/db/db/0001-configure-Add-explicit-tag-options-to-libtool-invoca.patch
+@@ -7,7 +7,7 @@ This helps cross compile when tag inference via heuristics
+ fail because CC variable is having -fPIE -pie and libtool
+ smartly removes it when building libraries
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [as far as open source community is concerned, upstream is dead]
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+diff --git a/meta/recipes-support/db/db/fix-parallel-build.patch b/meta/recipes-support/db/db/fix-parallel-build.patch
+index 27632e1ddb..42c2407cf2 100644
+--- a/meta/recipes-support/db/db/fix-parallel-build.patch
++++ b/meta/recipes-support/db/db/fix-parallel-build.patch
+@@ -2,7 +2,7 @@ With higher paralelism it sometimes fails with:
+ libtool: link: `util_log.lo' is not a valid libtool object
+ make: *** [db_replicate] Error 1
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [as far as open source community is concerned, upstream is dead]
+ 
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ 
+diff --git a/meta/recipes-support/db/db/sequence-type.patch b/meta/recipes-support/db/db/sequence-type.patch
+index a6fe3d62a0..fc9f7f0113 100644
+--- a/meta/recipes-support/db/db/sequence-type.patch
++++ b/meta/recipes-support/db/db/sequence-type.patch
+@@ -6,7 +6,7 @@ in stdint.h.
+ This then breaks the overly complicated type check but as we know that int64_t
+ exists and works, we can just delete that.
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [as far as open source community is concerned, upstream is dead]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+ --- a/dist/aclocal/sequence.m4~	2013-09-09 16:35:02.000000000 +0100
 -- 
 2.20.1
 
