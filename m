@@ -2,196 +2,229 @@ Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C05EBC433F5
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 09:20:45 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.4862.1637140844315961075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92691C433EF
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 09:20:48 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.4836.1637140848023924241
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 01:20:44 -0800
+ Wed, 17 Nov 2021 01:20:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: mingli.yu@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AH9KhFl000909
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 01:20:43 -0800
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AH9KbtU026218
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AH9KkwY023051
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 01:20:43 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ Wed, 17 Nov 2021 01:20:46 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 17 Nov 2021 01:20:37 -0800
+ 15.1.2242.12; Wed, 17 Nov 2021 01:20:46 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Wed, 17 Nov 2021 01:20:46 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 17 Nov 2021 01:20:36 -0800
+ 15.1.2242.12 via Frontend Transport; Wed, 17 Nov 2021 01:20:38 -0800
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 1/4] vim: fix CVE-2021-3872 and CVE-2021-3903
-Date: Wed, 17 Nov 2021 17:18:23 +0800
-Message-ID: <20211117091826.22740-1-mingli.yu@windriver.com>
+Subject: [hardknott][PATCH 3/4] bind: fix CVE-2021-25219
+Date: Wed, 17 Nov 2021 17:18:25 +0800
+Message-ID: <20211117091826.22740-3-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211117091826.22740-1-mingli.yu@windriver.com>
+References: <20211117091826.22740-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
- 1AH9KhFl000909
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 09:20:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 09:20:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158379
+ https://lists.openembedded.org/g/openembedded-core/message/158380
 
 From: Mingli Yu <mingli.yu@windriver.com>
 
-Backport 2 patches to fix below CVEs:
- - CVE-2021-3872
- - CVE-2021-3903
+Backport patches to fix CVE-2021-25219.
 
 Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../vim/files/CVE-2021-3872.patch             | 57 +++++++++++++++++++
- .../vim/files/CVE-2021-3903.patch             | 38 +++++++++++++
- meta/recipes-support/vim/vim.inc              |  2 +
- 3 files changed, 97 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2021-3872.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2021-3903.patch
+ .../bind/bind-9.16.16/CVE-2021-25219-1.patch  | 76 +++++++++++++++++++
+ .../bind/bind-9.16.16/CVE-2021-25219-2.patch  | 65 ++++++++++++++++
+ .../recipes-connectivity/bind/bind_9.16.16.bb |  2 +
+ 3 files changed, 143 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2021-3872.patch b/meta/re=
-cipes-support/vim/files/CVE-2021-3872.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch b/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch
 new file mode 100644
-index 0000000000..f0f30933fa
+index 0000000000..f63c333264
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2021-3872.patch
-@@ -0,0 +1,57 @@
-+From 132d060ffbb9651f0d79bd0b6d80cab460235a99 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Fri, 12 Nov 2021 02:56:51 +0000
-+Subject: [PATCH] patch 8.2.3487: illegal memory access if buffer name is=
- very
-+ long
++++ b/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch
+@@ -0,0 +1,76 @@
++From 011e9418ce9bb25675de6ac8d47536efedeeb312 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@sury.org>
++Date: Fri, 24 Sep 2021 09:35:11 +0200
++Subject: [PATCH] Disable lame-ttl cache
 +
-+Problem:    Illegal memory access if buffer name is very long.
-+Solution:   Make sure not to go over the end of the buffer.
++The lame-ttl cache is implemented in ADB as per-server locked
++linked-list "indexed" with <qname,qtype>.  This list has to be walked
++every time there's a new query or new record added into the lame cache.
++Determined attacker can use this to degrade performance of the resolver.
 +
-+CVE: CVE-2021-3872
++Resolver testing has shown that disabling the lame cache has little
++impact on the resolver performance and it's a minimal viable defense
++against this kind of attack.
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/826bfe4bbd7=
-594188e3d74d2539d9707b1c6a14b]
++CVE: CVE-2021-25219
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/8fe18c0566c41228a568157287f5a44f96d37662]
 +
 +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +---
-+ src/drawscreen.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
++ bin/named/config.c    | 2 +-
++ bin/named/server.c    | 7 +++++--
++ doc/arm/reference.rst | 6 +++---
++ 3 files changed, 9 insertions(+), 6 deletions(-)
 +
-+diff --git a/src/drawscreen.c b/src/drawscreen.c
-+index 3a88ee979..9acb70552 100644
-+--- a/src/drawscreen.c
-++++ b/src/drawscreen.c
-+@@ -446,13 +446,13 @@ win_redr_status(win_T *wp, int ignore_pum UNUSED)
-+ 	    *(p + len++) =3D ' ';
-+ 	if (bt_help(wp->w_buffer))
-+ 	{
-+-	    STRCPY(p + len, _("[Help]"));
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", _("[Help]"));
-+ 	    len +=3D (int)STRLEN(p + len);
++diff --git a/bin/named/config.c b/bin/named/config.c
++index fa8473db7c..b6453b814e 100644
++--- a/bin/named/config.c
+++++ b/bin/named/config.c
++@@ -151,7 +151,7 @@ options {\n\
++ 	fetches-per-server 0;\n\
++ 	fetches-per-zone 0;\n\
++ 	glue-cache yes;\n\
++-	lame-ttl 600;\n"
+++	lame-ttl 0;\n"
++ #ifdef HAVE_LMDB
++ 			    "	lmdb-mapsize 32M;\n"
++ #endif /* ifdef HAVE_LMDB */
++diff --git a/bin/named/server.c b/bin/named/server.c
++index 638703e8c2..35ad6a0b7f 100644
++--- a/bin/named/server.c
+++++ b/bin/named/server.c
++@@ -4806,8 +4806,11 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
++ 	result = named_config_get(maps, "lame-ttl", &obj);
++ 	INSIST(result == ISC_R_SUCCESS);
++ 	lame_ttl = cfg_obj_asduration(obj);
++-	if (lame_ttl > 1800) {
++-		lame_ttl = 1800;
+++	if (lame_ttl > 0) {
+++		cfg_obj_log(obj, named_g_lctx, ISC_LOG_WARNING,
+++			    "disabling lame cache despite lame-ttl > 0 as it "
+++			    "may cause performance issues");
+++		lame_ttl = 0;
 + 	}
-+ #ifdef FEAT_QUICKFIX
-+ 	if (wp->w_p_pvw)
-+ 	{
-+-	    STRCPY(p + len, _("[Preview]"));
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", _("[Preview]")=
-);
-+ 	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+ #endif
-+@@ -462,12 +462,12 @@ win_redr_status(win_T *wp, int ignore_pum UNUSED)
-+ #endif
-+ 		)
-+ 	{
-+-	    STRCPY(p + len, "[+]");
-+-	    len +=3D 3;
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", "[+]");
-++	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+ 	if (wp->w_buffer->b_p_ro)
-+ 	{
-+-	    STRCPY(p + len, _("[RO]"));
-++	    vim_snprintf((char *)p + len, MAXPATHL - len, "%s", _("[RO]"));
-+ 	    len +=3D (int)STRLEN(p + len);
-+ 	}
-+=20
-+--=20
-+2.31.1
++ 	dns_resolver_setlamettl(view->resolver, lame_ttl);
++ 
++diff --git a/doc/arm/reference.rst b/doc/arm/reference.rst
++index 3bc4439745..fea854f3d1 100644
++--- a/doc/arm/reference.rst
+++++ b/doc/arm/reference.rst
++@@ -3358,9 +3358,9 @@ Tuning
++ ^^^^^^
++ 
++ ``lame-ttl``
++-   This sets the number of seconds to cache a lame server indication. 0
++-   disables caching. (This is **NOT** recommended.) The default is
++-   ``600`` (10 minutes) and the maximum value is ``1800`` (30 minutes).
+++   This is always set to 0. More information is available in the
+++   `security advisory for CVE-2021-25219
+++   <https://kb.isc.org/docs/cve-2021-25219>`_.
++ 
++ ``servfail-ttl``
++    This sets the number of seconds to cache a SERVFAIL response due to DNSSEC
++-- 
++2.17.1
 +
-diff --git a/meta/recipes-support/vim/files/CVE-2021-3903.patch b/meta/re=
-cipes-support/vim/files/CVE-2021-3903.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch b/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch
 new file mode 100644
-index 0000000000..fb45857de8
+index 0000000000..1217f7f186
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2021-3903.patch
-@@ -0,0 +1,38 @@
-+From a366598006f4d7bf9b4fbcd334a2e5078dcb6ad8 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Fri, 12 Nov 2021 02:23:38 +0000
-+Subject: [PATCH] =3D?UTF-8?q?patch=3D208.2.3564:=3D20invalid=3D20memory=3D=
-20access?=3D
-+ =3D?UTF-8?q?=3D20when=3D20scrolling=3D20without=3D20valid=3D20sc=3DE2=3D=
-80=3DA6?=3D
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch
+@@ -0,0 +1,65 @@
++From 117cf776a7add27ac6d236b4062258da0d068486 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@sury.org>
++Date: Mon, 15 Nov 2021 16:26:52 +0800
++Subject: [PATCH] Enable lame response detection even with disabled lame cache
 +
-+=E2=80=A6reen
++Previously, when lame cache would be disabled by setting lame-ttl to 0,
++it would also disable lame answer detection.  In this commit, we enable
++the lame response detection even when the lame cache is disabled.  This
++enables stopping answer processing early rather than going through the
++whole answer processing flow.
 +
-+Problem:    Invalid memory access when scrolling without a valid screen.
-+Solution:   Do not set VALID_BOTLINE in w_valid.
++CVE: CVE-2021-25219
 +
-+CVE: CVE-2021-3903
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/777e7c21b76=
-27be80961848ac560cb0a9978ff43]
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/e4931584a34bdd0a0d18e4d918fb853bf5296787]
 +
 +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +---
-+ src/move.c | 1 -
-+ 1 file changed, 1 deletion(-)
++ lib/dns/resolver.c | 23 ++++++++++++-----------
++ 1 file changed, 12 insertions(+), 11 deletions(-)
 +
-+diff --git a/src/move.c b/src/move.c
-+index 8e53d8bcb..10165ef4d 100644
-+--- a/src/move.c
-++++ b/src/move.c
-+@@ -198,7 +198,6 @@ update_topline(void)
-+     {
-+ 	curwin->w_topline =3D curwin->w_cursor.lnum;
-+ 	curwin->w_botline =3D curwin->w_topline;
-+-	curwin->w_valid |=3D VALID_BOTLINE|VALID_BOTLINE_AP;
-+ 	curwin->w_scbind_pos =3D 1;
-+ 	return;
-+     }
-+--=20
-+2.31.1
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index 50fadc0..9291bd4 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -10217,25 +10217,26 @@ rctx_badserver(respctx_t *rctx, isc_result_t result) {
++  */
++ static isc_result_t
++ rctx_lameserver(respctx_t *rctx) {
++-	isc_result_t result;
+++	isc_result_t result = ISC_R_SUCCESS;
++ 	fetchctx_t *fctx = rctx->fctx;
++ 	resquery_t *query = rctx->query;
++ 
++-	if (fctx->res->lame_ttl == 0 || ISFORWARDER(query->addrinfo) ||
++-	    !is_lame(fctx, query->rmessage))
++-	{
+++	if (ISFORWARDER(query->addrinfo) || !is_lame(fctx, query->rmessage)) {
++ 		return (ISC_R_SUCCESS);
++ 	}
++ 
++ 	inc_stats(fctx->res, dns_resstatscounter_lame);
++ 	log_lame(fctx, query->addrinfo);
++-	result = dns_adb_marklame(fctx->adb, query->addrinfo, &fctx->name,
++-				  fctx->type, rctx->now + fctx->res->lame_ttl);
++-	if (result != ISC_R_SUCCESS) {
++-		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
++-			      DNS_LOGMODULE_RESOLVER, ISC_LOG_ERROR,
++-			      "could not mark server as lame: %s",
++-			      isc_result_totext(result));
+++	if (fctx->res->lame_ttl != 0) {
+++		result = dns_adb_marklame(fctx->adb, query->addrinfo,
+++					  &fctx->name, fctx->type,
+++					  rctx->now + fctx->res->lame_ttl);
+++		if (result != ISC_R_SUCCESS) {
+++			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+++				      DNS_LOGMODULE_RESOLVER, ISC_LOG_ERROR,
+++				      "could not mark server as lame: %s",
+++				      isc_result_totext(result));
+++		}
++ 	}
++ 	rctx->broken_server = DNS_R_LAME;
++ 	rctx->next_server = true;
++-- 
++2.17.1
 +
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-index e04c653fe3..362c822f05 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,6 +20,8 @@ SRC_URI =3D "git://github.com/vim/vim.git \
-            file://CVE-2021-3778.patch \
-            file://CVE-2021-3796.patch \
-            file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
-+           file://CVE-2021-3903.patch \
-+           file://CVE-2021-3872.patch \
- "
-=20
- SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
---=20
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.16.bb b/meta/recipes-connectivity/bind/bind_9.16.16.bb
+index b152598402..4bfdeca9ce 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.16.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.16.bb
+@@ -18,6 +18,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2021-25219-1.patch \
++           file://CVE-2021-25219-2.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "6c913902adf878e7dc5e229cea94faefc9d40f44775a30213edd08860f761d7b"
+-- 
 2.17.1
 
 
