@@ -1,124 +1,136 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BCB2C433F5
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 17:41:34 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.10483.1637170893416962115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA14C433FE
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 17:41:35 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.10484.1637170893844048490
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 09:41:33 -0800
+ Wed, 17 Nov 2021 09:41:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b0hkAraZ;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id s9so2551607qvk.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TZbbcbCY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id y13so14465017edd.13
         for <openembedded-core@lists.openembedded.org>;
  Wed, 17 Nov 2021 09:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ivjRUnCHd7ZBmn4teHJz2iFrmUEtT+4fGyJadsb9+C8=;
-        b=b0hkAraZLu/b7kl4nGSobdpZJJ24w7g7tRlz4dEQysKh9xlbFLYcqw2zZR4adLMJan
-         yKHJJ0E/kh/OrTNGGC24oSRyap9FFwMAEBmcMVfTlUM7tOpDi4OocpAdwzgPFb/8ZTwR
-         bz8Ee59gFY5OjiMTgPsXu6OxkLEqwW6H377ud3pnFBumna9tg/Lxg00HeZLUxu7utUBc
-         H8jYp+NJQ9HLEpJ8+YCuC6yUHQMfu5nGHVDx1RWMaLAjKiA31/05CbXFxbrTjZutYryS
-         hxkHqe02PJV9fbe/+BYAoXHGnsmrCWVJuXyb7qPdb8qBpZYazPr/cFnuFRKRpqpIA1K1
-         fZ1Q==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=CaBOoAU4rErndhhDN5wXntR2FsQAx36m+QCdNi46Qoo=;
+        b=TZbbcbCYcYSichS9PC22aS/CrU3eOuS+k54W1i49w6Ax0LvIxDuheYsXAcjwZweqdW
+         72lmrrefTPEZYf8GJO8IycvNP2Qvm8x4ubsR/TEZqPFpAW/ImnO1j7NLeLLpanjh+nCP
+         oztsfd7cI+CwXO1W2JOcPxDuyE/beCEAiRP4v/fvBmHeu1S9IxzTi+5TRSezvrIkEmfZ
+         +D9KOum2eyHP6zpFtYSfWmyspRQ8CSTAN+gIHqzAxuOTo7olz67bXcyjNMlnAjwIDQsa
+         UMTEDvzHxsH7VxmPLoy63HpuiITPe8ElGufV+zvsMj2kSf/+s+Fvbp+zkRbb7YmTSoJl
+         6qYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ivjRUnCHd7ZBmn4teHJz2iFrmUEtT+4fGyJadsb9+C8=;
-        b=RZWucfc5tS3UgIPAm/D6sy+dUa1Le0PnWhfJykNbRyDSDIPPriXFrHD8PYxYVhnDUa
-         0z6F/BfFhvz37JG08My2L1eqEWhclL30H3Qk0/O76qj4A60g1H1iFnuDxJhqWuQZqYiq
-         lyuZn9xQL8T+cu5f0LvZQ/Mf419FysMpz+jh457XD5hqK3VI/Ey79t7Go92oht4B4B2p
-         wQAF6eo5D9fzFtGP/kJitYbeNR8JWJqeZ0CzpuX5SnyWu4g5m0bp3qHyydhRLaMu0xmN
-         FO6+KXDczBbLOTdiVv5X67FNQExJsS4T6PI1z2RhYmVsFiz30qsGEFSMx7ZgbMvESQsx
-         SdBw==
-X-Gm-Message-State: AOAM530mEvFfx3qmCOfLm90Hv1IWTOQeAgavKaoTFoVMhFO7mIY7RKd4
-	cjHsUWHTT39la70yJCifluUr1ziSx1f6N/QYVfI=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=CaBOoAU4rErndhhDN5wXntR2FsQAx36m+QCdNi46Qoo=;
+        b=FPJdo3x5EjQTOqTGkPk9d5Woic9HReXX7XQmhQSJyO99rRAOfzBlXA/NM2x8mkh9oW
+         kZV7VKx3cnLj1GxEstnUqa6vF9Vm7dT1TJq+6MOjMQG1sg//XV8wDJwOYsxIXEQwRZ+T
+         OcBrJqFOarr1dmV6by/zY9HQh8fCNbUM9Kh4B+lxJESmEFfJ+4rBKwqhb9Vf32EllE0S
+         7qaQhealUfrIAKMDxEOmOdzC67qO8kiemI3zCYpNLFyrfFt314xcEkwV+PDgGxvkqfq7
+         SIX7UrOqFidyTIrcI3KIebUAEtDeYUapOBNEl1YSSS0sYxr2hGD/OytrAto0Mh0igTUh
+         lcYg==
+X-Gm-Message-State: AOAM532g5sdEOh4pc6pYFYoNCbX7sVC3ZbtvCwWSGIKRKl+aFd6jW18g
+	Atom6R5bpQ2TJk8bOQXpgcs=
 X-Google-Smtp-Source: 
- ABdhPJxBevswiz9wUlzx9NU5pBlknzMHS5rTT6zOV4jJWKLBOZsfjaFrQdQYPUggDsh409SKz8dslDbAb4ic9UOPG+M=
-X-Received: by 2002:a05:6214:2b0f:: with SMTP id
- jx15mr57908607qvb.62.1637170892558;
- Wed, 17 Nov 2021 09:41:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20211117165646.70015-1-raj.khem@gmail.com>
- <20211117165646.70015-2-raj.khem@gmail.com>
- <dbfbf7aee5bb837deab0f04d16bfe60f514fb72f.camel@linuxfoundation.org>
+ ABdhPJxzT84yb+sdtBxNwHO4iIg/LbA6GTzMjwZCEIJjSy7O8Of7awUVEun/P9Wt0A8KTTPW8vd83Q==
+X-Received: by 2002:a17:906:b854:: with SMTP id
+ ga20mr24267881ejb.308.1637170892279;
+        Wed, 17 Nov 2021 09:41:32 -0800 (PST)
+Received: from [192.168.1.112] ([137.220.125.106])
+        by smtp.gmail.com with ESMTPSA id
+ jx10sm242133ejc.102.2021.11.17.09.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 09:41:31 -0800 (PST)
+Message-ID: <58f4aeaccff5aa6cc9b92144e20cc1831d503f99.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 0/8] systemd: allow building for nativesdk
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	paul.eggleton@microsoft.com
+Date: Wed, 17 Nov 2021 17:41:30 +0000
 In-Reply-To: 
- <dbfbf7aee5bb837deab0f04d16bfe60f514fb72f.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 17 Nov 2021 09:41:06 -0800
-Message-ID: 
- <CAMKF1sr0f61MFBwQ=xqwe34=znuR2HgtOnHKjb_ncQhU0fMaWQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] glibc: Append files instead of making then
- part of main SRC_URI
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CANNYZj9BTbgsZznvdiP3Fhcc9Wwmb_5F3AnZ1gGyS0TKnv6gqQ@mail.gmail.com>
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+	 <CANNYZj-tjH20-ocHq_7DWC6qaPA0XhKfk4cGXMPNbs-_YXp8jg@mail.gmail.com>
+	 <510650712bc36f761fc9c43d47a1761bc4d60366.camel@gmail.com>
+	 <CANNYZj_1r4Gj_CwBE7Rrr3NedxH9saVQeEuu1mpBFx9A=stDGQ@mail.gmail.com>
+	 <fe49ca32907173d954160ead0c714eaa654a3ae5.camel@gmail.com>
+	 <CANNYZj9BTbgsZznvdiP3Fhcc9Wwmb_5F3AnZ1gGyS0TKnv6gqQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-x0AslL7N+BikIUcKXdpD"
+User-Agent: Evolution 3.38.3-1+plugin 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 17:41:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 17:41:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158441
+ https://lists.openembedded.org/g/openembedded-core/message/158442
 
-On Wed, Nov 17, 2021 at 9:38 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2021-11-17 at 08:56 -0800, Khem Raj wrote:
-> > This will help later with using devupstream
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-core/glibc/glibc_2.34.bb | 10 ++++++----
-> >  1 file changed, 6 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
-> > index 72064772789..778898f1979 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.34.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.34.bb
-> > @@ -29,10 +29,6 @@ NATIVESDKFIXES:class-nativesdk = "\
-> >  "
-> >
-> >  SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-> > -           file://etc/ld.so.conf \
-> > -           file://generate-supported.mk \
-> > -           file://makedbs.sh \
-> > -           \
-> >             ${NATIVESDKFIXES} \
-> >             file://0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
-> >             file://0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch \
-> > @@ -60,6 +56,12 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-> >             file://0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-> >             file://CVE-2021-43396.patch \
-> >             "
-> > +# Use append instead of += that way patch is applied with devupstream too
-> > +SRC_URI:append = "\
-> > +           file://etc/ld.so.conf \
-> > +           file://generate-supported.mk \
-> > +           file://makedbs.sh \
-> > +"
-> >  S = "${WORKDIR}/git"
-> >  B = "${WORKDIR}/build-${TARGET_SYS}"
-> >
->
-> I'm afraid I really dislike these kinds of patches. We need to do something with
-> our syntax so we don't have to jump through weird hoops like this. These kind of
-> changes look really fragile and easy to break.
 
-what do you suggest as a better approach
+--=-x0AslL7N+BikIUcKXdpD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
-> Effectively it is an arms race to turn everything into an append, then nothing
-> can disable it.
->
-> Cheers,
->
-> Richard
->
+On Wed, 2021-11-17 at 17:44 +0100, Alexander Kanavin wrote:
+> On Wed, 17 Nov 2021 at 17:11, Luca Boccassi <luca.boccassi@gmail.com>
+> wrote:
+> > > What I'm trying to say is running those systemd analyzers should
+> > be
+> > > enabled in regular yocto builds first before it's enabled in
+> > SDKs.
+> > > It's not a good idea to have a feature that is available in SDKs
+> > but
+> > > not available in direct use of bitbake to build recipes.
+> > >=20
+> > > Alex
+> >=20
+> > But it is already available? And it has been for a long time:
+> >=20
+> > https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/s=
+ystemd/systemd_249.5.bb#n411
+>=20
+> This is packaging the tool for the target images; what I propose is
+> that it's built and used natively.
+
+Which is what this patchset does? Again you can't build these recipes
+to run locally without these changes, that's the entire point
+
+--=20
+Kind regards,
+Luca Boccassi
+
+--=-x0AslL7N+BikIUcKXdpD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmGVPsoACgkQKGv37813
+JB5M2g//Uhrl4jGkcaa3l6zCBY7qaOAD0vpMrAaFeBKSjIuYwVScnmi5JH5+UvRU
+0u0Rbt77SOVYlzOH56sJwY7P4GGDe7JIZDrnVurfIzoOVcm/WBsBbz64C4bq64xy
+y5EH0yr6uOOarbT31aMghfngn9wZR7zmfigtCdQchR5zwwiXKpqGVm5e/h+CGquD
+etcOt5sPMlZkbpu8/3xuAAFKKYsObDkSlVOap8VXr9UWFfXKjX/EzXcfygC3SHFX
+wFkC3kGpZwuyON4i4ipDX18Hvcp8UJo5N1My1Hrwn/eS0lgBRPdYtTmVpAeuPmn+
+5x1N22fCKbh6RKjwJWP1vi2rTxr/c4Pp8+bW4J0hbxlgAxifnP8V+z5nbbh9Smo+
+781ysVx33mO+RUBNfRh5+z8JoqbPFri4ov0TBa8p1ZaijMM9JAIvI8RNM9Am2xrC
+ZAYhWHOtPQLkqjB5OJtEJ2tvBl/IWf4DpOLWUH73cUPS/2w0lb7+qxfz4ukGGETY
+YQkD2KUV62UMVQZBakgMQYZjoTNRZN4Ovgny4ixSQTn57Cwp+mi13jfMEWadyWnH
+6uurr6NGVSSPdGBdS02HAKYfddgxC9maVRH4JtBXX/EUE28qA3LNMRKKDs2v8Pem
+50sSQogT/Bnp309ryfkSrULutdqS38REWqE9YpmeEarHOg9F7Bw=
+=MYCq
+-----END PGP SIGNATURE-----
+
+--=-x0AslL7N+BikIUcKXdpD--
+
 
