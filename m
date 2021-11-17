@@ -2,62 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 790F1C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72846C4332F
 	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:50 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.8740.1637163349906034628
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web08.8739.1637163349302720039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:50 -0800
+ Wed, 17 Nov 2021 07:35:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kuKTlI3Z;
- spf=pass (domain: gmail.com, ip: 209.85.128.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LFPF0Ye4;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id
- p3-20020a05600c1d8300b003334fab53afso5140832wms.3
+Received: by mail-wr1-f43.google.com with SMTP id i5so5521716wrb.2
         for <openembedded-core@lists.openembedded.org>;
  Wed, 17 Nov 2021 07:35:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RCOA34TGCU/1uRmxivSjl8qafbBC+UBW5+sdKSsgNgs=;
-        b=kuKTlI3ZR5cIpTA2jGMFGPpKifID1xT/7Z8g+cC04F8Orr5lovT+wKeL2zkjxPtzP/
-         AeXYNxRoS19Lyhfz+fn4kS+y+VTFK7aKRGyQ+71664YprLYD7NLNV+wpUI4VBa/f8A14
-         xxmf6vEXG4DXNADzK7AFBZ/eyO6mHx3h6IjxQM53MP9GbyLcgzIqkH6usvoOlWmYLLF5
-         sFKnaLaMrOXipimNJkNdCtq3EHtsn9TnhdVpgvALAaiZO8VVE2MeyOIWBzv2D6b2tGXH
-         q/+D3z0TAIRvKeUc76hkRPc1QkCIkbk8YmtWeFiQZScYKDfVuF0IrIBwzO0uXslx58qo
-         ZaKw==
+        bh=6qlaija0dnlZ19Y3a2X+7lCTF65PgA3YAjkbK3rzfVw=;
+        b=LFPF0Ye4eTcwWzo1J2UTz2ALM3IZ+tRr68BeC3hUzWfy/ljbD4XNrU9JvnWUdozR9t
+         uE8dr+SUAYXrj7ievfaTlsAYTc+fTrNOzk5I33cbQ22THNfcW4aay2CmVmffj7WGFpma
+         G3cLvI8bAkNrCxDAg5Uro8magykHwpLHjeLkh+CNUJuAuYadaKush1C4XCGMeT7KKysT
+         3jyHtZduhdzAtHyeNiaw9PiPIpqeOwg88CU6R63Bhg1FQAp16tPYH4ick6KTnzK8O+i7
+         jtnQCCyso8m3HkRxWF5YW/zgv1iQbw1Z2mCabsnpNv1qmzpasT3TimsJAG12tDztSRUu
+         AIZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RCOA34TGCU/1uRmxivSjl8qafbBC+UBW5+sdKSsgNgs=;
-        b=g+eBym8odGIOZb9zRhgXFfMWDRx0o61fC6twcPx5iaPuMi4rA8+qKNreztGdkQ2cqw
-         fVhBZO3sIiBQ/gnRqu4m5ymrrCAIjzNUNXciUjeEtSwhyvlhyoGBYu4vZvIynyvStd8w
-         4eY2xh4Xw8IN4X0ontTRwcFePLVWHyN5A2TrUlbxCwlctm8ezuV/kbC4t7fmOmSLqVbJ
-         IrA0XBzMp7yyY32GPewA5cQKGo01LjG8RrwPqDl/AhbTEnFySogZLiwPg4CtUwFRKp7G
-         sJDQ4oYif5UnLKHt1i0Fz435yFf6sdxU8rl2aFm2GccDkEI3f3+eIvMnTuw9k+hy1XEh
-         0v2A==
-X-Gm-Message-State: AOAM533V7HrE7buRjAEho8Jkre8nhqNCJMEaVyRnw71S6MAEbMYQruUO
-	QsFEhdELnR4SBTA0eLZLKWI+Xz9rS0M=
+        bh=6qlaija0dnlZ19Y3a2X+7lCTF65PgA3YAjkbK3rzfVw=;
+        b=wtyBEaQo2WeP1T3S7rif4ce1dXJxwN+52Q9a0t5F839oCik7DGZypuwj9DzC0HYssG
+         4amcFVQo61TJkNL/bt3ed/gNNLXaNCp8eRxbBrqE9X9Ee7i2p3Aa1S2G5WgJNg09o3rc
+         y9HI9CVz0vVlCbmuXfa1wqh1ro7c01ARLZhPKCxdOCkwLhfmk1GeMGcO61CPNYJjKrhL
+         yHRhCTOuQgWTNcWqEcu2U0v09em8PHeunU0wZGENTXtpAZXryQ+Z+C/RaYd5CRD51IlG
+         HoyBAb5XWDbA9baWNyn88+jklj1CDxo0TXZ31EkGRKD4uZ2uPovmK2uThdQBt1y7QjfX
+         ZK8Q==
+X-Gm-Message-State: AOAM532rV1BCNMc/qtjYG2kJPuN7r/6Ah2/bXdhQzTvkgE4UufjQ36Hb
+	unG1dhNC1pcH42BbaDzsLf9HHaHry6k=
 X-Google-Smtp-Source: 
- ABdhPJyCEZaqx54Kp2J6ZY2PovvmitkJMl51JLeNBbU4sDQnZYUL8+F9HMf7KCdDy3ordE7M9+Xcxg==
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr611510wmm.133.1637163348516;
-        Wed, 17 Nov 2021 07:35:48 -0800 (PST)
+ ABdhPJzb9ofWjmJy04h+9mITyBqsCEw9HociXthEkXJP60uNzEXFXWhSZ30W0NcTdZBRoaknVP0qYA==
+X-Received: by 2002:adf:e2c5:: with SMTP id d5mr21545421wrj.338.1637163347850;
+        Wed, 17 Nov 2021 07:35:47 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 07:35:48 -0800 (PST)
+        Wed, 17 Nov 2021 07:35:47 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 31/36] numactl: add missing Upstream-Status to a patch
-Date: Wed, 17 Nov 2021 16:35:20 +0100
-Message-Id: <20211117153525.257146-31-alex@linutronix.de>
+Subject: [PATCH 30/36] rust-hello-world: add missing Upstream-Status to a
+ patch
+Date: Wed, 17 Nov 2021 16:35:19 +0100
+Message-Id: <20211117153525.257146-30-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211117153525.257146-1-alex@linutronix.de>
 References: <20211117153525.257146-1-alex@linutronix.de>
@@ -68,25 +67,25 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158426
+ https://lists.openembedded.org/g/openembedded-core/message/158425
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../numactl/numactl/0001-define-run-test-target.patch           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../rust-hello-world/rust-hello-world/0001-enable-LTO.patch      | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
-index 78ffb22f89..9e65a45133 100644
---- a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
-+++ b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
-@@ -1,6 +1,6 @@
- rename test target as run-test
+diff --git a/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch b/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch
+index 56ef9e73e6..f319545ee1 100644
+--- a/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch
++++ b/meta/recipes-example/rust-hello-world/rust-hello-world/0001-enable-LTO.patch
+@@ -3,6 +3,7 @@ From: Dan Callaghan <dan.callaghan@opengear.com>
+ Date: Fri, 5 Feb 2021 08:56:34 +1000
+ Subject: [PATCH] enable LTO
  
--Upstream-Statue: Pending
 +Upstream-Status: Pending
- 
- test target not only compile the test files, but also run them, which is
- not suitable for cross-compile environment, so rename it as run-test.
+ ---
+  Cargo.toml | 3 +++
+  1 file changed, 3 insertions(+)
 -- 
 2.20.1
 
