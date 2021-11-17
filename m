@@ -2,130 +2,135 @@ Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A2B8C433F5
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 17:58:54 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web11.10813.1637171933056995173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D63C433EF
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 18:05:03 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.10920.1637172302052705668
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 09:58:53 -0800
+ Wed, 17 Nov 2021 10:05:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EmDVL4Eh;
- spf=pass (domain: gmail.com, ip: 209.85.208.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jYlwPI5r;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54,
  mailfrom: luca.boccassi@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id g14so14928323edz.2
+Received: by mail-ed1-f54.google.com with SMTP id y12so14837483eda.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 09:58:52 -0800 (PST)
+ Wed, 17 Nov 2021 10:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version;
-        bh=LU6OzwyjIExyN9aanKm0c5jegCeI/JQYi6HoVwoj9To=;
-        b=EmDVL4Ehr+ADM68hJiorSZiT3et0T5o/5kfQ2dwXGBq7IfWrddtB05rfc9UJ0I6OM6
-         0YpTFhDdXGdZxE8lxwWzN7VJ3C7VqrymxC9F4HJdqxF/lOy6nvmBxxLA/4nO3/qIh5+x
-         MtswlqMgZTyGFN46XmnGda6uEf/jfZI6dmY8zApImxVVZLPq/q47RD2i7BzG0VfI2ZU6
-         CBSs4OUNVZVsftPg2MleK2u0WHtqPJFMiKJAFM0UzE+yvYEJfqoltRN9qWEf0is/TaE2
-         MX/AgSCA2Dtanp9eNrSsDeyusQWQHxYSzIbN2jKQWQSFgct+G3oc74My9Gs3Mrf85xFK
-         H0Rw==
+        bh=V/yGyFK2dg5ewfbxDybPQzsixlyoqXjZvOVVAr3PWVc=;
+        b=jYlwPI5r3BCQFzVQQUBZRNPyjPEBsLNjkevN20En3vCqr60ybIWJlDlNV6Td4jNQ0R
+         JSW5mygONsiXs5ey1X8NPhKMdyNtYHivEhXn2l+se6W/X95zRscNefjuBtD1M/s8WYsY
+         IHDNqJRF4u1QVkFmM0dT3rR4X5aGM25MKq5qaHqhaImd+SqB4o+gBFryMrcEMsQR5LWA
+         ceZbVQ8h0UIeFLhe9+xpR74HFstvjEgIUJ7GpiSawCRymJWnm7V/hm2CVDb6yLVAF4Bp
+         FrZ4T+i+WWWClWl2KKjDFO/6GTEyt69WSH/b68twkBxmtSjLLilEqKVJCiUQkCnzLdOo
+         FcBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version;
-        bh=LU6OzwyjIExyN9aanKm0c5jegCeI/JQYi6HoVwoj9To=;
-        b=KQmG07MurjP0NFS0+iGsdXWBj4GxaSAc7/QYa7McaiYkTE30lr6o3ibKnTwimVni0E
-         gaEmgIv4chx2zBDdo9lODYE9Xfm/D62XjGJ/2gKRW25BXasFFtb+7VOIWtaEs6xiYHwz
-         e29JndZOwgTn81UhG/ycjm2SQGEdrMgG/rDjV11G8XIBTlHXB2JttHydlEANGDz7g/x/
-         RaXCEZ/7AJnRCOawtxKl7PM20zaUUXratcxyCaYtbGQlReWEfDnsbXHugWQzYfGYA++g
-         sAFjoq4QOo6+ygloFXpxkZnCMZz7BM9t1ZYk52l0EONVUZD3mYv7Qdi/Krr2ED5BY4EJ
-         kOdQ==
-X-Gm-Message-State: AOAM530KkEDhS31hGjZFMOSmLJR+q2HrATJLGjXWQpSB8tSXfsYHldkc
-	c+urEh/9E/F6Itk69RX8FuI=
+        bh=V/yGyFK2dg5ewfbxDybPQzsixlyoqXjZvOVVAr3PWVc=;
+        b=34Gjddj0MUh4FrbFNsAjtF3DPL9BMZscF7mqCEth7dGArvOI0T9x23Msp3KRQH2oWp
+         7kdEQfY31iEF3Y0gYADPrdpDvcigVWCc8hC0n60LstQnVW4QUwFpMVpoxkSwpt7zVzEM
+         8LKEbx5q+q+47Ei4lyM6IlTcbJsmwYHbOSl2h7QjVj98+we/qGy0bIryLCfEFzaAkTcd
+         kB/Gn2ND67TjHM7XaVbwiMoU6/DoVTQoimlVtrSKTsOu6p6fzz8p4JW69BaD+al0Ponu
+         LME1YuNyF08+PaXYwl98U/P7/OOxLnvCZ+Efi/Eqn7dkjawN6dk+E0+1vr9FTHArV+2U
+         KsDQ==
+X-Gm-Message-State: AOAM531zjQObcUFfEtb5K8Xb1B/N/aJVgwhDM62kCEivtWWZZdhkWqio
+	pGspW+bYcqDXlcwbIjtiw8g=
 X-Google-Smtp-Source: 
- ABdhPJyUi5G/822Y641ltO6mWGWsMdTDhXiPmgPI4GWi0sqNsE8csnBe9FFuwjozFeEi13OSL80sKg==
-X-Received: by 2002:a17:907:7f8b:: with SMTP id
- qk11mr24032516ejc.238.1637171931139;
-        Wed, 17 Nov 2021 09:58:51 -0800 (PST)
+ ABdhPJznKr/AdsC3OM6pie6WJK9AHNNPqjUykfN5ZAPkyiDZOVd3rw3bTo538I1ewXsxa4jySWhi4g==
+X-Received: by 2002:a50:fd16:: with SMTP id i22mr893191eds.224.1637172300206;
+        Wed, 17 Nov 2021 10:05:00 -0800 (PST)
 Received: from [192.168.1.112] ([137.220.125.106])
-        by smtp.gmail.com with ESMTPSA id f7sm291693edl.33.2021.11.17.09.58.50
+        by smtp.gmail.com with ESMTPSA id
+ gn16sm317297ejc.67.2021.11.17.10.04.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 09:58:50 -0800 (PST)
-Message-ID: <93ea5b14557d6803b7a040c1aa35492674e9944b.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 6/8] kbd: add nativesdk
+        Wed, 17 Nov 2021 10:04:59 -0800 (PST)
+Message-ID: <05772373b7f5566fac765c0697c8ba74c903b19e.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 0/8] systemd: allow building for nativesdk
 From: Luca Boccassi <luca.boccassi@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Cc: paul.eggleton@microsoft.com
-Date: Wed, 17 Nov 2021 17:58:49 +0000
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	paul.eggleton@microsoft.com
+Date: Wed, 17 Nov 2021 18:04:58 +0000
 In-Reply-To: 
- <0451887421f06e23f56f63a1f0298c6a2aa25c7e.camel@linuxfoundation.org>
+ <CANNYZj_KSZ2GkKdiZZfpzDbq3z8mFPNNU=_SZdjZYtWpZarxFA@mail.gmail.com>
 References: <20211117123201.111905-1-luca.boccassi@gmail.com>
-	 <20211117123201.111905-7-luca.boccassi@gmail.com>
-	 <0451887421f06e23f56f63a1f0298c6a2aa25c7e.camel@linuxfoundation.org>
+	 <CANNYZj-tjH20-ocHq_7DWC6qaPA0XhKfk4cGXMPNbs-_YXp8jg@mail.gmail.com>
+	 <510650712bc36f761fc9c43d47a1761bc4d60366.camel@gmail.com>
+	 <CANNYZj_1r4Gj_CwBE7Rrr3NedxH9saVQeEuu1mpBFx9A=stDGQ@mail.gmail.com>
+	 <fe49ca32907173d954160ead0c714eaa654a3ae5.camel@gmail.com>
+	 <CANNYZj9BTbgsZznvdiP3Fhcc9Wwmb_5F3AnZ1gGyS0TKnv6gqQ@mail.gmail.com>
+	 <58f4aeaccff5aa6cc9b92144e20cc1831d503f99.camel@gmail.com>
+	 <CANNYZj_KSZ2GkKdiZZfpzDbq3z8mFPNNU=_SZdjZYtWpZarxFA@mail.gmail.com>
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-N034YTEO5yXCAn81iyf0"
+	protocol="application/pgp-signature"; boundary="=-L7xMuEqCU96gjb7Kel6a"
 User-Agent: Evolution 3.38.3-1+plugin 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 17:58:54 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 18:05:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158447
+ https://lists.openembedded.org/g/openembedded-core/message/158448
 
 
---=-N034YTEO5yXCAn81iyf0
+--=-L7xMuEqCU96gjb7Kel6a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2021-11-17 at 17:43 +0000, Richard Purdie wrote:
-> On Wed, 2021-11-17 at 12:31 +0000, Luca Bocassi wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
+On Wed, 2021-11-17 at 18:49 +0100, Alexander Kanavin wrote:
+> On Wed, 17 Nov 2021 at 18:41, Luca Boccassi <luca.boccassi@gmail.com>
+> wrote:
+> > > This is packaging the tool for the target images; what I propose
+> > is
+> > > that it's built and used natively.
 > >=20
-> > Required to build systemd tools
+> > Which is what this patchset does? Again you can't build these
+> > recipes
+> > to run locally without these changes, that's the entire point
 >=20
-> If systemd needs these to build, wouldn't it be depending on kbd-native?
->=20
-> Or are you saying that systemd-tools needs something in here at runtime?
->=20
-> I don't mind extending the recipe if we really need it but that isn't wha=
-t the
-> commit message says so at the very least that needs to be clearer.
->=20
-> Cheers,
->=20
-> Richard
->=20
+> This patchset allows systemd binaries to be used in SDKs; what I
+> would like to see is that those binaries are built and used directly
+> in yocto builds. E.g. systemd recipe gains BBCLASSEXTEND =3D "native",
+> systemd.bbclass gets DEPENDS =3D "systemd-native" and then uses the
+> native systemd binaries in the same way you want to use them in your
+> private SDK-based pipelines.=20
 
-It's probably indirect, I guess (dependency of a dependency)? This
-series was the bare minimum required to get the recipe to build. The
-build failed with "nothing provides nativesdk-foobar" without these.
+Sounds good to me, feel free to go ahead and send patches to do that.
+It's unrelated to this series and to my requirements, and I have no use
+for it, so I will not be spending any time chasing down various rabbit
+holes to make it work, sorry.
 
 --=20
 Kind regards,
 Luca Boccassi
 
---=-N034YTEO5yXCAn81iyf0
+--=-L7xMuEqCU96gjb7Kel6a
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmGVQtkACgkQKGv37813
-JB4f6Q/+Pi18/4odnnCZXY7aoT2jjAw7WsU+mxFWmKV2fY8WTO5gmYZHHIc4bDMo
-zMeUzGhkXVjWkORPYhlZ7civ76VRLHSP9PAxEZ7mUS0cUPBf1T3lUb/vDEV688mN
-jZuw23Nx9OHNsWjJpOtD/hIHoO48++jUDXNTd5V6Kg0LIW9jPDLcRtXZUkPeYJ58
-AQoCBe76IbLau/E+lIOkjCiUGIs58BmTqh+HbutB38tv4xU8dtRgkDvJAtTxZBKO
-kqCufxXZOXkLJaX1yXHZAq8tzO9Fj2FW9tplO4oBBK6/yT/ZRIWuYI44j7jcwGzX
-PnUXvM5GE3EZpYFhFyKMBmW8NjCnTCvq38OWgmjxIq6EeLZId/nosu539MpLXm+V
-ZeVRNhRgkVA+G8NfpA2Z7fnFbZBi3Jryl0k2CG7BZFVPuvuN35KoXWkaSAMjWVzi
-LM+CyIEDqPHVdolbCMj1wkCs39HAg5Yk+XBNwqpSeWRyW2oYnX3ZodpeMWCUcuQK
-GaiQI6DNwAQXkpkWetdNnjNTOLUTOuTdScs91qp/bZMoKwU9N6VtiZhk72aQwqvY
-qyDwzNAcspXuNvAejHZnVUsTqfZdB9h4zd+m+tQq607BoBSr04fhqKl97eOZ2Dpx
-JKqYSgcDYSbkO4OQ53JbUa/mQmo6paMXkzyU9Tf8XFuZ6OS4ybE=
-=gkBD
+iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmGVREoACgkQKGv37813
+JB5sBA/8DmWr5w1Y+/nAqbkUWNWaQRiVZhdRHswpk6ZpZCFzozt7nJq+JbPIoUmt
+ahfoE0A3wu+rqdnM9ePgzN0+RJ7QQO3TtfH0YSLIujk5gecv1zMFZQhyq/afFtR9
+X/0KngaQDhb1w76myq4Xjt9S8URiEJEVtNCdyCWigN3dwazbvzkYLWMHtzWePNKB
+nnM+eNBAS6Y5sbVaaJLACw9E1Hv+GedurNRu0eYkZSjArV6Zly/KBeaYcxZd25Pz
+XPZUnjV22W7c/zbG7aVQUVCdcWy5dOsvnaoucrTuKVfhg57oOIA4XI6387omW9l3
+qzmjUI5MwScPGG+z0bNb1m8zkY+LAmvWZ/3BQodkzNGZenKoOEHrb83D6/pp0qZ1
+zqFWPMWemeHG/EEDZ7/rAbRwahSUfPiYXy49FfEJ0EmnMjB7kxNo7p4/u+9DZV1d
+Q9cAa+Ste+rSQhULgdeRukibJ/PMTeNRVonRqEhHHR+Fh+AO0LfAWbaiaKPKmZ0T
+LfNNZECrt5c0qKwrPrwf+1LylhHEEWPmFEguiGGYgTToLc0wErDzZU6OxXeG9Oyd
+o7gSmOLLckS/ceff/HGDx1BwxpmSIv4EWJre3mcgacrxmNmVVK18H6LemCh6ZBmA
+XN9Z4+TWddZpbuUqQLACIqRCftP6y4Qwy38aWzjNB8gFuc5CuTw=
+=CXan
 -----END PGP SIGNATURE-----
 
---=-N034YTEO5yXCAn81iyf0--
+--=-L7xMuEqCU96gjb7Kel6a--
 
 
