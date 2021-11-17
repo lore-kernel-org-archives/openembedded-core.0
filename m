@@ -2,61 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BE5C433EF
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:39 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.8739.1637163338401764524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C57C433FE
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:41 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.8742.1637163339941511572
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:38 -0800
+ Wed, 17 Nov 2021 07:35:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gVn8Zrmp;
- spf=pass (domain: gmail.com, ip: 209.85.128.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jao+g5b5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id i12so2609104wmq.4
+Received: by mail-wr1-f50.google.com with SMTP id b12so5493569wrh.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:38 -0800 (PST)
+ Wed, 17 Nov 2021 07:35:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OJ7cZ7k3FR1KW4ck99BVkMXkvgW0p4KYoM/jboO6ksY=;
-        b=gVn8Zrmpv+a4NAS6U6YEesIrbZ95/R8GeWphjm8LEWdPuNDmnG+HwmCBB9wor26jfl
-         fBDC4l9m7kyzdxZkh7A4JnyvGTmICMTp8JjG8aEpDos4Z6dbvI475QYj5cvDWp+Pj9yq
-         dbeUbxaSOrXzGJWMzfzleIR1MeHURmZeKeIQWB3mL2WKZNg8V7gx7/36zA7oAN8jRPQG
-         IAZf5/wD6pNtf78R+wurOvsBc1D6i5sv96G8EFD9TIqebNo/UKxh0mSA9gnVRq+EGang
-         MFT6rm9a8SM8Wxv+9MNur5jdLX9ORjy6w3APLTHz+0QStEhg9Q/Z396KhsJ2Ys2J3OXO
-         a8/w==
+        bh=sigG42fmOpc4pouXJzaZBp9UXnfqFjRq7mttuvStnwU=;
+        b=jao+g5b5ztgZc5QY6PArXzQ+8V7WI/OD7GCCRS9545C5cFTNEpSh8NStHo4vfgqFZd
+         n8EpIjlTZehT57GzG6T7ko5dNGvvaeVfXMeCze0Sy2VbastWpcdOP6qR520QzABYUgzB
+         3XwGQhlOoW6hjgcpNEW8pyq2STYjTiEMq7GPhgCEPDxJYHJG+NZ/mBv7/xCyajmEh7H5
+         k8M8QqbIVePCKzRtzIfPtvPDprAgS+5SFGIBBI10wrkTUntyPtxp1FI++4l1NZApDmo/
+         BAFTCSnUiDKuA+zo2PN0K0pmY/qdV0bSNmwqCeoxX4/FzR1j+I8QxpOIwp4reJjdROMt
+         TVxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OJ7cZ7k3FR1KW4ck99BVkMXkvgW0p4KYoM/jboO6ksY=;
-        b=NsKU0lm45/zy6EEAjOK4nNTNeK98+UEBQK3weVOGPh2aU6V1NISdNMMFgkkzOsZkpI
-         kHhr56eTbFC/ZTonGqmKuiI6jvjpdHa2z/nwj6LbnA7kSVjrT2eMa4nrU+46/r92hdvk
-         zgxrRUZ1Yum6q21ElDBTkqs4F2b1YxNE/IcnbGLp8DGL4In9X3at3kpJlcIhlRGGPRRe
-         C/KZQrqazflTHnS0OS8jRBMnqFbP9dZT0aPw5qsdxFM3c3SzkGa2XnbtQcAFOvWlGEhE
-         AGUcNVv51NA1Dg95ohSGrm4pP8XNB4D+h7wsB+FEjERGTtl2qPfV+s7lfMAprT4Dfrgg
-         8LbA==
-X-Gm-Message-State: AOAM531psU/SYEVPcwnkusE1ujtAmZXaIYvHyczaITRt0IbQ04jLRfim
-	//6apT7Eb/wY5tCduxgHQJhXDHKxFVg=
+        bh=sigG42fmOpc4pouXJzaZBp9UXnfqFjRq7mttuvStnwU=;
+        b=P4KbCLcqy3+PQUg8WV+WmFjm4VUb+NfJ+dIdYirlKyOQg7EAJsXc7RePAZ4OsiOB2g
+         CcG5sKrRmzU8doSecWUMO/XsSmNEpipI1s1e0E+wNOSK94ZZhlSPGYVFAAqVHHjqaapV
+         aM7k3E6VwgQElwTvmiwr4MN64hroAELSVZi1BrRC0gq5slr4bdGUkAi0qUk5tMs1IOVD
+         KxrouSugD/tNXT7+l8bKmAAKpBoUGVwwT9JFullQHw5sOvCy0HO+4gfFzdXvymeUHalm
+         L90Ybw3BV3s7qeLVv4Zrob4h0D879/XIDudM41H/KZdLgd0W/RsdXFHBOnBNTYc8N8F2
+         ljsA==
+X-Gm-Message-State: AOAM532U0xk5gfgGMG19e1/VDhTMrRhrSiImYjrfZXY1ybD3Xva624gy
+	w8yqsbsMrONd10lWxonAye860LMkFe8=
 X-Google-Smtp-Source: 
- ABdhPJy2IgNErlu5/RTfQlWRsGEiT2iFgVagPcC+77Kl/D4lcdoOM0pPGwx+Zxhdq+fbBpaC06hf9g==
-X-Received: by 2002:a05:600c:4e51:: with SMTP id
- e17mr626579wmq.127.1637163337002;
-        Wed, 17 Nov 2021 07:35:37 -0800 (PST)
+ ABdhPJxJleM0e6dgE8R8+roktv1hIf/UovcK9tv7huOrF5AcxdMqMHKOBcg+fNHSiTkbI9oce+khYQ==
+X-Received: by 2002:a5d:6091:: with SMTP id w17mr20761660wrt.65.1637163338530;
+        Wed, 17 Nov 2021 07:35:38 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.36
+        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 07:35:36 -0800 (PST)
+        Wed, 17 Nov 2021 07:35:38 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 16/36] diffoscope: upgrade 190 -> 192
-Date: Wed, 17 Nov 2021 16:35:05 +0100
-Message-Id: <20211117153525.257146-16-alex@linutronix.de>
+Subject: [PATCH 18/36] xwayland: upgrade 21.1.2 -> 21.1.3
+Date: Wed, 17 Nov 2021 16:35:07 +0100
+Message-Id: <20211117153525.257146-18-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211117153525.257146-1-alex@linutronix.de>
 References: <20211117153525.257146-1-alex@linutronix.de>
@@ -65,33 +64,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158411
+ https://lists.openembedded.org/g/openembedded-core/message/158413
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../diffoscope/{diffoscope_190.bb => diffoscope_192.bb}         | 2 +-
+ .../xwayland/{xwayland_21.1.2.bb => xwayland_21.1.3.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_190.bb => diffoscope_192.bb} (92%)
+ rename meta/recipes-graphics/xwayland/{xwayland_21.1.2.bb => xwayland_21.1.3.bb} (95%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_190.bb b/meta/recipes-support/diffoscope/diffoscope_192.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_190.bb
-rename to meta/recipes-support/diffoscope/diffoscope_192.bb
-index 8303ee4693..4dda858ef2 100644
---- a/meta/recipes-support/diffoscope/diffoscope_190.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_192.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.2.bb b/meta/recipes-graphics/xwayland/xwayland_21.1.3.bb
+similarity index 95%
+rename from meta/recipes-graphics/xwayland/xwayland_21.1.2.bb
+rename to meta/recipes-graphics/xwayland/xwayland_21.1.3.bb
+index 6aba65935b..5d083e8ada 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_21.1.2.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_21.1.3.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT-X"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
- inherit pypi setuptools3
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "b81cbdd5ad60b8b7ad8c3ecc7ec2a28c9bf021448670735cebb501f08bebd18b"
++SRC_URI[sha256sum] = "ebc2757f39fd4c7db1654fd86591589c211aa20172d43a54f77ae567cedbf8a2"
  
--SRC_URI[sha256sum] = "29e3c5ce764b494771876aef3f587ed4867374a0f4e28afe39d4f0640ddb7744"
-+SRC_URI[sha256sum] = "ae2774334fce7905f1b938a155d487d55b9fef9da9a9d18eda3d74951a8a8084"
- 
- RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
  
 -- 
 2.20.1
