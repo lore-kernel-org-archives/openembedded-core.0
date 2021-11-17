@@ -2,544 +2,119 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A38CC433EF
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 08:08:42 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.4390.1637136521105404599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C7DC433F5
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 08:09:04 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.4383.1637136542712324064
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 00:08:41 -0800
+ Wed, 17 Nov 2021 00:09:03 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: changqing.li@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AH88VS3025470
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 00:08:31 -0800
+ spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AH88VBI013607
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AH891v8020757
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 00:08:31 -0800 (PST)
+ Wed, 17 Nov 2021 00:09:01 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 17 Nov 2021 00:08:30 -0800
+ 15.1.2242.12; Wed, 17 Nov 2021 00:09:01 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 17 Nov 2021 00:08:30 -0800
+ 15.1.2242.12 via Frontend Transport; Wed, 17 Nov 2021 00:09:00 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] rpm: fix CVE-2021-3521
-Date: Wed, 17 Nov 2021 16:06:19 +0800
-Message-ID: <20211117080619.21787-1-changqing.li@windriver.com>
+Subject: [hardknott][PATCH] openssh: fix CVE-2021-41617
+Date: Wed, 17 Nov 2021 16:06:49 +0800
+Message-ID: <20211117080649.22035-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 08:08:42 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 08:09:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158376
+ https://lists.openembedded.org/g/openembedded-core/message/158377
 
 From: Changqing Li <changqing.li@windriver.com>
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../rpm/files/0001-CVE-2021-3521.patch        |  57 +++
- .../rpm/files/0002-CVE-2021-3521.patch        |  62 ++++
- .../rpm/files/0003-CVE-2021-3521.patch        | 332 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |   3 +
- 4 files changed, 454 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
+ .../openssh/openssh/CVE-2021-41617.patch      | 49 +++++++++++++++++++
+ .../openssh/openssh_8.5p1.bb                  |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
 new file mode 100644
-index 0000000000..b374583017
+index 0000000000..9ca7c2f202
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
-@@ -0,0 +1,57 @@
-+From 9a6871126f472feea057d5f803505ec8cc78f083 Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 30 Sep 2021 09:56:20 +0300
-+Subject: [PATCH 1/3] Refactor pgpDigParams construction to helper function
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+@@ -0,0 +1,49 @@
++From 1f0707e8e78ef290fd0f229df3fcd2236f29db89 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 28 Oct 2021 11:11:05 +0800
++Subject: [PATCH] upstream: need initgroups() before setresgid(); reported by
++ anton@,
 +
-+No functional changes, just to reduce code duplication and needed by
-+the following commits.
++ok deraadt@
 +
-+CVE: CVE-2021-3521
-+Upstream-Staus: Backport[https://github.com/rpm-software-management/rpm/commit/9f03f42e2]
++OpenBSD-Commit-ID: 6aa003ee658b316960d94078f2a16edbc25087ce
++
++CVE: CVE-2021-41617
++Upstream-Status: [Backport]
++https://github.com/openssh/openssh-portable/commit/f3cbe43e28fe71427d41cfe3a17125b972710455
++https://github.com/openssh/openssh-portable/commit/bf944e3794eff5413f2df1ef37cddf96918c6bde
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ rpmio/rpmpgp.c | 13 +++++++++----
-+ 1 file changed, 9 insertions(+), 4 deletions(-)
++ misc.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
-+index d0688ebe9a..e472b5320f 100644
-+--- a/rpmio/rpmpgp.c
-++++ b/rpmio/rpmpgp.c
-+@@ -1041,6 +1041,13 @@ unsigned int pgpDigParamsAlgo(pgpDigParams digp, unsigned int algotype)
-+     return algo;
-+ }
++diff --git a/misc.c b/misc.c
++index d988ce3..33eca1c 100644
++--- a/misc.c
+++++ b/misc.c
++@@ -56,6 +56,7 @@
++ #ifdef HAVE_PATHS_H
++ # include <paths.h>
++ #include <pwd.h>
+++#include <grp.h>
++ #endif
++ #ifdef SSH_TUN_OPENBSD
++ #include <net/if.h>
++@@ -2629,6 +2630,13 @@ subprocess(const char *tag, const char *command,
++ 		}
++ 		closefrom(STDERR_FILENO + 1);
 + 
-++static pgpDigParams pgpDigParamsNew(uint8_t tag)
-++{
-++    pgpDigParams digp = xcalloc(1, sizeof(*digp));
-++    digp->tag = tag;
-++    return digp;
-++}
+++		if (geteuid() == 0 &&
+++		    initgroups(pw->pw_name, pw->pw_gid) == -1) {
+++			error("%s: initgroups(%s, %u): %s", tag,
+++			    pw->pw_name, (u_int)pw->pw_gid, strerror(errno));
+++			_exit(1);
+++		}
 ++
-+ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
-+ 		 pgpDigParams * ret)
-+ {
-+@@ -1058,8 +1065,7 @@ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
-+ 	    if (pkttype && pkt.tag != pkttype) {
-+ 		break;
-+ 	    } else {
-+-		digp = xcalloc(1, sizeof(*digp));
-+-		digp->tag = pkt.tag;
-++		digp = pgpDigParamsNew(pkt.tag);
-+ 	    }
-+ 	}
-+ 
-+@@ -1105,8 +1111,7 @@ int pgpPrtParamsSubkeys(const uint8_t *pkts, size_t pktlen,
-+ 		digps = xrealloc(digps, alloced * sizeof(*digps));
-+ 	    }
-+ 
-+-	    digps[count] = xcalloc(1, sizeof(**digps));
-+-	    digps[count]->tag = PGPTAG_PUBLIC_SUBKEY;
-++	    digps[count] = pgpDigParamsNew(PGPTAG_PUBLIC_SUBKEY);
-+ 	    /* Copy UID from main key to subkey */
-+ 	    digps[count]->userid = xstrdup(mainkey->userid);
-+ 
++ 		if (setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) == -1) {
++ 			error("%s: setresgid %u: %s", tag, (u_int)pw->pw_gid,
++ 			    strerror(errno));
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
-new file mode 100644
-index 0000000000..a8ff98fa26
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
-@@ -0,0 +1,62 @@
-+From c4b1bee51bbdd732b94b431a951481af99117703 Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 30 Sep 2021 09:51:10 +0300
-+Subject: [PATCH 2/3] Process MPI's from all kinds of signatures
-+
-+No immediate effect but needed by the following commits.
-+
-+CVE: CVE-2021-3521
-+Upstream-Status: Backport[https://github.com/rpm-software-management/rpm/commit/b5e8bc74b]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ rpmio/rpmpgp.c | 12 +++++-------
-+ 1 file changed, 5 insertions(+), 7 deletions(-)
-+
-+diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
-+index e472b5320f..57d411d1e0 100644
-+--- a/rpmio/rpmpgp.c
-++++ b/rpmio/rpmpgp.c
-+@@ -515,7 +515,7 @@ pgpDigAlg pgpDigAlgFree(pgpDigAlg alg)
-+     return NULL;
-+ }
-+ 
-+-static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
-++static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo,
-+ 		const uint8_t *p, const uint8_t *h, size_t hlen,
-+ 		pgpDigParams sigp)
-+ {
-+@@ -528,10 +528,8 @@ static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
-+ 	int mpil = pgpMpiLen(p);
-+ 	if (p + mpil > pend)
-+ 	    break;
-+-	if (sigtype == PGPSIGTYPE_BINARY || sigtype == PGPSIGTYPE_TEXT) {
-+-	    if (sigalg->setmpi(sigalg, i, p))
-+-		break;
-+-	}
-++	if (sigalg->setmpi(sigalg, i, p))
-++	    break;
-+ 	p += mpil;
-+     }
-+ 
-+@@ -604,7 +602,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
-+ 	}
-+ 
-+ 	p = ((uint8_t *)v) + sizeof(*v);
-+-	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
-++	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
-+     }	break;
-+     case 4:
-+     {   pgpPktSigV4 v = (pgpPktSigV4)h;
-+@@ -662,7 +660,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
-+ 	if (p > (h + hlen))
-+ 	    return 1;
-+ 
-+-	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
-++	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
-+     }	break;
-+     default:
-+ 	rpmlog(RPMLOG_WARNING, _("Unsupported version of key: V%d\n"), version);
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
-new file mode 100644
-index 0000000000..d39ea7dacd
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
-@@ -0,0 +1,332 @@
-+From 07676ca03ad8afcf1ca95a2353c83fbb1d970b9b Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 30 Sep 2021 09:59:30 +0300
-+Subject: [PATCH 3/3] Validate and require subkey binding signatures on PGP
-+ public keys
-+
-+All subkeys must be followed by a binding signature by the primary key
-+as per the OpenPGP RFC, enforce the presence and validity in the parser.
-+
-+The implementation is as kludgey as they come to work around our
-+simple-minded parser structure without touching API, to maximise
-+backportability. Store all the raw packets internally as we decode them
-+to be able to access previous elements at will, needed to validate ordering
-+and access the actual data. Add testcases for manipulated keys whose
-+import previously would succeed.
-+
-+Depends on the two previous commits:
-+7b399fcb8f52566e6f3b4327197a85facd08db91 and
-+236b802a4aa48711823a191d1b7f753c82a89ec5
-+
-+Fixes CVE-2021-3521.
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/bd36c5dc9]
-+CVE:CVE-2021-3521
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ rpmio/rpmpgp.c                                | 100 ++++++++++++++++--
-+ tests/Makefile.am                             |   3 +
-+ tests/data/keys/CVE-2021-3521-badbind.asc     |  25 +++++
-+ .../data/keys/CVE-2021-3521-nosubsig-last.asc |  25 +++++
-+ tests/data/keys/CVE-2021-3521-nosubsig.asc    |  37 +++++++
-+ tests/rpmsigdig.at                            |  28 +++++
-+ 6 files changed, 211 insertions(+), 7 deletions(-)
-+ create mode 100644 tests/data/keys/CVE-2021-3521-badbind.asc
-+ create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig-last.asc
-+ create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig.asc
-+
-+diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
-+index 57d411d1e0..b12410d671 100644
-+--- a/rpmio/rpmpgp.c
-++++ b/rpmio/rpmpgp.c
-+@@ -1046,35 +1046,121 @@ static pgpDigParams pgpDigParamsNew(uint8_t tag)
-+     return digp;
-+ }
-+ 
-++static int hashKey(DIGEST_CTX hash, const struct pgpPkt *pkt, int exptag)
-++{
-++    int rc = -1;
-++    if (pkt->tag == exptag) {
-++	uint8_t head[] = {
-++	    0x99,
-++	    (pkt->blen >> 8),
-++	    (pkt->blen     ),
-++	};
-++
-++	rpmDigestUpdate(hash, head, 3);
-++	rpmDigestUpdate(hash, pkt->body, pkt->blen);
-++	rc = 0;
-++    }
-++    return rc;
-++}
-++
-++static int pgpVerifySelf(pgpDigParams key, pgpDigParams selfsig,
-++			const struct pgpPkt *all, int i)
-++{
-++    int rc = -1;
-++    DIGEST_CTX hash = NULL;
-++
-++    switch (selfsig->sigtype) {
-++    case PGPSIGTYPE_SUBKEY_BINDING:
-++	hash = rpmDigestInit(selfsig->hash_algo, 0);
-++	if (hash) {
-++	    rc = hashKey(hash, &all[0], PGPTAG_PUBLIC_KEY);
-++	    if (!rc)
-++		rc = hashKey(hash, &all[i-1], PGPTAG_PUBLIC_SUBKEY);
-++	}
-++	break;
-++    default:
-++	/* ignore types we can't handle */
-++	rc = 0;
-++	break;
-++    }
-++
-++    if (hash && rc == 0)
-++	rc = pgpVerifySignature(key, selfsig, hash);
-++
-++    rpmDigestFinal(hash, NULL, NULL, 0);
-++
-++    return rc;
-++}
-++
-+ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
-+ 		 pgpDigParams * ret)
-+ {
-+     const uint8_t *p = pkts;
-+     const uint8_t *pend = pkts + pktlen;
-+     pgpDigParams digp = NULL;
-+-    struct pgpPkt pkt;
-++    pgpDigParams selfsig = NULL;
-++    int i = 0;
-++    int alloced = 16; /* plenty for normal cases */
-++    struct pgpPkt *all = xmalloc(alloced * sizeof(*all));
-+     int rc = -1; /* assume failure */
-++    int expect = 0;
-++    int prevtag = 0;
-+ 
-+     while (p < pend) {
-+-	if (decodePkt(p, (pend - p), &pkt))
-++	struct pgpPkt *pkt = &all[i];
-++	if (decodePkt(p, (pend - p), pkt))
-+ 	    break;
-+ 
-+ 	if (digp == NULL) {
-+-	    if (pkttype && pkt.tag != pkttype) {
-++	    if (pkttype && pkt->tag != pkttype) {
-+ 		break;
-+ 	    } else {
-+-		digp = pgpDigParamsNew(pkt.tag);
-++		digp = pgpDigParamsNew(pkt->tag);
-+ 	    }
-+ 	}
-+ 
-+-	if (pgpPrtPkt(&pkt, digp))
-++	if (expect) {
-++	    if (pkt->tag != expect)
-++		break;
-++	    selfsig = pgpDigParamsNew(pkt->tag);
-++	}
-++
-++	if (pgpPrtPkt(pkt, selfsig ? selfsig : digp))
-+ 	    break;
-+ 
-+-	p += (pkt.body - pkt.head) + pkt.blen;
-++	if (selfsig) {
-++	    /* subkeys must be followed by binding signature */
-++	    if (prevtag == PGPTAG_PUBLIC_SUBKEY) {
-++		if (selfsig->sigtype != PGPSIGTYPE_SUBKEY_BINDING)
-++		    break;
-++	    }
-++
-++	    int xx = pgpVerifySelf(digp, selfsig, all, i);
-++
-++	    selfsig = pgpDigParamsFree(selfsig);
-++	    if (xx)
-++		break;
-++	    expect = 0;
-++	}
-++
-++	if (pkt->tag == PGPTAG_PUBLIC_SUBKEY)
-++	    expect = PGPTAG_SIGNATURE;
-++	prevtag = pkt->tag;
-++
-++	i++;
-++	p += (pkt->body - pkt->head) + pkt->blen;
-++	if (pkttype == PGPTAG_SIGNATURE)
-++	    break;
-++
-++	if (alloced <= i) {
-++	    alloced *= 2;
-++	    all = xrealloc(all, alloced * sizeof(*all));
-++	}
-+     }
-+ 
-+-    rc = (digp && (p == pend)) ? 0 : -1;
-++    rc = (digp && (p == pend) && expect == 0) ? 0 : -1;
-+ 
-++    free(all);
-+     if (ret && rc == 0) {
-+ 	*ret = digp;
-+     } else {
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index f742a9e1d2..328234278a 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -107,6 +107,9 @@ EXTRA_DIST += data/SPECS/hello-config-buildid.spec
-+ EXTRA_DIST += data/SPECS/hello-cd.spec
-+ EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.pub
-+ EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.secret
-++EXTRA_DIST += data/keys/CVE-2021-3521-badbind.asc
-++EXTRA_DIST += data/keys/CVE-2021-3521-nosubsig.asc
-++EXTRA_DIST += data/keys/CVE-2021-3521-nosubsig-last.asc
-+ EXTRA_DIST += data/macros.testfile
-+ EXTRA_DIST += data/macros.debug
-+ EXTRA_DIST += data/SOURCES/foo.c
-+diff --git a/tests/data/keys/CVE-2021-3521-badbind.asc b/tests/data/keys/CVE-2021-3521-badbind.asc
-+new file mode 100644
-+index 0000000000..aea00f9d7a
-+--- /dev/null
-++++ b/tests/data/keys/CVE-2021-3521-badbind.asc
-+@@ -0,0 +1,25 @@
-++-----BEGIN PGP PUBLIC KEY BLOCK-----
-++Version: rpm-4.17.90 (NSS-3)
-++
-++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
-++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
-++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
-++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
-++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
-++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
-++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
-++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
-++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
-++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
-++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
-++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
-+++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
-++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
-++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
-++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
-++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
-++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
-++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
-++=WCfs
-++-----END PGP PUBLIC KEY BLOCK-----
-++
-+diff --git a/tests/data/keys/CVE-2021-3521-nosubsig-last.asc b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
-+new file mode 100644
-+index 0000000000..aea00f9d7a
-+--- /dev/null
-++++ b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
-+@@ -0,0 +1,25 @@
-++-----BEGIN PGP PUBLIC KEY BLOCK-----
-++Version: rpm-4.17.90 (NSS-3)
-++
-++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
-++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
-++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
-++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
-++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
-++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
-++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
-++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
-++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
-++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
-++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
-++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
-+++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
-++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
-++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
-++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
-++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
-++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
-++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
-++=WCfs
-++-----END PGP PUBLIC KEY BLOCK-----
-++
-+diff --git a/tests/data/keys/CVE-2021-3521-nosubsig.asc b/tests/data/keys/CVE-2021-3521-nosubsig.asc
-+new file mode 100644
-+index 0000000000..3a2e7417f8
-+--- /dev/null
-++++ b/tests/data/keys/CVE-2021-3521-nosubsig.asc
-+@@ -0,0 +1,37 @@
-++-----BEGIN PGP PUBLIC KEY BLOCK-----
-++Version: rpm-4.17.90 (NSS-3)
-++
-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
-++E4XX4jtDmdZPreZALsiB
-++=rRop
-++-----END PGP PUBLIC KEY BLOCK-----
-++
-+diff --git a/tests/rpmsigdig.at b/tests/rpmsigdig.at
-+index e1a3ab062a..705fc58705 100644
-+--- a/tests/rpmsigdig.at
-++++ b/tests/rpmsigdig.at
-+@@ -240,6 +240,34 @@ gpg(185e6146f00650f8) = 4:185e6146f00650f8-58e63918
-+ [])
-+ AT_CLEANUP
-+ 
-++AT_SETUP([rpmkeys --import invalid keys])
-++AT_KEYWORDS([rpmkeys import])
-++RPMDB_INIT
-++
-++AT_CHECK([
-++runroot rpmkeys --import /data/keys/CVE-2021-3521-badbind.asc
-++],
-++[1],
-++[],
-++[error: /data/keys/CVE-2021-3521-badbind.asc: key 1 import failed.]
-++)
-++AT_CHECK([
-++runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig.asc
-++],
-++[1],
-++[],
-++[error: /data/keys/CVE-2021-3521-nosubsig.asc: key 1 import failed.]
-++)
-++
-++AT_CHECK([
-++runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig-last.asc
-++],
-++[1],
-++[],
-++[error: /data/keys/CVE-2021-3521-nosubsig-last.asc: key 1 import failed.]
-++)
-++AT_CLEANUP
-++
-+ # ------------------------------
-+ # Test pre-built package verification
-+ AT_SETUP([rpmkeys -K <signed> 1])
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index 7c03b41fc8..9b2e8aec61 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -40,6 +40,9 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
-            file://0001-tools-Add-error.h-for-non-glibc-case.patch \
-+           file://0001-CVE-2021-3521.patch \
-+           file://0002-CVE-2021-3521.patch \
-+           file://0003-CVE-2021-3521.patch \
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.5p1.bb b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+index c6de519884..9a5f37bc39 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
++           file://CVE-2021-41617.patch \
             "
+ SRC_URI[sha256sum] = "f52f3f41d429aa9918e38cf200af225ccdd8e66f052da572870c89737646ec25"
  
- PE = "1"
 -- 
 2.17.1
 
