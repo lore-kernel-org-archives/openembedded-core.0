@@ -1,67 +1,62 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3048831fe8ea94422dad40dad600a325742e7d90.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [dunfell][PATCH 00/14] Backport mandatory dtschema handling for device trees built through the kernel.
+Message-ID: <dbfbf7aee5bb837deab0f04d16bfe60f514fb72f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] glibc: Append files instead of making then part of main SRC_URI
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Tue, 07 Dec 2021 10:27:59 +0000
-In-Reply-To: <CAP71WjxMLE8CXMGDhdhU6Dgmkije7cKh7SW_bmpeDBSXPMVdpQ@mail.gmail.com>
-References: <20211201203407.218692-1-bhupesh.sharma@linaro.org>
-	 <CADkTA4NV0ix0S4rc8HqJuJJr=Os299bx5UZrQEBnx9MBW-DCzw@mail.gmail.com>
-	 <d1a94fdcacca208555f96846beecb853c14dbc24.camel@linuxfoundation.org>
-	 <CAP71WjxMLE8CXMGDhdhU6Dgmkije7cKh7SW_bmpeDBSXPMVdpQ@mail.gmail.com>
+Date: Wed, 17 Nov 2021 17:38:44 +0000
+In-Reply-To: <20211117165646.70015-2-raj.khem@gmail.com>
+References: <20211117165646.70015-1-raj.khem@gmail.com>
+	 <20211117165646.70015-2-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Bhupesh Sharma <bhupesh.sharma@linaro.org>, Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, bhupesh.linux@gmail.com
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
 
-On Tue, 2021-12-07 at 10:49 +0100, Nicolas Dechesne wrote:
+On Wed, 2021-11-17 at 08:56 -0800, Khem Raj wrote:
+> This will help later with using devupstream
 > 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc_2.34.bb | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> On Wed, Dec 1, 2021 at 10:39 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2021-12-01 at 16:33 -0500, Bruce Ashfield wrote:
-> > > On Wed, Dec 1, 2021 at 3:34 PM Bhupesh Sharma <bhupesh.sharma@linaro.org>
-> > wrote:
-> > > > 
-> > > > This is a backport request for dunfell, while picking up only the
-> > > > skeletal support for allowing mandatory dtschema handling for
-> > > > device trees built through the kernel, introduced from kernel
-> > > > version 5.16 onwards.
-> > > 
-> > > The problem with adding this support to dunfell, is obvious in the
-> > > number of patches involved.  We've also said/known that at some point
-> > > that we won't be able to support all new kernel versions with the LTS
-> > > release. This may be the start of drawing that line.
-> > > 
-> > > Also, we've had to do some license tweaks in master just today for one
-> > > of the added packages (idna), so that would be needed as well.
-> > > 
-> > > The validation isn't absolutely critical, I'd suggest that just the
-> > > wrappers and pkg-config fixes would be a smaller footprint to allow
-> > > the kernel to build, without the new package/feature additions to the
-> > > dunfell release. The new packages (and full validation) could still
-> > > possibly be done through a secondary or mixin layer.
-> > > 
-> > > I'm not sure which way to go on this, but I thought I'd offer those
-> > > points for discussion.
-> > 
-> > I think this needs to be done in a mixin layer for dunfell.
-> > 
-> 
-> 
-> ok.. what about honister? would you consider a backport of these patches for
-> this more recent release?
+> diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
+> index 72064772789..778898f1979 100644
+> --- a/meta/recipes-core/glibc/glibc_2.34.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.34.bb
+> @@ -29,10 +29,6 @@ NATIVESDKFIXES:class-nativesdk = "\
+>  "
+>  
+>  SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+> -           file://etc/ld.so.conf \
+> -           file://generate-supported.mk \
+> -           file://makedbs.sh \
+> -           \
+>             ${NATIVESDKFIXES} \
+>             file://0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
+>             file://0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch \
+> @@ -60,6 +56,12 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+>             file://CVE-2021-43396.patch \
+>             "
+> +# Use append instead of += that way patch is applied with devupstream too
+> +SRC_URI:append = "\
+> +           file://etc/ld.so.conf \
+> +           file://generate-supported.mk \
+> +           file://makedbs.sh \
+> +"
+>  S = "${WORKDIR}/git"
+>  B = "${WORKDIR}/build-${TARGET_SYS}"
+>  
 
-To be honest, with such a large set of changes, no, I'd much prefer a mixin
-layer there too.
+I'm afraid I really dislike these kinds of patches. We need to do something with
+our syntax so we don't have to jump through weird hoops like this. These kind of
+changes look really fragile and easy to break. 
 
-It is rather sad the kernel is suddenly "growing" it's dependency list in such a
-large way but it doesn't change our policy on feature backports. Whilst we've
-worked to allow newer kernels on older releases where it is practical, this case
-isn't even close to being similar in scope :(.
+Effectively it is an arms race to turn everything into an append, then nothing
+can disable it.
 
 Cheers,
 
