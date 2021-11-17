@@ -2,61 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 760CEC433F5
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:34 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.8677.1637163333694245072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75693C433EF
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:37 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.8679.1637163336447394826
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:34 -0800
+ Wed, 17 Nov 2021 07:35:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VCDLmc4I;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=E1sospLF;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id u18so5488981wrg.5
+Received: by mail-wm1-f54.google.com with SMTP id
+ b184-20020a1c1bc1000000b0033140bf8dd5so2423524wmb.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:33 -0800 (PST)
+ Wed, 17 Nov 2021 07:35:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=z5hgrKh90xonjGRdt8YEIFY+t7PW9gELL14Xr8WJ0vs=;
-        b=VCDLmc4Ik1EO9Yn9qYyvjpu22n/HC/zqYAUP3OnXcSysf2BkfwpEclGIDFuDUQ3fNh
-         ce2+4qYphW9WQwlPbvCKuSgdn8ViRjFLY7/fymbaYSojq1tglhmgi8+oinIMa0I6QcY5
-         gfZTE0h8oeb9/lj2jIftAMVmOmNksS8rOgYOs9dx9KRR5LrehS9kl5m0NLO9UARot9fS
-         e6WvhZVN491LjgYzrpzzhbOAa/ga+nITm6K0DJvIcjKViWZlvv/bw8vRxompS2u3/BFl
-         SMD+tKOpd70OOSbAnm2ihmT5KMB2hc04mIQnYwgxAXA66IVtbZgJ62wjIEo7+bjjA/n2
-         VrcQ==
+        bh=9d1q9ZeiCXkKZOvUaSfEcxwm91pqBYVs+SOCefnqY/Y=;
+        b=E1sospLF9gG2EkLs+4GGUKvbsS84uLlpJJqzCHnvEYk0sASULKr2sQTZA8oasRF9HE
+         djrF1V2cwSqtZSVt8w4lfyPln9B0wcdchYnf68fz7JO6kAi6gjhM+iPhi4UR+Wt2WMId
+         haA4Au28QhTygrjpCt0OJF5N+e8CjgjjhzcxPPgnY94zQJ7L+VBqyvlnNAMKlW2kHzfU
+         fQorMbfbtfw9VZxKdXwkj2XxowgHbTmaKXuKoeQfShJZR6ENH59TlA9MBodhi/1m1FSE
+         2c0LoLcpIeHgzEng5UNVnFS0+iS/rI9hYPtucrMS9mXXUuzScyMJ4v9PGLfVW8x2X1Yu
+         VTCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z5hgrKh90xonjGRdt8YEIFY+t7PW9gELL14Xr8WJ0vs=;
-        b=v60ZXS0QyH9x2z7iYRhhmPJukSAbqFLZfBiODBFJQA1tsm4zMwJwy46vZY1syTyVwZ
-         eVUtP5wzsaqoRIeEAf9O1n4AF7SM7dJIYTfCA15x1Pe6xiHOxf07bKloWl6kmyExLvYZ
-         Tu4wzqOWCTyxtflYh/umu7zRObYzE+Jm4kM6LOBDsMG/s5pNCiQc3kd+AnEELRz0mTkg
-         I02Kx7LKnw71btS2OBOWssWSi+Oy1mnMeS0tGDcSGjJ6p2Dc9AQVIVvv2VM+H14PCoIb
-         +UXY3HfYaJidj8X/CNZiMcfJO4W1AuCrjtO1uNrPKAB4jeaT7uLiY24071Az3/0LcN+F
-         Pqfw==
-X-Gm-Message-State: AOAM530nv79R4nRQSHKROKNrhJvuWOJnug+uc/Q9CjxMVCSPihdTai71
-	Lj9Hcmta4Y1PxklkPXSYRVfVG305Q/M=
+        bh=9d1q9ZeiCXkKZOvUaSfEcxwm91pqBYVs+SOCefnqY/Y=;
+        b=OH9XdCbrGR6zE2kCNk5ddBgQssHUvz/oqEp14h6CHqiUSuQljyuYDlKVRogBtFtegD
+         vh/wBbEBsValcBGsBTEEnRWq2oIUUtMnGhwuav54cs1Qzdugj6NMte5BzVeSPswTFoS8
+         y4+cROYx8CWIbsEvyeKCGPYM4lS5ibrsGfx7Fr3Yn5SQKwwrN+2DBWLsxZJ0rCTkZxhu
+         Tzn/BvLbeK2K5iPLjOzZnBISK51WRQqK1cEupc9EKJ9r83icyFuU3FfdgDTFemX29XJu
+         +A8nh1P3uxmHXzunGyGR83yJtCexvCl9w9ps8LjNkgcY3ipqFhwkMgupWLyX06mhUeK6
+         fjyw==
+X-Gm-Message-State: AOAM5300dQiIph3AlYN09AAbIf6ttfTiFBYng/8uUGo/eVYagS4QDbPk
+	jR4VMdkzyViVyKtAJczqnSD3y9ivB8M=
 X-Google-Smtp-Source: 
- ABdhPJyzhYfgc7Dcy7nNRdTwcEE4lNQ4x/pNkBENjOeOz74BhJUBvh7ZxUjvZWrw4xSSZDd9gx2EYg==
-X-Received: by 2002:a05:6000:1541:: with SMTP id
- 1mr20837047wry.347.1637163332317;
-        Wed, 17 Nov 2021 07:35:32 -0800 (PST)
+ ABdhPJyZD7NJV/sXmqpX03Zd5hbz4FlDqwLIyWBLeAfMN8RWfVEwlJ1EX43JiajEY3pUvO/mxaArbQ==
+X-Received: by 2002:a05:600c:a45:: with SMTP id
+ c5mr621776wmq.79.1637163335063;
+        Wed, 17 Nov 2021 07:35:35 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.31
+        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 07:35:32 -0800 (PST)
+        Wed, 17 Nov 2021 07:35:34 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 09/36] gettext: address automake 1.16.5 failures
-Date: Wed, 17 Nov 2021 16:34:58 +0100
-Message-Id: <20211117153525.257146-9-alex@linutronix.de>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 13/36] asciidoc: upgrade 10.0.1 -> 10.0.2
+Date: Wed, 17 Nov 2021 16:35:02 +0100
+Message-Id: <20211117153525.257146-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211117153525.257146-1-alex@linutronix.de>
 References: <20211117153525.257146-1-alex@linutronix.de>
@@ -65,63 +66,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158404
+ https://lists.openembedded.org/g/openembedded-core/message/158408
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-builds-with-automake-1.16.4-and-new.patch | 29 +++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.21.bb     |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/gettext/gettext-0.21/0001-libtextstyle-fix-builds-with-automake-1.16.4-and-new.patch
+ .../asciidoc/{asciidoc_10.0.1.bb => asciidoc_10.0.2.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/asciidoc/{asciidoc_10.0.1.bb => asciidoc_10.0.2.bb} (94%)
 
-diff --git a/meta/recipes-core/gettext/gettext-0.21/0001-libtextstyle-fix-builds-with-automake-1.16.4-and-new.patch b/meta/recipes-core/gettext/gettext-0.21/0001-libtextstyle-fix-builds-with-automake-1.16.4-and-new.patch
-new file mode 100644
-index 0000000000..727d1db552
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext-0.21/0001-libtextstyle-fix-builds-with-automake-1.16.4-and-new.patch
-@@ -0,0 +1,29 @@
-+From 2f127ebe425c97b0641fe1bc73247e91e18c2be0 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Thu, 11 Nov 2021 22:06:16 +0100
-+Subject: [PATCH] libtextstyle: fix builds with automake 1.16.4 and newer
-+
-+Upstream-Status: Submitted [http://savannah.gnu.org/bugs/?59929]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ libtextstyle/configure.ac | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
-+
-+diff --git a/libtextstyle/configure.ac b/libtextstyle/configure.ac
-+index 63b4c2a..cab9025 100644
-+--- a/libtextstyle/configure.ac
-++++ b/libtextstyle/configure.ac
-+@@ -17,11 +17,10 @@ dnl along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ dnl Process this file with autoconf to produce a configure script.
-+ 
-+ AC_PREREQ([2.63])
-+-AC_INIT
-++AC_INIT([libtextstyle],
-++    [0.20.1])
-+ AC_CONFIG_SRCDIR([version.sh])
-+ AC_CONFIG_AUX_DIR([build-aux])
-+-. $srcdir/version.sh
-+-gl_INIT_PACKAGE([libtextstyle], [$VERSION_NUMBER])
-+ AM_INIT_AUTOMAKE([1.13 silent-rules])
-+ AM_CONFIG_HEADER([config.h])
-+ 
-diff --git a/meta/recipes-core/gettext/gettext_0.21.bb b/meta/recipes-core/gettext/gettext_0.21.bb
-index 5ada709937..a0f3402904 100644
---- a/meta/recipes-core/gettext/gettext_0.21.bb
-+++ b/meta/recipes-core/gettext/gettext_0.21.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
-            file://0001-init-env.in-do-not-add-C-CXX-parameters.patch \
-            file://mingw.patch \
-            file://0001-msgmerge-29-Add-executable-file-mode-bits.patch \
-+           file://0001-libtextstyle-fix-builds-with-automake-1.16.4-and-new.patch \
-            "
- SRC_URI[sha256sum] = "c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12"
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_10.0.1.bb b/meta/recipes-extended/asciidoc/asciidoc_10.0.2.bb
+similarity index 94%
+rename from meta/recipes-extended/asciidoc/asciidoc_10.0.1.bb
+rename to meta/recipes-extended/asciidoc/asciidoc_10.0.2.bb
+index 40574df6e2..1b618175bc 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_10.0.1.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_10.0.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
+                     file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
+ 
+ SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https;branch=main"
+-SRCREV = "74823bed08e7b823d2b6cba8636a1fd67fed6cc9"
++SRCREV = "7bad9d2e77f7d384ac9042732adaefd4f6ed8979"
+ 
+ DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
 -- 
 2.20.1
