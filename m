@@ -2,60 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AF6C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7690DC4321E
 	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:36 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.8704.1637163335866428077
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.8794.1637163335051960162
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:36 -0800
+ Wed, 17 Nov 2021 07:35:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ojZPRwqF;
- spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DKRb2W2t;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id r8so5480226wra.7
+Received: by mail-wr1-f44.google.com with SMTP id n29so5459817wra.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:35 -0800 (PST)
+ Wed, 17 Nov 2021 07:35:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OhsgbigaBV+1K/AdjYpnAJnW7P11msBC5+teIBT8Rhk=;
-        b=ojZPRwqFCGT12b1g84oN0NXTOwo7RfUgtOpdU3MsoLw5Zt2eU7KO2GWIwzhjpEwDqg
-         IWKoo5IBnnxhC8j23ZATaZsKG7fY/TTPVA+QC6GhERKguL1yeM3raKQomLo31v8Kf0Gu
-         eBevfQPtquoSbneF9i9WDEh+T9BynFhDiF61gbQtfoLPy2nxs0OPIdc2OKqgN9/n6/7n
-         YbHFvY3GwRJLu7cPVkQ9KU7pWuNXBG4FGHo9RyVSjp5Q34X596MAZWaOCV6mo990H+lX
-         YZJqAt1WcAnlRLP++nA52Q+6FJZScrFYtcCIeKx3AMZmwPp2WggTdkYjooh4sf1EkhR1
-         NHLw==
+        bh=8bYzxuLm3LZQZ2OtilMOFWGZmrWYpPB1fYzU3rWWUVw=;
+        b=DKRb2W2ty4g7p0+zAf0zzh7YNd3MkJdkL9yURpa297EBgv8wq527OtMGDSLvojefPe
+         Tq+BPg/pKjhnJhFsqtWZQa+chIRbDxjx7NEFDphjs9zSzW1ecH0sF4s343RHXfhVMDuY
+         eQ8C630+GY0R9barsv7zjNPIs6jOct/UP+otv3KYpXaydmHdIuhKn/+11nC0pQkA7qLu
+         8DWxFvh/kZA5YSjcdT6OlMwXxpu9/Z8lRot5qb+lrFpjNcvWVWXcTmr5T4JeNN2IN6ip
+         o/oDIJNopVM0217qvBv8viAPQZ2q3+76jggOOOkE9Yf+VLXqVooknJah32rFivAMb30n
+         MrYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OhsgbigaBV+1K/AdjYpnAJnW7P11msBC5+teIBT8Rhk=;
-        b=7d4xjU6viP8rPRoYvawJf/godIDJfuJWogSZ28SbjPUgvUH2Br+WKOr3ogo8cNaweZ
-         psZhhyp1Nrwvz8YZPN1odij5eKir+gQ28LtBNhLFV2QuxLClrbWKMYi8jXCAe/Nnxmjw
-         JwjXMEIUyMBCN95k0HdgFMNb36IuF6iY5qGg5b1F5CWy2hJVK9lVPx45kGcADqZuT9Tk
-         I40XvLHngW9IhmD7gI4RAnOCfFsYs2wli1UrhfvoDLiYSLMRBFX5fXmtrqa8QzafEa7m
-         QJPQUUIehUxMSmr9J1dHpbnhIknvEBwgqfxzb4SH7W4Xn6l11HPg5yQNm5H9xHVVYUtC
-         PHnQ==
-X-Gm-Message-State: AOAM533PVOaGAr+5awoJSkCF93l+QT70ZKwf2J294H1mOIVq8Fe9WjH5
-	CzU/Tfut4kuFT0D3XjXFU2t96c+fNdQ=
+        bh=8bYzxuLm3LZQZ2OtilMOFWGZmrWYpPB1fYzU3rWWUVw=;
+        b=gV9NrX2a10rKu8jhbTn9Jzm/1MVhA1gQf614zY5kR9FGT8dD21yTR6Fyd5VZw1TIZn
+         eGFk77Fx96YZRG7Hass+U6cBNUkAoy7aX/noTXQioZJ1WhlO/h1C+SJWVA+gXdLvXAo4
+         kZDZdBVi7moE/sJjDzSRi0/JeG8CFPe2PI9teKEiJN5dYAkgMHf8l+L2yhqGw6VWi5ex
+         wqQ74ZOMGNDBU5iC2kRn0273xP5j8q1K4mBvVxuVYb+rGK1w6eKWEQwgXu2Gsos01lns
+         jvFoC6Gks+MJwUpmAljcJPTUrB7Tyf+MazAtguGTeQZUKCvd1YPvA7YHJD4jGXYvtG7Z
+         kcuQ==
+X-Gm-Message-State: AOAM5322n3dJpzv5SJ7ZTdErNAxfoqCyWYtYuJomzxqrgUAf4RYWcZcR
+	G2u5R1uuV0rSj1Ac3bgqu9cUTJ2m7yI=
 X-Google-Smtp-Source: 
- ABdhPJxCK+fch7x8xyTi5nQzYxlgDjQKHtSWNrWpvlKXZh3nk0rdhPCKAtYWyCBECro6BFqbtkc/Qw==
-X-Received: by 2002:adf:e0d0:: with SMTP id m16mr21112157wri.74.1637163334346;
-        Wed, 17 Nov 2021 07:35:34 -0800 (PST)
+ ABdhPJzArMsxfGsz+r74dBbZP3usccm3j47tupIxnHdnvauozq+DKlhf8IGrhSoFFxY8oIFEoEOJ+Q==
+X-Received: by 2002:a5d:4443:: with SMTP id x3mr21715287wrr.189.1637163333684;
+        Wed, 17 Nov 2021 07:35:33 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 07:35:34 -0800 (PST)
+        Wed, 17 Nov 2021 07:35:33 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 12/36] python3-pyparsing: upgrade 3.0.5 -> 3.0.6
-Date: Wed, 17 Nov 2021 16:35:01 +0100
-Message-Id: <20211117153525.257146-12-alex@linutronix.de>
+Subject: [PATCH 11/36] python3-hypothesis: upgrade 6.24.2 -> 6.24.3
+Date: Wed, 17 Nov 2021 16:35:00 +0100
+Message-Id: <20211117153525.257146-11-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211117153525.257146-1-alex@linutronix.de>
 References: <20211117153525.257146-1-alex@linutronix.de>
@@ -66,32 +66,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158407
+ https://lists.openembedded.org/g/openembedded-core/message/158406
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{python3-pyparsing_3.0.5.bb => python3-pyparsing_3.0.6.bb}  | 2 +-
+ ...ython3-hypothesis_6.24.2.bb => python3-hypothesis_6.24.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.0.5.bb => python3-pyparsing_3.0.6.bb} (85%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.24.2.bb => python3-hypothesis_6.24.3.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.0.5.bb b/meta/recipes-devtools/python/python3-pyparsing_3.0.6.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.0.5.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.0.6.bb
-index 6f2c7f6cd9..d15ff33e9b 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.0.6.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://pyparsing.wikispaces.com/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.24.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.24.3.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.24.2.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.24.3.bb
+index ef45ddb6c6..431a5e328a 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.24.2.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.24.3.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
--SRC_URI[sha256sum] = "9329d1c1b51f0f76371c4ded42c5ec4cc0be18456b22193e0570c2da98ed288b"
-+SRC_URI[sha256sum] = "d9bdec0013ef1eb5a84ab39a3b3868911598afa494f5faa038647101504e2b81"
+-SRC_URI[sha256sum] = "4030f88ae0a8d3339a41dd7589c78d3ba0a3a270f729c12aceddaea7c60b224b"
++SRC_URI[sha256sum] = "fccfba3803f391eea2c8c6f21667886ca7407b135b6121e0701a7f8addc176f7"
  
- UPSTREAM_CHECK_REGEX = "pyparsing-(?P<pver>.*)\.tar"
- 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.20.1
 
