@@ -2,63 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3405FC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 358CBC4332F
 	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 16:56:51 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web12.9814.1637168210738696865
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web12.9813.1637168210146714451
  for <openembedded-core@lists.openembedded.org>;
  Wed, 17 Nov 2021 08:56:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LVujRZjH;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id
- nh10-20020a17090b364a00b001a69adad5ebso3121475pjb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qkn0RmXU;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id
+ j6-20020a17090a588600b001a78a5ce46aso5783578pji.0
         for <openembedded-core@lists.openembedded.org>;
  Wed, 17 Nov 2021 08:56:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iQKY3xGkC5I7L97fkLi6cR1QoAKE5TnU7GA34wChipU=;
-        b=LVujRZjHeECFSvrEEJW/inpNMmWQMy0NZNGh9g47jvJgsDW6Fe2TxAhz3C6gdptFkg
-         SoOICfVWRHHt23ylZOUP3O0XUmpzc3O/gNzhlmdkP0zU4J9dF+2zaSCoph1Zz2LnLSOa
-         tVqpq8ajKxorBHjwGM1NLjaCn2MayJMW9Z8l8iZZHa6oXn8pqF4RnTqGFYIKxijc08tM
-         Y/q5HaUFhtETWMjQvYCBgWGOVNyyekff2lDa7t6Ur4wZHpbq9oxbpP9vudev5CHQHkO4
-         BfpEn1i1prWFlKGTmtjFayXCjRVDG65R2AtZTzQWxYaCyHuYvT0bWFzgLeB+8oQs4a9L
-         ajZA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dUIS/RCwbIGwZ4KDSnOZhcNu73uN288Lrlu4SEGQgWA=;
+        b=qkn0RmXUkaYxlAnfKOxLraVV+hGcb6y/Ps+ao1Hv2SfKJBNaQtFZGuYe0pYpcmPc6d
+         oscBEGWO+qRGbC18ZNZMxbUW60qhjL0PUKa35oCditffTgjhQcQER6OY0aFtrwyL8kh8
+         b0aYyX2CVjE6TjB3tD/nMc3QI7sPyDm+ym28U9KEpiIYifJprUGEo35Pn+BJUwWdiSDo
+         46HrEAlcS+fzrGvDDkGf0QOS7Tn3w4WjrwLZuIwz6G8lVM/qfG+VrLYinEkybMMFRlKX
+         XzcpEzG9J9rxVcv0/mgohc35lkgrNvrZiJdxV8bDbt2vSYMrcwblJf+IDo3zQsm2bUGY
+         xqJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iQKY3xGkC5I7L97fkLi6cR1QoAKE5TnU7GA34wChipU=;
-        b=B++GdoZLR6u6SurXg2TfJYfAFGcZQcVwyOaiYqcSs+A8IlCyKqp0zRgbltgCINmXUL
-         kfx9ST+meht2gmgr6nsZGtMREXG7e1fgEPnycwLWpDOZg8wykV7Td8ETVF6fSbhcnpx9
-         m48vAgVipZ9WtSINnMy7bt4dIJbsZ76fsdzfSPK3hZx5Eb6hcdqpiC+evw2wAHK7HD/J
-         tdeWsOyEesyxH8JB2Dbwl4iaTlzRWU2rvDQySyanAbDdGyntddHM9YMHYBxYG9ApNBoT
-         9XtMH0OJObUCCLKZB8I75s4Pq3Jgkko2IyXw1KEGpJm2eOICNe94tMl5RmYNb8sgDFn1
-         PHLw==
-X-Gm-Message-State: AOAM530/fGX8BEnWSsLHpuHwdgAxBY0+yqOZGfap9c04j7kbEfNVZq1s
-	lZMrIaBGU+X43jEvl5iXusro/RapX1pq1g==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dUIS/RCwbIGwZ4KDSnOZhcNu73uN288Lrlu4SEGQgWA=;
+        b=R3ueGFRafgKXWDbjDtV6fMfb08be8/AJej3YsUKTCwMU/ACSXuxqHZYCyS65n1rM6r
+         vonfiizvmhz47mXqGAKar9Ne5Ano5YGGtI4YkzPTvq22h/0JhJP6EQ3Mn/TgccI4YTA6
+         E0Xb3O6i6RactEE42oJ8vw/gXWsqIOIFX3rcdTvVwe/xDbS6piitQjevIlR0EDztQ/K+
+         FgVQcycm/olO7dF41c1MUKucce9ok3Pm/b0S2wr9fQ0WJz52VmKAqVT3krDClT5XXuvA
+         frwtiQ1R01emYR/i/IYAu8UpIbxbflUXvZp5TBJ7YR2M3Df2VifeV+KlNVZEaq+KWrgO
+         U/CA==
+X-Gm-Message-State: AOAM533MYJ38QrQZ6/GlcMtx5TnyiRhSM95aiBIoqQnBdc0yO8+YjbIB
+	sU1vOMXf8zdeYpENrEk9tuu/qJQ8i2qhhw==
 X-Google-Smtp-Source: 
- ABdhPJxuCcxusnDpmMBVvhUAn23MN1K1UkAoxh4KQkJBzv2fQvUMpNSNL78rw2gg6MQVcr6iR7ajOg==
-X-Received: by 2002:a17:90b:3889:: with SMTP id
- mu9mr1347500pjb.160.1637168210160;
-        Wed, 17 Nov 2021 08:56:50 -0800 (PST)
+ ABdhPJxmlXCR9PjQAjso6pypTVyXoAAoR5tjFuQs/O/8LoyGcDvOw3hZcJPAZzttq7vrU6f9p2lJVw==
+X-Received: by 2002:a17:90a:d48f:: with SMTP id
+ s15mr1413833pju.64.1637168209360;
+        Wed, 17 Nov 2021 08:56:49 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::7905])
-        by smtp.gmail.com with ESMTPSA id b4sm226420pfl.60.2021.11.17.08.56.49
+        by smtp.gmail.com with ESMTPSA id b4sm226420pfl.60.2021.11.17.08.56.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 17 Nov 2021 08:56:49 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] glibc: Append files instead of making then part of main
- SRC_URI
-Date: Wed, 17 Nov 2021 08:56:46 -0800
-Message-Id: <20211117165646.70015-2-raj.khem@gmail.com>
+Subject: [PATCH 1/2] glibc-testsuite: Use append operator to add
+ check-test-wrapper
+Date: Wed, 17 Nov 2021 08:56:45 -0800
+Message-Id: <20211117165646.70015-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211117165646.70015-1-raj.khem@gmail.com>
-References: <20211117165646.70015-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,43 +64,27 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 16:56:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158435
-
-This will help later with using devupstream
+ https://lists.openembedded.org/g/openembedded-core/message/158434
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc_2.34.bb | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-core/glibc/glibc-testsuite_2.34.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
-index 72064772789..778898f1979 100644
---- a/meta/recipes-core/glibc/glibc_2.34.bb
-+++ b/meta/recipes-core/glibc/glibc_2.34.bb
-@@ -29,10 +29,6 @@ NATIVESDKFIXES:class-nativesdk = "\
- "
+diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.34.bb b/meta/recipes-core/glibc/glibc-testsuite_2.34.bb
+index e8ad2a938b1..6650ec5a483 100644
+--- a/meta/recipes-core/glibc/glibc-testsuite_2.34.bb
++++ b/meta/recipes-core/glibc/glibc-testsuite_2.34.bb
+@@ -3,7 +3,8 @@ require glibc-tests.inc
  
- SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
--           file://etc/ld.so.conf \
--           file://generate-supported.mk \
--           file://makedbs.sh \
--           \
-            ${NATIVESDKFIXES} \
-            file://0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
-            file://0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch \
-@@ -60,6 +56,12 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://CVE-2021-43396.patch \
-            "
+ inherit qemu
+ 
+-SRC_URI += "file://check-test-wrapper"
 +# Use append instead of += that way patch is applied with devupstream too
-+SRC_URI:append = "\
-+           file://etc/ld.so.conf \
-+           file://generate-supported.mk \
-+           file://makedbs.sh \
-+"
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
++SRC_URI:append = " file://check-test-wrapper"
  
+ # strip provides
+ PROVIDES = ""
 -- 
 2.34.0
 
