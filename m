@@ -1,122 +1,101 @@
-Return-Path: <mingli.yu@windriver.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8917BC433F5
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 09:20:53 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web09.4837.1637140852441687400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771D8C433F5
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 12:32:10 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web09.6409.1637152329876956629
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 01:20:53 -0800
+ Wed, 17 Nov 2021 04:32:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: mingli.yu@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AH9KhaF000911
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 01:20:43 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AH9KbtV026218
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 01:20:43 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 17 Nov 2021 01:20:39 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 17 Nov 2021 01:20:38 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 17 Nov 2021 01:20:37 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 2/4] vim: fix CVE-2021-3875
-Date: Wed, 17 Nov 2021 17:18:24 +0800
-Message-ID: <20211117091826.22740-2-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211117091826.22740-1-mingli.yu@windriver.com>
-References: <20211117091826.22740-1-mingli.yu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iSLvJh01;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id w1so10412502edc.6
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 17 Nov 2021 04:32:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=azvspvYATK6ncAIlQWTLx4WZ8K19M+cFunPAjOyruAg=;
+        b=iSLvJh013rj3TTccLhiGrSlfYrJWcmh1qeAhzn8ugzNLP0BJvW5vUKOEJivDNws3qP
+         1LZzPwuGIw/ZBSg/T9WHoVti9vUpJY8WN4Wrm5ZrE+lp4RkYPYrvwjFx0zrjsbyYcCcs
+         AuFQtev+Nplb3gOvoHcc5quHCEAD4FeuR7hgscyeg2/FxrKqrm33+nO1dcEsmeT4p67M
+         G+iVN+GcOAboVdhfA8u12JHTJb/AFCmGs68+xPNxlpqZkNGqL20iguPWreIMb1/53p+P
+         lSKCZSROyT51ROxAKnPGYOrz6Z1mn8tqFIqz9aIFDyMSypElbmh8zPBNTB6qHGJ8jwJf
+         9keA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=azvspvYATK6ncAIlQWTLx4WZ8K19M+cFunPAjOyruAg=;
+        b=HsDz5HNkyGx8LFkZ+jlf8w2/7qgXvgt0DrEhe/q4avBIM4cjEyE9FZvVesgg1dgcKz
+         zuBJNsrnkVOsP9qpWbPWdkpckswaK4k1b6GiqyjItTYLc/VcEgkvZx5lYwHsasZgK6Lh
+         nVtSBSVhHjDWf8qfNJTs9iQKVw6Yrv9z7O4YnjF2x71+motT4sYI6LDWdvRB2UZr5QlJ
+         XAinX3INUw6RhJTkdM4bSjOTSIWFhXQ9fq5jFB2brzVvK1x730Zl4toftYyjVYfXIa0T
+         VAALRDr/3rM4OEVW2JVb2ilYX57rfVR/bfyfaHniZWNtX+XNleCDkP3DZ5BD8sdrIvIf
+         mEnQ==
+X-Gm-Message-State: AOAM533oYinj8rRKmHyYST9jAEcHjWIehtlr2HS1CGzuEOVEzF8x7Jvt
+	p+E1hadHUN+jOgK8CI/8KI6XLc+kUmitCQ==
+X-Google-Smtp-Source: 
+ ABdhPJxc/gJ1jHrRFq7pZtG7q2SOhuAcNhYWJjFZ2nvjVdOQVJJhNicdE0gQ4WFk/VvlWJHIv+pWAA==
+X-Received: by 2002:a17:907:6e9e:: with SMTP id
+ sh30mr21474647ejc.156.1637152327902;
+        Wed, 17 Nov 2021 04:32:07 -0800 (PST)
+Received: from localhost ([137.220.125.106])
+        by smtp.gmail.com with ESMTPSA id
+ nb4sm10345059ejc.21.2021.11.17.04.32.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 04:32:07 -0800 (PST)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@microsoft.com
+Subject: [PATCH 0/8] systemd: allow building for nativesdk
+Date: Wed, 17 Nov 2021 12:31:53 +0000
+Message-Id: <20211117123201.111905-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 09:20:53 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 12:32:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158382
+ https://lists.openembedded.org/g/openembedded-core/message/158384
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Backport a patch to fix CVE-2021-3875.
+systemd-analyze in the next release will gain the ability to
+run the 'security' and 'verify' verbs offline, on local units.
+This is very useful at build time and/or in CI systems to detect
+errors and issues before changes are deployed, as a static
+analyzer tool.
+This series enables building the systemd recipe for the nativesdk
+targets, so that systemd-analyze can be included in the SDK and
+called by users/build systems/CI systems.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../vim/files/CVE-2021-3875.patch             | 37 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2021-3875.patch
+Luca Boccassi (8):
+  systemd: skip chown when building for nativesdk
+  systemd: skip postinst in nativesdk builds
+  systemd: remove /var in nativesdk builds
+  volatile-binds: remove /var in nativesdk builds
+  volatile-binds: add nativesdk
+  kbd: add nativesdk
+  os-release: add nativesdk
+  systemd: add nativesdk
 
-diff --git a/meta/recipes-support/vim/files/CVE-2021-3875.patch b/meta/recipes-support/vim/files/CVE-2021-3875.patch
-new file mode 100644
-index 0000000000..d62d875f8e
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2021-3875.patch
-@@ -0,0 +1,37 @@
-+From 40aa9802ef56d3cdbe256b4c9e58049953051a2d Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Mon, 15 Nov 2021 14:34:50 +0800
-+Subject: [PATCH] patch 8.2.3489: ml_get error after search with range
-+
-+Problem:    ml_get error after search with range.
-+Solution:   Limit the line number to the buffer line count.
-+
-+CVE: CVE-2021-3875
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/35a319b77f897744eec1155b736e9372c9c5575f]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ src/ex_docmd.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/ex_docmd.c b/src/ex_docmd.c
-+index fb07450f8..89d33ba90 100644
-+--- a/src/ex_docmd.c
-++++ b/src/ex_docmd.c
-+@@ -3586,8 +3586,10 @@ get_address(
-+ 
-+ 		    // When '/' or '?' follows another address, start from
-+ 		    // there.
-+-		    if (lnum != MAXLNUM)
-+-			curwin->w_cursor.lnum = lnum;
-++		    if (lnum > 0 && lnum != MAXLNUM)
-++			curwin->w_cursor.lnum =
-++			        lnum > curbuf->b_ml.ml_line_count
-++			                   ? curbuf->b_ml.ml_line_count : lnum;
-+ 
-+ 		    // Start a forward search at the end of the line (unless
-+ 		    // before the first line).
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 362c822f05..315fb32ca9 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -22,6 +22,7 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch \
-            file://CVE-2021-3903.patch \
-            file://CVE-2021-3872.patch \
-+           file://CVE-2021-3875.patch \
- "
- 
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+ meta/recipes-core/kbd/kbd_2.4.0.bb            |  2 +-
+ meta/recipes-core/os-release/os-release.bb    |  2 ++
+ meta/recipes-core/systemd/systemd-conf_1.0.bb |  2 ++
+ .../systemd/systemd-serialgetty.bb            |  2 ++
+ meta/recipes-core/systemd/systemd_249.5.bb    | 29 +++++++++++++++++--
+ .../volatile-binds/volatile-binds.bb          |  7 +++++
+ 6 files changed, 41 insertions(+), 3 deletions(-)
+
 -- 
-2.17.1
+2.30.2
 
 
