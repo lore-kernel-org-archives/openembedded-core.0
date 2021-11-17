@@ -1,255 +1,181 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78503C433FE
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 15:35:52 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.8689.1637163351430492853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51300C433FE
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 16:11:26 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.9206.1637165485543146269
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:51 -0800
+ Wed, 17 Nov 2021 08:11:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fXBjo35m;
- spf=pass (domain: gmail.com, ip: 209.85.128.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso2434920wme.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YTKmHMuu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id r11so13413318edd.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 07:35:51 -0800 (PST)
+ Wed, 17 Nov 2021 08:11:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CQWCuTgrXCs9yuam5dgFGVro8R3JecmWBylcw9pnFGE=;
-        b=fXBjo35mYkF9HQQ1lse68a29IXeBo7c1JOGpjdoBwWWfvWvqZc0N0Vgr/n5PDyK3j2
-         TRyIG8RIyMebznWtj0CcMn4nP3fukSmGHUm+YY5bsq1JHVvkoT9vjjYBvkaGrrr4NS7W
-         iSEcezMW2Le087/Oo/R1I1bnvK+mMXrRzfLvNIbFfw+wd5TrZQLN+UzcV488OA9SMT2I
-         nhxCmNbvt5AfwDtzh5pk9jjgDF6O9TnvGgcR2gVHQNxKoxiLG6QFXk7pIOt1plpqb5yu
-         Qa59hxuOI7BXM3ALPdlMx8gR5A4n07nP8XWY6gk30F4yBTPrQpoSm7KOxiOhBuegIqjg
-         d72Q==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=6Uey5G/UXsWPLhGS4R1vXhk4ju+9oWgBUywfJ6Zy18Q=;
+        b=YTKmHMuuV7hf5SMgahRd+xYTLCYPYda5kLT+oISW3mxyrLtAaT7gBiV3ukqfqo/2KW
+         gtwB36MWKsM+o74MGae5KUrgNqddto8f+NH6VUSUzepWYOXXEeXsXwmGKPk694a5KNGt
+         D3So+m9zkbqhKu1cK0bb89VVpZfNLLY0b9hb6FG56Fa2jALiXSe/H3qpFa1m0KC2ysOY
+         bV6DBWWm3PlhD+c4OE27cvBroCBnYH11R4yY2OT5wocpA68MiM62I2vQMr05UB1Q4kTF
+         ISPyhp+LplKA/1zg4jpVnvYReUYlzmXZvCF/q1IoOSmBGqt6XbWwCrOKvHCv1c4U/Cq5
+         pnDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CQWCuTgrXCs9yuam5dgFGVro8R3JecmWBylcw9pnFGE=;
-        b=ZdwKrufTyRXnvxQeEURZUcloa3WOEe0HXNXgO5PrFWWuvw11MuFuZk3J/XG6MXRjQk
-         ppmIjBhIo3H5xmof1n6xKG1KwtDzbaRVMLFgai0W1Fj0u5DC9Qv7Pq+muDI6P25AzbWK
-         dgjfWPmsgzuWUZdwPfW5qJ/LopOGJAxulZt2SqZaZ6o45SDiIVrF3c+cXatBrjnP1Apq
-         yy6Psf2n2pBfOC/uXHTslxvDv7EsNVwwc3PV0DAUzZ9Iuja5bi9au7pxTg3rMmK5T/KO
-         mOlWIzx0q/yz9N2QiBxL3W4dIsB2isrcL/4VefmppKlPCInkZmJKtju2gzZbjrfyR1d2
-         vxvg==
-X-Gm-Message-State: AOAM531UbeUBE3oAPHqa4bZvHI4+3jGHE54GjOdelBeLD8IeylnYwAQG
-	oPX/dP8pTdeBfQ6XixmBOXa1X3ppsqo=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=6Uey5G/UXsWPLhGS4R1vXhk4ju+9oWgBUywfJ6Zy18Q=;
+        b=p4/McmFV5eyB9OrXr5cmMtHRIP8r4mWC8aHaauiF4e2Kriz6dp8CvN40oiBr57PhNZ
+         32LyGEyvDGUbE4zC8SuiGXc6BOZrGAlHX238XGIBzodAqMnk/Zw1xczgO1XNlwZ8YNmM
+         jaGbt0UzoiwHZzfQIAX17a6VqND0OtUvc6I+Sw7g9Q+483kiZwWj+ZuAS25AOaLh4rRA
+         7t/y5+HkbCJ2dU/YODAp7qekkO4tlFJujcTT0TH3H8/D7LsLFNKJCT/wwNt9erChtYeU
+         XeV7aomzFgpkmz46WMNA3h7BupRvbMl7THCzoxxxeK6dROqmaBVrVLX8RgX0WhRkQ8GH
+         tKFA==
+X-Gm-Message-State: AOAM533D3rXBfVt/AK6sH3sUHOWLFifpuyZbxrEMc7TuKn+KhcaYDh2U
+	g2MGSApiRUMli2shnE31vr8=
 X-Google-Smtp-Source: 
- ABdhPJzofHKmE3ubO0yiof00Dto76TYWxNOBGkIdFxU68g/pJS1V5426WRDjZrSu7mwcmTV5FZY8pw==
-X-Received: by 2002:a1c:5409:: with SMTP id i9mr644588wmb.146.1637163349942;
-        Wed, 17 Nov 2021 07:35:49 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id o9sm221272wrs.4.2021.11.17.07.35.49
+ ABdhPJw2wMK9vBo6XN/gDyK15CAcW13v/M7Uiab4e7qZ3uMWRiGonyrV1YCm5mGdMXuXQ8Ybv9iwaw==
+X-Received: by 2002:a17:907:1c15:: with SMTP id
+ nc21mr23911533ejc.510.1637165483517;
+        Wed, 17 Nov 2021 08:11:23 -0800 (PST)
+Received: from [192.168.1.112] ([137.220.125.106])
+        by smtp.gmail.com with ESMTPSA id r7sm148870edd.5.2021.11.17.08.11.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 07:35:49 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 33/36] expect: do not install examples, drop related patch
-Date: Wed, 17 Nov 2021 16:35:22 +0100
-Message-Id: <20211117153525.257146-33-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211117153525.257146-1-alex@linutronix.de>
-References: <20211117153525.257146-1-alex@linutronix.de>
+        Wed, 17 Nov 2021 08:11:22 -0800 (PST)
+Message-ID: <fe49ca32907173d954160ead0c714eaa654a3ae5.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 0/8] systemd: allow building for nativesdk
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	paul.eggleton@microsoft.com
+Date: Wed, 17 Nov 2021 16:11:21 +0000
+In-Reply-To: 
+ <CANNYZj_1r4Gj_CwBE7Rrr3NedxH9saVQeEuu1mpBFx9A=stDGQ@mail.gmail.com>
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+	 <CANNYZj-tjH20-ocHq_7DWC6qaPA0XhKfk4cGXMPNbs-_YXp8jg@mail.gmail.com>
+	 <510650712bc36f761fc9c43d47a1761bc4d60366.camel@gmail.com>
+	 <CANNYZj_1r4Gj_CwBE7Rrr3NedxH9saVQeEuu1mpBFx9A=stDGQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Auq8ln6hRtmOVL/N51R6"
+User-Agent: Evolution 3.38.3-1+plugin 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 15:35:52 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 16:11:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158428
+ https://lists.openembedded.org/g/openembedded-core/message/158432
 
-There is really no reason to install them; this was done
-in the original recipe submission for unexplained reasons.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../expect/expect/01-example-shebang.patch    | 144 ------------------
- meta/recipes-devtools/expect/expect_5.45.4.bb |   2 -
- 2 files changed, 146 deletions(-)
- delete mode 100644 meta/recipes-devtools/expect/expect/01-example-shebang.patch
+--=-Auq8ln6hRtmOVL/N51R6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/expect/expect/01-example-shebang.patch b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
-deleted file mode 100644
-index 8597f31387..0000000000
---- a/meta/recipes-devtools/expect/expect/01-example-shebang.patch
-+++ /dev/null
-@@ -1,144 +0,0 @@
--Author: Mike Markley <mike@markley.org>
--Author: Sergei Golovan <sgolovan@debian.org>
--Description: Fixes shebangs in examples (Closes: #152367).
--
--Backported from Debian
--
--Upstream-Status: Pending
--Index: expect5.45/example/beer.exp
--===================================================================
----- expect5.45.orig/example/beer.exp	2006-01-25 13:51:39.000000000 -0800
--+++ expect5.45/example/beer.exp	2013-11-01 17:35:19.817318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expect -f
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- # 99 bottles of beer on the wall, Expect-style
-- # Author: Don Libes <libes@nist.gov>
--Index: expect5.45/example/expectd.proto
--===================================================================
----- expect5.45.orig/example/expectd.proto	2010-07-02 09:03:31.000000000 -0700
--+++ expect5.45/example/expectd.proto	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,10 @@
---#!/depot/tcl/src/expect/e --
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
--+
-- # Description: Simple fragment to begin a telnet daemon
-- # For more information, see Chapter 17 of "Exploring Expect"
-- # Author: Don Libes, NIST
--Index: expect5.45/example/irsh
--===================================================================
----- expect5.45.orig/example/irsh	2010-07-02 09:03:31.000000000 -0700
--+++ expect5.45/example/irsh	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expect --
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- # Do rsh interactively.  For example, consider the following command:
-- #    rsh <remote> ls -l "|" more
--Index: expect5.45/example/passwd.cgi
--===================================================================
----- expect5.45.orig/example/passwd.cgi	2000-01-06 15:22:07.000000000 -0800
--+++ expect5.45/example/passwd.cgi	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expect --
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- # This is a CGI script to process requests created by the accompanying
-- # passwd.html form.  This script is pretty basic, although it is
--Index: expect5.45/example/passwdprompt
--===================================================================
----- expect5.45.orig/example/passwdprompt	2003-09-05 12:01:59.000000000 -0700
--+++ expect5.45/example/passwdprompt	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expect
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- # This script prompts for a passwd from stdin while echoing *'s
-- 
--Index: expect5.45/example/reprompt
--===================================================================
----- expect5.45.orig/example/reprompt	2000-01-06 15:22:07.000000000 -0800
--+++ expect5.45/example/reprompt	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expect --
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- # Name: reprompt
-- # Description: reprompt every so often until user enters something
--Index: expect5.45/example/term_expect
--===================================================================
----- expect5.45.orig/example/term_expect	2005-02-15 10:11:31.000000000 -0800
--+++ expect5.45/example/term_expect	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expectk
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec wish "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- # Name: tkterm - terminal emulator using Expect and Tk text widget, v3.0
-- # Author: Don Libes, July '94
--Index: expect5.45/example/vrfy
--===================================================================
----- expect5.45.orig/example/vrfy	2010-07-02 09:03:31.000000000 -0700
--+++ expect5.45/example/vrfy	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,9 @@
---#!/depot/path/expect -f
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
-- 
-- 
-- # separate address into user and host
--Index: expect5.45/example/xrlogin
--===================================================================
----- expect5.45.orig/example/xrlogin	2000-01-06 15:22:08.000000000 -0800
--+++ expect5.45/example/xrlogin	2013-11-01 17:35:19.821318341 -0700
--@@ -1,4 +1,10 @@
---#!/depot/path/expect --
--+#!/bin/sh
--+# -*- tcl -*-
--+# The next line is executed by /bin/sh, but not tcl \
--+exec tclsh "$0" ${1+"$@"}
--+
--+package require Expect
--+
-- # xrlogin - rlogin but with current DISPLAY
-- #
-- # You can extend this idea to save any arbitrary information across rlogin
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
-index e27b0d9d71..4214ab0f27 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -21,7 +21,6 @@ inherit autotools update-alternatives
- SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://0001-configure.in.patch \
-            file://0002-tcl.m4.patch \
--           file://01-example-shebang.patch \
-            file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
-            file://0001-Resolve-string-formatting-issues.patch \
-            file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch \
-@@ -39,7 +38,6 @@ do_install:append() {
- 	install -d ${D}${libdir}
-         install -m 0755 ${D}${libdir}/expect${PV}/libexpect*.so   ${D}${libdir}/
-         install -m 0755 ${S}/fixline1           ${D}${libdir}/expect${PV}/
--        install -m 0755 ${S}/example/*          ${D}${libdir}/expect${PV}/
-         rm ${D}${libdir}/expect${PV}/libexpect*.so
-         sed -e 's|$dir|${libdir}|' -i ${D}${libdir}/expect${PV}/pkgIndex.tcl
- }
--- 
-2.20.1
+On Wed, 2021-11-17 at 16:07 +0100, Alexander Kanavin wrote:
+>=20
+>=20
+> On Wed, 17 Nov 2021 at 15:59, Luca Boccassi <luca.boccassi@gmail.com>
+> wrote:
+> > On Wed, 2021-11-17 at 13:53 +0100, Alexander Kanavin wrote:
+> > > Shouldn't this be enabled in regular yocto builds first, e.g.
+> > allow
+> > > systemd-native and then add the needed checks to systemd.bbclass?
+> > > Maybe nativesdk support isn't then needed at all?
+> > >=20
+> > > Alex
+> >=20
+> > I'm not sure I follow, that would break the build? These changes
+> > are
+> > necessary to make it work. I am including the package in the local
+> > sdk
+> > configuration, without these patches it does not build.
+> >=20
+>=20
+>=20
+> What I'm trying to say is running those systemd analyzers should be
+> enabled in regular yocto builds first before it's enabled in SDKs.
+> It's not a good idea to have a feature that is available in SDKs but
+> not available in direct use of bitbake to build recipes.
+>=20
+> Alex
+
+But it is already available? And it has been for a long time:
+
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/syste=
+md/systemd_249.5.bb#n411
+
+> >=20
+> > > On Wed, 17 Nov 2021 at 13:32, Luca Bocassi
+> > <luca.boccassi@gmail.com>
+> > > wrote:
+> > > > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> > > >=20
+> > > > systemd-analyze in the next release will gain the ability to
+> > > > run the 'security' and 'verify' verbs offline, on local units.
+> > > > This is very useful at build time and/or in CI systems to
+> > detect
+> > > > errors and issues before changes are deployed, as a static
+> > > > analyzer tool.
+> > > > This series enables building the systemd recipe for the
+> > nativesdk
+> > > > targets, so that systemd-analyze can be included in the SDK and
+> > > > called by users/build systems/CI systems.
+> > > >=20
+> > > > Luca Boccassi (8):
+> > > > =C2=A0 systemd: skip chown when building for nativesdk
+> > > > =C2=A0 systemd: skip postinst in nativesdk builds
+> > > > =C2=A0 systemd: remove /var in nativesdk builds
+> > > > =C2=A0 volatile-binds: remove /var in nativesdk builds
+> > > > =C2=A0 volatile-binds: add nativesdk
+> > > > =C2=A0 kbd: add nativesdk
+> > > > =C2=A0 os-release: add nativesdk
+> > > > =C2=A0 systemd: add nativesdk
+> > > >=20
+> > > > =C2=A0meta/recipes-core/kbd/kbd_2.4.0.bb=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 |=C2=A0 2 +-
+> > > > =C2=A0meta/recipes-core/os-release/os-release.bb=C2=A0 =C2=A0 |=C2=
+=A0 2 ++
+> > > > =C2=A0meta/recipes-core/systemd/systemd-conf_1.0.bb |=C2=A0 2 ++
+> > > > =C2=A0.../systemd/systemd-serialgetty.bb=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 |=C2=A0 2 ++
+> > > > =C2=A0meta/recipes-core/systemd/systemd_249.5.bb=C2=A0 =C2=A0 | 29
+> > > > +++++++++++++++++--
+> > > > =C2=A0.../volatile-binds/volatile-binds.bb=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 7 +++++
+> > > > =C2=A06 files changed, 41 insertions(+), 3 deletions(-)
+> > > >=20
+> >=20
+
+
+--=-Auq8ln6hRtmOVL/N51R6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmGVKakACgkQKGv37813
+JB6SXxAAyShxpq+lUYY5A43CoDWxaIIRSjXtev7kOZUFztAICg29A4AV7zoUwbVx
+Ofn5c+09cjLW6JVlo3IXL3K2HPiu5V6USZAqUnOvllKgvIIXo4qSHbEbZ3KQw992
+uogN8ZF/fI8Z3iv1cIrlQFXKRaGIu1wn4UUDD5wFoa3RgTo6/znAYkXvXOQN9w2A
+QmCBKh4lr3/ejtBisUbM1SfD9sRA8ppV2p33yX797Ic9aVZ1pbtGPuvv+vzuEzN2
+ZH+MVfN5kVjm6x+HCbmnN2y80VUCyDUurUw0VZSGlmGX7gCCof3aeSMTjPrixmUQ
+3PYjI1LGVGJgT6qYH+QIS9y/+OWBELj/q0hZrSnOB9cOwDLaW2+EMA40f/nNFo1A
+fl+OjSwF+O+ecwevh/xA3rKzZdS0R7bzkxWJ2MTfh1KZZI9KRmUJD/poPoxew2H2
+Xp/Q+0zGrhgRbd/ZeDby0lsseJIVPKc1+IBUNGPZM1rjXaxWhXROpKrIECNB6sLp
+QQkM01f1qgGA65a/mz4DBNnD7rM4JN1BfirXGzpR0UIPKk7Ake5k2Q6vOiIf1W/1
+Kqd7b6YYt0DIU1nNLSuqY1I06kU9qINvCw+tFgfi3byDXYtXONhPqFQC5Ywx5fKq
+q4A9wuM7RldUS2Hkorv1JCvGLOfgnynO3VLBU+nEnltT6udri4k=
+=DVEY
+-----END PGP SIGNATURE-----
+
+--=-Auq8ln6hRtmOVL/N51R6--
 
 
