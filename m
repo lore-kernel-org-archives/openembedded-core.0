@@ -1,100 +1,124 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BAEDC433EF
-	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 17:41:01 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.10466.1637170860528315557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BCB2C433F5
+	for <webhook@archiver.kernel.org>; Wed, 17 Nov 2021 17:41:34 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web10.10483.1637170893416962115
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 09:41:00 -0800
+ Wed, 17 Nov 2021 09:41:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fQFwHtn6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id t30so6176627wra.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b0hkAraZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id s9so2551607qvk.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Nov 2021 09:41:00 -0800 (PST)
+ Wed, 17 Nov 2021 09:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=u2zjoF3+Dvwn2sWuQ7td19tGxW1UrNZpmCbj/IG+uL0=;
-        b=fQFwHtn6EsgADWXuf6aYztmZ0xqdbsCXEkLaE2jN+JxciZOn4e2bVmP31lAIsiIck6
-         /MfafAmCCVZ79ik3g6tWssdKVULWIk50JpF6u3jwQeepTAOFdQUPTU+hrCqxg321oMoF
-         hs/Gn+thC+ubYfTjCEei2/cHfV/mtKFGlzz4U=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ivjRUnCHd7ZBmn4teHJz2iFrmUEtT+4fGyJadsb9+C8=;
+        b=b0hkAraZLu/b7kl4nGSobdpZJJ24w7g7tRlz4dEQysKh9xlbFLYcqw2zZR4adLMJan
+         yKHJJ0E/kh/OrTNGGC24oSRyap9FFwMAEBmcMVfTlUM7tOpDi4OocpAdwzgPFb/8ZTwR
+         bz8Ee59gFY5OjiMTgPsXu6OxkLEqwW6H377ud3pnFBumna9tg/Lxg00HeZLUxu7utUBc
+         H8jYp+NJQ9HLEpJ8+YCuC6yUHQMfu5nGHVDx1RWMaLAjKiA31/05CbXFxbrTjZutYryS
+         hxkHqe02PJV9fbe/+BYAoXHGnsmrCWVJuXyb7qPdb8qBpZYazPr/cFnuFRKRpqpIA1K1
+         fZ1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=u2zjoF3+Dvwn2sWuQ7td19tGxW1UrNZpmCbj/IG+uL0=;
-        b=yYlpShR8Pq3zi1TvApIlI3/nocGw9hAuqhlYvr+p5XffD995XdVeS3zct/S9I/WBDl
-         NbP0ji6Ac6hffgZacMy4NCoDG65NWp5tY0+7Aq6fFLIGZsK+sO4L3TES7U3pQ2HqdJEm
-         sV3smTk7lJC+Vu7rG5E8KGfpqL0jf7O/mk4wspYWmWAXTy70TKKYD8XLDMReURQ0Wgyz
-         sTJjUTtoM8oRp6CROPV5LgxNPvnQZNOCuzhSTN9cjdTjyo6Cia1KKVde5dwMdZdT8inA
-         spulz/VgctyH/FyJWAN2j3J6Z7PlYpEed1yazcfEi06ykL04ni9jO+BD2PR9dZtWOuco
-         iagw==
-X-Gm-Message-State: AOAM530KvEslwtVfGgCctzwSv3M3+MQCW/W20ygMc+Zzipp/2Ym36cJr
-	SfKvasQ9UDFyvGFheh2XL7lFYfOQIN72XQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ivjRUnCHd7ZBmn4teHJz2iFrmUEtT+4fGyJadsb9+C8=;
+        b=RZWucfc5tS3UgIPAm/D6sy+dUa1Le0PnWhfJykNbRyDSDIPPriXFrHD8PYxYVhnDUa
+         0z6F/BfFhvz37JG08My2L1eqEWhclL30H3Qk0/O76qj4A60g1H1iFnuDxJhqWuQZqYiq
+         lyuZn9xQL8T+cu5f0LvZQ/Mf419FysMpz+jh457XD5hqK3VI/Ey79t7Go92oht4B4B2p
+         wQAF6eo5D9fzFtGP/kJitYbeNR8JWJqeZ0CzpuX5SnyWu4g5m0bp3qHyydhRLaMu0xmN
+         FO6+KXDczBbLOTdiVv5X67FNQExJsS4T6PI1z2RhYmVsFiz30qsGEFSMx7ZgbMvESQsx
+         SdBw==
+X-Gm-Message-State: AOAM530mEvFfx3qmCOfLm90Hv1IWTOQeAgavKaoTFoVMhFO7mIY7RKd4
+	cjHsUWHTT39la70yJCifluUr1ziSx1f6N/QYVfI=
 X-Google-Smtp-Source: 
- ABdhPJyPLqYVkjoF2BrbeFjfPKVVgcm9b5leLhgDGMivXVcmAP+V/5QSzjwiKElrA76zdEzW7yqaIQ==
-X-Received: by 2002:adf:df0d:: with SMTP id
- y13mr22573197wrl.176.1637170858916;
-        Wed, 17 Nov 2021 09:40:58 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:41f4:5ebc:325d:efc3?
- ([2001:8b0:aba:5f3c:41f4:5ebc:325d:efc3])
-        by smtp.gmail.com with ESMTPSA id
- m22sm405003wmq.38.2021.11.17.09.40.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 09:40:58 -0800 (PST)
-Message-ID: 
- <24a38d0e0d0dddc136c3840cecd18c88236d9b20.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 5/8] volatile-binds: add nativesdk
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Luca Bocassi <luca.boccassi@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: paul.eggleton@microsoft.com
-Date: Wed, 17 Nov 2021 17:40:57 +0000
-In-Reply-To: <20211117123201.111905-6-luca.boccassi@gmail.com>
-References: <20211117123201.111905-1-luca.boccassi@gmail.com>
-	 <20211117123201.111905-6-luca.boccassi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJxBevswiz9wUlzx9NU5pBlknzMHS5rTT6zOV4jJWKLBOZsfjaFrQdQYPUggDsh409SKz8dslDbAb4ic9UOPG+M=
+X-Received: by 2002:a05:6214:2b0f:: with SMTP id
+ jx15mr57908607qvb.62.1637170892558;
+ Wed, 17 Nov 2021 09:41:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211117165646.70015-1-raj.khem@gmail.com>
+ <20211117165646.70015-2-raj.khem@gmail.com>
+ <dbfbf7aee5bb837deab0f04d16bfe60f514fb72f.camel@linuxfoundation.org>
+In-Reply-To: 
+ <dbfbf7aee5bb837deab0f04d16bfe60f514fb72f.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 17 Nov 2021 09:41:06 -0800
+Message-ID: 
+ <CAMKF1sr0f61MFBwQ=xqwe34=znuR2HgtOnHKjb_ncQhU0fMaWQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] glibc: Append files instead of making then
+ part of main SRC_URI
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 17:41:01 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Nov 2021 17:41:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158440
+ https://lists.openembedded.org/g/openembedded-core/message/158441
 
-On Wed, 2021-11-17 at 12:31 +0000, Luca Bocassi wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
->  meta/recipes-core/volatile-binds/volatile-binds.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
-> index 66e28f4fc9..0f27353031 100644
-> --- a/meta/recipes-core/volatile-binds/volatile-binds.bb
-> +++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
-> @@ -84,3 +84,5 @@ do_install[dirs] = "${WORKDIR}"
->  do_install_append_class-nativesdk () {
->      rm -rf ${D}/var
->  }
-> +
-> +BBCLASSEXTEND = "nativesdk"
+On Wed, Nov 17, 2021 at 9:38 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2021-11-17 at 08:56 -0800, Khem Raj wrote:
+> > This will help later with using devupstream
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/glibc/glibc_2.34.bb | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
+> > index 72064772789..778898f1979 100644
+> > --- a/meta/recipes-core/glibc/glibc_2.34.bb
+> > +++ b/meta/recipes-core/glibc/glibc_2.34.bb
+> > @@ -29,10 +29,6 @@ NATIVESDKFIXES:class-nativesdk = "\
+> >  "
+> >
+> >  SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+> > -           file://etc/ld.so.conf \
+> > -           file://generate-supported.mk \
+> > -           file://makedbs.sh \
+> > -           \
+> >             ${NATIVESDKFIXES} \
+> >             file://0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
+> >             file://0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch \
+> > @@ -60,6 +56,12 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+> >             file://0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+> >             file://CVE-2021-43396.patch \
+> >             "
+> > +# Use append instead of += that way patch is applied with devupstream too
+> > +SRC_URI:append = "\
+> > +           file://etc/ld.so.conf \
+> > +           file://generate-supported.mk \
+> > +           file://makedbs.sh \
+> > +"
+> >  S = "${WORKDIR}/git"
+> >  B = "${WORKDIR}/build-${TARGET_SYS}"
+> >
+>
+> I'm afraid I really dislike these kinds of patches. We need to do something with
+> our syntax so we don't have to jump through weird hoops like this. These kind of
+> changes look really fragile and easy to break.
 
-Is there any useful component left in volatile-binds in the SDK case? I don't
-think we should be extending this as the recipe makes no sense. Rather nativesdk
-variants probably shouldn't be depending upon it?
+what do you suggest as a better approach
 
-Cheers,
-
-Richard
-
+>
+> Effectively it is an arms race to turn everything into an append, then nothing
+> can disable it.
+>
+> Cheers,
+>
+> Richard
+>
 
