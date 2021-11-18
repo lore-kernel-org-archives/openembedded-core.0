@@ -1,75 +1,77 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07933C433F5
-	for <webhook@archiver.kernel.org>; Thu, 18 Nov 2021 10:39:37 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web12.19.1637231976346507390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E01C433FE
+	for <webhook@archiver.kernel.org>; Thu, 18 Nov 2021 10:40:08 +0000 (UTC)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com
+ [209.85.221.173])
+ by mx.groups.io with SMTP id smtpd.web08.5.1637232007081076683
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Nov 2021 02:39:36 -0800
+ Thu, 18 Nov 2021 02:40:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mZqwLDnb;
- spf=pass (domain: gmail.com, ip: 209.85.216.43,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- gf14-20020a17090ac7ce00b001a7a2a0b5c3so7810211pjb.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LYxLVk3M;
+ spf=pass (domain: gmail.com, ip: 209.85.221.173,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f173.google.com with SMTP id q21so3511598vkn.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Nov 2021 02:39:36 -0800 (PST)
+ Thu, 18 Nov 2021 02:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MqGsFFX0mMTGDzZF1qByAG1Uw8/WPJND5VN6hFwgscA=;
-        b=mZqwLDnbxPGFQI7mZj5YFlIgyKN45NvaLPmSOjuxzKZcLldGAphCcxnn37a6elO0E8
-         3VzXtKhBzN5aADmXn2I68bEPPFd1/tyOJAjiCxKdIg5RGFvMA2ODufuWSQwuA0+xfaDc
-         cfHxEZjs0npHhVhB8NiYhOVeeTXlglJfocpRw/U83YiIIhnOm5SUrxXHaAhm6drdzXLZ
-         ElhBCslz3/EDve6uklVig4ZOpux9PkOpfT0RikFJ3MlMUpbS5Yetfwit73zepH7zgr00
-         eooaiikpa3O/c11Z9yQLBhgHZ2PqfO6QQJ2utLAodAxzfiXXOBe8vnEGgoWiFrXLKVfn
-         OscQ==
+        bh=rJBOZs4+/2PdBIMACuldtdpsVGoaQP1vzVrVJwWL/Lk=;
+        b=LYxLVk3MKe5MiCgrbZuavpPKa4BX+orSEn1OmSHsFYdT8rlPcd/DrGd/lttBDEKPni
+         h3/8FonnsMA5QWbL47FdJsbBHJMLO1jXDHIuNotsk16X5vRSvARGrLSH+JUxPEpZ6nuL
+         KDzqBNN/3CFFtSyw38uGBnjKw+m663nGJpf5CBc6Y0yVG1Xy8Cs9fUAduC6nFUWC8rjY
+         06JHLjhSv0CkJUYQ+fry0a73V95ScOcCbDt2k9YLmWSMHePsAfpuQba/s8jjXWot7G0E
+         N8vCuUM2FPHADZ/F0G6fu4u7N2XRt2ddkepfWpGLVkxAsh//CSauvFZ9Wx5sLMWoNK6j
+         rN8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MqGsFFX0mMTGDzZF1qByAG1Uw8/WPJND5VN6hFwgscA=;
-        b=jjxOQU25KM4Vw9bPk25fS19C79LAFGGdAJTWgb8l2gFjrYuf6huDaMtDh+qZfoJPdf
-         7GoqCo+Ptwd2UhFgLbhbqZf83qHmWbKoRCRqykq/D8t2MZaEewbb7/jRyfMDQniINtoy
-         650KVMxTrHKGS0FHTQIP3MUdYm2+Au0RY7z92DfTUST0OUhVpfdPG9WClSzkQd4DfjfM
-         etoeFj+s7vGEk3Mib9TusBALd1EWQKI4LZpLVTFi979ztFHW5/bhwp+7eexd4DdorAln
-         NTAlLIkcHTcAss5hVabATrXFEpCEhLbaJjOkdpz8ZbhjoPmJtsv0PUw4jxZ/CgErJsH/
-         /gng==
-X-Gm-Message-State: AOAM531HS2hzsGPLD6TkforJe8Vr5TvzDF0SEKLy2icJ2tdpGFmNcNvV
-	I/acMDLQ/th95hT84HuPG5jZ+Ld0vGKF0Fs3TcM=
+        bh=rJBOZs4+/2PdBIMACuldtdpsVGoaQP1vzVrVJwWL/Lk=;
+        b=3idG1YG/l55EbHbZQwMCbH6tkLqY+OwzxiZ1ByPXBV3RPMdxB31Ig5MIqW61vHYMhu
+         Ej6aHJJvPnkc7ETNsly6tAlugv9hBneFujhFHbI8tbgXd1VdR/M0xTtO4bnAZH20wSJb
+         W5jg9Dp+XrlRe0dRZYI+EYCWLmWzhfafU839cetON+yVHPYu+54/m/deZlVfxlEP13be
+         3tzTZkgMAKNzuNfpu4Ct24A90nsw32iPV52JvF8QC41pPEtZRpZon6fBvvaSzJQXjAcQ
+         hL27z8MtauIfBEOreJa4WSx8eq1boiEsHavZOLhP9OUIphZGoxAnR3Z3t7VIBCT9vKN9
+         AR1A==
+X-Gm-Message-State: AOAM533K2X9sVifsoFlCt9op/SZkPnI9WcmUOCjhi24jH75C4RiZR5qJ
+	+mfLX3QbE3D7sl5yvsWMEUfbn0HQ7rZUM1pvInE=
 X-Google-Smtp-Source: 
- ABdhPJwuLUp/YyIJqE4N9MqiFezxT8ebTX1EL4IUYq6uWE8qFsU3jkKeHl68s8VWaAcOpA01YAiinnY3EV7sgY0rbO8=
-X-Received: by 2002:a17:90a:e60a:: with SMTP id
- j10mr9311135pjy.169.1637231975804;
- Thu, 18 Nov 2021 02:39:35 -0800 (PST)
+ ABdhPJxr9D8SarjvKHoNizEVFy8Qm7f33S65x+biSLrAXWmwTDUnuNUxfb3euWym5K1W8VvBld6w7OLUhl0Znok7xSQ=
+X-Received: by 2002:a05:6122:907:: with SMTP id
+ j7mr103159449vka.12.1637232005719;
+ Thu, 18 Nov 2021 02:40:05 -0800 (PST)
 MIME-Version: 1.0
 References: <8ca5808d-1fd6-751-f9c9-b99ab8242cd6@crashcourse.ca>
 In-Reply-To: <8ca5808d-1fd6-751-f9c9-b99ab8242cd6@crashcourse.ca>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 18 Nov 2021 11:39:24 +0100
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 18 Nov 2021 11:39:54 +0100
 Message-ID: 
- <CA+chaQeUB2ew1=odQPwXbsXDL62LoNw3aZOR8x69oeHrksPr5w@mail.gmail.com>
+ <CANNYZj-EPE7=dax-6SOEofne_R8xwUwMUGqWVXtCfox=zbq4RA@mail.gmail.com>
 Subject: Re: [OE-core] how to "prune" dead sstate-cache?
 To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000055321c05d10dc653"
+Content-Type: multipart/alternative; boundary="0000000000001da9e605d10dc871"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Nov 2021 10:39:37 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Nov 2021 10:40:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158469
+ https://lists.openembedded.org/g/openembedded-core/message/158470
 
---00000000000055321c05d10dc653
+--0000000000001da9e605d10dc871
 Content-Type: text/plain; charset="UTF-8"
 
-openembedded-core/scripts/sstate-cache-management.sh
+Not really, no. It's also important to stop all builds while this is
+running - sstate artefacts vanishing during a build will cause chaos.
 
-On Thu, Nov 18, 2021 at 11:38 AM Robert P. J. Day <rpjday@crashcourse.ca>
+Alex
+
+On Thu, 18 Nov 2021 at 11:38, Robert P. J. Day <rpjday@crashcourse.ca>
 wrote:
 
 >
@@ -93,24 +95,26 @@ wrote:
 > Links: You receive all messages sent to this group.
 > View/Reply Online (#158468):
 > https://lists.openembedded.org/g/openembedded-core/message/158468
-> Mute This Topic: https://lists.openembedded.org/mt/87140377/3617156
+> Mute This Topic: https://lists.openembedded.org/mt/87140377/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
+> alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
 >
 
---00000000000055321c05d10dc653
+--0000000000001da9e605d10dc871
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">openembedded-core/scripts/sstate-cache-management.sh<br></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Thu, Nov 18, 2021 at 11:38 AM Robert P. J. Day &lt;<a href=3D"mailto:rpjda=
-y@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><br>
+<div dir=3D"ltr"><div>Not really, no. It&#39;s also important to stop all b=
+uilds while this is running - sstate artefacts vanishing during a build wil=
+l cause chaos.</div><div><br></div><div>Alex<br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 18 Nov 2021 =
+at 11:38, Robert P. J. Day &lt;<a href=3D"mailto:rpjday@crashcourse.ca">rpj=
+day@crashcourse.ca</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><br>
 =C2=A0 assuming my (correct) understanding of sstate-cache is that, as time=
 <br>
 goes by, it just gets larger and larger, it will increasingly contain<br>
@@ -134,19 +138,19 @@ Links: You receive all messages sent to this group.<br>
 View/Reply Online (#158468): <a href=3D"https://lists.openembedded.org/g/op=
 enembedded-core/message/158468" rel=3D"noreferrer" target=3D"_blank">https:=
 //lists.openembedded.org/g/openembedded-core/message/158468</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87140377/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87140377/3617156</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87140377/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87140377/1686489</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
 Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
 unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div>
 
---00000000000055321c05d10dc653--
+--0000000000001da9e605d10dc871--
 
