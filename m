@@ -1,128 +1,169 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26325C433EF
-	for <webhook@archiver.kernel.org>; Fri, 19 Nov 2021 11:05:44 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web09.7587.1637319942675308737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E78A5C433EF
+	for <webhook@archiver.kernel.org>; Fri, 19 Nov 2021 11:26:28 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.7636.1637321187780692294
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Nov 2021 03:05:43 -0800
+ Fri, 19 Nov 2021 03:26:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ns4xwiJ/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id o29so8113450wms.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aqXY2inv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id r25so4451720edq.7
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Nov 2021 03:05:42 -0800 (PST)
+ Fri, 19 Nov 2021 03:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rO1/fB8jav1kvZ0t1g4hgxXZjt4Up/ihu9HHdE/lr6s=;
-        b=Ns4xwiJ/S7RozpSnxjPTbytqgDul8E3nhoqBwFQRsrR8sFuhy6fa964dUdznLCG1Q7
-         PkahLsS3wPEJtYQwUSeBpTItsiu+/hCmD3l3VSc8Q7El7xMaBpHGmyQM1LjXVmCKtt7M
-         MMXSugOjCPEXlyZqRD3lXJvhlMFdGXr/dT0bk=
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=SobXb+z/TO6Aw84RdsIEqUEhwtWJXEhfreVt46LUpxA=;
+        b=aqXY2invHsB1osfTgt9J7tD9EKh3vP7GC8wclPgSmCFZMczsRkb+uf7emKdPT79RrC
+         pKjetm4boHcstt/LU3YO/ZV9ctnni7DQG402goCx5w2LxlPp9Ebfc+AQcni0w4B8pE4G
+         jovH8F0yGnZKFFRJ3QwEV7lp8w9XOuZg01J76O3K8jNY85FhkQ0mdN7HQDTxhmm4CO8O
+         a6goD794jWQT9dgOUb6XTM/htdzzYRqeW3kGbteDV96gfcCKULxJ+y4bqQ2TTus3tr6F
+         Uz0t9K8hqLpjD4lGikEh0EcIQEKwkekT+dreC3c/sAWNoXrz7E1Tw1LmPZ+j1Rtyfvfk
+         m29g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rO1/fB8jav1kvZ0t1g4hgxXZjt4Up/ihu9HHdE/lr6s=;
-        b=NPEzISTWHsfmEq0w8xSrVRd7oEUn9wOnlDB64xAsff2ucmRMINLn1j8d8min4oZTp5
-         tj7+bT1QIS1mwq52T+87sm7eJWCkD+3C8jV/gLoz9Bjl4yBHHA2CgY+ujtzT6ZoX/X+J
-         058U1G1VUfz1H0UnL0edRqnMIYsHAgMhNdoVhlSdCsXRqddSqft2sztca7sl3LXO2kzS
-         Kl7BWV2eQRYp+8gem0hnZGjB0+dMjcJTI1/fBSDwqTwoUxoxLVoifPjRHGmlnxhfdHrO
-         UdWc8hykysJZtKYUE+MBxTf/gh+Vi45L2oXFslM4VGvrQo0eRrTqo4yiosNGMQmo7Zbp
-         Ithg==
-X-Gm-Message-State: AOAM5335+msopwQN+JCZmX6A+f+wcvzZWHCY+/z3Aq8TkK8TEq1pHH83
-	SPumtw6dhR9zSotUkE/2t47dyyC+vvoFYg==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=SobXb+z/TO6Aw84RdsIEqUEhwtWJXEhfreVt46LUpxA=;
+        b=rqETQ1kMZs1ETl3y5wBz//QVTYB0nIWJYOF8QkFTyIjjikjFqxVTV6qQcXLIkLcGU1
+         AmwE60h3DabB83uyJHixlxwc26+VdMbQyOnnnKoCEL5lttGSzV/dmiiCWOQ8eiQ2HbtF
+         uNXhk4b2JX44rFtFaiJ21hDFuNoRJHehH2DMIten5MSntVXPX3pzKIHDxbnJdD3QV/Vr
+         sBtLxNAr17ZtdkPuJQhn/iaHUFf3U5N5pIDybinjmhdmZxtVZBr7umXINxFoLlSJPl77
+         cWgOTUVoVY3bek4jtHaVsrbNsiOuYVVc69+DLSKT+jjRgau7B5lNG0dFGD0PW45Rhyms
+         CzwQ==
+X-Gm-Message-State: AOAM532knSmh4umywHx07mtNio8+ZKlY5+rLDg2snnr+baG0Y7VKUJ+t
+	ertI3t3JqmGy/T2Yk+dfqwk=
 X-Google-Smtp-Source: 
- ABdhPJxDqLjpblR4SbSbOwkWHmQKTnQaqIlw4TiCK5sV3rADTtJl96Vp3/y6ceOyrNKbxZufGjcCsw==
-X-Received: by 2002:a7b:c452:: with SMTP id l18mr5788400wmi.46.1637319940756;
-        Fri, 19 Nov 2021 03:05:40 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fa24:506c:323a:9c49])
+ ABdhPJzcZLMFxbbT2MsXzII1rKKxo2I4EDeOsqlvd4ei0sMcrSjK8xz/Z5UKix6s9x0L03DTFXEqCg==
+X-Received: by 2002:a17:907:6ea8:: with SMTP id
+ sh40mr6735187ejc.53.1637321185851;
+        Fri, 19 Nov 2021 03:26:25 -0800 (PST)
+Received: from [192.168.1.112] ([137.220.125.106])
         by smtp.gmail.com with ESMTPSA id
- d9sm2536186wre.52.2021.11.19.03.05.40
-        for <openembedded-core@lists.openembedded.org>
+ d3sm1340656edx.79.2021.11.19.03.26.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Nov 2021 03:05:40 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc: Tweak Upstream-Status formatting
-Date: Fri, 19 Nov 2021 11:05:39 +0000
-Message-Id: <20211119110539.4095135-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+        Fri, 19 Nov 2021 03:26:25 -0800 (PST)
+Message-ID: <7d5674bcfdd7de854cf8bfa431c1c46373f426d3.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 0/8] systemd: allow building for nativesdk
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@microsoft.com
+Date: Fri, 19 Nov 2021 11:26:23 +0000
+In-Reply-To: <2f667850-b6f6-e7e8-5aef-41b2d0e64b5f@windriver.com>
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+	 <2f667850-b6f6-e7e8-5aef-41b2d0e64b5f@windriver.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-x0c/PAz/pwdjVCtAdiqd"
+User-Agent: Evolution 3.38.3-1+plugin 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Nov 2021 11:05:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Nov 2021 11:26:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158503
+ https://lists.openembedded.org/g/openembedded-core/message/158505
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch | 2 +-
- meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch | 2 +-
- meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch | 2 +-
- meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
-index 6b1d4e3fce4..e4aee10e370 100644
---- a/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
-@@ -20,7 +20,7 @@ gcc:
- 	the command line.
- 
- CVE: CVE-2021-35465
--Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=3929bca9ca95de9d35e82ae8828b188029e3eb70]
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=3929bca9ca95de9d35e82ae8828b188029e3eb70]
- Signed-off-by: Pgowda <pgowda.cve@gmail.com>
- 
- ---
-diff --git a/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
-index 98841e6d7c1..e09818fecf7 100644
---- a/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
-@@ -15,7 +15,7 @@ libgcc:
- 	Add vlldm erratum work-around.
- 
- CVE: CVE-2021-35465
--Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=574e7950bd6b34e9e2cacce18c802b45505d1d0a]
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=574e7950bd6b34e9e2cacce18c802b45505d1d0a]
- Signed-off-by: Pgowda <pgowda.cve@gmail.com>
- 
- ---
-diff --git a/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-index d87be198669..c7a7c76bf87 100644
---- a/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-@@ -16,7 +16,7 @@ gcc:
- 	use when erratum mitigation is needed.
- 
- CVE: CVE-2021-35465
--Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=30461cf8dba3d3adb15a125e4da48800eb2b9b8f]
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=30461cf8dba3d3adb15a125e4da48800eb2b9b8f]
- Signed-off-by: Pgowda <pgowda.cve@gmail.com>
- 
- ---
-diff --git a/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-index 12dfe682fa7..9dd6a313c2d 100644
---- a/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-@@ -17,7 +17,7 @@ gcc/testsuite:
- 	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c: Likewise.
- 
- CVE: CVE-2021-35465
--Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=809330ab8450261e05919b472783bf15e4b000f7]
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=809330ab8450261e05919b472783bf15e4b000f7]
- Signed-off-by: Pgowda <pgowda.cve@gmail.com>
- 
- ---
--- 
-2.32.0
+--=-x0c/PAz/pwdjVCtAdiqd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2021-11-19 at 09:43 +0800, ChenQi wrote:
+> Hi Luca,
+>=20
+> If the real useful part is only about systemd-analyze in case of
+> nativesdk/native, I'd suggest adding systemd-analyze-native or
+> nativesdk-systemd-analyze instead of extending the current systemd
+> recipe.
+> This is because systemd has a whole bunch of dependencies which
+> basically make no sense in case of native/nativesdk. Looking at the
+> src/analyze/meson.build file, I guess it could be built
+> independently.
+>=20
+> Regards,
+> Qi
+
+Hi,
+
+Building individual binaries like that is not supported, so it cannot
+work.
+
+> On 11/17/21 8:31 PM, Luca Bocassi wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+>=20
+> systemd-analyze in the next release will gain the ability to
+> run the 'security' and 'verify' verbs offline, on local units.
+> This is very useful at build time and/or in CI systems to detect
+> errors and issues before changes are deployed, as a static
+> analyzer tool.
+> This series enables building the systemd recipe for the nativesdk
+> targets, so that systemd-analyze can be included in the SDK and
+> called by users/build systems/CI systems.
+>=20
+> Luca Boccassi (8):
+> =C2=A0=C2=A0systemd: skip chown when building for nativesdk
+> =C2=A0=C2=A0systemd: skip postinst in nativesdk builds
+> =C2=A0=C2=A0systemd: remove /var in nativesdk builds
+> =C2=A0=C2=A0volatile-binds: remove /var in nativesdk builds
+> =C2=A0=C2=A0volatile-binds: add nativesdk
+> =C2=A0=C2=A0kbd: add nativesdk
+> =C2=A0=C2=A0os-release: add nativesdk
+> =C2=A0=C2=A0systemd: add nativesdk
+>=20
+> =C2=A0meta/recipes-core/kbd/kbd_2.4.0.bb            |  2 +-
+> =C2=A0meta/recipes-core/os-release/os-release.bb    |  2 ++
+> =C2=A0meta/recipes-core/systemd/systemd-conf_1.0.bb |  2 ++
+> =C2=A0.../systemd/systemd-serialgetty.bb            |  2 ++
+> =C2=A0meta/recipes-core/systemd/systemd_249.5.bb    | 29
+> +++++++++++++++++--
+> =C2=A0.../volatile-binds/volatile-binds.bb          |  7 +++++
+> =C2=A06 files changed, 41 insertions(+), 3 deletions(-)
+>=20
+> =C2=A0
+> =C2=A0
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158384):=20
+> https://lists.openembedded.org/g/openembedded-core/message/158384
+> Mute This Topic: https://lists.openembedded.org/mt/87118013/3618072
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> [Qi.Chen@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
+> =C2=A0
+
+
+--=-x0c/PAz/pwdjVCtAdiqd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCSqx93EIPGOymuRKGv37813JB4FAmGXid8ACgkQKGv37813
+JB4D0hAArUjlWZA9fn1ECgyuV5JH7TJUYe1pQ1SpWDUqmkJiu8u41JHtqGvFKnon
+lkNF5qox1xFR8zskdkCOosPRAWLj2V+Vli4LGRCs10VuF/6OXoCBThH0CAyeCu5v
+pIIIr+9sRE00FMC7rHS0wFtWrFmJ9GXsuxuwnHq8Bu8eS5Snz2zHJBt2XXDb/rXr
+V8ZvGfbbUQoekBUkxnPAmllBzWwzFtkY87rxQSz/EqHQFmd2D6zq6jbDqhO4L4Fv
+Zy2G0QopL4XF4Q3snBkQQi3sHau1mb3SD8e1rgPjdcW6Q7mNs85wgpVdRVg/ggHj
+Gv685a2HNxx/JqEbt7jCfZvUlXa6Ne1WkL9Lz4R3OkuzwWh1xcdHbK8Q0wWyXOmE
+MosvFKzsAiEV2tLDK6GfjSvq5OvNOVRJm3gEetF1Ym0SbNGxDWX3gqtPtwisZzPI
+SffdNCFCC5sw3vXNSGt2N+EnjNL2kFnxepfZ1qd4yRuWOsWdRqzJbR/19OXtGnsM
+DB8kX9JaRnVUxpb+aS/PAYq+dHVnda/oMdVquC8TnMTYU4Kww4OZ3ckFHrAz9K4v
+QdkRlDslGGXMAx+gOtmohzFUdeI6gS7iBsKZKzwuZ5hE5mzZi9/9CglDWLxYfPqa
+v6Nwow1ZZqWxZPVINjpn9yeL98s7m1SVrstGXQzUSQTmCvTAQlI=
+=rqMX
+-----END PGP SIGNATURE-----
+
+--=-x0c/PAz/pwdjVCtAdiqd--
 
 
