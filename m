@@ -2,60 +2,60 @@ Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E6AC433FE
-	for <webhook@archiver.kernel.org>; Fri, 19 Nov 2021 11:34:47 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web08.7629.1637321685839166132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FFAC433EF
+	for <webhook@archiver.kernel.org>; Fri, 19 Nov 2021 11:34:48 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.7703.1637321686911459213
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Nov 2021 03:34:46 -0800
+ Fri, 19 Nov 2021 03:34:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JV2yalFX;
- spf=pass (domain: gmail.com, ip: 209.85.208.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Km6YMynO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49,
  mailfrom: luca.boccassi@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id t5so41774602edd.0
+Received: by mail-ed1-f49.google.com with SMTP id w1so41443790edc.6
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Nov 2021 03:34:45 -0800 (PST)
+ Fri, 19 Nov 2021 03:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xTOuBZgp5oGRq1fFxpY5iTn4vt5/2QQJ4TVRvKKsXyM=;
-        b=JV2yalFXDEyt9/XMlBGmKS2Jl6fhn7yOYmOj2cKgCUz5Eq9WKgqL9B3WV8MRyQs0jJ
-         IPeBqKxEAGVPkvClHY8YB5RW4X5tubxUbjGD5Sp2o/VRI6uxFT7Jt8Hl2cMN85cchSlI
-         oKw8mLNEGXcyIwj5+oZ0XMcFfJp2Fx8u3QPvg/K5h/G7q/HyDmw+u1ycw4QHPuTNI6AW
-         SG2PMupxxJ2vbRlnmvYqD5rOg5q6+MZycu/WDmQfaZOL/pwCdISNaxX9NOLaliBFAXXt
-         Vsh72X/SBIdKrdxVWPAbTycyBhLhA056Co9aOHyoMX2zav+Ht2YrJdO9S05VXhfAVu6s
-         X+mQ==
+        bh=jz/0wV9+/ORhjmbPirPzK2Psx99hFxjDy6rDr8HWssk=;
+        b=Km6YMynOIc2w01qD1SO93X5UtRpIQCzDQ/r3y2Z2Ron/hQD/Rh/E6ylYC6hCLPOkVc
+         IYrQgPoJW4nU1QUg5MRTpT6O+E/aGLB80v2uLXqEjudIrbX9HPvX4zJuGn9jr1ppJeb8
+         GYOAgdZdx43+cQYMz5AuREeTKbT5YfUByTNWonv2anabIbshezGbxqHMM7HmPZ6dsFlO
+         jNt9HRTmVxPsb94SirtwhbVoCsQddUlfdoEaxdlIJBiTnWexn4rHUXXT8bcJ36D9/zj1
+         5TtJJ7Xx4byLisefJi94dj1BCGOaMMuMvdHcDmSXfYPhYYiYq89nUlXAoUxp6fw7WeFq
+         AGLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xTOuBZgp5oGRq1fFxpY5iTn4vt5/2QQJ4TVRvKKsXyM=;
-        b=r/hj1r4ZccRWExNdNEb5aUI0cmoOcAwnzhBXdFYUIyDcwfm3kJNEk3TnWeYCX2Nar+
-         9VYIAi8+0pRaUKtXehYlS6oILi0bmTPZklZaw3UQj0k7fr+YQlZRQw+Pl8uWFKQ+aEe4
-         QcQx28KcQ1Kv0VcNMUp9R3iWytHxEI5LsfwhiSr8Vg2ihLuVLOLIbb8nLYyDzpI4UlLH
-         cASJ3IcUWdenEh1AXB/uz6fPRlQpS2D757Qd5yr1zSodQ7rSH5KY8PtOUuPKkatmS0kI
-         ZTG2Hp1QS8J8xA1TiziJzVMMqke4y4mtyKROuftxai0Ml3muhcQbuyKQO0BUBafNsoI5
-         5NLg==
-X-Gm-Message-State: AOAM532lSv/hifI3HDRcoPcwBQj3zLQ/Bfadx8wrbellaxyo2LZRyyKy
-	HXd1KX5QE87rTcCcZbxS/1hGrt/YozMKxQ==
+        bh=jz/0wV9+/ORhjmbPirPzK2Psx99hFxjDy6rDr8HWssk=;
+        b=h3ioQOXIC8ZzoyKb+3ntiYbhpGel5apUZEaLr06qV/4MgLY9ERw0qjnXINZMWkjaaE
+         +zwm4Lm86wAH1tSAWrnxy2qSFSsOQZ1dvvHstZ4HYq8OmLSl8HOf991cl1nlyoXPc68C
+         xm7qbliU0cNpyNmZ2Oqcu+k3x2EzJ9volmDbJxB98LzOWFCzxph/2/vnv/tXHMEc9BWE
+         ry0tqgqxXMfxl0PSSUktu7GyNtRwwbabNaAom6TH6jkVbE/xREvSxw7eflDD4Iovd9zg
+         6mkPomBVFdfdv0v7TUdb1bNUr7TkcBaBXE8PiDBA0iOdP0JaC4ZW4SjdJ2kILT5IFBNg
+         TDHQ==
+X-Gm-Message-State: AOAM532yaWpx7BDg2/OHmwfObTag0I8U1EQISZqAm6GYh9hK8tJdgOSO
+	7dR7cDzAMkwGUX5gPJ7aBbQkrL4pFOtXLw==
 X-Google-Smtp-Source: 
- ABdhPJzsTIW5rtX3F7/fzjKyjke7dw0gC3SBdw09pCxxByBQ+BNAAhv1QRyzN3l8bGfI4C6Y/qT6MQ==
-X-Received: by 2002:a17:906:1913:: with SMTP id
- a19mr6970085eje.484.1637321684206;
-        Fri, 19 Nov 2021 03:34:44 -0800 (PST)
+ ABdhPJzap16gZCSk1OJ6pxuCzXIcmqm9KXfqf1lpZ2cxzFzOps/9AMMAlcRMpL5cxmhLT7TjC5YvTQ==
+X-Received: by 2002:a05:6402:510b:: with SMTP id
+ m11mr23230559edd.165.1637321685204;
+        Fri, 19 Nov 2021 03:34:45 -0800 (PST)
 Received: from localhost ([137.220.125.106])
         by smtp.gmail.com with ESMTPSA id
- e13sm1063540eje.95.2021.11.19.03.34.43
+ d18sm1347483edj.23.2021.11.19.03.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Nov 2021 03:34:43 -0800 (PST)
+        Fri, 19 Nov 2021 03:34:44 -0800 (PST)
 From: luca.boccassi@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: paul.eggleton@microsoft.com
-Subject: [PATCH v2 4/7] systemd: remove volatile-binds RDEPENDS for nativesdk
-Date: Fri, 19 Nov 2021 11:34:26 +0000
-Message-Id: <20211119113429.502652-4-luca.boccassi@gmail.com>
+Subject: [PATCH v2 5/7] kbd: add nativesdk
+Date: Fri, 19 Nov 2021 11:34:27 +0000
+Message-Id: <20211119113429.502652-5-luca.boccassi@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211119113429.502652-1-luca.boccassi@gmail.com>
 References: <20211117123201.111905-1-luca.boccassi@gmail.com>
@@ -65,33 +65,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Nov 2021 11:34:47 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Nov 2021 11:34:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158510
+ https://lists.openembedded.org/g/openembedded-core/message/158511
 
 From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Not needed for SDK binaries
+Required to build systemd tools
 
 Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
-v2: remove dependency instead of adding nativesdk to volatile-binds
+ meta/recipes-core/kbd/kbd_2.4.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-core/systemd/systemd_249.5.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/systemd/systemd_249.5.bb b/meta/recipes-core/systemd/systemd_249.5.bb
-index 9993036aac..2928a85c93 100644
---- a/meta/recipes-core/systemd/systemd_249.5.bb
-+++ b/meta/recipes-core/systemd/systemd_249.5.bb
-@@ -644,6 +644,7 @@ FILES:${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
- RDEPENDS:${PN} += "kmod dbus util-linux-mount util-linux-umount udev (= ${EXTENDPKGV}) systemd-udev-rules util-linux-agetty util-linux-fsck"
- RDEPENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
- RDEPENDS:${PN} += "volatile-binds"
-+RDEPENDS_${PN}_remove_class-nativesdk = "volatile-binds"
+diff --git a/meta/recipes-core/kbd/kbd_2.4.0.bb b/meta/recipes-core/kbd/kbd_2.4.0.bb
+index 7cb45eff77..7efc7af312 100644
+--- a/meta/recipes-core/kbd/kbd_2.4.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.4.0.bb
+@@ -43,4 +43,4 @@ ALTERNATIVE:${PN} = "chvt deallocvt fgconsole openvt showkey \
+                      ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'vlock','', d)}"
+ ALTERNATIVE_PRIORITY = "100"
  
- RRECOMMENDS:${PN} += "systemd-extra-utils \
-                       udev-hwdb \
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.2
 
