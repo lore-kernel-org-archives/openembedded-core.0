@@ -1,82 +1,136 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8224AC433F5
-	for <webhook@archiver.kernel.org>; Fri, 19 Nov 2021 09:26:01 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.6590.1637313959609929462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 137CFC433F5
+	for <webhook@archiver.kernel.org>; Fri, 19 Nov 2021 10:36:42 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.7125.1637318200444803594
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Nov 2021 01:26:00 -0800
+ Fri, 19 Nov 2021 02:36:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=fM73fYWG;
- spf=pass (domain: burtonini.com, ip: 209.85.221.47,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f47.google.com with SMTP id b12so16992172wrh.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GOAMPFr5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id u1so17303148wru.13
         for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Nov 2021 01:25:59 -0800 (PST)
+ Fri, 19 Nov 2021 02:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4bpN9o+pNSJpuX9TXEixSMOcITpfLoYiCBeds/j19Vc=;
-        b=fM73fYWGQ1Eq1sTzCYyoTxm5VfRf2WiuZ/SuAAoV+UP9YxKIKBDfqdSFqCRBXR9cYf
-         0brVo69jPM3AzTh6IfZXtLw82bAxs5imRZRBdI/SF8P6YTy0G4i9XbaLCG5/LtKhK6+O
-         /oq/OTselIXS2uiI7VQgcDItlooAm3ylPfroU+DgDgBW9TTO828xrrYPjk7yDsc2bbxy
-         m0fR/dTVxN4akZzwUcuh6RA0nZykp5x/sv0/CCpgQGQ3N+0eIdq7OU3ZLwfGLdadGc8B
-         tYKVimBdXnlO92Go3KqwZqUuhFvAJGrmDHRn6WIXdhZXzZVWkrrTHnZXSQrvJvix5/1Z
-         4Jkw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=a02n2weNeIPI+vMN5bbyDJY1Mq2IFWxSF7J727urJbE=;
+        b=GOAMPFr5ZGegM9SxuGVWuqq6Am8GEXmT9Ysk3ryGoKDZbREzJshAnBNwyVVjmS/VRk
+         lTiQkLnXbZS3DKMf2lTAqWU2S4ljag8zMlpD15jfN2m6edECVai5MHeSSixbMn/qWvFd
+         loW9bmEZ3rRFTuxBb12a1EM+tHb3byfNdRXbk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4bpN9o+pNSJpuX9TXEixSMOcITpfLoYiCBeds/j19Vc=;
-        b=7jqmJhvncCy4z+VbMLp8Kyc8KabT2Y2sgcH5ydSbjkcXccs9kAe0DHdyAJKADVcc9q
-         0MjatVmRRAgsLjM2D0NGUDBIM/eVXAYRUIckhTSgGZdUfb+GEV1Be+RpG/MhbpMssEsD
-         KmEW6zW8msX68aUKEER6PLOaLiDfupqbPzxz6trUU3baSLHb4QuZSRG/LQaO7GvmyHOV
-         pFssQzGtuJu7pR0SydXqpNNYuQ4dBxsHBHMng7qQtvvO4FyClzNsP1XgMJheWEdQ6Y37
-         lJjn86WREnXdE0erYaZgf54mF4FBlCVwL5ooFIpp6o5j0leV+04QW8eumWpVaSxCpip9
-         LwsA==
-X-Gm-Message-State: AOAM531i+vjNUISxCR45sl6+J+shZru9AsOXl1egUedQalQbtAZQK7SJ
-	lcFJaxLpzaGIk/mPxOm+MbZhUcs0V4781YE8MiyOoA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=a02n2weNeIPI+vMN5bbyDJY1Mq2IFWxSF7J727urJbE=;
+        b=kd0P5t8tdF2SlXFr6untN4XF3hILDgJ0y8E5I61e1uaNOXiPzP3ErMNhw2GNqd5Q/W
+         5D1iYTidJQkpC00T7rHJoiGxv8tbieAl7/FgzTL+J6fCYDgvb3gR9VyechnKMVKQTNZc
+         I7VJxUYCBTwk/6QEt0s/6bmb7LCEx+C1OBNCjrG4iGl7rfpuU8k8nzlz/uV/eibgyeaU
+         S+3bTQVofMclXv2Bj5qKoSojSMyJ3BxKoQUuHwm48lwd3MMTEBDvTNocuCg1OM46ZANU
+         jqCKXA5j4He59/DoegOJszyPUlPGGA7sIlQeeLHoWnLFp7wIjYLYG3iG1UKyWkyn/cDw
+         D0iQ==
+X-Gm-Message-State: AOAM530JyUZe4cuiEgkxK6thAy/wXctWsMa8ov/Tv22P0DbJiFqNWOLK
+	mWE27ktzYZ+0Io7aLJDXsiEbhw==
 X-Google-Smtp-Source: 
- ABdhPJziGVLCbu+4U965/heHkd0Ht4LknYAbDCzG2e81VJHIPdUf1/C6U/7af3VgDXOWO89iXVryS16mBhWuhBHuIlc=
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr5743067wrz.211.1637313957815;
- Fri, 19 Nov 2021 01:25:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20211117172308.204731-1-ross.burton@arm.com>
- <7132D4BE-2C9C-41D2-8FFC-9322D46A66BD@0leil.net>
-In-Reply-To: <7132D4BE-2C9C-41D2-8FFC-9322D46A66BD@0leil.net>
-From: Ross Burton <ross@burtonini.com>
-Date: Fri, 19 Nov 2021 09:25:47 +0000
+ ABdhPJxtUOMm+3VN6L6xphf1waF/Ab4mye4xLykSmeZXnKwQnpQZQ5SeSxejNRgdAM+Vz7NXtayvzQ==
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr6253939wrp.20.1637318198850;
+        Fri, 19 Nov 2021 02:36:38 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:423a:6c9:d9d0:129f?
+ ([2001:8b0:aba:5f3c:423a:6c9:d9d0:129f])
+        by smtp.gmail.com with ESMTPSA id
+ u15sm2911632wmq.13.2021.11.19.02.36.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Nov 2021 02:36:38 -0800 (PST)
 Message-ID: 
- <CAAnfSTuCsijM=zk=saf5B98cnRu6Eq7rWY0shpOk2-ZvzVwzZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] scripts/lnr: remove
-To: Quentin Schulz <foss+yocto@0leil.net>
-Cc: openembedded-core@lists.openembedded.org
+ <48a9d317343b09d0ccb0d791617ef4582643765b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] buildhistory.bbclass: fix regression from
+ FILES_INFO changes
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "S. Lockwood-Childs" <sjl@vctlabs.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 19 Nov 2021 10:36:36 +0000
+In-Reply-To: <20211117010634.GI13720@codepurple>
+References: <20211117010634.GI13720@codepurple>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Nov 2021 09:26:01 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Nov 2021 10:36:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158501
+ https://lists.openembedded.org/g/openembedded-core/message/158502
 
-On Wed, 17 Nov 2021 at 18:24, Quentin Schulz <foss+yocto@0leil.net> wrote:
-> We could have a simple wrapper instead which would be a simple shell script:
->
-> #!/bin/sh
->
-> ln --relative --symbolic $1 $2
->
-> To not require a change in layers?
-> Not sure it's that important considering that one could do a simple sed across all layers? Anyway just thought about that so shared it.
+On Tue, 2021-11-16 at 17:06 -0800, S. Lockwood-Childs wrote:
+> Started getting a stack trace during packagedata task for a
+> recipe that built fine in hardknott
+> 
+>  *** 0002:buildhistory_emit_pkghistory(d)
+>      0003:
+> File: 'meta/classes/buildhistory.bbclass', lineno: 313, function: buildhistory_emit_pkghistory
+>      0309:            pkginfo.filevars[filevar] = localdata.getVar(filevar) or ""
+>      0310:
+>      0311:        # Gather information about packaged files
+>      0312:        val = localdata.getVar('FILES_INFO') or ''
+>  *** 0313:        dictval = json.loads(val)
+>      0314:        filelist = list(dictval.keys())
+>      0315:        filelist.sort()
+>      0316:        pkginfo.filelist = " ".join([shlex.quote(x) for x in filelist])
+>  ...
+>  Exception: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+> 
+> which turns out to mean FILES_INFO is undefined for the main package built by
+> this recipe (FILES_INFO lookup for other packages such as -dev seemed to work fine).
+> 
+> Tracked the regression down to this commit:
+>     package/scripts: Fix FILES_INFO handling
+>     OE-Core rev: a1190903e0a61a12c9854c96af918ae8d12c6327
+> 
+> If buildhistory.bbclass uses the same per-package syntax to read
+> FILES_INFO as package.bbclass uses now when setting it, then
+> this regression goes away.
+> 
+> Signed-off-by: S. Lockwood-Childs <sjl@vctlabs.com>
+> ---
+>  meta/classes/buildhistory.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 7c44fec2d1..99300ab431 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -309,7 +309,7 @@ python buildhistory_emit_pkghistory() {
+>              pkginfo.filevars[filevar] = localdata.getVar(filevar) or ""
+>  
+>          # Gather information about packaged files
+> -        val = localdata.getVar('FILES_INFO') or ''
+> +        val = localdata.getVar('FILES_INFO:%s' % pkg) or ''
+>          dictval = json.loads(val)
+>          filelist = list(dictval.keys())
+>          filelist.sort()
 
-The point was requiring the change in layers so we're using standard
-tools and not pointless scripts.  I sent patches for some larger
-layers already so the fallout shouldn't be *too* bad.
+Which revision of the project are you seeing that on? This shouldn't be needed
+since a number of lines above there it says:
 
-Ross
+        localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
+
+i.e. pkg is in OVERRIDES and therefore FILES_INFO should be FILES_INFO:pkg if
+that is set.
+
+I think this is masking some other issue and isn't the correct fix.
+
+Cheers,
+
+Richard
+
+
+
+
 
