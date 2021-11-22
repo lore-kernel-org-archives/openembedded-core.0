@@ -2,77 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A63C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB89C4321E
 	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 15:00:12 +0000 (UTC)
 Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
- [85.158.142.116])
- by mx.groups.io with SMTP id smtpd.web09.7418.1637593211108830984
+ [85.158.142.115])
+ by mx.groups.io with SMTP id smtpd.web08.7503.1637593211169578359
  for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Nov 2021 07:00:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=tMxXGqlV;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.116,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=j+aHLB+J;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.115,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1637593209; i=@fujitsu.com;
-	bh=zZoPrKM3ClAaVBwVh1hIunAkUFcB01B+R//pp1BYR2I=;
+	bh=Fr67ioXHpflOxHLV2T4jrCPZG3wgCS3Aedbe1yNbkZk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=tMxXGqlVGuqBkcL/5iRN7H1rttL2kDqy5MBTQhPxp8uhI0KYfMdB4RJZqTCSmyhEn
-	 Uwfucr2yGZHpeqmcKombSBny7JB9hS+zd4oboH7yDW8gGJbxERpAghJGvh6sCw2pBh
-	 QtYHC2lJdP/l89VBi00I7m0/VI7XTYd3xACKxq+rLusvUchDFiC6ivEixvy3oFLqyq
-	 aGFr5K9KKqqaXbUSW0meM6KsS4iw+T4Lymdp7LhBmWZ4T/u12Y8aMYKz5Ny9pS5TJK
-	 sIwbKdhIq4FN7limrxd9Vghu46y81eGwVGj9o9sSNvEC1E0oklMbUkp4oCoOPUaF6Z
-	 z8GhZFG3WI6Pw==
+	b=j+aHLB+JMnTEaz/NdJNr7uhct8wBYppfAg4gVt2YyhjTzOOMTojEFI6obr2Dc4+km
+	 UmD/wc93Z9aIgRiqOHWHbbJnwzBT86wBROuHou+rfifzkIsJVrH2Kl7I2CsuER7Ufs
+	 pxHWleWLHm3l1CH7KwZxDjJWVILfliglcky9rFcEEwl8wQvczpYh3PaAJWvWFPVf8x
+	 DoDNVSvXF4p7B0IKrTnipf6XI86dLT4M1rmqBzSPjLrZwnBodq3FNc4hLgthVdH1uT
+	 eTDxjZkgHMvuVM95GtIjSYEX5urhf5X8guSqa2mb5gG3qPktMW9Q42o0sDs1xBXyJP
+	 5d+TadtRvzAaw==
 Received: from [100.113.7.250] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id 1A/34-25178-970BB916;
+	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id 0A/E3-09058-970BB916;
  Mon, 22 Nov 2021 15:00:09 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRWlGSWpSXmKPExsViZ8MxSbdiw+x
-  EgzfvbSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1oxvB34yFdy2rNj24w5zA+Nngy5GLg4hgceM
-  EvMXN7BBOOeZJP6tfcoC4ZxglDh6dDNTFyMnB5uAmsT0WzdYuxg5OEQE9CSu/hMFCTMLqEi8+
-  N3DDmILCzhInGudwgJiswioSsz5v5gZxOYVcJK4suQNG4gtIaAgMeXhe7A4p4CzxLaP18HiQk
-  A1Mxe/YYeoF5Q4OfMJC8R8CYmDL14wQ/QqSsy+3MwCYVdIzJrVxgRhq0lcPbeJeQKj4Cwk7bO
-  QtC9gZFrFaJlUlJmeUZKbmJmja2hgoGtoaKxrqmtoaqyXWKWbpJdaqpucmldSlAiU1UssL9Yr
-  rsxNzknRy0st2cQIDOGUQtaZOxg/vf6gd4hRkoNJSZTXaPbsRCG+pPyUyozE4oz4otKc1OJDj
-  DIcHEoSvI/XAeUEi1LTUyvSMnOA8QSTluDgURLhdQBJ8xYXJOYWZ6ZDpE4x6nI0T1q+nVmIJS
-  8/L1VKnLd5PVCRAEhRRmke3AhYbF9ilJUS5mVkYGAQ4ilILcrNLEGVf8UozsGoJMxbBTKFJzO
-  vBG7TK6AjmICOOH18OsgRJYkIKakGJnXJAoGl2lN01dibdf2OG89dwW1kfWOu0vSfvi2HxNMy
-  r6SIv9zicaJL3vb33Ml/S3O2fvllfUWuiVFjw62UjzzqMWu1C31D9rvef/mt+H9SViLTtOKf7
-  Mx9C294z7l++KxhEkPkdzUWyQOin/7Zrtuy+F1hzWN9geK0P8o1SmKWylOlvnwN6qjj6fO9pv
-  xv5/tjB9nq4q0mhLU7Wwd+c/aa8KX3ql3J5meqi7/F2PWfXXbqhUvB5hu2oqrfl/YceyGo3BH
-  Mkm6u4eH49vKqzzJHDvzMeevgpqL0rN098bZ56ox71x1lOb8+dj+y+cH2pORz7zPivZRvTZk9
-  2bLiYcjBtBPTYh85e++8tmnhCyWW4oxEQy3mouJEAAsLPMpoAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrJIsWRWlGSWpSXmKPExsViZ8MxSbdyw+x
+  Eg0t5Fnd+vmN3YPQ4t3EFYwBjFGtmXlJ+RQJrRl/XBuaCiwoV7/oeszYwzpPuYuTiEBJ4zCjx
+  49VUFgjnPJPEthffWCGcE4wSny+eYupi5ORgE1CTmH7rBlCCg0NEQE/i6j9RkDCzgIrEi9897
+  CBhYQELiU8nVUHCLAKqEvtPTAHr5BVwkjh29QsbiC0hoCAx5eF7ZhCbU8BZYtvH62BxIaCamY
+  vfsEPUC0qcnPmEBWK8hMTBFy+YIXoVJWZfbmaBsCskZs1qY4Kw1SSuntvEPIFRcBaS9llI2hc
+  wMq1itEwqykzPKMlNzMzRNTQw0DU0NNY11TUyMdRLrNJN0kst1U1OzSspSgTK6iWWF+sVV+Ym
+  56To5aWWbGIEhm9KIevHHYyHXn/QO8QoycGkJMprNHt2ohBfUn5KZUZicUZ8UWlOavEhRhkOD
+  iUJ3sfrgHKCRanpqRVpmTnAWIJJS3DwKInwOoCkeYsLEnOLM9MhUqcYjTmaJy3fzszxuuXnDm
+  Yhlrz8vFQpcd7m9UClAiClGaV5cINgMX6JUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjBvFcg
+  Unsy8Erh9r4BOYQI65fTx6SCnlCQipKQamPJSbrrWegQtURZ4Ot3m+dH7Rsqpn/LnyfcJxMZP
+  XrBosZXM24OiPtvqVGPUw2J/1p5pfMwz0eRLVKhmyMHU35ImfYsZJjpGrjnc+XHR4dd3a3cdY
+  GFdb6Zzv1R1wSOtfpcFPH4W245INAT6bjPdtjnaUUBGvfBm8LTCrrN16aGfpsZLxrL+Dfew3r
+  vg30O95PMsSw6Hrj9jf/jk2jzHmGqJsPmW+pOq77x8WRLOntZ9pa9yzQPDMGevDsaQx///zsl
+  a+c74t4Bxaj7733MWuwtOtL69by/ZXqa3VjyKW+p6cTcrd0nnvFflj3Oi/Oq3PZAQcM+cuvv8
+  tMnmyt+Z1ueofD5QcsN5/u0SiafTlFiKMxINtZiLihMBUlAloWwDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-18.tower-248.messagelabs.com!1637593208!210513!1
+X-Msg-Ref: server-13.tower-245.messagelabs.com!1637593208!428008!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 2071 invoked from network); 22 Nov 2021 15:00:08 -0000
+Received: (qmail 7911 invoked from network); 22 Nov 2021 15:00:08 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-18.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-13.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 22 Nov 2021 15:00:08 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 72F3510045F
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 6FE9C10045E
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Nov 2021 15:00:08 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 664AA100451
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 56AE2100450
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Nov 2021 15:00:08 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 22 Nov 2021 14:59:49 +0000
+ (TLS) id 15.0.1497.26; Mon, 22 Nov 2021 14:59:46 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-scons: upgrade 4.2.0 -> 4.3.0
-Date: Mon, 22 Nov 2021 22:59:34 +0800
-Message-ID: <1637593174-99263-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] systemtap: upgrade 4.5 -> 4.6
+Date: Mon, 22 Nov 2021 22:59:33 +0800
+Message-ID: <1637593174-99263-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1637593174-99263-1-git-send-email-wangmy@fujitsu.com>
 References: <1637593174-99263-1-git-send-email-wangmy@fujitsu.com>
@@ -85,124 +85,93 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 15:00:11 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 15:00:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158576
+ https://lists.openembedded.org/g/openembedded-core/message/158577
 
-NOTE: 4.3.0 now requires Python 3.6.0 and above. Python 3.5.x is no longer supported
+support for 64-bit RISC-V architecture, liveness analysis for guru-mode write operations,
+bpf syscall_any and abort() tapsets, bpf foreach iteration of multi-key arrays,
+return of inter-cpu output ordering
 
-Changelog:
-- Default hash algorithm check updated for SCons FIPS compliance. Now checks for hash viability
-  first and then walks the tree to use the first viable hash as the default one. This typically
-  selects SHA1 on FIPS-enabled systems less than Python 3.9 as the new default instead of MD5,
-  unless SHA1 has also been disabled by security policy, at which point SCons selects SHA256
-  as the default. For systems running Python 3.9 and later, the hashlib bug has been fixed,
-  and SCons will once again default to MD5 as the preferred algorithm.
-- Fix MSVS tests (vs-N.N-exec.py) for MSVS 6.0, 7.0, and 7.1 (import missing module).
-- Add support for Visual Studio 2022.
-- Fix reproducible builds. Restore logic respecting SOURCE_DATE_EPOCH when set.
-- Fix version tests to work with updated scons --version output. (Date format changed)
-- Fix issue #4021.  Change the way subst() is used in Textfile() to not evaluate '$$(' -> '$',
-  but instead it should yield '$('.
-- Change SCons.Platform.win32.get_architecture() to return platform.platform() when run in an
-  environment where neither: PROCESSOR_ARCHITEW6432 nor PROCESSOR_ARCHITECTURE is set.
-  This should fix platform tests which started failing when HOST_OS/HOST_ARCH changes
-  introduced by Aaron Franke (listed below) were merged.
-- Further PCH updates. It's now recommended that env['PCH'] should always be a File node.
-  Either via return value from env.PCH() or by explicitly using File('StdAfx.pch').
-- Added --no-ignore-skips to runtest.py. Changed default to ignore skips when setting
-  runtest.py's exit status. Previously would exit 2 if any tests were skipped.
-  Now will only exit 2 if user specifies --no-ignore-skips and some tests were skipped.
-- Small fix to ensure CLVar default value is an empty list.
-  See MongoDB bug report: https://jira.mongodb.org/browse/SERVER-59656
-  Code contributed by MongoDB.
-- Ninja - Fixed an issue where if you control-c and/or killed ninja while it was running scons to
-  regenerate build.ninja you would end up with no build.ninja file and have to rerun scons from scratch.
-  Code contributed by MongoDB.
-- Define HOST_OS and HOST_ARCH in the environment for all platforms.
-  Before this change, these were only defined for Win32 and OS/2.
-- Fix ninja tool to never use for_sig substitution because ninja does not use signatures. This
-  issue affected CommandGeneratorAction function actions specifically.
-- Expanded ninja Mkdir to also support Mkdir actions.
-- Added support for the PCH environment variable to support subst generators.
-- Fix command line escaping for ninja dollar sign escape. Without escaping ninja properly,
-  the ninja file scons regenerate and callback invocations will lose the $ characters used in
-  the scons command line which ninja uses itself for escaping. For Example:
-      scons BUILD=xyz OTHERVAR=$BUILD
-  Prior to this fix, it would cause ninja to fail to escape the dollar sign, leading to the
-  single dollar sign being used as a ninja escape character in the ninja file.
-- Added ninja API 'NINJA_FORCE_SCONS_BUILD' to force a node to callback to scons.
-- Two small Python 3.10 fixes: one more docstring turned into raw
-  because it contained an escape; updated "helpful" syntax error message
-  from 3.10 was not expected by SubstTests.py and test/Subst/Syntax.py
-- EmitterProxy rich comparison set is completed (checker warning).
-  Added __le__, __gt__, __ge__.
-- Fix gcc/g++ tool failing if "gcc --version" returns text which fails
-  to_String conversion (i.e., not UTF-8) - failure happens when tool
-  initialization checks version. For gcc, the initial version string is
-  not translated, for the rest, don't convert, just consume raw and discard.
-- Maintenance and doc: modernize some usage in Scanner package,
-  calling super(), switching some imitialization to comprehensions,
-  and code formatting.  Docstring for scanner Base moved from
-  init-method to class-level so it's picked up by Sphinx.
-  Added new sconsign filenames to skip_entry_list in Scanner/Dir.py
-- Change SCons.Scanner.Base to ScannerBase. Old name kept as an alias
-  but is now unused in SCons itself.
-- Call Variables option converter consistently - the converter should
-  have access to the env if it needs to (issue #2064).
-- Fixed the variables Add() method to accept a tuple for the variable
-  name the same way AddVariables() does (issue #3869).
-- The premade validator PathIsDirCreate for for PathVariable now catches
-  the case where the directory could not be created due to permission
-  problems, allowing a more helpful error to be emitted (issue #2828)
-- Maintenance: Python thread.setDaemon is deprecated in favor of
-  directly updating daemon attribute - update SCons to do this.
-- Make sure when subst'ing a callable, the callable is called with
-  the correct for_signature value, previously it would be true even
-  if doing SUBST_RAW (issue #4037)
-- Update Util/NodeList implementation to get rid of a workaround for
-  early Python 3 slicing issue that is no longer a problem.
-- Rework some Java tests to skip rather than fail on CI systems, where
-  the working java is > v9, but a 1.8 or 9 was also found.
-- Java updates: on Windows, detect more default JDK install locations.
-  On all platforms, more Java versions (up to 17.0 now).  Add more information
-  on version selection to docs.
-  Update docs on JavaH tool in light of javah command dropped since 10.0.
-  Try to be better about preserving user's passed-in JAVA* construction vars.
-- Start the deprecation of the qt tool, which refers to Qt3 (usupported
-  since around 2006). There's a deprecation warning added, initially
-  defaulting to disabled.
-- Fix crash when scons is run from a python environement where a signal
-  is set from outside Python.
+Changelog is as follows:
+= SystemTap frontend (stap) changes
+- stap-prep now tries to download the main kernel debuginfo file from
+  a debuginfod server, if configured.
+
+= SystemTap backend changes
+- SystemTap has added support for the 64-bit RISC-V architecture.
+- SystemTap now uses DynInst to perform a liveness analysis on
+  target variables and warn when a guru-mode modification to a variable
+  will have no effect. The liveness analysis is currently done on
+  x86_64, PowerPC, and AArch64.
+- The kernel-user relayfs transport again sorts messages into a total
+  time order across CPUs.  High output-volume scripts may need a
+  larger "-s BUF" parameter to reliably transfer.  "-b" bulk mode
+  is also available again as an alternative.
+- The bpf backend now supports foreach iteration in multi-key associative arrays.
+
+= SystemTap tapset changes
+- Updated syscall_any tapset mapping to include newer syscalls.
+- syscall_any tapset can be used by the bpf backend.
+- abort() tapset can be used by the bpf backend.
+
+= Known issues with this release
+- There are known issues on kernel 5.10+ after adapting to set_fs()
+  removal, with some memory accesses that previously returned valid data
+  instead returning -EFAULT (see PR26811).
+- An sdt probe cannot parse a parameter that uses a segment register.
+  (PR13429)
+- The presence of a line such as
+      *CFLAGS += $(call cc-option, -fno-var-tracking-assignments)
+  in older linux kernel Makefile unnecessarily reduces debuginfo quality,
+  consider removing that line if you build kernels.  Linux 5.10+ fixes this.
+
+= Bugs fixed for this release <https://sourceware.org/PR#####>
+6562     $SYSTEMTAP_DEBUGINFO_PATH does not work
+15724     stapdyn looking for libdyninstAPI_RT.a
+26839     Systemtap build failures with clang
+27820     abort() tapset not implemented in the bpf mode
+27829     support for floating point values passed through sdt.h markers
+27864     loc2stap.cxx assertion failure on loc_unavailable type location, rawhide
+27881     failed to extend vma mapped entry when the address is adjacent
+27903     handle f33 glibc $$parms
+27932     List Python as a prerequisite in README
+27933     Use of unitialized functioncall synthetic field in
+27934     failure to attach statement
+27940     The /* pc=0x... */ is no longer printed by "stap -v -L 'kernel.function("*")'
+27942     testsuite/systemtap.base/perf.sh drop bashism
+27984     stap skipping partially-inlined instance, but it is not inline function actually
+28070     extend vma end address to the different module
+28079     adapt to kernel 5.14 task_struct.__state change
+28084     autoconf-x86-uniregs.c compile failled with -Werror cause STAPCONF_X86_UNIREGS missing
+28140     kernel panic on tracepoint activation in stap module
+28184     task_fd_lookup failed on linux 5.11
+28244     linux objtool imposes symbol length limits on generated function names
+28384     finish nfs_proc tapset port 4.3 string server_ip
+28443     Provide syscall_any tapset for bpf
+28449     loss of cross-cpu output ordering
+28544     procfs_bpf.exp regression due to string handling error
+28557     module kprobe insertion on modern kernels
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...hon3-scons-native_4.2.0.bb => python3-scons-native_4.3.0.bb} | 0
- .../python/{python3-scons_4.2.0.bb => python3-scons_4.3.0.bb}   | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-scons-native_4.2.0.bb => python3-scons-native_4.3.0.bb} (100%)
- rename meta/recipes-devtools/python/{python3-scons_4.2.0.bb => python3-scons_4.3.0.bb} (87%)
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-scons-native_4.2.0.bb b/meta/recipes-devtools/python/python3-scons-native_4.3.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-scons-native_4.2.0.bb
-rename to meta/recipes-devtools/python/python3-scons-native_4.3.0.bb
-diff --git a/meta/recipes-devtools/python/python3-scons_4.2.0.bb b/meta/recipes-devtools/python/python3-scons_4.3.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-scons_4.2.0.bb
-rename to meta/recipes-devtools/python/python3-scons_4.3.0.bb
-index 23527a2cce..bff2fdae92 100644
---- a/meta/recipes-devtools/python/python3-scons_4.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-scons_4.3.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d903b0b8027f461402bac9b5169b36f7"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 25546f7cb2..22b07f1516 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "7f6992539fb22c93c21ac30c94508bf655d496a7"
+-PV = "4.5"
++SRCREV = "2e9f2f6967e44ce2bf8f34932b5bdd738ece2161"
++PV = "4.6"
  
- SRC_URI += " file://0001-Fix-man-page-installation.patch"
--SRC_URI[sha256sum] = "691893b63f38ad14295f5104661d55cb738ec6514421c6261323351c25432b0a"
-+SRC_URI[sha256sum] = "d47081587e3675cc168f1f54f0d74a69b328a2fc90ec4feb85f728677419b879"
- 
- PYPI_PACKAGE = "SCons"
- 
+ SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
 -- 
 2.25.1
 
