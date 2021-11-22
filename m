@@ -1,156 +1,187 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3C6C433F5
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 12:18:01 +0000 (UTC)
-Received: from forward501j.mail.yandex.net (forward501j.mail.yandex.net
- [5.45.198.251])
- by mx.groups.io with SMTP id smtpd.web08.5605.1637583479070756760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A4FCC433EF
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 12:46:54 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web09.5825.1637585213467250586
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 04:18:00 -0800
+ Mon, 22 Nov 2021 04:46:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=mail header.b=q83ZVEpq;
- spf=pass (domain: zhukoff.net, ip: 5.45.198.251, mailfrom: pavel@zhukoff.net)
-Received: from sas1-9b68b0b83e4d.qloud-c.yandex.net
- (sas1-9b68b0b83e4d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:2706:0:640:9b68:b0b8])
-	by forward501j.mail.yandex.net (Yandex) with ESMTP id 96C5C623763;
-	Mon, 22 Nov 2021 15:17:54 +0300 (MSK)
-Received: from 2a02:6b8:c1b:2904:0:640:ed61:5920
- (2a02:6b8:c1b:2904:0:640:ed61:5920 [2a02:6b8:c1b:2904:0:640:ed61:5920])
-	by sas1-9b68b0b83e4d.qloud-c.yandex.net (mxback/Yandex) with HTTP id
- qHgcse0DnSw1-HrDWo9wM;
-	Mon, 22 Nov 2021 15:17:53 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1637583474;
-	bh=wIUGK8vOzbwNehIbd0V5TC/q31QXAdc9LHhakCcK9w8=;
-	h=References:Date:Message-Id:Cc:Subject:In-Reply-To:To:From;
-	b=q83ZVEpq5j4KukZmLMvSYniiqS53UMgkMS1ftjh19A5oNam/E5Uytgs5cHVic96gd
-	 ejKW+/Ojqq5gN9j8g/DLfzFR/Hvjb4bQkzQVKoPx+y7MdKWlkPO3l4Im3AwddJP7cQ
-	 ZUb5eAP6/BDyW3vkjV7EERgMuV2NInGY3QWF6vds=
-Authentication-Results: sas1-9b68b0b83e4d.qloud-c.yandex.net;
- dkim=pass header.i=@zhukoff.net
-Received: by sas8-ed615920eca2.qloud-c.yandex.net with HTTP;
-	Mon, 22 Nov 2021 15:17:53 +0300
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: Ross Burton <ross@burtonini.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-In-Reply-To: 
- <CAAnfSTuLQ3PLQqnyBMWUT26uYOgwxeSc9n+KEqa7Y+fws_e3YA@mail.gmail.com>
-References: <20211122115418.1352-1-pavel@zhukoff.net>
- <CAAnfSTuLQ3PLQqnyBMWUT26uYOgwxeSc9n+KEqa7Y+fws_e3YA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] gmp: Add security fix for
- CVE-2021-43618
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XCsRJbMP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id o29so15230178wms.2
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 22 Nov 2021 04:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=e7MNmFijWCViBZVd2kUUNTqTbeA2VtVtrNf2G26hEbI=;
+        b=XCsRJbMPxpHDIrY4fIVfoGl1106RwamjiPOeP3D6IECfdETsrvwKUML172pLOKtDL1
+         +IBI2RT7T0VzMCcEirCG95WP525ZqaKk15M73SGPn710/jxAJUV11ftJ4DZgN5WOjISd
+         IFPlCIXRcIRs1OEgeyoVA3O5Y74aS/JJd2ts8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=e7MNmFijWCViBZVd2kUUNTqTbeA2VtVtrNf2G26hEbI=;
+        b=Kt7cP6srmGS7NN5ACm6ZTuHBU6gCetThHLoL8tfILvybeSLPGj7uBP4JLlKHUcb0hi
+         iMYO2xs61SD2r/OtFB93J6bpcNGmcGmK6USS0vhumoFDUyBYM1FGWdgGyBRWxUkNb7Fn
+         +ONzVv3XmBguQDbVNtXYQFBT9Gluvk77TV8ybf8gdbc77Qfv6jZyJc0wQfjyfETr/lDz
+         ynj9Be1X5fzJzXC5isuQhFP3BMCs0lPTvJ3NfyLbQWkn+VHDN1G9S0kaHuJ5wvgFb3yD
+         +WBKGwSeJfBfUsQcealtbn06zK4lcZnpj//M24YBF+S73yrqE1IvNyVnAXRP3BWoAQAN
+         Bq+w==
+X-Gm-Message-State: AOAM531xw7oT9eqogljZUbND3EsQUGor63S3phdoNEdUbmSrwYUu2/Pe
+	czwHuuYvwrNwZy8inTzucPargQ==
+X-Google-Smtp-Source: 
+ ABdhPJxAXC+vzdlDYBEpoRP1MkK6axgD33EAYGgM0N+5GHaw/UstXJOLSi5tW5jZ+nBXjXva4zAVvw==
+X-Received: by 2002:a05:600c:4fc3:: with SMTP id
+ o3mr29311230wmq.74.1637585211871;
+        Mon, 22 Nov 2021 04:46:51 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e31:269d:c208:4e1f?
+ ([2001:8b0:aba:5f3c:e31:269d:c208:4e1f])
+        by smtp.gmail.com with ESMTPSA id
+ e7sm11205124wrg.31.2021.11.22.04.46.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 04:46:51 -0800 (PST)
+Message-ID: 
+ <0e7c2b9d388d01ab7e304b9664ae6501998f93e6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/7] systemd: skip chown when building for
+ nativesdk
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Luca Bocassi <luca.boccassi@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@microsoft.com
+Date: Mon, 22 Nov 2021 12:46:50 +0000
+In-Reply-To: <20211119113429.502652-1-luca.boccassi@gmail.com>
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+	 <20211119113429.502652-1-luca.boccassi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Mon, 22 Nov 2021 13:17:53 +0100
-Message-Id: <6162101637583428@mail.yandex.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 12:18:01 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 12:46:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158567
+ https://lists.openembedded.org/g/openembedded-core/message/158568
 
-PGRpdj5IaSBSb3NzLDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PlRoYW5rIHlvdSBmb3IgcG9pbnRp
-bmcgb3V0IHRoZSBpc3N1ZXMuIFdpbGwgZG8gYmV0dGVyIG5leHQgdGltZS4gYW5kIHlvdSB3ZXJl
-IGZhc3RlciBhbnl3YXkgOik8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj4tLcKgPC9kaXY+PGRpdj5Q
-YXZlbDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj7CoDwvZGl2PjxkaXY+MjIu
-MTEuMjAyMSwgMTM6MDAsICJSb3NzIEJ1cnRvbiIgJmx0O3Jvc3NAYnVydG9uaW5pLmNvbSZndDs6
-PC9kaXY+PGJsb2NrcXVvdGU+PHA+SGkgUGF2ZWwsPGJyIC8+PGJyIC8+Q2xvc2UgYnV0IHlvdSBh
-bHNvIG5lZWQgVXBzdHJlYW0tU3RhdHVzLCBTaWduZWQtb2ZmLWJ5LCBhbmQgQ1ZFIHRhZ3M8YnIg
-Lz5pbiB0aGUgcGF0Y2guIFlvdSBjYW4gc2VlIG15IHZlcnNpb24gb2YgdGhpcyBmaXggb24gdGhl
-IGxpc3QsIGEgZmV3PGJyIC8+bWludXRlcyBiZWZvcmUgeW91cnMuIDopPGJyIC8+PGJyIC8+Um9z
-czxiciAvPjxiciAvPk9uIE1vbiwgMjIgTm92IDIwMjEgYXQgMTE6NTQsIFBhdmVsIFpodWtvdiAm
-bHQ7PGEgaHJlZj0ibWFpbHRvOnBhdmVsQHpodWtvZmYubmV0IiByZWw9Im5vb3BlbmVyIG5vcmVm
-ZXJyZXIiPnBhdmVsQHpodWtvZmYubmV0PC9hPiZndDsgd3JvdGU6PC9wPjxibG9ja3F1b3RlPjxi
-ciAvPsKgRnJvbTogUGF2ZWwgWmh1a292ICZsdDs8YSBocmVmPSJtYWlsdG86cGF2ZWwuemh1a292
-QGh1YXdlaS5jb20iIHJlbD0ibm9vcGVuZXIgbm9yZWZlcnJlciI+cGF2ZWwuemh1a292QGh1YXdl
-aS5jb208L2E+Jmd0OzxiciAvPjxiciAvPsKgRml4IG1wei9pbnBfcmF3LmMgaW50ZWdlciBvdmVy
-ZmxvdyBhbmQgcmVzdWx0YW50IGJ1ZmZlciBvdmVyZmxvdyB2aWEgY3JhZnRlZCBpbnB1dCw8YnIg
-Lz7CoGxlYWRpbmcgdG8gYSBzZWdtZW50YXRpb24gZmF1bHQgb24gMzItYml0IHBsYXRmb3Jtcy48
-YnIgLz48YnIgLz7CoFJlZmVyZW5jZXM6IDxhIGhyZWY9Imh0dHBzOi8vZ21wbGliLm9yZy9yZXBv
-L2dtcC02LjIvcmV2LzU2MWE5YzI1Mjk4ZSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRw
-czovL2dtcGxpYi5vcmcvcmVwby9nbXAtNi4yL3Jldi81NjFhOWMyNTI5OGU8L2E+PGJyIC8+wqBS
-ZWZlcmVuY2VzOiA8YSBocmVmPSJodHRwczovL2dtcGxpYi5vcmcvbGlzdC1hcmNoaXZlcy9nbXAt
-YnVncy8yMDIxLVNlcHRlbWJlci8wMDUwNzcuaHRtbCIgcmVsPSJub29wZW5lciBub3JlZmVycmVy
-Ij5odHRwczovL2dtcGxpYi5vcmcvbGlzdC1hcmNoaXZlcy9nbXAtYnVncy8yMDIxLVNlcHRlbWJl
-ci8wMDUwNzcuaHRtbDwvYT48YnIgLz7CoFJlZmVyZW5jZXM6IDxhIGhyZWY9Imh0dHBzOi8vYnVn
-cy5kZWJpYW4ub3JnLzk5NDQwNSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwczovL2J1
-Z3MuZGViaWFuLm9yZy85OTQ0MDU8L2E+PGJyIC8+PGJyIC8+wqBTaWduZWQtb2ZmLWJ5OiBQYXZl
-bCBaaHVrb3YgJmx0OzxhIGhyZWY9Im1haWx0bzpwYXZlbC56aHVrb3ZAaHVhd2VpLmNvbSIgcmVs
-PSJub29wZW5lciBub3JlZmVycmVyIj5wYXZlbC56aHVrb3ZAaHVhd2VpLmNvbTwvYT4mZ3Q7PGJy
-IC8+wqAtLS08YnIgLz7CoMKgLi4uL2dtcC9nbXAvQ1ZFLTIwMjEtNDM2MTgucGF0Y2ggfCAyNSAr
-KysrKysrKysrKysrKysrKysrPGJyIC8+wqDCoG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9nbXBf
-Ni4yLjEuYmIgfCAxICs8YnIgLz7CoMKgMiBmaWxlcyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCsp
-PGJyIC8+wqDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21w
-L0NWRS0yMDIxLTQzNjE4LnBhdGNoPGJyIC8+PGJyIC8+wqBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZ21wL2dtcC9DVkUtMjAyMS00MzYxOC5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2dtcC9nbXAvQ1ZFLTIwMjEtNDM2MTgucGF0Y2g8YnIgLz7CoG5ldyBmaWxlIG1vZGUg
-MTAwNjQ0PGJyIC8+wqBpbmRleCAwMDAwMDAwMDAwLi5mNzQxOTcyNDM5PGJyIC8+wqAtLS0gL2Rl
-di9udWxsPGJyIC8+wqArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21wL0NWRS0yMDIx
-LTQzNjE4LnBhdGNoPGJyIC8+wqBAQCAtMCwwICsxLDI1IEBAPGJyIC8+wqArPGJyIC8+wqArIyBI
-RyBjaGFuZ2VzZXQgcGF0Y2g8YnIgLz7CoCsjIFVzZXIgTWFyY28gQm9kcmF0byAmbHQ7PGEgaHJl
-Zj0ibWFpbHRvOmJvZHJhdG9AbWFpbC5kbS51bmlwaS5pdCIgcmVsPSJub29wZW5lciBub3JlZmVy
-cmVyIj5ib2RyYXRvQG1haWwuZG0udW5pcGkuaXQ8L2E+Jmd0OzxiciAvPsKgKyMgRGF0ZSAxNjM0
-ODM2MDA5IC03MjAwPGJyIC8+wqArIyBOb2RlIElEIDU2MWE5YzI1Mjk4ZTE3YmIwMTg5NjgwMWZm
-MzUzNTQ2YzY5MjNkYmQ8YnIgLz7CoCsjIFBhcmVudCBlMWZkOWRiMTNiNDc1MjA5YTg2NDU3NzIz
-N2VhNGI5MTA1YjNlOTZlPGJyIC8+wqArbXB6L2lucF9yYXcuYzogQXZvaWQgYml0IHNpemUgb3Zl
-cmZsb3dzPGJyIC8+wqArPGJyIC8+wqArZGlmZiAtciBlMWZkOWRiMTNiNDcgLXIgNTYxYTljMjUy
-OThlIG1wei9pbnBfcmF3LmM8YnIgLz7CoCstLS0gYS9tcHovaW5wX3Jhdy5jIFR1ZSBEZWMgMjIg
-MjM6NDk6NTEgMjAyMCArMDEwMDxiciAvPsKgKysrKyBiL21wei9pbnBfcmF3LmMgVGh1IE9jdCAy
-MSAxOTowNjo0OSAyMDIxICswMjAwPGJyIC8+wqArQEAgLTg4LDggKzg4LDExIEBAPGJyIC8+wqAr
-PGJyIC8+wqArIGFic19jc2l6ZSA9IEFCUyAoY3NpemUpOzxiciAvPsKgKzxiciAvPsKgKysgaWYg
-KFVOTElLRUxZIChhYnNfY3NpemUgJmd0OyB+KG1wX2JpdGNudF90KSAwIC8gOCkpPGJyIC8+wqAr
-KyByZXR1cm4gMDsgLyogQml0IHNpemUgb3ZlcmZsb3dzICovPGJyIC8+wqArKzxiciAvPsKgKyAv
-KiByb3VuZCB1cCB0byBhIG11bHRpcGxlIG9mIGxpbWJzICovPGJyIC8+wqArLSBhYnNfeHNpemUg
-PSBCSVRTX1RPX0xJTUJTIChhYnNfY3NpemUqOCk7PGJyIC8+wqArKyBhYnNfeHNpemUgPSBCSVRT
-X1RPX0xJTUJTICgobXBfYml0Y250X3QpIGFic19jc2l6ZSAqIDgpOzxiciAvPsKgKzxiciAvPsKg
-KyBpZiAoYWJzX3hzaXplICE9IDApPGJyIC8+wqArIHs8IS0tIC0tPjxiciAvPsKgKzxiciAvPsKg
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9nbXBfNi4yLjEuYmIgYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21wXzYuMi4xLmJiPGJyIC8+wqBpbmRleCBkNTk5NmFiZDAw
-Li43YzEyYTk3MjI4IDEwMDY0NDxiciAvPsKgLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21w
-L2dtcF82LjIuMS5iYjxiciAvPsKgKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21wL2dtcF82
-LjIuMS5iYjxiciAvPsKgQEAgLTEyLDYgKzEyLDcgQEAgU1JDX1VSSSA9ICI8YSBocmVmPSJodHRw
-czovL2dtcGxpYi5vcmcvZG93bmxvYWQvJCIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRw
-czovL2dtcGxpYi5vcmcvZG93bmxvYWQvJDwvYT57QlBOfS8ke0JQfSR7UkVWSVNJT059LnRhci5i
-ejIgXDxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgPGEgaHJlZj0iZmlsZTovL3VzZS1p
-bmNsdWRlZGlyLnBhdGNoIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmZpbGU6Ly91c2UtaW5j
-bHVkZWRpci5wYXRjaDwvYT4gXDxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgPGEgaHJl
-Zj0iaHR0cDovL2ZpbGUvLzAwMDEtQXBwZW5kLXRoZS11c2VyLXByb3ZpZGVkLWZsYWdzLXRvLXRo
-ZS1hdXRvLWRldGVjdGVkLS5wYXRjaCIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5maWxlOi8v
-MDAwMS1BcHBlbmQtdGhlLXVzZXItcHJvdmlkZWQtZmxhZ3MtdG8tdGhlLWF1dG8tZGV0ZWN0ZWQt
-LnBhdGNoPC9hPiBcPGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA8YSBocmVmPSJmaWxl
-Oi8vMDAwMS1jb25maXVyZS5hYy1iZWxpZXZlLXRoZS1jZmxhZ3MtZnJvbS1lbnZpcm9ubWVudC5w
-YXRjaCIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5maWxlOi8vMDAwMS1jb25maXVyZS5hYy1C
-ZWxpZXZlLXRoZS1jZmxhZ3MtZnJvbS1lbnZpcm9ubWVudC5wYXRjaDwvYT4gXDxiciAvPsKgKyA8
-YSBocmVmPSJmaWxlOi8vY3ZlLTIwMjEtNDM2MTgucGF0Y2giIHJlbD0ibm9vcGVuZXIgbm9yZWZl
-cnJlciI+ZmlsZTovL0NWRS0yMDIxLTQzNjE4LnBhdGNoPC9hPiBcPGJyIC8+wqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAiPGJyIC8+wqDCoFNSQ19VUklbbWQ1c3VtXSA9ICIyODk3MWZjMjFjZjAy
-ODA0MmQ0ODk3ZjAyZmQzNTVlYSI8YnIgLz7CoMKgU1JDX1VSSVtzaGEyNTZzdW1dID0gImVhZTkz
-MjZiZWI0MTU4YzM4NmUzOWEzNTY4MTgwMzFiZDI4ZjMxMjRjZjkxNWY4YzViMWRjNGM3YTM2YjRk
-N2MiPGJyIC8+wqAtLTxiciAvPsKgMi4zMi4wPGJyIC8+PGJyIC8+PGJyIC8+wqAtPS09LT0tPS09
-LT0tPS09LT0tPS09LTxiciAvPsKgTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50
-IHRvIHRoaXMgZ3JvdXAuPGJyIC8+wqBWaWV3L1JlcGx5IE9ubGluZSAoIzE1ODU2Myk6IDxhIGhy
-ZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21l
-c3NhZ2UvMTU4NTYzIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHBzOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTU4NTYzPC9hPjxiciAv
-PsKgTXV0ZSBUaGlzIFRvcGljOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcvbXQvODcyMzMxMTIvMTY3NjYxNSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwczov
-L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvODcyMzMxMTIvMTY3NjYxNTwvYT48YnIgLz7CoEdy
-b3VwIE93bmVyOiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZyIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5vcGVuZW1iZWRkZWQt
-Y29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxiciAvPsKgVW5zdWJzY3JpYmU6
-IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1j
-b3JlL3Vuc3ViIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHBzOi8vbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViPC9hPiBbPGEgaHJlZj0ibWFpbHRv
-OnJvc3NAYnVydG9uaW5pLmNvbSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5yb3NzQGJ1cnRv
-bmluaS5jb208L2E+XTxiciAvPsKgLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnIgLz7CoDwvYmxv
-Y2txdW90ZT48L2Jsb2NrcXVvdGU+
+On Fri, 2021-11-19 at 11:34 +0000, Luca Bocassi wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+> 
+> The useradd class is a no-op in the nativesdk case, so chown will fail.
+> Skip them.
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v2: use "${PN}" = "${BPN}" as suggested by reviewers
+
+I think that was bad advice since this would break multilib variants of the
+systemd recipe and I'd much prefer this was conditional on nativesdk.
+
+>  meta/recipes-core/systemd/systemd_249.5.bb | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd_249.5.bb b/meta/recipes-core/systemd/systemd_249.5.bb
+> index 8bdc0ca028..2df2de0cf3 100644
+> --- a/meta/recipes-core/systemd/systemd_249.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_249.5.bb
+> @@ -275,7 +275,10 @@ do_install() {
+>  		# which is expected to be empty.
+>  		rm -rf ${D}${localstatedir}/log
+>  	else
+> -		chown root:systemd-journal ${D}${localstatedir}/log/journal
+> +		# The useradd class is a no-op in the nativesdk case, so chown will fail
+> +		if [ "${PN}" = "${BPN}" ]; then
+> +			chown root:systemd-journal ${D}${localstatedir}/log/journal
+> +		fi
+>  
+>  		# journal-remote creates this at start
+>  		rm -rf ${D}${localstatedir}/log/journal/remote
+
+
+I'm guessing this is only failing on systems that don't have a systemd-jounral
+group as it built ok for me?
+
+The better way to fix this is probably to replicate what we have for native,
+i.e. the entry in the class:
+
+native.bbclass:PATH:prepend = "${COREBASE}/scripts/native-intercept:"
+
+which puts a chown and chgrp into PATH which doesn't do anything. We could do
+something similar for nativesdk and it would avoid the need for these if
+statements and solve the problem generically.
+
+I am also a bit concerned about some of the other "creeping" dependencies so I
+experimented a little with master to see how much it could be cut down. I could
+get working builds with the lines below:
+
+"""
+PACKAGECONFIG:remove:class-native = "vconsole xkbcommon sysvinit"
+PACKAGECONFIG:append:class-native = " serial-getty-generator"
+RDEPENDS:${PN}:remove:class-native = "volatile-binds"
+RRECOMMENDS:${PN}:remove:class-native = "os-release systemd-conf"
+RRECOMMENDS:${PN}-vconsole-setup:class-native = ""
+
+PACKAGECONFIG:remove:class-nativesdk = "vconsole xkbcommon sysvinit"
+PACKAGECONFIG:append:class-nativesdk = " serial-getty-generator"
+RDEPENDS:${PN}:remove:class-nativesdk = "volatile-binds"
+RRECOMMENDS:${PN}:remove:class-nativesdk = "os-release systemd-conf"
+RRECOMMENDS:${PN}-vconsole-setup:class-nativesdk = ""
+
+# Nothing picks up /var in the nativesdk case
+do_install:append:class-nativesdk () {
+       rm -rf ${D}/var
+}
+
+BBCLASSEXTEND = "native nativesdk"
+"""
+
+which removes the need to change os-release, kbd, systemd-conf and systemd-
+getty. To merge, we'd want to restructure this to alter the variable
+construction so we can avoid the use of the remove operator but it is an easy
+way to test and evaluate the extent of changes needed.
+
+The above also nearly has native builds working as well. To get that to build I
+had to patch meson.build:
+
+Index: git/meson.build
+===================================================================
+--- git.orig/meson.buildIndex: git/meson.build
+===================================================================
+--- git.orig/meson.build
++++ git/meson.build
+@@ -745,7 +745,7 @@ conf.set('CONTAINER_UID_BASE_MAX', conta
+ nobody_user = get_option('nobody-user')
+ nobody_group = get_option('nobody-group')
+ 
+-if not meson.is_cross_build()
++if false and not meson.is_cross_build()
+         getent_result = run_command('getent', 'passwd', '65534')
+         if getent_result.returncode() == 0
+                 name = getent_result.stdout().split(':')[0]
+
+since we want to use the "cross" codepath there regardless. That lets everything
+build but I did then see errors due to absolute path symlinks which would likely
+be fixable.
+
+I did this mainly as I wanted to understand how much of systemd is being build
+and packaged since many of these packages will not make sense in a SDK or a
+native build. I think the final piece of patch which we'd need to be able to
+merge something like this is to trim down what is being packaged up to the
+pieces which are actually useful in the native or nativesdk cases.
+
+Cheers,
+
+Richard
+
+
+
+
+
 
