@@ -1,128 +1,113 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62398C433EF
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 11:54:45 +0000 (UTC)
-Received: from forward105p.mail.yandex.net (forward105p.mail.yandex.net
- [77.88.28.108])
- by mx.groups.io with SMTP id smtpd.web12.5492.1637582083600391634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61E5CC433EF
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 11:56:24 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web08.5420.1637582183352635912
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 03:54:45 -0800
+ Mon, 22 Nov 2021 03:56:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
- header.s=mail header.b=cLY3wwc6;
- spf=pass (domain: zhukoff.net, ip: 77.88.28.108, mailfrom: pavel@zhukoff.net)
-Received: from iva8-bad74b408dcf.qloud-c.yandex.net
- (iva8-bad74b408dcf.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2c85:0:640:bad7:4b40])
-	by forward105p.mail.yandex.net (Yandex) with ESMTP id 6F34C2FD873D;
-	Mon, 22 Nov 2021 14:54:33 +0300 (MSK)
-Received: from iva4-b3ebd202b141.qloud-c.yandex.net
- (iva4-b3ebd202b141.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:b3eb:d202])
-	by iva8-bad74b408dcf.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- H7ansSvEp6-sWBSuiiL;
-	Mon, 22 Nov 2021 14:54:33 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1637582073;
-	bh=5vGg2UsY4jNNRtuZprW8NXx924g3rbd/tgVZZYSfpJo=;
-	h=Date:Subject:To:From:Message-Id:Cc;
-	b=cLY3wwc64WU8MHO5CRQQp2YkJXCqGDOg9Q2SWB5mZu7Sse+jXxsnh3hXOPZ3MCInx
-	 Pfly/qCfCvUUvjz42/Ff69Qhq5Q/FhD8bznrwehBLRxPGVUMD38p0Nw8Wt5bBv+aFL
-	 /CBTDCLq+3xXwELAIzx17Kd40rshtgwul5QXXz8Y=
-Authentication-Results: iva8-bad74b408dcf.qloud-c.yandex.net;
- dkim=pass header.i=@zhukoff.net
-Received: by iva4-b3ebd202b141.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id z1uKJnIdqD-sWwevIet;
-	Mon, 22 Nov 2021 14:54:32 +0300
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client certificate not present)
-X-Yandex-Fwd: 2
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel.zhukov@huawei.com>,
-	pavel@zhukoff.net
-Subject: [meta-oe][PATCH v2] gmp: Add security fix for CVE-2021-43618
-Date: Mon, 22 Nov 2021 12:54:18 +0100
-Message-Id: <20211122115418.1352-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y/Hr5cuh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id o29so15060230wms.2
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 22 Nov 2021 03:56:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=2j33lF9P84qXtC+FxztixQOXUQZPYIvhKQSEx+wOH5Y=;
+        b=Y/Hr5cuhk/LPXP0VFq51/xK4rOSsAQF1H3WP37SXxxpFO0+RIt87kM2/+7nzT4VPr5
+         EQ7xNW0trAYn07/8NNKY3qObgYSvsF5l73eVqRK3ULuAbLM1p3CZwGABKoz0CbnyDjTP
+         kNHr7Op3dmsZGQPZe0lMCGSwnO7WTIx7J1gSM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=2j33lF9P84qXtC+FxztixQOXUQZPYIvhKQSEx+wOH5Y=;
+        b=qxmu7KRX1WuNkQlfNEyFjW3fC+/sOkXv6u5YYuEEa5Zwimu7SmnLLRDwndCTldtcXG
+         kDDwFZJVDKJKe9/m+VWkSbczsVd8FO65YjExHs6ua+Q6WF4BN3u/ps/+53vGXLj89Q01
+         oqOUZJP43+udpK2lKnmAqNhr/9yYQywAasqHdrF2xBt6/05Z0lMrSzZrFox2YWDuVDfz
+         UkOzSvgOV2vjZLD7XQtULyd4+kZo2WYXj2JsOZ4mAxmylx3V+VSVmGv9l9+sxQq2+gYS
+         KVKzgr/jyJbumeDrSimkLkW1WT382+Bj1p8bfXVOLRpSPP5f6ojF/IpOcEO9ShrdghUa
+         t8kA==
+X-Gm-Message-State: AOAM531y5FXWlCg/fqBpY7eJvSkUce8uBAp4BrgV8Svz8Totvr0xCB21
+	gOURGxXkZ7Z6du9+oG2FhxAsPw==
+X-Google-Smtp-Source: 
+ ABdhPJzN291lr/v4/EmDlRc2aWr7HvomeJ9aWrGUfFYh9qg3JJRJxqTp/0KWXqbfyg2dTHOustR7fg==
+X-Received: by 2002:a05:600c:296:: with SMTP id
+ 22mr29629853wmk.135.1637582181723;
+        Mon, 22 Nov 2021 03:56:21 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e31:269d:c208:4e1f?
+ ([2001:8b0:aba:5f3c:e31:269d:c208:4e1f])
+        by smtp.gmail.com with ESMTPSA id
+ j40sm24804866wms.19.2021.11.22.03.56.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 03:56:21 -0800 (PST)
+Message-ID: 
+ <db2638a45928ea0d875de1cc62c9fc4ea5dc9149.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 4/7] systemd: remove volatile-binds
+ RDEPENDS for nativesdk
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Luca Bocassi <luca.boccassi@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@microsoft.com
+Date: Mon, 22 Nov 2021 11:56:19 +0000
+In-Reply-To: <20211119113429.502652-4-luca.boccassi@gmail.com>
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+	 <20211119113429.502652-1-luca.boccassi@gmail.com>
+	 <20211119113429.502652-4-luca.boccassi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 11:54:45 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 11:56:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158563
+ https://lists.openembedded.org/g/openembedded-core/message/158564
 
-From: Pavel Zhukov <pavel.zhukov@huawei.com>
+On Fri, 2021-11-19 at 11:34 +0000, Luca Bocassi wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+> 
+> Not needed for SDK binaries
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v2: remove dependency instead of adding nativesdk to volatile-binds
+> 
+>  meta/recipes-core/systemd/systemd_249.5.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd_249.5.bb b/meta/recipes-core/systemd/systemd_249.5.bb
+> index 9993036aac..2928a85c93 100644
+> --- a/meta/recipes-core/systemd/systemd_249.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_249.5.bb
+> @@ -644,6 +644,7 @@ FILES:${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
+>  RDEPENDS:${PN} += "kmod dbus util-linux-mount util-linux-umount udev (= ${EXTENDPKGV}) systemd-udev-rules util-linux-agetty util-linux-fsck"
+>  RDEPENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+>  RDEPENDS:${PN} += "volatile-binds"
+> +RDEPENDS_${PN}_remove_class-nativesdk = "volatile-binds"
+>  
+>  RRECOMMENDS:${PN} += "systemd-extra-utils \
+>                        udev-hwdb \
 
-Fix mpz/inp_raw.c integer overflow and resultant buffer overflow via craf=
-ted input,
-leading to a segmentation fault on 32-bit platforms.
+This patch raises a few questions like how this is being tested?
 
-References: https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e
-References: https://gmplib.org/list-archives/gmp-bugs/2021-September/0050=
-77.html
-References: https://bugs.debian.org/994405
+The override syntax changed so the avoid would never have worked with master.
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
----
- .../gmp/gmp/CVE-2021-43618.patch              | 25 +++++++++++++++++++
- meta/recipes-support/gmp/gmp_6.2.1.bb         |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
+Also, I have a strong preference for not using remove operators in OE-Core, you
+can usually rearrange things so that it isn't necessary. The reason for that is
+that it is very hard to override these operations. I know we do have some but
+minimising them is good.
 
-diff --git a/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch b/meta/rec=
-ipes-support/gmp/gmp/CVE-2021-43618.patch
-new file mode 100644
-index 0000000000..f741972439
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
-@@ -0,0 +1,25 @@
-+
-+# HG changeset patch
-+# User Marco Bodrato <bodrato@mail.dm.unipi.it>
-+# Date 1634836009 -7200
-+# Node ID 561a9c25298e17bb01896801ff353546c6923dbd
-+# Parent  e1fd9db13b475209a864577237ea4b9105b3e96e
-+mpz/inp_raw.c: Avoid bit size overflows
-+
-+diff -r e1fd9db13b47 -r 561a9c25298e mpz/inp_raw.c
-+--- a/mpz/inp_raw.c	Tue Dec 22 23:49:51 2020 +0100
-++++ b/mpz/inp_raw.c	Thu Oct 21 19:06:49 2021 +0200
-+@@ -88,8 +88,11 @@
-+=20
-+   abs_csize =3D ABS (csize);
-+=20
-++  if (UNLIKELY (abs_csize > ~(mp_bitcnt_t) 0 / 8))
-++    return 0; /* Bit size overflows */
-++
-+   /* round up to a multiple of limbs */
-+-  abs_xsize =3D BITS_TO_LIMBS (abs_csize*8);
-++  abs_xsize =3D BITS_TO_LIMBS ((mp_bitcnt_t) abs_csize * 8);
-+=20
-+   if (abs_xsize !=3D 0)
-+     {
-+
-diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support=
-/gmp/gmp_6.2.1.bb
-index d5996abd00..7c12a97228 100644
---- a/meta/recipes-support/gmp/gmp_6.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_6.2.1.bb
-@@ -12,6 +12,7 @@ SRC_URI =3D "https://gmplib.org/download/${BPN}/${BP}${=
-REVISION}.tar.bz2 \
-            file://use-includedir.patch \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detect=
-ed-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.p=
-atch \
-+           file://CVE-2021-43618.patch \
-            "
- SRC_URI[md5sum] =3D "28971fc21cf028042d4897f02fd355ea"
- SRC_URI[sha256sum] =3D "eae9326beb4158c386e39a356818031bd28f3124cf915f8c=
-5b1dc4c7a36b4d7c"
---=20
-2.32.0
+Cheers,
+
+Richard
 
 
