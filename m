@@ -1,71 +1,100 @@
-Return-Path: <denis@denix.org>
+Return-Path: <jupiter.hce@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D0D9C433F5
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 17:43:16 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.1119.1637602994384672656
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65328C433FE
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 20:34:30 +0000 (UTC)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
+ [209.85.222.42])
+ by mx.groups.io with SMTP id smtpd.web08.1843.1637613269023084291
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 09:43:14 -0800
+ Mon, 22 Nov 2021 12:34:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
- mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id F0F7C40C30;
-	Mon, 22 Nov 2021 17:43:12 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MVKKrQWpu4-x; Mon, 22 Nov 2021 17:43:12 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
- [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C275040AC9;
-	Mon, 22 Nov 2021 17:43:08 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id EE74B1746D4; Mon, 22 Nov 2021 12:43:07 -0500 (EST)
-Date: Mon, 22 Nov 2021 12:43:07 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	"ppaalanen@gmail.com" <ppaalanen@gmail.com>
-Subject: Re: pls comment on weston non-PAM patch (link inside)
-Message-ID: <20211122174307.GQ18191@denix.org>
-References: 
- <CANNYZj8h4kDhv-ZqkKqMY_aXAezOVYmmrV28jn-jQjdK-d3N2Q@mail.gmail.com>
- <CANNYZj-A4OU5FvM3sMLDfYiv0KBujAifRnCijZHxa_GP4YvELA@mail.gmail.com>
- <DBBPR04MB7753DF2FEB25F92BAD71E716E29C9@DBBPR04MB7753.eurprd04.prod.outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n/8ODJlb;
+ spf=pass (domain: gmail.com, ip: 209.85.222.42,
+ mailfrom: jupiter.hce@gmail.com)
+Received: by mail-ua1-f42.google.com with SMTP id n6so39257090uak.1
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 22 Nov 2021 12:34:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lfsHlyrKY4t2w+5PRxbM1Azn9Yq6J6jLVnVYcObCDXQ=;
+        b=n/8ODJlbWH7siUKqwUA1T0vZKfNdbZFpue3KkAUXZMsK8CxC5bialJ5LGzRdV4D7pZ
+         De5/UN9hOJ7EGT3W82gjJW/lgsdaAt5ae96RuEhBNtQiiCJ8+BEXIrxR04k3Zwf4tBMc
+         LGClJM+R+uyoWX6WLX9WhwSF7u2D6vEDJCDo6VAqbtznfadMgRTbMRgZxQ9f65STLJI8
+         xf2jbyDfyJ3g+GIv7S6zfVA6Ub99Bicg7EVGzNp+4izbbIfxknTKKrTCaN1nd2o7O6pa
+         UV1xvcszrzycVe4WSxpsX9uaapJR0BvfwL5SyElJROeeW1QNxz2zYyCRHjF8rHp61TRk
+         YiNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lfsHlyrKY4t2w+5PRxbM1Azn9Yq6J6jLVnVYcObCDXQ=;
+        b=R+3jMZjx08NY8244Jnti9j/HQRfQDQgLJOig0g9rFdSujtzgpq3MKv1QxXwN3b6ekP
+         17YDxykYj0iU4oyHGYKVyJCapNuzHRX0vEyRn79S5JND1Y7W+32f5TLlMY9SBLVESahw
+         tQGsLSTk4bfOYtbnR80i3lSB6AVjSGDFuWsqaWeKirchRU3WW/ORXjYGZUatNny7HYic
+         aeqD3KO17xJqXqgoEgexWandAkRU4qSG90fsKd0feZxYYgyp780gHytphBpoGyhyu2JS
+         005EABcI6JqWKzUxGvoURcA+CRTk60Em9BtJrwYGfCdvrObrBOQFwdXXyQ76xpz/VOqw
+         wOsQ==
+X-Gm-Message-State: AOAM530NMgx31wLB1QnYgU6EglcWMmSdyaF/dOQT4emlf8xuASm26kNp
+	hoSEB/K5JhfBxQ+mylb0AbEZzjiFs9mnlERhjfhYnY2X
+X-Google-Smtp-Source: 
+ ABdhPJzgCOeeICjFGJvJsB/f6JLF4AGEVyVnembKXlfkr7T/y53VzxoyFRiZqRg44kTTLyVmL5z+90vOFHjbiUYcqK8=
+X-Received: by 2002:ab0:22c6:: with SMTP id z6mr90545655uam.80.1637613268024;
+ Mon, 22 Nov 2021 12:34:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <DBBPR04MB7753DF2FEB25F92BAD71E716E29C9@DBBPR04MB7753.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+References: 
+ <CAA=hcWQt4W4F16jZpNfj427+Om7EvJMs+-QKbeq1_NkoQSQW_A@mail.gmail.com>
+ <bdfa8797-6c8d-938c-9eb6-8ab12cfcc7aa@bootlin.com>
+In-Reply-To: <bdfa8797-6c8d-938c-9eb6-8ab12cfcc7aa@bootlin.com>
+From: Jupiter <jupiter.hce@gmail.com>
+Date: Tue, 23 Nov 2021 07:33:51 +1100
+Message-ID: 
+ <CAA=hcWRBT0bwq1P2yWbRUBHg0+mmkOYgAPc_sWQ7_UsWh2o6Kg@mail.gmail.com>
+Subject: Re: [yocto] Honister version: ERROR: QA Issue: Files/directories were
+ installed but not shipped
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: yocto <yocto@lists.yoctoproject.org>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 17:43:16 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 20:34:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158587
+ https://lists.openembedded.org/g/openembedded-core/message/158588
 
-On Fri, Nov 19, 2021 at 05:58:42PM +0000, Tom Hochstein wrote:
-> Thanks Alex. @Otavio<mailto:otavio.salvador@ossystems.com.br> pushed the 
-> hardest for the use case and I don't really have anything to add. Given that 
-> Pekka has suggested that there is a better approach without weston-launch, 
-> it seems that removing the patch is fine. In the worst case we can backport 
-> the patch to meta-freescale until we have a new solution.
+Thanks Michael, greatly appreciate it.
 
-I would agree - if upstream supports our use case differently, we should 
-probably switch to using it and drop the patch. That would be less burden 
-updating it between the versions...
 
--- 
-Regards,
-Denys Dmytriyenko <denis@denix.org>
-PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
-Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+On 11/23/21, Michael Opdenacker <michael.opdenacker@bootlin.com> wrote:
+> Hi Jupiter,
+>
+> On 11/22/21 10:51 AM, JH wrote:
+>> Hi,
+>>
+>> I was able to build my package in Zeus, I am now upgrading from Zeus
+>> to Honister, the same package I could build in Zeus now failed in
+>> Honister at do_package where I installed my libraries and symbolic
+>> libraries links to my own RW locations:
+>>
+>> ERROR: QA Issue: Files/directories were installed but not shipped
+>>
+>> I purposely separate my application libraries and symbolic libraries
+>> links from traditional system RO library location to my application RW
+>> locations, I know how to handle it, it works perfectly built in Zeus,
+>> I don't need the Yocto QA to police it, I tried to add an empty
+>> do_package_qa() in my receipt, it does not work either. Are there any
+>> ways to disable package QA?
+>>
+>> Appreciate your advice either how to fix it or disable package QA.
+>
+>
+> These checks can be disabled. See
+> https://docs.yoctoproject.org/ref-manual/classes.html?highlight=insane#insane-bbclass
+> Cheers
+> Michael.
+>
 
