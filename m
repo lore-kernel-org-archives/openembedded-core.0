@@ -1,103 +1,71 @@
-Return-Path: <daniel.diaz@linaro.org>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606DFC433F5
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 17:23:54 +0000 (UTC)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
- by mx.groups.io with SMTP id smtpd.web08.895.1637601833595725376
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D0D9C433F5
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 17:43:16 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.1119.1637602994384672656
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 09:23:53 -0800
+ Mon, 22 Nov 2021 09:43:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=LEMT3tvn;
- spf=pass (domain: linaro.org, ip: 209.85.161.44,
- mailfrom: daniel.diaz@linaro.org)
-Received: by mail-oo1-f44.google.com with SMTP id
- e17-20020a4a8291000000b002c5ee0645e7so6614431oog.2
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 09:23:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=KOrfqrUrrm46RVoOds6SMMrooBShm/vjAxUhJIXZbOc=;
-        b=LEMT3tvnY5SQXjbiEflCzVu0t6F0MPNRa4GDcAWn8e9JxvFxGvYxpppm5vBQVHbNp1
-         N6yj4MRmCmfy9Nbi3u/iT3jaD+OgCrK7lG+4UjE2EaNBKCyoFo4lAkIpt2yU2Ol1w/nX
-         MEacL+MazDj3SNhe/rz+DLl04MHJdVL7Yk3U3khxk+Kzj7vgYmuMgdw++DHunihzvxDu
-         PL5HzhODRdnbUaZRfqLNCO049q1OjZb37jTLJPOvXLCD/7zeRKpl2eNyA+n/REnZpu9P
-         oD0lpel11eDnH4nfEPcDNKt9niJPqUoNRJlozPa8VoiC5Zqlr1r4ki0zvIpdZWe4az1c
-         ybFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KOrfqrUrrm46RVoOds6SMMrooBShm/vjAxUhJIXZbOc=;
-        b=8DifbeWjm2+aDg8DDcTj08uqsiEnkjZwfyKPz1X5LwBt9ehwrG3LhPaHOE+vhwdSoI
-         KGvxf2bmy+Rypd4Ju2rMscrjJBzYYLfWHkR9P8uxm6bLNfHoke0aPt7e/82ydyeCCq71
-         zCU26dsXA4x5WpKQQSVbIeh/Kmtzy56iFHSC0hz+hTRxNHiz4Cr5hCHAWvLJLCPn4i1L
-         Ezbs2YRiIq4NppRHs7Zui0muQF3ppQT8fmHJGyXAHUGxZnyYC+bjS9HCwhfGAvKcZNqX
-         b5KRviTNqPBUSAeen6RDGR2AyNDc33rhhzbXMQryGFqPkKvFAhmgMUgTEpjLiMUGBHk3
-         B4XQ==
-X-Gm-Message-State: AOAM531ivkrfqGzkkFAJyC9O8bdRs5L60Av5d/hp7nSQFx7AshS4XuNO
-	gkjrMiI71jqYwiuTcouFYC3Xw5QKMa7UOSaRrPyxew==
-X-Google-Smtp-Source: 
- ABdhPJzfNjexh6TW3EYunWc22SiG6CMPjMPBGCCjMWY9PM7VIQn3NNfCo2Hq/Rj5+yl//MkFfw1EQuXARzdRs/o6iJA=
-X-Received: by 2002:a4a:85cf:: with SMTP id u15mr31770641ooh.45.1637601832806;
- Mon, 22 Nov 2021 09:23:52 -0800 (PST)
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
+ mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id F0F7C40C30;
+	Mon, 22 Nov 2021 17:43:12 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MVKKrQWpu4-x; Mon, 22 Nov 2021 17:43:12 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+ [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C275040AC9;
+	Mon, 22 Nov 2021 17:43:08 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id EE74B1746D4; Mon, 22 Nov 2021 12:43:07 -0500 (EST)
+Date: Mon, 22 Nov 2021 12:43:07 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	"ppaalanen@gmail.com" <ppaalanen@gmail.com>
+Subject: Re: pls comment on weston non-PAM patch (link inside)
+Message-ID: <20211122174307.GQ18191@denix.org>
+References: 
+ <CANNYZj8h4kDhv-ZqkKqMY_aXAezOVYmmrV28jn-jQjdK-d3N2Q@mail.gmail.com>
+ <CANNYZj-A4OU5FvM3sMLDfYiv0KBujAifRnCijZHxa_GP4YvELA@mail.gmail.com>
+ <DBBPR04MB7753DF2FEB25F92BAD71E716E29C9@DBBPR04MB7753.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-References: <20211122163459.41079-1-max.krummenacher@toradex.com>
- <CADkTA4N0kF36bOyQu=jOkT_253zQy9sXqnywv9z_E5GZeewpJw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: 
- <CADkTA4N0kF36bOyQu=jOkT_253zQy9sXqnywv9z_E5GZeewpJw@mail.gmail.com>
-From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Date: Mon, 22 Nov 2021 11:23:41 -0600
-Message-ID: 
- <CAEUSe7_pESAniiBwAv2oASHi6je67zf7sMw1F2TNcas_1raspA@mail.gmail.com>
-Subject: Re: [oe][OE-core][Patch 0/2] perf: sort-pmuevents: some fixes
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Max Krummenacher <max.oss.09@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <DBBPR04MB7753DF2FEB25F92BAD71E716E29C9@DBBPR04MB7753.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 17:23:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 17:43:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158586
+ https://lists.openembedded.org/g/openembedded-core/message/158587
 
-Hello!
+On Fri, Nov 19, 2021 at 05:58:42PM +0000, Tom Hochstein wrote:
+> Thanks Alex. @Otavio<mailto:otavio.salvador@ossystems.com.br> pushed the 
+> hardest for the use case and I don't really have anything to add. Given that 
+> Pekka has suggested that there is a better approach without weston-launch, 
+> it seems that removing the patch is fine. In the worst case we can backport 
+> the patch to meta-freescale until we have a new solution.
 
-On Mon, 22 Nov 2021 at 10:51, Bruce Ashfield <bruce.ashfield@gmail.com> wro=
-te:
-> On Mon, Nov 22, 2021 at 11:35 AM Max Krummenacher <max.oss.09@gmail.com> =
-wrote:
-[...]
-> > Note that the kernel itself doesn't build either as after 5.15 it now
-> > does try to run the dt_binding_check for which the kernel recipe does
-> > not provide whatever stuff is needed.
-> > I just did a revert patch for commit 53182e81f47d ("kbuild: Enable
-> > DT schema checks for %.dtb targets") to get over that.
->
-> I have a fixefor that particular problem (the bindings),  so you can
-> safely continue to ignore it .. but I hadn't gotten around to fixing
-> perf yet.
-[...]
+I would agree - if upstream supports our use case differently, we should 
+probably switch to using it and drop the patch. That would be less burden 
+updating it between the versions...
 
-I don't mean to hijack the subject, but do you have some quick
-pointers on that? We're seeing the same on linux-next and
-linux-mainline since that patch landed in those trees, and have
-soft-reverted the commit for now. This (incomplete) recipe has not
-helped us get through that:
-
-  https://github.com/mrchapp/meta-lkft/blob/d/add-dtschema/recipes-devtools=
-/python/dtschema_2021.10.bb
-
-Thanks and greetings!
-
-Daniel D=C3=ADaz
-daniel.diaz@linaro.org
+-- 
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
 
