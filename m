@@ -1,301 +1,118 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 477FFC433FE
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 14:17:54 +0000 (UTC)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by mx.groups.io with SMTP id smtpd.web10.6888.1637590673580216640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 071F7C433F5
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 14:58:58 +0000 (UTC)
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com
+ [195.245.230.83])
+ by mx.groups.io with SMTP id smtpd.web09.7400.1637593136663523155
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 06:17:53 -0800
+ Mon, 22 Nov 2021 06:58:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Iao9exWW;
- spf=pass (domain: gmail.com, ip: 209.85.222.43,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f43.google.com with SMTP id p37so36773250uae.8
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 06:17:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K4gCuewAUoAfd0D05ZmAxxMMO43592JNlwnFAYkDlzo=;
-        b=Iao9exWW6iUpe5PgtEIFLtMxp574WB5CKGG85ST9u/TRfvAvIu2yMc7gBJUVmcFQtf
-         7Xm90PN2q0m5T/AXNFLNgYFkhX0fqEBqDiK8z79LY/60MRulnqbyUxCyt6PS0t6rtlE+
-         gpyp/wxji47l7Dl+yPp7fV+IjUmEkRy6wtYk+7xdOHfdC/e2QEs7LsZGKv4Yg0+Tv8RM
-         d2sAdleMbrmT96ER60tIcPkjkV1S/7swbuPlQBmdGrB9XUtZHA1DI2UZVHWbD0NfZLtV
-         paas3QH8mSQKiAtQM3LISZF1Ns5gNyDO9O+bp2IxC1B37wHZxFgf/rImiPm44Us4xT1o
-         Sygg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K4gCuewAUoAfd0D05ZmAxxMMO43592JNlwnFAYkDlzo=;
-        b=PEBBamkR0oEAe20Ap0B7JU5iH7GCbwjTZOY+CaxJ0DDXwy8SBAGQEWQ9xjCBCGHeqy
-         o+KmW+ZVvTlV6W4DKCpzKdJ3chTvjVABbKwgiOytTqVyQwVxxym9asek2C7rugRVzBGF
-         2j8HK0n4+sC3646mJj+Aq4h3PZU2LoLEGyanregu5L8XX2QyaGbpAfdHfliHPbguP1Ve
-         x6qH6i/fkZxb3PeAN8HaldqaDqj3nj+PLU35uabhSs37uuph15hQIEPHOQCy+Xjxh3MY
-         aGSWccZlOZfbgZJ4w0MKyEVampA0BcfzB1jqRrA/JPCibu0RYsdYjdxXCIsrLgqI0tsV
-         eLIg==
-X-Gm-Message-State: AOAM530Bd+/wFd0ugC10J5upOWJGKKIsepCXS3iYYNuKBcl9ZmP5LtAd
-	aHrGrLPSj8shz5wYmBFKMlnp9QTcxYK4/0UI8hE=
-X-Google-Smtp-Source: 
- ABdhPJxvyW7cCoV8lVgOui0iiyqrg5sVc/BuCnpclfwsA25y0udgCkhQdJyVP5x4j8z1AxsPuWF9dUWATDYoy4NTEak=
-X-Received: by 2002:a05:6102:b13:: with SMTP id
- b19mr133041289vst.1.1637590672715;
- Mon, 22 Nov 2021 06:17:52 -0800 (PST)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=p5jyL3xG;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.83,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1637593134; i=@fujitsu.com;
+	bh=q5pqmpUuDTmGNAcUVPUDxpx6ibAntSTHZ9i7HXgrLfo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=p5jyL3xGRDb0fHUG9qPNFG6GzRtiQGbOgteCe3BO64V+VStoQk/AduY5AGdpR+CTV
+	 uESGQJ9AX36n2n4/s31hp+bRKagGCclRhCNxWFXDiSatnc1LAMgEtaBONX3zjhe7uj
+	 yMp5i7f/4LNN6fbzXolkj/9tNKwNhdVLFP5/tmSXbWBdOmGzPWV7waUYA0SWFNkW1s
+	 lOTm4Si6y8ozW5UUNsNAInCdrvNNXswZ7MSUw0JjINVa4jxAknE9KiaIVbYHcH4Gy4
+	 HnK++ZUFKgrh9phenFVA1DgrQkvtA+z23hsG1bvTVbXSENFfNGt1IlP6z3Z2wHor2Z
+	 Rms+PaT6jRvBQ==
+Received: from [100.112.196.154] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id D5/DF-09147-E20BB916;
+ Mon, 22 Nov 2021 14:58:54 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MxSVdvw+x
+  Eg6ZjYhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bHPzIFHzgr2s/uY25g/MLRxcjFISTwmFFi
+  0qTzzBDOeSaJhp1f2boYOYGcE4wSW/YFg9hsAmoS02/dYO1i5OAQEdCTuPpPFCTMLKAi8eJ3D
+  zuILSxgLrF5zR0mEJtFQFXie+MXZhCbV8BJ4tThTWAjJQQUJKY8fA8VF5Q4OfMJC8QcCYmDL1
+  4wQ9QoSsy+3MwCYVdIzJrVxgRhq0lcPbeJeQIj/ywk7bOQtC9gZFrFaJFUlJmeUZKbmJmja2h
+  goGtoaKRraGmma2RqqpdYpZukl1qqW55aXKJrqJdYXqxXXJmbnJOil5dasokRGIwpBUf+72Bc
+  /uaD3iFGSQ4mJVFeo9mzE4X4kvJTKjMSizPii0pzUosPMcpwcChJ8D5eB5QTLEpNT61Iy8wBR
+  gZMWoKDR0mE1wEkzVtckJhbnJkOkTrFqMux6sD0VcxCLHn5ealS4ry3QYoEQIoySvPgRsCi9B
+  KjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYV779UBTeDLzSuA2vQI6ggnoiNPHp4McUZKIkJJ
+  qYCqpyT7R+PIv65/vuyv87Q13ZrWtEGap/Xsxu+7bpWOei7aVFCtOab727cyF27uCRbdqBvia
+  dxgdvfmyymkLm8mtz6ul1s34K5J5w+WM1qbXeexx/9bO39Z+ZZr8g4WbuGfrxRy4l2k9l705x
+  CNHLdJr152dDTWvf//YkWn88v6E9sDY0s3T90yd696UNu360rkHZJ04//gyarNvvMb3Sn2n8r
+  GHQkz8t11cvbtM/XbO57mUHldv0mb7MXuhgPa8P7VfLm3h/fDTJ+qyf+SpGcK6EraHEoJDVyf
+  1H1e9eXZb+tTt9RcfNPDmOVWKdLb7PeCYfMi3cvGXvz8Fiz6xtZ7c9ujqO6WbtxP0JpqHh05U
+  YinOSDTUYi4qTgQAq2NW7k0DAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-10.tower-285.messagelabs.com!1637593134!1091712!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 3670 invoked from network); 22 Nov 2021 14:58:54 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-10.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 22 Nov 2021 14:58:54 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id BDA2C100468
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 22 Nov 2021 14:58:53 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 88B9110046C
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 22 Nov 2021 14:58:53 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 22 Nov 2021 14:58:44 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libcap: upgrade 2.60 -> 2.61
+Date: Mon, 22 Nov 2021 22:58:30 +0800
+Message-ID: <1637593113-99188-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20211117123201.111905-1-luca.boccassi@gmail.com>
- <20211119113429.502652-1-luca.boccassi@gmail.com>
- <AM9PR09MB4642F4FE2BBA8DF859A98BE1A89F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642F4FE2BBA8DF859A98BE1A89F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 22 Nov 2021 15:17:41 +0100
-Message-ID: 
- <CANNYZj_TvYaEx5Gv7e-xYY9SpRY-VNcLttkzNQLhauOMUAK9fg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/7] systemd: skip chown when building for
- nativesdk
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Luca Bocassi <luca.boccassi@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
- paul.eggleton@microsoft.com
-Content-Type: multipart/alternative; boundary="00000000000055b3fc05d1614a40"
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 14:17:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 14:58:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158570
+ https://lists.openembedded.org/g/openembedded-core/message/158572
 
---00000000000055b3fc05d1614a40
-Content-Type: text/plain; charset="UTF-8"
+better number parsing in capsh and setcap;
+fixed segfaulting in .so executables;
+added example of capable shared library object.
 
-Indeed; in the absence of tests that exercise this functionality - either
-SDK tests, or direct bitbake tests - it's hard to say if
-this is an experiment that may not be sustainable long term, or something
-systemd upstream is actually committed to.
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ meta/recipes-support/libcap/{libcap_2.60.bb => libcap_2.61.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcap/{libcap_2.60.bb => libcap_2.61.bb} (96%)
 
-Alex
+diff --git a/meta/recipes-support/libcap/libcap_2.60.bb b/meta/recipes-support/libcap/libcap_2.61.bb
+similarity index 96%
+rename from meta/recipes-support/libcap/libcap_2.60.bb
+rename to meta/recipes-support/libcap/libcap_2.61.bb
+index 030198c41b..a3a6e10b89 100644
+--- a/meta/recipes-support/libcap/libcap_2.60.bb
++++ b/meta/recipes-support/libcap/libcap_2.61.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+            "
+-SRC_URI[sha256sum] = "06a92076ce39a78bd28089e32085f1bde7f3bfa448fad37d895c2358f760b2eb"
++SRC_URI[sha256sum] = "c1e29680f8bcc51b172e9a8eb9a7a4d7255a00a14301a7c2cf96d1febf7449a5"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+ 
+-- 
+2.25.1
 
-On Mon, 22 Nov 2021 at 14:57, Konrad Weihmann <kweihmann@outlook.com> wrote:
-
-> I have sort of a general question regarding this patch series.
->
-> Last time I checked (and yeah it's been a while back) systemd-analyze
-> wasn't self-containing, meaning it would have to have a running systemd
-> process and at least a running dbus iirc.
->
-> Is that still the case?
-> If yes, how should that work here?
-> Do we want to spawn a systemd per workspace/SDK?
-> What about the weird setting that systemd somehow requires us to assign
-> PID 1 to it?
-> What about systems that have already a systemd instance running - and
-> what about the systems that don't?
->
-> And if not (and all of sudden systemd project finally decided to
-> recognize the cross-compile use case), does this only apply to
-> systemd-analyze?
->
-> I would be happy if you could shed some light on these questions. Thx
->
-> On 19.11.21 12:34, Luca Bocassi wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> >
-> > The useradd class is a no-op in the nativesdk case, so chown will fail.
-> > Skip them.
-> >
-> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > ---
-> > v2: use "${PN}" = "${BPN}" as suggested by reviewers
-> >
-> >   meta/recipes-core/systemd/systemd_249.5.bb | 10 ++++++++--
-> >   1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/systemd/systemd_249.5.bb
-> b/meta/recipes-core/systemd/systemd_249.5.bb
-> > index 8bdc0ca028..2df2de0cf3 100644
-> > --- a/meta/recipes-core/systemd/systemd_249.5.bb
-> > +++ b/meta/recipes-core/systemd/systemd_249.5.bb
-> > @@ -275,7 +275,10 @@ do_install() {
-> >               # which is expected to be empty.
-> >               rm -rf ${D}${localstatedir}/log
-> >       else
-> > -             chown root:systemd-journal ${D}${localstatedir}/log/journal
-> > +             # The useradd class is a no-op in the nativesdk case, so
-> chown will fail
-> > +             if [ "${PN}" = "${BPN}" ]; then
-> > +                     chown root:systemd-journal
-> ${D}${localstatedir}/log/journal
-> > +             fi
-> >
-> >               # journal-remote creates this at start
-> >               rm -rf ${D}${localstatedir}/log/journal/remote
-> > @@ -319,7 +322,10 @@ do_install() {
-> >       if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true',
-> 'false', d)}; then
-> >               if [ -d ${D}${datadir}/polkit-1/rules.d ]; then
-> >                       chmod 700 ${D}${datadir}/polkit-1/rules.d
-> > -                     chown polkitd:root ${D}${datadir}/polkit-1/rules.d
-> > +                     # The useradd class is a no-op in the nativesdk
-> case, so chown will fail
-> > +                     if [ "${PN}" = "${BPN}" ]; then
-> > +                             chown polkitd:root
-> ${D}${datadir}/polkit-1/rules.d
-> > +                     fi
-> >               fi
-> >       fi
-> >
-> >
-> >
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158569):
-> https://lists.openembedded.org/g/openembedded-core/message/158569
-> Mute This Topic: https://lists.openembedded.org/mt/87165491/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000055b3fc05d1614a40
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Indeed; in the absence of tests that exercise this fu=
-nctionality - either SDK tests, or direct bitbake tests - it&#39;s hard to =
-say if</div><div>this is an experiment that may not be sustainable long ter=
-m, or something systemd upstream is actually committed to.</div><div><br></=
-div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Mon, 22 Nov 2021 at 14:57, Konrad Weihmann &lt;<a=
- href=3D"mailto:kweihmann@outlook.com">kweihmann@outlook.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I have sort of =
-a general question regarding this patch series.<br>
-<br>
-Last time I checked (and yeah it&#39;s been a while back) systemd-analyze <=
-br>
-wasn&#39;t self-containing, meaning it would have to have a running systemd=
- <br>
-process and at least a running dbus iirc.<br>
-<br>
-Is that still the case?<br>
-If yes, how should that work here?<br>
-Do we want to spawn a systemd per workspace/SDK?<br>
-What about the weird setting that systemd somehow requires us to assign <br=
->
-PID 1 to it?<br>
-What about systems that have already a systemd instance running - and <br>
-what about the systems that don&#39;t?<br>
-<br>
-And if not (and all of sudden systemd project finally decided to <br>
-recognize the cross-compile use case), does this only apply to <br>
-systemd-analyze?<br>
-<br>
-I would be happy if you could shed some light on these questions. Thx<br>
-<br>
-On 19.11.21 12:34, Luca Bocassi wrote:<br>
-&gt; From: Luca Boccassi &lt;<a href=3D"mailto:luca.boccassi@microsoft.com"=
- target=3D"_blank">luca.boccassi@microsoft.com</a>&gt;<br>
-&gt; <br>
-&gt; The useradd class is a no-op in the nativesdk case, so chown will fail=
-.<br>
-&gt; Skip them.<br>
-&gt; <br>
-&gt; Signed-off-by: Luca Boccassi &lt;<a href=3D"mailto:luca.boccassi@micro=
-soft.com" target=3D"_blank">luca.boccassi@microsoft.com</a>&gt;<br>
-&gt; ---<br>
-&gt; v2: use &quot;${PN}&quot; =3D &quot;${BPN}&quot; as suggested by revie=
-wers<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_249.5.=
-bb" rel=3D"noreferrer" target=3D"_blank">systemd_249.5.bb</a> | 10 ++++++++=
---<br>
-&gt;=C2=A0 =C2=A01 file changed, 8 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_249.5=
-.bb" rel=3D"noreferrer" target=3D"_blank">systemd_249.5.bb</a> b/meta/recip=
-es-core/systemd/<a href=3D"http://systemd_249.5.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">systemd_249.5.bb</a><br>
-&gt; index 8bdc0ca028..2df2de0cf3 100644<br>
-&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_249.5.bb" re=
-l=3D"noreferrer" target=3D"_blank">systemd_249.5.bb</a><br>
-&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_249.5.bb" re=
-l=3D"noreferrer" target=3D"_blank">systemd_249.5.bb</a><br>
-&gt; @@ -275,7 +275,10 @@ do_install() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# which is expec=
-ted to be empty.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${loc=
-alstatedir}/log<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chown root:systemd-jo=
-urnal ${D}${localstatedir}/log/journal<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# The useradd class i=
-s a no-op in the nativesdk case, so chown will fail<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${PN}&quot=
-; =3D &quot;${BPN}&quot; ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0chown root:systemd-journal ${D}${localstatedir}/log/journal<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# journal-remote=
- creates this at start<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${loc=
-alstatedir}/log/journal/remote<br>
-&gt; @@ -319,7 +322,10 @@ do_install() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if ${@bb.utils.contains(&#39;PACKAGECONFIG&#=
-39;, &#39;polkit&#39;, &#39;true&#39;, &#39;false&#39;, d)}; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${da=
-tadir}/polkit-1/rules.d ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0chmod 700 ${D}${datadir}/polkit-1/rules.d<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0chown polkitd:root ${D}${datadir}/polkit-1/rules.d<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0# The useradd class is a no-op in the nativesdk case, so chown will =
-fail<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if [ &quot;${PN}&quot; =3D &quot;${BPN}&quot; ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chown polkitd:root ${D}${datadir}/polkit=
--1/rules.d<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#158569): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/158569" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/158569</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87165491/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87165491/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000055b3fc05d1614a40--
 
