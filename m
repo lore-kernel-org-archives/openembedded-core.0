@@ -2,7 +2,7 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A202C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5934CC4167D
 	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 02:20:55 +0000 (UTC)
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
  by mx.groups.io with SMTP id smtpd.web10.1405.1637547653561434812
@@ -11,24 +11,24 @@ Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="298122216"
+X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="298122218"
 X-IronPort-AV: E=Sophos;i="5.87,253,1631602800";
-   d="scan'208";a="298122216"
+   d="scan'208";a="298122218"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2021 18:20:41 -0800
+ 21 Nov 2021 18:20:43 -0800
 X-IronPort-AV: E=Sophos;i="5.87,253,1631602800";
-   d="scan'208";a="739428839"
+   d="scan'208";a="739428844"
 Received: from kkleong1-mobl1.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.239.135])
   by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2021 18:20:40 -0800
+ 21 Nov 2021 18:20:41 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 10/16] gcc: Fix CVE-2021-35465
-Date: Mon, 22 Nov 2021 10:20:14 +0800
+Subject: [hardknott][PATCH 11/16] rpm: fix CVE-2021-3521
+Date: Mon, 22 Nov 2021 10:20:15 +0800
 Message-Id: 
- <2dae3da5dbb0c8293927f0676fff08437f75d0d2.1637546583.git.anuj.mittal@intel.com>
+ <68c20b12fca2c20439b18c5fd9757c2c1f1746a1.1637546583.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637546583.git.anuj.mittal@intel.com>
 References: <cover.1637546583.git.anuj.mittal@intel.com>
@@ -39,655 +39,505 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 02:20:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158546
+ https://lists.openembedded.org/g/openembedded-core/message/158549
 
-From: Pgowda <pgowda.cve@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-source : https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102035
-
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=3929bca9ca95de9d35e82ae8828b188029e3eb70]
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=574e7950bd6b34e9e2cacce18c802b45505d1d0a]
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=30461cf8dba3d3adb15a125e4da48800eb2b9b8f]
-Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=809330ab8450261e05919b472783bf15e4b000f7]
-
-Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-10.2.inc        |   4 +
- .../gcc/gcc/0001-CVE-2021-35465.patch         | 138 ++++++++
- .../gcc/gcc/0002-CVE-2021-35465.patch         |  40 +++
- .../gcc/gcc/0003-CVE-2021-35465.patch         | 103 ++++++
- .../gcc/gcc/0004-CVE-2021-35465.patch         | 304 ++++++++++++++++++
- 5 files changed, 589 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
+ .../rpm/files/0001-CVE-2021-3521.patch        |  57 +++
+ .../rpm/files/0002-CVE-2021-3521.patch        |  62 ++++
+ .../rpm/files/0003-CVE-2021-3521.patch        | 332 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |   3 +
+ 4 files changed, 454 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-10.2.inc b/meta/recipes-devtools/gcc/gcc-10.2.inc
-index c0cd8b31d5..248e002106 100644
---- a/meta/recipes-devtools/gcc/gcc-10.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-10.2.inc
-@@ -70,6 +70,10 @@ SRC_URI = "\
-            file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
-            file://0001-aarch64-Fix-up-__aarch64_cas16_acq_rel-fallback.patch \
-            file://0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch \
-+           file://0001-CVE-2021-35465.patch \
-+           file://0002-CVE-2021-35465.patch \
-+           file://0003-CVE-2021-35465.patch \
-+           file://0004-CVE-2021-35465.patch \
- "
- SRC_URI[sha256sum] = "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
+diff --git a/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
 new file mode 100644
-index 0000000000..b9bca49dd8
+index 0000000000..b374583017
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0001-CVE-2021-35465.patch
-@@ -0,0 +1,138 @@
-+From 3929bca9ca95de9d35e82ae8828b188029e3eb70 Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Fri, 11 Jun 2021 16:02:05 +0100
-+Subject: [PATCH] arm: Add command-line option for enabling CVE-2021-35465
-+ mitigation [PR102035]
++++ b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+@@ -0,0 +1,57 @@
++From 9a6871126f472feea057d5f803505ec8cc78f083 Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 30 Sep 2021 09:56:20 +0300
++Subject: [PATCH 1/3] Refactor pgpDigParams construction to helper function
 +
-+Add a new option, -mfix-cmse-cve-2021-35465 and document it.  Enable it
-+automatically for cortex-m33, cortex-m35p and cortex-m55.
++No functional changes, just to reduce code duplication and needed by
++the following commits.
 +
-+gcc:
-+	PR target/102035
-+	* config/arm/arm.opt (mfix-cmse-cve-2021-35465): New option.
-+	* doc/invoke.texi (Arm Options): Document it.
-+	* config/arm/arm-cpus.in (quirk_vlldm): New feature bit.
-+	(ALL_QUIRKS): Add quirk_vlldm.
-+	(cortex-m33): Add quirk_vlldm.
-+	(cortex-m35p, cortex-m55): Likewise.
-+	* config/arm/arm.c (arm_option_override): Enable fix_vlldm if
-+	targetting an affected CPU and not explicitly controlled on
-+	the command line.
++CVE: CVE-2021-3521
++Upstream-Staus: Backport[https://github.com/rpm-software-management/rpm/commit/9f03f42e2]
 +
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=3929bca9ca95de9d35e82ae8828b188029e3eb70]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ gcc/config/arm/arm-cpus.in | 9 +++++++--
-+ gcc/config/arm/arm.c       | 9 +++++++++
-+ gcc/config/arm/arm.opt     | 4 ++++
-+ gcc/doc/invoke.texi        | 9 +++++++++
-+ 4 files changed, 29 insertions(+), 2 deletions(-)
++ rpmio/rpmpgp.c | 13 +++++++++----
++ 1 file changed, 9 insertions(+), 4 deletions(-)
 +
-+diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
-+--- a/gcc/config/arm/arm.c	2020-07-22 23:35:17.344384552 -0700
-++++ b/gcc/config/arm/arm.c	2021-11-11 20:16:19.761241867 -0800
-+@@ -3595,6 +3595,15 @@ arm_option_override (void)
-+ 	fix_cm3_ldrd = 0;
++diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
++index d0688ebe9a..e472b5320f 100644
++--- a/rpmio/rpmpgp.c
+++++ b/rpmio/rpmpgp.c
++@@ -1041,6 +1041,13 @@ unsigned int pgpDigParamsAlgo(pgpDigParams digp, unsigned int algotype)
++     return algo;
++ }
++ 
+++static pgpDigParams pgpDigParamsNew(uint8_t tag)
+++{
+++    pgpDigParams digp = xcalloc(1, sizeof(*digp));
+++    digp->tag = tag;
+++    return digp;
+++}
+++
++ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
++ 		 pgpDigParams * ret)
++ {
++@@ -1058,8 +1065,7 @@ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
++ 	    if (pkttype && pkt.tag != pkttype) {
++ 		break;
++ 	    } else {
++-		digp = xcalloc(1, sizeof(*digp));
++-		digp->tag = pkt.tag;
+++		digp = pgpDigParamsNew(pkt.tag);
++ 	    }
++ 	}
++ 
++@@ -1105,8 +1111,7 @@ int pgpPrtParamsSubkeys(const uint8_t *pkts, size_t pktlen,
++ 		digps = xrealloc(digps, alloced * sizeof(*digps));
++ 	    }
++ 
++-	    digps[count] = xcalloc(1, sizeof(**digps));
++-	    digps[count]->tag = PGPTAG_PUBLIC_SUBKEY;
+++	    digps[count] = pgpDigParamsNew(PGPTAG_PUBLIC_SUBKEY);
++ 	    /* Copy UID from main key to subkey */
++ 	    digps[count]->userid = xstrdup(mainkey->userid);
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+new file mode 100644
+index 0000000000..a8ff98fa26
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+@@ -0,0 +1,62 @@
++From c4b1bee51bbdd732b94b431a951481af99117703 Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 30 Sep 2021 09:51:10 +0300
++Subject: [PATCH 2/3] Process MPI's from all kinds of signatures
++
++No immediate effect but needed by the following commits.
++
++CVE: CVE-2021-3521
++Upstream-Status: Backport[https://github.com/rpm-software-management/rpm/commit/b5e8bc74b]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ rpmio/rpmpgp.c | 12 +++++-------
++ 1 file changed, 5 insertions(+), 7 deletions(-)
++
++diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
++index e472b5320f..57d411d1e0 100644
++--- a/rpmio/rpmpgp.c
+++++ b/rpmio/rpmpgp.c
++@@ -515,7 +515,7 @@ pgpDigAlg pgpDigAlgFree(pgpDigAlg alg)
++     return NULL;
++ }
++ 
++-static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
+++static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo,
++ 		const uint8_t *p, const uint8_t *h, size_t hlen,
++ 		pgpDigParams sigp)
++ {
++@@ -528,10 +528,8 @@ static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
++ 	int mpil = pgpMpiLen(p);
++ 	if (p + mpil > pend)
++ 	    break;
++-	if (sigtype == PGPSIGTYPE_BINARY || sigtype == PGPSIGTYPE_TEXT) {
++-	    if (sigalg->setmpi(sigalg, i, p))
++-		break;
++-	}
+++	if (sigalg->setmpi(sigalg, i, p))
+++	    break;
++ 	p += mpil;
 +     }
 + 
-++  /* Enable fix_vlldm by default if required.  */
-++  if (fix_vlldm == 2)
-++    {
-++      if (bitmap_bit_p (arm_active_target.isa, isa_bit_quirk_vlldm))
-++	fix_vlldm = 1;
-++      else
-++	fix_vlldm = 0;
++@@ -604,7 +602,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
++ 	}
++ 
++ 	p = ((uint8_t *)v) + sizeof(*v);
++-	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
+++	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
++     }	break;
++     case 4:
++     {   pgpPktSigV4 v = (pgpPktSigV4)h;
++@@ -662,7 +660,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
++ 	if (p > (h + hlen))
++ 	    return 1;
++ 
++-	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
+++	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
++     }	break;
++     default:
++ 	rpmlog(RPMLOG_WARNING, _("Unsupported version of key: V%d\n"), version);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
+new file mode 100644
+index 0000000000..d39ea7dacd
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
+@@ -0,0 +1,332 @@
++From 07676ca03ad8afcf1ca95a2353c83fbb1d970b9b Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 30 Sep 2021 09:59:30 +0300
++Subject: [PATCH 3/3] Validate and require subkey binding signatures on PGP
++ public keys
++
++All subkeys must be followed by a binding signature by the primary key
++as per the OpenPGP RFC, enforce the presence and validity in the parser.
++
++The implementation is as kludgey as they come to work around our
++simple-minded parser structure without touching API, to maximise
++backportability. Store all the raw packets internally as we decode them
++to be able to access previous elements at will, needed to validate ordering
++and access the actual data. Add testcases for manipulated keys whose
++import previously would succeed.
++
++Depends on the two previous commits:
++7b399fcb8f52566e6f3b4327197a85facd08db91 and
++236b802a4aa48711823a191d1b7f753c82a89ec5
++
++Fixes CVE-2021-3521.
++
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/bd36c5dc9]
++CVE:CVE-2021-3521
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ rpmio/rpmpgp.c                                | 100 ++++++++++++++++--
++ tests/Makefile.am                             |   3 +
++ tests/data/keys/CVE-2021-3521-badbind.asc     |  25 +++++
++ .../data/keys/CVE-2021-3521-nosubsig-last.asc |  25 +++++
++ tests/data/keys/CVE-2021-3521-nosubsig.asc    |  37 +++++++
++ tests/rpmsigdig.at                            |  28 +++++
++ 6 files changed, 211 insertions(+), 7 deletions(-)
++ create mode 100644 tests/data/keys/CVE-2021-3521-badbind.asc
++ create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig-last.asc
++ create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig.asc
++
++diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
++index 57d411d1e0..b12410d671 100644
++--- a/rpmio/rpmpgp.c
+++++ b/rpmio/rpmpgp.c
++@@ -1046,35 +1046,121 @@ static pgpDigParams pgpDigParamsNew(uint8_t tag)
++     return digp;
++ }
++ 
+++static int hashKey(DIGEST_CTX hash, const struct pgpPkt *pkt, int exptag)
+++{
+++    int rc = -1;
+++    if (pkt->tag == exptag) {
+++	uint8_t head[] = {
+++	    0x99,
+++	    (pkt->blen >> 8),
+++	    (pkt->blen     ),
+++	};
+++
+++	rpmDigestUpdate(hash, head, 3);
+++	rpmDigestUpdate(hash, pkt->body, pkt->blen);
+++	rc = 0;
+++    }
+++    return rc;
+++}
+++
+++static int pgpVerifySelf(pgpDigParams key, pgpDigParams selfsig,
+++			const struct pgpPkt *all, int i)
+++{
+++    int rc = -1;
+++    DIGEST_CTX hash = NULL;
+++
+++    switch (selfsig->sigtype) {
+++    case PGPSIGTYPE_SUBKEY_BINDING:
+++	hash = rpmDigestInit(selfsig->hash_algo, 0);
+++	if (hash) {
+++	    rc = hashKey(hash, &all[0], PGPTAG_PUBLIC_KEY);
+++	    if (!rc)
+++		rc = hashKey(hash, &all[i-1], PGPTAG_PUBLIC_SUBKEY);
+++	}
+++	break;
+++    default:
+++	/* ignore types we can't handle */
+++	rc = 0;
+++	break;
 ++    }
 ++
-+   /* Hot/Cold partitioning is not currently supported, since we can't
-+      handle literal pool placement in that case.  */
-+   if (flag_reorder_blocks_and_partition)
-+diff --git a/gcc/config/arm/arm-cpus.in b/gcc/config/arm/arm-cpus.in
-+--- a/gcc/config/arm/arm-cpus.in	2020-07-22 23:35:17.340384509 -0700
-++++ b/gcc/config/arm/arm-cpus.in	2021-11-11 20:17:01.364573561 -0800
-+@@ -190,6 +190,9 @@ define feature quirk_armv6kz
-+ # Cortex-M3 LDRD quirk.
-+ define feature quirk_cm3_ldrd
+++    if (hash && rc == 0)
+++	rc = pgpVerifySignature(key, selfsig, hash);
+++
+++    rpmDigestFinal(hash, NULL, NULL, 0);
+++
+++    return rc;
+++}
+++
++ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
++ 		 pgpDigParams * ret)
++ {
++     const uint8_t *p = pkts;
++     const uint8_t *pend = pkts + pktlen;
++     pgpDigParams digp = NULL;
++-    struct pgpPkt pkt;
+++    pgpDigParams selfsig = NULL;
+++    int i = 0;
+++    int alloced = 16; /* plenty for normal cases */
+++    struct pgpPkt *all = xmalloc(alloced * sizeof(*all));
++     int rc = -1; /* assume failure */
+++    int expect = 0;
+++    int prevtag = 0;
 + 
-++# v8-m/v8.1-m VLLDM errata.
-++define feature quirk_vlldm
-++
-+ # Don't use .cpu assembly directive
-+ define feature quirk_no_asmcpu
++     while (p < pend) {
++-	if (decodePkt(p, (pend - p), &pkt))
+++	struct pgpPkt *pkt = &all[i];
+++	if (decodePkt(p, (pend - p), pkt))
++ 	    break;
 + 
-+@@ -314,7 +317,7 @@ define fgroup DOTPROD	NEON dotprod
-+ # architectures.
-+ # xscale isn't really a 'quirk', but it isn't an architecture either and we
-+ # need to ignore it for matching purposes.
-+-define fgroup ALL_QUIRKS   quirk_no_volatile_ce quirk_armv6kz quirk_cm3_ldrd xscale quirk_no_asmcpu
-++define fgroup ALL_QUIRKS   quirk_no_volatile_ce quirk_armv6kz quirk_cm3_ldrd quirk_vlldm xscale quirk_no_asmcpu
++ 	if (digp == NULL) {
++-	    if (pkttype && pkt.tag != pkttype) {
+++	    if (pkttype && pkt->tag != pkttype) {
++ 		break;
++ 	    } else {
++-		digp = pgpDigParamsNew(pkt.tag);
+++		digp = pgpDigParamsNew(pkt->tag);
++ 	    }
++ 	}
 + 
-+ # Architecture entries
-+ # format:
-+@@ -1492,6 +1495,7 @@ begin cpu cortex-m33
-+  architecture armv8-m.main+dsp+fp
-+  option nofp remove ALL_FP
-+  option nodsp remove armv7em
-++ isa quirk_vlldm
-+  costs v7m
-+ end cpu cortex-m33
++-	if (pgpPrtPkt(&pkt, digp))
+++	if (expect) {
+++	    if (pkt->tag != expect)
+++		break;
+++	    selfsig = pgpDigParamsNew(pkt->tag);
+++	}
+++
+++	if (pgpPrtPkt(pkt, selfsig ? selfsig : digp))
++ 	    break;
 + 
-+@@ -1501,6 +1505,7 @@ begin cpu cortex-m35p
-+  architecture armv8-m.main+dsp+fp
-+  option nofp remove ALL_FP
-+  option nodsp remove armv7em
-++ isa quirk_vlldm
-+  costs v7m
-+ end cpu cortex-m35p
++-	p += (pkt.body - pkt.head) + pkt.blen;
+++	if (selfsig) {
+++	    /* subkeys must be followed by binding signature */
+++	    if (prevtag == PGPTAG_PUBLIC_SUBKEY) {
+++		if (selfsig->sigtype != PGPSIGTYPE_SUBKEY_BINDING)
+++		    break;
+++	    }
+++
+++	    int xx = pgpVerifySelf(digp, selfsig, all, i);
+++
+++	    selfsig = pgpDigParamsFree(selfsig);
+++	    if (xx)
+++		break;
+++	    expect = 0;
+++	}
+++
+++	if (pkt->tag == PGPTAG_PUBLIC_SUBKEY)
+++	    expect = PGPTAG_SIGNATURE;
+++	prevtag = pkt->tag;
+++
+++	i++;
+++	p += (pkt->body - pkt->head) + pkt->blen;
+++	if (pkttype == PGPTAG_SIGNATURE)
+++	    break;
+++
+++	if (alloced <= i) {
+++	    alloced *= 2;
+++	    all = xrealloc(all, alloced * sizeof(*all));
+++	}
++     }
 + 
-+@@ -1508,7 +1513,7 @@ begin cpu cortex-m55
-+  cname cortexm55
-+  tune flags LDSCHED
-+  architecture armv8.1-m.main+mve.fp+fp.dp
-+- isa quirk_no_asmcpu
-++ isa quirk_no_asmcpu quirk_vlldm
-+  costs v7m
-+  vendor 41
-+ end cpu cortex-m55
-+diff --git a/gcc/config/arm/arm.opt b/gcc/config/arm/arm.opt
-+--- a/gcc/config/arm/arm.opt	2020-07-22 23:35:17.344384552 -0700
-++++ b/gcc/config/arm/arm.opt	2021-11-11 20:16:19.761241867 -0800
-+@@ -271,6 +271,10 @@ Target Report Var(fix_cm3_ldrd) Init(2)
-+ Avoid overlapping destination and address registers on LDRD instructions
-+ that may trigger Cortex-M3 errata.
++-    rc = (digp && (p == pend)) ? 0 : -1;
+++    rc = (digp && (p == pend) && expect == 0) ? 0 : -1;
 + 
-++mfix-cmse-cve-2021-35465
-++Target Var(fix_vlldm) Init(2)
-++Mitigate issues with VLLDM on some M-profile devices (CVE-2021-35465).
+++    free(all);
++     if (ret && rc == 0) {
++ 	*ret = digp;
++     } else {
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index f742a9e1d2..328234278a 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -107,6 +107,9 @@ EXTRA_DIST += data/SPECS/hello-config-buildid.spec
++ EXTRA_DIST += data/SPECS/hello-cd.spec
++ EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.pub
++ EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.secret
+++EXTRA_DIST += data/keys/CVE-2021-3521-badbind.asc
+++EXTRA_DIST += data/keys/CVE-2021-3521-nosubsig.asc
+++EXTRA_DIST += data/keys/CVE-2021-3521-nosubsig-last.asc
++ EXTRA_DIST += data/macros.testfile
++ EXTRA_DIST += data/macros.debug
++ EXTRA_DIST += data/SOURCES/foo.c
++diff --git a/tests/data/keys/CVE-2021-3521-badbind.asc b/tests/data/keys/CVE-2021-3521-badbind.asc
++new file mode 100644
++index 0000000000..aea00f9d7a
++--- /dev/null
+++++ b/tests/data/keys/CVE-2021-3521-badbind.asc
++@@ -0,0 +1,25 @@
+++-----BEGIN PGP PUBLIC KEY BLOCK-----
+++Version: rpm-4.17.90 (NSS-3)
 ++
-+ munaligned-access
-+ Target Report Var(unaligned_access) Init(2) Save
-+ Enable unaligned word and halfword accesses to packed data.
-+diff -upr a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
-+--- a/gcc/doc/invoke.texi	2021-11-11 19:30:56.264523105 -0800
-++++ b/gcc/doc/invoke.texi	2021-11-11 20:16:19.769241739 -0800
-+@@ -773,6 +773,7 @@ Objective-C and Objective-C++ Dialects}.
-+ -mverbose-cost-dump @gol
-+ -mpure-code @gol
-+ -mcmse @gol
-++-mfix-cmse-cve-2021-35465 @gol
-+ -mfdpic}
+++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
+++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
+++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
+++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
+++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
+++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
+++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
+++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
+++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
+++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
+++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
+++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
++++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
+++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
+++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
+++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
+++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
+++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
+++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
+++=WCfs
+++-----END PGP PUBLIC KEY BLOCK-----
+++
++diff --git a/tests/data/keys/CVE-2021-3521-nosubsig-last.asc b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
++new file mode 100644
++index 0000000000..aea00f9d7a
++--- /dev/null
+++++ b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
++@@ -0,0 +1,25 @@
+++-----BEGIN PGP PUBLIC KEY BLOCK-----
+++Version: rpm-4.17.90 (NSS-3)
+++
+++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
+++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
+++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
+++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
+++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
+++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
+++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
+++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
+++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
+++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
+++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
+++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
++++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
+++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
+++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
+++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
+++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
+++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
+++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
+++=WCfs
+++-----END PGP PUBLIC KEY BLOCK-----
+++
++diff --git a/tests/data/keys/CVE-2021-3521-nosubsig.asc b/tests/data/keys/CVE-2021-3521-nosubsig.asc
++new file mode 100644
++index 0000000000..3a2e7417f8
++--- /dev/null
+++++ b/tests/data/keys/CVE-2021-3521-nosubsig.asc
++@@ -0,0 +1,37 @@
+++-----BEGIN PGP PUBLIC KEY BLOCK-----
+++Version: rpm-4.17.90 (NSS-3)
+++
+++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
+++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
+++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
+++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
+++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
+++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
+++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
+++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
+++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
+++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
+++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
+++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
++++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
+++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
+++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
+++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
+++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
+++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
+++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAG5AQ0EWOY5GAEIAKT68NmshdC4
+++VcRhOhlXBvZq23NtskkKoPvW+ZlMuxbRDG48pGBtxhjOngriVUGceEWsXww5Q7En
+++uRBYglkxkW34ENym0Ji6tsPYfhbbG+dZWKIL4vMIzPOIwlPrXrm558vgkdMM/ELZ
+++8WIz3KtzvYubKUk2Qz+96lPXbwnlC/SBFRpBseJC5LoOb/5ZGdR/HeLz1JXiacHF
+++v9Nr3cZWqg5yJbDNZKfASdZgC85v3kkvhTtzknl//5wqdAMexbuwiIh2xyxbO+B/
+++qqzZFrVmu3sV2Tj5lLZ/9p1qAuEM7ULbixd/ld8yTmYvQ4bBlKv2bmzXtVfF+ymB
+++Tm6BzyQEl/MAEQEAAYkBHwQYAQgACQUCWOY5GAIbDAAKCRBDRFkeGWTF/PANB/9j
+++mifmj6z/EPe0PJFhrpISt9PjiUQCt0IPtiL5zKAkWjHePIzyi+0kCTBF6DDLFxos
+++3vN4bWnVKT1kBhZAQlPqpJTg+m74JUYeDGCdNx9SK7oRllATqyu+5rncgxjWVPnQ
+++zu/HRPlWJwcVFYEVXYL8xzfantwQTqefjmcRmBRdA2XJITK+hGWwAmrqAWx+q5xX
+++Pa8wkNMxVzNS2rUKO9SoVuJ/wlUvfoShkJ/VJ5HDp3qzUqncADfdGN35TDzscngQ
+++gHvnMwVBfYfSCABV1hNByoZcc/kxkrWMmsd/EnIyLd1Q1baKqc3cEDuC6E6/o4yJ
+++E4XX4jtDmdZPreZALsiB
+++=rRop
+++-----END PGP PUBLIC KEY BLOCK-----
+++
++diff --git a/tests/rpmsigdig.at b/tests/rpmsigdig.at
++index e1a3ab062a..705fc58705 100644
++--- a/tests/rpmsigdig.at
+++++ b/tests/rpmsigdig.at
++@@ -240,6 +240,34 @@ gpg(185e6146f00650f8) = 4:185e6146f00650f8-58e63918
++ [])
++ AT_CLEANUP
 + 
-+ @emph{AVR Options}
-+@@ -21233,6 +21234,14 @@ Use multiply and add/subtract instructio
-+ 
-+ Do not use multiply and add/subtract instructions.
-+ 
-++@item -mfix-cmse-cve-2021-35465
-++@opindex mfix-cmse-cve-2021-35465
-++Mitigate against a potential security issue with the @code{VLLDM} instruction
-++in some M-profile devices when using CMSE (CVE-2021-365465).  This option is
-++enabled by default when the option @option{-mcpu=} is used with
-++@code{cortex-m33}, @code{cortex-m35p} or @code{cortex-m55}.  The option
-++@option{-mno-fix-cmse-cve-2021-35465} can be used to disable the mitigation.
+++AT_SETUP([rpmkeys --import invalid keys])
+++AT_KEYWORDS([rpmkeys import])
+++RPMDB_INIT
 ++
-+ @item -mfdpic
-+ @opindex mfdpic
-+ 
-diff --git a/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
-new file mode 100644
-index 0000000000..38d02dc770
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0002-CVE-2021-35465.patch
-@@ -0,0 +1,40 @@
-+From 574e7950bd6b34e9e2cacce18c802b45505d1d0a Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Fri, 18 Jun 2021 17:16:25 +0100
-+Subject: [PATCH] arm: add erratum mitigation to __gnu_cmse_nonsecure_call
-+ [PR102035]
+++AT_CHECK([
+++runroot rpmkeys --import /data/keys/CVE-2021-3521-badbind.asc
+++],
+++[1],
+++[],
+++[error: /data/keys/CVE-2021-3521-badbind.asc: key 1 import failed.]
+++)
+++AT_CHECK([
+++runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig.asc
+++],
+++[1],
+++[],
+++[error: /data/keys/CVE-2021-3521-nosubsig.asc: key 1 import failed.]
+++)
+++
+++AT_CHECK([
+++runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig-last.asc
+++],
+++[1],
+++[],
+++[error: /data/keys/CVE-2021-3521-nosubsig-last.asc: key 1 import failed.]
+++)
+++AT_CLEANUP
+++
++ # ------------------------------
++ # Test pre-built package verification
++ AT_SETUP([rpmkeys -K <signed> 1])
++-- 
++2.17.1
 +
-+Add the recommended erratum mitigation sequence to
-+__gnu_cmse_nonsecure_call for use on Armv8-m.main devices. Since this
-+is in the library code we cannot know in advance whether the core we
-+are running on will be affected by this, so always enable it.
-+
-+libgcc:
-+	PR target/102035
-+	* config/arm/cmse_nonsecure_call.S (__gnu_cmse_nonsecure_call):
-+	Add vlldm erratum work-around.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=574e7950bd6b34e9e2cacce18c802b45505d1d0a]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
-+---
-+ libgcc/config/arm/cmse_nonsecure_call.S | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/libgcc/config/arm/cmse_nonsecure_call.S b/libgcc/config/arm/cmse_nonsecure_call.S
-+index 00830ade98e..c8e0fbbe665 100644
-+--- a/libgcc/config/arm/cmse_nonsecure_call.S
-++++ b/libgcc/config/arm/cmse_nonsecure_call.S
-+@@ -102,6 +102,11 @@ blxns	    r4
-+ #ifdef __ARM_PCS_VFP
-+ vpop.f64    {d8-d15}
-+ #else
-++/* VLLDM erratum mitigation sequence. */
-++mrs	    r5, control
-++tst	    r5, #8	  /* CONTROL_S.SFPA */
-++it	    ne
-++.inst.w	    0xeeb00a40	  /* vmovne s0, s0 */
-+ vlldm	    sp		  /* Lazy restore of d0-d16 and FPSCR.  */
-+ add	    sp, sp, #0x88 /* Free space used to save floating point registers.  */
-+ #endif /* __ARM_PCS_VFP */
-diff --git a/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-new file mode 100644
-index 0000000000..d87be19866
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0003-CVE-2021-35465.patch
-@@ -0,0 +1,103 @@
-+From 30461cf8dba3d3adb15a125e4da48800eb2b9b8f Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Fri, 18 Jun 2021 17:18:37 +0100
-+Subject: [PATCH] arm: fix vlldm erratum for Armv8.1-m [PR102035]
-+
-+For Armv8.1-m we generate code that emits VLLDM directly and do not
-+rely on support code in the library, so emit the mitigation directly
-+as well, when required.  In this case, we can use the compiler options
-+to determine when to apply the fix and when it is safe to omit it.
-+
-+gcc:
-+	PR target/102035
-+	* config/arm/arm.md (attribute arch): Add fix_vlldm.
-+	(arch_enabled): Use it.
-+	* config/arm/vfp.md (lazy_store_multiple_insn): Add alternative to
-+	use when erratum mitigation is needed.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=30461cf8dba3d3adb15a125e4da48800eb2b9b8f]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
-+---
-+ gcc/config/arm/arm.md | 11 +++++++++--
-+ gcc/config/arm/vfp.md | 10 +++++++---
-+ 2 files changed, 16 insertions(+), 5 deletions(-)
-+
-+diff -upr a/gcc/config/arm/arm.md b/gcc/config/arm/arm.md
-+--- a/gcc/config/arm/arm.md	2020-07-22 23:35:17.344384552 -0700
-++++ b/gcc/config/arm/arm.md	2021-11-11 20:33:58.431543947 -0800
-+@@ -132,9 +132,12 @@
-+ ; TARGET_32BIT, "t1" or "t2" to specify a specific Thumb mode.  "v6"
-+ ; for ARM or Thumb-2 with arm_arch6, and nov6 for ARM without
-+ ; arm_arch6.  "v6t2" for Thumb-2 with arm_arch6 and "v8mb" for ARMv8-M
-+-; Baseline.  This attribute is used to compute attribute "enabled",
-++; Baseline.  "fix_vlldm" is for fixing the v8-m/v8.1-m VLLDM erratum.
-++; This attribute is used to compute attribute "enabled",
-+ ; use type "any" to enable an alternative in all cases.
-+-(define_attr "arch" "any,a,t,32,t1,t2,v6,nov6,v6t2,v8mb,iwmmxt,iwmmxt2,armv6_or_vfpv3,neon,mve"
-++(define_attr "arch" "any, a, t, 32, t1, t2, v6,nov6, v6t2, \
-++		     v8mb, fix_vlldm, iwmmxt, iwmmxt2, armv6_or_vfpv3, \
-++		     neon, mve"
-+   (const_string "any"))
-+ 
-+ (define_attr "arch_enabled" "no,yes"
-+@@ -177,6 +180,10 @@
-+ 	      (match_test "TARGET_THUMB1 && arm_arch8"))
-+ 	 (const_string "yes")
-+ 
-++	 (and (eq_attr "arch" "fix_vlldm")
-++	      (match_test "fix_vlldm"))
-++	 (const_string "yes")
-++
-+ 	 (and (eq_attr "arch" "iwmmxt2")
-+ 	      (match_test "TARGET_REALLY_IWMMXT2"))
-+ 	 (const_string "yes")
-+diff -upr a/gcc/config/arm/vfp.md b/gcc/config/arm/vfp.md
-+--- a/gcc/config/arm/vfp.md	2020-07-22 23:35:17.356384684 -0700
-++++ b/gcc/config/arm/vfp.md	2021-11-11 20:33:58.431543947 -0800
-+@@ -1703,12 +1703,15 @@
-+    (set_attr "type" "mov_reg")]
-+ )
-+ 
-++;; Both this and the next instruction are treated by GCC in the same
-++;; way as a blockage pattern.  That's perhaps stronger than it needs
-++;; to be, but we do not want accesses to the VFP register bank to be
-++;; moved across either instruction.
-++
-+ (define_insn "lazy_store_multiple_insn"
-+-  [(set (match_operand:SI 0 "s_register_operand" "+&rk")
-+-	(post_dec:SI (match_dup 0)))
-+-   (unspec_volatile [(const_int 0)
-+-		     (mem:SI (post_dec:SI (match_dup 0)))]
-+-		    VUNSPEC_VLSTM)]
-++  [(unspec_volatile
-++    [(mem:BLK (match_operand:SI 0 "s_register_operand" "rk"))]
-++    VUNSPEC_VLSTM)]
-+   "use_cmse && reload_completed"
-+   "vlstm%?\\t%0"
-+   [(set_attr "predicable" "yes")
-+@@ -1716,14 +1719,16 @@
-+ )
-+ 
-+ (define_insn "lazy_load_multiple_insn"
-+-  [(set (match_operand:SI 0 "s_register_operand" "+&rk")
-+-	(post_inc:SI (match_dup 0)))
-+-   (unspec_volatile:SI [(const_int 0)
-+-			(mem:SI (match_dup 0))]
-+-		       VUNSPEC_VLLDM)]
-++  [(unspec_volatile
-++    [(mem:BLK (match_operand:SI 0 "s_register_operand" "rk,rk"))]
-++    VUNSPEC_VLLDM)]
-+   "use_cmse && reload_completed"
-+-  "vlldm%?\\t%0"
-+-  [(set_attr "predicable" "yes")
-++  "@
-++   vscclrm\\t{vpr}\;vlldm\\t%0
-++   vlldm\\t%0"
-++  [(set_attr "arch" "fix_vlldm,*")
-++   (set_attr "predicable" "no")
-++   (set_attr "length" "8,4")
-+    (set_attr "type" "load_4")]
-+ )
-+ 
-diff --git a/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch b/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-new file mode 100644
-index 0000000000..9f7a38ed2e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0004-CVE-2021-35465.patch
-@@ -0,0 +1,304 @@
-+From 809330ab8450261e05919b472783bf15e4b000f7 Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Tue, 6 Jul 2021 15:10:18 +0100
-+Subject: [PATCH] arm: Add tests for VLLDM mitigation [PR102035]
-+
-+New tests for the erratum mitigation.
-+
-+gcc/testsuite:
-+	PR target/102035
-+	* gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c: New test.
-+	* gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c: Likewise.
-+	* gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c: Likewise.
-+
-+CVE: CVE-2021-35465
-+Upstream-Status: Backport[https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=809330ab8450261e05919b472783bf15e4b000f7]
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+
-+---
-+ .../arm/cmse/mainline/8_1m/soft/cmse-13a.c    | 31 +++++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/soft/cmse-7a.c     | 28 +++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/soft/cmse-8a.c     | 30 ++++++++++++++++++
-+ .../cmse/mainline/8_1m/softfp-sp/cmse-7a.c    | 27 ++++++++++++++++
-+ .../cmse/mainline/8_1m/softfp-sp/cmse-8a.c    | 29 +++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/softfp/cmse-13a.c  | 30 ++++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/softfp/cmse-7a.c   | 27 ++++++++++++++++
-+ .../arm/cmse/mainline/8_1m/softfp/cmse-8a.c   | 29 +++++++++++++++++
-+ 8 files changed, 231 insertions(+)
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c
-+ create mode 100644 gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c
-+
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-13a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,31 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=soft -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=soft" } } */
-++
-++#include "../../../cmse-13.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr2, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr3, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r1, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[1,4-9\]|r10|fp|ip), ){9}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[1,4-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler-not "vmov" } } */
-++/* { dg-final { scan-assembler-not "vmsr" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-7a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,28 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=soft -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=soft" } } */
-++
-++#include "../../../cmse-7.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r0, )?(r1, )?(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[0-9\]|r10|fp|ip), ){12}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[0-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler-not "vmov" } } */
-++/* { dg-final { scan-assembler-not "vmsr" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/soft/cmse-8a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,30 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=soft -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=soft" } } */
-++
-++#include "../../../cmse-8.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr1, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[2-9\]|r10|fp|ip), ){10}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[2-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler-not "vmov" } } */
-++/* { dg-final { scan-assembler-not "vmsr" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-13a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,30 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing single precision" {*-*-*} {"-mfpu=*-sp-*"} {""} } */
-++
-++#include "../../../cmse-13.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[1,4-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr2, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr3, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r1, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[1,4-9\]|r10|fp|ip), ){9}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[1,4-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-7a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,27 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing single precision" {*-*-*} {"-mfpu=*-sp-*"} {""} } */
-++
-++#include "../../../cmse-7.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r0, )?(r1, )?(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[0-9\]|r10|fp|ip), ){12}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[0-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp/cmse-8a.c	2021-11-11 20:38:44.290766017 -0800
-+@@ -0,0 +1,29 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing single precision" {*-*-*} {"-mfpu=*-sp-*"} {""} } */
-++
-++#include "../../../cmse-8.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr1, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[2-9\]|r10|fp|ip), ){10}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[2-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-7a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,27 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-sp-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing double precision" {*-*-*} {"-mfpu=fpv[4-5]-d16"} {""} } */
-++
-++#include "../../../cmse-7.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[0-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r0, )?(r1, )?(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[0-9\]|r10|fp|ip), ){12}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[0-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c
-+--- a/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c	1969-12-31 16:00:00.000000000 -0800
-++++ b/gcc/testsuite/gcc.target/arm/cmse/mainline/8_1m/softfp-sp/cmse-8a.c	2021-11-11 20:38:44.286766084 -0800
-+@@ -0,0 +1,29 @@
-++/* { dg-do compile } */
-++/* { dg-options "-mcmse -mfloat-abi=softfp -mfpu=fpv5-sp-d16 -mfix-cmse-cve-2021-35465" }  */
-++/* { dg-skip-if "Incompatible float ABI" { *-*-* } { "-mfloat-abi=*" } { "-mfloat-abi=softfp" } } */
-++/* { dg-skip-if "Skip these if testing double precision" {*-*-*} {"-mfpu=fpv[4-5]-d16"} {""} } */
-++
-++#include "../../../cmse-8.x"
-++
-++/* Checks for saving and clearing prior to function call.  */
-++/* Shift on the same register as blxns.  */
-++/* { dg-final { scan-assembler "lsrs\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler "lsls\t(r\[2-9\]|r10|fp|ip), \\1, #1.*blxns\t\\1" } } */
-++/* { dg-final { scan-assembler-not "mov\tr0, r4" } } */
-++/* { dg-final { scan-assembler-not "mov\tr1, r4" } } */
-++/* { dg-final { scan-assembler "push\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++/* { dg-final { scan-assembler "vlstm\tsp" } } */
-++/* Check the right registers are cleared and none appears twice.  */
-++/* { dg-final { scan-assembler "clrm\t\{(r2, )?(r3, )?(r4, )?(r5, )?(r6, )?(r7, )?(r8, )?(r9, )?(r10, )?(fp, )?(ip, )?APSR\}" } } */
-++/* Check that the right number of registers is cleared and thus only one
-++   register is missing.  */
-++/* { dg-final { scan-assembler "clrm\t\{((r\[2-9\]|r10|fp|ip), ){10}APSR\}" } } */
-++/* Check that no cleared register is used for blxns.  */
-++/* { dg-final { scan-assembler-not "clrm\t\{\[^\}\]\+(r\[2-9\]|r10|fp|ip),\[^\}\]\+\}.*blxns\t\\1" } } */
-++/* Check for v8.1-m variant of erratum work-around.  */
-++/* { dg-final { scan-assembler "vscclrm\t\{vpr\}" } } */
-++/* { dg-final { scan-assembler "vlldm\tsp" } } */
-++/* { dg-final { scan-assembler "pop\t\{r4, r5, r6, r7, r8, r9, r10, fp\}" } } */
-++
-++/* Now we check that we use the correct intrinsic to call.  */
-++/* { dg-final { scan-assembler "blxns" } } */
+diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+index 62da3d2095..5a347953fa 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+@@ -41,6 +41,9 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x;protoc
+            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
+            file://0001-tools-Add-error.h-for-non-glibc-case.patch \
+            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
++           file://0001-CVE-2021-3521.patch \
++           file://0002-CVE-2021-3521.patch \
++           file://0003-CVE-2021-3521.patch \
+            "
+ 
+ PE = "1"
 -- 
 2.33.1
 
