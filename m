@@ -1,57 +1,85 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9306C433F5
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 11:41:00 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.5386.1637581259948777370
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 049F2C433F5
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 11:46:35 +0000 (UTC)
+Received: from forward106j.mail.yandex.net (forward106j.mail.yandex.net
+ [5.45.198.249])
+ by mx.groups.io with SMTP id smtpd.web12.5435.1637581591891205122
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 03:41:00 -0800
+ Mon, 22 Nov 2021 03:46:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D6E61042
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 03:40:58 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37BBF3F73B
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 03:40:58 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
+ header.s=mail header.b=QDaApAn1;
+ spf=pass (domain: zhukoff.net, ip: 5.45.198.249, mailfrom: pavel@zhukoff.net)
+Received: from iva6-d2c82ec8bc26.qloud-c.yandex.net
+ (iva6-d2c82ec8bc26.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:610c:0:640:d2c8:2ec8])
+	by forward106j.mail.yandex.net (Yandex) with ESMTP id C667F136A494;
+	Mon, 22 Nov 2021 14:46:21 +0300 (MSK)
+Received: from iva4-50c21cb1cb18.qloud-c.yandex.net
+ (iva4-50c21cb1cb18.qloud-c.yandex.net [2a02:6b8:c0c:1510:0:640:50c2:1cb1])
+	by iva6-d2c82ec8bc26.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ WhqKtOEcxq-kLC4Fc4E;
+	Mon, 22 Nov 2021 14:46:21 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
+ t=1637581581;
+	bh=5vGg2UsY4jNNRtuZprW8NXx924g3rbd/tgVZZYSfpJo=;
+	h=Date:Subject:To:From:Message-Id:Cc;
+	b=QDaApAn1+yPiFNMaDx5cIlzbYaHdLS15hggSFt/BtG1jOlIPNCXy2j1GRoACtWyoG
+	 e3/4B8ZwM7npvFDe0hIBLgGj0hN/e1yOp6EiOIP+m9k+spBrb4u74H6Z3mldRgVav/
+	 IFfz/JiInL3BWvCpsynPWB9LRHxbUAvRXmWLZBzU=
+Authentication-Results: iva6-d2c82ec8bc26.qloud-c.yandex.net;
+ dkim=pass header.i=@zhukoff.net
+Received: by iva4-50c21cb1cb18.qloud-c.yandex.net (smtp/Yandex) with ESMTPS id
+ FZCbNvfmbl-kKwKrQuo;
+	Mon, 22 Nov 2021 14:46:20 +0300
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client certificate not present)
+X-Yandex-Fwd: 2
+From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gmp: fix CVE-2021-43618
-Date: Mon, 22 Nov 2021 11:40:56 +0000
-Message-Id: <20211122114056.242209-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Pavel Zhukov <pavel.zhukov@huawei.com>,
+	pavel@zhukoff.net
+Subject: [PATCH] Add security fix for CVE-2021-43618
+Date: Mon, 22 Nov 2021 12:44:43 +0100
+Message-Id: <20211122114442.20032-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 11:41:00 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 11:46:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158561
+ https://lists.openembedded.org/g/openembedded-core/message/158562
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+From: Pavel Zhukov <pavel.zhukov@huawei.com>
+
+Fix mpz/inp_raw.c integer overflow and resultant buffer overflow via craf=
+ted input,
+leading to a segmentation fault on 32-bit platforms.
+
+References: https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e
+References: https://gmplib.org/list-archives/gmp-bugs/2021-September/0050=
+77.html
+References: https://bugs.debian.org/994405
+
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
 ---
- .../gmp/gmp/cve-2021-43618.patch              | 27 +++++++++++++++++++
+ .../gmp/gmp/CVE-2021-43618.patch              | 25 +++++++++++++++++++
  meta/recipes-support/gmp/gmp_6.2.1.bb         |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
 
-diff --git a/meta/recipes-support/gmp/gmp/cve-2021-43618.patch b/meta/rec=
-ipes-support/gmp/gmp/cve-2021-43618.patch
+diff --git a/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch b/meta/rec=
+ipes-support/gmp/gmp/CVE-2021-43618.patch
 new file mode 100644
-index 0000000000..095fb21eaa
+index 0000000000..f741972439
 --- /dev/null
-+++ b/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
-@@ -0,0 +1,27 @@
-+CVE: CVE-2021-43618
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++++ b/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
+@@ -0,0 +1,25 @@
 +
 +# HG changeset patch
 +# User Marco Bodrato <bodrato@mail.dm.unipi.it>
@@ -76,9 +104,10 @@ index 0000000000..095fb21eaa
 +=20
 +   if (abs_xsize !=3D 0)
 +     {
++
 diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support=
 /gmp/gmp_6.2.1.bb
-index d5996abd00..e61582afdf 100644
+index d5996abd00..7c12a97228 100644
 --- a/meta/recipes-support/gmp/gmp_6.2.1.bb
 +++ b/meta/recipes-support/gmp/gmp_6.2.1.bb
 @@ -12,6 +12,7 @@ SRC_URI =3D "https://gmplib.org/download/${BPN}/${BP}${=
@@ -88,12 +117,12 @@ REVISION}.tar.bz2 \
 ed-.patch \
             file://0001-confiure.ac-Believe-the-cflags-from-environment.p=
 atch \
-+           file://cve-2021-43618.patch \
++           file://CVE-2021-43618.patch \
             "
  SRC_URI[md5sum] =3D "28971fc21cf028042d4897f02fd355ea"
  SRC_URI[sha256sum] =3D "eae9326beb4158c386e39a356818031bd28f3124cf915f8c=
 5b1dc4c7a36b4d7c"
 --=20
-2.25.1
+2.32.0
 
 
