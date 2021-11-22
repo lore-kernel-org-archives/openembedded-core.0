@@ -2,63 +2,63 @@ Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36914C433F5
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 16:35:33 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.182.1637598932484480410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA81C433F5
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 16:35:35 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web12.220.1637598934502811192
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 08:35:32 -0800
+ Mon, 22 Nov 2021 08:35:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LWSXpIYl;
- spf=pass (domain: gmail.com, ip: 209.85.128.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DMSRPH2J;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
  mailfrom: max.oss.09@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 133so16058237wme.0
+Received: by mail-wr1-f43.google.com with SMTP id i5so33877958wrb.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 08:35:32 -0800 (PST)
+ Mon, 22 Nov 2021 08:35:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bKQLsZ1ZxpzJDssiepaMOuja+U81sFL9jlyLENWT8nU=;
-        b=LWSXpIYl29wk0tQCcLfXOSOpdikHylzOMZ5y0zl/dsWWsdJPwBtL6gM4EWDVlD92rw
-         iBCXczt5Fn7nnnegsYfiJa80OgclGAVvxXJqQm2uadZK5fMRvAnwsjTs0kDIs03VM/dn
-         eOvuQVTZ88PwNRnqexlH6JMAcQ1fxo6HP42UCB8JVaf2M9Lg4uVzj6DW2oK6Bj0QN7/O
-         eBZakgzUuxB5D+k34XMYVw0DvpfHmMtkioCM+ZvJO9ANm6aBjyOxq9lVsB9DOjtWQ9gE
-         M3humu3AaPmOP8NP7fqy4WNMxLdubIeIA6zotkDulXeeHFztAqB35x7sNo0H5J/3UDdV
-         FwIw==
+        bh=zSWZfOrsWCYFtpZz2ZPwkziMuqLEGfZP3DAnFIAT0f0=;
+        b=DMSRPH2JDczOn8CAmv3zKy5EhDve6EuTWepa046dJlLMB9+w3FMsyfibM0Drn7XATU
+         bRQzIWxtCKm5oNS85rhZZwAtWm2ppYia818qZXd8mSGSvKDboJCNiYcXhhLiwPugL3fS
+         5X6iTxI2zwJyOE9AysTuiDDqMu0OCP+VXGNRQeIGmI8Yl2EwYzBkrOvKJtk6+YW8fxro
+         +pxj3uszJRll/ysT799HNDLnJT06cm+JWalLvz0MSnYBsxOZxdv9RBZe0VCKfJKd2vLL
+         ufPPkuV463DB4LdVQJ6QE37xhsWVIzZM+7bsIlUBITCQufORADzDZzNNUeYkz0dKiiX7
+         sczg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bKQLsZ1ZxpzJDssiepaMOuja+U81sFL9jlyLENWT8nU=;
-        b=IzW6Rm306+zSBQFkW3RgjDGmQ+mZIK8Jlb31S+qLQYquAzg177AS5ZNfOt8l45aY1U
-         SZJiqPnYHsuz6Mcb3n3Yk/9a47njA+azm4gceU2AkOaITDrkdwhiIkvx51QBk4/4uy/w
-         WtZoi/NuTtZHoopepLBwnyBE60i4Bc2QI/uJqqxb1qY424bGdJ1b0DLAC6O8RU0N41QE
-         tnBTSyO2lI43749q6Bt/RqrfZdh9j2JwNNzch2NnilE4ORFIkf1CFAVcMt+LYzkzgdGE
-         xHKhK1PlQtNR1f8EEXYztk2BSPzCZs76H6ECXKotgEFws3guvv4pgtZTn+R6fRPWIB1i
-         LdYw==
-X-Gm-Message-State: AOAM532Ndw+RP5EYx64NJ4uMDV5J982AUpsRsr/jsLvPY4y24xyfNmL6
-	ncvGa4dUDI1SPa0yz6rEsa2CJiC7Kucw6A==
+        bh=zSWZfOrsWCYFtpZz2ZPwkziMuqLEGfZP3DAnFIAT0f0=;
+        b=FKx7krahgXJAEK9ZqdHeqajVxacKK1i6XVN93UCkBuaRkInOaZgDgN4aLeTbMP2LvF
+         GRx02bmmmUUFoIlgLh5HoEB8iYTFypUJI1vyVUFdS13GbRp6aibQKKoQVe7JNXIUP6EM
+         9s+7w1a9NlxowqPwe+GOhGbgEVtKHb5Zxq9yfzb1cSVZBxq6LlA2e7y2u7zAGbNowExz
+         tBhQvnePnNo3G2oxYN9fzdYVaG14V/pmZip6DxxwXmF22LBgtaXXlX5GRkKjLZfFzFrK
+         x0msFXnczd4/C9oMMQerzP9C8B8dSM0VxXslhjngA947YhGvFxkuAp1FzOI9fc9F4H4b
+         7rAw==
+X-Gm-Message-State: AOAM532nKIOo1+BrY6j/22fswThAA7qhzksh7xyU3hA/OjSAnvxAnbld
+	8SzVcUG2guD3jPWDwxiBi0VRGMxCVJkDjw==
 X-Google-Smtp-Source: 
- ABdhPJzK11/R3JqubOyfChyuxZABUFST5DHl0CPjmlOUx5OVko3uitj/Gzk67uh+eFMVsqfHAQij5g==
-X-Received: by 2002:a05:600c:1d97:: with SMTP id
- p23mr31185177wms.186.1637598930825;
-        Mon, 22 Nov 2021 08:35:30 -0800 (PST)
+ ABdhPJzGGKSrNxAkNsS+1SzIQjTyPEQ24MX1GlzuhTFOJ0FrZt+xsclsYbTl5Rpiv1BjJjF5dckeyw==
+X-Received: by 2002:adf:d0c2:: with SMTP id z2mr39343986wrh.330.1637598932476;
+        Mon, 22 Nov 2021 08:35:32 -0800 (PST)
 Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch.
  [31.10.206.124])
         by smtp.gmail.com with ESMTPSA id
- i17sm11444719wmq.48.2021.11.22.08.35.30
+ i17sm11444719wmq.48.2021.11.22.08.35.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 08:35:30 -0800 (PST)
+        Mon, 22 Nov 2021 08:35:32 -0800 (PST)
 From: Max Krummenacher <max.oss.09@gmail.com>
 X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
 To: openembedded-core@lists.openembedded.org
 Cc: bruce.ashfield@gmail.com,
 	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [oe][OE-core][Patch 1/2] perf: sort-pmuevents: don't drop elements
-Date: Mon, 22 Nov 2021 17:34:58 +0100
-Message-Id: <20211122163459.41079-2-max.krummenacher@toradex.com>
+Subject: [oe][OE-core][Patch 2/2] perf: sort-pmuevents: allow for additional
+ type qualifiers and storage class
+Date: Mon, 22 Nov 2021 17:34:59 +0100
+Message-Id: <20211122163459.41079-3-max.krummenacher@toradex.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211122163459.41079-1-max.krummenacher@toradex.com>
 References: <20211122163459.41079-1-max.krummenacher@toradex.com>
@@ -67,55 +67,94 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 16:35:33 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 16:35:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158583
+ https://lists.openembedded.org/g/openembedded-core/message/158584
 
-If a struct element neither has an element cpuid or name it gets silenty
-dropped.
-Kernel 5.15 for some ARCHs have at least one array of structs matching
-this.
-e.g. for arm pmu-events.c:
+With kernel 5.16 some structs in pmu-events do get a const qualifier, some
+a static const storage class and qualifier.
 
-|#include "pmu-events/pmu-events.h"
-struct pmu_events_map pmu_events_map[] = {
-{
-	.cpuid = 0,
-	.version = 0,
-	.type = 0,
-	.table = 0,
-},
-};
+The current sort-pmuevents cannot cope with that and drops all struct
+arrays with such additional elements. This then leads to compiler errors.
 
-struct pmu_sys_events pmu_sys_event_tables[] = {
-	{
-		.table = 0
-	},
-};
-
-Before this patch the second struct is translated to an empty array::
-
-struct pmu_sys_events pmu_sys_event_tables[] = {
-};
+Allow '^struct', '^const struct', '^static struct', '^static const struct'.
 
 Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 ---
- meta/recipes-kernel/perf/perf/sort-pmuevents.py | 2 ++
- 1 file changed, 2 insertions(+)
+ .../perf/perf/sort-pmuevents.py               | 30 ++++++++++---------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
 diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-index 5ddf0f144f..4f841eb822 100755
+index 4f841eb822..09ba3328a7 100755
 --- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
 +++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-@@ -61,6 +61,8 @@ for struct in re.findall( struct_block_regex, data ):
+@@ -33,10 +33,10 @@ if os.path.exists(outfile):
+ with open(infile, 'r') as file:
+     data = file.read()
+ 
+-preamble_regex = re.compile( '^(.*?)^struct', re.MULTILINE | re.DOTALL )
++preamble_regex = re.compile( '^(.*?)^(struct|const struct|static struct|static const struct)', re.MULTILINE | re.DOTALL )
+ 
+ preamble = re.search( preamble_regex, data )
+-struct_block_regex = re.compile( '^struct.*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
++struct_block_regex = re.compile( '^(struct|const struct|static struct|static const struct).*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
+ field_regex =  re.compile( '{.*?},', re.MULTILINE | re.DOTALL )
+ cpuid_regex = re.compile( '\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
+ name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
+@@ -45,24 +45,25 @@ name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
+ # types and then their fields.
+ entry_dict = {}
+ for struct in re.findall( struct_block_regex, data ):
+-    # print( "struct: %s %s" % (struct[0],struct[1]) )
+-    entry_dict[struct[1]] = {}
+-    entry_dict[struct[1]]['type'] = struct[0]
+-    entry_dict[struct[1]]['fields'] = {}
+-    for entry in re.findall( field_regex, struct[2] ):
++    # print( "struct: %s %s %s" % (struct[0],struct[1],struct[2]) )
++    entry_dict[struct[2]] = {}
++    entry_dict[struct[2]]['type_prefix'] = struct[0]
++    entry_dict[struct[2]]['type'] = struct[1]
++    entry_dict[struct[2]]['fields'] = {}
++    for entry in re.findall( field_regex, struct[3] ):
+         #print( "    entry: %s" % entry )
+         cpuid = re.search( cpuid_regex, entry )
+         if cpuid:
+             #print( "    cpuid found: %s" % cpuid.group(1) )
+-            entry_dict[struct[1]]['fields'][cpuid.group(1)] = entry
+-            
++            entry_dict[struct[2]]['fields'][cpuid.group(1)] = entry
++
+         name = re.search( name_regex, entry )
+         if name:
              #print( "    name found: %s" % name.group(1) )
-             entry_dict[struct[1]]['fields'][name.group(1)] = entry
-         
-+        if not entry_dict[struct[1]]['fields']:
-+            entry_dict[struct[1]]['fields']['0'] = entry
+-            entry_dict[struct[1]]['fields'][name.group(1)] = entry
+-        
+-        if not entry_dict[struct[1]]['fields']:
+-            entry_dict[struct[1]]['fields']['0'] = entry
++            entry_dict[struct[2]]['fields'][name.group(1)] = entry
++
++        if not entry_dict[struct[2]]['fields']:
++            entry_dict[struct[2]]['fields']['0'] = entry
  
  # created ordered dictionaries from the captured values. These are ordered by
  # a sorted() iteration of the keys. We don't care about the order we read
+@@ -74,6 +75,7 @@ for struct in re.findall( struct_block_regex, data ):
+ entry_dict_sorted = OrderedDict()
+ for i in sorted(entry_dict.keys()):
+     entry_dict_sorted[i] = {}
++    entry_dict_sorted[i]['type_prefix'] = entry_dict[i]['type_prefix']
+     entry_dict_sorted[i]['type'] = entry_dict[i]['type']
+     entry_dict_sorted[i]['fields'] = {}
+     for f in sorted(entry_dict[i]['fields'].keys()):
+@@ -85,7 +87,7 @@ outf = open( outfile, 'w' )
+ print( preamble.group(1) )
+ outf.write( preamble.group(1) )
+ for d in entry_dict_sorted:
+-    outf.write( "struct %s %s[] = {\n" % (entry_dict_sorted[d]['type'],d) )
++    outf.write( "%s %s %s[] = {\n" % (entry_dict_sorted[d]['type_prefix'], entry_dict_sorted[d]['type'],d) )
+     for f in entry_dict_sorted[d]['fields']:
+         outf.write( entry_dict_sorted[d]['fields'][f] + '\n' )
+ 
 -- 
 2.20.1
 
