@@ -2,77 +2,80 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 071F7C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08040C433FE
 	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 14:58:58 +0000 (UTC)
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com
- [195.245.230.83])
- by mx.groups.io with SMTP id smtpd.web09.7400.1637593136663523155
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.3])
+ by mx.groups.io with SMTP id smtpd.web09.7399.1637593136363992294
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 06:58:57 -0800
+ Mon, 22 Nov 2021 06:58:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=p5jyL3xG;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.83,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=BHOutjZY;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.3,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1637593134; i=@fujitsu.com;
-	bh=q5pqmpUuDTmGNAcUVPUDxpx6ibAntSTHZ9i7HXgrLfo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=p5jyL3xGRDb0fHUG9qPNFG6GzRtiQGbOgteCe3BO64V+VStoQk/AduY5AGdpR+CTV
-	 uESGQJ9AX36n2n4/s31hp+bRKagGCclRhCNxWFXDiSatnc1LAMgEtaBONX3zjhe7uj
-	 yMp5i7f/4LNN6fbzXolkj/9tNKwNhdVLFP5/tmSXbWBdOmGzPWV7waUYA0SWFNkW1s
-	 lOTm4Si6y8ozW5UUNsNAInCdrvNNXswZ7MSUw0JjINVa4jxAknE9KiaIVbYHcH4Gy4
-	 HnK++ZUFKgrh9phenFVA1DgrQkvtA+z23hsG1bvTVbXSENFfNGt1IlP6z3Z2wHor2Z
-	 Rms+PaT6jRvBQ==
-Received: from [100.112.196.154] (using TLSv1.2 with cipher
+	bh=mkOneX6qStcqJlAf4pk8nfAtUjAcuZa8RWZSa7PUkJY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=BHOutjZY8iMafh8fbOjIRbRRig7I7PIWlT3mUPo1o8EY5OYhdcerK3jHUSdlCGqS2
+	 2/sPHfGmYTMxqDOTd7zgaysYXbdPhybOzj0shhgdweqaRyAjbqQPpHAwe6uh29bX+M
+	 nrdN+PXVYqwdheUwB0zRTz+ZqZDKskBzvW31XV1ZP9tCf1JM1yFgGw3K3T8LBVZphH
+	 6ato3xXujrYO8j0RU6jdE/nCLmTUjSyL/vIWle+ZdU6+QHSs2uu0qF46xD3t7nDn2C
+	 myPXk2xImONqRQX3FHVojwzy/K8/IlGk0z97y4RliCqWTOgvgIl/LVjQIFHDOkJL7p
+	 XKa+ldAhLIM9Q==
+Received: from [100.115.36.91] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id D5/DF-09147-E20BB916;
+	by server-3.bemta.az-a.eu-west-2.aws.ess.symcld.net id 5A/4A-01854-E20BB916;
  Mon, 22 Nov 2021 14:58:54 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MxSVdvw+x
-  Eg6ZjYhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bHPzIFHzgr2s/uY25g/MLRxcjFISTwmFFi
-  0qTzzBDOeSaJhp1f2boYOYGcE4wSW/YFg9hsAmoS02/dYO1i5OAQEdCTuPpPFCTMLKAi8eJ3D
-  zuILSxgLrF5zR0mEJtFQFXie+MXZhCbV8BJ4tThTWAjJQQUJKY8fA8VF5Q4OfMJC8QcCYmDL1
-  4wQ9QoSsy+3MwCYVdIzJrVxgRhq0lcPbeJeQIj/ywk7bOQtC9gZFrFaJFUlJmeUZKbmJmja2h
-  goGtoaKRraGmma2RqqpdYpZukl1qqW55aXKJrqJdYXqxXXJmbnJOil5dasokRGIwpBUf+72Bc
-  /uaD3iFGSQ4mJVFeo9mzE4X4kvJTKjMSizPii0pzUosPMcpwcChJ8D5eB5QTLEpNT61Iy8wBR
-  gZMWoKDR0mE1wEkzVtckJhbnJkOkTrFqMux6sD0VcxCLHn5ealS4ry3QYoEQIoySvPgRsCi9B
-  KjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYV779UBTeDLzSuA2vQI6ggnoiNPHp4McUZKIkJJ
-  qYCqpyT7R+PIv65/vuyv87Q13ZrWtEGap/Xsxu+7bpWOei7aVFCtOab727cyF27uCRbdqBvia
-  dxgdvfmyymkLm8mtz6ul1s34K5J5w+WM1qbXeexx/9bO39Z+ZZr8g4WbuGfrxRy4l2k9l705x
-  CNHLdJr152dDTWvf//YkWn88v6E9sDY0s3T90yd696UNu360rkHZJ04//gyarNvvMb3Sn2n8r
-  GHQkz8t11cvbtM/XbO57mUHldv0mb7MXuhgPa8P7VfLm3h/fDTJ+qyf+SpGcK6EraHEoJDVyf
-  1H1e9eXZb+tTt9RcfNPDmOVWKdLb7PeCYfMi3cvGXvz8Fiz6xtZ7c9ujqO6WbtxP0JpqHh05U
-  YinOSDTUYi4qTgQAq2NW7k0DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRWlGSWpSXmKPExsViZ8MxSVdvw+x
+  Eg0kvRCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1oxnXU2MBSdEKr71VTQw/hfsYuTiEBJ4zCix
+  cvlbZgjnPJPE4fmdTF2MnEDOCUaJ3t4YEJtNQE1i+q0brF2MHBwiAnoSV/+JgoSZBVQkXvzuY
+  QexhQUcJC5NncAMYrMIqEq8Pj2RBcTmFXCSOLujlw3ElhBQkJjy8D1YDaeAs8TtBVuYIVY5Sa
+  yac4kRol5Q4uTMJywQ8yUkDr54wQzRqygx+3IzC4RdITFrVhsThK0mcfXcJuYJjIKzkLTPQtK
+  +gJFpFaN1UlFmekZJbmJmjq6hgYGuoaGprrGJrpGBqV5ilW6iXmqpbnlqcYmukV5iebFeanGx
+  XnFlbnJOil5easkmRmAIpxQrnd3B2Pv1h94hRkkOJiVRXqPZsxOF+JLyUyozEosz4otKc1KLD
+  zHKcHAoSfA+XgeUEyxKTU+tSMvMAcYTTFqCg0dJhNcBJM1bXJCYW5yZDpE6xagoJc57GyQhAJ
+  LIKM2Da4PF8CVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrz264Gm8GTmlcBNfwW0mAlo8en
+  j00EWlyQipKQamK77zL0qfiWjx+x62jJpoYuL9Dmq3oesTjkUsFxo5d/8Nf37Bb6enSdYNL9z
+  c12MnPeJ66pvNjzkKMqs/WKdd95pbWBQwN3P169YOk7S4ghx3TJ7zawLnkubriybJ/2r/9QJV
+  +Y3Dy61VqS93fzXZ1HfximKyffqnS6nCq7aKajyXDxLXmqW6SvzzaFLJr3P12K9+/Gszunmpf
+  P8m389WlgVZvCBTX7K0isbz78sWPh03d6oHQZvJW48/vZwba9tUbCqf+GqhyX839IWVLx/xVj
+  nnVe9ZIbtVe7loVOUnt6Wn/znyM6/+X59Mq6NUzKcDvd+Ud1iysZk/fJ3KNezyUbr4s52PWpU
+  5/7WFbSPr2SaEktxRqKhFnNRcSIAY05qmVwDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-10.tower-285.messagelabs.com!1637593134!1091712!1
+X-Msg-Ref: server-8.tower-565.messagelabs.com!1637593134!236103!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 3670 invoked from network); 22 Nov 2021 14:58:54 -0000
+Received: (qmail 29246 invoked from network); 22 Nov 2021 14:58:54 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-10.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-8.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 22 Nov 2021 14:58:54 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id BDA2C100468
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id BD06C10045A
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Nov 2021 14:58:53 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 88B9110046C
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 8C82310046F
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Nov 2021 14:58:53 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 22 Nov 2021 14:58:44 +0000
+ (TLS) id 15.0.1497.26; Mon, 22 Nov 2021 14:58:48 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libcap: upgrade 2.60 -> 2.61
-Date: Mon, 22 Nov 2021 22:58:30 +0800
-Message-ID: <1637593113-99188-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libjpeg-turbo: upgrade 2.1.1 -> 2.1.2
+Date: Mon, 22 Nov 2021 22:58:31 +0800
+Message-ID: <1637593113-99188-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1637593113-99188-1-git-send-email-wangmy@fujitsu.com>
+References: <1637593113-99188-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -84,33 +87,56 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 14:58:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158572
+ https://lists.openembedded.org/g/openembedded-core/message/158571
 
-better number parsing in capsh and setcap;
-fixed segfaulting in .so executables;
-added example of capable shared library object.
+Significant changes relative to 2.1.1:
+Fixed a regression introduced by 2.1 beta1[13] that caused the remaining
+GAS implementations of AArch64 (Arm 64-bit) Neon SIMD functions
+(which are used by default with GCC for performance reasons) to be placed in
+the .rodata section rather than in the .text section.
+This caused the GNU linker to automatically place the .rodata section in
+an executable segment, which prevented libjpeg-turbo from working properly
+with other linkers and also represented a potential security risk.
+
+Fixed an issue whereby the tjTransform() function incorrectly computed the
+MCU block size for 4:4:4 JPEG images with non-unary sampling factors and
+thus unduly rejected some cropping regions, even though those regions aligned
+with 8x8 MCU block boundaries.
+
+Fixed a regression introduced by 2.1 beta1[13] that caused the build system
+to enable the Arm Neon SIMD extensions when targetting Armv6 and other legacy
+architectures that do not support Neon instructions.
+
+libjpeg-turbo now performs run-time detection of AltiVec instructions on
+FreeBSD/PowerPC systems if AltiVec instructions are not enabled at compile time.
+This allows both AltiVec-equipped and non-AltiVec-equipped CPUs to be supported
+using the same build of libjpeg-turbo.
+
+cjpeg now accepts a -strict argument similar to that of djpeg and jpegtran,
+which causes the compressor to abort if an LZW-compressed GIF input image
+contains incomplete or corrupt image data.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-support/libcap/{libcap_2.60.bb => libcap_2.61.bb} | 2 +-
+ .../jpeg/{libjpeg-turbo_2.1.1.bb => libjpeg-turbo_2.1.2.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libcap/{libcap_2.60.bb => libcap_2.61.bb} (96%)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.1.bb => libjpeg-turbo_2.1.2.bb} (97%)
 
-diff --git a/meta/recipes-support/libcap/libcap_2.60.bb b/meta/recipes-support/libcap/libcap_2.61.bb
-similarity index 96%
-rename from meta/recipes-support/libcap/libcap_2.60.bb
-rename to meta/recipes-support/libcap/libcap_2.61.bb
-index 030198c41b..a3a6e10b89 100644
---- a/meta/recipes-support/libcap/libcap_2.60.bb
-+++ b/meta/recipes-support/libcap/libcap_2.61.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.2.bb
+similarity index 97%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.1.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.2.bb
+index fbed6eeca7..25b83f72f7 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.1.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.2.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
             "
--SRC_URI[sha256sum] = "06a92076ce39a78bd28089e32085f1bde7f3bfa448fad37d895c2358f760b2eb"
-+SRC_URI[sha256sum] = "c1e29680f8bcc51b172e9a8eb9a7a4d7255a00a14301a7c2cf96d1febf7449a5"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+-SRC_URI[sha256sum] = "b76aaedefb71ba882cbad4e9275b30c2ae493e3195be0a099425b5c6b99bd510"
++SRC_URI[sha256sum] = "09b96cb8cbff9ea556a9c2d173485fd19488844d55276ed4f42240e1e2073ce5"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
  
 -- 
 2.25.1
