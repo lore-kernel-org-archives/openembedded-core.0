@@ -2,39 +2,39 @@ Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 049F2C433F5
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 11:46:35 +0000 (UTC)
-Received: from forward106j.mail.yandex.net (forward106j.mail.yandex.net
- [5.45.198.249])
- by mx.groups.io with SMTP id smtpd.web12.5435.1637581591891205122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62398C433EF
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 11:54:45 +0000 (UTC)
+Received: from forward105p.mail.yandex.net (forward105p.mail.yandex.net
+ [77.88.28.108])
+ by mx.groups.io with SMTP id smtpd.web12.5492.1637582083600391634
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 03:46:33 -0800
+ Mon, 22 Nov 2021 03:54:45 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
- header.s=mail header.b=QDaApAn1;
- spf=pass (domain: zhukoff.net, ip: 5.45.198.249, mailfrom: pavel@zhukoff.net)
-Received: from iva6-d2c82ec8bc26.qloud-c.yandex.net
- (iva6-d2c82ec8bc26.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:610c:0:640:d2c8:2ec8])
-	by forward106j.mail.yandex.net (Yandex) with ESMTP id C667F136A494;
-	Mon, 22 Nov 2021 14:46:21 +0300 (MSK)
-Received: from iva4-50c21cb1cb18.qloud-c.yandex.net
- (iva4-50c21cb1cb18.qloud-c.yandex.net [2a02:6b8:c0c:1510:0:640:50c2:1cb1])
-	by iva6-d2c82ec8bc26.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- WhqKtOEcxq-kLC4Fc4E;
-	Mon, 22 Nov 2021 14:46:21 +0300
+ header.s=mail header.b=cLY3wwc6;
+ spf=pass (domain: zhukoff.net, ip: 77.88.28.108, mailfrom: pavel@zhukoff.net)
+Received: from iva8-bad74b408dcf.qloud-c.yandex.net
+ (iva8-bad74b408dcf.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2c85:0:640:bad7:4b40])
+	by forward105p.mail.yandex.net (Yandex) with ESMTP id 6F34C2FD873D;
+	Mon, 22 Nov 2021 14:54:33 +0300 (MSK)
+Received: from iva4-b3ebd202b141.qloud-c.yandex.net
+ (iva4-b3ebd202b141.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:b3eb:d202])
+	by iva8-bad74b408dcf.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ H7ansSvEp6-sWBSuiiL;
+	Mon, 22 Nov 2021 14:54:33 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1637581581;
+ t=1637582073;
 	bh=5vGg2UsY4jNNRtuZprW8NXx924g3rbd/tgVZZYSfpJo=;
 	h=Date:Subject:To:From:Message-Id:Cc;
-	b=QDaApAn1+yPiFNMaDx5cIlzbYaHdLS15hggSFt/BtG1jOlIPNCXy2j1GRoACtWyoG
-	 e3/4B8ZwM7npvFDe0hIBLgGj0hN/e1yOp6EiOIP+m9k+spBrb4u74H6Z3mldRgVav/
-	 IFfz/JiInL3BWvCpsynPWB9LRHxbUAvRXmWLZBzU=
-Authentication-Results: iva6-d2c82ec8bc26.qloud-c.yandex.net;
+	b=cLY3wwc64WU8MHO5CRQQp2YkJXCqGDOg9Q2SWB5mZu7Sse+jXxsnh3hXOPZ3MCInx
+	 Pfly/qCfCvUUvjz42/Ff69Qhq5Q/FhD8bznrwehBLRxPGVUMD38p0Nw8Wt5bBv+aFL
+	 /CBTDCLq+3xXwELAIzx17Kd40rshtgwul5QXXz8Y=
+Authentication-Results: iva8-bad74b408dcf.qloud-c.yandex.net;
  dkim=pass header.i=@zhukoff.net
-Received: by iva4-50c21cb1cb18.qloud-c.yandex.net (smtp/Yandex) with ESMTPS id
- FZCbNvfmbl-kKwKrQuo;
-	Mon, 22 Nov 2021 14:46:20 +0300
+Received: by iva4-b3ebd202b141.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id z1uKJnIdqD-sWwevIet;
+	Mon, 22 Nov 2021 14:54:32 +0300
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(Client certificate not present)
 X-Yandex-Fwd: 2
@@ -42,18 +42,18 @@ From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
 Cc: Pavel Zhukov <pavel.zhukov@huawei.com>,
 	pavel@zhukoff.net
-Subject: [PATCH] Add security fix for CVE-2021-43618
-Date: Mon, 22 Nov 2021 12:44:43 +0100
-Message-Id: <20211122114442.20032-1-pavel@zhukoff.net>
+Subject: [meta-oe][PATCH v2] gmp: Add security fix for CVE-2021-43618
+Date: Mon, 22 Nov 2021 12:54:18 +0100
+Message-Id: <20211122115418.1352-1-pavel@zhukoff.net>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 11:46:35 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 11:54:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158562
+ https://lists.openembedded.org/g/openembedded-core/message/158563
 
 From: Pavel Zhukov <pavel.zhukov@huawei.com>
 
