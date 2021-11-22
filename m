@@ -1,149 +1,156 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADB2C433EF
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 12:00:15 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web08.5456.1637582414093074581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3C6C433F5
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 12:18:01 +0000 (UTC)
+Received: from forward501j.mail.yandex.net (forward501j.mail.yandex.net
+ [5.45.198.251])
+ by mx.groups.io with SMTP id smtpd.web08.5605.1637583479070756760
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 04:00:14 -0800
+ Mon, 22 Nov 2021 04:18:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=zUp+1VxD;
- spf=pass (domain: burtonini.com, ip: 209.85.221.44,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f44.google.com with SMTP id w29so32175476wra.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Nov 2021 04:00:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IiieU86HaU4xU58gNsLkLRWwuuByUlRbO3HgYcANeY8=;
-        b=zUp+1VxDI2sL6ZMqSac0+BC8xxVt8cTWAtb2niGxJVs/KpeIFqx6r7+m2nMIgaKlwL
-         AMrRn7cWOK5f2PYQedTT/ib4pR0xvvHxkIDlF8cb1cR90OL+aq18wDJ10lCFeuRAY0Bx
-         m4lXaBROemz4J7pHIAFLlLkj3zuVIplZrnO/Iy5w8r7Ii3J0Ym/iVG4O+cW+MnvoRGYu
-         P1yG7GOjCXQfq+FE+P186NABQRKMc3koHxjoPHY+Y7aAA0uArCrQDW8jf4UIeqA9RqiK
-         473hmOZ6oZL9aG4qsggRjmmatEBEusvb6ZJqpZpDTAj7ioZv+2gdVX9hv3QKWKTeUhq5
-         ai9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IiieU86HaU4xU58gNsLkLRWwuuByUlRbO3HgYcANeY8=;
-        b=pAQWghZHsvDl/IMxu23d8DU8XKc2erKVwdqnTrkAkY8rUV7C63yD/J3bh7ZdNkYDFf
-         5LRsvm1Kcj+ljxnxOv1J3rONeykq3hElEHFRGsARdZqXefJkAKWOvTsZoN3Ey/gEpa6s
-         0+cCP0kb47b9WScRHWwCg5Sg/ay8hLDPsBSOqixPGteKipFbYp0F4TqumivjEmghCG6p
-         5t0tnf4RuyFtJbIIzdkUT4ErCwGRpkbStBX8eBDoazwqn+woKFH+TXUuC/hS9f2PF7Kk
-         VrU78f5QKNr5MORiQ3NktI0PL82CdKWOGNi2i3ydrWRwNmEsPr8IVIPU3NRZtPL45gcI
-         on+g==
-X-Gm-Message-State: AOAM533rJ+ypiNPhS7mSZV8+w+ALJ4KUabO++JBnKvFBSxVbiudlABoa
-	6ZbdFNcus6oN2sDt4K1RDzKqHhEYhhqD1j8O08snaw==
-X-Google-Smtp-Source: 
- ABdhPJxej9jUc6+F3mlCfAd+bTDWxSJTY4QvDD/ELxDDLYJ/Vkj/RfZ3CLJZ6g6bolyPQoLv7TpBke/mQET5F5ZHCXQ=
-X-Received: by 2002:adf:e484:: with SMTP id i4mr36740242wrm.49.1637582412128;
- Mon, 22 Nov 2021 04:00:12 -0800 (PST)
-MIME-Version: 1.0
+ dkim=pass header.i=@zhukoff.net header.s=mail header.b=q83ZVEpq;
+ spf=pass (domain: zhukoff.net, ip: 5.45.198.251, mailfrom: pavel@zhukoff.net)
+Received: from sas1-9b68b0b83e4d.qloud-c.yandex.net
+ (sas1-9b68b0b83e4d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:2706:0:640:9b68:b0b8])
+	by forward501j.mail.yandex.net (Yandex) with ESMTP id 96C5C623763;
+	Mon, 22 Nov 2021 15:17:54 +0300 (MSK)
+Received: from 2a02:6b8:c1b:2904:0:640:ed61:5920
+ (2a02:6b8:c1b:2904:0:640:ed61:5920 [2a02:6b8:c1b:2904:0:640:ed61:5920])
+	by sas1-9b68b0b83e4d.qloud-c.yandex.net (mxback/Yandex) with HTTP id
+ qHgcse0DnSw1-HrDWo9wM;
+	Mon, 22 Nov 2021 15:17:53 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
+ t=1637583474;
+	bh=wIUGK8vOzbwNehIbd0V5TC/q31QXAdc9LHhakCcK9w8=;
+	h=References:Date:Message-Id:Cc:Subject:In-Reply-To:To:From;
+	b=q83ZVEpq5j4KukZmLMvSYniiqS53UMgkMS1ftjh19A5oNam/E5Uytgs5cHVic96gd
+	 ejKW+/Ojqq5gN9j8g/DLfzFR/Hvjb4bQkzQVKoPx+y7MdKWlkPO3l4Im3AwddJP7cQ
+	 ZUb5eAP6/BDyW3vkjV7EERgMuV2NInGY3QWF6vds=
+Authentication-Results: sas1-9b68b0b83e4d.qloud-c.yandex.net;
+ dkim=pass header.i=@zhukoff.net
+Received: by sas8-ed615920eca2.qloud-c.yandex.net with HTTP;
+	Mon, 22 Nov 2021 15:17:53 +0300
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: Ross Burton <ross@burtonini.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	Pavel Zhukov <pavel.zhukov@huawei.com>
+In-Reply-To: 
+ <CAAnfSTuLQ3PLQqnyBMWUT26uYOgwxeSc9n+KEqa7Y+fws_e3YA@mail.gmail.com>
 References: <20211122115418.1352-1-pavel@zhukoff.net>
-In-Reply-To: <20211122115418.1352-1-pavel@zhukoff.net>
-From: Ross Burton <ross@burtonini.com>
-Date: Mon, 22 Nov 2021 12:00:01 +0000
-Message-ID: 
  <CAAnfSTuLQ3PLQqnyBMWUT26uYOgwxeSc9n+KEqa7Y+fws_e3YA@mail.gmail.com>
 Subject: Re: [OE-core] [meta-oe][PATCH v2] gmp: Add security fix for
  CVE-2021-43618
-To: Pavel Zhukov <pavel@zhukoff.net>
-Cc: openembedded-core@lists.openembedded.org,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Mon, 22 Nov 2021 13:17:53 +0100
+Message-Id: <6162101637583428@mail.yandex.ru>
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset=utf-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 12:00:15 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 12:18:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158566
+ https://lists.openembedded.org/g/openembedded-core/message/158567
 
-Hi Pavel,
-
-Close but you also need Upstream-Status, Signed-off-by, and CVE tags
-in the patch.  You can see my version of this fix on the list, a few
-minutes before yours. :)
-
-Ross
-
-On Mon, 22 Nov 2021 at 11:54, Pavel Zhukov <pavel@zhukoff.net> wrote:
->
-> From: Pavel Zhukov <pavel.zhukov@huawei.com>
->
-> Fix mpz/inp_raw.c integer overflow and resultant buffer overflow via crafted input,
-> leading to a segmentation fault on 32-bit platforms.
->
-> References: https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e
-> References: https://gmplib.org/list-archives/gmp-bugs/2021-September/005077.html
-> References: https://bugs.debian.org/994405
->
-> Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-> ---
->  .../gmp/gmp/CVE-2021-43618.patch              | 25 +++++++++++++++++++
->  meta/recipes-support/gmp/gmp_6.2.1.bb         |  1 +
->  2 files changed, 26 insertions(+)
->  create mode 100644 meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
->
-> diff --git a/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch b/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
-> new file mode 100644
-> index 0000000000..f741972439
-> --- /dev/null
-> +++ b/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
-> @@ -0,0 +1,25 @@
-> +
-> +# HG changeset patch
-> +# User Marco Bodrato <bodrato@mail.dm.unipi.it>
-> +# Date 1634836009 -7200
-> +# Node ID 561a9c25298e17bb01896801ff353546c6923dbd
-> +# Parent  e1fd9db13b475209a864577237ea4b9105b3e96e
-> +mpz/inp_raw.c: Avoid bit size overflows
-> +
-> +diff -r e1fd9db13b47 -r 561a9c25298e mpz/inp_raw.c
-> +--- a/mpz/inp_raw.c    Tue Dec 22 23:49:51 2020 +0100
-> ++++ b/mpz/inp_raw.c    Thu Oct 21 19:06:49 2021 +0200
-> +@@ -88,8 +88,11 @@
-> +
-> +   abs_csize = ABS (csize);
-> +
-> ++  if (UNLIKELY (abs_csize > ~(mp_bitcnt_t) 0 / 8))
-> ++    return 0; /* Bit size overflows */
-> ++
-> +   /* round up to a multiple of limbs */
-> +-  abs_xsize = BITS_TO_LIMBS (abs_csize*8);
-> ++  abs_xsize = BITS_TO_LIMBS ((mp_bitcnt_t) abs_csize * 8);
-> +
-> +   if (abs_xsize != 0)
-> +     {
-> +
-> diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support/gmp/gmp_6.2.1.bb
-> index d5996abd00..7c12a97228 100644
-> --- a/meta/recipes-support/gmp/gmp_6.2.1.bb
-> +++ b/meta/recipes-support/gmp/gmp_6.2.1.bb
-> @@ -12,6 +12,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
->             file://use-includedir.patch \
->             file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
->             file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
-> +           file://CVE-2021-43618.patch \
->             "
->  SRC_URI[md5sum] = "28971fc21cf028042d4897f02fd355ea"
->  SRC_URI[sha256sum] = "eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"
-> --
-> 2.32.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158563): https://lists.openembedded.org/g/openembedded-core/message/158563
-> Mute This Topic: https://lists.openembedded.org/mt/87233112/1676615
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+PGRpdj5IaSBSb3NzLDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PlRoYW5rIHlvdSBmb3IgcG9pbnRp
+bmcgb3V0IHRoZSBpc3N1ZXMuIFdpbGwgZG8gYmV0dGVyIG5leHQgdGltZS4gYW5kIHlvdSB3ZXJl
+IGZhc3RlciBhbnl3YXkgOik8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj4tLcKgPC9kaXY+PGRpdj5Q
+YXZlbDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj7CoDwvZGl2PjxkaXY+MjIu
+MTEuMjAyMSwgMTM6MDAsICJSb3NzIEJ1cnRvbiIgJmx0O3Jvc3NAYnVydG9uaW5pLmNvbSZndDs6
+PC9kaXY+PGJsb2NrcXVvdGU+PHA+SGkgUGF2ZWwsPGJyIC8+PGJyIC8+Q2xvc2UgYnV0IHlvdSBh
+bHNvIG5lZWQgVXBzdHJlYW0tU3RhdHVzLCBTaWduZWQtb2ZmLWJ5LCBhbmQgQ1ZFIHRhZ3M8YnIg
+Lz5pbiB0aGUgcGF0Y2guIFlvdSBjYW4gc2VlIG15IHZlcnNpb24gb2YgdGhpcyBmaXggb24gdGhl
+IGxpc3QsIGEgZmV3PGJyIC8+bWludXRlcyBiZWZvcmUgeW91cnMuIDopPGJyIC8+PGJyIC8+Um9z
+czxiciAvPjxiciAvPk9uIE1vbiwgMjIgTm92IDIwMjEgYXQgMTE6NTQsIFBhdmVsIFpodWtvdiAm
+bHQ7PGEgaHJlZj0ibWFpbHRvOnBhdmVsQHpodWtvZmYubmV0IiByZWw9Im5vb3BlbmVyIG5vcmVm
+ZXJyZXIiPnBhdmVsQHpodWtvZmYubmV0PC9hPiZndDsgd3JvdGU6PC9wPjxibG9ja3F1b3RlPjxi
+ciAvPsKgRnJvbTogUGF2ZWwgWmh1a292ICZsdDs8YSBocmVmPSJtYWlsdG86cGF2ZWwuemh1a292
+QGh1YXdlaS5jb20iIHJlbD0ibm9vcGVuZXIgbm9yZWZlcnJlciI+cGF2ZWwuemh1a292QGh1YXdl
+aS5jb208L2E+Jmd0OzxiciAvPjxiciAvPsKgRml4IG1wei9pbnBfcmF3LmMgaW50ZWdlciBvdmVy
+ZmxvdyBhbmQgcmVzdWx0YW50IGJ1ZmZlciBvdmVyZmxvdyB2aWEgY3JhZnRlZCBpbnB1dCw8YnIg
+Lz7CoGxlYWRpbmcgdG8gYSBzZWdtZW50YXRpb24gZmF1bHQgb24gMzItYml0IHBsYXRmb3Jtcy48
+YnIgLz48YnIgLz7CoFJlZmVyZW5jZXM6IDxhIGhyZWY9Imh0dHBzOi8vZ21wbGliLm9yZy9yZXBv
+L2dtcC02LjIvcmV2LzU2MWE5YzI1Mjk4ZSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRw
+czovL2dtcGxpYi5vcmcvcmVwby9nbXAtNi4yL3Jldi81NjFhOWMyNTI5OGU8L2E+PGJyIC8+wqBS
+ZWZlcmVuY2VzOiA8YSBocmVmPSJodHRwczovL2dtcGxpYi5vcmcvbGlzdC1hcmNoaXZlcy9nbXAt
+YnVncy8yMDIxLVNlcHRlbWJlci8wMDUwNzcuaHRtbCIgcmVsPSJub29wZW5lciBub3JlZmVycmVy
+Ij5odHRwczovL2dtcGxpYi5vcmcvbGlzdC1hcmNoaXZlcy9nbXAtYnVncy8yMDIxLVNlcHRlbWJl
+ci8wMDUwNzcuaHRtbDwvYT48YnIgLz7CoFJlZmVyZW5jZXM6IDxhIGhyZWY9Imh0dHBzOi8vYnVn
+cy5kZWJpYW4ub3JnLzk5NDQwNSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwczovL2J1
+Z3MuZGViaWFuLm9yZy85OTQ0MDU8L2E+PGJyIC8+PGJyIC8+wqBTaWduZWQtb2ZmLWJ5OiBQYXZl
+bCBaaHVrb3YgJmx0OzxhIGhyZWY9Im1haWx0bzpwYXZlbC56aHVrb3ZAaHVhd2VpLmNvbSIgcmVs
+PSJub29wZW5lciBub3JlZmVycmVyIj5wYXZlbC56aHVrb3ZAaHVhd2VpLmNvbTwvYT4mZ3Q7PGJy
+IC8+wqAtLS08YnIgLz7CoMKgLi4uL2dtcC9nbXAvQ1ZFLTIwMjEtNDM2MTgucGF0Y2ggfCAyNSAr
+KysrKysrKysrKysrKysrKysrPGJyIC8+wqDCoG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9nbXBf
+Ni4yLjEuYmIgfCAxICs8YnIgLz7CoMKgMiBmaWxlcyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCsp
+PGJyIC8+wqDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21w
+L0NWRS0yMDIxLTQzNjE4LnBhdGNoPGJyIC8+PGJyIC8+wqBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZ21wL2dtcC9DVkUtMjAyMS00MzYxOC5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2dtcC9nbXAvQ1ZFLTIwMjEtNDM2MTgucGF0Y2g8YnIgLz7CoG5ldyBmaWxlIG1vZGUg
+MTAwNjQ0PGJyIC8+wqBpbmRleCAwMDAwMDAwMDAwLi5mNzQxOTcyNDM5PGJyIC8+wqAtLS0gL2Rl
+di9udWxsPGJyIC8+wqArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21wL0NWRS0yMDIx
+LTQzNjE4LnBhdGNoPGJyIC8+wqBAQCAtMCwwICsxLDI1IEBAPGJyIC8+wqArPGJyIC8+wqArIyBI
+RyBjaGFuZ2VzZXQgcGF0Y2g8YnIgLz7CoCsjIFVzZXIgTWFyY28gQm9kcmF0byAmbHQ7PGEgaHJl
+Zj0ibWFpbHRvOmJvZHJhdG9AbWFpbC5kbS51bmlwaS5pdCIgcmVsPSJub29wZW5lciBub3JlZmVy
+cmVyIj5ib2RyYXRvQG1haWwuZG0udW5pcGkuaXQ8L2E+Jmd0OzxiciAvPsKgKyMgRGF0ZSAxNjM0
+ODM2MDA5IC03MjAwPGJyIC8+wqArIyBOb2RlIElEIDU2MWE5YzI1Mjk4ZTE3YmIwMTg5NjgwMWZm
+MzUzNTQ2YzY5MjNkYmQ8YnIgLz7CoCsjIFBhcmVudCBlMWZkOWRiMTNiNDc1MjA5YTg2NDU3NzIz
+N2VhNGI5MTA1YjNlOTZlPGJyIC8+wqArbXB6L2lucF9yYXcuYzogQXZvaWQgYml0IHNpemUgb3Zl
+cmZsb3dzPGJyIC8+wqArPGJyIC8+wqArZGlmZiAtciBlMWZkOWRiMTNiNDcgLXIgNTYxYTljMjUy
+OThlIG1wei9pbnBfcmF3LmM8YnIgLz7CoCstLS0gYS9tcHovaW5wX3Jhdy5jIFR1ZSBEZWMgMjIg
+MjM6NDk6NTEgMjAyMCArMDEwMDxiciAvPsKgKysrKyBiL21wei9pbnBfcmF3LmMgVGh1IE9jdCAy
+MSAxOTowNjo0OSAyMDIxICswMjAwPGJyIC8+wqArQEAgLTg4LDggKzg4LDExIEBAPGJyIC8+wqAr
+PGJyIC8+wqArIGFic19jc2l6ZSA9IEFCUyAoY3NpemUpOzxiciAvPsKgKzxiciAvPsKgKysgaWYg
+KFVOTElLRUxZIChhYnNfY3NpemUgJmd0OyB+KG1wX2JpdGNudF90KSAwIC8gOCkpPGJyIC8+wqAr
+KyByZXR1cm4gMDsgLyogQml0IHNpemUgb3ZlcmZsb3dzICovPGJyIC8+wqArKzxiciAvPsKgKyAv
+KiByb3VuZCB1cCB0byBhIG11bHRpcGxlIG9mIGxpbWJzICovPGJyIC8+wqArLSBhYnNfeHNpemUg
+PSBCSVRTX1RPX0xJTUJTIChhYnNfY3NpemUqOCk7PGJyIC8+wqArKyBhYnNfeHNpemUgPSBCSVRT
+X1RPX0xJTUJTICgobXBfYml0Y250X3QpIGFic19jc2l6ZSAqIDgpOzxiciAvPsKgKzxiciAvPsKg
+KyBpZiAoYWJzX3hzaXplICE9IDApPGJyIC8+wqArIHs8IS0tIC0tPjxiciAvPsKgKzxiciAvPsKg
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dtcC9nbXBfNi4yLjEuYmIgYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9nbXAvZ21wXzYuMi4xLmJiPGJyIC8+wqBpbmRleCBkNTk5NmFiZDAw
+Li43YzEyYTk3MjI4IDEwMDY0NDxiciAvPsKgLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21w
+L2dtcF82LjIuMS5iYjxiciAvPsKgKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21wL2dtcF82
+LjIuMS5iYjxiciAvPsKgQEAgLTEyLDYgKzEyLDcgQEAgU1JDX1VSSSA9ICI8YSBocmVmPSJodHRw
+czovL2dtcGxpYi5vcmcvZG93bmxvYWQvJCIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRw
+czovL2dtcGxpYi5vcmcvZG93bmxvYWQvJDwvYT57QlBOfS8ke0JQfSR7UkVWSVNJT059LnRhci5i
+ejIgXDxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgPGEgaHJlZj0iZmlsZTovL3VzZS1p
+bmNsdWRlZGlyLnBhdGNoIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmZpbGU6Ly91c2UtaW5j
+bHVkZWRpci5wYXRjaDwvYT4gXDxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgPGEgaHJl
+Zj0iaHR0cDovL2ZpbGUvLzAwMDEtQXBwZW5kLXRoZS11c2VyLXByb3ZpZGVkLWZsYWdzLXRvLXRo
+ZS1hdXRvLWRldGVjdGVkLS5wYXRjaCIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5maWxlOi8v
+MDAwMS1BcHBlbmQtdGhlLXVzZXItcHJvdmlkZWQtZmxhZ3MtdG8tdGhlLWF1dG8tZGV0ZWN0ZWQt
+LnBhdGNoPC9hPiBcPGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA8YSBocmVmPSJmaWxl
+Oi8vMDAwMS1jb25maXVyZS5hYy1iZWxpZXZlLXRoZS1jZmxhZ3MtZnJvbS1lbnZpcm9ubWVudC5w
+YXRjaCIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5maWxlOi8vMDAwMS1jb25maXVyZS5hYy1C
+ZWxpZXZlLXRoZS1jZmxhZ3MtZnJvbS1lbnZpcm9ubWVudC5wYXRjaDwvYT4gXDxiciAvPsKgKyA8
+YSBocmVmPSJmaWxlOi8vY3ZlLTIwMjEtNDM2MTgucGF0Y2giIHJlbD0ibm9vcGVuZXIgbm9yZWZl
+cnJlciI+ZmlsZTovL0NWRS0yMDIxLTQzNjE4LnBhdGNoPC9hPiBcPGJyIC8+wqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAiPGJyIC8+wqDCoFNSQ19VUklbbWQ1c3VtXSA9ICIyODk3MWZjMjFjZjAy
+ODA0MmQ0ODk3ZjAyZmQzNTVlYSI8YnIgLz7CoMKgU1JDX1VSSVtzaGEyNTZzdW1dID0gImVhZTkz
+MjZiZWI0MTU4YzM4NmUzOWEzNTY4MTgwMzFiZDI4ZjMxMjRjZjkxNWY4YzViMWRjNGM3YTM2YjRk
+N2MiPGJyIC8+wqAtLTxiciAvPsKgMi4zMi4wPGJyIC8+PGJyIC8+PGJyIC8+wqAtPS09LT0tPS09
+LT0tPS09LT0tPS09LTxiciAvPsKgTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50
+IHRvIHRoaXMgZ3JvdXAuPGJyIC8+wqBWaWV3L1JlcGx5IE9ubGluZSAoIzE1ODU2Myk6IDxhIGhy
+ZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21l
+c3NhZ2UvMTU4NTYzIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHBzOi8vbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTU4NTYzPC9hPjxiciAv
+PsKgTXV0ZSBUaGlzIFRvcGljOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvbXQvODcyMzMxMTIvMTY3NjYxNSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwczov
+L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvODcyMzMxMTIvMTY3NjYxNTwvYT48YnIgLz7CoEdy
+b3VwIE93bmVyOiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZyIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5vcGVuZW1iZWRkZWQt
+Y29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxiciAvPsKgVW5zdWJzY3JpYmU6
+IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1j
+b3JlL3Vuc3ViIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHBzOi8vbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViPC9hPiBbPGEgaHJlZj0ibWFpbHRv
+OnJvc3NAYnVydG9uaW5pLmNvbSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5yb3NzQGJ1cnRv
+bmluaS5jb208L2E+XTxiciAvPsKgLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnIgLz7CoDwvYmxv
+Y2txdW90ZT48L2Jsb2NrcXVvdGU+
 
