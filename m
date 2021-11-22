@@ -1,544 +1,253 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5934CC4167D
-	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 02:20:55 +0000 (UTC)
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web10.1405.1637547653561434812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F214C433EF
+	for <webhook@archiver.kernel.org>; Mon, 22 Nov 2021 03:32:26 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.1997.1637551944626016606
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Nov 2021 18:20:54 -0800
+ Sun, 21 Nov 2021 19:32:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10175"; a="298122218"
-X-IronPort-AV: E=Sophos;i="5.87,253,1631602800";
-   d="scan'208";a="298122218"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2021 18:20:43 -0800
-X-IronPort-AV: E=Sophos;i="5.87,253,1631602800";
-   d="scan'208";a="739428844"
-Received: from kkleong1-mobl1.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.215.239.135])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2021 18:20:41 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 11/16] rpm: fix CVE-2021-3521
-Date: Mon, 22 Nov 2021 10:20:15 +0800
-Message-Id: 
- <68c20b12fca2c20439b18c5fd9757c2c1f1746a1.1637546583.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1637546583.git.anuj.mittal@intel.com>
-References: <cover.1637546583.git.anuj.mittal@intel.com>
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com
+ header.s=pps06212021 header.b=dK0KgDGW;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=6960842fb0=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 1AM3WONt009782
+	for <openembedded-core@lists.openembedded.org>;
+ Sun, 21 Nov 2021 19:32:24 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=subject : to : cc
+ : references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=bqV1YKBNYNvF35CNVPqZK2fKBFXcJH5ALQ+3J2owmEU=;
+ b=dK0KgDGWryJOg+7K66ZfatrwGFWzOo8EnZfsx1ChP6W60rTDSjRUOzNc5QOx2l0fXeUQ
+ v3jgJEnrmrpLZ1bd09yMC27O1am9e0GzfQa2e2UBH0OxhOIypn0zQYOnjRJj3y1LjrFY
+ sJZ6i+e1cWw6krxzES+R0e332AnIZ/PNGDUFx7sPTAw7fbzqn4/5nv/MCNLJiXiRfW5C
+ pRsiChS6deBcl1v0UFFHUSD7tZoFVQa6gW+G40jGNHQqVYedKSIN0/OqnDYzBP6Oafhb
+ OEkV7H8w2QLlJcZq0RGUQH6MXlNCHeufWonsNT1UQQGSkvBAVz01R+JSsn6bbUxv6JT5 0w==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cf1dr8xnj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Sun, 21 Nov 2021 19:32:24 -0800
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1AM3WNgm009775
+	for <openembedded-core@lists.openembedded.org>;
+ Sun, 21 Nov 2021 19:32:23 -0800
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cf1dr8xnh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 21 Nov 2021 19:32:23 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VoqH1cOrFdMtdM4ubIgWExXV++Vmu9ArbObKvHQxUjhxzyuMkiSy8B/Q7RUl4zqj7bc2E1Xfgq9DeDq2t57Im7T1fhQfgDHb5J/+/D5S2016u/bvWNu/cgb5wxEUQXINqubADEiZNYkW2iJazw6rZ1q3sLyDIzNsawl+6Qede0sNv1TjcspMDaQqp1qi7Tgy57UOJm8cSrjs4c5/RAZ7SPxpAyTeU14t7R1Gf3PH6kUFEHiK4zy0iLReQKPmRMwQ3h0Q46Qo6sPXE495EdN7K9xEIprrIJLCRNkswVXKS1kROlPdMa9YtxuyKKZRLVFUF0I/DXWVZ3mX7Bm0l/G/Sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bqV1YKBNYNvF35CNVPqZK2fKBFXcJH5ALQ+3J2owmEU=;
+ b=PL1Ouqit3IsgiCU/bdtFb/vuCzQDVt6EgITybYUMZOE2zV/epklL5VxcYP9pa1odUDcmusmMKFQX6ZMTWTkpWMpFV709vqguFC8YoZvsbL73rMW2uYz5Bk8Soo9FCphnTvp6lhFHtEutHVh7Jr//nI3JsHAgV1MLWgjhCvNo7eDo9YiRrrRSNlQzpf4PhX6WQzAGUo5N8N8UInOV8TvhWYLBi9kyNi1j0ZlIOTLR6GVdufUdG7HRIZUIhD9/rH4X1YtS/Y0qsJuPApmRzhz4xoVjHG1HXj2rNcS2KjIM3JlJrhILhxdYn3bAkm7hXajwlzSX7QG/x8MAfGeMxdMkdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by CO6PR11MB5586.namprd11.prod.outlook.com (2603:10b6:5:35d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Mon, 22 Nov
+ 2021 03:32:20 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::98c4:c603:2360:7b8b]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::98c4:c603:2360:7b8b%9]) with mapi id 15.20.4669.011; Mon, 22 Nov 2021
+ 03:32:20 +0000
+Subject: Re: [OE-core] [PATCH 0/8] systemd: allow building for nativesdk
+To: Luca Boccassi <luca.boccassi@gmail.com>,
+        openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@microsoft.com
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+ <2f667850-b6f6-e7e8-5aef-41b2d0e64b5f@windriver.com>
+ <7d5674bcfdd7de854cf8bfa431c1c46373f426d3.camel@gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <07dd9b69-ed68-acbd-227d-a2ac5a46ec3d@windriver.com>
+Date: Mon, 22 Nov 2021 11:32:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <7d5674bcfdd7de854cf8bfa431c1c46373f426d3.camel@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-ClientProxiedBy: HKAPR04CA0005.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::15) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from [128.224.162.187] (60.247.85.82) by
+ HKAPR04CA0005.apcprd04.prod.outlook.com (2603:1096:203:d0::15) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22 via Frontend
+ Transport; Mon, 22 Nov 2021 03:32:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b8c3054a-9cb8-478f-6eb9-08d9ad68b09d
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5586:
+X-Microsoft-Antispam-PRVS: 
+	<CO6PR11MB5586BEC2C4F6C482C8AE668DED9F9@CO6PR11MB5586.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	jsB2iMV+STHYe1iDnTaGjSFuhVyGeXTzPZu44P6+ZS41OWjExJrN1KQQMStHvjsgm/ps2o/EuFlvuEexVHsRKt/YCHxSxPuHX5r5t/PVqZ62H8IAvvas0OSDFpQ1c4BgiI/Hk+Rdia28M4Phri+tz+nsestX/SzxUeWj83mQn+cwhch/KBO7Ig5YkpJEWq8INeOfpxC/QGBkZsXUZ42Zn2vdNgEwX6ZqBJvc/ybwaOjtToF0Wzx5SjAKbQMO4VjLDeXr7ER8Ut7we2qbG/EjshWWEQDO1treyNrlLfVLhmnr0OgRLbd70YA8w1dlmPAQ7E7mEWvN1/1UYrfjLvgNt93ZEmc2lS4OQN9XYiRB7SGMC5Dp3lgl0BcUeG2I4l6wG/9VlmSRrRmVaM7bhq3eZrwht/vBot+cfnr+Z9sSFmSL0z5fjr81qdTs0fCpKwKt0NmxhMLju/kTp/IOXvYktk4BYAxNWBvZGeyim465YNqlb+UM09w1lEIswWBY6ohDfEG4FscPGQn53mPgX/JUf1g8yI9dK2JlfN9HZfFUeAZIBUBOIyWXgQNiKv/UDuWuxZFb2AvSsmyC4/9CU8BQSYnx4qfAXGdDz5CvdD2xV8MEkFBCHfZSatpP46gN46nRRshgvkOspk35WDlc1B/Dw50Q+HB88nOMZhI32SMoh3Ph21lN1G9Cx5ke5tk41uJfGIhsQcjZX2XV6+RjcFEiAhvaT3uJcw8av+huCBNnIfbozFqL/s/kl9F1JSAr5nrP49XbsNl6oTAx5Uvhl6BYWS/7WV8hdo8iEAsEZiJ+BdIH8kq4jCxk9vcKRPybsjKZdg15lzPY9KIAywb2HAax0IQ7WtiuQOMBbzVnd77ddGG4ScOn2lxeGj0nFuuMVE00BXPALujlYpzxJ2LZ9nnsbJHR0IdwEHGejN6GgkXjjbY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(31686004)(6486002)(5660300002)(2616005)(53546011)(36756003)(4326008)(52116002)(6706004)(508600001)(956004)(83380400001)(6666004)(16576012)(26005)(4001150100001)(186003)(31696002)(2906002)(8676002)(45080400002)(38350700002)(66556008)(316002)(66946007)(966005)(38100700002)(86362001)(66476007)(8936002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RFdrcE5FM0dTTUZsellqR0ZUcjlVRm5obld5RlBWREUyL212cmZIcmZxYmxx?=
+ =?utf-8?B?WVV6aTlkOXhpNys2ZU9BZ2xoR1VQVkttb2Q0Y0xEaC9Ib3F3TE5aZ3p3R3U4?=
+ =?utf-8?B?UmFscVBoMkNKQnBHaENsR3cyOC9TUkV6VHl0R3VPdHk3bjdzT2o5NE9RTlZI?=
+ =?utf-8?B?MnQ4R0JHT0pvRFFwMU1ES2ZWcjNGWVZVb2cwVStlMyswZlJlakFhTGdrSk42?=
+ =?utf-8?B?M2xTelRVTHUwQTNTR2hrNjl1UDN4aStSSmpCS3FwTnZXTDlDQzNEQTdYbFlJ?=
+ =?utf-8?B?dW1BZDZiVlIvZXcxKzN2RmNlUnh5L1VwV3daWGhUSXgxZVk5NURaZzB4NUdX?=
+ =?utf-8?B?VTBwcWV4a1hSVUlUSmk5UnZINS9lUHJZZXZaak5hWjFvQ2NLdHJ0Rys5SkpB?=
+ =?utf-8?B?UGpuV1p6cWJ4Rm56SWtaVDllWUIvSHc2Rk1BNnJaa1BONVZIYnRNTE04bjN4?=
+ =?utf-8?B?YjNiNi9YMFN0THQ3VENUN09NWUpudXREcTcyTGFrKzkvRktoKzNFSGlGN1N2?=
+ =?utf-8?B?WUc5N1JraHRXUlhPL0ZLNE44cHNYZzJFOG9YRWlSRUM3VEdVem9ObnhOek1F?=
+ =?utf-8?B?M0UvSVpmd0hoV3hRZEQ2VFk2Z3loaDl6bEZCaWRyZFFVZUg0YlNySmF0SnNE?=
+ =?utf-8?B?Qi9aSjN6ZVp6czkrb20rTWJlUGw0bklQOWtEeEVDdU0vaDV1WkYwTkdyZUtq?=
+ =?utf-8?B?WjdJZnZIaGJTTSt0ek1zSjJZWXJhT0QwTVdyZk5XcldaMXA2VFpOaDdLbit4?=
+ =?utf-8?B?Uk53RFdFTkZrMEYrdFlvTUFyVjZFbVY3aDJyKzR5NFkyaWY5andFQjA4eEVM?=
+ =?utf-8?B?Vk4vdndFYXFSajFZWnNKY3QyR2dvS1NVaHljZU9DVEI5S1U5Zm1wdkg1akFV?=
+ =?utf-8?B?d1VaT1NIYlluVkpKNVZZZlpkbG5qM3VDbFdVc0FtdUdVZmdQUWN5WU53OGhr?=
+ =?utf-8?B?LzNYQTFIVzBpQUxuQnYxVzROd01TSlcvaUdnTGZoNzZpU3FPVTFFSFJOR2tX?=
+ =?utf-8?B?MUxCbEwwMlYvZm5rbVVlcW51b3RrcHpoZkFtSHhzNE9pRlR0NnpUenlvbDN1?=
+ =?utf-8?B?VUl5QzRFcXVMZnY5eFplTVFOR3Z3ZnU3czVtSnVub2hKV2VRZU1qZ21GOGh6?=
+ =?utf-8?B?c1laeG81TjVEc0xrRFNXbE52K1RNeVlrZVJaV2xZOWM2WFpCR1VPbThRSzlj?=
+ =?utf-8?B?aU4rMDVEYW52d28zcmN5UTBYaUx1WDZUL1Z0T3ZzZXk2clU1eEdJdHRlZCtW?=
+ =?utf-8?B?NnVVR0dFa2FvTEp3R3pDOFY2NHZ6cG5YRFVVS01oVVJ1aXBMY2I5UGNINjVV?=
+ =?utf-8?B?dmY1MjN4eFJXQUJXUERRUk51dVRybEs2NlBFL0FGbkRSUllxVEJKdzBheHc3?=
+ =?utf-8?B?Q2s5SnRRenV0aG9nM2FSdlZpV0IvSzZJK3kzZXI3OVl0TXoyVnRONkF3aXJh?=
+ =?utf-8?B?YmNOMlZJNk5BUGRmNHFuajBraDJGQWhWTiswRkdqS3hLcDR0djRqclNxM0d2?=
+ =?utf-8?B?eENxdnBrR3VVTDFMQmNvRG9Nc0IvdDN4cmNoV1FXMEIyN3ZqblFwN3RMVmF0?=
+ =?utf-8?B?MVA3WGl5aXFNZUNCNk9hZDVZUE90RWNTMUtBZjdON25Gb0pZRkdWNWJrbHBx?=
+ =?utf-8?B?VGhPbHFNbzNNZ0kyajREa0NEWENBNGpONUdrd1k5MjVWQmhmd05JbExIcFBz?=
+ =?utf-8?B?V05RbkF4VUNaRkNDTWY2dkVDbm90Z3ZpWWcwNG1lQ1JnVzYzVXAvcjlUek1s?=
+ =?utf-8?B?a1BEdzhURDV3QTNsOWZNckVWT1lYUVozMU9MSkZMYUMyaythb0hNUmZMTjZM?=
+ =?utf-8?B?V0J1elV4emFtV3Z4MUlBY2hiWEpjekdRckdlb2FzYnRUYzh4YkRzTzZIUzRX?=
+ =?utf-8?B?Lyt1RFJTSU9MeXdmeU1QMjVPblQwWVBZdG90eVRQaWVkRE1MMXVNdi9KZVMz?=
+ =?utf-8?B?U2syTTM5QkpJYXBIcHcwTkE5aGRBbllpU1ZsQWdXcDEvYis1Y1dIMnJuSG13?=
+ =?utf-8?B?YkVvalYwSlkzM2lyMVFKTktHVStXRFVySGNHald0cnFZSG45WHZMUmZQV0kx?=
+ =?utf-8?B?VlYwRVJURHRUcnBRYU1nbkh0ZHVWdm1IWlRBM2k0bXRxZDhTeXZmVnlsa2hD?=
+ =?utf-8?B?clQxajA3YnFEc0haYUwxMHBIdXl6cWxoSk9kZ0MrcUczVEMzOUIzSlFST2wv?=
+ =?utf-8?Q?mRUMy+1gtdxNcdRIBX93w1Q=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ b8c3054a-9cb8-478f-6eb9-08d9ad68b09d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2021 03:32:20.3257
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ dp4FiaQucN78Sqxb1gRcJjjBSonAFDNO84C0E6iCpAs2rAjhmQU5DJWC3AG/umhadYSpbD9vE2ARjGKpN9L7Ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5586
+X-Proofpoint-GUID: wT7pnymnF88jyBJgHTMrjQtf_8oUuolV
+X-Proofpoint-ORIG-GUID: 3fAsiMPudGqORB316WGS8KRt5tJ7VRD0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-22_01,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111220018
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-0064b401.pphosted.com id 1AM3WONt009782
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 02:20:55 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Nov 2021 03:32:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158549
+ https://lists.openembedded.org/g/openembedded-core/message/158553
 
-From: Changqing Li <changqing.li@windriver.com>
+On 11/19/21 7:26 PM, Luca Boccassi wrote:
+> On Fri, 2021-11-19 at 09:43 +0800, ChenQi wrote:
+>> Hi Luca,
+>>
+>> If the real useful part is only about systemd-analyze in case of
+>> nativesdk/native, I'd suggest adding systemd-analyze-native or
+>> nativesdk-systemd-analyze instead of extending the current systemd
+>> recipe.
+>> This is because systemd has a whole bunch of dependencies which
+>> basically make no sense in case of native/nativesdk. Looking at the
+>> src/analyze/meson.build file, I guess it could be built
+>> independently.
+>>
+>> Regards,
+>> Qi
+> Hi,
+>
+> Building individual binaries like that is not supported, so it cannot
+> work.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../rpm/files/0001-CVE-2021-3521.patch        |  57 +++
- .../rpm/files/0002-CVE-2021-3521.patch        |  62 ++++
- .../rpm/files/0003-CVE-2021-3521.patch        | 332 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |   3 +
- 4 files changed, 454 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
-new file mode 100644
-index 0000000000..b374583017
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
-@@ -0,0 +1,57 @@
-+From 9a6871126f472feea057d5f803505ec8cc78f083 Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 30 Sep 2021 09:56:20 +0300
-+Subject: [PATCH 1/3] Refactor pgpDigParams construction to helper function
-+
-+No functional changes, just to reduce code duplication and needed by
-+the following commits.
-+
-+CVE: CVE-2021-3521
-+Upstream-Staus: Backport[https://github.com/rpm-software-management/rpm/commit/9f03f42e2]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ rpmio/rpmpgp.c | 13 +++++++++----
-+ 1 file changed, 9 insertions(+), 4 deletions(-)
-+
-+diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
-+index d0688ebe9a..e472b5320f 100644
-+--- a/rpmio/rpmpgp.c
-++++ b/rpmio/rpmpgp.c
-+@@ -1041,6 +1041,13 @@ unsigned int pgpDigParamsAlgo(pgpDigParams digp, unsigned int algotype)
-+     return algo;
-+ }
-+ 
-++static pgpDigParams pgpDigParamsNew(uint8_t tag)
-++{
-++    pgpDigParams digp = xcalloc(1, sizeof(*digp));
-++    digp->tag = tag;
-++    return digp;
-++}
-++
-+ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
-+ 		 pgpDigParams * ret)
-+ {
-+@@ -1058,8 +1065,7 @@ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
-+ 	    if (pkttype && pkt.tag != pkttype) {
-+ 		break;
-+ 	    } else {
-+-		digp = xcalloc(1, sizeof(*digp));
-+-		digp->tag = pkt.tag;
-++		digp = pgpDigParamsNew(pkt.tag);
-+ 	    }
-+ 	}
-+ 
-+@@ -1105,8 +1111,7 @@ int pgpPrtParamsSubkeys(const uint8_t *pkts, size_t pktlen,
-+ 		digps = xrealloc(digps, alloced * sizeof(*digps));
-+ 	    }
-+ 
-+-	    digps[count] = xcalloc(1, sizeof(**digps));
-+-	    digps[count]->tag = PGPTAG_PUBLIC_SUBKEY;
-++	    digps[count] = pgpDigParamsNew(PGPTAG_PUBLIC_SUBKEY);
-+ 	    /* Copy UID from main key to subkey */
-+ 	    digps[count]->userid = xstrdup(mainkey->userid);
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
-new file mode 100644
-index 0000000000..a8ff98fa26
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
-@@ -0,0 +1,62 @@
-+From c4b1bee51bbdd732b94b431a951481af99117703 Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 30 Sep 2021 09:51:10 +0300
-+Subject: [PATCH 2/3] Process MPI's from all kinds of signatures
-+
-+No immediate effect but needed by the following commits.
-+
-+CVE: CVE-2021-3521
-+Upstream-Status: Backport[https://github.com/rpm-software-management/rpm/commit/b5e8bc74b]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ rpmio/rpmpgp.c | 12 +++++-------
-+ 1 file changed, 5 insertions(+), 7 deletions(-)
-+
-+diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
-+index e472b5320f..57d411d1e0 100644
-+--- a/rpmio/rpmpgp.c
-++++ b/rpmio/rpmpgp.c
-+@@ -515,7 +515,7 @@ pgpDigAlg pgpDigAlgFree(pgpDigAlg alg)
-+     return NULL;
-+ }
-+ 
-+-static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
-++static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo,
-+ 		const uint8_t *p, const uint8_t *h, size_t hlen,
-+ 		pgpDigParams sigp)
-+ {
-+@@ -528,10 +528,8 @@ static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
-+ 	int mpil = pgpMpiLen(p);
-+ 	if (p + mpil > pend)
-+ 	    break;
-+-	if (sigtype == PGPSIGTYPE_BINARY || sigtype == PGPSIGTYPE_TEXT) {
-+-	    if (sigalg->setmpi(sigalg, i, p))
-+-		break;
-+-	}
-++	if (sigalg->setmpi(sigalg, i, p))
-++	    break;
-+ 	p += mpil;
-+     }
-+ 
-+@@ -604,7 +602,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
-+ 	}
-+ 
-+ 	p = ((uint8_t *)v) + sizeof(*v);
-+-	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
-++	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
-+     }	break;
-+     case 4:
-+     {   pgpPktSigV4 v = (pgpPktSigV4)h;
-+@@ -662,7 +660,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
-+ 	if (p > (h + hlen))
-+ 	    return 1;
-+ 
-+-	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
-++	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
-+     }	break;
-+     default:
-+ 	rpmlog(RPMLOG_WARNING, _("Unsupported version of key: V%d\n"), version);
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
-new file mode 100644
-index 0000000000..d39ea7dacd
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
-@@ -0,0 +1,332 @@
-+From 07676ca03ad8afcf1ca95a2353c83fbb1d970b9b Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 30 Sep 2021 09:59:30 +0300
-+Subject: [PATCH 3/3] Validate and require subkey binding signatures on PGP
-+ public keys
-+
-+All subkeys must be followed by a binding signature by the primary key
-+as per the OpenPGP RFC, enforce the presence and validity in the parser.
-+
-+The implementation is as kludgey as they come to work around our
-+simple-minded parser structure without touching API, to maximise
-+backportability. Store all the raw packets internally as we decode them
-+to be able to access previous elements at will, needed to validate ordering
-+and access the actual data. Add testcases for manipulated keys whose
-+import previously would succeed.
-+
-+Depends on the two previous commits:
-+7b399fcb8f52566e6f3b4327197a85facd08db91 and
-+236b802a4aa48711823a191d1b7f753c82a89ec5
-+
-+Fixes CVE-2021-3521.
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/bd36c5dc9]
-+CVE:CVE-2021-3521
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ rpmio/rpmpgp.c                                | 100 ++++++++++++++++--
-+ tests/Makefile.am                             |   3 +
-+ tests/data/keys/CVE-2021-3521-badbind.asc     |  25 +++++
-+ .../data/keys/CVE-2021-3521-nosubsig-last.asc |  25 +++++
-+ tests/data/keys/CVE-2021-3521-nosubsig.asc    |  37 +++++++
-+ tests/rpmsigdig.at                            |  28 +++++
-+ 6 files changed, 211 insertions(+), 7 deletions(-)
-+ create mode 100644 tests/data/keys/CVE-2021-3521-badbind.asc
-+ create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig-last.asc
-+ create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig.asc
-+
-+diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
-+index 57d411d1e0..b12410d671 100644
-+--- a/rpmio/rpmpgp.c
-++++ b/rpmio/rpmpgp.c
-+@@ -1046,35 +1046,121 @@ static pgpDigParams pgpDigParamsNew(uint8_t tag)
-+     return digp;
-+ }
-+ 
-++static int hashKey(DIGEST_CTX hash, const struct pgpPkt *pkt, int exptag)
-++{
-++    int rc = -1;
-++    if (pkt->tag == exptag) {
-++	uint8_t head[] = {
-++	    0x99,
-++	    (pkt->blen >> 8),
-++	    (pkt->blen     ),
-++	};
-++
-++	rpmDigestUpdate(hash, head, 3);
-++	rpmDigestUpdate(hash, pkt->body, pkt->blen);
-++	rc = 0;
-++    }
-++    return rc;
-++}
-++
-++static int pgpVerifySelf(pgpDigParams key, pgpDigParams selfsig,
-++			const struct pgpPkt *all, int i)
-++{
-++    int rc = -1;
-++    DIGEST_CTX hash = NULL;
-++
-++    switch (selfsig->sigtype) {
-++    case PGPSIGTYPE_SUBKEY_BINDING:
-++	hash = rpmDigestInit(selfsig->hash_algo, 0);
-++	if (hash) {
-++	    rc = hashKey(hash, &all[0], PGPTAG_PUBLIC_KEY);
-++	    if (!rc)
-++		rc = hashKey(hash, &all[i-1], PGPTAG_PUBLIC_SUBKEY);
-++	}
-++	break;
-++    default:
-++	/* ignore types we can't handle */
-++	rc = 0;
-++	break;
-++    }
-++
-++    if (hash && rc == 0)
-++	rc = pgpVerifySignature(key, selfsig, hash);
-++
-++    rpmDigestFinal(hash, NULL, NULL, 0);
-++
-++    return rc;
-++}
-++
-+ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
-+ 		 pgpDigParams * ret)
-+ {
-+     const uint8_t *p = pkts;
-+     const uint8_t *pend = pkts + pktlen;
-+     pgpDigParams digp = NULL;
-+-    struct pgpPkt pkt;
-++    pgpDigParams selfsig = NULL;
-++    int i = 0;
-++    int alloced = 16; /* plenty for normal cases */
-++    struct pgpPkt *all = xmalloc(alloced * sizeof(*all));
-+     int rc = -1; /* assume failure */
-++    int expect = 0;
-++    int prevtag = 0;
-+ 
-+     while (p < pend) {
-+-	if (decodePkt(p, (pend - p), &pkt))
-++	struct pgpPkt *pkt = &all[i];
-++	if (decodePkt(p, (pend - p), pkt))
-+ 	    break;
-+ 
-+ 	if (digp == NULL) {
-+-	    if (pkttype && pkt.tag != pkttype) {
-++	    if (pkttype && pkt->tag != pkttype) {
-+ 		break;
-+ 	    } else {
-+-		digp = pgpDigParamsNew(pkt.tag);
-++		digp = pgpDigParamsNew(pkt->tag);
-+ 	    }
-+ 	}
-+ 
-+-	if (pgpPrtPkt(&pkt, digp))
-++	if (expect) {
-++	    if (pkt->tag != expect)
-++		break;
-++	    selfsig = pgpDigParamsNew(pkt->tag);
-++	}
-++
-++	if (pgpPrtPkt(pkt, selfsig ? selfsig : digp))
-+ 	    break;
-+ 
-+-	p += (pkt.body - pkt.head) + pkt.blen;
-++	if (selfsig) {
-++	    /* subkeys must be followed by binding signature */
-++	    if (prevtag == PGPTAG_PUBLIC_SUBKEY) {
-++		if (selfsig->sigtype != PGPSIGTYPE_SUBKEY_BINDING)
-++		    break;
-++	    }
-++
-++	    int xx = pgpVerifySelf(digp, selfsig, all, i);
-++
-++	    selfsig = pgpDigParamsFree(selfsig);
-++	    if (xx)
-++		break;
-++	    expect = 0;
-++	}
-++
-++	if (pkt->tag == PGPTAG_PUBLIC_SUBKEY)
-++	    expect = PGPTAG_SIGNATURE;
-++	prevtag = pkt->tag;
-++
-++	i++;
-++	p += (pkt->body - pkt->head) + pkt->blen;
-++	if (pkttype == PGPTAG_SIGNATURE)
-++	    break;
-++
-++	if (alloced <= i) {
-++	    alloced *= 2;
-++	    all = xrealloc(all, alloced * sizeof(*all));
-++	}
-+     }
-+ 
-+-    rc = (digp && (p == pend)) ? 0 : -1;
-++    rc = (digp && (p == pend) && expect == 0) ? 0 : -1;
-+ 
-++    free(all);
-+     if (ret && rc == 0) {
-+ 	*ret = digp;
-+     } else {
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index f742a9e1d2..328234278a 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -107,6 +107,9 @@ EXTRA_DIST += data/SPECS/hello-config-buildid.spec
-+ EXTRA_DIST += data/SPECS/hello-cd.spec
-+ EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.pub
-+ EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.secret
-++EXTRA_DIST += data/keys/CVE-2021-3521-badbind.asc
-++EXTRA_DIST += data/keys/CVE-2021-3521-nosubsig.asc
-++EXTRA_DIST += data/keys/CVE-2021-3521-nosubsig-last.asc
-+ EXTRA_DIST += data/macros.testfile
-+ EXTRA_DIST += data/macros.debug
-+ EXTRA_DIST += data/SOURCES/foo.c
-+diff --git a/tests/data/keys/CVE-2021-3521-badbind.asc b/tests/data/keys/CVE-2021-3521-badbind.asc
-+new file mode 100644
-+index 0000000000..aea00f9d7a
-+--- /dev/null
-++++ b/tests/data/keys/CVE-2021-3521-badbind.asc
-+@@ -0,0 +1,25 @@
-++-----BEGIN PGP PUBLIC KEY BLOCK-----
-++Version: rpm-4.17.90 (NSS-3)
-++
-++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
-++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
-++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
-++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
-++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
-++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
-++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
-++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
-++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
-++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
-++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
-++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
-+++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
-++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
-++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
-++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
-++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
-++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
-++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
-++=WCfs
-++-----END PGP PUBLIC KEY BLOCK-----
-++
-+diff --git a/tests/data/keys/CVE-2021-3521-nosubsig-last.asc b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
-+new file mode 100644
-+index 0000000000..aea00f9d7a
-+--- /dev/null
-++++ b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
-+@@ -0,0 +1,25 @@
-++-----BEGIN PGP PUBLIC KEY BLOCK-----
-++Version: rpm-4.17.90 (NSS-3)
-++
-++mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
-++HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
-++91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
-++eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
-++7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
-++1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
-++c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
-++CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
-++Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
-++BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
-++XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
-++fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
-+++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
-++BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
-++zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
-++iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
-++Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
-++KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
-++L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
-++=WCfs
-++-----END PGP PUBLIC KEY BLOCK-----
-++
-+diff --git a/tests/data/keys/CVE-2021-3521-nosubsig.asc b/tests/data/keys/CVE-2021-3521-nosubsig.asc
-+new file mode 100644
-+index 0000000000..3a2e7417f8
-+--- /dev/null
-++++ b/tests/data/keys/CVE-2021-3521-nosubsig.asc
-+@@ -0,0 +1,37 @@
-++-----BEGIN PGP PUBLIC KEY BLOCK-----
-++Version: rpm-4.17.90 (NSS-3)
-++
-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
-++E4XX4jtDmdZPreZALsiB
-++=rRop
-++-----END PGP PUBLIC KEY BLOCK-----
-++
-+diff --git a/tests/rpmsigdig.at b/tests/rpmsigdig.at
-+index e1a3ab062a..705fc58705 100644
-+--- a/tests/rpmsigdig.at
-++++ b/tests/rpmsigdig.at
-+@@ -240,6 +240,34 @@ gpg(185e6146f00650f8) = 4:185e6146f00650f8-58e63918
-+ [])
-+ AT_CLEANUP
-+ 
-++AT_SETUP([rpmkeys --import invalid keys])
-++AT_KEYWORDS([rpmkeys import])
-++RPMDB_INIT
-++
-++AT_CHECK([
-++runroot rpmkeys --import /data/keys/CVE-2021-3521-badbind.asc
-++],
-++[1],
-++[],
-++[error: /data/keys/CVE-2021-3521-badbind.asc: key 1 import failed.]
-++)
-++AT_CHECK([
-++runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig.asc
-++],
-++[1],
-++[],
-++[error: /data/keys/CVE-2021-3521-nosubsig.asc: key 1 import failed.]
-++)
-++
-++AT_CHECK([
-++runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig-last.asc
-++],
-++[1],
-++[],
-++[error: /data/keys/CVE-2021-3521-nosubsig-last.asc: key 1 import failed.]
-++)
-++AT_CLEANUP
-++
-+ # ------------------------------
-+ # Test pre-built package verification
-+ AT_SETUP([rpmkeys -K <signed> 1])
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index 62da3d2095..5a347953fa 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -41,6 +41,9 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x;protoc
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
-            file://0001-tools-Add-error.h-for-non-glibc-case.patch \
-            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-+           file://0001-CVE-2021-3521.patch \
-+           file://0002-CVE-2021-3521.patch \
-+           file://0003-CVE-2021-3521.patch \
-            "
- 
- PE = "1"
--- 
-2.33.1
+Thanks for your clarification.
+
+Regards,
+
+Qi
+
+
+>> On 11/17/21 8:31 PM, Luca Bocassi wrote:
+>> From: Luca Boccassi <luca.boccassi@microsoft.com>
+>>
+>> systemd-analyze in the next release will gain the ability to
+>> run the 'security' and 'verify' verbs offline, on local units.
+>> This is very useful at build time and/or in CI systems to detect
+>> errors and issues before changes are deployed, as a static
+>> analyzer tool.
+>> This series enables building the systemd recipe for the nativesdk
+>> targets, so that systemd-analyze can be included in the SDK and
+>> called by users/build systems/CI systems.
+>>
+>> Luca Boccassi (8):
+>>  =C2=A0=C2=A0systemd: skip chown when building for nativesdk
+>>  =C2=A0=C2=A0systemd: skip postinst in nativesdk builds
+>>  =C2=A0=C2=A0systemd: remove /var in nativesdk builds
+>>  =C2=A0=C2=A0volatile-binds: remove /var in nativesdk builds
+>>  =C2=A0=C2=A0volatile-binds: add nativesdk
+>>  =C2=A0=C2=A0kbd: add nativesdk
+>>  =C2=A0=C2=A0os-release: add nativesdk
+>>  =C2=A0=C2=A0systemd: add nativesdk
+>>
+>>  =C2=A0meta/recipes-core/kbd/kbd_2.4.0.bb            |  2 +-
+>>  =C2=A0meta/recipes-core/os-release/os-release.bb    |  2 ++
+>>  =C2=A0meta/recipes-core/systemd/systemd-conf_1.0.bb |  2 ++
+>>  =C2=A0.../systemd/systemd-serialgetty.bb            |  2 ++
+>>  =C2=A0meta/recipes-core/systemd/systemd_249.5.bb    | 29
+>> +++++++++++++++++--
+>>  =C2=A0.../volatile-binds/volatile-binds.bb          |  7 +++++
+>>  =C2=A06 files changed, 41 insertions(+), 3 deletions(-)
+>>
+>>  =20
+>>  =20
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#158384):
+>> https://lists.openembedded.org/g/openembedded-core/message/158384
+>> Mute This Topic: https://lists.openembedded.org/mt/87118013/3618072
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+>> [Qi.Chen@windriver.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
+>>  =20
+
 
 
