@@ -2,218 +2,213 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3C8C433F5
-	for <webhook@archiver.kernel.org>; Tue, 23 Nov 2021 21:40:57 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.696.1637703656059219795
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F46C433F5
+	for <webhook@archiver.kernel.org>; Tue, 23 Nov 2021 21:57:51 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web09.856.1637704671271769029
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Nov 2021 13:40:56 -0800
+ Tue, 23 Nov 2021 13:57:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lTalDJ9W;
- spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bTJ/AShm;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id y13so819194edd.13
+Received: by mail-qt1-f174.google.com with SMTP id t34so694972qtc.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Nov 2021 13:40:55 -0800 (PST)
+ Tue, 23 Nov 2021 13:57:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gkBfuNw3Citfisw0/IrVB2j+aGt0Vd/WKHqrni/S4i4=;
-        b=lTalDJ9WFDiVidzkSlvaVpETSZGE341kTEEvBncwUFRuZwKYS4i17l0uV/TeXwOMZi
-         5iqPOpDc3stuvHAJoYlkx9dQTChmar5ScxWQA4kXGkxa1DV9+HIWKifFSvT6z6ijijWp
-         V92f/0y+Afzod96hAVxs8uN1EHMYKEgEqFrKWisEPnU6n4JpA4WADba6zVSNmEWN/ziy
-         CQyK8zuJ7BuSERZLuxyyrrxL3RuZlSDUzx2tekk3W8ZX0LI2OJo5Y2rNWS9UKUcHdMFI
-         cLRSkRWPlpfxhiovUKSMycSIbRm4a3VnsPYvij8gNML8uLEXOgefjuNZC8QUVpQLO9UO
-         XRLw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3WYohKT5O39l48UCiW4P3hSPbSe40Cy24B+BF056sxg=;
+        b=bTJ/AShmiTY/bDXRKaiySHJ5Ia2+BR+lb+w134HvjIfys8OgNz/c5Yvau9DWgn4yhR
+         mCg/3TRSjpKYwl9KRCqnBoB9WX+Cb9RZ33XVncXn1gudmC5tnQXFaj3rPs88mYLt1MZg
+         lQnL5cQrNKWYDDHcGuqSkz4mh405URzmQ9giT0YRkplaI1Q8lkjrKJcFlsMI10VoSdGq
+         tiRSNk8/gJtvjNVbJYMpRr1TXaDH7TuXroSR8dBj3Lgngqk56UyQ/2l7VqtnCnuAv9se
+         kYyiJkxecSha9aMlNre1eki5O/CrVDjmnNE5IfoInTCV95Rkn6y+CI9H1dS28eZ+h7bw
+         PCcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gkBfuNw3Citfisw0/IrVB2j+aGt0Vd/WKHqrni/S4i4=;
-        b=uWjf/i03GuJa+twCCJ6Vtko0GdXOQ5h3I7P7/HCVHqMOY5jSb3ZCeYV+/himPJQA/t
-         fSNAv4n8RCZlQrHtvfu1ZinIlL+AwU+AWMHXZVftTvXsFdfJQ+hvH7sSkEB15yJXAMAJ
-         6Czj9N82tHNPXzmfvJhSI9oeHpla4H4d48z/DRiTv7nJlzeCwh5zfILlzGDi4MKIXpic
-         yciEVCTVYdU6hiveQ5GKkfKu1TAMCm97rYZZklSeBVMxHdeJinFwLKccZgQtijKboTwj
-         TOy1JfpN6zNbObW0NcjRra6u2maugBdyfKHNuqJfhrbyuGng3Mx/ap94hwfZHrjcH8n7
-         Dd4g==
-X-Gm-Message-State: AOAM532sCZYaNk4g97n+bWT/mwYMhR1kwBIzxDqylqQjINVNxyFYVXxT
-	4SZXtabHBW/NCcFGXfdy8c6wp6OODKheYH9E+4k=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3WYohKT5O39l48UCiW4P3hSPbSe40Cy24B+BF056sxg=;
+        b=7AETK3eaha+BScjMRaPO4oGRzYyvfESCkXCvLs7jIc9aqSvReSScFysuOx6ZjSNIwc
+         CWaAQKyhdxOV8Aphd70k8ZFVAeyOGPzpHp+AP2Up0sBQ5UVY72TI1NEn8y9VmGZuFN8R
+         YW9045eSiaTkpUXMjY17O0unOTYzgIGo0NB2Nst3GjB7EmhIquOLvBsK1ct2mwT6sBgd
+         PBb05PaA0QLA3KEr91dFalbchDrQVta7qH8NDRsPnFXn6DwNTmQc61ZMpyekosXSLHM3
+         eU/Hzrqy/DZYceRdxH9gmmW+QOlh3QLC85RuWTeg62Chlk9WSNA9PhqYPYVtfanrP08o
+         BxTw==
+X-Gm-Message-State: AOAM531M6YTLgxxIjBZvXk9xcNiD7Hd5ZhkgCmpNMUq344DJcSalHDU4
+	y/kmIXieIvhxzIshzCV0eKI=
 X-Google-Smtp-Source: 
- ABdhPJxpx3qP6+IXOF2FNpiLNGsvJzhKTnr//7JAVbQX7nLaRBge+lhvuy6GmKSAFirqbfuNwOOXWdcXv2fS6nRJy28=
-X-Received: by 2002:a17:907:94d4:: with SMTP id
- dn20mr12164860ejc.379.1637703654149;
- Tue, 23 Nov 2021 13:40:54 -0800 (PST)
+ ABdhPJzeawcew7TL5MEtMfQND7tN0hK8ccA0BW8ZyaV90gff+REb0rj8TBL53fQxr6K5my89I0E63g==
+X-Received: by 2002:a05:622a:1d3:: with SMTP id
+ t19mr830393qtw.181.1637704670319;
+        Tue, 23 Nov 2021 13:57:50 -0800 (PST)
+Received: from build.lan
+ (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id
+ m9sm6395640qtn.73.2021.11.23.13.57.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 13:57:49 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+	TicoTimo@gmail.com,
+	trevor.gamblin@windriver.com
+Subject: [PATCH 00/20] kernel/kernel-yocto: consolidated pull request
+Date: Tue, 23 Nov 2021 16:57:27 -0500
+Message-Id: <cover.1637703810.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20211122163459.41079-1-max.krummenacher@toradex.com>
- <CADkTA4PdbYSU+DMsh_wd58zsrKo0xVOTCAroZhvXHiVR2BNE5g@mail.gmail.com>
- <CAEHkU3VPPcoZ=ekGu80-Kft3ZWvCsZQcNyQNWAeaS=1CKMJz-w@mail.gmail.com>
- <CADkTA4PPDrPZ-m8gOT8V9DqoAb92c+Fv-=jDLgzht6mOYaokwA@mail.gmail.com>
- <CAEHkU3X0Rrkw=Qbpmc7k8_+-NLeyM5C_KEE8gxsxpMHvX0k-RQ@mail.gmail.com>
- <16BA31E66A619EB2.13215@lists.openembedded.org>
-In-Reply-To: <16BA31E66A619EB2.13215@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 23 Nov 2021 16:40:43 -0500
-Message-ID: 
- <CADkTA4O1tqSsiuM7vinGoDp9mm__25FgKbJGddeQogZ5=Ccfww@mail.gmail.com>
-Subject: Re: [oe][OE-core][Patch 0/2] perf: sort-pmuevents: some fixes
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Max Krummenacher <max.oss.09@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Nov 2021 21:40:57 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Nov 2021 21:57:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158620
+ https://lists.openembedded.org/g/openembedded-core/message/158621
 
-On Tue, Nov 23, 2021 at 9:05 AM Bruce Ashfield via
-lists.openembedded.org
-<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
->
-> On Tue, Nov 23, 2021 at 8:58 AM Max Krummenacher <max.oss.09@gmail.com> wrote:
-> >
-> > Let me know if there is anything I can do/provide from my side.
-> > I know you already did, but does 'bitbake perf -c cleansstate' help?
->
-> The builds were clean, but to rule out old artifacts, I just started a
-> new build on a separate server, without my normal sstate sharing
-> configuration. Fingers crossed :D
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-It is building on my completely fresh box. Which does imply I was
-getting the old script before .. but I can't say for sure why.
+Richard,
 
-Regardless, I'm sending a consolidated pull request shortly with some
-v5.16 fixes, and have these stacked on top, just to confirm they are
-working in my setup and that I've tested them.
+There's a few routine -stable updates at the start of this, and then some
+more painful (and RFC) commits.
+
+As part of this series, we fix one pkg-config issue that was preventing
+x86 from doing stack valildation during build. At one point it was
+increasing my build times signficantly, but that seems to have gone
+away now. If we see something like this on the AB, we'll have to keep
+the fix, but disable it by default.
+
+The next big chunk of changes are the ones we talked about during the
+tech call today. The 5.16 kernel has introduced mandatory dtschema
+checking for device trees built through the kernel.
+
+That checking pulls in a reasonably large amount of dependencies to
+the kernel build: libyaml, dtschema, jsonschema, etc.
+
+We weren't able to even run the validation at all, due to the kernel
+calling pkg-config directly to check for libyaml, which is the target
+pkgconfig and failing on missing dependencies. Rather than patching
+the kernel, I've finally given in and made the do_compile task set
+the PKG_CONFIG variables to point to our native-sysroot. Since the
+kenrel doesn't use pkgconfig for target decisions, and has quite
+a few calls directly to pkgconfig, this is the best short term way
+to get all those checks working.
+
+Once we are past yaml, we need to create the dtschema recipe, and
+bring in the dependencies from meta-python. I've put myself down as
+the maintainer for all the new recipes, but otherwise, I haven't
+changed or modified them.
+
+BUT! there are scenarios where a non-conformant dts file is being
+built, or we just don't want those dependencies in the built. To
+work around that, I took the suggestion from this morning and
+created a python3-dtschema-wrappers recipe. It contains three
+scripts of the same name as the ones from the real package. When
+put in the dependency for a kernel build, it can pass the dtschema
+steps.
+
+Finally, I created a reference PACKAGECONFIG for linux-yocto-dev
+to enable/disable the main package and wrappers (the wrappers are
+used by default). I haven't put this into kernel.bbclass yet, since
+it is version specific, and it needs to soak for a bit. But if
+there's demand, it is something that can be moved to kernel.bclass
+(along with a few other version specific dependencies).
+
+Note: I haven't done an AB run with these yet, so I could be
+missing some python dependencies, etc, but I wanted to get this
+out to the list in case others are running into this with
+v5.16+.
+
+Cheers,
 
 Bruce
 
->
-> Bruce
->
-> >
-> > Max
-> >
-> > On Tue, Nov 23, 2021 at 2:55 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > >
-> > > On Tue, Nov 23, 2021 at 8:48 AM Max Krummenacher <max.oss.09@gmail.com> wrote:
-> > > >
-> > > > Hi Bruce,
-> > > >
-> > > > On Tue, Nov 23, 2021 at 2:41 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, Nov 22, 2021 at 11:35 AM Max Krummenacher <max.oss.09@gmail.com> wrote:
-> > > > > >
-> > > > > > I am trying out a kernel recipe using linux master, 5.16-rc2. I found
-> > > > > > that perf fails to build in do_compile with such a setup.
-> > > > > > Root cause is that the kernel did add 'static' and 'const' to the
-> > > > > > arrays of structs which sort-pmuevents does sort.
-> > > > > > This is addressed in the second commit.
-> > > > > >
-> > > > > > While at it I noticed that there are some struct arrays which neither
-> > > > > > have a name or cpuid element with 1 array element. That 1 element was
-> > > > > > dropped. I did not verify if that causes any issues at runtime, however
-> > > > > > that behaviour was improved with the first commit.
-> > > > >
-> > > > > What MACHINE were you testing against ? When I build perf against my
-> > > > > -rc2 dev kernel, I still run into the build issues with these commits
-> > > > > in place.
-> > > > >
-> > > > > I just want to make sure that I'm not seeing something different .. so
-> > > > > I can do some runs against a similar config as you are using.
-> > > > >
-> > > >
-> > > > I did the inital work against a Toradex machine, apalis-imx6.
-> > > > However I built before sending the patches with qemuarm64 qemuarm qemux86-64
-> > > > with the following modification to use my 'master' kernel recipe:
-> > > > +PREFERRED_PROVIDER_virtual/kernel = "linux-toradex-mainline"
-> > > > +KBUILD_DEFCONFIG:arm = "tegra_defconfig"
-> > > > +KBUILD_DEFCONFIG:aarch64 = "defconfig"
-> > > > +KBUILD_DEFCONFIG:qemux86-64 = "x86_64_defconfig"
-> > > >
-> > > > I tried again. With the patches perf builds for all three machines,
-> > > > reverting the patches and it fails again.
-> > > > The x86 compiles forever, for the two ARM machines I get:
-> > > > ...
-> > > > Traceback (most recent call last):
-> > > >   File "/build/krm/oe-core_master/build/tmp/work/qemuarm64-tdx-linux/perf/1.0-r9/perf-1.0/sort-pmuevents.py",
-> > > > line 83, in <module>
-> > > >     print( preamble.group(1) )
-> > > > AttributeError: 'NoneType' object has no attribute 'group'
-> > >
-> > > Definitely still fails here for some of my configurations. I'll look
-> > > into it more today, and see if there's something in my reference
-> > > kernel configurations that are causing it.
-> > >
-> > > I need to sort this out, and can put it in a queue with my -dev
-> > > upgrades to 5.16, since without those version bumps, we have nothing
-> > > in core that exercises the change.
-> > >
-> > > Cheers,
-> > >
-> > > Bruce
-> > >
-> > > > ...
-> > > >
-> > > > Max
-> > > >
-> > > > >
-> > > > > >
-> > > > > > Note that the kernel itself doesn't build either as after 5.15 it now
-> > > > > > does try to run the dt_binding_check for which the kernel recipe does
-> > > > > > not provide whatever stuff is needed.
-> > > > > > I just did a revert patch for commit 53182e81f47d ("kbuild: Enable
-> > > > > > DT schema checks for %.dtb targets") to get over that.
-> > > > > >
-> > > > > > Max Krummenacher (2):
-> > > > > >   perf: sort-pmuevents: don't drop elements
-> > > > > >   perf: sort-pmuevents: allow for additional type qualifiers and storage
-> > > > > >     class
-> > > > > >
-> > > > > >  .../perf/perf/sort-pmuevents.py               | 28 +++++++++++--------
-> > > > > >  1 file changed, 16 insertions(+), 12 deletions(-)
-> > > > > >
-> > > > > > --
-> > > > > > 2.20.1
-> > > > > >
-> > > > >
-> > > > >
-> > > > > --
-> > > > > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > > > > thee at its end
-> > > > > - "Use the force Harry" - Gandalf, Star Trek II
-> > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158604): https://lists.openembedded.org/g/openembedded-core/message/158604
-> Mute This Topic: https://lists.openembedded.org/mt/87238903/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
+The following changes since commit 60409917ea3e7353f5b7ee831fe4ffaff0957d94:
+
+  glibc-tests: Do not set SYSTEMD_SERVICE (2021-11-23 14:04:02 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (18):
+  linux-yocto/5.15: update to v5.15.2
+  linux-yocto/5.14: update to v5.14.18
+  linux-yocto/5.10: update to v5.10.79
+  kernel-yocto: conditionally enable stack protection checking on x86-64
+  linux-yocto-dev: bump to v5.16+
+  kernel: export native PKGCONFIG variables
+  python: introduce python3-dtschema
+  python: import jsonpointer from meta-python
+  python: import jsonschema from meta-python
+  python: import idna from meta-python
+  python: import rfc3339-validator from meta-python
+  python: import rfc3986-validator from meta-python
+  python: import webcolors from meta-python
+  python: import ruamel-yaml from meta-python
+  maintainers: update for kernel dtschema checking dependencies
+  linux-yocto: export pkgconfig variables to devshell
+  kernel: introduce python3-dtschema-wrapper
+  linux-yocto-dev: introduce dt-validation PACKAGECONFIG
+
+Max Krummenacher (2):
+  perf: sort-pmuevents: don't drop elements
+  perf: sort-pmuevents: allow for additional type qualifiers and storage
+    class
+
+ meta/classes/kernel.bbclass                   |  7 +++
+ meta/conf/distro/include/maintainers.inc      |  9 ++++
+ ...e-pytest-runner-to-test_requirements.patch | 32 +++++++++++++
+ .../python/python3-dtschema_2021.10.bb        | 15 ++++++
+ .../python/python3-idna_3.3.bb                | 19 ++++++++
+ .../python/python3-jsonpointer/run-ptest      |  3 ++
+ .../python/python3-jsonpointer_2.1.bb         | 26 ++++++++++
+ .../python/python3-jsonschema_3.2.0.bb        | 48 +++++++++++++++++++
+ .../python/python3-rfc3339-validator_0.1.4.bb | 20 ++++++++
+ .../python/python3-rfc3986-validator_0.1.1.bb | 23 +++++++++
+ .../python/python3-ruamel-yaml_0.17.16.bb     | 23 +++++++++
+ .../python/python3-webcolors/run-ptest        |  3 ++
+ .../python/python3-webcolors_1.11.1.bb        | 27 +++++++++++
+ .../python3-dtschema-wrapper/dt-doc-validate  | 20 ++++++++
+ .../dtc/python3-dtschema-wrapper/dt-mk-schema | 20 ++++++++
+ .../dtc/python3-dtschema-wrapper/dt-validate  | 20 ++++++++
+ .../dtc/python3-dtschema-wrapper_2021.10.bb   | 17 +++++++
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  | 10 +++-
+ .../linux/linux-yocto-rt_5.10.bb              |  6 +--
+ .../linux/linux-yocto-rt_5.14.bb              |  6 +--
+ .../linux/linux-yocto-rt_5.15.bb              |  6 +--
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 ++--
+ .../linux/linux-yocto-tiny_5.14.bb            |  8 ++--
+ .../linux/linux-yocto-tiny_5.15.bb            |  8 ++--
+ meta/recipes-kernel/linux/linux-yocto.inc     | 13 +++++
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++-----
+ meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 +++++-----
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++-----
+ .../perf/perf/sort-pmuevents.py               | 28 ++++++-----
+ 29 files changed, 429 insertions(+), 72 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-rfc3986-validator/0001-setup.py-move-pytest-runner-to-test_requirements.patch
+ create mode 100644 meta/recipes-devtools/python/python3-dtschema_2021.10.bb
+ create mode 100644 meta/recipes-devtools/python/python3-idna_3.3.bb
+ create mode 100644 meta/recipes-devtools/python/python3-jsonpointer/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-jsonpointer_2.1.bb
+ create mode 100644 meta/recipes-devtools/python/python3-jsonschema_3.2.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
+ create mode 100644 meta/recipes-devtools/python/python3-rfc3986-validator_0.1.1.bb
+ create mode 100644 meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
+ create mode 100644 meta/recipes-devtools/python/python3-webcolors/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.19.1
+
 
