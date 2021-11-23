@@ -2,64 +2,63 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3908C433FE
-	for <webhook@archiver.kernel.org>; Tue, 23 Nov 2021 21:58:02 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web12.807.1637704682123450174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5493C433F5
+	for <webhook@archiver.kernel.org>; Tue, 23 Nov 2021 21:58:04 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web09.860.1637704684261792149
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Nov 2021 13:58:02 -0800
+ Tue, 23 Nov 2021 13:58:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Rooky9Ud;
- spf=pass (domain: gmail.com, ip: 209.85.219.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Kf4svQ3A;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id u16so312095qvk.4
+Received: by mail-qk1-f171.google.com with SMTP id t6so700213qkg.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Nov 2021 13:58:02 -0800 (PST)
+ Tue, 23 Nov 2021 13:58:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oDVwv+qBE1pNj5i7FN65q94QCOIEQCUCacf5H04qKSg=;
-        b=Rooky9Udvta/EYwNzb/En3TBtP3wuFOrrfsUHQLFwonVlPmbrANYdl/4+Ln7lveUSL
-         BrXVYCRHbWb1GUvbzz0nRx8zEXzF3MkJ4CwgffPQYhFy8mTwJMU9Gz6abSKgTz+w3dkt
-         tb3UrkLkB4I6HLFIfg5i9zEr7pL+Hi11mbQQsH9Xk5q6/LsaiNJlbAtshYMu7+bgTZ6M
-         rfg2QqKvpZrkL/SUDHtDG/p7KL7/9f9Hw5Y4Wp7vjAAOEydbk/RQ+rzdFrcwSlioIjpm
-         np9ddEYVgOSfSKXOF36CjyW8ksnLfXdj3o6RYm0Fqa9ztmfrVjOtEDEdIbEK6BS1f/Wn
-         02+g==
+        bh=FOZUTeR8iOz1V/p6thOneGoDqj1RkoXU+Ln3qFaWdq8=;
+        b=Kf4svQ3Aj2ZqQvA3ieJxHlhkLURfr3hw5TT7p5Ohk0aMu1YM4WPwB17I5eutTYjo/i
+         hqx8e/ycCnYrRPU5rvrW8c1Cq119fBI9vdpJIBRmmKT8ZNjVFEBtZgPvwygiwec2hXqN
+         BKrbXGVqAjMsJDnwROX/p2inczr8Q4kSYVhvonLM4SSxOnKrPFGpXt4q3Q77aDLWXcW+
+         oE3L9lmgyEizfvbBWF9ocvxnd98qeLCwZbqBtS9aOSLBuzFHVmk4xs9h1zgGluYcgqNz
+         5TlBLKZ560bfMGhVEK70Kf5Xe9XA7bvAjjbWQ6F2HwTIUq30To11TQtj5sOnap2kR+vL
+         sKsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oDVwv+qBE1pNj5i7FN65q94QCOIEQCUCacf5H04qKSg=;
-        b=LMNe5HmDneLACjoZcHzqP1JmTV+f4snFQtglo59OHqpMaixPNFQrFcdfDADcSpsK1Y
-         FSByvnZsEiltiOQQ7vVl+nxCBiSKKyN65BqMalAjQot7REET0ooTC9WIjrrycF09qML0
-         2/NDE8VGdsxJFYJgZLIIUoV1ok4x/czSToKMfMczEI5Jgioahp/QaIrZ/C/n75kCrfyM
-         jyHk3Axh9PNh6Q5NpVnlNktGLyzdnXKxCfheWqNnTtqBl3s7oewMOlUL1v8ts7o24cg4
-         35H1rIGLgNV1bkoFLYV6zRJhKXGLy80/yXFG4N1zG84R0IGd9e5To1GO/82fLozYraIp
-         raqQ==
-X-Gm-Message-State: AOAM532fAsXKDcMfwF1yKjcO4MvGC71TEijPQolmHzrKMDqFwCIpdh97
-	S1z9k8A6wfLaCSJhl/CimYf3UjRajaMo1Q==
+        bh=FOZUTeR8iOz1V/p6thOneGoDqj1RkoXU+Ln3qFaWdq8=;
+        b=Y0gXEiiV/VPdDhgebUgvDEhzrhNhtSmpA+wiI44LNWaslFF/VV/aNEilxpjXHTcD4x
+         5pzjlT+vWHiTeDbnRV9Swrwkb5hZD84tCdT+7g+vClSbv3c3SskQxUoXwvqnfoQh/fjg
+         1MnbgPEvpu2ehkGbovuT9fEf1N/7BwEUO3xn/wC3v3jMuAJgOsQO1ksfi8kud/Tb2UR0
+         BUcF50x+ZOBKjSFexvhWSjMIcBtQCuZtzWJQV5nfoF6rExCdyCjmb9mIhLb03g65aiM3
+         +vmqsOwfbsOUIvdaXydKLDmzTV3mDPNSTOS1W7yVTJ3KYZZwLSs2D0anuEEtYse6kRme
+         l2eA==
+X-Gm-Message-State: AOAM530Jdk+zeAUo5h8BmMVCHpfOR21qbA/lfn0x6Kzztxu+TtEwQ0X0
+	ofeM4O2j+3tytWGO8AhLeVI=
 X-Google-Smtp-Source: 
- ABdhPJxKvFxq4iLXc0d4LHgEbq3eVqUw1lrMr5/YMHbp+mgBGY/tfP4P8ErHb4DD4Pw/2Cu1VFIH3w==
-X-Received: by 2002:a05:6214:400c:: with SMTP id
- kd12mr864688qvb.41.1637704681231;
-        Tue, 23 Nov 2021 13:58:01 -0800 (PST)
+ ABdhPJy6M84gnQI0TY+DbsBvlCR9Lg90q7fIN5ueJjfrH/9oFoVh3amKzad7+LUbRiNmudvAeqdOgQ==
+X-Received: by 2002:a37:9244:: with SMTP id u65mr773696qkd.46.1637704683359;
+        Tue, 23 Nov 2021 13:58:03 -0800 (PST)
 Received: from build.lan
  (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
         by smtp.gmail.com with ESMTPSA id
- m9sm6395640qtn.73.2021.11.23.13.58.00
+ m9sm6395640qtn.73.2021.11.23.13.58.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 13:58:00 -0800 (PST)
+        Tue, 23 Nov 2021 13:58:03 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org,
 	TicoTimo@gmail.com,
 	trevor.gamblin@windriver.com
-Subject: [PATCH 11/20] python: import rfc3339-validator from meta-python
-Date: Tue, 23 Nov 2021 16:57:38 -0500
+Subject: [PATCH 13/20] python: import webcolors from meta-python
+Date: Tue, 23 Nov 2021 16:57:40 -0500
 Message-Id: 
- <b664c1714d93a821e19dab0aa5d63aba25fcf413.1637703810.git.bruce.ashfield@gmail.com>
+ <d92f02a9d9b23c2563f275d2f785631a327fca90.1637703810.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1637703810.git.bruce.ashfield@gmail.com>
 References: <cover.1637703810.git.bruce.ashfield@gmail.com>
@@ -68,46 +67,64 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Nov 2021 21:58:02 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Nov 2021 21:58:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158632
+ https://lists.openembedded.org/g/openembedded-core/message/158634
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Importing rfc3339-validator from meta-python, which is a dependency of
+Importing webcolors, which is a dependency of
 python3-jsonschema. These packges are required to support
 the validation of kernel device trees.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../python/python3-rfc3339-validator_0.1.4.bb | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
+ .../python/python3-webcolors/run-ptest        |  3 +++
+ .../python/python3-webcolors_1.11.1.bb        | 27 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-webcolors/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
 
-diff --git a/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb b/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
+diff --git a/meta/recipes-devtools/python/python3-webcolors/run-ptest b/meta/recipes-devtools/python/python3-webcolors/run-ptest
 new file mode 100644
-index 0000000000..7f1bbaf97d
+index 0000000000..3385d68939
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "A pure python RFC3339 validator"
-+HOMEPAGE = "https://github.com/naimetti/rfc3339-validator"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a21b13b5a996f08f7e0b088aa38ce9c6"
++++ b/meta/recipes-devtools/python/python3-webcolors/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
 +
-+FILESEXTRAPATHS:prepend := "${THISDIR}/python-rfc3339-validator:"
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+diff --git a/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb b/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
+new file mode 100644
+index 0000000000..2ec036ef35
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "Simple Python module for working with HTML/CSS color definitions."
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=25b90379a52351261c51272e7923d240"
 +
-+SRC_URI[sha256sum] = "138a2abdf93304ad60530167e51d2dfb9549521a836871b88d7f4695d0022f6b"
++SRC_URI[md5sum] = "54d28a7c80b3e4d974ec2fee86768be9"
++SRC_URI[sha256sum] = "76f360636957d1c976db7466bc71dcb713bb95ac8911944dffc55c01cb516de6"
 +
-+PYPI_PACKAGE = "rfc3339_validator"
++inherit pypi setuptools3 ptest
 +
-+inherit pypi setuptools3
-+
-+RDEPENDS:${PN} += "\
-+    ${PYTHON_PN}-core \
-+    ${PYTHON_PN}-datetime \
-+    ${PYTHON_PN}-six \
++RDEPENDS:${PN}:class-target = "\
++    ${PYTHON_PN}-stringold \
 +"
++
++SRC_URI += " \
++    file://run-ptest \
++"
++
++RDEPENDS:${PN}-ptest += " \
++    ${PYTHON_PN}-pytest \
++"
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests
++    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++}
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
