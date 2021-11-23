@@ -1,98 +1,96 @@
-Return-Path: <jim.wilson.gcc@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A12C433F5
-	for <webhook@archiver.kernel.org>; Tue, 23 Nov 2021 22:33:34 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web10.1236.1637706813043995121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8409DC433F5
+	for <webhook@archiver.kernel.org>; Tue, 23 Nov 2021 22:36:03 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.1270.1637706962295116761
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Nov 2021 14:33:33 -0800
+ Tue, 23 Nov 2021 14:36:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YfSMoBud;
- spf=pass (domain: gmail.com, ip: 209.85.210.49,
- mailfrom: jim.wilson.gcc@gmail.com)
-Received: by mail-ot1-f49.google.com with SMTP id
- v15-20020a9d604f000000b0056cdb373b82so1121263otj.7
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NcfDLyXI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so439929wmd.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Nov 2021 14:33:32 -0800 (PST)
+ Tue, 23 Nov 2021 14:36:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YeIbpM4NeVITaS1AILriWeD31EtHpaaKQzjBQLuSzng=;
-        b=YfSMoBudgBVIuJaO8XSAJkkoFf0pq7/S6OacsYorLG7b9ojsqcjFTzuHdJTT5qJjJn
-         Dx9L8Q91JTgm5K5+7QrJJuPeTYbybR6WYPwoD+GeyoWhJKNeCH7D6z7lGPiHfn7wdNBE
-         rJoEH4XVLxVen47UGqVIYGCH4RNvcVCaPR8hoImNz36Sc7+T1Iv34S5lUF2C0LHGzWQC
-         OrZAXjZoRcZTXBlVohQDtsyheWRF1M1z+iZ8fzexo4VjjZwUDjFhHH4jhu8h/x5OyC9s
-         AJeIKTIdE6/QQj9ifYWrrXNG2GVkDMMQUw/mQzx8yol/f8Mj9Xr0xz0NDSUN7Qrrh68J
-         aY8w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=XIwcu6bwUouQiMPJ+dqG0S+0Fe53WZzeJ86XHOA9Aks=;
+        b=NcfDLyXI4PqNvq52zv17LMvO2FyRs310pTynGzj2s6joEicCCVpHwc+R8eeiXLGZtA
+         6AnjeegW3zZHTgDuEn7OG/HeG4wFgufvF5bbMRsYOzvU2Siom9MuH0Ljq2LCBuiPpI77
+         2A1qpz5ejijz827yrMQbDjP3fiY/IZ1ruR9w0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YeIbpM4NeVITaS1AILriWeD31EtHpaaKQzjBQLuSzng=;
-        b=vnYY4I0++Pj+WPDG844YJAua4Xssh/I7EnLN3j7wH4kMK7f9XqCF3XgdWq1rY+zBxi
-         Hz/K7fqKrDetRsa5bIDtak0HK8gE/6GZp/5I1kixUZuUor9GPPcrhnVKyLHTBYFSqrao
-         yyxFIgJSJJnL+puRAvMM2wgqhDwJE2PN3sj4zjmAu3VpiSLEEb1sqQ849JUnlgGDSaMt
-         RJj/g8uBsLRMlJK3N/AOCW9Ebtplj5SUbBbJpa+sJPy6ExmYO+/EUpL9w9SdeWe910Bj
-         G2Gd5+HCxQSwgYixQHB6IfzNerv7eeAfydoFgbN0MKiR9/Ft8Rq0nftS0NfXZvLO8RcH
-         rmtw==
-X-Gm-Message-State: AOAM530H3yhxaQoXdx/DKi8UI32Pn9aItY42c0oQM1z9n60wrYpsw0JR
-	hPnrQyUlHT9Jk2IrqqJfAXNtuUWQq8lexSpUGIQ=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=XIwcu6bwUouQiMPJ+dqG0S+0Fe53WZzeJ86XHOA9Aks=;
+        b=6/z0+o1Oo6zvS88IBv98DaKPhTPb/RQZ0H53h5OvTqp6cUMG2rftIS55aleVNY0Q3+
+         8mFC0YpQ7HeeF7hCeEnhxM4RmVCyZrH5t7+TtxQP3/JwPNRmpkiL+Uq28flmpeIIAuxB
+         WKb+LexBshnzKvwTHTgRQUeswPj2bu2NG0hJUoREpdeJmm9LvmrRmWwquuIyEUj6eZQr
+         YreWmWX2lXk8qlfsBjhODRkCiTvpgN/4SibaHNfUl8OAdQ1NO3cnE+R37X/CkhceSL1O
+         6/GTA/puxAmQEQTV7iy5RODdNKWxUbrgjgEazOP5xjRgt0CBXdKSLgGKB8sDJFBX+sjh
+         DG9g==
+X-Gm-Message-State: AOAM530o4tdjLCKq8DDAL5pNGOYVgTfSzoaA9f3PTKZ52E9nhiEucK9E
+	QKbuQI8PDqV28f64DGezDyNdJQ==
 X-Google-Smtp-Source: 
- ABdhPJw8k1e7uWCf/7q2oH5fj1L4Kco0eyK1UINYVuTl6dCWDnuBiyLYYT0eFHgY/pHMD7t2+fLRVm78WhvEuVzcfI8=
-X-Received: by 2002:a9d:67d5:: with SMTP id c21mr8080043otn.128.1637706812259;
- Tue, 23 Nov 2021 14:33:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20211116014413.419573-1-jim.wilson.gcc@gmail.com>
- <43d925b8-dc03-21a5-10e1-361b2894373f@gmail.com>
- <CALNwTfy6n-hf+0MOPXhdaUdJxT+ARDYdCyqtNbqYbmxk4B70Yw@mail.gmail.com>
- <CAMKF1soGjXYJJsxbSAmXYb-QDvPv0wqTt+92mr5+1MY-4N5hUQ@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1soGjXYJJsxbSAmXYb-QDvPv0wqTt+92mr5+1MY-4N5hUQ@mail.gmail.com>
-From: Jim Wilson <jim.wilson.gcc@gmail.com>
-Date: Tue, 23 Nov 2021 14:33:20 -0800
+ ABdhPJyO8ANcLYeAZAGX69aGbR4OUuGDkKEDZKDhcV6dxbtOt4BA1xcv18Ds65J+npmWyQks5to95g==
+X-Received: by 2002:a05:600c:4e02:: with SMTP id
+ b2mr7958138wmq.105.1637706960614;
+        Tue, 23 Nov 2021 14:36:00 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:246e:77cb:e23:80f?
+ ([2001:8b0:aba:5f3c:246e:77cb:e23:80f])
+        by smtp.gmail.com with ESMTPSA id
+ f15sm3498684wmg.30.2021.11.23.14.36.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 14:36:00 -0800 (PST)
 Message-ID: 
- <CALNwTfzAuyGM4X-0+3S4mKrJ0Yiy3RdbFKDdJNva=_EBwviogQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gdb-common: Add --with-liblzma-prefix in xz
- PACKAGECONFIG.
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ca825605d17c542b"
+ <4385af73ed16d497a0f066396ffe6baddc92d899.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] meson: drop redundant patch
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross@burtonini.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 23 Nov 2021 22:35:59 +0000
+In-Reply-To: <20211123193859.2983287-1-ross.burton@arm.com>
+References: <20211123193859.2983287-1-ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Nov 2021 22:33:34 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Nov 2021 22:36:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158642
+ https://lists.openembedded.org/g/openembedded-core/message/158643
 
---000000000000ca825605d17c542b
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2021-11-23 at 19:38 +0000, Ross Burton wrote:
+> This patch disables the debian-detection to use the correct $libdir by
+> default on that platform.  However in cross builds this is always
+> overridden to be $prefix/lib, and all recipes that inherit meson pass
+> the correct libdir explicitly.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/meson/meson.inc         |  1 -
+>  ...01-is_debianlike-always-return-False.patch | 26 -------------------
+>  2 files changed, 27 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/meson/meson/0001-is_debianlike-always-return-False.patch
 
-On Tue, Nov 16, 2021 at 9:59 AM Khem Raj <raj.khem@gmail.com> wrote:
+We build native things which are meson based. Do we want native tool libdir
+paths depending on the existence of /etc/debian_version ? It was some reason
+like that this was added as we found it doing 'fun' changes depending on the
+host. Not sure I really want to debug that again...
 
-> yes, this patch is fine in itself.
->
+Cheers,
 
-Thanks.  I see that the patch got applied last week.
+Richard
 
-Jim
 
---000000000000ca825605d17c542b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Nov 16, 2021 at 9:59 AM Khem Raj =
-&lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:=
-</div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-yes, this patch is fine in itself.<br></blockquote><div><br></div><div>Than=
-ks.=C2=A0 I see that the patch got applied last week.</div><div><br></div><=
-div>Jim</div><div>=C2=A0</div></div></div>
-
---000000000000ca825605d17c542b--
 
