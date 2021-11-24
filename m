@@ -2,65 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D950C433FE
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:42 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.3417.1637741321443055317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E41AC433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:43 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.3351.1637741322144243404
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:41 -0800
+ Wed, 24 Nov 2021 00:08:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JWJkjnnv;
- spf=pass (domain: gmail.com, ip: 209.85.128.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=N9/tfo80;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id
- az34-20020a05600c602200b0033bf8662572so1348628wmb.0
+Received: by mail-wr1-f53.google.com with SMTP id i5so2625046wrb.2
         for <openembedded-core@lists.openembedded.org>;
  Wed, 24 Nov 2021 00:08:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9h5bbm54UXVrt3DoL3XE5uCDEycw1cFpsh3UArzsOlo=;
-        b=JWJkjnnvGTaHpu91Z3WeTjtDkWjM1TgMGKe4C4bxq24+AwSd1V9mBrAxhME8zyUWCI
-         oNht/wjUy+mOzzY3OHy0Td9BEbnNXqMRAbagebufUjhpf1nOuoE33dHcy7/E5WFdTlon
-         G13GFVleZZBdd1ghoP1WlcRMRQdZ1RfXt2+TyOxzBZLD4pRpL0kwAulcPgnsBXbpsZGo
-         9GubffnUmsb24p1W2qqwmL2dWIX1UehMT7wGjzElCSW+y6ZusXdraNfKNXe0Jxctqs6j
-         X8Khr3tnFNC8GGkYbjpo002YYzPRyzDkey7UmRVQDfkuEoQInLDCxrJQ6FfbbXljRdUD
-         YqlA==
+        bh=UR3WELEOWGgMdaqVPhdRzrzaxs0AG/N0Lk5OlAF+QhQ=;
+        b=N9/tfo80w/VT1+dNqOG34TPZeSOyboM6+roYFmpQnYERvgkqGwThWEkgR3jpTyPJE6
+         IDApZ17VFxmGRGiKsFgxlRAwtBMQ9SSQe1UYm25qP2EOFqeYL4xaGXk5YO2y3vi2bK7b
+         mvMDfl9zOESk4yCjfPjO8BsnDZTjCHzijKWYVrfzWtVCNvy2SB100fA/J0T8kzQtzipX
+         tyKd8zfcPEm8DLIfGgOz7PM3No1zc3ByoJfcPOYL0GTIXJB9lYAxPuPkAwTzskNv9WuQ
+         QC1sOgbFiQmAsRIPRfyMN4SAX68G+FIs0x/lguzghODyvF3YmX4Ws+T5OagaJz4597+Q
+         gCgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9h5bbm54UXVrt3DoL3XE5uCDEycw1cFpsh3UArzsOlo=;
-        b=ibPhRsLSUzSWoiuEAar26aw6X7MNDGeU4IqxLYBz0F5GSCJBgyI5273dSZ/6Nm3DdJ
-         8ZWjU2wS3M8gVgA8q1Jjb3Zbqu4vZbteAOoL8AtR5UWY0FyvNiHo0UaPAnTveNVx2OxO
-         C0KQ8QZkCsDOu6OepEMhtZYDF9CfovXlcbcAxSQBYOt8VIqKbtXRSW7+bsQKA7K/JnqS
-         QTsyEQC2AKgr4VpxPJI8v2VqXET/4tOd+mhGh0UsxkM+lveap8fscIJKofJo701dN930
-         FigvrtOOyyaC9IIXFVXEWRbDlC23BdHZvnf8iKyJ9+EugEo3Tz+9r0uwMNHoi1UciCDQ
-         iUVA==
-X-Gm-Message-State: AOAM532F80l1FKAPwFRnGADHUw/sfI4mEc2l8zOPiybp6tCuATLEGTCl
-	X+4Pj3dkO0hifseFfmi3z42j5oVdPUVsVw==
+        bh=UR3WELEOWGgMdaqVPhdRzrzaxs0AG/N0Lk5OlAF+QhQ=;
+        b=RYmeyBjQkIxigqAYgFzLynsoUCnfoRZhvnshs06Vtat/cqdKgheicH4I4S2gdd3HE6
+         TzUyM56/26XNmMX2aKrqJY6Gw+pRSL/oBSt/1qQN3LU7YwOJSdfqnR5pGF1YHCMzQ9t+
+         AFjLFU+exlAgbJz9ffNWuPQ+gImW/G0CjFl4Iy7yHKIUQAUyr3IWT3ScyhJ8ZY72tyhw
+         fqqFXjv98pNY3+Y1zRylNP3hW4lTFnuPo4viynU9owoIhYjT8DC0cFRUwq6u4OPtJGNG
+         rEmH2xXeneSqzPzeladXFGxvf/WibZU2ECo/tP2KTIHkWr1XXh7otC7RTYVqvP20LlhL
+         Rx3w==
+X-Gm-Message-State: AOAM531T+y6ECLhkN99r5mLtTn+h9BxdPkUxzbSW7tjQoaVTK6AIAPdg
+	+RN9Zkfw1GwMa+ifYvB/g3xhrZVcG1IhqQ==
 X-Google-Smtp-Source: 
- ABdhPJyS7tkTD4s2UAHH+6w6gMXpmKSBQJ/3AGWcm69ZuLgtKykNVvpQUoXVCDrRzjE8oa8eNaO82w==
-X-Received: by 2002:a05:600c:19d0:: with SMTP id
- u16mr12344804wmq.111.1637741319963;
-        Wed, 24 Nov 2021 00:08:39 -0800 (PST)
+ ABdhPJzCXpTkBZX8jH6AaV5D+fvaAkHHRIEybvQX8GEi3fOJFKcSxOW7tPgjNeicy6CID+z0d+cTYw==
+X-Received: by 2002:a05:6000:248:: with SMTP id
+ m8mr16434305wrz.404.1637741320645;
+        Wed, 24 Nov 2021 00:08:40 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k37sm4220205wms.21.2021.11.24.00.08.39
+ k37sm4220205wms.21.2021.11.24.00.08.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 00:08:39 -0800 (PST)
+        Wed, 24 Nov 2021 00:08:40 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/21] dpkg: replace a patch with a tweak to an already
- existing sed fixup
-Date: Wed, 24 Nov 2021 09:08:18 +0100
-Message-Id: <20211124080828.530981-11-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 12/21] elfutils: submit patch upstream
+Date: Wed, 24 Nov 2021 09:08:19 +0100
+Message-Id: <20211124080828.530981-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211124080828.530981-1-alex@linutronix.de>
 References: <20211124080828.530981-1-alex@linutronix.de>
@@ -69,75 +66,81 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:42 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158667
+ https://lists.openembedded.org/g/openembedded-core/message/158668
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc           |  4 ++--
- ...kg-fsys-usrunmess.pl-correct-shebang.patch | 23 -------------------
- meta/recipes-devtools/dpkg/dpkg_1.20.9.bb     |  1 -
- 3 files changed, 2 insertions(+), 26 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/0013-scripts-dpkg-fsys-usrunmess.pl-correct-shebang.patch
+ ...infod-client.c-correct-string-format.patch | 21 ++++++++++---------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 74074cfdd7..80865a31a1 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -49,9 +49,9 @@ do_install:append () {
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
- 		rm ${D}${bindir}/update-alternatives
--		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
-+		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-* ${D}${sbindir}/dpkg-*
- 	else
--		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
-+		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-* ${D}${sbindir}/dpkg-*
- 	fi
- }
+diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+index 5b225c532d..85f22cb395 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+@@ -1,4 +1,4 @@
+-From c3055ce9eb32d0d24abc5cea5e1d231c499312a7 Mon Sep 17 00:00:00 2001
++From 38ddd0d1863f83e8ec545d0160bdf00bbb5569ba Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Apr 2021 23:29:10 +0200
+ Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
+@@ -12,20 +12,20 @@ architectures, therefore directly using integer printf formats will not
+ work portably, use intmax_t to typecast time_t into printf family of
+ functions
  
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0013-scripts-dpkg-fsys-usrunmess.pl-correct-shebang.patch b/meta/recipes-devtools/dpkg/dpkg/0013-scripts-dpkg-fsys-usrunmess.pl-correct-shebang.patch
-deleted file mode 100644
-index 292b72ab5d..0000000000
---- a/meta/recipes-devtools/dpkg/dpkg/0013-scripts-dpkg-fsys-usrunmess.pl-correct-shebang.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--From 0decc62904571582147f2273fa1b521e00485dda Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 3 Feb 2021 20:47:58 +0100
--Subject: [PATCH] scripts/dpkg-fsys-usrunmess.pl: correct shebang
--
--Otherwise automake will write the full native perl path into it.
--
 -Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- scripts/dpkg-fsys-usrunmess.pl | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/scripts/dpkg-fsys-usrunmess.pl b/scripts/dpkg-fsys-usrunmess.pl
--index 9220df3c0..9ce368955 100755
----- a/scripts/dpkg-fsys-usrunmess.pl
--+++ b/scripts/dpkg-fsys-usrunmess.pl
--@@ -1,4 +1,4 @@
---#!/usr/bin/perl
--+#!/usr/bin/env perl
-- #
-- # dpkg-fsys-usrunmess - Undoes the merged-/usr-via-aliased-dirs mess
-- #
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.20.9.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.9.bb
-index 34b6bfe0a8..4c587f2bf2 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.20.9.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.20.9.bb
-@@ -14,7 +14,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=1.20.
-            file://0001-dpkg-Support-muslx32-build.patch \
-            file://pager.patch \
-            file://0001-Add-support-for-riscv32-CPU.patch \
--           file://0013-scripts-dpkg-fsys-usrunmess.pl-correct-shebang.patch \
-            file://0014-arch-Add-support-for-ARCv2-CPU.patch \
-            "
++Upstream-Status: Submitted [via email to mark@klomp.org,elfutils-devel@sourceware.org]
  
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ ---
+- debuginfod/debuginfod-client.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
++ debuginfod/debuginfod-client.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index ee7eda2..083ec2c 100644
++index c875ee6..df9737d 100644
+ --- a/debuginfod/debuginfod-client.c
+ +++ b/debuginfod/debuginfod-client.c
+-@@ -226,7 +226,7 @@ debuginfod_config_cache(char *config_path,
++@@ -231,15 +231,15 @@ debuginfod_config_cache(char *config_path,
+        if (fd < 0)
+          return -errno;
+  
+@@ -34,16 +34,17 @@ index ee7eda2..083ec2c 100644
+          return -errno;
+      }
+  
+-@@ -234,7 +234,7 @@ debuginfod_config_cache(char *config_path,
++-  long cache_config;
+++  int cache_config;
+    FILE *config_file = fopen(config_path, "r");
+    if (config_file)
+      {
+ -      if (fscanf(config_file, "%ld", &cache_config) != 1)
+-+      if (fscanf(config_file, "%jd", (intmax_t*)(&cache_config)) != 1)
+++      if (fscanf(config_file, "%d", &cache_config) != 1)
+          cache_config = cache_config_default_s;
+        fclose(config_file);
+      }
+-@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -272,7 +272,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+    if (fd < 0)
+      return -errno;
+  
+@@ -52,7 +53,7 @@ index ee7eda2..083ec2c 100644
+      return -errno;
+  
+    /* init max age config file.  */
+-@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -280,7 +280,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
+      return -errno;
+  
 -- 
 2.20.1
 
