@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7D8C4332F
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:40 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.3498.1637741320056985730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D353C433F5
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:41 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web09.3452.1637741320687670790
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:40 -0800
+ Wed, 24 Nov 2021 00:08:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=isivWfJv;
- spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hNDkEQGa;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id s13so2638176wrb.3
+Received: by mail-wm1-f49.google.com with SMTP id y196so1415390wmc.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:39 -0800 (PST)
+ Wed, 24 Nov 2021 00:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YWpvgp8nScXxZGKCiLtLjLbVb3mDp2Q8s22XYGslKFQ=;
-        b=isivWfJve+Bs2FNsQYyKP8cLu/ZkQZOKOcpTIobSC9fd9pFmboeVBVA1F33gkW+SPT
-         8T6asXTT/Av0Z5Q83SDNX0o+QCMtSEdZbAYi69v6+mpmSPWUrYpynIvzhDyQ9N7R8B28
-         YwdIaSSeWb9HMkqaEUlc0HJKlTWek+7Gkan/HUEkSTQ6U5d9FJmctKyuR/ilrC8X0zHb
-         UGwtgeS8RHZVE6m+8g6CPGzVFRrAgPttcT4PCXqCjc8RMyMLPB5JECg/sZq9GFIJ2zR6
-         SLHI7mw0Mp5W7sMEwxV3UqeHYQdovunLqeJcW/TYpAEejl9+BNjJ9aV4grTdP4gfPJ7c
-         WNSA==
+        bh=spkGq/6QDLPFBRAS2qqMCLA33D2qSljJhC22Pl/qeo0=;
+        b=hNDkEQGaJyuwTH/wi4/CrQ8srGIiyV5QXjY6FlkHm3OSAvJAajHgiVJ407UENGQY9W
+         fho2TiKiK8CuH8QJdcutmV/JjEMx1mvMHhhNBOH7DZ5slIMjOUWQ13j9k4GlBM9xGWBc
+         MwM/VVyhsPHxON6uqBfZvGqvvrQoURpjxRYMscUxeTk+7oWoHgYY6qgsQVEiwGsOjVK4
+         XyVCxx0alr/L1AAoNSR7fuMcfAR7SmRyRJD8xsHdWnqSRF/h1ZeDSiSUWBDdEBPFFmFT
+         yytEPvbWHOp0/FpJh2E3DxSgVcYLauL8dKv0hUHx9JVSqtCGC0uFNkcbUWUxbjCfMmQ/
+         Vdlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YWpvgp8nScXxZGKCiLtLjLbVb3mDp2Q8s22XYGslKFQ=;
-        b=5Q13Wv0Lz8BnFg657hj+TCX9bpL7bUEN9RMOID/mQK8ZCZrQRwEHuWO/Ozz428FH2k
-         gk0mxO1Cl99pu5TaqlLXKtAH0hviTB+8UC9/AmBWdZYsnfdaLNe9LxB+cxj3S/+ORxAV
-         acL2gErxQkMrcfghaZZpfrcPOP2GIdr0PlERz49F3OHocX8+jF8sDiw+nsThNKKOZ70J
-         +C1VbuqqBUQvwi4ECU9uPkD8BC5rmJWZajTDeD3ny1+cv+fwIbpsuH8y83uVOaufFi0c
-         BQd5yeUBJGZbiUZEtO8QmE8U+eBsqhsFxv1UHKRXTjHvCFBfMNVxkeqg2EhY3AQ4TcyK
-         xnPA==
-X-Gm-Message-State: AOAM53231fD5CpCeC/pDSeMLVUQBPpHDfpVcwqr94hS9W7iEM3Om0n6a
-	YpknNEMh0P/lDYd3E9TzHii+mvAINwqvBQ==
+        bh=spkGq/6QDLPFBRAS2qqMCLA33D2qSljJhC22Pl/qeo0=;
+        b=CJ7TbpTKzwX//4r+EshjSHH04u1rmHkG5b78NlssuOK77xZbBk+hwKaBiBwjaUn8zO
+         Q8+k67m8Llo8fYLmgYgfDSWFIoHUtF4GdjoPWifgkg8Nclg1wgx3k7QuDlawTp8yKlJc
+         UZT4RzuTgHaSh4gozjQrOflYLmppNZd7PxEozZYgAfojn06RInHR0p6GcsIvJLnKqRQJ
+         TQGqXA+YX7QBUOx5S4RbMUFBqJWHE/e/ve30l/oyyvM/eLsU61g0PTu3ddATyUPSIUJ9
+         WlNF2krfTeX9nK5q/2uB6puPN0IWbYeYZUxKfq5YfAtmLWYnEtaoxZ/wCLTrDLiWmjWH
+         Pm5w==
+X-Gm-Message-State: AOAM531xv/5MVuC24E5azh1tZt/7blJ9MdF7EP+UuHbRxVn2urCB2KTS
+	AbbKL31MsJgirw8WT9XkwbjKkAXgVhXSyw==
 X-Google-Smtp-Source: 
- ABdhPJyoR9VwSyMFBuNsQQnb2PNHblu71Iq0RwPRnyMPEutzKHL/dxIUdpjTIzTu04g1RgmgGMBj+g==
-X-Received: by 2002:adf:df0b:: with SMTP id
- y11mr16041588wrl.181.1637741318565;
-        Wed, 24 Nov 2021 00:08:38 -0800 (PST)
+ ABdhPJzChLYpZ6zwhIcfcUfIvwW/YexQ4H6kaNKxH8vW3dCVniS7g+kDIf2X8Yca5qcoioirGf05Og==
+X-Received: by 2002:a05:600c:3c91:: with SMTP id
+ bg17mr12621419wmb.80.1637741319313;
+        Wed, 24 Nov 2021 00:08:39 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k37sm4220205wms.21.2021.11.24.00.08.37
+ k37sm4220205wms.21.2021.11.24.00.08.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 24 Nov 2021 00:08:38 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 09/21] apt: drop unneeded chunk from a musl patch,
- submit the rest upstream
-Date: Wed, 24 Nov 2021 09:08:16 +0100
-Message-Id: <20211124080828.530981-9-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 10/21] diffstat: remove unneeded patch
+Date: Wed, 24 Nov 2021 09:08:17 +0100
+Message-Id: <20211124080828.530981-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211124080828.530981-1-alex@linutronix.de>
 References: <20211124080828.530981-1-alex@linutronix.de>
@@ -67,73 +67,59 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:40 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158665
-
-Upstream has inserted guards around the use of offending constant.
+ https://lists.openembedded.org/g/openembedded-core/message/158666
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../apt/apt/0001-Fix-musl-build.patch         | 35 +++++--------------
- 1 file changed, 9 insertions(+), 26 deletions(-)
+ ...clocal.m4-add-missing-header-defines.patch | 24 -------------------
+ .../diffstat/diffstat_1.64.bb                 |  1 -
+ 2 files changed, 25 deletions(-)
+ delete mode 100644 meta/recipes-devtools/diffstat/diffstat/0001-aclocal.m4-add-missing-header-defines.patch
 
-diff --git a/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch b/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch
-index a6e8ef1e51..0cefbedd6d 100644
---- a/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch
-@@ -1,22 +1,18 @@
--From 081c6be2f2f1cd77f399ea414f8d89c107826624 Mon Sep 17 00:00:00 2001
-+From 6b8547161b902b01b639d05a4cdf849d7694556f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 22 May 2020 15:29:23 +0000
--Subject: [PATCH] Fix musl build
-+Subject: [PATCH] apt-pkg/contrib/srvrec.h: Explicitly include sys/types.h
- 
--methods/connect.cc: Musl doesn't support AI_IDN flag in netdb.h
--header so define it manually.
--apt-pkg/contrib/srvrec.h: Add explicity include of sys/types.h
--to avoid errors in types u_int_SIZE.
-+This avoids type errors with musl C library.
- 
+diff --git a/meta/recipes-devtools/diffstat/diffstat/0001-aclocal.m4-add-missing-header-defines.patch b/meta/recipes-devtools/diffstat/diffstat/0001-aclocal.m4-add-missing-header-defines.patch
+deleted file mode 100644
+index 5bd94d7de4..0000000000
+--- a/meta/recipes-devtools/diffstat/diffstat/0001-aclocal.m4-add-missing-header-defines.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-From 004bd80d2523f538467b5ada2623eb207b55dad7 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 20 Dec 2019 15:44:28 +0100
+-Subject: [PATCH] aclocal.m4: add missing header defines
+-
 -Upstream-Status: Pending
-+Upstream-Status: Submitted [https://salsa.debian.org/apt-team/apt/-/merge_requests/200]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  apt-pkg/contrib/srvrec.h | 1 +
-- methods/connect.cc       | 5 +++++
-- 2 files changed, 6 insertions(+)
-+ 1 file changed, 1 insertion(+)
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- aclocal.m4 | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/aclocal.m4 b/aclocal.m4
+-index 3b19e82..c0c4acb 100644
+---- a/aclocal.m4
+-+++ b/aclocal.m4
+-@@ -1927,3 +1927,8 @@ make an error
+- fi
+- fi # cf_cv_posix_visible
+- ])
+-+
+-+AC_DEFINE([HAVE_TCGETATTR], [], [Description])
+-+AC_DEFINE([HAVE_TCSETATTR], [], [Description])
+-+AC_DEFINE([HAVE_TERMIOS_H], [], [Description])
+-+
+diff --git a/meta/recipes-devtools/diffstat/diffstat_1.64.bb b/meta/recipes-devtools/diffstat/diffstat_1.64.bb
+index 76ca30c20a..717f503039 100644
+--- a/meta/recipes-devtools/diffstat/diffstat_1.64.bb
++++ b/meta/recipes-devtools/diffstat/diffstat_1.64.bb
+@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f605b1986cc3b808ec0e4fa9d0e0f2d9"
+ SRC_URI = "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
+            file://run-ptest \
+            file://avoid-check-user-break-cc.patch \
+-           file://0001-aclocal.m4-add-missing-header-defines.patch \
+            "
  
- diff --git a/apt-pkg/contrib/srvrec.h b/apt-pkg/contrib/srvrec.h
--index e22b7a1..b1115f5 100644
-+index e5d0f43..2010184 100644
- --- a/apt-pkg/contrib/srvrec.h
- +++ b/apt-pkg/contrib/srvrec.h
- @@ -9,6 +9,7 @@
-@@ -27,19 +23,6 @@ index e22b7a1..b1115f5 100644
-  #include <string>
-  #include <vector>
-  #include <arpa/nameser.h>
--diff --git a/methods/connect.cc b/methods/connect.cc
--index 1d6f891..122df35 100644
----- a/methods/connect.cc
--+++ b/methods/connect.cc
--@@ -42,6 +42,11 @@
-- #include "connect.h"
-- #include "rfc2553emu.h"
-- #include <apti18n.h>
--+
--+#ifndef AI_IDN
--+#define AI_IDN 0x0040
--+#endif
--+
-- 									/*}}}*/
-- 
-- static std::string LastHost;
-+-- 
-+2.20.1
-+
+ SRC_URI[sha256sum] = "b8aee38d9d2e1d05926e6b55810a9d2c2dd407f24d6a267387563a4436e3f7fc"
 -- 
 2.20.1
 
