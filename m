@@ -2,164 +2,247 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F324C4332F
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:50 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web11.4000.1637788489716341549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E49C433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:25:49 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.4147.1637789148542326767
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:49 -0800
+ Wed, 24 Nov 2021 13:25:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hJWIwIc7;
- spf=pass (domain: gmail.com, ip: 209.85.219.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CcDhjUde;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id a24so2649913qvb.5
+Received: by mail-ed1-f49.google.com with SMTP id y13so16204240edd.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:49 -0800 (PST)
+ Wed, 24 Nov 2021 13:25:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/LvK7emFZetd2AFhidjx/YOdFE3FLG0Gmrj8f0YB2Bk=;
-        b=hJWIwIc7njDxIGPYQROKkjeGVfmVjIyfcAieT9PR5MbKnVXiyT2aeP3H4MeZn4bmUf
-         DimUoeF2Vy2HrvRht98uWw75mysXTghKdT2VeOCRV1RScLELBGqrf/7MFe6mziIWCuuk
-         QW+B7eXEu044qmKlfCxFHK9U2LXjmGv8iG2ilZhxzV1emHSdiW9ncPpMVHbPnpIKNICQ
-         AZFXg0/hVUa9kiYrVNfMfCXJxoAUpWsNtXErtl4ygt3xvYhGkJG+kzuSQJte3zJQ0OkE
-         tw7+0+T90Mx+Ns2bxTk/dBl0rMPHbsGdtB0rxTMOgNPV/gKFEqAS0+ox6kTyF4PDIA8Q
-         wiDQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SiuxU6lXboZNcyKjiNyhc4bMU523zgqV/WjKYxp5FMY=;
+        b=CcDhjUdeH6ynl61TyvEzGhwd5HpT8uuz70taQ1NRaOY9SWQfpwZ7Oa3VKd1f9gzxUp
+         KcJdOfWMOr6QZ/dW1en3UTdtcUee8XNyzUKFo14JBXaF6gg3dPcSqnYFKk4FxTGyQxul
+         7I8G4DptzUYmgJwrBXi75pPP1/aGleVZEA3c3cOfhmM7kVlt3aMEzwN/zjWlt8idY41k
+         WFjqiugo8RGPZq4XvZ3mXtDkG4d25+SLQBA8PK7NpADHj7vm9yi4L5M7yc2gzzFGk8mI
+         15fZdIyhiePXlnwxDwl0lndSCVh5eXn+cqctEZwCf8ZWp64tfVNM7JdSvWEP1p795A8U
+         ZeGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/LvK7emFZetd2AFhidjx/YOdFE3FLG0Gmrj8f0YB2Bk=;
-        b=oG1DY7cAc5tztyCX4LvmloAOVg4CCXQvJrGAd3f1s80VUGJxvQnqRj1GLYb30IJYf6
-         wCoKyfK5y8gRNvSzWthr60sPz9ewyu6D4KKHSXOOLbgR1RhKEFvfijXUHz/pMQMSWCOi
-         BfBJYb353vlxDfsoPs8RUsLTShLD/i33VliCAe1diTwdMVBXcfTy8zNu05BQt/+6bPmg
-         6pAJ7aXtG8j05h+2oyxjkHg28GwJu0ryax39+/wS/z1rBT7qDttA1HBiB2YXXBq4y8ID
-         oMaTgYHMzSST6kF7PlC8ThbN7VHcT9TX+BXTk3q2LkY2S84e8b1D6jZuc2Jy8Oayu8kh
-         RpXA==
-X-Gm-Message-State: AOAM5324vxfATJl6SsnrTGQDlRZzS8zkyDQuAcelNC9I2JFusluJRv4Y
-	7qITfKANJ7xGprCP3ZHw8U4=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SiuxU6lXboZNcyKjiNyhc4bMU523zgqV/WjKYxp5FMY=;
+        b=ctiP4Mr7oig/BMYkiQss+Hg1ZepvDMfjpncnyybQYQCyXKdDBGGm51LmXtAkqs0mhj
+         HmOYZKL0NQqLVslEL2sAbfnI+1fcTYsDvB7BG97JR7GS39P5/MNx6sEjE9vh6dlvxJFh
+         2LWHyLOsX2+efKuB2G/HKDHjIb9upte/EACzMZvOio+0rdlByNxRYIrtQzQ9WU3T6xBq
+         aSef2HmrKOZamxp9SrBKOoXyP3O40g8xc4ozD8B3dJxJIRV7WAdRRScZwYDPjn9QE3ay
+         cw23lfTkxSWPCFXN9O8yrr2kUHP0mlZtaH1G5ODCEheAuZlODx2kxHPwYwmh5nlULjXR
+         SG3Q==
+X-Gm-Message-State: AOAM5328HmyX/UeO4VAkuXfUB6AyLOZgTvy3bKrB+Wt4uSw0U4xcldLz
+	i8Isa7CprV6mBqFCQLkY3+kyykho/bFE795T9fI=
 X-Google-Smtp-Source: 
- ABdhPJysgB1eS7MS7YCWKP4KCqDHJw58n7XVrPKLstaL2HHQFR3po1dLQFnkrkVr0PFyhYzv/4ceUw==
-X-Received: by 2002:a05:6214:5198:: with SMTP id
- kl24mr11686508qvb.6.1637788488879;
-        Wed, 24 Nov 2021 13:14:48 -0800 (PST)
-Received: from build.lan
- (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 13:14:48 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org,
-	TicoTimo@gmail.com,
-	trevor.gamblin@windriver.com
-Subject: [PATCH 20/20] perf: sort-pmuevents: allow for additional type
- qualifiers and storage class
-Date: Wed, 24 Nov 2021 16:14:26 -0500
-Message-Id: 
- <487361c5d91ff9389454f1ef3577038a9878e116.1637788184.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1637788184.git.bruce.ashfield@gmail.com>
-References: <cover.1637788184.git.bruce.ashfield@gmail.com>
+ ABdhPJxSYyc54UIfMyocOkBJDWeR6lBz9QTA7WG2KwAmsr+UZd5BY/2oJmB1XP5iVSx7ogddhmHnPhtFHJX1rRjeJiM=
+X-Received: by 2002:a05:6402:42c6:: with SMTP id
+ i6mr31497293edc.223.1637789146652;
+ Wed, 24 Nov 2021 13:25:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <16BA97EFBEC64BAB.4083@lists.openembedded.org>
+In-Reply-To: <16BA97EFBEC64BAB.4083@lists.openembedded.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 24 Nov 2021 16:25:35 -0500
+Message-ID: 
+ <CADkTA4OhsWWORCp8trysVq1rL3_yVJO7NsSWFzkpYDGWQ06jXg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/20 v2] kernel: consolidated pull request
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, Tim Orling <TicoTimo@gmail.com>,
+	Trevor Gamblin <trevor.gamblin@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:50 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:25:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158766
+ https://lists.openembedded.org/g/openembedded-core/message/158767
 
-From: Max Krummenacher <max.oss.09@gmail.com>
+On Wed, Nov 24, 2021 at 4:14 PM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Richard,
+>
+> Here's v2 of the pull request. I see the -stable updates merged, so they
+> are obviously not in v2.
+>
+> New in v2:
+>   - reworked the python-dtschema recipe to properly have depends/rdepends
+>     to fix warnings
+>   - imported 4 new dependencies for the recipe
+>   - fixed up the kernel-dev PACKAGECONFIG to not generate a QA warning
 
-With kernel 5.16 some structs in pmu-events do get a const qualifier, some
-a static const storage class and qualifier.
+Right after I sent this, my AB run shows some sort of error in the
+reproducibility
+test for the new dtschema recipe.
 
-The current sort-pmuevents cannot cope with that and drops all struct
-arrays with such additional elements. This then leads to compiler errors.
+I'll pick this back up on Friday (if all goes well), and it may be
+worth a AB run,
+but i expect that the same error will pop up for you.
 
-Allow '^struct', '^const struct', '^static struct', '^static const struct'.
+Bruce
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../perf/perf/sort-pmuevents.py               | 30 ++++++++++---------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+>
+> The v1 pull request text follows from here:
+>
+> There's a few routine -stable updates at the start of this, and then some
+> more painful (and RFC) commits.
+>
+> As part of this series, we fix one pkg-config issue that was preventing
+> x86 from doing stack valildation during build. At one point it was
+> increasing my build times signficantly, but that seems to have gone
+> away now. If we see something like this on the AB, we'll have to keep
+> the fix, but disable it by default.
+>
+> The next big chunk of changes are the ones we talked about during the
+> tech call today. The 5.16 kernel has introduced mandatory dtschema
+> checking for device trees built through the kernel.
+>
+> That checking pulls in a reasonably large amount of dependencies to
+> the kernel build: libyaml, dtschema, jsonschema, etc.
+>
+> We weren't able to even run the validation at all, due to the kernel
+> calling pkg-config directly to check for libyaml, which is the target
+> pkgconfig and failing on missing dependencies. Rather than patching
+> the kernel, I've finally given in and made the do_compile task set
+> the PKG_CONFIG variables to point to our native-sysroot. Since the
+> kenrel doesn't use pkgconfig for target decisions, and has quite
+> a few calls directly to pkgconfig, this is the best short term way
+> to get all those checks working.
+>
+> Once we are past yaml, we need to create the dtschema recipe, and
+> bring in the dependencies from meta-python. I've put myself down as
+> the maintainer for all the new recipes, but otherwise, I haven't
+> changed or modified them.
+>
+> BUT! there are scenarios where a non-conformant dts file is being
+> built, or we just don't want those dependencies in the built. To
+> work around that, I took the suggestion from this morning and
+> created a python3-dtschema-wrappers recipe. It contains three
+> scripts of the same name as the ones from the real package. When
+> put in the dependency for a kernel build, it can pass the dtschema
+> steps.
+>
+> Finally, I created a reference PACKAGECONFIG for linux-yocto-dev
+> to enable/disable the main package and wrappers (the wrappers are
+> used by default). I haven't put this into kernel.bbclass yet, since
+> it is version specific, and it needs to soak for a bit. But if
+> there's demand, it is something that can be moved to kernel.bclass
+> (along with a few other version specific dependencies).
+>
+> Note: I haven't done an AB run with these yet, so I could be
+> missing some python dependencies, etc, but I wanted to get this
+> out to the list in case others are running into this with
+> v5.16+.
+>
+> Bruce
+>
+> The following changes since commit 0ec51bf52a930982ac03976781010a638d4cb0ef:
+>
+>   logrotate: add a link to upstream review for one of the patch (2021-11-24 10:00:10 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib zedd/kernel
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (18):
+>   linux-yocto-dev: bump to v5.16+
+>   kernel: export native PKGCONFIG variables
+>   python: introduce python3-dtschema
+>   python: import jsonpointer from meta-python
+>   python: import jsonschema from meta-python
+>   python: import idna from meta-python
+>   python: import rfc3339-validator from meta-python
+>   python: import rfc3986-validator from meta-python
+>   python: import webcolors from meta-python
+>   python: import ruamel-yaml from meta-python
+>   python: import pyrsistent from meta-python
+>   python: import rfc3987 from meta-pyton
+>   python: import strict-rfc3339 from meta-python
+>   python: import vcversioner from meta-python
+>   maintainers: update for kernel dtschema checking dependencies
+>   linux-yocto: export pkgconfig variables to devshell
+>   kernel: introduce python3-dtschema-wrapper
+>   linux-yocto-dev: introduce dt-validation PACKAGECONFIG
+>
+> Max Krummenacher (2):
+>   perf: sort-pmuevents: don't drop elements
+>   perf: sort-pmuevents: allow for additional type qualifiers and storage
+>     class
+>
+>  meta/classes/kernel.bbclass                   |  7 +++
+>  meta/conf/distro/include/maintainers.inc      | 13 +++++
+>  ...e-pytest-runner-to-test_requirements.patch | 32 +++++++++++++
+>  .../python/python3-dtschema_2021.10.bb        | 16 +++++++
+>  .../python/python3-idna_3.3.bb                | 19 ++++++++
+>  .../python/python3-jsonpointer/run-ptest      |  3 ++
+>  .../python/python3-jsonpointer_2.1.bb         | 26 ++++++++++
+>  .../python/python3-jsonschema_3.2.0.bb        | 48 +++++++++++++++++++
+>  .../python/python3-pyrsistent_0.18.0.bb       | 14 ++++++
+>  .../python/python3-rfc3339-validator_0.1.4.bb | 20 ++++++++
+>  .../python/python3-rfc3986-validator_0.1.1.bb | 23 +++++++++
+>  .../python/python3-rfc3987_1.3.8.bb           | 10 ++++
+>  .../python/python3-ruamel-yaml_0.17.16.bb     | 23 +++++++++
+>  .../python/python3-strict-rfc3339_0.7.bb      | 10 ++++
+>  .../python/python3-vcversioner_2.16.0.0.bb    | 12 +++++
+>  .../python/python3-webcolors/run-ptest        |  3 ++
+>  .../python/python3-webcolors_1.11.1.bb        | 27 +++++++++++
+>  .../python3-dtschema-wrapper/dt-doc-validate  | 20 ++++++++
+>  .../dtc/python3-dtschema-wrapper/dt-mk-schema | 20 ++++++++
+>  .../dtc/python3-dtschema-wrapper/dt-validate  | 20 ++++++++
+>  .../dtc/python3-dtschema-wrapper_2021.10.bb   | 17 +++++++
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb  | 12 ++++-
+>  meta/recipes-kernel/linux/linux-yocto.inc     |  9 ++++
+>  .../perf/perf/sort-pmuevents.py               | 28 ++++++-----
+>  24 files changed, 419 insertions(+), 13 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python/python-rfc3986-validator/0001-setup.py-move-pytest-runner-to-test_requirements.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-dtschema_2021.10.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-idna_3.3.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-jsonpointer/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-jsonpointer_2.1.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-jsonschema_3.2.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-pyrsistent_0.18.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-rfc3986-validator_0.1.1.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-webcolors/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
+>  create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
+>  create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
+>  create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
+>  create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
+>
+> --
+> 2.19.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158746): https://lists.openembedded.org/g/openembedded-core/message/158746
+> Mute This Topic: https://lists.openembedded.org/mt/87290452/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-index 4f841eb822..09ba3328a7 100755
---- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-+++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-@@ -33,10 +33,10 @@ if os.path.exists(outfile):
- with open(infile, 'r') as file:
-     data = file.read()
- 
--preamble_regex = re.compile( '^(.*?)^struct', re.MULTILINE | re.DOTALL )
-+preamble_regex = re.compile( '^(.*?)^(struct|const struct|static struct|static const struct)', re.MULTILINE | re.DOTALL )
- 
- preamble = re.search( preamble_regex, data )
--struct_block_regex = re.compile( '^struct.*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
-+struct_block_regex = re.compile( '^(struct|const struct|static struct|static const struct).*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
- field_regex =  re.compile( '{.*?},', re.MULTILINE | re.DOTALL )
- cpuid_regex = re.compile( '\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
- name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
-@@ -45,24 +45,25 @@ name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
- # types and then their fields.
- entry_dict = {}
- for struct in re.findall( struct_block_regex, data ):
--    # print( "struct: %s %s" % (struct[0],struct[1]) )
--    entry_dict[struct[1]] = {}
--    entry_dict[struct[1]]['type'] = struct[0]
--    entry_dict[struct[1]]['fields'] = {}
--    for entry in re.findall( field_regex, struct[2] ):
-+    # print( "struct: %s %s %s" % (struct[0],struct[1],struct[2]) )
-+    entry_dict[struct[2]] = {}
-+    entry_dict[struct[2]]['type_prefix'] = struct[0]
-+    entry_dict[struct[2]]['type'] = struct[1]
-+    entry_dict[struct[2]]['fields'] = {}
-+    for entry in re.findall( field_regex, struct[3] ):
-         #print( "    entry: %s" % entry )
-         cpuid = re.search( cpuid_regex, entry )
-         if cpuid:
-             #print( "    cpuid found: %s" % cpuid.group(1) )
--            entry_dict[struct[1]]['fields'][cpuid.group(1)] = entry
--            
-+            entry_dict[struct[2]]['fields'][cpuid.group(1)] = entry
-+
-         name = re.search( name_regex, entry )
-         if name:
-             #print( "    name found: %s" % name.group(1) )
--            entry_dict[struct[1]]['fields'][name.group(1)] = entry
--        
--        if not entry_dict[struct[1]]['fields']:
--            entry_dict[struct[1]]['fields']['0'] = entry
-+            entry_dict[struct[2]]['fields'][name.group(1)] = entry
-+
-+        if not entry_dict[struct[2]]['fields']:
-+            entry_dict[struct[2]]['fields']['0'] = entry
- 
- # created ordered dictionaries from the captured values. These are ordered by
- # a sorted() iteration of the keys. We don't care about the order we read
-@@ -74,6 +75,7 @@ for struct in re.findall( struct_block_regex, data ):
- entry_dict_sorted = OrderedDict()
- for i in sorted(entry_dict.keys()):
-     entry_dict_sorted[i] = {}
-+    entry_dict_sorted[i]['type_prefix'] = entry_dict[i]['type_prefix']
-     entry_dict_sorted[i]['type'] = entry_dict[i]['type']
-     entry_dict_sorted[i]['fields'] = {}
-     for f in sorted(entry_dict[i]['fields'].keys()):
-@@ -85,7 +87,7 @@ outf = open( outfile, 'w' )
- print( preamble.group(1) )
- outf.write( preamble.group(1) )
- for d in entry_dict_sorted:
--    outf.write( "struct %s %s[] = {\n" % (entry_dict_sorted[d]['type'],d) )
-+    outf.write( "%s %s %s[] = {\n" % (entry_dict_sorted[d]['type_prefix'], entry_dict_sorted[d]['type'],d) )
-     for f in entry_dict_sorted[d]['fields']:
-         outf.write( entry_dict_sorted[d]['fields'][f] + '\n' )
- 
+
 -- 
-2.19.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
