@@ -1,100 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F16C433EF
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 09:40:24 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.4135.1637746822819544171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FDCC433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 10:17:51 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web09.4416.1637749070048820112
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 01:40:23 -0800
+ Wed, 24 Nov 2021 02:17:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=guZytftf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id i5so3067420wrb.2
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=BIQMWopH;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.44,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f44.google.com with SMTP id
+ o19-20020a1c7513000000b0033a93202467so1616236wmc.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 01:40:22 -0800 (PST)
+ Wed, 24 Nov 2021 02:17:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=xLj6yUqLS8Swx5BAvjOpTZMDvQe+oi5Cc9n8i9iEsE0=;
-        b=guZytftfscDO/90Fnz0aiIX4NpWIt/wPc5rj5JeiCUhMvgtM6hMTgGijex7S2XjETS
-         JBmJ41Kf0avdyG0+Rm165Muo6UpK6UGlbkskuV2Pk+Z7I4lhu0NrhG9jI4hPv+tfleUR
-         C8QAS1WBYUvAOb+XZ12KT8DQKRRgMNXvpydVc=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PG6b7cbfXPpGeRTAzU8ZIkzJeiNt0iGeiractq8+qVY=;
+        b=BIQMWopHA+GF0wb8FD/GH2ripCzEU/1iC2gNXAMw/t6BR/S8/8vWdMDaAOKdjRuYli
+         c8Khfzrxka/iQMQmH1Et/NhFxLfT02PVG55tK4+nWZtsDhST9dYf5mbIs30uRIdwNjyb
+         k8hQujQwewBrbBUr+gQQX5AavrefFOUYNAFV4q1ARZKWIeaeRRH/nS9vuVxgy144WepV
+         bzfCZ7ahY2IgivGArvzM32LGZDPbneVUe3P7gPkPODHYZtlO/aPg8NygzQynVGRiPH2i
+         AyhKwucqjUkDgbvEQxyvJvwxqlOFUYHfY4oDnpuxd9df02b5ck8wVZWh0iQ9fHO13FlD
+         kMtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xLj6yUqLS8Swx5BAvjOpTZMDvQe+oi5Cc9n8i9iEsE0=;
-        b=Ev1MThiZ0wydgZ/eMZssQCKnLQKWA4eSGp8FICLXVFtKemQktgWcICRM5S03FE/wXT
-         sPB5H7Uxq1AzBX7F93tT4zhJcrJ14X1wTre7XG7/zQNWxllHntjXEWncNjJhkw/kgLE3
-         93ON8tRLgecDfVmA0trR/PsCTW+xe649yMd6I3au8dLf7GYuVus/8mhvPTFbX0+J1wEh
-         HNJf/leKSXsavwizMOIG9I6NTlL/ZbfIvr1i6cc42XxdG/lwTVDhw2zhUr2rqSGeCln3
-         dSb7aCYuJqpPk5MO0aa6KTXnzHUbUO8JQoGXgo7EHAJZEyBHRuDNuS8OQvMsNvuxkLbu
-         CgAw==
-X-Gm-Message-State: AOAM5329pDwyTQGYQdMZBVU1p8zKLOo1m5bwuWjhISeAvL493Nukf7+B
-	qU5foCMLtJ1jCOxDc9b3z0jGxA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PG6b7cbfXPpGeRTAzU8ZIkzJeiNt0iGeiractq8+qVY=;
+        b=6bFkPjGom8YPK52kpqRxt2rTQXwXV1WGrTVGaPFwnlhf3orjFlL8pZF2oC+ppXiavJ
+         vmDEcR9JeSe1UdToYtida/mpBJea9yZI7Z9of9Pd96k4A412syicAaLskwKArAxEris7
+         DBRxfgQdhj2ctMz+MfHUCd7g1HJjCJnIyAmSmt1j5Iefcdl83koqukoUvu2wAAjhAq97
+         +zUbPa0e3M2JtGLFPvGj4uZd8mAKaW2FqODx2iAvR0StD8IffjPUZVSQs+1VVIB4APpz
+         nm/BKkVqPWDz0hj0ay85n4SkDPi2ReAqrrGb9YG007IKWnDEh8dk3fm3DaBG/g2LNleN
+         Ce2g==
+X-Gm-Message-State: AOAM533p/m6k0ItyY0xMKIEyIglSo7H/ul+g7jPJhvHzbWE9GgdwtOaJ
+	6pwrBdj2bjTa/pgJf5k+QRqHQoXTaZXePFaA7TiDpg==
 X-Google-Smtp-Source: 
- ABdhPJxBObagNAWNQfUMMQOMCv/B/kPJCkWS53ifOi/z0hpSMvDqFmiRzJrclUmbbEnq5BrTSaflyg==
-X-Received: by 2002:adf:d1e2:: with SMTP id g2mr16957345wrd.362.1637746821217;
-        Wed, 24 Nov 2021 01:40:21 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:246e:77cb:e23:80f?
- ([2001:8b0:aba:5f3c:246e:77cb:e23:80f])
-        by smtp.gmail.com with ESMTPSA id
- p12sm17346452wrr.10.2021.11.24.01.40.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 01:40:20 -0800 (PST)
-Message-ID: 
- <1771e4a17c093f41521f561c053b321cb001c275.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] insane.bbclass: do not hardcode oe-core path
- in upstream-status check
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Wed, 24 Nov 2021 09:40:18 +0000
-In-Reply-To: <20211124092521.1077244-1-alex@linutronix.de>
-References: <20211124092521.1077244-1-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJxZZHsdxmgtlxVzhtwsVKLsftfZWDgNm8vHmX4EBLNweRx07HPUH4rDzN7dmZVpjdjgiGDyFhio5AS7unD6jZE=
+X-Received: by 2002:a1c:1d42:: with SMTP id
+ d63mr13320983wmd.184.1637749068264;
+ Wed, 24 Nov 2021 02:17:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211123193859.2983287-1-ross.burton@arm.com>
+ <4385af73ed16d497a0f066396ffe6baddc92d899.camel@linuxfoundation.org>
+In-Reply-To: 
+ <4385af73ed16d497a0f066396ffe6baddc92d899.camel@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
+Date: Wed, 24 Nov 2021 10:17:37 +0000
+Message-ID: 
+ <CAAnfSTup6fCMbnHebYbgEecCZD4fNPRdFVYY351G_jV1QmB9gQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] meson: drop redundant patch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 09:40:24 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 10:17:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158683
+ https://lists.openembedded.org/g/openembedded-core/message/158684
 
-On Wed, 2021-11-24 at 10:25 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/classes/insane.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 240f3aad62..8a47da5a09 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -1176,7 +1176,9 @@ python do_qa_patch() {
->         (_, _, fullpath, _, _, _) = bb.fetch.decodeurl(url)
->  
->         # skip patches not in oe-core
-> -       if '/meta/' not in fullpath:
-> +       oecore_re = re.compile(d.getVar('BBFILE_PATTERN_core'))
-> +       match_oecore = oecore_re.search(fullpath)
-> +       if not match_oecore:
->             continue
->  
+On Tue, 23 Nov 2021 at 22:36, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2021-11-23 at 19:38 +0000, Ross Burton wrote:
+> > This patch disables the debian-detection to use the correct $libdir by
+> > default on that platform.  However in cross builds this is always
+> > overridden to be $prefix/lib, and all recipes that inherit meson pass
+> > the correct libdir explicitly.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/recipes-devtools/meson/meson.inc         |  1 -
+> >  ...01-is_debianlike-always-return-False.patch | 26 -------------------
+> >  2 files changed, 27 deletions(-)
+> >  delete mode 100644 meta/recipes-devtools/meson/meson/0001-is_debianlike-always-return-False.patch
+>
+> We build native things which are meson based. Do we want native tool libdir
+> paths depending on the existence of /etc/debian_version ? It was some reason
+> like that this was added as we found it doing 'fun' changes depending on the
+> host. Not sure I really want to debug that again...
 
-Does this pass the sstate tests? I have a feeling it may encode a path into the
-sstate checksums :/
+Sure, and they pass --libdir.  I did a build of Sato and nothing
+moved, so I'm struggling to find the actual problem here.
 
-Cheers,
-
-Richard
-
+Ross
 
