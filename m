@@ -1,95 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADCEC433F5
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 09:25:26 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web09.4015.1637745925716288554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F16C433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 09:40:24 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.4135.1637746822819544171
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 01:25:26 -0800
+ Wed, 24 Nov 2021 01:40:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ghj10NXo;
- spf=pass (domain: gmail.com, ip: 209.85.128.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id
- i8-20020a7bc948000000b0030db7b70b6bso4767876wml.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=guZytftf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id i5so3067420wrb.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 01:25:25 -0800 (PST)
+ Wed, 24 Nov 2021 01:40:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=677i5uxuFFktxmLb96torf8LG7lqAHz70CrpJrpMBX8=;
-        b=ghj10NXodxk8Mn+1EH61JmK3Pcwaigbw6pmG9gHmvDdTR6KkFQvevp53uusiJgYRO8
-         LyZZVXaBnZjOjviwBw4yPmBrhAstu/OGC/T7vzHa53g1ruLqSDxJ/4W78CqOvk/wgqRn
-         E5Mdmf1x+qTlZr+Y5xkd9qs5WqE2f5BZGHLIfmhPrqk4/hT6PyZB53GjDMeoBQwZd4UA
-         17+gr29fMZrLfH/lKkZfXGTyQAhhgNEgNqWMk3BkNB90fNAflG/rNw7W2b6ByVQA7xw+
-         y8HOTY0W5oTxsDOBwwXY4OicXk8uo4wPwQtQGdNs/+lPu6GzVdj6lFfmFUAQyPmsGCPr
-         XpMw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=xLj6yUqLS8Swx5BAvjOpTZMDvQe+oi5Cc9n8i9iEsE0=;
+        b=guZytftfscDO/90Fnz0aiIX4NpWIt/wPc5rj5JeiCUhMvgtM6hMTgGijex7S2XjETS
+         JBmJ41Kf0avdyG0+Rm165Muo6UpK6UGlbkskuV2Pk+Z7I4lhu0NrhG9jI4hPv+tfleUR
+         C8QAS1WBYUvAOb+XZ12KT8DQKRRgMNXvpydVc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=677i5uxuFFktxmLb96torf8LG7lqAHz70CrpJrpMBX8=;
-        b=zeWV8LTXonbTe9iNUVJulkGh3pzdHdPXGAWSOzZm1pfGpClNOj7BCqq0EuANTFosQV
-         6gQBB2eUMxdpS4Odvh9yedlPOvcEQ/qumSvHA3y/eC/0Ch/3CILkxUiRG8nrdn71F6x7
-         d9W2HDcmIa412K1Iexrv7ZGE7AKiXQLj/X5ZwTV2raQY2vKx5kbUgKn76haiZgkf8Q64
-         qKwvXmTJ7sGrOAOUMiM9Cydm35ECYOaZ2yMpl8nAqDhqwpwvv0xwcCuYZg+X8SSU0H+j
-         sss17B47eIQtfSWJYu16YyWI61ijlvtalTp1FL2jfBJ5QdDttUCEpDeHUpXf+o2DCZno
-         MBtw==
-X-Gm-Message-State: AOAM533/wPGB5gm9JVRuw42rUU+2VCwbPUA3/juvHSPVfYNGXGjfZkp4
-	x0eaAVnGH4My9eiRL8YYCc+TH1Nmmps7+A==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=xLj6yUqLS8Swx5BAvjOpTZMDvQe+oi5Cc9n8i9iEsE0=;
+        b=Ev1MThiZ0wydgZ/eMZssQCKnLQKWA4eSGp8FICLXVFtKemQktgWcICRM5S03FE/wXT
+         sPB5H7Uxq1AzBX7F93tT4zhJcrJ14X1wTre7XG7/zQNWxllHntjXEWncNjJhkw/kgLE3
+         93ON8tRLgecDfVmA0trR/PsCTW+xe649yMd6I3au8dLf7GYuVus/8mhvPTFbX0+J1wEh
+         HNJf/leKSXsavwizMOIG9I6NTlL/ZbfIvr1i6cc42XxdG/lwTVDhw2zhUr2rqSGeCln3
+         dSb7aCYuJqpPk5MO0aa6KTXnzHUbUO8JQoGXgo7EHAJZEyBHRuDNuS8OQvMsNvuxkLbu
+         CgAw==
+X-Gm-Message-State: AOAM5329pDwyTQGYQdMZBVU1p8zKLOo1m5bwuWjhISeAvL493Nukf7+B
+	qU5foCMLtJ1jCOxDc9b3z0jGxA==
 X-Google-Smtp-Source: 
- ABdhPJy8kPl4kIMO9Aq+TVjwxjZhpLL7Kv89gik+RvOLQTPOr+B3lljtvw4vM6MluDdcgZkIkf7LxQ==
-X-Received: by 2002:a05:600c:1e27:: with SMTP id
- ay39mr13197065wmb.84.1637745924056;
-        Wed, 24 Nov 2021 01:25:24 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id f7sm4934748wmg.6.2021.11.24.01.25.23
+ ABdhPJxBObagNAWNQfUMMQOMCv/B/kPJCkWS53ifOi/z0hpSMvDqFmiRzJrclUmbbEnq5BrTSaflyg==
+X-Received: by 2002:adf:d1e2:: with SMTP id g2mr16957345wrd.362.1637746821217;
+        Wed, 24 Nov 2021 01:40:21 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:246e:77cb:e23:80f?
+ ([2001:8b0:aba:5f3c:246e:77cb:e23:80f])
+        by smtp.gmail.com with ESMTPSA id
+ p12sm17346452wrr.10.2021.11.24.01.40.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 01:25:23 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
+        Wed, 24 Nov 2021 01:40:20 -0800 (PST)
+Message-ID: 
+ <1771e4a17c093f41521f561c053b321cb001c275.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] insane.bbclass: do not hardcode oe-core path
+ in upstream-status check
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] insane.bbclass: do not hardcode oe-core path in
- upstream-status check
-Date: Wed, 24 Nov 2021 10:25:21 +0100
-Message-Id: <20211124092521.1077244-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+Date: Wed, 24 Nov 2021 09:40:18 +0000
+In-Reply-To: <20211124092521.1077244-1-alex@linutronix.de>
+References: <20211124092521.1077244-1-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 09:25:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 09:40:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158682
+ https://lists.openembedded.org/g/openembedded-core/message/158683
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/classes/insane.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Wed, 2021-11-24 at 10:25 +0100, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/classes/insane.bbclass | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 240f3aad62..8a47da5a09 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -1176,7 +1176,9 @@ python do_qa_patch() {
+>         (_, _, fullpath, _, _, _) = bb.fetch.decodeurl(url)
+>  
+>         # skip patches not in oe-core
+> -       if '/meta/' not in fullpath:
+> +       oecore_re = re.compile(d.getVar('BBFILE_PATTERN_core'))
+> +       match_oecore = oecore_re.search(fullpath)
+> +       if not match_oecore:
+>             continue
+>  
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 240f3aad62..8a47da5a09 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1176,7 +1176,9 @@ python do_qa_patch() {
-        (_, _, fullpath, _, _, _) = bb.fetch.decodeurl(url)
- 
-        # skip patches not in oe-core
--       if '/meta/' not in fullpath:
-+       oecore_re = re.compile(d.getVar('BBFILE_PATTERN_core'))
-+       match_oecore = oecore_re.search(fullpath)
-+       if not match_oecore:
-            continue
- 
-        content = open(fullpath, encoding='utf-8', errors='ignore').read()
--- 
-2.20.1
+Does this pass the sstate tests? I have a feeling it may encode a path into the
+sstate checksums :/
+
+Cheers,
+
+Richard
 
 
