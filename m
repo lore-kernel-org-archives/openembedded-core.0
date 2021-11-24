@@ -2,60 +2,59 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6A7C433F5
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 15:29:17 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web09.64.1637767755514419190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86952C433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 15:30:46 +0000 (UTC)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
+ [209.85.221.169])
+ by mx.groups.io with SMTP id smtpd.web09.82.1637767845703148913
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 07:29:15 -0800
+ Wed, 24 Nov 2021 07:30:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XnE2Q59Q;
- spf=pass (domain: gmail.com, ip: 209.85.222.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lHgm8WQS;
+ spf=pass (domain: gmail.com, ip: 209.85.221.169,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id az37so5842727uab.13
+Received: by mail-vk1-f169.google.com with SMTP id f7so1764108vkf.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 07:29:15 -0800 (PST)
+ Wed, 24 Nov 2021 07:30:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ej5Z+Sz6xF66ldlJECOx8UWQt3DbcSD00cwE351Q17U=;
-        b=XnE2Q59QnywGhliUwVvWnJBUHAzXAUJKvcoL4ArYr18t6b66V2d0iTJIPfEK44uM6U
-         bZZQJztOOyrPXZaQ2FcT56rhVFUEv2socPaLKb6hwHVBmZ4asvOJjVv5QPNhCFTDM0dP
-         xvARAnoMJbCrvIdNPr1h0KFWAAAxRzdb2p/dtoH4pjd9LmbUz282UU1M4iTWsbGCTnmh
-         0i3qBlH7mAFS49DKYSX22m7WEfwOkCMl48LVjQkSSx1jkJpmx6O4PhElhPYv9VVYgOJJ
-         Ygtu0NhQcpXAHH9qxw6wbpnBoWQaAJWTdYBZ18uW+nU5O+EAmTC0M1ALJ0Ti5U9yijc+
-         K81Q==
+        bh=SR13LQYxt7Mn74lvbz8jb60W9ndhqyxIqpF1/lE22dY=;
+        b=lHgm8WQSpoeiFcMMUm5hPBH5kLPMCgYJ0QfUImOPJPsZw9bZvnsMCgbBTzE7vzHwhr
+         HZhQBwqow2XYPfk581v9oEu368Q/su7tAPJtBQfAfTaLukmyXhs9bRubULwkFpR81q1Q
+         1LyuJ69IMQCmCS9NXfydREw99XSf/sOCHCqHJYQZURIVee8btcurMGxjBUnYsEaJugc/
+         i1E3lA7ACe3Mzh2HwhquxMGIG36oNwae8Lo0epXVh9w1vgsbeHvbVIKbVKHt+il+Wzir
+         ErvPcs/7TG9XZ0KdrkCmNZ6+8/aUQsOf5uRnwdBZQ1iN9qdkyHXDMUNSxcVVoP2D9r3V
+         SS4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ej5Z+Sz6xF66ldlJECOx8UWQt3DbcSD00cwE351Q17U=;
-        b=ztv1Uv57w1RSfnamLm0VCh0aHFOZPjX1dDkl/bcHbqg2e2FSeJjE9A8cqyY0DlDwJM
-         OtADMUhWIrP8Vy3pBbRaeeEyNFsVoTsv1bBzBG9GCID0tfuFUlaCUeIRqywY0xQgYtCd
-         eUXjig5zddF91vJC08FkXHqNkNLywbvjF01xM5Vr4QrrukeQM5i8vmcD9iOG3cXVN0pM
-         5WT7liu/zChg7qAF55pLu9GqW5wfWNpYohSUdtubheG7CEGM/D0ece6clNTT7wZFmvpK
-         64MuZ5yEFjKkkPLPaUu4DssEpSrPpy7Ei5tMk+rnyV31sc+GLn345wsCeIdOvlZxwxin
-         z/4Q==
-X-Gm-Message-State: AOAM531ev1/6kKkM/CdbWUfVXiTp5ulPHP/B0GJYYWDTNSl10/3od1qO
-	GaOQWM9mPKNVsXr+5Bx9MWL5Fo34qpqO6k7nQPA=
+        bh=SR13LQYxt7Mn74lvbz8jb60W9ndhqyxIqpF1/lE22dY=;
+        b=NPDD33ix/Etkij4wEXj0D6g9s/sdo2U/+QADTnA38RQLY4tSSHEtySRLkEzfETn7+y
+         6m7+BdMZCORBWktNU1nfupNhFQmUvDPR6VF8SCJHUXm1N5g8cAUd5mOKP1SjEuAhYIOE
+         AL2XLAWVRlMiORVd+igWmvCaCSbBXKjVynNuQh3jBwn8Ne6ZmPW4NdhRAJ6Itwk6KrVr
+         srubD3/6omd98T2bJsyzVCDAmirfn/9b03llRqH2qEAcUC+iL9hYCbyEoVdCxFfnCOC9
+         hA5dQ/ELlAYu8CGZVV+DzzeefXp16S9FuEdPtmlxXH3J0RFfaiXOvUu8YQXDMqGH2SJ7
+         ihmQ==
+X-Gm-Message-State: AOAM533CMkv+E0RGAkpJ1bzKJGPClCeKN3n1Nq9XXAsmIGBC1lH+nq1z
+	9fFuILSbVBZSi87K/OccmCoF6Ai/3IdRUZHlCxg=
 X-Google-Smtp-Source: 
- ABdhPJyf2pxDDOtxDEumDfphRxhw8x0gfUuwF61O01zymmZCRjndWlh5w9xx9G5zrLUbMuAfzsGP7Zw27BNwpSlNeac=
-X-Received: by 2002:a05:6102:b13:: with SMTP id
- b19mr25607647vst.1.1637767754521;
- Wed, 24 Nov 2021 07:29:14 -0800 (PST)
+ ABdhPJw8Gf2HrQguZsFGybt57bOTq1tTOuGqKFg323G2uJ89y2tO5Cwd6md27o+WQdMKNfGooNVAN4zBJhmRohzeLkc=
+X-Received: by 2002:a1f:b697:: with SMTP id g145mr28698510vkf.1.1637767844844;
+ Wed, 24 Nov 2021 07:30:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <20211124144739.2250-7-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211124144739.2250-13-stefan.herbrechtsmeier-oss@weidmueller.com>
 In-Reply-To: 
- <20211124144739.2250-7-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211124144739.2250-13-stefan.herbrechtsmeier-oss@weidmueller.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Nov 2021 16:29:03 +0100
+Date: Wed, 24 Nov 2021 16:30:32 +0100
 Message-ID: 
- <CANNYZj-_CtGHGB=oay-TDJZtFnHCVgeBeT1u2mZOD-z5d5MFjw@mail.gmail.com>
-Subject: Re: [RFC PATCH 06/15] npm: Rework to use plain npm commands and avoid
- npm cache
+ <CANNYZj8pXgO7FuwmzjXE_SU7PgYNbSTmZvSC86zFMwvz1sajag@mail.gmail.com>
+Subject: Re: [RFC PATCH 12/15] recipetool: npm: Add dependencies to SRC_URI
+ and auto select classes
 To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>,
 	Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
@@ -63,23 +62,19 @@ Cc: OE-core <openembedded-core@lists.openembedded.org>,
 	Martin Koppehel <martin@mko.dev>,
  Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Content-Type: multipart/alternative; boundary="0000000000003b9fea05d18a85ab"
+Content-Type: multipart/alternative; boundary="0000000000009dd75a05d18a8a6b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 15:29:17 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 15:30:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158720
+ https://lists.openembedded.org/g/openembedded-core/message/158721
 
---0000000000003b9fea05d18a85ab
+--0000000000009dd75a05d18a8a6b
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-I think a longer commit message would be beneficial here as well, and in
-7/8/9/10/11 patches. What has changed? How does the new class work and what
-does it do at each step? What problems does it solve compared to the old
-implementation? Please keep in mind that getting code to work is only half
-the job, the other half is explaining it to other human beings.
+A description of the changes and how the new code works is missing. How is
+the SRC_URI formed? How is the appropriate class selected?
 
 Alex
 
@@ -88,1096 +83,872 @@ stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
 
 > From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 >
-> Rework the npm class to use plain npm commands and remove the usage of
-> the npm cache to speed-up builds.
->
 > Signed-off-by: Stefan Herbrechtsmeier <
 > stefan.herbrechtsmeier@weidmueller.com>
+>
 > ---
 >
->  meta/classes/npm.bbclass        | 340 +++++++++++---------------------
->  scripts/lib/devtool/standard.py |   6 +-
->  2 files changed, 119 insertions(+), 227 deletions(-)
+>  scripts/lib/recipetool/create_npm.py | 243 ++++++++++++++++++++++++---
+>  1 file changed, 222 insertions(+), 21 deletions(-)
 >
-> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-> index ba50fcac20..cb22dc6998 100644
-> --- a/meta/classes/npm.bbclass
-> +++ b/meta/classes/npm.bbclass
-> @@ -1,7 +1,12 @@
->  # Copyright (C) 2020 Savoir-Faire Linux
->  #
-> +# Copyright (C) 2021 Weidm=C3=BCller Interface GmbH & Co. KG
-> +# Author: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com=
+> diff --git a/scripts/lib/recipetool/create_npm.py
+> b/scripts/lib/recipetool/create_npm.py
+> index 3394a89970..296b84340e 100644
+> --- a/scripts/lib/recipetool/create_npm.py
+> +++ b/scripts/lib/recipetool/create_npm.py
+> @@ -39,6 +39,14 @@ class NpmRecipeHandler(RecipeHandler):
+>          name = name.strip("-")
+>          return name
 >
-> +#
->  # SPDX-License-Identifier: GPL-2.0-only
->  #
-> +# A bbclass to install an npm package and build its dependencies.
-> +#
->  # This bbclass builds and installs an npm package to the target. The
-> package
->  # sources files should be fetched in the calling recipe by using the
-> SRC_URI
->  # variable. The ${S} variable should be updated depending of your fetche=
-r.
-> @@ -16,18 +21,29 @@
->  #
->  #  NPM_INSTALL_DEV:
->  #       Set to 1 to also install devDependencies.
-> +#
-> +#  NPM_BUILD_PRUNE_FOR_PRODUCTION
-> +#       Set to 0 to keep installed devDependencies.
->
->  inherit python3native
->
->  DEPENDS:prepend =3D "nodejs-native "
-> -RDEPENDS:${PN}:append:class-target =3D " nodejs"
-> +NPM_RDEPENDS =3D "nodejs"
-> +RDEPENDS:${PN}:append:class-target =3D " ${NPM_RDEPENDS}"
->
-> -EXTRA_OENPM =3D ""
-> +EXTRA_OENPM ?=3D ""
-> +EXTRA_OENPM_BUILD ?=3D ""
->
->  NPM_INSTALL_DEV ?=3D "0"
->
->  NPM_NODEDIR ?=3D "${RECIPE_SYSROOT_NATIVE}${prefix_native}"
->
-> +def npm_flag_dev(value):
-> +    if bb.utils.to_boolean(value, False):
-> +        return "--also=3Ddevelopment"
-> +    else:
-> +        return "--only=3Dproduction"
+> +    @staticmethod
+> +    def _node_recipe_name(name):
+> +        """Generate a OE friendly Node.js recipe name"""
+> +        name = NpmRecipeHandler._npm_name(name)
+> +        if not name.startswith("node-"):
+> +            name = "node-" + name
+> +        return name
 > +
->  def npm_target_arch_map(target_arch):
->      """Maps arch names to npm arch names"""
->      import re
-> @@ -43,247 +59,124 @@ def npm_target_arch_map(target_arch):
+>      @staticmethod
+>      def _get_registry(lines):
+>          """Get the registry value from the 'npm://registry' url"""
+> @@ -54,6 +62,24 @@ class NpmRecipeHandler(RecipeHandler):
 >
->  NPM_ARCH ?=3D "${@npm_target_arch_map(d.getVar("TARGET_ARCH"))}"
+>          return registry
 >
-> -NPM_PACKAGE =3D "${WORKDIR}/npm-package"
->  NPM_CACHE =3D "${WORKDIR}/npm-cache"
-> -NPM_BUILD =3D "${WORKDIR}/npm-build"
-> -
-> -def npm_global_configs(d):
-> -    """Get the npm global configuration"""
-> -    configs =3D []
-> -    # Ensure no network access is done
-> -    configs.append(("offline", "true"))
-> -    configs.append(("proxy", "http://invalid"))
-> -    # Configure the cache directory
-> -    configs.append(("cache", d.getVar("NPM_CACHE")))
-> -    return configs
-> -
-> -def npm_pack(env, srcdir, workdir):
-> -    """Run 'npm pack' on a specified directory"""
-> -    import shlex
-> -    cmd =3D "npm pack %s" % shlex.quote(srcdir)
-> -    args =3D [("ignore-scripts", "true")]
-> -    tarball =3D env.run(cmd, args=3Dargs, workdir=3Dworkdir).strip("\n")
-> -    return os.path.join(workdir, tarball)
-> -
-> -python npm_do_configure() {
-> -    """
-> -    Step one: configure the npm cache and the main npm package
-> -
-> -    Every dependencies have been fetched and patched in the source
-> directory.
-> -    They have to be packed (this remove unneeded files) and added to the
-> npm
-> -    cache to be available for the next step.
-> -
-> -    The main package and its associated manifest file and shrinkwrap fil=
-e
-> have
-> -    to be configured to take into account these cached dependencies.
-> -    """
-> -    import base64
-> -    import copy
-> -    import json
-> -    import re
-> -    import shlex
-> -    import tempfile
-> -    from bb.fetch2.npm import NpmEnvironment
-> -    from bb.fetch2.npm import npm_unpack
-> -    from bb.fetch2.npmsw import foreach_dependencies
-> -    from bb.progress import OutOfProgressHandler
-> -
-> -    bb.utils.remove(d.getVar("NPM_CACHE"), recurse=3DTrue)
-> -    bb.utils.remove(d.getVar("NPM_PACKAGE"), recurse=3DTrue)
-> -
-> -    env =3D NpmEnvironment(d, configs=3Dnpm_global_configs(d))
-> -
-> -    def _npm_cache_add(tarball):
-> -        """Run 'npm cache add' for a specified tarball"""
-> -        cmd =3D "npm cache add %s" % shlex.quote(tarball)
-> -        env.run(cmd)
-> -
-> -    def _npm_integrity(tarball):
-> -        """Return the npm integrity of a specified tarball"""
-> -        sha512 =3D bb.utils.sha512_file(tarball)
-> -        return "sha512-" +
-> base64.b64encode(bytes.fromhex(sha512)).decode()
-> -
-> -    def _npm_version(tarball):
-> -        """Return the version of a specified tarball"""
-> -        regex =3D r"-(\d+\.\d+\.\d+(-.*)?(\+.*)?)\.tgz"
-> -        return re.search(regex, tarball).group(1)
-> -
-> -    def _npmsw_dependency_dict(orig, deptree):
-> -        """
-> -        Return the sub dictionary in the 'orig' dictionary corresponding
-> to the
-> -        'deptree' dependency tree. This function follows the shrinkwrap
-> file
-> -        format.
-> -        """
-> -        ptr =3D orig
-> -        for dep in deptree:
-> -            if "dependencies" not in ptr:
-> -                ptr["dependencies"] =3D {}
-> -            ptr =3D ptr["dependencies"]
-> -            if dep not in ptr:
-> -                ptr[dep] =3D {}
-> -            ptr =3D ptr[dep]
-> -        return ptr
-> -
-> -    # Manage the manifest file and shrinkwrap files
-> -    orig_manifest_file =3D d.expand("${S}/package.json")
-> -    orig_shrinkwrap_file =3D d.expand("${S}/npm-shrinkwrap.json")
-> -    cached_manifest_file =3D d.expand("${NPM_PACKAGE}/package.json")
-> -    cached_shrinkwrap_file =3D
-> d.expand("${NPM_PACKAGE}/npm-shrinkwrap.json")
-> -
-> -    with open(orig_manifest_file, "r") as f:
-> -        orig_manifest =3D json.load(f)
-> -
-> -    cached_manifest =3D copy.deepcopy(orig_manifest)
-> -    cached_manifest.pop("dependencies", None)
-> -    cached_manifest.pop("devDependencies", None)
-> -
-> -    has_shrinkwrap_file =3D True
-> -
-> -    try:
-> -        with open(orig_shrinkwrap_file, "r") as f:
-> -            orig_shrinkwrap =3D json.load(f)
-> -    except IOError:
-> -        has_shrinkwrap_file =3D False
-> -
-> -    if has_shrinkwrap_file:
-> -       cached_shrinkwrap =3D copy.deepcopy(orig_shrinkwrap)
-> -       cached_shrinkwrap.pop("dependencies", None)
-> -
-> -    # Manage the dependencies
-> -    progress =3D OutOfProgressHandler(d, r"^(\d+)/(\d+)$")
-> -    progress_total =3D 1 # also count the main package
-> -    progress_done =3D 0
-> -
-> -    def _count_dependency(name, params, deptree):
-> -        nonlocal progress_total
-> -        progress_total +=3D 1
-> -
-> -    def _cache_dependency(name, params, deptree):
-> -        destsubdirs =3D [os.path.join("node_modules", dep) for dep in
+> +    @staticmethod
+> +    def _get_srcdir(lines):
+> +        """Get the source directory value from the url"""
+> +        srcdir = ""
+> +
+> +        def _handle_srcdir(varname, origvalue, op, newlines):
+> +            nonlocal srcdir
+> +            if origvalue.startswith("${WORKDIR}"):
+> +                srcdir = origvalue[11:]
+> +            else:
+> +                srcdir = "${BP}"
+> +
+> +            return origvalue, None, 0, True
+> +
+> +        bb.utils.edit_metadata(lines, ["S"], _handle_srcdir)
+> +
+> +        return srcdir
+> +
+>      @staticmethod
+>      def _ensure_npm():
+>          """Check if the 'npm' command is available in the recipes"""
+> @@ -116,6 +142,118 @@ class NpmRecipeHandler(RecipeHandler):
+>
+>          return os.path.join(srctree, "npm-shrinkwrap.json")
+>
+> +    def _process_shrinkwrap(self, srctree, shrinkwrap, srcdir):
+> +        """
+> +            Extract package urls from shrinkwrap dependencies
+> +        """
+> +
+> +        urls = []
+> +
+> +        def _populate_modules(name, params, deptree):
+> +            from bb.fetch2 import URI
+> +            from bb.fetch2.npm import npm_integrity
+> +            from bb.fetch2.npm import npm_localfile
+> +
+> +            destsubdirs = [os.path.join("node_modules", dep) for dep in
 > deptree]
-> -        destsuffix =3D os.path.join(*destsubdirs)
-> -        with tempfile.TemporaryDirectory() as tmpdir:
-> -            # Add the dependency to the npm cache
-> -            destdir =3D os.path.join(d.getVar("S"), destsuffix)
-> -            tarball =3D npm_pack(env, destdir, tmpdir)
-> -            _npm_cache_add(tarball)
-> -            # Add its signature to the cached shrinkwrap
-> -            dep =3D _npmsw_dependency_dict(cached_shrinkwrap, deptree)
-> -            dep["version"] =3D _npm_version(tarball)
-> -            dep["integrity"] =3D _npm_integrity(tarball)
-> -            if params.get("dev", False):
-> -                dep["dev"] =3D True
-> -            # Display progress
-> -            nonlocal progress_done
-> -            progress_done +=3D 1
-> -            progress.write("%d/%d" % (progress_done, progress_total))
-> -
-> -    dev =3D bb.utils.to_boolean(d.getVar("NPM_INSTALL_DEV"), False)
-> -
-> -    if has_shrinkwrap_file:
-> -        foreach_dependencies(orig_shrinkwrap, _count_dependency, dev)
-> -        foreach_dependencies(orig_shrinkwrap, _cache_dependency, dev)
-> -
-> -    # Configure the main package
-> -    with tempfile.TemporaryDirectory() as tmpdir:
-> -        tarball =3D npm_pack(env, d.getVar("S"), tmpdir)
-> -        npm_unpack(tarball, d.getVar("NPM_PACKAGE"), d)
-> -
-> -    # Configure the cached manifest file and cached shrinkwrap file
-> -    def _update_manifest(depkey):
-> -        for name in orig_manifest.get(depkey, {}):
-> -            version =3D cached_shrinkwrap["dependencies"][name]["version=
-"]
-> -            if depkey not in cached_manifest:
-> -                cached_manifest[depkey] =3D {}
-> -            cached_manifest[depkey][name] =3D version
-> -
-> -    if has_shrinkwrap_file:
-> -        _update_manifest("dependencies")
-> -
-> -    if dev:
-> -        if has_shrinkwrap_file:
-> -            _update_manifest("devDependencies")
-> -
-> -    with open(cached_manifest_file, "w") as f:
-> -        json.dump(cached_manifest, f, indent=3D2)
-> -
-> -    if has_shrinkwrap_file:
-> -        with open(cached_shrinkwrap_file, "w") as f:
-> -            json.dump(cached_shrinkwrap, f, indent=3D2)
-> -}
-> -
-> -python npm_do_compile() {
-> -    """
-> -    Step two: install the npm package
->
-> -    Use the configured main package and the cached dependencies to run t=
-he
-> -    installation process. The installation is done in a directory which =
-is
-> -    not the destination directory yet.
-> +NPM_PRUNE_FOR_PRODUCTION ?=3D "1"
->
-> -    A combination of 'npm pack' and 'npm install' is used to ensure that
-> the
-> -    installed files are actual copies instead of symbolic links (which i=
-s
-> the
-> -    default npm behavior).
-> -    """
-> -    import shlex
-> -    import tempfile
-> -    from bb.fetch2.npm import NpmEnvironment
-> +B =3D "${WORKDIR}/build"
->
-> -    bb.utils.remove(d.getVar("NPM_BUILD"), recurse=3DTrue)
-> +NPM_SOURCEPATH ?=3D "${S}"
->
-> -    with tempfile.TemporaryDirectory() as tmpdir:
-> -        args =3D []
-> -        configs =3D npm_global_configs(d)
-> +export NPM_CONFIG_GLOBALCONFIG =3D "${WORKDIR}/npmrc"
-> +export NPM_CONFIG_USERCONFIG =3D "/dev/null"
->
-> -        if bb.utils.to_boolean(d.getVar("NPM_INSTALL_DEV"), False):
-> -            configs.append(("also", "development"))
-> -        else:
-> -            configs.append(("only", "production"))
-> -
-> -        # Report as many logs as possible for debugging purpose
-> -        configs.append(("loglevel", "silly"))
-> +oe_runnpm_plain() {
-> +    HOME=3D${B}/root npm "$@"
-> +}
->
-> -        # Configure the installation to be done globally in the build
-> directory
-> -        configs.append(("global", "true"))
-> -        configs.append(("prefix", d.getVar("NPM_BUILD")))
-> +oe_runnpm() {
-> +    bbnote npm "$@"
-> +    oe_runnpm_plain "$@"
-> +}
->
-> -        # Add node-gyp configuration
-> -        configs.append(("arch", d.getVar("NPM_ARCH")))
-> -        configs.append(("release", "true"))
-> -        configs.append(("nodedir", d.getVar("NPM_NODEDIR")))
-> -        configs.append(("python", d.getVar("PYTHON")))
-> +oe_runnpm_pack() {
-> +    oe_runnpm_plain pack --ignore-scripts --loglevel=3Dwarn "$@"
-> +}
->
-> -        env =3D NpmEnvironment(d, configs)
-> +oe_runnpm_rebuild() {
-> +    arch=3D$1
-> +    shift
->
-> -        # Add node-pre-gyp configuration
-> -        args.append(("target_arch", d.getVar("NPM_ARCH")))
-> -        args.append(("build-from-source", "true"))
-> +    # Create symlinks for package executables
-> +    # because rebuild doesn't respect the dependency tree
-> +    oe_runnpm rebuild --ignore-scripts
->
-> -        # Pack and install the main package
-> -        tarball =3D npm_pack(env, d.getVar("NPM_PACKAGE"), tmpdir)
-> -        cmd =3D "npm install %s %s" % (shlex.quote(tarball),
-> d.getVar("EXTRA_OENPM"))
-> -        env.run(cmd, args=3Dargs)
-> +    # Rebuild dependencies
-> +    oe_runnpm rebuild \
-> +        --arch=3D${arch} \
-> +        --target_arch=3D${arch} \
-> +        --build-from-source \
-> +        "$@"
->  }
->
-> -npm_do_install() {
-> -    # Step three: final install
-> -    #
-> -    # The previous installation have to be filtered to remove some extra
-> files.
-> +do_generate_npmrc() {
-> +    cat > ${NPM_CONFIG_GLOBALCONFIG} <<EOF
-> +cache=3D${NPM_CACHE}
-> +loglevel=3Dsilly
-> +offline=3Dtrue
-> +package-lock=3Dfalse
-> +proxy=3Dhttp://invalid
-> +; node-gyp
-> +arch=3D${NPM_ARCH}
-> +nodedir=3D${NPM_NODEDIR}
-> +python=3D${PYTHON}
-> +release=3Dtrue
-> +EOF
-> +}
-> +do_generate_npmrc[vardeps] +=3D "NPM_ARCH NPM_CACHE NPM_CONFIG_GLOBALCON=
-FIG
-> NPM_NODEDIR PYTHON"
-> +addtask generate_npmrc after do_patch before do_populate_cache
->
-> -    rm -rf ${D}
-> +npm_do_configure() {
-> +    :
-> +}
->
-> -    # Copy the entire lib and bin directories
-> -    install -d ${D}/${nonarch_libdir}
-> -    cp --no-preserve=3Downership --recursive ${NPM_BUILD}/lib/.
-> ${D}/${nonarch_libdir}
-> +npm_do_compile() {
-> +    # Create a tarball from main npm package
-> +    # to respect ignore files and files property of package.json
-> +    cd ${B}/pkg
-> +    tarball=3D$(oe_runnpm_pack ${NPM_SOURCEPATH})
-> +    [ -n "${tarball}" ] || exit 1
+> +            destsuffix = os.path.join(srcdir, *destsubdirs)
 > +
-> +    # Unpack main npm package
-> +    mkdir ${B}/lib/node_modules/${BPN}/
-> +    tar -xzf ${B}/pkg/$tarball --no-same-owner \
-> +        --strip-components=3D1 -C ${B}/lib/node_modules/${BPN}
+> +            dev = params.get("dev", False)
+> +            integrity = params.get("integrity")
+> +            resolved = params.get("resolved")
+> +            version = params.get("version")
+> +            requires = params.get("requires", {})
 > +
-> +    # Copy npm dependencies from sources
-> +    if [ -d ${S}/node_modules ]; then
-> +        # Copy sources without preserve mode and ownership
-> +        # to prevent ugly file permissions
-> +        mkdir ${B}/lib/node_modules/${BPN}/node_modules
-> +        cp -a --no-preserve=3Dmode,ownership \
-> +            ${S}/node_modules/. ${B}/lib/node_modules/${BPN}/node_module=
-s/
+> +            # Handle registry sources
+> +            if bb.utils.is_semver(version) and integrity:
+> +                # Skip dependencies without url
+> +                if not resolved:
+> +                    return
 > +
-> +        # Prune dependencies for production
-> +        if [ "${NPM_INSTALL_DEV}" =3D "1" -a "${NPM_PRUNE_FOR_PRODUCTION=
-}"
-> =3D "1" ] ; then
-> +            oe_runnpm prune --only=3Dproduction
-> +        fi
+> +                pkgv = version
 > +
-> +        # Rebuild dependencies inside node_modules folder
-> +        # to create bin links in .bin folder
-> +        cd ${B}/lib/node_modules
-> +        oe_runnpm_rebuild ${NPM_ARCH} ${EXTRA_OENPM}
-> +    fi
-> +}
-> +do_compile[cleandirs] =3D "${B}/lib/node_modules ${B}/pkg"
->
-> -    if [ -d "${NPM_BUILD}/bin" ]
-> -    then
-> -        install -d ${D}/${bindir}
-> -        cp --no-preserve=3Downership --recursive ${NPM_BUILD}/bin/.
-> ${D}/${bindir}
-> +npm_do_install() {
-> +    # Copy the entire main node_modules directory
-> +    install -d ${D}${nonarch_libdir}
-> +    cp -a --no-preserve=3Downership ${B}/lib/node_modules \
-> +        ${D}${nonarch_libdir}/
+> +                uri = URI(resolved)
+> +                uri.params["downloadfilename"] = npm_localfile(name,
+> version)
 > +
-> +    # Create symlinks for package executables
-> +    if [ -d ${D}${nonarch_libdir}/node_modules/.bin ]; then
-> +        install -d ${D}${bindir}
-> +        for f in ${D}${nonarch_libdir}/node_modules/.bin/*; do
-> +            name=3D"$(basename $f)"
-> +            link=3D"$(readlink $f)"
-> +            target=3D"$(realpath -m --relative-to ${D}${bindir} \
-> +                ${D}${nonarch_libdir}/node_modules/.bin/$link)"
-> +            ln -s "$target" "${D}${bindir}/$name"
-> +        done
-> +        rm -rf ${D}${nonarch_libdir}/node_modules/.bin
->      fi
+> +                checksum_name, checksum_expected =
+> npm_integrity(integrity)
+> +                uri.params[checksum_name] = checksum_expected
+> +
+> +                uri.params["subdir"] = destsuffix
+> +                uri.params["striplevel"] = "1"
+> +
+> +                url = str(uri)
+> +
+> +            # Handle http tarball sources
+> +            elif version.startswith("http") and integrity:
+> +                checksum_name, checksum_expected =
+> npm_integrity(integrity)
+> +
+> +                pkgv = checksum_expected[:13]
+> +
+> +                uri = URI(version)
+> +                uri.params["downloadfilename"] = npm_localfile(name, pkgv)
+> +
+> +                uri.params[checksum_name] = checksum_expected
+> +
+> +                uri.params["destsuffix"] = destsuffix
+> +                uri.params["striplevel"] = "1"
+> +
+> +                url = str(uri)
+> +
+> +            # Handle git sources
+> +            elif version.startswith("git"):
+> +                if version.startswith("github:"):
+> +                    version = "git+https://github.com/" +
+> version[len("github:"):]
+> +                regex = re.compile(r"""
+> +                    ^
+> +                    git\+
+> +                    (?P<protocol>[a-z]+)
+> +                    ://
+> +                    (?P<url>[^#]+)
+> +                    \#
+> +                    (?P<rev>[0-9a-f]+)
+> +                    $
+> +                    """, re.VERBOSE)
+> +
+> +                match = regex.match(version)
+> +
+> +                if not match:
+> +                    raise Exception("Invalid git url: %s - %s" %
+> (version, url))
+> +
+> +                groups = match.groupdict()
+> +
+> +                pkgv = str(groups["rev"])[:10]
+> +
+> +                uri = URI("git://" + str(groups["url"]))
+> +                uri.params["destsuffix"] = destsuffix
+> +                uri.params["nobranch"] = "1"
+> +                uri.params["protocol"] = str(groups["protocol"])
+> +                uri.params["rev"] = str(groups["rev"])
+> +
+> +                url = str(uri)
+> +
+> +            else:
+> +                raise Exception("Unsupported dependency: %s - %s" %
+> (name, version))
+> +
+> +            # Set package version in shrinkwrap for dependency resolution
+> +            params["pkgv"] = pkgv
+> +
+> +            urls.append(url)
+> +
+> +        def _foreach_shrinkwrap_dependency(shrinkwrap, callback):
+> +            def _walk_dependencies(deps, deptree):
+> +                for name in deps:
+> +                    subtree = [*deptree, name]
+> +                    _walk_dependencies(deps[name].get("dependencies",
+> {}), subtree)
+> +                    if deps[name].get("bundled", False):
+> +                        continue
+> +                    callback(name, deps[name], subtree)
+> +
+> +            _walk_dependencies(shrinkwrap.get("dependencies", {}), [])
+> +
+> +        _foreach_shrinkwrap_dependency(shrinkwrap, _populate_modules)
+> +
+> +        return urls
+> +
+> +
+>      def _handle_licenses(self, srctree, shrinkwrap_file, dev):
+>          """Return the extra license files and the list of packages"""
+>          licfiles = []
+> @@ -173,7 +311,7 @@ class NpmRecipeHandler(RecipeHandler):
+>          if "name" not in data or "version" not in data:
+>              return False
 >
->      # If the package (or its dependencies) uses node-gyp to build native
-> addons,
->      # object files, static libraries or other temporary files can be
-> hidden in
->      # the lib directory. To reduce the package size and to avoid QA issu=
-es
->      # (staticdev with static library files) these files must be removed.
-> -    local GYP_REGEX=3D".*/build/Release/[^/]*.node"
-> +    local GYP_REGEX=3D".*/build.*/Release/[^/]*.node"
+> -        extravalues["PN"] = self._npm_name(data["name"])
+> +        extravalues["PN"] = self._node_recipe_name(data["name"])
+>          extravalues["PV"] = data["version"]
 >
->      # Remove any node-gyp directory in ${D} to remove temporary build
-> files
->      for GYP_D_FILE in $(find ${D} -regex "${GYP_REGEX}")
-> @@ -294,9 +187,9 @@ npm_do_install() {
->      done
+>          if "description" in data:
+> @@ -184,6 +322,24 @@ class NpmRecipeHandler(RecipeHandler):
 >
->      # Copy only the node-gyp release files
-> -    for GYP_B_FILE in $(find ${NPM_BUILD} -regex "${GYP_REGEX}")
-> +    for GYP_B_FILE in $(find ${B}/pkg -regex "${GYP_REGEX}")
->      do
-> -        local GYP_D_FILE=3D${D}/${prefix}/${GYP_B_FILE#${NPM_BUILD}}
-> +        local GYP_D_FILE=3D${D}/${prefix}/${GYP_B_FILE#${B}/pkg}
+>          dev = bb.utils.to_boolean(str(extravalues.get("NPM_INSTALL_DEV",
+> "0")), False)
+>          registry = self._get_registry(lines_before)
+> +        srcdir = self._get_srcdir(lines_before)
+> +        # Replace reserved directories
+> +        if srcdir == "package":
+> +            srcdir = "npm"
+> +            def _handle_srcuri(varname, origvalue, op, newlines):
+> +                """Update the version value"""
+> +                values = "%s;subdir=%s;striplevel=1" % (origvalue, srcdir)
+> +                return values, None, 4, False
+> +
+> +            (_, newlines) = bb.utils.edit_metadata(lines_before,
+> ["SRC_URI"], _handle_srcuri)
+> +            lines_before[:] = [line.rstrip('\n') for line in newlines]
+> +
+> +            def _handle_srcdir(varname, origvalue, op, newlines):
+> +                value = "${WORKDIR}/%s" % (srcdir)
+> +                return value, None, 0, True
+> +
+> +            (_, newlines) = bb.utils.edit_metadata(lines_before, ["S"],
+> _handle_srcdir)
+> +            lines_before[:] = [line.rstrip('\n') for line in newlines]
 >
->          install -d ${GYP_D_FILE%/*}
->          install -m 755 ${GYP_B_FILE} ${GYP_D_FILE}
-> @@ -310,6 +203,7 @@ npm_do_install() {
->      # using /usr/lib/node_modules as install directory. Let's make both
-> happy.
->      ln -fs node_modules ${D}/${nonarch_libdir}/node
->  }
-> +do_install[cleandirs] =3D "${D}"
+>          bb.note("Checking if npm is available ...")
+>          # The native npm is used here (and not the host one) to ensure
+> that the
+> @@ -223,37 +379,65 @@ class NpmRecipeHandler(RecipeHandler):
+>          if os.path.exists(lock_copy):
+>              bb.utils.movefile(lock_copy, lock_file)
 >
->  FILES:${PN} +=3D " \
->      ${bindir} \
-> diff --git a/scripts/lib/devtool/standard.py
-> b/scripts/lib/devtool/standard.py
-> index 01fb5ad96f..10dc2b1373 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -260,10 +260,8 @@ def add(args, config, basepath, workspace):
->                  f.write('}\n')
+> -        # Add the shrinkwrap file as 'extrafiles'
+> -        shrinkwrap_copy = shrinkwrap_file + ".copy"
+> -        bb.utils.copyfile(shrinkwrap_file, shrinkwrap_copy)
+> -        extravalues.setdefault("extrafiles", {})
+> -        extravalues["extrafiles"]["npm-shrinkwrap.json"] = shrinkwrap_copy
+> -
+> -        url_local = "npmsw://%s" % shrinkwrap_file
+> -        url_recipe= "npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json"
+> -
+> -        if dev:
+> -            url_local += ";dev=1"
+> -            url_recipe += ";dev=1"
+> -
+> -        # Add the npmsw url in the SRC_URI of the generated recipe
+>          def _handle_srcuri(varname, origvalue, op, newlines):
+> -            """Update the version value and add the 'npmsw://' url"""
+> +            """Update the version value"""
+>              value = origvalue.replace("version=" + data["version"],
+> "version=${PV}")
+>              value = value.replace("version=latest", "version=${PV}")
+>              values = [line.strip() for line in
+> value.strip('\n').splitlines()]
+> -            if "dependencies" in shrinkwrap:
+> -                values.append(url_recipe)
+>              return values, None, 4, False
 >
->              if bb.data.inherits_class('npm', rd):
-> -                f.write('python do_configure:append() {\n')
-> -                f.write('    pkgdir =3D d.getVar("NPM_PACKAGE")\n')
-> -                f.write('    lockfile =3D os.path.join(pkgdir,
-> "singletask.lock")\n')
-> -                f.write('    bb.utils.remove(lockfile)\n')
-> +                f.write('do_configure:append() {\n')
-> +                f.write('    rm -f ${NPM_PACKAGE}/singletask.lock\n')
->                  f.write('}\n')
+>          (_, newlines) = bb.utils.edit_metadata(lines_before, ["SRC_URI"],
+> _handle_srcuri)
+>          lines_before[:] = [line.rstrip('\n') for line in newlines]
 >
->          # Check if the new layer provides recipes whose priorities have
-> been
+> +        urls = self._process_shrinkwrap(srctree, shrinkwrap, srcdir)
+> +
+> +        # Add the package urls in the SRC_URI of the generated recipe
+> +        def _handle_srcuri(varname, origvalue, op, newlines):
+> +            """Add the package urls and git SRCREVs"""
+> +            values = None
+> +            # Handle SRCREVs
+> +            if varname == "SRCREV":
+> +                newlines.append('SRCREV_FORMAT = "main"')
+> +                newlines.append('SRCREV_main = "%s"' % origvalue)
+> +            # Handle urls
+> +            elif varname == "SRC_URI":
+> +                values = [line.strip() for line in origvalue.split()]
+> +                values = ["%s;name=main" % (v) if v.startswith(("git",
+> "http")) else v for v in values]
+> +                values.extend(sorted(urls))
+> +            # Handle hashes
+> +            else:
+> +                newvarname = varname.replace("[", "[main.")
+> +                newlines.append('%s = "%s"' % (newvarname, origvalue))
+> +            return values, None, 4, False
+> +
+> +        (_, newlines) = bb.utils.edit_metadata(lines_before, ["SRC_URI",
+> "SRCREV", "SRC_URI\[\w*\]"], _handle_srcuri)
+> +        lines_before[:] = [line.rstrip('\n') for line in newlines]
+> +
+> +
+> +        # Add the package urls in the SRC_URI of the generated recipe
+> +        def _handle_sums(varname, origvalue, op, newlines):
+> +            """Add the package urls and git SRCREVs"""
+> +            values = None
+> +            if varname == "SRC_URI[md5sum]":
+> +                # Add the urls
+> +                values = [line.strip() for line in origvalue.split()]
+> +                values = [v + ";name=main" if v.startswith("git", "http")
+> else v for v in values]
+> +                values.extend(sorted(urls))
+> +            else:
+> +                # Add git SRCREVs
+> +                newlines.append('SRCREV_FORMAT = "main"')
+> +                newlines.append('SRCREV_main = "%s"' % origvalue)
+> +            return values, None, 4, False
+> +
+> +        (_, newlines) = bb.utils.edit_metadata(lines_before,
+> ["SRC_URI[md5sum]", "SRCREV" ], _handle_sums)
+> +        lines_before[:] = [line.rstrip('\n') for line in newlines]
+> +
+>          # In order to generate correct licence checksums in the recipe the
+> -        # dependencies have to be fetched again using the npmsw url
+> +        # dependencies have to be fetched agai  n using the urls
+>          bb.note("Fetching npm dependencies ...")
+>          bb.utils.remove(os.path.join(srctree, "node_modules"),
+> recurse=True)
+> -        fetcher = bb.fetch2.Fetch([url_local], d)
+> +        srcurls = [url.replace("=%s/node_modules" % srcdir,
+> "=node_modules") for url in urls]
+> +        fetcher = bb.fetch2.Fetch(srcurls, d)
+>          fetcher.download()
+>          fetcher.unpack(srctree)
+>
+> @@ -289,7 +473,24 @@ class NpmRecipeHandler(RecipeHandler):
+>          (licenses, extravalues["LIC_FILES_CHKSUM"]) =
+> _guess_odd_license(licfiles)
+>          split_pkg_licenses([*licenses, *guess_license(srctree, d)],
+> packages, lines_after)
+>
+> -        classes.append("npm")
+> +        # Add suitable npm class
+> +        if dev:
+> +            scripts = data.get("scripts", {})
+> +            if scripts.get("build"):
+> +                deps = data.get("devDependencies", {})
+> +                if deps.get("@angular/cli"):
+> +                    classes.append("angular")
+> +                elif deps.get("karma"):
+> +                    classes.append("karma")
+> +                elif scripts.get("test"):
+> +                    classes.append("npm_test")
+> +                else:
+> +                    classes.append("npm_build")
+> +            else:
+> +                classes.append("npm")
+> +        else:
+> +            classes.append("npm")
+> +
+>          handled.append("buildsystem")
+>
+>          return True
 > --
 > 2.20.1
 >
 >
 
---0000000000003b9fea05d18a85ab
+--0000000000009dd75a05d18a8a6b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I think a longer commit message would be beneficial h=
-ere as well, and in 7/8/9/10/11 patches. What has changed? How does the new=
- class work and what does it do at each step? What problems does it solve c=
-ompared to the old implementation? Please keep in mind that getting code to=
- work is only half the job, the other half is explaining it to other human =
-beings.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 24 Nov 2021 at 15:48=
-, Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@w=
-eidmueller.com" target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->From: Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier@=
-weidmueller.com" target=3D"_blank">stefan.herbrechtsmeier@weidmueller.com</=
-a>&gt;<br>
-<br>
-Rework the npm class to use plain npm commands and remove the usage of<br>
-the npm cache to speed-up builds.<br>
+<div dir=3D"ltr"><div>A description of the changes and how the new code wor=
+ks is missing. How is the SRC_URI formed? How is the appropriate class sele=
+cted?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 24 Nov 2021 at 15:48, =
+Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@wei=
+dmueller.com">stefan.herbrechtsmeier-oss@weidmueller.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">From: Stefan Herbre=
+chtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier@weidmueller.com" tar=
+get=3D"_blank">stefan.herbrechtsmeier@weidmueller.com</a>&gt;<br>
 <br>
 Signed-off-by: Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrech=
 tsmeier@weidmueller.com" target=3D"_blank">stefan.herbrechtsmeier@weidmuell=
 er.com</a>&gt;<br>
+<br>
 ---<br>
 <br>
-=C2=A0meta/classes/npm.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 340 +++++++++++=
----------------------<br>
-=C2=A0scripts/lib/devtool/standard.py |=C2=A0 =C2=A06 +-<br>
-=C2=A02 files changed, 119 insertions(+), 227 deletions(-)<br>
+=C2=A0scripts/lib/recipetool/create_npm.py | 243 ++++++++++++++++++++++++--=
+-<br>
+=C2=A01 file changed, 222 insertions(+), 21 deletions(-)<br>
 <br>
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass<br>
-index ba50fcac20..cb22dc6998 100644<br>
---- a/meta/classes/npm.bbclass<br>
-+++ b/meta/classes/npm.bbclass<br>
-@@ -1,7 +1,12 @@<br>
-=C2=A0# Copyright (C) 2020 Savoir-Faire Linux<br>
-=C2=A0#<br>
-+# Copyright (C) 2021 Weidm=C3=BCller Interface GmbH &amp; Co. KG<br>
-+# Author: Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsme=
-ier@weidmueller.com" target=3D"_blank">stefan.herbrechtsmeier@weidmueller.c=
-om</a>&gt;<br>
-+#<br>
-=C2=A0# SPDX-License-Identifier: GPL-2.0-only<br>
-=C2=A0#<br>
-+# A bbclass to install an npm package and build its dependencies.<br>
-+#<br>
-=C2=A0# This bbclass builds and installs an npm package to the target. The =
-package<br>
-=C2=A0# sources files should be fetched in the calling recipe by using the =
-SRC_URI<br>
-=C2=A0# variable. The ${S} variable should be updated depending of your fet=
-cher.<br>
-@@ -16,18 +21,29 @@<br>
-=C2=A0#<br>
-=C2=A0#=C2=A0 NPM_INSTALL_DEV:<br>
-=C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0Set to 1 to also install devDependencies.=
+diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/=
+create_npm.py<br>
+index 3394a89970..296b84340e 100644<br>
+--- a/scripts/lib/recipetool/create_npm.py<br>
++++ b/scripts/lib/recipetool/create_npm.py<br>
+@@ -39,6 +39,14 @@ class NpmRecipeHandler(RecipeHandler):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name =3D name.strip(&quot;-&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return name<br>
 <br>
-+#<br>
-+#=C2=A0 NPM_BUILD_PRUNE_FOR_PRODUCTION<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0Set to 0 to keep installed devDependencies.<br=
->
-<br>
-=C2=A0inherit python3native<br>
-<br>
-=C2=A0DEPENDS:prepend =3D &quot;nodejs-native &quot;<br>
--RDEPENDS:${PN}:append:class-target =3D &quot; nodejs&quot;<br>
-+NPM_RDEPENDS =3D &quot;nodejs&quot;<br>
-+RDEPENDS:${PN}:append:class-target =3D &quot; ${NPM_RDEPENDS}&quot;<br>
-<br>
--EXTRA_OENPM =3D &quot;&quot;<br>
-+EXTRA_OENPM ?=3D &quot;&quot;<br>
-+EXTRA_OENPM_BUILD ?=3D &quot;&quot;<br>
-<br>
-=C2=A0NPM_INSTALL_DEV ?=3D &quot;0&quot;<br>
-<br>
-=C2=A0NPM_NODEDIR ?=3D &quot;${RECIPE_SYSROOT_NATIVE}${prefix_native}&quot;=
-<br>
-<br>
-+def npm_flag_dev(value):<br>
-+=C2=A0 =C2=A0 if bb.utils.to_boolean(value, False):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;--also=3Ddevelopment&quot;<br>
-+=C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;--only=3Dproduction&quot;<br>
++=C2=A0 =C2=A0 @staticmethod<br>
++=C2=A0 =C2=A0 def _node_recipe_name(name):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Generate a OE friendly Node.=
+js recipe name&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D NpmRecipeHandler._npm_name(name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not name.startswith(&quot;node-&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D &quot;node-&quot; + nam=
+e<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return name<br>
 +<br>
-=C2=A0def npm_target_arch_map(target_arch):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Maps arch names to npm arch names&quo=
-t;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0import re<br>
-@@ -43,247 +59,124 @@ def npm_target_arch_map(target_arch):<br>
+=C2=A0 =C2=A0 =C2=A0@staticmethod<br>
+=C2=A0 =C2=A0 =C2=A0def _get_registry(lines):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Get the registry value =
+from the &#39;npm://registry&#39; url&quot;&quot;&quot;<br>
+@@ -54,6 +62,24 @@ class NpmRecipeHandler(RecipeHandler):<br>
 <br>
-=C2=A0NPM_ARCH ?=3D &quot;${@npm_target_arch_map(d.getVar(&quot;TARGET_ARCH=
-&quot;))}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return registry<br>
 <br>
--NPM_PACKAGE =3D &quot;${WORKDIR}/npm-package&quot;<br>
-=C2=A0NPM_CACHE =3D &quot;${WORKDIR}/npm-cache&quot;<br>
--NPM_BUILD =3D &quot;${WORKDIR}/npm-build&quot;<br>
--<br>
--def npm_global_configs(d):<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;Get the npm global configuration&quot;&quo=
-t;&quot;<br>
--=C2=A0 =C2=A0 configs =3D []<br>
--=C2=A0 =C2=A0 # Ensure no network access is done<br>
--=C2=A0 =C2=A0 configs.append((&quot;offline&quot;, &quot;true&quot;))<br>
--=C2=A0 =C2=A0 configs.append((&quot;proxy&quot;, &quot;<a href=3D"http://i=
-nvalid" rel=3D"noreferrer" target=3D"_blank">http://invalid</a>&quot;))<br>
--=C2=A0 =C2=A0 # Configure the cache directory<br>
--=C2=A0 =C2=A0 configs.append((&quot;cache&quot;, d.getVar(&quot;NPM_CACHE&=
-quot;)))<br>
--=C2=A0 =C2=A0 return configs<br>
--<br>
--def npm_pack(env, srcdir, workdir):<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;Run &#39;npm pack&#39; on a specified dire=
-ctory&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 import shlex<br>
--=C2=A0 =C2=A0 cmd =3D &quot;npm pack %s&quot; % shlex.quote(srcdir)<br>
--=C2=A0 =C2=A0 args =3D [(&quot;ignore-scripts&quot;, &quot;true&quot;)]<br=
->
--=C2=A0 =C2=A0 tarball =3D env.run(cmd, args=3Dargs, workdir=3Dworkdir).str=
-ip(&quot;\n&quot;)<br>
--=C2=A0 =C2=A0 return os.path.join(workdir, tarball)<br>
--<br>
--python npm_do_configure() {<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 Step one: configure the npm cache and the main npm package<b=
-r>
--<br>
--=C2=A0 =C2=A0 Every dependencies have been fetched and patched in the sour=
-ce directory.<br>
--=C2=A0 =C2=A0 They have to be packed (this remove unneeded files) and adde=
-d to the npm<br>
--=C2=A0 =C2=A0 cache to be available for the next step.<br>
--<br>
--=C2=A0 =C2=A0 The main package and its associated manifest file and shrink=
-wrap file have<br>
--=C2=A0 =C2=A0 to be configured to take into account these cached dependenc=
-ies.<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 import base64<br>
--=C2=A0 =C2=A0 import copy<br>
--=C2=A0 =C2=A0 import json<br>
--=C2=A0 =C2=A0 import re<br>
--=C2=A0 =C2=A0 import shlex<br>
--=C2=A0 =C2=A0 import tempfile<br>
--=C2=A0 =C2=A0 from bb.fetch2.npm import NpmEnvironment<br>
--=C2=A0 =C2=A0 from bb.fetch2.npm import npm_unpack<br>
--=C2=A0 =C2=A0 from bb.fetch2.npmsw import foreach_dependencies<br>
--=C2=A0 =C2=A0 from bb.progress import OutOfProgressHandler<br>
--<br>
--=C2=A0 =C2=A0 bb.utils.remove(d.getVar(&quot;NPM_CACHE&quot;), recurse=3DT=
-rue)<br>
--=C2=A0 =C2=A0 bb.utils.remove(d.getVar(&quot;NPM_PACKAGE&quot;), recurse=
-=3DTrue)<br>
--<br>
--=C2=A0 =C2=A0 env =3D NpmEnvironment(d, configs=3Dnpm_global_configs(d))<b=
-r>
--<br>
--=C2=A0 =C2=A0 def _npm_cache_add(tarball):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Run &#39;npm cache add&#39; =
-for a specified tarball&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;npm cache add %s&quot; % shlex.q=
-uote(tarball)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 env.run(cmd)<br>
--<br>
--=C2=A0 =C2=A0 def _npm_integrity(tarball):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Return the npm integrity of =
-a specified tarball&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 sha512 =3D bb.utils.sha512_file(tarball)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;sha512-&quot; + base64.b64encode(=
-bytes.fromhex(sha512)).decode()<br>
--<br>
--=C2=A0 =C2=A0 def _npm_version(tarball):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Return the version of a spec=
-ified tarball&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 regex =3D r&quot;-(\d+\.\d+\.\d+(-.*)?(\+.*)?)=
-\.tgz&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return re.search(regex, tarball).group(1)<br>
--<br>
--=C2=A0 =C2=A0 def _npmsw_dependency_dict(orig, deptree):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 Return the sub dictionary in the &#39;orig&#39=
-; dictionary corresponding to the<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;deptree&#39; dependency tree. This functi=
-on follows the shrinkwrap file<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 format.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr =3D orig<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for dep in deptree:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;dependencies&quot; not =
-in ptr:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr[&quot;dependen=
-cies&quot;] =3D {}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr =3D ptr[&quot;dependencies&q=
-uot;]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if dep not in ptr:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr[dep] =3D {}<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr =3D ptr[dep]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ptr<br>
--<br>
--=C2=A0 =C2=A0 # Manage the manifest file and shrinkwrap files<br>
--=C2=A0 =C2=A0 orig_manifest_file =3D d.expand(&quot;${S}/package.json&quot=
-;)<br>
--=C2=A0 =C2=A0 orig_shrinkwrap_file =3D d.expand(&quot;${S}/npm-shrinkwrap.=
-json&quot;)<br>
--=C2=A0 =C2=A0 cached_manifest_file =3D d.expand(&quot;${NPM_PACKAGE}/packa=
-ge.json&quot;)<br>
--=C2=A0 =C2=A0 cached_shrinkwrap_file =3D d.expand(&quot;${NPM_PACKAGE}/npm=
--shrinkwrap.json&quot;)<br>
--<br>
--=C2=A0 =C2=A0 with open(orig_manifest_file, &quot;r&quot;) as f:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 orig_manifest =3D json.load(f)<br>
--<br>
--=C2=A0 =C2=A0 cached_manifest =3D copy.deepcopy(orig_manifest)<br>
--=C2=A0 =C2=A0 cached_manifest.pop(&quot;dependencies&quot;, None)<br>
--=C2=A0 =C2=A0 cached_manifest.pop(&quot;devDependencies&quot;, None)<br>
--<br>
--=C2=A0 =C2=A0 has_shrinkwrap_file =3D True<br>
--<br>
--=C2=A0 =C2=A0 try:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(orig_shrinkwrap_file, &quot;r&quot;)=
- as f:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 orig_shrinkwrap =3D json.load(f)=
-<br>
--=C2=A0 =C2=A0 except IOError:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 has_shrinkwrap_file =3D False<br>
--<br>
--=C2=A0 =C2=A0 if has_shrinkwrap_file:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0cached_shrinkwrap =3D copy.deepcopy(orig_shrink=
-wrap)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0cached_shrinkwrap.pop(&quot;dependencies&quot;,=
- None)<br>
--<br>
--=C2=A0 =C2=A0 # Manage the dependencies<br>
--=C2=A0 =C2=A0 progress =3D OutOfProgressHandler(d, r&quot;^(\d+)/(\d+)$&qu=
-ot;)<br>
--=C2=A0 =C2=A0 progress_total =3D 1 # also count the main package<br>
--=C2=A0 =C2=A0 progress_done =3D 0<br>
--<br>
--=C2=A0 =C2=A0 def _count_dependency(name, params, deptree):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 nonlocal progress_total<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 progress_total +=3D 1<br>
--<br>
--=C2=A0 =C2=A0 def _cache_dependency(name, params, deptree):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 destsubdirs =3D [os.path.join(&quot;node_modul=
-es&quot;, dep) for dep in deptree]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 destsuffix =3D os.path.join(*destsubdirs)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 with tempfile.TemporaryDirectory() as tmpdir:<=
++=C2=A0 =C2=A0 @staticmethod<br>
++=C2=A0 =C2=A0 def _get_srcdir(lines):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Get the source directory val=
+ue from the url&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcdir =3D &quot;&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def _handle_srcdir(varname, origvalue, op, new=
+lines):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nonlocal srcdir<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if origvalue.startswith(&quot;${=
+WORKDIR}&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcdir =3D origval=
+ue[11:]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcdir =3D &quot;$=
+{BP}&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return origvalue, None, 0, True<=
 br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the dependency to the npm =
-cache<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 destdir =3D os.path.join(d.getVa=
-r(&quot;S&quot;), destsuffix)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tarball =3D npm_pack(env, destdi=
-r, tmpdir)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _npm_cache_add(tarball)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add its signature to the cache=
-d shrinkwrap<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dep =3D _npmsw_dependency_dict(c=
-ached_shrinkwrap, deptree)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dep[&quot;version&quot;] =3D _np=
-m_version(tarball)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dep[&quot;integrity&quot;] =3D _=
-npm_integrity(tarball)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if params.get(&quot;dev&quot;, F=
-alse):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dep[&quot;dev&quot=
-;] =3D True<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Display progress<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nonlocal progress_done<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 progress_done +=3D 1<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 progress.write(&quot;%d/%d&quot;=
- % (progress_done, progress_total))<br>
--<br>
--=C2=A0 =C2=A0 dev =3D bb.utils.to_boolean(d.getVar(&quot;NPM_INSTALL_DEV&q=
-uot;), False)<br>
--<br>
--=C2=A0 =C2=A0 if has_shrinkwrap_file:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 foreach_dependencies(orig_shrinkwrap, _count_d=
-ependency, dev)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 foreach_dependencies(orig_shrinkwrap, _cache_d=
-ependency, dev)<br>
--<br>
--=C2=A0 =C2=A0 # Configure the main package<br>
--=C2=A0 =C2=A0 with tempfile.TemporaryDirectory() as tmpdir:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tarball =3D npm_pack(env, d.getVar(&quot;S&quo=
-t;), tmpdir)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 npm_unpack(tarball, d.getVar(&quot;NPM_PACKAGE=
-&quot;), d)<br>
--<br>
--=C2=A0 =C2=A0 # Configure the cached manifest file and cached shrinkwrap f=
-ile<br>
--=C2=A0 =C2=A0 def _update_manifest(depkey):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for name in orig_manifest.get(depkey, {}):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 version =3D cached_shrinkwrap[&q=
-uot;dependencies&quot;][name][&quot;version&quot;]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if depkey not in cached_manifest=
-:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cached_manifest[de=
-pkey] =3D {}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cached_manifest[depkey][name] =
-=3D version<br>
--<br>
--=C2=A0 =C2=A0 if has_shrinkwrap_file:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 _update_manifest(&quot;dependencies&quot;)<br>
--<br>
--=C2=A0 =C2=A0 if dev:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if has_shrinkwrap_file:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _update_manifest(&quot;devDepend=
-encies&quot;)<br>
--<br>
--=C2=A0 =C2=A0 with open(cached_manifest_file, &quot;w&quot;) as f:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 json.dump(cached_manifest, f, indent=3D2)<br>
--<br>
--=C2=A0 =C2=A0 if has_shrinkwrap_file:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(cached_shrinkwrap_file, &quot;w&quot=
-;) as f:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 json.dump(cached_shrinkwrap, f, =
-indent=3D2)<br>
--}<br>
--<br>
--python npm_do_compile() {<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 Step two: install the npm package<br>
-<br>
--=C2=A0 =C2=A0 Use the configured main package and the cached dependencies =
-to run the<br>
--=C2=A0 =C2=A0 installation process. The installation is done in a director=
-y which is<br>
--=C2=A0 =C2=A0 not the destination directory yet.<br>
-+NPM_PRUNE_FOR_PRODUCTION ?=3D &quot;1&quot;<br>
-<br>
--=C2=A0 =C2=A0 A combination of &#39;npm pack&#39; and &#39;npm install&#39=
-; is used to ensure that the<br>
--=C2=A0 =C2=A0 installed files are actual copies instead of symbolic links =
-(which is the<br>
--=C2=A0 =C2=A0 default npm behavior).<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 import shlex<br>
--=C2=A0 =C2=A0 import tempfile<br>
--=C2=A0 =C2=A0 from bb.fetch2.npm import NpmEnvironment<br>
-+B =3D &quot;${WORKDIR}/build&quot;<br>
-<br>
--=C2=A0 =C2=A0 bb.utils.remove(d.getVar(&quot;NPM_BUILD&quot;), recurse=3DT=
-rue)<br>
-+NPM_SOURCEPATH ?=3D &quot;${S}&quot;<br>
-<br>
--=C2=A0 =C2=A0 with tempfile.TemporaryDirectory() as tmpdir:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 args =3D []<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs =3D npm_global_configs(d)<br>
-+export NPM_CONFIG_GLOBALCONFIG =3D &quot;${WORKDIR}/npmrc&quot;<br>
-+export NPM_CONFIG_USERCONFIG =3D &quot;/dev/null&quot;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.utils.to_boolean(d.getVar(&quot;NPM_INST=
-ALL_DEV&quot;), False):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;also&quot;=
-, &quot;development&quot;))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;only&quot;=
-, &quot;production&quot;))<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Report as many logs as possible for debuggin=
-g purpose<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;loglevel&quot;, &quot;si=
-lly&quot;))<br>
-+oe_runnpm_plain() {<br>
-+=C2=A0 =C2=A0 HOME=3D${B}/root npm &quot;$@&quot;<br>
-+}<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Configure the installation to be done global=
-ly in the build directory<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;global&quot;, &quot;true=
-&quot;))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;prefix&quot;, d.getVar(&=
-quot;NPM_BUILD&quot;)))<br>
-+oe_runnpm() {<br>
-+=C2=A0 =C2=A0 bbnote npm &quot;$@&quot;<br>
-+=C2=A0 =C2=A0 oe_runnpm_plain &quot;$@&quot;<br>
-+}<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add node-gyp configuration<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;arch&quot;, d.getVar(&qu=
-ot;NPM_ARCH&quot;)))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;release&quot;, &quot;tru=
-e&quot;))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;nodedir&quot;, d.getVar(=
-&quot;NPM_NODEDIR&quot;)))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 configs.append((&quot;python&quot;, d.getVar(&=
-quot;PYTHON&quot;)))<br>
-+oe_runnpm_pack() {<br>
-+=C2=A0 =C2=A0 oe_runnpm_plain pack --ignore-scripts --loglevel=3Dwarn &quo=
-t;$@&quot;<br>
-+}<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 env =3D NpmEnvironment(d, configs)<br>
-+oe_runnpm_rebuild() {<br>
-+=C2=A0 =C2=A0 arch=3D$1<br>
-+=C2=A0 =C2=A0 shift<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add node-pre-gyp configuration<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append((&quot;target_arch&quot;, d.getVar=
-(&quot;NPM_ARCH&quot;)))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append((&quot;build-from-source&quot;, &q=
-uot;true&quot;))<br>
-+=C2=A0 =C2=A0 # Create symlinks for package executables<br>
-+=C2=A0 =C2=A0 # because rebuild doesn&#39;t respect the dependency tree<br=
->
-+=C2=A0 =C2=A0 oe_runnpm rebuild --ignore-scripts<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Pack and install the main package<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tarball =3D npm_pack(env, d.getVar(&quot;NPM_P=
-ACKAGE&quot;), tmpdir)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;npm install %s %s&quot; % (shlex=
-.quote(tarball), d.getVar(&quot;EXTRA_OENPM&quot;))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 env.run(cmd, args=3Dargs)<br>
-+=C2=A0 =C2=A0 # Rebuild dependencies<br>
-+=C2=A0 =C2=A0 oe_runnpm rebuild \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 --arch=3D${arch} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 --target_arch=3D${arch} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 --build-from-source \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;$@&quot;<br>
-=C2=A0}<br>
-<br>
--npm_do_install() {<br>
--=C2=A0 =C2=A0 # Step three: final install<br>
--=C2=A0 =C2=A0 #<br>
--=C2=A0 =C2=A0 # The previous installation have to be filtered to remove so=
-me extra files.<br>
-+do_generate_npmrc() {<br>
-+=C2=A0 =C2=A0 cat &gt; ${NPM_CONFIG_GLOBALCONFIG} &lt;&lt;EOF<br>
-+cache=3D${NPM_CACHE}<br>
-+loglevel=3Dsilly<br>
-+offline=3Dtrue<br>
-+package-lock=3Dfalse<br>
-+proxy=3D<a href=3D"http://invalid" rel=3D"noreferrer" target=3D"_blank">ht=
-tp://invalid</a><br>
-+; node-gyp<br>
-+arch=3D${NPM_ARCH}<br>
-+nodedir=3D${NPM_NODEDIR}<br>
-+python=3D${PYTHON}<br>
-+release=3Dtrue<br>
-+EOF<br>
-+}<br>
-+do_generate_npmrc[vardeps] +=3D &quot;NPM_ARCH NPM_CACHE NPM_CONFIG_GLOBAL=
-CONFIG NPM_NODEDIR PYTHON&quot;<br>
-+addtask generate_npmrc after do_patch before do_populate_cache<br>
-<br>
--=C2=A0 =C2=A0 rm -rf ${D}<br>
-+npm_do_configure() {<br>
-+=C2=A0 =C2=A0 :<br>
-+}<br>
-<br>
--=C2=A0 =C2=A0 # Copy the entire lib and bin directories<br>
--=C2=A0 =C2=A0 install -d ${D}/${nonarch_libdir}<br>
--=C2=A0 =C2=A0 cp --no-preserve=3Downership --recursive ${NPM_BUILD}/lib/. =
-${D}/${nonarch_libdir}<br>
-+npm_do_compile() {<br>
-+=C2=A0 =C2=A0 # Create a tarball from main npm package<br>
-+=C2=A0 =C2=A0 # to respect ignore files and files property of package.json=
-<br>
-+=C2=A0 =C2=A0 cd ${B}/pkg<br>
-+=C2=A0 =C2=A0 tarball=3D$(oe_runnpm_pack ${NPM_SOURCEPATH})<br>
-+=C2=A0 =C2=A0 [ -n &quot;${tarball}&quot; ] || exit 1<br>
 +<br>
-+=C2=A0 =C2=A0 # Unpack main npm package<br>
-+=C2=A0 =C2=A0 mkdir ${B}/lib/node_modules/${BPN}/<br>
-+=C2=A0 =C2=A0 tar -xzf ${B}/pkg/$tarball --no-same-owner \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 --strip-components=3D1 -C ${B}/lib/node_module=
-s/${BPN}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.edit_metadata(lines, [&quot;S&quot;],=
+ _handle_srcdir)<br>
 +<br>
-+=C2=A0 =C2=A0 # Copy npm dependencies from sources<br>
-+=C2=A0 =C2=A0 if [ -d ${S}/node_modules ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy sources without preserve mode and owner=
-ship<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to prevent ugly file permissions<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir ${B}/lib/node_modules/${BPN}/node_module=
-s<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a --no-preserve=3Dmode,ownership \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${S}/node_modules/. ${B}/lib/nod=
-e_modules/${BPN}/node_modules/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return srcdir<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Prune dependencies for production<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${NPM_INSTALL_DEV}&quot; =3D &quot;=
-1&quot; -a &quot;${NPM_PRUNE_FOR_PRODUCTION}&quot; =3D &quot;1&quot; ] ; th=
-en<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runnpm prune --only=3Dproduct=
-ion<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Rebuild dependencies inside node_modules fol=
-der<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to create bin links in .bin folder<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${B}/lib/node_modules<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runnpm_rebuild ${NPM_ARCH} ${EXTRA_OENPM}<b=
-r>
-+=C2=A0 =C2=A0 fi<br>
-+}<br>
-+do_compile[cleandirs] =3D &quot;${B}/lib/node_modules ${B}/pkg&quot;<br>
+=C2=A0 =C2=A0 =C2=A0@staticmethod<br>
+=C2=A0 =C2=A0 =C2=A0def _ensure_npm():<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Check if the &#39;npm&#=
+39; command is available in the recipes&quot;&quot;&quot;<br>
+@@ -116,6 +142,118 @@ class NpmRecipeHandler(RecipeHandler):<br>
 <br>
--=C2=A0 =C2=A0 if [ -d &quot;${NPM_BUILD}/bin&quot; ]<br>
--=C2=A0 =C2=A0 then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}/${bindir}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp --no-preserve=3Downership --recursive ${NPM=
-_BUILD}/bin/. ${D}/${bindir}<br>
-+npm_do_install() {<br>
-+=C2=A0 =C2=A0 # Copy the entire main node_modules directory<br>
-+=C2=A0 =C2=A0 install -d ${D}${nonarch_libdir}<br>
-+=C2=A0 =C2=A0 cp -a --no-preserve=3Downership ${B}/lib/node_modules \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${D}${nonarch_libdir}/<br>
-+<br>
-+=C2=A0 =C2=A0 # Create symlinks for package executables<br>
-+=C2=A0 =C2=A0 if [ -d ${D}${nonarch_libdir}/node_modules/.bin ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${bindir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for f in ${D}${nonarch_libdir}/node_modules/.b=
-in/*; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name=3D&quot;$(basename $f)&quot=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 link=3D&quot;$(readlink $f)&quot=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target=3D&quot;$(realpath -m --r=
-elative-to ${D}${bindir} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${D}${nonarch_libd=
-ir}/node_modules/.bin/$link)&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -s &quot;$target&quot; &quot;=
-${D}${bindir}/$name&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf ${D}${nonarch_libdir}/node_modules/.bin=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return os.path.join(srctree, &quot;npm-sh=
+rinkwrap.json&quot;)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0fi<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# If the package (or its dependencies) uses node-gyp to=
- build native addons,<br>
-=C2=A0 =C2=A0 =C2=A0# object files, static libraries or other temporary fil=
-es can be hidden in<br>
-=C2=A0 =C2=A0 =C2=A0# the lib directory. To reduce the package size and to =
-avoid QA issues<br>
-=C2=A0 =C2=A0 =C2=A0# (staticdev with static library files) these files mus=
-t be removed.<br>
--=C2=A0 =C2=A0 local GYP_REGEX=3D&quot;.*/build/Release/[^/]*.node&quot;<br=
->
-+=C2=A0 =C2=A0 local GYP_REGEX=3D&quot;.*/build.*/Release/[^/]*.node&quot;<=
++=C2=A0 =C2=A0 def _process_shrinkwrap(self, srctree, shrinkwrap, srcdir):<=
 br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Extract package urls from shrink=
+wrap dependencies<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 urls =3D []<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def _populate_modules(name, params, deptree):<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from bb.fetch2 import URI<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from bb.fetch2.npm import npm_in=
+tegrity<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from bb.fetch2.npm import npm_lo=
+calfile<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 destsubdirs =3D [os.path.join(&q=
+uot;node_modules&quot;, dep) for dep in deptree]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 destsuffix =3D os.path.join(srcd=
+ir, *destsubdirs)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev =3D params.get(&quot;dev&quo=
+t;, False)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 integrity =3D params.get(&quot;i=
+ntegrity&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 resolved =3D params.get(&quot;re=
+solved&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 version =3D params.get(&quot;ver=
+sion&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 requires =3D params.get(&quot;re=
+quires&quot;, {})<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Handle registry sources<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.utils.is_semver(version) a=
+nd integrity:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Skip dependencie=
+s without url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not resolved:<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgv =3D version<b=
+r>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri =3D URI(resolv=
+ed)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;d=
+ownloadfilename&quot;] =3D npm_localfile(name, version)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksum_name, che=
+cksum_expected =3D npm_integrity(integrity)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[checksu=
+m_name] =3D checksum_expected<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;s=
+ubdir&quot;] =3D destsuffix<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;s=
+triplevel&quot;] =3D &quot;1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url =3D str(uri)<b=
+r>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Handle http tarball sources<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif version.startswith(&quot;ht=
+tp&quot;) and integrity:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksum_name, che=
+cksum_expected =3D npm_integrity(integrity)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgv =3D checksum_=
+expected[:13]<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri =3D URI(versio=
+n)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;d=
+ownloadfilename&quot;] =3D npm_localfile(name, pkgv)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[checksu=
+m_name] =3D checksum_expected<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;d=
+estsuffix&quot;] =3D destsuffix<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;s=
+triplevel&quot;] =3D &quot;1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url =3D str(uri)<b=
+r>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Handle git sources<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif version.startswith(&quot;gi=
+t&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if version.startsw=
+ith(&quot;github:&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vers=
+ion =3D &quot;git+<a href=3D"https://github.com/" rel=3D"noreferrer" target=
+=3D"_blank">https://github.com/</a>&quot; + version[len(&quot;github:&quot;=
+):]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 regex =3D re.compi=
+le(r&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git\=
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (?P&=
+lt;protocol&gt;[a-z]+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ://<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (?P&=
+lt;url&gt;[^#]+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \#<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (?P&=
+lt;rev&gt;[0-9a-f]+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quo=
+t;&quot;&quot;, re.VERBOSE)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 match =3D regex.ma=
+tch(version)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not match:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rais=
+e Exception(&quot;Invalid git url: %s - %s&quot; % (version, url))<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 groups =3D match.g=
+roupdict()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgv =3D str(group=
+s[&quot;rev&quot;])[:10]<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri =3D URI(&quot;=
+git://&quot; + str(groups[&quot;url&quot;]))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;d=
+estsuffix&quot;] =3D destsuffix<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;n=
+obranch&quot;] =3D &quot;1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;p=
+rotocol&quot;] =3D str(groups[&quot;protocol&quot;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uri.params[&quot;r=
+ev&quot;] =3D str(groups[&quot;rev&quot;])<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url =3D str(uri)<b=
+r>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise Exception(&q=
+uot;Unsupported dependency: %s - %s&quot; % (name, version))<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Set package version in shrinkw=
+rap for dependency resolution<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 params[&quot;pkgv&quot;] =3D pkg=
+v<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 urls.append(url)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def _foreach_shrinkwrap_dependency(shrinkwrap,=
+ callback):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def _walk_dependencies(deps, dep=
+tree):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for name in deps:<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subt=
+ree =3D [*deptree, name]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _wal=
+k_dependencies(deps[name].get(&quot;dependencies&quot;, {}), subtree)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if d=
+eps[name].get(&quot;bundled&quot;, False):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 continue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 call=
+back(name, deps[name], subtree)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _walk_dependencies(shrinkwrap.ge=
+t(&quot;dependencies&quot;, {}), [])<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 _foreach_shrinkwrap_dependency(shrinkwrap, _po=
+pulate_modules)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return urls<br>
++<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0def _handle_licenses(self, srctree, shrinkwrap_file, de=
+v):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Return the extra licens=
+e files and the list of packages&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0licfiles =3D []<br>
+@@ -173,7 +311,7 @@ class NpmRecipeHandler(RecipeHandler):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &quot;name&quot; not in data or &quot;=
+version&quot; not in data:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return False<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0# Remove any node-gyp directory in ${D} to remove tempo=
-rary build files<br>
-=C2=A0 =C2=A0 =C2=A0for GYP_D_FILE in $(find ${D} -regex &quot;${GYP_REGEX}=
-&quot;)<br>
-@@ -294,9 +187,9 @@ npm_do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0done<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&quot;PN&quot;] =3D self._npm_name=
+(data[&quot;name&quot;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&quot;PN&quot;] =3D self._node_rec=
+ipe_name(data[&quot;name&quot;])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extravalues[&quot;PV&quot;] =3D data[&quo=
+t;version&quot;]<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0# Copy only the node-gyp release files<br>
--=C2=A0 =C2=A0 for GYP_B_FILE in $(find ${NPM_BUILD} -regex &quot;${GYP_REG=
-EX}&quot;)<br>
-+=C2=A0 =C2=A0 for GYP_B_FILE in $(find ${B}/pkg -regex &quot;${GYP_REGEX}&=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &quot;description&quot; in data:<br>
+@@ -184,6 +322,24 @@ class NpmRecipeHandler(RecipeHandler):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev =3D bb.utils.to_boolean(str(extravalu=
+es.get(&quot;NPM_INSTALL_DEV&quot;, &quot;0&quot;)), False)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0registry =3D self._get_registry(lines_bef=
+ore)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcdir =3D self._get_srcdir(lines_before)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Replace reserved directories<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if srcdir =3D=3D &quot;package&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcdir =3D &quot;npm&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def _handle_srcuri(varname, orig=
+value, op, newlines):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;=
+Update the version value&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D &quot;%=
+s;subdir=3D%s;striplevel=3D1&quot; % (origvalue, srcdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return values, Non=
+e, 4, False<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (_, newlines) =3D bb.utils.edit_=
+metadata(lines_before, [&quot;SRC_URI&quot;], _handle_srcuri)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lines_before[:] =3D [line.rstrip=
+(&#39;\n&#39;) for line in newlines]<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def _handle_srcdir(varname, orig=
+value, op, newlines):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D &quot;${=
+WORKDIR}/%s&quot; % (srcdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return value, None=
+, 0, True<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (_, newlines) =3D bb.utils.edit_=
+metadata(lines_before, [&quot;S&quot;], _handle_srcdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lines_before[:] =3D [line.rstrip=
+(&#39;\n&#39;) for line in newlines]<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(&quot;Checking if npm is availabl=
+e ...&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# The native npm is used here (and not th=
+e host one) to ensure that the<br>
+@@ -223,37 +379,65 @@ class NpmRecipeHandler(RecipeHandler):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.exists(lock_copy):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.movefile(lock_copy=
+, lock_file)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the shrinkwrap file as &#39;extrafiles&#=
+39;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 shrinkwrap_copy =3D shrinkwrap_file + &quot;.c=
+opy&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.copyfile(shrinkwrap_file, shrinkwrap_=
+copy)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues.setdefault(&quot;extrafiles&quot;,=
+ {})<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&quot;extrafiles&quot;][&quot;npm-=
+shrinkwrap.json&quot;] =3D shrinkwrap_copy<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 url_local =3D &quot;npmsw://%s&quot; % shrinkw=
+rap_file<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 url_recipe=3D &quot;npmsw://${THISDIR}/${BPN}/=
+npm-shrinkwrap.json&quot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if dev:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url_local +=3D &quot;;dev=3D1&qu=
+ot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 url_recipe +=3D &quot;;dev=3D1&q=
+uot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the npmsw url in the SRC_URI of the gene=
+rated recipe<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0def _handle_srcuri(varname, origvalue, op=
+, newlines):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Update the ver=
+sion value and add the &#39;npmsw://&#39; url&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Update the ver=
+sion value&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D origvalue.replace=
+(&quot;version=3D&quot; + data[&quot;version&quot;], &quot;version=3D${PV}&=
 quot;)<br>
-=C2=A0 =C2=A0 =C2=A0do<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 local GYP_D_FILE=3D${D}/${prefix}/${GYP_B_FILE=
-#${NPM_BUILD}}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 local GYP_D_FILE=3D${D}/${prefix}/${GYP_B_FILE=
-#${B}/pkg}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D value.replace(&qu=
+ot;version=3Dlatest&quot;, &quot;version=3D${PV}&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0values =3D [line.strip() fo=
+r line in value.strip(&#39;\n&#39;).splitlines()]<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;dependencies&quot; in s=
+hrinkwrap:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values.append(url_=
+recipe)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return values, None, 4, Fal=
+se<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${GYP_D_FILE%/*}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 755 ${GYP_B_FILE} ${GYP_D_FILE=
-}<br>
-@@ -310,6 +203,7 @@ npm_do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0# using /usr/lib/node_modules as install directory. Let=
-&#39;s make both happy.<br>
-=C2=A0 =C2=A0 =C2=A0ln -fs node_modules ${D}/${nonarch_libdir}/node<br>
-=C2=A0}<br>
-+do_install[cleandirs] =3D &quot;${D}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(_, newlines) =3D bb.utils.edit_metadata(=
+lines_before, [&quot;SRC_URI&quot;], _handle_srcuri)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lines_before[:] =3D [line.rstrip(&#39;\n&=
+#39;) for line in newlines]<br>
 <br>
-=C2=A0FILES:${PN} +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${bindir} \<br>
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard=
-.py<br>
-index 01fb5ad96f..10dc2b1373 100644<br>
---- a/scripts/lib/devtool/standard.py<br>
-+++ b/scripts/lib/devtool/standard.py<br>
-@@ -260,10 +260,8 @@ def add(args, config, basepath, workspace):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(&#39;=
-}\n&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 urls =3D self._process_shrinkwrap(srctree, shr=
+inkwrap, srcdir)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the package urls in the SRC_URI of the g=
+enerated recipe<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def _handle_srcuri(varname, origvalue, op, new=
+lines):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Add the packag=
+e urls and git SRCREVs&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Handle SRCREVs<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if varname =3D=3D &quot;SRCREV&q=
+uot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newlines.append(&#=
+39;SRCREV_FORMAT =3D &quot;main&quot;&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newlines.append(&#=
+39;SRCREV_main =3D &quot;%s&quot;&#39; % origvalue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Handle urls<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif varname =3D=3D &quot;SRC_UR=
+I&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D [line.s=
+trip() for line in origvalue.split()]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D [&quot;=
+%s;name=3Dmain&quot; % (v) if v.startswith((&quot;git&quot;, &quot;http&quo=
+t;)) else v for v in values]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values.extend(sort=
+ed(urls))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Handle hashes<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newvarname =3D var=
+name.replace(&quot;[&quot;, &quot;[main.&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newlines.append(&#=
+39;%s =3D &quot;%s&quot;&#39; % (newvarname, origvalue))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return values, None, 4, False<br=
+>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (_, newlines) =3D bb.utils.edit_metadata(lines=
+_before, [&quot;SRC_URI&quot;, &quot;SRCREV&quot;, &quot;SRC_URI\[\w*\]&quo=
+t;], _handle_srcuri)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lines_before[:] =3D [line.rstrip(&#39;\n&#39;)=
+ for line in newlines]<br>
++<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the package urls in the SRC_URI of the g=
+enerated recipe<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def _handle_sums(varname, origvalue, op, newli=
+nes):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Add the packag=
+e urls and git SRCREVs&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if varname =3D=3D &quot;SRC_URI[=
+md5sum]&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add the urls<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D [line.s=
+trip() for line in origvalue.split()]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values =3D [v + &q=
+uot;;name=3Dmain&quot; if v.startswith(&quot;git&quot;, &quot;http&quot;) e=
+lse v for v in values]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 values.extend(sort=
+ed(urls))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add git SRCREVs<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newlines.append(&#=
+39;SRCREV_FORMAT =3D &quot;main&quot;&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newlines.append(&#=
+39;SRCREV_main =3D &quot;%s&quot;&#39; % origvalue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return values, None, 4, False<br=
+>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (_, newlines) =3D bb.utils.edit_metadata(lines=
+_before, [&quot;SRC_URI[md5sum]&quot;, &quot;SRCREV&quot; ], _handle_sums)<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lines_before[:] =3D [line.rstrip(&#39;\n&#39;)=
+ for line in newlines]<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# In order to generate correct licence ch=
+ecksums in the recipe the<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # dependencies have to be fetched again using =
+the npmsw url<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # dependencies have to be fetched agai=C2=A0 n=
+ using the urls<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(&quot;Fetching npm dependencies .=
+..&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(os.path.join(srctree, &qu=
+ot;node_modules&quot;), recurse=3DTrue)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fetcher =3D bb.fetch2.Fetch([url_local], d)<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcurls =3D [url.replace(&quot;=3D%s/node_modu=
+les&quot; % srcdir, &quot;=3Dnode_modules&quot;) for url in urls]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fetcher =3D bb.fetch2.Fetch(srcurls, d)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fetcher.download()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fetcher.unpack(srctree)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if bb.data.inherits_class(&=
-#39;npm&#39;, rd):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;pytho=
-n do_configure:append() {\n&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;=C2=
-=A0 =C2=A0 pkgdir =3D d.getVar(&quot;NPM_PACKAGE&quot;)\n&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;=C2=
-=A0 =C2=A0 lockfile =3D os.path.join(pkgdir, &quot;singletask.lock&quot;)\n=
-&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;=C2=
-=A0 =C2=A0 bb.utils.remove(lockfile)\n&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;do_co=
-nfigure:append() {\n&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&#39;=C2=
-=A0 =C2=A0 rm -f ${NPM_PACKAGE}/singletask.lock\n&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(&#39;=
-}\n&#39;)<br>
+@@ -289,7 +473,24 @@ class NpmRecipeHandler(RecipeHandler):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(licenses, extravalues[&quot;LIC_FILES_CH=
+KSUM&quot;]) =3D _guess_odd_license(licfiles)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0split_pkg_licenses([*licenses, *guess_lic=
+ense(srctree, d)], packages, lines_after)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Check if the new layer provides recipes=
- whose priorities have been<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 classes.append(&quot;npm&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add suitable npm class<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if dev:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 scripts =3D data.get(&quot;scrip=
+ts&quot;, {})<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if scripts.get(&quot;build&quot;=
+):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deps =3D data.get(=
+&quot;devDependencies&quot;, {})<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if deps.get(&quot;=
+@angular/cli&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clas=
+ses.append(&quot;angular&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif deps.get(&quo=
+t;karma&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clas=
+ses.append(&quot;karma&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif scripts.get(&=
+quot;test&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clas=
+ses.append(&quot;npm_test&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clas=
+ses.append(&quot;npm_build&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 classes.append(&qu=
+ot;npm&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 classes.append(&quot;npm&quot;)<=
+br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0handled.append(&quot;buildsystem&quot;)<b=
+r>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return True<br>
 -- <br>
 2.20.1<br>
 <br>
 </blockquote></div>
 
---0000000000003b9fea05d18a85ab--
+--0000000000009dd75a05d18a8a6b--
 
