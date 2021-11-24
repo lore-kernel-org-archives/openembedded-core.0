@@ -2,63 +2,63 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CA4C433FE
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:43 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web09.3985.1637788482667224116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B058C433F5
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:45 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web08.4104.1637788483891013590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:42 -0800
+ Wed, 24 Nov 2021 13:14:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dlNB/rjt;
- spf=pass (domain: gmail.com, ip: 209.85.160.175,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pewCN82S;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id l8so4097511qtk.6
+Received: by mail-qv1-f44.google.com with SMTP id b11so2637471qvm.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:42 -0800 (PST)
+ Wed, 24 Nov 2021 13:14:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mi1kd4Hj8cW0da2BXQMsMpngYD8JgUlCRAUgvHiBTag=;
-        b=dlNB/rjt1FDWvzPkhgNASD6a0u6OYYn7vHpATAq1xD1xXeEczIGO8g07yePjkzc06U
-         ZBLpTBCfBADd8jd4AWgrmNxtQtIGNZrp4m2DognBuDN65h5ghnnCJPjd0YTgl0HQ3bkX
-         tBdsVtZZRcgMWAdHPV8OvhU6ylbfN2UicwyGAdx33Wv2qVs3osFCChSXCRsiNHSc47hw
-         g+DpTPYk55qLjQCqkGgCjdSPK7RqIKMEvJOfzqi1WNZ5XIfkAdRy/iOIEUKd6ke6A/nV
-         ZcX4PABMLbY9UX3V/YcDLTywRW5uyCDu+LMX2cSwqYReiswCviPLFJ1TF5JfOAZHbhW+
-         iBFg==
+        bh=0zdksnoLdN/i6O8oAc3ixunrj+mE9eLx4d5N1Hnazss=;
+        b=pewCN82SMpv+ZE5Cfr/gKKuMl2hJqsFiLwx7c53CUtBkxv01Ekxdk+Bb9Re363AWa/
+         +iagos0Fq9QBk23cUSchpWYHa9F2hete/5CXbEJIdAowRNUfzWKZikYrzzxBpCUCVmF9
+         FpdodVwdFaIX8Bu9hJHNnZuMiFhpRRVARo0sIQ0h4dxMmjKs8YdajE4zGO1ZbkERaDrd
+         bD6YPP/YKLC4tmgTYCXmVVRMvypKh6SGrwZtNtiDvQORBiC6j/djk/F9vLA83qedJjx+
+         HMIBsKgTt9wrxyd/gy2OxsyboRKuNwrPSr4RTkJQ17On/SEtLOLUqKjYVyJ7g5VjsXPI
+         UKww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mi1kd4Hj8cW0da2BXQMsMpngYD8JgUlCRAUgvHiBTag=;
-        b=mUV8O68kVrpWnv2FBkIPtyUx9XmzLoF3ZrDE8FRXOi990pJvZRVNpumzUr4j+7G4oX
-         XkA8wlsSo8o2GuW6wZrSUUQIean8VnAh7EajHhJpkV3IGsJPi9HLZaeYgfc3lQvMxjZp
-         olCSGPDwZizpMRAr/eRWvHCVSEnzWljmTeHh2hbyZ0M7l99x+R6AATPAFJp4Jdfvs/hs
-         +lzFjoA51B/X44ZxLH6lLz/NPSW6gXo8R5qm/K5jhCDcoipD81FO0YNlUNW5HM8h/Pv3
-         xm1KsyyY5H6wYaCi9dB3OiRegvrC0/uMyplQAyBh0ig+v2OHMyf+gJv8Uha0EOXuDL2b
-         myVA==
-X-Gm-Message-State: AOAM532froc8IiIMv8eKrD6og04k6dIAF/fDVYb0bgNqL6thOK2AOGMg
-	C+Zfk8Zb1m9yY+kuBwPNkIY=
+        bh=0zdksnoLdN/i6O8oAc3ixunrj+mE9eLx4d5N1Hnazss=;
+        b=Goq+BHuUR8m0OKLtrVovrof3frDUhc5gKRBU/Y11hxVdK/Vdo3pDAypXa0T4h+JOiN
+         AVSkp3pxdyhKbJtAwqQF0NY8/wBhn4nylr1pPGfkyBqVWC/LrD2v1dl8mb7osetNMONh
+         793JjPeqJeGvkpYQG4YBbIYyx8z89ZOebDeFhT+p4ctZY8+FvcHFzLqMqLQbHnfs5EZA
+         PV1NRBXwujOJyA3J8Slhfs3ZVCkg9CJfxn98ZkTInrUDsU5cMSJjBDs+sYbjHlAEgv5V
+         slhbWGEZwFq2zXjKIYR/5BDTOWNXV3m5MNs64/dhlLn8whRKFsfW6lBpA6KyvkTfL6m9
+         DsZQ==
+X-Gm-Message-State: AOAM531tnw3P+2f8tn+jLDW24Y2o+iXQl40qYAEpwDr+QJ5yW1b8GsSz
+	MWBjJ0yU7s+Y6CJr+1FCM68=
 X-Google-Smtp-Source: 
- ABdhPJwZylzWwY1yS2d7RSllUQxh/U3tek8i+wYfCsSFRe/MsJ7cB9MrEJjnnvbcddz/aDZIui/twQ==
-X-Received: by 2002:ac8:5a8e:: with SMTP id
- c14mr11281605qtc.332.1637788481793;
-        Wed, 24 Nov 2021 13:14:41 -0800 (PST)
+ ABdhPJw3fHUbpCjmuw8UMeQIUMZTHy0TO+EuaQJmRV3VvyE9/iKTp0HMDLcn/7S4fJHCbvdshunE/w==
+X-Received: by 2002:a05:6214:f2e:: with SMTP id
+ iw14mr11463609qvb.21.1637788483061;
+        Wed, 24 Nov 2021 13:14:43 -0800 (PST)
 Received: from build.lan
  (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.40
+        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 13:14:41 -0800 (PST)
+        Wed, 24 Nov 2021 13:14:42 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org,
 	TicoTimo@gmail.com,
 	trevor.gamblin@windriver.com
-Subject: [PATCH 13/20] python: import strict-rfc3339 from meta-python
-Date: Wed, 24 Nov 2021 16:14:19 -0500
+Subject: [PATCH 14/20] python: import vcversioner from meta-python
+Date: Wed, 24 Nov 2021 16:14:20 -0500
 Message-Id: 
- <f5b6b191e450a0b001bfe2575ceaa8e0044d2b3a.1637788184.git.bruce.ashfield@gmail.com>
+ <1aa6edf45acb6db033375faf91620896af8998fb.1637788184.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1637788184.git.bruce.ashfield@gmail.com>
 References: <cover.1637788184.git.bruce.ashfield@gmail.com>
@@ -67,37 +67,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158759
+ https://lists.openembedded.org/g/openembedded-core/message/158760
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-strict-rfc3339 is a dependency of jsonschema, which is being
-imported to support kernel device tree valiation.
+vcversioner is a dependency of jsonschema, which is being
+imported to support kernel device tree validation.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../python/python3-strict-rfc3339_0.7.bb               | 10 ++++++++++
- 1 file changed, 10 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
+ .../python/python3-vcversioner_2.16.0.0.bb           | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb b/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
+diff --git a/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb b/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
 new file mode 100644
-index 0000000000..52ae9ebe9a
+index 0000000000..149078c51b
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
-@@ -0,0 +1,10 @@
-+SUMMARY = "Strict, simple, lightweight RFC3339 function.s"
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8f0e2cd40e05189ec81232da84bd6e1a"
++++ b/meta/recipes-devtools/python/python3-vcversioner_2.16.0.0.bb
+@@ -0,0 +1,12 @@
++SUMMARY = "Python vcversioner, automagically update the project's version"
++HOMEPAGE = "https://github.com/habnabit/vcversioner"
 +
-+SRC_URI[md5sum] = "4d9b635b4df885bc37bc1189d66c9abc"
-+SRC_URI[sha256sum] = "5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277"
++LICENSE = "ISC"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=827a7a91a8d20d3c666b665cd96db8e3"
++
++SRC_URI[md5sum] = "aab6ef5e0cf8614a1b1140ed5b7f107d"
++SRC_URI[sha256sum] = "dae60c17a479781f44a4010701833f1829140b1eeccd258762a74974aa06e19b"
 +
 +inherit pypi setuptools3
 +
-+BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND = "native"
 -- 
 2.19.1
 
