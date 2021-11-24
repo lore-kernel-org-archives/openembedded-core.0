@@ -2,62 +2,63 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF8BC433F5
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:39 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web11.3995.1637788478265881915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D0CC433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:40 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web08.4103.1637788479400044496
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:38 -0800
+ Wed, 24 Nov 2021 13:14:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AztnpRnU;
- spf=pass (domain: gmail.com, ip: 209.85.219.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Icf3F4H5;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id m17so2642091qvx.8
+Received: by mail-qk1-f180.google.com with SMTP id i9so5056380qki.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:38 -0800 (PST)
+ Wed, 24 Nov 2021 13:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FOZUTeR8iOz1V/p6thOneGoDqj1RkoXU+Ln3qFaWdq8=;
-        b=AztnpRnUQjaOWoa+0xNvCU+3dIngqEG/O7HAiiKDymMpwJ6w9BLjZdyiJ5Po/7rLYB
-         15hL0IpPSnAWyU8KWOh8ggyZ659W/tD5j4WYsO1f3N6fV4CFjp8gW7vRcbF8OTPitFbC
-         e+FRi0W8X07ezSICPDdMwdPlQFDJxp/cMdRFWH68xo3FGddaYw4Naps3f+U2jNprSW5c
-         XzzLMfCPUNyqfSTGVmcmGK8IywPzsnTOfNwqP27vjMdUQUuivFFgU5ke0aHvPbFYK1oH
-         Wm84NEPK6L7S6zLEDo3nPGo+dtGgcokQeI4amH0KyN1lD+pCVCOeP/QJM7xfT4QL2wAq
-         x0VA==
+        bh=BLeoqB4zQJ3QixWfKR334c+JwfTFTsMlhNv+teIFZbY=;
+        b=Icf3F4H5CDA/mUcKAf8K7Gyr5/tNCu6qidmUNZpmJehVt11E8G0edpS+Yq6O5vMUlm
+         nfeyfl/23JVCyBf0PpF4ucZzMu6dXdWI889QhTLEhaaTGjOsPfIqISe3ZQ6ne0HqkyGz
+         3ncZE/V28MYddrsbA7C09S3opwPJZQR9cM9T2tqAdAWcBHw3z85cXYMV0GbBtPNfyceM
+         YoUI5Y5hfiNaylJxXQTy4mfGNbRBE5UEkhc9ESVAEagPBp18H/GdivcROJZi9j6gKV4x
+         iql19rF7z3vcC/dfaiBYhgdG4yrh/wrvwy6eHJ5uF05dBso0cTjRqANWUjmjuF7vM4Hy
+         1XEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FOZUTeR8iOz1V/p6thOneGoDqj1RkoXU+Ln3qFaWdq8=;
-        b=Tm9FAwmd6kinr2l1+X5rn+3d3MCD3A021EF9YLKLcSxyq4ojtLcD6IC+CLyX8J59Zr
-         9ruKqbEE5I0DDnC3YIevIOyVJ9ZB6hQfgx2fKfbBjJrHBU70BQU96eYi9nnK56jytrPc
-         +k6tNF67GGNgxzMJvBO4LFf9KFnOsUsjNWK49TJjKVnlF/c7UzL7G5mj73An3fqy7vXS
-         S9l0SQ/nejWE0u6M2YE5UUSjOG1YUmsZliyA4hK0Wa4d0V0XF0sSahRGDQuTs6NGqiJL
-         crF+dU5tD3vH0EUD6AiA1WasFMUhTh0DEU5ThiHB+kzzRND7pLMZJ11n+4tA6zoRJBhi
-         NzUw==
-X-Gm-Message-State: AOAM533BcmOatzOq++B5VgPmTiP9CRX4wjC8lmxUPCjCaylFGYOvoZDI
-	e/NUHZlOxY/oEXq/ael5/nM=
+        bh=BLeoqB4zQJ3QixWfKR334c+JwfTFTsMlhNv+teIFZbY=;
+        b=KI43oBOJqSl0lHxpzYMZ0m9dzjbjtn/DJGkenDpkUC9aNl0VsJQW0q6gyaXAvGK6d+
+         4+J82/0PoWOvYA6iMOPUT1vjVyyTCQOYztJuke++S+oxY1o8oG63CrnB7z64wC+9u6d2
+         cyc9zddG/G2qGPCkJZeo+cHZNfr9BaFhdEquNZfMbHADt5UVBbEuLVYvXkyJJemICLGA
+         NiYP3uHtqi4XdOGgx8nKtCru9cGglDqrJDtQ3VgziLZ0gpMvgh7hNiChpAM5UuzqAwNt
+         gTSFq6XE9d1JiUWmj5XjoWoG1f73Z4elbcNmv2YaNy445Dv6ALn5rzu6jsWS7f/Deaiy
+         zhqw==
+X-Gm-Message-State: AOAM531JVfoiDDJ3WuYOWRgzLJxKnj2wGPwDYlVUqEbZJFsgt2eL9h12
+	G699wo+QayUkKO5oWOqzIag=
 X-Google-Smtp-Source: 
- ABdhPJywtCNlCPt7bwJoBEu1E2vNQZoeb5XbDjs/12CeiOunBxRmC8jPlXve4dP2dAug0vEpIhrDGg==
-X-Received: by 2002:ad4:5b8f:: with SMTP id 15mr11588372qvp.60.1637788477406;
-        Wed, 24 Nov 2021 13:14:37 -0800 (PST)
+ ABdhPJxezojH0EljBrsnL1rqrRbrpfRIfGf7I3J1JYCSiL4dMOZd3lDwWQ8AlGw59V6Y9GZCK7B6SQ==
+X-Received: by 2002:a05:620a:1a8d:: with SMTP id
+ bl13mr9334709qkb.200.1637788478561;
+        Wed, 24 Nov 2021 13:14:38 -0800 (PST)
 Received: from build.lan
  (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.36
+        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 13:14:37 -0800 (PST)
+        Wed, 24 Nov 2021 13:14:38 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org,
 	TicoTimo@gmail.com,
 	trevor.gamblin@windriver.com
-Subject: [PATCH 09/20] python: import webcolors from meta-python
-Date: Wed, 24 Nov 2021 16:14:15 -0500
+Subject: [PATCH 10/20] python: import ruamel-yaml from meta-python
+Date: Wed, 24 Nov 2021 16:14:16 -0500
 Message-Id: 
- <d340e4c4e7ce495785acf852bb106e5ac57fb1ed.1637788184.git.bruce.ashfield@gmail.com>
+ <aec89781f1b37469ca09bba2de1ac334991da8ba.1637788184.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1637788184.git.bruce.ashfield@gmail.com>
 References: <cover.1637788184.git.bruce.ashfield@gmail.com>
@@ -66,63 +67,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158755
+ https://lists.openembedded.org/g/openembedded-core/message/158756
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Importing webcolors, which is a dependency of
-python3-jsonschema. These packges are required to support
-the validation of kernel device trees.
+Importing ruamel-yaml from meta-python. This package is a
+dependency of python3-dtschema, which is required to validate
+kernel devicetrees.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../python/python3-webcolors/run-ptest        |  3 +++
- .../python/python3-webcolors_1.11.1.bb        | 27 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-webcolors/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
+ .../python/python3-ruamel-yaml_0.17.16.bb     | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
 
-diff --git a/meta/recipes-devtools/python/python3-webcolors/run-ptest b/meta/recipes-devtools/python/python3-webcolors/run-ptest
+diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
 new file mode 100644
-index 0000000000..3385d68939
+index 0000000000..e64f196004
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-webcolors/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
++++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
+@@ -0,0 +1,23 @@
++SUMMARY = "YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order."
++AUTHOR = "Anthon van der Neut"
 +
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb b/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
-new file mode 100644
-index 0000000000..2ec036ef35
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "Simple Python module for working with HTML/CSS color definitions."
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=25b90379a52351261c51272e7923d240"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fa0a51dfb461e2f803969e0f3fa71dfe"
 +
-+SRC_URI[md5sum] = "54d28a7c80b3e4d974ec2fee86768be9"
-+SRC_URI[sha256sum] = "76f360636957d1c976db7466bc71dcb713bb95ac8911944dffc55c01cb516de6"
++PYPI_PACKAGE = "ruamel.yaml"
 +
-+inherit pypi setuptools3 ptest
++inherit pypi setuptools3
 +
-+RDEPENDS:${PN}:class-target = "\
-+    ${PYTHON_PN}-stringold \
++SRC_URI[sha256sum] = "1a771fc92d3823682b7f0893ad56cb5a5c87c48e62b5399d6f42c8759a583b33"
++
++RDEPENDS:${PN} += "\
++    ${PYTHON_PN}-shell \
++    ${PYTHON_PN}-datetime \
++    ${PYTHON_PN}-netclient \
 +"
 +
-+SRC_URI += " \
-+    file://run-ptest \
-+"
-+
-+RDEPENDS:${PN}-ptest += " \
-+    ${PYTHON_PN}-pytest \
-+"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++do_install:prepend() {
++    export RUAMEL_NO_PIP_INSTALL_CHECK=1
 +}
 +
 +BBCLASSEXTEND = "native nativesdk"
