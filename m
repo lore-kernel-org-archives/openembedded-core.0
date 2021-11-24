@@ -1,109 +1,200 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jasper@fancydomain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95953C433F5
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 17:54:39 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web12.1476.1637776478237909834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDADC433FE
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 18:36:18 +0000 (UTC)
+Received: from mx.walter.deinstapel.de (mx.walter.deinstapel.de
+ [116.202.209.171])
+ by mx.groups.io with SMTP id smtpd.web11.2045.1637778974904531336
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 09:54:38 -0800
+ Wed, 24 Nov 2021 10:36:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GfAOaqdy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so2772948wme.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 09:54:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=LkNBMnp9uk5Yrgxr7c9u5q3L+2Kh+VHtrL1NabYFnn0=;
-        b=GfAOaqdy4J59AHAgdWI5qr3pl+OZrA0Or9uon2OID6+zpKra9Fc8J9k1nUZxjDnKAX
-         3NUiBjVmqGK6gQonrdtelMOHER17ba88tyP0EVMDsnZp93G70rE/E3h6WeNy1/wk373x
-         Vsodwr8kF0tKjVTrqJTd7RZRvdduqTyRUoEvI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=LkNBMnp9uk5Yrgxr7c9u5q3L+2Kh+VHtrL1NabYFnn0=;
-        b=oBky0Abc+r9JaZieCEtKBWrjqJ7kM6ukesuVWflvnO5L1wYqMo1UWU5UXZi56DDxPr
-         KW1fcH/HOZswZYIXEg+P3JDAFUsOX4RAvAJrboxrWOVtpsUf/WSKZMPFQ/s+IedwEE3A
-         bMzj8AzH2oHTCKBkJAQLY4Rk3ypybS6Vu51HWZ0rHmXz7OAFZg+eOJbJ9A7J5zHoKWUF
-         6RtRsH5smEMBxHI62NW7lXqayjnq55tgKgyDY09rqaVsMrFY+68lrMfZkjs48k11GmNQ
-         dCCZntfy864t0eJMNWHIvRy2Ij+An0hqSXEp7sM+8I/b92qwK5r4sODU8iOeCW8ObJdW
-         EB5A==
-X-Gm-Message-State: AOAM533QTar0/sYaokKEwDq8dMZ57miYSlmuybWSD+DYEYX2eM+9iQxY
-	civg846fSD1xzuoz08aMg+qxKg==
-X-Google-Smtp-Source: 
- ABdhPJw/cSemYePS48yBEL1uOacTUe4MgjmpaktB0tCEB+Yi7AqyLcuIAxxPe2/dpgzW9DGYIZwmHg==
-X-Received: by 2002:a7b:c85a:: with SMTP id c26mr17805423wml.23.1637776476460;
-        Wed, 24 Nov 2021 09:54:36 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:246e:77cb:e23:80f?
- ([2001:8b0:aba:5f3c:246e:77cb:e23:80f])
-        by smtp.gmail.com with ESMTPSA id j8sm460487wrh.16.2021.11.24.09.54.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 09:54:36 -0800 (PST)
-Message-ID: 
- <d0866a4fc26fd15318cb4cda7718178dd73b45a0.camel@linuxfoundation.org>
-Subject: Re: [RFC PATCH 05/15] bitbake: fetch2: Support archives with
- missing search directory mode
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Jasper Orschulko
- <Jasper.Orschulko@iris-sensing.com>, Konrad Weihmann
- <kweihmann@outlook.com>,  Martin Koppehel <martin@mko.dev>, Stefan
- Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Date: Wed, 24 Nov 2021 17:54:33 +0000
-In-Reply-To: <c71903c8-0a6f-cb07-58fc-cc262bcc527f@weidmueller.com>
-References: 
-	<20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-	 <20211124144739.2250-6-stefan.herbrechtsmeier-oss@weidmueller.com>
-	 <CANNYZj9JQqkh3zf9a4zCbsbAWktP4K6YpFmb8fHhrn+47Eqtsw@mail.gmail.com>
-	 <c71903c8-0a6f-cb07-58fc-cc262bcc527f@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ dkim=fail reason="no key for verify" header.i=@fancydomain.eu header.s=mail
+ header.b=RwYyR1bw;
+ spf=pass (domain: fancydomain.eu, ip: 116.202.209.171,
+ mailfrom: jasper@fancydomain.eu)
+From: jasper@fancydomain.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fancydomain.eu;
+	s=mail; t=1637778971;
+	bh=qpkqVaCjshWLBXDniX50fPs9G0QI5Hrmcxe+OpwCgr0=;
+	h=From:To:Cc:Subject;
+	b=RwYyR1bwXM+Ayzy/9eNl3eoJlwK+yJtlse2J5OlffhdP4Sit8IBuzcbGQm6aslwxu
+	 nUx2zSBWgnusCAEaqbaOBpu5BqiH4k6z28gQkhe5CTkaV/0RM3Hm/WDg5PfqclxJmY
+	 QzlIVSvYPAT2PeMHWrAFxjZAXi5e6QxxAHc5GWJdwR+IIOnr9TyFKwFjNKF/ZRcu2v
+	 saNmFOHTgR21NfV9A4Sjhg2Hhcrft61d0R0imTF3oubz+9CgkVfhTZSyZGkg8e7dxf
+	 vWOYTuMO3dQVnvdQ6S8RMNTEHNw+bzoVuXNQhWVMEluXYtrwtLOjbNOi+7A27DR5io
+	 6rKztw5i7GU9A==
+To: openembedded-core@lists.openembedded.org
+Cc: martin@mko.dev,
+	Daniel.Baumgart@iris-sensing.net,
+	bitbake-devel@lists.openembedded.org,
+	Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+Subject: [eo-core][PATCH v6 1/2] repo: Add recipe for 2.17.3
+Date: Wed, 24 Nov 2021 19:35:39 +0100
+Message-Id: <20211124183540.39312-1-jasper@fancydomain.eu>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 17:54:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 18:36:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158734
+ https://lists.openembedded.org/g/openembedded-core/message/158735
 
-On Wed, 2021-11-24 at 18:11 +0100, Stefan Herbrechtsmeier wrote:
-> Am 24.11.2021 um 16:17 schrieb Alexander Kanavin:
-> > Is it the missing x bit on directories? 
-> 
-> Yes.
-> 
-> https://registry.npmjs.org/protoc/-/protoc-1.0.4.tgz
-> 
-> 
-> > If you've encountered this, then 
-> > where did it happen,
-> 
-> cp: cannot stat 
-> '.../git/ui/./node_modules/protoc/scripts/postinstall.js': Permission denied
-> 
-> > and shouldn't the tarball be fixed instead?
-> 
-> How should we fix a tarball from npmjs.com?
-> 
-> 
-> Is such an influencing change acceptable or should I move the change to 
-> the npm class?
+From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
 
-We don't want to support that in the general case, that needs to be in the npm
-class.
+Add a recipe for repo 2.17.3, prerequisite for the repo fetcher.
 
-Cheers,
+Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../0001-Set-REPO_REV-to-v2.17.3.patch        | 35 +++++++++++++++++++
+ .../repo/repo/0001-python3-shebang.patch      | 26 ++++++++++++++
+ meta/recipes-devtools/repo/repo_2.17.3.bb     | 28 +++++++++++++++
+ 4 files changed, 90 insertions(+)
+ create mode 100644 meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_=
+REV-to-v2.17.3.patch
+ create mode 100644 meta/recipes-devtools/repo/repo/0001-python3-shebang.=
+patch
+ create mode 100644 meta/recipes-devtools/repo/repo_2.17.3.bb
 
-Richard
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index f3e0a75d56..58a0a9615f 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -652,6 +652,7 @@ RECIPE_MAINTAINER:pn-quilt-native =3D "Robert Yang <l=
+iezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-quota =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-re2c =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-readline =3D "Hongxu Jia <hongxu.jia@windriver.com>=
+"
++RECIPE_MAINTAINER:pn-repo =3D "Jasper Orschulko <Jasper.Orschulko@iris-s=
+ensing.com>"
+ RECIPE_MAINTAINER:pn-resolvconf =3D "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-rgb =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-rpcbind =3D "Hongxu Jia <hongxu.jia@windriver.com>"
+diff --git a/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-=
+v2.17.3.patch b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-=
+to-v2.17.3.patch
+new file mode 100644
+index 0000000000..285b1d3129
+--- /dev/null
++++ b/meta/recipes-devtools/repo/repo-2.17.3/0001-Set-REPO_REV-to-v2.17.3=
+.patch
+@@ -0,0 +1,35 @@
++From bdd2a528da59c28db8ae2986834926de7cebf3ab Mon Sep 17 00:00:00 2001
++From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++Date: Thu, 4 Nov 2021 16:55:12 +0100
++Subject: [PATCH] Set REPO_REV to v2.17.3
++
++repo is an unusual tool because it downloads all of its own Python modul=
+es
++using GPG-signed git tags, and stores those files as part of the project
++that it is working with.
++
++So in order to have a reproducible repo installation within the project
++folders, we hardcode the default REPO_REV to a SHA1 that corresponds to
++the version of the recipe. REPO_REV can still be overwriten by the user,
++by specifying the REPO_REV environment variable.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++---
++ repo | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/repo b/repo
++index b13e34c..31130e9 100755
++--- a/repo
+++++ b/repo
++@@ -130,7 +130,7 @@ if not REPO_URL:
++   REPO_URL =3D 'https://gerrit.googlesource.com/git-repo'
++ REPO_REV =3D os.environ.get('REPO_REV')
++ if not REPO_REV:
++-  REPO_REV =3D 'stable'
+++  REPO_REV =3D '11b30b91df1f0e03b53da970ec2588e85817bacc'
++=20
++ # increment this whenever we make important changes to this script
++ VERSION =3D (2, 8)
++--=20
++2.33.1
+diff --git a/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch b=
+/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+new file mode 100644
+index 0000000000..d3888c8bb2
+--- /dev/null
++++ b/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+@@ -0,0 +1,26 @@
++From b8e84b202cd302a7c99288d3835dc9c63071f8f2 Mon Sep 17 00:00:00 2001
++From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++Date: Tue, 14 Sep 2021 16:46:51 +0200
++Subject: [PATCH] python3 shebang
++
++Yocto does not symlink from python to python3, thus change the shebang f=
+rom
++python to python3.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++---
++ repo | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/repo b/repo
++index b13e34c..205e0e5 100755
++--- a/repo
+++++ b/repo
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding:utf-8 -*-
++ #
++ # Copyright (C) 2008 The Android Open Source Project
++--
++2.33.0
+diff --git a/meta/recipes-devtools/repo/repo_2.17.3.bb b/meta/recipes-dev=
+tools/repo/repo_2.17.3.bb
+new file mode 100644
+index 0000000000..f7bbb22964
+--- /dev/null
++++ b/meta/recipes-devtools/repo/repo_2.17.3.bb
+@@ -0,0 +1,28 @@
++# SPDX-License-Identifier: MIT
++# Copyright (C) 2021 iris-GmbH infrared & intelligent sensors
++
++SUMMARY =3D "Tool for managing many Git repositories"
++DESCRIPTION =3D "Repo is a tool built on top of Git. Repo helps manage m=
+any Git repositories, does the uploads to revision control systems, and a=
+utomates parts of the development workflow."
++HOMEPAGE =3D "https://android.googlesource.com/tools/repo"
++SECTION =3D "console/utils"
++
++LICENSE =3D "Apache-2.0"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
+d57"
++
++SRC_URI =3D "git://gerrit.googlesource.com/git-repo.git;protocol=3Dhttps=
+;branch=3Dmain"
++SRCREV =3D "11b30b91df1f0e03b53da970ec2588e85817bacc"
++
++SRC_URI +=3D "file://0001-python3-shebang.patch \
++            file://0001-Set-REPO_REV-to-v2.17.3.patch"
++
++MIRRORS +=3D "git://gerrit.googlesource.com/git-repo.git git://github.co=
+m/GerritCodeReview/git-repo.git"
++
++S =3D "${WORKDIR}/git"
++
++do_install() {
++	install -D ${WORKDIR}/git/repo ${D}${bindir}/repo
++}
++
++RDEPENDS:${PN} =3D "python3 git"
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.0
 
 
