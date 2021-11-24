@@ -1,237 +1,139 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF1DC4332F
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:49 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web08.3354.1637741328071347182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C37EDC433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:10:09 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.92.90.23])
+ by mx.groups.io with SMTP id smtpd.web08.3368.1637741405215232022
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:48 -0800
+ Wed, 24 Nov 2021 00:10:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GIdG8ptq;
- spf=pass (domain: gmail.com, ip: 209.85.128.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id
- ay10-20020a05600c1e0a00b0033aa12cdd33so3503564wmb.1
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=F1apHK8eKLoS1Dwp/I8bjKBr8qKV045vUdlZcUmnzaw=;
-        b=GIdG8ptqrOsxiBQ0hCBAOKzm0ABBdbmECcKKjcw7yAbYCOdZcqt2FJGqjiDuwt068E
-         Yp1NYK2Dkb7jrHQb42G2kjKfYA3ho0LJRVFeBQ5TPQ0QYpkOg/Xymd5J5LJSOHmPGlXr
-         UeJX0zBuClPT7nXCaq6XFsuLLdRo+iy6JeBXuu9n5FvhHkcmgG3SFJxBnlmnH6Wt0wKo
-         FTbIBQdJdCERnl14U8aGvDyDzLzanqTJ8KxrzCHRhgX8y3jnkpPyNUlk/Q6bUAFdntU8
-         pLAFB2rWtWwGtKA1WC/tDNixIpyeKZqwg/BZWd4NncPhhkj7PoxUPxSawnVvrlivfL8K
-         ZKyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F1apHK8eKLoS1Dwp/I8bjKBr8qKV045vUdlZcUmnzaw=;
-        b=MT+qjCSQEZsH9RgZ+FfG6XoVqlhhz5cOgFkgi2Vg33K7jAXYhfzJXzbz2KxXJu/YwF
-         RFry2XU6ZHYNMlZO/44SIFLjYvE0kq3C2x7kMLlgRumjjCg7nDsOzna4NPNtzI99Zc0I
-         hsP6ggxLwDp6MDQU00VvqJLUOqGQHxOD8dR4w6oyGIjI8QJnuHc3YpTrOa3Ss6mbjzVa
-         WboLkCG8xFbFvknzF5FkwJeyynkCDOeUqcF1mSa4xfic2Ssj3xgqwefpU57O3i16zRDb
-         9o7liRK3szxVDt3gGijqm5IscGhnpauaIryVi82wrLhXMfaiaUm48TbaYpa/Wn24EtQP
-         rKhw==
-X-Gm-Message-State: AOAM531Mv4UpcKIZEqCRv7Z2K3TtzcEN/7D7G8/rOtU1lGBjSaxMqjFL
-	R2vYjZlUMGKwNt9UOLG0xpfwDku4YKovJw==
-X-Google-Smtp-Source: 
- ABdhPJwjLHHuMJ/kSS0u2v9wKRQA8WchVh6K1ydQdzfu+hQuBxb7pR1eX1nec0G+l6aKhEqxRZdfnQ==
-X-Received: by 2002:a7b:cbd8:: with SMTP id
- n24mr12318884wmi.150.1637741326560;
-        Wed, 24 Nov 2021 00:08:46 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- k37sm4220205wms.21.2021.11.24.00.08.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 00:08:46 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Hongxu Jia <hongxu.jia@windriver.com>,
-	Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 19/21] bind: update 9.16.22 -> 9.16.23
-Date: Wed, 24 Nov 2021 09:08:26 +0100
-Message-Id: <20211124080828.530981-19-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211124080828.530981-1-alex@linutronix.de>
-References: <20211124080828.530981-1-alex@linutronix.de>
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=vKUnkRC4;
+ spf=pass (domain: outlook.com, ip: 40.92.90.23,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FDsjGoDQNjs53j5kBfc7dcXmB6EyVgLUAeEdTPALfEEsYrhJxy6Q1DEQ/49jAlDjPLQzJFKSrNfYOZqfgGbFUQrodMnokg2hm3wXx+tjCXzVCIi+Z6ZSwBBlHbKg/z0z/KSleQUXC3HFZ7ZCwmxJcVWB7ctjvi/ifjBelTblnuihYNs2Ze+nTCaPklYeKz3Gzd031S4ISl5G2FB45brTLg9AEd5haxbMhNA+AjNepNFJBhEjf/WqB3j2oWAozgf8gg7/F7klHjzaGwFPRsUy89iccMrsjRPmOOxbHAkOBR2fiFJvats41snRbLW9CX0BOuPl8cyeOda/6YYa0FvrOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GBdNZq1C8pGERWIpdrOwfZOZlBNdhWFdNLpI4Eaqlm8=;
+ b=QUx05yQXVvacUcVcd9qB9Ib9vLjteupjVoRwTsuBSpV69FEjs/kvEdXGkzmW5GvFcnYC0xw9L6V3Z/jMsfnv8Ai5b589v7lYW+4gbgJtPxprFMbRsqAtpGBnrrXKr9rDfoNnITXhWo+SO8rSXuPJvgg59WANZ9tDGHEUFuAid6Ctsf38fbpOYhUnEYCwwpLkPVFuSBjk0D+/9tLVlS6tJLwCHrybaJNw3MAp8oM8PgGd27JIaVlVxkWW+CFGpSg+SLFZSyok/r4J7rbo7BM33ROP9DjohAXZft7JQYX4LlQqCPqNw3Ze3OLMwy5NBFaXxmsN4L7+4BQ19X5gLaqYmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GBdNZq1C8pGERWIpdrOwfZOZlBNdhWFdNLpI4Eaqlm8=;
+ b=vKUnkRC4QUh2fds2BvE6CysihlZDCn6R+1/kWWx8iKGfLKBTlhoha/nmBPk9PO2SPeojfktMxD+gwabuACOkQF0cG0Uw/T6dNBM03JDQ5WEpYQlQKJI1EkFH4wHaDu3b6frM4wb7Hibgm/KgNiKlFLFa8eA1ZQJkYXRCzQSfBhgR3hrg67x4FjI7qHNFUaML5cX6r1pDOjzwzp5oog51JOKzc94zu5q1hOxyqdddq0M+ol8ERFfRGRiPONqHZMeFZgLbMNTsZtscuz4Y5IDMsDHHQHmHXcTz8ZegwyPeZQk1ahyEcq37BNhnLzQacUwcZ5/4bNUC9D47fTny2BY4mg==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM0PR09MB3410.eurprd09.prod.outlook.com (2603:10a6:208:16b::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Wed, 24 Nov
+ 2021 08:10:02 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c6f:9b99:3d00:f710%3]) with mapi id 15.20.4734.020; Wed, 24 Nov 2021
+ 08:10:02 +0000
+Subject: Re: [OE-core] [PATCH v2 1/7] systemd: skip chown when building for
+ nativesdk
+To: Luca Boccassi <luca.boccassi@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@microsoft.com
+References: <20211117123201.111905-1-luca.boccassi@gmail.com>
+ <20211119113429.502652-1-luca.boccassi@gmail.com>
+ <AM9PR09MB4642F4FE2BBA8DF859A98BE1A89F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <b0ab6dd09c793181318adc5cc99127bd936b48e1.camel@gmail.com>
+From: Konrad Weihmann <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB4642AB2A320DD6BEDB0F835AA8619@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Wed, 24 Nov 2021 09:09:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <b0ab6dd09c793181318adc5cc99127bd936b48e1.camel@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TMN: [Ezn3eQCl3HhBOWdrwc23okkZ10hnf3wqOIds+h5K+GOJidsBY8tRJiDIIIuf4tL3]
+X-ClientProxiedBy: AM9P250CA0009.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21c::14) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <34ac48ac-b4f4-99ce-9479-07c23660ea6d@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
+ (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
+ AM9P250CA0009.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:21c::14) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.24 via Frontend
+ Transport; Wed, 24 Nov 2021 08:10:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e0e4e749-4706-47ee-9f6f-08d9af21d0fd
+X-MS-TrafficTypeDiagnostic: AM0PR09MB3410:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ZgFNQav4WBaYqjJnNrgQ6uL/KdRbifHPuLmV/xrzdjap7wXs+Zrd/nw07MKoHmuFDk+hyowyIJD0dPGBeCgb2pmdGMQfcuDiZb8s08v19Ic8P5UMVEViQimlEV0sf7SNpAjGUE94HeDLc9OeuhrHMNtYy0eT1i6m3wkbbhjRpiLuiW2LWXWFgKxw9Bn2p/kYJouVC7MpswxnNxDQS16w/mxMldIpXhhskHJGGOuxMT3WUDv/VfaFIvYMioUL/19Ml3jW5cw6yElfnZn1kKkauJjBaYeCjDkSPmsnSJWi6f6mGaQKhAOcbhRztNoQMhtuMp3+v0v5VzJGFfdLL2KEqUSq6N0SxYkGARVEh1Fq0XzOmzLyDS54KrO73j/SpEwLAV4CvbOnFQ92Chot7l9jxOq1NqO9+7WVK0bK/nNwiqwpoSXKnXoFnvPO6jFWmunyB1Ijq64nEO1j2x+6NZ7+7sOJG+wYpzJG8arCWErvNLP7VTsixIWQi236yWKG4zQfVLu6hPIjbTaBUaup3FJPuyIB/ZRIWv+Co+yZqJhMAzL7ByLPA1nP8MS6/ndPasV+G8x60a+PirD3x+KrcA0eJQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	NCMu/WZ9tjdm+ITtJg9/Fq9gNPq+O5S/lM1rxWDo8B3bCRjzhBZFGfNDpCXyZrWIp2gcw+egXMvYYcl4UBGU+ME3TYsB/z2go1vZUBZIrErRhEOZyBzRWpi/K3i3OMnMKCHNToCfEHmy2knfHfItwDXGJPNGIXwmISSRjwTlJehvT3QIY39dj7UAZiezp+ODkoAyB9PAXq8p41jhPhQFW053qyRgYs0h+t8c0jZyZ4TABbA6irkgdPJWV60HbaPjMvjlnj1UVoYZMvcDKHqAnFpaR+a259MrXR3+4XjRzWdz7Z4K0bIO6wCvMc5V7JzKBeQV8UAlcV5Dy9H5XOSUzZqxv+CO1XTnWdWKIHADseVg1mc2T+UdNW8btHxKiMywhOdSWR5la5hVIlNHVKhhKv6LeWfNLWhVcY8cbGx/jn5hhHftAecCcf0ARfb1qMoDK0ZVc4FcOKgRl50nphT/zGQoHvJSiPCY5ZU1FAZHSgPU3EaKpQdvtIKgt1avaQug+7nSTy/b0bU9jngIFGz/kymmUav41ZjwS1YEPRRs7JiHvKiDtd47WAcEfYBS+36MGoXOXj9Tt2t6b8JLsSA/cjCtrGZEFva36x6sQdnIewGA6Vn4ia5Psmtyq6EVuA5pmryJhg5MclNt9zDWOMm0ZhzSZQ7Xowk1OQHoeSNExaAGRnGYto2V+yYdAGgNxgqQLUBuMxKCkFgkmCte4RHvdhUiWxKYcBpvNvt6t/M3SCrDnhCI+d11/0Fdkuw2t71I5GhxgzgnloUx9QOlmk3Y+w==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ e0e4e749-4706-47ee-9f6f-08d9af21d0fd
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 08:10:02.8363
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB3410
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:49 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:10:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158675
+ https://lists.openembedded.org/g/openembedded-core/message/158678
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...d-V-and-start-log-hide-build-options.patch | 35 ------------------
- ...1-avoid-start-failure-with-bind-user.patch |  0
- ...d-V-and-start-log-hide-build-options.patch | 37 +++++++++++++++++++
- ...ching-for-json-headers-searches-sysr.patch |  0
- .../bind/{bind-9.16.22 => bind-9.16.23}/bind9 |  0
- .../{bind-9.16.22 => bind-9.16.23}/conf.patch |  0
- .../generate-rndc-key.sh                      |  0
- ...t.d-add-support-for-read-only-rootfs.patch |  0
- .../make-etc-initd-bind-stop-work.patch       |  0
- .../named.service                             |  0
- .../bind/{bind_9.16.22.bb => bind_9.16.23.bb} |  2 +-
- 11 files changed, 38 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind-9.16.22/0001-named-lwresd-V-and-start-log-hide-build-options.patch
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/0001-avoid-start-failure-with-bind-user.patch (100%)
- create mode 100644 meta/recipes-connectivity/bind/bind-9.16.23/0001-named-lwresd-V-and-start-log-hide-build-options.patch
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.22 => bind-9.16.23}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.22.bb => bind_9.16.23.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.22/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-deleted file mode 100644
-index 5bcc16c9b2..0000000000
---- a/meta/recipes-connectivity/bind/bind-9.16.22/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From a3af4a405baf5ff582e82aaba392dd9667d94bdc Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Mon, 27 Aug 2018 21:24:20 +0800
--Subject: [PATCH] `named/lwresd -V' and start log hide build options
--
--The build options expose build path directories, so hide them.
--[snip]
--$ named -V
--|built by make with *** (options are hidden)
--[snip]
--
--Upstream-Status: Inappropriate [oe-core specific]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
--Refreshed for 9.16.0
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
-----
-- bin/named/include/named/globals.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--Index: bind-9.16.0/bin/named/include/named/globals.h
--===================================================================
----- bind-9.16.0.orig/bin/named/include/named/globals.h
--+++ bind-9.16.0/bin/named/include/named/globals.h
--@@ -69,7 +69,7 @@ EXTERN const char *named_g_version     I
-- EXTERN const char *named_g_product     INIT(PRODUCT);
-- EXTERN const char *named_g_description INIT(DESCRIPTION);
-- EXTERN const char *named_g_srcid       INIT(SRCID);
---EXTERN const char *named_g_configargs  INIT(CONFIGARGS);
--+EXTERN const char *named_g_configargs  INIT("*** (options are hidden)");
-- EXTERN const char *named_g_builder     INIT(BUILDER);
-- EXTERN in_port_t named_g_port	       INIT(0);
-- EXTERN isc_dscp_t named_g_dscp	       INIT(-1);
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.23/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.23/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.23/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.23/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-new file mode 100644
-index 0000000000..4dc6a5a2ae
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind-9.16.23/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-@@ -0,0 +1,37 @@
-+From f5761bbaf743d291f3e7e859e69ebe61a1718cbf Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Mon, 27 Aug 2018 21:24:20 +0800
-+Subject: [PATCH] `named/lwresd -V' and start log hide build options
-+
-+The build options expose build path directories, so hide them.
-+[snip]
-+$ named -V
-+|built by make with *** (options are hidden)
-+[snip]
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+Refreshed for 9.16.0
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+---
-+ bin/named/include/named/globals.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/bin/named/include/named/globals.h b/bin/named/include/named/globals.h
-+index 0572154..3147e04 100644
-+--- a/bin/named/include/named/globals.h
-++++ b/bin/named/include/named/globals.h
-+@@ -69,7 +69,7 @@ EXTERN const char *named_g_version	  INIT(VERSION);
-+ EXTERN const char *named_g_product	  INIT(PRODUCT);
-+ EXTERN const char *named_g_description	  INIT(DESCRIPTION);
-+ EXTERN const char *named_g_srcid	  INIT(SRCID);
-+-EXTERN const char *named_g_configargs	  INIT(CONFIGARGS);
-++EXTERN const char *named_g_configargs	  INIT("*** (options are hidden)");
-+ EXTERN const char *named_g_builder	  INIT(BUILDER);
-+ EXTERN in_port_t named_g_port		  INIT(0);
-+ EXTERN isc_dscp_t named_g_dscp		  INIT(-1);
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.23/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.23/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/bind9 b/meta/recipes-connectivity/bind/bind-9.16.23/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.23/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.23/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.23/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.23/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.23/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.23/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.23/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.23/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.23/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.22/named.service b/meta/recipes-connectivity/bind/bind-9.16.23/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.22/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.23/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.22.bb b/meta/recipes-connectivity/bind/bind_9.16.23.bb
-similarity index 98%
-rename from meta/recipes-connectivity/bind/bind_9.16.22.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.23.bb
-index bde9a793b0..c1bf250c26 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.22.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.23.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
- 
--SRC_URI[sha256sum] = "65e7b2af6479db346e2fc99bcfb6ec3240066468e09dbec575ebc7c57d994061"
-+SRC_URI[sha256sum] = "dedb5e27aa9cb6a9ce3e872845887ff837b99e4e9a91a5e2fcd67cf6e1ef173c"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
--- 
-2.20.1
 
+On 22.11.21 23:47, Luca Boccassi wrote:
+> On Mon, 2021-11-22 at 14:57 +0100, Konrad Weihmann wrote:
+>> I have sort of a general question regarding this patch series.
+>>
+>> Last time I checked (and yeah it's been a while back) systemd-analyze
+>> wasn't self-containing, meaning it would have to have a running
+>> systemd
+>> process and at least a running dbus iirc.
+>>
+>> Is that still the case?
+> 
+> That was the case only for some verbs - 'verify' does not need a
+> running instance. From v250 (next release) it will also be able to
+> operate on images/root directories.
+> The 'security' verb did need a running instance, but there's a new --
+> offline switch in v250.
+> 
+
+Thanks for the background information.
+I kind of agree with the voices raised in the discussion so far.
+
+As the feature will be available only in a yet to be released version, I 
+would propose to
+
+- wait for the release of systemd 2.50
+- build a native variant of the tools first
+- package only what is really suitable for "offline" use
+- add a nativesdk variant later on
+
+And I think there should be some demo patch to use maybe the analyze 
+part in insane bbclass or so, so we could first of all see the actual 
+benefit of it and even more important can easily track down future 
+regressions.
+
+BTW you said you tested this primary on dunfell, what kind of makes me 
+think how these pieces fit together, as dunfell (likely) will never get 
+the support for the tools mentioned
 
