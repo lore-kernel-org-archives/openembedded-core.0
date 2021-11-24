@@ -1,159 +1,141 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA48C433F5
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 15:18:08 +0000 (UTC)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by mx.groups.io with SMTP id smtpd.web08.56.1637767087884170461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA4AC433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 15:22:43 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web09.113.1637767362126954754
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 07:18:08 -0800
+ Wed, 24 Nov 2021 07:22:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qr3/Tu8w;
- spf=pass (domain: gmail.com, ip: 209.85.222.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f45.google.com with SMTP id a14so5967324uak.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TMwbLalq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id r11so12026247edd.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 07:18:07 -0800 (PST)
+ Wed, 24 Nov 2021 07:22:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Xd7WgyQ64J6RPhFhucV4QlcIJXPJzKprCn0O5gAeUWk=;
-        b=qr3/Tu8we4MbuGJuR9376Hrtgtd6jiPlHn+5Lc+3WDMLjlmUoj+dbocIl4xaJ4jKyb
-         foAORvKdFqFWxxwKIVWhLJM/kRh+hQFxghSZo1hx6UqmxmBer0eC3fmb1GHj2Angx4pX
-         jB/o73L5DEFUJltzHF7n0PJdWrenugrhHKP26bOcLH0xJOdPsgS4jTw7ds1QPdAUFYLU
-         UsiatpqHxcd7hJeDcTqdcdu/CRF6i0/2VNHFbHenVH1MLXkUIaB+r7RtmlhDQSOQPgdL
-         +2rEoX0/vvP3IGwEiJOXRUxKTtJLFJGO9VOXOJ2Iuj+f110gZvZDtMV+A3+GMC8q/IbR
-         Br5Q==
+        bh=ZK/VczQbnbgivHxpmlS/Z7W8BrbgQNn9zEvkgLGe670=;
+        b=TMwbLalqRdVEth+VElGh9eE8P3ztpRB6e/vNZzg+ODm+aihhjJcL5Mx0hsw0Mteb07
+         HH0G/sYgOzmhdK5iVwCdmDJrr5BS3XsixRGQEVtFuChB/s/yu+3fkXLJWPuXQU2wqAIa
+         0x7q/IGJ/slrWIo5Fi65Z6U2znOyTxyf2RG0ea6+WjqhfY/6JDNbXuKF9LQuO3/wOmze
+         sV5/lq3LHoBuGXscwB3V4xtNytTgUhRz+85+S4EKae92sL5bCJD0ABBwzOj7NjzwRHpX
+         joIav7queO1QIwIE21zqU+rQ3daHFdH49spSJTlVOpaFxGbBhIHfU/IdakVtBh0/nO8F
+         3o4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Xd7WgyQ64J6RPhFhucV4QlcIJXPJzKprCn0O5gAeUWk=;
-        b=sHTBRbVdAgIUxMV8w/xyf4DMLfsvop5Iw6dvH+Hxl4wUx7m4u4dERylqFzNc01WZfr
-         cGhWVSJwm2f900LbgNni3bzvZ2bF8YlAY/ZWDR/v+QITbcYRgj+OunrY5eVR7MG611Uj
-         R+9/XXxd1hkeowmTzU8A5E7q2lXOG1EwQsIsX3wmZWD8PVONxfLWhPRNM6kvdDkuQBQH
-         MuJ+8BNNkiPdKySi7ZdNoFVbdNAqUqD9oq5cct5ODZTm7oO5t6qyhH3gMkaMGDxeqgwG
-         RvjSu3OXbW9JcjmzHL6iSZDDC5oAoF6UQD8q9c7NtMuMlIgHTkDZeaNnSOY2ofH9k5iP
-         lf/g==
-X-Gm-Message-State: AOAM530KxnOzWaB3yf2vtzJImUmj4+XjXUjnc+zpbGpJBLEV+6YkkGcj
-	fcl9LomzCb6t6eIecuX90ZXDHzEgN7tDDUNAWqE=
+        bh=ZK/VczQbnbgivHxpmlS/Z7W8BrbgQNn9zEvkgLGe670=;
+        b=Cqjl3AyKDHKHG8OCqlcB+IWJ7/Cn/qWTd1lHm1KOOOyyfwseFsLTLrtSKVO9VpH7jS
+         QMhe5ywWSFncF/ABYqR0UAFQQO0KklLiZ24z81kle2winP8O0G79QikEIH+/fB5r1S+g
+         vtSK57NB/OqqS4Ot30LtAXz9be3nUTm9UW5qlvym8n42K0bv6fatEHJ97BVNCPFghpEg
+         ojjwCthTPyVl3JmpZrmQDpw9Sou+3Ac7kM8TQyx1ofCUw9801kAKfwLvGqT9xVYfc0k5
+         KyK/09ngmd11xpHPGrHPZF8SgDUX4KISEt7A2Pn420WXNJt/2j0EgwZ35Z6SB33CIZFE
+         QguQ==
+X-Gm-Message-State: AOAM530T60IaAPmYrQWDui/oZM+7GssLrAl4cxGzImAlwvSoLwpqskoI
+	s5eOJev75OPLrTbdPzSzkuNuj0LBSBkiVjXpBIQ=
 X-Google-Smtp-Source: 
- ABdhPJwVtaiZLV5RP12XaDF8l75DZ6KrSmJEQZB+Dq0z9BMdMMGtO3RmMradS53kgaQIg25dKzbUN8Vor2diH8KI6PM=
-X-Received: by 2002:a67:846:: with SMTP id 67mr25107052vsi.7.1637767086452;
- Wed, 24 Nov 2021 07:18:06 -0800 (PST)
+ ABdhPJz/mpjNdhB0/3bcjfMC0o/+xmr7l1XVm2ezFnruRIZt3a1XZcRaPtycPJP2vn8NqypVOPyKig5EPuFO2lq0GSo=
+X-Received: by 2002:a17:906:314e:: with SMTP id
+ e14mr21451075eje.165.1637767360348;
+ Wed, 24 Nov 2021 07:22:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <20211124144739.2250-6-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: <cover.1637703810.git.bruce.ashfield@gmail.com>
+ <b3ce9655ef17f09c39e374d234cd494580f92674.1637703810.git.bruce.ashfield@gmail.com>
 In-Reply-To: 
- <20211124144739.2250-6-stefan.herbrechtsmeier-oss@weidmueller.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Nov 2021 16:17:54 +0100
+ <b3ce9655ef17f09c39e374d234cd494580f92674.1637703810.git.bruce.ashfield@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 24 Nov 2021 10:22:29 -0500
 Message-ID: 
- <CANNYZj9JQqkh3zf9a4zCbsbAWktP4K6YpFmb8fHhrn+47Eqtsw@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/15] bitbake: fetch2: Support archives with missing
- search directory mode
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
- Konrad Weihmann <kweihmann@outlook.com>,
-	Martin Koppehel <martin@mko.dev>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Content-Type: multipart/alternative; boundary="00000000000069b4dd05d18a5d99"
+ <CADkTA4OBDxSPK4LzoX4HzCj3BQiLxycMMcOF1RVwK+eNH4qwCw@mail.gmail.com>
+Subject: Re: [PATCH 18/20] linux-yocto-dev: introduce dt-validation
+ PACKAGECONFIG
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Tim Orling <TicoTimo@gmail.com>,
+ Trevor Gamblin <trevor.gamblin@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 15:18:08 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 15:22:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158718
+ https://lists.openembedded.org/g/openembedded-core/message/158719
 
---00000000000069b4dd05d18a5d99
-Content-Type: text/plain; charset="UTF-8"
-
-Is it the missing x bit on directories? If you've encountered this, then
-where did it happen, and shouldn't the tarball be fixed instead?
-
-Alex
-
-On Wed, 24 Nov 2021 at 15:48, Stefan Herbrechtsmeier <
-stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
-
-> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+On Tue, Nov 23, 2021 at 4:58 PM <bruce.ashfield@gmail.com> wrote:
 >
-> Signed-off-by: Stefan Herbrechtsmeier <
-> stefan.herbrechtsmeier@weidmueller.com>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Add a PACKAGECONFIG to control which type of dt-validation
+> is installed (full, or wrapped).
+>
+> This is currently in linux-yocto-dev, as 5.16 introduces
+> the functionality of required dt schema validation.
+>
+> Other v5.16 providing recipes can use the base functionality
+> as they desire (with or without PACKAGECONFIG).
+>
+> Over time, we can migrate the support the the core
+> kernel classes .. in particular when more providers are at
+> v5.16+
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
->  bitbake/lib/bb/fetch2/__init__.py | 1 +
->  1 file changed, 1 insertion(+)
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> index ed94ab2517..858772ba41 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> @@ -39,8 +39,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+>  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+>  DEPENDS += "openssl-native util-linux-native"
+>  DEPENDS += "gmp-native libmpc-native"
+> -# yaml and dtschema are required for 5.16+ device tree validation
+> -DEPENDS += "libyaml-native python3-dtschema-native"
+> +
+> +# yaml and dtschema are required for 5.16+ device tree validation, libyaml is checked
+> +# via pkgconfig, so must always be present, but we can wrap the others to make them
+> +# conditional
+> +DEPENDS += "libyaml-native"
+> +
+> +PACKAGECONFIG ??= ""
+> +DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', 'python3-dtschema-native', 'python3-dtschema-wrapper-native', d)}"
+
+In my recently updated master, I get the QA warning:
+
+WARNING: linux-yocto-dev-5.16++gitAUTOINC+ac97e62b64_c425b06bc1-r0
+do_configure: QA Issue: linux-yocto-dev: invalid PACKAGECONFIG:
+dt-validation [invalid-packageconfig]
+
+I can re-work this to use PACKAGECONFIG's rdepends for the full
+validation case, and test and add the wrapper rdepends in the
+no-validation case, alternatively, I could add a
+"dt-validation-inhibit" PACKAGECONFIG, and put the rdepends on the
+wrappers there.
+
+I'm open to either, and will pick the first fow now :D
+
+Bruce
+
 >
-> diff --git a/bitbake/lib/bb/fetch2/__init__.py
-> b/bitbake/lib/bb/fetch2/__init__.py
-> index 05b2d2e924..8ad4e3a5ec 100644
-> --- a/bitbake/lib/bb/fetch2/__init__.py
-> +++ b/bitbake/lib/bb/fetch2/__init__.py
-> @@ -1554,6 +1554,7 @@ class FetchMethod(object):
->          path = data.getVar('PATH')
->          if path:
->              cmd = "PATH=\"%s\" %s" % (path, cmd)
-> +        cmd += " && chmod -R +X %s" % (unpackdir)
->          bb.note("Unpacking %s to %s/" % (file, unpackdir))
->          ret = subprocess.call(cmd, preexec_fn=subprocess_setup,
-> shell=True, cwd=unpackdir)
+>  COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64)"
 >
 > --
-> 2.20.1
+> 2.19.1
 >
->
 
---00000000000069b4dd05d18a5d99
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Is it the missing x bit on directories? If you&#39;ve=
- encountered this, then where did it happen, and shouldn&#39;t the tarball =
-be fixed instead?</div><div><br></div><div>Alex<br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 24 Nov 202=
-1 at 15:48, Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsm=
-eier-oss@weidmueller.com">stefan.herbrechtsmeier-oss@weidmueller.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: S=
-tefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier@weidmuel=
-ler.com" target=3D"_blank">stefan.herbrechtsmeier@weidmueller.com</a>&gt;<b=
-r>
-<br>
-Signed-off-by: Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrech=
-tsmeier@weidmueller.com" target=3D"_blank">stefan.herbrechtsmeier@weidmuell=
-er.com</a>&gt;<br>
----<br>
-<br>
-=C2=A0bitbake/lib/bb/fetch2/__init__.py | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__in=
-it__.py<br>
-index 05b2d2e924..8ad4e3a5ec 100644<br>
---- a/bitbake/lib/bb/fetch2/__init__.py<br>
-+++ b/bitbake/lib/bb/fetch2/__init__.py<br>
-@@ -1554,6 +1554,7 @@ class FetchMethod(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0path =3D data.getVar(&#39;PATH&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if path:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D &quot;PATH=3D\&quot=
-;%s\&quot; %s&quot; % (path, cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd +=3D &quot; &amp;&amp; chmod -R +X %s&quot=
-; % (unpackdir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(&quot;Unpacking %s to %s/&quot; %=
- (file, unpackdir))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D subprocess.call(cmd, preexec_fn=
-=3Dsubprocess_setup, shell=3DTrue, cwd=3Dunpackdir)<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div>
-
---00000000000069b4dd05d18a5d99--
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
