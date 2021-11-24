@@ -2,63 +2,62 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD40C433FE
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:47 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.4153.1637788486119800633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C18C433F5
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 21:14:48 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web10.4155.1637788487054926111
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 13:14:46 -0800
+ Wed, 24 Nov 2021 13:14:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OG7qiKfE;
- spf=pass (domain: gmail.com, ip: 209.85.219.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=E299xVKO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id j9so2631864qvm.10
+Received: by mail-qk1-f177.google.com with SMTP id t6so5080280qkg.1
         for <openembedded-core@lists.openembedded.org>;
  Wed, 24 Nov 2021 13:14:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+hzo2U8aZDCQkWa1JmHCTxj7OP9+x88B1Otc0EF5fZc=;
-        b=OG7qiKfEy1KDipRVaT6Nuv/ZgZbV0CfFFtOAgCbG/+bX5WgLk0l44TwqWx+VpGanCX
-         Y9asa/5z6ooWEa3hgkKf9ywhVrff0BmKQHEktzNkxYMHujBFlMDE4DvcZJVU3Ibb0FnK
-         rF2IPwhp92UfVAaezQmU8R/GlQpEgRI2BIqS+m5NlrsvTnyks6FU8DiZPB0D7/lk2WzO
-         tX3Qh7hgVVoZjtaFhMGfOLv+w6FgHhsNenyv5BCEoBftsW5dBLSp98FnjexWOs+xuX8P
-         lHsJgm3bzwP37IQhISd6qxdDMETg5TqMg3Iwr/coTidIVv3bgh1FZgL+N0neqSPN8N0f
-         LdEA==
+        bh=8IEuULURoP9EffmSQfyN36qWcH1zhq2wf364rgurxDI=;
+        b=E299xVKOuItkBeteCQfj1Q8Wxkp4yJ/5S2SVgNihWobOH2jc9J0J9V6//y2dUF+7Qh
+         GHuCJu+MNdvgcHtBDPluOReWoq+5e0vsLrdmoIoLeLvTIDs3+RHNY5+eAhnlKZMNLj77
+         RxL6ryRYbg4uxzCt0Z4MjgwZlPaUyBMdA/ymUD7AayeFGiW6j1gKUdAZkCHF8yX1bqrM
+         3B+yA8LPnTWnFMZYVSaGJuXCoe8CZxazO3tPidxqHVO4f1StSaeGN3ciPhb/tB1GNRw9
+         mrvndU/pc0Ckv3GF+3tMUp9sYJQyXRnJbFqrsYaourXd0aPiJVm/kEBkEr8W+P9ALonX
+         /JGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+hzo2U8aZDCQkWa1JmHCTxj7OP9+x88B1Otc0EF5fZc=;
-        b=oR4BKwcYmFfblWUHYlw8QShsgwu1GQsFHTnH/d2Rku/SKgB1Iv0CoEjaq7iB0aA6U0
-         nHFKKP32Tn5QcafQ2WSa5Ql0NHqyuCvc9zdIPAzyJPyVruXsYn2su1pXDXxS3t699ynn
-         79rgHc8DsBy/GrqC5KjTzN/QBKO2s3ktQiJFBtqNJhyNN2EdFvLU9sZDMgFULaEvZhaO
-         Ujj85G3RxMJ/9uElDxja8tr5zy1rAtCwcXuRx0GKPnKOPOq/NEDuTJ1i3h5FND2CIyHT
-         Ee5LdCVCq+aMcTe4wqd3lhzOp8LmPA43GG3vvP1DnuLvDy8TWVMUAkdH6rgzVuG4Z40V
-         883Q==
-X-Gm-Message-State: AOAM531GoZzzPV4+Ly6JUpLHSmKifvlqUoaaw9/3l7vFibRK8dLSUr8F
-	PjELkH8vOl1Ualq/8l7q0e0KqiNNcX3gDA==
+        bh=8IEuULURoP9EffmSQfyN36qWcH1zhq2wf364rgurxDI=;
+        b=QMUMWqaNfmZyI4Ya0NaOgEjiYZty/bJDpwCoanHHIvc1ylkDufjHbMQtMkLZ63cJeK
+         N7h+Amhjj6aLTLNmQ3cF3P6XSDdEbrXQ8qau1vsSWmE7H3E9vQ9iR7Yor+VnRxsN7z58
+         ZpHgkdOxk3Mn1o9plZIex3Gmr9OhQ97u4TisnRqZIIUPZqwbTiyqyQfcs3v+RkFaMdov
+         1/d7GCMprX+FnpXvnqQ2wKLAS1JVKwIAy1sOzbg2myTlqLCt8LRjgRQ54sLbAhWW2nie
+         hgi8akrSVUbO7JTNI2DiCMdn6ULbUhnW/5cZqEwkD3zdytXrqWlJtDn6nCUIXZAUun68
+         d1QA==
+X-Gm-Message-State: AOAM5324LqQz8dqoqgmpg6AU8UCDADX/4AWz1PFTJNnuZ0azwhsZZvph
+	+02fVCaF2nlTp6WS4x6j1FyjTnnrwg/t3A==
 X-Google-Smtp-Source: 
- ABdhPJwHONaE6tSe4Uwp7wy5VIn1EpjXaX4WdcY75tmJkVv2zIfYos4Coc22hDF3ey0Ch2/Og/rDKQ==
-X-Received: by 2002:a05:6214:2584:: with SMTP id
- fq4mr11714763qvb.53.1637788485285;
-        Wed, 24 Nov 2021 13:14:45 -0800 (PST)
+ ABdhPJyJ7BocKgmqM7IkVXirC/c7sRp9FZEqQZ19hH9yUYxV68tM/a9f4h4ZEKOFWEw4l4D8vKTx5g==
+X-Received: by 2002:a37:4250:: with SMTP id p77mr9584813qka.430.1637788486179;
+        Wed, 24 Nov 2021 13:14:46 -0800 (PST)
 Received: from build.lan
  (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.44
+        by smtp.gmail.com with ESMTPSA id u9sm495095qta.17.2021.11.24.13.14.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 13:14:44 -0800 (PST)
+        Wed, 24 Nov 2021 13:14:45 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org,
 	TicoTimo@gmail.com,
 	trevor.gamblin@windriver.com
-Subject: [PATCH 16/20] linux-yocto: export pkgconfig variables to devshell
-Date: Wed, 24 Nov 2021 16:14:22 -0500
+Subject: [PATCH 17/20] kernel: introduce python3-dtschema-wrapper
+Date: Wed, 24 Nov 2021 16:14:23 -0500
 Message-Id: 
- <b6b1ebec75b4852b066520c8becaf28c7a379151.1637788184.git.bruce.ashfield@gmail.com>
+ <ad8f3958e10e645219f442d8ebb5711767288f16.1637788184.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1637788184.git.bruce.ashfield@gmail.com>
 References: <cover.1637788184.git.bruce.ashfield@gmail.com>
@@ -67,38 +66,159 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:47 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 21:14:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158762
+ https://lists.openembedded.org/g/openembedded-core/message/158763
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Not all of the kernel host/build Makefiles allow pkg-config
-to be overriden to pkg-config-native. Exporting these variables
-allow us to debug host tool issues with the kernel build.
+The 5.16 kernel introduced mandatory schema checking on any dtb file
+built through the kernel.
+
+That funcionality is provided via python3-dt-schema.
+
+The dependencies to enable that functionality is not small, and may
+not always be desired (in particular on architectures that do not
+support dtbs, or in development cycles). It may also be useful for
+allowing a non-conformant dts to be compiled.
+
+This commit introduces a set of wrapper scripts that when added
+as a depenency to the kernel, can pass both the validation testing
+and validation steps of a dts.
+
+We use the wrapper by default, while more dts file are brought up
+to spec and the dt-validation matures upstream.
+
+To enable valiation, simply add 'dt-valiation' to the PACKAGECONFIG
+variable and the full dt-schema package will be selected and
+validation will occur.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto.inc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../python3-dtschema-wrapper/dt-doc-validate  | 20 +++++++++++++++++++
+ .../dtc/python3-dtschema-wrapper/dt-mk-schema | 20 +++++++++++++++++++
+ .../dtc/python3-dtschema-wrapper/dt-validate  | 20 +++++++++++++++++++
+ .../dtc/python3-dtschema-wrapper_2021.10.bb   | 17 ++++++++++++++++
+ 5 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 15fc7ff724..a3b2416367 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -61,3 +61,12 @@ KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
- 
- KERNEL_DEBUG_OPTIONS ?= "stack"
- KERNEL_EXTRA_ARGS:append:x86-64 = "${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index c717cfbbe1..464714a7a9 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -598,6 +598,7 @@ RECIPE_MAINTAINER:pn-python3-dbus = "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER:pn-python3-dbusmock = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER:pn-python3-docutils = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER:pn-python3-dtschema = "Bruce Ashfield <bruce.ashfield@gmail.com>"
++RECIPE_MAINTAINER:pn-python3-dtschema-wrapper = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-pycryptodome = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-pycryptodomex = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-pyrsistent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+diff --git a/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate b/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
+new file mode 100644
+index 0000000000..2aa57851c7
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
+@@ -0,0 +1,20 @@
++#!/bin/sh
++# dt-doc-validate wrapper to allow kernel dt-validation to pass
++#
++# Copyright (C) 2021 Bruce Ashfield <bruce.ashfield@gmail.com>
++# License: MIT (see COPYING.MIT at the root of the repository for terms)
 +
-+do_devshell:prepend() {
-+    # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
-+    d.setVar("PKG_CONFIG_DIR", "${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig")
-+    d.setVar("PKG_CONFIG_PATH", "${PKG_CONFIG_DIR}:${STAGING_DATADIR_NATIVE}/pkgconfig")
-+    d.setVar("PKG_CONFIG_LIBDIR", "${PKG_CONFIG_DIR}")
-+    d.setVarFlag("PKG_CONFIG_SYSROOT_DIR", "unexport", "1")
-+    d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
++for arg; do
++    case "$arg" in
++        --version)
++            echo "v2021.10"
++            ;;
++    esac
++done
++
++# TBD: left for future consideration
++# exec dt-doc-validate.real "$@"
++
++# we always succeed
++exit 0
++
+diff --git a/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema b/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
+new file mode 100644
+index 0000000000..24b89d8619
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
+@@ -0,0 +1,20 @@
++#!/bin/sh
++# dt-mk-schema wrapper to allow kernel dt-validation to pass
++#
++# Copyright (C) 2021 Bruce Ashfield <bruce.ashfield@gmail.com>
++# License: MIT (see COPYING.MIT at the root of the repository for terms)
++
++for arg; do
++    case "$arg" in
++        --version)
++            echo "v2021.10"
++            ;;
++    esac
++done
++
++# TBD: left for future consideration
++# exec dt-mk-schema.real "$@"
++
++# we always succeed
++exit 0
++
+diff --git a/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate b/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
+new file mode 100644
+index 0000000000..8a4710a7ed
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
+@@ -0,0 +1,20 @@
++#!/bin/sh
++# dt-validate wrapper to allow kernel dt-validation to pass
++#
++# Copyright (C) 2021 Bruce Ashfield <bruce.ashfield@gmail.com>
++# License: MIT (see COPYING.MIT at the root of the repository for terms)
++
++for arg; do
++    case "$arg" in
++        --version)
++            echo "v2021.10"
++            ;;
++    esac
++done
++
++# TBD: left for future consideration
++# exec dt-validate.real "$@"
++
++# we always succeed
++exit 0
++
+diff --git a/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb b/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
+new file mode 100644
+index 0000000000..c869274d09
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
+@@ -0,0 +1,17 @@
++DESCRIPTION = "Wrapper for tooling for devicetree validation using YAML and jsonschema"
++HOMEPAGE = "https://yoctoproject.org"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++SRC_URI = "file://dt-doc-validate \
++           file://dt-mk-schema \
++           file://dt-validate"
++
++do_install() {
++    install -d ${D}${bindir}/
++    install -m 755 ${WORKDIR}/dt-doc-validate ${D}${bindir}/
++    install -m 755 ${WORKDIR}/dt-mk-schema ${D}${bindir}/
++    install -m 755 ${WORKDIR}/dt-validate ${D}${bindir}/
 +}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.19.1
 
