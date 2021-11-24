@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E41AC433EF
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:43 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.3351.1637741322144243404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E935C4332F
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 08:08:44 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web08.3352.1637741323152173790
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:42 -0800
+ Wed, 24 Nov 2021 00:08:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=N9/tfo80;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GSlLjEZN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id i5so2625046wrb.2
+Received: by mail-wm1-f47.google.com with SMTP id o29so1432577wms.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 00:08:41 -0800 (PST)
+ Wed, 24 Nov 2021 00:08:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UR3WELEOWGgMdaqVPhdRzrzaxs0AG/N0Lk5OlAF+QhQ=;
-        b=N9/tfo80w/VT1+dNqOG34TPZeSOyboM6+roYFmpQnYERvgkqGwThWEkgR3jpTyPJE6
-         IDApZ17VFxmGRGiKsFgxlRAwtBMQ9SSQe1UYm25qP2EOFqeYL4xaGXk5YO2y3vi2bK7b
-         mvMDfl9zOESk4yCjfPjO8BsnDZTjCHzijKWYVrfzWtVCNvy2SB100fA/J0T8kzQtzipX
-         tyKd8zfcPEm8DLIfGgOz7PM3No1zc3ByoJfcPOYL0GTIXJB9lYAxPuPkAwTzskNv9WuQ
-         QC1sOgbFiQmAsRIPRfyMN4SAX68G+FIs0x/lguzghODyvF3YmX4Ws+T5OagaJz4597+Q
-         gCgQ==
+        bh=08VVm6+aBZl/dp6IeiwDnWhWJZVRXf/gT/sUii3sEcA=;
+        b=GSlLjEZNNhy8rzDTBAqdujOy1zj7KMhrjCh++kEX1TWFU3Pg+fof1MJpcKwxJ95ufM
+         rupuemTzx9cabM4D7ibFLY2GdAEWgXoNf5W4KFWYzJcEK3aRJDsVi8QTpf65r/spSrZY
+         t/XTOfioh8U6z8ZecDpgcdLS1sYA23dvt5qJhFpw7mUl0raUYukpRQ9n+qU9Lxn7RasQ
+         EQ67zxlQtcfvAWeThCfQ8wahEJD/nYdDW4eucKD0kN0+fBXNDqD202QF/xuIjFoDa+df
+         iBMsGaNmWNfbVMZbB9gmE2bqZmWCGl1GGtEt1yD/2yfncDMlK5TbARjqGbE3f8KoM5Xn
+         +oqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UR3WELEOWGgMdaqVPhdRzrzaxs0AG/N0Lk5OlAF+QhQ=;
-        b=RYmeyBjQkIxigqAYgFzLynsoUCnfoRZhvnshs06Vtat/cqdKgheicH4I4S2gdd3HE6
-         TzUyM56/26XNmMX2aKrqJY6Gw+pRSL/oBSt/1qQN3LU7YwOJSdfqnR5pGF1YHCMzQ9t+
-         AFjLFU+exlAgbJz9ffNWuPQ+gImW/G0CjFl4Iy7yHKIUQAUyr3IWT3ScyhJ8ZY72tyhw
-         fqqFXjv98pNY3+Y1zRylNP3hW4lTFnuPo4viynU9owoIhYjT8DC0cFRUwq6u4OPtJGNG
-         rEmH2xXeneSqzPzeladXFGxvf/WibZU2ECo/tP2KTIHkWr1XXh7otC7RTYVqvP20LlhL
-         Rx3w==
-X-Gm-Message-State: AOAM531T+y6ECLhkN99r5mLtTn+h9BxdPkUxzbSW7tjQoaVTK6AIAPdg
-	+RN9Zkfw1GwMa+ifYvB/g3xhrZVcG1IhqQ==
+        bh=08VVm6+aBZl/dp6IeiwDnWhWJZVRXf/gT/sUii3sEcA=;
+        b=rRlLbkR7xPokiZyBvZ6jn5a1OLQjHCjow1fqHMEeNLP3RJKAFvxLPsBOK2i664dAYL
+         gKMd+CoJ/HMaG4obR4UjrWJcRHK5pY7LmcVvTc5jRUX8XEG4HyN7vRRZ/gXi7DFNE/Jz
+         lo2oUC9nDh10tm7oK9K/QpUWDTwb/f7bZ3aouf2NZAOK/waXOxcDsWDQXmJzTUDHvOOh
+         GHCKyF3nRxF+DUts9hWggezaZVFCAws5DEQjfwqbFgOk/gbSW6mQ25ZG8sR2vnoFcx/V
+         d5jYHqzX88i24FrlZBX6FgKff/SzkmC1+4RuaPvSDosnT0pRbv37T334hopoeR3mn0gc
+         T2hA==
+X-Gm-Message-State: AOAM53246Peh02uxaDxOu6Pl1s4etJ3kTkbDARxfeFvzd7JZ4cOD3A/t
+	HYJDSYmgZuRc8uRd77bAZGpxxVZv6+w+WQ==
 X-Google-Smtp-Source: 
- ABdhPJzCXpTkBZX8jH6AaV5D+fvaAkHHRIEybvQX8GEi3fOJFKcSxOW7tPgjNeicy6CID+z0d+cTYw==
-X-Received: by 2002:a05:6000:248:: with SMTP id
- m8mr16434305wrz.404.1637741320645;
-        Wed, 24 Nov 2021 00:08:40 -0800 (PST)
+ ABdhPJxEh8uUNhmZcPX5YMjLwuxAO5Nvo3iqQOt1YmIlIrTfW1WioFoIMDXIT3qWzNrZHaxx1d6NXA==
+X-Received: by 2002:a05:600c:b46:: with SMTP id
+ k6mr12497061wmr.45.1637741321693;
+        Wed, 24 Nov 2021 00:08:41 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  k37sm4220205wms.21.2021.11.24.00.08.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 00:08:40 -0800 (PST)
+        Wed, 24 Nov 2021 00:08:41 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 12/21] elfutils: submit patch upstream
-Date: Wed, 24 Nov 2021 09:08:19 +0100
-Message-Id: <20211124080828.530981-12-alex@linutronix.de>
+Subject: [PATCH 13/21] weston: mark patch as denied
+Date: Wed, 24 Nov 2021 09:08:20 +0100
+Message-Id: <20211124080828.530981-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211124080828.530981-1-alex@linutronix.de>
 References: <20211124080828.530981-1-alex@linutronix.de>
@@ -66,81 +66,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 08:08:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158668
+ https://lists.openembedded.org/g/openembedded-core/message/158669
+
+upstream has explained in the patch submisstion how the issue should be solved differently;
+we should work towards that.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...infod-client.c-correct-string-format.patch | 21 ++++++++++---------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ ...1-weston-launch-Provide-a-default-version-that-doesn-t.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-index 5b225c532d..85f22cb395 100644
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-@@ -1,4 +1,4 @@
--From c3055ce9eb32d0d24abc5cea5e1d231c499312a7 Mon Sep 17 00:00:00 2001
-+From 38ddd0d1863f83e8ec545d0160bdf00bbb5569ba Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 19 Apr 2021 23:29:10 +0200
- Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
-@@ -12,20 +12,20 @@ architectures, therefore directly using integer printf formats will not
- work portably, use intmax_t to typecast time_t into printf family of
- functions
+diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+index 548611d933..f6ebfd8f61 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+@@ -11,7 +11,7 @@ Since starting weston as root is a valid use case by itself, if
+ PAM is not available, provide a default version of weston-launch
+ without non-root-user support.
  
--Upstream-Status: Pending
-+Upstream-Status: Submitted [via email to mark@klomp.org,elfutils-devel@sourceware.org]
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/725]
++Upstream-Status: Denied [https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/725]
  
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- ---
-- debuginfod/debuginfod-client.c | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
-+ debuginfod/debuginfod-client.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
- 
- diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index ee7eda2..083ec2c 100644
-+index c875ee6..df9737d 100644
- --- a/debuginfod/debuginfod-client.c
- +++ b/debuginfod/debuginfod-client.c
--@@ -226,7 +226,7 @@ debuginfod_config_cache(char *config_path,
-+@@ -231,15 +231,15 @@ debuginfod_config_cache(char *config_path,
-        if (fd < 0)
-          return -errno;
-  
-@@ -34,16 +34,17 @@ index ee7eda2..083ec2c 100644
-          return -errno;
-      }
-  
--@@ -234,7 +234,7 @@ debuginfod_config_cache(char *config_path,
-+-  long cache_config;
-++  int cache_config;
-    FILE *config_file = fopen(config_path, "r");
-    if (config_file)
-      {
- -      if (fscanf(config_file, "%ld", &cache_config) != 1)
--+      if (fscanf(config_file, "%jd", (intmax_t*)(&cache_config)) != 1)
-++      if (fscanf(config_file, "%d", &cache_config) != 1)
-          cache_config = cache_config_default_s;
-        fclose(config_file);
-      }
--@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -272,7 +272,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-    if (fd < 0)
-      return -errno;
-  
-@@ -52,7 +53,7 @@ index ee7eda2..083ec2c 100644
-      return -errno;
-  
-    /* init max age config file.  */
--@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -280,7 +280,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
-      return -errno;
-  
+ Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 -- 
 2.20.1
 
