@@ -2,45 +2,45 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 062D4C433EF
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 14:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E68C43217
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 14:48:17 +0000 (UTC)
 Received: from EUR02-AM5-obe.outbound.protection.outlook.com
- (EUR02-AM5-obe.outbound.protection.outlook.com [40.107.0.72])
- by mx.groups.io with SMTP id smtpd.web10.6992.1637765289962517376
+ (EUR02-AM5-obe.outbound.protection.outlook.com [40.107.0.43])
+ by mx.groups.io with SMTP id smtpd.web11.7026.1637765293947463928
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 06:48:14 -0800
+ Wed, 24 Nov 2021 06:48:16 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=XZe8WkoV;
- spf=pass (domain: weidmueller.com, ip: 40.107.0.72,
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=lyQz+huP;
+ spf=pass (domain: weidmueller.com, ip: 40.107.0.43,
  mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PFPxIhI4ewAtQkJsjggM38+Xg73k4/RRJyivJO+jRVGYkp3YJPjqs3MhDixi/iOVRHdnVcX51PuhBVy3oi3IVl0LFhoPNbOgkMHGWQRnXN0+JX0ydubih9GBAdFcf6PVs6Cxp3mtKioxRQbQkp9vuh3U0P4SSJwLHyaA8d10aCdkI/IBkGHt8QrwUO7LlOkU2elb2hZOnTBIz7c3b4/dK8KIDOS25Fqp0XxuMXoQvBzLmPKjd+mXGasZGN8yH9u/oSoOipL5mKYLqkM0sXtdhJYMou9M6YWEasIoeZOf7fshpQ+3mvejQbMvK+fCqKXP9TK9Oacg1MIa31jQ2Q9bVg==
+ b=NbdLfA90ubFeHp4bvISyj39GDqifh8mG0DaaEbpWr+1nTSyiv3WUc9Ypd1XIOd7O/Tb0rZxBwskcLUFdT3ZHWqWTiGdvhrQIXWgvLIdoA9oGhyx4w5LYgh2qer7YHk+z57ADl1ntT35RQOO4gvOSdBWaexkGGwt6w4jWr95DzrB7Js87GcpMsuU0uHYi1fjrKV1WkO4rPXImfTRLvxB2tmdbNhDiVRL0SHfR0AnhC+HXUP1zao6eUG0BkyCxsRRbY5xNKMCxJVCMmltf1IVpMipVsTGkkC2RE2oaGM7PDwCfz2gwG9pnEnJgjSSS5ORz1Ew+FdwU2TUCOC+NPQ3eOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=peJRgd6cp8iI83YYju3NDmFLnOG07Zv21wVhpU5ilsM=;
- b=NZQDTclOang6A1Nk4urY0SA3sKnNs/dVFrPPbQbkAKqvko1wLt6yU4ACS5FUHQYAn9zcFnjULXx3UZWiRNvPhs6kDpiMJZG2mCFDWO38tT/ewTBye0HEcd2kNcy60+wVkrwGkJrYURV7xDVrYBNXcpCwU2UztAA9UGfZZYm6TD9Uvmfa0fEHF9BEpIg4ZVxUF/MaVf7NqXmjKFdS0DXuexKDr1CF0p5w0JYC17yHP2kOFxfm/I/2p6z6UWqDEU2VsaychU7hFjsTOMkkboEyxjy9koRBu5J56GURV/s9dusqDxSg1PqgMQRDrm0Lf1mTtmJpFgCFnGQEYnOfld83cA==
+ bh=SKYWxFSds7he6FZ6xSrbmDWosUjDcC0H2ibYRW+wtmU=;
+ b=Y+GCshH6KqgZuQYj9Y0JcCT8pazlBBRm+pGbpvDjtX3+IoDsK0tMVcld5ln28+VK5gKna+vU5g6V8juA9zVtIRznyjPHQjnpPa08WNIsQaUy2I1RVRYe/LaicX6a5OMvsYCW47v4pX68iqklbHtgWELvRDYtl2Lk1IZp+BGmHj8ll3/gZ5j0xto19TB5vy51qaroJ/oUWPv/IovgUY3iF+xeS7pAe0gA9skjAgaZSlP+cv22y6a28PfUza5CDYCtvX2kCpkFVLY5s7aLAsGiyvyCJaSj7so7WrV+p8/RKbsuS1wrvWCeqT962wWHZbfrAWQIq5z1tZF14/AtxI1u7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=peJRgd6cp8iI83YYju3NDmFLnOG07Zv21wVhpU5ilsM=;
- b=XZe8WkoVIFQNKk0lh4ubWI6VGqhx4tUNJxiK4lJ96LdSa2qHUyeUH+ndRr/erg49rkF5GoR9gIKSmqDAjEY4xWVjPcxb187GLrF/upIPXukpj4Oe2YkYYyAnp2u06QoYTFqUD8eLL0B6XuLNzpsh78MqJj0+hk5xgqvaS0RSbqM=
+ bh=SKYWxFSds7he6FZ6xSrbmDWosUjDcC0H2ibYRW+wtmU=;
+ b=lyQz+huPhz+AWqWYYHEJ/FfOlG03DCMXSXG9fEVp0yrqBL6W6yQnS2QK+WHVe3IVFTvdMAyhLzc72biMmq0X2wP0dQcBcXsywqLMJSotkxYUfn4hYoxmszYoy2Ml+Qj3Cmc7aWDzmBPxgIfAMJ5iX2C50Z3p78WMRi7Yd8SLJMQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
  by PR3PR08MB5801.eurprd08.prod.outlook.com (2603:10a6:102:81::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Wed, 24 Nov
- 2021 14:48:10 +0000
+ 2021 14:48:11 +0000
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::f:41c4:eb10:5010%7]) with mapi id 15.20.4713.026; Wed, 24 Nov 2021
- 14:48:09 +0000
+ 14:48:11 +0000
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
@@ -49,16 +49,16 @@ To: openembedded-core@lists.openembedded.org,
 	Martin Koppehel <martin@mko.dev>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [RFC PATCH 11/15] angular: Add support for angular projects
-Date: Wed, 24 Nov 2021 15:47:35 +0100
+Subject: [RFC PATCH 13/15] npm_build: Enable OpenSSL 3.0 legacy provider
+Date: Wed, 24 Nov 2021 15:47:37 +0100
 Message-ID: 
- <20211124144739.2250-12-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211124144739.2250-14-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: 
  <20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 References: <20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-ClientProxiedBy: AM5PR0701CA0015.eurprd07.prod.outlook.com
  (2603:10a6:203:51::25) To PAXPR08MB6969.eurprd08.prod.outlook.com
  (2603:10a6:102:1d8::23)
@@ -67,116 +67,105 @@ Received: from DE10512.weidmueller.com (94.134.181.208) by
  AM5PR0701CA0015.eurprd07.prod.outlook.com (2603:10a6:203:51::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.21 via Frontend
- Transport; Wed, 24 Nov 2021 14:48:09 +0000
+ Transport; Wed, 24 Nov 2021 14:48:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8dc33a58-3e5f-4a5a-0e07-08d9af596ee5
+X-MS-Office365-Filtering-Correlation-Id: 331d9a61-2888-4efc-a731-08d9af596fa2
 X-MS-TrafficTypeDiagnostic: PR3PR08MB5801:
 X-Microsoft-Antispam-PRVS: 
-	<PR3PR08MB5801D5347A859FDE9CC8C602D7619@PR3PR08MB5801.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+	<PR3PR08MB58019FBC42C365078B062BBED7619@PR3PR08MB5801.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:214;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Yq/dK6T1ynfwDgW5bYzkKfI+yYm/WL7I8sgC3IRhN+K7856se1jMg/VsCDHsJ6F3uBHtNk2XhX/Zn9ZB0lZhKg2/zK5maJyWqa1tg9G8daWPJMa0Kt26iw5UZD9qN09JBBTMtOyb9FXLczwQbDykRB7Eh1ilhhGpVlqXJt4q4U6ZTA+I1VCks93hSo/rqWhfxElT7xAKeP8ohXoGL7V9YF2CrV8shlT3ihsje7i0jyQxJXekZ+FdqQmRtchTkpjmouC9rNgEe3GxPXWvc5t++kfGgRkIh4mRRwL6Iee1iNEdHPjMxgNC9bayO9pisUN6B2bufIuh6p7U0TvOj1e6QE89bODiVfCH1aWWXca+3mzmWKeZNYbBDaG4AWisM2CyhkroBTLvAceaJIuiHq3gd7qR0pGtcCuUyZo2K5fKOy1kI9OEhEvq1q8UaEdq59R2nU/tmls39jtc5RgYIQTGhRuSTnOmjUSpXnEVDXociZ0BvnnIvnv3pHbQ3gGJUlVgufSzQjzPaOAsBQk/pQLmOXv+bmbMSsAnOulfscCeu6TSF7+E0ngppA1SMiQkr5Lgixc72U0y3CqJSMKNHzk5QWF9FOBOAR/Vnt6ItZ7w3yazP/1X+yg8fXKNIpPkdsoYg5u4PaCOgDd9+l59qenCvp+BH7QOURF81P6MHKgHJO2NSuWnG6jWyd+ehN8b2CQoLoojT+ZtV4QKc9uD/RWuzg==
+	ofmGQhWjVWBe3Ekv9gm2GEbDs3CGGOpEALmatKg/PGywNvXVgmAUVGS6GgOuri7TRHT/rnSI3kjea7SeA++j0CLmXRbwFPLwkoYglOhwvWV/8K4fuINJ0GXHmxx9RUUFAa+1VxdgbSTMzmc05+//cH2mVG7X3G/A1lXQKVLA4TzD8+7RLP17SgRrhvc5hTtJe1knWhIaAr0EZ9m98cTdyza6Tcg6stVLQ/Vj3K8EBrR9PCfgPk2T8EB1idms+d3qwZAjhGqw/1JkLGA8PyetPkqXjijI8vMGiIQUf3wQGPXyxM2pTFF2tUfzoY24t3wEnFNSCgVl4ZpCny49fW98VJNswkbXlyb7NLwdyD4IPcTw2iGhhwYKNrZnCEqYqBcYb6nO2ZnmdGaCF92e5Md62RYZVp3sJQXCQIH19txrHLUrb9KNC6KaCyt28HtjfHIIjuC+vwE6JJ6BL7EDXlaWrVpOt1f5nKvow9l9tBFnRk9gUyBM82EytJJCI9DmceLM6an80TMSIROMmnFTe2+E2pZh55V/DXv48RDKkg5LgNT5BKjFlFB3r0VdQpRBg+xqTog4VQ8nMru3gHSOd/Lkxozqhv65r92wV6JnIfMc9AkJJAWNWXBNErtU80rwwg18/4W1Cx8ATKbDqWfLfevWQ+/zwOakJ3n3X7Q4cYqXHuHOhRzmOI62W/sqlH34Lh1wDKIQ0qXqEr5iyMm9zn8jcaZ7+BHErzz6S6M/3F3F3jyb+zPf3/xXRgfO1g3XXSnr5EU+96sNDlONAlwc1M/LoUkbd2er+tEVhJaYL8tdD7k=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(66476007)(66946007)(52116002)(66556008)(6666004)(8936002)(107886003)(8676002)(7696005)(2616005)(186003)(26005)(1076003)(38100700002)(5660300002)(38350700002)(2906002)(956004)(110136005)(316002)(508600001)(4326008)(86362001)(36756003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(66476007)(66946007)(52116002)(66556008)(6666004)(8936002)(107886003)(8676002)(7696005)(2616005)(186003)(26005)(1076003)(38100700002)(5660300002)(38350700002)(2906002)(956004)(110136005)(316002)(508600001)(4326008)(86362001)(966005)(36756003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?h6lQoiFmrmobne77ZTMQv3D2Pgxk6ftwqrGUwFBK/iirw/rCemSmm44hdUHy?=
- =?us-ascii?Q?CIs7Esuh7PAhf+s0fhaQnZOBGTa8LloZQa314WDcjAA4MXSIA7Sp84sxlviK?=
- =?us-ascii?Q?xqBSlLpewJFLIYXuKbQpWN8cTKUVXY7xy8CUEVO20G9o5wns3W460KB/NVtk?=
- =?us-ascii?Q?E1yE1T/l4tCYlZC3adMbu7fITE//SZ7HTd5Bys69Lp9H7B/r9s5LlEQ/vDr+?=
- =?us-ascii?Q?A3XCC2i/eVBK112tfPYfXSTrdi4cv6G2Lokgt6mMIPvEIcuSWtY7uSUHMWSk?=
- =?us-ascii?Q?b5TOU4Lj7r5nhSHlcFhpy3wuoAU3LMbAgsxV00peL/I3LERB0xfUbEbtcfnB?=
- =?us-ascii?Q?Xvut93hufWQUyS2bp4rqbtiyRqDo2zTZd30qqkJ6Je1vMqBJobba4z9OtjP1?=
- =?us-ascii?Q?PpM/pl8059Qivp0Tr2IECHdhuKIGvZAUiN4ite947yQHRFc9XuSIuX9NfPvu?=
- =?us-ascii?Q?IWKz7KrUoIG567qETpJvGtdb0QHj8BXNVzZgDTJy20rtqymzHI0ZG04io2H/?=
- =?us-ascii?Q?4TKA1nkhbEdWRdAMTXlhTXIMVYkMnPKXJ4ciAzp1FHSNmxuttzpJyWsBX3l0?=
- =?us-ascii?Q?F7iPY4jnQkCWJaK4fNJgU+qaOgxIpDo8UIIVsjUJsb+mw8eNX+qHB/ix5kpw?=
- =?us-ascii?Q?QlCnl/tBaoRVXWrCwC8A7ZMH+ogMwhnZEqlizjj6VxJ06TKlLUPDxLgpsFTw?=
- =?us-ascii?Q?tSotTrGPaRAkA/pRuw0AJtnX/werGdjiqrJBjRWf2xYL34MDJrC0uvWHr6/P?=
- =?us-ascii?Q?7jwtdXsSPl60JS2ev2cClVUIV+I+wep8BL7Da0BhIgTuGQHqkLRyk5gIe6hC?=
- =?us-ascii?Q?iudz9cWH4KdqkwxZH/j1uEitiHK3U2CvOfmMZs9iFNcs3hFMquan19dnnU4g?=
- =?us-ascii?Q?0PuGevKRiqKKteXjjBpkcljqYnDyIM1I9GnNLFDOF0kedB5rCzzEMBuh1ybq?=
- =?us-ascii?Q?fB3lIYW/b5cd8to3FBhpfqlG3p7lZmBUOZa2lYukMCWOWbgd0bvWWb4pikLL?=
- =?us-ascii?Q?aY5WA35GMpwZLuBZSNZl1Icl0+gNa8ufJOjFhBa59+tQR4Jn8EYjj1ub0NsF?=
- =?us-ascii?Q?oBwmEDL1KrS1fD3gMw/a4Rrc6Ch5/72aPdvH3pl9npUa81ALR4VSlSk+R5VN?=
- =?us-ascii?Q?4g2FDHSwj2/1GMgZZwWjVyKlV0qsOeBXg/0k8ttuv1t5APu3GMSl3y9ByCu3?=
- =?us-ascii?Q?JjEgzl/fmDsNDdvpmuPEMPxeBeCIMZtbp+f8ICUQGmaf2uXKCNBAvkLyyU3V?=
- =?us-ascii?Q?W2SuWDC9RclQdYw1ffX9lXaBlZmzIEvNeeP73YJ/x21PLhUQX8GY1yFLdQL8?=
- =?us-ascii?Q?YFw4w+wRiBnNRtSOAFUZzTUvWxBNCgAvFB9bWr3UvAUUE//HwEMhfgY5pJbM?=
- =?us-ascii?Q?6bheab7SzizpWvkx7f7R4nb/0CuDqMeVC6k9b9kJl7tOt2l2kDl9NMWUnR2Y?=
- =?us-ascii?Q?ZqLEyi46cBdVzufSfOWEZBksZJ3IL9L7OzzsGuU8EXkDv2m4hurWVHsnGlBt?=
- =?us-ascii?Q?EDhnTtJhJeWI1M0uK/tTifs8lu3Ikx4lE/7Mp3nBIOB7mFietpOFGBu5nxFA?=
- =?us-ascii?Q?DGnHB+18f4xxuPBeqhchIUC7oqY6JVX31WbdDtEhlX+8OQrhpKRbnbZuMtKH?=
- =?us-ascii?Q?KQwwipxcXNS9rGFs3cIHT2A=3D?=
+	=?us-ascii?Q?5/6gOCIJXzWo6VgCHs8U9L3OCMHHjtFPABqGaLI05jqlhFsANEJqPqovmmCx?=
+ =?us-ascii?Q?tm2rnt7hf3DbnBG3yy8V3puu17c4RMDvVO8g8wH2G9SlOk6uOX1mUaOQeWHj?=
+ =?us-ascii?Q?qsjKG2+t/q7SQWXjsX5zPWx8kz4nvGzrw7Z42wQgkJNsN7svX1lSTemWYHA0?=
+ =?us-ascii?Q?bt/+Pa4QNuRduVThIOZ4Ii+E43MSjYjJaeP7eTGxpL1tNye4JFPb9Zk6F2dz?=
+ =?us-ascii?Q?SYHuNhP7Chjdl+o7cN3Om1J2YzsRlBaprbDi1ufVewORCSV5LqjIYQgJNeDE?=
+ =?us-ascii?Q?p+sJ/tQ7dmJuwunZ3AVIakSmJQhE0WgYP4xitdNAKeX/2TDeH09CE0WOPJQU?=
+ =?us-ascii?Q?GjeM14nAP/EtESljByZZXVjw5+TpY4Z2eXUyT+9QVn3pfq9SDWqugpZZP0jY?=
+ =?us-ascii?Q?iQjbakD58+gUFSldbpyUiiTeMiZ/R5aa5zWaESqqJW7KpwobnReAizlf2MEd?=
+ =?us-ascii?Q?xu0yZ57lATPqiDpZz+hvIRDFOOO/gxeEji3o5okXsPxaeQ+ihREafUbVbr01?=
+ =?us-ascii?Q?EGEJAYyHXOad887QC4+LDp4IjVvrpuf0EEJWSyPXYuI1Mc5Gg0MgBtyD4RdX?=
+ =?us-ascii?Q?a/BaPteBCStkzaN+4idzCN+kd25ZcvSlaDe88a6exW5v69wLqJwyNoeqMcuW?=
+ =?us-ascii?Q?uiYntyCWPMkQoY7DTU5U1YrSzdpf6VlIiNw4JfDLWqAWqMq7STikkkdaTAWk?=
+ =?us-ascii?Q?BFI47Od5nSon6Usts6FJqWsdPzIu4vjNYC9AeA+v1Th1KSqqwPHKVzWEwdyV?=
+ =?us-ascii?Q?wvuA7CQOa18beFJKmrKXosfRQSBF84+TlHFjK0JH8W4rj2mdeykkuLiY8VEq?=
+ =?us-ascii?Q?xyr500nzX107jgag5Uc8l1tmodTBx0CZDsbaKSXGhFGwzytWieffTG2X74a8?=
+ =?us-ascii?Q?o/B3FCyfQ6mmfBfoFw/+kvOH6vc94OxArVmLeQp/cHSIdVigtGPNyRALGNxl?=
+ =?us-ascii?Q?esud0E1BDSIKgqeaWT0AHfmrnGrIQBunk5ztmNxZiqQ4HlUtpZs2FoRau42Y?=
+ =?us-ascii?Q?RQcw40NFs/Y4L0Xbq1IqfyofYnUQqonCBMLz2tcdgQQT/KPeOX6M0ekM+Jdk?=
+ =?us-ascii?Q?5ab2HJ8OndBptaHMLNC1y0kH3wfzxh08Cjml+XVfse+HR+HaMXGkrqzhwXKZ?=
+ =?us-ascii?Q?priFr7dlMjksB0py2QPhhgU0ykhxdXi/pdDlZmgjKLfJ0UUfnjNvYNVjkh4F?=
+ =?us-ascii?Q?N+e/xz/1B/bw8TbS2Nr37fz0jpcoG4yiJGSDBQgt2Co7OX0Pq3bUHjYYSwyS?=
+ =?us-ascii?Q?2Rj10DWqWhb2McK4Bt5UsMsTJCRRO4Xs3fEWYPf51vL0JIB9qxiQbIeQSF8b?=
+ =?us-ascii?Q?Bu7GgkzWGmsYvKMKE93wTbKNToyMODLmf2L9/QNxZeu7ExonnyzoPnaD+y9W?=
+ =?us-ascii?Q?YrnsMyCUqMZpYCMO2rcq6AZCG7mZqGt8b7ZJwSajLjrp0spHkMVak2vTOEql?=
+ =?us-ascii?Q?XHZw2n391EN02WwCxnS//7OnZhMiQhiCz50XCJwnbIVtSGGY6h2PCbViAYX3?=
+ =?us-ascii?Q?2PIvgpM/6ZE+ABPkqO+bkvxElnHWsqUIRQo7krG73fkFNZzjM0KsKmVY9okO?=
+ =?us-ascii?Q?jozCr6IKsS5tcqWt+Js5OjRY1xcKjPO8C6ZqcmarrbdkMrs/RHMUgLken9p6?=
+ =?us-ascii?Q?nnCTXvUxeNxP2ARWbZPPxjI=3D?=
 X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 8dc33a58-3e5f-4a5a-0e07-08d9af596ee5
+ 331d9a61-2888-4efc-a731-08d9af596fa2
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 14:48:09.9072
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 14:48:11.1010
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- yXPplO8Nq1B2Wm5QTtFXKjpXkiG87kwpH7upwVwgKE1WVCr5DSImzwyipyghzPOdW7TYo7MeGECjZyKpA0Qs1g==
+ PZKYRAlluvs3i1iP15nFQPeAIip//ZUw+BQ8P6mICDzmzE5fpEN4oIKIOABFL9QcQknQl+4dauc9v3fNWVYz0Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5801
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 14:48:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158704
+ https://lists.openembedded.org/g/openembedded-core/message/158708
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+
+The OpenSSL legacy provider supplies OpenSSL implementations of
+algorithms that have been deemed legacy. Node.js v16 use OpenSSL 1.1.0
+by default and support legacy algorithms (example: md4 for webpack).
+
+This patch depends on a backport of [1] for nodejs.
+
+[1] https://github.com/nodejs/node/commit/1d2f37d970e839ab2acafd871fe369bab=
+db1a334
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
 ---
 
- meta/classes/angular.bbclass | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
- create mode 100644 meta/classes/angular.bbclass
+ meta/classes/npm_build.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/angular.bbclass b/meta/classes/angular.bbclass
-new file mode 100644
-index 0000000000..7560da4460
---- /dev/null
-+++ b/meta/classes/angular.bbclass
-@@ -0,0 +1,30 @@
-+# Copyright (C) 2021 Weidm=C3=BCller Interface GmbH & Co. KG
-+# Author: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-+#
-+# A bbclass to build angular projects and install its dist folder.
-+#
-+# Usage:
-+#  inherit angular
-+#
-+#  ANGULAR_BASE_HREF:
-+#       Base url for the application being built.
-+#
-+#  ANGULAR_DEPLOY_URL:
-+#       URL where files will be deployed.
+diff --git a/meta/classes/npm_build.bbclass b/meta/classes/npm_build.bbclas=
+s
+index 388eef9519..2e90da3213 100644
+--- a/meta/classes/npm_build.bbclass
++++ b/meta/classes/npm_build.bbclass
+@@ -54,6 +54,10 @@ oe_npm_setup_host_env () {
+     export CFLAGS=3D"${BUILD_CFLAGS}"
+     export CXXFLAGS=3D"${BUILD_CXXFLAGS}"
+     export LDFLAGS=3D"${BUILD_LDFLAGS}"
 +
-+inherit npm_build_dist karma
-+
-+ANGULAR_BASE_HREF ?=3D "/${BPN}/"
-+ANGULAR_DEPLOY_URL ?=3D "${ANGULAR_BASE_HREF}"
-+
-+EXTRA_OENPM_BUILD =3D "\
-+    --prod \
-+    --base-href ${ANGULAR_BASE_HREF} \
-+    --deploy-url ${ANGULAR_DEPLOY_URL} \
-+    --output-path ${NPM_DIST} \
-+"
-+
-+EXTRA_OENPM_TEST =3D "\
-+    --browsers=3DChromeHeadless \
-+    --watch=3Dfalse \
-+"
++    # Enable OpenSSL 3.0 legacy provider
++    export OPENSSL_MODULES=3D"${RECIPE_SYSROOT_NATIVE}/${libdir}/ossl-modu=
+les"
++    export NODE_OPTIONS=3D"--openssl-legacy-provider"
+ }
+=20
+ do_compile_host() {
 --=20
 2.20.1
 
