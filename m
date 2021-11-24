@@ -1,81 +1,84 @@
-Return-Path: <sakoman@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC5CCC433F5
-	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 14:41:21 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web09.6955.1637764880594807409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00550C433EF
+	for <webhook@archiver.kernel.org>; Wed, 24 Nov 2021 14:46:34 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.6859.1637765192797248139
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 06:41:20 -0800
+ Wed, 24 Nov 2021 06:46:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Kv4VoTlN;
- spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id j2so7893496ybg.9
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=79tL3USQ;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.41,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f41.google.com with SMTP id a18so4644891wrn.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Nov 2021 06:41:20 -0800 (PST)
+ Wed, 24 Nov 2021 06:46:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9pevESi9ZmPHMqXpT4yN06vhfZPkiDTHuWAbL0wvah0=;
-        b=Kv4VoTlNL3bKQbemajbvkNbklB1dIIlpBHvbbMTbLqr5/UEeaJpPaB01FOKd48eXbR
-         1ca9gA79umW2xaCSFdwYc5pZno3fIZHnFd8+HMNNUGqDgChoJ1u5G34nIa/3GuURejgM
-         nAxUx5HQz5UdLJi0PW57u4FvHPJRilu56PcCGwECY4ULBiREPXp1Q4qxAxYh+xOmC4Qd
-         w31suVPgFhDw/kWC6FSgYTqGrZKQwQEdD+GOmxlFck0HX5cOWoXoUy1zZfNMYwascD1u
-         pXaWvlo7gV7nk19Ry5HbbQ8uMti0REafM9SWBNAPPoXXGPqAd4T5hkQhZiuOz27JOE/7
-         Etdw==
+        bh=Pf27nJsQNnMKxJCaX447iYVdDTFP0226j1vNcVfF5UQ=;
+        b=79tL3USQnP0nMQtcdcS8MLUYOB4r3PBQbgPyu6QgFT7X3V/tkCXr16XHUTGTNqVp2N
+         R8w/4v6J3dJkmizJ5ZHJIs8lnz1Y6LcNvCaOLgnXfT2SkQCv/SUPDhLuICXFOfYYIllZ
+         jRgTO4OaeuG9VyQ4pKCKzxorbf2zbohK+DFoa9v7/jzLUs4yakv4e+gTcfiQEpxzzoxF
+         rXSkgi46OZS5Kxm09bLFJDHuhq5skyAuduMURM3LpiLhVtp9GxeSiUHzksrjiT+muBM1
+         Ykx+8G6DKD0iM3Flye87u0hCKbbuJG02OW5/1nP4bUb77V/UiSJmMZWTU2FJIFETDq1P
+         MXNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9pevESi9ZmPHMqXpT4yN06vhfZPkiDTHuWAbL0wvah0=;
-        b=vFffDeOz/YHPHpmuJKY27+zUVYeUiaK7DaqgEE2zrxF+wP8soRLsHZncrgcjSr1W3a
-         vKgWDHV7wPIpi3xo0rxlZAlupAGiWw1jEv6pgDDoMm9ktjJ4rwfpFzVaGgS31I3RIC5b
-         nt9aAVXtkFF5fAP8u1Mgdy20fWhUqKxafhzdEkrdR67lUrXA2gB/D681M5ewWsUytdj6
-         Q7Pef/IXdWUF4brzO5sLJ4AkEVmLTkHdQ4ZbQadO3TVcOEtBSkC+gjjFfjC1VT9s4kgf
-         7MKs8RhWjwhl0amoi65NtD/eImZq+6QL9zSWrh3quVRvBixSDAbf0OHO8sZpoHtOglWf
-         QtqA==
-X-Gm-Message-State: AOAM533/MK+FDCTt9IJ8GBGf7mCVmlmuxT2muOMp59yz3mINdslZ4EbV
-	CCb6CkWcwhB64iqYF0ljfeWdh6yIrCjxfNX9JXM=
+        bh=Pf27nJsQNnMKxJCaX447iYVdDTFP0226j1vNcVfF5UQ=;
+        b=WPFFttJD/1afGPR4sinJHjlqj+AoO7XN1YthyIfM30ArRPSGQKMuJSlssaaODl36DC
+         8dvP2t70sT2MJdXd3dRzsms5ckziWfEcmyYIMif4vTKIZONpsp81+n/A7iU+AIVbLF5s
+         CMDxbH2cYG2l506kAkFSx/GebISerkjy60y1QiqNe+lpHB4PQy+0Ui1ab6E3hxjru2Co
+         B7XFFRQ8c5swE1rGJlQiCwqwsbhmWFUsRn2jRAdKghaXOokF2Pd629f3ufRrtgF7S7lM
+         BQ3Gg+hc0LGM7Dp5w59f6+IJQyioJYiOFGL3v82kOmz1FgvKglRtW5sPgW4IsFrnmSUz
+         /mfw==
+X-Gm-Message-State: AOAM5315hB1Bn/cKpuwhDklGYUdxiqSyRrEGNR96QdLf6dk560BSQK37
+	tcDgYuRBnvgV3gqDoosm27Nqj2VBINN9HKKaLhLjrQ==
 X-Google-Smtp-Source: 
- ABdhPJyDvqEFO/NoRN0l+BBINli/vhsNqYgk00Ou8h2vOugv842oO6+NAa8sFzdBqqbS0mcrudugiY//SUdsLya5bY0=
-X-Received: by 2002:a25:f414:: with SMTP id q20mr2666400ybd.206.1637764879510;
- Wed, 24 Nov 2021 06:41:19 -0800 (PST)
+ ABdhPJwVduTF1+CzT7uu+VoG0SJftvgK6tUgzAygjHnovTtV+DaOmyhOo+tDD4Mo6yrLUvbIY2cHjb6lnfHjXYJcukg=
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr20390556wrq.94.1637765191137;
+ Wed, 24 Nov 2021 06:46:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20211124031423.76384-1-jatedev@gmail.com>
- <22784.1637724029635268629@lists.openembedded.org>
-In-Reply-To: <22784.1637724029635268629@lists.openembedded.org>
-From: Steve Sakoman <sakoman@gmail.com>
-Date: Wed, 24 Nov 2021 04:41:08 -1000
+References: <cover.1637703810.git.bruce.ashfield@gmail.com>
+In-Reply-To: <cover.1637703810.git.bruce.ashfield@gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Wed, 24 Nov 2021 14:46:20 +0000
 Message-ID: 
- <CAGDS+n=GAynfwqtXR4TD+GBu-NRkmRdBdXQoeccPaJ=DcEek5w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libdnf: Backport bugfix for upgrade calc
-To: Jate Sujjavanich <jatedev@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+ <CAAnfSTuyYHJk6BnGMTMq0_QA7wuxmLA5x0_rwN5Oe_kj3Mc1aQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/20] kernel/kernel-yocto: consolidated pull
+ request
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org, ticotimo@gmail.com,
+	trevor.gamblin@windriver.com
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 14:41:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Nov 2021 14:46:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158693
+ https://lists.openembedded.org/g/openembedded-core/message/158694
 
-On Tue, Nov 23, 2021 at 5:20 PM Jate Sujjavanich <jatedev@gmail.com> wrote:
->
-> Meant to add a [dunfell] to the subject.
+On Tue, 23 Nov 2021 at 21:57, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> We weren't able to even run the validation at all, due to the kernel
+> calling pkg-config directly to check for libyaml, which is the target
+> pkgconfig and failing on missing dependencies. Rather than patching
+> the kernel, I've finally given in and made the do_compile task set
+> the PKG_CONFIG variables to point to our native-sysroot.
 
-Got it!  Thanks.
+The correct fix here would be the kernel should use $PKG_CONFIG (or
+ideally, BUILD_PKGCONFIG or similar for host lookups) and then you can
+override it with export PKGCONFIG=pkgconfig-native.
 
-Steve
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158652): https://lists.openembedded.org/g/openembedded-core/message/158652
-> Mute This Topic: https://lists.openembedded.org/mt/87274565/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+I see that some bits of the kernel already set PKG_CONFIG ?=
+$(CROSS_COMPILE)pkg-config, but others directly use pkg-config.
+
+Ross
 
