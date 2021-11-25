@@ -1,168 +1,155 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06715C433F5
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 18:01:07 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web12.15125.1637863266178670959
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 815D0C433EF
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 23:40:13 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.18256.1637883611931753374
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 10:01:06 -0800
+ Thu, 25 Nov 2021 15:40:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PQigvDil;
- spf=pass (domain: gmail.com, ip: 209.85.208.44,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id r25so28742682edq.7
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MR5L42e+;
+ spf=permerror,
+ err=parse error for token &{10 18 _spf.google.com}: limit exceeded (domain:
+ linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id l16so14766331wrp.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 10:01:05 -0800 (PST)
+ Thu, 25 Nov 2021 15:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fM/ZFQEmEAow6PreniQqswChqVLdsIx3zh/aLSU9V74=;
-        b=PQigvDilLdDlYHCiVYSrnaWXDYBjgrOasqkD7OA1VkE8VwFYkv0+nGrMoxZzk5LxOT
-         6NJLFhATSNc/s4UAJUGM224yisip2HkFumNwYDS812KKhoEAlJANpjKVc02ZMiINoQU1
-         6d7jrqoIoTqOYpxmMSAFLD5U0EYuHJ8qJkclicLdfbZit2nf7GnYJ59LeebnBGAqci7W
-         18pA5tafkt7hELHNoMBJIe2XZiKNmpTKYfgn9fLn7aofRapweyqsBhW4Q5ibawSAiusR
-         ALz8bPEQu/ZC25hZhJmgWi3u8y5rLDHRAkiRhQ5lYc5ora9l85h5bl3l9780wuw+ZjSA
-         CDcg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5vsv6OELz7iFIm+zico3JmmQaXnd/eggpbYR8oSpOA4=;
+        b=MR5L42e+3MSVooexqLx2YlFervjsZtG7nAqjTAPJc1uAVTfjj170YUjhxuPlj4o/Sb
+         h0s18St+E7nTa2vZZF7sUCNyFMZCcoldubFtOxzFj4V+snU7V2S9zfM2IbrCLXmrShKH
+         09rBH1oSQTczgTCWh/mhKqqrCH3UtyuaXj5Fc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fM/ZFQEmEAow6PreniQqswChqVLdsIx3zh/aLSU9V74=;
-        b=ETSOfB/R24xgNyfNKbwaD3A69OTj1j2MMechHlSMFn3ohGNxvxVEo2iOM1YKQ6f6cX
-         VXr+rmX7+uKUfHBTAxX7SuQ6WwRfRcpDGmBKfltXrX/dRz5kdQpiYdIN//UeZ1mxElu3
-         faXDjVNbnyX4Rk0oHWuRVYvuDpv/o/8j6qyKIL3/uVPNiIN3tlpZqIWUMuJOMgnnukBW
-         oiOcoHlokD57QjoObKQVqfvHAGJouSfoSzhu6Zkr2TSd69swMbsEg8Ky/8tdXcXJGRf4
-         KtoGDbBWyxSBwkPNm9TQ/4lAUxki/xfEfCkK1bJtqZAzTDUdELKPHZ+YpqNB/Bm1ROfQ
-         0kmA==
-X-Gm-Message-State: AOAM533DoOO0g1gBj+UgxfkefjUAD/uzVXNc4T8N2DO54HhEFzwb90EH
-	QGytQLQrbnwJgk3R1BmwPoczmOI46Z4pDjDXlQI=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5vsv6OELz7iFIm+zico3JmmQaXnd/eggpbYR8oSpOA4=;
+        b=wUi3XVKqx9YhQt3eCHpkL04Xhq6zgkkNVHaPWY8RVFUsTwH5R/Tiwopwey0F/pBGRW
+         qfkXRGT6VVr2pXSmByfu7ueqjelLKVq8yX2LrDwvqzQBGtwxtawnmWSAJ4X3GJgkt6Zi
+         aZ3JQej7q0q4uX3lwrx8XCK7PMvCmfxofBh3iG66N8N2vmspZ8aXrHeOUtoMewplFWab
+         AMVX3VEn9+VxMiYLMky3DDrQZoAQfp46l67GpPRwWC3SXhaH03bwR1C6x6rQhSe/vGgA
+         iPe12t8wTlSZEBnv0BuNAyaaMqqs1Q48huhrbpDDfz66Ii5dfSsUcio0mjMTjqTW9Fsa
+         p3rA==
+X-Gm-Message-State: AOAM533lEAAVh5GN2PIUmJErROp4y9PHC5iLiiYFYG06W5h6W9megkA9
+	PK3/+Vi4hPLWGJwmwQcWTzhlaVPGEoRGsA==
 X-Google-Smtp-Source: 
- ABdhPJzg1lqIS1FEeIrYB8Vxm81uP9YhgPyLF59+iWDTk6OA9jXRhCLYvIwl1m5GcssJurGaW3qnyBUSn+SJ399eaqA=
-X-Received: by 2002:a17:907:1689:: with SMTP id
- hc9mr32791404ejc.445.1637863264300;
- Thu, 25 Nov 2021 10:01:04 -0800 (PST)
+ ABdhPJzYorIeWtcOYb64emxoXhDYVd4/lt90p0EJN/Y4KrLvBxpqO2ESKRQ49jfG1/PE+PjgPViEuQ==
+X-Received: by 2002:a5d:47aa:: with SMTP id 10mr10480859wrb.50.1637883610037;
+        Thu, 25 Nov 2021 15:40:10 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f21b:9c01:debb:ef34])
+        by smtp.gmail.com with ESMTPSA id
+ v15sm3939069wro.35.2021.11.25.15.40.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 15:40:09 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gcc: Drop further unneeded precompiled header patch
+Date: Thu, 25 Nov 2021 23:40:09 +0000
+Message-Id: <20211125234009.147680-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <cover.1637788184.git.bruce.ashfield@gmail.com>
- <c653e0c3cd0edd038b3c3a2d9df442d2fe5ea745.1637788184.git.bruce.ashfield@gmail.com>
- <CAMKF1sqXFdQCtOHcc36CZgfoxwL0ASFeU2PyWW7LiD22drJVLA@mail.gmail.com>
- <CADkTA4PpHJJ_QRq=5PC_fctLGt5yyLANwiP9bKcJz1T_OtqH-g@mail.gmail.com>
- <a31990ed-7583-e8d5-efe9-a22172aa5d0d@gmail.com>
-In-Reply-To: <a31990ed-7583-e8d5-efe9-a22172aa5d0d@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 25 Nov 2021 13:00:53 -0500
-Message-ID: 
- <CADkTA4NKNK2hY0Zca_=giGJtN+M4TEf4eEWfrtxFwfo=ksSCvg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 03/20] python: introduce python3-dtschema
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Tim Orling <TicoTimo@gmail.com>,
-	Trevor Gamblin <trevor.gamblin@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 18:01:07 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 23:40:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158794
+ https://lists.openembedded.org/g/openembedded-core/message/158795
 
-On Thu, Nov 25, 2021 at 12:53 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On 11/25/21 9:51 AM, Bruce Ashfield wrote:
-> > On Thu, Nov 25, 2021 at 12:36 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> fails to build for me
-> >>
-> >> https://errors.yoctoproject.org/Errors/Details/618010/
-> >
-> > It was updated in-branch with fixups.  The version in this patch is
-> > known to break on a target build.
->
-> thanks, my grinder runs slowly since it builds a lot of stuff, so it
-> gets to errors a bit late :). Are these fixes already in master-next now ?
+According to comments on the bug report from gcc developers, we
+no longer need to do this post gcc 10. Lets therefore drop the patch.
 
-Yup,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 -
+ ...-fault-in-precompiled-header-generat.patch | 57 -------------------
+ 2 files changed, 58 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch
 
-Richard picked up the fix after I noticed the failure in my AB run, I see the
-
-DEPENDS += "python3-setuptools-scm-native"
-
-In the master-next version, which was the fix for the target build issue.
-
-Bruce
-
->
-> >
-> > Bruce
-> >
-> >>
-> >> On Wed, Nov 24, 2021 at 1:14 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >>>
-> >>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >>>
-> >>> kernel commit 53182e81f47d [kbuild: Enable DT schema checks for %.dtb
-> >>> targets], which is part of v5.16+, makes the checking of dtb schemas
-> >>> manditory.
-> >>>
-> >>> To support the checking, we introduce this new recipe dtschema.
-> >>>
-> >>> Dependencies will be imported in subsequent commits, so we can
-> >>> track the dependency need on a per-import basis.
-> >>>
-> >>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >>> ---
-> >>>   .../python/python3-dtschema_2021.10.bb           | 16 ++++++++++++++++
-> >>>   1 file changed, 16 insertions(+)
-> >>>   create mode 100644 meta/recipes-devtools/python/python3-dtschema_2021.10.bb
-> >>>
-> >>> diff --git a/meta/recipes-devtools/python/python3-dtschema_2021.10.bb b/meta/recipes-devtools/python/python3-dtschema_2021.10.bb
-> >>> new file mode 100644
-> >>> index 0000000000..f16232d610
-> >>> --- /dev/null
-> >>> +++ b/meta/recipes-devtools/python/python3-dtschema_2021.10.bb
-> >>> @@ -0,0 +1,16 @@
-> >>> +DESCRIPTION = "Tooling for devicetree validation using YAML and jsonschema"
-> >>> +HOMEPAGE = "https://github.com/devicetree-org/dt-schema"
-> >>> +LICENSE = "BSD-2-Clause"
-> >>> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=457495c8fa03540db4a576bf7869e811"
-> >>> +
-> >>> +inherit pypi setuptools3
-> >>> +
-> >>> +PYPI_PACKAGE = "dtschema"
-> >>> +
-> >>> +SRC_URI[md5sum] = "d2f0d847ba2ad4d223317ef7304342b0"
-> >>> +SRC_URI[sha256sum] = "d09c94d13f46e6674ba11ff31220651ad1b02dae860f5a87905dfac6b8d768d9"
-> >>> +
-> >>> +DEPENDS += "python3-setuptools-scm"
-> >>> +RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987"
-> >>> +
-> >>> +BBCLASSEXTEND = "native nativesdk"
-> >>> --
-> >>> 2.19.1
-> >>>
-> >>>
-> >>> -=-=-=-=-=-=-=-=-=-=-=-
-> >>> Links: You receive all messages sent to this group.
-> >>> View/Reply Online (#158749): https://lists.openembedded.org/g/openembedded-core/message/158749
-> >>> Mute This Topic: https://lists.openembedded.org/mt/87290455/1997914
-> >>> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> >>> -=-=-=-=-=-=-=-=-=-=-=-
-> >>>
-> >
-> >
-> >
-
-
-
+diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
+index afb8f2df5c2..4c18396a15f 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
+@@ -52,7 +52,6 @@ SRC_URI = "\
+            file://0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch \
+            file://0029-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
+            file://0030-sync-gcc-stddef.h-with-musl.patch \
+-           file://0031-fix-segmentation-fault-in-precompiled-header-generat.patch \
+            file://0033-Re-introduce-spe-commandline-options.patch \
+            file://0034-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
+            file://0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch b/meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch
+deleted file mode 100644
+index 70afa4f9e95..00000000000
+--- a/meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 3d59f763b824ac11f8360931092baf0bc1719562 Mon Sep 17 00:00:00 2001
+-From: Juro Bystricky <juro.bystricky@intel.com>
+-Date: Mon, 19 Mar 2018 22:31:20 -0700
+-Subject: [PATCH] fix segmentation fault in precompiled header generation
+-
+-Prevent a segmentation fault which occurs when using incorrect
+-structure trying to access name of some named operators, such as
+-CPP_NOT, CPP_AND etc. "token->val.node.spelling" cannot be used in
+-those cases, as is may not be initialized at all.
+-
+-[YOCTO #11738]
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- libcpp/lex.c | 26 +++++++++++++++++++++-----
+- 1 file changed, 21 insertions(+), 5 deletions(-)
+-
+-diff --git a/libcpp/lex.c b/libcpp/lex.c
+-index 06bcc31c87e..24bed9a35fa 100644
+---- a/libcpp/lex.c
+-+++ b/libcpp/lex.c
+-@@ -3531,11 +3531,27 @@ cpp_spell_token (cpp_reader *pfile, const cpp_token *token,
+-     spell_ident:
+-     case SPELL_IDENT:
+-       if (forstring)
+--	{
+--	  memcpy (buffer, NODE_NAME (token->val.node.spelling),
+--		  NODE_LEN (token->val.node.spelling));
+--	  buffer += NODE_LEN (token->val.node.spelling);
+--	}
+-+        {
+-+          if (token->type == CPP_NAME)
+-+            {
+-+              memcpy (buffer, NODE_NAME (token->val.node.spelling),
+-+                    NODE_LEN (token->val.node.spelling));
+-+              buffer += NODE_LEN (token->val.node.spelling);
+-+              break;
+-+            }
+-+          /* NAMED_OP, cannot use node.spelling */
+-+          if (token->flags & NAMED_OP)
+-+            {
+-+              const char *str = cpp_named_operator2name (token->type);
+-+              if (str)
+-+                {
+-+                  size_t len = strlen(str);
+-+                  memcpy(buffer, str, len);
+-+                  buffer += len;
+-+                }
+-+              break;
+-+            }
+-+        }
+-       else
+- 	buffer = _cpp_spell_ident_ucns (buffer, token->val.node.node);
+-       break;
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.32.0
+
 
