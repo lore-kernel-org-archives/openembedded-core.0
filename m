@@ -1,139 +1,253 @@
-Return-Path: <anibal.limon@linaro.org>
+Return-Path: <nicolas.dechesne@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D8BC433EF
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 14:35:25 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.12590.1637850924356358116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C53DEC433F5
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 15:22:12 +0000 (UTC)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by mx.groups.io with SMTP id smtpd.web08.13238.1637853731807214518
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 06:35:24 -0800
+ Thu, 25 Nov 2021 07:22:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=uGbuVlb3;
- spf=pass (domain: linaro.org, ip: 209.85.221.46,
- mailfrom: anibal.limon@linaro.org)
-Received: by mail-wr1-f46.google.com with SMTP id a9so12091588wrr.8
+ dkim=pass header.i=@linaro.org header.s=google header.b=HW0xMunl;
+ spf=pass (domain: linaro.org, ip: 209.85.166.175,
+ mailfrom: nicolas.dechesne@linaro.org)
+Received: by mail-il1-f175.google.com with SMTP id e8so6151760ilu.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 06:35:24 -0800 (PST)
+ Thu, 25 Nov 2021 07:22:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fnJty6PKPqJC5LKkyItQ8/SYeGYH1KAqxqWPL7ix3IA=;
-        b=uGbuVlb3YExANRRRT5xm/zOSmJSszFIrav4BPzQCrKeIJ/m7mjzfXlRk6Sg4aqaVM/
-         ASC9vqoFTrtZzrQ7kNCLyc+Hx2qbT02XrEtGuokXjAbJP6CMZaeFm32ILynj4AD4aa7p
-         d1BjxXGK95ALnykMKWjashm/2Pu3kBCfXh4RQ0YKNR7qQfB+WG1ENXhUEa/iPgAfxDx/
-         TqE9Ff3BmrfLHH09/WizsVIGkNUxST/EAvAuoGqDi5g+FC0Jw7xlbanjly2dnLy/LISt
-         yIGEn57fKv8nJKB9HNVS2wWl5c83gGAIVxwt5a6jJ9NDpKuFhuw75IV/ec0J+IVEZKVc
-         08lg==
+        bh=RCjPAjqQgiUqQuO0KFzBKWl5irA9UUTnzzrpNTabn/0=;
+        b=HW0xMunl61WTYnGz5z6jH67SBEQ6sjuQbzlOSGwOm5FGY0bOJ1xccQH7mEEX5vPSlV
+         3+Q2Fp2ul+KdjzyPtktKZFvRSxMvxy1DV51nPhIymkZ8ISnTGhucREKigX2EuEUGTM2X
+         Z4mRU1B+fqEu2piegJfQa37UZCB1E45dGHsUK092SPwk8H+pkSFwFJnLj+yAUz6V8QsZ
+         jh69jSntfmkhtPhzV2DSnfK8ZUPsppSdmj1FzCy60ZnN/jM1WlPMJN/ELtNogHavZgCB
+         Vpq1jsvSPaa6KXBbvXLs5wTW7ataOihcVUsD1RzFfKL8LaIiWtAFoFKK8O73nbphbTpf
+         HFbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fnJty6PKPqJC5LKkyItQ8/SYeGYH1KAqxqWPL7ix3IA=;
-        b=aKWbgU/BrQuqtqn7Y98L/n5w/7EsNRKDDV+el5t0PgKCfYrmo6V37VvfEqXCL0syuE
-         r3IaZXl0LTAF6lS/GE8R00W471LiW3c0q/L62WAmMOGraX00Gz3Spn36PgTkE/q8NZMe
-         LRuS/l4Hh8a5eQ4oGR3bWYV5hDCROmRZpAxAw8A3scsu5XmGJstH9VKx81GSSXYwrp2h
-         hyENfWOKWBMkhTZtfh5FWRctco/zS2ypqXP1jKY/+bL3DFoV4iPb9lwQ/lmJ6V873nRG
-         YpTuRyoCwwU28Iu04BOwaZtojM+YWd3/D7Ek9c4eBUmjKqSVOuvguGqpqub85N34F7km
-         RhgQ==
-X-Gm-Message-State: AOAM532l444Cjv0/KDHHItNQad2vVMqmJjXKrlXC0ozxWuDgSTueC9Xd
-	+lfIb4nb5YWfQzzbZBKhgHq9CAA47yru3YyWEg7PAg==
+        bh=RCjPAjqQgiUqQuO0KFzBKWl5irA9UUTnzzrpNTabn/0=;
+        b=Ez3JzhwsvOVtzslqNd1nzEqZbcCMxVBzCa0cQIb+htTxcS7bgdmu2l1bNsF5iVa0VM
+         K1VaSlBcVbe6uXxmmz1136WeGLYCnPU8LeXGYSVKLZMzbvqj7KaEPxYyVxiL2grUQDD7
+         Jcy2zY+T5rJ0HzLY6gzQVMffcK6Q1Pgny7ILHlSQwiGPjS1rrZZ25GmOA0a/fPXBDZsT
+         efBfXgwThDle6G9xElfcnLdGWoe3ykmoNMZcTtfRPyht9nsXM037WNbDWtEO4cfiFRaT
+         4G0JX9k9DERo6sciyafJGkJJrXMLFnnwVaIqYA7LDWcGENFdYb9LCg1PbCraKWUFBuvK
+         Kjnw==
+X-Gm-Message-State: AOAM530llG14xXsxVOldoaAeOUsrQVRaBrgm1FK0GpRA433GsIPaVHU1
+	quHG9+NxPwZhHFTrieksP4nPOc75F0UINM7+0Y2wzQ==
 X-Google-Smtp-Source: 
- ABdhPJzhkspC77cJ2VqPefzknegKz8z4RuMZ7ZfW2rPUZyjveow06G3EYaKi/1TURLPF1s7IaqMsfG5KVF+omll+HzM=
-X-Received: by 2002:adf:e3c3:: with SMTP id k3mr6747598wrm.599.1637850922587;
- Thu, 25 Nov 2021 06:35:22 -0800 (PST)
+ ABdhPJyAo6tIfFpsfNjZFRJJTmC7pynFtYX27nm7h+oOoT3NCqUJV75mxzvD9kkZBDo0h8iiPaeZgMXxY/H0ERW67II=
+X-Received: by 2002:a05:6e02:ee7:: with SMTP id
+ j7mr24698757ilk.15.1637853731038;
+ Thu, 25 Nov 2021 07:22:11 -0800 (PST)
 MIME-Version: 1.0
-References: <16B7C59052251915.18463@lists.openembedded.org>
- <CA+_AqiuXK9Sd0EpcdWX32dj3G4ZmxJxO+PmiR3W8erPkKXTChw@mail.gmail.com>
- <82e623096c8435851e548c63ed6f25b95d093fa7.camel@linuxfoundation.org>
-In-Reply-To: 
- <82e623096c8435851e548c63ed6f25b95d093fa7.camel@linuxfoundation.org>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Thu, 25 Nov 2021 08:35:11 -0600
+References: <1617235191-37594-1-git-send-email-denis@denix.org>
+In-Reply-To: <1617235191-37594-1-git-send-email-denis@denix.org>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 25 Nov 2021 16:21:59 +0100
 Message-ID: 
- <CA+_AqivR9tx9y4RO-BAwK9f1hmgvM3RZuoFxNT9p3NOoEjx_sA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv3] waffle: add explicit dependency to
- cmake-native
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, ross@burtonini.com
-Content-Type: multipart/alternative; boundary="0000000000006fb11205d19de26c"
+ <CAP71WjwizBME7VsK+Mpy=mysN_=ViykHhpJ0owgAb_2wH=cnXA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] make-mod-scripts: pass CROSS_COMPILE to
+ configure and build
+To: Denys Dmytriyenko <denis@denix.org>, Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Bruce Ashfield <bruce.ashfield@gmail.com>, Nishanth Menon <nm@ti.com>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000d541c705d19e89fb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 14:35:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 15:22:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158779
+ https://lists.openembedded.org/g/openembedded-core/message/158780
 
---0000000000006fb11205d19de26c
+--000000000000d541c705d19e89fb
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 23 Nov 2021 at 16:40, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Tue, 2021-11-23 at 12:00 -0600, Anibal Limon wrote:
-> > Hi,
-> >
-> > Is this patch good enough? or need another change.
->
-> There was feedback about the commit message needing work. Someone else
-> also sent
-> a similar patch with a commit message with the right explanation in it so
-> that
-> was merged in preference but the issue should be fixed.
->
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=50e0aed0684526c74072ceaf8fa52964c9cc0d19
+Bruce, Steve,
 
 
-Great!,
+On Thu, Apr 1, 2021 at 2:00 AM Denys Dmytriyenko <denis@denix.org> wrote:
 
-Regards,
-Anibal
+> Fixes:
+> |   CALL
+> /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/checksyscalls.sh
+> |   CALL
+> /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/atomic/check-atomics.sh
+> |   LDS     arch/arm64/kernel/vdso/vdso.lds
+> |   CC      arch/arm64/kernel/vdso/vgettimeofday.o
+> |   AS      arch/arm64/kernel/vdso/note.o
+> |   AS      arch/arm64/kernel/vdso/sigreturn.o
+> |   LD      arch/arm64/kernel/vdso/vdso.so.dbg
+> |   VDSOSYM include/generated/vdso-offsets.h
+> |   OBJCOPY arch/arm64/kernel/vdso/vdso.so
+> | objcopy: Unable to recognise the format of the input file
+> `arch/arm64/kernel/vdso/vdso.so.dbg'
+> |
+> /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/vdso/Makefile:61:
+> recipe for target 'arch/arm64/kernel/vdso/vdso.so' failed
+>
 
+One of our meta-qcom users hit this issue with dunfell
+https://github.com/ndechesne/meta-qcom/issues/394
+
+Backporting this patch to dunfell seems the right thing to do. The patch
+applies cleanly and it fixes the problem for me.
+
+e.g.
+ddad8183490c (make-mod-scripts: pass CROSS_COMPILE to configure and build)
+
+Feel free to add
+Reported-by: Daniel Thompson <daniel.thompson@linaro.org>
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
+
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Cc: Nishanth Menon <nm@ti.com>
+> Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+> ---
+>  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> index 92ffa47..b2b50b9 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -19,7 +19,7 @@ DEPENDS += "bc-native bison-native"
+>  DEPENDS += "gmp-native"
+>
+>  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
+> HOSTCPP="${BUILD_CPP}""
+> -EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS}
+> ${BUILD_LDFLAGS}""
+> +EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS}
+> ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
+>
+>  # Build some host tools under work-shared.  CC, LD, and AR are probably
+>  # not used, but this is the historical way of invoking "make scripts".
+> --
+> 2.7.4
 >
 >
-> Cheers,
->
-> Richard
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#150130):
+> https://lists.openembedded.org/g/openembedded-core/message/150130
+> Mute This Topic: https://lists.openembedded.org/mt/81764668/1279857
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> nicolas.dechesne@linaro.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 >
 
---0000000000006fb11205d19de26c
+--000000000000d541c705d19e89fb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, 23 Nov 2021 at 16:40, Richard=
- Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.p=
-urdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Tue, 2021-11-23 at 12:00 -0600, Anibal Limon wr=
-ote:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; Is this patch good enough? or need another change.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Bruce, Steve,=C2=A0<div><br></div></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
+ Apr 1, 2021 at 2:00 AM Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix=
+.org" target=3D"_blank">denis@denix.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">Fixes:<br>
+|=C2=A0 =C2=A0CALL=C2=A0 =C2=A0 /OE/poky-master/build/tmp/work-shared/qemua=
+rm64/kernel-source/scripts/checksyscalls.sh<br>
+|=C2=A0 =C2=A0CALL=C2=A0 =C2=A0 /OE/poky-master/build/tmp/work-shared/qemua=
+rm64/kernel-source/scripts/atomic/check-atomics.sh<br>
+|=C2=A0 =C2=A0LDS=C2=A0 =C2=A0 =C2=A0arch/arm64/kernel/vdso/vdso.lds<br>
+|=C2=A0 =C2=A0CC=C2=A0 =C2=A0 =C2=A0 arch/arm64/kernel/vdso/vgettimeofday.o=
 <br>
-There was feedback about the commit message needing work. Someone else also=
- sent<br>
-a similar patch with a commit message with the right explanation in it so t=
-hat<br>
-was merged in preference but the issue should be fixed.<br>
+|=C2=A0 =C2=A0AS=C2=A0 =C2=A0 =C2=A0 arch/arm64/kernel/vdso/note.o<br>
+|=C2=A0 =C2=A0AS=C2=A0 =C2=A0 =C2=A0 arch/arm64/kernel/vdso/sigreturn.o<br>
+|=C2=A0 =C2=A0LD=C2=A0 =C2=A0 =C2=A0 arch/arm64/kernel/vdso/vdso.so.dbg<br>
+|=C2=A0 =C2=A0VDSOSYM include/generated/vdso-offsets.h<br>
+|=C2=A0 =C2=A0OBJCOPY arch/arm64/kernel/vdso/vdso.so<br>
+| objcopy: Unable to recognise the format of the input file `arch/arm64/ker=
+nel/vdso/vdso.so.dbg&#39;<br>
+| /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/arch/arm64/=
+kernel/vdso/Makefile:61: recipe for target &#39;arch/arm64/kernel/vdso/vdso=
+.so&#39; failed<br></blockquote><div><br></div><div>One of our meta-qcom us=
+ers hit this issue with dunfell=C2=A0</div><div><a href=3D"https://github.c=
+om/ndechesne/meta-qcom/issues/394" target=3D"_blank">https://github.com/nde=
+chesne/meta-qcom/issues/394</a></div><div><br></div><div>Backporting this p=
+atch to dunfell seems the right thing to do. The patch applies cleanly and =
+it fixes the problem for me.=C2=A0</div><div><br></div><div>e.g.</div><div>=
+ddad8183490c (make-mod-scripts: pass CROSS_COMPILE to configure and build)<=
+br></div><div><br></div><div>Feel free to add</div><div>Reported-by:=C2=A0D=
+aniel Thompson &lt;<a href=3D"mailto:daniel.thompson@linaro.org">daniel.tho=
+mpson@linaro.org</a>&gt;</div><div>Signed-off-by: Nicolas Dechesne &lt;<a h=
+ref=3D"mailto:nicolas.dechesne@linaro.org">nicolas.dechesne@linaro.org</a>&=
+gt;</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D50e0aed06=
-84526c74072ceaf8fa52964c9cc0d19" rel=3D"noreferrer" target=3D"_blank">http:=
-//git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D50e0aed0684526c74072ceaf8=
-fa52964c9cc0d19</a></blockquote><div><br></div><div>Great!,</div><div><br><=
-/div><div>Regards,</div><div>Anibal=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex"><br>
+Cc: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=
+=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+Cc: Nishanth Menon &lt;<a href=3D"mailto:nm@ti.com" target=3D"_blank">nm@ti=
+.com</a>&gt;<br>
+Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.org" tar=
+get=3D"_blank">denis@denix.org</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/make-mod-scripts/<a href=3D"http://make-mod-scrip=
+ts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts_1.0.bb</a>=
+ | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-Cheers,<br>
+diff --git a/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://make-mo=
+d-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts_1.0=
+.bb</a> b/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://make-mod-s=
+cripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts_1.0.bb=
+</a><br>
+index 92ffa47..b2b50b9 100644<br>
+--- a/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://make-mod-scrip=
+ts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts_1.0.bb</a>=
 <br>
-Richard<br>
++++ b/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://make-mod-scrip=
+ts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts_1.0.bb</a>=
+<br>
+@@ -19,7 +19,7 @@ DEPENDS +=3D &quot;bc-native bison-native&quot;<br>
+=C2=A0DEPENDS +=3D &quot;gmp-native&quot;<br>
+<br>
+=C2=A0EXTRA_OEMAKE =3D &quot; HOSTCC=3D&quot;${BUILD_CC} ${BUILD_CFLAGS} ${=
+BUILD_LDFLAGS}&quot; HOSTCPP=3D&quot;${BUILD_CPP}&quot;&quot;<br>
+-EXTRA_OEMAKE +=3D &quot; HOSTCXX=3D&quot;${BUILD_CXX} ${BUILD_CXXFLAGS} ${=
+BUILD_LDFLAGS}&quot;&quot;<br>
++EXTRA_OEMAKE +=3D &quot; HOSTCXX=3D&quot;${BUILD_CXX} ${BUILD_CXXFLAGS} ${=
+BUILD_LDFLAGS}&quot; CROSS_COMPILE=3D${TARGET_PREFIX}&quot;<br>
+<br>
+=C2=A0# Build some host tools under work-shared.=C2=A0 CC, LD, and AR are p=
+robably<br>
+=C2=A0# not used, but this is the historical way of invoking &quot;make scr=
+ipts&quot;.<br>
+-- <br>
+2.7.4<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#150130): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/150130" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/150130</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/81764668/1279=
+857" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/81764668/1279857</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:nicolas.dechesne@linaro.or=
+g" target=3D"_blank">nicolas.dechesne@linaro.org</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div></div>
 
---0000000000006fb11205d19de26c--
+--000000000000d541c705d19e89fb--
 
