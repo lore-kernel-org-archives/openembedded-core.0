@@ -1,119 +1,151 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C74C433F5
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 15:28:10 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.13228.1637854089147618542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 953CBC433EF
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 15:42:37 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web08.13504.1637854956464229883
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 07:28:09 -0800
+ Thu, 25 Nov 2021 07:42:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bFmmkhte;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id o29so5913662wms.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZjsRxIa7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id v1so27334367edx.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 07:28:08 -0800 (PST)
+ Thu, 25 Nov 2021 07:42:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Tqao/NoT60My2Zxy/i0HRT8CYa2h8RwgIo+TjaQvruw=;
-        b=bFmmkhtePvuMsZlpaqgRnZkhqC4G+xu3A2OvUsooYG9D9Lb23BDEAVT6692JbscVzr
-         8n1mySDHNGnTEDt9MQSSCknBggoNmPaImI+5tVgJtnv8WzkRK1917Ls8xG8aRdx1H+c2
-         RslIKKJihVO9tMACJ/uOcJ2xswYwRvE0Bw5rI=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/dGdzTKCnMWhmewoDk3sKmzstlQ6Ak7j3Xd3wAQJi5g=;
+        b=ZjsRxIa7Rcv8YnFAO0kwtTFUNI0siEFwtyzujRrlXyoadN8a7fzpK3hceWwFC19+9Y
+         Wd8El78J+Iaowqr/DXOIRhPe8bMlel0e+5MOc7JdzgkspJMOhRuUcod3zVrHXlBD+AXR
+         fW5n68RJImz0zM4HEAqVzit2tJPWIzk2khfjRrmw2aexyj+mElu7fqX/r0cB/751CPTE
+         QpcwStP1yfSbtw9sqw1h+LmuO4pV9YTC6f9QH23gxEiOJnGsk/UIpkz9kCgYw2XUNgT5
+         SHZKJ0j/1GuIKqCcJBFSR4FowvJGC4YjE8VD9p2TTIuWzqkV22XR93dq3MNrXLg2nrKt
+         CimA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Tqao/NoT60My2Zxy/i0HRT8CYa2h8RwgIo+TjaQvruw=;
-        b=cCHVWaW/7/SoL6Y1Vc3knb4KvlTvOQ5ukqY1wJEok0SRmcR1Ztq+Aa4gOgNztroPtS
-         ldgBQqEcjFkEmqHCUEqOwKMUCGGDQGcziXj0f41aAMt7RyInj4lYAsr2Ja1TZU9tlUcR
-         lmnaEevwI/dVC81Sb1b/y7ey8yQreyQR7PaeiaEmUEdmU5FSE+WiPXt7kyzC+oITb/7B
-         Y/3If6F8ptadWfQq9PzW5M33axKJu4BagrXPApN+AW8kOChf0a1gBZBNUNkBCWEAqHiH
-         PZYkOe9rxuZJNlarEqvYbh0YE/l9cH26KGfAaT7gBt4+HILT21GJW3NC/OGb7asYOrdS
-         /fyQ==
-X-Gm-Message-State: AOAM533q6EHy2DKpok82gSUwwptfI5Gm5eJq2Vpr4j6xOwoIwxZEZiYq
-	3ZHdqwnhf7SbL15YkS9xKElcXjoO102RhQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/dGdzTKCnMWhmewoDk3sKmzstlQ6Ak7j3Xd3wAQJi5g=;
+        b=xvulGOurDVYHqFMbkJTEYY0IjV3PW3dXulqT/jQYsZWN3GmJmrqbRmhCLTtIG+rcWo
+         hdRhZgUBub7rZ6UOkokDmGty/Rw7EtYJWm9S7uPw3Z8IKlkIenT/5GHJM5Ay7+0kanQm
+         0A2OoLj7xT0CqPeaTjS2kAZvkLSXzwbN2ES3HceOvntZ6G/kuJfT58S2ikX13fzepINV
+         IyRgOxl3Q216FWZYf41wXWR2wilzx+6jScmNvBEZUy8TWxMQOb7y2QtzT9R2Ps5CCVZu
+         EuS4KBWJV0c1aoqDrHhKgj2A2SPpSLmN6jLxiqIDCcrxjNWpXbpo3Oj9zI78YGvO6UzX
+         qN9g==
+X-Gm-Message-State: AOAM532ndbsOnjHIrqMHRwsGZEQO0jZUgCjEI41s6jYU7z6gPgjKxoq4
+	a34Rm5fiv3Dw/Vi9YbMdSNV43/sIte0Nd9zGwI0=
 X-Google-Smtp-Source: 
- ABdhPJyFLA9VB+R9BK7/ZDwbBl9azmi2Za3gEPybcN0YgxJViO2su2qLl6S0BA8YrlAxlIKy7TCLlw==
-X-Received: by 2002:a05:600c:4e07:: with SMTP id
- b7mr8553346wmq.8.1637854087297;
-        Thu, 25 Nov 2021 07:28:07 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6a3f:a87f:f605:c96b])
-        by smtp.gmail.com with ESMTPSA id
- y15sm3879880wry.72.2021.11.25.07.28.06
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 07:28:06 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: Add missing HOMEPAGE entries
-Date: Thu, 25 Nov 2021 15:28:06 +0000
-Message-Id: <20211125152806.129794-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ ABdhPJwVUO3yP40GGxWdJ/WYnpxQAzsT3vml+o8AYWFYOz/NWgaikwjY1WwISRPsBFa8s0JQku687SFcNRrTANL/INQ=
+X-Received: by 2002:a17:906:48cd:: with SMTP id
+ d13mr31613004ejt.35.1637854954613;
+ Thu, 25 Nov 2021 07:42:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1617235191-37594-1-git-send-email-denis@denix.org>
+ <CAP71WjwizBME7VsK+Mpy=mysN_=ViykHhpJ0owgAb_2wH=cnXA@mail.gmail.com>
+In-Reply-To: 
+ <CAP71WjwizBME7VsK+Mpy=mysN_=ViykHhpJ0owgAb_2wH=cnXA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 25 Nov 2021 10:42:22 -0500
+Message-ID: 
+ <CADkTA4Op48T7RcVG2Hyqt21=mrY7AVWmLgQJocgEvpK=1kqZnQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] make-mod-scripts: pass CROSS_COMPILE to
+ configure and build
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Denys Dmytriyenko <denis@denix.org>, Steve Sakoman <steve@sakoman.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, Nishanth Menon <nm@ti.com>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 15:28:10 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 15:42:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158784
+ https://lists.openembedded.org/g/openembedded-core/message/158785
 
-Add missing HOMEPAGE entries to new python recipes from meta-python.
+On Thu, Nov 25, 2021 at 10:22 AM Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+>
+> Bruce, Steve,
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb       | 1 +
- meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb | 1 +
- meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb  | 1 +
- meta/recipes-devtools/python/python3-webcolors_1.11.1.bb    | 1 +
- 4 files changed, 4 insertions(+)
+The backport is also fine with me!
 
-diff --git a/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb b/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
-index 80e2aa5bc26..ae0154080b8 100644
---- a/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
-+++ b/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Parsing and validation of URIs (RFC 3986) and IRIs (RFC 3987)"
-+HOMEPAGE = "https://pypi.org/project/rfc3987/"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=9;md5=2b723edf67b2f3088bc5e339b1ceda2d"
- 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
-index e64f1960046..35c79c40056 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.16.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order."
-+HOMEPAGE = "https://pypi.org/project/ruamel.yaml/"
- AUTHOR = "Anthon van der Neut"
- 
- LICENSE = "MIT"
-diff --git a/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb b/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
-index 52ae9ebe9a2..aa2d5b46f05 100644
---- a/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
-+++ b/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Strict, simple, lightweight RFC3339 function.s"
-+HOMEPAGE = "https://pypi.org/project/strict-rfc3339/"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=8f0e2cd40e05189ec81232da84bd6e1a"
- 
-diff --git a/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb b/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
-index 2ec036ef357..26dbe517671 100644
---- a/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_1.11.1.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Simple Python module for working with HTML/CSS color definitions."
-+HOMEPAGE = "https://pypi.org/project/webcolors/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=25b90379a52351261c51272e7923d240"
- 
+Bruce
+
+>
+> On Thu, Apr 1, 2021 at 2:00 AM Denys Dmytriyenko <denis@denix.org> wrote:
+>>
+>> Fixes:
+>> |   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/checksyscalls.sh
+>> |   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/atomic/check-atomics.sh
+>> |   LDS     arch/arm64/kernel/vdso/vdso.lds
+>> |   CC      arch/arm64/kernel/vdso/vgettimeofday.o
+>> |   AS      arch/arm64/kernel/vdso/note.o
+>> |   AS      arch/arm64/kernel/vdso/sigreturn.o
+>> |   LD      arch/arm64/kernel/vdso/vdso.so.dbg
+>> |   VDSOSYM include/generated/vdso-offsets.h
+>> |   OBJCOPY arch/arm64/kernel/vdso/vdso.so
+>> | objcopy: Unable to recognise the format of the input file `arch/arm64/kernel/vdso/vdso.so.dbg'
+>> | /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/vdso/Makefile:61: recipe for target 'arch/arm64/kernel/vdso/vdso.so' failed
+>
+>
+> One of our meta-qcom users hit this issue with dunfell
+> https://github.com/ndechesne/meta-qcom/issues/394
+>
+> Backporting this patch to dunfell seems the right thing to do. The patch applies cleanly and it fixes the problem for me.
+>
+> e.g.
+> ddad8183490c (make-mod-scripts: pass CROSS_COMPILE to configure and build)
+>
+> Feel free to add
+> Reported-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+>
+>>
+>> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+>> Cc: Nishanth Menon <nm@ti.com>
+>> Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+>> ---
+>>  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>> index 92ffa47..b2b50b9 100644
+>> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>> @@ -19,7 +19,7 @@ DEPENDS += "bc-native bison-native"
+>>  DEPENDS += "gmp-native"
+>>
+>>  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+>> -EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
+>> +EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
+>>
+>>  # Build some host tools under work-shared.  CC, LD, and AR are probably
+>>  # not used, but this is the historical way of invoking "make scripts".
+>> --
+>> 2.7.4
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#150130): https://lists.openembedded.org/g/openembedded-core/message/150130
+>> Mute This Topic: https://lists.openembedded.org/mt/81764668/1279857
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [nicolas.dechesne@linaro.org]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+
+
 -- 
-2.32.0
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
