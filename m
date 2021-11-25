@@ -2,60 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A95D3C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A86E4C433EF
 	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 15:22:38 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.13350.1637853757381706284
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.13150.1637853757382576579
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Nov 2021 07:22:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X3zpJa7f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LL2rSl6c;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id
- c6-20020a05600c0ac600b0033c3aedd30aso4895750wmr.5
+Received: by mail-wm1-f48.google.com with SMTP id o29so5900705wms.2
         for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Nov 2021 07:22:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZmD260IcjQUklPx2lFkYiS8F+mFUR8JDDqJ/Xs9cwPw=;
-        b=X3zpJa7fe+IJgYy5jkVvUKkW9A5B6/zHYZdxbhQHKDChn8JXfXgWxmXN5Zs0KaISJ8
-         BBQszRMsqNwUQuCCzx/HBrXFf8C4cWKL0Z6FW8a746cWL2grYa70PxDYQo0A6zD6S3GZ
-         RNsk4BfPLvXc6vc5yAxwYlc+IVvXQVz/dmUgY=
+        bh=TY7MP0ubyGGNJHPiDNGyO3zCdzxAsMSG0hJrY0Wde3c=;
+        b=LL2rSl6cJI5QijYq4NQj330MLDwGN/zN5UCCDLepeGRacRox+cn6Csbqz32yOa744A
+         reKmcYYhrGloUegaByrLGoAs3f3uaM6jMsMqro99/ethcu0sQh/pg1O+I2+MZpsDpe0q
+         uqx+f8rcw4ZoQXT6xpxrF8nhGit2bd4Z1TkBs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZmD260IcjQUklPx2lFkYiS8F+mFUR8JDDqJ/Xs9cwPw=;
-        b=onPkLwZaqVfvAIvsjv0/xXY39ed3I1rmeLH38N+hmd7RzEOJEagcgXpTBswVdDkOK6
-         JWqbBHtIvjR5x7zfy8t88dOxPBY92zZ7bviq7Crg2FIc9quaZ4w6su23jV6hScfJxksA
-         jwGGnacc3iBG+058OJgfqERH+qVCTifJapibsHuCjeQBdBrQcLA09UhKpfooParnn5pI
-         PWAsFHDn6iZYINuwSRUcZRmkLV2aZLZvRfYA/lwrn3J0755mN/VC450+FLbgQ1SIOrkM
-         y7lOFY/gPbWbWcBleNzsajkN0q+lnPvUtfS9L/WK9afuR39FmC6TgwGNZEAGeBlAgQ11
-         R12g==
-X-Gm-Message-State: AOAM533lrHSzdfQapZvHiKr8T9hgSD8VxY/foVnZ9xC/cVjvp43W9Coc
-	wCZyBR9w46+zfvmjGyGYiBQUz0qE5upcIw==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TY7MP0ubyGGNJHPiDNGyO3zCdzxAsMSG0hJrY0Wde3c=;
+        b=35AG+9F1wWQPpWQOSKSwAZdjr/gpaadLaw0pC/SoW4qFXcWTf/6NwVJwLyeMwBxGT4
+         ZnZr3fEjpfi2wJJF/rTY1QwBchkVTnsW1ldlrqQqMK5PFn75RkoVGrQ3Krn/XRjOiyKc
+         obIW0knv+/boK6EHZfI7whNmfIiJNREmR3hGDTRUiThE9zJYTck7CW03l197xTD9E4Qp
+         L5aTfrsBisi9bLty2KLTi9mmMHzlUONh/sJNXGYUHy+r5tgTBewk1ojfO5pCKJzOudde
+         S2EmVjYGCbG33b6P2TjyIyXriwpe9vy8G5gkegYhE/MTGopdrt/gXL5CRTKouGuq+cVa
+         svhw==
+X-Gm-Message-State: AOAM530oQGEJxXVP1sHrNoYokz+bD3e0MIdd9LZ4yJsteBX7V1+nn+Pj
+	A92PjkSyU4RomlKsIrhFn4+7HsTWqJMQaA==
 X-Google-Smtp-Source: 
- ABdhPJw6U9VKZGyp0APUO9/wK2DL3xhPzB+V1zdETOQ+GqHdtKIBz34lrhbdsIIp10wHbU++vByMIQ==
-X-Received: by 2002:a7b:c8c2:: with SMTP id f2mr8071730wml.63.1637853755815;
+ ABdhPJyXMXhY+QjrANelwb2aqk/cGrLBawfLYpyBms3MFoA2Uh4iFdJ5b0LkFbcV3RaUAxUuUh4/eg==
+X-Received: by 2002:a05:600c:1083:: with SMTP id
+ e3mr8127542wmd.167.1637853755427;
         Thu, 25 Nov 2021 07:22:35 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6a3f:a87f:f605:c96b])
         by smtp.gmail.com with ESMTPSA id
- g13sm3222243wmk.37.2021.11.25.07.22.35
+ g13sm3222243wmk.37.2021.11.25.07.22.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 25 Nov 2021 07:22:35 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] gcc: Drop no longer needed patch
-Date: Thu, 25 Nov 2021 15:22:33 +0000
-Message-Id: <20211125152234.129463-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/3] nativesdk: Handle chown/chgrp calls in nativesdk
+ do_install tasks
+Date: Thu, 25 Nov 2021 15:22:32 +0000
+Message-Id: <20211125152234.129463-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211125152234.129463-1-richard.purdie@linuxfoundation.org>
-References: <20211125152234.129463-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -63,75 +62,101 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 15:22:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158781
+ https://lists.openembedded.org/g/openembedded-core/message/158782
 
-This patch was mentioned upstream a long time ago:
-
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=47256
-
-Changes from gcc 10 onward mean it is no longer needed as mentioned in the
-above bug report. Drop the patch.
+We disable the useradd code for nativesdk targets since we don't support
+postinstalls or multiple users in those cases. This means any usage
+of chown/chgrp inside do_install tasks won't work and would have to be
+conditional. Rather than require all recipes to do that, add intercepts
+of the calls and map those to root/root user/groups. We can't just ignore
+them as some calls are used to remove host contamination from the host
+user ID so they need to be made, just as root.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 -
- .../gcc/gcc/0006-COLLECT_GCC_OPTIONS.patch    | 35 -------------------
- 2 files changed, 36 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0006-COLLECT_GCC_OPTIONS.patch
+ meta/classes/nativesdk.bbclass    |  2 ++
+ scripts/nativesdk-intercept/chgrp | 27 +++++++++++++++++++++++++++
+ scripts/nativesdk-intercept/chown | 27 +++++++++++++++++++++++++++
+ 3 files changed, 56 insertions(+)
+ create mode 100755 scripts/nativesdk-intercept/chgrp
+ create mode 100755 scripts/nativesdk-intercept/chown
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
-index baced2a4007..b4e4300c66b 100644
---- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-@@ -34,7 +34,6 @@ SRC_URI = "\
-            file://0002-gcc-poison-system-directories.patch \
-            file://0004-64-bit-multilib-hack.patch \
-            file://0005-optional-libstdc.patch \
--           file://0006-COLLECT_GCC_OPTIONS.patch \
-            file://0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch \
-            file://0009-cpp-honor-sysroot.patch \
-            file://0010-MIPS64-Default-to-N64-ABI.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc/0006-COLLECT_GCC_OPTIONS.patch b/meta/recipes-devtools/gcc/gcc/0006-COLLECT_GCC_OPTIONS.patch
-deleted file mode 100644
-index 265ca0e2187..00000000000
---- a/meta/recipes-devtools/gcc/gcc/0006-COLLECT_GCC_OPTIONS.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 127716a32a11ca2a6b3aac068054bfc69c4dcfd8 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 29 Mar 2013 09:16:28 +0400
--Subject: [PATCH] COLLECT_GCC_OPTIONS
--
--This patch adds --sysroot into COLLECT_GCC_OPTIONS which is used to
--invoke collect2.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Pending
-----
-- gcc/gcc.c | 9 +++++++++
-- 1 file changed, 9 insertions(+)
--
--diff --git a/gcc/gcc.c b/gcc/gcc.c
--index be7630ffd8c..1bc45285384 100644
----- a/gcc/gcc.c
--+++ b/gcc/gcc.c
--@@ -5383,6 +5383,15 @@ set_collect_gcc_options (void)
-- 		sizeof ("COLLECT_GCC_OPTIONS=") - 1);
-- 
--   first_time = TRUE;
--+#ifdef HAVE_LD_SYSROOT
--+  if (target_system_root_changed && target_system_root)
--+    {
--+      obstack_grow (&collect_obstack, "'--sysroot=", sizeof("'--sysroot=")-1);
--+      obstack_grow (&collect_obstack, target_system_root,strlen(target_system_root));
--+      obstack_grow (&collect_obstack, "'", 1);
--+      first_time = FALSE;
--+    }
--+#endif
--   for (i = 0; (int) i < n_switches; i++)
--     {
--       const char *const *args;
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 14e210562f1..f8e96075134 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -113,3 +113,5 @@ do_packagedata[stamp-extra-info] = ""
+ USE_NLS = "${SDKUSE_NLS}"
+ 
+ OLDEST_KERNEL = "${SDK_OLDEST_KERNEL}"
++
++PATH:prepend = "${COREBASE}/scripts/nativesdk-intercept:"
+diff --git a/scripts/nativesdk-intercept/chgrp b/scripts/nativesdk-intercept/chgrp
+new file mode 100755
+index 00000000000..30cc417d3ac
+--- /dev/null
++++ b/scripts/nativesdk-intercept/chgrp
+@@ -0,0 +1,27 @@
++#!/usr/bin/env python3
++#
++# Wrapper around 'chgrp' that redirects to root in all cases
++
++import os
++import shutil
++import sys
++
++# calculate path to the real 'chgrp'
++path = os.environ['PATH']
++path = path.replace(os.path.dirname(sys.argv[0]), '')
++real_chgrp = shutil.which('chgrp', path=path)
++
++args = list()
++
++found = False
++for i in sys.argv:
++    if i.startswith("-"):
++        args.append(i)
++        continue
++    if not found:
++        args.append("root")
++        found = True
++    else:
++        args.append(i)
++
++os.execv(real_chgrp, args)
+diff --git a/scripts/nativesdk-intercept/chown b/scripts/nativesdk-intercept/chown
+new file mode 100755
+index 00000000000..3914b3e3841
+--- /dev/null
++++ b/scripts/nativesdk-intercept/chown
+@@ -0,0 +1,27 @@
++#!/usr/bin/env python3
++#
++# Wrapper around 'chown' that redirects to root in all cases
++
++import os
++import shutil
++import sys
++
++# calculate path to the real 'chown'
++path = os.environ['PATH']
++path = path.replace(os.path.dirname(sys.argv[0]), '')
++real_chown = shutil.which('chown', path=path)
++
++args = list()
++
++found = False
++for i in sys.argv:
++    if i.startswith("-"):
++        args.append(i)
++        continue
++    if not found:
++        args.append("root:root")
++        found = True
++    else:
++        args.append(i)
++
++os.execv(real_chown, args)
 -- 
 2.32.0
 
