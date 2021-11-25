@@ -1,161 +1,214 @@
-Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB051C433F5
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 10:41:03 +0000 (UTC)
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.41])
- by mx.groups.io with SMTP id smtpd.web09.10485.1637836860613493546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159EDC433F5
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 10:47:21 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.10504.1637837240099604560
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 02:41:02 -0800
+ Thu, 25 Nov 2021 02:47:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=eu+UpKPo;
- spf=pass (domain: weidmueller.com, ip: 40.107.3.41,
- mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QQxa0aKCBW/jLY9BY7fUbtBNL70RxVHWlLvfggUxfdHqNuK1aoag68WcxaRxDN0k8KDxeu2Z7hC3xaTh6V194+kVghjk0Y+q927Mw3GfwnwhUk+7uMv82gcEsCYhQ9Q+NA6l7N2/t87kmt4Mo2DkGEfZ/KANuJthrHQZNTB0IEFOv/pE0d7zbR/wZ/mtaWGFZaPP3IGW/JVQ2oxs7iJjY8NxW98z86Hlu1NfEI8GnwIU5eWzQdLRaefcNbIiVfBcvPMKNbr1zfPbbWSubZ72zlvaP1ZAtVoxdlWTHVimHPgCSHW+dNf3VJtPpPLRLIpbLVNR+67Isn0lxrDQPHySTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Up9fl55fVmHIdDDO1OmTNbT6gGvCWnSh3NQ+sB3anNs=;
- b=WzxE9WStbtYrIR4iRt7k7eBODpJSMkx4sF0IJhTGU93qC4oF8PxNhxco5fgU2it6ou8731FHgAkr4cimXzaSoscz1ioIAboC+lrYAdANYKHEc9GNzxfHD7nzBO+OGlLbXsWAH2ObbgsDOR1J7I9V8tUbConOcQPdWpDVQVB150zjCabZkiK6RvE1nY4GUiwE9pqnoU3Ir90WgUUoElC9kOHKvgKSjOSxv9RQbUDwQOWJVk12fO0C/1t6t1mOhuITUshYq6I9+2GiIFcy52/Nuptp0YR6HDrrVx/mZ4JJq8IH8X4+cODoqZHnnqooL90ZYU3rFam4yWdwqHIeb9R6Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OuBHCKFL;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169,
+ mailfrom: flowergom@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id r130so5593563pfc.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 25 Nov 2021 02:47:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Up9fl55fVmHIdDDO1OmTNbT6gGvCWnSh3NQ+sB3anNs=;
- b=eu+UpKPooyw+eucjppeiqPfApVBCSlRrnlI4/bndJHNlopjXgoTybxO628BjZZWuDCa/uHI9kZORogl/uPWyVmli/wJIgcTkljaeKy4/GTApz5/bpjSepvBHP/EDRlrgqqZvtwDg9ZGI7P0WI9SAl3iKXzlDURT70LlpGQHZTI8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
- by PAXPR08MB6669.eurprd08.prod.outlook.com (2603:10a6:102:132::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Thu, 25 Nov
- 2021 10:40:55 +0000
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::f:41c4:eb10:5010%7]) with mapi id 15.20.4713.026; Thu, 25 Nov 2021
- 10:40:55 +0000
-Message-ID: <ffedd4fc-a860-00dc-a473-8bd39a89c27c@weidmueller.com>
-Date: Thu, 25 Nov 2021 11:40:52 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [RFC PATCH 05/15] bitbake: fetch2: Support archives with missing
- search directory mode
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
- Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
- Konrad Weihmann <kweihmann@outlook.com>, Martin Koppehel <martin@mko.dev>,
- Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-References: <20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <20211124144739.2250-6-stefan.herbrechtsmeier-oss@weidmueller.com>
- <CANNYZj9JQqkh3zf9a4zCbsbAWktP4K6YpFmb8fHhrn+47Eqtsw@mail.gmail.com>
- <c71903c8-0a6f-cb07-58fc-cc262bcc527f@weidmueller.com>
- <d0866a4fc26fd15318cb4cda7718178dd73b45a0.camel@linuxfoundation.org>
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: 
- <d0866a4fc26fd15318cb4cda7718178dd73b45a0.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P191CA0044.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:209:7f::21) To PAXPR08MB6969.eurprd08.prod.outlook.com
- (2603:10a6:102:1d8::23)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kpkiVRhlhdzXLnhJOIVbd07HgdQqK8Jx/fQzlU0hu1I=;
+        b=OuBHCKFL+qoFoNJLvtdY3uRWy+AqCtuZq4haNIXANomxUisUR4/oIk43uMdFs8+lDP
+         t/12cvvSEGou73PkCE//egHbsuXneKxRppt4bvI6x79BsmaZzzMfF1k6OODcKpqVxeDK
+         Jj02pyQm6YFTs/frkbDij3ldWgcI35yDj1GyNPHemQs67wlC+B94wygDb4AweJb+K9V6
+         V9p88JE0K8UDfrA7W2G9o+Iu9exIk0PIblbb5//yBrQLxARJHLvjKMUHKT0J8O5F/hdZ
+         9ou3gyW39N5q/RFXB5N4w0TtYjcWUJmGeL2Breva3arwSK23mWaieDKoJ90sY318eECh
+         DPpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kpkiVRhlhdzXLnhJOIVbd07HgdQqK8Jx/fQzlU0hu1I=;
+        b=e3fjTGDNEiTDIgda9JsaCYOwBmJuTDMkmN1zP2EKe4Ar+WCrg1UPvmgtionUiGI+Et
+         xe3lbLr/7LNjC4DAMIbEGkjLA9zG18bW51MVcJHg4C8/kouOKykt7+VLLZoztHyydFOf
+         sHIDuo8VY30t8rqcqqxM5FdVLt9oTrcJLzjzivZwgkkyy0tbOfrDwh4WBFc/h2vCsVgm
+         dSL4+XutbVdTXc508qLnd7zkzlouUvKxFPeYMpYeqmZRvbIMCAIcmtS3y5teyicDTE1J
+         iJCdChJdJNFiIawQ3cNb1B8tXIRAiWVZCZVuzI9tpEg6PTjXveZ09bDpFlSF9K8GJb/P
+         adiA==
+X-Gm-Message-State: AOAM533QmXm3N52j1Q54j0CuMNRC031Ih/tzUljSyVLyTUOCACmimZXu
+	4Oz388tVASEfJTVkXCIMoLTSDJTmKBqE7MJ7AIA=
+X-Google-Smtp-Source: 
+ ABdhPJywtGnTnNlYbgMzMkCXQGQoj4UVl7YzxDq5Evl5Tq9HKYfu0Fw+zOyR9gPX+nmI47OdicurNg==
+X-Received: by 2002:a63:6985:: with SMTP id
+ e127mr15478696pgc.404.1637837238812;
+        Thu, 25 Nov 2021 02:47:18 -0800 (PST)
+Received: from localhost.localdomain ([59.6.144.168])
+        by smtp.gmail.com with ESMTPSA id
+ m17sm2856100pff.19.2021.11.25.02.47.17
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Nov 2021 02:47:18 -0800 (PST)
+From: Minjae Kim <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] git: fix CVE-2021-40330
+Date: Thu, 25 Nov 2021 19:47:07 +0900
+Message-Id: <20211125104707.1592-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-Received: from [192.168.178.36] (94.134.181.29) by
- AM6P191CA0044.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:7f::21) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
- Transport; Thu, 25 Nov 2021 10:40:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f6390084-154e-42f1-a5c4-08d9b0000ec2
-X-MS-TrafficTypeDiagnostic: PAXPR08MB6669:
-X-Microsoft-Antispam-PRVS: 
-	<PAXPR08MB6669F31374071BAB354B1B8ED7629@PAXPR08MB6669.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	5tVNHL1EVf3B5cqsOC2T/oq6pdDAifJjrCxKinRqMHw2VGXEk4MK3p4Gg0tw7L9RFPpD0wfQ61+ZOyuvUcJJ84iOkkUdspMG6Q96rYq6qZPyfo0D2+j6tVnCSdWHiXFJYxXC0eiztYRkh5Y3w84nbw6jkX8QNTrct6vT38Xmz+OQugH3/k4axs3iRLdXirvH0A6a5b8mbi2dJt7/1Qqjcx8OeQZlimGCLDVwoI9bmrlJSLks4PnW1q3KMP2inWWRK1ToYAFqgwi/H1u/xVWy2WkFDv9nb/HcuupFeqsuAVAA4F232URppvhrRrEQAuc9bhOha3Fbsfgx/6xPMs+fm5ogQnSCA0Q2/qIrjGVxmnXW+zEQdwUzsI/mz6AkE+Y73h+1aXjeHYpvCpjwT+UI4vjQ7NseRCaYPVfO/gWtBEZECJZcXBopvgEeGGSs26rx2cHgc5+KJS7lxbFgnD69eyZmpMLCEYn7CfW5D6Z6nZ1Ij+mivx3hxFyHNgG6o/BgRyjmBY2UyUA62TTgVeye0kOzhTiWhoCSNj+iiYHOsmd8VUKsPCGdGWiZvnEk3+ZyqjvvlYMB/0YZkFXAXYvwizKvlIF0iSpmBiodeUxCWDgyMo/Sdo22CawtriYemV4hK/iODzRJcYYNq6m7ICKCACvIvqEE+s6ZJynrh2zon7DYHimUGMdAWqLBSyGLUkNjX3cVbQvlsHYGXhBzOzCi3bUTABTJbG/ngZHETlGssv83po1YqLgS7bZ+vYhM86Cf7Kw7s/WsC0vmZJmhOKgWfg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(54906003)(26005)(66476007)(4001150100001)(31686004)(66556008)(8676002)(6486002)(107886003)(186003)(4744005)(36756003)(2616005)(508600001)(66946007)(956004)(2906002)(110136005)(5660300002)(38100700002)(16576012)(31696002)(4326008)(8936002)(316002)(86362001)(38350700002)(52116002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bThzN1NlWFVGNlMwTXkvaTh4ZHN0S2dqeHZYeU42VFdOdG1idXIva0podjd4?=
- =?utf-8?B?UGVSd2hVd3lTTWlHYXE4c0tKRFoxQ2lvb2VNNERuTTVidkx1UkJ6eG5BK3BP?=
- =?utf-8?B?RUlsaElCM1A3Nnlvc2kydG55bFoydjhTVzZqbzBhdVVPakc0cFVVa1JDQ3N2?=
- =?utf-8?B?Qnk0QUpDeGdlei9MK0pVMVBGWWtRVXlQU21IckxDUkRpR3dJRXpPNHdyUC9W?=
- =?utf-8?B?WmswMFc1VmJqUzg1TXJrcXdEai91MlJuN0pwYmpIU3UwaXhxRjVLU2lQTkZr?=
- =?utf-8?B?Q0xhSGM3RTdjY0tZWFpxM2R0cWpSbEhzbnJjelB1QVIyVEZyMG43Z3hzN0V4?=
- =?utf-8?B?a3g5Q0VzYVdyTWg3N2NkSHJIRzVVc1BDSVBlSWoxeWVibzY1VHFldTFtQ2N0?=
- =?utf-8?B?MlN0b3lHTDNZdFZHbnF4bXFBWE8rUkpoTkVEUThMOHdsbndNbmxRUDdLanFu?=
- =?utf-8?B?NytMb2JhN1Z5cnlLNFBHd3QrZUxYbnYwMTVkc1VlSEFVUEZ5VGxlOGRLanVw?=
- =?utf-8?B?TEdrZTdxbER2UmNiQThTa1FOY2lQY2RtbkZhK1phbm4ycnFRT3J1RGlnMVJK?=
- =?utf-8?B?VVRzRDVjc0NEbW0reVlkeGVTdVgyVlhickdaamE2L3o1QVRkN3FhL2JNd0Ni?=
- =?utf-8?B?ZEZaUk1PWWhjbVptS1A2b054MVZ1UDhiV1BEUWpSQWR3YUQrMjhnRCtGbjFD?=
- =?utf-8?B?WXdlL3JWTkk1b0lCbW02NzBReFRSd0p5N05ydWRmWWJhN2F3QWczUzlkWVM0?=
- =?utf-8?B?QUNJdFg0ZnpQV2h2R0VxQWZ4YlhXSDQrSlhNNmUrNFpTdVhJZnBBZ2R3L1JZ?=
- =?utf-8?B?UDVLS3l4OUwvUmRCK21kaGhDZlFOdXI5MHpOL1EzNFNIVXBsQUtHQXA3Q3Yy?=
- =?utf-8?B?L0RTTW9BRkxLdlB5R3NkRjF1UDVUSzcwZ2pOZ3FzL2VOeW5UODVZK0VHakhh?=
- =?utf-8?B?MHlJa0tWQXhQRDlJaDl6dFBDYWkyWnhuWDdjSjJvQ2JqUVp4N1hiMkpsblJo?=
- =?utf-8?B?VkNGMk1FcjdxQ3RKeVQ1bGIrWG5nL0FnMkY2YzVlZUttNC82WG1yRnkvVVJR?=
- =?utf-8?B?RjJUSG04ZGI5Tkd6TU1wMk50MERoTGhVMXZqSFVOaUtYWjZIazNqaHpaaUdC?=
- =?utf-8?B?dS9xYVZUYlp1UCtjVGMrZVYwdHExRjVzZXRuMHpKcUNxQ21QcU5HUWxXUVo4?=
- =?utf-8?B?QU03QkNTc043dGUzL1lIcGxXV2ordzFJenozNDgvQ2pRV0tLUWlNZy9RZFQ3?=
- =?utf-8?B?MzBtdFdUWGM1dFY2QjhOSDJnVTBQUTM4clRQblcyejhPeXVuQ3NYRC80ZDF5?=
- =?utf-8?B?aDdjOXRFd1ZaNE1xMzRSSGtxTXFMR0xSakprOWhrVzJyNy84cGp1cWZ2RWlR?=
- =?utf-8?B?SzhwM3lLVW1OYWtZdWRDVjBZRERqNlRQVGpLaGVYY2ZHSzJCOTFwcnlMcnl4?=
- =?utf-8?B?YlZRY1hwWjdZbjMrUnBkT0QybmRzdnUxL3dITXhmdGY1bmRwNzUvRzZvRnFW?=
- =?utf-8?B?NkUxWDZSNmlXNlJ4YjFCSm4wNGNVaWNwOEtYUEtmVFI0bDNXZVhkTjMwOFkz?=
- =?utf-8?B?SmJMMzVjajZ1MDZuUFp3YWtmZUhtZG9YVmxnb1hCQktPRjcrNEpmcFIwczRU?=
- =?utf-8?B?V0drbXJwQkZ4dUNaSnI5YWpXZE9xdXArejlkZWhCN3hOdlc1Vk5aTGNiYjJp?=
- =?utf-8?B?VktNVGtac1d1V0d5WHEza0ZYbzJnbitwSkRrak1wNDI3MmdrVVNzWnRQT3Jv?=
- =?utf-8?B?SzNxWGIydUNFMlZxTHlRaVRyd1pUbjFPbmFGbXJrZHZjUTBJOFBUNjZlcEdO?=
- =?utf-8?B?em9KaDJEMUJ4ZHRqZlU4d09QZklUZURqOUpsZWl5YjkvVm44TUt2N2FvZ3pB?=
- =?utf-8?B?QWNnaDNZanhvSGZxdVZxU1JXZDNYdFNXUVNqY0pLMXF2cllSMHg1cmYvSE5o?=
- =?utf-8?B?cUducENMczdKWk9ISUFOemRPY0xsaFpPYUl6VEs1V3FXaTl6VGdhS1FaSlFP?=
- =?utf-8?B?WkNEWmY0R2pubmtJTXVOc1ROMlArK2NSL3pOczB5ejJlZ2hCNklNUzNpWFFY?=
- =?utf-8?B?WDB3YWt2VzdzMTV4RStMTlA4RWNzNmJRdVIrb2x0VVBId3hEdmU5NTdsY3Rz?=
- =?utf-8?B?MmtoVFdLVVVjQ2pHcFNuSUpNQXp6VzQ4NHFRS1F5eHJuOFhhZUtvK1pLVkQv?=
- =?utf-8?Q?suaU7ZA6lrrRx3g9j119qIc=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- f6390084-154e-42f1-a5c4-08d9b0000ec2
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 10:40:55.1209
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 9gndVtcINR1QMTdTTT+TFgQHXCKGPL9/KWUtD/6iwUx4HsOZNK0P8DCBv+Dy1MFaRD19evUXpWZOkg8XlU9elA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6669
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 10:41:03 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 10:47:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158775
+ https://lists.openembedded.org/g/openembedded-core/message/158776
 
-Am 24.11.2021 um 18:54 schrieb Richard Purdie:
-> On Wed, 2021-11-24 at 18:11 +0100, Stefan Herbrechtsmeier wrote:
->> Am 24.11.2021 um 16:17 schrieb Alexander Kanavin:
+git_connect_git in connect.c in Git before 2.30.1 allows a repository path to contain a newline character,
+which may result in unexpected cross-protocol requests,
+as demonstrated by the git://localhost:1234/%0d%0a%0d%0aGET%20/%20HTTP/1.1 substring.
 
-[snip]
+Upstream-Status: Backporting [https://github.com/git/git/commit/a02ea577174ab8ed18f847cf1693f213e0b9c473]
+CVE: CVE-2020-8625
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
+---
+ .../git/files/CVE-2021-40330.patch            | 108 ++++++++++++++++++
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ 2 files changed, 111 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2021-40330.patch
 
->> Is such an influencing change acceptable or should I move the change to
->> the npm class?
-> 
-> We don't want to support that in the general case, that needs to be in the npm
-> class.
+diff --git a/meta/recipes-devtools/git/files/CVE-2021-40330.patch b/meta/recipes-devtools/git/files/CVE-2021-40330.patch
+new file mode 100644
+index 0000000000..282cd3fbe5
+--- /dev/null
++++ b/meta/recipes-devtools/git/files/CVE-2021-40330.patch
+@@ -0,0 +1,108 @@
++From e77ca0c7d577408878d2b3e8c7336e6119cb3931 Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowergom@gmail.com>
++Date: Thu, 25 Nov 2021 06:36:26 +0000
++Subject: [PATCH] git_connect_git(): forbid newlines in host and path
++
++When we connect to a git:// server, we send an initial request that
++looks something like:
++
++  002dgit-upload-pack repo.git\0host=example.com
++
++If the repo path contains a newline, then it's included literally, and
++we get:
++
++  002egit-upload-pack repo
++  .git\0host=example.com
++
++This works fine if you really do have a newline in your repository name;
++the server side uses the pktline framing to parse the string, not
++newlines. However, there are many _other_ protocols in the wild that do
++parse on newlines, such as HTTP. So a carefully constructed git:// URL
++can actually turn into a valid HTTP request. For example:
++
++  git://localhost:1234/%0d%0a%0d%0aGET%20/%20HTTP/1.1 %0d%0aHost:localhost%0d%0a%0d%0a
++
++becomes:
++
++  0050git-upload-pack /
++  GET / HTTP/1.1
++  Host:localhost
++
++  host=localhost:1234
++
++on the wire. Again, this isn't a problem for a real Git server, but it
++does mean that feeding a malicious URL to Git (e.g., through a
++submodule) can cause it to make unexpected cross-protocol requests.
++Since repository names with newlines are presumably quite rare (and
++indeed, we already disallow them in git-over-http), let's just disallow
++them over this protocol.
++
++Hostnames could likewise inject a newline, but this is unlikely a
++problem in practice; we'd try resolving the hostname with a newline in
++it, which wouldn't work. Still, it doesn't hurt to err on the side of
++caution there, since we would not expect them to work in the first
++place.
++
++The ssh and local code paths are unaffected by this patch. In both cases
++we're trying to run upload-pack via a shell, and will quote the newline
++so that it makes it intact. An attacker can point an ssh url at an
++arbitrary port, of course, but unless there's an actual ssh server
++there, we'd never get as far as sending our shell command anyway.  We
++_could_ similarly restrict newlines in those protocols out of caution,
++but there seems little benefit to doing so.
++
++The new test here is run alongside the git-daemon tests, which cover the
++same protocol, but it shouldn't actually contact the daemon at all.  In
++theory we could make the test more robust by setting up an actual
++repository with a newline in it (so that our clone would succeed if our
++new check didn't kick in). But a repo directory with newline in it is
++likely not portable across all filesystems. Likewise, we could check
++git-daemon's log that it was not contacted at all, but we do not
++currently record the log (and anyway, it would make the test racy with
++the daemon's log write). We'll just check the client-side stderr to make
++sure we hit the expected code path.
++
++Reported-by: Harold Kim <h.kim@flatt.tech>
++Signed-off-by: Jeff King <peff@peff.net>
++Signed-off-by: Junio C Hamano <gitster@pobox.com>
++
++Upstream-Status: Backported [https://github.com/git/git/commit/a02ea577174ab8ed18f847cf1693f213e0b9c473]
++CVE: CVE-2021-40330
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ connect.c             | 2 ++
++ t/t5570-git-daemon.sh | 5 +++++
++ 2 files changed, 7 insertions(+)
++
++diff --git a/connect.c b/connect.c
++index b6451ab..929de9a 100644
++--- a/connect.c
+++++ b/connect.c
++@@ -1064,6 +1064,8 @@ static struct child_process *git_connect_git(int fd[2], char *hostandport,
++                target_host = xstrdup(hostandport);
++
++        transport_check_allowed("git");
+++       if (strchr(target_host, '\n') || strchr(path, '\n'))
+++               die(_("newline is forbidden in git:// hosts and repo paths"));
++
++        /*
++         * These underlying connection commands die() if they
++diff --git a/t/t5570-git-daemon.sh b/t/t5570-git-daemon.sh
++index 34487bb..79cd218 100755
++--- a/t/t5570-git-daemon.sh
+++++ b/t/t5570-git-daemon.sh
++@@ -103,6 +103,11 @@ test_expect_success 'fetch notices corrupt idx' '
++        )
++ '
++
+++test_expect_success 'client refuses to ask for repo with newline' '
+++       test_must_fail git clone "$GIT_DAEMON_URL/repo$LF.git" dst 2>stderr &&
+++       test_i18ngrep newline.is.forbidden stderr
+++'
+++
++ test_remote_error()
++ {
++        do_export=YesPlease
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 2b75bed055..a89dd42e8b 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -10,7 +10,9 @@ PROVIDES_append_class-native = " git-replacement-native"
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
+ 	   file://CVE-2021-21300.patch \
+-           file://fixsort.patch"
++           file://fixsort.patch \
++           file://CVE-2021-40330.patch \
++           "
+ 
+ S = "${WORKDIR}/git-${PV}"
+ 
+-- 
+2.30.1 (Apple Git-130)
 
-I have test it but this doesn't work for recipetool. Should I add a fix 
-to create_npm.py and the npm.bbclass?
 
