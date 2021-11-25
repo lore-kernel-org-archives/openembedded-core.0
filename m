@@ -1,362 +1,161 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D35C6C433EF
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 10:14:28 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.100])
- by mx.groups.io with SMTP id smtpd.web09.10310.1637835267817239920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB051C433F5
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 10:41:03 +0000 (UTC)
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.41])
+ by mx.groups.io with SMTP id smtpd.web09.10485.1637836860613493546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 02:14:28 -0800
+ Thu, 25 Nov 2021 02:41:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com
- header.s=selector1 header.b=sKf6HCO3;
- spf=pass (domain: outlook.com, ip: 40.92.91.100,
- mailfrom: kweihmann@outlook.com)
+ dkim=pass header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=eu+UpKPo;
+ spf=pass (domain: weidmueller.com, ip: 40.107.3.41,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DI8AnJXkMDTgoLm+caWJ0GsCufmUcm9LqTBN3xoaQdTPkad4J3PPS/XrLaxIuDAQQat3fRsYzEWUSKHPGtQ063wNLfo3ZKwC4ZOPsQledqW7FdrIxlvYqPkvr4D204o3PPO6SDnuBEL/GHt2hWnW2e14mrP1YSUnSEu9c7u48CLSZaDJHpdvZMUCblQbsAtnBP0JHwtPmtApB+rNdn1DkPE3p8ZVLTTm9ll1j2UvUcpC4tEl0wrOXkb6yEN3CKzSXfzlMv0XD/b3UFW55pjyhwNwDCdAzUvVZTYzw3b18qoyuCsIsGzhvylhcybkvEc+HR6GoVqnbCGwElD2Z2kpBA==
+ b=QQxa0aKCBW/jLY9BY7fUbtBNL70RxVHWlLvfggUxfdHqNuK1aoag68WcxaRxDN0k8KDxeu2Z7hC3xaTh6V194+kVghjk0Y+q927Mw3GfwnwhUk+7uMv82gcEsCYhQ9Q+NA6l7N2/t87kmt4Mo2DkGEfZ/KANuJthrHQZNTB0IEFOv/pE0d7zbR/wZ/mtaWGFZaPP3IGW/JVQ2oxs7iJjY8NxW98z86Hlu1NfEI8GnwIU5eWzQdLRaefcNbIiVfBcvPMKNbr1zfPbbWSubZ72zlvaP1ZAtVoxdlWTHVimHPgCSHW+dNf3VJtPpPLRLIpbLVNR+67Isn0lxrDQPHySTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YIFgtrsNEEDL/3XhxJMcUL5CpJ7y7A74qXsVXXo7/KU=;
- b=Ntf25IwScNeYXuotW2yEUqoHc/7BuRI9dP148RIEQuQNNYdksox7C+MMJfCuQT8qNA1HZwArn2yT7BUKXr8mV87ye6RHAaRfHxxUd5phCEmegMHb7sE0y2KtwQu3pmWvU8lSBSXrhoZLC+xphvI3vRoxlFXSxRpkf5CL39ctHcXMPJ8mP/vEXxrhTEXG6H+HrCByHC0jy9BIgGiSN+oj15MR0ei3vSFSWow0JoJiW4BqbAAdB1rjCVkT2avxOrVL+VbSoZw4QDQNPZ+efTeHLmMV/nQDvnCwKrqDeOLRFs3jd7ys65XUxGE9N6a0qH3NP4ibDYTdFIpSOD/PLkIxXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=Up9fl55fVmHIdDDO1OmTNbT6gGvCWnSh3NQ+sB3anNs=;
+ b=WzxE9WStbtYrIR4iRt7k7eBODpJSMkx4sF0IJhTGU93qC4oF8PxNhxco5fgU2it6ou8731FHgAkr4cimXzaSoscz1ioIAboC+lrYAdANYKHEc9GNzxfHD7nzBO+OGlLbXsWAH2ObbgsDOR1J7I9V8tUbConOcQPdWpDVQVB150zjCabZkiK6RvE1nY4GUiwE9pqnoU3Ir90WgUUoElC9kOHKvgKSjOSxv9RQbUDwQOWJVk12fO0C/1t6t1mOhuITUshYq6I9+2GiIFcy52/Nuptp0YR6HDrrVx/mZ4JJq8IH8X4+cODoqZHnnqooL90ZYU3rFam4yWdwqHIeb9R6Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YIFgtrsNEEDL/3XhxJMcUL5CpJ7y7A74qXsVXXo7/KU=;
- b=sKf6HCO3tOoXVnnUuK73JskckMOlJRYKm3oj9rNwFPfozhPdkjQAmsC27x0c35n/6Vyqgw+2o6f/YYWP5Hb0j29+SSGJfRDvzpCZN5Ie8XXHgCoCX5fNNdWcDTThlAJ3gFpEMMgYKDALalwYZPFSYhTyofs/e/5u9+C6aI2MqHlGKkmj9V9AqZ7pBCZM/aGvjnyFto3SK5T25PzPhNtAPnNJ92WLkGRAIUhx+LWCycG26vCKKQl4e2OfsQw2WDlG+exRYmxJYjcLfqkJ71TZLu9yZ1C97v7+knFZuVa68jkUzk+eh4mUCbiaqOdyKlGrHgvqXS3CIvz56hOO2W+VDQ==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB4147.eurprd09.prod.outlook.com (2603:10a6:208:192::23) with
+ bh=Up9fl55fVmHIdDDO1OmTNbT6gGvCWnSh3NQ+sB3anNs=;
+ b=eu+UpKPooyw+eucjppeiqPfApVBCSlRrnlI4/bndJHNlopjXgoTybxO628BjZZWuDCa/uHI9kZORogl/uPWyVmli/wJIgcTkljaeKy4/GTApz5/bpjSepvBHP/EDRlrgqqZvtwDg9ZGI7P0WI9SAl3iKXzlDURT70LlpGQHZTI8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by PAXPR08MB6669.eurprd08.prod.outlook.com (2603:10a6:102:132::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Thu, 25 Nov
- 2021 10:14:24 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::7c6f:9b99:3d00:f710%3]) with mapi id 15.20.4734.020; Thu, 25 Nov 2021
- 10:14:23 +0000
-Subject: Re: [OE-core] [RFC][PATCH 1/2] distutils3-legacy: fallback for
- missing setup.py
-To: Tim Orling <ticotimo@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-References: 
- <AM9PR09MB46426836B8FC0FACE562A084A8619@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CANx9H-BnuuwVojhz5SGZqN97oj1VhoDLZ0W7ZBO=v5J0tXoS_w@mail.gmail.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB4642339C419682FB30822526A8629@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Thu, 25 Nov 2021 11:14:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: 
- <CANx9H-BnuuwVojhz5SGZqN97oj1VhoDLZ0W7ZBO=v5J0tXoS_w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Thu, 25 Nov
+ 2021 10:40:55 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::f:41c4:eb10:5010%7]) with mapi id 15.20.4713.026; Thu, 25 Nov 2021
+ 10:40:55 +0000
+Message-ID: <ffedd4fc-a860-00dc-a473-8bd39a89c27c@weidmueller.com>
+Date: Thu, 25 Nov 2021 11:40:52 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [RFC PATCH 05/15] bitbake: fetch2: Support archives with missing
+ search directory mode
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-TMN: [SWrbEHB4wQyRs7vOHryfnXXnM0fMUEoIyD/ijNBukpazpBlZZ4TNh4ovVbQRS6Dy]
-X-ClientProxiedBy: AM4PR05CA0034.eurprd05.prod.outlook.com (2603:10a6:205::47)
- To AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <60a30e30-cdcb-7c31-746e-1513833a1622@outlook.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+ Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>,
+ Konrad Weihmann <kweihmann@outlook.com>, Martin Koppehel <martin@mko.dev>,
+ Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+References: <20211124144739.2250-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211124144739.2250-6-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <CANNYZj9JQqkh3zf9a4zCbsbAWktP4K6YpFmb8fHhrn+47Eqtsw@mail.gmail.com>
+ <c71903c8-0a6f-cb07-58fc-cc262bcc527f@weidmueller.com>
+ <d0866a4fc26fd15318cb4cda7718178dd73b45a0.camel@linuxfoundation.org>
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: 
+ <d0866a4fc26fd15318cb4cda7718178dd73b45a0.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6P191CA0044.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:7f::21) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
- (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
- AM4PR05CA0034.eurprd05.prod.outlook.com (2603:10a6:205::47) with Microsoft
+Received: from [192.168.178.36] (94.134.181.29) by
+ AM6P191CA0044.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:7f::21) with Microsoft
  SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend
- Transport; Thu, 25 Nov 2021 10:14:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
+ Transport; Thu, 25 Nov 2021 10:40:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9bba075e-8211-4192-2d8a-08d9affc59e0
-X-MS-TrafficTypeDiagnostic: AM0PR09MB4147:
+X-MS-Office365-Filtering-Correlation-Id: f6390084-154e-42f1-a5c4-08d9b0000ec2
+X-MS-TrafficTypeDiagnostic: PAXPR08MB6669:
+X-Microsoft-Antispam-PRVS: 
+	<PAXPR08MB6669F31374071BAB354B1B8ED7629@PAXPR08MB6669.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	X32sj0J8NYTIR80LAH2urRmKgAOarFUdalAZOe8HJz7SxHfRbbpKEoGIUJkCQEi5akUxFEI1Z27XoT3blG26xs7t8SQZ9InPmfH+giYsFn9FcXT5XPEBLpf3iyRLN/ub4hbKHoyI1OA0Z0UQTF2cRRluTXHS5JBw1pMVcmc8qOUObvTZV7IlqlZ/4c7sVKNPd6asIn6onxYEMadGbyZfTOiMEP43bL7rkDrpcrZv9+TLc+HFgfofgk+TGjtMctn0hWiuOBoVgQD+3wHJpWzV+83x8Lbq8QDOuuq6pLEq7LzG/BrQ9tZJBwG5lzst9TrWwGpOFZdsMtE3yBR+Ve+zFxe4aEwSFNoxRa2ld/fyOsKcwQDehxvrhq4+6BKA9VLi5UlDMonYjtG4mat3jjFWv/n2MpU/zlgkMoRp9XMXvcdpHyhbDBthUgD50szHTDzPKVNPYSCpXUafXMvV/zKWO5JE4snEjv1tXvwNRZVWhY8vxcDN+IhrJJrRdWpKA6Tj1SCqMWJszzoh+dPIxVmCdCORSgTpWGy56AO/Ip55aw/phWyiJfSa5H7aEj+2ronZLqNw40HDQrYN4aBGwFANDqD30DDEP+flciADqspBSb9lOXr0uMJcL4gtMc1SwTYp2Ogti3LT5YOsfKvfbemXpnM+Ma/XWVNJeKXu+f4fOyQ=
+	5tVNHL1EVf3B5cqsOC2T/oq6pdDAifJjrCxKinRqMHw2VGXEk4MK3p4Gg0tw7L9RFPpD0wfQ61+ZOyuvUcJJ84iOkkUdspMG6Q96rYq6qZPyfo0D2+j6tVnCSdWHiXFJYxXC0eiztYRkh5Y3w84nbw6jkX8QNTrct6vT38Xmz+OQugH3/k4axs3iRLdXirvH0A6a5b8mbi2dJt7/1Qqjcx8OeQZlimGCLDVwoI9bmrlJSLks4PnW1q3KMP2inWWRK1ToYAFqgwi/H1u/xVWy2WkFDv9nb/HcuupFeqsuAVAA4F232URppvhrRrEQAuc9bhOha3Fbsfgx/6xPMs+fm5ogQnSCA0Q2/qIrjGVxmnXW+zEQdwUzsI/mz6AkE+Y73h+1aXjeHYpvCpjwT+UI4vjQ7NseRCaYPVfO/gWtBEZECJZcXBopvgEeGGSs26rx2cHgc5+KJS7lxbFgnD69eyZmpMLCEYn7CfW5D6Z6nZ1Ij+mivx3hxFyHNgG6o/BgRyjmBY2UyUA62TTgVeye0kOzhTiWhoCSNj+iiYHOsmd8VUKsPCGdGWiZvnEk3+ZyqjvvlYMB/0YZkFXAXYvwizKvlIF0iSpmBiodeUxCWDgyMo/Sdo22CawtriYemV4hK/iODzRJcYYNq6m7ICKCACvIvqEE+s6ZJynrh2zon7DYHimUGMdAWqLBSyGLUkNjX3cVbQvlsHYGXhBzOzCi3bUTABTJbG/ngZHETlGssv83po1YqLgS7bZ+vYhM86Cf7Kw7s/WsC0vmZJmhOKgWfg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(54906003)(26005)(66476007)(4001150100001)(31686004)(66556008)(8676002)(6486002)(107886003)(186003)(4744005)(36756003)(2616005)(508600001)(66946007)(956004)(2906002)(110136005)(5660300002)(38100700002)(16576012)(31696002)(4326008)(8936002)(316002)(86362001)(38350700002)(52116002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	UQwwrucZys6ijeXqYbCLjWo3zpxT1EbFYAENGLO7vLCM3VFxvG7NTuXim6AHCVX60z+bwGfWzuSFaKNSPMOG5ni5UBA9zta4jP+KbWvvabtLP51khI+s+yXLuroKPTpg4Q6MWBGpOe44/yHbOnSQn8H8DPvVgvCHfipm4HK3fyQwLBJWS1jjE712QgPzsoyiFaJgZtVRphdLsu7UVik1INTX9csbL2+zE2OnnaCzoQ1Lju4oZ182J8Rz0tqm/4n94dBm/TV5KYn2Xmducj0h2bVXEBKiDVfKoG4vQYH5zSlX5QbIwSkn0U8D0qQ00k9Ti9VUglKs0ciTtB/U/j2bMV1wMCoEJ8pkv+WBYsvNuTNUoEs848en+L1VdopPvwSGlvgNMmCakj3vMkAirSHymap3EunLDtxCPRdhu4La23+ZUmGDOiJH718NtVJhNszlhs9fqb8eQ4CunPpAID8ZVn22EfPuu/q9s8+u3m9yfhwvJDG5fBcL1VD2TUkt234zIOyc3mT2f4DQsTp/F0sHB5p5+11yV4xuM4jsJTgLhSqIMIFgsoxFigKWBP7FGHCVbENMwIiEOjh2hzXNT9VYY/7binu+XtNn9d+o8y/hBgzS41fZnFKib5HHoSNtIlWA+iqtH9Z8cCPwGIfkzYCy4/uVFTmN+N5zoo6P0IZVHbsCxAVqfNymZiPtOQeS3yNAbhdq26wU8lLob1O8m7JEtcUMTuupc+o5qXMyBX/0HjQf/NkJhetfgogwmMwMfKDwnaqcMXSfRGX4GXLVgChG2Q==
-X-OriginatorOrg: outlook.com
+	=?utf-8?B?bThzN1NlWFVGNlMwTXkvaTh4ZHN0S2dqeHZYeU42VFdOdG1idXIva0podjd4?=
+ =?utf-8?B?UGVSd2hVd3lTTWlHYXE4c0tKRFoxQ2lvb2VNNERuTTVidkx1UkJ6eG5BK3BP?=
+ =?utf-8?B?RUlsaElCM1A3Nnlvc2kydG55bFoydjhTVzZqbzBhdVVPakc0cFVVa1JDQ3N2?=
+ =?utf-8?B?Qnk0QUpDeGdlei9MK0pVMVBGWWtRVXlQU21IckxDUkRpR3dJRXpPNHdyUC9W?=
+ =?utf-8?B?WmswMFc1VmJqUzg1TXJrcXdEai91MlJuN0pwYmpIU3UwaXhxRjVLU2lQTkZr?=
+ =?utf-8?B?Q0xhSGM3RTdjY0tZWFpxM2R0cWpSbEhzbnJjelB1QVIyVEZyMG43Z3hzN0V4?=
+ =?utf-8?B?a3g5Q0VzYVdyTWg3N2NkSHJIRzVVc1BDSVBlSWoxeWVibzY1VHFldTFtQ2N0?=
+ =?utf-8?B?MlN0b3lHTDNZdFZHbnF4bXFBWE8rUkpoTkVEUThMOHdsbndNbmxRUDdLanFu?=
+ =?utf-8?B?NytMb2JhN1Z5cnlLNFBHd3QrZUxYbnYwMTVkc1VlSEFVUEZ5VGxlOGRLanVw?=
+ =?utf-8?B?TEdrZTdxbER2UmNiQThTa1FOY2lQY2RtbkZhK1phbm4ycnFRT3J1RGlnMVJK?=
+ =?utf-8?B?VVRzRDVjc0NEbW0reVlkeGVTdVgyVlhickdaamE2L3o1QVRkN3FhL2JNd0Ni?=
+ =?utf-8?B?ZEZaUk1PWWhjbVptS1A2b054MVZ1UDhiV1BEUWpSQWR3YUQrMjhnRCtGbjFD?=
+ =?utf-8?B?WXdlL3JWTkk1b0lCbW02NzBReFRSd0p5N05ydWRmWWJhN2F3QWczUzlkWVM0?=
+ =?utf-8?B?QUNJdFg0ZnpQV2h2R0VxQWZ4YlhXSDQrSlhNNmUrNFpTdVhJZnBBZ2R3L1JZ?=
+ =?utf-8?B?UDVLS3l4OUwvUmRCK21kaGhDZlFOdXI5MHpOL1EzNFNIVXBsQUtHQXA3Q3Yy?=
+ =?utf-8?B?L0RTTW9BRkxLdlB5R3NkRjF1UDVUSzcwZ2pOZ3FzL2VOeW5UODVZK0VHakhh?=
+ =?utf-8?B?MHlJa0tWQXhQRDlJaDl6dFBDYWkyWnhuWDdjSjJvQ2JqUVp4N1hiMkpsblJo?=
+ =?utf-8?B?VkNGMk1FcjdxQ3RKeVQ1bGIrWG5nL0FnMkY2YzVlZUttNC82WG1yRnkvVVJR?=
+ =?utf-8?B?RjJUSG04ZGI5Tkd6TU1wMk50MERoTGhVMXZqSFVOaUtYWjZIazNqaHpaaUdC?=
+ =?utf-8?B?dS9xYVZUYlp1UCtjVGMrZVYwdHExRjVzZXRuMHpKcUNxQ21QcU5HUWxXUVo4?=
+ =?utf-8?B?QU03QkNTc043dGUzL1lIcGxXV2ordzFJenozNDgvQ2pRV0tLUWlNZy9RZFQ3?=
+ =?utf-8?B?MzBtdFdUWGM1dFY2QjhOSDJnVTBQUTM4clRQblcyejhPeXVuQ3NYRC80ZDF5?=
+ =?utf-8?B?aDdjOXRFd1ZaNE1xMzRSSGtxTXFMR0xSakprOWhrVzJyNy84cGp1cWZ2RWlR?=
+ =?utf-8?B?SzhwM3lLVW1OYWtZdWRDVjBZRERqNlRQVGpLaGVYY2ZHSzJCOTFwcnlMcnl4?=
+ =?utf-8?B?YlZRY1hwWjdZbjMrUnBkT0QybmRzdnUxL3dITXhmdGY1bmRwNzUvRzZvRnFW?=
+ =?utf-8?B?NkUxWDZSNmlXNlJ4YjFCSm4wNGNVaWNwOEtYUEtmVFI0bDNXZVhkTjMwOFkz?=
+ =?utf-8?B?SmJMMzVjajZ1MDZuUFp3YWtmZUhtZG9YVmxnb1hCQktPRjcrNEpmcFIwczRU?=
+ =?utf-8?B?V0drbXJwQkZ4dUNaSnI5YWpXZE9xdXArejlkZWhCN3hOdlc1Vk5aTGNiYjJp?=
+ =?utf-8?B?VktNVGtac1d1V0d5WHEza0ZYbzJnbitwSkRrak1wNDI3MmdrVVNzWnRQT3Jv?=
+ =?utf-8?B?SzNxWGIydUNFMlZxTHlRaVRyd1pUbjFPbmFGbXJrZHZjUTBJOFBUNjZlcEdO?=
+ =?utf-8?B?em9KaDJEMUJ4ZHRqZlU4d09QZklUZURqOUpsZWl5YjkvVm44TUt2N2FvZ3pB?=
+ =?utf-8?B?QWNnaDNZanhvSGZxdVZxU1JXZDNYdFNXUVNqY0pLMXF2cllSMHg1cmYvSE5o?=
+ =?utf-8?B?cUducENMczdKWk9ISUFOemRPY0xsaFpPYUl6VEs1V3FXaTl6VGdhS1FaSlFP?=
+ =?utf-8?B?WkNEWmY0R2pubmtJTXVOc1ROMlArK2NSL3pOczB5ejJlZ2hCNklNUzNpWFFY?=
+ =?utf-8?B?WDB3YWt2VzdzMTV4RStMTlA4RWNzNmJRdVIrb2x0VVBId3hEdmU5NTdsY3Rz?=
+ =?utf-8?B?MmtoVFdLVVVjQ2pHcFNuSUpNQXp6VzQ4NHFRS1F5eHJuOFhhZUtvK1pLVkQv?=
+ =?utf-8?Q?suaU7ZA6lrrRx3g9j119qIc=3D?=
+X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 9bba075e-8211-4192-2d8a-08d9affc59e0
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+ f6390084-154e-42f1-a5c4-08d9b0000ec2
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 10:14:22.9525
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 10:40:55.1209
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4147
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 9gndVtcINR1QMTdTTT+TFgQHXCKGPL9/KWUtD/6iwUx4HsOZNK0P8DCBv+Dy1MFaRD19evUXpWZOkg8XlU9elA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6669
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 10:14:28 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 10:41:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158774
+ https://lists.openembedded.org/g/openembedded-core/message/158775
 
+Am 24.11.2021 um 18:54 schrieb Richard Purdie:
+> On Wed, 2021-11-24 at 18:11 +0100, Stefan Herbrechtsmeier wrote:
+>> Am 24.11.2021 um 16:17 schrieb Alexander Kanavin:
 
+[snip]
 
-On 24.11.21 22:02, Tim Orling wrote:
->=20
->=20
-> On Wed, Nov 24, 2021 at 12:15 PM Konrad Weihmann <kweihmann@outlook.com=20
-> <mailto:kweihmann@outlook.com>> wrote:
->=20
->     add a bbclass to disutils3 that generates a fallback setup.py in case
->     there is no setup.py available in the source dir, but a setup.cfg.
->=20
->=20
-> I=E2=80=99ll check this out later, but I do want to highlight that we wil=
-l be=20
-> deprecating distutils bbclasses (and moving them to meta-python for=20
-> continuity).
->=20
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14610=20
-> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14610>
+>> Is such an influencing change acceptable or should I move the change to
+>> the npm class?
+> 
+> We don't want to support that in the general case, that needs to be in the npm
+> class.
 
-Not sure if we should support it at all after the rework is done.
-Most of the python modules that haven't made at least the move to=20
-setup.cfg will stop working with py3.12 anyway - putting some pressure=20
-on the respective upstream to migrate.
-So what is the benefit in moving distutils-support to meta-python (which=20
-btw bundles poky/meta to openembedded-layer - a move that is discouraged=20
-by a couple of projects I came across so far)?
-
-I mean the patches currently in the works likely will affect kirkstone+=20
-releases only, right? so current already released branches will remain=20
-unaffected by this switch - or is there a plan to even backport this=20
-change to other releases?
-
->=20
->=20
-> We can refactor this series into the refactored setuptools3.bbclass=20
-> (sans distutils). I will do this if we merge these changes.
->=20
-> https://git.yoctoproject.org/poky-contrib/log/?h=3Dtimo/nodistutils_14610=
-=20
-> <https://git.yoctoproject.org/poky-contrib/log/?h=3Dtimo/nodistutils_1461=
-0>
-
-Fine for me - I would be also be fine, if we could use my patch for an=20
-intermediate period, till the removal of distutils is done.
-
->=20
-> I=E2=80=99d like to hear what concerns others have.
->=20
->=20
->     Use the mapping provided by
->     https://setuptools.pypa.io/en/latest/userguide/declarative_config.htm=
-l
->     <https://setuptools.pypa.io/en/latest/userguide/declarative_config.ht=
-ml>
->     to translate the most essential items to legacy setuptools.setup
->     dictitonary.
->=20
->     Signed-off-by: Konrad Weihmann <kweihmann@outlook.com
->     <mailto:kweihmann@outlook.com>>
->     ---
->      =C2=A0meta/classes/distutils3-legacy.bbclass | 112 +++++++++++++++++=
-++++++++
->      =C2=A0meta/classes/distutils3.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A01 +
->      =C2=A02 files changed, 113 insertions(+)
->      =C2=A0create mode 100644 meta/classes/distutils3-legacy.bbclass
->=20
->     diff --git a/meta/classes/distutils3-legacy.bbclass
->     b/meta/classes/distutils3-legacy.bbclass
->     new file mode 100644
->     index 0000000000..266d30138f
->     --- /dev/null
->     +++ b/meta/classes/distutils3-legacy.bbclass
->     @@ -0,0 +1,112 @@
->     +# Helper to create a trimmed down setup.py from information found in
->     +# setup.cfg, in case there is no setup.py shipped with the sources
->     +
->     +# this functionality can be safely removed once the pypa community
->     +# comes up with a safe replacement for the functionality found in
->     distutils3.bbclass
->     +
->     +def distutils_legacy_package_name(d):
->     +=C2=A0 =C2=A0 # use pypi name or fall back to BPN
->     +=C2=A0 =C2=A0 return d.getVar("PYPI_PACKAGE") or
->     d.getVar('BPN').replace('python-', '').replace('python3-', '')
->     +
->     +DISTUTILS_LEGACY_VERSION ?=3D "${PV}"
->     +DISTUTILS_LEGACY_NAME ?=3D "${@distutils_legacy_package_name(d)}"
->     +
->     +python do_create_setup_py_legacy() {
->     +=C2=A0 =C2=A0 import os
->     +
->     +=C2=A0 =C2=A0 if
->     os.path.exists(os.path.join(d.getVar("DISTUTILS_SETUP_PATH"),
->     "setup.py")):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return
->     +
->     +=C2=A0 =C2=A0 from configparser import ConfigParser, NoOptionError,
->     NoSectionError, ParsingError
->     +=C2=A0 =C2=A0 import re
->     +
->     +=C2=A0 =C2=A0 config =3D ConfigParser()
->     +=C2=A0 =C2=A0 try:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 config.read(os.path.join(d.getVar("DISTU=
-TILS_SETUP_PATH"),
->     "setup.cfg"))
->     +=C2=A0 =C2=A0 except FileNotFoundError:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return
->     +
->     +=C2=A0 =C2=A0 def _strip(x):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return re.sub(r"\s|\t|\n", "", x)
->     +
->     +=C2=A0 =C2=A0 def get_section(section):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return dict(config.items(s=
-ection=3Dsection))
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except (NoSectionError, ParsingError):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None
->     +
->     +=C2=A0 =C2=A0 def get_option(section, option):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return config.get(section=
-=3Dsection, option=3Doption)
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except (NoOptionError, NoSectionError, P=
-arsingError):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None
->     +
->     +=C2=A0 =C2=A0 def extract_bool(section, option, default):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _option =3D get_option(section, option)
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if _option is None:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return default
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return bool(_strip(_option))
->     +
->     +=C2=A0 =C2=A0 def extract_str(section, option, default):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _option =3D get_option(section, option)
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if _option is None:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return default
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return _strip(_option)
->     +
->     +=C2=A0 =C2=A0 def extract_dict_vallist(section, default, delim=3D"")=
-:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _section =3D get_section(section)
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if _section is None:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return default
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return {_strip(k): [_strip(x) for x in r=
-e.split(delim, v)]
->     if delim else [ _strip(v) ] for k, v in _section.items()}
->     +
->     +=C2=A0 =C2=A0 def extract_dict(section, default):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _section =3D get_section(section)
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if _section is None:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return default
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return {_strip(k): _strip(v) for k, v in=
- _section.items()}
->     +
->     +=C2=A0 =C2=A0 def extract_list(section, option, default, delim):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _option =3D get_option(section, option)
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if _option is None:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return default
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn("%s:%s -> %s" % (section, option=
-, _option))
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _listitems =3D re.split(delim, _option) =
-if delim else [_option]
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [_strip(x) for x in _listitems]
->     +
->     +=C2=A0 =C2=A0 def quote(x):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return '"%s"' % x
->     +
->     +=C2=A0 =C2=A0 _pkginfo =3D {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "entry_points":
->     extract_dict_vallist("options.entry_points", {}),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "include_package_data": extract_bool("op=
-tions",
->     "include_package_data", False),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "name": quote(extract_str("options", "na=
-me",
->     d.getVar("DISTUTILS_LEGACY_NAME"))),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "package_data":
->     extract_dict_vallist("options.package_data", {}, r"\s+|,"),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "packages": extract_list("options", "pac=
-kages", [], ""),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "version": quote(d.getVar("DISTUTILS_LEG=
-ACY_VERSION")),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "zip_safe": extract_bool("options", "zip=
-_safe", False),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "install_requires": extract_list("option=
-s",
->     "install_requires", [], r"\t+|\n+"),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "python_requires": quote(extract_str("op=
-tions",
->     "python_requires", ">0.0")),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "package_dir": extract_dict("package_dir=
-", {}),
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "py_modules": extract_list("options", "p=
-y_modules", [],
->     r"\s+|,"),
->     +=C2=A0 =C2=A0 }
->     +
->     +=C2=A0 =C2=A0 # In case packages is using :find module
->     +=C2=A0 =C2=A0 # we need to look for top level directories containing=
- a
->     __init__.py
->     +=C2=A0 =C2=A0 if _pkginfo["packages"] =3D=3D ["find:"]:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # top level search dir can be adjusted b=
-y
->     options.packages.find option
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _path =3D extract_str("options.packages.=
-find", "where", "")
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _pkginfo["packages"] =3D set(x.name <htt=
-p://x.name> for x in
->     os.scandir(os.path.join(
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar("DISTUTILS_SETUP_=
-PATH"), _path)) if
->     os.path.isdir(x) and os.path.exists(os.path.join(x, "__init__.py")))
->     +
->     +=C2=A0 =C2=A0 with open(os.path.join(d.getVar("DISTUTILS_SETUP_PATH"=
-),
->     "setup.py"), "w") as o:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 o.write("import setuptools\n")
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 o.write("setuptools.setup(\n")
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for k, v in _pkginfo.items():
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 o.write("%s =3D %s,\n" % (=
-str(k), str(v)))
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 o.write(")")
->     +
->     +
->     +}
->     +
->     +do_create_setup_py_legacy[doc] =3D "Create a fallback version of
->     legacy setup.py if not existing"
->     +addtask do_create_setup_py_legacy before do_configure after
->     do_patch do_prepare_recipe_sysroot
->     diff --git a/meta/classes/distutils3.bbclass
->     b/meta/classes/distutils3.bbclass
->     index be645d37bd..f26f0d5184 100644
->     --- a/meta/classes/distutils3.bbclass
->     +++ b/meta/classes/distutils3.bbclass
->     @@ -1,4 +1,5 @@
->      =C2=A0inherit distutils3-base
->     +inherit distutils3-legacy
->=20
->      =C2=A0B =3D "${WORKDIR}/build"
->      =C2=A0distutils_do_configure[cleandirs] =3D "${B}"
->     --=20
->     2.25.1
->=20
->=20
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#158741):
->     https://lists.openembedded.org/g/openembedded-core/message/158741
->     <https://lists.openembedded.org/g/openembedded-core/message/158741>
->     Mute This Topic: https://lists.openembedded.org/mt/87289428/924729
->     <https://lists.openembedded.org/mt/87289428/924729>
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe:
->     https://lists.openembedded.org/g/openembedded-core/unsub
->     <https://lists.openembedded.org/g/openembedded-core/unsub>
->     [ticotimo@gmail.com <mailto:ticotimo@gmail.com>]
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+I have test it but this doesn't work for recipetool. Should I add a fix 
+to create_npm.py and the npm.bbclass?
 
