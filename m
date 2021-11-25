@@ -2,76 +2,76 @@ Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 159EDC433F5
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 10:47:21 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.10504.1637837240099604560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A375C433F5
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 10:49:22 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web09.10545.1637837360975018209
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 02:47:20 -0800
+ Thu, 25 Nov 2021 02:49:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OuBHCKFL;
- spf=pass (domain: gmail.com, ip: 209.85.210.169,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SOrG2uO6;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180,
  mailfrom: flowergom@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id r130so5593563pfc.1
+Received: by mail-pl1-f180.google.com with SMTP id v19so4241942plo.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 02:47:20 -0800 (PST)
+ Thu, 25 Nov 2021 02:49:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kpkiVRhlhdzXLnhJOIVbd07HgdQqK8Jx/fQzlU0hu1I=;
-        b=OuBHCKFL+qoFoNJLvtdY3uRWy+AqCtuZq4haNIXANomxUisUR4/oIk43uMdFs8+lDP
-         t/12cvvSEGou73PkCE//egHbsuXneKxRppt4bvI6x79BsmaZzzMfF1k6OODcKpqVxeDK
-         Jj02pyQm6YFTs/frkbDij3ldWgcI35yDj1GyNPHemQs67wlC+B94wygDb4AweJb+K9V6
-         V9p88JE0K8UDfrA7W2G9o+Iu9exIk0PIblbb5//yBrQLxARJHLvjKMUHKT0J8O5F/hdZ
-         9ou3gyW39N5q/RFXB5N4w0TtYjcWUJmGeL2Breva3arwSK23mWaieDKoJ90sY318eECh
-         DPpg==
+        bh=AcEtgnDKlt8kE9u2Q64zH1A0Shlb1S3Sd+qpOxrcowY=;
+        b=SOrG2uO6u0H8i4t6C+f//DmEKgr4byHKyI+aA8OdmpTziDRE593CdzS01jUfURuOx+
+         0L+0ymj82HO1t2l4eOiMn38Tc2y+NPGDE4IFm4Ua50fEiFQVwSZOVj6Js3B/Mi8UtmLE
+         7+YgSEe2bqH8yqhbVYfWGp+XrlF3L4WReT3ROzWvRdEBw10kEmFzFONhQ/OAqZuGJGWe
+         AY20baJlxN2hfg4hpMFraR3pMIgrBE+diMO9HFEDCff3rUSDY/YQRjgDJ6xPI//BvD1i
+         sd125Mvxa/7UBSy0+QJj0le1OQyJnXwecaWlkPaEgDpKFajXHdw045ryEtOJksitpl05
+         SdUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kpkiVRhlhdzXLnhJOIVbd07HgdQqK8Jx/fQzlU0hu1I=;
-        b=e3fjTGDNEiTDIgda9JsaCYOwBmJuTDMkmN1zP2EKe4Ar+WCrg1UPvmgtionUiGI+Et
-         xe3lbLr/7LNjC4DAMIbEGkjLA9zG18bW51MVcJHg4C8/kouOKykt7+VLLZoztHyydFOf
-         sHIDuo8VY30t8rqcqqxM5FdVLt9oTrcJLzjzivZwgkkyy0tbOfrDwh4WBFc/h2vCsVgm
-         dSL4+XutbVdTXc508qLnd7zkzlouUvKxFPeYMpYeqmZRvbIMCAIcmtS3y5teyicDTE1J
-         iJCdChJdJNFiIawQ3cNb1B8tXIRAiWVZCZVuzI9tpEg6PTjXveZ09bDpFlSF9K8GJb/P
-         adiA==
-X-Gm-Message-State: AOAM533QmXm3N52j1Q54j0CuMNRC031Ih/tzUljSyVLyTUOCACmimZXu
-	4Oz388tVASEfJTVkXCIMoLTSDJTmKBqE7MJ7AIA=
+        bh=AcEtgnDKlt8kE9u2Q64zH1A0Shlb1S3Sd+qpOxrcowY=;
+        b=7C+Lhp2SILboAfb5Bta7xSc/8VoIlCOqtWHgQlCRmzTyD2DCdtnuhReZ+KfY1HmesW
+         D24sMrVTgfcfk1MsjHxpn7Lf+xLOlWlo2xloen1F2ngbPpPVSfXpbs7NvzWX1fEt0t15
+         Ins4gMnAR98KJL4qmT0DgMSVXpCkyESs8Q6xQ6XfnyAiEBwoz8jWjjUTWEBp1+wV6U9v
+         uFViW8Sk69AqzI1jGMBkpiLlTvkW0E2P5+XUaytPDlfDuUVlU855eMGMRitFI0iFCPdd
+         el2iMTuegbs2FopehIUbO93gZIsOj4YDNgH/zmceVYZKvzaNcqdatgVMNbRBV/XoYuo6
+         1a8w==
+X-Gm-Message-State: AOAM5308gqvcBDo9bcTep7BR59BDRmFBrYAxXt3wFzOIYRtvi6+QvXkN
+	jm7gwJC+U6jnLj+F1Pm9/PU2fk43jKdcskoGIA8=
 X-Google-Smtp-Source: 
- ABdhPJywtGnTnNlYbgMzMkCXQGQoj4UVl7YzxDq5Evl5Tq9HKYfu0Fw+zOyR9gPX+nmI47OdicurNg==
-X-Received: by 2002:a63:6985:: with SMTP id
- e127mr15478696pgc.404.1637837238812;
-        Thu, 25 Nov 2021 02:47:18 -0800 (PST)
+ ABdhPJydSUsC1rlA4Bo4KK0zohBNveyARL3DKz3ayXoFX8odioygWxyIHyACNPDtPNs/N2EV5Mq7vQ==
+X-Received: by 2002:a17:90a:72c4:: with SMTP id
+ l4mr5751400pjk.149.1637837359867;
+        Thu, 25 Nov 2021 02:49:19 -0800 (PST)
 Received: from localhost.localdomain ([59.6.144.168])
         by smtp.gmail.com with ESMTPSA id
- m17sm2856100pff.19.2021.11.25.02.47.17
+ w1sm2822710pfg.11.2021.11.25.02.49.18
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Nov 2021 02:47:18 -0800 (PST)
+        Thu, 25 Nov 2021 02:49:19 -0800 (PST)
 From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH] git: fix CVE-2021-40330
-Date: Thu, 25 Nov 2021 19:47:07 +0900
-Message-Id: <20211125104707.1592-1-flowergom@gmail.com>
+Subject: [dunfell][PATCH v2] git: fix CVE-2021-40330
+Date: Thu, 25 Nov 2021 19:49:12 +0900
+Message-Id: <20211125104912.1704-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 10:47:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 10:49:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158776
+ https://lists.openembedded.org/g/openembedded-core/message/158777
 
 git_connect_git in connect.c in Git before 2.30.1 allows a repository path to contain a newline character,
 which may result in unexpected cross-protocol requests,
 as demonstrated by the git://localhost:1234/%0d%0a%0d%0aGET%20/%20HTTP/1.1 substring.
 
-Upstream-Status: Backporting [https://github.com/git/git/commit/a02ea577174ab8ed18f847cf1693f213e0b9c473]
-CVE: CVE-2020-8625
+Upstream-Status: Backport [https://github.com/git/git/commit/a02ea577174ab8ed18f847cf1693f213e0b9c473]
+CVE: CVE-2021-40330
 Signed-off-by: Minjae Kim <flowergom@gmail.com>
 ---
  .../git/files/CVE-2021-40330.patch            | 108 ++++++++++++++++++
