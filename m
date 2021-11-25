@@ -1,181 +1,144 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9BBC433EF
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 17:51:27 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web12.15010.1637862686524908578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA2FC433F5
+	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 17:51:39 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web10.15196.1637862698318401034
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 09:51:26 -0800
+ Thu, 25 Nov 2021 09:51:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MpdGPKeI;
- spf=pass (domain: gmail.com, ip: 209.85.210.179,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id i12so6559593pfd.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MuAK9/zS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id v1so28717873edx.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 09:51:26 -0800 (PST)
+ Thu, 25 Nov 2021 09:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:organization:in-reply-to:content-transfer-encoding;
-        bh=jjENrv+vsiICSNQsHSg/uCAX7dElOoWZf0VlPyGW4fw=;
-        b=MpdGPKeIKSQZ/Fwkwh/BJIPFuRZ22DOllyYu0BDo0BIj6Un4giAm4VQGIqcKnlkK/T
-         qF22uhhOawY7jYHfDIwnFUdb4VEuLBoUy+rUTtXTI+91z2POu5Avg0qtamZQxd98zTrk
-         spVYauZnZWH3jmGymL40pQ5vjvT/r/FhLJoBELZOQnNiqwC8wIAcuADPIL3oYO52gF4B
-         bxsHNLfnGSt7Eg5ZjPodJHSMpKV66+AWpDXpPB4Ek6Phg6eyo2zc4LlDeUlyRQLiFNHW
-         aBciQGJtniQGHwf/93iAl0oB5XVm/5xH16sbsrZl6b9zS2BHG2gsfTQCJket6lIo2ARp
-         eI2Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aUKrVU30Gzn9SJeQPoRKQ0Bq/5hXuOrJHjKApkEHP48=;
+        b=MuAK9/zSBKciMmFbuXLIQQavbfd3ZFg/TqVPNq60mMrkWwhEyENnxX3q1xPNuXUoT/
+         aMuKNJ2HCt77Yv8AJ43o/P7N+LVByvJpyirsN5uJa0bKyoN/ppcHqQe9tSrQSyegrrRa
+         EpNotCqU4SxMhnc7plCVclGxNTo2zibNFH6aGVIer9rYGVqkKfn7hz4CRWiiom7ZPQTE
+         MAhv/Bl4TPB7QYhDMxFthSQBIaIniwghSZyOGX82nZNdd/Sf9W50WzojK2mUCJs/WYa9
+         cdvzEJuk2mLJgLAFhKHIWupEREn91GI4wzRz5cPpgFlTO7T01yM8L9+BnNzL3CnW6Kk7
+         I2/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=jjENrv+vsiICSNQsHSg/uCAX7dElOoWZf0VlPyGW4fw=;
-        b=stEx0x6xfUgIXVA65VVgkDeutkb6jI+wc5f72mm/Bfudbu29hHXZ4zQAKGAxc3aNk9
-         XUH5D7ODhNOGlTMU5G0rRGKy5L3ok24cqH+cSueAxMRFH8Gqavgr6f5N2unPNlmMVTM9
-         q6XitVnNVSOJeQgKU8G+W6iGobbC//Eah3xeI7Oiu8KLwXY16XOaCXfrie5/5yOdLWKT
-         dPBLWJxrBU7EUxXaJY622W98MMsYgdGnzCimcIxigCvtF79NUsytfDSbSLsa6hepdaAv
-         5G50IuxIfJaez7Bhr1YTrPKhi9MqkZCiIbIC1D3TeclH5/WG+p3olU4BWUsC7Yf8kJ3v
-         wFiA==
-X-Gm-Message-State: AOAM530Xij/qX8dLyOwMLdDEoZiEAHJNCN85jo4yR4h9lM5AztVfBOlo
-	OxYuQCKsmf29xX9BwvfHpscwCpKkLez4Vw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aUKrVU30Gzn9SJeQPoRKQ0Bq/5hXuOrJHjKApkEHP48=;
+        b=0eqy4VA9cV649a2QhjPCfQVAQlx0v51wKun7LPdMkNja4JLOUDrh5X35SNSZjgHxXJ
+         Y4C18fkh45H5pQpAnvP+A1JgkgCgj3ousxCWIrAqvjXxzGu2AhgYw+fSsI+hqjawR0RP
+         OX31OLFEu0bduTTit5lmG0FB7dGWWbZ36n8SZZ5RO3ptl7p/KuZ62pzVkQM8zXdQp423
+         izigz15vIN+0DoxwdsGsDSIctCYw7A3zE2zctfWIJz1wI2l9yPLOCYfmAgSpWrI4btdb
+         q7HimH/GFVr8IzBTvK8Y19w+itmp8WUFpL6n0l4tm8Wv/7HmBC1vxQBWgWj47s2ONW9a
+         nwyA==
+X-Gm-Message-State: AOAM530eWUk20pNyVJXcmKV9mCqtM81xnKX9u2sLZUjLeNfI+rOB3LfA
+	bdSXFzO6nxju9k61FcYSghXvSHQdsx7OySVlZaU=
 X-Google-Smtp-Source: 
- ABdhPJz1sHhGuglh7fKl+WL3Z83dh/lR3sUsGAgWcoWscWyc/gt1DrVRzso3Rd+aRii5SA/2Y+Sl8A==
-X-Received: by 2002:a63:88c1:: with SMTP id
- l184mr9037532pgd.460.1637862685933;
-        Thu, 25 Nov 2021 09:51:25 -0800 (PST)
-Received: from ?IPV6:2601:646:9200:a0f0:dde5:a4ce:7ead:fc8c?
- ([2601:646:9200:a0f0:dde5:a4ce:7ead:fc8c])
-        by smtp.gmail.com with ESMTPSA id
- g22sm4443036pfj.29.2021.11.25.09.51.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Nov 2021 09:51:25 -0800 (PST)
-Message-ID: <beb9f06e-18dc-f69b-d5a6-6d15b131b752@gmail.com>
-Date: Thu, 25 Nov 2021 09:51:24 -0800
+ ABdhPJyHLddqMdCJ4nJUEmHDNpm2aG1Lpa9bfL5qw69ZfaA95Wj5ydoC7K5ktbVN46/0w+jPj2CnkqaXFOPJbiVTFmo=
+X-Received: by 2002:a17:907:1689:: with SMTP id
+ hc9mr32723923ejc.445.1637862696423;
+ Thu, 25 Nov 2021 09:51:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.2
-Subject: Re: [OE-core] [PATCH 3/3] gcc: Drop mips default ABI patch
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20211125152234.129463-1-richard.purdie@linuxfoundation.org>
- <20211125152234.129463-3-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-In-Reply-To: <20211125152234.129463-3-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1637788184.git.bruce.ashfield@gmail.com>
+ <c653e0c3cd0edd038b3c3a2d9df442d2fe5ea745.1637788184.git.bruce.ashfield@gmail.com>
+ <CAMKF1sqXFdQCtOHcc36CZgfoxwL0ASFeU2PyWW7LiD22drJVLA@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sqXFdQCtOHcc36CZgfoxwL0ASFeU2PyWW7LiD22drJVLA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 25 Nov 2021 12:51:25 -0500
+Message-ID: 
+ <CADkTA4PpHJJ_QRq=5PC_fctLGt5yyLANwiP9bKcJz1T_OtqH-g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 03/20] python: introduce python3-dtschema
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, Tim Orling <TicoTimo@gmail.com>,
+	Trevor Gamblin <trevor.gamblin@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 17:51:27 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 17:51:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158791
+ https://lists.openembedded.org/g/openembedded-core/message/158792
+
+On Thu, Nov 25, 2021 at 12:36 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> fails to build for me
+>
+> https://errors.yoctoproject.org/Errors/Details/618010/
+
+It was updated in-branch with fixups.  The version in this patch is
+known to break on a target build.
+
+Bruce
+
+>
+> On Wed, Nov 24, 2021 at 1:14 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > kernel commit 53182e81f47d [kbuild: Enable DT schema checks for %.dtb
+> > targets], which is part of v5.16+, makes the checking of dtb schemas
+> > manditory.
+> >
+> > To support the checking, we introduce this new recipe dtschema.
+> >
+> > Dependencies will be imported in subsequent commits, so we can
+> > track the dependency need on a per-import basis.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  .../python/python3-dtschema_2021.10.bb           | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/python/python3-dtschema_2021.10.bb
+> >
+> > diff --git a/meta/recipes-devtools/python/python3-dtschema_2021.10.bb b/meta/recipes-devtools/python/python3-dtschema_2021.10.bb
+> > new file mode 100644
+> > index 0000000000..f16232d610
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/python/python3-dtschema_2021.10.bb
+> > @@ -0,0 +1,16 @@
+> > +DESCRIPTION = "Tooling for devicetree validation using YAML and jsonschema"
+> > +HOMEPAGE = "https://github.com/devicetree-org/dt-schema"
+> > +LICENSE = "BSD-2-Clause"
+> > +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=457495c8fa03540db4a576bf7869e811"
+> > +
+> > +inherit pypi setuptools3
+> > +
+> > +PYPI_PACKAGE = "dtschema"
+> > +
+> > +SRC_URI[md5sum] = "d2f0d847ba2ad4d223317ef7304342b0"
+> > +SRC_URI[sha256sum] = "d09c94d13f46e6674ba11ff31220651ad1b02dae860f5a87905dfac6b8d768d9"
+> > +
+> > +DEPENDS += "python3-setuptools-scm"
+> > +RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987"
+> > +
+> > +BBCLASSEXTEND = "native nativesdk"
+> > --
+> > 2.19.1
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#158749): https://lists.openembedded.org/g/openembedded-core/message/158749
+> > Mute This Topic: https://lists.openembedded.org/mt/87290455/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
 
 
-On 11/25/21 7:22 AM, Richard Purdie wrote:
-> gcc-configure-common.inc already sets --with-abi=64 for our mips64
-> targets so this patch is no longer needed.
-
-sounds good. Long time ago, IIRC it did not work for compiling the 
-target gcc so it has to be enforced but I agree one less patch is better 
-now.
-
-> 
-> [YOCTO #14639]
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 -
->   .../gcc/0010-MIPS64-Default-to-N64-ABI.patch  | 54 -------------------
->   2 files changed, 55 deletions(-)
->   delete mode 100644 meta/recipes-devtools/gcc/gcc/0010-MIPS64-Default-to-N64-ABI.patch
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> index b4e4300c66b..afb8f2df5c2 100644
-> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> @@ -36,7 +36,6 @@ SRC_URI = "\
->              file://0005-optional-libstdc.patch \
->              file://0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch \
->              file://0009-cpp-honor-sysroot.patch \
-> -           file://0010-MIPS64-Default-to-N64-ABI.patch \
->              file://0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch \
->              file://0012-gcc-Fix-argument-list-too-long-error.patch \
->              file://0014-libtool.patch \
-> diff --git a/meta/recipes-devtools/gcc/gcc/0010-MIPS64-Default-to-N64-ABI.patch b/meta/recipes-devtools/gcc/gcc/0010-MIPS64-Default-to-N64-ABI.patch
-> deleted file mode 100644
-> index f385f8c5a20..00000000000
-> --- a/meta/recipes-devtools/gcc/gcc/0010-MIPS64-Default-to-N64-ABI.patch
-> +++ /dev/null
-> @@ -1,54 +0,0 @@
-> -From a2dc2fa4cc7e5d54544d4a7b6601eef79bc26cad Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Fri, 29 Mar 2013 09:23:08 +0400
-> -Subject: [PATCH] MIPS64: Default to N64 ABI
-> -
-> -MIPS64 defaults to n32 ABI, this patch makes it
-> -so that it defaults to N64 ABI
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Upstream-Status: Inappropriate [OE config specific]
-> ----
-> - gcc/config.gcc | 10 +++++-----
-> - 1 file changed, 5 insertions(+), 5 deletions(-)
-> -
-> -diff --git a/gcc/config.gcc b/gcc/config.gcc
-> -index 3ec7582f5dd..a046fa6945c 100644
-> ---- a/gcc/config.gcc
-> -+++ b/gcc/config.gcc
-> -@@ -2543,29 +2543,29 @@ mips*-*-linux*)				# Linux MIPS, either endian.
-> - 			default_mips_arch=mips32
-> - 			;;
-> - 		mips64el-st-linux-gnu)
-> --			default_mips_abi=n32
-> -+			default_mips_abi=64
-> - 			tm_file="${tm_file} mips/st.h"
-> - 			tmake_file="${tmake_file} mips/t-st"
-> - 			enable_mips_multilibs="yes"
-> - 			;;
-> - 		mips64octeon*-*-linux*)
-> --			default_mips_abi=n32
-> -+			default_mips_abi=64
-> - 			tm_defines="${tm_defines} MIPS_CPU_STRING_DEFAULT=\\\"octeon\\\""
-> - 			target_cpu_default=MASK_SOFT_FLOAT_ABI
-> - 			enable_mips_multilibs="yes"
-> - 			;;
-> - 		mipsisa64r6*-*-linux*)
-> --			default_mips_abi=n32
-> -+			default_mips_abi=64
-> - 			default_mips_arch=mips64r6
-> - 			enable_mips_multilibs="yes"
-> - 			;;
-> - 		mipsisa64r2*-*-linux*)
-> --			default_mips_abi=n32
-> -+			default_mips_abi=64
-> - 			default_mips_arch=mips64r2
-> - 			enable_mips_multilibs="yes"
-> - 			;;
-> - 		mips64*-*-linux* | mipsisa64*-*-linux*)
-> --			default_mips_abi=n32
-> -+			default_mips_abi=64
-> - 			enable_mips_multilibs="yes"
-> - 			;;
-> - 	esac
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158783): https://lists.openembedded.org/g/openembedded-core/message/158783
-> Mute This Topic: https://lists.openembedded.org/mt/87304170/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
