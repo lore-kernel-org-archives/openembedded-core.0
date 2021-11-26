@@ -2,63 +2,62 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D9EC433EF
-	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:33 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web12.20170.1637901392653637791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D8EC433F5
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:34 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web09.20186.1637901393108565946
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:32 -0800
+ Thu, 25 Nov 2021 20:36:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=StjK6L8Y;
- spf=pass (domain: gmail.com, ip: 209.85.210.173,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id z6so7699161pfe.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BbSf0VaS;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id
+ cq22-20020a17090af99600b001a9550a17a5so9074219pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:32 -0800 (PST)
+ Thu, 25 Nov 2021 20:36:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ZwjJ7kd8p+FFNsUTBseGuoegUx/Iwr4thw/t4y2Mm3w=;
-        b=StjK6L8YwU1oWDC/BICk9BllvTQJcYA5DIbLgqihbDA5AXXpKpX7wFxkWmehYDTEj3
-         p7lXtR3CFGoEir+PKKYPiGIdcJctc7saDZwKQhzJtEJjQDd+ubYcXlWeZZNG1wq/e1K5
-         fY/uLw3tRFFqyW9c0lBNAF4+teNnOb740nw1C+gdXbpmQvBVZYeGgtccUFHaFuDxJ5IP
-         KQGIL+xSxn2/C4CJbr4YsoJpP9Rxl+tVcu6xkmvaP6UzJw85epMXrvfE7KCCYqiokmCr
-         ldd3f0tXd1sUHUTcbauVp0nbgmVb1CChaJzsk8vYFTSi7TEeCRvt3/+QJoYgVegthhDz
-         ogEg==
+        bh=qEtCKm7SuJfYMoMm/j4FpguJb6f9GEobi4x0WQOYXyQ=;
+        b=BbSf0VaSwKCJIETnyp9rSPZ4yWrbBdzrxoNaK+dQHsGqyGYTBbU3WFY+VSsj9Bt9Mj
+         9kJ+kDszePIUf8voQ315fiXoqMGiYM/+V8PlA36kLzFQU5uALr6P9kSsYKgnao0Ndwsb
+         4CmZ5dg8MXACvpEqJSNEjRrbFZkBb7POe8z6eFKV0gMVKIrGWqn3a07cm0dNC1zTOrbC
+         VK51ztyRfyV6KYtggjP08TTyYR68a6pPaRRyqmKgpUPcxjX81mLljLoI+b20z+hEO6nB
+         6uPNxDs/kD2bzK6k2uknjo07uhyOOEv+qCYhXnCNqgVp4LdY+PMzdMbbV8/slbgt/tOY
+         x4Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZwjJ7kd8p+FFNsUTBseGuoegUx/Iwr4thw/t4y2Mm3w=;
-        b=ZU1yyVREwOIOD1fZOg5hiYGhGsrLK08sCVr1Fc1hpy5sY7b2V8sVmcOGkNS9j6bLxA
-         qHOVfetn+KYAmkNxazfldCD7J5cikkPt3qLqdg7Zi7bakGOmRxkTcyVj+HPryh0t8Q1W
-         3gowDxVLPK7xzWWqnbY4YHXTojFeZAMs967vUdULqChAv7xxDgc6tcGFT/NYr9G+V8NE
-         SqV7NwgEM4pflGvRfjxzv2adu6NhOIS98yF5HsrYOpG6DXDFsXrnl5w4Ka/ljoZ2X3iY
-         nICN9bWKciM1QCEX63fbrDIlccUmW7lt0e9IJDVzLxGkCqr9bpz+/7K/xAX+YtMckIY7
-         ZS3w==
-X-Gm-Message-State: AOAM53200uAHwRRCOH4x0y3qMW15/8vY1cNScmw8ipVt3+QtAX7uDcBP
-	0FBWO4U1T5SZmNaJtqBdhcqvX1M5pgM=
+        bh=qEtCKm7SuJfYMoMm/j4FpguJb6f9GEobi4x0WQOYXyQ=;
+        b=qpfgZnPs8kjuQViZqrUJO76Lype/v/zr5HvMUYFH1bZKXQ1hJC7z/OmCIQKN25zSLE
+         jwQ/RaC4BBDYfPLKc0RRdcd65zBSZFL7hvFcXvRQUBHptQ0+bfaED64NOT1LAXtKgs0/
+         e9GQLSbDWozBzUNZ3OuAjOycma52l4FOaXr4O4ky1wvrNVF37EeiXqaQEe+vUfRof9Xh
+         KamEXBTLOBc+7rkSxjDitKEGm2Zjx9TysHXKXtjUCNmIOhPAGCiH2YQLp4dzXcrUCGdI
+         tiNKLA2kCluKbDb7QSsxpRqchXW6F05x5cr06hJbHspf6KqHuObBqRVu0BTV6I25C7AU
+         NtkA==
+X-Gm-Message-State: AOAM5339ln6877UNs4k/gmMhMm+E0rq4Zz5iGpTKSEd5zvOBc6bz1JWC
+	fpQOSf6avqVSb14Tve18OpXnlGIJe9k=
 X-Google-Smtp-Source: 
- ABdhPJw36euZHY6y1/kcqhDBeqfL4rvTR+5Zm+0YXjUCWSC9MEu8FlPDY/FYMaA4KQQ/8+zco54ipA==
-X-Received: by 2002:aa7:8b14:0:b0:4a3:a714:30ed with SMTP id
- f20-20020aa78b14000000b004a3a71430edmr18408765pfd.2.1637901391803;
-        Thu, 25 Nov 2021 20:36:31 -0800 (PST)
+ ABdhPJwkplzlbkKxFg3OLTycinTzX4UtfdAiSREu8F9U/QUOGnTWhuSiAuuign8Y6AOpvbWCtuggJQ==
+X-Received: by 2002:a17:90a:ac08:: with SMTP id
+ o8mr13058998pjq.87.1637901392403;
+        Thu, 25 Nov 2021 20:36:32 -0800 (PST)
 Received: from nereus.local ([2601:1c0:6000:1830:2111:e66e:a58a:6736])
         by smtp.gmail.com with ESMTPSA id
  fw21sm8909282pjb.25.2021.11.25.20.36.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 20:36:31 -0800 (PST)
+        Thu, 25 Nov 2021 20:36:32 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 20/26] recipetool/create_buildsys_python.py: less
- distutils
-Date: Thu, 25 Nov 2021 20:35:59 -0800
+Subject: [RFC PATCH 21/26] waf.bbclass: drop usage of distutils
+Date: Thu, 25 Nov 2021 20:36:00 -0800
 Message-Id: 
- <29ca205dca70847b0ef6d4db6f70eddce2544f9a.1637900380.git.timothy.t.orling@intel.com>
+ <f2f14ed5d003a2310645a191c63f539d2faec42d.1637900380.git.timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1637900380.git.timothy.t.orling@intel.com>
 References: <cover.1637900380.git.timothy.t.orling@intel.com>
@@ -67,52 +66,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:33 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158816
+ https://lists.openembedded.org/g/openembedded-core/message/158817
 
-distutils is deprecated in Python 3.10 with removal in Python 3.12
-(~October 2023). Replace distutils.command.build_py with
-setuptools.command.build_py.
-
-There is still a check which decides to inherit setuptools3 vs distutils3
-that will need to be refactored when we add pyproject.toml and setup.cfg
-support for more modern PEP 517 packages.
-
-Once distutils3.bbclass is dropped, any recipe inheriting distutils3
-will throw a parsing error. The plan is to move distutils*.bbclasses to
-meta-python. However if meta-python is not in bblayers, the parsing
-error would still occur.
+Refactor to use newly imported bb.version.LooseVersion
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- scripts/lib/recipetool/create_buildsys_python.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/waf.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 0b6b042ed17..570be7e81b2 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -8,7 +8,7 @@
- import ast
- import codecs
- import collections
--import distutils.command.build_py
-+import setuptools.command.build_py
- import email
- import imp
- import glob
-@@ -459,7 +459,7 @@ class PythonRecipeHandler(RecipeHandler):
-         else:
-             package_dir = {}
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index df0ab8d73ff..f9e240c272a 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -43,7 +43,7 @@ BB_HASHBASE_WHITELIST += "WAFLOCK"
  
--        class PackageDir(distutils.command.build_py.build_py):
-+        class PackageDir(setuptools.command.build_py.build_py):
-             def __init__(self, package_dir):
-                 self.package_dir = package_dir
- 
+ python waf_preconfigure() {
+     import subprocess
+-    from distutils.version import StrictVersion
++    from bb.version import StrictVersion
+     subsrcdir = d.getVar('S')
+     python = d.getVar('WAF_PYTHON')
+     wafbin = os.path.join(subsrcdir, 'waf')
 -- 
 2.30.2
 
