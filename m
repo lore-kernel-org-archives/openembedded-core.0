@@ -1,236 +1,519 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE15BC433EF
-	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 18:34:32 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.27442.1637951670940882998
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ECF6C433FE
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 19:57:06 +0000 (UTC)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by mx.groups.io with SMTP id smtpd.web09.28349.1637956624959288127
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Nov 2021 10:34:31 -0800
+ Fri, 26 Nov 2021 11:57:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=c8veo2Xd;
- spf=pass (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=69646dbd29=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1AQIDt4c003269
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Nov 2021 10:34:28 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=subject : to : cc
- : references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=+551pnKSdcx5riUm69xvqcGgNjm07R6FN0vJEp6ADY8=;
- b=c8veo2XdwkNVhyoK5qNTvCZMgC8V8j74t7Wn8jPVC3FpxQOfapVQS1SsUeVRKnikN0OX
- cPjfVkfei6IOjE1zcv0644cb4lj2IXMEHuaESPNWQJeM8tl4XEos6o7v3hGWBzqkovBB
- ZafM8pXk6kMlcrTSvBgNfXJ7MDzhsWZZyr+lHiFuknMfaZoACO1JWJh/CjVl9xFY7IlQ
- Yo+wMyEndKcKP7Y5yCqYGh03ITPZW+NVrj6CqViHI8kx/MNOwXEI4V1BQ81pJXlnkX9r
- MXOO0mZpB8pqOCoU2iDTl7Mx6hpcNtMymms5tcK4HzDIfa8jtsjpCJZdiZdFgYvydozX Tw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cjpt0rh9t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Nov 2021 10:34:28 -0800
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1AQIYRwF018375
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Nov 2021 10:34:27 -0800
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cjpt0rh9s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Nov 2021 10:34:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NS2b+1Nw8j2avZ+csuRUFGCpvQhnRlEYHkeLkl18MsNH99PyRC0DDMnW98LkEfWSqnB926HNDtg8t/py8Z2jC6hp01S1deNTm3hS9AbLobBk4hlA1I0WzearwnEqUzy0m2bJC6+e3ieg2G+dl6UF4m7LpxbvoCcramjhCaGrXZ2rSqcWppj3CTTOcm2DsfDW5WUcwCIGmOTyGcwodHXjVN1rxc8l/9gDtXYWbNtcTF9PV3n1XAYDeBRVsSS0oezU6B2N+Q5AuvTShTMgR/BSQ29Li8zty71L+40ZFwy4/QHP3deFCNyGPuxAApkZzq+vbVjHard1TJML3i67I3vDqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+551pnKSdcx5riUm69xvqcGgNjm07R6FN0vJEp6ADY8=;
- b=IR04vZ+0nq/eFT5enIWnn0cWojJEp5ywyeGzYHRvlYLC07m4hDToHUyKcMoOxNaGeePnZCrUhxN0D2etgk+nExAyPX7t2hS0WBeKTjb8ONz/dCnDZewbV6J56YL7ttW5CTZ6hUzLbCZoi/PV30x3/an+MTtphhVXYd1j7ESq4TziAF1YeKNcxCqSwc0wChnYtSGoJweW+KvLcsfyVVNMLXzr3QfQF0J3VJ2oa25mTkaWSQq4OC119FzGwoS8tIc87x/VN+JJv8qKRpIpjGzDkTW3KmMrLRTQzRfQPRnpMpRACDGgdocpeMasPgNnHPWJ99ZdnRfPmkUduiZjtXT12w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM5PR11MB1788.namprd11.prod.outlook.com (2603:10b6:3:10a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.24; Fri, 26 Nov
- 2021 18:34:25 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::f1b5:133d:c04b:46a3]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::f1b5:133d:c04b:46a3%4]) with mapi id 15.20.4734.023; Fri, 26 Nov 2021
- 18:34:25 +0000
-Subject: Re: [PATCH v3] Re: [OE-core] [PATCH v2 2/3] Rust cross testing file
-To: Pgowda <pgowda.cve@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Randy MacLeod <rwmacleod@gmail.com>, alex.kanavin@gmail.com,
-        umesh.kalappa0@gmail.com, Vinay Kumar <vinay.m.engg@gmail.com>
-References: <YVTwuSLx+HyyIDkV@piout.net>
- <16A988E1BC842A91.3292@lists.openembedded.org>
- <CALY49845oK2-9FQz0Qo5GM0eZ35FePWhuB_Baa=_tK8TC99a=A@mail.gmail.com>
- <YW/IZh8+WQlBWSlw@piout.net>
- <CALY4985qUwZYSswozfRVZ2Xc2L82-Shn7UxX09wbmXzuPeKSTQ@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <c9438f97-64e1-e97f-0d4f-d8999098d041@windriver.com>
-Date: Fri, 26 Nov 2021 13:34:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: 
- <CALY4985qUwZYSswozfRVZ2Xc2L82-Shn7UxX09wbmXzuPeKSTQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR06CA0043.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::20) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cp33mB3z;
+ spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: ticotimo@gmail.com)
+Received: by mail-io1-f49.google.com with SMTP id x10so12747966ioj.9
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 26 Nov 2021 11:57:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S75Jf/jj9RdSlKxOZm1hSbvAfBJg/f/9MV8Koc86Zvw=;
+        b=Cp33mB3zq0pI7bdLrFVm7tRh5Ge/kW5tTO4gLRv2FY/5aaf7ofKINQrPa+2skkKJi5
+         GgcUE4IdHlUVCUZNwJsahhqEJ4H1NgK/QZOtoU40Gfx/FwqfE6t4WrlnJQSYsqY3nKC8
+         ib8ulnVAaFpSnZGmci/Wqbb490gSrWeuAEDjz5nsh01vY5AnOrFHpuicdBYdWSctrxKI
+         sNAuDagCN0BGwNhY44cmvqjl1MDK8fqRgaGJbImIDewmjQmm12iBnaK1W6Tr9c93km9a
+         bkGJ7Iwu3WkAfZZpHwJWv4bHBT3GRuSMoG6Q56ssZVEE3lqjPk6W4V40lk1lnAAPfsFm
+         nwAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S75Jf/jj9RdSlKxOZm1hSbvAfBJg/f/9MV8Koc86Zvw=;
+        b=meNYycjFNXh0MHSHvmGXtLNRscUMzG4FiCs2hLWuGtagWxYoKGgkzKYjMcaTjitIV/
+         aakNEMX4g/MvfX8Jv0GVGCbVfdwVYBgX2kNjCOazfo7vVwtRsBJ4KpXEOf5srsqJfDim
+         knbM2h0Z1BJptWEF2Dyd749abD2Ym481k5wUdycwP0xIue/Nz2/QftKS11FrHl2ZFpBj
+         xpOeVKhjgulTmUNFu/ibvRJd8ms9agzWPnS04JQSu/T4lGJ+3PQpnVM2sBtgRTFRItYr
+         Rbfta+c0JT/ocoYkIquQXx1lHwfn1V9bVs/7N4Ut88nCe3/S/OFCDLAXsz39keU6Q70C
+         dmaA==
+X-Gm-Message-State: AOAM531m3vgcx+eTl61/ezo4nq9DurYc7Ju96r3nGqGt67Vst+3cVFyB
+	ljY19+K/qruG5RkHnFhJ1i0n7eO0ckhqWzzTl3m9Xpsf
+X-Google-Smtp-Source: 
+ ABdhPJwnuILFdRk5ZkrDi29JKwTQp7LSMXTb172L8svfmJQkknC44X6O6A4KNkDYsZfR+QxjkJjkGeCwbcwzPozgsoI=
+X-Received: by 2002:a05:6602:2c50:: with SMTP id
+ x16mr37957132iov.114.1637956624235;
+ Fri, 26 Nov 2021 11:57:04 -0800 (PST)
 MIME-Version: 1.0
-Received: from [172.25.44.7] (198.48.226.187) by
- BYAPR06CA0043.namprd06.prod.outlook.com (2603:10b6:a03:14b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
- Transport; Fri, 26 Nov 2021 18:34:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7ae1ae15-d5c6-4538-813b-08d9b10b5f3f
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1788:
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR11MB17884132E9ACEA9B8616E6E8F8639@DM5PR11MB1788.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	POogRcPF1Wc91Q5E3p3eiGlZti4C9aNGqauMN6THUEdICmKXNJ/zXJGD0rrglGSWHN16CXanJpJgLvCospwx07MMsPbdUZoKhNje2fztHwTLcVbWHaE8gTvuthmEh3my0zxp57qqG3A6GBpyx7W2tL291TCyaniDWo+7U0yBEwg1S4PcpDx9ZHABaTk8amPyGkhXvcGv6vp8B6GRvR43ilTdhWzhXoG5xXtQqLJoL6VwP0NdlmZPnvRVDO/NdWL1JOFEsSSiBb7R75A/GuFyChKU58rrYtPsBCMmdcJZt6de33roJjhcBnhA+up8kGaYyCpqCocq/mzz4G/ya5umMoEhvKXzW3RrjwKOgAGDsEYI7Za+XEtDpDsbMbLkIRR++KWpIMdmp+IKpPCaQWswNPJZEDym5gS+0MW/yIpKa6tw0mXC2w9Cw9P754Rx5gQ/GflHFiAIh7oCNwV1jnyIHbNfw96q/KaDnE2k4pluDQG6wLwf9zQoPW0BzXrIsE1RkpOxA7ncfL6APz5j4s0J6b8TkS0X0jkvGdqOU4CMK8rMY+in447Cv5ffthEPOQGW0kthawQ92+tnFRO+A8O3EDZtdFn34JuuYQ93UYgIZ0JwkpfJnVFrPpWPFH9kL8FBLLKNGN21B5vusWA4nWTTfYqxUlT89r/WCTaZNemxswps0vb00a3xzwkvaRr6KMDOe1qHrkNyp6cVRDUMm0MfVYxoqh0JJF5VzoyMJodcCC9KPvCyMKIoXdlb4ZIqr4wCb4pUP9G4bo73W3p9EDEkVwwmJ3mMX7iAPlqWhygNvSWyUGTJZJYJ2LsJzUEtE+hUUL8Pu85DKF0saLn9vcB797s8LywqXfY+v4QeHkNy13yT02r9+Pjw8XBbnuDdjhj2by8CNphy6cAIaEnp2MmMhQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(66946007)(26005)(316002)(66476007)(86362001)(16576012)(54906003)(110136005)(186003)(4326008)(83380400001)(6486002)(2906002)(38100700002)(31686004)(8936002)(956004)(508600001)(2616005)(53546011)(5660300002)(8676002)(38350700002)(966005)(36756003)(31696002)(52116002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?TXFPNW9XZXJmVFdGUjcxa0oybzZjTzdDYkM1VktZdTVtUzdZMGNpQ3JXMEJx?=
- =?utf-8?B?bUx3UkIvWmZFSkZoVTUwN096bStuVXJqWitUNHRwZDJ5aXh6QUNmaWp2bmdL?=
- =?utf-8?B?R050czhta0VYOUlXTFVvTDkrNThkNHN6SExKblRxTXR0VVEvMG5FdHRFdWxn?=
- =?utf-8?B?eCtVbzBvV2RKZzVocnEvRkp5UmFwZzkxV25DcU9tNFR0TWNYdWljOWx2U01D?=
- =?utf-8?B?SGNxYU5mb1g5SWFUb2h1NysxZExxTkphcWxqUGVHTXp6dytVVEEwT0tHMnVy?=
- =?utf-8?B?dUVja1BuYnpMMXlja3dabkF5T2hCUlVFeXUyY3VCcTZoMHdJclM5RmhxTVlE?=
- =?utf-8?B?N0NMcGxkMXhLdkk1SXdsRFljZytlbllaK0V4VFVHVSs0OUVlS1o1a2Z5WVgz?=
- =?utf-8?B?T3FqTFp4M2VrL1VxbkdIRzVHN0M1dThVRzZvTWRBMmtNSFFDVjhRK0pIUURr?=
- =?utf-8?B?blEwTHptbklZWUgzaUNLb3JrWCtQSnlmWm5va1pGWVBUbWJaekhtNGZyVDkx?=
- =?utf-8?B?WFc5OVNYenJtTHdqTXdTT1NQY21FVmx3TC9QTHdoazVKak1kQzFDekc1Vmxv?=
- =?utf-8?B?TnFQODlGRTZySXBNWGRqelc1MEliTXN5YmIvaFlTenY5SmwySzE0Y2d6dit0?=
- =?utf-8?B?V0tFaVQ4bnI4NldjMk5Fc1laNjZ3ZTVDQW42SnN0OWdtSzJmZENqRnVuMnZk?=
- =?utf-8?B?WDRLSnNKb0tDcjVYSnFuUmNja0x4WGNCTnlkZTE4WUp6UVdsOU5iUEV1aHh4?=
- =?utf-8?B?NEZpRTdhZ3E1N0pYb1pUZTdnQkxqb0RWbjcyOGZFR0xWWjd0SVVobHp0cHhP?=
- =?utf-8?B?T0FkampQQWV0YlpxRUtlc0lzMmVwWlFvR1NvWlMxcFVLc2lDakpweVN2ZjM1?=
- =?utf-8?B?WFRzcFk4b3h5Ky8xY0tvTC9TbHd4bnlVSWNVM2FhV1J4Mm9aNytHeTd0ZDRy?=
- =?utf-8?B?K3pETTJLNmNBLzBUdXhlSUxnazhtVFpQSWZ3YjU1Q0RrSXZ4OVFSYnZtVWZk?=
- =?utf-8?B?cFZrVmd3elZXSnJUQnFKNnBNSW1VblZ1bm9xWmxLeENsU2dmdGZrTE9nbVlz?=
- =?utf-8?B?MTU4RkdqRzBaRE5WSk5zTWxFQUZ2VEZPOGpHSDFCNWFpY0o1eDVrM3hXdklO?=
- =?utf-8?B?Sk9LaC9xSWFNSTU3YXkzSmsrYjFtRXVZNWtDcUZza0tqZTY3QWpwcUlDZ3l0?=
- =?utf-8?B?QnNId2ZwbzQrTGpOVTIwRHJCK0xDN1ZVOTlKQndzRElUbENFbm1rTHkzb0Zu?=
- =?utf-8?B?dEN5UXRPZXFiWXJHV0I1bmh4S1VXRTJVM2hZU29ZUEVvZHZMdHBsT2djRHJr?=
- =?utf-8?B?NWc4MEJCL212VC9rQWtmb3huSDhWQ1JXa1EvcXdjV2I4VzdpR01jS1RVQWlS?=
- =?utf-8?B?dzJxSk1UVnpuNUcvNGNrcTUwdHVhWGpxbDM4bzRuQUI3RE1OMC9HNExuaWVv?=
- =?utf-8?B?ajAwOTFGdFYvREY1bFlFTkllMmlkNC9uZ1hNY0dGalhha0V0a1l5M0Radm1y?=
- =?utf-8?B?NnVrL2NRYVB2K09URmhGZGNPVzJ1YmY0MXNGQVZqenlMOEY5dkZwYVpSSjEv?=
- =?utf-8?B?cDQzQkRUMmtLR0E1NWhneHhrUTdwcHBvd2RnUHp5Z3pueUtvNHVWdW1rWEk4?=
- =?utf-8?B?UUZYdHZYZDNLTUpkNnNMTW12cm92NFFyb3BlZUZ0a2Y5UXJCaldaY2FhN2NL?=
- =?utf-8?B?UHpMamM3eis5UCtwNmp1ZVlONkhJUjFyQWk3ZFU2YWZabzBYS1o5UnpiaTJJ?=
- =?utf-8?B?UElJbXl0TEJJb0UwZjFxOVdkNVBqcUR2YStGVC9ieFJLRE5pV3VxVlNncFZq?=
- =?utf-8?B?V2c0NUNuVTJGaUtJZ3hEdTNmeVJFeVYwL1RWUTJvRU94SGN3ZEZQK3NWTXFj?=
- =?utf-8?B?WlFrZWZONEVCMVEzM3I1TldERGJ5bXlJMmFwT3BYU2J5QklBdFYrd09VRG9M?=
- =?utf-8?B?L3kzck1adXJGQmpIek5VVkxSVVhEWTBCdmh2amFrSGdPOURXRjhDMG5Oc3hM?=
- =?utf-8?B?SEUyODB2cC94QWZ5OHZ1VmJoVkd0WTFHcUp2eWhYUlpxTFlQdU9rdFpDckhj?=
- =?utf-8?B?YkNnTzBQMndmZ0dvb094bDN0MHRKOXg1VUg3cmxKaXRtVktoalVLekNhWTRB?=
- =?utf-8?B?enNqUDBPV25yVzFjeTE3Qnh5MWhhbmxCdFpldkhYbER4QlhuYnZkalc4K1VS?=
- =?utf-8?B?cGYwM0g3UzkzSG9FSk1lczhvbHkzREVxWk4xZzdUaExHa2FNZ0V2R3MyWFRm?=
- =?utf-8?Q?lJNq4jMpYC4nWsl1eGAvtCHC+402jTmb53UUuXwl+U=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 7ae1ae15-d5c6-4538-813b-08d9b10b5f3f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 18:34:25.2578
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 234m+CVW9unJFN/EnTMlUO/TlKK6/15Sd8/fcm1VVattsrE9NPSDFkCd5A83i9JcmzaoRHePAzlWrvtZeqPLVrL9mJX7aCxOQX8FnOU2Cqw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1788
-X-Proofpoint-GUID: E5cmL9bjJGz5gp8R-EcTq_OnqnRzI_OI
-X-Proofpoint-ORIG-GUID: EhxKFBEnytUS-wLAWdFu6QRQjHV1dmMk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-26_05,2021-11-25_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0
- adultscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
- mlxlogscore=999 mlxscore=0 spamscore=0 priorityscore=1501 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111260107
+References: <20211126163423.166644-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20211126163423.166644-1-richard.purdie@linuxfoundation.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 26 Nov 2021 11:56:53 -0800
+Message-ID: 
+ <CANx9H-BOYi9CxjvMfuUNEngKpY=ojyo0ORDsfCW9RnwR_zynQw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity/lib: Replace usage if LooseVersion with
+ bb.utils.vercmp_string_op
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000bec19b05d1b67e63"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 18:34:32 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 19:57:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158842
+ https://lists.openembedded.org/g/openembedded-core/message/158843
 
-On 2021-11-02 1:12 a.m., Pgowda wrote:
-> Hi Alexandre,
-> 
->>> There are still issues with that series and I replied the following a
->>> https://lists.openembedded.org/g/openembedded-core/message/156655
-> 
-> I had a detailed investigation on the cryptic errors which was
-> mentioned in the build.
-> Those are the tests that are supposed to FAIL in the rust testsuite.
+--000000000000bec19b05d1b67e63
+Content-Type: text/plain; charset="UTF-8"
 
-Ah, that's good to know.
+On Fri, Nov 26, 2021 at 8:34 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> The current patch provides the framework to run the rust testsuite
-> from rust sources.
-> It does not modify the test case or results and hence is unable to
-> deal with failures
-> from rust source.
-> 
-> Hence, we see the final message as "command failed" at the end of testsuite run
-> due to some test case failures from rust source.
-> Can you please let me know how to deal with this?
+> distutils is going away and we have functionality in bitbake which can
+> handle these comparisions so switch to the bb.utils function.
+>
 
-In Yocto, we want the return status to indicate only that we were
-able to _try_ to run all the tests. If some tests fail that's acceptable.
-We need to know what the result was and we'll monitor it to ensure that
-the number of failed tests does not increase.
+Looks good. I will refactor the distutils deprecation series to follow suit.
 
 
-> Is there a way we can provide these failures as expected or ignore them?
-
-I think this problem is rust specific so you'd have to deal with it in
-your patch. Maybe someone can point out another case that is similar to
-this one but I don't know of one offhand.
-
-
-../Randy
-
-> 
-> Thanks,
-> Pgowda
-> 
-> 
-> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/sanity.bbclass | 18 ++++++------------
+>  meta/lib/oe/distro_check.py |  2 +-
+>  meta/lib/oe/terminal.py     |  7 +++----
+>  3 files changed, 10 insertions(+), 17 deletions(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 9fbc9c18e7c..0e20589b22d 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -462,13 +462,12 @@ def check_sanity_validmachine(sanity_data):
+>  # Patch before 2.7 can't handle all the features in git-style diffs.  Some
+>  # patches may incorrectly apply, and others won't apply at all.
+>  def check_patch_version(sanity_data):
+> -    from distutils.version import LooseVersion
+>      import re, subprocess
+>
+>      try:
+>          result = subprocess.check_output(["patch", "--version"],
+> stderr=subprocess.STDOUT).decode('utf-8')
+>          version = re.search(r"[0-9.]+", result.splitlines()[0]).group()
+> -        if LooseVersion(version) < LooseVersion("2.7"):
+> +        if bb.utils.vercmp_string_op(version, "2.7", "<"):
+>              return "Your version of patch is older than 2.7 and has bugs
+> which will break builds. Please install a newer version of patch.\n"
+>          else:
+>              return None
+> @@ -478,7 +477,6 @@ def check_patch_version(sanity_data):
+>  # Unpatched versions of make 3.82 are known to be broken.  See GNU
+> Savannah Bug 30612.
+>  # Use a modified reproducer from http://savannah.gnu.org/bugs/?30612 to
+> validate.
+>  def check_make_version(sanity_data):
+> -    from distutils.version import LooseVersion
+>      import subprocess
+>
+>      try:
+> @@ -486,7 +484,7 @@ def check_make_version(sanity_data):
+>      except subprocess.CalledProcessError as e:
+>          return "Unable to execute make --version, exit code %d\n%s\n" %
+> (e.returncode, e.output)
+>      version = result.split()[2]
+> -    if LooseVersion(version) == LooseVersion("3.82"):
+> +    if bb.utils.vercmp_string_op(version, "3.82", "=="):
+>          # Construct a test file
+>          f = open("makefile_test", "w")
+>          f.write("makefile_test.a: makefile_test_a.c makefile_test_b.c
+> makefile_test.a( makefile_test_a.c makefile_test_b.c)\n")
+> @@ -539,12 +537,11 @@ def check_wsl(d):
+>  # built buildtools-extended-tarball)
+>  #
+>  def check_gcc_version(sanity_data):
+> -    from distutils.version import LooseVersion
+>      import subprocess
+>
+>      build_cc, version = oe.utils.get_host_compiler_version(sanity_data)
+>      if build_cc.strip() == "gcc":
+> -        if LooseVersion(version) < LooseVersion("7.5"):
+> +        if bb.utils.vercmp_string_op(version, "7.5", "<"):
+>              return "Your version of gcc is older than 7.5 and will break
+> builds. Please install a newer version of gcc (you could use the project's
+> buildtools-extended-tarball or use scripts/install-buildtools).\n"
+>      return None
+>
+> @@ -552,14 +549,13 @@ def check_gcc_version(sanity_data):
+>  # but earlier versions do not; this needs to work properly for sstate
+>  # Version 1.28 is needed so opkg-build works correctly when reproducibile
+> builds are enabled
+>  def check_tar_version(sanity_data):
+> -    from distutils.version import LooseVersion
+>      import subprocess
+>      try:
+>          result = subprocess.check_output(["tar", "--version"],
+> stderr=subprocess.STDOUT).decode('utf-8')
+>      except subprocess.CalledProcessError as e:
+>          return "Unable to execute tar --version, exit code %d\n%s\n" %
+> (e.returncode, e.output)
+>      version = result.split()[3]
+> -    if LooseVersion(version) < LooseVersion("1.28"):
+> +    if bb.utils.vercmp_string_op(version, "1.28", "<"):
+>          return "Your version of tar is older than 1.28 and does not have
+> the support needed to enable reproducible builds. Please install a newer
+> version of tar (you could use the project's buildtools-tarball from our
+> last release or use scripts/install-buildtools).\n"
+>      return None
+>
+> @@ -567,14 +563,13 @@ def check_tar_version(sanity_data):
+>  # The kernel tools assume git >= 1.8.3.1 (verified needed > 1.7.9.5) see
+> #6162
+>  # The git fetcher also had workarounds for git < 1.7.9.2 which we've
+> dropped
+>  def check_git_version(sanity_data):
+> -    from distutils.version import LooseVersion
+>      import subprocess
+>      try:
+>          result = subprocess.check_output(["git", "--version"],
+> stderr=subprocess.DEVNULL).decode('utf-8')
+>      except subprocess.CalledProcessError as e:
+>          return "Unable to execute git --version, exit code %d\n%s\n" %
+> (e.returncode, e.output)
+>      version = result.split()[2]
+> -    if LooseVersion(version) < LooseVersion("1.8.3.1"):
+> +    if bb.utils.vercmp_string_op(version, "1.8.3.1", "<"):
+>          return "Your version of git is older than 1.8.3.1 and has bugs
+> which will break builds. Please install a newer version of git.\n"
+>      return None
+>
+> @@ -796,9 +791,8 @@ def check_sanity_everybuild(status, d):
+>          status.addresult('The system requires at least Python 3.6 to run.
+> Please update your Python interpreter.\n')
+>
+>      # Check the bitbake version meets minimum requirements
+> -    from distutils.version import LooseVersion
+>      minversion = d.getVar('BB_MIN_VERSION')
+> -    if (LooseVersion(bb.__version__) < LooseVersion(minversion)):
+> +    if bb.utils.vercmp_string_op(bb.__version__, minversion, "<"):
+>          status.addresult('Bitbake version %s is required and version %s
+> was found\n' % (minversion, bb.__version__))
+>
+>      sanity_check_locale(d)
+> diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+> index 88e46c354d2..4b2a9bec01b 100644
+> --- a/meta/lib/oe/distro_check.py
+> +++ b/meta/lib/oe/distro_check.py
+> @@ -26,7 +26,7 @@ def find_latest_numeric_release(url, d):
+>      maxstr=""
+>      for link in get_links_from_url(url, d):
+>          try:
+> -            # TODO use LooseVersion
+> +            # TODO use bb.utils.vercmp_string_op()
+>              release = float(link)
+>          except:
+>              release = 0
+> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+> index 59aa80de669..53186c4a3ed 100644
+> --- a/meta/lib/oe/terminal.py
+> +++ b/meta/lib/oe/terminal.py
+> @@ -5,7 +5,6 @@ import logging
+>  import oe.classutils
+>  import shlex
+>  from bb.process import Popen, ExecutionError
+> -from distutils.version import LooseVersion
+>
+>  logger = logging.getLogger('BitBake.OE.Terminal')
+>
+> @@ -86,10 +85,10 @@ class Konsole(XTerminal):
+>      def __init__(self, sh_cmd, title=None, env=None, d=None):
+>          # Check version
+>          vernum = check_terminal_version("konsole")
+> -        if vernum and LooseVersion(vernum) < '2.0.0':
+> +        if vernum and bb.utils.vercmp_string_op(vernum, "2.0.0", "<"):
+>              # Konsole from KDE 3.x
+>              self.command = 'konsole -T "{title}" -e {command}'
+> -        elif vernum and LooseVersion(vernum) < '16.08.1':
+> +        elif vernum and bb.utils.vercmp_string_op(vernum, "16.08.1", "<"):
+>              # Konsole pre 16.08.01 Has nofork
+>              self.command = 'konsole --nofork --workdir . -p
+> tabtitle="{title}" -e {command}'
+>          XTerminal.__init__(self, sh_cmd, title, env, d)
+> @@ -260,7 +259,7 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+>
+>  def check_tmux_version(desired):
+>      vernum = check_terminal_version("tmux")
+> -    if vernum and LooseVersion(vernum) < desired:
+> +    if vernum and bb.utils.vercmp_string_op(vernum, desired, "<"):
+>          return False
+>      return vernum
+>
+> --
+> 2.32.0
+>
+>
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#157736): https://lists.openembedded.org/g/openembedded-core/message/157736
-> Mute This Topic: https://lists.openembedded.org/mt/86459542/3616765
+> View/Reply Online (#158838):
+> https://lists.openembedded.org/g/openembedded-core/message/158838
+> Mute This Topic: https://lists.openembedded.org/mt/87322233/924729
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>
+>
 
+--000000000000bec19b05d1b67e63
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-# Randy MacLeod
-# Wind River Linux
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Nov 26, 2021 at 8:34 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddi=
+ng-left:1ex;border-left-color:rgb(204,204,204)">distutils is going away and=
+ we have functionality in bitbake which can<br>
+handle these comparisions so switch to the bb.utils function.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Looks good. I wi=
+ll refactor the distutils deprecation series to follow suit.</div><div dir=
+=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex=
+;border-left-color:rgb(204,204,204)"><br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+---<br>
+=C2=A0meta/classes/sanity.bbclass | 18 ++++++------------<br>
+=C2=A0meta/lib/oe/distro_check.py |=C2=A0 2 +-<br>
+=C2=A0meta/lib/oe/terminal.py=C2=A0 =C2=A0 =C2=A0|=C2=A0 7 +++----<br>
+=C2=A03 files changed, 10 insertions(+), 17 deletions(-)<br>
+<br>
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass<br>
+index 9fbc9c18e7c..0e20589b22d 100644<br>
+--- a/meta/classes/sanity.bbclass<br>
++++ b/meta/classes/sanity.bbclass<br>
+@@ -462,13 +462,12 @@ def check_sanity_validmachine(sanity_data):<br>
+=C2=A0# Patch before 2.7 can&#39;t handle all the features in git-style dif=
+fs.=C2=A0 Some<br>
+=C2=A0# patches may incorrectly apply, and others won&#39;t apply at all.<b=
+r>
+=C2=A0def check_patch_version(sanity_data):<br>
+-=C2=A0 =C2=A0 from distutils.version import LooseVersion<br>
+=C2=A0 =C2=A0 =C2=A0import re, subprocess<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D subprocess.check_output([&quot=
+;patch&quot;, &quot;--version&quot;], stderr=3Dsubprocess.STDOUT).decode(&#=
+39;utf-8&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0version =3D re.search(r&quot;[0-9.]+&quot=
+;, result.splitlines()[0]).group()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if LooseVersion(version) &lt; LooseVersion(&qu=
+ot;2.7&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.utils.vercmp_string_op(version, &quot;2.=
+7&quot;, &quot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Your version o=
+f patch is older than 2.7 and has bugs which will break builds. Please inst=
+all a newer version of patch.\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return None<br>
+@@ -478,7 +477,6 @@ def check_patch_version(sanity_data):<br>
+=C2=A0# Unpatched versions of make 3.82 are known to be broken.=C2=A0 See G=
+NU Savannah Bug 30612.<br>
+=C2=A0# Use a modified reproducer from <a href=3D"http://savannah.gnu.org/b=
+ugs/?30612" rel=3D"noreferrer" target=3D"_blank">http://savannah.gnu.org/bu=
+gs/?30612</a> to validate.<br>
+=C2=A0def check_make_version(sanity_data):<br>
+-=C2=A0 =C2=A0 from distutils.version import LooseVersion<br>
+=C2=A0 =C2=A0 =C2=A0import subprocess<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+@@ -486,7 +484,7 @@ def check_make_version(sanity_data):<br>
+=C2=A0 =C2=A0 =C2=A0except subprocess.CalledProcessError as e:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Unable to execute make --ver=
+sion, exit code %d\n%s\n&quot; % (e.returncode, e.output)<br>
+=C2=A0 =C2=A0 =C2=A0version =3D result.split()[2]<br>
+-=C2=A0 =C2=A0 if LooseVersion(version) =3D=3D LooseVersion(&quot;3.82&quot=
+;):<br>
++=C2=A0 =C2=A0 if bb.utils.vercmp_string_op(version, &quot;3.82&quot;, &quo=
+t;=3D=3D&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Construct a test file<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f =3D open(&quot;makefile_test&quot;, &qu=
+ot;w&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(&quot;makefile_test.a: makefile_t=
+est_a.c makefile_test_b.c makefile_test.a( makefile_test_a.c makefile_test_=
+b.c)\n&quot;)<br>
+@@ -539,12 +537,11 @@ def check_wsl(d):<br>
+=C2=A0# built buildtools-extended-tarball)<br>
+=C2=A0#<br>
+=C2=A0def check_gcc_version(sanity_data):<br>
+-=C2=A0 =C2=A0 from distutils.version import LooseVersion<br>
+=C2=A0 =C2=A0 =C2=A0import subprocess<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0build_cc, version =3D oe.utils.get_host_compiler_versio=
+n(sanity_data)<br>
+=C2=A0 =C2=A0 =C2=A0if build_cc.strip() =3D=3D &quot;gcc&quot;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if LooseVersion(version) &lt; LooseVersion(&qu=
+ot;7.5&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.utils.vercmp_string_op(version, &quot;7.=
+5&quot;, &quot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Your version o=
+f gcc is older than 7.5 and will break builds. Please install a newer versi=
+on of gcc (you could use the project&#39;s buildtools-extended-tarball or u=
+se scripts/install-buildtools).\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0return None<br>
+<br>
+@@ -552,14 +549,13 @@ def check_gcc_version(sanity_data):<br>
+=C2=A0# but earlier versions do not; this needs to work properly for sstate=
+<br>
+=C2=A0# Version 1.28 is needed so opkg-build works correctly when reproduci=
+bile builds are enabled<br>
+=C2=A0def check_tar_version(sanity_data):<br>
+-=C2=A0 =C2=A0 from distutils.version import LooseVersion<br>
+=C2=A0 =C2=A0 =C2=A0import subprocess<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D subprocess.check_output([&quot=
+;tar&quot;, &quot;--version&quot;], stderr=3Dsubprocess.STDOUT).decode(&#39=
+;utf-8&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0except subprocess.CalledProcessError as e:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Unable to execute tar --vers=
+ion, exit code %d\n%s\n&quot; % (e.returncode, e.output)<br>
+=C2=A0 =C2=A0 =C2=A0version =3D result.split()[3]<br>
+-=C2=A0 =C2=A0 if LooseVersion(version) &lt; LooseVersion(&quot;1.28&quot;)=
+:<br>
++=C2=A0 =C2=A0 if bb.utils.vercmp_string_op(version, &quot;1.28&quot;, &quo=
+t;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Your version of tar is older=
+ than 1.28 and does not have the support needed to enable reproducible buil=
+ds. Please install a newer version of tar (you could use the project&#39;s =
+buildtools-tarball from our last release or use scripts/install-buildtools)=
+.\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0return None<br>
+<br>
+@@ -567,14 +563,13 @@ def check_tar_version(sanity_data):<br>
+=C2=A0# The kernel tools assume git &gt;=3D 1.8.3.1 (verified needed &gt; 1=
+.7.9.5) see #6162 <br>
+=C2=A0# The git fetcher also had workarounds for git &lt; 1.7.9.2 which we&=
+#39;ve dropped<br>
+=C2=A0def check_git_version(sanity_data):<br>
+-=C2=A0 =C2=A0 from distutils.version import LooseVersion<br>
+=C2=A0 =C2=A0 =C2=A0import subprocess<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D subprocess.check_output([&quot=
+;git&quot;, &quot;--version&quot;], stderr=3Dsubprocess.DEVNULL).decode(&#3=
+9;utf-8&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0except subprocess.CalledProcessError as e:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Unable to execute git --vers=
+ion, exit code %d\n%s\n&quot; % (e.returncode, e.output)<br>
+=C2=A0 =C2=A0 =C2=A0version =3D result.split()[2]<br>
+-=C2=A0 =C2=A0 if LooseVersion(version) &lt; LooseVersion(&quot;1.8.3.1&quo=
+t;):<br>
++=C2=A0 =C2=A0 if bb.utils.vercmp_string_op(version, &quot;1.8.3.1&quot;, &=
+quot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;Your version of git is older=
+ than 1.8.3.1 and has bugs which will break builds. Please install a newer =
+version of git.\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0return None<br>
+<br>
+@@ -796,9 +791,8 @@ def check_sanity_everybuild(status, d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status.addresult(&#39;The system requires=
+ at least Python 3.6 to run. Please update your Python interpreter.\n&#39;)=
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# Check the bitbake version meets minimum requirements<=
+br>
+-=C2=A0 =C2=A0 from distutils.version import LooseVersion<br>
+=C2=A0 =C2=A0 =C2=A0minversion =3D d.getVar(&#39;BB_MIN_VERSION&#39;)<br>
+-=C2=A0 =C2=A0 if (LooseVersion(bb.__version__) &lt; LooseVersion(minversio=
+n)):<br>
++=C2=A0 =C2=A0 if bb.utils.vercmp_string_op(bb.__version__, minversion, &qu=
+ot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status.addresult(&#39;Bitbake version %s =
+is required and version %s was found\n&#39; % (minversion, bb.__version__))=
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0sanity_check_locale(d)<br>
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py<br>
+index 88e46c354d2..4b2a9bec01b 100644<br>
+--- a/meta/lib/oe/distro_check.py<br>
++++ b/meta/lib/oe/distro_check.py<br>
+@@ -26,7 +26,7 @@ def find_latest_numeric_release(url, d):<br>
+=C2=A0 =C2=A0 =C2=A0maxstr=3D&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0for link in get_links_from_url(url, d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO use LooseVersion<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO use bb.utils.vercmp_strin=
+g_op()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0release =3D float(link)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0release =3D 0<br>
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py<br>
+index 59aa80de669..53186c4a3ed 100644<br>
+--- a/meta/lib/oe/terminal.py<br>
++++ b/meta/lib/oe/terminal.py<br>
+@@ -5,7 +5,6 @@ import logging<br>
+=C2=A0import oe.classutils<br>
+=C2=A0import shlex<br>
+=C2=A0from bb.process import Popen, ExecutionError<br>
+-from distutils.version import LooseVersion<br>
+<br>
+=C2=A0logger =3D logging.getLogger(&#39;BitBake.OE.Terminal&#39;)<br>
+<br>
+@@ -86,10 +85,10 @@ class Konsole(XTerminal):<br>
+=C2=A0 =C2=A0 =C2=A0def __init__(self, sh_cmd, title=3DNone, env=3DNone, d=
+=3DNone):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Check version<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vernum =3D check_terminal_version(&quot;k=
+onsole&quot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if vernum and LooseVersion(vernum) &lt; &#39;2=
+.0.0&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if vernum and bb.utils.vercmp_string_op(vernum=
+, &quot;2.0.0&quot;, &quot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Konsole from KDE 3.x<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.command =3D &#39;konso=
+le -T &quot;{title}&quot; -e {command}&#39;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif vernum and LooseVersion(vernum) &lt; &#39=
+;16.08.1&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif vernum and bb.utils.vercmp_string_op(vern=
+um, &quot;16.08.1&quot;, &quot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Konsole pre 16.08.01 Has =
+nofork<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.command =3D &#39;konso=
+le --nofork --workdir . -p tabtitle=3D&quot;{title}&quot; -e {command}&#39;=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0XTerminal.__init__(self, sh_cmd, title, e=
+nv, d)<br>
+@@ -260,7 +259,7 @@ def spawn(name, sh_cmd, title=3DNone, env=3DNone, d=3DN=
+one):<br>
+<br>
+=C2=A0def check_tmux_version(desired):<br>
+=C2=A0 =C2=A0 =C2=A0vernum =3D check_terminal_version(&quot;tmux&quot;)<br>
+-=C2=A0 =C2=A0 if vernum and LooseVersion(vernum) &lt; desired:<br>
++=C2=A0 =C2=A0 if vernum and bb.utils.vercmp_string_op(vernum, desired, &qu=
+ot;&lt;&quot;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return False<br>
+=C2=A0 =C2=A0 =C2=A0return vernum<br>
+<br>
+-- <br>
+2.32.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#158838): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/158838" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/158838</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87322233/9247=
+29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+87322233/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
+--000000000000bec19b05d1b67e63--
 
