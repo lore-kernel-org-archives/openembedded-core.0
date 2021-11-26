@@ -1,99 +1,113 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <sanakazisk19@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B47C433EF
-	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:38 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web12.20173.1637901397380469061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D88C433EF
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 05:28:24 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web09.20557.1637904501815729658
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:37 -0800
+ Thu, 25 Nov 2021 21:28:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=o7mBu1mW;
- spf=pass (domain: gmail.com, ip: 209.85.215.179,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id f65so7100664pgc.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PT7R5e+R;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177,
+ mailfrom: sanakazisk19@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id r130so7857637pfc.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:37 -0800 (PST)
+ Thu, 25 Nov 2021 21:28:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=EjQDhFGcKsBIHzqkZSk1Rq6UQYrfPu/SBJl/wGMq3q4=;
-        b=o7mBu1mWvmzniYAQycYy4olKvLEvkz3zclwZV5hkcsXlJZKTVLdGuEmbz135X/Btwa
-         DRUZ2IVj5uF2OxYND9PokxohOKEypZao4pdEm/wDbbrNhFm5JdrVQIQRaLsAmtEvQGK7
-         WLtSg5eA88nYkDaPPJyRBzY6dBJ6a8AS/Kzlu5J5vDLolE30hr0DMQUbWiegorO+to11
-         vhRVZ+Qo1KyNaaFsoALcnEPI+mIBsKwhjD/T+9/ddzeHZoJ0nc3aqwRJZ9EwTu5o8WYE
-         bk3VCLLLyW8yoOAqyS6rCgifcLmFVodzJKXzM+6bCP/Fu5umdhtBZafrk26bTCwzieO6
-         1HyQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=JVHhmCmqKzuCGXFzJjIfQ4Fh/X+OiYumapUQLF7JPIQ=;
+        b=PT7R5e+Ri/LdjSXddYnLSQFVG08FDE7oKRv6QwjhUgL1p0qMOo2vJmz2dyZoiAjiFU
+         fZ9CG/Y1FT1lB9nfj37cIgHz1voY3RpYNXJ0BFaDFf8e9aniVOoHircvV43tt9+uIVhM
+         MbXUqVCOCbfjJq/N9KkEksedcffyaHiiyotlYMCpWIHC85n6Ci3FZyXAVjfwuTJhT4i8
+         945g50UGY/tyvrndQxvVnnWzMF9dhsP4+sZCmW0Jxt6Hk6MhDeT132Ugv+iDLI3v1iJG
+         AZCUOl1Kw1iYY0wQEuZjL5bBgrqXUKWYmbOUZr7zK4pVtS32+NLP55Q+1Eq+tE/9NOrM
+         UNiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EjQDhFGcKsBIHzqkZSk1Rq6UQYrfPu/SBJl/wGMq3q4=;
-        b=G8FEWKhTyCiE9yfBl62jkkyMGpJ2GXgcKUHwpzrTd5Fp7NrV0szrQQoFAMouuZa5yM
-         kqfLK76/DgBoQ2wqGj/yhEPDTrScPBtduUzTzK2qgu2+UYu4l75XQjnTkdaVK9kF7FZC
-         8TXYCA/vIZD6c3zJTDv48kw9s2ng477Hz1VFY+QPMEkJ9ABy9SBkHLOORVnkUN4qpF47
-         1c63kdduttkPtG5qgx4oSeBN5x5CvMEEFJNTDPzqSVQ9+Dg/9O7mSDfqBZedMHPrBqwt
-         SjOkiR5uZLOWvQSRLr96/eNG/33m9pEdYSVdSf4ShKR5sUa+Ldq12L1LShZh7fE+mTKb
-         RbMA==
-X-Gm-Message-State: AOAM532QVwlyYMN5oV3GxOw/BrfGBy3bT+5dqqrNV7zmNbCcMFujSPti
-	m9jCA6cIvyF0czBteKCxtkO15sGnWic=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=JVHhmCmqKzuCGXFzJjIfQ4Fh/X+OiYumapUQLF7JPIQ=;
+        b=Yeh2zxuyVfd1TWSiJ7JF9Zr76Kn0SEij/GTd2XC9u1kmZSGqi2oQqg4qA9ZXOJCpK8
+         2G5+AfvMG8XnrRCjKZu3Fu5EAlesCS+E4vF4fcMZ8hZ8eOr2whsLV9Q3sQBKNZbBnnf+
+         8dke6cur3W2p95Xft1NU3avrxYVHrfcLLQoPJI/iVZ6ahk2Wt0oLWV6vRMncEszqxNtQ
+         Da1qJXGslr6IK9UcGCcvO3fjIBL3fv3bu7glN58TTDtm8kkBKhYmv7dN5Ni4h9r5I3B4
+         Ib8OU0dYHXYxGcQUvaNIlIJFd9n0Pjm0S1oQ0FPngMqtiWt3f19YgFG6O0dDN/1AQH4B
+         3+cA==
+X-Gm-Message-State: AOAM530PBY0zFduonPjdyQnjQkHvzAAFl07QY8OZToMJhPvmqQFu57WC
+	WpLYE+UNMF2SnUATLKeCyn6hxSETUdwwDCL4
 X-Google-Smtp-Source: 
- ABdhPJzrHlGVJBrUJERXGa/JlqWiUcMG9mkvmUwVirLZJJRMxwfjVxdL0zCJWGj17dEEiX1xLB9zMg==
-X-Received: by 2002:a05:6a00:acc:b0:44b:ff29:621b with SMTP id
- c12-20020a056a000acc00b0044bff29621bmr18512105pfl.32.1637901396714;
-        Thu, 25 Nov 2021 20:36:36 -0800 (PST)
-Received: from nereus.local ([2601:1c0:6000:1830:2111:e66e:a58a:6736])
+ ABdhPJyw3ezK4wIvjFXtPXYklsuuMn8IeX6r43SxPQ8MAiQzi6gW2VFSP//IWSTicANjiPSwy0VBNg==
+X-Received: by 2002:a05:6a00:2441:b0:4a0:ddb0:a6ff with SMTP id
+ d1-20020a056a00244100b004a0ddb0a6ffmr19558453pfj.74.1637904500990;
+        Thu, 25 Nov 2021 21:28:20 -0800 (PST)
+Received: from localhost.localdomain
+ ([2401:4900:1909:57fb:e907:6203:5372:5465])
         by smtp.gmail.com with ESMTPSA id
- fw21sm8909282pjb.25.2021.11.25.20.36.35
-        for <openembedded-core@lists.openembedded.org>
+ ot18sm5048080pjb.14.2021.11.25.21.28.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 20:36:35 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+        Thu, 25 Nov 2021 21:28:20 -0800 (PST)
+From: Sana Kazi <sanakazisk19@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 26/26] rootfs_rpm.bbclass: distutils -> sysconfig module
-Date: Thu, 25 Nov 2021 20:36:05 -0800
-Message-Id: 
- <ae89d966b2148c672915cbebe708e6474101579d.1637900380.git.timothy.t.orling@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1637900380.git.timothy.t.orling@intel.com>
-References: <cover.1637900380.git.timothy.t.orling@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Sana Kazi <sanakazisk19@gmail.com>
+Subject: [poky][dunfell][PATCH] systemd: add packageconfig for wheel-group
+Date: Fri, 26 Nov 2021 10:58:07 +0530
+Message-Id: <20211126052807.6138-1-sanakazisk19@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 05:28:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158822
+ https://lists.openembedded.org/g/openembedded-core/message/158823
 
-Change a comment to reference our custom changes to the
-sysconfig module, as dnf no longer uses distutils.
+From: Peter Bergin <peter@berginkonsult.se>
 
-[YOCTO #14610]
+If the distro does not include the group 'wheel' systemd will
+complain when trying to parse ACL rules for tmpfiles.d.
 
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+  systemd-tmpfiles[273]: Failed to parse ACL "d:group:adm:r-x,d:group:wheel:r-x": Invalid argument. Ignoring
+
+Systemd has a configuration parameter to avoid using 'wheel'
+group in the standard config files for tmpfiles. Add this as
+a PACKAGECONFIG and enable it by default to keep default.
+
+(From OE-Core rev: 1b5648e6aeb9837cb807ce086c26fbfaa16f6f8b)
+
+Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 457cc45f51e78a532930d0347de271f24ae0a2ee)
+
+Upstream-Status: Backport
+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
 ---
- meta/classes/rootfs_rpm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_244.5.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 3d8d784f792..bec4d63ed6c 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -4,7 +4,7 @@
+diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+index bf33b8d6a1..b6f5a47d63 100644
+--- a/meta/recipes-core/systemd/systemd_244.5.bb
++++ b/meta/recipes-core/systemd/systemd_244.5.bb
+@@ -96,6 +96,7 @@ PACKAGECONFIG ??= " \
+     timesyncd \
+     utmp \
+     vconsole \
++    wheel-group \
+     xz \
+ "
  
- ROOTFS_PKGMANAGE = "rpm dnf"
- 
--# dnf is using our custom distutils, and so will fail without these
-+# dnf is using our custom sysconfig module, and so will fail without these
- export STAGING_INCDIR
- export STAGING_LIBDIR
- 
+@@ -188,6 +189,7 @@ PACKAGECONFIG[sbinmerge] = "-Dsplit-bin=false,-Dsplit-bin=true"
+ PACKAGECONFIG[utmp] = "-Dutmp=true,-Dutmp=false"
+ PACKAGECONFIG[valgrind] = "-DVALGRIND=1,,valgrind"
+ PACKAGECONFIG[vconsole] = "-Dvconsole=true,-Dvconsole=false,,${PN}-vconsole-setup"
++PACKAGECONFIG[wheel-group] = "-Dwheel-group=true, -Dwheel-group=false"
+ # Verify keymaps on locale change
+ PACKAGECONFIG[xkbcommon] = "-Dxkbcommon=true,-Dxkbcommon=false,libxkbcommon"
+ PACKAGECONFIG[xz] = "-Dxz=true,-Dxz=false,xz"
 -- 
-2.30.2
+2.17.1
 
 
