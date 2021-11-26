@@ -1,155 +1,172 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 815D0C433EF
-	for <webhook@archiver.kernel.org>; Thu, 25 Nov 2021 23:40:13 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.18256.1637883611931753374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B34C433F5
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:16 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web12.20163.1637901375751507648
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 15:40:12 -0800
+ Thu, 25 Nov 2021 20:36:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MR5L42e+;
- spf=permerror,
- err=parse error for token &{10 18 _spf.google.com}: limit exceeded (domain:
- linuxfoundation.org, ip: 209.85.221.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id l16so14766331wrp.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=helCX5mb;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id p17so7063112pgj.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 15:40:11 -0800 (PST)
+ Thu, 25 Nov 2021 20:36:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5vsv6OELz7iFIm+zico3JmmQaXnd/eggpbYR8oSpOA4=;
-        b=MR5L42e+3MSVooexqLx2YlFervjsZtG7nAqjTAPJc1uAVTfjj170YUjhxuPlj4o/Sb
-         h0s18St+E7nTa2vZZF7sUCNyFMZCcoldubFtOxzFj4V+snU7V2S9zfM2IbrCLXmrShKH
-         09rBH1oSQTczgTCWh/mhKqqrCH3UtyuaXj5Fc=
+        bh=A4ksfjO3ad3CSqUm8KEHfHMXOYSCy+RO78WEmTOg8DQ=;
+        b=helCX5mbFaeztBXQpyVqfKS3WpP7Cbv1hVp3uFeoYWDwzB8hIO1RZRLuWTMazdjMia
+         sPVEaVBh7+IERTmacSe+dt3VogBVJ83sTWwmoKU3fNQJTOOSt7iSBDSEKmMrjyf3eAPW
+         423sn69REcC7P7Bz+vr6SV0yaw70GG7l8J/LLxsTcSN5w4Z5m3MXg29YHmfm6WUQZIby
+         6lgWeNy1N9iuHInR27jNhFuqobkaPxr1HYv3lwpTl6ZRRmuXGzPllgpS23FXTiCAX+FB
+         iZwF3pyhzAhSBruG4FQ8VrCNaNHLRuilcV9NdvLrcYoPB4u6lKP/VNuydOl0g9ZK48Yh
+         eN1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5vsv6OELz7iFIm+zico3JmmQaXnd/eggpbYR8oSpOA4=;
-        b=wUi3XVKqx9YhQt3eCHpkL04Xhq6zgkkNVHaPWY8RVFUsTwH5R/Tiwopwey0F/pBGRW
-         qfkXRGT6VVr2pXSmByfu7ueqjelLKVq8yX2LrDwvqzQBGtwxtawnmWSAJ4X3GJgkt6Zi
-         aZ3JQej7q0q4uX3lwrx8XCK7PMvCmfxofBh3iG66N8N2vmspZ8aXrHeOUtoMewplFWab
-         AMVX3VEn9+VxMiYLMky3DDrQZoAQfp46l67GpPRwWC3SXhaH03bwR1C6x6rQhSe/vGgA
-         iPe12t8wTlSZEBnv0BuNAyaaMqqs1Q48huhrbpDDfz66Ii5dfSsUcio0mjMTjqTW9Fsa
-         p3rA==
-X-Gm-Message-State: AOAM533lEAAVh5GN2PIUmJErROp4y9PHC5iLiiYFYG06W5h6W9megkA9
-	PK3/+Vi4hPLWGJwmwQcWTzhlaVPGEoRGsA==
+        bh=A4ksfjO3ad3CSqUm8KEHfHMXOYSCy+RO78WEmTOg8DQ=;
+        b=Wkej1fSGO8kNqc8Bmsf/niR2+vmD+7AAV9mJEJo1HdvvGjPAFj23Ewth96JCINlG5u
+         Nz15BN0i2QTSvyVbsiv6h2iGsUE1RX+0M4Jfonu/SNgSPZDdTh3WEeT4rZPKDiL0SJ3P
+         Uux0i3kd1DcMoybiku0mK9w0dQKyshgN3hWSPTUpLdd2kSSDbhe9YN+QFTftVnwQQd80
+         Rj9ohtYlYOtpJwdp5N4CNhDIxlMwIVjolb2gg6rbRkwiKjRehua0S1xlGsONvdn5HVmw
+         CfT8xMFKWrunOslNia93Wb3wFf3VT7McCXqMb2JzSrSaASe65PxF8W64/TZp7yKgrR42
+         13MA==
+X-Gm-Message-State: AOAM530C8w024GVoz9n4RYEzxpfvZdn4T0/rFMGJKtCrgELUX/MKcpca
+	QaXUuHwNeHzMioxceYH5uiTzLG8/OlI=
 X-Google-Smtp-Source: 
- ABdhPJzYorIeWtcOYb64emxoXhDYVd4/lt90p0EJN/Y4KrLvBxpqO2ESKRQ49jfG1/PE+PjgPViEuQ==
-X-Received: by 2002:a5d:47aa:: with SMTP id 10mr10480859wrb.50.1637883610037;
-        Thu, 25 Nov 2021 15:40:10 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f21b:9c01:debb:ef34])
+ ABdhPJyjZWfaqWjPZWQEtt+TqShjIX5sIZ4MtR5Uw+UaWQzFTNYd5W44OoC/s0Ji4GpR8zKDlSLoQg==
+X-Received: by 2002:a62:8c55:0:b0:49f:df22:c4ca with SMTP id
+ m82-20020a628c55000000b0049fdf22c4camr18950970pfd.11.1637901374837;
+        Thu, 25 Nov 2021 20:36:14 -0800 (PST)
+Received: from nereus.local ([2601:1c0:6000:1830:2111:e66e:a58a:6736])
         by smtp.gmail.com with ESMTPSA id
- v15sm3939069wro.35.2021.11.25.15.40.09
+ fw21sm8909282pjb.25.2021.11.25.20.36.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 15:40:09 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 25 Nov 2021 20:36:14 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc: Drop further unneeded precompiled header patch
-Date: Thu, 25 Nov 2021 23:40:09 +0000
-Message-Id: <20211125234009.147680-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Subject: [RFC PATCH 00/26] deprecation of distutils
+Date: Thu, 25 Nov 2021 20:35:39 -0800
+Message-Id: <cover.1637900380.git.timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Nov 2021 23:40:13 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158795
+ https://lists.openembedded.org/g/openembedded-core/message/158796
 
-According to comments on the bug report from gcc developers, we
-no longer need to do this post gcc 10. Lets therefore drop the patch.
+distutils is deprecated in Python 3.10 and will be removed in Python
+3.12 (~October 2023).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 -
- ...-fault-in-precompiled-header-generat.patch | 57 -------------------
- 2 files changed, 58 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch
+This series inserts a deprecation warning into the distutils*.bbclasses
+and drops or replaces distutils usage wherever possible.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
-index afb8f2df5c2..4c18396a15f 100644
---- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-@@ -52,7 +52,6 @@ SRC_URI = "\
-            file://0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch \
-            file://0029-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
-            file://0030-sync-gcc-stddef.h-with-musl.patch \
--           file://0031-fix-segmentation-fault-in-precompiled-header-generat.patch \
-            file://0033-Re-introduce-spe-commandline-options.patch \
-            file://0034-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-            file://0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch b/meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch
-deleted file mode 100644
-index 70afa4f9e95..00000000000
---- a/meta/recipes-devtools/gcc/gcc/0031-fix-segmentation-fault-in-precompiled-header-generat.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From 3d59f763b824ac11f8360931092baf0bc1719562 Mon Sep 17 00:00:00 2001
--From: Juro Bystricky <juro.bystricky@intel.com>
--Date: Mon, 19 Mar 2018 22:31:20 -0700
--Subject: [PATCH] fix segmentation fault in precompiled header generation
--
--Prevent a segmentation fault which occurs when using incorrect
--structure trying to access name of some named operators, such as
--CPP_NOT, CPP_AND etc. "token->val.node.spelling" cannot be used in
--those cases, as is may not be initialized at all.
--
--[YOCTO #11738]
--
--Upstream-Status: Pending
--
--Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- libcpp/lex.c | 26 +++++++++++++++++++++-----
-- 1 file changed, 21 insertions(+), 5 deletions(-)
--
--diff --git a/libcpp/lex.c b/libcpp/lex.c
--index 06bcc31c87e..24bed9a35fa 100644
----- a/libcpp/lex.c
--+++ b/libcpp/lex.c
--@@ -3531,11 +3531,27 @@ cpp_spell_token (cpp_reader *pfile, const cpp_token *token,
--     spell_ident:
--     case SPELL_IDENT:
--       if (forstring)
---	{
---	  memcpy (buffer, NODE_NAME (token->val.node.spelling),
---		  NODE_LEN (token->val.node.spelling));
---	  buffer += NODE_LEN (token->val.node.spelling);
---	}
--+        {
--+          if (token->type == CPP_NAME)
--+            {
--+              memcpy (buffer, NODE_NAME (token->val.node.spelling),
--+                    NODE_LEN (token->val.node.spelling));
--+              buffer += NODE_LEN (token->val.node.spelling);
--+              break;
--+            }
--+          /* NAMED_OP, cannot use node.spelling */
--+          if (token->flags & NAMED_OP)
--+            {
--+              const char *str = cpp_named_operator2name (token->type);
--+              if (str)
--+                {
--+                  size_t len = strlen(str);
--+                  memcpy(buffer, str, len);
--+                  buffer += len;
--+                }
--+              break;
--+            }
--+        }
--       else
-- 	buffer = _cpp_spell_ident_ucns (buffer, token->val.node.node);
--       break;
+Instead of distutils3-base, we introduce setuptools3-base, which also
+incorporates distutils-common-base.
+
+Remaining usage is in:
+  * lib/recipetool/create_buildsys_python.py until we are ready to
+    factor it out (and add pyproject.toml and setup.cfg handling)
+  * oeqa selftests which are testing distutils3 functionality
+  * glib-2.0: upstream is still using distutils.version.LooseVersion
+  * gpgme: Still checks for distutils in m4/ax_python_devel.m4
+  * python3-numpy: upstream still has a distutils/ module
+  * python3-setuptools has a vendored _distutils
+
+I might have missed something else.
+
+No attempt has been made to look at layers outside of oe-core.
+
+The intent is to let this percolate for a few weeks and then drop
+distutils*.bbclasses (and move them to meta-python, but with the
+warnings).
+
+[YOCTO #14610]
+
+The following changes since commit 6fca075a8d87d033359f81d476c8506df66ad53d:
+
+  gcc: Drop no longer needed patch (2021-11-25 21:53:44 +0000)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib timo/core-deprecate-distutils_14610
+
+Tim Orling (26):
+  classes/distutils-*: add warning of deprecation
+  setuptools: refactor for no distutils bbclasses
+  python3-cython: DISTUTILS_* -> SETUPTOOLS_*
+  dnf: inherit setuptools3-base instead of distutils
+  libdnf: inherit setuptoools3-base not distutils
+  python3-dbus: inherit setuptools3-base not distuils
+  gpgme: inherit setuptools-base not distutils
+  python3-pip: inherit setuptools3 not distutils3
+  systemtap: use setuptools-base not distutils
+  libcomps: inherit setuptools3-base not distutils
+  createrepo-c: inherit setuptools3-base not distutils
+  librepo: inherit setuptools3-base not distutils
+  btrfs-tools: use setuptools3-base not distutils
+  scripts/buildhistory-diff: drop use of distutils
+  python3-pygobject: setuptools instead of distutils
+  bind: inherit setuptools3-base instead of distutils
+  python3-setuptools: do not depend on distutils
+  sanity.bbclass: drop usage of distutils
+  gstreamer1.0-python: inherit setuptools3-base
+  recipetool/create_buildsys_python.py: less distutils
+  waf.bbclass: drop usage of distutils
+  dnf: drop python3-disutils dependency
+  python3: refactor python-config patch
+  lib/oe/terminal.py: use bb.version.LooseVersion
+  python3native.bbclass: distutils -> sysconfig
+  rootfs_rpm.bbclass: distutils -> sysconfig module
+
+ meta/classes/distutils-common-base.bbclass    |  3 +
+ meta/classes/distutils3-base.bbclass          |  3 +
+ meta/classes/distutils3.bbclass               |  4 ++
+ meta/classes/python3native.bbclass            |  2 +-
+ meta/classes/rootfs_rpm.bbclass               |  2 +-
+ meta/classes/sanity.bbclass                   | 16 ++---
+ meta/classes/setuptools3-base.bbclass         | 31 +++++++++
+ meta/classes/setuptools3.bbclass              | 67 +++++++++++++++++-
+ meta/classes/waf.bbclass                      |  2 +-
+ meta/lib/oe/terminal.py                       |  2 +-
+ .../recipes-connectivity/bind/bind_9.16.23.bb |  2 +-
+ .../btrfs-tools/btrfs-tools_5.15.bb           |  2 +-
+ .../createrepo-c/createrepo-c_0.17.7.bb       |  2 +-
+ meta/recipes-devtools/dnf/dnf_4.10.0.bb       |  3 +-
+ .../libcomps/libcomps_0.1.18.bb               |  2 +-
+ meta/recipes-devtools/libdnf/libdnf_0.65.0.bb |  2 +-
+ .../librepo/librepo_1.14.2.bb                 |  2 +-
+ .../python/python3-cython_0.29.24.bb          |  2 +-
+ .../python/python3-dbus_1.2.18.bb             |  2 +-
+ .../python/python3-pip_21.3.1.bb              |  2 +-
+ .../python/python3-pygobject_3.42.0.bb        |  2 +-
+ .../python/python3-setuptools_59.2.0.bb       |  1 -
+ ...n-implement-legacy-disutils-behavior.patch | 68 +++++++++++++++++++
+ .../python/python3/python-config.patch        | 55 ---------------
+ .../recipes-devtools/python/python3_3.10.0.bb |  2 +-
+ .../recipes-kernel/systemtap/systemtap_git.bb |  2 +-
+ .../gstreamer/gstreamer1.0-python_1.18.5.bb   |  2 +-
+ meta/recipes-support/gpgme/gpgme_1.16.0.bb    |  2 +-
+ scripts/buildhistory-diff                     |  5 --
+ .../lib/recipetool/create_buildsys_python.py  |  4 +-
+ 30 files changed, 204 insertions(+), 92 deletions(-)
+ create mode 100644 meta/classes/setuptools3-base.bbclass
+ create mode 100644 meta/recipes-devtools/python/python3/0001-python-config.in-implement-legacy-disutils-behavior.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python-config.patch
+
 -- 
-2.32.0
+2.30.2
 
 
