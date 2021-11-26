@@ -2,63 +2,62 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 405D9C433FE
-	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:24 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web08.20250.1637901383826164099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40196C433EF
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:26 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.20378.1637901385961327114
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:23 -0800
+ Thu, 25 Nov 2021 20:36:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=k85ioSnm;
- spf=pass (domain: gmail.com, ip: 209.85.215.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AOqGoBCr;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id p17so7063416pgj.2
+Received: by mail-pf1-f179.google.com with SMTP id z6so7698948pfe.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:23 -0800 (PST)
+ Thu, 25 Nov 2021 20:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=20k+4gHVqOm75/Uh1nIyZAF1srV8GQHUg2TXo1AxwDM=;
-        b=k85ioSnmVslmazxlYiTC0grITxI2uQHxPK8KaiGdqDT+BJEiGiD6PjwRM1JSOqNc9H
-         yc/40ijuj2pnZg3+KMWkR7mp+mB0++lbwYvULj62yDxgcbIIMiN3Pjb8kx7pf1WErwv3
-         a9hRPeQNbOD7Nls5iKaqX/sFmw6kOuC5JWZVFiFoiz/rGFulQvmJqlPBxkTgqfoOd+t9
-         tMwpqIM4jFwMHwFeiBCRx2BO1DPtWkqOXFNNHNZfeyIAls433obv39vChBTMRZxR6F6q
-         CcPQ7oAv0m58bhGSw2TQfh7/SvKanaMQ8WIYMAAsfHBC5OwVAcUdDNEk3zIfGj7MgeuI
-         VAiA==
+        bh=9PrJrr3c+TBhFhopQ++ZBR2myX+Dlbd493gXKv1r1dI=;
+        b=AOqGoBCrWFdQRP6ec8a8Ms3oNuyPJIzWFBI2FXlgc8kwbGXlgwzt5+8gmeNmjktFcy
+         MK2WnzzwpmLJBDYo6j+3wCY8i5fmQy93u/mtET9aKIJ5Vhv7mka8xhX7pRuDLsLPU17j
+         hXRMrpUWgXJoQa541NjMzw5VuzI6PZN+mBNnSG7dpueHE6xfB8ZzhRZQSXZO+x2jshQd
+         jjZ0tVgXQrWt8zLMabnELL08p/ZS2D/yXhn1hDgHy5fDSOOvDegWQV+zA5XJGR6UbeJa
+         qbwrXHFjnqDP17EDEuNqRUacgTZ0WrWuacaJ9SvEo+rPEPHA+ogU1CNc32gBo9HIsDT1
+         Gx/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=20k+4gHVqOm75/Uh1nIyZAF1srV8GQHUg2TXo1AxwDM=;
-        b=8LkGssm9cuvtLJ9QyvXz/GjJSY+JEL9/EJMzf/Hcxfl8kD+N9QV9yflLBZJdVcrIOe
-         ikIqmOvQgP7UyphHFnYEVYx2G3cB+YqNvjzeOSlU002b9DW041bU+ddAbbXU1Tfm4wJr
-         Tk3EA2aQCzEkrJ1kW0yNGaRV1eWdORgVgZJaHo35rB0U4hamMvRNOONQnmo8ZRC9gmlc
-         u5YqRgwe+pX9NrkaWYtyQx3QRIKZaNeWunVeTb+Ji7T1Mj1Kp7qOsfmyHqdiDm8N9Dpm
-         OtkBhGK2B9MhgsDJYc3fKNXYdvNL8QiQNQFHzgXFaXGe0u8FvZQ8oKDa5FXwfDW2nmF4
-         SqmQ==
-X-Gm-Message-State: AOAM533Wi1oPzHwM59kgn/NruL9nYWdVyvdl06ySKIrdWEH0/+4D2tQl
-	23Gs/MVs+kBPL21JJ11DlrzF6cyFYYQ=
+        bh=9PrJrr3c+TBhFhopQ++ZBR2myX+Dlbd493gXKv1r1dI=;
+        b=Hbd9qgcyEpuE0UpZ9NlzPblGWtNF/K0XePy9sfxviK9BQMY+B9c5RmACAH2VvJzj/w
+         UKMhi9eK7FeAL3rihwooejGElw1H93kKiBqaNfXPIDE83CemAHEieteVWwTL/R80lNUy
+         zVx7e6wEmqAs6wwOF601Z1GsDdjSMlQsfkgpqL4VK0fYgFklkDRq74Ok4I3u7q29nRO+
+         nLIUdHujP6iL7GL0+LYQH2FnuKcmtrzARE+vMmhS4kIWIqMRu1h2IQ+J2TjhJ3y4Bh0G
+         Z6cV2X2qDm1PisEqw8baY8r4GsQ79HLyBRE35kNWhKsOejN05tRj6H2B0ry4L0ZQUqwk
+         ejnA==
+X-Gm-Message-State: AOAM533vp46MWiT/FclLh2OwShbBhT402w9cobxyQ1tY5PpuePiEZB6i
+	9ms2m1/AdRe6NciRTLzjIkZrWrDmNoQ=
 X-Google-Smtp-Source: 
- ABdhPJyLgUncLdEZ7W/vRtKZozcIaOBHjCjG1IF+tmOwVvzH43IMLg2gJ7IGV5nsJ0ohp8iXPNyfzg==
-X-Received: by 2002:a05:6a00:16c7:b0:4a4:edfe:4625 with SMTP id
- l7-20020a056a0016c700b004a4edfe4625mr18782616pfc.58.1637901383122;
-        Thu, 25 Nov 2021 20:36:23 -0800 (PST)
+ ABdhPJzGNoyv+suwVRPYX4pitWLoSXuGa4Aq5U7WFSWh9e+uqm9SXVOX96rz3WqfJuMDXqbs9jgpAQ==
+X-Received: by 2002:aa7:9575:0:b0:49f:ddab:dcdb with SMTP id
+ x21-20020aa79575000000b0049fddabdcdbmr18639402pfq.13.1637901385234;
+        Thu, 25 Nov 2021 20:36:25 -0800 (PST)
 Received: from nereus.local ([2601:1c0:6000:1830:2111:e66e:a58a:6736])
         by smtp.gmail.com with ESMTPSA id
- fw21sm8909282pjb.25.2021.11.25.20.36.22
+ fw21sm8909282pjb.25.2021.11.25.20.36.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 20:36:22 -0800 (PST)
+        Thu, 25 Nov 2021 20:36:24 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 11/26] createrepo-c: inherit setuptools3-base not
- distutils
-Date: Thu, 25 Nov 2021 20:35:50 -0800
+Subject: [RFC PATCH 13/26] btrfs-tools: use setuptools3-base not distutils
+Date: Thu, 25 Nov 2021 20:35:52 -0800
 Message-Id: 
- <5ad3d04ec0c6ce6fdf2b4ff6450839b19300aed6.1637900380.git.timothy.t.orling@intel.com>
+ <41ea76d033252833f99ff490a7d7baa9e7a89d25.1637900380.git.timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1637900380.git.timothy.t.orling@intel.com>
 References: <cover.1637900380.git.timothy.t.orling@intel.com>
@@ -67,29 +66,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:24 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158807
+ https://lists.openembedded.org/g/openembedded-core/message/158809
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb | 2 +-
+ meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb
-index 0c27756d2ac..0b18b8baa0d 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.7.bb
-@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
- DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm"
- DEPENDS:append:class-native = " file-replacement-native"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb
+index 399ba17e3ed..45872e4a972 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.bb
+@@ -43,7 +43,7 @@ PACKAGECONFIG[crypto-libsodium] = "--with-crypto=libsodium,,libsodium"
+ PACKAGECONFIG[crypto-libkcapi] = "--with-crypto=libkcapi,,libkcapi"
  
--inherit cmake pkgconfig bash-completion distutils3-base
-+inherit cmake pkgconfig bash-completion setuptools3-base
+ inherit autotools-brokensep pkgconfig manpages
+-inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'distutils3-base', '', d)}
++inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'setuptools3-base', '', d)}
  
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DWITH_ZCHUNK=OFF -DENABLE_DRPM=OFF -DWITH_LIBMODULEMD=OFF"
+ CLEANBROKEN = "1"
  
 -- 
 2.30.2
