@@ -1,113 +1,121 @@
-Return-Path: <sanakazisk19@gmail.com>
+Return-Path: <jupiter.hce@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D88C433EF
-	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 05:28:24 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web09.20557.1637904501815729658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35376C433FE
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 06:26:57 +0000 (UTC)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web12.20836.1637908016320584638
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 21:28:21 -0800
+ Thu, 25 Nov 2021 22:26:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PT7R5e+R;
- spf=pass (domain: gmail.com, ip: 209.85.210.177,
- mailfrom: sanakazisk19@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id r130so7857637pfc.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mUPKJ0mV;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50,
+ mailfrom: jupiter.hce@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id az37so16587471uab.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 21:28:21 -0800 (PST)
+ Thu, 25 Nov 2021 22:26:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=JVHhmCmqKzuCGXFzJjIfQ4Fh/X+OiYumapUQLF7JPIQ=;
-        b=PT7R5e+Ri/LdjSXddYnLSQFVG08FDE7oKRv6QwjhUgL1p0qMOo2vJmz2dyZoiAjiFU
-         fZ9CG/Y1FT1lB9nfj37cIgHz1voY3RpYNXJ0BFaDFf8e9aniVOoHircvV43tt9+uIVhM
-         MbXUqVCOCbfjJq/N9KkEksedcffyaHiiyotlYMCpWIHC85n6Ci3FZyXAVjfwuTJhT4i8
-         945g50UGY/tyvrndQxvVnnWzMF9dhsP4+sZCmW0Jxt6Hk6MhDeT132Ugv+iDLI3v1iJG
-         AZCUOl1Kw1iYY0wQEuZjL5bBgrqXUKWYmbOUZr7zK4pVtS32+NLP55Q+1Eq+tE/9NOrM
-         UNiQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9D/UhP4+/1rJ285OI1X5QB6mO/60x3W6JPH4IH4ZuKA=;
+        b=mUPKJ0mVffhv1LIzalC88XV9wtNtVEKrNl+2xSkl3ukvDdCS5TDfU57TULOXdMrtwO
+         lyxJVBlQ47iB6e2/o0BgcbOjNmaOwmZRl7iLt3KCVOpL9sRgVQU6AjViJwEtPq1dWvV4
+         XlknXM4Bjrq4QpF3lTGilheSOfgUjAt+Q0UDtB89xupemWWXDczJbemUTP9R70jTZaHi
+         PZc2tDaNFVgPI37V1bQdl92IJOpykOQHMruAlfMIrzNP6Uybl1zq6AUhRGIql09ct3L5
+         WTLaR+/ag+O//k4AoyM8U5yvdSnXXgaZW4VfLImWCqAN8hxD0Gz6tmn3eS7zYA3sMECv
+         NdEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=JVHhmCmqKzuCGXFzJjIfQ4Fh/X+OiYumapUQLF7JPIQ=;
-        b=Yeh2zxuyVfd1TWSiJ7JF9Zr76Kn0SEij/GTd2XC9u1kmZSGqi2oQqg4qA9ZXOJCpK8
-         2G5+AfvMG8XnrRCjKZu3Fu5EAlesCS+E4vF4fcMZ8hZ8eOr2whsLV9Q3sQBKNZbBnnf+
-         8dke6cur3W2p95Xft1NU3avrxYVHrfcLLQoPJI/iVZ6ahk2Wt0oLWV6vRMncEszqxNtQ
-         Da1qJXGslr6IK9UcGCcvO3fjIBL3fv3bu7glN58TTDtm8kkBKhYmv7dN5Ni4h9r5I3B4
-         Ib8OU0dYHXYxGcQUvaNIlIJFd9n0Pjm0S1oQ0FPngMqtiWt3f19YgFG6O0dDN/1AQH4B
-         3+cA==
-X-Gm-Message-State: AOAM530PBY0zFduonPjdyQnjQkHvzAAFl07QY8OZToMJhPvmqQFu57WC
-	WpLYE+UNMF2SnUATLKeCyn6hxSETUdwwDCL4
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9D/UhP4+/1rJ285OI1X5QB6mO/60x3W6JPH4IH4ZuKA=;
+        b=4qj5qJT5j0fOVfHaDMuEPgdfUZSSu5OBRgIRVp08ZbOlPS1SxuHozS18had7plSjpF
+         RI2lmlYWm3GCpkVx2pECKKnrvUxycf6xrxIhBMfXxSqFlkbhrZAFo30cy7Xe/dizl2LU
+         n1d66w2zoPpTwWB7DkEGAAQEc6nk+N3+IrSHX3QNjgR663x3JPQwdClEL6wdcwzCdy5h
+         sBmIQSI24T1+dYLy4lb2GOCQYzUhLN53dUABdib1D1UI2VU5UzU9n9jDfK5BQcT+sogG
+         0vn+VkmMXG+Lolj3v7XP5JCsNXT1govApeHHoyiRjgWotC7gzHaYYCiA6CXaLdPfIdTl
+         Cuug==
+X-Gm-Message-State: AOAM532439XCC2uG4LwQD1ONciVVE/Acbw91bGZjKFvVhTeL0zluFISv
+	9jKYW893dNB+EsCJhzj4UW+UWfmDHKv3TglS64U=
 X-Google-Smtp-Source: 
- ABdhPJyw3ezK4wIvjFXtPXYklsuuMn8IeX6r43SxPQ8MAiQzi6gW2VFSP//IWSTicANjiPSwy0VBNg==
-X-Received: by 2002:a05:6a00:2441:b0:4a0:ddb0:a6ff with SMTP id
- d1-20020a056a00244100b004a0ddb0a6ffmr19558453pfj.74.1637904500990;
-        Thu, 25 Nov 2021 21:28:20 -0800 (PST)
-Received: from localhost.localdomain
- ([2401:4900:1909:57fb:e907:6203:5372:5465])
-        by smtp.gmail.com with ESMTPSA id
- ot18sm5048080pjb.14.2021.11.25.21.28.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 21:28:20 -0800 (PST)
-From: Sana Kazi <sanakazisk19@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sana Kazi <sanakazisk19@gmail.com>
-Subject: [poky][dunfell][PATCH] systemd: add packageconfig for wheel-group
-Date: Fri, 26 Nov 2021 10:58:07 +0530
-Message-Id: <20211126052807.6138-1-sanakazisk19@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ ABdhPJwmxDU7HlplXUoZihzSEi17OfWL1pQmth/I0bsK5mpOSiU6UwIQ/lFCPD/uew+ym2KMsoMmLFYWbI/Oj5pJq7E=
+X-Received: by 2002:ab0:6ecf:: with SMTP id
+ c15mr33289403uav.113.1637908015515;
+ Thu, 25 Nov 2021 22:26:55 -0800 (PST)
+MIME-Version: 1.0
+References: <16BAEC7B11896AEA.23256@lists.yoctoproject.org>
+In-Reply-To: <16BAEC7B11896AEA.23256@lists.yoctoproject.org>
+From: Jupiter <jupiter.hce@gmail.com>
+Date: Fri, 26 Nov 2021 17:26:19 +1100
+Message-ID: 
+ <CAA=hcWSA8-8TCJDD8_Zib11Vaizok-xZvQMqSevjKJLrQ+GuhA@mail.gmail.com>
+Subject: How to create connman_1.40.bbappend to enable and to build connman
+ with iwd?
+To: yocto <yocto@lists.yoctoproject.org>
+Cc: oe-core <openembedded-core@lists.openembedded.org>,
+	comman <connman@lists.linux.dev>, Daniel Wagner <wagi@monom.org>,
+	Armin Kuster <akuster808@gmail.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 05:28:24 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 06:26:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158823
+ https://lists.openembedded.org/g/openembedded-core/message/158824
 
-From: Peter Bergin <peter@berginkonsult.se>
+Hi,
 
-If the distro does not include the group 'wheel' systemd will
-complain when trying to parse ACL rules for tmpfiles.d.
+Given the high profile of iwd and advocating connman with iwd, I
+believe someone have already built Yocto connman and iwd,
+surprisingly, I could not even find an iwd recipe in
+https://github.com/openembedded/openembedded/tree/master/recipes, nor
+can I find connman document and instructions to replace wpa_supplicant
+by iwd, what could I be missing here?
 
-  systemd-tmpfiles[273]: Failed to parse ACL "d:group:adm:r-x,d:group:wheel:r-x": Invalid argument. Ignoring
+Appreciate your kind advice.
 
-Systemd has a configuration parameter to avoid using 'wheel'
-group in the standard config files for tmpfiles. Add this as
-a PACKAGECONFIG and enable it by default to keep default.
+Thank you.
 
-(From OE-Core rev: 1b5648e6aeb9837cb807ce086c26fbfaa16f6f8b)
+Kind regards,
 
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 457cc45f51e78a532930d0347de271f24ae0a2ee)
+- jh
 
-Upstream-Status: Backport
-Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
----
- meta/recipes-core/systemd/systemd_244.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
-index bf33b8d6a1..b6f5a47d63 100644
---- a/meta/recipes-core/systemd/systemd_244.5.bb
-+++ b/meta/recipes-core/systemd/systemd_244.5.bb
-@@ -96,6 +96,7 @@ PACKAGECONFIG ??= " \
-     timesyncd \
-     utmp \
-     vconsole \
-+    wheel-group \
-     xz \
- "
- 
-@@ -188,6 +189,7 @@ PACKAGECONFIG[sbinmerge] = "-Dsplit-bin=false,-Dsplit-bin=true"
- PACKAGECONFIG[utmp] = "-Dutmp=true,-Dutmp=false"
- PACKAGECONFIG[valgrind] = "-DVALGRIND=1,,valgrind"
- PACKAGECONFIG[vconsole] = "-Dvconsole=true,-Dvconsole=false,,${PN}-vconsole-setup"
-+PACKAGECONFIG[wheel-group] = "-Dwheel-group=true, -Dwheel-group=false"
- # Verify keymaps on locale change
- PACKAGECONFIG[xkbcommon] = "-Dxkbcommon=true,-Dxkbcommon=false,libxkbcommon"
- PACKAGECONFIG[xz] = "-Dxz=true,-Dxz=false,xz"
--- 
-2.17.1
+On 11/26/21, JH via lists.yoctoproject.org
+<jupiter.hce=gmail.com@lists.yoctoproject.org> wrote:
+> Hi,
+>
+> Please correct me, but it seems to me the connman is moving to a
+> direction to ditch out wpa_supplicant and to use iwd, but the Honister
+> still configure connman with wpa_supplicant by default, appreciate
+> your advice:
+>
+> - Is connman with iwd stable enough?
+>
+> - How can I create a connman_1.40.bbappend  to replace wpa_supplicant
+> by iwd configure?
+>
+> - Where are the documents for configuring and building connman with
+> iwd? Where is the operational guidance to run connman with iwd? Can I
+> use the same connman dbus APIs or are there any dbus API changes to
+> run connman with iwd?
+>
+> My apology for FAQs.
+>
+> Thank you very much.
+>
+> Kind regards,
+>
+> - JH
+>
 
+
+--
+"A man can fail many times, but he isn't a failure until he begins to
+blame somebody else."
+-- John Burroughs
 
