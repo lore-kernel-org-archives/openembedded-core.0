@@ -2,61 +2,62 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD59C433FE
-	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:26 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web12.20167.1637901385132529026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8D6C4332F
+	for <webhook@archiver.kernel.org>; Fri, 26 Nov 2021 04:36:27 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.20379.1637901386826707186
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:25 -0800
+ Thu, 25 Nov 2021 20:36:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NGWy1iV1;
- spf=pass (domain: gmail.com, ip: 209.85.215.175,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KMhLW0AH;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id f65so7100193pgc.0
+Received: by mail-pf1-f169.google.com with SMTP id n85so7678767pfd.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Nov 2021 20:36:25 -0800 (PST)
+ Thu, 25 Nov 2021 20:36:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=DajzaPSEPKecU6XrL7zh27v4BqwIom8MKV6gvDv3kAU=;
-        b=NGWy1iV1gRz9XtFsCkRt8cnJkpH5CyavFhFIl39wvZLmjmBzSwOmb8Mk76oBHjMYWi
-         5dzb6s6esLiduLNil8YLhsKd5N4Pfe150q6u8WER3LrVEMsGizM6Afy66EdMbrqVTmdY
-         2pg6z3KmrBAEBFjgF58rWsxNhHkFqMNUYhrndR6BSfFHtHaiNRDqqzw7EH6aGt/R2gkz
-         lcJqoOE8Mx/k02QClsdkG+tlA5ClTaw/1oZjRvy+Y5I1fVeqZRSy1z8jm/GHAbxV2Vh/
-         gh8I4h/UJX6UGSzVm7M8Q6mxtBpMa6ngsvDKa7nBrjX8HkweCigpN3pcDp379rLtjn3c
-         coRw==
+        bh=VQvywFlX+LtKiUlcMzaPreT1buA/bfbMF38v6jck6+U=;
+        b=KMhLW0AHfk99gRn23DuR2Jn/aNaQzH3llOdZKuvlW6rp2ne8OXPiUiZvjrXrRtbD6K
+         M/D6iH84lSRnQW1rJRhC148yV+8Sr2J58SP++6aXV0i+fBxK9FlxMvaObWOCcn3eouir
+         HMt3xZJ0IOnfEaGbGnhfZfAWY7KiE1U8U3Hv93HkKo4FbzGN761Z1BMPsWOzUGmCARq9
+         5O3DRtJYGreQDuqPRXlOOFEBeO+IgHG7okdU+8eUIIAtztGX//vnDzAsI8ulFvpHgwq8
+         UD8e5rY5NOFFEx4AhJnQesDEHrcvItnP1vQGePYrfYp7rBI/+s6ofs6DMNzUgk/XjCwC
+         HbSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DajzaPSEPKecU6XrL7zh27v4BqwIom8MKV6gvDv3kAU=;
-        b=jvnfWpUyDVJVen7KA/MY53bCD991hVYgiDJC88BAct9C9lSP64XSR9mW/buPC3xzfB
-         V1QaEKGpzC866M2g0cDtWfvYPKbxY0lzsnYcLcKXNorKF1SiYuMgePp0YhgdiphS59jg
-         zwbeUtWv4PrVgG1Nd6EG4Thxmphx3itVZs6GYok0K6NiU7u9rch1eNDh9zB13lD8fF/V
-         EGCEAONMPfZjek1CULWiOPXrDsN9U1USN8KXn4uLy5wcqh0SZSXIzNqsQQT0mB3DRYQy
-         tw7ycSVCjJguN6fUxyXCXyS4z7OepN3992Aq2mlXwIHZ8hK2ibjEVlY7eqxOqcr5TQu1
-         ohxw==
-X-Gm-Message-State: AOAM531mUW0FwiR2XNAH2JE13wTU8Y4gLRE71Q46oRuXjaundnsDgLpi
-	PSpxyCYF3Tlbp4nTGAOpCwAWrfoCFj0=
+        bh=VQvywFlX+LtKiUlcMzaPreT1buA/bfbMF38v6jck6+U=;
+        b=TovDQ1RlaXyW5BJFmVRlLjnXNpZYQXyTA9fRuz9dcAUZ6kiWbPM8ee7hs5zbrZOrFD
+         Vz9M2Ez2u0qp03CiTLiGSEHyNJVR4KgDJZY8KT5cjdZBdDU6yybJKQk1uJhiRlpMeRpo
+         UgPJxPVgoOpZjBmJGV3gJgZ2qRLq9F9acWuYrT/itd8cA9f894e7J7bzy2UfQDC/xHwe
+         EQuKDuYxIKnmaescbqaiD/DT2MRSZR5eRdxOq1ZpwgTWaXEvpJz2cZ/6c8V6Y9pBSVEJ
+         nu8PkVWqr40gDyDB3dfxwbvBWH5KsYsIQX//QpW7E4hhDlSwLPSUid7rTsdD4Vn9n9BK
+         uZkA==
+X-Gm-Message-State: AOAM533USmQeDRLHiD9dFGX+r7SXTKrCX7LSddX0y0JZazKJLksemzQd
+	ohKcToRu7GB49UwujroUCjRigOomnHU=
 X-Google-Smtp-Source: 
- ABdhPJzFmDHnp8V52svf9ePt3U8oxTRWOhqXAlUWvNi7chsozk0c9xBGpp7Xg03k4xIBBkXkPydNGA==
-X-Received: by 2002:a63:6806:: with SMTP id d6mr19690301pgc.68.1637901384416;
-        Thu, 25 Nov 2021 20:36:24 -0800 (PST)
+ ABdhPJyHXONzVZQO5vNI14xjMzP6xY5DxSQ5eDcpYVcuSN0UevcOykkwl7ziwGZGbQY/KZaG1Gl1WQ==
+X-Received: by 2002:a63:db18:: with SMTP id
+ e24mr17770469pgg.285.1637901386129;
+        Thu, 25 Nov 2021 20:36:26 -0800 (PST)
 Received: from nereus.local ([2601:1c0:6000:1830:2111:e66e:a58a:6736])
         by smtp.gmail.com with ESMTPSA id
- fw21sm8909282pjb.25.2021.11.25.20.36.23
+ fw21sm8909282pjb.25.2021.11.25.20.36.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 20:36:23 -0800 (PST)
+        Thu, 25 Nov 2021 20:36:25 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 12/26] librepo: inherit setuptools3-base not distutils
-Date: Thu, 25 Nov 2021 20:35:51 -0800
+Subject: [RFC PATCH 14/26] scripts/buildhistory-diff: drop use of distutils
+Date: Thu, 25 Nov 2021 20:35:53 -0800
 Message-Id: 
- <25502f1588a7b9e57ae9f2899c74491b1e8d187a.1637900380.git.timothy.t.orling@intel.com>
+ <acefecd6bcea10cdfe366f32260fa6f0d7f9009a.1637900380.git.timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1637900380.git.timothy.t.orling@intel.com>
 References: <cover.1637900380.git.timothy.t.orling@intel.com>
@@ -65,30 +66,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:26 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Nov 2021 04:36:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158808
+ https://lists.openembedded.org/g/openembedded-core/message/158810
+
+The use of distutils.version.LooseVersion to check for GitPython > 0.3.1
+is not really needed anymore since any supported distribution has at least
+1.0.0 (centos-7 via epel7, debian-9, ubuntu-16.04)
+
+If we want to reinstate this check, alternatives would be to require
+python3-packaging on all hosts and use packaging.version.Version or
+use an imported LooseVersion in bb.version.
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- meta/recipes-devtools/librepo/librepo_1.14.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/buildhistory-diff | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/librepo/librepo_1.14.2.bb b/meta/recipes-devtools/librepo/librepo_1.14.2.bb
-index 61a485cfe89..6cd8090b556 100644
---- a/meta/recipes-devtools/librepo/librepo_1.14.2.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.14.2.bb
-@@ -16,7 +16,7 @@ S = "${WORKDIR}/git"
+diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
+index 3bd40a2a1ea..a6e785aa238 100755
+--- a/scripts/buildhistory-diff
++++ b/scripts/buildhistory-diff
+@@ -11,7 +11,6 @@
+ import sys
+ import os
+ import argparse
+-from distutils.version import LooseVersion
  
- DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
+ # Ensure PythonGit is installed (buildhistory_analysis needs it)
+ try:
+@@ -73,10 +72,6 @@ def main():
+     parser = get_args_parser()
+     args = parser.parse_args()
  
--inherit cmake distutils3-base pkgconfig
-+inherit cmake setuptools3-base pkgconfig
- 
- EXTRA_OECMAKE = " \
-     -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} \
+-    if LooseVersion(git.__version__) < '0.3.1':
+-        sys.stderr.write("Version of GitPython is too old, please install GitPython (python-git) 0.3.1 or later in order to use this script\n")
+-        sys.exit(1)
+-
+     if len(args.revisions) > 2:
+         sys.stderr.write('Invalid argument(s) specified: %s\n\n' % ' '.join(args.revisions[2:]))
+         parser.print_help()
 -- 
 2.30.2
 
