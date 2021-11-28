@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCC2FC433EF
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:18 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.53486.1638136758157097506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B88E7C433F5
+	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:21 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web12.53169.1638136760748112654
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:18 -0800
+ Sun, 28 Nov 2021 13:59:20 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=AZ9O/PLW;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
+ header.b=1znnln9M;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- gf14-20020a17090ac7ce00b001a7a2a0b5c3so13802436pjb.5
+Received: by mail-pl1-f182.google.com with SMTP id y7so10524162plp.0
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:18 -0800 (PST)
+ Sun, 28 Nov 2021 13:59:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=izwL6H+fnIKGJiy/OvTGQRyALrttrVKHV2qTneMQZLU=;
-        b=AZ9O/PLWCJO6mb6THJ6YvZFLQNouV2qZ3J2AOHJ7AjfQyWKlKcQKvpXNcQBDNQhFeB
-         UVCoBVWkvlkrmb9GwI54DuyG8ThTpt1affS718Oi7VbMmERWKGczsmJXJL1BSVgjjo7h
-         LlE8DoYy8G3afb4MuJ7pAqpU3a6viT6ZjaIy5yD31yoUFgFarMPft04qEDrj8ONwA8Yu
-         iiVgWkGZu6SYwfIDRZSaWr1IggsRKuv0wF1eURCUB81GLa8af1YNWwWrkDpNP199ABXE
-         SKMcsA9GTU6JwYvtl7yV4iDsJcnjuMTv/pZEMc/mpH6531A07xBIzLu1yQO+UbOUpBvA
-         kqEQ==
+        bh=0tu83M2QycyDbCtfmXA1trZqAgmV0RmoXzQf+yka3DM=;
+        b=1znnln9MIX2TZhGc/R2KTohWVu9sisjICuNvC7QN1o2p9Kabbnu9q4yL1/y5i2+ecf
+         MK3PbecPvBPhhvo8raGvi2JU9C8+A9UwJjojPH/34pPJbEI2ebDpX2e6U22tXuLI8Cc3
+         ItSnsPuGchds5JcD4S2MmnPx7HemUyOh4BbqbsyTi1k4fAO3SEFbRh8kdHbCn6/0ReD6
+         86YGUHENrcB7GM6occHYNXYGNExWPpJkUZFtJs6NBIywZwWbwds1SjxRfSnWS411DP04
+         kBiUCMPTr7CDiVy53TRJN8rE6/tSuqXaDJ5Zz0PToavWuo/TNOAK8vUnDsKYlrQ92V36
+         Rv4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=izwL6H+fnIKGJiy/OvTGQRyALrttrVKHV2qTneMQZLU=;
-        b=O0TOHKQNmUSNwY58Ywct4YUDHelOwqV79LVgCg6Kh17za7+JgZkgWpy/wei0OOuVeI
-         6I4M2Lx30wySBCQIKrnPDqR1LiZSPlA0mBgkywOobcARqZ0H3XU6PmlksU2oCuW9nWGA
-         v836psAZiOz9hKg0M9E2bdLdaYvp39cQmZ+hW6N0Kkmg4xGWfMOpICiJ3GPSD8Vg1jys
-         qSwr/NL8W7K/IF9ZA68Jcv2oC5qISIS1SPKzdFR7kbqQZW5j6/3i1EdXnkT2JD5QZ15j
-         yOnRAMyAz0vqmL8NflW93PTRt/IdGItSSaUgEyFp8pdaw7gAJs47IcN9gUcQry6ZOTRb
-         +ltg==
-X-Gm-Message-State: AOAM533VUbZUn6VLUTC/rlUOIKVNaT2ird3vJprFQY0hpMWSTD3OBt+V
-	eAn9rMSaiFdcUieCw4m8V8y6VkmesxYm/WBGlf8=
+        bh=0tu83M2QycyDbCtfmXA1trZqAgmV0RmoXzQf+yka3DM=;
+        b=5/gmfBygNwPNTWLGCOXPc5Vs2vD/hZHDAdjQt/xOVcnX5U0tWBkeCJM737KQw5i4bR
+         KUHMU/m1HeXgl+qeOPVTdy7L9/4bLABQSZnk4hYcveAvwJxMrIiFwyyMoFrjyu0Ke8v9
+         QhdNsYseq6Wc0IiW1tUdkLL1XvqCjA4twEDmx2UH5PhxCbEoRhEMTm4JLJj3T3NBvC9u
+         FhgUBYIbbixR1YQIIhRDi3oPkMbJIr+admL7ObKojPCpYy1vksevcp+2vKTLmrXOrDo3
+         cQIadeBJstDpcvV15CEvSLn44t7t3VRt1Ti+e0bNNyFB2ZPI/d1d3BgRCXrFnow2/Yoo
+         hE1A==
+X-Gm-Message-State: AOAM531gwEHaOywgSFclv9TLrNMmrWvFC00dbcXzsLS+jg020fzTFYEI
+	Zhr7tFW+nQ4CRIJO8nrBcpHExmHMbX+2OywiwIc=
 X-Google-Smtp-Source: 
- ABdhPJwbe+AqKuEZbKKrNHtnzgjvj5jpQ+2BIWEtTnW0NEnuD+HmfIVnDaW4zjJQGcTYM/Htcxqf5w==
-X-Received: by 2002:a17:902:b581:b0:144:e601:de7 with SMTP id
- a1-20020a170902b58100b00144e6010de7mr55558644pls.71.1638136757054;
-        Sun, 28 Nov 2021 13:59:17 -0800 (PST)
+ ABdhPJwrTTBxQk82W0MYsoiXON6F7p0LJNOsBDGrcg8bmxP0mLRvwl5rYict4ZL88HD3VdIfCxuIYA==
+X-Received: by 2002:a17:902:ec90:b0:142:269:4691 with SMTP id
+ x16-20020a170902ec9000b0014202694691mr55337161plg.48.1638136759609;
+        Sun, 28 Nov 2021 13:59:19 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.13.59.15
+ y32sm14769050pfa.145.2021.11.28.13.59.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 13:59:16 -0800 (PST)
+        Sun, 28 Nov 2021 13:59:18 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 23/42] lrzsz: Use Cross AR during compile
-Date: Sun, 28 Nov 2021 11:57:35 -1000
+Subject: [OE-core][dunfell 24/42] lrzsz: patch is not upstreamable
+Date: Sun, 28 Nov 2021 11:57:36 -1000
 Message-Id: 
- <bdae79da1386e01711c89a833919501be8fffa4c.1638136329.git.steve@sakoman.com>
+ <e57a3473ba898123dcc0881da06bc8026fbc4167.1638136329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
 References: <cover.1638136329.git.steve@sakoman.com>
@@ -68,78 +67,46 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:18 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158905
+ https://lists.openembedded.org/g/openembedded-core/message/158906
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Current code hardcodes archiver to be 'ar' from build host
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74ed1d10434213ad3fcf54ded49879090f979e1e)
+(cherry picked from commit fed850280c376c0668c238980d34f75e1db6d908)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...mpilation-using-autoconf-detected-AR.patch | 36 +++++++++++++++++++
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+ .../0001-Fix-cross-compilation-using-autoconf-detected-AR.patch | 2 +-
+ meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
-new file mode 100644
-index 0000000000..47c7ec4170
---- /dev/null
+index 47c7ec4170..c8f0e2c4fe 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
 +++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
-@@ -0,0 +1,36 @@
-+From ecdcf0df6c28c65ca6d1e5638726e13e373c76c5 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 11 Nov 2020 22:58:55 -0800
-+Subject: [PATCH] Fix cross compilation using autoconf detected AR
-+
-+currently its using 'ar' program from build host, which is not expected,
-+we need to respect AR passed in environment
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ configure.in | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/configure.in b/configure.in
-+index 4ddbe8b..b7c3c31 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -84,6 +84,13 @@ AC_ARG_ENABLE(syslog,
-+ 	  ])
-+ 
-+ dnl Checks for programs.
-++m4_ifndef([AC_PROG_AR],[dnl
-++  AN_MAKEVAR([AR], [AC_PROG_AR])
-++  AN_PROGRAM([ar], [AC_PROG_AR])
-++  AC_DEFUN([AC_PROG_AR],
-++  [AC_CHECK_TOOL(AR, ar, :)])
-++])
-++AC_PROG_AR
-+ AC_PROG_CC
-+ AC_PROG_GCC_TRADITIONAL
-+ dnl AC_PROG_INSTALL  included in AM_INIT_AUTOMAKE
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-index 4129237c59..54c431eeb3 100644
---- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-+++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
-            file://lrzsz-check-locale.h.patch \
-            file://cve-2018-10195.patch \
-            file://include.patch \
-+           file://0001-Fix-cross-compilation-using-autoconf-detected-AR.patch \
-            "
+@@ -6,7 +6,7 @@ Subject: [PATCH] Fix cross compilation using autoconf detected AR
+ currently its using 'ar' program from build host, which is not expected,
+ we need to respect AR passed in environment
  
- SRC_URI[md5sum] = "b5ce6a74abc9b9eb2af94dffdfd372a4"
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [upstream hasn't been active since 1998]
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
+index 33af38b4a8..ebd4a88081 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
++++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
+@@ -1,6 +1,6 @@
+ Update autotools infrastructure (including gettext) to modern versions.
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [upstream hasn't been active since 1998]
+ Signed-off-by: Phil Blundell <pb@pbcl.net>
+ 
+ diff -uprN clean/lrzsz-0.12.20/configure.in lrzsz-0.12.20/configure.in
 -- 
 2.25.1
 
