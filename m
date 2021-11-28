@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C31FCC433F5
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD2DCC433EF
+	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 22:00:00 +0000 (UTC)
 Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
  [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.52896.1638136797693295811
+ by mx.groups.io with SMTP id smtpd.web10.53493.1638136800301886003
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:57 -0800
+ Sun, 28 Nov 2021 14:00:00 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=AxWKKSUC;
+ header.b=eVAlYUWr;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id g18so14660772pfk.5
+Received: by mail-pf1-f178.google.com with SMTP id 8so14653820pfo.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:57 -0800 (PST)
+ Sun, 28 Nov 2021 14:00:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bGyxdTHpdL5f7m5gXYrn2Pd5L6dgXasW4DNzyLYwcxI=;
-        b=AxWKKSUCZlW4sRGgdUjQ7jpDfD0/WfNlO2bfWyRFV3j2cVFgMOjU8+Efsgsc5X6jKr
-         IsOqk9FYv8wxxHiE/gyztQuES0oSrZizD46mbzLHkOy6ei5zan8FIIwzSMWWqbkhrFm4
-         wBU6bXNYHcqYdtwhIuEI8BXCqdLVWL3cBpE8NgqPl89LMeqahOjCAfItKioWxR/DXgRS
-         k0Z5+94oJMp73TxYh2PwbEJphqISx77sMwn6KrbuyW3BusCJjfqypvt4XYr3Cjs6D2BX
-         RMzG949QnZVf+vsJ/ShBqQaheVd7F2qG00TqVx8ts5a/lbGVWV6Jo/4LEGzZ1UrfpJyy
-         N+IQ==
+        bh=y6C0iqEJM2Oyt8R6SBpuFKp+MOFfwUZDdYlREmMaOeQ=;
+        b=eVAlYUWrrM/DNL1Xd8h1jw4m+/8NM/cCwpspkZdPGuKzf2sYUV1xgggxY0twtxSQz8
+         klDEvRo3EoGi7ZUJpm1ydq3d2OxkHsMDlkcz/XWqh6mEAqA6NnnSFuBylXkbN/BRR0X/
+         lOrhOp10QPLYvxhdvXbrVVHdyGUCChXNS8VoOV+suE9FCDfLxdEtJapPsA/e5yy4hzJS
+         ZWqcf3+3Gm/fa48PtTt6YEJ7gK/FMAXMMutG67FZLw5QLa42iVOsMXcv0fCi7zmJW3SU
+         4gYC/g5n47DIC1ba8AZMvbw9n0LzUhdYKZc2NBhZemnNb1oT/H+M7cCmETbcoBaeEb/b
+         8N1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bGyxdTHpdL5f7m5gXYrn2Pd5L6dgXasW4DNzyLYwcxI=;
-        b=Uk5fBWpdF8kvhvTYKtUVxP8UZ8dl8Lz7nRkGXFnp0otFuK6VXuqY2hJxjsvibQjrVt
-         J3KCRRb4C6B+m6InIWlPMahhUerLVJSlHLoav9nIOlPzFXOyuBcR1EO9shEx26r4ZN4M
-         zVroys+GOzPDGfAhp48DuYWQLs32HuxH8pJ2/nDVAFDSm9pH21ssklPwq/yrj5XgOp3f
-         UAWxTI8JgcZ0LOFdyLPUrP/gja487AjdcS7JBfgzoqBtvtJgklVUN+bcJZGMfVtWIDbu
-         JwlUY8Lg/R/TtrlnOhul0YfUa6yNys8rwUKjm5TZQq+rNcQziYtuqVe7Wmo2q1Icgi9V
-         iiGw==
-X-Gm-Message-State: AOAM533RJm/upaM/ZDoMZBAPlaMet52MJZ6wfxf2QYRyal9oyBZ6QZhR
-	g3gePqlrUdzMnV6GI3GIYI+0lxZum2gSCzlzKD4=
+        bh=y6C0iqEJM2Oyt8R6SBpuFKp+MOFfwUZDdYlREmMaOeQ=;
+        b=b1UYtjiH7OXDncOeie+E76gN8Pa1cC7MdnFIYED83nPZrUOWWkgzfE7bt75EgTzHYd
+         X8iR3zWmRpCMv1P/NEpvLQYOyhMRvs449LsCcKauvVp7GOitG8hx9KkuIF05YaGIXen9
+         Sg2eEMR+B6L9Qb/a66UjD+PLaCwRQSQCpXLx65QuSPC4Foq3coWsr7PPLESQo5mnhOzg
+         s26RPDsNNssj2QvYegUL2PH2Ex/fV2655um77QvhXtyHBuaCPSF5X+2qrbxKRcttLLhU
+         t0WOq038XIHz45zeDp63aQFInNXiXqDPrASAbiaoauNwBm+yZ0ShIOg6SjVf6xQ+aC/Y
+         KhrQ==
+X-Gm-Message-State: AOAM533A5tqBS5MPliGYLMHx0qBgFOG6d1mRI5hD8YZEnFHnC4DwqHZE
+	1ubbw2Rml9EWWicMivI03h2y4jAanfS28PDLEbM=
 X-Google-Smtp-Source: 
- ABdhPJyLR3lP2Ii/fcLi49aE6qfx3KtHrnf0wHFLgcAhRA2qEoTCjzTSXAEVzFlzy5Sg3aYHYNCfzg==
-X-Received: by 2002:a63:7b04:: with SMTP id w4mr18140548pgc.588.1638136796621;
-        Sun, 28 Nov 2021 13:59:56 -0800 (PST)
+ ABdhPJwknULAY9NGf2r/iIk2bYV02xzT33Aq17fwe/el9+cQLb3Ob9mUuUztQaViK3HyU1wuDlXWOg==
+X-Received: by 2002:a63:550a:: with SMTP id
+ j10mr12931626pgb.400.1638136799253;
+        Sun, 28 Nov 2021 13:59:59 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.13.59.54
+ y32sm14769050pfa.145.2021.11.28.13.59.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 13:59:55 -0800 (PST)
+        Sun, 28 Nov 2021 13:59:58 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 39/42] make-mod-scripts: pass CROSS_COMPILE to
- configure and build
-Date: Sun, 28 Nov 2021 11:57:51 -1000
+Subject: [OE-core][dunfell 40/42] systemd: add packageconfig for wheel-group
+Date: Sun, 28 Nov 2021 11:57:52 -1000
 Message-Id: 
- <78757b8f1fde1ec77f3edde8c310b64394ead26d.1638136329.git.steve@sakoman.com>
+ <e313da3bea3c4e116065ec7b82c324bd932365d1.1638136329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
 References: <cover.1638136329.git.steve@sakoman.com>
@@ -67,50 +67,55 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:58 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 22:00:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158921
+ https://lists.openembedded.org/g/openembedded-core/message/158922
 
-From: Denys Dmytriyenko <denis@denix.org>
+From: Peter Bergin <peter@berginkonsult.se>
 
-Fixes:
-|   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/checksyscalls.sh
-|   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/atomic/check-atomics.sh
-|   LDS     arch/arm64/kernel/vdso/vdso.lds
-|   CC      arch/arm64/kernel/vdso/vgettimeofday.o
-|   AS      arch/arm64/kernel/vdso/note.o
-|   AS      arch/arm64/kernel/vdso/sigreturn.o
-|   LD      arch/arm64/kernel/vdso/vdso.so.dbg
-|   VDSOSYM include/generated/vdso-offsets.h
-|   OBJCOPY arch/arm64/kernel/vdso/vdso.so
-| objcopy: Unable to recognise the format of the input file `arch/arm64/kernel/vdso/vdso.so.dbg'
-| /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/vdso/Makefile:61: recipe for target 'arch/arm64/kernel/vdso/vdso.so' failed
+If the distro does not include the group 'wheel' systemd will
+complain when trying to parse ACL rules for tmpfiles.d.
 
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Nishanth Menon <nm@ti.com>
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+  systemd-tmpfiles[273]: Failed to parse ACL "d:group:adm:r-x,d:group:wheel:r-x": Invalid argument. Ignoring
+
+Systemd has a configuration parameter to avoid using 'wheel'
+group in the standard config files for tmpfiles. Add this as
+a PACKAGECONFIG and enable it by default to keep default.
+
+(From OE-Core rev: 1b5648e6aeb9837cb807ce086c26fbfaa16f6f8b)
+
+Signed-off-by: Peter Bergin <peter@berginkonsult.se>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ddad8183490c725062626fa52985da2b04a2aa8f)
-Reported-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+(cherry picked from commit 457cc45f51e78a532930d0347de271f24ae0a2ee)
+
+Upstream-Status: Backport
+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_244.5.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index b58fa9a603..f9df345ca5 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -19,7 +19,7 @@ DEPENDS += "bc-native bison-native"
- DEPENDS += "gmp-native"
+diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+index bf33b8d6a1..b6f5a47d63 100644
+--- a/meta/recipes-core/systemd/systemd_244.5.bb
++++ b/meta/recipes-core/systemd/systemd_244.5.bb
+@@ -96,6 +96,7 @@ PACKAGECONFIG ??= " \
+     timesyncd \
+     utmp \
+     vconsole \
++    wheel-group \
+     xz \
+ "
  
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
--EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
-+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
- 
- # Build some host tools under work-shared.  CC, LD, and AR are probably
- # not used, but this is the historical way of invoking "make scripts".
+@@ -188,6 +189,7 @@ PACKAGECONFIG[sbinmerge] = "-Dsplit-bin=false,-Dsplit-bin=true"
+ PACKAGECONFIG[utmp] = "-Dutmp=true,-Dutmp=false"
+ PACKAGECONFIG[valgrind] = "-DVALGRIND=1,,valgrind"
+ PACKAGECONFIG[vconsole] = "-Dvconsole=true,-Dvconsole=false,,${PN}-vconsole-setup"
++PACKAGECONFIG[wheel-group] = "-Dwheel-group=true, -Dwheel-group=false"
+ # Verify keymaps on locale change
+ PACKAGECONFIG[xkbcommon] = "-Dxkbcommon=true,-Dxkbcommon=false,libxkbcommon"
+ PACKAGECONFIG[xz] = "-Dxz=true,-Dxz=false,xz"
 -- 
 2.25.1
 
