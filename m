@@ -2,252 +2,193 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4831C433F5
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:58:18 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web11.52853.1638136693847375794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6421C433EF
+	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:58:19 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web08.53345.1638136698509129419
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:58:14 -0800
+ Sun, 28 Nov 2021 13:58:18 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=20DEhqhF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
+ header.b=dOFsiSdP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id
- o6-20020a17090a0a0600b001a64b9a11aeso12219496pjo.3
+Received: by mail-pf1-f179.google.com with SMTP id g19so14629474pfb.8
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:58:13 -0800 (PST)
+ Sun, 28 Nov 2021 13:58:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=D09U7YCym5yGwk06JmyAgmWsqUMWqJ17ZjKF6RuupYY=;
-        b=20DEhqhFcJCF4a1FgVsv++3aVXKsB1CIg8C3ggharG99Z+3Hlk6uqwiLFyZPJwT5DY
-         kpgmqvGTIcrLhA3eRhKgjcZc7zmet2X/5BzDYb9apkOfbfmKtDoqYiglyY6xZGjz5iNS
-         aG2YJrdwmvOJ30Rirn4bHCpt2E6i3DHXZRF532Xy3Wiz9r6kQpLcqyCw4tSWhOcqhppN
-         T5iISbxPtR6BqvVDJaM6f23Q6P/4ROcG9jbTuO5xpe3D01cU0pE30VZ4z8zMte7w6WcA
-         VgkzlOZGwPMrMtFqZ7ujEsk/aB4gbU2BAPTWur+y0KvlrmUW7c4uXP4kOdTkbmt9UGOX
-         2ddQ==
+        bh=hDUFy0CXejFOrBHZUkJlIV1um2xDAeNBs7OYO/5/R10=;
+        b=dOFsiSdPZsv+ptNeVDUsCLOKQDK67QIWUgRG/QNMefrO3H2uVHV+CFYeDP8Vw+WR3l
+         lR/UH85QzHKua84Hm3zbrr72Atm3AWr8UPb/wqV6frUzF0rmd7kXj7cmyXpnJsqzGmRQ
+         RH4Gkgvean9+oqs5wFNa20e+6fKI/2JsKlPXnT++aIsx9hwl2b4Zzs6xD79Oi31XlqE6
+         gz2YjqLvXbIGxQiEflhVgrYvBZszicoLHoMNWihyUJeEyPFemAbJF21X2UUCiKyIL4fU
+         aoo1M2maIrM1hngnyNTqECNnqIZfisX8Y2eJwWVlnZUsOC9/p+1TNREL2DPuR/895Ii0
+         vAMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=D09U7YCym5yGwk06JmyAgmWsqUMWqJ17ZjKF6RuupYY=;
-        b=wU8AGlta39D1A74xZSuOqbUB6WUigKysmOgczI+2tvl0q/JJ/bXmPkN4EuToxIba7V
-         JB7iD8VJorBSvpE46xDbfoB6+35VxP6pIBItAfNwuIL8maoDwVAr398L2GR2jPhAFIon
-         Jx4C+MlCV1OnXeTuOoab3pWeurcSRJZVSK2K/FTgTbaE29aMhKAvf7z7CK08h9OYgAOw
-         UW7jHU1GSSlDAyyYteilVvMj61z0Zs0cmK9oew81A0Gvo1mRAQsM1MhthPZOBP95qf+5
-         PGeDuB2sAq7rJaFcPW69OZtB9q++K+Y5PIHQ1h7bFnfww7GKB8nYOrafz/ouH/TISarf
-         Ng4Q==
-X-Gm-Message-State: AOAM533WYfSEA9ZJNh/xXcvHLmiHip/ryhm9Az36LwbwEF8OyF9J7JEm
-	nu6vNiehsqcvBA2IOCwvmWit56HLSXQDsv7OtUg=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hDUFy0CXejFOrBHZUkJlIV1um2xDAeNBs7OYO/5/R10=;
+        b=qWi1lUcDutc4/Nvc4O4F8lHMMzNDV0ocyy15l4LtYGaWfeo3DKZGNl9oJdDbZA/X7I
+         aoJEXjgkSLq1KZI0z9Ci/lhW6Fa6ZMEA+1493dvcRqtoir7WlZJSYLdLlR1jbLIgcCMP
+         Ezc8/M4qX72Swvf+BmvkSpjvtbsyUYsKEppbxpxsKRVoWl3bgd6l/d0+ovn77KcvkhXp
+         j7PPfovtPzUSRSaoUX7EQGAEen2/Go6XXAL6b/QyHud4YEle5Ix78vF6ZWVmWxmH2yg+
+         qO78oLESpw6SKo5OWyg4A99saOFWf7PBeqfXfw6OQzpZ2ljdW86KEbsIWE01LbhiQAkw
+         tgJQ==
+X-Gm-Message-State: AOAM531bvFQC6poHQCcqOgHTYxCQsBjMe7QYNT7TpGeQSX1JKmXs2lRc
+	5Vl6lyPNCkeiosCY/hYhFlYRYpZBs6pYJl/rI1A=
 X-Google-Smtp-Source: 
- ABdhPJyjRUnM6pGyaQIRLfFbnV5xnYrcg/BGIJ2Uz69vROJjcpcMqRZulWTuIneTcHam1R8Xv/AHKA==
-X-Received: by 2002:a17:90b:1b06:: with SMTP id
- nu6mr33144087pjb.155.1638136692320;
-        Sun, 28 Nov 2021 13:58:12 -0800 (PST)
+ ABdhPJwm1NX+xAT8Zy+dRElGprPreNc0PqyHPN0sUd57Eb0FNb2dZZBiVEKxurQwTADj/5lRXDA2uA==
+X-Received: by 2002:a63:7c54:: with SMTP id
+ l20mr17952937pgn.587.1638136697133;
+        Sun, 28 Nov 2021 13:58:17 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.13.58.10
+ y32sm14769050pfa.145.2021.11.28.13.58.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 13:58:11 -0800 (PST)
+        Sun, 28 Nov 2021 13:58:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/42] Patch review
-Date: Sun, 28 Nov 2021 11:57:12 -1000
-Message-Id: <cover.1638136329.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/42] linux-yocto/5.4: update to v5.4.154
+Date: Sun, 28 Nov 2021 11:57:13 -1000
+Message-Id: 
+ <b8f2b67706311672f923dfef9a0587c64c49e840.1638136329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
+References: <cover.1638136329.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:58:18 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:58:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158882
+ https://lists.openembedded.org/g/openembedded-core/message/158883
 
-Please review this set of patches for dunfell and have comments back by end
-of day Tuesday.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Passed a-full on autobuilder:
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2968
+    ce061ef43f1d Linux 5.4.154
+    291a48871e51 sched: Always inline is_percpu_thread()
+    3e105ecc4ab7 scsi: virtio_scsi: Fix spelling mistake "Unsupport" -> "Unsupported"
+    1ff5ee9d3926 scsi: ses: Fix unsigned comparison with less than zero
+    83d857d6b096 drm/amdgpu: fix gart.bo pin_count leak
+    1843ae8c4b2b net: sun: SUNVNET_COMMON should depend on INET
+    6d1d7acb1067 mac80211: check return value of rhashtable_init
+    2aaf3fd5e109 net: prevent user from passing illegal stab size
+    1e66a472b51b m68k: Handle arrivals of multiple signals correctly
+    be191c8e68fe mac80211: Drop frames from invalid MAC address in ad-hoc mode
+    fffad5988f28 netfilter: nf_nat_masquerade: defer conntrack walk to work queue
+    b3cb06303419 netfilter: nf_nat_masquerade: make async masq_inet6_event handling generic
+    a9d8aa2d3ca8 HID: wacom: Add new Intuos BT (CTL-4100WL/CTL-6100WL) device IDs
+    8c6680025b49 netfilter: ip6_tables: zero-initialize fragment offset
+    744b908a7f3f HID: apple: Fix logical maximum and usage maximum of Magic Keyboard JIS
+    b6bccc978ec8 ext4: correct the error path of ext4_write_inline_data_end()
+    de4a28b718bb net: phy: bcm7xxx: Fixed indirect MMD operations
 
-The following changes since commit 44b1970c40e9d73f6e63fb10cdc55837a26f5921:
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-  build-appliance-image: Update to dunfell head revision (2021-11-15 15:00:44 +0000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (17):
-  linux-firmware: upgrade 20210919 -> 20211027
-  libpcre/libpcre2: correct SRC_URI
-  curl: submit patch upstream
-  libxml2: submit patch upstream
-  cracklib: patches submitted upstream
-  docbook-xml: patch is not upstreamable
-  lrzsz: patch is not upstreamable
-  valgrind: mark ptest-specific patch as inappropriate
-  systemd-bootchart: submit musl patches upstream
-  libxml2: mark patch as non-upstreamable
-  libgpg-error: mark patch as non-upstreamable
-  valgrind: submit patch upstream
-  webkitgtk: submit patches upstream
-  weston: submit patch upstream
-  db: mark all patches as non-upstreamable
-  unzip/zip: mark all patches as non-upstreamable
-  slang: mark patch as inappropriate for upstream submission
-
-Anuj Mittal (1):
-  glibc-version.inc: remove branch= from GLIBC_GIT_URI
-
-Bruce Ashfield (4):
-  linux-yocto/5.4: update to v5.4.154
-  linux-yocto/5.4: update to v5.4.155
-  linux-yocto/5.4: update to v5.4.156
-  linux-yocto/5.4: update to v5.4.158
-
-Claus Stovgaard (1):
-  cups: Fix missing installation of cups sysv init scripts
-
-Daniel Gomez (1):
-  os-release: Add DISTRO_CODENAME as vardeps for do_compile
-
-Denys Dmytriyenko (1):
-  make-mod-scripts: pass CROSS_COMPILE to configure and build
-
-Jate Sujjavanich (2):
-  libdnf: Backport bugfix for upgrade calc
-  dnf: Backport bugfix for upgrade
-
-Jon Mason (1):
-  scripts/lib/wic/help.py: Update Fedora Kickstart URLs
-
-Khem Raj (1):
-  lrzsz: Use Cross AR during compile
-
-Marta Rybczynska (1):
-  python3: upgrade 3.8.11 -> 3.8.12
-
-Minjae Kim (1):
-  git: fix CVE-2021-40330
-
-Peter Bergin (1):
-  systemd: add packageconfig for wheel-group
-
-Richard Purdie (2):
-  scripts/oe-package-browser: Handle no packages being built
-  reproducible_build/package_XXX: Ensure SDE task is in dependency chain
-
-Ross Burton (5):
-  vim: fix CVE-2021-3796, CVE-2021-3872, and CVE-2021-3875
-  vim: add patch number to CVE-2021-3778 patch
-  vim: fix CVE-2021-3927 and CVE-2021-3928
-  gmp: fix CVE-2021-43618
-  openssh: remove redundant BSD license
-
-Steve Sakoman (1):
-  Revert "vim: fix 2021-3796"
-
-Wang Mingyu (1):
-  openssh: Improve LICENSE to show BSD license variants.
-
-Yi Zhao (1):
-  oeqa: fix warnings for append operators combined with +=
-
- meta/classes/package_deb.bbclass              |   4 +-
- meta/classes/package_ipk.bbclass              |   3 +-
- meta/classes/package_rpm.bbclass              |   3 +-
- meta/classes/reproducible_build.bbclass       |   2 +
- meta/lib/oeqa/runtime/cases/ksample.py        |   2 +-
- meta/lib/oeqa/selftest/cases/imagefeatures.py |   2 +-
- ...mpilation-using-autoconf-detected-AR.patch |  36 ++++++
- .../lrzsz-0.12.20/autotools-update.patch      |   2 +-
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |   1 +
- .../openssh/openssh_8.2p1.bb                  |   2 +-
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../libxml2/libxml-m4-use-pkgconfig.patch     |   6 +-
- .../recipes-core/libxml/libxml2/runtest.patch |   2 +-
- meta/recipes-core/os-release/os-release.bb    |   4 +-
- meta/recipes-core/systemd/systemd_244.5.bb    |   2 +
- ...ackages-in-upgrade-job-RhBug-1728252.patch |  60 ++++++++++
- meta/recipes-devtools/dnf/dnf_4.2.2.bbappend  |   3 +
- .../docbook-xml-update-catalog.xml.patch      |   2 +-
- .../git/files/CVE-2021-40330.patch            | 108 ++++++++++++++++++
- meta/recipes-devtools/git/git.inc             |   4 +-
- ...job-goal.upgrade-with-sltr-as-target.patch |  58 ++++++++++
- .../libdnf/libdnf_0.28.1.bbappend             |   3 +
- .../{python3_3.8.11.bb => python3_3.8.12.bb}  |   4 +-
- ...is-glibc-specific-use-raw-signature-.patch |   2 +-
- .../0002-musl-does-not-provide-printf-h.patch |   2 +-
- ...s-not-provide-canonicalize_file_name.patch |   2 +-
- .../0004-Fix-out-of-tree-builds.patch         |   2 +-
- ...est-wrapper-to-support-PTEST-formats.patch |   2 +-
- ...port-dictionary-byte-order-dependent.patch |   2 +-
- ...aklib-fix-testnum-and-teststr-failed.patch |   2 +-
- meta/recipes-extended/cups/cups.inc           |   2 +-
- .../slang/slang/terminfo_fixes.patch          |   4 +-
- .../unzip/unzip/avoid-strip.patch             |   2 +-
- .../unzip/unzip/define-ldflags.patch          |   2 +-
- .../unzip/unzip/fix-security-format.patch     |   2 +-
- .../unzip/unzip/symlink.patch                 |   2 +-
- .../zip/zip-3.0/fix-security-format.patch     |   2 +-
- ...ovide-a-default-version-that-doesn-t.patch |   2 +-
- ...20210919.bb => linux-firmware_20211027.bb} |   4 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 ++--
- .../make-mod-scripts/make-mod-scripts_1.0.bb  |   2 +-
- ...spection.cmake-prefix-variables-obta.patch |   2 +-
- ...cy-parallel-build-of-WebKit2-4.0.gir.patch |   2 +-
- ...trospection-files-add-CMAKE_C_FLAGS-.patch |   2 +-
- ...-replace-krb5-config-with-pkg-config.patch |   2 +-
- ...tibility-by-renaming-atomic_init-API.patch |   2 +-
- ...cal-__atomic_compare_exchange-to-avo.patch |   2 +-
- ...001-clock-Do-not-define-own-timespec.patch |   2 +-
- ...plicit-tag-options-to-libtool-invoca.patch |   2 +-
- .../db/db/fix-parallel-build.patch            |   2 +-
- .../recipes-support/db/db/sequence-type.patch |   2 +-
- .../gmp/gmp/cve-2021-43618.patch              |  27 +++++
- meta/recipes-support/gmp/gmp_6.2.0.bb         |   1 +
- .../libgpg-error/libgpg-error/pkgconfig.patch |   2 +-
- .../recipes-support/libpcre/libpcre2_10.34.bb |   2 +-
- meta/recipes-support/libpcre/libpcre_8.44.bb  |   2 +-
- ...1-reading-character-past-end-of-line.patch |  62 ++++++++++
- ...28-using-freed-memory-when-replacing.patch |  83 ++++++++++++++
- ...eading-uninitialized-memory-when-giv.patch |  63 ++++++++++
- ...llegal-memory-access-if-buffer-name-.patch |  86 ++++++++++++++
- ...ml_get-error-after-search-with-range.patch |  72 ++++++++++++
- ...nvalid-memory-access-when-scrolling-.patch |  97 ++++++++++++++++
- .../vim/files/CVE-2021-3778.patch             |  24 +++-
- .../vim/files/CVE-2021-3796.patch             |  50 --------
- meta/recipes-support/vim/vim.inc              |  10 +-
- scripts/lib/wic/help.py                       |   4 +-
- scripts/oe-pkgdata-browser                    |   2 +
- 69 files changed, 871 insertions(+), 125 deletions(-)
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf_4.2.2.bbappend
- create mode 100644 meta/recipes-devtools/git/files/CVE-2021-40330.patch
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0040-Mark-job-goal.upgrade-with-sltr-as-target.patch
- create mode 100644 meta/recipes-devtools/libdnf/libdnf_0.28.1.bbappend
- rename meta/recipes-devtools/python/{python3_3.8.11.bb => python3_3.8.12.bb} (99%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210919.bb => linux-firmware_20211027.bb} (99%)
- create mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
- create mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-character-past-end-of-line.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3428-using-freed-memory-when-replacing.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
- create mode 100644 meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-memory-access-if-buffer-name-.patch
- create mode 100644 meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-error-after-search-with-range.patch
- create mode 100644 meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-memory-access-when-scrolling-.patch
- delete mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 13512ea6a4..dbd8ab3bb0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "88b78bac3bf83e6b3ef08d77f895bba5128cc1cd"
+-SRCREV_meta ?= "9e3ab4e615b651c1b63d4f0cce71da79a3e89763"
++SRCREV_machine ?= "1f04ded6552fb7ceb6b01768d1a11a828c67c212"
++SRCREV_meta ?= "128808367b0f77f4aea86130bf60e441952946e1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.153"
++LINUX_VERSION ?= "5.4.154"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index e6e0ee73b2..ca73895d7f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.153"
++LINUX_VERSION ?= "5.4.154"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "fed16a9b9cb56ce639eeddeedd756ad5207fa89e"
+-SRCREV_machine ?= "942b0cc9a1ff13a66016167d4437f7694e96d04e"
+-SRCREV_meta ?= "9e3ab4e615b651c1b63d4f0cce71da79a3e89763"
++SRCREV_machine_qemuarm ?= "03c343c7f0392cc71eedc9ba0f05b0ebe02d45eb"
++SRCREV_machine ?= "4ef13608e3bc691718485e28fc6b78fa58c50d58"
++SRCREV_meta ?= "128808367b0f77f4aea86130bf60e441952946e1"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 6c69878d03..7ed524efea 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "7a9ca83b483c096e6bd5e1b99cca7fe2fb79fd1a"
+-SRCREV_machine_qemuarm64 ?= "d2ea3664c5872b3046a2aa970035de51e359922f"
+-SRCREV_machine_qemumips ?= "118685bb5211a7740de6bd419c68eb34728f8770"
+-SRCREV_machine_qemuppc ?= "7e8785640416d3c6382f91a3f88e0eca14f0a8b5"
+-SRCREV_machine_qemuriscv64 ?= "d54d61f9e363806a987c9ab01df0e66a31d4ead5"
+-SRCREV_machine_qemux86 ?= "d54d61f9e363806a987c9ab01df0e66a31d4ead5"
+-SRCREV_machine_qemux86-64 ?= "d54d61f9e363806a987c9ab01df0e66a31d4ead5"
+-SRCREV_machine_qemumips64 ?= "bd5e23a14522aa81e0f0ee37f976edd108669eb5"
+-SRCREV_machine ?= "d54d61f9e363806a987c9ab01df0e66a31d4ead5"
+-SRCREV_meta ?= "9e3ab4e615b651c1b63d4f0cce71da79a3e89763"
++SRCREV_machine_qemuarm ?= "9cc72430854edf4b980ece62e234629168e69b07"
++SRCREV_machine_qemuarm64 ?= "eb73aaed8bd13cffd05d699a6745408965708d7b"
++SRCREV_machine_qemumips ?= "6d7d1235cb7e9f9cb1071e630ea79a88a90f86fd"
++SRCREV_machine_qemuppc ?= "c22f5f06e64f63837c677cf09158131b9531c2d4"
++SRCREV_machine_qemuriscv64 ?= "83c1e7472a1783d745804247fcdc32b2cf6e761b"
++SRCREV_machine_qemux86 ?= "83c1e7472a1783d745804247fcdc32b2cf6e761b"
++SRCREV_machine_qemux86-64 ?= "83c1e7472a1783d745804247fcdc32b2cf6e761b"
++SRCREV_machine_qemumips64 ?= "4cf95264615ab852cdadd478c37554ab7fd1ea14"
++SRCREV_machine ?= "83c1e7472a1783d745804247fcdc32b2cf6e761b"
++SRCREV_meta ?= "128808367b0f77f4aea86130bf60e441952946e1"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.153"
++LINUX_VERSION ?= "5.4.154"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.25.1
 
