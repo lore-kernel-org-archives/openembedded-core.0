@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B677BC433FE
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:58:41 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web09.53221.1638136721469265810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7FCBC433EF
+	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:58:48 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.52861.1638136727537056771
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:58:41 -0800
+ Sun, 28 Nov 2021 13:58:47 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=hflX2yRf;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ header.b=brjoCNkE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 200so13895112pga.1
+Received: by mail-pj1-f54.google.com with SMTP id
+ p18-20020a17090ad31200b001a78bb52876so13815233pju.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:58:41 -0800 (PST)
+ Sun, 28 Nov 2021 13:58:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=SOQQX1+d58vUwBsX6LhKWQaIqe1wNWgBXWD+JtIbt3M=;
-        b=hflX2yRfYRZgZ9Z7LOp7jFkZmUnAhHqkAJe6ipSB9vqbjgNGlqieHXeBjcdBUKUe4h
-         RKEh6VmyFlf6P9R+YJvQzUniGCbbWTz9VyiL5wC6MMMOPlCxFKcPKIBnj8mDdsctLzTV
-         7w25PhWzzW/OPENv44SxVk/uqcYk7gliHELwzyBkRcEI3xvNECi5m9M3cPmxhxsULJdB
-         uqusOve7Mciyiwjr8jIIG8FIxNS2QF5B9U8rehiEzRVsqP/PekvLEsL62yYNY6gv/PDq
-         0o6eXrmzJxTwOD82iVazoITNlWdB5SL/qBqiNarfCoeXJP8nA11bse3jXgpYeUxlMAgt
-         KV0w==
+        bh=ZHpP5jiBxSPjqJvUK6DwPtawTE/DWo7PDT6DGr/IlyI=;
+        b=brjoCNkEfZpwr0spPrkrLRnHyPOb4mjIFFQJuohTG9B+9uM37c/u2dWy37NkpCWtIz
+         u4U/FrFzFLNkQx1ilB8B/9gunNgdFAqNwfQoIaMRN9TCOiw1L9kOSzybfqaSu1mq5+Zc
+         //GgNKx+/m/7AkMccAr+5FmYjOyMy0Yi+SuMQgr/D9Ukqwdvljgav4yq/3ZDUarx2qW7
+         sPyCH+Mr6ZC2kCoULusDnCQ5ypi0+hZVnlA5/vURiqAqeWS9J8dVdzMLIsQ01U2yyyny
+         oy4oCJslBEJYVn+HncsBcElAnGewR1GQvIlNMfeXkeSE4AZz6luZuS4EFuVpTEwPSQGS
+         gR2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SOQQX1+d58vUwBsX6LhKWQaIqe1wNWgBXWD+JtIbt3M=;
-        b=mFL1Jdjd5o7G0ii01baVD/Ki/PZEZUfczSCSbPw6+OODqXWCrrYG9nHsi7Eh0qOv61
-         aFggTH2l0ZPkfXYSOF52G0wfRXoJKsnWvE3JwwEFqgyq5zoL3d95s7HbyZgVwF59vV60
-         BYjrQWeNljjczOjY0e1iGyw9m9f+ZnCeYsohwuSDARqx4LTWQSX9WU1UmA/g1GznkiBe
-         DxGoIlsteotE9Yvm4X/9cU7/QLGkNTGCR/onv0703aJY5n7ch32lJvzaV80DKlTr7IPs
-         mlxSVzQNc8skK9z975UgqS9SJBTgnlj0LkDWsQ87xU1q3BzFbXQxKy2s+bbDh90YVOtZ
-         8IZQ==
-X-Gm-Message-State: AOAM531fwKhA8kIA0AvChGqBBjPPi4RFkcfhvMd8qAsFtD9bKdYlZ6Fd
-	uINZml/tWw/krE6OE1QaE1T8Pr5MzxMBV/vyVko=
+        bh=ZHpP5jiBxSPjqJvUK6DwPtawTE/DWo7PDT6DGr/IlyI=;
+        b=LTm0daTOT9td7DIgmHWdaTc6PpuQ3nxTJh72wwDLFo00qiEthdO/wNThI0rtukRc0i
+         fPkSXl8CopLIQnzROm52HTy1XUJalFiQyQOPn9LI0UpjkS5H7B6WMr7fzOkZaESDrABf
+         P5Q6y56VzAyR6Aak+RDqJOAUIw2+EI2DNch0fMazoStogiLw36WiKdRxMMVXGx7yYiwH
+         OEhR46OxUGvuAYkOIFTxAheps5ypj4IrgFNELNq3HsI1kWwPZ+hgvpiafc2sIWQLWP/B
+         CQ6r3tmqoO74chBFqy+55L5dfyKhvknCnWAMFbUZ/+CSWuFwliYJBPz+4EdZ5bliYInM
+         jwWg==
+X-Gm-Message-State: AOAM533jgsNAbFmnNsKCMApsioxV1pGQuGX7FMdECj5pradh3Q+Aaci+
+	7KZOMSnmW2ANj5nL303Xt20lK7ycajV72pXiLuI=
 X-Google-Smtp-Source: 
- ABdhPJweRFWx+OJsL0735xGNHNdmKQMYmwchpGQurl94EbFQXIp2LFBSL4Rq2XPFR9DcobFfKj49cg==
-X-Received: by 2002:a05:6a00:21c4:b0:4a7:ec46:34b7 with SMTP id
- t4-20020a056a0021c400b004a7ec4634b7mr27637163pfj.15.1638136720363;
-        Sun, 28 Nov 2021 13:58:40 -0800 (PST)
+ ABdhPJxYBJZ+roT8jAB5ccqYrSh8lY6XWqKI1BX218Gyh2qZRT/ppsC1/RZtzwL0fEqUrS/NPBG13Q==
+X-Received: by 2002:a17:902:cb8a:b0:141:f601:d5f1 with SMTP id
+ d10-20020a170902cb8a00b00141f601d5f1mr55786490ply.77.1638136726516;
+        Sun, 28 Nov 2021 13:58:46 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.13.58.38
+ y32sm14769050pfa.145.2021.11.28.13.58.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 13:58:39 -0800 (PST)
+        Sun, 28 Nov 2021 13:58:45 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/42] vim: add patch number to CVE-2021-3778 patch
-Date: Sun, 28 Nov 2021 11:57:21 -1000
+Subject: [OE-core][dunfell 11/42] gmp: fix CVE-2021-43618
+Date: Sun, 28 Nov 2021 11:57:23 -1000
 Message-Id: 
- <dc7789ac5277752060c7f5aeede5c4d861951e39.1638136329.git.steve@sakoman.com>
+ <abf73599c5706a8553a4b1f3553313059c4d9c69.1638136329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
 References: <cover.1638136329.git.steve@sakoman.com>
@@ -67,68 +68,67 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:58:41 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:58:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158891
+ https://lists.openembedded.org/g/openembedded-core/message/158893
 
 From: Ross Burton <ross@burtonini.com>
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 222be29051a3543ac63a0eb07019e90d44429b16)
+(cherry picked from commit fb3b9a7f668a6ffd56a99e1e8b83cdbad2a4bc66)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../vim/files/CVE-2021-3778.patch             | 24 ++++++++++++++-----
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ .../gmp/gmp/cve-2021-43618.patch              | 27 +++++++++++++++++++
+ meta/recipes-support/gmp/gmp_6.2.0.bb         |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2021-3778.patch b/meta/recipes-support/vim/files/CVE-2021-3778.patch
-index 9e1c4d29be..5fa60f5340 100644
---- a/meta/recipes-support/vim/files/CVE-2021-3778.patch
-+++ b/meta/recipes-support/vim/files/CVE-2021-3778.patch
-@@ -1,4 +1,4 @@
--From eb41373c8c88b0789e5cf04669d6116f9a199264 Mon Sep 17 00:00:00 2001
-+From 6d351cec5b97cb72b226d03bd727e453a235ed8d Mon Sep 17 00:00:00 2001
- From: Minjae Kim <flowergom@gmail.com>
- Date: Sun, 26 Sep 2021 23:48:00 +0000
- Subject: [PATCH] patch 8.2.3409: reading beyond end of line with invalid utf-8
-@@ -10,13 +10,15 @@ Solution: Check for NUL when advancing.
- Upstream-Status: Accepted [https://github.com/vim/vim/commit/65b605665997fad54ef39a93199e305af2fe4d7f]
- CVE: CVE-2021-3778
- Signed-off-by: Minjae Kim <flowergom@gmail.com>
+diff --git a/meta/recipes-support/gmp/gmp/cve-2021-43618.patch b/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
+new file mode 100644
+index 0000000000..095fb21eaa
+--- /dev/null
++++ b/meta/recipes-support/gmp/gmp/cve-2021-43618.patch
+@@ -0,0 +1,27 @@
++CVE: CVE-2021-43618
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
- ---
-  src/regexp_nfa.c                 | 3 ++-
-  src/testdir/test_regexp_utf8.vim | 7 +++++++
-- 2 files changed, 9 insertions(+), 1 deletion(-)
-+ src/version.c                    | 2 ++
-+ 3 files changed, 11 insertions(+), 1 deletion(-)
- 
- diff --git a/src/regexp_nfa.c b/src/regexp_nfa.c
--index fb512f961..4d337f1f1 100644
-+index fb512f961..ace83a1a3 100644
- --- a/src/regexp_nfa.c
- +++ b/src/regexp_nfa.c
- @@ -5455,7 +5455,8 @@ find_match_text(colnr_T startcol, int regstart, char_u *match_text)
-@@ -44,6 +46,16 @@ index 19ff882be..e0665818b 100644
- +  bwipe!
- +  call delete('Xinvalid')
- +endfunc
---- 
--2.17.1
--
-+diff --git a/src/version.c b/src/version.c
-+index 8912f6215..85bdfc601 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =
++# HG changeset patch
++# User Marco Bodrato <bodrato@mail.dm.unipi.it>
++# Date 1634836009 -7200
++# Node ID 561a9c25298e17bb01896801ff353546c6923dbd
++# Parent  e1fd9db13b475209a864577237ea4b9105b3e96e
++mpz/inp_raw.c: Avoid bit size overflows
++
++diff -r e1fd9db13b47 -r 561a9c25298e mpz/inp_raw.c
++--- a/mpz/inp_raw.c	Tue Dec 22 23:49:51 2020 +0100
+++++ b/mpz/inp_raw.c	Thu Oct 21 19:06:49 2021 +0200
++@@ -88,8 +88,11 @@
 + 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    3409,
-+ /**/
-+     3402,
-+ /**/
++   abs_csize = ABS (csize);
++ 
+++  if (UNLIKELY (abs_csize > ~(mp_bitcnt_t) 0 / 8))
+++    return 0; /* Bit size overflows */
+++
++   /* round up to a multiple of limbs */
++-  abs_xsize = BITS_TO_LIMBS (abs_csize*8);
+++  abs_xsize = BITS_TO_LIMBS ((mp_bitcnt_t) abs_csize * 8);
++ 
++   if (abs_xsize != 0)
++     {
+diff --git a/meta/recipes-support/gmp/gmp_6.2.0.bb b/meta/recipes-support/gmp/gmp_6.2.0.bb
+index a19c74fca8..d29b74f829 100644
+--- a/meta/recipes-support/gmp/gmp_6.2.0.bb
++++ b/meta/recipes-support/gmp/gmp_6.2.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
+            file://use-includedir.patch \
+            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
+            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
++           file://cve-2021-43618.patch \
+            "
+ SRC_URI[md5sum] = "c24161e0dd44cae78cd5f67193492a21"
+ SRC_URI[sha256sum] = "f51c99cb114deb21a60075ffb494c1a210eb9d7cb729ed042ddb7de9534451ea"
 -- 
 2.25.1
 
