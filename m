@@ -2,64 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6F1C433F5
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:26 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web09.53254.1638136765522837726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E24C433F5
+	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:31 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web08.53377.1638136770550322915
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:25 -0800
+ Sun, 28 Nov 2021 13:59:30 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ZfNkeSj4;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174,
+ header.b=Hlkaz0CK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id u17so10477901plg.9
+Received: by mail-pg1-f181.google.com with SMTP id l190so13876708pge.7
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:25 -0800 (PST)
+ Sun, 28 Nov 2021 13:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=eey/Sjaqqw8Vl2VMOY7ve7kgbmINy0SiDmiP6fdyXwU=;
-        b=ZfNkeSj4FIwLpesJuoiUwhXJ0rJWbyF+We5FHRoZZHvRQ1eNgvWxQq7VzhcXG54hLp
-         FRC5udropwXCY2gXK7Ux5YzSN+ajDB0hYE5yDaF6IgFfsT60O8OChmYi4olu2pz4/p/f
-         iPQOLIrjUDKumkPDi97CXUmreqnw8W6NSTiZhV33coK7UFI2Eu0LTOVaIb6bLt2dBWZD
-         EWdtUnQw32OROWBGp9uCeGdgmwf+SfBexPlVY6YhLygzAld4I0jGabXf5K69Qr3Fhekv
-         KfspTA20MZAqBeCnWWszNGnfWpuwiv1/pON/vXj6lxqBlkHw4FIUNuuiEc7LzflXdxP2
-         O82w==
+        bh=fyADzIP/pCa3rM4Bo3mMe/GgF/x+Bs3bDEVMlt53EGc=;
+        b=Hlkaz0CKCFFHuLhlgus5iLtOa3AFdb7gx2SMcN2OlmHHY6soB6rxBlzi7IXihI4/IC
+         cSPbhTqiQMJFv1Ee5TRa6ffxz5Wk0B6LZAEUVN5AVIsEsZttD5uCNQapBsL9/dTLkHt0
+         dz0DwVTmpnvM+H/842wsRkkQbcHf6CrVNH2+tIKWt1zDI9XfW/vlDKR7hdVrwn8R+KlG
+         FZUxWLJaofTJIbQWZW4gIBKMZVZnGqXkEHlZu6CCj3Oqx8gXAMa934lLsn+CXsCZKF+X
+         aisWZvRz3Vw7a5MKxSGYwA2ucms6yFnJyJ5yl4Gdw9Qq8t+YtkQ+ReBVhFopA03ke9sv
+         RIFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eey/Sjaqqw8Vl2VMOY7ve7kgbmINy0SiDmiP6fdyXwU=;
-        b=Z52TTfFIvi6eI1dDrhus1oIEsh0Z3+vfFziGyff6ybvnf1h7cMlTno2hJhnjmbqSWi
-         KL3iK2tTfmkbLXsAijNROnCvIwxf/Iroaa0kJHaVdUAosNeeICBfWSxQcAAWHv0iKYVQ
-         7mQuELx6hhEJS04Sko55I7CcyeAyl0lmVHU66A+4dffwBnSx4kDEvU0vqUfXkXlexTxo
-         Spggmhds/9iN5SlaaPhwrsJ7T3VSjSK1MIwNZhy1AjsupKXQc2iqz6w4vC4vrApE98sr
-         Zm4KiaAnfxgHE7du6rL4nlWqSWef2PMMEfo9R9+LjPg/BiSDwFpExfhnaYgkDk3PIISZ
-         pGvw==
-X-Gm-Message-State: AOAM533WQo4tAYSv0JzZVwfEpBr9H09ZD3jfFOoKDop3KyYqpE37qG0I
-	eomLogaRuMK6HiuupT98HEHJQXbb3MaRcmlx1gY=
+        bh=fyADzIP/pCa3rM4Bo3mMe/GgF/x+Bs3bDEVMlt53EGc=;
+        b=vOqdTFyGdnVONSQfl+LFOmTpMImGLKd7vXlyRe+pHWPlWGqtwmyqJVvMUoKJRKNvgd
+         fqBkTbLm2d9Ry9lmSH2aB4s6f1VulxzZC3P5aKAGifvoK7JJ16QdRtr3pMpWOloTq1rj
+         sBT5CNqAgok9sOaipfPI54YVYcAj+Cus42/VJL8LR7UG6b+QMhg3OgpX07uVlYsKwNm4
+         HnnJaIemXbapVnHp4dv10SNkGLVeaObA+RlwmqYNuCre5G8IswzntMZRhwRY+eNLZuxE
+         atjspe8KqVSP2GwEk/yKT77Z2C4Qw8yM8vsNwILql0MyUsKTQ112TskFoX3iW4jK93pL
+         cxBg==
+X-Gm-Message-State: AOAM533Bo9ZcyC69aWNmnBVCXtHjc3C0DkY7zik9OC4CV3k0UoQg2XXS
+	5anolVBT44naPIRFY+C+D1mAQ3uThNrw2k59o0A=
 X-Google-Smtp-Source: 
- ABdhPJyEQ60k2qlpiajdL516F57plMyXT833JtPK8xSIOP9csHZp3lKHNi/gdcTu4iemLKrbfxrAtA==
-X-Received: by 2002:a17:903:11cd:b0:143:d220:fdd8 with SMTP id
- q13-20020a17090311cd00b00143d220fdd8mr54814967plh.79.1638136764444;
-        Sun, 28 Nov 2021 13:59:24 -0800 (PST)
+ ABdhPJzBkM/0p+4R4sKHcU7rRDK0W13i7OOXJkb3ld5Q8oFZud4C7vvj8wkbFE+dVTsgMVsdXhEeuw==
+X-Received: by 2002:a63:904a:: with SMTP id a71mr2841237pge.241.1638136769484;
+        Sun, 28 Nov 2021 13:59:29 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.13.59.22
+ y32sm14769050pfa.145.2021.11.28.13.59.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 13:59:23 -0800 (PST)
+        Sun, 28 Nov 2021 13:59:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 26/42] systemd-bootchart: submit musl patches
- upstream
-Date: Sun, 28 Nov 2021 11:57:38 -1000
+Subject: [OE-core][dunfell 28/42] libgpg-error: mark patch as non-upstreamable
+Date: Sun, 28 Nov 2021 11:57:40 -1000
 Message-Id: 
- <b25133e55dfa03d9e36b083659931e9b6d69bfec.1638136329.git.steve@sakoman.com>
+ <5a6841333070698546412ac90f873b193f164b48.1638136329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
 References: <cover.1638136329.git.steve@sakoman.com>
@@ -68,64 +66,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:26 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158908
+ https://lists.openembedded.org/g/openembedded-core/message/158910
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit abb4f439cdb364f7b04da8bd452fc18dbe44e67e)
+(cherry picked from commit b01c20ac79ebe84090ee260a9d153d8398df6c88)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...1-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch | 2 +-
- .../systemd-bootchart/0002-musl-does-not-provide-printf-h.patch | 2 +-
- .../0003-musl-does-not-provide-canonicalize_file_name.patch     | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
-index f392ceafcc..12eecc989b 100644
---- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
-+++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
-@@ -12,8 +12,8 @@ systemd/0013-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch
- Based on work by: Khem Raj <raj.khem@gmail.com>
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+index ca5f6b5c25..9c9d5463a4 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
++++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+@@ -3,7 +3,7 @@ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Thu, 29 Mar 2018 15:12:17 +0800
+ Subject: [PATCH] support pkgconfig
  
- Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-+Upstream-Status: Submitted [https://github.com/systemd/systemd-bootchart/pull/47]
- ---
 -Upstream-Status: Pending
++Upstream-Status: Inappropriate [gnupg upstream will not take this, it has been tried with other components]
  
-  src/util.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0002-musl-does-not-provide-printf-h.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0002-musl-does-not-provide-printf-h.patch
-index 196272f7a2..8be3bed395 100644
---- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0002-musl-does-not-provide-printf-h.patch
-+++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0002-musl-does-not-provide-printf-h.patch
-@@ -10,8 +10,8 @@ Original patch author: Emil Renner Berthing <systemd@esmil.dk>
- Includes work by: Khem Raj <raj.khem@gmail.com>
+ Rebase to 1.28
  
- Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-+Upstream-Status: Submitted [https://github.com/systemd/systemd-bootchart/pull/47]
- ---
--Upstream-Status: Pending
- 
-  Makefile.am               |   4 +
-  configure.ac              |   3 +
-diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0003-musl-does-not-provide-canonicalize_file_name.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0003-musl-does-not-provide-canonicalize_file_name.patch
-index 7670d95f07..c2c276e458 100644
---- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0003-musl-does-not-provide-canonicalize_file_name.patch
-+++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0003-musl-does-not-provide-canonicalize_file_name.patch
-@@ -9,8 +9,8 @@ systemd/0007-check-for-missing-canonicalize_file_name.patch
- Based on work by: Khem Raj <raj.khem@gmail.com>
- 
- Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-+Upstream-Status: Submitted [https://github.com/systemd/systemd-bootchart/pull/47]
- ---
--Upstream-Status: Pending
- 
-  src/path-util.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
 -- 
 2.25.1
 
