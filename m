@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6869C433FE
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:08 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web09.53232.1638136748265260446
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6659C433EF
+	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 21:59:11 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web09.53239.1638136750789950229
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:08 -0800
+ Sun, 28 Nov 2021 13:59:10 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=hurJPkI6;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172,
+ header.b=XSs4B5Wq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 200so13895747pga.1
+Received: by mail-pj1-f52.google.com with SMTP id
+ fv9-20020a17090b0e8900b001a6a5ab1392so12243375pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 13:59:08 -0800 (PST)
+ Sun, 28 Nov 2021 13:59:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=fsE3tqRLwpxtbka00/e1ehpP4Uf/vqyy8T/FukHgZEE=;
-        b=hurJPkI6wc+SLDtp85WNQoF6DdyA+XnJ9/YAeNnjtLqNjYYRlNRpZDX718D/9D52ol
-         VVWa4wgWhy+0clOoTkgl1sPGSEEaOo3RDaOAecRFZcZJLb+CCOBAAC8L6JgB3NVtsurQ
-         WAjzkzs7/jtUSOzxMnKrpXw380qAQ+jvZJO+2rAaR5RFnnWWGafccsR/CF8+jZzJ1+Jf
-         RKdQcekumiViVGQsFkoNsqxq2y3NSlwawuKeSWtbci23SIBP1vBi5Y3ODic5+Pzyd9oq
-         kWxAxBEnUU+UAqLQ6jehN5kZsUcvYizic2WPjCspVdxbBdoNsiOgSPFe5WJlvYxTTaUj
-         BNjw==
+        bh=wcLQRVNr4lCfK60C3DKbmcY515+NHq4CFrXjra78MtU=;
+        b=XSs4B5Wq8074jA32dIFVMyvUrztQSyJYLxTP00+hKtuCMNsvRF1VZgrM2cjviep7wv
+         kOsR6GQSFw2rEF6lP8qqwn8zXxGSjYu7756r4OzvV/ctnWaEQus+e+vTQKQAg2W1Xx3B
+         PJjsKaL4PRI/IDdXsPcBmB1Q4aKWswoo5xNTD14TitNtF8jwsqBr4S3NsXB4KzmcYOC7
+         isEaf7WEmEwzgLaCBFoIoByawEJ+Vukf0kyuC2JtuH8j1tG3Gi0mbGSJsDdIMX5WiWLJ
+         XPFOUd78sY71GtcadqKDg0wlp3SIQk9EW0E0ZwsEunyxdXsxOOQ0IA3iRztvlZ37tlSq
+         iMqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fsE3tqRLwpxtbka00/e1ehpP4Uf/vqyy8T/FukHgZEE=;
-        b=Zv6HNMtmTlyn6gby4YX48pWNQbnvOW+MB5uSTlVoyfVQhwmXR9lNnEgT85549hMXgS
-         fAFWin1p/A4HkLs26GywSFHJ8VywwSuzyxMv4B7LfOCSmn/mh+WjDPvAzJJtJagw0lK2
-         TGDugZdCoU+kD2PAwtQoOTeszgBBwqIf+5OqGZtLnU30WCKeehv6+emnwYcMq5IyngXC
-         kMR81ns1HWxaKB5DuQ3ZiGeh98cbaQv7eQ+3vJRdTZr5pHUf+/wEtWrCfmdZBBXm8Oxc
-         +lOwH/kImQ8ILrrMdKCKivdDAOjx5iNGACP5z4vubcS9LiYotqivl7Bnxz93Hv8vVZvf
-         Fsug==
-X-Gm-Message-State: AOAM5339hRjKBf88NxwABgpaDm8jTqGMgl0dr5Ill6j+cD+PPiHHhurq
-	bkhXLh2ezdcKjLe58Vx3rp43i8UrUPYF4BtXT30=
+        bh=wcLQRVNr4lCfK60C3DKbmcY515+NHq4CFrXjra78MtU=;
+        b=t6EHcWQdzvw95Z8BlFEgnF3+Y2q2760JrcoQSBklqgI+H7uxhcODEZMZ0tJRH6Sgoq
+         Fnc3Z89FRDG9LrsT/rmLaSG0MYdy4nke7yiZZCObmTo7QqTIKHMuAad70mWR9BdiJfCx
+         ZQVKt5u3hCsTYiSrBdBM9K6PQl73FbwJ0qhDqIyMopUsCKs7lt5x9DMxChub3Ga10/qq
+         9Ghslr7WsHZ9nQBPIDNSX5oGZ0Ye5TZDTZDhVz4aZi7QKKXJTbm2eRXJweRChRZBQm2k
+         esnO7U0h4ZYF7k+xrRxTvoJea0XqcsvgP+SKQJ8QJhiE60/bifdid1ThlzJ8Ap0HGGb0
+         Jg+Q==
+X-Gm-Message-State: AOAM532r/VhytoxrhCgwGaXTzzks8gPTmUsRriK77GJRFqOCZ10UoeU6
+	oZ7Mk4LKZWrOmo0mWmO6zsam3Zr8DPpb/m6q62M=
 X-Google-Smtp-Source: 
- ABdhPJxoYPoSKT69DjXu7eD1r+3LGO1bZgz5bZJ+v3euoTTxp3nZxG8ymSK1yOb9WiM6JO/wYl/TcA==
-X-Received: by 2002:a05:6a00:14ce:b0:49f:dc1c:a0fb with SMTP id
- w14-20020a056a0014ce00b0049fdc1ca0fbmr35883109pfu.56.1638136747173;
-        Sun, 28 Nov 2021 13:59:07 -0800 (PST)
+ ABdhPJyCj2M64xhz2KVeLSLEWjCv7P8+iTei6E+En4+z+ZBvRsgqHPodk1k4C5vxTcT0EncFS92xyg==
+X-Received: by 2002:a17:902:7e48:b0:142:728b:e475 with SMTP id
+ a8-20020a1709027e4800b00142728be475mr54281861pln.15.1638136749700;
+        Sun, 28 Nov 2021 13:59:09 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.13.59.05
+ y32sm14769050pfa.145.2021.11.28.13.59.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 13:59:06 -0800 (PST)
+        Sun, 28 Nov 2021 13:59:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 19/42] curl: submit patch upstream
-Date: Sun, 28 Nov 2021 11:57:31 -1000
+Subject: [OE-core][dunfell 20/42] libxml2: submit patch upstream
+Date: Sun, 28 Nov 2021 11:57:32 -1000
 Message-Id: 
- <457deeada8894ff11728b5be20a659cfa0acdde2.1638136329.git.steve@sakoman.com>
+ <0c6e1152c924b1d38a82a323d5da871e607635ce.1638136329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
 References: <cover.1638136329.git.steve@sakoman.com>
@@ -67,34 +68,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:08 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 21:59:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158901
+ https://lists.openembedded.org/g/openembedded-core/message/158902
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9b1dba1a8e56f95bb3ab44130da293795975b67d)
+(cherry picked from commit 62d0992ae831caa4b6bda5a300db5e8068480a7b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../curl/curl/0001-replace-krb5-config-with-pkg-config.patch    | 2 +-
+ meta/recipes-core/libxml/libxml2/runtest.patch | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch b/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch
-index a7db1b3c9e..330c6b67c3 100644
---- a/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch
-+++ b/meta/recipes-support/curl/curl/0001-replace-krb5-config-with-pkg-config.patch
-@@ -3,7 +3,7 @@ From: Roy Li <rongqing.li@windriver.com>
- Date: Tue, 26 Apr 2016 13:13:01 +0800
- Subject: [PATCH] replace krb5-config with pkg-config
+diff --git a/meta/recipes-core/libxml/libxml2/runtest.patch b/meta/recipes-core/libxml/libxml2/runtest.patch
+index c7a90cd3dc..a89dac8b75 100644
+--- a/meta/recipes-core/libxml/libxml2/runtest.patch
++++ b/meta/recipes-core/libxml/libxml2/runtest.patch
+@@ -7,7 +7,7 @@ Print a standard result line for each test.
  
--Upstream-Status:  Pending
-+Upstream-Status: Accepted [https://github.com/curl/curl/pull/7916]
+ Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
+ Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+-Upstream-Status: Pending
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/137]
  
- Signed-off-by: Roy Li <rongqing.li@windriver.com>
- 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 -- 
 2.25.1
 
