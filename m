@@ -1,555 +1,287 @@
-Return-Path: <philippe.coval@astrolabe.coop>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E236C433EF
-	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 09:11:25 +0000 (UTC)
-Received: from ynh.rzr.cloudns.org (ynh.rzr.cloudns.org [78.197.125.113])
- by mx.groups.io with SMTP id smtpd.web10.58670.1638177083540953974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD81C433EF
+	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 09:16:40 +0000 (UTC)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
+ [209.85.221.170])
+ by mx.groups.io with SMTP id smtpd.web09.58724.1638177399206021518
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 01:11:24 -0800
+ Mon, 29 Nov 2021 01:16:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: ynh.rzr.cloudns.org, ip: 78.197.125.113,
- mailfrom: rzr@ynh.rzr.cloudns.org)
-From: philippe.coval@astrolabe.coop
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Philippe Coval <philippe.coval@huawei.com>
-Subject: [PATCH] libunwind: Backport a fix for -fno-common option to compile
-Date: Mon, 29 Nov 2021 09:11:13 +0000
-Message-Id: <20211129091113.3553-1-philippe.coval@astrolabe.coop>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MFVz3XHW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.170,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f170.google.com with SMTP id h1so3351060vkh.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 01:16:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MYj8dA9rzdjFGcdcC7WJ1OHlPU7N24YYI5xwrZI+Wfc=;
+        b=MFVz3XHWwbBZ/k3rsj7AEiIw6N6qGBmw/qQpTjU00tcOy08JTfnKHcsgM4DwFJfHaZ
+         +zsOU1OJVzTpMWkCEfNzJXMpj5+B1EwOlfbbXhSxJTFIUL3lzKjspqo60R1j5q1WLzl8
+         SrT8MXGKYEeOHJA2v9f8gtKozgL1JSFBXYa2DG9XOiwhQjUha1aDCtimtObjHnBhhdqt
+         ktwQ9hcyK63JrUKxo3GCM3FW9hF6mowPU7ycD73ump4DCTbV2LnQwsr7v2oRaV527/IJ
+         CDcBXJfmbga0Qb1PSiZtXZ1TxaG0UiPnzvlQf3aL6O7pYeq0ds5eH0sNI1a0gWZvhc4L
+         bTxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MYj8dA9rzdjFGcdcC7WJ1OHlPU7N24YYI5xwrZI+Wfc=;
+        b=HPh6wD4i067NtlVzXwd2hsaJtWxNO4eC1K9xybkaCIHy6Sjd3O+PFVBh88/4z6Nk71
+         1nzLacOFcegbeAlxNtNU6zGAi1rwV2vSw5839kB16dAkghiS00NZAoMnKgwHJGAXY+5s
+         9VzQvp3q4zoqz6QyS2EnacMz0ARMy4kO16R+UryyRVxMwYHdl8Ul80wzjm7ds3AuPhet
+         MbjLlpHnB9pSkt4u/bD7vpQnQvdT0zvgUKB+ucekaF2BAJ/7T4oDQV3lQJkGPN5/9fG6
+         +VjQPcecbRtnMBdNS9r0mg1dlU1u8q8vllZv40mTCJQE/E5E1Bc9jg1x3IGSSFzvRFM0
+         uDdg==
+X-Gm-Message-State: AOAM530z4ktefRjI+2Ym3B7xBs1Sn+bnnKng40ClfyAgl3+AO7/8z4VC
+	K6cQTUUdG27UqLwtSHS8+QJ68DbmgvL5YL2VC2w=
+X-Google-Smtp-Source: 
+ ABdhPJyYqhwDDS4Mbb1EkcijNHbW5omvluU0SghmUd/J+LHCdkN0nBgZquD5RNCBFsMzCzcIouBCa9L2CirWo1Vl+90=
+X-Received: by 2002:a05:6122:14b4:: with SMTP id
+ c20mr34212104vkq.30.1638177398326;
+ Mon, 29 Nov 2021 01:16:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20211128094532.1145820-1-jacob.kroon@gmail.com>
+In-Reply-To: <20211128094532.1145820-1-jacob.kroon@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 29 Nov 2021 10:16:27 +0100
+Message-ID: 
+ <CANNYZj-nqD8u3b8_jpE9FhvGvzcpc2aJQqbo2WAhM4XejgXRGw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 0/9] Improve native/cross reproducibility
+To: Jacob Kroon <jacob.kroon@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e8074c05d1e9e5d3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 09:11:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 09:16:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158932
+ https://lists.openembedded.org/g/openembedded-core/message/158933
 
-From: Khem Raj <raj.khem@gmail.com>
+--000000000000e8074c05d1e9e5d3
+Content-Type: text/plain; charset="UTF-8"
 
-[Khem Raj]
-defaults for gcc is to use -fno-common this ensures that it keeps
-building with gcc -fno-common
+Thanks Jacob. When looking at this patchset I kept asking myself, why is
+this or that change necessary for -native but not for -target. I think it
+would help if you include that information in the commits, particularly, in
+1/9 as it is the most invasive change of all. Maybe we can then figure out
+a better way.
 
-Fixes
-src/arm/Ginit.c:60: multiple definition of `_U_dyn_info_list'; mi/.libs/d=
-yn-info-list.o:/usr/src/debug/libunwind/1.4.0-r0/build/src/../../libunwin=
-d-1.4.0/src/mi/dyn-info-list.c:28: first defined here
+Alex
 
-[Philippe Coval]
+On Sun, 28 Nov 2021 at 10:46, Jacob Kroon <jacob.kroon@gmail.com> wrote:
 
-Change and related patch ported to dunfell branch on 1.3.1 version
+> This patch series is not intended for merge. I only send it out to
+> highlight where the problems are and to get some discussion going on
+> how/if we want to improve the sitation.
+>
+> This is a patch series that tries to improve the reproducibility of the
+> native/cross binaries when building in different directories. This has
+> been tested on a Fedora 35 system which uses gcc 11.2.1 at the time of
+> writing.
+>
+> The RUNTIME hack is questionable, maybe there is a better way to enforce
+> a fixed RUNTIME entry size during linking. It probably breaks for
+> recipes that do additional rpath manipulations at link-time.
+>
+> If in the end we do come up with a solution, then it should be tested on
+> the autobuilders, since otherwise this is going to degrade overtime. It
+> would then be important that the build paths are of significantly different
+> lengths. TMPDIR=/tmp/sysrootA/ and TMPDIR=/tmp/sysrootB/ will *not*
+> uncover all
+> rpath problems.
+>
+> The end result of this patch series is that I can build python3-native
+> in two different build paths, and the resuling sysroot-components/x86_64/
+> directories are identical, except for the 'fixmepath.cmd' files, which
+> are not included in the hash equiv calculations. Even so, there remains a
+> lot of
+> other native builds that are going to need to be fixed in similar ways
+> as the ones in this patch series.
+>
+> For my images to build I had to avoid the rpath-hack for icedtea7-native
+> and openjdk-8-native.
+>
+> /Jacob
+>
+> Jacob Kroon (9):
+>   bitbake.conf: Pad rpath and remove build ID in native binaries
+>   libtool: Improve native reproducibility
+>   openssl: Improve native reproducibility
+>   perl/perlcross: Improve native reproducability
+>   pkgconfig: Improve native reproducibility
+>   ncurses: Improve native reproducibility
+>   util-linux: Improve native reproducibility
+>   python3: Improve native reproducibility
+>   bitbake.conf: Avoid rpath hack for Java recipes
+>
+>  meta/classes/chrpath.bbclass                  |  3 +
+>  meta/conf/bitbake.conf                        |  8 +-
+>  ...sysroot-and-debug-prefix-map-from-co.patch | 78 -------------------
+>  .../openssl/openssl/strip-buildinfo.patch     | 13 ++++
+>  .../openssl/openssl_3.0.0.bb                  | 10 +--
+>  meta/recipes-core/ncurses/ncurses.inc         |  4 +
+>  .../util-linux/util-linux_2.37.2.bb           |  2 +-
+>  .../libtool/libtool-native_2.4.6.bb           |  1 +
+>  ...ism.patch => perl-cross-determinism.patch} |  0
+>  .../perl-cross/perlcross_1.3.6.bb             |  4 +-
+>  meta/recipes-devtools/perl/perl_5.34.0.bb     |  5 ++
+>  .../pkgconfig/pkgconfig_git.bb                |  1 +
+>  .../python/python3/determinism.patch          | 15 ++++
+>  .../recipes-devtools/python/python3_3.10.0.bb |  8 ++
+>  14 files changed, 65 insertions(+), 87 deletions(-)
+>  delete mode 100644
+> meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+>  create mode 100644
+> meta/recipes-connectivity/openssl/openssl/strip-buildinfo.patch
+>  rename meta/recipes-devtools/perl-cross/files/{determinism.patch =>
+> perl-cross-determinism.patch} (100%)
+>  create mode 100644 meta/recipes-devtools/python/python3/determinism.patch
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158867):
+> https://lists.openembedded.org/g/openembedded-core/message/158867
+> Mute This Topic: https://lists.openembedded.org/mt/87352786/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Origin: https://github.com/openembedded/openembedded-core/commit/6cd2cf65=
-25bcb241b3a2538e559fcef2a2084a7e
-Relate-to: https://github.com/libunwind/libunwind/pull/312
-Relate-to: https://booting.oniroproject.org/distro/oniro/-/issues/191
-Change-Id: If34ea06e365f57b6007e9ea3da8d9d716e4b01cc
-Cc: openembedded-core@lists.openembedded.org
-Forwarded: https://lists.openembedded.org/g/openembedded-core/search?&q=3D=
-philippe.coval
-Last-Update: 2021-11-29
-Signed-off-by: Philippe Coval <philippe.coval@huawei.com>
----
- ...0001-Fix-compilation-with-fno-common.patch | 420 ++++++++++++++++++
- .../libunwind/libunwind_1.3.1.bb              |   1 +
- 2 files changed, 421 insertions(+)
- create mode 100644 meta/recipes-support/libunwind/libunwind/0001-Fix-com=
-pilation-with-fno-common.patch
+--000000000000e8074c05d1e9e5d3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/libunwind/libunwind/0001-Fix-compilatio=
-n-with-fno-common.patch b/meta/recipes-support/libunwind/libunwind/0001-F=
-ix-compilation-with-fno-common.patch
-new file mode 100644
-index 0000000000..34a1f46b0f
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind/0001-Fix-compilation-with-=
-fno-common.patch
-@@ -0,0 +1,420 @@
-+From 51112447b316813ad1ae50ea66feca4eb755a424 Mon Sep 17 00:00:00 2001
-+From: Yichao Yu <yyc1992@gmail.com>
-+Date: Tue, 31 Mar 2020 00:43:32 -0400
-+Subject: [PATCH] Fix compilation with -fno-common.
-+
-+[Khem Raj]
-+Making all other archs consistent with IA64 which should not have this p=
-roblem.
-+Also move the FIXME to the correct place.
-+
-+Also add some minimum comments about this...
-+
-+[Philippe Coval]
-+
-+Patch ported to v1.3-stable branch,
-+patch to be used used in openembedded-core dunfell branch (on v1.3.1)
-+for oniro project.
-+
-+Upstream-Status: Backport [https://github.com/libunwind/libunwind/pull/1=
-66]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Thanks-to: Yichao Yu <yyc1992@gmail.com>
-+Origin: https://github.com/libunwind/libunwind/commit/29e17d8d2ccbca07c4=
-23e3089a6d5ae8a1c9cb6e
-+Relate-to: https://booting.oniroproject.org/distro/oniro/-/issues/191
-+Forwarded: https://github.com/libunwind/libunwind/pull/312
-+Last-Update: 2021-11-25
-+Signed-off-by: Philippe Coval <philippe.coval@huawei.com>
-+---
-+ src/aarch64/Ginit.c                        | 15 +++++++--------
-+ src/arm/Ginit.c                            | 15 +++++++--------
-+ src/coredump/_UPT_get_dyn_info_list_addr.c |  5 +++++
-+ src/hppa/Ginit.c                           | 15 +++++++--------
-+ src/ia64/Ginit.c                           |  1 +
-+ src/mi/Gfind_dynamic_proc_info.c           |  1 +
-+ src/mips/Ginit.c                           | 15 +++++++--------
-+ src/ppc32/Ginit.c                          | 11 +++++++----
-+ src/ppc64/Ginit.c                          | 11 +++++++----
-+ src/ptrace/_UPT_get_dyn_info_list_addr.c   |  5 +++++
-+ src/sh/Ginit.c                             | 15 +++++++--------
-+ src/tilegx/Ginit.c                         | 15 +++++++--------
-+ src/x86/Ginit.c                            | 15 +++++++--------
-+ src/x86_64/Ginit.c                         | 15 +++++++--------
-+ 14 files changed, 82 insertions(+), 72 deletions(-)
-+
-+diff --git a/src/aarch64/Ginit.c b/src/aarch64/Ginit.c
-+index 9c4eae82..cb954b15 100644
-+--- a/src/aarch64/Ginit.c
-++++ b/src/aarch64/Ginit.c
-+@@ -61,13 +61,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -78,7 +71,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/arm/Ginit.c b/src/arm/Ginit.c
-+index 2720d063..0bac0d72 100644
-+--- a/src/arm/Ginit.c
-++++ b/src/arm/Ginit.c
-+@@ -57,18 +57,17 @@ tdep_uc_addr (unw_tdep_context_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/coredump/_UPT_get_dyn_info_list_addr.c b/src/coredump/_=
-UPT_get_dyn_info_list_addr.c
-+index 0d119055..739ed056 100644
-+--- a/src/coredump/_UPT_get_dyn_info_list_addr.c
-++++ b/src/coredump/_UPT_get_dyn_info_list_addr.c
-+@@ -74,6 +74,11 @@ get_list_addr (unw_addr_space_t as, unw_word_t *dil_a=
-ddr, void *arg,
-+=20
-+ #else
-+=20
-++/* XXX fix me: there is currently no way to locate the dyn-info list
-++       by a remote unwinder.  On ia64, this is done via a special
-++       unwind-table entry.  Perhaps something similar can be done with
-++       DWARF2 unwind info.  */
-++
-+ static inline int
-+ get_list_addr (unw_addr_space_t as, unw_word_t *dil_addr, void *arg,
-+                int *countp)
-+diff --git a/src/hppa/Ginit.c b/src/hppa/Ginit.c
-+index 461e4b93..265455a6 100644
-+--- a/src/hppa/Ginit.c
-++++ b/src/hppa/Ginit.c
-+@@ -64,13 +64,6 @@ _Uhppa_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -81,7 +74,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/ia64/Ginit.c b/src/ia64/Ginit.c
-+index b09a2ad5..8601bb3c 100644
-+--- a/src/ia64/Ginit.c
-++++ b/src/ia64/Ginit.c
-+@@ -68,6 +68,7 @@ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_=
-t *dyn_info_list_addr,
-+   if (!_U_dyn_info_list_addr)
-+     return -UNW_ENOINFO;
-+ #endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-+   *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+diff --git a/src/mi/Gfind_dynamic_proc_info.c b/src/mi/Gfind_dynamic_pro=
-c_info.c
-+index 98d35012..2e7c62e5 100644
-+--- a/src/mi/Gfind_dynamic_proc_info.c
-++++ b/src/mi/Gfind_dynamic_proc_info.c
-+@@ -49,6 +49,7 @@ local_find_proc_info (unw_addr_space_t as, unw_word_t =
-ip, unw_proc_info_t *pi,
-+     return -UNW_ENOINFO;
-+ #endif
-+=20
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-+   list =3D (unw_dyn_info_list_t *) (uintptr_t) _U_dyn_info_list_addr ()=
-;
-+   for (di =3D list->first; di; di =3D di->next)
-+     if (ip >=3D di->start_ip && ip < di->end_ip)
-+diff --git a/src/mips/Ginit.c b/src/mips/Ginit.c
-+index 3df170c7..bf7a8f5a 100644
-+--- a/src/mips/Ginit.c
-++++ b/src/mips/Ginit.c
-+@@ -69,13 +69,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -86,7 +79,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) (intptr_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/ppc32/Ginit.c b/src/ppc32/Ginit.c
-+index ba302448..7b454558 100644
-+--- a/src/ppc32/Ginit.c
-++++ b/src/ppc32/Ginit.c
-+@@ -91,9 +91,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -104,7 +101,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/ppc64/Ginit.c b/src/ppc64/Ginit.c
-+index 4c88cd6e..7bfb395a 100644
-+--- a/src/ppc64/Ginit.c
-++++ b/src/ppc64/Ginit.c
-+@@ -95,9 +95,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -108,7 +105,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/ptrace/_UPT_get_dyn_info_list_addr.c b/src/ptrace/_UPT_=
-get_dyn_info_list_addr.c
-+index cc5ed044..16671d45 100644
-+--- a/src/ptrace/_UPT_get_dyn_info_list_addr.c
-++++ b/src/ptrace/_UPT_get_dyn_info_list_addr.c
-+@@ -71,6 +71,11 @@ get_list_addr (unw_addr_space_t as, unw_word_t *dil_a=
-ddr, void *arg,
-+=20
-+ #else
-+=20
-++/* XXX fix me: there is currently no way to locate the dyn-info list
-++       by a remote unwinder.  On ia64, this is done via a special
-++       unwind-table entry.  Perhaps something similar can be done with
-++       DWARF2 unwind info.  */
-++
-+ static inline int
-+ get_list_addr (unw_addr_space_t as, unw_word_t *dil_addr, void *arg,
-+                int *countp)
-+diff --git a/src/sh/Ginit.c b/src/sh/Ginit.c
-+index 52988a72..9fe96d2b 100644
-+--- a/src/sh/Ginit.c
-++++ b/src/sh/Ginit.c
-+@@ -58,13 +58,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -75,7 +68,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/tilegx/Ginit.c b/src/tilegx/Ginit.c
-+index 7564a558..925e6413 100644
-+--- a/src/tilegx/Ginit.c
-++++ b/src/tilegx/Ginit.c
-+@@ -64,13 +64,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -81,7 +74,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) (intptr_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/x86/Ginit.c b/src/x86/Ginit.c
-+index f6b8dc27..3cec74a2 100644
-+--- a/src/x86/Ginit.c
-++++ b/src/x86/Ginit.c
-+@@ -54,13 +54,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
-+=20
-+ # endif /* UNW_LOCAL_ONLY */
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -71,7 +64,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+diff --git a/src/x86_64/Ginit.c b/src/x86_64/Ginit.c
-+index b7e8e462..fe6bcc33 100644
-+--- a/src/x86_64/Ginit.c
-++++ b/src/x86_64/Ginit.c
-+@@ -49,13 +49,6 @@ static struct unw_addr_space local_addr_space;
-+=20
-+ unw_addr_space_t unw_local_addr_space =3D &local_addr_space;
-+=20
-+-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
-+-
-+-/* XXX fix me: there is currently no way to locate the dyn-info list
-+-       by a remote unwinder.  On ia64, this is done via a special
-+-       unwind-table entry.  Perhaps something similar can be done with
-+-       DWARF2 unwind info.  */
-+-
-+ static void
-+ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void =
-*arg)
-+ {
-+@@ -66,7 +59,13 @@ static int
-+ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_=
-addr,
-+                         void *arg)
-+ {
-+-  *dyn_info_list_addr =3D (unw_word_t) &_U_dyn_info_list;
-++#ifndef UNW_LOCAL_ONLY
-++# pragma weak _U_dyn_info_list_addr
-++  if (!_U_dyn_info_list_addr)
-++    return -UNW_ENOINFO;
-++#endif
-++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libu=
-nwind.so.
-++  *dyn_info_list_addr =3D _U_dyn_info_list_addr ();
-+   return 0;
-+ }
-+=20
-+--=20
-+2.32.0
-+
-diff --git a/meta/recipes-support/libunwind/libunwind_1.3.1.bb b/meta/rec=
-ipes-support/libunwind/libunwind_1.3.1.bb
-index 037e04c3c0..8ae94a834c 100644
---- a/meta/recipes-support/libunwind/libunwind_1.3.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.3.1.bb
-@@ -7,6 +7,7 @@ SRC_URI =3D "http://download.savannah.nongnu.org/releases=
-/libunwind/libunwind-${PV
-            file://0004-Fix-build-on-mips-musl.patch \
-            file://0005-ppc32-Consider-ucontext-mismatches-between-glibc-=
-and.patch \
-            file://0006-Fix-for-X32.patch \
-+           file://0001-Fix-compilation-with-fno-common.patch \
-            "
- SRC_URI_append_libc-musl =3D " file://musl-header-conflict.patch"
-=20
---=20
-2.20.1
+<div dir=3D"ltr"><div>Thanks Jacob. When looking at this patchset I kept as=
+king myself, why is this or that change necessary for -native but not for -=
+target. I think it would help if you include that information in the commit=
+s, particularly, in 1/9 as it is the most invasive change of all. Maybe we =
+can then figure out a better way.<br></div><div><br></div><div>Alex<br></di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Sun, 28 Nov 2021 at 10:46, Jacob Kroon &lt;<a href=3D"mailto:jacob.kro=
+on@gmail.com">jacob.kroon@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">This patch series is not intended for me=
+rge. I only send it out to<br>
+highlight where the problems are and to get some discussion going on<br>
+how/if we want to improve the sitation.<br>
+<br>
+This is a patch series that tries to improve the reproducibility of the<br>
+native/cross binaries when building in different directories. This has<br>
+been tested on a Fedora 35 system which uses gcc 11.2.1 at the time of<br>
+writing.<br>
+<br>
+The RUNTIME hack is questionable, maybe there is a better way to enforce<br=
+>
+a fixed RUNTIME entry size during linking. It probably breaks for<br>
+recipes that do additional rpath manipulations at link-time.<br>
+<br>
+If in the end we do come up with a solution, then it should be tested on<br=
+>
+the autobuilders, since otherwise this is going to degrade overtime. It<br>
+would then be important that the build paths are of significantly different=
+<br>
+lengths. TMPDIR=3D/tmp/sysrootA/ and TMPDIR=3D/tmp/sysrootB/ will *not* unc=
+over all<br>
+rpath problems.<br>
+<br>
+The end result of this patch series is that I can build python3-native<br>
+in two different build paths, and the resuling sysroot-components/x86_64/<b=
+r>
+directories are identical, except for the &#39;fixmepath.cmd&#39; files, wh=
+ich<br>
+are not included in the hash equiv calculations. Even so, there remains a l=
+ot of<br>
+other native builds that are going to need to be fixed in similar ways<br>
+as the ones in this patch series.<br>
+<br>
+For my images to build I had to avoid the rpath-hack for icedtea7-native<br=
+>
+and openjdk-8-native.<br>
+<br>
+/Jacob<br>
+<br>
+Jacob Kroon (9):<br>
+=C2=A0 bitbake.conf: Pad rpath and remove build ID in native binaries<br>
+=C2=A0 libtool: Improve native reproducibility<br>
+=C2=A0 openssl: Improve native reproducibility<br>
+=C2=A0 perl/perlcross: Improve native reproducability<br>
+=C2=A0 pkgconfig: Improve native reproducibility<br>
+=C2=A0 ncurses: Improve native reproducibility<br>
+=C2=A0 util-linux: Improve native reproducibility<br>
+=C2=A0 python3: Improve native reproducibility<br>
+=C2=A0 bitbake.conf: Avoid rpath hack for Java recipes<br>
+<br>
+=C2=A0meta/classes/chrpath.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +<br>
+=C2=A0meta/conf/bitbake.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +-<br>
+=C2=A0...sysroot-and-debug-prefix-map-from-co.patch | 78 ------------------=
+-<br>
+=C2=A0.../openssl/openssl/strip-buildinfo.patch=C2=A0 =C2=A0 =C2=A0| 13 +++=
++<br>
+=C2=A0.../openssl/<a href=3D"http://openssl_3.0.0.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">openssl_3.0.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 10 +--<br>
+=C2=A0meta/recipes-core/ncurses/ncurses.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 4 +<br>
+=C2=A0.../util-linux/<a href=3D"http://util-linux_2.37.2.bb" rel=3D"norefer=
+rer" target=3D"_blank">util-linux_2.37.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 2 +-<br>
+=C2=A0.../libtool/<a href=3D"http://libtool-native_2.4.6.bb" rel=3D"norefer=
+rer" target=3D"_blank">libtool-native_2.4.6.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A0...ism.patch =3D&gt; perl-cross-determinism.patch} |=C2=A0 0<br>
+=C2=A0.../perl-cross/<a href=3D"http://perlcross_1.3.6.bb" rel=3D"noreferre=
+r" target=3D"_blank">perlcross_1.3.6.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
+=C2=A0meta/recipes-devtools/perl/<a href=3D"http://perl_5.34.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">perl_5.34.0.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+5 ++<br>
+=C2=A0.../pkgconfig/<a href=3D"http://pkgconfig_git.bb" rel=3D"noreferrer" =
+target=3D"_blank">pkgconfig_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A0.../python/python3/determinism.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 15 ++++<br>
+=C2=A0.../recipes-devtools/python/<a href=3D"http://python3_3.10.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3_3.10.0.bb</a> |=C2=A0 8 ++<br>
+=C2=A014 files changed, 65 insertions(+), 87 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-bui=
+ldinfo-strip-sysroot-and-debug-prefix-map-from-co.patch<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/openssl/openssl/strip-bu=
+ildinfo.patch<br>
+=C2=A0rename meta/recipes-devtools/perl-cross/files/{determinism.patch =3D&=
+gt; perl-cross-determinism.patch} (100%)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3/determinism.p=
+atch<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#158867): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/158867" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/158867</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87352786/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87352786/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
+--000000000000e8074c05d1e9e5d3--
 
