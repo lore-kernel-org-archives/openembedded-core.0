@@ -1,106 +1,111 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEEAAC433F5
-	for <webhook@archiver.kernel.org>; Sun, 28 Nov 2021 22:00:06 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web12.53182.1638136806023293979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3ECC433EF
+	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 04:08:13 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web11.56346.1638158891441194995
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 14:00:06 -0800
+ Sun, 28 Nov 2021 20:08:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7hEPWSgY;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id b13so10510326plg.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jAAJyqB4;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id o17so15273604qtk.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Nov 2021 14:00:05 -0800 (PST)
+ Sun, 28 Nov 2021 20:08:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=6s0mjnSLVzObIa/bz210mboe5cmYWbUGlLKlHgkANaA=;
-        b=7hEPWSgYe9sMn/+gn1g2C8GuMFIEqMSB3AGFRPtp4FnEZ+y5TyP2RVnZn2+UGGq0rX
-         CCeerrt4UKWmz+FMlBafibPjARvSLVkUXAPcv4phmuEyL29TUXMFgaYj+NKoWcugGJOd
-         NtgmvQ/Ha2+Liab+cTdZE3ATGahznTyoOeenxTuhqCrVno1dRgmO5U4V0utJJuEZR6Qt
-         Iz243Db6zjMK/Kl98SahcGrhhuZXHLHRRK5VHtJloGfQZo8pvsRzbHFehEgFehas/1BW
-         rRJVOLOrpOmXZ8MqZbojSjaMYy43LqNxBWuLdiA7J4FcnEYLkAa/TqncCKw2cIqx1QFC
-         z9jw==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=4BZdCpEvd8zmozNVHJ8gPpxRqL/LqBxxcO+CAyIQUXk=;
+        b=jAAJyqB4UzX3L0pBq5zCS6XAzAAuRJUgKZiq0q5t/gvBfpa3GmrDjew6XW2PXZffrQ
+         Dz7upCeLEfFmbyED3KGdZBJ7+jL+ytiZYGy6cnwnZqVe7s+fcArEKBAAczzUv2xHUMu7
+         M1+ZPN/oKpsCfT3dBMdBz67G/l5Q7ryEOum+nGt0/jFm/czcqGXO2s6THEVDTnRCdZVD
+         9n6OQtVIFwA2hUF+gmscNe6ZbQIr+RaMNncsBfdwiFtZqCdF4lcPA2y7Lj3qr0aa3j8r
+         NzaerSC0KUoKMZf6e3ghq4XlTZVpVXKaNU5BTmSCtaLLvSZmpXonWa/7TXwDS8tRuxm7
+         trFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6s0mjnSLVzObIa/bz210mboe5cmYWbUGlLKlHgkANaA=;
-        b=qyYZVvrH5oyiuh4uFL4Xg6rhGsebZOLzZKs+kKfMdAsYZwRyJBNUPc/zBNXnumRaQU
-         7Mo/Ush8pwFUDUuGq/lPKSmxGavgBO2RVz5WWw0gYV0eMr5ogZiyeBLZTsarfdy26/2x
-         yf+LQ2LeSxRmf3E2M7uYSQ+gtvNQ9IiErsH5nt90JrdU9BeVDSi8n4OtmDzqOYulnt1+
-         P9ef7V37jSmL9R44h2AptCwndz2ndu1HGGl+luYunkHBg6UMaItk50Q4hEiphf+xUbvS
-         yywTrpy7vUOmQ6PcsfQ2dZ1mKxb8jyNuWNa8FSV3ObKO3wixwDisG+3t5Jw3+n6e18j6
-         yEHA==
-X-Gm-Message-State: AOAM530EBGlH+oxs9OQ5cQdHF42esfS3x5JR4wMzz06uLGMJ1YTCttJU
-	FArnYEept7kD+eTgAowXvw7xL8U6WtnpV/JY/Ss=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=4BZdCpEvd8zmozNVHJ8gPpxRqL/LqBxxcO+CAyIQUXk=;
+        b=V8WaFKytmFxffXIc8eOL10O1L5EaLF3R8ycmjorF9tJZmaN94PiYl2pjxu/so9sjUL
+         3CC/7Q8i4I6eAx7SZ/XPp0o791xWZ67fnLNEZkjL8qXlXX5fb/bUYubRfqSnjvP49pcD
+         fXyevxUzVNZX5h9fcVdqaThh2pvEvS+XggTE6H2yr+9ZTzrLXsbYMvkSz72rjAHMy6nv
+         G8nuYePttUUTehrw82cdZb9gEiivNFE6PIEiaL01ZoLxMVMadE5FfF+86vz+NGezrklH
+         8HgcHcfhs8gvZRQ3xRLEdqYYES4L60nbz9SMkvaq1iyJbhBR7Ema+ThrKSe/0VwBGgOG
+         4rJg==
+X-Gm-Message-State: AOAM533lnsBfLrl6zait0m9LnQ6LB1zdipqOrSLcKW5+sagEivPHNtwd
+	Gu+MGimH/tj0o7+AEn1Wytg+m4W0r8pataGnGW2yKhqErY8=
 X-Google-Smtp-Source: 
- ABdhPJwUQN+WEjibyrVoFoY6Boa5XYPCGaI0OWbMmwrS1AdpNgjv6gYKOHlY7cIurI68QZ1JcNnLvQ==
-X-Received: by 2002:a17:90a:ca11:: with SMTP id
- x17mr33110453pjt.61.1638136803906;
-        Sun, 28 Nov 2021 14:00:03 -0800 (PST)
-Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- y32sm14769050pfa.145.2021.11.28.14.00.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 14:00:03 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 42/42] openssh: remove redundant BSD license
-Date: Sun, 28 Nov 2021 11:57:54 -1000
-Message-Id: 
- <45ac839a6982d2ea4cb154ada02969420b9fc043.1638136329.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1638136329.git.steve@sakoman.com>
-References: <cover.1638136329.git.steve@sakoman.com>
+ ABdhPJzLcP4UX6ft8CVs82W4gxi8t9ezlyWR4skzUNHdTuYlf7aKZl/OCF4T4XEMjxKOmhui1++JnoGZmivdT5VqF4Y=
+X-Received: by 2002:ac8:518e:: with SMTP id
+ c14mr32155158qtn.665.1638158890229;
+ Sun, 28 Nov 2021 20:08:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211127092239.4144840-1-raj.khem@gmail.com>
+In-Reply-To: <20211127092239.4144840-1-raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 28 Nov 2021 20:07:44 -0800
+Message-ID: 
+ <CAMKF1spxQZMirvqGMQQy7Dj=wzDk2h4H7xasQR36S9UihHJigQ@mail.gmail.com>
+Subject: Re: [PATCH] weston-init: Pass --continue-without-input when launching
+ weston
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Nov 2021 22:00:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 04:08:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158924
+ https://lists.openembedded.org/g/openembedded-core/message/158925
 
-From: Ross Burton <ross@burtonini.com>
+hold on to this one, since this option needs to be passed selectively
+only when drm backend is being used.
 
-The license statement already includes BSD-2-Clause and BSD-3-Clause, so
-remove the redundant and ambiguous BSD license.
-
-(From OE-Core rev: 5c0b03cda19bcebfc71e1e601a4336fcda4bfc2b)
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-(cherry picked from commit 7eaab4b261017ae49926b4f18228a3af9906c19c)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-connectivity/openssh/openssh_8.2p1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-index 78f1669240..b60d1a6bd4 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-@@ -5,7 +5,7 @@ Ssh (Secure Shell) is a program for logging into a remote machine \
- and for executing commands on a remote machine."
- HOMEPAGE = "http://www.openssh.com/"
- SECTION = "console/network"
--LICENSE = "BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & BSD & ISC & MIT"
-+LICENSE = "BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & ISC & MIT"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=18d9e5a8b3dd1790d73502f50426d4d3"
- 
- DEPENDS = "zlib openssl virtual/crypt"
--- 
-2.25.1
-
+On Sat, Nov 27, 2021 at 1:22 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This ensures that we do not need keyboard/mouse or other input system
+> Weston's default behavior is to not open if input devices are not
+> found, but we may not always have input devices connected for systems
+> running weston in field
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-graphics/wayland/weston-init/init           | 2 +-
+>  meta/recipes-graphics/wayland/weston-init/weston.service | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
+> index a849f29bcbd..f74ac8b1846 100644
+> --- a/meta/recipes-graphics/wayland/weston-init/init
+> +++ b/meta/recipes-graphics/wayland/weston-init/init
+> @@ -32,7 +32,7 @@ case "$1" in
+>          . /etc/profile
+>         export HOME=ROOTHOME
+>
+> -        weston-start -- $OPTARGS
+> +        weston-start -- --continue-without-input $OPTARGS
+>    ;;
+>
+>    stop)
+> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+> index e09625b31c6..c7583e92e6e 100644
+> --- a/meta/recipes-graphics/wayland/weston-init/weston.service
+> +++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+> @@ -34,7 +34,7 @@ ConditionPathExists=/dev/tty0
+>  # Requires systemd-notify.so Weston plugin.
+>  Type=notify
+>  EnvironmentFile=/etc/default/weston
+> -ExecStart=/usr/bin/weston --modules=systemd-notify.so
+> +ExecStart=/usr/bin/weston --continue-without-input --modules=systemd-notify.so
+>
+>  # Optional watchdog setup
+>  TimeoutStartSec=60
+> --
+> 2.34.1
+>
 
