@@ -1,122 +1,94 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3daf5608-6a27-46c3-d44d-2a3ed4885800@gmail.com>
-Date: Mon, 29 Nov 2021 17:44:42 +0100
+Message-ID: <a0a691a2-dba2-0a71-e0ef-ffc1a9083aa3@gmail.com>
+Date: Mon, 29 Nov 2021 09:16:48 -0800
 MIME-Version: 1.0
-Subject: Re: [OE-core] [RFC PATCH 4/9] perl/perlcross: Improve native reproducability
-References: <20211128094532.1145820-1-jacob.kroon@gmail.com>
- <20211128094532.1145820-5-jacob.kroon@gmail.com>
- <CANNYZj99aiped+t0cgo+XTLQ=PnTW5yycD=Hyrfa+-EKGT8UWg@mail.gmail.com>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-In-Reply-To: <CANNYZj99aiped+t0cgo+XTLQ=PnTW5yycD=Hyrfa+-EKGT8UWg@mail.gmail.com>
+Subject: Re: [OE-core] Not able to install chrony on zeus
+References: <CAGsrAHcMZv_H0wa8x9e47tWQOawFhe-s4zy2NN=Or7VteLS12A@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+In-Reply-To: <CAGsrAHcMZv_H0wa8x9e47tWQOawFhe-s4zy2NN=Or7VteLS12A@mail.gmail.com>
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+To: mohammed aqdam <mohammedaqdam@gmail.com>, openembedded-core@lists.openembedded.org, openembedded-core+help@lists.openembedded.org
 
-On 11/29/21 10:07, Alexander Kanavin wrote:
-> Can you split the determinism patch fix into a separate patch please?
+
+
+On 11/29/21 4:08 AM, mohammed aqdam wrote:
+> Hi There,
+> 
+> I am trying to add chrony/chronyd to my final image 
+> using IMAGE_INSTALL_append += " chrony ntp pps-tools "
+> 
+> When I run bitbake(bitbake -k imx-image-full), Seeing "packages have 
+> unmet dependencies" errors, please check the logs for more information.
+> 
+>     Initialising tasks: 100%
+>     |###########################################################################################################################|
+>     Time: 0:00:05
+>     Sstate summary: Wanted 9 Found 7 Missed 2 Current 3666 (77% match,
+>     99% complete)
+>     NOTE: Executing Tasks
+>     NOTE: Setscene tasks completed
+>     ERROR: imx-image-full-1.0-r0 do_rootfs: Unable to install packages.
+>     Command
+>     '/data/home/maqdam/imx-yocto-bsp_latest/build/tmp/work/imx8mpevk-poky-linux/imx-image-full/1.0-r0/recipe-sysroot-native/usr/bin/apt-get
+>       install --force-yes --allow-unauthenticated --no-remove
+>     android-tools apt autotalks chrony libddsc0 devmem2 dfu-util
+>     dhcp-client dhcp-server dpkg gpsd imx-test ink-app-nets-files-obu
+>     ink-service iperf3 jailhouse libwebsockets15 luxservice net-snmp
+>     net-snmp-client net-snmp-dev net-snmp-libs net-snmp-server
+>     net-snmp-server-snmpd net-snmp-server-snmptrapd net-tools ntp
+>     opencv-apps opencv-samples openvpn packagegroup-base-extended
+>     packagegroup-core-boot packagegroup-core-full-cmdline
+>     packagegroup-core-nfs-server packagegroup-core-ssh-dropbear
+>     packagegroup-core-tools-debug packagegroup-core-tools-profile
+>     packagegroup-core-tools-testapps packagegroup-fsl-gstreamer1.0
+>     packagegroup-fsl-gstreamer1.0-full packagegroup-fsl-optee-imx
+>     packagegroup-fsl-tools-audio packagegroup-fsl-tools-benchmark
+>     packagegroup-fsl-tools-gpu packagegroup-fsl-tools-gpu-external
+>     packagegroup-fsl-tools-testapps packagegroup-imx-isp
+>     packagegroup-imx-ml packagegroup-qt5-imx
+>     packagegroup-tools-bluetooth paho-mqtt paho-mqtt-sn perl
+>     perl-module-data-dumper perl-module-file-copy perl-module-file-spec
+>     perl-module-getopt-std perl-module-io-file perl-module-term-readline
+>     pps-tools psplash python3-opencv rapidjson rtklib run-postinsts
+>     strongswan tcpdump tinydtls usbutils versions weston-init
+>     weston-xwayland xterm' returned 100:
+>     Reading package lists...
+>     Building dependency tree...
+>     Reading state information...
+>     Some packages could not be installed. This may mean that you have
+>     requested an impossible situation or if you are using the unstable
+>     distribution that some required packages have not yet been created
+>     or been moved out of Incoming.
+>     The following information may help to resolve the situation:
+> 
+> 
+>     *The following packages have unmet dependencies:
+>       chrony : Conflicts: ntp but 4.2.8p15-r0 is to be installed
+>     E: Unable to correct problems, you have held broken packages*.
 > 
 
-I don't know what exactly is the right fix here. Should both
-"determinism.patch":es be applied when building perl-native ?
+chrony and ntp packages are in conflict, which means both of them are 
+trying to install something that other also installs. So you have to 
+decide which one of these two you need.
 
-Jacob
-
-> Alex
 > 
-> On Sun, 28 Nov 2021 at 10:46, Jacob Kroon <jacob.kroon@gmail.com
-> <mailto:jacob.kroon@gmail.com>> wrote:
+> I see *ntp_4.2.8p15, *in my source code not *4.2.8p15-r0, *so I tried to 
+> rename the bb file to ntp_*4.2.8p15-r0.bb <http://4.2.8p15-r0.bb>.*
+> Got errors while accessing the Index of /~ntp/ntp_spool/ntp4/ntp-4.2 
+> (udel.edu) <https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/> due 
+> to missing  ntp_*4.2.8p15-r0.bb <http://4.2.8p15-r0.bb> * in list.
 > 
->     In order to make perlcross-native independent of build path we need
->     to follow
->     the symlinks when copying the patches, otherwise they will point to
->     whereever
->     oe-core is checked out for that particular build.
+> Kindly let me know if i am missing anything for adding chrony.
 > 
->     Doing this reveals an issue in perl-native, where it copies the patches
->     from perlcross-native's sysroot, but both perlcross and perl have a
->     patch called "determinism.patch", so one of them gets overridden. Rename
->     the patch in perlcross so that this doesn't happen.
+> Thanks,
+> Aqdam
 > 
->     Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com
->     <mailto:jacob.kroon@gmail.com>>
->     ---
->      .../{determinism.patch => perl-cross-determinism.patch}      | 0
->      meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
->     <http://perlcross_1.3.6.bb>          | 4 ++--
->      meta/recipes-devtools/perl/perl_5.34.0.bb <http://perl_5.34.0.bb> 
->                       | 5 +++++
->      3 files changed, 7 insertions(+), 2 deletions(-)
->      rename meta/recipes-devtools/perl-cross/files/{determinism.patch =>
->     perl-cross-determinism.patch} (100%)
 > 
->     diff --git
->     a/meta/recipes-devtools/perl-cross/files/determinism.patch
->     b/meta/recipes-devtools/perl-cross/files/perl-cross-determinism.patch
->     similarity index 100%
->     rename from meta/recipes-devtools/perl-cross/files/determinism.patch
->     rename to
->     meta/recipes-devtools/perl-cross/files/perl-cross-determinism.patch
->     diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
->     <http://perlcross_1.3.6.bb>
->     b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
->     <http://perlcross_1.3.6.bb>
->     index 2759ef8a53..dab7f4558f 100644
->     --- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
->     <http://perlcross_1.3.6.bb>
->     +++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
->     <http://perlcross_1.3.6.bb>
->     @@ -15,7 +15,7 @@ SRC_URI =
->     "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
->     <https://github.com/arsv/perl-cross/releases/download/$%7BPV%7D/perl-cross>
->                
->     file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
->                
->     file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
->                
->     file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
->     -           file://determinism.patch \
->     +           file://perl-cross-determinism.patch \
->                
->     file://0001-cnf-configure_func_sel.sh-disable-thread_safe_nl_lan.patch \
->                
->     file://0001-Makefile-check-the-file-if-patched-or-not.patch \
->                 "
->     @@ -33,7 +33,7 @@ do_compile () {
 > 
->      do_install:class-native() {
->          mkdir -p ${D}/${datadir}/perl-cross/
->     -    cp -rf ${S}/* ${D}/${datadir}/perl-cross/
->     +    cp -rfL ${S}/* ${D}/${datadir}/perl-cross/
->      }
 > 
->      BBCLASSEXTEND = "native"
->     diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb
->     <http://perl_5.34.0.bb> b/meta/recipes-devtools/perl/perl_5.34.0.bb
->     <http://perl_5.34.0.bb>
->     index 16d45ccff3..0b74d5f072 100644
->     --- a/meta/recipes-devtools/perl/perl_5.34.0.bb <http://perl_5.34.0.bb>
->     +++ b/meta/recipes-devtools/perl/perl_5.34.0.bb <http://perl_5.34.0.bb>
->     @@ -97,6 +97,9 @@ do_configure:class-native() {
->          -Dvendorprefix=${prefix} \
->          -Ui_xlocale \
->          ${PACKAGECONFIG_CONFARGS}
->     +
->     +    # See the comment above
->     +    sed -i -e "s,${STAGING_DIR_NATIVE},/non/existent,g" config.h
->      }
-> 
->      do_configure:append() {
->     @@ -395,3 +398,5 @@ SSTATE_HASHEQUIV_FILEMAP = " \
->          populate_sysroot:*/lib*/perl5/config.sh:${TMPDIR} \
->          populate_sysroot:*/lib*/perl5/config.sh:${COREBASE} \
->          "
->     +
->     +EXTRA_STAGING_FIXMES:append:class-native = " RPATH_PADDING"
-> 
->     
 > 
