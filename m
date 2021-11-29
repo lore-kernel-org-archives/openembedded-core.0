@@ -1,162 +1,111 @@
-Return-Path: <jatedev@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25374C433FE
-	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 15:10:17 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web12.62111.1638198615797100118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A6B2C433FE
+	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 15:38:56 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.3])
+ by mx.groups.io with SMTP id smtpd.web11.62240.1638200335297094791
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 07:10:16 -0800
+ Mon, 29 Nov 2021 07:38:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oBYwvv6H;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: jatedev@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id d2so23116499qki.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 07:10:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=lrgviiyuQ3QdlOYNYzPerjy36RNmfFt9+NtKcEix25E=;
-        b=oBYwvv6HjEbcigfhLPFwK4TJEhXX/DUDlOogL8zqEgGOeuBL9Phhy/Z+qqV2ee5eZG
-         MgB2/+D5MV6EckcCuIkSuyyteZxHhb5hDR7MxC03M7oK2wtr8oXQEyPPFbAYNhpwkDlg
-         6jnXLgwf9YIltfSU8ygxiumnD9d2o18r+4LZ5Noe78GYZqZlm92V3eNT3XaqUymDnhsa
-         9hqHoiRFd6aNJ0fYpNKSK0L3//mRjV7+fdhSIpx4SRz+anCD5eRrNSZ6oFikDeL2cTxN
-         nEDC3mPzVF8OXZ2OAn0KE5FRNGZfekKSVqV5785PTl9KHApCpp7yak12DgJ+AyIRRlGO
-         L0qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lrgviiyuQ3QdlOYNYzPerjy36RNmfFt9+NtKcEix25E=;
-        b=U0tsmzwAAuoPwL5zjwlzvxusK/pCnzi90+1iOrtZpv5HfXMAmZURjLkp7zcMbBe6Km
-         5gHexwjrp3asfqpk4OLCr6/fkYWJ60VkM2Sj4FGrx259xRkO3eC/an2Llw6Mwv1xvYrz
-         aEqBPyXNNaAkHoJR7AT3t5dPXOFRtHZbJek2/7xnCq4+7bI9eWkZxjoSuF2xBq5zbqN0
-         Mh3+PYpk+JBuVpMHUjyx4iugSfz+09dT+5F8kuIgfmbrqC9cuN3oysJ2EX2+JnmysiZo
-         O2omHiYWBjreFae9SfmFrXwqfCxtUm6JC3kLDL44CiWjVMjCRQs4ajTyXHzo1HkQOlei
-         qHRg==
-X-Gm-Message-State: AOAM533N84KRId9Cz16oytv6B2FdTleDzHo8PdMgoA2k8ZM5GIEUb6UB
-	HfUDQVAcq+jnHvF8oc9ftH+RP8iwTuM=
-X-Google-Smtp-Source: 
- ABdhPJyoWr3HdTEmJq9dPFkZ4u+6D6CUzHL+fGvUG/0o45/b10JJ9c8sgX4CCegga9PH11s2giYMDQ==
-X-Received: by 2002:a05:620a:15c8:: with SMTP id
- o8mr41045286qkm.385.1638198614746;
-        Mon, 29 Nov 2021 07:10:14 -0800 (PST)
-Received: from localhost.localdomain ([71.220.185.242])
-        by smtp.gmail.com with ESMTPSA id
- o126sm8264677qke.11.2021.11.29.07.10.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 07:10:14 -0800 (PST)
-From: Jate Sujjavanich <jatedev@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com
-Subject: [dunfell][PATCH v2 2/2] dnf: Backport bugfix for upgrade
-Date: Mon, 29 Nov 2021 15:10:11 +0000
-Message-Id: <20211129151011.81253-2-jatedev@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211129151011.81253-1-jatedev@gmail.com>
-References: <20211129151011.81253-1-jatedev@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=sL/vNDLP;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.3,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1638200333; i=@fujitsu.com;
+	bh=W3uXu7DWlf5HOZ8X8rg1dTzC3yabA0YgoQnS663MEpg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=sL/vNDLPyA/wBiAtiXCzKIdDOVeGszZq0dNTu9qbcqFE/pskt00XZPaemIpJTheRO
+	 2+pduEkD7FKfUG22UO6ofMVYlNf+0TL8yiNiGC4NP6HMgcEXdSnlIhACYzIP7Au6Wa
+	 loIHl3H99rxnkxsRhJL3wA2CrMx/kiKfe8ug2Fz8Tm4OJeFPxAyYX9j3vutJUWPrdh
+	 mFYaW6rVV3PzfG6oRTKNkmH4+oVNbUxk6m3X+ilE+VmVsg3UVDWL32Rhzlp7dTztVZ
+	 iH8uPt1fPvyof0P5jnkuejQcGwimER85YLliFVtc4uya4BNABoRxhvTxRQLj55gHzC
+	 oZ4mIaymcNbjw==
+Received: from [100.115.39.55] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-west-2.aws.ess.symcld.net id DA/07-01854-C04F4A16;
+ Mon, 29 Nov 2021 15:38:52 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRWlGSWpSXmKPExsViZ8MxSZfny5J
+  Eg54PqhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bS6TMYC/6xVvRM7mdrYFzE2sXIxSEk8JhR
+  4vq350AOJ5Bznkli8ToTiMQJRomVD5YzgiTYBNQkpt+6AVTEwSEioCdx9Z8oSJhZQEXixe8ed
+  hBbWMBS4t/bh2wgNouAqsTvmcfA4rwCzhI7994Cmy8hoCAx5eF7Zoi4oMTJmU9YIOZISBx88Y
+  IZokZRYvblZhYIu0Ji1qw2JghbTeLquU3MExj5ZyFpn4WkfQEj0ypG66SizPSMktzEzBxdQwM
+  DXUNDU11jIyBlopdYpZuol1qqW55aXKJrpJdYXqyXWlysV1yZm5yTopeXWrKJERiUKcUKRTsY
+  53z9oXeIUZKDSUmUt/zTkkQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKEryNH4FygkWp6akVaZk5w
+  AiBSUtw8CiJ8N4CSfMWFyTmFmemQ6ROMdpzvFm7ZBEzR9u9u0By5oKDq5k57rcfWs0sxJKXn5
+  cqJc7bCrJRAKQtozQPbigsoi8xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEua9DTKFJzOvBG7
+  3K6CzmIDOert0MchZJYkIKakGpsm3l6hyfYnvNjo1M4PrAtMHpWmci46yZLF+6uVe2vl9i2zP
+  +tAvcvuX1c4svZb1r++glBun++l5v+Z+XbYlLD1q7pWD7aqTTt5ayv/lYPS51TN1npTZZj9tK
+  b0o+GF6Ifuhvyl31q27x3Wzqt3qQ8b21il3bXz7+FO27Gx5cmf+hF0vLyxfe2uXZEHgo77Lu5
+  8pKhQXruS78zO0Sddih9ncv0GC5r8nfPrFpWL+7GcEy37r5eqrdq1eLzbzXoL5/2C5jA1vk2s
+  qrkZnKmbWrr+vnTnVkCdGi/PfNY5tto6qV0OyGRJ157f8uHA2osf0VnJa1QLJdyfCQ4s/7+NL
+  VdZ0jDzzx+afpev6Uy9Leg8osRRnJBpqMRcVJwIANkq7EWMDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-15.tower-548.messagelabs.com!1638200332!10907!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 7428 invoked from network); 29 Nov 2021 15:38:52 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-15.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 29 Nov 2021 15:38:52 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 071F71AF954
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 15:38:52 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id ECE671AF1B4
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 15:38:51 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 29 Nov 2021 15:38:33 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] ovmf: upgrade 202108 -> 202111
+Date: Mon, 29 Nov 2021 23:38:24 +0800
+Message-ID: <1638200304-119240-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 15:10:17 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 15:38:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158952
+ https://lists.openembedded.org/g/openembedded-core/message/158953
 
-Keep installed packages in upgrade job
-
-This prevents duplicate identical packages from being reinstalled
-with each upgrade
-
-Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ackages-in-upgrade-job-RhBug-1728252.patch | 60 +++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_4.2.2.bb        |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
+ meta/recipes-core/ovmf/ovmf_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch b/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
-new file mode 100644
-index 0000000000..57c2375a54
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
-@@ -0,0 +1,60 @@
-+From c88a77198c0156e425c2725f30e481207de5162f Mon Sep 17 00:00:00 2001
-+From: Jaroslav Mracek <jmracek@redhat.com>
-+Date: Tue, 3 Sep 2019 11:01:51 +0200
-+Subject: [PATCH] Keep installed packages in upgrade job
-+ (RhBug:1728252,1644241,1741381)
-+
-+In combination with marking of job as TARGETED it prevents from
-+reinstalling of modified packages with same NEVRA.
-+
-+https://bugzilla.redhat.com/show_bug.cgi?id=1728252
-+https://bugzilla.redhat.com/show_bug.cgi?id=1644241
-+https://bugzilla.redhat.com/show_bug.cgi?id=1741381
-+
-+Closes: #1474
-+Approved by: m-blaha
-+
-+
-+Backport to fix bug in dnf in oe-core
-+from https://github.com/rpm-software-management/dnf
-+
-+Removed spec file portion of patch
-+
-+Upstream-Status: Backport
-+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
-+---
-+ dnf.spec                  | 4 ++--
-+ dnf/base.py               | 3 ---
-+ dnf/module/module_base.py | 2 +-
-+ 3 files changed, 3 insertions(+), 6 deletions(-)
-+
-+diff --git a/dnf/base.py b/dnf/base.py
-+index b2ced61..628c154 100644
-+--- a/dnf/base.py
-++++ b/dnf/base.py
-+@@ -1968,9 +1968,6 @@ class Base(object):
-+                 obsoletes=q.installed().union(q.upgrades()))
-+             # add obsoletes into transaction
-+             q = q.union(obsoletes)
-+-        # provide only available packages to solver otherwise selection of available
-+-        # possibilities will be ignored
-+-        q = q.available()
-+         if reponame is not None:
-+             q.filterm(reponame=reponame)
-+         q = self._merge_update_filters(q, pkg_spec=pkg_spec)
-+diff --git a/dnf/module/module_base.py b/dnf/module/module_base.py
-+index 976d730..ce70f63 100644
-+--- a/dnf/module/module_base.py
-++++ b/dnf/module/module_base.py
-+@@ -214,7 +214,7 @@ class ModuleBase(object):
-+ 
-+             if not upgrade_package_set:
-+                 logger.error(_("Unable to match profile in argument {}").format(spec))
-+-            query = self.base.sack.query().available().filterm(name=upgrade_package_set)
-++            query = self.base.sack.query().filterm(name=upgrade_package_set)
-+             if query:
-+                 sltr = dnf.selector.Selector(self.base.sack)
-+                 sltr.set(pkg=query)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-index 1b00ae945e..6b6b233d6d 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
-            file://0030-Run-python-scripts-using-env.patch \
-            file://Fix-SyntaxWarning.patch \
-            file://0001-set-python-path-for-completion_helper.patch \
-+           file://0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch \
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index ce3b650ddf..5b7fadab8c 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -25,8 +25,8 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
+            file://0001-Fix-VLA-parameter-warning.patch \
             "
  
- SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
+-PV = "edk2-stable202108"
+-SRCREV = "7b4a99be8a39c12d3a7fc4b8db9f0eab4ac688d5"
++PV = "edk2-stable202111"
++SRCREV = "bb1bba3d776733c41dbfa2d1dc0fe234819a79f2"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
+ 
+ inherit deploy
 -- 
 2.25.1
 
