@@ -1,225 +1,158 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <jatedev@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A00C433F5
-	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 15:10:09 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.62203.1638198607999497684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 258CAC433EF
+	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 15:10:16 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web10.62207.1638198615032432757
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 07:10:08 -0800
+ Mon, 29 Nov 2021 07:10:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75B801042
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 07:10:07 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D9A13F766
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 07:10:07 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g+F+T/4e;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: jatedev@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id 132so23111043qkj.11
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 07:10:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sEGePhvxlBliRPK1DNzLek2qYg+EL3bTmVqIpUgBBS4=;
+        b=g+F+T/4ecyXi2uyEhYUN8Ta41LTXYH7yI6mGvo8CJhfuXQd+315llDs7qaUa0Y/wkO
+         upuWfSoAW2NCWTTwkPN4jzBRzF6X26GApU4OsMwbBLVRX/EMn1IjxXLRdUNg1qs8cNV7
+         psVvSK+sYZDZaalrn0i/Nu9Hr355Gus5cYu6UhEbN5OtwcznBvcGUiYrJlug3U/p/+9n
+         HbDI77EdBXAUqgbia/lpQVeNtHXbw610+q1/KyyL8LfQrT8p0pAp3v78A8WqHNcQqXAr
+         ed3ZugXOp432Ekn0L9N19K7fjlhgoPfunwNmtjhGcXtN4TXxMxkXTO9EzIfRTNsb9iwE
+         V61A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sEGePhvxlBliRPK1DNzLek2qYg+EL3bTmVqIpUgBBS4=;
+        b=gn9Gq+Zyc4cp5IDbdrbOZjCPNXLJ8v8Q/HW8cW/+bAotGLf5TZ95sNOsD+vQ4sTUE0
+         sZbWcUrWRWkZ2uWQDnlX5V7GCy+3lQ3vBM8KMr6pWqQ18mc8apo2+y4YsnsCe5XL3O1w
+         7xAJiE8ehLkmDAMsd3bOLpEC6gLSUYVS6J6IBbf2QWC9FJUVNU/gPEwOw3oCi4jP/tFc
+         a1pMblBrh9oxwsKiGZx36MdQHoTVBcunW4ItYOThFSRzCj2fTXKjAVk6sMOREzHTpf3k
+         C+pAw5+6+45aFC+Oeet684jmOD71FWvSFPkdUJgO3YF5zbtwCCUDjHk7XzRkM7rF5wnW
+         v6hQ==
+X-Gm-Message-State: AOAM531cn4h6ZJIA8jxoGCeN88n6nTmlbOqAS8OSJqSmrvyEort6FgzI
+	Qj+68X0SLd+l47EdbcXGwdgu2HLugf0=
+X-Google-Smtp-Source: 
+ ABdhPJy05dvgifydMezSiLaq0cjFg8d+uQjDg0i5bZHhiR4iiXgvprlZV+0ZFrKL63+GKP50vFK5tg==
+X-Received: by 2002:a05:620a:2229:: with SMTP id
+ n9mr38953632qkh.155.1638198613893;
+        Mon, 29 Nov 2021 07:10:13 -0800 (PST)
+Received: from localhost.localdomain ([71.220.185.242])
+        by smtp.gmail.com with ESMTPSA id
+ o126sm8264677qke.11.2021.11.29.07.10.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 07:10:13 -0800 (PST)
+From: Jate Sujjavanich <jatedev@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: fix CVE-2021-3968 and CVE-2021-3973
-Date: Mon, 29 Nov 2021 15:10:05 +0000
-Message-Id: <20211129151005.276453-1-ross.burton@arm.com>
+Cc: steve@sakoman.com
+Subject: [dunfell][PATCH v2 1/2] libdnf: Backport bugfix for upgrade calc
+Date: Mon, 29 Nov 2021 15:10:10 +0000
+Message-Id: <20211129151011.81253-1-jatedev@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 15:10:09 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 15:10:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158950
+ https://lists.openembedded.org/g/openembedded-core/message/158951
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Mark goal.upgrade with sltr as targeted
+
+This allows a bugfix in dnf to work
+
+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
 ---
- ...rash-when-ModeChanged-triggered-too-.patch | 41 +++++++++
- ...rash-when-using-CTRL-W-f-without-fin.patch | 92 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  2 +
- 3 files changed, 135 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3610-cr=
-ash-when-ModeChanged-triggered-too-.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3611-cr=
-ash-when-using-CTRL-W-f-without-fin.patch
+ ...job-goal.upgrade-with-sltr-as-target.patch | 58 +++++++++++++++++++
+ meta/recipes-devtools/libdnf/libdnf_0.28.1.bb |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0040-Mark-job-goal.upgrade-with-sltr-as-target.patch
 
-diff --git a/meta/recipes-support/vim/files/0001-patch-8.2.3610-crash-whe=
-n-ModeChanged-triggered-too-.patch b/meta/recipes-support/vim/files/0001-=
-patch-8.2.3610-crash-when-ModeChanged-triggered-too-.patch
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0040-Mark-job-goal.upgrade-with-sltr-as-target.patch b/meta/recipes-devtools/libdnf/libdnf/0040-Mark-job-goal.upgrade-with-sltr-as-target.patch
 new file mode 100644
-index 0000000000..0f774df251
+index 0000000000..61d255581b
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/0001-patch-8.2.3610-crash-when-ModeC=
-hanged-triggered-too-.patch
-@@ -0,0 +1,41 @@
-+CVE: CVE-2021-3968
++++ b/meta/recipes-devtools/libdnf/libdnf/0040-Mark-job-goal.upgrade-with-sltr-as-target.patch
+@@ -0,0 +1,58 @@
++From b4c5a3312287f31a2075a235db846ff611586d2c Mon Sep 17 00:00:00 2001
++From: Jaroslav Mracek <jmracek@redhat.com>
++Date: Tue, 3 Sep 2019 11:01:23 +0200
++Subject: [PATCH] Mark job goal.upgrade with sltr as targeted
++
++It allows to keep installed packages in upgrade set.
++
++It also prevents from reinstalling of modified packages with same NEVRA.
++
++
++Backport commit b4c5a3312287f31a2075a235db846ff611586d2c from
++https://github.com/rpm-software-management/libdnf
++
++This bug is present in oe-core's dnf
++
++Remove changes to spec file from upstream
++
 +Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 54a16b2da3a0f664ca7fd182c16d2c2b8ea8131f Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Wed, 17 Nov 2021 16:52:40 +0000
-+Subject: [PATCH] patch 8.2.3610: crash when ModeChanged triggered too ea=
-rly
-+
-+Problem:    Crash when ModeChanged triggered too early.
-+Solution:   Trigger ModeChanged after setting VIsual.
++Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
 +---
-+ src/normal.c  | 1 +
-+ src/version.c | 2 ++
-+ 2 files changed, 3 insertions(+)
++ libdnf.spec          | 4 ++--
++ libdnf/goal/Goal.cpp | 2 +-
++ libdnf/goal/Goal.hpp | 6 ++++--
++ 3 files changed, 7 insertions(+), 5 deletions(-)
 +
-+diff --git a/src/normal.c b/src/normal.c
-+index d6333b948..7cb959257 100644
-+--- a/src/normal.c
-++++ b/src/normal.c
-+@@ -5675,6 +5675,7 @@ n_start_visual_mode(int c)
-+     foldAdjustVisual();
-+ #endif
-+=20
-++    trigger_modechanged();
-+     setmouse();
-+ #ifdef FEAT_CONCEAL
-+     // Check for redraw after changing the state.
-+diff --git a/src/version.c b/src/version.c
-+index e1bc0d09b..52be3c39d 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3610,
-+ /**/
-+     3582,
-+ /**/
-diff --git a/meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-whe=
-n-using-CTRL-W-f-without-fin.patch b/meta/recipes-support/vim/files/0002-=
-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch
-new file mode 100644
-index 0000000000..0ab472189b
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-when-using=
--CTRL-W-f-without-fin.patch
-@@ -0,0 +1,92 @@
-+CVE: CVE-2021-3973
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++diff --git a/libdnf/goal/Goal.cpp b/libdnf/goal/Goal.cpp
++index b69be19..a38cbb4 100644
++--- a/libdnf/goal/Goal.cpp
+++++ b/libdnf/goal/Goal.cpp
++@@ -767,7 +767,7 @@ void
++ Goal::upgrade(HySelector sltr)
++ {
++     pImpl->actions = static_cast<DnfGoalActions>(pImpl->actions | DNF_UPGRADE);
++-    sltrToJob(sltr, &pImpl->staging, SOLVER_UPDATE);
+++    sltrToJob(sltr, &pImpl->staging, SOLVER_UPDATE|SOLVER_TARGETED);
++ }
++ 
++ void
++diff --git a/libdnf/goal/Goal.hpp b/libdnf/goal/Goal.hpp
++index f33dfa2..d701317 100644
++--- a/libdnf/goal/Goal.hpp
+++++ b/libdnf/goal/Goal.hpp
++@@ -86,8 +86,10 @@ public:
++     /**
++     * @brief If selector ill formed, it rises std::runtime_error()
++     *
++-    * @param sltr p_sltr: It should contain only upgrades with obsoletes otherwise it can try to
++-    * reinstall installonly packages.
+++    * @param sltr p_sltr: It contains upgrade-to packages and obsoletes. The presence of installed
+++    * packages prevents reinstalling packages with the same NEVRA but changed contant. To honor repo
+++    * priority all relevant packages must be present. To upgrade package foo from priority repo, all
+++    * installed and available packages of the foo must be in selector plus obsoletes of foo.
++     */
++     void upgrade(HySelector sltr);
++     void userInstalled(DnfPackage *pkg);
++-- 
++2.7.4
 +
-+From b6154e9f530544ddc3130d981caae0dabc053757 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Wed, 17 Nov 2021 18:00:31 +0000
-+Subject: [PATCH] patch 8.2.3611: crash when using CTRL-W f without findi=
-ng a
-+ file name  Problem:    Crash when using CTRL-W f without finding
-+ a file name. Solution:   Bail out when the file name length is zero.
-+
-+---
-+ src/findfile.c              | 8 ++++++++
-+ src/normal.c                | 6 ++++--
-+ src/testdir/test_visual.vim | 8 ++++++++
-+ src/version.c               | 2 ++
-+ 4 files changed, 22 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/findfile.c b/src/findfile.c
-+index dba547da1..5764fd7b8 100644
-+--- a/src/findfile.c
-++++ b/src/findfile.c
-+@@ -1727,6 +1727,9 @@ find_file_in_path_option(
-+     proc->pr_WindowPtr =3D (APTR)-1L;
-+ # endif
-+=20
-++    if (len =3D=3D 0)
-++	return NULL;
-++
-+     if (first =3D=3D TRUE)
-+     {
-+ 	// copy file name into NameBuff, expanding environment variables
-+@@ -2094,7 +2097,12 @@ find_file_name_in_path(
-+     int		c;
-+ # if defined(FEAT_FIND_ID) && defined(FEAT_EVAL)
-+     char_u	*tofree =3D NULL;
-++# endif
-+=20
-++    if (len =3D=3D 0)
-++	return NULL;
-++
-++# if defined(FEAT_FIND_ID) && defined(FEAT_EVAL)
-+     if ((options & FNAME_INCL) && *curbuf->b_p_inex !=3D NUL)
-+     {
-+ 	tofree =3D eval_includeexpr(ptr, len);
-+diff --git a/src/normal.c b/src/normal.c
-+index 7cb959257..f0084f2ac 100644
-+--- a/src/normal.c
-++++ b/src/normal.c
-+@@ -3778,8 +3778,10 @@ get_visual_text(
-+ 	    *pp =3D ml_get_pos(&VIsual);
-+ 	    *lenp =3D curwin->w_cursor.col - VIsual.col + 1;
-+ 	}
-+-	if (has_mbyte)
-+-	    // Correct the length to include the whole last character.
-++	if (**pp =3D=3D NUL)
-++	    *lenp =3D 0;
-++	if (has_mbyte && *lenp > 0)
-++	    // Correct the length to include all bytes of the last character.
-+ 	    *lenp +=3D (*mb_ptr2len)(*pp + (*lenp - 1)) - 1;
-+     }
-+     reset_VIsual_and_resel();
-+diff --git a/src/testdir/test_visual.vim b/src/testdir/test_visual.vim
-+index ae281238e..0705fdb57 100644
-+--- a/src/testdir/test_visual.vim
-++++ b/src/testdir/test_visual.vim
-+@@ -894,4 +894,12 @@ func Test_block_insert_replace_tabs()
-+   bwipe!
-+ endfunc
-+=20
-++func Test_visual_block_ctrl_w_f()
-++  " Emtpy block selected in new buffer should not result in an error.
-++  au! BufNew foo sil norm =16=17f
-++  edit foo
-++
-++  au! BufNew
-++endfunc
-++
-+ " vim: shiftwidth=3D2 sts=3D2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 52be3c39d..59a314b3a 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3611,
-+ /**/
-+     3610,
-+ /**/
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-index d0957bfeae..7b2928675d 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -25,6 +25,8 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmast=
-er;protocol=3Dhttps \
-            file://0005-patch-8.2.3564-invalid-memory-access-when-scrolli=
-ng-.patch \
-            file://0001-patch-8.2.3581-reading-character-past-end-of-line=
-.patch \
-            file://0002-patch-8.2.3582-reading-uninitialized-memory-when-=
-giv.patch \
-+           file://0001-patch-8.2.3610-crash-when-ModeChanged-triggered-t=
-oo-.patch \
-+           file://0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-=
-fin.patch \
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+index fb7fc80758..39858ad401 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=master;protoco
+            file://0001-Add-WITH_TESTS-option.patch \
+            file://0001-include-stdexcept-for-runtime_error.patch \
+            file://fix-deprecation-warning.patch \
++           file://0040-Mark-job-goal.upgrade-with-sltr-as-target.patch \
             "
-=20
- SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
---=20
+ 
+ SRCREV = "751f89045b80d58c0d05800f74357cf78cdf7e77"
+-- 
 2.25.1
 
 
