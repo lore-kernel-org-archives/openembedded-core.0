@@ -1,186 +1,202 @@
-Return-Path: <mohammedaqdam@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E205EC433F5
-	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 12:09:10 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.60162.1638187749557146392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 266ADC433EF
+	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 13:54:56 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web09.61307.1638194094552942655
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 04:09:10 -0800
+ Mon, 29 Nov 2021 05:54:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dyuKQ0/8;
- spf=pass (domain: gmail.com, ip: 209.85.221.50,
- mailfrom: mohammedaqdam@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id s13so36346015wrb.3;
-        Mon, 29 Nov 2021 04:09:09 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=E4F7pNNu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.54,
+ mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f54.google.com with SMTP id 133so14726285wme.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 05:54:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=ogG/stlVB9FS1HVOLWP1UrIZYLyaRwd6Jjbaua49DBQ=;
-        b=dyuKQ0/8GmEQnbbzBlf5XsLLf0ZmjcyPNzW2PKmZAhSsc1yPiCwmCtMLPuax3LMYaG
-         kcacA0f/YdinefGtRD0fV/7lcrw6RzQ9GPekc6dieyRoANGuJR5yBmD0iQ/4kVMFFdXi
-         rRlwm19aiqgodcPWFdCruxwqT2YGNKwzd2h18TEeQ398znKsCyiRvHXcqHnBLxUNi+Th
-         BJrgnUrWJLjvkiEXgOFRcYUl+pTIXgX1FBBKwZBLYFMchDsElYmGy0T3wLPPfOwzU9mA
-         yhFaau98qKOqt/URwy1xwgMEEsWZrMlpv5AhiqDb3TJROMoO357pVhOeqFP5kCH3s9Hw
-         a3yg==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zBCjUPmTpF1K4aMX1BZhn8tYmNytQBFJEJ784Tfty6c=;
+        b=E4F7pNNuBIR/HkyOEwyOH7r58iejGV0BVXE/QJDZ4nHkqKYrMQN3rJGx3GeEWrdjMn
+         deIyQwYroRz/4hI46fJhuyuEqPf8Jk4NpHJhd7mj2UM+OWQtDvV1R/7UqrOXP64eNYxY
+         WSTeLO90/5GWlSjT1enDVNcbQRjMdIwgzgTw6x/YAhh/Fu3bz0fi+cuvyak+C41R/zHc
+         FfG34yJ/DKAq3rjt95rRZcMYEHvxoEGPc7rZJywKIvjWoXIqrhLHZRKJct2ECe+xNmdS
+         iZJPSFI2CVExOkIlcbhvftkWQSdmap5agqr6c1f4S+e6mND75/zV5gpqZCKWbU9jOVBh
+         +hsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=ogG/stlVB9FS1HVOLWP1UrIZYLyaRwd6Jjbaua49DBQ=;
-        b=hAWlSNYRXX6kThjcA8MVIxZsWiez33V3VhmLKCy27yiV2F1JCUO7BvJ40XyrauS62p
-         m7Mr5oV/LQE4YAd9PxicernvTizAPvWF1JejkZgBe4hjOB38JmYOS/saHwCm4Xgb4IwL
-         x3AEf+XFPjm5DTNFbIPozuL69zFulTVeqCy6k99L0u7oKuczHeA8UuyomjkSPz2AvUAt
-         h4nkkB0DBMu5UiFUIsOxOlS672uKZ2zHs0HzRyABxQG1H+kD3cy5l5eeuVdcwOSuPf/w
-         eQXeaBBCtOHXDiI8bKR13T0tPy8yjyBnSIvrko+LjZGshUCNbxrqRtUFmt/eJ4P2d74w
-         AgFQ==
-X-Gm-Message-State: AOAM532RWinpX8JBvOYg2XULcSWAUjonC8JMxskC+T9HqKAxNO1rp0kT
-	5bRrmtkyZT9ZIv+p6p8iMtVAAEcsfUjxuUb7rreu6nVB/2k=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zBCjUPmTpF1K4aMX1BZhn8tYmNytQBFJEJ784Tfty6c=;
+        b=SqHPGV+mYKngR2o411hHaRHNGSjcSMiGAGnJgWAN0oNu6l7sjsjwsbg0fJelfwFLfc
+         mApF7JdKztwYwHpgp81xLtwILFY5zi4j3b+Irjjld97b4X6JJhY1ueJ0hcuyl+SZOl1/
+         LzhMIjS2rOmcuF+Ccog2MyRp/x1p3QnDiUQ8wg3eVOEsBSRu6hjm/EZrNd0gB0lzTa70
+         /JpdMfvHCupz3zYONZWd8bzxei6lBZaxKh4+pVObEWylC8SIdaw7pke1auwhjgZi0IFf
+         hr6IlikDMmqy33tpHNi/bJxA+ez3ipT2LIvZg/Lcqw8JpFRyVDtz8G1jSG1ZwQ5xPfaq
+         9tIA==
+X-Gm-Message-State: AOAM5306nz9XWYdNsJ0sG+Lso/ye8b8t849BUZh3vY6nlaaVoOmQ3F3b
+	5JERtuCTOXt8yq8960wB9qBuzsWgLKqBW8l21wDuRQ==
 X-Google-Smtp-Source: 
- ABdhPJykWsaziksKsLknjZNP95HGYJenI08DAxV7TfRQAmJh+syqcOUA3e0cD3C3CgCfAcRoTyXlFtzXsqTAvaAAMeU=
-X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr33307725wrt.31.1638187747541;
- Mon, 29 Nov 2021 04:09:07 -0800 (PST)
+ ABdhPJz/be0dJJDPD88264aAIK6quPIPMDUYTVDG/6NZTPtCl1UkgZ8UxyiMVLPc3kysW13n52apAHSn4uYcNGKYhOA=
+X-Received: by 2002:a7b:cc96:: with SMTP id p22mr35865967wma.69.1638194092799;
+ Mon, 29 Nov 2021 05:54:52 -0800 (PST)
 MIME-Version: 1.0
-From: mohammed aqdam <mohammedaqdam@gmail.com>
-Date: Mon, 29 Nov 2021 17:38:56 +0530
+References: <cover.1638136329.git.steve@sakoman.com>
+ <bc0c1234b7ae48394af92a4d14c2b47f2e3b98a1.1638136329.git.steve@sakoman.com>
+ <b52dbaf4aff622f57855dbd73b034fe6258b9be1.camel@intel.com>
+In-Reply-To: <b52dbaf4aff622f57855dbd73b034fe6258b9be1.camel@intel.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 29 Nov 2021 03:54:41 -1000
 Message-ID: 
- <CAGsrAHcMZv_H0wa8x9e47tWQOawFhe-s4zy2NN=Or7VteLS12A@mail.gmail.com>
-Subject: Not able to install chrony on zeus
-To: openembedded-core@lists.openembedded.org,
-	openembedded-core+help@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c4852005d1ec4e95"
+ <CAOSpxdbDwvL3LLZ6183aCwutMc5iBRG2SfPo+SpT6efEwNbfyw@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 36/42] dnf: Backport bugfix for upgrade
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	Jate Sujjavanich <jatedev@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 12:09:10 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 13:54:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158938
+ https://lists.openembedded.org/g/openembedded-core/message/158939
 
---000000000000c4852005d1ec4e95
-Content-Type: text/plain; charset="UTF-8"
-
-Hi There,
-
-I am trying to add chrony/chronyd to my final image
-using IMAGE_INSTALL_append += " chrony ntp pps-tools "
-
-When I run bitbake(bitbake -k imx-image-full), Seeing "packages have unmet
-dependencies" errors, please check the logs for more information.
-
-Initialising tasks: 100%
-> |###########################################################################################################################|
-> Time: 0:00:05
-> Sstate summary: Wanted 9 Found 7 Missed 2 Current 3666 (77% match, 99%
-> complete)
-> NOTE: Executing Tasks
-> NOTE: Setscene tasks completed
-> ERROR: imx-image-full-1.0-r0 do_rootfs: Unable to install packages.
-> Command
-> '/data/home/maqdam/imx-yocto-bsp_latest/build/tmp/work/imx8mpevk-poky-linux/imx-image-full/1.0-r0/recipe-sysroot-native/usr/bin/apt-get
->  install --force-yes --allow-unauthenticated --no-remove android-tools apt
-> autotalks chrony libddsc0 devmem2 dfu-util dhcp-client dhcp-server dpkg
-> gpsd imx-test ink-app-nets-files-obu ink-service iperf3 jailhouse
-> libwebsockets15 luxservice net-snmp net-snmp-client net-snmp-dev
-> net-snmp-libs net-snmp-server net-snmp-server-snmpd
-> net-snmp-server-snmptrapd net-tools ntp opencv-apps opencv-samples openvpn
-> packagegroup-base-extended packagegroup-core-boot
-> packagegroup-core-full-cmdline packagegroup-core-nfs-server
-> packagegroup-core-ssh-dropbear packagegroup-core-tools-debug
-> packagegroup-core-tools-profile packagegroup-core-tools-testapps
-> packagegroup-fsl-gstreamer1.0 packagegroup-fsl-gstreamer1.0-full
-> packagegroup-fsl-optee-imx packagegroup-fsl-tools-audio
-> packagegroup-fsl-tools-benchmark packagegroup-fsl-tools-gpu
-> packagegroup-fsl-tools-gpu-external packagegroup-fsl-tools-testapps
-> packagegroup-imx-isp packagegroup-imx-ml packagegroup-qt5-imx
-> packagegroup-tools-bluetooth paho-mqtt paho-mqtt-sn perl
-> perl-module-data-dumper perl-module-file-copy perl-module-file-spec
-> perl-module-getopt-std perl-module-io-file perl-module-term-readline
-> pps-tools psplash python3-opencv rapidjson rtklib run-postinsts strongswan
-> tcpdump tinydtls usbutils versions weston-init weston-xwayland xterm'
-> returned 100:
-> Reading package lists...
-> Building dependency tree...
-> Reading state information...
-> Some packages could not be installed. This may mean that you have
-> requested an impossible situation or if you are using the unstable
-> distribution that some required packages have not yet been created
-> or been moved out of Incoming.
-> The following information may help to resolve the situation:
-
-
+On Sun, Nov 28, 2021 at 6:43 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
 >
+> On Sun, 2021-11-28 at 11:57 -1000, Steve Sakoman wrote:
+> > From: Jate Sujjavanich <jatedev@gmail.com>
+> >
+> > Keep installed packages in upgrade job
+> >
+> > This prevents duplicate identical packages from being reinstalled
+> > with each upgrade
+> >
+> > Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  ...ackages-in-upgrade-job-RhBug-1728252.patch | 60
+> > +++++++++++++++++++
+> >  meta/recipes-devtools/dnf/dnf_4.2.2.bbappend  |  3 +
 >
-> *The following packages have unmet dependencies: chrony : Conflicts: ntp
-> but 4.2.8p15-r0 is to be installedE: Unable to correct problems, you have
-> held broken packages*.
+> Why is this being added to a bbappend instead of the recipe itself?
+
+Arghh . . . I noticed this only after testing on the autobuilder and
+forgot to remove these two dnf patches prior to generating the series
+for review.  Thanks for catching this Anuj!
+
+Jate, can you revise the patches and resubmit?
+
+Steve
+
+> >  2 files changed, 63 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/dnf/dnf/0040-Keep-
+> > installed-packages-in-upgrade-job-RhBug-1728252.patch
+> >  create mode 100644 meta/recipes-devtools/dnf/dnf_4.2.2.bbappend
+> >
+> > diff --git a/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-
+> > packages-in-upgrade-job-RhBug-1728252.patch b/meta/recipes-
+> > devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-
+> > 1728252.patch
+> > new file mode 100644
+> > index 0000000000..57c2375a54
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-
+> > upgrade-job-RhBug-1728252.patch
+> > @@ -0,0 +1,60 @@
+> > +From c88a77198c0156e425c2725f30e481207de5162f Mon Sep 17 00:00:00
+> > 2001
+> > +From: Jaroslav Mracek <jmracek@redhat.com>
+> > +Date: Tue, 3 Sep 2019 11:01:51 +0200
+> > +Subject: [PATCH] Keep installed packages in upgrade job
+> > + (RhBug:1728252,1644241,1741381)
+> > +
+> > +In combination with marking of job as TARGETED it prevents from
+> > +reinstalling of modified packages with same NEVRA.
+> > +
+> > +https://bugzilla.redhat.com/show_bug.cgi?id=1728252
+> > +https://bugzilla.redhat.com/show_bug.cgi?id=1644241
+> > +https://bugzilla.redhat.com/show_bug.cgi?id=1741381
+> > +
+> > +Closes: #1474
+> > +Approved by: m-blaha
+> > +
+> > +
+> > +Backport to fix bug in dnf in oe-core
+> > +from https://github.com/rpm-software-management/dnf
+> > +
+> > +Removed spec file portion of patch
+> > +
+> > +Upstream-Status: Backport
+> > +Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+> > +---
+> > + dnf.spec                  | 4 ++--
+> > + dnf/base.py               | 3 ---
+> > + dnf/module/module_base.py | 2 +-
+> > + 3 files changed, 3 insertions(+), 6 deletions(-)
+> > +
+> > +diff --git a/dnf/base.py b/dnf/base.py
+> > +index b2ced61..628c154 100644
+> > +--- a/dnf/base.py
+> > ++++ b/dnf/base.py
+> > +@@ -1968,9 +1968,6 @@ class Base(object):
+> > +                 obsoletes=q.installed().union(q.upgrades()))
+> > +             # add obsoletes into transaction
+> > +             q = q.union(obsoletes)
+> > +-        # provide only available packages to solver otherwise
+> > selection of available
+> > +-        # possibilities will be ignored
+> > +-        q = q.available()
+> > +         if reponame is not None:
+> > +             q.filterm(reponame=reponame)
+> > +         q = self._merge_update_filters(q, pkg_spec=pkg_spec)
+> > +diff --git a/dnf/module/module_base.py b/dnf/module/module_base.py
+> > +index 976d730..ce70f63 100644
+> > +--- a/dnf/module/module_base.py
+> > ++++ b/dnf/module/module_base.py
+> > +@@ -214,7 +214,7 @@ class ModuleBase(object):
+> > +
+> > +             if not upgrade_package_set:
+> > +                 logger.error(_("Unable to match profile in argument
+> > {}").format(spec))
+> > +-            query =
+> > self.base.sack.query().available().filterm(name=upgrade_package_set)
+> > ++            query =
+> > self.base.sack.query().filterm(name=upgrade_package_set)
+> > +             if query:
+> > +                 sltr = dnf.selector.Selector(self.base.sack)
+> > +                 sltr.set(pkg=query)
+> > +--
+> > +2.7.4
+> > +
+> > diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bbappend
+> > b/meta/recipes-devtools/dnf/dnf_4.2.2.bbappend
+> > new file mode 100644
+> > index 0000000000..3811db604b
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bbappend
+> > @@ -0,0 +1,3 @@
+> > +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> > +
+> > +SRC_URI +=
+> > "file://0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
+> > "
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#158918):
+> > https://lists.openembedded.org/g/openembedded-core/message/158918
+> > Mute This Topic: https://lists.openembedded.org/mt/87365202/3616702
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub [
+> > anuj.mittal@intel.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 >
-
-I see *ntp_4.2.8p15, *in my source code not *4.2.8p15-r0, *so I tried to
-rename the bb file to ntp_*4.2.8p15-r0.bb <http://4.2.8p15-r0.bb>.*
-Got errors while accessing the Index of /~ntp/ntp_spool/ntp4/ntp-4.2
-(udel.edu) <https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/> due to
-missing  ntp_*4.2.8p15-r0.bb <http://4.2.8p15-r0.bb> * in list.
-
-Kindly let me know if i am missing anything for adding chrony.
-
-Thanks,
-Aqdam
-
---000000000000c4852005d1ec4e95
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi=C2=A0There,<br><div><br></div><div>I am trying to add c=
-hrony/chronyd to my final image using=C2=A0IMAGE_INSTALL_append=C2=A0+=3D &=
-quot; chrony ntp pps-tools &quot;</div><div><br></div><div>When I run bitba=
-ke(bitbake -k imx-image-full), Seeing &quot;packages have unmet dependencie=
-s&quot; errors, please check the logs for more information.</div><div><br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Initialising tasks: =
-100% |#####################################################################=
-######################################################| Time: 0:00:05<br>Ss=
-tate summary: Wanted 9 Found 7 Missed 2 Current 3666 (77% match, 99% comple=
-te)<br>NOTE: Executing Tasks<br>NOTE: Setscene tasks completed<br>ERROR: im=
-x-image-full-1.0-r0 do_rootfs: Unable to install packages. Command &#39;/da=
-ta/home/maqdam/imx-yocto-bsp_latest/build/tmp/work/imx8mpevk-poky-linux/imx=
--image-full/1.0-r0/recipe-sysroot-native/usr/bin/apt-get =C2=A0install --fo=
-rce-yes --allow-unauthenticated --no-remove android-tools apt autotalks chr=
-ony libddsc0 devmem2 dfu-util dhcp-client dhcp-server dpkg gpsd imx-test in=
-k-app-nets-files-obu ink-service iperf3 jailhouse libwebsockets15 luxservic=
-e net-snmp net-snmp-client net-snmp-dev net-snmp-libs net-snmp-server net-s=
-nmp-server-snmpd net-snmp-server-snmptrapd net-tools ntp opencv-apps opencv=
--samples openvpn packagegroup-base-extended packagegroup-core-boot packageg=
-roup-core-full-cmdline packagegroup-core-nfs-server packagegroup-core-ssh-d=
-ropbear packagegroup-core-tools-debug packagegroup-core-tools-profile packa=
-gegroup-core-tools-testapps packagegroup-fsl-gstreamer1.0 packagegroup-fsl-=
-gstreamer1.0-full packagegroup-fsl-optee-imx packagegroup-fsl-tools-audio p=
-ackagegroup-fsl-tools-benchmark packagegroup-fsl-tools-gpu packagegroup-fsl=
--tools-gpu-external packagegroup-fsl-tools-testapps packagegroup-imx-isp pa=
-ckagegroup-imx-ml packagegroup-qt5-imx packagegroup-tools-bluetooth paho-mq=
-tt paho-mqtt-sn perl perl-module-data-dumper perl-module-file-copy perl-mod=
-ule-file-spec perl-module-getopt-std perl-module-io-file perl-module-term-r=
-eadline pps-tools psplash python3-opencv rapidjson rtklib run-postinsts str=
-ongswan tcpdump tinydtls usbutils versions weston-init weston-xwayland xter=
-m&#39; returned 100:<br>Reading package lists...<br>Building dependency tre=
-e...<br>Reading state information...<br>Some packages could not be installe=
-d. This may mean that you have<br>requested an impossible situation or if y=
-ou are using the unstable<br>distribution that some required packages have =
-not yet been created<br>or been moved out of Incoming.<br>The following inf=
-ormation may help to resolve the situation:</blockquote><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">=C2=A0<br><b>The following packages have u=
-nmet dependencies:<br>=C2=A0chrony : Conflicts: ntp but 4.2.8p15-r0 is to b=
-e installed<br>E: Unable to correct problems, you have held broken packages=
-</b>.<br></blockquote><div><br></div><div>I see <b>ntp_4.2.8p15, </b>in my =
-source code not=C2=A0<b>4.2.8p15-r0, </b>so I tried to rename the bb file t=
-o ntp_<b><a href=3D"http://4.2.8p15-r0.bb">4.2.8p15-r0.bb</a>.</b></div><di=
-v>Got errors while accessing the=C2=A0<a href=3D"https://www.eecis.udel.edu=
-/~ntp/ntp_spool/ntp4/ntp-4.2/">Index of /~ntp/ntp_spool/ntp4/ntp-4.2 (udel.=
-edu)</a>=C2=A0due to missing=C2=A0 ntp_<b><a href=3D"http://4.2.8p15-r0.bb"=
->4.2.8p15-r0.bb</a>=C2=A0</b>=C2=A0in list.</div><div><br></div><div>Kindly=
- let me know if i am missing anything for adding chrony.</div><div><br></di=
-v><div>Thanks,</div><div>Aqdam</div><div><br></div></div>
-
---000000000000c4852005d1ec4e95--
 
