@@ -1,97 +1,322 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <mohammedaqdam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FB5C433F5
-	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 16:42:39 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.63687.1638204158631689647
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 871DAC433EF
+	for <webhook@archiver.kernel.org>; Mon, 29 Nov 2021 17:26:00 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.63788.1638206759700567633
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 08:42:39 -0800
+ Mon, 29 Nov 2021 09:26:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CPqRsnve;
- spf=pass (domain: gmail.com, ip: 209.85.167.48,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id l22so46246941lfg.7
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 08:42:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TaI4gdBF;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43,
+ mailfrom: mohammedaqdam@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id
+ o19-20020a1c7513000000b0033a93202467so12958940wmc.2;
+        Mon, 29 Nov 2021 09:25:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=dzGh+XnIjFJEtdFU6tURaonmJBSXi3kavJ0wLtpQODo=;
-        b=CPqRsnve8DecP313CfJHGthw1a+PZRGB2w9aJB7gOlX/OYZtmMhtcuxJYoP91fmumP
-         fSRVR370jillKa5jTKCL5tNREFOcSGBjYtq21EoNQOgyoIe0V/0ycimtGJ98S1A8vspo
-         yjw3K0EF9uBEBwOk1uvu67kokc6DVxcmwpwqdJHhEwraHiXDRNSBnsmyJYPQhDBvX2GB
-         EiW4ilHWuOuy87UexdN5x9+aY8jJ/3lX0ddO7POJv2iT9VXsdfebnH53U/536H0mhQRr
-         dNZpv0PUPV5BeeKz7Z+Jjrz4TtdLjg0RX6ShPaEihHyIEXDWYu34dyeW2G+Y2QJ6gQJM
-         oO+g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Dh/fdJtL/85XIGbhf9ADIFIMD82GiXWOlU6AiTcDmqU=;
+        b=TaI4gdBFtip0VjPM+je5QL+nQXDBFuYFNpr4HP+r83Zhs/pNCFlS8CZY3gQk1Mta9w
+         favA5jI7CmxeAl943lfuJceRj/auCeffatanbZcl8AztDorDTouYADwYc8pbNkBA+yl2
+         sP2lhdyJZ4jzzVZFWI5+XEF0kVMDyFyeU0MFhrHmuQRWQa7N490d9fmw5i2iPyo3JPvv
+         7J9Xw7fldA9WHEKYDLi+hCNG3nVxSA2TyNsq+I/wNRhgo+PeVGdGhIHmf18HWYWcgIod
+         00zhcOrohgrRQSSZZW6fYL8ZvX1u7YZBU0pNLwYo9HOt01WmXLhpJ7KeTJz8C0skikt4
+         5JGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=dzGh+XnIjFJEtdFU6tURaonmJBSXi3kavJ0wLtpQODo=;
-        b=TQVMDZaAPn4kxosmXreXgHeS5B+MF/rgg0o/2Z/WgpeSmPolWW6pWL2teJKNuDlh/d
-         0tmxkCdF/8Jo5mIO51kHSBX1JkudXRy0xVTOFLc6dvJoIG5SxEMRnBlmnXtXfYxCJ7KD
-         +IsTKBvIBVeISlPYGJV+vyoojUhlActzGs8rdJbD9SwNSUALJ/6xkkoIk7XXtWQMKEFx
-         yGXy9edVR4lpV0RaeacsdESzyIRXNRQ937OB3fpsKHu1cCVeZd1ldmIRw/tFILwWYibN
-         2aFt21sZjcKa9rwjmGhIa3kPnw/kaZQfzdf66gXi1F64OEobtC8D6GNYU9oHEEOkbWqt
-         SQGA==
-X-Gm-Message-State: AOAM532VlCc9H4Vamx4RYrLYl9zIBt22OfBJVzGb0KOiqez/aseZK8FM
-	GCwlyWpSGuee5tqnqmvNj94=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Dh/fdJtL/85XIGbhf9ADIFIMD82GiXWOlU6AiTcDmqU=;
+        b=3SS9xBUCeGUD9UKcAnV6JzwZp5C85uj5Z/A1iJYDZrNKUhrjK4q+M3MeQzTxEvEkWd
+         XU0utNXnUmzOxlvdheNXR3y3FxWuhndETt7wHzJFQ0q1ntKDTEZQ52jWs9lgo8XO1BIs
+         VXwNrt8pcrIHVBJaw/0p8POeTu0LTcGSfJ6sVzS+0mnQ2qn/VcPyzS7X5Nm6Nfh7oTt0
+         6BjGDqGzOYBEGu/ynWL21mf9Jv2FKXpGSfLu04usLOD9cPSYmGJuRB+dtvbI9Fw9mMmP
+         AXm0IqZYBLZhQfWYkhQ3cfFgup7/UMwJK1nT/SA7dUWIbAC/HMflhpHxdup7B9ZjXrwk
+         AEnw==
+X-Gm-Message-State: AOAM532KwkHSMmTfT1HXR22YNSF8/acunK8OrhAejJNTWvzbPj4jgIeF
+	Cl+Nnkb9mzsa/LVt8VmJgf7ft4nS7T0EsHeYfVE=
 X-Google-Smtp-Source: 
- ABdhPJxoJNwz+F/MtkPY/Nkgr7xc+xTTVBmIkCZUlypLlCXR4Bt3gL4jlpBHzYpB55N/5TL9Q6klqQ==
-X-Received: by 2002:a05:6512:33d6:: with SMTP id
- d22mr50564927lfg.564.1638204156578;
-        Mon, 29 Nov 2021 08:42:36 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- b10sm1584854lfj.230.2021.11.29.08.42.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Nov 2021 08:42:36 -0800 (PST)
-Message-ID: <2c2e6ad1-526d-06a4-d248-914cc1b64f11@gmail.com>
-Date: Mon, 29 Nov 2021 17:42:34 +0100
+ ABdhPJywL/hAD7CYYcKJIKMzsP1ksnjGYA2kfJz0y5qa8UNJzH3Nj5h/awmlUgmaPJ+T3jAPtihdd6if2fhimfyIol0=
+X-Received: by 2002:a05:600c:2f01:: with SMTP id
+ r1mr38798838wmn.153.1638206758147;
+ Mon, 29 Nov 2021 09:25:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [OE-core] [RFC PATCH 0/9] Improve native/cross reproducibility
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20211128094532.1145820-1-jacob.kroon@gmail.com>
- <CANNYZj-nqD8u3b8_jpE9FhvGvzcpc2aJQqbo2WAhM4XejgXRGw@mail.gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: 
- <CANNYZj-nqD8u3b8_jpE9FhvGvzcpc2aJQqbo2WAhM4XejgXRGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: 
+ <CAGsrAHcMZv_H0wa8x9e47tWQOawFhe-s4zy2NN=Or7VteLS12A@mail.gmail.com>
+ <a0a691a2-dba2-0a71-e0ef-ffc1a9083aa3@gmail.com>
+In-Reply-To: <a0a691a2-dba2-0a71-e0ef-ffc1a9083aa3@gmail.com>
+From: mohammed aqdam <mohammedaqdam@gmail.com>
+Date: Mon, 29 Nov 2021 22:55:44 +0530
+Message-ID: 
+ <CAGsrAHft+zosZyQ2CbejwetYW4NVy3NFj4FZ6eRhKQHDo8Lt5g@mail.gmail.com>
+Subject: Re: [OE-core] Not able to install chrony on zeus
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-core+help@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e35ae005d1f0bbe4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 16:42:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Nov 2021 17:26:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158954
+ https://lists.openembedded.org/g/openembedded-core/message/158957
 
-On 11/29/21 10:16, Alexander Kanavin wrote:
-> Thanks Jacob. When looking at this patchset I kept asking myself, why is
-> this or that change necessary for -native but not for -target. I think
-> it would help if you include that information in the commits,
-> particularly, in 1/9 as it is the most invasive change of all. Maybe we
-> can then figure out a better way.
-> 
-> Alex
-> 
+--000000000000e35ae005d1f0bbe4
+Content-Type: text/plain; charset="UTF-8"
 
-Yeah, I think its because there is no extra manipulation of rpath done
-for the target binaries at all, since they wont be running in a location
-other than what they were configured for. RP, Khem, please correct me if
-I'm wrong. The native binaries on the other hand will need to run from
-each recipe specific sysroot.
+Thanks Khem Raj,
 
-I can update the commit message in patch 1 if that makes sense.
+Is it possible to install both?
 
-Jacob
+On Mon, 29 Nov, 2021, 10:46 pm Khem Raj, <raj.khem@gmail.com> wrote:
+
+>
+>
+> On 11/29/21 4:08 AM, mohammed aqdam wrote:
+> > Hi There,
+> >
+> > I am trying to add chrony/chronyd to my final image
+> > using IMAGE_INSTALL_append += " chrony ntp pps-tools "
+> >
+> > When I run bitbake(bitbake -k imx-image-full), Seeing "packages have
+> > unmet dependencies" errors, please check the logs for more information.
+> >
+> >     Initialising tasks: 100%
+> >
+>  |###########################################################################################################################|
+> >     Time: 0:00:05
+> >     Sstate summary: Wanted 9 Found 7 Missed 2 Current 3666 (77% match,
+> >     99% complete)
+> >     NOTE: Executing Tasks
+> >     NOTE: Setscene tasks completed
+> >     ERROR: imx-image-full-1.0-r0 do_rootfs: Unable to install packages.
+> >     Command
+> >
+>  '/data/home/maqdam/imx-yocto-bsp_latest/build/tmp/work/imx8mpevk-poky-linux/imx-image-full/1.0-r0/recipe-sysroot-native/usr/bin/apt-get
+> >       install --force-yes --allow-unauthenticated --no-remove
+> >     android-tools apt autotalks chrony libddsc0 devmem2 dfu-util
+> >     dhcp-client dhcp-server dpkg gpsd imx-test ink-app-nets-files-obu
+> >     ink-service iperf3 jailhouse libwebsockets15 luxservice net-snmp
+> >     net-snmp-client net-snmp-dev net-snmp-libs net-snmp-server
+> >     net-snmp-server-snmpd net-snmp-server-snmptrapd net-tools ntp
+> >     opencv-apps opencv-samples openvpn packagegroup-base-extended
+> >     packagegroup-core-boot packagegroup-core-full-cmdline
+> >     packagegroup-core-nfs-server packagegroup-core-ssh-dropbear
+> >     packagegroup-core-tools-debug packagegroup-core-tools-profile
+> >     packagegroup-core-tools-testapps packagegroup-fsl-gstreamer1.0
+> >     packagegroup-fsl-gstreamer1.0-full packagegroup-fsl-optee-imx
+> >     packagegroup-fsl-tools-audio packagegroup-fsl-tools-benchmark
+> >     packagegroup-fsl-tools-gpu packagegroup-fsl-tools-gpu-external
+> >     packagegroup-fsl-tools-testapps packagegroup-imx-isp
+> >     packagegroup-imx-ml packagegroup-qt5-imx
+> >     packagegroup-tools-bluetooth paho-mqtt paho-mqtt-sn perl
+> >     perl-module-data-dumper perl-module-file-copy perl-module-file-spec
+> >     perl-module-getopt-std perl-module-io-file perl-module-term-readline
+> >     pps-tools psplash python3-opencv rapidjson rtklib run-postinsts
+> >     strongswan tcpdump tinydtls usbutils versions weston-init
+> >     weston-xwayland xterm' returned 100:
+> >     Reading package lists...
+> >     Building dependency tree...
+> >     Reading state information...
+> >     Some packages could not be installed. This may mean that you have
+> >     requested an impossible situation or if you are using the unstable
+> >     distribution that some required packages have not yet been created
+> >     or been moved out of Incoming.
+> >     The following information may help to resolve the situation:
+> >
+> >
+> >     *The following packages have unmet dependencies:
+> >       chrony : Conflicts: ntp but 4.2.8p15-r0 is to be installed
+> >     E: Unable to correct problems, you have held broken packages*.
+> >
+>
+> chrony and ntp packages are in conflict, which means both of them are
+> trying to install something that other also installs. So you have to
+> decide which one of these two you need.
+>
+> >
+> > I see *ntp_4.2.8p15, *in my source code not *4.2.8p15-r0, *so I tried to
+> > rename the bb file to ntp_*4.2.8p15-r0.bb <http://4.2.8p15-r0.bb>.*
+> > Got errors while accessing the Index of /~ntp/ntp_spool/ntp4/ntp-4.2
+> > (udel.edu) <https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/> due
+>
+> > to missing  ntp_*4.2.8p15-r0.bb <http://4.2.8p15-r0.bb> * in list.
+> >
+> > Kindly let me know if i am missing anything for adding chrony.
+> >
+> > Thanks,
+> > Aqdam
+> >
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#158938):
+> https://lists.openembedded.org/g/openembedded-core/message/158938
+> > Mute This Topic: https://lists.openembedded.org/mt/87375915/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+
+--000000000000e35ae005d1f0bbe4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Thanks=C2=A0Khem Raj,=C2=A0<div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">Is it possible to install both?=C2=A0</div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 29 Nov, =
+2021, 10:46 pm Khem Raj, &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem=
+@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+<br>
+On 11/29/21 4:08 AM, mohammed aqdam wrote:<br>
+&gt; Hi=C2=A0There,<br>
+&gt; <br>
+&gt; I am trying to add chrony/chronyd to my final image <br>
+&gt; using=C2=A0IMAGE_INSTALL_append=C2=A0+=3D &quot; chrony ntp pps-tools =
+&quot;<br>
+&gt; <br>
+&gt; When I run bitbake(bitbake -k imx-image-full), Seeing &quot;packages h=
+ave <br>
+&gt; unmet dependencies&quot; errors, please check the logs for more inform=
+ation.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Initialising tasks: 100%<br>
+&gt;=C2=A0 =C2=A0 =C2=A0|##################################################=
+#########################################################################|<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0Time: 0:00:05<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Sstate summary: Wanted 9 Found 7 Missed 2 Current 3=
+666 (77% match,<br>
+&gt;=C2=A0 =C2=A0 =C2=A099% complete)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0NOTE: Executing Tasks<br>
+&gt;=C2=A0 =C2=A0 =C2=A0NOTE: Setscene tasks completed<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ERROR: imx-image-full-1.0-r0 do_rootfs: Unable to i=
+nstall packages.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Command<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&#39;/data/home/maqdam/imx-yocto-bsp_latest/build/t=
+mp/work/imx8mpevk-poky-linux/imx-image-full/1.0-r0/recipe-sysroot-native/us=
+r/bin/apt-get<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0install --force-yes --allow-unauthenticated =
+--no-remove<br>
+&gt;=C2=A0 =C2=A0 =C2=A0android-tools apt autotalks chrony libddsc0 devmem2=
+ dfu-util<br>
+&gt;=C2=A0 =C2=A0 =C2=A0dhcp-client dhcp-server dpkg gpsd imx-test ink-app-=
+nets-files-obu<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ink-service iperf3 jailhouse libwebsockets15 luxser=
+vice net-snmp<br>
+&gt;=C2=A0 =C2=A0 =C2=A0net-snmp-client net-snmp-dev net-snmp-libs net-snmp=
+-server<br>
+&gt;=C2=A0 =C2=A0 =C2=A0net-snmp-server-snmpd net-snmp-server-snmptrapd net=
+-tools ntp<br>
+&gt;=C2=A0 =C2=A0 =C2=A0opencv-apps opencv-samples openvpn packagegroup-bas=
+e-extended<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-core-boot packagegroup-core-full-cmdli=
+ne<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-core-nfs-server packagegroup-core-ssh-=
+dropbear<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-core-tools-debug packagegroup-core-too=
+ls-profile<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-core-tools-testapps packagegroup-fsl-g=
+streamer1.0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-fsl-gstreamer1.0-full packagegroup-fsl=
+-optee-imx<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-fsl-tools-audio packagegroup-fsl-tools=
+-benchmark<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-fsl-tools-gpu packagegroup-fsl-tools-g=
+pu-external<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-fsl-tools-testapps packagegroup-imx-is=
+p<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-imx-ml packagegroup-qt5-imx<br>
+&gt;=C2=A0 =C2=A0 =C2=A0packagegroup-tools-bluetooth paho-mqtt paho-mqtt-sn=
+ perl<br>
+&gt;=C2=A0 =C2=A0 =C2=A0perl-module-data-dumper perl-module-file-copy perl-=
+module-file-spec<br>
+&gt;=C2=A0 =C2=A0 =C2=A0perl-module-getopt-std perl-module-io-file perl-mod=
+ule-term-readline<br>
+&gt;=C2=A0 =C2=A0 =C2=A0pps-tools psplash python3-opencv rapidjson rtklib r=
+un-postinsts<br>
+&gt;=C2=A0 =C2=A0 =C2=A0strongswan tcpdump tinydtls usbutils versions westo=
+n-init<br>
+&gt;=C2=A0 =C2=A0 =C2=A0weston-xwayland xterm&#39; returned 100:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Reading package lists...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Building dependency tree...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Reading state information...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Some packages could not be installed. This may mean=
+ that you have<br>
+&gt;=C2=A0 =C2=A0 =C2=A0requested an impossible situation or if you are usi=
+ng the unstable<br>
+&gt;=C2=A0 =C2=A0 =C2=A0distribution that some required packages have not y=
+et been created<br>
+&gt;=C2=A0 =C2=A0 =C2=A0or been moved out of Incoming.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0The following information may help to resolve the s=
+ituation:<br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0*The following packages have unmet dependencies:<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0chrony : Conflicts: ntp but 4.2.8p15-r0 is t=
+o be installed<br>
+&gt;=C2=A0 =C2=A0 =C2=A0E: Unable to correct problems, you have held broken=
+ packages*.<br>
+&gt; <br>
+<br>
+chrony and ntp packages are in conflict, which means both of them are <br>
+trying to install something that other also installs. So you have to <br>
+decide which one of these two you need.<br>
+<br>
+&gt; <br>
+&gt; I see *ntp_4.2.8p15, *in my source code not *4.2.8p15-r0, *so I tried =
+to <br>
+&gt; rename the bb file to ntp_*<a href=3D"http://4.2.8p15-r0.bb" rel=3D"no=
+referrer noreferrer" target=3D"_blank">4.2.8p15-r0.bb</a> &lt;<a href=3D"ht=
+tp://4.2.8p15-r0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">http:/=
+/4.2.8p15-r0.bb</a>&gt;.*<br>
+&gt; Got errors while accessing the Index of /~ntp/ntp_spool/ntp4/ntp-4.2 <=
+br>
+&gt; (<a href=3D"http://udel.edu" rel=3D"noreferrer noreferrer" target=3D"_=
+blank">udel.edu</a>) &lt;<a href=3D"https://www.eecis.udel.edu/~ntp/ntp_spo=
+ol/ntp4/ntp-4.2/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://w=
+ww.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/</a>&gt;=C2=A0due <br>
+&gt; to missing=C2=A0 ntp_*<a href=3D"http://4.2.8p15-r0.bb" rel=3D"norefer=
+rer noreferrer" target=3D"_blank">4.2.8p15-r0.bb</a> &lt;<a href=3D"http://=
+4.2.8p15-r0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">http://4.2.=
+8p15-r0.bb</a>&gt; *=C2=A0in list.<br>
+&gt; <br>
+&gt; Kindly let me know if i am missing anything for adding chrony.<br>
+&gt; <br>
+&gt; Thanks,<br>
+&gt; Aqdam<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#158938): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/158938" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1589=
+38</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87375915=
+/1997914" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.ope=
+nembedded.org/mt/87375915/1997914</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
+ts.openembedded.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
+penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@g=
+mail.com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+</blockquote></div>
+
+--000000000000e35ae005d1f0bbe4--
 
