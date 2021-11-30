@@ -1,184 +1,128 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <joel.winarske@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A4DC433FE
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 16:53:17 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.79150.1638291196774583512
- for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Nov 2021 08:53:17 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0080DC433EF
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 17:20:14 +0000 (UTC)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
+ [209.85.221.177])
+ by mx.groups.io with SMTP id smtpd.web09.79921.1638292812370958763
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 30 Nov 2021 09:20:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EF031042
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Nov 2021 08:53:15 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A5A23F694
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Nov 2021 08:53:15 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] vim: fix CVE-2021-3968 and CVE-2021-3973
-Date: Tue, 30 Nov 2021 16:53:12 +0000
-Message-Id: <20211130165313.3816904-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cRHDpLCe;
+ spf=pass (domain: gmail.com, ip: 209.85.221.177,
+ mailfrom: joel.winarske@gmail.com)
+Received: by mail-vk1-f177.google.com with SMTP id e27so14126308vkd.4
+        for <Openembedded-core@lists.openembedded.org>;
+ Tue, 30 Nov 2021 09:20:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=IJZOebzkLRSWda34VqMgzZk8jXYzlzY1ZSrJamt1Sws=;
+        b=cRHDpLCeNmryKEf+as0Mp7Tp/lSRt4rNL3f/d+ONDw5RagisxkS3DusykpLgyJ28Da
+         lce0k0PqfVwzHTf6ta6jVLvE8Hh+d0rmKQPeHE+D0UAJ2Qe+CEy6owegNwEHVKV53MEN
+         LBYVGU7tbzwFfgA3qm3oV6tCggvYHsnIC+Q6JzD+KmX+l8pckQ0T1s0B97wOoBhbu4ks
+         oizCoA8Js4FOZXIK3foebVO3SkQkIl4NbBr6yyaOgc+/YjHdki0WuaOMD0K3StuByKBT
+         jJxwHXUhk1/Na49u+BMvzQI4WkhtoY1b1v58iMgeWbt407cIwgKDUAc84X9ju2Xl3e83
+         IZMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=IJZOebzkLRSWda34VqMgzZk8jXYzlzY1ZSrJamt1Sws=;
+        b=t6e+Vc0b1pnFauUyUYDyZ0l9aPTu94Ua1WXgm6jtxD1UKH5J/TZv8ItagCG5quZAXf
+         2ceZXP7oa6A7h5uY1eyqL0KIfHAlMBgdFiG+MKN7jTmNP1KgA5yTXzTlWkv4ndCdePII
+         1/HxiixvegTFMyts/RvqBKqpkasMNRbDvlYCb/KQNoVU8Weg99Sn0YaKKtOXikz47yAY
+         1Fla89cX9QuBWlGut5NxiuYwAQqTb2lHboeNHzOmAiBQzWqC95irqAAdQonJm0f3G2w9
+         fgfmIkD4aZKtMokARZjeRkt6AeNLnVOm0GV3R+dBYMc9s92OPsPrZD0uBxwwDyjdngwD
+         zrGQ==
+X-Gm-Message-State: AOAM530G1pF7qbXveLFTvcfSOGuMlhJboESe8EJ9mhodMaA4uVTn+q0Y
+	o/QdZ0h3fIxoUm572MQ3i5tR2ZSJ0efNKD/ZcA+PNRFw+TE=
+X-Google-Smtp-Source: 
+ ABdhPJysUuAhghZW4dBki0yAudaRvJn+yXRhiMurb+BJthWpUnGjTOnsrcbpUtc/Kk1Zgw0tMcOYDPZp2C8l5LIQs2c=
+X-Received: by 2002:a05:6122:1796:: with SMTP id
+ o22mr86121vkf.23.1638292811265;
+ Tue, 30 Nov 2021 09:20:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+From: Joel Winarske <joel.winarske@gmail.com>
+Date: Tue, 30 Nov 2021 09:20:00 -0800
+Message-ID: 
+ <CABKMkPJoE74O2OnAe7WsLSu56Ww4ZfPfxksZ43-Np43otAhRWA@mail.gmail.com>
+Subject: [RFC] meson needs a pkg-config wrapper script
+To: Openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000000dbb3c05d204c512"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 16:53:17 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 17:20:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158981
+ https://lists.openembedded.org/g/openembedded-core/message/158983
 
-Backport a fix for -3972, and whitelist -3968: it isn't valid as it
-fixes a bug which was introduced after 8.2.
+--0000000000000dbb3c05d204c512
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...rash-when-using-CTRL-W-f-without-fin.patch | 92 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  4 +
- 2 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3611-cr=
-ash-when-using-CTRL-W-f-without-fin.patch
+Meson does not expose PKG_CONFIG_SYSROOT_DIR to the pkg-config process.
 
-diff --git a/meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-whe=
-n-using-CTRL-W-f-without-fin.patch b/meta/recipes-support/vim/files/0002-=
-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch
-new file mode 100644
-index 0000000000..58d3442677
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-when-using=
--CTRL-W-f-without-fin.patch
-@@ -0,0 +1,92 @@
-+CVE: CVE-2021-3973
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From b6154e9f530544ddc3130d981caae0dabc053757 Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Wed, 17 Nov 2021 18:00:31 +0000
-+Subject: [PATCH] patch 8.2.3611: crash when using CTRL-W f without findi=
-ng a
-+ file name  Problem:    Crash when using CTRL-W f without finding
-+ a file name. Solution:   Bail out when the file name length is zero.
-+
-+---
-+ src/findfile.c              | 8 ++++++++
-+ src/normal.c                | 6 ++++--
-+ src/testdir/test_visual.vim | 8 ++++++++
-+ src/version.c               | 2 ++
-+ 4 files changed, 22 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/findfile.c b/src/findfile.c
-+index dba547da1..5764fd7b8 100644
-+--- a/src/findfile.c
-++++ b/src/findfile.c
-+@@ -1727,6 +1727,9 @@ find_file_in_path_option(
-+     proc->pr_WindowPtr =3D (APTR)-1L;
-+ # endif
-+=20
-++    if (len =3D=3D 0)
-++	return NULL;
-++
-+     if (first =3D=3D TRUE)
-+     {
-+ 	// copy file name into NameBuff, expanding environment variables
-+@@ -2094,7 +2097,12 @@ find_file_name_in_path(
-+     int		c;
-+ # if defined(FEAT_FIND_ID) && defined(FEAT_EVAL)
-+     char_u	*tofree =3D NULL;
-++# endif
-+=20
-++    if (len =3D=3D 0)
-++	return NULL;
-++
-++# if defined(FEAT_FIND_ID) && defined(FEAT_EVAL)
-+     if ((options & FNAME_INCL) && *curbuf->b_p_inex !=3D NUL)
-+     {
-+ 	tofree =3D eval_includeexpr(ptr, len);
-+diff --git a/src/normal.c b/src/normal.c
-+index 7cb959257..f0084f2ac 100644
-+--- a/src/normal.c
-++++ b/src/normal.c
-+@@ -3778,8 +3778,10 @@ get_visual_text(
-+ 	    *pp =3D ml_get_pos(&VIsual);
-+ 	    *lenp =3D curwin->w_cursor.col - VIsual.col + 1;
-+ 	}
-+-	if (has_mbyte)
-+-	    // Correct the length to include the whole last character.
-++	if (**pp =3D=3D NUL)
-++	    *lenp =3D 0;
-++	if (has_mbyte && *lenp > 0)
-++	    // Correct the length to include all bytes of the last character.
-+ 	    *lenp +=3D (*mb_ptr2len)(*pp + (*lenp - 1)) - 1;
-+     }
-+     reset_VIsual_and_resel();
-+diff --git a/src/testdir/test_visual.vim b/src/testdir/test_visual.vim
-+index ae281238e..0705fdb57 100644
-+--- a/src/testdir/test_visual.vim
-++++ b/src/testdir/test_visual.vim
-+@@ -894,4 +894,12 @@ func Test_block_insert_replace_tabs()
-+   bwipe!
-+ endfunc
-+=20
-++func Test_visual_block_ctrl_w_f()
-++  " Emtpy block selected in new buffer should not result in an error.
-++  au! BufNew foo sil norm =16=17f
-++  edit foo
-++
-++  au! BufNew
-++endfunc
-++
-+ " vim: shiftwidth=3D2 sts=3D2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 52be3c39d..59a314b3a 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -742,6 +742,8 @@ static char *(features[]) =3D
-+=20
-+ static int included_patches[] =3D
-+ {   /* Add new patch number below this line */
-++/**/
-++    3611,
-+ /**/
-+     3582,
-+ /**/
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-index d0957bfeae..6cdf157cb6 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -25,6 +25,7 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmast=
-er;protocol=3Dhttps \
-            file://0005-patch-8.2.3564-invalid-memory-access-when-scrolli=
-ng-.patch \
-            file://0001-patch-8.2.3581-reading-character-past-end-of-line=
-.patch \
-            file://0002-patch-8.2.3582-reading-uninitialized-memory-when-=
-giv.patch \
-+           file://0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-=
-fin.patch \
-            "
-=20
- SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
-@@ -32,6 +33,9 @@ SRCREV =3D "98056533b96b6b5d8849641de93185dd7bcadc44"
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+)\.0"
-=20
-+# CVE-2021-3968 is related to an issue which was introduced after 8.2, t=
-his can be removed after 8.3.
-+CVE_CHECK_WHITELIST +=3D "CVE-2021-3968"
-+
- S =3D "${WORKDIR}/git"
-=20
- VIMDIR =3D "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('=
-.')[1]}"
---=20
-2.25.1
+Currently meson.cross as generated in meson.bbclass points directly to the
+pkg-config executable (no wrapper script).
 
+PKG_CONFIG_SYSROOT_DIR behaves like a simple string prepend to all package
+config variable queries.  So if you want to determine the absolute path of
+a variable in .pc you set PKG_CONFIG_SYSROOT_DIR and make your query.
+Currently this is not possible with Yocto+Meson.
+
+I think a simple wrapper script would resolve this.  This is from
+https://autotools.io/pkgconfig/cross-compiling.html:
+
+#!/bin/sh
+
+SYSROOT=/build/root
+
+export PKG_CONFIG_PATH=
+export PKG_CONFIG_LIBDIR=${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
+export PKG_CONFIG_SYSROOT_DIR=${SYSROOT}
+
+exec pkg-config "$@"
+
+
+The wrapper script would be generated per recipe via meson.bbclass,
+meson.cross would then reference this wrapper instead of the pkg-config
+executable.
+
+Thoughts?
+
+
+Joel
+
+--0000000000000dbb3c05d204c512
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div></div><div><div>Meson does not expose PKG_CONFIG_SYSR=
+OOT_DIR to the pkg-config process.</div></div><div><br></div><div>Currently=
+ meson.cross as generated in meson.bbclass points directly to the pkg-confi=
+g executable (no wrapper script).</div><div><br></div><div>PKG_CONFIG_SYSRO=
+OT_DIR behaves like a simple string prepend to all package config variable =
+queries.=C2=A0 So if you want to determine the absolute path of a variable =
+in .pc you set PKG_CONFIG_SYSROOT_DIR and make your query.=C2=A0 Currently =
+this is not possible with Yocto+Meson.<br></div><div><br></div>I think a si=
+mple wrapper script would resolve this.=C2=A0 This is from <a href=3D"https=
+://autotools.io/pkgconfig/cross-compiling.html">https://autotools.io/pkgcon=
+fig/cross-compiling.html</a>:<br><div></div><div></div><div><pre class=3D"g=
+mail-programlisting">#!/bin/sh
+
+SYSROOT=3D/build/root
+
+export PKG_CONFIG_PATH=3D
+export PKG_CONFIG_LIBDIR=3D${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/shar=
+e/pkgconfig
+export PKG_CONFIG_SYSROOT_DIR=3D${SYSROOT}
+
+exec pkg-config &quot;$@&quot;</pre></div><div></div><div><br></div><div></=
+div><div>The wrapper script would be generated per recipe via meson.bbclass=
+, meson.cross would then reference this wrapper instead of the pkg-config e=
+xecutable.<br></div><div></div><div><br></div><div>Thoughts?<br></div><div>=
+</div><div><br></div><div><br></div><div>Joel<br></div></div>
+
+--0000000000000dbb3c05d204c512--
 
