@@ -2,86 +2,71 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D39DC433F5
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 05:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C92C433EF
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 06:54:31 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.72595.1638251552358311648
+ by mx.groups.io with SMTP id smtpd.web12.72997.1638255270507047996
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 21:52:32 -0800
+ Mon, 29 Nov 2021 22:54:31 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: changqing.li@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AU5qVEN031105
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AU6s5V6004356
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 21:52:31 -0800
+ Mon, 29 Nov 2021 22:54:14 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AU5qUc6020061
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AU6s09e028076
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 21:52:31 -0800 (PST)
+ Mon, 29 Nov 2021 22:54:05 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 29 Nov 2021 21:52:30 -0800
+ 15.1.2242.12; Mon, 29 Nov 2021 22:53:59 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 29 Nov 2021 21:52:30 -0800
+ 15.1.2242.12 via Frontend Transport; Mon, 29 Nov 2021 22:53:59 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] libtool: change the default AR_FLAGS from "cru" to
- "cr"
-Date: Tue, 30 Nov 2021 13:49:42 +0800
-Message-ID: <20211130054942.10520-1-changqing.li@windriver.com>
+Subject: [PATCH] libtool: change the default AR_FLAGS from "cru" to "cr"
+Date: Tue, 30 Nov 2021 14:51:11 +0800
+Message-ID: <20211130065111.22688-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 05:52:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 06:54:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158967
+ https://lists.openembedded.org/g/openembedded-core/message/158968
 
 From: Li Wang <li.wang@windriver.com>
 
 Backport patch to fix warning:
 `u' modifier ignored since `D' is the default (see `U')
 
-libool.m4: add ARFLAGS variable
-
-Upstream-Status: Backport
-
-Reference to upstream patch:
-https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=4335de1dfb7d2ec728427e07a54136b94a2d40f6
-
-ARFLAGS: use 'cr' instead of 'cru' by default
-
-Upstream-Status: Backport
-
-Reference to upstream patch:
-https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=418129bc63afc312701e84cb8afa5ca413df1ab5
-
 Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
  .../libtool/libtool-2.4.6.inc                 |   2 +
- ...AGS-use-cr-instead-of-cru-by-default.patch | 136 ++++++++++++++++++
- .../libool.m4-add-ARFLAGS-variable.patch      |  80 +++++++++++
- 3 files changed, 218 insertions(+)
+ ...AGS-use-cr-instead-of-cru-by-default.patch | 133 ++++++++++++++++++
+ .../libool.m4-add-ARFLAGS-variable.patch      |  77 ++++++++++
+ 3 files changed, 212 insertions(+)
  create mode 100644 meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
  create mode 100644 meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
 
 diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index e9225e140c..8cda81b71d 100644
+index 2df46aa773..a636926ef9 100644
 --- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
 +++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -23,6 +23,8 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
-            file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
-            file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
+@@ -24,6 +24,8 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://0010-Makefile.am-make-sure-autoheader-run-before-automake.patch \
+            file://0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch \
+            file://0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch \
 +           file://libool.m4-add-ARFLAGS-variable.patch \
 +           file://ARFLAGS-use-cr-instead-of-cru-by-default.patch \
            "
@@ -89,10 +74,10 @@ index e9225e140c..8cda81b71d 100644
  SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
 diff --git a/meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch b/meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
 new file mode 100644
-index 0000000000..809b07ee8c
+index 0000000000..5c4a8fdb2d
 --- /dev/null
 +++ b/meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
-@@ -0,0 +1,136 @@
+@@ -0,0 +1,133 @@
 +From 418129bc63afc312701e84cb8afa5ca413df1ab5 Mon Sep 17 00:00:00 2001
 +From: Pavel Raiskup <praiskup@redhat.com>
 +Date: Fri, 17 Apr 2015 16:54:58 +0200
@@ -125,10 +110,7 @@ index 0000000000..809b07ee8c
 +* doc/libtool.texi: Do 's/ar cru/ar cr/' in whole documentation.
 +* NEWS: Document.
 +
-+Upstream-Status: Backport
-+
-+Reference to upstream patch:
-+https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=418129bc63afc312701e84cb8afa5ca413df1ab5
++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=418129bc63afc312701e84cb8afa5ca413df1ab5]
 +
 +Signed-off-by: Li Wang <li.wang@windriver.com>
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
@@ -231,10 +213,10 @@ index 0000000000..809b07ee8c
 +
 diff --git a/meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch b/meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
 new file mode 100644
-index 0000000000..d2d6ec533c
+index 0000000000..614961a256
 --- /dev/null
 +++ b/meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
-@@ -0,0 +1,80 @@
+@@ -0,0 +1,77 @@
 +From 4335de1dfb7d2ec728427e07a54136b94a2d40f6 Mon Sep 17 00:00:00 2001
 +From: Pavel Raiskup <praiskup@redhat.com>
 +Date: Fri, 17 Apr 2015 15:05:42 +0200
@@ -254,10 +236,7 @@ index 0000000000..d2d6ec533c
 +at libtool-runtime.
 +* NEWS: Document.
 +
-+Upstream-Status: Backport
-+
-+Reference to upstream patch:
-+https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=4335de1dfb7d2ec728427e07a54136b94a2d40f6
++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=4335de1dfb7d2ec728427e07a54136b94a2d40f6]
 +
 +Signed-off-by: Li Wang <li.wang@windriver.com>
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
