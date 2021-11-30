@@ -1,132 +1,183 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <joel.winarske@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1854CC433F5
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 22:38:01 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web12.84047.1638311879550932175
- for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Nov 2021 14:37:59 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19759C433EF
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 22:38:03 +0000 (UTC)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+ [209.85.222.47])
+ by mx.groups.io with SMTP id smtpd.web11.83704.1638311882375144274
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 30 Nov 2021 14:38:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jYckH95O;
- spf=pass (domain: gmail.com, ip: 209.85.208.178,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id z8so44101053ljz.9
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Nov 2021 14:37:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jv4bN/aI;
+ spf=pass (domain: gmail.com, ip: 209.85.222.47,
+ mailfrom: joel.winarske@gmail.com)
+Received: by mail-ua1-f47.google.com with SMTP id a14so44890529uak.0
+        for <Openembedded-core@lists.openembedded.org>;
+ Tue, 30 Nov 2021 14:38:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=qx5tWi7Lg/Tk/SxayCZWZYxnDwGBbTQd0Sf6cWboCQc=;
-        b=jYckH95OpwlcWFSzTBnOsAUfW0PqNoD3EVf/NZ3lucCoZzl8Ac4YysPXMLhZETSldr
-         UqhTEnrA9E1VnN65A7gf7d2Y2t0BHaxSs3b33pf0f2TWwGdpk3+hk6MmJF6q5fDiJBBg
-         xYMp1Qw2wFZ7fdtJ4V0JCh/Jif9ouch4ntC+Yni1UUo5vW/tCOOBeqh8L+rCsOEiMs/6
-         0R8F/gafuRzt0AND9K3sqgsLxjvc3a5H5uym7M1rmh7FM8kateCRS/UEcaItwLtYgJ+j
-         lTyqkR0U47MiW5LsyTXaInbNJv/TBPRagFyd/0DJ1BkAYMejk05piRs2reoK24dEy3z1
-         8XiA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VG/3knHHceWb5+cF77Tfb6mLIgE4YPBu4LDSreqiDqI=;
+        b=jv4bN/aIKCeW/yyaYWmTKBx/F+elWuCQNFoo9Qym/ocistQyypg/Metr+PGtuyEhk1
+         hCjTwJvF9bXTgJmCPgisneLR+GSEwuLEcBJQwbPMv5vjPwDEHBmu/wW1f3IX0m5m75IR
+         mtjKuUwBu3XJqmY1tVX0vJa94ekQDD9iKI5mfeMxMcANfU+25xjuFHzw4+SWZVSA2y/Y
+         rcPz4cTm5AySkB6z24tPke7CJG39uXleNynrFdLCGL++jkRSt7LmiAtuQGl3rMf5dS1K
+         OH8OBa3L8mSgZP18zHkMB/1AyQd3YEvha7jFqGX7ZPjjYUw31KXtOhcRu7KK7cJPJbzA
+         RdEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qx5tWi7Lg/Tk/SxayCZWZYxnDwGBbTQd0Sf6cWboCQc=;
-        b=NnSesqqin7hA0P0p1XgRJ/PZARyhFMOeR1IwepeJKvJSEoLCW0t+YV4/nbDx+JeauY
-         1TvksOTCh1qQDE6eCLzXQGuCnSfYuoH/uF5yZOI/OGTz84KG0w3IMo6oGHcw0mkAG7S6
-         F36ada0Out3DN6RpR+4m7yZOYV0g+OS8o+BriQ9LZO26Rez0alk2pzHgUKtq5MT27FIs
-         LBGuwBHOxxNdmQW0FxCmAzwKxZCxZW6NQV3GW2Rh5L1++YGk5Up7Ctpjb6ubtUXwhNgE
-         7ZMfBbvGn862Hl+ERvQC8pGxuceaOQo/YF85fAZ9mCicvUjMtQzimjLQqNOlPVAQZXgH
-         E9rw==
-X-Gm-Message-State: AOAM533kbZKyqtxPF0Jp/xMd1yRAsPNoFtNuY7Ac4OcD+CuinXSn0u2H
-	H03anfea9hwQmiGSf7ve9uvZuHIHIXmzkg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VG/3knHHceWb5+cF77Tfb6mLIgE4YPBu4LDSreqiDqI=;
+        b=O69xbYyFTW/GUCvjpdduXpW2Q7RuH7bLsSjzNrikfbtPz3Fv360NjlN0SmQpPP1He9
+         hAFo79rWmds+f4f6u9aY68Md4oU0z2BAI59DgvogD0WlofIon5lAHv3SVOmzFjaNSrVB
+         9dheTsiybGlMQHyyzWFNr59SvxJ1Y1YR1ytaxhRkdgYcgFfrj9LV2ocncrtXr4zPF6Xn
+         paUONgd0ETnLbPFcauVRbqTpHwCE653ma7oEHHLZvKY47QQknWokla2mBsrmSz29kMcH
+         CGlnqswjy1GdmSFxAQSyNCok+tVUnQbXoBs+rSdpv4ctydsz+rm5cVjd73XCV+k6+tmk
+         OkUg==
+X-Gm-Message-State: AOAM530ScGxQIkgl1CRViLjccg9pIq0dDMULaNP6QJwjUIJXZ/pDarvD
+	6BxCLoie69D+W8BzzKuo9p2COMsgzhO10LkEauM=
 X-Google-Smtp-Source: 
- ABdhPJx2Dv7ng4Q8UyvfSzC0XUHJ07bai8dy+arwxnQHptW0Ypd3WQipdq8Q11Dt1Jv65YH25DqFuQ==
-X-Received: by 2002:a05:651c:1305:: with SMTP id
- u5mr1723210lja.15.1638311877918;
-        Tue, 30 Nov 2021 14:37:57 -0800 (PST)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- o14sm1860428lfk.225.2021.11.30.14.37.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 14:37:57 -0800 (PST)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH v2 1/2] bitbake.conf: Pad rpath and remove build ID in
- native binaries
-Date: Tue, 30 Nov 2021 23:37:21 +0100
-Message-Id: <20211130223722.852434-2-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211130223722.852434-1-jacob.kroon@gmail.com>
-References: <20211130223722.852434-1-jacob.kroon@gmail.com>
+ ABdhPJwJPupI6PN1HnX8FQdtG0a5QycrvyQKBpPL4+4fg14w8AzE4vI+Q9KRz6wzzM8VqX+gZxH7oPJ/CQq6cSNRcgc=
+X-Received: by 2002:a67:e90d:: with SMTP id c13mr3657303vso.12.1638311881317;
+ Tue, 30 Nov 2021 14:38:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CABKMkPJoE74O2OnAe7WsLSu56Ww4ZfPfxksZ43-Np43otAhRWA@mail.gmail.com>
+ <CANNYZj-DYfd_erYQYNzATL5K_rUMfDrrvzsWD2h0n_=_kXTBxA@mail.gmail.com>
+ <CABKMkP+1pDhZqzGwz-6baUnhEhsOopGonP5d7njNJ0WxsfgLEA@mail.gmail.com>
+ <CANNYZj8+jV09y-p1Fciw6xY_PHabj1DtEdG0ywxGpBOgHrUoyw@mail.gmail.com>
+ <CABKMkP+P1cZbuTL-tDFB-TeLB=AAwCc_zWy_D-+C_cDkz19onQ@mail.gmail.com>
+ <CANNYZj8EGG17430TY6en_xqcixWXTZ0PTgjfwKerre7EN2O+cA@mail.gmail.com>
+ <CABKMkPLw3w+3SSXUVfnKcqfsM-QWeUJ=DpPap=aoXJ=Bt8mD=A@mail.gmail.com>
+ <CANNYZj83cBVit2P32A7bRJizf7AS+3jEcBGS-k83gqy7kRQvrA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj83cBVit2P32A7bRJizf7AS+3jEcBGS-k83gqy7kRQvrA@mail.gmail.com>
+From: Joel Winarske <joel.winarske@gmail.com>
+Date: Tue, 30 Nov 2021 14:37:49 -0800
+Message-ID: 
+ <CABKMkP+GsTCFyCqB8RihY+u17Y0bts20OpgaoP0d-hZ=Qwi8tQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] meson needs a pkg-config wrapper script
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b7a0f005d2093515"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 22:38:01 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 22:38:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158999
+ https://lists.openembedded.org/g/openembedded-core/message/159001
 
-Try to make sure that the RUNTIME dynamic entry size is the same for all
-binaries produced with the native compiler. This is necessary in order to
-produce identical binaries when using differently sized buildpaths. I've
-tried using only patchelf, and keeping the linker flags as they are, but
-I am unable to produce identical binaries. Has anyone else managed to do
-this with patchelf ? If not, maybe we can write a new tool that can handle it ?
+--000000000000b7a0f005d2093515
+Content-Type: text/plain; charset="UTF-8"
 
-The build-id also needs to be removed since it is calculated based on
-the data present at link time. This includes STAGING_LIBDIR_NATIVE
-and STAGING_BASE_LIBDIR_NATIVE. Both will differ and they need to be temporarily
-preserved since some recipes will execute the binaries during do_install()
-(for example python3-native). Later on these are removed in chrpath.bbclass.
+Based on my testing, if PKG_CONFIG_SYSROOT_DIR is set or not makes zero
+difference on the outcome.  I suspect this is related to how pkg-config is
+launched by meson.
 
-This hack is the first step for producing identical native binaries when using
-different build paths. 'zstd-native' is a working example.
+Looking at the meson source tree, in all ci/test cross compile scenarios
+they reference a pkg-config wrapper.  No cross compile scenario I see
+referencing the 'pkgconfig' key uses a bare pkg-config.
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- meta/classes/chrpath.bbclass | 3 +++
- meta/conf/bitbake.conf       | 5 ++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+    cross/armclang-linux.txt:#pkgconfig =
+'/usr/bin/arm-linux-gnueabihf-pkg-config'
+    cross/linux-mingw-w64-32bit.txt:pkgconfig =
+'/usr/bin/i686-w64-mingw32-pkg-config'
+    cross/linux-mingw-w64-64bit.txt:pkgconfig =
+'/usr/bin/x86_64-w64-mingw32-pkg-config'
+    cross/ubuntu-armhf.txt:pkgconfig =
+'/usr/bin/arm-linux-gnueabihf-pkg-config'
+    test cases/unit/33 cross file overrides always
+args/ubuntu-armhf-overrides.txt:pkgconfig =
+'/usr/bin/arm-linux-gnueabihf-pkg-config'
+    test cases/unit/36 exe_wrapper behaviour/broken-cross.txt:pkgconfig =
+'/usr/bin/x86_64-w64-mingw32-pkg-config'
 
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 26b984c4db..56a68768e0 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -24,6 +24,9 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d, break_hardlin
-     new_rpaths = []
-     modified = False
-     for rpath in rpaths:
-+        if rpath.startswith('/rpath-padding-'):
-+            modified = True
-+            continue
-         # If rpath is already dynamic copy it to new_rpath and continue
-         if rpath.find("$ORIGIN") != -1:
-             new_rpaths.append(rpath)
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index fba99e8f0c..61124e10b2 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -580,6 +580,7 @@ BUILDSDK_CXXFLAGS = "${BUILDSDK_CFLAGS}"
- export CXXFLAGS = "${TARGET_CXXFLAGS}"
- TARGET_CXXFLAGS = "${TARGET_CFLAGS}"
- 
-+RPATH_PADDING ?= "/rpath-padding-${@'x' * (512 - len(d.expand('${STAGING_LIBDIR_NATIVE}:${STAGING_BASE_LIBDIR_NATIVE}:/rpath-padding-')))}"
- export BUILD_LDFLAGS = "-L${STAGING_LIBDIR_NATIVE} \
-                         -L${STAGING_BASE_LIBDIR_NATIVE} \
-                         -Wl,--enable-new-dtags \
-@@ -587,7 +588,9 @@ export BUILD_LDFLAGS = "-L${STAGING_LIBDIR_NATIVE} \
-                         -Wl,-rpath-link,${STAGING_BASE_LIBDIR_NATIVE} \
-                         -Wl,-rpath,${STAGING_LIBDIR_NATIVE} \
-                         -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} \
--                        -Wl,-O1"
-+                        -Wl,-rpath,${RPATH_PADDING} \
-+                        -Wl,-O1 \
-+                        -Wl,--build-id=none"
- 
- BUILDSDK_LDFLAGS = "-Wl,-O1"
- 
+I think adding a wrapper makes sense.
+
+5.2 Tool Calling Conventions -
+https://autotools.io/pkgconfig/cross-compiling.html
+
+On Tue, Nov 30, 2021 at 12:13 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> On Tue, 30 Nov 2021 at 21:00, Joel Winarske <joel.winarske@gmail.com>
+> wrote:
+>
+>> Yes, if the sys_root key value in meson.cross is present
+>> PKG_CONFIG_SYSROOT_DIR gets set.  Honister patch I confirmed with:
+>>
+>> https://github.com/jwinarske/manifests/blob/honister/rpi64/0001-Add-sys_root-to-properties-section.patch
+>>
+>> The issue is that meson doesn't pass PKG_CONFIG_SYSROOT_DIR to the shell
+>> environment that runs pkg-config, as with the pkg-config sandbox test it
+>> does work.
+>>
+>
+> Both meson source code and its documentation indicate otherwise - if you
+> set sys_root property, it will get passed to pkg-config via environment as
+> PKG_CONFIG_SYSROOT_DIR:
+>
+> https://github.com/mesonbuild/meson/blob/master/mesonbuild/dependencies/pkgconfig.py#L121
+>
+> Alex
+>
+>
+
+--000000000000b7a0f005d2093515
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Based on my testing, if PKG_CONFIG_SYSROOT_DIR is set=
+ or not makes zero difference on the outcome.=C2=A0 I suspect this is relat=
+ed to how pkg-config is launched by meson.<br></div><div><br></div><div>Loo=
+king at the meson source tree, in all ci/test cross compile=20
+scenarios they reference a pkg-config wrapper.=C2=A0 No cross compile=20
+scenario I see referencing the &#39;pkgconfig&#39; key uses a bare pkg-conf=
+ig.<br></div><div><br></div><div>=C2=A0=C2=A0=C2=A0 cross/armclang-linux.tx=
+t:#pkgconfig =3D &#39;/usr/bin/arm-linux-gnueabihf-pkg-config&#39;<br>=C2=
+=A0=C2=A0=C2=A0 cross/linux-mingw-w64-32bit.txt:pkgconfig =3D &#39;/usr/bin=
+/i686-w64-mingw32-pkg-config&#39;<br>=C2=A0=C2=A0=C2=A0 cross/linux-mingw-w=
+64-64bit.txt:pkgconfig =3D &#39;/usr/bin/x86_64-w64-mingw32-pkg-config&#39;=
+<br>=C2=A0=C2=A0=C2=A0 cross/ubuntu-armhf.txt:pkgconfig =3D &#39;/usr/bin/a=
+rm-linux-gnueabihf-pkg-config&#39;<br>=C2=A0=C2=A0=C2=A0
+ test cases/unit/33 cross file overrides always=20
+args/ubuntu-armhf-overrides.txt:pkgconfig =3D=20
+&#39;/usr/bin/arm-linux-gnueabihf-pkg-config&#39;<br>=C2=A0=C2=A0=C2=A0 tes=
+t cases/unit/36 exe_wrapper behaviour/broken-cross.txt:pkgconfig =3D &#39;/=
+usr/bin/x86_64-w64-mingw32-pkg-config&#39;</div><div><br></div><div><div></=
+div><div>I think adding a wrapper makes sense.</div><div><br></div><div>5.2=
+ Tool Calling Conventions - <a href=3D"https://autotools.io/pkgconfig/cross=
+-compiling.html">https://autotools.io/pkgconfig/cross-compiling.html</a></d=
+iv></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
+il_attr">On Tue, Nov 30, 2021 at 12:13 PM Alexander Kanavin &lt;<a href=3D"=
+mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 30 Nov =
+2021 at 21:00, Joel Winarske &lt;<a href=3D"mailto:joel.winarske@gmail.com"=
+ target=3D"_blank">joel.winarske@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Yes, if the=
+ sys_root key value in meson.cross is present PKG_CONFIG_SYSROOT_DIR gets s=
+et.=C2=A0 Honister patch I confirmed with:<br><a href=3D"https://github.com=
+/jwinarske/manifests/blob/honister/rpi64/0001-Add-sys_root-to-properties-se=
+ction.patch" target=3D"_blank">https://github.com/jwinarske/manifests/blob/=
+honister/rpi64/0001-Add-sys_root-to-properties-section.patch</a></div><div>=
+<br></div><div>The issue is that meson doesn&#39;t pass PKG_CONFIG_SYSROOT_=
+DIR to the shell environment that runs pkg-config, as with the pkg-config s=
+andbox test it does work.<br></div></div></blockquote><div><br></div><div>B=
+oth meson source code and its documentation indicate otherwise - if you set=
+ sys_root property, it will get passed to pkg-config via environment as PKG=
+_CONFIG_SYSROOT_DIR:</div><div><a href=3D"https://github.com/mesonbuild/mes=
+on/blob/master/mesonbuild/dependencies/pkgconfig.py#L121" target=3D"_blank"=
+>https://github.com/mesonbuild/meson/blob/master/mesonbuild/dependencies/pk=
+gconfig.py#L121</a></div><div><br></div><div></div><div>Alex<br></div><br><=
+/div></div>
+</blockquote></div>
+
+--000000000000b7a0f005d2093515--
 
