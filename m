@@ -2,47 +2,48 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C92C433EF
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 06:54:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12F1C433F5
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 06:56:07 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.72997.1638255270507047996
+ by mx.groups.io with SMTP id smtpd.web11.72657.1638255366727141566
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 22:54:31 -0800
+ Mon, 29 Nov 2021 22:56:07 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: changqing.li@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AU6s5V6004356
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AU6u5bG004684
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 22:54:14 -0800
+ Mon, 29 Nov 2021 22:56:06 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AU6s09e028076
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AU6u5NV028192
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 22:54:05 -0800 (PST)
+ Mon, 29 Nov 2021 22:56:05 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 29 Nov 2021 22:53:59 -0800
+ 15.1.2242.12; Mon, 29 Nov 2021 22:56:05 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 29 Nov 2021 22:53:59 -0800
+ 15.1.2242.12 via Frontend Transport; Mon, 29 Nov 2021 22:56:04 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] libtool: change the default AR_FLAGS from "cru" to "cr"
-Date: Tue, 30 Nov 2021 14:51:11 +0800
-Message-ID: <20211130065111.22688-1-changqing.li@windriver.com>
+Subject: [hardknott][PATCH V2] libtool: change the default AR_FLAGS from "cru"
+ to "cr"
+Date: Tue, 30 Nov 2021 14:53:16 +0800
+Message-ID: <20211130065316.30048-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 06:54:31 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 06:56:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158968
+ https://lists.openembedded.org/g/openembedded-core/message/158969
 
 From: Li Wang <li.wang@windriver.com>
 
@@ -60,13 +61,13 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
  create mode 100644 meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
 
 diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index 2df46aa773..a636926ef9 100644
+index e9225e140c..8cda81b71d 100644
 --- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
 +++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -24,6 +24,8 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://0010-Makefile.am-make-sure-autoheader-run-before-automake.patch \
-            file://0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch \
-            file://0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch \
+@@ -23,6 +23,8 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
+            file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
+            file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
 +           file://libool.m4-add-ARFLAGS-variable.patch \
 +           file://ARFLAGS-use-cr-instead-of-cru-by-default.patch \
            "
