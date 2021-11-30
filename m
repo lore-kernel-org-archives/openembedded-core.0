@@ -1,79 +1,107 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <goledhruva@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F03C433F5
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 03:35:13 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web12.71647.1638243312711513794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A81C433F5
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 05:43:50 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web08.72670.1638251028808170093
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 19:35:12 -0800
+ Mon, 29 Nov 2021 21:43:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bPNH42st;
- spf=pass (domain: gmail.com, ip: 209.85.222.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id p4so25313627qkm.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eVAizQmm;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53,
+ mailfrom: goledhruva@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id
+ w33-20020a17090a6ba400b001a722a06212so13191373pjj.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 19:35:12 -0800 (PST)
+ Mon, 29 Nov 2021 21:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=vTCoHKwLc1EdBeIriBlL0CrF2uaCCXr/Niasg9D6f1A=;
-        b=bPNH42stM/nMuDxMkuM86Qb4A2d/zmBnpN2U6o9byjbhVvY3p6beJKfilD9Haobqp/
-         xjvN9tRu2n4XiJgnTATxFQy0vWnmzwTjVGIMj8/Y3QYaY8yWMqcSajfW8RP0ddCnV00P
-         K2xQYdSzZm1eR7QNgdS0HwXhK1oKYEzefsnFDixhTNgq5/u7TSFhMZAyqqNqQNDZpaIp
-         V7M7wHWgcIZcMtg0xhBbXrNR3lktRVDGarrpC80yztYkt96gJPSjzqfZAgi2q2/cYuYF
-         DqNQ9HWen8qRdHrooEoU3zXKSjDOxViBGPPHUBQRTwmzCt3otldaMs2WzVkfOP7aMHN9
-         GpcA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ftxj/kmA4CeztCQbFjn4lRxep/Mlmnteh7eXYZk53YQ=;
+        b=eVAizQmmEHyo9YaJ/Kwh1XKA+qt5nov5GWvTOVUTglRb9bCdKUnD0go3NHHQCyvgbT
+         9gfKpcvRCmz5xcruGhGVu9dTxqQfPale6eH0R4aCPlN870luYYjO4EYUeoV/WBwEoCOE
+         PDF/CFZcjE/O211yRh2cfVd3A7ymDv8SZ7wi+zhvjCeIxN1F/JGCJV9dcgkTDeaXYxDF
+         9vm2De4gf9QxJczb4pZkmhHatogzRZdwIe89XYOZcmvOUqv+Zu88YbbOxo/cujreIWvF
+         BaRiBlbwDqmG4NYJMbGX04zBpXKS8WRPyhOBkQ3ZGDz1fwVj5bRCI7NPXv+3SiEVbHcF
+         gbBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=vTCoHKwLc1EdBeIriBlL0CrF2uaCCXr/Niasg9D6f1A=;
-        b=3TLOaASY+I4suqEKeDLkcoRuw6bVqIdSQkqi6wfL0gZ3mFP+pB0PDQEKeGqcfEhvtz
-         /n0J64jSXqEoDdbSkB+f8XYDmU4d39qUsosq385Yg8FddNvPlkKpyG93HkcG49dnpWV+
-         Mx1Ha83G2GK0sFV6cqd/MGfA+B5NuiHRQvWEo//Jdzz11to8m19ef+SZlS+GrjbFj9LT
-         SE0LxdpMCunKU1ah+AtBqokOVCdFjbrjDJ+J85bo9sjh57Q/PxPlaX0PutsDwfceL/Mc
-         czLmOIazuWhaTW4m2LctfhEHBpGoHi8grJpESpE0I8EiTgYL/BdJ9xSJneZhEbuPSe22
-         wvtg==
-X-Gm-Message-State: AOAM531iivqKH9zvASVM/Zh91AbCXX9Q6AOyPVtE16DG6jhf+blyPhq4
-	W1nearBi5UjhsCkwVoOdODamOeCoA+C9cs1tcGr9alXWK3O55Q==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ftxj/kmA4CeztCQbFjn4lRxep/Mlmnteh7eXYZk53YQ=;
+        b=mCQyRMGqNB+61g8wOJ7avzzpkS+zYUStcPVd6ebK2Ax8uF/VvhZCNzn1Xf21siUOPe
+         2EPUjyRqmCo2rHnalHjF6ykrD/Zho76EudS2KTN8vRt8XKsfQuoVXAo3ZpQRhlT35Qs6
+         SqxM5pNWwt7GspsDYJ+FxxXKsrd1h59eZcisU/1NUgmGpSkwPWdfo3GGJ2/k5ZmIf0J7
+         JJ/bYIR8tPtU5wKtuJVmlIxQfly1bmGugG5pUMUXIXE4gEmzxpN80tRE1DwmBKInp/wP
+         WWo0x2zxLPLRTXLwyoNQ1cHUkrTKDuYvHFxmACCoLAsFeXVSngXe8sw8dCj84YbD/r+G
+         dAAw==
+X-Gm-Message-State: AOAM532E36w5grPz48RbhqZg1PreXE64Tsqtj/QQOuymZI8fS+829N28
+	FrkdZSK3I2INpwTVMzIOXO5tTUkfzKUINw==
 X-Google-Smtp-Source: 
- ABdhPJyeHMo0tBNMfWTfdNVOTKE7Ld6GKF643ffotf+WwQAln9nSr2x13pnf4MSMN6iOdSzHCIE6geBmq/8uJgilLow=
-X-Received: by 2002:a05:620a:f94:: with SMTP id
- b20mr42930601qkn.463.1638243311564;
- Mon, 29 Nov 2021 19:35:11 -0800 (PST)
+ ABdhPJwaAUup79rGhwgqrEux/PN4WrPKOQvrrqMYI8+aZQLs/9PvUNc753kcNZQcVXe7wytt/qKtHQ==
+X-Received: by 2002:a17:90a:fd8c:: with SMTP id
+ cx12mr3435750pjb.11.1638251028153;
+        Mon, 29 Nov 2021 21:43:48 -0800 (PST)
+Received: from pop-os.localdomain ([103.226.237.223])
+        by smtp.gmail.com with ESMTPSA id
+ a23sm13783170pgl.37.2021.11.29.21.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 21:43:47 -0800 (PST)
+From: Dhruva Gole <goledhruva@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Dhruva Gole <goledhruva@gmail.com>
+Subject: [PATCH] yocto-check-layer: Address Bug#11131
+Date: Tue, 30 Nov 2021 11:13:35 +0530
+Message-Id: <20211130054335.58255-1-goledhruva@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 29 Nov 2021 19:34:45 -0800
-Message-ID: 
- <CAMKF1spKdnjMFpD=Qf_1vCzOeAN-Xg5GqQJviNLPXRq6md-tbQ@mail.gmail.com>
-Subject: opkg_lock: Could not lock /run/opkg.lock:
-To: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 03:35:13 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 05:43:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158965
+ https://lists.openembedded.org/g/openembedded-core/message/158966
 
-On CI system  when a new job is launched which is running another CI
-job in a different sandbox, following error is encountered often.
+This adds:
+- Test case to review if the README file specifies the maintainer.
+- Test case to review if the README file specifies the word patch.
+- Test case to review if the README file contains an email address.
 
- * opkg_lock: Could not lock /run/opkg.lock: Resource temporarily unavailable.
- * opkg_cmd_exec: Command failed to capture privilege lock: Resource
-temporarily unavailable.
+Signed-off-by: Dhruva Gole <goledhruva@gmail.com>
+---
+ scripts/lib/checklayer/cases/common.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This is seen when two or more CI jobs are running. Any ideas ?
-Its using opkg for O_P_M and builds are running on baremetal ( i.e. no
-container stuff )
-exact same CI job works when run alone.
+diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
+index b82304e361..8d4aab7973 100644
+--- a/scripts/lib/checklayer/cases/common.py
++++ b/scripts/lib/checklayer/cases/common.py
+@@ -6,6 +6,7 @@
+ import glob
+ import os
+ import unittest
++import re
+ from checklayer import get_signatures, LayerType, check_command, get_depgraph, compare_signatures
+ from checklayer.case import OECheckLayerTestCase
+ 
+@@ -25,6 +26,11 @@ class CommonCheckLayer(OECheckLayerTestCase):
+             data = f.read()
+         self.assertTrue(data,
+                 msg="Layer contains a README file but it is empty.")
++        self.assertIn('maintainer',data)
++        self.assertIn('patch',data)
++        # Check that there is an email address in the README
++        email_regex = re.compile(r"[^@]+@[^@]+")
++        self.assertTrue(email_regex.match(data))
+ 
+     def test_parse(self):
+         check_command('Layer %s failed to parse.' % self.tc.layer['name'],
+-- 
+2.25.1
 
-For reference see
-https://github.com/YoeDistro/meta-openembedded/runs/4362290225?check_suite_focus=true
-
-Thanks
--Khem
 
