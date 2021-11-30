@@ -2,111 +2,78 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74015C433EF
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 03:27:10 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.71233.1638242829326272045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F03C433F5
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 03:35:13 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web12.71647.1638243312711513794
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 19:27:09 -0800
+ Mon, 29 Nov 2021 19:35:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mPPRR4I3;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- o6-20020a17090a0a0600b001a64b9a11aeso15933672pjo.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bPNH42st;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id p4so25313627qkm.7
         for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 19:27:09 -0800 (PST)
+ Mon, 29 Nov 2021 19:35:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=x1zESSH/WI0JsYSa01drG/GxA2I7bUnyhC4ZJy7YpcU=;
-        b=mPPRR4I3tagl8mF/0+nflJb/qLY6/u+HEZ9YQqkCwX026Qgtc49EDwiEVz4wVhrPnI
-         kiNQffO/+zjkN4RMloW+AW2j9nrvtzqMhNgWQolnZzmvhjorgWkLANtMnHyhl/bHMu4K
-         4l4chw2c8yInTnuhncFzOd+ZvPROnI+UNZpxAWazJREyfzPHw7coarJZKJXSfGBVNLAG
-         Xg8RSyPf40IcULjffJ+WNsp7bLCVjD+YJVxzsEaS/nau7nDvcpfM+0leThFdPPC1z1BO
-         GFO/BLawTHDkpdMQD4sFvdbPRx943rw7pCWpFc5Td5mT5rwjbP2xuwG4FMqpsxoXZ4RC
-         yPvA==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=vTCoHKwLc1EdBeIriBlL0CrF2uaCCXr/Niasg9D6f1A=;
+        b=bPNH42stM/nMuDxMkuM86Qb4A2d/zmBnpN2U6o9byjbhVvY3p6beJKfilD9Haobqp/
+         xjvN9tRu2n4XiJgnTATxFQy0vWnmzwTjVGIMj8/Y3QYaY8yWMqcSajfW8RP0ddCnV00P
+         K2xQYdSzZm1eR7QNgdS0HwXhK1oKYEzefsnFDixhTNgq5/u7TSFhMZAyqqNqQNDZpaIp
+         V7M7wHWgcIZcMtg0xhBbXrNR3lktRVDGarrpC80yztYkt96gJPSjzqfZAgi2q2/cYuYF
+         DqNQ9HWen8qRdHrooEoU3zXKSjDOxViBGPPHUBQRTwmzCt3otldaMs2WzVkfOP7aMHN9
+         GpcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=x1zESSH/WI0JsYSa01drG/GxA2I7bUnyhC4ZJy7YpcU=;
-        b=WauFMp6e89SowqO8ghLRq1flY7b7YyDBzdbVmbOYuMiG/Z+hnVOvXylXXmA2uukcaG
-         P2yy72upv6Ak+oA2dNuk0tbWisbNykAu+IzXhBARMot7HYvFOPGD6+IdDvnehFd4Ks12
-         aQgJZVZoDjHr0Ued1s2GR9sunFTwzN7aUWFAONk2z3xhhkiKgrQ9yGwBEgIVPrHPDcJd
-         gMpXRV+ZaqPuWmNPhzLA+g1495w/22nUSphF5FW6VSimbWe3q2fjd3hiSdZJ3rIjFnFR
-         Y+NXeltfpOhXfCkTnsHj5Mkcj5G26gG5lyiaCMSG7TaWrVtfwgwHg3Y+sA2Nh94EVnrS
-         9IEw==
-X-Gm-Message-State: AOAM531vZBQo5kYxehGgLxNAwVdYc3uyUVjUuWmhsds0h4YzID28/WU2
-	1UpvXH90f0tGYjZ9gq4mil2EDu1ZIsNzsQ==
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=vTCoHKwLc1EdBeIriBlL0CrF2uaCCXr/Niasg9D6f1A=;
+        b=3TLOaASY+I4suqEKeDLkcoRuw6bVqIdSQkqi6wfL0gZ3mFP+pB0PDQEKeGqcfEhvtz
+         /n0J64jSXqEoDdbSkB+f8XYDmU4d39qUsosq385Yg8FddNvPlkKpyG93HkcG49dnpWV+
+         Mx1Ha83G2GK0sFV6cqd/MGfA+B5NuiHRQvWEo//Jdzz11to8m19ef+SZlS+GrjbFj9LT
+         SE0LxdpMCunKU1ah+AtBqokOVCdFjbrjDJ+J85bo9sjh57Q/PxPlaX0PutsDwfceL/Mc
+         czLmOIazuWhaTW4m2LctfhEHBpGoHi8grJpESpE0I8EiTgYL/BdJ9xSJneZhEbuPSe22
+         wvtg==
+X-Gm-Message-State: AOAM531iivqKH9zvASVM/Zh91AbCXX9Q6AOyPVtE16DG6jhf+blyPhq4
+	W1nearBi5UjhsCkwVoOdODamOeCoA+C9cs1tcGr9alXWK3O55Q==
 X-Google-Smtp-Source: 
- ABdhPJxUJhyIn51XpeC9WkKV1WDShY0eVTvdQJu71RLxaPBgNBfDpYulzdAx861GBiCvrUXfqqCdXg==
-X-Received: by 2002:a17:90b:3a83:: with SMTP id
- om3mr2718039pjb.211.1638242828499;
-        Mon, 29 Nov 2021 19:27:08 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
-        by smtp.gmail.com with ESMTPSA id
- il13sm690955pjb.52.2021.11.29.19.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 19:27:08 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] Revert "weston-init: Pass --continue-without-input when
- launching weston"
-Date: Mon, 29 Nov 2021 19:27:05 -0800
-Message-Id: <20211130032705.3313502-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ ABdhPJyeHMo0tBNMfWTfdNVOTKE7Ld6GKF643ffotf+WwQAln9nSr2x13pnf4MSMN6iOdSzHCIE6geBmq/8uJgilLow=
+X-Received: by 2002:a05:620a:f94:: with SMTP id
+ b20mr42930601qkn.463.1638243311564;
+ Mon, 29 Nov 2021 19:35:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Nov 2021 19:34:45 -0800
+Message-ID: 
+ <CAMKF1spKdnjMFpD=Qf_1vCzOeAN-Xg5GqQJviNLPXRq6md-tbQ@mail.gmail.com>
+Subject: opkg_lock: Could not lock /run/opkg.lock:
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 03:27:10 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 03:35:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158964
+ https://lists.openembedded.org/g/openembedded-core/message/158965
 
-This reverts commit 762a20b493cc219a46d9ac188fe4895a111ee7b4.
+On CI system  when a new job is launched which is running another CI
+job in a different sandbox, following error is encountered often.
 
-This breaks machines using fbdev backend, since this option is drm
-backend specific, we need to know the backend before using it, until we
-have a smart way to detect that, this will not be a fool proof solution,
-therefore revert it for now.
+ * opkg_lock: Could not lock /run/opkg.lock: Resource temporarily unavailable.
+ * opkg_cmd_exec: Command failed to capture privilege lock: Resource
+temporarily unavailable.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/wayland/weston-init/init           | 2 +-
- meta/recipes-graphics/wayland/weston-init/weston.service | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+This is seen when two or more CI jobs are running. Any ideas ?
+Its using opkg for O_P_M and builds are running on baremetal ( i.e. no
+container stuff )
+exact same CI job works when run alone.
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
-index f74ac8b1846..a849f29bcbd 100644
---- a/meta/recipes-graphics/wayland/weston-init/init
-+++ b/meta/recipes-graphics/wayland/weston-init/init
-@@ -32,7 +32,7 @@ case "$1" in
-         . /etc/profile
- 	export HOME=ROOTHOME
- 
--        weston-start -- --continue-without-input $OPTARGS
-+        weston-start -- $OPTARGS
-   ;;
- 
-   stop)
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-index c7583e92e6e..e09625b31c6 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.service
-@@ -34,7 +34,7 @@ ConditionPathExists=/dev/tty0
- # Requires systemd-notify.so Weston plugin.
- Type=notify
- EnvironmentFile=/etc/default/weston
--ExecStart=/usr/bin/weston --continue-without-input --modules=systemd-notify.so
-+ExecStart=/usr/bin/weston --modules=systemd-notify.so
- 
- # Optional watchdog setup
- TimeoutStartSec=60
--- 
-2.34.1
+For reference see
+https://github.com/YoeDistro/meta-openembedded/runs/4362290225?check_suite_focus=true
 
+Thanks
+-Khem
 
