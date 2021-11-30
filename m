@@ -1,107 +1,321 @@
-Return-Path: <goledhruva@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A81C433F5
-	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 05:43:50 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web08.72670.1638251028808170093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D39DC433F5
+	for <webhook@archiver.kernel.org>; Tue, 30 Nov 2021 05:52:33 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web12.72595.1638251552358311648
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 21:43:48 -0800
+ Mon, 29 Nov 2021 21:52:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eVAizQmm;
- spf=pass (domain: gmail.com, ip: 209.85.216.53,
- mailfrom: goledhruva@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- w33-20020a17090a6ba400b001a722a06212so13191373pjj.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Nov 2021 21:43:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ftxj/kmA4CeztCQbFjn4lRxep/Mlmnteh7eXYZk53YQ=;
-        b=eVAizQmmEHyo9YaJ/Kwh1XKA+qt5nov5GWvTOVUTglRb9bCdKUnD0go3NHHQCyvgbT
-         9gfKpcvRCmz5xcruGhGVu9dTxqQfPale6eH0R4aCPlN870luYYjO4EYUeoV/WBwEoCOE
-         PDF/CFZcjE/O211yRh2cfVd3A7ymDv8SZ7wi+zhvjCeIxN1F/JGCJV9dcgkTDeaXYxDF
-         9vm2De4gf9QxJczb4pZkmhHatogzRZdwIe89XYOZcmvOUqv+Zu88YbbOxo/cujreIWvF
-         BaRiBlbwDqmG4NYJMbGX04zBpXKS8WRPyhOBkQ3ZGDz1fwVj5bRCI7NPXv+3SiEVbHcF
-         gbBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ftxj/kmA4CeztCQbFjn4lRxep/Mlmnteh7eXYZk53YQ=;
-        b=mCQyRMGqNB+61g8wOJ7avzzpkS+zYUStcPVd6ebK2Ax8uF/VvhZCNzn1Xf21siUOPe
-         2EPUjyRqmCo2rHnalHjF6ykrD/Zho76EudS2KTN8vRt8XKsfQuoVXAo3ZpQRhlT35Qs6
-         SqxM5pNWwt7GspsDYJ+FxxXKsrd1h59eZcisU/1NUgmGpSkwPWdfo3GGJ2/k5ZmIf0J7
-         JJ/bYIR8tPtU5wKtuJVmlIxQfly1bmGugG5pUMUXIXE4gEmzxpN80tRE1DwmBKInp/wP
-         WWo0x2zxLPLRTXLwyoNQ1cHUkrTKDuYvHFxmACCoLAsFeXVSngXe8sw8dCj84YbD/r+G
-         dAAw==
-X-Gm-Message-State: AOAM532E36w5grPz48RbhqZg1PreXE64Tsqtj/QQOuymZI8fS+829N28
-	FrkdZSK3I2INpwTVMzIOXO5tTUkfzKUINw==
-X-Google-Smtp-Source: 
- ABdhPJwaAUup79rGhwgqrEux/PN4WrPKOQvrrqMYI8+aZQLs/9PvUNc753kcNZQcVXe7wytt/qKtHQ==
-X-Received: by 2002:a17:90a:fd8c:: with SMTP id
- cx12mr3435750pjb.11.1638251028153;
-        Mon, 29 Nov 2021 21:43:48 -0800 (PST)
-Received: from pop-os.localdomain ([103.226.237.223])
-        by smtp.gmail.com with ESMTPSA id
- a23sm13783170pgl.37.2021.11.29.21.43.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 21:43:47 -0800 (PST)
-From: Dhruva Gole <goledhruva@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dhruva Gole <goledhruva@gmail.com>
-Subject: [PATCH] yocto-check-layer: Address Bug#11131
-Date: Tue, 30 Nov 2021 11:13:35 +0530
-Message-Id: <20211130054335.58255-1-goledhruva@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing;
+ spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: changqing.li@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1AU5qVEN031105
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 21:52:31 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1AU5qUc6020061
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 29 Nov 2021 21:52:31 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 29 Nov 2021 21:52:30 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 29 Nov 2021 21:52:30 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] libtool: change the default AR_FLAGS from "cru" to
+ "cr"
+Date: Tue, 30 Nov 2021 13:49:42 +0800
+Message-ID: <20211130054942.10520-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 05:43:50 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Nov 2021 05:52:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/158966
+ https://lists.openembedded.org/g/openembedded-core/message/158967
 
-This adds:
-- Test case to review if the README file specifies the maintainer.
-- Test case to review if the README file specifies the word patch.
-- Test case to review if the README file contains an email address.
+From: Li Wang <li.wang@windriver.com>
 
-Signed-off-by: Dhruva Gole <goledhruva@gmail.com>
+Backport patch to fix warning:
+`u' modifier ignored since `D' is the default (see `U')
+
+libool.m4: add ARFLAGS variable
+
+Upstream-Status: Backport
+
+Reference to upstream patch:
+https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=4335de1dfb7d2ec728427e07a54136b94a2d40f6
+
+ARFLAGS: use 'cr' instead of 'cru' by default
+
+Upstream-Status: Backport
+
+Reference to upstream patch:
+https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=418129bc63afc312701e84cb8afa5ca413df1ab5
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- scripts/lib/checklayer/cases/common.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../libtool/libtool-2.4.6.inc                 |   2 +
+ ...AGS-use-cr-instead-of-cru-by-default.patch | 136 ++++++++++++++++++
+ .../libool.m4-add-ARFLAGS-variable.patch      |  80 +++++++++++
+ 3 files changed, 218 insertions(+)
+ create mode 100644 meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
 
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index b82304e361..8d4aab7973 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -6,6 +6,7 @@
- import glob
- import os
- import unittest
-+import re
- from checklayer import get_signatures, LayerType, check_command, get_depgraph, compare_signatures
- from checklayer.case import OECheckLayerTestCase
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+index e9225e140c..8cda81b71d 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+@@ -23,6 +23,8 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
+            file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
+            file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
++           file://libool.m4-add-ARFLAGS-variable.patch \
++           file://ARFLAGS-use-cr-instead-of-cru-by-default.patch \
+           "
  
-@@ -25,6 +26,11 @@ class CommonCheckLayer(OECheckLayerTestCase):
-             data = f.read()
-         self.assertTrue(data,
-                 msg="Layer contains a README file but it is empty.")
-+        self.assertIn('maintainer',data)
-+        self.assertIn('patch',data)
-+        # Check that there is an email address in the README
-+        email_regex = re.compile(r"[^@]+@[^@]+")
-+        self.assertTrue(email_regex.match(data))
- 
-     def test_parse(self):
-         check_command('Layer %s failed to parse.' % self.tc.layer['name'],
+ SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
+diff --git a/meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch b/meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
+new file mode 100644
+index 0000000000..809b07ee8c
+--- /dev/null
++++ b/meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
+@@ -0,0 +1,136 @@
++From 418129bc63afc312701e84cb8afa5ca413df1ab5 Mon Sep 17 00:00:00 2001
++From: Pavel Raiskup <praiskup@redhat.com>
++Date: Fri, 17 Apr 2015 16:54:58 +0200
++Subject: ARFLAGS: use 'cr' instead of 'cru' by default
++
++In some GNU/Linux distributions people started to compile 'ar'
++binary with --enable-deterministic-archives (binutils project).
++That, however, in combination with our previous long time working
++default AR_FLAGS=cru causes warnings on such installations:
++ar: `u' modifier ignored since `D' is the default (see `U')
++
++The 'u' option (at least with GNU binutils) did small optimization
++during repeated builds because it instructed 'ar' to not
++open/close unchanged *.o files and to rather read their contents
++from old archive file.  However, its removal should not cause a
++big performance hit for usual workflows.
++
++Distributions started using --enable-deterministic-archives
++knowing that it would disable the 'u', just to rather have a bit
++more deterministic builds.
++
++Also, to justify this change a bit more, keeping 'u' in ARFLAGS
++could only result in many per-project changes to override
++Libtool's ARFLAGS default, just to silent such warnings.
++
++Fixes bug#19967.  Reported by Eric Blake.
++
++* m4/libtool.m4 (_LT_PROG_AR): Default AR_FLAGS to 'cr'.
++(_LT_REQUIRED_DARWIN_CHECKS): Use $AR_FLAGS instead 'cru' string.
++* doc/libtool.texi: Do 's/ar cru/ar cr/' in whole documentation.
++* NEWS: Document.
++
++Upstream-Status: Backport
++
++Reference to upstream patch:
++https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=418129bc63afc312701e84cb8afa5ca413df1ab5
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ NEWS             |  4 ++++
++ doc/libtool.texi | 10 +++++-----
++ m4/libtool.m4    |  6 +++---
++ 3 files changed, 12 insertions(+), 8 deletions(-)
++
++diff --git a/NEWS b/NEWS
++index 71a932d..1518f09 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -13,6 +13,10 @@ NEWS - list of user-visible changes between releases of GNU Libtool
++     variable, which obsoletes AR_FLAGS.  This is due to naming conventions
++     among other *FLAGS and to be consistent with Automake's ARFLAGS.
++ 
+++** Important incompatible changes:
+++
+++  - Libtool changed ARFLAGS/AR_FLAGS default from 'cru' to 'cr'.
+++
++ ** Bug fixes:
++ 
++   - Fix a race condition in ltdl dryrun test that would cause spurious
++diff --git a/doc/libtool.texi b/doc/libtool.texi
++index 0298627..4c664bb 100644
++--- a/doc/libtool.texi
+++++ b/doc/libtool.texi
++@@ -602,7 +602,7 @@ Without libtool, the programmer would invoke the @command{ar} command to
++ create a static library:
++ 
++ @example
++-burger$ @kbd{ar cru libhello.a hello.o foo.o}
+++burger$ @kbd{ar cr libhello.a hello.o foo.o}
++ burger$
++ @end example
++ 
++@@ -632,7 +632,7 @@ libtool are the same ones you would use to produce an executable named
++ a23$ @kbd{libtool --mode=link gcc -g -O -o libhello.la foo.o hello.o}
++ *** Warning: Linking the shared library libhello.la against the
++ *** non-libtool objects foo.o hello.o is not portable!
++-ar cru .libs/libhello.a
+++ar cr .libs/libhello.a
++ ranlib .libs/libhello.a
++ creating libhello.la
++ (cd .libs && rm -f libhello.la && ln -s ../libhello.la libhello.la)
++@@ -662,7 +662,7 @@ archive, not a shared library (@pxref{Static libraries}).}:
++ @example
++ a23$ @kbd{libtool --mode=link gcc -g -O -o libhello.la foo.lo hello.lo \
++                 -rpath /usr/local/lib -lm}
++-ar cru @value{objdir}/libhello.a foo.o hello.o
+++ar cr @value{objdir}/libhello.a foo.o hello.o
++ ranlib @value{objdir}/libhello.a
++ creating libhello.la
++ (cd @value{objdir} && rm -f libhello.la && ln -s ../libhello.la libhello.la)
++@@ -676,7 +676,7 @@ burger$ @kbd{libtool --mode=link gcc -g -O -o libhello.la foo.lo hello.lo \
++                 -rpath /usr/local/lib -lm}
++ rm -fr  @value{objdir}/libhello.a @value{objdir}/libhello.la
++ ld -Bshareable -o @value{objdir}/libhello.so.0.0 @value{objdir}/foo.o @value{objdir}/hello.o -lm
++-ar cru @value{objdir}/libhello.a foo.o hello.o
+++ar cr @value{objdir}/libhello.a foo.o hello.o
++ ranlib @value{objdir}/libhello.a
++ creating libhello.la
++ (cd @value{objdir} && rm -f libhello.la && ln -s ../libhello.la libhello.la)
++@@ -6001,7 +6001,7 @@ in cases where it is necessary.
++ @subsection Archivers
++ 
++ On all known systems, building a static library can be accomplished by
++-running @kbd{ar cru lib@var{name}.a @var{obj1}.o @var{obj2}.o @dots{}},
+++running @kbd{ar cr lib@var{name}.a @var{obj1}.o @var{obj2}.o @dots{}},
++ where the @file{.a} file is the output library, and each @file{.o} file is an
++ object file.
++ 
++diff --git a/m4/libtool.m4 b/m4/libtool.m4
++index 6514196..add06ee 100644
++--- a/m4/libtool.m4
+++++ b/m4/libtool.m4
++@@ -1041,8 +1041,8 @@ int forced_loaded() { return 2;}
++ _LT_EOF
++       echo "$LTCC $LTCFLAGS -c -o conftest.o conftest.c" >&AS_MESSAGE_LOG_FD
++       $LTCC $LTCFLAGS -c -o conftest.o conftest.c 2>&AS_MESSAGE_LOG_FD
++-      echo "$AR cru libconftest.a conftest.o" >&AS_MESSAGE_LOG_FD
++-      $AR cru libconftest.a conftest.o 2>&AS_MESSAGE_LOG_FD
+++      echo "$AR $AR_FLAGS libconftest.a conftest.o" >&AS_MESSAGE_LOG_FD
+++      $AR $AR_FLAGS libconftest.a conftest.o 2>&AS_MESSAGE_LOG_FD
++       echo "$RANLIB libconftest.a" >&AS_MESSAGE_LOG_FD
++       $RANLIB libconftest.a 2>&AS_MESSAGE_LOG_FD
++       cat > conftest.c << _LT_EOF
++@@ -1505,7 +1505,7 @@ _LT_DECL([], [AR], [1], [The archiver])
++ # ARFLAGS for automake and AR_FLAGS for libtool).  FIXME: Make the AR_FLAGS
++ # variable obsoleted/removed.
++ 
++-test ${AR_FLAGS+y} || AR_FLAGS=${ARFLAGS-cru}
+++test ${AR_FLAGS+y} || AR_FLAGS=${ARFLAGS-cr}
++ lt_ar_flags=$AR_FLAGS
++ _LT_DECL([], [lt_ar_flags], [0], [Flags to create an archive (by configure)])
++ 
++-- 
++2.23.0
++
+diff --git a/meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch b/meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
+new file mode 100644
+index 0000000000..d2d6ec533c
+--- /dev/null
++++ b/meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
+@@ -0,0 +1,80 @@
++From 4335de1dfb7d2ec728427e07a54136b94a2d40f6 Mon Sep 17 00:00:00 2001
++From: Pavel Raiskup <praiskup@redhat.com>
++Date: Fri, 17 Apr 2015 15:05:42 +0200
++Subject: libool.m4: add ARFLAGS variable
++
++Libtool has used $AR_FLAGS since 2000-05-29 commit
++8300de4c54e6f04f0d, Automake ARFLAGS since 2003-04-06 commit
++a71b3490639831ca.  Even though ARFLAGS is younger, it sounds like
++better name according GNU Coding Standards.
++
++Related to bug#20082.
++
++* m4/libtool.m4 (_LT_PROG_AR): Copy ARFLAGS value into AR_FLAGS
++variable if AR_FLAGS is not set.  Add new _LT_DECL'ed variable
++'lt_ar_flags' to keep the configure-time value of AR_FLAGS.  The
++new 'lt_ar_flags' is to be used as the default value for AR_FLAGS
++at libtool-runtime.
++* NEWS: Document.
++
++Upstream-Status: Backport
++
++Reference to upstream patch:
++https://git.savannah.gnu.org/cgit/libtool.git/commit/?id=4335de1dfb7d2ec728427e07a54136b94a2d40f6
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ NEWS          |  6 ++++++
++ m4/libtool.m4 | 17 +++++++++++++++--
++ 2 files changed, 21 insertions(+), 2 deletions(-)
++
++diff --git a/NEWS b/NEWS
++index d7ca434..71a932d 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -7,6 +7,12 @@ NEWS - list of user-visible changes between releases of GNU Libtool
++   - LT_SYS_LIBRARY_PATH can be set in config.site, or at configure time
++     and persists correctly in the generated libtool script.
++ 
+++** New features:
+++
+++  - Libtool script now supports (configure-time and runtime) ARFLAGS
+++    variable, which obsoletes AR_FLAGS.  This is due to naming conventions
+++    among other *FLAGS and to be consistent with Automake's ARFLAGS.
+++
++ ** Bug fixes:
++ 
++   - Fix a race condition in ltdl dryrun test that would cause spurious
++diff --git a/m4/libtool.m4 b/m4/libtool.m4
++index 63acd09..6514196 100644
++--- a/m4/libtool.m4
+++++ b/m4/libtool.m4
++@@ -1497,9 +1497,22 @@ need_locks=$enable_libtool_lock
++ m4_defun([_LT_PROG_AR],
++ [AC_CHECK_TOOLS(AR, [ar], false)
++ : ${AR=ar}
++-: ${AR_FLAGS=cru}
++ _LT_DECL([], [AR], [1], [The archiver])
++-_LT_DECL([], [AR_FLAGS], [1], [Flags to create an archive])
+++
+++# Use ARFLAGS variable as AR's operation code to sync the variable naming with
+++# Automake.  If both AR_FLAGS and ARFLAGS are specified, AR_FLAGS should have
+++# higher priority because thats what people were doing historically (setting
+++# ARFLAGS for automake and AR_FLAGS for libtool).  FIXME: Make the AR_FLAGS
+++# variable obsoleted/removed.
+++
+++test ${AR_FLAGS+y} || AR_FLAGS=${ARFLAGS-cru}
+++lt_ar_flags=$AR_FLAGS
+++_LT_DECL([], [lt_ar_flags], [0], [Flags to create an archive (by configure)])
+++
+++# Make AR_FLAGS overridable by 'make ARFLAGS='.  Don't try to run-time override
+++# by AR_FLAGS because that was never working and AR_FLAGS is about to die.
+++_LT_DECL([], [AR_FLAGS], [\@S|@{ARFLAGS-"\@S|@lt_ar_flags"}],
+++         [Flags to create an archive])
++ 
++ AC_CACHE_CHECK([for archiver @FILE support], [lt_cv_ar_at_file],
++   [lt_cv_ar_at_file=no
++-- 
++2.23.0
++
 -- 
-2.25.1
+2.17.1
 
 
