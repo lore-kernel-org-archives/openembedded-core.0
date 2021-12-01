@@ -1,367 +1,183 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D48C433F5
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 20:33:53 +0000 (UTC)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
- [209.85.222.42])
- by mx.groups.io with SMTP id smtpd.web11.2468.1638390832217027627
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F16C433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 21:27:58 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.3189.1638394076836314288
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 12:33:52 -0800
+ Wed, 01 Dec 2021 13:27:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HRH/3HaS;
- spf=pass (domain: gmail.com, ip: 209.85.222.42,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f42.google.com with SMTP id p2so51576789uad.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fvc9kvAx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id g14so107458755edb.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 12:33:52 -0800 (PST)
+ Wed, 01 Dec 2021 13:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BYXjrh2WEYQuvEQm6cftrDSz+cfGSXspG3bZS0aaol8=;
-        b=HRH/3HaSM/ygHeDduvzb6y8NjaAhYdMkHctmEv0AQIR6ydq3l1D6FJeMf4VhVxsOjy
-         JABCY7UeDVO/U1zVDx1D0S26hCcsvdms20MqFcrRxTB79TwokQGjVA2Y09tY8/zQedXt
-         F6zsbyguixkdN4tO5itkz2z7UoXtWuuN5gzlgFHgybqreZV6kJ/mMxMQRaklWxSl6UYZ
-         +tE13UoYheBucs0ED8YrWrLeFtmO1oVxvhzTh6Xm/FOvN3cTAu9EDHWQ8byY9suMxgUd
-         KKg9hJu7ARV1BTcwipOc3u1aXqdvr3yo3GwqLEKM5nXW97wld0egzYTDA5l+sQ+xO3Uc
-         1/Gw==
+        bh=Hje953oa6+YfbRZqZ5ZRuye8BEatmdJNO5fTdcZWE8Y=;
+        b=Fvc9kvAxiA86sny12CjFecZWwVGN0+mcvv1eM4e/LLeDw7yv3o8p0NjJk1pv2y2R97
+         a3Y6UrqCr9xYhGrDKK7NVziqYKvthnSsU9B/iXFo05GfxEEG7QZeO9N6AboVuM2K6BSn
+         xh0cDKJeGbWs94MSzsUNaV79qhBaDtQYdzvDBffOaY9XhSuyHKsAuQBcWpfywDFXR+zA
+         g+VAI5lXsYAdIHhFuu8hFn8NpbwSFgA/w2OQaGVjTVEc23QDSuzng7VmTkuGQsJO7bwt
+         5qTh1SIZYUNvEfKnm3K0wDbmJ+HC11Z4fYg3c/Odb/R1m3/vVejhfPipScacwr386Ra+
+         GAAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BYXjrh2WEYQuvEQm6cftrDSz+cfGSXspG3bZS0aaol8=;
-        b=30LdurUOFWvD8V3OJ6HSMeCrURi8Rpo7hYW0EID8iZ51BIoSrZ2fXy3SN/6mxmBlx+
-         M6oaeeK1olJ1B9l9PCBg7mHKBRe9Thpg9pAHKkWRvFBNrgBy7NQz/SInYRA3REAr1tTG
-         eY8nos/OCAQrgLT4F7rvvVJC9aYBBMtWmQ/edSrCLpH1yJba2PTT6hskWvxZJmQ6AVTe
-         PpIbCggCIRetbF5sEot6+JGmgzl6BisK2c8Krj/f5Vf1h5tu9JgjrpBrWKxc6iDS/Ued
-         9jTQVvwWyJwoN4y9TY1sTz1ly9GmXJZseWuzDWpLTq1fir37N8QZTDAz2oXSfGTWQhKL
-         Uo3w==
-X-Gm-Message-State: AOAM5315uvIECPtzlk80V2P+KiNZDucbB4fGmSZchuTFXdNEBR3sE3fj
-	5sN0NsY43YtcCPuLzi+IT+qkuNWVM4dSj58S1EU=
+        bh=Hje953oa6+YfbRZqZ5ZRuye8BEatmdJNO5fTdcZWE8Y=;
+        b=dqbMMDhfk/L+vlLzX6ecVY+4pYqGMbUPvvgpwoMpl4NOLodrE5+0N9lwl7VWhOUb1/
+         ZjoG6k3NlzRqgFBkn84slQDyVAMQ4vD2O3ZNFPDmnVzwwKaEk5K1e/NiHQBSHvExvZBJ
+         HM6Y1VEfRbkdlYiYHhEMNIfPq0MDRW1qogxvEp3RQxGkMYfAYBV7/vol9eYKzhpT8owT
+         GAFFGTAi2a8iYxcwr4JoHp+K1ZtOw/L79vii6grql/fDMAsm7G6inbpe6jYdurmIfJRV
+         YZjlXD+e+IYzPu5QLkuRZ2mijKdwJf528qEeM4jziZUxyJ2gFZSIs2DFUyvdbjHUi8M2
+         xDoQ==
+X-Gm-Message-State: AOAM532FIfkhEV3Qr0bS7S+4OCQxaSN3s2MO8bVuL9zPCqBejzw2rq8x
+	f66sp5P20s+bQ3c3GE3qLeNld1SxSZtgPywZDMI=
 X-Google-Smtp-Source: 
- ABdhPJycUre9WVCydr9dGkva/lgnUGmbXFZGnE6xpmtUk38XnCCC++V3WY3o8KmaNS1BLZRNtsZrhwfHERPH7Yf0bPI=
-X-Received: by 2002:ab0:6f14:: with SMTP id r20mr11014011uah.22.1638390831372;
- Wed, 01 Dec 2021 12:33:51 -0800 (PST)
+ ABdhPJwsHYI4Nw8L2ovGTJ6e1YJqT4k6nUFj0UtdP/rPemGk2txpwtlENNS/0OVX2dR+3B3XoCQ3NzWFIH9avFhldnE=
+X-Received: by 2002:a17:906:5951:: with SMTP id
+ g17mr10254155ejr.315.1638394075107;
+ Wed, 01 Dec 2021 13:27:55 -0800 (PST)
 MIME-Version: 1.0
-References: <YaemRcD22hUhkQrq@mcrowe.com>
- <CANNYZj-7YLRwgbCDusZv98B0RSkzVbKPZWJm6r=akEXysLGT0g@mail.gmail.com>
- <Yae5h9EsXqA0ycqU@mcrowe.com>
-In-Reply-To: <Yae5h9EsXqA0ycqU@mcrowe.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 1 Dec 2021 21:33:39 +0100
+References: <20211201043934.3212357-1-kexin.hao@windriver.com>
+ <f2c3aa7c59a874f99b80d49bde596e93664a5392.camel@linuxfoundation.org>
+In-Reply-To: 
+ <f2c3aa7c59a874f99b80d49bde596e93664a5392.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 1 Dec 2021 16:27:44 -0500
 Message-ID: 
- <CANNYZj81Yk2vB119MguwPmfY4s_S3G1KSVWQL8N8JQBe3xzx1g@mail.gmail.com>
-Subject: Re: [OE-core] Correct way to set DRIDRIVERS and GALLIUMDRIVERS from
- mesa bbappend
-To: Mike Crowe <mac@mcrowe.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000081db8b05d21b978b"
+ <CADkTA4N_zXDJVH8hwZMVqa+tsHvrm4zD+UDKiYV4qHwu4WPx3g@mail.gmail.com>
+Subject: Re: [PATCH] linux-yocto-dev: Make -dev kernel work for a fixed
+ revision
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Kevin Hao <kexin.hao@windriver.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Linux Yocto <linux-yocto@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 20:33:53 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 21:27:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159059
+ https://lists.openembedded.org/g/openembedded-core/message/159060
 
---00000000000081db8b05d21b978b
-Content-Type: text/plain; charset="UTF-8"
-
-I'd like to see specifics though to understand the use case better. What
-kind of target you're on, how much space will be saved by only building the
-driver you need and which driver is that? If the drivers are in separate
-.so objects, you can simply delete the ones you don't need from
-do_install_append. The build time savings would be very minimal.
-
-Alex
-
-
-On Wed, 1 Dec 2021 at 19:06, Mike Crowe <mac@mcrowe.com> wrote:
-
-> Hi Alex,
+On Wed, Dec 1, 2021 at 6:28 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Thanks for responding.
->
-> Just to make sure I understand, you think that I should add something like:
->
->  PACKAGECONFIG[i915] = ""
->  PACKAGECONFIG[iris] = ""
->  PACKAGECONFIG[crocus] = ""
->  GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'i915',
-> ',i915', '', d)}"
->  GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'iris',
-> ',iris', '', d)}"
->  GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'crocus',
-> ',crocus', '', d)}"
->
-> But then I need to find a way to get "i915 iris crocus" into PACKAGECONFIG
-> for x86 and x86-64 whilst still letting others override that. The best I
-> can come up with is to modify the existing default PACKAGECONFIG to be
-> something like:
->
->  PACKAGECONFIG_DEFAULT_FOR_TARGET:x86 = "i915 iris crocus"
->  PACKAGECONFIG_DEFAULT_FOR_TARGET:x86-64 = "i915 iris crocus"
->  PACKAGECONFIG:class-target ??= "${@bb.utils.filter('DISTRO_FEATURES',
-> 'wayland vulkan', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-> 'opengl egl gles gbm dri gallium virgl', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
-> 'x11 dri3', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan',
-> 'dri3', '', d)} \
->                     elf-tls \
->                     ${PACKAGECONFIG_DEFAULT_FOR_TARGET} \
->                     "
->
-> This will probably break anyone who currently sets their own PACKAGECONFIG
-> for x86 and x86-64 until they add the drivers they require. This would seem
-> to be worse than my GALLIUMDRIVERS_DEFAULT suggestion. :(
->
-> Have I misunderstood you, or is there a better way?
->
-> Thanks.
->
-> Mike.
->
-> On Wednesday 01 December 2021 at 18:21:44 +0100, Alexander Kanavin wrote:
-> > I think you do need to modify oe-core unfortunately, like is done for
-> other
-> > drivers:
+> On Wed, 2021-12-01 at 12:39 +0800, Kevin Hao wrote:
+> > By default the -dev kernel uses the "AUTOREV" to pull in the branch
+> > head as the revision. Some of our BSPs are based on the -dev kernel and
+> > we choose to nail down the kernel to a specific revision when releasing
+> > our product by using some setting like below:
+> >   PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-dev"
+> >   SRCREV_machine:pn-linux-yocto-dev = "6fb48ae18a10770702266dd1f1aa500149e361ec"
+> >   KBRANCH:pn-linux-yocto-dev = "standard/x86"
+> >   LINUX_VERSION = "5.15"
 > >
-> > PACKAGECONFIG[etnaviv] = ""
-> > GALLIUMDRIVERS:append ="${@bb.utils.contains('PACKAGECONFIG', 'etnaviv',
-> > ',etnaviv', '', d)}"
+> > Since all the standard/* branches will be rebased after each kernel
+> > version bump, we would get bitbake fetch failure due to that specific
+> > commit is not reachable in the new version branch. This kind of issue
+> > can be fixed by setting the "nobranch" parameter in the SRC_URI because
+> > it will cause the fetcher to skip the SHA validation for the branch.
+> > And this also won't cause other side effect because all the branches
+> > will be created in the do_kernel_checkout() and the current branch will
+> > be reset to the reversion we want in do_validate_branches().
 > >
-> > Alex
+> > Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+> > ---
+> >  meta/recipes-kernel/linux/linux-yocto-dev.bb | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > On Wed, 1 Dec 2021 at 17:44, Mike Crowe via lists.openembedded.org <mac=
-> > mcrowe.com@lists.openembedded.org> wrote:
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > index 6b6ea9a7e864..7204c3eddc11 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > @@ -19,7 +19,8 @@ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+> >  KBRANCH = "standard/base"
+> >  KMETA = "kernel-meta"
 > >
-> > > I'm building for a specific chip and therefore don't wish to waste
-> time and
-> > > electricity building and disk space on the target installing unwanted
-> mesa
-> > > drivers. However, mesa.inc contains:
-> > >
-> > >  GALLIUMDRIVERS = "swrast"
-> > >  GALLIUMDRIVERS:x86-x32 = ""
-> > >  GALLIUMDRIVERS:append:x86:class-target = ",i915,iris,crocus"
-> > >  GALLIUMDRIVERS:append:x86-64:class-target = ",i915,iris,crocus"
-> > >
-> > > and mesa_21.3.0.bb contains:
-> > >
-> > >  DRIDRIVERS ??= ""
-> > >  DRIDRIVERS:append:x86:class-target = ",r100,r200,nouveau,i965"
-> > >  DRIDRIVERS:append:x86-64:class-target = ",r100,r200,nouveau,i965"
-> > >
-> > > I'm unable to find a way to override these values. Using (for example):
-> > >
-> > >  DRIDRIVERS:forcevariable = ""
-> > >  GALLIUMDRIVERS:forcevariable = "swrast"
-> > >
-> > > doesn't work because the append still happens after the forcevariable
-> > > override takes effect. :(
-> > >
-> > > Is there a way that I can override GALLIUMDRIVERS and DRIDRIVERS with
-> my
-> > > own values for x86 and x86-64 without modifying oe-core itself?
-> > >
-> > > If not, should the oe-core recipe being using something like:
-> > >
-> > >  GALLIUMDRIVERS_DEFAULT = "swrast"
-> > >  GALLIUMDRIVERS_DEFAULT:x86-x32 = ""
-> > >  GALLIUMDRIVERS_DEFAULT:append:x86:class-target = ",i915,iris,crocus"
-> > >  GALLIUMDRIVERS_DEFAULT:append:x86-64:class-target =
-> ",i915,iris,crocus"
-> > >  GALLIUMDRIVERS ?= "${GALLIUMDRIVERS_DEFAULT}"
-> > >
-> > > and similar for DRIDRIVERS to support this?
-> > >
-> > > Thanks.
-> > >
-> > > Mike.
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#159048):
-> > > https://lists.openembedded.org/g/openembedded-core/message/159048
-> > > Mute This Topic: https://lists.openembedded.org/mt/87432435/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> [
-> > > alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
-> > >
+> > -SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine \
+> > +# Set nobranch to skip the SHA validation for branch if a fixed revesion is used
+> > +SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine;nobranch=1 \
+> >             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=master;destsuffix=${KMETA}"
+> >
+> >  # Set default SRCREVs. Both the machine and meta SRCREVs are statically set
+>
+> I'm afraid this looks to be a bit of a horrible workaround/hack. It happens that
+> if you specify a branch and set nobranch it might do what you want but that
+> certainly isn't by design.
+>
+> Either the revision is in the branch or it isn't. The error is telling you the
+> configuration you set isn't valid and you really need to set a valid
+> configuration, i.e. a revision and a branch or a revision and set nobranch but
+> not both.
+>
+> I'm not sure I understand why the kernel would be rebasing after each kernel
+> release? Is this because it is one of the unversioned branches?
+
+Yah, it is exactly that. The -dev kernel has always been a rebase
+tree, like linux-next upstream.
+
+Since the BSP work started against it (the -dev tree), when I move on
+from a -dev version, I've been saving all work into versioned branches
+... versus removing them (and storing the history in the
+kernel-cache).
+
+That being said, we merged some code some time ago that allows the
+-dev kernel to automatically switch to the versioned branches, versus
+the rebased "standard/*" branches. (that supports existing releases
+with the -dev kernel as I move the one in master to new versions).
+Have a look at do_validate_branches(), but unfortunately the fetcher
+error will have already been thrown and we can't adjust to the fixed
+SRCREV.
+
+The issue here is the attempt to pin the revision (like Richard is
+saying), since if you use AUTOREV the code I just mentioned code kicks
+in to make sure a versioned branch is used. Nothing should be released
+against -dev, so any issues with pinned SRCREVs and branches should be
+transient.
+
+I've floated the idea a few times that now that versioned branches are
+being created (to keep older dev kernels around) I could just create
+the branches from the start as versioned, and then you wouldn't have
+the issue you are seeing, even with a pinned SRCREV. We are in a
+middle state, since the structure of -dev has changed over time as
+more use for it appeared (and it was also created when even the
+linux-yocto branches were not versioned). But that isn't something
+that I could do until the next -dev version and only part of the next
+yocto release.
+
+But for the short term, the fetcher error you are seeing should happen
+once, and you could have a bbappend to adjust the KBRANCH accordingly,
+or similar .. which shouldn't be much extra effort, as you mentioned
+it was something in a release.  If you have somewhere that you are
+setting the SRCREV, why not set the KBRANCH in the same place ?
+
+Cheers,
+
+Bruce
+
+>
+> I can fix the fetcher to hard error if both are set...
+>
+> Cheers,
+>
+> Richard
+>
+>
 >
 
---00000000000081db8b05d21b978b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I&#39;d like to see specifics though to understand th=
-e use case better. What kind of target you&#39;re on, how much space will b=
-e saved by only building the driver you need and which driver is that? If t=
-he drivers are in separate .so objects, you can simply delete the ones you =
-don&#39;t need from do_install_append. The build time savings would be very=
- minimal.<br></div><div><br></div><div>Alex<br></div><br></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 1 Dec 2021=
- at 19:06, Mike Crowe &lt;<a href=3D"mailto:mac@mcrowe.com">mac@mcrowe.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">H=
-i Alex,<br>
-<br>
-Thanks for responding.<br>
-<br>
-Just to make sure I understand, you think that I should add something like:=
-<br>
-<br>
-=C2=A0PACKAGECONFIG[i915] =3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG[iris] =3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG[crocus] =3D &quot;&quot;<br>
-=C2=A0GALLIUMDRIVERS:append =3D &quot;${@bb.utils.contains(&#39;PACKAGECONF=
-IG&#39;, &#39;i915&#39;, &#39;,i915&#39;, &#39;&#39;, d)}&quot;<br>
-=C2=A0GALLIUMDRIVERS:append =3D &quot;${@bb.utils.contains(&#39;PACKAGECONF=
-IG&#39;, &#39;iris&#39;, &#39;,iris&#39;, &#39;&#39;, d)}&quot;<br>
-=C2=A0GALLIUMDRIVERS:append =3D &quot;${@bb.utils.contains(&#39;PACKAGECONF=
-IG&#39;, &#39;crocus&#39;, &#39;,crocus&#39;, &#39;&#39;, d)}&quot;<br>
-<br>
-But then I need to find a way to get &quot;i915 iris crocus&quot; into PACK=
-AGECONFIG<br>
-for x86 and x86-64 whilst still letting others override that. The best I<br=
->
-can come up with is to modify the existing default PACKAGECONFIG to be<br>
-something like:<br>
-<br>
-=C2=A0PACKAGECONFIG_DEFAULT_FOR_TARGET:x86 =3D &quot;i915 iris crocus&quot;=
-<br>
-=C2=A0PACKAGECONFIG_DEFAULT_FOR_TARGET:x86-64 =3D &quot;i915 iris crocus&qu=
-ot;<br>
-=C2=A0PACKAGECONFIG:class-target ??=3D &quot;${@bb.utils.filter(&#39;DISTRO=
-_FEATURES&#39;, &#39;wayland vulkan&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb=
-.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;opengl&#39;, &#39;opengl eg=
-l gles gbm dri gallium virgl&#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb=
-.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11 opengl&#39;, &#39;x11 d=
-ri3&#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb=
-.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11 vulkan&#39;, &#39;dri3&=
-#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elf-t=
-ls \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PAC=
-KAGECONFIG_DEFAULT_FOR_TARGET} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot=
-;<br>
-<br>
-This will probably break anyone who currently sets their own PACKAGECONFIG<=
-br>
-for x86 and x86-64 until they add the drivers they require. This would seem=
-<br>
-to be worse than my GALLIUMDRIVERS_DEFAULT suggestion. :(<br>
-<br>
-Have I misunderstood you, or is there a better way?<br>
-<br>
-Thanks.<br>
-<br>
-Mike.<br>
-<br>
-On Wednesday 01 December 2021 at 18:21:44 +0100, Alexander Kanavin wrote:<b=
-r>
-&gt; I think you do need to modify oe-core unfortunately, like is done for =
-other<br>
-&gt; drivers:<br>
-&gt; <br>
-&gt; PACKAGECONFIG[etnaviv] =3D &quot;&quot;<br>
-&gt; GALLIUMDRIVERS:append =3D&quot;${@bb.utils.contains(&#39;PACKAGECONFIG=
-&#39;, &#39;etnaviv&#39;,<br>
-&gt; &#39;,etnaviv&#39;, &#39;&#39;, d)}&quot;<br>
-&gt; <br>
-&gt; Alex<br>
-&gt; <br>
-&gt; On Wed, 1 Dec 2021 at 17:44, Mike Crowe via <a href=3D"http://lists.op=
-enembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org=
-</a> &lt;mac=3D<br>
-&gt; <a href=3D"mailto:mcrowe.com@lists.openembedded.org" target=3D"_blank"=
->mcrowe.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; I&#39;m building for a specific chip and therefore don&#39;t wish=
- to waste time and<br>
-&gt; &gt; electricity building and disk space on the target installing unwa=
-nted mesa<br>
-&gt; &gt; drivers. However, mesa.inc contains:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS =3D &quot;swrast&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS:x86-x32 =3D &quot;&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS:append:x86:class-target =3D &quot;,i915,iris=
-,crocus&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS:append:x86-64:class-target =3D &quot;,i915,i=
-ris,crocus&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; and <a href=3D"http://mesa_21.3.0.bb" rel=3D"noreferrer" target=
-=3D"_blank">mesa_21.3.0.bb</a> contains:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 DRIDRIVERS ??=3D &quot;&quot;<br>
-&gt; &gt;=C2=A0 DRIDRIVERS:append:x86:class-target =3D &quot;,r100,r200,nou=
-veau,i965&quot;<br>
-&gt; &gt;=C2=A0 DRIDRIVERS:append:x86-64:class-target =3D &quot;,r100,r200,=
-nouveau,i965&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; I&#39;m unable to find a way to override these values. Using (for=
- example):<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 DRIDRIVERS:forcevariable =3D &quot;&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS:forcevariable =3D &quot;swrast&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; doesn&#39;t work because the append still happens after the force=
-variable<br>
-&gt; &gt; override takes effect. :(<br>
-&gt; &gt;<br>
-&gt; &gt; Is there a way that I can override GALLIUMDRIVERS and DRIDRIVERS =
-with my<br>
-&gt; &gt; own values for x86 and x86-64 without modifying oe-core itself?<b=
-r>
-&gt; &gt;<br>
-&gt; &gt; If not, should the oe-core recipe being using something like:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS_DEFAULT =3D &quot;swrast&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS_DEFAULT:x86-x32 =3D &quot;&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS_DEFAULT:append:x86:class-target =3D &quot;,i=
-915,iris,crocus&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS_DEFAULT:append:x86-64:class-target =3D &quot=
-;,i915,iris,crocus&quot;<br>
-&gt; &gt;=C2=A0 GALLIUMDRIVERS ?=3D &quot;${GALLIUMDRIVERS_DEFAULT}&quot;<b=
-r>
-&gt; &gt;<br>
-&gt; &gt; and similar for DRIDRIVERS to support this?<br>
-&gt; &gt;<br>
-&gt; &gt; Thanks.<br>
-&gt; &gt;<br>
-&gt; &gt; Mike.<br>
-&gt; &gt;<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; View/Reply Online (#159048):<br>
-&gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
-sage/159048" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/159048</a><br>
-&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/874=
-32435/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/mt/87432435/1686489</a><br>
-&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
-d.org</a><br>
-&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/g/openembedded-core/unsub</a> [<br>
-&gt; &gt; <a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
-kanavin@gmail.com</a>]<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-</blockquote></div>
-
---00000000000081db8b05d21b978b--
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
