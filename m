@@ -2,57 +2,57 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B0AC433F5
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:58:04 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.94417.1638377883007729268
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C02CC433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:59:18 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web09.95036.1638377940697780325
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:58:03 -0800
+ Wed, 01 Dec 2021 08:59:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ILhSaavU;
- spf=pass (domain: gmail.com, ip: 209.85.208.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mRsbkGnb;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id v1so104342134edx.2
+Received: by mail-ed1-f46.google.com with SMTP id z5so39464869edd.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:58:02 -0800 (PST)
+ Wed, 01 Dec 2021 08:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ee8SxRrZ1Pe8w8+MSF2M6/2yxktRyA8q0Bl7WTsfPBo=;
-        b=ILhSaavU5+tPO7kexFc3WWcNYMW7wDTl9f8YtrIpVUXBIUi664cq8k4/gGD83VlkQG
-         c7QiIM7zK/kty7f8qLt2lt1g2zvGshaP57VzMJ7OiC5U7DM1+zUTucs32NUa8wI98B5D
-         9lGn2tTMPq12m0o9N8c/iTnzNrN/NpCQyPiM7ZRU9Iw/iKv+ZoLJOz+KFaZM2rsfHyUy
-         Ys+LOBsG/saiRtxGKWalPAH1SQpkDVDi7qV7y0oVCYhHhn1JfgpBBEEGdt3KIl6bJXDQ
-         CsG2Y30VZQGBwB78V6GGleKf2YwOypbBnJnAe1c0ZT6C+sZnZXXOYl+l031vD4lX+bV/
-         Mleg==
+        bh=OrHno/77/gJEMoalfl+Zg+KT49vprKQYLbyNpmPIRYc=;
+        b=mRsbkGnbuFKL9Fl1DsavbYMErLG2qkYyORyRpFdgDk3SzFWCogJgqCQAEw4RsOQiAI
+         7Lia3vWL6bOzw1f0/jWYcLsu5rhqF9RvlEWyI/pYoTXq4jvOSWePVs5MuIcTytVaee6c
+         eRx6xfsRVhvlb//ggDTSAk4VyhmSBKEUrzjAC1m5D3u46aRd0/63xkU3NG/7IttPKtmR
+         IMWg6zeQfvzygV5uC8Kqxhc6wChJzqL6kA1trQ8mALm3qh2sH7MYEiK/zAm18B7MIHVJ
+         RNGQsP8Uj7sdtFGKiAx4uA7LCZ0x8NH2i61S9KgJEG/XwcE+bKQySSuyDO3pr56Tr6/0
+         TN3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ee8SxRrZ1Pe8w8+MSF2M6/2yxktRyA8q0Bl7WTsfPBo=;
-        b=YCTroM2lSRtuIdsW44XryF+UpDVIoJgzneBqfZNWrFAIOTzSsCgKedyXAnLQgul/Jv
-         iTmcqWqvPfjIaWf0Ps1tY4HAe7NICP7j9uZlz/dNPLBQCgJM/tRg0mIPlLzvZ/TikJDw
-         ks5W8mKhrr/3hDoT3tWcBegYZDSMNT4PlQiLWnGyHnIc66lJJHOMSnZPkDkJqpkHKN7l
-         xEwc8Yat+Y7YPziCqIDpUG2omu0P+08xs8VYoGGa3otcxuf6xFJrhiCZOMVDuGMAMh6M
-         M/b4T5gqSWk6sKffWkKxSLK8uGdSHJr5k9jWrlaLyNRUxrbGw3RKx1xNLO02yomCf5Oi
-         w2sQ==
-X-Gm-Message-State: AOAM531FA1akJBA/HTN6VfQNwexnVW10CnXrb/Uu5n0jMGZnF3qVF9Kj
-	dZBg3aAR2rh3/zJkXccci2skTmgFHeMupWQNRy0=
+        bh=OrHno/77/gJEMoalfl+Zg+KT49vprKQYLbyNpmPIRYc=;
+        b=lA388Vv2g3g5eD5Mu58a7excb+7L23ahYYm/Wj/yNHjYVsonY9gtWLBJeNXvqFa0Nz
+         24Vt/B53J+axTPGkjpxqJ8kr37fAGrJLQVmIkPEZFfIuAvwLIikHHL1Nda5maqN8/BYi
+         XPSzIuTa+vDLFT+80zbFjcQAJL5cy/kf5u6EoV/rE3yxnX6bkGd/JYN5lPPVDpX2m+NN
+         Ijcv9O8+PBTh1aHyaYhANrKUSAfcKVWH67Ve52yjymHjiGKs0mkzRnJi0EW2QPT6o4L6
+         Hg3NugUF3RTeBQ0xPHjhrrSmdYGA+ayUalrBPtZpcURQZ2sipGn9xOwxJkdtX/Bw9Tp6
+         OE8A==
+X-Gm-Message-State: AOAM5327T3LJAQvNgFXU9+1GC50TEZfFgFjHtydE5zrxSKUpSC2o8EGC
+	kDlPtJ3J63he+E64To76XwIeSgCTCjReH3lhZno=
 X-Google-Smtp-Source: 
- ABdhPJzn5+Gz2it7rojXMv9bjzmfup/C7uhO5UmZ8HnojC77eIUQtHColQ52ubT4WqluuhKYkQXFPaR2SJptVw/pg/o=
-X-Received: by 2002:a50:fb16:: with SMTP id
- d22mr10213293edq.367.1638377880197;
- Wed, 01 Dec 2021 08:58:00 -0800 (PST)
+ ABdhPJx0nagp/Met3mBRD4g7BHJCx5rZTgoDmwJo1uymdnGVNK1mBm8yUDy2+9rLyhessIgxaxQXbIGRSwqsGWApo/s=
+X-Received: by 2002:a05:6402:1914:: with SMTP id
+ e20mr10293653edz.96.1638377939077;
+ Wed, 01 Dec 2021 08:58:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
-In-Reply-To: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+References: <20211201162800.3128628-1-quentin.schulz@theobroma-systems.com>
+In-Reply-To: <20211201162800.3128628-1-quentin.schulz@theobroma-systems.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 1 Dec 2021 11:57:49 -0500
+Date: Wed, 1 Dec 2021 11:58:48 -0500
 Message-ID: 
- <CADkTA4MWd1rgp0R3mXT98EjyY3Ki7_M5UMZi64kD=XeGUPNnFg@mail.gmail.com>
-Subject: Re: [PATCH] python: python3-idna: fix non-existent Unicode license
+ <CADkTA4MDSHzEyTWeVksHGqSnwPPyOqTfX=nd7YEq3_iqefVVoA@mail.gmail.com>
+Subject: Re: [PATCH] ptest-packagelists: Add missing python3-webcolors entry
 To: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
@@ -61,63 +61,46 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:58:04 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:59:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159049
+ https://lists.openembedded.org/g/openembedded-core/message/159050
 
-On Wed, Dec 1, 2021 at 11:13 AM Quentin Schulz
+On Wed, Dec 1, 2021 at 11:28 AM Quentin Schulz
 <quentin.schulz@theobroma-systems.com> wrote:
 >
-> In addition to not being an SPDX license, Unicode license also isn't
-> available in any of the LICENSE_PATH available in openembedded, meaning
-> the following warning is printed:
+> Resolves:
 >
-> python3-idna: No generic license file exists for: Unicode in any provider [license-exists]
+> WARNING: python3-webcolors-1.11.1-r0 do_package_qa: QA Issue: supports ptests but is not included in oe-core's ptest-packagelists.inc [missing-ptest]
 >
-> Unfortunately the license is not really explicit in the project. After
-> looking at the code, it seems that this license gets pulled by
-> idna/idnadata.py and idna/uts46data.py which are auto-generated by
-> tools/idna-data which downloads data from
-> http://www.unicode.org/Public/{version}/ucd/ and
-> http://www.unicode.org/Public/idna/ which are covered by
-> https://www.unicode.org/license.txt as mentioned in
-> https://www.unicode.org/copyright.html.
->
-> Comparing https://www.unicode.org/license.txt to Unicode-DFS-2016
-> resulted in a match so let's point to that SPDX license instead.
 
-I'm not able to reproduce the warning yet, but the license cleanup
-makes sense even without that.
+I haven't seen the warning for this either, and I didn't even know
+this packgelist existed :)
 
-Looks good to me.
+So thanks for the fix, looks good to me.
 
 Bruce
 
-
->
 > Cc: Quentin Schulz <foss+yocto@0leil.net>
 > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > ---
->  meta/recipes-devtools/python/python3-idna_3.3.bb | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
-> index a0e6b79a56..f3c53a8717 100644
-> --- a/meta/recipes-devtools/python/python3-idna_3.3.bb
-> +++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
-> @@ -1,6 +1,11 @@
->  SUMMARY = "Internationalised Domain Names in Applications"
->  HOMEPAGE = "https://github.com/kjd/idna"
-> -LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
-> +# Note: Unicode license is pulled in by idna/idnadata.py and idna/uts46data.py
-> +# files auto-generated by tools/idna-data which downloads data from
-> +# http://www.unicode.org/Public/{version}/ucd/ and http://www.unicode.org/Public/idna/
-> +# which are covered by https://www.unicode.org/license.txt as mentioned by
-> +# https://www.unicode.org/copyright.html
-> +LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-DFS-2016"
->  LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
+> Note: Not tested
 >
->  SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
+>  meta/conf/distro/include/ptest-packagelists.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+> index bf9d158a0a..c503a6a594 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -56,6 +56,7 @@ PTESTS_FAST = "\
+>      python3-more-itertools-ptest \
+>      python3-pluggy-ptest \
+>      python3-wcwidth-ptest \
+> +    python3-webcolors-ptest \
+>      qemu-ptest \
+>      quilt-ptest \
+>      sed-ptest \
 > --
 > 2.33.1
 >
