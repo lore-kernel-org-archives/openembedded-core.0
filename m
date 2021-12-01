@@ -1,271 +1,200 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20280C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 15:56:42 +0000 (UTC)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
- [209.85.221.179])
- by mx.groups.io with SMTP id smtpd.web09.94099.1638374201152775815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 560E0C433FE
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:00:22 +0000 (UTC)
+Received: from forward501p.mail.yandex.net (forward501p.mail.yandex.net
+ [77.88.28.111])
+ by mx.groups.io with SMTP id smtpd.web09.94207.1638374420409096370
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 07:56:41 -0800
+ Wed, 01 Dec 2021 08:00:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hzEblAx4;
- spf=pass (domain: gmail.com, ip: 209.85.221.179,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f179.google.com with SMTP id s17so16466042vka.5
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 07:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DgSJOVl8wTW/xRqoRcvFrzx9ntkmtTlttb3dZPQTRfg=;
-        b=hzEblAx40SP10FZCeMCHJ7z+obRcNJghaoI41niKSXQpafIaeOLepams9GYGzZFSHt
-         yH5pIxkvNhCW9gL/1Z3qPQBL7JXiH8BNwR1TOFhWS/lIwZEOWb4Gil7b2CyWyCLZ0eHb
-         gDJIeqlYGEYs8d8jtFBOleia5UcxzDKMFTjRT7dwCeAjecGizMxnT8ldNiV+TuUIm0ne
-         xSxhOXy7D4tOzcwyCSC6Q4jdB6dlf1TrPD7Wd5svrXJdEsnu/vRqBMMR+jB0XtWT3Dmr
-         xwfxgF5+G4ypYh8z+eOURwizd7rVsjJ/d/cyt3cJuRt+DuUOltnbargFIBaszWEuRc5A
-         ZDTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DgSJOVl8wTW/xRqoRcvFrzx9ntkmtTlttb3dZPQTRfg=;
-        b=VBH3zpofsu4WJIFG6zJW2e+038BAcRebKWpKltz9nimi5sapIiWUAG/AwxjX8Cmr9g
-         27Mz6OuiD/SojvM4rBPNwLNUGvVGs+b2aiEJ2O5lD6rsyYp03oS6eXpqX5WjfQgQ+3vZ
-         cUsa633/pvkudh9IpipO5LpdQP/s/1X49xufiVGmpfMqHZK8VhxfnhR7sM0Tm4TCw1MQ
-         5zvCAX46VuD8yXXiuLwaMq9Iy8PPK+r+313/6s2zg0yOKb4SALEtLqDSyTyO/HHm7jAb
-         3FrOBTaishN588F+zUL8Nf1n7idk76Kt/yDSLKsQQA2QwKXR0DRCWmUpI7XkDAY5W4ZT
-         NcZw==
-X-Gm-Message-State: AOAM532pV3mOisC3DxW8O21JKeqiCTYfxSo/Ck04ST+JJGjvm9Po8H2q
-	UZiwihhCp1JVzUFiBeGQ63RNEFfX9OpZGbb+a7s=
-X-Google-Smtp-Source: 
- ABdhPJyFZtWtp1z/gZG3cH/rFcMS8ZzjaUSsEDtR8F8j0cq0QYpPW0JUQTcA8yYYzElJkfvVnIDSouX4sekrHmWM9ls=
-X-Received: by 2002:a05:6122:114c:: with SMTP id
- p12mr8316029vko.21.1638374200378;
- Wed, 01 Dec 2021 07:56:40 -0800 (PST)
-MIME-Version: 1.0
+ dkim=pass header.i=@zhukoff.net header.s=mail header.b=TSGew+ws;
+ spf=pass (domain: zhukoff.net, ip: 77.88.28.111, mailfrom: pavel@zhukoff.net)
+Received: from sas1-c2880b0fc97b.qloud-c.yandex.net
+ (sas1-c2880b0fc97b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:f6a9:0:640:c288:b0f])
+	by forward501p.mail.yandex.net (Yandex) with ESMTP id 6814C62134DF;
+	Wed,  1 Dec 2021 19:00:16 +0300 (MSK)
+Received: from 2a02:6b8:c14:39a5:0:640:229a:7e5e
+ (2a02:6b8:c14:39a5:0:640:229a:7e5e [2a02:6b8:c14:39a5:0:640:229a:7e5e])
+	by sas1-c2880b0fc97b.qloud-c.yandex.net (mxback/Yandex) with HTTP id
+ D0Q49f0dCW21-0FdGxZMA;
+	Wed, 01 Dec 2021 19:00:15 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
+ t=1638374415;
+	bh=lUHOTC2e0xd8lVPl7Z8YayxtnhQGqnXLWFarBORcGTE=;
+	h=References:Date:Message-Id:Cc:Subject:In-Reply-To:To:From;
+	b=TSGew+ws12CUIM+8IBOpA03R6eCQPXS5CMFsd3FSnB9aMLxp4HWHlzZe75LvkIGhO
+	 OGx/OzKXbYYIOPfFqIynW1ae30s+AMPyXwcaZzr+kbi3al3QdynS2uuS4SV0OS2LpI
+	 G/PvT/49MDs5vGco1+SLh9EjQkPalWYJ7iCpql3o=
+Authentication-Results: sas1-c2880b0fc97b.qloud-c.yandex.net;
+ dkim=pass header.i=@zhukoff.net
+Received: by sas1-229a7e5e75ed.qloud-c.yandex.net with HTTP;
+	Wed, 01 Dec 2021 19:00:15 +0300
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Pavel Zhukov <pavel.zhukov@huawei.com>
+In-Reply-To: 
+ <CANNYZj_dYZ5i+rT-VnKMh-VOd3UizYDQTag7PNOJvWc3CgxO+g@mail.gmail.com>
 References: <20211201141543.32206-1-pavel@zhukoff.net>
-In-Reply-To: <20211201141543.32206-1-pavel@zhukoff.net>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 1 Dec 2021 16:56:29 +0100
-Message-ID: 
  <CANNYZj_dYZ5i+rT-VnKMh-VOd3UizYDQTag7PNOJvWc3CgxO+g@mail.gmail.com>
 Subject: Re: [OE-core] [meta-oe][PATCH v2] patch.py: Initialize git repo
  before patching
-To: Pavel Zhukov <pavel@zhukoff.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000039068c05d217b88b"
+MIME-Version: 1.0
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Wed, 01 Dec 2021 17:00:15 +0100
+Message-Id: <544821638374351@mail.yandex.ru>
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset=utf-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 15:56:42 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:00:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159038
+ https://lists.openembedded.org/g/openembedded-core/message/159039
 
---00000000000039068c05d217b88b
-Content-Type: text/plain; charset="UTF-8"
-
-Does the test fail without the change in lib/oepatch.py? Can you show how?
-
-Alex
-
-On Wed, 1 Dec 2021 at 15:17, Pavel Zhukov <pavel@zhukoff.net> wrote:
-
-> From: Pavel Zhukov <pavel.zhukov@huawei.com>
->
-> If PATCHTOOL="git" has been specified but workdir is not git repo
-> bitbake fails to apply the patches. Fix this by initializing the repo
-> before patching.
-> This allows binary git patches to be applied.
->
-> Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-> ---
->  meta/lib/oe/patch.py                    | 17 +++++++++++++++++
->  meta/lib/oeqa/selftest/cases/bbtests.py |  6 ++++++
->  2 files changed, 23 insertions(+)
->
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index 7cd8436da5..720c6f663c 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -52,6 +52,10 @@ def runcmd(args, dir = None):
->          if dir:
->              os.chdir(olddir)
->
-> +def getstatusoutput(cmd):
-> +    import subprocess
-> +    return subprocess.getstatusoutput(cmd.split())
-> +
->  class PatchError(Exception):
->      def __init__(self, msg):
->          self.msg = msg
-> @@ -294,6 +298,19 @@ class GitApplyTree(PatchTree):
->          PatchTree.__init__(self, dir, d)
->          self.commituser = d.getVar('PATCH_GIT_USER_NAME')
->          self.commitemail = d.getVar('PATCH_GIT_USER_EMAIL')
-> +        if not self._isInitialized():
-> +            self._initRepo()
-> +
-> +    def _isInitialized(self):
-> +        cmd = "git rev-parse --show-toplevel"
-> +        (status, output) = getstatusoutput(cmd)
-> +        ## Make sure we're in builddir to not break top-level git repos
-> +        return status == 0 and os.path.samedir(output, self.dir)
-> +
-> +    def _initRepo(self):
-> +        runcmd("git init".split(), self.dir)
-> +        runcmd("git add .".split(), self.dir)
-> +        runcmd("git commit -a --allow-empty -m Patching_started".split(),
-> self.dir)
->
->      @staticmethod
->      def extractPatchHeader(patchfile):
-> diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py
-> b/meta/lib/oeqa/selftest/cases/bbtests.py
-> index d4f6a08991..8c046074f6 100644
-> --- a/meta/lib/oeqa/selftest/cases/bbtests.py
-> +++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-> @@ -294,3 +294,9 @@ INHERIT_remove = \"report-error\"
->
->          test_recipe_summary_after = get_bb_var('SUMMARY', test_recipe)
->          self.assertEqual(expected_recipe_summary,
-> test_recipe_summary_after)
-> +
-> +    def test_git_patchtool(self):
-> +        self.write_recipeinc('man-db', 'PATCHTOOL=\"git\"')
-> +        result = bitbake('man-db -c patch', ignore_status=False)
-> +        self.delete_recipeinc('man-db')
-> +        bitbake('-cclean man-db')
-> --
-> 2.34.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159031):
-> https://lists.openembedded.org/g/openembedded-core/message/159031
-> Mute This Topic: https://lists.openembedded.org/mt/87428914/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000039068c05d217b88b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Does the test fail without the change in lib/oepatch.=
-py? Can you show how?<br></div><div><br></div><div>Alex<br></div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 1 =
-Dec 2021 at 15:17, Pavel Zhukov &lt;<a href=3D"mailto:pavel@zhukoff.net">pa=
-vel@zhukoff.net</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">From: Pavel Zhukov &lt;<a href=3D"mailto:pavel.zhukov@huawei=
-.com" target=3D"_blank">pavel.zhukov@huawei.com</a>&gt;<br>
-<br>
-If PATCHTOOL=3D&quot;git&quot; has been specified but workdir is not git re=
-po<br>
-bitbake fails to apply the patches. Fix this by initializing the repo<br>
-before patching.<br>
-This allows binary git patches to be applied.<br>
-<br>
-Signed-off-by: Pavel Zhukov &lt;<a href=3D"mailto:pavel.zhukov@huawei.com" =
-target=3D"_blank">pavel.zhukov@huawei.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/patch.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 17 +++++++++++++++++<br>
-=C2=A0meta/lib/oeqa/selftest/cases/bbtests.py |=C2=A0 6 ++++++<br>
-=C2=A02 files changed, 23 insertions(+)<br>
-<br>
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py<br>
-index 7cd8436da5..720c6f663c 100644<br>
---- a/meta/lib/oe/patch.py<br>
-+++ b/meta/lib/oe/patch.py<br>
-@@ -52,6 +52,10 @@ def runcmd(args, dir =3D None):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if dir:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.chdir(olddir)<br>
-<br>
-+def getstatusoutput(cmd):<br>
-+=C2=A0 =C2=A0 import subprocess<br>
-+=C2=A0 =C2=A0 return subprocess.getstatusoutput(cmd.split())<br>
-+<br>
-=C2=A0class PatchError(Exception):<br>
-=C2=A0 =C2=A0 =C2=A0def __init__(self, msg):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.msg =3D msg<br>
-@@ -294,6 +298,19 @@ class GitApplyTree(PatchTree):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PatchTree.__init__(self, dir, d)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.commituser =3D d.getVar(&#39;PATCH_G=
-IT_USER_NAME&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.commitemail =3D d.getVar(&#39;PATCH_=
-GIT_USER_EMAIL&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not self._isInitialized():<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._initRepo()<br>
-+<br>
-+=C2=A0 =C2=A0 def _isInitialized(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;git rev-parse --show-toplevel&qu=
-ot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D getstatusoutput(cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ## Make sure we&#39;re in builddir to not brea=
-k top-level git repos<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return status =3D=3D 0 and os.path.samedir(out=
-put, self.dir)<br>
-+<br>
-+=C2=A0 =C2=A0 def _initRepo(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 runcmd(&quot;git init&quot;.split(), self.dir)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 runcmd(&quot;git add .&quot;.split(), self.dir=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 runcmd(&quot;git commit -a --allow-empty -m Pa=
-tching_started&quot;.split(), self.dir)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0@staticmethod<br>
-=C2=A0 =C2=A0 =C2=A0def extractPatchHeader(patchfile):<br>
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selfte=
-st/cases/bbtests.py<br>
-index d4f6a08991..8c046074f6 100644<br>
---- a/meta/lib/oeqa/selftest/cases/bbtests.py<br>
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py<br>
-@@ -294,3 +294,9 @@ INHERIT_remove =3D \&quot;report-error\&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_recipe_summary_after =3D get_bb_var(=
-&#39;SUMMARY&#39;, test_recipe)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(expected_recipe_summary,=
- test_recipe_summary_after)<br>
-+<br>
-+=C2=A0 =C2=A0 def test_git_patchtool(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_recipeinc(&#39;man-db&#39;, &#39;PA=
-TCHTOOL=3D\&quot;git\&quot;&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D bitbake(&#39;man-db -c patch&#39;, =
-ignore_status=3DFalse)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.delete_recipeinc(&#39;man-db&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&#39;-cclean man-db&#39;)<br>
--- <br>
-2.34.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#159031): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/159031" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/159031</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87428914/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87428914/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000039068c05d217b88b--
+PGRpdj48ZGl2PndpdGhvdXQgY2hhbmdlIGluIHBhdGNoLnB5OjwvZGl2PjxkaXY+RVJST1I6IG1h
+bi1kYi0yLjkuMC1yMSBkb19wYXRjaDogQXBwbHlpbmcgcGF0Y2ggJ21hbl9kYi5jb25mLWF2b2lk
+LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdC5wYXRjaCcgb24gdGFyZ2V0IGRpcmVjdG9y
+eSAnL21udC9idWlsZHMvb25pcm9wcm9qZWN0L2J1aWxkcy9idWlsZC1vbmlyby1saW51eC1zdC90
+bXAvd29yay9jb3JlMi02NC1vbmlyby1saW51eC1tdXNsL21hbi1kYi8yLjkuMC1yMS9tYW4tZGIt
+Mi45LjAnPC9kaXY+PGRpdj5Db21tYW5kIEVycm9yOiAnZ2l0IHJldi1wYXJzZSAtLXNob3ctdG9w
+bGV2ZWwnIGV4aXRlZCB3aXRoIDAgwqBPdXRwdXQ6PC9kaXY+PGRpdj5mYXRhbDogbm90IGEgZ2l0
+IHJlcG9zaXRvcnkgKG9yIGFueSBvZiB0aGUgcGFyZW50IGRpcmVjdG9yaWVzKTogLmdpdDwvZGl2
+PjxkaXY+RVJST1I6IExvZ2ZpbGUgb2YgZmFpbHVyZSBzdG9yZWQgaW46IC9tbnQvYnVpbGRzL29u
+aXJvcHJvamVjdC9idWlsZHMvYnVpbGQtb25pcm8tbGludXgtc3QvdG1wL3dvcmsvY29yZTItNjQt
+b25pcm8tbGludXgtbXVzbC9tYW4tZGIvMi45LjAtcjEvdGVtcC9sb2cuZG9fcGF0Y2guMjE0OTE8
+L2Rpdj48ZGl2PjxkaXY+PGRpdj5OT1RFOiByZWNpcGUgbWFuLWRiLTIuOS4wLXIxOiB0YXNrIGRv
+X3BhdGNoOiBGYWlsZWQ8L2Rpdj48ZGl2PkVSUk9SOiBUYXNrICgvbW50L2J1aWxkcy9vbmlyb3By
+b2plY3Qvc291cmNlcy9vZS1jb3JlL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYW4tZGIvbWFuLWRi
+XzIuOS4wLmJiOmRvX3BhdGNoKSBmYWlsZWQgd2l0aCBleGl0IGNvZGUgJzEnPC9kaXY+PGRpdj5O
+T1RFOiBUYXNrcyBTdW1tYXJ5OiBBdHRlbXB0ZWQgMTAyIHRhc2tzIG9mIHdoaWNoIDAgZGlkbid0
+IG5lZWQgdG8gYmUgcmVydW4gYW5kIDEgZmFpbGVkLjwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PlN1
+bW1hcnk6IDEgdGFzayBmYWlsZWQ6PC9kaXY+PGRpdj7CoCAvbW50L2J1aWxkcy9vbmlyb3Byb2pl
+Y3Qvc291cmNlcy9vZS1jb3JlL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYW4tZGIvbWFuLWRiXzIu
+OS4wLmJiOmRvX3BhdGNoPC9kaXY+PGRpdj5TdW1tYXJ5OiBUaGVyZSB3YXMgMSBFUlJPUiBtZXNz
+YWdlIHNob3duLCByZXR1cm5pbmcgYSBub24temVybyBleGl0IGNvZGUuPC9kaXY+PGRpdj4tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tPC9kaXY+PGRpdj4yMDIxLTEyLTAxIDE1OjExOjU2LDE4NCAtIG9lLXNlbGZ0ZXN0
+IC0gSU5GTyAtIFJhbiAxIHRlc3QgaW4gMTQ3LjA4M3M8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6
+MTE6NTYsMTg0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gRkFJTEVEPC9kaXY+PGRpdj4yMDIxLTEy
+LTAxIDE1OjExOjU2LDE4NCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIMKgKGZhaWx1cmVzPTEpPC9k
+aXY+PGRpdj4yMDIxLTEyLTAxIDE1OjExOjU4LDcyMSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJF
+U1VMVFM6PC9kaXY+PGRpdj4yMDIxLTEyLTAxIDE1OjExOjU4LDcyMiAtIG9lLXNlbGZ0ZXN0IC0g
+SU5GTyAtIFJFU1VMVFMgLSBiYnRlc3RzLkJpdGJha2VUZXN0cy50ZXN0X2dpdF9wYXRjaHRvb2w6
+IEZBSUxFRCAoMTQ1LjUxcyk8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6MTE6NTgsNzI0IC0gb2Ut
+c2VsZnRlc3QgLSBJTkZPIC0gU1VNTUFSWTo8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6MTE6NTgs
+NzI0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgKCkgLSBSYW4gMSB0ZXN0IGlu
+IDE0Ny4wODRzPC9kaXY+PGRpdj4yMDIxLTEyLTAxIDE1OjExOjU4LDcyNCAtIG9lLXNlbGZ0ZXN0
+IC0gSU5GTyAtIG9lLXNlbGZ0ZXN0IC0gRkFJTCAtIFJlcXVpcmVkIHRlc3RzIGZhaWxlZCAoc3Vj
+Y2Vzc2VzPTAsIHNraXBwZWQ9MCwgZmFpbHVyZXM9MSwgZXJyb3JzPTApPC9kaXY+PC9kaXY+PGRp
+dj7CoDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PndpdGggY2hhbmdlIGluIHBhdGNoLnB5OjwvZGl2
+PjxkaXY+PGRpdj4yMDIxLTEyLTAxIDE1OjEyOjIwLDkxMCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
+IEFkZGluZzogImluY2x1ZGUgc2VsZnRlc3QuaW5jIiBpbiAvbW50L2J1aWxkcy9vbmlyb3Byb2pl
+Y3QvYnVpbGRzL2J1aWxkLW9uaXJvLWxpbnV4LXN0L2NvbmYvbG9jYWwuY29uZjwvZGl2PjxkaXY+
+MjAyMS0xMi0wMSAxNToxMjoyMCw5MTEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRpbmc6ICJp
+bmNsdWRlIGJibGF5ZXJzLmluYyIgaW4gYmJsYXllcnMuY29uZjwvZGl2PjxkaXY+MjAyMS0xMi0w
+MSAxNToxMjoyMCw5MTEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSB0ZXN0X2dpdF9wYXRjaHRvb2wg
+KGJidGVzdHMuQml0YmFrZVRlc3RzKTwvZGl2PjxkaXY+MjAyMS0xMi0wMSAxNToxNTozMCw1NDAg
+LSBvZS1zZWxmdGVzdCAtIElORk8gLSDCoC4uLiBvazwvZGl2PjxkaXY+MjAyMS0xMi0wMSAxNTox
+NTozMSw3MTcgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tPC9kaXY+PGRpdj4y
+MDIxLTEyLTAxIDE1OjE1OjMxLDcxNyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJhbiAxIHRlc3Qg
+aW4gMTkyLjM3MXM8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6MTU6MzEsNzE3IC0gb2Utc2VsZnRl
+c3QgLSBJTkZPIC0gT0s8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6MTU6MzQsNTIzIC0gb2Utc2Vs
+ZnRlc3QgLSBJTkZPIC0gUkVTVUxUUzo8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6MTU6MzQsNTI0
+IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUyAtIGJidGVzdHMuQml0YmFrZVRlc3RzLnRl
+c3RfZ2l0X3BhdGNodG9vbDogUEFTU0VEICgxODkuNjNzKTwvZGl2PjxkaXY+MjAyMS0xMi0wMSAx
+NToxNTozNCw1MjYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBTVU1NQVJZOjwvZGl2PjxkaXY+MjAy
+MS0xMi0wMSAxNToxNTozNCw1MjYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBvZS1zZWxmdGVzdCAo
+KSAtIFJhbiAxIHRlc3QgaW4gMTkyLjM3MnM8L2Rpdj48ZGl2PjIwMjEtMTItMDEgMTU6MTU6MzQs
+NTI2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgLSBPSyAtIEFsbCByZXF1aXJl
+ZCB0ZXN0cyBwYXNzZWQgKHN1Y2Nlc3Nlcz0xLCBza2lwcGVkPTAsIGZhaWx1cmVzPTAsIGVycm9y
+cz0wKTwvZGl2PjxkaXY+wqA8L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48ZGl2PsKgPC9kaXY+PGRp
+dj4tLcKgPC9kaXY+PGRpdj5QYXZlbDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+PGRp
+dj7CoDwvZGl2PjxkaXY+MDEuMTIuMjAyMSwgMTY6NTYsICJBbGV4YW5kZXIgS2FuYXZpbiIgJmx0
+O2FsZXgua2FuYXZpbkBnbWFpbC5jb20mZ3Q7OjwvZGl2PjxibG9ja3F1b3RlPjxkaXY+PGRpdj5E
+b2VzIHRoZSB0ZXN0IGZhaWwgd2l0aG91dCB0aGUgY2hhbmdlIGluIGxpYi9vZXBhdGNoLnB5PyBD
+YW4geW91IHNob3cgaG93PzwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2PkFsZXg8L2Rpdj48L2Rpdj7C
+oDxkaXY+PGRpdj5PbiBXZWQsIDEgRGVjIDIwMjEgYXQgMTU6MTcsIFBhdmVsIFpodWtvdiAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOnBhdmVsQHpodWtvZmYubmV0IiByZWw9Im5vb3BlbmVyIG5vcmVmZXJy
+ZXIiPnBhdmVsQHpodWtvZmYubmV0PC9hPiZndDsgd3JvdGU6PC9kaXY+PGJsb2NrcXVvdGUgc3R5
+bGU9ImJvcmRlci1sZWZ0LWNvbG9yOnJnYiggMjA0ICwgMjA0ICwgMjA0ICk7Ym9yZGVyLWxlZnQt
+c3R5bGU6c29saWQ7Ym9yZGVyLWxlZnQtd2lkdGg6MXB4O21hcmdpbjowcHggMHB4IDBweCAwLjhl
+eDtwYWRkaW5nLWxlZnQ6MWV4Ij5Gcm9tOiBQYXZlbCBaaHVrb3YgJmx0OzxhIGhyZWY9Im1haWx0
+bzpwYXZlbC56aHVrb3ZAaHVhd2VpLmNvbSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIiB0YXJn
+ZXQ9Il9ibGFuayI+cGF2ZWwuemh1a292QGh1YXdlaS5jb208L2E+Jmd0OzxiciAvPjxiciAvPklm
+IFBBVENIVE9PTD0iZ2l0IiBoYXMgYmVlbiBzcGVjaWZpZWQgYnV0IHdvcmtkaXIgaXMgbm90IGdp
+dCByZXBvPGJyIC8+Yml0YmFrZSBmYWlscyB0byBhcHBseSB0aGUgcGF0Y2hlcy4gRml4IHRoaXMg
+YnkgaW5pdGlhbGl6aW5nIHRoZSByZXBvPGJyIC8+YmVmb3JlIHBhdGNoaW5nLjxiciAvPlRoaXMg
+YWxsb3dzIGJpbmFyeSBnaXQgcGF0Y2hlcyB0byBiZSBhcHBsaWVkLjxiciAvPjxiciAvPlNpZ25l
+ZC1vZmYtYnk6IFBhdmVsIFpodWtvdiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnBhdmVsLnpodWtvdkBo
+dWF3ZWkuY29tIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5wYXZl
+bC56aHVrb3ZAaHVhd2VpLmNvbTwvYT4mZ3Q7PGJyIC8+LS0tPGJyIC8+wqBtZXRhL2xpYi9vZS9w
+YXRjaC5wecKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHwgMTcgKysrKysrKysrKysrKysr
+Kys8YnIgLz7CoG1ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5weSB8wqAgNiAr
+KysrKys8YnIgLz7CoDIgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKTxiciAvPjxiciAv
+PmRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZS9wYXRjaC5weSBiL21ldGEvbGliL29lL3BhdGNoLnB5
+PGJyIC8+aW5kZXggN2NkODQzNmRhNS4uNzIwYzZmNjYzYyAxMDA2NDQ8YnIgLz4tLS0gYS9tZXRh
+L2xpYi9vZS9wYXRjaC5weTxiciAvPisrKyBiL21ldGEvbGliL29lL3BhdGNoLnB5PGJyIC8+QEAg
+LTUyLDYgKzUyLDEwIEBAIGRlZiBydW5jbWQoYXJncywgZGlyID0gTm9uZSk6PGJyIC8+wqAgwqAg
+wqAgwqAgwqBpZiBkaXI6PGJyIC8+wqAgwqAgwqAgwqAgwqAgwqAgwqBvcy5jaGRpcihvbGRkaXIp
+PGJyIC8+PGJyIC8+K2RlZiBnZXRzdGF0dXNvdXRwdXQoY21kKTo8YnIgLz4rwqAgwqAgaW1wb3J0
+IHN1YnByb2Nlc3M8YnIgLz4rwqAgwqAgcmV0dXJuIHN1YnByb2Nlc3MuZ2V0c3RhdHVzb3V0cHV0
+KGNtZC5zcGxpdCgpKTxiciAvPis8YnIgLz7CoGNsYXNzIFBhdGNoRXJyb3IoRXhjZXB0aW9uKTo8
+YnIgLz7CoCDCoCDCoGRlZiBfX2luaXRfXyhzZWxmLCBtc2cpOjxiciAvPsKgIMKgIMKgIMKgIMKg
+c2VsZi5tc2cgPSBtc2c8YnIgLz5AQCAtMjk0LDYgKzI5OCwxOSBAQCBjbGFzcyBHaXRBcHBseVRy
+ZWUoUGF0Y2hUcmVlKTo8YnIgLz7CoCDCoCDCoCDCoCDCoFBhdGNoVHJlZS5fX2luaXRfXyhzZWxm
+LCBkaXIsIGQpPGJyIC8+wqAgwqAgwqAgwqAgwqBzZWxmLmNvbW1pdHVzZXIgPSBkLmdldFZhcign
+UEFUQ0hfR0lUX1VTRVJfTkFNRScpPGJyIC8+wqAgwqAgwqAgwqAgwqBzZWxmLmNvbW1pdGVtYWls
+ID0gZC5nZXRWYXIoJ1BBVENIX0dJVF9VU0VSX0VNQUlMJyk8YnIgLz4rwqAgwqAgwqAgwqAgaWYg
+bm90IHNlbGYuX2lzSW5pdGlhbGl6ZWQoKTo8YnIgLz4rwqAgwqAgwqAgwqAgwqAgwqAgc2VsZi5f
+aW5pdFJlcG8oKTxiciAvPis8YnIgLz4rwqAgwqAgZGVmIF9pc0luaXRpYWxpemVkKHNlbGYpOjxi
+ciAvPivCoCDCoCDCoCDCoCBjbWQgPSAiZ2l0IHJldi1wYXJzZSAtLXNob3ctdG9wbGV2ZWwiPGJy
+IC8+K8KgIMKgIMKgIMKgIChzdGF0dXMsIG91dHB1dCkgPSBnZXRzdGF0dXNvdXRwdXQoY21kKTxi
+ciAvPivCoCDCoCDCoCDCoCAjIyBNYWtlIHN1cmUgd2UncmUgaW4gYnVpbGRkaXIgdG8gbm90IGJy
+ZWFrIHRvcC1sZXZlbCBnaXQgcmVwb3M8YnIgLz4rwqAgwqAgwqAgwqAgcmV0dXJuIHN0YXR1cyA9
+PSAwIGFuZCBvcy5wYXRoLnNhbWVkaXIob3V0cHV0LCBzZWxmLmRpcik8YnIgLz4rPGJyIC8+K8Kg
+IMKgIGRlZiBfaW5pdFJlcG8oc2VsZik6PGJyIC8+K8KgIMKgIMKgIMKgIHJ1bmNtZCgiZ2l0IGlu
+aXQiLnNwbGl0KCksIHNlbGYuZGlyKTxiciAvPivCoCDCoCDCoCDCoCBydW5jbWQoImdpdCBhZGQg
+LiIuc3BsaXQoKSwgc2VsZi5kaXIpPGJyIC8+K8KgIMKgIMKgIMKgIHJ1bmNtZCgiZ2l0IGNvbW1p
+dCAtYSAtLWFsbG93LWVtcHR5IC1tIFBhdGNoaW5nX3N0YXJ0ZWQiLnNwbGl0KCksIHNlbGYuZGly
+KTxiciAvPjxiciAvPsKgIMKgIMKgQHN0YXRpY21ldGhvZDxiciAvPsKgIMKgIMKgZGVmIGV4dHJh
+Y3RQYXRjaEhlYWRlcihwYXRjaGZpbGUpOjxiciAvPmRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFh
+L3NlbGZ0ZXN0L2Nhc2VzL2JidGVzdHMucHkgYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2Vz
+L2JidGVzdHMucHk8YnIgLz5pbmRleCBkNGY2YTA4OTkxLi44YzA0NjA3NGY2IDEwMDY0NDxiciAv
+Pi0tLSBhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5weTxiciAvPisrKyBi
+L21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5weTxiciAvPkBAIC0yOTQsMyAr
+Mjk0LDkgQEAgSU5IRVJJVF9yZW1vdmUgPSBcInJlcG9ydC1lcnJvclwiPGJyIC8+PGJyIC8+wqAg
+wqAgwqAgwqAgwqB0ZXN0X3JlY2lwZV9zdW1tYXJ5X2FmdGVyID0gZ2V0X2JiX3ZhcignU1VNTUFS
+WScsIHRlc3RfcmVjaXBlKTxiciAvPsKgIMKgIMKgIMKgIMKgc2VsZi5hc3NlcnRFcXVhbChleHBl
+Y3RlZF9yZWNpcGVfc3VtbWFyeSwgdGVzdF9yZWNpcGVfc3VtbWFyeV9hZnRlcik8YnIgLz4rPGJy
+IC8+K8KgIMKgIGRlZiB0ZXN0X2dpdF9wYXRjaHRvb2woc2VsZik6PGJyIC8+K8KgIMKgIMKgIMKg
+IHNlbGYud3JpdGVfcmVjaXBlaW5jKCdtYW4tZGInLCAnUEFUQ0hUT09MPVwiZ2l0XCInKTxiciAv
+PivCoCDCoCDCoCDCoCByZXN1bHQgPSBiaXRiYWtlKCdtYW4tZGIgLWMgcGF0Y2gnLCBpZ25vcmVf
+c3RhdHVzPUZhbHNlKTxiciAvPivCoCDCoCDCoCDCoCBzZWxmLmRlbGV0ZV9yZWNpcGVpbmMoJ21h
+bi1kYicpPGJyIC8+K8KgIMKgIMKgIMKgIGJpdGJha2UoJy1jY2xlYW4gbWFuLWRiJyk8YnIgLz4t
+LTxiciAvPjIuMzQuMDxiciAvPjxiciAvPjxiciAvPi09LT0tPS09LT0tPS09LT0tPS09LT0tPGJy
+IC8+TGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuPGJy
+IC8+Vmlldy9SZXBseSBPbmxpbmUgKCMxNTkwMzEpOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE1OTAzMSIgcmVsPSJu
+b29wZW5lciBub3JlZmVycmVyIiB0YXJnZXQ9Il9ibGFuayI+aHR0cHM6Ly9saXN0cy5vcGVuZW1i
+ZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNTkwMzE8L2E+PGJyIC8+TXV0
+ZSBUaGlzIFRvcGljOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQv
+ODc0Mjg5MTQvMTY4NjQ4OSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIiB0YXJnZXQ9Il9ibGFu
+ayI+aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210Lzg3NDI4OTE0LzE2ODY0ODk8L2E+
+PGJyIC8+R3JvdXAgT3duZXI6IDxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZSUyQm93
+bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciIHJlbD0ibm9vcGVuZXIgbm9yZWZlcnJlciIgdGFy
+Z2V0PSJfYmxhbmsiPm9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc8L2E+PGJyIC8+VW5zdWJzY3JpYmU6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJy
+ZXIiIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
+ZW1iZWRkZWQtY29yZS91bnN1YjwvYT4gWzxhIGhyZWY9Im1haWx0bzphbGV4LmthbmF2aW5AZ21h
+aWwuY29tIiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5hbGV4Lmth
+bmF2aW5AZ21haWwuY29tPC9hPl08YnIgLz4tPS09LT0tPS09LT0tPS09LT0tPS09LTxiciAvPsKg
+PC9ibG9ja3F1b3RlPjwvZGl2PjwvYmxvY2txdW90ZT4=
 
