@@ -1,2040 +1,2133 @@
-Return-Path: <ranjitsinh.rathod@kpit.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC6ADC433F5
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 11:51:58 +0000 (UTC)
-Received: from IND01-BO1-obe.outbound.protection.outlook.com
- (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.47])
- by mx.groups.io with SMTP id smtpd.web09.91058.1638359516043814427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 653A9C433F5
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 12:12:19 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.91228.1638360737050022120
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 03:51:57 -0800
+ Wed, 01 Dec 2021 04:12:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=I8noeC2b;
- spf=pass (domain: kpit.com, ip: 40.107.139.47,
- mailfrom: ranjitsinh.rathod@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=REG1je4wOjdV3T6Q52GTekqPU/crhB+XXR7+GmqtNgaj9b54KFf04YyCu4Qn1b7OzJIS/HPt/pgWYwPw12bqHKX9hkgXmDBG1SCrnb87O1hBibHRdtpaKFWh33ASLHZCUFWkuwfiLv3X4LK+8Wbc2h7Hhw/TYSppUVwDr8p5XptR4uLQ4oYEu27VtSrMrtmZb0J/vmRVfJfn6ZjRBpw8uuVIhk1jrWy2uNV9Phw0GVVSIFPuwc+LAuV7MEUNJqTiCGKRDNF1e3tJfGppNjj1w4Vr3+DUMQyn+lqaEvOYrjfgcsqKJuDJ1QB8tEVETedG7eLumT7yEasy7GBJUjvB0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AGe6gkxTlbgnaFoxen1VjeYzGUSxQ89TY9X27x1+zNk=;
- b=gSM3CtNikp1aUP8amyrgZIWGX4remIyEr9q7aIP7/w+vNGMqtFcvgodLiBLNnlZl9hWrkPF5M6iU0HCmkbvbtEHuArTpbG4r3+NOdx4HkQ8fx0cPsrBcPIpjanLYTBBzgZ4Y2wEOUb36kAx7ZAjOT5cXXvGzdchPS7M8EyqsYCt3Oj8vW1cbpB6gtmvbt9GUaE2EQ5ILaX62NYNqMxqVdNPue48Q+PDHPnKjgtrv7fuYut/a5YRGk/cJzB5CooALohElXDHQs6W5HtPLb7RlkUH/k6diDkqjIFTkSq72ksZG0Wxh4Ae0Yku6xK+hZlYM4Yb4qs1BirKiMzeTkVrh5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AGe6gkxTlbgnaFoxen1VjeYzGUSxQ89TY9X27x1+zNk=;
- b=I8noeC2bW9HMd1p34ql61xrTa8KnYfS6hP4x4ZOBv7R7ro27lCY43CMSwluNY1HxZIV86bOWogrAXCewlvpW9MnI6pA4xrcNEU8ud7YEn4hOSecMESl41UCs3LhcKGSa2EO03iwcpt42+RZdhv0VwL4VHTD+c3tKv+Re92QdKuE=
-Received: from PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:39::7)
- by PN3PR01MB6791.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:94::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Wed, 1 Dec
- 2021 11:51:47 +0000
-Received: from PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::582f:d8eb:a1fa:5a9d]) by PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::582f:d8eb:a1fa:5a9d%5]) with mapi id 15.20.4755.014; Wed, 1 Dec 2021
- 11:51:47 +0000
-From: Ranjitsinh Rathod <Ranjitsinh.Rathod@kpit.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "sanakazisk19@gmail.com"
-	<sanakazisk19@gmail.com>
-CC: "akuster808@gmail.com" <akuster808@gmail.com>
-Subject: Re: [OE-core] [meta-oe][dunfell][PATCH 1/3] dovecot: Fix
- CVE-2020-12100
-Thread-Topic: [OE-core] [meta-oe][dunfell][PATCH 1/3] dovecot: Fix
- CVE-2020-12100
-Thread-Index: AQHXu4FTJLpT5wdME0GXtQdG4U3UvawamXoAgANCmDQ=
-Date: Wed, 1 Dec 2021 11:51:47 +0000
-Message-ID: 
- <PNZPR01MB5278F620A63DD902F08C35C68F689@PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ah4GWUEY;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id
+ nn15-20020a17090b38cf00b001ac7dd5d40cso1255639pjb.3
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 01 Dec 2021 04:12:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oYMeeEf/HJSXKL5E8/M9dVSaQngSP/Nc9BFZOK0je1s=;
+        b=ah4GWUEYTDKuQtwpl4VkUbhh/bdtYG196SdAsiQV9uIvNr3LH8eW91QedYd2cSVSoj
+         +ajNqHlCF8Oe9GNabMsSK44dU1mw+yNkNUJv9/5gR65EkJOmi1ptpbJ0iJsAQ51tSzj1
+         nUEHBivXwwzgvh9zrXVCQzYpPDiaSlXGz1BTiC7Mu+mrilv/QEhdurfWi+VuQGm7gxiR
+         WJIniLkaHO6abrJggy/MEFW/JqzOKSW/kxQbdq3z+DzlrQwg0+BTTBxVdFyQr+xG3vdN
+         HhFyWeSEHya96L26XlgVFXFyu8cu1WhoWTsYbhNnhrV3PVCdmGxbsbSlndfcGQ5mNwwi
+         ac5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oYMeeEf/HJSXKL5E8/M9dVSaQngSP/Nc9BFZOK0je1s=;
+        b=yxiBteZ2sQTvABxNiWuESJvoU0qWC7BnUsIa0GmH4wUcYJEhj/Gwxvn4Jp+mTzj+V8
+         EzUHK50Y1KwHfDG9vtKtFPH3W2t0rE7VsXJ/uXUTrRpxWMxhTjlZ0a2P9d8sHaA37C8s
+         rOR6ySOxxfkkOA3uT5zKgXp2rcG03YPI4sPyVcK7fV8hHRhoXsSkyUd7KmKlP6y7lTyy
+         /KChyRIJQk8NXSPfqE2x7mKIoDjNxFLiCQhCPKMMjbqhH7zpWdOx7P9hJdt6EG+UDNMh
+         jGTaUayv5hg8RT2kp4ifkEYBODug08V5/snszFelFebeWg93d1aV6gmrbjGZg3HtngR2
+         ryXQ==
+X-Gm-Message-State: AOAM533Ag3Iy9xGPFZvM22WoiR79btBRtaxRWpyZdkbHkIP/PALABqpx
+	UbG5L4zjz4NBmLRrq6kXYGXi+E1zqCZb8kTKmpQCa53E
+X-Google-Smtp-Source: 
+ ABdhPJxYk7xR228Xw9hR3ShktO3HoijTPVjKu8p8vlR4LRVaS1jxLJn+wTrHoZEd1v5hRaw+cCgq0m1apcNG25SiXeQ=
+X-Received: by 2002:a17:902:e806:b0:141:fd0a:2201 with SMTP id
+ u6-20020a170902e80600b00141fd0a2201mr6875937plg.48.1638360735765; Wed, 01 Dec
+ 2021 04:12:15 -0800 (PST)
+MIME-Version: 1.0
 References: <20211007133921.3753-1-sanakazisk19@gmail.com>
  <CAPxU0msn=h7LpgZ_fxHpkJFVx=VwLpOreer+nkbopSyB4Yxzmw@mail.gmail.com>
+ <PNZPR01MB5278F620A63DD902F08C35C68F689@PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM>
 In-Reply-To: 
- <CAPxU0msn=h7LpgZ_fxHpkJFVx=VwLpOreer+nkbopSyB4Yxzmw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-suggested_attachment_session_id: 6ae89c25-bb46-44be-15f3-f3e609e63d42
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kpit.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 84d62b22-8040-4a0e-a837-08d9b4c0f432
-x-ms-traffictypediagnostic: PN3PR01MB6791:
-x-microsoft-antispam-prvs: 
- <PN3PR01MB67918FAD642DB827614003578F689@PN3PR01MB6791.INDPRD01.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- GjOgeFtGwe7PRRxG1gAOtZQ+fHl9rFQXwsfDzPfQK61jUTjfLobmlZuGrntV1ng+1IjLnj74vW37kAwfHBEZS71PzXz7hDfe0fRTGKEB5JG8qGGz9oUmDsMQHxw3vMTU+36MrYnq81lcGG3ajogzYizwlMG4M1mp3gVijfoppLaQ+aZw1D+r72j1b342y5IxnuIRRRCEgeZ5s1PqfiLKxzabxzw1AEe5H05FL0lP6a8eGw4toRn4uC40Yckh7CvCyB56P3FoSCJaTHL9qErA9lafr5+4QjoeIz+oLMdNRzkka61tWfnrrEaIxO7qSlhN3pNlWJpYAITQ/nDlxQKBtzPRupZ458NwDuC/bcrmqBGYNnCYyrr+oBCu5kh4hbOfAkCPh57J9Uzkq9Wrl4QjSel7H14os0VTuFVJyWoIGvyjxg4d6LRXnt91Lz3lOTEot5kkD6cEIGdC8kHOS0JHhN/PWx2lcb/RJgyTDuwsymR5Z4doUQi21XumU6wm7RADoD5lkFApGefJRZqGLjM7GRqEER15TVTjk5C8OAk+0tKkUIX5wHXGGh8QUGskb7Feo/YkLj42Pl6HMvIvcuz9D2JUSfU9ZOIwdWRleDvchFDxpUx6b1V8ffyyvorrLwYHIC/Bc7PD6V5zclonPcvaOTE9yucxLTDszZVKjSIMOeuIv1lNf5yBSSIVWgr098SGC74SYZuJMYoaF3vLM8eLx8zF5wQsWQpjq9Sfcftn2ZEwQ50kdJxqGOcDRZTx523L
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(52536014)(64756008)(66446008)(186003)(5660300002)(6506007)(45080400002)(66556008)(76116006)(66476007)(8936002)(508600001)(966005)(9686003)(55016003)(2906002)(7066003)(4326008)(86362001)(26005)(19627405001)(66574015)(166002)(83380400001)(110136005)(316002)(38100700002)(122000001)(66946007)(30864003)(8676002)(71200400001)(7696005)(33656002)(99936003)(38070700005)(579004)(559001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- O1uNcITJvjQTJjw1OBPoIj/W8yoL/vBzAOhQw8q4q17ii2ZDmMp6z4/f2D1bLMEzU60GF27nuiJ5/gEId1QPAu5JlTnVhF4Z1LORCx5C34p1twERE7cePjSK7u0JSdN0kgn/AOaWpuwtE+ekzQZGETbIWrbiJZgY3IIAuwKHmunxXvKTp7jqncI0bleGaj3q7ixo5+ajw/d0lXUybuR4IBNKymI0bRZLN1CIUfWtitAXMU2lh9DM01+6xCjBUdzFPpy4m/JvcL2Y5m64I7bZ8qJoA/ZzbQmgn4HczpMJxN8mrhnGYdVLr1U1zcvjyRMyEoUj6BEqjkK1sTq0RiaV1qMPaW//2WPAVfgpySJVpg/c6mOn0Ox7hrQ5E6kwgpQzkX7UrBxy3jtKI/cpL2pqUlXX9vfpUTkDK0+MgiDJs9/sXq3ALccLwpCLwpxIOJnh
-Content-Type: multipart/related;
-	boundary="_004_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_";
-	type="multipart/alternative"
-MIME-Version: 1.0
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 84d62b22-8040-4a0e-a837-08d9b4c0f432
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2021 11:51:47.0797
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- 4y34MPakM4getFbMBsHord6oJRYc0gStDkzEXgl7hBe0M3JLdpgeiCmxU8Nl8HqlcuEElQghLwJaUUiD7FRbEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6791
+ <PNZPR01MB5278F620A63DD902F08C35C68F689@PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 1 Dec 2021 13:12:03 +0100
+Message-ID: 
+ <CA+chaQdhc0VvH0yDSKXxQLJBH4s--D-YkLdVR2CWYxqLZebCMw@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][dunfell][PATCH 1/3] dovecot: Fix
+ CVE-2020-12100
+To: ranjitsinh.rathod@kpit.com
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	"sanakazisk19@gmail.com" <sanakazisk19@gmail.com>,
+ "akuster808@gmail.com" <akuster808@gmail.com>
+Content-Type: multipart/related; boundary="000000000000ac11ed05d21495fa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 11:51:58 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 12:12:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159027
+ https://lists.openembedded.org/g/openembedded-core/message/159028
 
---_004_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_
-Content-Type: multipart/alternative;
-	boundary="_000_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_"
+--000000000000ac11ed05d21495fa
+Content-Type: multipart/alternative; boundary="000000000000ac11ec05d21495f9"
 
---_000_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_
-Content-Type: text/plain; charset="us-ascii"
+--000000000000ac11ec05d21495f9
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sana,
+Rather wrong mailing list, this belongs to openembedded-devel as README
+file says.
 
-I think you have used the wrong label [meta-oe]. Please use [meta-networkin=
-g] for dovecot.
-I assume that is the issue it is taking time.
-
-right, Armin?
-
-
-Thanks,
-
-Best Regards,
-
-Ranjitsinh Rathod
-Technical Leader |  | KPIT Technologies Ltd.
-Cellphone: +91-84606 92403
-__________________________________________
-KPIT<http://www.kpit.com/> | Follow us on LinkedIn<http://www.kpit.com/link=
-edin>
-
-[cid:ad1401d3-f314-4d16-afb9-ef59d35050a3]<https://www.kpit.com/TheNewBrand=
->
-
-________________________________
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> on behalf of sana kazi via lists.openembedded.org <sanakazis=
-k19=3Dgmail.com@lists.openembedded.org>
-Sent: Monday, November 29, 2021 3:32 PM
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Subject: Re: [OE-core] [meta-oe][dunfell][PATCH 1/3] dovecot: Fix CVE-2020-=
-12100
-
-Caution: This email originated from outside of the KPIT. Do not click links=
- or open attachments unless you recognize the sender and know the content i=
-s safe.
-Hi,
-
-Could you please review the below patch?
-
-On Thu, 7 Oct 2021 at 19:10, Sana Kazi <sanakazisk19@gmail.com<mailto:sanak=
-azisk19@gmail.com>> wrote:
-Added patches to fix CVE-2020-12100
-
-Link: http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2=
--1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.protection.outlook.com/?u=
-rl=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2=
-Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rath=
-od%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61=
-502855c7%7C0%7C0%7C637737773036592986%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wL=
-jAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DBjdSeg=
-VMjGcFQOWkc6p16a1pDthqhqsT2a7EaZVltmM%3D&reserved=3D0>
-
-Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-Signed-off-by: Sana Kazi <sanakazisk19@gmail.com<mailto:sanakazisk19@gmail.=
-com>>
----
- ...-parser-Add-a-message_part_finish-he.patch |  76 +++++++
- ...-parser-Change-message_part_append-t.patch |  71 +++++++
- ...-parser-Optimize-updating-children_c.patch |  49 +++++
- ...-parser-Optimize-appending-new-part-.patch |  88 ++++++++
- ...-parser-Minor-code-cleanup-to-findin.patch |  45 +++++
- ...-parser-Truncate-excessively-long-MI.patch | 163 +++++++++++++++
- ...-parser-Optimize-boundary-lookups-wh.patch |  72 +++++++
- ...-parser-Add-boundary_remove_until-he.patch |  50 +++++
- ...-parser-Don-t-use-memory-pool-for-pa.patch | 169 ++++++++++++++++
- ...-parser-Support-limiting-max-number-.patch | 188 ++++++++++++++++++
- ...-parser-Support-limiting-max-number-.patch |  87 ++++++++
- ...handling-trailing-in-MIME-boundaries.patch | 133 +++++++++++++
- ...Fix-parse_too_many_nested_mime_parts.patch |  32 +++
- .../dovecot/dovecot/buffer_free_fix.patch     |  27 +++
- .../dovecot/dovecot_2.2.36.4.bb<https://apc01.safelinks.protection.outlook=
-.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh=
-.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a24=
-2ff61502855c7%7C0%7C0%7C637737773036602942%7CUnknown%7CTWFpbGZsb3d8eyJWIjoi=
-MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3Dy=
-hkDr8YAhITEFAUS5YJ1ohlZ0oDFFPCKVu7Nq2T%2BC8g%3D&reserved=3D0>              =
- |  14 ++
- 15 files changed, 1264 insertions(+)
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0001-li=
-b-mail-message-parser-Add-a-message_part_finish-he.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0002-li=
-b-mail-message-parser-Change-message_part_append-t.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0003-li=
-b-mail-message-parser-Optimize-updating-children_c.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0004-li=
-b-mail-message-parser-Optimize-appending-new-part-.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0005-li=
-b-mail-message-parser-Minor-code-cleanup-to-findin.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0006-li=
-b-mail-message-parser-Truncate-excessively-long-MI.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0007-li=
-b-mail-message-parser-Optimize-boundary-lookups-wh.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0008-li=
-b-mail-message-parser-Add-boundary_remove_until-he.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0009-li=
-b-mail-message-parser-Don-t-use-memory-pool-for-pa.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0010-li=
-b-mail-message-parser-Support-limiting-max-number-.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0011-li=
-b-mail-message-parser-Support-limiting-max-number-.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0012-li=
-b-mail-Fix-handling-trailing-in-MIME-boundaries.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/0013-li=
-b-mail-Fix-parse_too_many_nested_mime_parts.patch
- create mode 100644 meta-networking/recipes-support/dovecot/dovecot/buffer_=
-free_fix.patch
-
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-=
-message-parser-Add-a-message_part_finish-he.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0001-lib-mail-message-parser-Add-a-message_part_fi=
-nish-he.patch
-new file mode 100644
-index 000000000..583f71ca5
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-message=
--parser-Add-a-message_part_finish-he.patch
-@@ -0,0 +1,76 @@
-+From 667d353b0f217372e8cc43ea4fe13466689c7ed0 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 11:33:31 +0300
-+Subject: [PATCH 01/13] lib-mail: message-parser - Add a message_part_finis=
-h()
-+ helper function
-+
-+---
-+ src/lib-mail/message-parser.c | 25 ++++++++++++-------------
-+ 1 file changed, 12 insertions(+), 13 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036612893%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DFCLemINLUPDa5Ih7I%2FjQI2JFQ38KNNvTPvtR6v8LGXY%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index b1de1950a..aaa8dd8b7 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -195,6 +195,13 @@ message_part_append(pool_t pool, struct message_part =
-*parent)
-+       return part;
-+ }
-+
-++static void message_part_finish(struct message_parser_ctx *ctx)
-++{
-++      message_size_add(&ctx->part->parent->body_size, &ctx->part->body_si=
-ze);
-++      message_size_add(&ctx->part->parent->body_size, &ctx->part->header_=
-size);
-++      ctx->part =3D ctx->part->parent;
-++}
-++
-+ static void parse_next_body_multipart_init(struct message_parser_ctx *ctx=
-)
-+ {
-+       struct message_boundary *b;
-+@@ -312,19 +319,16 @@ static int parse_part_finish(struct message_parser_c=
-tx *ctx,
-+                            struct message_boundary *boundary,
-+                            struct message_block *block_r, bool first_line=
-)
-+ {
-+-      struct message_part *part;
-+       size_t line_size;
-+
-+       i_assert(ctx->last_boundary =3D=3D NULL);
-+
-+       /* get back to parent MIME part, summing the child MIME part sizes
-+          into parent's body sizes */
-+-      for (part =3D ctx->part; part !=3D boundary->part; part =3D part->p=
-arent) {
-+-              message_size_add(&part->parent->body_size, &part->body_size=
-);
-+-              message_size_add(&part->parent->body_size, &part->header_si=
-ze);
-++      while (ctx->part !=3D boundary->part) {
-++              message_part_finish(ctx);
-++              i_assert(ctx->part !=3D NULL);
-+       }
-+-      i_assert(part !=3D NULL);
-+-      ctx->part =3D part;
-+
-+       if (boundary->epilogue_found) {
-+               /* this boundary isn't needed anymore */
-+@@ -1132,13 +1136,8 @@ int message_parser_parse_next_block(struct message_=
-parser_ctx *ctx,
-+               i_assert(ctx->input->eof || ctx->input->closed ||
-+                        ctx->input->stream_errno !=3D 0 ||
-+                        ctx->broken_reason !=3D NULL);
-+-              while (ctx->part->parent !=3D NULL) {
-+-                      message_size_add(&ctx->part->parent->body_size,
-+-                                       &ctx->part->body_size);
-+-                      message_size_add(&ctx->part->parent->body_size,
-+-                                       &ctx->part->header_size);
-+-                      ctx->part =3D ctx->part->parent;
-+-              }
-++              while (ctx->part->parent !=3D NULL)
-++                      message_part_finish(ctx);
-+       }
-+
-+       if (block_r->size =3D=3D 0) {
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0002-lib-mail-=
-message-parser-Change-message_part_append-t.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0002-lib-mail-message-parser-Change-message_part_a=
-ppend-t.patch
-new file mode 100644
-index 000000000..9f24320eb
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0002-lib-mail-message=
--parser-Change-message_part_append-t.patch
-@@ -0,0 +1,71 @@
-+From de0da7bc8df55521db8fa787f88e293618c96386 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 11:34:22 +0300
-+Subject: [PATCH 02/13] lib-mail: message-parser - Change message_part_appe=
-nd()
-+ to do all work internally
-+
-+---
-+ src/lib-mail/message-parser.c | 13 +++++++------
-+ 1 file changed, 7 insertions(+), 6 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036612893%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DFCLemINLUPDa5Ih7I%2FjQI2JFQ38KNNvTPvtR6v8LGXY%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index aaa8dd8b7..2edf3e7a6 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -167,16 +167,17 @@ static int message_parser_read_more(struct message_p=
-arser_ctx *ctx,
-+       return 1;
-+ }
-+
-+-static struct message_part *
-+-message_part_append(pool_t pool, struct message_part *parent)
-++static void
-++message_part_append(struct message_parser_ctx *ctx)
-+ {
-++      struct message_part *parent =3D ctx->part;
-+       struct message_part *p, *part, **list;
-+
-+       i_assert(parent !=3D NULL);
-+       i_assert((parent->flags & (MESSAGE_PART_FLAG_MULTIPART |
-+                                  MESSAGE_PART_FLAG_MESSAGE_RFC822)) !=3D =
-0);
-+
-+-      part =3D p_new(pool, struct message_part, 1);
-++      part =3D p_new(ctx->part_pool, struct message_part, 1);
-+       part->parent =3D parent;
-+       for (p =3D parent; p !=3D NULL; p =3D p->parent)
-+               p->children_count++;
-+@@ -192,7 +193,7 @@ message_part_append(pool_t pool, struct message_part *=
-parent)
-+               list =3D &(*list)->next;
-+
-+       *list =3D part;
-+-      return part;
-++      ctx->part =3D part;
-+ }
-+
-+ static void message_part_finish(struct message_parser_ctx *ctx)
-+@@ -220,7 +221,7 @@ static void parse_next_body_multipart_init(struct mess=
-age_parser_ctx *ctx)
-+ static int parse_next_body_message_rfc822_init(struct message_parser_ctx =
-*ctx,
-+                                              struct message_block *block_=
-r)
-+ {
-+-      ctx->part =3D message_part_append(ctx->part_pool, ctx->part);
-++      message_part_append(ctx);
-+       return parse_next_header_init(ctx, block_r);
-+ }
-+
-+@@ -270,7 +271,7 @@ boundary_line_find(struct message_parser_ctx *ctx,
-+ static int parse_next_mime_header_init(struct message_parser_ctx *ctx,
-+                                      struct message_block *block_r)
-+ {
-+-      ctx->part =3D message_part_append(ctx->part_pool, ctx->part);
-++      message_part_append(ctx);
-+       ctx->part->flags |=3D MESSAGE_PART_FLAG_IS_MIME;
-+
-+       return parse_next_header_init(ctx, block_r);
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0003-lib-mail-=
-message-parser-Optimize-updating-children_c.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0003-lib-mail-message-parser-Optimize-updating-chi=
-ldren_c.patch
-new file mode 100644
-index 000000000..e53090235
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0003-lib-mail-message=
--parser-Optimize-updating-children_c.patch
-@@ -0,0 +1,49 @@
-+From a9800b436fcf1f9633c2b136a9c5cb7a486a8a52 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 11:36:48 +0300
-+Subject: [PATCH 03/13] lib-mail: message-parser - Optimize updating
-+ children_count
-+
-+---
-+ src/lib-mail/message-parser.c | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036622854%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DfqD%2BZ9RImFsCrYFmfHvZZYR5IjkS1Q%2BcXMDPXENYT3A%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 2edf3e7a6..05768a058 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -171,7 +171,7 @@ static void
-+ message_part_append(struct message_parser_ctx *ctx)
-+ {
-+       struct message_part *parent =3D ctx->part;
-+-      struct message_part *p, *part, **list;
-++      struct message_part *part, **list;
-+
-+       i_assert(parent !=3D NULL);
-+       i_assert((parent->flags & (MESSAGE_PART_FLAG_MULTIPART |
-+@@ -179,8 +179,6 @@ message_part_append(struct message_parser_ctx *ctx)
-+
-+       part =3D p_new(ctx->part_pool, struct message_part, 1);
-+       part->parent =3D parent;
-+-      for (p =3D parent; p !=3D NULL; p =3D p->parent)
-+-              p->children_count++;
-+
-+       /* set child position */
-+       part->physical_pos =3D
-+@@ -200,6 +198,7 @@ static void message_part_finish(struct message_parser_=
-ctx *ctx)
-+ {
-+       message_size_add(&ctx->part->parent->body_size, &ctx->part->body_si=
-ze);
-+       message_size_add(&ctx->part->parent->body_size, &ctx->part->header_=
-size);
-++      ctx->part->parent->children_count +=3D 1 + ctx->part->children_coun=
-t;
-+       ctx->part =3D ctx->part->parent;
-+ }
-+
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0004-lib-mail-=
-message-parser-Optimize-appending-new-part-.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0004-lib-mail-message-parser-Optimize-appending-ne=
-w-part-.patch
-new file mode 100644
-index 000000000..c35bf883e
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0004-lib-mail-message=
--parser-Optimize-appending-new-part-.patch
-@@ -0,0 +1,88 @@
-+From 99ee7596712cf0ea0a288b712bc898ecb2b35f9b Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 12:00:38 +0300
-+Subject: [PATCH 04/13] lib-mail: message-parser - Optimize appending new p=
-art
-+ to linked list
-+
-+---
-+ src/lib-mail/message-parser.c | 28 ++++++++++++++++++++++------
-+ 1 file changed, 22 insertions(+), 6 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036622854%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DfqD%2BZ9RImFsCrYFmfHvZZYR5IjkS1Q%2BcXMDPXENYT3A%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -1,7 +1,7 @@
-+ /* Copyright (c) 2002-2017 Dovecot authors, see the included COPYING file=
- */
-+
-+ #include "lib.h"
-+-#include "buffer.h"
-++#include "array.h"
-+ #include "str.h"
-+ #include "istream.h"
-+ #include "rfc822-parser.h"
-+@@ -34,6 +34,9 @@ struct message_parser_ctx {
-+       const char *last_boundary;
-+       struct message_boundary *boundaries;
-+
-++      struct message_part **next_part;
-++      ARRAY(struct message_part **) next_part_stack;
-++
-+       size_t skip;
-+       char last_chr;
-+       unsigned int want_count;
-+@@ -171,7 +174,7 @@ static void
-+ message_part_append(struct message_parser_ctx *ctx)
-+ {
-+       struct message_part *parent =3D ctx->part;
-+-      struct message_part *part, **list;
-++      struct message_part *part;
-+
-+       i_assert(parent !=3D NULL);
-+       i_assert((parent->flags & (MESSAGE_PART_FLAG_MULTIPART |
-+@@ -186,16 +189,27 @@ message_part_append(struct message_parse
-+               parent->body_size.physical_size +
-+               parent->header_size.physical_size;
-+
-+-      list =3D &part->parent->children;
-+-      while (*list !=3D NULL)
-+-              list =3D &(*list)->next;
-++      /* add to parent's linked list */
-++      *ctx->next_part =3D part;
-++      /* update the parent's end-of-linked-list pointer */
-++      struct message_part **next_part =3D &part->next;
-++      array_append(&ctx->next_part_stack, &next_part, 1);
-++      /* This part is now the new parent for the next message_part_append=
-()
-++         call. Its linked list begins with the children pointer. */
-++      ctx->next_part =3D &part->children;
-+
-+-      *list =3D part;
-+       ctx->part =3D part;
-+ }
-+
-+ static void message_part_finish(struct message_parser_ctx *ctx)
-+ {
-++      struct message_part **const *parent_next_partp;
-++      unsigned int count =3D array_count(&ctx->next_part_stack);
-++
-++      parent_next_partp =3D array_idx(&ctx->next_part_stack, count-1);
-++      array_delete(&ctx->next_part_stack, count-1, 1);
-++      ctx->next_part =3D *parent_next_partp;
-++
-+       message_size_add(&ctx->part->parent->body_size, &ctx->part->body_si=
-ze);
-+       message_size_add(&ctx->part->parent->body_size, &ctx->part->header_=
-size);
-+       ctx->part->parent->children_count +=3D 1 + ctx->part->children_coun=
-t;
-+@@ -1062,7 +1076,9 @@ message_parser_init(pool_t part_pool, st
-+       ctx =3D message_parser_init_int(input, hdr_flags, flags);
-+       ctx->part_pool =3D part_pool;
-+       ctx->parts =3D ctx->part =3D p_new(part_pool, struct message_part, =
-1);
-++      ctx->next_part =3D &ctx->part->children;
-+       ctx->parse_next_block =3D parse_next_header_init;
-++      p_array_init(&ctx->next_part_stack, ctx->parser_pool, 4);
-+       return ctx;
-+ }
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-=
-message-parser-Minor-code-cleanup-to-findin.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0005-lib-mail-message-parser-Minor-code-cleanup-to=
--findin.patch
-new file mode 100644
-index 000000000..4e63509b4
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-message=
--parser-Minor-code-cleanup-to-findin.patch
-@@ -0,0 +1,45 @@
-+From e39c95b248917eb2b596ca55a957f3cbc7fd406f Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 12:10:07 +0300
-+Subject: [PATCH 05/13] lib-mail: message-parser - Minor code cleanup to
-+ finding the end of boundary line
-+
-+---
-+ src/lib-mail/message-parser.c | 9 ++++-----
-+ 1 file changed, 4 insertions(+), 5 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036632806%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3D5sSTe2RwNfkTH3eo7FTWGddobLgH2ZiWoG833kCB%2BO8%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index ff4e09e5a..6c6a680b5 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -260,17 +260,16 @@ boundary_line_find(struct message_parser_ctx *ctx,
-+       }
-+
-+       /* need to find the end of line */
-+-      if (memchr(data + 2, '\n', size - 2) =3D=3D NULL &&
-+-          size < BOUNDARY_END_MAX_LEN &&
-++      data +=3D 2;
-++      size -=3D 2;
-++      if (memchr(data, '\n', size) =3D=3D NULL &&
-++          size+2 < BOUNDARY_END_MAX_LEN &&
-+           !ctx->input->eof && !full) {
-+               /* no LF found */
-+               ctx->want_count =3D BOUNDARY_END_MAX_LEN;
-+               return 0;
-+       }
-+
-+-      data +=3D 2;
-+-      size -=3D 2;
-+-
-+       *boundary_r =3D boundary_find(ctx->boundaries, data, size);
-+       if (*boundary_r =3D=3D NULL)
-+               return -1;
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0006-lib-mail-=
-message-parser-Truncate-excessively-long-MI.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0006-lib-mail-message-parser-Truncate-excessively-=
-long-MI.patch
-new file mode 100644
-index 000000000..1012d7983
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0006-lib-mail-message=
--parser-Truncate-excessively-long-MI.patch
-@@ -0,0 +1,163 @@
-+From aed125484a346b4893c1a169088c39fe7ced01f3 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 12:53:12 +0300
-+Subject: [PATCH 06/13] lib-mail: message-parser - Truncate excessively lon=
+On Wed, Dec 1, 2021 at 12:52 PM Ranjitsinh Rathod via lists.openembedded.or=
 g
-+ MIME boundaries
-+
-+RFC 2046 requires that the boundaries are a maximum of 70 characters
-+(excluding the "--" prefix and suffix). We allow 80 characters for a bit o=
-f
-+extra safety. Anything longer than that is truncated and treated the same
-+as if it was just 80 characters.
-+---
-+ src/lib-mail/message-parser.c      |  7 ++-
-+ src/lib-mail/test-message-parser.c | 95 +++++++++++++++++++++++++++++++++=
-+++++
-+ 2 files changed, 100 insertions(+), 2 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036632806%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3D5sSTe2RwNfkTH3eo7FTWGddobLgH2ZiWoG833kCB%2BO8%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 6c6a680b5..92f541b02 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -10,7 +10,8 @@
-+
-+ /* RFC-2046 requires boundaries are max. 70 chars + "--" prefix + "--" su=
-ffix.
-+    We'll add a bit more just in case. */
-+-#define BOUNDARY_END_MAX_LEN (70 + 2 + 2 + 10)
-++#define BOUNDARY_STRING_MAX_LEN (70 + 10)
-++#define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)
-+
-+ struct message_boundary {
-+       struct message_boundary *next;
-+@@ -526,8 +527,10 @@ static void parse_content_type(struct message_parser_=
-ctx *ctx,
-+       rfc2231_parse(&parser, &results);
-+       for (; *results !=3D NULL; results +=3D 2) {
-+               if (strcasecmp(results[0], "boundary") =3D=3D 0) {
-++                      /* truncate excessively long boundaries */
-+                       ctx->last_boundary =3D
-+-                              p_strdup(ctx->parser_pool, results[1]);
-++                              p_strndup(ctx->parser_pool, results[1],
-++                                        BOUNDARY_STRING_MAX_LEN);
-+                       break;
-+               }
-+       }
-+diff --git a/src/lib-mail/test-message-parser.c b/src/lib-mail/test-messag=
-e-parser.c
-+index 1f1aa1437..94aa3eb7c 100644
-+--- a/src/lib-mail/test-message-parser.c
-++++ b/src/lib-mail/test-message-parser.c
-+@@ -642,6 +642,100 @@ static void test_message_parser_no_eoh(void)
-+       test_end();
-+ }
-+
-++static void test_message_parser_long_mime_boundary(void)
-++{
-++      /* Close the boundaries in wrong reverse order. But because all
-++         boundaries are actually truncated to the same size (..890) it
-++         works the same as if all of them were duplicate boundaries. */
-++static const char input_msg[] =3D
-++"Content-Type: multipart/mixed; boundary=3D\"1234567890123456789012345678=
-901234567890123456789012345678901234567890123456789012\"\n"
-++"\n"
-++"--1234567890123456789012345678901234567890123456789012345678901234567890=
-123456789012\n"
-++"Content-Type: multipart/mixed; boundary=3D\"1234567890123456789012345678=
-90123456789012345678901234567890123456789012345678901\"\n"
-++"\n"
-++"--1234567890123456789012345678901234567890123456789012345678901234567890=
-12345678901\n"
-++"Content-Type: multipart/mixed; boundary=3D\"1234567890123456789012345678=
-9012345678901234567890123456789012345678901234567890\"\n"
-++"\n"
-++"--1234567890123456789012345678901234567890123456789012345678901234567890=
-1234567890\n"
-++"Content-Type: text/plain\n"
-++"\n"
-++"1\n"
-++"--1234567890123456789012345678901234567890123456789012345678901234567890=
-123456789012\n"
-++"Content-Type: text/plain\n"
-++"\n"
-++"22\n"
-++"--1234567890123456789012345678901234567890123456789012345678901234567890=
-12345678901\n"
-++"Content-Type: text/plain\n"
-++"\n"
-++"333\n"
-++"--1234567890123456789012345678901234567890123456789012345678901234567890=
-1234567890\n"
-++"Content-Type: text/plain\n"
-++"\n"
-++"4444\n";
-++      struct message_parser_ctx *parser;
-++      struct istream *input;
-++      struct message_part *parts, *part;
-++      struct message_block block;
-++      pool_t pool;
-++      int ret;
-++
-++      test_begin("message parser long mime boundary");
-++      pool =3D pool_alloconly_create("message parser", 10240);
-++      input =3D test_istream_create(input_msg);
-++
-++      parser =3D message_parser_init(pool, input, 0, 0);
-++      while ((ret =3D message_parser_parse_next_block(parser, &block)) > =
-0) ;
-++      test_assert(ret < 0);
-++      message_parser_deinit(&parser, &parts);
-++
-++      part =3D parts;
-++      test_assert(part->children_count =3D=3D 6);
-++      test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_MULTIPART | MESSA=
-GE_PART_FLAG_IS_MIME));
-++      test_assert(part->header_size.lines =3D=3D 2);
-++      test_assert(part->header_size.physical_size =3D=3D 126);
-++      test_assert(part->header_size.virtual_size =3D=3D 126+2);
-++      test_assert(part->body_size.lines =3D=3D 22);
-++      test_assert(part->body_size.physical_size =3D=3D 871);
-++      test_assert(part->body_size.virtual_size =3D=3D 871+22);
-++
-++      part =3D parts->children;
-++      test_assert(part->children_count =3D=3D 5);
-++      test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_MULTIPART | MESSA=
-GE_PART_FLAG_IS_MIME));
-++      test_assert(part->header_size.lines =3D=3D 2);
-++      test_assert(part->header_size.physical_size =3D=3D 125);
-++      test_assert(part->header_size.virtual_size =3D=3D 125+2);
-++      test_assert(part->body_size.lines =3D=3D 19);
-++      test_assert(part->body_size.physical_size =3D=3D 661);
-++      test_assert(part->body_size.virtual_size =3D=3D 661+19);
-++
-++      part =3D parts->children->children;
-++      test_assert(part->children_count =3D=3D 4);
-++      test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_MULTIPART | MESSA=
-GE_PART_FLAG_IS_MIME));
-++      test_assert(part->header_size.lines =3D=3D 2);
-++      test_assert(part->header_size.physical_size =3D=3D 124);
-++      test_assert(part->header_size.virtual_size =3D=3D 124+2);
-++      test_assert(part->body_size.lines =3D=3D 16);
-++      test_assert(part->body_size.physical_size =3D=3D 453);
-++      test_assert(part->body_size.virtual_size =3D=3D 453+16);
-++
-++      part =3D parts->children->children->children;
-++      for (unsigned int i =3D 1; i <=3D 3; i++, part =3D part->next) {
-++              test_assert(part->children_count =3D=3D 0);
-++              test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_TEXT | ME=
-SSAGE_PART_FLAG_IS_MIME));
-++              test_assert(part->header_size.lines =3D=3D 2);
-++              test_assert(part->header_size.physical_size =3D=3D 26);
-++              test_assert(part->header_size.virtual_size =3D=3D 26+2);
-++              test_assert(part->body_size.lines =3D=3D 0);
-++              test_assert(part->body_size.physical_size =3D=3D i);
-++              test_assert(part->body_size.virtual_size =3D=3D i);
-++      }
-++
-++      test_parsed_parts(input, parts);
-++      i_stream_unref(&input);
-++      pool_unref(&pool);
-++      test_end();
-++}
-++
-+ int main(void)
-+ {
-+       static void (*test_functions[])(void) =3D {
-+@@ -654,6 +748,7 @@ int main(void)
-+               test_message_parser_garbage_suffix_mime_boundary,
-+               test_message_parser_continuing_mime_boundary,
-+               test_message_parser_continuing_truncated_mime_boundary,
-++              test_message_parser_long_mime_boundary,
-+               test_message_parser_no_eoh,
-+               NULL
-+       };
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0007-lib-mail-=
-message-parser-Optimize-boundary-lookups-wh.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0007-lib-mail-message-parser-Optimize-boundary-loo=
-kups-wh.patch
-new file mode 100644
-index 000000000..eeb6c96f1
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0007-lib-mail-message=
--parser-Optimize-boundary-lookups-wh.patch
-@@ -0,0 +1,72 @@
-+From 5f8de52fec3191a1aa68a399ee2068485737dc4f Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 13:06:02 +0300
-+Subject: [PATCH 07/13] lib-mail: message-parser - Optimize boundary lookup=
+<ranjitsinh.rathod=3Dkpit.com@lists.openembedded.org> wrote:
+
+> Hi Sana,
+>
+> I think you have used the wrong label [meta-oe]. Please use
+> [meta-networking] for dovecot.
+> I assume that is the issue it is taking time.
+>
+> right, Armin?
+>
+>
+> Thanks,
+>
+> Best Regards,
+>
+> *Ranjitsinh Rathod*
+> Technical Leader |  | KPIT Technologies Ltd.
+> Cellphone: +91-84606 92403
+>
+> *__________________________________________ *KPIT <http://www.kpit.com/> =
+|
+>  Follow us on LinkedIn <http://www.kpit.com/linkedin>
+>
+> <https://www.kpit.com/TheNewBrand>
+> ------------------------------
+> *From:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> on behalf of sana kazi via
+> lists.openembedded.org <sanakazisk19=3Dgmail.com@lists.openembedded.org>
+> *Sent:* Monday, November 29, 2021 3:32 PM
+> *To:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>
+> *Subject:* Re: [OE-core] [meta-oe][dunfell][PATCH 1/3] dovecot: Fix
+> CVE-2020-12100
+>
+> Caution: This email originated from outside of the KPIT. Do not click
+> links or open attachments unless you recognize the sender and know the
+> content is safe.
+> Hi,
+>
+> Could you please review the below patch?
+>
+> On Thu, 7 Oct 2021 at 19:10, Sana Kazi <sanakazisk19@gmail.com> wrote:
+>
+> Added patches to fix CVE-2020-12100
+>
+> Link:
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036592986%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DBjdSegVMjGcFQOWkc6p16a1pDthqh=
+qsT2a7EaZVltmM%3D&reserved=3D0>
+>
+> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
+> ---
+>  ...-parser-Add-a-message_part_finish-he.patch |  76 +++++++
+>  ...-parser-Change-message_part_append-t.patch |  71 +++++++
+>  ...-parser-Optimize-updating-children_c.patch |  49 +++++
+>  ...-parser-Optimize-appending-new-part-.patch |  88 ++++++++
+>  ...-parser-Minor-code-cleanup-to-findin.patch |  45 +++++
+>  ...-parser-Truncate-excessively-long-MI.patch | 163 +++++++++++++++
+>  ...-parser-Optimize-boundary-lookups-wh.patch |  72 +++++++
+>  ...-parser-Add-boundary_remove_until-he.patch |  50 +++++
+>  ...-parser-Don-t-use-memory-pool-for-pa.patch | 169 ++++++++++++++++
+>  ...-parser-Support-limiting-max-number-.patch | 188 ++++++++++++++++++
+>  ...-parser-Support-limiting-max-number-.patch |  87 ++++++++
+>  ...handling-trailing-in-MIME-boundaries.patch | 133 +++++++++++++
+>  ...Fix-parse_too_many_nested_mime_parts.patch |  32 +++
+>  .../dovecot/dovecot/buffer_free_fix.patch     |  27 +++
+>  .../dovecot/dovecot_2.2.36.4.bb
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovec=
+ot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b266=
+6974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737=
+773036602942%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC=
+JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DyhkDr8YAhITEFAUS5YJ1ohlZ0oDFFPC=
+KVu7Nq2T%2BC8g%3D&reserved=3D0>
+>              |  14 ++
+>  15 files changed, 1264 insertions(+)
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-message-par=
+ser-Add-a-message_part_finish-he.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0002-lib-mail-message-par=
+ser-Change-message_part_append-t.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0003-lib-mail-message-par=
+ser-Optimize-updating-children_c.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0004-lib-mail-message-par=
+ser-Optimize-appending-new-part-.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-message-par=
+ser-Minor-code-cleanup-to-findin.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0006-lib-mail-message-par=
+ser-Truncate-excessively-long-MI.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0007-lib-mail-message-par=
+ser-Optimize-boundary-lookups-wh.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0008-lib-mail-message-par=
+ser-Add-boundary_remove_until-he.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0009-lib-mail-message-par=
+ser-Don-t-use-memory-pool-for-pa.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0010-lib-mail-message-par=
+ser-Support-limiting-max-number-.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0011-lib-mail-message-par=
+ser-Support-limiting-max-number-.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0012-lib-mail-Fix-handlin=
+g-trailing-in-MIME-boundaries.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/0013-lib-mail-Fix-parse_t=
+oo_many_nested_mime_parts.patch
+>  create mode 100644
+> meta-networking/recipes-support/dovecot/dovecot/buffer_free_fix.patch
+>
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-message-p=
+arser-Add-a-message_part_finish-he.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-message-p=
+arser-Add-a-message_part_finish-he.patch
+> new file mode 100644
+> index 000000000..583f71ca5
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-message-p=
+arser-Add-a-message_part_finish-he.patch
+> @@ -0,0 +1,76 @@
+> +From 667d353b0f217372e8cc43ea4fe13466689c7ed0 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 11:33:31 +0300
+> +Subject: [PATCH 01/13] lib-mail: message-parser - Add a
+> message_part_finish()
+> + helper function
+> +
+> +---
+> + src/lib-mail/message-parser.c | 25 ++++++++++++-------------
+> + 1 file changed, 12 insertions(+), 13 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036612893%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DFCLemINLUPDa5Ih7I%2FjQI2JFQ38=
+KNNvTPvtR6v8LGXY%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index b1de1950a..aaa8dd8b7 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -195,6 +195,13 @@ message_part_append(pool_t pool, struct message_par=
+t
+> *parent)
+> +       return part;
+> + }
+> +
+> ++static void message_part_finish(struct message_parser_ctx *ctx)
+> ++{
+> ++      message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->body_size);
+> ++      message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->header_size);
+> ++      ctx->part =3D ctx->part->parent;
+> ++}
+> ++
+> + static void parse_next_body_multipart_init(struct message_parser_ctx
+> *ctx)
+> + {
+> +       struct message_boundary *b;
+> +@@ -312,19 +319,16 @@ static int parse_part_finish(struct
+> message_parser_ctx *ctx,
+> +                            struct message_boundary *boundary,
+> +                            struct message_block *block_r, bool
+> first_line)
+> + {
+> +-      struct message_part *part;
+> +       size_t line_size;
+> +
+> +       i_assert(ctx->last_boundary =3D=3D NULL);
+> +
+> +       /* get back to parent MIME part, summing the child MIME part size=
 s
-+ when exact boundary is found
-+
-+When an exact boundary is found, there's no need to continue looking for
-+more boundaries.
-+---
-+ src/lib-mail/message-parser.c | 26 ++++++++++++++++++++++----
-+ 1 file changed, 22 insertions(+), 4 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036642765%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3D0oQHK5%2FjpqwH7BvP3mAedGOyY6vJxuIZfPtdY6dfQ0g%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 92f541b02..c2934c761 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -80,8 +80,14 @@ boundary_find(struct message_boundary *boundaries,
-+       while (boundaries !=3D NULL) {
-+               if (boundaries->len <=3D len &&
-+                   memcmp(boundaries->boundary, data, boundaries->len) =3D=
-=3D 0 &&
-+-                  (best =3D=3D NULL || best->len < boundaries->len))
-++                  (best =3D=3D NULL || best->len < boundaries->len)) {
-+                       best =3D boundaries;
-++                      if (best->len =3D=3D len) {
-++                              /* This is exactly the wanted boundary. The=
-re
-++                                 can't be a better one. */
-++                              break;
-++                      }
-++              }
-+
-+               boundaries =3D boundaries->next;
-+       }
-+@@ -263,15 +269,27 @@ boundary_line_find(struct message_parser_ctx *ctx,
-+       /* need to find the end of line */
-+       data +=3D 2;
-+       size -=3D 2;
-+-      if (memchr(data, '\n', size) =3D=3D NULL &&
-++      const unsigned char *lf_pos =3D memchr(data, '\n', size);
-++      if (lf_pos =3D=3D NULL &&
-+           size+2 < BOUNDARY_END_MAX_LEN &&
-+           !ctx->input->eof && !full) {
-+               /* no LF found */
-+               ctx->want_count =3D BOUNDARY_END_MAX_LEN;
-+               return 0;
-+       }
-+-
-+-      *boundary_r =3D boundary_find(ctx->boundaries, data, size);
-++      size_t find_size =3D size;
-++
-++      if (lf_pos !=3D NULL) {
-++              find_size =3D lf_pos - data;
-++              if (find_size > 0 && data[find_size-1] =3D=3D '\r')
-++                      find_size--;
-++              if (find_size > 2 && data[find_size-1] =3D=3D '-' &&
-++                  data[find_size-2] =3D=3D '-')
-++                      find_size -=3D 2;
-++      } else if (find_size > BOUNDARY_END_MAX_LEN)
-++              find_size =3D BOUNDARY_END_MAX_LEN;
-++
-++      *boundary_r =3D boundary_find(ctx->boundaries, data, find_size);
-+       if (*boundary_r =3D=3D NULL)
-+               return -1;
-+
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0008-lib-mail-=
-message-parser-Add-boundary_remove_until-he.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0008-lib-mail-message-parser-Add-boundary_remove_u=
-ntil-he.patch
-new file mode 100644
-index 000000000..4af070a87
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0008-lib-mail-message=
--parser-Add-boundary_remove_until-he.patch
-@@ -0,0 +1,50 @@
-+From 929396767d831bedbdec6392aaa835b045332fd3 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 14:53:27 +0300
-+Subject: [PATCH 08/13] lib-mail: message-parser - Add boundary_remove_unti=
-l()
-+ helper function
-+
-+---
-+ src/lib-mail/message-parser.c | 11 +++++++++--
-+ 1 file changed, 9 insertions(+), 2 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036642765%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3D0oQHK5%2FjpqwH7BvP3mAedGOyY6vJxuIZfPtdY6dfQ0g%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index c2934c761..028f74159 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -223,6 +223,13 @@ static void message_part_finish(struct message_parser=
-_ctx *ctx)
-+       ctx->part =3D ctx->part->parent;
-+ }
-+
-++static void
-++boundary_remove_until(struct message_parser_ctx *ctx,
-++                    struct message_boundary *boundary)
-++{
-++      ctx->boundaries =3D boundary;
-++}
-++
-+ static void parse_next_body_multipart_init(struct message_parser_ctx *ctx=
-)
-+ {
-+       struct message_boundary *b;
-+@@ -364,10 +371,10 @@ static int parse_part_finish(struct message_parser_c=
-tx *ctx,
-+
-+       if (boundary->epilogue_found) {
-+               /* this boundary isn't needed anymore */
-+-              ctx->boundaries =3D boundary->next;
-++              boundary_remove_until(ctx, boundary->next);
-+       } else {
-+               /* forget about the boundaries we possibly skipped */
-+-              ctx->boundaries =3D boundary;
-++              boundary_remove_until(ctx, boundary);
-+       }
-+
-+       /* the boundary itself should already be in buffer. add that. */
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0009-lib-mail-=
-message-parser-Don-t-use-memory-pool-for-pa.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0009-lib-mail-message-parser-Don-t-use-memory-pool=
--for-pa.patch
-new file mode 100644
-index 000000000..aade7dc2b
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0009-lib-mail-message=
--parser-Don-t-use-memory-pool-for-pa.patch
-@@ -0,0 +1,169 @@
-+From d53d83214b1d635446a8cf8ff9438cc530133d62 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 15:00:57 +0300
-+Subject: [PATCH 09/13] lib-mail: message-parser - Don't use memory pool fo=
-r
-+ parser
-+
-+This reduces memory usage when parsing many MIME parts where boundaries ar=
+> +          into parent's body sizes */
+> +-      for (part =3D ctx->part; part !=3D boundary->part; part =3D
+> part->parent) {
+> +-              message_size_add(&part->parent->body_size,
+> &part->body_size);
+> +-              message_size_add(&part->parent->body_size,
+> &part->header_size);
+> ++      while (ctx->part !=3D boundary->part) {
+> ++              message_part_finish(ctx);
+> ++              i_assert(ctx->part !=3D NULL);
+> +       }
+> +-      i_assert(part !=3D NULL);
+> +-      ctx->part =3D part;
+> +
+> +       if (boundary->epilogue_found) {
+> +               /* this boundary isn't needed anymore */
+> +@@ -1132,13 +1136,8 @@ int message_parser_parse_next_block(struct
+> message_parser_ctx *ctx,
+> +               i_assert(ctx->input->eof || ctx->input->closed ||
+> +                        ctx->input->stream_errno !=3D 0 ||
+> +                        ctx->broken_reason !=3D NULL);
+> +-              while (ctx->part->parent !=3D NULL) {
+> +-                      message_size_add(&ctx->part->parent->body_size,
+> +-                                       &ctx->part->body_size);
+> +-                      message_size_add(&ctx->part->parent->body_size,
+> +-                                       &ctx->part->header_size);
+> +-                      ctx->part =3D ctx->part->parent;
+> +-              }
+> ++              while (ctx->part->parent !=3D NULL)
+> ++                      message_part_finish(ctx);
+> +       }
+> +
+> +       if (block_r->size =3D=3D 0) {
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0002-lib-mail-message-p=
+arser-Change-message_part_append-t.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0002-lib-mail-message-p=
+arser-Change-message_part_append-t.patch
+> new file mode 100644
+> index 000000000..9f24320eb
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0002-lib-mail-message-p=
+arser-Change-message_part_append-t.patch
+> @@ -0,0 +1,71 @@
+> +From de0da7bc8df55521db8fa787f88e293618c96386 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 11:34:22 +0300
+> +Subject: [PATCH 02/13] lib-mail: message-parser - Change
+> message_part_append()
+> + to do all work internally
+> +
+> +---
+> + src/lib-mail/message-parser.c | 13 +++++++------
+> + 1 file changed, 7 insertions(+), 6 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036612893%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DFCLemINLUPDa5Ih7I%2FjQI2JFQ38=
+KNNvTPvtR6v8LGXY%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index aaa8dd8b7..2edf3e7a6 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -167,16 +167,17 @@ static int message_parser_read_more(struct
+> message_parser_ctx *ctx,
+> +       return 1;
+> + }
+> +
+> +-static struct message_part *
+> +-message_part_append(pool_t pool, struct message_part *parent)
+> ++static void
+> ++message_part_append(struct message_parser_ctx *ctx)
+> + {
+> ++      struct message_part *parent =3D ctx->part;
+> +       struct message_part *p, *part, **list;
+> +
+> +       i_assert(parent !=3D NULL);
+> +       i_assert((parent->flags & (MESSAGE_PART_FLAG_MULTIPART |
+> +                                  MESSAGE_PART_FLAG_MESSAGE_RFC822)) !=
+=3D
+> 0);
+> +
+> +-      part =3D p_new(pool, struct message_part, 1);
+> ++      part =3D p_new(ctx->part_pool, struct message_part, 1);
+> +       part->parent =3D parent;
+> +       for (p =3D parent; p !=3D NULL; p =3D p->parent)
+> +               p->children_count++;
+> +@@ -192,7 +193,7 @@ message_part_append(pool_t pool, struct message_part
+> *parent)
+> +               list =3D &(*list)->next;
+> +
+> +       *list =3D part;
+> +-      return part;
+> ++      ctx->part =3D part;
+> + }
+> +
+> + static void message_part_finish(struct message_parser_ctx *ctx)
+> +@@ -220,7 +221,7 @@ static void parse_next_body_multipart_init(struct
+> message_parser_ctx *ctx)
+> + static int parse_next_body_message_rfc822_init(struct message_parser_ct=
+x
+> *ctx,
+> +                                              struct message_block
+> *block_r)
+> + {
+> +-      ctx->part =3D message_part_append(ctx->part_pool, ctx->part);
+> ++      message_part_append(ctx);
+> +       return parse_next_header_init(ctx, block_r);
+> + }
+> +
+> +@@ -270,7 +271,7 @@ boundary_line_find(struct message_parser_ctx *ctx,
+> + static int parse_next_mime_header_init(struct message_parser_ctx *ctx,
+> +                                      struct message_block *block_r)
+> + {
+> +-      ctx->part =3D message_part_append(ctx->part_pool, ctx->part);
+> ++      message_part_append(ctx);
+> +       ctx->part->flags |=3D MESSAGE_PART_FLAG_IS_MIME;
+> +
+> +       return parse_next_header_init(ctx, block_r);
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0003-lib-mail-message-p=
+arser-Optimize-updating-children_c.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0003-lib-mail-message-p=
+arser-Optimize-updating-children_c.patch
+> new file mode 100644
+> index 000000000..e53090235
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0003-lib-mail-message-p=
+arser-Optimize-updating-children_c.patch
+> @@ -0,0 +1,49 @@
+> +From a9800b436fcf1f9633c2b136a9c5cb7a486a8a52 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 11:36:48 +0300
+> +Subject: [PATCH 03/13] lib-mail: message-parser - Optimize updating
+> + children_count
+> +
+> +---
+> + src/lib-mail/message-parser.c | 5 ++---
+> + 1 file changed, 2 insertions(+), 3 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036622854%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DfqD%2BZ9RImFsCrYFmfHvZZYR5Ijk=
+S1Q%2BcXMDPXENYT3A%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 2edf3e7a6..05768a058 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -171,7 +171,7 @@ static void
+> + message_part_append(struct message_parser_ctx *ctx)
+> + {
+> +       struct message_part *parent =3D ctx->part;
+> +-      struct message_part *p, *part, **list;
+> ++      struct message_part *part, **list;
+> +
+> +       i_assert(parent !=3D NULL);
+> +       i_assert((parent->flags & (MESSAGE_PART_FLAG_MULTIPART |
+> +@@ -179,8 +179,6 @@ message_part_append(struct message_parser_ctx *ctx)
+> +
+> +       part =3D p_new(ctx->part_pool, struct message_part, 1);
+> +       part->parent =3D parent;
+> +-      for (p =3D parent; p !=3D NULL; p =3D p->parent)
+> +-              p->children_count++;
+> +
+> +       /* set child position */
+> +       part->physical_pos =3D
+> +@@ -200,6 +198,7 @@ static void message_part_finish(struct
+> message_parser_ctx *ctx)
+> + {
+> +       message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->body_size);
+> +       message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->header_size);
+> ++      ctx->part->parent->children_count +=3D 1 + ctx->part->children_co=
+unt;
+> +       ctx->part =3D ctx->part->parent;
+> + }
+> +
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0004-lib-mail-message-p=
+arser-Optimize-appending-new-part-.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0004-lib-mail-message-p=
+arser-Optimize-appending-new-part-.patch
+> new file mode 100644
+> index 000000000..c35bf883e
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0004-lib-mail-message-p=
+arser-Optimize-appending-new-part-.patch
+> @@ -0,0 +1,88 @@
+> +From 99ee7596712cf0ea0a288b712bc898ecb2b35f9b Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 12:00:38 +0300
+> +Subject: [PATCH 04/13] lib-mail: message-parser - Optimize appending new
+> part
+> + to linked list
+> +
+> +---
+> + src/lib-mail/message-parser.c | 28 ++++++++++++++++++++++------
+> + 1 file changed, 22 insertions(+), 6 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036622854%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DfqD%2BZ9RImFsCrYFmfHvZZYR5Ijk=
+S1Q%2BcXMDPXENYT3A%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -1,7 +1,7 @@
+> + /* Copyright (c) 2002-2017 Dovecot authors, see the included COPYING
+> file */
+> +
+> + #include "lib.h"
+> +-#include "buffer.h"
+> ++#include "array.h"
+> + #include "str.h"
+> + #include "istream.h"
+> + #include "rfc822-parser.h"
+> +@@ -34,6 +34,9 @@ struct message_parser_ctx {
+> +       const char *last_boundary;
+> +       struct message_boundary *boundaries;
+> +
+> ++      struct message_part **next_part;
+> ++      ARRAY(struct message_part **) next_part_stack;
+> ++
+> +       size_t skip;
+> +       char last_chr;
+> +       unsigned int want_count;
+> +@@ -171,7 +174,7 @@ static void
+> + message_part_append(struct message_parser_ctx *ctx)
+> + {
+> +       struct message_part *parent =3D ctx->part;
+> +-      struct message_part *part, **list;
+> ++      struct message_part *part;
+> +
+> +       i_assert(parent !=3D NULL);
+> +       i_assert((parent->flags & (MESSAGE_PART_FLAG_MULTIPART |
+> +@@ -186,16 +189,27 @@ message_part_append(struct message_parse
+> +               parent->body_size.physical_size +
+> +               parent->header_size.physical_size;
+> +
+> +-      list =3D &part->parent->children;
+> +-      while (*list !=3D NULL)
+> +-              list =3D &(*list)->next;
+> ++      /* add to parent's linked list */
+> ++      *ctx->next_part =3D part;
+> ++      /* update the parent's end-of-linked-list pointer */
+> ++      struct message_part **next_part =3D &part->next;
+> ++      array_append(&ctx->next_part_stack, &next_part, 1);
+> ++      /* This part is now the new parent for the next
+> message_part_append()
+> ++         call. Its linked list begins with the children pointer. */
+> ++      ctx->next_part =3D &part->children;
+> +
+> +-      *list =3D part;
+> +       ctx->part =3D part;
+> + }
+> +
+> + static void message_part_finish(struct message_parser_ctx *ctx)
+> + {
+> ++      struct message_part **const *parent_next_partp;
+> ++      unsigned int count =3D array_count(&ctx->next_part_stack);
+> ++
+> ++      parent_next_partp =3D array_idx(&ctx->next_part_stack, count-1);
+> ++      array_delete(&ctx->next_part_stack, count-1, 1);
+> ++      ctx->next_part =3D *parent_next_partp;
+> ++
+> +       message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->body_size);
+> +       message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->header_size);
+> +       ctx->part->parent->children_count +=3D 1 + ctx->part->children_co=
+unt;
+> +@@ -1062,7 +1076,9 @@ message_parser_init(pool_t part_pool, st
+> +       ctx =3D message_parser_init_int(input, hdr_flags, flags);
+> +       ctx->part_pool =3D part_pool;
+> +       ctx->parts =3D ctx->part =3D p_new(part_pool, struct message_part=
+, 1);
+> ++      ctx->next_part =3D &ctx->part->children;
+> +       ctx->parse_next_block =3D parse_next_header_init;
+> ++      p_array_init(&ctx->next_part_stack, ctx->parser_pool, 4);
+> +       return ctx;
+> + }
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-message-p=
+arser-Minor-code-cleanup-to-findin.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-message-p=
+arser-Minor-code-cleanup-to-findin.patch
+> new file mode 100644
+> index 000000000..4e63509b4
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-message-p=
+arser-Minor-code-cleanup-to-findin.patch
+> @@ -0,0 +1,45 @@
+> +From e39c95b248917eb2b596ca55a957f3cbc7fd406f Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 12:10:07 +0300
+> +Subject: [PATCH 05/13] lib-mail: message-parser - Minor code cleanup to
+> + finding the end of boundary line
+> +
+> +---
+> + src/lib-mail/message-parser.c | 9 ++++-----
+> + 1 file changed, 4 insertions(+), 5 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036632806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3D5sSTe2RwNfkTH3eo7FTWGddobLgH2=
+ZiWoG833kCB%2BO8%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index ff4e09e5a..6c6a680b5 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -260,17 +260,16 @@ boundary_line_find(struct message_parser_ctx *ctx,
+> +       }
+> +
+> +       /* need to find the end of line */
+> +-      if (memchr(data + 2, '\n', size - 2) =3D=3D NULL &&
+> +-          size < BOUNDARY_END_MAX_LEN &&
+> ++      data +=3D 2;
+> ++      size -=3D 2;
+> ++      if (memchr(data, '\n', size) =3D=3D NULL &&
+> ++          size+2 < BOUNDARY_END_MAX_LEN &&
+> +           !ctx->input->eof && !full) {
+> +               /* no LF found */
+> +               ctx->want_count =3D BOUNDARY_END_MAX_LEN;
+> +               return 0;
+> +       }
+> +
+> +-      data +=3D 2;
+> +-      size -=3D 2;
+> +-
+> +       *boundary_r =3D boundary_find(ctx->boundaries, data, size);
+> +       if (*boundary_r =3D=3D NULL)
+> +               return -1;
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0006-lib-mail-message-p=
+arser-Truncate-excessively-long-MI.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0006-lib-mail-message-p=
+arser-Truncate-excessively-long-MI.patch
+> new file mode 100644
+> index 000000000..1012d7983
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0006-lib-mail-message-p=
+arser-Truncate-excessively-long-MI.patch
+> @@ -0,0 +1,163 @@
+> +From aed125484a346b4893c1a169088c39fe7ced01f3 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 12:53:12 +0300
+> +Subject: [PATCH 06/13] lib-mail: message-parser - Truncate excessively
+> long
+> + MIME boundaries
+> +
+> +RFC 2046 requires that the boundaries are a maximum of 70 characters
+> +(excluding the "--" prefix and suffix). We allow 80 characters for a bit
+> of
+> +extra safety. Anything longer than that is truncated and treated the sam=
 e
-+being added and removed constantly.
-+---
-+ src/lib-mail/message-parser.c | 48 ++++++++++++++++++++++++++++----------=
------
-+ 1 file changed, 32 insertions(+), 16 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036652724%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DGRs5GCiBmuczWBA1M6QaLjiZvG3PLWVhs4LPoAU7LPk%3D&reserved=3D0=
->]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 028f74159..8970d8e0e 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -17,14 +17,14 @@ struct message_boundary {
-+       struct message_boundary *next;
-+
-+       struct message_part *part;
-+-      const char *boundary;
-++      char *boundary;
-+       size_t len;
-+
-+       unsigned int epilogue_found:1;
-+ };
-+
-+ struct message_parser_ctx {
-+-      pool_t parser_pool, part_pool;
-++      pool_t part_pool;
-+       struct istream *input;
-+       struct message_part *parts, *part;
-+       const char *broken_reason;
-+@@ -32,7 +32,7 @@ struct message_parser_ctx {
-+       enum message_header_parser_flags hdr_flags;
-+       enum message_parser_flags flags;
-+
-+-      const char *last_boundary;
-++      char *last_boundary;
-+       struct message_boundary *boundaries;
-+
-+       struct message_part **next_part;
-+@@ -223,10 +223,24 @@ static void message_part_finish(struct message_parse=
-r_ctx *ctx)
-+       ctx->part =3D ctx->part->parent;
-+ }
-+
-++static void message_boundary_free(struct message_boundary *b)
-++{
-++      i_free(b->boundary);
-++      i_free(b);
-++}
-++
-+ static void
-+ boundary_remove_until(struct message_parser_ctx *ctx,
-+                     struct message_boundary *boundary)
-+ {
-++      while (ctx->boundaries !=3D boundary) {
-++              struct message_boundary *cur =3D ctx->boundaries;
-++
-++              i_assert(cur !=3D NULL);
-++              ctx->boundaries =3D cur->next;
-++              message_boundary_free(cur);
-++
-++      }
-+       ctx->boundaries =3D boundary;
-+ }
-+
-+@@ -234,15 +248,14 @@ static void parse_next_body_multipart_init(struct me=
-ssage_parser_ctx *ctx)
-+ {
-+       struct message_boundary *b;
-+
-+-      b =3D p_new(ctx->parser_pool, struct message_boundary, 1);
-++      b =3D i_new(struct message_boundary, 1);
-+       b->part =3D ctx->part;
-+       b->boundary =3D ctx->last_boundary;
-++      ctx->last_boundary =3D NULL;
-+       b->len =3D strlen(b->boundary);
-+
-+       b->next =3D ctx->boundaries;
-+       ctx->boundaries =3D b;
-+-
-+-      ctx->last_boundary =3D NULL;
-+ }
-+
-+ static int parse_next_body_message_rfc822_init(struct message_parser_ctx =
-*ctx,
-+@@ -359,6 +372,8 @@ static int parse_part_finish(struct message_parser_ctx=
- *ctx,
-+                            struct message_block *block_r, bool first_line=
-)
-+ {
-+       size_t line_size;
-++      size_t boundary_len =3D boundary->len;
-++      bool boundary_epilogue_found =3D boundary->epilogue_found;
-+
-+       i_assert(ctx->last_boundary =3D=3D NULL);
-+
-+@@ -391,7 +406,7 @@ static int parse_part_finish(struct message_parser_ctx=
- *ctx,
-+               i_assert(block_r->data[0] =3D=3D '\n');
-+               line_size =3D 1;
-+       }
-+-      line_size +=3D 2 + boundary->len + (boundary->epilogue_found ? 2 : =
+> +as if it was just 80 characters.
+> +---
+> + src/lib-mail/message-parser.c      |  7 ++-
+> + src/lib-mail/test-message-parser.c | 95
+> ++++++++++++++++++++++++++++++++++++++
+> + 2 files changed, 100 insertions(+), 2 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036632806%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3D5sSTe2RwNfkTH3eo7FTWGddobLgH2=
+ZiWoG833kCB%2BO8%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 6c6a680b5..92f541b02 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -10,7 +10,8 @@
+> +
+> + /* RFC-2046 requires boundaries are max. 70 chars + "--" prefix + "--"
+> suffix.
+> +    We'll add a bit more just in case. */
+> +-#define BOUNDARY_END_MAX_LEN (70 + 2 + 2 + 10)
+> ++#define BOUNDARY_STRING_MAX_LEN (70 + 10)
+> ++#define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)
+> +
+> + struct message_boundary {
+> +       struct message_boundary *next;
+> +@@ -526,8 +527,10 @@ static void parse_content_type(struct
+> message_parser_ctx *ctx,
+> +       rfc2231_parse(&parser, &results);
+> +       for (; *results !=3D NULL; results +=3D 2) {
+> +               if (strcasecmp(results[0], "boundary") =3D=3D 0) {
+> ++                      /* truncate excessively long boundaries */
+> +                       ctx->last_boundary =3D
+> +-                              p_strdup(ctx->parser_pool, results[1]);
+> ++                              p_strndup(ctx->parser_pool, results[1],
+> ++                                        BOUNDARY_STRING_MAX_LEN);
+> +                       break;
+> +               }
+> +       }
+> +diff --git a/src/lib-mail/test-message-parser.c
+> b/src/lib-mail/test-message-parser.c
+> +index 1f1aa1437..94aa3eb7c 100644
+> +--- a/src/lib-mail/test-message-parser.c
+> ++++ b/src/lib-mail/test-message-parser.c
+> +@@ -642,6 +642,100 @@ static void test_message_parser_no_eoh(void)
+> +       test_end();
+> + }
+> +
+> ++static void test_message_parser_long_mime_boundary(void)
+> ++{
+> ++      /* Close the boundaries in wrong reverse order. But because all
+> ++         boundaries are actually truncated to the same size (..890) it
+> ++         works the same as if all of them were duplicate boundaries. */
+> ++static const char input_msg[] =3D
+> ++"Content-Type: multipart/mixed;
+> boundary=3D\"123456789012345678901234567890123456789012345678901234567890=
+1234567890123456789012\"\n"
+> ++"\n"
+>
+> ++"--12345678901234567890123456789012345678901234567890123456789012345678=
+90123456789012\n"
+> ++"Content-Type: multipart/mixed;
+> boundary=3D\"123456789012345678901234567890123456789012345678901234567890=
+123456789012345678901\"\n"
+> ++"\n"
+>
+> ++"--12345678901234567890123456789012345678901234567890123456789012345678=
+9012345678901\n"
+> ++"Content-Type: multipart/mixed;
+> boundary=3D\"123456789012345678901234567890123456789012345678901234567890=
+12345678901234567890\"\n"
+> ++"\n"
+>
+> ++"--12345678901234567890123456789012345678901234567890123456789012345678=
+901234567890\n"
+> ++"Content-Type: text/plain\n"
+> ++"\n"
+> ++"1\n"
+>
+> ++"--12345678901234567890123456789012345678901234567890123456789012345678=
+90123456789012\n"
+> ++"Content-Type: text/plain\n"
+> ++"\n"
+> ++"22\n"
+>
+> ++"--12345678901234567890123456789012345678901234567890123456789012345678=
+9012345678901\n"
+> ++"Content-Type: text/plain\n"
+> ++"\n"
+> ++"333\n"
+>
+> ++"--12345678901234567890123456789012345678901234567890123456789012345678=
+901234567890\n"
+> ++"Content-Type: text/plain\n"
+> ++"\n"
+> ++"4444\n";
+> ++      struct message_parser_ctx *parser;
+> ++      struct istream *input;
+> ++      struct message_part *parts, *part;
+> ++      struct message_block block;
+> ++      pool_t pool;
+> ++      int ret;
+> ++
+> ++      test_begin("message parser long mime boundary");
+> ++      pool =3D pool_alloconly_create("message parser", 10240);
+> ++      input =3D test_istream_create(input_msg);
+> ++
+> ++      parser =3D message_parser_init(pool, input, 0, 0);
+> ++      while ((ret =3D message_parser_parse_next_block(parser, &block)) =
+>
+> 0) ;
+> ++      test_assert(ret < 0);
+> ++      message_parser_deinit(&parser, &parts);
+> ++
+> ++      part =3D parts;
+> ++      test_assert(part->children_count =3D=3D 6);
+> ++      test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_MULTIPART |
+> MESSAGE_PART_FLAG_IS_MIME));
+> ++      test_assert(part->header_size.lines =3D=3D 2);
+> ++      test_assert(part->header_size.physical_size =3D=3D 126);
+> ++      test_assert(part->header_size.virtual_size =3D=3D 126+2);
+> ++      test_assert(part->body_size.lines =3D=3D 22);
+> ++      test_assert(part->body_size.physical_size =3D=3D 871);
+> ++      test_assert(part->body_size.virtual_size =3D=3D 871+22);
+> ++
+> ++      part =3D parts->children;
+> ++      test_assert(part->children_count =3D=3D 5);
+> ++      test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_MULTIPART |
+> MESSAGE_PART_FLAG_IS_MIME));
+> ++      test_assert(part->header_size.lines =3D=3D 2);
+> ++      test_assert(part->header_size.physical_size =3D=3D 125);
+> ++      test_assert(part->header_size.virtual_size =3D=3D 125+2);
+> ++      test_assert(part->body_size.lines =3D=3D 19);
+> ++      test_assert(part->body_size.physical_size =3D=3D 661);
+> ++      test_assert(part->body_size.virtual_size =3D=3D 661+19);
+> ++
+> ++      part =3D parts->children->children;
+> ++      test_assert(part->children_count =3D=3D 4);
+> ++      test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_MULTIPART |
+> MESSAGE_PART_FLAG_IS_MIME));
+> ++      test_assert(part->header_size.lines =3D=3D 2);
+> ++      test_assert(part->header_size.physical_size =3D=3D 124);
+> ++      test_assert(part->header_size.virtual_size =3D=3D 124+2);
+> ++      test_assert(part->body_size.lines =3D=3D 16);
+> ++      test_assert(part->body_size.physical_size =3D=3D 453);
+> ++      test_assert(part->body_size.virtual_size =3D=3D 453+16);
+> ++
+> ++      part =3D parts->children->children->children;
+> ++      for (unsigned int i =3D 1; i <=3D 3; i++, part =3D part->next) {
+> ++              test_assert(part->children_count =3D=3D 0);
+> ++              test_assert(part->flags =3D=3D (MESSAGE_PART_FLAG_TEXT |
+> MESSAGE_PART_FLAG_IS_MIME));
+> ++              test_assert(part->header_size.lines =3D=3D 2);
+> ++              test_assert(part->header_size.physical_size =3D=3D 26);
+> ++              test_assert(part->header_size.virtual_size =3D=3D 26+2);
+> ++              test_assert(part->body_size.lines =3D=3D 0);
+> ++              test_assert(part->body_size.physical_size =3D=3D i);
+> ++              test_assert(part->body_size.virtual_size =3D=3D i);
+> ++      }
+> ++
+> ++      test_parsed_parts(input, parts);
+> ++      i_stream_unref(&input);
+> ++      pool_unref(&pool);
+> ++      test_end();
+> ++}
+> ++
+> + int main(void)
+> + {
+> +       static void (*test_functions[])(void) =3D {
+> +@@ -654,6 +748,7 @@ int main(void)
+> +               test_message_parser_garbage_suffix_mime_boundary,
+> +               test_message_parser_continuing_mime_boundary,
+> +               test_message_parser_continuing_truncated_mime_boundary,
+> ++              test_message_parser_long_mime_boundary,
+> +               test_message_parser_no_eoh,
+> +               NULL
+> +       };
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0007-lib-mail-message-p=
+arser-Optimize-boundary-lookups-wh.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0007-lib-mail-message-p=
+arser-Optimize-boundary-lookups-wh.patch
+> new file mode 100644
+> index 000000000..eeb6c96f1
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0007-lib-mail-message-p=
+arser-Optimize-boundary-lookups-wh.patch
+> @@ -0,0 +1,72 @@
+> +From 5f8de52fec3191a1aa68a399ee2068485737dc4f Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 13:06:02 +0300
+> +Subject: [PATCH 07/13] lib-mail: message-parser - Optimize boundary
+> lookups
+> + when exact boundary is found
+> +
+> +When an exact boundary is found, there's no need to continue looking for
+> +more boundaries.
+> +---
+> + src/lib-mail/message-parser.c | 26 ++++++++++++++++++++++----
+> + 1 file changed, 22 insertions(+), 4 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036642765%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3D0oQHK5%2FjpqwH7BvP3mAedGOyY6v=
+JxuIZfPtdY6dfQ0g%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 92f541b02..c2934c761 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -80,8 +80,14 @@ boundary_find(struct message_boundary *boundaries,
+> +       while (boundaries !=3D NULL) {
+> +               if (boundaries->len <=3D len &&
+> +                   memcmp(boundaries->boundary, data, boundaries->len) =
+=3D=3D
+> 0 &&
+> +-                  (best =3D=3D NULL || best->len < boundaries->len))
+> ++                  (best =3D=3D NULL || best->len < boundaries->len)) {
+> +                       best =3D boundaries;
+> ++                      if (best->len =3D=3D len) {
+> ++                              /* This is exactly the wanted boundary.
+> There
+> ++                                 can't be a better one. */
+> ++                              break;
+> ++                      }
+> ++              }
+> +
+> +               boundaries =3D boundaries->next;
+> +       }
+> +@@ -263,15 +269,27 @@ boundary_line_find(struct message_parser_ctx *ctx,
+> +       /* need to find the end of line */
+> +       data +=3D 2;
+> +       size -=3D 2;
+> +-      if (memchr(data, '\n', size) =3D=3D NULL &&
+> ++      const unsigned char *lf_pos =3D memchr(data, '\n', size);
+> ++      if (lf_pos =3D=3D NULL &&
+> +           size+2 < BOUNDARY_END_MAX_LEN &&
+> +           !ctx->input->eof && !full) {
+> +               /* no LF found */
+> +               ctx->want_count =3D BOUNDARY_END_MAX_LEN;
+> +               return 0;
+> +       }
+> +-
+> +-      *boundary_r =3D boundary_find(ctx->boundaries, data, size);
+> ++      size_t find_size =3D size;
+> ++
+> ++      if (lf_pos !=3D NULL) {
+> ++              find_size =3D lf_pos - data;
+> ++              if (find_size > 0 && data[find_size-1] =3D=3D '\r')
+> ++                      find_size--;
+> ++              if (find_size > 2 && data[find_size-1] =3D=3D '-' &&
+> ++                  data[find_size-2] =3D=3D '-')
+> ++                      find_size -=3D 2;
+> ++      } else if (find_size > BOUNDARY_END_MAX_LEN)
+> ++              find_size =3D BOUNDARY_END_MAX_LEN;
+> ++
+> ++      *boundary_r =3D boundary_find(ctx->boundaries, data, find_size);
+> +       if (*boundary_r =3D=3D NULL)
+> +               return -1;
+> +
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0008-lib-mail-message-p=
+arser-Add-boundary_remove_until-he.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0008-lib-mail-message-p=
+arser-Add-boundary_remove_until-he.patch
+> new file mode 100644
+> index 000000000..4af070a87
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0008-lib-mail-message-p=
+arser-Add-boundary_remove_until-he.patch
+> @@ -0,0 +1,50 @@
+> +From 929396767d831bedbdec6392aaa835b045332fd3 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 14:53:27 +0300
+> +Subject: [PATCH 08/13] lib-mail: message-parser - Add
+> boundary_remove_until()
+> + helper function
+> +
+> +---
+> + src/lib-mail/message-parser.c | 11 +++++++++--
+> + 1 file changed, 9 insertions(+), 2 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036642765%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3D0oQHK5%2FjpqwH7BvP3mAedGOyY6v=
+JxuIZfPtdY6dfQ0g%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index c2934c761..028f74159 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -223,6 +223,13 @@ static void message_part_finish(struct
+> message_parser_ctx *ctx)
+> +       ctx->part =3D ctx->part->parent;
+> + }
+> +
+> ++static void
+> ++boundary_remove_until(struct message_parser_ctx *ctx,
+> ++                    struct message_boundary *boundary)
+> ++{
+> ++      ctx->boundaries =3D boundary;
+> ++}
+> ++
+> + static void parse_next_body_multipart_init(struct message_parser_ctx
+> *ctx)
+> + {
+> +       struct message_boundary *b;
+> +@@ -364,10 +371,10 @@ static int parse_part_finish(struct
+> message_parser_ctx *ctx,
+> +
+> +       if (boundary->epilogue_found) {
+> +               /* this boundary isn't needed anymore */
+> +-              ctx->boundaries =3D boundary->next;
+> ++              boundary_remove_until(ctx, boundary->next);
+> +       } else {
+> +               /* forget about the boundaries we possibly skipped */
+> +-              ctx->boundaries =3D boundary;
+> ++              boundary_remove_until(ctx, boundary);
+> +       }
+> +
+> +       /* the boundary itself should already be in buffer. add that. */
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0009-lib-mail-message-p=
+arser-Don-t-use-memory-pool-for-pa.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0009-lib-mail-message-p=
+arser-Don-t-use-memory-pool-for-pa.patch
+> new file mode 100644
+> index 000000000..aade7dc2b
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0009-lib-mail-message-p=
+arser-Don-t-use-memory-pool-for-pa.patch
+> @@ -0,0 +1,169 @@
+> +From d53d83214b1d635446a8cf8ff9438cc530133d62 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 15:00:57 +0300
+> +Subject: [PATCH 09/13] lib-mail: message-parser - Don't use memory pool
+> for
+> + parser
+> +
+> +This reduces memory usage when parsing many MIME parts where boundaries
+> are
+> +being added and removed constantly.
+> +---
+> + src/lib-mail/message-parser.c | 48
+> ++++++++++++++++++++++++++++---------------
+> + 1 file changed, 32 insertions(+), 16 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036652724%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DGRs5GCiBmuczWBA1M6QaLjiZvG3PL=
+WVhs4LPoAU7LPk%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 028f74159..8970d8e0e 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -17,14 +17,14 @@ struct message_boundary {
+> +       struct message_boundary *next;
+> +
+> +       struct message_part *part;
+> +-      const char *boundary;
+> ++      char *boundary;
+> +       size_t len;
+> +
+> +       unsigned int epilogue_found:1;
+> + };
+> +
+> + struct message_parser_ctx {
+> +-      pool_t parser_pool, part_pool;
+> ++      pool_t part_pool;
+> +       struct istream *input;
+> +       struct message_part *parts, *part;
+> +       const char *broken_reason;
+> +@@ -32,7 +32,7 @@ struct message_parser_ctx {
+> +       enum message_header_parser_flags hdr_flags;
+> +       enum message_parser_flags flags;
+> +
+> +-      const char *last_boundary;
+> ++      char *last_boundary;
+> +       struct message_boundary *boundaries;
+> +
+> +       struct message_part **next_part;
+> +@@ -223,10 +223,24 @@ static void message_part_finish(struct
+> message_parser_ctx *ctx)
+> +       ctx->part =3D ctx->part->parent;
+> + }
+> +
+> ++static void message_boundary_free(struct message_boundary *b)
+> ++{
+> ++      i_free(b->boundary);
+> ++      i_free(b);
+> ++}
+> ++
+> + static void
+> + boundary_remove_until(struct message_parser_ctx *ctx,
+> +                     struct message_boundary *boundary)
+> + {
+> ++      while (ctx->boundaries !=3D boundary) {
+> ++              struct message_boundary *cur =3D ctx->boundaries;
+> ++
+> ++              i_assert(cur !=3D NULL);
+> ++              ctx->boundaries =3D cur->next;
+> ++              message_boundary_free(cur);
+> ++
+> ++      }
+> +       ctx->boundaries =3D boundary;
+> + }
+> +
+> +@@ -234,15 +248,14 @@ static void parse_next_body_multipart_init(struct
+> message_parser_ctx *ctx)
+> + {
+> +       struct message_boundary *b;
+> +
+> +-      b =3D p_new(ctx->parser_pool, struct message_boundary, 1);
+> ++      b =3D i_new(struct message_boundary, 1);
+> +       b->part =3D ctx->part;
+> +       b->boundary =3D ctx->last_boundary;
+> ++      ctx->last_boundary =3D NULL;
+> +       b->len =3D strlen(b->boundary);
+> +
+> +       b->next =3D ctx->boundaries;
+> +       ctx->boundaries =3D b;
+> +-
+> +-      ctx->last_boundary =3D NULL;
+> + }
+> +
+> + static int parse_next_body_message_rfc822_init(struct message_parser_ct=
+x
+> *ctx,
+> +@@ -359,6 +372,8 @@ static int parse_part_finish(struct
+> message_parser_ctx *ctx,
+> +                            struct message_block *block_r, bool
+> first_line)
+> + {
+> +       size_t line_size;
+> ++      size_t boundary_len =3D boundary->len;
+> ++      bool boundary_epilogue_found =3D boundary->epilogue_found;
+> +
+> +       i_assert(ctx->last_boundary =3D=3D NULL);
+> +
+> +@@ -391,7 +406,7 @@ static int parse_part_finish(struct
+> message_parser_ctx *ctx,
+> +               i_assert(block_r->data[0] =3D=3D '\n');
+> +               line_size =3D 1;
+> +       }
+> +-      line_size +=3D 2 + boundary->len + (boundary->epilogue_found ? 2 =
+:
+> 0);
+> ++      line_size +=3D 2 + boundary_len + (boundary_epilogue_found ? 2 : =
 0);
-++      line_size +=3D 2 + boundary_len + (boundary_epilogue_found ? 2 : 0)=
-;
-+       i_assert(block_r->size >=3D ctx->skip + line_size);
-+       block_r->size =3D line_size;
-+       parse_body_add_block(ctx, block_r);
-+@@ -553,9 +568,9 @@ static void parse_content_type(struct message_parser_c=
-tx *ctx,
-+       for (; *results !=3D NULL; results +=3D 2) {
-+               if (strcasecmp(results[0], "boundary") =3D=3D 0) {
-+                       /* truncate excessively long boundaries */
-++                      i_free(ctx->last_boundary);
-+                       ctx->last_boundary =3D
-+-                              p_strndup(ctx->parser_pool, results[1],
-+-                                        BOUNDARY_STRING_MAX_LEN);
-++                              i_strndup(results[1], BOUNDARY_STRING_MAX_L=
-EN);
-+                       break;
-+               }
-+       }
-+@@ -678,7 +693,7 @@ static int parse_next_header(struct message_parser_ctx=
- *ctx,
-+               i_assert(!ctx->multipart);
-+               part->flags =3D 0;
-+       }
-+-      ctx->last_boundary =3D NULL;
-++      i_free(ctx->last_boundary);
-+
-+       if (!ctx->part_seen_content_type ||
-+           (part->flags & MESSAGE_PART_FLAG_IS_MIME) =3D=3D 0) {
-+@@ -1081,11 +1096,8 @@ message_parser_init_int(struct istream *input,
-+                       enum message_parser_flags flags)
-+ {
-+       struct message_parser_ctx *ctx;
-+-      pool_t pool;
-+
-+-      pool =3D pool_alloconly_create("Message Parser", 1024);
-+-      ctx =3D p_new(pool, struct message_parser_ctx, 1);
-+-      ctx->parser_pool =3D pool;
-++      ctx =3D i_new(struct message_parser_ctx, 1);
-+       ctx->hdr_flags =3D hdr_flags;
-+       ctx->flags =3D flags;
-+       ctx->input =3D input;
-+@@ -1105,7 +1117,7 @@ message_parser_init(pool_t part_pool, struct istream=
- *input,
-+       ctx->parts =3D ctx->part =3D p_new(part_pool, struct message_part, =
-1);
-+       ctx->next_part =3D &ctx->part->children;
-+       ctx->parse_next_block =3D parse_next_header_init;
-+-      p_array_init(&ctx->next_part_stack, ctx->parser_pool, 4);
-++      i_array_init(&ctx->next_part_stack, 4);
-+       return ctx;
-+ }
-+
-+@@ -1146,8 +1158,12 @@ int message_parser_deinit_from_parts(struct message=
-_parser_ctx **_ctx,
-+
-+       if (ctx->hdr_parser_ctx !=3D NULL)
-+               message_parse_header_deinit(&ctx->hdr_parser_ctx);
-++      boundary_remove_until(ctx, NULL);
-+       i_stream_unref(&ctx->input);
-+-      pool_unref(&ctx->parser_pool);
-++      if (array_is_created(&ctx->next_part_stack))
-++              array_free(&ctx->next_part_stack);
-++      i_free(ctx->last_boundary);
-++      i_free(ctx);
-+       i_assert(ret < 0 || *parts_r !=3D NULL);
-+       return ret;
-+ }
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0010-lib-mail-=
-message-parser-Support-limiting-max-number-.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0010-lib-mail-message-parser-Support-limiting-max-=
-number-.patch
-new file mode 100644
-index 000000000..ae5254466
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0010-lib-mail-message=
--parser-Support-limiting-max-number-.patch
-@@ -0,0 +1,188 @@
-+From df9e0d358ef86e3342525dcdefcf79dc2d749a30 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 16:59:40 +0300
-+Subject: [PATCH 10/13] lib-mail: message-parser - Support limiting max num=
-ber
-+ of nested MIME parts
-+
-+The default is to allow 100 nested MIME parts. When the limit is reached,
-+the innermost MIME part's body contains all the rest of the inner bodies
-+until a parent MIME part is reached.
-+---
-+ src/lib-mail/message-parser.c      | 43 +++++++++++++++++++++++++++++++--=
------
-+ src/lib-mail/test-message-parser.c | 31 +++++++++++++++++++++++++++
-+ 2 files changed, 67 insertions(+), 7 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036652724%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DGRs5GCiBmuczWBA1M6QaLjiZvG3PLWVhs4LPoAU7LPk%3D&reserved=3D0=
->]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 8970d8e0e..721615f76 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -13,6 +13,8 @@
-+ #define BOUNDARY_STRING_MAX_LEN (70 + 10)
-+ #define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)
-+
-++#define MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS 100
-++
-+ struct message_boundary {
-+       struct message_boundary *next;
-+
-+@@ -28,9 +30,11 @@ struct message_parser_ctx {
-+       struct istream *input;
-+       struct message_part *parts, *part;
-+       const char *broken_reason;
-++      unsigned int nested_parts_count;
-+
-+       enum message_header_parser_flags hdr_flags;
-+       enum message_parser_flags flags;
-++      unsigned int max_nested_mime_parts;
-+
-+       char *last_boundary;
-+       struct message_boundary *boundaries;
-+@@ -206,6 +210,8 @@ message_part_append(struct message_parser_ctx *ctx)
-+       ctx->next_part =3D &part->children;
-+
-+       ctx->part =3D part;
-++      ctx->nested_parts_count++;
-++      i_assert(ctx->nested_parts_count < ctx->max_nested_mime_parts);
-+ }
-+
-+ static void message_part_finish(struct message_parser_ctx *ctx)
-+@@ -213,8 +219,12 @@ static void message_part_finish(struct message_parser=
-_ctx *ctx)
-+       struct message_part **const *parent_next_partp;
-+       unsigned int count =3D array_count(&ctx->next_part_stack);
-+
-++      i_assert(ctx->nested_parts_count > 0);
-++      ctx->nested_parts_count--;
-++
-+       parent_next_partp =3D array_idx(&ctx->next_part_stack, count-1);
-+       array_delete(&ctx->next_part_stack, count-1, 1);
-++
-+       ctx->next_part =3D *parent_next_partp;
-+
-+       message_size_add(&ctx->part->parent->body_size, &ctx->part->body_si=
-ze);
-+@@ -592,6 +602,11 @@ static bool block_is_at_eoh(const struct message_bloc=
-k *block)
-+       return FALSE;
-+ }
-+
-++static bool parse_too_many_nested_mime_parts(struct message_parser_ctx *c=
-tx)
-++{
-++      return ctx->nested_parts_count > ctx->max_nested_mime_parts;
-++}
-++
-+ #define MUTEX_FLAGS \
-+       (MESSAGE_PART_FLAG_MESSAGE_RFC822 | MESSAGE_PART_FLAG_MULTIPART)
-+
-+@@ -616,8 +631,12 @@ static int parse_next_header(struct message_parser_ct=
-x *ctx,
-+                  "\n--boundary" belongs to us or to a previous boundary.
-+                  this is a problem if the boundary prefixes are identical=
+> +       i_assert(block_r->size >=3D ctx->skip + line_size);
+> +       block_r->size =3D line_size;
+> +       parse_body_add_block(ctx, block_r);
+> +@@ -553,9 +568,9 @@ static void parse_content_type(struct
+> message_parser_ctx *ctx,
+> +       for (; *results !=3D NULL; results +=3D 2) {
+> +               if (strcasecmp(results[0], "boundary") =3D=3D 0) {
+> +                       /* truncate excessively long boundaries */
+> ++                      i_free(ctx->last_boundary);
+> +                       ctx->last_boundary =3D
+> +-                              p_strndup(ctx->parser_pool, results[1],
+> +-                                        BOUNDARY_STRING_MAX_LEN);
+> ++                              i_strndup(results[1],
+> BOUNDARY_STRING_MAX_LEN);
+> +                       break;
+> +               }
+> +       }
+> +@@ -678,7 +693,7 @@ static int parse_next_header(struct
+> message_parser_ctx *ctx,
+> +               i_assert(!ctx->multipart);
+> +               part->flags =3D 0;
+> +       }
+> +-      ctx->last_boundary =3D NULL;
+> ++      i_free(ctx->last_boundary);
+> +
+> +       if (!ctx->part_seen_content_type ||
+> +           (part->flags & MESSAGE_PART_FLAG_IS_MIME) =3D=3D 0) {
+> +@@ -1081,11 +1096,8 @@ message_parser_init_int(struct istream *input,
+> +                       enum message_parser_flags flags)
+> + {
+> +       struct message_parser_ctx *ctx;
+> +-      pool_t pool;
+> +
+> +-      pool =3D pool_alloconly_create("Message Parser", 1024);
+> +-      ctx =3D p_new(pool, struct message_parser_ctx, 1);
+> +-      ctx->parser_pool =3D pool;
+> ++      ctx =3D i_new(struct message_parser_ctx, 1);
+> +       ctx->hdr_flags =3D hdr_flags;
+> +       ctx->flags =3D flags;
+> +       ctx->input =3D input;
+> +@@ -1105,7 +1117,7 @@ message_parser_init(pool_t part_pool, struct
+> istream *input,
+> +       ctx->parts =3D ctx->part =3D p_new(part_pool, struct message_part=
+, 1);
+> +       ctx->next_part =3D &ctx->part->children;
+> +       ctx->parse_next_block =3D parse_next_header_init;
+> +-      p_array_init(&ctx->next_part_stack, ctx->parser_pool, 4);
+> ++      i_array_init(&ctx->next_part_stack, 4);
+> +       return ctx;
+> + }
+> +
+> +@@ -1146,8 +1158,12 @@ int message_parser_deinit_from_parts(struct
+> message_parser_ctx **_ctx,
+> +
+> +       if (ctx->hdr_parser_ctx !=3D NULL)
+> +               message_parse_header_deinit(&ctx->hdr_parser_ctx);
+> ++      boundary_remove_until(ctx, NULL);
+> +       i_stream_unref(&ctx->input);
+> +-      pool_unref(&ctx->parser_pool);
+> ++      if (array_is_created(&ctx->next_part_stack))
+> ++              array_free(&ctx->next_part_stack);
+> ++      i_free(ctx->last_boundary);
+> ++      i_free(ctx);
+> +       i_assert(ret < 0 || *parts_r !=3D NULL);
+> +       return ret;
+> + }
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0010-lib-mail-message-p=
+arser-Support-limiting-max-number-.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0010-lib-mail-message-p=
+arser-Support-limiting-max-number-.patch
+> new file mode 100644
+> index 000000000..ae5254466
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0010-lib-mail-message-p=
+arser-Support-limiting-max-number-.patch
+> @@ -0,0 +1,188 @@
+> +From df9e0d358ef86e3342525dcdefcf79dc2d749a30 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 16:59:40 +0300
+> +Subject: [PATCH 10/13] lib-mail: message-parser - Support limiting max
+> number
+> + of nested MIME parts
+> +
+> +The default is to allow 100 nested MIME parts. When the limit is reached=
 ,
-+                  because MIME requires only the prefix to match. */
-+-              parse_next_body_multipart_init(ctx);
-+-              ctx->multipart =3D TRUE;
-++              if (!parse_too_many_nested_mime_parts(ctx)) {
-++                      parse_next_body_multipart_init(ctx);
-++                      ctx->multipart =3D TRUE;
-++              } else {
-++                      part->flags &=3D ~MESSAGE_PART_FLAG_MULTIPART;
-++              }
-+       }
-+
-+       /* before parsing the header see if we can find a --boundary from h=
-ere.
-+@@ -721,12 +740,16 @@ static int parse_next_header(struct message_parser_c=
-tx *ctx,
-+               i_assert(ctx->last_boundary =3D=3D NULL);
-+               ctx->multipart =3D FALSE;
-+               ctx->parse_next_block =3D parse_next_body_to_boundary;
-+-      } else if (part->flags & MESSAGE_PART_FLAG_MESSAGE_RFC822)
-++      } else if ((part->flags & MESSAGE_PART_FLAG_MESSAGE_RFC822) !=3D 0 =
-&&
-++                 !parse_too_many_nested_mime_parts(ctx)) {
-+               ctx->parse_next_block =3D parse_next_body_message_rfc822_in=
-it;
-+-      else if (ctx->boundaries !=3D NULL)
-+-              ctx->parse_next_block =3D parse_next_body_to_boundary;
-+-      else
-+-              ctx->parse_next_block =3D parse_next_body_to_eof;
-++      } else {
-++              part->flags &=3D ~MESSAGE_PART_FLAG_MESSAGE_RFC822;
-++              if (ctx->boundaries !=3D NULL)
-++                      ctx->parse_next_block =3D parse_next_body_to_bounda=
-ry;
-++              else
-++                      ctx->parse_next_block =3D parse_next_body_to_eof;
-++      }
-+
-+       ctx->want_count =3D 1;
-+
-+@@ -1100,6 +1123,8 @@ message_parser_init_int(struct istream *input,
-+       ctx =3D i_new(struct message_parser_ctx, 1);
-+       ctx->hdr_flags =3D hdr_flags;
-+       ctx->flags =3D flags;
-++      ctx->max_nested_mime_parts =3D
-++              MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS;
-+       ctx->input =3D input;
-+       i_stream_ref(input);
-+       return ctx;
-+@@ -1159,6 +1184,10 @@ int message_parser_deinit_from_parts(struct message=
-_parser_ctx **_ctx,
-+       if (ctx->hdr_parser_ctx !=3D NULL)
-+               message_parse_header_deinit(&ctx->hdr_parser_ctx);
-+       boundary_remove_until(ctx, NULL);
-++      /* caller might have stopped the parsing early */
-++      i_assert(ctx->nested_parts_count =3D=3D 0 ||
-++               i_stream_have_bytes_left(ctx->input));
-++
-+       i_stream_unref(&ctx->input);
-+       if (array_is_created(&ctx->next_part_stack))
-+               array_free(&ctx->next_part_stack);
-+diff --git a/src/lib-mail/test-message-parser.c b/src/lib-mail/test-messag=
-e-parser.c
-+index 94aa3eb7c..481d05942 100644
-+--- a/src/lib-mail/test-message-parser.c
-++++ b/src/lib-mail/test-message-parser.c
-+@@ -166,6 +166,36 @@ static void test_message_parser_small_blocks(void)
-+       test_end();
-+ }
-+
-++static void test_message_parser_stop_early(void)
-++{
-++      struct message_parser_ctx *parser;
-++      struct istream *input;
-++      struct message_part *parts;
-++      struct message_block block;
-++      unsigned int i;
-++      pool_t pool;
-++      int ret;
-++
-++      test_begin("message parser stop early");
-++      pool =3D pool_alloconly_create("message parser", 10240);
-++      input =3D test_istream_create(test_msg);
-++
-++      test_istream_set_allow_eof(input, FALSE);
-++      for (i =3D 1; i <=3D TEST_MSG_LEN+1; i++) {
-++              i_stream_seek(input, 0);
-++              test_istream_set_size(input, i);
-++              parser =3D message_parser_init(pool, input, 0, 0);
-++              while ((ret =3D message_parser_parse_next_block(parser,
-++                                                            &block)) > 0)=
- ;
-++              test_assert(ret =3D=3D 0);
-++              message_parser_deinit(&parser, &parts);
-++      }
-++
-++      i_stream_unref(&input);
-++      pool_unref(&pool);
-++      test_end();
-++}
-++
-+ static void test_message_parser_truncated_mime_headers(void)
-+ {
-+ static const char input_msg[] =3D
-+@@ -740,6 +770,7 @@ int main(void)
-+ {
-+       static void (*test_functions[])(void) =3D {
-+               test_message_parser_small_blocks,
-++              test_message_parser_stop_early,
-+               test_message_parser_truncated_mime_headers,
-+               test_message_parser_truncated_mime_headers2,
-+               test_message_parser_truncated_mime_headers3,
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0011-lib-mail-=
-message-parser-Support-limiting-max-number-.patch b/meta-networking/recipes=
--support/dovecot/dovecot/0011-lib-mail-message-parser-Support-limiting-max-=
-number-.patch
-new file mode 100644
-index 000000000..52848bf3a
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0011-lib-mail-message=
--parser-Support-limiting-max-number-.patch
-@@ -0,0 +1,87 @@
-+From d7bba401dd234802bcdb55ff27dfb99bffdab804 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 23 Apr 2020 17:09:33 +0300
-+Subject: [PATCH 11/13] lib-mail: message-parser - Support limiting max num=
-ber
-+ of MIME parts
-+
-+The default is to allow 10000 MIME parts. When it's reached, no more
-+MIME boundary lines will be recognized, so the rest of the mail belongs
-+to the last added MIME part.
-+---
-+ src/lib-mail/message-parser.c | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036662676%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkMiVNT%2BTbGWAm2QhHQ%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 721615f76..646307802 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -14,6 +14,7 @@
-+ #define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)
-+
-+ #define MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS 100
-++#define MESSAGE_PARSER_DEFAULT_MAX_TOTAL_MIME_PARTS 10000
-+
-+ struct message_boundary {
-+       struct message_boundary *next;
-+@@ -31,10 +32,12 @@ struct message_parser_ctx {
-+       struct message_part *parts, *part;
-+       const char *broken_reason;
-+       unsigned int nested_parts_count;
-++      unsigned int total_parts_count;
-+
-+       enum message_header_parser_flags hdr_flags;
-+       enum message_parser_flags flags;
-+       unsigned int max_nested_mime_parts;
-++      unsigned int max_total_mime_parts;
-+
-+       char *last_boundary;
-+       struct message_boundary *boundaries;
-+@@ -211,7 +214,9 @@ message_part_append(struct message_parser_ctx *ctx)
-+
-+       ctx->part =3D part;
-+       ctx->nested_parts_count++;
-++      ctx->total_parts_count++;
-+       i_assert(ctx->nested_parts_count < ctx->max_nested_mime_parts);
-++      i_assert(ctx->total_parts_count <=3D ctx->max_total_mime_parts);
-+ }
-+
-+ static void message_part_finish(struct message_parser_ctx *ctx)
-+@@ -296,6 +301,12 @@ boundary_line_find(struct message_parser_ctx *ctx,
-+               return -1;
-+       }
-+
-++      if (ctx->total_parts_count >=3D ctx->max_total_mime_parts) {
-++              /* can't add any more MIME parts. just stop trying to find
-++                 more boundaries. */
-++              return -1;
-++      }
-++
-+       /* need to find the end of line */
-+       data +=3D 2;
-+       size -=3D 2;
-+@@ -1125,6 +1136,8 @@ message_parser_init_int(struct istream *input,
-+       ctx->flags =3D flags;
-+       ctx->max_nested_mime_parts =3D
-+               MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS;
-++      ctx->max_total_mime_parts =3D
-++              MESSAGE_PARSER_DEFAULT_MAX_TOTAL_MIME_PARTS;
-+       ctx->input =3D input;
-+       i_stream_ref(input);
-+       return ctx;
-+@@ -1142,6 +1155,7 @@ message_parser_init(pool_t part_pool, struct istream=
- *input,
-+       ctx->parts =3D ctx->part =3D p_new(part_pool, struct message_part, =
-1);
-+       ctx->next_part =3D &ctx->part->children;
-+       ctx->parse_next_block =3D parse_next_header_init;
-++      ctx->total_parts_count =3D 1;
-+       i_array_init(&ctx->next_part_stack, 4);
-+       return ctx;
-+ }
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0012-lib-mail-=
-Fix-handling-trailing-in-MIME-boundaries.patch b/meta-networking/recipes-su=
-pport/dovecot/dovecot/0012-lib-mail-Fix-handling-trailing-in-MIME-boundarie=
-s.patch
-new file mode 100644
-index 000000000..a81177d2b
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0012-lib-mail-Fix-han=
-dling-trailing-in-MIME-boundaries.patch
-@@ -0,0 +1,133 @@
-+From 0c9d56b41b992a868f299e05677a67c4d0495523 Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Thu, 2 Jul 2020 17:31:19 +0300
-+Subject: [PATCH 12/13] lib-mail: Fix handling trailing "--" in MIME bounda=
-ries
-+
-+Broken by 5b8ec27fae941d06516c30476dcf4820c6d200ab
-+---
-+ src/lib-mail/message-parser.c      | 14 ++++++++----
-+ src/lib-mail/test-message-parser.c | 46 +++++++++++++++++++++++++++++++++=
-+++++
-+ 2 files changed, 56 insertions(+), 4 deletions(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036662676%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkMiVNT%2BTbGWAm2QhHQ%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 646307802..175d4b488 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -75,7 +75,7 @@ static int preparsed_parse_next_header_init(struct messa=
-ge_parser_ctx *ctx,
-+
-+ static struct message_boundary *
-+ boundary_find(struct message_boundary *boundaries,
-+-            const unsigned char *data, size_t len)
-++            const unsigned char *data, size_t len, bool trailing_dashes)
-+ {
-+       struct message_boundary *best =3D NULL;
-+
-+@@ -89,7 +89,11 @@ boundary_find(struct message_boundary *boundaries,
-+                   memcmp(boundaries->boundary, data, boundaries->len) =3D=
-=3D 0 &&
-+                   (best =3D=3D NULL || best->len < boundaries->len)) {
-+                       best =3D boundaries;
-+-                      if (best->len =3D=3D len) {
-++                      /* If we see "foo--", it could either mean that the=
-re
-++                         is a boundary named "foo" that ends now or there=
-'s
-++                         a boundary "foo--" which continues. */
-++                      if (best->len =3D=3D len ||
-++                          (best->len =3D=3D len-2 && trailing_dashes)) {
-+                               /* This is exactly the wanted boundary. The=
-re
-+                                  can't be a better one. */
-+                               break;
-+@@ -319,6 +323,7 @@ boundary_line_find(struct message_parser_ctx *ctx,
-+               return 0;
-+       }
-+       size_t find_size =3D size;
-++      bool trailing_dashes =3D FALSE;
-+
-+       if (lf_pos !=3D NULL) {
-+               find_size =3D lf_pos - data;
-+@@ -326,11 +331,12 @@ boundary_line_find(struct message_parser_ctx *ctx,
-+                       find_size--;
-+               if (find_size > 2 && data[find_size-1] =3D=3D '-' &&
-+                   data[find_size-2] =3D=3D '-')
-+-                      find_size -=3D 2;
-++                      trailing_dashes =3D TRUE;
-+       } else if (find_size > BOUNDARY_END_MAX_LEN)
-+               find_size =3D BOUNDARY_END_MAX_LEN;
-+
-+-      *boundary_r =3D boundary_find(ctx->boundaries, data, find_size);
-++      *boundary_r =3D boundary_find(ctx->boundaries, data, find_size,
-++                                  trailing_dashes);
-+       if (*boundary_r =3D=3D NULL)
-+               return -1;
-+
-+diff --git a/src/lib-mail/test-message-parser.c b/src/lib-mail/test-messag=
-e-parser.c
-+index 481d05942..113454ea0 100644
-+--- a/src/lib-mail/test-message-parser.c
-++++ b/src/lib-mail/test-message-parser.c
-+@@ -510,6 +510,51 @@ static const char input_msg[] =3D
-+       test_end();
-+ }
-+
-++static void test_message_parser_trailing_dashes(void)
-++{
-++static const char input_msg[] =3D
-++"Content-Type: multipart/mixed; boundary=3D\"a--\"\n"
-++"\n"
-++"--a--\n"
-++"Content-Type: multipart/mixed; boundary=3D\"a----\"\n"
-++"\n"
-++"--a----\n"
-++"Content-Type: text/plain\n"
-++"\n"
-++"body\n"
-++"--a------\n"
-++"Content-Type: text/html\n"
-++"\n"
-++"body2\n"
-++"--a----";
-++      struct message_parser_ctx *parser;
-++      struct istream *input;
-++      struct message_part *parts;
-++      struct message_block block;
-++      pool_t pool;
-++      int ret;
-++
-++      test_begin("message parser trailing dashes");
-++      pool =3D pool_alloconly_create("message parser", 10240);
-++      input =3D test_istream_create(input_msg);
-++
-++      parser =3D message_parser_init(pool, input, 0, 0);
-++      while ((ret =3D message_parser_parse_next_block(parser, &block)) > =
-0) ;
-++      test_assert(ret < 0);
-++      message_parser_deinit(&parser, &parts);
-++
-++      test_assert(parts->children_count =3D=3D 2);
-++      test_assert(parts->children->next =3D=3D NULL);
-++      test_assert(parts->children->children_count =3D=3D 1);
-++      test_assert(parts->children->children->next =3D=3D NULL);
-++      test_assert(parts->children->children->children_count =3D=3D 0);
-++
-++      test_parsed_parts(input, parts);
-++      i_stream_unref(&input);
-++      pool_unref(&pool);
-++      test_end();
-++}
-++
-+ static void test_message_parser_continuing_mime_boundary(void)
-+ {
-+ static const char input_msg[] =3D
-+@@ -777,6 +822,7 @@ int main(void)
-+               test_message_parser_empty_multipart,
-+               test_message_parser_duplicate_mime_boundary,
-+               test_message_parser_garbage_suffix_mime_boundary,
-++              test_message_parser_trailing_dashes,
-+               test_message_parser_continuing_mime_boundary,
-+               test_message_parser_continuing_truncated_mime_boundary,
-+               test_message_parser_long_mime_boundary,
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/0013-lib-mail-=
-Fix-parse_too_many_nested_mime_parts.patch b/meta-networking/recipes-suppor=
-t/dovecot/dovecot/0013-lib-mail-Fix-parse_too_many_nested_mime_parts.patch
-new file mode 100644
-index 000000000..97068345f
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/0013-lib-mail-Fix-par=
-se_too_many_nested_mime_parts.patch
-@@ -0,0 +1,32 @@
-+From f77a2b6c3ffe2ea96f4a4b05ec38dc9d53266ecb Mon Sep 17 00:00:00 2001
-+From: Timo Sirainen <timo.sirainen@open-xchange.com<mailto:timo.sirainen@o=
-pen-xchange.com>>
-+Date: Wed, 27 May 2020 11:35:55 +0300
-+Subject: [PATCH 13/13] lib-mail: Fix parse_too_many_nested_mime_parts()
-+
-+This was originally correct, until it was "optimized" wrong and got merged=
+> +the innermost MIME part's body contains all the rest of the inner bodies
+> +until a parent MIME part is reached.
+> +---
+> + src/lib-mail/message-parser.c      | 43
+> +++++++++++++++++++++++++++++++-------
+> + src/lib-mail/test-message-parser.c | 31 +++++++++++++++++++++++++++
+> + 2 files changed, 67 insertions(+), 7 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036652724%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DGRs5GCiBmuczWBA1M6QaLjiZvG3PL=
+WVhs4LPoAU7LPk%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 8970d8e0e..721615f76 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -13,6 +13,8 @@
+> + #define BOUNDARY_STRING_MAX_LEN (70 + 10)
+> + #define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)
+> +
+> ++#define MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS 100
+> ++
+> + struct message_boundary {
+> +       struct message_boundary *next;
+> +
+> +@@ -28,9 +30,11 @@ struct message_parser_ctx {
+> +       struct istream *input;
+> +       struct message_part *parts, *part;
+> +       const char *broken_reason;
+> ++      unsigned int nested_parts_count;
+> +
+> +       enum message_header_parser_flags hdr_flags;
+> +       enum message_parser_flags flags;
+> ++      unsigned int max_nested_mime_parts;
+> +
+> +       char *last_boundary;
+> +       struct message_boundary *boundaries;
+> +@@ -206,6 +210,8 @@ message_part_append(struct message_parser_ctx *ctx)
+> +       ctx->next_part =3D &part->children;
+> +
+> +       ctx->part =3D part;
+> ++      ctx->nested_parts_count++;
+> ++      i_assert(ctx->nested_parts_count < ctx->max_nested_mime_parts);
+> + }
+> +
+> + static void message_part_finish(struct message_parser_ctx *ctx)
+> +@@ -213,8 +219,12 @@ static void message_part_finish(struct
+> message_parser_ctx *ctx)
+> +       struct message_part **const *parent_next_partp;
+> +       unsigned int count =3D array_count(&ctx->next_part_stack);
+> +
+> ++      i_assert(ctx->nested_parts_count > 0);
+> ++      ctx->nested_parts_count--;
+> ++
+> +       parent_next_partp =3D array_idx(&ctx->next_part_stack, count-1);
+> +       array_delete(&ctx->next_part_stack, count-1, 1);
+> ++
+> +       ctx->next_part =3D *parent_next_partp;
+> +
+> +       message_size_add(&ctx->part->parent->body_size,
+> &ctx->part->body_size);
+> +@@ -592,6 +602,11 @@ static bool block_is_at_eoh(const struct
+> message_block *block)
+> +       return FALSE;
+> + }
+> +
+> ++static bool parse_too_many_nested_mime_parts(struct message_parser_ctx
+> *ctx)
+> ++{
+> ++      return ctx->nested_parts_count > ctx->max_nested_mime_parts;
+> ++}
+> ++
+> + #define MUTEX_FLAGS \
+> +       (MESSAGE_PART_FLAG_MESSAGE_RFC822 | MESSAGE_PART_FLAG_MULTIPART)
+> +
+> +@@ -616,8 +631,12 @@ static int parse_next_header(struct
+> message_parser_ctx *ctx,
+> +                  "\n--boundary" belongs to us or to a previous boundary=
 .
-+---
-+ src/lib-mail/message-parser.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036662676%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkMiVNT%2BTbGWAm2QhHQ%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c
-+index 175d4b488..5b11772ff 100644
-+--- a/src/lib-mail/message-parser.c
-++++ b/src/lib-mail/message-parser.c
-+@@ -621,7 +621,7 @@ static bool block_is_at_eoh(const struct message_block=
- *block)
-+
-+ static bool parse_too_many_nested_mime_parts(struct message_parser_ctx *c=
-tx)
-+ {
-+-      return ctx->nested_parts_count > ctx->max_nested_mime_parts;
-++      return ctx->nested_parts_count+1 >=3D ctx->max_nested_mime_parts;
-+ }
-+
-+ #define MUTEX_FLAGS \
-+--
-+2.11.0
-+
-diff --git a/meta-networking/recipes-support/dovecot/dovecot/buffer_free_fi=
-x.patch b/meta-networking/recipes-support/dovecot/dovecot/buffer_free_fix.p=
-atch
-new file mode 100644
-index 000000000..44f6564f8
---- /dev/null
-+++ b/meta-networking/recipes-support/dovecot/dovecot/buffer_free_fix.patch
-@@ -0,0 +1,27 @@
-+From 1a6ff0beebf0ab0c71081eaff1d5d7fd26015a94 Mon Sep 17 00:00:00 2001
-+From: Josef 'Jeff' Sipek <jeff.sipek@dovecot.fi<mailto:jeff.sipek@dovecot.=
-fi>>
-+Date: Tue, 19 Sep 2017 13:26:57 +0300
-+Subject: [PATCH] lib: buffer_free(NULL) should be a no-op
-+
-+---
-+ src/lib/buffer.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com<mailto:Sana.Kazi@kpit.com>>
-+
-+CVE: CVE-2020-12100
-+Upstream-Status: Backport [http://archive.ubuntu.com/ubuntu/pool/main/d/do=
-vecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz<https://apc01.safelinks.pro=
-tection.outlook.com/?url=3Dhttp%3A%2F%2Farchive.ubuntu.com%2Fubuntu%2Fpool%=
-2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&data=3D04%=
-7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C35=
-39451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036672627%7CUnknown%7CTWF=
-pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D=
-%7C3000&sdata=3DEtIjL4RJbjLXHSYszXnYHY%2BF5fvzsAQujWnvHZfBuqE%3D&reserved=
-=3D0>]
-+Comment: No change in any hunk
-+
-+--- a/src/lib/buffer.c
-++++ b/src/lib/buffer.c
-+@@ -148,6 +148,9 @@ void buffer_free(buffer_t **_buf)
-+ {
-+       struct real_buffer *buf =3D (struct real_buffer *)*_buf;
-+
-++      if (buf =3D=3D NULL)
-++              return;
-++
-+       *_buf =3D NULL;
-+       if (buf->alloced)
-+               p_free(buf->pool, buf->w_buffer);
-diff --git a/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb<ht=
-tps://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.=
-2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e=
-77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C63773777303=
-6672627%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI=
-6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3Dsc28CFI8cABij7QBJWpxQydQ9NvR8XZpY2ya=
-GN2XwGA%3D&reserved=3D0> b/meta-networking/recipes-support/dovecot/dovecot_=
-2.2.36.4.bb<https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2=
-F%2Fdovecot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7C=
-a3789b2666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0=
-%7C637737773036682584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV=
-2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DO1RxZ2%2Bkkkab2JR0uUCH=
-QPfsr5hWACroAUx2oMnfnJk%3D&reserved=3D0>
-index e21a94ad6..407604c81 100644
---- a/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb<https://a=
-pc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.=
-bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f0=
-8d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036682584=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C3000&sdata=3DO1RxZ2%2Bkkkab2JR0uUCHQPfsr5hWACroAUx2oMnfn=
-Jk%3D&reserved=3D0>
-+++ b/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb<https://a=
-pc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.=
-bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f0=
-8d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036692539=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C3000&sdata=3DIstkr9lJfE34LVBrjlpaIuEschXArHktrG8O5%2FJaj=
-ec%3D&reserved=3D0>
-@@ -10,6 +10,20 @@ SRC_URI =3D "http://dovecot.org/releases/2.2/dovecot-${P=
-V}.tar.gz<https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%=
-2Fdovecot.org%2Freleases%2F2.2%2Fdovecot-%24%257BPV%257D.tar.gz&data=3D04%7=
-C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C353=
-9451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036692539%7CUnknown%7CTWFp=
-bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%=
-7C3000&sdata=3D2juoHv19hqxGl7DDDut5251TTXhLbR7aqRmewfjALSI%3D&reserved=3D0>=
- \
-            file://dovecot.service \
-            file://dovecot.socket \
-            file://0001-doveadm-Fix-parallel-build.patch \
-+           file://0001-lib-mail-message-parser-Add-a-message_part_finish-h=
-e.patch \
-+           file://0002-lib-mail-message-parser-Change-message_part_append-=
-t.patch \
-+           file://0003-lib-mail-message-parser-Optimize-updating-children_=
-c.patch \
-+           file://0004-lib-mail-message-parser-Optimize-appending-new-part=
--.patch \
-+           file://0005-lib-mail-message-parser-Minor-code-cleanup-to-findi=
-n.patch \
-+           file://0006-lib-mail-message-parser-Truncate-excessively-long-M=
-I.patch \
-+           file://0007-lib-mail-message-parser-Optimize-boundary-lookups-w=
-h.patch \
-+           file://0008-lib-mail-message-parser-Add-boundary_remove_until-h=
-e.patch \
-+           file://0009-lib-mail-message-parser-Don-t-use-memory-pool-for-p=
-a.patch \
-+           file://0010-lib-mail-message-parser-Support-limiting-max-number=
--.patch \
-+           file://0011-lib-mail-message-parser-Support-limiting-max-number=
--.patch \
-+           file://0012-lib-mail-Fix-handling-trailing-in-MIME-boundaries.p=
-atch \
-+           file://0013-lib-mail-Fix-parse_too_many_nested_mime_parts.patch=
- \
-+           file://buffer_free_fix.patch \
-            "
+> +                  this is a problem if the boundary prefixes are
+> identical,
+> +                  because MIME requires only the prefix to match. */
+> +-              parse_next_body_multipart_init(ctx);
+> +-              ctx->multipart =3D TRUE;
+> ++              if (!parse_too_many_nested_mime_parts(ctx)) {
+> ++                      parse_next_body_multipart_init(ctx);
+> ++                      ctx->multipart =3D TRUE;
+> ++              } else {
+> ++                      part->flags &=3D ~MESSAGE_PART_FLAG_MULTIPART;
+> ++              }
+> +       }
+> +
+> +       /* before parsing the header see if we can find a --boundary from
+> here.
+> +@@ -721,12 +740,16 @@ static int parse_next_header(struct
+> message_parser_ctx *ctx,
+> +               i_assert(ctx->last_boundary =3D=3D NULL);
+> +               ctx->multipart =3D FALSE;
+> +               ctx->parse_next_block =3D parse_next_body_to_boundary;
+> +-      } else if (part->flags & MESSAGE_PART_FLAG_MESSAGE_RFC822)
+> ++      } else if ((part->flags & MESSAGE_PART_FLAG_MESSAGE_RFC822) !=3D =
+0 &&
+> ++                 !parse_too_many_nested_mime_parts(ctx)) {
+> +               ctx->parse_next_block =3D
+> parse_next_body_message_rfc822_init;
+> +-      else if (ctx->boundaries !=3D NULL)
+> +-              ctx->parse_next_block =3D parse_next_body_to_boundary;
+> +-      else
+> +-              ctx->parse_next_block =3D parse_next_body_to_eof;
+> ++      } else {
+> ++              part->flags &=3D ~MESSAGE_PART_FLAG_MESSAGE_RFC822;
+> ++              if (ctx->boundaries !=3D NULL)
+> ++                      ctx->parse_next_block =3D
+> parse_next_body_to_boundary;
+> ++              else
+> ++                      ctx->parse_next_block =3D parse_next_body_to_eof;
+> ++      }
+> +
+> +       ctx->want_count =3D 1;
+> +
+> +@@ -1100,6 +1123,8 @@ message_parser_init_int(struct istream *input,
+> +       ctx =3D i_new(struct message_parser_ctx, 1);
+> +       ctx->hdr_flags =3D hdr_flags;
+> +       ctx->flags =3D flags;
+> ++      ctx->max_nested_mime_parts =3D
+> ++              MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS;
+> +       ctx->input =3D input;
+> +       i_stream_ref(input);
+> +       return ctx;
+> +@@ -1159,6 +1184,10 @@ int message_parser_deinit_from_parts(struct
+> message_parser_ctx **_ctx,
+> +       if (ctx->hdr_parser_ctx !=3D NULL)
+> +               message_parse_header_deinit(&ctx->hdr_parser_ctx);
+> +       boundary_remove_until(ctx, NULL);
+> ++      /* caller might have stopped the parsing early */
+> ++      i_assert(ctx->nested_parts_count =3D=3D 0 ||
+> ++               i_stream_have_bytes_left(ctx->input));
+> ++
+> +       i_stream_unref(&ctx->input);
+> +       if (array_is_created(&ctx->next_part_stack))
+> +               array_free(&ctx->next_part_stack);
+> +diff --git a/src/lib-mail/test-message-parser.c
+> b/src/lib-mail/test-message-parser.c
+> +index 94aa3eb7c..481d05942 100644
+> +--- a/src/lib-mail/test-message-parser.c
+> ++++ b/src/lib-mail/test-message-parser.c
+> +@@ -166,6 +166,36 @@ static void test_message_parser_small_blocks(void)
+> +       test_end();
+> + }
+> +
+> ++static void test_message_parser_stop_early(void)
+> ++{
+> ++      struct message_parser_ctx *parser;
+> ++      struct istream *input;
+> ++      struct message_part *parts;
+> ++      struct message_block block;
+> ++      unsigned int i;
+> ++      pool_t pool;
+> ++      int ret;
+> ++
+> ++      test_begin("message parser stop early");
+> ++      pool =3D pool_alloconly_create("message parser", 10240);
+> ++      input =3D test_istream_create(test_msg);
+> ++
+> ++      test_istream_set_allow_eof(input, FALSE);
+> ++      for (i =3D 1; i <=3D TEST_MSG_LEN+1; i++) {
+> ++              i_stream_seek(input, 0);
+> ++              test_istream_set_size(input, i);
+> ++              parser =3D message_parser_init(pool, input, 0, 0);
+> ++              while ((ret =3D message_parser_parse_next_block(parser,
+> ++                                                            &block)) >
+> 0) ;
+> ++              test_assert(ret =3D=3D 0);
+> ++              message_parser_deinit(&parser, &parts);
+> ++      }
+> ++
+> ++      i_stream_unref(&input);
+> ++      pool_unref(&pool);
+> ++      test_end();
+> ++}
+> ++
+> + static void test_message_parser_truncated_mime_headers(void)
+> + {
+> + static const char input_msg[] =3D
+> +@@ -740,6 +770,7 @@ int main(void)
+> + {
+> +       static void (*test_functions[])(void) =3D {
+> +               test_message_parser_small_blocks,
+> ++              test_message_parser_stop_early,
+> +               test_message_parser_truncated_mime_headers,
+> +               test_message_parser_truncated_mime_headers2,
+> +               test_message_parser_truncated_mime_headers3,
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0011-lib-mail-message-p=
+arser-Support-limiting-max-number-.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0011-lib-mail-message-p=
+arser-Support-limiting-max-number-.patch
+> new file mode 100644
+> index 000000000..52848bf3a
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0011-lib-mail-message-p=
+arser-Support-limiting-max-number-.patch
+> @@ -0,0 +1,87 @@
+> +From d7bba401dd234802bcdb55ff27dfb99bffdab804 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 23 Apr 2020 17:09:33 +0300
+> +Subject: [PATCH 11/13] lib-mail: message-parser - Support limiting max
+> number
+> + of MIME parts
+> +
+> +The default is to allow 10000 MIME parts. When it's reached, no more
+> +MIME boundary lines will be recognized, so the rest of the mail belongs
+> +to the last added MIME part.
+> +---
+> + src/lib-mail/message-parser.c | 14 ++++++++++++++
+> + 1 file changed, 14 insertions(+)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036662676%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkM=
+iVNT%2BTbGWAm2QhHQ%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 721615f76..646307802 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -14,6 +14,7 @@
+> + #define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)
+> +
+> + #define MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS 100
+> ++#define MESSAGE_PARSER_DEFAULT_MAX_TOTAL_MIME_PARTS 10000
+> +
+> + struct message_boundary {
+> +       struct message_boundary *next;
+> +@@ -31,10 +32,12 @@ struct message_parser_ctx {
+> +       struct message_part *parts, *part;
+> +       const char *broken_reason;
+> +       unsigned int nested_parts_count;
+> ++      unsigned int total_parts_count;
+> +
+> +       enum message_header_parser_flags hdr_flags;
+> +       enum message_parser_flags flags;
+> +       unsigned int max_nested_mime_parts;
+> ++      unsigned int max_total_mime_parts;
+> +
+> +       char *last_boundary;
+> +       struct message_boundary *boundaries;
+> +@@ -211,7 +214,9 @@ message_part_append(struct message_parser_ctx *ctx)
+> +
+> +       ctx->part =3D part;
+> +       ctx->nested_parts_count++;
+> ++      ctx->total_parts_count++;
+> +       i_assert(ctx->nested_parts_count < ctx->max_nested_mime_parts);
+> ++      i_assert(ctx->total_parts_count <=3D ctx->max_total_mime_parts);
+> + }
+> +
+> + static void message_part_finish(struct message_parser_ctx *ctx)
+> +@@ -296,6 +301,12 @@ boundary_line_find(struct message_parser_ctx *ctx,
+> +               return -1;
+> +       }
+> +
+> ++      if (ctx->total_parts_count >=3D ctx->max_total_mime_parts) {
+> ++              /* can't add any more MIME parts. just stop trying to fin=
+d
+> ++                 more boundaries. */
+> ++              return -1;
+> ++      }
+> ++
+> +       /* need to find the end of line */
+> +       data +=3D 2;
+> +       size -=3D 2;
+> +@@ -1125,6 +1136,8 @@ message_parser_init_int(struct istream *input,
+> +       ctx->flags =3D flags;
+> +       ctx->max_nested_mime_parts =3D
+> +               MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS;
+> ++      ctx->max_total_mime_parts =3D
+> ++              MESSAGE_PARSER_DEFAULT_MAX_TOTAL_MIME_PARTS;
+> +       ctx->input =3D input;
+> +       i_stream_ref(input);
+> +       return ctx;
+> +@@ -1142,6 +1155,7 @@ message_parser_init(pool_t part_pool, struct
+> istream *input,
+> +       ctx->parts =3D ctx->part =3D p_new(part_pool, struct message_part=
+, 1);
+> +       ctx->next_part =3D &ctx->part->children;
+> +       ctx->parse_next_block =3D parse_next_header_init;
+> ++      ctx->total_parts_count =3D 1;
+> +       i_array_init(&ctx->next_part_stack, 4);
+> +       return ctx;
+> + }
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0012-lib-mail-Fix-handl=
+ing-trailing-in-MIME-boundaries.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0012-lib-mail-Fix-handl=
+ing-trailing-in-MIME-boundaries.patch
+> new file mode 100644
+> index 000000000..a81177d2b
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0012-lib-mail-Fix-handl=
+ing-trailing-in-MIME-boundaries.patch
+> @@ -0,0 +1,133 @@
+> +From 0c9d56b41b992a868f299e05677a67c4d0495523 Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Thu, 2 Jul 2020 17:31:19 +0300
+> +Subject: [PATCH 12/13] lib-mail: Fix handling trailing "--" in MIME
+> boundaries
+> +
+> +Broken by 5b8ec27fae941d06516c30476dcf4820c6d200ab
+> +---
+> + src/lib-mail/message-parser.c      | 14 ++++++++----
+> + src/lib-mail/test-message-parser.c | 46
+> ++++++++++++++++++++++++++++++++++++++
+> + 2 files changed, 56 insertions(+), 4 deletions(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036662676%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkM=
+iVNT%2BTbGWAm2QhHQ%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 646307802..175d4b488 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -75,7 +75,7 @@ static int preparsed_parse_next_header_init(struct
+> message_parser_ctx *ctx,
+> +
+> + static struct message_boundary *
+> + boundary_find(struct message_boundary *boundaries,
+> +-            const unsigned char *data, size_t len)
+> ++            const unsigned char *data, size_t len, bool trailing_dashes=
+)
+> + {
+> +       struct message_boundary *best =3D NULL;
+> +
+> +@@ -89,7 +89,11 @@ boundary_find(struct message_boundary *boundaries,
+> +                   memcmp(boundaries->boundary, data, boundaries->len) =
+=3D=3D
+> 0 &&
+> +                   (best =3D=3D NULL || best->len < boundaries->len)) {
+> +                       best =3D boundaries;
+> +-                      if (best->len =3D=3D len) {
+> ++                      /* If we see "foo--", it could either mean that
+> there
+> ++                         is a boundary named "foo" that ends now or
+> there's
+> ++                         a boundary "foo--" which continues. */
+> ++                      if (best->len =3D=3D len ||
+> ++                          (best->len =3D=3D len-2 && trailing_dashes)) =
+{
+> +                               /* This is exactly the wanted boundary.
+> There
+> +                                  can't be a better one. */
+> +                               break;
+> +@@ -319,6 +323,7 @@ boundary_line_find(struct message_parser_ctx *ctx,
+> +               return 0;
+> +       }
+> +       size_t find_size =3D size;
+> ++      bool trailing_dashes =3D FALSE;
+> +
+> +       if (lf_pos !=3D NULL) {
+> +               find_size =3D lf_pos - data;
+> +@@ -326,11 +331,12 @@ boundary_line_find(struct message_parser_ctx *ctx,
+> +                       find_size--;
+> +               if (find_size > 2 && data[find_size-1] =3D=3D '-' &&
+> +                   data[find_size-2] =3D=3D '-')
+> +-                      find_size -=3D 2;
+> ++                      trailing_dashes =3D TRUE;
+> +       } else if (find_size > BOUNDARY_END_MAX_LEN)
+> +               find_size =3D BOUNDARY_END_MAX_LEN;
+> +
+> +-      *boundary_r =3D boundary_find(ctx->boundaries, data, find_size);
+> ++      *boundary_r =3D boundary_find(ctx->boundaries, data, find_size,
+> ++                                  trailing_dashes);
+> +       if (*boundary_r =3D=3D NULL)
+> +               return -1;
+> +
+> +diff --git a/src/lib-mail/test-message-parser.c
+> b/src/lib-mail/test-message-parser.c
+> +index 481d05942..113454ea0 100644
+> +--- a/src/lib-mail/test-message-parser.c
+> ++++ b/src/lib-mail/test-message-parser.c
+> +@@ -510,6 +510,51 @@ static const char input_msg[] =3D
+> +       test_end();
+> + }
+> +
+> ++static void test_message_parser_trailing_dashes(void)
+> ++{
+> ++static const char input_msg[] =3D
+> ++"Content-Type: multipart/mixed; boundary=3D\"a--\"\n"
+> ++"\n"
+> ++"--a--\n"
+> ++"Content-Type: multipart/mixed; boundary=3D\"a----\"\n"
+> ++"\n"
+> ++"--a----\n"
+> ++"Content-Type: text/plain\n"
+> ++"\n"
+> ++"body\n"
+> ++"--a------\n"
+> ++"Content-Type: text/html\n"
+> ++"\n"
+> ++"body2\n"
+> ++"--a----";
+> ++      struct message_parser_ctx *parser;
+> ++      struct istream *input;
+> ++      struct message_part *parts;
+> ++      struct message_block block;
+> ++      pool_t pool;
+> ++      int ret;
+> ++
+> ++      test_begin("message parser trailing dashes");
+> ++      pool =3D pool_alloconly_create("message parser", 10240);
+> ++      input =3D test_istream_create(input_msg);
+> ++
+> ++      parser =3D message_parser_init(pool, input, 0, 0);
+> ++      while ((ret =3D message_parser_parse_next_block(parser, &block)) =
+>
+> 0) ;
+> ++      test_assert(ret < 0);
+> ++      message_parser_deinit(&parser, &parts);
+> ++
+> ++      test_assert(parts->children_count =3D=3D 2);
+> ++      test_assert(parts->children->next =3D=3D NULL);
+> ++      test_assert(parts->children->children_count =3D=3D 1);
+> ++      test_assert(parts->children->children->next =3D=3D NULL);
+> ++      test_assert(parts->children->children->children_count =3D=3D 0);
+> ++
+> ++      test_parsed_parts(input, parts);
+> ++      i_stream_unref(&input);
+> ++      pool_unref(&pool);
+> ++      test_end();
+> ++}
+> ++
+> + static void test_message_parser_continuing_mime_boundary(void)
+> + {
+> + static const char input_msg[] =3D
+> +@@ -777,6 +822,7 @@ int main(void)
+> +               test_message_parser_empty_multipart,
+> +               test_message_parser_duplicate_mime_boundary,
+> +               test_message_parser_garbage_suffix_mime_boundary,
+> ++              test_message_parser_trailing_dashes,
+> +               test_message_parser_continuing_mime_boundary,
+> +               test_message_parser_continuing_truncated_mime_boundary,
+> +               test_message_parser_long_mime_boundary,
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/0013-lib-mail-Fix-parse=
+_too_many_nested_mime_parts.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/0013-lib-mail-Fix-parse=
+_too_many_nested_mime_parts.patch
+> new file mode 100644
+> index 000000000..97068345f
+> --- /dev/null
+> +++
+> b/meta-networking/recipes-support/dovecot/dovecot/0013-lib-mail-Fix-parse=
+_too_many_nested_mime_parts.patch
+> @@ -0,0 +1,32 @@
+> +From f77a2b6c3ffe2ea96f4a4b05ec38dc9d53266ecb Mon Sep 17 00:00:00 2001
+> +From: Timo Sirainen <timo.sirainen@open-xchange.com>
+> +Date: Wed, 27 May 2020 11:35:55 +0300
+> +Subject: [PATCH 13/13] lib-mail: Fix parse_too_many_nested_mime_parts()
+> +
+> +This was originally correct, until it was "optimized" wrong and got
+> merged.
+> +---
+> + src/lib-mail/message-parser.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036662676%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkM=
+iVNT%2BTbGWAm2QhHQ%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser=
+.c
+> +index 175d4b488..5b11772ff 100644
+> +--- a/src/lib-mail/message-parser.c
+> ++++ b/src/lib-mail/message-parser.c
+> +@@ -621,7 +621,7 @@ static bool block_is_at_eoh(const struct
+> message_block *block)
+> +
+> + static bool parse_too_many_nested_mime_parts(struct message_parser_ctx
+> *ctx)
+> + {
+> +-      return ctx->nested_parts_count > ctx->max_nested_mime_parts;
+> ++      return ctx->nested_parts_count+1 >=3D ctx->max_nested_mime_parts;
+> + }
+> +
+> + #define MUTEX_FLAGS \
+> +--
+> +2.11.0
+> +
+> diff --git
+> a/meta-networking/recipes-support/dovecot/dovecot/buffer_free_fix.patch
+> b/meta-networking/recipes-support/dovecot/dovecot/buffer_free_fix.patch
+> new file mode 100644
+> index 000000000..44f6564f8
+> --- /dev/null
+> +++ b/meta-networking/recipes-support/dovecot/dovecot/buffer_free_fix.pat=
+ch
+> @@ -0,0 +1,27 @@
+> +From 1a6ff0beebf0ab0c71081eaff1d5d7fd26015a94 Mon Sep 17 00:00:00 2001
+> +From: Josef 'Jeff' Sipek <jeff.sipek@dovecot.fi>
+> +Date: Tue, 19 Sep 2017 13:26:57 +0300
+> +Subject: [PATCH] lib: buffer_free(NULL) should be a no-op
+> +
+> +---
+> + src/lib/buffer.c | 3 +++
+> + 1 file changed, 3 insertions(+)
+> +
+> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> +
+> +CVE: CVE-2020-12100
+> +Upstream-Status: Backport [
+> http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ub=
+untu4.7.debian.tar.xz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Farchi=
+ve.ubuntu.com%2Fubuntu%2Fpool%2Fmain%2Fd%2Fdovecot%2Fdovecot_2.2.33.2-1ubun=
+tu4.7.debian.tar.xz&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2=
+666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377=
+37773036672627%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi=
+LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DEtIjL4RJbjLXHSYszXnYHY%2BF5fv=
+zsAQujWnvHZfBuqE%3D&reserved=3D0>
+> ]
+> +Comment: No change in any hunk
+> +
+> +--- a/src/lib/buffer.c
+> ++++ b/src/lib/buffer.c
+> +@@ -148,6 +148,9 @@ void buffer_free(buffer_t **_buf)
+> + {
+> +       struct real_buffer *buf =3D (struct real_buffer *)*_buf;
+> +
+> ++      if (buf =3D=3D NULL)
+> ++              return;
+> ++
+> +       *_buf =3D NULL;
+> +       if (buf->alloced)
+> +               p_free(buf->pool, buf->w_buffer);
+> diff --git a/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovec=
+ot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b266=
+6974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737=
+773036672627%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC=
+JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3Dsc28CFI8cABij7QBJWpxQydQ9NvR8XZ=
+pY2yaGN2XwGA%3D&reserved=3D0>
+> b/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovec=
+ot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b266=
+6974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737=
+773036682584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC=
+JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DO1RxZ2%2Bkkkab2JR0uUCHQPfsr5hWA=
+CroAUx2oMnfnJk%3D&reserved=3D0>
+> index e21a94ad6..407604c81 100644
+> --- a/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovec=
+ot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b266=
+6974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737=
+773036682584%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC=
+JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DO1RxZ2%2Bkkkab2JR0uUCHQPfsr5hWA=
+CroAUx2oMnfnJk%3D&reserved=3D0>
+> +++ b/meta-networking/recipes-support/dovecot/dovecot_2.2.36.4.bb
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovec=
+ot_2.2.36.4.bb%2F&data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b266=
+6974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737=
+773036692539%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC=
+JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=3DIstkr9lJfE34LVBrjlpaIuEschXArHk=
+trG8O5%2FJajec%3D&reserved=3D0>
+> @@ -10,6 +10,20 @@ SRC_URI =3D "
+> http://dovecot.org/releases/2.2/dovecot-${PV}.tar.gz
+> <https://apc01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovec=
+ot.org%2Freleases%2F2.2%2Fdovecot-%24%257BPV%257D.tar.gz&data=3D04%7C01%7Cr=
+anjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C3539451eb4=
+6e4a26a242ff61502855c7%7C0%7C0%7C637737773036692539%7CUnknown%7CTWFpbGZsb3d=
+8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&=
+sdata=3D2juoHv19hqxGl7DDDut5251TTXhLbR7aqRmewfjALSI%3D&reserved=3D0>
+> \
+>             file://dovecot.service \
+>             file://dovecot.socket \
+>             file://0001-doveadm-Fix-parallel-build.patch \
+> +
+>  file://0001-lib-mail-message-parser-Add-a-message_part_finish-he.patch \
+> +
+>  file://0002-lib-mail-message-parser-Change-message_part_append-t.patch \
+> +
+>  file://0003-lib-mail-message-parser-Optimize-updating-children_c.patch \
+> +
+>  file://0004-lib-mail-message-parser-Optimize-appending-new-part-.patch \
+> +
+>  file://0005-lib-mail-message-parser-Minor-code-cleanup-to-findin.patch \
+> +
+>  file://0006-lib-mail-message-parser-Truncate-excessively-long-MI.patch \
+> +
+>  file://0007-lib-mail-message-parser-Optimize-boundary-lookups-wh.patch \
+> +
+>  file://0008-lib-mail-message-parser-Add-boundary_remove_until-he.patch \
+> +
+>  file://0009-lib-mail-message-parser-Don-t-use-memory-pool-for-pa.patch \
+> +
+>  file://0010-lib-mail-message-parser-Support-limiting-max-number-.patch \
+> +
+>  file://0011-lib-mail-message-parser-Support-limiting-max-number-.patch \
+> +
+>  file://0012-lib-mail-Fix-handling-trailing-in-MIME-boundaries.patch \
+> +
+>  file://0013-lib-mail-Fix-parse_too_many_nested_mime_parts.patch \
+> +           file://buffer_free_fix.patch \
+>             "
+>
+>  SRC_URI[md5sum] =3D "66c4d71858b214afee5b390ee602dee2"
+> --
+> 2.17.1
+>
+> This message contains information that may be privileged or confidential
+> and is the property of the KPIT Technologies Ltd. It is intended only for
+> the person to whom it is addressed. If you are not the intended recipient=
+,
+> you are not authorized to read, print, retain copy, disseminate,
+> distribute, or use this message or any part thereof. If you receive this
+> message in error, please notify the sender immediately and delete all
+> copies of this message. KPIT Technologies Ltd. does not accept any
+> liability for virus infected mails.
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159027):
+> https://lists.openembedded.org/g/openembedded-core/message/159027
+> Mute This Topic: https://lists.openembedded.org/mt/86145182/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
- SRC_URI[md5sum] =3D "66c4d71858b214afee5b390ee602dee2"
---
-2.17.1
-
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
-
---_000_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_
-Content-Type: text/html; charset="us-ascii"
+--000000000000ac11ec05d21495f9
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div dir=3D"ltr">Rather wrong mailing list, this belongs to openembedded-de=
+vel as README file says.</div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Wed, Dec 1, 2021 at 12:52 PM Ranjitsinh Rathod v=
+ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
+;ranjitsinh.rathod=3D<a href=3D"mailto:kpit.com@lists.openembedded.org">kpi=
+t.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 Hi Sana,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 I think you have used the wrong label [meta-oe]. Please use [meta-networkin=
 g] for dovecot.</div>
 <div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 I assume that is the issue it is taking time.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
 right, Armin?</div>
-<div id=3D"Signature">
+<div id=3D"gmail-m_2006379015365632402Signature">
 <div>
 <div></div>
 <div></div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<p style=3D"margin:0in; font-size:11pt; font-family:Calibri,sans-serif; col=
-or:rgb(32,31,30); text-align:start; background-color:rgb(255,255,255)">
-<span style=3D"color:rgb(89,89,89); font-family:&quot;Work Sans&quot;; font=
--size:10pt"><span style=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helv=
-etica,sans-serif; font-size:16px; background-color:rgb(255,255,255); displa=
-y:inline!important"><br>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:12pt=
+;color:rgb(0,0,0)">
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;color:=
+rgb(32,31,30);text-align:start;background-color:rgb(255,255,255)">
+<span style=3D"color:rgb(89,89,89);font-family:&quot;Work Sans&quot;;font-s=
+ize:10pt"><span style=3D"color:rgb(0,0,0);font-family:Calibri,Arial,Helveti=
+ca,sans-serif;font-size:16px;background-color:rgb(255,255,255);display:inli=
+ne"><br>
 </span></span></p>
-<p style=3D"margin:0in; font-size:11pt; font-family:Calibri,sans-serif; col=
-or:rgb(32,31,30); text-align:start; background-color:rgb(255,255,255)">
-<span style=3D"color:rgb(89,89,89); font-family:&quot;Work Sans&quot;; font=
--size:10pt"><span style=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helv=
-etica,sans-serif; font-size:16px; background-color:rgb(255,255,255); displa=
-y:inline!important">Thanks,</span><br>
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;color:=
+rgb(32,31,30);text-align:start;background-color:rgb(255,255,255)">
+<span style=3D"color:rgb(89,89,89);font-family:&quot;Work Sans&quot;;font-s=
+ize:10pt"><span style=3D"color:rgb(0,0,0);font-family:Calibri,Arial,Helveti=
+ca,sans-serif;font-size:16px;background-color:rgb(255,255,255);display:inli=
+ne">Thanks,</span><br>
 </span></p>
-<p style=3D"margin:0in; font-size:11pt; font-family:Calibri,sans-serif; col=
-or:rgb(32,31,30); text-align:start; background-color:rgb(255,255,255)">
-<span style=3D"color:rgb(89,89,89); font-family:&quot;Work Sans&quot;; font=
--size:10pt">Best Regards,</span><br>
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;color:=
+rgb(32,31,30);text-align:start;background-color:rgb(255,255,255)">
+<span style=3D"color:rgb(89,89,89);font-family:&quot;Work Sans&quot;;font-s=
+ize:10pt">Best Regards,</span><br>
 </p>
-<p style=3D"margin:0in 0in 12pt; font-size:11pt; font-family:Calibri,sans-s=
-erif; color:rgb(32,31,30); text-align:start; background-color:rgb(255,255,2=
-55)">
-<span lang=3D"EN-IN" style=3D"margin:0px; font-family:&quot;Work Sans Mediu=
-m&quot;; color:rgb(89,89,89)"><b>Ranjitsinh Rathod</b></span><span lang=3D"=
-EN-IN" style=3D"margin:0px; font-size:14pt; font-family:&quot;Work Sans&quo=
-t;; color:rgb(0,137,207)"><br>
-</span><span lang=3D"EN-IN" style=3D"margin:0px; font-size:9pt; font-family=
-:&quot;Work Sans&quot;; color:rgb(127,127,127)">Technical Leader |&nbsp;&nb=
-sp;| KPIT Technologies Ltd.<br>
+<p style=3D"margin:0in 0in 12pt;font-size:11pt;font-family:Calibri,sans-ser=
+if;color:rgb(32,31,30);text-align:start;background-color:rgb(255,255,255)">
+<span lang=3D"EN-IN" style=3D"margin:0px;font-family:&quot;Work Sans Medium=
+&quot;;color:rgb(89,89,89)"><b>Ranjitsinh Rathod</b></span><span lang=3D"EN=
+-IN" style=3D"margin:0px;font-size:14pt;font-family:&quot;Work Sans&quot;;c=
+olor:rgb(0,137,207)"><br>
+</span><span lang=3D"EN-IN" style=3D"margin:0px;font-size:9pt;font-family:&=
+quot;Work Sans&quot;;color:rgb(127,127,127)">Technical Leader |=C2=A0=C2=A0=
+| KPIT Technologies Ltd.<br>
 Cellphone: +91-84606 92403<br>
-</span><b><sup><span lang=3D"EN-IN" style=3D"margin:0px; font-size:14pt; fo=
-nt-family:&quot;Work Sans&quot;; color:rgb(176,255,69)">___________________=
-_______________________<br>
-</span></sup></b><span style=3D"margin:0px; color:rgb(31,73,125)"><a href=
-=3D"http://www.kpit.com/" target=3D"_blank" rel=3D"noopener noreferrer" sty=
-le=3D"margin:0px"><span lang=3D"EN-IN" style=3D"margin:0px; font-size:12pt;=
- font-family:&quot;Work Sans Medium&quot;; color:gray">KPIT</span></a></spa=
-n><span style=3D"margin:0px; font-family:&quot;Work Sans&quot;; color:gray"=
-><span>&nbsp;</span></span><span lang=3D"EN-IN" style=3D"margin:0px; font-s=
-ize:12pt; font-family:&quot;Work Sans&quot;; color:gray">|</span><span lang=
-=3D"EN-IN" style=3D"margin:0px; font-size:9pt; font-family:&quot;Work Sans&=
-quot;; color:gray"><span>&nbsp;</span></span><span style=3D"margin:0px; col=
-or:rgb(31,73,125)"><a href=3D"http://www.kpit.com/linkedin" target=3D"_blan=
-k" rel=3D"noopener noreferrer" style=3D"margin:0px"><span lang=3D"EN-IN" st=
-yle=3D"margin:0px; font-size:9pt; font-family:&quot;Work Sans&quot;; color:=
-gray">Follow
- us on LinkedIn</span></a></span><span style=3D"margin:0px; font-size:9pt; =
-font-family:&quot;Work Sans&quot;; color:rgb(89,89,89)"></span><span style=
-=3D"margin:0px; font-size:12pt; font-family:&quot;Times New Roman&quot;,ser=
-if"></span></p>
-<p style=3D"margin:0in; font-size:11pt; font-family:Calibri,sans-serif; col=
-or:rgb(32,31,30); text-align:start; background-color:rgb(255,255,255)">
-<a href=3D"https://www.kpit.com/TheNewBrand" target=3D"_blank" rel=3D"noope=
-ner noreferrer" style=3D"margin:0px"><span style=3D"margin:0px; color:rgb(3=
-1,73,125)"><img class=3D"EmojiInsert" width=3D"621" height=3D"120" style=3D=
-"margin:0px; width:6.4687in; height:1.25in" data-outlook-trace=3D"F:1|T:1" =
-src=3D"cid:ad1401d3-f314-4d16-afb9-ef59d35050a3"></span></a></p>
+</span><b><sup><span lang=3D"EN-IN" style=3D"margin:0px;font-size:14pt;font=
+-family:&quot;Work Sans&quot;;color:rgb(176,255,69)">______________________=
+____________________<br>
+</span></sup></b><span style=3D"margin:0px;color:rgb(31,73,125)"><a href=3D=
+"http://www.kpit.com/" rel=3D"noopener noreferrer" style=3D"margin:0px" tar=
+get=3D"_blank"><span lang=3D"EN-IN" style=3D"margin:0px;font-size:12pt;font=
+-family:&quot;Work Sans Medium&quot;;color:gray">KPIT</span></a></span><spa=
+n style=3D"margin:0px;font-family:&quot;Work Sans&quot;;color:gray"><span>=
+=C2=A0</span></span><span lang=3D"EN-IN" style=3D"margin:0px;font-size:12pt=
+;font-family:&quot;Work Sans&quot;;color:gray">|</span><span lang=3D"EN-IN"=
+ style=3D"margin:0px;font-size:9pt;font-family:&quot;Work Sans&quot;;color:=
+gray"><span>=C2=A0</span></span><span style=3D"margin:0px;color:rgb(31,73,1=
+25)"><a href=3D"http://www.kpit.com/linkedin" rel=3D"noopener noreferrer" s=
+tyle=3D"margin:0px" target=3D"_blank"><span lang=3D"EN-IN" style=3D"margin:=
+0px;font-size:9pt;font-family:&quot;Work Sans&quot;;color:gray">Follow
+ us on LinkedIn</span></a></span><span style=3D"margin:0px;font-size:9pt;fo=
+nt-family:&quot;Work Sans&quot;;color:rgb(89,89,89)"></span><span style=3D"=
+margin:0px;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"></=
+span></p>
+<p style=3D"margin:0in;font-size:11pt;font-family:Calibri,sans-serif;color:=
+rgb(32,31,30);text-align:start;background-color:rgb(255,255,255)">
+<a href=3D"https://www.kpit.com/TheNewBrand" rel=3D"noopener noreferrer" st=
+yle=3D"margin:0px" target=3D"_blank"><span style=3D"margin:0px;color:rgb(31=
+,73,125)"><img width=3D"621" height=3D"120" style=3D"margin: 0px; width: 6.=
+4687in; height: 1.25in;" src=3D"cid:17d75e836879799b8541"></span></a></p>
 </div>
 </div>
 </div>
 </div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of sana kazi via lists.openembedded.org &lt;sanakazisk19=3Dgmail.com@li=
-sts.openembedded.org&gt;<br>
+<div id=3D"gmail-m_2006379015365632402appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"gmail-m_2006379015365632402divRplyFwdMsg" dir=3D"ltr"><font face=
+=3D"Calibri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From=
+:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D=
+"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto=
+:openembedded-core@lists.openembedded.org" target=3D"_blank">openembedded-c=
+ore@lists.openembedded.org</a>&gt; on behalf of sana kazi via <a href=3D"ht=
+tp://lists.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &=
+lt;sanakazisk19=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" targe=
+t=3D"_blank">gmail.com@lists.openembedded.org</a>&gt;<br>
 <b>Sent:</b> Monday, November 29, 2021 3:32 PM<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
+<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt;<br>
 <b>Subject:</b> Re: [OE-core] [meta-oe][dunfell][PATCH 1/3] dovecot: Fix CV=
 E-2020-12100</font>
-<div>&nbsp;</div>
+<div>=C2=A0</div>
 </div>
 <div>
-<div style=3D"background-color:#F7F4A9"><span style=3D"font-size:12pt; font=
--weight:bold; font-family:'Cambria','times new roman','garamond',serif; col=
-or:#ff0000">Caution:
-<span style=3D"font-size:8 pt; font-weight:normal; font-family:'times new r=
-oman',serif; color:#ff0000">
+<div style=3D"background-color:rgb(247,244,169)"><span style=3D"font-size:1=
+2pt;font-weight:bold;font-family:Cambria,&quot;times new roman&quot;,garamo=
+nd,serif;color:rgb(255,0,0)">Caution:
+<span style=3D"font-weight:normal;font-family:&quot;times new roman&quot;,s=
+erif;color:rgb(255,0,0)">
 This email originated from outside of the KPIT. Do not click links or open =
 attachments unless you recognize the sender and know the content is safe.
 </span></span></div>
@@ -2046,13 +2139,13 @@ attachments unless you recognize the sender and know the content is safe.
 <div>Could you please review the below patch?</div>
 </div>
 <br>
-<div class=3D"x_gmail_quote">
-<div dir=3D"ltr" class=3D"x_gmail_attr">On Thu, 7 Oct 2021 at 19:10, Sana K=
-azi &lt;<a href=3D"mailto:sanakazisk19@gmail.com">sanakazisk19@gmail.com</a=
->&gt; wrote:<br>
+<div>
+<div dir=3D"ltr">On Thu, 7 Oct 2021 at 19:10, Sana Kazi &lt;<a href=3D"mail=
+to:sanakazisk19@gmail.com" target=3D"_blank">sanakazisk19@gmail.com</a>&gt;=
+ wrote:<br>
 </div>
-<blockquote class=3D"x_gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; bord=
-er-left:1px solid rgb(204,204,204); padding-left:1ex">
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
 Added patches to fix CVE-2020-12100<br>
 <br>
 Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=3Dhttp=
@@ -2061,12 +2154,8 @@ Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=3Dhttp=
 kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff6150285=
 5c7%7C0%7C0%7C637737773036592986%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
 AiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DBjdSegV=
-MjGcFQOWkc6p16a1pDthqhqsT2a7EaZVltmM%3D&amp;reserved=3D0" originalsrc=3D"ht=
-tp://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu=
-4.7.debian.tar.xz" shash=3D"Ez3EjaXMHFbqouuikvIaxm2mO4MMa5+OC0cXL8SrVVtNrrB=
-+CfYK+sV7Ngr79AEHSUkkEZyaSFkTHOj6AT5BdE3Yg2UhW4kiYsx8LGU2sV1YycC8WCm+MzesD7=
-8ftUaF6KzTzTvLozjSdh5OJXn+NxYiMfOC2e8Yfl+XNkbx2xw=3D" rel=3D"noreferrer" ta=
-rget=3D"_blank">
+MjGcFQOWkc6p16a1pDthqhqsT2a7EaZVltmM%3D&amp;reserved=3D0" rel=3D"noreferrer=
+" target=3D"_blank">
 http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubun=
 tu4.7.debian.tar.xz</a><br>
 <br>
@@ -2075,63 +2164,60 @@ Signed-off-by: Sana Kazi &lt;<a href=3D"mailto:Sana.Kazi@kpit.com" target=
 Signed-off-by: Sana Kazi &lt;<a href=3D"mailto:sanakazisk19@gmail.com" targ=
 et=3D"_blank">sanakazisk19@gmail.com</a>&gt;<br>
 ---<br>
-&nbsp;...-parser-Add-a-message_part_finish-he.patch |&nbsp; 76 +++++++<br>
-&nbsp;...-parser-Change-message_part_append-t.patch |&nbsp; 71 +++++++<br>
-&nbsp;...-parser-Optimize-updating-children_c.patch |&nbsp; 49 +++++<br>
-&nbsp;...-parser-Optimize-appending-new-part-.patch |&nbsp; 88 ++++++++<br>
-&nbsp;...-parser-Minor-code-cleanup-to-findin.patch |&nbsp; 45 +++++<br>
-&nbsp;...-parser-Truncate-excessively-long-MI.patch | 163 +++++++++++++++<b=
+=C2=A0...-parser-Add-a-message_part_finish-he.patch |=C2=A0 76 +++++++<br>
+=C2=A0...-parser-Change-message_part_append-t.patch |=C2=A0 71 +++++++<br>
+=C2=A0...-parser-Optimize-updating-children_c.patch |=C2=A0 49 +++++<br>
+=C2=A0...-parser-Optimize-appending-new-part-.patch |=C2=A0 88 ++++++++<br>
+=C2=A0...-parser-Minor-code-cleanup-to-findin.patch |=C2=A0 45 +++++<br>
+=C2=A0...-parser-Truncate-excessively-long-MI.patch | 163 +++++++++++++++<b=
 r>
-&nbsp;...-parser-Optimize-boundary-lookups-wh.patch |&nbsp; 72 +++++++<br>
-&nbsp;...-parser-Add-boundary_remove_until-he.patch |&nbsp; 50 +++++<br>
-&nbsp;...-parser-Don-t-use-memory-pool-for-pa.patch | 169 ++++++++++++++++<=
+=C2=A0...-parser-Optimize-boundary-lookups-wh.patch |=C2=A0 72 +++++++<br>
+=C2=A0...-parser-Add-boundary_remove_until-he.patch |=C2=A0 50 +++++<br>
+=C2=A0...-parser-Don-t-use-memory-pool-for-pa.patch | 169 ++++++++++++++++<=
 br>
-&nbsp;...-parser-Support-limiting-max-number-.patch | 188 +++++++++++++++++=
+=C2=A0...-parser-Support-limiting-max-number-.patch | 188 +++++++++++++++++=
 +<br>
-&nbsp;...-parser-Support-limiting-max-number-.patch |&nbsp; 87 ++++++++<br>
-&nbsp;...handling-trailing-in-MIME-boundaries.patch | 133 +++++++++++++<br>
-&nbsp;...Fix-parse_too_many_nested_mime_parts.patch |&nbsp; 32 +++<br>
-&nbsp;.../dovecot/dovecot/buffer_free_fix.patch&nbsp; &nbsp; &nbsp;|&nbsp; =
+=C2=A0...-parser-Support-limiting-max-number-.patch |=C2=A0 87 ++++++++<br>
+=C2=A0...handling-trailing-in-MIME-boundaries.patch | 133 +++++++++++++<br>
+=C2=A0...Fix-parse_too_many_nested_mime_parts.patch |=C2=A0 32 +++<br>
+=C2=A0.../dovecot/dovecot/buffer_free_fix.patch=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
 27 +++<br>
-&nbsp;.../dovecot/<a href=3D"https://apc01.safelinks.protection.outlook.com=
+=C2=A0.../dovecot/<a href=3D"https://apc01.safelinks.protection.outlook.com=
 /?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb%2F&amp;data=3D04%7C01%7Cranjitsinh=
 .rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a24=
 2ff61502855c7%7C0%7C0%7C637737773036602942%7CUnknown%7CTWFpbGZsb3d8eyJWIjoi=
 MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=
-=3DyhkDr8YAhITEFAUS5YJ1ohlZ0oDFFPCKVu7Nq2T%2BC8g%3D&amp;reserved=3D0" origi=
-nalsrc=3D"http://dovecot_2.2.36.4.bb/" shash=3D"yxwOVBEuzSAaBcSQBxPl10IXtCK=
-cTm9uGbF+rNxHJFtR4fjrhCNhtxT0Y3fAcrqGCQMKOjT5q2NnoKROYuX5RuFVejA+1+FtsX/YYY=
-jjKJW9RbqQjr+yp8kpoU64qxmWX2G7tO2XomzcqsmaObjVvOt6DUvZncBnCi/yc4EIDn8=3D" r=
-el=3D"noreferrer" target=3D"_blank">dovecot_2.2.36.4.bb</a>&nbsp;
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|&nbsp; 14 ++<br>
-&nbsp;15 files changed, 1264 insertions(+)<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=3DyhkDr8YAhITEFAUS5YJ1ohlZ0oDFFPCKVu7Nq2T%2BC8g%3D&amp;reserved=3D0" rel=
+=3D"noreferrer" target=3D"_blank">dovecot_2.2.36.4.bb</a>=C2=A0
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 14 ++<br>
+=C2=A015 files changed, 1264 insertions(+)<br>
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 01-lib-mail-message-parser-Add-a-message_part_finish-he.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 02-lib-mail-message-parser-Change-message_part_append-t.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 03-lib-mail-message-parser-Optimize-updating-children_c.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 04-lib-mail-message-parser-Optimize-appending-new-part-.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 05-lib-mail-message-parser-Minor-code-cleanup-to-findin.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 06-lib-mail-message-parser-Truncate-excessively-long-MI.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 07-lib-mail-message-parser-Optimize-boundary-lookups-wh.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 08-lib-mail-message-parser-Add-boundary_remove_until-he.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 09-lib-mail-message-parser-Don-t-use-memory-pool-for-pa.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 10-lib-mail-message-parser-Support-limiting-max-number-.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 11-lib-mail-message-parser-Support-limiting-max-number-.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 12-lib-mail-Fix-handling-trailing-in-MIME-boundaries.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/00=
 13-lib-mail-Fix-parse_too_many_nested_mime_parts.patch<br>
-&nbsp;create mode 100644 meta-networking/recipes-support/dovecot/dovecot/bu=
+=C2=A0create mode 100644 meta-networking/recipes-support/dovecot/dovecot/bu=
 ffer_free_fix.patch<br>
 <br>
 diff --git a/meta-networking/recipes-support/dovecot/dovecot/0001-lib-mail-=
@@ -2167,12 +2253,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036612893%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DFCLemINLUPDa5Ih7I%2FjQI2JFQ38KNNvTPvtR6v8LGXY%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"WmS3iEbURNRaVwJSRWo/kX0=
-PuH9DjAPeQJ7sbvmYRSIzOcbFXr1cSf8ocVScS2JUfLzuvq1HbX4mWSpSDjW3P6hI4NgHJ1YxPf=
-phpbZi1fq+dw1CtWntKAMGSmJmKSyAwaw73PqUBn8+nnvKcS/NSq+d13fxXhkLa52NSQ+TaUo=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -2182,86 +2264,87 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 ++++ b/src/lib-mail/message-parser.c<br>
 +@@ -195,6 +195,13 @@ message_part_append(pool_t pool, struct message_part =
 *parent)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return part;<br>
 + }<br>
 + <br>
 ++static void message_part_finish(struct message_parser_ctx *ctx)<br>
 ++{<br>
-++&nbsp; &nbsp; &nbsp; message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;bo=
+++=C2=A0 =C2=A0 =C2=A0 message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;bo=
 dy_size, &amp;ctx-&gt;part-&gt;body_size);<br>
-++&nbsp; &nbsp; &nbsp; message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;bo=
+++=C2=A0 =C2=A0 =C2=A0 message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;bo=
 dy_size, &amp;ctx-&gt;part-&gt;header_size);<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
 ++}<br>
 ++<br>
 + static void parse_next_body_multipart_init(struct message_parser_ctx *ctx=
 )<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *b;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *b;<br>
 +@@ -312,19 +319,16 @@ static int parse_part_finish(struct message_parser_c=
 tx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; struct message_boundary *boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; struct message_block *block_r, bool first_line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct message_boundary *boundary,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct message_block *block_r, bool first_line)<br=
+>
 + {<br>
-+-&nbsp; &nbsp; &nbsp; struct message_part *part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size_t line_size;<br>
++-=C2=A0 =C2=A0 =C2=A0 struct message_part *part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t line_size;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(ctx-&gt;last_boundary =3D=3D NULL);<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(ctx-&gt;last_boundary =3D=3D NULL);<br=
 >
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* get back to parent MIME part, summing the ch=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* get back to parent MIME part, summing the ch=
 ild MIME part sizes<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; into parent's body sizes */<br>
-+-&nbsp; &nbsp; &nbsp; for (part =3D ctx-&gt;part; part !=3D boundary-&gt;p=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 into parent&#39;s body sizes */<br>
++-=C2=A0 =C2=A0 =C2=A0 for (part =3D ctx-&gt;part; part !=3D boundary-&gt;p=
 art; part =3D part-&gt;parent) {<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; message_size_add(&amp;pa=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 message_size_add(&amp;pa=
 rt-&gt;parent-&gt;body_size, &amp;part-&gt;body_size);<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; message_size_add(&amp;pa=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 message_size_add(&amp;pa=
 rt-&gt;parent-&gt;body_size, &amp;part-&gt;header_size);<br>
-++&nbsp; &nbsp; &nbsp; while (ctx-&gt;part !=3D boundary-&gt;part) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; message_part_finish(ctx)=
+++=C2=A0 =C2=A0 =C2=A0 while (ctx-&gt;part !=3D boundary-&gt;part) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 message_part_finish(ctx)=
 ;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; i_assert(ctx-&gt;part !=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i_assert(ctx-&gt;part !=
 =3D NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
-+-&nbsp; &nbsp; &nbsp; i_assert(part !=3D NULL);<br>
-+-&nbsp; &nbsp; &nbsp; ctx-&gt;part =3D part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++-=C2=A0 =C2=A0 =C2=A0 i_assert(part !=3D NULL);<br>
++-=C2=A0 =C2=A0 =C2=A0 ctx-&gt;part =3D part;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (boundary-&gt;epilogue_found) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/* this boundary is=
-n't needed anymore */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (boundary-&gt;epilogue_found) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* this boundary is=
+n&#39;t needed anymore */<br>
 +@@ -1132,13 +1136,8 @@ int message_parser_parse_next_block(struct message_=
 parser_ctx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;i_assert(ctx-&gt;in=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(ctx-&gt;in=
 put-&gt;eof || ctx-&gt;input-&gt;closed ||<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; ctx-&gt;input-&gt;stream_errno !=3D 0 ||<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; ctx-&gt;broken_reason !=3D NULL);<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; while (ctx-&gt;part-&gt;=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ctx-&gt;input-&gt;stream_errno !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ctx-&gt;broken_reason !=3D NULL);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while (ctx-&gt;part-&gt;=
 parent !=3D NULL) {<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;body_size,<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;ctx-=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;body_size,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;ctx-=
 &gt;part-&gt;body_size);<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;body_size,<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&amp;ctx-=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 message_size_add(&amp;ctx-&gt;part-&gt;parent-&gt;body_size,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;ctx-=
 &gt;part-&gt;header_size);<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; while (ctx-&gt;part-&gt;=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while (ctx-&gt;part-&gt;=
 parent !=3D NULL)<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; message_part_finish(ctx);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 message_part_finish(ctx);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (block_r-&gt;size =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (block_r-&gt;size =3D=3D 0) {<br>
 +-- <br>
 +2.11.0<br>
 +<br>
@@ -2298,12 +2381,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036612893%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DFCLemINLUPDa5Ih7I%2FjQI2JFQ38KNNvTPvtR6v8LGXY%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"WmS3iEbURNRaVwJSRWo/kX0=
-PuH9DjAPeQJ7sbvmYRSIzOcbFXr1cSf8ocVScS2JUfLzuvq1HbX4mWSpSDjW3P6hI4NgHJ1YxPf=
-phpbZi1fq+dw1CtWntKAMGSmJmKSyAwaw73PqUBn8+nnvKcS/NSq+d13fxXhkLa52NSQ+TaUo=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -2313,7 +2392,7 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 ++++ b/src/lib-mail/message-parser.c<br>
 +@@ -167,16 +167,17 @@ static int message_parser_read_more(struct message_p=
 arser_ctx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return 1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
 + }<br>
 + <br>
 +-static struct message_part *<br>
@@ -2321,32 +2400,32 @@ arser_ctx *ctx,<br>
 ++static void<br>
 ++message_part_append(struct message_parser_ctx *ctx)<br>
 + {<br>
-++&nbsp; &nbsp; &nbsp; struct message_part *parent =3D ctx-&gt;part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *p, *part, **list;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part *parent =3D ctx-&gt;part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *p, *part, **list;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(parent !=3D NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert((parent-&gt;flags &amp; (MESSAGE_PART_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(parent !=3D NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert((parent-&gt;flags &amp; (MESSAGE_PART_=
 FLAG_MULTIPART |<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; MESSAGE_PART_FLAG_MESSAGE_RFC8=
-22)) !=3D 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MESSAGE_PART_FLAG_MESSAGE_RFC=
+822)) !=3D 0);<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; part =3D p_new(pool, struct message_part, 1);<br>
-++&nbsp; &nbsp; &nbsp; part =3D p_new(ctx-&gt;part_pool, struct message_par=
++-=C2=A0 =C2=A0 =C2=A0 part =3D p_new(pool, struct message_part, 1);<br>
+++=C2=A0 =C2=A0 =C2=A0 part =3D p_new(ctx-&gt;part_pool, struct message_par=
 t, 1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;part-&gt;parent =3D parent;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;for (p =3D parent; p !=3D NULL; p =3D p-&gt;par=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0part-&gt;parent =3D parent;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for (p =3D parent; p !=3D NULL; p =3D p-&gt;par=
 ent)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;p-&gt;children_coun=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p-&gt;children_coun=
 t++;<br>
 +@@ -192,7 +193,7 @@ message_part_append(pool_t pool, struct message_part *=
 parent)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;list =3D &amp;(*lis=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0list =3D &amp;(*lis=
 t)-&gt;next;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;*list =3D part;<br>
-+-&nbsp; &nbsp; &nbsp; return part;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;part =3D part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*list =3D part;<br>
++-=C2=A0 =C2=A0 =C2=A0 return part;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;part =3D part;<br>
 + }<br>
 + <br>
 + static void message_part_finish(struct message_parser_ctx *ctx)<br>
@@ -2354,31 +2433,31 @@ t)-&gt;next;<br>
 age_parser_ctx *ctx)<br>
 + static int parse_next_body_message_rfc822_init(struct message_parser_ctx =
 *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; struct message_block *block_r)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 struct message_block *block_r)<br>
 + {<br>
-+-&nbsp; &nbsp; &nbsp; ctx-&gt;part =3D message_part_append(ctx-&gt;part_po=
++-=C2=A0 =C2=A0 =C2=A0 ctx-&gt;part =3D message_part_append(ctx-&gt;part_po=
 ol, ctx-&gt;part);<br>
-++&nbsp; &nbsp; &nbsp; message_part_append(ctx);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return parse_next_header_init(ctx, block_r);<br=
+++=C2=A0 =C2=A0 =C2=A0 message_part_append(ctx);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return parse_next_header_init(ctx, block_r);<br=
 >
 + }<br>
 + <br>
 +@@ -270,7 +271,7 @@ boundary_line_find(struct message_parser_ctx *ctx,<br>
 + static int parse_next_mime_header_init(struct message_parser_ctx *ctx,<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; struct message_b=
-lock *block_r)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct message_=
+block *block_r)<br>
 + {<br>
-+-&nbsp; &nbsp; &nbsp; ctx-&gt;part =3D message_part_append(ctx-&gt;part_po=
++-=C2=A0 =C2=A0 =C2=A0 ctx-&gt;part =3D message_part_append(ctx-&gt;part_po=
 ol, ctx-&gt;part);<br>
-++&nbsp; &nbsp; &nbsp; message_part_append(ctx);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part-&gt;flags |=3D MESSAGE_PART_FLAG_I=
+++=C2=A0 =C2=A0 =C2=A0 message_part_append(ctx);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part-&gt;flags |=3D MESSAGE_PART_FLAG_I=
 S_MIME;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return parse_next_header_init(ctx, block_r);<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return parse_next_header_init(ctx, block_r);<br=
 >
 +-- <br>
 +2.11.0<br>
@@ -2415,12 +2494,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036622854%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DfqD%2BZ9RImFsCrYFmfHvZZYR5IjkS1Q%2BcXMDPXENYT3A%3D&amp;reser=
-ved=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/doveco=
-t/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"hpi+4oThdKgq/hAL7tJ2i=
-A0MFWu9G6yp9y/WK/2LSQEqIX/iLGfp7mwRHOtBqwCMv56Bjniuj7pDCm5UOv3Bq3cD2GcpZvGk=
-RqmiIiiGsADK+2jDgtyI3JwobtzHBF0p+xLvwVKldperfqKc+6TkO0SqtqV075GdXZ1oA1+3w5M=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+ved=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubu=
+ntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -2431,37 +2506,37 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +@@ -171,7 +171,7 @@ static void<br>
 + message_part_append(struct message_parser_ctx *ctx)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *parent =3D ctx-&gt;part;<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *parent =3D ctx-&gt;part;<b=
 r>
-+-&nbsp; &nbsp; &nbsp; struct message_part *p, *part, **list;<br>
-++&nbsp; &nbsp; &nbsp; struct message_part *part, **list;<br>
++-=C2=A0 =C2=A0 =C2=A0 struct message_part *p, *part, **list;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part *part, **list;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(parent !=3D NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert((parent-&gt;flags &amp; (MESSAGE_PART_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(parent !=3D NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert((parent-&gt;flags &amp; (MESSAGE_PART_=
 FLAG_MULTIPART |<br>
 +@@ -179,8 +179,6 @@ message_part_append(struct message_parser_ctx *ctx)<br=
 >
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;part =3D p_new(ctx-&gt;part_pool, struct messag=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0part =3D p_new(ctx-&gt;part_pool, struct messag=
 e_part, 1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;part-&gt;parent =3D parent;<br>
-+-&nbsp; &nbsp; &nbsp; for (p =3D parent; p !=3D NULL; p =3D p-&gt;parent)<=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0part-&gt;parent =3D parent;<br>
++-=C2=A0 =C2=A0 =C2=A0 for (p =3D parent; p !=3D NULL; p =3D p-&gt;parent)<=
 br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; p-&gt;children_count++;<=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p-&gt;children_count++;<=
 br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* set child position */<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;part-&gt;physical_pos =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* set child position */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0part-&gt;physical_pos =3D<br>
 +@@ -200,6 +198,7 @@ static void message_part_finish(struct message_parser_=
 ctx *ctx)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
 gt;body_size, &amp;ctx-&gt;part-&gt;body_size);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
 gt;body_size, &amp;ctx-&gt;part-&gt;header_size);<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;part-&gt;parent-&gt;children_count +=3D 1 + =
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;part-&gt;parent-&gt;children_count +=3D 1 + =
 ctx-&gt;part-&gt;children_count;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
 + }<br>
 + <br>
 +-- <br>
@@ -2500,12 +2575,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036622854%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DfqD%2BZ9RImFsCrYFmfHvZZYR5IjkS1Q%2BcXMDPXENYT3A%3D&amp;reser=
-ved=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/doveco=
-t/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"hpi+4oThdKgq/hAL7tJ2i=
-A0MFWu9G6yp9y/WK/2LSQEqIX/iLGfp7mwRHOtBqwCMv56Bjniuj7pDCm5UOv3Bq3cD2GcpZvGk=
-RqmiIiiGsADK+2jDgtyI3JwobtzHBF0p+xLvwVKldperfqKc+6TkO0SqtqV075GdXZ1oA1+3w5M=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+ved=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubu=
+ntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +--- a/src/lib-mail/message-parser.c<br>
@@ -2521,85 +2592,85 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 + #include &quot;istream.h&quot;<br>
 + #include &quot;rfc822-parser.h&quot;<br>
 +@@ -34,6 +34,9 @@ struct message_parser_ctx {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;const char *last_boundary;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *boundaries;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0const char *last_boundary;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *boundaries;<br>
 + <br>
-++&nbsp; &nbsp; &nbsp; struct message_part **next_part;<br>
-++&nbsp; &nbsp; &nbsp; ARRAY(struct message_part **) next_part_stack;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part **next_part;<br>
+++=C2=A0 =C2=A0 =C2=A0 ARRAY(struct message_part **) next_part_stack;<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size_t skip;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;char last_chr;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;unsigned int want_count;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t skip;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char last_chr;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int want_count;<br>
 +@@ -171,7 +174,7 @@ static void<br>
 + message_part_append(struct message_parser_ctx *ctx)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *parent =3D ctx-&gt;part;<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *parent =3D ctx-&gt;part;<b=
 r>
-+-&nbsp; &nbsp; &nbsp; struct message_part *part, **list;<br>
-++&nbsp; &nbsp; &nbsp; struct message_part *part;<br>
++-=C2=A0 =C2=A0 =C2=A0 struct message_part *part, **list;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part *part;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(parent !=3D NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert((parent-&gt;flags &amp; (MESSAGE_PART_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(parent !=3D NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert((parent-&gt;flags &amp; (MESSAGE_PART_=
 FLAG_MULTIPART |<br>
 +@@ -186,16 +189,27 @@ message_part_append(struct message_parse<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;parent-&gt;body_siz=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0parent-&gt;body_siz=
 e.physical_size +<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;parent-&gt;header_s=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0parent-&gt;header_s=
 ize.physical_size;<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; list =3D &amp;part-&gt;parent-&gt;children;<br>
-+-&nbsp; &nbsp; &nbsp; while (*list !=3D NULL)<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list =3D &amp;(*list)-&g=
++-=C2=A0 =C2=A0 =C2=A0 list =3D &amp;part-&gt;parent-&gt;children;<br>
++-=C2=A0 =C2=A0 =C2=A0 while (*list !=3D NULL)<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 list =3D &amp;(*list)-&g=
 t;next;<br>
-++&nbsp; &nbsp; &nbsp; /* add to parent's linked list */<br>
-++&nbsp; &nbsp; &nbsp; *ctx-&gt;next_part =3D part;<br>
-++&nbsp; &nbsp; &nbsp; /* update the parent's end-of-linked-list pointer */=
-<br>
-++&nbsp; &nbsp; &nbsp; struct message_part **next_part =3D &amp;part-&gt;ne=
+++=C2=A0 =C2=A0 =C2=A0 /* add to parent&#39;s linked list */<br>
+++=C2=A0 =C2=A0 =C2=A0 *ctx-&gt;next_part =3D part;<br>
+++=C2=A0 =C2=A0 =C2=A0 /* update the parent&#39;s end-of-linked-list pointe=
+r */<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part **next_part =3D &amp;part-&gt;ne=
 xt;<br>
-++&nbsp; &nbsp; &nbsp; array_append(&amp;ctx-&gt;next_part_stack, &amp;next=
+++=C2=A0 =C2=A0 =C2=A0 array_append(&amp;ctx-&gt;next_part_stack, &amp;next=
 _part, 1);<br>
-++&nbsp; &nbsp; &nbsp; /* This part is now the new parent for the next mess=
+++=C2=A0 =C2=A0 =C2=A0 /* This part is now the new parent for the next mess=
 age_part_append()<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;call. Its linked list begins with the c=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0call. Its linked list begins with the c=
 hildren pointer. */<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;next_part =3D &amp;part-&gt;children;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;next_part =3D &amp;part-&gt;children;<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; *list =3D part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part =3D part;<br>
++-=C2=A0 =C2=A0 =C2=A0 *list =3D part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part =3D part;<br>
 + }<br>
 + <br>
 + static void message_part_finish(struct message_parser_ctx *ctx)<br>
 + {<br>
-++&nbsp; &nbsp; &nbsp; struct message_part **const *parent_next_partp;<br>
-++&nbsp; &nbsp; &nbsp; unsigned int count =3D array_count(&amp;ctx-&gt;next=
+++=C2=A0 =C2=A0 =C2=A0 struct message_part **const *parent_next_partp;<br>
+++=C2=A0 =C2=A0 =C2=A0 unsigned int count =3D array_count(&amp;ctx-&gt;next=
 _part_stack);<br>
-++&nbsp; &nbsp; &nbsp; <br>
-++&nbsp; &nbsp; &nbsp; parent_next_partp =3D array_idx(&amp;ctx-&gt;next_pa=
+++=C2=A0 =C2=A0 =C2=A0 <br>
+++=C2=A0 =C2=A0 =C2=A0 parent_next_partp =3D array_idx(&amp;ctx-&gt;next_pa=
 rt_stack, count-1);<br>
-++&nbsp; &nbsp; &nbsp; array_delete(&amp;ctx-&gt;next_part_stack, count-1, =
+++=C2=A0 =C2=A0 =C2=A0 array_delete(&amp;ctx-&gt;next_part_stack, count-1, =
 1);<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;next_part =3D *parent_next_partp;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;next_part =3D *parent_next_partp;<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
 gt;body_size, &amp;ctx-&gt;part-&gt;body_size);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
 gt;body_size, &amp;ctx-&gt;part-&gt;header_size);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part-&gt;parent-&gt;children_count +=3D=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part-&gt;parent-&gt;children_count +=3D=
  1 + ctx-&gt;part-&gt;children_count;<br>
 +@@ -1062,7 +1076,9 @@ message_parser_init(pool_t part_pool, st<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx =3D message_parser_init_int(input, hdr_flag=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx =3D message_parser_init_int(input, hdr_flag=
 s, flags);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part_pool =3D part_pool;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parts =3D ctx-&gt;part =3D p_new(part_p=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part_pool =3D part_pool;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parts =3D ctx-&gt;part =3D p_new(part_p=
 ool, struct message_part, 1);<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;next_part =3D &amp;ctx-&gt;part-&gt;children=
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;next_part =3D &amp;ctx-&gt;part-&gt;children=
 ;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parse_next_block =3D parse_next_header_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parse_next_block =3D parse_next_header_=
 init;<br>
-++&nbsp; &nbsp; &nbsp; p_array_init(&amp;ctx-&gt;next_part_stack, ctx-&gt;p=
+++=C2=A0 =C2=A0 =C2=A0 p_array_init(&amp;ctx-&gt;next_part_stack, ctx-&gt;p=
 arser_pool, 4);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return ctx;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ctx;<br>
 + }<br>
 + <br>
 diff --git a/meta-networking/recipes-support/dovecot/dovecot/0005-lib-mail-=
@@ -2635,12 +2706,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036632806%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3D5sSTe2RwNfkTH3eo7FTWGddobLgH2ZiWoG833kCB%2BO8%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"RScP3wqzzxzReSbNVlxtrty=
-kPI/WDrEOUp+M9R/+CTMhk3HLG3kPS81zEAsXfNdyCmabIsgv0kEXtVxwY05hlAlysPDa3ld32h=
-ZltxE9udUx2Tm6Mi0ICqvEwCf9wcI+DTAY4J4Vba4DflO9gS47m9aASgjQ1ZYp5Yvi/hMB+OI=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -2650,35 +2717,35 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 ++++ b/src/lib-mail/message-parser.c<br>
 +@@ -260,17 +260,16 @@ boundary_line_find(struct message_parser_ctx *ctx,<b=
 r>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* need to find the end of line */<br>
-+-&nbsp; &nbsp; &nbsp; if (memchr(data + 2, '\n', size - 2) =3D=3D NULL &am=
-p;&amp;<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; size &lt; BOUNDARY_END_MAX_LEN &amp;&a=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* need to find the end of line */<br>
++-=C2=A0 =C2=A0 =C2=A0 if (memchr(data + 2, &#39;\n&#39;, size - 2) =3D=3D =
+NULL &amp;&amp;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size &lt; BOUNDARY_END_MAX_LEN &amp;&a=
 mp;<br>
-++&nbsp; &nbsp; &nbsp; data +=3D 2;<br>
-++&nbsp; &nbsp; &nbsp; size -=3D 2;<br>
-++&nbsp; &nbsp; &nbsp; if (memchr(data, '\n', size) =3D=3D NULL &amp;&amp;<=
-br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; size+2 &lt; BOUNDARY_END_MAX_LEN &amp;=
+++=C2=A0 =C2=A0 =C2=A0 data +=3D 2;<br>
+++=C2=A0 =C2=A0 =C2=A0 size -=3D 2;<br>
+++=C2=A0 =C2=A0 =C2=A0 if (memchr(data, &#39;\n&#39;, size) =3D=3D NULL &am=
+p;&amp;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size+2 &lt; BOUNDARY_END_MAX_LEN &amp;=
 &amp;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;!ctx-&gt;input-&gt;eof &amp;&amp;=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0!ctx-&gt;input-&gt;eof &amp;&amp;=
  !full) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/* no LF found */<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* no LF found */<b=
 r>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;want_count =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;want_count =
 =3D BOUNDARY_END_MAX_LEN;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return 0;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; data +=3D 2;<br>
-+-&nbsp; &nbsp; &nbsp; size -=3D 2;<br>
++-=C2=A0 =C2=A0 =C2=A0 data +=3D 2;<br>
++-=C2=A0 =C2=A0 =C2=A0 size -=3D 2;<br>
 +-<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;*boundary_r =3D boundary_find(ctx-&gt;boundarie=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*boundary_r =3D boundary_find(ctx-&gt;boundarie=
 s, data, size);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (*boundary_r =3D=3D NULL)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (*boundary_r =3D=3D NULL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
 +-- <br>
 +2.11.0<br>
 +<br>
@@ -2707,7 +2774,7 @@ or a bit of<br>
 br>
 +as if it was just 80 characters.<br>
 +---<br>
-+ src/lib-mail/message-parser.c&nbsp; &nbsp; &nbsp; |&nbsp; 7 ++-<br>
++ src/lib-mail/message-parser.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 7 ++-<br>
 + src/lib-mail/test-message-parser.c | 95 +++++++++++++++++++++++++++++++++=
 +++++<br>
 + 2 files changed, 100 insertions(+), 2 deletions(-)<br>
@@ -2723,12 +2790,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036632806%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3D5sSTe2RwNfkTH3eo7FTWGddobLgH2ZiWoG833kCB%2BO8%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"RScP3wqzzxzReSbNVlxtrty=
-kPI/WDrEOUp+M9R/+CTMhk3HLG3kPS81zEAsXfNdyCmabIsgv0kEXtVxwY05hlAlysPDa3ld32h=
-ZltxE9udUx2Tm6Mi0ICqvEwCf9wcI+DTAY4J4Vba4DflO9gS47m9aASgjQ1ZYp5Yvi/hMB+OI=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -2740,53 +2803,53 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 + <br>
 + /* RFC-2046 requires boundaries are max. 70 chars + &quot;--&quot; prefix=
  + &quot;--&quot; suffix.<br>
-+&nbsp; &nbsp; We'll add a bit more just in case. */<br>
++=C2=A0 =C2=A0 We&#39;ll add a bit more just in case. */<br>
 +-#define BOUNDARY_END_MAX_LEN (70 + 2 + 2 + 10)<br>
 ++#define BOUNDARY_STRING_MAX_LEN (70 + 10)<br>
 ++#define BOUNDARY_END_MAX_LEN (BOUNDARY_STRING_MAX_LEN + 2 + 2)<br>
 + <br>
 + struct message_boundary {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *next;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *next;<br>
 +@@ -526,8 +527,10 @@ static void parse_content_type(struct message_parser_=
 ctx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;rfc2231_parse(&amp;parser, &amp;results);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;for (; *results !=3D NULL; results +=3D 2) {<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rfc2231_parse(&amp;parser, &amp;results);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for (; *results !=3D NULL; results +=3D 2) {<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (strcasecmp(resu=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcasecmp(resu=
 lts[0], &quot;boundary&quot;) =3D=3D 0) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; /* truncate excessively long boundaries */<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;ctx-&gt;last_boundary =3D<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; p_strdup(ctx-&gt;parser_pool, results[1]);<=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* truncate excessively long boundaries */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0ctx-&gt;last_boundary =3D<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p_strdup(ctx-&gt;parser_pool, results[1]);<=
 br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; p_strndup(ctx-&gt;parser_pool, results[1],<=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p_strndup(ctx-&gt;parser_pool, results[1],<=
 br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; BOUNDARY=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BOUNDARY=
 _STRING_MAX_LEN);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;break;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +diff --git a/src/lib-mail/test-message-parser.c b/src/lib-mail/test-messag=
 e-parser.c<br>
 +index 1f1aa1437..94aa3eb7c 100644<br>
 +--- a/src/lib-mail/test-message-parser.c<br>
 ++++ b/src/lib-mail/test-message-parser.c<br>
 +@@ -642,6 +642,100 @@ static void test_message_parser_no_eoh(void)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;test_end();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0test_end();<br>
 + }<br>
 + <br>
 ++static void test_message_parser_long_mime_boundary(void)<br>
 ++{<br>
-++&nbsp; &nbsp; &nbsp; /* Close the boundaries in wrong reverse order. But =
+++=C2=A0 =C2=A0 =C2=A0 /* Close the boundaries in wrong reverse order. But =
 because all<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;boundaries are actually truncated to th=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0boundaries are actually truncated to th=
 e same size (..890) it<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;works the same as if all of them were d=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0works the same as if all of them were d=
 uplicate boundaries. */<br>
 ++static const char input_msg[] =3D<br>
 ++&quot;Content-Type: multipart/mixed; boundary=3D\&quot;123456789012345678=
@@ -2825,118 +2888,118 @@ t;<br>
 ++&quot;Content-Type: text/plain\n&quot;<br>
 ++&quot;\n&quot;<br>
 ++&quot;4444\n&quot;;<br>
-++&nbsp; &nbsp; &nbsp; struct message_parser_ctx *parser;<br>
-++&nbsp; &nbsp; &nbsp; struct istream *input;<br>
-++&nbsp; &nbsp; &nbsp; struct message_part *parts, *part;<br>
-++&nbsp; &nbsp; &nbsp; struct message_block block;<br>
-++&nbsp; &nbsp; &nbsp; pool_t pool;<br>
-++&nbsp; &nbsp; &nbsp; int ret;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_parser_ctx *parser;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct istream *input;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part *parts, *part;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_block block;<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_t pool;<br>
+++=C2=A0 =C2=A0 =C2=A0 int ret;<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_begin(&quot;message parser long mime boundary&q=
+++=C2=A0 =C2=A0 =C2=A0 test_begin(&quot;message parser long mime boundary&q=
 uot;);<br>
-++&nbsp; &nbsp; &nbsp; pool =3D pool_alloconly_create(&quot;message parser&=
+++=C2=A0 =C2=A0 =C2=A0 pool =3D pool_alloconly_create(&quot;message parser&=
 quot;, 10240);<br>
-++&nbsp; &nbsp; &nbsp; input =3D test_istream_create(input_msg);<br>
+++=C2=A0 =C2=A0 =C2=A0 input =3D test_istream_create(input_msg);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; parser =3D message_parser_init(pool, input, 0, 0);<b=
+++=C2=A0 =C2=A0 =C2=A0 parser =3D message_parser_init(pool, input, 0, 0);<b=
 r>
-++&nbsp; &nbsp; &nbsp; while ((ret =3D message_parser_parse_next_block(pars=
+++=C2=A0 =C2=A0 =C2=A0 while ((ret =3D message_parser_parse_next_block(pars=
 er, &amp;block)) &gt; 0) ;<br>
-++&nbsp; &nbsp; &nbsp; test_assert(ret &lt; 0);<br>
-++&nbsp; &nbsp; &nbsp; message_parser_deinit(&amp;parser, &amp;parts);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(ret &lt; 0);<br>
+++=C2=A0 =C2=A0 =C2=A0 message_parser_deinit(&amp;parser, &amp;parts);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; part =3D parts;<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;children_count =3D=3D 6);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;flags =3D=3D (MESSAGE_PART_FLAG=
+++=C2=A0 =C2=A0 =C2=A0 part =3D parts;<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;children_count =3D=3D 6);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;flags =3D=3D (MESSAGE_PART_FLAG=
 _MULTIPART | MESSAGE_PART_FLAG_IS_MIME));<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.lines =3D=3D 2);<br=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.lines =3D=3D 2);<br=
 >
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.physical_size =3D=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.physical_size =3D=
 =3D 126);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.virtual_size =3D=3D=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.virtual_size =3D=3D=
  126+2);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.lines =3D=3D 22);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.physical_size =3D=3D =
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.lines =3D=3D 22);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.physical_size =3D=3D =
 871);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.virtual_size =3D=3D 8=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.virtual_size =3D=3D 8=
 71+22);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; part =3D parts-&gt;children;<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;children_count =3D=3D 5);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;flags =3D=3D (MESSAGE_PART_FLAG=
+++=C2=A0 =C2=A0 =C2=A0 part =3D parts-&gt;children;<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;children_count =3D=3D 5);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;flags =3D=3D (MESSAGE_PART_FLAG=
 _MULTIPART | MESSAGE_PART_FLAG_IS_MIME));<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.lines =3D=3D 2);<br=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.lines =3D=3D 2);<br=
 >
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.physical_size =3D=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.physical_size =3D=
 =3D 125);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.virtual_size =3D=3D=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.virtual_size =3D=3D=
  125+2);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.lines =3D=3D 19);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.physical_size =3D=3D =
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.lines =3D=3D 19);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.physical_size =3D=3D =
 661);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.virtual_size =3D=3D 6=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.virtual_size =3D=3D 6=
 61+19);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; part =3D parts-&gt;children-&gt;children;<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;children_count =3D=3D 4);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;flags =3D=3D (MESSAGE_PART_FLAG=
+++=C2=A0 =C2=A0 =C2=A0 part =3D parts-&gt;children-&gt;children;<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;children_count =3D=3D 4);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;flags =3D=3D (MESSAGE_PART_FLAG=
 _MULTIPART | MESSAGE_PART_FLAG_IS_MIME));<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.lines =3D=3D 2);<br=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.lines =3D=3D 2);<br=
 >
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.physical_size =3D=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.physical_size =3D=
 =3D 124);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;header_size.virtual_size =3D=3D=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;header_size.virtual_size =3D=3D=
  124+2);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.lines =3D=3D 16);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.physical_size =3D=3D =
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.lines =3D=3D 16);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.physical_size =3D=3D =
 453);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(part-&gt;body_size.virtual_size =3D=3D 4=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;body_size.virtual_size =3D=3D 4=
 53+16);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; part =3D parts-&gt;children-&gt;children-&gt;childre=
+++=C2=A0 =C2=A0 =C2=A0 part =3D parts-&gt;children-&gt;children-&gt;childre=
 n;<br>
-++&nbsp; &nbsp; &nbsp; for (unsigned int i =3D 1; i &lt;=3D 3; i++, part =
+++=C2=A0 =C2=A0 =C2=A0 for (unsigned int i =3D 1; i &lt;=3D 3; i++, part =
 =3D part-&gt;next) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;chi=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;chi=
 ldren_count =3D=3D 0);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;fla=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;fla=
 gs =3D=3D (MESSAGE_PART_FLAG_TEXT | MESSAGE_PART_FLAG_IS_MIME));<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;hea=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;hea=
 der_size.lines =3D=3D 2);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;hea=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;hea=
 der_size.physical_size =3D=3D 26);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;hea=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;hea=
 der_size.virtual_size =3D=3D 26+2);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;bod=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;bod=
 y_size.lines =3D=3D 0);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;bod=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;bod=
 y_size.physical_size =3D=3D i);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(part-&gt;bod=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(part-&gt;bod=
 y_size.virtual_size =3D=3D i);<br>
-++&nbsp; &nbsp; &nbsp; }<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_parsed_parts(input, parts);<br>
-++&nbsp; &nbsp; &nbsp; i_stream_unref(&amp;input);<br>
-++&nbsp; &nbsp; &nbsp; pool_unref(&amp;pool);<br>
-++&nbsp; &nbsp; &nbsp; test_end();<br>
+++=C2=A0 =C2=A0 =C2=A0 test_parsed_parts(input, parts);<br>
+++=C2=A0 =C2=A0 =C2=A0 i_stream_unref(&amp;input);<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_unref(&amp;pool);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_end();<br>
 ++}<br>
 ++<br>
 + int main(void)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;static void (*test_functions[])(void) =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0static void (*test_functions[])(void) =3D {<br>
 +@@ -654,6 +748,7 @@ int main(void)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _garbage_suffix_mime_boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _continuing_mime_boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _continuing_truncated_mime_boundary,<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_message_parser_long=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_message_parser_long=
 _mime_boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _no_eoh,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;NULL<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;};<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
 +-- <br>
 +2.11.0<br>
 +<br>
@@ -2958,8 +3021,8 @@ target=3D"_blank">timo.sirainen@open-xchange.com</a>&gt;<br>
 s<br>
 + when exact boundary is found<br>
 +<br>
-+When an exact boundary is found, there's no need to continue looking for<b=
-r>
++When an exact boundary is found, there&#39;s no need to continue looking f=
+or<br>
 +more boundaries.<br>
 +---<br>
 + src/lib-mail/message-parser.c | 26 ++++++++++++++++++++++----<br>
@@ -2976,12 +3039,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036642765%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3D0oQHK5%2FjpqwH7BvP3mAedGOyY6vJxuIZfPtdY6dfQ0g%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"ARwpTzDqS/KPPonhIEMWjH0=
-4AZ+Mj0VJlWZf7OxSE+o+iTwrek6kBt5+P9HfVxNJgxRhQanzBd9p++JOe3wf0KiBGsoNAPwilg=
-yXpqYDEF6zDQ0ZjIr/lG4oyur1HVFT5zt6UPo+pN3DwZayIdvUtg+vyCqeyAsFD3Q6JJk2QM4=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -2990,80 +3049,81 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +--- a/src/lib-mail/message-parser.c<br>
 ++++ b/src/lib-mail/message-parser.c<br>
 +@@ -80,8 +80,14 @@ boundary_find(struct message_boundary *boundaries,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;while (boundaries !=3D NULL) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (boundaries-&gt;=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0while (boundaries !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (boundaries-&gt;=
 len &lt;=3D len &amp;&amp;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;memcm=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcm=
 p(boundaries-&gt;boundary, data, boundaries-&gt;len) =3D=3D 0 &amp;&amp;<br=
 >
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (best =3D=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (best =3D=
 =3D NULL || best-&gt;len &lt; boundaries-&gt;len))<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (best =3D=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (best =3D=
 =3D NULL || best-&gt;len &lt; boundaries-&gt;len)) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;best =3D boundaries;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; if (best-&gt;len =3D=3D len) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; /* This is exactly the wanted boundary. The=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0best =3D boundaries;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if (best-&gt;len =3D=3D len) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* This is exactly the wanted boundary. The=
 re<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;can't be a better one. */<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; }<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0can&#39;t be a better one. */<=
+br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;boundaries =3D boun=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0boundaries =3D boun=
 daries-&gt;next;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +@@ -263,15 +269,27 @@ boundary_line_find(struct message_parser_ctx *ctx,<b=
 r>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* need to find the end of line */<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;data +=3D 2;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size -=3D 2;<br>
-+-&nbsp; &nbsp; &nbsp; if (memchr(data, '\n', size) =3D=3D NULL &amp;&amp;<=
-br>
-++&nbsp; &nbsp; &nbsp; const unsigned char *lf_pos =3D memchr(data, '\n', s=
-ize);<br>
-++&nbsp; &nbsp; &nbsp; if (lf_pos =3D=3D NULL &amp;&amp;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;size+2 &lt; BOUNDARY_END_MAX_LEN =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* need to find the end of line */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0data +=3D 2;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size -=3D 2;<br>
++-=C2=A0 =C2=A0 =C2=A0 if (memchr(data, &#39;\n&#39;, size) =3D=3D NULL &am=
+p;&amp;<br>
+++=C2=A0 =C2=A0 =C2=A0 const unsigned char *lf_pos =3D memchr(data, &#39;\n=
+&#39;, size);<br>
+++=C2=A0 =C2=A0 =C2=A0 if (lf_pos =3D=3D NULL &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size+2 &lt; BOUNDARY_END_MAX_LEN =
 &amp;&amp;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;!ctx-&gt;input-&gt;eof &amp;&amp;=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0!ctx-&gt;input-&gt;eof &amp;&amp;=
  !full) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/* no LF found */<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* no LF found */<b=
 r>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;want_count =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;want_count =
 =3D BOUNDARY_END_MAX_LEN;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return 0;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +-<br>
-+-&nbsp; &nbsp; &nbsp; *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
++-=C2=A0 =C2=A0 =C2=A0 *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
 ta, size);<br>
-++&nbsp; &nbsp; &nbsp; size_t find_size =3D size;<br>
+++=C2=A0 =C2=A0 =C2=A0 size_t find_size =3D size;<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; if (lf_pos !=3D NULL) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; find_size =3D lf_pos - d=
+++=C2=A0 =C2=A0 =C2=A0 if (lf_pos !=3D NULL) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 find_size =3D lf_pos - d=
 ata;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (find_size &gt; 0 &am=
-p;&amp; data[find_size-1] =3D=3D '\r')<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; find_size--;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (find_size &gt; 2 &am=
-p;&amp; data[find_size-1] =3D=3D '-' &amp;&amp;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; data[find_=
-size-2] =3D=3D '-')<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; find_size -=3D 2;<br>
-++&nbsp; &nbsp; &nbsp; } else if (find_size &gt; BOUNDARY_END_MAX_LEN)<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; find_size =3D BOUNDARY_E=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (find_size &gt; 0 &am=
+p;&amp; data[find_size-1] =3D=3D &#39;\r&#39;)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 find_size--;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (find_size &gt; 2 &am=
+p;&amp; data[find_size-1] =3D=3D &#39;-&#39; &amp;&amp;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data[find_=
+size-2] =3D=3D &#39;-&#39;)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 find_size -=3D 2;<br>
+++=C2=A0 =C2=A0 =C2=A0 } else if (find_size &gt; BOUNDARY_END_MAX_LEN)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 find_size =3D BOUNDARY_E=
 ND_MAX_LEN;<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
+++=C2=A0 =C2=A0 =C2=A0 *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
 ta, find_size);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (*boundary_r =3D=3D NULL)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (*boundary_r =3D=3D NULL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
 + <br>
 +-- <br>
 +2.11.0<br>
@@ -3101,12 +3161,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036642765%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3D0oQHK5%2FjpqwH7BvP3mAedGOyY6vJxuIZfPtdY6dfQ0g%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"ARwpTzDqS/KPPonhIEMWjH0=
-4AZ+Mj0VJlWZf7OxSE+o+iTwrek6kBt5+P9HfVxNJgxRhQanzBd9p++JOe3wf0KiBGsoNAPwilg=
-yXpqYDEF6zDQ0ZjIr/lG4oyur1HVFT5zt6UPo+pN3DwZayIdvUtg+vyCqeyAsFD3Q6JJk2QM4=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -3116,41 +3172,41 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 ++++ b/src/lib-mail/message-parser.c<br>
 +@@ -223,6 +223,13 @@ static void message_part_finish(struct message_parser=
 _ctx *ctx)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
 + }<br>
 + <br>
 ++static void<br>
 ++boundary_remove_until(struct message_parser_ctx *ctx,<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; str=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 str=
 uct message_boundary *boundary)<br>
 ++{<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;boundaries =3D boundary;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;boundaries =3D boundary;<br>
 ++}<br>
 ++<br>
 + static void parse_next_body_multipart_init(struct message_parser_ctx *ctx=
 )<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *b;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *b;<br>
 +@@ -364,10 +371,10 @@ static int parse_part_finish(struct message_parser_c=
 tx *ctx,<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (boundary-&gt;epilogue_found) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/* this boundary is=
-n't needed anymore */<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ctx-&gt;boundaries =3D b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (boundary-&gt;epilogue_found) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* this boundary is=
+n&#39;t needed anymore */<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;boundaries =3D b=
 oundary-&gt;next;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; boundary_remove_until(ct=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 boundary_remove_until(ct=
 x, boundary-&gt;next);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;} else {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/* forget about the=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* forget about the=
  boundaries we possibly skipped */<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ctx-&gt;boundaries =3D b=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;boundaries =3D b=
 oundary;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; boundary_remove_until(ct=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 boundary_remove_until(ct=
 x, boundary);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* the boundary itself should already be in buf=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* the boundary itself should already be in buf=
 fer. add that. */<br>
 +-- <br>
 +2.11.0<br>
@@ -3169,8 +3225,8 @@ index 000000000..aade7dc2b<br>
 +From: Timo Sirainen &lt;<a href=3D"mailto:timo.sirainen@open-xchange.com" =
 target=3D"_blank">timo.sirainen@open-xchange.com</a>&gt;<br>
 +Date: Thu, 23 Apr 2020 15:00:57 +0300<br>
-+Subject: [PATCH 09/13] lib-mail: message-parser - Don't use memory pool fo=
-r<br>
++Subject: [PATCH 09/13] lib-mail: message-parser - Don&#39;t use memory poo=
+l for<br>
 + parser<br>
 +<br>
 +This reduces memory usage when parsing many MIME parts where boundaries ar=
@@ -3192,12 +3248,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036652724%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DGRs5GCiBmuczWBA1M6QaLjiZvG3PLWVhs4LPoAU7LPk%3D&amp;reserved=
-=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/d=
-ovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"qRgHDFT3uN8ZknCzdhiZRDGc=
-9FY74p8EVy+Od7MsAiq+dPI+KYu13pE7Bm51SjnEgSh4Gwjr1ESEa1m7Q4zo2hm2VeUlJ+tUtCy=
-TO1cs0EmxU+EJ0UYWzgc5rlV48CUKSd1WBvmXuFJGoEAwmXmk0uDF9xUyUoA8ZYXDfVIW1Cc=3D=
-" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/poo=
-l/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu=
+/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -3206,196 +3258,197 @@ l/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +--- a/src/lib-mail/message-parser.c<br>
 ++++ b/src/lib-mail/message-parser.c<br>
 +@@ -17,14 +17,14 @@ struct message_boundary {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *next;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *next;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *part;<br>
-+-&nbsp; &nbsp; &nbsp; const char *boundary;<br>
-++&nbsp; &nbsp; &nbsp; char *boundary;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size_t len;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *part;<br>
++-=C2=A0 =C2=A0 =C2=A0 const char *boundary;<br>
+++=C2=A0 =C2=A0 =C2=A0 char *boundary;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t len;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;unsigned int epilogue_found:1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int epilogue_found:1;<br>
 + };<br>
 + <br>
 + struct message_parser_ctx {<br>
-+-&nbsp; &nbsp; &nbsp; pool_t parser_pool, part_pool;<br>
-++&nbsp; &nbsp; &nbsp; pool_t part_pool;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct istream *input;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *parts, *part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;const char *broken_reason;<br>
++-=C2=A0 =C2=A0 =C2=A0 pool_t parser_pool, part_pool;<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_t part_pool;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct istream *input;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *parts, *part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0const char *broken_reason;<br>
 +@@ -32,7 +32,7 @@ struct message_parser_ctx {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;enum message_header_parser_flags hdr_flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;enum message_parser_flags flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0enum message_header_parser_flags hdr_flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0enum message_parser_flags flags;<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; const char *last_boundary;<br>
-++&nbsp; &nbsp; &nbsp; char *last_boundary;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *boundaries;<br>
++-=C2=A0 =C2=A0 =C2=A0 const char *last_boundary;<br>
+++=C2=A0 =C2=A0 =C2=A0 char *last_boundary;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *boundaries;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part **next_part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part **next_part;<br>
 +@@ -223,10 +223,24 @@ static void message_part_finish(struct message_parse=
 r_ctx *ctx)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part =3D ctx-&gt;part-&gt;parent;<br>
 + }<br>
 + <br>
 ++static void message_boundary_free(struct message_boundary *b)<br>
 ++{<br>
-++&nbsp; &nbsp; &nbsp; i_free(b-&gt;boundary);<br>
-++&nbsp; &nbsp; &nbsp; i_free(b);<br>
+++=C2=A0 =C2=A0 =C2=A0 i_free(b-&gt;boundary);<br>
+++=C2=A0 =C2=A0 =C2=A0 i_free(b);<br>
 ++}<br>
 ++<br>
 + static void<br>
 + boundary_remove_until(struct message_parser_ctx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p;struct message_boundary *boundary)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0struct message_boundary *boundary)<br>
 + {<br>
-++&nbsp; &nbsp; &nbsp; while (ctx-&gt;boundaries !=3D boundary) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; struct message_boundary =
+++=C2=A0 =C2=A0 =C2=A0 while (ctx-&gt;boundaries !=3D boundary) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct message_boundary =
 *cur =3D ctx-&gt;boundaries;<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; i_assert(cur !=3D NULL);=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i_assert(cur !=3D NULL);=
 <br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ctx-&gt;boundaries =3D c=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;boundaries =3D c=
 ur-&gt;next;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; message_boundary_free(cu=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 message_boundary_free(cu=
 r);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; }<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;boundaries =3D boundary;<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;boundaries =3D boundary;<br>
 + }<br>
 + <br>
 +@@ -234,15 +248,14 @@ static void parse_next_body_multipart_init(struct me=
 ssage_parser_ctx *ctx)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *b;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *b;<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; b =3D p_new(ctx-&gt;parser_pool, struct message_boun=
++-=C2=A0 =C2=A0 =C2=A0 b =3D p_new(ctx-&gt;parser_pool, struct message_boun=
 dary, 1);<br>
-++&nbsp; &nbsp; &nbsp; b =3D i_new(struct message_boundary, 1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;b-&gt;part =3D ctx-&gt;part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;b-&gt;boundary =3D ctx-&gt;last_boundary;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;last_boundary =3D NULL;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;b-&gt;len =3D strlen(b-&gt;boundary);<br>
+++=C2=A0 =C2=A0 =C2=A0 b =3D i_new(struct message_boundary, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0b-&gt;part =3D ctx-&gt;part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0b-&gt;boundary =3D ctx-&gt;last_boundary;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;last_boundary =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0b-&gt;len =3D strlen(b-&gt;boundary);<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;b-&gt;next =3D ctx-&gt;boundaries;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;boundaries =3D b;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0b-&gt;next =3D ctx-&gt;boundaries;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;boundaries =3D b;<br>
 +-<br>
-+-&nbsp; &nbsp; &nbsp; ctx-&gt;last_boundary =3D NULL;<br>
++-=C2=A0 =C2=A0 =C2=A0 ctx-&gt;last_boundary =3D NULL;<br>
 + }<br>
 + <br>
 + static int parse_next_body_message_rfc822_init(struct message_parser_ctx =
 *ctx,<br>
 +@@ -359,6 +372,8 @@ static int parse_part_finish(struct message_parser_ctx=
  *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; struct message_block *block_r, bool first_line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct message_block *block_r, bool first_line)<br=
+>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size_t line_size;<br>
-++&nbsp; &nbsp; &nbsp; size_t boundary_len =3D boundary-&gt;len;<br>
-++&nbsp; &nbsp; &nbsp; bool boundary_epilogue_found =3D boundary-&gt;epilog=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t line_size;<br>
+++=C2=A0 =C2=A0 =C2=A0 size_t boundary_len =3D boundary-&gt;len;<br>
+++=C2=A0 =C2=A0 =C2=A0 bool boundary_epilogue_found =3D boundary-&gt;epilog=
 ue_found;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(ctx-&gt;last_boundary =3D=3D NULL);<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(ctx-&gt;last_boundary =3D=3D NULL);<br=
 >
 + <br>
 +@@ -391,7 +406,7 @@ static int parse_part_finish(struct message_parser_ctx=
  *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;i_assert(block_r-&g=
-t;data[0] =3D=3D '\n');<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;line_size =3D 1;<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(block_r-&g=
+t;data[0] =3D=3D &#39;\n&#39;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0line_size =3D 1;<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
-+-&nbsp; &nbsp; &nbsp; line_size +=3D 2 + boundary-&gt;len + (boundary-&gt;=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++-=C2=A0 =C2=A0 =C2=A0 line_size +=3D 2 + boundary-&gt;len + (boundary-&gt;=
 epilogue_found ? 2 : 0);<br>
-++&nbsp; &nbsp; &nbsp; line_size +=3D 2 + boundary_len + (boundary_epilogue=
+++=C2=A0 =C2=A0 =C2=A0 line_size +=3D 2 + boundary_len + (boundary_epilogue=
 _found ? 2 : 0);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(block_r-&gt;size &gt;=3D ctx-&gt;skip =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(block_r-&gt;size &gt;=3D ctx-&gt;skip =
 + line_size);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;block_r-&gt;size =3D line_size;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;parse_body_add_block(ctx, block_r);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0block_r-&gt;size =3D line_size;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0parse_body_add_block(ctx, block_r);<br>
 +@@ -553,9 +568,9 @@ static void parse_content_type(struct message_parser_c=
 tx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;for (; *results !=3D NULL; results +=3D 2) {<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for (; *results !=3D NULL; results +=3D 2) {<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (strcasecmp(resu=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcasecmp(resu=
 lts[0], &quot;boundary&quot;) =3D=3D 0) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;/* truncate excessively long boundaries */<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; i_free(ctx-&gt;last_boundary);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;ctx-&gt;last_boundary =3D<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; p_strndup(ctx-&gt;parser_pool, results[1],<=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/* truncate excessively long boundaries */<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 i_free(ctx-&gt;last_boundary);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0ctx-&gt;last_boundary =3D<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p_strndup(ctx-&gt;parser_pool, results[1],<=
 br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; BOUNDARY=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BOUNDARY=
 _STRING_MAX_LEN);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; i_strndup(results[1], BOUNDARY_STRING_MAX_L=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i_strndup(results[1], BOUNDARY_STRING_MAX_L=
 EN);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;break;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +@@ -678,7 +693,7 @@ static int parse_next_header(struct message_parser_ctx=
  *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;i_assert(!ctx-&gt;m=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(!ctx-&gt;m=
 ultipart);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;part-&gt;flags =3D =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part-&gt;flags =3D =
 0;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
-+-&nbsp; &nbsp; &nbsp; ctx-&gt;last_boundary =3D NULL;<br>
-++&nbsp; &nbsp; &nbsp; i_free(ctx-&gt;last_boundary);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++-=C2=A0 =C2=A0 =C2=A0 ctx-&gt;last_boundary =3D NULL;<br>
+++=C2=A0 =C2=A0 =C2=A0 i_free(ctx-&gt;last_boundary);<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (!ctx-&gt;part_seen_content_type ||<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(part-&gt;flags &amp; MESSAGE_PAR=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ctx-&gt;part_seen_content_type ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(part-&gt;flags &amp; MESSAGE_PAR=
 T_FLAG_IS_MIME) =3D=3D 0) {<br>
 +@@ -1081,11 +1096,8 @@ message_parser_init_int(struct istream *input,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;enum message_parser_flags flags)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0enum message_parser_flags flags)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_parser_ctx *ctx;<br>
-+-&nbsp; &nbsp; &nbsp; pool_t pool;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_parser_ctx *ctx;<br>
++-=C2=A0 =C2=A0 =C2=A0 pool_t pool;<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; pool =3D pool_alloconly_create(&quot;Message Parser&=
++-=C2=A0 =C2=A0 =C2=A0 pool =3D pool_alloconly_create(&quot;Message Parser&=
 quot;, 1024);<br>
-+-&nbsp; &nbsp; &nbsp; ctx =3D p_new(pool, struct message_parser_ctx, 1);<b=
++-=C2=A0 =C2=A0 =C2=A0 ctx =3D p_new(pool, struct message_parser_ctx, 1);<b=
 r>
-+-&nbsp; &nbsp; &nbsp; ctx-&gt;parser_pool =3D pool;<br>
-++&nbsp; &nbsp; &nbsp; ctx =3D i_new(struct message_parser_ctx, 1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;hdr_flags =3D hdr_flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;flags =3D flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;input =3D input;<br>
++-=C2=A0 =C2=A0 =C2=A0 ctx-&gt;parser_pool =3D pool;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx =3D i_new(struct message_parser_ctx, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;hdr_flags =3D hdr_flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;flags =3D flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;input =3D input;<br>
 +@@ -1105,7 +1117,7 @@ message_parser_init(pool_t part_pool, struct istream=
  *input,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parts =3D ctx-&gt;part =3D p_new(part_p=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parts =3D ctx-&gt;part =3D p_new(part_p=
 ool, struct message_part, 1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;next_part =3D &amp;ctx-&gt;part-&gt;chi=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;next_part =3D &amp;ctx-&gt;part-&gt;chi=
 ldren;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parse_next_block =3D parse_next_header_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parse_next_block =3D parse_next_header_=
 init;<br>
-+-&nbsp; &nbsp; &nbsp; p_array_init(&amp;ctx-&gt;next_part_stack, ctx-&gt;p=
++-=C2=A0 =C2=A0 =C2=A0 p_array_init(&amp;ctx-&gt;next_part_stack, ctx-&gt;p=
 arser_pool, 4);<br>
-++&nbsp; &nbsp; &nbsp; i_array_init(&amp;ctx-&gt;next_part_stack, 4);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return ctx;<br>
+++=C2=A0 =C2=A0 =C2=A0 i_array_init(&amp;ctx-&gt;next_part_stack, 4);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ctx;<br>
 + }<br>
 + <br>
 +@@ -1146,8 +1158,12 @@ int message_parser_deinit_from_parts(struct message=
 _parser_ctx **_ctx,<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (ctx-&gt;hdr_parser_ctx !=3D NULL)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;message_parse_heade=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ctx-&gt;hdr_parser_ctx !=3D NULL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0message_parse_heade=
 r_deinit(&amp;ctx-&gt;hdr_parser_ctx);<br>
-++&nbsp; &nbsp; &nbsp; boundary_remove_until(ctx, NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_stream_unref(&amp;ctx-&gt;input);<br>
-+-&nbsp; &nbsp; &nbsp; pool_unref(&amp;ctx-&gt;parser_pool);<br>
-++&nbsp; &nbsp; &nbsp; if (array_is_created(&amp;ctx-&gt;next_part_stack))<=
+++=C2=A0 =C2=A0 =C2=A0 boundary_remove_until(ctx, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_stream_unref(&amp;ctx-&gt;input);<br>
++-=C2=A0 =C2=A0 =C2=A0 pool_unref(&amp;ctx-&gt;parser_pool);<br>
+++=C2=A0 =C2=A0 =C2=A0 if (array_is_created(&amp;ctx-&gt;next_part_stack))<=
 br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; array_free(&amp;ctx-&gt;=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 array_free(&amp;ctx-&gt;=
 next_part_stack);<br>
-++&nbsp; &nbsp; &nbsp; i_free(ctx-&gt;last_boundary);<br>
-++&nbsp; &nbsp; &nbsp; i_free(ctx);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(ret &lt; 0 || *parts_r !=3D NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return ret;<br>
+++=C2=A0 =C2=A0 =C2=A0 i_free(ctx-&gt;last_boundary);<br>
+++=C2=A0 =C2=A0 =C2=A0 i_free(ctx);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(ret &lt; 0 || *parts_r !=3D NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
 + }<br>
 +-- <br>
 +2.11.0<br>
@@ -3420,11 +3473,11 @@ ber<br>
 +<br>
 +The default is to allow 100 nested MIME parts. When the limit is reached,<=
 br>
-+the innermost MIME part's body contains all the rest of the inner bodies<b=
-r>
++the innermost MIME part&#39;s body contains all the rest of the inner bodi=
+es<br>
 +until a parent MIME part is reached.<br>
 +---<br>
-+ src/lib-mail/message-parser.c&nbsp; &nbsp; &nbsp; | 43 ++++++++++++++++++=
++ src/lib-mail/message-parser.c=C2=A0 =C2=A0 =C2=A0 | 43 ++++++++++++++++++=
 +++++++++++++-------<br>
 + src/lib-mail/test-message-parser.c | 31 +++++++++++++++++++++++++++<br>
 + 2 files changed, 67 insertions(+), 7 deletions(-)<br>
@@ -3440,12 +3493,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036652724%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DGRs5GCiBmuczWBA1M6QaLjiZvG3PLWVhs4LPoAU7LPk%3D&amp;reserved=
-=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/d=
-ovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"qRgHDFT3uN8ZknCzdhiZRDGc=
-9FY74p8EVy+Od7MsAiq+dPI+KYu13pE7Bm51SjnEgSh4Gwjr1ESEa1m7Q4zo2hm2VeUlJ+tUtCy=
-TO1cs0EmxU+EJ0UYWzgc5rlV48CUKSd1WBvmXuFJGoEAwmXmk0uDF9xUyUoA8ZYXDfVIW1Cc=3D=
-" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/poo=
-l/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu=
+/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -3460,156 +3509,156 @@ l/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 ++#define MESSAGE_PARSER_DEFAULT_MAX_NESTED_MIME_PARTS 100<br>
 ++<br>
 + struct message_boundary {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *next;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *next;<br>
 + <br>
 +@@ -28,9 +30,11 @@ struct message_parser_ctx {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct istream *input;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *parts, *part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;const char *broken_reason;<br>
-++&nbsp; &nbsp; &nbsp; unsigned int nested_parts_count;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct istream *input;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *parts, *part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0const char *broken_reason;<br>
+++=C2=A0 =C2=A0 =C2=A0 unsigned int nested_parts_count;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;enum message_header_parser_flags hdr_flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;enum message_parser_flags flags;<br>
-++&nbsp; &nbsp; &nbsp; unsigned int max_nested_mime_parts;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0enum message_header_parser_flags hdr_flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0enum message_parser_flags flags;<br>
+++=C2=A0 =C2=A0 =C2=A0 unsigned int max_nested_mime_parts;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;char *last_boundary;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *boundaries;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char *last_boundary;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *boundaries;<br>
 +@@ -206,6 +210,8 @@ message_part_append(struct message_parser_ctx *ctx)<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;next_part =3D &amp;part-&gt;children;<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;next_part =3D &amp;part-&gt;children;<b=
 r>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part =3D part;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;nested_parts_count++;<br>
-++&nbsp; &nbsp; &nbsp; i_assert(ctx-&gt;nested_parts_count &lt; ctx-&gt;max=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part =3D part;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;nested_parts_count++;<br>
+++=C2=A0 =C2=A0 =C2=A0 i_assert(ctx-&gt;nested_parts_count &lt; ctx-&gt;max=
 _nested_mime_parts);<br>
 + }<br>
 + <br>
 + static void message_part_finish(struct message_parser_ctx *ctx)<br>
 +@@ -213,8 +219,12 @@ static void message_part_finish(struct message_parser=
 _ctx *ctx)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part **const *parent_next_partp;=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part **const *parent_next_partp;=
 <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;unsigned int count =3D array_count(&amp;ctx-&gt=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int count =3D array_count(&amp;ctx-&gt=
 ;next_part_stack);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;<br>
-++&nbsp; &nbsp; &nbsp; i_assert(ctx-&gt;nested_parts_count &gt; 0);<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;nested_parts_count--;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
+++=C2=A0 =C2=A0 =C2=A0 i_assert(ctx-&gt;nested_parts_count &gt; 0);<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;nested_parts_count--;<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;parent_next_partp =3D array_idx(&amp;ctx-&gt;ne=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0parent_next_partp =3D array_idx(&amp;ctx-&gt;ne=
 xt_part_stack, count-1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;array_delete(&amp;ctx-&gt;next_part_stack, coun=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0array_delete(&amp;ctx-&gt;next_part_stack, coun=
 t-1, 1);<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;next_part =3D *parent_next_partp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;next_part =3D *parent_next_partp;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0message_size_add(&amp;ctx-&gt;part-&gt;parent-&=
 gt;body_size, &amp;ctx-&gt;part-&gt;body_size);<br>
 +@@ -592,6 +602,11 @@ static bool block_is_at_eoh(const struct message_bloc=
 k *block)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return FALSE;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return FALSE;<br>
 + }<br>
 + <br>
 ++static bool parse_too_many_nested_mime_parts(struct message_parser_ctx *c=
 tx)<br>
 ++{<br>
-++&nbsp; &nbsp; &nbsp; return ctx-&gt;nested_parts_count &gt; ctx-&gt;max_n=
+++=C2=A0 =C2=A0 =C2=A0 return ctx-&gt;nested_parts_count &gt; ctx-&gt;max_n=
 ested_mime_parts;<br>
 ++}<br>
 ++<br>
 + #define MUTEX_FLAGS \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;(MESSAGE_PART_FLAG_MESSAGE_RFC822 | MESSAGE_PAR=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0(MESSAGE_PART_FLAG_MESSAGE_RFC822 | MESSAGE_PAR=
 T_FLAG_MULTIPART)<br>
 + <br>
 +@@ -616,8 +631,12 @@ static int parse_next_header(struct message_parser_ct=
 x *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;\n--b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;\n--b=
 oundary&quot; belongs to us or to a previous boundary.<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; this is a p=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 this is a p=
 roblem if the boundary prefixes are identical,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; because MIM=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 because MIM=
 E requires only the prefix to match. */<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parse_next_body_multipar=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parse_next_body_multipar=
 t_init(ctx);<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ctx-&gt;multipart =3D TR=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;multipart =3D TR=
 UE;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (!parse_too_many_nest=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!parse_too_many_nest=
 ed_mime_parts(ctx)) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; parse_next_body_multipart_init(ctx);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; ctx-&gt;multipart =3D TRUE;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; part-&gt;flags &amp;=3D ~MESSAGE_PART_FLAG_MULTIPART;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 parse_next_body_multipart_init(ctx);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ctx-&gt;multipart =3D TRUE;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 part-&gt;flags &amp;=3D ~MESSAGE_PART_FLAG_MULTIPART;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* before parsing the header see if we can find=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* before parsing the header see if we can find=
  a --boundary from here.<br>
 +@@ -721,12 +740,16 @@ static int parse_next_header(struct message_parser_c=
 tx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;i_assert(ctx-&gt;la=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(ctx-&gt;la=
 st_boundary =3D=3D NULL);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;multipart =
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;multipart =
 =3D FALSE;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parse_next_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parse_next_=
 block =3D parse_next_body_to_boundary;<br>
-+-&nbsp; &nbsp; &nbsp; } else if (part-&gt;flags &amp; MESSAGE_PART_FLAG_ME=
++-=C2=A0 =C2=A0 =C2=A0 } else if (part-&gt;flags &amp; MESSAGE_PART_FLAG_ME=
 SSAGE_RFC822)<br>
-++&nbsp; &nbsp; &nbsp; } else if ((part-&gt;flags &amp; MESSAGE_PART_FLAG_M=
+++=C2=A0 =C2=A0 =C2=A0 } else if ((part-&gt;flags &amp; MESSAGE_PART_FLAG_M=
 ESSAGE_RFC822) !=3D 0 &amp;&amp;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;!parse_too_=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0!parse_too_=
 many_nested_mime_parts(ctx)) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parse_next_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parse_next_=
 block =3D parse_next_body_message_rfc822_init;<br>
-+-&nbsp; &nbsp; &nbsp; else if (ctx-&gt;boundaries !=3D NULL)<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ctx-&gt;parse_next_block=
++-=C2=A0 =C2=A0 =C2=A0 else if (ctx-&gt;boundaries !=3D NULL)<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;parse_next_block=
  =3D parse_next_body_to_boundary;<br>
-+-&nbsp; &nbsp; &nbsp; else<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ctx-&gt;parse_next_block=
++-=C2=A0 =C2=A0 =C2=A0 else<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;parse_next_block=
  =3D parse_next_body_to_eof;<br>
-++&nbsp; &nbsp; &nbsp; } else {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; part-&gt;flags &amp;=3D =
+++=C2=A0 =C2=A0 =C2=A0 } else {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 part-&gt;flags &amp;=3D =
 ~MESSAGE_PART_FLAG_MESSAGE_RFC822;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (ctx-&gt;boundaries !=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ctx-&gt;boundaries !=
 =3D NULL)<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; ctx-&gt;parse_next_block =3D parse_next_body_to_boundary;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; ctx-&gt;parse_next_block =3D parse_next_body_to_eof;<br>
-++&nbsp; &nbsp; &nbsp; }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ctx-&gt;parse_next_block =3D parse_next_body_to_boundary;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ctx-&gt;parse_next_block =3D parse_next_body_to_eof;<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;want_count =3D 1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;want_count =3D 1;<br>
 + <br>
 +@@ -1100,6 +1123,8 @@ message_parser_init_int(struct istream *input,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx =3D i_new(struct message_parser_ctx, 1);<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx =3D i_new(struct message_parser_ctx, 1);<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;hdr_flags =3D hdr_flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;flags =3D flags;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;max_nested_mime_parts =3D<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; MESSAGE_PARSER_DEFAULT_M=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;hdr_flags =3D hdr_flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;flags =3D flags;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;max_nested_mime_parts =3D<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MESSAGE_PARSER_DEFAULT_M=
 AX_NESTED_MIME_PARTS;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;input =3D input;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_stream_ref(input);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return ctx;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;input =3D input;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_stream_ref(input);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ctx;<br>
 +@@ -1159,6 +1184,10 @@ int message_parser_deinit_from_parts(struct message=
 _parser_ctx **_ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (ctx-&gt;hdr_parser_ctx !=3D NULL)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;message_parse_heade=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ctx-&gt;hdr_parser_ctx !=3D NULL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0message_parse_heade=
 r_deinit(&amp;ctx-&gt;hdr_parser_ctx);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;boundary_remove_until(ctx, NULL);<br>
-++&nbsp; &nbsp; &nbsp; /* caller might have stopped the parsing early */<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0boundary_remove_until(ctx, NULL);<br>
+++=C2=A0 =C2=A0 =C2=A0 /* caller might have stopped the parsing early */<br=
 >
-++&nbsp; &nbsp; &nbsp; i_assert(ctx-&gt;nested_parts_count =3D=3D 0 ||<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;i_stream_have_byte=
+++=C2=A0 =C2=A0 =C2=A0 i_assert(ctx-&gt;nested_parts_count =3D=3D 0 ||<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i_stream_have_byte=
 s_left(ctx-&gt;input));<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_stream_unref(&amp;ctx-&gt;input);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (array_is_created(&amp;ctx-&gt;next_part_sta=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_stream_unref(&amp;ctx-&gt;input);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (array_is_created(&amp;ctx-&gt;next_part_sta=
 ck))<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;array_free(&amp;ctx=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0array_free(&amp;ctx=
 -&gt;next_part_stack);<br>
 +diff --git a/src/lib-mail/test-message-parser.c b/src/lib-mail/test-messag=
 e-parser.c<br>
@@ -3618,48 +3667,48 @@ e-parser.c<br>
 ++++ b/src/lib-mail/test-message-parser.c<br>
 +@@ -166,6 +166,36 @@ static void test_message_parser_small_blocks(void)<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp;test_end();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0test_end();<br>
 + }<br>
 + <br>
 ++static void test_message_parser_stop_early(void)<br>
 ++{<br>
-++&nbsp; &nbsp; &nbsp; struct message_parser_ctx *parser;<br>
-++&nbsp; &nbsp; &nbsp; struct istream *input;<br>
-++&nbsp; &nbsp; &nbsp; struct message_part *parts;<br>
-++&nbsp; &nbsp; &nbsp; struct message_block block;<br>
-++&nbsp; &nbsp; &nbsp; unsigned int i;<br>
-++&nbsp; &nbsp; &nbsp; pool_t pool;<br>
-++&nbsp; &nbsp; &nbsp; int ret;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_parser_ctx *parser;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct istream *input;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part *parts;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_block block;<br>
+++=C2=A0 =C2=A0 =C2=A0 unsigned int i;<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_t pool;<br>
+++=C2=A0 =C2=A0 =C2=A0 int ret;<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_begin(&quot;message parser stop early&quot;);<b=
+++=C2=A0 =C2=A0 =C2=A0 test_begin(&quot;message parser stop early&quot;);<b=
 r>
-++&nbsp; &nbsp; &nbsp; pool =3D pool_alloconly_create(&quot;message parser&=
+++=C2=A0 =C2=A0 =C2=A0 pool =3D pool_alloconly_create(&quot;message parser&=
 quot;, 10240);<br>
-++&nbsp; &nbsp; &nbsp; input =3D test_istream_create(test_msg);<br>
+++=C2=A0 =C2=A0 =C2=A0 input =3D test_istream_create(test_msg);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_istream_set_allow_eof(input, FALSE);<br>
-++&nbsp; &nbsp; &nbsp; for (i =3D 1; i &lt;=3D TEST_MSG_LEN+1; i++) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; i_stream_seek(input, 0);=
+++=C2=A0 =C2=A0 =C2=A0 test_istream_set_allow_eof(input, FALSE);<br>
+++=C2=A0 =C2=A0 =C2=A0 for (i =3D 1; i &lt;=3D TEST_MSG_LEN+1; i++) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i_stream_seek(input, 0);=
 <br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_istream_set_size(in=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_istream_set_size(in=
 put, i);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parser =3D message_parse=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parser =3D message_parse=
 r_init(pool, input, 0, 0);<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; while ((ret =3D message_=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while ((ret =3D message_=
 parser_parse_next_block(parser,<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;block)) =
-&gt; 0) ;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_assert(ret =3D=3D 0=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;block))=
+ &gt; 0) ;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_assert(ret =3D=3D 0=
 );<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; message_parser_deinit(&a=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 message_parser_deinit(&a=
 mp;parser, &amp;parts);<br>
-++&nbsp; &nbsp; &nbsp; }<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; i_stream_unref(&amp;input);<br>
-++&nbsp; &nbsp; &nbsp; pool_unref(&amp;pool);<br>
-++&nbsp; &nbsp; &nbsp; test_end();<br>
+++=C2=A0 =C2=A0 =C2=A0 i_stream_unref(&amp;input);<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_unref(&amp;pool);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_end();<br>
 ++}<br>
 ++<br>
 + static void test_message_parser_truncated_mime_headers(void)<br>
@@ -3667,16 +3716,16 @@ mp;parser, &amp;parts);<br>
 + static const char input_msg[] =3D<br>
 +@@ -740,6 +770,7 @@ int main(void)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;static void (*test_functions[])(void) =3D {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0static void (*test_functions[])(void) =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _small_blocks,<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_message_parser_stop=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_message_parser_stop=
 _early,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _truncated_mime_headers,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _truncated_mime_headers2,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _truncated_mime_headers3,<br>
 +-- <br>
 +2.11.0<br>
@@ -3699,7 +3748,8 @@ target=3D"_blank">timo.sirainen@open-xchange.com</a>&gt;<br>
 ber<br>
 + of MIME parts<br>
 +<br>
-+The default is to allow 10000 MIME parts. When it's reached, no more<br>
++The default is to allow 10000 MIME parts. When it&#39;s reached, no more<b=
+r>
 +MIME boundary lines will be recognized, so the rest of the mail belongs<br=
 >
 +to the last added MIME part.<br>
@@ -3718,12 +3768,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036662676%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkMiVNT%2BTbGWAm2QhHQ%3D&amp;reser=
-ved=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/doveco=
-t/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"LQQ/W73lYJ2SyQOu4MMMi=
-cBuzkzu5tldjavBS040bXcwCMavPN90LJ8B79/ppUHbNV1p1gl0UCO859jWPI0TGW4/W5p/AuIg=
-VpvDwUHO/dRTHdm+lsY+QXP2zeYGwjR0aHHjhXMBzFJIkSRg4MQU+jdJQsSwwUxdIXV1/Tc8zgc=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+ved=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubu=
+ntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -3738,73 +3784,73 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 ++#define MESSAGE_PARSER_DEFAULT_MAX_TOTAL_MIME_PARTS 10000<br>
 + <br>
 + struct message_boundary {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *next;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *next;<br>
 +@@ -31,10 +32,12 @@ struct message_parser_ctx {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_part *parts, *part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;const char *broken_reason;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;unsigned int nested_parts_count;<br>
-++&nbsp; &nbsp; &nbsp; unsigned int total_parts_count;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_part *parts, *part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0const char *broken_reason;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int nested_parts_count;<br>
+++=C2=A0 =C2=A0 =C2=A0 unsigned int total_parts_count;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;enum message_header_parser_flags hdr_flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;enum message_parser_flags flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;unsigned int max_nested_mime_parts;<br>
-++&nbsp; &nbsp; &nbsp; unsigned int max_total_mime_parts;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0enum message_header_parser_flags hdr_flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0enum message_parser_flags flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int max_nested_mime_parts;<br>
+++=C2=A0 =C2=A0 =C2=A0 unsigned int max_total_mime_parts;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;char *last_boundary;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *boundaries;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char *last_boundary;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *boundaries;<br>
 +@@ -211,7 +214,9 @@ message_part_append(struct message_parser_ctx *ctx)<br=
 >
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;part =3D part;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;nested_parts_count++;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;total_parts_count++;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_assert(ctx-&gt;nested_parts_count &lt; ctx-&g=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;part =3D part;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;nested_parts_count++;<br>
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;total_parts_count++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_assert(ctx-&gt;nested_parts_count &lt; ctx-&g=
 t;max_nested_mime_parts);<br>
-++&nbsp; &nbsp; &nbsp; i_assert(ctx-&gt;total_parts_count &lt;=3D ctx-&gt;m=
+++=C2=A0 =C2=A0 =C2=A0 i_assert(ctx-&gt;total_parts_count &lt;=3D ctx-&gt;m=
 ax_total_mime_parts);<br>
 + }<br>
 + <br>
 + static void message_part_finish(struct message_parser_ctx *ctx)<br>
 +@@ -296,6 +301,12 @@ boundary_line_find(struct message_parser_ctx *ctx,<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return -1;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 + <br>
-++&nbsp; &nbsp; &nbsp; if (ctx-&gt;total_parts_count &gt;=3D ctx-&gt;max_to=
+++=C2=A0 =C2=A0 =C2=A0 if (ctx-&gt;total_parts_count &gt;=3D ctx-&gt;max_to=
 tal_mime_parts) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /* can't add any more MI=
-ME parts. just stop trying to find<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;more bounda=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* can&#39;t add any mor=
+e MIME parts. just stop trying to find<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0more bounda=
 ries. */<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return -1;<br>
-++&nbsp; &nbsp; &nbsp; }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;/* need to find the end of line */<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;data +=3D 2;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size -=3D 2;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* need to find the end of line */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0data +=3D 2;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size -=3D 2;<br>
 +@@ -1125,6 +1136,8 @@ message_parser_init_int(struct istream *input,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;flags =3D flags;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;max_nested_mime_parts =3D<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;MESSAGE_PARSER_DEFA=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;flags =3D flags;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;max_nested_mime_parts =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MESSAGE_PARSER_DEFA=
 ULT_MAX_NESTED_MIME_PARTS;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;max_total_mime_parts =3D<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; MESSAGE_PARSER_DEFAULT_M=
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;max_total_mime_parts =3D<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MESSAGE_PARSER_DEFAULT_M=
 AX_TOTAL_MIME_PARTS;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;input =3D input;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_stream_ref(input);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return ctx;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;input =3D input;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_stream_ref(input);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ctx;<br>
 +@@ -1142,6 +1155,7 @@ message_parser_init(pool_t part_pool, struct istream=
  *input,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parts =3D ctx-&gt;part =3D p_new(part_p=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parts =3D ctx-&gt;part =3D p_new(part_p=
 ool, struct message_part, 1);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;next_part =3D &amp;ctx-&gt;part-&gt;chi=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;next_part =3D &amp;ctx-&gt;part-&gt;chi=
 ldren;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;ctx-&gt;parse_next_block =3D parse_next_header_=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;parse_next_block =3D parse_next_header_=
 init;<br>
-++&nbsp; &nbsp; &nbsp; ctx-&gt;total_parts_count =3D 1;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;i_array_init(&amp;ctx-&gt;next_part_stack, 4);<=
+++=C2=A0 =C2=A0 =C2=A0 ctx-&gt;total_parts_count =3D 1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0i_array_init(&amp;ctx-&gt;next_part_stack, 4);<=
 br>
-+&nbsp; &nbsp; &nbsp; &nbsp;return ctx;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return ctx;<br>
 + }<br>
 +-- <br>
 +2.11.0<br>
@@ -3828,7 +3874,7 @@ IME boundaries<br>
 +<br>
 +Broken by 5b8ec27fae941d06516c30476dcf4820c6d200ab<br>
 +---<br>
-+ src/lib-mail/message-parser.c&nbsp; &nbsp; &nbsp; | 14 ++++++++----<br>
++ src/lib-mail/message-parser.c=C2=A0 =C2=A0 =C2=A0 | 14 ++++++++----<br>
 + src/lib-mail/test-message-parser.c | 46 +++++++++++++++++++++++++++++++++=
 +++++<br>
 + 2 files changed, 56 insertions(+), 4 deletions(-)<br>
@@ -3844,12 +3890,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036662676%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkMiVNT%2BTbGWAm2QhHQ%3D&amp;reser=
-ved=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/doveco=
-t/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"LQQ/W73lYJ2SyQOu4MMMi=
-cBuzkzu5tldjavBS040bXcwCMavPN90LJ8B79/ppUHbNV1p1gl0UCO859jWPI0TGW4/W5p/AuIg=
-VpvDwUHO/dRTHdm+lsY+QXP2zeYGwjR0aHHjhXMBzFJIkSRg4MQU+jdJQsSwwUxdIXV1/Tc8zgc=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+ved=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubu=
+ntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -3862,76 +3904,77 @@ ge_parser_ctx *ctx,<br>
 + <br>
 + static struct message_boundary *<br>
 + boundary_find(struct message_boundary *boundaries,<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; const unsigned char *data, size=
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const unsigned char *data, size=
 _t len)<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; const unsigned char *data, size=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const unsigned char *data, size=
 _t len, bool trailing_dashes)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct message_boundary *best =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct message_boundary *best =3D NULL;<br>
 + <br>
 +@@ -89,7 +89,11 @@ boundary_find(struct message_boundary *boundaries,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;memcm=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcm=
 p(boundaries-&gt;boundary, data, boundaries-&gt;len) =3D=3D 0 &amp;&amp;<br=
 >
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(best=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(best=
  =3D=3D NULL || best-&gt;len &lt; boundaries-&gt;len)) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;best =3D boundaries;<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; if (best-&gt;len =3D=3D len) {<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; /* If we see &quot;foo--&quot;, it could either mean that there<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;is a boundary named &quot;foo&quot; that ends now or there=
-'s<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;a boundary &quot;foo--&quot; which continues. */<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; if (best-&gt;len =3D=3D len ||<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; (best-&gt;len =3D=3D len-2 &amp;&amp; trailing_dashes)) {=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0best =3D boundaries;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if (best-&gt;len =3D=3D len) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* If we see &quot;foo--&quot;, it could either mean that there<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0is a boundary named &quot;foo&quot; that ends now or there=
+&#39;s<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0a boundary &quot;foo--&quot; which continues. */<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if (best-&gt;len =3D=3D len ||<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (best-&gt;len =3D=3D len-2 &amp;&amp; trailing_dashes)) {=
 <br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/* This is exactly the wanted boundary=
-. There<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; can't be a better one. */<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* This is exactly the wanted boundar=
+y. There<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 can&#39;t be a better one. */=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
 +@@ -319,6 +323,7 @@ boundary_line_find(struct message_parser_ctx *ctx,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return 0;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;}<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;size_t find_size =3D size;<br>
-++&nbsp; &nbsp; &nbsp; bool trailing_dashes =3D FALSE;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t find_size =3D size;<br>
+++=C2=A0 =C2=A0 =C2=A0 bool trailing_dashes =3D FALSE;<br>
 + <br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (lf_pos !=3D NULL) {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;find_size =3D lf_po=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (lf_pos !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0find_size =3D lf_po=
 s - data;<br>
 +@@ -326,11 +331,12 @@ boundary_line_find(struct message_parser_ctx *ctx,<b=
 r>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp;find_size--;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (find_size &gt; =
-2 &amp;&amp; data[find_size-1] =3D=3D '-' &amp;&amp;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;data[=
-find_size-2] =3D=3D '-')<br>
-+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; find_size -=3D 2;<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; trailing_dashes =3D TRUE;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;} else if (find_size &gt; BOUNDARY_END_MAX_LEN)=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0find_size--;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (find_size &gt; =
+2 &amp;&amp; data[find_size-1] =3D=3D &#39;-&#39; &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data[=
+find_size-2] =3D=3D &#39;-&#39;)<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 find_size -=3D 2;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 trailing_dashes =3D TRUE;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (find_size &gt; BOUNDARY_END_MAX_LEN)=
 <br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;find_size =3D BOUND=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0find_size =3D BOUND=
 ARY_END_MAX_LEN;<br>
 + <br>
-+-&nbsp; &nbsp; &nbsp; *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
++-=C2=A0 =C2=A0 =C2=A0 *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
 ta, find_size);<br>
-++&nbsp; &nbsp; &nbsp; *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
+++=C2=A0 =C2=A0 =C2=A0 *boundary_r =3D boundary_find(ctx-&gt;boundaries, da=
 ta, find_size,<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; trailing_dashes);<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (*boundary_r =3D=3D NULL)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return -1;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trailing_dashes);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (*boundary_r =3D=3D NULL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
 + <br>
 +diff --git a/src/lib-mail/test-message-parser.c b/src/lib-mail/test-messag=
 e-parser.c<br>
@@ -3939,7 +3982,7 @@ e-parser.c<br>
 +--- a/src/lib-mail/test-message-parser.c<br>
 ++++ b/src/lib-mail/test-message-parser.c<br>
 +@@ -510,6 +510,51 @@ static const char input_msg[] =3D<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;test_end();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0test_end();<br>
 + }<br>
 + <br>
 ++static void test_message_parser_trailing_dashes(void)<br>
@@ -3961,59 +4004,59 @@ t;<br>
 ++&quot;\n&quot;<br>
 ++&quot;body2\n&quot;<br>
 ++&quot;--a----&quot;;<br>
-++&nbsp; &nbsp; &nbsp; struct message_parser_ctx *parser;<br>
-++&nbsp; &nbsp; &nbsp; struct istream *input;<br>
-++&nbsp; &nbsp; &nbsp; struct message_part *parts;<br>
-++&nbsp; &nbsp; &nbsp; struct message_block block;<br>
-++&nbsp; &nbsp; &nbsp; pool_t pool;<br>
-++&nbsp; &nbsp; &nbsp; int ret;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_parser_ctx *parser;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct istream *input;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_part *parts;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct message_block block;<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_t pool;<br>
+++=C2=A0 =C2=A0 =C2=A0 int ret;<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_begin(&quot;message parser trailing dashes&quot=
+++=C2=A0 =C2=A0 =C2=A0 test_begin(&quot;message parser trailing dashes&quot=
 ;);<br>
-++&nbsp; &nbsp; &nbsp; pool =3D pool_alloconly_create(&quot;message parser&=
+++=C2=A0 =C2=A0 =C2=A0 pool =3D pool_alloconly_create(&quot;message parser&=
 quot;, 10240);<br>
-++&nbsp; &nbsp; &nbsp; input =3D test_istream_create(input_msg);<br>
+++=C2=A0 =C2=A0 =C2=A0 input =3D test_istream_create(input_msg);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; parser =3D message_parser_init(pool, input, 0, 0);<b=
+++=C2=A0 =C2=A0 =C2=A0 parser =3D message_parser_init(pool, input, 0, 0);<b=
 r>
-++&nbsp; &nbsp; &nbsp; while ((ret =3D message_parser_parse_next_block(pars=
+++=C2=A0 =C2=A0 =C2=A0 while ((ret =3D message_parser_parse_next_block(pars=
 er, &amp;block)) &gt; 0) ;<br>
-++&nbsp; &nbsp; &nbsp; test_assert(ret &lt; 0);<br>
-++&nbsp; &nbsp; &nbsp; message_parser_deinit(&amp;parser, &amp;parts);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(ret &lt; 0);<br>
+++=C2=A0 =C2=A0 =C2=A0 message_parser_deinit(&amp;parser, &amp;parts);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_assert(parts-&gt;children_count =3D=3D 2);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(parts-&gt;children-&gt;next =3D=3D NULL)=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(parts-&gt;children_count =3D=3D 2);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_assert(parts-&gt;children-&gt;next =3D=3D NULL)=
 ;<br>
-++&nbsp; &nbsp; &nbsp; test_assert(parts-&gt;children-&gt;children_count =
+++=C2=A0 =C2=A0 =C2=A0 test_assert(parts-&gt;children-&gt;children_count =
 =3D=3D 1);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(parts-&gt;children-&gt;children-&gt;next=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(parts-&gt;children-&gt;children-&gt;next=
  =3D=3D NULL);<br>
-++&nbsp; &nbsp; &nbsp; test_assert(parts-&gt;children-&gt;children-&gt;chil=
+++=C2=A0 =C2=A0 =C2=A0 test_assert(parts-&gt;children-&gt;children-&gt;chil=
 dren_count =3D=3D 0);<br>
 ++<br>
-++&nbsp; &nbsp; &nbsp; test_parsed_parts(input, parts);<br>
-++&nbsp; &nbsp; &nbsp; i_stream_unref(&amp;input);<br>
-++&nbsp; &nbsp; &nbsp; pool_unref(&amp;pool);<br>
-++&nbsp; &nbsp; &nbsp; test_end();<br>
+++=C2=A0 =C2=A0 =C2=A0 test_parsed_parts(input, parts);<br>
+++=C2=A0 =C2=A0 =C2=A0 i_stream_unref(&amp;input);<br>
+++=C2=A0 =C2=A0 =C2=A0 pool_unref(&amp;pool);<br>
+++=C2=A0 =C2=A0 =C2=A0 test_end();<br>
 ++}<br>
 ++<br>
 + static void test_message_parser_continuing_mime_boundary(void)<br>
 + {<br>
 + static const char input_msg[] =3D<br>
 +@@ -777,6 +822,7 @@ int main(void)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _empty_multipart,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _duplicate_mime_boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _garbage_suffix_mime_boundary,<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; test_message_parser_trai=
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test_message_parser_trai=
 ling_dashes,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _continuing_mime_boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _continuing_truncated_mime_boundary,<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;test_message_parser=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_message_parser=
 _long_mime_boundary,<br>
 +-- <br>
 +2.11.0<br>
@@ -4052,12 +4095,8 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036662676%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DgpACJA0gDis8jXyJLni4kovu%2FkMiVNT%2BTbGWAm2QhHQ%3D&amp;reser=
-ved=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/doveco=
-t/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"LQQ/W73lYJ2SyQOu4MMMi=
-cBuzkzu5tldjavBS040bXcwCMavPN90LJ8B79/ppUHbNV1p1gl0UCO859jWPI0TGW4/W5p/AuIg=
-VpvDwUHO/dRTHdm+lsY+QXP2zeYGwjR0aHHjhXMBzFJIkSRg4MQU+jdJQsSwwUxdIXV1/Tc8zgc=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+ved=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubu=
+ntu/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +diff --git a/src/lib-mail/message-parser.c b/src/lib-mail/message-parser.c=
@@ -4071,9 +4110,9 @@ pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 + static bool parse_too_many_nested_mime_parts(struct message_parser_ctx *c=
 tx)<br>
 + {<br>
-+-&nbsp; &nbsp; &nbsp; return ctx-&gt;nested_parts_count &gt; ctx-&gt;max_n=
++-=C2=A0 =C2=A0 =C2=A0 return ctx-&gt;nested_parts_count &gt; ctx-&gt;max_n=
 ested_mime_parts;<br>
-++&nbsp; &nbsp; &nbsp; return ctx-&gt;nested_parts_count+1 &gt;=3D ctx-&gt;=
+++=C2=A0 =C2=A0 =C2=A0 return ctx-&gt;nested_parts_count+1 &gt;=3D ctx-&gt;=
 max_nested_mime_parts;<br>
 + }<br>
 + <br>
@@ -4091,8 +4130,8 @@ index 000000000..44f6564f8<br>
 <br>
 @@ -0,0 +1,27 @@<br>
 +From 1a6ff0beebf0ab0c71081eaff1d5d7fd26015a94 Mon Sep 17 00:00:00 2001<br>
-+From: Josef 'Jeff' Sipek &lt;<a href=3D"mailto:jeff.sipek@dovecot.fi" targ=
-et=3D"_blank">jeff.sipek@dovecot.fi</a>&gt;<br>
++From: Josef &#39;Jeff&#39; Sipek &lt;<a href=3D"mailto:jeff.sipek@dovecot.=
+fi" target=3D"_blank">jeff.sipek@dovecot.fi</a>&gt;<br>
 +Date: Tue, 19 Sep 2017 13:26:57 +0300<br>
 +Subject: [PATCH] lib: buffer_free(NULL) should be a no-op<br>
 +<br>
@@ -4111,27 +4150,23 @@ d%2Fdovecot%2Fdovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz&amp;data=3D04%7C01%=
 eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036672627%7CUnknown%7CTWFpbGZs=
 b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
 00&amp;sdata=3DEtIjL4RJbjLXHSYszXnYHY%2BF5fvzsAQujWnvHZfBuqE%3D&amp;reserve=
-d=3D0" originalsrc=3D"http://archive.ubuntu.com/ubuntu/pool/main/d/dovecot/=
-dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz" shash=3D"XEC6U90S89BSA341y/I/gUC=
-G240T5NwjInN5dFBtKl1Cp3lpb/NYVaqUclOcyqHnonC+52VMbqcpC8croMW5nKXhfqoHKyte7k=
-pXSCv5ZV1Wgdo6Wtn0BlwuXSWg+J96QHhjnmeQJsTvKQLBnL67BK7fvtXAOllpmOkimv2RsHs=
-=3D" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubuntu/=
-pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
+d=3D0" rel=3D"noreferrer" target=3D"_blank">http://archive.ubuntu.com/ubunt=
+u/pool/main/d/dovecot/dovecot_2.2.33.2-1ubuntu4.7.debian.tar.xz</a>]<br>
 +Comment: No change in any hunk<br>
 +<br>
 +--- a/src/lib/buffer.c<br>
 ++++ b/src/lib/buffer.c<br>
 +@@ -148,6 +148,9 @@ void buffer_free(buffer_t **_buf)<br>
 + {<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;struct real_buffer *buf =3D (struct real_buffer=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct real_buffer *buf =3D (struct real_buffer=
  *)*_buf;<br>
 + <br>
-++&nbsp; &nbsp; &nbsp; if (buf =3D=3D NULL)<br>
-++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return;<br>
+++=C2=A0 =C2=A0 =C2=A0 if (buf =3D=3D NULL)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 ++<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;*_buf =3D NULL;<br>
-+&nbsp; &nbsp; &nbsp; &nbsp;if (buf-&gt;alloced)<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;p_free(buf-&gt;pool=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*_buf =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (buf-&gt;alloced)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p_free(buf-&gt;pool=
 , buf-&gt;w_buffer);<br>
 diff --git a/meta-networking/recipes-support/dovecot/<a href=3D"https://apc=
 01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb=
@@ -4139,22 +4174,16 @@ diff --git a/meta-networking/recipes-support/dovecot/<a href=3D"https://apc=
 f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C6377377730366726=
 27%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1h=
 aWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3Dsc28CFI8cABij7QBJWpxQydQ9NvR8XZpY2yaG=
-N2XwGA%3D&amp;reserved=3D0" originalsrc=3D"http://dovecot_2.2.36.4.bb/" sha=
-sh=3D"F31t0sW4Ux2F4yLYCgMMwWBPfjvKsfcM66nssrzfX8rj58a+WtvOF1KuL+Beqho1/ASYI=
-3D4sIxCl2wE4sZnyeQFQJsJhgATgZfufLDYlxW6/qTI6TUj+sWN0oaxypLGWBqkcmKiZ7lJLhEu=
-X97Zn62bhjF3Ta1e+r9TJ1DNRZI=3D" rel=3D"noreferrer" target=3D"_blank">doveco=
-t_2.2.36.4.bb</a>
+N2XwGA%3D&amp;reserved=3D0" rel=3D"noreferrer" target=3D"_blank">dovecot_2.=
+2.36.4.bb</a>
  b/meta-networking/recipes-support/dovecot/<a href=3D"https://apc01.safelin=
 ks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb%2F&amp;da=
 ta=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b31f6=
 cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036682584%7CUnkno=
 wn%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC=
 I6Mn0%3D%7C3000&amp;sdata=3DO1RxZ2%2Bkkkab2JR0uUCHQPfsr5hWACroAUx2oMnfnJk%3=
-D&amp;reserved=3D0" originalsrc=3D"http://dovecot_2.2.36.4.bb/" shash=3D"ZT=
-YVJpxWimXrECS2PY+8NMU6n7KydV+NU71dZvyicflLo6xEPKTDVtG4q7pNiPPkYmB6ydkumdv+4=
-Q6GRMcj1Rf2qvNovwif1OUk/R+3oZo+8YeqoXnwyBQWnSlatiQcy0pphRob4Xqn3k2TFJQFd3k5=
-0ms1+jq2ApNCbu1vLpg=3D" rel=3D"noreferrer" target=3D"_blank">dovecot_2.2.36=
-.4.bb</a><br>
+D&amp;reserved=3D0" rel=3D"noreferrer" target=3D"_blank">dovecot_2.2.36.4.b=
+b</a><br>
 index e21a94ad6..407604c81 100644<br>
 --- a/meta-networking/recipes-support/dovecot/<a href=3D"https://apc01.safe=
 links.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb%2F&amp=
@@ -4162,70 +4191,60 @@ links.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb%2F&amp=
 1f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036682584%7CUn=
 known%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJ=
 XVCI6Mn0%3D%7C3000&amp;sdata=3DO1RxZ2%2Bkkkab2JR0uUCHQPfsr5hWACroAUx2oMnfnJ=
-k%3D&amp;reserved=3D0" originalsrc=3D"http://dovecot_2.2.36.4.bb/" shash=3D=
-"ZTYVJpxWimXrECS2PY+8NMU6n7KydV+NU71dZvyicflLo6xEPKTDVtG4q7pNiPPkYmB6ydkumd=
-v+4Q6GRMcj1Rf2qvNovwif1OUk/R+3oZo+8YeqoXnwyBQWnSlatiQcy0pphRob4Xqn3k2TFJQFd=
-3k50ms1+jq2ApNCbu1vLpg=3D" rel=3D"noreferrer" target=3D"_blank">dovecot_2.2=
-.36.4.bb</a><br>
+k%3D&amp;reserved=3D0" rel=3D"noreferrer" target=3D"_blank">dovecot_2.2.36.=
+4.bb</a><br>
 +++ b/meta-networking/recipes-support/dovecot/<a href=3D"https://apc01.safe=
 links.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot_2.2.36.4.bb%2F&amp=
 ;data=3D04%7C01%7Cranjitsinh.rathod%40kpit.com%7Ca3789b2666974e77d30f08d9b3=
 1f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637737773036692539%7CUn=
 known%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJ=
 XVCI6Mn0%3D%7C3000&amp;sdata=3DIstkr9lJfE34LVBrjlpaIuEschXArHktrG8O5%2FJaje=
-c%3D&amp;reserved=3D0" originalsrc=3D"http://dovecot_2.2.36.4.bb/" shash=3D=
-"n5IH/Vt2cHL7v7S+z/0m+32pyNwtP6BWIKcafCNwfAdHdUK0D9McEN4s0N6xl5MwixWV38vNnC=
-oeGjtHI+Q2jCsf8w6en5tE12eMT9X0vCMvsMBgZjIRyiaey3uZEi9qQi6KqhvTLAAnfT4svyjTG=
-7dzJVCXAp8N0HhKw7xcIPA=3D" rel=3D"noreferrer" target=3D"_blank">dovecot_2.2=
-.36.4.bb</a><br>
+c%3D&amp;reserved=3D0" rel=3D"noreferrer" target=3D"_blank">dovecot_2.2.36.=
+4.bb</a><br>
 @@ -10,6 +10,20 @@ SRC_URI =3D &quot;<a href=3D"https://apc01.safelinks.pro=
 tection.outlook.com/?url=3Dhttp%3A%2F%2Fdovecot.org%2Freleases%2F2.2%2Fdove=
 cot-%24%257BPV%257D.tar.gz&amp;data=3D04%7C01%7Cranjitsinh.rathod%40kpit.co=
 m%7Ca3789b2666974e77d30f08d9b31f6cc1%7C3539451eb46e4a26a242ff61502855c7%7C0=
 %7C0%7C637737773036692539%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQI=
 joiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3D2juoHv19hqxGl7=
-DDDut5251TTXhLbR7aqRmewfjALSI%3D&amp;reserved=3D0" originalsrc=3D"http://do=
-vecot.org/releases/2.2/dovecot-$%7BPV%7D.tar.gz" shash=3D"Vi6d0XgKyy1MTNQbp=
-p+O7xKgFyWuQWLFRbrX/sBPHuzXjovY/0nfNV/a+WWmsPiOvrYxqhqAjMr9BhpQymJkNvHQaGc1=
-+HYT8cGAST6P94tG04nMbzV5j6ejjqjFuTrxhgcuilCpCgHyYYZX6wwG1SRfcNMGL70WYpeGHq0=
-cUZY=3D" rel=3D"noreferrer" target=3D"_blank">http://dovecot.org/releases/2=
-.2/dovecot-${PV}.tar.gz</a>
+DDDut5251TTXhLbR7aqRmewfjALSI%3D&amp;reserved=3D0" rel=3D"noreferrer" targe=
+t=3D"_blank">http://dovecot.org/releases/2.2/dovecot-${PV}.tar.gz</a>
  \<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://dovecot.service \<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://dovecot.socket \<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://0001-doveadm-Fix-parallel-=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dovecot.service \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dovecot.socket \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-doveadm-Fix-parallel-=
 build.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0001-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-lib-mail-message-pars=
 er-Add-a-message_part_finish-he.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0002-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-lib-mail-message-pars=
 er-Change-message_part_append-t.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0003-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-lib-mail-message-pars=
 er-Optimize-updating-children_c.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0004-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-lib-mail-message-pars=
 er-Optimize-appending-new-part-.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0005-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0005-lib-mail-message-pars=
 er-Minor-code-cleanup-to-findin.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0006-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0006-lib-mail-message-pars=
 er-Truncate-excessively-long-MI.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0007-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0007-lib-mail-message-pars=
 er-Optimize-boundary-lookups-wh.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0008-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0008-lib-mail-message-pars=
 er-Add-boundary_remove_until-he.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0009-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0009-lib-mail-message-pars=
 er-Don-t-use-memory-pool-for-pa.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0010-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0010-lib-mail-message-pars=
 er-Support-limiting-max-number-.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0011-lib-mail-message-pars=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0011-lib-mail-message-pars=
 er-Support-limiting-max-number-.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0012-lib-mail-Fix-handling=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0012-lib-mail-Fix-handling=
 -trailing-in-MIME-boundaries.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0013-lib-mail-Fix-parse_to=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0013-lib-mail-Fix-parse_to=
 o_many_nested_mime_parts.patch \<br>
-+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://buffer_free_fix.patch \<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://buffer_free_fix.patch \<br=
 >
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 <br>
-&nbsp;SRC_URI[md5sum] =3D &quot;66c4d71858b214afee5b390ee602dee2&quot;<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;66c4d71858b214afee5b390ee602dee2&quot;<br>
 -- <br>
 2.17.1<br>
 <br>
@@ -4243,19 +4262,36 @@ eof. If you receive this message in error, please notify the sender immedia=
 tely and delete all copies of this message. KPIT Technologies Ltd. does not=
  accept any liability for virus
  infected mails.
-</body>
-</html>
+</div>
 
---_000_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_--
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#159027): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/159027" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/159027</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/86145182/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/86145182/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
---_004_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_
+--000000000000ac11ec05d21495f9--
+
+--000000000000ac11ed05d21495fa
 Content-Type: image/png; name="Outlook-drhpbotj.png"
-Content-Description: Outlook-drhpbotj.png
-Content-Disposition: inline; filename="Outlook-drhpbotj.png"; size=22485;
-	creation-date="Wed, 01 Dec 2021 11:51:46 GMT";
-	modification-date="Wed, 01 Dec 2021 11:51:46 GMT"
-Content-ID: <ad1401d3-f314-4d16-afb9-ef59d35050a3>
+Content-Disposition: inline; filename="Outlook-drhpbotj.png"
 Content-Transfer-Encoding: base64
+Content-ID: <17d75e836879799b8541>
+X-Attachment-Id: 17d75e836879799b8541
 
 iVBORw0KGgoAAAANSUhEUgAAAm0AAAB4CAYAAACgj8W/AAAAAXNSR0IArs4c6QAAIABJREFUeF7t
 vVmQLNlVJbrDYx5yzjtPVVeqkqpKalRqXj8TiOGjf9AAfAphfAMmxB+SmcRXmyFAWH88xGj2+gPT
@@ -4652,6 +4688,5 @@ Sa5V3iKPXnwn+oNeR3W4a3ZHr0U/kdPK1RaYd3Y20L6jTremhRHetgPMYALWBoPKCT49U7nrBtqm
 hZdkL7sJsNDgr1myBG31ihSbi5JrXJFiYzluyBZOKvzryY6gXrsASbw+9xp78vSLn5B/ufffkDIF
 YBqCaQuP3oG2rBRyM1A7lAHW8lJqzcnl8uPypgs/CmPch6WYc8xa776m3drYZNtpDSHTqD5dOtnx
 t73vjsD/DzX/H827ae66AAAAAElFTkSuQmCC
-
---_004_PNZPR01MB5278F620A63DD902F08C35C68F689PNZPR01MB5278INDP_--
+--000000000000ac11ed05d21495fa--
 
