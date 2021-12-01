@@ -1,106 +1,93 @@
-Return-Path: <jsbronder@cold-front.org>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 630E2C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 19:18:22 +0000 (UTC)
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by mx.groups.io with SMTP id smtpd.web10.1499.1638386301071619896
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EAFDC433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 20:21:07 +0000 (UTC)
+Received: from avasout-ptp-001.plus.net (avasout-ptp-001.plus.net
+ [84.93.230.227])
+ by mx.groups.io with SMTP id smtpd.web08.2337.1638390064380098846
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 11:18:21 -0800
+ Wed, 01 Dec 2021 12:21:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cold-front.org header.s=mesmtp header.b=vOI+hdMO;
- spf=pass (domain: cold-front.org, ip: 66.111.4.29,
- mailfrom: jsbronder@cold-front.org)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5B89B5C00D3;
-	Wed,  1 Dec 2021 14:18:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 01 Dec 2021 14:18:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	 h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=mesmtp; bh=Zo5IDXbNKM9mF+0AjHyXJ/bB
-	9gbz8Yisx/UCvBowrsU=; b=vOI+hdMOeWkhEhmcGxqiFI61zXwhTpb6dqu6pc9y
-	/B1MnLdNaLDeeMKx1YOoaC1eGCO5ZdeIEQlkFhfowdu8JBSZnBR00co4MtkLNXnh
-	82QYOAy5/BwiIyEs77K2TFkAY+O649lUdDUqgicunUJDRvbmzdNrHMILJCYyEENf
-	670=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Zo5IDX
-	bNKM9mF+0AjHyXJ/bB9gbz8Yisx/UCvBowrsU=; b=GOcwKo4II5vur7Q79AGmsO
-	DjjYQfDvusffA7L9sHeX1cMnR599A8Mo3TLX7FXUi9nfQT0mKJ/2I1dzgl6rNQfV
-	AvQPIGDe9uoAoSWKQ9vCgm9QAsR59yN5SqUXTt+/9Dfcm5n+lZi1tnUh6Xg5Gu5F
-	bfA+XJqLxFP7BoTvMENjTuy05Y6LYAfIP7PF3dkin/E/jWUAlgWcM9fS4+KN2tKy
-	NroQB5cMZf72BPvacuG7IOrUb6GoY+OoyRPOhid9SzbEMiejML9pmv7Bx4+MDTyq
-	9Ke6XX1ujbAm2rYotyAueOsZjIf8eKEviSB9+cUq4QMlkqAsjarkcf8DWjV/IWPA
-	==
-X-ME-Sender: <xms:e8qnYUt8_s7FVGgUSfe5CLOG9Ma1lwwluO5CyE-w7-Comz4rcjnTCg>
-    <xme:e8qnYRdqIK06ammuY-rwlFde98hIfOru-DEwCvzHOA8w6mYBBO8MctRMX4lvtPBiT
-    Focmk-Mq4qpe72ZIg>
-X-ME-Received: 
- <xmr:e8qnYfwtsowKChxI-A1riHuc_cfwVPVcoVnlu4XfQs2ODcpJVHDizzmHsnoK04_YIfBSG3DUWa-vfl7728rjbJDD>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvuddrieefgdduvddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceojhhssghrohhnuggv
-    rhestgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrhhnpeetfeehudefte
-    egtdejhfdtgeeuteegvedutdeufeefteegiefgffevfeeihfeutdenucffohhmrghinhep
-    ohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjshgsrhho
-    nhguvghrsegtohhlugdqfhhrohhnthdrohhrgh
-X-ME-Proxy: <xmx:e8qnYXNoYS6AKuLxyFZC40Q_LNWzE00einbaPjczd2tWtMkDeSZJHQ>
-    <xmx:e8qnYU-PmIOPWATGrtLdV-gnvISsM2w1AQO8occGfffMzIUKPvAO-w>
-    <xmx:e8qnYfWacDimLtzmWsDlwgPzMUHdavBn1IvAbdN8HxyfD3PP_DKX6w>
-    <xmx:fMqnYZGOQB9239yrfvhHjxKqgfCFqR1Acq-huDKO2C595h-_wm75Xg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Dec 2021 14:18:19 -0500 (EST)
-Date: Wed, 1 Dec 2021 14:18:19 -0500
-From: Justin Bronder <jsbronder@cold-front.org>
-To: mac@mcrowe.com
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=bIOOmyfT;
+ spf=pass (domain: mcrowe.com, ip: 84.93.230.227, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id sW64mbmrftAwOsW65m56qD; Wed, 01 Dec 2021 20:21:02 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.4 cv=TNsm93pa c=1 sm=1 tr=0 ts=61a7d92e
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=kj9zAlcOel0A:10 a=IOMw9HtfNCkA:10 a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8
+ a=QkTwt5E5690pjw7-kmkA:9 a=CjuIK1q_8ugA:10 a=JyGIbtnMUw8A:10
+ a=qg_GYOSKbjEA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=RKo/q/wb0GJ8S5vDmTBfSBwlE89mPxdp2Ceb1GynZos=; b=bIOOm
+	yfTjWz5qfbXaaINxTqhPptyp7qwwKCpAFzkUT2k8ZUWaZw/GLSRv06OHzmPeF3Yx/Fk6368GititQ
+	JyCBsgLKiwbpdzig83wExfz055Tr37hCIoMjp+2sU9UIpEOE5NxV4Ajn4x8EbshAvTT58HTubJUhm
+	msg4NbkqZW3G3SKzZX1/tMcQo3kbNeZUuGv1BaYgpOrig6iiv1Hvf5cMWlRZY5eOn+Jel5Sd3BBNR
+	LKtk1v/Z+sZjVQuvnhLaKFHBe7QyLuyiHm4z8bttxMlICF13tgw7AE8n+BUPx7vRaXgHhk839coXl
+	j/G6rDcjPwitho1XBRbsZ2yDM06wA==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.94.2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1msW64-007MQj-JN; Wed, 01 Dec 2021 20:20:56 +0000
+Date: Wed, 1 Dec 2021 20:20:56 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Justin Bronder <jsbronder@cold-front.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Correct way to set DRIDRIVERS and GALLIUMDRIVERS from mesa
  bbappend
-Message-ID: <YafKe4SgTjgGY3IR@ravine.members.linode.com>
+Message-ID: <YafZKH9x0nEsSPZL@mcrowe.com>
 References: <YaemRcD22hUhkQrq@mcrowe.com>
+ <YafKe4SgTjgGY3IR@ravine.members.linode.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YaemRcD22hUhkQrq@mcrowe.com>
+In-Reply-To: <YafKe4SgTjgGY3IR@ravine.members.linode.com>
+X-CMAE-Envelope: 
+ MS4xfJhcwyJAyOihUilZgj6VkCcUOR0huX/5DcvK1DLI55ulZL/RadX54JK6PVXQeMLYzJoGUDoK+71T25LtnOLkgGbmNBFmMMwXDwX9+IgNwKWvt9g0jQGj
+ maEtcyZfNb7KQPfiwHoMHBVYg3qlsaf34NP+5bpyi1Dd2Yv07yRz7gGiarXpGGgnuMILvxziLbDZ1JRfS+avLOWnY2+LwEZ6Wqs=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 19:18:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 20:21:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159057
+ https://lists.openembedded.org/g/openembedded-core/message/159058
 
-On 01/12/21 16:43 +0000, Mike Crowe via lists.openembedded.org wrote:
-> I'm building for a specific chip and therefore don't wish to waste time and
-> electricity building and disk space on the target installing unwanted mesa
-> drivers. However, mesa.inc contains:
+On Wednesday 01 December 2021 at 14:18:19 -0500, Justin Bronder wrote:
+> On 01/12/21 16:43 +0000, Mike Crowe via lists.openembedded.org wrote:
+> > I'm building for a specific chip and therefore don't wish to waste time and
+> > electricity building and disk space on the target installing unwanted mesa
+> > drivers. However, mesa.inc contains:
+> > 
+> >  GALLIUMDRIVERS = "swrast"
+> >  GALLIUMDRIVERS:x86-x32 = ""
+> >  GALLIUMDRIVERS:append:x86:class-target = ",i915,iris,crocus"
+> >  GALLIUMDRIVERS:append:x86-64:class-target = ",i915,iris,crocus"
+> > 
+> > and mesa_21.3.0.bb contains:
+> > 
+> >  DRIDRIVERS ??= ""
+> >  DRIDRIVERS:append:x86:class-target = ",r100,r200,nouveau,i965"
+> >  DRIDRIVERS:append:x86-64:class-target = ",r100,r200,nouveau,i965"
+> > 
+> > I'm unable to find a way to override these values. Using (for example):
 > 
->  GALLIUMDRIVERS = "swrast"
->  GALLIUMDRIVERS:x86-x32 = ""
->  GALLIUMDRIVERS:append:x86:class-target = ",i915,iris,crocus"
->  GALLIUMDRIVERS:append:x86-64:class-target = ",i915,iris,crocus"
+> You can use an anonymous python function which runs after parsing.
+> https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#anonymous-python-functions
 > 
-> and mesa_21.3.0.bb contains:
-> 
->  DRIDRIVERS ??= ""
->  DRIDRIVERS:append:x86:class-target = ",r100,r200,nouveau,i965"
->  DRIDRIVERS:append:x86-64:class-target = ",r100,r200,nouveau,i965"
-> 
-> I'm unable to find a way to override these values. Using (for example):
+>     python __anonymous () {
+>         d.setVar("DRIDRIVERS", "i965")
+>     }
 
-You can use an anonymous python function which runs after parsing.
-https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#anonymous-python-functions
+Thanks for the suggestion. It solves my problem. However, it seems like
+quite a subversive way to do the sort of external customisation that
+recipes normally support.
 
-    python __anonymous () {
-        d.setVar("DRIDRIVERS", "i965")
-    }
+Thanks.
 
--- 
-Justin Bronder
+Mike.
 
