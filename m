@@ -1,361 +1,180 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quentin.schulz@theobroma-systems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 583C7C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:08:12 +0000 (UTC)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
- [209.85.222.50])
- by mx.groups.io with SMTP id smtpd.web12.93827.1638374891666490097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC7DEC433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:14:01 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.78])
+ by mx.groups.io with SMTP id smtpd.web11.93756.1638375239580946498
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:08:11 -0800
+ Wed, 01 Dec 2021 08:14:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PMEvapgz;
- spf=pass (domain: gmail.com, ip: 209.85.222.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f50.google.com with SMTP id o1so50073591uap.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:08:11 -0800 (PST)
+ dkim=fail reason="body hash did not verify"
+ header.i=@cherrycloud.onmicrosoft.com
+ header.s=selector2-cherrycloud-onmicrosoft-com header.b=nlP6geCP;
+ spf=pass (domain: theobroma-systems.com, ip: 40.107.21.78,
+ mailfrom: quentin.schulz@theobroma-systems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W532qpT4z+vVF5PcaRDTtEXbWZ0smUIdcUR1TAb+SgClgK19tbQqXkvfFLCqMDb8cXft5vFnPlPGD/IB/8MBvuQeK2Q+R4w665QpMI3vxeCF6nzKLbe80HA1SKJg7QNfPgeH4WtmaQk3F455nla1rqgLZ2K7J7xqJs5oNLoeCboyFoxiAAR2X+lsJ2Dav20T4zONG4Vovm9kYjFOryCOsPU7H4+dCpvuxT9z9WrwsScmgFe+7ZsDejvnRixytPJ/KW8/Sr0AwQnvq3S0/KyMcwqEscgZwb0hKmXIIp2/kxy9dxPprwrGlAWkabmxBc8vF9pkmM6DVFuwWVutM0E6rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0Mr8UdaiMTHlumVaj19REYJwe6XQRiodssryBGE4nrA=;
+ b=PMp5U2wfIOL0C58WbYmKPwdz2NPTzRpp9w/WgL7+kc1fc0HopUp25+TvcAUyKbMR0JqfFmfpWtmQTxkniE6FFJOHZq2FqpFPtqjKdI/WPruPvpF6/9OA8319fgj3AwxMuERPX0/oVGd4zLsxZvrR/wp26XKTQ9aLS8/JH1t9txcrI+KS10jiwaDxCixxaoBplt4yuIarJMqJxgiBF8zljTjXw4FrdBakdwHevW0zHJaqUAH7BX4Ctz/C6SZ1MBuMFG10Twzm6neOzMAOvpqQAZXU/g/5zsPVEqQKV9/iqeouXPIAxFCtNgE2njNkrMX974O8yXZiJBUjCIyTmjxt0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xXZ1ijDGfvOhX0ZHDi1leBoCxOCwIO5UVmTrTPZDSWw=;
-        b=PMEvapgzE+M6zUyUzM1jFRfVHwCNuTIkwjqb20Gx39YWg4YyZ4TKtKh4tGmvo3hwv/
-         4PuWc9sbykFzD8mM2aQ0gvl6OaXRRUtq58h0NtPjdoPmKmu0DCZnDD3EacLYcalSCP5p
-         0saqgp8DYyodOEPTIIr0HaswSAp36P0ZZ+pV9Ka97/hbfeYckrUIYPIk2P5MrVsDPcBf
-         4SsWTUYrAgRGakqdgK0Vw1iCLzHu/j0KDRgI1krrybq2gCwpirOsLzaO7pJRMjrYcLA9
-         NIbr2tQqY+LA426SA9Eu54s8+oEvLcu+ulJsQTqP0dokRFaVhQfWLu1lj5gIOcACeGLU
-         695g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xXZ1ijDGfvOhX0ZHDi1leBoCxOCwIO5UVmTrTPZDSWw=;
-        b=vrOzDehvFdZBx/HgsR96PXt+T/ApCICd3vWgEvylC+iHXZgvhroLkjROx7P++TUe4/
-         GsZ58dLRG+81nO5DWWDJ0MIWCunaYbwr4wf/0hMdy9WY4+JzTMjFZOzaAgKAb+b5yJnS
-         fiCUYwFZssgBeGypir2JmZ60FgWd04ueNVjaAMG98np6MK1fSQr9cfGs7PimtzZVaN6e
-         Q+LK10BjNdcqetShsrV8mz/49xhBo49HP3Lin9MhBoTnlWmLtJUIVJKWN1sBj/VULx/K
-         PoC687E4ADeAiYj92hR4N9kW9SX21hhDtVgYgfxpTMnzYc0qbIdD1i81/svaeDGxkk9J
-         pTkQ==
-X-Gm-Message-State: AOAM531AygPYP+ttcP1aDNMibJgIL6/ZC3Q9fvM2USVtWsZM84mWIJ9h
-	iRiMstqTno0eyR9LFRp1kcWnlZ5K9OqDDe8YLHs=
-X-Google-Smtp-Source: 
- ABdhPJw+Bomw3HldQnk/rjpSa/+4btlr4FDQXznvtTHn5lGeexlo3ufQqGV8GrJYRVIXIOJadDWkoHTkNaYCbVYymYE=
-X-Received: by 2002:a67:7105:: with SMTP id m5mr8331043vsc.81.1638374890768;
- Wed, 01 Dec 2021 08:08:10 -0800 (PST)
+ d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Mr8UdaiMTHlumVaj19REYJwe6XQRiodssryBGE4nrA=;
+ b=nlP6geCP+goS/89EDwSrS3cgtjyhLUZZidaj/HKmY7Ch6mLAiGalRrxkcttCC15I9RKKSfSXQDp89jPw7n1HvbfjG1QRH7zy7fDk82j+z4aDfzpBcFQcXkttiEKjDhJ+Clp0rKXxxV6pYW017j46IrPqBekbNp+PuOB9I2+72bM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
+ (2603:10a6:208:24::24) by AM0PR04MB4979.eurprd04.prod.outlook.com
+ (2603:10a6:208:c7::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Wed, 1 Dec
+ 2021 16:13:56 +0000
+Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
+ ([fe80::d56f:ec59:3bd0:6d7a]) by AM0PR0402MB3348.eurprd04.prod.outlook.com
+ ([fe80::d56f:ec59:3bd0:6d7a%5]) with mapi id 15.20.4755.015; Wed, 1 Dec 2021
+ 16:13:56 +0000
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+To: openembedded-core@lists.openembedded.org
+CC: bruce.ashfield@gmail.com,
+	Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+	Quentin Schulz <foss+yocto@0leil.net>
+Subject: [PATCH] python: python3-idna: fix non-existent Unicode license
+Date: Wed,  1 Dec 2021 17:13:35 +0100
+Message-ID: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+X-Mailer: git-send-email 2.33.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: FRYP281CA0016.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::26)
+ To AM0PR0402MB3348.eurprd04.prod.outlook.com (2603:10a6:208:24::24)
 MIME-Version: 1.0
-References: <20211201141543.32206-1-pavel@zhukoff.net>
- <CANNYZj_dYZ5i+rT-VnKMh-VOd3UizYDQTag7PNOJvWc3CgxO+g@mail.gmail.com>
- <544821638374351@mail.yandex.ru>
-In-Reply-To: <544821638374351@mail.yandex.ru>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 1 Dec 2021 17:07:59 +0100
-Message-ID: 
- <CANNYZj86nfibg13xfktVTndiE0cZVvQrfaZPYix+KWS7XEe6GA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] patch.py: Initialize git repo
- before patching
-To: Pavel Zhukov <pavel@zhukoff.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Content-Type: multipart/alternative; boundary="0000000000005f8d3105d217e152"
+Received: from localhost.localdomain (92.42.140.82) by
+ FRYP281CA0016.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::26) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.8 via Frontend
+ Transport; Wed, 1 Dec 2021 16:13:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9da7c1b2-97c2-4a90-64fd-08d9b4e5934f
+X-MS-TrafficTypeDiagnostic: AM0PR04MB4979:
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR04MB49793723C7E3F5919C6FB64CC2689@AM0PR04MB4979.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	vdzkSqfEkxG+Lpfp3WVdQ0GuxJt/7ajlTxON2AVVfy5B91bkZWUwCjPECUKRM/Gd3ajJ8nwTMnP4Huk4jip7ARkHp23dRtKpmMiCrL1o3mujQv4OeIXuZP+SfDSyVmvAxN+v4CkwaY8eG06mt2Oclp9C49r5KpnnkmeJNXGR8MKH2aluLOW+jSwPg8nZ1aljuxVmkGHBrq3BM264Qz+zQW+OS2rEvFA0ZYi9DOjFo5xd5LqxU8QfY8ZypKRaQbGzKzsOOfxfS1ZpHUbhwy/V7+wfm5Xw6ylsw39Z5ZK2wkv4ZLi6nBQj7KYEE109yX6q8QspTMvOSnICUQ0C32VkofHpuTcJipqnINz4pPtBFfrXg04QvNrBh1WtCzoYOi/ZwckDWVpFENV6sE86eEOjkHy8m41heSNuKo/d5Xt/vdJPdf5rGMbVKp+hR8FJyJgG0XQnzS/oh+S2LIhTjJIcNemUBVoLOvWIrmW6yAZWds4bOYqOK3ocp1AX93fg7JBxTY/YXOxSOQPEr1L7ePeyUX2fzOY8jZ7kF1fTXQBE/bUHmmf7+YDd0GMQ/u/owgM6ELXJSuEJtjs/njYNsFr48gm3IVI4r+uHEjXEyD84yjFhF8txlUIIxfh7gokOGWFN/MM5BiFpPPCkpPPZPxDUOgMR8xZGIhlK1psFXr66LVz2HKJlUR/nL5QQZEEIEzoFs9EtEaOMdwMscqvLGB0hreKA0ebBpnhhAsnhTVqz7z37EvYP/tk83MDb4cb1+aMClyaxSCWrwqK5zCsI4TyG4FTYGC7ZPOHMeKP95bnAyi4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3348.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(186003)(2616005)(956004)(36756003)(83380400001)(86362001)(6506007)(5660300002)(52116002)(1076003)(54906003)(6486002)(2906002)(4326008)(8676002)(44832011)(38100700002)(66946007)(66476007)(66556008)(38350700002)(508600001)(6666004)(6916009)(6512007)(966005)(26005)(8936002)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?CzM1uaQFWbw8O66mSE7Nm7d6KbbFTVQ/fcRm1/kBjjRreU4W5aZQE2wluhgc?=
+ =?us-ascii?Q?G6a5gAkFhGlJAVL0gFMCGYyf0R4I2bj9ahOqyL+mwkFU7NbPiyQLD+/DAO+k?=
+ =?us-ascii?Q?TjGaSlr7Jt2LpAaXm+P4T6jr309BADL4qYxg3fffWXaTUg0rHgOjYINxE0hc?=
+ =?us-ascii?Q?y3OjzGF2DO/IUtHaHZ+LoMId6VoJlak9ep3TzJw5PG5qbIILit5GeFRmKzYn?=
+ =?us-ascii?Q?8tsOQI+QwzaZvf/0ihBgQIx9Dbrxao+saVrLlibsxmUOn1cHLGBS50QjSgbG?=
+ =?us-ascii?Q?iQ9WFSQTbIm5sx8/ws8bjZETJ37MxYj/P02MjxO4fAGrsG3QPNw5xztxFw4y?=
+ =?us-ascii?Q?V22XZBu7jmdF39isrRxXxrc9sJ3ji+B2M67vxjZiHnVAK5ZI7qlXHjC88qgF?=
+ =?us-ascii?Q?eKwyS6wd4fFOvvWmkq8gy8LjbMQToiEMPGKHqH30/hmkHSztnSYMA4xpxncI?=
+ =?us-ascii?Q?4uojAcUiL/TQNqjhy9vHFxDYQSlnimGQ7S5FAzrGHGT8d95dtGlTDpf2MHr7?=
+ =?us-ascii?Q?Cn9OSxzF76aqB3K5x9ZGjd89yAeQa5PbiRRjo8IhhdL1GjqDj85jFGhl+6Pv?=
+ =?us-ascii?Q?On7p5hb7LXY1LzKPPuhv2m/Z76GmR/MzFa689HcFHno9YtKjzzbZzwbHV8mt?=
+ =?us-ascii?Q?BfTCbT6T2APr8TxsNS1oqH48FDKIlNrEo4obpfqr3o9E/ZbFQGZ1STLoGdDe?=
+ =?us-ascii?Q?N8GGv8wRrJXJtvKpvCGqKW5qow6MRLh6fU1E8rI6PUez3gUfBw59of6iEfA2?=
+ =?us-ascii?Q?cZRNK/wQ88IPI7WylrkkIgq1Kq10NE/QvXMqc2kYvRTRXBDgoEl/3xoPqW1k?=
+ =?us-ascii?Q?rGmnr7s1mzihIz4rMrw7k722aJ8ZQ1WTYdu/OfUKdw1o+7tzWnOE1lBtbUdJ?=
+ =?us-ascii?Q?tsxANyGU8X/LUzUOGI/gpuvPOXcHaenu4a0Ou947xD3Rix+ljPqiMNzp9iWO?=
+ =?us-ascii?Q?auN/D3QzN0EeUb8infvrubQe/NT9DoF/GixwNAHpCRQa7j/tgyDtzgCm0Dns?=
+ =?us-ascii?Q?cDHeq2qL3IAoO1Zk2uN6WkBK7MDZN50jvtvrADrsPMjqZ48EGloRRZOrdJjF?=
+ =?us-ascii?Q?SIdyQKNh2DhfTr/TsUJUkq6rTvJSCO+JE03OkHVbjZURfRCfhp4n+Cr9A36H?=
+ =?us-ascii?Q?favadGSKf2rSPSgV2uMvTDp6UA184m4FfI7nNleyuXsdgoVK72bckTOVqU+N?=
+ =?us-ascii?Q?mWzWf2/vV7eNk2aeuB1PRLRpA7b7JWj/QyxSbuIdSzhJ+MKE7Z+9+9Ak6MMS?=
+ =?us-ascii?Q?SJXAFgCvdLvwFBlNYuEGJND2/BXsDTUs960yMA0TIbtspSPzk0dCghpbXTnn?=
+ =?us-ascii?Q?hxgQ1djLY1F/ol/QOyip7VQ8kWtVhnOUMUZOoxrczMa2UOr7yDLohnIKumPB?=
+ =?us-ascii?Q?NpIc0SNnrUFgb5/rTFEMq3rUGH75XE09bWdVliqd/Ah0hyag/NVrEjOa94Uq?=
+ =?us-ascii?Q?+Ed9zhAXs2E8reXv8f8G29Ud8OB32GTTfLcmcAo+uUktarmyaSqDFsVP45Rq?=
+ =?us-ascii?Q?bd7FmPnaNT3c/R6rfMNxNx+N3Q25Mim3I++GZQ3inv2Wt8dh49rnwKHzqM33?=
+ =?us-ascii?Q?RQNgC1/U38GnrKFT+uPBKkEpEp2evS078mco4EOhUlC/MpTwjZF97UeaepiL?=
+ =?us-ascii?Q?yK02JnPKCH7qGnK88zGtNvCbTVM+Ftd6hw4hVvlHtq6b8zJHnEJdoGxWA2t2?=
+ =?us-ascii?Q?k/gFjtSKPV+YaR/zlzemrqPQoYdJP9TRlqg/GDglI08ltZj89RRjOFy4LTGd?=
+ =?us-ascii?Q?AhuU1t5jDQ=3D=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 9da7c1b2-97c2-4a90-64fd-08d9b4e5934f
+X-MS-Exchange-CrossTenant-AuthSource: 
+ AM0PR0402MB3348.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2021 16:13:56.4488
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ RUOKOZou97aGQkb7y8+/o5rj1Fvxb+TIe0Od/w4PwAnx8OGu5bYEDkXOAhA2qw0DcWop5E5py+/bVORDE+b+R3MnFjwv0R+ODXeQTqFsisZQzyRv2ir9o6Zam7QQYJgB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4979
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:08:12 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:14:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159040
+ https://lists.openembedded.org/g/openembedded-core/message/159041
 
---0000000000005f8d3105d217e152
-Content-Type: text/plain; charset="UTF-8"
+In addition to not being an SPDX license, Unicode license also isn't
+available in any of the LICENSE_PATH available in openembedded, meaning
+the following warning is printed:
 
-Thanks :) You can add the failure into the commit message.
+python3-idna: No generic license file exists for: Unicode in any provider [=
+license-exists]
 
-Alex
+Unfortunately the license is not really explicit in the project. After
+looking at the code, it seems that this license gets pulled by
+idna/idnadata.py and idna/uts46data.py which are auto-generated by
+tools/idna-data which downloads data from
+http://www.unicode.org/Public/{version}/ucd/ and
+http://www.unicode.org/Public/idna/ which are covered by
+https://www.unicode.org/license.txt as mentioned in
+https://www.unicode.org/copyright.html.
 
-On Wed, 1 Dec 2021 at 17:00, Pavel Zhukov <pavel@zhukoff.net> wrote:
+Comparing https://www.unicode.org/license.txt to Unicode-DFS-2016
+resulted in a match so let's point to that SPDX license instead.
 
-> without change in patch.py:
-> ERROR: man-db-2.9.0-r1 do_patch: Applying patch
-> 'man_db.conf-avoid-multilib-install-file-conflict.patch' on target
-> directory
-> '/mnt/builds/oniroproject/builds/build-oniro-linux-st/tmp/work/core2-64-oniro-linux-musl/man-db/2.9.0-r1/man-db-2.9.0'
-> Command Error: 'git rev-parse --show-toplevel' exited with 0  Output:
-> fatal: not a git repository (or any of the parent directories): .git
-> ERROR: Logfile of failure stored in:
-> /mnt/builds/oniroproject/builds/build-oniro-linux-st/tmp/work/core2-64-oniro-linux-musl/man-db/2.9.0-r1/temp/log.do_patch.21491
-> NOTE: recipe man-db-2.9.0-r1: task do_patch: Failed
-> ERROR: Task
-> (/mnt/builds/oniroproject/sources/oe-core/meta/recipes-extended/man-db/man-db_2.9.0.bb:do_patch)
-> failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 102 tasks of which 0 didn't need to be
-> rerun and 1 failed.
->
-> Summary: 1 task failed:
->
-> /mnt/builds/oniroproject/sources/oe-core/meta/recipes-extended/man-db/man-db_2.9.0.bb:
-> do_patch
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-> ----------------------------------------------------------------------
-> 2021-12-01 15:11:56,184 - oe-selftest - INFO - Ran 1 test in 147.083s
-> 2021-12-01 15:11:56,184 - oe-selftest - INFO - FAILED
-> 2021-12-01 15:11:56,184 - oe-selftest - INFO -  (failures=1)
-> 2021-12-01 15:11:58,721 - oe-selftest - INFO - RESULTS:
-> 2021-12-01 15:11:58,722 - oe-selftest - INFO - RESULTS -
-> bbtests.BitbakeTests.test_git_patchtool: FAILED (145.51s)
-> 2021-12-01 15:11:58,724 - oe-selftest - INFO - SUMMARY:
-> 2021-12-01 15:11:58,724 - oe-selftest - INFO - oe-selftest () - Ran 1 test
-> in 147.084s
-> 2021-12-01 15:11:58,724 - oe-selftest - INFO - oe-selftest - FAIL -
-> Required tests failed (successes=0, skipped=0, failures=1, errors=0)
->
->
-> with change in patch.py:
-> 2021-12-01 15:12:20,910 - oe-selftest - INFO - Adding: "include
-> selftest.inc" in
-> /mnt/builds/oniroproject/builds/build-oniro-linux-st/conf/local.conf
-> 2021-12-01 15:12:20,911 - oe-selftest - INFO - Adding: "include
-> bblayers.inc" in bblayers.conf
-> 2021-12-01 15:12:20,911 - oe-selftest - INFO - test_git_patchtool
-> (bbtests.BitbakeTests)
-> 2021-12-01 15:15:30,540 - oe-selftest - INFO -  ... ok
-> 2021-12-01 15:15:31,717 - oe-selftest - INFO -
-> ----------------------------------------------------------------------
-> 2021-12-01 15:15:31,717 - oe-selftest - INFO - Ran 1 test in 192.371s
-> 2021-12-01 15:15:31,717 - oe-selftest - INFO - OK
-> 2021-12-01 15:15:34,523 - oe-selftest - INFO - RESULTS:
-> 2021-12-01 15:15:34,524 - oe-selftest - INFO - RESULTS -
-> bbtests.BitbakeTests.test_git_patchtool: PASSED (189.63s)
-> 2021-12-01 15:15:34,526 - oe-selftest - INFO - SUMMARY:
-> 2021-12-01 15:15:34,526 - oe-selftest - INFO - oe-selftest () - Ran 1 test
-> in 192.372s
-> 2021-12-01 15:15:34,526 - oe-selftest - INFO - oe-selftest - OK - All
-> required tests passed (successes=1, skipped=0, failures=0, errors=0)
->
->
-> --
-> Pavel
->
->
->
-> 01.12.2021, 16:56, "Alexander Kanavin" <alex.kanavin@gmail.com>:
->
-> Does the test fail without the change in lib/oepatch.py? Can you show how?
->
-> Alex
->
-> On Wed, 1 Dec 2021 at 15:17, Pavel Zhukov <pavel@zhukoff.net> wrote:
->
-> From: Pavel Zhukov <pavel.zhukov@huawei.com>
->
-> If PATCHTOOL="git" has been specified but workdir is not git repo
-> bitbake fails to apply the patches. Fix this by initializing the repo
-> before patching.
-> This allows binary git patches to be applied.
->
-> Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-> ---
->  meta/lib/oe/patch.py                    | 17 +++++++++++++++++
->  meta/lib/oeqa/selftest/cases/bbtests.py |  6 ++++++
->  2 files changed, 23 insertions(+)
->
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index 7cd8436da5..720c6f663c 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -52,6 +52,10 @@ def runcmd(args, dir = None):
->          if dir:
->              os.chdir(olddir)
->
-> +def getstatusoutput(cmd):
-> +    import subprocess
-> +    return subprocess.getstatusoutput(cmd.split())
-> +
->  class PatchError(Exception):
->      def __init__(self, msg):
->          self.msg = msg
-> @@ -294,6 +298,19 @@ class GitApplyTree(PatchTree):
->          PatchTree.__init__(self, dir, d)
->          self.commituser = d.getVar('PATCH_GIT_USER_NAME')
->          self.commitemail = d.getVar('PATCH_GIT_USER_EMAIL')
-> +        if not self._isInitialized():
-> +            self._initRepo()
-> +
-> +    def _isInitialized(self):
-> +        cmd = "git rev-parse --show-toplevel"
-> +        (status, output) = getstatusoutput(cmd)
-> +        ## Make sure we're in builddir to not break top-level git repos
-> +        return status == 0 and os.path.samedir(output, self.dir)
-> +
-> +    def _initRepo(self):
-> +        runcmd("git init".split(), self.dir)
-> +        runcmd("git add .".split(), self.dir)
-> +        runcmd("git commit -a --allow-empty -m Patching_started".split(),
-> self.dir)
->
->      @staticmethod
->      def extractPatchHeader(patchfile):
-> diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py
-> b/meta/lib/oeqa/selftest/cases/bbtests.py
-> index d4f6a08991..8c046074f6 100644
-> --- a/meta/lib/oeqa/selftest/cases/bbtests.py
-> +++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-> @@ -294,3 +294,9 @@ INHERIT_remove = \"report-error\"
->
->          test_recipe_summary_after = get_bb_var('SUMMARY', test_recipe)
->          self.assertEqual(expected_recipe_summary,
-> test_recipe_summary_after)
-> +
-> +    def test_git_patchtool(self):
-> +        self.write_recipeinc('man-db', 'PATCHTOOL=\"git\"')
-> +        result = bitbake('man-db -c patch', ignore_status=False)
-> +        self.delete_recipeinc('man-db')
-> +        bitbake('-cclean man-db')
-> --
-> 2.34.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159031):
-> https://lists.openembedded.org/g/openembedded-core/message/159031
-> Mute This Topic: https://lists.openembedded.org/mt/87428914/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
->
+Cc: Quentin Schulz <foss+yocto@0leil.net>
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+---
+ meta/recipes-devtools/python/python3-idna_3.3.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
---0000000000005f8d3105d217e152
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipe=
+s-devtools/python/python3-idna_3.3.bb
+index a0e6b79a56..f3c53a8717 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.3.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
+@@ -1,6 +1,11 @@
+ SUMMARY =3D "Internationalised Domain Names in Applications"
+ HOMEPAGE =3D "https://github.com/kjd/idna"
+-LICENSE =3D "BSD-3-Clause & Python-2.0 & Unicode"
++# Note: Unicode license is pulled in by idna/idnadata.py and idna/uts46dat=
+a.py
++# files auto-generated by tools/idna-data which downloads data from
++# http://www.unicode.org/Public/{version}/ucd/ and http://www.unicode.org/=
+Public/idna/
++# which are covered by https://www.unicode.org/license.txt as mentioned by
++# https://www.unicode.org/copyright.html
++LICENSE =3D "BSD-3-Clause & Python-2.0 & Unicode-DFS-2016"
+ LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3D239668a7c6066d9e0c5382e9c8c6=
+c0e1"
+=20
+ SRC_URI[sha256sum] =3D "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc3=
+2796e824360e6d"
+--=20
+2.33.1
 
-<div dir=3D"ltr"><div>Thanks :) You can add the failure into the commit mes=
-sage.<br></div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 1 Dec 2021 at 17:0=
-0, Pavel Zhukov &lt;<a href=3D"mailto:pavel@zhukoff.net">pavel@zhukoff.net<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-div><div>without change in patch.py:</div><div>ERROR: man-db-2.9.0-r1 do_pa=
-tch: Applying patch &#39;man_db.conf-avoid-multilib-install-file-conflict.p=
-atch&#39; on target directory &#39;/mnt/builds/oniroproject/builds/build-on=
-iro-linux-st/tmp/work/core2-64-oniro-linux-musl/man-db/2.9.0-r1/man-db-2.9.=
-0&#39;</div><div>Command Error: &#39;git rev-parse --show-toplevel&#39; exi=
-ted with 0 =C2=A0Output:</div><div>fatal: not a git repository (or any of t=
-he parent directories): .git</div><div>ERROR: Logfile of failure stored in:=
- /mnt/builds/oniroproject/builds/build-oniro-linux-st/tmp/work/core2-64-oni=
-ro-linux-musl/man-db/2.9.0-r1/temp/log.do_patch.21491</div><div><div><div>N=
-OTE: recipe man-db-2.9.0-r1: task do_patch: Failed</div><div>ERROR: Task (/=
-mnt/builds/oniroproject/sources/oe-core/meta/recipes-extended/man-db/man-db=
-_2.9.0.bb:do_patch) failed with exit code &#39;1&#39;</div><div>NOTE: Tasks=
- Summary: Attempted 102 tasks of which 0 didn&#39;t need to be rerun and 1 =
-failed.</div><div>=C2=A0</div><div>Summary: 1 task failed:</div><div>=C2=A0=
- /mnt/builds/oniroproject/sources/oe-core/meta/recipes-extended/man-db/man-=
-db_2.9.0.bb:do_patch</div><div>Summary: There was 1 ERROR message shown, re=
-turning a non-zero exit code.</div><div>-----------------------------------=
------------------------------------</div><div>2021-12-01 15:11:56,184 - oe-=
-selftest - INFO - Ran 1 test in 147.083s</div><div>2021-12-01 15:11:56,184 =
-- oe-selftest - INFO - FAILED</div><div>2021-12-01 15:11:56,184 - oe-selfte=
-st - INFO - =C2=A0(failures=3D1)</div><div>2021-12-01 15:11:58,721 - oe-sel=
-ftest - INFO - RESULTS:</div><div>2021-12-01 15:11:58,722 - oe-selftest - I=
-NFO - RESULTS - bbtests.BitbakeTests.test_git_patchtool: FAILED (145.51s)</=
-div><div>2021-12-01 15:11:58,724 - oe-selftest - INFO - SUMMARY:</div><div>=
-2021-12-01 15:11:58,724 - oe-selftest - INFO - oe-selftest () - Ran 1 test =
-in 147.084s</div><div>2021-12-01 15:11:58,724 - oe-selftest - INFO - oe-sel=
-ftest - FAIL - Required tests failed (successes=3D0, skipped=3D0, failures=
-=3D1, errors=3D0)</div></div><div>=C2=A0</div><div>=C2=A0</div><div>with ch=
-ange in patch.py:</div><div><div>2021-12-01 15:12:20,910 - oe-selftest - IN=
-FO - Adding: &quot;include selftest.inc&quot; in /mnt/builds/oniroproject/b=
-uilds/build-oniro-linux-st/conf/local.conf</div><div>2021-12-01 15:12:20,91=
-1 - oe-selftest - INFO - Adding: &quot;include bblayers.inc&quot; in bblaye=
-rs.conf</div><div>2021-12-01 15:12:20,911 - oe-selftest - INFO - test_git_p=
-atchtool (bbtests.BitbakeTests)</div><div>2021-12-01 15:15:30,540 - oe-self=
-test - INFO - =C2=A0... ok</div><div>2021-12-01 15:15:31,717 - oe-selftest =
-- INFO - ------------------------------------------------------------------=
-----</div><div>2021-12-01 15:15:31,717 - oe-selftest - INFO - Ran 1 test in=
- 192.371s</div><div>2021-12-01 15:15:31,717 - oe-selftest - INFO - OK</div>=
-<div>2021-12-01 15:15:34,523 - oe-selftest - INFO - RESULTS:</div><div>2021=
--12-01 15:15:34,524 - oe-selftest - INFO - RESULTS - bbtests.BitbakeTests.t=
-est_git_patchtool: PASSED (189.63s)</div><div>2021-12-01 15:15:34,526 - oe-=
-selftest - INFO - SUMMARY:</div><div>2021-12-01 15:15:34,526 - oe-selftest =
-- INFO - oe-selftest () - Ran 1 test in 192.372s</div><div>2021-12-01 15:15=
-:34,526 - oe-selftest - INFO - oe-selftest - OK - All required tests passed=
- (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)</div><div>=C2=A0</d=
-iv></div></div></div><div>=C2=A0</div><div>--=C2=A0</div><div>Pavel</div><d=
-iv>=C2=A0</div><div>=C2=A0</div><div>=C2=A0</div><div>01.12.2021, 16:56, &q=
-uot;Alexander Kanavin&quot; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" t=
-arget=3D"_blank">alex.kanavin@gmail.com</a>&gt;:</div><blockquote><div><div=
->Does the test fail without the change in lib/oepatch.py? Can you show how?=
-</div><div>=C2=A0</div><div>Alex</div></div>=C2=A0<div><div>On Wed, 1 Dec 2=
-021 at 15:17, Pavel Zhukov &lt;<a href=3D"mailto:pavel@zhukoff.net" rel=3D"=
-noopener noreferrer" target=3D"_blank">pavel@zhukoff.net</a>&gt; wrote:</di=
-v><blockquote style=3D"border-left:1px solid rgb(204,204,204);margin:0px 0p=
-x 0px 0.8ex;padding-left:1ex">From: Pavel Zhukov &lt;<a href=3D"mailto:pave=
-l.zhukov@huawei.com" rel=3D"noopener noreferrer" target=3D"_blank">pavel.zh=
-ukov@huawei.com</a>&gt;<br><br>If PATCHTOOL=3D&quot;git&quot; has been spec=
-ified but workdir is not git repo<br>bitbake fails to apply the patches. Fi=
-x this by initializing the repo<br>before patching.<br>This allows binary g=
-it patches to be applied.<br><br>Signed-off-by: Pavel Zhukov &lt;<a href=3D=
-"mailto:pavel.zhukov@huawei.com" rel=3D"noopener noreferrer" target=3D"_bla=
-nk">pavel.zhukov@huawei.com</a>&gt;<br>---<br>=C2=A0meta/lib/oe/patch.py=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 17 +++=
-++++++++++++++<br>=C2=A0meta/lib/oeqa/selftest/cases/bbtests.py |=C2=A0 6 +=
-+++++<br>=C2=A02 files changed, 23 insertions(+)<br><br>diff --git a/meta/l=
-ib/oe/patch.py b/meta/lib/oe/patch.py<br>index 7cd8436da5..720c6f663c 10064=
-4<br>--- a/meta/lib/oe/patch.py<br>+++ b/meta/lib/oe/patch.py<br>@@ -52,6 +=
-52,10 @@ def runcmd(args, dir =3D None):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0if dir:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.chdir(oldd=
-ir)<br><br>+def getstatusoutput(cmd):<br>+=C2=A0 =C2=A0 import subprocess<b=
-r>+=C2=A0 =C2=A0 return subprocess.getstatusoutput(cmd.split())<br>+<br>=C2=
-=A0class PatchError(Exception):<br>=C2=A0 =C2=A0 =C2=A0def __init__(self, m=
-sg):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.msg =3D msg<br>@@ -294,6 +29=
-8,19 @@ class GitApplyTree(PatchTree):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0PatchTree.__init__(self, dir, d)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0se=
-lf.commituser =3D d.getVar(&#39;PATCH_GIT_USER_NAME&#39;)<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0self.commitemail =3D d.getVar(&#39;PATCH_GIT_USER_EMAIL=
-&#39;)<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not self._isInitialized():<br>+=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._initRepo()<br>+<br>+=C2=A0 =
-=C2=A0 def _isInitialized(self):<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &q=
-uot;git rev-parse --show-toplevel&quot;<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (st=
-atus, output) =3D getstatusoutput(cmd)<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ## M=
-ake sure we&#39;re in builddir to not break top-level git repos<br>+=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 return status =3D=3D 0 and os.path.samedir(output, sel=
-f.dir)<br>+<br>+=C2=A0 =C2=A0 def _initRepo(self):<br>+=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 runcmd(&quot;git init&quot;.split(), self.dir)<br>+=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 runcmd(&quot;git add .&quot;.split(), self.dir)<br>+=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 runcmd(&quot;git commit -a --allow-empty -m Patching_s=
-tarted&quot;.split(), self.dir)<br><br>=C2=A0 =C2=A0 =C2=A0@staticmethod<br=
->=C2=A0 =C2=A0 =C2=A0def extractPatchHeader(patchfile):<br>diff --git a/met=
-a/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests=
-.py<br>index d4f6a08991..8c046074f6 100644<br>--- a/meta/lib/oeqa/selftest/=
-cases/bbtests.py<br>+++ b/meta/lib/oeqa/selftest/cases/bbtests.py<br>@@ -29=
-4,3 +294,9 @@ INHERIT_remove =3D \&quot;report-error\&quot;<br><br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0test_recipe_summary_after =3D get_bb_var(&#39;SU=
-MMARY&#39;, test_recipe)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEq=
-ual(expected_recipe_summary, test_recipe_summary_after)<br>+<br>+=C2=A0 =C2=
-=A0 def test_git_patchtool(self):<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.writ=
-e_recipeinc(&#39;man-db&#39;, &#39;PATCHTOOL=3D\&quot;git\&quot;&#39;)<br>+=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D bitbake(&#39;man-db -c patch&#39;, i=
-gnore_status=3DFalse)<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.delete_recipeinc=
-(&#39;man-db&#39;)<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&#39;-cclean man=
--db&#39;)<br>--<br>2.34.0<br><br><br>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-=3D-=3D-<br>Links: You receive all messages sent to this group.<br>View/Rep=
-ly Online (#159031): <a href=3D"https://lists.openembedded.org/g/openembedd=
-ed-core/message/159031" rel=3D"noopener noreferrer" target=3D"_blank">https=
-://lists.openembedded.org/g/openembedded-core/message/159031</a><br>Mute Th=
-is Topic: <a href=3D"https://lists.openembedded.org/mt/87428914/1686489" re=
-l=3D"noopener noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-mt/87428914/1686489</a><br>Group Owner: <a href=3D"mailto:openembedded-core=
-%2Bowner@lists.openembedded.org" rel=3D"noopener noreferrer" target=3D"_bla=
-nk">openembedded-core+owner@lists.openembedded.org</a><br>Unsubscribe: <a h=
-ref=3D"https://lists.openembedded.org/g/openembedded-core/unsub" rel=3D"noo=
-pener noreferrer" target=3D"_blank">https://lists.openembedded.org/g/openem=
-bedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" rel=3D"noo=
-pener noreferrer" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>-=3D-=3D=
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>=C2=A0</blockquote></div></blockqu=
-ote></blockquote></div>
-
---0000000000005f8d3105d217e152--
 
