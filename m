@@ -1,113 +1,165 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C02CC433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:59:18 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web09.95036.1638377940697780325
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF8FC433F5
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 17:04:41 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (EUR01-HE1-obe.outbound.protection.outlook.com [40.92.65.16])
+ by mx.groups.io with SMTP id smtpd.web12.94652.1638378280604896445
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:59:01 -0800
+ Wed, 01 Dec 2021 09:04:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mRsbkGnb;
- spf=pass (domain: gmail.com, ip: 209.85.208.46,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id z5so39464869edd.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:59:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OrHno/77/gJEMoalfl+Zg+KT49vprKQYLbyNpmPIRYc=;
-        b=mRsbkGnbuFKL9Fl1DsavbYMErLG2qkYyORyRpFdgDk3SzFWCogJgqCQAEw4RsOQiAI
-         7Lia3vWL6bOzw1f0/jWYcLsu5rhqF9RvlEWyI/pYoTXq4jvOSWePVs5MuIcTytVaee6c
-         eRx6xfsRVhvlb//ggDTSAk4VyhmSBKEUrzjAC1m5D3u46aRd0/63xkU3NG/7IttPKtmR
-         IMWg6zeQfvzygV5uC8Kqxhc6wChJzqL6kA1trQ8mALm3qh2sH7MYEiK/zAm18B7MIHVJ
-         RNGQsP8Uj7sdtFGKiAx4uA7LCZ0x8NH2i61S9KgJEG/XwcE+bKQySSuyDO3pr56Tr6/0
-         TN3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OrHno/77/gJEMoalfl+Zg+KT49vprKQYLbyNpmPIRYc=;
-        b=lA388Vv2g3g5eD5Mu58a7excb+7L23ahYYm/Wj/yNHjYVsonY9gtWLBJeNXvqFa0Nz
-         24Vt/B53J+axTPGkjpxqJ8kr37fAGrJLQVmIkPEZFfIuAvwLIikHHL1Nda5maqN8/BYi
-         XPSzIuTa+vDLFT+80zbFjcQAJL5cy/kf5u6EoV/rE3yxnX6bkGd/JYN5lPPVDpX2m+NN
-         Ijcv9O8+PBTh1aHyaYhANrKUSAfcKVWH67Ve52yjymHjiGKs0mkzRnJi0EW2QPT6o4L6
-         Hg3NugUF3RTeBQ0xPHjhrrSmdYGA+ayUalrBPtZpcURQZ2sipGn9xOwxJkdtX/Bw9Tp6
-         OE8A==
-X-Gm-Message-State: AOAM5327T3LJAQvNgFXU9+1GC50TEZfFgFjHtydE5zrxSKUpSC2o8EGC
-	kDlPtJ3J63he+E64To76XwIeSgCTCjReH3lhZno=
-X-Google-Smtp-Source: 
- ABdhPJx0nagp/Met3mBRD4g7BHJCx5rZTgoDmwJo1uymdnGVNK1mBm8yUDy2+9rLyhessIgxaxQXbIGRSwqsGWApo/s=
-X-Received: by 2002:a05:6402:1914:: with SMTP id
- e20mr10293653edz.96.1638377939077;
- Wed, 01 Dec 2021 08:58:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20211201162800.3128628-1-quentin.schulz@theobroma-systems.com>
-In-Reply-To: <20211201162800.3128628-1-quentin.schulz@theobroma-systems.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 1 Dec 2021 11:58:48 -0500
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=plO7k3Dw;
+ spf=pass (domain: outlook.com, ip: 40.92.65.16,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lys6FfDDSESEKBRB9nlvJyg2Rgdr/NNm22k272rIi4npnlFNJdejayoSN6c5/zzqFjqbMqVGLCH42OsXYuR6aCvgwy1gOOW/4LSsEPsL8Q4hN/bO81o3uudwXmm3ZxfchhJNpTR0RyK8J5mE7C47HLsyHrXkfcXX8/TvuE/bVdFseSALIf5qbro3BSVdPqvbwir6TykGX4jiE+Vc6HLcvHXRVwGVgSbe4AdnUTryYBdYJGrWGkfm0UlZm9M7XzQIHVpGyesNlDjDiAdITtfWOMpsf7DtREDJ/yVZGWJSCxW4oazZahesceMQFN5gHZx14stbQWBx1sQiAHr09P3Wmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b9eLlM/fgthNYbJseJK7hNhXOS8yI7uxKnDNx+6XgWE=;
+ b=m+A9n7DOQjKwOyT2tHChCVNhixGkEKvWFtv1/HWgqdRUp1zZSVxkUBu6bNQX+Dnbxi5waEtcN7V2ft/eM0FhW6khf0Z5dseBLUnZ84z0kQBGvEerkc8UoZ3ykKeJwju4Il984nR33iHIF13uIVrGsesHPR2JTG31SLpqeugCDkSXw+xI2HlE5kXlxzN9rVCBmDuY0Ygb4ZnzxmvBflHjZ0jv8R/MiKHSRDqGGXJEINx+vqFk0zHUqCPGWGNh/19Xj4sUtRrE1OZQp4ZHUfh/RJcmp0XrkxclUEq02krB/7I/C6+QrtDEcHBRnL2E0yiuNRDQxFzWqURp0BKDts/B5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b9eLlM/fgthNYbJseJK7hNhXOS8yI7uxKnDNx+6XgWE=;
+ b=plO7k3Dwf3rTNl+NRx2HWtd3pGxxaOH7IhhkDxai0mdLOcd5+2Y51Sluo7qsBmtEV8lrqWvLnrIrgsmhXUiS+so3gmvREM7fpAeKAA7E3AlwE2PqWxwq5bMv1tCO2Wqt6mOlEGHhUuaPlPAIh7SMCdbMketgmIJlk7hMG7RTxUHI4+6owV3gCIal1u1Il+Kz3ob4E4yQCpIEoxySfz+YskYPxBHId51CmOkGwmUoDdiQxG76MLZNczIwPy++2Tt81mrAmRalGcBvhewl7HV411cO8t9ehRAc2nNoKhxWGGXXy4PPHdY0op8r8xKzFnpMj2ygkmkR52MO65P5tgYLyQ==
+Received: from AS8PR09MB4645.eurprd09.prod.outlook.com (2603:10a6:20b:292::8)
+ by AM6PR09MB3090.eurprd09.prod.outlook.com (2603:10a6:20b:c7::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Wed, 1 Dec
+ 2021 17:04:38 +0000
+Received: from AS8PR09MB4645.eurprd09.prod.outlook.com
+ ([fe80::f0c0:455d:26a8:99ac]) by AS8PR09MB4645.eurprd09.prod.outlook.com
+ ([fe80::f0c0:455d:26a8:99ac%9]) with mapi id 15.20.4734.024; Wed, 1 Dec 2021
+ 17:04:38 +0000
+Subject: Re: [OE-core] [PATCH] python: python3-idna: fix non-existent Unicode
+ license
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+ openembedded-core@lists.openembedded.org
+Cc: bruce.ashfield@gmail.com, Quentin Schulz <foss+yocto@0leil.net>
+References: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+From: Konrad Weihmann <kweihmann@outlook.com>
 Message-ID: 
- <CADkTA4MDSHzEyTWeVksHGqSnwPPyOqTfX=nd7YEq3_iqefVVoA@mail.gmail.com>
-Subject: Re: [PATCH] ptest-packagelists: Add missing python3-webcolors entry
-To: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Quentin Schulz <foss+yocto@0leil.net>
-Content-Type: text/plain; charset="UTF-8"
+ <AS8PR09MB464559F9D616EB6583EDD813A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
+Date: Wed, 1 Dec 2021 18:04:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TMN: [6BDG43morendZGxpLE69u+yGitjKF8vo1tvqOAXNf8KeS2S5UwnuBsKh+rJAH8W2]
+X-ClientProxiedBy: AM4PR0302CA0019.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::32) To AS8PR09MB4645.eurprd09.prod.outlook.com
+ (2603:10a6:20b:292::8)
+X-Microsoft-Original-Message-ID: 
+ <c8eb0fc3-322c-633d-881f-4e20ff664da6@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:3103:205c:200:bed3:df7f:f488:16a2]
+ (2a02:3103:205c:200:bed3:df7f:f488:16a2) by
+ AM4PR0302CA0019.eurprd03.prod.outlook.com (2603:10a6:205:2::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
+ Transport; Wed, 1 Dec 2021 17:04:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ab23bc71-5452-46c7-8a35-08d9b4eca830
+X-MS-TrafficTypeDiagnostic: AM6PR09MB3090:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	iKEtq53juN5E9reRdUJFpuSf6MxaQj5WadkhskhrRisDwZ7UgsazAsyY9LzqdPlJoxsQZvB5KjKY9mITPq3Gw1ju6ov2e5JGOn84c6vlt87j22W5i8lY+cNgs4OFbtApWuiyKqYMRudIrHbEKfCcygsGFi3YzIOOM1DZNImW25xrEXJCsF5u1m1itVZUAv0PTHTx7CWkNeSi4les1L/BDQSMzJI/vgvvkSvU3MVI5rhASTCEoNbp2YbUP8f+w1OuCDJ/iAvsfRQz2CCXo3JXw4TR8ZFsILJ2w+DxDSHOvWGVzvGOW1uWjwWoJM1Bl2+A9i741EX7fdXgK3a7WqcjgmL4/vhahaBlRCkITw9iwEazSG2nh3FZ9K+URDjwzj3h6TbKCwFpjKBAzObY9eW2oapRSe/kRwZbkkrpHJwdcLacnUp8iqmt9STzhg0gilsOHAaQIfOtedOSzQAqTGt2nxzxCOvE6e75gkv+u2GUcFYai4M8h1sOowYFVh9vXSykR0agtS7m3CYavuP5FpPRZnvv1GDx7pCZzM4sbbl2jt7gi65dAvsD7FLa+rmowshQOWyLLyKHYWydDXAKGHxLDMYMqbg3pNbLSl0UqCoS7S3Mw9xzq4S2ihQN9L37BMq6fMmPRwaYn1vBrdAcegMa1oZswSmRmuAsB9IhBaon5VM=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	TCHV/lAT3CbOa4xEr5j8T9g48miS7ilENE5RVhQT2rpen2hUxvDOCImpbhUwzt9ZxPeCpsFKJTdjIT4YOUeu0n0U3rgbaROxWWC/Bx4ZhtaHtLZ3+xaQli3CkOMXISG+mZN/QCjMwELOyWt5d4ACenixdz4m/KxB/hycjAxt+jwmc6Hrv6TwyPsgtA0e64irIoZPyz0arN1897mWFVMtZziPvp9KGDVf5ll60gqpRywq5ZnyG5DUeePaa1JrG0jZMfwQyDAWJYiTi/p5nTZ5/y0ighLlJdrknNblKacYhAh8IJ5vCYjWYg21Hld78BIxJuKsq8xlqdOwK1/qdia2FZTZ6wqnSDWSMLuGf4wogk+f99Y7Cpn0kPLzosaKciru3SZ0O9SzSkeIUNOeTjJniooyskUrwYqDIwkrvjuE9yXp+iUqG4ilnou6xscfjibO6Fb0QNmeVtH8UYcl6W/7SxOV179IpB/DXPo5hMcQ80Hm9Zom1CT8SXC8vZKRTsGk5YkrJKG+hotwAUEk8yIKkfOWpNgaaYzZgj0yT1nyNBBP2L2c3Qae8yWIlQP9UUsbfpnATSCd3kt7zBv/hRAEazNcrVFxmrW+gNBkaaIda3wWVRQJxdUGfpNdXe4miRmeWTmf4mtdSqqLHS0gefdw4gkDDshvnvT5t4v8FsrKpiqMDKPYPO+wN0JzS2gERxZuG2OUrp26z8fLkYMUEMwq9IkrLrNdqxPhZR1QKoDkFdo9ghwBHhXmu/ko2SC5V+615Ecg4MV+c8NlNG/rpWL2ow==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ ab23bc71-5452-46c7-8a35-08d9b4eca830
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR09MB4645.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2021 17:04:38.0105
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR09MB3090
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:59:18 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 17:04:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159050
+ https://lists.openembedded.org/g/openembedded-core/message/159051
 
-On Wed, Dec 1, 2021 at 11:28 AM Quentin Schulz
-<quentin.schulz@theobroma-systems.com> wrote:
->
-> Resolves:
->
-> WARNING: python3-webcolors-1.11.1-r0 do_package_qa: QA Issue: supports ptests but is not included in oe-core's ptest-packagelists.inc [missing-ptest]
->
+I'm kind of following the argumentation in the commit message, still I 
+see differences between the Unicode-DFS-2016 template file and the text 
+downloadable from https://www.unicode.org/license.txt.
 
-I haven't seen the warning for this either, and I didn't even know
-this packgelist existed :)
+Not much, but enough to make me think, if we wouldn't instead need a 
+Unicode-DFS-2021 file and reference to that.
 
-So thanks for the fix, looks good to me.
+Anyway I fully support that change
 
-Bruce
+On a different note - I think any unicode license reference would also 
+need a copy of https://www.unicode.org/copyright.html, as all the 
+downloads point to that (and the license in just a subset of a broader 
+scope of rights and regulations) - INAL, but from my limited legal 
+understanding we should reference both
 
+On 01.12.21 17:13, Quentin Schulz wrote:
+> In addition to not being an SPDX license, Unicode license also isn't
+> available in any of the LICENSE_PATH available in openembedded, meaning
+> the following warning is printed:
+> 
+> python3-idna: No generic license file exists for: Unicode in any provider [license-exists]
+> 
+> Unfortunately the license is not really explicit in the project. After
+> looking at the code, it seems that this license gets pulled by
+> idna/idnadata.py and idna/uts46data.py which are auto-generated by
+> tools/idna-data which downloads data from
+> http://www.unicode.org/Public/{version}/ucd/ and
+> http://www.unicode.org/Public/idna/ which are covered by
+> https://www.unicode.org/license.txt as mentioned in
+> https://www.unicode.org/copyright.html.
+> 
+> Comparing https://www.unicode.org/license.txt to Unicode-DFS-2016
+> resulted in a match so let's point to that SPDX license instead.
+> 
 > Cc: Quentin Schulz <foss+yocto@0leil.net>
 > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 > ---
->
-> Note: Not tested
->
->  meta/conf/distro/include/ptest-packagelists.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index bf9d158a0a..c503a6a594 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -56,6 +56,7 @@ PTESTS_FAST = "\
->      python3-more-itertools-ptest \
->      python3-pluggy-ptest \
->      python3-wcwidth-ptest \
-> +    python3-webcolors-ptest \
->      qemu-ptest \
->      quilt-ptest \
->      sed-ptest \
-> --
-> 2.33.1
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+>   meta/recipes-devtools/python/python3-idna_3.3.bb | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
+> index a0e6b79a56..f3c53a8717 100644
+> --- a/meta/recipes-devtools/python/python3-idna_3.3.bb
+> +++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
+> @@ -1,6 +1,11 @@
+>   SUMMARY = "Internationalised Domain Names in Applications"
+>   HOMEPAGE = "https://github.com/kjd/idna"
+> -LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
+> +# Note: Unicode license is pulled in by idna/idnadata.py and idna/uts46data.py
+> +# files auto-generated by tools/idna-data which downloads data from
+> +# http://www.unicode.org/Public/{version}/ucd/ and http://www.unicode.org/Public/idna/
+> +# which are covered by https://www.unicode.org/license.txt as mentioned by
+> +# https://www.unicode.org/copyright.html
+> +LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-DFS-2016"
+>   LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
+>   
+>   SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159041): https://lists.openembedded.org/g/openembedded-core/message/159041
+> Mute This Topic: https://lists.openembedded.org/mt/87431709/3647476
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
