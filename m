@@ -1,94 +1,130 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5FB0C433F5
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:44:08 +0000 (UTC)
-Received: from avasout-ptp-001.plus.net (avasout-ptp-001.plus.net
- [84.93.230.227])
- by mx.groups.io with SMTP id smtpd.web12.94356.1638377037240706851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B0AC433F5
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 16:58:04 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.94417.1638377883007729268
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 08:43:59 -0800
+ Wed, 01 Dec 2021 08:58:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=KC4vGM7B;
- spf=pass (domain: mcrowe.com, ip: 84.93.230.227, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id sShxmbYv1tAwOsShzm52BE; Wed, 01 Dec 2021 16:43:53 +0000
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.4 cv=TNsm93pa c=1 sm=1 tr=0 ts=61a7a649
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=kj9zAlcOel0A:10 a=IOMw9HtfNCkA:10 a=CNncwcfLXTKsnqQ8L4QA:9
- a=CjuIK1q_8ugA:10
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:
-	Sender:Reply-To:CC:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=jDsyqGG1izUdBK1AXaORaoHEqaFZeWZtrPtNp7zzPYw=; b=KC
-	4vGM7BkRIycLdmHQ0Z1cUMgpY42ll2qbeaVYwVtDD5rpSBs1huJLbbzNCWdNEH2pbzfnEEvJgnFna
-	cBHov3i3lRbsIupjU4IjCBocDCpvY33FAgmDCqM+sedraXrep4V9vIQESHldytNZFvywR/6tTCi2g
-	1acK2CMuW+a+1HFvtKr0YbarLdASvLZt99mnx0I2GCR+SiSzyzzSikQWmhBzeIhdl1uBedxGEpCGe
-	skUMc9JQnrMbejxLqm7SE9Ss4A7RhgZyBRJwxjnUgHa1YhZ7va9kptZ5BHGcSzsK30WF+uOPdxlxj
-	WrxcaMAAy0YzqhBD+5af7qb5sOcmKLiw==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.94.2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1msShx-007Els-Ko
-	for openembedded-core@lists.openembedded.org; Wed, 01 Dec 2021 16:43:49 +0000
-Date: Wed, 1 Dec 2021 16:43:49 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Correct way to set DRIDRIVERS and GALLIUMDRIVERS from mesa bbappend
-Message-ID: <YaemRcD22hUhkQrq@mcrowe.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ILhSaavU;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id v1so104342134edx.2
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 01 Dec 2021 08:58:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ee8SxRrZ1Pe8w8+MSF2M6/2yxktRyA8q0Bl7WTsfPBo=;
+        b=ILhSaavU5+tPO7kexFc3WWcNYMW7wDTl9f8YtrIpVUXBIUi664cq8k4/gGD83VlkQG
+         c7QiIM7zK/kty7f8qLt2lt1g2zvGshaP57VzMJ7OiC5U7DM1+zUTucs32NUa8wI98B5D
+         9lGn2tTMPq12m0o9N8c/iTnzNrN/NpCQyPiM7ZRU9Iw/iKv+ZoLJOz+KFaZM2rsfHyUy
+         Ys+LOBsG/saiRtxGKWalPAH1SQpkDVDi7qV7y0oVCYhHhn1JfgpBBEEGdt3KIl6bJXDQ
+         CsG2Y30VZQGBwB78V6GGleKf2YwOypbBnJnAe1c0ZT6C+sZnZXXOYl+l031vD4lX+bV/
+         Mleg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ee8SxRrZ1Pe8w8+MSF2M6/2yxktRyA8q0Bl7WTsfPBo=;
+        b=YCTroM2lSRtuIdsW44XryF+UpDVIoJgzneBqfZNWrFAIOTzSsCgKedyXAnLQgul/Jv
+         iTmcqWqvPfjIaWf0Ps1tY4HAe7NICP7j9uZlz/dNPLBQCgJM/tRg0mIPlLzvZ/TikJDw
+         ks5W8mKhrr/3hDoT3tWcBegYZDSMNT4PlQiLWnGyHnIc66lJJHOMSnZPkDkJqpkHKN7l
+         xEwc8Yat+Y7YPziCqIDpUG2omu0P+08xs8VYoGGa3otcxuf6xFJrhiCZOMVDuGMAMh6M
+         M/b4T5gqSWk6sKffWkKxSLK8uGdSHJr5k9jWrlaLyNRUxrbGw3RKx1xNLO02yomCf5Oi
+         w2sQ==
+X-Gm-Message-State: AOAM531FA1akJBA/HTN6VfQNwexnVW10CnXrb/Uu5n0jMGZnF3qVF9Kj
+	dZBg3aAR2rh3/zJkXccci2skTmgFHeMupWQNRy0=
+X-Google-Smtp-Source: 
+ ABdhPJzn5+Gz2it7rojXMv9bjzmfup/C7uhO5UmZ8HnojC77eIUQtHColQ52ubT4WqluuhKYkQXFPaR2SJptVw/pg/o=
+X-Received: by 2002:a50:fb16:: with SMTP id
+ d22mr10213293edq.367.1638377880197;
+ Wed, 01 Dec 2021 08:58:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-CMAE-Envelope: 
- MS4xfEogtV7wynTHt1GOCyKUAJwX+9lR6jYuy7bb5C+9E8jVMXWiA2kbHCwC54TLcwQp9/0JnwsWYx3fRL1WKj593VTSEL+hTS+DLihpweSlineDKvFrbk9n
- 52EJ4whtxlfiK9fX6GBzO/BLiicOyGk059v0B2za2OmPOvAkMhlo+eOMkcgO2zpAwTrUMrn5eYRRwrzORfSin6GpGPGEu3UCXUw=
+References: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+In-Reply-To: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 1 Dec 2021 11:57:49 -0500
+Message-ID: 
+ <CADkTA4MWd1rgp0R3mXT98EjyY3Ki7_M5UMZi64kD=XeGUPNnFg@mail.gmail.com>
+Subject: Re: [PATCH] python: python3-idna: fix non-existent Unicode license
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Quentin Schulz <foss+yocto@0leil.net>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:44:08 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 16:58:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159048
+ https://lists.openembedded.org/g/openembedded-core/message/159049
 
-I'm building for a specific chip and therefore don't wish to waste time and
-electricity building and disk space on the target installing unwanted mesa
-drivers. However, mesa.inc contains:
+On Wed, Dec 1, 2021 at 11:13 AM Quentin Schulz
+<quentin.schulz@theobroma-systems.com> wrote:
+>
+> In addition to not being an SPDX license, Unicode license also isn't
+> available in any of the LICENSE_PATH available in openembedded, meaning
+> the following warning is printed:
+>
+> python3-idna: No generic license file exists for: Unicode in any provider [license-exists]
+>
+> Unfortunately the license is not really explicit in the project. After
+> looking at the code, it seems that this license gets pulled by
+> idna/idnadata.py and idna/uts46data.py which are auto-generated by
+> tools/idna-data which downloads data from
+> http://www.unicode.org/Public/{version}/ucd/ and
+> http://www.unicode.org/Public/idna/ which are covered by
+> https://www.unicode.org/license.txt as mentioned in
+> https://www.unicode.org/copyright.html.
+>
+> Comparing https://www.unicode.org/license.txt to Unicode-DFS-2016
+> resulted in a match so let's point to that SPDX license instead.
 
- GALLIUMDRIVERS = "swrast"
- GALLIUMDRIVERS:x86-x32 = ""
- GALLIUMDRIVERS:append:x86:class-target = ",i915,iris,crocus"
- GALLIUMDRIVERS:append:x86-64:class-target = ",i915,iris,crocus"
+I'm not able to reproduce the warning yet, but the license cleanup
+makes sense even without that.
 
-and mesa_21.3.0.bb contains:
+Looks good to me.
 
- DRIDRIVERS ??= ""
- DRIDRIVERS:append:x86:class-target = ",r100,r200,nouveau,i965"
- DRIDRIVERS:append:x86-64:class-target = ",r100,r200,nouveau,i965"
+Bruce
 
-I'm unable to find a way to override these values. Using (for example):
 
- DRIDRIVERS:forcevariable = ""
- GALLIUMDRIVERS:forcevariable = "swrast"
+>
+> Cc: Quentin Schulz <foss+yocto@0leil.net>
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> ---
+>  meta/recipes-devtools/python/python3-idna_3.3.bb | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
+> index a0e6b79a56..f3c53a8717 100644
+> --- a/meta/recipes-devtools/python/python3-idna_3.3.bb
+> +++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
+> @@ -1,6 +1,11 @@
+>  SUMMARY = "Internationalised Domain Names in Applications"
+>  HOMEPAGE = "https://github.com/kjd/idna"
+> -LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
+> +# Note: Unicode license is pulled in by idna/idnadata.py and idna/uts46data.py
+> +# files auto-generated by tools/idna-data which downloads data from
+> +# http://www.unicode.org/Public/{version}/ucd/ and http://www.unicode.org/Public/idna/
+> +# which are covered by https://www.unicode.org/license.txt as mentioned by
+> +# https://www.unicode.org/copyright.html
+> +LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-DFS-2016"
+>  LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
+>
+>  SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
+> --
+> 2.33.1
+>
 
-doesn't work because the append still happens after the forcevariable
-override takes effect. :(
 
-Is there a way that I can override GALLIUMDRIVERS and DRIDRIVERS with my
-own values for x86 and x86-64 without modifying oe-core itself?
-
-If not, should the oe-core recipe being using something like:
-
- GALLIUMDRIVERS_DEFAULT = "swrast"
- GALLIUMDRIVERS_DEFAULT:x86-x32 = ""
- GALLIUMDRIVERS_DEFAULT:append:x86:class-target = ",i915,iris,crocus"
- GALLIUMDRIVERS_DEFAULT:append:x86-64:class-target = ",i915,iris,crocus"
- GALLIUMDRIVERS ?= "${GALLIUMDRIVERS_DEFAULT}"
-
-and similar for DRIDRIVERS to support this?
-
-Thanks.
-
-Mike.
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
