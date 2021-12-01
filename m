@@ -1,128 +1,81 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1002C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 14:20:04 +0000 (UTC)
-Received: from forward501j.mail.yandex.net (forward501j.mail.yandex.net
- [5.45.198.251])
- by mx.groups.io with SMTP id smtpd.web10.92709.1638368402457862819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C84C433F5
+	for <webhook@archiver.kernel.org>; Wed,  1 Dec 2021 14:26:33 +0000 (UTC)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
+ [209.85.222.54])
+ by mx.groups.io with SMTP id smtpd.web11.92134.1638368791701270030
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 06:20:04 -0800
+ Wed, 01 Dec 2021 06:26:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=mail header.b=duKH77X4;
- spf=pass (domain: zhukoff.net, ip: 5.45.198.251, mailfrom: pavel@zhukoff.net)
-Received: from iva3-d53c26eb10e1.qloud-c.yandex.net
- (iva3-d53c26eb10e1.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:4987:0:640:d53c:26eb])
-	by forward501j.mail.yandex.net (Yandex) with ESMTP id D534E623B63;
-	Wed,  1 Dec 2021 17:19:59 +0300 (MSK)
-Received: from 2a02:6b8:c0c:2c9a:0:640:bad5:3723
- (2a02:6b8:c0c:2c9a:0:640:bad5:3723 [2a02:6b8:c0c:2c9a:0:640:bad5:3723])
-	by iva3-d53c26eb10e1.qloud-c.yandex.net (mxback/Yandex) with HTTP id
- xJO8ca0dF4Y1-JxdWjcir;
-	Wed, 01 Dec 2021 17:19:59 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1638368399;
-	bh=X/3iyLtQK4UYTIxLVSGxdJ2RfQQCw15zhXJmYPZ5sn4=;
-	h=References:Date:Message-Id:Cc:Subject:In-Reply-To:To:From;
-	b=duKH77X4JHA308UtapMnrY7+HG9ltlFSe9mVQ4uAAxVFQUljaVFEphVJU9rtfjFMZ
-	 /wefnR00aLbRgPm3vsSvElBG8owa94hQmUNOKMuWgL3suta8BR+xdnrToZEvEfqJjT
-	 m6Z69UsGlY1Ax9O99CQ4MdaOZIUACFQV2QPXqdTg=
-Authentication-Results: iva3-d53c26eb10e1.qloud-c.yandex.net;
- dkim=pass header.i=@zhukoff.net
-Received: by iva8-bad53723c646.qloud-c.yandex.net with HTTP;
-	Wed, 01 Dec 2021 17:19:59 +0300
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: Konrad Weihmann <kweihmann@outlook.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Pavel Zhukov <pavel.zhukov@huawei.com>
-In-Reply-To: 
- <AS8PR09MB46459FA96A6FF09AD7C1F1CAA8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
-References: <20211201131957.20901-1-pavel@zhukoff.net>
- <AS8PR09MB46459FA96A6FF09AD7C1F1CAA8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
-Subject: Re: [OE-core] [PATCH] patch.py: Initialize git repo before patching
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JpIJ+Wp8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.54,
+ mailfrom: max.oss.09@gmail.com)
+Received: by mail-ua1-f54.google.com with SMTP id i6so49280425uae.6
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 01 Dec 2021 06:26:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=l0d/T9DaGZ9sN/Dy9XFwL4dqR/NjCD4AqeeFmQvL0AY=;
+        b=JpIJ+Wp8e0VEiOpSY4mvAXl2h/DzSiNm8uZCurnAVYV+yKhK7FlDA+TB7n3cIvmOq+
+         nO7jhIEifDdcn60BTe4upzf05U1EhqJADh2tI4Mq5xLoFjr6fkwkaOFxsJCamLBnAtnd
+         b+1wGmTYxaWRNH6xOJnlT2wqfyadDzyFA7Y6fg24NUQlklee4ib980Fszqnr2S0PncZy
+         tiaoCa1Rt63HK0kFNTaL68T347oEUxOEX7F2cSBcaJfRgdRsaiRrSb54EAQRAIrtcDOA
+         +jxnYYZJhOcHa+TIPH2PRZYT6KUpZ5Veo+iEFGmyt4KqYe7tePO7tLBpIYiZd42jKrli
+         YfMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=l0d/T9DaGZ9sN/Dy9XFwL4dqR/NjCD4AqeeFmQvL0AY=;
+        b=JykuF0tB4Gshrwv/Dv4YrqPiNX4E/k6wrpuRykqesCyOcEOOzJ4+wHsFZ+M9Y9/zIF
+         m+kmKyOI5QhuVNMzxBQkynCLnFZNd696JrbSStQx+RS4rpweMhmX4wCPccsSIxBPVaXU
+         fvcLhNiR4Y7CHTBqqt6oBiSXbNkzQRW7ps1QZTKW3NL7GgTXIPN5J4AQRnJM85nJ6QQn
+         Of1oZKQJDt9Sy9bNp0yYodtzIPKjwi7ejB9FLcpoWoWHmlVu/HPkeGxyb4w9c5mIKak/
+         zPT362qgU/mpisLYFbHFALDUk4WPt3khgOT6KWenCLaVgsrRYySC4yyrWy3WvMZ4Ihlm
+         c21w==
+X-Gm-Message-State: AOAM531qzdsDwvgm3isgX1fqQ3eS9V4s5bkYSaIs4616eMFNhvOiACbJ
+	mf8D/sH9rNM9ClBQV1ynZxY/KQD2G8XSCsIF1kX2Zk3rBiP0Xw==
+X-Google-Smtp-Source: 
+ ABdhPJwg5XjsgE3xjoFzbi2m/DDWMIkFiqlr25FeDsMN3OZSUUvr7WsUPRfWS6pnHSvY/bXL7C6dZJ1LcvI1dcaQ/20=
+X-Received: by 2002:ab0:6354:: with SMTP id f20mr7865025uap.116.1638368790640;
+ Wed, 01 Dec 2021 06:26:30 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Wed, 01 Dec 2021 15:19:59 +0100
-Message-Id: <503741638368234@mail.yandex.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
+From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Wed, 1 Dec 2021 15:26:20 +0100
+Message-ID: 
+ <CAEHkU3Va4+i+Y2mhxMWxS+rcTxaTFFrfTjchPedYE8yAFCsCuw@mail.gmail.com>
+Subject: [OE-core] patch files in a directory aren't applied
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 14:20:04 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Dec 2021 14:26:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159032
+ https://lists.openembedded.org/g/openembedded-core/message/159033
 
-PGRpdj5IaSBLb25yYWQsPC9kaXY+PGRpdj48YnIgLz5UZXN0ICh2ZXJ5IHNpbXBsZSBvbmUpIGhh
-cyBiZWVuIGFkZGVkIChzZWUgdjIpLiBJJ20gbm90IGZhbWlsaWFyIHdpdGggdGVzdHN1aXRlIHNv
-IHBsZWFzZSBleGN1c2UgbWUgaWYgSSBwdXQgaXQgaW50byB3cm9uZyBwbGFjZS4gQWxzbyBJJ20g
-bm90IHN1cmUgaWYgaXQncyBvayB0byBrZWVwIHRlc3QgbW9yZSBnZW5lcmFsIChjYXRjaCBhbGwg
-ZXJyb3JzIGxpa2UgSSBkaWQpIG9yIEkgaGF2ZSB0byBjaGVjayBmb3Igc3BlY2lmaWMgZXJyb3Ig
-bWVzc2FnZS48L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj4tLcKgPC9kaXY+PGRpdj5QYXZlbDwvZGl2
-PjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj7CoDwvZGl2PjxkaXY+MDEuMTIuMjAyMSwg
-MTQ6MjUsICJLb25yYWQgV2VpaG1hbm4iICZsdDtrd2VpaG1hbm5Ab3V0bG9vay5jb20mZ3Q7Ojwv
-ZGl2PjxibG9ja3F1b3RlPjxwPkNvdWxkIHlvdSBwbGVhc2UgYWRkIGEgdGVzdCBjYXNlIGZvciB0
-aGF0IHRvIHRoZSB0ZXN0aW5nIHN1aXRlLCBhcyBJJ208YnIgLz5oYXZpbmcgaXNzdWVzIHRvIHVu
-ZGVyc3RhbmQgdW5kZXIgd2hhdCBjaXJjdW1zdGFuY2VzIHdlIGFyZSBnZXR0aW5nIGludG88YnIg
-Lz5zdWNoIGtpbmQgb2Ygc2l0dWF0aW9uPGJyIC8+PGJyIC8+T24gMDEuMTIuMjEgMTQ6MTksIFBh
-dmVsIFpodWtvdiB3cm90ZTo8L3A+PGJsb2NrcXVvdGU+wqBGcm9tOiBQYXZlbCBaaHVrb3YgJmx0
-OzxhIGhyZWY9Im1haWx0bzpwYXZlbC56aHVrb3ZAaHVhd2VpLmNvbSIgcmVsPSJub29wZW5lciBu
-b3JlZmVycmVyIj5wYXZlbC56aHVrb3ZAaHVhd2VpLmNvbTwvYT4mZ3Q7PGJyIC8+wqA8YnIgLz7C
-oElmIFBBVENIVE9PTD0iZ2l0IiBoYXMgYmVlbiBzcGVjaWZpZWQgYnV0IHdvcmtkaXIgaXMgbm90
-IGdpdCByZXBvPGJyIC8+wqBiaXRiYWtlIGZhaWxzIHRvIGFwcGx5IHRoZSBwYXRjaGVzLiBGaXgg
-dGhpcyBieSBpbml0aWFsaXppbmcgdGhlIHJlcG88YnIgLz7CoGJlZm9yZSBwYXRjaGluZy48YnIg
-Lz7CoFRoaXMgYWxsb3dzIGJpbmFyeSBnaXQgcGF0Y2hlcyB0byBiZSBhcHBsaWVkLjxiciAvPsKg
-PGJyIC8+wqBTaWduZWQtb2ZmLWJ5OiBQYXZlbCBaaHVrb3YgJmx0OzxhIGhyZWY9Im1haWx0bzpw
-YXZlbC56aHVrb3ZAaHVhd2VpLmNvbSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5wYXZlbC56
-aHVrb3ZAaHVhd2VpLmNvbTwvYT4mZ3Q7PGJyIC8+wqAtLS08YnIgLz7CoMKgwqBtZXRhL2xpYi9v
-ZS9wYXRjaC5weSB8IDE3ICsrKysrKysrKysrKysrKysrPGJyIC8+wqDCoMKgMSBmaWxlIGNoYW5n
-ZWQsIDE3IGluc2VydGlvbnMoKyk8YnIgLz7CoDxiciAvPsKgZGlmZiAtLWdpdCBhL21ldGEvbGli
-L29lL3BhdGNoLnB5IGIvbWV0YS9saWIvb2UvcGF0Y2gucHk8YnIgLz7CoGluZGV4IGZjY2JlZGI1
-MTkuLjgzMjZjYjU1YmMgMTAwNjQ0PGJyIC8+wqAtLS0gYS9tZXRhL2xpYi9vZS9wYXRjaC5weTxi
-ciAvPsKgKysrIGIvbWV0YS9saWIvb2UvcGF0Y2gucHk8YnIgLz7CoEBAIC01Niw2ICs1NiwxMCBA
-QCBkZWYgcnVuY21kKGFyZ3MsIGRpciA9IE5vbmUpOjxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBpZiBkaXI6PGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgb3MuY2hkaXIob2xk
-ZGlyKTxiciAvPsKgwqDCoDxiciAvPsKgK2RlZiBnZXRzdGF0dXNvdXRwdXQoY21kKTo8YnIgLz7C
-oCsgaW1wb3J0IHN1YnByb2Nlc3M8YnIgLz7CoCsgcmV0dXJuIHN1YnByb2Nlc3MuZ2V0c3RhdHVz
-b3V0cHV0KGNtZC5zcGxpdCgpKTxiciAvPsKgKzxiciAvPsKgwqDCoGNsYXNzIFBhdGNoRXJyb3Io
-RXhjZXB0aW9uKTo8YnIgLz7CoMKgwqDCoMKgwqDCoGRlZiBfX2luaXRfXyhzZWxmLCBtc2cpOjxi
-ciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZWxmLm1zZyA9IG1zZzxiciAvPsKgQEAgLTI5OCw2
-ICszMDIsMTkgQEAgY2xhc3MgR2l0QXBwbHlUcmVlKFBhdGNoVHJlZSk6PGJyIC8+wqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoFBhdGNoVHJlZS5fX2luaXRfXyhzZWxmLCBkaXIsIGQpPGJyIC8+wqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoHNlbGYuY29tbWl0dXNlciA9IGQuZ2V0VmFyKCdQQVRDSF9HSVRfVVNF
-Ul9OQU1FJyk8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2VsZi5jb21taXRlbWFpbCA9IGQu
-Z2V0VmFyKCdQQVRDSF9HSVRfVVNFUl9FTUFJTCcpPGJyIC8+wqArIGlmIG5vdCBzZWxmLl9pc0lu
-aXRpYWxpemVkKCk6PGJyIC8+wqArIHNlbGYuX2luaXRSZXBvKCk8YnIgLz7CoCs8YnIgLz7CoCsg
-ZGVmIF9pc0luaXRpYWxpemVkKHNlbGYpOjxiciAvPsKgKyBjbWQgPSAiZ2l0IHJldi1wYXJzZSAt
-LXNob3ctdG9wbGV2ZWwiPGJyIC8+wqArIChzdGF0dXMsIG91dHB1dCkgPSBnZXRzdGF0dXNvdXRw
-dXQoY21kKTxiciAvPsKgKyAjIyBNYWtlIHN1cmUgd2UncmUgaW4gYnVpbGRkaXIgdG8gbm90IGJy
-ZWFrIHRvcC1sZXZlbCBnaXQgcmVwb3M8YnIgLz7CoCsgcmV0dXJuIHN0YXR1cyA9PSAwIGFuZCBv
-cy5wYXRoLnNhbWVkaXIob3V0cHV0LCBzZWxmLmRpcik8YnIgLz7CoCs8YnIgLz7CoCsgZGVmIF9p
-bml0UmVwbyhzZWxmKTo8YnIgLz7CoCsgcnVuY21kKCJnaXQgaW5pdCIuc3BsaXQoKSwgc2VsZi5k
-aXIpPGJyIC8+wqArIHJ1bmNtZCgiZ2l0IGFkZCAuIi5zcGxpdCgpLCBzZWxmLmRpcik8YnIgLz7C
-oCsgcnVuY21kKCJnaXQgY29tbWl0IC1hIC0tYWxsb3ctZW1wdHkgLW0gUGF0Y2hpbmdfc3RhcnRl
-ZCIuc3BsaXQoKSwgc2VsZi5kaXIpPGJyIC8+wqDCoMKgPGJyIC8+wqDCoMKgwqDCoMKgwqBAc3Rh
-dGljbWV0aG9kPGJyIC8+wqDCoMKgwqDCoMKgwqBkZWYgZXh0cmFjdFBhdGNoSGVhZGVyKHBhdGNo
-ZmlsZSk6PGJyIC8+wqA8YnIgLz7CoDxiciAvPsKgPGJyIC8+wqAtPS09LT0tPS09LT0tPS09LT0t
-PS09LTxiciAvPsKgTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMg
-Z3JvdXAuPGJyIC8+wqBWaWV3L1JlcGx5IE9ubGluZSAoIzE1OTAyOSk6IDxhIGhyZWY9Imh0dHBz
-Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTU5
-MDI5IiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTU5MDI5PC9hPjxiciAvPsKgTXV0ZSBU
-aGlzIFRvcGljOiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvODc0
-MjY4MjAvMzY0NzQ3NiIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5odHRwczovL2xpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcvbXQvODc0MjY4MjAvMzY0NzQ3NjwvYT48YnIgLz7CoEdyb3VwIE93bmVy
-OiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5vcGVuZW1iZWRkZWQtY29yZStvd25l
-ckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxiciAvPsKgVW5zdWJzY3JpYmU6IDxhIGhyZWY9
-Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3Vi
-IiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiPmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViPC9hPiBbPGEgaHJlZj0ibWFpbHRvOmt3ZWlobWFu
-bkBvdXRsb29rLmNvbSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5rd2VpaG1hbm5Ab3V0bG9v
-ay5jb208L2E+XTxiciAvPsKgLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnIgLz7CoDwvYmxvY2tx
-dW90ZT48L2Jsb2NrcXVvdGU+
+Hello
+
+I tried to add patches by specifing a directory in SRC_URI and have
+bitbake appling all patch files in it without explicitely adding the
+individual file names in SRC_URI.
+According to the do_patch description [1] that should work, however
+for my example recipe it does not. The files in the directory end up
+in ${WORKDIR}/path_to_lots_of_patch_files/ but none of the *.patch
+files are applied.
+
+Looking at meta/lib/oe/patch.py src_patches() I believe that the
+documented behaviour is not implemented.
+
+Does anyone know why this is documented but not implemented?
+Has it been removed for good reason and is now undesired in OE?
+I'd be willing to work on the feature.
+
+Max
+
+[1] https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#ref-tasks-patch
 
