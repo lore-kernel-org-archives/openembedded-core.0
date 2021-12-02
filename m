@@ -1,233 +1,191 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 159FAC433F5
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 14:49:31 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.9200.1638456569531798844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40BACC433F5
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 15:20:47 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.9699.1638458445941592680
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 06:49:29 -0800
+ Thu, 02 Dec 2021 07:20:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NhUvnECM;
- spf=pass (domain: gmail.com, ip: 209.85.208.179,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id v15so289931ljc.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=WdeWO7iO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 133so9228307pgc.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 06:49:29 -0800 (PST)
+ Thu, 02 Dec 2021 07:20:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=1/8QGK/XyiRm6DyYRLnFf8d41R6eiX1xz2nbZq/zQw4=;
-        b=NhUvnECMirqs2gHbd5ALWfrCLe6++h4A5+Z3SzJwo125Q45j7WbTycMVsRa9k63Ro0
-         LbTHtMj3vSVDz8wfPQDk4XNy+pRBK5HK35r7ZTG7HoSR7xN2Ac8Ou1tCtbnDIcXvseT9
-         uVt0Y9Yx5nCD4CJnFDTFuW0ebnaD/xgVprjV2ZUeVIwR/8x1JtfMuM8cKl0TDFshQKfp
-         O2HVCcfbN+EK4GIEYiajEiAL9nfO6J5ziPTS0jU8k0EN4JuernE8Qa5r82xi1GLKLcew
-         anj6D/XwoXbUJ7/o+53LxtVoKdm63jPvo+Ei8WPQCaRIDw7A/33GOjHVSGsbkwPFKCqU
-         T07Q==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vMDeFWu3KTi8m8qVcv/rrQyR7zb9OD8QAvuGwsEoOWU=;
+        b=WdeWO7iOMDENxkGOvTFnkzIPPTB+SU5R9uCvbhDwt9fJMnY9fGeXjMyCDughv7pG3W
+         dL5MbCgwt61gNxPnTjzR3D9gEBuGELHAdW3oj5RkRPBVjq0v7bVOb1zBdk5QlpN62XjL
+         G8yWFghT6v9lQApga0VC0ZZEjvSTlucmq5+DEihBfg2Rz6r7Hf9tvBe3UwByCSkt/7pM
+         Y8N+Baw3+isV72zvOXU9tmh5y3TRSvFze1gWDwAoEBIqaiN2gO51AQLmiQjwHIQA7Puk
+         chTI7AEsqYp0N0JkjauIFYTRH0ALZAdgP0u5Esawzt6gaYveSKSgIF4s9yl1X7DikfXx
+         SCxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1/8QGK/XyiRm6DyYRLnFf8d41R6eiX1xz2nbZq/zQw4=;
-        b=aGDMX1kcYnjH+mr1DGqPq54EgqwIro7e5z3ovcpRh5N0mjbyo7ahUL9gYR39H6Hy4C
-         WdHakJWPJk1oHA1qcs6BjpK87cscxip5Sx6tjLeADuE3QUpyiwRtioXB7SNmcgCCV8Bs
-         nTs1nJwPKRrrNQSEDs4Hb3fdBnINPdDOGuz1VCzRIBu1OZ9/2hctPtfTkAGZGjHDQGIc
-         79CQ9i1nn677S6uqVoIdF7JemkVPNvTNe5iMeRsm8TIHUr2tB1q7zVh86PdAFwxcUgvm
-         U/ULXCUimcbigOMIEmn2aj+cQWPxhq1Nm0uCeb1p/VrnQZQpGsq2A8KMqFKRpUjuRMI/
-         k/0Q==
-X-Gm-Message-State: AOAM533uScpOG00G7Ndp4xMv4Q5DBg1WS/nR+yDugDfqJv6Ubprn7BHW
-	+b9tq+Ovf37XTroEyZzIy4E=
+        bh=vMDeFWu3KTi8m8qVcv/rrQyR7zb9OD8QAvuGwsEoOWU=;
+        b=YFa2fMoIEmSC4sgbSzjLCRLngc9FNlaHU8Srg3J9HYTXa+g7J7OS8V4G699qHuoXo+
+         M2p4+/KScrxl4qliQXjyYOm5nMFgZhxqud44wZ/HGfFiTK3XwhrISmernS+qXpzO0T+g
+         9e/wuHh4dlfmmpaaiOQs6qQqnK2dNlmsIbgE0/iItHjxPH3x4KFx2XOCeJddQMagbA34
+         C9GbdHafPWHGeAtZfumIMEFEH7xCUET3OCwKtqTXyIOt+IXMwXvLxFRvMeSOuJPwKzls
+         EP/9ULWU+7GmWKFFe1FSYjuAWkgv/seW91i9H/R9umIA3f5on8WcM2c6e5YR1d99c+3C
+         gPGg==
+X-Gm-Message-State: AOAM533PMbFMv3ZHAeUyxHxvILJiYQKFtcW5QlgzZbz1vVKWgWJj1dh0
+	c7RQdmN3wrWBTrtEUGxRCrwXmaYS90Y4ZGySHeo=
 X-Google-Smtp-Source: 
- ABdhPJyh89TVkxQ3bpKvXhAHGjH90ZUoMtc0ysDadVadH6oqGyg8bHeuPtnMuMg9S5y9mNVp+vzQmg==
-X-Received: by 2002:a2e:9ecb:: with SMTP id
- h11mr12360432ljk.212.1638456567514;
-        Thu, 02 Dec 2021 06:49:27 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id e6sm655lfn.172.2021.12.02.06.49.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Dec 2021 06:49:27 -0800 (PST)
-Message-ID: <e388fadb-04d7-e653-2dfa-ccbd6e589251@gmail.com>
-Date: Thu, 2 Dec 2021 15:49:26 +0100
+ ABdhPJwp47pBBZIEv+Zx4DdRM5tfyuH7s6vlIWNRGtPmwkqfuhaNGDUyEwq+4xGAdx2BolLTLPC35w==
+X-Received: by 2002:a63:8749:: with SMTP id i70mr9796185pge.379.1638458441338;
+        Thu, 02 Dec 2021 07:20:41 -0800 (PST)
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id g14sm7994pgo.88.2021.12.02.07.20.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 07:20:40 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/25] Pull request (cover letter only)
+Date: Thu,  2 Dec 2021 05:20:05 -1000
+Message-Id: <cover.1638458103.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [OE-core] [RFC PATCH v2 1/2] bitbake.conf: Pad rpath and remove
- build ID in native binaries
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20211130223722.852434-1-jacob.kroon@gmail.com>
- <20211130223722.852434-2-jacob.kroon@gmail.com>
- <89904fc65013c82975f32d0ffa6c4761019590e0.camel@linuxfoundation.org>
- <fcaf8ef0-f2d0-a950-6c7b-527259446e98@gmail.com>
- <0ea48dd5b84dcba4971886b35790aad516b7b6dd.camel@linuxfoundation.org>
- <b83fcbb2-ecb1-6788-0a1e-1702f35165a6@gmail.com>
- <c95df2f5084fd93bb10e308e5b501c92c0779d44.camel@linuxfoundation.org>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: 
- <c95df2f5084fd93bb10e308e5b501c92c0779d44.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 14:49:31 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 15:20:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159090
+ https://lists.openembedded.org/g/openembedded-core/message/159091
 
-On 12/2/21 12:09, Richard Purdie wrote:
-> On Thu, 2021-12-02 at 12:03 +0100, Jacob Kroon wrote:
->> On 12/2/21 11:51, Richard Purdie wrote:
->>> On Thu, 2021-12-02 at 11:19 +0100, Jacob Kroon wrote:
->>>> On 12/2/21 00:11, Richard Purdie wrote:
->>>>> On Tue, 2021-11-30 at 23:37 +0100, Jacob Kroon wrote:
->>>>>> Try to make sure that the RUNTIME dynamic entry size is the same for all
->>>>>> binaries produced with the native compiler. This is necessary in order to
->>>>>> produce identical binaries when using differently sized buildpaths. I've
->>>>>> tried using only patchelf, and keeping the linker flags as they are, but
->>>>>> I am unable to produce identical binaries. Has anyone else managed to do
->>>>>> this with patchelf ? If not, maybe we can write a new tool that can handle it ?
->>>>>>
->>>>>> The build-id also needs to be removed since it is calculated based on
->>>>>> the data present at link time. This includes STAGING_LIBDIR_NATIVE
->>>>>> and STAGING_BASE_LIBDIR_NATIVE. Both will differ and they need to be temporarily
->>>>>> preserved since some recipes will execute the binaries during do_install()
->>>>>> (for example python3-native). Later on these are removed in chrpath.bbclass.
->>>>>>
->>>>>> This hack is the first step for producing identical native binaries when using
->>>>>> different build paths. 'zstd-native' is a working example.
->>>>>>
->>>>>> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
->>>>>> ---
->>>>>>  meta/classes/chrpath.bbclass | 3 +++
->>>>>>  meta/conf/bitbake.conf       | 5 ++++-
->>>>>>  2 files changed, 7 insertions(+), 1 deletion(-)
->>>>>
->>>>> I'm a little torn on this. Our other option would be to hardcoded a specific
->>>>> dummy path and then edit it later to the correct value. That may be neater than
->>>>> adding the padding. It will change the end binaries but hopefully only after
->>>>> they're installed so should give the same net end result more neatly?
->>>>>
->>>>
->>>> Hmm not sure I follow. This patch adds a new dummy rpath entry,
->>>> "/rpath-padding-xxx...", then we remove it in chrpath. I don't know what
->>>> other value we would like to put there. If I understand you correctly,
->>>> we could perhaps pad one of the ones we already pass
->>>>
->>>> -Wl,-rpath,${STAGING_LIBDIR_NATIVE}
->>>> -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE}
->>>>
->>>> with spaces, like:
->>>>
->>>> -Wl,-rpath,${STAGING_LIBDIR_NATIVE}
->>>> -Wl,-rpath,"${STAGING_BASE_LIBDIR_NATIVE}${RPATH_PADDING}"
->>>
->>>
->>> I'm wondering if:
->>>
->>> -Wl,-rpath,/not/exist/our-native-libdir-marker
->>> -Wl,-rpath,/not/exist/our-native-base-libdir-marker
->>>
->>> would work.
->>>
->>
->> Right, I'll give it a try.
->>
+After some discussion with Richard on #yocto irc we've decided to drop the patch
+status updates from this series.
 
-Unfortunatley this breaks building python3-native. Although it compiles,
-during the build the python build scripts tries to import the created
-modules, and if this fails (which it does) it renames the modules:
+The following changes since commit 44b1970c40e9d73f6e63fb10cdc55837a26f5921:
 
-> *** WARNING: renaming "_curses" since importing it failed: libncurses.so.5: cannot open shared object file: No such file or directory
-> *** WARNING: renaming "_curses_panel" since importing it failed: libpanel.so.5: cannot open shared object file: No such file or directory
-> *** WARNING: renaming "_ssl" since importing it failed: libssl.so.3: cannot open shared object file: No such file or directory
-> *** WARNING: renaming "_hashlib" since importing it failed: libssl.so.3: cannot open shared object file: No such file or directory
-> *** WARNING: renaming "nis" since importing it failed: libnsl.so.3: cannot open shared object file: No such file or directory
-> *** WARNING: renaming "_ctypes" since importing it failed: libffi.so.8: cannot open shared object file: No such file or directory
+  build-appliance-image: Update to dunfell head revision (2021-11-15 15:00:44 +0000)
 
-I suppose it tries to import using the built python which has those
-phony rpaths, and can't find the per-recipe-sysroot
-lbncurses.so.5/libpanel.so.5/etc and fails.
+are available in the Git repository at:
 
-The new modules will be called:
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_ctypes.cpython-310-x86_64-linux-gnu_failed.so
-> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/nis.cpython-310-x86_64-linux-gnu_failed.so
-> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_hashlib.cpython-310-x86_64-linux-gnu_failed.so
-> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_ssl.cpython-310-x86_64-linux-gnu_failed.so
-> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_curses_panel.cpython-310-x86_64-linux-gnu_failed.so
-> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_curses.cpython-310-x86_64-linux-gnu_failed.so
+Alexander Kanavin (2):
+  linux-firmware: upgrade 20210919 -> 20211027
+  libpcre/libpcre2: correct SRC_URI
 
-which means any subsequent recipe that uses python3-native will fail to
-import any of those modules.
+Anuj Mittal (1):
+  glibc-version.inc: remove branch= from GLIBC_GIT_URI
 
-I suspect it might not just be python that wants to run the produced
-binaries during the build itself.
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.154
+  linux-yocto/5.4: update to v5.4.155
+  linux-yocto/5.4: update to v5.4.156
+  linux-yocto/5.4: update to v5.4.158
 
->>>> If that works that would be less intrusive I think.
->>>>
->>>>> If we separate out the build-id patch we could hopefully get that piece merged
->>>>> as that shouldn't be controversial? 
->>>>>
->>>>
->>>> Yes, I can split it out into a separate patch.
->>>>
->>>> But now that I've looked at this for a while, I've asked myself what
->>>> good does all this do ? The only optimization I can think of is that if
->>>> we rebuild a native recipes, and the sysroot component turns out the
->>>> same, then we don't need to create a new sstate cache entry. So we save
->>>> disk space, but disk space is cheap. We still need to build it. What I
->>>> would like is to have a common sstate dir for multiple build
->>>> directories. So if I build libtool-native in one build path, then at my
->>>> other build path it would just pick it up from sstate cache when I build
->>>> there. In the end, is that something that would be possible ?
->>>
->>> We originally started here with gcc-cross so lets consider that and multiple
->>> build directories where a patch changes gcc-cross in a way that is irrelavent to
->>> the output.
->>>
->>> The "win" is that regardless of whether I build in location A or B, I get the
->>> same gcc-cross binary. Hash-equiv will then not rebuild the target binaries.
->>> Yes, I pay the price of a gcc-cross rebuild but hashequiv saves the targets
->>> rebuilding.
->>>
->>> Currently it would only happen if you always build gcc-cross in a specific build
->>> path.
->>>
->>
->> I know the build path will change if I upgrade to a new version of gcc,
->> but then the output is most definitely gonna change as well.
->>
->>> Like everything, it is a question of looking at the changes and deciding whether
->>> they are worth any maintenance burden/code complication or additional overhead
->>> they generate. I don't know the answer here yet but I do appreciate the research
->>> in helping get us data to make decisions on!
->>>
->>
->> I was thinking if it was possible to add a "build-path-does-not-matter"
->> .bbclass that would make the signatures independent of build path and
->> then scan the output to make sure it didn't contain any references to
->> the build path. Then those recipes who didn't depend on build path could
->> inherit from that class, and then maybe their sstate could be reused
->> from multiple build directories ? Not sure reliable it would be though..
-> 
-> Another crazy thought is our sstate really is already path independent,
-> regardless of the binary content. You could therefore make the hash function
-> replace the path with a fixed string. The downside is that doesn't work well on
-> binaries due to offsets, alignment and so on.
-> 
-> As I read the above I was reminded that insane.bbclass does sanity check the
-> output for build paths and does have a configurable control mechanism. It
-> doesn't do that for the populate_sysroot output though since it is for
-> do_package.
-> 
-> Lots to think about here but you're right that adding some kind of scanner to
-> mark up recipes over time would help us preserve this.
+Claus Stovgaard (1):
+  cups: Fix missing installation of cups sysv init scripts
 
-Jacob
+Daniel Gomez (1):
+  os-release: Add DISTRO_CODENAME as vardeps for do_compile
+
+Denys Dmytriyenko (1):
+  make-mod-scripts: pass CROSS_COMPILE to configure and build
+
+Jon Mason (1):
+  scripts/lib/wic/help.py: Update Fedora Kickstart URLs
+
+Khem Raj (1):
+  lrzsz: Use Cross AR during compile
+
+Marta Rybczynska (1):
+  python3: upgrade 3.8.11 -> 3.8.12
+
+Minjae Kim (1):
+  git: fix CVE-2021-40330
+
+Peter Bergin (1):
+  systemd: add packageconfig for wheel-group
+
+Richard Purdie (2):
+  scripts/oe-package-browser: Handle no packages being built
+  reproducible_build/package_XXX: Ensure SDE task is in dependency chain
+
+Ross Burton (5):
+  vim: fix CVE-2021-3796, CVE-2021-3872, and CVE-2021-3875
+  vim: add patch number to CVE-2021-3778 patch
+  vim: fix CVE-2021-3927 and CVE-2021-3928
+  gmp: fix CVE-2021-43618
+  openssh: remove redundant BSD license
+
+Steve Sakoman (1):
+  Revert "vim: fix 2021-3796"
+
+Wang Mingyu (1):
+  openssh: Improve LICENSE to show BSD license variants.
+
+Yi Zhao (1):
+  oeqa: fix warnings for append operators combined with +=
+
+ meta/classes/package_deb.bbclass              |   4 +-
+ meta/classes/package_ipk.bbclass              |   3 +-
+ meta/classes/package_rpm.bbclass              |   3 +-
+ meta/classes/reproducible_build.bbclass       |   2 +
+ meta/lib/oeqa/runtime/cases/ksample.py        |   2 +-
+ meta/lib/oeqa/selftest/cases/imagefeatures.py |   2 +-
+ ...mpilation-using-autoconf-detected-AR.patch |  36 ++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |   1 +
+ .../openssh/openssh_8.2p1.bb                  |   2 +-
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/os-release/os-release.bb    |   4 +-
+ meta/recipes-core/systemd/systemd_244.5.bb    |   2 +
+ .../git/files/CVE-2021-40330.patch            | 108 ++++++++++++++++++
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ .../{python3_3.8.11.bb => python3_3.8.12.bb}  |   4 +-
+ meta/recipes-extended/cups/cups.inc           |   2 +-
+ ...20210919.bb => linux-firmware_20211027.bb} |   4 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 ++--
+ .../make-mod-scripts/make-mod-scripts_1.0.bb  |   2 +-
+ .../gmp/gmp/cve-2021-43618.patch              |  27 +++++
+ meta/recipes-support/gmp/gmp_6.2.0.bb         |   1 +
+ .../recipes-support/libpcre/libpcre2_10.34.bb |   2 +-
+ meta/recipes-support/libpcre/libpcre_8.44.bb  |   2 +-
+ ...1-reading-character-past-end-of-line.patch |  62 ++++++++++
+ ...28-using-freed-memory-when-replacing.patch |  83 ++++++++++++++
+ ...eading-uninitialized-memory-when-giv.patch |  63 ++++++++++
+ ...llegal-memory-access-if-buffer-name-.patch |  86 ++++++++++++++
+ ...ml_get-error-after-search-with-range.patch |  72 ++++++++++++
+ ...nvalid-memory-access-when-scrolling-.patch |  97 ++++++++++++++++
+ .../vim/files/CVE-2021-3778.patch             |  24 +++-
+ .../vim/files/CVE-2021-3796.patch             |  50 --------
+ meta/recipes-support/vim/vim.inc              |  10 +-
+ scripts/lib/wic/help.py                       |   4 +-
+ scripts/oe-pkgdata-browser                    |   2 +
+ 36 files changed, 712 insertions(+), 96 deletions(-)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2021-40330.patch
+ rename meta/recipes-devtools/python/{python3_3.8.11.bb => python3_3.8.12.bb} (99%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210919.bb => linux-firmware_20211027.bb} (99%)
+ create mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
+ create mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-character-past-end-of-line.patch
+ create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3428-using-freed-memory-when-replacing.patch
+ create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
+ create mode 100644 meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-memory-access-if-buffer-name-.patch
+ create mode 100644 meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-error-after-search-with-range.patch
+ create mode 100644 meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-memory-access-when-scrolling-.patch
+ delete mode 100644 meta/recipes-support/vim/files/CVE-2021-3796.patch
+
+-- 
+2.25.1
+
 
