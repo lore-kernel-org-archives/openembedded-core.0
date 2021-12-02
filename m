@@ -1,257 +1,233 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D2FC433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 14:42:46 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.69])
- by mx.groups.io with SMTP id smtpd.web08.8855.1638456164994352522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159FAC433F5
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 14:49:31 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.9200.1638456569531798844
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 06:42:45 -0800
+ Thu, 02 Dec 2021 06:49:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherrycloud.onmicrosoft.com
- header.s=selector2-cherrycloud-onmicrosoft-com header.b=f3P1jkpA;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.22.69,
- mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PG8jKjeBow6W/tAcppOEPhf2HbTafkaO/oAcWDECx3wNEjo11hVxa0SKMuGjPdeBwgyh5bu0MuxxnRr4PYzR+8qA2Co4e5bZlWDJFYPfwL/c3C4BnEYJhcdgZ69bTvIHdPZIvjvkhcE7yaSLKd9BeEc48TgUu6YQGcZ2lS6tWbyeF2dmz/5FooXyr25JMmI9RTWEoCCrRON4ueM4VNOHLUzwaE31mzMMG8m1Ci6tOpocmeBZaKQmGc+MalHSTVXFdwlLmNF2G37pe315CTcoQS5Di7Q3Mg9Y0Mepur6lfBJScEplcYGUGdK6xFWKclLZOJbhOWlY0tkbszYb8lxhXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RVDSKmQ9zu+YXY6t7U8Zd93uHm1uzmUk18yuRWkZ+jw=;
- b=oR7C6SpfA5yg1voiTvu8A9ueTHzM2fqSqsnls3CtRrxakIspbWWJDPHn05DfQIz5Jl2N9RbnwojZ7ZrZG8ZgbzdmsyxnQFQ+KKxqM0kRI0Sw1DI7W+aK9NwPsYlq4rKouXRGpxewnc6Ifykvb5hpHhNyAKPj2z2QkB2Ddc2o+Cbgv1DKqHB26Uq7FyWv4qZIHotAUxkdRxEbIbQoujZwk2HNqzMfdKdY7LHXmVGLJ646KEX5RNTxYG9GOCJCfDc/NH+RwnimwuwkibNHdr5fvhit6sxtXpNsxwtv8sofUF682SyK+5os6fT+h9tP8Tkc6iFMwd3iqiml3yr/kSfGgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NhUvnECM;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id v15so289931ljc.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 02 Dec 2021 06:49:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RVDSKmQ9zu+YXY6t7U8Zd93uHm1uzmUk18yuRWkZ+jw=;
- b=f3P1jkpA56wKYE79enPS8R+/AuIAEmcJIypAPv91jh+kLJm/OsJe0QtLpQ6rXeEE1l4qjxMIAe6uDoAGpDsJa7NJX/kD4ShbPpYNxlYac7+FMbIb9EvKgCmMeAtJ70vyNhTwLRSXEAH2IcKrgPVAtOjq6TW7dASm+UaYMO2hm00=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
- (2603:10a6:208:24::24) by AM0PR04MB6098.eurprd04.prod.outlook.com
- (2603:10a6:208:141::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Thu, 2 Dec
- 2021 14:42:41 +0000
-Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
- ([fe80::d56f:ec59:3bd0:6d7a]) by AM0PR0402MB3348.eurprd04.prod.outlook.com
- ([fe80::d56f:ec59:3bd0:6d7a%5]) with mapi id 15.20.4755.016; Thu, 2 Dec 2021
- 14:42:41 +0000
-Date: Thu, 2 Dec 2021 15:42:39 +0100
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com,
-	Quentin Schulz <foss+yocto@0leil.net>,
-	licensing@lists.yoctoproject.org
-Subject: Re: [OE-core] [PATCH] python: python3-idna: fix non-existent Unicode
- license
-Message-ID: <20211202144239.4ribxaet4vhjneva@fedora>
-References: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
- <AS8PR09MB464559F9D616EB6583EDD813A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
- <20211201172008.i6hwxhvnwtul4mai@fedora>
- <AS8PR09MB464591DF8F8352BBAF6462B0A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <AS8PR09MB464591DF8F8352BBAF6462B0A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
-X-ClientProxiedBy: AM6PR08CA0002.eurprd08.prod.outlook.com
- (2603:10a6:20b:b2::14) To AM0PR0402MB3348.eurprd04.prod.outlook.com
- (2603:10a6:208:24::24)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=1/8QGK/XyiRm6DyYRLnFf8d41R6eiX1xz2nbZq/zQw4=;
+        b=NhUvnECMirqs2gHbd5ALWfrCLe6++h4A5+Z3SzJwo125Q45j7WbTycMVsRa9k63Ro0
+         LbTHtMj3vSVDz8wfPQDk4XNy+pRBK5HK35r7ZTG7HoSR7xN2Ac8Ou1tCtbnDIcXvseT9
+         uVt0Y9Yx5nCD4CJnFDTFuW0ebnaD/xgVprjV2ZUeVIwR/8x1JtfMuM8cKl0TDFshQKfp
+         O2HVCcfbN+EK4GIEYiajEiAL9nfO6J5ziPTS0jU8k0EN4JuernE8Qa5r82xi1GLKLcew
+         anj6D/XwoXbUJ7/o+53LxtVoKdm63jPvo+Ei8WPQCaRIDw7A/33GOjHVSGsbkwPFKCqU
+         T07Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1/8QGK/XyiRm6DyYRLnFf8d41R6eiX1xz2nbZq/zQw4=;
+        b=aGDMX1kcYnjH+mr1DGqPq54EgqwIro7e5z3ovcpRh5N0mjbyo7ahUL9gYR39H6Hy4C
+         WdHakJWPJk1oHA1qcs6BjpK87cscxip5Sx6tjLeADuE3QUpyiwRtioXB7SNmcgCCV8Bs
+         nTs1nJwPKRrrNQSEDs4Hb3fdBnINPdDOGuz1VCzRIBu1OZ9/2hctPtfTkAGZGjHDQGIc
+         79CQ9i1nn677S6uqVoIdF7JemkVPNvTNe5iMeRsm8TIHUr2tB1q7zVh86PdAFwxcUgvm
+         U/ULXCUimcbigOMIEmn2aj+cQWPxhq1Nm0uCeb1p/VrnQZQpGsq2A8KMqFKRpUjuRMI/
+         k/0Q==
+X-Gm-Message-State: AOAM533uScpOG00G7Ndp4xMv4Q5DBg1WS/nR+yDugDfqJv6Ubprn7BHW
+	+b9tq+Ovf37XTroEyZzIy4E=
+X-Google-Smtp-Source: 
+ ABdhPJyh89TVkxQ3bpKvXhAHGjH90ZUoMtc0ysDadVadH6oqGyg8bHeuPtnMuMg9S5y9mNVp+vzQmg==
+X-Received: by 2002:a2e:9ecb:: with SMTP id
+ h11mr12360432ljk.212.1638456567514;
+        Thu, 02 Dec 2021 06:49:27 -0800 (PST)
+Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
+ [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id e6sm655lfn.172.2021.12.02.06.49.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Dec 2021 06:49:27 -0800 (PST)
+Message-ID: <e388fadb-04d7-e653-2dfa-ccbd6e589251@gmail.com>
+Date: Thu, 2 Dec 2021 15:49:26 +0100
 MIME-Version: 1.0
-Received: from fedora (92.42.140.82) by
- AM6PR08CA0002.eurprd08.prod.outlook.com (2603:10a6:20b:b2::14) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend
- Transport; Thu, 2 Dec 2021 14:42:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 64a72bea-adcb-46f8-feb6-08d9b5a1fe22
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6098:
-X-Microsoft-Antispam-PRVS: 
-	<AM0PR04MB6098AF867E09E3A0E01827C0C2699@AM0PR04MB6098.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4TDuKLRCRoRhrTWodr0g5+1wbOHnADX0TOMJ8mq9YehAPwaib/AXFfjR+yGuz870wbj12oHk4BL0TtN7e93euH75tHZ98UKA92oMxycHcTn+RZDhPDCkg795YKoDuESXQBJ//yfjUZfeK7w0D3u+gvfHNIG14NF/H6z0VL6v6tCfrvtLFCo7qrdLIuiIJr6rFW9eFefsE8O6TJmSLv7Ap3BS1ROaFVYdach1VTYzPdE6wYgbWmPnfFnMl7zv9i5KFFURv5x9TlrOfFxBfIzbLVcanw21mtnyNQHbyi/z4MiThunomOR4TK1OSVvfKH+FaT6luBWZhQSS9c75yRkfwseXC4yV3XxX8ZrPrLbPjHTyKkpArxzDYOLIydumXO5V9eEZmCdy11lHIG7hzD/UVAkiYfvO26u23O7Ox0xxochLFVhaPnqzpIyrzUwu8VTkGvTIyLa1DZwcDko0Gz/7+d9ibDs1i4kc0UTX8xKtaXpANUkSoWnENJcM9oCr11mg4zBkn4s9VPkdK5LPDGzNt212jOjM1xwbApY39ia6XGA8dk2nDnbTQd7SVoZo16R2UWWutEKNWAnsXyuNG4d+mJAOUcsEx+PLsYE5A0+Dqi0HqpxMjvxGviRUQXWh9JLfMm39Cw2kvHvBc3SYW7m9OJDrIqgjmKrTFZHq8xwc9U//0o0tEJR0wND/uvff/Ic46cLeleV5VLJS7nO13SB2AhRNAp8Mg82dfVV8jyow5+NjcxhibeILM+MPNJQXk+7UP5pij7Z/jVuzQhsWXBKyLzORwj0CxmRHzc+XFeZeM6w=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3348.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8936002)(53546011)(86362001)(1076003)(316002)(66946007)(9576002)(5660300002)(33716001)(66556008)(66476007)(8676002)(6916009)(83380400001)(966005)(26005)(45080400002)(956004)(4326008)(55016003)(186003)(38350700002)(508600001)(9686003)(2906002)(52116002)(6496006)(38100700002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?3hoK3BhNmAHeFhKnImFQ8QRx08KVRAcOW6Pexb8jL/qa7Ll0KIpjWWS7/j6V?=
- =?us-ascii?Q?8jmnpeg1ja8+zVs41mH+aqzbSYeCwbS3b9KmsgdGtBrLA+3oOZUcg4koSqW1?=
- =?us-ascii?Q?nTklvqQlG+ds06tukgI9zrjAnoH7sLvtCcVHl2EJndAEGhmeY21oiqZNWZW1?=
- =?us-ascii?Q?GHFftrrw4x4bZrH17paWgjXFSKmHeTqWGsVk9znh69xooukVFKsm5L8Lbu80?=
- =?us-ascii?Q?m750Y8l8TEpTXNFkOXg4gzPB6Ldmlvz2HXM+MljKrieShQX9lxUBaU/JVpXC?=
- =?us-ascii?Q?CQwiwLBPdoXVXR6lCI6kbfhhhR6ptcJtTzzzYVM1BAToqK8w6973O/Bcn8l8?=
- =?us-ascii?Q?EMklDfCGCD1d75ErFzRFCyUjSK/CLhL5YlNzm5US3u8Uni05Mfd7ILvLZPvI?=
- =?us-ascii?Q?q1T+6SM0tdqCooQXC86HJk30U/wGVUwMixA+B1V7Abt/OYesHmcTkRelmmYa?=
- =?us-ascii?Q?LqKIS1mc4ra3AcozdsTZIlaoAWv6iJvjsOYCKC8HhPmch6FqdqkXuhijKztp?=
- =?us-ascii?Q?vwyC0cgPFRUXt/Ewkfab2d77NOo7Sh5BatWmyiwKKGvo0YJ0GOXp7g6cJM3t?=
- =?us-ascii?Q?zpCRKkpFSz/J+P8HKOIT5EHU/IfVBHHE2bZa9sFNR5x/7E4HC12aa/dSeVNJ?=
- =?us-ascii?Q?BvC6GQRGcVONNvMlIVYgIsNOWabmtSoVRiA1iaWFJ3qdvBQh9AewQeILO3NS?=
- =?us-ascii?Q?MpAn3lPmrJpeTIEqdmBz3jxpvoOaVVOuj9vOWGi5X+9WvrYT3lY/mLAJfL0m?=
- =?us-ascii?Q?WIMtPVQB1RlSUtohskQnktsxnD8z7kf/Jvt5KBz0+v3HyPRUndyyXQj924Wg?=
- =?us-ascii?Q?/Gl3q+XKW8dgCGPrlvjtRM+wA4nJlDKoyLfYnWHF6JptPIJm/KhxQxbMyehZ?=
- =?us-ascii?Q?yn1zL48C4HSDIv0pzVjjZk8Qw0Lfey8bWvTnBoJlajy0543d3qBpmJUtAOMB?=
- =?us-ascii?Q?c9UeQgoYVMBIT4vxFa1mXc0KB8tQg/Ur0suyK6yHfkXMIqrEqNiESQFtcSDG?=
- =?us-ascii?Q?IQI2bTWGwzSLMu3tFMFuRCBsHRARstAm2E5vV6n1iviWYxTY1z2R96pDRM9u?=
- =?us-ascii?Q?iqWz067KO+IGqenJHkAv2b+Jkyk/VY4yYTxSerlTLETPHlCqQOCfQZ4UF1Pr?=
- =?us-ascii?Q?/IZ2b1aB0y4yb5u0+dSzhDhptHqB4eh06UcYNvsd5M8zRp+Qkk7BuXZ7CYgj?=
- =?us-ascii?Q?fgfCf1qau6qoViok7UI+O3VSHcEC4eWpXj4orHDHmjRql6AXp1mtzvuXmGyD?=
- =?us-ascii?Q?nG4qodcClEXo9nGChj2R9e5BBeb4GPCG6fYhMKASFDRkKOY9+uJJi+i7rYx5?=
- =?us-ascii?Q?BfULE2Jhbma36HzwIAOxFRv1tHMyo8GMOvqzFIflE0PwqUYDob0SHDH5G0mS?=
- =?us-ascii?Q?iTqK880yFuBs7x5yY/Xk7FmAnTT9O4gS5MsqfhmhBrKrXdtF/d0Za3rdLZhU?=
- =?us-ascii?Q?yM5XEf+IesggfFsur98BISb87Sj1TQSfhhlWt/Q7jfwouD48b8kL/jPG276/?=
- =?us-ascii?Q?znxcoDKYt7DTr90yzqC0Pz9s9OP98Y51ZJ9l5qLdeWKYeP/blvdMReH162xm?=
- =?us-ascii?Q?W3KB/btRss9qFjqhF/pn5pczos1OA92TIzdmzPlzfP5rmuHLuF+dbHTd8cJR?=
- =?us-ascii?Q?36Qqh2JYerPlKbZQrXcLqHYZBERVpDXMPvx5VU0Ym7j6uzJehJf2WvWnzS/t?=
- =?us-ascii?Q?uPZYwGPnQBzzoZySWp4febKD4pVIDil8Iu3BKbldfAhyr0J5DWT5sHgQS5zt?=
- =?us-ascii?Q?i2l5Xko4Fg=3D=3D?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 64a72bea-adcb-46f8-feb6-08d9b5a1fe22
-X-MS-Exchange-CrossTenant-AuthSource: 
- AM0PR0402MB3348.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 14:42:40.9573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- yViBYDLJmAvdt/Qkqxu7iEJY61aNQziI8zyMd1CAFmPgOU2VZyL2NhbnpPnyJf2HFhnWBAZ699INfHQvaktdOuXB3kj/qHIWvfHDQplP8iHC/sH6yYbL+nYtJBOFLY+H
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6098
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [OE-core] [RFC PATCH v2 1/2] bitbake.conf: Pad rpath and remove
+ build ID in native binaries
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20211130223722.852434-1-jacob.kroon@gmail.com>
+ <20211130223722.852434-2-jacob.kroon@gmail.com>
+ <89904fc65013c82975f32d0ffa6c4761019590e0.camel@linuxfoundation.org>
+ <fcaf8ef0-f2d0-a950-6c7b-527259446e98@gmail.com>
+ <0ea48dd5b84dcba4971886b35790aad516b7b6dd.camel@linuxfoundation.org>
+ <b83fcbb2-ecb1-6788-0a1e-1702f35165a6@gmail.com>
+ <c95df2f5084fd93bb10e308e5b501c92c0779d44.camel@linuxfoundation.org>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: 
+ <c95df2f5084fd93bb10e308e5b501c92c0779d44.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 14:42:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 14:49:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159089
+ https://lists.openembedded.org/g/openembedded-core/message/159090
 
-Cc'ing licensing@lists.yoctoproject.org to hopefully get knowledgeable
-people on the topic?
+On 12/2/21 12:09, Richard Purdie wrote:
+> On Thu, 2021-12-02 at 12:03 +0100, Jacob Kroon wrote:
+>> On 12/2/21 11:51, Richard Purdie wrote:
+>>> On Thu, 2021-12-02 at 11:19 +0100, Jacob Kroon wrote:
+>>>> On 12/2/21 00:11, Richard Purdie wrote:
+>>>>> On Tue, 2021-11-30 at 23:37 +0100, Jacob Kroon wrote:
+>>>>>> Try to make sure that the RUNTIME dynamic entry size is the same for all
+>>>>>> binaries produced with the native compiler. This is necessary in order to
+>>>>>> produce identical binaries when using differently sized buildpaths. I've
+>>>>>> tried using only patchelf, and keeping the linker flags as they are, but
+>>>>>> I am unable to produce identical binaries. Has anyone else managed to do
+>>>>>> this with patchelf ? If not, maybe we can write a new tool that can handle it ?
+>>>>>>
+>>>>>> The build-id also needs to be removed since it is calculated based on
+>>>>>> the data present at link time. This includes STAGING_LIBDIR_NATIVE
+>>>>>> and STAGING_BASE_LIBDIR_NATIVE. Both will differ and they need to be temporarily
+>>>>>> preserved since some recipes will execute the binaries during do_install()
+>>>>>> (for example python3-native). Later on these are removed in chrpath.bbclass.
+>>>>>>
+>>>>>> This hack is the first step for producing identical native binaries when using
+>>>>>> different build paths. 'zstd-native' is a working example.
+>>>>>>
+>>>>>> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+>>>>>> ---
+>>>>>>  meta/classes/chrpath.bbclass | 3 +++
+>>>>>>  meta/conf/bitbake.conf       | 5 ++++-
+>>>>>>  2 files changed, 7 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> I'm a little torn on this. Our other option would be to hardcoded a specific
+>>>>> dummy path and then edit it later to the correct value. That may be neater than
+>>>>> adding the padding. It will change the end binaries but hopefully only after
+>>>>> they're installed so should give the same net end result more neatly?
+>>>>>
+>>>>
+>>>> Hmm not sure I follow. This patch adds a new dummy rpath entry,
+>>>> "/rpath-padding-xxx...", then we remove it in chrpath. I don't know what
+>>>> other value we would like to put there. If I understand you correctly,
+>>>> we could perhaps pad one of the ones we already pass
+>>>>
+>>>> -Wl,-rpath,${STAGING_LIBDIR_NATIVE}
+>>>> -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE}
+>>>>
+>>>> with spaces, like:
+>>>>
+>>>> -Wl,-rpath,${STAGING_LIBDIR_NATIVE}
+>>>> -Wl,-rpath,"${STAGING_BASE_LIBDIR_NATIVE}${RPATH_PADDING}"
+>>>
+>>>
+>>> I'm wondering if:
+>>>
+>>> -Wl,-rpath,/not/exist/our-native-libdir-marker
+>>> -Wl,-rpath,/not/exist/our-native-base-libdir-marker
+>>>
+>>> would work.
+>>>
+>>
+>> Right, I'll give it a try.
+>>
 
-Thanks,
-Quentin
+Unfortunatley this breaks building python3-native. Although it compiles,
+during the build the python build scripts tries to import the created
+modules, and if this fails (which it does) it renames the modules:
 
-On Wed, Dec 01, 2021 at 06:30:39PM +0100, Konrad Weihmann wrote:
+> *** WARNING: renaming "_curses" since importing it failed: libncurses.so.5: cannot open shared object file: No such file or directory
+> *** WARNING: renaming "_curses_panel" since importing it failed: libpanel.so.5: cannot open shared object file: No such file or directory
+> *** WARNING: renaming "_ssl" since importing it failed: libssl.so.3: cannot open shared object file: No such file or directory
+> *** WARNING: renaming "_hashlib" since importing it failed: libssl.so.3: cannot open shared object file: No such file or directory
+> *** WARNING: renaming "nis" since importing it failed: libnsl.so.3: cannot open shared object file: No such file or directory
+> *** WARNING: renaming "_ctypes" since importing it failed: libffi.so.8: cannot open shared object file: No such file or directory
+
+I suppose it tries to import using the built python which has those
+phony rpaths, and can't find the per-recipe-sysroot
+lbncurses.so.5/libpanel.so.5/etc and fails.
+
+The new modules will be called:
+
+> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_ctypes.cpython-310-x86_64-linux-gnu_failed.so
+> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/nis.cpython-310-x86_64-linux-gnu_failed.so
+> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_hashlib.cpython-310-x86_64-linux-gnu_failed.so
+> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_ssl.cpython-310-x86_64-linux-gnu_failed.so
+> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_curses_panel.cpython-310-x86_64-linux-gnu_failed.so
+> sysroots-components/x86_64/python3-native/usr/lib/python3.10/lib-dynload/_curses.cpython-310-x86_64-linux-gnu_failed.so
+
+which means any subsequent recipe that uses python3-native will fail to
+import any of those modules.
+
+I suspect it might not just be python that wants to run the produced
+binaries during the build itself.
+
+>>>> If that works that would be less intrusive I think.
+>>>>
+>>>>> If we separate out the build-id patch we could hopefully get that piece merged
+>>>>> as that shouldn't be controversial? 
+>>>>>
+>>>>
+>>>> Yes, I can split it out into a separate patch.
+>>>>
+>>>> But now that I've looked at this for a while, I've asked myself what
+>>>> good does all this do ? The only optimization I can think of is that if
+>>>> we rebuild a native recipes, and the sysroot component turns out the
+>>>> same, then we don't need to create a new sstate cache entry. So we save
+>>>> disk space, but disk space is cheap. We still need to build it. What I
+>>>> would like is to have a common sstate dir for multiple build
+>>>> directories. So if I build libtool-native in one build path, then at my
+>>>> other build path it would just pick it up from sstate cache when I build
+>>>> there. In the end, is that something that would be possible ?
+>>>
+>>> We originally started here with gcc-cross so lets consider that and multiple
+>>> build directories where a patch changes gcc-cross in a way that is irrelavent to
+>>> the output.
+>>>
+>>> The "win" is that regardless of whether I build in location A or B, I get the
+>>> same gcc-cross binary. Hash-equiv will then not rebuild the target binaries.
+>>> Yes, I pay the price of a gcc-cross rebuild but hashequiv saves the targets
+>>> rebuilding.
+>>>
+>>> Currently it would only happen if you always build gcc-cross in a specific build
+>>> path.
+>>>
+>>
+>> I know the build path will change if I upgrade to a new version of gcc,
+>> but then the output is most definitely gonna change as well.
+>>
+>>> Like everything, it is a question of looking at the changes and deciding whether
+>>> they are worth any maintenance burden/code complication or additional overhead
+>>> they generate. I don't know the answer here yet but I do appreciate the research
+>>> in helping get us data to make decisions on!
+>>>
+>>
+>> I was thinking if it was possible to add a "build-path-does-not-matter"
+>> .bbclass that would make the signatures independent of build path and
+>> then scan the output to make sure it didn't contain any references to
+>> the build path. Then those recipes who didn't depend on build path could
+>> inherit from that class, and then maybe their sstate could be reused
+>> from multiple build directories ? Not sure reliable it would be though..
 > 
+> Another crazy thought is our sstate really is already path independent,
+> regardless of the binary content. You could therefore make the hash function
+> replace the path with a fixed string. The downside is that doesn't work well on
+> binaries due to offsets, alignment and so on.
 > 
-> On 01.12.21 18:20, Quentin Schulz wrote:
-> > Hi Konrad,
-> > 
-> > On Wed, Dec 01, 2021 at 06:04:36PM +0100, Konrad Weihmann wrote:
-> > > I'm kind of following the argumentation in the commit message, still I see
-> > > differences between the Unicode-DFS-2016 template file and the text
-> > > downloadable from https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=
-> > > .
-> > > 
-> > > Not much, but enough to make me think, if we wouldn't instead need a
-> > > Unicode-DFS-2021 file and reference to that.
-> > > 
-> > 
-> > We'd need to upload the new license to spdx and I've absolutely no clue
-> > if the differences are enough to warrant a new SPDX entry... especially
-> > since AFAICT, it's just that some of the content is moved to
-> > copyright.txt (which is linked in the new license.txt) resulting to me
-> > to basically a noop? But me stating it was a match was incorrect, thanks
-> > for pointing this out.
+> As I read the above I was reminded that insane.bbclass does sanity check the
+> output for build paths and does have a configurable control mechanism. It
+> doesn't do that for the populate_sysroot output though since it is for
+> do_package.
 > 
-> Yeah, I'm also not a 100% sure if that's worth all the hustle - maybe
-> someone with a more legal like background could just add her/his two cents,
-> so things could be cleaned up in a followup
-> 
-> > 
-> > > Anyway I fully support that change
-> > > 
-> > > On a different note - I think any unicode license reference would also need
-> > > a copy of https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_copyright.html&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=GCcxTAmd-wOZF6SPpTOHW392veMDM8RBwO_IAMvDbZA&e=
-> > > , as all the downloads point to that (and the license in just a subset of a
-> > > broader scope of rights and regulations) - INAL, but from my limited legal
-> > > understanding we should reference both
-> > > 
-> > 
-> > AFAICT, this looks like it would be Unicode-TOU but it's again not a
-> > perfect match.
-> > 
-> > So /me shrugs, don't know what we should be doing with that except
-> > fixing the warning one way or the other (preferrably the best one :) ).
-> 
-> same here - *calling for lawyers to jump into the discussion* :)
-> 
-> Still I think the patch should be picked as it is, as it clearly solves an
-> issue, that I've seen as well.
-> 
-> > 
-> > Cheers,
-> > Quentin
-> > 
-> > > On 01.12.21 17:13, Quentin Schulz wrote:
-> > > > In addition to not being an SPDX license, Unicode license also isn't
-> > > > available in any of the LICENSE_PATH available in openembedded, meaning
-> > > > the following warning is printed:
-> > > > 
-> > > > python3-idna: No generic license file exists for: Unicode in any provider [license-exists]
-> > > > 
-> > > > Unfortunately the license is not really explicit in the project. After
-> > > > looking at the code, it seems that this license gets pulled by
-> > > > idna/idnadata.py and idna/uts46data.py which are auto-generated by
-> > > > tools/idna-data which downloads data from
-> > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_-257Bversion-257D_ucd_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=NVUVu2hKfeamx4mn_29KhgBwY_drrHGSIiEbbTpoUsk&e=  and
-> > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_idna_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=XmJGToF17xNKllS2M3Zw4q82BF0PBORm7gMWm2E6sgA&e=  which are covered by
-> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=  as mentioned in
-> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_copyright.html&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=GCcxTAmd-wOZF6SPpTOHW392veMDM8RBwO_IAMvDbZA&e= .
-> > > > 
-> > > > Comparing https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=  to Unicode-DFS-2016
-> > > > resulted in a match so let's point to that SPDX license instead.
-> > > > 
-> > > > Cc: Quentin Schulz <foss+yocto@0leil.net>
-> > > > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> > > > ---
-> > > >    meta/recipes-devtools/python/python3-idna_3.3.bb | 7 ++++++-
-> > > >    1 file changed, 6 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
-> > > > index a0e6b79a56..f3c53a8717 100644
-> > > > --- a/meta/recipes-devtools/python/python3-idna_3.3.bb
-> > > > +++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
-> > > > @@ -1,6 +1,11 @@
-> > > >    SUMMARY = "Internationalised Domain Names in Applications"
-> > > >    HOMEPAGE = "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_kjd_idna&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=Nh_apZKGYGza7AOqJ_dDAmZxqmdkIrXfuP_F90MfKI8&e= "
-> > > > -LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
-> > > > +# Note: Unicode license is pulled in by idna/idnadata.py and idna/uts46data.py
-> > > > +# files auto-generated by tools/idna-data which downloads data from
-> > > > +# https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_-257Bversion-257D_ucd_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=NVUVu2hKfeamx4mn_29KhgBwY_drrHGSIiEbbTpoUsk&e=
-> > > > and https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_idna_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=XmJGToF17xNKllS2M3Zw4q82BF0PBORm7gMWm2E6sgA&e=
-> > > > +# which are covered by https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=
-> > > > as mentioned by
-> > > > +# https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_copyright.html&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=GCcxTAmd-wOZF6SPpTOHW392veMDM8RBwO_IAMvDbZA&e=
-> > > > +LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-DFS-2016"
-> > > >    LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
-> > > >    SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > 
-> > > 
-> > > 
-> > > 
-> > 
-> > 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#159052): https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.openembedded.org_g_openembedded-2Dcore_message_159052&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=IjDO634_inh9Zk4sO5-plKSa_dksKdn1z6ZV2sjdhG1NrTNoMI93IvqJ87i0iKnX&s=wBfi3XoBP11dwE47mT0s0R8UQSZCXA4VU4127GsgCFc&e=
-> > Mute This Topic: https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.openembedded.org_mt_87431709_3647476&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=IjDO634_inh9Zk4sO5-plKSa_dksKdn1z6ZV2sjdhG1NrTNoMI93IvqJ87i0iKnX&s=2rzq_sfY8q_1WqaDiRJFk31PLx4a92t2gStbSSkSK5Y&e=
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=IjDO634_inh9Zk4sO5-plKSa_dksKdn1z6ZV2sjdhG1NrTNoMI93IvqJ87i0iKnX&s=kTULOJx-xnSF7ie8Ixh8t6oWWxGOVd79R7oQcs8mh6w&e=  [kweihmann@outlook.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
+> Lots to think about here but you're right that adding some kind of scanner to
+> mark up recipes over time would help us preserve this.
+
+Jacob
 
