@@ -2,126 +2,130 @@ Return-Path: <ranjitsinhrathod1991@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4D6C433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 10:18:47 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web12.6655.1638440326533431583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63AB6C433F5
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 10:19:02 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web09.6459.1638440341773476603
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 02:18:46 -0800
+ Thu, 02 Dec 2021 02:19:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NAuThC3T;
- spf=pass (domain: gmail.com, ip: 209.85.214.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pMTVz9+v;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178,
  mailfrom: ranjitsinhrathod1991@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id b11so19869832pld.12
+Received: by mail-pl1-f178.google.com with SMTP id k4so19872119plx.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 02:18:46 -0800 (PST)
+ Thu, 02 Dec 2021 02:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=Nnr2o831o818hfqbkPp0xvjNK7adPNCNZnf5I5M+Ftg=;
-        b=NAuThC3TA2Sqy8GQOJu5Up1S7tLJKb2LNyZj9G7WO86Gor2j2NB+anxauMi3FNfAjh
-         HTAVmtgstQEnaKbY2LXftPtsXIOkvzTBh59gbRIB+Ehxwc9R7zUVpoE3tVLBuvkTYZGO
-         +d5BkwRnhk+DU1WgKvCFJYWJjkwZ+K4bVfmkDVTNbDU7T00ooVhZL4x61AE4xYzBjTRB
-         q22rH1eyiASTHxudXWOD1eRJNrKNXYiy+lQwJ4vjnff+d3BH4V8GDkROdEd+vKIxKyUs
-         y13ZlLPTtLGcgHj9v7RrWVxAUNXZ+veUUQJYEmNQKPEIWCD/v6SZAA+AYSubmzgsCv+C
-         S75w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=+Z1WXtOyR5O9oCo5nQJgJW27Ug2vOfpA+Ct5yEO5Fug=;
+        b=pMTVz9+vQ8rbjDJ4qlHw7GputCyrR5nQYn2CJ/6ezo+q7Yn09HHmNQrJHVsG0K71hk
+         g2V52BZuAM7Ah2gUICVM68HGfVTNUOKalJTn8sFiDcbUeNTKlFcgmFYis6N4gZezyx6F
+         uGa/YgovvIi98s5zp74M6xPeBRZJtrtprPYtkBXoDL46qpAffDkEZARw8gQ42cYsgTmr
+         Jjn3cts8EOv71jNLwWzARpxuJY/w/d2wDH9LNX6WVFF1DalCcz7fi0davzwIKWpxaxnc
+         /LRqbQAbr+ZVW1TYk2bz0IY1Il0/sEsLIMZG48IxONxBS5COe9J3lg/+F404ub6av5Ha
+         Ua2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Nnr2o831o818hfqbkPp0xvjNK7adPNCNZnf5I5M+Ftg=;
-        b=1jQkeCkRllVq72JBpWXgQ4wgt1M4FOV/+t9uLiX0PDROC7o3mDDqmEipdMZGZBcnCv
-         h3ud9PVFLVpMf1r8as8nLsgPkOuBF3J/Gy7F70TEoip/BXlblW32OZgiNHRng+Wf7kQc
-         Xd4JxuZwsgzNZOsF+OCUKVLRAZe1hEyCNmhOYLUDPNZmkjWqL44iIrNbbBBNbVFIqq5O
-         oZO7lFCc06khL2+PiRLGOUNXqYaAmZ4rZbo5ncfjKJ8QnJrrnDuSNqLGJ/kS+4nSFN/7
-         N/UwoWZnjcwzQC/2DBnz0HuR3CXbDwSgvVyn386I1Nc3riMdYCGhhlQd46C8SzsuyYXN
-         wLkA==
-X-Gm-Message-State: AOAM533rN1o5bJR/ZP/UAQqRKnDMkbsQeo+JBh3JbyM4Y/GErFNNU22W
-	IhGQ5l2pG3ysL3pb1jb+k/aXdgQZgPI=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=+Z1WXtOyR5O9oCo5nQJgJW27Ug2vOfpA+Ct5yEO5Fug=;
+        b=5JfJTapmlOIc3CML+IMhVRbMdT8Wex+N25/WWnkU2fi3F7V9p+LmsGO8ayaVVUICIG
+         vos8s2l0Q4QndGJStayjy2Vez9v5KGh139tHjMz/Inpxk6+ps9/fn6HEzrbNTVEtTn78
+         HItu7VqvZfvCoaAwdhStu3vy+FJ6FhavE7xUVtVlMB96aVT2bgPfvZatAqEMe/vC47HO
+         LalfIXNHdxrw9ssfUudno9lCaf7z9DBN6FHpjy7IGEKPX313YKcI22d3S/Nz87nBV2as
+         Rwa5NpC6xJGaj+EniNHm7fHk26fMhOOhJbAXg1YTYj7VUZWmLk4irKPI+6+FKeVTzw7N
+         TFkA==
+X-Gm-Message-State: AOAM533hIBhycW/9xN9qKxyQTWdUFZlRNNtfEDIY8r+y0m3IDEuoZkLM
+	VaAR8z/ePpgajCnASo/mXov2879eVtQ=
 X-Google-Smtp-Source: 
- ABdhPJyn/8HEU0xETprnf4krUUPib1vmCbKrrRshDDb9k+jjg/i6MWQB51hebgMWMZ1f4ub1IbQpYw==
-X-Received: by 2002:a17:903:24d:b0:143:beb5:b6b1 with SMTP id
- j13-20020a170903024d00b00143beb5b6b1mr14455108plh.54.1638440325751;
-        Thu, 02 Dec 2021 02:18:45 -0800 (PST)
+ ABdhPJwMO8mSz8lCXf8ZqxJqeg+yB/BOiRLARiyy0atA9X/5le2WIs/tTfb1Hyh6D/4VAt/U/Ygb7w==
+X-Received: by 2002:a17:902:b60b:b0:144:e601:de5 with SMTP id
+ b11-20020a170902b60b00b00144e6010de5mr14594905pls.36.1638440341081;
+        Thu, 02 Dec 2021 02:19:01 -0800 (PST)
 Received: from localhost.localdomain ([103.81.94.54])
         by smtp.gmail.com with ESMTPSA id
- 186sm2137258pgf.94.2021.12.02.02.18.44
+ 186sm2137258pgf.94.2021.12.02.02.18.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 02:18:45 -0800 (PST)
+        Thu, 02 Dec 2021 02:19:00 -0800 (PST)
 From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Subject: [meta][dunfell][PATCH 1/3] gmp: Fix for CVE-2021-43618
-Date: Thu,  2 Dec 2021 15:48:02 +0530
-Message-Id: <20211202101804.4697-1-ranjitsinhrathod1991@gmail.com>
+Subject: [meta][dunfell][PATCH 2/3] ncurses: Fix for CVE-2021-39537
+Date: Thu,  2 Dec 2021 15:48:03 +0530
+Message-Id: <20211202101804.4697-2-ranjitsinhrathod1991@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211202101804.4697-1-ranjitsinhrathod1991@gmail.com>
+References: <20211202101804.4697-1-ranjitsinhrathod1991@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 10:18:47 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 10:19:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159079
+ https://lists.openembedded.org/g/openembedded-core/message/159080
 
 From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-Add patch to fix CVE-2021-43618
-Link: https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e
+Add patch to fix CVE-2021-39537
+Link: http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/devel/ncurses/patches/Attic/patch-ncurses_tinfo_captoinfo.c?rev=1.1&content-type=text/x-cvsweb-markup
 
 Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
 ---
- .../gmp/gmp/CVE-2021-43618.patch              | 29 +++++++++++++++++++
- meta/recipes-support/gmp/gmp_6.2.0.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
+ .../ncurses/files/CVE-2021-39537.patch        | 30 +++++++++++++++++++
+ meta/recipes-core/ncurses/ncurses_6.2.bb      |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/CVE-2021-39537.patch
 
-diff --git a/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch b/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
+diff --git a/meta/recipes-core/ncurses/files/CVE-2021-39537.patch b/meta/recipes-core/ncurses/files/CVE-2021-39537.patch
 new file mode 100644
-index 0000000000..0323a45c27
+index 0000000000..7655200350
 --- /dev/null
-+++ b/meta/recipes-support/gmp/gmp/CVE-2021-43618.patch
-@@ -0,0 +1,29 @@
++++ b/meta/recipes-core/ncurses/files/CVE-2021-39537.patch
+@@ -0,0 +1,30 @@
++$NetBSD: patch-ncurses_tinfo_captoinfo.c,v 1.1 2021/10/09 07:52:36 wiz Exp $
 +
-+# HG changeset patch
-+# User Marco Bodrato <bodrato@mail.dm.unipi.it>
-+# Date 1634836009 -7200
-+# Node ID 561a9c25298e17bb01896801ff353546c6923dbd
-+# Parent  e1fd9db13b475209a864577237ea4b9105b3e96e
-+mpz/inp_raw.c: Avoid bit size overflows
++Fix for CVE-2021-39537 from upstream:
++https://github.com/ThomasDickey/ncurses-snapshots/commit/63ca9e061f4644795d6f3f559557f3e1ed8c738b#diff-7e95c7bc5f213e9be438e69a9d5d0f261a14952bcbd692f7b9014217b8047340
 +
-+CVE: CVE-2021-43618
-+Upstream-Status: Backport [https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e]
++CVE: CVE-2021-39537
++Upstream-Status: Backport [http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/devel/ncurses/patches/Attic/patch-ncurses_tinfo_captoinfo.c?rev=1.1&content-type=text/x-cvsweb-markup]
 +Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 +
-+diff -r e1fd9db13b47 -r 561a9c25298e mpz/inp_raw.c
-+--- a/mpz/inp_raw.c	Tue Dec 22 23:49:51 2020 +0100
-++++ b/mpz/inp_raw.c	Thu Oct 21 19:06:49 2021 +0200
-+@@ -88,8 +88,11 @@
-+ 
-+   abs_csize = ABS (csize);
-+ 
-++  if (UNLIKELY (abs_csize > ~(mp_bitcnt_t) 0 / 8))
-++    return 0; /* Bit size overflows */
-++
-+   /* round up to a multiple of limbs */
-+-  abs_xsize = BITS_TO_LIMBS (abs_csize*8);
-++  abs_xsize = BITS_TO_LIMBS ((mp_bitcnt_t) abs_csize * 8);
-+ 
-+   if (abs_xsize != 0)
-+     {
-+
-diff --git a/meta/recipes-support/gmp/gmp_6.2.0.bb b/meta/recipes-support/gmp/gmp_6.2.0.bb
-index a19c74fca8..bd88aa95ef 100644
---- a/meta/recipes-support/gmp/gmp_6.2.0.bb
-+++ b/meta/recipes-support/gmp/gmp_6.2.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://use-includedir.patch \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
-+           file://CVE-2021-43618.patch \
++--- a/ncurses/tinfo/captoinfo.c 2020-02-02 23:34:34.000000000 +0000
+++++ b/ncurses/tinfo/captoinfo.c
++@@ -216,12 +216,15 @@ cvtchar(register const char *sp)
++ 	}
++ 	break;
++     case '^':
+++	len = 2;
++ 	c = UChar(*++sp);
++-	if (c == '?')
+++        if (c == '?') {
++ 	    c = 127;
++-	else
+++        } else if (c == '\0') {
+++            len = 1;
+++        } else {
++ 	    c &= 0x1f;
++-	len = 2;
+++	}
++ 	break;
++     default:
++ 	c = UChar(*sp);
+diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
+index 76f0cf97f4..700464f70b 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.2.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
+@@ -3,6 +3,7 @@ require ncurses.inc
+ SRC_URI += "file://0001-tic-hang.patch \
+            file://0002-configure-reproducible.patch \
+            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
++           file://CVE-2021-39537.patch \
             "
- SRC_URI[md5sum] = "c24161e0dd44cae78cd5f67193492a21"
- SRC_URI[sha256sum] = "f51c99cb114deb21a60075ffb494c1a210eb9d7cb729ed042ddb7de9534451ea"
+ # commit id corresponds to the revision in package version
+ SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
 -- 
 2.17.1
 
