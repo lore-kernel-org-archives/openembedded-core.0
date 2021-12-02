@@ -2,106 +2,95 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3D6C433F5
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 22:05:28 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.3743.1638482726680316313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F93C433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 22:06:19 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.3754.1638482778164035104
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 14:05:27 -0800
+ Thu, 02 Dec 2021 14:06:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fkc/qW8i;
- spf=pass (domain: gmail.com, ip: 209.85.221.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g52FueBF;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id s13so1682778wrb.3
+Received: by mail-wr1-f50.google.com with SMTP id a18so1644582wrn.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 14:05:26 -0800 (PST)
+ Thu, 02 Dec 2021 14:06:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6kX5Rf2p5YjlcOT19aACZM3d86ohHFfk0Fe89FTsn/g=;
-        b=Fkc/qW8iN9/YflU/TZ/GFmkx3DBg1Z5z08brqJYipShkFGHN56HMMZDaauBkIz1nwF
-         AWFtbx0wKWMoPVpeihIHUHpW5+bo/owzaLhknrx5xWanjrBnz2Sw1MpPjN17qYNgMTMu
-         wbA3UoqGr6jLzz6dGKWbzQtBpfx3mHpxcIXk0LRxqWt4upDBEWv0KhdyjHRftuzIVySY
-         QZ3c0cAvBzYOzCEPxOgtl81QDPygpOMKpgeUH5tcy8y61gpQIETvcBC1gW3UWVTpT17x
-         NhnkHqfLR2F07OL+SsO+gFmj/tr9ccUThSiKPSdIb9PJ5QKo1tKPvJi+lPXF+A1qLg1Y
-         +FhQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YBzX2P09L6cgCi4kIrrWcxBsOsOW3oZ1Fi6t0Bs5mtQ=;
+        b=g52FueBFuWYZ/ujnvQy+iBxuBIUSCdwpfoEdSOqJnqUln9P2o064IjiY4V8mOr+/4f
+         n5plLNKjxf9VzPlx5y3zIdTqXkbT+xDFaP8lAlG/3c0/d9CImd9AGSegVXXMmxZryEoc
+         r+YCujegRayz0uopapb6pVxgiI1tay0XYm0u8+V1eug732bKj069yKbg5Lm/x3TlpATg
+         xckXkI2NlMTEbsjfFVIOfUm5ensnxc3q4rgw/Z2Du/pEkc8XO313YKbbYyEHOhOpE2w1
+         8KzMQxRu+ivwVM8AD7YXlv4kav/v5K44lDuU05t3VC9bKOwMe7WeTxMLBk3KfY0l3LRZ
+         7w/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6kX5Rf2p5YjlcOT19aACZM3d86ohHFfk0Fe89FTsn/g=;
-        b=4jok0WpLmcZ/QQmydT7nZtyT04e1zX9V4JCMWxmvMFer06wvM3hbNn1jHLwClBLrsK
-         C/OTwGYeNZV6RhidTBzt97V0zJ/8ZW3GgqAwwV4TK3V7u2GjNTFG3CxrayFaGbrNXw6l
-         FKqJKberwDOo5yVLW6EF59VbU3nNXNY4+ORa9sFEWFpDgqeEq366mTfbJIH9veEaOviX
-         DUp7zBInuDcs9O863BMEh8rgo9lVlYYV/xeCEKn8yOlMv2rLxjXuxeuI54dNyWi8Xin+
-         XWKZPFoBxglZ15H5LAkeX4KbNeHMosn6oPLW4FW2AzpvG+W9cAOy7lbeNHQ3SZ4VDRCM
-         fy7Q==
-X-Gm-Message-State: AOAM531uQZvv620K9NcYJxGxjcg4/U6tPttEAlOQHTgrMNuYx8QayfRJ
-	N4JmFXS6DfcUuxNyDpwMTEUokxPlpzU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YBzX2P09L6cgCi4kIrrWcxBsOsOW3oZ1Fi6t0Bs5mtQ=;
+        b=8GQqbJ9ZeItTpK5tWaYpXTDHezPVdqIJGd4Fj6YGTOb0aXCeNQQCH9xksiZGmzCx3w
+         eQVr/3ah8ifEygYWrPB1IHbK0Sty7lufaT1MRT6gRytei5LfLW9Knch9ttK9vHJNty/h
+         d3yyRScNCq/wM+t/fEna4RZmPfys37zi2hdR2tiKZwB9D2C9W69kMkiBxvWdHU8uDvJI
+         oX2UcDCBn6gbK31rG71uveYiabdJ7amnUaWsp87YTbpCqFhtJcufyTP4qOwweAbV39VW
+         tBau1n8tlAhBczya7/fgG9dB6quQB1GjOPI56Jea91RAC4LGyH2i1/NrajfgCxp28nOK
+         7Sng==
+X-Gm-Message-State: AOAM533ylcSliweHDYkVCbr64wIwAdi9ZwyKB+1awz8KDxT7f/igwpor
+	7qF5nEqyTNq9MjOqE51puxcpMtoe0uc=
 X-Google-Smtp-Source: 
- ABdhPJx5fIuzJhpx4Z5JtEY2IwUrSslH07ZrP/+uE5bLTpUp9dgLm3ClyFDGJwHzt/kO0LDgngMoow==
-X-Received: by 2002:a5d:6449:: with SMTP id d9mr17422442wrw.332.1638482724937;
-        Thu, 02 Dec 2021 14:05:24 -0800 (PST)
+ ABdhPJxVf9fiNYxH7D5+3YLmyO/wsirLgRC9XRTxeIr9werMYts/nytZczvGQowMmrnOfgf5P93oRA==
+X-Received: by 2002:a5d:4ecd:: with SMTP id
+ s13mr16887258wrv.400.1638482776301;
+        Thu, 02 Dec 2021 14:06:16 -0800 (PST)
 Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- a10sm3389764wmq.27.2021.12.02.14.05.24
+ i15sm3872863wmq.18.2021.12.02.14.06.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 14:05:24 -0800 (PST)
+        Thu, 02 Dec 2021 14:06:15 -0800 (PST)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 2/2] sstate: use nproc for tasklist size on mirrors
-Date: Thu,  2 Dec 2021 22:05:17 +0000
-Message-Id: <20211202220517.2106590-2-quaresma.jose@gmail.com>
+Subject: [PATCH] glslang: upgrade 11.7.0 -> 11.7.1
+Date: Thu,  2 Dec 2021 22:06:09 +0000
+Message-Id: <20211202220609.2106991-1-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211202220517.2106590-1-quaresma.jose@gmail.com>
-References: <20211202220517.2106590-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 22:05:28 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 22:06:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159107
+ https://lists.openembedded.org/g/openembedded-core/message/159108
+
+changelog:
+1f8c8b88 Revert port of GL_EXT_shader_realtime_clock to GL_EXT_spirv_intrinsics
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/classes/sstate.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../glslang/{glslang_11.7.0.bb => glslang_11.7.1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/glslang/{glslang_11.7.0.bb => glslang_11.7.1.bb} (95%)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 5e404d7cd8..9efd334a59 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -997,7 +997,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                 bb.error("SState: cannot test %s: %s" % (srcuri, e))
+diff --git a/meta/recipes-graphics/glslang/glslang_11.7.0.bb b/meta/recipes-graphics/glslang/glslang_11.7.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/glslang/glslang_11.7.0.bb
+rename to meta/recipes-graphics/glslang/glslang_11.7.1.bb
+index 0b4bf21bca..30d9954ea5 100644
+--- a/meta/recipes-graphics/glslang/glslang_11.7.0.bb
++++ b/meta/recipes-graphics/glslang/glslang_11.7.1.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
  
-             if progress:
--                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
-+                bb.event.fire(bb.event.ProcessProgress(msg, nproc - thread_worker.tasks.qsize()), d)
- 
-         tasklist = []
-         for tid in missed:
-@@ -1007,13 +1007,13 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         if tasklist:
-             nproc = len(tasklist)
- 
--            progress = len(tasklist) >= 100
-+            progress = nproc >= 100
-             if progress:
-                 msg = "Checking sstate mirror object availability"
--                bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
-+                bb.event.fire(bb.event.ProcessStarted(msg, nproc), d)
- 
-             bb.event.enable_threadlock()
--            pool = oe.utils.ThreadedPool(nproc, len(tasklist),
-+            pool = oe.utils.ThreadedPool(nproc, nproc,
-                     worker_init=checkstatus_init, worker_end=checkstatus_end,
-                     name="sstate_checkhashes-")
-             for t in tasklist:
+-SRCREV = "925503088e2bcd76921b1e102c37fc320bace254"
++SRCREV = "c9706bdda0ac22b9856f1aa8261e5b9e15cd20c5"
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=master \
+            file://0001-generate-glslang-pkg-config.patch"
+ UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
 -- 
 2.34.1
 
