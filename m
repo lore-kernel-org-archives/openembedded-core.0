@@ -1,82 +1,90 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0934C433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 17:17:14 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.11433.1638465428715963056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED608C433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 17:28:45 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web12.75.1638466125214953030
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 09:17:08 -0800
+ Thu, 02 Dec 2021 09:28:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F668142F
-	for <openembedded-core@lists.openembedded.org>;
- Thu,  2 Dec 2021 09:17:08 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 095C63F73B
-	for <openembedded-core@lists.openembedded.org>;
- Thu,  2 Dec 2021 09:17:07 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eu4DLT9m;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id s137so417159pgs.5
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 02 Dec 2021 09:28:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rpg5gp0U8iJ6/D8m+XaPjtn2wI8+cA8xFv1V78lFKoc=;
+        b=eu4DLT9mFdPNo/n1zcgVuePpSX6Jnw3UmzEDFsccxEfhKUgS2RwOrkGf9cRqT/UPb3
+         zLSrifL+fHzAn0LRfgP+cNYMQNtLgVIfqkmpzaSPqn13oYwDdep+Z2C025k3T1Mlk9XE
+         EhIw0vs7WX/ljTGmgVlMdauj7Cg61Rs3gFU6rUW12CGCUnKxAVCI8DWVDZfBEbhJ/Eup
+         c4GiHsMb8/PhjgWbdAwTK+I1arZ/MGJakReGkaRceMp0UJouPZy9jHjokEosq0STHBq4
+         iIRRsCJx5+U5qggDESuePQNu3m3zt6iBpy4gVAVxU0XV9TC46IJZeyaj2Xzs9bxmgCKl
+         /XtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rpg5gp0U8iJ6/D8m+XaPjtn2wI8+cA8xFv1V78lFKoc=;
+        b=LxtThDCcDPYNlTHQ3ToPVq4IywjUa2QkYCPD3HA4fOZfspp6Y7kXBgjXA3lVCsq8dl
+         A6CULNMPuz0dLkcS0UbUVO8/IHSIncyySUiPWDfkyz7x83TLJSfgxXfIZxE0LMS2+JB2
+         hKyXGujAzMwpJgsZSmHJmBw/GcKxVukeEY+jbUkUaZ2qO4z9ZzVeCck+9+I4ofK8D4pD
+         Fu3RYQllTCF8xqy3lV884XtuT7nbtsS8hmjTkXtq7cgZCCNSUt+OiX2QbeRoGOZX1X4X
+         87eEbAAPnKlnyyfvI8AlDzWcNbzNpZmeEN/FxncSfdcdbWuf9jxNV8bWj+f2Cb9m7aVV
+         Rzcw==
+X-Gm-Message-State: AOAM530g46FtkfXbm4vn5BO1jbJxNM6MX3PIgJKQBE5NoqeACsKQ0Nxs
+	+IJvgwFSbPF/e905U+Y94b7/hqhjfnyiaA==
+X-Google-Smtp-Source: 
+ ABdhPJzn2kmnXCOp12Cz987aFNbCe9Yrl7qRNckpx9JAcv2fWsYa2gULJt++Rx41rg8I3Kay7kA55A==
+X-Received: by 2002:a63:d117:: with SMTP id k23mr397877pgg.287.1638466124550;
+        Thu, 02 Dec 2021 09:28:44 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
+        by smtp.gmail.com with ESMTPSA id
+ l1sm3010650pjh.28.2021.12.02.09.28.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 09:28:44 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] distutils3: fix bindir mangling to stop breaking symlinks
-Date: Thu,  2 Dec 2021 17:17:06 +0000
-Message-Id: <20211202171706.2259724-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libunwind: Enable for rv64
+Date: Thu,  2 Dec 2021 09:28:41 -0800
+Message-Id: <20211202172841.29931-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 17:17:14 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 17:28:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159096
+ https://lists.openembedded.org/g/openembedded-core/message/159097
 
-distutils3_do_install wants to sed out build directory references from
-all binaries in ${bindir} and ${sbindir}. It tries to avoid touching
-symlinks by doing 'test -f' on the files as it iterates, but test always
-dereferences symlinks so this will touch both real files and symlinks to
-real files.
+1.6.0+ has rv64 supports now.
 
-The end result of this is that recipes which ship a script /usr/bin/foo
-and a symlink /usr/bin/bar -> foo, bar will be replaced with a real file
-which is a duplicate of foo, wasting disk space.
-
-Replace the loop with a find loop which can look at the real file type,
-not the target type.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/distutils3.bbclass | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ meta/recipes-support/libunwind/libunwind_1.6.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bb=
-class
-index be645d37bd..0973d304f4 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -43,11 +43,9 @@ distutils3_do_install() {
-         find ${D} -name "*.py" -exec grep -q ${D} {} \; \
-                                -exec sed -i -e s:${D}::g {} \;
-=20
--        for i in ${D}${bindir}/* ${D}${sbindir}/*; do
--            if [ -f "$i" ]; then
--                sed -i -e s:${PYTHON}:${USRBINPATH}/env\ ${DISTUTILS_PYT=
-HON}:g $i
--                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
--            fi
-+        for bin in $(find ${D}${bindir} ${D}${sbindir} -type f -maxdepth=
- 1); do
-+            sed -i -e s:${PYTHON}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}=
-:g $bin
-+            sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $bin
-         done
-=20
-         rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
---=20
-2.25.1
+diff --git a/meta/recipes-support/libunwind/libunwind_1.6.0.bb b/meta/recipes-support/libunwind/libunwind_1.6.0.bb
+index 81b364fc5ef..91189fdb71c 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.6.0.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.6.0.bb
+@@ -16,7 +16,6 @@ EXTRA_OECONF:append:libc-musl = " --disable-documentation --disable-tests --enab
+ ARM_INSTRUCTION_SET:armv4 = "arm"
+ ARM_INSTRUCTION_SET:armv5 = "arm"
+ 
+-COMPATIBLE_HOST:riscv64 = "null"
+ COMPATIBLE_HOST:riscv32 = "null"
+ 
+ LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
+-- 
+2.34.1
 
 
