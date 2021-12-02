@@ -1,295 +1,161 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 807BDC433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 07:38:51 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web09.5411.1638430730432518272
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF61C433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 07:56:35 +0000 (UTC)
+Received: from forward108p.mail.yandex.net (forward108p.mail.yandex.net
+ [77.88.28.116])
+ by mx.groups.io with SMTP id smtpd.web12.5669.1638431789550088525
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 23:38:50 -0800
+ Wed, 01 Dec 2021 23:56:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GcZYFPCO;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id u17so19588964plg.9
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Dec 2021 23:38:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TnXkFaytHQaaQxzAg1mAS9ZbzGbQ7M1aqpSVFnknO5A=;
-        b=GcZYFPCObUEGxbz7LdQ+B4NUvVm5EGcbiWknLFwbI+1OjFposSFyBVx2J14LmiGdLu
-         WupW7LRMP5YzvxAfK4brwy3Hb5P8rkfcI5N3ebF/ChYA9mRrHG2iTa35VUipCnVxOKUl
-         zpAEyaXG0wnzupF18aSt9PZXlk+l3SPjNpJgFi1+aZhidgugT4ZeI61UZCRxSnlhNMTY
-         x/xcx2zka8EncItPCquVy1MNSNXk8oOqUMLxJey8P5b3Xi4GEAumOaVwabQ+VST/qMep
-         7kKnuvd3xTly6mfKygJ4dDwQjFLDPj/vboZW4n8xstOHioFiNywDVEowIJwotn5r0nai
-         U5RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TnXkFaytHQaaQxzAg1mAS9ZbzGbQ7M1aqpSVFnknO5A=;
-        b=MU7VTrMvPWyA8v3RGQoroMjR07WVmJ0Ha/nZI4ZQGdEqr74VGMgJUyjiRTPbbxBmtg
-         lHS8z9aQM1uemyZG4eeezj+mKA+LxDGlz2HFtMGtSdL1qKcIMfX3nF8cMunBjcsAvaGa
-         QAFGM1ruGz8mgGgfF5WFQ5tD2Z+YMJ5gpz0PYsZa9NPhCkN9qUicxl8j/PAZu9GskmCP
-         pouSJpWAUlikUYMuaY1O1SAXxl7+yO7v7ROmoAawlmaAXEbFPmiLKvEeF4EFXyoWOx7t
-         celmSat611xgEnnr8HWFQ6p6RhvVKPWssXQq1YnTPxHkTfOKKnN3Uzm2s5ilHCSHO2XW
-         bUow==
-X-Gm-Message-State: AOAM530JO8Fxq1kfnlfR0Qgsj3AvSk5uRR9i4aPGtDq6ZYt618uLhsxW
-	5E8tHGoXjFd7b489zOc8SowwJ5dbjYW1ew==
-X-Google-Smtp-Source: 
- ABdhPJwX4mlcRvo5MafrxS9gcGIUhCqZfLUo0YqwdzbZOIkRxPqvV1vmQmMMq/Kkr9v4BfIBTV4xew==
-X-Received: by 2002:a17:902:b110:b0:142:7621:aecb with SMTP id
- q16-20020a170902b11000b001427621aecbmr13502674plr.55.1638430729466;
-        Wed, 01 Dec 2021 23:38:49 -0800 (PST)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id
- lt5sm1589764pjb.43.2021.12.01.23.38.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 23:38:49 -0800 (PST)
-From: pgowda <pgowda.cve@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
+ header.s=mail header.b=bvE0l6xL;
+ spf=pass (domain: zhukoff.net, ip: 77.88.28.116, mailfrom: pavel@zhukoff.net)
+Received: from iva4-d8b0e1d849e5.qloud-c.yandex.net
+ (iva4-d8b0e1d849e5.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:825:0:640:d8b0:e1d8])
+	by forward108p.mail.yandex.net (Yandex) with ESMTP id 24E98267C4D0;
+	Thu,  2 Dec 2021 10:56:20 +0300 (MSK)
+Received: from iva5-057a0d1fbbd8.qloud-c.yandex.net
+ (iva5-057a0d1fbbd8.qloud-c.yandex.net [2a02:6b8:c0c:7f1c:0:640:57a:d1f])
+	by iva4-d8b0e1d849e5.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ fibDwoSMrG-uJd4xiOl;
+	Thu, 02 Dec 2021 10:56:19 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
+ t=1638431780;
+	bh=CvI8YECtydBlTovs1IcxM5NE2yncTqzYagb4jMayzXk=;
+	h=In-Reply-To:References:Date:Subject:To:From:Message-Id:Cc;
+	b=bvE0l6xLv6HgdrZ/4F9jSVskYDGgAmwMBy/UZHaKD8zUwVcsXtd3jHps+HW5KN4oj
+	 NswXGsAJqrZgPuIrpxU4G+5cExVVd6aaQJoL2K4HHzkc94dobIER4pQpqgE1M4aAVW
+	 BlRr3Kexw+vyvhdck5ko9JF+SoCtP3WUmnU5H8PI=
+Authentication-Results: iva4-d8b0e1d849e5.qloud-c.yandex.net;
+ dkim=pass header.i=@zhukoff.net
+Received: by iva5-057a0d1fbbd8.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id OG4DsQY0fE-uIPW5RNA;
+	Thu, 02 Dec 2021 10:56:18 +0300
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client certificate not present)
+X-Yandex-Fwd: 2
+From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com,
-	richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	pgowda <pgowda.cve@gmail.com>
-Subject: [hardknott][PATCH] glibc: Backport fix for CVE-2021-43396
-Date: Wed,  1 Dec 2021 23:38:45 -0800
-Message-Id: <20211202073845.150820-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Cc: Pavel Zhukov <pavel.zhukov@huawei.com>,
+	pavel@zhukoff.net
+Subject: [OE-core][PATCH v5] patch.py: Initialize git repo before patching
+Date: Thu,  2 Dec 2021 08:56:04 +0100
+Message-Id: <20211202075604.16318-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.34.0
+In-Reply-To: 
+ <fb26eb6ccf73ad93d1a9cd49ca27210f57e24b6b.camel@linuxfoundation.org>
+References: 
+ <fb26eb6ccf73ad93d1a9cd49ca27210f57e24b6b.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 07:38:51 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 07:56:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159074
+ https://lists.openembedded.org/g/openembedded-core/message/159075
 
-Backport the fix for CVE-2021-43396. It is disputed that this is a
-security issue.
+From: Pavel Zhukov <pavel.zhukov@huawei.com>
 
-(From OE-Core rev: e8de9b01c6b305b2498c5f942397a49ae2af0cde)
+If PATCHTOOL=3D"git" has been specified but workdir is not git repo
+bitbake fails to apply the patches with error message:
+Command Error: 'git rev-parse --show-toplevel' exited with 0  Output:
+fatal: not a git repository (or any of the parent directories): .git
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
+Fix this by initializing the repo before patching.
+This allows binary git patches to be applied.
+
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
 ---
- .../glibc/glibc/0031-CVE-2021-43396.patch     | 188 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |   1 +
- 2 files changed, 189 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
+ meta/lib/oe/patch.py                    | 16 +++++++++++++++-
+ meta/lib/oeqa/selftest/cases/bbtests.py | 15 +++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch b/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
-new file mode 100644
-index 0000000000..179b0c559d
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
-@@ -0,0 +1,188 @@
-+From ff012870b2c02a62598c04daa1e54632e020fd7d Mon Sep 17 00:00:00 2001
-+From: Nikita Popov <npv1310@gmail.com>
-+Date: Tue, 2 Nov 2021 13:21:42 +0500
-+Subject: [PATCH] gconv: Do not emit spurious NUL character in ISO-2022-JP-3
-+ (bug 28524)
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index fccbedb519..950fe723dc 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -4,6 +4,7 @@
+=20
+ import oe.path
+ import oe.types
++import subprocess
+=20
+ class NotFoundError(bb.BBHandledException):
+     def __init__(self, path):
+@@ -25,7 +26,6 @@ class CmdError(bb.BBHandledException):
+=20
+ def runcmd(args, dir =3D None):
+     import pipes
+-    import subprocess
+=20
+     if dir:
+         olddir =3D os.path.abspath(os.curdir)
+@@ -56,6 +56,7 @@ def runcmd(args, dir =3D None):
+         if dir:
+             os.chdir(olddir)
+=20
 +
-+Bugfix 27256 has introduced another issue:
-+In conversion from ISO-2022-JP-3 encoding, it is possible
-+to force iconv to emit extra NUL character on internal state reset.
-+To do this, it is sufficient to feed iconv with escape sequence
-+which switches active character set.
-+The simplified check 'data->__statep->__count != ASCII_set'
-+introduced by the aforementioned bugfix picks that case and
-+behaves as if '\0' character has been queued thus emitting it.
+ class PatchError(Exception):
+     def __init__(self, msg):
+         self.msg =3D msg
+@@ -298,6 +299,19 @@ class GitApplyTree(PatchTree):
+         PatchTree.__init__(self, dir, d)
+         self.commituser =3D d.getVar('PATCH_GIT_USER_NAME')
+         self.commitemail =3D d.getVar('PATCH_GIT_USER_EMAIL')
++        if not self._isInitialized():
++            self._initRepo()
 +
-+To eliminate this issue, these steps are taken:
-+* Restore original condition
-+'(data->__statep->__count & ~7) != ASCII_set'.
-+It is necessary since bits 0-2 may contain
-+number of buffered input characters.
-+* Check that queued character is not NUL.
-+Similar step is taken for main conversion loop.
++    def _isInitialized(self):
++        cmd =3D "git rev-parse --show-toplevel"
++        (status, output) =3D subprocess.getstatusoutput(cmd.split())
++        ## Make sure repo is in builddir to not break top-level git repo=
+s
++        return status =3D=3D 0 and os.path.samedir(output, self.dir)
 +
-+Bundled test case follows following logic:
-+* Try to convert ISO-2022-JP-3 escape sequence
-+switching active character set
-+* Reset internal state by providing NULL as input buffer
-+* Ensure that nothing has been converted.
++    def _initRepo(self):
++        runcmd("git init".split(), self.dir)
++        runcmd("git add .".split(), self.dir)
++        runcmd("git commit -a --allow-empty -m Patching_started".split()=
+, self.dir)
+=20
+     @staticmethod
+     def extractPatchHeader(patchfile):
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/self=
+test/cases/bbtests.py
+index 6779e62103..a74576bc02 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -297,3 +297,18 @@ INHERIT:remove =3D \"report-error\"
+=20
+         test_recipe_summary_after =3D get_bb_var('SUMMARY', test_recipe)
+         self.assertEqual(expected_recipe_summary, test_recipe_summary_af=
+ter)
 +
-+Signed-off-by: Nikita Popov <npv1310@gmail.com>
-+
-+CVE: CVE-2021-43396
-+Upstream-Status: Backport [ff012870b2c02a62598c04daa1e54632e020fd7d]
-+---
-+ iconvdata/Makefile        |  5 +++-
-+ iconvdata/bug-iconv15.c   | 60 +++++++++++++++++++++++++++++++++++++++
-+ iconvdata/iso-2022-jp-3.c | 28 ++++++++++++------
-+ 3 files changed, 84 insertions(+), 9 deletions(-)
-+ create mode 100644 iconvdata/bug-iconv15.c
-+
-+diff --git a/iconvdata/Makefile b/iconvdata/Makefile
-+index c216f959df..d5507a048c 100644
-+--- a/iconvdata/Makefile
-++++ b/iconvdata/Makefile
-+@@ -1,4 +1,5 @@
-+ # Copyright (C) 1997-2021 Free Software Foundation, Inc.
-++# Copyright (C) The GNU Toolchain Authors.
-+ # This file is part of the GNU C Library.
-+ 
-+ # The GNU C Library is free software; you can redistribute it and/or
-+@@ -74,7 +75,7 @@ ifeq (yes,$(build-shared))
-+ tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
-+ 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
-+ 	bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
-+-	bug-iconv13 bug-iconv14
-++	bug-iconv13 bug-iconv14 bug-iconv15
-+ ifeq ($(have-thread-library),yes)
-+ tests += bug-iconv3
-+ endif
-+@@ -327,6 +328,8 @@ $(objpfx)bug-iconv12.out: $(addprefix $(objpfx), $(gconv-modules)) \
-+ 			  $(addprefix $(objpfx),$(modules.so))
-+ $(objpfx)bug-iconv14.out: $(addprefix $(objpfx), $(gconv-modules)) \
-+ 			  $(addprefix $(objpfx),$(modules.so))
-++$(objpfx)bug-iconv15.out: $(addprefix $(objpfx), $(gconv-modules)) \
-++			  $(addprefix $(objpfx),$(modules.so))
-+ 
-+ $(objpfx)iconv-test.out: run-iconv-test.sh \
-+ 			 $(addprefix $(objpfx), $(gconv-modules)) \
-+diff --git a/iconvdata/bug-iconv15.c b/iconvdata/bug-iconv15.c
-+new file mode 100644
-+index 0000000000..cc04bd0313
-+--- /dev/null
-++++ b/iconvdata/bug-iconv15.c
-+@@ -0,0 +1,60 @@
-++/* Bug 28524: Conversion from ISO-2022-JP-3 with iconv
-++   may emit spurious NUL character on state reset.
-++   Copyright (C) The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <stddef.h>
-++#include <iconv.h>
-++#include <support/check.h>
-++
-++static int
-++do_test (void)
-++{
-++  char in[] = "\x1b(I";
-++  char *inbuf = in;
-++  size_t inleft = sizeof (in) - 1;
-++  char out[1];
-++  char *outbuf = out;
-++  size_t outleft = sizeof (out);
-++  iconv_t cd;
-++
-++  cd = iconv_open ("UTF8", "ISO-2022-JP-3");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++
-++  /* First call to iconv should alter internal state.
-++     Now, JISX0201_Kana_set is selected and
-++     state value != ASCII_set.  */
-++  TEST_VERIFY (iconv (cd, &inbuf, &inleft, &outbuf, &outleft) != (size_t) -1);
-++
-++  /* No bytes should have been added to
-++     the output buffer at this point.  */
-++  TEST_VERIFY (outbuf == out);
-++  TEST_VERIFY (outleft == sizeof (out));
-++
-++  /* Second call shall emit spurious NUL character in unpatched glibc.  */
-++  TEST_VERIFY (iconv (cd, NULL, NULL, &outbuf, &outleft) != (size_t) -1);
-++
-++  /* No characters are expected to be produced.  */
-++  TEST_VERIFY (outbuf == out);
-++  TEST_VERIFY (outleft == sizeof (out));
-++
-++  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/iconvdata/iso-2022-jp-3.c b/iconvdata/iso-2022-jp-3.c
-+index 70b28ace7f..d724126545 100644
-+--- a/iconvdata/iso-2022-jp-3.c
-++++ b/iconvdata/iso-2022-jp-3.c
-+@@ -1,5 +1,6 @@
-+ /* Conversion module for ISO-2022-JP-3.
-+    Copyright (C) 1998-2021 Free Software Foundation, Inc.
-++   Copyright (C) The GNU Toolchain Authors.
-+    This file is part of the GNU C Library.
-+ 
-+    The GNU C Library is free software; you can redistribute it and/or
-+@@ -79,20 +80,31 @@ enum
-+    the output state to the initial state.  This has to be done during the
-+    flushing.  */
-+ #define EMIT_SHIFT_TO_INIT \
-+-  if (data->__statep->__count != ASCII_set)			      \
-++  if ((data->__statep->__count & ~7) != ASCII_set)			      \
-+     {									      \
-+       if (FROM_DIRECTION)						      \
-+ 	{								      \
-+-	  if (__glibc_likely (outbuf + 4 <= outend))			      \
-++	  uint32_t ch = data->__statep->__count >> 6;			      \
-++									      \
-++	  if (__glibc_unlikely (ch != 0))				      \
-+ 	    {								      \
-+-	      /* Write out the last character.  */			      \
-+-	      *((uint32_t *) outbuf) = data->__statep->__count >> 6;	      \
-+-	      outbuf += sizeof (uint32_t);				      \
-+-	      data->__statep->__count = ASCII_set;			\
-++	      if (__glibc_likely (outbuf + 4 <= outend))		      \
-++		{							      \
-++		  /* Write out the last character.  */			      \
-++		  put32u (outbuf, ch);					      \
-++		  outbuf += 4;						      \
-++		  data->__statep->__count &= 7;				      \
-++		  data->__statep->__count |= ASCII_set;			      \
-++		}							      \
-++	      else							      \
-++		/* We don't have enough room in the output buffer.  */	      \
-++		status = __GCONV_FULL_OUTPUT;				      \
-+ 	    }								      \
-+ 	  else								      \
-+-	    /* We don't have enough room in the output buffer.  */	      \
-+-	    status = __GCONV_FULL_OUTPUT;				      \
-++	    {								      \
-++	      data->__statep->__count &= 7;				      \
-++	      data->__statep->__count |= ASCII_set;			      \
-++	    }								      \
-+ 	}								      \
-+       else								      \
-+ 	{								      \
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index ad5e2b8eb1..38b8a8b065 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -56,6 +56,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
-            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
-            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-+           file://0031-CVE-2021-43396.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.31.1
++    def test_git_patchtool(self):
++        """ PATCHTOOL=3Dgit should work with non-git sources like tarbal=
+ls
++            test recipe for the test must NOT containt git:// repository=
+ in SRC_URI
++        """
++        test_recipe =3D "man-db"
++        self.write_recipeinc(test_recipe, 'PATCHTOOL=3D\"git\"')
++        src =3D get_bb_var("SRC_URI",test_recipe)
++        gitscm =3D re.search("git://", src)
++        self.assertFalse(gitscm, "test_git_patchtool pre-condition faile=
+d: {} test recipe contains git repo!".format(test_recipe))
++        result =3D bitbake('man-db -c patch', ignore_status=3DFalse)
++        fatal =3D re.search("fatal: not a git repository (or any of the =
+parent directories)", result.output)
++        self.assertFalse(fatal, "Failed to patch using PATCHTOOL=3D\"git=
+\"")
++        self.delete_recipeinc(test_recipe)
++        bitbake('-cclean man-db')
+--=20
+2.34.0
 
 
