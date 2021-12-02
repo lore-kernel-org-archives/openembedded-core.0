@@ -1,91 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FC2C433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 17:31:41 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web08.129.1638466298475471233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BEAC433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 19:45:31 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web11.1869.1638474330391801495
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 09:31:38 -0800
+ Thu, 02 Dec 2021 11:45:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pV5yFf0w;
- spf=pass (domain: gmail.com, ip: 209.85.214.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id y8so233585plg.1
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
+ header.b=7oL3UoGK;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.174,
+ mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f174.google.com with SMTP id j17so943833qtx.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 09:31:38 -0800 (PST)
+ Thu, 02 Dec 2021 11:45:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9e4Xa2gl4Np2c4z9FitQFUOlh6lllVTNe5YVNlFhfnk=;
-        b=pV5yFf0w9SwxKREmOn8/rqbqQdkZdzqFnih2CtBu+PLdIj+AEUk0tp9uIgE1LDI+Lj
-         4Yh+sH9E85frEd1HyP75IBHcE+7iu7B0+T5vIf5hhI+LcALLNBMt9Xf2XJ6P0uBsKRao
-         NTvE3C66mHqy5KvaTGry2PFMUYXzNORa9m+jf7/kYkyjxjsGlOJxRVZTOk5AMQulrKOG
-         qRZTIH6RZ8F6Eow/WBltS5qI5UUNnB1i7/7aoFoRokW6sTDWZ7xa34InR5zHeq4kpx0D
-         M6vbRLTz9yh3p8UQWEL7x5ZxCTdxO00sUA6zA4fu7rhS+GwD+jEZZsJaIc6R9TZEU3gW
-         kEiQ==
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=UDcWZQomfMl4PEakTfxN5dV0ZkZuIuv2VOX7Ci9XyDE=;
+        b=7oL3UoGKmWQfpN2rsZ2skDvK5a7UVi6mGte4u2Q4jIS56oeM/bAbhR3sETmGUQmL06
+         L9cGnN8YHnNA7jAI2fe1FhjMUcJozn6l8sJiidMryxzTszPSMES/2dk77Bbl90wR9g6j
+         CG94BTQWGlVsKC0POzDpQK+IFVQVe/Afnu6aX9nsR8LSc4AABWlppJPY2KwmjK3Oo6cn
+         fSHE09UGY6P6sdqskfCDb6nfEgV30OHo5u/ljUzNb5HZA5eQhUbAYM8JbJ+9tDWOK8fp
+         HbWLzNRMC9jSO7ezLtyaxSyRHVa12zirg01PgTYov96MjsJ6pytAOI6ZT4/EcNWuA7rq
+         BfJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9e4Xa2gl4Np2c4z9FitQFUOlh6lllVTNe5YVNlFhfnk=;
-        b=iZVzhQQVVQcp+GhTJng3WjzCkPNetLRG+FCm1YPqEiwcrhq9DrZ4ZNL4tB8IJMwZIu
-         4QrVq1k1AKSF+B5P9X+MljpvWWOA922YK7nXe8kzALUmTDkrCg8e/ZW3TJVc0M/efGiQ
-         lDOQjxpGCUTQ70l0p2Ba3fZ7gqNBfcvDU+AC6dyy+x8OnlJPahsP6xuwKv7PLZB3cfgb
-         iYuNmXTW+8WOgWk0Kb+G0vy7HcrA7v2yCH8x8h2OOKDSkR14lUrLU0l+Nx5+5KmahUjl
-         v2cGKg5/jGSi7DVvWyxTZJjpAvajt0veP3wqX4nXAEGJiww7RcMCFrNvhHumjFQGnm1+
-         jmvg==
-X-Gm-Message-State: AOAM530HVgmhx8XUzEN+ZRGpsGF8L/QYqQYntOJ0bZ9yFdzSNwOpTlrp
-	BnoztLajokVLrKcUxu5hvB7w8UwHScNEPw==
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=UDcWZQomfMl4PEakTfxN5dV0ZkZuIuv2VOX7Ci9XyDE=;
+        b=0A35pdm2zvp4qaOTI1qCebZeYvJLL6AryFq1EN1ExPSnM/GGFOIaG8GA2NO+rqfoPm
+         kQK3LdYiapwE1oiegnYcUwDZZSnkbvnKYBLrr99jlFB6FuAizBb6OJwUllKfxoo3fWEd
+         rvofCYHw4qATyq0v24ewuiBhzLJbYBH01JCBqverNYvIA5o6betUfAbrL1YY4na/pzrX
+         xrCY7Lm4q5NBm7CDzT5gDNXCEUy+0n6AN2CMw1gMCUQBPYfM3VDkJVSntoF/Yu6uHtJH
+         klj/vLKrcpjLkU3hfyh3OmrHHWsOqR/RjkLB1HO9TG7o4RA6GckjaSEQxOS2RwgRQUOm
+         E3LQ==
+X-Gm-Message-State: AOAM5312+ucL0v1f4BpCG0YWOIm8JiCFoDl4DC9H+PLxu4sO3yYxhHy4
+	OcznO7MMlYKmaeuMwluGxkXEfBuOkpX2TDvi7xzENw==
 X-Google-Smtp-Source: 
- ABdhPJxTF7lp+hUAeGW+ZivdH/Fa5L6MKxpB/iyG3PGMYDaIKLSGDRgenLKbaf7saF+n54LuAHe8pQ==
-X-Received: by 2002:a17:902:e5d0:b0:141:cdfe:97d7 with SMTP id
- u16-20020a170902e5d000b00141cdfe97d7mr16454520plf.65.1638466297597;
-        Thu, 02 Dec 2021 09:31:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
-        by smtp.gmail.com with ESMTPSA id
- f8sm427838pfv.135.2021.12.02.09.31.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 09:31:37 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] perf: Enable libunwind packageconfig on riscv64
-Date: Thu,  2 Dec 2021 09:31:34 -0800
-Message-Id: <20211202173134.31341-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ ABdhPJxz69VxTRFHx5CDeCRFbUKAv0qh4bZ5Ii+jTMvOuKmDRF9o8jyGWx7E9f6yiY+NUaWBUlZaiD/LIM5aICaGq7U=
+X-Received: by 2002:a05:622a:612:: with SMTP id
+ z18mr15977110qta.616.1638474329502;
+ Thu, 02 Dec 2021 11:45:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Jon Mason <jdmason@kudzu.us>
+Date: Thu, 2 Dec 2021 14:45:18 -0500
+Message-ID: 
+ <CAPoiz9yavPvGx6ehWgxxyMyu75FGZOWM0f4SKgScE9LscweSnA@mail.gmail.com>
+Subject: OpenEmbedded Developer Virtual Meeting (OEDVM) - Tomorrow
+To: "openembedded-devel@lists.openembedded.org"
+ <openembedded-devel@lists.openembedded.org>,
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	openembedded-members@lists.openembedded.org
+Cc: board <board@openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 17:31:41 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 19:45:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159099
+ https://lists.openembedded.org/g/openembedded-core/message/159100
 
-libunwind now supports risc64
+Reminder
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 -
- 1 file changed, 1 deletion(-)
+There will be an OpenEmbedded Developer Virtual Meeting (OEDVM) held
+tomorrow (Friday, 03 December 2021)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index f473272096f..7bbc1ad70c5 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -31,7 +31,6 @@ PACKAGECONFIG[coresight] = "CORESIGHT=1,,opencsd"
- 
- # libunwind is not yet ported for some architectures
- PACKAGECONFIG:remove:arc = "libunwind"
--PACKAGECONFIG:remove:riscv64 = "libunwind"
- PACKAGECONFIG:remove:riscv32 = "libunwind"
- 
- DEPENDS = " \
--- 
-2.34.1
+The scheduled time will match the YP Summit's start at 12 UTC/7AM
+Eastern, and run until 20 UTC/3PM (or earlier if we run out of topics,
+but then will most likely turn into a happy hour).
 
+We will be using Automotive Grade Linux's Zoom (and many thanks to AGL
+for this!)
+https://zoom.us/j/99151508871
+
+There current topics of discussion are listed at:
+https://www.openembedded.org/wiki/OEDVM_Nov_2021
+
+There will be no given order, but priority will be given to topics
+with moderators. If you want to add something to the list, please do
+so as soon as possible.
+
+If there is a topic you would like to comment on but have difficulties
+at given times, please comment on Libera IRC at #oe (or respond to
+this email if you are lacking IRC access).  No promises given but we
+will do our best to accommodate.
+
+Please forward this email to anyone who might be interested.
+
+As always, if you are not an OpenEmbedded Member (but are interested
+in joining), please attend OEDVM and you can be voted in.
+
+If there are any questions, please feel free to email me and/or the
+entire OE board (board@openembedded.org).
+
+Thanks,
+Jon
 
