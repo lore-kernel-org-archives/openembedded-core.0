@@ -1,197 +1,257 @@
-Return-Path: <kexin.hao@windriver.com>
+Return-Path: <quentin.schulz@theobroma-systems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17D92C433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 12:37:08 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.7739.1638448627095556443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D2FC433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 14:42:46 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.69])
+ by mx.groups.io with SMTP id smtpd.web08.8855.1638456164994352522
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 04:37:07 -0800
+ Thu, 02 Dec 2021 06:42:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=KnK3PjiI;
- spf=pass (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=79705ebf0d=kexin.hao@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1B2CURWV005094
-	for <openembedded-core@lists.openembedded.org>; Thu, 2 Dec 2021 12:37:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=date : from : to :
- cc : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=PPS06212021;
- bh=PJF0j3tfkXk79OCQNi1AbhcPQFVJG50gi8sxKQ9HcCg=;
- b=KnK3PjiIZTyfK8b3EPBTlIBCj6aToHqqkduSw4pgIlokl3ZM5tCKNEddO/oH9Efkov3Q
- kjr22iBosyg5G/4SOfFqjj7EKpah4a5JSjWBY9/deRjwJJxCUKJ9jcesD/3m3Wjl+NvD
- IfTr5nLbB5B2uqzg5+EnCWJ2CyKSqQk3r0lho7Rdztlfa9x1a6kvvi1I9kUh46Rtvt4x
- KBxz2IEoyzrshl1+CV237hRKyXUEFQJUjF9K2+RhCS3MnbwKvM1dbOfoihufk5DMh3r7
- EYz7h6W1D/OuEmRbfcYJs6YUOizMsa2aT/BYOA3DTxENhe5xC9rRjtCQaI6jMSzA2/Eq sw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cnymg1btx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 12:37:06 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1B2Cb5wf019956
-	for <openembedded-core@lists.openembedded.org>; Thu, 2 Dec 2021 12:37:05 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cnymg1btw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Dec 2021 12:37:05 +0000
+ dkim=pass header.i=@cherrycloud.onmicrosoft.com
+ header.s=selector2-cherrycloud-onmicrosoft-com header.b=f3P1jkpA;
+ spf=pass (domain: theobroma-systems.com, ip: 40.107.22.69,
+ mailfrom: quentin.schulz@theobroma-systems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A2hwaQ3hSGtCczk+GOO3Gg3cgzuISPXF+BjeFZe5d3b5E+RpX9krwiOHNjzqGRuukHjH+uCmWWYY0dxn38sPT7J7+dImbqoCS0bkMKBcOg/idoWcLprxqwBT1MD8qM7rkD4SeaSOYxFepjfQ8aM8FaEo5KI8VU6lB+gEe/Wedo38OnwzDOzZavhVncwTWkbsSAlhxnq9lLKXh8qLyjyYS8hMW5Yyb9X7sMNw+10fXGBkkQsPSW39CkU/CbQ3QyHs0rrPWOa2syyUYdwIwoZ8hTjjNUJRseJ05UfEeLojKuexqQKYVfaNricu7PsnizfQ6nlmYYcGpQaqmdWq4yr7nw==
+ b=PG8jKjeBow6W/tAcppOEPhf2HbTafkaO/oAcWDECx3wNEjo11hVxa0SKMuGjPdeBwgyh5bu0MuxxnRr4PYzR+8qA2Co4e5bZlWDJFYPfwL/c3C4BnEYJhcdgZ69bTvIHdPZIvjvkhcE7yaSLKd9BeEc48TgUu6YQGcZ2lS6tWbyeF2dmz/5FooXyr25JMmI9RTWEoCCrRON4ueM4VNOHLUzwaE31mzMMG8m1Ci6tOpocmeBZaKQmGc+MalHSTVXFdwlLmNF2G37pe315CTcoQS5Di7Q3Mg9Y0Mepur6lfBJScEplcYGUGdK6xFWKclLZOJbhOWlY0tkbszYb8lxhXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PJF0j3tfkXk79OCQNi1AbhcPQFVJG50gi8sxKQ9HcCg=;
- b=WShiPvXwp0fA/B1g3PV+NRkphnvdcfpGpbwVYkW+sra833DQv8CVlcGAAe52p4e4NlEgx6/Lq15YPl4KRSPJ1M2njscnm6xi6TGK9Lu+0TH+y0XzqDuO0BM+8F4CYHYD19V0RWVlw7aoaec5MDiffy+f/N3CfVgJ91gqpzzBquBmD2PpeHEDy86g7RSt2MHneAvl3Qgfnb1HZoxltJna57PNZno8jDEhxf6a425eb2s3TNW04CrE/jYQICw4pyUKTqUg3Xe04GOoIukMebsmfj/yz3fexlG/VI/6lxKDxcc5PufHdfqLQHtHi6x01CwUG+/ntY2N31Xb6VN8pyLDwg==
+ bh=RVDSKmQ9zu+YXY6t7U8Zd93uHm1uzmUk18yuRWkZ+jw=;
+ b=oR7C6SpfA5yg1voiTvu8A9ueTHzM2fqSqsnls3CtRrxakIspbWWJDPHn05DfQIz5Jl2N9RbnwojZ7ZrZG8ZgbzdmsyxnQFQ+KKxqM0kRI0Sw1DI7W+aK9NwPsYlq4rKouXRGpxewnc6Ifykvb5hpHhNyAKPj2z2QkB2Ddc2o+Cbgv1DKqHB26Uq7FyWv4qZIHotAUxkdRxEbIbQoujZwk2HNqzMfdKdY7LHXmVGLJ646KEX5RNTxYG9GOCJCfDc/NH+RwnimwuwkibNHdr5fvhit6sxtXpNsxwtv8sofUF682SyK+5os6fT+h9tP8Tkc6iFMwd3iqiml3yr/kSfGgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SA1PR11MB5899.namprd11.prod.outlook.com (2603:10b6:806:22a::18)
- by SN6PR11MB3342.namprd11.prod.outlook.com (2603:10b6:805:b9::17) with
- Microsoft SMTP Server (version=TLS1_2,
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RVDSKmQ9zu+YXY6t7U8Zd93uHm1uzmUk18yuRWkZ+jw=;
+ b=f3P1jkpA56wKYE79enPS8R+/AuIAEmcJIypAPv91jh+kLJm/OsJe0QtLpQ6rXeEE1l4qjxMIAe6uDoAGpDsJa7NJX/kD4ShbPpYNxlYac7+FMbIb9EvKgCmMeAtJ70vyNhTwLRSXEAH2IcKrgPVAtOjq6TW7dASm+UaYMO2hm00=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
+ (2603:10a6:208:24::24) by AM0PR04MB6098.eurprd04.prod.outlook.com
+ (2603:10a6:208:141::20) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Thu, 2 Dec
- 2021 12:37:03 +0000
-Received: from SA1PR11MB5899.namprd11.prod.outlook.com
- ([fe80::997d:91ed:f5d3:9293]) by SA1PR11MB5899.namprd11.prod.outlook.com
- ([fe80::997d:91ed:f5d3:9293%3]) with mapi id 15.20.4649.018; Thu, 2 Dec 2021
- 12:37:02 +0000
-Date: Thu, 2 Dec 2021 20:36:48 +0800
-From: Kevin Hao <kexin.hao@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-        Linux Yocto <linux-yocto@lists.yoctoproject.org>
-Subject: Re: [PATCH] linux-yocto-dev: Make -dev kernel work for a fixed
- revision
-Message-ID: <Yai94FCDxrdyG1oR@pek-khao-d2>
-References: <20211201043934.3212357-1-kexin.hao@windriver.com>
- <f2c3aa7c59a874f99b80d49bde596e93664a5392.camel@linuxfoundation.org>
- <CADkTA4N_zXDJVH8hwZMVqa+tsHvrm4zD+UDKiYV4qHwu4WPx3g@mail.gmail.com>
- <Yah0YhJFeqv7gRrU@pek-khao-d2>
- <CADkTA4Oe-CrRKqeBe3Anq49dmSLN2UpOSB+bOmkbmh523aF65Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zor4A3EO9o7YW9od"
+ 2021 14:42:41 +0000
+Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
+ ([fe80::d56f:ec59:3bd0:6d7a]) by AM0PR0402MB3348.eurprd04.prod.outlook.com
+ ([fe80::d56f:ec59:3bd0:6d7a%5]) with mapi id 15.20.4755.016; Thu, 2 Dec 2021
+ 14:42:41 +0000
+Date: Thu, 2 Dec 2021 15:42:39 +0100
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com,
+	Quentin Schulz <foss+yocto@0leil.net>,
+	licensing@lists.yoctoproject.org
+Subject: Re: [OE-core] [PATCH] python: python3-idna: fix non-existent Unicode
+ license
+Message-ID: <20211202144239.4ribxaet4vhjneva@fedora>
+References: <20211201161335.3110181-1-quentin.schulz@theobroma-systems.com>
+ <AS8PR09MB464559F9D616EB6583EDD813A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
+ <20211201172008.i6hwxhvnwtul4mai@fedora>
+ <AS8PR09MB464591DF8F8352BBAF6462B0A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: 
- <CADkTA4Oe-CrRKqeBe3Anq49dmSLN2UpOSB+bOmkbmh523aF65Q@mail.gmail.com>
-X-ClientProxiedBy: HK2PR02CA0172.apcprd02.prod.outlook.com
- (2603:1096:201:1f::32) To SA1PR11MB5899.namprd11.prod.outlook.com
- (2603:10b6:806:22a::18)
+ <AS8PR09MB464591DF8F8352BBAF6462B0A8689@AS8PR09MB4645.eurprd09.prod.outlook.com>
+X-ClientProxiedBy: AM6PR08CA0002.eurprd08.prod.outlook.com
+ (2603:10a6:20b:b2::14) To AM0PR0402MB3348.eurprd04.prod.outlook.com
+ (2603:10a6:208:24::24)
 MIME-Version: 1.0
-Received: from pek-khao-d2 (147.11.105.121) by
- HK2PR02CA0172.apcprd02.prod.outlook.com (2603:1096:201:1f::32) with Microsoft
+Received: from fedora (92.42.140.82) by
+ AM6PR08CA0002.eurprd08.prod.outlook.com (2603:10a6:20b:b2::14) with Microsoft
  SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
- Transport; Thu, 2 Dec 2021 12:36:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend
+ Transport; Thu, 2 Dec 2021 14:42:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d34ae879-e755-4088-935b-08d9b59070f4
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3342:
+X-MS-Office365-Filtering-Correlation-Id: 64a72bea-adcb-46f8-feb6-08d9b5a1fe22
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6098:
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3342BEBF80BB8B98580D3299E2699@SN6PR11MB3342.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+	<AM0PR04MB6098AF867E09E3A0E01827C0C2699@AM0PR04MB6098.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	WffD5qIx35oM8NCH9hW4venJuOrxi8YxM13/3YbeNb5EOLkiaDaCQzAZ0sSuu039C0bF7YZABm1fP+JzAivjVPzZuMRUORtRdynD/5LjMSy34/w1zY9S2f3yG8wzYJwJoe0XecgZdcvuczxsLcIql+KNyL4uZIy2B4LesrCW8yqFgQ88cM9SZy5WUKGy4gax6rdF4mdebCyDcs/HdpbgBLaFM9t1xUBwIiJKjSm3cfX03Pp95a390D5oQrxQCzpzuEZ0HSQs4tMZuavPbLoRItWqKjlm1cXE4uZCfxdjh7bDVnOEjfsGgtZ6cDqtnOcZLtAn898y2JfwdSe8veVMK3F1l26x51bV//CJx7sKfyUo0sGHW/i5xGudh51U+SNoDWzFb9tIcb5QE2Ho4OhsKhD6Uy+6VgSEQrqwmsFQKF2RLyZGc/tvJAWyef8B5laZ+W5X2bQ5ko/53zI/lUHzWVpGkMIO4hiUObDaQds1Jw59ljvk5WIc7tG82S2mFN67VDr9cG8GbQtVnNLMWIQ+jjepcBSpxFyuWM7xRYc/cpWwmfKWwEt7Y+uWITPKS+tWNcXa2NFvvRp+AQ91U8DZC/Oy3P1VVseN4LbGxhcDzE+rofpYXi4+YuGpwcfO+fWXJd2bUab/y440GNFK7lFyBQpN6q6wYXhz0XHts+n8c9KPIo2LP4zO58yL6LEqOXOsPMeB9AV06UsFKNlCc8GfFIvKp4lUAS/bawwDryfBJLE=
+	4TDuKLRCRoRhrTWodr0g5+1wbOHnADX0TOMJ8mq9YehAPwaib/AXFfjR+yGuz870wbj12oHk4BL0TtN7e93euH75tHZ98UKA92oMxycHcTn+RZDhPDCkg795YKoDuESXQBJ//yfjUZfeK7w0D3u+gvfHNIG14NF/H6z0VL6v6tCfrvtLFCo7qrdLIuiIJr6rFW9eFefsE8O6TJmSLv7Ap3BS1ROaFVYdach1VTYzPdE6wYgbWmPnfFnMl7zv9i5KFFURv5x9TlrOfFxBfIzbLVcanw21mtnyNQHbyi/z4MiThunomOR4TK1OSVvfKH+FaT6luBWZhQSS9c75yRkfwseXC4yV3XxX8ZrPrLbPjHTyKkpArxzDYOLIydumXO5V9eEZmCdy11lHIG7hzD/UVAkiYfvO26u23O7Ox0xxochLFVhaPnqzpIyrzUwu8VTkGvTIyLa1DZwcDko0Gz/7+d9ibDs1i4kc0UTX8xKtaXpANUkSoWnENJcM9oCr11mg4zBkn4s9VPkdK5LPDGzNt212jOjM1xwbApY39ia6XGA8dk2nDnbTQd7SVoZo16R2UWWutEKNWAnsXyuNG4d+mJAOUcsEx+PLsYE5A0+Dqi0HqpxMjvxGviRUQXWh9JLfMm39Cw2kvHvBc3SYW7m9OJDrIqgjmKrTFZHq8xwc9U//0o0tEJR0wND/uvff/Ic46cLeleV5VLJS7nO13SB2AhRNAp8Mg82dfVV8jyow5+NjcxhibeILM+MPNJQXk+7UP5pij7Z/jVuzQhsWXBKyLzORwj0CxmRHzc+XFeZeM6w=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB5899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6496006)(44144004)(33716001)(508600001)(2906002)(52116002)(4326008)(6666004)(66476007)(8676002)(6916009)(55016003)(66946007)(38100700002)(83380400001)(66556008)(38350700002)(5660300002)(316002)(9686003)(54906003)(86362001)(186003)(21480400003)(956004)(8936002)(26005)(2700100001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3348.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8936002)(53546011)(86362001)(1076003)(316002)(66946007)(9576002)(5660300002)(33716001)(66556008)(66476007)(8676002)(6916009)(83380400001)(966005)(26005)(45080400002)(956004)(4326008)(55016003)(186003)(38350700002)(508600001)(9686003)(2906002)(52116002)(6496006)(38100700002)(44832011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?GZ2XveOC76TnMP30AoYrxwKdr5LfhAlz0s+9FWENxhTfNRey5Adwc1343CLv?=
- =?us-ascii?Q?Y5HmO+OgNiq3+auArtorbFIaID/5HmDF0Gfoo1gBcAF+RlAej5k1kWMDWrn9?=
- =?us-ascii?Q?CH2hE7wbV3mtcDhaVOWyF55nPvdMvt0Ywk0+k8GtXegAT0ySDInip+kpcfIR?=
- =?us-ascii?Q?OZj2O3eemzZU/KRVXz6Qbt+Ey/rVZRoAIMyprPV9ucLh4l7FoGJ9MkewEeEl?=
- =?us-ascii?Q?pz0Ptg0CvwDy4z59YCa4ezKqrw8eGQN9eClCK4KUSnxkiP4cDpPkabHjn6wb?=
- =?us-ascii?Q?FDWfDAo9MF6TFIHmwHCZtDVcvlOUu/gvaMWTRtEb8Vh5qstBqQeQhsFZHFYZ?=
- =?us-ascii?Q?idDmyX+fWwtebHIEwVeRz1F+Dp3XYtEmLLgb68BfaULToPlZdTutcKh/xPYi?=
- =?us-ascii?Q?RhV6ucmuPSmPuQMFG4vkM6VgCkBolTddiNm7p/lscidK6wWm8SZM0+Tzc5Oi?=
- =?us-ascii?Q?//0eZpi3xvMtVcr19t0cz0Ke/BMRuBVJxLHQgPu6evuYp39JTEn/edlvJL4H?=
- =?us-ascii?Q?zqyZQYr3O7lK4zJ9P7Z5Okqf+BGa5s9t8njjqqFATF8zM6ULbDKBuyHxoh5r?=
- =?us-ascii?Q?AojPaAmZ7ii/F00PnYSnz4f8AFkjAGJwVcDL0hF6lyferb3bEB2jpM402Dtu?=
- =?us-ascii?Q?UOb/1gtdDQzoKcGM6o7t2xo64vLPuKMSIXTuduiPnIjsAfDyxMQ2NGMjViHe?=
- =?us-ascii?Q?ucSyVibz15JX9K1xOtZGviH/Kdpu14Rba002O1RH2Fs6Iz2GjoVVhy6nVdX8?=
- =?us-ascii?Q?Y3u1y7QYGp+Ffq+sLZl69kCyRHznippQSrpDDkLVPCEhIpEEARb7jYUoBMJc?=
- =?us-ascii?Q?WTGBtr6pEavPq7zn2FuZ/vlZ58yal+t4aM6BUAx0qhjY2C6XaBHuxnLCfkkU?=
- =?us-ascii?Q?Y+jT3VclnkihuSI1KFOHbTK//A3RhatRdWH2J9LSmzV9muiuYi7BeHIMMxfi?=
- =?us-ascii?Q?GYwnsHZKoZPdO+GqC0icJSG7pC+H6opJLj8fNlS9DCpjRI6u1C+CXkTFKL97?=
- =?us-ascii?Q?JOG2tBmqLXwkAua9Evde2cpRGFFtRmA8LqJtVmF642qtwrwUO7a2Fz0bGfjq?=
- =?us-ascii?Q?Cof9+BTq2hQ+NXNoqHk/r26Ti1EqDqvW1m5I8S1YpMLqN2RKJRvoGpB77SdZ?=
- =?us-ascii?Q?6/lSC1oHmTSsyEN64rdwNmliBWE3eUfyUz5v08S+xW5S5eGDUzxDrd77HbGV?=
- =?us-ascii?Q?7Oq9neuuiZ6dHhiuQP5rUjs++romlWX5rp0dvWvmPs8Am5tkL3s4qpPHCsaz?=
- =?us-ascii?Q?HXV0AbLafk0s9ASDINhZdQaIWEvrkRMgbWqky5KyEcqLTmkzio1bxud3f8Qi?=
- =?us-ascii?Q?mrX76TODNC0Ow5Jdc9yxEEVgKEv7ajYGNe6ujdjAUF4gRsqpxhGdpiJnQ0Jd?=
- =?us-ascii?Q?XXOevwglXXHVtaDsNJDG19oOQtkBfwt5/4uJZNuJ1Tv/wfjJG7TnDLyUmF7+?=
- =?us-ascii?Q?X5K/3rz4nsSuLc3GuT38RTSaIpcVviC2FBZY/Xw5YdLSVwKvvw2xeg54+NHB?=
- =?us-ascii?Q?7TGkqo+I85Tq5pwEv5raIQRDHgwKoogOLmD6p9ZwUWkRfP2aT0FhTmJpJ8Hi?=
- =?us-ascii?Q?sJjIVC0/dXCcbn2o2G8BemY0JY6oqsSzNWXOdbz/Lik0Zt4fgBzCwED6i+aB?=
- =?us-ascii?Q?BlvIgYoL3Iq2HDyjgmlBCcM=3D?=
-X-OriginatorOrg: windriver.com
+	=?us-ascii?Q?3hoK3BhNmAHeFhKnImFQ8QRx08KVRAcOW6Pexb8jL/qa7Ll0KIpjWWS7/j6V?=
+ =?us-ascii?Q?8jmnpeg1ja8+zVs41mH+aqzbSYeCwbS3b9KmsgdGtBrLA+3oOZUcg4koSqW1?=
+ =?us-ascii?Q?nTklvqQlG+ds06tukgI9zrjAnoH7sLvtCcVHl2EJndAEGhmeY21oiqZNWZW1?=
+ =?us-ascii?Q?GHFftrrw4x4bZrH17paWgjXFSKmHeTqWGsVk9znh69xooukVFKsm5L8Lbu80?=
+ =?us-ascii?Q?m750Y8l8TEpTXNFkOXg4gzPB6Ldmlvz2HXM+MljKrieShQX9lxUBaU/JVpXC?=
+ =?us-ascii?Q?CQwiwLBPdoXVXR6lCI6kbfhhhR6ptcJtTzzzYVM1BAToqK8w6973O/Bcn8l8?=
+ =?us-ascii?Q?EMklDfCGCD1d75ErFzRFCyUjSK/CLhL5YlNzm5US3u8Uni05Mfd7ILvLZPvI?=
+ =?us-ascii?Q?q1T+6SM0tdqCooQXC86HJk30U/wGVUwMixA+B1V7Abt/OYesHmcTkRelmmYa?=
+ =?us-ascii?Q?LqKIS1mc4ra3AcozdsTZIlaoAWv6iJvjsOYCKC8HhPmch6FqdqkXuhijKztp?=
+ =?us-ascii?Q?vwyC0cgPFRUXt/Ewkfab2d77NOo7Sh5BatWmyiwKKGvo0YJ0GOXp7g6cJM3t?=
+ =?us-ascii?Q?zpCRKkpFSz/J+P8HKOIT5EHU/IfVBHHE2bZa9sFNR5x/7E4HC12aa/dSeVNJ?=
+ =?us-ascii?Q?BvC6GQRGcVONNvMlIVYgIsNOWabmtSoVRiA1iaWFJ3qdvBQh9AewQeILO3NS?=
+ =?us-ascii?Q?MpAn3lPmrJpeTIEqdmBz3jxpvoOaVVOuj9vOWGi5X+9WvrYT3lY/mLAJfL0m?=
+ =?us-ascii?Q?WIMtPVQB1RlSUtohskQnktsxnD8z7kf/Jvt5KBz0+v3HyPRUndyyXQj924Wg?=
+ =?us-ascii?Q?/Gl3q+XKW8dgCGPrlvjtRM+wA4nJlDKoyLfYnWHF6JptPIJm/KhxQxbMyehZ?=
+ =?us-ascii?Q?yn1zL48C4HSDIv0pzVjjZk8Qw0Lfey8bWvTnBoJlajy0543d3qBpmJUtAOMB?=
+ =?us-ascii?Q?c9UeQgoYVMBIT4vxFa1mXc0KB8tQg/Ur0suyK6yHfkXMIqrEqNiESQFtcSDG?=
+ =?us-ascii?Q?IQI2bTWGwzSLMu3tFMFuRCBsHRARstAm2E5vV6n1iviWYxTY1z2R96pDRM9u?=
+ =?us-ascii?Q?iqWz067KO+IGqenJHkAv2b+Jkyk/VY4yYTxSerlTLETPHlCqQOCfQZ4UF1Pr?=
+ =?us-ascii?Q?/IZ2b1aB0y4yb5u0+dSzhDhptHqB4eh06UcYNvsd5M8zRp+Qkk7BuXZ7CYgj?=
+ =?us-ascii?Q?fgfCf1qau6qoViok7UI+O3VSHcEC4eWpXj4orHDHmjRql6AXp1mtzvuXmGyD?=
+ =?us-ascii?Q?nG4qodcClEXo9nGChj2R9e5BBeb4GPCG6fYhMKASFDRkKOY9+uJJi+i7rYx5?=
+ =?us-ascii?Q?BfULE2Jhbma36HzwIAOxFRv1tHMyo8GMOvqzFIflE0PwqUYDob0SHDH5G0mS?=
+ =?us-ascii?Q?iTqK880yFuBs7x5yY/Xk7FmAnTT9O4gS5MsqfhmhBrKrXdtF/d0Za3rdLZhU?=
+ =?us-ascii?Q?yM5XEf+IesggfFsur98BISb87Sj1TQSfhhlWt/Q7jfwouD48b8kL/jPG276/?=
+ =?us-ascii?Q?znxcoDKYt7DTr90yzqC0Pz9s9OP98Y51ZJ9l5qLdeWKYeP/blvdMReH162xm?=
+ =?us-ascii?Q?W3KB/btRss9qFjqhF/pn5pczos1OA92TIzdmzPlzfP5rmuHLuF+dbHTd8cJR?=
+ =?us-ascii?Q?36Qqh2JYerPlKbZQrXcLqHYZBERVpDXMPvx5VU0Ym7j6uzJehJf2WvWnzS/t?=
+ =?us-ascii?Q?uPZYwGPnQBzzoZySWp4febKD4pVIDil8Iu3BKbldfAhyr0J5DWT5sHgQS5zt?=
+ =?us-ascii?Q?i2l5Xko4Fg=3D=3D?=
+X-OriginatorOrg: theobroma-systems.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- d34ae879-e755-4088-935b-08d9b59070f4
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB5899.namprd11.prod.outlook.com
+ 64a72bea-adcb-46f8-feb6-08d9b5a1fe22
+X-MS-Exchange-CrossTenant-AuthSource: 
+ AM0PR0402MB3348.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 12:37:02.8005
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 14:42:40.9573
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 5lOD3pQLyG0m6TBzF2NuRy1kZRsdJ4ZzNh7YKw81FFKMng+FJY9qfy4G+nZe6wKbUWM6HoQKMb3x/X1uRdj+dg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3342
-X-Proofpoint-GUID: A4JUFQKwEaxD187RextD2AmNTjjVKqig
-X-Proofpoint-ORIG-GUID: 2i8A-W7a7jzXWddcAiApW5WI8NpS1p-g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-12-02_07,2021-12-02_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- phishscore=0 mlxlogscore=819 impostorscore=0 adultscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112020081
+ yViBYDLJmAvdt/Qkqxu7iEJY61aNQziI8zyMd1CAFmPgOU2VZyL2NhbnpPnyJf2HFhnWBAZ699INfHQvaktdOuXB3kj/qHIWvfHDQplP8iHC/sH6yYbL+nYtJBOFLY+H
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6098
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 12:37:08 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 14:42:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159088
+ https://lists.openembedded.org/g/openembedded-core/message/159089
 
---zor4A3EO9o7YW9od
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Cc'ing licensing@lists.yoctoproject.org to hopefully get knowledgeable
+people on the topic?
 
-On Thu, Dec 02, 2021 at 07:31:52AM -0500, Bruce Ashfield wrote:
-> > That would be great if you can do so.
->=20
-> ok. Let's solve this with an explicit KBRANCH with your pinned SRCREVs
-> for now, and I'll update -dev to use versioned branches for the current
-> 5.16 cycle and all new versions that follow.
+Thanks,
+Quentin
 
-Thanks Bruce.
-
-Kevin
-
---zor4A3EO9o7YW9od
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEHc6qFoLCZqgJD98Zk1jtMN6usXEFAmGoveAACgkQk1jtMN6u
-sXG3MQf/SBfEFeHaIzTys9gwNJgdyDYSuKT0Zs3Gq8I2+HcF9hn3OvaiZCTRvg1c
-/GEFo4g1wNSnvsAnVZ7j63P1PNupqtGV7ymyEFSTT16gdOK0lfdxxJ8nVWxn3jm4
-Vs+1Kh+Hkkak1oKD3rvJa2SyJP1/ppRKs7y8OrRHerMUBgmjA/NNmFDhQncB6vwx
-lgOf/gOuGRhTjRpx7HXCnh9fztj+oC0McJvlKEMO8Y3ToqcZaVblmSgRCxWgI4yq
-F+foRObrhf2yHL85YaqAJI8gYzw+GW5dB6qkW1zqQgJlMBx5Yv4hDvvH3o86tMDH
-UNY68E4XKHCP1VS7XnZfHu8dqD+YDQ==
-=ottf
------END PGP SIGNATURE-----
-
---zor4A3EO9o7YW9od--
+On Wed, Dec 01, 2021 at 06:30:39PM +0100, Konrad Weihmann wrote:
+> 
+> 
+> On 01.12.21 18:20, Quentin Schulz wrote:
+> > Hi Konrad,
+> > 
+> > On Wed, Dec 01, 2021 at 06:04:36PM +0100, Konrad Weihmann wrote:
+> > > I'm kind of following the argumentation in the commit message, still I see
+> > > differences between the Unicode-DFS-2016 template file and the text
+> > > downloadable from https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=
+> > > .
+> > > 
+> > > Not much, but enough to make me think, if we wouldn't instead need a
+> > > Unicode-DFS-2021 file and reference to that.
+> > > 
+> > 
+> > We'd need to upload the new license to spdx and I've absolutely no clue
+> > if the differences are enough to warrant a new SPDX entry... especially
+> > since AFAICT, it's just that some of the content is moved to
+> > copyright.txt (which is linked in the new license.txt) resulting to me
+> > to basically a noop? But me stating it was a match was incorrect, thanks
+> > for pointing this out.
+> 
+> Yeah, I'm also not a 100% sure if that's worth all the hustle - maybe
+> someone with a more legal like background could just add her/his two cents,
+> so things could be cleaned up in a followup
+> 
+> > 
+> > > Anyway I fully support that change
+> > > 
+> > > On a different note - I think any unicode license reference would also need
+> > > a copy of https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_copyright.html&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=GCcxTAmd-wOZF6SPpTOHW392veMDM8RBwO_IAMvDbZA&e=
+> > > , as all the downloads point to that (and the license in just a subset of a
+> > > broader scope of rights and regulations) - INAL, but from my limited legal
+> > > understanding we should reference both
+> > > 
+> > 
+> > AFAICT, this looks like it would be Unicode-TOU but it's again not a
+> > perfect match.
+> > 
+> > So /me shrugs, don't know what we should be doing with that except
+> > fixing the warning one way or the other (preferrably the best one :) ).
+> 
+> same here - *calling for lawyers to jump into the discussion* :)
+> 
+> Still I think the patch should be picked as it is, as it clearly solves an
+> issue, that I've seen as well.
+> 
+> > 
+> > Cheers,
+> > Quentin
+> > 
+> > > On 01.12.21 17:13, Quentin Schulz wrote:
+> > > > In addition to not being an SPDX license, Unicode license also isn't
+> > > > available in any of the LICENSE_PATH available in openembedded, meaning
+> > > > the following warning is printed:
+> > > > 
+> > > > python3-idna: No generic license file exists for: Unicode in any provider [license-exists]
+> > > > 
+> > > > Unfortunately the license is not really explicit in the project. After
+> > > > looking at the code, it seems that this license gets pulled by
+> > > > idna/idnadata.py and idna/uts46data.py which are auto-generated by
+> > > > tools/idna-data which downloads data from
+> > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_-257Bversion-257D_ucd_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=NVUVu2hKfeamx4mn_29KhgBwY_drrHGSIiEbbTpoUsk&e=  and
+> > > > https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_idna_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=XmJGToF17xNKllS2M3Zw4q82BF0PBORm7gMWm2E6sgA&e=  which are covered by
+> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=  as mentioned in
+> > > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_copyright.html&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=GCcxTAmd-wOZF6SPpTOHW392veMDM8RBwO_IAMvDbZA&e= .
+> > > > 
+> > > > Comparing https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=  to Unicode-DFS-2016
+> > > > resulted in a match so let's point to that SPDX license instead.
+> > > > 
+> > > > Cc: Quentin Schulz <foss+yocto@0leil.net>
+> > > > Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> > > > ---
+> > > >    meta/recipes-devtools/python/python3-idna_3.3.bb | 7 ++++++-
+> > > >    1 file changed, 6 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
+> > > > index a0e6b79a56..f3c53a8717 100644
+> > > > --- a/meta/recipes-devtools/python/python3-idna_3.3.bb
+> > > > +++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
+> > > > @@ -1,6 +1,11 @@
+> > > >    SUMMARY = "Internationalised Domain Names in Applications"
+> > > >    HOMEPAGE = "https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_kjd_idna&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=Nh_apZKGYGza7AOqJ_dDAmZxqmdkIrXfuP_F90MfKI8&e= "
+> > > > -LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
+> > > > +# Note: Unicode license is pulled in by idna/idnadata.py and idna/uts46data.py
+> > > > +# files auto-generated by tools/idna-data which downloads data from
+> > > > +# https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_-257Bversion-257D_ucd_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=NVUVu2hKfeamx4mn_29KhgBwY_drrHGSIiEbbTpoUsk&e=
+> > > > and https://urldefense.proofpoint.com/v2/url?u=http-3A__www.unicode.org_Public_idna_&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=XmJGToF17xNKllS2M3Zw4q82BF0PBORm7gMWm2E6sgA&e=
+> > > > +# which are covered by https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_license.txt&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=TL5gUxzxy8LLKVu26a2BDDq1J8fal1pDvVz0ry1MulM&e=
+> > > > as mentioned by
+> > > > +# https://urldefense.proofpoint.com/v2/url?u=https-3A__www.unicode.org_copyright.html&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=-XEY2f17PVO0eg4ZpVBl4VpV5wPmG0K8z8LDsTQAPRs7x2MriQXaHDjlbwAVuKMk&s=GCcxTAmd-wOZF6SPpTOHW392veMDM8RBwO_IAMvDbZA&e=
+> > > > +LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-DFS-2016"
+> > > >    LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
+> > > >    SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
+> > > > 
+> > > > 
+> > > > 
+> > > > 
+> > > > 
+> > 
+> > > 
+> > > 
+> > > 
+> > 
+> > 
+> > 
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#159052): https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.openembedded.org_g_openembedded-2Dcore_message_159052&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=IjDO634_inh9Zk4sO5-plKSa_dksKdn1z6ZV2sjdhG1NrTNoMI93IvqJ87i0iKnX&s=wBfi3XoBP11dwE47mT0s0R8UQSZCXA4VU4127GsgCFc&e=
+> > Mute This Topic: https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.openembedded.org_mt_87431709_3647476&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=IjDO634_inh9Zk4sO5-plKSa_dksKdn1z6ZV2sjdhG1NrTNoMI93IvqJ87i0iKnX&s=2rzq_sfY8q_1WqaDiRJFk31PLx4a92t2gStbSSkSK5Y&e=
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&d=DwICaQ&c=_sEr5x9kUWhuk4_nFwjJtA&r=LYjLexDn7rXIzVmkNPvw5ymA1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=IjDO634_inh9Zk4sO5-plKSa_dksKdn1z6ZV2sjdhG1NrTNoMI93IvqJ87i0iKnX&s=kTULOJx-xnSF7ie8Ixh8t6oWWxGOVd79R7oQcs8mh6w&e=  [kweihmann@outlook.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > 
 
