@@ -1,111 +1,82 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11B9C433F5
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 17:00:57 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.11143.1638464457108920692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0934C433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 17:17:14 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.11433.1638465428715963056
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 09:00:57 -0800
+ Thu, 02 Dec 2021 09:17:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ezirhqmT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id a18so135010wrn.6
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 09:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=80CS0qx3Wst4frYA+bz5qv2H84hTaG0BfKcqrBruMHc=;
-        b=ezirhqmTSagpMlk/GF8BK5B38sSTKXLbv09+rFdU0jPblmJlT6qI9i9Vk//KtC7SqF
-         nMNtKSI2mUXeZ9pneYyDBKUuYNq9ac69bIbniG9B9zj6HNO1SpCUPh7Aabz4MipLwdmV
-         MX6lRm62iQLyDWAPEaSjpFKd+krHRmLqta8jk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=80CS0qx3Wst4frYA+bz5qv2H84hTaG0BfKcqrBruMHc=;
-        b=ZbrhImbIwparySxbfYspmxDYyZD9YuAr1bqlUZxS+I7x8nl+SdC5ub2vuXcv5CIevZ
-         me7sV48bTSX2B9JDI0TxSf9XgDv4SUGMzYyizFG/6hAE4TpuRbFlwUKtcx7scYCyz8SW
-         YFE3+t4fohnHxIBGcCl3jK2FLbf7dWqVAMqlJPCDtmWtjBHl3BWvXhWc6f9Cwh8pN1wh
-         QE8YOb7bZVBMtz2VbxHAS4kWr3zuXJ8jmS9Mua7rL9lStW//VHcgx/a6qbdex+22ubj8
-         IUaTjArJDhzIFpB3LGJvusJ/kHPH7mGhiDdrbdl+JdIPFoxtJVbxuQCI/rGhtMJajARb
-         2PyA==
-X-Gm-Message-State: AOAM532aDn+Pkujj2VSmnNJvyOnh50q3rLJ4Act9CjAg2QopLWMk5Lhp
-	o/uneSYTH2XCxqwomOVPTt2MYQ==
-X-Google-Smtp-Source: 
- ABdhPJxqr+tf6rEUJ/63/hM+QdemF22Tz/g1OkPxIJY6dvyEWDWKPacXu10TfvPMD56/V9ILBUFAbg==
-X-Received: by 2002:a5d:69ca:: with SMTP id
- s10mr15418327wrw.312.1638464455374;
-        Thu, 02 Dec 2021 09:00:55 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d27a:3e0:de4a:4b51?
- ([2001:8b0:aba:5f3c:d27a:3e0:de4a:4b51])
-        by smtp.gmail.com with ESMTPSA id
- j17sm262178wmq.41.2021.12.02.09.00.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 09:00:54 -0800 (PST)
-Message-ID: 
- <41672e9d7423f5c5ef742dd18aa5de0895c5f1ad.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Correct way to set DRIDRIVERS and GALLIUMDRIVERS from
- mesa bbappend
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mac@mcrowe.com, Justin Bronder <jsbronder@cold-front.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 02 Dec 2021 17:00:51 +0000
-In-Reply-To: <YafZKH9x0nEsSPZL@mcrowe.com>
-References: <YaemRcD22hUhkQrq@mcrowe.com>
-	 <YafKe4SgTjgGY3IR@ravine.members.linode.com> <YafZKH9x0nEsSPZL@mcrowe.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F668142F
+	for <openembedded-core@lists.openembedded.org>;
+ Thu,  2 Dec 2021 09:17:08 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 095C63F73B
+	for <openembedded-core@lists.openembedded.org>;
+ Thu,  2 Dec 2021 09:17:07 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] distutils3: fix bindir mangling to stop breaking symlinks
+Date: Thu,  2 Dec 2021 17:17:06 +0000
+Message-Id: <20211202171706.2259724-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 17:00:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 17:17:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159095
+ https://lists.openembedded.org/g/openembedded-core/message/159096
 
-On Wed, 2021-12-01 at 20:20 +0000, Mike Crowe via lists.openembedded.org wrote:
-> On Wednesday 01 December 2021 at 14:18:19 -0500, Justin Bronder wrote:
-> > On 01/12/21 16:43 +0000, Mike Crowe via lists.openembedded.org wrote:
-> > > I'm building for a specific chip and therefore don't wish to waste time and
-> > > electricity building and disk space on the target installing unwanted mesa
-> > > drivers. However, mesa.inc contains:
-> > > 
-> > >  GALLIUMDRIVERS = "swrast"
-> > >  GALLIUMDRIVERS:x86-x32 = ""
-> > >  GALLIUMDRIVERS:append:x86:class-target = ",i915,iris,crocus"
-> > >  GALLIUMDRIVERS:append:x86-64:class-target = ",i915,iris,crocus"
-> > > 
-> > > and mesa_21.3.0.bb contains:
-> > > 
-> > >  DRIDRIVERS ??= ""
-> > >  DRIDRIVERS:append:x86:class-target = ",r100,r200,nouveau,i965"
-> > >  DRIDRIVERS:append:x86-64:class-target = ",r100,r200,nouveau,i965"
-> > > 
-> > > I'm unable to find a way to override these values. Using (for example):
-> > 
-> > You can use an anonymous python function which runs after parsing.
-> > https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#anonymous-python-functions
-> > 
-> >     python __anonymous () {
-> >         d.setVar("DRIDRIVERS", "i965")
-> >     }
-> 
-> Thanks for the suggestion. It solves my problem. However, it seems like
-> quite a subversive way to do the sort of external customisation that
-> recipes normally support.
+distutils3_do_install wants to sed out build directory references from
+all binaries in ${bindir} and ${sbindir}. It tries to avoid touching
+symlinks by doing 'test -f' on the files as it iterates, but test always
+dereferences symlinks so this will touch both real files and symlinks to
+real files.
 
-I would like to work our how we can improve this situation, I'm just struggling
-to see what we should do :/
+The end result of this is that recipes which ship a script /usr/bin/foo
+and a symlink /usr/bin/bar -> foo, bar will be replaced with a real file
+which is a duplicate of foo, wasting disk space.
 
-Cheers,
+Replace the loop with a find loop which can look at the real file type,
+not the target type.
 
-Richard
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes/distutils3.bbclass | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bb=
+class
+index be645d37bd..0973d304f4 100644
+--- a/meta/classes/distutils3.bbclass
++++ b/meta/classes/distutils3.bbclass
+@@ -43,11 +43,9 @@ distutils3_do_install() {
+         find ${D} -name "*.py" -exec grep -q ${D} {} \; \
+                                -exec sed -i -e s:${D}::g {} \;
+=20
+-        for i in ${D}${bindir}/* ${D}${sbindir}/*; do
+-            if [ -f "$i" ]; then
+-                sed -i -e s:${PYTHON}:${USRBINPATH}/env\ ${DISTUTILS_PYT=
+HON}:g $i
+-                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+-            fi
++        for bin in $(find ${D}${bindir} ${D}${sbindir} -type f -maxdepth=
+ 1); do
++            sed -i -e s:${PYTHON}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}=
+:g $bin
++            sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $bin
+         done
+=20
+         rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
+--=20
+2.25.1
 
 
