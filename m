@@ -1,97 +1,112 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F93C433EF
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 22:06:19 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.3754.1638482778164035104
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B037BC433F5
+	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 23:16:32 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.4669.1638486991596218521
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 14:06:18 -0800
+ Thu, 02 Dec 2021 15:16:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=g52FueBF;
- spf=pass (domain: gmail.com, ip: 209.85.221.50,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id a18so1644582wrn.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ETWMVfAy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id l16so1865038wrp.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 14:06:17 -0800 (PST)
+ Thu, 02 Dec 2021 15:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YBzX2P09L6cgCi4kIrrWcxBsOsOW3oZ1Fi6t0Bs5mtQ=;
-        b=g52FueBFuWYZ/ujnvQy+iBxuBIUSCdwpfoEdSOqJnqUln9P2o064IjiY4V8mOr+/4f
-         n5plLNKjxf9VzPlx5y3zIdTqXkbT+xDFaP8lAlG/3c0/d9CImd9AGSegVXXMmxZryEoc
-         r+YCujegRayz0uopapb6pVxgiI1tay0XYm0u8+V1eug732bKj069yKbg5Lm/x3TlpATg
-         xckXkI2NlMTEbsjfFVIOfUm5ensnxc3q4rgw/Z2Du/pEkc8XO313YKbbYyEHOhOpE2w1
-         8KzMQxRu+ivwVM8AD7YXlv4kav/v5K44lDuU05t3VC9bKOwMe7WeTxMLBk3KfY0l3LRZ
-         7w/A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=xVOOsRsQpxW0VsB3pbGNJbf4uaaU73Q4SORu8fjLnXY=;
+        b=ETWMVfAyMnfiiRMltIHQEkRXbOFeVHocPNJYmZIewGrKv4O/WprqJE7bpb8u9nDax+
+         fCKxmULykq5CJr9GtpiPQdgj6+pq+zfFrrvOd1SGWowzF4qb2V1V8eQlxvTPv6GJOqIY
+         x1bnNIJ2uiT35fymilbuIRAEveX1d1MKayYs8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YBzX2P09L6cgCi4kIrrWcxBsOsOW3oZ1Fi6t0Bs5mtQ=;
-        b=8GQqbJ9ZeItTpK5tWaYpXTDHezPVdqIJGd4Fj6YGTOb0aXCeNQQCH9xksiZGmzCx3w
-         eQVr/3ah8ifEygYWrPB1IHbK0Sty7lufaT1MRT6gRytei5LfLW9Knch9ttK9vHJNty/h
-         d3yyRScNCq/wM+t/fEna4RZmPfys37zi2hdR2tiKZwB9D2C9W69kMkiBxvWdHU8uDvJI
-         oX2UcDCBn6gbK31rG71uveYiabdJ7amnUaWsp87YTbpCqFhtJcufyTP4qOwweAbV39VW
-         tBau1n8tlAhBczya7/fgG9dB6quQB1GjOPI56Jea91RAC4LGyH2i1/NrajfgCxp28nOK
-         7Sng==
-X-Gm-Message-State: AOAM533ylcSliweHDYkVCbr64wIwAdi9ZwyKB+1awz8KDxT7f/igwpor
-	7qF5nEqyTNq9MjOqE51puxcpMtoe0uc=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=xVOOsRsQpxW0VsB3pbGNJbf4uaaU73Q4SORu8fjLnXY=;
+        b=xJHaXRwg0/cDG459wvbd7uxSdX8abaGySuUuVl9Tq6DbJ/iDTiX5YrmCe2AEN37ol4
+         Xl1RSGakl9p/Ol5AZJ3YK8ElXKn+iNwtz2gLqSS40SL0lP59b1GQ6lMLCxABpdVOLAJz
+         FpxRZMczKLMHGz4NRZXwbg8BiR/2iqCV5S+SfdMnFwAoGDiPXoD2c3u29YYfEzLf/gqx
+         p8dPaJtjCPn7zHNv2G4LplCboxBsvpNwpgZxf+OrOHhKWICgwrvc1wiNuRhzWuMkz/92
+         +Ucxedqg1ZVvpAF9HdGi+eXNZTtcJ+VBGlm/KhLuqTCr9fiKDm6MLHXWbVvSlcre4gj1
+         s83A==
+X-Gm-Message-State: AOAM530aJqb0Y/5J4EDqnQmQq1P6bbtu4V7IRT2d9zWSloi4gMTZw3Hp
+	DKeX4j+Tf4Cd7xgMygL27J9nOg==
 X-Google-Smtp-Source: 
- ABdhPJxVf9fiNYxH7D5+3YLmyO/wsirLgRC9XRTxeIr9werMYts/nytZczvGQowMmrnOfgf5P93oRA==
-X-Received: by 2002:a5d:4ecd:: with SMTP id
- s13mr16887258wrv.400.1638482776301;
-        Thu, 02 Dec 2021 14:06:16 -0800 (PST)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+ ABdhPJyIhXxF73OKqr5R1bkXZOgzV2vmSc9dg23TOnt3eO7k8E40UAmb8vM4YmXDc8Zu729HznGURw==
+X-Received: by 2002:a5d:4f8d:: with SMTP id d13mr16629894wru.89.1638486989973;
+        Thu, 02 Dec 2021 15:16:29 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:99d4:2d39:57c3:1ae0?
+ ([2001:8b0:aba:5f3c:99d4:2d39:57c3:1ae0])
         by smtp.gmail.com with ESMTPSA id
- i15sm3872863wmq.18.2021.12.02.14.06.15
+ j18sm4350871wmq.44.2021.12.02.15.16.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 14:06:15 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH] glslang: upgrade 11.7.0 -> 11.7.1
-Date: Thu,  2 Dec 2021 22:06:09 +0000
-Message-Id: <20211202220609.2106991-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 02 Dec 2021 15:16:29 -0800 (PST)
+Message-ID: 
+ <4ba740e7876974703d351f941eaf2e67cc3688e8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] sstate: don't limit the thread pool size
+ when checking mirrors
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 02 Dec 2021 23:16:27 +0000
+In-Reply-To: <20211202220517.2106590-1-quaresma.jose@gmail.com>
+References: <20211202220517.2106590-1-quaresma.jose@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 22:06:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 23:16:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159108
+ https://lists.openembedded.org/g/openembedded-core/message/159109
 
-changelog:
-1f8c8b88 Revert port of GL_EXT_shader_realtime_clock to GL_EXT_spirv_intrinsics
+On Thu, 2021-12-02 at 22:05 +0000, Jose Quaresma wrote:
+> This improves the time needed to check the mirrors,
+> reducing it from 50s to 8s when building the core-image-minimal
+> using the yocto upstream sstate and hashequivlance servers
+> on a machine with 8 cpu cores.
+> 
+> Tested with:
+> 
+>  SSTATE_MIRRORS = "file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH"
+>  BB_HASHSERVE_UPSTREAM = "typhoon.yocto.io:8687"
+>  bitbake core-image-minimal
+> 
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/classes/sstate.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 0326d27c74..5e404d7cd8 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -1005,7 +1005,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+>              tasklist.append((tid, sstatefile))
+>  
+>          if tasklist:
+> -            nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
+> +            nproc = len(tasklist)
+>  
+>              progress = len(tasklist) >= 100
+>              if progress:
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- .../glslang/{glslang_11.7.0.bb => glslang_11.7.1.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/glslang/{glslang_11.7.0.bb => glslang_11.7.1.bb} (95%)
+No, we're not doing that. That opens a ton (thousands) of parallel connections
+to the servers and isn't fair on the systems hosting the data. In many cases
+that would look like a DoS attack.
 
-diff --git a/meta/recipes-graphics/glslang/glslang_11.7.0.bb b/meta/recipes-graphics/glslang/glslang_11.7.1.bb
-similarity index 95%
-rename from meta/recipes-graphics/glslang/glslang_11.7.0.bb
-rename to meta/recipes-graphics/glslang/glslang_11.7.1.bb
-index 0b4bf21bca..30d9954ea5 100644
---- a/meta/recipes-graphics/glslang/glslang_11.7.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_11.7.1.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
- 
--SRCREV = "925503088e2bcd76921b1e102c37fc320bace254"
-+SRCREV = "c9706bdda0ac22b9856f1aa8261e5b9e15cd20c5"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=master \
-            file://0001-generate-glslang-pkg-config.patch"
- UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
--- 
-2.34.1
+Cheers,
+
+Richard
+
+
 
 
