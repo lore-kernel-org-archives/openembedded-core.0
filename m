@@ -2,63 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2EE9C433F5
-	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 18:21:55 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web08.15313.1638555714991697981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6871C433EF
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 18:21:59 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web12.15503.1638555718859768039
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 10:21:55 -0800
+ Fri, 03 Dec 2021 10:21:58 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=wlXs6Fdm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
+ header.b=ONe+d2lT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id x131so3622024pfc.12
+Received: by mail-pj1-f52.google.com with SMTP id
+ nh10-20020a17090b364a00b001a69adad5ebso3189523pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 10:21:54 -0800 (PST)
+ Fri, 03 Dec 2021 10:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=M4N6wr0HwoJ7LfRz9WPdDnkS+sID3pzfnf1/uP1YZLQ=;
-        b=wlXs6Fdm4Yb5O7blcjHhSJ/tRB7zxPJiWKs9Ugk6onMc4crp6g7elzMrNCXmM9i3c3
-         iQhSbJAL21hvnuyckkAi3AiQxYku6KBDJdPU2oLyeAKrIyL3rm0ctZrzXeUNyhIFA3VP
-         PDkECOpTTukcndHNHJnW6Z/Fxiht/Jo5JrimwhDoqN1AF+ZAcKATe7mcn3SQWHd6LN4t
-         0iRef4ZcUdu5W8vAleQ0LE0iVP7D1KbsxV9lxP9GY5z2Zn/0oTnyGWb7k5pRdOP3z2mU
-         t9w5eDHDIrFJglyBhN8o0is1vSYj2FinAZKTeM/PBc1A1ry41hUTVwOaHOv9TED3S1Eg
-         TrwA==
+        bh=K1fvdgEoV/KtAjQ3/YSAxkxO/s1tN7wDcl/n6zAvRrk=;
+        b=ONe+d2lT3BaJV5Avuzv2MWBWgmIXu5r+WTfDBsnNhD5uv0omckYbO4sXSj1SQYdcrQ
+         Hc7iMAUT9lWXYbVQW04/o/hAtM/eAy26nXKBum4xQGjrHjlsYZ04cMwtWBL72r2TEbeI
+         RUUOI3JAYJIzelo4xzh2cb0TJjlzz7rjYnQJGh5aMFVS0UHYQJoxaZTr9QH+yvpzEka3
+         rJLnT6HEP0kQL2yPOJ/Mk6PcvQCwAD6vNzBe7svS4CxYDHuJ0zX6pfLEDpDnRY8bsuFo
+         XMboVIdU0kOZK1ZhMOLXFMw3z7rqnu7KbF12Wlup798d87PDlAaWBekTL5H/8/P9eiXk
+         ZqTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=M4N6wr0HwoJ7LfRz9WPdDnkS+sID3pzfnf1/uP1YZLQ=;
-        b=7vX94GJ+0GdeIapTOHSDGXUHpgMMG8ha25Fc5fOc8EMvnXrzENlHANK67YYV98+XHf
-         P/nHKs3Cbx1GeJm5dvGAeSY27UgKSPAVZ4O1BM6b/VYsDqSxMxG17ipSO7BYNzv03TIT
-         73U9OU4IDiJ31IzMew4PgNNMdx/uWLmzusv6IyLRm051mOjbvIjqJMrWOrhydAWDwXh2
-         UUJc1a99W6OzZw+J1ZZ+lI2XiJXTaNv55HIYWDns37YUISSN3RJ3vqbpnPyD04RV8+rA
-         4XHMb57PZjujyxZo9mma0kq6UNPxXDxTRkF+ZQyqjHC/H1LZIn3sGl7COdJUrN/86b8A
-         Ap2w==
-X-Gm-Message-State: AOAM533VkBii1ureeEKeA9qPnjcq7qdvaHCODOqCEXi1iYJS4s/hKufI
-	e046aNvjqJYNScTD5DPihX4dE30XpyXhzbwyaNY=
+        bh=K1fvdgEoV/KtAjQ3/YSAxkxO/s1tN7wDcl/n6zAvRrk=;
+        b=KEHlZDlvYeKIPgKM+siPCTxHfDJX/V5va7oaBrWfwj6j6aUkwGGMCdcy2Y2n79MNh2
+         xiTSNy0paME7NAzHJWcAiVByU3gF9Gdg8gn6PpPyXMnlCfnTV9UhKKe8ToB0uL6LD0sB
+         qDmf8UecOpJJlujyHcimarc9oTtlCmm0pEVnYaOWnjIHAK6D/3Km0YY7QrDfUtIPo1Wo
+         3lA4AojEXm2p7+NLShID53euCUPss1b8l0NTlL6qOPm7VNw10wcLfhCWxUpYgjzlBJt0
+         cIaOrT2p//5DMXJGFyDmddtx2EFomyegL6g7Z3T3EcB4isIF6ZtiH0Gjx6YzopW32Biq
+         idAg==
+X-Gm-Message-State: AOAM530xsk5suWcMKl/K2tSgwYz8SOiJ0UWQ8caepqKYoJB9Xy7NXYbs
+	yWARu99pSjgiUfl+Xc7vLxLHPOBbHBJBqZCNDX0=
 X-Google-Smtp-Source: 
- ABdhPJwhr1392jPgaUd1QQPtwnCYTz6mKCkSfCjKDTZ4ZhiaaPIne2HVLjL7bHVvOHRTONJYeW/aJg==
-X-Received: by 2002:a05:6a00:2496:b0:49f:eba0:6575 with SMTP id
- c22-20020a056a00249600b0049feba06575mr20652957pfv.78.1638555713979;
-        Fri, 03 Dec 2021 10:21:53 -0800 (PST)
+ ABdhPJzaHZvwfoVK8NsiySzGvXAERzdSqhY3mDg3JLpWRi6gQ72V79Xz3kINpemktwOcjx6VW1M6yg==
+X-Received: by 2002:a17:902:c206:b0:142:631:5ffc with SMTP id
+ 6-20020a170902c20600b0014206315ffcmr24907120pll.38.1638555717658;
+        Fri, 03 Dec 2021 10:21:57 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- 130sm3959753pfu.13.2021.12.03.10.21.52
+ 130sm3959753pfu.13.2021.12.03.10.21.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 10:21:53 -0800 (PST)
+        Fri, 03 Dec 2021 10:21:57 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/18] dnf: Backport bugfix for upgrade
-Date: Fri,  3 Dec 2021 08:18:59 -1000
+Subject: [OE-core][dunfell 13/18] libunwind: Backport a fix for -fno-common
+ option to compile
+Date: Fri,  3 Dec 2021 08:19:00 -1000
 Message-Id: 
- <2ead580a981e5d4f72d5bba22db4ae718815bc42.1638555254.git.steve@sakoman.com>
+ <a99510ffa88498ede645d3c4711ec1f11d60265f.1638555254.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638555254.git.steve@sakoman.com>
 References: <cover.1638555254.git.steve@sakoman.com>
@@ -67,103 +69,472 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 18:21:55 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 18:21:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159139
+ https://lists.openembedded.org/g/openembedded-core/message/159140
 
-From: Jate Sujjavanich <jatedev@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Keep installed packages in upgrade job
+[Khem Raj]
+defaults for gcc is to use -fno-common this ensures that it keeps
+building with gcc -fno-common
 
-This prevents duplicate identical packages from being reinstalled
-with each upgrade
+Fixes
+src/arm/Ginit.c:60: multiple definition of `_U_dyn_info_list'; mi/.libs/dyn-info-list.o:/usr/src/debug/libunwind/1.4.0-r0/build/src/../../libunwind-1.4.0/src/mi/dyn-info-list.c:28: first defined here
 
-Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+[Philippe Coval]
+
+Change and related patch ported to dunfell branch on 1.3.1 version
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Origin: https://github.com/openembedded/openembedded-core/commit/6cd2cf6525bcb241b3a2538e559fcef2a2084a7e
+Signed-off-by: Philippe Coval <philippe.coval@huawei.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ackages-in-upgrade-job-RhBug-1728252.patch | 60 +++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_4.2.2.bb        |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
+ ...0001-Fix-compilation-with-fno-common.patch | 420 ++++++++++++++++++
+ .../libunwind/libunwind_1.3.1.bb              |   1 +
+ 2 files changed, 421 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind/0001-Fix-compilation-with-fno-common.patch
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch b/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
+diff --git a/meta/recipes-support/libunwind/libunwind/0001-Fix-compilation-with-fno-common.patch b/meta/recipes-support/libunwind/libunwind/0001-Fix-compilation-with-fno-common.patch
 new file mode 100644
-index 0000000000..57c2375a54
+index 0000000000..34a1f46b0f
 --- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
-@@ -0,0 +1,60 @@
-+From c88a77198c0156e425c2725f30e481207de5162f Mon Sep 17 00:00:00 2001
-+From: Jaroslav Mracek <jmracek@redhat.com>
-+Date: Tue, 3 Sep 2019 11:01:51 +0200
-+Subject: [PATCH] Keep installed packages in upgrade job
-+ (RhBug:1728252,1644241,1741381)
++++ b/meta/recipes-support/libunwind/libunwind/0001-Fix-compilation-with-fno-common.patch
+@@ -0,0 +1,420 @@
++From 51112447b316813ad1ae50ea66feca4eb755a424 Mon Sep 17 00:00:00 2001
++From: Yichao Yu <yyc1992@gmail.com>
++Date: Tue, 31 Mar 2020 00:43:32 -0400
++Subject: [PATCH] Fix compilation with -fno-common.
 +
-+In combination with marking of job as TARGETED it prevents from
-+reinstalling of modified packages with same NEVRA.
++[Khem Raj]
++Making all other archs consistent with IA64 which should not have this problem.
++Also move the FIXME to the correct place.
 +
-+https://bugzilla.redhat.com/show_bug.cgi?id=1728252
-+https://bugzilla.redhat.com/show_bug.cgi?id=1644241
-+https://bugzilla.redhat.com/show_bug.cgi?id=1741381
++Also add some minimum comments about this...
 +
-+Closes: #1474
-+Approved by: m-blaha
++[Philippe Coval]
 +
++Patch ported to v1.3-stable branch,
++patch to be used used in openembedded-core dunfell branch (on v1.3.1)
++for oniro project.
 +
-+Backport to fix bug in dnf in oe-core
-+from https://github.com/rpm-software-management/dnf
-+
-+Removed spec file portion of patch
-+
-+Upstream-Status: Backport
-+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
++Upstream-Status: Backport [https://github.com/libunwind/libunwind/pull/166]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Thanks-to: Yichao Yu <yyc1992@gmail.com>
++Origin: https://github.com/libunwind/libunwind/commit/29e17d8d2ccbca07c423e3089a6d5ae8a1c9cb6e
++Relate-to: https://booting.oniroproject.org/distro/oniro/-/issues/191
++Forwarded: https://github.com/libunwind/libunwind/pull/312
++Last-Update: 2021-11-25
++Signed-off-by: Philippe Coval <philippe.coval@huawei.com>
 +---
-+ dnf.spec                  | 4 ++--
-+ dnf/base.py               | 3 ---
-+ dnf/module/module_base.py | 2 +-
-+ 3 files changed, 3 insertions(+), 6 deletions(-)
++ src/aarch64/Ginit.c                        | 15 +++++++--------
++ src/arm/Ginit.c                            | 15 +++++++--------
++ src/coredump/_UPT_get_dyn_info_list_addr.c |  5 +++++
++ src/hppa/Ginit.c                           | 15 +++++++--------
++ src/ia64/Ginit.c                           |  1 +
++ src/mi/Gfind_dynamic_proc_info.c           |  1 +
++ src/mips/Ginit.c                           | 15 +++++++--------
++ src/ppc32/Ginit.c                          | 11 +++++++----
++ src/ppc64/Ginit.c                          | 11 +++++++----
++ src/ptrace/_UPT_get_dyn_info_list_addr.c   |  5 +++++
++ src/sh/Ginit.c                             | 15 +++++++--------
++ src/tilegx/Ginit.c                         | 15 +++++++--------
++ src/x86/Ginit.c                            | 15 +++++++--------
++ src/x86_64/Ginit.c                         | 15 +++++++--------
++ 14 files changed, 82 insertions(+), 72 deletions(-)
 +
-+diff --git a/dnf/base.py b/dnf/base.py
-+index b2ced61..628c154 100644
-+--- a/dnf/base.py
-++++ b/dnf/base.py
-+@@ -1968,9 +1968,6 @@ class Base(object):
-+                 obsoletes=q.installed().union(q.upgrades()))
-+             # add obsoletes into transaction
-+             q = q.union(obsoletes)
-+-        # provide only available packages to solver otherwise selection of available
-+-        # possibilities will be ignored
-+-        q = q.available()
-+         if reponame is not None:
-+             q.filterm(reponame=reponame)
-+         q = self._merge_update_filters(q, pkg_spec=pkg_spec)
-+diff --git a/dnf/module/module_base.py b/dnf/module/module_base.py
-+index 976d730..ce70f63 100644
-+--- a/dnf/module/module_base.py
-++++ b/dnf/module/module_base.py
-+@@ -214,7 +214,7 @@ class ModuleBase(object):
++diff --git a/src/aarch64/Ginit.c b/src/aarch64/Ginit.c
++index 9c4eae82..cb954b15 100644
++--- a/src/aarch64/Ginit.c
+++++ b/src/aarch64/Ginit.c
++@@ -61,13 +61,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
 + 
-+             if not upgrade_package_set:
-+                 logger.error(_("Unable to match profile in argument {}").format(spec))
-+-            query = self.base.sack.query().available().filterm(name=upgrade_package_set)
-++            query = self.base.sack.query().filterm(name=upgrade_package_set)
-+             if query:
-+                 sltr = dnf.selector.Selector(self.base.sack)
-+                 sltr.set(pkg=query)
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -78,7 +71,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/arm/Ginit.c b/src/arm/Ginit.c
++index 2720d063..0bac0d72 100644
++--- a/src/arm/Ginit.c
+++++ b/src/arm/Ginit.c
++@@ -57,18 +57,17 @@ tdep_uc_addr (unw_tdep_context_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/coredump/_UPT_get_dyn_info_list_addr.c b/src/coredump/_UPT_get_dyn_info_list_addr.c
++index 0d119055..739ed056 100644
++--- a/src/coredump/_UPT_get_dyn_info_list_addr.c
+++++ b/src/coredump/_UPT_get_dyn_info_list_addr.c
++@@ -74,6 +74,11 @@ get_list_addr (unw_addr_space_t as, unw_word_t *dil_addr, void *arg,
++ 
++ #else
++ 
+++/* XXX fix me: there is currently no way to locate the dyn-info list
+++       by a remote unwinder.  On ia64, this is done via a special
+++       unwind-table entry.  Perhaps something similar can be done with
+++       DWARF2 unwind info.  */
+++
++ static inline int
++ get_list_addr (unw_addr_space_t as, unw_word_t *dil_addr, void *arg,
++                int *countp)
++diff --git a/src/hppa/Ginit.c b/src/hppa/Ginit.c
++index 461e4b93..265455a6 100644
++--- a/src/hppa/Ginit.c
+++++ b/src/hppa/Ginit.c
++@@ -64,13 +64,6 @@ _Uhppa_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -81,7 +74,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/ia64/Ginit.c b/src/ia64/Ginit.c
++index b09a2ad5..8601bb3c 100644
++--- a/src/ia64/Ginit.c
+++++ b/src/ia64/Ginit.c
++@@ -68,6 +68,7 @@ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++   if (!_U_dyn_info_list_addr)
++     return -UNW_ENOINFO;
++ #endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
++   *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++diff --git a/src/mi/Gfind_dynamic_proc_info.c b/src/mi/Gfind_dynamic_proc_info.c
++index 98d35012..2e7c62e5 100644
++--- a/src/mi/Gfind_dynamic_proc_info.c
+++++ b/src/mi/Gfind_dynamic_proc_info.c
++@@ -49,6 +49,7 @@ local_find_proc_info (unw_addr_space_t as, unw_word_t ip, unw_proc_info_t *pi,
++     return -UNW_ENOINFO;
++ #endif
++ 
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
++   list = (unw_dyn_info_list_t *) (uintptr_t) _U_dyn_info_list_addr ();
++   for (di = list->first; di; di = di->next)
++     if (ip >= di->start_ip && ip < di->end_ip)
++diff --git a/src/mips/Ginit.c b/src/mips/Ginit.c
++index 3df170c7..bf7a8f5a 100644
++--- a/src/mips/Ginit.c
+++++ b/src/mips/Ginit.c
++@@ -69,13 +69,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -86,7 +79,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) (intptr_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/ppc32/Ginit.c b/src/ppc32/Ginit.c
++index ba302448..7b454558 100644
++--- a/src/ppc32/Ginit.c
+++++ b/src/ppc32/Ginit.c
++@@ -91,9 +91,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -104,7 +101,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/ppc64/Ginit.c b/src/ppc64/Ginit.c
++index 4c88cd6e..7bfb395a 100644
++--- a/src/ppc64/Ginit.c
+++++ b/src/ppc64/Ginit.c
++@@ -95,9 +95,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -108,7 +105,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/ptrace/_UPT_get_dyn_info_list_addr.c b/src/ptrace/_UPT_get_dyn_info_list_addr.c
++index cc5ed044..16671d45 100644
++--- a/src/ptrace/_UPT_get_dyn_info_list_addr.c
+++++ b/src/ptrace/_UPT_get_dyn_info_list_addr.c
++@@ -71,6 +71,11 @@ get_list_addr (unw_addr_space_t as, unw_word_t *dil_addr, void *arg,
++ 
++ #else
++ 
+++/* XXX fix me: there is currently no way to locate the dyn-info list
+++       by a remote unwinder.  On ia64, this is done via a special
+++       unwind-table entry.  Perhaps something similar can be done with
+++       DWARF2 unwind info.  */
+++
++ static inline int
++ get_list_addr (unw_addr_space_t as, unw_word_t *dil_addr, void *arg,
++                int *countp)
++diff --git a/src/sh/Ginit.c b/src/sh/Ginit.c
++index 52988a72..9fe96d2b 100644
++--- a/src/sh/Ginit.c
+++++ b/src/sh/Ginit.c
++@@ -58,13 +58,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -75,7 +68,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/tilegx/Ginit.c b/src/tilegx/Ginit.c
++index 7564a558..925e6413 100644
++--- a/src/tilegx/Ginit.c
+++++ b/src/tilegx/Ginit.c
++@@ -64,13 +64,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -81,7 +74,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) (intptr_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/x86/Ginit.c b/src/x86/Ginit.c
++index f6b8dc27..3cec74a2 100644
++--- a/src/x86/Ginit.c
+++++ b/src/x86/Ginit.c
++@@ -54,13 +54,6 @@ tdep_uc_addr (ucontext_t *uc, int reg)
++ 
++ # endif /* UNW_LOCAL_ONLY */
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -71,7 +64,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
++diff --git a/src/x86_64/Ginit.c b/src/x86_64/Ginit.c
++index b7e8e462..fe6bcc33 100644
++--- a/src/x86_64/Ginit.c
+++++ b/src/x86_64/Ginit.c
++@@ -49,13 +49,6 @@ static struct unw_addr_space local_addr_space;
++ 
++ unw_addr_space_t unw_local_addr_space = &local_addr_space;
++ 
++-HIDDEN unw_dyn_info_list_t _U_dyn_info_list;
++-
++-/* XXX fix me: there is currently no way to locate the dyn-info list
++-       by a remote unwinder.  On ia64, this is done via a special
++-       unwind-table entry.  Perhaps something similar can be done with
++-       DWARF2 unwind info.  */
++-
++ static void
++ put_unwind_info (unw_addr_space_t as, unw_proc_info_t *proc_info, void *arg)
++ {
++@@ -66,7 +59,13 @@ static int
++ get_dyn_info_list_addr (unw_addr_space_t as, unw_word_t *dyn_info_list_addr,
++                         void *arg)
++ {
++-  *dyn_info_list_addr = (unw_word_t) &_U_dyn_info_list;
+++#ifndef UNW_LOCAL_ONLY
+++# pragma weak _U_dyn_info_list_addr
+++  if (!_U_dyn_info_list_addr)
+++    return -UNW_ENOINFO;
+++#endif
+++  // Access the `_U_dyn_info_list` from `LOCAL_ONLY` library, i.e. libunwind.so.
+++  *dyn_info_list_addr = _U_dyn_info_list_addr ();
++   return 0;
++ }
++ 
 +-- 
-+2.7.4
++2.32.0
 +
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-index 1b00ae945e..6b6b233d6d 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
-            file://0030-Run-python-scripts-using-env.patch \
-            file://Fix-SyntaxWarning.patch \
-            file://0001-set-python-path-for-completion_helper.patch \
-+           file://0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch \
+diff --git a/meta/recipes-support/libunwind/libunwind_1.3.1.bb b/meta/recipes-support/libunwind/libunwind_1.3.1.bb
+index 037e04c3c0..8ae94a834c 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.3.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.3.1.bb
+@@ -7,6 +7,7 @@ SRC_URI = "http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV
+            file://0004-Fix-build-on-mips-musl.patch \
+            file://0005-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch \
+            file://0006-Fix-for-X32.patch \
++           file://0001-Fix-compilation-with-fno-common.patch \
             "
+ SRC_URI_append_libc-musl = " file://musl-header-conflict.patch"
  
- SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
 -- 
 2.25.1
 
