@@ -1,206 +1,107 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A31D5C433EF
-	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 09:03:12 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.9409.1638522183797504726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C73DC433F5
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 09:40:14 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+ [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.9706.1638524413279300595
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 01:03:04 -0800
+ Fri, 03 Dec 2021 01:40:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dcVJjKXD;
- spf=pass (domain: gmail.com, ip: 209.85.208.181,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id v15so4985080ljc.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pyrlke4d;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id k23so5078079lje.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 01:03:03 -0800 (PST)
+ Fri, 03 Dec 2021 01:40:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Nx9/iSAbEO2OhbhyZawSSclrZcE4AgDOmjHy5x98CEc=;
-        b=dcVJjKXDd9NpwIjkK3Kj7/3EfxoHdyA4Hhh6hIxupVY7i/WRn/LqI3SGZ94xljGZK/
-         Kemjp+SQFXm5w2/OeD5ABn0iYtI+BiyZsHrMDPyHQf/tobEZPI6pOQHyJ19/bjgXSjpl
-         5C0w+FZhWgjYY3J/wEKCsug6/AGbwItlFxbSwFq+3GdHbEi2ZfzE3hgYeFyNG/xkwuBD
-         82rU0gEj4MMeJlK4xQPcAvYX1Q3xakt+64Ar/5mNH7b+WD63iidH1lehQlQoVupSuaHG
-         JBfePrBHxq93tor8I0Cn+lXqtTOjI6dq4EHrXopegM2l9iwdIar8/2pMmR9tmrJh8mi4
-         7zdg==
+        bh=ncefGOuiub35q6z8oAgqdSeLdlFQRj+0o6WYOBBubsU=;
+        b=pyrlke4dzrBNCeMEcqXto0RdHZxU+XxY8G1B0KXe0zXbVVMOsUhA1zoRJHTGLhSM7j
+         WVRc1/G1gHzmGiXDyft/ShIMkRjF8DS7Gg2C5BApJIh0UScOit+To+aBZPLw51veCPHr
+         BDHdM9SdQtIfZYWykLZu8h+b6hj7QwCvw1MKJNNkjjTSsZcxbrXxyNXWkU2v23+JpgkJ
+         Z4nOuYrSwjXxPli4299Pl8XTpcSbyG5BynXvzX1xmtLcn34YIkosClt8+anDczI578rg
+         DC7RfxuE+fihcQmki1HKyLPxYOUHQLLoBaRrgY1z+tVs3WEZs4KReFkdC+gRDJgfHSUB
+         UqZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Nx9/iSAbEO2OhbhyZawSSclrZcE4AgDOmjHy5x98CEc=;
-        b=DhwIkRL/WsP61rE+schbPTVqvdajjQdPCt54L/WU/UpHKzX9Hn4rRuOQUHrc6EVU27
-         Q3zzKOSimUPzFDqdbwEzFXonOjx5Qwb3kuRT155Y+1J5rCaoFvWJYM/WOOTTZB0QiCZt
-         pexQUDNLekc62FL7RVOa05KjgVRhcPMM2GH+Cyhn/pQzNXr9v8zukCnyzVYqiKmPSdzO
-         Du+TRskJmxib409wfiIx4bMbaIDujNj+/ry4Y8b2zktA0jE+3Z5n9S6D3iEo/VrCsKIy
-         KXoQz+cQUV/KRCTCRXIO5ApDXEw1NtKCaTnFgw3/6/zwacaRmSS/rktIVL/wQwnBtqCa
-         ipJw==
-X-Gm-Message-State: AOAM533+108YWvJGUPSh3cPBZ/L3L9+HFog08nc+2oT16aiMQC50O5Zu
-	33W+px3Cqd9qxTuqBekm6dZ9AopwkxMUAdG8YKk=
+        bh=ncefGOuiub35q6z8oAgqdSeLdlFQRj+0o6WYOBBubsU=;
+        b=Xd/UmPBhx8/wq3WZwNcA4ss6X5Gco2N/Uy3BLpD04u5cOtoodUdnuEvneQRroy0BIY
+         FoDU/kcjkkldaA0rj4JUTBYI3FgIZ8CW1M7OLAOg3y389uLxOBGZgGguFwFrEAYUWtRe
+         V1hvrH/CPshfprLP3tRxSf2qKrYlGnzUcprVRQkIvjZKLrQWLw4+V/ZDkGdbDmpTgZiV
+         Yj+uh/osJNi9CJiZKbCzQ1xh9TSBkmHAfqXilK2RAzUol/S6s1KDaR1DHi405xzQZ3ZD
+         8w7rbOqEYpIW/hHGWCUMTW++4RVhasqF4kLw47TidjHP6PpokTf/YmZBgUkbPXqm3AG8
+         e+og==
+X-Gm-Message-State: AOAM530LEzczf8OPeLDOBWh0Zv2jzWy7zjCtQ1HHy3/EtZnvASMt8Zgv
+	msyc9BjZ5h6tupoTwAoq+EuX8zupuSHhRQHTe7s=
 X-Google-Smtp-Source: 
- ABdhPJwnieeJYcxi97qQqJX2RjWnFSjP725wqNyXl5O6RRtkTChRq46MCfx9PIgDfj8jFko5HAbLCnBDKaV7O4teuiY=
-X-Received: by 2002:a2e:2e0e:: with SMTP id u14mr16805556lju.28.1638522181637;
- Fri, 03 Dec 2021 01:03:01 -0800 (PST)
+ ABdhPJxJ39s/z+VMLAIDPIMpdFk3Wo2SwUWW8z+vAOoZjBD14Tl3reOK6n/KnpQ9nrSR59xbbYrBGSl/ugcTMnoMjo4=
+X-Received: by 2002:a2e:7a04:: with SMTP id v4mr17309782ljc.238.1638524411199;
+ Fri, 03 Dec 2021 01:40:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20211202220517.2106590-1-quaresma.jose@gmail.com>
- <4ba740e7876974703d351f941eaf2e67cc3688e8.camel@linuxfoundation.org>
+References: <20211130165313.3816904-1-ross.burton@arm.com>
+ <20211130165313.3816904-2-ross.burton@arm.com>
+ <CAJ86T=V_9Y=xCbswnjV5ZkfihQ-KOWk13xYW7FNQaj7ahBUcjw@mail.gmail.com>
+ <CAAnfSTsvgBF1EUZ3t+FNAwGB9j0p8y41c2Mgfv2DMHoMVJWnfg@mail.gmail.com>
+ <CAJ86T=WH+HJPV7MMJFcuNyx+VmgUvPRD=wfHCTcKGyyJ3GTANw@mail.gmail.com>
+ <778f60e30d7fbfd9d4a63d87cb8824a5a9f0120a.camel@linuxfoundation.org>
 In-Reply-To: 
- <4ba740e7876974703d351f941eaf2e67cc3688e8.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 3 Dec 2021 09:02:51 +0000
+ <778f60e30d7fbfd9d4a63d87cb8824a5a9f0120a.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 3 Dec 2021 01:39:55 -0800
 Message-ID: 
- <CANPvuRkn0ib1=n=hpa6jDnei+4JLvLZ2bfwbs8BMGhWDunnCxw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] sstate: don't limit the thread pool size
- when checking mirrors
+ <CAJ86T=Uzdei4V_GYHH_Cd=C64Yo_HJ9+jW8Nbsq_sS2FjkiEng@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/2] vim: set PACKAGECONFIG idiomatically
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000097dc3f05d23a2cd8"
+Cc: Ross Burton <ross@burtonini.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 09:03:12 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 09:40:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159111
+ https://lists.openembedded.org/g/openembedded-core/message/159112
 
---00000000000097dc3f05d23a2cd8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-2/12/2021 =C3=A0(s) 23:16:
-
-> On Thu, 2021-12-02 at 22:05 +0000, Jose Quaresma wrote:
-> > This improves the time needed to check the mirrors,
-> > reducing it from 50s to 8s when building the core-image-minimal
-> > using the yocto upstream sstate and hashequivlance servers
-> > on a machine with 8 cpu cores.
+On Wed, Dec 1, 2021 at 2:33 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2021-11-30 at 13:45 -0800, Andre McCurdy wrote:
+> > On Tue, Nov 30, 2021 at 1:20 PM Ross Burton <ross@burtonini.com> wrote:
+> > >
+> > > On Tue, 30 Nov 2021 at 19:32, Andre McCurdy <armccurdy@gmail.com> wrote:
+> > > > This isn't equivalent - it will cause a change in behaviour for anyone
+> > > > using PACKAGECONFIG += "foo" from a .bbappend.
+> > >
+> > > Correct, but this is likely the only recipe in the greater ecosystem
+> > > which has this behaviour, so I'm not that bothered to be honest. :)
 > >
-> > Tested with:
+> > The only recipe? There are many recipes which set a default
+> > PACKAGECONFIG with ?= and many which set it with ??=. Your change is
+> > effectively switching the vim recipe from one approach to the other.
+> > The fact that adding PACKAGECONFIG options from a .bbappend with +=
+> > sometimes works OK and sometimes not is a source of confusion for new
+> > users.
 > >
-> >  SSTATE_MIRRORS =3D "file://.*
-> http://sstate.yoctoproject.org/dev/PATH;downloadfilename=3DPATH"
-> >  BB_HASHSERVE_UPSTREAM =3D "typhoon.yocto.io:8687"
-> >  bitbake core-image-minimal
-> >
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >  meta/classes/sstate.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> > index 0326d27c74..5e404d7cd8 100644
-> > --- a/meta/classes/sstate.bbclass
-> > +++ b/meta/classes/sstate.bbclass
-> > @@ -1005,7 +1005,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFals=
-e,
-> currentcount=3D0, summary=3DTrue,
-> >              tasklist.append((tid, sstatefile))
-> >
-> >          if tasklist:
-> > -            nproc =3D min(int(d.getVar("BB_NUMBER_THREADS")),
-> len(tasklist))
-> > +            nproc =3D len(tasklist)
-> >
-> >              progress =3D len(tasklist) >=3D 100
-> >              if progress:
+> > You are right that no one seems to care though...
 >
-> No, we're not doing that. That opens a ton (thousands) of parallel
-> connections
-> to the servers and isn't fair on the systems hosting the data. In many
-> cases
-> that would look like a DoS attack.
+> Some of us very much do care, it is actually bothering me a lot and I've posted
+> several times on the architecture list about this kind of issue.
 >
-> Cheers,
->
-> Richard
->
->
->
->
-Got it and I have to agree that it will launch a DoS to the server.
-However there are some cases around that have the mirror hosted locally on
-the file system.
-I'll try to find a solution that doesn't affect the http mirror.
+> We haven't worked out what we can agree to do about it though :(.
 
---=20
-Best regards,
+As a first, very easy, step, make a statement here on the mailing list
+that all PACKAGECONFIG defaults should be assigned with ?= instead of
+??= and fix the recipes in oe-core accordingly.
 
-Jos=C3=A9 Quaresma
-
---00000000000097dc3f05d23a2cd8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 2/12/2021 =C3=A0(s) 23:16:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On Thu, 2021-12-02 at 22:05 +0000, J=
-ose Quaresma wrote:<br>
-&gt; This improves the time needed to check the mirrors,<br>
-&gt; reducing it from 50s to 8s when building the core-image-minimal<br>
-&gt; using the yocto upstream sstate and hashequivlance servers<br>
-&gt; on a machine with 8 cpu cores.<br>
-&gt; <br>
-&gt; Tested with:<br>
-&gt; <br>
-&gt;=C2=A0 SSTATE_MIRRORS =3D &quot;file://.* <a href=3D"http://sstate.yoct=
-oproject.org/dev/PATH;downloadfilename=3DPATH" rel=3D"noreferrer" target=3D=
-"_blank">http://sstate.yoctoproject.org/dev/PATH;downloadfilename=3DPATH</a=
->&quot;<br>
-&gt;=C2=A0 BB_HASHSERVE_UPSTREAM =3D &quot;<a href=3D"http://typhoon.yocto.=
-io:8687" rel=3D"noreferrer" target=3D"_blank">typhoon.yocto.io:8687</a>&quo=
-t;<br>
-&gt;=C2=A0 bitbake core-image-minimal<br>
-&gt; <br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
-.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/sstate.bbclass | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass=
-<br>
-&gt; index 0326d27c74..5e404d7cd8 100644<br>
-&gt; --- a/meta/classes/sstate.bbclass<br>
-&gt; +++ b/meta/classes/sstate.bbclass<br>
-&gt; @@ -1005,7 +1005,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFal=
-se, currentcount=3D0, summary=3DTrue,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tasklist.append((tid, =
-sstatefile))<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if tasklist:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nproc =3D min(int(d.getVar(=
-&quot;BB_NUMBER_THREADS&quot;)), len(tasklist))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nproc =3D len(tasklist)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 progress =3D len(taskl=
-ist) &gt;=3D 100<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if progress:<br>
-<br>
-No, we&#39;re not doing that. That opens a ton (thousands) of parallel conn=
-ections<br>
-to the servers and isn&#39;t fair on the systems hosting the data. In many =
-cases<br>
-that would look like a DoS attack.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div><div><br></div>Got it and=C2=A0I have to agree that it w=
-ill launch=C2=A0a DoS to the server.<div>However there are some cases aroun=
-d that have the=C2=A0mirror hosted locally on the file system.<div><div>I&#=
-39;ll try to find a solution that doesn&#39;t affect the http mirror.<br></=
-div><div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature"><=
-div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div><=
-/div></div></div></div>
-
---00000000000097dc3f05d23a2cd8--
+As a second step, the parser could generate a warning (or even an
+error) if any variable is assigned to with only ??= and += (the end
+result of that combination is not what any user would expect and I
+doubt if any legitimate use case relies on it).
 
