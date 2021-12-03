@@ -1,92 +1,123 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C4C1C433EF
-	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 13:50:53 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.11844.1638539451760001111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8269BC433EF
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 13:59:40 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.11634.1638539978330821128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 05:50:51 -0800
+ Fri, 03 Dec 2021 05:59:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CABF71396
-	for <openembedded-core@lists.openembedded.org>;
- Fri,  3 Dec 2021 05:50:44 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 755763F766
-	for <openembedded-core@lists.openembedded.org>;
- Fri,  3 Dec 2021 05:50:44 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glew: update patch status
-Date: Fri,  3 Dec 2021 13:50:39 +0000
-Message-Id: <20211203135039.2649675-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=KQngwbjX;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1638539980;
+  x=1670075980;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=H2feJk+tyx+qwcg5a6MW9SpnQYb1aNmJpR0oCSXt9Cs=;
+  b=KQngwbjXRSZ/O+jjWKhSU/4xj4u+5mGEt+sFgiwtWrAErCn1UDG/KbBs
+   h6AK/DobUkxulcuRRdCcgKPfIUgGA5SFje3qZL5ljl0jNnClvc+IMR0gT
+   s038Im3LujffZZ8webKH/YKmOGaxylRmcWI8DUdpCRrrqFl8e6HrfI5AF
+   PZvPOr1QfMKyK56wlOU+fWd/HPedw+aenAA/Dgzmx8utlfF+V7p2ZI08s
+   oI3aihgzo0YaJOVFrBar95fLih0/irDPZG8FG+eeYek+5HTHwZTBbcSiE
+   f4SFd+4QiDNmPKqUbYRMUiy3TknkwTNLzlk9GiKgFLEGy7kOMWkM1iqJP
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
+	<armccurdy@gmail.com>
+CC: Ross Burton <ross@burtonini.com>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v2 2/2] vim: set PACKAGECONFIG idiomatically
+Thread-Topic: [OE-core] [PATCH v2 2/2] vim: set PACKAGECONFIG idiomatically
+Thread-Index: 
+ AQHX5grNdkOhwz6yZUG0pRKAXqVkL6wcZSYAgAAeOICAAAcGgIABn7eAgAJMgICAAAeBAIAATmeA
+Date: Fri, 3 Dec 2021 13:59:29 +0000
+Message-ID: <9425bc823580451c885178a688b08353@axis.com>
+References: <20211130165313.3816904-1-ross.burton@arm.com>
+	 <20211130165313.3816904-2-ross.burton@arm.com>
+	 <CAJ86T=V_9Y=xCbswnjV5ZkfihQ-KOWk13xYW7FNQaj7ahBUcjw@mail.gmail.com>
+	 <CAAnfSTsvgBF1EUZ3t+FNAwGB9j0p8y41c2Mgfv2DMHoMVJWnfg@mail.gmail.com>
+	 <CAJ86T=WH+HJPV7MMJFcuNyx+VmgUvPRD=wfHCTcKGyyJ3GTANw@mail.gmail.com>
+	 <778f60e30d7fbfd9d4a63d87cb8824a5a9f0120a.camel@linuxfoundation.org>
+	 <CAJ86T=Uzdei4V_GYHH_Cd=C64Yo_HJ9+jW8Nbsq_sS2FjkiEng@mail.gmail.com>
+ <61ee860e605c5e1db1aac7cc1c8cee15c23a4071.camel@linuxfoundation.org>
+In-Reply-To: 
+ <61ee860e605c5e1db1aac7cc1c8cee15c23a4071.camel@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 13:50:53 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 13:59:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159116
+ https://lists.openembedded.org/g/openembedded-core/message/159117
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../glew/glew/0001-Fix-build-race-in-Makefile.patch             | 2 +-
- meta/recipes-graphics/glew/glew/no-strip.patch                  | 2 +-
- meta/recipes-graphics/glew/glew/notempdir.patch                 | 2 ++
- 3 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makef=
-ile.patch b/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefi=
-le.patch
-index 7edcfe8de8..2418646689 100644
---- a/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.pat=
-ch
-+++ b/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.pat=
-ch
-@@ -1,4 +1,4 @@
--Upstream-Status: Submitted [https://github.com/nigels-com/glew/pull/311]
-+Upstream-Status: Backport [767e0316450911f1158bd4f7fd8dcd066bae5c55]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-=20
- From 0ce0a85597db48a2fca619bd95e34af091e54ae8 Mon Sep 17 00:00:00 2001
-diff --git a/meta/recipes-graphics/glew/glew/no-strip.patch b/meta/recipe=
-s-graphics/glew/glew/no-strip.patch
-index e411f11cb5..5708d93082 100644
---- a/meta/recipes-graphics/glew/glew/no-strip.patch
-+++ b/meta/recipes-graphics/glew/glew/no-strip.patch
-@@ -1,7 +1,7 @@
- Don't forcibly strip the binaries.
-=20
- Signed-off-by: Ross Burton <ross.burton@intel.com>
--Upstream-Status: Pending
-+Upstream-Status: Backport [d7693eea09ac76c67f5f3aa538bb911ce2291e2c]
-=20
- diff --git a/Makefile b/Makefile
- index 6a9803c..170c0ce 100644
-diff --git a/meta/recipes-graphics/glew/glew/notempdir.patch b/meta/recip=
-es-graphics/glew/glew/notempdir.patch
-index 8d79ce0cdf..68b46b6641 100644
---- a/meta/recipes-graphics/glew/glew/notempdir.patch
-+++ b/meta/recipes-graphics/glew/glew/notempdir.patch
-@@ -2,6 +2,8 @@ We don't use the dist-* targets and hence DIST_DIR isn't =
-used. The current code
- creates a new temp directory in /tmp/ for every invocation of make. Lets
- not do that.
-=20
-+https://github.com/nigels-com/glew/issues/334
-+
- Upstream-Status: Pending [a revised version would be needed for upstream=
-]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-=20
---=20
-2.25.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAzIGRl
+Y2VtYmVyIDIwMjEgMTE6MDcNCj4gVG86IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5j
+b20+DQo+IENjOiBSb3NzIEJ1cnRvbiA8cm9zc0BidXJ0b25pbmkuY29tPjsgT0UgQ29yZSBtYWls
+aW5nIGxpc3QgPG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K
+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MiAyLzJdIHZpbTogc2V0IFBBQ0tBR0VD
+T05GSUcgaWRpb21hdGljYWxseQ0KPiANCj4gT24gRnJpLCAyMDIxLTEyLTAzIGF0IDAxOjM5IC0w
+ODAwLCBBbmRyZSBNY0N1cmR5IHdyb3RlOg0KPiA+IE9uIFdlZCwgRGVjIDEsIDIwMjEgYXQgMjoz
+MyBQTSBSaWNoYXJkIFB1cmRpZQ0KPiA+IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnPiB3cm90ZToNCj4gPiA+DQo+ID4gPiBPbiBUdWUsIDIwMjEtMTEtMzAgYXQgMTM6NDUgLTA4
+MDAsIEFuZHJlIE1jQ3VyZHkgd3JvdGU6DQo+ID4gPiA+IE9uIFR1ZSwgTm92IDMwLCAyMDIxIGF0
+IDE6MjAgUE0gUm9zcyBCdXJ0b24gPHJvc3NAYnVydG9uaW5pLmNvbT4NCj4gd3JvdGU6DQo+ID4g
+PiA+ID4NCj4gPiA+ID4gPiBPbiBUdWUsIDMwIE5vdiAyMDIxIGF0IDE5OjMyLCBBbmRyZSBNY0N1
+cmR5IDxhcm1jY3VyZHlAZ21haWwuY29tPg0KPiB3cm90ZToNCj4gPiA+ID4gPiA+IFRoaXMgaXNu
+J3QgZXF1aXZhbGVudCAtIGl0IHdpbGwgY2F1c2UgYSBjaGFuZ2UgaW4gYmVoYXZpb3VyIGZvcg0K
+PiBhbnlvbmUNCj4gPiA+ID4gPiA+IHVzaW5nIFBBQ0tBR0VDT05GSUcgKz0gImZvbyIgZnJvbSBh
+IC5iYmFwcGVuZC4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IENvcnJlY3QsIGJ1dCB0aGlzIGlzIGxp
+a2VseSB0aGUgb25seSByZWNpcGUgaW4gdGhlIGdyZWF0ZXINCj4gZWNvc3lzdGVtDQo+ID4gPiA+
+ID4gd2hpY2ggaGFzIHRoaXMgYmVoYXZpb3VyLCBzbyBJJ20gbm90IHRoYXQgYm90aGVyZWQgdG8g
+YmUgaG9uZXN0Lg0KPiA6KQ0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgb25seSByZWNpcGU/IFRoZXJl
+IGFyZSBtYW55IHJlY2lwZXMgd2hpY2ggc2V0IGEgZGVmYXVsdA0KPiA+ID4gPiBQQUNLQUdFQ09O
+RklHIHdpdGggPz0gYW5kIG1hbnkgd2hpY2ggc2V0IGl0IHdpdGggPz89LiBZb3VyIGNoYW5nZSBp
+cw0KPiA+ID4gPiBlZmZlY3RpdmVseSBzd2l0Y2hpbmcgdGhlIHZpbSByZWNpcGUgZnJvbSBvbmUg
+YXBwcm9hY2ggdG8gdGhlIG90aGVyLg0KPiA+ID4gPiBUaGUgZmFjdCB0aGF0IGFkZGluZyBQQUNL
+QUdFQ09ORklHIG9wdGlvbnMgZnJvbSBhIC5iYmFwcGVuZCB3aXRoICs9DQo+ID4gPiA+IHNvbWV0
+aW1lcyB3b3JrcyBPSyBhbmQgc29tZXRpbWVzIG5vdCBpcyBhIHNvdXJjZSBvZiBjb25mdXNpb24g
+Zm9yDQo+IG5ldw0KPiA+ID4gPiB1c2Vycy4NCj4gPiA+ID4NCj4gPiA+ID4gWW91IGFyZSByaWdo
+dCB0aGF0IG5vIG9uZSBzZWVtcyB0byBjYXJlIHRob3VnaC4uLg0KPiA+ID4NCj4gPiA+IFNvbWUg
+b2YgdXMgdmVyeSBtdWNoIGRvIGNhcmUsIGl0IGlzIGFjdHVhbGx5IGJvdGhlcmluZyBtZSBhIGxv
+dCBhbmQNCj4gSSd2ZSBwb3N0ZWQNCj4gPiA+IHNldmVyYWwgdGltZXMgb24gdGhlIGFyY2hpdGVj
+dHVyZSBsaXN0IGFib3V0IHRoaXMga2luZCBvZiBpc3N1ZS4NCj4gPiA+DQo+ID4gPiBXZSBoYXZl
+bid0IHdvcmtlZCBvdXQgd2hhdCB3ZSBjYW4gYWdyZWUgdG8gZG8gYWJvdXQgaXQgdGhvdWdoIDoo
+Lg0KPiA+DQo+ID4gQXMgYSBmaXJzdCwgdmVyeSBlYXN5LCBzdGVwLCBtYWtlIGEgc3RhdGVtZW50
+IGhlcmUgb24gdGhlIG1haWxpbmcgbGlzdA0KPiA+IHRoYXQgYWxsIFBBQ0tBR0VDT05GSUcgZGVm
+YXVsdHMgc2hvdWxkIGJlIGFzc2lnbmVkIHdpdGggPz0gaW5zdGVhZCBvZg0KPiA+ID8/PSBhbmQg
+Zml4IHRoZSByZWNpcGVzIGluIG9lLWNvcmUgYWNjb3JkaW5nbHkuDQo+IA0KPiBUaGUgcXVlc3Rp
+b24gaXMgd2hldGhlciB3ZSBhbGwgYWdyZWUgb24gdGhhdCBhbmQgSSdtIG5vdCBzdXJlIHdlIGFs
+bCBkby4NCg0KSSBkZWZpbml0ZWx5IGFncmVlIHRoYXQgdXNpbmcgIj8/PSIgaW4gdGhlIHJlY2lw
+ZSBmb3IgUEFDS0FHRUNPTkZJRyBpcyANCmEgYmFkIGlkZWEuIEluIGFsbCBvdXIgb3duIHJlY2lw
+ZXMgd2UgdXNlICI9IiBzbyB0aGF0IGlzIHdoYXQgSSB3b3VsZCANCnByZWZlciwgYnV0ICI/PSIg
+aXMgb2sgYW5kIGl0IHdvdWxkIGFsbGV2aWF0ZSB0aGUgbmVlZCB0byB1c2UgDQpQQUNLQUdFQ09O
+RklHOmFwcGVuZCBpbiBiYmFwcGVuZHMgaW5zdGVhZCBvZiAiUEFDS0FHRUNPTkZJRyArPSIuIA0K
+DQpUaGUgcmVhc29uIEkgdGhpbmsgIj0iIGlzIGJldHRlciB0aGFuICI/PSIgaXMgdGhhdCBpZiB5
+b3Ugd2FudCB0byANCm92ZXJyaWRlIHRoZSBQQUNLQUdFQ09ORklHIGluIGEgYmJhcHBlbmQsIHVz
+aW5nICI9IiBhIHNlY29uZCB0aW1lIHdpbGwgDQp3b3JrIGZpbmUsIGFuZCBpZiB5b3Ugd2FudCB0
+byBkbyB0aGUgb3ZlcnJpZGUgaW4gYSBjb25maWd1cmF0aW9uIGZpbGUgDQpsaWtlIGxvY2FsLmNv
+bmYsIHlvdSB3b3VsZCB1c2UgUEFDS0FHRUNPTkZJRzpwbi1mb28sIHdoaWNoIGFsc28gd291bGQg
+DQpvdmVycmlkZSB3aGF0ZXZlciB0aGUgcmVjaXBlIHNldCB1c2luZyAiPSIuIFNvIHVubGVzcyBJ
+IGFtIG1pc3NpbmcgYSANCnVzZSBjYXNlLCB0aGVyZSByZWFsbHkgaXNuJ3QgYSBuZWVkIHRvIHVz
+ZSAiPz0iLg0KDQo+ID4gQXMgYSBzZWNvbmQgc3RlcCwgdGhlIHBhcnNlciBjb3VsZCBnZW5lcmF0
+ZSBhIHdhcm5pbmcgKG9yIGV2ZW4gYW4NCj4gPiBlcnJvcikgaWYgYW55IHZhcmlhYmxlIGlzIGFz
+c2lnbmVkIHRvIHdpdGggb25seSA/Pz0gYW5kICs9ICh0aGUgZW5kDQo+ID4gcmVzdWx0IG9mIHRo
+YXQgY29tYmluYXRpb24gaXMgbm90IHdoYXQgYW55IHVzZXIgd291bGQgZXhwZWN0IGFuZCBJDQo+
+ID4gZG91YnQgaWYgYW55IGxlZ2l0aW1hdGUgdXNlIGNhc2UgcmVsaWVzIG9uIGl0KS4NCj4gDQo+
+IFdvdWxkIGJlIGludGVyZXN0aW5nIHRvIHNlZSBpZiB0aGVyZSBpcyB2YWxpZCB1c2Ugc28gaXQg
+aXMgcHJvYmFibHkgd29ydGgNCj4gc29tZSB0ZXN0cy9hbmFseXNpcy4gVGhlID8/PSBvcGVyYXRv
+ciBuZXZlciBkaWQgd2hhdCBJJ2QgaG9wZWQgaXQgd291bGQgaW4NCj4gcmVhbGl0eSBzYWRseS4N
+Cj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0KDQo=
 
