@@ -1,129 +1,165 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mickael.delanoe@aquassay.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A6EC433F5
-	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 10:07:02 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.9832.1638526011423138074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A19AC433EF
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 10:35:02 +0000 (UTC)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
+ [209.85.219.178])
+ by mx.groups.io with SMTP id smtpd.web09.9930.1638527700373411559
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 02:06:51 -0800
+ Fri, 03 Dec 2021 02:35:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bRYMKc7a;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id s13so4617655wrb.3
+ dkim=pass header.i=@aquassay-com.20210112.gappssmtp.com header.s=20210112
+ header.b=YerD8b+q;
+ spf=softfail (domain: aquassay.com, ip: 209.85.219.178,
+ mailfrom: mickael.delanoe@aquassay.com)
+Received: by mail-yb1-f178.google.com with SMTP id f9so7930568ybq.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 02:06:51 -0800 (PST)
+ Fri, 03 Dec 2021 02:35:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=+dAdFWtyP4vGeJ1iDihNdgN3zQEjjx2lxS34zXw38xw=;
-        b=bRYMKc7aeTIh3/0OEtdxiLBs36oC1LkQPaM2ywzLOcVicdLDSN7x7ApEEerWX5CAwK
-         1y7JqRiAFVyLntjJDdL7enuQbBpQv27L4BKXKwg8VeunlZvC4ye4dhdcQTtk/bNBpnH0
-         LeTx74LuHi+RcpTdAn6P/z6HRU/+yW5kqdffM=
+        d=aquassay-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=Ug8Sxb6sQUpY90UiWY+39KV5X6QEsm6ici/g5Euyk8c=;
+        b=YerD8b+q/Dqltw2VdZ2RLHF6zweYPCuEbNYQIlej5faD1qEiYBoEn2B2mJOUq5Magu
+         oQ/HbQLIbjigXBWpXHPNDhFeUbTD7kWo8fAkrbUEOIKyGuZVzivDWbRd7alCXpSOzBdz
+         PjqL4J503/8wzQmDM3l4aFlSDh4nFQujiZ+DPt1APOCv8laRUYmRzdf6BrwNwsSHMJL6
+         SJ4nqvdShdIAiLfk3EslSesnm7cd8zEC8EkonYGj0LSaHER+zv/GLhazk7/BFXfzdMtf
+         b96C8HsHUEzQ4LNyKB+WzbF6F5lyM76KCgBb5SLlugxf7HvcDJg0deD9iOmhqTJAUfBr
+         h+GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+dAdFWtyP4vGeJ1iDihNdgN3zQEjjx2lxS34zXw38xw=;
-        b=3yIQ2r6nsL9BFo+0TF4N5gJbvDLW82DcIKcve6z46TuA+aefHOYaLDu6wRi33VOyoc
-         UVGOA/kl2yt/dbF3D0hM5ZU2Uia3L5PMHPLW3jx065Y74cBJkqbna0Kji0VEO+KzGL9V
-         W8d055NkzvERqUkJzy8mCUhlZXifEhIAV0qfNbwr/vP/1KeIrfsHhdnQHPX7F7oAj8uN
-         gsy0B9+ALSUiX21DRW52J0y+8ig3oy3w78EZbdsjcRrcDJcSME6PqtKJBOf6yIP3mXi1
-         sLYqkrvfqhz+Z2lB5K9Z+s1HV8JGoCnq5cYXKN3FB9vvJmuG4Kyps0It9uKXeSxnQbDu
-         YqdQ==
-X-Gm-Message-State: AOAM532F9k2X11za7CVsLQu4Ggyc0Vz2L/uKYtKg+oSxacBqrJ2ca2hI
-	PJTwB5bKQxHdRhquPu1HrGQl3w==
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=Ug8Sxb6sQUpY90UiWY+39KV5X6QEsm6ici/g5Euyk8c=;
+        b=xRjg3HRZo/eg3hlI++MZjJBSB8r4DAi57K6OS8zHJBVqPX7GzykZ/1tS6Ynv52MCGl
+         Z0qUIJkTeD94oJ6RydUwkRcz/pCuiVeIIBD12rBHYc85U4xMaTX3fwJOpy43vu65M4Zv
+         +tn1SwnGTrWMlZTe3K0ecJw7glwnqv+M0IXvSxpRvHBDQwHB2pdSXeEDn/dwPBrmaqHa
+         GFzl5oOMgyCQO3GOAK4YRdjjQ419ATznOIxhCiUWnp+/ggypfX1ahz43ahitWBCqoPCy
+         QFK8Dg3wjF4BlEgDwS4wEP+Nq7vakR9smCNCAJPOqtqInlz232/3l9GdmmxliS3A+OfE
+         kKAA==
+X-Gm-Message-State: AOAM531JUe2wcLZILPJuC3Cj5ndMovOEftoddCB7D3uJwjlKBDBUd3d/
+	D2Z8x5TxS2ncAnwvz6sITTQz2mFCbxosFSU71YD1lRPGaSQBalBu
 X-Google-Smtp-Source: 
- ABdhPJza4EJcu5CHNdjuK+3z5t89R7YVniOq9erIL9mEp2tsr1DxN246r0EesuQMeDuw16BN8N0lXA==
-X-Received: by 2002:adf:fb0c:: with SMTP id
- c12mr22175541wrr.614.1638526009805;
-        Fri, 03 Dec 2021 02:06:49 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:99d4:2d39:57c3:1ae0?
- ([2001:8b0:aba:5f3c:99d4:2d39:57c3:1ae0])
-        by smtp.gmail.com with ESMTPSA id
- f15sm2698285wmg.30.2021.12.03.02.06.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 02:06:49 -0800 (PST)
-Message-ID: 
- <61ee860e605c5e1db1aac7cc1c8cee15c23a4071.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 2/2] vim: set PACKAGECONFIG idiomatically
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Ross Burton <ross@burtonini.com>, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 03 Dec 2021 10:06:46 +0000
-In-Reply-To: 
- <CAJ86T=Uzdei4V_GYHH_Cd=C64Yo_HJ9+jW8Nbsq_sS2FjkiEng@mail.gmail.com>
-References: <20211130165313.3816904-1-ross.burton@arm.com>
-	 <20211130165313.3816904-2-ross.burton@arm.com>
-	 <CAJ86T=V_9Y=xCbswnjV5ZkfihQ-KOWk13xYW7FNQaj7ahBUcjw@mail.gmail.com>
-	 <CAAnfSTsvgBF1EUZ3t+FNAwGB9j0p8y41c2Mgfv2DMHoMVJWnfg@mail.gmail.com>
-	 <CAJ86T=WH+HJPV7MMJFcuNyx+VmgUvPRD=wfHCTcKGyyJ3GTANw@mail.gmail.com>
-	 <778f60e30d7fbfd9d4a63d87cb8824a5a9f0120a.camel@linuxfoundation.org>
-	 <CAJ86T=Uzdei4V_GYHH_Cd=C64Yo_HJ9+jW8Nbsq_sS2FjkiEng@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJy3BCYib37yPpzFyCG9uT8eBdP9gna520bZMcYx1ujpBGDKU4oePlg7+ac9WdCsRsElYvqEJ01VM1YK8EqJ2fY=
+X-Received: by 2002:a25:b3c2:: with SMTP id x2mr20904698ybf.565.1638527699470;
+ Fri, 03 Dec 2021 02:34:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?TWlja2HDq2wgRGVsYW5vw6s=?= <mickael.delanoe@aquassay.com>
+Date: Fri, 3 Dec 2021 11:34:48 +0100
+Message-ID: 
+ <CA+3qsbMgZ=t1LDFB-ya6t87PPpPHOB0kzNMGRNcaun4hxaccTQ@mail.gmail.com>
+Subject: [Isar] bbclass for Debian
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000007b60a005d23b75df"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 10:07:02 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 10:35:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159113
+ https://lists.openembedded.org/g/openembedded-core/message/159114
 
-On Fri, 2021-12-03 at 01:39 -0800, Andre McCurdy wrote:
-> On Wed, Dec 1, 2021 at 2:33 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Tue, 2021-11-30 at 13:45 -0800, Andre McCurdy wrote:
-> > > On Tue, Nov 30, 2021 at 1:20 PM Ross Burton <ross@burtonini.com> wrote:
-> > > > 
-> > > > On Tue, 30 Nov 2021 at 19:32, Andre McCurdy <armccurdy@gmail.com> wrote:
-> > > > > This isn't equivalent - it will cause a change in behaviour for anyone
-> > > > > using PACKAGECONFIG += "foo" from a .bbappend.
-> > > > 
-> > > > Correct, but this is likely the only recipe in the greater ecosystem
-> > > > which has this behaviour, so I'm not that bothered to be honest. :)
-> > > 
-> > > The only recipe? There are many recipes which set a default
-> > > PACKAGECONFIG with ?= and many which set it with ??=. Your change is
-> > > effectively switching the vim recipe from one approach to the other.
-> > > The fact that adding PACKAGECONFIG options from a .bbappend with +=
-> > > sometimes works OK and sometimes not is a source of confusion for new
-> > > users.
-> > > 
-> > > You are right that no one seems to care though...
-> > 
-> > Some of us very much do care, it is actually bothering me a lot and I've posted
-> > several times on the architecture list about this kind of issue.
-> > 
-> > We haven't worked out what we can agree to do about it though :(.
-> 
-> As a first, very easy, step, make a statement here on the mailing list
-> that all PACKAGECONFIG defaults should be assigned with ?= instead of
-> ??= and fix the recipes in oe-core accordingly.
+--0000000000007b60a005d23b75df
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The question is whether we all agree on that and I'm not sure we all do.
+Hello,
 
-> As a second step, the parser could generate a warning (or even an
-> error) if any variable is assigned to with only ??= and += (the end
-> result of that combination is not what any user would expect and I
-> doubt if any legitimate use case relies on it).
+I try to adapt my personal Yocto meta to Isar Project.
 
-Would be interesting to see if there is valid use so it is probably worth some
-tests/analysis. The ??= operator never did what I'd hoped it would in reality
-sadly.
+Currently, I try to add "minimalmodbus" recipie, and for this, I need
+"python-pyserial".
+And for "python-pyserial" I need "setutools3"
+inherit setuptools3
 
-Cheers,
+So I added "setuptools3.bbclass" on my project. But after this, I need
+other and other classes...
 
-Richard
+And I asked myself if I use the right ".bbclass" from the right
+"openembedded-core" branch.
 
+In fact, as I worked with Krogoth distrimution to my previous Yocto
+Project, I used bbclass from this branch too for my new Isar Project. But
+Isar is based to Debian so it's maybe not the right way...
 
+Do you know which branch I should used for compatible with Debian
+distribution ?
 
+Best Regards,
+--=20
+Micka=C3=ABl Delano=C3=AB
+Ing=C3=A9nieur d'=C3=A9tudes | Design Engineer
+T. +33 (0)5 87 03 80 58
+E. mickael.delanoe@aquassay.com
+A. 31 rue du Ch=C3=A2tenet 87410 Le Palais-sur-Vienne
 
+https://aquassay.com/partnership-nestle-waters-aquassay/?lang=3Den
+
+--0000000000007b60a005d23b75df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>I try to adapt my per=
+sonal Yocto meta to Isar Project.</div><div><br></div><div>Currently, I try=
+ to add &quot;minimalmodbus&quot; recipie, and for this, I need &quot;pytho=
+n-pyserial&quot;.</div><div>And for &quot;python-pyserial&quot; I need &quo=
+t;setutools3&quot;<br><div style=3D"color:rgb(212,212,212);background-color=
+:rgb(30,30,30);font-family:Menlo,Monaco,&quot;Courier New&quot;,monospace;f=
+ont-weight:normal;font-size:12px;line-height:18px;white-space:pre-wrap"><di=
+v><span style=3D"color:rgb(197,134,192)">inherit</span><span style=3D"color=
+:rgb(212,212,212)"> setuptools3</span></div></div></div><div><div><div dir=
+=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
+<div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=
+=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
+<div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div=
+ dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"l=
+tr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
+<div dir=3D"ltr"><div><div dir=3D"ltr"><span style=3D"color:rgb(159,197,232=
+)"></span><span style=3D"color:rgb(0,0,0)"><br></span></div><div><span styl=
+e=3D"color:rgb(0,0,0)">So I added &quot;setuptools3.bbclass&quot; on my pro=
+ject. But after this, I need other and other classes...</span></div><div><s=
+pan style=3D"color:rgb(0,0,0)"><br></span></div><div><span style=3D"color:r=
+gb(0,0,0)">And I asked myself if I use the right &quot;.bbclass&quot; from =
+the right &quot;openembedded-core&quot; branch.</span></div><div><span styl=
+e=3D"color:rgb(0,0,0)"><br></span></div><div><span style=3D"color:rgb(0,0,0=
+)">In
+ fact, as I worked with Krogoth distrimution to my previous Yocto=20
+Project, I used bbclass from this branch too for my new Isar Project.=20
+But Isar is based to Debian so it&#39;s maybe not the right way...</span></=
+div><div><span style=3D"color:rgb(0,0,0)"><br></span></div>Do you know whic=
+h branch I should used for compatible with Debian distribution ?<div><span =
+style=3D"color:rgb(0,0,0)"><br></span></div><div><span style=3D"color:rgb(0=
+,0,0)">Best Regards,<font color=3D"#888888"><br></font></span></div></div><=
+/div></div></div></div></div></div></div></div></div></div></div></div></di=
+v></div></div></div></div></div></div></div></div></div></div></div></div><=
+/div></div></div></div></div></div></div></div></div></div></div></div></di=
+v></div></div></div></div></div></div><div><div dir=3D"ltr" class=3D"gmail_=
+signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div di=
+r=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"=
+><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><di=
+v dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"=
+ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div=
+><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=
+=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
+<span style=3D"color:rgb(159,197,232)"></span><span style=3D"color:rgb(0,0,=
+0)">-- </span><br><span style=3D"color:rgb(0,0,0)"></span><div><div dir=3D"=
+ltr"><div><div dir=3D"ltr"><span style=3D"font-family:&quot;Rubik&quot;,Ari=
+al;color:rgb(38,138,212);font-weight:bold;font-size:18px">Micka=C3=ABl Dela=
+no=C3=AB</span><br><span style=3D"color:rgb(11,183,236)">Ing=C3=A9nieur d&#=
+39;=C3=A9tudes | Design Engineer</span>
+<br><span style=3D"color:rgb(38,138,212);font-weight:bold">T.</span><span s=
+tyle=3D"color:rgb(102,102,102)"> <span style=3D"color:rgb(153,153,153)">+33=
+ (0)5 87 03 80 58</span></span><br><span style=3D"color:rgb(38,138,212);fon=
+t-weight:bold">E.</span> <a href=3D"mailto:mickael.delanoe@aquassay.com" ta=
+rget=3D"_blank">mickael.delanoe@aquassay.com</a><br><span style=3D"color:rg=
+b(38,138,212);font-weight:bold">A.</span> <span style=3D"color:rgb(153,153,=
+153)">31 rue du Ch=C3=A2tenet 87410 Le Palais-sur-Vienne</span></div></div>=
+</div></div></div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><a href=3D"ht=
+tps://aquassay.com/partnership-nestle-waters-aquassay/?lang=3Den" target=3D=
+"_blank">https://aquassay.com/partnership-nestle-waters-aquassay/?lang=3Den=
+</a></div></div></div></div></div></div></div></div></div></div></div></div=
+></div></div></div></div></div></div></div></div></div></div></div></div></=
+div></div></div></div></div></div></div></div></div></div></div></div></div=
+></div></div></div></div></div></div></div></div></div>
+
+--0000000000007b60a005d23b75df--
 
