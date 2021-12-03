@@ -1,112 +1,152 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B037BC433F5
-	for <webhook@archiver.kernel.org>; Thu,  2 Dec 2021 23:16:32 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.4669.1638486991596218521
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6356AC433EF
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 04:06:09 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web09.7511.1638504368141734340
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 15:16:32 -0800
+ Thu, 02 Dec 2021 20:06:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ETWMVfAy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id l16so1865038wrp.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n+yrpf+p;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id p13so1679531pfw.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Dec 2021 15:16:31 -0800 (PST)
+ Thu, 02 Dec 2021 20:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=xVOOsRsQpxW0VsB3pbGNJbf4uaaU73Q4SORu8fjLnXY=;
-        b=ETWMVfAyMnfiiRMltIHQEkRXbOFeVHocPNJYmZIewGrKv4O/WprqJE7bpb8u9nDax+
-         fCKxmULykq5CJr9GtpiPQdgj6+pq+zfFrrvOd1SGWowzF4qb2V1V8eQlxvTPv6GJOqIY
-         x1bnNIJ2uiT35fymilbuIRAEveX1d1MKayYs8=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I4Gz70qi6zkJpNg2F/XUmihS7IEkZMxMA7T67lOus0A=;
+        b=n+yrpf+pGYSlAjVogUZybam3Fk+huDym+lPcRQoec4NP0qbTGPTSFZLFNCHR+AVASz
+         mWyfaJcaD3GXSJsAex0CwhHorpjU7IzI/4CRJFtf5W4tRXm9jqWGSLnjFkoKdvWzjS4p
+         5mNPP0XB74KfAUEGJzaf4wUGgN6gp+3a5nFzCKufCJsalSDSAzA+brEV+m53LOTpFFbY
+         kNPLQ5b9tJEyPsfGCxql8DDqAb8WucjEGxtfKoGsD8SZJyA6e7/KRYT5ZAvIwfvcKnkb
+         /Q1wxtqYINMX3HIDxcjk03UFUgX4ztmOHafebw4JTlhzHA4GDlPl58HutkRTESkOXvVZ
+         FKxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xVOOsRsQpxW0VsB3pbGNJbf4uaaU73Q4SORu8fjLnXY=;
-        b=xJHaXRwg0/cDG459wvbd7uxSdX8abaGySuUuVl9Tq6DbJ/iDTiX5YrmCe2AEN37ol4
-         Xl1RSGakl9p/Ol5AZJ3YK8ElXKn+iNwtz2gLqSS40SL0lP59b1GQ6lMLCxABpdVOLAJz
-         FpxRZMczKLMHGz4NRZXwbg8BiR/2iqCV5S+SfdMnFwAoGDiPXoD2c3u29YYfEzLf/gqx
-         p8dPaJtjCPn7zHNv2G4LplCboxBsvpNwpgZxf+OrOHhKWICgwrvc1wiNuRhzWuMkz/92
-         +Ucxedqg1ZVvpAF9HdGi+eXNZTtcJ+VBGlm/KhLuqTCr9fiKDm6MLHXWbVvSlcre4gj1
-         s83A==
-X-Gm-Message-State: AOAM530aJqb0Y/5J4EDqnQmQq1P6bbtu4V7IRT2d9zWSloi4gMTZw3Hp
-	DKeX4j+Tf4Cd7xgMygL27J9nOg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I4Gz70qi6zkJpNg2F/XUmihS7IEkZMxMA7T67lOus0A=;
+        b=NbiHT2F7U+W1YIbXr37Otlr4riDdMCp0qCAK9Qm+VCxWM3XZYZJ7NTw63EQ+61DHg1
+         H3Jt0VWL6CMt6Bw8o76XD/HaOoU7K+S9U1wradheyxv+LddBOH/evBp77r52lGEXo7sH
+         XutwwpfULbHl3VbfKF2Fwts1waSt8DX7a2dZsRAx+8grmlZgs/+BOK0tsGyucD7BwfOR
+         elJ5R1QyYNS9ANFFuvDd3FT/58oJ9w1RA+o4zcWl38AL7MUASYFzI3KUtMWTB5Ex/lfS
+         b4+/SC4sehUYQZVYS123HzyZ6LTrvCF6kKAq/tAEZA0LDKvQ8Vh113IXS0UUs58Ba+ye
+         8kHw==
+X-Gm-Message-State: AOAM532waOYmDh2hbKDPxU5d/AtmlBluaqlGjVP4tka7jwWbSK3egyEC
+	Nv9OsCB6lTA+cGW0Cv+x52hLANs+8ZpwAw==
 X-Google-Smtp-Source: 
- ABdhPJyIhXxF73OKqr5R1bkXZOgzV2vmSc9dg23TOnt3eO7k8E40UAmb8vM4YmXDc8Zu729HznGURw==
-X-Received: by 2002:a5d:4f8d:: with SMTP id d13mr16629894wru.89.1638486989973;
-        Thu, 02 Dec 2021 15:16:29 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:99d4:2d39:57c3:1ae0?
- ([2001:8b0:aba:5f3c:99d4:2d39:57c3:1ae0])
+ ABdhPJwqzNPoA+qorFtJ+EFYndJTKfKUDs1WfuyyDZTB5+A5o76njK3oaZYcoib4wYAa0/Pfn9phfQ==
+X-Received: by 2002:a62:88c3:0:b0:4a2:b2d2:7082 with SMTP id
+ l186-20020a6288c3000000b004a2b2d27082mr17007727pfd.48.1638504365510;
+        Thu, 02 Dec 2021 20:06:05 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
         by smtp.gmail.com with ESMTPSA id
- j18sm4350871wmq.44.2021.12.02.15.16.29
+ l6sm1375156pfc.51.2021.12.02.20.06.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 15:16:29 -0800 (PST)
-Message-ID: 
- <4ba740e7876974703d351f941eaf2e67cc3688e8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] sstate: don't limit the thread pool size
- when checking mirrors
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 02 Dec 2021 23:16:27 +0000
-In-Reply-To: <20211202220517.2106590-1-quaresma.jose@gmail.com>
-References: <20211202220517.2106590-1-quaresma.jose@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+        Thu, 02 Dec 2021 20:06:05 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH] mesa: Fix build on ARM systems without Neon
+Date: Thu,  2 Dec 2021 20:06:02 -0800
+Message-Id: <20211203040602.3503654-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Dec 2021 23:16:32 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 04:06:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159109
+ https://lists.openembedded.org/g/openembedded-core/message/159110
 
-On Thu, 2021-12-02 at 22:05 +0000, Jose Quaresma wrote:
-> This improves the time needed to check the mirrors,
-> reducing it from 50s to 8s when building the core-image-minimal
-> using the yocto upstream sstate and hashequivlance servers
-> on a machine with 8 cpu cores.
-> 
-> Tested with:
-> 
->  SSTATE_MIRRORS = "file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH"
->  BB_HASHSERVE_UPSTREAM = "typhoon.yocto.io:8687"
->  bitbake core-image-minimal
-> 
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> ---
->  meta/classes/sstate.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 0326d27c74..5e404d7cd8 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -1005,7 +1005,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
->              tasklist.append((tid, sstatefile))
->  
->          if tasklist:
-> -            nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
-> +            nproc = len(tasklist)
->  
->              progress = len(tasklist) >= 100
->              if progress:
+See [1]
 
-No, we're not doing that. That opens a ton (thousands) of parallel connections
-to the servers and isn't fair on the systems hosting the data. In many cases
-that would look like a DoS attack.
+[1] https://github.com/YoeDistro/yoe-distro/issues/626
 
-Cheers,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
+---
+ ...ormat-Check-for-NEON-before-using-it.patch | 49 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
 
-Richard
-
-
+diff --git a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
+new file mode 100644
+index 00000000000..80b9af08e8f
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
+@@ -0,0 +1,49 @@
++From 4febda271c6bb0dc69ebf573446c6922a1ec35fb Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 2 Dec 2021 19:57:42 -0800
++Subject: [PATCH] util/format: Check for NEON before using it
++
++This fixes build on rpi0-w and any other machine which does not have
++neon unit and is not used as FPU unit
++
++Fixes errors e.g.
++
++In file included from ../mesa-21.3.0/src/util/format/u_format_unpack_neon.c:35:
++/mnt/b/yoe/master/build/tmp/work/arm1176jzfshf-vfp-yoe-linux-gnueabi/mesa/2_21.3.0-r0/recipe-sysroot-native/usr/lib/clang/13.0.1/include/arm_neon.h:32:2: error: "NEON support not enabled"
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14032]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/util/format/u_format.c             | 2 +-
++ src/util/format/u_format_unpack_neon.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
++index 36c5e52008e..f0a00971691 100644
++--- a/src/util/format/u_format.c
+++++ b/src/util/format/u_format.c
++@@ -1138,7 +1138,7 @@ static void
++ util_format_unpack_table_init(void)
++ {
++    for (enum pipe_format format = PIPE_FORMAT_NONE; format < PIPE_FORMAT_COUNT; format++) {
++-#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
+++#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
++       const struct util_format_unpack_description *unpack = util_format_unpack_description_neon(format);
++       if (unpack) {
++          util_format_unpack_table[format] = unpack;
++diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_format_unpack_neon.c
++index a4a5cb1f723..1e4f794a295 100644
++--- a/src/util/format/u_format_unpack_neon.c
+++++ b/src/util/format/u_format_unpack_neon.c
++@@ -23,7 +23,7 @@
++ 
++ #include <u_format.h>
++ 
++-#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
+++#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
++ 
++ /* armhf builds default to vfp, not neon, and refuses to compile neon intrinsics
++  * unless you tell it "no really".
++-- 
++2.34.1
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index ed60d982504..30b9e93f630 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,6 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-meson.build-make-TLS-ELF-optional.patch \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
++           file://0001-util-format-Check-for-NEON-before-using-it.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "a2753c09deef0ba14d35ae8a2ceff3fe5cd13698928c7bb62c2ec8736eb09ce1"
+-- 
+2.34.1
 
 
