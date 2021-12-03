@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F15C433EF
-	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 18:22:02 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web08.15317.1638555721638349485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C53C433F5
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 18:22:11 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web12.15507.1638555728887434561
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 10:22:01 -0800
+ Fri, 03 Dec 2021 10:22:08 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=SuAW1962;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
+ header.b=eoklDn3e;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- w33-20020a17090a6ba400b001a722a06212so5684224pjj.0
+Received: by mail-pj1-f51.google.com with SMTP id np3so2933969pjb.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 10:22:01 -0800 (PST)
+ Fri, 03 Dec 2021 10:22:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KUvcxIFtP8tBswF2ovTT5pkwiyTI8wrFJlrWTpUhAHY=;
-        b=SuAW1962U7YX2J6olcIE+QWJBEeZZ7hmjqEMsviN5M38xVl18l8lntSzGLTGi8ln3E
-         OX+EmSblOSmjY1jf9a8gupDvTkht0X5MjtSV1dHJFxj1un8cdBFmn3VR9BaP76ic4QAg
-         3OHy7t85mPVJCdz8a0r2p2GdSW2GdSU/5zN0tNU0VpXBF2rM00TViImRFTZS2D7kXKc8
-         DjpokYBUCxs4MlH3IDhVa6QQM+KnDFuecC9FQq7zo7VBkXqk/BPg7jUkZ6Uk0E3XurCM
-         JSK5n/IIYYq0XWLMkoA5i8ADK2SDrTLtobTt9qRs8MvO6m/dZVqPD/bgzJr8R0/sRY8k
-         /PxQ==
+        bh=XNGbgba0EGy3IJuF3bmPdzZfUEhA7e4Gbvi83ibeis4=;
+        b=eoklDn3et36fJf0S6ADNi8jp2NmM7tZtABQ4P50XGxHJoyH3YLNjYORIc7nst7i07u
+         RGCu7Ee429EtFFYY09Fk/Bo4ixWfjlMxWQLmGlq3P783PPFg8U0dc6BTwHC2oc5Tr2CK
+         SfPPwMMPhc0l1klbseXX8T8otIlbI4Z6cbFLRr175gMzOVrkCVupwDvDpFUZmxZP6Jex
+         IPK2haksTGM2bDhTwSatt0S0dejb3EDAcXLqsEcKOYdfdJO588EWbCXCrl6L6mIY4eYz
+         W8SvUu1BGNyK7Diw0CUYLlI9HkYs6no1nha5t70siu9Aau+uciB3H5WE2cuRBX6CI7sV
+         g3Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KUvcxIFtP8tBswF2ovTT5pkwiyTI8wrFJlrWTpUhAHY=;
-        b=Zi5n3xH14t8JgkO6H807EZYqH9cAVXqUKl3fcVi96160XnVWEv4DjKjR9d0sG9Ek2C
-         yKt+Cu0aklY02qTLrs4DbFCrmQZfCoUX9OJajkBpuwcxQa/+aNfCMsTSHLSsmEEsCdN9
-         4tDX0io0F8D1y/w6T3Py+j1ocxc5YYFDEywWjXMhGJ750SlcjaMRz/0Bu7tbotYHCdO6
-         BZ+jtNBmHrF1qmVRx4+r+S89F1/uG3iXrTRsBLdrsl23GoV0i+NlJFeNI5J2q3RXLONF
-         QfvSf9Pmi1k3Jp2aTBo4UFoCBdin6+CcjZIeCd7Deeken6oi8hYGCQAYy2qQwOZYkfM2
-         f7XA==
-X-Gm-Message-State: AOAM532JXWK8LI8tXxfnTkqikFOP/HJhgOK8EKHVLN1l9BzH6wZjGHBE
-	tHO9KNV1ZjrXfBi2xMxbZsYGTWRoCdDxEtrGmbU=
+        bh=XNGbgba0EGy3IJuF3bmPdzZfUEhA7e4Gbvi83ibeis4=;
+        b=f6P7+AhXvY7ah8iqBUsugdYS/JVWMvSx0cg2INOHYB0tvaY8ueeecnwLmveA5sxFMu
+         CCz1i1B7tDW3gFahOzF42vzMj0xtFVNd9obRh39/sSpz5HnGvYOedukRDwAjxdCeYHQI
+         eDGb41JF1zSOGHKN0n4PPtDtIvCZX7PMj0QxY+Lfo5YsjDZCRtGacSvzAvVzkRt0+kFl
+         SYUStpRDoXgp60ZvR+Nu+y+CHaYsftkvHPLloM8MBjF6k7RZHACw4pkySyl1ctJkTUQ4
+         XgNxbH6NliXbnGRptPNo/pzH1kU3KWyuViBvumP5147U1hC3Y+SHLREded9QE+phLmfK
+         zYKQ==
+X-Gm-Message-State: AOAM531sLLeQge8S+KiM3Z6JVJnGZNsKjnlFxY5YHknzigF2kv4b6Qwz
+	s1qixJuSdWqLiXS6ibDZ1vkznPPJKzCrvRc1swk=
 X-Google-Smtp-Source: 
- ABdhPJy7pfgPfPsV7rDlM0fftsBye75w8yA/YuGzHJ8wcr5w4VlQ8p3WM+LETHvnXJEi5zIk2sUe4w==
-X-Received: by 2002:a17:90b:1650:: with SMTP id
- il16mr16229060pjb.83.1638555720701;
-        Fri, 03 Dec 2021 10:22:00 -0800 (PST)
+ ABdhPJzH554QZBwElDYqdaBMNn0e29ZrWdt9RIwkSDm9MiprBTSBqeGwDrP56NhVl8lZ3kVUT9KkFA==
+X-Received: by 2002:a17:90a:e7c2:: with SMTP id
+ kb2mr16095822pjb.200.1638555727951;
+        Fri, 03 Dec 2021 10:22:07 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- 130sm3959753pfu.13.2021.12.03.10.21.59
+ 130sm3959753pfu.13.2021.12.03.10.22.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 10:22:00 -0800 (PST)
+        Fri, 03 Dec 2021 10:22:07 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/18] buildhistory: Fix srcrevs output
-Date: Fri,  3 Dec 2021 08:19:01 -1000
+Subject: [OE-core][dunfell 15/18] oeqa/parselogs: Fix quoting
+Date: Fri,  3 Dec 2021 08:19:02 -1000
 Message-Id: 
- <7f959f53675c1d943a76e466b63f32aaec34c9c8.1638555254.git.steve@sakoman.com>
+ <224c2674b101ab9ed90784ba421cdf3805b42435.1638555254.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1638555254.git.steve@sakoman.com>
 References: <cover.1638555254.git.steve@sakoman.com>
@@ -68,70 +67,54 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 18:22:02 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 18:22:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159141
+ https://lists.openembedded.org/g/openembedded-core/message/159142
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The code was assuming that the a recipe with only one srcrev wouldn't "name"
-it. This isn't the case as the glibc or bzip2 recipes show, you can have
-a single srcrev which is named.
-
-We can pull the data from the fetcher and in fact we already have it, we just
-need to handle the "default" case and make that code the default for all srcrev
-regardless of length.
-
-[YOCTO #14017]
+Fix deprecation warnings about invalid escape sequences.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 45ae567932ba52b758eb41754453e9828d9533a1)
+(cherry picked from commit 43542614395150e8fa34133ba0fc7ee90f215bcb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/buildhistory.bbclass | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 44a66df962..2746996cbb 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -953,23 +953,19 @@ def write_latest_srcrev(d, pkghistdir):
-                         value = value.replace('"', '').strip()
-                         old_tag_srcrevs[key] = value
-         with open(srcrevfile, 'w') as f:
--            orig_srcrev = d.getVar('SRCREV', False) or 'INVALID'
--            if orig_srcrev != 'INVALID':
--                f.write('# SRCREV = "%s"\n' % orig_srcrev)
--            if len(srcrevs) > 1:
--                for name, srcrev in sorted(srcrevs.items()):
--                    orig_srcrev = d.getVar('SRCREV_%s' % name, False)
--                    if orig_srcrev:
--                        f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
--                    f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
--            else:
--                f.write('SRCREV = "%s"\n' % next(iter(srcrevs.values())))
--            if len(tag_srcrevs) > 0:
--                for name, srcrev in sorted(tag_srcrevs.items()):
--                    f.write('# tag_%s = "%s"\n' % (name, srcrev))
--                    if name in old_tag_srcrevs and old_tag_srcrevs[name] != srcrev:
--                        pkg = d.getVar('PN')
--                        bb.warn("Revision for tag %s in package %s was changed since last build (from %s to %s)" % (name, pkg, old_tag_srcrevs[name], srcrev))
-+            for name, srcrev in sorted(srcrevs.items()):
-+                suffix = "_" + name
-+                if name == "default":
-+                    suffix = ""
-+                orig_srcrev = d.getVar('SRCREV%s' % suffix, False)
-+                if orig_srcrev:
-+                    f.write('# SRCREV%s = "%s"\n' % (suffix, orig_srcrev))
-+                f.write('SRCREV%s = "%s"\n' % (suffix, srcrev))
-+            for name, srcrev in sorted(tag_srcrevs.items()):
-+                f.write('# tag_%s = "%s"\n' % (name, srcrev))
-+                if name in old_tag_srcrevs and old_tag_srcrevs[name] != srcrev:
-+                    pkg = d.getVar('PN')
-+                    bb.warn("Revision for tag %s in package %s was changed since last build (from %s to %s)" % (name, pkg, old_tag_srcrevs[name], srcrev))
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 30e42ed9d5..cc40ee1ac0 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -296,7 +296,7 @@ class ParseLogsTest(OERuntimeTestCase):
+         grepcmd = 'grep '
+         grepcmd += '-Ei "'
+         for error in errors:
+-            grepcmd += '\<' + error + '\>' + '|'
++            grepcmd += r'\<' + error + r'\>' + '|'
+         grepcmd = grepcmd[:-1]
+         grepcmd += '" ' + str(log) + " | grep -Eiv \'"
  
-     else:
-         if os.path.exists(srcrevfile):
+@@ -307,13 +307,13 @@ class ParseLogsTest(OERuntimeTestCase):
+             errorlist = ignore_errors['default']
+ 
+         for ignore_error in errorlist:
+-            ignore_error = ignore_error.replace('(', '\(')
+-            ignore_error = ignore_error.replace(')', '\)')
++            ignore_error = ignore_error.replace('(', r'\(')
++            ignore_error = ignore_error.replace(')', r'\)')
+             ignore_error = ignore_error.replace("'", '.')
+-            ignore_error = ignore_error.replace('?', '\?')
+-            ignore_error = ignore_error.replace('[', '\[')
+-            ignore_error = ignore_error.replace(']', '\]')
+-            ignore_error = ignore_error.replace('*', '\*')
++            ignore_error = ignore_error.replace('?', r'\?')
++            ignore_error = ignore_error.replace('[', r'\[')
++            ignore_error = ignore_error.replace(']', r'\]')
++            ignore_error = ignore_error.replace('*', r'\*')
+             ignore_error = ignore_error.replace('0-9', '[0-9]')
+             grepcmd += ignore_error + '|'
+         grepcmd = grepcmd[:-1]
 -- 
 2.25.1
 
