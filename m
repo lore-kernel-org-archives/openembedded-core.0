@@ -1,165 +1,157 @@
-Return-Path: <mickael.delanoe@aquassay.com>
+Return-Path: <eero.aaltonen@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A19AC433EF
-	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 10:35:02 +0000 (UTC)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web09.9930.1638527700373411559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD62C433FE
+	for <webhook@archiver.kernel.org>; Fri,  3 Dec 2021 11:47:08 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.70])
+ by mx.groups.io with SMTP id smtpd.web12.10761.1638532026454447936
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 02:35:00 -0800
+ Fri, 03 Dec 2021 03:47:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aquassay-com.20210112.gappssmtp.com header.s=20210112
- header.b=YerD8b+q;
- spf=softfail (domain: aquassay.com, ip: 209.85.219.178,
- mailfrom: mickael.delanoe@aquassay.com)
-Received: by mail-yb1-f178.google.com with SMTP id f9so7930568ybq.10
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Dec 2021 02:35:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=aquassay-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=Ug8Sxb6sQUpY90UiWY+39KV5X6QEsm6ici/g5Euyk8c=;
-        b=YerD8b+q/Dqltw2VdZ2RLHF6zweYPCuEbNYQIlej5faD1qEiYBoEn2B2mJOUq5Magu
-         oQ/HbQLIbjigXBWpXHPNDhFeUbTD7kWo8fAkrbUEOIKyGuZVzivDWbRd7alCXpSOzBdz
-         PjqL4J503/8wzQmDM3l4aFlSDh4nFQujiZ+DPt1APOCv8laRUYmRzdf6BrwNwsSHMJL6
-         SJ4nqvdShdIAiLfk3EslSesnm7cd8zEC8EkonYGj0LSaHER+zv/GLhazk7/BFXfzdMtf
-         b96C8HsHUEzQ4LNyKB+WzbF6F5lyM76KCgBb5SLlugxf7HvcDJg0deD9iOmhqTJAUfBr
-         h+GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=Ug8Sxb6sQUpY90UiWY+39KV5X6QEsm6ici/g5Euyk8c=;
-        b=xRjg3HRZo/eg3hlI++MZjJBSB8r4DAi57K6OS8zHJBVqPX7GzykZ/1tS6Ynv52MCGl
-         Z0qUIJkTeD94oJ6RydUwkRcz/pCuiVeIIBD12rBHYc85U4xMaTX3fwJOpy43vu65M4Zv
-         +tn1SwnGTrWMlZTe3K0ecJw7glwnqv+M0IXvSxpRvHBDQwHB2pdSXeEDn/dwPBrmaqHa
-         GFzl5oOMgyCQO3GOAK4YRdjjQ419ATznOIxhCiUWnp+/ggypfX1ahz43ahitWBCqoPCy
-         QFK8Dg3wjF4BlEgDwS4wEP+Nq7vakR9smCNCAJPOqtqInlz232/3l9GdmmxliS3A+OfE
-         kKAA==
-X-Gm-Message-State: AOAM531JUe2wcLZILPJuC3Cj5ndMovOEftoddCB7D3uJwjlKBDBUd3d/
-	D2Z8x5TxS2ncAnwvz6sITTQz2mFCbxosFSU71YD1lRPGaSQBalBu
-X-Google-Smtp-Source: 
- ABdhPJy3BCYib37yPpzFyCG9uT8eBdP9gna520bZMcYx1ujpBGDKU4oePlg7+ac9WdCsRsElYvqEJ01VM1YK8EqJ2fY=
-X-Received: by 2002:a25:b3c2:: with SMTP id x2mr20904698ybf.565.1638527699470;
- Fri, 03 Dec 2021 02:34:59 -0800 (PST)
-MIME-Version: 1.0
-From: =?UTF-8?B?TWlja2HDq2wgRGVsYW5vw6s=?= <mickael.delanoe@aquassay.com>
-Date: Fri, 3 Dec 2021 11:34:48 +0100
-Message-ID: 
- <CA+3qsbMgZ=t1LDFB-ya6t87PPpPHOB0kzNMGRNcaun4hxaccTQ@mail.gmail.com>
-Subject: [Isar] bbclass for Debian
+ dkim=pass header.i=@vaisala.com header.s=selector1 header.b=ZPw7zHT9;
+ spf=pass (domain: vaisala.com, ip: 40.107.13.70,
+ mailfrom: eero.aaltonen@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a3GnCZ0ZHG/gm9sYj+mAMeZ+Sx/97h8J4bNKAdTLmDV+88aW6Pm0Z6EGkH3omqp1NELYs1uWaLRVgb2bBhoIZ8OYb/cS1Nhi3A2rxB5Ejv6yDqVFV+x0Dv+bbAqeLlH1jPRdoMnihAczHtzzSnHwrWsvkC9N0xQiTzyp8vJqngG4BZvHj4k2eqx4knWiZrio4uyxjHJpnzXBDlvN3hAN+kqtlDHTS1KRS1ofbboDqqlp9KsRw3KZ4ebJ2nt4y+TSLvEGNqtTx+6l5s+UryXDxgx3ALn01J/3d74PmdcQf3PfsZToDtQv6hBjNwggZ3b61FMhXM+pTpmlVRRi7GhETA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BsuGf0gc5wcL8QAJEjsMbqJmm2r3k4N/e+q1EFmnq/o=;
+ b=WryxKBBk58042hSrOnIE8LI/JctBgg2trAHuSGOakvyBpL6Gkm3bp9jDblbpimUs+OwFN9HSRUzK2+vtzWHErKV5hyBo00zFIC33bMvrPzBdPnJklwkQ1mtoLL8Mj8XVuY54lG3wTZduWs1wV9qLp6pefxDf0G56mYZQITKgExJ6DFiPvvhRYN/GyCAfpot9pZoMq7fyhXDf+d37Ek6mjzDzWuziISqnQrxByTW7UrSTvoIMlf8h/G/L028Mzao+R4tgt3ddnxWXjrNkc4GACVFBWUiQNCPNJymE6wP03EHgGo29YzOGSIWDQPQW4+GQuUWQyye99BCoYZpWjXt9KQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BsuGf0gc5wcL8QAJEjsMbqJmm2r3k4N/e+q1EFmnq/o=;
+ b=ZPw7zHT9ePlBICimHp/PcFBqwIJsZWWVSNurqsb6V+HqEExQ8P18GAD5lwoghqFdsOrP3P7Ec0KZVTPxZhxszm5XIGJj3ffh4rvXIiZo0Meko0V0N9JpkckcmhmC6RAXmJF+vYpsM2xRa5wfPbLKg3PhBYIiRuXGHilcPtD6mnO8K65AAn0TIPVqGkVgKwJjub0CF5wuiphRF+T3DxtruJ9grdfOG979DLvY64PPJ6VdfpjsEVJ3X5byJxU6fwE5lpFr4fvVphQCWbYhOWY/UeptljpmkIO7awwqqVvBS2WAZmUH7X0yt4Y46V7EcS7R5hqU0iYgMi4ohej12pyI2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from HE1PR0602MB3340.eurprd06.prod.outlook.com (2603:10a6:7:23::31)
+ by HE1PR06MB4092.eurprd06.prod.outlook.com (2603:10a6:7:9d::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Fri, 3 Dec
+ 2021 11:47:03 +0000
+Received: from HE1PR0602MB3340.eurprd06.prod.outlook.com
+ ([fe80::d92:5470:cb89:9852]) by HE1PR0602MB3340.eurprd06.prod.outlook.com
+ ([fe80::d92:5470:cb89:9852%3]) with mapi id 15.20.4734.027; Fri, 3 Dec 2021
+ 11:47:03 +0000
+Message-ID: <8033bf1f7ebb9b35c62a3cd74fcb910d6ff2d8d2.camel@vaisala.com>
+Subject: Re: [OE-core] [dunfell][PATCH] cmake: FindGTest: Add target for
+ gmock library
+From: Eero Aaltonen <eero.aaltonen@vaisala.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000007b60a005d23b75df"
+Date: Fri, 03 Dec 2021 13:48:00 +0200
+In-Reply-To: <16BC55C5B56D2FD4.26361@lists.openembedded.org>
+References: <16BC55C5B56D2FD4.26361@lists.openembedded.org>
+Organization: Vaisala
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: OL1P279CA0065.NORP279.PROD.OUTLOOK.COM
+ (2603:10a6:e10:15::16) To HE1PR0602MB3340.eurprd06.prod.outlook.com
+ (2603:10a6:7:23::31)
+MIME-Version: 1.0
+Received: from hel-blackbird.corp.vaisala.com (193.143.230.131) by
+ OL1P279CA0065.NORP279.PROD.OUTLOOK.COM (2603:10a6:e10:15::16) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16 via Frontend
+ Transport; Fri, 3 Dec 2021 11:47:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5ad8dff6-6031-490b-f12f-08d9b6529fb0
+X-MS-TrafficTypeDiagnostic: HE1PR06MB4092:
+X-Microsoft-Antispam-PRVS: 
+	<HE1PR06MB4092A1DE6E78DD0BDA90EA7EF56A9@HE1PR06MB4092.eurprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1Imn/Iq9kuND236wkC0Shp29/sFWWlBf52yC3UWnJQaVrHT+Ctr/N9QbmsrjVYDxm+et4QdFGTIWgh9sxweAWqzocxlzcYIcUkvErnfWf1hI+TYYTgRPwE9uUlM0iiZKVW6aJoxzCewu5tFLkLcuuYdqlM1PPdBFq6Hg6ASuKoOBRmrGjapaMbFYaSth5EbRbGvT9DFYgR3RJqe2wpXjhaQel/nWWlH5ZdVNpW4G5S9d/GOOiuM+S1xmDpwDUfL0NnZXbuAxJTIxyEY6JUxf1r/hHZhSmE23t06PdV/OrBRdZmNQITzfALTKfQbCloBnR+wwf3x5rF9R95XxdQwA0S5GhixWWO0hKusSZqNbi+2H/qoToyMoPwcq63JznR+P4J7eo3CexrP6KCwzOMyh+Gjd9Y0uK/AIJSFsHLKal/OTykfBIabU9eLsqsR41o9igyUnnH4Ob8pcP2NhxttGn7mEz56qVh/bfOPgM3J66eZlGxy27u+EiTva6wjEE7lLuDNFZu9AWe6HiJ55C+p1ec4cc6SbmD7oWVhIw9ZsWZphz5N9F6apD3oO3TVQOeL45ijMyojmkndf7irOntQcMoz4KaJRz3gzGEOpQD+jTAWaGTdNS4MCR9WrPrailWzFAKnxQVzuQZWO0LCX8vYBWzUzVtAllYToTuDkafzBxekFxDRaDKPXDOVDN2BqdQkA3IB15GGWVpSGgmlrgE3QAfY+YzBy7KksV4AA7RK/xmA=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3340.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(6916009)(8936002)(52116002)(508600001)(66476007)(186003)(83380400001)(38350700002)(956004)(316002)(4001150100001)(38100700002)(4744005)(44832011)(2616005)(7696005)(86362001)(66946007)(36756003)(6486002)(5660300002)(2906002)(8676002)(26005)(36916002)(99106002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?anBtWHhZNWRYOXZhdUZ1clJUNGszeC9nVjhhL3A1c0tvTThoOElRREsxVEp6?=
+ =?utf-8?B?TmhDWWNrWGdpZENELzlwZkdMNDZtOHhzZDFVRk92RG1tR2pKODVpOVdxZEtW?=
+ =?utf-8?B?UmlmZWV4RTRtaGNUR2daUk1ObDN1aWQwZ2hYaGl6Ny9Hc2hTQTJCbmNxaHFS?=
+ =?utf-8?B?VXAzMFJKOFRTaUNFbkYvdmh1V21YMEtuWVdsY05yQTJtUDNzMkJXQktQVWRJ?=
+ =?utf-8?B?Z1dQUDBscUtHNzRwOXpiSFR4SmljeGtQNlc2dWxsR1p2RWZhUkFBQmZaUXVS?=
+ =?utf-8?B?R0NBZUsvQ3EycjhyUTliQkxaQmlESC9UbUtHZDdvU1RpOHJkTWRJd0V0UUhB?=
+ =?utf-8?B?Z2pLSVFyOFhCZ1RNb1Fxa3laSVBTUDFxUi9vcHBGRUhtQjZmZkMxQTQ1R1VK?=
+ =?utf-8?B?L3p1S1dTM0JQMXpoZjYzUEd3Y1pob3pNWFFhdDdvSGV6NkVCKzBnQy9yVVZ1?=
+ =?utf-8?B?ZzkrZVlaRUhDRStyTFJuNGtTM0hRRTI3QTlpa0d4djVqdldtcWJJZlpWQjE2?=
+ =?utf-8?B?THNTMk1wcXc1N0pTaHI4OGRCbGV0anJCUWZMek1qaWRMelU2T04rbGNPWFFq?=
+ =?utf-8?B?MzcxdTZpYlhiYS9rMjRLaTFvalF6QUJ1YjFlL1Q0VFJoMi91TVFiNTE4NmJx?=
+ =?utf-8?B?YWk0dVBKTE1IeE84S3V1ZmtTQ2Q5S0FZdk9pc1ZOeTVwZ2hyamREcWpUTkND?=
+ =?utf-8?B?a3IyU0lZdUdaZFkyRjBpN0dtRUpPWVpmTTRscEV4SjFxNUhDTnNZLzFVdEZD?=
+ =?utf-8?B?UWZCWkNIdi93dmFWc0EvMzBtTThpT0hmcm9SYy9FNjg0a2JhZ3FtbWdvL29G?=
+ =?utf-8?B?OTh6dFI3R2ljN0ZiSS9mWXYrY0xhQXArdDBBaFhKaERUQlRJUEVsVFMxaVVP?=
+ =?utf-8?B?NU5oQit6R3ZHN1ZoL0s2NFZoMENaN3V3YWJsdEdPdW1PQVZmV3V3eVVHZENT?=
+ =?utf-8?B?TXNxRmJhNUU5K3FWSUlWTnYrSWhDcEFRWVluMk13ZGtVZUNvSnU3S3l2TWJs?=
+ =?utf-8?B?aERoSWthRTBVQ0l4bzBlSHNkTXN3dGFiWk9HdnhWb29EbHVkdklvcGIwbThM?=
+ =?utf-8?B?KzFmdmhXZ0UzLzRrdjRhK1d2R3dLK09rZU1IVnpZRkpUdHF4eFBzQlgyQzQz?=
+ =?utf-8?B?aVBrbXpNRktpVTdadTRVREtXV1RyQS9NN2dabUdvb1BXdlRFT3ZPTGRkVXgr?=
+ =?utf-8?B?dVhXU21xYXZjSEVoWHhqdnNYZ3JSeTN0cTJxS2Y5UVVaMWFuWisrMU5qbUhs?=
+ =?utf-8?B?VThvaU9zMXlYem5FNXhYWlJCejN2OElqY09jRlEwTlRtZDdVOVNycVRSZXFm?=
+ =?utf-8?B?L00xNVRyTGltVkRNeDU0TnFqWmNHbXJhemJDSFVXeGVYTlBvYzNHb24vRjVB?=
+ =?utf-8?B?dVBLcjBVNzVRL2VaNDVkRGhsYmZkMmtJUWliWHZScGhlYThpSjF4bzVkUTlV?=
+ =?utf-8?B?TGJGeHRnVWF1Q0tkUFpPTXJLRVdmN28za3J3SzhRSjVES2EyMW16cXRocUJw?=
+ =?utf-8?B?d1l6Zm92akhBYzEvRms5Z3grS1d1ZDhYT0I1ZEZRc0sxdzkwY1p1MCthN240?=
+ =?utf-8?B?TUkzbXBFQ1FGdEFRaDVCSTJ3blRPc0RyZEN5WmsvK2s4VCtxczlIMzdDTHJZ?=
+ =?utf-8?B?TjFYUVZZbmxwR3pwRFNSMkE3cy9NOWdkdVNRb0pCZnI5b1pJSUFldjduNi9P?=
+ =?utf-8?B?OFpUQlJ5bW1MQjRSYkgzWHh1MzU0NWRydWNjWWRBUHlxZnI5eDVKMkZMVzhx?=
+ =?utf-8?B?eXkvaUd0NUROb2ZMeGJEYzBZayt5dG1jek9hTDhhNEZwME9Jc3ZweFdzajFR?=
+ =?utf-8?B?TDFRMjk0ZEpPVlRMU0ZBRlZNeERVaWVVZXM2V0RyM0FuS1BQT2oxbmhyU1hW?=
+ =?utf-8?B?WGRmT1hvR0Z2K1BoMXBGeDdXY3dnT3VtZ2pzQ1lYWjBIaU9Rd0VVYWJMVXhC?=
+ =?utf-8?B?cmx0ZGZ5QUdMYTliM29wZzRGbUczSjQ0NnNLYVhXRjFtNGtOdVVwempWMmJB?=
+ =?utf-8?B?M3hMUERCTkdJOG53RWN1ZTJSWlQwa1BnbU5SSEdyc1ErYW9vQnNRbStVdFhQ?=
+ =?utf-8?B?MWIvRjB4M2xmN2RWZTl2SHRYUk03WHBxOWk2TEx5ZjZaSkxxeVJ6NFUyaUx4?=
+ =?utf-8?B?d0xIa25WNmI1NmdaZnZsOXY2emZNV0paWS82NC9lRENrK1B6b0l5QXoxN2JP?=
+ =?utf-8?B?cklvdVdlU0dJNnVTdDE2OVAwakZZK29qZUtYc1JXMHNZaU1VYWFnalMydHly?=
+ =?utf-8?Q?PtSLCETOmIR5QWwRbAeYkncMPLYbviJA39NHWwJhWk=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 5ad8dff6-6031-490b-f12f-08d9b6529fb0
+X-MS-Exchange-CrossTenant-AuthSource: 
+ HE1PR0602MB3340.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 11:47:03.5670
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ oPdXnDayNLSBM4wXQcdH4VkZ7MQ29Lvu9nBcTSWwZR65KQd3i9W9Dy9mFf8cVYYLboJ/19ztxDgg2z4sN8GbFghQwP8NeMnPE2zEoRRZh4g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR06MB4092
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 10:35:02 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Dec 2021 11:47:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159114
+ https://lists.openembedded.org/g/openembedded-core/message/159115
 
---0000000000007b60a005d23b75df
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2021-11-30 at 15:23 +0200, Eero Aaltonen via
+lists.openembedded.org wrote:
+> 
+> Update `Modules/FindGTest.cmake` to provide the same targets as the
+> CMake Config-file Package and backwards compatible targets and result
+> variables.
 
-Hello,
+Bump.
 
-I try to adapt my personal Yocto meta to Isar Project.
+The googletest recipe at meta-oe dunfell branch is for version 1.10.
+The fact that CMake Find Module masked the targets of the GTest package
+resulted in a number of very confusing build failures.
 
-Currently, I try to add "minimalmodbus" recipie, and for this, I need
-"python-pyserial".
-And for "python-pyserial" I need "setutools3"
-inherit setuptools3
+This patch is mostly about backporting the fixed forwarding behaviour
+from the Find Module to the Config-file Package that was released in
+CMake v3.20.0.
 
-So I added "setuptools3.bbclass" on my project. But after this, I need
-other and other classes...
+-- 
+Eero Aaltonen
 
-And I asked myself if I use the right ".bbclass" from the right
-"openembedded-core" branch.
-
-In fact, as I worked with Krogoth distrimution to my previous Yocto
-Project, I used bbclass from this branch too for my new Isar Project. But
-Isar is based to Debian so it's maybe not the right way...
-
-Do you know which branch I should used for compatible with Debian
-distribution ?
-
-Best Regards,
---=20
-Micka=C3=ABl Delano=C3=AB
-Ing=C3=A9nieur d'=C3=A9tudes | Design Engineer
-T. +33 (0)5 87 03 80 58
-E. mickael.delanoe@aquassay.com
-A. 31 rue du Ch=C3=A2tenet 87410 Le Palais-sur-Vienne
-
-https://aquassay.com/partnership-nestle-waters-aquassay/?lang=3Den
-
---0000000000007b60a005d23b75df
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>I try to adapt my per=
-sonal Yocto meta to Isar Project.</div><div><br></div><div>Currently, I try=
- to add &quot;minimalmodbus&quot; recipie, and for this, I need &quot;pytho=
-n-pyserial&quot;.</div><div>And for &quot;python-pyserial&quot; I need &quo=
-t;setutools3&quot;<br><div style=3D"color:rgb(212,212,212);background-color=
-:rgb(30,30,30);font-family:Menlo,Monaco,&quot;Courier New&quot;,monospace;f=
-ont-weight:normal;font-size:12px;line-height:18px;white-space:pre-wrap"><di=
-v><span style=3D"color:rgb(197,134,192)">inherit</span><span style=3D"color=
-:rgb(212,212,212)"> setuptools3</span></div></div></div><div><div><div dir=
-=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
-<div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=
-=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
-<div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div=
- dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"l=
-tr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
-<div dir=3D"ltr"><div><div dir=3D"ltr"><span style=3D"color:rgb(159,197,232=
-)"></span><span style=3D"color:rgb(0,0,0)"><br></span></div><div><span styl=
-e=3D"color:rgb(0,0,0)">So I added &quot;setuptools3.bbclass&quot; on my pro=
-ject. But after this, I need other and other classes...</span></div><div><s=
-pan style=3D"color:rgb(0,0,0)"><br></span></div><div><span style=3D"color:r=
-gb(0,0,0)">And I asked myself if I use the right &quot;.bbclass&quot; from =
-the right &quot;openembedded-core&quot; branch.</span></div><div><span styl=
-e=3D"color:rgb(0,0,0)"><br></span></div><div><span style=3D"color:rgb(0,0,0=
-)">In
- fact, as I worked with Krogoth distrimution to my previous Yocto=20
-Project, I used bbclass from this branch too for my new Isar Project.=20
-But Isar is based to Debian so it&#39;s maybe not the right way...</span></=
-div><div><span style=3D"color:rgb(0,0,0)"><br></span></div>Do you know whic=
-h branch I should used for compatible with Debian distribution ?<div><span =
-style=3D"color:rgb(0,0,0)"><br></span></div><div><span style=3D"color:rgb(0=
-,0,0)">Best Regards,<font color=3D"#888888"><br></font></span></div></div><=
-/div></div></div></div></div></div></div></div></div></div></div></div></di=
-v></div></div></div></div></div></div></div></div></div></div></div></div><=
-/div></div></div></div></div></div></div></div></div></div></div></div></di=
-v></div></div></div></div></div></div><div><div dir=3D"ltr" class=3D"gmail_=
-signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div di=
-r=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"=
-><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><di=
-v dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"=
-ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div=
-><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=
-=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
-<span style=3D"color:rgb(159,197,232)"></span><span style=3D"color:rgb(0,0,=
-0)">-- </span><br><span style=3D"color:rgb(0,0,0)"></span><div><div dir=3D"=
-ltr"><div><div dir=3D"ltr"><span style=3D"font-family:&quot;Rubik&quot;,Ari=
-al;color:rgb(38,138,212);font-weight:bold;font-size:18px">Micka=C3=ABl Dela=
-no=C3=AB</span><br><span style=3D"color:rgb(11,183,236)">Ing=C3=A9nieur d&#=
-39;=C3=A9tudes | Design Engineer</span>
-<br><span style=3D"color:rgb(38,138,212);font-weight:bold">T.</span><span s=
-tyle=3D"color:rgb(102,102,102)"> <span style=3D"color:rgb(153,153,153)">+33=
- (0)5 87 03 80 58</span></span><br><span style=3D"color:rgb(38,138,212);fon=
-t-weight:bold">E.</span> <a href=3D"mailto:mickael.delanoe@aquassay.com" ta=
-rget=3D"_blank">mickael.delanoe@aquassay.com</a><br><span style=3D"color:rg=
-b(38,138,212);font-weight:bold">A.</span> <span style=3D"color:rgb(153,153,=
-153)">31 rue du Ch=C3=A2tenet 87410 Le Palais-sur-Vienne</span></div></div>=
-</div></div></div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><a href=3D"ht=
-tps://aquassay.com/partnership-nestle-waters-aquassay/?lang=3Den" target=3D=
-"_blank">https://aquassay.com/partnership-nestle-waters-aquassay/?lang=3Den=
-</a></div></div></div></div></div></div></div></div></div></div></div></div=
-></div></div></div></div></div></div></div></div></div></div></div></div></=
-div></div></div></div></div></div></div></div></div></div></div></div></div=
-></div></div></div></div></div></div></div></div></div>
-
---0000000000007b60a005d23b75df--
 
