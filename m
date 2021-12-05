@@ -2,87 +2,185 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8386C433EF
-	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 14:02:59 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web08.37654.1638712979198430211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAD3C433EF
+	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 14:06:12 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.37694.1638713171900436401
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 06:02:59 -0800
+ Sun, 05 Dec 2021 06:06:12 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=IRUzkzrw;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
+ header.b=aRNBxxch;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.50,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id o14so5359275plg.5
+Received: by mail-wr1-f50.google.com with SMTP id c4so16654204wrd.9
         for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 06:02:59 -0800 (PST)
+ Sun, 05 Dec 2021 06:06:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=MHh+/wE2UeyJvYK7rGvE9554ny9TAOxht0DnSx2uS+w=;
-        b=IRUzkzrw3SQ4Z4QgkJOyi5jf0csMfhMo796X6ViWQo/9fK3N3hgUY0v18ZWtFZww1t
-         ZqyuSxCw024uTfRSK68B4o6I5oEMUHs0gaV7gylUajHSS9kC9Py7hp+yY2GwlRO/g19d
-         hBCu2q0Gynao2aQLUNck3UqHwpBmWQLAwtUCMBfCyZ7RgvfFMX+tv+AqLQGcKRx6fEIr
-         nKpPNJ05aqT2+74ZQ1Lwm+em/gpjimg+i8eu9bO5UucujC3KQznPZFNleNT8LtK3athP
-         uBEPD48xmVtG+JAS8RCwqV3wc/1VKfZFqsGgIAZogT/1oFS6+sM27ToEGuTCjsCxJ+1r
-         h3OA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3LbGbPdwcYhyinhZMafcYtW1oVkC7qx053UplTnpwEY=;
+        b=aRNBxxch9N38PtZdB+mL/SES9ULfH8PenJL6LkmDXmrWtdjfrOWyy9ZhokeN3lbYzN
+         JanNB2gx5vFAbc1mvYEF+Ix5pMCLWSkMstXV5Gr3H/ZZNh/RWYpfS1/PgGDZCkVRWHoS
+         N/d8tn+0d5GDHDlvJSzjuNifDATgqWuiHJkeiswtfMYsZO1PKLQRAPKObmyHH34/b2q6
+         UKK6AwnZd7EPhvT+xqIwqEXd4wMVOf08s+Wtse+LnAN5IX+wUgwRjLQha57Qv9fTyXuI
+         ujAUecFBWXUJR5JoXa9IBM7pKkmKfHjHquS863A5lmgSYSYN9pz4DR7lsBaIUuoV8qcE
+         7+Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=MHh+/wE2UeyJvYK7rGvE9554ny9TAOxht0DnSx2uS+w=;
-        b=eSTJ/DoRv2YKC2ODhsA7RatEo9VaugjlSVg3nYY5uEk4bE3Blaps3UwPArG4z71Mp1
-         PoKe3c+dgp81W1WdG7RFAIGXKxsk3575Klckkdfvy27hv0vMcoSBnSAo99gESWlb8eY5
-         iSJ+aoFcPw+3Iqn79Z95ReFQcPJDPU+yu/bvz90RBJluyQNfMTrprFbvMorRF+1mgQ9k
-         sggcytjPlkZS+ZSfwJRtCNp+0y0ygtX916BYqAQr1+Yyj8C5+csxpX/yBbNynXIKjDzd
-         joLCZr5XCyspS2jCv1hmpuzroaOQEBQsmN1C/w7k7nbemKEXZzy1Q0eg3JMkJ7n9FDO+
-         a85g==
-X-Gm-Message-State: AOAM532y1Nu9jHCQcg27OKZ80KsfP4PzKPKSRfmYKmycJutzfojFL8t/
-	HGzRcGBqkMTnT5PvEbh/21/TcdTDNiPHiFW2xAs=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3LbGbPdwcYhyinhZMafcYtW1oVkC7qx053UplTnpwEY=;
+        b=3Mlyk+tjBy9lQtX++uRHupDBqiLj2bCo2dVcoDE8wxjXZGPkbSrTazlEq4jorLV24G
+         CKhn3UhimQDhpifFLMdFQMLxYKfE9vH0G14WrWWllEIaTe6KQTZl1/1BvRQnFgX8uD6o
+         cMDCHu5+BgzFEqkoABKy7A1pAyeAHJB1/NMnn0gXGO2wm+85SHU7AH5t7B/RL9hSrSm1
+         XL86C7NPEvrV7qX/ihY6Bp0L8jCyb3ZLjMzu9+ecuwKMmwFjKeLYidRTay5N2r7h9Lu3
+         iflJogarJV3Fbqd0EYo45aAXZ1TZa442P1RIphjqDAmsO80Sxc38VZw5685Tpg2793sZ
+         8lxA==
+X-Gm-Message-State: AOAM530fJIfbz0KoWKj4T68h37y76dhvNMyVKLueb1twswWL7uKSjm3H
+	UCQMZUv2b/kGnvVwZp2huarBjEboXxjTqDEnMRcdtA==
 X-Google-Smtp-Source: 
- ABdhPJwQAOZg1UlstUfnsbKfMNa5u3+i0pFueKMvsX6IiimHAZUN2vnxlOS/N1qM254qXxxLIzuo/Q==
-X-Received: by 2002:a17:902:b20a:b0:143:7add:5ab7 with SMTP id
- t10-20020a170902b20a00b001437add5ab7mr36646384plr.71.1638712977864;
-        Sun, 05 Dec 2021 06:02:57 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- i198sm9449088pfe.81.2021.12.05.06.02.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 06:02:57 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 50B9D9604A6; Sun,  5 Dec 2021 04:02:54 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 05 Dec 2021 04:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20211205140254.50B9D9604A6@nuc.router0800d9.com>
-Date: Sun,  5 Dec 2021 04:02:54 -1000 (HST)
+ ABdhPJxGVEeR8wDu1VJYZWYV8z/Vp564UysF5T3bsnQ2R+jdy03RWsRL50fcSySuerB9weVZ6QugSLlfcvafwYA5mOY=
+X-Received: by 2002:a05:6000:92:: with SMTP id
+ m18mr36382912wrx.617.1638713170235;
+ Sun, 05 Dec 2021 06:06:10 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1638555254.git.steve@sakoman.com>
+ <2a157263e5632146b28fb3c0678c18c21f357d34.1638555254.git.steve@sakoman.com>
+ <778109a1ac6465c3639a8e794cb9613ef472a908.camel@linuxfoundation.org>
+In-Reply-To: 
+ <778109a1ac6465c3639a8e794cb9613ef472a908.camel@linuxfoundation.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sun, 5 Dec 2021 04:05:57 -1000
+Message-ID: 
+ <CAOSpxdbiEAY5f0h_C6Uhggca8RoA-hWYN5bw2hiha7hADm=2Cg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 01/18] cve-extra-exclusions: add db CVEs to
+ exclusion list
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000066a6d805d266a4ec"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 14:02:59 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 14:06:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159192
+ https://lists.openembedded.org/g/openembedded-core/message/159193
 
-Branch: master
+--00000000000066a6d805d266a4ec
+Content-Type: text/plain; charset="UTF-8"
 
-New this week: 1 CVEs
-CVE-2021-3984: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3984 *
+On Sun, Dec 5, 2021, 2:39 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Removed this week: 1 CVEs
-CVE-2021-3968: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3968 *
+> On Fri, 2021-12-03 at 08:18 -1000, Steve Sakoman wrote:
+> > Since Oracle relicensed bdb, the open source community is slowly but
+> surely replacing bdb with
+> > supported and open source friendly alternatives. As a result these CVEs
+> are unlikely to ever be fixed.
+> >
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  meta/conf/distro/include/cve-extra-exclusions.inc | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc
+> b/meta/conf/distro/include/cve-extra-exclusions.inc
+> > index a6f52b5de7..e02a4d1fde 100644
+> > --- a/meta/conf/distro/include/cve-extra-exclusions.inc
+> > +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+> > @@ -44,7 +44,14 @@ CVE_CHECK_WHITELIST += "CVE-2010-4756"
+> >  # exposing this interface in an exploitable way
+> >  CVE_CHECK_WHITELIST += "CVE-2020-29509 CVE-2020-29511"
+> >
+> > -
+> > +# db
+> > +# Since Oracle relicensed bdb, the open source community is slowly but
+> surely replacing bdb with
+> > +# supported and open source friendly alternatives. As a result these
+> CVEs are unlikely to ever be fixed.
+> > +CVE_CHECK_WHITELIST += "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626
+> CVE-2015-2640 CVE-2015-2654 \
+> > +CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775
+> CVE-2015-4776 CVE-2015-4777 \
+> > +CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782
+> CVE-2015-4783 CVE-2015-4784 \
+> > +CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789
+> CVE-2015-4790 CVE-2016-0682 \
+> > +CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981"
+> >
+> >  #### CPE update pending ####
+> >
+>
+>
+> Do we need to fix this in master first?
 
-Full list:  Found 10 unpatched CVEs
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
-CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-37322: gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-11.2.0:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-37322 *
-CVE-2021-3974: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3974 *
-CVE-2021-3984: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3984 *
-CVE-2021-4019: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4019 *
+
+Yes, of course!  Thanks for catching this. I'll submit for master, then
+cherry-pick.
+
+Steve
+
+--00000000000066a6d805d266a4ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, Dec 5, 2021, 2:39 AM Richard Purdie &lt;<a hre=
+f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
+ion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, 2021=
+-12-03 at 08:18 -1000, Steve Sakoman wrote:<br>
+&gt; Since Oracle relicensed bdb, the open source community is slowly but s=
+urely replacing bdb with<br>
+&gt; supported and open source friendly alternatives. As a result these CVE=
+s are unlikely to ever be fixed.<br>
+&gt; <br>
+&gt; Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" =
+target=3D"_blank" rel=3D"noreferrer">steve@sakoman.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/distro/include/cve-extra-exclusions.inc | 9 ++++++++-<=
+br>
+&gt;=C2=A0 1 file changed, 8 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/=
+conf/distro/include/cve-extra-exclusions.inc<br>
+&gt; index a6f52b5de7..e02a4d1fde 100644<br>
+&gt; --- a/meta/conf/distro/include/cve-extra-exclusions.inc<br>
+&gt; +++ b/meta/conf/distro/include/cve-extra-exclusions.inc<br>
+&gt; @@ -44,7 +44,14 @@ CVE_CHECK_WHITELIST +=3D &quot;CVE-2010-4756&quot;<=
+br>
+&gt;=C2=A0 # exposing this interface in an exploitable way<br>
+&gt;=C2=A0 CVE_CHECK_WHITELIST +=3D &quot;CVE-2020-29509 CVE-2020-29511&quo=
+t;<br>
+&gt;=C2=A0 <br>
+&gt; -<br>
+&gt; +# db<br>
+&gt; +# Since Oracle relicensed bdb, the open source community is slowly bu=
+t surely replacing bdb with<br>
+&gt; +# supported and open source friendly alternatives. As a result these =
+CVEs are unlikely to ever be fixed.<br>
+&gt; +CVE_CHECK_WHITELIST +=3D &quot;CVE-2015-2583 CVE-2015-2624 CVE-2015-2=
+626 CVE-2015-2640 CVE-2015-2654 \<br>
+&gt; +CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775=
+ CVE-2015-4776 CVE-2015-4777 \<br>
+&gt; +CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782=
+ CVE-2015-4783 CVE-2015-4784 \<br>
+&gt; +CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789=
+ CVE-2015-4790 CVE-2016-0682 \<br>
+&gt; +CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981=
+&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #### CPE update pending ####<br>
+&gt;=C2=A0 <br>
+<br>
+<br>
+Do we need to fix this in master first?</blockquote></div></div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Yes, of course!=C2=A0 Thanks for catchin=
+g this. I&#39;ll submit for master, then cherry-pick.</div><div dir=3D"auto=
+"><br></div><div dir=3D"auto">Steve</div><div dir=3D"auto"></div></div>
+
+--00000000000066a6d805d266a4ec--
 
