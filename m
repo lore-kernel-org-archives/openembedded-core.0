@@ -1,110 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD2C433F5
-	for <webhook@archiver.kernel.org>; Sat,  4 Dec 2021 23:19:46 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.31316.1638659985117671403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B9FCC433EF
+	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 01:24:29 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.32484.1638667467249756833
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Dec 2021 15:19:45 -0800
+ Sat, 04 Dec 2021 17:24:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KwCpRv49;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id u17so6580662wrt.3
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Dec 2021 15:19:44 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=YddgoF5u;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=oIq6/MDlgtZcWR5JV424xVp7tkdg7EiBOFMxr8R/t3c=;
-        b=KwCpRv49GiV92uOIjQQxCN+z8jbHJs74GAO9+5JJ8aTlg7IeaK4HZhW217EYGCqi3R
-         r8ADyhcnP1ChnBWsa41YPg2XiqsY8I9jfFZeS3t/yY1x02+LvigR+pc+lib/KlZNWGT2
-         HM7bmaE2nb+yTA4O2r341ZM96uRyF47VQJvIE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oIq6/MDlgtZcWR5JV424xVp7tkdg7EiBOFMxr8R/t3c=;
-        b=JJxY2g2zqrWOGw6tXvzl+e5fJgZvNMMvbzh+MqjyOxfhIy+1B/4toz8LjSWmeS93z5
-         tiEMV+JXMsLFAxQyYsPBsGjlqVkMfyz3gbV4wc061BpiR2Zmf7cSbLgWth7JEe986STE
-         5NdaaCLGIxMe4zSOdkKOKJjPsh1Q/p1aT6P2hsb9cWRzXu0mIUr9Q0yThQiG9Eh0OuwG
-         /2gNKDrXswyLGn5RGJBKM3laXWagQygszqGsUF8jIuHTulr1z82p627qoXkVmEzZu0uh
-         c16Rqy0zCgSXH1JOsswK2ExTT86s725Ye30ka6LTFCO+fjJ/4sGOxGuIwtkHj2vPSGfV
-         Wung==
-X-Gm-Message-State: AOAM532zn1NblnNBjiuxr/H3alCjbFQT0LjH1mnm9lFFRULVWsPQj2pr
-	s08fgxU3Au0w514Xhqh8KC9IwQ==
-X-Google-Smtp-Source: 
- ABdhPJw+88MXUckk4eHoCbss4IrpQLYVkNQCYq96fmnq1PeSUN2O3ca3itOmL3oj+SYGMYrlbHObnQ==
-X-Received: by 2002:a5d:456e:: with SMTP id
- a14mr31284974wrc.256.1638659983429;
-        Sat, 04 Dec 2021 15:19:43 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:685e:e95e:8e62:a31c?
- ([2001:8b0:aba:5f3c:685e:e95e:8e62:a31c])
-        by smtp.gmail.com with ESMTPSA id
- g13sm6427904wmk.37.2021.12.04.15.19.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 15:19:43 -0800 (PST)
-Message-ID: 
- <505b640190d97b7dbcfc306de4c5a357008978a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/6] libxkbcommon: allow building of API
+  d=axis.com; q=dns/txt; s=axis-central1; t=1638667467;
+  x=1670203467;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=Q/sEewAM4isXEh2vf2qjRuSe4Nwv7jA8MlIbfgU8Sq0=;
+  b=YddgoF5u+hrT6qwYKYpB8U1xlKHuR8klHbfWvUMVyP5LCJXsuf4nLJ1K
+   IHJZr+0KPaF6uKAxt1eS7Rq1AYxEAjH83JmbhXPbCV8ODtBx0OpJTWvMN
+   R6aHnPDG/85MIxchgF/7LC2h1U5X11MIYaC9dvjoW2QUvYjrtqBDR4F57
+   b1FpJ4udz8qrMAfa+8xuqQTqtu3AkvRO5hK+CvyMgtSk+6xusL9H6xy8H
+   cU+wKVwoIr7HOF3yUnDfUmAqz2S0z324oxOuM08J73NFQQnNex8DtfLWu
+   A+204VgIdNZb32yZzOZ4U2AutQj1fFHo8zO3mJahHwdhUmzfFCXZnQEhc
+   g==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton
+	<ross@burtonini.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 3/6] libxkbcommon: allow building of API
  documentation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 04 Dec 2021 23:19:42 +0000
-In-Reply-To: <20211203164340.2963235-3-ross.burton@arm.com>
+Thread-Topic: [OE-core] [PATCH 3/6] libxkbcommon: allow building of API
+ documentation
+Thread-Index: AQHX6GUUNmRTuaHdV0OSn6la0JmRjawi6UcAgAAyJwA=
+Date: Sun, 5 Dec 2021 01:24:24 +0000
+Message-ID: <44ecb2fe1e3d42988f77a4074baa8075@axis.com>
 References: <20211203164340.2963235-1-ross.burton@arm.com>
 	 <20211203164340.2963235-3-ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ <505b640190d97b7dbcfc306de4c5a357008978a1.camel@linuxfoundation.org>
+In-Reply-To: 
+ <505b640190d97b7dbcfc306de4c5a357008978a1.camel@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Dec 2021 23:19:46 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 01:24:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159186
+ https://lists.openembedded.org/g/openembedded-core/message/159187
 
-On Fri, 2021-12-03 at 16:43 +0000, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb
-> index 95accfc184..725fcf009e 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb
-> @@ -15,11 +15,14 @@ UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
->  
->  inherit meson pkgconfig
->  
-> -EXTRA_OEMESON = "-Denable-docs=false -Denable-xkbregistry=false"
-> +EXTRA_OEMESON = "-Denable-xkbregistry=false"
->  
->  PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
-> -PACKAGECONFIG[x11] = "-Denable-x11=true,-Denable-x11=false,libxcb xkeyboard-config,"
-> +PACKAGECONFIG:append:class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'docs', '', d)}"
-> +
-> +PACKAGECONFIG[docs] = "-Denable-docs=true,-Denable-docs=false,doxygen-native"
->  PACKAGECONFIG[wayland] = "-Denable-wayland=true,-Denable-wayland=false,wayland-native wayland wayland-protocols,"
-> +PACKAGECONFIG[x11] = "-Denable-x11=true,-Denable-x11=false,libxcb xkeyboard-config,"
->  
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/2396/steps/11/logs/errors
-
-stdio: ERROR: Nothing PROVIDES 'doxygen-native' (but /home/pokybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb, virtual:multilib:lib32:/home/pokybuild/yocto-worker/qemux86-world-alt/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.1.bb DEPENDS on or otherwise requires it). Close matches:
-
-Not quite sure what is going on there yet, seems a little strange.
-
-Cheers,
-
-Richard
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnPiBPbiBCZWhhbGYgT2YgUmljaGFyZCBQdXJkaWUNCj4gU2VudDogZGVuIDUgZGVjZW1i
+ZXIgMjAyMSAwMDoyMA0KPiBUbzogUm9zcyBCdXJ0b24gPHJvc3NAYnVydG9uaW5pLmNvbT47IG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0ggMy82XSBsaWJ4a2Jjb21tb246IGFsbG93IGJ1aWxkaW5nIG9mIEFQSSBk
+b2N1bWVudGF0aW9uDQo+IA0KPiBPbiBGcmksIDIwMjEtMTItMDMgYXQgMTY6NDMgKzAwMDAsIFJv
+c3MgQnVydG9uIHdyb3RlOg0KPiA+IFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1
+cnRvbkBhcm0uY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
+aWIvbGlieGtiY29tbW9uXzEuMy4xLmJiIHwgNyArKysrKy0tDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCA1IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjMuMS5iYiBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4zLjEuYmINCj4gPiBp
+bmRleCA5NWFjY2ZjMTg0Li43MjVmY2YwMDllIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4zLjEuYmINCj4gPiArKysgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMy4xLmJiDQo+ID4gQEAg
+LTE1LDExICsxNSwxNCBAQCBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cDovL3hrYmNvbW1vbi5v
+cmcvIg0KPiA+DQo+ID4gIGluaGVyaXQgbWVzb24gcGtnY29uZmlnDQo+ID4NCj4gPiAtRVhUUkFf
+T0VNRVNPTiA9ICItRGVuYWJsZS1kb2NzPWZhbHNlIC1EZW5hYmxlLXhrYnJlZ2lzdHJ5PWZhbHNl
+Ig0KPiA+ICtFWFRSQV9PRU1FU09OID0gIi1EZW5hYmxlLXhrYnJlZ2lzdHJ5PWZhbHNlIg0KPiA+
+DQo+ID4gIFBBQ0tBR0VDT05GSUcgPz0gIiR7QGJiLnV0aWxzLmZpbHRlcignRElTVFJPX0ZFQVRV
+UkVTJywgJ3gxMSB3YXlsYW5kJywgZCl9Ig0KPiA+IC1QQUNLQUdFQ09ORklHW3gxMV0gPSAiLURl
+bmFibGUteDExPXRydWUsLURlbmFibGUteDExPWZhbHNlLGxpYnhjYiB4a2V5Ym9hcmQtY29uZmln
+LCINCj4gPiArUEFDS0FHRUNPTkZJRzphcHBlbmQ6Y2xhc3MtdGFyZ2V0ID0gIiAke0BiYi51dGls
+cy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ2FwaS1kb2N1bWVudGF0aW9uJywgJ2RvY3Mn
+LCAnJywgZCl9Ig0KPiA+ICsNCj4gPiArUEFDS0FHRUNPTkZJR1tkb2NzXSA9ICItRGVuYWJsZS1k
+b2NzPXRydWUsLURlbmFibGUtZG9jcz1mYWxzZSxkb3h5Z2VuLW5hdGl2ZSINCj4gPiAgUEFDS0FH
+RUNPTkZJR1t3YXlsYW5kXSA9ICItRGVuYWJsZS13YXlsYW5kPXRydWUsLURlbmFibGUtd2F5bGFu
+ZD1mYWxzZSx3YXlsYW5kLW5hdGl2ZSB3YXlsYW5kIHdheWxhbmQtcHJvdG9jb2xzLCINCj4gPiAr
+UEFDS0FHRUNPTkZJR1t4MTFdID0gIi1EZW5hYmxlLXgxMT10cnVlLC1EZW5hYmxlLXgxMT1mYWxz
+ZSxsaWJ4Y2IgeGtleWJvYXJkLWNvbmZpZywiDQo+ID4NCj4gDQo+IGh0dHBzOi8vYXV0b2J1aWxk
+ZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvMTA4L2J1aWxkcy8yMzk2L3N0
+ZXBzLzExL2xvZ3MvZXJyb3JzDQo+IA0KPiBzdGRpbzogRVJST1I6IE5vdGhpbmcgUFJPVklERVMg
+J2RveHlnZW4tbmF0aXZlJyAoYnV0IC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvcWVtdXg4
+Ni13b3JsZC1hbHQvYnVpbGQvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNv
+bW1vbl8xLjMuMS5iYiwNCj4gdmlydHVhbDptdWx0aWxpYjpsaWIzMjovaG9tZS9wb2t5YnVpbGQv
+eW9jdG8td29ya2VyL3FlbXV4ODYtd29ybGQtYWx0L2J1aWxkL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4zLjEuYmIgREVQRU5EUyBvbg0KPiBvciBvdGhlcndp
+c2UgcmVxdWlyZXMgaXQpLiBDbG9zZSBtYXRjaGVzOg0KPiANCj4gTm90IHF1aXRlIHN1cmUgd2hh
+dCBpcyBnb2luZyBvbiB0aGVyZSB5ZXQsIHNlZW1zIGEgbGl0dGxlIHN0cmFuZ2UuDQoNCk5vdCB2
+ZXJ5IHN0cmFuZ2Ugd2hlbiB5b3UgY29uc2lkZXIgdGhhdCB0aGUgZG94eWdlbiByZWNpcGUgaXMg
+aW4gbWV0YS1vZS4uLi4NCg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KPiANCg0KLy9Q
+ZXRlcg0KDQo=
 
