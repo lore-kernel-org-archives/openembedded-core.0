@@ -1,99 +1,109 @@
-Return-Path: <workjagadeesh@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B37C433F5
-	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 11:36:57 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.36602.1638704216608963687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8885BC433F5
+	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 12:39:41 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web09.37016.1638707979749174971
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 03:36:56 -0800
+ Sun, 05 Dec 2021 04:39:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iyYvnew6;
- spf=pass (domain: gmail.com, ip: 209.85.216.47,
- mailfrom: workjagadeesh@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id gt5so5666937pjb.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OBKhlsFR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id i5so16421904wrb.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 03:36:56 -0800 (PST)
+ Sun, 05 Dec 2021 04:39:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=bJsO40ia0AmSVVi/EAMPiLS25M5q296h6/atpIfScYs=;
-        b=iyYvnew6vlB3c/kWzwc1Nd02AkwCkkfzlNc7fYEfylSq0vyV3xv0tlTyuT+De9HTWM
-         IPMZLbWynmFzlxem4KyZPBRkI9pzsXa1FmzrnIiuctgzLRlIbINJEBxWk/zG3rztjJdw
-         BhvJ5ElhQWEVuXwmIoPQb2lbhLrT9cb/d8Tbv+q/Q4UwwaoszkmOyhMYkzQEYpGfkVLm
-         qFDGJdUMPnlx7UztH29Ir8VzVFpKoEyXh1Kjr7UujghglZOSFz2oqN8+6k7f75pTFSju
-         PavvpJWQJb6kdzCJSJFoooqs31Er2xDAEqbmAbm71r/0eM0lZA6/EXWIZq71BNAabWLj
-         4lyA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=CzUn11DL/mKcrsRClq0uyVxWpHLkKpSKT22uLiEydhI=;
+        b=OBKhlsFR1xcWNt8/MDvUK4IUEVKTgfuiPq++Z+TVukao6Q4bibL11L7E1UAW2Yb5nf
+         TClE5zQW0PZCYZd0l6PFEIqq65zZEwsLKCePSboLKf+5nmo3fA2NS5VC56LDzl/5gnj3
+         qsnZ5tVqhcEdOPmn7UB9t4Qn+36wliNBeuWtU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=bJsO40ia0AmSVVi/EAMPiLS25M5q296h6/atpIfScYs=;
-        b=bykQv+n0WtQ/PiQettWmoINeDyqZ7aufYJmmZHh1oAa3+dW6FjJRtAB70WTDM67eyA
-         jDN59S+feD+AhiSqEqza8ZG5EQ3UD29DBQApGMl3XPymnRMCfLcnfmztPHpIcAjmyFWZ
-         CuHZfgKrEqaeSw6U57ja9cnFMR8sX2zsW485pKl1iTueWgs1gwb5yTCKOqST4/qV+9g3
-         PS1LBkgVYMihlUhKg8vBwsbO7+vnhGn9o7rndyfnhUJWBuznygyrKTZdHE1j+7amgXbh
-         389SxMIeK3arDloBPNeQFaJjVAmaK1bCWt9st95z5gVnYRkOO6d+nBP4wPm8/peYfz0S
-         CCgA==
-X-Gm-Message-State: AOAM533+oTFDYQKICzhAAXPCm3n8e+6FWNNmkytrEPERmvFM1q/bbwfY
-	LGRgWVNKvuo4onAAntcnKURbzay+vWhJXA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CzUn11DL/mKcrsRClq0uyVxWpHLkKpSKT22uLiEydhI=;
+        b=stInTwGsVQm2VkdVhogSqc/Ai0JQKF/WDNHwp7bA+MwDnNZMezRsZtBA1u4nP0Aq2C
+         7BRTVttOmFIf2Zjc0eMLQRjAfSdZrVb3qAZrngfnLN5ylPxg0aO4JXoSikBjWV4rgBR2
+         MMJYTZP0YALvWLrZV+xiSA3IE89f7C3GBop8JJEZzLVdGKNvyu8xQuniWNSlaTJlugy0
+         laHDvdX6cddh+M+EhcLgVsAMMT3aAQpzR/AjuwIJBcLIU1TqxchtOTluk2kFGdFSbVN3
+         YdJqpUIWEpgKxo54n6F9ar78Inzis8E0umu8c1EXO2PQq2gkf2PHGroCVF7hWEEKFj/1
+         oaHA==
+X-Gm-Message-State: AOAM531oEF+NcXJn0rB0DJgc66ld9iiiryKKm2uqWvLnTsYM0gf5cxEc
+	m4kufjw8wj3Dl8NLNW8HAC12xg==
 X-Google-Smtp-Source: 
- ABdhPJxmWdih++F0vgvjdglhzvOSNxlBqWeSOzMvNmYrZa0u+Dzx8RxiddENM9f6uvt1HCIkS3hgWg==
-X-Received: by 2002:a17:90a:e60a:: with SMTP id
- j10mr29336503pjy.169.1638704216036;
-        Sun, 05 Dec 2021 03:36:56 -0800 (PST)
-Received: from localhost.localdomain ([157.45.160.11])
-        by smtp.gmail.com with ESMTPSA id
- pi17sm10850892pjb.34.2021.12.05.03.36.54
+ ABdhPJxQhvz3kcbF5It5/MjKwcXpIh+TT2Si9uytKvK0oepZliSCLXXnyUh1OamPvwOSa9bK9HYAIA==
+X-Received: by 2002:adf:d225:: with SMTP id k5mr36171959wrh.612.1638707978034;
+        Sun, 05 Dec 2021 04:39:38 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:685e:e95e:8e62:a31c?
+ ([2001:8b0:aba:5f3c:685e:e95e:8e62:a31c])
+        by smtp.gmail.com with ESMTPSA id o9sm8337401wrs.4.2021.12.05.04.39.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 03:36:55 -0800 (PST)
-From: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
-Subject: [OE-core][PATCH] tune-cortexa72: Add new tune for crc and crypto
-Date: Sun,  5 Dec 2021 11:36:31 +0000
-Message-Id: <20211205113631.609-1-workjagadeesh@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Sun, 05 Dec 2021 04:39:37 -0800 (PST)
+Message-ID: 
+ <778109a1ac6465c3639a8e794cb9613ef472a908.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 01/18] cve-extra-exclusions: add db CVEs to
+ exclusion list
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 05 Dec 2021 12:39:36 +0000
+In-Reply-To: 
+ <2a157263e5632146b28fb3c0678c18c21f357d34.1638555254.git.steve@sakoman.com>
+References: <cover.1638555254.git.steve@sakoman.com>
+	 <2a157263e5632146b28fb3c0678c18c21f357d34.1638555254.git.steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 11:36:57 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 12:39:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159190
+ https://lists.openembedded.org/g/openembedded-core/message/159191
 
-The newly added cortexa72-crypto tune builds programs for armv8a
-with crc+crypto. Whereas default tune cortexa72 builds programs
-with armv8a only.
+On Fri, 2021-12-03 at 08:18 -1000, Steve Sakoman wrote:
+> Since Oracle relicensed bdb, the open source community is slowly but surely replacing bdb with
+> supported and open source friendly alternatives. As a result these CVEs are unlikely to ever be fixed.
+> 
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/conf/distro/include/cve-extra-exclusions.inc | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+> index a6f52b5de7..e02a4d1fde 100644
+> --- a/meta/conf/distro/include/cve-extra-exclusions.inc
+> +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+> @@ -44,7 +44,14 @@ CVE_CHECK_WHITELIST += "CVE-2010-4756"
+>  # exposing this interface in an exploitable way
+>  CVE_CHECK_WHITELIST += "CVE-2020-29509 CVE-2020-29511"
+>  
+> -
+> +# db
+> +# Since Oracle relicensed bdb, the open source community is slowly but surely replacing bdb with
+> +# supported and open source friendly alternatives. As a result these CVEs are unlikely to ever be fixed.
+> +CVE_CHECK_WHITELIST += "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626 CVE-2015-2640 CVE-2015-2654 \
+> +CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775 CVE-2015-4776 CVE-2015-4777 \
+> +CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782 CVE-2015-4783 CVE-2015-4784 \
+> +CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789 CVE-2015-4790 CVE-2016-0682 \
+> +CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981"
+>  
+>  #### CPE update pending ####
+>  
 
-[YOCTO #14641]
 
-Signed-off-by: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
----
- .../conf/machine/include/arm/armv8a/tune-cortexa72.inc | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Do we need to fix this in master first?
 
-diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-index 2a510bd45b..8c32286c84 100644
---- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-+++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-@@ -6,8 +6,12 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=corte
- require conf/machine/include/arm/arch-armv8a.inc
- 
- # Little Endian base configs
--AVAILTUNES += "cortexa72"
-+AVAILTUNES += "cortexa72 cortexa72-crypto"
- ARMPKGARCH:tune-cortexa72             = "cortexa72"
--TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a-crc-crypto} cortexa72"
--PACKAGE_EXTRA_ARCHS:tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72"
-+ARMPKGARCH:tune-cortexa72-crypto      = "cortexa72"
-+TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a} cortexa72"
-+TUNE_FEATURES:tune-cortexa72-crypto   = "${TUNE_FEATURES:tune-cortexa72} crc crypto"
-+PACKAGE_EXTRA_ARCHS:tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS:tune-armv8} cortexa72"
-+PACKAGE_EXTRA_ARCHS:tune-cortexa72-crypto    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crypto"
- BASE_LIB:tune-cortexa72               = "lib64"
-+BASE_LIB:tune-cortexa72-crypto        = "lib64"
--- 
-2.17.1
+Cheers,
+
+Richard
 
 
