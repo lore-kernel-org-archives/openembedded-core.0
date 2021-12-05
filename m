@@ -1,133 +1,99 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <workjagadeesh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59CCBC433EF
-	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 01:27:47 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.32515.1638667665430291364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B37C433F5
+	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 11:36:57 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.36602.1638704216608963687
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Dec 2021 17:27:46 -0800
+ Sun, 05 Dec 2021 03:36:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=g4GKcgAT;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iyYvnew6;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47,
+ mailfrom: workjagadeesh@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id gt5so5666937pjb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 05 Dec 2021 03:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1638667665;
-  x=1670203665;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=8TvlEvMZyjYudDpboDClHKn8sc18vd6hZ8xw2T1RrfA=;
-  b=g4GKcgATR47OOy43eIvc6HHLQcdvl3OqIIXzfLAw23u9QFa9DG7MwcX8
-   gREQhBYESDnDbRZAf5rc81cTSiN/tuoaHSB95e9yZrMke+x1vvar9adpB
-   IGQHZFZO6xLEaxUkYU0gk9ErFYgs8m1kAsctyHka2Kq5cVvBW1Jtg59ag
-   Emu08cAkVDHPJ89f+kjcedKhFj7qcBdnOVN4hjR0TGUGCRBq2tE4ZxywC
-   paI5eHsBOZVZYGvti4zy8DNfy4e3fmda154Qfb5q7HmvUhWMYK/GMdlQn
-   wfYeRKcwasg1ImGzTvcvTZe3DiwkpzOqHtbt16sUn41pJuOgdeONEhfVA
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Alexander Kanavin <alex@linutronix.de>
-Subject: RE: [OE-core] [PATCH 26/26] serf: mark patches as inappropriate for
- upstream submission
-Thread-Topic: [OE-core] [PATCH 26/26] serf: mark patches as inappropriate for
- upstream submission
-Thread-Index: AQHX6N8NC6kNULozqUq/hyxxeYTk5KwjHBFQ
-Date: Sun, 5 Dec 2021 01:27:43 +0000
-Message-ID: <4895d5ef7ab64630844bc041de06f0db@axis.com>
-References: <20211204071323.2480163-1-alex@linutronix.de>
- <20211204071323.2480163-26-alex@linutronix.de>
-In-Reply-To: <20211204071323.2480163-26-alex@linutronix.de>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=bJsO40ia0AmSVVi/EAMPiLS25M5q296h6/atpIfScYs=;
+        b=iyYvnew6vlB3c/kWzwc1Nd02AkwCkkfzlNc7fYEfylSq0vyV3xv0tlTyuT+De9HTWM
+         IPMZLbWynmFzlxem4KyZPBRkI9pzsXa1FmzrnIiuctgzLRlIbINJEBxWk/zG3rztjJdw
+         BhvJ5ElhQWEVuXwmIoPQb2lbhLrT9cb/d8Tbv+q/Q4UwwaoszkmOyhMYkzQEYpGfkVLm
+         qFDGJdUMPnlx7UztH29Ir8VzVFpKoEyXh1Kjr7UujghglZOSFz2oqN8+6k7f75pTFSju
+         PavvpJWQJb6kdzCJSJFoooqs31Er2xDAEqbmAbm71r/0eM0lZA6/EXWIZq71BNAabWLj
+         4lyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=bJsO40ia0AmSVVi/EAMPiLS25M5q296h6/atpIfScYs=;
+        b=bykQv+n0WtQ/PiQettWmoINeDyqZ7aufYJmmZHh1oAa3+dW6FjJRtAB70WTDM67eyA
+         jDN59S+feD+AhiSqEqza8ZG5EQ3UD29DBQApGMl3XPymnRMCfLcnfmztPHpIcAjmyFWZ
+         CuHZfgKrEqaeSw6U57ja9cnFMR8sX2zsW485pKl1iTueWgs1gwb5yTCKOqST4/qV+9g3
+         PS1LBkgVYMihlUhKg8vBwsbO7+vnhGn9o7rndyfnhUJWBuznygyrKTZdHE1j+7amgXbh
+         389SxMIeK3arDloBPNeQFaJjVAmaK1bCWt9st95z5gVnYRkOO6d+nBP4wPm8/peYfz0S
+         CCgA==
+X-Gm-Message-State: AOAM533+oTFDYQKICzhAAXPCm3n8e+6FWNNmkytrEPERmvFM1q/bbwfY
+	LGRgWVNKvuo4onAAntcnKURbzay+vWhJXA==
+X-Google-Smtp-Source: 
+ ABdhPJxmWdih++F0vgvjdglhzvOSNxlBqWeSOzMvNmYrZa0u+Dzx8RxiddENM9f6uvt1HCIkS3hgWg==
+X-Received: by 2002:a17:90a:e60a:: with SMTP id
+ j10mr29336503pjy.169.1638704216036;
+        Sun, 05 Dec 2021 03:36:56 -0800 (PST)
+Received: from localhost.localdomain ([157.45.160.11])
+        by smtp.gmail.com with ESMTPSA id
+ pi17sm10850892pjb.34.2021.12.05.03.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Dec 2021 03:36:55 -0800 (PST)
+From: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+Subject: [OE-core][PATCH] tune-cortexa72: Add new tune for crc and crypto
+Date: Sun,  5 Dec 2021 11:36:31 +0000
+Message-Id: <20211205113631.609-1-workjagadeesh@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 01:27:47 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 11:36:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159188
+ https://lists.openembedded.org/g/openembedded-core/message/159190
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Alexander Kanavin
-> Sent: den 4 december 2021 08:13
-> To: openembedded-core@lists.openembedded.org
-> Cc: Alexander Kanavin <alex@linutronix.de>
-> Subject: [OE-core] [PATCH 26/26] serf: mark patches as inappropriate for
-> upstream submission
->=20
-> With this commit I am entering the patch nirvana (and I intend to stay
-> there):
->=20
-> ~/development/poky$ grep -ilr "upstream-status: pending" `grep -ilr kanav=
-in meta*`|wc -l
-> 0
+The newly added cortexa72-crypto tune builds programs for armv8a
+with crc+crypto. Whereas default tune cortexa72 builds programs
+with armv8a only.
 
-Even though we appreciate your work, I think the two paragraphs above=20
-belong after the --- below, as they don't have anything to do with the=20
-actual change in this commit.
+[YOCTO #14641]
 
-//Peter
+Signed-off-by: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+---
+ .../conf/machine/include/arm/armv8a/tune-cortexa72.inc | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch    | 2 +-
->  ...op.creating.directories.without.sandbox-install.prefix.patch | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do=
--
-> not-use-ERR_GET_FUNC.patch b/meta/recipes-support/serf/serf/0001-buckets-
-> ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
-> index e6172ef5aa..73e8a8386b 100644
-> --- a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-
-> use-ERR_GET_FUNC.patch
-> +++ b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-
-> use-ERR_GET_FUNC.patch
-> @@ -6,7 +6,7 @@ Subject: [PATCH] buckets/ssl_buckets.c: do not use
-> ERR_GET_FUNC
->  Upstream removed it in
->  https://github.com/openssl/openssl/pull/16004
->=20
-> -Upstream-Status: Pending
-> +Upstream-Status: Inappropriate [last release in 2015, last commit in
-> 2019]
->  Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->  ---
->   buckets/ssl_buckets.c | 3 +--
-> diff --git a/meta/recipes-
-> support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-
-> install.prefix.patch b/meta/recipes-
-> support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-
-> install.prefix.patch
-> index 91640d6044..ba1b01c740 100644
-> --- a/meta/recipes-
-> support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-
-> install.prefix.patch
-> +++ b/meta/recipes-
-> support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-
-> install.prefix.patch
-> @@ -31,7 +31,7 @@ ERROR: scons install execution failed.
->    and the installed paths (including the paths inside libserf*.pc)
->    look correct
->=20
-> -Upstream-Status: Pending
-> +Upstream-Status: Inappropriate [last release in 2015, last commit in
-> 2019]
->=20
->  Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->=20
-> --
-> 2.20.1
+diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+index 2a510bd45b..8c32286c84 100644
+--- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
++++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+@@ -6,8 +6,12 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=corte
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
+ # Little Endian base configs
+-AVAILTUNES += "cortexa72"
++AVAILTUNES += "cortexa72 cortexa72-crypto"
+ ARMPKGARCH:tune-cortexa72             = "cortexa72"
+-TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a-crc-crypto} cortexa72"
+-PACKAGE_EXTRA_ARCHS:tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72"
++ARMPKGARCH:tune-cortexa72-crypto      = "cortexa72"
++TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a} cortexa72"
++TUNE_FEATURES:tune-cortexa72-crypto   = "${TUNE_FEATURES:tune-cortexa72} crc crypto"
++PACKAGE_EXTRA_ARCHS:tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS:tune-armv8} cortexa72"
++PACKAGE_EXTRA_ARCHS:tune-cortexa72-crypto    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crypto"
+ BASE_LIB:tune-cortexa72               = "lib64"
++BASE_LIB:tune-cortexa72-crypto        = "lib64"
+-- 
+2.17.1
 
 
