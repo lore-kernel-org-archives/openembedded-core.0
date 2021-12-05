@@ -2,47 +2,46 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B778C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A500C433FE
 	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 23:45:38 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.44374.1638747937579261549
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.44634.1638747937527736183
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 15:45:38 -0800
+ Sun, 05 Dec 2021 15:45:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HCQR3wpZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dk5JV4iD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id
- m25-20020a7bcb99000000b0033aa12cdd33so7274141wmi.1
+Received: by mail-wm1-f53.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so6422181wmd.1
         for <openembedded-core@lists.openembedded.org>;
  Sun, 05 Dec 2021 15:45:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=n/KVfs00sx5W8EB+goW9+V8u+V3b+WABUgL19vOMOe8=;
-        b=HCQR3wpZFE63RUZa9UP99LmFmd0L27pPjsGFhwwOHJAy13ajqMdK1PuYzoURsi8AYy
-         Bo9lJao2iEhCnb1vPRNh95IVQlg2ERWudCcR3saA+ZlEgj4YHX1dms+NiXBMa0iffkl5
-         ztgIJs9wbiEr/hb9u+rx6/Zx3pGzKWSZTp8W4=
+        bh=rpZ+uez2u565gindSERWvCTBiYHa5apxYSHJHmp4MEs=;
+        b=dk5JV4iD1QiUoA+POQjSy0gZf57tta6k5lf+dDOt+nfnUMjM6BRhpCYJh++H/3AHAb
+         XL0QQMaMpMm+/yDUvbV5aB1XIKaWZ2TwDHMqfVMs5GBXOUsoUXxWaey8Xy3cvOe8GRse
+         RFKzgkr8MfvUGIQsu4xIW1ELS7WQMt/+b069U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n/KVfs00sx5W8EB+goW9+V8u+V3b+WABUgL19vOMOe8=;
-        b=7pyz9vnCgNOz+HPQGi5FNSL83e1ob77N5TNTOdqHVyPyfWXPlt4JMc+Fk9MX2hMUkx
-         TdKpO9G0+IbOQ+35ApePAK+jfQ3CJlpl0nYTQDV3M99pUX+GT44+kiGouBhmi1oMxPNH
-         OmGl49eGbzdMVukQ6wgolofv6S6AhoGoFi1+R3NIdtRlCo6PeJrjTOgfuUOutQ0uxMCg
-         HXIm8EYS8yOUaGA9IvMy/srvJNYh1QrUYxtfLNnFnoh8YMNS41TRJV71SM0/XfT8K5rI
-         2bnJQJbttF22m91yq5FVXmW8qY1KGxKxkqzAuSSFWq7po4E4ZAO1t6Nf8Clixhgjoym4
-         6MvA==
-X-Gm-Message-State: AOAM532TOYoe+VoraMSfMLwqQ0oXzIkXGPGMTh4YcP8HSvJcUWWohGLr
-	IjC5jjiy/EaGfxY5NOEItwEiYdzIURUNFw==
+        bh=rpZ+uez2u565gindSERWvCTBiYHa5apxYSHJHmp4MEs=;
+        b=steIvAxzAFd6LCHh6AAG6nWm8tEbgUr18UJCCHUyUfoRJ3hQN9VXStZtfpdEokkkUh
+         rbprIxfGJf1HaFaaX4cWMjTT6vnEDQoXJ0fWsNM6/TeQlZVQ2LEf2aHWIjbJuZRP+wiN
+         V/VShpATVRxesEg/tUs9MW86GxfAzaUvo6dRv80a3OZNScNLXutp15JIrFt2nj0mEWEM
+         27/paq15MukceVNRxs0rk1N9sVXuRBusP4wepC9huRjIA7BZoWudGwfqvg32phkNKbXr
+         CwgnAhF1WRi94wPLChrf0I6WRs8vRer3k0aLrH3dgvLJpnFmWuQQmcBfYoG5JE9RN8Wb
+         JU/Q==
+X-Gm-Message-State: AOAM532ZiGJPB07oAQja93RDHXVcK+6p4zSl8/X3NsXtnPNoZg29y7fm
+	ROFbvUGSYRlD4tYzZs72h+d0V2UqLTLntw==
 X-Google-Smtp-Source: 
- ABdhPJzl0c9H28DEksDWEcA1zPhQQDZICyiJ1CyruKis4QalRv/FBAdd3cqoZd1IGMuZWi/JEQCA3w==
-X-Received: by 2002:a05:600c:19cc:: with SMTP id
- u12mr34496777wmq.24.1638747935725;
-        Sun, 05 Dec 2021 15:45:35 -0800 (PST)
+ ABdhPJzpBUe75h9D5xUSQMMjxBZFbbUjZZQoL4Odk+28ibPUKw5ViJGTEW+xLc5ifrOM+o99sxleAg==
+X-Received: by 2002:a7b:c756:: with SMTP id w22mr35100275wmk.34.1638747936080;
+        Sun, 05 Dec 2021 15:45:36 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
         by smtp.gmail.com with ESMTPSA id
  b15sm11984071wri.62.2021.12.05.15.45.35
@@ -51,9 +50,9 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
         Sun, 05 Dec 2021 15:45:35 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] patchelf: Upgrade 0.14.1 -> 0.14.2
-Date: Sun,  5 Dec 2021 23:45:32 +0000
-Message-Id: <20211205234534.480206-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/4] debian: Fix renaming packagedata dependencies
+Date: Sun,  5 Dec 2021 23:45:33 +0000
+Message-Id: <20211205234534.480206-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211205234534.480206-1-richard.purdie@linuxfoundation.org>
 References: <20211205234534.480206-1-richard.purdie@linuxfoundation.org>
@@ -64,30 +63,39 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 23:45:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159203
+ https://lists.openembedded.org/g/openembedded-core/message/159202
+
+We've recently seen issues where libxkbcommon was changed in/out of debian
+renaming and weston which DEPENDS but doesn't RDEPEND on it would show build
+failures.
+
+Looking at the sigdata file for weston:do_package_write_XXX, there were
+dependencies on packagedata for RDEPENDS but not DEPENDS. Some items like
+libxkbcommon are in DEPENDS but become autodetected RDEPENDS. The debian
+class already handles RDEPENDS but needs to handle DEPENDS in a similar way
+to avoid failures since bitbake treats them as two separate namespaces (unlike
+recrdepends).
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../patchelf/{patchelf_0.14.1.bb => patchelf_0.14.2.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/patchelf/{patchelf_0.14.1.bb => patchelf_0.14.2.bb} (91%)
+ meta/classes/debian.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/patchelf/patchelf_0.14.1.bb b/meta/recipes-devtools/patchelf/patchelf_0.14.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/patchelf/patchelf_0.14.1.bb
-rename to meta/recipes-devtools/patchelf/patchelf_0.14.2.bb
-index 2b63fbfbc3f..2cd51298435 100644
---- a/meta/recipes-devtools/patchelf/patchelf_0.14.1.bb
-+++ b/meta/recipes-devtools/patchelf/patchelf_0.14.2.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv3"
- SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master \
-            file://handle-read-only-files.patch \
-            "
--SRCREV = "8f7b4a7a3648970fe55824cfee2afd3808626a3f"
-+SRCREV = "2ac5798fdc79762ceee520b2b3b4758f7f97b17e"
+diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
+index 39b1a1a08b6..8367be9f37f 100644
+--- a/meta/classes/debian.bbclass
++++ b/meta/classes/debian.bbclass
+@@ -14,6 +14,10 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
+ inherit package
  
- S = "${WORKDIR}/git"
- 
+ DEBIANRDEP = "do_packagedata"
++do_package_write_ipk[deptask] = "${DEBIANRDEP}"
++do_package_write_deb[deptask] = "${DEBIANRDEP}"
++do_package_write_tar[deptask] = "${DEBIANRDEP}"
++do_package_write_rpm[deptask] = "${DEBIANRDEP}"
+ do_package_write_ipk[rdeptask] = "${DEBIANRDEP}"
+ do_package_write_deb[rdeptask] = "${DEBIANRDEP}"
+ do_package_write_tar[rdeptask] = "${DEBIANRDEP}"
 -- 
 2.32.0
 
