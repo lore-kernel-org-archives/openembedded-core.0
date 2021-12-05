@@ -1,228 +1,109 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <workjagadeesh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 285DBC433EF
-	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 17:24:30 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web09.40006.1638725069579431913
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59673C433EF
+	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 18:15:27 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web09.40567.1638728126760230630
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 09:24:29 -0800
+ Sun, 05 Dec 2021 10:15:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ri7MkaSc;
- spf=pass (domain: gmail.com, ip: 209.85.222.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id m192so9040699qke.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bPJnDzt/;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173,
+ mailfrom: workjagadeesh@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id o14so5605772plg.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 09:24:29 -0800 (PST)
+ Sun, 05 Dec 2021 10:15:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LqezbbW5ILi4dRplQGdxUPPPLBK5M3yHsBN26R6tOjY=;
-        b=Ri7MkaSc+SWXwH6p1FgwkJjPhWEyz3lBSP78efFD6x5Ckrj1Jj0yuZSoMN9v3LDtFE
-         HlYj1mvseV+qqvZDu3eOlHHaEhy7yozT31LeGt1djhQDeqhb/e0CXU06ueejM6J1xTLe
-         HTk+ZNFEbSSMbplclGXAbb27FlEHYF5ellw/rLqwtd/+9SRvwO29k8/i4tQP/PrGawAq
-         lmoIlZiEpWcCEkviliQCM+ACynPsiX1gpomNJjVHrxfqwV6VCt/O3KVxGGADFmg50L/3
-         j/wqyNQiffs0B1iDispH1PPIir/Zmr4M9p7c/RfDuUOzGPUj/oPumzkY1zEnG4XmyVae
-         MDog==
+        h=from:to:cc:subject:date:message-id;
+        bh=ttKMkWtHic4uB8KKhOS6zZnoAvV2q0yk2m2EKALoCU0=;
+        b=bPJnDzt/mXSnkwzimyz39VjAOybDqLeB2pvfqUuct2odBO2juHqygdqjuG7eHGp+pO
+         343p6uPYraC/CrudSxPyC/TFtIHkl1YwEhYXCgRJXlHslwS3mA7GYe/cd0imaY9xifdU
+         6dn/EqsQakdT5lLM8XBKy4M8vdVSPILrg+UJKafMrT5NWnjFEbzQ1OeSZmNdKXCswDPS
+         SNifoYGv8fxDVxVe29zfXkhdlC0laDIBERJnYmpkIOTXOlYrKv2sBiEwshNE8kRvPr+p
+         7VcKMnCWcFhINlzZDKLeT5x1d2sycDMQ05ptO9LDBSpf85rERnYAhenra5SxQOpmPE7D
+         BixA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LqezbbW5ILi4dRplQGdxUPPPLBK5M3yHsBN26R6tOjY=;
-        b=qtEfKTRVOto5uyAkBl+RPPqHE+gqJT8x0fRYvjrxiIEsw5sJRQ2yqs/jUzHDZ1v90Q
-         z2axivLfjFMGS/BAj4z1jis1EKnwLq/+bQmUAWvEK6WLatwy7H/DooCowfdKPsKiLfds
-         LiPSOL5005CDxg4lof6CKIV9KLaIeE1j6/Yq0xEJzwwDUo4Qy2pvVbuBvgDAlw9GPaM8
-         0AiPd9lc5YFZzyReFlb4R9ai/Rhi7dH/0n/5633U3G5sSAtVLdJzF9xA61hZw4+//Opu
-         /pObNQ7CCRaDGAlDr/afwVaOB9gskkqOyfD5VvjyW1bPzDydjDCMl4wq41xL4nGLHn0g
-         lJig==
-X-Gm-Message-State: AOAM532oZPyqroZDku7HUhloCnPYab1c4h1WAGbDHKXJGkU4w9HctnUz
-	Ly6T0zMnT5hL8SA8GwpHtRgSDmrnukyyjdbIO69AcJvqATU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ttKMkWtHic4uB8KKhOS6zZnoAvV2q0yk2m2EKALoCU0=;
+        b=oh4G/lh1yzTKFkScYaxOXw+HtK3VDcsFXDj5vidmawXD5K2h4i96p1eKhriIX4aZJi
+         0RIU9Etoc8ucXxiLWTGOudxstUjfF6ERfGCxRAJYmoSy1VmAkZCpSmpLd+22DVaSI9yI
+         E7CvjQ682mYE7IAvRN2EGEuBdQ+YKGU0/lNNvOc8uMv/0IFXfokPFmReGV8Tz7mbH+ld
+         q96Nhm+kQqGynLfCUJh/WKSr1JGYdcMlx2VNUtdYv622bn/lklM0Ew/TTmNH+Cnk7E5n
+         tMRu9IkCsim0fYlWekJTP3OeQhOngJeTV+BizYDwYxKvnHwAaGL06Puo99p8aO4tPy59
+         smDg==
+X-Gm-Message-State: AOAM530fKeIZAssPu3EVDh4auvWh8rw0tnU1gynFOhHv/eocDsSn5MBF
+	ataSdWDNYnILfG0Yw7GCCXpzPAln03nL+g==
 X-Google-Smtp-Source: 
- ABdhPJwNFbOPk/wtrsvNZQp4rgJ+xNDBWAqySIoAwiHmguJj+0Pi34uifYO+M0M61iMH3CjEJZmrgkjiNL7TKbVGOQ4=
-X-Received: by 2002:a05:620a:f94:: with SMTP id
- b20mr28513848qkn.463.1638725068616;
- Sun, 05 Dec 2021 09:24:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20211205113631.609-1-workjagadeesh@gmail.com>
-In-Reply-To: <20211205113631.609-1-workjagadeesh@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 5 Dec 2021 09:24:18 -0800
-Message-ID: 
- <CAMKF1sq4StttMsyOfM72Vp5VNpe0EF=hQ1QmkfRrmmX4gnqMZQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] tune-cortexa72: Add new tune for crc and crypto
-To: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000099765c05d26969e1"
+ ABdhPJz7RVhebxcI0SFGERjqnbkU1jSsznsQKR/W1nN8B3C0msQVf/zi+xPJs8SOJAla3j4hfqE+5g==
+X-Received: by 2002:a17:902:c713:b0:141:bc54:f32c with SMTP id
+ p19-20020a170902c71300b00141bc54f32cmr37970898plp.82.1638728126101;
+        Sun, 05 Dec 2021 10:15:26 -0800 (PST)
+Received: from localhost.localdomain ([157.45.169.150])
+        by smtp.gmail.com with ESMTPSA id
+ d18sm2127908pfv.0.2021.12.05.10.15.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Dec 2021 10:15:25 -0800 (PST)
+From: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+Subject: [OE-core][PATCH v2] tune-cortexa72: Add new tune for crc and crypto
+Date: Sun,  5 Dec 2021 18:14:46 +0000
+Message-Id: <20211205181446.591-1-workjagadeesh@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 17:24:30 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 18:15:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159198
+ https://lists.openembedded.org/g/openembedded-core/message/159199
 
---00000000000099765c05d26969e1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The newly added
+* cortexa72-crc tune builds programs for armv8a with crc.
+* cortexa72-crc-crypto builds programs for armv8a with crc and crypto.
 
-On Sun, Dec 5, 2021 at 3:36 AM Jagadeesh Krishnanjanappa <
-workjagadeesh@gmail.com> wrote:
+The default tune cortexa72 builds programs with armv8a only.
 
-> The newly added cortexa72-crypto tune builds programs for armv8a
-> with crc+crypto. Whereas default tune cortexa72 builds programs
-> with armv8a only.
+Changes in v2:
+Separate tunes for cortexa72-crc and cortexa72-crc-crypto.
 
+[YOCTO #14641]
 
-There is another patch I sent to add converse infact to support nocrypto
-instead because this change you propose will regress existing cortexa72
-tunes for machines which have crypto aes implemented in hardware and it
-will be not backward compatible since many bsps try to support multiple
-releases
-So far only rpi4 cortexa72 SOCs are one which don=E2=80=99t have crypto are=
- you
-aware of some others ?
+Signed-off-by: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+---
+ .../include/arm/armv8a/tune-cortexa72.inc        | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
->
->
-> [YOCTO #14641]
->
-> Signed-off-by: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
-> ---
->  .../conf/machine/include/arm/armv8a/tune-cortexa72.inc | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> index 2a510bd45b..8c32286c84 100644
-> --- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> +++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> @@ -6,8 +6,12 @@ TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES',
-> 'cortexa72', ' -mcpu=3Dcorte
->  require conf/machine/include/arm/arch-armv8a.inc
->
->  # Little Endian base configs
-> -AVAILTUNES +=3D "cortexa72"
-> +AVAILTUNES +=3D "cortexa72 cortexa72-crypto"
->  ARMPKGARCH:tune-cortexa72             =3D "cortexa72"
-> -TUNE_FEATURES:tune-cortexa72          =3D
-> "${TUNE_FEATURES:tune-armv8a-crc-crypto} cortexa72"
-> -PACKAGE_EXTRA_ARCHS:tune-cortexa72    =3D
-> "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72"
-> +ARMPKGARCH:tune-cortexa72-crypto      =3D "cortexa72"
-> +TUNE_FEATURES:tune-cortexa72          =3D "${TUNE_FEATURES:tune-armv8a}
-> cortexa72"
-> +TUNE_FEATURES:tune-cortexa72-crypto   =3D "${TUNE_FEATURES:tune-cortexa7=
-2}
-> crc crypto"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa72    =3D
-> "${PACKAGE_EXTRA_ARCHS:tune-armv8} cortexa72"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa72-crypto    =3D
-> "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crypto=
-"
->  BASE_LIB:tune-cortexa72               =3D "lib64"
-> +BASE_LIB:tune-cortexa72-crypto        =3D "lib64"
-> --
-> 2.17.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159190):
-> https://lists.openembedded.org/g/openembedded-core/message/159190
-> Mute This Topic: https://lists.openembedded.org/mt/87515896/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+index 2a510bd45b..3651cf6e80 100644
+--- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
++++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+@@ -6,8 +6,16 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=corte
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
+ # Little Endian base configs
+-AVAILTUNES += "cortexa72"
++AVAILTUNES += "cortexa72 cortexa72-crc cortexa72-crc-crypto"
+ ARMPKGARCH:tune-cortexa72             = "cortexa72"
+-TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a-crc-crypto} cortexa72"
+-PACKAGE_EXTRA_ARCHS:tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72"
+-BASE_LIB:tune-cortexa72               = "lib64"
++ARMPKGARCH:tune-cortexa72-crc         = "cortexa72"
++ARMPKGARCH:tune-cortexa72-crc-crypto  = "cortexa72"
++TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a} cortexa72"
++TUNE_FEATURES:tune-cortexa72-crc      = "${TUNE_FEATURES:tune-cortexa72} crc"
++TUNE_FEATURES:tune-cortexa72-crc-crypto   = "${TUNE_FEATURES:tune-cortexa72} crc crypto"
++PACKAGE_EXTRA_ARCHS:tune-cortexa72        = "${PACKAGE_EXTRA_ARCHS:tune-armv8} cortexa72"
++PACKAGE_EXTRA_ARCHS:tune-cortexa72-crc    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc} cortexa72 cortexa72-crc"
++PACKAGE_EXTRA_ARCHS:tune-cortexa72-crc-crypto    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crc cortexa72-crc-crypto"
++BASE_LIB:tune-cortexa72            = "lib64"
++BASE_LIB:tune-cortexa72-crc        = "lib64"
++BASE_LIB:tune-cortexa72-crc-crypto = "lib64"
+-- 
+2.17.1
 
---00000000000099765c05d26969e1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, Dec 5, 2021 at 3:36 AM Jagadeesh Krishnanjanappa &l=
-t;<a href=3D"mailto:workjagadeesh@gmail.com">workjagadeesh@gmail.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">The newly added cortexa72-=
-crypto tune builds programs for armv8a<br>
-with crc+crypto. Whereas default tune cortexa72 builds programs<br>
-with armv8a only.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"=
->There is another patch I sent to add converse infact to support nocrypto i=
-nstead because this change you propose will regress existing cortexa72 tune=
-s for machines which have crypto aes implemented in hardware and it will be=
- not backward compatible since many bsps try to support multiple releases=
-=C2=A0</div><div dir=3D"auto">So far only rpi4 cortexa72 SOCs are one which=
- don=E2=80=99t have crypto are you aware of some others ?=C2=A0</div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-[YOCTO #14641]<br>
-<br>
-Signed-off-by: Jagadeesh Krishnanjanappa &lt;<a href=3D"mailto:workjagadees=
-h@gmail.com" target=3D"_blank">workjagadeesh@gmail.com</a>&gt;<br>
----<br>
-=C2=A0.../conf/machine/include/arm/armv8a/tune-cortexa72.inc | 10 +++++++--=
--<br>
-=C2=A01 file changed, 7 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc b/meta=
-/conf/machine/include/arm/armv8a/tune-cortexa72.inc<br>
-index 2a510bd45b..8c32286c84 100644<br>
---- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc<br>
-+++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc<br>
-@@ -6,8 +6,12 @@ TUNE_CCARGS .=3D &quot;${@bb.utils.contains(&#39;TUNE_FEAT=
-URES&#39;, &#39;cortexa72&#39;, &#39; -mcpu=3Dcorte<br>
-=C2=A0require conf/machine/include/arm/arch-armv8a.inc<br>
-<br>
-=C2=A0# Little Endian base configs<br>
--AVAILTUNES +=3D &quot;cortexa72&quot;<br>
-+AVAILTUNES +=3D &quot;cortexa72 cortexa72-crypto&quot;<br>
-=C2=A0ARMPKGARCH:tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;cortexa72&quot;<br>
--TUNE_FEATURES:tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;$=
-{TUNE_FEATURES:tune-armv8a-crc-crypto} cortexa72&quot;<br>
--PACKAGE_EXTRA_ARCHS:tune-cortexa72=C2=A0 =C2=A0 =3D &quot;${PACKAGE_EXTRA_=
-ARCHS:tune-armv8a-crc-crypto} cortexa72&quot;<br>
-+ARMPKGARCH:tune-cortexa72-crypto=C2=A0 =C2=A0 =C2=A0 =3D &quot;cortexa72&q=
-uot;<br>
-+TUNE_FEATURES:tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;$=
-{TUNE_FEATURES:tune-armv8a} cortexa72&quot;<br>
-+TUNE_FEATURES:tune-cortexa72-crypto=C2=A0 =C2=A0=3D &quot;${TUNE_FEATURES:=
-tune-cortexa72} crc crypto&quot;<br>
-+PACKAGE_EXTRA_ARCHS:tune-cortexa72=C2=A0 =C2=A0 =3D &quot;${PACKAGE_EXTRA_=
-ARCHS:tune-armv8} cortexa72&quot;<br>
-+PACKAGE_EXTRA_ARCHS:tune-cortexa72-crypto=C2=A0 =C2=A0 =3D &quot;${PACKAGE=
-_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crypto&quot;<br>
-=C2=A0BASE_LIB:tune-cortexa72=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=3D &quot;lib64&quot;<br>
-+BASE_LIB:tune-cortexa72-crypto=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;lib64&=
-quot;<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#159190): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/159190" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/159190</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87515896/1997=
-914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87515896/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000099765c05d26969e1--
 
