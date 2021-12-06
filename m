@@ -2,198 +2,320 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93DA6C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 17:03:23 +0000 (UTC)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
- [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web09.54238.1638810202028906271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E80B1C433F5
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 17:12:05 +0000 (UTC)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+ [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.web11.54679.1638810724604998850
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 09:03:22 -0800
+ Mon, 06 Dec 2021 09:12:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Pi4NCDx/;
- spf=pass (domain: gmail.com, ip: 209.85.222.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZsgWRHJ/;
+ spf=pass (domain: gmail.com, ip: 209.85.222.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id r15so20977406uao.3
+Received: by mail-ua1-f43.google.com with SMTP id w23so21007487uao.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 09:03:21 -0800 (PST)
+ Mon, 06 Dec 2021 09:12:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Q0g45GI/9qkB/Ar6JlVhd9uuA8i0P9OEpDRBvSm2tx4=;
-        b=Pi4NCDx/DZYgxYwUV5kSFLvec7S4Jzf9jePOpKl+HMGbhopMdR4npFDETGJDRB5elg
-         +18gC9LaTskxn0VK1Nhv3oOciXEl4hfdOiyd7z1xkzhkjwulaxGpeN8liMX5GXnF8YsB
-         OSNhKDvaLJoB3jeD+WyVH2p3MWhV93F/cDyBiCjnBr7U8qx2fjLqYWIOcL4I+Z6yjba2
-         /N1lSOLA1wNRfP7CRYmpnj0UTPZaeYyN4HJ1GhHvcA2JgYB0BSWJAbhgLCw9Ho+32inh
-         8mwE+RQAH/VON2N/O/0AazOdRacMds1reJS86MluTm041yRKJCM/As3/oUHginQVY/08
-         AO7A==
+        bh=oOLP0DjhMMEWkEbhSLZ5T1NQwxTO2/Gc0SF5ce3BiTQ=;
+        b=ZsgWRHJ/RGYRKtlowFjhCFFAgHU2Yebl83lCWe3iFDo7ytlhpGs8d4xKSvsCkMMQpo
+         EsxtQP1gpjUytirqw6Q/2FbgSV75u4BvX0xgED7a/nCzbPLCV+8ODH1bC0vD0KPBg6Lj
+         738ucipjDicrGy3LDO5q/wwmYmWG+uC4XLdovmOcOqli2nyQJID9BudnR4xd5EnyfXWJ
+         RlIvVxkcChAGwTMMpYqWZUsb92++h23AiyVu8JXRzZkWwEl9HMwHC0E/bm9SsWOoqlvm
+         pzq2UDRjM766FGhsGv/9IFQZp7x1xOF85EV8tD1F+ZLbQUwtREsCQOdN0kGkjHJ4y54c
+         Iodg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Q0g45GI/9qkB/Ar6JlVhd9uuA8i0P9OEpDRBvSm2tx4=;
-        b=Ov/rVlP2oxWg91roaooI+GUJKm8WiY8ZkGT//H70jUsqjjIlj0k0/WEo4JWGCFufu4
-         ag1HmwCDjR3Rs5S1zUF78uC/Cd2GAavrb34kOgiYpAfNOW5g8C+m+VQ5JIjwcjmQH1Da
-         kTbdj3hewFcrW9FU9ssCd4O5ZvbCY3FpOoPEcOQfDv4xncLW9eJcfyVEK9deGgT0ENt5
-         t5Fip9dRiWwwwIqhB/3hiZ/E2mLu42rsf4T/49AohO6r/hVOd73+91ebG9WahqCYML7h
-         K9je2+E6+qUrmx7f8jD4BGyexk5srWC2ONlMOmlQLCIAJk89IoWxFWr7kmmKDEoV06eO
-         YsHQ==
-X-Gm-Message-State: AOAM53079PUjOvkJd+tCt6NJ/WjW7X2Fj3pr1otvz1u4CvKVv3rOcbya
-	nHbPWNcIGzCaWLD5VPmqumc1btTYukfelS6Jg4U=
+        bh=oOLP0DjhMMEWkEbhSLZ5T1NQwxTO2/Gc0SF5ce3BiTQ=;
+        b=cKnGNViD3wlOfOEWJbnpl2/bv3GUj3/4gAnnIgFyxk5l1YoYvwY4CcUOIyGRg+a7Wf
+         J2rRe99eoy6hVfJVFfWMh4zWuFlv55X85vgcWqIFpUlnr8P9eZ2uwt6YwgIwdoOpil9N
+         JUjJar51dUfeIyVvnIHyRVQBHDCUJm4q2VseCyJmewyGIm1lPKm0LmUzZrjJ78ohGkgL
+         yLD6sfmH2zpIFiMLcaqiFWZTp4MpZSqVVHW22uDw/rVItMaCRTIMBR6JdoAQswFvqUds
+         wJFXXpLh2IJUdHcfvnp7rG5gyu7FlcVMT71TqxWd/+RZWNeFTwVbdmkAIgq9ZixLJGxz
+         03kg==
+X-Gm-Message-State: AOAM531xor+QXCtpSAZHKnVsLEC7UF/H7AQp3TPzoKP0uU5AyKfGsc1I
+	EoE1RWimJbwK1WV8Fe9+qNgjDveluSwZIMo5kQE=
 X-Google-Smtp-Source: 
- ABdhPJx5foGD3JLX6LmGAZqKn8hJ+AJWssVetuk9xOVVofFXIaEUPES50BacvguXN7m9QSqK9+tZTS/3Es2gFglwLFU=
-X-Received: by 2002:a05:6102:38d4:: with SMTP id
- k20mr37122558vst.42.1638810200883;
- Mon, 06 Dec 2021 09:03:20 -0800 (PST)
+ ABdhPJxXbts1fpM70xWzknWwgX7lnV+duGIizp7183uZXPHC3HuvzQ4FJlJ49B8adW8MVGbdDrlnHMrMwrRpRYD6wl0=
+X-Received: by 2002:a9f:218c:: with SMTP id 12mr39578152uac.71.1638810723489;
+ Mon, 06 Dec 2021 09:12:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20211204071323.2480163-1-alex@linutronix.de>
- <20211204071323.2480163-26-alex@linutronix.de>
- <CAAnfSTu4iCqOneHeDgTKvG5ao+rOnxV5EWXN6pfFaRVRhPv_3w@mail.gmail.com>
- <CANNYZj95RL+FwZSpSSVurmypf1wXWDzkjV18Ee4zrDxs03F7mw@mail.gmail.com>
- <CAAnfSTurVLUFAPSVtoD1hvvqOdKWduAiD0Qgc6L38Fh8A_YdTg@mail.gmail.com>
- <16BE34F09726DD19.18170@lists.openembedded.org>
- <CANNYZj-B7LY5egzLTb8h4ApXVe_d0XdUJQjM8tfH+Q6KSfiOCw@mail.gmail.com>
- <0bc6a9322d9ec2fd38047e2223b337596306c098.camel@linuxfoundation.org>
- <AM9PR09MB4642A5C1D094F44DEEAE3020A86D9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642A5C1D094F44DEEAE3020A86D9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <1638835602-3908-1-git-send-email-zhengrq.fnst@fujitsu.com>
+In-Reply-To: <1638835602-3908-1-git-send-email-zhengrq.fnst@fujitsu.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 6 Dec 2021 18:03:09 +0100
+Date: Mon, 6 Dec 2021 18:11:51 +0100
 Message-ID: 
- <CANNYZj8Rqbb+cMD3EFH9tKAT3ACQ+wNDN+L_vFpi723V6J=08w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 26/26] serf: mark patches as inappropriate for
- upstream submission
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Ross Burton <ross@burtonini.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="000000000000e0c61705d27d3ba9"
+ <CANNYZj-ygh042JRPF2MAu+8mGrO1thb=UstQRCaT-422TLP66g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: upgrade 21.3.0 -> 21.3.1
+To: zhengruoqin <zhengrq.fnst@fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000007295d05d27d5b78"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 17:03:23 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 17:12:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159260
+ https://lists.openembedded.org/g/openembedded-core/message/159261
 
---000000000000e0c61705d27d3ba9
+--00000000000007295d05d27d5b78
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks - since there's already documented nomenclature for this situation,
-I tweaked the patch to simply use that.
+Please do not forget mesa-gl recipe as well.
 
 Alex
 
-On Mon, 6 Dec 2021 at 17:47, Konrad Weihmann <kweihmann@outlook.com> wrote:
+On Mon, 6 Dec 2021 at 16:06, zhengruoqin <zhengrq.fnst@fujitsu.com> wrote:
 
-> To quote the documentation:
+> Changelog from 21.3.0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> Bug fixes:
+> GPU Crash in Yuzu 6600xt 5.15
+> [spirv-fuzz] lower_trivial_continues_block: Assertion '!first_instr ||
+> instr_is_continue(first_instr)' failed.
+> [RADV] Crash in Metro Exodus in Caspain chapter and Sam=E2=80=99s Story
+> NIR validation failed after nir_copy_prop
+> lima: Corrupted Android-12 UI on Allwinner A64
+> RADV/ACO: Rendering glitches in Forza Horizon 5 windshields
+> dEQP-GLES31.*imulextended* compiling fp64 glsl 4.00 shader
 >
->    Inappropriate [reason]
->    - The patch is not appropriate for upstream, include a brief reason
-> on the
->      same line enclosed with []
->      reason can be:
->         ...
->        no upstream (the upstream is no longer available -- dead project)
+> Changes:
+> ir3/ra: Consider reg file size when swapping killed sources
+> ir3/lower_pcopy: Fix shr.b illegal copy lowering
+> ir3/lower_pcopy: Fix bug with =E2=80=9Cillegal=E2=80=9D copies and swaps
+> docs: update sha256sum for 21.3.0
+> .pick_status.json: Update to 1ba231fb75be5bffd806cbd09ac285d1f8f15e3d
+> ci: temporarily disable lima CI
+> broadcom/compiler: don=E2=80=99t allow RF writes from signals after thren=
+d
+> broadcom/compiler: fix scoreboard locking checks
+> broadcom/compiler: don=E2=80=99t move ldvary earlier if current instructi=
+on has
+> ldunif
+> glsl/nir: Don=E2=80=99t build soft float64 when it cannot be used
+> intel/nir: also allow unknown format for getting the size of a storage
+> image
+> iris: Make a helper function for cross-batch dependency flushing
+> iris: Check for cross-batch flushing whenever a buffer is newly written.
+> iris: Tidy code in iris_use_pinned_bo a bit
+> anv: don=E2=80=99t try to close fd =3D -1
+> intel/fs: fix shader call lowering pass
+> util/u_trace: refcount payloads
+> android: define cpp_rtti=3Dfalse because libLLVM is built w/o RTTI (v2)
+> zink: block suballocator caching for swapchain/dmabuf images
+> zink: set suballocator bo size to aligned allocation size
+> zink: stop using VK_IMAGE_LAYOUT_PREINITIALIZED for dmabuf
+> zink: always set matching resource export type for dmabuf creation
+> zink: fix memory availability reporting
+> zink: fail context creation more gracefully
+> nir: Fix read depth for predecessors
+> glx/dri3: fix glXQueryContext does not return GLX_RENDER_TYPE value
+> aco/spill: use spills_entry instead of spills_exit to kill linear VGPRs
+> spirv: run nir_copy_prop before nir_rematerialize_derefs_in_use_blocks_im=
+pl
+> nir/dce: fix DCE of loops with a halt or return instruction in the
+> pre-header
+> aco: don=E2=80=99t create DPP instructions with SGPR operands
+> android.mk: Add missing variables to the make target
+> radv: disable HTILE for D32S8 format and mipmaps on GFX10
+> radv: fix emitting VBO when vertex input dynamic state is used
+> radv: add a workaround to fix a segfault with Metro Exodus (Linux native)
+> radv: fix resetting the entire vertex input dynamic state
+> svga: fix bitwise/logical and mixup
+> lima: disasm: use last argument as a filename
 >
-> so I think this is already covered, but I think we need to enforce the
-> usage of machine readable reasoning within the square brackets.
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
+>  meta/recipes-graphics/mesa/{mesa_21.3.0.bb =3D> mesa_21.3.1.bb} | 0
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/mesa/{mesa_21.3.0.bb =3D> mesa_21.3.1.bb}
+> (100%)
 >
-> And if we need a more fine grained classification here, I would suggest
-> to add a new item at Inappropriate
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index ed60d98250..e99ec6961b 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -21,7 +21,7 @@ SRC_URI =3D "
+> https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
 >
-> On 06.12.21 17:41, Richard Purdie wrote:
-> > On Mon, 2021-12-06 at 16:50 +0100, Alexander Kanavin wrote:
-> >> I mean, if you insisit, we can add Upstream-Status: Defunct, but I do
-> not
-> >> think keeping patches in Pending state when there is no upstream is
-> right
-> >> either.
-> >
-> > Maybe we should add an Upstream-Inactive status?
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#159256):
-> https://lists.openembedded.org/g/openembedded-core/message/159256
-> > Mute This Topic: https://lists.openembedded.org/mt/87494788/3647476
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> kweihmann@outlook.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+> file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+>             "
+>
+> -SRC_URI[sha256sum] =3D
+> "a2753c09deef0ba14d35ae8a2ceff3fe5cd13698928c7bb62c2ec8736eb09ce1"
+> +SRC_URI[sha256sum] =3D
+> "2b0dc2540cb192525741d00f706dbc4586349185dafc65729c7fda0800cc474d"
+>
+>  UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa_21.3.0.bb
+> b/meta/recipes-graphics/mesa/mesa_21.3.1.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa_21.3.0.bb
+> rename to meta/recipes-graphics/mesa/mesa_21.3.1.bb
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159237):
+> https://lists.openembedded.org/g/openembedded-core/message/159237
+> Mute This Topic: https://lists.openembedded.org/mt/87541536/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 >
 
---000000000000e0c61705d27d3ba9
+--00000000000007295d05d27d5b78
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Thanks - since there&#39;s already documented nomencl=
-ature for this situation, I tweaked the patch to simply use that.<br></div>=
-<div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Mon, 6 Dec 2021 at 17:47, Konrad Weihm=
-ann &lt;<a href=3D"mailto:kweihmann@outlook.com">kweihmann@outlook.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">To qu=
-ote the documentation:<br>
+<div dir=3D"ltr"><div>Please do not forget mesa-gl recipe as well.</div><di=
+v><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Mon, 6 Dec 2021 at 16:06, zhengruoqin &lt=
+;<a href=3D"mailto:zhengrq.fnst@fujitsu.com">zhengrq.fnst@fujitsu.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Change=
+log from 21.3.0<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D<br>
+Bug fixes:<br>
+GPU Crash in Yuzu 6600xt 5.15<br>
+[spirv-fuzz] lower_trivial_continues_block: Assertion &#39;!first_instr || =
+instr_is_continue(first_instr)&#39; failed.<br>
+[RADV] Crash in Metro Exodus in Caspain chapter and Sam=E2=80=99s Story<br>
+NIR validation failed after nir_copy_prop<br>
+lima: Corrupted Android-12 UI on Allwinner A64<br>
+RADV/ACO: Rendering glitches in Forza Horizon 5 windshields<br>
+dEQP-GLES31.*imulextended* compiling fp64 glsl 4.00 shader<br>
 <br>
-=C2=A0 =C2=A0Inappropriate [reason]<br>
-=C2=A0 =C2=A0- The patch is not appropriate for upstream, include a brief r=
-eason <br>
-on the<br>
-=C2=A0 =C2=A0 =C2=A0same line enclosed with []<br>
-=C2=A0 =C2=A0 =C2=A0reason can be:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0no upstream (the upstream is no longer available=
- -- dead project)<br>
-<br>
-so I think this is already covered, but I think we need to enforce the <br>
-usage of machine readable reasoning within the square brackets.<br>
-<br>
-And if we need a more fine grained classification here, I would suggest <br=
+Changes:<br>
+ir3/ra: Consider reg file size when swapping killed sources<br>
+ir3/lower_pcopy: Fix shr.b illegal copy lowering<br>
+ir3/lower_pcopy: Fix bug with =E2=80=9Cillegal=E2=80=9D copies and swaps<br=
 >
-to add a new item at Inappropriate<br>
+docs: update sha256sum for 21.3.0<br>
+.pick_status.json: Update to 1ba231fb75be5bffd806cbd09ac285d1f8f15e3d<br>
+ci: temporarily disable lima CI<br>
+broadcom/compiler: don=E2=80=99t allow RF writes from signals after thrend<=
+br>
+broadcom/compiler: fix scoreboard locking checks<br>
+broadcom/compiler: don=E2=80=99t move ldvary earlier if current instruction=
+ has ldunif<br>
+glsl/nir: Don=E2=80=99t build soft float64 when it cannot be used<br>
+intel/nir: also allow unknown format for getting the size of a storage imag=
+e<br>
+iris: Make a helper function for cross-batch dependency flushing<br>
+iris: Check for cross-batch flushing whenever a buffer is newly written.<br=
+>
+iris: Tidy code in iris_use_pinned_bo a bit<br>
+anv: don=E2=80=99t try to close fd =3D -1<br>
+intel/fs: fix shader call lowering pass<br>
+util/u_trace: refcount payloads<br>
+android: define cpp_rtti=3Dfalse because libLLVM is built w/o RTTI (v2)<br>
+zink: block suballocator caching for swapchain/dmabuf images<br>
+zink: set suballocator bo size to aligned allocation size<br>
+zink: stop using VK_IMAGE_LAYOUT_PREINITIALIZED for dmabuf<br>
+zink: always set matching resource export type for dmabuf creation<br>
+zink: fix memory availability reporting<br>
+zink: fail context creation more gracefully<br>
+nir: Fix read depth for predecessors<br>
+glx/dri3: fix glXQueryContext does not return GLX_RENDER_TYPE value<br>
+aco/spill: use spills_entry instead of spills_exit to kill linear VGPRs<br>
+spirv: run nir_copy_prop before nir_rematerialize_derefs_in_use_blocks_impl=
 <br>
-On 06.12.21 17:41, Richard Purdie wrote:<br>
-&gt; On Mon, 2021-12-06 at 16:50 +0100, Alexander Kanavin wrote:<br>
-&gt;&gt; I mean, if you insisit, we can add Upstream-Status: Defunct, but I=
- do not<br>
-&gt;&gt; think keeping patches in Pending state when there is no upstream i=
-s right<br>
-&gt;&gt; either.<br>
-&gt; <br>
-&gt; Maybe we should add an Upstream-Inactive status?<br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; <br>
-&gt; Richard<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#159256): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/159256" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/159256</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87494788=
-/3647476" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/87494788/3647476</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:kweihmann@outlook.com=
-" target=3D"_blank">kweihmann@outlook.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
+nir/dce: fix DCE of loops with a halt or return instruction in the pre-head=
+er<br>
+aco: don=E2=80=99t create DPP instructions with SGPR operands<br>
+<a href=3D"http://android.mk" rel=3D"noreferrer" target=3D"_blank">android.=
+mk</a>: Add missing variables to the make target<br>
+radv: disable HTILE for D32S8 format and mipmaps on GFX10<br>
+radv: fix emitting VBO when vertex input dynamic state is used<br>
+radv: add a workaround to fix a segfault with Metro Exodus (Linux native)<b=
+r>
+radv: fix resetting the entire vertex input dynamic state<br>
+svga: fix bitwise/logical and mixup<br>
+lima: disasm: use last argument as a filename<br>
+<br>
+Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@fujitsu.com"=
+ target=3D"_blank">zhengrq.fnst@fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A0meta/recipes-graphics/mesa/{<a href=3D"http://mesa_21.3.0.bb" rel=3D"=
+noreferrer" target=3D"_blank">mesa_21.3.0.bb</a> =3D&gt; <a href=3D"http://=
+mesa_21.3.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.3.1.bb</a>} | =
+0<br>
+=C2=A02 files changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa_21.3.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">mesa_21.3.0.bb</a> =3D&gt; <a href=3D"=
+http://mesa_21.3.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.3.1.bb<=
+/a>} (100%)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
+sa/mesa.inc<br>
+index ed60d98250..e99ec6961b 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -21,7 +21,7 @@ SRC_URI =3D &quot;<a href=3D"https://mesa.freedesktop.org=
+/archive/mesa-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https:=
+//mesa.freedesktop.org/archive/mesa-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-futex.h-Define-__NR_f=
+utex-if-it-does-not-exist.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;a2753c09deef0ba14d35ae8a2ceff3fe5cd13698928c7=
+bb62c2ec8736eb09ce1&quot;<br>
++SRC_URI[sha256sum] =3D &quot;2b0dc2540cb192525741d00f706dbc4586349185dafc6=
+5729c7fda0800cc474d&quot;<br>
+<br>
+=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;mesa-(?P&lt;pver&gt;\d+(\.\d+)+)=
+&quot;<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.3.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">mesa_21.3.0.bb</a> b/meta/recipes-graph=
+ics/mesa/<a href=3D"http://mesa_21.3.1.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">mesa_21.3.1.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.3.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">mesa_21.3.0.bb</a><br>
+rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.3.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">mesa_21.3.1.bb</a><br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#159237): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/159237" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/159237</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87541536/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87541536/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div>
 
---000000000000e0c61705d27d3ba9--
+--00000000000007295d05d27d5b78--
 
