@@ -2,92 +2,2350 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA97C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 22:14:22 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web09.58627.1638828861746336542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 240A5C433EF
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 22:14:24 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web12.58888.1638828863400227702
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 14:14:21 -0800
+ Mon, 06 Dec 2021 14:14:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ot8dyk1Q;
- spf=pass (domain: gmail.com, ip: 209.85.214.181,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id m24so7990462pls.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DkjVsetY;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id h24so8802867pjq.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 14:14:21 -0800 (PST)
+ Mon, 06 Dec 2021 14:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YRuRodE2RmcYPUsiqo4CL/LRzqqJvdAdG3Yff/9vpOQ=;
-        b=ot8dyk1Q/J7Qg0CjzTOWSTLeGNg6D4zQcCpv45A9e6RhFBqEf8nIfIdx5n0F3rxdMM
-         +iPBy0JkVe1jvyArMUi9xl1Zx50AhNZc2wVYoU8gQsdUOWdRI3UbAA0aIGC5kdAwGMhf
-         4BnwiTy9efUuTt7ZINkz8WhQ/u5dLopxKnoUYeGExqI7DvLtMTn3mi66DMsp7Tv3LC1r
-         gHLmoom6DbaeuedlzTf9GssAId/7vFWz82T34KZai9zzgwGn6KBwzH9g/vDl3TRasnG+
-         uauu6s4S0jyrUW5UMEVQy1EYA8atp+Iltzv3NSHVZv3mYXMF/ZnjLl01gss+fMoOXPZb
-         DGfg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=52GDssYABJfVLBYvKwYeAJH6K7ypE3VWKpZt6kCHGvA=;
+        b=DkjVsetYE2xKZmnuCVFjDaWB0FyQrZBVb6Juy6NWKBXl7KFmI2UK/ZHuRAxPRX6ED0
+         rtucevcKub1rP5Q1YTRF9y6Y3sjazN/zNpGxFb90NlaagSu5potac/6ZxbMD4ZPE1rgj
+         XSj56KOnNcJyzczEnA4NFmjGnpGAmAb3aq1XstKLHZwlLCrdmcfFy3Lyv0XO55ZQZTND
+         W+1qKJH8lD3b+p2YZyE9cU9SKcNNAsZl4Z1jsAhqRrgdBMRAS3x3+cOWlvGU5lkukCJ6
+         RjcbVB2EzE6QSC5F4JdRHZ+tOmqiCBcIq4YwaZAK1/2ywLzNvM7TbS1sRZLeAFB07OTJ
+         2YtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YRuRodE2RmcYPUsiqo4CL/LRzqqJvdAdG3Yff/9vpOQ=;
-        b=V53l6AQJQUPlKFJ1hTzCoR0kDsolVjq8h7LJg/lny45meHhRr7S8vAbjYqUQWuYBaF
-         HbkOKEEFG99aS/mogXMiuYwuk8NqSHM4Zs2Zm6jOUPi+ZuI1xBvWFY/t0oni4mReZc7C
-         gbHx7pgBlQfTJKRizjubbZKOhtv7/7jNJhZJcpv1kP1airut7nD1AnrnF68iDJNhjR8m
-         jmxekaL2ybrdUAHmr/UE7i7LKFLfdH0B0oJVyLlOnQhllIx5s55GKnSJrpk7aq3ETM3+
-         bzhkLW6bZjeAJgjnzAH3fe1gLAVKA9tmMwLGqOMO0PjDET95YqXjXS91TbJAZcKKPgCd
-         4ScA==
-X-Gm-Message-State: AOAM531EMAkZOt5vzFYq3eJpTRlEajk21sZ21zG3yPKBFI0fqDKGV2bv
-	tETkKN8ifwFFkaXF/fzIcYUOjSebqlY/Qw==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=52GDssYABJfVLBYvKwYeAJH6K7ypE3VWKpZt6kCHGvA=;
+        b=MpM2xhNHlFWq2F7qDoAhcItUpsPvG5GpWFyEMIvyZst0CbxYGflx82nilHPVFNDEbl
+         chkot4CjMmC4a46Qy1oVjfBUqLZouJqzODswqIaNV4t3l+1AStSb943ejoyTC4Zi99WL
+         QEsnhGQaNWlqmmfV/LHk4DxftH/9Z5ZsM1pEl0nSLTqV4aYhCiah/phmdu7w0t33JH2/
+         CbgHDWeJNnAJRN3QSIxqPpJjGG+TwmUE6wcjHKjZe/kFVtBOsWXSFIKuLnPcbIUYB5ZP
+         voMMK4FfgudcrKqx9w7DG/O1v/8hOQinIihFGOdymKF73hOEwxdtFOxpMkOD/+zYJRfn
+         kHJQ==
+X-Gm-Message-State: AOAM532/klIDh06aQ1giSnj50ri3DTNi7ALLCQzRzWgkKBbGxvcI/KQh
+	FTdPG374rMvQqpv5dvDW3xy9JatemG3vWQ==
 X-Google-Smtp-Source: 
- ABdhPJw3FboGawLEu9h6OP602GCpGS6+2A04eNHzzLxiI8biexgMSSboPCWspgyN+ahdT/HIBK2ffQ==
-X-Received: by 2002:a17:902:728e:b0:143:a388:868b with SMTP id
- d14-20020a170902728e00b00143a388868bmr46989576pll.33.1638828861004;
-        Mon, 06 Dec 2021 14:14:21 -0800 (PST)
+ ABdhPJzI6ZIS0fB3ERDA2GxjFSIS17pRXbnLEWAWO+klaLG9obWpHPMB6ByHZrYGWnqdjqPFQ2/Jrw==
+X-Received: by 2002:a17:90b:3b8d:: with SMTP id
+ pc13mr1636919pjb.112.1638828860306;
+        Mon, 06 Dec 2021 14:14:20 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
         by smtp.gmail.com with ESMTPSA id
- il7sm318687pjb.54.2021.12.06.14.14.20
+ il7sm318687pjb.54.2021.12.06.14.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 14:14:20 -0800 (PST)
+        Mon, 06 Dec 2021 14:14:19 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] ffmpeg: Fix build on ppc32
-Date: Mon,  6 Dec 2021 14:14:18 -0800
-Message-Id: <20211206221418.2281162-2-raj.khem@gmail.com>
+Subject: [PATCH 1/2] glibc: Drop fsqrt implementation patches for fsl ppc
+Date: Mon,  6 Dec 2021 14:14:17 -0800
+Message-Id: <20211206221418.2281162-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211206221418.2281162-1-raj.khem@gmail.com>
-References: <20211206221418.2281162-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 22:14:22 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 22:14:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159270
-
-Fixes
-| powerpc-yoe-linux/11.2.0/ld: libavformat/libavformat.so: undefined reference to `__atomic_fetch_sub_8'
+ https://lists.openembedded.org/g/openembedded-core/message/159271
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...5500-e6500-603e-fsqrt-implementation.patch | 1581 -----------------
+ ...undefined-reference-to-__sqrt_finite.patch |  205 ---
+ ...-are-now-inline-functions-and-call-o.patch |  384 ----
+ ...-are-now-inline-functions-and-call-o.patch |   58 -
+ meta/recipes-core/glibc/glibc_2.34.bb         |    4 -
+ 5 files changed, 2232 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/0014-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-index 685214a751b..3ba07c31d6b 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-@@ -131,6 +131,7 @@ EXTRA_OECONF:append:mips = " --extra-libs=-latomic --disable-mips32r5 --disable-
-                              --disable-loongson2 --disable-loongson3 --disable-mmi --disable-msa --disable-msa2"
- EXTRA_OECONF:append:riscv32 = " --extra-libs=-latomic"
- EXTRA_OECONF:append:armv5 = " --extra-libs=-latomic"
-+EXTRA_OECONF:append:powerpc = " --extra-libs=-latomic"
+diff --git a/meta/recipes-core/glibc/glibc/0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch b/meta/recipes-core/glibc/glibc/0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
+deleted file mode 100644
+index 01de227a023..00000000000
+--- a/meta/recipes-core/glibc/glibc/0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch
++++ /dev/null
+@@ -1,1581 +0,0 @@
+-From 74923ca4b1ae0ed5a2478e7d265b37534f6815d7 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 18 Mar 2015 00:01:50 +0000
+-Subject: [PATCH] fsl e500/e5500/e6500/603e fsqrt implementation
+-
+-Upstream-Status: Pending
+-Signed-off-by: Edmar Wienskoski <edmar@freescale.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c   | 134 ++++++++++++++++++
+- sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c  | 101 +++++++++++++
+- sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c | 134 ++++++++++++++++++
+- .../powerpc/powerpc32/e500mc/fpu/e_sqrtf.c    | 101 +++++++++++++
+- sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c  | 134 ++++++++++++++++++
+- sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c | 101 +++++++++++++
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c  | 134 ++++++++++++++++++
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c | 101 +++++++++++++
+- sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c  | 134 ++++++++++++++++++
+- sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c | 101 +++++++++++++
+- sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c  | 134 ++++++++++++++++++
+- sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c | 101 +++++++++++++
+- .../linux/powerpc/powerpc32/603e/fpu/Implies  |   1 +
+- .../powerpc/powerpc32/e300c3/fpu/Implies      |   2 +
+- .../powerpc/powerpc32/e500mc/fpu/Implies      |   1 +
+- .../linux/powerpc/powerpc32/e5500/fpu/Implies |   1 +
+- .../linux/powerpc/powerpc32/e6500/fpu/Implies |   1 +
+- .../linux/powerpc/powerpc64/e5500/fpu/Implies |   1 +
+- .../linux/powerpc/powerpc64/e6500/fpu/Implies |   1 +
+- 19 files changed, 1418 insertions(+)
+- create mode 100644 sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+- create mode 100644 sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+- create mode 100644 sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+- create mode 100644 sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+- create mode 100644 sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+- create mode 100644 sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+- create mode 100644 sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+- create mode 100644 sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+- create mode 100644 sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+- create mode 100644 sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+- create mode 100644 sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+- create mode 100644 sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
+- create mode 100644 sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
+-
+-diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-new file mode 100644
+-index 0000000000..71e516d1c8
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-@@ -0,0 +1,134 @@
+-+/* Double-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float two108 = 3.245185536584267269e+32;
+-+static const float twom54 = 5.551115123125782702e-17;
+-+static const float half = 0.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the actual square root and half of its reciprocal
+-+   simultaneously.  */
+-+
+-+#ifdef __STDC__
+-+double
+-+__ieee754_sqrt (double b)
+-+#else
+-+double
+-+__ieee754_sqrt (b)
+-+     double b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+      double y, g, h, d, r;
+-+      ieee_double_shape_type u;
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          u.value = b;
+-+
+-+          relax_fenv_state ();
+-+
+-+          __asm__ ("frsqrte %[estimate], %[x]\n"
+-+                   : [estimate] "=f" (y) : [x] "f" (b));
+-+
+-+          /* Following Muller et al, page 168, equation 5.20.
+-+
+-+             h goes to 1/(2*sqrt(b))
+-+             g goes to sqrt(b).
+-+
+-+             We need three iterations to get within 1ulp.  */
+-+
+-+          /* Indicate that these can be performed prior to the branch.  GCC
+-+             insists on sinking them below the branch, however; it seems like
+-+             they'd be better before the branch so that we can cover any latency
+-+             from storing the argument and loading its high word.  Oh well.  */
+-+
+-+          g = b * y;
+-+          h = 0.5 * y;
+-+
+-+          /* Handle small numbers by scaling.  */
+-+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+-+            return __ieee754_sqrt (b * two108) * twom54;
+-+
+-+#define FMADD(a_, c_, b_)                                               \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+#define FNMSUB(a_, c_, b_)                                          \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+-+
+-+          /* Final refinement.  */
+-+          d = FNMSUB (g, g, b);
+-+
+-+          fesetenv_register (fe);
+-+          return FMADD (d, h, g);
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_wash (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-new file mode 100644
+-index 0000000000..26fa067abf
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-@@ -0,0 +1,101 @@
+-+/* Single-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float threehalf = 1.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the reciprocal square root and use that to compute the actual
+-+   square root.  */
+-+
+-+#ifdef __STDC__
+-+float
+-+__ieee754_sqrtf (float b)
+-+#else
+-+float
+-+__ieee754_sqrtf (b)
+-+     float b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+#define FMSUB(a_, c_, b_)                                               \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+#define FNMSUB(a_, c_, b_)                                              \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          double y, x;
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          relax_fenv_state ();
+-+
+-+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+-+          y = FMSUB (threehalf, b, b);
+-+
+-+          /* Initial estimate.  */
+-+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+-+
+-+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+
+-+          /* All done.  */
+-+          fesetenv_register (fe);
+-+          return x * b;
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_washf (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-new file mode 100644
+-index 0000000000..71e516d1c8
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-@@ -0,0 +1,134 @@
+-+/* Double-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float two108 = 3.245185536584267269e+32;
+-+static const float twom54 = 5.551115123125782702e-17;
+-+static const float half = 0.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the actual square root and half of its reciprocal
+-+   simultaneously.  */
+-+
+-+#ifdef __STDC__
+-+double
+-+__ieee754_sqrt (double b)
+-+#else
+-+double
+-+__ieee754_sqrt (b)
+-+     double b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+      double y, g, h, d, r;
+-+      ieee_double_shape_type u;
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          u.value = b;
+-+
+-+          relax_fenv_state ();
+-+
+-+          __asm__ ("frsqrte %[estimate], %[x]\n"
+-+                   : [estimate] "=f" (y) : [x] "f" (b));
+-+
+-+          /* Following Muller et al, page 168, equation 5.20.
+-+
+-+             h goes to 1/(2*sqrt(b))
+-+             g goes to sqrt(b).
+-+
+-+             We need three iterations to get within 1ulp.  */
+-+
+-+          /* Indicate that these can be performed prior to the branch.  GCC
+-+             insists on sinking them below the branch, however; it seems like
+-+             they'd be better before the branch so that we can cover any latency
+-+             from storing the argument and loading its high word.  Oh well.  */
+-+
+-+          g = b * y;
+-+          h = 0.5 * y;
+-+
+-+          /* Handle small numbers by scaling.  */
+-+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+-+            return __ieee754_sqrt (b * two108) * twom54;
+-+
+-+#define FMADD(a_, c_, b_)                                               \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+#define FNMSUB(a_, c_, b_)                                          \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+-+
+-+          /* Final refinement.  */
+-+          d = FNMSUB (g, g, b);
+-+
+-+          fesetenv_register (fe);
+-+          return FMADD (d, h, g);
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_wash (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-new file mode 100644
+-index 0000000000..26fa067abf
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-@@ -0,0 +1,101 @@
+-+/* Single-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float threehalf = 1.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the reciprocal square root and use that to compute the actual
+-+   square root.  */
+-+
+-+#ifdef __STDC__
+-+float
+-+__ieee754_sqrtf (float b)
+-+#else
+-+float
+-+__ieee754_sqrtf (b)
+-+     float b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+#define FMSUB(a_, c_, b_)                                               \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+#define FNMSUB(a_, c_, b_)                                              \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          double y, x;
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          relax_fenv_state ();
+-+
+-+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+-+          y = FMSUB (threehalf, b, b);
+-+
+-+          /* Initial estimate.  */
+-+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+-+
+-+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+
+-+          /* All done.  */
+-+          fesetenv_register (fe);
+-+          return x * b;
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_washf (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-new file mode 100644
+-index 0000000000..71e516d1c8
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-@@ -0,0 +1,134 @@
+-+/* Double-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float two108 = 3.245185536584267269e+32;
+-+static const float twom54 = 5.551115123125782702e-17;
+-+static const float half = 0.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the actual square root and half of its reciprocal
+-+   simultaneously.  */
+-+
+-+#ifdef __STDC__
+-+double
+-+__ieee754_sqrt (double b)
+-+#else
+-+double
+-+__ieee754_sqrt (b)
+-+     double b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+      double y, g, h, d, r;
+-+      ieee_double_shape_type u;
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          u.value = b;
+-+
+-+          relax_fenv_state ();
+-+
+-+          __asm__ ("frsqrte %[estimate], %[x]\n"
+-+                   : [estimate] "=f" (y) : [x] "f" (b));
+-+
+-+          /* Following Muller et al, page 168, equation 5.20.
+-+
+-+             h goes to 1/(2*sqrt(b))
+-+             g goes to sqrt(b).
+-+
+-+             We need three iterations to get within 1ulp.  */
+-+
+-+          /* Indicate that these can be performed prior to the branch.  GCC
+-+             insists on sinking them below the branch, however; it seems like
+-+             they'd be better before the branch so that we can cover any latency
+-+             from storing the argument and loading its high word.  Oh well.  */
+-+
+-+          g = b * y;
+-+          h = 0.5 * y;
+-+
+-+          /* Handle small numbers by scaling.  */
+-+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+-+            return __ieee754_sqrt (b * two108) * twom54;
+-+
+-+#define FMADD(a_, c_, b_)                                               \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+#define FNMSUB(a_, c_, b_)                                          \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+-+
+-+          /* Final refinement.  */
+-+          d = FNMSUB (g, g, b);
+-+
+-+          fesetenv_register (fe);
+-+          return FMADD (d, h, g);
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_wash (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-new file mode 100644
+-index 0000000000..26fa067abf
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-@@ -0,0 +1,101 @@
+-+/* Single-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float threehalf = 1.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the reciprocal square root and use that to compute the actual
+-+   square root.  */
+-+
+-+#ifdef __STDC__
+-+float
+-+__ieee754_sqrtf (float b)
+-+#else
+-+float
+-+__ieee754_sqrtf (b)
+-+     float b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+#define FMSUB(a_, c_, b_)                                               \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+#define FNMSUB(a_, c_, b_)                                              \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          double y, x;
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          relax_fenv_state ();
+-+
+-+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+-+          y = FMSUB (threehalf, b, b);
+-+
+-+          /* Initial estimate.  */
+-+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+-+
+-+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+
+-+          /* All done.  */
+-+          fesetenv_register (fe);
+-+          return x * b;
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_washf (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-new file mode 100644
+-index 0000000000..71e516d1c8
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-@@ -0,0 +1,134 @@
+-+/* Double-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float two108 = 3.245185536584267269e+32;
+-+static const float twom54 = 5.551115123125782702e-17;
+-+static const float half = 0.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the actual square root and half of its reciprocal
+-+   simultaneously.  */
+-+
+-+#ifdef __STDC__
+-+double
+-+__ieee754_sqrt (double b)
+-+#else
+-+double
+-+__ieee754_sqrt (b)
+-+     double b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+      double y, g, h, d, r;
+-+      ieee_double_shape_type u;
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          u.value = b;
+-+
+-+          relax_fenv_state ();
+-+
+-+          __asm__ ("frsqrte %[estimate], %[x]\n"
+-+                   : [estimate] "=f" (y) : [x] "f" (b));
+-+
+-+          /* Following Muller et al, page 168, equation 5.20.
+-+
+-+             h goes to 1/(2*sqrt(b))
+-+             g goes to sqrt(b).
+-+
+-+             We need three iterations to get within 1ulp.  */
+-+
+-+          /* Indicate that these can be performed prior to the branch.  GCC
+-+             insists on sinking them below the branch, however; it seems like
+-+             they'd be better before the branch so that we can cover any latency
+-+             from storing the argument and loading its high word.  Oh well.  */
+-+
+-+          g = b * y;
+-+          h = 0.5 * y;
+-+
+-+          /* Handle small numbers by scaling.  */
+-+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+-+            return __ieee754_sqrt (b * two108) * twom54;
+-+
+-+#define FMADD(a_, c_, b_)                                               \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+#define FNMSUB(a_, c_, b_)                                          \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+-+
+-+          /* Final refinement.  */
+-+          d = FNMSUB (g, g, b);
+-+
+-+          fesetenv_register (fe);
+-+          return FMADD (d, h, g);
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_wash (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-new file mode 100644
+-index 0000000000..26fa067abf
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-@@ -0,0 +1,101 @@
+-+/* Single-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float threehalf = 1.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the reciprocal square root and use that to compute the actual
+-+   square root.  */
+-+
+-+#ifdef __STDC__
+-+float
+-+__ieee754_sqrtf (float b)
+-+#else
+-+float
+-+__ieee754_sqrtf (b)
+-+     float b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+#define FMSUB(a_, c_, b_)                                               \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+#define FNMSUB(a_, c_, b_)                                              \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          double y, x;
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          relax_fenv_state ();
+-+
+-+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+-+          y = FMSUB (threehalf, b, b);
+-+
+-+          /* Initial estimate.  */
+-+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+-+
+-+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+
+-+          /* All done.  */
+-+          fesetenv_register (fe);
+-+          return x * b;
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_washf (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-new file mode 100644
+-index 0000000000..71e516d1c8
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-@@ -0,0 +1,134 @@
+-+/* Double-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float two108 = 3.245185536584267269e+32;
+-+static const float twom54 = 5.551115123125782702e-17;
+-+static const float half = 0.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the actual square root and half of its reciprocal
+-+   simultaneously.  */
+-+
+-+#ifdef __STDC__
+-+double
+-+__ieee754_sqrt (double b)
+-+#else
+-+double
+-+__ieee754_sqrt (b)
+-+     double b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+      double y, g, h, d, r;
+-+      ieee_double_shape_type u;
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          u.value = b;
+-+
+-+          relax_fenv_state ();
+-+
+-+          __asm__ ("frsqrte %[estimate], %[x]\n"
+-+                   : [estimate] "=f" (y) : [x] "f" (b));
+-+
+-+          /* Following Muller et al, page 168, equation 5.20.
+-+
+-+             h goes to 1/(2*sqrt(b))
+-+             g goes to sqrt(b).
+-+
+-+             We need three iterations to get within 1ulp.  */
+-+
+-+          /* Indicate that these can be performed prior to the branch.  GCC
+-+             insists on sinking them below the branch, however; it seems like
+-+             they'd be better before the branch so that we can cover any latency
+-+             from storing the argument and loading its high word.  Oh well.  */
+-+
+-+          g = b * y;
+-+          h = 0.5 * y;
+-+
+-+          /* Handle small numbers by scaling.  */
+-+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+-+            return __ieee754_sqrt (b * two108) * twom54;
+-+
+-+#define FMADD(a_, c_, b_)                                               \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+#define FNMSUB(a_, c_, b_)                                          \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+-+
+-+          /* Final refinement.  */
+-+          d = FNMSUB (g, g, b);
+-+
+-+          fesetenv_register (fe);
+-+          return FMADD (d, h, g);
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_wash (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-new file mode 100644
+-index 0000000000..26fa067abf
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-@@ -0,0 +1,101 @@
+-+/* Single-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float threehalf = 1.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the reciprocal square root and use that to compute the actual
+-+   square root.  */
+-+
+-+#ifdef __STDC__
+-+float
+-+__ieee754_sqrtf (float b)
+-+#else
+-+float
+-+__ieee754_sqrtf (b)
+-+     float b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+#define FMSUB(a_, c_, b_)                                               \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+#define FNMSUB(a_, c_, b_)                                              \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          double y, x;
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          relax_fenv_state ();
+-+
+-+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+-+          y = FMSUB (threehalf, b, b);
+-+
+-+          /* Initial estimate.  */
+-+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+-+
+-+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+
+-+          /* All done.  */
+-+          fesetenv_register (fe);
+-+          return x * b;
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_washf (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-new file mode 100644
+-index 0000000000..71e516d1c8
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-@@ -0,0 +1,134 @@
+-+/* Double-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float two108 = 3.245185536584267269e+32;
+-+static const float twom54 = 5.551115123125782702e-17;
+-+static const float half = 0.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the actual square root and half of its reciprocal
+-+   simultaneously.  */
+-+
+-+#ifdef __STDC__
+-+double
+-+__ieee754_sqrt (double b)
+-+#else
+-+double
+-+__ieee754_sqrt (b)
+-+     double b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+      double y, g, h, d, r;
+-+      ieee_double_shape_type u;
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          u.value = b;
+-+
+-+          relax_fenv_state ();
+-+
+-+          __asm__ ("frsqrte %[estimate], %[x]\n"
+-+                   : [estimate] "=f" (y) : [x] "f" (b));
+-+
+-+          /* Following Muller et al, page 168, equation 5.20.
+-+
+-+             h goes to 1/(2*sqrt(b))
+-+             g goes to sqrt(b).
+-+
+-+             We need three iterations to get within 1ulp.  */
+-+
+-+          /* Indicate that these can be performed prior to the branch.  GCC
+-+             insists on sinking them below the branch, however; it seems like
+-+             they'd be better before the branch so that we can cover any latency
+-+             from storing the argument and loading its high word.  Oh well.  */
+-+
+-+          g = b * y;
+-+          h = 0.5 * y;
+-+
+-+          /* Handle small numbers by scaling.  */
+-+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+-+            return __ieee754_sqrt (b * two108) * twom54;
+-+
+-+#define FMADD(a_, c_, b_)                                               \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+#define FNMSUB(a_, c_, b_)                                          \
+-+          ({ double __r;                                                \
+-+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+-+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+          __r;})
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          r = FNMSUB (g, h, half);
+-+          g = FMADD (g, r, g);
+-+          h = FMADD (h, r, h);
+-+
+-+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+-+
+-+          /* Final refinement.  */
+-+          d = FNMSUB (g, g, b);
+-+
+-+          fesetenv_register (fe);
+-+          return FMADD (d, h, g);
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_wash (b);
+-+}
+-diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-new file mode 100644
+-index 0000000000..26fa067abf
+---- /dev/null
+-+++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-@@ -0,0 +1,101 @@
+-+/* Single-precision floating point square root.
+-+   Copyright (C) 2010 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, write to the Free
+-+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+-+   02111-1307 USA.  */
+-+
+-+#include <math.h>
+-+#include <math_private.h>
+-+#include <fenv_libc.h>
+-+#include <inttypes.h>
+-+
+-+#include <sysdep.h>
+-+#include <ldsodefs.h>
+-+
+-+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+-+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+-+static const float threehalf = 1.5;
+-+
+-+/* The method is based on the descriptions in:
+-+
+-+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+-+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+-+
+-+   We find the reciprocal square root and use that to compute the actual
+-+   square root.  */
+-+
+-+#ifdef __STDC__
+-+float
+-+__ieee754_sqrtf (float b)
+-+#else
+-+float
+-+__ieee754_sqrtf (b)
+-+     float b;
+-+#endif
+-+{
+-+  if (__builtin_expect (b > 0, 1))
+-+    {
+-+#define FMSUB(a_, c_, b_)                                               \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+#define FNMSUB(a_, c_, b_)                                              \
+-+      ({ double __r;                                                    \
+-+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+-+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+-+        __r;})
+-+
+-+      if (__builtin_expect (b != a_inf.value, 1))
+-+        {
+-+          double y, x;
+-+          fenv_t fe;
+-+
+-+          fe = fegetenv_register ();
+-+
+-+          relax_fenv_state ();
+-+
+-+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+-+          y = FMSUB (threehalf, b, b);
+-+
+-+          /* Initial estimate.  */
+-+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+-+
+-+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+          x = x * FNMSUB (y, x * x, threehalf);
+-+
+-+          /* All done.  */
+-+          fesetenv_register (fe);
+-+          return x * b;
+-+        }
+-+    }
+-+  else if (b < 0)
+-+    {
+-+      /* For some reason, some PowerPC32 processors don't implement
+-+         FE_INVALID_SQRT.  */
+-+#ifdef FE_INVALID_SQRT
+-+      feraiseexcept (FE_INVALID_SQRT);
+-+
+-+      fenv_union_t u = { .fenv = fegetenv_register () };
+-+      if ((u.l & FE_INVALID) == 0)
+-+#endif
+-+	feraiseexcept (FE_INVALID);
+-+      b = a_nan.value;
+-+    }
+-+  return f_washf (b);
+-+}
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
+-new file mode 100644
+-index 0000000000..b103b4dea5
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
+-@@ -0,0 +1 @@
+-+powerpc/powerpc32/603e/fpu
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies
+-new file mode 100644
+-index 0000000000..64db17fada
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies
+-@@ -0,0 +1,2 @@
+-+# e300c3 is a variant of 603e so use the same optimizations for sqrt
+-+powerpc/powerpc32/603e/fpu
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
+-new file mode 100644
+-index 0000000000..7eac5fcf02
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
+-@@ -0,0 +1 @@
+-+powerpc/powerpc32/e500mc/fpu
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
+-new file mode 100644
+-index 0000000000..264b2a7700
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
+-@@ -0,0 +1 @@
+-+powerpc/powerpc32/e5500/fpu
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
+-new file mode 100644
+-index 0000000000..a25934467b
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
+-@@ -0,0 +1 @@
+-+powerpc/powerpc32/e6500/fpu
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
+-new file mode 100644
+-index 0000000000..a7bc854be8
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
+-@@ -0,0 +1 @@
+-+powerpc/powerpc64/e5500/fpu
+-diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
+-new file mode 100644
+-index 0000000000..04ff8cc181
+---- /dev/null
+-+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
+-@@ -0,0 +1 @@
+-+powerpc/powerpc64/e6500/fpu
+diff --git a/meta/recipes-core/glibc/glibc/0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch b/meta/recipes-core/glibc/glibc/0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
+deleted file mode 100644
+index 5c1130cf10f..00000000000
+--- a/meta/recipes-core/glibc/glibc/0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch
++++ /dev/null
+@@ -1,205 +0,0 @@
+-From 5da3da7f2d276c2a6ae1b04419b28e96953803ec Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 18 Mar 2015 00:15:07 +0000
+-Subject: [PATCH] ppc/sqrt: Fix undefined reference to `__sqrt_finite'
+-
+-on ppc fixes the errors like below
+-| ./.libs/libpulsecore-1.1.so: undefined reference to `__sqrt_finite'
+-| collect2: ld returned 1 exit status
+-
+-Upstream-Status: Pending
+-
+-ChangeLog
+-
+-2012-01-06  Khem Raj  <raj.khem@gmail.com>
+-
+-        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Add __*_finite alias.
+-        Remove cruft.
+-        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Ditto.
+-        * sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c: Ditto.
+-        * sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c: Ditto.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c    | 7 +------
+- sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c   | 7 +------
+- sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c  | 1 +
+- sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c | 1 +
+- sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c   | 1 +
+- sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c  | 1 +
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c   | 1 +
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c  | 1 +
+- sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c   | 7 +------
+- sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c  | 7 +------
+- sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c   | 1 +
+- sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c  | 1 +
+- 12 files changed, 12 insertions(+), 24 deletions(-)
+-
+-diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-index 71e516d1c8..1795fd6c3e 100644
+---- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-@@ -39,14 +39,8 @@ static const float half = 0.5;
+-    We find the actual square root and half of its reciprocal
+-    simultaneously.  */
+- 
+--#ifdef __STDC__
+- double
+- __ieee754_sqrt (double b)
+--#else
+--double
+--__ieee754_sqrt (b)
+--     double b;
+--#endif
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -132,3 +126,4 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-index 26fa067abf..a917f313ab 100644
+---- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-@@ -37,14 +37,8 @@ static const float threehalf = 1.5;
+-    We find the reciprocal square root and use that to compute the actual
+-    square root.  */
+- 
+--#ifdef __STDC__
+- float
+- __ieee754_sqrtf (float b)
+--#else
+--float
+--__ieee754_sqrtf (b)
+--     float b;
+--#endif
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -99,3 +93,4 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-index 71e516d1c8..fc4a74990e 100644
+---- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-@@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-index 26fa067abf..9d175122a8 100644
+---- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-@@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-index 71e516d1c8..fc4a74990e 100644
+---- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-@@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-index 26fa067abf..9d175122a8 100644
+---- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-@@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-index 71e516d1c8..fc4a74990e 100644
+---- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-@@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-index 26fa067abf..9d175122a8 100644
+---- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-@@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-index 71e516d1c8..1795fd6c3e 100644
+---- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-@@ -39,14 +39,8 @@ static const float half = 0.5;
+-    We find the actual square root and half of its reciprocal
+-    simultaneously.  */
+- 
+--#ifdef __STDC__
+- double
+- __ieee754_sqrt (double b)
+--#else
+--double
+--__ieee754_sqrt (b)
+--     double b;
+--#endif
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -132,3 +126,4 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-index 26fa067abf..a917f313ab 100644
+---- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-@@ -37,14 +37,8 @@ static const float threehalf = 1.5;
+-    We find the reciprocal square root and use that to compute the actual
+-    square root.  */
+- 
+--#ifdef __STDC__
+- float
+- __ieee754_sqrtf (float b)
+--#else
+--float
+--__ieee754_sqrtf (b)
+--     float b;
+--#endif
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -99,3 +93,4 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-index 71e516d1c8..fc4a74990e 100644
+---- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-@@ -132,3 +132,4 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-index 26fa067abf..9d175122a8 100644
+---- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-@@ -99,3 +99,4 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+diff --git a/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch b/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+deleted file mode 100644
+index b72e79057b0..00000000000
+--- a/meta/recipes-core/glibc/glibc/0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
++++ /dev/null
+@@ -1,384 +0,0 @@
+-From 77f1c90d67a2f8852184fb8fd95cb0ed63065dc7 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 18 Mar 2015 00:16:38 +0000
+-Subject: [PATCH] __ieee754_sqrt{,f} are now inline functions and call out
+- __slow versions
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c    | 12 ++++++++++--
+- sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c   |  8 +++++++-
+- sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c  | 14 +++++++++++---
+- sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c | 12 ++++++++++--
+- sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c   | 14 +++++++++++---
+- sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c  | 12 ++++++++++--
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c   |  8 ++++++++
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c  |  8 ++++++++
+- sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c   | 12 ++++++++++--
+- sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c  |  9 ++++++++-
+- sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c   | 14 +++++++++++---
+- sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c  | 12 ++++++++++--
+- 12 files changed, 114 insertions(+), 21 deletions(-)
+-
+-diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-index 1795fd6c3e..daa83f3fe8 100644
+---- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
+-@@ -40,7 +40,7 @@ static const float half = 0.5;
+-    simultaneously.  */
+- 
+- double
+--__ieee754_sqrt (double b)
+-+__slow_ieee754_sqrt (double b)
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -77,7 +77,7 @@ __ieee754_sqrt (double b)
+- 
+-           /* Handle small numbers by scaling.  */
+-           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+--            return __ieee754_sqrt (b * two108) * twom54;
+-+            return __slow_ieee754_sqrt (b * two108) * twom54;
+- 
+- #define FMADD(a_, c_, b_)                                               \
+-           ({ double __r;                                                \
+-@@ -126,4 +126,12 @@ __ieee754_sqrt (double b)
+-     }
+-   return f_wash (b);
+- }
+-+
+-+#undef __ieee754_sqrt
+-+double
+-+__ieee754_sqrt (double x)
+-+{
+-+   return __slow_ieee754_sqrt (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-index a917f313ab..b812cf1705 100644
+---- a/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
+-@@ -38,7 +38,7 @@ static const float threehalf = 1.5;
+-    square root.  */
+- 
+- float
+--__ieee754_sqrtf (float b)
+-+__slow_ieee754_sqrtf (float b)
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -93,4 +93,10 @@ __ieee754_sqrtf (float b)
+-     }
+-   return f_washf (b);
+- }
+-+#undef __ieee754_sqrtf
+-+float
+-+__ieee754_sqrtf (float x)
+-+{
+-+  return __slow_ieee754_sqrtf (x);
+-+}
+- strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-index fc4a74990e..7038a70b47 100644
+---- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
+-@@ -41,10 +41,10 @@ static const float half = 0.5;
+- 
+- #ifdef __STDC__
+- double
+--__ieee754_sqrt (double b)
+-+__slow_ieee754_sqrt (double b)
+- #else
+- double
+--__ieee754_sqrt (b)
+-+__slow_ieee754_sqrt (b)
+-      double b;
+- #endif
+- {
+-@@ -83,7 +83,7 @@ __ieee754_sqrt (b)
+- 
+-           /* Handle small numbers by scaling.  */
+-           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+--            return __ieee754_sqrt (b * two108) * twom54;
+-+            return __slow_ieee754_sqrt (b * two108) * twom54;
+- 
+- #define FMADD(a_, c_, b_)                                               \
+-           ({ double __r;                                                \
+-@@ -132,4 +132,12 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+
+-+#undef __ieee754_sqrt
+-+double
+-+__ieee754_sqrt (double x)
+-+{
+-+   return __slow_ieee754_sqrt (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-index 9d175122a8..10de1f0cc3 100644
+---- a/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
+-@@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+- 
+- #ifdef __STDC__
+- float
+--__ieee754_sqrtf (float b)
+-+__slow_ieee754_sqrtf (float b)
+- #else
+- float
+--__ieee754_sqrtf (b)
+-+__slow_ieee754_sqrtf (b)
+-      float b;
+- #endif
+- {
+-@@ -99,4 +99,12 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+
+-+#undef __ieee754_sqrtf
+-+float
+-+__ieee754_sqrtf (float x)
+-+{
+-+  return __slow_ieee754_sqrtf (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-index fc4a74990e..7038a70b47 100644
+---- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
+-@@ -41,10 +41,10 @@ static const float half = 0.5;
+- 
+- #ifdef __STDC__
+- double
+--__ieee754_sqrt (double b)
+-+__slow_ieee754_sqrt (double b)
+- #else
+- double
+--__ieee754_sqrt (b)
+-+__slow_ieee754_sqrt (b)
+-      double b;
+- #endif
+- {
+-@@ -83,7 +83,7 @@ __ieee754_sqrt (b)
+- 
+-           /* Handle small numbers by scaling.  */
+-           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+--            return __ieee754_sqrt (b * two108) * twom54;
+-+            return __slow_ieee754_sqrt (b * two108) * twom54;
+- 
+- #define FMADD(a_, c_, b_)                                               \
+-           ({ double __r;                                                \
+-@@ -132,4 +132,12 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+
+-+#undef __ieee754_sqrt
+-+double
+-+__ieee754_sqrt (double x)
+-+{
+-+   return __slow_ieee754_sqrt (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-index 9d175122a8..10de1f0cc3 100644
+---- a/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
+-@@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+- 
+- #ifdef __STDC__
+- float
+--__ieee754_sqrtf (float b)
+-+__slow_ieee754_sqrtf (float b)
+- #else
+- float
+--__ieee754_sqrtf (b)
+-+__slow_ieee754_sqrtf (b)
+-      float b;
+- #endif
+- {
+-@@ -99,4 +99,12 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+
+-+#undef __ieee754_sqrtf
+-+float
+-+__ieee754_sqrtf (float x)
+-+{
+-+  return __slow_ieee754_sqrtf (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-index fc4a74990e..1c34244bd8 100644
+---- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-@@ -132,4 +132,12 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+
+-+#undef __ieee754_sqrt
+-+double
+-+__ieee754_sqrt (double x)
+-+{
+-+   return __slow_ieee754_sqrt (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-index 9d175122a8..812653558f 100644
+---- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-@@ -99,4 +99,12 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+
+-+#undef __ieee754_sqrtf
+-+float
+-+__ieee754_sqrtf (float x)
+-+{
+-+  return __slow_ieee754_sqrtf (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-index 1795fd6c3e..13a81973e3 100644
+---- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
+-@@ -40,7 +40,7 @@ static const float half = 0.5;
+-    simultaneously.  */
+- 
+- double
+--__ieee754_sqrt (double b)
+-+__slow_ieee754_sqrt (double b)
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -77,7 +77,7 @@ __ieee754_sqrt (double b)
+- 
+-           /* Handle small numbers by scaling.  */
+-           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+--            return __ieee754_sqrt (b * two108) * twom54;
+-+            return __slow_ieee754_sqrt (b * two108) * twom54;
+- 
+- #define FMADD(a_, c_, b_)                                               \
+-           ({ double __r;                                                \
+-@@ -126,4 +126,12 @@ __ieee754_sqrt (double b)
+-     }
+-   return f_wash (b);
+- }
+-+
+-+#undef __ieee754_sqrt
+-+double
+-+__ieee754_sqrt (double x)
+-+{
+-+  return __slow_ieee754_sqrt (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-index a917f313ab..fae2d81210 100644
+---- a/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
+-@@ -38,7 +38,7 @@ static const float threehalf = 1.5;
+-    square root.  */
+- 
+- float
+--__ieee754_sqrtf (float b)
+-+__slow_ieee754_sqrtf (float b)
+- {
+-   if (__builtin_expect (b > 0, 1))
+-     {
+-@@ -93,4 +93,11 @@ __ieee754_sqrtf (float b)
+-     }
+-   return f_washf (b);
+- }
+-+#undef __ieee754_sqrtf
+-+float
+-+__ieee754_sqrtf (float x)
+-+{
+-+  return __slow_ieee754_sqrtf (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-index fc4a74990e..7038a70b47 100644
+---- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
+-@@ -41,10 +41,10 @@ static const float half = 0.5;
+- 
+- #ifdef __STDC__
+- double
+--__ieee754_sqrt (double b)
+-+__slow_ieee754_sqrt (double b)
+- #else
+- double
+--__ieee754_sqrt (b)
+-+__slow_ieee754_sqrt (b)
+-      double b;
+- #endif
+- {
+-@@ -83,7 +83,7 @@ __ieee754_sqrt (b)
+- 
+-           /* Handle small numbers by scaling.  */
+-           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+--            return __ieee754_sqrt (b * two108) * twom54;
+-+            return __slow_ieee754_sqrt (b * two108) * twom54;
+- 
+- #define FMADD(a_, c_, b_)                                               \
+-           ({ double __r;                                                \
+-@@ -132,4 +132,12 @@ __ieee754_sqrt (b)
+-     }
+-   return f_wash (b);
+- }
+-+
+-+#undef __ieee754_sqrt
+-+double
+-+__ieee754_sqrt (double x)
+-+{
+-+   return __slow_ieee754_sqrt (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrt, __sqrt_finite)
+-diff --git a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-index 9d175122a8..10de1f0cc3 100644
+---- a/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
+-@@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+- 
+- #ifdef __STDC__
+- float
+--__ieee754_sqrtf (float b)
+-+__slow_ieee754_sqrtf (float b)
+- #else
+- float
+--__ieee754_sqrtf (b)
+-+__slow_ieee754_sqrtf (b)
+-      float b;
+- #endif
+- {
+-@@ -99,4 +99,12 @@ __ieee754_sqrtf (b)
+-     }
+-   return f_washf (b);
+- }
+-+
+-+#undef __ieee754_sqrtf
+-+float
+-+__ieee754_sqrtf (float x)
+-+{
+-+  return __slow_ieee754_sqrtf (x);
+-+}
+-+
+- strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+diff --git a/meta/recipes-core/glibc/glibc/0014-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch b/meta/recipes-core/glibc/glibc/0014-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
+deleted file mode 100644
+index 088b810530d..00000000000
+--- a/meta/recipes-core/glibc/glibc/0014-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 133870f12ba36686dd8df1311fac32a4c5b28579 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 18 Mar 2015 00:24:46 +0000
+-Subject: [PATCH] __ieee754_sqrt{,f} are now inline functions and call out
+- __slow versions
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: chunrong guo <B40290@freescale.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c  | 6 +++---
+- sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c | 4 ++--
+- 2 files changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-index 1c34244bd8..7038a70b47 100644
+---- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
+-@@ -41,10 +41,10 @@ static const float half = 0.5;
+- 
+- #ifdef __STDC__
+- double
+--__ieee754_sqrt (double b)
+-+__slow_ieee754_sqrt (double b)
+- #else
+- double
+--__ieee754_sqrt (b)
+-+__slow_ieee754_sqrt (b)
+-      double b;
+- #endif
+- {
+-@@ -83,7 +83,7 @@ __ieee754_sqrt (b)
+- 
+-           /* Handle small numbers by scaling.  */
+-           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+--            return __ieee754_sqrt (b * two108) * twom54;
+-+            return __slow_ieee754_sqrt (b * two108) * twom54;
+- 
+- #define FMADD(a_, c_, b_)                                               \
+-           ({ double __r;                                                \
+-diff --git a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-index 812653558f..10de1f0cc3 100644
+---- a/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-+++ b/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
+-@@ -39,10 +39,10 @@ static const float threehalf = 1.5;
+- 
+- #ifdef __STDC__
+- float
+--__ieee754_sqrtf (float b)
+-+__slow_ieee754_sqrtf (float b)
+- #else
+- float
+--__ieee754_sqrtf (b)
+-+__slow_ieee754_sqrtf (b)
+-      float b;
+- #endif
+- {
+diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
+index 1826eba1756..c9322124334 100644
+--- a/meta/recipes-core/glibc/glibc_2.34.bb
++++ b/meta/recipes-core/glibc/glibc_2.34.bb
+@@ -30,11 +30,7 @@ NATIVESDKFIXES:class-nativesdk = "\
  
- # gold crashes on x86, another solution is to --disable-asm but thats more hacky
- # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
+ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            ${NATIVESDKFIXES} \
+-           file://0009-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
+-           file://0010-ppc-sqrt-Fix-undefined-reference-to-__sqrt_finite.patch \
+-           file://0011-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch \
+            file://0013-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+-           file://0014-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch \
+            file://0015-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch \
+            file://0016-yes-within-the-path-sets-wrong-config-variables.patch \
+            file://0017-timezone-re-written-tzselect-as-posix-sh.patch \
 -- 
 2.34.1
 
