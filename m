@@ -2,89 +2,118 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF90C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 11:21:20 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.50129.1638789679124299524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 648DAC433F5
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 11:29:33 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.50113.1638790171334833229
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 03:21:20 -0800
+ Mon, 06 Dec 2021 03:29:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MDRhhEk6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=djeLRMML;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id q3so21651143wru.5
+Received: by mail-wr1-f48.google.com with SMTP id c4so21670781wrd.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 03:21:18 -0800 (PST)
+ Mon, 06 Dec 2021 03:29:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f77rOi+qgZswkpNJI+U26hq/OWYQMpLuYs/xds5dXLQ=;
-        b=MDRhhEk6U5fbwyM1mR190Cz9ZZKFu5aRg9s+5BVhwplkmCWPwrn1Mt/tpUHTnIQlRP
-         OQdW6z5P0gVPThDOMZq2lWLc5tdmn5N/jK/f2FUFyyIM9Ru+ikM/Hmhez56pBL+OFhcU
-         qFszb2EtbjJP2FlmAO4Ko1WP65ZtOb3aZDMWM=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=fyzXmg5+imazOBL6DdP1Cez9mDwA1ViCoCN++0FYt3U=;
+        b=djeLRMMLyVOJQ5Jzd/NZZeLg7BdtkFznYtLCGxTV5z6IC0+TBNSgQHaCAEvSMvz/V8
+         CHdRGZjCfYqPQ2Nw0tjzci4Q98eLrLQPBNZ/dIIHacVVlhAdq6W/hB3c0jplKvr9ZG8Q
+         E+y+pyArr0V07I11DsU/BNrevWVjT4NlHyweE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f77rOi+qgZswkpNJI+U26hq/OWYQMpLuYs/xds5dXLQ=;
-        b=XbAaMZTEmDpAYjxxprZJ4pnELcRyOu320UcRkBoXPxT053Tyz5ffNDv0u4VmbIaemJ
-         LZM2LyOuH85RNHbQ2KVKOt8EsTZTwhTrP73w03jfE77RIX++9vCmg3tCgT7f7CKzsZJw
-         3frp6TJhNUERQsWNsnkvVLWlMk5Sx0r8Vq1Q42yqP+zOie99fzb9+huDwFyMGYCZMTJq
-         c55OF3SINy38U+8doSgTA5X1Aku7uTmnmLA3vUWs2w8XxEyv9JLqK1PfVOIiRpnOeLKf
-         HjadPP5FAFw/LUGUCvhFA9eZZfocv18I/oqZ5GGnBHmAML6VL6MzI3l98FQBuN0oRz6t
-         UYBg==
-X-Gm-Message-State: AOAM530t7hoMwtff+A+iDDVIHk/tvArUYp+MvUFK1Vk9JnfdNjNb23xo
-	3N/orKU3pSB1A/Pyi+/YwEdU1p+bLaQ1Dg==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=fyzXmg5+imazOBL6DdP1Cez9mDwA1ViCoCN++0FYt3U=;
+        b=gKfK1UQEkQN3JkzrIkJ1xaAehlxDEnSbcBmW7izbIsYMdJo8KULsIYJs8+faFyf/Eb
+         MkGJrVkdKrwroYqEDGiHG3dSeMgZJBlsZd2XyCYdLuNhunsc5CZ0XTLDzzsL8zwuSUb3
+         XJfjjLyMfToC8N5RncUirLMsjx7oCnMYrHzFE7I4UJFJZjP1MH08U6nX3dwl5dy8qvS9
+         KchLyHvHWT4eo9YcCxrflkJ5c6ca4qe4UycLm5N0p/KUN/DBLqJx/Bh9F7oDLqkORiIR
+         CYhIc80LQgQcF1r4RgA7y/MmtHKkcOnNsTrt4D1vEw9KCcZMSfJwAb9xcsQPEhk5T8iZ
+         pW/w==
+X-Gm-Message-State: AOAM533LgU8IBKukUu4Y8TUst3dst4lfhi1bwVlX8IYZevcK4AHznyBw
+	BBBcoBmn9X0XXMSe5QmlRoY43A==
 X-Google-Smtp-Source: 
- ABdhPJwg5xBaIKGLKaci3fmMyeCjl8ILcGoXhXoV9yniNe7UcMdumVDKjpLOgCZq4qYGrWxcyPAiGw==
-X-Received: by 2002:a5d:64eb:: with SMTP id
- g11mr42826486wri.438.1638789677154;
-        Mon, 06 Dec 2021 03:21:17 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
+ ABdhPJxAiwYOAn3bPEBkifi/83rQaRor0O7ugN+tTjRdXNNk6GtuyAPTK0of7vObvnjmkFC2MNvTig==
+X-Received: by 2002:adf:eb42:: with SMTP id u2mr44158753wrn.521.1638790169541;
+        Mon, 06 Dec 2021 03:29:29 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:50e7:dab5:2141:24aa?
+ ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
         by smtp.gmail.com with ESMTPSA id
- q26sm11057673wrc.39.2021.12.06.03.21.16
-        for <openembedded-core@lists.openembedded.org>
+ v2sm10198598wmc.36.2021.12.06.03.29.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 03:21:17 -0800 (PST)
+        Mon, 06 Dec 2021 03:29:29 -0800 (PST)
+Message-ID: 
+ <93f97ff5a539241b9267593387165845e6e28444.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH] insane.bbclass: lock down pending patches
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc: Update patch status submitted->backport
-Date: Mon,  6 Dec 2021 11:21:16 +0000
-Message-Id: <20211206112116.494630-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Ross Burton <ross@burtonini.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Mon, 06 Dec 2021 11:29:28 +0000
+In-Reply-To: 
+ <CANNYZj_0OA-CEfZbdm1V2mvJBbQWmuqf=+2q+w+kTH+NirrVTw@mail.gmail.com>
+References: <20211206083629.2591982-1-alex@linutronix.de>
+	 <CAAnfSTuCwTFgkKTSVXUtO3e7nT82yWpMO_h11EWE01Q+PgC9gA@mail.gmail.com>
+	 <16BE263B28F8C771.1147@lists.openembedded.org>
+	 <CANNYZj_0OA-CEfZbdm1V2mvJBbQWmuqf=+2q+w+kTH+NirrVTw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 11:21:20 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 11:29:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159222
+ https://lists.openembedded.org/g/openembedded-core/message/159223
 
-Patch was merged to upstream gcc, update status.
+On Mon, 2021-12-06 at 12:21 +0100, Alexander Kanavin wrote:
+> On Mon, 6 Dec 2021 at 12:15, Alexander Kanavin via lists.openembedded.org
+> <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+> > On Mon, 6 Dec 2021 at 11:24, Ross Burton <ross@burtonini.com> wrote:
+> > > 
+> > > As much as I hate pending patches, and I really do hate patches that
+> > > sit in pending, there are situations where you know the problem, can
+> > > work around it, but still want to push it upstream at some point
+> > > pending further discussion.
+> > > 
+> > 
+> > 
+> > These situations are rare and you know it. Almost all of the time it's
+> > laziness and abuse of pending so that submission can be avoided altogether
+> > or pushed onto maintainers, e.g. me, not a 'need for further discussion'. 
+> > 
+> 
+> 
+> I want to add something: if there's truly a need for further discussion, that
+> need is typically with upstream, and so the patch can be marked as
+> Inappropriate [link to upstream discussion]. If the patch isn't that good,
+> file a ticket instead and link to it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch    | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ross has a point here. If we go this route we'll just push people to mark
+patches as Inappropriate instead. People will know Pending isn't acceptable so
+they'll just use Inappropriate and we'll lose the ability to see things which
+may be discussed with upstream and those which realistically never can. We'll
+have to review patches marked as Inappropriate even more carefully.
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch b/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch
-index 6b6925735d2..ebee30bbd62 100644
---- a/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch
-@@ -17,7 +17,8 @@ gcc/ChangeLog:
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--Upstream-Status: Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582722.html]
-+Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582722.html]
-+Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=66e157188bd2f789809e17e85f917534c9381599]
- ---
-  gcc/Makefile.in | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
--- 
-2.32.0
+We don't just want to reduce our Pending patches, my own aim is to reduce the
+total of patches we have.
+
+Backported patches eventually fall out the system so those don't worry me.
+Submitted stand some chance. Pending are the unknowns but a high number of
+Inappropriate will be the next issue.
+
+We need to keep the end goal in sight here - not to carry patches at all
+ideally.
+
+Cheers,
+
+Richard
 
 
