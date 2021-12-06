@@ -1,104 +1,146 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE85C433F5
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 11:07:17 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.50064.1638788835149637900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D94B6C433F5
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 11:15:50 +0000 (UTC)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
+ [209.85.222.53])
+ by mx.groups.io with SMTP id smtpd.web11.50151.1638789349530957063
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 03:07:16 -0800
+ Mon, 06 Dec 2021 03:15:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NtUs/6BI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso10081131wmr.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BWZHXWVP;
+ spf=pass (domain: gmail.com, ip: 209.85.222.53,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f53.google.com with SMTP id t13so18679334uad.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 03:07:14 -0800 (PST)
+ Mon, 06 Dec 2021 03:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=EPc8gClpFl/ym/AMN1VTllrT4KrJF1Nxiy4k7Kegtn0=;
-        b=NtUs/6BIQ4AG4VrTNpyoMwoK5GHyC5qdD9sh4DBT+adGXu1kdikq1vTkXuFnyS88Fz
-         W1Wr/EzhlIO6rITu65dPVyAYFS/Oko/LwQNaZf2tHAV5JyHDsELz3uCPNzQER+BVhM0o
-         vDJWJq7oRyDIDzzBdbYtFGUKWyc9TaUF9l1/Y=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IbbDiA7zb9Tf2sti2ulE8cjnBvn53AJC2gbeKPm0S0Y=;
+        b=BWZHXWVP6DHXekWsexfsgXZ5Vp62kEt6MXL+2Cp5TUoQsH0iw03i0RAUyYSuk66gsR
+         5sKegwmeMQ7MZNcU0bbTSotMBKtsu4GV5UCnIolrxgEESbnBMgXeE9y1QZWcIThRERIV
+         kL2AYx4Mg99BX5AQL5G99jqFBrqxVEseJQ3K8PVoggAMQzO+R8EUIsbN5bFP78OwD5Nt
+         nIBs7pHq9/l5gFC1p5PZEhZe2fzsQITTkA5e56hZiVMXE4Xi6M5J1EWwa+Tf5L38bg9Q
+         qz3dcVKrICLiEr+JzzZGR1Qxao7Ua73Hr+6sB+zh0RpVO/FzRi8Ch7m9HAhbN7hQoW/A
+         6/og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EPc8gClpFl/ym/AMN1VTllrT4KrJF1Nxiy4k7Kegtn0=;
-        b=izMyN1F1MUz9I4Mwz6o/kWHiMK3YgOCppIrIhK1KAUcXcTfXnnTb8VetXwOTypAvXv
-         2vwmWonNPz+pgUUpaE0dLNJNCnf47ZydXBpeNJsoF9qMS434XTFee7k5rQ7myiAYbPIQ
-         2NMocW8eqHV4z3wuD/5YUpJU1urjETsfwUuSj0aLYCspC6tva5BEenHYUxQzLC87BkWy
-         AQ+oth9bcmJYMGlczpuQIS8ETu7KS9Er3prZf9glEuwOmZEqdmN/wxQ5wLuaMLD634B3
-         Tw+rk9d0ocB2apY8rFE0+6gFx64j4WL6BhXc48BMZt3LyXH6zLe9SGoIJvVC6l+upuYF
-         KXVw==
-X-Gm-Message-State: AOAM530nHLxAdIFjrRUSVO3WhNnt/w1Tc0tj/F/QXEEbd3T7Xu5IUb7v
-	Q3YSLNs1K6oxsB1zAR+XFoP2tQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IbbDiA7zb9Tf2sti2ulE8cjnBvn53AJC2gbeKPm0S0Y=;
+        b=dL1Uygd4Ux+Vo2X7gr245t4mkfIFG61psVezJB1b6dIXn2MV7NkAIkC3MRBQ2LVgG/
+         /mO1qtSC/iqZgARZ7JarqFzhv0Z5e2ZGVJ0y5uGqgP2NfWlN7ba6Tn0vR3IcuzuAriKJ
+         Nqm3dEC6NirsaFdbuyB3rNBTNCz3alBh8MxehX/+6EurtoNGlGqWL6x298aJkNhtyEo1
+         8rBdCIHaBBqPbHiQkLYC9On5e9FMApzN1TZeob4bmYH3FzC/RA0Mhafd6Rf6wcTlpdKG
+         mOBE3xyhTGH3wj9qNU+yiVdcv5uY6uq1zZUJXOrw+CgoRoDboP2E3mQ3Fv7Sf64E2YKA
+         /MxA==
+X-Gm-Message-State: AOAM530YPjcB+lJ55zu39jdWW3kkg23C7Lpg0afr+0tUYPfiIp4J7vIT
+	VKTxArDD+RIJk+LgCQPz92vnuMFVa13g32/ualk=
 X-Google-Smtp-Source: 
- ABdhPJy5qs4R6SqdlgTCQ5qw3Mzs400l/DliWB5PsPub2Hvv3WuTwkx5rloDJnYLa0m40QqsqCNC2w==
-X-Received: by 2002:a1c:1903:: with SMTP id 3mr38005354wmz.89.1638788833340;
-        Mon, 06 Dec 2021 03:07:13 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:50e7:dab5:2141:24aa?
- ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
-        by smtp.gmail.com with ESMTPSA id
- p2sm13130236wmq.23.2021.12.06.03.07.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 03:07:13 -0800 (PST)
-Message-ID: 
- <b5d775737830c3ca7864bf650eac4b5ac2cbe19a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 05/26] python3: drop unneeded multiprocessing
- module patch
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>, Hongxu Jia
-	 <hongxu.jia@windriver.com>
-Date: Mon, 06 Dec 2021 11:07:11 +0000
-In-Reply-To: <20211204071323.2480163-5-alex@linutronix.de>
-References: <20211204071323.2480163-1-alex@linutronix.de>
-	 <20211204071323.2480163-5-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJzUehM//aF8enEtNP7GrwWSijP67kOo4iNNjOVvAsFTSkaglhucEj7rUkxe+rAg2u7sSZeq7pkcNabBM84rwA4=
+X-Received: by 2002:a05:6102:3708:: with SMTP id
+ s8mr34319459vst.45.1638789348546;
+ Mon, 06 Dec 2021 03:15:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211206083629.2591982-1-alex@linutronix.de>
+ <CAAnfSTuCwTFgkKTSVXUtO3e7nT82yWpMO_h11EWE01Q+PgC9gA@mail.gmail.com>
+In-Reply-To: 
+ <CAAnfSTuCwTFgkKTSVXUtO3e7nT82yWpMO_h11EWE01Q+PgC9gA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 6 Dec 2021 12:15:37 +0100
+Message-ID: 
+ <CANNYZj83815NKdVVxXRQEKrbymoffT+tja1xFgOfy+b3Y57SOw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] insane.bbclass: lock down pending patches
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000fb5e5c05d278608b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 11:07:17 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 11:15:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159219
+ https://lists.openembedded.org/g/openembedded-core/message/159220
 
-On Sat, 2021-12-04 at 08:13 +0100, Alexander Kanavin wrote:
-> I ran the reproducing sequence on qemux86, and it went fine:
-> 
-> root@qemux86:~# python3
-> Python 3.10.0 (default, Oct  4 2021, 17:55:55) [GCC 11.2.0] on linux
-> Type "help", "copyright", "credits" or "license" for more information.
-> > > > import multiprocessing
-> > > > pool_sema = multiprocessing.BoundedSemaphore(value=1)
-> > > > pool_sema.acquire()
-> True
-> > > > pool_sema.release()
-> > > > 
-> 
-> Additionally AB testing revealed no issues, and the description isn't entirely
-> clear about where and how the problem occurs, so I can't submit it upsream
-> without having that understanding and how to demonstrate the problem.
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> 
+--000000000000fb5e5c05d278608b
+Content-Type: text/plain; charset="UTF-8"
 
-There is a slightly different explanation here. libpthread was merged into libc
-so this fix becomes a null-op on glibc. Not sure if musl has a separate pthread
-but if so we could/should test that?
+On Mon, 6 Dec 2021 at 11:24, Ross Burton <ross@burtonini.com> wrote:
 
-Cheers,
+>
+> As much as I hate pending patches, and I really do hate patches that
+> sit in pending, there are situations where you know the problem, can
+> work around it, but still want to push it upstream at some point
+> pending further discussion.
+>
 
-Richard
+These situations are rare and you know it. Almost all of the time it's
+laziness and abuse of pending so that submission can be avoided altogether
+or pushed onto maintainers, e.g. me, not a 'need for further discussion'.
 
 
+> Yes, we should push back, and if a new patch is added with Pending
+> status that is clearly good for upstream we should be asking the
+> submitter to do that.  But I don't think that effectively banning
+> Pending patches in core is the right way forwards.
+>
+
+But this doesn't ban them completely. If someone has a genuine reason to
+not submit yet, they can add the patch to lockdown list, and provide a
+better explanation for why it should be there. Almost all of the time when
+someone submits a Pending patch, they do not bother to explain why it isn't
+yet submitted, and no one has time or willpower to argue with it.
+Conversely, from the submitter's perspective, it's a lot harder to argue
+with an error message that sets policy than it is to argue with core
+maintainers expressing opinion.  I do think the lockdown shifts the balance
+towards a more disciplined approach.
+
+
+Alex
+
+--000000000000fb5e5c05d278608b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 6 Dec 2021 at 11:24, Ross Burton &lt;<a href=3D"mailto:ross@=
+burtonini.com">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+As much as I hate pending patches, and I really do hate patches that<br>
+sit in pending, there are situations where you know the problem, can<br>
+work around it, but still want to push it upstream at some point<br>
+pending further discussion.<br></blockquote><div><br></div><div>These situa=
+tions are rare and you know it. Almost all of the time it&#39;s laziness an=
+d abuse of pending so that submission can be avoided altogether or pushed o=
+nto maintainers, e.g. me, not a &#39;need for further discussion&#39;. <br>=
+</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+Yes, we should push back, and if a new patch is added with Pending<br>
+status that is clearly good for upstream we should be asking the<br>
+submitter to do that.=C2=A0 But I don&#39;t think that effectively banning<=
+br>
+Pending patches in core is the right way forwards.<br></blockquote><div><br=
+></div><div>But this doesn&#39;t ban them completely. If someone has a genu=
+ine reason to not submit yet,=20
+they can add the patch to lockdown list, and provide a better=20
+explanation for why it should be there. Almost all of the time when someone=
+ submits a Pending patch, they do=20
+not bother to explain why it isn&#39;t yet submitted, and no one has time o=
+r
+ willpower to argue with it. Conversely, from the submitter&#39;s=20
+perspective, it&#39;s a lot harder to argue with an error message that sets=
+=20
+policy than it is to argue with core maintainers expressing opinion.=C2=A0 =
+I=20
+do think the lockdown shifts the balance towards a more disciplined=20
+approach.</div><div><br></div><div><br></div><div>Alex<br></div></div><div =
+class=3D"gmail_quote"><br></div><div class=3D"gmail_quote"><br></div></div>
+
+--000000000000fb5e5c05d278608b--
 
