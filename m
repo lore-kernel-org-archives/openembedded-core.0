@@ -1,85 +1,83 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5AF6C433FE
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 13:59:19 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.51676.1638799158063739626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F4086C433EF
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 14:08:20 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.51797.1638799699470731037
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 05:59:19 -0800
+ Mon, 06 Dec 2021 06:08:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MCRw/KoK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id u1so22549175wru.13
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=ZWaOXHsI;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.53,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f53.google.com with SMTP id a18so22712682wrn.6
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 05:59:17 -0800 (PST)
+ Mon, 06 Dec 2021 06:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=m1PXsH71QVQfpzgyTmJJyuxcjew5gNZ30fHtEsc87ig=;
-        b=MCRw/KoKrJDFhVes0pFV7ifbnvb8x295dzKSZA3d5VtGfv5wNb2DARbgi/YNENV/EW
-         oufUrOWJmofCI1UW9J3Nd+Y2vdIdqYu01eQjZkLE+Nd/jBdZ3UYkHW114/x1vHAlPyh2
-         dukcuL8IMEdHrEXv1U+OE8HJsfyKymYNDR4qM=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z5tpeOAnhlXZAMeH/e/jSOL7jIV4hl6UPAUA3HpR/Hc=;
+        b=ZWaOXHsIR2mE4qW3WLTIHD8epropfyKFSA0Q5QSgl0c8CkxP58dau3w13QpgfnBdtW
+         Bt2NuqkNkXJWwErZJpsSN1z+BrCgcaG/5R2nwUeFy2I/RE9X9SHomuHEPoXjiuREXEuL
+         2BBUUEEALbKhAsQFnjMe1BKBlvC+M7DQ+YfPw1Iiwn+O72ZbZkH+PIlaSn+OVL2g/dZd
+         0hKF7ylXMTsZ0K5kcOvH95m0+fOJTwxmfSbJykC7wc4rvVt9IPMKSdHaI0aiEtxsGpyB
+         APC3+V7ptOh4LU59DMrnHpwX+KT2bPygCVHg255TGUY52Cu5pXT5ImCO8GEMfqlhHUAr
+         XtGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=m1PXsH71QVQfpzgyTmJJyuxcjew5gNZ30fHtEsc87ig=;
-        b=KVHr7IU15dOGXbQmdP4OXW+lrcAIDvIvxipDvkDziMF/5Dl+YOhd4V/idhCdhwxh9X
-         IaGc8yTyEpyIRVU+1+n+OrV5DijiOSIiDcWjnopU/675IuFmTKBzNhKg3elnKh8dOVH1
-         NG2hGWtdczsTs/Qd1tRvAuFCECUFXBZ8H4w2b3C/4cAexs+BwC7bIV7n4pp20c2glXCw
-         jHBXVMSsjeC8HAYDzW8iFdQi78nOcBW1IxdtxeXYoAHyKI9DUrB3tcHaAHqiHpVC8rgP
-         S6dWp3s0Z05ZWoJZth1ekj4ZtyySxRTSbCKUQSTnhhF6HkzsBMi9epESoUmI2m07Pj07
-         7IYw==
-X-Gm-Message-State: AOAM532ZqMfS4UiRK4gk759TN2yfsK9pL0k8JSp4RsAF7/j4+XK6RXhC
-	Vz8m/UFQDSkAwDNlYJ/l5GzRWQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z5tpeOAnhlXZAMeH/e/jSOL7jIV4hl6UPAUA3HpR/Hc=;
+        b=V7vDcekAenTXCicIx525vjZz+u/zoI3nOAarhJUMb3SHWReuMy9zYup1FfyZvSqiZf
+         UmQvnsxpIofYVD0fbgF02Pbs0aCAd/8YTwQsUkbpDSIBGa6yXjAE4L60DmXf7/RyNR7c
+         De1DZFT2klVJKb7VjFG1Fd7NRXHGCUZsw+IisXFyFTxoMOmdvXY8OABsmm1YaiAfqhYR
+         SFHQUFVJ/qdYfK/s7N0XNXxIPRs/EeVmlTdtWmSP6yBirymU1AbOAfWikGZNWcN0YXQ3
+         HXB7Yj+k0G88z4TqZYHdZEtelzqTuS8uoUztOqoFgezJe3a+TZozRcJgutu52vqrqlFh
+         wzpA==
+X-Gm-Message-State: AOAM532lFkLX7Agq+7nk2LVxpEpYx2JW/TZpSeW/PEDUHJXf4Yi8GGxI
+	cFQ/EYjbsXPeFEKev0+lExexVszhTzDnp15dukTHVQ==
 X-Google-Smtp-Source: 
- ABdhPJwxIn3R6fh4JqIKw5UK+ymSTH+2jo9waUBdUn8/gEtBnopj+WXmD4QUvJF2bkjEQqcodv2rEw==
-X-Received: by 2002:adf:fc90:: with SMTP id g16mr43704984wrr.53.1638799156462;
-        Mon, 06 Dec 2021 05:59:16 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:50e7:dab5:2141:24aa?
- ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
-        by smtp.gmail.com with ESMTPSA id
- n13sm11690650wrt.44.2021.12.06.05.59.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 05:59:16 -0800 (PST)
-Message-ID: 
- <f0d640e1911f8e9577ef7ee5ffef426b084861f4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] minicom: Upgrade 2.7.1 -> 2.8
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 06 Dec 2021 13:59:15 +0000
-In-Reply-To: 
- <CANNYZj8r-3BvcYnaiBbTGzBJ_iAPg6Sn83Dt4N4NLUh+vP-=yQ@mail.gmail.com>
-References: <20211206130634.500693-1-richard.purdie@linuxfoundation.org>
-	 <CANNYZj8r-3BvcYnaiBbTGzBJ_iAPg6Sn83Dt4N4NLUh+vP-=yQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJxoT3/oP8yZnt/zfXkbmtrssIvuv0I2NvbeTHqsiS73cCLdxc5LprbEvw1PgpiAtVWEW88sfAa9W6tU2IsOlvk=
+X-Received: by 2002:adf:e54a:: with SMTP id
+ z10mr42038351wrm.328.1638799697756;
+ Mon, 06 Dec 2021 06:08:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211204071323.2480163-1-alex@linutronix.de>
+ <20211204071323.2480163-26-alex@linutronix.de>
+ <CAAnfSTu4iCqOneHeDgTKvG5ao+rOnxV5EWXN6pfFaRVRhPv_3w@mail.gmail.com>
+ <CANNYZj95RL+FwZSpSSVurmypf1wXWDzkjV18Ee4zrDxs03F7mw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj95RL+FwZSpSSVurmypf1wXWDzkjV18Ee4zrDxs03F7mw@mail.gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Mon, 6 Dec 2021 14:08:07 +0000
+Message-ID: 
+ <CAAnfSTurVLUFAPSVtoD1hvvqOdKWduAiD0Qgc6L38Fh8A_YdTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 26/26] serf: mark patches as inappropriate for
+ upstream submission
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 13:59:19 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 14:08:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159229
+ https://lists.openembedded.org/g/openembedded-core/message/159230
 
-On Mon, 2021-12-06 at 14:43 +0100, Alexander Kanavin wrote:
-> Since AUH didn't pick this up, can you run 'devtool latest-version minicom'
-> with this update, as it probably would report something that needs fixing via
-> regexp?
+On Mon, 6 Dec 2021 at 11:03, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> Presumably, that someone would start updating the repo and making releases, at which point we can reevaluate the situation with the patches. As of today, they are inappropriate.
 
-That shows:
+But how, in two years time, would we know to re-evaluate the patches
+if they're marked as inappropriate for upstream?
 
-WARNING: latest_versionstring: package minicom_2.8.orig.tar.bz2 don't match pattern
+They're not inappropriate for upstream, we just can't submit them to a
+meaningful upstream.  There's a big difference.
 
-Cheers,
-
-Richard
-
+Ross
 
