@@ -1,118 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F91C433F5
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 08:20:28 +0000 (UTC)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web08.48755.1638778827387982852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD61C433F5
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 10:24:29 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web09.49608.1638786268783937881
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 00:20:27 -0800
+ Mon, 06 Dec 2021 02:24:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ACuC+1Nv;
- spf=pass (domain: gmail.com, ip: 209.85.222.46,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id p37so17915806uae.8
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=XCa7PNxj;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.45,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f45.google.com with SMTP id o13so21264037wrs.12
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 00:20:27 -0800 (PST)
+ Mon, 06 Dec 2021 02:24:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=W75mVsD+mFEip/68/8ZeT5JmXFx6tvlvSvssKwNv8nc=;
-        b=ACuC+1Nv50CrXbhPMWikMd5514rwXWsYD4BCEd7+Uk7bWxk43xUhz51ZhUsr8HwlUu
-         4Mz3Jfv+WAWo6SfvYOyZzaVTJQFuzaq8t8lgUqsLHD1Axk/nIS1PIpuK5X+uHaw4stoL
-         5CSlHVhd+oAsHbzCSR5/jqNDpckxPnaZiYS2/uOJMn00GQIzoHkA7RW4RysSsIt47/UL
-         Lg/kXOfZdZDNHNqe8x+UB00LwrWjrEouUbAImN/9Z3ctuE09dLSeLZY56Q3ceC05l3c/
-         nH9ImP7hd+KwnqAi1lcKUcSu34EnN9jsgORpg/qMtsgVNCIBeAl/7V8yRAgMF8tvG3ot
-         UoIg==
+        bh=LQuazSKkTfjD+/QUjkmj43xXoH4vW+eHqIE357XLi6E=;
+        b=XCa7PNxjaHN79yUQfHNaFkQlHRabJIAKKb+AcHNYDpu1yPeL/u15T9xk4HtPHVaJmz
+         zW+pxdo7wQqIKc7g1/KrCkQnk4gJVCGJPUU50BUH+aB/BwkknikLgoseLlVnIS8ZP6kX
+         Drma/ynd0VItJ/HXgv2EL3R9Yjh3hftSsRnNq/BMhS+9SuBixcp6VIrh9m9jyJwRb/CW
+         8EDG3ig5UuDf9aMQpHRp+kNOveWlN/xZuacnDFwyHfcGrXQgZKaNV5ZwXiAxNrgJ52xC
+         2NOJRPUadJtkMMK2DQJQSoHSPFgQsXzSVsJ9ba/L+D60QZ/dBWJQGvcVkfsJfY1EjgLA
+         wqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=W75mVsD+mFEip/68/8ZeT5JmXFx6tvlvSvssKwNv8nc=;
-        b=LaFLkG+rMFNG9iqEnrdeuE9OH2AyaqwZM1+gFZ20Kwk/j6VM5nYBVRvdvLT4uTNIhj
-         67BDvD+YZrT4b1E12ffk5lzygq5y+s5mtS4RUHIkXBrCdKU63jTaZ6o0BoCscXYlEhoC
-         o8cT3gRixZGNkKNZQbqA5IH1A9DXuuN96qQjYsWl79R4c7XDkEDTyEeDVkde+MgVrhTM
-         CtXdZecTYFcJ13ROAHpZ+KwXHuIAtMmi2avj0QXrrUzcTBGGr7eCzwrv0MpEWyx/dq1q
-         aT4Onu1ahPAJ1XHCJV/3EZqNPn9sp8cqqJ1bxdt88wgNL3jbzB/zIyVoJ1I3ZQgNIhMZ
-         cUPQ==
-X-Gm-Message-State: AOAM530FQ0uqGH9dAP9sAp51odN/yum7I/HgWdiYCAw9VrsRbi8k7gBJ
-	Zso/q19Ou3kLTyK1obQdri4J4v/IgQor4Oge07k=
+        bh=LQuazSKkTfjD+/QUjkmj43xXoH4vW+eHqIE357XLi6E=;
+        b=1GJCq1+F/cUCz6caP8gqIFb+eyISWzjYTT2vCOTDCW6O5CbMFOwwQg0/rKDOuCUICm
+         xBxrW/7XA/W2LuKSugplyzNZ+HyCq3bXB1OfMjR/JFifkx6+3aL8z6Ahs7DeXOWsI49d
+         /pTXf0AR2wV+3y8tgrqaig6yHXicncQkL7KGOxgrsrmwYIH52uSfNqp4r9g5oeeis8Xp
+         D/SdFGQ+uLgV8mLE7jJAjaYGDnrHKWlhzojNhQOr5DZZLBAfvMGjKLb9R6d9i3SBnb95
+         lV0/v+MKXjtY3Wba6dQrssxN3DtlwHl3I9dpxt08Zj+QdvE7rXMS879yo+kd55Ct/M8L
+         UcxQ==
+X-Gm-Message-State: AOAM5323gTrBF49UeVtfuEglqaysGMyoPf9Xtd+PEmlccj0Te2SKMtNc
+	WxKBvqvuOLyv0YnhxSGFMSHzpzCHXwU6W/b9gTI/Yw==
 X-Google-Smtp-Source: 
- ABdhPJx+LRnBvIQEGp++p9pWpTx9u+E+jmfPLZteVUmjV8SbyZV8vsMAcNjsl/azyVuo4Vu9T7SKexqwAg+sf4/xziY=
-X-Received: by 2002:a67:7105:: with SMTP id m5mr34700884vsc.81.1638778826498;
- Mon, 06 Dec 2021 00:20:26 -0800 (PST)
+ ABdhPJx7a3j6g3+CFF3q6rm8eVuKDqg0AspzBxyb+GQP2luEWP1e95cu2yvrMmuso5att55v2UcySi2MJZ24YyCu62A=
+X-Received: by 2002:a05:6000:186e:: with SMTP id
+ d14mr42654086wri.376.1638786267050;
+ Mon, 06 Dec 2021 02:24:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206054504.61115-1-pgowda.cve@gmail.com>
-In-Reply-To: <20211206054504.61115-1-pgowda.cve@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 6 Dec 2021 09:20:14 +0100
+References: <20211206083629.2591982-1-alex@linutronix.de>
+In-Reply-To: <20211206083629.2591982-1-alex@linutronix.de>
+From: Ross Burton <ross@burtonini.com>
+Date: Mon, 6 Dec 2021 10:24:16 +0000
 Message-ID: 
- <CANNYZj91-Jn48FCrzd1aFeCmyxR0vzqnOqqPx7+ORiUdjRdVAg@mail.gmail.com>
-Subject: Re: [PATCH] Build libstd-rs in release mode to compile mozjs
-To: pgowda <pgowda.cve@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
- Randy MacLeod <rwmacleod@gmail.com>,
-	umesh kalappa0 <umesh.kalappa0@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000d1a8e105d275ed52"
+ <CAAnfSTuCwTFgkKTSVXUtO3e7nT82yWpMO_h11EWE01Q+PgC9gA@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] insane.bbclass: lock down pending patches
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 08:20:28 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 10:24:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159212
+ https://lists.openembedded.org/g/openembedded-core/message/159214
 
---000000000000d1a8e105d275ed52
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 6 Dec 2021 at 08:36, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> Misuse of 'Pending' patch status has been a problem for a long time;
+> let's disallow that in any newly added patches. Please do the upsream
+> submission at the same time as you submit the patch to oe-core.
 
-On Mon, 6 Dec 2021 at 06:45, pgowda <pgowda.cve@gmail.com> wrote:
+As much as I hate pending patches, and I really do hate patches that
+sit in pending, there are situations where you know the problem, can
+work around it, but still want to push it upstream at some point
+pending further discussion.
 
-> When mozjs in firefox is built with DEBUG_BUILD = "1"
-> in local.conf, it will fail with the following error:
->    rustc-1.56.0-src/vendor/compiler_builtins/src/int/specialized_div_rem
-> /asymmetric.rs:57:
->    more undefined references to `core::panicking::panic' follow
->
-> Switch to building libstd-rs in "release" mode as that works
-> around the issue and builds mozjs successfully. This is a
-> work-around that can be used until the root cause of the debug
-> build error is resolved.
->
+"Inappropriate" would mean the patch wouldn't be looked at again,
+"Submitted" means an upstreamable solution has been formulated, and
+"Pending" is that middle ground.
 
-Thank you, but I think the problem needs to be properly understood before
-any fix to oe-core is merged. Can you keep the workaround as a bbappend
-until then?
+Yes, we should push back, and if a new patch is added with Pending
+status that is clearly good for upstream we should be asking the
+submitter to do that.  But I don't think that effectively banning
+Pending patches in core is the right way forwards.
 
-Alex
-
---000000000000d1a8e105d275ed52
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 6 Dec 2021 at 06:45, pgowda &lt;<a href=3D"mailto:pgowda.cve=
-@gmail.com">pgowda.cve@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">When mozjs in firefox is built with DEBUG_=
-BUILD =3D &quot;1&quot;<br>
-in local.conf, it will fail with the following error:<br>
-=C2=A0 =C2=A0rustc-1.56.0-src/vendor/compiler_builtins/src/int/specialized_=
-div_rem<br>
-/<a href=3D"http://asymmetric.rs:57" rel=3D"noreferrer" target=3D"_blank">a=
-symmetric.rs:57</a>:<br>
-=C2=A0 =C2=A0more undefined references to `core::panicking::panic&#39; foll=
-ow<br>
-<br>
-Switch to building libstd-rs in &quot;release&quot; mode as that works<br>
-around the issue and builds mozjs successfully. This is a<br>
-work-around that can be used until the root cause of the debug<br>
-build error is resolved.<br></blockquote><div><br></div><div>Thank you, but=
- I think the problem needs to be properly understood before any fix to oe-c=
-ore is merged. Can you keep the workaround as a bbappend until then?</div><=
-div><br></div><div>Alex</div><br></div></div>
-
---000000000000d1a8e105d275ed52--
+Ross
 
