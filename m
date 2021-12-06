@@ -1,253 +1,111 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69701C433EF
-	for <webhook@archiver.kernel.org>; Sun,  5 Dec 2021 23:45:38 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web12.44641.1638747937468878058
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A53C433EF
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 05:45:12 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.47914.1638769508505825781
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 15:45:37 -0800
+ Sun, 05 Dec 2021 21:45:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VxlBmX3h;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id
- d72-20020a1c1d4b000000b00331140f3dc8so6422180wmd.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IWIXH1Bu;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id
+ y14-20020a17090a2b4e00b001a5824f4918so9914388pjc.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Dec 2021 15:45:37 -0800 (PST)
+ Sun, 05 Dec 2021 21:45:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p4MlnpFpTtIiK9Hu01v8DxsOBhVjLOa2YLkX2iAVR2A=;
-        b=VxlBmX3hrUvQAWq6RGSTT6uZuXKzWw6p9I+mhn74ZNLJQsrWDUCwW5iEHL8YbPSscv
-         6Llx/bIqTSkp9yFwk/hPxFrVxeNXc8rqqx9a+UzEv7bKrXAeIyQVhbeEWogsC9nEGhjW
-         l3h2ZHETs9DM6uePD8y5qkSfN2dTlH8o4hdH4=
+        bh=o1C1q5CGMnWDB6m42rDM94Gju20i92G/SyKCOa2ykjw=;
+        b=IWIXH1BuMWEbdVmU3LkM/LsIndv9LvrVE00oTBa+hJgj9R9brfx2ySzTFAnkdU84AW
+         w+e0HLO2rbr+kcRw5oRydT7ke9p+PqmVbP34qAV2RLwUcdUNmuayFoPO8LRAQBorAObN
+         4P1zhIt1OaJXMI2JvDu0kKxYQ7tN+kuizNfq/RffjAs/UCDWyZqy3V/vNG/LLZACbBSO
+         LCbEjGSrKIhSdMJRkD7B+9LE4aHZjUPcKc2Sicd8/kdloRWGihOGXBNtH5BqscnqLx0m
+         hHeMgG0Yhkpqia07v96HJXyxaDOSc+8hXTYWPoq76wbq1MgeE9lFAgVweRv1wgPwh3Cz
+         hZ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p4MlnpFpTtIiK9Hu01v8DxsOBhVjLOa2YLkX2iAVR2A=;
-        b=iStgvOI//w8AGo+PVA5qdcDpp7iUQAlcxZy81zYsq6hULycJK8xk0EcPE4vYxvWHZy
-         xizrD6/bbOptv+TA8ydUE2ycYfeegzkyTJzvzvA/okUMdRxzzTfhppEKL8B1IPmEa3b2
-         ohbuEydfI4J/XU4estY8qy20EL6y6HGvkm3DMSps+K3HRkZ7vWfIJDrxlji0/N3EzXIy
-         5ND1JzXeHIQKogRkINb/t+Q5G0atLerUGhQh6D1p1MCp5uYvM/8xdnvpqMmoRdzD5Gia
-         8ALRBYh0/BkesP9x9t5sBdCe1zPjokNdwOD20pxO9Lm51E8Zviww7GKluUc9KSmErSQQ
-         y5Sw==
-X-Gm-Message-State: AOAM533IbdLOhB/g4CIxf7Twa9hHV+LgFTOUyBhJu6ZRIj76CQr4fDIW
-	JirIUdF3AlDJOSu18pdSNzAGXOqBom+iwA==
+        bh=o1C1q5CGMnWDB6m42rDM94Gju20i92G/SyKCOa2ykjw=;
+        b=stdrBxMHL4zdWQrrUug50qh4gzbaFSndFdovKjdJqpj66F/gOC1vNYO4ZkBVeFFjIW
+         dpuRGIYo+Q646Nhmv+xFf2+Dr2hfQ1FyvWn+B93qAy7oQ4+6eA73jtvzxOdLbeuEBRav
+         jRiNwu3qRR9N4d1BB/JP+j3LllHVBoikr4cQ+GkJbsxrwf44Vlg/DBJHc7YTzEelI68h
+         Fhks3usX9+Z2uzi3/aBC/4zt231jdRhNmCnWS6wRHdB27qpEBkpgD14pmeJ+MZ1/TbUi
+         FFTa1+OrJOV91gYi5vX6zkR12uO9gackjYXMG2nZAzqLY83VqDkoxjx3cfhenBZ7fNoi
+         FsXw==
+X-Gm-Message-State: AOAM530e+ObESeNVbPSrWx5Zzb9fNO7twj1G6F/hSnZcwVWSSM8YGwJm
+	bJJXQTlA9kIKCc9w3E7iP7oZX0UAJT4=
 X-Google-Smtp-Source: 
- ABdhPJxdzYJMphqpMZTH0pkMNHTyjKxZpYqwjqrKqQgSzhJYg+oEZG4hAtzYl2KxHpRKfIu34d0GIg==
-X-Received: by 2002:a05:600c:3584:: with SMTP id
- p4mr34126988wmq.109.1638747935452;
-        Sun, 05 Dec 2021 15:45:35 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:50e7:dab5:2141:24aa])
+ ABdhPJzz7v+L1YDfLGC81WQ4XE2Md+hxIykZkw/BrODqJzTONQRTqFZ7yGoOq/3vVG/ImVsTS9yIPw==
+X-Received: by 2002:a17:902:9f98:b0:144:e777:f88e with SMTP id
+ g24-20020a1709029f9800b00144e777f88emr41753670plq.31.1638769507829;
+        Sun, 05 Dec 2021 21:45:07 -0800 (PST)
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
+ [147.11.105.124])
         by smtp.gmail.com with ESMTPSA id
- b15sm11984071wri.62.2021.12.05.15.45.34
-        for <openembedded-core@lists.openembedded.org>
+ p2sm8693286pja.55.2021.12.05.21.45.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 15:45:35 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Sun, 05 Dec 2021 21:45:07 -0800 (PST)
+From: pgowda <pgowda.cve@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] gcc: Drop stdlib++ option patch
-Date: Sun,  5 Dec 2021 23:45:31 +0000
-Message-Id: <20211205234534.480206-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Cc: richard.purdie@linuxfoundation.org,
+	rwmacleod@gmail.com,
+	alex.kanavin@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda <pgowda.cve@gmail.com>
+Subject: [PATCH] Build libstd-rs in release mode to compile mozjs
+Date: Sun,  5 Dec 2021 21:45:04 -0800
+Message-Id: <20211206054504.61115-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Dec 2021 23:45:38 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 05:45:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159201
+ https://lists.openembedded.org/g/openembedded-core/message/159205
 
-The patch to gcc to disable use of libstdc++ when configuring the library
-during gcc-runtime is old and there are perhaps better ways to do this now.
+When mozjs in firefox is built with DEBUG_BUILD = "1"
+in local.conf, it will fail with the following error:
+   rustc-1.56.0-src/vendor/compiler_builtins/src/int/specialized_div_rem
+/asymmetric.rs:57:
+   more undefined references to `core::panicking::panic' follow
 
-If removed, most builds still "work" but incorrect values for things like
-atomic ops are found during configure. mips64 and ppc fail with on target
-simple tests of g++ in testimage.
+Switch to building libstd-rs in "release" mode as that works
+around the issue and builds mozjs successfully. This is a
+work-around that can be used until the root cause of the debug
+build error is resolved.
 
-Instead we can create a dummy libstdc++ which allows the correct configure
-test results to be obtained.
-
-Discussed with upstream about the patch are ongoing, if accepted, we can
-switch back to the commandline option if it is added in future.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-11.2.inc        |   1 -
- meta/recipes-devtools/gcc/gcc-runtime.inc     |   8 +-
- .../gcc/gcc/0005-optional-libstdc.patch       | 118 ------------------
- 3 files changed, 6 insertions(+), 121 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+ meta/recipes-devtools/rust/libstd-rs.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
-index 4c18396a15f..29007d1f19e 100644
---- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-@@ -33,7 +33,6 @@ SRC_URI = "\
-            file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
-            file://0002-gcc-poison-system-directories.patch \
-            file://0004-64-bit-multilib-hack.patch \
--           file://0005-optional-libstdc.patch \
-            file://0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch \
-            file://0009-cpp-honor-sysroot.patch \
-            file://0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 4839a6687af..c39a0caf8a7 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -64,7 +64,11 @@ DEBUG_PREFIX_MAP:class-target = " \
-    "
+diff --git a/meta/recipes-devtools/rust/libstd-rs.inc b/meta/recipes-devtools/rust/libstd-rs.inc
+index 987956344a..96eaa2bdc0 100644
+--- a/meta/recipes-devtools/rust/libstd-rs.inc
++++ b/meta/recipes-devtools/rust/libstd-rs.inc
+@@ -19,9 +19,12 @@ RUSTFLAGS += "-L ${STAGING_LIBDIR} -C link-arg=-Wl,-soname,libstd.so"
  
- do_configure () {
--	export CXX="${CXX} -nostdinc++ -nostdlib++"
-+	export CXX="${CXX} -nostdinc++ -L${WORKDIR}/dummylib"
-+	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
-+	# tests. Create a dummy empty lib for the purposes of configure.
-+	mkdir -p ${WORKDIR}/dummylib
-+	touch ${WORKDIR}/dummylib/libstdc++.so
- 	for d in libgcc ${RUNTIMETARGET}; do
- 		echo "Configuring $d"
- 		rm -rf ${B}/${TARGET_SYS}/$d/
-@@ -302,7 +306,7 @@ do_check() {
-     export DEJAGNU="${WORKDIR}/dejagnu/site.exp"
+ S = "${RUSTSRC}/src/libstd"
  
-     # HACK: this works around the configure setting CXX with -nostd* args
--    sed -i 's/-nostdinc++ -nostdlib++//g' $(find ${B} -name testsuite_flags | head -1)
-+    sed -i 's#-nostdinc++ -L${WORKDIR}/dummylib##g' $(find ${B} -name testsuite_flags | head -1)
++CARGO_BUILD_FLAGS:append = "${@' --release' if d.getVar('DEBUG_BUILD') == '1' else ''}"
++
+ CARGO_FEATURES ?= "panic-unwind backtrace"
+ CARGO_BUILD_FLAGS += "--features '${CARGO_FEATURES}'"
+ CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
++BUILD_DIR = "release"
  
-     if [ "${TOOLCHAIN_TEST_TARGET}" = "user" ]; then
-         # qemu user has issues allocating large amounts of memory
-diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-deleted file mode 100644
-index b856c5dea36..00000000000
---- a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-+++ /dev/null
-@@ -1,118 +0,0 @@
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Subject: [PATCH 3/5] gcc: Add --nostdlib++ option
--
--[gcc-runtime builds libstdc++ separately from gcc-cross-*. Its configure tests using g++
--will not run correctly since by default the linker will try to link against libstdc++
--which shouldn't exist yet. We need an option to disable -lstdc++
--option whilst leaving -lc, -lgcc and other automatic library dependencies added by gcc
--driver. This patch adds such an option which only disables the -lstdc++.]
--
--[A "standard" gcc build uses xgcc and hence avoids this. We should ask upstream how to
--do this officially, the likely answer is don't build libstdc++ separately.]
--
--OpenEmbedded/Yocto Project builds libgcc and the other gcc runtime libraries
--separately from the compiler and slightly differently to the standard gcc build.
--
--In general this works well but in trying to build them separately we run into
--an issue since we're using our gcc, not xgcc and there is no way to tell configure
--to use libgcc but not look for libstdc++.
--
--This adds such an option allowing such configurations to work.
--
--2021-10-26 Richard Purdie <richard.purdie@linuxfoundation.org>
--
--gcc/c-family/ChangeLog:
--
--    * c.opt: Add --nostdlib++ option
--
--gcc/cp/ChangeLog:
--
--    * g++spec.c (lang_specific_driver): Add --nostdlib++ option
--
--gcc/ChangeLog:
--
--    * doc/invoke.texi: Document --nostdlib++ option
--    * gcc.c: Add --nostdlib++ option
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Upstream-Status: Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582724.html]
-----
-- gcc/c-family/c.opt  | 4 ++++
-- gcc/cp/g++spec.c    | 1 +
-- gcc/doc/invoke.texi | 8 +++++++-
-- gcc/gcc.c           | 1 +
-- 4 files changed, 13 insertions(+), 1 deletion(-)
--
--Index: gcc-11.2.0/gcc/c-family/c.opt
--===================================================================
----- gcc-11.2.0.orig/gcc/c-family/c.opt
--+++ gcc-11.2.0/gcc/c-family/c.opt
--@@ -2153,6 +2153,10 @@ nostdinc++
-- C++ ObjC++
-- Do not search standard system include directories for C++.
-- 
--+nostdlib++
--+Driver
--+Do not link standard C++ runtime library
--+
-- o
-- C ObjC C++ ObjC++ Joined Separate
-- ; Documented in common.opt
--Index: gcc-11.2.0/gcc/cp/g++spec.c
--===================================================================
----- gcc-11.2.0.orig/gcc/cp/g++spec.c
--+++ gcc-11.2.0/gcc/cp/g++spec.c
--@@ -159,6 +159,7 @@ lang_specific_driver (struct cl_decoded_
--       switch (decoded_options[i].opt_index)
-- 	{
-- 	case OPT_nostdlib:
--+	case OPT_nostdlib__:
-- 	case OPT_nodefaultlibs:
-- 	  library = -1;
-- 	  break;
--Index: gcc-11.2.0/gcc/doc/invoke.texi
--===================================================================
----- gcc-11.2.0.orig/gcc/doc/invoke.texi
--+++ gcc-11.2.0/gcc/doc/invoke.texi
--@@ -239,6 +239,7 @@ in the following sections.
-- -fno-weak  -nostdinc++ @gol
-- -fvisibility-inlines-hidden @gol
-- -fvisibility-ms-compat @gol
--+-nostdlib++ @gol
-- -fext-numeric-literals @gol
-- -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
-- -flang-info-include-translate-not @gol
--@@ -632,7 +633,7 @@ Objective-C and Objective-C++ Dialects}.
-- -pie  -pthread  -r  -rdynamic @gol
-- -s  -static  -static-pie  -static-libgcc  -static-libstdc++ @gol
-- -static-libasan  -static-libtsan  -static-liblsan  -static-libubsan @gol
----shared  -shared-libgcc  -symbolic @gol
--+-shared  -shared-libgcc  -symbolic -nostdlib++ @gol
-- -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
-- -u @var{symbol}  -z @var{keyword}}
-- 
--@@ -15721,6 +15722,11 @@ Specify that the program entry point is
-- interpreted by the linker; the GNU linker accepts either a symbol name
-- or an address.
-- 
--+@item -nostdlib++
--+@opindex nostdlib++
--+Do not use the standard system C++ runtime libraries when linking.
--+Only the libraries you specify will be passed to the linker.
--+
-- @item -pie
-- @opindex pie
-- Produce a dynamically linked position independent executable on targets
--Index: gcc-11.2.0/gcc/gcc.c
--===================================================================
----- gcc-11.2.0.orig/gcc/gcc.c
--+++ gcc-11.2.0/gcc/gcc.c
--@@ -1162,6 +1162,7 @@ proper position among the other output f
--     %(mflib) " STACK_SPLIT_SPEC "\
--     %{fprofile-arcs|fprofile-generate*|coverage:-lgcov} " SANITIZER_SPEC " \
--     %{!nostdlib:%{!r:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}}\
--+    %{!nostdlib++:}\
--     %{!nostdlib:%{!r:%{!nostartfiles:%E}}} %{T*}  \n%(post_link) }}}}}}"
-- #endif
-- 
+ do_compile:prepend () {
+     export CARGO_TARGET_DIR="${B}"
 -- 
-2.32.0
+2.31.1
 
 
