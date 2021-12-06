@@ -1,211 +1,202 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FF23C433F5
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 15:57:52 +0000 (UTC)
-Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
- by mx.groups.io with SMTP id smtpd.web09.53258.1638806270493993894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 367CFC43217
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 16:13:37 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.53783.1638807215992563631
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 07:57:51 -0800
+ Mon, 06 Dec 2021 08:13:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: iris-sensing.com,
- ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.irisgmbh.de (Postfix) with ESMTP id E65F731E0346;
-	Mon,  6 Dec 2021 16:57:47 +0100 (CET)
-X-Virus-Scanned: amavisd-new at irisgmbh.de
-Received: from mail.irisgmbh.de ([127.0.0.1])
-	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new,
- port 10027)
-	with ESMTP; Mon,  6 Dec 2021 16:57:47 +0100 (CET)
-Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
-	by mail.irisgmbh.de (Postfix) with ESMTPS id CE12631E02E9;
-	Mon,  6 Dec 2021 16:57:47 +0100 (CET)
-Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
- ([172.30.10.11]) with mapi id 14.03.0513.000; Mon, 6 Dec 2021 16:57:47 +0100
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "martin@mko.dev"
-	<martin@mko.dev>, Daniel Baumgart <Daniel.Baumgart@iris-sensing.com>,
-	"bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
-Subject: Re: [bitbake-devel] [oe-core][PATCH v5 1/2] repo: Add recipe for
- 2.17.3
-Thread-Topic: [bitbake-devel] [oe-core][PATCH v5 1/2] repo: Add recipe for
- 2.17.3
-Thread-Index: AQHX1uX4NhTlfU/mckKGzrpxZcF24qv+F/6AgCeddwA=
-Date: Mon, 6 Dec 2021 15:57:47 +0000
-Message-ID: <f3d61994ee24a2ac27bb8a6522590340eaf12c9d.camel@iris-sensing.com>
-References: <20211111102124.7661-1-jasper@fancydomain.eu>
-	 <CANPvuRmk3er1ZJXemR-MQc9k+uxWLOjdy3bZVQZqWv_VfVJvJw@mail.gmail.com>
-In-Reply-To: 
- <CANPvuRmk3er1ZJXemR-MQc9k+uxWLOjdy3bZVQZqWv_VfVJvJw@mail.gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.10.1]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <190254490E77CB4BAAD52733435157A5@irisgmbh.local>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=e7QthPs4;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id a24so10315288qvb.5
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 06 Dec 2021 08:13:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KjFbU6QSFfheAzDcAxhgotpYIo/F4kUJl1SEMvhVuQU=;
+        b=e7QthPs4erN/ujhosmlF1hZ9z+zsSMGxrCQ4GS1+11Lcn4UQuSa+xJkP89qBMcmRho
+         7P57qdwkssjLcRnpSyOc5hT+3fks+PWaHOL4KqUO6PXBZF1yQNYpQTxQcQ0a2goNiOM7
+         nQfSwywVjJ2QJc5P99Nog6z9KTdssN6u+eMDoQ2NQ8ugXupGkRG1VfzzcBceSOtPwUGc
+         P+TQ2dCToxCJpIflsY2HAtSGjsxwL43bi3jrR/qq+OnubtmfSnN5sDV1+/56CAmN58An
+         prH4F3h23M5H5nwIf+81YlRoRoSS+OLqP8RavOqmPVwm1atfN0GTM8bu9ulZH7fMhCce
+         lYlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KjFbU6QSFfheAzDcAxhgotpYIo/F4kUJl1SEMvhVuQU=;
+        b=CdFpbLDDgl0AEl2pAKq3+dhcmINoPWZsvLcjMBMAaSHe/uG9jSYwxKt1KP2oc+DFV9
+         K1dNBhAcdPygfGTa+QNYTtaJOKo2pmfr58UWQdMSp/T1lBuyj+sQt56olC0UohOf29mA
+         QS/c9VlXwF43V8epxYyruUouI1IorojJuqAC2jXoJWrGi8D1llx1YXPX7WU8IcR+hiZ6
+         ujrrfG+vjcGFTRNWcNQMN+ddGXFVGM0qzYBBSQ5elSFvQlFiaKlTTjdhC889ViSF5zI0
+         +P5sCEnxwC8wjX8usEmwOaiXLdlyZrAnJK6OVaqMhj8aOz/b8OcvYSPu5tfpG4DUvV2C
+         /Pyg==
+X-Gm-Message-State: AOAM533Ejwvi76J1+6zcysR22oUzxrZG4ihaP/gozbm7Cc9JQObvOzqJ
+	SkthMi26g1Ja0J1SbIi0AxK/yTF3yak3LMqUenA=
+X-Google-Smtp-Source: 
+ ABdhPJzWnKQQhRFgrzOu781aLiGNGYkslx8dJSmAuY/iDF/la9+OiO1NsYpXJay3f4ntj6+AFa7dxE6K2MnUti5ZODc=
+X-Received: by 2002:a05:6214:c28:: with SMTP id
+ a8mr39146916qvd.24.1638807215110;
+ Mon, 06 Dec 2021 08:13:35 -0800 (PST)
 MIME-Version: 1.0
+References: <20211204071323.2480163-1-alex@linutronix.de>
+ <20211204071323.2480163-5-alex@linutronix.de>
+ <b5d775737830c3ca7864bf650eac4b5ac2cbe19a.camel@linuxfoundation.org>
+In-Reply-To: 
+ <b5d775737830c3ca7864bf650eac4b5ac2cbe19a.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 6 Dec 2021 08:13:24 -0800
+Message-ID: 
+ <CAMKF1sq9wA5knwViKTFqEo6-YY1jm0fKgQ0JyWRRS7-=jYtw=g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/26] python3: drop unneeded multiprocessing
+ module patch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex@linutronix.de>,
+ Alexander Kanavin <alex.kanavin@gmail.com>,
+	Hongxu Jia <hongxu.jia@windriver.com>,
+ openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e97ed605d27c89a8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 15:57:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 16:13:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159252
+ https://lists.openembedded.org/g/openembedded-core/message/159253
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkluIHJl
-Z2FyZHMgdG8gYXV0b21hdGljIHVwZGF0ZSBwYXRjaCBnZW5lcmF0aW9uIHRoaXMgYWN0dWFsbHkg
-aXMgcHJldHR5DQp1c2VmdWwuIEkgdGhpbmsgSSdsbCB0aHJvdyBhbiBleHRyYSBwYXRjaCBvbiB0
-b3AgdG8gaW50ZWdyYXRlIHRoaXMNCnN1Z2dlc3Rpb24uDQoNCi0gLS0gDQpXaXRoIGJlc3QgcmVn
-YXJkcw0KDQpKYXNwZXIgT3JzY2h1bGtvDQpEZXZPcHMgRW5naW5lZXINCg0KVGVsLiArNDkgMzAg
-NTggNTggMTQgMjY1DQpGYXggKzQ5IDMwIDU4IDU4IDE0IDk5OQ0KSmFzcGVyLk9yc2NodWxrb0Bp
-cmlzLXNlbnNpbmcuY29tDQoNCuKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKA
-oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
-IOKAoiDigKINCg0KaXJpcy1HbWJIDQppbmZyYXJlZCAmIGludGVsbGlnZW50IHNlbnNvcnMNClNj
-aG5lbGxlcnN0cmHDn2UgMS01IHwgMTI0MzkgQmVybGluDQoNCmh0dHBzOi8vaXJpcy1zZW5zaW5n
-LmNvbS8NCg0KDQoNCg0KDQpPbiBUaHUsIDIwMjEtMTEtMTEgYXQgMTE6MDAgKzAwMDAsIEpvc2Ug
-UXVhcmVzbWEgd3JvdGU6DQo+IA0KPiBKYXNwZXIgT3JzY2h1bGtvIHZpYSBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+IDxqYXNwZXI9ZmFuY3lkb21haW4uZXVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz4gZXNjcmV2ZXUgbm8gZGlhDQo+IHF1aW50YSwgMTEvMTEvMjAyMSDDoChzKSAxMDoyMToNCj4g
-PiBGcm9tOiBKYXNwZXIgT3JzY2h1bGtvIDxKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5j
-b20+DQo+ID4gDQo+ID4gQWRkIGEgcmVjaXBlIGZvciByZXBvIDIuMTcuMywgcHJlcmVxdWlzaXRl
-IGZvciB0aGUgcmVwbyBmZXRjaGVyLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IEphc3BlciBP
-cnNjaHVsa28gPEphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbT4NCj4gPiAtLS0NCj4g
-PiDCoG1ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9tYWludGFpbmVycy5pbmPCoCDCoCDCoCB8wqAg
-MSArDQo+ID4gwqAuLi4vMDAwMS1TZXQtUkVQT19SRVYtdG8tdjIuMTcuMy5wYXRjaMKgIMKgIMKg
-IMKgIHwgMzUNCj4gPiArKysrKysrKysrKysrKysrKysrDQo+ID4gwqAuLi4vcmVwby9yZXBvLzAw
-MDEtcHl0aG9uMy1zaGViYW5nLnBhdGNowqAgwqAgwqAgfCAyNiArKysrKysrKysrKysrKw0KPiA+
-IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjE3LjMuYmLCoCDCoCDCoHwgMjgg
-KysrKysrKysrKysrKysrDQo+ID4gwqA0IGZpbGVzIGNoYW5nZWQsIDkwIGluc2VydGlvbnMoKykN
-Cj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBv
-LTIuMTcuMy8wMDAxLQ0KPiA+IFNldC1SRVBPX1JFVi10by12Mi4xNy4zLnBhdGNoDQo+ID4gwqBj
-cmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwby8wMDAxLXB5
-dGhvbjMtDQo+ID4gc2hlYmFuZy5wYXRjaA0KPiA+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi4xNy4zLmJiDQo+ID4gDQo+ID4gZGlmZiAtLWdp
-dCBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9tYWludGFpbmVycy5pbmMNCj4gPiBiL21ldGEv
-Y29uZi9kaXN0cm8vaW5jbHVkZS9tYWludGFpbmVycy5pbmMNCj4gPiBpbmRleCBmM2UwYTc1ZDU2
-Li41OGEwYTk2MTVmIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9t
-YWludGFpbmVycy5pbmMNCj4gPiArKysgYi9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvbWFpbnRh
-aW5lcnMuaW5jDQo+ID4gQEAgLTY1Miw2ICs2NTIsNyBAQCBSRUNJUEVfTUFJTlRBSU5FUjpwbi1x
-dWlsdC1uYXRpdmUgPSAiUm9iZXJ0DQo+ID4gWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNv
-bT4iDQo+ID4gwqBSRUNJUEVfTUFJTlRBSU5FUjpwbi1xdW90YSA9ICJBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPiINCj4gPiDCoFJFQ0lQRV9NQUlOVEFJTkVSOnBuLXJlMmMgPSAi
-S2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4iDQo+ID4gwqBSRUNJUEVfTUFJTlRBSU5FUjpw
-bi1yZWFkbGluZSA9ICJIb25neHUgSmlhDQo+ID4gPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4i
-DQo+ID4gK1JFQ0lQRV9NQUlOVEFJTkVSOnBuLXJlcG8gPSAiSmFzcGVyIE9yc2NodWxrbw0KPiA+
-IDxKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20+Ig0KPiA+IMKgUkVDSVBFX01BSU5U
-QUlORVI6cG4tcmVzb2x2Y29uZiA9ICJDaGVuIFFpDQo+ID4gPFFpLkNoZW5Ad2luZHJpdmVyLmNv
-bT4iDQo+ID4gwqBSRUNJUEVfTUFJTlRBSU5FUjpwbi1yZ2IgPSAiVW5hc3NpZ25lZA0KPiA+IDx1
-bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+Ig0KPiA+IMKgUkVDSVBFX01BSU5UQUlORVI6cG4t
-cnBjYmluZCA9ICJIb25neHUgSmlhDQo+ID4gPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4iDQo+
-ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG8tMi4xNy4zLzAw
-MDEtU2V0LQ0KPiA+IFJFUE9fUkVWLXRvLXYyLjE3LjMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcmVwby9yZXBvLQ0KPiA+IDIuMTcuMy8wMDAxLVNldC1SRVBPX1JFVi10by12Mi4xNy4z
-LnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi4y
-ODViMWQzMTI5DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9yZXBvL3JlcG8tMi4xNy4zLzAwMDEtU2V0LVJFUE9fUkVWLXRvLQ0KPiA+IHYyLjE3LjMu
-cGF0Y2gNCj4gPiBAQCAtMCwwICsxLDM1IEBADQo+ID4gK0Zyb20gYmRkMmE1MjhkYTU5YzI4ZGI4
-YWUyOTg2ODM0OTI2ZGU3Y2ViZjNhYiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+ID4gMjAwMQ0KPiA+
-ICtGcm9tOiBKYXNwZXIgT3JzY2h1bGtvIDxKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5j
-b20+DQo+ID4gK0RhdGU6IFRodSwgNCBOb3YgMjAyMSAxNjo1NToxMiArMDEwMA0KPiA+ICtTdWJq
-ZWN0OiBbUEFUQ0hdIFNldCBSRVBPX1JFViB0byB2Mi4xNy4zDQo+ID4gKw0KPiA+ICtyZXBvIGlz
-IGFuIHVudXN1YWwgdG9vbCBiZWNhdXNlIGl0IGRvd25sb2FkcyBhbGwgb2YgaXRzIG93biBQeXRo
-b24NCj4gPiBtb2R1bGVzDQo+ID4gK3VzaW5nIEdQRy1zaWduZWQgZ2l0IHRhZ3MsIGFuZCBzdG9y
-ZXMgdGhvc2UgZmlsZXMgYXMgcGFydCBvZiB0aGUNCj4gPiBwcm9qZWN0DQo+ID4gK3RoYXQgaXQg
-aXMgd29ya2luZyB3aXRoLg0KPiA+ICsNCj4gPiArU28gaW4gb3JkZXIgdG8gaGF2ZSBhIHJlcHJv
-ZHVjaWJsZSByZXBvIGluc3RhbGxhdGlvbiB3aXRoaW4gdGhlDQo+ID4gcHJvamVjdA0KPiA+ICtm
-b2xkZXJzLCB3ZSBoYXJkY29kZSB0aGUgZGVmYXVsdCBSRVBPX1JFViB0byBhIFNIQTEgdGhhdA0K
-PiA+IGNvcnJlc3BvbmRzIHRvDQo+ID4gK3RoZSB2ZXJzaW9uIG9mIHRoZSByZWNpcGUuIFJFUE9f
-UkVWIGNhbiBzdGlsbCBiZSBvdmVyd3JpdGVuIGJ5IHRoZQ0KPiA+IHVzZXIsDQo+ID4gK2J5IHNw
-ZWNpZnlpbmcgdGhlIFJFUE9fUkVWIGVudmlyb25tZW50IHZhcmlhYmxlLg0KPiA+ICsNCj4gPiAr
-VXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtjb25maWd1cmF0aW9uXQ0KPiA+ICtTaWdu
-ZWQtb2ZmLWJ5OiBKYXNwZXIgT3JzY2h1bGtvDQo+ID4gPEphc3Blci5PcnNjaHVsa29AaXJpcy1z
-ZW5zaW5nLmNvbT4NCj4gPiArLS0tDQo+ID4gKyByZXBvIHwgMiArLQ0KPiA+ICsgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gKw0KPiA+ICtkaWZmIC0t
-Z2l0IGEvcmVwbyBiL3JlcG8NCj4gPiAraW5kZXggYjEzZTM0Yy4uMzExMzBlOSAxMDA3NTUNCj4g
-PiArLS0tIGEvcmVwbw0KPiA+ICsrKysgYi9yZXBvDQo+ID4gK0BAIC0xMzAsNyArMTMwLDcgQEAg
-aWYgbm90IFJFUE9fVVJMOg0KPiA+ICvCoCDCoFJFUE9fVVJMID0gJ2h0dHBzOi8vZ2Vycml0Lmdv
-b2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8nDQo+ID4gKyBSRVBPX1JFViA9IG9zLmVudmlyb24uZ2V0
-KCdSRVBPX1JFVicpDQo+ID4gKyBpZiBub3QgUkVQT19SRVY6DQo+ID4gKy3CoCBSRVBPX1JFViA9
-ICdzdGFibGUnDQo+ID4gKyvCoCBSRVBPX1JFViA9ICcxMWIzMGI5MWRmMWYwZTAzYjUzZGE5NzBl
-YzI1ODhlODU4MTdiYWNjJw0KPiA+ICsgDQo+ID4gKyAjIGluY3JlbWVudCB0aGlzIHdoZW5ldmVy
-IHdlIG1ha2UgaW1wb3J0YW50IGNoYW5nZXMgdG8gdGhpcw0KPiA+IHNjcmlwdA0KPiA+ICsgVkVS
-U0lPTiA9ICgyLCA4KQ0KPiA+ICstLSANCj4gPiArMi4zMy4xDQo+ID4gZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG8vMDAwMS1weXRob24zLQ0KPiA+IHNoZWJhbmcu
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvLzAwMDEtcHl0aG9uMy0NCj4g
-PiBzaGViYW5nLnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAw
-MDAwMDAwLi5kMzg4OGM4YmIyDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9yZXBvL3JlcG8vMDAwMS1weXRob24zLXNoZWJhbmcucGF0Y2gNCj4gPiBA
-QCAtMCwwICsxLDI2IEBADQo+ID4gK0Zyb20gYjhlODRiMjAyY2QzMDJhN2M5OTI4OGQzODM1ZGM5
-YzYzMDcxZjhmMiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+ID4gMjAwMQ0KPiA+ICtGcm9tOiBKYXNw
-ZXIgT3JzY2h1bGtvIDxKYXNwZXIuT3JzY2h1bGtvQGlyaXMtc2Vuc2luZy5jb20+DQo+ID4gK0Rh
-dGU6IFR1ZSwgMTQgU2VwIDIwMjEgMTY6NDY6NTEgKzAyMDANCj4gPiArU3ViamVjdDogW1BBVENI
-XSBweXRob24zIHNoZWJhbmcNCj4gPiArDQo+ID4gK1lvY3RvIGRvZXMgbm90IHN5bWxpbmsgZnJv
-bSBweXRob24gdG8gcHl0aG9uMywgdGh1cyBjaGFuZ2UgdGhlDQo+ID4gc2hlYmFuZyBmcm9tDQo+
-ID4gK3B5dGhvbiB0byBweXRob24zLg0KPiA+ICsNCj4gPiArVXBzdHJlYW0tU3RhdHVzOiBJbmFw
-cHJvcHJpYXRlIFtjb25maWd1cmF0aW9uXQ0KPiA+ICtTaWduZWQtb2ZmLWJ5OiBKYXNwZXIgT3Jz
-Y2h1bGtvDQo+ID4gPEphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbT4NCj4gPiArLS0t
-DQo+ID4gKyByZXBvIHwgMiArLQ0KPiA+ICsgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pDQo+ID4gKw0KPiA+ICtkaWZmIC0tZ2l0IGEvcmVwbyBiL3JlcG8NCj4g
-PiAraW5kZXggYjEzZTM0Yy4uMjA1ZTBlNSAxMDA3NTUNCj4gPiArLS0tIGEvcmVwbw0KPiA+ICsr
-KysgYi9yZXBvDQo+ID4gK0BAIC0xLDQgKzEsNCBAQA0KPiA+ICstIyEvdXNyL2Jpbi9lbnYgcHl0
-aG9uDQo+ID4gKysjIS91c3IvYmluL2VudiBweXRob24zDQo+ID4gKyAjIC0qLSBjb2Rpbmc6dXRm
-LTggLSotDQo+ID4gKyAjDQo+ID4gKyAjIENvcHlyaWdodCAoQykgMjAwOCBUaGUgQW5kcm9pZCBP
-cGVuIFNvdXJjZSBQcm9qZWN0DQo+ID4gKy0tDQo+ID4gKzIuMzMuMA0KPiA+IGRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuMTcuMy5iYg0KPiA+IGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjE3LjMuYmINCj4gPiBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLmNiMGFmODljMDkNCj4gPiAtLS0gL2Rldi9udWxs
-DQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjE3LjMuYmINCj4g
-PiBAQCAtMCwwICsxLDI4IEBADQo+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVA0K
-PiA+ICsjIENvcHlyaWdodCAoQykgMjAyMSBpcmlzLUdtYkggaW5mcmFyZWQgJiBpbnRlbGxpZ2Vu
-dCBzZW5zb3JzDQo+ID4gKw0KPiA+ICtTVU1NQVJZID0gIlRvb2wgZm9yIG1hbmFnaW5nIG1hbnkg
-R2l0IHJlcG9zaXRvcmllcyINCj4gPiArREVTQ1JJUFRJT04gPSAiUmVwbyBpcyBhIHRvb2wgYnVp
-bHQgb24gdG9wIG9mIEdpdC4gUmVwbyBoZWxwcw0KPiA+IG1hbmFnZSBtYW55IEdpdCByZXBvc2l0
-b3JpZXMsIGRvZXMgdGhlIHVwbG9hZHMgdG8gcmV2aXNpb24gY29udHJvbA0KPiA+IHN5c3RlbXMs
-IGFuZCBhdXRvbWF0ZXMgcGFydHMgb2YgdGhlIGRldmVsb3BtZW50IHdvcmtmbG93LiINCj4gPiAr
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9hbmRyb2lkLmdvb2dsZXNvdXJjZS5jb20vdG9vbHMvcmVwbyIN
-Cj4gPiArU0VDVElPTiA9ICJjb25zb2xlL3V0aWxzIg0KPiA+ICsNCj4gPiArTElDRU5TRSA9ICJB
-cGFjaGUtMi4wIg0KPiA+ICtMSUNfRklMRVNfQ0hLU1VNID0NCj4gPiAiZmlsZTovL0xJQ0VOU0U7
-bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3Ig0KPiA+ICsNCj4gPiArU1JDX1VS
-SSA9ICJnaXQ6Ly9nZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9naXQtDQo+ID4gcmVwby5naXQ7cHJv
-dG9jb2w9aHR0cHM7YnJhbmNoPW1haW4iDQo+ID4gK1NSQ1JFViA9ICIxMWIzMGI5MWRmMWYwZTAz
-YjUzZGE5NzBlYzI1ODhlODU4MTdiYWNjIg0KPiA+ICsNCj4gPiArU1JDX1VSSSArPSAiZmlsZTov
-LzAwMDEtcHl0aG9uMy1zaGViYW5nLnBhdGNoIFwNCj4gPiArwqAgwqAgwqAgwqAgwqAgwqAgZmls
-ZTovLzAwMDEtU2V0LVJFUE9fUkVWLXRvLXYyLjE3LjMucGF0Y2giDQo+ID4gDQo+IA0KPiANCj4g
-SSB0aGluayB3ZSBjYW4gcmVwbGFjZSB0aGUgcGF0Y2ggMDAwMS1TZXQtUkVQT19SRVYtdG8tdjIu
-MTcuMy5wYXRjaA0KPiB3aXRoIGEgcG9zdCBmdW5jdGlvbg0KPiBhbmQgd2l0aCBpdCB3ZSBjYW4g
-cmV1c2UgdGhlIFNSQ1JFViBvZiB0aGUgcmVjaXBlLiBTb21ldGhpbmcgbGlrZToNCj4gDQo+IGRv
-X2ZpeF9yZXYoKXsNCj4gwqAgwqAgc2VkIC1pICJzL1JFUE9fUkVWID0gJ3N0YWJsZScvUkVQT19S
-RVYgPSAnJHtTUkNSRVZ9JyIgJHtTfS9yZXBvDQo+IH0NCj4gDQo+IGRvX3BhdGNoW3Bvc3RmdW5j
-c10gKz0gImRvX2ZpeF9yZXYiDQo+IMKgDQo+ID4gKw0KPiA+ICtNSVJST1JTICs9ICJnaXQ6Ly9n
-ZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9naXQtcmVwby5naXQNCj4gPiBnaXQ6Ly9naXRodWIuY29t
-L0dlcnJpdENvZGVSZXZpZXcvZ2l0LXJlcG8uZ2l0IFxuIg0KPiA+ICsNCj4gPiArUyA9ICIke1dP
-UktESVJ9L2dpdCINCj4gPiArDQo+ID4gK2RvX2luc3RhbGwoKSB7DQo+ID4gK8KgIMKgIMKgIMKg
-aW5zdGFsbCAtRG0gMDc1NSAke1dPUktESVJ9L2dpdC9yZXBvICR7RH0ke2JpbmRpcn0vcmVwbw0K
-PiA+ICt9DQo+ID4gKw0KPiA+ICtSREVQRU5EUzoke1BOfSA9ICJweXRob24zIg0KPiA+IA0KPiAN
-Cj4gDQo+IHJlcG8gdXNlcyBnaXQgaW50ZXJuYWxseSwgc28gYWRkIGl0DQo+IA0KPiBSREVQRU5E
-Uzoke1BOfSA9ICJweXRob24zIGdpdCINCj4gwqANCj4gPiArDQo+ID4gK0JCQ0xBU1NFWFRFTkQg
-PSAibmF0aXZlIG5hdGl2ZXNkayINCj4gPiAtLSANCj4gPiAyLjMzLjENCj4gPiANCj4gPiANCj4g
-PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVz
-c2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiA+IFZpZXcvUmVwbHkgT25saW5lICgjMTMwMDMp
-Og0KPiA+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL2JpdGJha2UtZGV2ZWwvbWVz
-c2FnZS8xMzAwMw0KPiA+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL210Lzg2OTc4NDE5LzUwNTI2MTINCj4gPiBHcm91cCBPd25lcjogYml0YmFrZS1kZXZl
-bCtvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gVW5zdWJzY3JpYmU6IGh0dHBzOi8v
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL2JpdGJha2UtZGV2ZWwvdW5zdWINCj4gPiBbcXVhcmVz
-bWEuam9zZUBnbWFpbC5jb21dDQo+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gPiANCj4g
-DQo+IA0KLS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0NCg0KaVFFekJBRUJDQUFkRmlFRTRX
-eVBNSUM1QXA0K09vbzFZZ3FldzA3Vk1OVUZBbUd1TXZvQUNna1FZZ3FldzA3Vg0KTU5XclJnZitP
-RURDSWdTTzRPM2t0OGlKbmtpVXdxWCtTVHlUVDV3RmhBMXU1ZE1iMHYwM1BlUmhGaUkvaEMySA0K
-OGdoSWR0Zys4Z3BUNW9DeFQ5WnR3VUZIaXVvNUlyTjhWWFc1YzRIRjA0bU5xOW90cE9RRDJMRGhh
-d1QrVDJqeg0KUkcxektNYmhSTFZ3alRCWjRpRDl0cm1hOGRINHZtL2NYc01jZE5MdHBEeE8yVWli
-cjdwYUoranVmYUpNUEN4UQ0KK2Y5ZmkwdW1ESGpnbTF5RGZtY3ZaNWoxdGNCc0dXVGtEQzdxRU15
-VG45UmIydWRkdndDaDdWVUxiZTNzVGJndg0KdTlRWWNjMHlZTU0zNzhjcm91aUxFNHc0Q2hTTklY
-a0hnaFduOFB6b0VZNkpPc3lKa3F5MWIvRDZ1TE83QmZYWA0KaEVDWFhGbmRaaCtEak9VamZ2QWpI
-Z3QxS3lLNEVnPT0NCj1XQm1ODQotLS0tLUVORCBQR1AgU0lHTkFUVVJFLS0tLS0NCg==
+--000000000000e97ed605d27c89a8
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Dec 6, 2021 at 3:07 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Sat, 2021-12-04 at 08:13 +0100, Alexander Kanavin wrote:
+> > I ran the reproducing sequence on qemux86, and it went fine:
+> >
+> > root@qemux86:~# python3
+> > Python 3.10.0 (default, Oct  4 2021, 17:55:55) [GCC 11.2.0] on linux
+> > Type "help", "copyright", "credits" or "license" for more information.
+> > > > > import multiprocessing
+> > > > > pool_sema = multiprocessing.BoundedSemaphore(value=1)
+> > > > > pool_sema.acquire()
+> > True
+> > > > > pool_sema.release()
+> > > > >
+> >
+> > Additionally AB testing revealed no issues, and the description isn't
+> entirely
+> > clear about where and how the problem occurs, so I can't submit it
+> upsream
+> > without having that understanding and how to demonstrate the problem.
+> >
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> >
+>
+> There is a slightly different explanation here. libpthread was merged into
+> libc
+> so this fix becomes a null-op on glibc. Not sure if musl has a separate
+> pthread
+> but if so we could/should test that?
+
+
+Musl has always been a single shared object from day one infact glibc is
+now moving in that direction so it will work fine on musl
+
+>
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159219):
+> https://lists.openembedded.org/g/openembedded-core/message/159219
+> Mute This Topic: https://lists.openembedded.org/mt/87494766/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000e97ed605d27c89a8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Dec 6, 2021 at 3:07 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sat, 2021-=
+12-04 at 08:13 +0100, Alexander Kanavin wrote:<br>
+&gt; I ran the reproducing sequence on qemux86, and it went fine:<br>
+&gt; <br>
+&gt; root@qemux86:~# python3<br>
+&gt; Python 3.10.0 (default, Oct=C2=A0 4 2021, 17:55:55) [GCC 11.2.0] on li=
+nux<br>
+&gt; Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &=
+quot;license&quot; for more information.<br>
+&gt; &gt; &gt; &gt; import multiprocessing<br>
+&gt; &gt; &gt; &gt; pool_sema =3D multiprocessing.BoundedSemaphore(value=3D=
+1)<br>
+&gt; &gt; &gt; &gt; pool_sema.acquire()<br>
+&gt; True<br>
+&gt; &gt; &gt; &gt; pool_sema.release()<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; <br>
+&gt; Additionally AB testing revealed no issues, and the description isn&#3=
+9;t entirely<br>
+&gt; clear about where and how the problem occurs, so I can&#39;t submit it=
+ upsream<br>
+&gt; without having that understanding and how to demonstrate the problem.<=
+br>
+&gt; <br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix=
+.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt; <br>
+<br>
+There is a slightly different explanation here. libpthread was merged into =
+libc<br>
+so this fix becomes a null-op on glibc. Not sure if musl has a separate pth=
+read<br>
+but if so we could/should test that?</blockquote><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">Musl has always been a single shared object from day on=
+e infact glibc is now moving in that direction so it will work fine on musl=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#159219): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/159219" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/159219</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87494766/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87494766/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e97ed605d27c89a8--
 
