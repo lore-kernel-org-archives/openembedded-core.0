@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 846E4C433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 13:07:15 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.66649.1638882434110946552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84964C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 13:07:17 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.66651.1638882436780229881
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 05:07:14 -0800
+ Tue, 07 Dec 2021 05:07:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Hck5599x;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PIV6I/ha;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id i5so29395871wrb.2
+Received: by mail-wr1-f54.google.com with SMTP id u17so22031255wrt.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 05:07:13 -0800 (PST)
+ Tue, 07 Dec 2021 05:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=66MI2a4Ng22U9CSDWI/jwu+W3+7mhSK3yjl6MLwtJhw=;
-        b=Hck5599xu8op6nvHttr1CybqogL8xy5jXPlRqNf1ES2t2ny0xSg4VwWPpMZNYBSL9P
-         j5fU91DD0ceIGSRKRm0utwUDsnuNcUbcBFXQ2ui9uyiOK7f3RLpfsEPJqTkD87TIEr93
-         2YwYPLZhgd0KnbKQvoiGoIrWZIDeq0jHq2dauw4RqFwEHBG4HwLIW1wsWVpuvSsDOAes
-         ZA5Bla2/WM8L3ZFGsGe+Y57ET/G895g53bJY5PUMhNpKtvqbOZyWHkTVZk4YJRz6kVBO
-         CAqf21Y4xIP0h9KoZqlJW5BnNq1mZS3OwxrT2oOc7eOOTkQoW4ObZOaAySkyXmgfIQKf
-         fCkQ==
+        bh=JfhsxzESHryvRAN9clwn1IhVtR6w2RhlS2sDDTmYEzM=;
+        b=PIV6I/haeTmZOBb+GmW4Sft10ZvcKGGD+tUy5e/Re4gIh3mzVN4/oKGeSJyialb/Qc
+         XsAHX1DXNLXNtK1lEMYfduVhvVN9ts6yLOgD/fI159PkB+g9ZSBDWCDWpB/GgFN2VADZ
+         qI0etwcYOOZ6TZv10cORBK0NgLC4y0lt0g8ku1Yy42iZLd65kT3uyHPJLh2Jq2VXCYpx
+         HGFS6W5L6pkmMJ8y5KcAHPlWYx7/vIoZe5Vngn3RZsddB4jWAF5B7IX2BEHwVbSXSiDb
+         tzqran/I2LRTZtqYcuEZ0S+oL8/n3nZGZkR13fk2Jj8dwgZN0wRKvB/qOV1QvwtQsNd+
+         P9cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=66MI2a4Ng22U9CSDWI/jwu+W3+7mhSK3yjl6MLwtJhw=;
-        b=Rnc1HP5EWnG0cp4pO9Reyk1eqWZ2WHb43cRDmwECu5rMI98SUhubMZSerkce2ekpeX
-         zIgD/su3h4Corh2njZCw/zRWiQs0meyqilWbjpV1iwTzUWMl7RxekueBL3gSDJtcwwIA
-         yzbg3ZNXaUeHQPgMJIpIfDySoOiegO3VjV+Zz1guug/c1Hv4JINfyX83CI4kswNVY1Pj
-         rhbqbKAqWrPd8+1fmbO8zHQ76kjjVVVF63iYACn8ttF8tAh3W2P+T+oMptifjYQKNXY/
-         MSm/s9MGB9yGSM1HejpOzDpXnEdRdGh5q5t3G7hN3uFuLEgMVMaFPDE3FYa8n3MWBwMI
-         sGnw==
-X-Gm-Message-State: AOAM533prgD73H5UmwITUz+I3IyHI5Qjhj+k4o/nRgR65fGbOk7Ar8Av
-	QvoyOuTyEGKTqE54clsUdO4MDkcLeaD3MA==
+        bh=JfhsxzESHryvRAN9clwn1IhVtR6w2RhlS2sDDTmYEzM=;
+        b=j80otuzDin7ZZLm2l5PsTSQSbGveZR6DCbhAFPUD/RWn+uq0X9K/f1Zi5OQLzhnzJH
+         WroAfM+YNHEwOfTqVBUn4er+/T7Hn38e7PX98ODcszQUSPJKOREN+OKeaxqP7H1yJzC1
+         mjCFmtBap5ZjX1enKAcxXwsoJUL6D+u1swJE39JwTWObQhsJDDFmVlmBOdyGPnIYIMiw
+         IOIUrZ1xgGrpRPiSYwHO8e3Uyqvojfriktr6W/s1PwFwKW3QWQvHbiH8mH2xGkGODB8T
+         m89eXJocRrg5a1eqBx7uSCHAh+euo9mYmt3k4PamVBwizzeeWfS8a14mAnrKUR0yMMMq
+         3JAw==
+X-Gm-Message-State: AOAM533Lc/gkS04ptAE4ek41QAkeWPwGhnjhfRcl4C29/9ZGkap6xIXw
+	Cac5tmkK4gYVKai7DKlTjQTEhZLxLG3Wig==
 X-Google-Smtp-Source: 
- ABdhPJwbICdMokwRpZEO4jzALV9+Gk1HabMRdnIfDGtF0bwtNFaR56RBb+P3im1iSoOP6BlRq0H4OA==
-X-Received: by 2002:a5d:6dab:: with SMTP id u11mr50567276wrs.46.1638882432417;
-        Tue, 07 Dec 2021 05:07:12 -0800 (PST)
+ ABdhPJwxHsfiBHEzSW4wueOtR6AVNDEzOZI7p9jfD8+oRvY+jR63FBqZ3FMfeV//vFHPOuTH/EtLjg==
+X-Received: by 2002:adf:f88f:: with SMTP id u15mr51896592wrp.18.1638882435374;
+        Tue, 07 Dec 2021 05:07:15 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- n4sm16592468wri.41.2021.12.07.05.07.11
+ n4sm16592468wri.41.2021.12.07.05.07.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 05:07:12 -0800 (PST)
+        Tue, 07 Dec 2021 05:07:15 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/16] python3-pycryptodome: update to 3.12.0
-Date: Tue,  7 Dec 2021 14:06:53 +0100
-Message-Id: <20211207130703.3196805-6-alex@linutronix.de>
+Subject: [PATCH 10/16] cups: update 2.3.3op2 -> 2.4.0
+Date: Tue,  7 Dec 2021 14:06:57 +0100
+Message-Id: <20211207130703.3196805-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211207130703.3196805-1-alex@linutronix.de>
 References: <20211207130703.3196805-1-alex@linutronix.de>
@@ -65,78 +65,122 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 13:07:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 13:07:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159292
+ https://lists.openembedded.org/g/openembedded-core/message/159296
 
-License-Update: dropped a patents clarification
+Mark no-hardcode-lib patch as upstreamable.
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/python/python-pycryptodome.inc         | 4 +++-
- meta/recipes-devtools/python/python3-pycryptodome_3.11.0.bb  | 5 -----
- meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb  | 5 +++++
- ...cryptodomex_3.11.0.bb => python3-pycryptodomex_3.12.0.bb} | 2 +-
- 4 files changed, 9 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.11.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb
- rename meta/recipes-devtools/python/{python3-pycryptodomex_3.11.0.bb => python3-pycryptodomex_3.12.0.bb} (69%)
+ meta/recipes-extended/cups/cups.inc           |  7 +--
+ .../cups/cups/libexecdir.patch                | 50 +++++++++++--------
+ .../cups/{cups_2.3.3op2.bb => cups_2.4.0.bb}  |  2 +-
+ 3 files changed, 34 insertions(+), 25 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.3.3op2.bb => cups_2.4.0.bb} (51%)
 
-diff --git a/meta/recipes-devtools/python/python-pycryptodome.inc b/meta/recipes-devtools/python/python-pycryptodome.inc
-index 3f4c6e9fca..071af557ea 100644
---- a/meta/recipes-devtools/python/python-pycryptodome.inc
-+++ b/meta/recipes-devtools/python/python-pycryptodome.inc
-@@ -3,10 +3,12 @@ DESCRIPTION = "PyCryptodome is a self-contained Python package of low-level\
-  cryptographic primitives."
- HOMEPAGE = "http://www.pycryptodome.org"
- LICENSE = "PD & BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=accfa6aeaceb3ba96676edf18e78302c"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=29242a70410a4eeff488a28164e7ab93"
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index ba9bc6c6a6..3175a91ce4 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -40,11 +40,11 @@ SYSTEMD_SERVICE:${PN} = "cups.socket cups.path cups.service cups-lpd.socket"
  
- inherit pypi
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd', d)}"
+-PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
++PACKAGECONFIG[avahi] = "--with-dnssd=avahi,--with-dnsssd=no,avahi"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+-PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
++PACKAGECONFIG[gnutls] = "--with-tls=gnutls,--with-tls=no,gnutls"
+ PACKAGECONFIG[pam] = "--enable-pam --with-pam-module=unix, --disable-pam, libpam"
+-PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},--disable-systemd,systemd"
++PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},--without-systemd,systemd"
+ PACKAGECONFIG[xinetd] = "--with-xinetd=${sysconfdir}/xinetd.d,--without-xinetd,xinetd"
  
-+PYPI_PACKAGE_EXT = "zip"
+ EXTRA_OECONF = " \
+@@ -57,6 +57,7 @@ EXTRA_OECONF = " \
+                --with-system-groups=lpadmin \
+                --with-cups-group=lp \
+                --with-domainsocket=/run/cups/cups.sock \
++               --with-pkgconfpath=${libdir}/pkgconfig \
+                DSOFLAGS='${LDFLAGS}' \
+                "
+ 
+diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/recipes-extended/cups/cups/libexecdir.patch
+index 2e15841b0d..7ccad94f0f 100644
+--- a/meta/recipes-extended/cups/cups/libexecdir.patch
++++ b/meta/recipes-extended/cups/cups/libexecdir.patch
+@@ -1,27 +1,35 @@
+-Use $libexecdir instead of hardcoding $prefix/lib as this breaks multilib builds.
++From 1724f7bcdbcfdb445778f8a2e530c5c094c18c10 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Tue, 13 Jul 2021 12:56:30 +0100
++Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
++ breaks multilib builds.
+ 
+-Upstream-Status: Inappropriate
++Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ 
++---
++ config-scripts/cups-directories.m4 | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
- RDEPENDS:${PN} += " \
-     ${PYTHON_PN}-io \
-     ${PYTHON_PN}-math \
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.11.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.11.0.bb
-deleted file mode 100644
-index b0e37178e0..0000000000
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.11.0.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require python-pycryptodome.inc
--inherit setuptools3
--
--SRC_URI[sha256sum] = "428096bbf7a77e207f418dfd4d7c284df8ade81d2dc80f010e92753a3e406ad0"
--
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb
-new file mode 100644
-index 0000000000..a732441a7a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb
-@@ -0,0 +1,5 @@
-+require python-pycryptodome.inc
-+inherit setuptools3
-+
-+SRC_URI[sha256sum] = "12c7343aec5a3b3df5c47265281b12b611f26ec9367b6129199d67da54b768c1"
-+
-diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.11.0.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.12.0.bb
-similarity index 69%
-rename from meta/recipes-devtools/python/python3-pycryptodomex_3.11.0.bb
-rename to meta/recipes-devtools/python/python3-pycryptodomex_3.12.0.bb
-index f1132c21ac..5f88419ce4 100644
---- a/meta/recipes-devtools/python/python3-pycryptodomex_3.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.12.0.bb
-@@ -1,7 +1,7 @@
- require python-pycryptodome.inc
- inherit setuptools3
+ diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-directories.m4
+-index 1430af3a6..6efedc604 100644
++index 2033d47..230166e 100644
+ --- a/config-scripts/cups-directories.m4
+ +++ b/config-scripts/cups-directories.m4
+-@@ -265,7 +265,7 @@ case "$host_os_name" in
+- 	*-gnu)
+- 		# GNUs
+- 		INSTALL_SYSV="install-sysv"
+--		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+-+		CUPS_SERVERBIN="$libexecdir/cups"
+- 		;;
+- 	*bsd* | darwin*)
+- 		# *BSD and Darwin (macOS)
+-@@ -275,7 +275,7 @@ case "$host_os_name" in
+- 	*)
+- 		# All others
+- 		INSTALL_SYSV="install-sysv"
+--		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+-+		CUPS_SERVERBIN="$libexecdir/cups"
+- 		;;
+- esac
+- 
+\ No newline at end of file
++@@ -239,7 +239,7 @@ AC_SUBST([CUPS_REQUESTS])
++ AS_CASE(["$host_os_name"], [*-gnu], [
++     # GNUs
++     INSTALL_SYSV="install-sysv"
++-    CUPS_SERVERBIN="$exec_prefix/lib/cups"
+++    CUPS_SERVERBIN="$libexecdir/cups"
++ ], [*bsd* | darwin*], [
++     # *BSD and Darwin (macOS)
++     INSTALL_SYSV=""
++@@ -247,7 +247,7 @@ AS_CASE(["$host_os_name"], [*-gnu], [
++ ], [*], [
++     # All others
++     INSTALL_SYSV="install-sysv"
++-    CUPS_SERVERBIN="$exec_prefix/lib/cups"
+++    CUPS_SERVERBIN="$libexecdir/cups"
++ ])
++ 
++ AC_DEFINE_UNQUOTED([CUPS_SERVERBIN], ["$CUPS_SERVERBIN"], [Location of server programs.])
+diff --git a/meta/recipes-extended/cups/cups_2.3.3op2.bb b/meta/recipes-extended/cups/cups_2.4.0.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.3.3op2.bb
+rename to meta/recipes-extended/cups/cups_2.4.0.bb
+index fc2aa702f5..42be34c4f3 100644
+--- a/meta/recipes-extended/cups/cups_2.3.3op2.bb
++++ b/meta/recipes-extended/cups/cups_2.4.0.bb
+@@ -2,4 +2,4 @@ require cups.inc
  
--SRC_URI[sha256sum] = "0398366656bb55ebdb1d1d493a7175fc48ade449283086db254ac44c7d318d6d"
-+SRC_URI[sha256sum] = "922e9dac0166e4617e5c7980d2cff6912a6eb5cb5c13e7ece222438650bd7f66"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- FILES:${PN}-tests = " \
-     ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
+-SRC_URI[sha256sum] = "deb3575bbe79c0ae963402787f265bfcf8d804a71fc2c94318a74efec86f96df"
++SRC_URI[sha256sum] = "9abecec128ca6847c5bb2d3e3d30c87b782c0697b9acf284d16fa38f80a3a6de"
 -- 
 2.20.1
 
