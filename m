@@ -1,98 +1,89 @@
-Return-Path: <abrodkin@synopsys.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 371F8C433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 16:02:57 +0000 (UTC)
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.87.133])
- by mx.groups.io with SMTP id smtpd.web09.68715.1638892971365850631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E2B0C433FE
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 16:36:24 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web12.339.1638894982856611773
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 08:02:52 -0800
+ Tue, 07 Dec 2021 08:36:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@synopsys.com header.s=mail header.b=H9F1KTKi;
- spf=pass (domain: synopsys.com, ip: 149.117.87.133,
- mailfrom: alexey.brodkin@synopsys.com)
-Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
- [10.192.0.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 15711C15C9;
-	Tue,  7 Dec 2021 16:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1638892971; bh=P62qdX/l7dChA+9BP9l5YcQucCvyVPRPBnhMjKuW1pE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=H9F1KTKiiiLyMxx98FBZCFFHLTml0Qz+xsgpM3rY+1h8GthjInZm8hsL3P5y7UZ/+
-	 EYjbts2H8n2CJfF2dzJaH1sKQakHlY0TfZrRzy7qKc6LOSreMT0+q9//WCokcAX2PW
-	 9AjqQ5wPmYsY4mxEInCbhf1mCajC6kJ3GyracNiNRSx/0XClI0p1H4S8SoTizuqTLi
-	 miNyV+9AKajYNU4L5KoUfHekODZD/aZz+Vjblqrcu3T29ZYNdOJ4dhy3MpPKvZr1I3
-	 BrzEycKVazaSNoh10wEKWwq+c75xI+bHc2U08xYAVjNnIBG4a/ttM/R6ynNHvrgn7H
-	 aA6a2GMbOiRjQ==
-Received: from us01odcres-abrodkin-0009.internal.synopsys.com
- (us01odcres-abrodkin-0009.sg.us01-p01.synopsys.com [10.195.24.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(Client did not present a certificate)
-	by mailhost.synopsys.com (Postfix) with ESMTPSA id ED80CA005C;
-	Tue,  7 Dec 2021 16:02:49 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From: Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To: openembedded-core@lists.openembedded.org
-Cc: linux-snps-arc@lists.infradead.org,
-	Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-Subject: [PATCH] openssl: Use linux-latomic target for ARC
-Date: Tue,  7 Dec 2021 08:02:41 -0800
-Message-Id: <20211207160241.16841-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.16.2
+ dkim=missing;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 9C1B0C0005;
+	Tue,  7 Dec 2021 16:36:20 +0000 (UTC)
+Subject: Re: [yocto] Help with Inclusive Language in OpenEmbedded/Yocto
+ Project
+To: Jon Mason <jdmason@kudzu.us>, yocto@lists.yoctoproject.org,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+References: 
+ <CAPoiz9zni1rhmpFP+YOeseYyaT7BJGE_oZjYbDicWiYo5x0_eA@mail.gmail.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+Message-ID: <27a273bd-3e0e-35bd-5d9a-e6a1c7922e9c@bootlin.com>
+Date: Tue, 7 Dec 2021 17:36:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: 
+ <CAPoiz9zni1rhmpFP+YOeseYyaT7BJGE_oZjYbDicWiYo5x0_eA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 16:02:57 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 16:36:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159312
+ https://lists.openembedded.org/g/openembedded-core/message/159313
 
-Some atomic ops for 32-bit ARC processors are implemented in GCC's libatomic.
-For example those dealing with 64-bit data (e.g. __atomic_load_8()) as well as
-some others. That said it's required to add "-latomic" for successful linkage.
+Hi Jon,
 
-Otherwise error messages like this happen on OpenSSL building for ARC:
-------------------------------->8------------------------------
-| ...ld: libcrypto.a(libcrypto-lib-threads_pthread.o): in function `CRYPTO_atomic_or':
-| .../openssl-3.0.0/crypto/threads_pthread.c:219: undefined reference to `__atomic_is_lock_free'
-| ...ld: .../openssl-3.0.0/crypto/threads_pthread.c:219: undefined reference to `__atomic_is_lock_free'
-| ...ld: .../openssl-3.0.0/crypto/threads_pthread.c:220: undefined reference to `__atomic_fetch_or_8'
-------------------------------->8------------------------------
+On 12/7/21 2:01 AM, Jon Mason wrote:
+> This email is a follow-up from the session held on Friday at the
+> OpenEmbedded Developer's Virtual Meeting (see
+> https://www.openembedded.org/wiki/OEDVM_Nov_2021)
+>
+> The session was not recorded, but the slides can be found at
+> https://docs.google.com/presentation/d/146ueVVTMeA8JI43wqv5kFmdYEygqqmfGH0z1VRL2bDA/edit?usp=sharing
+>
+> The outcome from the discussion was that inclusive language changes
+> are something that we want to accomplish in the kirkstone release
+> timeframe (with an exception for the "master" branch name, which will
+> be handled at a future date).
+>
+> There has already been a pass at collecting the needed changes at
+> https://wiki.yoctoproject.org/wiki/Inclusive_language
+>
+> This is not as simple as a find/replace of offending words.  There is
+> a desire for backward compatibility or to provide some kind of "you
+> want X, which is now Y" (which complicates things).
+>
+> The intention of this email is to see who is interested in helping
+> out.  Once we know how many people are available and what time frames,
+> we can plan out a roadmap.  So, please email me (or respond to this
+> thread publicly) and I'll add you to the list.  There will then be a
+> follow-up zoom call in the next week or so to plan out the roadmap.
+>
+> We will document the roadmap and everything else on the YP wiki page above.
+>
+> Questions and comments are welcome, but not interested in debating the
+> necessity or timeframe of this task.  It has already been decided.
 
-Fix that by using a special target, which does exactly what's needed.
-See [1] and [2] for more details on the matter.
 
-[1] https://github.com/openssl/openssl/commit/cdf2986a70d92668d882eb29737225f1aaafd0f1
-[2] https://github.com/openssl/openssl/pull/15640
+Definitely interested. I had already started contributing to
+https://wiki.yoctoproject.org/wiki/Inclusive_language. Count me in.
+Thanks
+Michael.
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
----
-
-Please pardon that re-send as initially I erroneously
-sent it to OE-devel. Sending it to the right one now!
-
----
- meta/recipes-connectivity/openssl/openssl_3.0.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.0.bb b/meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-index 4b1ae71a85..da73ed6bc3 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-@@ -70,6 +70,9 @@ do_configure () {
- 	esac
- 	target="$os-${HOST_ARCH}"
- 	case $target in
-+	linux-arc)
-+		target=linux-latomic
-+		;;
- 	linux-arm*)
- 		target=linux-armv4
- 		;;
 -- 
-2.16.2
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
