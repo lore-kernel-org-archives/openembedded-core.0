@@ -2,75 +2,74 @@ Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63AE1C433F5
-	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 15:05:24 +0000 (UTC)
-Received: from mail1.bemta32.sdw.messagelabs.com
- (mail1.bemta32.sdw.messagelabs.com [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web10.52742.1638803123190937096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C891C4167B
+	for <webhook@archiver.kernel.org>; Mon,  6 Dec 2021 15:06:19 +0000 (UTC)
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web08.52779.1638803178140333323
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 07:05:23 -0800
+ Mon, 06 Dec 2021 07:06:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=GQRuamay;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=dDtpw0I1;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: zhengrq.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1638803121; i=@fujitsu.com;
-	bh=bPYOt3YebQWRuZcadp4Aey+dU+utmSaevEFkfdV2Ahc=;
+	s=170520fj; t=1638803176; i=@fujitsu.com;
+	bh=nyt9VWthrGXPJdCgymjk1ksYq0W5HgaEVpLjl6PCcew=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=GQRuamayk8p81/Zli2bPUu/r9jB4O7dZsc/j/CvlNPHusi+T2jqAUBGDAf9pRvBWv
-	 rNjl+fh72YGB+M665ZX8qFKfWlJAp6Y1cd6ly4znVdL28/SC/5wx/Ggy0dai6h9FHJ
-	 0p4J2xLoA2tjCIKiaw+EA9vp4vjeRiD6s2lzsbO1QgZZOGDbyTqvv4x7RfYN7Y2C1Q
-	 pfAgMLS5dMoc2H2sbAwcBwpe1morX1aIgVCWMqNdqLzPQEMLtdF8bh+bCuFp4u6aTx
-	 IaSnFWj7kOyF6b23EH8ZbTpL+gIPBLKy/cwubVbI7fBkc1A1PAuUfqj4rrS3UXGdzK
-	 MrI1rx6CxkZcg==
-Received: from [100.115.1.47] (using TLSv1.2 with cipher
+	b=dDtpw0I1ukNAHtdA5O/DfvUoIL2hvyR4KvmrbYvhTmpTcR21g5Q/l6wawhCJK3ti1
+	 dALIfO7+fDLHYQCNrZiFiCTrk85wtPw6zuLRPrS8mFeVNqnbkxwv/r731De7SMNJDH
+	 EB3hv0spR4SooicedbKFeA3TewBIZCXntF6rOiQAGtl2t0x/sL0wf7ltsk/fZ3xyU+
+	 g+5AlFkVMODDHRwRvovokjEhnDbu3vGTmK1PXO/Vd8tJB6AH7TCo9BbZCmZGPY8JZN
+	 ua1L7I1LIIdfao6d9FMkKlrOiWPq+vKOqMIM/9njD5DzaTLH2lecj9+urlTYeQQtZr
+	 +lRqHuiNPkNSw==
+Received: from [100.113.1.109] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 40/3F-20904-0B62EA16;
- Mon, 06 Dec 2021 15:05:20 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRWlGSWpSXmKPExsViZ8MxSXeD2rp
-  Eg9nXlC3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oyjfyQL1qtVLF99nbGB8a1CFyMXh5DAY0aJ
-  6ze7mLsYOYGc80wSz1sMIOzdjBLvLkqC2GwCuhLnHq9l72Lk4BAR0JO4+k8UJCwsYCOxYcNVF
-  hCbRUBF4sy2PjCbV8Bd4svmHYwgtoSAgsSUh++ZIeKCEidnPgGrYRaQkDj44gUzyEgJAUWJ2d
-  PlIcorJF4fvsQMYatJXD23iXkCI98sJN2zkHQvYGRaxWiVVJSZnlGSm5iZo2toYKBraGiqa6B
-  rZGiql1ilm6iXWqpbnlpcomuol1herJdaXKxXXJmbnJOil5dasokRGHQpxQzXdzBO7Pupd4hR
-  koNJSZTXQ2xdohBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3v0qQDnBotT01Iq0zBxgBMCkJTh4l
-  ER4NygBpXmLCxJzizPTIVKnGI05Tq5asoiZo3nS8u3MQix5+XmpUuK8R1WBSgVASjNK8+AGwS
-  LzEqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3vkgU3gy80rg9r0COoUJ6JSY/tUgp5QkIqS
-  kGpj4nkdMU/mdpHU07Lv0Ie0opTqrHRHVRmc/XjNwe6h/p/172TLekz/+Xtu6WOLCkh/va5el
-  /cjpVF6cGf+adfrXV6/E29cJFSveP3/3UU/jnFMyPill8Z+bnsTPE5O0Oup0RGWuRW4b8yGHB
-  JOTFbH5Efxr2gMazRkNVe2nhe/c58NrnSmsced5T94ZEc7kKhapfYEnPiqEiid5WqxRvT4z6a
-  BDzR37LV+LVklYTK+wmBV34PzEdyKef2cU7RJs2Dx156zvkZwfQnrCmQy9/WZ/inXftWdtysL
-  td+6t/R00PeTkpphP3H+nmyjwW6UElffdvRRXxi56OmnPkq4WLtHFa7+KGqX1uVcdObSKLUeJ
-  pTgj0VCLuag4EQA4aARpRwMAAA==
+	by server-1.bemta.az-a.eu-central-1.aws.symcld.net id 7C/9E-29929-8E62EA16;
+ Mon, 06 Dec 2021 15:06:16 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MxSfe52rp
+  Eg5c3lS3u/HzH7sDocW7jCsYAxijWzLyk/IoE1ozHyxawFRznq3j2cTNTA+Ns3i5GLg4hgceM
+  EivPv2SEcM4zSey4tAHK2c0ocfl6P0sXIycHm4CuxLnHa9m7GDk4RAT0JK7+EwUJCwuYS3xYe
+  JQRxGYRUJG43L2BHcTmFXCXmPJgJiuILSGgIDHl4XtmiLigxMmZT8BGMgtISBx88YIZZKSEgK
+  LE7OnyEOUVEq8PX2KGsNUkrp7bxDyBkW8Wku5ZSLoXMDKtYrRIKspMzyjJTczM0TU0MNA1NDT
+  WNdQ1NdRLrNJN1Est1U1OzSspSgRK6iWWF+sVV+Ym56To5aWWbGIEhl1KIaPxDsaDrz/oHWKU
+  5GBSEuX1EFuXKMSXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mCd78KUE6wKDU9tSItMwcYAzBpCQ4eJ
+  RHeDUpAad7igsTc4sx0iNQpRkUpcd6jqkAJAZBERmkeXBss7i4xykoJ8zIyMDAI8RSkFuVmlq
+  DKv2IU52BUEua9BTKFJzOvBG76K6DFTECLY/pXgywuSURISTUwBbbsmBpup1HqtE3taPJ7gfq
+  7S480pdQxid7tajp0XmqKk8uC5b/fMZlsZu7rk1mY+OTeW8s3fw1+xGa+lzCpPlr25rfrpITt
+  acwBrHGmBd3/TC81nlofujKdTVlfMmy6+B6jp9tX/Zyl195jyuYl3/HiUaKweVfFvdsMCnwSs
+  fuvTbHOLJVnX7Hp/auE2KLjwhcvyhn/4ap+wRaxUNj4wB6upClHbmle5GU1s5wwve1w4X/vZW
+  +qb/FZn7qr/oNtZwdz73UL/fotXQ9uf7mpstqo+OzLhFVlmc059j+8NrZv1knb4DX3qXve1T+
+  Z2rvub5YsTk45m6/+YWbjKx2/bS0Vmx49CqlkYstKzjykxFKckWioxVxUnAgAUbv1YTYDAAA=
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-13.tower-587.messagelabs.com!1638803120!17197!1
+X-Msg-Ref: server-9.tower-228.messagelabs.com!1638803175!233637!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.81.7; banners=-,-,-
+X-StarScan-Version: 9.81.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 22655 invoked from network); 6 Dec 2021 15:05:20 -0000
+Received: (qmail 1993 invoked from network); 6 Dec 2021 15:06:15 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-13.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 6 Dec 2021 15:05:20 -0000
+  by server-9.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 6 Dec 2021 15:06:15 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 1FB1610045A
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 2193F100458
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  6 Dec 2021 15:05:20 +0000 (GMT)
+ Mon,  6 Dec 2021 15:06:15 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 1008C100456
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 1473D10032A
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  6 Dec 2021 15:05:20 +0000 (GMT)
+ Mon,  6 Dec 2021 15:06:15 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 6 Dec 2021 15:05:14 +0000
+ (TLS) id 15.0.1497.26; Mon, 6 Dec 2021 15:05:54 +0000
 From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libsdl2: upgrade 2.0.16 -> 2.0.18
-Date: Tue, 7 Dec 2021 08:05:01 +0800
-Message-ID: <1638835501-3733-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] opkg: upgrade 0.4.5 -> 0.5.0
+Date: Tue, 7 Dec 2021 08:05:41 +0800
+Message-ID: <1638835541-3789-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -81,90 +80,47 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 15:05:24 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Dec 2021 15:06:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159233
+ https://lists.openembedded.org/g/openembedded-core/message/159234
 
-Remove unsupported option "--enable-sdl-dlopen".
-
-Changelog:
-=======================
-
-General:
-
-The SDL wiki documentation and development headers are automatically kept in sync
-Each function has information about in which version of SDL it was introduced
-SDL-specific CMake options are now prefixed with 'SDL_'. Be sure to update your CMake build scripts accordingly!
-Added the hint SDL_HINT_APP_NAME to let SDL know the name of your application for various places it might show up in system information
-Added SDL_RenderGeometry() and SDL_RenderGeometryRaw() to allow rendering of arbitrary shapes using the SDL 2D render API
-Added SDL_SetTextureUserData() and SDL_GetTextureUserData() to associate application data with an SDL texture
-Added SDL_RenderWindowToLogical() and SDL_RenderLogicalToWindow() to convert between window coordinates and logical render coordinates
-Added SDL_RenderSetVSync() to change whether a renderer present is synchronized with vblank at runtime
-Added SDL_PremultiplyAlpha() to premultiply alpha on a block of SDL_PIXELFORMAT_ARGB8888 pixels
-Added a window event SDL_WINDOWEVENT_DISPLAY_CHANGED which is sent when a window changes what display it's centered on
-Added SDL_GetWindowICCProfile() to query a window's ICC profile, and a window event SDL_WINDOWEVENT_ICCPROF_CHANGED that is sent when it changes
-Added the hint SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY to allow EGL windows to be transparent instead of opaque
-SDL_WaitEvent() has been redesigned to use less CPU in most cases
-Added SDL_SetWindowMouseRect() and SDL_GetWindowMouseRect() to confine the mouse cursor to an area of a window
-You can now read precise mouse wheel motion using 'preciseX' and 'preciseY' event fields
-Added SDL_GameControllerHasRumble() and SDL_GameControllerHasRumbleTriggers() to query whether a game controller supports rumble
-Added SDL_JoystickHasRumble() and SDL_JoystickHasRumbleTriggers() to query whether a joystick supports rumble
-SDL's hidapi implementation is now available as a public API in SDL_hidapi.h
-Windows:
-
-Improved relative mouse motion over Windows Remote Desktop
-Added the hint SDL_HINT_IME_SHOW_UI to show native UI components instead of hiding them (defaults off)
-Windows/UWP:
-
-WGI is used instead of XInput for better controller support in UWP apps
-Linux:
-
-Added the hint SDL_HINT_SCREENSAVER_INHIBIT_ACTIVITY_NAME to set the activity that's displayed by the system when the screensaver is disabled
-Added the hint SDL_HINT_LINUX_JOYSTICK_CLASSIC to control whether /dev/input/js* or /dev/input/event* are used as joystick devices
-Added the hint SDL_HINT_JOYSTICK_DEVICE to allow the user to specify devices that will be opened in addition to the normal joystick detection
-Added SDL_LinuxSetThreadPriorityAndPolicy() for more control over a thread priority on Linux
-Android:
-
-Added support for audio output and capture using AAudio on Android 8.1 and newer
-Steam Controller support is disabled by default, and can be enabled by setting the hint SDL_HINT_JOYSTICK_HIDAPI_STEAM to "1" before calling SDL_Init()
-Apple Arcade:
-
-Added SDL_GameControllerGetAppleSFSymbolsNameForButton() and SDL_GameControllerGetAppleSFSymbolsNameForAxis() to support Apple Arcade titles
-iOS:
-
-Added documentation that the UIApplicationSupportsIndirectInputEvents key must be set to true in your application's Info.plist in order to get real Bluetooth mouse events.
-Steam Controller support is disabled by default, and can be enabled by setting the hint SDL_HINT_JOYSTICK_HIDAPI_STEAM to "1" before calling SDL_Init()
+Remove unsupported openssl and option --disable-pathfinder
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../libsdl2/{libsdl2_2.0.16.bb => libsdl2_2.0.18.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.16.bb => libsdl2_2.0.18.bb} (96%)
+ meta/recipes-devtools/opkg/{opkg_0.4.5.bb => opkg_0.5.0.bb} | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+ rename meta/recipes-devtools/opkg/{opkg_0.4.5.bb => opkg_0.5.0.bb} (92%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.16.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
-similarity index 96%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.16.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
-index bd7dea275e..5e645b443c 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.16.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
-@@ -22,7 +22,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+diff --git a/meta/recipes-devtools/opkg/opkg_0.4.5.bb b/meta/recipes-devtools/opkg/opkg_0.5.0.bb
+similarity index 92%
+rename from meta/recipes-devtools/opkg/opkg_0.4.5.bb
+rename to meta/recipes-devtools/opkg/opkg_0.5.0.bb
+index 1fe6ed5ecb..bc2ee9728b 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.4.5.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.5.0.bb
+@@ -18,8 +18,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://run-ptest \
+ "
  
- S = "${WORKDIR}/SDL2-${PV}"
+-SRC_URI[md5sum] = "5dc41ad37d88803b5e0f456a9c5a0811"
+-SRC_URI[sha256sum] = "a1214a75fa34fb9228db8da47308e0e711b1c93fd8938cf164c10fd28eb50f1e"
++SRC_URI[sha256sum] = "559c3e1b893abaa1dd473ce3a9a5f7dd3f60ceb6cd14caaef76ddf0f7721ad1c"
  
--SRC_URI[sha256sum] = "65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b"
-+SRC_URI[sha256sum] = "94d40cd73dbfa10bb6eadfbc28f355992bb2d6ef6761ad9d4074eff95ee5711c"
+ # This needs to be before ptest inherit, otherwise all ptest files end packaged
+ # in libopkg package if OPKGLIBDIR == libdir, because default
+@@ -39,11 +38,9 @@ PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,\
+     "
+ PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+ PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+-PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+ PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
  
- inherit autotools lib_package binconfig-disabled pkgconfig
+-EXTRA_OECONF += " --disable-pathfinder"
+ EXTRA_OECONF:class-native = "--localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
  
-@@ -35,7 +35,6 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
-                 --disable-video-dummy \
-                 --disable-video-rpi \
-                 --enable-pthreads \
--                --enable-sdl-dlopen \
-                 --disable-rpath \
-                 --disable-sndio \
-                 --disable-fcitx --disable-ibus \
+ do_install:append () {
 -- 
 2.25.1
 
