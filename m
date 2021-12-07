@@ -1,120 +1,118 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0920BC433F5
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 16:51:20 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.596.1638895878411305820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13759C433EF
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 16:52:12 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web10.624.1638895931571920988
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 08:51:18 -0800
+ Tue, 07 Dec 2021 08:52:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=hYYRImxf;
- spf=pass (domain: burtonini.com, ip: 209.85.128.43,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f43.google.com with SMTP id
- az34-20020a05600c602200b0033bf8662572so2782142wmb.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bxkZMwv9;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id m192so15270694qke.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 08:51:17 -0800 (PST)
+ Tue, 07 Dec 2021 08:52:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CQI6H85wAQKfG8eMt8pISVoaV4rdOnLRlhCEyBoHXmE=;
-        b=hYYRImxf0xjSvi9XXGNhGDeItbtJIbSdq4ifsallMUeFd5x4YuOX2aLXihTDkuXha3
-         SF+FoP2O2RB/+dOkJDGyYa4olJBbChjdK606g7bvRpkpq8OSK5z120hEQw4n6h8cP2uo
-         O0/Ymyo/6xL4PHMuiFg2UmwZAjuAQ6n83lv7KPsVWu2jqKk6r03ZjAXfiwYB3r3A4z2X
-         lHMeLMdc2xATnBhM0bP9uFReX68B67Mk9zOkg/wbufioJdBHx0tdWPWC58H6SK1p3mRT
-         Z1g9sO8E9iGImA0M49ToslOl/B9yoTNPnSiphTXhk4BLDHX2Fa7CUPB+xCUYBcHGeSrM
-         lM2g==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3jB9sEZeqOs3IkRAl8f0R6/Vi5q1JoaR7LuSCUB19RY=;
+        b=bxkZMwv9GU5FnAlwNrhCLPn+plmXBs3T+ZIVlYkrzx8/1lgJ7Hlrym+pxXKEGW3EIw
+         XxF9nC/aW9GpaBxIW829XU7dvmTCIuzbH1777WoPC7Dzcgjff8uMIw/cs8H8W4aFSINl
+         z2RuiB0vmp+IlBJr2B9Gy3kEqrMxuSunp9K3jvsi3o4QpwfMrIoU4IvDa/doeWlTGFIZ
+         1r/TS5GzId4/9r7roQIitgNTjR5y6adZY4DTX7Qk7CZEmmRh2ZZOV/lqdm9+tNPtJ36/
+         hAkWfF8UW98fTwfL9lOMpWya2inilmPLwLX+4tmwcb0+BBeR/sEIBFE+OsTMnGgkWWxX
+         EwVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CQI6H85wAQKfG8eMt8pISVoaV4rdOnLRlhCEyBoHXmE=;
-        b=g/cWmCSRupbqyMQrPslk8/oq27DH246KxTcpHy6Yv5rFcK4uduYol5Zp12ZqBVFQUB
-         ZJZrNzsrcXwM1oWvU1LQvnA4WkHVg96HD6uZcVM/HOBGw7aGVEc1KKVK970b3Tb4dJ5i
-         WBazD0zC1MVhG88EIjnAyi7WPTv6qj6HCeU1d7c+P3lJq4A9pKOaj9gdsIvfmU6OuAO1
-         pqqal1aqTKpZWvNYS2sz7Q3IfwWrrhiPyBMNSIidyYbjV8uTtsPrAhEP18x5vF8QTtXn
-         ve3TCVXJ+zDuC/OWFrdc0MjhTZG9RcVdRXqN+1DqxolYhcpr9xHs9ME+VM3m9iXUWlki
-         i1hQ==
-X-Gm-Message-State: AOAM531kWmQW3EAPhQ/BAlT+NzDmukJdveoTEugb2KrQdJRheirk6re/
-	aQb7ebVpO9HV5QKgCLs4yOAco2voUYNTIsagey/BEw==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3jB9sEZeqOs3IkRAl8f0R6/Vi5q1JoaR7LuSCUB19RY=;
+        b=XdzEeX3CN8IRjQ7I+ZhcyacNP1Te7p5S+xgdSOOWHjPkmCbD9mY0oKyHqeCTCNtJJ1
+         LSd4oBI7Kc9iasZN/3NgS3cJwI1sNBdSNOKgXP8c6NADh9Sxx9GU79kXNGu+PdJLCMQx
+         EYhA9kdH6sj31CH398/kxe6gJSg+6Lf+PWFOXdaotSPi7+uu82ahF3IHo1TtE6pXeaLQ
+         FEobAX++fD6VltsZ9uo7xLf9Q9wMZHBrkKbRwZiiKuv1zndQIpq08epS2aSsDSph+wEu
+         EvS/tqOFvpX9bks6JWJB7+cRTv6oJRJWZRSoWnec1Y3+JKggvBglPe02jLcdNhl9W8Hg
+         1Jyg==
+X-Gm-Message-State: AOAM532neoJwGsu2EEmb+FyKkovOE4pULdynuVhQ8njms4mjRfFVeyza
+	VTisDUbSnkfXuPcka/wyguY=
 X-Google-Smtp-Source: 
- ABdhPJyhk6pez5IpYPJ8t59JG7yyXMZygabX1EfnzrdyA/56//UShP3G7UP8z7+NrNjoFETT0OiEnys2iM4/sWkEOyI=
-X-Received: by 2002:a05:600c:4f96:: with SMTP id
- n22mr8274957wmq.184.1638895876710;
- Tue, 07 Dec 2021 08:51:16 -0800 (PST)
+ ABdhPJzfN3l8k7ZV7Uu18scSroh2Fipn0ewmS0G5oHy0MndQp88GT7Z/FIoMWSNZcwvglyJRjB4JQg==
+X-Received: by 2002:a37:98d:: with SMTP id 135mr345373qkj.166.1638895930487;
+        Tue, 07 Dec 2021 08:52:10 -0800 (PST)
+Received: from build.lan
+ (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id v9sm57536qkf.90.2021.12.07.08.52.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 08:52:10 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] kernel: consolidated pull request
+Date: Tue,  7 Dec 2021 11:52:01 -0500
+Message-Id: <cover.1638895732.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <1638804078-8183-1-git-send-email-wangmy@fujitsu.com>
- <f206d7acc80b1d4f4425898539f06b33dfd091b8.camel@linuxfoundation.org>
-In-Reply-To: 
- <f206d7acc80b1d4f4425898539f06b33dfd091b8.camel@linuxfoundation.org>
-From: Ross Burton <ross@burtonini.com>
-Date: Tue, 7 Dec 2021 16:51:05 +0000
-Message-ID: 
- <CAAnfSTtKWk0njrZQm_a0awBXyRWxGea8GCZ2tzgRfpy96F1zCg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pango: upgrade 1.48.10 -> 1.50.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 16:51:20 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 16:52:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159314
+ https://lists.openembedded.org/g/openembedded-core/message/159315
 
-Not just x32:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2898/steps/12/logs/stdio
+Richard,
 
-Ross
+Here's the next set of -stable updates, a -dev kernel branching tweak
+(as discussed on the mailing list) and the kernel tools that I presented
+during the YP summit.
 
-On Tue, 7 Dec 2021 at 13:36, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2021-12-06 at 23:21 +0800, wangmy wrote:
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  .../pango/{pango_1.48.10.bb => pango_1.50.0.bb}                 | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-graphics/pango/{pango_1.48.10.bb => pango_1.50.0.bb} (94%)
-> >
-> > diff --git a/meta/recipes-graphics/pango/pango_1.48.10.bb b/meta/recipes-graphics/pango/pango_1.50.0.bb
-> > similarity index 94%
-> > rename from meta/recipes-graphics/pango/pango_1.48.10.bb
-> > rename to meta/recipes-graphics/pango/pango_1.50.0.bb
-> > index 40df7042e6..db17158d20 100644
-> > --- a/meta/recipes-graphics/pango/pango_1.48.10.bb
-> > +++ b/meta/recipes-graphics/pango/pango_1.50.0.bb
-> > @@ -20,7 +20,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
-> >
-> >  SRC_URI += "file://run-ptest"
-> >
-> > -SRC_URI[archive.sha256sum] = "21e1f5798bcdfda75eabc4280514b0896ab56f656d4e7e66030b9a2535ecdc98"
-> > +SRC_URI[archive.sha256sum] = "dba8b62ddf86e10f73f93c3d2256b73238b2bcaf87037ca229b40bdc040eb3f3"
-> >
-> >  DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
-> >
->
-> Seems to break x32 unfortunately:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/4403
->
-> Cheers,
->
-> Richard
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159304): https://lists.openembedded.org/g/openembedded-core/message/159304
-> Mute This Topic: https://lists.openembedded.org/mt/87541909/1676615
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+I also have patches to make 5.15 the default kernel for qemu*, but I
+wasn't sure if you wanted those before -m1 or not. Let me know if there's
+interest, and I'll send them along.
+
+Bruce
+
+
+The following changes since commit 6245f65fa300f7f3e4cc13c7fe272a9d16668485:
+
+  gcc: Update patch status submitted->backport (2021-12-06 11:21:52 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/5.15: update to v5.15.5
+  linux-yocto/5.14: update to v5.14.21
+  linux-yocto/5.10: update to v5.10.82
+  linux-yocto/5.15: update to v5.15.6
+  linux-yocto-dev: use versioned branch as default
+  linux-yocto-rt/5.10: update to -rt56
+  kern-tools: bug fixes and kgit-gconfig
+
+ .../kern-tools/kern-tools-native_git.bb       |  4 +--
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.14.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ .../linux/linux-yocto-tiny_5.14.bb            |  8 +++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+ 11 files changed, 62 insertions(+), 62 deletions(-)
+
+-- 
+2.19.1
+
 
