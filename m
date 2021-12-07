@@ -1,149 +1,96 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66185C433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 06:44:27 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web08.63807.1638859464312645467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EDFC433F5
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 08:36:47 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.64550.1638866204788880389
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 22:44:24 -0800
+ Tue, 07 Dec 2021 00:36:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Xdo6x695;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id p3so12235286qvj.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=o4OUNkFh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id v1so53891620edx.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 22:44:24 -0800 (PST)
+ Tue, 07 Dec 2021 00:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jxLa8c37M47dhzR3rCmaCwcQre5kQL1z30L9BU3WLV4=;
-        b=Xdo6x695Tb2BGcXgZPacXXvPU+pGPMHZ1+5KY3q0hgPCozjfTuX+pjSzJvt7+dhhTc
-         ilgsx+WfvhemFsyZHlEBL0a1MOsjqvR7AMqQwatLDwlGgHhs2pKahk13WUHqFp1aBBXv
-         x5uy2is0+fW4KmLsXiTgtmnFYwoNI6SzF6r/UGs3I6EBb5g8fFm3tfVdI09WKDpRxIzh
-         v2hdb74Q1vyizdMqA8vORdUin12EvRKBjXV+o5TOmAKro5gfCZmh4rUTZKCQBxCH/NSl
-         OeiMYUiefpLFweXmesvkd2JP8D4MTTaXgbsEWstfdDoVMkWUb5ZqkPIcpqPUrhQV/30L
-         14Vg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xYG30e9rgmVrb9m9rbDsktfaPRWT/XngDRJKHJlG6JM=;
+        b=o4OUNkFhool16xv10CJ87UCFU5QakZcKEN1cu5Qso1NoWiZfFKUxqk2lxn5jf6Qa71
+         JDzdxbw/62TxHNg3xVJOhLfLBu9cUZeevWzBPSkx7QR7edNSh0RMJ5gGITUfPS5hKHeR
+         9bmxK164JOehowF432UbdXf6D1R2ZtCZdKBG4VklNIdfTrKqHNllPbSaAVFBqRo/2ocM
+         pfz6aBlDid9BU0NG22QQJa1pcqsC6UknIZ3T7VNLxuV0obaeagTeQ0pvg0kGjp9ezFIN
+         Ek0/guJ5zysliidkoA/i2ZPo9nd5QBo+5jeyEvM7xswZth1S49S17bFadLhi602kqvWH
+         NLBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jxLa8c37M47dhzR3rCmaCwcQre5kQL1z30L9BU3WLV4=;
-        b=KqJxrUICNnVD4Ai5FiAZZabCjAeV39xhYqO946PTMfcFJybeDDK7B+fn+CdDdTRcbe
-         0pXyh5wGfSmHa6MITkipRyB/fuprwQ6SNTqFbiHAi4VuN4ZNNGCeDG6MISe1WKIVL9lg
-         uoUzNb9U6xcXKrO/UWBxMoOAHDCkh5HnOuqjqa/SKq69ai1CT1QrFSI1DvHiuvkX5fy5
-         X6tr0PckykSIzWoWiK1X802/JyISa/d1jsi0wxJpif4HkRhxD8Gg1BSLOuMCAGSg5EW5
-         o5GX/z+t1IPaQeuR5dxgnRF+kxM7bOBHcb17bSM1/UONP3u6oXt4ZNK/qJxxZLWjD8Iz
-         /0wA==
-X-Gm-Message-State: AOAM530O7s8wj4E2Wau2OpN8i+e3n8RTd/pW/jXMyHd4qgEJmE5nZeTa
-	2uD3pXP45H9RjKNbO+G9xDJX2c88/Uky+zZRGLk=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xYG30e9rgmVrb9m9rbDsktfaPRWT/XngDRJKHJlG6JM=;
+        b=nbbP4+vs4i0Ub8nE9u2S79fWdyhK4v4XxE29WVgUQDsf0Iok/WC3Uf/u9iEHeHrBst
+         1Eefttw7UZAv3vRK17V8htRnzZtzL8GmljtoGCavi2twTPE+FwwdxmHl3syvJztCsbGk
+         2EIGPD8nQvkW1gRhIF/DzuHfgpWGr7SVeJbqCRemikux+B9zHVaHH4niqkQFO2tqjR47
+         opG9bpxpM4bM5tOv2XbMrvATIMwvuWa6lNNVdvWt7oqpXpWxxDqg590DLOwIQPQkVmQP
+         M99AmUDCB8fxp3O1A9yga9O4AFu7TDOrNI6VZW4eugcUZSK5iTR4Q37+eTvufvvMrWRM
+         Kesw==
+X-Gm-Message-State: AOAM531A9Gzaf2pE79mowpOYclzJgq1lCF7DjOyK8qDLmlnjoEi24IcP
+	Jfr8OXK+k5rqQfgDFOtQWiKh1CLc+efeiA==
 X-Google-Smtp-Source: 
- ABdhPJzJ5VJ45ZzolgOfWbOfWGfQsXhSQLhT5HaDfbTUgbL9D9OlRgnHS1V9+KjXcdJKxuWaHsAGuUvNnM2r4AAuH5w=
-X-Received: by 2002:a05:6214:c83:: with SMTP id
- r3mr43066375qvr.110.1638859463402;
- Mon, 06 Dec 2021 22:44:23 -0800 (PST)
+ ABdhPJzQl/oVtdQ1o40gSy8IuOKuMzr5+XJwdm1xHTO0nrxoD0SEKQbdN7Za36oTM6JJTbKWfMkFww==
+X-Received: by 2002:a50:8d47:: with SMTP id t7mr6854617edt.14.1638866202833;
+        Tue, 07 Dec 2021 00:36:42 -0800 (PST)
+Received: from md2ramxc.ad001.siemens.net ([62.32.0.69])
+        by smtp.gmail.com with ESMTPSA id
+ dz18sm10289335edb.74.2021.12.07.00.36.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 00:36:42 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] qemuboot.bbclass: do_write_qemuboot_conf after wic
+Date: Tue,  7 Dec 2021 09:36:05 +0100
+Message-Id: <20211207083605.845470-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211206124721.3899116-1-ross.burton@arm.com>
-In-Reply-To: <20211206124721.3899116-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Dec 2021 22:43:56 -0800
-Message-ID: 
- <CAMKF1sowYkumsC-DuphC3UxAEtWPsnEohYnkunct2iQFnaJH0w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tcf-agent: cleanup patches
-To: Ross Burton <ross@burtonini.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 06:44:27 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 08:36:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159282
+ https://lists.openembedded.org/g/openembedded-core/message/159283
 
-On Mon, Dec 6, 2021 at 4:47 AM Ross Burton <ross@burtonini.com> wrote:
->
-> ldflags.patch isn't really suitable for upstream, so mark inappropriate.
->
-> fix_ranlib.patch has been rebased into uselessness over time, it's now
-> setting RANLIB to just '$@' which expands to '' when called, so is a
-> null operation.
+Allow to run do_write_qemuboot_conf later. The use case is to create a
+cryptographically signed firmware image with wic and boot it with
+runqemu. The signatures are generated by wic and forwarded to runqemu.
+Therefore do_write_qemuboot_conf must be allowed to run after
+do_image_wic.
 
-this works with gcc-ranlib wrapper only which expands $@ shell array,
-but it will fail if RANLIB was set to <cross>-ranlib or
-<cross>-llvn-ranlib has same behaviour
-so IMO  this patch should be kept for portability reasons.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/classes/qemuboot.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  .../tcf-agent/tcf-agent/fix_ranlib.patch        | 17 -----------------
->  .../tcf-agent/tcf-agent/ldflags.patch           |  6 +++++-
->  .../recipes-devtools/tcf-agent/tcf-agent_git.bb |  1 -
->  3 files changed, 5 insertions(+), 19 deletions(-)
->  delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
->
-> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
-> deleted file mode 100644
-> index abd33babeb..0000000000
-> --- a/meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -Actually pass the arguments to RANLIB.
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -Index: agent/Makefile.inc
-> -===================================================================
-> ---- a/Makefile.inc
-> -+++ b/Makefile.inc
-> -@@ -92,6 +92,7 @@ ifeq ($(OPSYS),GNU/Linux)
-> -     OPTS += -DUSE_uuid_generate=0
-> -   endif
-> -   OPTS += -DENABLE_arch_$(shell uname -m)
-> -+  RANLIB += $@
-> - endif
-> -
-> - ifneq ($(OPSYS),Windows)
-> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-> index c03c55d22b..dfe492091c 100644
-> --- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-> @@ -1,4 +1,8 @@
-> -Upstream-Status: Pending
-> +We need LDFLAGS to be respected otherwise there are QA warnings as the right
-> +flags don't get used.
-> +
-> +Upstream-Status: Inappropriate
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
->
->  From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
->  From: Abdur Rehman <abdur_rehman@mentor.com>
-> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-> index d6d563d8e7..0d627f4e23 100644
-> --- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-> @@ -11,7 +11,6 @@ PV = "1.7.0+git${SRCPV}"
->
->  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
->  SRC_URI = "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protocol=https;branch=master \
-> -           file://fix_ranlib.patch \
->             file://ldflags.patch \
->             file://tcf-agent.init \
->             file://tcf-agent.service \
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159226): https://lists.openembedded.org/g/openembedded-core/message/159226
-> Mute This Topic: https://lists.openembedded.org/mt/87538834/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 7a5afe0c1d..12c5501a99 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -89,7 +89,7 @@ QB_ROOTFS_EXTRA_OPT ?= ""
+ QB_DRIVE_TYPE ?= "/dev/sd"
+ 
+ # Create qemuboot.conf
+-addtask do_write_qemuboot_conf after do_rootfs before do_image
++addtask do_write_qemuboot_conf after do_rootfs before do_image_complete
+ IMGDEPLOYDIR ?= "${WORKDIR}/deploy-${PN}-image-complete"
+ 
+ def qemuboot_vars(d):
+-- 
+2.31.1
+
 
