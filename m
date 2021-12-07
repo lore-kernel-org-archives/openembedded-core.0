@@ -1,100 +1,138 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE79CC433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 18:47:42 +0000 (UTC)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
- [209.85.221.169])
- by mx.groups.io with SMTP id smtpd.web09.1268.1638902862234694842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9252BC433F5
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 19:24:58 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.1722.1638905097888982882
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 10:47:42 -0800
+ Tue, 07 Dec 2021 11:24:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BK4zvejb;
- spf=pass (domain: gmail.com, ip: 209.85.221.169,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f169.google.com with SMTP id h1so23669vkh.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pQG9uXQj;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id g16so6346998pgi.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 10:47:42 -0800 (PST)
+ Tue, 07 Dec 2021 11:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s4LSMnaNrdUE4+zvIu0Xy+2VC28srl04xnJwC963sY4=;
-        b=BK4zvejbaa4frM9kXTq1oWR00/DHxeEG8RmZrlpS0wwae5AjA/WlW3GLbpHhPlj2tt
-         4wOi9mDdX+Ge7VUqM22KAzb+J48Vdr9fHlwr7HQf56RUE9FnEBKXpOaejvH86LenC0th
-         CNr6tBxe+2JFi3hQIhIyeTEA2qPa82juNSSGD7BzCFypQt4SLOvICkLwQs1B91o+PaOe
-         1hj6cLhYmj2aoCx8XpgVznqQ6omXQHYUYB94EHZr2pQ25i56+egSKz0TfRfu4kYtkEok
-         mKHMQ1zCDbXzpEG9y/5UldFPTe/R4MuPqa4CJWEzVHirXuMfjIhpObj0IAbT7VqpSDKM
-         +pEQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uTE8Yvdd3OvpCRDOQU662lSCd/VLfOb6LQTJIxLSnso=;
+        b=pQG9uXQjAhRHc2yrstuoiy41fBrxbVlBhrl8y7UHJ48LmhMX4SC1XBbD+A7m6Yc/DS
+         1bqtSOIqWkFX9BRCfZ5EaCzmG2AGGYB6IFx0hAn7yYMtIivXvd0yH79IbiAm5zGcs6Wf
+         OM8daha35ofIuU7x2UbcwuRjNcBeULjzt4QCD9TGK8fCSIMoREaKCWJ6zJ9RSUun3MqD
+         D0wWpP/7S9stXeaBYeGgbmhesSCoU3PonTRltP3VaG6GpqyvssY9qc2vgi5Loni2ZVGl
+         i7Rg914bAHAGmLRlzeFDJsIQBozO+eInmK97401vtkSZnBqPn/QDsrrjObMZGURGf+uF
+         xVyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s4LSMnaNrdUE4+zvIu0Xy+2VC28srl04xnJwC963sY4=;
-        b=akm54NGlHe+MvE/Al5u2MCPUZnu7LkqHOoJ06SYqKjYdpfah8aOYN4mcO1xuhrj/i0
-         4HVPv0KkzJTqkKyeVfwKgGcewmjPl1UoHX95YJP3spS9vsyBBZpJC/ySx2AHMDwyhsWu
-         twk7mOO9C5mcgvsrM6zmUMb5gRMNxXc70xcy1n5PQarlxAZQLhft27/OvDfEKh5jxMIA
-         H5rQtIeTptvGuhBSYTEBI/lc/7ALAv9Rs4Q37QHPXD96i1PlUV2RkAh+d49ynPlV/LQ7
-         tbuAyoEJ3syoySFes1DFFXWP0eIxo/rq2Ax+P5f2kr3oaLyWfxbz0eTab/qEHdwnjP3/
-         iwVQ==
-X-Gm-Message-State: AOAM532kKs8d1+5EVmlb8wAq1QYgQruz5xRojVRk0+tqacBV/DGdJMcb
-	u86qDZ+0ln6s4VtleCX5aXBN/GQtSMZ+ajvi8xc=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uTE8Yvdd3OvpCRDOQU662lSCd/VLfOb6LQTJIxLSnso=;
+        b=Iyn+7T3x2qZivQQZ4Xwv4T7xozSlXmu4Rn62PNMsPkNkwRzJ9SxiL5MbETpQLH58A6
+         /ktIzwaiLF7wY9wVujv8vyuq0B2v5foGw/hQH2f/3a5xR2NFKL7GXPQbnZvAqwrsHBeB
+         o1GadsIJ/bewvNawX2YQU2TzIp7cowDmHSgsVitf56CJBliNCS+mOfuJQzjNffDe+wCc
+         2ZgIy2IP4Do6f0YJ7Uh3jXctqVkrPu8vDcWH2sLOAeH0zGZsZ0kLaTkMn7zyXTsui7m4
+         dv/M6KBa8GEn8oQNv+/lnueBOZU0kQBjyBa2zOOVpwogwtIsRBRKDg09Ej80r7+eMeWd
+         a9yw==
+X-Gm-Message-State: AOAM530EJW1zSdTU8ovEqBPAskkrXjaLeZ/ddw6N3CJ7f/5t589ClPfP
+	+wcPK6itOMc+GYn0Wl6d7HS6S4MGZZPxjg==
 X-Google-Smtp-Source: 
- ABdhPJwwVIIs3LTfO86O/6+RvqHGXRkSyYwpkCYyJ+idkJRfJ+YwKVrfpAsoUR27G84jwpZq1KDL4cNmIUox4vRTpdY=
-X-Received: by 2002:a1f:3f4f:: with SMTP id m76mr55512218vka.1.1638902861402;
- Tue, 07 Dec 2021 10:47:41 -0800 (PST)
+ ABdhPJw/4bFjqfCt8Sf1G3m1+7XmwLqFsn1vjBHwP2ToycMZKF5ku65lQZvu82x776diJRUdjgctdA==
+X-Received: by 2002:a63:4551:: with SMTP id
+ u17mr25907265pgk.568.1638905097045;
+        Tue, 07 Dec 2021 11:24:57 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
+        by smtp.gmail.com with ESMTPSA id y8sm530437pfi.56.2021.12.07.11.24.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 11:24:56 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/3] mesa: Fix broadcom vulkan driver build on 32bit arches
+ with 64bit time_t
+Date: Tue,  7 Dec 2021 11:24:52 -0800
+Message-Id: <20211207192454.477297-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20211207130703.3196805-1-alex@linutronix.de>
- <20211207130703.3196805-15-alex@linutronix.de>
- <CAMKF1so8LTZALn5Fg_o=zKUL6+oBa+Hds0rf5eXH4Fj_ebjrbQ@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1so8LTZALn5Fg_o=zKUL6+oBa+Hds0rf5eXH4Fj_ebjrbQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 7 Dec 2021 19:47:30 +0100
-Message-ID: 
- <CANNYZj-9Atc5fVS836E6HQJ8wP89u5J2pDuB230joVCe9LjBzA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/16] ruby: update 3.0.2 -> 3.0.3
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e0144805d292cec0"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 18:47:42 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 19:24:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159327
+ https://lists.openembedded.org/g/openembedded-core/message/159328
 
---000000000000e0144805d292cec0
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...unt-for-64bit-time_t-on-32bit-arches.patch | 41 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch
 
-On Tue, 7 Dec 2021 at 16:57, Khem Raj <raj.khem@gmail.com> wrote:
+diff --git a/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch b/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch
+new file mode 100644
+index 00000000000..9032eaba0f1
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch
+@@ -0,0 +1,41 @@
++From e2e2fe86dd61b6fae682a1fec31bd0755ced5cd5 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 7 Dec 2021 11:13:27 -0800
++Subject: [PATCH] v3dv: account for 64bit time_t on 32bit arches
++
++This makes is a bit more portable, especially on 32bit architectures
++with 64bit time_t defaults. Especially on musl its a must.
++
++Fixes
++../mesa-21.3.0/src/broadcom/vulkan/v3dv_bo.c:71:15: error: format specifies type 'long' but the argument has type 'time_t' (aka 'long long') [-Werror,-Wformat]
++              time.tv_sec);
++              ^~~~~~~~~~~
++
++Also reported here [1]
++
++[1] https://github.com/agherzan/meta-raspberrypi/issues/969
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/broadcom/vulkan/v3dv_bo.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/broadcom/vulkan/v3dv_bo.c b/src/broadcom/vulkan/v3dv_bo.c
++index 71679ce..dc5e7f5 100644
++--- a/src/broadcom/vulkan/v3dv_bo.c
+++++ b/src/broadcom/vulkan/v3dv_bo.c
++@@ -67,8 +67,8 @@ bo_dump_stats(struct v3dv_device *device)
++ 
++       struct timespec time;
++       clock_gettime(CLOCK_MONOTONIC, &time);
++-      fprintf(stderr, "  now:               %ld\n",
++-              time.tv_sec);
+++      fprintf(stderr, "  now:               %lld\n",
+++              (long long)time.tv_sec);
++    }
++ 
++    if (cache->size_list_size) {
++-- 
++2.34.1
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 30b9e93f630..31ff38dfdca 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,6 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+            file://0001-util-format-Check-for-NEON-before-using-it.patch \
++           file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "a2753c09deef0ba14d35ae8a2ceff3fe5cd13698928c7bb62c2ec8736eb09ce1"
+-- 
+2.34.1
 
-> >  do_install_ptest () {
-> > +    set -x
->
-> I guess this is a remnant of debugging. Perhaps not needed here
->
-
-Thanks, I added a followup patch to my queue.
-
-Alex
-
---000000000000e0144805d292cec0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 7 Dec 2021 at 16:57, Khem Raj &lt;<a href=3D"mailto:raj.khem=
-@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">&gt;=C2=A0 do_install_ptest () {<br>
-&gt; +=C2=A0 =C2=A0 set -x<br>
-<br>
-I guess this is a remnant of debugging. Perhaps not needed here<br></blockq=
-uote><div><br></div><div>Thanks, I added a followup patch to my queue.</div=
-><div><br></div><div>Alex<br></div></div></div>
-
---000000000000e0144805d292cec0--
 
