@@ -2,182 +2,147 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D24BC433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 02:10:12 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web11.61704.1638843011801792222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02552C433EF
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 06:08:22 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web08.63589.1638857298852632417
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 18:10:12 -0800
+ Mon, 06 Dec 2021 22:08:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Bj2PEod2;
- spf=pass (domain: gmail.com, ip: 209.85.160.173,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id p19so12820235qtw.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kG9wyqyv;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id j9so12130687qvm.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 18:10:11 -0800 (PST)
+ Mon, 06 Dec 2021 22:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6ywwhaqeJANeNKAV8paRgW6IFI4u4I8S53qLxNx2lVo=;
-        b=Bj2PEod21N5XVJyTrmGUe5x5I1n43WV0T2ox3PgeXfNWgY/lOtjd6mRJdfdg7UCjF6
-         wuRipyPi07ABXx9wNv2z47W5f48nbtBiFSgTHJJ82eANvqSllPXgodu3upY+9wxFz3O3
-         /NeNiTFi2m0/1p669Utfrju0VCrV5utDmsmvfbLlZZVubmZBoONMLVl+i/5HS+prtJjh
-         mxQ61D+NZFyDI17LWlqmLtDE5aimLoxNxVZDxNgzGzpfxDwpLtDTyuxU4s+iSLUS1EMy
-         /g9/QSVnDn42feFFy0WyOaIp44mcA6SMkNR+byckkeKlFKWAJ5rZ011xXZV+yWYBFO2z
-         ujzQ==
+        bh=RzbyAsqdaD7KhQOnpDwSPehKFXntJ1GJkYISc/gh+24=;
+        b=kG9wyqyv2BfGel6a7HBI3A8rRG36GEIS4SBlLRq8JT8R9g1nN4qHWb1TRd5JmdjqPt
+         CKrNao0swMK/X7ZX98hjFhBrCQBlsQd91BHPONUYnGMkvv+ZlaBYNxCfdJxWlUQnpsUk
+         fat9lT8vemwqr2+tN4XL6k+/Ybgt2XtG0bNntXMw/6CW4TT4DhTGPnsB4dER4K26zdDu
+         AN6J+z+fq3qi4KdoWyzJWFMgiJdQjy1cFsLqpPaiTQJzVksTTL6cojUVmqLS9W0QoRWq
+         fh2lFmda2DP0CdxDNYfMdTzZx1Q61hxpKeCyp9ymico9c7CqFelhZDF7qZg9oZj+mQTa
+         C6Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6ywwhaqeJANeNKAV8paRgW6IFI4u4I8S53qLxNx2lVo=;
-        b=xsmyfdcOVg/EgiPj+y55x5oIDlwaxsdEgGKljsluXYnIKZahNDpdf1UbiQdsVNLP25
-         c6M9QN/kZPC3MfnMGbMpIZGZYG9z8RQIY9nWhUnHgkNihbKyyqdAxDWhlb0GWj8G0ywK
-         +AgkPSMOlSv/PclYkP8+foBtgaSKFuVxSYviijJyRCkTcWqYd8XQ76hBlDfwfDqk+6fv
-         gbfMksY6WYETuQN1SF/2Re75ywL4X9MxfOlmHyn9zs3hLZeBrP8FmsuSQskuDnS9vfjw
-         u1vmSrhJppW0rdomvCjrI4eiq/pBcMSbyG3glix7QLZlYVV3us2Uhf53xw49mzROCJP4
-         QmlQ==
-X-Gm-Message-State: AOAM5339OzUjddafn2AVwbkkKtZ1aQRrN1Ifq3l35Xi7ECGdYSJdHt82
-	xEmu23FneORizWPV1HtcGECEPyLVDDQtkiVHxTYZ4/+D49E=
+        bh=RzbyAsqdaD7KhQOnpDwSPehKFXntJ1GJkYISc/gh+24=;
+        b=G4YxeOlDsvyjvpmAoLqZiAAgMxTb8rRyx5XpM1hlyvXhntAN0nNqEPWQkhosAZtRx1
+         6yUIQurjXdxkjFzcjZJobftvd0oBWaRnlVTR8/YGWdF+QQRUhWEDadL7VheTk/CUYvC/
+         7so82e+/IEDWjzxQ7K3xmBRa7Gn5dRU/NQhSpvl435vewUfqgxaycTHHa8kvsfMdprZM
+         MeQu6aYS4Wr+fR25tiPXGBueN18DZ4Y/Uacjrpahy1MyQlJbZBty7k+b0rXUQtuJ75zX
+         nVOlElnEdo3OVqE0r6X4qO/UA2wCWuPeAObxxzMXJ6f15e/7iWCzFA4jL+YdOkn3KwH5
+         JHbA==
+X-Gm-Message-State: AOAM532Iv5QLMK0ibqp0Ct3ZfBV3noAd78HT5MaIj9NWTHLVMkNfKDED
+	5voxly20EaiB3khvLz4P6JZt+s+SV7rQBG7/pl0=
 X-Google-Smtp-Source: 
- ABdhPJw/XupzxuRWMC4/EG17wDLOLXU0zozQ5pkSiHH3aQ9XoTClzJbHSSkZoBnF9xv88n/5QjfXQHvzB3TqwtGEMoU=
-X-Received: by 2002:a05:622a:346:: with SMTP id
- r6mr44422244qtw.185.1638843010790;
- Mon, 06 Dec 2021 18:10:10 -0800 (PST)
+ ABdhPJwY+hUPQAapG+xbeBj/aOcgN/7kNnNMnAgRIOxCpnZtqYoaYD19cClwK5P6bVIKJjGova1pH9hl2IxXuK9q9cQ=
+X-Received: by 2002:a05:6214:c83:: with SMTP id
+ r3mr42921230qvr.110.1638857297754;
+ Mon, 06 Dec 2021 22:08:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206221418.2281162-1-raj.khem@gmail.com>
- <fafa300be74d5ab50be74489d5d7725d9863bcda.camel@linuxfoundation.org>
- <CAMKF1sqK0Nxp3NBggH7br4K7Qyxx6voMk1rUXJpVhuxBTBSrUQ@mail.gmail.com>
- <61881d47fe575c33b194fc099b9688788e33f1d1.camel@linuxfoundation.org>
-In-Reply-To: 
- <61881d47fe575c33b194fc099b9688788e33f1d1.camel@linuxfoundation.org>
+References: <20211206124721.3899116-1-ross.burton@arm.com>
+In-Reply-To: <20211206124721.3899116-1-ross.burton@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Dec 2021 18:09:59 -0800
+Date: Mon, 6 Dec 2021 22:07:50 -0800
 Message-ID: 
- <CAMKF1so8vh4mPAomuHS2q3s+kzR5h5_MDbs+OBAX+cNykvaXNQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] glibc: Drop fsqrt implementation patches
- for fsl ppc
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008037ce05d284df21"
+ <CAMKF1sohf9rFUAAd8iWr=ZA+br9BAKMLj9oQvF2q2xBFABvFAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] tcf-agent: cleanup patches
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 02:10:12 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 06:08:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159280
+ https://lists.openembedded.org/g/openembedded-core/message/159281
 
---0000000000008037ce05d284df21
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Dec 6, 2021 at 3:32 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Mon, 2021-12-06 at 15:28 -0800, Khem Raj wrote:
-> >
-> >
-> > On Mon, Dec 6, 2021 at 2:51 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > I did test such a patch today as well since we discussed it. I'd
-> propose
-> > > this
-> > > commit message since we need to say why:
-> > >
-> > > """
-> > >
-> > > glibc: Drop ppc sqrt optimisations
-> > >
-> > > OpenEmbedded isn't an upstream or a patch repository. These are
-> > > optimisations
-> > > which for reasons unknown were never merged into upstream glibc. We
-> have no
-> > > active ppc maintainers and these patches are at an evolutionary dead
-> end.
-> > > Since they are optimisations, there may be small performance
-> regressions by
-> > > removing them but OE can't carry patches like this indefinitely and
-> these
-> > > appear to have no future.
-> > > """
-> > >
-> >
-> >
-> > This sounds good to me. I guess will add it to commit or do you want me
-> to
-> > send v2. This passed my local testing on qemuppc
-> >
+On Mon, Dec 6, 2021 at 4:47 AM Ross Burton <ross@burtonini.com> wrote:
 >
-> I can sort if you're ok with it, thanks.
-
-
-Sounds good
-
-
+> ldflags.patch isn't really suitable for upstream, so mark inappropriate.
 >
-> Cheers,
->
-> Richard
->
+> fix_ranlib.patch has been rebased into uselessness over time, it's now
+> setting RANLIB to just '$@' which expands to '' when called, so is a
+> null operation.
 >
 
---0000000000008037ce05d284df21
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+not totally useless. This patch is still useful when using llvm-ar and
+llvm-ranlib see
+https://errors.yoctoproject.org/Errors/Details/618826/
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Dec 6, 2021 at 3:32 PM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddi=
-ng-left:1ex;border-left-color:rgb(204,204,204)">On Mon, 2021-12-06 at 15:28=
- -0800, Khem Raj wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Mon, Dec 6, 2021 at 2:51 PM Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; I did test such a patch today as well since we discussed it. I&#3=
-9;d propose<br>
-&gt; &gt; this<br>
-&gt; &gt; commit message since we need to say why:<br>
-&gt; &gt; <br>
-&gt; &gt; &quot;&quot;&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; glibc: Drop ppc sqrt optimisations<br>
-&gt; &gt; <br>
-&gt; &gt; OpenEmbedded isn&#39;t an upstream or a patch repository. These a=
-re<br>
-&gt; &gt; optimisations<br>
-&gt; &gt; which for reasons unknown were never merged into upstream glibc. =
-We have no<br>
-&gt; &gt; active ppc maintainers and these patches are at an evolutionary d=
-ead end.<br>
-&gt; &gt; Since they are optimisations, there may be small performance regr=
-essions by<br>
-&gt; &gt; removing them but OE can&#39;t carry patches like this indefinite=
-ly and these<br>
-&gt; &gt; appear to have no future.<br>
-&gt; &gt; &quot;&quot;&quot;<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; This sounds good to me. I guess will add it to commit or do you want m=
-e to<br>
-&gt; send v2. This passed my local testing on qemuppc=C2=A0<br>
-&gt; <br>
-<br>
-I can sort if you&#39;re ok with it, thanks.</blockquote><div dir=3D"auto">=
-<br></div><div dir=3D"auto">Sounds good</div><div dir=3D"auto"><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb=
-(204,204,204)" dir=3D"auto"><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---0000000000008037ce05d284df21--
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  .../tcf-agent/tcf-agent/fix_ranlib.patch        | 17 -----------------
+>  .../tcf-agent/tcf-agent/ldflags.patch           |  6 +++++-
+>  .../recipes-devtools/tcf-agent/tcf-agent_git.bb |  1 -
+>  3 files changed, 5 insertions(+), 19 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
+>
+> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
+> deleted file mode 100644
+> index abd33babeb..0000000000
+> --- a/meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -Actually pass the arguments to RANLIB.
+> -
+> -Upstream-Status: Pending
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -Index: agent/Makefile.inc
+> -===================================================================
+> ---- a/Makefile.inc
+> -+++ b/Makefile.inc
+> -@@ -92,6 +92,7 @@ ifeq ($(OPSYS),GNU/Linux)
+> -     OPTS += -DUSE_uuid_generate=0
+> -   endif
+> -   OPTS += -DENABLE_arch_$(shell uname -m)
+> -+  RANLIB += $@
+> - endif
+> -
+> - ifneq ($(OPSYS),Windows)
+> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+> index c03c55d22b..dfe492091c 100644
+> --- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+> @@ -1,4 +1,8 @@
+> -Upstream-Status: Pending
+> +We need LDFLAGS to be respected otherwise there are QA warnings as the right
+> +flags don't get used.
+> +
+> +Upstream-Status: Inappropriate
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+>
+>  From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
+>  From: Abdur Rehman <abdur_rehman@mentor.com>
+> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> index d6d563d8e7..0d627f4e23 100644
+> --- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> @@ -11,7 +11,6 @@ PV = "1.7.0+git${SRCPV}"
+>
+>  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+>  SRC_URI = "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protocol=https;branch=master \
+> -           file://fix_ranlib.patch \
+>             file://ldflags.patch \
+>             file://tcf-agent.init \
+>             file://tcf-agent.service \
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159226): https://lists.openembedded.org/g/openembedded-core/message/159226
+> Mute This Topic: https://lists.openembedded.org/mt/87538834/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
