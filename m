@@ -2,136 +2,1011 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9252BC433F5
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 19:24:58 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.1722.1638905097888982882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 804F9C433EF
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 19:25:00 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web08.1714.1638905099157611981
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 11:24:58 -0800
+ Tue, 07 Dec 2021 11:24:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pQG9uXQj;
- spf=pass (domain: gmail.com, ip: 209.85.215.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id g16so6346998pgi.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f6T8oeTM;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id v23so205332pjr.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 11:24:57 -0800 (PST)
+ Tue, 07 Dec 2021 11:24:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uTE8Yvdd3OvpCRDOQU662lSCd/VLfOb6LQTJIxLSnso=;
-        b=pQG9uXQjAhRHc2yrstuoiy41fBrxbVlBhrl8y7UHJ48LmhMX4SC1XBbD+A7m6Yc/DS
-         1bqtSOIqWkFX9BRCfZ5EaCzmG2AGGYB6IFx0hAn7yYMtIivXvd0yH79IbiAm5zGcs6Wf
-         OM8daha35ofIuU7x2UbcwuRjNcBeULjzt4QCD9TGK8fCSIMoREaKCWJ6zJ9RSUun3MqD
-         D0wWpP/7S9stXeaBYeGgbmhesSCoU3PonTRltP3VaG6GpqyvssY9qc2vgi5Loni2ZVGl
-         i7Rg914bAHAGmLRlzeFDJsIQBozO+eInmK97401vtkSZnBqPn/QDsrrjObMZGURGf+uF
-         xVyA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=U0fV9KcqZbRUiGmJ0qVAgElplDCktSVOwhlhBgljiPU=;
+        b=f6T8oeTM3V2mjlbh3BytYw+SkArrOEC9Im8Q2T5c1Ge6tTI0tN8SApcpjeEB7sUCUn
+         Yh3AJL8rdSU/IxBa8XPquQHw/bz4ko4rjMDeN8f1DVk47I2SENEdONU0xkeX5rAP10Jq
+         yIxCXOKG9WSHXJeWwWumcGn2teLgqkKg1IEOjDVZxNepqYbVXU1c7JNoV1uI0nv/jyJ5
+         GgcDTcxpFNOOOTDgn3xfpGM7qQ08LZy8nydk9aCTR1ReX0Y/3gjc8tDFZG6Avxh1aK7d
+         5sGhp8Qd2YzBhy8oKngB1lb46mbbkM6AvGhm2LJIAFJ7rY6diH5qfQfmgtxg3JB+nNYW
+         UgSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uTE8Yvdd3OvpCRDOQU662lSCd/VLfOb6LQTJIxLSnso=;
-        b=Iyn+7T3x2qZivQQZ4Xwv4T7xozSlXmu4Rn62PNMsPkNkwRzJ9SxiL5MbETpQLH58A6
-         /ktIzwaiLF7wY9wVujv8vyuq0B2v5foGw/hQH2f/3a5xR2NFKL7GXPQbnZvAqwrsHBeB
-         o1GadsIJ/bewvNawX2YQU2TzIp7cowDmHSgsVitf56CJBliNCS+mOfuJQzjNffDe+wCc
-         2ZgIy2IP4Do6f0YJ7Uh3jXctqVkrPu8vDcWH2sLOAeH0zGZsZ0kLaTkMn7zyXTsui7m4
-         dv/M6KBa8GEn8oQNv+/lnueBOZU0kQBjyBa2zOOVpwogwtIsRBRKDg09Ej80r7+eMeWd
-         a9yw==
-X-Gm-Message-State: AOAM530EJW1zSdTU8ovEqBPAskkrXjaLeZ/ddw6N3CJ7f/5t589ClPfP
-	+wcPK6itOMc+GYn0Wl6d7HS6S4MGZZPxjg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=U0fV9KcqZbRUiGmJ0qVAgElplDCktSVOwhlhBgljiPU=;
+        b=evXxUncubJXStpIK+/xoJBy/J17T02pGbXhvNJeVzeRKcshn0jQbQ5dYuqsEoXM4C8
+         3kZShbm8uu/rtxgPH3f+30x3VsLlXZyER8IUi4m9tfuifZMn2P3x5CmYrcRfKzE2FTmz
+         LwtuE+aK3WZ6BGX9zidu6RDWxDdJKHcmhp2kYAFHNMN95h52uiDdZzUeLIvnXlQBtAVe
+         amKPMQzumdETIJuw8fEYoac+wX0Zanm4SpuYCXIuC73jrz9PTyyixLH4+Kayhqp3T/Hx
+         WAV5R/JOfR8GOI+Qhq+hTgqO9Q7EpmDgsl1zJsb7ZdTRtnVkzagc2TzGTYV0rEv8dDR1
+         v0Tw==
+X-Gm-Message-State: AOAM533ODBTEmdMiz7NUREQWmaBb+douiibMiI087K8r13Ii6h1J2PGP
+	d27CsocFwtWEiMBgt3Z9Ntb2PKxIGTWa/A==
 X-Google-Smtp-Source: 
- ABdhPJw/4bFjqfCt8Sf1G3m1+7XmwLqFsn1vjBHwP2ToycMZKF5ku65lQZvu82x776diJRUdjgctdA==
-X-Received: by 2002:a63:4551:: with SMTP id
- u17mr25907265pgk.568.1638905097045;
+ ABdhPJyBNo2mA/DHAiEfUb7rt2dUtfPirUwLsO95r6vme7CvePxPvy8DNF84a43cplMWUod2EfAOEQ==
+X-Received: by 2002:a17:90a:4142:: with SMTP id
+ m2mr1433395pjg.80.1638905097844;
         Tue, 07 Dec 2021 11:24:57 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
-        by smtp.gmail.com with ESMTPSA id y8sm530437pfi.56.2021.12.07.11.24.56
+        by smtp.gmail.com with ESMTPSA id y8sm530437pfi.56.2021.12.07.11.24.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 11:24:56 -0800 (PST)
+        Tue, 07 Dec 2021 11:24:57 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] mesa: Fix broadcom vulkan driver build on 32bit arches
- with 64bit time_t
-Date: Tue,  7 Dec 2021 11:24:52 -0800
-Message-Id: <20211207192454.477297-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] gdb: Drop sh4 support patch
+Date: Tue,  7 Dec 2021 11:24:53 -0800
+Message-Id: <20211207192454.477297-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211207192454.477297-1-raj.khem@gmail.com>
+References: <20211207192454.477297-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 19:24:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 19:25:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159328
+ https://lists.openembedded.org/g/openembedded-core/message/159329
+
+This patch needs to be upstreamed, its not clear if it still works.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...unt-for-64bit-time_t-on-32bit-arches.patch | 41 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch
+ meta/recipes-devtools/gdb/gdb-11.1.inc        |   1 -
+ ...port-for-Renesas-SH-sh4-architecture.patch | 914 ------------------
+ 2 files changed, 915 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0004-Add-support-for-Renesas-SH-sh4-architecture.patch
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch b/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch
-new file mode 100644
-index 00000000000..9032eaba0f1
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch
-@@ -0,0 +1,41 @@
-+From e2e2fe86dd61b6fae682a1fec31bd0755ced5cd5 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 7 Dec 2021 11:13:27 -0800
-+Subject: [PATCH] v3dv: account for 64bit time_t on 32bit arches
-+
-+This makes is a bit more portable, especially on 32bit architectures
-+with 64bit time_t defaults. Especially on musl its a must.
-+
-+Fixes
-+../mesa-21.3.0/src/broadcom/vulkan/v3dv_bo.c:71:15: error: format specifies type 'long' but the argument has type 'time_t' (aka 'long long') [-Werror,-Wformat]
-+              time.tv_sec);
-+              ^~~~~~~~~~~
-+
-+Also reported here [1]
-+
-+[1] https://github.com/agherzan/meta-raspberrypi/issues/969
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/broadcom/vulkan/v3dv_bo.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/broadcom/vulkan/v3dv_bo.c b/src/broadcom/vulkan/v3dv_bo.c
-+index 71679ce..dc5e7f5 100644
-+--- a/src/broadcom/vulkan/v3dv_bo.c
-++++ b/src/broadcom/vulkan/v3dv_bo.c
-+@@ -67,8 +67,8 @@ bo_dump_stats(struct v3dv_device *device)
-+ 
-+       struct timespec time;
-+       clock_gettime(CLOCK_MONOTONIC, &time);
-+-      fprintf(stderr, "  now:               %ld\n",
-+-              time.tv_sec);
-++      fprintf(stderr, "  now:               %lld\n",
-++              (long long)time.tv_sec);
-+    }
-+ 
-+    if (cache->size_list_size) {
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 30b9e93f630..31ff38dfdca 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,6 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch \
-+           file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch \
-            "
- 
- SRC_URI[sha256sum] = "a2753c09deef0ba14d35ae8a2ceff3fe5cd13698928c7bb62c2ec8736eb09ce1"
+diff --git a/meta/recipes-devtools/gdb/gdb-11.1.inc b/meta/recipes-devtools/gdb/gdb-11.1.inc
+index a4809972204..5364a880e3c 100644
+--- a/meta/recipes-devtools/gdb/gdb-11.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-11.1.inc
+@@ -8,7 +8,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+            file://0001-make-man-install-relative-to-DESTDIR.patch \
+            file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
+            file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
+-           file://0004-Add-support-for-Renesas-SH-sh4-architecture.patch \
+            file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
+            file://0006-use-asm-sgidefs.h.patch \
+            file://0007-Change-order-of-CFLAGS.patch \
+diff --git a/meta/recipes-devtools/gdb/gdb/0004-Add-support-for-Renesas-SH-sh4-architecture.patch b/meta/recipes-devtools/gdb/gdb/0004-Add-support-for-Renesas-SH-sh4-architecture.patch
+deleted file mode 100644
+index 37d633c9a86..00000000000
+--- a/meta/recipes-devtools/gdb/gdb/0004-Add-support-for-Renesas-SH-sh4-architecture.patch
++++ /dev/null
+@@ -1,914 +0,0 @@
+-From d86ff49710210fb10d149121fa9a04c7cf41cb8b Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 2 Mar 2015 02:31:12 +0000
+-Subject: [PATCH 04/10] Add support for Renesas SH (sh4) architecture.
+-
+-gdb (7.4-1~cvs20111117.2) experimental; urgency=low
+- .
+-   * Add Renesas SH (sh4) support (Closes: #576242)
+-     - Thanks Nobuhiro Iwamatsu, Takashi Yoshii.
+-Author: Hector Oron <zumbi@debian.org>
+-Bug-Debian: http://bugs.debian.org/576242
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gdb/Makefile.in                      |   2 +
+- gdb/configure.host                   |   2 +
+- gdb/sh-linux-tdep.c                  | 519 +++++++++++++++++++++++++++
+- gdb/sh-tdep.c                        |  52 +--
+- gdb/sh-tdep.h                        |  49 +++
+- gdb/testsuite/gdb.asm/asm-source.exp |   5 +
+- gdb/testsuite/gdb.asm/sh.inc         |   3 +-
+- gdb/testsuite/gdb.base/annota1.c     |   3 +
+- gdb/testsuite/gdb.base/annota3.c     |   4 +
+- gdb/testsuite/gdb.base/sigall.c      |   3 +
+- gdb/testsuite/gdb.base/signals.c     |   4 +
+- 11 files changed, 618 insertions(+), 28 deletions(-)
+-
+-diff --git a/gdb/Makefile.in b/gdb/Makefile.in
+-index b8729ed7b2e..ae5c05e1dbe 100644
+---- a/gdb/Makefile.in
+-+++ b/gdb/Makefile.in
+-@@ -2284,6 +2284,8 @@ ALLDEPFILES = \
+- 	sh-netbsd-nat.c \
+- 	sh-netbsd-tdep.c \
+- 	sh-tdep.c \
+-+	sh-linux-tdep.c \
+-+	sh-linux-nat.c \
+- 	sol2-tdep.c \
+- 	solib-aix.c \
+- 	solib-svr4.c \
+-diff --git a/gdb/configure.host b/gdb/configure.host
+-index e94a19b0332..08b8478b56b 100644
+---- a/gdb/configure.host
+-+++ b/gdb/configure.host
+-@@ -151,6 +151,8 @@ riscv*-*-linux*)	gdb_host=linux ;;
+- 
+- s390*-*-linux*)		gdb_host=linux ;;
+- 
+-+sh*-*-linux*)		gdb_host=linux ;;
+-+
+- sh*-*-netbsdelf* | sh*-*-knetbsd*-gnu)
+- 			gdb_host=nbsd ;;
+- sh*-*-openbsd*)		gdb_host=nbsd ;;
+-diff --git a/gdb/sh-linux-tdep.c b/gdb/sh-linux-tdep.c
+-index 700df35bc3b..aaed47ded81 100644
+---- a/gdb/sh-linux-tdep.c
+-+++ b/gdb/sh-linux-tdep.c
+-@@ -18,14 +18,37 @@
+-    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+- 
+- #include "defs.h"
+-+#include "gdbcore.h"
+-+#include "frame.h"
+-+#include "frame-base.h"
+-+#include "frame-unwind.h"
+-+#include "dwarf2-frame.h"
+-+#include "value.h"
+-+#include "regcache.h"
+-+#include "inferior.h"
+- #include "osabi.h"
+- 
+-+#include "reggroups.h"
+-+#include "arch-utils.h"
+-+#include "floatformat.h"
+- #include "solib-svr4.h"
+- #include "symtab.h"
+-+#include "gdb_string.h"
+-+#include "command.h"
+-+#include "gdb_assert.h"
+- 
+- #include "trad-frame.h"
+- #include "tramp-frame.h"
+- 
+-+#include <sys/ptrace.h>
+-+#include <sys/types.h>
+-+#include <sys/param.h>
+-+#include <sys/user.h>
+-+#include <sys/syscall.h>
+-+
+-+#include <asm/ptrace.h>
+-+
+-+#include "regset.h"
+- #include "glibc-tdep.h"
+- #include "sh-tdep.h"
+- #include "linux-tdep.h"
+-@@ -181,9 +204,505 @@ static struct tramp_frame sh_linux_rt_sigreturn_tramp_frame = {
+-   sh_linux_rt_sigreturn_init
+- };
+- 
+-+/* Recognizing signal handler frames.  */
+-+
+-+/* GNU/Linux has two flavors of signals.  Normal signal handlers, and
+-+   "realtime" (RT) signals.  The RT signals can provide additional
+-+   information to the signal handler if the SA_SIGINFO flag is set
+-+   when establishing a signal handler using `sigaction'.  It is not
+-+   unlikely that future versions of GNU/Linux will support SA_SIGINFO
+-+   for normal signals too.  */
+-+
+-+/* When the SH Linux kernel calls a signal handler and the
+-+   SA_RESTORER flag isn't set, the return address points to a bit of
+-+   code on the stack.  This function returns whether the PC appears to
+-+   be within this bit of code.
+-+
+-+   The instruction sequence for normal signals is
+-+       mov.w  1f,r3
+-+       trapa  #16
+-+       or     r0, r0
+-+       or     r0, r0
+-+       or     r0, r0
+-+       or     r0, r0
+-+       or     r0, r0
+-+    1: .word  __NR_sigreturn
+-+   or 0x9305 0xc310 0x200b 0x200b 0x200b 0x200b 0x200b 0x0077.
+-+
+-+   Checking for the code sequence should be somewhat reliable, because
+-+   the effect is to call the system call sigreturn.  This is unlikely
+-+   to occur anywhere other than a signal trampoline.
+-+
+-+   It kind of sucks that we have to read memory from the process in
+-+   order to identify a signal trampoline, but there doesn't seem to be
+-+   any other way.  The PC_IN_SIGTRAMP macro in tm-linux.h arranges to
+-+   only call us if no function name could be identified, which should
+-+   be the case since the code is on the stack.
+-+
+-+   Detection of signal trampolines for handlers that set the
+-+   SA_RESTORER flag is in general not possible.  Unfortunately this is
+-+   what the GNU C Library has been doing for quite some time now.
+-+   However, as of version 2.1.2, the GNU C Library uses signal
+-+   trampolines (named __restore and __restore_rt) that are identical
+-+   to the ones used by the kernel.  Therefore, these trampolines are
+-+   supported too.  */
+-+
+-+#define MOVW(n)	 (0x9300|((n)-2))	/* Move mem word at PC+n to R3 */
+-+#define TRAP16	 0xc310			/* Syscall w/no args (NR in R3) */
+-+#define OR_R0_R0 0x200b			/* or r0,r0 (insert to avoid hardware bug) */
+-+
+-+#define LINUX_SIGTRAMP_INSN0	MOVW(7)		/* Move mem word at PC+7 to R3 */
+-+#define LINUX_SIGTRAMP_INSN1	TRAP16		/* Syscall w/no args (NR in R3) */
+-+#define LINUX_SIGTRAMP_INSN2	OR_R0_R0	/* or r0,r0 (insert to avoid hardware bug) */
+-+
+-+static const unsigned short linux_sigtramp_code[] =
+-+{
+-+  LINUX_SIGTRAMP_INSN0,
+-+  LINUX_SIGTRAMP_INSN1,
+-+  LINUX_SIGTRAMP_INSN2,
+-+  LINUX_SIGTRAMP_INSN2,
+-+  LINUX_SIGTRAMP_INSN2,
+-+  LINUX_SIGTRAMP_INSN2,
+-+  LINUX_SIGTRAMP_INSN2,
+-+  __NR_sigreturn
+-+};
+-+
+-+#define LINUX_SIGTRAMP_LEN (sizeof linux_sigtramp_code)
+-+
+-+/* If PC is in a sigtramp routine, return the address of the start of
+-+   the routine.  Otherwise, return 0.  */
+-+
+-+static CORE_ADDR
+-+sh_linux_sigtramp_start (struct frame_info *next_frame)
+-+{
+-+  CORE_ADDR pc = get_frame_pc (next_frame);
+-+  gdb_byte buf[LINUX_SIGTRAMP_LEN];
+-+
+-+  /* We only recognize a signal trampoline if PC is at the start of
+-+     one of the three instructions.  We optimize for finding the PC at
+-+     the start, as will be the case when the trampoline is not the
+-+     first frame on the stack.  We assume that in the case where the
+-+     PC is not at the start of the instruction sequence, there will be
+-+     a few trailing readable bytes on the stack.  */
+-+
+-+  if (!safe_frame_unwind_memory (next_frame, pc, buf, LINUX_SIGTRAMP_LEN))
+-+    return 0;
+-+
+-+  if (buf[0] != LINUX_SIGTRAMP_INSN0)
+-+    {
+-+      if (buf[0] != LINUX_SIGTRAMP_INSN1)
+-+        return 0;
+-+
+-+      pc -= 2;
+-+
+-+      if (!safe_frame_unwind_memory (next_frame, pc, buf, LINUX_SIGTRAMP_LEN))
+-+	return 0;
+-+    }
+-+
+-+  if (memcmp (buf, linux_sigtramp_code, LINUX_SIGTRAMP_LEN) != 0)
+-+    return 0;
+-+
+-+  return pc;
+-+}
+-+
+-+/* This function does the same for RT signals.  Here the instruction
+-+   sequence is
+-+       mov.w  1f,r3
+-+       trapa  #16
+-+       or     r0, r0
+-+       or     r0, r0
+-+       or     r0, r0
+-+       or     r0, r0
+-+       or     r0, r0
+-+    1: .word  __NR_rt_sigreturn
+-+   or 0x9305 0xc310 0x200b 0x200b 0x200b 0x200b 0x200b 0x00ad.
+-+
+-+   The effect is to call the system call rt_sigreturn.  */
+-+
+-+#define LINUX_RT_SIGTRAMP_INSN0		MOVW(7)		/* Move mem word at PC+7 to R3 */
+-+#define LINUX_RT_SIGTRAMP_INSN1		TRAP16		/* Syscall w/no args (NR in R3) */
+-+#define LINUX_RT_SIGTRAMP_INSN2		OR_R0_R0	/* or r0,r0 (insert to avoid hardware bug) */
+-+
+-+static const unsigned short linux_rt_sigtramp_code[] =
+-+{
+-+  LINUX_RT_SIGTRAMP_INSN0,
+-+  LINUX_RT_SIGTRAMP_INSN1,
+-+  LINUX_RT_SIGTRAMP_INSN2,
+-+  LINUX_RT_SIGTRAMP_INSN2,
+-+  LINUX_RT_SIGTRAMP_INSN2,
+-+  LINUX_RT_SIGTRAMP_INSN2,
+-+  LINUX_RT_SIGTRAMP_INSN2,
+-+  __NR_rt_sigreturn
+-+};
+-+
+-+#define LINUX_RT_SIGTRAMP_LEN (sizeof linux_rt_sigtramp_code)
+-+
+-+/* If PC is in a RT sigtramp routine, return the address of the start
+-+   of the routine.  Otherwise, return 0.  */
+-+
+-+static CORE_ADDR
+-+sh_linux_rt_sigtramp_start (struct frame_info *next_frame)
+-+{
+-+  CORE_ADDR pc = get_frame_pc (next_frame);
+-+  gdb_byte buf[LINUX_RT_SIGTRAMP_LEN];
+-+
+-+  /* We only recognize a signal trampoline if PC is at the start of
+-+     one of the two instructions.  We optimize for finding the PC at
+-+     the start, as will be the case when the trampoline is not the
+-+     first frame on the stack.  We assume that in the case where the
+-+     PC is not at the start of the instruction sequence, there will be
+-+     a few trailing readable bytes on the stack.  */
+-+
+-+  if (!safe_frame_unwind_memory (next_frame, pc, buf, LINUX_RT_SIGTRAMP_LEN))
+-+    return 0;
+-+
+-+  if (buf[0] != LINUX_RT_SIGTRAMP_INSN0)
+-+    {
+-+      if (buf[0] != LINUX_RT_SIGTRAMP_INSN1)
+-+	return 0;
+-+
+-+      pc -= 2;
+-+
+-+      if (!safe_frame_unwind_memory (next_frame, pc, buf,
+-+				     LINUX_RT_SIGTRAMP_LEN))
+-+	return 0;
+-+    }
+-+
+-+  if (memcmp (buf, linux_rt_sigtramp_code, LINUX_RT_SIGTRAMP_LEN) != 0)
+-+    return 0;
+-+
+-+  return pc;
+-+}
+-+
+-+/* Return whether PC is in a GNU/Linux sigtramp routine.  */
+-+
+-+static int
+-+sh_linux_sigtramp_p (struct frame_info *this_frame)
+-+{
+-+  CORE_ADDR pc = get_frame_pc (this_frame);
+-+  char *name;
+-+
+-+  find_pc_partial_function (pc, &name, NULL, NULL);
+-+
+-+  /* If we have NAME, we can optimize the search.  The trampolines are
+-+     named __restore and __restore_rt.  However, they aren't dynamically
+-+     exported from the shared C library, so the trampoline may appear to
+-+     be part of the preceding function.  This should always be sigaction,
+-+     __sigaction, or __libc_sigaction (all aliases to the same function).  */
+-+  if (name == NULL || strstr (name, "sigaction") != NULL)
+-+    return (sh_linux_sigtramp_start (this_frame) != 0
+-+	    || sh_linux_rt_sigtramp_start (this_frame) != 0);
+-+
+-+  return (strcmp ("__restore", name) == 0
+-+	  || strcmp ("__restore_rt", name) == 0);
+-+}
+-+
+-+/* Offset to struct sigcontext in ucontext, from <asm/ucontext.h>.  */
+-+#define SH_LINUX_UCONTEXT_SIGCONTEXT_OFFSET 12
+-+
+-+
+-+/* Assuming NEXT_FRAME is a frame following a GNU/Linux sigtramp
+-+   routine, return the address of the associated sigcontext structure.  */
+-+
+-+static CORE_ADDR
+-+sh_linux_sigcontext_addr (struct frame_info *this_frame)
+-+{
+-+  CORE_ADDR pc;
+-+  CORE_ADDR sp;
+-+
+-+  sp = get_frame_register_unsigned (this_frame, SP_REGNUM);
+-+
+-+  pc = sh_linux_sigtramp_start (this_frame);
+-+  if (pc)
+-+    {
+-+      return sp;
+-+    }
+-+
+-+  pc = sh_linux_rt_sigtramp_start (this_frame);
+-+  if (pc)
+-+    {
+-+      CORE_ADDR ucontext_addr;
+-+
+-+      /* The sigcontext structure is part of the user context.  A
+-+	 pointer to the user context is passed as the third argument
+-+	 to the signal handler.  */
+-+      ucontext_addr = get_frame_register_unsigned (this_frame, ARG0_REGNUM+2);
+-+      return ucontext_addr + SH_LINUX_UCONTEXT_SIGCONTEXT_OFFSET;
+-+    }
+-+
+-+  error ("Couldn't recognize signal trampoline.");
+-+  return 0;
+-+}
+-+
+-+/* Signal trampolines.  */
+-+extern struct sh_frame_cache *sh_alloc_frame_cache (void);
+-+
+-+static struct sh_frame_cache *
+-+sh_linux_sigtramp_frame_cache (struct frame_info *this_frame, void **this_cache)
+-+{
+-+  struct sh_frame_cache *cache;
+-+  struct gdbarch_tdep *tdep = gdbarch_tdep (get_current_arch ());
+-+  CORE_ADDR sigcontext_addr;
+-+
+-+  if (*this_cache)
+-+    return *this_cache;
+-+
+-+  cache = sh_alloc_frame_cache ();
+-+
+-+  cache->base = get_frame_register_unsigned (this_frame, SP_REGNUM);
+-+  sigcontext_addr = tdep->sigcontext_addr (this_frame);
+-+  if (tdep->sc_reg_offset)
+-+    {
+-+      int i;
+-+
+-+      gdb_assert (tdep->sc_num_regs <= SH_NUM_REGS);
+-+
+-+      for (i = 0; i < tdep->sc_num_regs; i++)
+-+	if (tdep->sc_reg_offset[i] != -1)
+-+	  cache->saved_regs[i] = sigcontext_addr + tdep->sc_reg_offset[i];
+-+    }
+-+
+-+  *this_cache = cache;
+-+  return cache;
+-+}
+-+
+-+static void
+-+sh_linux_sigtramp_frame_this_id (struct frame_info *this_frame, void **this_cache,
+-+			     struct frame_id *this_id)
+-+{
+-+  struct sh_frame_cache *cache =
+-+    sh_linux_sigtramp_frame_cache (this_frame, this_cache);
+-+
+-+  (*this_id) = frame_id_build (cache->base + 64, cache->pc);
+-+}
+-+
+-+extern struct value * sh_frame_prev_register ();
+-+static struct value *
+-+sh_linux_sigtramp_frame_prev_register (struct frame_info *this_frame,
+-+                   void **this_cache, int regnum)
+-+{
+-+  sh_linux_sigtramp_frame_cache (this_frame, this_cache);
+-+
+-+  return sh_frame_prev_register (this_frame, this_cache, regnum);
+-+}
+-+
+-+static int
+-+sh_linux_sigtramp_frame_sniffer (const struct frame_unwind *self,
+-+                 struct frame_info *this_frame,
+-+                 void **this_prologue_cache)
+-+{
+-+  struct gdbarch_tdep *tdep = gdbarch_tdep (get_frame_arch (this_frame));
+-+
+-+  /* We shouldn't even bother if we don't have a sigcontext_addr
+-+     handler.  */
+-+  if (tdep->sigcontext_addr == NULL)
+-+    return 0;
+-+
+-+  if (tdep->sigtramp_p != NULL)
+-+    {
+-+      if (tdep->sigtramp_p (this_frame))
+-+    return 1;
+-+    }
+-+
+-+  return 0;
+-+}
+-+
+-+static const struct frame_unwind sh_linux_sigtramp_frame_unwind =
+-+{
+-+  SIGTRAMP_FRAME,
+-+  sh_linux_sigtramp_frame_this_id,
+-+  sh_linux_sigtramp_frame_prev_register,
+-+  NULL,
+-+  sh_linux_sigtramp_frame_sniffer
+-+};
+-+
+-+/* Supply register REGNUM from the buffer specified by GREGS and LEN
+-+   in the general-purpose register set REGSET to register cache
+-+   REGCACHE.  If REGNUM is -1, do this for all registers in REGSET.  */
+-+
+-+void
+-+sh_supply_gregset (const struct regset *regset, struct regcache *regcache,
+-+             int regnum, const void *gregs, size_t len)
+-+{
+-+  const struct gdbarch_tdep *tdep = gdbarch_tdep (regset->arch);
+-+  const char *regs = gregs;
+-+  int i;
+-+
+-+  gdb_assert (len == tdep->sizeof_gregset);
+-+
+-+  for (i = 0; i < tdep->gregset_num_regs; i++)
+-+    {
+-+      if ((regnum == i || regnum == -1)
+-+      && tdep->gregset_reg_offset[i] != -1)
+-+    regcache_raw_supply (regcache, i, regs + tdep->gregset_reg_offset[i]);
+-+    }
+-+}
+-+
+-+/* Collect register REGNUM from the register cache REGCACHE and store
+-+   it in the buffer specified by GREGS and LEN as described by the
+-+   general-purpose register set REGSET.  If REGNUM is -1, do this for
+-+   all registers in REGSET.  */
+-+
+-+void
+-+sh_collect_gregset (const struct regset *regset,
+-+              const struct regcache *regcache,
+-+              int regnum, void *gregs, size_t len)
+-+{
+-+  const struct gdbarch_tdep *tdep = gdbarch_tdep (regset->arch);
+-+  char *regs = gregs;
+-+  int i;
+-+
+-+  gdb_assert (len == tdep->sizeof_gregset);
+-+
+-+  for (i = 0; i < tdep->gregset_num_regs; i++)
+-+    {
+-+      if ((regnum == i || regnum == -1)
+-+      && tdep->gregset_reg_offset[i] != -1)
+-+    regcache_raw_collect (regcache, i, regs + tdep->gregset_reg_offset[i]);
+-+    }
+-+}
+-+
+-+/* Supply register REGNUM from the buffer specified by FPREGS and LEN
+-+   in the floating-point register set REGSET to register cache
+-+   REGCACHE.  If REGNUM is -1, do this for all registers in REGSET.  */
+-+
+-+static void
+-+sh_supply_fpregset (const struct regset *regset, struct regcache *regcache,
+-+              int regnum, const void *fpregs, size_t len)
+-+{
+-+  const struct gdbarch_tdep *tdep = gdbarch_tdep (regset->arch);
+-+  const char *regs = fpregs;
+-+  int i;
+-+
+-+  gdb_assert (len == tdep->sizeof_fpregset);
+-+  for (i = 0; i < 16; i++)
+-+    {
+-+      if (regnum == i+25 || regnum == -1)
+-+    regcache_raw_supply (regcache, i+25, regs + i*4);
+-+    }
+-+  if (regnum == FPSCR_REGNUM || regnum == -1)
+-+    regcache_raw_supply (regcache, FPSCR_REGNUM, regs + 32*4);
+-+  if (regnum == FPUL_REGNUM || regnum == -1)
+-+    regcache_raw_supply (regcache, FPUL_REGNUM, regs + 33*4);
+-+}
+-+
+-+/* Collect register REGNUM from the register cache REGCACHE and store
+-+   it in the buffer specified by FPREGS and LEN as described by the
+-+   floating-point register set REGSET.  If REGNUM is -1, do this for
+-+   all registers in REGSET.  */
+-+
+-+static void
+-+sh_collect_fpregset (const struct regset *regset,
+-+               const struct regcache *regcache,
+-+               int regnum, void *fpregs, size_t len)
+-+{
+-+  const struct gdbarch_tdep *tdep = gdbarch_tdep (regset->arch);
+-+  char *regs = fpregs;
+-+  int i;
+-+
+-+  gdb_assert (len == tdep->sizeof_fpregset);
+-+  for (i = 0; i < 16; i++)
+-+    {
+-+      if (regnum == i+25 || regnum == -1)
+-+    regcache_raw_collect (regcache, i+25, regs + i*4);
+-+    }
+-+  if (regnum == FPSCR_REGNUM || regnum == -1)
+-+    regcache_raw_collect (regcache, FPSCR_REGNUM, regs + 32*4);
+-+  if (regnum == FPUL_REGNUM || regnum == -1)
+-+    regcache_raw_collect (regcache, FPUL_REGNUM, regs + 33*4);
+-+}
+-+
+-+/* Return the appropriate register set for the core section identified
+-+   by SECT_NAME and SECT_SIZE.  */
+-+
+-+const struct regset *
+-+sh_linux_regset_from_core_section (struct gdbarch *gdbarch,
+-+                   const char *sect_name, size_t sect_size)
+-+{
+-+  struct gdbarch_tdep *tdep = gdbarch_tdep (gdbarch);
+-+
+-+  if (strcmp (sect_name, ".reg") == 0 && sect_size == tdep->sizeof_gregset)
+-+    {
+-+      if (tdep->gregset == NULL)
+-+    tdep->gregset = regset_alloc (gdbarch, sh_supply_gregset,
+-+                      sh_collect_gregset);
+-+      return tdep->gregset;
+-+    }
+-+
+-+  if ((strcmp (sect_name, ".reg2") == 0 && sect_size == tdep->sizeof_fpregset))
+-+    {
+-+      if (tdep->fpregset == NULL)
+-+    tdep->fpregset = regset_alloc (gdbarch, sh_supply_fpregset,
+-+                       sh_collect_fpregset);
+-+      return tdep->fpregset;
+-+    }
+-+
+-+  return NULL;
+-+}
+-+
+-+/* The register sets used in GNU/Linux ELF core-dumps are identical to
+-+   the register sets in `struct user' that are used for a.out
+-+   core-dumps.  These are also used by ptrace(2).  The corresponding
+-+   types are `elf_gregset_t' for the general-purpose registers (with
+-+   `elf_greg_t' the type of a single GP register) and `elf_fpregset_t'
+-+   for the floating-point registers.
+-+
+-+   Those types used to be available under the names `gregset_t' and
+-+   `fpregset_t' too, and GDB used those names in the past.  But those
+-+   names are now used for the register sets used in the `mcontext_t'
+-+   type, which have a different size and layout.  */
+-+
+-+/* Mapping between the general-purpose registers in `struct user'
+-+   format and GDB's register cache layout.  */
+-+
+-+/* From <sys/reg.h>.  */
+-+static int sh_linux_gregset_reg_offset[] =
+-+{
+-+ 0,	4,	8,	12,	16,	20,	24,	28,
+-+ 32,	36,	40,	44,	48,	52,	56,	60,
+-+
+-+ REG_PC*4,   REG_PR*4,   REG_GBR*4,  -1,
+-+ REG_MACH*4, REG_MACL*4, REG_SR*4,
+-+};
+-+
+-+/* Mapping between the general-purpose registers in `struct
+-+   sigcontext' format and GDB's register cache layout.  */
+-+
+-+/* From <asm/sigcontext.h>.  */
+-+static int sh_linux_sc_reg_offset[] =
+-+{
+-+ 4,	8,	12,	16,	20,	24,	28,	32,
+-+ 36,	40,	44,	48,	52,	56,	60,	64,
+-+ 68,	72,	80,	-1,
+-+ 84,	88,	76
+-+};
+-+
+- static void
+- sh_linux_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
+- {
+-+  struct gdbarch_tdep *tdep = gdbarch_tdep (gdbarch);
+-+  bfd abfd;
+-+
+-+  tdep->gregset_reg_offset = sh_linux_gregset_reg_offset;
+-+  tdep->gregset_num_regs = ARRAY_SIZE (sh_linux_gregset_reg_offset);
+-+  tdep->sizeof_gregset = 23 * 4;
+-+
+-+  tdep->jb_pc_offset = 32;     /* From <bits/setjmp.h>.  */
+-+
+-+  tdep->sigtramp_p = sh_linux_sigtramp_p;
+-+  tdep->sigcontext_addr = sh_linux_sigcontext_addr;
+-+  tdep->sc_reg_offset = sh_linux_sc_reg_offset;
+-+  tdep->sc_num_regs = ARRAY_SIZE (sh_linux_sc_reg_offset);
+-+
+-+  frame_unwind_append_unwinder(gdbarch, &sh_linux_sigtramp_frame_unwind);
+-+
+-+  /* If we have a register mapping, enable the generic core file
+-+     support, unless it has already been enabled.  */
+-+  if (tdep->gregset_reg_offset
+-+      && !gdbarch_regset_from_core_section_p (gdbarch))
+-+    set_gdbarch_regset_from_core_section (gdbarch,
+-+                                         sh_linux_regset_from_core_section);
+-+
+-   linux_init_abi (info, gdbarch, 0);
+- 
+-   /* GNU/Linux uses SVR4-style shared libraries.  */
+-diff --git a/gdb/sh-tdep.c b/gdb/sh-tdep.c
+-index bfb220adf79..6a077b235bf 100644
+---- a/gdb/sh-tdep.c
+-+++ b/gdb/sh-tdep.c
+-@@ -21,6 +21,9 @@
+-    sac@cygnus.com.  */
+- 
+- #include "defs.h"
+-+#include "arch-utils.h"
+-+#include "command.h"
+-+#include "dummy-frame.h"
+- #include "frame.h"
+- #include "frame-base.h"
+- #include "frame-unwind.h"
+-@@ -66,23 +69,6 @@ static const char *const sh_cc_enum[] = {
+- 
+- static const char *sh_active_calling_convention = sh_cc_gcc;
+- 
+--#define SH_NUM_REGS 67
+--
+--struct sh_frame_cache
+--{
+--  /* Base address.  */
+--  CORE_ADDR base;
+--  LONGEST sp_offset;
+--  CORE_ADDR pc;
+--
+--  /* Flag showing that a frame has been created in the prologue code.  */
+--  int uses_fp;
+--
+--  /* Saved registers.  */
+--  CORE_ADDR saved_regs[SH_NUM_REGS];
+--  CORE_ADDR saved_sp;
+--};
+--
+- static int
+- sh_is_renesas_calling_convention (struct type *func_type)
+- {
+-@@ -1050,6 +1036,7 @@ sh_treat_as_flt_p (struct type *type)
+-     return 0;
+-   /* Otherwise if the type of that member is float, the whole type is
+-      treated as float.  */
+-+  type = check_typedef (type);
+-   if (type->field (0).type ()->code () == TYPE_CODE_FLT)
+-     return 1;
+-   /* Otherwise it's not treated as float.  */
+-@@ -1100,7 +1087,7 @@ sh_push_dummy_call_fpu (struct gdbarch *gdbarch,
+-      in four registers available.  Loop thru args from first to last.  */
+-   for (argnum = 0; argnum < nargs; argnum++)
+-     {
+--      type = value_type (args[argnum]);
+-+      type = check_typedef (value_type (args[argnum]));
+-       len = TYPE_LENGTH (type);
+-       val = sh_justify_value_in_reg (gdbarch, args[argnum], len);
+- 
+-@@ -1835,7 +1822,7 @@ sh_dwarf2_frame_init_reg (struct gdbarch *gdbarch, int regnum,
+-     reg->how = DWARF2_FRAME_REG_UNDEFINED;
+- }
+- 
+--static struct sh_frame_cache *
+-+struct sh_frame_cache *
+- sh_alloc_frame_cache (void)
+- {
+-   struct sh_frame_cache *cache;
+-@@ -1862,7 +1849,7 @@ sh_alloc_frame_cache (void)
+-   return cache;
+- }
+- 
+--static struct sh_frame_cache *
+-+struct sh_frame_cache *
+- sh_frame_cache (struct frame_info *this_frame, void **this_cache)
+- {
+-   struct gdbarch *gdbarch = get_frame_arch (this_frame);
+-@@ -1929,9 +1916,9 @@ sh_frame_cache (struct frame_info *this_frame, void **this_cache)
+-   return cache;
+- }
+- 
+--static struct value *
+--sh_frame_prev_register (struct frame_info *this_frame,
+--			void **this_cache, int regnum)
+-+struct value *
+-+sh_frame_prev_register (struct frame_info *this_frame, void **this_cache,
+-+			int regnum)
+- {
+-   struct gdbarch *gdbarch = get_frame_arch (this_frame);
+-   struct sh_frame_cache *cache = sh_frame_cache (this_frame, this_cache);
+-@@ -1945,7 +1932,7 @@ sh_frame_prev_register (struct frame_info *this_frame,
+-      the current frame.  Frob regnum so that we pull the value from
+-      the correct place.  */
+-   if (regnum == gdbarch_pc_regnum (gdbarch))
+--    regnum = PR_REGNUM;
+-+    regnum = PR_REGNUM; /* XXX: really? */
+- 
+-   if (regnum < SH_NUM_REGS && cache->saved_regs[regnum] != -1)
+-     return frame_unwind_got_memory (this_frame, regnum,
+-@@ -2236,8 +2223,8 @@ sh_return_in_first_hidden_param_p (struct gdbarch *gdbarch,
+- static struct gdbarch *
+- sh_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+- {
+--  struct gdbarch *gdbarch;
+-   struct gdbarch_tdep *tdep;
+-+  struct gdbarch *gdbarch;
+- 
+-   /* If there is already a candidate, use it.  */
+-   arches = gdbarch_list_lookup_by_info (arches, &info);
+-@@ -2249,6 +2236,18 @@ sh_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+-   tdep = XCNEW (struct gdbarch_tdep);
+-   gdbarch = gdbarch_alloc (&info, tdep);
+- 
+-+  /* General-purpose registers.  */
+-+  tdep->gregset = NULL;
+-+  tdep->gregset_reg_offset = NULL;
+-+  tdep->gregset_num_regs = 23;
+-+  tdep->sizeof_gregset = 0;
+-+
+-+  /* Floating-point registers.  */
+-+  tdep->fpregset = NULL;
+-+  tdep->sizeof_fpregset = 34*4;
+-+
+-+  tdep->jb_pc_offset = -1;
+-+
+-   set_gdbarch_short_bit (gdbarch, 2 * TARGET_CHAR_BIT);
+-   set_gdbarch_int_bit (gdbarch, 4 * TARGET_CHAR_BIT);
+-   set_gdbarch_long_bit (gdbarch, 4 * TARGET_CHAR_BIT);
+-@@ -2400,10 +2399,11 @@ sh_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+-       break;
+-     }
+- 
+-+  dwarf2_append_unwinders (gdbarch);
+-+
+-   /* Hook in ABI-specific overrides, if they have been registered.  */
+-   gdbarch_init_osabi (info, gdbarch);
+- 
+--  dwarf2_append_unwinders (gdbarch);
+-   frame_unwind_append_unwinder (gdbarch, &sh_stub_unwind);
+-   frame_unwind_append_unwinder (gdbarch, &sh_frame_unwind);
+- 
+-diff --git a/gdb/sh-tdep.h b/gdb/sh-tdep.h
+-index 737b6dc6bdc..8d82e819b8c 100644
+---- a/gdb/sh-tdep.h
+-+++ b/gdb/sh-tdep.h
+-@@ -21,6 +21,12 @@
+- 
+- /* Contributed by Steve Chamberlain sac@cygnus.com.  */
+- 
+-+struct frame_info;
+-+struct gdbarch;
+-+struct reggroup;
+-+struct regset;
+-+struct regcache;
+-+
+- /* Registers for all SH variants.  Used also by sh3-rom.c.  */
+- enum
+-   {
+-@@ -29,6 +35,7 @@ enum
+-     ARG0_REGNUM = 4,
+-     ARGLAST_REGNUM = 7,
+-     FP_REGNUM = 14,
+-+    SP_REGNUM = 15,
+-     PC_REGNUM = 16,
+-     PR_REGNUM = 17,
+-     GBR_REGNUM = 18,
+-@@ -81,6 +88,24 @@ enum
+-     FV0_REGNUM = 76,
+-     FV_LAST_REGNUM = 79
+-   };
+-+#define SH_NUM_REGS 67
+-+
+-+struct sh_frame_cache
+-+{
+-+  /* Base address.  */
+-+  CORE_ADDR base;
+-+  LONGEST sp_offset;
+-+  CORE_ADDR pc;
+-+
+-+  /* Flag showing that a frame has been created in the prologue code. */
+-+  int uses_fp;
+-+
+-+  /* Saved registers.  */
+-+  CORE_ADDR saved_regs[SH_NUM_REGS];
+-+  CORE_ADDR saved_sp;
+-+};
+-+
+-+extern struct sh_frame_cache *sh_frame_cache (struct frame_info *next_frame, void **this_cache);
+- 
+- /* This structure describes a register in a core-file.  */
+- struct sh_corefile_regmap
+-@@ -89,8 +114,32 @@ struct sh_corefile_regmap
+-   unsigned int offset;
+- };
+- 
+-+/* sh architecture specific information.  */
+- struct gdbarch_tdep
+- {
+-+  /* General-purpose registers.  */
+-+  struct regset *gregset;
+-+  int *gregset_reg_offset;
+-+  int gregset_num_regs;
+-+  size_t sizeof_gregset;
+-+
+-+  /* Floating-point registers.  */
+-+  struct regset *fpregset;
+-+  size_t sizeof_fpregset;
+-+
+-+  /* Offset of saved PC in jmp_buf.  */
+-+  int jb_pc_offset;
+-+
+-+  /* Detect sigtramp.  */
+-+  int (*sigtramp_p) (struct frame_info *);
+-+
+-+  /* Get address of sigcontext for sigtramp.  */
+-+  CORE_ADDR (*sigcontext_addr) (struct frame_info *);
+-+
+-+  /* Offset of registers in `struct sigcontext'.  */
+-+  int *sc_reg_offset;
+-+  int sc_num_regs;
+-+
+-   /* Non-NULL when debugging from a core file.  Provides the offset
+-      where each general-purpose register is stored inside the associated
+-      core file section.  */
+-diff --git a/gdb/testsuite/gdb.asm/asm-source.exp b/gdb/testsuite/gdb.asm/asm-source.exp
+-index dedcd92f2df..ae81b8becd3 100644
+---- a/gdb/testsuite/gdb.asm/asm-source.exp
+-+++ b/gdb/testsuite/gdb.asm/asm-source.exp
+-@@ -116,6 +116,11 @@ switch -glob -- [istarget] {
+-             append link-flags " -m elf32ppc"
+-         }
+-     }
+-+    "sh*-linux*" {
+-+        set asm-arch sh-linux
+-+        set asm-flags "-I${srcdir}/${subdir} -I${objdir}/${subdir}"
+-+	set debug-flags "-gdwarf-2"
+-+    }
+-     "sh*-*-*" {
+-         set asm-arch sh
+- 	set debug-flags "-gdwarf-2"
+-diff --git a/gdb/testsuite/gdb.asm/sh.inc b/gdb/testsuite/gdb.asm/sh.inc
+-index a4a5fc545e4..89efed7795c 100644
+---- a/gdb/testsuite/gdb.asm/sh.inc
+-+++ b/gdb/testsuite/gdb.asm/sh.inc
+-@@ -40,9 +40,8 @@
+- 	mov.l   .Lconst\@,r1
+- 	bra	.Lafterconst\@
+- 	nop
+--	nop
+--.Lconst\@:
+- 	.align	2
+-+.Lconst\@:
+- 	.long	\subr
+- 	.align	1
+- .Lafterconst\@:
+-diff --git a/gdb/testsuite/gdb.base/annota1.c b/gdb/testsuite/gdb.base/annota1.c
+-index 424e1b83278..0de2e7b633a 100644
+---- a/gdb/testsuite/gdb.base/annota1.c
+-+++ b/gdb/testsuite/gdb.base/annota1.c
+-@@ -1,6 +1,9 @@
+- #include <stdio.h>
+- #include <signal.h>
+- 
+-+#ifdef __sh__
+-+#define signal(a,b)    /* Signals not supported on this target - make them go away */
+-+#endif
+- 
+- void
+- handle_USR1 (int sig)
+-diff --git a/gdb/testsuite/gdb.base/annota3.c b/gdb/testsuite/gdb.base/annota3.c
+-index 424e1b83278..952aaf218ab 100644
+---- a/gdb/testsuite/gdb.base/annota3.c
+-+++ b/gdb/testsuite/gdb.base/annota3.c
+-@@ -1,6 +1,10 @@
+- #include <stdio.h>
+- #include <signal.h>
+- 
+-+#ifdef __sh__
+-+#define signal(a,b)    /* Signals not supported on this target - make them go away */
+-+#endif
+-+
+- 
+- void
+- handle_USR1 (int sig)
+-diff --git a/gdb/testsuite/gdb.base/sigall.c b/gdb/testsuite/gdb.base/sigall.c
+-index 81f3b08d6bc..1574b2d6cb8 100644
+---- a/gdb/testsuite/gdb.base/sigall.c
+-+++ b/gdb/testsuite/gdb.base/sigall.c
+-@@ -1,6 +1,9 @@
+- #include <signal.h>
+- #include <unistd.h>
+- 
+-+#ifdef __sh__
+-+#define signal(a,b)    /* Signals not supported on this target - make them go away */
+-+#endif
+- 
+- /* Signal handlers, we set breakpoints in them to make sure that the
+-    signals really get delivered.  */
+-diff --git a/gdb/testsuite/gdb.base/signals.c b/gdb/testsuite/gdb.base/signals.c
+-index 756606880fa..1205a9bc9c5 100644
+---- a/gdb/testsuite/gdb.base/signals.c
+-+++ b/gdb/testsuite/gdb.base/signals.c
+-@@ -3,6 +3,10 @@
+- #include <signal.h>
+- #include <unistd.h>
+- 
+-+#ifdef __sh__
+-+#define signal(a,b)    /* Signals not supported on this target - make them go away */
+-+#define alarm(a)       /* Ditto for alarm() */
+-+#endif
+- 
+- static int count = 0;
+- 
+--- 
+-2.33.1
+-
 -- 
 2.34.1
 
