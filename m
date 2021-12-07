@@ -1,143 +1,126 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3654C433F5
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 13:37:36 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.66982.1638884255386768060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEB1C433EF
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 15:28:02 +0000 (UTC)
+Received: from avasout-peh-004.plus.net (avasout-peh-004.plus.net
+ [212.159.14.20])
+ by mx.groups.io with SMTP id smtpd.web09.68237.1638890880281640886
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 05:37:35 -0800
+ Tue, 07 Dec 2021 07:28:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W9vAIFVP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id j3so29604819wrp.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Dec 2021 05:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=PDkG6+GBqxT6RZkI5xW7W8pVl2NijqhNjD3ujiIqSbI=;
-        b=W9vAIFVPqOHy/o2kH9XASIxewC8L63V8vaHrINL7gGbskLKClRPBSNqGSfEyFT9Atq
-         kv2BAEZxVdcZgL9DozSlXg1+D8rdhuTd8SJEQDTZaqNmpfFUMFdf/fuqDcmvlJDCUhNZ
-         CamLrUbZJcPMnhlnsHj691tdToNHhFyJF6odE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=PDkG6+GBqxT6RZkI5xW7W8pVl2NijqhNjD3ujiIqSbI=;
-        b=Gcxv1moo4Ur+xChy/nBqJaajb3ZKFNwCAFaYo5YyAVfRc9tZ3SFf2wkj3+sio5X2JN
-         cC/Y437Zi5hoRLC9c5xqnDPg5GZrsohAFjbnxFCuivaaIpNA+/JalDU8f2T8jiNueHJ1
-         WXr0eqnMGdStD99+Ea/DK4G7vbeEk1ueBbuCQB2LokZoSmxIbLcbUlGFObFw1pZ8bA7B
-         ANabbCEXcpTrLCp+S25R8B2UqBy6DCVVBcbwwdQC70oIIthcJjmWjZK0SOVHGV5Hx/jX
-         kU/5kNhoPYmqixK5on+5fGkO50VrJiNZp9aj9TvlojHr3dNvACIxN28lVZybBusMIuM0
-         FSgg==
-X-Gm-Message-State: AOAM530cgsyY/r9mLFvNwpCGo7VBgMdUex/SydNMDESa1yGJUO3zu+GV
-	2ICmB9tKJYDrs2iDDHWmOgJ07w==
-X-Google-Smtp-Source: 
- ABdhPJztkvjLO5DDZjascOvGE9MQqM0U+Ul0QNxcUvWwXTCICcDZtt1bC13Xlt00ZijOdCgw98kNIw==
-X-Received: by 2002:a5d:59ab:: with SMTP id
- p11mr51299333wrr.340.1638884254001;
-        Tue, 07 Dec 2021 05:37:34 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a430:ef69:a06e:8b4a?
- ([2001:8b0:aba:5f3c:a430:ef69:a06e:8b4a])
-        by smtp.gmail.com with ESMTPSA id
- z7sm2577940wmi.33.2021.12.07.05.37.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 05:37:33 -0800 (PST)
-Message-ID: 
- <7a377fc9d27576f8848d99a6bd1b63e18e04c340.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] libsdl2: upgrade 2.0.16 -> 2.0.18
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: zhengruoqin <zhengrq.fnst@fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 07 Dec 2021 13:37:32 +0000
-In-Reply-To: <1638835501-3733-1-git-send-email-zhengrq.fnst@fujitsu.com>
-References: <1638835501-3733-1-git-send-email-zhengrq.fnst@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=KF+wOkrv;
+ spf=pass (domain: mcrowe.com, ip: 212.159.14.20, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id ucNomvLskmch0ucNpmpfMK; Tue, 07 Dec 2021 15:27:58 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.4 cv=KtouZUaN c=1 sm=1 tr=0 ts=61af7d7e
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=IOMw9HtfNCkA:10 a=-An2I_7KAAAA:8 a=D9tCBEehAAAA:8 a=xgNKRjsPAoTik-psT1kA:9
+ a=Sq34B_EcNBM9_nrAYB9S:22 a=Q0Uz2dhPmm7nD8Nyg-vj:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=Ilas5pWafAGqLh7o44zZMpThMicWTWaI5WDpUT3S2gU=; b=KF
+	+wOkrvmC4YrAX4mxc3aBNN5M8lof41ZdOhramrYA8ZNMry0ZCtXn/4LYONHdki8X9AuNCeU22McWr
+	q7e65++uHzk2h37uHS86rPfFwxmxyHDy/Nt/ktABVxgDNU1TDZpJdtAipgObk09RJRSzFIH/f+bSr
+	5hbrRod7jvpcbKCzmiUwz3u3rIkoECeJyLmG1xiimP8MrcgYDUtNYiMCWuSw6u1uFRXk2Yo7lMn4r
+	1ffucXOmgEhp+S5p7d4roCYG+lKDMkS74UNOj/i3l5t3ZAzJcWH6zISq6J5T12nmQWGzy/7TJtPaB
+	CC/XuAkKeRfwtoeqBhJF1XxTpWisFkkw==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.94.2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1mucNn-00GIa7-5i; Tue, 07 Dec 2021 15:27:55 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>,
+	Phil Blundell <pb@pbcl.net>
+Subject: [PATCH 1/2] package: Only snap libraries if they would be processed
+ by ldconfig OS-12840
+Date: Tue,  7 Dec 2021 15:27:35 +0000
+Message-Id: <20211207152736.1294364-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: 
+ MS4xfHnNQBMY0ZjdQoUEo2HKUOcFuRmVW9Wf8lQpTBUSFyOtDueoxUG080f0yQ39R5k+/oule5OeF1GPp76dj0joarRExJh7h3bQY9JPW7bYEjUub5hTXgdT
+ 1Q/dH0Ic6jakWhhSot4x4ZpCLh7kcPJkh9fc6iG+ZiTczHpBoqCJGT1BRaDxr0dzQmUYGP8ewTIFHxfod3+9aVENKBHzCmmJ7g4=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 13:37:36 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 15:28:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159305
+ https://lists.openembedded.org/g/openembedded-core/message/159306
 
-On Tue, 2021-12-07 at 08:05 +0800, zhengruoqin wrote:
-> Remove unsupported option "--enable-sdl-dlopen".
-> 
-> Changelog:
-> =======================
-> 
-> General:
-> 
-> The SDL wiki documentation and development headers are automatically kept in sync
-> Each function has information about in which version of SDL it was introduced
-> SDL-specific CMake options are now prefixed with 'SDL_'. Be sure to update your CMake build scripts accordingly!
-> Added the hint SDL_HINT_APP_NAME to let SDL know the name of your application for various places it might show up in system information
-> Added SDL_RenderGeometry() and SDL_RenderGeometryRaw() to allow rendering of arbitrary shapes using the SDL 2D render API
-> Added SDL_SetTextureUserData() and SDL_GetTextureUserData() to associate application data with an SDL texture
-> Added SDL_RenderWindowToLogical() and SDL_RenderLogicalToWindow() to convert between window coordinates and logical render coordinates
-> Added SDL_RenderSetVSync() to change whether a renderer present is synchronized with vblank at runtime
-> Added SDL_PremultiplyAlpha() to premultiply alpha on a block of SDL_PIXELFORMAT_ARGB8888 pixels
-> Added a window event SDL_WINDOWEVENT_DISPLAY_CHANGED which is sent when a window changes what display it's centered on
-> Added SDL_GetWindowICCProfile() to query a window's ICC profile, and a window event SDL_WINDOWEVENT_ICCPROF_CHANGED that is sent when it changes
-> Added the hint SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY to allow EGL windows to be transparent instead of opaque
-> SDL_WaitEvent() has been redesigned to use less CPU in most cases
-> Added SDL_SetWindowMouseRect() and SDL_GetWindowMouseRect() to confine the mouse cursor to an area of a window
-> You can now read precise mouse wheel motion using 'preciseX' and 'preciseY' event fields
-> Added SDL_GameControllerHasRumble() and SDL_GameControllerHasRumbleTriggers() to query whether a game controller supports rumble
-> Added SDL_JoystickHasRumble() and SDL_JoystickHasRumbleTriggers() to query whether a joystick supports rumble
-> SDL's hidapi implementation is now available as a public API in SDL_hidapi.h
-> Windows:
-> 
-> Improved relative mouse motion over Windows Remote Desktop
-> Added the hint SDL_HINT_IME_SHOW_UI to show native UI components instead of hiding them (defaults off)
-> Windows/UWP:
-> 
-> WGI is used instead of XInput for better controller support in UWP apps
-> Linux:
-> 
-> Added the hint SDL_HINT_SCREENSAVER_INHIBIT_ACTIVITY_NAME to set the activity that's displayed by the system when the screensaver is disabled
-> Added the hint SDL_HINT_LINUX_JOYSTICK_CLASSIC to control whether /dev/input/js* or /dev/input/event* are used as joystick devices
-> Added the hint SDL_HINT_JOYSTICK_DEVICE to allow the user to specify devices that will be opened in addition to the normal joystick detection
-> Added SDL_LinuxSetThreadPriorityAndPolicy() for more control over a thread priority on Linux
-> Android:
-> 
-> Added support for audio output and capture using AAudio on Android 8.1 and newer
-> Steam Controller support is disabled by default, and can be enabled by setting the hint SDL_HINT_JOYSTICK_HIDAPI_STEAM to "1" before calling SDL_Init()
-> Apple Arcade:
-> 
-> Added SDL_GameControllerGetAppleSFSymbolsNameForButton() and SDL_GameControllerGetAppleSFSymbolsNameForAxis() to support Apple Arcade titles
-> iOS:
-> 
-> Added documentation that the UIApplicationSupportsIndirectInputEvents key must be set to true in your application's Info.plist in order to get real Bluetooth mouse events.
-> Steam Controller support is disabled by default, and can be enabled by setting the hint SDL_HINT_JOYSTICK_HIDAPI_STEAM to "1" before calling SDL_Init()
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
-> ---
->  .../libsdl2/{libsdl2_2.0.16.bb => libsdl2_2.0.18.bb}           | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->  rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.16.bb => libsdl2_2.0.18.bb} (96%)
+PACKAGE_SNAP_LIB_SYMLINKS renames libraries based on their SONAME so
+that they can be found directly rather than going via symlinks that
+would be created by ldconfig. For example, without
+PACKAGE_SNAP_LIB_SYMLINKS in ${libdir} we have:
 
-Seems to break automated testing:
+ libharfbuzz.so.0 -> libharfbuzz.so.0.20600.4
+ libharfbuzz.so.0.20600.4
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2998
+but with PACKAGE_SNAP_LIB_SYMLINKS="1" we have just:
 
-e.g.:
+ libharfbuzz.so.0
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/3348
+Unfortunately, this renaming is done based on the SONAME which breaks
+packages like mesa which install a single library with multiple hard
+links:
 
-but many many more in that build.
+-rwxr-xr-x root/root  13593488 2021-12-07 12:26 ./usr/lib/dri/i915_dri.so
+-rwxr-xr-x root/root  13137328 2021-12-07 12:26 ./usr/lib/dri/i965_dri.so
+hrwxr-xr-x root/root         0 2021-12-07 12:26 ./usr/lib/dri/iris_dri.so link to ./usr/lib/dri/i915_dri.so
+hrwxr-xr-x root/root         0 2021-12-07 12:26 ./usr/lib/dri/kms_swrast_dri.so link to ./usr/lib/dri/i915_dri.so
+hrwxr-xr-x root/root         0 2021-12-07 12:26 ./usr/lib/dri/nouveau_vieux_dri.so link to ./usr/lib/dri/i965_dri.so
+hrwxr-xr-x root/root         0 2021-12-07 12:26 ./usr/lib/dri/r200_dri.so link to ./usr/lib/dri/i965_dri.so
+hrwxr-xr-x root/root         0 2021-12-07 12:26 ./usr/lib/dri/radeon_dri.so link to ./usr/lib/dri/i965_dri.so
+hrwxr-xr-x root/root         0 2021-12-07 12:26 ./usr/lib/dri/swrast_dri.so link to ./usr/lib/dri/i915_dri.so
 
-Cheers,
+The SONAME for i915_dri.so (and therefore all the other names that link
+to the same file) is libgallium_dri.so. This means that
+PACKAGE_SNAP_LIB_SYMLINKS causes do_package to successfully rename the
+first name found to libgallium_dri.so. A similar thing happens to
+i965_dri.so with its SONAME of libmesa_dri_drivers.so. The order is not
+deterministic, so this means that although every build will be missing
+one name, it's not always the same one.
 
-Richard
+-rwxr-xr-x root/root  13593488 2021-11-30 15:17 ./usr/lib/dri/i915_dri.so
+hrwxr-xr-x root/root         0 2021-11-30 15:17 ./usr/lib/dri/kms_swrast_dri.so link to ./usr/lib/dri/i915_dri.so
+hrwxr-xr-x root/root         0 2021-11-30 15:17 ./usr/lib/dri/libgallium_dri.so link to ./usr/lib/dri/i915_dri.so
+-rwxr-xr-x root/root  13137328 2021-11-30 15:17 ./usr/lib/dri/libmesa_dri_drivers.so
+hrwxr-xr-x root/root         0 2021-11-30 15:17 ./usr/lib/dri/nouveau_vieux_dri.so link to ./usr/lib/dri/libmesa_dri_drivers.so
+hrwxr-xr-x root/root         0 2021-11-30 15:17 ./usr/lib/dri/r200_dri.so link to ./usr/lib/dri/libmesa_dri_drivers.so
+hrwxr-xr-x root/root         0 2021-11-30 15:17 ./usr/lib/dri/radeon_dri.so link to ./usr/lib/dri/libmesa_dri_drivers.so
+hrwxr-xr-x root/root         0 2021-11-30 15:17 ./usr/lib/dri/swrast_dri.so link to ./usr/lib/dri/i915_dri.so
 
+This renaming means that the library cannot be found at runtime.
+
+The simplest way to avoid this renaming is to only snap libraries that
+would be processed by ldconfig.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 84eafbd529..09cd376f4a 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1878,7 +1878,7 @@ python package_do_shlibs() {
+                         sonames.add(prov)
+                 if libdir_re.match(os.path.dirname(file)):
+                     needs_ldconfig = True
+-                if snap_symlinks and (os.path.basename(file) != this_soname):
++                if needs_ldconfig and snap_symlinks and (os.path.basename(file) != this_soname):
+                     renames.append((file, os.path.join(os.path.dirname(file), this_soname)))
+         return (needs_ldconfig, needed, sonames, renames)
+ 
+-- 
+2.30.2
 
 
