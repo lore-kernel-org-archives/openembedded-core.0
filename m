@@ -2,55 +2,55 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02552C433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 06:08:22 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
- [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web08.63589.1638857298852632417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66185C433EF
+	for <webhook@archiver.kernel.org>; Tue,  7 Dec 2021 06:44:27 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web08.63807.1638859464312645467
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 22:08:19 -0800
+ Mon, 06 Dec 2021 22:44:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kG9wyqyv;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id j9so12130687qvm.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Xdo6x695;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id p3so12235286qvj.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Dec 2021 22:08:18 -0800 (PST)
+ Mon, 06 Dec 2021 22:44:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RzbyAsqdaD7KhQOnpDwSPehKFXntJ1GJkYISc/gh+24=;
-        b=kG9wyqyv2BfGel6a7HBI3A8rRG36GEIS4SBlLRq8JT8R9g1nN4qHWb1TRd5JmdjqPt
-         CKrNao0swMK/X7ZX98hjFhBrCQBlsQd91BHPONUYnGMkvv+ZlaBYNxCfdJxWlUQnpsUk
-         fat9lT8vemwqr2+tN4XL6k+/Ybgt2XtG0bNntXMw/6CW4TT4DhTGPnsB4dER4K26zdDu
-         AN6J+z+fq3qi4KdoWyzJWFMgiJdQjy1cFsLqpPaiTQJzVksTTL6cojUVmqLS9W0QoRWq
-         fh2lFmda2DP0CdxDNYfMdTzZx1Q61hxpKeCyp9ymico9c7CqFelhZDF7qZg9oZj+mQTa
-         C6Hw==
+        bh=jxLa8c37M47dhzR3rCmaCwcQre5kQL1z30L9BU3WLV4=;
+        b=Xdo6x695Tb2BGcXgZPacXXvPU+pGPMHZ1+5KY3q0hgPCozjfTuX+pjSzJvt7+dhhTc
+         ilgsx+WfvhemFsyZHlEBL0a1MOsjqvR7AMqQwatLDwlGgHhs2pKahk13WUHqFp1aBBXv
+         x5uy2is0+fW4KmLsXiTgtmnFYwoNI6SzF6r/UGs3I6EBb5g8fFm3tfVdI09WKDpRxIzh
+         v2hdb74Q1vyizdMqA8vORdUin12EvRKBjXV+o5TOmAKro5gfCZmh4rUTZKCQBxCH/NSl
+         OeiMYUiefpLFweXmesvkd2JP8D4MTTaXgbsEWstfdDoVMkWUb5ZqkPIcpqPUrhQV/30L
+         14Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RzbyAsqdaD7KhQOnpDwSPehKFXntJ1GJkYISc/gh+24=;
-        b=G4YxeOlDsvyjvpmAoLqZiAAgMxTb8rRyx5XpM1hlyvXhntAN0nNqEPWQkhosAZtRx1
-         6yUIQurjXdxkjFzcjZJobftvd0oBWaRnlVTR8/YGWdF+QQRUhWEDadL7VheTk/CUYvC/
-         7so82e+/IEDWjzxQ7K3xmBRa7Gn5dRU/NQhSpvl435vewUfqgxaycTHHa8kvsfMdprZM
-         MeQu6aYS4Wr+fR25tiPXGBueN18DZ4Y/Uacjrpahy1MyQlJbZBty7k+b0rXUQtuJ75zX
-         nVOlElnEdo3OVqE0r6X4qO/UA2wCWuPeAObxxzMXJ6f15e/7iWCzFA4jL+YdOkn3KwH5
-         JHbA==
-X-Gm-Message-State: AOAM532Iv5QLMK0ibqp0Ct3ZfBV3noAd78HT5MaIj9NWTHLVMkNfKDED
-	5voxly20EaiB3khvLz4P6JZt+s+SV7rQBG7/pl0=
+        bh=jxLa8c37M47dhzR3rCmaCwcQre5kQL1z30L9BU3WLV4=;
+        b=KqJxrUICNnVD4Ai5FiAZZabCjAeV39xhYqO946PTMfcFJybeDDK7B+fn+CdDdTRcbe
+         0pXyh5wGfSmHa6MITkipRyB/fuprwQ6SNTqFbiHAi4VuN4ZNNGCeDG6MISe1WKIVL9lg
+         uoUzNb9U6xcXKrO/UWBxMoOAHDCkh5HnOuqjqa/SKq69ai1CT1QrFSI1DvHiuvkX5fy5
+         X6tr0PckykSIzWoWiK1X802/JyISa/d1jsi0wxJpif4HkRhxD8Gg1BSLOuMCAGSg5EW5
+         o5GX/z+t1IPaQeuR5dxgnRF+kxM7bOBHcb17bSM1/UONP3u6oXt4ZNK/qJxxZLWjD8Iz
+         /0wA==
+X-Gm-Message-State: AOAM530O7s8wj4E2Wau2OpN8i+e3n8RTd/pW/jXMyHd4qgEJmE5nZeTa
+	2uD3pXP45H9RjKNbO+G9xDJX2c88/Uky+zZRGLk=
 X-Google-Smtp-Source: 
- ABdhPJwY+hUPQAapG+xbeBj/aOcgN/7kNnNMnAgRIOxCpnZtqYoaYD19cClwK5P6bVIKJjGova1pH9hl2IxXuK9q9cQ=
+ ABdhPJzJ5VJ45ZzolgOfWbOfWGfQsXhSQLhT5HaDfbTUgbL9D9OlRgnHS1V9+KjXcdJKxuWaHsAGuUvNnM2r4AAuH5w=
 X-Received: by 2002:a05:6214:c83:: with SMTP id
- r3mr42921230qvr.110.1638857297754;
- Mon, 06 Dec 2021 22:08:17 -0800 (PST)
+ r3mr43066375qvr.110.1638859463402;
+ Mon, 06 Dec 2021 22:44:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20211206124721.3899116-1-ross.burton@arm.com>
 In-Reply-To: <20211206124721.3899116-1-ross.burton@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Dec 2021 22:07:50 -0800
+Date: Mon, 6 Dec 2021 22:43:56 -0800
 Message-ID: 
- <CAMKF1sohf9rFUAAd8iWr=ZA+br9BAKMLj9oQvF2q2xBFABvFAQ@mail.gmail.com>
+ <CAMKF1sowYkumsC-DuphC3UxAEtWPsnEohYnkunct2iQFnaJH0w@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] tcf-agent: cleanup patches
 To: Ross Burton <ross@burtonini.com>
 Cc: Patches and discussions about the oe-core layer
@@ -59,9 +59,9 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 06:08:21 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Dec 2021 06:44:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159281
+ https://lists.openembedded.org/g/openembedded-core/message/159282
 
 On Mon, Dec 6, 2021 at 4:47 AM Ross Burton <ross@burtonini.com> wrote:
 >
@@ -70,12 +70,13 @@ On Mon, Dec 6, 2021 at 4:47 AM Ross Burton <ross@burtonini.com> wrote:
 > fix_ranlib.patch has been rebased into uselessness over time, it's now
 > setting RANLIB to just '$@' which expands to '' when called, so is a
 > null operation.
+
+this works with gcc-ranlib wrapper only which expands $@ shell array,
+but it will fail if RANLIB was set to <cross>-ranlib or
+<cross>-llvn-ranlib has same behaviour
+so IMO  this patch should be kept for portability reasons.
+
 >
-
-not totally useless. This patch is still useful when using llvm-ar and
-llvm-ranlib see
-https://errors.yoctoproject.org/Errors/Details/618826/
-
 > Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
 >  .../tcf-agent/tcf-agent/fix_ranlib.patch        | 17 -----------------
