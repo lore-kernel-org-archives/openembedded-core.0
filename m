@@ -1,50 +1,67 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <61881d47fe575c33b194fc099b9688788e33f1d1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] glibc: Drop fsqrt implementation patches for fsl ppc
+Message-ID: <3048831fe8ea94422dad40dad600a325742e7d90.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [dunfell][PATCH 00/14] Backport mandatory dtschema handling for device trees built through the kernel.
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Mon, 06 Dec 2021 23:32:09 +0000
-In-Reply-To: <CAMKF1sqK0Nxp3NBggH7br4K7Qyxx6voMk1rUXJpVhuxBTBSrUQ@mail.gmail.com>
-References: <20211206221418.2281162-1-raj.khem@gmail.com>
-	 <fafa300be74d5ab50be74489d5d7725d9863bcda.camel@linuxfoundation.org>
-	 <CAMKF1sqK0Nxp3NBggH7br4K7Qyxx6voMk1rUXJpVhuxBTBSrUQ@mail.gmail.com>
+Date: Tue, 07 Dec 2021 10:27:59 +0000
+In-Reply-To: <CAP71WjxMLE8CXMGDhdhU6Dgmkije7cKh7SW_bmpeDBSXPMVdpQ@mail.gmail.com>
+References: <20211201203407.218692-1-bhupesh.sharma@linaro.org>
+	 <CADkTA4NV0ix0S4rc8HqJuJJr=Os299bx5UZrQEBnx9MBW-DCzw@mail.gmail.com>
+	 <d1a94fdcacca208555f96846beecb853c14dbc24.camel@linuxfoundation.org>
+	 <CAP71WjxMLE8CXMGDhdhU6Dgmkije7cKh7SW_bmpeDBSXPMVdpQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Bhupesh Sharma <bhupesh.sharma@linaro.org>, Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, bhupesh.linux@gmail.com
 
-On Mon, 2021-12-06 at 15:28 -0800, Khem Raj wrote:
+On Tue, 2021-12-07 at 10:49 +0100, Nicolas Dechesne wrote:
 > 
 > 
-> On Mon, Dec 6, 2021 at 2:51 PM Richard Purdie
+> On Wed, Dec 1, 2021 at 10:39 PM Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
-> > I did test such a patch today as well since we discussed it. I'd propose
-> > this
-> > commit message since we need to say why:
+> > On Wed, 2021-12-01 at 16:33 -0500, Bruce Ashfield wrote:
+> > > On Wed, Dec 1, 2021 at 3:34 PM Bhupesh Sharma <bhupesh.sharma@linaro.org>
+> > wrote:
+> > > > 
+> > > > This is a backport request for dunfell, while picking up only the
+> > > > skeletal support for allowing mandatory dtschema handling for
+> > > > device trees built through the kernel, introduced from kernel
+> > > > version 5.16 onwards.
+> > > 
+> > > The problem with adding this support to dunfell, is obvious in the
+> > > number of patches involved.  We've also said/known that at some point
+> > > that we won't be able to support all new kernel versions with the LTS
+> > > release. This may be the start of drawing that line.
+> > > 
+> > > Also, we've had to do some license tweaks in master just today for one
+> > > of the added packages (idna), so that would be needed as well.
+> > > 
+> > > The validation isn't absolutely critical, I'd suggest that just the
+> > > wrappers and pkg-config fixes would be a smaller footprint to allow
+> > > the kernel to build, without the new package/feature additions to the
+> > > dunfell release. The new packages (and full validation) could still
+> > > possibly be done through a secondary or mixin layer.
+> > > 
+> > > I'm not sure which way to go on this, but I thought I'd offer those
+> > > points for discussion.
 > > 
-> > """
-> > 
-> > glibc: Drop ppc sqrt optimisations
-> > 
-> > OpenEmbedded isn't an upstream or a patch repository. These are
-> > optimisations
-> > which for reasons unknown were never merged into upstream glibc. We have no
-> > active ppc maintainers and these patches are at an evolutionary dead end.
-> > Since they are optimisations, there may be small performance regressions by
-> > removing them but OE can't carry patches like this indefinitely and these
-> > appear to have no future.
-> > """
+> > I think this needs to be done in a mixin layer for dunfell.
 > > 
 > 
 > 
-> This sounds good to me. I guess will add it to commit or do you want me to
-> send v2. This passed my local testing on qemuppc 
-> 
+> ok.. what about honister? would you consider a backport of these patches for
+> this more recent release?
 
-I can sort if you're ok with it, thanks.
+To be honest, with such a large set of changes, no, I'd much prefer a mixin
+layer there too.
+
+It is rather sad the kernel is suddenly "growing" it's dependency list in such a
+large way but it doesn't change our policy on feature backports. Whilst we've
+worked to allow newer kernels on older releases where it is practical, this case
+isn't even close to being similar in scope :(.
 
 Cheers,
 
