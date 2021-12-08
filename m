@@ -1,203 +1,108 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <scott.murray@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC40C433EF
-	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 15:09:07 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.13465.1638976146550482116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E9CC4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 16:15:11 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web12.15189.1638980110874000835
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 07:09:07 -0800
+ Wed, 08 Dec 2021 08:15:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=V0I9SRPg;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id l64so2283804pgl.9
+ dkim=pass header.i=@konsulko.com header.s=google header.b=K7J5nJAk;
+ spf=pass (domain: konsulko.com, ip: 209.85.160.172,
+ mailfrom: scott.murray@konsulko.com)
+Received: by mail-qt1-f172.google.com with SMTP id t34so2627337qtc.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 07:09:06 -0800 (PST)
+ Wed, 08 Dec 2021 08:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SkQQ/Z8/d0SXDbMSWRfOpYW2TwsYiMw1oQim6Km1eKQ=;
-        b=V0I9SRPgcGRHDQmKCEFsuepKdVfeDd26xJ+CuEpFA0mDcB0SIlXVuG6o4YikRFz5LM
-         OH8apg5SdPA/DiwhcWaGAczMQpaSneIorZPD8M/kpMKz0IDvaVh9QX9wOUh3NwG/BkgJ
-         qs89rJkk/1UebhsWqJxA8plAplwCPJt0CDwBCD2XitGTblFKIv2fXx+Z08HSuzlLL/9G
-         PreT6LvQQtyeVVo8p/iN1sFi4fN8mC0ZQJ5EN8RH5a5+kO9TCWEkfCXNsxjR+z2LSWpf
-         K/eRLagNSBthSBwNllzrFunm+8UOrblCMpyXWi3sfr6kAs1cJj2Wok330xeWaLDrGIE/
-         tcdg==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=qs7SC8x4Me/MsQrj6OyG6d+Idvg+rTgdrfefDemF29A=;
+        b=K7J5nJAkS1qKtdAW+mk/OKMbcQYs1iQTQy2hF3G4gP8K/ueFh8OCvPCP1HV2r5mfl/
+         ISbaUIxQGX6WK2tiq14FQ6yjKEIjMNRrRYhjQ+NryEb7fZw9owKEISV1YIr7ewMyNrWb
+         5W3jdACIsWWbA7VjbKnePwEbhH4nSKuvy+Vg4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SkQQ/Z8/d0SXDbMSWRfOpYW2TwsYiMw1oQim6Km1eKQ=;
-        b=iVLd7QrTT78RsDpD6liUq3mTJtlI5VOb9erteEeUidr2SePLCdpnHvT8QLSPJq8uFg
-         HgJVROIrEP4ngkx/PYH49qB4cAa1Pa90EzxqAhy/tbGxQj3bOYQ0TYkqhYjbjVVbcQz9
-         EoDqi/lFOXhixbxUzJYZN6r7SGTplhfGoz7qY32dGiAHwdLa7Z5kmSP+Z69tJrN73LT8
-         1gXJ18BhVnTxxiILKFoApEIl0NFwMEavWYBUPUslMRqbUJPmjLVf68fthUvwXFPx38lH
-         q/30LN2ge/zZoSS8La6Dgk8ofQMaUUnUXTPpqaQqpFNg2Rmw7xpy3/cfvhGP+VrPDANH
-         SBDA==
-X-Gm-Message-State: AOAM5309N+icNNrhiXBRLoOnBha2PhUCX81yL0vRjpX/eQH1U6WBmIjy
-	SjeVeg0P5FH7qdDBAckKgRZLt+34URbZ1FVD
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=qs7SC8x4Me/MsQrj6OyG6d+Idvg+rTgdrfefDemF29A=;
+        b=gAY5aB3yJ436h1KLIBznJwx7LMcn04MGZkTlox1YV7ErMU2TnL28GpNgT1O2GZmBS2
+         pyNTqMfzjvOYuUIRv1NudQA0Kk/Sr3zqSjXeYMFIUYXahXHAya4usGhpaSwGbAm9aP+r
+         Rlk7ZZMNbkgW6QJbo6MWh3InmzcQk7mNQCzNPINTUlM+BeqA0COIILJUrFq7m+nIbGNH
+         DAhS2oy0MR+k4XZDJd1nZmN0eC9myW357Iblu/JxxcjH0RMyxzT6/s4xSQwVcI7DVcW5
+         hnxF/eqKFDJvCSDpH4E9GuGFBbNd8XV3YaPJOgxHako0+FWw2Gi8Ml/8YQDI7vEWGfd1
+         g3Lg==
+X-Gm-Message-State: AOAM531Od3cFtIs5HgPXNbbfgqxMz78CoI5boW5aFQXpLHOTlbA3vIiC
+	doNRAWf9NeS8yWawrCQA/dHaPQ==
 X-Google-Smtp-Source: 
- ABdhPJysodJxNnWJJaI/F+n2uBOhevTqI6UVRYdDbSQLJwvDoOFG+cGTxIryzApKS6dIMeavQ4mThQ==
-X-Received: by 2002:a63:8749:: with SMTP id
- i70mr29100722pge.379.1638976145136;
-        Wed, 08 Dec 2021 07:09:05 -0800 (PST)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ ABdhPJyjoN1FKJkl09SQ2xrKbcgjdaAdQlZMng5hm2M4XPMhCYF2l7DXNxdGAQJIo+Z9aYP+Z9NN8w==
+X-Received: by 2002:ac8:594e:: with SMTP id 14mr9036946qtz.105.1638980109890;
+        Wed, 08 Dec 2021 08:15:09 -0800 (PST)
+Received: from godzilla (192-0-174-222.cpe.teksavvy.com. [192.0.174.222])
         by smtp.gmail.com with ESMTPSA id
- y31sm4475537pfa.92.2021.12.08.07.09.03
-        for <openembedded-core@lists.openembedded.org>
+ p10sm1933123qtw.97.2021.12.08.08.15.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 07:09:04 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/17] Pull request (cover letter only)
-Date: Wed,  8 Dec 2021 05:08:53 -1000
-Message-Id: <cover.1638976040.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 08 Dec 2021 08:15:09 -0800 (PST)
+Date: Wed, 8 Dec 2021 11:15:08 -0500 (EST)
+From: Scott Murray <scott.murray@konsulko.com>
+To: Jon Mason <jdmason@kudzu.us>
+cc: yocto@lists.yoctoproject.org,
+    Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+    OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] Help with Inclusive Language in OpenEmbedded/Yocto
+ Project
+In-Reply-To: 
+ <CAPoiz9zni1rhmpFP+YOeseYyaT7BJGE_oZjYbDicWiYo5x0_eA@mail.gmail.com>
+Message-ID: <aba5a7a-ebf-4372-41aa-525ea27d97f8@spiteful.org>
+References: 
+ <CAPoiz9zni1rhmpFP+YOeseYyaT7BJGE_oZjYbDicWiYo5x0_eA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 15:09:07 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 16:15:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159360
+ https://lists.openembedded.org/g/openembedded-core/message/159361
 
-The following changes since commit f61fcb6e176f19f1e768ce63a693f238713c8887:
+On Mon, 6 Dec 2021, Jon Mason wrote:
 
-  openssh: remove redundant BSD license (2021-12-02 05:11:21 -1000)
+> This email is a follow-up from the session held on Friday at the
+> OpenEmbedded Developer's Virtual Meeting (see
+> https://www.openembedded.org/wiki/OEDVM_Nov_2021)
+>
+> The session was not recorded, but the slides can be found at
+> https://docs.google.com/presentation/d/146ueVVTMeA8JI43wqv5kFmdYEygqqmfGH0z1VRL2bDA/edit?usp=sharing
+>
+> The outcome from the discussion was that inclusive language changes
+> are something that we want to accomplish in the kirkstone release
+> timeframe (with an exception for the "master" branch name, which will
+> be handled at a future date).
+>
+> There has already been a pass at collecting the needed changes at
+> https://wiki.yoctoproject.org/wiki/Inclusive_language
+>
+> This is not as simple as a find/replace of offending words.  There is
+> a desire for backward compatibility or to provide some kind of "you
+> want X, which is now Y" (which complicates things).
+>
+> The intention of this email is to see who is interested in helping
+> out.  Once we know how many people are available and what time frames,
+> we can plan out a roadmap.  So, please email me (or respond to this
+> thread publicly) and I'll add you to the list.  There will then be a
+> follow-up zoom call in the next week or so to plan out the roadmap.
+>
+> We will document the roadmap and everything else on the YP wiki page above.
+>
+> Questions and comments are welcome, but not interested in debating the
+> necessity or timeframe of this task.  It has already been decided.
 
-are available in the Git repository at:
+I am also interested in helping move this forward, please count me in.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Dhruva Gole (1):
-  scripts/checklayer/common.py: Fixed a minor grammatical error
-
-Eero Aaltonen (1):
-  cmake: FindGTest: Add target for gmock library
-
-Jate Sujjavanich (2):
-  libdnf: Backport bugfix for upgrade calc
-  dnf: Backport bugfix for upgrade
-
-Khem Raj (1):
-  libunwind: Backport a fix for -fno-common option to compile
-
-Neetika Singh (1):
-  glib-2.0: Add security fixes
-
-Pavel Zhukov (2):
-  busybox: Fix for CVE-2021-42374
-  busybox: Fix for CVE-2021-42376
-
-Quentin Schulz (1):
-  README.OE-Core.md: update URLs
-
-Ranjitsinh Rathod (2):
-  ncurses: Fix for CVE-2021-39537
-  libsolv: update tag for missing CVEs
-
-Richard Purdie (2):
-  buildhistory: Fix srcrevs output
-  oeqa/parselogs: Fix quoting
-
-Ross Burton (1):
-  vim: fix CVE-2021-3968 and CVE-2021-3973
-
-Steve Sakoman (3):
-  bind: update to 9.11.33
-  bind: update to 9.11.34
-  bind: update to 9.11.35
-
- README.OE-Core                                |  10 +-
- meta/classes/buildhistory.bbclass             |  30 +-
- meta/lib/oeqa/runtime/cases/parselogs.py      |  14 +-
- .../bind/{bind_9.11.32.bb => bind_9.11.35.bb} |   2 +-
- .../busybox/busybox/CVE-2021-42374.patch      |  53 +++
- .../busybox/busybox/CVE-2021-42376.patch      | 138 ++++++
- meta/recipes-core/busybox/busybox_1.31.1.bb   |   2 +
- .../glib-2.0/glib-2.0/CVE-2021-27218.patch    | 129 ++++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-01.patch | 170 +++++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-02.patch | 249 +++++++++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-03.patch | 131 ++++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-04.patch | 298 +++++++++++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-05.patch |  54 +++
- .../glib-2.0/glib-2.0/CVE-2021-27219-06.patch | 101 +++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-07.patch |  76 ++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-08.patch | 101 +++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-09.patch | 100 +++++
- .../glib-2.0/glib-2.0/CVE-2021-27219-10.patch |  59 +++
- .../glib-2.0/glib-2.0/CVE-2021-27219-11.patch |  63 +++
- .../glib-2.0/CVE-2021-27219-reg1-1.patch      |  36 ++
- .../glib-2.0/CVE-2021-27219-reg1-2.patch      |  38 ++
- .../glib-2.0/CVE-2021-27219-reg1-4.patch      |  38 ++
- .../glib-2.0/CVE-2021-27219-reg1-5.patch      | 100 +++++
- .../glib-2.0/CVE-2021-27219-reg2-1.patch      |  49 ++
- .../glib-2.0/CVE-2021-27219-reg2-2.patch      |  43 ++
- .../glib-2.0/CVE-2021-27219-reg2-3.patch      | 232 ++++++++++
- .../glib-2.0/glib-2.0/CVE-2021-28153-1.patch  |  27 ++
- .../glib-2.0/glib-2.0/CVE-2021-28153-2.patch  |  42 ++
- .../glib-2.0/glib-2.0/CVE-2021-28153-3.patch  |  57 +++
- .../glib-2.0/glib-2.0/CVE-2021-28153-4.patch  | 265 +++++++++++
- .../glib-2.0/glib-2.0/CVE-2021-28153-5.patch  |  55 +++
- meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |  24 +
- .../ncurses/files/CVE-2021-39537.patch        |  30 ++
- meta/recipes-core/ncurses/ncurses_6.2.bb      |   1 +
- .../cmake/cmake-native_3.16.5.bb              |   1 +
- ...ndGTest-Add-target-for-gmock-library.patch | 255 +++++++++++
- ...ackages-in-upgrade-job-RhBug-1728252.patch |  60 +++
- meta/recipes-devtools/dnf/dnf_4.2.2.bb        |   1 +
- ...job-goal.upgrade-with-sltr-as-target.patch |  58 +++
- meta/recipes-devtools/libdnf/libdnf_0.28.1.bb |   1 +
- .../libsolv/files/CVE-2021-3200.patch         |   9 +-
- ...0001-Fix-compilation-with-fno-common.patch | 420 ++++++++++++++++++
- .../libunwind/libunwind_1.3.1.bb              |   1 +
- ...rash-when-using-CTRL-W-f-without-fin.patch |  92 ++++
- meta/recipes-support/vim/vim.inc              |   4 +
- scripts/lib/checklayer/cases/common.py        |   2 +-
- 46 files changed, 3688 insertions(+), 33 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.11.32.bb => bind_9.11.35.bb} (98%)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2021-42374.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2021-42376.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27218.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-03.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-04.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-05.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-06.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-07.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-08.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-09.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-10.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-11.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg1-1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg1-2.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg1-4.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg1-5.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg2-1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg2-2.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219-reg2-3.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-28153-1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-28153-2.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-28153-3.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-28153-4.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-28153-5.patch
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2021-39537.patch
- create mode 100644 meta/recipes-devtools/cmake/cmake/0006-cmake-FindGTest-Add-target-for-gmock-library.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0040-Keep-installed-packages-in-upgrade-job-RhBug-1728252.patch
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0040-Mark-job-goal.upgrade-with-sltr-as-target.patch
- create mode 100644 meta/recipes-support/libunwind/libunwind/0001-Fix-compilation-with-fno-common.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch
-
--- 
-2.25.1
+Scott
 
 
