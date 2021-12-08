@@ -2,57 +2,53 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C534C433FE
-	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 10:19:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78590C4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 10:19:07 +0000 (UTC)
 Received: from EUR02-AM5-obe.outbound.protection.outlook.com
  (EUR02-AM5-obe.outbound.protection.outlook.com [40.107.0.42])
  by mx.groups.io with SMTP id smtpd.web11.10317.1638958743676272816
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 02:19:08 -0800
+ Wed, 08 Dec 2021 02:19:06 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=FvgMuc8k;
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=iJ3PDIg+;
  spf=pass (domain: weidmueller.com, ip: 40.107.0.42,
  mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BOjuJ3mukCGedj0QPNqKpVSi7dLZDyqu6fh14ZOgRRNthfM4fzpUcFoi+OharF1mu5SLVeZF4W/zGVXWsjL9EyuIQ/HKr1eAvkXabgMQIDg7AV5Q8BmLZXDF4XARfKZBD8fMcQxkAwIcxMh39EnDwi1ZEErJrpOl2n7KoRbJNgtalbM2XIzvOkiq+Rl93v5wmU/NzFsNkfcvQyVb1nvC0R6bPHNbTSvMIs3IBJL0ykkmdSu7jfoFaZl0K/EpYFf3VLxddv9dwHUXMmEERA0yMkLn2Cnj2M2Nb8O3GdOjjL/EAlbx0Hym2bQ7PcQtK1DgqKN5jBQ/BhhbbmYefuiJZQ==
+ b=TibAnlDFtIoUXxseDlj1Q24AQ9yzHrBKOX/yxR00Y8uHRU8cXga2dP0X8mWBLvMw8XnZprxPlHEyGvx71CyOEDznHBredMnfKoaP5lbgAb9dnTbYZvzwr9iWRdSedt5TtqfW3KNGOQKw2XcGPPpqiwpbz0wJEx0/02GNg7viFuOzolXJf0vGWVJWfY+KATJ9GHWldIrpDDphq6TMqb8ZaaWCTXMGbflQQ1QxAdHdDdTZd5H+CU9k60VqPX5+F5jvC1Hn7vJOvqOcv3xzCe6HBWXmJ+9WMcXhh3ES0rddPM3A6affqd9/vU/yfA9Wtso27kSU6FZb42M3jndJe7O0bw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hNaI6tmxpVPpxYRr8Fx+BZ9nEZxnXxq24JawW4xAgTQ=;
- b=NjaxAeuKP5o2TKXzkLSPpfsuChIA2mkUD8hK4bVmyEX/ulzTkMS/rqBsZ4WgVx6CSzLMtwS9nfpmGgweZJ+r2G9KJ2aoymheOg+poGoJiKvzhHAR9/WeA3M88WbRksttCbrI+443dhsU72Q/faGG4iSyvEK3F3mUWlQUZ/0JGp8jIGlRMx+JJH/XXmktgdrwsGnq3L4adkA5rNGLs5g9077Yd6yv984KhUn2FE9RUlyUlVzd7dO7TB8i85KJmLuo/9biq04GzGmf77Y4Tfr+AXD9PahXYoIetero+xgD7Lloxz9/KdLCodNUyZGoo36CyFQLo4R5zdRJ7RNeOYaTfA==
+ bh=Akgct1byB96G6UVkB4An697Y5bc25baBN2ZdrwO9OVk=;
+ b=JGVzWKXDxvJJi7MU+W53cyqos+yb5x1uCrEIzNtDSdYmkzQ/kZCkGEmxtKlzMMRyRntQ5DZsXtL6TpB2ikN1UmRQRKPjlHmMx5kO4lW1USF1wPkEFgRtEL1KL1k5ojnHazusDookyLqHVy7Tq6FRt+W899yW0ftTEApPzgP4u/0CH4xbUKLYcg2lqdhLK+W8wM0/ZHPGt0CR1mjwW5r5CejcnhJMcSj3EC8boVn+nNF94CcH1zFPHGno2Sm3g1bm0kZGpCGofLkegdrQ7P4UseFbV2+/IvXZjE4OxzsTCt0BzERfWRzeX9vh2cIE5nwIrZS0MEL4uS3qd3o3LwM45w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hNaI6tmxpVPpxYRr8Fx+BZ9nEZxnXxq24JawW4xAgTQ=;
- b=FvgMuc8kGoiIvQVHbPUBB42A6YJdu30IvZAzjPIEEJWlE0H7ObK9LhKcnzpT8Ib8r83bOWUX+cR5oK3V5L+NHqzMVRnRbt2EXdaKYq7nwgn1pG6lbCREIbmaD5XDKk9AKny7rvN5oEoVW/T6+vl5hS9oBtxTtypxhTF+Jpu4IdQ=
+ bh=Akgct1byB96G6UVkB4An697Y5bc25baBN2ZdrwO9OVk=;
+ b=iJ3PDIg+G48kzRkEOH01uhZ/hGVzdIwuaecp/6ZLmpqLiLx0z2gSHFD0ysOJLDnZoSq06taw6iVC7jQ6+r1FsoZYcgjf4BjPKnbLWQd3oyUCZUerv7IkuzgoH5Jx0TJ9zwmUaCCSx9e3xsb4e0uwxLNa1zkmM3gQ/Xrh162yjMg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
  by PAXPR08MB6526.eurprd08.prod.outlook.com (2603:10a6:102:df::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Wed, 8 Dec
- 2021 10:19:01 +0000
+ 2021 10:19:00 +0000
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::f:41c4:eb10:5010%8]) with mapi id 15.20.4734.024; Wed, 8 Dec 2021
- 10:19:01 +0000
+ 10:19:00 +0000
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [PATCH v2 2/5] selftest/devtool: Check branch in git fetch
-Date: Wed,  8 Dec 2021 11:18:36 +0100
+Subject: [PATCH v2 1/5] recipetool: Set master branch only as fallback
+Date: Wed,  8 Dec 2021 11:18:35 +0100
 Message-ID: 
- <20211208101839.16224-2-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211208101839.16224-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: 
- <20211208101839.16224-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-References: 
- <20211208101839.16224-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: AS9PR06CA0002.eurprd06.prod.outlook.com
@@ -64,114 +60,153 @@ Received: from DE10512.weidmueller.com (94.134.181.94) by
  SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
  Wed, 8 Dec 2021 10:19:00 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 825d6300-74e1-4386-01c5-08d9ba342752
+X-MS-Office365-Filtering-Correlation-Id: e85e7aa1-11fa-4343-f222-08d9ba34270d
 X-MS-TrafficTypeDiagnostic: PAXPR08MB6526:EE_
 X-Microsoft-Antispam-PRVS: 
-	<PAXPR08MB652600DD7157A6F7AF352C60D76F9@PAXPR08MB6526.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:486;
+	<PAXPR08MB6526B76AC9605C3DD0807534D76F9@PAXPR08MB6526.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	JAWmTd8rfVkaFq/nsrbpg5mRwnu0WoB2ZZa87/thJFlhuPYdWMf8xZFK81gpg7+rgxm3Qc3hA4oqmiFP0H4IKXjcrrK7YJcqtc569CoZcpCXKtraaTIXnkngPYV5J1TI6aJBxn62ls5ItEMzrPHl+p8HQ/ETZRB3/e2cWX3q//5wlcMxtwpMyNZ7SHq0ck5SmSnmGtJ374T81Sm+eXjA4azzaaQa8JQnWfU/OxYjK5VE6xDfA1OStPuri/ZxGZ/+UlifmScNZB7y2t+B4pVflQn6JnrIhpLEwr3oAB8pywTylrt7VJSAoDXSsiNo1WsEb9RDlvz26FWW3Gd4mmfujoBLOANxn0M2riKm3ljKtsmRIb8vWN8CShVhic3uxoIkxbHLylmBesoZ/VJ6M8dWWvn33kpnYD/Ga6WNTotoyQuXty9lMdMbLoV6DAWqsCg7CbeacFAtEZQFfmlUBrGy/fmiCidlG+4kFMSUnWUDRV3ZWM/kZofzhqwxXKxt9aJgUXm1guAJT1AcTOpqwN4z7Y0WXLj6Ho4miBklTZogIadBqn8B0Ip2SVmBm2OGeaqzhiBh7A8E4MEB4oab7WUU7XuiRBGJkMySPELNAh3L+mNsz4AgNkefIMxvQMsH3CKS30xC09TYWjuOgU4rOMXOOwPWfiW7I2/HKnLTsr9AMYpcAVTZnGW5wkSFp2VN+0ZnSOw9pUZlcqimYaakUMJcWA==
+	UaKZPVKNZSKE2HN7mJdUgRmmxLCJ6nty0oR/4hZQQdkpuglfZ5vvPJbZJn5eY/eCZ7mciUQHEdEOuc2+Z2TirwyfIiIMjsA8JFVN6RB4PtG8sj6XETbxR8dx89oQ4F22N/Ab1SJQBOljrMlVhDXHblsaJbeAA4O2FUniyzzt3aEHG9qeF5W0WT4CgEx1yNMcjkkGRh98hYfZRSLfB3FmW+JSanG0Y4Izu9is0f5bK5HgdHBX66so9npaXTOnb9svud7ZhLea5BB3Jwl40ZGvEcZhEc9iKnFWZ3TAeexTRb8qZuU18ug44UAIpliz17Ijmm2dKXyFpjxa+Ssfal8/Qyc/kT2i7WJgZ9xUDBk/U+1ZaiyTnZaUmMwZ5sXFFZ29DbzrhCvuei0i+s2LBHa0bJVuiJ2MMgcr9UvPLp50elXErGDMO7VcGORcJJDcTZ9Nzj5snmkP1pTxtUW57v55CFqfhH9goVFtLaIVUXY1Ef8FSorfsah1t9d/UWD+JSZMrAfzrTqDgg8Q1kYnIwERgLhM0pDQMYd5X/bHX9ato/ayN9+Z3swR0UDZxGOUScB5bkOxWWhTV93AE6kdt4wtLQrKqOijmIYVLZJ2ssQJmbOWB1mdzd2KdR6en8BjZ4TiMOzzjcxaOLf1RhSwyB9NyUhX+9IEsBsSuE4eM3qslJMwQDzjZ7+fgaKmAaHZayrE
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66476007)(5660300002)(6666004)(86362001)(66556008)(7696005)(52116002)(66946007)(1076003)(316002)(2906002)(8936002)(38100700002)(8676002)(186003)(36756003)(4326008)(6486002)(956004)(2616005)(83380400001)(38350700002)(26005)(6916009)(107886003)(508600001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?MG4yozEHPVd2XlY7onG2lAbPHQak6eoUcz69JrzbAQGqcJb9eBQxCQlcOoGL?=
- =?us-ascii?Q?BeIPfR+sYgbbycozGQdIIY0VMk+zVTrD7dRnwnA0vz6TMxnWeJ8qiEqb1Rqu?=
- =?us-ascii?Q?ywIeY29VoeOMOQCdce2RJb06mYaXLKBrNd5P76LdpPv/nDqVGr6FbipVHtq8?=
- =?us-ascii?Q?nEX+5Tb6rhFYVKlhzEv97gnwUTOnHegTQ5kFhM6gwEu9bA4+y9UyLVoXv1e+?=
- =?us-ascii?Q?fVjg+QNrz0NTsIbFQu62U1xRIfQzgknGLDLGe7K4il7ze/RLHqxm/EiR1i/q?=
- =?us-ascii?Q?8le/SVanYiGRxFMAnN4uj5TTTckQl+8ml4zhHg3xJZuQFc6v8y89zSpmsWgR?=
- =?us-ascii?Q?uxa0+YogNSeSMSmO6RZM/tyT76w3WCL4rjMsz+SHjlfLrlxNSC7VVl1L5H7t?=
- =?us-ascii?Q?vgi0gu3zAnzG4AlLv4VFCz9kGumjQ7XJNaLskukUnskbPFoxJU/g4kQPbNZ7?=
- =?us-ascii?Q?OplqXRPGVVHy7FNMKXAPxY0qK/gCVlluwXLei/d9c1CFaV74hDL94igPst8L?=
- =?us-ascii?Q?kHw50G8xTnV4P9yW8894TdlyPRTc5ibSZB/WpUZOLO2y7qO8vjTIvgwn7bf1?=
- =?us-ascii?Q?tiS6EWMfUnxQWNdJdD2MVNX4WcsNTN3Ic7EOl8X3Mv7uJPnveLdH2oTVkCc+?=
- =?us-ascii?Q?ZtT4ELevq2GcxpCXrDpeD+5uKbU2kYKkHbFGSpbEb0GtNb+4cBHGKemtgRIu?=
- =?us-ascii?Q?7pwAK/1zDSkPL8BVb8iE3Wd8t9eAgkCzJpCLQwlomGl/HKpXkeJ7MsLSLd+n?=
- =?us-ascii?Q?BHDgzQp+nU35EETVHTXTPDtT0Oik8qPqvzNDC+6ONo68s6W5pKKf3OUU7Cha?=
- =?us-ascii?Q?i000gNyeeMzjDEYd0Wj5bIbVp+khzY9RFsTIY/I0cgHeEWDw6xw0bYclk1OH?=
- =?us-ascii?Q?PHwUs13NiiNLYXi2NMzAvrGa0D/7GUXUn60gDjFxVvM2I8Z4YtRZ1o3bFU2N?=
- =?us-ascii?Q?2TTjrYty5uU4mmN0S+QQas8XWvgwh1n/i2lOpiEe2r0VttCpJVEPSsVCfBIn?=
- =?us-ascii?Q?4DQ2TAFK5muRnKMX9mGLoULF4+vn8j+BiZTC/39/tsiMDCj3pFB1JD7KZG3A?=
- =?us-ascii?Q?x5WKlztMtwKimN0WoXh1oW6xZsEWmDEvUItC4zKKT3yDH254a+c6uy8CHF2v?=
- =?us-ascii?Q?0SNSgAIGy0ug9s2wSgbl/A/NTRc4qSNprZgiDfi5UU8Y0lEvDLO5CMYB8R1D?=
- =?us-ascii?Q?HAw+k+gUN570gLw8XXyUL+BSSx5tQTOr73uFpjTKo9WeKV0EZNVe/UNlfeNr?=
- =?us-ascii?Q?91Y94OL3GfFOneRPcX1jIitjZITkKS4OQOygchkE9wsMP9ul5nWspm+C87UM?=
- =?us-ascii?Q?QVPJL2iDmjqdROiIlTl1dY2gvxfRN84yOx4/dmcwLn66M6/BQhBdiYIzJQEY?=
- =?us-ascii?Q?Cj2E7xqBBvGrRk2AK2zcCkjjuk+ZKWd2iWudTYO5HUD/QhzbYhSpzWiyADww?=
- =?us-ascii?Q?0Hf1hrcpsBe4RdcX2plSKWv0bHH8hbYiCWjijxtMGUo1z3gH+DIhHt48MkXW?=
- =?us-ascii?Q?HV3YhaNPUy9RraHuMSfWrsXGk6Wn9TtzD0rG4l8oEFIY/N7BPwTfHSe4ZkdX?=
- =?us-ascii?Q?l+s5qTHOSfrEfQM+DkuNuEyW1xkGd8+WC4lD0KeYHN1cUvzLL6NNv+9P7HFz?=
- =?us-ascii?Q?eZg/WOuTUL3LuZj4TeSRtYI=3D?=
+	=?us-ascii?Q?vNm3N8ZiBCO9U0pVzhXouXUxSM+iV5VNrp9SEQca5ImyCc59eu7+kLolgTAO?=
+ =?us-ascii?Q?60rz+BAvyej/8JYVH7ga1Ch5eqHky0+zOskzd/XtHF2xRJJIrKXM2HHPP2c1?=
+ =?us-ascii?Q?CHXjOnmG37tt43hfjK5T02HqYqg2zZ6a/GonNizPRb3EUIzIQVcKMXjSXueZ?=
+ =?us-ascii?Q?5aAiYoXGYLz4YrTXUvYZ6ZkxQNjSjFIBEJnrEaBoA4WpZ+7JITf2ebtNFT3X?=
+ =?us-ascii?Q?RFT9bz9ZGuPJOkaoY9i//CrhTWQdDLMVaodxi66T5GtUdNYnEMA8dTPSEiG1?=
+ =?us-ascii?Q?Yns7KsHJIaraxpvPVvSwRJfyhlx3XccTLHZuc5TMJfd9vSsEGNTXvXUFFM1g?=
+ =?us-ascii?Q?G/diV2Kg0Bax5PpNYjb4lTw0vNh+tPPT/nBbKkIYPOCIHRRoGtYDNbYitqvJ?=
+ =?us-ascii?Q?OrtNVe5HWEapbt50M/Oip5wEx4xDCU3UD8NZSSviVrELLGIyS1VW4ZSLxNZz?=
+ =?us-ascii?Q?uiFOPfOHb2ZmnF9YCB6ocQIEJWrFkXsauuKXLdZkxq8y5EisYFS6t/HldQ2t?=
+ =?us-ascii?Q?TSaTxRu3GQ8yF6/9SAPBhQM2vXhueKMwUgO5Pqf6LL8IzQVtRJbaXwfKDHfe?=
+ =?us-ascii?Q?pdBDztO2puFOIAVy8PB3rPPvOxegy8r6kpGmWHyzc2f4yaH7tpVzamnPqM82?=
+ =?us-ascii?Q?Y6ORFSy/Xk7GeanrEKk/+ji4yXBIq1p3mAhxoMyQ+K71VZqNTKQVgYDftSI/?=
+ =?us-ascii?Q?E7g3Lg6eDyFZhvztrMrVUU3+h3s12gio4CN1nA1JwLOKKE87vlGOSh3wm/nr?=
+ =?us-ascii?Q?StE1gRw4W/mStFxlcRUHioIIAgAuCrxUaIto5UN4r8ZPAbO+ZDzbWsMHjv3Q?=
+ =?us-ascii?Q?0YYIpJEhkd234zAbsawRP1eeIxyLeagEk+lRJEK2zhdyqgA4tBPqmbWI+aFI?=
+ =?us-ascii?Q?HQvzni5GSnWUu9hqsVGS/VXJW1SLaeCQh8z/nqAl1Myr5LYIbcU7kPappyEQ?=
+ =?us-ascii?Q?Z0dfy/aRN8LHZbJmiduMzEGvwsPq6vjdj7mTzw7ngUX/qI31Zdw3ilRJis2x?=
+ =?us-ascii?Q?YpR/cWmb339BfqvfMzjnWX/T5xomqJHnzOjUcopn5hf0QUNfS75OlHuysgE2?=
+ =?us-ascii?Q?6Nd3dj0iuNwMlEOVNfP/a1+qfyWmOopbA0pr5sGhAj6tWDNWF077moEswtKg?=
+ =?us-ascii?Q?G1ly1Nu6Cm2BrotXytGsr0bvkz8+xmR/1JsaXB6qurZaZe2pInHt+Ye1xU50?=
+ =?us-ascii?Q?0ewyfynbm3LAK3JYSxMIXRBI3yLrxXRhYqdqcGjJClU25TJGMi3RaOx2w74r?=
+ =?us-ascii?Q?D9d++74zyGlyDRFSUV1sQHaDXmNKrgdOGsXHkxOyoP9bkTFfRU6Ky7XYpK0D?=
+ =?us-ascii?Q?fvJAI8TtY6DaOrYKkq7nbrpMCQuoRkdPSbpWIcI0dKl4P3M2BnJlOGzffH9d?=
+ =?us-ascii?Q?grMVlUKSjBXghz/a5fjhN9icwZX5sNqaMHzvpognTM1I4DbXx7T9x1Fk4XRV?=
+ =?us-ascii?Q?dsyt2XispYzJJpRmZY8TrcMh8JjlGS3MjUdkMoj8cT7iSDPTiVQLffKp4Av1?=
+ =?us-ascii?Q?xSkkvfEROlVW2t5Oa1rVu2Gx8KQYBxITYP0tlLFzUfqKb2DhUzo+7hMjmQUW?=
+ =?us-ascii?Q?fYILEVKxgtzPRFEP0Syg7rV6gt3X8cyydNRey14uJn5c+9hV6+TXGI+/A+Mt?=
+ =?us-ascii?Q?6p/5Ymv7nNgjp8CZ8/LRqiQ=3D?=
 X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 825d6300-74e1-4386-01c5-08d9ba342752
+ e85e7aa1-11fa-4343-f222-08d9ba34270d
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 10:19:01.2348
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 10:19:00.7987
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- kQwwlTqvCwPiWN+cr0QcKq3JiJiBAmtTrdn5iAnTYDgFEte+KPUQRdDJt4boncQWdGtwbDLNoJZS5cpYYqPYNA==
+ bDE3Ki25ldEcSuPGK6QA/mtcJVKfe2t5yAb76h+9pI6o5DDAImhGbr13Xpz36vRvaHJaMSt/m9rzvFyB9mDV4A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6526
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 10:19:08 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 10:19:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159356
+ https://lists.openembedded.org/g/openembedded-core/message/159355
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
 The commit 'meta/scripts: Manual git url branch additions (dc53fe75cc)'
-forget the url branch=3D parameter in the devtool git fetch test.
+sets the branch=3D parameter too early to master and thereby breaks the
+-B/--srcbranch option.
+
+ERROR: branch=3D parameter and -B/--srcbranch option cannot both be specifi=
+ed - use one or the other
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
-
 ---
 
-Changes in v2:
-- Add commit to check branch in selftest/devtool
+(no changes since v1)
 
- meta/lib/oeqa/selftest/cases/devtool.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/lib/recipetool/create.py | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selfte=
-st/cases/devtool.py
-index d2b31af80e..a2b4d7f7d1 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -442,6 +442,7 @@ class DevtoolAddTests(DevtoolBase):
-         tempdir =3D tempfile.mkdtemp(prefix=3D'devtoolqa')
-         self.track_for_cleanup(tempdir)
-         url =3D 'gitsm://git.yoctoproject.org/mraa'
-+        url_branch =3D '%s;branch=3Dmaster' % url
-         checkrev =3D 'ae127b19a50aa54255e4330ccfdd9a5d058e581d'
-         testrecipe =3D 'mraa'
-         srcdir =3D os.path.join(tempdir, testrecipe)
-@@ -462,7 +463,7 @@ class DevtoolAddTests(DevtoolBase):
-         checkvars =3D {}
-         checkvars['S'] =3D '${WORKDIR}/git'
-         checkvars['PV'] =3D '1.0+git${SRCPV}'
--        checkvars['SRC_URI'] =3D url
-+        checkvars['SRC_URI'] =3D url_branch
-         checkvars['SRCREV'] =3D '${AUTOREV}'
-         self._test_recipe_contents(recipefile, checkvars, [])
-         # Try with revision and version specified
-@@ -481,7 +482,7 @@ class DevtoolAddTests(DevtoolBase):
-         checkvars =3D {}
-         checkvars['S'] =3D '${WORKDIR}/git'
-         checkvars['PV'] =3D '1.5+git${SRCPV}'
--        checkvars['SRC_URI'] =3D url
-+        checkvars['SRC_URI'] =3D url_branch
-         checkvars['SRCREV'] =3D checkrev
-         self._test_recipe_contents(recipefile, checkvars, [])
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
+te.py
+index 4f6e01c639..406c97f1c5 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -389,9 +389,6 @@ def reformat_git_uri(uri):
+                 parms.update({('protocol', 'ssh')})
+         elif (scheme =3D=3D "http" or scheme =3D=3D 'https' or scheme =3D=
+=3D 'ssh') and not ('protocol' in parms):
+             parms.update({('protocol', scheme)})
+-        # We assume 'master' branch if not set
+-        if not 'branch' in parms:
+-            parms.update({('branch', 'master')})
+         # Always append 'git://'
+         fUrl =3D bb.fetch2.encodeurl(('git', host, path, user, pswd, parms=
+))
+         return fUrl
+@@ -481,6 +478,9 @@ def create_recipe(args):
+             storeTagName =3D params['tag']
+             params['nobranch'] =3D '1'
+             del params['tag']
++        # Assume 'master' branch if not set
++        if scheme in ['git', 'gitsm'] and 'branch' not in params and 'nobr=
+anch' not in params:
++            params['branch'] =3D 'master'
+         fetchuri =3D bb.fetch2.encodeurl((scheme, network, path, user, pas=
+swd, params))
+=20
+         tmpparent =3D tinfoil.config_data.getVar('BASE_WORKDIR')
+@@ -530,10 +530,9 @@ def create_recipe(args):
+             # Remove HEAD reference point and drop remote prefix
+             get_branch =3D [x.split('/', 1)[1] for x in get_branch if not =
+x.startswith('origin/HEAD')]
+             if 'master' in get_branch:
+-                # If it is master, we do not need to append 'branch=3Dmast=
+er' as this is default.
+                 # Even with the case where get_branch has multiple objects=
+, if 'master' is one
+                 # of them, we should default take from 'master'
+-                srcbranch =3D ''
++                srcbranch =3D 'master'
+             elif len(get_branch) =3D=3D 1:
+                 # If 'master' isn't in get_branch and get_branch contains =
+only ONE object, then store result into 'srcbranch'
+                 srcbranch =3D get_branch[0]
+@@ -546,8 +545,8 @@ def create_recipe(args):
+         # Since we might have a value in srcbranch, we need to
+         # recontruct the srcuri to include 'branch' in params.
+         scheme, network, path, user, passwd, params =3D bb.fetch2.decodeur=
+l(srcuri)
+-        if srcbranch:
+-            params['branch'] =3D srcbranch
++        if scheme in ['git', 'gitsm']:
++            params['branch'] =3D srcbranch or 'master'
+=20
+         if storeTagName and scheme in ['git', 'gitsm']:
+             # Check srcrev using tag and check validity of the tag
+@@ -606,7 +605,7 @@ def create_recipe(args):
+                     splitline =3D line.split()
+                     if len(splitline) > 1:
+                         if splitline[0] =3D=3D 'origin' and scriptutils.is=
+_src_url(splitline[1]):
+-                            srcuri =3D reformat_git_uri(splitline[1])
++                            srcuri =3D reformat_git_uri(splitline[1]) + ';=
+branch=3Dmaster'
+                             srcsubdir =3D 'git'
+                             break
 =20
 --=20
 2.20.1
