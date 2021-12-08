@@ -1,158 +1,130 @@
-Return-Path: <mingli.yu@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B2A6C433EF
-	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 09:03:07 +0000 (UTC)
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.9736.1638954177835005200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F37C433EF
+	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 09:12:40 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web12.9817.1638954758614369221
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 01:02:58 -0800
+ Wed, 08 Dec 2021 01:12:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1B892uCs032178
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 8 Dec 2021 01:02:56 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 8 Dec 2021 01:02:56 -0800
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 8 Dec 2021 01:02:55 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] libpam: check whether files exist
-Date: Wed, 8 Dec 2021 16:59:44 +0800
-Message-ID: <20211208085944.30957-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WVwscA59;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id q3so2869359wru.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 08 Dec 2021 01:12:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=4fEMeJBYqZI8ld3X7lQu9PzOUoWCJJKz6gicSdVfnfQ=;
+        b=WVwscA59n1CdU4EcYHa+K1Q6DFVlzVPq5ODT2stS874fw0H61hKHycoIOZAuVw/9O+
+         ZhHTc5QumefgMCWrS3SWcoreIW7T+HbK7PaTwSZi3cczyvv3nv9qi/qtCFCkIF0EZzKw
+         nfXh8GHujz/Xijtbj2LxFsbPPiTMb2xinYGig=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=4fEMeJBYqZI8ld3X7lQu9PzOUoWCJJKz6gicSdVfnfQ=;
+        b=7MiBGUvA5CnGxd0JxKlewZF0xR95CMvz9U7C8m6D0URj4mglkm2KAobgrv1igZT9Tg
+         FTJTILjvDUaucKIdIOy8G/yHc7e7M1+F2W9omQ7GcBleFbxu2I/MktyNlH5duuh1Ntvf
+         6NvRDYXZGSMVa2VkWIMD1XQJnuH0zpnRUFO8JmdFy+YE+i3jcLPqltBEfRtp3kyrV3ro
+         ogln/wD499ZbdTTDTNHRVTxbd1PrlZr1aL0KOUP59APXeuslFjjOazH+4JnPfq+zTNig
+         3nZX3LO0HP4oA3J8rIx+KqteUD16ZiU8llwuOaMk4XLtICg4buDhh1alzZ14yzP1pyQW
+         rrBw==
+X-Gm-Message-State: AOAM532UKKzKM4Ni9mNe+YOH2dYiVD1imq7ctqUCSr7k+KPfHec2AxrX
+	gvs+dt/JO2IZ9BMwqYsOUYTOzw==
+X-Google-Smtp-Source: 
+ ABdhPJxVu19C3eSjZQfbyp4QpwHDbr90ihPh+IXjwdrx2QOQ+7WcNgbQawrAGIlgKLkjpqMwDrKBug==
+X-Received: by 2002:a5d:6a46:: with SMTP id t6mr14815436wrw.141.1638954756778;
+        Wed, 08 Dec 2021 01:12:36 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e1bd:cff7:4306:4546?
+ ([2001:8b0:aba:5f3c:e1bd:cff7:4306:4546])
+        by smtp.gmail.com with ESMTPSA id
+ az4sm5305843wmb.20.2021.12.08.01.12.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 01:12:36 -0800 (PST)
+Message-ID: 
+ <dedd57475517425d6802a71fb4d46b804dd5eca7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/4] recipetool: Set master branch only as
+ fallback
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Date: Wed, 08 Dec 2021 09:12:33 +0000
+In-Reply-To: <3cda9bd5-1c75-7269-921c-97c1ac6c4fb5@weidmueller.com>
+References: 
+	<20211206080406.3249-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+	 <9dd70fe87463e8d9cfa9cb0c612ecbc7bd150b7d.camel@linuxfoundation.org>
+	 <3cda9bd5-1c75-7269-921c-97c1ac6c4fb5@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 09:03:07 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 09:12:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159348
+ https://lists.openembedded.org/g/openembedded-core/message/159349
 
-From: Mingli Yu <mingli.yu@windriver.com>
+On Wed, 2021-12-08 at 08:45 +0100, Stefan Herbrechtsmeier wrote:
+> Hi Richard,
+> 
+> Am 07.12.2021 um 16:45 schrieb Richard Purdie:
+> > On Mon, 2021-12-06 at 09:04 +0100, Stefan Herbrechtsmeier wrote:
+> > > From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> > > 
+> > > The commit 'meta/scripts: Manual git url branch additions (dc53fe75cc)'
+> > > sets the branch= parameter too early to master and thereby breaks the
+> > > -B/--srcbranch option.
+> > > 
+> > > ERROR: branch= parameter and -B/--srcbranch option cannot both be specified - use one or the other
+> > > 
+> > > Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> > > ---
+> > > 
+> > >   scripts/lib/recipetool/create.py | 15 +++++++--------
+> > >   1 file changed, 7 insertions(+), 8 deletions(-)
+> > 
+> > I think something in this series is causing:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2926/steps/14/logs/stdio
+> 
+> Sorry I missed the adaption of the test test_devtool_add_fetch_git. It 
+> doesn't expect a "branch=master" which is wrong.
+> 
+> - gitsm://git.yoctoproject.org/mraa;branch=master
+> ?                                  --------------
+> + gitsm://git.yoctoproject.org/mraa
 
-Backport a patch to check whether files exist.
+I suspected something like that, thanks.
 
-Before the patch:
- # ./run-xtests.sh . tst-pam_access1
- mv: cannot stat '/etc/security/opasswd': No such file or directory
- PASS: tst-pam_access1
- mv: cannot stat '/etc/security/opasswd-pam-xtests': No such file or directory
- ==================
- 1 tests passed
- 0 tests not run
- ==================
+> I will update my patch series but need some time to test it locally. The 
+> devtool test build a lot of recipe on every run because it use a private 
+> sstate cache. How does the autobuilder overcome this problem?
 
-After the patch:
- # ./run-xtests.sh . tst-pam_access1
- PASS: tst-pam_access1
- ==================
- 1 tests passed
- 0 tests not run
- ==================
+The autobuilder doesn't. We stopped devtool using the public shared cache as it
+is shared between autobuilder workers and one worker could delete artefacts
+whilst another is using them. This caused all kinds of weird races and there
+isn't much extra build time from the autobuilder perspective. The autobuilder
+never deletes things from the shared cache outside of the timeout cron job which
+removes objects that haven't been accessed in a month or so.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- ...-xtests.sh-check-whether-files-exist.patch | 65 +++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.2.bb     |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/0001-run-xtests.sh-check-whether-files-exist.patch
+> > 
+> > (the other selftest builds also failed)
+> What do you mean by this?
 
-diff --git a/meta/recipes-extended/pam/libpam/0001-run-xtests.sh-check-whether-files-exist.patch b/meta/recipes-extended/pam/libpam/0001-run-xtests.sh-check-whether-files-exist.patch
-new file mode 100644
-index 0000000000..40040a873a
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/0001-run-xtests.sh-check-whether-files-exist.patch
-@@ -0,0 +1,65 @@
-+From e8e8ccfd57e0274b431bc5717bf37c488285b07b Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 27 Oct 2021 10:30:46 +0800
-+Subject: [PATCH] run-xtests.sh: check whether files exist
-+
-+Fixes:
-+ # ./run-xtests.sh . tst-pam_access1
-+ mv: cannot stat '/etc/security/opasswd': No such file or directory
-+ PASS: tst-pam_access1
-+ mv: cannot stat '/etc/security/opasswd-pam-xtests': No such file or directory
-+ ==================
-+ 1 tests passed
-+ 0 tests not run
-+ ==================
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/e8e8ccfd57e0274b431bc5717bf37c488285b07b]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ xtests/run-xtests.sh | 20 +++++++++++++-------
-+ 1 file changed, 13 insertions(+), 7 deletions(-)
-+
-+diff --git a/xtests/run-xtests.sh b/xtests/run-xtests.sh
-+index 14f585d9..ff9a4dc1 100755
-+--- a/xtests/run-xtests.sh
-++++ b/xtests/run-xtests.sh
-+@@ -18,10 +18,12 @@ all=0
-+ 
-+ mkdir -p /etc/security
-+ for config in access.conf group.conf time.conf limits.conf ; do
-+-	cp /etc/security/$config /etc/security/$config-pam-xtests
-++	[ -f "/etc/security/$config" ] &&
-++		mv /etc/security/$config /etc/security/$config-pam-xtests
-+ 	install -m 644 "${SRCDIR}"/$config /etc/security/$config
-+ done
-+-mv /etc/security/opasswd /etc/security/opasswd-pam-xtests
-++[ -f /etc/security/opasswd ] &&
-++	mv /etc/security/opasswd /etc/security/opasswd-pam-xtests
-+ 
-+ for testname in $XTESTS ; do
-+ 	  for cfg in "${SRCDIR}"/$testname*.pamd ; do
-+@@ -47,11 +49,15 @@ for testname in $XTESTS ; do
-+ 	  all=`expr $all + 1`
-+ 	  rm -f /etc/pam.d/$testname*
-+ done
-+-mv /etc/security/access.conf-pam-xtests /etc/security/access.conf
-+-mv /etc/security/group.conf-pam-xtests /etc/security/group.conf
-+-mv /etc/security/time.conf-pam-xtests /etc/security/time.conf
-+-mv /etc/security/limits.conf-pam-xtests /etc/security/limits.conf
-+-mv /etc/security/opasswd-pam-xtests /etc/security/opasswd
-++
-++for config in access.conf group.conf time.conf limits.conf opasswd ; do
-++	if [ -f "/etc/security/$config-pam-xtests" ]; then
-++		mv /etc/security/$config-pam-xtests /etc/security/$config
-++	else
-++		rm -f /etc/security/$config
-++	fi
-++done
-++
-+ if test "$failed" -ne 0; then
-+ 	  echo "==================="
-+ 	  echo "$failed of $all tests failed"
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
-index ee3a84a3b6..28ede8ff90 100644
---- a/meta/recipes-extended/pam/libpam_1.5.2.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
-            file://pam.d/common-session-noninteractive \
-            file://pam.d/other \
-            file://libpam-xtests.patch \
-+           file://0001-run-xtests.sh-check-whether-files-exist.patch \
-            file://run-ptest \
-            file://pam-volatiles.conf \
-            "
--- 
-2.32.0
+I mean that we run oe-selftest on 4 different distros and they all failed the
+same way so there were four failures in the build and I just pasted a link to
+one of them.
+
+Cheers,
+
+Richard
 
 
