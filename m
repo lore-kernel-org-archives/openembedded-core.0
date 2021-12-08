@@ -1,381 +1,507 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1404DC433EF
-	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 23:02:24 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
- [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web09.3929.1639004543100929112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EF7C433EF
+	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 23:55:27 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web08.4467.1639007725720336375
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 15:02:23 -0800
+ Wed, 08 Dec 2021 15:55:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DNVhcGlA;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id jo22so3573548qvb.13
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M6CuoTNw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id d24so6978364wra.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 15:02:22 -0800 (PST)
+ Wed, 08 Dec 2021 15:55:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aWnTxOQe58FM0X1+ptxieHrF+Rk1OLGTj9W5BydR9N4=;
-        b=DNVhcGlAHHaU0TyDsITbsaGrTZIuf+NK7UCyGkjXPG77HjR/VZ+P2C8uZ1NHDHpbD8
-         0uFyFimUoE1FuPSwT1f4IwnkawsAamtgPOkrt+PNcmsmNxr1tMuPrMSYh+4kwJRtk+TJ
-         pNm75eQjh7Ne6402QAUCsP6Uxb1qb+PrD35l13RQ4RagjSzAuNo8YZraeV5C0XiF/ahE
-         JCVhFJk2euDcKI1Lgu9g6wF8ZQmCeDip/lWS4iTsCsg7vo3GfR+GRlj9dNUbXmUfGGLP
-         uin7Zx0u94xS3ez5kDDPT86d8ERvhImKeqsrK55YnqYVtqKTZCy0kSGYb/Ggg5mrEMfU
-         3ViQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N7h1UTxxI9WUC8zqLA2SWmo5aZIOGAAI2LF9INVgpJc=;
+        b=M6CuoTNw8O/CNJcBX76UTyFlue0eBXtHMuN4CTMNtiUAyn7BUEqneP100dICdmfhjO
+         T+2brFjVDNM92m7RuNsXccAOdlFRL4u0iOA7yBpajjPr427kGFQYNUoHXoTdfQR9R+Xd
+         U6vxOgl6+H5EM4cOl+AmltBEXtPN2ytNuGCuk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aWnTxOQe58FM0X1+ptxieHrF+Rk1OLGTj9W5BydR9N4=;
-        b=Ip+b9kNEf5wYs7exozBuaK5wuxbpDroOpmv4RJ5y2yUqTVc6XButJUGxuj++RioJXi
-         cBNSOUqyNe7R567dbXC31N1c8r9ud974bNH89ATY+j/6/aIEhqjSzP3bLxZ7uGhg2TiB
-         qvykcs86uTdY3WMxBdPjhz5M4te9hDziqBup2ar7jyLteVr61eTFR4809oQcaFi0ReCw
-         k/TEZOonlX3Dd66QqzUVdhJWB1QQvdmIU+ntv3vgoKnk/UTlq8Wrx+Dg4V7ATv1jsCjh
-         lBxiZVohsw0zMmotg9gBTlG4WxnWhko1X0o7rIM907Xdt3lgUycq+XlvdQuEtmz9+F6Q
-         hqLw==
-X-Gm-Message-State: AOAM532APPxsJec9Fv7ABB8pquybxpL5F6EVGaMIVyETehvZ8JOlh+HV
-	9DpIHYPxq2GlCN+d0XU0ecqfZ/XvIAXYuvzbKsQ=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N7h1UTxxI9WUC8zqLA2SWmo5aZIOGAAI2LF9INVgpJc=;
+        b=AR2u+zAYxb6RFHPNZzMnCL4ju7eJi9CgqWrigByqnV26/vREIOKwgxMzwhx8BIp9lF
+         hA15shHdmG/Xt5iM+X8MWBWCX8ZpPg5/ADbFJucNr7dRrOwT7yIs+sV2scRddjBeAuAc
+         HByYmdwi4P75khprY6cM3xLhyW9h0g7Xiw/TDCwQ2hg5+eCObpP2hduGVzPJBF+BdnT3
+         IGCATs/5PxvYxXtoFKc/+oMzP/0wmvA3myX7AFRNAAivAMIwUrrBL4iYqN2uGzzzrlAU
+         wf/TF7dl9jiGuUsiAZNHGi3AmDi07WHAZLSBvwUEb34wHD7tGgs01fNXSxny/TO9R6Iu
+         4/9A==
+X-Gm-Message-State: AOAM532cFDblBS/OXI5XgyymyFlqO3XVQMV6PV8yYElr/ds7Wvu4WWwH
+	d8uOGesZiHmYnr7pCTE5Rgy3t5oUT08H4Q==
 X-Google-Smtp-Source: 
- ABdhPJy08TC44s8wuRb81jx7R/scmdiB5ftX2GOFX7pjHbv5BBNKeGJUeCuCJJ1Tjz72Eeb/x6B56DdBoThDCcyERUg=
-X-Received: by 2002:a05:6214:e63:: with SMTP id
- jz3mr11191838qvb.16.1639004542062;
- Wed, 08 Dec 2021 15:02:22 -0800 (PST)
+ ABdhPJy+29BC68wv4HpAGzJq0jLxbp10Ja9StvQJRiS8FFWaGg+ZwygI+ZW6qwLJz0wYoLj71DE71g==
+X-Received: by 2002:a5d:6e85:: with SMTP id k5mr2162561wrz.545.1639007723576;
+        Wed, 08 Dec 2021 15:55:23 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7bcf:b0b3:a8aa:29ed])
+        by smtp.gmail.com with ESMTPSA id 4sm5251707wrz.90.2021.12.08.15.55.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 15:55:23 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] puzzles: Refresh patches based upon upstream discussion
+Date: Wed,  8 Dec 2021 23:55:22 +0000
+Message-Id: <20211208235522.601010-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20211208215947.1979470-1-alex@linutronix.de>
- <20211208215947.1979470-4-alex@linutronix.de>
-In-Reply-To: <20211208215947.1979470-4-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 8 Dec 2021 15:01:56 -0800
-Message-ID: 
- <CAMKF1srKXqWAPTQD+UGeArVAh3oP5P3V08tw5xnA_ktgst6GLA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/29] libid3tag: move to meta-oe
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>,
- Changqing Li <changqing.li@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
- Marko Lindqvist <cazfi74@gmail.com>,
-	Ross Burton <ross.burton@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 23:02:24 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 23:55:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159397
+ https://lists.openembedded.org/g/openembedded-core/message/159398
 
-yeah perhaps meta-multimedia is better for it.
+I mentioned these patches to upstream and this cleans them up based upon
+our discussion with better fixes, fixed comments and tracking down the correct
+issue in the malloc case.
 
-On Wed, Dec 8, 2021 at 2:00 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> There are no consumers in oe-core; years ago it used to be gstreamer.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 -
->  .../0001-Fix-gperf-3.1-incompatibility.patch  | 40 -----------------
->  .../libid3tag/libid3tag/10_utf16.patch        | 34 ---------------
->  .../libid3tag/libid3tag/addpkgconfig.patch    | 43 -------------------
->  .../libid3tag/libid3tag/cflags_filter.patch   | 19 --------
->  .../libid3tag/obsolete_automake_macros.patch  | 15 -------
->  .../libid3tag/unknown-encoding.patch          | 39 -----------------
->  .../libid3tag/libid3tag_0.15.1b.bb            | 28 ------------
->  8 files changed, 219 deletions(-)
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/0001-Fix-gperf-3.1-incompatibility.patch
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/addpkgconfig.patch
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/unknown-encoding.patch
->  delete mode 100644 meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index cedf1ef937..8e86ea45d2 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -344,7 +344,6 @@ RECIPE_MAINTAINER:pn-libgudev = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-libhandy = "Alexander Kanavin <alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER:pn-libical = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-libice = "Unassigned <unassigned@yoctoproject.org>"
-> -RECIPE_MAINTAINER:pn-libid3tag = "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-libidn2 = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-libinput = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-libjitterentropy = "Ross Burton <ross.burton@arm.com>"
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/0001-Fix-gperf-3.1-incompatibility.patch b/meta/recipes-multimedia/libid3tag/libid3tag/0001-Fix-gperf-3.1-incompatibility.patch
-> deleted file mode 100644
-> index 54f49f6f23..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag/0001-Fix-gperf-3.1-incompatibility.patch
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -From 91fcf66b9182c75cd2b96d88991d5a1c6307d4b4 Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Wed, 2 Aug 2017 16:27:52 +0300
-> -Subject: [PATCH] Fix gperf 3.1 incompatibility.
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ----
-> - compat.h    | 2 +-
-> - frametype.h | 2 +-
-> - 2 files changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/compat.h b/compat.h
-> -index 8af71ec..b3d80d9 100644
-> ---- a/compat.h
-> -+++ b/compat.h
-> -@@ -34,7 +34,7 @@ struct id3_compat {
-> - };
-> -
-> - struct id3_compat const *id3_compat_lookup(register char const *,
-> --                                         register unsigned int);
-> -+                                         register size_t);
-> -
-> - int id3_compat_fixup(struct id3_tag *);
-> -
-> -diff --git a/frametype.h b/frametype.h
-> -index dd064b2..b5b7593 100644
-> ---- a/frametype.h
-> -+++ b/frametype.h
-> -@@ -37,6 +37,6 @@ extern struct id3_frametype const id3_frametype_unknown;
-> - extern struct id3_frametype const id3_frametype_obsolete;
-> -
-> - struct id3_frametype const *id3_frametype_lookup(register char const *,
-> --                                               register unsigned int);
-> -+                                               register size_t);
-> -
-> - # endif
-> ---
-> -2.13.2
-> -
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch b/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
-> deleted file mode 100644
-> index 10e089018c..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag/10_utf16.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -libid3tag: patch for CVE-2004-2779
-> -
-> -The patch comes from
-> -https://sources.debian.org/patches/libid3tag/0.15.1b-13/10_utf16.dpatch
-> -
-> -Upstream-Status: Pending
-> -
-> -CVE: CVE-2004-2779
-> -CVE: CVE-2017-11551
-> -
-> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> -
-> -diff -urNad libid3tag-0.15.1b/utf16.c /tmp/dpep.tKvO7a/libid3tag-0.15.1b/utf16.c
-> ---- libid3tag-0.15.1b/utf16.c  2006-01-13 15:26:29.000000000 +0100
-> -+++ /tmp/dpep.tKvO7a/libid3tag-0.15.1b/utf16.c 2006-01-13 15:27:19.000000000 +0100
-> -@@ -282,5 +282,18 @@
-> -
-> -   free(utf16);
-> -
-> -+  if (end == *ptr && length % 2 != 0)
-> -+  {
-> -+     /* We were called with a bogus length.  It should always
-> -+      * be an even number.  We can deal with this in a few ways:
-> -+      * - Always give an error.
-> -+      * - Try and parse as much as we can and
-> -+      *   - return an error if we're called again when we
-> -+      *     already tried to parse everything we can.
-> -+      *   - tell that we parsed it, which is what we do here.
-> -+      */
-> -+     (*ptr)++;
-> -+  }
-> -+
-> -   return ucs4;
-> - }
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/addpkgconfig.patch b/meta/recipes-multimedia/libid3tag/libid3tag/addpkgconfig.patch
-> deleted file mode 100644
-> index 38d40c3632..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag/addpkgconfig.patch
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> -Index: libid3tag-0.15.1b/Makefile.am
-> -===================================================================
-> ---- libid3tag-0.15.1b.orig/Makefile.am 2009-07-29 09:29:20.000000000 +0100
-> -+++ libid3tag-0.15.1b/Makefile.am      2009-07-29 09:29:47.000000000 +0100
-> -@@ -27,6 +27,9 @@
-> - lib_LTLIBRARIES =     libid3tag.la
-> - include_HEADERS =     id3tag.h
-> -
-> -+pkgconfigdir = $(libdir)/pkgconfig
-> -+pkgconfig_DATA = id3tag.pc
-> -+
-> - ## From the libtool documentation on library versioning:
-> - ##
-> - ## CURRENT
-> -Index: libid3tag-0.15.1b/configure.ac
-> -===================================================================
-> ---- libid3tag-0.15.1b.orig/configure.ac        2009-07-29 09:27:15.000000000 +0100
-> -+++ libid3tag-0.15.1b/configure.ac     2009-07-29 09:27:45.000000000 +0100
-> -@@ -201,5 +201,5 @@
-> - dnl AC_SUBST(LTLIBOBJS)
-> -
-> - AC_CONFIG_FILES([Makefile msvc++/Makefile  \
-> --      libid3tag.list])
-> -+      libid3tag.list id3tag.pc])
-> - AC_OUTPUT
-> -Index: libid3tag-0.15.1b/id3tag.pc.in
-> -===================================================================
-> ---- /dev/null  1970-01-01 00:00:00.000000000 +0000
-> -+++ libid3tag-0.15.1b/id3tag.pc.in     2009-07-29 09:29:10.000000000 +0100
-> -@@ -0,0 +1,11 @@
-> -+prefix=@prefix@
-> -+exec_prefix=@exec_prefix@
-> -+libdir=@libdir@
-> -+includedir=@includedir@
-> -+
-> -+Name: id3tag
-> -+Description: ID3 tag reading library
-> -+Requires:
-> -+Version: @VERSION@
-> -+Libs: -L${libdir} -lid3tag -lz
-> -+Cflags: -I${includedir}
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-> deleted file mode 100644
-> index 1895748d1d..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-> +++ /dev/null
-> @@ -1,19 +0,0 @@
-> -configure contains CFLAGS filtering code which was removing our prefix-map
-> -flags. We need those to generate reproducible binaries. Allow them through.
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -99,6 +99,10 @@ do
-> -       -mno-cygwin)
-> -           shift
-> -           ;;
-> -+      -fmacro-prefix-map*|-fdebug-prefix-map*|-ffile-prefix-map*)
-> -+          CFLAGS="$CFLAGS $1"
-> -+          shift
-> -+          ;;
-> -       -m*)
-> -           arch="$arch $1"
-> -           shift
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
-> deleted file mode 100644
-> index 2845fb1d3a..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
-> +++ /dev/null
-> @@ -1,15 +0,0 @@
-> -Upstream-Status: Submitted [https://sourceforge.net/tracker/?func=detail&aid=3599280&group_id=12349&atid=112349]
-> -
-> -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> -diff -Nurd libid3tag-0.15.1b/configure.ac libid3tag-0.15.1b/configure.ac
-> ---- libid3tag-0.15.1b/configure.ac     2004-01-24 01:22:46.000000000 +0200
-> -+++ libid3tag-0.15.1b/configure.ac     2013-01-03 06:41:02.734835014 +0200
-> -@@ -28,7 +28,7 @@
-> -
-> --AM_INIT_AUTOMAKE
-> -+AM_INIT_AUTOMAKE([foreign])
-> -
-> --AM_CONFIG_HEADER([config.h])
-> -+AC_CONFIG_HEADERS([config.h])
-> -
-> - dnl System type.
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/unknown-encoding.patch b/meta/recipes-multimedia/libid3tag/libid3tag/unknown-encoding.patch
-> deleted file mode 100644
-> index f0867b5f01..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag/unknown-encoding.patch
-> +++ /dev/null
-> @@ -1,39 +0,0 @@
-> -In case of an unknown/invalid encoding, id3_parse_string() will
-> -return NULL, but the return value wasn't checked resulting
-> -in segfault in id3_ucs4_length().  This is the only place
-> -the return value wasn't checked.
-> -
-> -Patch taken from Debian:
-> -https://sources.debian.org/patches/libid3tag/0.15.1b-14/11_unknown_encoding.dpatch/
-> -
-> -CVE: CVE-2017-11550
-> -Upstream-Status: Pending
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -diff -urNad libid3tag-0.15.1b~/compat.gperf libid3tag-0.15.1b/compat.gperf
-> ---- libid3tag-0.15.1b~/compat.gperf    2004-01-23 09:41:32.000000000 +0000
-> -+++ libid3tag-0.15.1b/compat.gperf     2007-01-14 14:36:53.000000000 +0000
-> -@@ -236,6 +236,10 @@
-> -
-> -     encoding = id3_parse_uint(&data, 1);
-> -     string   = id3_parse_string(&data, end - data, encoding, 0);
-> -+    if (!string)
-> -+    {
-> -+      continue;
-> -+    }
-> -
-> -     if (id3_ucs4_length(string) < 4) {
-> -       free(string);
-> -diff -urNad libid3tag-0.15.1b~/parse.c libid3tag-0.15.1b/parse.c
-> ---- libid3tag-0.15.1b~/parse.c 2004-01-23 09:41:32.000000000 +0000
-> -+++ libid3tag-0.15.1b/parse.c  2007-01-14 14:37:34.000000000 +0000
-> -@@ -165,6 +165,9 @@
-> -   case ID3_FIELD_TEXTENCODING_UTF_8:
-> -     ucs4 = id3_utf8_deserialize(ptr, length);
-> -     break;
-> -+  default:
-> -+      /* FIXME: Unknown encoding! Print warning? */
-> -+      return NULL;
-> -   }
-> -
-> -   if (ucs4 && !full) {
-> diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-> deleted file mode 100644
-> index 80581765ac..0000000000
-> --- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -SUMMARY = "Library for interacting with ID3 tags in MP3 files"
-> -HOMEPAGE = "http://sourceforge.net/projects/mad/"
-> -BUGTRACKER = "http://sourceforge.net/tracker/?group_id=12349&atid=112349"
-> -LICENSE = "GPLv2+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-> -                       file://COPYRIGHT;md5=5e6279efb87c26c6e5e7a68317a6a87a \
-> -                       file://version.h;beginline=1;endline=8;md5=86ac68b67f054b7afde9e149bbc3fe63"
-> -SECTION = "libs"
-> -DEPENDS = "zlib gperf-native"
-> -PR = "r7"
-> -
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
-> -           file://addpkgconfig.patch \
-> -           file://obsolete_automake_macros.patch \
-> -           file://0001-Fix-gperf-3.1-incompatibility.patch \
-> -           file://10_utf16.patch \
-> -           file://unknown-encoding.patch \
-> -           file://cflags_filter.patch \
-> -           "
-> -UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
-> -UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
-> -
-> -SRC_URI[md5sum] = "e5808ad997ba32c498803822078748c3"
-> -SRC_URI[sha256sum] = "63da4f6e7997278f8a3fef4c6a372d342f705051d1eeb6a46a86b03610e26151"
-> -
-> -S = "${WORKDIR}/libid3tag-${PV}"
-> -
-> -inherit autotools pkgconfig
-> --
-> 2.20.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159370): https://lists.openembedded.org/g/openembedded-core/message/159370
-> Mute This Topic: https://lists.openembedded.org/mt/87599628/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+If we can test and confirm them in this form, we should be in a good position
+to resovle the issues with upstream and be able to drop the patches ultimately.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...Check-for-excessive-values-to-malloc.patch | 92 +++++++++---------
+ ...01-map-Fix-stringop-overflow-warning.patch | 38 +++-----
+ ...isade-Fix-warnings-with-clang-on-arm.patch | 96 ++++++++++---------
+ ...-string-lenght-parameter-to-be-size_.patch | 22 ++---
+ ...ix-compiling-failure-with-option-g-O.patch | 33 +++----
+ .../puzzles/files/fix-ki-uninitialized.patch  | 31 +++---
+ 6 files changed, 148 insertions(+), 164 deletions(-)
+
+diff --git a/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch b/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
+index 66af6afa2f3..b572b55d1cf 100644
+--- a/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
++++ b/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
+@@ -1,49 +1,45 @@
+-From 1c01a5bc9ac7f8aaa484b1a8e0e74aa5f8899d0e Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 8 Nov 2020 11:17:59 -0800
+-Subject: [PATCH] malloc: Check for excessive values to malloc
+-
+-with whole program optimizers like lto smalloc()
+-is inlined the excessive constant argument is propagated to
+-malloc() and ultimately triggers the warning.
+-
+-malloc.c:15:9: error: argument 1 range [18446744065119617024, 18446744073709551580] exceeds maximum object size 9223372036854775807 [-Werror=alloc-size-larger-than=]
+-
+-therefore add a check before excessive constant argument before calling
+-malloc
+-
+-Note that this will not happen with normal compile since they happen to
+-be in different translation units and compiler can not semantically
+-analyze as much
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- malloc.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/malloc.c b/malloc.c
+-index a7fa7c5..520377c 100644
+---- a/malloc.c
+-+++ b/malloc.c
+-@@ -2,6 +2,7 @@
+-  * malloc.c: safe wrappers around malloc, realloc, free, strdup
+-  */
++tree234: Avoid excessive values to malloc
++
++with whole program optimizers like lto, smalloc() is inlined the excessive
++constant argument is propagated to malloc() and ultimately triggers the warning.
++
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c: In function 'disptree':
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:46:17: error: argument 1 value '18446744073709551612' exceeds maximum object size 9223372036854775807 [-Werror=alloc-size-larger-than=]
++|    46 | #define smalloc malloc
++|       |                 ^
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:1631:17: note: in expansion of macro 'smalloc'
++|  1631 |     leveldata = smalloc(ht * (width+2));
++|       |                 ^~~~~~~
++| In file included from tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:29:
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/recipe-sysroot/usr/include/stdlib.h:539:14: note: in a call to allocation function 'malloc' declared here
++|   539 | extern void *malloc (size_t __size) __THROW __attribute_malloc__
++|       |              ^~~~~~
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:46:17: error: argument 1 value '18446744073709551600' exceeds maximum object size 9223372036854775807 [-Werror=alloc-size-larger-than=]
++|    46 | #define smalloc malloc
++|       |                 ^
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:1632:18: note: in expansion of macro 'smalloc'
++|  1632 |     ctx.levels = smalloc(ht * sizeof(char *));
++|       |                  ^~~~~~~
++| In file included from tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:29:
++| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/recipe-sysroot/usr/include/stdlib.h:539:14: note: in a call to allocation function 'malloc' declared here
++|   539 | extern void *malloc (size_t __size) __THROW __attribute_malloc__
++|       |              ^~~~~~
++| cc1: some warnings being treated as errors
++
++Upstream-Status: Submitted [email discussion with upstream]
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: git/tree234.c
++===================================================================
++--- git.orig/tree234.c
+++++ git/tree234.c
++@@ -1621,7 +1621,7 @@ void disptree(tree234 *t) {
++     dispctx ctx;
++     char *leveldata;
++     int width = count234(t);
++-    int ht = height234(t) * 3 - 2;
+++    unsigned int ht = height234(t) * 3 - 2;
++     int i;
+  
+-+#include <stdint.h>
+- #include <stdlib.h>
+- #include <string.h>
+- #include "puzzles.h"
+-@@ -12,6 +13,8 @@
+-  */
+- void *smalloc(size_t size) {
+-     void *p;
+-+    if (size > PTRDIFF_MAX)
+-+	fatal("exceeds maximum object size");
+-     p = malloc(size);
+-     if (!p)
+- 	fatal("out of memory");
+--- 
+-2.29.2
+-
++     if (!t->root) {
+diff --git a/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch b/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
+index a02d8732ab1..7f46d3ec0eb 100644
+--- a/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
++++ b/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
+@@ -1,7 +1,5 @@
+-From 3d78d4cffcdc1242892b6c21c26d1c96938c48d1 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 27 Feb 2021 10:02:43 -0800
+-Subject: [PATCH] map: Fix stringop-overflow warning
++map: Fix stringop-overflow warning
+ 
+ Fixes
+ 
+@@ -14,29 +12,23 @@ Fixes
+  1663 |         ret[retlen++] = ',';
+       |         ~~~~~~~~~~~~~~^~~~~
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [email discussion with upstream]
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- map.c | 6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
+ 
+-diff --git a/map.c b/map.c
+-index 412305c..fa0c493 100644
+---- a/map.c
+-+++ b/map.c
+-@@ -1659,8 +1659,10 @@ static char *new_game_desc(const game_params *params, random_state *rs,
++Index: git/map.c
++===================================================================
++--- git.orig/map.c
+++++ git/map.c
++@@ -1659,6 +1659,10 @@ static char *new_game_desc(const game_pa
+  	    }
+  	}
+  
+--	ret[retlen++] = 'a'-1 + run;
+--	ret[retlen++] = ',';
+-+	if(ret != NULL) {
+-+		ret[retlen++] = 'a'-1 + run;
+-+		ret[retlen++] = ',';
+-+	}
+++        if (retlen + 10 >= retsize) {
+++            retsize = retlen + 256;
+++            ret = sresize(ret, retsize, char);
+++        }
++ 	ret[retlen++] = 'a'-1 + run;
++ 	ret[retlen++] = ',';
+  
+- 	run = 0;
+- 	for (i = 0; i < n; i++) {
+--- 
+-2.30.1
+-
+diff --git a/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch b/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
+index 143e898a513..07eb1d32f65 100644
+--- a/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
++++ b/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
+@@ -1,7 +1,6 @@
+-From 453587d714473b806473b309727f865b673cbc06 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 13 Jan 2016 23:10:19 -0800
+-Subject: [PATCH] palisade: Fix warnings with clang on arm
++
++palisade: Fix warnings with clang on arm
+ 
+ ARM treats 'char' as unsigned char when 'char' is not qualified with
+ 'signed' or 'unsigned' explicitly.
+@@ -15,54 +14,59 @@ type 'clue' (aka 'char') is always false
+ 
+ Therefore, typcast the contant to char in such places to be explicit
+ 
++Upstream-Status: Submitted [email discussion with upstream]
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Submitted
+----
+- palisade.c | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+-diff --git a/palisade.c b/palisade.c
+-index 6ffbf2d..8b54d42 100644
+---- a/palisade.c
+-+++ b/palisade.c
+-@@ -304,11 +304,11 @@ static void solver_connected_clues_versus_region_size(solver_ctx *ctx)
+-      * If p = q = 3 then the region has size exactly 2. */
++Index: git/palisade.c
++===================================================================
++--- git.orig/palisade.c
+++++ git/palisade.c
++@@ -46,7 +46,7 @@ struct game_params {
++     int w, h, k;
++ };
+  
+-     for (i = 0; i < wh; ++i) {
+--        if (ctx->clues[i] == EMPTY) continue;
+-+        if (ctx->clues[i] == (char)EMPTY) continue;
+-         for (dir = 0; dir < 4; ++dir) {
+-             int j = i + dx[dir] + w*dy[dir];
+-             if (disconnected(ctx, i, j, dir)) continue;
+--            if (ctx->clues[j] == EMPTY) continue;
+-+            if (ctx->clues[j] == (char)EMPTY) continue;
+-             if ((8 - ctx->clues[i] - ctx->clues[j] > ctx->params->k) ||
+-                 (ctx->clues[i] == 3 && ctx->clues[j] == 3 &&
+-                  ctx->params->k != 2))
+-@@ -326,7 +326,7 @@ static bool solver_number_exhausted(solver_ctx *ctx)
+-     bool changed = false;
++-typedef char clue;
+++typedef signed char clue;
++ typedef unsigned char borderflag;
+  
+-     for (i = 0; i < wh; ++i) {
+--        if (ctx->clues[i] == EMPTY) continue;
+-+        if (ctx->clues[i] == (char)EMPTY) continue;
++ typedef struct shared_state {
++@@ -242,7 +242,7 @@ typedef struct solver_ctx {
++  * thing is done.  See how it is propagated across multiple squares.]
++  */
+  
+-         if (bitcount[(ctx->borders[i] & BORDER_MASK)] == ctx->clues[i]) {
+-             for (dir = 0; dir < 4; ++dir) {
+-@@ -538,7 +538,7 @@ static bool is_solved(const game_params *params, clue *clues,
+-     for (i = 0; i < wh; ++i) {
+-         if (dsf[i] == UNVISITED) dfs_dsf(i, params->w, border, dsf, true);
+-         if (dsf_size(dsf, i) != k) goto error;
+--        if (clues[i] == EMPTY) continue;
+-+        if (clues[i] == (char)EMPTY) continue;
+-         if (clues[i] != bitcount[border[i] & BORDER_MASK]) goto error;
+-     }
++-#define EMPTY (~0)
+++#define EMPTY ((clue)-1)
+  
+-@@ -685,7 +685,7 @@ static char *new_game_desc(const game_params *params, random_state *rs,
+-     p = numbers;
++ #define BIT(i) (1 << (i))
++ #define BORDER(i) BIT(i)
++@@ -622,7 +622,7 @@ static char *new_game_desc(const game_pa
++ {
++     int w = params->w, h = params->h, wh = w*h, k = params->k;
++ 
++-    clue *numbers = snewn(wh + 1, clue), *p;
+++    clue *numbers = snewn(wh + 1, clue);
++     borderflag *rim = snewn(wh, borderflag);
++     borderflag *scratch_borders = snewn(wh, borderflag);
++ 
++@@ -682,7 +682,8 @@ static char *new_game_desc(const game_pa
++     sfree(shuf);
++     sfree(dsf);
++ 
++-    p = numbers;
+++    char *output = snewn(wh + 1, char), *p = output;
+++
+      r = 0;
+      for (i = 0; i < wh; ++i) {
+--        if (numbers[i] != EMPTY) {
+-+        if (numbers[i] != (char)EMPTY) {
+-             while (r) {
+-                 while (r > 26) {
+-                     *p++ = 'z';
++         if (numbers[i] != EMPTY) {
++@@ -699,7 +700,8 @@ static char *new_game_desc(const game_pa
++     }
++     *p++ = '\0';
++ 
++-    return sresize(numbers, p - numbers, clue);
+++    sfree(numbers);
+++    return sresize(output, p - output, char);
++ }
++ 
++ static const char *validate_desc(const game_params *params, const char *desc)
+diff --git a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch b/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
+index 7ca582fe5d6..5e240bfea57 100644
+--- a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
++++ b/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
+@@ -1,26 +1,25 @@
+-From 3af5a1e579e3324a13ba1f892c7befb3ab32d899 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 7 Mar 2019 21:56:57 -0800
+-Subject: [PATCH] pattern.c: Change string lenght parameter to be size_t in
+- do_row()
++
++pattern.c: Change string lenght parameter to be size_t in do_row()
+ 
+ This fixes below error on some architectures e.g. RISC-V
+ 
+ pattern.c:455:9: error: 'memset' specified size between 18446744071562067968 and 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Werror=stringop-overflow=]                                                                     455 |         memset(deduced, DOT, (size_t)len);                                                                                   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [email discussion with upstream]
+ 
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ ---
+  pattern.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/pattern.c b/pattern.c
+-index ffadd3f..4e5f187 100644
+---- a/pattern.c
+-+++ b/pattern.c
+-@@ -428,7 +428,7 @@ static bool do_row(unsigned char *known, unsigned char *deduced,
++Index: git/pattern.c
++===================================================================
++--- git.orig/pattern.c
+++++ git/pattern.c
++@@ -429,7 +429,7 @@ static bool do_row(unsigned char *known,
+                     unsigned char *row,
+                     unsigned char *minpos_done, unsigned char *maxpos_done,
+                     unsigned char *minpos_ok, unsigned char *maxpos_ok,
+@@ -29,6 +28,3 @@ index ffadd3f..4e5f187 100644
+                     unsigned int *changed
+  #ifdef STANDALONE_SOLVER
+                     , const char *rowcol, int index, int cluewid
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
+index 28040523d4f..4ee75431667 100644
+--- a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
++++ b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
+@@ -1,17 +1,9 @@
+-From 876c6ff1e20f51b0921acda99861f476b6423f26 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Mon, 11 Aug 2014 12:39:53 +0800
+-Subject: [PATCH] gtk.c: fix compiling failure with option -g -O
+ 
+-There were compiling failure with option -g -O
++gtk.c: fix compiling failure with option -g -O
++
++There was a compile failure with option -g -O
+ ...
+-././gtk.c: In function 'configure_area':
+-././gtk.c:397:2: error: 'cr' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+-  cairo_set_source_rgb(cr,
+-  ^
+-././gtk.c:384:14: note: 'cr' was declared here
+-     cairo_t *cr;
+-              ^
+ ././gtk.c: In function 'main':
+ ././gtk.c:2911:6: error: 'error' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+       fprintf(stderr, "%s: %s\n", pname, error);
+@@ -19,21 +11,18 @@ There were compiling failure with option -g -O
+ cc1: all warnings being treated as errors
+ ...
+ 
+-Initialized pointer 'cr' and 'error' with NULL
++Fix by initializing pointer 'error' with NULL
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [email discussion with upstream]
+ 
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ 
+----
+- gtk.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gtk.c b/gtk.c
+-index 4565836..5e83b48 100644
+---- a/gtk.c
+-+++ b/gtk.c
+-@@ -2944,7 +2944,7 @@ static void list_presets_from_menu(struct preset_menu *menu)
++Index: git/gtk.c
++===================================================================
++--- git.orig/gtk.c
+++++ git/gtk.c
++@@ -3578,7 +3578,7 @@ static void list_presets_from_menu(struc
+  int main(int argc, char **argv)
+  {
+      char *pname = argv[0];
+diff --git a/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
+index 7218d620ec1..b182240240b 100644
+--- a/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
++++ b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
+@@ -1,25 +1,32 @@
+-puzzles: avoid compiler unitialized variable error
++tree123: avoid compiler unitialized variable error
+ 
+ The compiler does not realize that we must go through the while()
+ loop at least once, so we replace it with a for() loop.
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [email discussion with upstream]
+ 
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Joe Slater <joe.slater@windriver.com>
+ 
+---- a/tree234.c
+-+++ b/tree234.c
+-@@ -326,8 +326,11 @@ static void *add234_internal(tree234 *t,
+- 	return orig_e;
++Index: git/tree234.c
++===================================================================
++--- git.orig/tree234.c
+++++ git/tree234.c
++@@ -335,7 +335,7 @@ static void *add234_internal(tree234 *t,
+      }
+  
+--    n = t->root;
++     n = t->root;
+ -    while (n) {
+-+    /*
+-+     * We know t->root is not NULL.  The logic
+-+     * to break out of this is at the end of the loop.
+-+     */
+-+    for (n = t->root;;) {
+++    do {
+  	LOG(("  node %p: %p/%d \"%s\" %p/%d \"%s\" %p/%d \"%s\" %p/%d\n",
+  	     n,
+  	     n->kids[0], n->counts[0], n->elems[0],
++@@ -388,7 +388,7 @@ static void *add234_internal(tree234 *t,
++ 	if (!n->kids[ki])
++ 	    break;
++ 	n = n->kids[ki];
++-    }
+++    } while (n);
++ 
++     add234_insert(NULL, e, NULL, &t->root, n, ki);
++ 
+-- 
+2.32.0
+
 
