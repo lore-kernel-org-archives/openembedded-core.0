@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E54B3C433EF
-	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 22:00:08 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.3082.1639000808079562538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E43DEC433F5
+	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 22:00:09 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web08.3066.1639000808747335733
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 14:00:08 -0800
+ Wed, 08 Dec 2021 14:00:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S02r359K;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MvFzf5Sv;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id t9so6503730wrx.7
+Received: by mail-wr1-f43.google.com with SMTP id d9so6508125wrw.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 14:00:07 -0800 (PST)
+ Wed, 08 Dec 2021 14:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jhM8Lm41t2b1g9AFIY5IpnnPaddl0/3Yxl0cDjnsNgU=;
-        b=S02r359K9g27SVmOsFwCJuPNvH2cmubXkxVcOiSjghckBmUKK6fUrte6x5Nb72YQxt
-         tGa0mME7bUgUytfSYrrcIdLXnwp1jEEMZSCxQ3nk+Ey3D8CqrQkkOQiEHZB+ZZiN+XiQ
-         kIPLEA9IbgjlARVnnqbGnoTqMU5EunperzgBMG1SsYLQDbLNWvMKvQmvg/49dELW57Bq
-         Uxz7pr1Q24pbWJuaoNJoY/3Oo5v5XUhw3AZsmuLu+BOqj2xeOVoITQxvmlkgQTxLgdNU
-         T2a+R1thlVIxYPDpvAVXGg7QIas4++JxU5lZxtysIS55cyCZF2iWb84guvR3cZr70W+n
-         2YoQ==
+        bh=bRWzP5kWwWYLLmS01eoNgC+iUhQJoevGyXVIVtle5G0=;
+        b=MvFzf5SvLECM0VjlOqS7Tz165M8rijMkZCC22m2OAqDulOUMibmacxg+7in5gZOqFY
+         TmfcScXYHmaipnW9rZoqbQH2w5/8aSYgueqnchZF3dafPXaBtg0f3MhRZ8Zge2hYgFtg
+         6n19f5iED3UPfFrUwwrgQTxYBRLLZUv36m4LRBcYmpjIH+a6wAhE5tmZFKTbhnsRR4Mv
+         xq9YJZ9XBjsQbzsvERey+okoPaluuQ5/Oro1JD3WhRNYMP1hM8we3MngBT4AY7oQuNhN
+         lZNbyas7Vt4oCdOmhM+AJ3WDLibNeYUWxdACbsvbty60FUcL62t3yG7Whg4S4kSy7R/O
+         rFAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jhM8Lm41t2b1g9AFIY5IpnnPaddl0/3Yxl0cDjnsNgU=;
-        b=DvLceeuZd/ONVna9QN9AuY3A9kGSAqViR4k40vffbCHlIO9eokafl11v4mSm1ez8a7
-         jBRXkuijxPkl9Gl4qHbYCmQuidNVvMRCEAKF9BlZ9g3L2IRFk4mbh+mvrDiK5lSaxanu
-         2BMtsPLu3xsA40+84+spf4czWlrgE8ZP9NYMkx1DPyXZS3VbBIgRbk0+a5ysa2ghiXrA
-         c4Y8HHt3ywvrtDTCrnbwrDW/QmXcZbEVoeOfAZP+45tQHOKRTgK1RpzJvSidcLX4qyts
-         LUzfQjshsQ5kEQA7PO1+tjYJhCtg52PDrHFKTEFRDLIY2oyZaRFbTkWpOkfY++8XcUGU
-         DROA==
-X-Gm-Message-State: AOAM532vT11zhn7hpZaYHEkbdLQrCRpz/az9qj11mnbq2XgA5NlxmiOZ
-	4Z8At9QiKV1P4dGdenDScLUHjLyJatf0Rw==
+        bh=bRWzP5kWwWYLLmS01eoNgC+iUhQJoevGyXVIVtle5G0=;
+        b=IahDM9s5vbHrPpS1TTFHOQ8u9bhfTLV1xiQ4Ym10GwqiiDPjvZxYY/wc8/o1jpjAvw
+         +1dtkfd2OIix3H4MRALf3aCUsy7Uurp1+SLaR2EyJxGPbLr6MudkuhEOvNwMRG7d56Sv
+         XYv8pbH/faTeRBwpSynAmRX8NXsY++pBilBVwyllHiyc+UEV7075uRC5THgnWr1CIHn2
+         omAmIwKG/uZj0TM/gsGk4U93y8YDqfelF/mPWtDGOWJ+q+WC6i2gtHmRU1wycabphBwg
+         2Yu42+u/28KRCmlhRGGZL2xozon+5CKXFoOFixJhkcFjTYn5IWiD7L0a2VzmngYDQqdc
+         XCMA==
+X-Gm-Message-State: AOAM530RzKbOiG2zG1aica5ou50o0H8x8SymjKnFE20YVcIY645+Jvkl
+	Ldm/THdCdhfGWLHTEylsoYCkKT69mm4BaQ==
 X-Google-Smtp-Source: 
- ABdhPJwZtq74IhSAAJIicQIPM2k5FAINnD6TyKtc37fm0Wvn0Fvea4Gwrce/p+ysPswmNItOhpc3fQ==
-X-Received: by 2002:adf:e8d1:: with SMTP id k17mr1495867wrn.465.1639000806697;
-        Wed, 08 Dec 2021 14:00:06 -0800 (PST)
+ ABdhPJz70Nd/L9bfKcTikEcnfPTfo9ebGahGQJXZJcuOufk0iJagUgnvvhVjUWETqtxLY3lxfCnl4Q==
+X-Received: by 2002:a5d:6d8b:: with SMTP id l11mr1548970wrs.458.1639000807367;
+        Wed, 08 Dec 2021 14:00:07 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  c6sm9177170wmq.46.2021.12.08.14.00.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 14:00:06 -0800 (PST)
+        Wed, 08 Dec 2021 14:00:07 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/29] python3-more-itertools: upgrade 8.11.0 -> 8.12.0
-Date: Wed,  8 Dec 2021 22:59:32 +0100
-Message-Id: <20211208215947.1979470-14-alex@linutronix.de>
+Subject: [PATCH 15/29] python3-pbr: upgrade 5.7.0 -> 5.8.0
+Date: Wed,  8 Dec 2021 22:59:33 +0100
+Message-Id: <20211208215947.1979470-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211208215947.1979470-1-alex@linutronix.de>
 References: <20211208215947.1979470-1-alex@linutronix.de>
@@ -65,34 +65,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 22:00:08 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 22:00:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159380
+ https://lists.openembedded.org/g/openembedded-core/message/159381
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ore-itertools_8.11.0.bb => python3-more-itertools_8.12.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-more-itertools_8.11.0.bb => python3-more-itertools_8.12.0.bb} (86%)
+ meta/recipes-devtools/python/python3-pbr_5.7.0.bb | 4 ----
+ meta/recipes-devtools/python/python3-pbr_5.8.0.bb | 4 ++++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pbr_5.7.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pbr_5.8.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.11.0.bb b/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-more-itertools_8.11.0.bb
-rename to meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
-index a18bb4d667..c1e34b205d 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_8.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
- 
--SRC_URI[sha256sum] = "0a2fd25d343c08d7e7212071820e7e7ea2f41d8fb45d6bc8a00cd6ce3b7aab88"
-+SRC_URI[sha256sum] = "7dc6ad46f05f545f900dd59e8dfb4e84a4827b97b3cfecb175ea0c7d247f6064"
- 
- inherit pypi setuptools3 ptest
- 
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.7.0.bb b/meta/recipes-devtools/python/python3-pbr_5.7.0.bb
+deleted file mode 100644
+index 12aeb7e8fa..0000000000
+--- a/meta/recipes-devtools/python/python3-pbr_5.7.0.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-inherit setuptools3
+-require python-pbr.inc
+-
+-SRC_URI[sha256sum] = "4651ca1445e80f2781827305de3d76b3ce53195f2227762684eb08f17bc473b7"
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.8.0.bb b/meta/recipes-devtools/python/python3-pbr_5.8.0.bb
+new file mode 100644
+index 0000000000..b74fc16754
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pbr_5.8.0.bb
+@@ -0,0 +1,4 @@
++inherit setuptools3
++require python-pbr.inc
++
++SRC_URI[sha256sum] = "672d8ebee84921862110f23fcec2acea191ef58543d34dfe9ef3d9f13c31cddf"
 -- 
 2.20.1
 
