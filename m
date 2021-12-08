@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA19CC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6986C433EF
 	for <webhook@archiver.kernel.org>; Wed,  8 Dec 2021 22:00:14 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.3099.1639000813491959348
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.3051.1639000814152436064
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 14:00:13 -0800
+ Wed, 08 Dec 2021 14:00:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mpW3yFQ3;
- spf=pass (domain: gmail.com, ip: 209.85.128.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nZW1VS0J;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id
- k37-20020a05600c1ca500b00330cb84834fso5227246wms.2
+Received: by mail-wr1-f41.google.com with SMTP id j3so6543763wrp.1
         for <openembedded-core@lists.openembedded.org>;
  Wed, 08 Dec 2021 14:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1XNo63M7fYoOha0qpIk6HDo73muv1rxEWyRcpqv+nzo=;
-        b=mpW3yFQ3XOvm9K+GqvQHhvUSN2MxdgGJStXefhxVVRL3lFrJZcB7KATfhAKBTksvQk
-         avPutsAC62GEPC90y6y6O/DCc8avSDUVshMoR9/q933FeYxsrc7Zduz3QEcdtaryVlGC
-         4lEY0GiwXmsvY3mvbyJrcXDjOAcHWsc9hei0WC+Y2KGJaIguXWDbc1BbYiwzLnP7pAm8
-         MuLuuBYekZrGm2Onw0V7+vEkRSm6uRsqvSizkf0A/XaClrXcz6slm0f5VcI3K41iLVGl
-         7k4omP4flP64UKice1ngJCCkdCpjkem8YJfU5pBfE6hsSLTF7EeznFa2k2A/fAIP1yKV
-         WcOQ==
+        bh=a/GdA1o2IbfECaLbgKf5tK5LRM43XiEUY3dfyJ46KT8=;
+        b=nZW1VS0JuRXlvYcPpVBe8mTvlPpBeu+/1W74eB/sfbtXnLEHI1GM2HruAupi6hFL2y
+         UC6DFiJyGW4NSGd1VgeCyI4OiW5pHdRX6uL5tEOomhy/DHeM1+inuZ/HL9HZogXCKfb8
+         47Hvgl/BuhCp3eV0zjBI+OtcJIfJ3acbjUO4O+ouadvcUTGYFeT8Z96Be1xt9NrRxQ3E
+         08BoSWWVmDtgZlDp2CsXyN+/Qt2D+3g5EESv28vbLXaNoWF6lNGgGqMiLWxUuHgjELsp
+         qbUq2EvK4KWt8VCzznTQIjQqVJOAeRDWTxELo0EVpYiFNcswUaiEs2rV9NYF+8+QIyK8
+         WQ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1XNo63M7fYoOha0qpIk6HDo73muv1rxEWyRcpqv+nzo=;
-        b=6ISXFtYcpgP67SaHFmVMalZW6mX1DVuJRLn8LGSO4K/T1BJnHznT5v7xAZsvTsO1SE
-         PfMV8f6p/OcXmzj+Bhfzgid9iYP4QGAKXVhdUq2uPCXQoEOzHBKn8yo5cPT3Y8r5yoDK
-         A2qFk5R6zMu25mN4FXv174NyWxKEyLWQoJFqA/PFS4+3OlxP0EAZWTbkToFrZs0ATRLE
-         WAcsPOXbmlZRwrf4JSaJtAp9mVnFe+SykRmtmuSBT8YgPcb2lUUOU5U7f9r0vkaE+vgi
-         MrUBmFPdqq9NcoF5Ne+dlGdBxF4YUDCBeJASthZhDGtAe0tT8nLhqZRkLAbfqY8+6xEB
-         e0hA==
-X-Gm-Message-State: AOAM533CkrwSZov9bB5mjiB3sGB+zz0JTmytWj0IwpIEss84b5UkR1FN
-	ypaV+H1b3yMvzJwim1gHtqi+cQiri+PWAA==
+        bh=a/GdA1o2IbfECaLbgKf5tK5LRM43XiEUY3dfyJ46KT8=;
+        b=ADD9BXHt1CvBYSagR8EP9ms5P6aAd6+rMoxwY88gUxYqJjUX+OkaT1KMwibo08bGEs
+         qzT+hMq+FjBxaUQHnasCfdzQYbyr14JJU2JAfRag5YSmQ6RRRUqIE5SdpP/E3WdXW3W3
+         nZ4FLhJrBAmwfQRPSnbBetTpEfAIU1s7rRFhDDNA3JpmqAv6TN/6HJFfweboSKW1MN/6
+         2wKBOCaeIYo5zBdM/RMvJFYUUsj7STPE9dvCS2CzrDe7yEp0ZFqq/Sr4xelSWDXSzPmY
+         Ui5cB7VR0wDT5cWESiqU3cVRfxw5e9KnVty6uJc6dAVVT0Dun2eCDRZSoMgB6KoNNM+e
+         lUkw==
+X-Gm-Message-State: AOAM531dRSHqhWMSPew2tzHrZR1h7GSYuoR1YziAMTh67LKVl8py42eP
+	lT5UFiDA0pBAqO5j7TbgzKAbDnteppwSRQ==
 X-Google-Smtp-Source: 
- ABdhPJwyk13fzEorIanvDfKrF8F5dNT2bvR5a80a+ou3nZ/il/ZIfCob9kwC+PqI8h4B5WlEq8O5iQ==
-X-Received: by 2002:a7b:c844:: with SMTP id c4mr1695114wml.148.1639000812080;
+ ABdhPJw0tLfHHiZW9mbvcDrirxYGC+ah79txKidcqYFRbk5+Ifxjm+rOpS43FmLxt8tsGTIwx8iMWg==
+X-Received: by 2002:a05:6000:373:: with SMTP id
+ f19mr1549904wrf.311.1639000812770;
         Wed, 08 Dec 2021 14:00:12 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- c6sm9177170wmq.46.2021.12.08.14.00.11
+ c6sm9177170wmq.46.2021.12.08.14.00.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 14:00:11 -0800 (PST)
+        Wed, 08 Dec 2021 14:00:12 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 22/29] vulkan-loader: upgrade 1.2.198.0 -> 1.2.198.1
-Date: Wed,  8 Dec 2021 22:59:40 +0100
-Message-Id: <20211208215947.1979470-22-alex@linutronix.de>
+Subject: [PATCH 23/29] webkitgtk: upgrade 2.34.1 -> 2.34.2
+Date: Wed,  8 Dec 2021 22:59:41 +0100
+Message-Id: <20211208215947.1979470-23-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211208215947.1979470-1-alex@linutronix.de>
 References: <20211208215947.1979470-1-alex@linutronix.de>
@@ -68,31 +68,31 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Dec 2021 22:00:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159388
+ https://lists.openembedded.org/g/openembedded-core/message/159389
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{vulkan-loader_1.2.198.0.bb => vulkan-loader_1.2.198.1.bb}  | 2 +-
+ .../webkit/{webkitgtk_2.34.1.bb => webkitgtk_2.34.2.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-loader_1.2.198.0.bb => vulkan-loader_1.2.198.1.bb} (96%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.34.1.bb => webkitgtk_2.34.2.bb} (98%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.198.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.198.1.bb
-similarity index 96%
-rename from meta/recipes-graphics/vulkan/vulkan-loader_1.2.198.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-loader_1.2.198.1.bb
-index a538f6b270..446a2d5c05 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.198.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.198.1.bb
-@@ -10,7 +10,7 @@ SECTION = "libs"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.2.198;protocol=https"
--SRCREV = "fe8479aa022a011d74fd862749825e07891e854e"
-+SRCREV = "0ca96994f92b6f21b37badd6c99b22f61bfec932"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.34.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+index 7a942e9cb5..413e0cdf92 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.34.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            "
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "443c1316705de024741748e85fe32324d299d9ee68e6feb340b89e4a04073dee"
++SRC_URI[sha256sum] = "584677d6e7cae12e27cdcc8e05b4cf73b54849a24afc3d7a40cec91016deff00"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
  
 -- 
 2.20.1
