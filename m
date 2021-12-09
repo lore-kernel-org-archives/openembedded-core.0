@@ -1,98 +1,110 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EF8C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 14:43:45 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.12292.1639061023901244805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6893FC433F5
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 14:50:06 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.12549.1639061404045166313
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 06:43:44 -0800
+ Thu, 09 Dec 2021 06:50:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=zO1zTMux;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.42,
- mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f42.google.com with SMTP id
- c6-20020a05600c0ac600b0033c3aedd30aso4252925wmr.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D+d4cVMU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id
+ j140-20020a1c2392000000b003399ae48f58so6723721wmj.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 06:43:43 -0800 (PST)
+ Thu, 09 Dec 2021 06:50:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X2ycy1sg9bh0GNc9Q/yOC9dTLmGESTp2eS/fayCMyHk=;
-        b=zO1zTMuxoi8ZIWtWXtj4XQz8D/8O8qs1BuqpK2k5Y7vjVEC/idXfW6zHX5Q5qjwJfN
-         gyc+KdBWjjZuxghBKLYqyTU9qOR+qMKLMJFxN3zQOxIc250wCx9tLFii3/r5FO3IBek2
-         YuMXbgXa2H79pXVKJbqFFjovTyCBaBf8jFnL4rYVwnhXULPPiPGpWqNadqBPutKh33Oh
-         vJYG42OIc7dAJkSZbO3/BIDDEaTxDSYZQtTCEsgy4cKm9lj2vh13aP3TFUgsFw9NJW8K
-         sZQ5GFZm9yuWRmPFXm1C2znv1Odr7EjvZx05q2+B2NI9loTJIYHEMQo7jEcsqDYt0/ey
-         T2Dg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=ifhYQP6XV/SrjokENoMcj59tuZumwcXXrGRZ3E3xdZ0=;
+        b=D+d4cVMU8rmlLCNdpTFG0vLz4j4bDsW+ilOk3nm7fw9nWobHKVdpncfOXF6E8GTajp
+         43j6LcsiIMuyFpudAElGsJXMBe36oCCZ07bvjwtQ7Zx52UndBY7SIH/Ym1oHkrnHTM2S
+         JX757VX1e6va/Mq5SU9XpR8YCzGQ22sQEqpsk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X2ycy1sg9bh0GNc9Q/yOC9dTLmGESTp2eS/fayCMyHk=;
-        b=Aup3gscevWwuVW02hg6pN5RIwIATYYsSXwnz2PDVg9pvMNoIM0hUyT/luY1kjj3kaq
-         69AXWZXdrBjH75dArAae8ToDw1iHTz1foX1qCK85+oFC5FVRuKsguAQd5GlRA2M3imaz
-         rG2qIVh1zyFbatCdELMKkbIQRVBQyNuiqONTLa7JJFjbEnQkjahF3EpbgHLzgXpuBI3T
-         5wAQXkZH4lYuPBieHxvLh9HR1oR05oGveoLGPEoee/1VPEv8hW/dMdoEmgE6tUiBRlgu
-         smCDD2H2WJzgcpRxzqztlBnHD3Co654snbNPTRi8Vutnb0cq1jMSpHGrzPu7LEftOC+y
-         Ap3g==
-X-Gm-Message-State: AOAM5329a3Q2VfTYhsWKD2LFgKor6xzLg0D3Kj2ujO4eTMvzGHJ2lt0/
-	9o2FTwHSx675O6UmL1M4DOBeBDPqKp7EypgeTBoK5Q==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ifhYQP6XV/SrjokENoMcj59tuZumwcXXrGRZ3E3xdZ0=;
+        b=uAtKWZQ+Mps1ZYW1m6pf/8OnjEnHalsCIszSwlV1+SQtdBA5AiD82wIz0qmb0CUEt6
+         MSEnECvXyHQPBcYl2dtULsGubMsyKwhqRGgmHx237Ji1Uz5OyhXl/MX0r/1Q8mISpFYK
+         /ZQY4fGeijUIgrI5B0LuALiz0LSLxFiM98FmuI+DDeJzne5ZAs1uR2mazqjBon+oLfTs
+         k3qaHSRaH3TP17fuP3GZw6dl059LMnX4dkorBIU58+NvIqaI5/LFgDvfZKCXmCfsbET7
+         vOzdOTUtoQncW+hgCmt2SLUPBrzKQtFWxha/PKFWXY5/DLSginj/ARjddyxzkd8vtwVk
+         gQxQ==
+X-Gm-Message-State: AOAM532Qx3E3DUszfObnW7MJBZBfUvmT6DWj+bnXEddZJy3zDxKGspH3
+	jvcmmADmZ3rkrCLUcPYmhUEdIg==
 X-Google-Smtp-Source: 
- ABdhPJy+1G/etvNKs4eTJPDywQ6Muxt4e6/IFdNsrr+y7ZhW69Tou1Dmyaj3720noFOLfFhm5/R/aEVLaANvZa/WBjw=
-X-Received: by 2002:a7b:c85a:: with SMTP id c26mr7926142wml.23.1639061021966;
- Thu, 09 Dec 2021 06:43:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20211209065335.2999735-1-timothy.t.orling@intel.com>
- <CAApg2=S+t867iCm7e4+JaJLStP1KX2F2NtCeLMLS7EVgfbTV=Q@mail.gmail.com>
- <CAOyo-84-u5dFSfFOK2tcLbpyHffA9NanU00LJEyVZ5pbTr+uPA@mail.gmail.com>
-In-Reply-To: 
- <CAOyo-84-u5dFSfFOK2tcLbpyHffA9NanU00LJEyVZ5pbTr+uPA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 9 Dec 2021 04:43:31 -1000
+ ABdhPJwquh/VU6dp3TaDZNZThOpuNn1y/HbnFs5gXcCOuei0ciyEWtinVzIs0sOQKMab6Hn0wBzMAA==
+X-Received: by 2002:a7b:c306:: with SMTP id k6mr7717124wmj.15.1639061402458;
+        Thu, 09 Dec 2021 06:50:02 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cb2b:2e37:1385:897e?
+ ([2001:8b0:aba:5f3c:cb2b:2e37:1385:897e])
+        by smtp.gmail.com with ESMTPSA id p27sm26564wmi.28.2021.12.09.06.50.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Dec 2021 06:50:01 -0800 (PST)
 Message-ID: 
+ <1d8642264b9bd1886caa20937b3f7ffe731d6be6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [dunfell][PATCH] gcc: Add CVE-2021-37322 to the list
+ of CVEs to ignore
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, Tim Orling <tim.orling@konsulko.com>
+Cc: Marta Rybczynska <rybczynska@gmail.com>, Tim Orling
+ <ticotimo@gmail.com>,  OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 09 Dec 2021 14:49:58 +0000
+In-Reply-To: 
  <CAOSpxdZfzDQ7m15hfDPehLEBdvvHAWk83t0B3Pmdkz9z4ZXBpA@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] gcc: Add CVE-2021-37322 to the list of
- CVEs to ignore
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: Marta Rybczynska <rybczynska@gmail.com>, Tim Orling <ticotimo@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20211209065335.2999735-1-timothy.t.orling@intel.com>
+	 <CAApg2=S+t867iCm7e4+JaJLStP1KX2F2NtCeLMLS7EVgfbTV=Q@mail.gmail.com>
+	 <CAOyo-84-u5dFSfFOK2tcLbpyHffA9NanU00LJEyVZ5pbTr+uPA@mail.gmail.com>
+	 <CAOSpxdZfzDQ7m15hfDPehLEBdvvHAWk83t0B3Pmdkz9z4ZXBpA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 14:43:45 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 14:50:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159452
+ https://lists.openembedded.org/g/openembedded-core/message/159453
 
-On Thu, Dec 9, 2021 at 4:36 AM Tim Orling <tim.orling@konsulko.com> wrote:
->
->
->
-> On Thu, Dec 9, 2021 at 4:12 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
->>
->> On Thu, Dec 9, 2021 at 7:53 AM Tim Orling <ticotimo@gmail.com> wrote:
->> >
->> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
->> >
->> > The CVE applies to binutils 2.26 and not to gcc so ignore there.
->> >
->>
->> Tim,
->> Have you requested a NVD database change on this one? Or you prefer me to do it?
->>
-> I have not. I was simply back-porting the patch from Richard.
+On Thu, 2021-12-09 at 04:43 -1000, Steve Sakoman wrote:
+> On Thu, Dec 9, 2021 at 4:36 AM Tim Orling <tim.orling@konsulko.com> wrote:
+> > 
+> > 
+> > 
+> > On Thu, Dec 9, 2021 at 4:12 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
+> > > 
+> > > On Thu, Dec 9, 2021 at 7:53 AM Tim Orling <ticotimo@gmail.com> wrote:
+> > > > 
+> > > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > 
+> > > > The CVE applies to binutils 2.26 and not to gcc so ignore there.
+> > > > 
+> > > 
+> > > Tim,
+> > > Have you requested a NVD database change on this one? Or you prefer me to do it?
+> > > 
+> > I have not. I was simply back-porting the patch from Richard.
+> 
+> It's always preferable to request a change to the database when it is
+> wrong.  They are usually pretty responsive.
+> 
+> I'll take the patch for now, and if/when they accept the update we can
+> remove the exception in master/dunfell.
 
-It's always preferable to request a change to the database when it is
-wrong.  They are usually pretty responsive.
+This one is a little fuzzy. There is an entry for binutils there too and I
+didn't understand why there was an unversioned gcc entry there with it. It could
+be our CPE parsing isn't quite right. I may also be referring to gcc the project
+rather than the component. Regardless, I wanted it off our CVE list! 
 
-I'll take the patch for now, and if/when they accept the update we can
-remove the exception in master/dunfell.
+Cheers,
 
-Steve
+Richard
+
 
