@@ -1,139 +1,144 @@
-Return-Path: <denis@denix.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1820CC433F5
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 22:30:24 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web09.382.1639089023003469948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B159C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 22:35:13 +0000 (UTC)
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com
+ [209.85.221.174])
+ by mx.groups.io with SMTP id smtpd.web08.421.1639089312010675557
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 14:30:23 -0800
+ Thu, 09 Dec 2021 14:35:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
- mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B9DCA40C76
-	for <openembedded-core@lists.openembedded.org>;
- Thu,  9 Dec 2021 22:30:21 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WFllVYyIJb12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Dec 2021 22:30:21 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
- [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A8ED240A03
-	for <openembedded-core@lists.openembedded.org>;
- Thu,  9 Dec 2021 22:30:21 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id EDA3B174709;
-	Thu,  9 Dec 2021 17:30:20 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>
-Subject: [PATCH] wayland: upgrade 1.19.0 -> 1.20.0
-Date: Thu,  9 Dec 2021 17:30:18 -0500
-Message-Id: <1639089018-30078-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FsGbb+f5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.174,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f174.google.com with SMTP id m16so4748005vkl.13
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 09 Dec 2021 14:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z7k0aIAh2BfAhAIzcuOC4p2djmj6j9+EYfzdUZyss+c=;
+        b=FsGbb+f5Q0nYAHNAxmfmzShZEusqvAYZr5a/dFFP0YRLIXWsDi1Nd0VAisr23PgKnf
+         hAKi9190Mtqg4iY3ujg0bG2G1HQ9PgoGLUaIT43bpAIz5bvbmB7S+anprUCe0LkDOVEv
+         pRByJB0hmq4SVAUpdmyNVTbpZbyj9eFT7kV41C3ck8+lx7LAz+SqDQeXOvv2enc8v8jr
+         yKzjfMc+GQpWuKhhJuH0OtwMzVYgQMZAzARvOm60WCexKjgvjHKkQRoICfHYGN/ysBKT
+         Qn8mY+cCtfL+WegSPxS4NJMvsbdtATrw5tsonM+Ku1zSLcUw+2VBgnDlGa7TSDUZoU/S
+         9MIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z7k0aIAh2BfAhAIzcuOC4p2djmj6j9+EYfzdUZyss+c=;
+        b=QPYNmHWK/iMpg4lNuC2d4D/48zXNOVLqFeavVP0cpUa2vD3cojg/hvonMf3NNlw2jJ
+         MpfobGGNwaVSd1xHTP5j9GMjnbINdgBIJ7UB9ZrXxzNrnD57PfvZX4GyriCegLHUe+ZO
+         Bgd8xtzkB6dvzPdRNVGCcv+LYO8p341dAkeU13wkK/2oCnLsZ67Joz//w9x55jGjfgMK
+         iDijCKS7BsXgnlnFOxftcPqs9GR/nfexR9VBjDjZ6g4eEitgHPP/5xDmeJRKnm5sq/Jt
+         maPnlVX1tnOP2Ywj7EhqsaC5HDHnSxrEI8M/UWgSZlvfp2opk3ID5KDb5T9BB0YfclS0
+         z8Kw==
+X-Gm-Message-State: AOAM532d98ApZ3NDIiF+jeYRuAqkr/UibLBLhoElyXArsdfYTmsL74Ov
+	TyQgkR0Tguq2WuoPSKWPOjpB8l2so8xB7UcsH5o=
+X-Google-Smtp-Source: 
+ ABdhPJzb5tik7s5C0fZfll2wdhcaEvXI5s6N4KH7W8cs+KVqZMN/mv0sK3plddVEbP3vUZmCJU10qrJDbjmsCTyc7jI=
+X-Received: by 2002:a1f:3f4f:: with SMTP id m76mr13688450vka.1.1639089311167;
+ Thu, 09 Dec 2021 14:35:11 -0800 (PST)
+MIME-Version: 1.0
+References: <20211208215947.1979470-1-alex@linutronix.de>
+ <20211208215947.1979470-2-alex@linutronix.de>
+ <ab2226704dded8c823c02a45b051bd65683de13b.camel@linuxfoundation.org>
+In-Reply-To: 
+ <ab2226704dded8c823c02a45b051bd65683de13b.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 9 Dec 2021 23:34:59 +0100
+Message-ID: 
+ <CANNYZj_vCXfy9E0uek3w2hkdcvsvum=4nEvjoKVvC7EDSN=eCg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/29] insane.bbclass: do not hardcode oe-core
+ path in upstream-status check
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Konrad Weihmann <kweihmann@outlook.com>
+Content-Type: multipart/alternative; boundary="00000000000025b9d105d2be3844"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 22:30:24 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 22:35:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159484
+ https://lists.openembedded.org/g/openembedded-core/message/159485
 
-Wayland 1.20.0 is released!
+--00000000000025b9d105d2be3844
+Content-Type: text/plain; charset="UTF-8"
 
-This release contains the following major changes:
+On Thu, 9 Dec 2021 at 13:12, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-- FreeBSD support has been entirely upstreamed and has been added to
-  our continuous integration system.
-- The autotools build system has been dropped. Meson has replaced it.
-- A few protocol additions: wl_surface.offset allows clients to update
-  a surface's buffer offset independently from the buffer,
-  wl_output.name and description allow clients to identify outputs
-  without depending on xdg-output-unstable-v1.
-- In protocol definitions, events have a new "type" attribute and can
-  now be marked as destructors.
-- A number of bug fixes, including a race condition when destroying
-  proxies in multi-threaded clients.
+> >         # skip patches not in oe-core
+> > -       if '/meta/' not in fullpath:
+> > +       oecore_re = re.compile(d.getVar('BBFILE_PATTERN_core'))
+> > +       match_oecore = oecore_re.search(fullpath)
+> > +       if not match_oecore:
+> >             continue
+>
+...
 
-Drop patch to fix strndup detection on MinGW that no longer applies, as
-meson claims to had that fixed since version 0.54.2
+> I've realised the sstate tests don't pick this up since the metadata is in
+> a
+> fixed location for the tests so it doesn't change. As well as fixing this
+> patch,
+> we should revise the sstate sigs tests to test for changes in metadata path
+> changing the sigs.
+>
 
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
----
- ...0001-build-Fix-strndup-detection-on-MinGW.patch | 37 ----------------------
- .../{wayland_1.19.0.bb => wayland_1.20.0.bb}       |  3 +-
- 2 files changed, 1 insertion(+), 39 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
- rename meta/recipes-graphics/wayland/{wayland_1.19.0.bb => wayland_1.20.0.bb} (93%)
+I've sent a patch that adds the test that fails with this change and passes
+without it.
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-deleted file mode 100644
-index ad1063b..0000000
---- a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 6a6223a8e217664a348835e92d5a602f50e18b2c Mon Sep 17 00:00:00 2001
--From: Joshua Watt <JPEWhacker@gmail.com>
--Date: Thu, 20 Feb 2020 15:20:45 -0600
--Subject: [PATCH] build: Fix strndup detection on MinGW
--
--GCC and meson conspire together to incorrectly detect that strndup()
--exists on MinGW as __builtin_strndup, when no such function exists. As a
--work around, meson will skip looking for __builtin functions if an
--'#include' is in the prefix, so add '#include <string.h>' when looking
--for strndup().
--
--See: https://github.com/mesonbuild/meson/issues/3672
--
--Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayland/merge_requests/63]
--
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 11c35fa..80729d0 100644
----- a/meson.build
--+++ b/meson.build
--@@ -36,11 +36,11 @@ have_funcs = [
-- 	'posix_fallocate',
-- 	'prctl',
-- 	'memfd_create',
---	'strndup',
-- ]
-- foreach f: have_funcs
-- 	config_h.set('HAVE_' + f.underscorify().to_upper(), cc.has_function(f))
-- endforeach
--+config_h.set('HAVE_STRNDUP', cc.has_function('strndup') and cc.has_header_symbol('string.h', 'strndup'))
-- 
-- if get_option('libraries')
-- 	ffi_dep = dependency('libffi')
-diff --git a/meta/recipes-graphics/wayland/wayland_1.19.0.bb b/meta/recipes-graphics/wayland/wayland_1.20.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/wayland/wayland_1.19.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.20.0.bb
-index 4c9ae0f..e984414 100644
---- a/meta/recipes-graphics/wayland/wayland_1.19.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.20.0.bb
-@@ -15,9 +15,8 @@ DEPENDS = "expat libffi wayland-native"
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://0002-Do-not-hardcode-the-path-to-wayland-scanner.patch \
--           file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-            "
--SRC_URI[sha256sum] = "baccd902300d354581cd5ad3cc49daa4921d55fb416a5883e218750fef166d15"
-+SRC_URI[sha256sum] = "b8a034154c7059772e0fdbd27dbfcda6c732df29cae56a82274f6ec5d7cd8725"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
--- 
-2.7.4
+The next step would be to fix the above snippet. Taking the path variable
+out of the signature is possible, but it would be better to do away with
+file paths altogether, and start giving layers unique layer ids that can be
+used in recipe context to detect which layer we're in. I can't quite figure
+out how to do this - presumably, such id would be set in layer.conf, but
+its scope would be limited only to recipes from that layer.
 
+Alex
+
+--00000000000025b9d105d2be3844
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 9 Dec 2021 at 13:12, Richard Purdie &lt;<a href=3D"mailto:ri=
+chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt;=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# skip patches not in oe-core<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0if &#39;/meta/&#39; not in fullpath:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0oecore_re =3D re.compile(d.getVar(&#39;BBF=
+ILE_PATTERN_core&#39;))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0match_oecore =3D oecore_re.search(fullpath=
+)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if not match_oecore:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br></blockquot=
+e><div>... <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I&#3=
+9;ve realised the sstate tests don&#39;t pick this up since the metadata is=
+ in a<br>
+fixed location for the tests so it doesn&#39;t change. As well as fixing th=
+is patch,<br>
+we should revise the sstate sigs tests to test for changes in metadata path=
+<br>
+changing the sigs.<br></blockquote><div><br></div></div><div class=3D"gmail=
+_quote">I&#39;ve sent a patch that adds the test that fails with this chang=
+e and passes without it.</div><div class=3D"gmail_quote"><br></div><div cla=
+ss=3D"gmail_quote">The next step would be to fix the above snippet. Taking =
+the path variable out of the signature is possible, but it would be better =
+to do away with file paths altogether, and start giving layers unique layer=
+ ids that can be used in recipe context to detect which layer we&#39;re in.=
+ I can&#39;t quite figure out how to do this - presumably, such id would be=
+ set in layer.conf, but its scope would be limited only to recipes from tha=
+t layer.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quot=
+e">Alex<br></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_q=
+uote"><br></div></div>
+
+--00000000000025b9d105d2be3844--
 
