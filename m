@@ -1,96 +1,97 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45445C433F5
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 15:19:07 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web08.12729.1639063146125154524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C5DC433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 15:39:00 +0000 (UTC)
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by mx.groups.io with SMTP id smtpd.web12.12866.1639064339242045017
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 07:19:06 -0800
+ Thu, 09 Dec 2021 07:38:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ib6hzUVX;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: uvv.mail@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id k37so12675592lfv.3
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 07:19:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=h620nTOmRrFJPc3NLEOWB1rjh/R9lzFVbRZ54/x0O0Y=;
-        b=Ib6hzUVX3TxiEsaep1EJTQ6/JCeyvx/xmYqlXNh6GjRw9eNChFraaEvlXyVRibjO/R
-         iBFVPulMUMhAKXqlXkglf3ruvpLjdPKnXTb4PYQNW0ARLEtxlz022cX+suxW9/s9DARE
-         V3OyzIotyl2bACIezXUWZBesxkQgHHKdvuEinWEVs32qyBVXQtIw922bdIAUnWhBNdR5
-         uzgt8DZB+vv/BbQ0ZVdPIUJN8JjgreLNGn30tiDBIDeV0W0Z8CU7MayolM1kE8zE3y/S
-         CbcaZkQvPFMWCOQsVQFIPjFHAZHMwh4gyupza+zIdiDzwDfKPyEEBmrQTS43qYmZee2j
-         4P4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=h620nTOmRrFJPc3NLEOWB1rjh/R9lzFVbRZ54/x0O0Y=;
-        b=UlK/43eUuoFpItvAJZB9H4CZ9v0xYHsRgci+BaVW2rbS+7ixyV27BQ4XSytp7ET5sm
-         9h+N8f+NDpoVykmOgssgLRBfIpwrvBmH1GtjtTjqoMT3hvwfjlRJE3h//qpTBnicmj1S
-         YFM7JLFB+eIpSdVME1RnBoF8XjEj8U+iIMb/xqo/hCDJslakZCLsmtlPCzfPTwSks4c2
-         lMVhj5AJprQZV6Gb7VLadDzcbtuuGhbsgba72701t9mCgXziztWm1LWx4RaR/08zImuP
-         rfMqso4o79f9lZpx9Ny8tfUQum+a6LYJkhw8zy04zQBbCdyhQ2lYQVdpF6EiJ+zRsyiR
-         Pcpw==
-X-Gm-Message-State: AOAM531hhiq+OXC6zx1D90vQsSvidKiVxWoLJkLM77LSVxB3oRLpLO2T
-	TulugQGGGloCQzhqDKRx0pc=
-X-Google-Smtp-Source: 
- ABdhPJxrxvLVowRFf0nIBm1kzC49yesJQQql5cw9Ikyz8lWOETIVkBgGIdEBiCC2fbwoKWxlnE0hJQ==
-X-Received: by 2002:a05:6512:34d0:: with SMTP id
- w16mr6510361lfr.420.1639063144179;
-        Thu, 09 Dec 2021 07:19:04 -0800 (PST)
-Received: from [10.133.222.104] ([185.253.97.13])
-        by smtp.gmail.com with ESMTPSA id 9sm15132lfr.193.2021.12.09.07.19.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 07:19:03 -0800 (PST)
-Message-ID: <0f6f7f5f-313c-2f03-5eb0-67f7a8d90836@gmail.com>
-Date: Thu, 9 Dec 2021 16:19:02 +0100
+ dkim=pass header.i=@gherzan.com header.s=fm3 header.b=hbQYrgby;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.29, mailfrom: andrei@gherzan.com)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8BA9D5C01BE;
+	Thu,  9 Dec 2021 10:38:58 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 09 Dec 2021 10:38:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=/insfdJzFInnFhU4WlYRadS3ww
+	8VOA0MkTKefvNynPU=; b=hbQYrgbyoYLSJ1zgPqj17A77al8Vb8P9TK+GTWnHkm
+	VRyY3ow4f96T3jgF61Zt8WlV/iW8kyFOvoiK3D/+Nn8hOYxo8h7IS36EZW8808Br
+	+Ab3XhxIDNKkccnVqLzYqLpmLHiv6VYst+7of6ZOjngWxA7s6nlE8+eW3YTkGtVj
+	O8RsvF9/TFx+DrZhwyai8pIp1wDBI7i1sXIi6YYhmLGLTbR4PZkr+/LIWxyKN/44
+	GlMAz/vrCi0KjGmtdRTe09DvlvzDqf9d/PVuOfnccIS8MEu/Ae1G/0Zjvw2zhHMe
+	WbQp4XP46jM228cnA53kl3hzJzjn1bm8+qqpxO9lsVqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=/insfdJzFInnFhU4W
+	lYRadS3ww8VOA0MkTKefvNynPU=; b=WOJ76r+CkZcv+GVCykdH10w0K1TRZIEjf
+	yoznh8iG/4jGmF47gK8mufMuX6GpzGPkC1u2QbWpoL3fouILhbQuotBuwYVVrQv+
+	0h3OHYoj7VgvJqcjPMnGfWeKMwy40/Hl3FoM+9RoysyYMVHR8Md/sRXcUqKuhPrK
+	ZsyadYeXMCj5uQJXGVQ1Cl6eTGyPWIxfyGEl8Iq9JygBLGxr9+44X1Y6wS9ZWa0U
+	bqGEToNz6BquiE5+L59jtagHJshMjvCWuHQB8kanIWzJ+x8NEFN2w1SFq9h3278H
+	CbnPTRtfU3Lw0tYMZRFtVLUmOzCIs59mcgIbRskytcDN30Rabpbpw==
+X-ME-Sender: <xms:ESOyYUTEK72bsEObnHfWdYhCY_W_r3NpTA7ZWXO1sYDf1QUUlAFZuA>
+    <xme:ESOyYRzFnQwlNZu8uMldrG6vI8LdfcA7ZWU_PYR6_0GHAJVQWmGe1FkEXqomXQFAz
+    9lil7PozoDOuW4vY4E>
+X-ME-Received: 
+ <xmr:ESOyYR1tdBMfbXHtE5E_Ov7-9CyZ4yTyfzqzXV76_p2h5jYy2YWktaTM0EJK4xg25dEuj5QGVML3iUCvv7h5V1Gy1KZ_eGGtRe_EewPIa76WDClVoAuw4rbP>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvuddrkedtgdekudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhhvghr
+    iigrnhdrtghomheqnecuggftrfgrthhtvghrnhepvdetuedtuedthfevgffgieefheevte
+    fhueffkeegieeigfekhfehheejieejjedunecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:ESOyYYDvOeT8bakS8QU6AKuNnwMU6Wcmt4rH3Wg6q7saKqQfgg4_9w>
+    <xmx:ESOyYdi9G0BX930OAmInpNpPAY6KUZB12Pjs71WvdiS9unBPyLnnMw>
+    <xmx:ESOyYUqBZgzaywG2gA-68gcQHiMZlc2jKEsoSWGbNAmjVI4tPKnVhA>
+    <xmx:EiOyYdZqD6BeJN-5_RQOr8lctEH0N-qKPD2huPY7EPMKj0wxu5Ny1w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Dec 2021 10:38:56 -0500 (EST)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: openembedded-core@lists.openembedded.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [PATCH] mesa: Avoid PACKAGECONFIG warning for broadcom entry
+Date: Thu,  9 Dec 2021 16:38:39 +0100
+Message-Id: <20211209153839.2322513-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.0
-Subject: Re: [OE-core] [PATCH 1/6] overlayfs-etc: mount etc as overlayfs
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <cover.1637301667.git.uvv.mail@gmail.com>
- <83e41a0b7b5e1dc41fa89ffb4d3a8105299f7b1c.1637301667.git.uvv.mail@gmail.com>
- <26ede260f595ddb3d8cdda552d74ac478c1e529f.camel@linuxfoundation.org>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: 
- <26ede260f595ddb3d8cdda552d74ac478c1e529f.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 15:19:07 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 15:39:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159455
+ https://lists.openembedded.org/g/openembedded-core/message/159456
 
-On 09.12.2021 12:08, Richard Purdie wrote:
-> The second thing which I don't really like is this mix of shell and python, it
-> is very confusing to read. I'd much rather we put template files into
-> meta/lib/files/ and then read them from there for the variable substitutions. We
-> do this for other scripts. I appreciate the overlayfs class merged without that
-> but I think we need to fix this there as well.
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-Thanks for the feedback, Richard.
-I see only meta/files. I guess you meant this directory.
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Will do the same for overlayfs.bbclass too.
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c894c2dab5..8db91a7b2e 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -128,6 +128,7 @@ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+ PACKAGECONFIG[broadcom] = ""
+ PACKAGECONFIG[etnaviv] = ""
+ PACKAGECONFIG[freedreno] = ""
++PACKAGECONFIG[broadcom] = ""
+ PACKAGECONFIG[kmsro] = ""
+ PACKAGECONFIG[vc4] = ""
+ PACKAGECONFIG[v3d] = ""
+-- 
+2.25.1
 
-> Adding the tests in this series is really great through, thanks for that!
->
-> Cheers,
->
-> Richard
-
-Regards,
-Vyacheslav
 
