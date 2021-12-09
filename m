@@ -1,75 +1,77 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <scott.murray@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC74C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 21:00:39 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web08.17481.1639083639219029970
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A348C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 21:06:48 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web12.17471.1639084007268970179
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 13:00:39 -0800
+ Thu, 09 Dec 2021 13:06:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YviTOJMM;
- spf=pass (domain: gmail.com, ip: 209.85.160.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id j17so6597935qtx.2
+ dkim=pass header.i=@konsulko.com header.s=google header.b=CnbIEXfs;
+ spf=pass (domain: konsulko.com, ip: 209.85.160.178,
+ mailfrom: scott.murray@konsulko.com)
+Received: by mail-qt1-f178.google.com with SMTP id 8so6590875qtx.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 13:00:39 -0800 (PST)
+ Thu, 09 Dec 2021 13:06:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rE+Bt82N5D+BeD8/8U5TucsJMgrkqk8OfQaISu6sSGE=;
-        b=YviTOJMM8VoqjtBdJq5gjEBX72h55cMXMfeg39JaqT/BYigwY4BdM0R/Vxpzd7NqU7
-         UxqR/F6iqXPDi3wWB1q0ZKjokrsoST+RDVKkxowV+iG/qddz0cgqaLGCz1B2aTNtH23y
-         1DqpISTUWbFVoVRL1oL3CVlIZQnUadvopLAn2x3fnoUAGKOGfDrPsbKgaxYzoVHgroUB
-         Rt3NgBY2z/XB/5k2oZlhs+a3WdjVl5kZvqDvMOgga4YB7XGFX9blBhi9TrvaZttf7WtN
-         vrzC6e8ARN9HGgUrO6vGiU5542MtkPKApEXvuvHlt5OvftwLqnwE56ZtLnEdg0XHfgdy
-         6+XQ==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=qudcGfLjEAyy8IVTFGtVtYYIcdZms5Ks2NbYfoVNdRY=;
+        b=CnbIEXfsxo4vqNGAh97BYDlVUIqJ4drM9+nIkTKpzXznL97qpNQoi3aLqnxHjhPbuT
+         Zi4YuFT0EgNZXDEPICRXQuPfIIx5gIByOxL83ZRI+m3ByVHHsRySvn3+QqXoVCmw0tCO
+         NQg3lWCiXee9hTV1SqahIxNFKq6u47k97rpFk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rE+Bt82N5D+BeD8/8U5TucsJMgrkqk8OfQaISu6sSGE=;
-        b=ZE0PTzh3PYJp8SEDsuSStuBI27krEhHbXafK3Tgqc09xUAqOaCFiPkyQ/KiBiYKzev
-         1zMVQhVKfX9JJKrGiiZfLquTyOz5fPTZBs7H1CfJhXy+dJM9KpGMhQCsVPt3DjXI1aXR
-         l6PKGDX0O1c1lXtsajVpFdczUuZ/7RsmmCSH4F6NwoH0IXcZQHET+qGmJtdJCG6YqGR9
-         dy5052RBGJMqxGurpkHXrxzXBln1xFnXGrzmmTSWhnEVx20ZUX3dT1/OO6DNIeUeCY2E
-         AUOcFMHYRhy6ZANqcCfWrxOBUQVwksl0Pr9p480GmDqu593weRA1lqX2ByccIjkKwfkn
-         cPFA==
-X-Gm-Message-State: AOAM532IKPELiKrfz3042yGtsB6ikDkDsHP9FfNEbWXQ32cnRltIS1BO
-	WFgxOMQ71YA0xfSXG79aoJq/VE8uSp9f8q5Y2/A=
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=qudcGfLjEAyy8IVTFGtVtYYIcdZms5Ks2NbYfoVNdRY=;
+        b=vclmFpWVt7waKD8XolbpzaMitB2nI2SuWPqkV5BP1NMT9rFuPLXbIdQooDEc03Auo9
+         7OGppiRCGSL79f9vKxW+3Ko3vLRPL3pOnA7jW3xg8kds4q9plZn9v53Rm/b/i7IANpgK
+         OuNxuOIiFr+5OWSJgyrQlQiKbvn1KLY/tnDd2VLf6c0RksiTUjtVAbc2FP4APyDAOBMl
+         cdA5QI9TUMaz8vZweJQqkc03IrplsYZjCzYSs+HHGhLFOZHOubDGFz0MC+XuPH2uaJjK
+         PPzXX3quDZKnpbAO29F2BdFlxeG0ste8235WKktUvcMoik/Zyh/JGgUv4y9Q2Or/qOuK
+         GR/Q==
+X-Gm-Message-State: AOAM533WgbXGrTH+HyyDmZEOCcOa6cxBYGYaiVYzHU5OJ2LevAufUgA7
+	cTp0cb7YUzOVsiVzvnQxBI8BrrpMQ8xRBQ==
 X-Google-Smtp-Source: 
- ABdhPJw0tfv2PPAfkBlR9svhB9Hwk/wDEKGR4+tlRJkpnaFKmwVSuYIeOmMt16KCxKQka2AYgsuaKest54OmEdRaM2s=
-X-Received: by 2002:ac8:7f4d:: with SMTP id
- g13mr21239448qtk.215.1639083638276;
- Thu, 09 Dec 2021 13:00:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20211209204417.3924102-1-JPEWhacker@gmail.com>
-In-Reply-To: <20211209204417.3924102-1-JPEWhacker@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 9 Dec 2021 13:00:12 -0800
-Message-ID: 
- <CAMKF1sqa0QjJpe55-oCd0JYKXy4dNo=OShCbae2XsBd7Ub_5ag@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] webkitgtk: Add packageconfig for libsoup2
+ ABdhPJzqWa+vEdnOQez4GXrZzbzviJF/WbU/a9f2Asr9/xGZ+NfcmOoiXb7u7KJtQzMOuuAjyL7fcQ==
+X-Received: by 2002:ac8:7f06:: with SMTP id f6mr21022971qtk.258.1639084006203;
+        Thu, 09 Dec 2021 13:06:46 -0800 (PST)
+Received: from godzilla (192-0-174-222.cpe.teksavvy.com. [192.0.174.222])
+        by smtp.gmail.com with ESMTPSA id
+ ay42sm368397qkb.40.2021.12.09.13.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Dec 2021 13:06:45 -0800 (PST)
+Date: Thu, 9 Dec 2021 16:06:45 -0500 (EST)
+From: Scott Murray <scott.murray@konsulko.com>
 To: Joshua Watt <JPEWhacker@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] webkitgtk: Add packageconfig for libsoup2
+In-Reply-To: <20211209204417.3924102-1-JPEWhacker@gmail.com>
+Message-ID: <4de5682a-7213-d019-1dde-d860501aaa2@spiteful.org>
+References: <20211209204417.3924102-1-JPEWhacker@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 21:00:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 21:06:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159480
+ https://lists.openembedded.org/g/openembedded-core/message/159481
 
-On Thu, Dec 9, 2021 at 12:44 PM Joshua Watt <JPEWhacker@gmail.com> wrote:
->
+On Thu, 9 Dec 2021, Joshua Watt wrote:
+
 > Adds a PACKAGECONFIG option to use libsoup2 instead of libsoup3.
 > Including libsoup2 and libsoup3 in the same process can cause strange
 > runtime failures, and the latest release of each major version will
 > cause the process to exit if either if both are detected on process
+
+I'm guessing the "if either" is a leftover from editing?
+
 > startup.
 >
 > The default is changed from libsoup3 back to libsoup2. Most GNOME
@@ -79,11 +81,6 @@ On Thu, Dec 9, 2021 at 12:44 PM Joshua Watt <JPEWhacker@gmail.com> wrote:
 > most GNOME packages will have to switch to libsoup3 when they transition
 > to GTK4.
 >
-
-LGTM thanks for doing this, I was struggling through this as well, I
-think having the option to
-stay with soup2 for now is the best approach instead of boiling the ocean.
-
 > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > ---
 >  meta/recipes-sato/webkit/webkitgtk_2.34.2.bb | 6 ++++--
@@ -129,19 +126,17 @@ stay with soup2 for now is the best approach instead of boiling the ocean.
 >
 > -FILES:${PN} += "${libdir}/webkit2gtk-4.1/injected-bundle/libwebkit2gtkinjectedbundle.so"
 > +FILES:${PN} += "${libdir}/webkit2gtk-4.*/injected-bundle/libwebkit2gtkinjectedbundle.so"
->
+
+Is this required for the libsoup2 changes?
+
 >  RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
 >
-> --
-> 2.33.0
 >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159477): https://lists.openembedded.org/g/openembedded-core/message/159477
-> Mute This Topic: https://lists.openembedded.org/mt/87621243/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+
+Cheers,
+
+Scott
+
+
+
 
