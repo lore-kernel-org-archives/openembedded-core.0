@@ -2,33 +2,33 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12187C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 01:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 135EDC433F5
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 01:29:57 +0000 (UTC)
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
  by mx.groups.io with SMTP id smtpd.web11.5654.1639013381253925301
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 17:29:55 -0800
+ Wed, 08 Dec 2021 17:29:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="235503982"
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="235503984"
 X-IronPort-AV: E=Sophos;i="5.88,190,1635231600";
-   d="scan'208";a="235503982"
+   d="scan'208";a="235503984"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 17:29:54 -0800
+ 08 Dec 2021 17:29:55 -0800
 X-IronPort-AV: E=Sophos;i="5.88,190,1635231600";
-   d="scan'208";a="503298085"
+   d="scan'208";a="503298093"
 Received: from chuenong-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.229.15])
   by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 17:29:53 -0800
+ 08 Dec 2021 17:29:54 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 12/33] linux-yocto/5.14: update to v5.14.18
-Date: Thu,  9 Dec 2021 09:29:11 +0800
+Subject: [honister][PATCH 13/33] linux-yocto/5.10: update to v5.10.79
+Date: Thu,  9 Dec 2021 09:29:12 +0800
 Message-Id: 
- <0b55e3638297c57b216a6c0ff2dd9bcf7526cd48.1639012800.git.anuj.mittal@intel.com>
+ <d0d42dbfc23c3eafcd0958d8687b4574f5e420e4.1639012800.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1639012800.git.anuj.mittal@intel.com>
 References: <cover.1639012800.git.anuj.mittal@intel.com>
@@ -37,82 +37,77 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 01:29:56 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 01:29:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159413
+ https://lists.openembedded.org/g/openembedded-core/message/159414
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/5.14 to the latest korg -stable release that comprises
+Updating linux-yocto/5.10 to the latest korg -stable release that comprises
 the following commits:
 
-    a0265dd8262d Linux 5.14.18
-    1379769b0b46 rsi: fix control-message timeout
-    eda57a310234 media: staging/intel-ipu3: css: Fix wrong size comparison imgu_css_fw_init
-    5013f2aaf959 staging: rtl8192u: fix control-message timeouts
-    f3422d1fceba staging: r8712u: fix control-message timeout
-    373ac8c59414 comedi: vmk80xx: fix bulk and interrupt message timeouts
-    7b0e35618932 comedi: vmk80xx: fix bulk-buffer overflow
-    278484ae9329 comedi: vmk80xx: fix transfer-buffer overflows
-    4a9d43cb5d5f comedi: ni_usb6501: fix NULL-deref in command paths
-    3ac273d154d6 comedi: dt9812: fix DMA buffers on stack
-    b2fa1f52d22c isofs: Fix out of bound access for corrupted isofs image
-    befd23bd3b17 staging: rtl8712: fix use-after-free in rtl8712_dl_fw
-    bec32c40e438 binder: don't detect sender/target during buffer cleanup
-    68abe9aefc40 binder: use cred instead of task for getsecid
-    46088365bab7 binder: use cred instead of task for selinux checks
-    fbb106e79524 binder: use euid from cred instead of using task
-    f9b4ef2504bb Revert "proc/wchan: use printk format instead of lookup_symbol_name()"
-    4674de4e2734 usb-storage: Add compatibility quirk flags for iODD 2531/2541
-    6be11f54f5d4 usb: musb: Balance list entry in musb_gadget_queue
-    d7f4ffba71d0 usb: gadget: Mark USB_FSL_QE broken on 64-bit
-    d3c7daab289d usb: ehci: handshake CMD_RUN instead of STS_HALT
-    a4cdb4c9c453 Revert "x86/kvm: fix vcpu-id indexed array sizes"
-    2f63111ab86f KVM: x86: avoid warning with -Wbitwise-instead-of-logical
-    f468cbedb2a7 ALSA: pci: cs46xx: Fix set up buffer type properly
-    186155ac272e ALSA: pcm: Check mmap capability of runtime dma buffer at first
+    bd816c278316 Linux 5.10.79
+    62424fe4c2cf rsi: fix control-message timeout
+    8971158af1e0 media: staging/intel-ipu3: css: Fix wrong size comparison imgu_css_fw_init
+    1cf43e928954 staging: rtl8192u: fix control-message timeouts
+    9963ba5b9d49 staging: r8712u: fix control-message timeout
+    844b02496eac comedi: vmk80xx: fix bulk and interrupt message timeouts
+    b7fd7f3387f0 comedi: vmk80xx: fix bulk-buffer overflow
+    33d7a470730d comedi: vmk80xx: fix transfer-buffer overflows
+    ef143dc0c3de comedi: ni_usb6501: fix NULL-deref in command paths
+    786f5b034504 comedi: dt9812: fix DMA buffers on stack
+    86d4aedcbc69 isofs: Fix out of bound access for corrupted isofs image
+    c430094541a8 staging: rtl8712: fix use-after-free in rtl8712_dl_fw
+    ab4af56ae250 printk/console: Allow to disable console output by using console="" or console=null
+    07d1db141e47 binder: don't detect sender/target during buffer cleanup
+    42681b90c4db usb-storage: Add compatibility quirk flags for iODD 2531/2541
+    1309753b7841 usb: musb: Balance list entry in musb_gadget_queue
+    27409143122f usb: gadget: Mark USB_FSL_QE broken on 64-bit
+    94e5305a3816 usb: ehci: handshake CMD_RUN instead of STS_HALT
+    a8db6fd04d58 Revert "x86/kvm: fix vcpu-id indexed array sizes"
+    ecf58653f1e4 KVM: x86: avoid warning with -Wbitwise-instead-of-logical
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7f09947f9fc12f7b548f18573ffbc452837527bd)
+(cherry picked from commit 3356c5e7acc86be2e1584819a70e984d984b0d9c)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../linux/linux-yocto-rt_5.14.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.14.bb            |  8 +++---
- meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
-index 7e02f83d51..a328c6211f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.14.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+index f666ac0611..89ef0097fa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
 @@ -11,13 +11,13 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "672665c11dd86abd71bbad0537e6388c6a5a84ca"
--SRCREV_meta ?= "b3ac9c40a22d6b00545b7ce51ef6dfb0cb9d2933"
-+SRCREV_machine ?= "b9d37d8650cd3787d60516496f60178c51564a59"
-+SRCREV_meta ?= "4e79d0b09290482ffb891e6b4acb3c7447b9c94d"
+-SRCREV_machine ?= "12f6a7187b3c8abab5e139dbfdf7f58f265f4169"
+-SRCREV_meta ?= "a0238f7f4f2222d08bb18147bb5e24cc877b0546"
++SRCREV_machine ?= "31ba5af055c8ec4f10e7d830f6303ca2384e345a"
++SRCREV_meta ?= "1a4cd99824c919ba17dc62935532f3748ef18469"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.14;destsuffix=${KMETA}"
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
  
--LINUX_VERSION ?= "5.14.17"
-+LINUX_VERSION ?= "5.14.18"
+-LINUX_VERSION ?= "5.10.78"
++LINUX_VERSION ?= "5.10.79"
  
  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
-index 9ad9549554..98947900a4 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.14.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+index 86010f106f..ef562f42f1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
 @@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "5.14.17"
-+LINUX_VERSION ?= "5.14.18"
+-LINUX_VERSION ?= "5.10.78"
++LINUX_VERSION ?= "5.10.79"
  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
@@ -120,63 +115,54 @@ index 9ad9549554..98947900a4 100644
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine:qemuarm ?= "566227d5b0913910467a7736d78cad37e60217f8"
--SRCREV_machine ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_meta ?= "b3ac9c40a22d6b00545b7ce51ef6dfb0cb9d2933"
-+SRCREV_machine:qemuarm ?= "83004545c9bb5e3ad666b3ffa9ad723eb795881a"
-+SRCREV_machine ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_meta ?= "4e79d0b09290482ffb891e6b4acb3c7447b9c94d"
+-SRCREV_machine:qemuarm ?= "cdec5045c5323846adaf2510e539843d0cfe74ae"
+-SRCREV_machine ?= "344c0c38f5b892312b0a1db7f613d2704dd4942f"
+-SRCREV_meta ?= "a0238f7f4f2222d08bb18147bb5e24cc877b0546"
++SRCREV_machine:qemuarm ?= "d8f6c9be051a886d4956a7d6195d0e8f10761a33"
++SRCREV_machine ?= "f7838de907e651c3d279e6b5209b7e5d7e12ad21"
++SRCREV_meta ?= "1a4cd99824c919ba17dc62935532f3748ef18469"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.14.bb b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-index f034f36d45..673c03d82e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.14.bb
-@@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.14/standard/base"
- KBRANCH:qemux86-64 ?= "v5.14/standard/base"
- KBRANCH:qemumips64 ?= "v5.14/standard/mti-malta64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+index 2e81068330..a68744d129 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+@@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.10/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.10/standard/base"
+ KBRANCH:qemumips64 ?= "v5.10/standard/mti-malta64"
  
--SRCREV_machine:qemuarm ?= "eef94a78151c2227eba9a8468ac611d9507482b5"
--SRCREV_machine:qemuarm64 ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_machine:qemumips ?= "607d94618b35382f38ab2bc0d37494372897ae4d"
--SRCREV_machine:qemuppc ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_machine:qemuriscv64 ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_machine:qemuriscv32 ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_machine:qemux86 ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_machine:qemux86-64 ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_machine:qemumips64 ?= "9ed182ebbcd4c77b8f99439d2feb6c4591148324"
--SRCREV_machine ?= "35888b3a9a222963b856c960e8f0c72c2de18d4a"
--SRCREV_meta ?= "b3ac9c40a22d6b00545b7ce51ef6dfb0cb9d2933"
-+SRCREV_machine:qemuarm ?= "992053c4ec826932d9256ea4e1ad8686e4ea5375"
-+SRCREV_machine:qemuarm64 ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_machine:qemumips ?= "e362a5e68da1cca6ad77a27cbda02116edc9864d"
-+SRCREV_machine:qemuppc ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_machine:qemuriscv64 ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_machine:qemuriscv32 ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_machine:qemux86 ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_machine:qemux86-64 ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_machine:qemumips64 ?= "90b773a3236f213b62d2d4ab23cca9c695bc8383"
-+SRCREV_machine ?= "8411a30747a2750c9d4dbe24631958bd00d3157e"
-+SRCREV_meta ?= "4e79d0b09290482ffb891e6b4acb3c7447b9c94d"
+-SRCREV_machine:qemuarm ?= "f98b917d7826304daeecf11cc52be2562a9304ff"
+-SRCREV_machine:qemuarm64 ?= "13ff8a3ae368724e008e3bcd77833611de7962b2"
+-SRCREV_machine:qemumips ?= "7b94dec2b0f5b582b97cdb3ac97fe153559869e4"
+-SRCREV_machine:qemuppc ?= "652531fb0cc8eb3607109bb8d878253be2d3d534"
+-SRCREV_machine:qemuriscv64 ?= "2daa192783edd4974da8e900c0dc93186e57a838"
+-SRCREV_machine:qemuriscv32 ?= "2daa192783edd4974da8e900c0dc93186e57a838"
+-SRCREV_machine:qemux86 ?= "2daa192783edd4974da8e900c0dc93186e57a838"
+-SRCREV_machine:qemux86-64 ?= "2daa192783edd4974da8e900c0dc93186e57a838"
+-SRCREV_machine:qemumips64 ?= "4c817df0fd06350e18693551699c33361e16a193"
+-SRCREV_machine ?= "2daa192783edd4974da8e900c0dc93186e57a838"
+-SRCREV_meta ?= "a0238f7f4f2222d08bb18147bb5e24cc877b0546"
++SRCREV_machine:qemuarm ?= "400d6ae8c64508b812dd58ee90106be2aa395bd9"
++SRCREV_machine:qemuarm64 ?= "efc398a5bce6938c24413608381d86e7bf225c91"
++SRCREV_machine:qemumips ?= "358d9326c084f4162b71ed857b16419b4fb3295f"
++SRCREV_machine:qemuppc ?= "0fb273427794cb084265a18b03878a482e438aa9"
++SRCREV_machine:qemuriscv64 ?= "fba683668510aeb475a5fd3fb4b7da5aed402495"
++SRCREV_machine:qemuriscv32 ?= "fba683668510aeb475a5fd3fb4b7da5aed402495"
++SRCREV_machine:qemux86 ?= "fba683668510aeb475a5fd3fb4b7da5aed402495"
++SRCREV_machine:qemux86-64 ?= "fba683668510aeb475a5fd3fb4b7da5aed402495"
++SRCREV_machine:qemumips64 ?= "e1dabeb4b0ea9695dea605a0c91f17c482f49f75"
++SRCREV_machine ?= "fba683668510aeb475a5fd3fb4b7da5aed402495"
++SRCREV_meta ?= "1a4cd99824c919ba17dc62935532f3748ef18469"
  
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
-@@ -31,7 +31,7 @@ SRCREV_meta ?= "b3ac9c40a22d6b00545b7ce51ef6dfb0cb9d2933"
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
- DEFAULT_PREFERENCE:class-devupstream = "-1"
--SRCREV_machine:class-devupstream ?= "3dfa869cb79d60a2fe66efb4a11517ec7c89de16"
-+SRCREV_machine:class-devupstream ?= "a0265dd8262de73457aaa3ce1c5938dc152b8085"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.14/base"
- 
-@@ -42,7 +42,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.14;destsuffix=${KMETA}"
+ # remap qemuarm to qemuarma15 for the 5.8 kernel
+ # KMACHINE:qemuarm ?= "qemuarma15"
+@@ -32,7 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
  
  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.14.17"
-+LINUX_VERSION ?= "5.14.18"
+-LINUX_VERSION ?= "5.10.78"
++LINUX_VERSION ?= "5.10.79"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
  DEPENDS += "openssl-native util-linux-native"
