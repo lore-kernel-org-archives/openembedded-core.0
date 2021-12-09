@@ -2,93 +2,146 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA1AFC433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 17:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B62E9C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 17:25:41 +0000 (UTC)
 Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
  [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.14233.1639069292647857894
+ by mx.groups.io with SMTP id smtpd.web10.14672.1639070740684952446
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 09:01:33 -0800
+ Thu, 09 Dec 2021 09:25:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dfyGhYU9;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XyeJENLF;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id u1so10752964wru.13
+Received: by mail-wr1-f51.google.com with SMTP id v11so10902620wrw.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 09:01:32 -0800 (PST)
+ Thu, 09 Dec 2021 09:25:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=KtJaVeFp/MukWU3DRcO7TnsiQbQt2To3pbbwixVK5pY=;
-        b=dfyGhYU9zgNogWeuSHUsxrO1Bh3jtE9Q8HlR0QyEe+psKkXChREIwkNDKEoAeNbMfk
-         jeMc8I3YOjGlmd4/PJ9dEQMw51svGM22pd9TDBqQ5VV70ZdHy1fsZ2xXeEntiOR+im94
-         pMYBC1ZSXtDBz7XPgX2pmt1isSLo5qX6hIyRg=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o3frlBnCGYaUXcivF4ROgWnGhV0dh8jpsTR3IJFyvgg=;
+        b=XyeJENLFcWpcxjhVq+3FKXOGS+aecQR/JIWPmMNFP+oB6gp8hu0yuvY1M3RzIz7TKM
+         dMAKHsf3Cp72/byX94D6l2RY9gwC7QprchIz1AtlIaeyu4HfrWrWw1soRTKmFdnyE48e
+         lZu43TO38R+i5LeZ+uYQRip5M353mil1qzkHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=KtJaVeFp/MukWU3DRcO7TnsiQbQt2To3pbbwixVK5pY=;
-        b=qKmDznW/s37AebYikJqsGiiI7gzunxFP7ElPh6ZKc2+IMX42t+HsVPsTR7DBbsW9Bg
-         oj20VBv5zw3UhA0WCS+MX2CsRBJvk74hdXu2AkM69cFMmrgBechYPAlkiOw7DI6u9Quz
-         GnBM/MNNdu9mR0wxOh9aRevUVZqjbUYt3Xr8Hkn8PYRVH4gYzOP7C7sijXiOtw/U6JTi
-         QBNlpdZ1P1WFxfpo+waQtkh9acaqi5BjgsYc6tRngg1nHng/epTP78XBu2csKGJ3hjAA
-         F2Nr3755QH95nvNH7FGgUZM+v2fdsVuAyRaqoLo/WEl4ctKM5bt/DOY6LI4jh6SaGEol
-         u1AQ==
-X-Gm-Message-State: AOAM532JNF2WOXMU4sJ9auPq2AoPT3LkrPSnZnOEWwonFmW1ubadoltc
-	k/GAg4OggJrthyLdL6TzQONA/Q==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o3frlBnCGYaUXcivF4ROgWnGhV0dh8jpsTR3IJFyvgg=;
+        b=zfVOXo8QP33GWw533W40bT1rrOvP1tJw8eM9DYPAp81dd9SvMoJ1SGOqyNJCZbdXCT
+         s3KclpX6g/F+jc4J0a+FcXv7kddM/ot8tnaX5JDcFguk3+eICHsK01EKSup72RaCpHP7
+         zZFhnZbfjRdCh+dWw+iVLQ6R7a2EOzWv16jUskU5q+/gcFWFacMkdLnJ6pi0cg/Zawg2
+         HSxAlq3oznW0FqKJWV0t23iR33T/uW+JNPxiMinLjcdPskZ3DEo4Wag8L0SGyWr90js+
+         B9yHDPXj2ErKFH7MgfOZj0x+ZUa26gR7XAbg5cqTs31Abo5xVSqutKwXY2EcWYzZ3OW+
+         My3Q==
+X-Gm-Message-State: AOAM530trJpFo2gp/KO0KzC1R4aqGsl1ry/oIAGI/Ky2sXmVGXYSSYF1
+	GuwvTiBCJ3k93idHuViNRHc23Q1jJ62T4w==
 X-Google-Smtp-Source: 
- ABdhPJxdvXgbZ5NJz33YV8C0F7wi0uUAGrpBWaXW8uoTHz8XejYDVvWZRs1r20UWgaMXg+DgH0CohA==
-X-Received: by 2002:a5d:4411:: with SMTP id z17mr7756632wrq.59.1639069290742;
-        Thu, 09 Dec 2021 09:01:30 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cb2b:2e37:1385:897e?
- ([2001:8b0:aba:5f3c:cb2b:2e37:1385:897e])
-        by smtp.gmail.com with ESMTPSA id
- p12sm357143wrr.10.2021.12.09.09.01.30
+ ABdhPJzbReUkCpKs7ftk651rcxT6jkLzaKAMwanzTZauUGDYqQpzQ0fgJtH5lzn2qiS1cDRmSN1J4Q==
+X-Received: by 2002:a5d:650f:: with SMTP id x15mr8025878wru.201.1639070738334;
+        Thu, 09 Dec 2021 09:25:38 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:cb2b:2e37:1385:897e])
+        by smtp.gmail.com with ESMTPSA id i7sm304146wro.58.2021.12.09.09.25.38
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 09:01:30 -0800 (PST)
-Message-ID: 
- <baae4f22b36ae868d5ced75068fad3319757837c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/6] overlayfs-etc: mount etc as overlayfs
+        Thu, 09 Dec 2021 09:25:38 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 09 Dec 2021 17:01:28 +0000
-In-Reply-To: <0f6f7f5f-313c-2f03-5eb0-67f7a8d90836@gmail.com>
-References: <cover.1637301667.git.uvv.mail@gmail.com>
-	 <83e41a0b7b5e1dc41fa89ffb4d3a8105299f7b1c.1637301667.git.uvv.mail@gmail.com>
-	 <26ede260f595ddb3d8cdda552d74ac478c1e529f.camel@linuxfoundation.org>
-	 <0f6f7f5f-313c-2f03-5eb0-67f7a8d90836@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] binutils: Drop mips gold patch
+Date: Thu,  9 Dec 2021 17:25:34 +0000
+Message-Id: <20211209172537.641755-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 17:01:33 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 17:25:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159462
+ https://lists.openembedded.org/g/openembedded-core/message/159464
 
-On Thu, 2021-12-09 at 16:19 +0100, Vyacheslav Yurkov wrote:
-> On 09.12.2021 12:08, Richard Purdie wrote:
-> > The second thing which I don't really like is this mix of shell and python, it
-> > is very confusing to read. I'd much rather we put template files into
-> > meta/lib/files/ and then read them from there for the variable substitutions. We
-> > do this for other scripts. I appreciate the overlayfs class merged without that
-> > but I think we need to fix this there as well.
-> 
-> Thanks for the feedback, Richard.
-> I see only meta/files. I guess you meant this directory.
+As mentioned in a followup to the patch upstream:
 
-I did, yes. Not sure where the lib came from! :)
+https://sourceware.org/legacy-ml/binutils/2016-08/msg00215.html
 
-> Will do the same for overlayfs.bbclass too.
+"With 2.16.1, --enable-gold is just ignored when building on mips"
 
-Thanks!
+so we don't need the patch since 2.16.1.
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../binutils/binutils-2.37.inc                |  1 -
+ .../0012-Detect-64-bit-MIPS-targets.patch     | 47 -------------------
+ 2 files changed, 48 deletions(-)
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/0012-Detect-64-bit-MIPS-targets.patch
 
-Richard
+diff --git a/meta/recipes-devtools/binutils/binutils-2.37.inc b/meta/recipes-devtools/binutils/binutils-2.37.inc
+index 8f91c6460d7..a3e0fbc769d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.37.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.37.inc
+@@ -29,7 +29,6 @@ SRC_URI = "\
+      file://0009-Change-default-emulation-for-mips64-linux.patch \
+      file://0010-Add-support-for-Netlogic-XLP.patch \
+      file://0011-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+-     file://0012-Detect-64-bit-MIPS-targets.patch \
+      file://0013-Use-libtool-2.4.patch \
+      file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils/0012-Detect-64-bit-MIPS-targets.patch b/meta/recipes-devtools/binutils/binutils/0012-Detect-64-bit-MIPS-targets.patch
+deleted file mode 100644
+index 04f81c66718..00000000000
+--- a/meta/recipes-devtools/binutils/binutils/0012-Detect-64-bit-MIPS-targets.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 02374940dd34fddd2b04624af3f23e01f9cb81cd Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 31 Mar 2017 11:42:03 -0700
+-Subject: [PATCH] Detect 64-bit MIPS targets
+-
+-Add mips64 target triplets and default to N64
+-
+-Upstream-Status: Submitted
+-https://sourceware.org/ml/binutils/2016-08/msg00048.html
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gold/configure.tgt | 14 ++++++++++++++
+- 1 file changed, 14 insertions(+)
+-
+-diff --git a/gold/configure.tgt b/gold/configure.tgt
+-index cac0866e628..24fbf641456 100644
+---- a/gold/configure.tgt
+-+++ b/gold/configure.tgt
+-@@ -153,6 +153,13 @@ aarch64*-*)
+-  targ_big_endian=false
+-  targ_extra_big_endian=true
+-  ;;
+-+mips*64*el*-*-*|mips*64*le*-*-*)
+-+ targ_obj=mips
+-+ targ_machine=EM_MIPS_RS3_LE
+-+ targ_size=64
+-+ targ_big_endian=false
+-+ targ_extra_big_endian=true
+-+ ;;
+- mips*el*-*-*|mips*le*-*-*)
+-  targ_obj=mips
+-  targ_machine=EM_MIPS_RS3_LE
+-@@ -160,6 +167,13 @@ mips*el*-*-*|mips*le*-*-*)
+-  targ_big_endian=false
+-  targ_extra_big_endian=true
+-  ;;
+-+mips*64*-*-*)
+-+ targ_obj=mips
+-+ targ_machine=EM_MIPS
+-+ targ_size=64
+-+ targ_big_endian=true
+-+ targ_extra_big_endian=false
+-+ ;;
+- mips*-*-*)
+-  targ_obj=mips
+-  targ_machine=EM_MIPS
+-- 
+2.32.0
 
 
