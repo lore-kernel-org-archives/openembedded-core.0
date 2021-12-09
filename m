@@ -1,112 +1,138 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 086F8C433F5
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 20:44:36 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web12.17193.1639082675508211654
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8CBC433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 20:51:39 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.17385.1639083098788219201
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 12:44:35 -0800
+ Thu, 09 Dec 2021 12:51:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=O8YxSJi8;
- spf=pass (domain: gmail.com, ip: 209.85.210.51,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f51.google.com with SMTP id
- i5-20020a05683033e500b0057a369ac614so7485168otu.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Gxby57TR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id a18so11824066wrn.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 12:44:35 -0800 (PST)
+ Thu, 09 Dec 2021 12:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=SwJQyEeBKZmC7meU3jU6rQLOe8yyP/GMlySVUBvxN4Q=;
-        b=O8YxSJi8C8djzZDtKTJowo//SHUWqoIt+W+7YT8p5l/IVxwWYX4TKP4ZIC/sFCfWBK
-         9Y51VSP/DYBgne1TdRTC/FPQzSc6+Q1jRx9rPc/N3pA/anQjMriE7aNGAKHdV9dqW4fk
-         j/ZDtnfVc8S9RX6aEWlR8IncGKQ9UjMK2F6h9xdUBoBo6n5KqHtxGs/epA8ygQgF0Nh2
-         pKu6YQtF/Fs74KASQ3Vo+ZEdBKen8Vgwvg6o7LrHrJ9x96txbLEX3uSpOFUshq3XMKt8
-         lkqdilAogLbxoc8EuYU3ogokl63hh6jsdbhMn/DOdJv3fxynbUnNzoad5Dj5T6ZV0VrW
-         TRRg==
+        bh=dHbani3VCrW7+1ThpyWL4cwc43sj8YA40OQRWNXWAr8=;
+        b=Gxby57TRS0ZD/T+PrPDEb64pDx7vOPQjyju9LXsPNSCRB4xBKVD4B1ld7ctnrJmZhk
+         8FW52KKEY0hUtZLmX00651zRF2N4IWwk55edTp5XSoFi5ms9i3G1+4CZVUEyo0+avUuw
+         NInIIYcgh6kXClfmZ8LBVIdD5kh7ASe2QaEktADEB/iWTIrHrpRROZ1mm8chSliDmgev
+         3eIuSx34OfLbLLIaGnSqB4JGXXrphplaErNtzgiDzoAw4HU+rZypMFkoITIxe1CHPdd+
+         jXrMW+xAMDtWuvY4SEQOv0qp6BaU43MKVk4Fg1A7wVA/lAz03SKw5nsEZ2IFOVOCvcJI
+         jGPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=SwJQyEeBKZmC7meU3jU6rQLOe8yyP/GMlySVUBvxN4Q=;
-        b=To4LZbsTXhz44ys+8WKIYvKXcLqi8gz3u64HDnK6fsU3ZvOWy5lRktwcGuodr5XxZ3
-         NHPAMbLEfzh9LOc3BDV+/bSJzbP3FQ2ThJ7fJHHJ2SxddAvZmMev8IGoSj41UhYanBcg
-         iNLdMtE0KgCuA4CB0uAsAJHOdAYxt0ej92X0WNxtJTPf4LvaBgEX6d2Sz6jUt3i8iITJ
-         B5MoTAQcFFM3EjvTVP6I11G9IXI1Q/RekvajoD4VEgw8pdLDcsGwSjoE0VulLouvGPNa
-         sJ/QQAMfywty72X/pE4Tt/fYx4Jf/tb2+ZisYK6tHuVd4NaB0lLWoEn4H79UyaokjMOB
-         OgUw==
-X-Gm-Message-State: AOAM532wY5Rset0T4QiwnirBur8A5UUW6DG1c6UmB2FM2ZUgone/OEKN
-	0bF6QfD9gstyjEemQYtuJfg4MWvCr2k=
+        bh=dHbani3VCrW7+1ThpyWL4cwc43sj8YA40OQRWNXWAr8=;
+        b=So5ywGpgne+Mtu8wY3uJPYHy/7tMGEbMigqkKafAek96K74nNW67hzXVoF1+7Toug6
+         E1pVWj1qyrOZ/ERIqZLOBYdW/hNmcilbMwu5pFCL6/jwfLld17oixJ/MqqktNPIw3EQH
+         I9Y2g2rZgszmJmZQKKbmGi58eijhS9KXZrNMHta1hx/6+DsTeN+jWTjYfOGBfS6eKi5v
+         PqRh+yrs1WKJu8jPd8YDoTO8fzuXX3pxe/Yn58uj0JI+pZrrG91ZD1AWJom3lo1ISfg7
+         nxq0pc3CjbshD8kMXkTxQwuWCoyAcU/qXsUxvdoaNlh3dblRa26QmmbSfokww2fH48TS
+         eeHQ==
+X-Gm-Message-State: AOAM530XLBr6SBUN/P2mU83nmITo/pPxrCawY4Qx/knJB07XtYstzUXg
+	Vcx9A5QfL/Ucbezsoh5KGrPPtG5Z8++ZZg==
 X-Google-Smtp-Source: 
- ABdhPJxzTtGw0sDwznNnsLv5k/Ii32205hLyXEigRpSoSTY+/11zQR4uRGh2S/tCN9YX3hTUuttyAA==
-X-Received: by 2002:a9d:5c04:: with SMTP id o4mr7736585otk.339.1639082674640;
-        Thu, 09 Dec 2021 12:44:34 -0800 (PST)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+ ABdhPJxwOeNSYKLOq5Fmvai/kcek1TUzNfWdQSG6JqDY4ARp9RcUd2+PKWHzDcpUPkROjtbmj5P6sg==
+X-Received: by 2002:a5d:6d8b:: with SMTP id l11mr8931300wrs.458.1639083097019;
+        Thu, 09 Dec 2021 12:51:37 -0800 (PST)
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
+ [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k24sm155785otl.31.2021.12.09.12.44.34
+ n33sm429179wms.46.2021.12.09.12.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 12:44:34 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Thu, 09 Dec 2021 12:51:36 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] epiphany: Add packageconfig for libsoup2
-Date: Thu,  9 Dec 2021 14:44:32 -0600
-Message-Id: <20211209204432.3924129-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] sstatetests: add a test for moving oe-core around in the
+ filesystem
+Date: Thu,  9 Dec 2021 21:51:23 +0100
+Message-Id: <20211209205123.2231389-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 20:44:36 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 20:51:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159478
+ https://lists.openembedded.org/g/openembedded-core/message/159479
 
-Adds a PACKAGECONFIG option to use libsoup2 instead of libsoup3.
-Including libsoup2 and libsoup3 in the same process can cause strange
-runtime failures, and the latest release of each major version will
-cause the process to exit if either if both are detected on process
-startup.
+Doing that should not change the task signatures.
 
-The default is changed from libsoup3 back to libsoup2 to follow
-webkitgtk.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-gnome/epiphany/epiphany_41.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 42 +++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_41.0.bb b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-index 09210b68aa..bc13f10b35 100644
---- a/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-@@ -17,6 +17,7 @@ DEPENDS = " \
-           libhandy \
-           libportal \
-           glib-2.0-native \
-+          ${@bb.utils.contains("PACKAGECONFIG", "soup2", "libsoup-2.4", "libsoup", d)} \
-           "
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index c5beb4de39..2be96f1781 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -11,6 +11,7 @@ import tempfile
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer, create_temp_layer
+ from oeqa.selftest.cases.sstate import SStateBase
++import oe
  
- GNOMEBASEBUILDCLASS = "meson"
-@@ -30,10 +31,11 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            "
- SRC_URI[archive.sha256sum] = "b39d1825492595b0b74c5d6a6686a857f9419dfa4c02f8013c297bc870e26dd0"
+ import bb.siggen
  
--EXTRA_OEMESON += "-Dsoup2=disabled"
-+PACKAGECONFIG ??= "soup2"
+@@ -573,3 +574,44 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
+         compare_sigfiles(rest, files1, files2, compare=False)
  
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
-+PACKAGECONFIG[soup2] = "-Dsoup2=enabled,-Dsoup2=disabled,,"
- 
- FILES:${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS:${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+         self.fail("sstate hashes not identical.")
++
++    def test_sstate_movelayer_samesigs(self):
++        """
++        The sstate checksums of two builds with the same oe-core layer in two
++        different locations should be the same.
++        """
++        core_layer = os.path.join(
++                    self.tc.td["COREBASE"], 'meta')
++        copy_layer_1 = self.topdir + "/meta-copy1/meta"
++        copy_layer_2 = self.topdir + "/meta-copy2/meta"
++
++        oe.path.copytree(core_layer, copy_layer_1)
++        self.write_config("""
++TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
++""")
++        bblayers_conf = 'BBLAYERS += "%s"\nBBLAYERS:remove = "%s"' % (copy_layer_1, core_layer)
++        self.write_bblayers_config(bblayers_conf)
++        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
++        bitbake("bash -S none")
++
++        oe.path.copytree(core_layer, copy_layer_2)
++        self.write_config("""
++TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
++""")
++        bblayers_conf = 'BBLAYERS += "%s"\nBBLAYERS:remove = "%s"' % (copy_layer_2, core_layer)
++        self.write_bblayers_config(bblayers_conf)
++        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
++        bitbake("bash -S none")
++
++        def get_files(d):
++            f = []
++            for root, dirs, files in os.walk(d):
++                for name in files:
++                    f.append(os.path.join(root, name))
++            return f
++        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps")
++        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps")
++        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
++        self.maxDiff = None
++        self.assertCountEqual(files1, files2)
++
 -- 
-2.33.0
+2.20.1
 
 
