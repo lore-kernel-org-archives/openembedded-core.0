@@ -2,58 +2,58 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3558C433F5
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 17:28:10 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web10.14716.1639070889673529365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFABAC433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 17:28:36 +0000 (UTC)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web08.14640.1639070916117302259
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 09:28:09 -0800
+ Thu, 09 Dec 2021 09:28:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IjRkvRBw;
- spf=pass (domain: gmail.com, ip: 209.85.160.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YadSGw5k;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id o17so6008762qtk.1
+Received: by mail-qk1-f173.google.com with SMTP id m186so5519494qkb.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 09:28:09 -0800 (PST)
+ Thu, 09 Dec 2021 09:28:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KsppIZdi0JxoZ2DcAWIs7XHuYqVmVtokzxwMu/5Gy8Q=;
-        b=IjRkvRBwmOu8g5mmCpcsgZpRrcBsKTRR4PAnr3SGRGD0CrWLRbPOHiYQutfLsT/p23
-         16GTvImF9XasZUCsr/GjnEJtZZlHgkxBUvCwylHoHVZXel90oikKIH7fzAYEC5Jeu5wP
-         87GbcPA6mFGWDhCMmcbxGr1v9aqka7ndmR1IHJ37WtgvjHboHlofjr3mOuWTGhxPglP1
-         twQg3AEce7XgRxifMnQRI8GBSglApWhjREKiHgq89wSTA81tW+n5Lr5lgX5qni+5C4w/
-         UfCrojXn1js81L1EOhfWZ3Hi6l1dA2rPrlNgxRnX/43VyQY0Xtm91/GxUSUremdlq0Fz
-         yjPA==
+        bh=ZeJwMI6N3p3PVrvtB3uPvMEjj4Bn9HUQUGWkhbp/9Ac=;
+        b=YadSGw5kPMYrMKQUUy0Sg66gPMnJzGb8TfN9nfDiX2LzA/8PWWCLV3scuSDPAMEvxl
+         ze4fSAlsbLGztgEFfFNRsbM0mVgAOb+yTc8uTi9eo38pMSKBWpvrtkn8wzZpv2LmuZHe
+         VSAzuYcpC55eUaGQoOM/SrOjJP+eqqVKC5j4H/OhcQ5sC5hs2K7gBOVFBZRkCLfAdbUD
+         UKD70vwDQ5OKi1SexUsTJWdyh838nUGFoPKgn3bJ2nFoCz2IvRnQw/AlBSrSkigSpKVE
+         e2FjPfrjf2Goz4gotbiUEyuvDew4fBXBSECu6ESciBHONDQ8yI73Kh/03CUg5GqAMoSN
+         ppYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KsppIZdi0JxoZ2DcAWIs7XHuYqVmVtokzxwMu/5Gy8Q=;
-        b=NfXpdvcTkXPaM7YHlTAIDXfKrgXoG8Fig/yFXWU5QNAW18iQXQMseEPbIrj8PXhkRW
-         3rEaMy3wFormzLjBYrOqX8UopB7NUYVkApGP6eWY1BID37+ZGTQcH4Kevjqp5DXa5vMM
-         HpsB59ZWX0EmiO3X92OOkEKUjXBVjORiHDv3TFgCBTXlR/heyNoeX5cQFv9E5sSg3oEd
-         zyzfpe3hl++/7dKSArRwQkD7Bimq1PwJADsbopK4aMbLfVi2WEC2i9L3QcncXAK/BXP7
-         hY7QA+1j+jtZhr6kxyQbmXBRh2EbugY/AUA9cd1z/twA5mwa1065hDQHTlXpR/N15mKd
-         xcBg==
-X-Gm-Message-State: AOAM532f+Pg5IWb+cfBbq0xvNtwSSmGOe1Hz7mHOVZTTCDBgwu7woV2q
-	AwGILA3bsV2s83H2FR6GiDKXDb6oF5xZFvMBfPA=
+        bh=ZeJwMI6N3p3PVrvtB3uPvMEjj4Bn9HUQUGWkhbp/9Ac=;
+        b=n9Z4SziTP+HILc5H/MUZ4OSd7pED7J0pSR0QQFM3Kqqw8WL6zD8KH6+rfuDje0eQeW
+         LAZPvkwFA95Tz44hD00MMKMY8YZTiCTXRaCn3BWN0gaA/9dvxS7Xc/eEw0Hagz33NZxk
+         XHMcoL/z4JTn1p9i3NxqavlGQJXhDMuIw+Xg62s7BWCr1bEvKNjMDjvMvDICsmXq7q3Y
+         /G/fFKsH2J977+eTiPMP0hMeqXLA9e7hi0OA6HugPhQ+8tBzMB8sokiklCh9GZ2PSjd3
+         xiGTtBRcKPFi48+RiMiJRUZkt7jaPfvVMAAI8vlRAxWDR7DjnwLGc3zdvXppNhU8zQI9
+         0JZA==
+X-Gm-Message-State: AOAM533gNpD1KgfQIyfhe3z/1qkmEGPLKt/TkA37cvDmWgdRAvb1QaQH
+	1xI2VoV8FFsx6BgUWQoJD8Cf7b0C06W/smtBglw=
 X-Google-Smtp-Source: 
- ABdhPJwPovl9lpUzg7AT9vX0CU++XnF8UmK50JB9XIys7mQ39bLACtzePLJwFgtZ5LdRTEH79YxMdHs95H6K4KWQUR8=
-X-Received: by 2002:a05:622a:1386:: with SMTP id
- o6mr19529293qtk.64.1639070888548;
- Thu, 09 Dec 2021 09:28:08 -0800 (PST)
+ ABdhPJwKstS9UWGCqi6JdJOGtyvcV9xBr+pfZaRneXToTTRrQptY3R6kxUERKiyh/j7fZ0IiYMSkDG6jUzAPGta0mpQ=
+X-Received: by 2002:a05:620a:461f:: with SMTP id
+ br31mr15196076qkb.72.1639070915161;
+ Thu, 09 Dec 2021 09:28:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20211209172537.641755-1-richard.purdie@linuxfoundation.org>
- <20211209172537.641755-4-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20211209172537.641755-4-richard.purdie@linuxfoundation.org>
+ <20211209172537.641755-3-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20211209172537.641755-3-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 9 Dec 2021 09:27:40 -0800
+Date: Thu, 9 Dec 2021 09:28:09 -0800
 Message-ID: 
- <CAMKF1spubmzkCV4vCgp+Yb6Mdt=+-i4_Oa+Y53pbr+4YuN_0tA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] binutils: Drop mips XLP support patch
+ <CAMKF1sr1XsSrsHTMt7Z-w=QMnWBfB9=VfGn-5icwjxNCxPvBYA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/4] binutils: Drop mips default target patch
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
@@ -61,471 +61,109 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 17:28:10 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 17:28:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159468
+ https://lists.openembedded.org/g/openembedded-core/message/159469
 
 On Thu, Dec 9, 2021 at 9:25 AM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 >
-> The kernel has dropped this as of 5.16 and we don't want to carry such patches
-> without active maintainers for such targets.
-
-LGTM.
-
+> Similarly to the recent gcc change, we make gcc default to the 64 bit target
+> through configuration now so we don't need to patch this.
 >
-> It isn't clear who would even have such hardware and it isn't something we can
-> support. It would be best maintained as a separate layer by those who can test
-> it if needed.
->
+
+LGTM
+
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../binutils/binutils-2.37.inc                |   1 -
->  .../0010-Add-support-for-Netlogic-XLP.patch   | 415 ------------------
->  2 files changed, 416 deletions(-)
->  delete mode 100644 meta/recipes-devtools/binutils/binutils/0010-Add-support-for-Netlogic-XLP.patch
+>  .../binutils/binutils-2.37.inc                |  1 -
+>  ...e-default-emulation-for-mips64-linux.patch | 57 -------------------
+>  2 files changed, 58 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/binutils/binutils/0009-Change-default-emulation-for-mips64-linux.patch
 >
 > diff --git a/meta/recipes-devtools/binutils/binutils-2.37.inc b/meta/recipes-devtools/binutils/binutils-2.37.inc
-> index 8c6e659e73d..5ac17c4a650 100644
+> index a3e0fbc769d..8c6e659e73d 100644
 > --- a/meta/recipes-devtools/binutils/binutils-2.37.inc
 > +++ b/meta/recipes-devtools/binutils/binutils-2.37.inc
 > @@ -26,7 +26,6 @@ SRC_URI = "\
 >       file://0006-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
 >       file://0007-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch \
 >       file://0008-warn-for-uses-of-system-directories-when-cross-linki.patch \
-> -     file://0010-Add-support-for-Netlogic-XLP.patch \
+> -     file://0009-Change-default-emulation-for-mips64-linux.patch \
+>       file://0010-Add-support-for-Netlogic-XLP.patch \
 >       file://0011-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
 >       file://0013-Use-libtool-2.4.patch \
->       file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
-> diff --git a/meta/recipes-devtools/binutils/binutils/0010-Add-support-for-Netlogic-XLP.patch b/meta/recipes-devtools/binutils/binutils/0010-Add-support-for-Netlogic-XLP.patch
+> diff --git a/meta/recipes-devtools/binutils/binutils/0009-Change-default-emulation-for-mips64-linux.patch b/meta/recipes-devtools/binutils/binutils/0009-Change-default-emulation-for-mips64-linux.patch
 > deleted file mode 100644
-> index b2f7448a288..00000000000
-> --- a/meta/recipes-devtools/binutils/binutils/0010-Add-support-for-Netlogic-XLP.patch
+> index fab92d52e68..00000000000
+> --- a/meta/recipes-devtools/binutils/binutils/0009-Change-default-emulation-for-mips64-linux.patch
 > +++ /dev/null
-> @@ -1,415 +0,0 @@
-> -From 21920b7a3d10a7dae4c1f18a4bb185de78048e3f Mon Sep 17 00:00:00 2001
+> @@ -1,57 +0,0 @@
+> -From fb6d52dda9c230baf869ed5f981581a7b5094b70 Mon Sep 17 00:00:00 2001
 > -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sun, 14 Feb 2016 17:06:19 +0000
-> -Subject: [PATCH] Add support for Netlogic XLP
+> -Date: Mon, 2 Mar 2015 01:44:14 +0000
+> -Subject: [PATCH] Change default emulation for mips64*-*-linux
 > -
-> -Patch From: Nebu Philips <nphilips@netlogicmicro.com>
+> -we change the default emulations to be N64 instead of N32
 > -
-> -Using the mipsisa64r2nlm target, add support for XLP from
-> -Netlogic. Also, update vendor name to NLM wherever applicable.
-> -
-> -Use 0x00000080 for INSN_XLP, the value 0x00000040 has already been
-> -assigned to INSN_OCTEON3
-> -
-> -Upstream-Status: Pending
+> -Upstream-Status: Inappropriate [ OE configuration Specific]
 > -
 > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -Signed-off-by: Baoshan Pang <baoshan.pang@windriver.com>
-> -Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 > ----
-> - bfd/aoutx.h           |  1 +
-> - bfd/archures.c        |  1 +
-> - bfd/bfd-in2.h         |  1 +
-> - bfd/config.bfd        |  5 +++++
-> - bfd/cpu-mips.c        |  6 ++++--
-> - bfd/elfxx-mips.c      |  8 ++++++++
-> - binutils/readelf.c    |  1 +
-> - gas/config/tc-mips.c  |  4 +++-
-> - gas/configure         |  3 +++
-> - gas/configure.ac      |  3 +++
-> - include/elf/mips.h    |  1 +
-> - include/opcode/mips.h |  8 +++++++-
-> - ld/configure.tgt      |  3 +++
-> - opcodes/mips-dis.c    | 12 +++++-------
-> - opcodes/mips-opc.c    | 31 ++++++++++++++++++++-----------
-> - 15 files changed, 66 insertions(+), 22 deletions(-)
+> - bfd/config.bfd   | 8 ++++----
+> - ld/configure.tgt | 8 ++++----
+> - 2 files changed, 8 insertions(+), 8 deletions(-)
 > -
-> -diff --git a/bfd/aoutx.h b/bfd/aoutx.h
-> -index 17560bd8f54..10b1cad74e6 100644
-> ---- a/bfd/aoutx.h
-> -+++ b/bfd/aoutx.h
-> -@@ -810,6 +810,7 @@ NAME (aout, machine_type) (enum bfd_architecture arch,
-> -       case bfd_mach_mipsisa64r6:
-> -       case bfd_mach_mips_sb1:
-> -       case bfd_mach_mips_xlr:
-> -+      case bfd_mach_mips_xlp:
-> -         /* FIXME: These should be MIPS3, MIPS4, MIPS16, MIPS32, etc.  */
-> -         arch_flags = M_MIPS2;
-> -         break;
-> -diff --git a/bfd/archures.c b/bfd/archures.c
-> -index 390691bfba1..b0b7a5fa7a0 100644
-> ---- a/bfd/archures.c
-> -+++ b/bfd/archures.c
-> -@@ -185,6 +185,7 @@ DESCRIPTION
-> - .#define bfd_mach_mips_octeon3                6503
-> - .#define bfd_mach_mips_xlr            887682   {* decimal 'XLR'.  *}
-> - .#define bfd_mach_mips_interaptiv_mr2 736550   {* decimal 'IA2'.  *}
-> -+.#define bfd_mach_mips_xlp              887680   {* decimal 'XLP'.  *}
-> - .#define bfd_mach_mipsisa32           32
-> - .#define bfd_mach_mipsisa32r2         33
-> - .#define bfd_mach_mipsisa32r3         34
-> -diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
-> -index 57b3c453649..a00b0d44359 100644
-> ---- a/bfd/bfd-in2.h
-> -+++ b/bfd/bfd-in2.h
-> -@@ -1562,6 +1562,7 @@ enum bfd_architecture
-> - #define bfd_mach_mips_octeon3          6503
-> - #define bfd_mach_mips_xlr              887682   /* decimal 'XLR'.  */
-> - #define bfd_mach_mips_interaptiv_mr2   736550   /* decimal 'IA2'.  */
-> -+#define bfd_mach_mips_xlp              887680   /* decimal 'XLP'.  */
-> - #define bfd_mach_mipsisa32             32
-> - #define bfd_mach_mipsisa32r2           33
-> - #define bfd_mach_mipsisa32r3           34
 > -diff --git a/bfd/config.bfd b/bfd/config.bfd
-> -index 1896e11790c..8270fd2708d 100644
+> -index 30087e3b8f8..1896e11790c 100644
 > ---- a/bfd/config.bfd
 > -+++ b/bfd/config.bfd
-> -@@ -874,6 +874,11 @@ case "${targ}" in
-> -     targ_defvec=mips_elf32_le_vec
-> -     targ_selvecs="mips_elf32_be_vec mips_elf64_be_vec mips_elf64_le_vec"
+> -@@ -891,12 +891,12 @@ case "${targ}" in
+> -     targ_selvecs="mips_elf32_le_vec mips_elf64_be_vec mips_elf64_le_vec mips_ecoff_be_vec mips_ecoff_le_vec"
 > -     ;;
-> -+  mipsisa64*-*-elf*)
-> -+      targ_defvec=mips_elf32_trad_be_vec
-> -+      targ_selvecs="mips_elf32_trad_le_vec mips_elf64_trad_be_vec mips_elf64_trad_le_vec"
-> -+      want64=true
-> -+      ;;
-> -   mips*-*-elf* | mips*-*-rtems* | mips*-*-windiss | mips*-*-none)
-> -     targ_defvec=mips_elf32_be_vec
-> -     targ_selvecs="mips_elf32_le_vec mips_elf64_be_vec mips_elf64_le_vec"
-> -diff --git a/bfd/cpu-mips.c b/bfd/cpu-mips.c
-> -index 76b507e3c77..c1563cf4319 100644
-> ---- a/bfd/cpu-mips.c
-> -+++ b/bfd/cpu-mips.c
-> -@@ -108,7 +108,8 @@ enum
-> -   I_mipsocteon3,
-> -   I_xlr,
-> -   I_interaptiv_mr2,
-> --  I_micromips
-> -+  I_micromips,
-> -+  I_xlp
-> - };
-> -
-> - #define NN(index) (&arch_info_struct[(index) + 1])
-> -@@ -163,7 +164,8 @@ static const bfd_arch_info_type arch_info_struct[] =
-> -   N (64, 64, bfd_mach_mips_xlr, "mips:xlr",      false, NN(I_xlr)),
-> -   N (32, 32, bfd_mach_mips_interaptiv_mr2, "mips:interaptiv-mr2", false,
-> -      NN(I_interaptiv_mr2)),
-> --  N (64, 64, bfd_mach_mips_micromips, "mips:micromips", false, NULL)
-> -+  N (64, 64, bfd_mach_mips_micromips, "mips:micromips", false, NN(I_micromips)),
-> -+  N (64, 64, bfd_mach_mips_xlp, "mips:xlp", false, NULL)
-> - };
-> -
-> - /* The default architecture is mips:3000, but with a machine number of
-> -diff --git a/bfd/elfxx-mips.c b/bfd/elfxx-mips.c
-> -index e4827fd17de..fa8c2512837 100644
-> ---- a/bfd/elfxx-mips.c
-> -+++ b/bfd/elfxx-mips.c
-> -@@ -6980,6 +6980,9 @@ _bfd_elf_mips_mach (flagword flags)
-> -     case E_MIPS_MACH_IAMR2:
-> -       return bfd_mach_mips_interaptiv_mr2;
-> -
-> -+    case E_MIPS_MACH_XLP:
-> -+      return bfd_mach_mips_xlp;
-> -+
-> -     default:
-> -       switch (flags & EF_MIPS_ARCH)
-> -       {
-> -@@ -12339,6 +12342,10 @@ mips_set_isa_flags (bfd *abfd)
-> -       val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_OCTEON2;
-> -       break;
-> -
-> -+      case bfd_mach_mips_xlp:
-> -+        val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_XLP;
-> -+        break;
-> -+
-> -     case bfd_mach_mipsisa32:
-> -       val = E_MIPS_ARCH_32;
-> -       break;
-> -@@ -14428,6 +14435,7 @@ static const struct mips_mach_extension mips_mach_extensions[] =
-> -   { bfd_mach_mips_gs264e, bfd_mach_mips_gs464e },
-> -   { bfd_mach_mips_gs464e, bfd_mach_mips_gs464 },
-> -   { bfd_mach_mips_gs464, bfd_mach_mipsisa64r2 },
-> -+  { bfd_mach_mips_xlp, bfd_mach_mipsisa64r2 },
-> -
-> -   /* MIPS64 extensions.  */
-> -   { bfd_mach_mipsisa64r2, bfd_mach_mipsisa64 },
-> -diff --git a/binutils/readelf.c b/binutils/readelf.c
-> -index a6073f7ec80..2f2448b5eba 100644
-> ---- a/binutils/readelf.c
-> -+++ b/binutils/readelf.c
-> -@@ -3613,6 +3613,7 @@ get_machine_flags (Filedata * filedata, unsigned e_flags, unsigned e_machine)
-> -           case E_MIPS_MACH_OCTEON3: strcat (buf, ", octeon3"); break;
-> -           case E_MIPS_MACH_XLR:  strcat (buf, ", xlr"); break;
-> -           case E_MIPS_MACH_IAMR2:  strcat (buf, ", interaptiv-mr2"); break;
-> -+          case E_MIPS_MACH_XLP:  strcat (buf, ", xlp"); break;
-> -           case 0:
-> -           /* We simply ignore the field in this case to avoid confusion:
-> -              MIPS ELF does not specify EF_MIPS_MACH, it is a GNU
-> -diff --git a/gas/config/tc-mips.c b/gas/config/tc-mips.c
-> -index 0201f816814..a3cfcdbe982 100644
-> ---- a/gas/config/tc-mips.c
-> -+++ b/gas/config/tc-mips.c
-> -@@ -570,6 +570,7 @@ static int mips_32bitmode = 0;
-> -    || mips_opts.arch == CPU_RM7000                    \
-> -    || mips_opts.arch == CPU_VR5500                    \
-> -    || mips_opts.micromips                             \
-> -+   || mips_opts.arch == CPU_XLP                       \
-> -    )
-> -
-> - /* Whether the processor uses hardware interlocks to protect reads
-> -@@ -599,6 +600,7 @@ static int mips_32bitmode = 0;
-> -     && mips_opts.isa != ISA_MIPS3)                    \
-> -    || mips_opts.arch == CPU_R4300                     \
-> -    || mips_opts.micromips                             \
-> -+   || mips_opts.arch == CPU_XLP                       \
-> -    )
-> -
-> - /* Whether the processor uses hardware interlocks to protect reads
-> -@@ -20157,7 +20159,7 @@ static const struct mips_cpu_info mips_cpu_info_table[] =
-> -   /* Broadcom XLP.
-> -      XLP is mostly like XLR, with the prominent exception that it is
-> -      MIPS64R2 rather than MIPS64.  */
-> --  { "xlp",          0, 0,                     ISA_MIPS64R2, CPU_XLR },
-> -+  { "xlp",          0, 0,                     ISA_MIPS64R2, CPU_XLP },
-> -
-> -   /* MIPS 64 Release 6.  */
-> -   { "i6400",        0, ASE_VIRT | ASE_MSA,    ISA_MIPS64R6, CPU_MIPS64R6},
-> -diff --git a/gas/configure b/gas/configure
-> -index 110d707f079..789d1b38b33 100755
-> ---- a/gas/configure
-> -+++ b/gas/configure
-> -@@ -12083,6 +12083,9 @@ _ACEOF
-> -         mipsisa64r6 | mipsisa64r6el)
-> -           mips_cpu=mips64r6
-> -           ;;
-> -+        mipsisa64r2nlm | mipsisa64r2nlmel)
-> -+          mips_cpu=xlp
-> -+          ;;
-> -         mipstx39 | mipstx39el)
-> -           mips_cpu=r3900
-> -           ;;
-> -diff --git a/gas/configure.ac b/gas/configure.ac
-> -index 78efba88e23..c1b4ef6b3b0 100644
-> ---- a/gas/configure.ac
-> -+++ b/gas/configure.ac
-> -@@ -331,6 +331,9 @@ changequote([,])dnl
-> -         mipsisa64r6 | mipsisa64r6el)
-> -           mips_cpu=mips64r6
-> -           ;;
-> -+        mipsisa64r2nlm | mipsisa64r2nlmel)
-> -+          mips_cpu=xlp
-> -+          ;;
-> -         mipstx39 | mipstx39el)
-> -           mips_cpu=r3900
-> -           ;;
-> -diff --git a/include/elf/mips.h b/include/elf/mips.h
-> -index 4bd86307120..2d7df22abf2 100644
-> ---- a/include/elf/mips.h
-> -+++ b/include/elf/mips.h
-> -@@ -290,6 +290,7 @@ END_RELOC_NUMBERS (R_MIPS_maxext)
-> - #define E_MIPS_MACH_SB1         0x008a0000
-> - #define E_MIPS_MACH_OCTEON    0x008b0000
-> - #define E_MIPS_MACH_XLR       0x008c0000
-> -+#define E_MIPS_MACH_XLP         0x008f0000
-> - #define E_MIPS_MACH_OCTEON2   0x008d0000
-> - #define E_MIPS_MACH_OCTEON3   0x008e0000
-> - #define E_MIPS_MACH_5400      0x00910000
-> -diff --git a/include/opcode/mips.h b/include/opcode/mips.h
-> -index 9add3c9d5bf..a99c53f652f 100644
-> ---- a/include/opcode/mips.h
-> -+++ b/include/opcode/mips.h
-> -@@ -1157,7 +1157,7 @@ mips_opcode_32bit_p (const struct mips_opcode *mo)
-> - #define INSN_ISA32R3              8
-> - #define INSN_ISA32R5              9
-> - #define INSN_ISA32R6              10
-> --#define INSN_ISA64                11
-> -+#define INSN_ISA64                11
-> - #define INSN_ISA64R2              12
-> - #define INSN_ISA64R3              13
-> - #define INSN_ISA64R5              14
-> -@@ -1265,6 +1265,8 @@ static const unsigned int mips_isa_table[] = {
-> - #define INSN_XLR                 0x00000020
-> - /* Imagination interAptiv MR2.  */
-> - #define INSN_INTERAPTIV_MR2     0x04000000
-> -+/* Netlogic XlP instruction */
-> -+#define INSN_XLP              0x00000080
-> -
-> - /* DSP ASE */
-> - #define ASE_DSP                       0x00000001
-> -@@ -1389,6 +1391,7 @@ static const unsigned int mips_isa_table[] = {
-> - #define CPU_OCTEON3   6503
-> - #define CPU_XLR       887682          /* decimal 'XLR'   */
-> - #define CPU_INTERAPTIV_MR2 736550     /* decimal 'IA2'  */
-> -+#define CPU_XLP         887680      /* decimal 'XLP'   */
-> -
-> - /* Return true if the given CPU is included in INSN_* mask MASK.  */
-> -
-> -@@ -1459,6 +1462,9 @@ cpu_is_member (int cpu, unsigned int mask)
-> -     case CPU_INTERAPTIV_MR2:
-> -       return (mask & INSN_INTERAPTIV_MR2) != 0;
-> -
-> -+    case CPU_XLP:
-> -+      return (mask & INSN_XLP) != 0;
-> -+
-> -     default:
-> -       return false;
-> -     }
+> -   mips64*el-*-linux*)
+> --    targ_defvec=mips_elf32_ntrad_le_vec
+> --    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_trad_le_vec mips_elf32_trad_be_vec mips_elf64_trad_le_vec mips_elf64_trad_be_vec"
+> -+    targ_defvec=mips_elf64_trad_le_vec
+> -+    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_le_vec mips_elf32_trad_le_vec mips_elf32_trad_be_vec mips_elf64_trad_be_vec"
+> -     ;;
+> -   mips64*-*-linux*)
+> --    targ_defvec=mips_elf32_ntrad_be_vec
+> --    targ_selvecs="mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_be_vec mips_elf64_trad_le_vec"
+> -+    targ_defvec=mips_elf64_trad_be_vec
+> -+    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_be_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
+> -     ;;
+> -   mips*el-*-linux*)
+> -     targ_defvec=mips_elf32_trad_le_vec
 > -diff --git a/ld/configure.tgt b/ld/configure.tgt
-> -index c08533658e5..7abf32215c2 100644
+> -index 6205d7c9872..c08533658e5 100644
 > ---- a/ld/configure.tgt
 > -+++ b/ld/configure.tgt
-> -@@ -509,6 +509,9 @@ mips*-sde-elf* | mips*-mti-elf* | mips*-img-elf*)
-> -                       targ_emul=elf32btsmip
-> -                       targ_extra_emuls="elf32ltsmip elf32btsmipn32 elf64btsmip elf32ltsmipn32 elf64ltsmip"
+> -@@ -530,12 +530,12 @@ mips*-*-vxworks*)        targ_emul=elf32ebmipvxworks
 > -                       ;;
-> -+mipsisa64*-*-elf*)    targ_emul=elf32btsmip
-> -+                      targ_extra_emuls="elf32ltsmip elf64btsmip elf64ltsmip"
-> -+                      ;;
-> - mips64*el-ps2-elf*)   targ_emul=elf32lr5900n32
-> -                       targ_extra_emuls="elf32lr5900"
+> - mips*-*-windiss)      targ_emul=elf32mipswindiss
+> -                       ;;
+> --mips64*el-*-linux-*)  targ_emul=elf32ltsmipn32
+> --                      targ_extra_emuls="elf32btsmipn32 elf32ltsmip elf32btsmip elf64ltsmip elf64btsmip"
+> -+mips64*el-*-linux-*)  targ_emul=elf64ltsmip
+> -+                      targ_extra_emuls="elf32btsmipn32 elf32ltsmipn32 elf32ltsmip elf32btsmip elf64btsmip"
 > -                       targ_extra_libpath=$targ_extra_emuls
-> -diff --git a/opcodes/mips-dis.c b/opcodes/mips-dis.c
-> -index 591caf11e28..00120afed47 100644
-> ---- a/opcodes/mips-dis.c
-> -+++ b/opcodes/mips-dis.c
-> -@@ -698,13 +698,11 @@ const struct mips_arch_choice mips_arch_choices[] =
-> -     mips_cp0sel_names_xlr, ARRAY_SIZE (mips_cp0sel_names_xlr),
-> -     mips_cp1_names_mips3264, mips_hwr_names_numeric },
-> -
-> --  /* XLP is mostly like XLR, with the prominent exception it is being
-> --     MIPS64R2.  */
-> --  { "xlp", 1, bfd_mach_mips_xlr, CPU_XLR,
-> --    ISA_MIPS64R2 | INSN_XLR, 0,
-> --    mips_cp0_names_xlr,
-> --    mips_cp0sel_names_xlr, ARRAY_SIZE (mips_cp0sel_names_xlr),
-> --    mips_cp1_names_mips3264, mips_hwr_names_numeric },
-> -+  { "xlp", 1, bfd_mach_mips_xlp, CPU_XLP,
-> -+    ISA_MIPS64R2 | INSN_XLP, 0,
-> -+    mips_cp0_names_mips3264r2,
-> -+    mips_cp0sel_names_mips3264r2, ARRAY_SIZE (mips_cp0sel_names_mips3264r2),
-> -+    mips_cp1_names_mips3264, mips_hwr_names_mips3264r2 },
-> -
-> -   /* This entry, mips16, is here only for ISA/processor selection; do
-> -      not print its name.  */
-> -diff --git a/opcodes/mips-opc.c b/opcodes/mips-opc.c
-> -index db72c039bfd..ff2fa614de1 100644
-> ---- a/opcodes/mips-opc.c
-> -+++ b/opcodes/mips-opc.c
-> -@@ -329,6 +329,7 @@ decode_mips_operand (const char *p)
-> - #define IOCT3 INSN_OCTEON3
-> - #define XLR     INSN_XLR
-> - #define IAMR2 INSN_INTERAPTIV_MR2
-> -+#define XLP   INSN_XLP
-> - #define IVIRT ASE_VIRT
-> - #define IVIRT64       ASE_VIRT64
-> -
-> -@@ -991,6 +992,7 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"clo",                       "U,s",          0x70000021, 0xfc0007ff, WR_1|RD_2,              0,              I32|N55,        0,      I37 },
-> - {"clz",                       "d,s",          0x00000050, 0xfc1f07ff, WR_1|RD_2,              0,              I37,            0,      0 },
-> - {"clz",                       "U,s",          0x70000020, 0xfc0007ff, WR_1|RD_2,              0,              I32|N55,        0,      I37 },
-> -+{"crc",                       "d,s,t",        0x7000001c, 0xfc0007ff, WR_1|RD_2|RD_3, 0,              XLP,            0,      0 },
-> - /* ctc0 is at the bottom of the table.  */
-> - {"ctc1",              "t,g",          0x44c00000, 0xffe007ff, RD_1|WR_CC|CM,          0,              I1,             0,      0 },
-> - {"ctc1",              "t,S",          0x44c00000, 0xffe007ff, RD_1|WR_CC|CM,          0,              I1,             0,      0 },
-> -@@ -1023,12 +1025,13 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"daddiu",            "t,r,j",        0x64000000, 0xfc000000, WR_1|RD_2,              0,              I3,             0,      0 },
-> - {"daddu",             "d,v,t",        0x0000002d, 0xfc0007ff, WR_1|RD_2|RD_3,         0,              I3,             0,      0 },
-> - {"daddu",             "t,r,I",        0,    (int) M_DADDU_I,  INSN_MACRO,             0,              I3,             0,      0 },
-> --{"daddwc",            "d,s,t",        0x70000038, 0xfc0007ff, WR_1|RD_2|RD_3|WR_C0|RD_C0, 0,          XLR,            0,      0 },
-> -+{"daddwc",            "d,s,t",        0x70000038, 0xfc0007ff, WR_1|RD_2|RD_3|WR_C0|RD_C0, 0,          XLR|XLP,        0,      0 },
-> - {"dbreak",            "",             0x7000003f, 0xffffffff, 0,                      0,              N5,             0,      0 },
-> - {"dclo",              "d,s",          0x00000053, 0xfc1f07ff, WR_1|RD_2,              0,              I69,            0,      0 },
-> - {"dclo",              "U,s",          0x70000025, 0xfc0007ff, WR_1|RD_2,      0,              I64|N55,        0,      I69 },
-> - {"dclz",              "d,s",          0x00000052, 0xfc1f07ff, WR_1|RD_2,              0,              I69,            0,      0 },
-> - {"dclz",              "U,s",          0x70000024, 0xfc0007ff, WR_1|RD_2,      0,              I64|N55,        0,      I69 },
-> -+{"dcrc",              "d,s,t",        0x7000001d, 0xfc0007ff, WR_1|RD_2|RD_3, 0,              XLP,            0,      0 },
-> - /* dctr and dctw are used on the r5000.  */
-> - {"dctr",              "o(b)",         0xbc050000, 0xfc1f0000, RD_2,                   0,              I3,             0,      0 },
-> - {"dctw",              "o(b)",         0xbc090000, 0xfc1f0000, RD_2,                   0,              I3,             0,      0 },
-> -@@ -1100,6 +1103,7 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"dmfc0",             "t,G,H",        0x40200000, 0xffe007f8, WR_1|RD_C0|LC,          0,              I64,            0,      0 },
-> - {"dmfgc0",            "t,G",          0x40600100, 0xffe007ff, WR_1|RD_C0|LC,          0,              0,              IVIRT64, 0 },
-> - {"dmfgc0",            "t,G,H",        0x40600100, 0xffe007f8, WR_1|RD_C0|LC,          0,              0,              IVIRT64, 0 },
-> -+{"dmfur",             "t,d",          0x7000001e, 0xffe007ff, WR_1,                   0,              XLP,            0,      0 },
-> - {"dmt",                       "",             0x41600bc1, 0xffffffff, TRAP,                   0,              0,              MT32,   0 },
-> - {"dmt",                       "t",            0x41600bc1, 0xffe0ffff, WR_1|TRAP,              0,              0,              MT32,   0 },
-> - {"dmtc0",             "t,G",          0x40a00000, 0xffe007ff, RD_1|WR_C0|WR_CC|CM,    0,              I3,             0,      EE },
-> -@@ -1113,6 +1117,8 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - /* dmfc2 is at the bottom of the table.  */
-> - /* dmtc2 is at the bottom of the table.  */
-> - {"dmuh",              "d,s,t",        0x000000dc, 0xfc0007ff, WR_1|RD_2|RD_3,         0,              I69,            0,      0 },
-> -+{"dmtur",             "t,d",          0x7000001f, 0xffe007ff, RD_1,                   0,              XLP,            0,      0 },
-> -+{"dmul",              "d,s,t",        0x70000006, 0xfc0007ff, WR_1|RD_2|RD_3,         0,              XLP,            0,      0 },
-> - {"dmul",              "d,s,t",        0x0000009c, 0xfc0007ff, WR_1|RD_2|RD_3,         0,              I69,            0,      0 },
-> - {"dmul",              "d,v,t",        0x70000003, 0xfc0007ff, WR_1|RD_2|RD_3|WR_HILO, 0,              IOCT,           0,      0 },
-> - {"dmul",              "d,v,t",        0,    (int) M_DMUL,     INSN_MACRO,             0,              I3,             0,      M32|I69 },
-> -@@ -1266,9 +1272,9 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"ld",                        "s,-b(+R)",     0xec180000, 0xfc1c0000, WR_1,                   RD_pc,          I69,            0,      0 },
-> - {"ld",                        "t,A(b)",       0,    (int) M_LD_AB,    INSN_MACRO,             0,              I1,             0,      0 },
-> - {"ld",                        "t,o(b)",       0xdc000000, 0xfc000000, WR_1|RD_3|LM,           0,              I3,             0,      0 },
-> --{"ldaddw",            "t,b",          0x70000010, 0xfc00ffff, MOD_1|RD_2|LM|SM,       0,              XLR,            0,      0 },
-> --{"ldaddwu",           "t,b",          0x70000011, 0xfc00ffff, MOD_1|RD_2|LM|SM,       0,              XLR,            0,      0 },
-> --{"ldaddd",            "t,b",          0x70000012, 0xfc00ffff, MOD_1|RD_2|LM|SM,       0,              XLR,            0,      0 },
-> -+{"ldaddw",            "t,b",          0x70000010, 0xfc00ffff, MOD_1|RD_2|SM,          0,              XLR|XLP,        0,      0 },
-> -+{"ldaddwu",           "t,b",          0x70000011, 0xfc00ffff, MOD_1|RD_2|SM,          0,              XLR|XLP,        0,      0 },
-> -+{"ldaddd",            "t,b",          0x70000012, 0xfc00ffff, MOD_1|RD_2|SM,          0,              XLR|XLP,        0,      0 },
-> - {"ldc1",              "T,o(b)",       0xd4000000, 0xfc000000, WR_1|RD_3|CLD|FP_D,     0,              I2,             0,      SF },
-> - {"ldc1",              "E,o(b)",       0xd4000000, 0xfc000000, WR_1|RD_3|CLD|FP_D,     0,              I2,             0,      SF },
-> - {"ldc1",              "T,A(b)",       0,    (int) M_LDC1_AB,  INSN_MACRO,             INSN2_M_FP_D,   I2,             0,      SF },
-> -@@ -1437,7 +1443,7 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"mflo",              "d,9",          0x00000012, 0xff9f07ff, WR_1|RD_LO,             0,              0,              D32,    0 },
-> - {"mflo1",             "d",            0x70000012, 0xffff07ff, WR_1|RD_LO,             0,              EE,             0,      0 },
-> - {"mflhxu",            "d",            0x00000052, 0xffff07ff, WR_1|MOD_HILO,          0,              0,              SMT,    0 },
-> --{"mfcr",              "t,s",          0x70000018, 0xfc00ffff, WR_1|RD_2,              0,              XLR,            0,      0 },
-> -+{"mfcr",              "t,s",          0x70000018, 0xfc00ffff, WR_1,                   0,              XLR|XLP,        0,      0 },
-> - {"mfsa",              "d",            0x00000028, 0xffff07ff, WR_1,                   0,              EE,             0,      0 },
-> - {"min.ob",            "X,Y,Q",        0x78000006, 0xfc20003f, WR_1|RD_2|RD_3|FP_D,    0,              SB1,            MX,     0 },
-> - {"min.ob",            "D,S,Q",        0x48000006, 0xfc20003f, WR_1|RD_2|RD_3|FP_D,    0,              N54,            0,      0 },
-> -@@ -1482,10 +1488,13 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - /* move is at the top of the table.  */
-> - {"msgn.qh",           "X,Y,Q",        0x78200000, 0xfc20003f, WR_1|RD_2|RD_3|FP_D,    0,              0,              MX,     0 },
-> - {"msgsnd",            "t",            0,    (int) M_MSGSND,   INSN_MACRO,             0,              XLR,            0,      0 },
-> -+{"msgsnds",           "d,t",          0x4a000001, 0xffe007ff, WR_1|RD_2|RD_C0|WR_C0,  0,              XLP,            0,      0 },
-> - {"msgld",             "",             0,    (int) M_MSGLD,    INSN_MACRO,             0,              XLR,            0,      0 },
-> - {"msgld",             "t",            0,    (int) M_MSGLD_T,  INSN_MACRO,             0,              XLR,            0,      0 },
-> --{"msgwait",           "",             0,    (int) M_MSGWAIT,  INSN_MACRO,             0,              XLR,            0,      0 },
-> --{"msgwait",           "t",            0,    (int) M_MSGWAIT_T,INSN_MACRO,             0,              XLR,            0,      0 },
-> -+{"msglds",            "d,t",          0x4a000002, 0xffe007ff, WR_1|RD_2|RD_C0|WR_C0,  0,              XLP,            0,      0 },
-> -+{"msgwait",           "",             0,    (int) M_MSGWAIT,  INSN_MACRO,             0,              XLR|XLP,        0,      0 },
-> -+{"msgwait",           "t",            0,    (int) M_MSGWAIT_T,INSN_MACRO,             0,              XLR|XLP,        0,      0 },
-> -+{"msgsync",           "",             0x4a000004, 0xffffffff,0,                       0,              XLP,            0,      0 },
-> - {"msub.d",            "D,R,S,T",      0x4c000029, 0xfc00003f, WR_1|RD_2|RD_3|RD_4|FP_D, 0,            I4_33,          0,      I37 },
-> - {"msub.d",            "D,S,T",        0x46200019, 0xffe0003f, WR_1|RD_2|RD_3|FP_D,    0,              IL2E,           0,      0 },
-> - {"msub.d",            "D,S,T",        0x72200019, 0xffe0003f, WR_1|RD_2|RD_3|FP_D,    0,              IL2F,           0,      0 },
-> -@@ -1535,7 +1544,7 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"mtlo",              "s,7",          0x00000013, 0xfc1fe7ff, RD_1|WR_LO,             0,              0,              D32,    0 },
-> - {"mtlo1",             "s",            0x70000013, 0xfc1fffff, RD_1|WR_LO,             0,              EE,             0,      0 },
-> - {"mtlhx",             "s",            0x00000053, 0xfc1fffff, RD_1|MOD_HILO,          0,              0,              SMT,    0 },
-> --{"mtcr",              "t,s",          0x70000019, 0xfc00ffff, RD_1|RD_2,              0,              XLR,            0,      0 },
-> -+{"mtcr",              "t,s",          0x70000019, 0xfc00ffff, RD_1,                   0,              XLR|XLP,        0,      0 },
-> - {"mtm0",              "s",            0x70000008, 0xfc1fffff, RD_1,                   0,              IOCT,           0,      0 },
-> - {"mtm0",              "s,t",          0x70000008, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-> - {"mtm1",              "s",            0x7000000c, 0xfc1fffff, RD_1,                   0,              IOCT,           0,      0 },
-> -@@ -1977,9 +1986,9 @@ const struct mips_opcode mips_builtin_opcodes[] =
-> - {"suxc1",             "S,t(b)",       0x4c00000d, 0xfc0007ff, RD_1|RD_2|RD_3|SM|FP_D, 0,              I5_33|N55,      0,      I37},
-> - {"sw",                        "t,o(b)",       0xac000000, 0xfc000000, RD_1|RD_3|SM,           0,              I1,             0,      0 },
-> - {"sw",                        "t,A(b)",       0,    (int) M_SW_AB,    INSN_MACRO,             0,              I1,             0,      0 },
-> --{"swapw",             "t,b",          0x70000014, 0xfc00ffff, MOD_1|RD_2|LM|SM,       0,              XLR,            0,      0 },
-> --{"swapwu",            "t,b",          0x70000015, 0xfc00ffff, MOD_1|RD_2|LM|SM,       0,              XLR,            0,      0 },
-> --{"swapd",             "t,b",          0x70000016, 0xfc00ffff, MOD_1|RD_2|LM|SM,       0,              XLR,            0,      0 },
-> -+{"swapw",             "t,b",          0x70000014, 0xfc00ffff, MOD_1|RD_2|SM,          0,              XLR|XLP,        0,      0 },
-> -+{"swapwu",            "t,b",          0x70000015, 0xfc00ffff, MOD_1|RD_2|SM,          0,              XLR|XLP,        0,      0 },
-> -+{"swapd",             "t,b",          0x70000016, 0xfc00ffff, MOD_1|RD_2|SM,          0,              XLR|XLP,        0,      0 },
-> - {"swc0",              "E,o(b)",       0xe0000000, 0xfc000000, RD_3|RD_C0|SM,          0,              I1,             0,      I2 },
-> - {"swc0",              "E,A(b)",       0,    (int) M_SWC0_AB,  INSN_MACRO,             0,              I1,             0,      I2 },
-> - {"swc1",              "T,o(b)",       0xe4000000, 0xfc000000, RD_1|RD_3|SM|FP_S,      0,              I1,             0,      0 },
+> -                       ;;
+> --mips64*-*-linux-*)    targ_emul=elf32btsmipn32
+> --                      targ_extra_emuls="elf32ltsmipn32 elf32btsmip elf32ltsmip elf64btsmip elf64ltsmip"
+> -+mips64*-*-linux-*)    targ_emul=elf64btsmip
+> -+                      targ_extra_emuls="elf32btsmipn32 elf32ltsmipn32 elf32btsmip elf32ltsmip elf64ltsmip"
+> -                       targ_extra_libpath=$targ_extra_emuls
+> -                       ;;
+> - mips*el-*-linux-*)    targ_emul=elf32ltsmip
 > --
 > 2.32.0
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#159466): https://lists.openembedded.org/g/openembedded-core/message/159466
-> Mute This Topic: https://lists.openembedded.org/mt/87616749/1997914
+> View/Reply Online (#159465): https://lists.openembedded.org/g/openembedded-core/message/159465
+> Mute This Topic: https://lists.openembedded.org/mt/87616748/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
