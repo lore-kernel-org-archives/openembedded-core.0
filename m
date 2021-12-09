@@ -2,252 +2,112 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12FA8C433FE
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 01:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D320C4332F
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 01:29:46 +0000 (UTC)
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
  by mx.groups.io with SMTP id smtpd.web11.5654.1639013381253925301
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Dec 2021 17:29:42 -0800
+ Wed, 08 Dec 2021 17:29:45 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="235503919"
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="235503946"
 X-IronPort-AV: E=Sophos;i="5.88,190,1635231600";
-   d="scan'208";a="235503919"
+   d="scan'208";a="235503946"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 17:29:40 -0800
+ 08 Dec 2021 17:29:45 -0800
 X-IronPort-AV: E=Sophos;i="5.88,190,1635231600";
-   d="scan'208";a="503297996"
+   d="scan'208";a="503298018"
 Received: from chuenong-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.229.15])
   by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 17:29:39 -0800
+ 08 Dec 2021 17:29:44 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/33] Review request
-Date: Thu,  9 Dec 2021 09:28:59 +0800
-Message-Id: <cover.1639012800.git.anuj.mittal@intel.com>
+Subject: [honister][PATCH 04/33] rust-cross: Replace TARGET_ARCH with
+ TUNE_PKGARCH
+Date: Thu,  9 Dec 2021 09:29:03 +0800
+Message-Id: 
+ <154a1117be4e566359cd35b702ad57d9dd0e6dc1.1639012800.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1639012800.git.anuj.mittal@intel.com>
+References: <cover.1639012800.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 01:29:45 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 01:29:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159401
+ https://lists.openembedded.org/g/openembedded-core/message/159405
 
-Next set of changes for honister. Please review. An intermittent issue
-with matchbox-wm [YOCTO #14647] seen while testing.
+From: Pgowda <pgowda.cve@gmail.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2999
+rust-cross-* imported from meta-rust has incorrect signatures,
+depending on MACHINEOVERRIDES making it effectively MACHINE_ARCH
+as shown by sstate-diff-machines.sh:
 
-Thanks,
+openembedded-core/scripts/sstate-diff-machines.sh --tmpdir=tmp-glibc \
+--machines="qemuarm64 qemuarm64copy" --targets=rust-cross-aarch64-glibc \
+--analyze
 
-Anuj
+ === Comparing signatures for task do_configure.sigdata between
+ qemuarm64 and qemuarm64copy ===
+ERROR: gcc-runtime different signature for task do_configure.sigdata
+between qemuarm64 and qemuarm64copy
+NOTE: Starting bitbake server...
+Hash for dependent task gcc/gcc-runtime_11.2.bb:do_prepare_recipe_sysroot
+changed from
+da4ebf1b272cb73153145a0a95e6438d2955ae2d36f84db10f6880b2781ec331 to
+47a0ebb7a88c9f896fb9dbce269f575ab8a6faabb2b9e62d164be6e71c5e4e40
+Unable to find matching sigdata for
+openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_11.2.bb:
+do_prepare_recipe_sysroot with hashes
+da4ebf1b272cb73153145a0a95e6438d2955ae2d36f84db10f6880b2781ec331 or
+47a0ebb7a88c9f896fb9dbce269f575ab8a6faabb2b9e62d164be6e71c5e4e40
 
-The following changes since commit 70384dd958c57d1da924a66cffa35f80eb60d4b0:
+The following patch takes TUNE_PKGARCH into consideration instead
+of TARGET_ARCH and results in signatures as expected.
 
-  build-appliance-image: Update to honister head revision (2021-11-25 22:00:48 +0000)
+[YOCTO #14613]
 
-are available in the Git repository at:
+RP: Added maintainer.inc corresponding change
+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bcf48766d1123cea41f80b0cb687584692c96158)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/conf/distro/include/maintainers.inc  | 2 +-
+ meta/recipes-devtools/rust/rust-cross.inc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-  git://push.openembedded.org/openembedded-core-contrib anujm/honister
-
-Alexander Kanavin (4):
-  systemd: update 249.3 -> 249.4
-  systemd: update 249.4 -> 249.5
-  systemd: upgrade 249.5 -> 249.6
-  systemd: update 249.6 -> 249.7
-
-Alexandre Belloni (1):
-  maintainers.inc: fix up rust-cross entry
-
-Bruce Ashfield (2):
-  linux-yocto/5.14: update to v5.14.18
-  linux-yocto/5.10: update to v5.10.79
-
-Dhruva Gole (1):
-  scripts/checklayer/common.py: Fixed a minor grammatical error
-
-Joshua Watt (2):
-  classes/meson: Add optional rust definitions
-  classes/crate-fetch: Ensure crate fetcher is available
-
-Khem Raj (1):
-  boost: Fix build on arches with no atomics
-
-Li Wang (1):
-  libtool: change the default AR_FLAGS from "cru" to "cr"
-
-Martin Jansa (1):
-  boost: allow searching for python310
-
-Mingli Yu (1):
-  wic: use shutil.which
-
-Pavel Zhukov (2):
-  go: upgrade 1.16.8 -> 1.16.10
-  patch.py: Initialize git repo before patching
-
-Pgowda (2):
-  rust-cross: Fix directory not deleted for race glibc vs. musl
-  rust-cross: Replace TARGET_ARCH with TUNE_PKGARCH
-
-Quentin Schulz (1):
-  README.OE-Core.md: update URLs
-
-Richard Purdie (5):
-  buildhistory: Fix srcrevs output
-  glibc: Fix i586/c3 support
-  oeqa/utils/dump: Fix typo
-  oeqa/parselogs: Fix quoting
-  libtool: Update patchset to match those submitted upstream
-
-Ross Burton (5):
-  gmp: fix CVE-2021-43618
-  vim: fix CVE-2021-3927 and CVE-2021-3928
-  vim: fix CVE-2021-3968 and CVE-2021-3973
-  recipetool: handle GitLab URLs like we do GitHub
-  recipetool: extend curl detection when creating recipes
-
-Schmidt, Adriaan (1):
-  wic: support rootdev identified by partition label
-
-Vyacheslav Yurkov (1):
-  rootfs-postcommands: update systemd_create_users
-
-wangmy (2):
-  libdrm: upgrade 2.4.107 -> 2.4.108
-  libdrm: upgrade 2.4.108 -> 2.4.109
-
- README.OE-Core.md                             |  10 +-
- meta/classes/buildhistory.bbclass             |  30 ++--
- meta/classes/crate-fetch.bbclass              |  21 ++-
- meta/classes/meson.bbclass                    |  11 +-
- meta/classes/rootfs-postcommands.bbclass      |   2 +-
- meta/conf/distro/include/maintainers.inc      |   2 +-
- meta/lib/oe/patch.py                          |  16 +-
- meta/lib/oeqa/runtime/cases/parselogs.py      |  14 +-
- meta/lib/oeqa/selftest/cases/bbtests.py       |  15 ++
- meta/lib/oeqa/utils/dump.py                   |   2 +-
- meta/recipes-core/glibc/glibc_2.34.bb         |   2 +-
- ...md-boot_249.3.bb => systemd-boot_249.7.bb} |   0
- meta/recipes-core/systemd/systemd.inc         |   2 +-
- ...002-don-t-use-glibc-specific-qsort_r.patch |   2 +-
- ...dd-__compare_fn_t-and-comparison_fn_.patch |   2 +-
- ...k-parse_printf_format-implementation.patch |   8 +-
- ...missing.h-check-for-missing-strndupa.patch |  24 +--
- .../0006-Include-netinet-if_ether.h.patch     |  15 +-
- ...OB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch |   2 +-
- ...008-add-missing-FTW_-macros-for-musl.patch |   3 +-
- ..._register_atfork-for-non-glibc-build.patch |   4 +-
- ...10-Use-uintmax_t-for-handling-rlim_t.patch |   6 +-
- ...sable-tests-for-missing-typedefs-in-.patch |   4 +-
- ...T_SYMLINK_NOFOLLOW-flag-to-faccessat.patch |   2 +-
- ...patible-basename-for-non-glibc-syste.patch |   2 +-
- ...uffering-when-writing-to-oom_score_a.patch |   4 +-
- ...compliant-strerror_r-from-GNU-specif.patch |   2 +-
- ...S_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch |   2 +-
- ...ype.h-add-__compar_d_fn_t-definition.patch |   2 +-
- ...definition-of-prctl_mm_map-structure.patch |   2 +-
- .../systemd/0019-Handle-missing-LOCK_EX.patch |   2 +-
- ...ible-pointer-type-struct-sockaddr_un.patch |   8 +-
- .../0021-test-json.c-define-M_PIl.patch       |   2 +-
- ...-not-disable-buffer-in-writing-files.patch |   8 +-
- .../0025-Handle-__cpu_mask-usage.patch        |   4 +-
- .../systemd/0026-Handle-missing-gshadow.patch |   2 +-
- ...l.h-Define-MIPS-ABI-defines-for-musl.patch |   2 +-
- .../{systemd_249.3.bb => systemd_249.7.bb}    |   0
- .../go/{go-1.16.8.inc => go-1.16.10.inc}      |   4 +-
- ..._1.16.8.bb => go-binary-native_1.16.10.bb} |   4 +-
- ...1.16.8.bb => go-cross-canadian_1.16.10.bb} |   0
- ...go-cross_1.16.8.bb => go-cross_1.16.10.bb} |   0
- ...sssdk_1.16.8.bb => go-crosssdk_1.16.10.bb} |   0
- ...-native_1.16.8.bb => go-native_1.16.10.bb} |   0
- ...untime_1.16.8.bb => go-runtime_1.16.10.bb} |   0
- .../go/{go_1.16.8.bb => go_1.16.10.bb}        |   0
- .../libtool/libtool-2.4.6.inc                 |  27 ++--
- ...-trailing-slashes-on-install-command.patch |  35 ++++
- ...-the-with-sysroot-option-to-avoid-c.patch} |  13 +-
- ...Add-missing-sysroot-to-library-path.patch} |  10 +-
- ...root-paths-being-encoded-into-RPATH.patch} |  16 +-
- ...ncode-RATHS-which-match-default-lin.patch} |  37 +++--
- ...ol.m4-Handle-as-a-sysroot-correctly.patch} |  18 ++-
- ...ool-Fix-support-for-NIOS2-processor.patch} |   9 +-
- ...-static-libs-for-internal-compiler-.patch} |  13 +-
- ...sure-autoheader-run-before-autoconf.patch} |  10 +-
- ...sure-autoheader-run-before-automake.patch} |   9 +-
- ...prefix-map-compiler-options-correct.patch} |   6 +-
- ...producibility-stop-encoding-hostnam.patch} |  12 +-
- ...AGS-use-cr-instead-of-cru-by-default.patch | 133 +++++++++++++++
- .../libtool/libtool/fixinstall.patch          |   6 +-
- .../libool.m4-add-ARFLAGS-variable.patch      |  77 +++++++++
- .../libtool/libtool/norm-rpath.patch          |  38 -----
- .../libtool/libtool/trailingslash.patch       |  35 ----
- meta/recipes-devtools/rust/rust-cross.inc     |   2 +-
- .../{libdrm_2.4.107.bb => libdrm_2.4.109.bb}  |   2 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.14.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.14.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
- meta/recipes-kernel/linux/linux-yocto_5.14.bb |  26 +--
- ....cmake-allow-searching-for-python310.patch |  50 ++++++
- ...th_no_atomic_int-on-the-command-line.patch |  53 ++++++
- ...oft-failure-in-bernoulli_details_hpp.patch | 151 ++++++++++++++++++
- meta/recipes-support/boost/boost_1.77.0.bb    |   3 +
- .../gmp/gmp/cve-2021-43618.patch              |  27 ++++
- meta/recipes-support/gmp/gmp_6.2.1.bb         |   1 +
- ...1-reading-character-past-end-of-line.patch |  62 +++++++
- ...eading-uninitialized-memory-when-giv.patch |  63 ++++++++
- ...rash-when-using-CTRL-W-f-without-fin.patch |  92 +++++++++++
- meta/recipes-support/vim/vim.inc              |   6 +
- scripts/lib/checklayer/cases/common.py        |   2 +-
- scripts/lib/recipetool/create.py              |   2 +-
- scripts/lib/recipetool/create_buildsys.py     |   3 +-
- scripts/lib/wic/engine.py                     |   6 +-
- scripts/lib/wic/misc.py                       |   4 +-
- scripts/lib/wic/plugins/imager/direct.py      |   2 +
- scripts/wic                                   |   4 +-
- 89 files changed, 1063 insertions(+), 303 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_249.3.bb => systemd-boot_249.7.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_249.3.bb => systemd_249.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-1.16.8.inc => go-1.16.10.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.8.bb => go-binary-native_1.16.10.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.8.bb => go-cross-canadian_1.16.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.8.bb => go-cross_1.16.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.8.bb => go-crosssdk_1.16.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.8.bb => go-native_1.16.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.8.bb => go-runtime_1.16.10.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.8.bb => go_1.16.10.bb} (100%)
- create mode 100644 meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch
- rename meta/recipes-devtools/libtool/libtool/{rename-with-sysroot.patch => 0002-libtool.m4-Rename-the-with-sysroot-option-to-avoid-c.patch} (90%)
- rename meta/recipes-devtools/libtool/libtool/{use-sysroot-in-libpath.patch => 0003-ltmain.in-Add-missing-sysroot-to-library-path.patch} (63%)
- rename meta/recipes-devtools/libtool/libtool/{fix-final-rpath.patch => 0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch} (74%)
- rename meta/recipes-devtools/libtool/libtool/{fix-rpath.patch => 0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch} (57%)
- rename meta/recipes-devtools/libtool/libtool/{fix-resolve-lt-sysroot.patch => 0006-libtool.m4-Handle-as-a-sysroot-correctly.patch} (60%)
- rename meta/recipes-devtools/libtool/libtool/{0001-libtool-Fix-support-for-NIOS2-processor.patch => 0007-libtool-Fix-support-for-NIOS2-processor.patch} (90%)
- rename meta/recipes-devtools/libtool/libtool/{0001-libtool-Check-for-static-libs-for-internal-compiler-.patch => 0008-libtool-Check-for-static-libs-for-internal-compiler-.patch} (71%)
- rename meta/recipes-devtools/libtool/libtool/{0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch => 0009-Makefile.am-make-sure-autoheader-run-before-autoconf.patch} (79%)
- rename meta/recipes-devtools/libtool/libtool/{0001-Makefile.am-make-sure-autoheader-run-before-automake.patch => 0010-Makefile.am-make-sure-autoheader-run-before-automake.patch} (75%)
- rename meta/recipes-devtools/libtool/libtool/{lto-prefix.patch => 0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch} (82%)
- rename meta/recipes-devtools/libtool/libtool/{debian-no_hostname.patch => 0012-libtool.m4-For-reproducibility-stop-encoding-hostnam.patch} (55%)
- mode change 100755 => 100644
- create mode 100644 meta/recipes-devtools/libtool/libtool/ARFLAGS-use-cr-instead-of-cru-by-default.patch
- create mode 100644 meta/recipes-devtools/libtool/libtool/libool.m4-add-ARFLAGS-variable.patch
- delete mode 100644 meta/recipes-devtools/libtool/libtool/norm-rpath.patch
- delete mode 100644 meta/recipes-devtools/libtool/libtool/trailingslash.patch
- rename meta/recipes-graphics/drm/{libdrm_2.4.107.bb => libdrm_2.4.109.bb} (97%)
- create mode 100644 meta/recipes-support/boost/boost/0001-BoostConfig.cmake-allow-searching-for-python310.patch
- create mode 100644 meta/recipes-support/boost/boost/0002-math-allow-definition-of-boost_math_no_atomic_int-on-the-command-line.patch
- create mode 100644 meta/recipes-support/boost/boost/0003-math-make-no-atomics-a-soft-failure-in-bernoulli_details_hpp.patch
- create mode 100644 meta/recipes-support/gmp/gmp/cve-2021-43618.patch
- create mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-character-past-end-of-line.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
- create mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index a49a35576a..b3b7711a0c 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -659,7 +659,7 @@ RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+ RECIPE_MAINTAINER:pn-rustfmt = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+-RECIPE_MAINTAINER:pn-rust-cross-${TARGET_ARCH}-${TCLIBC} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
++RECIPE_MAINTAINER:pn-rust-cross-${TUNE_PKGARCH}-${TCLIBC} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+ RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+ RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+ RECIPE_MAINTAINER:pn-rust-llvm = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
+index 33be83bf5a..5f8671257e 100644
+--- a/meta/recipes-devtools/rust/rust-cross.inc
++++ b/meta/recipes-devtools/rust/rust-cross.inc
+@@ -32,7 +32,7 @@ DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs vir
+ DEPENDS += "rust-native"
+ 
+ PROVIDES = "virtual/${TARGET_PREFIX}rust"
+-PN = "rust-cross-${TARGET_ARCH}-${TCLIBC}"
++PN = "rust-cross-${TUNE_PKGARCH}-${TCLIBC}"
+ 
+ # In the cross compilation case, rustc doesn't seem to get the rpath quite
+ # right. It manages to include '../../lib/${TARGET_PREFIX}', but doesn't
 -- 
 2.33.1
 
