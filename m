@@ -1,138 +1,147 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8CBC433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 20:51:39 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.17385.1639083098788219201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC74C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 21:00:39 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web08.17481.1639083639219029970
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 12:51:39 -0800
+ Thu, 09 Dec 2021 13:00:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Gxby57TR;
- spf=pass (domain: gmail.com, ip: 209.85.221.52,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id a18so11824066wrn.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YviTOJMM;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id j17so6597935qtx.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 12:51:38 -0800 (PST)
+ Thu, 09 Dec 2021 13:00:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dHbani3VCrW7+1ThpyWL4cwc43sj8YA40OQRWNXWAr8=;
-        b=Gxby57TRS0ZD/T+PrPDEb64pDx7vOPQjyju9LXsPNSCRB4xBKVD4B1ld7ctnrJmZhk
-         8FW52KKEY0hUtZLmX00651zRF2N4IWwk55edTp5XSoFi5ms9i3G1+4CZVUEyo0+avUuw
-         NInIIYcgh6kXClfmZ8LBVIdD5kh7ASe2QaEktADEB/iWTIrHrpRROZ1mm8chSliDmgev
-         3eIuSx34OfLbLLIaGnSqB4JGXXrphplaErNtzgiDzoAw4HU+rZypMFkoITIxe1CHPdd+
-         jXrMW+xAMDtWuvY4SEQOv0qp6BaU43MKVk4Fg1A7wVA/lAz03SKw5nsEZ2IFOVOCvcJI
-         jGPQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rE+Bt82N5D+BeD8/8U5TucsJMgrkqk8OfQaISu6sSGE=;
+        b=YviTOJMM8VoqjtBdJq5gjEBX72h55cMXMfeg39JaqT/BYigwY4BdM0R/Vxpzd7NqU7
+         UxqR/F6iqXPDi3wWB1q0ZKjokrsoST+RDVKkxowV+iG/qddz0cgqaLGCz1B2aTNtH23y
+         1DqpISTUWbFVoVRL1oL3CVlIZQnUadvopLAn2x3fnoUAGKOGfDrPsbKgaxYzoVHgroUB
+         Rt3NgBY2z/XB/5k2oZlhs+a3WdjVl5kZvqDvMOgga4YB7XGFX9blBhi9TrvaZttf7WtN
+         vrzC6e8ARN9HGgUrO6vGiU5542MtkPKApEXvuvHlt5OvftwLqnwE56ZtLnEdg0XHfgdy
+         6+XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dHbani3VCrW7+1ThpyWL4cwc43sj8YA40OQRWNXWAr8=;
-        b=So5ywGpgne+Mtu8wY3uJPYHy/7tMGEbMigqkKafAek96K74nNW67hzXVoF1+7Toug6
-         E1pVWj1qyrOZ/ERIqZLOBYdW/hNmcilbMwu5pFCL6/jwfLld17oixJ/MqqktNPIw3EQH
-         I9Y2g2rZgszmJmZQKKbmGi58eijhS9KXZrNMHta1hx/6+DsTeN+jWTjYfOGBfS6eKi5v
-         PqRh+yrs1WKJu8jPd8YDoTO8fzuXX3pxe/Yn58uj0JI+pZrrG91ZD1AWJom3lo1ISfg7
-         nxq0pc3CjbshD8kMXkTxQwuWCoyAcU/qXsUxvdoaNlh3dblRa26QmmbSfokww2fH48TS
-         eeHQ==
-X-Gm-Message-State: AOAM530XLBr6SBUN/P2mU83nmITo/pPxrCawY4Qx/knJB07XtYstzUXg
-	Vcx9A5QfL/Ucbezsoh5KGrPPtG5Z8++ZZg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rE+Bt82N5D+BeD8/8U5TucsJMgrkqk8OfQaISu6sSGE=;
+        b=ZE0PTzh3PYJp8SEDsuSStuBI27krEhHbXafK3Tgqc09xUAqOaCFiPkyQ/KiBiYKzev
+         1zMVQhVKfX9JJKrGiiZfLquTyOz5fPTZBs7H1CfJhXy+dJM9KpGMhQCsVPt3DjXI1aXR
+         l6PKGDX0O1c1lXtsajVpFdczUuZ/7RsmmCSH4F6NwoH0IXcZQHET+qGmJtdJCG6YqGR9
+         dy5052RBGJMqxGurpkHXrxzXBln1xFnXGrzmmTSWhnEVx20ZUX3dT1/OO6DNIeUeCY2E
+         AUOcFMHYRhy6ZANqcCfWrxOBUQVwksl0Pr9p480GmDqu593weRA1lqX2ByccIjkKwfkn
+         cPFA==
+X-Gm-Message-State: AOAM532IKPELiKrfz3042yGtsB6ikDkDsHP9FfNEbWXQ32cnRltIS1BO
+	WFgxOMQ71YA0xfSXG79aoJq/VE8uSp9f8q5Y2/A=
 X-Google-Smtp-Source: 
- ABdhPJxwOeNSYKLOq5Fmvai/kcek1TUzNfWdQSG6JqDY4ARp9RcUd2+PKWHzDcpUPkROjtbmj5P6sg==
-X-Received: by 2002:a5d:6d8b:: with SMTP id l11mr8931300wrs.458.1639083097019;
-        Thu, 09 Dec 2021 12:51:37 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- n33sm429179wms.46.2021.12.09.12.51.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 12:51:36 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] sstatetests: add a test for moving oe-core around in the
- filesystem
-Date: Thu,  9 Dec 2021 21:51:23 +0100
-Message-Id: <20211209205123.2231389-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+ ABdhPJw0tfv2PPAfkBlR9svhB9Hwk/wDEKGR4+tlRJkpnaFKmwVSuYIeOmMt16KCxKQka2AYgsuaKest54OmEdRaM2s=
+X-Received: by 2002:ac8:7f4d:: with SMTP id
+ g13mr21239448qtk.215.1639083638276;
+ Thu, 09 Dec 2021 13:00:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211209204417.3924102-1-JPEWhacker@gmail.com>
+In-Reply-To: <20211209204417.3924102-1-JPEWhacker@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 9 Dec 2021 13:00:12 -0800
+Message-ID: 
+ <CAMKF1sqa0QjJpe55-oCd0JYKXy4dNo=OShCbae2XsBd7Ub_5ag@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] webkitgtk: Add packageconfig for libsoup2
+To: Joshua Watt <JPEWhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 20:51:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 21:00:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159479
+ https://lists.openembedded.org/g/openembedded-core/message/159480
 
-Doing that should not change the task signatures.
+On Thu, Dec 9, 2021 at 12:44 PM Joshua Watt <JPEWhacker@gmail.com> wrote:
+>
+> Adds a PACKAGECONFIG option to use libsoup2 instead of libsoup3.
+> Including libsoup2 and libsoup3 in the same process can cause strange
+> runtime failures, and the latest release of each major version will
+> cause the process to exit if either if both are detected on process
+> startup.
+>
+> The default is changed from libsoup3 back to libsoup2. Most GNOME
+> packages are still using libsoup2, and a large number of these pull in
+> webkitgtk either directly or indirectly. If webkitgtk uses libsoup3,
+> this causes all of these packages to fail at startup. It appears that
+> most GNOME packages will have to switch to libsoup3 when they transition
+> to GTK4.
+>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/sstatetests.py | 42 +++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+LGTM thanks for doing this, I was struggling through this as well, I
+think having the option to
+stay with soup2 for now is the best approach instead of boiling the ocean.
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index c5beb4de39..2be96f1781 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -11,6 +11,7 @@ import tempfile
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer, create_temp_layer
- from oeqa.selftest.cases.sstate import SStateBase
-+import oe
- 
- import bb.siggen
- 
-@@ -573,3 +574,44 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         compare_sigfiles(rest, files1, files2, compare=False)
- 
-         self.fail("sstate hashes not identical.")
-+
-+    def test_sstate_movelayer_samesigs(self):
-+        """
-+        The sstate checksums of two builds with the same oe-core layer in two
-+        different locations should be the same.
-+        """
-+        core_layer = os.path.join(
-+                    self.tc.td["COREBASE"], 'meta')
-+        copy_layer_1 = self.topdir + "/meta-copy1/meta"
-+        copy_layer_2 = self.topdir + "/meta-copy2/meta"
-+
-+        oe.path.copytree(core_layer, copy_layer_1)
-+        self.write_config("""
-+TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
-+""")
-+        bblayers_conf = 'BBLAYERS += "%s"\nBBLAYERS:remove = "%s"' % (copy_layer_1, core_layer)
-+        self.write_bblayers_config(bblayers_conf)
-+        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-+        bitbake("bash -S none")
-+
-+        oe.path.copytree(core_layer, copy_layer_2)
-+        self.write_config("""
-+TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
-+""")
-+        bblayers_conf = 'BBLAYERS += "%s"\nBBLAYERS:remove = "%s"' % (copy_layer_2, core_layer)
-+        self.write_bblayers_config(bblayers_conf)
-+        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-+        bitbake("bash -S none")
-+
-+        def get_files(d):
-+            f = []
-+            for root, dirs, files in os.walk(d):
-+                for name in files:
-+                    f.append(os.path.join(root, name))
-+            return f
-+        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps")
-+        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps")
-+        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
-+        self.maxDiff = None
-+        self.assertCountEqual(files1, files2)
-+
--- 
-2.20.1
-
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/recipes-sato/webkit/webkitgtk_2.34.2.bb | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+> index 413e0cdf92..279e260441 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+> @@ -38,12 +38,12 @@ DEPENDS = " \
+>            atk \
+>            libwebp \
+>            gtk+3 \
+> -          libsoup \
+>            libxslt \
+>            libtasn1 \
+>            libnotify \
+>            gstreamer1.0 \
+>            gstreamer1.0-plugins-base \
+> +          ${@bb.utils.contains("PACKAGECONFIG", "soup2", "libsoup-2.4", "libsoup", d)} \
+>            "
+>
+>  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
+> @@ -52,6 +52,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11',
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl-or-es', '', d)} \
+>                     enchant \
+>                     libsecret \
+> +                   soup2 \
+>                    "
+>
+>  PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
+> @@ -70,6 +71,7 @@ PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
+>  PACKAGECONFIG[systemd] = "-DUSE_SYSTEMD=ON,-DUSE_SYSTEMD=off,systemd"
+>  PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
+>  PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
+> +PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,,"
+>
+>  # webkitgtk is full of /usr/bin/env python, particular for generating docs
+>  do_configure[postfuncs] += "setup_python_link"
+> @@ -124,7 +126,7 @@ EXTRA_OECMAKE:append:x86-x32 = " -DENABLE_JIT=OFF "
+>  SECURITY_CFLAGS:remove:aarch64 = "-fpie"
+>  SECURITY_CFLAGS:append:aarch64 = " -fPIE"
+>
+> -FILES:${PN} += "${libdir}/webkit2gtk-4.1/injected-bundle/libwebkit2gtkinjectedbundle.so"
+> +FILES:${PN} += "${libdir}/webkit2gtk-4.*/injected-bundle/libwebkit2gtkinjectedbundle.so"
+>
+>  RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
+>
+> --
+> 2.33.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159477): https://lists.openembedded.org/g/openembedded-core/message/159477
+> Mute This Topic: https://lists.openembedded.org/mt/87621243/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
