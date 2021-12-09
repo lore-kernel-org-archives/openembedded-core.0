@@ -1,205 +1,338 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D2D8C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 13:56:16 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.108])
- by mx.groups.io with SMTP id smtpd.web10.11658.1639058174777596098
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5CBDC433F5
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 14:08:16 +0000 (UTC)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
+ [209.85.221.171])
+ by mx.groups.io with SMTP id smtpd.web08.11749.1639058895483742477
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 05:56:15 -0800
+ Thu, 09 Dec 2021 06:08:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=QLKl15OK;
- spf=pass (domain: outlook.com, ip: 40.92.89.108,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YMDmDRwpDsnBMbzA8Iz9mI8TMHORgdSkQpgUFWl0kcnA+q4keSAf2jKyVoWlOJdSwFMXSmzrl2uMMYo//r4I+yBWz1vhwQ5IYOnLm7CqVE5ZQqNqCGv9Fff50G1uI4OyOTQrse2hBw1k4SKXKYvKRZSpZMQyhwkhaW/etw4MhBhRLZ2BcZ2c/EUCNEkBYNJ65gCl5EH1idw6mJ42qpxXyVE7atf9HFa2ho0W2yFrlELoJWCiOf1eBaeQxrZ5oJE8zAPqNvYzZIgcYaVmMU9cCGU9vVSER4gZhI/Fvo+JaeMc4E6H0iV1ErqwpiBPIhGvDS2Wf6/dTnGg2enF9LQDsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RylE7yocFJ72zXK0dvHBSL9FsJ0z3jTqpBjaiqORbhI=;
- b=OzskNK/D4O6bhU/LKdgMGIvQr5FnYV2rk9RVxAvQyRITOD6UgB+NsPCl5LGBOfM+IYsnTCVqA539Is6avm6XLdOdDjX7Eb+WNtYXUY1xhDPfBPnpuC4FORPs0tR1wsbg+nB2X/JNnMIKFPBvsj+/6ORASoYtgnZ5oudaogiC3a+A1OZONkNy2zGTIOmoYouuUXJpUPy9O2VUmOgUxYpISd5NnK6l7Pg3hsvN6FzZ5ZP4kAV6eaVj6WjxrhVaQ2lz2A5bfrPsRI/88udnJ0zsDSVTRBSyLqxu7LPdnlRxNZBuHqhTBk8Zb4a/zXEMv/n4IKfhul6DEdfXmlpEWh+vJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RylE7yocFJ72zXK0dvHBSL9FsJ0z3jTqpBjaiqORbhI=;
- b=QLKl15OK6htVGJItcz+HBgicfFq/oiSTI9dwnPnIKAGDdHNFMyXfSWIQCHgssHZciUOri2QekRX6flEeH5bZsR91QodrKpquVBqcM63boUiRuB7U3smTEqKj3Ujz5Ig2KOuSZVFQIP98sRHregFtOT2Mo2Vm6fxeAq8YMO+bYAbbjaQ0cPvnbVFiszcdDsjdyXqPQYGDZaVNHnOfZXs0Scgt69WhcsiRnESY+m558SoCYZH1HU4r5ZyuORPMDcn/O0rYKvLb7X+mWfs32DtkqtaTyWEeJY9J3Za+x7dDsi+R+iF5aphU/fUDHHjD6LCFEoS8kk/7CGIpK+BFpTHR2A==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB2769.eurprd09.prod.outlook.com (2603:10a6:208:12b::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12; Thu, 9 Dec
- 2021 13:56:12 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::782f:9964:348b:b2fa]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::782f:9964:348b:b2fa%9]) with mapi id 15.20.4778.013; Thu, 9 Dec 2021
- 13:56:12 +0000
-Subject: Re: [OE-core] [PATCH 05/29] serf: mark patches as inappropriate for
- upstream submission
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>, Ross Burton <ross@burtonini.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AsZMR75V;
+ spf=pass (domain: gmail.com, ip: 209.85.221.171,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f171.google.com with SMTP id h1so3891240vkh.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 09 Dec 2021 06:08:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/84/hm0Fi1IIerjzxIaJvHHO3CUPuztX2kM01/zS1Hk=;
+        b=AsZMR75VVyiFeLFoAGQEzLwkX7/xwGa83xP7o8ljqpKSHQhxMsdsgowXn+OiMyEC1m
+         nR4CLPolX9Wehn5y+iXvuegOKNCD5QAxr5JCcF+NSN00uWbYP7/7jUc4dmgwHM8j14ru
+         KHpZXckRT7/Ro/SbmICT7NRRNMIHuDOeWpMMDod5mRZ+aOwrAK8g2jWLfBDv3HwItOBf
+         r26plMQEdqCnF8p9AGzmPY1x9OGSobLGbAjFharSTmohwfs809+dh+PIFPKOxPQ/k6Zx
+         iq85Q79IgdyUgM9nEzf8NedyzW3FlJGjV+cl2EB/NzR1Ulf1dbApw23LEdC9YCBWOBoT
+         t4Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/84/hm0Fi1IIerjzxIaJvHHO3CUPuztX2kM01/zS1Hk=;
+        b=Q5tcOGCGrSobBrlxS67hUgI0s2WE6KHnOuWvPVPn2wg6s8eiP8l6xm78fOiiyLrHSG
+         kffPZRFESzJCjOIPImB9OCwOpbUUjc+rHtj7KX3vvRROpnu8UDUAdXen6LUaGhF5/fcR
+         pedtGxkQphEalCv/PJtsiIjDOYNgQ5Xa3sHE7RvusxDBAC766rCZph4abKdXLBc9Ezml
+         dK65ojN3ricvzDbGt//U5cKm2zj1VggYS2+OpFFBq8K0UGE9r7exF/B3rqGaAflECG6d
+         Zt9HO+4u0vaiY7iovCXp4KZqjUNiB7vLY+Vf37XYEVvh5OtZvtfW0UCSN4mX9SzMdzaX
+         o1Ew==
+X-Gm-Message-State: AOAM532EVGzILbXlpudRtvbvJugQrRrz4HYcULvmf66RWal59udlE0m8
+	iriOqjuG/Y25gIYC0lhqvlQKrqIQgSxgoDNBFRw=
+X-Google-Smtp-Source: 
+ ABdhPJzxCOchwr7kLX41BF7O/9oHvC3j7ijJ05xAGykDuWwUT24b1LLvaNkNvmc9WL5w3eKAZRK9sN0/DfV711DFxB4=
+X-Received: by 2002:a05:6122:c6f:: with SMTP id
+ i47mr9395980vkr.20.1639058894591;
+ Thu, 09 Dec 2021 06:08:14 -0800 (PST)
+MIME-Version: 1.0
 References: <20211208215947.1979470-1-alex@linutronix.de>
  <20211208215947.1979470-5-alex@linutronix.de>
  <2b5536624c6324dd6f73dd6fa3d53e05c33eb64f.camel@linuxfoundation.org>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
  <AM9PR09MB46422CD393A3298518687FF7A8709@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Thu, 9 Dec 2021 14:56:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
 In-Reply-To: 
- <2b5536624c6324dd6f73dd6fa3d53e05c33eb64f.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [kYkl+J9hte1RqdPoMd69JCp6NcVkLw8dxoZRHLmOr0gLMN2ja11cdc8D4oXo5N1o]
-X-ClientProxiedBy: AM6P195CA0080.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:86::21) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <c315546a-b6c0-bcd2-57df-825738043748@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 72b71b44-c901-4687-5339-08d9bb1ba8c4
-X-MS-TrafficTypeDiagnostic: AM0PR09MB2769:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	j8fLl/D+wPtAXZXQOp3jPYB+fZfx4oXwxqozMFQ5PqzM5HQV8J6Zsnn6V9/hXSClF4RL3WAAS8ysBSz5VUGqgp+bSe9pk175FmhX63aKV46xg4kmxtjoXIcN+MuAA2RbR9OC1MjyCoJufQRqGa4NnmiOUqDRqNrgVg8xq9viefB6PhZYS1HGspeRDF1+sD+wIxtlSXaQSWySzkqBvQrtiWuIpNTt5ftjkwr0oEOvjMTDyyd9/iDzz0afOjLwwuiLPywNP4S+iGydgZF5lvVSwNoUpkInJ6qR4trzQ47HRPYUVLv9CuGRjlAZkdFyTT+U+xnMr3g/XuOuK+SAK8GgRRWDu2fV3LaJNxjiBfCK+AXnJ+NRmniQ6ef7sI6N/uJNMmk6dPeBRsk2dlxTai4UAJ/EwSusZawNkGLA+CWX9mMPaSSgSRcUxwUfwQ0fN2p3iEboPk4ovcamJOLP6VffDmTXoKJdCfNTs4+z3i2XuIwq+SeGw+zUXpBClB824GjoPQMkcBzCX2x+9NJLuBCUXnuQ39mRBsd10BtNzNVuGCpr9jjAr/SSGWiAbtA8CLcekkwofAjPqqlXEMmG4wFUtbNTsCsI1MpTfiYV19LWPquZnXmly1JUb9xVx8Nojo4hf9JWlCiBR20q61nP7TEJlieLAsJ2msEX4tgDQSFPmhQ=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NjdnczR3TlBZS3BybmdpUUdSZGlVa0lYZEtLZEpVNTJVZWthRUhwYW1pK0Q5?=
- =?utf-8?B?QlJjRjFWR05DaHBQQVByOW9HVHVUUEtUTUpNcUQvVUNBNUVnQi82eFhjYi94?=
- =?utf-8?B?ZGl1Rm11bU9BZmY2dlRzVS9WZ0c5UGQ1TEdBQnR6NUVqck1tVXZqVGhmU1R1?=
- =?utf-8?B?SDQ4WXd3ODJBYktiSXZvMmRHQXAzZXN4TWRLYWdNUU15R2lTdExtVUFFRnJw?=
- =?utf-8?B?akdES2c5UXRpcG9tZW8wUzdmY3NvMVdiRkRlc2Z0dSt6N3RzM0dnRDNzUk4x?=
- =?utf-8?B?eWVaVS9YU0VDWDN2aEZkNlBVcnFQUkJ6bnBYSHRjWXkwQUY1ZlA3VUEwSm1l?=
- =?utf-8?B?UjBSWWRLNlRjQ2dkcklLL2RpYUVYclU3Mm51eUN4QmMrSXVISHJiNHN2K084?=
- =?utf-8?B?bUhmR3RtUEdqNG5WenZUMmZCSmtSRjBkUTVsNnJkN2VuQzE4enlYbDZaYXJK?=
- =?utf-8?B?Qk5iOTk1cHV4cmRjUHl6ZXdZZS9la24veHlHdkc2aG1vK2VkT29ia0NJcEdG?=
- =?utf-8?B?SDlZamswNEMzQzZVRW5iY1JzTXcvVkR0VkFCVzFxRGd6aGFGRzZVUkNCNzF0?=
- =?utf-8?B?aTY3RGN1U1ZwZHoyQmQ1OUhXMGJ4ZmkrZ2tIcnBtRm1hZkM4R0VrcWY4R3RE?=
- =?utf-8?B?RHNTdFh6TlJKOER5LzZQWFdjQ01kcUJUSnoyK214bDhsQmFqazJhMk5seitF?=
- =?utf-8?B?MGhzWkRtN0d4SC95MjlWNnRlSkdvckdib0dRWno3bWpacVc3MVlueWdmYzE3?=
- =?utf-8?B?OGtmdjViSFBURkpnNXc3amxpUHllWkVvd2pkZmgrYnViWGtJMStCTG1nWHRN?=
- =?utf-8?B?SjdSK3ZDN09Pa1AwK2M4TG5VTHRuTWZBZkdYTjRMRXBIT3lMSjZodGlpeW42?=
- =?utf-8?B?OXNEZVZEWnljNTdWWmNOZ25kVERyNnFjd2cxQzBYRGdQTXpXb1NHc2srenRX?=
- =?utf-8?B?d1NMMXhVN2ZhU0o0QnZGUEFjMDZvckxPUko5RUZsODdKbVJHNmNxL3l4TzZ2?=
- =?utf-8?B?VUxFSEVQSVptc09DN2FkWHcvRlVtRGk3MGlBWFNRQ3EzSFI3Z0h0Z0VleGJS?=
- =?utf-8?B?empFcVhRQmYzRXJUaGhXR2prRXBVNUlscmlYOVVYSjdnSG5oV2I5WmVNVVVH?=
- =?utf-8?B?eXRhZHdnRDBPZUtNR3YwWmordFN3d3RpTmNXdGsrVlFBdzVqU0NRUUFmSDA2?=
- =?utf-8?B?cG9Kb21pMERGa0NibG1nTys5MXB3RUlzTzFRNjBIdXh4b2tlaFNpeThmOHVL?=
- =?utf-8?B?QWZja2cxQ3RNeUVIK0V4MExIWlZHRlBDbjFRcG0rNDU2SWVqT2lpNkV3Q003?=
- =?utf-8?B?VUVWSDVGUmRSSE1keGNYOEJ1T3QxSTE0aUZQUFNzcWtrb0tsZHMrUXh5QzFM?=
- =?utf-8?B?VDZ2UjcyUDBEQkE9PQ==?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 72b71b44-c901-4687-5339-08d9bb1ba8c4
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 13:56:12.3503
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB2769
+ <AM9PR09MB46422CD393A3298518687FF7A8709@AM9PR09MB4642.eurprd09.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 9 Dec 2021 15:08:02 +0100
+Message-ID: 
+ <CANNYZj8JP0J5WeNw7h3qgh1kKCMFpoUDC3kVW-nsnFTnhzyH_Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/29] serf: mark patches as inappropriate for
+ upstream submission
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>, Ross Burton <ross@burtonini.com>
+Content-Type: multipart/alternative; boundary="0000000000002d9ad105d2b723a5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 13:56:16 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 14:08:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159449
+ https://lists.openembedded.org/g/openembedded-core/message/159450
 
+--0000000000002d9ad105d2b723a5
+Content-Type: text/plain; charset="UTF-8"
 
+I think we only have a single doc that needs to be updated first:
 
-On 09.12.21 14:45, Richard Purdie wrote:
-> On Wed, 2021-12-08 at 22:59 +0100, Alexander Kanavin wrote:
->> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->> ---
->>   .../0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch   | 3 ++-
->>   ...p.creating.directories.without.sandbox-install.prefix.patch | 3 ++-
->>   2 files changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
->> index e6172ef5aa..5b8fb70639 100644
->> --- a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
->> +++ b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
->> @@ -6,7 +6,8 @@ Subject: [PATCH] buckets/ssl_buckets.c: do not use ERR_GET_FUNC
->>   Upstream removed it in
->>   https://github.com/openssl/openssl/pull/16004
->>   
->> -Upstream-Status: Pending
->> +Upstream is defunct: last release in 2015, last commit in 2019.
->> +Upstream-Status: Inappropriate [no upstream]
->>   Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->>   ---
->>    buckets/ssl_buckets.c | 3 +--
->> diff --git a/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
->> index 91640d6044..cf00dbf5ac 100644
->> --- a/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
->> +++ b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
->> @@ -31,7 +31,8 @@ ERROR: scons install execution failed.
->>     and the installed paths (including the paths inside libserf*.pc)
->>     look correct
->>   
->> -Upstream-Status: Pending
->> +Upstream is defunct: last release in 2015, last commit in 2019
->> +Upstream-Status: Inappropriate [no upstream]
->>   
->>   Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->>   
-> 
-> I'm still not convinced this is the right thing to do. I appreciate what the
-> docs say but I also think we may need to evolve.
-> 
-> Let's imagine we do have an "Inactive-Upstream" status for a minute and this
-> patch changes to:
-> 
-> Upstream-Status: Inactive-Upstream [last release 2015, last commit 2019]
-> 
-> If you now happen to be changing the recipe due to a new release, this is going
-> to trigger some kind of thought/action by seeing that status in that we might
-> now be able to upstream the patches. If it just says "Inappropriate", it won't
-> trigger the response we'd like.
-> 
-> We're also going to eventually end up with a whole pile of "Inappropriate"
-> patches, it may be useful to keep an open mind on whether any subdivision of
-> those would be helpful.
-> 
-> Does this make sense to anyone else?
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status
 
-It would makes sense, but then the support and the docs has to 
-backported again, otherwise cherry-picking won't be easy for older 
-releases. But yeah I'm with you that Inappropriate looks odd in this 
-context - still this is stated in the docs, we always refer to, so a doc 
-update needs to come in first IMO
+The question is, how? Presumably, I need to make some kind of official
+proposal to OE organization, and not just edit the wiki without asking?
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159448): https://lists.openembedded.org/g/openembedded-core/message/159448
-> Mute This Topic: https://lists.openembedded.org/mt/87599630/3647476
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Alex
+
+On Thu, 9 Dec 2021 at 14:56, Konrad Weihmann <kweihmann@outlook.com> wrote:
+
+>
+>
+> On 09.12.21 14:45, Richard Purdie wrote:
+> > On Wed, 2021-12-08 at 22:59 +0100, Alexander Kanavin wrote:
+> >> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> >> ---
+> >>   .../0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch   | 3 ++-
+> >>   ...p.creating.directories.without.sandbox-install.prefix.patch | 3 ++-
+> >>   2 files changed, 4 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git
+> a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
+> b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
+> >> index e6172ef5aa..5b8fb70639 100644
+> >> ---
+> a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
+> >> +++
+> b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch
+> >> @@ -6,7 +6,8 @@ Subject: [PATCH] buckets/ssl_buckets.c: do not use
+> ERR_GET_FUNC
+> >>   Upstream removed it in
+> >>   https://github.com/openssl/openssl/pull/16004
+> >>
+> >> -Upstream-Status: Pending
+> >> +Upstream is defunct: last release in 2015, last commit in 2019.
+> >> +Upstream-Status: Inappropriate [no upstream]
+> >>   Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> >>   ---
+> >>    buckets/ssl_buckets.c | 3 +--
+> >> diff --git
+> a/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
+> b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
+> >> index 91640d6044..cf00dbf5ac 100644
+> >> ---
+> a/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
+> >> +++
+> b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
+> >> @@ -31,7 +31,8 @@ ERROR: scons install execution failed.
+> >>     and the installed paths (including the paths inside libserf*.pc)
+> >>     look correct
+> >>
+> >> -Upstream-Status: Pending
+> >> +Upstream is defunct: last release in 2015, last commit in 2019
+> >> +Upstream-Status: Inappropriate [no upstream]
+> >>
+> >>   Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >>
+> >
+> > I'm still not convinced this is the right thing to do. I appreciate what
+> the
+> > docs say but I also think we may need to evolve.
+> >
+> > Let's imagine we do have an "Inactive-Upstream" status for a minute and
+> this
+> > patch changes to:
+> >
+> > Upstream-Status: Inactive-Upstream [last release 2015, last commit 2019]
+> >
+> > If you now happen to be changing the recipe due to a new release, this
+> is going
+> > to trigger some kind of thought/action by seeing that status in that we
+> might
+> > now be able to upstream the patches. If it just says "Inappropriate", it
+> won't
+> > trigger the response we'd like.
+> >
+> > We're also going to eventually end up with a whole pile of
+> "Inappropriate"
+> > patches, it may be useful to keep an open mind on whether any
+> subdivision of
+> > those would be helpful.
+> >
+> > Does this make sense to anyone else?
+>
+> It would makes sense, but then the support and the docs has to
+> backported again, otherwise cherry-picking won't be easy for older
+> releases. But yeah I'm with you that Inappropriate looks odd in this
+> context - still this is stated in the docs, we always refer to, so a doc
+> update needs to come in first IMO
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#159448):
+> https://lists.openembedded.org/g/openembedded-core/message/159448
+> > Mute This Topic: https://lists.openembedded.org/mt/87599630/3647476
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> kweihmann@outlook.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+
+--0000000000002d9ad105d2b723a5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I think we only have a single doc that needs to be up=
+dated first:</div><div><br></div><div><a href=3D"https://www.openembedded.o=
+rg/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstr=
+eam-Status">https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelin=
+es#Patch_Header_Recommendations:_Upstream-Status</a></div><div><br></div><d=
+iv>The question is, how? Presumably, I need to make some kind of official p=
+roposal to OE organization, and not just edit the wiki without asking?</div=
+><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Thu, 9 Dec 2021 at 14:56, Konrad Weih=
+mann &lt;<a href=3D"mailto:kweihmann@outlook.com">kweihmann@outlook.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+On 09.12.21 14:45, Richard Purdie wrote:<br>
+&gt; On Wed, 2021-12-08 at 22:59 +0100, Alexander Kanavin wrote:<br>
+&gt;&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutr=
+onix.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 =C2=A0.../0001-buckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC=
+.patch=C2=A0 =C2=A0| 3 ++-<br>
+&gt;&gt;=C2=A0 =C2=A0...p.creating.directories.without.sandbox-install.pref=
+ix.patch | 3 ++-<br>
+&gt;&gt;=C2=A0 =C2=A02 files changed, 4 insertions(+), 2 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-support/serf/serf/0001-buckets-ssl_bucke=
+ts.c-do-not-use-ERR_GET_FUNC.patch b/meta/recipes-support/serf/serf/0001-bu=
+ckets-ssl_buckets.c-do-not-use-ERR_GET_FUNC.patch<br>
+&gt;&gt; index e6172ef5aa..5b8fb70639 100644<br>
+&gt;&gt; --- a/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do=
+-not-use-ERR_GET_FUNC.patch<br>
+&gt;&gt; +++ b/meta/recipes-support/serf/serf/0001-buckets-ssl_buckets.c-do=
+-not-use-ERR_GET_FUNC.patch<br>
+&gt;&gt; @@ -6,7 +6,8 @@ Subject: [PATCH] buckets/ssl_buckets.c: do not use=
+ ERR_GET_FUNC<br>
+&gt;&gt;=C2=A0 =C2=A0Upstream removed it in<br>
+&gt;&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/openssl/openssl/pull/160=
+04" rel=3D"noreferrer" target=3D"_blank">https://github.com/openssl/openssl=
+/pull/16004</a><br>
+&gt;&gt;=C2=A0 =C2=A0<br>
+&gt;&gt; -Upstream-Status: Pending<br>
+&gt;&gt; +Upstream is defunct: last release in 2015, last commit in 2019.<b=
+r>
+&gt;&gt; +Upstream-Status: Inappropriate [no upstream]<br>
+&gt;&gt;=C2=A0 =C2=A0Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto=
+:alex@linutronix.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0---<br>
+&gt;&gt;=C2=A0 =C2=A0 buckets/ssl_buckets.c | 3 +--<br>
+&gt;&gt; diff --git a/meta/recipes-support/serf/serf/SConstruct.stop.creati=
+ng.directories.without.sandbox-install.prefix.patch b/meta/recipes-support/=
+serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.pref=
+ix.patch<br>
+&gt;&gt; index 91640d6044..cf00dbf5ac 100644<br>
+&gt;&gt; --- a/meta/recipes-support/serf/serf/SConstruct.stop.creating.dire=
+ctories.without.sandbox-install.prefix.patch<br>
+&gt;&gt; +++ b/meta/recipes-support/serf/serf/SConstruct.stop.creating.dire=
+ctories.without.sandbox-install.prefix.patch<br>
+&gt;&gt; @@ -31,7 +31,8 @@ ERROR: scons install execution failed.<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0and the installed paths (including the paths in=
+side libserf*.pc)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0look correct<br>
+&gt;&gt;=C2=A0 =C2=A0<br>
+&gt;&gt; -Upstream-Status: Pending<br>
+&gt;&gt; +Upstream is defunct: last release in 2015, last commit in 2019<br=
+>
+&gt;&gt; +Upstream-Status: Inappropriate [no upstream]<br>
+&gt;&gt;=C2=A0 =C2=A0<br>
+&gt;&gt;=C2=A0 =C2=A0Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Mart=
+in.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0<br>
+&gt; <br>
+&gt; I&#39;m still not convinced this is the right thing to do. I appreciat=
+e what the<br>
+&gt; docs say but I also think we may need to evolve.<br>
+&gt; <br>
+&gt; Let&#39;s imagine we do have an &quot;Inactive-Upstream&quot; status f=
+or a minute and this<br>
+&gt; patch changes to:<br>
+&gt; <br>
+&gt; Upstream-Status: Inactive-Upstream [last release 2015, last commit 201=
+9]<br>
+&gt; <br>
+&gt; If you now happen to be changing the recipe due to a new release, this=
+ is going<br>
+&gt; to trigger some kind of thought/action by seeing that status in that w=
+e might<br>
+&gt; now be able to upstream the patches. If it just says &quot;Inappropria=
+te&quot;, it won&#39;t<br>
+&gt; trigger the response we&#39;d like.<br>
+&gt; <br>
+&gt; We&#39;re also going to eventually end up with a whole pile of &quot;I=
+nappropriate&quot;<br>
+&gt; patches, it may be useful to keep an open mind on whether any subdivis=
+ion of<br>
+&gt; those would be helpful.<br>
+&gt; <br>
+&gt; Does this make sense to anyone else?<br>
+<br>
+It would makes sense, but then the support and the docs has to <br>
+backported again, otherwise cherry-picking won&#39;t be easy for older <br>
+releases. But yeah I&#39;m with you that Inappropriate looks odd in this <b=
+r>
+context - still this is stated in the docs, we always refer to, so a doc <b=
+r>
+update needs to come in first IMO<br>
+<br>
+&gt; <br>
+&gt; Cheers,<br>
+&gt; <br>
+&gt; Richard<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#159448): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/159448" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/159448</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87599630=
+/3647476" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
+rg/mt/87599630/3647476</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:kweihmann@outlook.com=
+" target=3D"_blank">kweihmann@outlook.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+</blockquote></div>
+
+--0000000000002d9ad105d2b723a5--
 
