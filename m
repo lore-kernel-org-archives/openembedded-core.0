@@ -1,127 +1,82 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D280C433F5
-	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 12:12:12 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.10775.1639051929805939562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F66C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Dec 2021 12:12:23 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web08.10603.1639051942828994926
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 04:12:11 -0800
+ Thu, 09 Dec 2021 04:12:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dNflLhd+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso5144025wmh.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OvBrs6uf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id y196so4007928wmc.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 04:12:09 -0800 (PST)
+ Thu, 09 Dec 2021 04:12:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AjF2MuChst0U7efQJ1nQ1E0Qz5BOTXMdPltLbhk+6Yk=;
-        b=dNflLhd+ovX8CmLGpbZYRnVB67DKeY3ByU64tpYBhu+LGU56yo3iIZ9GSY7iob0u7i
-         KCbMZ9O8clPtfy2GFZyxyAb8UeMv7oWRG5cdM0HjoheFxIFlfWxedpXUXV+lkMB44k2E
-         v8zzaubrSXAR04l+/6LyjwiPwgfviEEFTEL9s=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i0MAoBIhgl8foeV0DADXumTOhWjZSgTStpCKgjFfDCo=;
+        b=OvBrs6uf+9ObGRUPpWfPPiXSiSnvHT88L0EK2mw6BUb52EHyjQ63z3wNaaSNdJYbhM
+         xwIcWGF1bMiZugIfZV3D9AqICgJDM2jpobuvDISQLOcadAvejMJx65fdbK7kZ39UYB/N
+         Kji37fo4Fnd7TAWOuMZuQ5hZrZBlbHvoZtExXLjcJtTz7MvfAZ2mQpwd9nJmJsrCD2o3
+         7zRP6pLa4mWkP5h9xbb53VChsTk9vd68KjdU1k6HS8Kv7rs279qI7VhYhikZJDKPlbTE
+         fKh0jLONWhhZuS++9cUkIUHaSo8lS3oj8SzygPPk8uCBsMv4HmZ+6m9Qz7i3iMff+huH
+         S1wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AjF2MuChst0U7efQJ1nQ1E0Qz5BOTXMdPltLbhk+6Yk=;
-        b=iFooqLgi99RjPKxUB6iAwkL141+rw3nhqvfGZfUHTfgQ6BBupnle+VqiV7iUEgljU7
-         jApCwQ+c6gH9JdIA5PbLgrwTYVlVzeylvpD3l4hrNjF/Ev5dG3zpraALSmHAZQ7Plm+l
-         8dHhJc2MLdbJWADn+xilX7k3JxEv4VMa2s5d9x+bJFN4wHg3IvlQcMrnVfEoKOjLNXwM
-         fDw+TiGCkCumT/h1YUPhxYuEbbZbYxAE4WUYq88A5t9w88+hI1sSmSwZ8iTK02Qve+yG
-         hBQ8nORhIRtXHwJqny+FfMrZPmdxVO/mPv47UPH5F7GmOl4uvVnzs9HlS4slHYPHSFlK
-         kM0A==
-X-Gm-Message-State: AOAM530pnVGrt+dc4VQ4rJiK8uPnN9yGNADdWWVOGaY0OL0vWGab1TAT
-	ZWQBVqN7+zamFrew/bcNUquCtQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i0MAoBIhgl8foeV0DADXumTOhWjZSgTStpCKgjFfDCo=;
+        b=IBlQE2IIun6MZHaaTjshLc5HO8Cc+q+egW2grJ1KRFKuATYKeEUyVUY6nFdz8wo67w
+         PH+hfRwvERRh2ASAhwWAhjzPHIw5mXczzGsB3W9NDQAfyvWS4TTve2cb8SLMICix9bHx
+         8AnZjes7sTPiI/TSd6qBbe1WW7PNEE1/58le0+QgYYxrRJRBbXrMxrg3Tjhf6xJuMIDy
+         p/QwUAG9D+lll+gjJX2XWWFGyO/8rG6MlWcjju7yf/jN6VDqw6f8zSK2BR+kjHiU7iHa
+         pHNXiCTicC2yNlTOPT9NEXm8dWN7FHk74JL9mOMf5/vlVXgN/MrqFscCWdeFHu+Z6/j+
+         0SZg==
+X-Gm-Message-State: AOAM533tjyB7PUahwqCESMYloNwlj2yBucpmYwfO1ogbiFJe2S4RZu+A
+	V/gRfHB9xiKuBG5BZ06a5+veSnDQan5rfZ1WtGDrWpwW
 X-Google-Smtp-Source: 
- ABdhPJzvRo/0Mqr20pcKpFuVcw0bBeYYiPNy0YFZItmsPV8gXO9WFMaJnfAVoRPWidMyGNvmheswtw==
-X-Received: by 2002:a7b:cf18:: with SMTP id l24mr6726364wmg.145.1639051927999;
-        Thu, 09 Dec 2021 04:12:07 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cb2b:2e37:1385:897e?
- ([2001:8b0:aba:5f3c:cb2b:2e37:1385:897e])
-        by smtp.gmail.com with ESMTPSA id
- bg12sm6105448wmb.5.2021.12.09.04.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 04:12:07 -0800 (PST)
-Message-ID: 
- <ab2226704dded8c823c02a45b051bd65683de13b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 02/29] insane.bbclass: do not hardcode oe-core
- path in upstream-status check
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Thu, 09 Dec 2021 12:12:04 +0000
-In-Reply-To: <20211208215947.1979470-2-alex@linutronix.de>
-References: <20211208215947.1979470-1-alex@linutronix.de>
-	 <20211208215947.1979470-2-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJyOqStWnWKYyBL5ir/W7ja7DNDaVkz7plK4Ejq/d9m6JTOdE1szFPf3B0n0aZMW8g1mPr+Of0dFGaztt11pXKM=
+X-Received: by 2002:a05:600c:1d0e:: with SMTP id
+ l14mr6636710wms.64.1639051941360;
+ Thu, 09 Dec 2021 04:12:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211209065335.2999735-1-timothy.t.orling@intel.com>
+In-Reply-To: <20211209065335.2999735-1-timothy.t.orling@intel.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 9 Dec 2021 13:12:10 +0100
+Message-ID: 
+ <CAApg2=S+t867iCm7e4+JaJLStP1KX2F2NtCeLMLS7EVgfbTV=Q@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] gcc: Add CVE-2021-37322 to the list of
+ CVEs to ignore
+To: Tim Orling <ticotimo@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Steve Sakoman <steve@sakoman.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Tim Orling <tim.orling@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 12:12:12 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Dec 2021 12:12:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159446
+ https://lists.openembedded.org/g/openembedded-core/message/159447
 
-On Wed, 2021-12-08 at 22:59 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/classes/insane.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 240f3aad62..8a47da5a09 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -1176,7 +1176,9 @@ python do_qa_patch() {
->         (_, _, fullpath, _, _, _) = bb.fetch.decodeurl(url)
->  
->         # skip patches not in oe-core
-> -       if '/meta/' not in fullpath:
-> +       oecore_re = re.compile(d.getVar('BBFILE_PATTERN_core'))
-> +       match_oecore = oecore_re.search(fullpath)
-> +       if not match_oecore:
->             continue
->  
->         content = open(fullpath, encoding='utf-8', errors='ignore').read()
+On Thu, Dec 9, 2021 at 7:53 AM Tim Orling <ticotimo@gmail.com> wrote:
+>
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> The CVE applies to binutils 2.26 and not to gcc so ignore there.
+>
 
-Sorry about the miscommunication on this. I believed this patch would break
-things and that the sstate tests should have spotted it. They didn't as the test
-case doesn't quite cover this issue but there is a real problem here even though
-they pass.
+Tim,
+Have you requested a NVD database change on this one? Or you prefer me to do it?
 
-You can see the problem if you run:
-
-$ bitbake bash -c patch
-
-then
-
-$ bitbake-dumpsig tmp/stamps/XXX-poky-linux/bash/5.1.8-r0.do_patch.sigdata.XXX* | grep BBFILE_PATTERN
-
-and you see your build path to the metadata exposed:
-
-Variable BBFILE_PATTERN_core value is ^/media/build1/poky/meta/
-
-which means the hashes just became metadata path specific. We can't do that.
-
-I've realised the sstate tests don't pick this up since the metadata is in a
-fixed location for the tests so it doesn't change. As well as fixing this patch,
-we should revise the sstate sigs tests to test for changes in metadata path
-changing the sigs.
-
-Cheers,
-
-Richard
-
-
-
-
+Kind regards,
+Marta
 
