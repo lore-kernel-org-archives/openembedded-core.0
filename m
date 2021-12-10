@@ -2,69 +2,70 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 901EDC433EF
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 00:19:33 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web12.590.1639095572892272139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAAFC433EF
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 01:06:24 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web08.1113.1639098384284806307
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 16:19:32 -0800
+ Thu, 09 Dec 2021 17:06:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BYCz+Xml;
- spf=pass (domain: gmail.com, ip: 209.85.215.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FZZ+m6x7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id s137so6568763pgs.5
+Received: by mail-pl1-f169.google.com with SMTP id y8so5221302plg.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Dec 2021 16:19:32 -0800 (PST)
+ Thu, 09 Dec 2021 17:06:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=krPLb7vZOwsHn0MP1EablDkg31b2l3StXO07jDJuSgQ=;
-        b=BYCz+Xmllq8anS5CwQCrnJXETb5/M7kmEVxs2Krw2JfhJ+PxQqj24a855f79s45/2M
-         WSnpFmV0BLjfxbzczW27JN5LVdrpfp4NQCWYCC7/8TqBJWY0+gv6+FJtqaU3cM+hWcHU
-         GHRyOWIlgcFx/C6fKVUpcEldnVOi62J7KePuaksdy28yu52VrWSaZKoweQwuDCuBOC/h
-         h8t1wTiMZ83ShNGKtzmR9MhlMBRfLkoIrVWAQJ7I5VVb9KD2HHnsMYl9UszkF02xYHRq
-         d8ipEzmiECZStKo8/GwZbYRWJXg82qOImeJibT1NxSM0W2QvHh31K6686M8R8vvsQFqS
-         2bAA==
+        bh=i3/Bu0vUU9Als23F4wCbYSh05xGMHN0IN11j7t6XSuU=;
+        b=FZZ+m6x7VxoFnnMSMezdZE6HLI72KBvd9TxvhhLBjk2j82L9ZBs/ZIBd7Qf2l8sWl1
+         tN0Ocmu5/ibv/yXheS1xoVeoh6cby2SJ/mpGz1MKIswVzX9gEkd3gcYyIvnK+/IcFMgG
+         EB+xvzQb0IezrgKAlyz7kJSY9ViLP7adFF4I7lN0pbfJqZCbclPO21tmJktk4lHcbf/A
+         gcd/8qAN29DNOGiWz/lcQsSXuxgkOsi40JcOv9sTYo4YIid303wI4WKbyfeHdLlCM2Vi
+         yciLM0uclvZ/JhSYdBXwPtkrGxWwEd4JsEtH9nEjNyuhHvrFBcPH2DBCdAjdkIzev6mm
+         RiLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=krPLb7vZOwsHn0MP1EablDkg31b2l3StXO07jDJuSgQ=;
-        b=eu7P8bIcU2vOaHYud9HBhGwoB1eZD/UXHQLcxT8gsq7XhD1Hdczfjujh5IxluVEDkZ
-         Iyrn8nWCWXkEfLRnHnotNzZjLWT2Vxsjz/eDzKBsAcf99AEEyrt65JLf+nTaGRf6secq
-         4F310j/APkL8+F9WUkVI8KtfnmQZJ1swdqSxDHuGSH/19D1H02tGexSXHAQpemMy7myl
-         5OQ1tKhnsXokyiDTqvsqRZiBBMmn22pllGFsLcnoRfLsKS2nDma98Go8yPlLJ7dqQUc8
-         N4edazo+InormnKFMpZbhgIB1eOTjfJ0oOf64re+OESwNaosRrDnEP4obHlzExyA+7Ru
-         0mYg==
-X-Gm-Message-State: AOAM532IZ4/B8kFrTfqCYf+BACi+EAO8VMliFJTNGoH0tJQ8Yl+4ZYmC
-	II62euKJdAOm1noKM4gfZpWHylj764Nq2w==
+        bh=i3/Bu0vUU9Als23F4wCbYSh05xGMHN0IN11j7t6XSuU=;
+        b=BhAd91UzOKQYiIpQIkLZjryxgNM8bY7ZOWBogXViLgOxEOxXvbifjx3bK2xX4LCiEK
+         k466zWe+GvT7A58Dd8SrDHUfoaE9oUVjGPYTjbs/qI3QWLc+8uM3/vm+UiFL/iXvlUN9
+         p3eyTFnRYbH15FEhKdx4pC3Pp9ROgrmSSXH2RuOlGGtu4xU8/jPOSxSZRdNoBNIv/yn1
+         Sf3cEzzctsR9QxEdBy8ENHtIDXbLaSmhsSxJmcKUmDMLy0Fed4a3I+pHBuWmUc0g8kND
+         Xx5hh+tsaFktt2x5tKPOAJ9u8p6yq0rmSUC2uINdot8oGkM8j7XGZzY3VaHDjWGQn/BG
+         7Fiw==
+X-Gm-Message-State: AOAM530Blw7Yxueqw3N+UXcUOvM/TZ9PzRCKM+aGRzLEml7cXlYq6JCz
+	tLD/nZz6iwYZeIQE6/Iu0aZIJBjlmE8FPA==
 X-Google-Smtp-Source: 
- ABdhPJywr3sGH8wP/LOr46nlP3Sf9gFldj89sxGRLPk0i4yQKaHKBHAq3GhRtMPAebHrNrOhFwzGdA==
-X-Received: by 2002:a63:6a4a:: with SMTP id
- f71mr35834029pgc.115.1639095572156;
-        Thu, 09 Dec 2021 16:19:32 -0800 (PST)
+ ABdhPJyDtDqe6kLrY3UectErIomPUilKAzjXkvG0jNB+6GAWwNO2L0R5Rc7JmrKgKNeahGgCTZ7PPA==
+X-Received: by 2002:a17:903:22c5:b0:142:3100:65af with SMTP id
+ y5-20020a17090322c500b00142310065afmr72955903plg.83.1639098383409;
+        Thu, 09 Dec 2021 17:06:23 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ce68])
-        by smtp.gmail.com with ESMTPSA id q6sm690806pgs.19.2021.12.09.16.19.31
+        by smtp.gmail.com with ESMTPSA id
+ o4sm10193439pjq.23.2021.12.09.17.06.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 16:19:31 -0800 (PST)
+        Thu, 09 Dec 2021 17:06:23 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>,
 	Hongxu Jia <hongxu.jia@windriver.com>
-Subject: [PATCH] glibc: Redo tzselect bash dependency problem
-Date: Thu,  9 Dec 2021 16:19:29 -0800
-Message-Id: <20211210001929.1559113-1-raj.khem@gmail.com>
+Subject: [PATCH v2] glibc: Redo tzselect bash dependency problem
+Date: Thu,  9 Dec 2021 17:06:13 -0800
+Message-Id: <20211210010613.1653218-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 00:19:33 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 01:06:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159486
+ https://lists.openembedded.org/g/openembedded-core/message/159487
 
 New patch adds a knob to select needed shell interpreter for tzselect
 script, which then we excercise via EXTRA_OEMAKE
@@ -72,14 +73,48 @@ script, which then we excercise via EXTRA_OEMAKE
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Cc: Hongxu Jia <hongxu.jia@windriver.com>
 ---
+v2: Fix cross-localedef-native as well
+
+ .../glibc/cross-localedef-native_2.34.bb      |  7 ++-
  meta/recipes-core/glibc/glibc.inc             |  4 ++
  ...erpreter-overridable-in-tzselect.ksh.patch | 50 +++++++++++++++++++
  ...zone-re-written-tzselect-as-posix-sh.patch | 34 -------------
  meta/recipes-core/glibc/glibc_2.34.bb         |  2 +-
- 4 files changed, 55 insertions(+), 35 deletions(-)
+ 5 files changed, 61 insertions(+), 36 deletions(-)
  create mode 100644 meta/recipes-core/glibc/glibc/0001-Make-shell-interpreter-overridable-in-tzselect.ksh.patch
  delete mode 100644 meta/recipes-core/glibc/glibc/0017-timezone-re-written-tzselect-as-posix-sh.patch
 
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.34.bb b/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
+index 44c684bd74b..77ca3105ba0 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
+@@ -34,13 +34,13 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0001-localedef-Add-hardlink-resolver-from-util-linux.patch \
+            file://0002-localedef-fix-ups-hardlink-to-make-it-compile.patch \
+            \
+-           file://0017-timezone-re-written-tzselect-as-posix-sh.patch \
+            file://0018-Remove-bash-dependency-for-nscd-init-script.patch \
+            file://0019-eglibc-Cross-building-and-testing-instructions.patch \
+            file://0020-eglibc-Help-bootstrap-cross-toolchain.patch \
+            file://0021-eglibc-Resolve-__fpscr_values-on-SH4.patch \
+            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0024-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
++           file://0001-Make-shell-interpreter-overridable-in-tzselect.ksh.patch \
+ "
+ # Makes for a rather long rev (22 characters), but...
+ #
+@@ -49,6 +49,11 @@ SRCREV_FORMAT = "glibc_localedef"
+ S = "${WORKDIR}/git"
+ 
+ EXTRA_OECONF = "--with-glibc=${S}"
++
++# We do not need bash to run tzselect script, the default is to use
++# bash but it can be configured by setting KSHELL Makefile variable
++EXTRA_OEMAKE += "KSHELL=/bin/sh"
++
+ CFLAGS += "-fgnu89-inline -std=gnu99 -DIS_IN\(x\)='0'"
+ 
+ do_install() {
 diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
 index 80a3e0b493d..fdd241d973b 100644
 --- a/meta/recipes-core/glibc/glibc.inc
