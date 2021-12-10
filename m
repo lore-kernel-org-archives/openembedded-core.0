@@ -1,72 +1,76 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Andrei Gherzan" <andrei@gherzan.com>
-Subject: [PATCH] gcc: Fix tm.h plugin header
-Date: Thu,  9 Dec 2021 16:40:06 +0100
-Message-Id: <20211209154006.2323679-1-andrei@gherzan.com>
+Message-ID: <bf445a1a2a0e84add6c6b3b07535a0816f6bfb23.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] perf: Tweak for mips n64
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Fri, 10 Dec 2021 16:02:40 +0000
+In-Reply-To: <CAMKF1spkNvS0BXqXd2r_RMjFnEUKYz4jP-mqPb58tVp1efSkfQ@mail.gmail.com>
+References: <20211210120524.670148-1-richard.purdie@linuxfoundation.org>
+	 <CAMKF1spkNvS0BXqXd2r_RMjFnEUKYz4jP-mqPb58tVp1efSkfQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: andrei@gherzan.com, Andrei Gherzan <andrei.gherzan@huawei.com>, =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bernhard.rosenkraenzer.ext@huawei.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+On Fri, 2021-12-10 at 07:56 -0800, Khem Raj wrote:
+> 
+> 
+> On Fri, Dec 10, 2021 at 4:05 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > With the changes to binutils, perf's direct calls to ld break for mips n64.
+> > We already have tweaks for n32 so match those with the ones for n64.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/recipes-kernel/perf/perf.bb | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-
+> > kernel/perf/perf.bb
+> > index 7bbc1ad70c5..ec0c6efe15f 100644
+> > --- a/meta/recipes-kernel/perf/perf.bb
+> > +++ b/meta/recipes-kernel/perf/perf.bb
+> > @@ -125,9 +125,11 @@ PERF_SRC ?= "Makefile \
+> > 
+> >  PERF_EXTRA_LDFLAGS = ""
+> > 
+> > -# MIPS N32
+> > +# MIPS N32/N64
+> >  PERF_EXTRA_LDFLAGS:mipsarchn32eb = "-m elf32btsmipn32"
+> >  PERF_EXTRA_LDFLAGS:mipsarchn32el = "-m elf32ltsmipn32"
+> > +PERF_EXTRA_LDFLAGS:mipsarchn64eb = "-m elf64btsmip"
+> > +PERF_EXTRA_LDFLAGS:mipsarchn64el = "-m elf64ltsmip"
+> > 
+> 
+> 
+> Hmm this tells me that the default is not really changed in binutils to use
+> n64 abi with out the patch to binutils configure 
+> 
+> N32 patch above is perhaps fine because that’s not our default 
+> 
+> Perhaps we need to check a bit more here as to what’s going on
 
-On x86-64, tm.h (needed to build gcc plugins) tries to include
-config/i386/linux64.h, which isn't installed. Fortunately it also isn't
-used, so simply removing the include statement is an ok fix.
+In the x86 case, ld looks at the existing object files and sets it's emulation
+mode accordingly if none were specified. It seems mips lacks this and there was
+a binutils patch which changed the default which I have dropped in -next. The
+N32 case is another example of it which we never patched. Unlike the gcc case,
+there is no option to change the default when compiling binutils.
 
-Signed-off-by: Bernhard Rosenkränzer <bernhard.rosenkraenzer.ext@huawei.com>
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
----
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 3 +++
- meta/recipes-devtools/gcc/gcc-cross.inc          | 3 +++
- meta/recipes-devtools/gcc/gcc-target.inc         | 3 +++
- 3 files changed, 9 insertions(+)
+Most of the time we don't need that patch as programs use CC/CCLD for linking
+and the correct flags are specified there through the gcc driver, perf is the
+only one in core which seems to use ld directly like this.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 495dd9070b..a64fcc50ce 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -139,6 +139,9 @@ do_install () {
- 	cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 	cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 
-+	# Fix a plugin header including a nonexistant (and unnecessary) header
-+	sed -i -e '/config\/i386\/linux64\.h/d' ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/tm.h
-+
- 	# install LTO linker plugins where binutils tools can find it
- 	install -d ${D}${libdir}/bfd-plugins
- 	ln -sf ${LIBRELPATH}/liblto_plugin.so ${D}${libdir}/bfd-plugins/liblto_plugin.so
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index 3ffa1f0c46..ac34d5116a 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -119,6 +119,9 @@ do_install () {
- 	cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 	cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 
-+	# Fix a plugin header including a nonexistant (and unnecessary) header
-+	sed -i -e '/config\/i386\/linux64\.h/d' ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/tm.h
-+
- 	find ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed -type f -not -name "README" -not -name limits.h -not -name syslimits.h | xargs rm -f
- 
- 	# install LTO linker plugins where binutils tools can find it
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index bf55e692e6..4d087c5183 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -187,6 +187,9 @@ do_install () {
- 	rm -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/auto-build.h
- 	rm -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/bconfig.h
- 
-+	# Fix a plugin header including a nonexistant (and unnecessary) header
-+	sed -i -e '/config\/i386\/linux64\.h/d' ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/tm.h
-+
- 	cd ${D}${bindir}
- 
- 	# We care about g++ not c++
--- 
-2.25.1
+We could start to try and fix the autodetection for mips in the compiler but for
+an architecture which has minimal mindshare, I'm not sure it is worth the
+effort. Using the same approach as we already have for N32 and dropping the
+patch seemed like the reasonable course of action?
+
+Cheers,
+
+Richard
+
+
 
