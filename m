@@ -2,92 +2,89 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBB8C433EF
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 12:05:28 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.6440.1639137926644486726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD4EC433F5
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 12:43:07 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.6730.1639140181822905282
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 04:05:27 -0800
+ Fri, 10 Dec 2021 04:43:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gzZtsw70;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IQ3DzdKu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id q3so14547308wru.5
+Received: by mail-wr1-f44.google.com with SMTP id a9so14700516wrr.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 04:05:26 -0800 (PST)
+ Fri, 10 Dec 2021 04:43:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3uSVBf5U8qVaCR7sGG3T3hUU8Y0nfgMBkDXc9i9DeVY=;
-        b=gzZtsw70WTP2jhDLprmCDfF5s8t/H4aTJqn80zzyQHcff57+1x2X9tSRj2Dvi9L8bf
-         esKaNWDJy+sKpZsL+X6b+yRohOp1O8p+jFpEEwTYLDKnhPx3fRM2R2tGOQapaXc45mW1
-         sB/womCla3VYyo43JOD7uj7uogNwt6EW6lzoI=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=pGiTo0gjZRFGztG1WaLOTpG57v8xtSOEnogAO1ZZuEU=;
+        b=IQ3DzdKuJuwUXRvZC1oH2xparoztcwtr5v3bsFlIWIH0AyUMWvRiuLfA/IsMgbw1tl
+         cZm27ZeYHYRWanPaNRCfOKYdVI6/7r4/aZQTKVJbDAb6vqU0mTm5FSOkhAc0e6pwVqIQ
+         P23bz8e64lIPGA/wGLCNT/VuhWylYLj9HBjxk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3uSVBf5U8qVaCR7sGG3T3hUU8Y0nfgMBkDXc9i9DeVY=;
-        b=HXLla0lPJsx/Gl1lsLe8KEUy7qzsPZC94MliN9u+WrojrGPvj0AjhW1WU8k8FAzEwM
-         RLYwEmw6ckvGMWOUa8BrbT82FC/OTtcb0jquNAaKWmdA81SB71+CyEJ9/PWZ3SlpZVjy
-         iMeYRLMZDr1P85JQJpZz1dj0d+5yDp2g+SYLFJoInYYQnxM8uA6aEhCTRrKAV7DP0c4C
-         8yGF51px2zI0574kzJplWEeKLRhgN8a/IHCsVor/2lAdZhBUjK28uF9b4p0USOf8PDKI
-         8EwswFkxCnNyqdSfptrxIzH84n4qwCnt+wMo2zdttHw4boAEZVuRwJqcX2MC1WWFmTOF
-         a3hA==
-X-Gm-Message-State: AOAM532EvR+T3nKiyhg3oOKWUgQZx4l2nM3W/v5Ig531D3uSLcthZsCo
-	PG+EPqriOhPv8TpNRCJR5aQb1MLfacuYaA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=pGiTo0gjZRFGztG1WaLOTpG57v8xtSOEnogAO1ZZuEU=;
+        b=5azsqpbSRD+B9uevKXab7Ih0bum8m/XAF2weqeJCHAwTsfNgArnITcZRe+zTHHRTJb
+         nFotYIr1jzFVABrBjsvE7bCF6/wRCgesu+RbPsuDlkmH4pT+OUMNib0yAoRd3lDBrYaB
+         Rypvc9VxEDakyfwJhnWaHuBW6uxZS9ZYZjLecyq2UdPWjzl1D3S/NCnpnS38pghq7bHa
+         Mv58ppes6xIktld5IngMN6Jlu1yXaTpwzy2U6hEqzlL64u+noTw89NZEAWlHbsYTn7Mj
+         +P7Mozi6SSRFAPi0eR8Ey8dCEhb0GkoVnDWOaChDhOovLD4HTQF+DTRUYThi8o5HZEqf
+         G0oQ==
+X-Gm-Message-State: AOAM5300l4TESU5DZYhuuEkRL63oBPJ7pxz8Uk/aq98S+Mpjj3ci6AYI
+	iSOkudP43tJtoNUC2x6xjFuARA==
 X-Google-Smtp-Source: 
- ABdhPJyQUHZ4c2goZSotITnVwMbOXNbZBm45KznqPBNzrrdyUNXJwmK32rPFz7KzHSluV3gkURrGJQ==
-X-Received: by 2002:a5d:6d06:: with SMTP id e6mr13540002wrq.210.1639137924873;
-        Fri, 10 Dec 2021 04:05:24 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1746:a8bd:1fb1:93fc])
+ ABdhPJzImkQUDrA1JYPGZpAi/vnw+SOazhTvn9qlovNn4U0V50PlvjFrE12+Gfm9uXjQvM8nb7MQAw==
+X-Received: by 2002:adf:f5ce:: with SMTP id
+ k14mr13747712wrp.100.1639140180165;
+        Fri, 10 Dec 2021 04:43:00 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1746:a8bd:1fb1:93fc?
+ ([2001:8b0:aba:5f3c:1746:a8bd:1fb1:93fc])
         by smtp.gmail.com with ESMTPSA id
- e18sm2413142wrs.48.2021.12.10.04.05.24
-        for <openembedded-core@lists.openembedded.org>
+ r7sm2421337wrq.29.2021.12.10.04.42.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 04:05:24 -0800 (PST)
+        Fri, 10 Dec 2021 04:42:59 -0800 (PST)
+Message-ID: 
+ <cd72f4fec818ee92ad54c04e8a85f62d5e05a696.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/8] files: add preinit.sh.in
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] perf: Tweak for mips n64
-Date: Fri, 10 Dec 2021 12:05:24 +0000
-Message-Id: <20211210120524.670148-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 10 Dec 2021 12:42:57 +0000
+In-Reply-To: 
+ <375fb52dba5ec14ef42748139ea90fabaee87131.1639136706.git.uvv.mail@gmail.com>
+References: <cover.1639136706.git.uvv.mail@gmail.com>
+	 <375fb52dba5ec14ef42748139ea90fabaee87131.1639136706.git.uvv.mail@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 12:05:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 12:43:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159507
+ https://lists.openembedded.org/g/openembedded-core/message/159508
 
-With the changes to binutils, perf's direct calls to ld break for mips n64.
-We already have tweaks for n32 so match those with the ones for n64.
+On Fri, 2021-12-10 at 12:50 +0100, Vyacheslav Yurkov wrote:
+> A template init script for overlayfs-etc class
+> 
+> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> ---
+>  meta/files/preinit.sh.in | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 meta/files/preinit.sh.in
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-kernel/perf/perf.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Can you call this something like overlayfs-etc-preinit.sh please?
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 7bbc1ad70c5..ec0c6efe15f 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -125,9 +125,11 @@ PERF_SRC ?= "Makefile \
- 
- PERF_EXTRA_LDFLAGS = ""
- 
--# MIPS N32
-+# MIPS N32/N64
- PERF_EXTRA_LDFLAGS:mipsarchn32eb = "-m elf32btsmipn32"
- PERF_EXTRA_LDFLAGS:mipsarchn32el = "-m elf32ltsmipn32"
-+PERF_EXTRA_LDFLAGS:mipsarchn64eb = "-m elf64btsmip"
-+PERF_EXTRA_LDFLAGS:mipsarchn64el = "-m elf64ltsmip"
- 
- do_compile() {
- 	# Linux kernel build system is expected to do the right thing
--- 
-2.32.0
+That way we can know roughly what is using it!
+
+Cheers,
+
+Richard
 
 
