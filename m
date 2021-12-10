@@ -2,61 +2,61 @@ Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34916C433F5
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 13:01:56 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.6891.1639141315050150312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A79C433FE
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 13:01:57 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.6835.1639141316384587179
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 05:01:55 -0800
+ Fri, 10 Dec 2021 05:01:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PQpBqdfh;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id j3so14860106wrp.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HNr5Hvym;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id p18so6744500wmq.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 05:01:54 -0800 (PST)
+ Fri, 10 Dec 2021 05:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=329PIbFwhmU8Vpn2rhb0hUILXacfm9wjvO9Q8meObdc=;
-        b=PQpBqdfhTR/AJmQ9TGXIFjmFk1oezgLlu6w8ZI5hlFUhNsgEtsFugjBbNUrIlw16JV
-         otTpuutin5PFLerOrcqoRQecQzChKyzYp2q4eCl69oUABd/DDMsOTG9W49SoN/K6wdWW
-         5iMSBrbaNjB3euzkKYEHhnmWzvToRSJEmCjduUIaGDyJvBatA0s2mds1dl6FixVefh0Q
-         HMJbST0j4ASWOY5SvSsbK7gH5ses71oscB6G9FMO+Yffflp4nM0FLaJ8ibxym13YFfrG
-         ZAG0fpfR5BqRvQDdgBjsxj50y5fd7aazyjYYSdbNSmNZsW+ThmdM4RXJLUUYNWEvWBwp
-         lVYQ==
+        bh=3UJuFGvbVcponM0v30fZJsSx0M5YKuiVTs5mv4eTRt4=;
+        b=HNr5HvymMoy9nqiANHdIvqGgP59qfftDx87ju8U9y125SR3DllbkAo2DEg7EDIE9XZ
+         N6YSqGi6nn1NzntOe8dhLWPrxSW0rcuVHtcLMU0HiMhmpOUbBTOmXsKbCo91LrrDYv7Z
+         Sgy5FVNCgGqyJPQRVckAjmtaMbSkO6Q+NWBAFn1myLI7XW+yhGOPSiYxHgz2qlxa5nEy
+         SYXIeWyoLgVlWuMBuFQuWSaCx7vfbL/cFY28GdkZWXvYVFiI8wSdHTiGK0kjNIrfvDZ6
+         KU5PZc5Fb2ctO3Z/iZBtRTuE/y2T1JN8iveR9RV+ng5d5sEaXHvzCCZTjORvPA6T92KT
+         9u6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=329PIbFwhmU8Vpn2rhb0hUILXacfm9wjvO9Q8meObdc=;
-        b=Ap5+qUbMk8ZjM6OOCr8KSVIjaXvIL+jkr2ICl5lpHugkdvseC8MFJZ+pGxAJNeSDJX
-         c+dPhfdkpBSLB3VlNVCDkF2EhIdS0LqYzIGoQDw2OSQcQ6bJcPEde9VQDodBw2zMlkB5
-         zI2oofiitbG/7e3TYGjWxvsB/R2GaErNeVjKp+rWfWHnwUEH6CTdt4hnHuCX+Vf2rDDp
-         Vp2nYCYLWeuhZ4ZeooBFshQxrr1Ol+1156sVDf9YS8YWnNi9NPfN+xDn7nIZP10HJ5CS
-         hbEhQ1mLBYiFk45kw41dk/VpZh6/UqN1G9pnOadCrIYxIQTdMpL9AT9GzUQeLGgzlFwp
-         Ikzg==
-X-Gm-Message-State: AOAM533XpVMvZE4kZ+6Nxzucu8gP3FV+OiCm8bWeE+gt5BaxVr93ndGO
-	I6JvqQ/dbvWJGvHR4dQTxjeq9LTHvotaLA==
+        bh=3UJuFGvbVcponM0v30fZJsSx0M5YKuiVTs5mv4eTRt4=;
+        b=JIwh7LKSCS2s6TGrJgh2lTYByrvnhz/c+lc2PrST292V9TIRj0ZPF8neklo39HudK1
+         q9wPDbzvDsfeI845Jo2v5tTIb9WeKbcHaJJm+sqYiobVeSFQOxhhrdwPm91LAx7sUPH+
+         JpBsAkLB/3mCzk0Dy4xxUN48vYywfus/MnLQvr75jaOHsiCZQB2aFVttmrejzvsBJMm2
+         s5uarzhL4MjJ4N8gXH9bpupuNPiC7D+kYVo4tyAcYqsJAJD8V3fdduJ6tcYdzR+gPZR5
+         czJf3hFQT9C1kYoVwso4Hw//I4g1jWPhKeVE4PeoSWKoVRqe7IlQsBN8l0aFFC6gvcor
+         sXyA==
+X-Gm-Message-State: AOAM532WsBRytKoh1boqoVTS28qsBlkwC28DaGD2ZTtZIKprL5PFPIIN
+	Y4DeOXYdam8JqWzvifS0H2HVYjXmpoTwUg==
 X-Google-Smtp-Source: 
- ABdhPJwFnpJvxewfCVvV46RtwZaL+WYVb/JowyUENa5uh8odzCSYT+pjHYCYpdFk2zvaDi+oxTzAPQ==
-X-Received: by 2002:adf:d18f:: with SMTP id
- v15mr13198536wrc.447.1639141313311;
-        Fri, 10 Dec 2021 05:01:53 -0800 (PST)
+ ABdhPJxVClZolEBWUbJPUZevD8V1lcJ6TuOCSiXOWd92cau32y/17n5QuClPx2/UAu4WzNBK1+pbYw==
+X-Received: by 2002:a05:600c:202:: with SMTP id
+ 2mr16139696wmi.134.1639141314425;
+        Fri, 10 Dec 2021 05:01:54 -0800 (PST)
 Received: from slackware.local
  (dslb-002-205-007-123.002.205.pools.vodafone-ip.de. [2.205.7.123])
         by smtp.gmail.com with ESMTPSA id
- d2sm2899653wmb.31.2021.12.10.05.01.52
+ d2sm2899653wmb.31.2021.12.10.05.01.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 05:01:52 -0800 (PST)
+        Fri, 10 Dec 2021 05:01:53 -0800 (PST)
 From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/8] image: add overlayfs-etc image feature
-Date: Fri, 10 Dec 2021 14:01:41 +0100
+Subject: [PATCH 5/8] oeqa/selftest: overlayfs helper function
+Date: Fri, 10 Dec 2021 14:01:42 +0100
 Message-Id: 
- <e4838579fa539dbb0fcc0f31f46b5f69ea0e280e.1639141237.git.uvv.mail@gmail.com>
+ <65c0ce9cfa72ecdc08cafbc1681b9c57c81c5452.1639141237.git.uvv.mail@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1639141237.git.uvv.mail@gmail.com>
 References: <cover.1639141237.git.uvv.mail@gmail.com>
@@ -65,36 +65,100 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 13:01:56 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 13:01:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159513
+ https://lists.openembedded.org/g/openembedded-core/message/159514
+
+Move helper functions out of class scope so they can be used in other tests
 
 Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/classes/image.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/overlayfs.py | 32 +++++++++++------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 8a46b4852c..2b0ce4a988 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -15,6 +15,7 @@ IMGCLASSES += "${@bb.utils.contains('IMAGE_FSTYPES', 'container', 'image-contain
- IMGCLASSES += "image_types_wic"
- IMGCLASSES += "rootfs-postcommands"
- IMGCLASSES += "image-postinst-intercepts"
-+IMGCLASSES += "overlayfs-etc"
- inherit ${IMGCLASSES}
+diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
+index 84242a1605..43415778ce 100644
+--- a/meta/lib/oeqa/selftest/cases/overlayfs.py
++++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+@@ -5,16 +5,16 @@
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
  
- TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
-@@ -33,7 +34,7 @@ INHIBIT_DEFAULT_DEPS = "1"
- # IMAGE_FEATURES may contain any available package group
- IMAGE_FEATURES ?= ""
- IMAGE_FEATURES[type] = "list"
--IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs read-only-rootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging"
-+IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs read-only-rootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging overlayfs-etc"
+-class OverlayFSTests(OESelftestTestCase):
+-    """Overlayfs class usage tests"""
++def getline_qemu(out, line):
++    for l in out.split('\n'):
++        if line in l:
++            return l
  
- # Generate companion debugfs?
- IMAGE_GEN_DEBUGFS ?= "0"
+-    def getline_qemu(self, out, line):
+-        for l in out.split('\n'):
+-            if line in l:
+-                return l
++def getline(res, line):
++    return getline_qemu(res.output, line)
+ 
+-    def getline(self, res, line):
+-        return self.getline_qemu(res.output, line)
++class OverlayFSTests(OESelftestTestCase):
++    """Overlayfs class usage tests"""
+ 
+     def add_overlay_conf_to_machine(self):
+         machine_inc = """
+@@ -40,7 +40,7 @@ inherit overlayfs
+         self.write_recipeinc('overlayfs-user', overlayfs_recipe_append)
+ 
+         res = bitbake('core-image-minimal', ignore_status=True)
+-        line = self.getline(res, "overlayfs-user was skipped: missing required distro features")
++        line = getline(res, "overlayfs-user was skipped: missing required distro features")
+         self.assertTrue("overlayfs" in res.output, msg=res.output)
+         self.assertTrue("systemd" in res.output, msg=res.output)
+         self.assertTrue("ERROR: Required build target 'core-image-minimal' has no buildable providers." in res.output, msg=res.output)
+@@ -61,9 +61,9 @@ DISTRO_FEATURES += "systemd overlayfs"
+         self.add_overlay_conf_to_machine()
+ 
+         res = bitbake('core-image-minimal', ignore_status=True)
+-        line = self.getline(res, "Unit name mnt-overlay.mount not found in systemd unit directories")
++        line = getline(res, "Unit name mnt-overlay.mount not found in systemd unit directories")
+         self.assertTrue(line and line.startswith("WARNING:"), msg=res.output)
+-        line = self.getline(res, "Not all mount units are installed by the BSP")
++        line = getline(res, "Not all mount units are installed by the BSP")
+         self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
+ 
+     def test_mount_unit_not_set(self):
+@@ -81,7 +81,7 @@ DISTRO_FEATURES += "systemd overlayfs"
+         self.write_config(config)
+ 
+         res = bitbake('core-image-minimal', ignore_status=True)
+-        line = self.getline(res, "A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
++        line = getline(res, "A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
+         self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
+ 
+     def test_wrong_mount_unit_set(self):
+@@ -104,7 +104,7 @@ OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
+         self.set_machine_config(wrong_machine_config)
+ 
+         res = bitbake('core-image-minimal', ignore_status=True)
+-        line = self.getline(res, "Missing required mount point for OVERLAYFS_MOUNT_POINT[mnt-overlay] in your MACHINE configuration")
++        line = getline(res, "Missing required mount point for OVERLAYFS_MOUNT_POINT[mnt-overlay] in your MACHINE configuration")
+         self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
+ 
+     def test_correct_image(self):
+@@ -201,11 +201,11 @@ EOT
+             # /usr/share/my-application as an overlay (see overlayfs-user recipe)
+             status, output = qemu.run_serial("/bin/mount -t tmpfs,overlay")
+ 
+-            line = self.getline_qemu(output, "on /mnt/overlay")
++            line = getline_qemu(output, "on /mnt/overlay")
+             self.assertTrue(line and line.startswith("tmpfs"), msg=output)
+ 
+-            line = self.getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/my-application")
++            line = getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/my-application")
+             self.assertTrue(line and line.startswith("overlay"), msg=output)
+ 
+-            line = self.getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/another-overlay-mount")
++            line = getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/another-overlay-mount")
+             self.assertTrue(line and line.startswith("overlay"), msg=output)
 -- 
 2.28.0
 
