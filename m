@@ -1,209 +1,93 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F8B1C4332F
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 11:50:40 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.6288.1639137039423485852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBB8C433EF
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 12:05:28 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.6440.1639137926644486726
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 03:50:39 -0800
+ Fri, 10 Dec 2021 04:05:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PUm7Ehrw;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 137so6612173wma.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gzZtsw70;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id q3so14547308wru.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 03:50:39 -0800 (PST)
+ Fri, 10 Dec 2021 04:05:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=//yyx2bjYorCsFwWUhzI7/bdTFJUsYUkWr7HK6+G9fI=;
-        b=PUm7EhrwqPNbgv5KHUk+1/psRnp/j5fMVZlfqZdtrV6vgR4rxbtl2OiBIzJ9EP8GSI
-         0rjMjx/ZYPje0LW7dpxQZY1Afs9Ei3qF6GWu/YQ/2+TTG8ZEGI6YPbIrcfRSz2Aaiddk
-         jEZK6HgugFx43s1NnV0FcmKVsCd9r4wR0cqZDzYJopv2v+q7gvwafr0UX3N+UevWWHhT
-         QNXuMRrXCbWNMP/otFdefm/chtvg6jzdLERBzZCx43yPf69CMpCc91yVUp5lOWkNjhEy
-         AnhZGUMozSfOo3vPsSs0dJF0STLrYo5yBgRJ1NyDr/dBqR1XpWYAgAhHSxAOvkaI7sQR
-         whgg==
+        bh=3uSVBf5U8qVaCR7sGG3T3hUU8Y0nfgMBkDXc9i9DeVY=;
+        b=gzZtsw70WTP2jhDLprmCDfF5s8t/H4aTJqn80zzyQHcff57+1x2X9tSRj2Dvi9L8bf
+         esKaNWDJy+sKpZsL+X6b+yRohOp1O8p+jFpEEwTYLDKnhPx3fRM2R2tGOQapaXc45mW1
+         sB/womCla3VYyo43JOD7uj7uogNwt6EW6lzoI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=//yyx2bjYorCsFwWUhzI7/bdTFJUsYUkWr7HK6+G9fI=;
-        b=VkfWQOTB8AGU+nBrHlSlC8wt0uQEvd4/E2QHe9UphMb0snwPPz2uCsZI8rB6zvaRr0
-         RRQu8PJtvgJor/ihBuKFSyM1Si35y86cShmWbWSLvaZ4rJxNsAWiAyNHvVTaGW6nFBte
-         PyXchFSOqWU+WkK7j5mhD+E/a7GwTS3j4wQsqVhZQAQaDtKu1N/ewDspzLUpZwy/QIBg
-         NYr0PK0UdECcc2AQ1MiFIBTliOyR/2EA/E9kKZvN2SCsVYp4LWIkIHzdsMfwRfYoMsdh
-         IqZO5hprxDvqFYS+QrQf4Dz9xKoDvnm/o4W5eWWRHZ3pTyumaaQcpgjtPETxNTFpxLPG
-         /JtQ==
-X-Gm-Message-State: AOAM532m4b25klNDg6JW/de8ElYacr8LfwUkOFY+Sd9hESNUTUrT6QFb
-	kU9L+oPN+CPlP6xIZ+IIi5B7yaegOq+yBg==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3uSVBf5U8qVaCR7sGG3T3hUU8Y0nfgMBkDXc9i9DeVY=;
+        b=HXLla0lPJsx/Gl1lsLe8KEUy7qzsPZC94MliN9u+WrojrGPvj0AjhW1WU8k8FAzEwM
+         RLYwEmw6ckvGMWOUa8BrbT82FC/OTtcb0jquNAaKWmdA81SB71+CyEJ9/PWZ3SlpZVjy
+         iMeYRLMZDr1P85JQJpZz1dj0d+5yDp2g+SYLFJoInYYQnxM8uA6aEhCTRrKAV7DP0c4C
+         8yGF51px2zI0574kzJplWEeKLRhgN8a/IHCsVor/2lAdZhBUjK28uF9b4p0USOf8PDKI
+         8EwswFkxCnNyqdSfptrxIzH84n4qwCnt+wMo2zdttHw4boAEZVuRwJqcX2MC1WWFmTOF
+         a3hA==
+X-Gm-Message-State: AOAM532EvR+T3nKiyhg3oOKWUgQZx4l2nM3W/v5Ig531D3uSLcthZsCo
+	PG+EPqriOhPv8TpNRCJR5aQb1MLfacuYaA==
 X-Google-Smtp-Source: 
- ABdhPJzh0V1738/Qz5B8ofUcZkopDAmJZdL8/A+uUhGgDR09HR+aQqy5vxgeaOqd4H49no8/MxxpnQ==
-X-Received: by 2002:a05:600c:34c2:: with SMTP id
- d2mr16576271wmq.102.1639137037727;
-        Fri, 10 Dec 2021 03:50:37 -0800 (PST)
-Received: from slackware.local
- (dslb-002-205-007-123.002.205.pools.vodafone-ip.de. [2.205.7.123])
+ ABdhPJyQUHZ4c2goZSotITnVwMbOXNbZBm45KznqPBNzrrdyUNXJwmK32rPFz7KzHSluV3gkURrGJQ==
+X-Received: by 2002:a5d:6d06:: with SMTP id e6mr13540002wrq.210.1639137924873;
+        Fri, 10 Dec 2021 04:05:24 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1746:a8bd:1fb1:93fc])
         by smtp.gmail.com with ESMTPSA id
- y6sm11496662wma.37.2021.12.10.03.50.37
+ e18sm2413142wrs.48.2021.12.10.04.05.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 03:50:37 -0800 (PST)
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+        Fri, 10 Dec 2021 04:05:24 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/8] overlayfs: move templates to files directory
-Date: Fri, 10 Dec 2021 12:50:27 +0100
-Message-Id: 
- <2bf815fb272d04fd82965e014d69504ef52cfcad.1639136706.git.uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1639136706.git.uvv.mail@gmail.com>
-References: <cover.1639136706.git.uvv.mail@gmail.com>
+Subject: [PATCH] perf: Tweak for mips n64
+Date: Fri, 10 Dec 2021 12:05:24 +0000
+Message-Id: <20211210120524.670148-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 11:50:40 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 12:05:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159506
+ https://lists.openembedded.org/g/openembedded-core/message/159507
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+With the changes to binutils, perf's direct calls to ld break for mips n64.
+We already have tweaks for n32 so match those with the ones for n64.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/overlayfs.bbclass               | 52 ++++----------------
- meta/files/overlayfs-all-overlays.service.in | 12 +++++
- meta/files/overlayfs-create-dirs.service.in  | 14 ++++++
- meta/files/overlayfs-unit.mount.in           | 13 +++++
- 4 files changed, 49 insertions(+), 42 deletions(-)
- create mode 100644 meta/files/overlayfs-all-overlays.service.in
- create mode 100644 meta/files/overlayfs-create-dirs.service.in
- create mode 100644 meta/files/overlayfs-unit.mount.in
+ meta/recipes-kernel/perf/perf.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
-index f1b8086ea8..4a860f7308 100644
---- a/meta/classes/overlayfs.bbclass
-+++ b/meta/classes/overlayfs.bbclass
-@@ -37,51 +37,19 @@ REQUIRED_DISTRO_FEATURES += "systemd overlayfs"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 7bbc1ad70c5..ec0c6efe15f 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -125,9 +125,11 @@ PERF_SRC ?= "Makefile \
  
- inherit systemd features_check
+ PERF_EXTRA_LDFLAGS = ""
  
-+OVERLAYFS_CREATE_DIRS_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-create-dirs.service.in"
-+OVERLAYFS_MOUNT_UNIT_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-unit.mount.in"
-+OVERLAYFS_ALL_OVERLAYS_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-all-overlays.service.in"
-+
- python do_create_overlayfs_units() {
-     from oe.overlayfs import mountUnitName
+-# MIPS N32
++# MIPS N32/N64
+ PERF_EXTRA_LDFLAGS:mipsarchn32eb = "-m elf32btsmipn32"
+ PERF_EXTRA_LDFLAGS:mipsarchn32el = "-m elf32ltsmipn32"
++PERF_EXTRA_LDFLAGS:mipsarchn64eb = "-m elf64btsmip"
++PERF_EXTRA_LDFLAGS:mipsarchn64el = "-m elf64ltsmip"
  
--    CreateDirsUnitTemplate = """[Unit]
--Description=Overlayfs directories setup
--Requires={DATA_MOUNT_UNIT}
--After={DATA_MOUNT_UNIT}
--DefaultDependencies=no
--
--[Service]
--Type=oneshot
--ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
--RemainAfterExit=true
--StandardOutput=journal
--
--[Install]
--WantedBy=multi-user.target
--"""
--    MountUnitTemplate = """[Unit]
--Description=Overlayfs mount unit
--Requires={CREATE_DIRS_SERVICE}
--After={CREATE_DIRS_SERVICE}
--
--[Mount]
--What=overlay
--Where={LOWERDIR}
--Type=overlay
--Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
--
--[Install]
--WantedBy=multi-user.target
--"""
--    AllOverlaysTemplate = """[Unit]
--Description=Groups all overlays required by {PN} in one unit
--After={ALL_OVERLAYFS_UNITS}
--Requires={ALL_OVERLAYFS_UNITS}
--
--[Service]
--Type=oneshot
--ExecStart=/bin/true
--RemainAfterExit=true
--
--[Install]
--WantedBy=local-fs.target
--"""
-+    with open(d.getVar("OVERLAYFS_CREATE_DIRS_TEMPLATE"), "r") as f:
-+        CreateDirsUnitTemplate = f.read()
-+    with open(d.getVar("OVERLAYFS_MOUNT_UNIT_TEMPLATE"), "r") as f:
-+        MountUnitTemplate = f.read()
-+    with open(d.getVar("OVERLAYFS_ALL_OVERLAYS_TEMPLATE"), "r") as f:
-+        AllOverlaysTemplate = f.read()
- 
-     def prepareUnits(data, lower):
-         from oe.overlayfs import helperUnitName
-diff --git a/meta/files/overlayfs-all-overlays.service.in b/meta/files/overlayfs-all-overlays.service.in
-new file mode 100644
-index 0000000000..74ee4e90ae
---- /dev/null
-+++ b/meta/files/overlayfs-all-overlays.service.in
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=Groups all overlays required by {PN} in one unit
-+After={ALL_OVERLAYFS_UNITS}
-+Requires={ALL_OVERLAYFS_UNITS}
-+
-+[Service]
-+Type=oneshot
-+ExecStart=/bin/true
-+RemainAfterExit=true
-+
-+[Install]
-+WantedBy=local-fs.target
-diff --git a/meta/files/overlayfs-create-dirs.service.in b/meta/files/overlayfs-create-dirs.service.in
-new file mode 100644
-index 0000000000..17204145f2
---- /dev/null
-+++ b/meta/files/overlayfs-create-dirs.service.in
-@@ -0,0 +1,14 @@
-+[Unit]
-+Description=Overlayfs directories setup
-+Requires={DATA_MOUNT_UNIT}
-+After={DATA_MOUNT_UNIT}
-+DefaultDependencies=no
-+
-+[Service]
-+Type=oneshot
-+ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
-+RemainAfterExit=true
-+StandardOutput=journal
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/files/overlayfs-unit.mount.in b/meta/files/overlayfs-unit.mount.in
-new file mode 100644
-index 0000000000..1d33b7e39c
---- /dev/null
-+++ b/meta/files/overlayfs-unit.mount.in
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Overlayfs mount unit
-+Requires={CREATE_DIRS_SERVICE}
-+After={CREATE_DIRS_SERVICE}
-+
-+[Mount]
-+What=overlay
-+Where={LOWERDIR}
-+Type=overlay
-+Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
-+
-+[Install]
-+WantedBy=multi-user.target
+ do_compile() {
+ 	# Linux kernel build system is expected to do the right thing
 -- 
-2.28.0
+2.32.0
 
 
