@@ -1,274 +1,111 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B8FC4332F
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:01:44 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web09.7364.1639144903043787631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FE1C433EF
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:02:59 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web12.7444.1639144979063240466
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:01:43 -0800
+ Fri, 10 Dec 2021 06:02:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JtupeXxE;
- spf=pass (domain: gmail.com, ip: 209.85.208.48,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id y13so29875250edd.13
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:01:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uoHkyOHKeAi1pi+ZX1EhyMnMkola+TGAKm+5FfQrbYE=;
-        b=JtupeXxEGe48hZvR//k1ybqvkO36/PSRdZHcRHso2opl4RL0h9SLddmYq/X1Ly5y62
-         r87bje24iqdZ5YYH/yDUdpqQsivdM8MS6Rn7+P7e8AgBKsB5EjkxR3/eDyIjFO0ihOTz
-         NYVDrwHgfEwsgFbV0i1vIa1dsWs2dtX7YT615wM5VsGJF3F+2Ke5zJExdHUPVmO0GmY8
-         GgqXEaammwq48PM5nACIp4zxr6dliaCzaC6/8GzqRlhHOD36Rwk8YXY3UH4wY56FLjAw
-         ZBorXtQqWDC+mf6VTPirN+oVgxU8j5VhTzJ1kHeAlULrI54/1Mt5xoRX+90DsH2U+yOj
-         J6Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uoHkyOHKeAi1pi+ZX1EhyMnMkola+TGAKm+5FfQrbYE=;
-        b=OwXXsef4IyBc5POLlkwzmWHxzj74YMKcYxn5CY5BAcxwhzs85KUrlNp7+N0+GDgtSL
-         a7xdngnv2BsSDRpUnpUXE1tWsDTQmbjSXBWbd9qsRrap1lHLfqk0mwCTbMIQ/ugekzEc
-         TeUhXb8JtGUAge4v7yLf6h1bbBf5BjlePIEMBhssJroEYB5KAjf8BeSJMvzhKmw6nEmh
-         QDtsAmAQhL73NDB8O0M1mrjEOkiyqzTo/O4RVOHXV8q/DKgNbkn8k7lMy2wl58g5cea6
-         pc6PQjwaxkL5SrTAwgMeDyDmFU3BmHxFf5E/f+Zj76wjds4gg7UGjxDm47XyfO/Fm67W
-         QRuw==
-X-Gm-Message-State: AOAM530jMzxnu3wd+jokieCcOGCl1oOz7Ie3IVx0mQAeG8qcVp7ENS/l
-	7/Gyh3KloSSH2RJxMLdbtLCdHKzlB+PftmA3ldc=
-X-Google-Smtp-Source: 
- ABdhPJzK+2dyh78XP/R22f0/ZGili8QN0iiFS5E99LrciA3xy5b01q74aGMiOz2IuFw2TIdIAM8wu3jgKH4J3n7GMsQ=
-X-Received: by 2002:a17:907:d19:: with SMTP id
- gn25mr23769254ejc.165.1639144889858;
- Fri, 10 Dec 2021 06:01:29 -0800 (PST)
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.22,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd81.dcpf.telekom.de (fwd81.aul.t-online.de [10.223.144.107])
+	by mailout12.t-online.de (Postfix) with SMTP id 542C691E0
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 10 Dec 2021 15:02:57 +0100 (CET)
+Received: from localhost.localdomain ([84.163.46.27]) by fwd81.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1mvgUC-1pEZeb0; Fri, 10 Dec 2021 15:02:56 +0100
+From: MarkusVolk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Cc: MarkusVolk <f_l_k@t-online.de>
+Subject: [OE-core] [PATCH] libva: move wayland PACKAGECONFIG to libva.inc
+Date: Fri, 10 Dec 2021 15:02:34 +0100
+Message-Id: <20211210140234.3713-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211210130458.39716-1-max.krummenacher@toradex.com>
- <20211210130458.39716-2-max.krummenacher@toradex.com>
- <AM9PR09MB4642CCF54F9D741CB4A00772A8719@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642CCF54F9D741CB4A00772A8719@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 10 Dec 2021 09:01:18 -0500
-Message-ID: 
- <CADkTA4NKr0WjukbqH4FQoze8-L5Jn3F9QekfV-hOcL1wU-VZOg@mail.gmail.com>
-Subject: Re: [oe][OE-core][Patch 1/2] lib/oe/patch.py: apply patches from
- src_uri specified directories
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Max Krummenacher <max.oss.09@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1639144976-00001460-3A443717/0/0 CLEAN NORMAL
+X-TOI-MSGID: c932fb78-6ec3-4745-bfdc-d72d26125335
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:01:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:02:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159522
+ https://lists.openembedded.org/g/openembedded-core/message/159523
 
-On Fri, Dec 10, 2021 at 8:29 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
->
->
->
-> On 10.12.21 14:04, Max Krummenacher wrote:
-> > The current developer manual specifies that patches that are
-> > part of a directory which is given in SRC_URI are applied by
-> > the do_patch task. However that is not implemented in the
-> > current code.
-> >
-> > Implement part of it with two differences:
-> > - The implementation requires the parameter "apply=yes" and
-> >    adds all files as patches, not only files ending in .patch
-> >    and .diff.
-> >    This keeps recipes which depend on the current implementation
-> >    working.
-> > - The possibility to exclude a file in that directory from being
-> >    applied by a follow up entry with "apply=no" is dropped.
-> >
-> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> > ---
-> >   meta/lib/oe/patch.py | 98 ++++++++++++++++++++++++++------------------
-> >   1 file changed, 59 insertions(+), 39 deletions(-)
-> >
-> > diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> > index 950fe723dc..0d2afab2f9 100644
-> > --- a/meta/lib/oe/patch.py
-> > +++ b/meta/lib/oe/patch.py
-> > @@ -794,68 +794,88 @@ class UserResolver(Resolver):
-> >               raise
-> >           os.chdir(olddir)
-> >
-> > -
-> > -def patch_path(url, fetch, workdir, expand=True):
-> > -    """Return the local path of a patch, or return nothing if this isn't a patch"""
-> > -
-> > -    local = fetch.localpath(url)
-> > -    if os.path.isdir(local):
-> > -        return
-> > +def is_patch(local, workdir, apply_all, expand):
-> >       base, ext = os.path.splitext(os.path.basename(local))
-> >       if ext in ('.gz', '.bz2', '.xz', '.Z'):
-> >           if expand:
-> >               local = os.path.join(workdir, base)
-> >           ext = os.path.splitext(base)[1]
-> >
-> > -    urldata = fetch.ud[url]
-> > +    if ext in (".diff", ".patch") or apply_all:
-> > +        return True
-> > +    return False
-> > +
-> > +def patch_path(local, urldata, fetch, workdir, expand=True):
-> > +    """Return a list of local paths of patches or return an empty list if there are no patches"""
-> > +    patches = []
-> > +
-> > +    apply_all = False
-> >       if "apply" in urldata.parm:
-> >           apply = oe.types.boolean(urldata.parm["apply"])
-> >           if not apply:
-> > -            return
-> > -    elif ext not in (".diff", ".patch"):
-> > -        return
-> > +            return patches
-> > +        else:
-> > +            apply_all = True
-> > +
-> > +    if os.path.isdir(local) and apply_all:
-> > +        for f in sorted(os.listdir(local)):
->
-> This assumes that patches can be ordered (in here alphabetically) -
-> which isn't the case for most of the projects I worked with - I think it
-> was also a reason why one has to specify the order and inclusion in SRC_URI.
+I encountered an error while trying to build libva under wayland. libva-i=
+nitial
+was missing wayland-native dependency and failed like this:
 
-This was immediately my concern as well when I read the 0/N for the series.
+| Run-time dependency xfixes found: NO (tried pkgconfig and cmake)
+| Run-time dependency wayland-client found: YES 1.19.0
+| Program wayland-scanner /usr/bin/wayland-scanner found: NO
+|
+| ../libva-2.13.0/meson.build:107:4: ERROR: Program 'wayland-scanner /usr=
+/bin/wayland-scanner' not found
+|
+| A full log can be found at /home/flk/build/poky/build-rock/tmp/work/cor=
+texa72-cortexa53-crypto-poky-linux/libva-initial/2.13.0-r0/build/meson-lo=
+gs/meson-log.txt
+| ERROR: meson failed
+| WARNING: exit code 1 from a shell command.
 
-I'd be more inclined to remove the documentation, rather than trying
-to deal with sorting and sequencing issues. Since it hasn't been
-working until now, there wouldn't be any users to annoy with dropped
-functionality.
+This commit moves the PACKAGECONFIG[wayland] to libva.inc to make it avai=
+lable to libva-initial also
 
-(That being said, we could make the argument that anyone attempting to
-just point at a directory full of patches knows enough that they need
-to have them named in a way to keep them sorted and applied in order).
+Signed-off-by: MarkusVolk <f_l_k@t-online.de>
+---
+ meta/recipes-graphics/libva/libva.inc       | 7 +++++++
+ meta/recipes-graphics/libva/libva_2.13.0.bb | 4 +---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-Cheers,
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphic=
+s/libva/libva.inc
+index bcf9757c1a..0e2721e291 100644
+--- a/meta/recipes-graphics/libva/libva.inc
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva=
+/releases"
+ DEPENDS =3D "libdrm"
+=20
+ inherit meson pkgconfig
++
++PACKAGECONFIG:append =3D " \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} \
++"
++
++PACKAGECONFIG[wayland] =3D "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,way=
+land-native wayland"
++
+diff --git a/meta/recipes-graphics/libva/libva_2.13.0.bb b/meta/recipes-g=
+raphics/libva/libva_2.13.0.bb
+index ed2be289fc..a8c6355b01 100644
+--- a/meta/recipes-graphics/libva/libva_2.13.0.bb
++++ b/meta/recipes-graphics/libva/libva_2.13.0.bb
+@@ -2,14 +2,12 @@ require libva.inc
+=20
+ PACKAGECONFIG ??=3D " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)}=
+ \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
+ "
+=20
+ PACKAGECONFIG[x11] =3D "-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virtual/libx11 =
+libxext libxfixes"
+ PACKAGECONFIG[glx] =3D "-Dwith_glx=3Dyes,-Dwith_glx=3Dno,virtual/mesa"
+=20
+-PACKAGECONFIG[wayland] =3D "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,way=
+land-native wayland"
+-
+ PACKAGES =3D+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
+=20
+ RDEPENDS:${PN}-x11 =3D+ "${PN}"
+--=20
+2.25.1
 
-Bruce
-
-
->
-> > +            sublocal = local + '/' + f
->
-> Wouldn't be a sorted glob be more suitable here?
->
-> > +            # Also search in subdirs
-> > +            if os.path.isdir(sublocal):
-> > +                patches = patches + patch_path(sublocal, urldata, fetch, workdir, expand)
-> > +            else:
-> > +                if is_patch(sublocal, workdir, apply_all, expand):
-> > +                    patches.append(sublocal)
-> > +    else:
-> > +        if is_patch(local, workdir, apply_all, expand):
-> > +            patches.append(local)
-> >
-> > -    return local
-> > +    return patches
-> >
-> >   def src_patches(d, all=False, expand=True):
-> > +    """Return a list of local paths from SRC_URI. With all=False all patches targeting do_patch, with all=True all other local paths"""
-> >       workdir = d.getVar('WORKDIR')
-> >       fetch = bb.fetch2.Fetch([], d)
-> >       patches = []
-> >       sources = []
-> > -    for url in fetch.urls:
-> > -        local = patch_path(url, fetch, workdir, expand)
-> > -        if not local:
-> > -            if all:
-> > -                local = fetch.localpath(url)
-> > -                sources.append(local)
-> > -            continue
-> >
-> > +    for url in fetch.urls:
-> > +        local = fetch.localpath(url)
-> >           urldata = fetch.ud[url]
-> > -        parm = urldata.parm
-> > -        patchname = parm.get('pname') or os.path.basename(local)
-> > +        locals = []
-> > +        locals = locals + patch_path(local, urldata, fetch, workdir, expand)
-> >
-> > -        apply, reason = should_apply(parm, d)
-> > -        if not apply:
-> > -            if reason:
-> > -                bb.note("Patch %s %s" % (patchname, reason))
-> > +        if not locals:
-> > +            if all:
-> > +                sources.append(local)
-> >               continue
-> > -
-> > -        patchparm = {'patchname': patchname}
-> > -        if "striplevel" in parm:
-> > -            striplevel = parm["striplevel"]
-> > -        elif "pnum" in parm:
-> > -            #bb.msg.warn(None, "Deprecated usage of 'pnum' url parameter in '%s', please use 'striplevel'" % url)
-> > -            striplevel = parm["pnum"]
-> >           else:
-> > -            striplevel = '1'
-> > -        patchparm['striplevel'] = striplevel
-> > +            for patch in locals:
-> > +                parm = urldata.parm
-> > +                patchname = parm.get('pname') or os.path.basename(patch)
-> > +
-> > +                apply, reason = should_apply(parm, d)
-> > +                if not apply:
-> > +                    if reason:
-> > +                        bb.note("Patch %s %s" % (patchname, reason))
-> > +                    continue
-> > +
-> > +                patchparm = {'patchname': patchname}
-> > +                if "striplevel" in parm:
-> > +                    striplevel = parm["striplevel"]
-> > +                elif "pnum" in parm:
-> > +                    #bb.warn("Deprecated usage of 'pnum' url parameter in '%s', please use 'striplevel'" % url)
-> > +                    striplevel = parm["pnum"]
-> > +                else:
-> > +                    striplevel = '1'
-> > +                patchparm['striplevel'] = striplevel
-> >
-> > -        patchdir = parm.get('patchdir')
-> > -        if patchdir:
-> > -            patchparm['patchdir'] = patchdir
-> > +                patchdir = parm.get('patchdir')
-> > +                if patchdir:
-> > +                    patchparm['patchdir'] = patchdir
-> >
-> > -        localurl = bb.fetch.encodeurl(('file', '', local, '', '', patchparm))
-> > -        patches.append(localurl)
-> > +                localurl = bb.fetch.encodeurl(('file', '', patch, '', '', patchparm))
-> > +                patches.append(localurl)
-> >
-> >       if all:
-> >           return sources
-> >
-> >
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159521): https://lists.openembedded.org/g/openembedded-core/message/159521
-> Mute This Topic: https://lists.openembedded.org/mt/87635233/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
