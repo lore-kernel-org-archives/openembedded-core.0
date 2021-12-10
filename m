@@ -1,297 +1,380 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFEFC433F5
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:24:31 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web08.7809.1639146270573824333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C01CC433F5
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:33:42 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web08.7941.1639146820609110610
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:24:31 -0800
+ Fri, 10 Dec 2021 06:33:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=A9ZombVJ;
- spf=pass (domain: burtonini.com, ip: 209.85.128.44,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f44.google.com with SMTP id
- k37-20020a05600c1ca500b00330cb84834fso9147421wms.2
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:24:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+9X7R9Z70zv+ioSxjGmdiIaXCl1uU7Hn5Pg1DkqvxUs=;
-        b=A9ZombVJ9MsriTEjzkCdj+zNl7yqKvouYo1A1nAntDrudOFwnT83pNrhYsQQavR7Qu
-         U3HYi13vqL/bIRM7015KoNEP+J/AS1a6WwMrZ+a/6PPjDkxnsPE2tRANWQ/G4dxzq2yt
-         pat7QriEvQ0Bn74Q9En6loC7c2EdTUTnORyHKc2vYZy9rTYp0zPUCkDveTJquwwUGWfn
-         OfVSMBIZq/Lv0wdN/BiDhc3Jy66zI8rgvWINw9OfotVrt1Wo/rTYh3ZBRRbJi3ZzLCOL
-         JZMnVq/30wlhicXKSdknSsnWX0HlwA0JxTZN2IOmKNjK546U0AfKssvL9zM88z5O1Uo2
-         0cfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+9X7R9Z70zv+ioSxjGmdiIaXCl1uU7Hn5Pg1DkqvxUs=;
-        b=KSclUhoJ+XYVHZxvuXGKlpacIyir8LjdtTo5AIvbb42b5fr1ZIKPT65Opb6E1qxQi1
-         JT6IlrYLVV8aTySCBZ7k8BaWvRqXdLVeCknCK24SzLOQqJCiA58d3D+7zbRFVSeBOh+1
-         nEgyc5y5MAHiulXEZMcbrroUhJFYRVz3EtV4JkrxVQ9Uz6n1Bxe5//ZbKbKKXonZLwAK
-         R0DeyG2WvkWZOPW1AVrPMJTkWWdqZSQloDHVYs4l0VQGEwVjRJMFujoyuazk3yvS6HMB
-         A2EK6dI7DKi6UQ+BmX+qV8fKVZ8mXEZmFaH4nMpPBNi9P0v6JIPEx/9coGwcGCc0s48X
-         POvw==
-X-Gm-Message-State: AOAM531l6WBIH0QgEUDhr21YCpgBZl6PvOH1iknEvZKjLF0yj/qlHqNf
-	CbIK7kVcRJKlTd0VsqCmYzxZp/835Mxk4Hk7Z1mKtg==
-X-Google-Smtp-Source: 
- ABdhPJzEjao6OOas14Q32FEGzhiSr5pKN3DNZQxJmA6+gKZ3xNr7NqNbG2vppcuh2uWL1FWHSi8ldxHsC+3VcTQDWSU=
-X-Received: by 2002:a1c:488:: with SMTP id 130mr16990942wme.157.1639146268675;
- Fri, 10 Dec 2021 06:24:28 -0800 (PST)
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.22,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd88.dcpf.telekom.de (fwd88.aul.t-online.de [10.223.144.114])
+	by mailout12.t-online.de (Postfix) with SMTP id BD5B880C2
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 10 Dec 2021 15:33:38 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.46.27]) by fwd88.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1mvgxu-1IBgFF0; Fri, 10 Dec 2021 15:33:38 +0100
+Subject: Re: [OE-core] [PATCH] libva: move wayland PACKAGECONFIG to libva.inc
+To: openembedded-core@lists.openembedded.org
+References: <20211210140234.3713-1-f_l_k@t-online.de>
+ <CANNYZj9YbZJxLADiti4fzsCex06DK9RUk4G-y3ARb3tLgkW9=w@mail.gmail.com>
+From: Markus Volk <f_l_k@t-online.de>
+Message-ID: <d95c3019-ae4b-f94c-fb34-ab9ac669b6e2@t-online.de>
+Date: Fri, 10 Dec 2021 15:33:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211210142242.2698587-1-ross.burton@arm.com>
-In-Reply-To: <20211210142242.2698587-1-ross.burton@arm.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Fri, 10 Dec 2021 14:24:17 +0000
-Message-ID: 
- <CAAnfSTvJRHAQcbcOOQ5X7Xe2a4awovRPSEvHEuEefunJ4A3MJQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 01/10] libtool: don't prefix the installed
- binary
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: 
+ <CANNYZj9YbZJxLADiti4fzsCex06DK9RUk4G-y3ARb3tLgkW9=w@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------52072EF7BAB517AE3DFE00F4"
+Content-Language: en-US
+X-TOI-EXPURGATEID: 150726::1639146818-00001485-00F83AD8/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4c9e20a8-2080-4143-9fd4-f412b8b2ee3a
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:24:31 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:33:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159538
+ https://lists.openembedded.org/g/openembedded-core/message/159539
 
-Note that meta-oe-contrib:ross/libtool contains the patches needed to
-get this working against meta-oe, as far as I can tell in my testing.
+This is a multi-part message in MIME format.
+--------------52072EF7BAB517AE3DFE00F4
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Ross
+Thats strange indeed. Wayland is set as a DISTRO_FEATURE for my image,=20
+so it gets built by a lot ofpackages. This wasn't a clean build, i had=20
+sstate cache availbale when i started to experiment with libva and=20
+normally it doesn't get=C2=A0 built inside my image because i can't use i=
+t on=20
+my board. First i did 'bitbake libva' and this succeeded. Second i added=20
+'va' PACKAGECONFIG to a mesa.bbappend and started rebuilding the image.=20
+Now the build for libva-initial was started and failed with the error=20
+about missing wayland-scanner.
 
-On Fri, 10 Dec 2021 at 14:22, Ross Burton via lists.openembedded.org
-<ross=burtonini.com@lists.openembedded.org> wrote:
+I also wondered what is pulling wayland into=C2=A0 its sysroot . Did 'bit=
+bake=20
+-c cleanstate libva-initial libva' and tried to build libva-initial=20
+again with 'bitbake libva-initial' and had the same issue. On my machine=20
+this is reproducible
+
+Markus
+
+Am 10.12.21 um 15:06 schrieb Alexander Kanavin:
+> | Run-time dependency wayland-client found: YES 1.19.0
 >
-> Typically libtool installs the binary to 'libtool' in the source tree,
-> but we've got patches to rename this to ${host_sys}-libtool. As this
-> isn't standard any upstream that don't respect the LIBTOOL variable need
-> to be told explicitly where libtool is, which is a long-term maintenance
-> burden for us on top of the initial libtool patches.
+> Can you please explain how the issue can be reproduced? I find it odd=20
+> that libva-initial (which only needs libdrm, and is required by mesa)=20
+> has wayland in its sysroot in your build - where does that come from?=20
+> There's a chance the problem is elsewhere.
 >
-> The reasoning for this renaming appears to stem from the design to be
-> sure that we're using our new/patched libtool and not the host's binary.
-> However, now that we have HOSTTOOLS, there's no way to run the host
-> libtool so this argument is moot.
+> Alex
 >
-> This patch removes the libtool renaming, follow-up patches remove the
-> required modifications from the rest of the recipes.
+> On Fri, 10 Dec 2021 at 15:03, Markus Volk <f_l_k@t-online.de=20
+> <mailto:f_l_k@t-online.de>> wrote:
 >
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  .../libtool/libtool-cross_2.4.6.bb            | 11 ++-
->  .../libtool/libtool-native_2.4.6.bb           |  4 +-
->  .../libtool/libtool/prefix.patch              | 98 -------------------
->  .../libtool/nativesdk-libtool_2.4.6.bb        |  6 +-
->  4 files changed, 11 insertions(+), 108 deletions(-)
->  delete mode 100644 meta/recipes-devtools/libtool/libtool/prefix.patch
+>     I encountered an error while trying to build libva under wayland.
+>     libva-initial
+>     was missing wayland-native dependency and failed like this:
 >
-> diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-> index 4a43867b3ec..4448373afc4 100644
-> --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-> +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-> @@ -1,7 +1,7 @@
->  require libtool-${PV}.inc
+>     | Run-time dependency xfixes found: NO (tried pkgconfig and cmake)
+>     | Run-time dependency wayland-client found: YES 1.19.0
+>     | Program wayland-scanner /usr/bin/wayland-scanner found: NO
+>     |
+>     | ../libva-2.13.0/meson.build:107:4: ERROR: Program
+>     'wayland-scanner /usr/bin/wayland-scanner' not found
+>     |
+>     | A full log can be found at
+>     /home/flk/build/poky/build-rock/tmp/work/cortexa72-cortexa53-crypto=
+-poky-linux/libva-initial/2.13.0-r0/build/meson-logs/meson-log.txt
+>     | ERROR: meson failed
+>     | WARNING: exit code 1 from a shell command.
 >
->  PACKAGES = ""
-> -SRC_URI += "file://prefix.patch"
-> +#SRC_URI += "file://prefix.patch"
->  SRC_URI += "file://fixinstall.patch"
+>     This commit moves the PACKAGECONFIG[wayland] to libva.inc to make
+>     it available to libva-initial also
 >
->  datadir = "${STAGING_DIR_TARGET}${target_datadir}"
-> @@ -22,15 +22,16 @@ do_configure:prepend () {
->  # Find references to LTCC="ccache xxx-gcc" and CC="ccache xxx-gcc"
->  #
->  do_install () {
-> +       ln -s false ${D}
->         install -d ${D}${bindir_crossscripts}/
-> -       install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
-> +       install -m 0755 libtool ${D}${bindir_crossscripts}/libtool
->         sed -e 's@^\(predep_objects="\).*@\1"@' \
->             -e 's@^\(postdep_objects="\).*@\1"@' \
->             -e 's@^CC="ccache.@CC="@' \
->             -e 's@^LTCC="ccache.@LTCC="@' \
-> -           -i ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
-> -       sed -i '/^archive_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
-> -       sed -i '/^archive_expsym_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
-> +           -i ${D}${bindir_crossscripts}/libtool
-> +       sed -i '/^archive_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/libtool
-> +       sed -i '/^archive_expsym_cmds=/s/\-nostdlib//g' ${D}${bindir_crossscripts}/libtool
->         GREP='/bin/grep' SED='sed' ${S}/build-aux/inline-source libtoolize > ${D}${bindir_crossscripts}/libtoolize
->         chmod 0755 ${D}${bindir_crossscripts}/libtoolize
->         install -d ${D}${target_datadir}/libtool/build-aux/
-> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb
-> index 3b20ce3e69f..c68527f2609 100644
-> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb
-> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb
-> @@ -2,7 +2,7 @@ require libtool-${PV}.inc
+>     Signed-off-by: MarkusVolk <f_l_k@t-online.de
+>     <mailto:f_l_k@t-online.de>>
+>     ---
+>     =C2=A0meta/recipes-graphics/libva/libva.inc=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 7 +++++++
+>     =C2=A0meta/recipes-graphics/libva/libva_2.13.0.bb
+>     <http://libva_2.13.0.bb> | 4 +---
+>     =C2=A02 files changed, 8 insertions(+), 3 deletions(-)
 >
->  DEPENDS = ""
+>     diff --git a/meta/recipes-graphics/libva/libva.inc
+>     b/meta/recipes-graphics/libva/libva.inc
+>     index bcf9757c1a..0e2721e291 100644
+>     --- a/meta/recipes-graphics/libva/libva.inc
+>     +++ b/meta/recipes-graphics/libva/libva.inc
+>     @@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI =3D
+>     "https://github.com/intel/libva/releases
+>     <https://github.com/intel/libva/releases>"
+>     =C2=A0DEPENDS =3D "libdrm"
 >
-> -SRC_URI += "file://prefix.patch"
-> +#SRC_URI += "file://prefix.patch"
+>     =C2=A0inherit meson pkgconfig
+>     +
+>     +PACKAGECONFIG:append =3D " \
+>     +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)}=
+ \
+>     +"
+>     +
+>     +PACKAGECONFIG[wayland] =3D
+>     "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native wayland"
+>     +
+>     diff --git a/meta/recipes-graphics/libva/libva_2.13.0.bb
+>     <http://libva_2.13.0.bb>
+>     b/meta/recipes-graphics/libva/libva_2.13.0.bb <http://libva_2.13.0.=
+bb>
+>     index ed2be289fc..a8c6355b01 100644
+>     --- a/meta/recipes-graphics/libva/libva_2.13.0.bb
+>     <http://libva_2.13.0.bb>
+>     +++ b/meta/recipes-graphics/libva/libva_2.13.0.bb
+>     <http://libva_2.13.0.bb>
+>     @@ -2,14 +2,12 @@ require libva.inc
 >
->  inherit native
+>     =C2=A0PACKAGECONFIG ??=3D " \
+>     =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains('DISTRO_FEATURES', 'x11 op=
+engl', 'glx',
+>     '', d)} \
+>     -=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland',=
+ d)} \
+>     +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
+>     =C2=A0"
 >
-> @@ -18,5 +18,5 @@ do_configure:prepend () {
->  do_install () {
->         autotools_do_install
->         install -d ${D}${bindir}/
-> -       install -m 0755 ${HOST_SYS}-libtool ${D}${bindir}/${HOST_SYS}-libtool
-> +       install -m 0755 libtool ${D}${bindir}/libtool
->  }
-> diff --git a/meta/recipes-devtools/libtool/libtool/prefix.patch b/meta/recipes-devtools/libtool/libtool/prefix.patch
-> deleted file mode 100644
-> index a73df2e4a7a..00000000000
-> --- a/meta/recipes-devtools/libtool/libtool/prefix.patch
-> +++ /dev/null
-> @@ -1,98 +0,0 @@
-> -Upstream-Status: Inappropriate [embedded specific]
-> -
-> -Renames "libtool" -> "${TARGET_PREFIX}libtool" which makes sure
-> -it can't be confused with the host libtool.
-> -
-> -Originally by: RP
-> -
-> -Updated: Date: 2010/06/28
-> -Nitin A Kamble <nitin.a.kamble@intel.com>
-> -
-> -It also adjusts libtool so that the header at the script is used for
-> -script execution and not thevalue of $SHELL. This is because many
-> -Makefiles change $SHELL so dash can get used to execute what is
-> -otherwise configured as a bash shell script. Since we don't need to
-> -execute scipts this way on any system I'm aware of us building upon,
-> -the simplest fix is just to remove $SHELL.
-> -
-> -Updated: Date: 2011/11/09
-> -RP
-> -
-> -Updated by: Robert Yang <liezhi.yang@windriver.com>
-> -
-> -diff --git a/Makefile.am b/Makefile.am
-> ---- a/Makefile.am
-> -+++ b/Makefile.am
-> -@@ -31,7 +31,7 @@ SUBDIRS                      = .
-> - DIST_SUBDIRS          = $(SUBDIRS)
-> - EXTRA_DIST            =
-> -
-> --BUILT_SOURCES         = libtool libtoolize
-> -+BUILT_SOURCES         = $(host_alias)-libtool libtoolize
-> -
-> - CLEANFILES            =
-> - MOSTLYCLEANFILES      =
-> -@@ -67,7 +67,7 @@ build_scripts        = $(srcdir)/$(aux_dir)/announce-gen \
-> -
-> - EXTRA_DIST     += bootstrap bootstrap.conf $(build_scripts) cfg.mk maint.mk \
-> -                 GNUmakefile
-> --CLEANFILES     += libtool libtoolize
-> -+CLEANFILES     += $(host_alias)-libtool libtoolize
-> -
-> - ## If a file is named several times below, and especially if it
-> - ## is a distributed file created during Libtool bootstrap, we
-> -@@ -276,7 +276,7 @@ configure_edit = $(bootstrap_edit) \
-> -       -e 's|@srcdir\@|$(srcdir)|g'
-> -
-> - # The libtool distributor and the standalone libtool script.
-> --bin_SCRIPTS = libtool
-> -+bin_SCRIPTS = $(host_alias)-libtool
-> -
-> - libtoolize: $(libtoolize_in) $(config_status)
-> -       $(AM_V_at)rm -f '$@'
-> -@@ -287,7 +287,7 @@ libtoolize: $(libtoolize_in) $(config_status)
-> - # We used to do this with a 'stamp-vcl' file, but non-gmake builds
-> - # would rerun configure on every invocation, so now we manually
-> - # check the version numbers from the build rule when necessary.
-> --libtool: $(ltmain_sh) $(config_status) $(dotversion)
-> -+$(host_alias)-libtool: $(ltmain_sh) $(config_status) $(dotversion)
-> -       @$(rebuild); \
-> -       if test -f '$@'; then \
-> -         eval `'$(SED)' -n '/^package_revision=/p' '$@'`; \
-> -@@ -731,12 +731,12 @@ TESTS_ENVIRONMENT = MAKE="$(MAKE)" CC="$(CC)" CFLAGS="$(CFLAGS)" \
-> -
-> - BUILDCHECK_ENVIRONMENT = _lt_pkgdatadir="$(abs_top_srcdir)" \
-> -       LIBTOOLIZE="$(abs_top_builddir)/libtoolize" \
-> --      LIBTOOL="$(abs_top_builddir)/libtool" \
-> -+      LIBTOOL="$(abs_top_builddir)/$(host_alias)-libtool" \
-> -       tst_aclocaldir="$(abs_top_srcdir)/m4"
-> -
-> - INSTALLCHECK_ENVIRONMENT = \
-> -       LIBTOOLIZE="$(bindir)/`echo libtoolize |$(SED) '$(program_transform_name)'`" \
-> --      LIBTOOL="$(bindir)/`echo libtool |$(SED) '$(program_transform_name)'`" \
-> -+      LIBTOOL="$(bindir)/`echo $(host_alias)-libtool |$(SED) '$(program_transform_name)'`" \
-> -       LTDLINCL="-I$(includedir)" \
-> -       LIBLTDL="$(libdir)/libltdl.la" \
-> -       tst_aclocaldir="$(aclocaldir)"
-> -diff --git a/m4/libtool.m4 b/m4/libtool.m4
-> ---- a/m4/libtool.m4
-> -+++ b/m4/libtool.m4
-> -@@ -86,7 +86,8 @@ _LT_SET_OPTIONS([$0], [$1])
-> - LIBTOOL_DEPS=$ltmain
-> -
-> - # Always use our own libtool.
-> --LIBTOOL='$(SHELL) $(top_builddir)/libtool'
-> -+LIBTOOL='$(top_builddir)'
-> -+LIBTOOL="$LIBTOOL/${host_alias}-libtool"
-> - AC_SUBST(LIBTOOL)dnl
-> -
-> - _LT_SETUP
-> -@@ -199,7 +200,7 @@ aix3*)
-> - esac
-> -
-> - # Global variables:
-> --ofile=libtool
-> -+ofile=${host_alias}-libtool
-> - can_build_shared=yes
-> -
-> - # All known linkers require a '.a' archive for static linking (except MSVC,
-> diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.6.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.6.bb
-> index e3ad6721fdf..cede2092db0 100644
-> --- a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.6.bb
-> +++ b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.6.bb
-> @@ -2,7 +2,7 @@ require libtool-${PV}.inc
+>     =C2=A0PACKAGECONFIG[x11] =3D "-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virt=
+ual/libx11
+>     libxext libxfixes"
+>     =C2=A0PACKAGECONFIG[glx] =3D "-Dwith_glx=3Dyes,-Dwith_glx=3Dno,virt=
+ual/mesa"
 >
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/libtool:"
+>     -PACKAGECONFIG[wayland] =3D
+>     "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native wayland"
+>     -
+>     =C2=A0PACKAGES =3D+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
 >
-> -SRC_URI += "file://prefix.patch"
-> +#SRC_URI += "file://prefix.patch"
->  SRC_URI += "file://fixinstall.patch"
->
->  inherit nativesdk
-> @@ -20,12 +20,12 @@ do_configure:prepend () {
->  do_install () {
->         autotools_do_install
->         install -d ${D}${bindir}/
-> -       install -m 0755 ${HOST_SYS}-libtool ${D}${bindir}/
-> +       install -m 0755 libtool ${D}${bindir}/
->  }
->
->  SYSROOT_PREPROCESS_FUNCS += "libtoolnativesdk_sysroot_preprocess"
->
->  libtoolnativesdk_sysroot_preprocess () {
->         install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
-> -       install -m 755 ${D}${bindir}/${HOST_SYS}-libtool ${SYSROOT_DESTDIR}${bindir_crossscripts}/${HOST_SYS}-libtool
-> +       install -m 755 ${D}${bindir}/libtool ${SYSROOT_DESTDIR}${bindir_crossscripts}/libtool
->  }
-> --
-> 2.25.1
+>     =C2=A0RDEPENDS:${PN}-x11 =3D+ "${PN}"
+>     --=20
+>     2.25.1
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#159530): https://lists.openembedded.org/g/openembedded-core/message/159530
-> Mute This Topic: https://lists.openembedded.org/mt/87636630/1676615
+> View/Reply Online (#159524): https://lists.openembedded.org/g/openembed=
+ded-core/message/159524
+> Mute This Topic: https://lists.openembedded.org/mt/87636241/3618223
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+f_l_k@t-online.de]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+
+--------------52072EF7BAB517AE3DFE00F4
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><font face=3D"Liberation Sans">Thats strange indeed. Wayland is se=
+t
+        as a DISTRO_FEATURE for my image, so it gets built by a lot of</f=
+ont><font
+        face=3D"Liberation Sans"> packages. This wasn't a clean build, i
+        had sstate cache availbale when i started to experiment with
+        libva and normally it doesn't get=C2=A0 built inside my image bec=
+ause
+        i can't use it on my board. First i did 'bitbake libva' and this
+        succeeded. Second i added 'va' PACKAGECONFIG to a mesa.bbappend
+        and started rebuilding the image. Now the build for
+        libva-initial was started and failed with the error about
+        missing wayland-scanner.</font></p>
+    <p><font face=3D"Liberation Sans">I also wondered what is pulling=C2=A0
+        wayland into=C2=A0 its sysroot . Did 'bitbake -c cleanstate
+        libva-initial libva' and tried to build libva-initial again with
+        'bitbake libva-initial' and had the same issue. On my machine
+        this is reproducible<br>
+      </font></p>
+    <p><font face=3D"Liberation Sans">Markus<br>
+      </font></p>
+    <div class=3D"moz-cite-prefix">Am 10.12.21 um 15:06 schrieb Alexander
+      Kanavin:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CANNYZj9YbZJxLADiti4fzsCex06DK9RUk4G-y3ARb3tLgkW9=3Dw@mail.gm=
+ail.com">
+      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DU=
+TF-8">
+      <div dir=3D"ltr">
+        <div>
+          | Run-time dependency wayland-client found: YES 1.19.0</div>
+        <div><br>
+        </div>
+        <div>Can you please explain how the issue can be reproduced? I
+          find it odd that libva-initial (which only needs libdrm, and
+          is required by mesa) has wayland in its sysroot in your build
+          - where does that come from? There's a chance the problem is
+          elsewhere.<br>
+        </div>
+        <div><br>
+        </div>
+        <div>Alex<br>
+        </div>
+      </div>
+      <br>
+      <div class=3D"gmail_quote">
+        <div dir=3D"ltr" class=3D"gmail_attr">On Fri, 10 Dec 2021 at 15:0=
+3,
+          Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de"
+            moz-do-not-send=3D"true">f_l_k@t-online.de</a>&gt; wrote:<br>
+        </div>
+        <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+I
+          encountered an error while trying to build libva under
+          wayland. libva-initial<br>
+          was missing wayland-native dependency and failed like this:<br>
+          <br>
+          | Run-time dependency xfixes found: NO (tried pkgconfig and
+          cmake)<br>
+          | Run-time dependency wayland-client found: YES 1.19.0<br>
+          | Program wayland-scanner /usr/bin/wayland-scanner found: NO<br=
+>
+          |<br>
+          | ../libva-2.13.0/meson.build:107:4: ERROR: Program
+          'wayland-scanner /usr/bin/wayland-scanner' not found<br>
+          |<br>
+          | A full log can be found at
+/home/flk/build/poky/build-rock/tmp/work/cortexa72-cortexa53-crypto-poky-=
+linux/libva-initial/2.13.0-r0/build/meson-logs/meson-log.txt<br>
+          | ERROR: meson failed<br>
+          | WARNING: exit code 1 from a shell command.<br>
+          <br>
+          This commit moves the PACKAGECONFIG[wayland] to libva.inc to
+          make it available to libva-initial also<br>
+          <br>
+          Signed-off-by: MarkusVolk &lt;<a
+            href=3D"mailto:f_l_k@t-online.de" target=3D"_blank"
+            moz-do-not-send=3D"true">f_l_k@t-online.de</a>&gt;<br>
+          ---<br>
+          =C2=A0meta/recipes-graphics/libva/libva.inc=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 7 +++++++<br>
+          =C2=A0meta/recipes-graphics/libva/<a href=3D"http://libva_2.13.=
+0.bb"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true"=
+>libva_2.13.0.bb</a>
+          | 4 +---<br>
+          =C2=A02 files changed, 8 insertions(+), 3 deletions(-)<br>
+          <br>
+          diff --git a/meta/recipes-graphics/libva/libva.inc
+          b/meta/recipes-graphics/libva/libva.inc<br>
+          index bcf9757c1a..0e2721e291 100644<br>
+          --- a/meta/recipes-graphics/libva/libva.inc<br>
+          +++ b/meta/recipes-graphics/libva/libva.inc<br>
+          @@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI =3D "<a
+            href=3D"https://github.com/intel/libva/releases"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true"=
+>https://github.com/intel/libva/releases</a>"<br>
+          =C2=A0DEPENDS =3D "libdrm"<br>
+          <br>
+          =C2=A0inherit meson pkgconfig<br>
+          +<br>
+          +PACKAGECONFIG:append =3D " \<br>
+          +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'wayland',=
+ d)} \<br>
+          +"<br>
+          +<br>
+          +PACKAGECONFIG[wayland] =3D
+          "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native waylan=
+d"<br>
+          +<br>
+          diff --git a/meta/recipes-graphics/libva/<a
+            href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libva_2.13.0.bb</a=
+>
+          b/meta/recipes-graphics/libva/<a href=3D"http://libva_2.13.0.bb=
+"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true"=
+>libva_2.13.0.bb</a><br>
+          index ed2be289fc..a8c6355b01 100644<br>
+          --- a/meta/recipes-graphics/libva/<a
+            href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libva_2.13.0.bb</a=
+><br>
+          +++ b/meta/recipes-graphics/libva/<a
+            href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libva_2.13.0.bb</a=
+><br>
+          @@ -2,14 +2,12 @@ require libva.inc<br>
+          <br>
+          =C2=A0PACKAGECONFIG ??=3D " \<br>
+          =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains('DISTRO_FEATURES', 'x1=
+1 opengl',
+          'glx', '', d)} \<br>
+          -=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayla=
+nd', d)}
+          \<br>
+          +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}=
+ \<br>
+          =C2=A0"<br>
+          <br>
+          =C2=A0PACKAGECONFIG[x11] =3D
+          "-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virtual/libx11 libxext
+          libxfixes"<br>
+          =C2=A0PACKAGECONFIG[glx] =3D
+          "-Dwith_glx=3Dyes,-Dwith_glx=3Dno,virtual/mesa"<br>
+          <br>
+          -PACKAGECONFIG[wayland] =3D
+          "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native waylan=
+d"<br>
+          -<br>
+          =C2=A0PACKAGES =3D+ "${PN}-x11 ${PN}-glx ${PN}-wayland"<br>
+          <br>
+          =C2=A0RDEPENDS:${PN}-x11 =3D+ "${PN}"<br>
+          -- <br>
+          2.25.1<br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </blockquote>
+      </div>
+      <br>
+      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#159524): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/159524">https:/=
+/lists.openembedded.org/g/openembedded-core/message/159524</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/87636241/3618223">https://lists.openembedded.org/mt/=
+87636241/3618223</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------52072EF7BAB517AE3DFE00F4--
 
