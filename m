@@ -2,30 +2,30 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6117C433F5
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82086C43217
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:22:51 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web08.7782.1639146168651730239
+ by mx.groups.io with SMTP id smtpd.web11.7844.1639146170247487876
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:22:48 -0800
+ Fri, 10 Dec 2021 06:22:50 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3F61E13A1
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0B3712FC
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:22:48 -0800 (PST)
+ Fri, 10 Dec 2021 06:22:49 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com
  (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DED9A3F5A1
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8C6D63F5A1
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:22:47 -0800 (PST)
+ Fri, 10 Dec 2021 06:22:49 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 03/10] pkgconfig: remove obsolete support for renamed
+Subject: [RFC PATCH 06/10] freetype: remove obsolete support for renamed
  libtool
-Date: Fri, 10 Dec 2021 14:22:35 +0000
-Message-Id: <20211210142242.2698587-3-ross.burton@arm.com>
+Date: Fri, 10 Dec 2021 14:22:38 +0000
+Message-Id: <20211210142242.2698587-6-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211210142242.2698587-1-ross.burton@arm.com>
 References: <20211210142242.2698587-1-ross.burton@arm.com>
@@ -34,99 +34,84 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:22:49 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:22:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159528
+ https://lists.openembedded.org/g/openembedded-core/message/159533
 
 libtool is now longer renamed to ${host}-libtool, so remove the changes
 to support this.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../fix-glib-configure-libtool-usage.patch    | 45 -------------------
- .../pkgconfig/pkgconfig_git.bb                |  1 -
- 2 files changed, 46 deletions(-)
- delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/fix-glib-co=
-nfigure-libtool-usage.patch
+ .../freetype/freetype/use-right-libtool.patch | 31 -------------------
+ .../freetype/freetype_2.11.1.bb               |  4 +--
+ 2 files changed, 1 insertion(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-graphics/freetype/freetype/use-right-lib=
+tool.patch
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/fix-glib-configure=
--libtool-usage.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/fix-glib=
--configure-libtool-usage.patch
+diff --git a/meta/recipes-graphics/freetype/freetype/use-right-libtool.pa=
+tch b/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
 deleted file mode 100644
-index 01c62472c1d..00000000000
---- a/meta/recipes-devtools/pkgconfig/pkgconfig/fix-glib-configure-libtoo=
-l-usage.patch
+index b389455f5d4..00000000000
+--- a/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
 +++ /dev/null
-@@ -1,45 +0,0 @@
+@@ -1,31 +0,0 @@
+-From 50499e4482d40cff2ef05905c658ba4380e7e6fc Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Thu, 7 Jan 2016 21:13:07 +0000
+-Subject: [PATCH] freetype: enable out-of-tree builds, and use host zlib
 -
--Upstream-Status: Inappropriate [embedded specific]
+-Freetype think that it knows best about where libtool is, and explicitly=
+ the
+-libtool autoconf macros telling it where to find the libtool script.  Of=
+ course
+-we prefix the script with the target triplet, so it's wrong.  Fix this b=
+y
+-removing the forced assignment, so the configure script's knowledge of w=
+here it
+-put libtool is used.
 -
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
+----
+- builds/unix/unix-cc.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--Index: pkg-config-0.28/glib/configure.ac
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- pkg-config-0.28.orig/glib/configure.ac
--+++ pkg-config-0.28/glib/configure.ac
--@@ -1438,7 +1438,7 @@ if test x"$glib_native_win32" =3D xyes; th
--   G_MODULE_LDFLAGS=3D
-- else
--   export SED
---  G_MODULE_LDFLAGS=3D`(./libtool --config; echo eval echo \\$export_dyn=
-amic_flag_spec) | sh`
--+  G_MODULE_LDFLAGS=3D`(./${host_alias}-libtool --config; echo eval echo=
- \\$export_dynamic_flag_spec) | sh`
-- fi
-- dnl G_MODULE_IMPL=3D don't reset, so cmd-line can override
-- G_MODULE_NEED_USCORE=3D0
--@@ -1503,13 +1503,13 @@ if test "$G_MODULE_IMPL" =3D "G_MODULE_IMP
-- 	LDFLAGS=3D"$LDFLAGS $G_MODULE_LDFLAGS"
-- dnl *** check for OSF1/5.0 RTLD_GLOBAL brokenness
-- 	echo "void glib_plugin_test(void) { }" > plugin.c
---	${SHELL} ./libtool --mode=3Dcompile --tag=3DCC ${CC} ${CFLAGS} \
--+	${SHELL} ./${host_alias}-libtool --mode=3Dcompile --tag=3DCC ${CC} ${C=
-FLAGS} \
-- 		${CPPFLAGS} -c -o plugin.lo plugin.c >/dev/null 2>&1
---	${SHELL} ./libtool --mode=3Dlink --tag=3DCC ${CC} ${CFLAGS} \
--+	${SHELL} ./${host_alias}-libtool --mode=3Dlink --tag=3DCC ${CC} ${CFLA=
-GS} \
-- 		${LDFLAGS} -module -o plugin.la -export-dynamic \
-- 		-shrext ".o" -avoid-version plugin.lo \
-- 		-rpath /dont/care >/dev/null 2>&1
---	eval `./libtool --config | grep ^objdir`
--+	eval `./${host_alias}-libtool --config | grep ^objdir`
-- 	AC_CACHE_CHECK([for RTLD_GLOBAL brokenness],
-- 		glib_cv_rtldglobal_broken,[
-- 		AC_TRY_RUN([
--@@ -1582,7 +1582,7 @@ fi
+-diff --git a/builds/unix/unix-cc.in b/builds/unix/unix-cc.in
+-index 89be450..72609d3 100644
+---- a/builds/unix/unix-cc.in
+-+++ b/builds/unix/unix-cc.in
+-@@ -16,7 +16,7 @@ CC           :=3D @CC@
+- COMPILER_SEP :=3D $(SEP)
+- FT_LIBTOOL_DIR ?=3D $(PLATFORM_DIR)
 -=20
-- AC_MSG_CHECKING(for the suffix of module shared libraries)
-- export SED
---shrext_cmds=3D`./libtool --config | grep '^shrext_cmds=3D'`
--+shrext_cmds=3D`./${host_alias}-libtool --config | grep '^shrext_cmds=3D=
-'`
-- eval $shrext_cmds
-- module=3Dyes eval std_shrext=3D$shrext_cmds
-- # chop the initial dot
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/reci=
-pes-devtools/pkgconfig/pkgconfig_git.bb
-index c220bafd905..16efcef5613 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -14,7 +14,6 @@ PV =3D "0.29.2+git${SRCPV}"
- SRC_URI =3D "git://gitlab.freedesktop.org/pkg-config/pkg-config.git;bran=
-ch=3Dmaster;protocol=3Dhttps \
-            file://pkg-config-esdk.in \
-            file://pkg-config-native.in \
--           file://fix-glib-configure-libtool-usage.patch \
-            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-mat=
-ch-.patch \
-            file://0001-autotools-remove-support-for-the-__int64-type.-Se=
-e-1.patch \
-            file://0001-autotools-use-C99-printf-format-specifiers-on-Win=
-dow.patch \
+--LIBTOOL :=3D $(FT_LIBTOOL_DIR)/libtool
+-+LIBTOOL :=3D $(FT_LIBTOOL_DIR)/@LIBTOOL@ --tag CC
+-=20
+-=20
+- # The object file extension (for standard and static libraries).  This =
+can be
+diff --git a/meta/recipes-graphics/freetype/freetype_2.11.1.bb b/meta/rec=
+ipes-graphics/freetype/freetype_2.11.1.bb
+index 78babdcbdb2..04b56adc6b2 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.11.1.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.11.1.bb
+@@ -12,9 +12,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.TXT;md5=3Da5927784=
+d823d443c6cae55701d01553 \
+                     file://docs/FTL.TXT;md5=3D9f37b4e6afa3fef9dba8932b16=
+bd3f97 \
+                     file://docs/GPLv2.TXT;md5=3D8ef380476f642c20ebf40fec=
+b0add2ec"
+=20
+-SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
+-           file://use-right-libtool.patch \
+-          "
++SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz"
+ SRC_URI[sha256sum] =3D "3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e9=
+60e5684050f2c5c8"
+=20
+ UPSTREAM_CHECK_REGEX =3D "freetype-(?P<pver>\d+(\.\d+)+)"
 --=20
 2.25.1
 
