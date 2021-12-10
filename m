@@ -1,383 +1,161 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quentin.schulz@theobroma-systems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FE1C433EF
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 14:52:27 +0000 (UTC)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web09.8060.1639147946249167101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 280A7C433FE
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 15:09:57 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.83])
+ by mx.groups.io with SMTP id smtpd.web08.8412.1639148995233017305
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:52:26 -0800
+ Fri, 10 Dec 2021 07:09:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q0Aeylao;
- spf=pass (domain: gmail.com, ip: 209.85.222.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id l24so17303876uak.2
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 06:52:26 -0800 (PST)
+ dkim=fail reason="body hash did not verify"
+ header.i=@cherrycloud.onmicrosoft.com
+ header.s=selector2-cherrycloud-onmicrosoft-com header.b=Eyk02U+t;
+ spf=pass (domain: theobroma-systems.com, ip: 40.107.20.83,
+ mailfrom: quentin.schulz@theobroma-systems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RQWMtj7yjoIAQxI70q424vQdRGz06lXm/0GQHksme3RBWBMhJA/6npZLcEB8PsbhbWaD2bRu1kRQ2DMgiGuJ0NBBuIfI7wkRp2ZB5h0FXA0LiVT1JZ9hquxLvm0JlpS88ZxiaKUmJYLoZ55hjvmYsNPKFXYWLVhZgRsFKrRp2ip/JhfU5SzYpr2oasKWp3sFFwqzxDSeZwnwm+kg+asZloUFKgEnQ6b86RWwoKMe8NHkG0n6F53NlfORLjshUuVWMxnui/cbLXivCqKMjT2mcRB3rDpBhkRWY3gxMUQmklZd/8Xo8GJtRitDh9Lei/4dddDHN+K7dYsmEvL9LC7MFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8JPRj0cTiDwXM2v368mCfXxdTUxYtSdogEWNvPOzEO0=;
+ b=hTTHHkN7dEQ55dm8TO1A4EZl0wXd35nSwr7BpHmGJJOPOXA7oJlpue7AQhWwxO836zYRiJlQxPfnri83O+AV6HJSXxxSFC4kurIlrj3tj6ONfg5tFTjyCzSafZjBKPPy9njWZunZ/ytKyYgPJrElfJ3UZYh93wEdSvmEV8hpHXHZMNF0Nq0zb5AJ5SBi8d3GdPU4Ycv3Ex2k+LlQrEz2EJeXhEf8KOjCIbRko9egHReuyKz3e0Ai2T86NLxYl7M3J1GI1l3TiPmg2+5JzzEXAz9q3vuuvTcSJTUlT4rxr7EQSSe9kii2bhRhPTnBo9IVAvoBSKMnKtS9+ncZEa3iEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ej8hmaiOIzA4xQ8sIrY7Ng6aNMrIXTVPgPiaIZSdrxo=;
-        b=Q0AeylaoDm39FYmSQSPp+NGeVhyEoMu+1DyEOkatwd9Zppbj4flx5LCZlWeXmxhv+J
-         /oXMbnC2Y5Y0YSNLutZnZUaJgf5F8AMtiWG4Lgyn5XDv/3jzli2sCsLbsqw+FzmcZsMi
-         PgOO5+a42XwK1PTbkkem2kSQVLRn7bQC2Z0L89qweYlcFtOUkfNOFfyd3+PIHU19NjZQ
-         Fh0vZT7oNmKnbbPf8g43R84p+WsUfQZ5hncLR024zqlFym9vpo3hpi/TPgLROJFJStAK
-         nDnsxeNQgZnDcsYkIvjxeDf+wBNosBcnBwtZLcWQGbj3kPXSC8hMFl6qvAujdrs9sp4H
-         YSDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ej8hmaiOIzA4xQ8sIrY7Ng6aNMrIXTVPgPiaIZSdrxo=;
-        b=NUdEkf28PV/XQrWGpc/Iqzi+SfJ1hGwbDDeTIYH8Fj2KUaI7Q0lEu4DN4ebyIah9W4
-         qvrLAT1Im8/PFsPOxe66Qq1TQLQVpoVPnaoqDnVdRXIk6Rdw3P5YlsJ5sj7DXG6T5RWq
-         zi9lxWyI6ivTfyLZ/zI18iJ66P3M0zLbFLcYUng5PYJyORZEyxxo4VJzYTHOa3bF9HvJ
-         1zcdodo1NpkNOtsT4NdMeDsShYxueQ7J3e+8JprYgNvEeFCklW/uCSUpubRtD3LsSvLW
-         SScsRr8kBuoCMokhe30ayY/Dklacxbk9uuUpMamiz3tmh2TzQw2X7RmVZFW33TBF3R1x
-         yyMQ==
-X-Gm-Message-State: AOAM53007ko+VMWBS+4WqsZxVfUxDbqgRBqtTq6J+VEyk6ikLihYTcWb
-	VJCbTo+CMsglW0ZrUqONQAaZp0rjHVmAqQ1F98A=
-X-Google-Smtp-Source: 
- ABdhPJx2+kfGhl/BOM0/JiB3G0tqueGa1rqqFo4+VxAa4gbQ0kQYNVUa2ldTdSSnHyvVumVLial9oAPWY34ZVHg4tLk=
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr28292135uai.89.1639147945331;
- Fri, 10 Dec 2021 06:52:25 -0800 (PST)
+ d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8JPRj0cTiDwXM2v368mCfXxdTUxYtSdogEWNvPOzEO0=;
+ b=Eyk02U+tvwKHpI2hdbxiT1VjTOXfQdkBbvWoKSPyC3Ntfm3iV1Ff88OMt9rHsu0N+n9zceoFa4ORgJG1+9xSFQu8IeujkzHEzutBeKuCOUie9GxmS2YPSr24gE+72O3jlnSKsal8UFgEH4Xd9ABEZLTD5tIGdp7L0ZxMBwxdw38=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
+ (2603:10a6:208:24::24) by AM0PR04MB6452.eurprd04.prod.outlook.com
+ (2603:10a6:208:16d::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12; Fri, 10 Dec
+ 2021 15:09:52 +0000
+Received: from AM0PR0402MB3348.eurprd04.prod.outlook.com
+ ([fe80::d56f:ec59:3bd0:6d7a]) by AM0PR0402MB3348.eurprd04.prod.outlook.com
+ ([fe80::d56f:ec59:3bd0:6d7a%5]) with mapi id 15.20.4755.024; Fri, 10 Dec 2021
+ 15:09:52 +0000
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+To: openembedded-core@lists.openembedded.org
+CC: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+	Quentin Schulz <foss+yocto@0leil.net>
+Subject: [PATCH 3/3] kmscube: add build dependency on virtual/libgles3
+Date: Fri, 10 Dec 2021 16:09:30 +0100
+Message-ID: <20211210150930.326134-3-quentin.schulz@theobroma-systems.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211210150930.326134-1-quentin.schulz@theobroma-systems.com>
+References: <20211210150930.326134-1-quentin.schulz@theobroma-systems.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: AS9PR06CA0239.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45e::35) To AM0PR0402MB3348.eurprd04.prod.outlook.com
+ (2603:10a6:208:24::24)
 MIME-Version: 1.0
-References: <20211210140234.3713-1-f_l_k@t-online.de>
- <CANNYZj9YbZJxLADiti4fzsCex06DK9RUk4G-y3ARb3tLgkW9=w@mail.gmail.com>
- <d95c3019-ae4b-f94c-fb34-ab9ac669b6e2@t-online.de>
-In-Reply-To: <d95c3019-ae4b-f94c-fb34-ab9ac669b6e2@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 10 Dec 2021 15:52:14 +0100
-Message-ID: 
- <CANNYZj_OkJRiVs=iwdZZBMtU_Oo=JbpejMogTYMFu5cD79RnqA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libva: move wayland PACKAGECONFIG to libva.inc
-To: Markus Volk <f_l_k@t-online.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000040ea505d2cbdf6f"
+Received: from localhost.localdomain (92.42.140.82) by
+ AS9PR06CA0239.eurprd06.prod.outlook.com (2603:10a6:20b:45e::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.25 via Frontend
+ Transport; Fri, 10 Dec 2021 15:09:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8ae63f47-898f-4c6b-bc2a-08d9bbef1dd4
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR04MB64521F8941858B56DE274EABC2719@AM0PR04MB6452.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1013;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	6yFfseLwuRZvhtP7JoB46J1tn7C5x9unGsF1M1UPyjy9Wo2oJovIgtFwxohRdD/8L34Qxvww3XZmA/AXYpMsiuaaoDz+/qc7v+E1wy6hu6f/sXPA1DSnvN9wF5U4M0j9WLpl3FS6HLLPZivcrTDkMR2t1snBjELFnxaYggG7Tcc7FNLfp7fV0kme7lj3PMgf1U9a30+IfEZobQEtSQZcenE8MBt6J4xxLCK+CLukA9z8e9hCBg6Qekqc6okG1cb1QGzJi3tZ3XkyQDrN1P0q35lkcrGz19RPSchS7jTP+w0fgHp7BYfpiy5WM+LTRyo+ENOdd8kso6Ufkaka600WU09VL2N8UOTqp8iWABiOyqiVvvhbW74MUFUJC9mv3Q91RWfGe+2EG+qQ/wcgFEUCy3CijhPN4VG7UnbBWG1sYpAaN0qWFDTVF1V2doXhBcjr++80TC3gCQZr2AolxhMBZOhllJQ4rOfaPbgwcR+eI4M4BvVVwL6VfLbwmVmtpvO6icDEGBh7VdcS+1OJ7wtOZ8bbuKhtY7C854HF4PlKTy+k62CfuwiS5Opcc9FuaDeOE5nI9qGFdEGjYa319RMUfLVbb7MMagl9KGHx6MXee5IOWDUyn5JSbaZny4rWj8OEwb2iRw38Oz4lUulKDHGCelt+Np6wV7N2MWwR6zjXUNThzjSa+a2TOhYCWu51hk/jjj9wH3+Ibtu2+XZkbjQqnw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3348.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2906002)(52116002)(54906003)(316002)(6916009)(186003)(4326008)(8676002)(26005)(38350700002)(508600001)(6506007)(8936002)(36756003)(956004)(6512007)(44832011)(2616005)(83380400001)(86362001)(6486002)(66476007)(66556008)(1076003)(5660300002)(66946007)(6666004)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?zH0M1dC/17vcW5nl4V2bRiYfMJeW8Out8XV0LeWo8TVq2aHLm5bv9bz61o0n?=
+ =?us-ascii?Q?eJBBVBM8gfHEgY7aoped4XVCIvGltP5DfVQN+GnOGlLYfzAz8fzB4IMoTI4w?=
+ =?us-ascii?Q?mAISAbsewAyD5YjF6TQ0WAHAWBOdDP82bG8m6l6AsuPIbIo8wBmRZYPSBoli?=
+ =?us-ascii?Q?WjAP6ma0F6SldDd7k+JQI/92pVWWITMJY+6KIgYvW9wDLxIZQeyYXDDXkl45?=
+ =?us-ascii?Q?t7rWbx8E3a7MEBJdlPRetB/otFR5bTQKINUC2PKli3CLg2urVerdze1lVsnR?=
+ =?us-ascii?Q?UnbqnafWmlHLrOsl7WXBx75sAdPlsHezNttelh7OelcEEpLkMqoIxyFcX5OX?=
+ =?us-ascii?Q?GHqneFcwndwkyg03DK5hTrcQJjCUfdjRrNl0LJprsCroiQmqep7TuEMm0lHE?=
+ =?us-ascii?Q?2aE/pemQBn5oj2vV1ChQn0HIszaOpJmC5rc6T7++euONF2yQyCUOUo/aSttq?=
+ =?us-ascii?Q?VLW50gExvcaVLAUoYTpWEWFhhzrosFfjActXYlPcgLq1DM2QP10/DtAtK5Ao?=
+ =?us-ascii?Q?L2cp7BSadV+vLqDfcY6NU73zxAIDUnAnNkdQon2Uewa9fi/Jjl5U7KHgndJc?=
+ =?us-ascii?Q?qV/trVAjfvQ8QGTJE34sch7FDJop3oyAR+8m1Re6l7NNgZdD/JeoFsibZ0P7?=
+ =?us-ascii?Q?01TscQzN9OmlHM7Ej0NqCnX61lH0bXVPoHyCob/TYzx7JyVjBj5rQ8DpKmZY?=
+ =?us-ascii?Q?B/0wTbWJckJo+JaibWmXs6Rr6Lk/+NhLLJkQoDJoHEDOETiHpZrB5MSZ7KVV?=
+ =?us-ascii?Q?C1BVuk0zWit3o/gY1MO/kbYn+32OYK7vpA51YhJqCwY6Q/Q+nW2oCj0OLjhX?=
+ =?us-ascii?Q?1nNwDNfE/aoitQVebb44Oliv8b8gcrZ6IzwjtZZxuZAry3CS2dVI+be3melb?=
+ =?us-ascii?Q?tfK96/y/bmW+T8gELJH7WY9fH9gp/ahOKKHR25SwC9Il1jf4JzrXqDAH7UGm?=
+ =?us-ascii?Q?Y/E+odkSGUNt3j26ImvSY/lpk5Vg+OTND2mSdpv5Z9jvRP3YkZtSwCtgm7h0?=
+ =?us-ascii?Q?ZoEbr2x2aC++UyRZ2jDiKRGXDbF1+uqi9RWcvMA1WAukYkpsh/H3SQA2mMiQ?=
+ =?us-ascii?Q?eG40IoYnYIg1kyAQeJwsIyqvGNXckjZ75L6jFn//UZ41tXkTodp34Loxwegz?=
+ =?us-ascii?Q?cSAsZD1iqBPFsHjG1vcJ1E5z6L+7emfnNlXRBPS15/XZyWQM2++O6mU0fz1h?=
+ =?us-ascii?Q?LUVomntIkFzFyDWQ/VIeC4kcDoEP7fWAQyLvbaoHL2bOzRkb3icFcCoc/oxw?=
+ =?us-ascii?Q?NVMy0oH4jq1jdl3PgSnP9mXf9IHVwB4Q/tzoPuy0wcFDeaHdgM3y83crXlZL?=
+ =?us-ascii?Q?wS4EBuNSKY6XrPPYOZxbpTzfeQetc2F4trUpTIHUIlH8xvByqNX9HFisqpqz?=
+ =?us-ascii?Q?tKAVAJ2PcbDttjWvrYG6D3aYi8vkxxiz/BiDZHjF9gx8Vv4RNuA1POGbGJWr?=
+ =?us-ascii?Q?yjwSW7xG/Vf4x6emjOpNN9KGynQAhLezPVxGaIh6iGvd6iqJHqJt8+tQVHZ5?=
+ =?us-ascii?Q?pTOU3fXr0ctv3JtQKdMq+Wg3UZ5mNXPA3nWy81w0e+WZ2TBeuRckwawlbUmM?=
+ =?us-ascii?Q?hZPrgWYTaxeh/DFvjm5aMM0j9Fuujrh0M3Qq+v01yb43yRIHb8dTF/4uSNIp?=
+ =?us-ascii?Q?f6m0rZMpuA9ED/TiYDSzmD+5kkq3MfISsdFPgh6YgxWtEV0K5WVQSHiro4It?=
+ =?us-ascii?Q?w+aQMo3+Q+EM3alZe5g7dh0TqLagquxhN71nVWqa0jPS+2U7/k4YQfmcMFLl?=
+ =?us-ascii?Q?4c/1T50lRQ=3D=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 8ae63f47-898f-4c6b-bc2a-08d9bbef1dd4
+X-MS-Exchange-CrossTenant-AuthSource: 
+ AM0PR0402MB3348.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 15:09:52.3153
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ iB+TEcAloQ9CYHV1vZX/bxT+ZhkE36PO5WfpaVulHLmilB1OV65yWScNw8My9r+4n0Z7c+/IM0BevIf+dzd5jw2hz7VhIvzNjNp3Edqj1cdmeMP8860GxEeAHooOrQux
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6452
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 14:52:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 15:09:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159540
+ https://lists.openembedded.org/g/openembedded-core/message/159543
 
---000000000000040ea505d2cbdf6f
-Content-Type: text/plain; charset="UTF-8"
+texturator requires GLES 3 headers and libs so let's explicit this
+dependency. This was not detected until now because mesa, the default
+provider, actually provides both Open GLES 2 and 3 compliant
+implementations.
 
-Can you try this on a plain poky and try to figure out why the problem is
-not seen on poky?
+Cc: Quentin Schulz <foss+yocto@0leil.net>
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+---
+ meta/recipes-graphics/kmscube/kmscube_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-gr=
+aphics/kmscube/kmscube_git.bb
+index efaa962704..54993be89e 100644
+--- a/meta/recipes-graphics/kmscube/kmscube_git.bb
++++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
+@@ -6,7 +6,7 @@ OpenGL or OpenGL ES."
+ HOMEPAGE =3D "https://cgit.freedesktop.org/mesa/kmscube/"
+ LICENSE =3D "MIT"
+ SECTION =3D "graphics"
+-DEPENDS =3D "virtual/libgles2 virtual/egl libdrm"
++DEPENDS =3D "virtual/libgles3 virtual/libgles2 virtual/egl libdrm"
+=20
+ LIC_FILES_CHKSUM =3D "file://kmscube.c;beginline=3D1;endline=3D23;md5=3D8b=
+309d4ee67b7315ff7381270dd631fb"
+=20
+--=20
+2.33.1
 
-On Fri, 10 Dec 2021 at 15:33, Markus Volk <f_l_k@t-online.de> wrote:
-
-> Thats strange indeed. Wayland is set as a DISTRO_FEATURE for my image, so
-> it gets built by a lot of packages. This wasn't a clean build, i had
-> sstate cache availbale when i started to experiment with libva and normally
-> it doesn't get  built inside my image because i can't use it on my board.
-> First i did 'bitbake libva' and this succeeded. Second i added 'va'
-> PACKAGECONFIG to a mesa.bbappend and started rebuilding the image. Now the
-> build for libva-initial was started and failed with the error about missing
-> wayland-scanner.
->
-> I also wondered what is pulling  wayland into  its sysroot . Did 'bitbake
-> -c cleanstate libva-initial libva' and tried to build libva-initial again
-> with 'bitbake libva-initial' and had the same issue. On my machine this is
-> reproducible
->
-> Markus
-> Am 10.12.21 um 15:06 schrieb Alexander Kanavin:
->
-> | Run-time dependency wayland-client found: YES 1.19.0
->
-> Can you please explain how the issue can be reproduced? I find it odd that
-> libva-initial (which only needs libdrm, and is required by mesa) has
-> wayland in its sysroot in your build - where does that come from? There's a
-> chance the problem is elsewhere.
->
-> Alex
->
-> On Fri, 10 Dec 2021 at 15:03, Markus Volk <f_l_k@t-online.de> wrote:
->
->> I encountered an error while trying to build libva under wayland.
->> libva-initial
->> was missing wayland-native dependency and failed like this:
->>
->> | Run-time dependency xfixes found: NO (tried pkgconfig and cmake)
->> | Run-time dependency wayland-client found: YES 1.19.0
->> | Program wayland-scanner /usr/bin/wayland-scanner found: NO
->> |
->> | ../libva-2.13.0/meson.build:107:4: ERROR: Program 'wayland-scanner
->> /usr/bin/wayland-scanner' not found
->> |
->> | A full log can be found at
->> /home/flk/build/poky/build-rock/tmp/work/cortexa72-cortexa53-crypto-poky-linux/libva-initial/2.13.0-r0/build/meson-logs/meson-log.txt
->> | ERROR: meson failed
->> | WARNING: exit code 1 from a shell command.
->>
->> This commit moves the PACKAGECONFIG[wayland] to libva.inc to make it
->> available to libva-initial also
->>
->> Signed-off-by: MarkusVolk <f_l_k@t-online.de>
->> ---
->>  meta/recipes-graphics/libva/libva.inc       | 7 +++++++
->>  meta/recipes-graphics/libva/libva_2.13.0.bb | 4 +---
->>  2 files changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/libva/libva.inc
->> b/meta/recipes-graphics/libva/libva.inc
->> index bcf9757c1a..0e2721e291 100644
->> --- a/meta/recipes-graphics/libva/libva.inc
->> +++ b/meta/recipes-graphics/libva/libva.inc
->> @@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI = "
->> https://github.com/intel/libva/releases"
->>  DEPENDS = "libdrm"
->>
->>  inherit meson pkgconfig
->> +
->> +PACKAGECONFIG:append = " \
->> +    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} \
->> +"
->> +
->> +PACKAGECONFIG[wayland] =
->> "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland"
->> +
->> diff --git a/meta/recipes-graphics/libva/libva_2.13.0.bb
->> b/meta/recipes-graphics/libva/libva_2.13.0.bb
->> index ed2be289fc..a8c6355b01 100644
->> --- a/meta/recipes-graphics/libva/libva_2.13.0.bb
->> +++ b/meta/recipes-graphics/libva/libva_2.13.0.bb
->> @@ -2,14 +2,12 @@ require libva.inc
->>
->>  PACKAGECONFIG ??= " \
->>      ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)}
->> \
->> -    ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)} \
->> +    ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
->>  "
->>
->>  PACKAGECONFIG[x11] = "-Dwith_x11=yes,-Dwith_x11=no,virtual/libx11
->> libxext libxfixes"
->>  PACKAGECONFIG[glx] = "-Dwith_glx=yes,-Dwith_glx=no,virtual/mesa"
->>
->> -PACKAGECONFIG[wayland] =
->> "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland"
->> -
->>  PACKAGES =+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
->>
->>  RDEPENDS:${PN}-x11 =+ "${PN}"
->> --
->> 2.25.1
->>
->>
->>
->>
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159539):
-> https://lists.openembedded.org/g/openembedded-core/message/159539
-> Mute This Topic: https://lists.openembedded.org/mt/87636241/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000040ea505d2cbdf6f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Can you try this on a plain poky and try to figure ou=
-t why the problem is not seen on poky?</div><div><br></div><div>Alex<br></d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Fri, 10 Dec 2021 at 15:33, Markus Volk &lt;<a href=3D"mailto:f_l_k@t-=
-online.de">f_l_k@t-online.de</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
- =20
-   =20
- =20
-  <div>
-    <p><font face=3D"Liberation Sans">Thats strange indeed. Wayland is set
-        as a DISTRO_FEATURE for my image, so it gets built by a lot of</fon=
-t><font face=3D"Liberation Sans"> packages. This wasn&#39;t a clean build, =
-i
-        had sstate cache availbale when i started to experiment with
-        libva and normally it doesn&#39;t get=C2=A0 built inside my image b=
-ecause
-        i can&#39;t use it on my board. First i did &#39;bitbake libva&#39;=
- and this
-        succeeded. Second i added &#39;va&#39; PACKAGECONFIG to a mesa.bbap=
-pend
-        and started rebuilding the image. Now the build for
-        libva-initial was started and failed with the error about
-        missing wayland-scanner.</font></p>
-    <p><font face=3D"Liberation Sans">I also wondered what is pulling=C2=A0
-        wayland into=C2=A0 its sysroot . Did &#39;bitbake -c cleanstate
-        libva-initial libva&#39; and tried to build libva-initial again wit=
-h
-        &#39;bitbake libva-initial&#39; and had the same issue. On my machi=
-ne
-        this is reproducible<br>
-      </font></p>
-    <p><font face=3D"Liberation Sans">Markus<br>
-      </font></p>
-    <div>Am 10.12.21 um 15:06 schrieb Alexander
-      Kanavin:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">
-        <div>
-          | Run-time dependency wayland-client found: YES 1.19.0</div>
-        <div><br>
-        </div>
-        <div>Can you please explain how the issue can be reproduced? I
-          find it odd that libva-initial (which only needs libdrm, and
-          is required by mesa) has wayland in its sysroot in your build
-          - where does that come from? There&#39;s a chance the problem is
-          elsewhere.<br>
-        </div>
-        <div><br>
-        </div>
-        <div>Alex<br>
-        </div>
-      </div>
-      <br>
-      <div class=3D"gmail_quote">
-        <div dir=3D"ltr" class=3D"gmail_attr">On Fri, 10 Dec 2021 at 15:03,
-          Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=3D"_b=
-lank">f_l_k@t-online.de</a>&gt; wrote:<br>
-        </div>
-        <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">I
-          encountered an error while trying to build libva under
-          wayland. libva-initial<br>
-          was missing wayland-native dependency and failed like this:<br>
-          <br>
-          | Run-time dependency xfixes found: NO (tried pkgconfig and
-          cmake)<br>
-          | Run-time dependency wayland-client found: YES 1.19.0<br>
-          | Program wayland-scanner /usr/bin/wayland-scanner found: NO<br>
-          |<br>
-          | ../libva-2.13.0/meson.build:107:4: ERROR: Program
-          &#39;wayland-scanner /usr/bin/wayland-scanner&#39; not found<br>
-          |<br>
-          | A full log can be found at
-/home/flk/build/poky/build-rock/tmp/work/cortexa72-cortexa53-crypto-poky-li=
-nux/libva-initial/2.13.0-r0/build/meson-logs/meson-log.txt<br>
-          | ERROR: meson failed<br>
-          | WARNING: exit code 1 from a shell command.<br>
-          <br>
-          This commit moves the PACKAGECONFIG[wayland] to libva.inc to
-          make it available to libva-initial also<br>
-          <br>
-          Signed-off-by: MarkusVolk &lt;<a href=3D"mailto:f_l_k@t-online.de=
-" target=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
-          ---<br>
-          =C2=A0meta/recipes-graphics/libva/libva.inc=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 7 +++++++<br>
-          =C2=A0meta/recipes-graphics/libva/<a href=3D"http://libva_2.13.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">libva_2.13.0.bb</a>
-          | 4 +---<br>
-          =C2=A02 files changed, 8 insertions(+), 3 deletions(-)<br>
-          <br>
-          diff --git a/meta/recipes-graphics/libva/libva.inc
-          b/meta/recipes-graphics/libva/libva.inc<br>
-          index bcf9757c1a..0e2721e291 100644<br>
-          --- a/meta/recipes-graphics/libva/libva.inc<br>
-          +++ b/meta/recipes-graphics/libva/libva.inc<br>
-          @@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https:=
-//github.com/intel/libva/releases" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://github.com/intel/libva/releases</a>&quot;<br>
-          =C2=A0DEPENDS =3D &quot;libdrm&quot;<br>
-          <br>
-          =C2=A0inherit meson pkgconfig<br>
-          +<br>
-          +PACKAGECONFIG:append =3D &quot; \<br>
-          +=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39=
-;wayland&#39;, d)} \<br>
-          +&quot;<br>
-          +<br>
-          +PACKAGECONFIG[wayland] =3D
-          &quot;-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native way=
-land&quot;<br>
-          +<br>
-          diff --git a/meta/recipes-graphics/libva/<a href=3D"http://libva_=
-2.13.0.bb" rel=3D"noreferrer" target=3D"_blank">libva_2.13.0.bb</a>
-          b/meta/recipes-graphics/libva/<a href=3D"http://libva_2.13.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">libva_2.13.0.bb</a><br>
-          index ed2be289fc..a8c6355b01 100644<br>
-          --- a/meta/recipes-graphics/libva/<a href=3D"http://libva_2.13.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">libva_2.13.0.bb</a><br>
-          +++ b/meta/recipes-graphics/libva/<a href=3D"http://libva_2.13.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">libva_2.13.0.bb</a><br>
-          @@ -2,14 +2,12 @@ require libva.inc<br>
-          <br>
-          =C2=A0PACKAGECONFIG ??=3D &quot; \<br>
-          =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39=
-;, &#39;x11 opengl&#39;,
-          &#39;glx&#39;, &#39;&#39;, d)} \<br>
-          -=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39=
-;x11 wayland&#39;, d)}
-          \<br>
-          +=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39=
-;x11&#39;, d)} \<br>
-          =C2=A0&quot;<br>
-          <br>
-          =C2=A0PACKAGECONFIG[x11] =3D
-          &quot;-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virtual/libx11 libxext
-          libxfixes&quot;<br>
-          =C2=A0PACKAGECONFIG[glx] =3D
-          &quot;-Dwith_glx=3Dyes,-Dwith_glx=3Dno,virtual/mesa&quot;<br>
-          <br>
-          -PACKAGECONFIG[wayland] =3D
-          &quot;-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native way=
-land&quot;<br>
-          -<br>
-          =C2=A0PACKAGES =3D+ &quot;${PN}-x11 ${PN}-glx ${PN}-wayland&quot;=
-<br>
-          <br>
-          =C2=A0RDEPENDS:${PN}-x11 =3D+ &quot;${PN}&quot;<br>
-          -- <br>
-          2.25.1<br>
-          <br>
-          <br>
-          <br>
-          <br>
-        </blockquote>
-      </div>
-      <br>
-      <fieldset></fieldset>
-      <pre></pre>
-    </blockquote>
-  </div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#159539): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/159539" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/159539</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87636241/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/87636241/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000040ea505d2cbdf6f--
 
