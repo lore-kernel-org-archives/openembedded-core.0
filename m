@@ -1,126 +1,79 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14585C433F5
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 15:57:05 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web08.9030.1639151824151400408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 451B6C4332F
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 15:58:30 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.9058.1639151908562474581
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 07:57:04 -0800
+ Fri, 10 Dec 2021 07:58:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WiEotjLi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id u17so15690879wrt.3
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=V3SSgQNJ;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.50,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f50.google.com with SMTP id q3so15668022wru.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 07:57:03 -0800 (PST)
+ Fri, 10 Dec 2021 07:58:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=renWZAcuWLo+W6ZFnh2oCTfNGpIJnkapmxO5KYawiKo=;
-        b=WiEotjLigCNxut12/JhxoeWhRBdynjUfil4DvYGJUZJKTVoWfrhBA/qElZWaNE5C14
-         9vDNrf7yidPTov83lkWVmxtZmsNXeBe4C5Q5VecepsHQ85dytBfRBoJxpa3DojpKSAGs
-         ac4tA9OkrgYPEnN2+rQOHwTUl4Dsz3bvvjWHI=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kM9QOk4lKIqXuCHUTuAXJlJYHOdcut0qDuRHxPHnyLg=;
+        b=V3SSgQNJpMbsA6UbrQKepvbcqB8UASSCsNEEeg4wdxLeJ8nnaUfKDTY+hl6CCFd5Cu
+         pAMA+seJVU2Yhmju4EnJ1U/vyF9n73L9dT6ihlur0y8YOc/JC8QizpH4FYZ/mRt6cP/5
+         zJ+65vFyasmv2zxPGer8xmq3RRkNCC+FBLxcPK+uMaS/LkEV3Xw/BfGsuSeXeK8VG3M5
+         NA28GRJXby0i4qOyomqlfMeoSA0nQEgFD3sbzjg1g/oo900t+J0/LnCncS7gLyTUMuXr
+         MIGGsT38+BfSKhg/NJHw2YiuKMzXdhIzenhPwZZt07UjshBUVmYqT8rd61m42O2AdSGe
+         wy9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=renWZAcuWLo+W6ZFnh2oCTfNGpIJnkapmxO5KYawiKo=;
-        b=c72zrJnYk3e2XKCzygubZz4G0G1P9k8GmQjbAPAviGQ4p504bwVn3//yCVMAJMTkx+
-         qp9GH0ONnApmgiyyQYTI1KJH7++JoQ2F3lbyc+v45JfNTB05REb9r5LEuSjrl0GeIBgL
-         qUXzl3cTcJmuBFpeZPG18b+kU/UmCDvpvJ/xvwmPBBcutp4dRYj0gRv6R4J2Co+m25Rl
-         ylg5JMcTqcuzRQWk5a1R0Zekf4ImF2Mxe2IPq9ku/SOxNLFa7W7RaPeC5AANQFTVRpmj
-         S7Y/60en/xfmofJHAfXFBxmkgcJNLx5aFd0LtAhimBAbA2wA2WjnBEKiJofiCPsDzbQj
-         44zw==
-X-Gm-Message-State: AOAM5313166z7g/ZWW4SC7FY7TQC9pxwWgNGzK5B309oZo39EJJXpPqV
-	2eEcNEPToIv+sZtCDyebbXijpQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kM9QOk4lKIqXuCHUTuAXJlJYHOdcut0qDuRHxPHnyLg=;
+        b=qF4RhoaKbTqRqxVuKKzp1foW7VYJsvbcVMmVwPBl/HCvu6C3cZblgIHCMjcb2q0G1y
+         8ysIpmgym8KYFR0f48ph0+E+xmKQAZJolHQ2DcQ5GLVtZWGnTeOSypkhaKsIi79UOj+3
+         4c2azAXZ/utY0MwBLJ+6ZvDONK/7DKFXAKV1aL/Fhxt9bB0KX4adsbMxgmTe/rZIiOJR
+         glqRya4yVCZRn/3rEa2OQXkWYkZxXp4PsoBaT5M1CfVoM8IqHEeCugBpY4ttQgiMj5du
+         CRGlKGtL5rL3s+VNd3pguZu1sSQVDsR8tQOEkllmtiXw/yfGXgtjfHeht7HLpMjZ35eW
+         dsoQ==
+X-Gm-Message-State: AOAM532QSgUhVpHmZlbUnGfram1gPl8WKdMG0Bsh3ELL+lgmhN46BNbh
+	Ylb54iq+A5+ccyDv73JXnY5IEyQAA/9ZJaJVWY76hQ==
 X-Google-Smtp-Source: 
- ABdhPJzVFbfyVs5f1oUPenM4KZ+7QUrvhSK3doys1gtoyTLYBw99tY/cGB79WaVNRB0bjCceRygTxg==
-X-Received: by 2002:adf:d4c2:: with SMTP id w2mr14774503wrk.225.1639151822699;
-        Fri, 10 Dec 2021 07:57:02 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1746:a8bd:1fb1:93fc?
- ([2001:8b0:aba:5f3c:1746:a8bd:1fb1:93fc])
-        by smtp.gmail.com with ESMTPSA id
- x4sm11964000wmi.3.2021.12.10.07.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 07:57:02 -0800 (PST)
-Message-ID: 
- <b2a5cb5f05016901b1c9d56e0d68f939c549db19.camel@linuxfoundation.org>
-Subject: Re: [oe][OE-core][Patch 0/2] implement applying patches from a
- directory
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Max Krummenacher <max.oss.09@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Date: Fri, 10 Dec 2021 15:57:00 +0000
-In-Reply-To: <20211210130458.39716-1-max.krummenacher@toradex.com>
-References: <20211210130458.39716-1-max.krummenacher@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJyIReUS8YY3PQZ+1ABm6XybrxREY7dgIk3qV1tODy3d0PUcnAG3VttH9/X+XuI9rkoWY6Q7R9GtJrMbwjPfERY=
+X-Received: by 2002:adf:8b0e:: with SMTP id
+ n14mr13710299wra.281.1639151907006;
+ Fri, 10 Dec 2021 07:58:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211210142242.2698587-1-ross.burton@arm.com>
+ <CAMKF1sq5CJqTmkQS6dZcqHaxsGO5OgD0vUFRci13hnvb-aQmfA@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sq5CJqTmkQS6dZcqHaxsGO5OgD0vUFRci13hnvb-aQmfA@mail.gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Fri, 10 Dec 2021 15:58:15 +0000
+Message-ID: 
+ <CAAnfSTuYiyeRdTwJYU7t5XhUe5eX542U_Muw-vcMS5mZwkhyvg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 01/10] libtool: don't prefix the installed
+ binary
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 15:57:05 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 15:58:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159550
+ https://lists.openembedded.org/g/openembedded-core/message/159551
 
-On Fri, 2021-12-10 at 14:04 +0100, Max Krummenacher wrote:
-> The current developer manual [1] specifies that patches that are
-> part of a directory which is given in SRC_URI are applied by
-> the do_patch task. However that is not implemented in the
-> current code.
-> 
-> This patchset implements that, but deviates from what is
-> documented. If the patches are applied I will send a patch
-> for the documentation changing the relevant part to:
-> 
-> ```
-> If you have a directory full of patch files and you want to
-> apply them all you can add the directory to SRC_URI and add
-> the "apply=yes" parameter. This will apply ALL files in the
-> directiory, including files in subdirectories.
-> The patches will be applied sorted by their filename. Files
-> from subdirectories will be sorted into the list at the
-> position given by the subdirectory name.
-> 
->    SRC_URI = " \
->        git://path_to_repo/some_package \
->        file://path_to_lots_of_patch_files;apply=yes \
->        "
-> 
-> In the previous example all the files in the directory holding
-> the patch files would be applied as a patch.
-> ```
-> 
-> Max
-> 
-> [1] https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#ref-tasks-patch
-> 
-> Max Krummenacher (2):
->   lib/oe/patch.py: apply patches from src_uri specified directories
->   lib/oe/recipeutils.py: follow changed method argument list
-> 
+On Fri, 10 Dec 2021 at 15:17, Khem Raj <raj.khem@gmail.com> wrote:
+> Does it mean that it can now run original libtool script accidentally which is pregenerated part of package which may be not what we want
 
-Can I ask about the motivation here? Have you a use case you needed this to work
-with or are you just making the code match the docs?
+Not really, if we run libtoolize then we replace any existing libtool
+binary.  If we don't run libtoolize then there isn't our binary in the
+first place.  Also, libtool-cross/libtool-native provide our libtool
+binary on $PATH.
 
-I'm a little worried about adding features like this which aren't commonly used
-and clearly haven't been needed for a while. Such changes really do need some
-kind of test case and as Bruce mentions, ordering of patches patches in
-directories is a concern, you did at least sort the listdir() output which is
-good :)
-
-In the past when I've needed something like this, dumping "ls -1" into a file
-and turning it into a SRC_URI hasn't been too hard even for long lists of
-patches...
-
-Cheers,
-
-Richard
-
+Ross
 
