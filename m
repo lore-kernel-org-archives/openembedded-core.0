@@ -1,209 +1,112 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26649C433EF
-	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 13:02:00 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.6893.1639141318807600737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC20C433F5
+	for <webhook@archiver.kernel.org>; Fri, 10 Dec 2021 13:05:52 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.6759.1639141550220630064
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 05:01:59 -0800
+ Fri, 10 Dec 2021 05:05:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NXskoxvJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id c4so14777595wrd.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QTBDPQsc;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47,
+ mailfrom: max.oss.09@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id a9so14805573wrr.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Dec 2021 05:01:58 -0800 (PST)
+ Fri, 10 Dec 2021 05:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=//yyx2bjYorCsFwWUhzI7/bdTFJUsYUkWr7HK6+G9fI=;
-        b=NXskoxvJUBRaaam3F5YoyNVENGO7pFelvxYTKx3uccoLHKXvpaz6VpXkOYuLgOcoYC
-         AyURlxbavQTcx43VDdNLJGX2Nh3g+OUySOWgvQdBy4l/pXhoWFZcyjkI/nFQ+ygC2gGE
-         /pk01b6VDSRh3Md9O9vJP/NtxsVssfgKtwBAuCJzKLXemMAuwlbgpSfn0AGoWq3P0AuO
-         S3pWkBypbZvuebUu9BegzsneKtwz/ZZzZ5rOkj+1D8SWseq805O5l7OSZRQPgrlIrmkm
-         xXy/m2CR5AdUKSh7o+ZLM9Ig4u5QLpQjr2+zmXxZ1tcp+QusYtH5668aqSRuqlSpsXrg
-         ovFQ==
+        bh=x+1ZBBpShGXLPMYGEaR7cDlgezLipOXjX6x2K6jyefw=;
+        b=QTBDPQsc8DaChX2SRyJmZvkZFYCw7GIlR4crI7hcwenS/s2xUvhHJC7fhZ3Yu081FC
+         SzFSbT7VsZHngByVbThBX5nu06z+3McSUJaEUsvxbJy0PfoFI/w6AQlbYh8s4K96rp3R
+         Qqw4yZrplnbfcaTgg18f7xKS/no3eSkEi3zsOQeh5xsJWZg+/j4UdPSq/IbeR+0EcgCY
+         +/lj0xQqcRP0/x6GUAH0Iad0iWmJJP8czE2DLUBgWFmw9zwlSkZyVeWcWe+tBx7W+7iA
+         wMozyhSkrtcpPcMVv/gNZpjQSgsWYy5EbNUoq96amxQp/2qALzMwtzdtcPSoIxJXRkUx
+         +q+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=//yyx2bjYorCsFwWUhzI7/bdTFJUsYUkWr7HK6+G9fI=;
-        b=Mkrsvdkm/iwwwah0kwcSclHlyvKtTRDcwNf5sJ01jW3KiTvwLp6nI8Sv/mfd6xnimE
-         wviEFBckLZB0gIufLjQC+7q8/EhXulPDNFIyJyu2mkE9kA3PPi57RjEMaoW2+g2/v3dw
-         bFXgGm3Io8pG4B0P8TfuIMO7sHR+GdIGZCXlonSyDiDz1uDovHlOPrC8xQD5XNlW/84f
-         p9qzXeAoy6b1MOhj5eUBG9kog7S2pcohfGnW0E/eB43Cw4Id0UvxifbHHWygSV+zWFsm
-         St+7f/kgNK6OQOAMY2qseU1iYbz8Z0rw3kvfi0rY468K1u4K1+alPo86ZBbUrP+O5cae
-         ub5w==
-X-Gm-Message-State: AOAM5326QBXIBISwBxx+JNY4J5b5WFzIy9quQVISKyzER7wnQ7/6y3C+
-	1weznt074WDjcdDvGf7OJWlx++sFmZgKMw==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x+1ZBBpShGXLPMYGEaR7cDlgezLipOXjX6x2K6jyefw=;
+        b=BzRHc2gdQT83jBJgATGcVXkrp2Z3mq3m7eP2B4SCs9tzB+6xolEw/otSpjDyv8bO7V
+         Lvs+FzMsjrHrDEwYMyt8WFwo12hzEWUxKuIlbkbC0n6LL0aT97LxRDmetXa8VCk1Bwp6
+         9qqhF6+IFyJeyTWgD6PIrXFQZSHZDjZRh6qKSFBw25TyNtRLYXqWF9PcxplT5Foyr+Gf
+         Ypfo55sVQGI1vNqMhlB1R2R3VTsKmI4nCO/6FH6Wqsj2X3uPWvWceu595Ezl1PwU6zTf
+         xUdPGqennH8t04u/3PN6BuKdnPTmiKUWY69vsk6HLmw/o4EV3PT3sr3492G5paNc1gPG
+         l1mA==
+X-Gm-Message-State: AOAM5317rIekN5cDYHWwYRv/XVmJ1DjfCseCjhFHuGDs6fnzgOqvDR6p
+	Z2CbZjfVRqnCqC2VrOqdHwpEiVS76rHaQQ==
 X-Google-Smtp-Source: 
- ABdhPJzyygpJlnzV/5GuIshEb+5hVrJS6XLqYdBiCxRxdvAQgsGtCPW8IAymM1/uZdB4nWmsT9/b/A==
-X-Received: by 2002:a05:6000:1a45:: with SMTP id
- t5mr14655928wry.306.1639141316904;
-        Fri, 10 Dec 2021 05:01:56 -0800 (PST)
-Received: from slackware.local
- (dslb-002-205-007-123.002.205.pools.vodafone-ip.de. [2.205.7.123])
+ ABdhPJx+YI7YBz6/Bd5sbJ6Nfz1XYiuYdGkXAoT96iMhG9mhpKmoCzqP7qX8tF/qLZULXBxEGir1Gw==
+X-Received: by 2002:a5d:47aa:: with SMTP id 10mr13644110wrb.50.1639141548530;
+        Fri, 10 Dec 2021 05:05:48 -0800 (PST)
+Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch.
+ [31.10.206.124])
         by smtp.gmail.com with ESMTPSA id
- d2sm2899653wmb.31.2021.12.10.05.01.56
-        for <openembedded-core@lists.openembedded.org>
+ v15sm2649214wro.35.2021.12.10.05.05.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 05:01:56 -0800 (PST)
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+        Fri, 10 Dec 2021 05:05:48 -0800 (PST)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/8] overlayfs: move templates to files directory
-Date: Fri, 10 Dec 2021 14:01:45 +0100
-Message-Id: 
- <ed4370b7541a2521840ec0047b0cbbdd388abd5f.1639141237.git.uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1639141237.git.uvv.mail@gmail.com>
-References: <cover.1639141237.git.uvv.mail@gmail.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [oe][OE-core][Patch 0/2] implement applying patches from a directory
+Date: Fri, 10 Dec 2021 14:04:56 +0100
+Message-Id: <20211210130458.39716-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 13:02:00 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Dec 2021 13:05:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159517
+ https://lists.openembedded.org/g/openembedded-core/message/159518
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
----
- meta/classes/overlayfs.bbclass               | 52 ++++----------------
- meta/files/overlayfs-all-overlays.service.in | 12 +++++
- meta/files/overlayfs-create-dirs.service.in  | 14 ++++++
- meta/files/overlayfs-unit.mount.in           | 13 +++++
- 4 files changed, 49 insertions(+), 42 deletions(-)
- create mode 100644 meta/files/overlayfs-all-overlays.service.in
- create mode 100644 meta/files/overlayfs-create-dirs.service.in
- create mode 100644 meta/files/overlayfs-unit.mount.in
+The current developer manual [1] specifies that patches that are
+part of a directory which is given in SRC_URI are applied by
+the do_patch task. However that is not implemented in the
+current code.
 
-diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
-index f1b8086ea8..4a860f7308 100644
---- a/meta/classes/overlayfs.bbclass
-+++ b/meta/classes/overlayfs.bbclass
-@@ -37,51 +37,19 @@ REQUIRED_DISTRO_FEATURES += "systemd overlayfs"
- 
- inherit systemd features_check
- 
-+OVERLAYFS_CREATE_DIRS_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-create-dirs.service.in"
-+OVERLAYFS_MOUNT_UNIT_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-unit.mount.in"
-+OVERLAYFS_ALL_OVERLAYS_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-all-overlays.service.in"
-+
- python do_create_overlayfs_units() {
-     from oe.overlayfs import mountUnitName
- 
--    CreateDirsUnitTemplate = """[Unit]
--Description=Overlayfs directories setup
--Requires={DATA_MOUNT_UNIT}
--After={DATA_MOUNT_UNIT}
--DefaultDependencies=no
--
--[Service]
--Type=oneshot
--ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
--RemainAfterExit=true
--StandardOutput=journal
--
--[Install]
--WantedBy=multi-user.target
--"""
--    MountUnitTemplate = """[Unit]
--Description=Overlayfs mount unit
--Requires={CREATE_DIRS_SERVICE}
--After={CREATE_DIRS_SERVICE}
--
--[Mount]
--What=overlay
--Where={LOWERDIR}
--Type=overlay
--Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
--
--[Install]
--WantedBy=multi-user.target
--"""
--    AllOverlaysTemplate = """[Unit]
--Description=Groups all overlays required by {PN} in one unit
--After={ALL_OVERLAYFS_UNITS}
--Requires={ALL_OVERLAYFS_UNITS}
--
--[Service]
--Type=oneshot
--ExecStart=/bin/true
--RemainAfterExit=true
--
--[Install]
--WantedBy=local-fs.target
--"""
-+    with open(d.getVar("OVERLAYFS_CREATE_DIRS_TEMPLATE"), "r") as f:
-+        CreateDirsUnitTemplate = f.read()
-+    with open(d.getVar("OVERLAYFS_MOUNT_UNIT_TEMPLATE"), "r") as f:
-+        MountUnitTemplate = f.read()
-+    with open(d.getVar("OVERLAYFS_ALL_OVERLAYS_TEMPLATE"), "r") as f:
-+        AllOverlaysTemplate = f.read()
- 
-     def prepareUnits(data, lower):
-         from oe.overlayfs import helperUnitName
-diff --git a/meta/files/overlayfs-all-overlays.service.in b/meta/files/overlayfs-all-overlays.service.in
-new file mode 100644
-index 0000000000..74ee4e90ae
---- /dev/null
-+++ b/meta/files/overlayfs-all-overlays.service.in
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=Groups all overlays required by {PN} in one unit
-+After={ALL_OVERLAYFS_UNITS}
-+Requires={ALL_OVERLAYFS_UNITS}
-+
-+[Service]
-+Type=oneshot
-+ExecStart=/bin/true
-+RemainAfterExit=true
-+
-+[Install]
-+WantedBy=local-fs.target
-diff --git a/meta/files/overlayfs-create-dirs.service.in b/meta/files/overlayfs-create-dirs.service.in
-new file mode 100644
-index 0000000000..17204145f2
---- /dev/null
-+++ b/meta/files/overlayfs-create-dirs.service.in
-@@ -0,0 +1,14 @@
-+[Unit]
-+Description=Overlayfs directories setup
-+Requires={DATA_MOUNT_UNIT}
-+After={DATA_MOUNT_UNIT}
-+DefaultDependencies=no
-+
-+[Service]
-+Type=oneshot
-+ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
-+RemainAfterExit=true
-+StandardOutput=journal
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/files/overlayfs-unit.mount.in b/meta/files/overlayfs-unit.mount.in
-new file mode 100644
-index 0000000000..1d33b7e39c
---- /dev/null
-+++ b/meta/files/overlayfs-unit.mount.in
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Overlayfs mount unit
-+Requires={CREATE_DIRS_SERVICE}
-+After={CREATE_DIRS_SERVICE}
-+
-+[Mount]
-+What=overlay
-+Where={LOWERDIR}
-+Type=overlay
-+Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
-+
-+[Install]
-+WantedBy=multi-user.target
+This patchset implements that, but deviates from what is
+documented. If the patches are applied I will send a patch
+for the documentation changing the relevant part to:
+
+```
+If you have a directory full of patch files and you want to
+apply them all you can add the directory to SRC_URI and add
+the "apply=yes" parameter. This will apply ALL files in the
+directiory, including files in subdirectories.
+The patches will be applied sorted by their filename. Files
+from subdirectories will be sorted into the list at the
+position given by the subdirectory name.
+
+   SRC_URI = " \
+       git://path_to_repo/some_package \
+       file://path_to_lots_of_patch_files;apply=yes \
+       "
+
+In the previous example all the files in the directory holding
+the patch files would be applied as a patch.
+```
+
+Max
+
+[1] https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#ref-tasks-patch
+
+Max Krummenacher (2):
+  lib/oe/patch.py: apply patches from src_uri specified directories
+  lib/oe/recipeutils.py: follow changed method argument list
+
+ meta/lib/oe/patch.py       | 98 +++++++++++++++++++++++---------------
+ meta/lib/oe/recipeutils.py |  2 +-
+ 2 files changed, 60 insertions(+), 40 deletions(-)
+
 -- 
-2.28.0
+2.20.1
 
 
