@@ -1,395 +1,147 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <leon@sidebranch.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAC10C433F5
-	for <webhook@archiver.kernel.org>; Sat, 11 Dec 2021 14:09:48 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web12.21908.1639231787283939055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47463C433EF
+	for <webhook@archiver.kernel.org>; Sat, 11 Dec 2021 14:17:01 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.22070.1639232219005917471
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Dec 2021 06:09:48 -0800
+ Sat, 11 Dec 2021 06:17:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SW405sxf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id
- k37-20020a05600c1ca500b00330cb84834fso10983308wms.2
+ dkim=pass header.i=@sidebranch-com.20210112.gappssmtp.com header.s=20210112
+ header.b=aYm4MtZI;
+ spf=softfail (domain: sidebranch.com, ip: 209.85.208.50,
+ mailfrom: leon@sidebranch.com)
+Received: by mail-ed1-f50.google.com with SMTP id y12so37564901eda.12
         for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Dec 2021 06:09:46 -0800 (PST)
+ Sat, 11 Dec 2021 06:16:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bP8yc0w0LmjEgBzmWCdsKKsHtJgABoa1kKuhqTuzcKg=;
-        b=SW405sxfyA+OQmnR8nXUwnBJA4SrgX7pIFdgNzdm5naHVVzHYAot3CpWYFQkw2sv3e
-         GSeTIYivX0m3PfjEz2DuXJ9fvlSF+IWdvCKGlumPxg5Eaxb47yjFT9+1oojAe7qqc1jb
-         +F0fLlsOgAqctrIWtGXvV4qeLbB2DEx+bRe5c=
+        d=sidebranch-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iw/VgumCEMyHYlNFLYSfWPrB1AhFitXh6TFalGv+Mlk=;
+        b=aYm4MtZIRDqSfJmpSCF639aAPHBfNFuPULB9XUIoF546cDeP5Sb/hsdeov+ti+Q0I2
+         Mng2LtSN+XRmJXao3tfQa3PXNBu8lrZ5M0/FvqQ9pB3gVz9dQQ2MlwOi+2Tuslw8Q3k/
+         GHMDWMVkF3jEuS5OAdFgbfPYx1zf+2uD4kRry1A4sinHzbK9ghXAmxVWsK3avyi7widV
+         Z2kan3kWpSQmfp48Y3oPauVOKXdSdWbT3cmgwk+MZRyZV9GJ6dckusiiuWTHDR1G+73m
+         slr0Xj2J8A0YY0mahk45X9a036MMh3b/uVeuDqVq9U3ExtMft8+tw2+c3oHjNEziAD6n
+         EVng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bP8yc0w0LmjEgBzmWCdsKKsHtJgABoa1kKuhqTuzcKg=;
-        b=YCwFcE+vICLvXlAMEiAwphGe01VM7kicSF9Kw1y2RMFkzoFbKnyvZ+o9jK6Ar2gUvt
-         5HVmcUNy+qkO9x/clHz5Jeuam/Z1DMxFb/jtWP9DaB4xsf9CJhJ5b57xkAHZ8Q1ocOhA
-         LfLHTE1nF/sfZfHLQl+VMo5JlpPqcl8/215GgOO8X1zUypk+8ImTB/3IPC6mpdNeMNJe
-         vFEni2j/f+lsvoYN7Ae4QZ0tjE66/8/oAU6oBNihR/QdoAFa3nfPP2YMPf7Ji5RYlAQk
-         weXhuskUUH7rNa6NeMzsbztI5fkO+3b+vER5v1pfA81LTcsjp+fgIkNHnXiRj+c8908I
-         eTPQ==
-X-Gm-Message-State: AOAM531MUmPOZSxUBPzAAOo6xEQpG+haKgDmK3awfhjY/j8BYjZbWyWj
-	uuH30sAZaywoTTNs67fXHwU3PI0Ov0DPlg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iw/VgumCEMyHYlNFLYSfWPrB1AhFitXh6TFalGv+Mlk=;
+        b=WN3C7Jwbgab9vQAftYsX6s6LB4nw17oxRsnYOuD7jlGsBWyiaGeDoQKJBXnSJGEnyi
+         YUBpv4LDdtv/H22Cr3PlMWaqGR0g40mioOgDq95pcSOEmhYYOhhG/iIyBW4tz4jx6y+x
+         b44XMr+Q4ffE/UvWdxyC+xGewssgjdrQfYqHgjvAsEoFQEoTlGGPYyBsim6uR/DZE+zg
+         mjTXcPsyKencJGU3QchPMR9YMlFlC1IO3mUaXnfkIYQ87ruOWu1M/m3TYO2nlqKR9EXu
+         VVfYjCI+oSw+D8a9+jkQQJcv7uyK4wyasBWd2r/VFpK3PqoR+fi/x1K33+w0eY1kq7Fu
+         XJpw==
+X-Gm-Message-State: AOAM5339YINLLn0CGn4BU07bam92Ipk9VGfSt4Lv8gW13d+yIxOOa9IQ
+	JLRqzCb6xEy06KBqE4urJ5ZU7uJRA/f0zY+i1AGeZpFmXUMgNA==
 X-Google-Smtp-Source: 
- ABdhPJwrUQ2dZAbtC+tdwlJjAeVr8HHDPZP05zxvz/U6BG2NNSpLx0Okj93kWbpq9H+8sLiZgM3OjA==
-X-Received: by 2002:a1c:7418:: with SMTP id p24mr24020668wmc.71.1639231784782;
-        Sat, 11 Dec 2021 06:09:44 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f405:6ac4:2af3:f8d3])
-        by smtp.gmail.com with ESMTPSA id
- s24sm1549995wmj.26.2021.12.11.06.09.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Dec 2021 06:09:44 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] puzzles: Upgrade to latest git with patches merged
-Date: Sat, 11 Dec 2021 14:09:43 +0000
-Message-Id: <20211211140943.708450-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ ABdhPJwvJwj//sVhJi6Y4UDrqT6USzyfbOMV6dR8nHBp+DoyxdFsLhXw4457lVHM3HAXexETGVyHb65JqfobNhh5yzQ=
+X-Received: by 2002:a05:6402:278e:: with SMTP id
+ b14mr47508279ede.354.1639232217012;
+ Sat, 11 Dec 2021 06:16:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <01159b35-cec2-1b90-f11c-77f6991b32b8@ni.com>
+In-Reply-To: <01159b35-cec2-1b90-f11c-77f6991b32b8@ni.com>
+From: Leon Woestenberg <leon@sidebranch.com>
+Date: Sat, 11 Dec 2021 15:16:46 +0100
+Message-ID: 
+ <CAMjhiJifppMq6o6H4PftX5YyR-ZV3cYYiniSReA00YXpCXT-3g@mail.gmail.com>
+Subject: Re: [OE-core] The state of DKMS in the Yocto community
+To: Alex Stewart <alex.stewart@ni.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Dec 2021 14:09:48 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Dec 2021 14:17:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159566
+ https://lists.openembedded.org/g/openembedded-core/message/159567
 
-This upgrades to the latest upstream version where our fixes have equivalent
-fixes merged upstream so our patches are no longer needed.
+Hello Alex,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...Check-for-excessive-values-to-malloc.patch | 45 ------------
- ...01-map-Fix-stringop-overflow-warning.patch | 34 ---------
- ...isade-Fix-warnings-with-clang-on-arm.patch | 72 -------------------
- ...-string-lenght-parameter-to-be-size_.patch | 30 --------
- ...ix-compiling-failure-with-option-g-O.patch | 33 ---------
- .../puzzles/files/fix-ki-uninitialized.patch  | 32 ---------
- meta/recipes-sato/puzzles/puzzles_git.bb      | 11 +--
- 7 files changed, 2 insertions(+), 255 deletions(-)
- delete mode 100644 meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
- delete mode 100644 meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
- delete mode 100644 meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
- delete mode 100644 meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
- delete mode 100644 meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
- delete mode 100644 meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
+with DKMS, do you mean cross-compiling out-of-kernel modules on the
+build machine (that runs the Yocto/OpenEmbedded driven build)?
 
-diff --git a/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch b/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
-deleted file mode 100644
-index b572b55d1cf..00000000000
---- a/meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--tree234: Avoid excessive values to malloc
--
--with whole program optimizers like lto, smalloc() is inlined the excessive
--constant argument is propagated to malloc() and ultimately triggers the warning.
--
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c: In function 'disptree':
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:46:17: error: argument 1 value '18446744073709551612' exceeds maximum object size 9223372036854775807 [-Werror=alloc-size-larger-than=]
--|    46 | #define smalloc malloc
--|       |                 ^
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:1631:17: note: in expansion of macro 'smalloc'
--|  1631 |     leveldata = smalloc(ht * (width+2));
--|       |                 ^~~~~~~
--| In file included from tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:29:
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/recipe-sysroot/usr/include/stdlib.h:539:14: note: in a call to allocation function 'malloc' declared here
--|   539 | extern void *malloc (size_t __size) __THROW __attribute_malloc__
--|       |              ^~~~~~
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:46:17: error: argument 1 value '18446744073709551600' exceeds maximum object size 9223372036854775807 [-Werror=alloc-size-larger-than=]
--|    46 | #define smalloc malloc
--|       |                 ^
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:1632:18: note: in expansion of macro 'smalloc'
--|  1632 |     ctx.levels = smalloc(ht * sizeof(char *));
--|       |                  ^~~~~~~
--| In file included from tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/git/tree234.c:29:
--| tmp/work/core2-64-poky-linux/puzzles/2_0.0+gitAUTOINC+640f9235c7-r0/recipe-sysroot/usr/include/stdlib.h:539:14: note: in a call to allocation function 'malloc' declared here
--|   539 | extern void *malloc (size_t __size) __THROW __attribute_malloc__
--|       |              ^~~~~~
--| cc1: some warnings being treated as errors
--
--Upstream-Status: Submitted [email discussion with upstream]
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: git/tree234.c
--===================================================================
----- git.orig/tree234.c
--+++ git/tree234.c
--@@ -1621,7 +1621,7 @@ void disptree(tree234 *t) {
--     dispctx ctx;
--     char *leveldata;
--     int width = count234(t);
---    int ht = height234(t) * 3 - 2;
--+    unsigned int ht = height234(t) * 3 - 2;
--     int i;
-- 
--     if (!t->root) {
-diff --git a/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch b/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
-deleted file mode 100644
-index 7f46d3ec0eb..00000000000
---- a/meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From: Khem Raj <raj.khem@gmail.com>
--map: Fix stringop-overflow warning
--
--Fixes
--
--../git/map.c: In function 'new_game_desc':
--../git/map.c:1663:23: error: writing 1 byte into a region of size 0 [-Werror=stringop-overflow=]
-- 1663 |         ret[retlen++] = ',';
--      |         ~~~~~~~~~~~~~~^~~~~
--../git/./map.c: In function 'new_game_desc':
--../git/./map.c:1663:23: error: writing 1 byte into a region of size 0 [-Werror=stringop-overflow=]
-- 1663 |         ret[retlen++] = ',';
--      |         ~~~~~~~~~~~~~~^~~~~
--
--Upstream-Status: Submitted [email discussion with upstream]
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: git/map.c
--===================================================================
----- git.orig/map.c
--+++ git/map.c
--@@ -1659,6 +1659,10 @@ static char *new_game_desc(const game_pa
-- 	    }
-- 	}
-- 
--+        if (retlen + 10 >= retsize) {
--+            retsize = retlen + 256;
--+            ret = sresize(ret, retsize, char);
--+        }
-- 	ret[retlen++] = 'a'-1 + run;
-- 	ret[retlen++] = ',';
-- 
-diff --git a/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch b/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
-deleted file mode 100644
-index 07eb1d32f65..00000000000
---- a/meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
-+++ /dev/null
-@@ -1,72 +0,0 @@
--From: Khem Raj <raj.khem@gmail.com>
--
--palisade: Fix warnings with clang on arm
--
--ARM treats 'char' as unsigned char when 'char' is not qualified with
--'signed' or 'unsigned' explicitly.
--
--This results in warnings e.g.
--
--palisade.c:531:22: error: comparison of constant -1 with expression of
--type 'clue' (aka 'char') is always false
--[-Werror,-Wtautological-constant-out-of-range-compare]
--        if (clues[i] == EMPTY) continue;
--
--Therefore, typcast the contant to char in such places to be explicit
--
--Upstream-Status: Submitted [email discussion with upstream]
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: git/palisade.c
--===================================================================
----- git.orig/palisade.c
--+++ git/palisade.c
--@@ -46,7 +46,7 @@ struct game_params {
--     int w, h, k;
-- };
-- 
---typedef char clue;
--+typedef signed char clue;
-- typedef unsigned char borderflag;
-- 
-- typedef struct shared_state {
--@@ -242,7 +242,7 @@ typedef struct solver_ctx {
--  * thing is done.  See how it is propagated across multiple squares.]
--  */
-- 
---#define EMPTY (~0)
--+#define EMPTY ((clue)-1)
-- 
-- #define BIT(i) (1 << (i))
-- #define BORDER(i) BIT(i)
--@@ -622,7 +622,7 @@ static char *new_game_desc(const game_pa
-- {
--     int w = params->w, h = params->h, wh = w*h, k = params->k;
-- 
---    clue *numbers = snewn(wh + 1, clue), *p;
--+    clue *numbers = snewn(wh + 1, clue);
--     borderflag *rim = snewn(wh, borderflag);
--     borderflag *scratch_borders = snewn(wh, borderflag);
-- 
--@@ -682,7 +682,8 @@ static char *new_game_desc(const game_pa
--     sfree(shuf);
--     sfree(dsf);
-- 
---    p = numbers;
--+    char *output = snewn(wh + 1, char), *p = output;
--+
--     r = 0;
--     for (i = 0; i < wh; ++i) {
--         if (numbers[i] != EMPTY) {
--@@ -699,7 +700,8 @@ static char *new_game_desc(const game_pa
--     }
--     *p++ = '\0';
-- 
---    return sresize(numbers, p - numbers, clue);
--+    sfree(numbers);
--+    return sresize(output, p - output, char);
-- }
-- 
-- static const char *validate_desc(const game_params *params, const char *desc)
-diff --git a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch b/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
-deleted file mode 100644
-index 5e240bfea57..00000000000
---- a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From: Khem Raj <raj.khem@gmail.com>
--
--pattern.c: Change string lenght parameter to be size_t in do_row()
--
--This fixes below error on some architectures e.g. RISC-V
--
--pattern.c:455:9: error: 'memset' specified size between 18446744071562067968 and 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Werror=stringop-overflow=]                                                                     455 |         memset(deduced, DOT, (size_t)len);                                                                                   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Upstream-Status: Submitted [email discussion with upstream]
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- pattern.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--Index: git/pattern.c
--===================================================================
----- git.orig/pattern.c
--+++ git/pattern.c
--@@ -429,7 +429,7 @@ static bool do_row(unsigned char *known,
--                    unsigned char *row,
--                    unsigned char *minpos_done, unsigned char *maxpos_done,
--                    unsigned char *minpos_ok, unsigned char *maxpos_ok,
---                   unsigned char *start, int len, int step, int *data,
--+                   unsigned char *start, size_t len, int step, int *data,
--                    unsigned int *changed
-- #ifdef STANDALONE_SOLVER
--                    , const char *rowcol, int index, int cluewid
-diff --git a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
-deleted file mode 100644
-index 4ee75431667..00000000000
---- a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From: Hongxu Jia <hongxu.jia@windriver.com>
--
--gtk.c: fix compiling failure with option -g -O
--
--There was a compile failure with option -g -O
--...
--././gtk.c: In function 'main':
--././gtk.c:2911:6: error: 'error' may be used uninitialized in this function [-Werror=maybe-uninitialized]
--      fprintf(stderr, "%s: %s\n", pname, error);
--      ^
--cc1: all warnings being treated as errors
--...
--
--Fix by initializing pointer 'error' with NULL
--
--Upstream-Status: Submitted [email discussion with upstream]
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
--Index: git/gtk.c
--===================================================================
----- git.orig/gtk.c
--+++ git/gtk.c
--@@ -3578,7 +3578,7 @@ static void list_presets_from_menu(struc
-- int main(int argc, char **argv)
-- {
--     char *pname = argv[0];
---    char *error;
--+    char *error = NULL;
--     int ngenerate = 0, px = 1, py = 1;
--     bool print = false;
--     bool time_generation = false, test_solve = false, list_presets = false;
-diff --git a/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch b/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
-deleted file mode 100644
-index b182240240b..00000000000
---- a/meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--tree123: avoid compiler unitialized variable error
--
--The compiler does not realize that we must go through the while()
--loop at least once, so we replace it with a for() loop.
--
--Upstream-Status: Submitted [email discussion with upstream]
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
--Index: git/tree234.c
--===================================================================
----- git.orig/tree234.c
--+++ git/tree234.c
--@@ -335,7 +335,7 @@ static void *add234_internal(tree234 *t,
--     }
-- 
--     n = t->root;
---    while (n) {
--+    do {
-- 	LOG(("  node %p: %p/%d \"%s\" %p/%d \"%s\" %p/%d \"%s\" %p/%d\n",
-- 	     n,
-- 	     n->kids[0], n->counts[0], n->elems[0],
--@@ -388,7 +388,7 @@ static void *add234_internal(tree234 *t,
-- 	if (!n->kids[ki])
-- 	    break;
-- 	n = n->kids[ki];
---    }
--+    } while (n);
-- 
--     add234_insert(NULL, e, NULL, &t->root, n, ki);
-- 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 8ac62d52e57..f2fe7d7b969 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -7,17 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=6e7d24cf1c949887ee9447a1e2a4a24c"
- # gtk support includes a bunch of x11 headers
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main \
--           file://fix-compiling-failure-with-option-g-O.patch \
--           file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
--           file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
--           file://fix-ki-uninitialized.patch \
--           file://0001-malloc-Check-for-excessive-values-to-malloc.patch \
--           file://0001-map-Fix-stringop-overflow-warning.patch \
--           "
-+SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main"
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "640f9235c79cdb1a924b0148cb312b0f02253364"
-+SRCREV = "b56c994b721f7cb5c5bcf09c5d695d4ae07d3052"
- PE = "2"
- PV = "0.0+git${SRCPV}"
- 
+Or do you mean provisioning the target with enough tools to allow
+compiling out-of-kernel modules there from source?
+
+In the first case, yes, I can share such recipe for reasonably recent releases.
+
+Regards,
+
+Leon.
+
 -- 
-2.32.0
+Leon Woestenberg
+leon@sidebranch.com
+T: +31 40 711 42 76
+M: +31 6 472 30 372
 
+Sidebranch Embedded Systems
+Eindhoven, The Netherlands
+http://www.sidebranch.com
+
+
+
+On Fri, Dec 10, 2021 at 9:58 PM Alex Stewart <alex.stewart@ni.com> wrote:
+>
+> Hey List,
+>
+> I'm trying to work out the mysterious state of DKMS in OE-Core.
+>
+> Our (NI) OE distributions rely heavily on DKMS to (un)install our
+> ecosystem of kernel drivers at runtime across our product lines. To
+> facilitate that, we authored a dkms_2.4.0.bb recipe [1] back in 2017,
+> which we have carried out-of-stream since.
+>
+> We tried to upstream it, and the patched rev'ed a couple of times [2];
+> but it seems to have never made it into a yocto release.
+>
+> Though some other recipes mention DKMS passingly, I don't see anywhere
+> that OE-Core officially supports it. Nor does my googling reveal anyone
+> else who uses DKMS. I find that a little hard to believe, though I
+> understand that it's probably relatively rare in the embedded space.
+>
+>
+> @all
+> So does anyone else on the list use DKMS in their yocto distribution?
+> Are you maintaining a DKMS recipe out-of-stream as well?
+>
+>
+> @maintainers
+> If NI upgraded our DKMS recipe to a more recent version than 2.4.0 and
+> submitted it again to OE-Core, would you accept it? If not, we will move
+> it to our own meta layer and accept that we are unique in this regard.
+>
+>
+> [1]
+> https://github.com/ni/openembedded-core/commit/5789a27b68d95f3840bb8c4cb0d7b28d538c9a50
+>
+> [2] https://lists.openembedded.org/g/openembedded-core/message/100680
+>
+> Thanks,
+>
+> --
+> Alex Stewart
+> Software Engineer - NI Real-Time OS
+> NI (National Instruments)
+>
+> alex.stewart@ni.com
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159558): https://lists.openembedded.org/g/openembedded-core/message/159558
+> Mute This Topic: https://lists.openembedded.org/mt/87645999/1051774
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [leon@sidebranch.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
