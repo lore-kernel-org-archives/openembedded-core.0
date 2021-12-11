@@ -2,83 +2,84 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2ABC433F5
-	for <webhook@archiver.kernel.org>; Sat, 11 Dec 2021 14:02:06 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web12.21833.1639231325219005760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAC10C433F5
+	for <webhook@archiver.kernel.org>; Sat, 11 Dec 2021 14:09:48 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web12.21908.1639231787283939055
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Dec 2021 06:02:05 -0800
+ Sat, 11 Dec 2021 06:09:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L9qryN/d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SW405sxf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id i12so8820228wmq.4
+Received: by mail-wm1-f50.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso10983308wms.2
         for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Dec 2021 06:02:05 -0800 (PST)
+ Sat, 11 Dec 2021 06:09:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jcla7HzKrHcLj5yypXvZSOB/oBYxm3kZ11wYDFYc0sU=;
-        b=L9qryN/dHo0eE5Fxekx2GOoC1m+VhlUmGo+hvHh+RAEYb8Ty1AtFCyjmUj829DwXqz
-         L1mycQyQ0+zbnuCibt5dCVY8HoHlGCWQbdswdpTrDUw5muGXROgxCx0XMsv2vCgpohG0
-         aeDuJbx1rcBjHPXeB3exnfmrT4gfKhP36me6Y=
+        bh=bP8yc0w0LmjEgBzmWCdsKKsHtJgABoa1kKuhqTuzcKg=;
+        b=SW405sxfyA+OQmnR8nXUwnBJA4SrgX7pIFdgNzdm5naHVVzHYAot3CpWYFQkw2sv3e
+         GSeTIYivX0m3PfjEz2DuXJ9fvlSF+IWdvCKGlumPxg5Eaxb47yjFT9+1oojAe7qqc1jb
+         +F0fLlsOgAqctrIWtGXvV4qeLbB2DEx+bRe5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jcla7HzKrHcLj5yypXvZSOB/oBYxm3kZ11wYDFYc0sU=;
-        b=hi+U4JX+ckmQPbl1MLPoMh2bCcGz6J/N1nCPWHaATfXhSqsTlWDy+4hZEfRrn+ZT6q
-         idhcn5m93fOqQZt2dfiQboJcTTOxY0AnrhfaZufILobTO6q0cx26AKXt0zqO8NR64/Dw
-         7IfTTGTgq7fDkgrkslc2ZPgTAVZ1qw0UsWdF6cmhvp+myTBSdE+lTEF8uw/Jqn1PdzAo
-         /Y2GjP6HfVD2JdP5QQsTlV/rxBJujuXgCzoeS4RJnEpiia6k9V5jQHwyDISad28TUMHJ
-         /LoX5L5Wa1M4dhiPy+ssGyatAwJtI3Bg1oPqUtgJNofyjYCa64Tc+RkuQC8vOCE9OPxF
-         WLcQ==
-X-Gm-Message-State: AOAM532MlMiZVxniAULoNs0PrL3Uy8AVG8ucjTZXt0+vwtimasyOMcwM
-	vGLaTsGWtkK9l92pbL8d+dbIqqh+dU2new==
+        bh=bP8yc0w0LmjEgBzmWCdsKKsHtJgABoa1kKuhqTuzcKg=;
+        b=YCwFcE+vICLvXlAMEiAwphGe01VM7kicSF9Kw1y2RMFkzoFbKnyvZ+o9jK6Ar2gUvt
+         5HVmcUNy+qkO9x/clHz5Jeuam/Z1DMxFb/jtWP9DaB4xsf9CJhJ5b57xkAHZ8Q1ocOhA
+         LfLHTE1nF/sfZfHLQl+VMo5JlpPqcl8/215GgOO8X1zUypk+8ImTB/3IPC6mpdNeMNJe
+         vFEni2j/f+lsvoYN7Ae4QZ0tjE66/8/oAU6oBNihR/QdoAFa3nfPP2YMPf7Ji5RYlAQk
+         weXhuskUUH7rNa6NeMzsbztI5fkO+3b+vER5v1pfA81LTcsjp+fgIkNHnXiRj+c8908I
+         eTPQ==
+X-Gm-Message-State: AOAM531MUmPOZSxUBPzAAOo6xEQpG+haKgDmK3awfhjY/j8BYjZbWyWj
+	uuH30sAZaywoTTNs67fXHwU3PI0Ov0DPlg==
 X-Google-Smtp-Source: 
- ABdhPJxC7Htv1CvAMHlLQdH0/H2umL9M5vnwsiYGjc6rL7hs4ULytxDZ3iOl87ZT87x+DDgwQ5vgiA==
-X-Received: by 2002:a05:600c:896:: with SMTP id
- l22mr24493744wmp.127.1639231322472;
-        Sat, 11 Dec 2021 06:02:02 -0800 (PST)
+ ABdhPJwrUQ2dZAbtC+tdwlJjAeVr8HHDPZP05zxvz/U6BG2NNSpLx0Okj93kWbpq9H+8sLiZgM3OjA==
+X-Received: by 2002:a1c:7418:: with SMTP id p24mr24020668wmc.71.1639231784782;
+        Sat, 11 Dec 2021 06:09:44 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f405:6ac4:2af3:f8d3])
         by smtp.gmail.com with ESMTPSA id
- a1sm6482699wri.89.2021.12.11.06.02.01
+ s24sm1549995wmj.26.2021.12.11.06.09.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Dec 2021 06:02:02 -0800 (PST)
+        Sat, 11 Dec 2021 06:09:44 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] puzzles: Upgrade to latest git with patches merged
-Date: Sat, 11 Dec 2021 14:02:01 +0000
-Message-Id: <20211211140201.708094-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH v2] puzzles: Upgrade to latest git with patches merged
+Date: Sat, 11 Dec 2021 14:09:43 +0000
+Message-Id: <20211211140943.708450-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Dec 2021 14:02:06 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Dec 2021 14:09:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159565
+ https://lists.openembedded.org/g/openembedded-core/message/159566
 
-This upgrades to the latest upstream version where several of our fixes
-have equivalent fixes merged upstream. The remaining patch should be
-fixed soon to.
+This upgrades to the latest upstream version where our fixes have equivalent
+fixes merged upstream so our patches are no longer needed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  ...Check-for-excessive-values-to-malloc.patch | 45 ------------
  ...01-map-Fix-stringop-overflow-warning.patch | 34 ---------
  ...isade-Fix-warnings-with-clang-on-arm.patch | 72 -------------------
+ ...-string-lenght-parameter-to-be-size_.patch | 30 --------
  ...ix-compiling-failure-with-option-g-O.patch | 33 ---------
  .../puzzles/files/fix-ki-uninitialized.patch  | 32 ---------
- meta/recipes-sato/puzzles/puzzles_git.bb      |  7 +-
- 6 files changed, 1 insertion(+), 222 deletions(-)
+ meta/recipes-sato/puzzles/puzzles_git.bb      | 11 +--
+ 7 files changed, 2 insertions(+), 255 deletions(-)
  delete mode 100644 meta/recipes-sato/puzzles/files/0001-malloc-Check-for-excessive-values-to-malloc.patch
  delete mode 100644 meta/recipes-sato/puzzles/files/0001-map-Fix-stringop-overflow-warning.patch
  delete mode 100644 meta/recipes-sato/puzzles/files/0001-palisade-Fix-warnings-with-clang-on-arm.patch
+ delete mode 100644 meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
  delete mode 100644 meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
  delete mode 100644 meta/recipes-sato/puzzles/files/fix-ki-uninitialized.patch
 
@@ -251,6 +252,42 @@ index 07eb1d32f65..00000000000
 - }
 - 
 - static const char *validate_desc(const game_params *params, const char *desc)
+diff --git a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch b/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
+deleted file mode 100644
+index 5e240bfea57..00000000000
+--- a/meta/recipes-sato/puzzles/files/0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From: Khem Raj <raj.khem@gmail.com>
+-
+-pattern.c: Change string lenght parameter to be size_t in do_row()
+-
+-This fixes below error on some architectures e.g. RISC-V
+-
+-pattern.c:455:9: error: 'memset' specified size between 18446744071562067968 and 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Werror=stringop-overflow=]                                                                     455 |         memset(deduced, DOT, (size_t)len);                                                                                   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-Upstream-Status: Submitted [email discussion with upstream]
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+- pattern.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: git/pattern.c
+-===================================================================
+---- git.orig/pattern.c
+-+++ git/pattern.c
+-@@ -429,7 +429,7 @@ static bool do_row(unsigned char *known,
+-                    unsigned char *row,
+-                    unsigned char *minpos_done, unsigned char *maxpos_done,
+-                    unsigned char *minpos_ok, unsigned char *maxpos_ok,
+--                   unsigned char *start, int len, int step, int *data,
+-+                   unsigned char *start, size_t len, int step, int *data,
+-                    unsigned int *changed
+- #ifdef STANDALONE_SOLVER
+-                    , const char *rowcol, int index, int cluewid
 diff --git a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
 deleted file mode 100644
 index 4ee75431667..00000000000
@@ -329,24 +366,26 @@ index b182240240b..00000000000
 -     add234_insert(NULL, e, NULL, &t->root, n, ki);
 - 
 diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 8ac62d52e57..da466f3efca 100644
+index 8ac62d52e57..f2fe7d7b969 100644
 --- a/meta/recipes-sato/puzzles/puzzles_git.bb
 +++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -8,16 +8,11 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=6e7d24cf1c949887ee9447a1e2a4a24c"
+@@ -7,17 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=6e7d24cf1c949887ee9447a1e2a4a24c"
+ # gtk support includes a bunch of x11 headers
  REQUIRED_DISTRO_FEATURES = "x11"
  
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main \
+-SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main \
 -           file://fix-compiling-failure-with-option-g-O.patch \
 -           file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
-            file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
+-           file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
 -           file://fix-ki-uninitialized.patch \
 -           file://0001-malloc-Check-for-excessive-values-to-malloc.patch \
 -           file://0001-map-Fix-stringop-overflow-warning.patch \
-            "
+-           "
++SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main"
  
  UPSTREAM_CHECK_COMMITS = "1"
 -SRCREV = "640f9235c79cdb1a924b0148cb312b0f02253364"
-+SRCREV = "d399a6b23051335ce3107f11822ae352816fcd50"
++SRCREV = "b56c994b721f7cb5c5bcf09c5d695d4ae07d3052"
  PE = "2"
  PV = "0.0+git${SRCPV}"
  
