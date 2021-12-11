@@ -1,288 +1,484 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EECAC433EF
-	for <webhook@archiver.kernel.org>; Sat, 11 Dec 2021 08:44:24 +0000 (UTC)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
- [209.85.221.179])
- by mx.groups.io with SMTP id smtpd.web10.19417.1639212263577375425
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 635E1C433F5
+	for <webhook@archiver.kernel.org>; Sat, 11 Dec 2021 10:00:55 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.web08.19979.1639216853870666627
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Dec 2021 00:44:23 -0800
+ Sat, 11 Dec 2021 02:00:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SYeXV76r;
- spf=pass (domain: gmail.com, ip: 209.85.221.179,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f179.google.com with SMTP id 70so7426887vkx.7
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Dec 2021 00:44:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KHUcXX7DZeOJMJxPFzgQ1Z73pH4srv/VlzbKnRFEfs0=;
-        b=SYeXV76r/x0x72imQaipzRqJGSZatavwzXJe+WPAgZFgwktRIuGMyfSXqGw9D+gsCL
-         GC+rbB97lQjoitwJdHDCPxGvFaenmJAuXSvxR1aNp0Jknx+yUotSLd6MLwG/8sfHiuAK
-         TEO3+GCwhIa74JavkIIepjXiEHB+IgEbhnpst5paEioGkr5O51KfNE96QMyUPCMdIjEx
-         HoX6h4wtQp590P+XQmWMHKoOXqrTYekrhaX+e7TpCYoxOEBGxmnzpy5+P6RjcxfL1pnL
-         boEXAUGq7AMzyqeTXZUtgJXSPLauXyxrH75zM8kv3aH5/lckcQGDE25WWsj1noJ4TV2v
-         fw9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KHUcXX7DZeOJMJxPFzgQ1Z73pH4srv/VlzbKnRFEfs0=;
-        b=dHxG4fiSCodeblLiTeJSB7KSndN4o8adMGFiF3Ni6KOZo2ZGItA82zvJ9FlQduJ4xr
-         da3RkmGsKjWJIsBeKCWOCaaLr+mi9TpPBzBLYCnOLPUovfu1HCsQlqGzNzXByUd/XGnx
-         upQ7JFf/yPSzwAvQqt0RclYDuZ8WiXfhFF3kkY81Xoor/3OZOZW5n8mxvj09WK8ETIw9
-         d5Wz2NQpwhvy7ABl2hqt2V0V6g/FkUpkgAWZ4xaeXvRtvQCmnEUCsc4CpWLFyNjRa+W1
-         /bcOUlVzUtyRqa+A1J3TZvyZaqVHubOgb+To6wBJDBqEkXbgbiPsMQMb/ex9YA0mkYSs
-         e3hA==
-X-Gm-Message-State: AOAM531lC7ZhMvc/rqlOYvkkNHAQjDKwe1A7D1VbiqJ3ZAs7Vc0e0w8e
-	cnMfEWbxQRBSjjp6J7q9mzf6XC+RMqqxZRxV04c=
-X-Google-Smtp-Source: 
- ABdhPJwGmDsEJjUTWIsLFPHILfNRrZ3ZWWu2Ur77YE8m9RhkajcPYrcDICOrjZ9ujnOvkrPill+ISW1WHIWTmdGgzlY=
-X-Received: by 2002:a05:6122:2005:: with SMTP id
- l5mr24901574vkd.4.1639212262597;
- Sat, 11 Dec 2021 00:44:22 -0800 (PST)
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd83.dcpf.telekom.de (fwd83.aul.t-online.de [10.223.144.109])
+	by mailout07.t-online.de (Postfix) with SMTP id B50191C31
+	for <openembedded-core@lists.openembedded.org>;
+ Sat, 11 Dec 2021 11:00:49 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.37.8]) by fwd83.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1mvzBR-2JmvZp0; Sat, 11 Dec 2021 11:00:49 +0100
+Subject: Re: [OE-core] [PATCH] libva: move wayland PACKAGECONFIG to libva.inc
+To: openembedded-core@lists.openembedded.org
+References: <20211210140234.3713-1-f_l_k@t-online.de>
+ <CANNYZj9YbZJxLADiti4fzsCex06DK9RUk4G-y3ARb3tLgkW9=w@mail.gmail.com>
+ <d95c3019-ae4b-f94c-fb34-ab9ac669b6e2@t-online.de>
+ <CAMKF1srHmV5dy=vZigjUZf+7pOBOyqPu8myaQXcECpne6HmhJw@mail.gmail.com>
+From: Markus Volk <f_l_k@t-online.de>
+Message-ID: <d7cad6f0-dee4-1946-e0de-9f2113cf9f4a@t-online.de>
+Date: Sat, 11 Dec 2021 11:00:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211208215947.1979470-1-alex@linutronix.de>
- <20211208215947.1979470-10-alex@linutronix.de>
- <CAMKF1sqMoz=MSVWu=3nnWAMu9Z5VTt4JwrTv6A-OLAa_h4T2Bg@mail.gmail.com>
- <CAMKF1srOg-TWoVFNXe5BXmm=ZK4V5VA25+F57GqtmdDE8+WO3A@mail.gmail.com>
 In-Reply-To: 
- <CAMKF1srOg-TWoVFNXe5BXmm=ZK4V5VA25+F57GqtmdDE8+WO3A@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 11 Dec 2021 09:44:11 +0100
-Message-ID: 
- <CANNYZj9E5D5ge5KzTAj-nOxBTsj0oCQMsUDZHBPg_0bA8eJL2g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 10/29] meson: upgrade 0.60.1 -> 0.60.2
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000009fa98d05d2dad886"
+ <CAMKF1srHmV5dy=vZigjUZf+7pOBOyqPu8myaQXcECpne6HmhJw@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------6424A87A5401D59872C61FE2"
+Content-Language: en-US
+X-TOI-EXPURGATEID: 150726::1639216849-00001454-AA5EA6DC/0/0 CLEAN NORMAL
+X-TOI-MSGID: bd13c240-b175-4fa8-b8c8-484ef3e52951
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Dec 2021 08:44:24 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Dec 2021 10:00:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159560
+ https://lists.openembedded.org/g/openembedded-core/message/159561
 
---0000000000009fa98d05d2dad886
-Content-Type: text/plain; charset="UTF-8"
-
-Perhaps meta-oe build in the AB should be adjusted?
-
-https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n907
-
-Alex
-
-On Sat, 11 Dec 2021 at 03:42, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Fri, Dec 10, 2021 at 9:01 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > this breaks gjs also see https://github.com/mesonbuild/meson/issues/9472
-> >
->
-> I have a fix for gjs [1] but I was thinking meta-gnome is a good
-> testcase for meson. So when upgrading meson it will be good to add
-> this layer
-> to test and build world.
->
->
-> [1]
-> https://lore.kernel.org/openembedded-devel/20211210173603.2826515-1-raj.khem@gmail.com/T/#u
->
-> > On Wed, Dec 8, 2021 at 2:00 PM Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> > >
-> > > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > >
-> > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > ---
-> > >  meta/recipes-devtools/meson/meson.inc                           | 2 +-
-> > >  .../recipes-devtools/meson/{meson_0.60.1.bb => meson_0.60.2.bb} | 0
-> > >  .../{nativesdk-meson_0.60.1.bb => nativesdk-meson_0.60.2.bb}    | 0
-> > >  3 files changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-devtools/meson/{meson_0.60.1.bb =>
-> meson_0.60.2.bb} (100%)
-> > >  rename meta/recipes-devtools/meson/{nativesdk-meson_0.60.1.bb =>
-> nativesdk-meson_0.60.2.bb} (100%)
-> > >
-> > > diff --git a/meta/recipes-devtools/meson/meson.inc
-> b/meta/recipes-devtools/meson/meson.inc
-> > > index f383ad9f74..7fbb246b87 100644
-> > > --- a/meta/recipes-devtools/meson/meson.inc
-> > > +++ b/meta/recipes-devtools/meson/meson.inc
-> > > @@ -15,7 +15,7 @@ SRC_URI = "
-> https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-> > >             file://0002-Support-building-allarch-recipes-again.patch \
-> > >             file://0001-is_debianlike-always-return-False.patch \
-> > >             "
-> > > -SRC_URI[sha256sum] =
-> "5add789c953d984b500858b2851ee3d7add0460cf1a6f852f0a721af17384e13"
-> > > +SRC_URI[sha256sum] =
-> "64e6968565bf1b8152f4f9d6ca8154efb9e14caa9aabf7b22e71e6c5d053e921"
-> > >
-> > >  UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
-> > >  UPSTREAM_CHECK_REGEX = "meson-(?P<pver>\d+(\.\d+)+)\.tar"
-> > > diff --git a/meta/recipes-devtools/meson/meson_0.60.1.bb
-> b/meta/recipes-devtools/meson/meson_0.60.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/meson/meson_0.60.1.bb
-> > > rename to meta/recipes-devtools/meson/meson_0.60.2.bb
-> > > diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.60.1.bb
-> b/meta/recipes-devtools/meson/nativesdk-meson_0.60.2.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/meson/nativesdk-meson_0.60.1.bb
-> > > rename to meta/recipes-devtools/meson/nativesdk-meson_0.60.2.bb
-> > > --
-> > > 2.20.1
-> > >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#159376):
-> https://lists.openembedded.org/g/openembedded-core/message/159376
-> > > Mute This Topic: https://lists.openembedded.org/mt/87599646/1997914
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> [raj.khem@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
->
-
---0000000000009fa98d05d2dad886
-Content-Type: text/html; charset="UTF-8"
+This is a multi-part message in MIME format.
+--------------6424A87A5401D59872C61FE2
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Perhaps meta-oe build in the AB should be adjusted?</=
-div><div><br></div><div><a href=3D"https://git.yoctoproject.org/yocto-autob=
-uilder-helper/tree/config.json#n907">https://git.yoctoproject.org/yocto-aut=
-obuilder-helper/tree/config.json#n907</a></div><div><br></div><div>Alex<br>=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Sat, 11 Dec 2021 at 03:42, Khem Raj &lt;<a href=3D"mailto:raj.khem=
-@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">On Fri, Dec 10, 2021 at 9:01 AM Khem Raj &lt;=
-<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com<=
-/a>&gt; wrote:<br>
-&gt;<br>
-&gt; this breaks gjs also see <a href=3D"https://github.com/mesonbuild/meso=
-n/issues/9472" rel=3D"noreferrer" target=3D"_blank">https://github.com/meso=
-nbuild/meson/issues/9472</a><br>
-&gt;<br>
-<br>
-I have a fix for gjs [1] but I was thinking meta-gnome is a good<br>
-testcase for meson. So when upgrading meson it will be good to add<br>
-this layer<br>
-to test and build world.<br>
-<br>
-<br>
-[1] <a href=3D"https://lore.kernel.org/openembedded-devel/20211210173603.28=
-26515-1-raj.khem@gmail.com/T/#u" rel=3D"noreferrer" target=3D"_blank">https=
-://lore.kernel.org/openembedded-devel/20211210173603.2826515-1-raj.khem@gma=
-il.com/T/#u</a><br>
-<br>
-&gt; On Wed, Dec 8, 2021 at 2:00 PM Alexander Kanavin &lt;<a href=3D"mailto=
-:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; w=
-rote:<br>
-&gt; &gt;<br>
-&gt; &gt; From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
-com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanav=
-in@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/meson/meson.inc=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 2 +-<br>
-&gt; &gt;=C2=A0 .../recipes-devtools/meson/{<a href=3D"http://meson_0.60.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">meson_0.60.1.bb</a> =3D&gt; <a hre=
-f=3D"http://meson_0.60.2.bb" rel=3D"noreferrer" target=3D"_blank">meson_0.6=
-0.2.bb</a>} | 0<br>
-&gt; &gt;=C2=A0 .../{<a href=3D"http://nativesdk-meson_0.60.1.bb" rel=3D"no=
-referrer" target=3D"_blank">nativesdk-meson_0.60.1.bb</a> =3D&gt; <a href=
-=3D"http://nativesdk-meson_0.60.2.bb" rel=3D"noreferrer" target=3D"_blank">=
-nativesdk-meson_0.60.2.bb</a>}=C2=A0 =C2=A0 | 0<br>
-&gt; &gt;=C2=A0 3 files changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/meson/{<a href=3D"http://meson=
-_0.60.1.bb" rel=3D"noreferrer" target=3D"_blank">meson_0.60.1.bb</a> =3D&gt=
-; <a href=3D"http://meson_0.60.2.bb" rel=3D"noreferrer" target=3D"_blank">m=
-eson_0.60.2.bb</a>} (100%)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/meson/{<a href=3D"http://nativ=
-esdk-meson_0.60.1.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-meson_=
-0.60.1.bb</a> =3D&gt; <a href=3D"http://nativesdk-meson_0.60.2.bb" rel=3D"n=
-oreferrer" target=3D"_blank">nativesdk-meson_0.60.2.bb</a>} (100%)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes=
--devtools/meson/meson.inc<br>
-&gt; &gt; index f383ad9f74..7fbb246b87 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/meson/meson.inc<br>
-&gt; &gt; +++ b/meta/recipes-devtools/meson/meson.inc<br>
-&gt; &gt; @@ -15,7 +15,7 @@ SRC_URI =3D &quot;<a href=3D"https://github.com=
-/mesonbuild/meson/releases/download/$%7BPV%7D/meson-$%7BP" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/mesonbuild/meson/releases/download/=
-${PV}/meson-${P</a><br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-Suppor=
-t-building-allarch-recipes-again.patch \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-is_deb=
-ianlike-always-return-False.patch \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; &gt; -SRC_URI[sha256sum] =3D &quot;5add789c953d984b500858b2851ee3d7add=
-0460cf1a6f852f0a721af17384e13&quot;<br>
-&gt; &gt; +SRC_URI[sha256sum] =3D &quot;64e6968565bf1b8152f4f9d6ca8154efb9e=
-14caa9aabf7b22e71e6c5d053e921&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/=
-mesonbuild/meson/releases" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/mesonbuild/meson/releases</a>&quot;<br>
-&gt; &gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;meson-(?P&lt;pver&gt;\d+(\.\=
-d+)+)\.tar&quot;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/meson/<a href=3D"http://meson_=
-0.60.1.bb" rel=3D"noreferrer" target=3D"_blank">meson_0.60.1.bb</a> b/meta/=
-recipes-devtools/meson/<a href=3D"http://meson_0.60.2.bb" rel=3D"noreferrer=
-" target=3D"_blank">meson_0.60.2.bb</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/meson/<a href=3D"http://meson_0=
-.60.1.bb" rel=3D"noreferrer" target=3D"_blank">meson_0.60.1.bb</a><br>
-&gt; &gt; rename to meta/recipes-devtools/meson/<a href=3D"http://meson_0.6=
-0.2.bb" rel=3D"noreferrer" target=3D"_blank">meson_0.60.2.bb</a><br>
-&gt; &gt; diff --git a/meta/recipes-devtools/meson/<a href=3D"http://native=
-sdk-meson_0.60.1.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-meson_0=
-.60.1.bb</a> b/meta/recipes-devtools/meson/<a href=3D"http://nativesdk-meso=
-n_0.60.2.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-meson_0.60.2.bb=
-</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/meson/<a href=3D"http://natives=
-dk-meson_0.60.1.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-meson_0.=
-60.1.bb</a><br>
-&gt; &gt; rename to meta/recipes-devtools/meson/<a href=3D"http://nativesdk=
--meson_0.60.2.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-meson_0.60=
-.2.bb</a><br>
-&gt; &gt; --<br>
-&gt; &gt; 2.20.1<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; View/Reply Online (#159376): <a href=3D"https://lists.openembedde=
-d.org/g/openembedded-core/message/159376" rel=3D"noreferrer" target=3D"_bla=
-nk">https://lists.openembedded.org/g/openembedded-core/message/159376</a><b=
-r>
-&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/875=
-99646/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/mt/87599646/1997914</a><br>
-&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
-d.org</a><br>
-&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.c=
-om" target=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt;<br>
-</blockquote></div>
+I was able to narrow the issue down a little bit. I can reproduce it=20
+with plain poky by adding this to local.conf
 
---0000000000009fa98d05d2dad886--
+
+PACKAGECONFIG:append:pn-libdrm =3D " udev"
+DISTRO_FEATURES:append =3D " systemd"
+
+and do
+
+'bitbake libva-initial'
+
+Am 10.12.21 um 16:47 schrieb Khem Raj:
+>
+>
+> On Fri, Dec 10, 2021 at 6:33 AM Markus Volk <f_l_k@t-online.de=20
+> <mailto:f_l_k@t-online.de>> wrote:
+>
+>     Thats strange indeed. Wayland is set as a DISTRO_FEATURE for my
+>     image, so it gets built by a lot ofpackages. This wasn't a clean
+>     build, i had sstate cache availbale when i started to experiment
+>     with libva and normally it doesn't get=C2=A0 built inside my image
+>     because i can't use it on my board. First i did 'bitbake libva'
+>     and this succeeded. Second i added 'va' PACKAGECONFIG to a
+>     mesa.bbappend and started rebuilding the image. Now the build for
+>     libva-initial was started and failed with the error about missing
+>     wayland-scanner.
+>
+>     I also wondered what is pulling=C2=A0 wayland into=C2=A0 its sysroo=
+t . Did
+>     'bitbake -c cleanstate libva-initial libva' and tried to build
+>     libva-initial again with 'bitbake libva-initial' and had the same
+>     issue. On my machine this is reproducible
+>
+>
+> Post configure logs including meson run =C2=A0logs for this package per=
+haps=20
+> there is some hint in there
+>
+>
+>     Markus
+>
+>     Am 10.12.21 um 15:06 schrieb Alexander Kanavin:
+>>     | Run-time dependency wayland-client found: YES 1.19.0
+>>
+>>     Can you please explain how the issue can be reproduced? I find it
+>>     odd that libva-initial (which only needs libdrm, and is required
+>>     by mesa) has wayland in its sysroot in your build - where does
+>>     that come from? There's a chance the problem is elsewhere.
+>>
+>>     Alex
+>>
+>>     On Fri, 10 Dec 2021 at 15:03, Markus Volk <f_l_k@t-online.de
+>>     <mailto:f_l_k@t-online.de>> wrote:
+>>
+>>         I encountered an error while trying to build libva under
+>>         wayland. libva-initial
+>>         was missing wayland-native dependency and failed like this:
+>>
+>>         | Run-time dependency xfixes found: NO (tried pkgconfig and
+>>         cmake)
+>>         | Run-time dependency wayland-client found: YES 1.19.0
+>>         | Program wayland-scanner /usr/bin/wayland-scanner found: NO
+>>         |
+>>         | ../libva-2.13.0/meson.build:107:4: ERROR: Program
+>>         'wayland-scanner /usr/bin/wayland-scanner' not found
+>>         |
+>>         | A full log can be found at
+>>         /home/flk/build/poky/build-rock/tmp/work/cortexa72-cortexa53-c=
+rypto-poky-linux/libva-initial/2.13.0-r0/build/meson-logs/meson-log.txt
+>>         | ERROR: meson failed
+>>         | WARNING: exit code 1 from a shell command.
+>>
+>>         This commit moves the PACKAGECONFIG[wayland] to libva.inc to
+>>         make it available to libva-initial also
+>>
+>>         Signed-off-by: MarkusVolk <f_l_k@t-online.de
+>>         <mailto:f_l_k@t-online.de>>
+>>         ---
+>>         =C2=A0meta/recipes-graphics/libva/libva.inc=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 7 +++++++
+>>         =C2=A0meta/recipes-graphics/libva/libva_2.13.0.bb
+>>         <http://libva_2.13.0.bb> | 4 +---
+>>         =C2=A02 files changed, 8 insertions(+), 3 deletions(-)
+>>
+>>         diff --git a/meta/recipes-graphics/libva/libva.inc
+>>         b/meta/recipes-graphics/libva/libva.inc
+>>         index bcf9757c1a..0e2721e291 100644
+>>         --- a/meta/recipes-graphics/libva/libva.inc
+>>         +++ b/meta/recipes-graphics/libva/libva.inc
+>>         @@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI =3D
+>>         "https://github.com/intel/libva/releases
+>>         <https://github.com/intel/libva/releases>"
+>>         =C2=A0DEPENDS =3D "libdrm"
+>>
+>>         =C2=A0inherit meson pkgconfig
+>>         +
+>>         +PACKAGECONFIG:append =3D " \
+>>         +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'wayland'=
+, d)} \
+>>         +"
+>>         +
+>>         +PACKAGECONFIG[wayland] =3D
+>>         "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native wayla=
+nd"
+>>         +
+>>         diff --git a/meta/recipes-graphics/libva/libva_2.13.0.bb
+>>         <http://libva_2.13.0.bb>
+>>         b/meta/recipes-graphics/libva/libva_2.13.0.bb
+>>         <http://libva_2.13.0.bb>
+>>         index ed2be289fc..a8c6355b01 100644
+>>         --- a/meta/recipes-graphics/libva/libva_2.13.0.bb
+>>         <http://libva_2.13.0.bb>
+>>         +++ b/meta/recipes-graphics/libva/libva_2.13.0.bb
+>>         <http://libva_2.13.0.bb>
+>>         @@ -2,14 +2,12 @@ require libva.inc
+>>
+>>         =C2=A0PACKAGECONFIG ??=3D " \
+>>         =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains('DISTRO_FEATURES', 'x=
+11 opengl',
+>>         'glx', '', d)} \
+>>         -=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayl=
+and', d)} \
+>>         +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)=
+} \
+>>         =C2=A0"
+>>
+>>         =C2=A0PACKAGECONFIG[x11] =3D
+>>         "-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virtual/libx11 libxext libxf=
+ixes"
+>>         =C2=A0PACKAGECONFIG[glx] =3D "-Dwith_glx=3Dyes,-Dwith_glx=3Dno=
+,virtual/mesa"
+>>
+>>         -PACKAGECONFIG[wayland] =3D
+>>         "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-native wayla=
+nd"
+>>         -
+>>         =C2=A0PACKAGES =3D+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
+>>
+>>         =C2=A0RDEPENDS:${PN}-x11 =3D+ "${PN}"
+>>         --=20
+>>         2.25.1
+>>
+>>
+>>
+>>
+>>
+>
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159548): https://lists.openembedded.org/g/openembed=
+ded-core/message/159548
+> Mute This Topic: https://lists.openembedded.org/mt/87636241/3618223
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+f_l_k@t-online.de]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+--------------6424A87A5401D59872C61FE2
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p>I was able to narrow the issue down a little bit. I can reproduce
+      it with plain poky by adding this to local.conf<br>
+    </p>
+    <p><br>
+      PACKAGECONFIG:append:pn-libdrm =3D " udev"<br>
+      DISTRO_FEATURES:append =3D " systemd"<br>
+    </p>
+    <p>and do <br>
+    </p>
+    <p>'bitbake libva-initial'<br>
+      <br>
+    </p>
+    <div class=3D"moz-cite-prefix">Am 10.12.21 um 16:47 schrieb Khem Raj:=
+<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CAMKF1srHmV5dy=3DvZigjUZf+7pOBOyqPu8myaQXcECpne6HmhJw@mail.gm=
+ail.com">
+      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DU=
+TF-8">
+      <div><br>
+      </div>
+      <div><br>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 10, 2021 at 6=
+:33
+            AM Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de"
+              moz-do-not-send=3D"true">f_l_k@t-online.de</a>&gt; wrote:<b=
+r>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">
+            <div>
+              <p><font face=3D"Liberation Sans">Thats strange indeed.
+                  Wayland is set as a DISTRO_FEATURE for my image, so it
+                  gets built by a lot of</font><font face=3D"Liberation
+                  Sans"> packages. This wasn't a clean build, i had
+                  sstate cache availbale when i started to experiment
+                  with libva and normally it doesn't get=C2=A0 built insi=
+de
+                  my image because i can't use it on my board. First i
+                  did 'bitbake libva' and this succeeded. Second i added
+                  'va' PACKAGECONFIG to a mesa.bbappend and started
+                  rebuilding the image. Now the build for libva-initial
+                  was started and failed with the error about missing
+                  wayland-scanner.</font></p>
+              <p><font face=3D"Liberation Sans">I also wondered what is
+                  pulling=C2=A0 wayland into=C2=A0 its sysroot . Did 'bit=
+bake -c
+                  cleanstate libva-initial libva' and tried to build
+                  libva-initial again with 'bitbake libva-initial' and
+                  had the same issue. On my machine this is reproducible<=
+/font></p>
+            </div>
+          </blockquote>
+          <div dir=3D"auto"><br>
+          </div>
+          <div dir=3D"auto">Post configure logs including meson run =C2=A0=
+logs
+            for this package perhaps there is some hint in there=C2=A0</d=
+iv>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">
+            <div>
+              <p dir=3D"auto"><font face=3D"Liberation Sans"><br>
+                </font></p>
+              <p><font face=3D"Liberation Sans">Markus<br>
+                </font></p>
+              <div>Am 10.12.21 um 15:06 schrieb Alexander Kanavin:<br>
+              </div>
+            </div>
+            <div>
+              <blockquote type=3D"cite">
+                <div dir=3D"ltr">
+                  <div> | Run-time dependency wayland-client found: YES
+                    1.19.0</div>
+                  <div><br>
+                  </div>
+                  <div>Can you please explain how the issue can be
+                    reproduced? I find it odd that libva-initial (which
+                    only needs libdrm, and is required by mesa) has
+                    wayland in its sysroot in your build - where does
+                    that come from? There's a chance the problem is
+                    elsewhere.<br>
+                  </div>
+                  <div><br>
+                  </div>
+                  <div>Alex<br>
+                  </div>
+                </div>
+                <br>
+                <div class=3D"gmail_quote">
+                  <div dir=3D"ltr" class=3D"gmail_attr">On Fri, 10 Dec 20=
+21
+                    at 15:03, Markus Volk &lt;<a
+                      href=3D"mailto:f_l_k@t-online.de" target=3D"_blank"
+                      moz-do-not-send=3D"true">f_l_k@t-online.de</a>&gt;
+                    wrote:<br>
+                  </div>
+                  <blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px
+                    0px 0.8ex;border-left:1px solid
+                    rgb(204,204,204);padding-left:1ex">I encountered an
+                    error while trying to build libva under wayland.
+                    libva-initial<br>
+                    was missing wayland-native dependency and failed
+                    like this:<br>
+                    <br>
+                    | Run-time dependency xfixes found: NO (tried
+                    pkgconfig and cmake)<br>
+                    | Run-time dependency wayland-client found: YES
+                    1.19.0<br>
+                    | Program wayland-scanner /usr/bin/wayland-scanner
+                    found: NO<br>
+                    |<br>
+                    | ../libva-2.13.0/meson.build:107:4: ERROR: Program
+                    'wayland-scanner /usr/bin/wayland-scanner' not found<=
+br>
+                    |<br>
+                    | A full log can be found at
+/home/flk/build/poky/build-rock/tmp/work/cortexa72-cortexa53-crypto-poky-=
+linux/libva-initial/2.13.0-r0/build/meson-logs/meson-log.txt<br>
+                    | ERROR: meson failed<br>
+                    | WARNING: exit code 1 from a shell command.<br>
+                    <br>
+                    This commit moves the PACKAGECONFIG[wayland] to
+                    libva.inc to make it available to libva-initial also<=
+br>
+                    <br>
+                    Signed-off-by: MarkusVolk &lt;<a
+                      href=3D"mailto:f_l_k@t-online.de" target=3D"_blank"
+                      moz-do-not-send=3D"true">f_l_k@t-online.de</a>&gt;<=
+br>
+                    ---<br>
+                    =C2=A0meta/recipes-graphics/libva/libva.inc=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 7
+                    +++++++<br>
+                    =C2=A0meta/recipes-graphics/libva/<a
+                      href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+                      target=3D"_blank" moz-do-not-send=3D"true">libva_2.=
+13.0.bb</a>
+                    | 4 +---<br>
+                    =C2=A02 files changed, 8 insertions(+), 3 deletions(-=
+)<br>
+                    <br>
+                    diff --git a/meta/recipes-graphics/libva/libva.inc
+                    b/meta/recipes-graphics/libva/libva.inc<br>
+                    index bcf9757c1a..0e2721e291 100644<br>
+                    --- a/meta/recipes-graphics/libva/libva.inc<br>
+                    +++ b/meta/recipes-graphics/libva/libva.inc<br>
+                    @@ -27,3 +27,10 @@ UPSTREAM_CHECK_URI =3D "<a
+                      href=3D"https://github.com/intel/libva/releases"
+                      rel=3D"noreferrer" target=3D"_blank"
+                      moz-do-not-send=3D"true">https://github.com/intel/l=
+ibva/releases</a>"<br>
+                    =C2=A0DEPENDS =3D "libdrm"<br>
+                    <br>
+                    =C2=A0inherit meson pkgconfig<br>
+                    +<br>
+                    +PACKAGECONFIG:append =3D " \<br>
+                    +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES',
+                    'wayland', d)} \<br>
+                    +"<br>
+                    +<br>
+                    +PACKAGECONFIG[wayland] =3D
+                    "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-nat=
+ive
+                    wayland"<br>
+                    +<br>
+                    diff --git a/meta/recipes-graphics/libva/<a
+                      href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+                      target=3D"_blank" moz-do-not-send=3D"true">libva_2.=
+13.0.bb</a>
+                    b/meta/recipes-graphics/libva/<a
+                      href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+                      target=3D"_blank" moz-do-not-send=3D"true">libva_2.=
+13.0.bb</a><br>
+                    index ed2be289fc..a8c6355b01 100644<br>
+                    --- a/meta/recipes-graphics/libva/<a
+                      href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+                      target=3D"_blank" moz-do-not-send=3D"true">libva_2.=
+13.0.bb</a><br>
+                    +++ b/meta/recipes-graphics/libva/<a
+                      href=3D"http://libva_2.13.0.bb" rel=3D"noreferrer"
+                      target=3D"_blank" moz-do-not-send=3D"true">libva_2.=
+13.0.bb</a><br>
+                    @@ -2,14 +2,12 @@ require libva.inc<br>
+                    <br>
+                    =C2=A0PACKAGECONFIG ??=3D " \<br>
+                    =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains('DISTRO_FEAT=
+URES', 'x11
+                    opengl', 'glx', '', d)} \<br>
+                    -=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', =
+'x11
+                    wayland', d)} \<br>
+                    +=C2=A0 =C2=A0 ${@bb.utils.filter('DISTRO_FEATURES', =
+'x11',
+                    d)} \<br>
+                    =C2=A0"<br>
+                    <br>
+                    =C2=A0PACKAGECONFIG[x11] =3D
+                    "-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virtual/libx11 libx=
+ext
+                    libxfixes"<br>
+                    =C2=A0PACKAGECONFIG[glx] =3D
+                    "-Dwith_glx=3Dyes,-Dwith_glx=3Dno,virtual/mesa"<br>
+                    <br>
+                    -PACKAGECONFIG[wayland] =3D
+                    "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wayland-nat=
+ive
+                    wayland"<br>
+                    -<br>
+                    =C2=A0PACKAGES =3D+ "${PN}-x11 ${PN}-glx ${PN}-waylan=
+d"<br>
+                    <br>
+                    =C2=A0RDEPENDS:${PN}-x11 =3D+ "${PN}"<br>
+                    -- <br>
+                    2.25.1<br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                  </blockquote>
+                </div>
+                <br>
+                <fieldset></fieldset>
+              </blockquote>
+            </div>
+            <br>
+            <br>
+            <br>
+          </blockquote>
+        </div>
+      </div>
+      <br>
+      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#159548): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/159548">https:/=
+/lists.openembedded.org/g/openembedded-core/message/159548</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/87636241/3618223">https://lists.openembedded.org/mt/=
+87636241/3618223</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------6424A87A5401D59872C61FE2--
 
