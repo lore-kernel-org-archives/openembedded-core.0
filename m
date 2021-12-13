@@ -1,103 +1,188 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F21BC433F5
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 04:18:01 +0000 (UTC)
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web12.7345.1639369051545710943
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC1DC433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 05:48:59 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web12.7915.1639374539070085357
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Dec 2021 20:18:00 -0800
+ Sun, 12 Dec 2021 21:48:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=intel header.b=nNefTZ1W;
- spf=pass (domain: intel.com, ip: 134.134.136.65,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639369080; x=1670905080;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=htnGNKxYeVwzX96V7xawIR6dGiVEXPCW6woUfbl9shE=;
-  b=nNefTZ1W2OO8fJIYpDqNU22X5HdGj/094Ie1LCnVFTDj6XmjUi9oq8Xf
-   vytYBc8WC/fHGsUhg1CYBK8q4FlF3RQAHg0yWLN9g4sV3dTqKwj9HLJB3
-   tLELHOc7Qor2m6UIL5a3kiSMH3GcbYxPLVU/CqMMfsmBPNs5/Se4G/zns
-   3dqDnCniTHjRgN+VdJuEys5TLFJlpvs2A+qjj67NOO8+vJcg+6zI2NsI7
-   VwPCsaF5TFjQwr71uMjTyeeyHzd79vltJtU9BnHiVVlEbdEuY4Ilp3cmH
-   GXT0UAZufExNrYfHa6ImUrg541u2DsMbT36GxW6tloosg6Mt42bcp4cVI
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238602275"
-X-IronPort-AV: E=Sophos;i="5.88,201,1635231600";
-   d="scan'208";a="238602275"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 20:18:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,201,1635231600";
-   d="scan'208";a="517589346"
-Received: from echan1-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.213.132.97])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 20:17:59 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 20/20] libpcre/libpcre2: correct SRC_URI
-Date: Mon, 13 Dec 2021 12:17:19 +0800
-Message-Id: 
- <f6791df317e66b2d3fa88d3a038d888d4512305a.1639365111.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1639365111.git.anuj.mittal@intel.com>
-References: <cover.1639365111.git.anuj.mittal@intel.com>
+ dkim=missing;
+ spf=fail (domain: windriver.com, ip: 147.11.3.146, mailfrom: mingli.yu@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1BD5mtJp026900
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Sun, 12 Dec 2021 21:48:55 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1BD5mtUB002177
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 12 Dec 2021 21:48:55 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 12 Dec 2021 21:48:54 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 12 Dec 2021 21:48:53 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <alex.kanavin@gmail.com>
+Subject: [PATCH v2] bootchart2: remove wait_boot logic
+Date: Mon, 13 Dec 2021 13:45:28 +0800
+Message-ID: <20211213054528.36886-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: 
+ <CANNYZj-fLHHvP1HmHTr00Gfp7TF5S=5DnUfCUZ07P9cC0E0=OA@mail.gmail.com>
+References: 
+ <CANNYZj-fLHHvP1HmHTr00Gfp7TF5S=5DnUfCUZ07P9cC0E0=OA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 04:18:01 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 05:48:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159610
+ https://lists.openembedded.org/g/openembedded-core/message/159611
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-http://ftp.pcre.org is down, take sources according to links on
-http://www.pcre.org
+When boot with "init=/sbin/bootchartd" as below:
+ # runqemu qemux86 bootparams="init=/sbin/bootchartd"
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 81ba0ba3e8d9c08b8dc69c24fb1d91446739229b)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+There are two bootchartd process after boot [1].
+ # ps -ef | grep bootchart
+root       101     1  0 03:27 ?        00:00:00 /bin/sh /sbin/bootchartd
+root       103   101  8 03:27 ?        00:00:02 /lib64/bootchart/bootchart-collector 50
+root       106     1  0 03:27 ?        00:00:00 /bin/sh /sbin/bootchartd
+root       792   106  0 03:27 ?        00:00:00 /lib64/bootchart/bootchart-collector --usleep 1000000
+root       794   725  0 03:27 ttyS0    00:00:00 grep bootchart
+
+ # /sbin/bootchartd stop
+[bootchart] bootchart-collector started as pid 596 with 2 args:
+[bootchart] '--dump'
+[bootchart] '/tmp/bootchart.3lXpVDAq3v'
+[bootchart] Extracting profile data from pid 204
+[bootchart] map 0xbed9a000 -> 0xbedbb000 size: 132k from 'bed9a000' 'bedbb000'
+[bootchart] read 135168 bytes of 135168
+[bootchart] reading 150 chunks (of 150) ...
+[bootchart] wrote 18760 kbB
+[bootchart] bootchart-collector pid: 596 unmounted proc / clean exit
+
+But there still one process exist after the above stop command finish.
+ # ps -ef | grep bootchartd
+root 202 1 0 09:09 ? 00:00:00 /bin/sh /sbin/bootchartd
+root 629 516 0 09:10 ? 00:00:00 grep bootchartd
+
+Remove the wait_boot which used to wait the boot process to finish to
+make sure only one bootchartd process and meanwhile we don't need the
+wait_boot logic because we either use "/sbin/bootchartd stop" to stop
+the bootchartd manually or install package bootchartd-stop-initscript
+altogether with bootchart2 to stop bootchartd automatically after boot.
+
+After patch:
+ # ps -ef | grep bootchart
+ root       101     1  0 03:36 ?        00:00:00 /bin/sh /sbin/bootchartd
+ root       103   101  6 03:36 ?        00:00:04 /lib64/bootchart/bootchart-collector 50
+ root       596   592  0 03:37 ttyS0    00:00:00 grep bootchart
+
+[1] https://github.com/xrmx/bootchart/issues/94
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-support/libpcre/libpcre2_10.36.bb | 4 +++-
- meta/recipes-support/libpcre/libpcre_8.44.bb   | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ ...ake-sure-only-one-bootchartd-process.patch | 68 +++++++++++++++++++
+ .../bootchart2/bootchart2_0.14.9.bb           |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.36.bb b/meta/recipes-support/libpcre/libpcre2_10.36.bb
-index d8077a1224..d64822be30 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.36.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.36.bb
-@@ -10,7 +10,9 @@ SECTION = "devel"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=60c08fab1357bfe9084b333bc33362d6"
- 
--SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2"
-+SRC_URI = "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2/0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch b/meta/recipes-devtools/bootchart2/bootchart2/0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch
+new file mode 100644
+index 0000000000..3cb8a3c2a2
+--- /dev/null
++++ b/meta/recipes-devtools/bootchart2/bootchart2/0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch
+@@ -0,0 +1,68 @@
++From 988ca784d4840c87509e770a21d5d22105af8668 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Fri, 5 Nov 2021 11:18:07 +0800
++Subject: [PATCH] bootchartd.in: make sure only one bootchartd process
 +
-+UPSTREAM_CHECK_URI = "https://github.com/PhilipHazel/pcre2/releases"
++When boot with "init=/sbin/bootchartd" as below:
++ # runqemu qemux86 bootparams="init=/sbin/bootchartd"
++
++There are two bootchartd process after boot [1].
++ # ps -ef | grep bootchart
++root       101     1  0 03:27 ?        00:00:00 /bin/sh /sbin/bootchartd
++root       103   101  8 03:27 ?        00:00:02 /lib64/bootchart/bootchart-collector 50
++root       106     1  0 03:27 ?        00:00:00 /bin/sh /sbin/bootchartd
++root       792   106  0 03:27 ?        00:00:00 /lib64/bootchart/bootchart-collector --usleep 1000000
++root       794   725  0 03:27 ttyS0    00:00:00 grep bootchart
++
++ # /sbin/bootchartd stop
++[bootchart] bootchart-collector started as pid 596 with 2 args:
++[bootchart] '--dump'
++[bootchart] '/tmp/bootchart.3lXpVDAq3v'
++[bootchart] Extracting profile data from pid 204
++[bootchart] map 0xbed9a000 -> 0xbedbb000 size: 132k from 'bed9a000' 'bedbb000'
++[bootchart] read 135168 bytes of 135168
++[bootchart] reading 150 chunks (of 150) ...
++[bootchart] wrote 18760 kbB
++[bootchart] bootchart-collector pid: 596 unmounted proc / clean exit
++
++But there still one process exist after the above stop command finish.
++ # ps -ef | grep bootchartd
++root 202 1 0 09:09 ? 00:00:00 /bin/sh /sbin/bootchartd
++root 629 516 0 09:10 ? 00:00:00 grep bootchartd
++
++Remove the wait_boot which used to wait the boot process to finish to
++make sure only one bootchartd process and meanwhile we don't need the
++wait_boot logic because we either use "/sbin/bootchartd stop" to stop
++the bootchartd manually or install package bootchartd-stop-initscript
++altogether with bootchart2 to stop bootchartd automatically after boot.
++
++After patch:
++ # ps -ef | grep bootchart
++ root       101     1  0 03:36 ?        00:00:00 /bin/sh /sbin/bootchartd
++ root       103   101  6 03:36 ?        00:00:04 /lib64/bootchart/bootchart-collector 50
++ root       596   592  0 03:37 ttyS0    00:00:00 grep bootchart
++
++[1] https://github.com/xrmx/bootchart/issues/94
++
++Upstream-Status: Submitted [https://github.com/xrmx/bootchart/pull/95]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ bootchartd.in | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/bootchartd.in b/bootchartd.in
++index 7979ef9..f0e466d 100755
++--- a/bootchartd.in
+++++ b/bootchartd.in
++@@ -183,7 +183,6 @@ if [ $$ -eq 1 ]; then
++ 	else # running inside the main system
++ 		echo "bootchart: no initrd used; starting"
++ 		start &
++-		wait_boot &
++ 		# wait a little, until the collector is going, before allowing
++ 		# the rest of the system to charge ahead, so we catch it
++ 		$USLEEP 250000
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+index 59fcd8c78a..87f7631ddc 100644
+--- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
++++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+@@ -94,6 +94,7 @@ SRC_URI = "git://github.com/xrmx/bootchart.git;branch=master;protocol=https \
+            file://bootchartd_stop.sh \
+            file://0001-collector-Allocate-space-on-heap-for-chunks.patch \
+            file://0001-bootchart2-support-usrmerge.patch \
++           file://0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch \
+           "
  
- SRC_URI[sha256sum] = "a9ef39278113542968c7c73a31cfcb81aca1faa64690f400b907e8ab6b4a665c"
- 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.44.bb b/meta/recipes-support/libpcre/libpcre_8.44.bb
-index cd80dc7345..3267c5ad72 100644
---- a/meta/recipes-support/libpcre/libpcre_8.44.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.44.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=3bb381a66a5385b246d4877922e7511e"
--SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/pcre/pcre-${PV}.tar.bz2 \
-            file://run-ptest \
-            file://Makefile \
-            "
+ S = "${WORKDIR}/git"
 -- 
-2.33.1
+2.17.1
 
 
