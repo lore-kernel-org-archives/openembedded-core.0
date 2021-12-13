@@ -2,48 +2,47 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F8C5C433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 04:17:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D000C4332F
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 04:17:50 +0000 (UTC)
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
  by mx.groups.io with SMTP id smtpd.web12.7345.1639369051545710943
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Dec 2021 20:17:48 -0800
+ Sun, 12 Dec 2021 20:17:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=intel header.b=G1+fnxdP;
+ dkim=pass header.i=@intel.com header.s=intel header.b=VtP1nKEZ;
  spf=pass (domain: intel.com, ip: 134.134.136.65,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639369068; x=1670905068;
+  t=1639369069; x=1670905069;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=L4uub0YwvfNmw/IK8HERzoIMf0ciKEyAsguOactAb/8=;
-  b=G1+fnxdPJvBljJYDW3i/qAIpRTslluJPQ+Qwmcrol+bV6giOV2VLc0Di
-   /Y9SQgQ+Wv2ErAgmZxqwfqhZS8cJj/h/FE8AM+zQ9Ye3NSxH1km4u7Dbz
-   1Zx4uVTqJRKgw4qBXWcrAPUJ9dtRY1SMj1A5Wko+Nkb+uCfve6MRRyt7S
-   B/yucjRq/QAqnsl4ELxhXQ7dtsmi+kxNSIlytx+S3lJDsvqfUFYmOVuY9
-   auI955GMfCGF3Qv9fnPBo3FTEp8GVd6sqcnouuhW9vt9ngBb22FLc7mir
-   mmL/oNdA3pUgWlXL9dDRawmpMs6E91KZYVuB0TGEXjZnAWBbK71kZlRRp
+  bh=akbMTj7NMj+AqODrTxKnIata8rVFgpCfdjuCPqYiXno=;
+  b=VtP1nKEZHWAnmQajzED1X+QOV8MsSddEskOfm4gRQMmdYY6A8NS9pu06
+   pEhA0PNNE88fTweKy64iHzRBh59S3+izGCcVElf52/GdzaNGv8iZl3ZQQ
+   dDl+HKQOUXP6p8cCwxzFhm0Xw8kk3Dk3WRlVgjJlIbFdLtRj8N4ACZZBg
+   rsCtklpItqNiRWdZF7u938Ts3uEs4Tv+sfsR/s4GzGBFA7Og1uNSH3oGr
+   pksft8HR1Ijs7yqW9C8Uv1TwGGd1ZgLMirytsfGLoQSHkwAxo6+pCBUfF
+   H7flAZXWgsmTmGOXBklxjPRXxUo6MmkUcwmXzGjlG0/eyCSzBRISYncyq
    w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238602249"
+X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238602251"
 X-IronPort-AV: E=Sophos;i="5.88,201,1635231600";
-   d="scan'208";a="238602249"
+   d="scan'208";a="238602251"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 20:17:48 -0800
+ 12 Dec 2021 20:17:49 -0800
 X-IronPort-AV: E=Sophos;i="5.88,201,1635231600";
-   d="scan'208";a="517589313"
+   d="scan'208";a="517589316"
 Received: from echan1-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.213.132.97])
   by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 20:17:46 -0800
+ 12 Dec 2021 20:17:48 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 13/20] recipetool: Set master branch only as
- fallback
-Date: Mon, 13 Dec 2021 12:17:12 +0800
+Subject: [hardknott][PATCH 14/20] selftest/devtool: Check branch in git fetch
+Date: Mon, 13 Dec 2021 12:17:13 +0800
 Message-Id: 
- <15919898fa8dc40f4fe9c668d56e1d2afd52c894.1639365111.git.anuj.mittal@intel.com>
+ <8cddb33800476866b0249f885b77d73626e57688.1639365111.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1639365111.git.anuj.mittal@intel.com>
 References: <cover.1639365111.git.anuj.mittal@intel.com>
@@ -52,81 +51,52 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 04:17:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 04:17:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159603
+ https://lists.openembedded.org/g/openembedded-core/message/159604
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
 The commit 'meta/scripts: Manual git url branch additions (dc53fe75cc)'
-sets the branch= parameter too early to master and thereby breaks the
--B/--srcbranch option.
-
-ERROR: branch= parameter and -B/--srcbranch option cannot both be specified - use one or the other
+forget the url branch= parameter in the devtool git fetch test.
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 34ece8030e7a6a100b5e3e7b94e6c786c0e199a6)
+(cherry picked from commit 1419168a58a5caf99e24ada08c9ab639344a78b4)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/recipetool/create.py | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 5752db5c2e..e8e71fabfd 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -389,9 +389,6 @@ def reformat_git_uri(uri):
-                 parms.update({('protocol', 'ssh')})
-         elif (scheme == "http" or scheme == 'https' or scheme == 'ssh') and not ('protocol' in parms):
-             parms.update({('protocol', scheme)})
--        # We assume 'master' branch if not set
--        if not 'branch' in parms:
--            parms.update({('branch', 'master')})
-         # Always append 'git://'
-         fUrl = bb.fetch2.encodeurl(('git', host, path, user, pswd, parms))
-         return fUrl
-@@ -481,6 +478,9 @@ def create_recipe(args):
-             storeTagName = params['tag']
-             params['nobranch'] = '1'
-             del params['tag']
-+        # Assume 'master' branch if not set
-+        if scheme in ['git', 'gitsm'] and 'branch' not in params and 'nobranch' not in params:
-+            params['branch'] = 'master'
-         fetchuri = bb.fetch2.encodeurl((scheme, network, path, user, passwd, params))
- 
-         tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
-@@ -530,10 +530,9 @@ def create_recipe(args):
-             # Remove HEAD reference point and drop remote prefix
-             get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
-             if 'master' in get_branch:
--                # If it is master, we do not need to append 'branch=master' as this is default.
-                 # Even with the case where get_branch has multiple objects, if 'master' is one
-                 # of them, we should default take from 'master'
--                srcbranch = ''
-+                srcbranch = 'master'
-             elif len(get_branch) == 1:
-                 # If 'master' isn't in get_branch and get_branch contains only ONE object, then store result into 'srcbranch'
-                 srcbranch = get_branch[0]
-@@ -546,8 +545,8 @@ def create_recipe(args):
-         # Since we might have a value in srcbranch, we need to
-         # recontruct the srcuri to include 'branch' in params.
-         scheme, network, path, user, passwd, params = bb.fetch2.decodeurl(srcuri)
--        if srcbranch:
--            params['branch'] = srcbranch
-+        if scheme in ['git', 'gitsm']:
-+            params['branch'] = srcbranch or 'master'
- 
-         if storeTagName and scheme in ['git', 'gitsm']:
-             # Check srcrev using tag and check validity of the tag
-@@ -606,7 +605,7 @@ def create_recipe(args):
-                     splitline = line.split()
-                     if len(splitline) > 1:
-                         if splitline[0] == 'origin' and scriptutils.is_src_url(splitline[1]):
--                            srcuri = reformat_git_uri(splitline[1])
-+                            srcuri = reformat_git_uri(splitline[1]) + ';branch=master'
-                             srcsubdir = 'git'
-                             break
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 66e326253e..7ac1fcfbeb 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -442,6 +442,7 @@ class DevtoolAddTests(DevtoolBase):
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir)
+         url = 'gitsm://git.yoctoproject.org/mraa'
++        url_branch = '%s;branch=master' % url
+         checkrev = 'ae127b19a50aa54255e4330ccfdd9a5d058e581d'
+         testrecipe = 'mraa'
+         srcdir = os.path.join(tempdir, testrecipe)
+@@ -462,7 +463,7 @@ class DevtoolAddTests(DevtoolBase):
+         checkvars = {}
+         checkvars['S'] = '${WORKDIR}/git'
+         checkvars['PV'] = '1.0+git${SRCPV}'
+-        checkvars['SRC_URI'] = url
++        checkvars['SRC_URI'] = url_branch
+         checkvars['SRCREV'] = '${AUTOREV}'
+         self._test_recipe_contents(recipefile, checkvars, [])
+         # Try with revision and version specified
+@@ -481,7 +482,7 @@ class DevtoolAddTests(DevtoolBase):
+         checkvars = {}
+         checkvars['S'] = '${WORKDIR}/git'
+         checkvars['PV'] = '1.5+git${SRCPV}'
+-        checkvars['SRC_URI'] = url
++        checkvars['SRC_URI'] = url_branch
+         checkvars['SRCREV'] = checkrev
+         self._test_recipe_contents(recipefile, checkvars, [])
  
 -- 
 2.33.1
