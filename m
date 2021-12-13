@@ -2,75 +2,75 @@ Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 708DAC433FE
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 13:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 609FEC433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 13:30:34 +0000 (UTC)
 Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.2])
- by mx.groups.io with SMTP id smtpd.web12.11127.1639402206518401041
+ [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web08.10914.1639402233378958916
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 05:30:06 -0800
+ Mon, 13 Dec 2021 05:30:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Gav1ARYA;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.2,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=eVGiMJ1D;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
  mailfrom: zhengrq.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1639402204; i=@fujitsu.com;
-	bh=0NiVLFuauicG+cuikydacreP02zsDi6h+Jw+R7STwbE=;
+	s=170520fj; t=1639402231; i=@fujitsu.com;
+	bh=yREe3AXuxPofhOcQ+OTKTaxVQZm4s5W95M/e0NXa3Iw=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Gav1ARYAwGVJrT7pmO3UW7AZn/f5MKOiiRBcgfSnPOpgw55u9P8x10R+giua3vmIs
-	 lzQt4bDQ2Ge9juLa8WPi7Q+LEC4ercvqgsZr/kkqbU9uGKuXenIEOgkbi1uTZUra1T
-	 1bm6fGCcre7uldOtzo3+QUMepmyr6VbKGOiGIEhCEkHhQWne7mEmqe2LQoJGaAzY+V
-	 juubBPq8xqMY5kiBFDQY5PttK4Dcw2ytpdCbdL7shgsRAHZX1gu+OuydA0PHZNt0Uq
-	 0UpeQGPAu1utKV+YGnPO6WuNFyk/xPi5tFc266z2VoEOL45i5soI6gLQbYs8r+uTod
-	 LrNYDTYoeFGaA==
+	b=eVGiMJ1DX0ffRChGFwyLenWoIgsHhaTg55SgAcJC1mapUNPyU9XcnGIB4khzaOC7W
+	 MTE9xe+VzSdsjMI9/pUfQi/ePszwum83EogvK8k9blknc+5h6PC6y2T58Y1G/3Uixp
+	 dZjWcgBn4dhaovF6bpB6x6Viv0BHMrkiZjlNmw2znwYlbtHBEj1tC0DYs0lWQOHqV8
+	 XSMETTMYEEsdcGXNYt9RPawJKAuJ6spxgBSCG3A4e+AbvoP37CyNkl3gK4hkRsYXV+
+	 PnH4xDKi+Abmk/5ZizGbynd/drzfZT23tAPybdZkqmFRVUgDClbAyiirh1S8m3FbxA
+	 dS8mHl1isa5Kw==
 Received: from [100.115.34.181] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-west-2.aws.ess.symcld.net id FE/F6-16537-CDA47B16;
- Mon, 13 Dec 2021 13:30:04 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKIsWRWlGSWpSXmKPExsViZ8MxSfeO1/Z
-  Eg9XLhSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1owP2zazFOzlrjhynq2BcStXFyMXh5DAY0aJ
-  nkXP2CCc80wSJ99tYIVw9jBKnHn6gamLkZODTUBX4tzjtexdjBwcIgJ6Elf/iYKEhQVcJCZde
-  MkOYrMIqEr0bjsFZvMKuEsc673OAmJLCChITHn4nhkiLihxcuYTsDizgITEwRcvmEFGSggoSs
-  yeLg9RXiHx+vAlZghbTeLquU3MExj5ZiHpnoWkewEj0ypG66SizPSMktzEzBxdQwMDXUNDU11
-  jU11DE0u9xCrdRL3UUt3y1OISXSO9xPJivdTiYr3iytzknBS9vNSSTYzA0EspVp66g/H0qp96
-  hxglOZiURHmDWbcnCvEl5adUZiQWZ8QXleakFh9ilOHgUJLg/W0OlBMsSk1PrUjLzAHGAUxag
-  oNHSYTX3RMozVtckJhbnJkOkTrFqCglzvsCJCEAksgozYNrg8XeJUZZKWFeRgYGBiGegtSi3M
-  wSVPlXjOIcjErCvMmOQFN4MvNK4Ka/AlrMBLSYsXIzyOKSRISUVANT+MbD/+q/e/7qvf1whZa
-  gyOHLJ5y/lzHFGUhVbd+SVVSyYPH/w47czF/f/ricUvpw17ubR3Mkc6W6zqyunCZ487/Cs60f
-  DxyuyubW8av7z3aRfRv/Mp1bxReq0/70cMRJyGz6MpNDYJ5kgv/a2RuVV62dF9LEsjFFTGHFx
-  3tuD3/s/3Tu9P3l2i4vp7LYNAfHbU28tOK7vkOagZas8s8Y07XsL2e6m2VP53px5V6RwW6hp5
-  OWiuxVZz49fc1uboWsD+cZgwtuRieHreGRVp1j9jFdodzIeIH1z2UG7a9cY2sD82+cmuTybO7
-  1/YdEH13v1f+20Db+21G9xujCEwbc3It/Hzr29d27Y/cLE1bbHFNiKc5INNRiLipOBAD1n7A1
-  OAMAAA==
+	by server-4.bemta.az-a.eu-west-2.aws.ess.symcld.net id 49/A2-23453-7FA47B16;
+ Mon, 13 Dec 2021 13:30:31 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRWlGSWpSXmKPExsViZ8ORqPvda3u
+  iwaq9whZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aPFbdYCzYIV5w49J+lgfGBQBcjF4eQwGNG
+  iecv/7JBOOeZJFZ1LWWFcPYwShzc9YWli5GTg01AV+Lc47XsXYwcHCICehJX/4mChIUFrCX+7
+  N/KDGKzCKhK7Lp9mxXE5hVwl1g2bRZYXEJAQWLKw/fMEHFBiZMzn4CNZBaQkDj44gUzyEgJAU
+  WJ2dPlIcorJF4fvgTVqiZx9dwm5gmMfLOQdM9C0r2AkWkVo3VSUWZ6RkluYmaOrqGBga6hoam
+  usbGuobmlXmKVbqJeaqlueWpxia6RXmJ5sV5qcbFecWVuck6KXl5qySZGYPClFCtu3sE4ceVP
+  vUOMkhxMSqK8wazbE4X4kvJTKjMSizPii0pzUosPMcpwcChJ8P42B8oJFqWmp1akZeYAIwEmL
+  cHBoyTC6+4JlOYtLkjMLc5Mh0idYtTl2Hl68SJmIZa8/LxUKXHeFyBFAiBFGaV5cCNgUXmJUV
+  ZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjBvsiPQFJ7MvBK4Ta+AjmACOoKxcjPIESWJCCmpBib
+  G8mPepX3sKvcemkh2MX2WDd8eOVP05JrQnfP3/WLSKz/lasW5l7s9WbKl04a/bMVTLbNQHQEu
+  nXkW189rCl3Icb4e+TTN3ll7z1Sfgsx7MtPTLU+/OXxzTeGS/VOlE/xzFrpefeDZOVXpycVPm
+  /avXsseVqT/ICbL+HddzQePfSqGfS1MLi8kei7mXF9xIfsoy9MdK8v7lv/a+UnmpsqWvfIOxr
+  6PNmbc4lsRwWynmf9QeM2KBU7VxxImTV1bffBeRGFcqE7VW+5t7azPd7FX8Ox5ytbMHpDvXVn
+  VqTf3zJf7k/52LBAs2SyfcWi5wSSB/Osv229ec53XW7Hw0EbnCa0sgjzTaqQ37JzEc0eJpTgj
+  0VCLuag4EQB6hJnPRQMAAA==
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-9.tower-565.messagelabs.com!1639402204!20112!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-9.tower-571.messagelabs.com!1639402231!16418!1
+X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 20981 invoked from network); 13 Dec 2021 13:30:04 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-9.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 13 Dec 2021 13:30:04 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id D7ABB1000F6
+Received: (qmail 3487 invoked from network); 13 Dec 2021 13:30:31 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-9.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 13 Dec 2021 13:30:31 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id E14B91009F1
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 13:30:03 +0000 (GMT)
+ Mon, 13 Dec 2021 13:30:30 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id C78E7100352
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id D444310023E
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 13:30:03 +0000 (GMT)
+ Mon, 13 Dec 2021 13:30:30 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 13 Dec 2021 13:29:54 +0000
+ (TLS) id 15.0.1497.26; Mon, 13 Dec 2021 13:30:19 +0000
 From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] glib-networking: upgrade 2.70.0 -> 2.70.1
-Date: Tue, 14 Dec 2021 06:29:42 +0800
-Message-ID: <1639434582-2586-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH] less: upgrade 590 -> 598
+Date: Tue, 14 Dec 2021 06:30:14 +0800
+Message-ID: <1639434614-2679-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -81,38 +81,65 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 13:30:07 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 13:30:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159631
+ https://lists.openembedded.org/g/openembedded-core/message/159632
 
-Changelog:
-====================
- - Fix crashes when handshake is cancelled (#97, #176)
- - OpenSSL: fix spurious certificate expired verification errors (#179)
- - GnuTLS: Fix tests on 32-bit systems (!188, Simon McVittie)
- - GnuTLS: Fix crash when invalid priority string is forced (!189)
+Changelog between version 590 and version 598:
+=============================================
+Add the --header option.
+Add the --no-number-headers option.
+Add the --status-line option.
+Add the --redraw-on-quit option.
+Add the --search-options option.
+Add 'H' color type to set color of header lines.
+Add #version conditional to lesskey.
+Add += syntax to variable section in lesskey files.
+Allow option name in -- command to end with '=' in addition to '\n'.
+Add $HOME/.config to possible locations of lesskey file.
+Add $XDG_STATE_HOME and $HOME/.local/state to possible locations of history file.
+Don't read or write history file in secure mode.
+Fix display of multibyte and double-width chars in prompt.
+Fix ESC-BACKSPACE command when BACKSPACE key does not send 0x08.
+Add more \k codes to lesskey format.
+Fix bug when empty file is modified while viewing it.
+Fix bug when parsing a malformed lesskey file.
+Fix bug scrolling history when --incsearch is set.
+Fix buffer overflow when invoking lessecho with more than 63 -m/-n options.
+Fix display bugs with --header.
+Fix bug restoring color at end of highlighted text.
+Fix bug in parsing lesskey file.
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../{glib-networking_2.70.0.bb => glib-networking_2.70.1.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/glib-networking/{glib-networking_2.70.0.bb => glib-networking_2.70.1.bb} (93%)
+ meta/recipes-extended/less/{less_590.bb => less_598.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/less/{less_590.bb => less_598.bb} (87%)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.70.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.70.1.bb
-similarity index 93%
-rename from meta/recipes-core/glib-networking/glib-networking_2.70.0.bb
-rename to meta/recipes-core/glib-networking/glib-networking_2.70.1.bb
-index fc700e03b7..f020e16068 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.70.0.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.70.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-extended/less/less_590.bb b/meta/recipes-extended/less/less_598.bb
+similarity index 87%
+rename from meta/recipes-extended/less/less_590.bb
+rename to meta/recipes-extended/less/less_598.bb
+index 5d0d0a5afe..574efff365 100644
+--- a/meta/recipes-extended/less/less_590.bb
++++ b/meta/recipes-extended/less/less_598.bb
+@@ -20,7 +20,7 @@ SECTION = "console/utils"
+ #
  
--SRC_URI[archive.sha256sum] = "66b408e7afa86c582fe38963db56133869ab4b57d34e48ec56aba621940d6f35"
-+SRC_URI[archive.sha256sum] = "2a16bfc2d271ccd3266e3fb462bc8a4103c02e81bbb339aa92d6fb060592d7bc"
+ LICENSE = "GPLv3+ | BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://LICENSE;md5=ba01d0cab7f62f7f2204c7780ff6a87d \
+                     "
+ DEPENDS = "ncurses"
+@@ -28,7 +28,7 @@ DEPENDS = "ncurses"
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+ 	  "
  
- PACKAGECONFIG ??= "openssl ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+-SRC_URI[sha256sum] = "6aadf54be8bf57d0e2999a3c5d67b1de63808bb90deb8f77b028eafae3a08e10"
++SRC_URI[sha256sum] = "64e0eb24534ac70d15ff3a36c8853f7a48196aa230d2a104707fc4ff1a45e982"
+ 
+ UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
  
 -- 
 2.25.1
