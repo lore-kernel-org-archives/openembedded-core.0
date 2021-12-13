@@ -1,179 +1,142 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA7BC433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 13:15:44 +0000 (UTC)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by mx.groups.io with SMTP id smtpd.web10.10887.1639401343212102190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9238CC433EF
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 13:16:44 +0000 (UTC)
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web08.10782.1639401403223792170
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 05:15:43 -0800
+ Mon, 13 Dec 2021 05:16:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WPXeehgs;
- spf=pass (domain: gmail.com, ip: 209.85.222.43,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f43.google.com with SMTP id o1so29090287uap.4
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 05:15:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c3sxv3LPWFAOif7emajdra18wa/nNRkUafrqgDHHfuY=;
-        b=WPXeehgsC22kgGnG1N/vjtXf7qy6i9HAL/PW5txiSUjCtzSRcxk4b6oLOHkwbDMA0L
-         6MDRBHZp5C8LhcQvJ68BSpHAfaxwXWoQt/ZhMRvwlroCY39SUVo6B2OKSrR+96WAOXjV
-         ejjcqq3X2ZlGuVuGjYi68jQihpfy2KOlIVyz2/EJA7xE3I/Jef5z5vRqa5qafU6e+Lmv
-         BK6DrSsJFZlkjN6fHv1hMzZ4ZmFU9fZ40FR0Z6IUmk9LEd2rgTQumUMFIYPrQxo8Jusu
-         hostDd5U2BwYwJQc1OL99iMCZrYj/mWQULMx2ojlWP5plxOQqIHUWKBXvINVRGA7tMKy
-         BiaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c3sxv3LPWFAOif7emajdra18wa/nNRkUafrqgDHHfuY=;
-        b=HDcSiMnZ2MMyiKrLrx92r2CcDXSlR+/kni7Im/Z8vJU+z2vpfRkYKG5DgFrffb+zYn
-         h99iJUZfjftM5kk1Aq83lPzCqzIZ9P9EKnHDFyVrDGhQxCRvi3/zWKXTtgJQImQil+nU
-         yvdW1jtPN8q1AOYD/bnz9vxU3/aZuteNu36xheQwNIbDONcgE1z9uGxJaREUyzsbw6lI
-         8ZzGiSSimc8xl1NYtO2VIvL2iXfr8yPCeVgqjL5vtpGsXYW97F48ZIN7Y7jLkoLSgOHO
-         X0nqzDlIm0XL4gElI+i5A8HsYvAGeHc0++ub2OtAArZtBJBAhQqPbFthcxAVw4kznavU
-         +/kg==
-X-Gm-Message-State: AOAM530EqF6NvMI+lsI67Fsi6c0rhwrd+wCZOhoDAKGHXGEv9o855KbX
-	ca1hXx/wuMDOS5NSvZZsA+jTbMlYbwv60aD/QM0=
-X-Google-Smtp-Source: 
- ABdhPJyBlG+E8BKBNY8meljkwcQnOdC/l3TnyZCK0aJijCzFEdo8PwJGFqHjKw1iGllN3tJZCAVFYtk7rvimQTvuBtU=
-X-Received: by 2002:a9f:3e01:: with SMTP id o1mr40028480uai.89.1639401342258;
- Mon, 13 Dec 2021 05:15:42 -0800 (PST)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=X5oulUCl;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1639401401; i=@fujitsu.com;
+	bh=Nsslq6TrfnuiHsLnn6ec/G6Ra/imoWrpgVacE4KkSYs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=X5oulUClhnxmYAl+f0HmWqfefyi19/odHbt+4dEzNoFACBT66hHYZYxWy33IfvgIW
+	 gMthx0UEf5sxEvkLnJfsRjR1uxLBIaYRMC1Kgyofa2Heu8NGT44HzIdR8hpdVru2ee
+	 W3SkOuAjsb4d2HsDcVjUSRnSfziN3/FB5+7qGE52yCK+6SXL5s08Tgs2arw/ilVpUj
+	 Rnv/2I8wwyhQTS0uANr4AtzTo96Msh+uGA1szWog2DyFV3KctcOvDuRm8sODjlc5Je
+	 Mr6fhhH29m56cldBuXnUII+5BuGB2QS+7EI35hs1dp4ZVLj9D6hxz+t2ayCzkcSxyo
+	 1eFm3mI2KX4LQ==
+Received: from [100.115.71.165] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
+ AA/62-07141-9B747B16; Mon, 13 Dec 2021 13:16:41 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRWlGSWpSXmKPExsViZ8ORqLvDfXu
+  iwdPdJhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8ajb1vYC14IVFy6fIalgfEpXxcjF4eQwGNG
+  iYUn3jNDOOeZJNZc7GHpYuQEck4wSryc6QtiswmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3
+  z3sILawgKvEpv0zmUFsFgFViSl3D7OB2LwCThIfP6wBq5EQUJCY8vA9M0RcUOLkzCcsEHMkJA
+  6+eMEMUaMoMftyMwuEXSExa1YbE4StJnH13CbmCYz8s5C0z0LSvoCRaRWjXVJRZnpGSW5iZo6
+  uoYGBrqGhqa6Zia6RialeYpVuol5qqW5yal5JUSJQWi+xvFgvtbhYr7gyNzknRS8vtWQTIzA0
+  U4odvu5gPN73U+8QoyQHk5IobzDr9kQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKEry/zYFygkWp6
+  akVaZk5wDiBSUtw8CiJ8HY7AqV5iwsSc4sz0yFSpxgVpcR537gCJQRAEhmleXBtsNi8xCgrJc
+  zLyMDAIMRTkFqUm1mCKv+KUZyDUUmYNxlkPE9mXgnc9FdAi5mAFjNWbgZZXJKIkJJqYGo6e/e
+  Jg05it//c6h+blr+fPzPIelvvfc5Gzju2Dq2uU0x2nY7Ks/W98rf3xaaoGbXm7E2fJ89Xl8yx
+  dpzjc0qBY6Ln/G//O9Ke91yRahTfe2mZ9drJH27ttgrZb+fDJOF+dXeW9cNsAYP++heX7qfud
+  53QwHj+C5/0Bh/+hW8+sXF+nZL+QiXZdUVQ1sY1G2tuKbTN2r7k8POO2wvSGj/2/XYTdpU5K/
+  uQz+JKy+zO/h9zopj2Tp33dOFNzocOXycwZc42N5uwdxlXwPsaXcNb75v2tonUvytnYFrNtuq
+  rlMGNTzrMMY0LvI8ySaywmPbcgT1Itfrk25lerX2R9xm0EsJsnMWj6k07UqdPvqXEUpyRaKjF
+  XFScCAAgifBISAMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-21.tower-545.messagelabs.com!1639401400!27902!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 17130 invoked from network); 13 Dec 2021 13:16:40 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-21.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 13 Dec 2021 13:16:40 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 42D2110024B
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 13 Dec 2021 13:16:40 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 3708310023B
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 13 Dec 2021 13:16:40 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 13 Dec 2021 13:16:21 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-cython: upgrade 0.29.24 -> 0.29.25
+Date: Mon, 13 Dec 2021 21:16:11 +0800
+Message-ID: <1639401371-27716-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: 
- <20211213123826.31605-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <CANNYZj_Kr9ziC4TLcgTZ_cGzaFy1-6uDD_V0geAEJnt1p7cEWg@mail.gmail.com>
- <16C0520074644916.18377@lists.openembedded.org>
- <f8505299-9e6b-8579-858a-906f00fe0b10@weidmueller.com>
-In-Reply-To: <f8505299-9e6b-8579-858a-906f00fe0b10@weidmueller.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 Dec 2021 14:15:31 +0100
-Message-ID: 
- <CANNYZj9uy1Q+S_o-EDHS=t-R8Rgx3DH_JOyuU-7G1e1DuQs11g@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 1/3] recipetool: Separate licenses with &
- operator
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Content-Type: multipart/alternative; boundary="000000000000a6509a05d306dee7"
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 13:15:44 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 13:16:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159626
+ https://lists.openembedded.org/g/openembedded-core/message/159627
 
---000000000000a6509a05d306dee7
-Content-Type: text/plain; charset="UTF-8"
+Changelog:
+================
+Bugs fixed
+----------
+* Several incompatibilities with CPython 3.11 were resolved.
+  (Github issues #4411, #4414, #4415, #4416, #4420, #4428, #4473, #4479, #4480)
 
-I mean that by reading the patch and the commit message it is not clear
-what problem is being fixed. It needs to be explained by showing what
-happens when there is no patch, and what happens when there is.
+* Some C compiler warnings were resolved.
+  (Github issue #4439)
 
-Alex
+* C++ "std::move()" should only be used automatically in MSVC versions that support it.
+  (Github issue #4191)
 
-On Mon, 13 Dec 2021 at 14:01, Stefan Herbrechtsmeier <
-stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
+ * The "Py_hash_t" type failed to accept arbitrary "index" values.
+   (Github issue #2752)
 
-> Am 13.12.2021 um 14:00 schrieb Stefan Herbrechtsmeier via
-> lists.openembedded.org:
-> >
-> >
-> > Am 13.12.2021 um 13:57 schrieb Alexander Kanavin:
-> >> On Mon, 13 Dec 2021 at 13:38, Stefan Herbrechtsmeier
-> >> <stefan.herbrechtsmeier-oss@weidmueller.com
-> >> <mailto:stefan.herbrechtsmeier-oss@weidmueller.com>> wrote:
-> >>
-> >>     From: Stefan Herbrechtsmeier <
-> stefan.herbrechtsmeier@weidmueller.com
-> >>     <mailto:stefan.herbrechtsmeier@weidmueller.com>>
-> >>
-> >>     Separate licenses with & operator since it should be satisfied
-> >> most use
-> >>     cases and it is a reasonable assumption that all the licenses apply.
-> >>     Furthermore flat, split and sort the licenses to minimize license
-> >> string
-> >>     changes.
-> >>
-> >>
-> >> I think this is better explained with an example. What did not work
-> >> before, and what works with this change?
-> >
-> > Do you mean something like:
-> >
-> > -LICENSE = "MIT ISC Unknown"
-> > +LICENSE = "BSD-3-Clause & ISC & MIT & Unknown"
->
-> Sorry I mean:
->
-> -LICENSE = "MIT ISC Unknown"
-> +LICENSE = "ISC & MIT & Unknown"
->
+* Avoid copying unaligned 16-bit values since some platforms require them to be aligned.
+  Use memcpy() instead to let the C compiler decide how to do it.
+  (Github issue #4343)
 
---000000000000a6509a05d306dee7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* Cython crashed on invalid truthiness tests on C++ types without "operator bool".
+  (Github issue #4348)
 
-<div dir=3D"ltr"><div>I mean that by reading the patch and the commit messa=
-ge it is not clear what problem is being fixed. It needs to be explained by=
- showing what happens when there is no patch, and what happens when there i=
-s.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 13 Dec 2021 at 14:01, Ste=
-fan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmu=
-eller.com">stefan.herbrechtsmeier-oss@weidmueller.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">Am 13.12.2021 um 14:00=
- schrieb Stefan Herbrechtsmeier via <br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a>:<br>
-&gt; <br>
-&gt; <br>
-&gt; Am 13.12.2021 um 13:57 schrieb Alexander Kanavin:<br>
-&gt;&gt; On Mon, 13 Dec 2021 at 13:38, Stefan Herbrechtsmeier <br>
-&gt;&gt; &lt;<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmueller.com" =
-target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.com</a> <br>
-&gt;&gt; &lt;mailto:<a href=3D"mailto:stefan.herbrechtsmeier-oss@weidmuelle=
-r.com" target=3D"_blank">stefan.herbrechtsmeier-oss@weidmueller.com</a>&gt;=
-&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 From: Stefan Herbrechtsmeier &lt;<a href=3D"mai=
-lto:stefan.herbrechtsmeier@weidmueller.com" target=3D"_blank">stefan.herbre=
-chtsmeier@weidmueller.com</a><br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 &lt;mailto:<a href=3D"mailto:stefan.herbrechtsm=
-eier@weidmueller.com" target=3D"_blank">stefan.herbrechtsmeier@weidmueller.=
-com</a>&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Separate licenses with &amp; operator since it =
-should be satisfied <br>
-&gt;&gt; most use<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 cases and it is a reasonable assumption that al=
-l the licenses apply.<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 Furthermore flat, split and sort the licenses t=
-o minimize license <br>
-&gt;&gt; string<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 changes.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; I think this is better explained with an example. What did not wor=
-k <br>
-&gt;&gt; before, and what works with this change?<br>
-&gt; <br>
-&gt; Do you mean something like:<br>
-&gt; <br>
-&gt; -LICENSE =3D &quot;MIT ISC Unknown&quot;<br>
-&gt; +LICENSE =3D &quot;BSD-3-Clause &amp; ISC &amp; MIT &amp; Unknown&quot=
-;<br>
-<br>
-Sorry I mean:<br>
-<br>
--LICENSE =3D &quot;MIT ISC Unknown&quot;<br>
-+LICENSE =3D &quot;ISC &amp; MIT &amp; Unknown&quot;<br>
-</blockquote></div>
+* The declaration of "PyUnicode_CompareWithASCIIString()" in "cpython.unicode" was incorrect.
+  (Github issue #4344)
 
---000000000000a6509a05d306dee7--
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ meta/recipes-devtools/python/python-cython.inc                  | 2 +-
+ .../{python3-cython_0.29.24.bb => python3-cython_0.29.25.bb}    | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-cython_0.29.24.bb => python3-cython_0.29.25.bb} (100%)
+
+diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+index 5a8ec2a0ff..93d6fdf13b 100644
+--- a/meta/recipes-devtools/python/python-cython.inc
++++ b/meta/recipes-devtools/python/python-cython.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
+ PYPI_PACKAGE = "Cython"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "cdf04d07c3600860e8c2ebaad4e8f52ac3feb212453c1764a49ac08c827e8443"
++SRC_URI[sha256sum] = "a87cbe3756e7c464acf3e9420d8741e62d3b2eace0846cb39f664ad378aab284"
+ UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ 
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.24.bb b/meta/recipes-devtools/python/python3-cython_0.29.25.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-cython_0.29.24.bb
+rename to meta/recipes-devtools/python/python3-cython_0.29.25.bb
+-- 
+2.25.1
+
 
