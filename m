@@ -1,223 +1,293 @@
-Return-Path: <peter@berginkonsult.se>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6132C433F5
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 21:14:57 +0000 (UTC)
-Received: from mailrelay3-2.pub.mailoutpod1-cph3.one.com
- (mailrelay3-2.pub.mailoutpod1-cph3.one.com [46.30.212.2])
- by mx.groups.io with SMTP id smtpd.web09.17342.1639430095427550347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7EB6C433FE
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 22:19:03 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web09.18177.1639433942484225394
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 13:14:56 -0800
+ Mon, 13 Dec 2021 14:19:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=oNojhXqK;
- spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.2,
- mailfrom: peter@berginkonsult.se)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CYCZ6L2S;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id r5so15760847pgi.6
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 13 Dec 2021 14:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=rsa1;
-	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-	 subject:cc:to:from:from;
-	bh=XFBJqIdYIvRFMDkhLWPgq1aeEGWd+bHZFKJFpDIBLtY=;
-	b=oNojhXqKzlagQZEeX4ApcGonbMRheXgIclRH5IjImCwq30DxyAf0vlbYNuEIWyD4tPEF85YKqkUDi
-	 Jzkdq+38x5ZQbeXsDllKQPkfXVNWN7KyNVsl6fZPSfebaOsSD74KntkYnx50Lnqf/WVgv9fPWXzlv+
-	 BFFJ9HLUZN8L5jnHAYZMIb3KTtQuud6lAlJNAQNitxvhWa/QaZoxRutdofuF5nGFm69cH1OR/WpaT/
-	 trXAduHoj1XoF+cvtje4hYlWjNlArLHxjfrX1aKNWwoKSanW5m43Qtfy97MP06Lu53UaRi0DRlwL/+
-	 zHRNRqSDTeMP1npBAY4r2qNhYIZ+jfQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=ed1;
-	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-	 subject:cc:to:from:from;
-	bh=XFBJqIdYIvRFMDkhLWPgq1aeEGWd+bHZFKJFpDIBLtY=;
-	b=lP3q/nY0pNucT3YHEAZTjAe1nkNMFcbtjDYfpOK4Lg5XuXJv57Ys5Jtk6KgSVhYjy/5ugBot6TO8k
-	 Hq8J3z+Bg==
-X-HalOne-Cookie: 231381319bfbdf5ac5ddc3463a267df738e46070
-X-HalOne-ID: b6b4fbf6-5c59-11ec-9170-d0431ea8bb03
-Received: from pbergin-7420.. (ua-213-113-157-96.bbcust.telenor.se
- [213.113.157.96])
-	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id b6b4fbf6-5c59-11ec-9170-d0431ea8bb03;
-	Mon, 13 Dec 2021 21:14:52 +0000 (UTC)
-From: Peter Bergin <peter@berginkonsult.se>
-To: openembedded-core@lists.openembedded.org
-Cc: Kristian Amlie <kristian.amlie@northern.tech>,
-	Peter Bergin <peter@berginkonsult.se>
-Subject: [RFC PATCH] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
-Date: Mon, 13 Dec 2021 22:14:16 +0100
-Message-Id: <20211213211416.46449-2-peter@berginkonsult.se>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211213211416.46449-1-peter@berginkonsult.se>
-References: <20211213211416.46449-1-peter@berginkonsult.se>
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=Tlos53MZ5DEfnTHtb25IULmc4FzcZqOFowG2ENEvWn0=;
+        b=CYCZ6L2Sh6lzEALUJZ3xl1R5OXvujM0WUk9piQPNkADxQfr0z/tLVypsIqhv8L8OLV
+         VH8rv4RYdVV4xJZAYx68efJhOkOCvgqknognOXPIt+pmmtOVBqJGbOLBkTwaHe4TJE7W
+         uryEnEmVCiOZ9Po1NIKFcxDdLLiSHKva9kJ1OzYIdZ50WPTlnITV6mnI93ojKaEKuq0w
+         ccWfV1+cUrGOfkfLoL5f8iGySVlR+ifWnqmI7FLYH+CieCqU2b/styqb5+VyAqtMCYXZ
+         BVLvkVaeR5cI1wNjr+RR/Zwmg1aosKIrZxd1vrgHShIoOZEFw7N2Jt0aHCE3O1l+ljeo
+         YKZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=Tlos53MZ5DEfnTHtb25IULmc4FzcZqOFowG2ENEvWn0=;
+        b=XOtczt8S+/w9ebnvJekq4wIVcjGHon/Ani0DnnNKsv+iNUVJ858slQBtVre0BCmOh+
+         qxq/8AOlZXXKkYCnhY8Cn24u+aK1AWBuWy/TRwqR/tcm1AlpXn72iKOpHJR+RJ+ghxid
+         Zds3BEN/365RZ0z4xjyyY59FWEmi3nZO4pKKRt16S6eII8CHxcyWclo4l0aZyHIitUdP
+         TESTRADvkEXlyQnllO9UFYzzvLHEa6012HNPfnIgGJBujNMf/uJhmM5hRMHmtlP8ey4/
+         UGpQSEUK5sJSY9JVrnGaRnEt2jwoQQqdluIqWRjKcOhx7IIhBtOgj5PoqrxlXsY4zUvl
+         7KmA==
+X-Gm-Message-State: AOAM530CItg38nRpRxeFIK+HwiVQvzJBEAItZncAyQbxweSZZkQSicJK
+	cjO0ZhWlSKE/GgjY2OISBsE=
+X-Google-Smtp-Source: 
+ ABdhPJzYdq0FGJOZgJKyDEFRaOiDSlatY/3sNAQeJpwPKzYx547ZllZfOwHpswwZMSeqE62lA0NUqA==
+X-Received: by 2002:a63:864a:: with SMTP id x71mr1001422pgd.297.1639433941875;
+        Mon, 13 Dec 2021 14:19:01 -0800 (PST)
+Received: from skjolley ([2600:8800:1d92:f800:a505:753b:e452:1553])
+        by smtp.gmail.com with ESMTPSA id
+ h13sm13137565pfv.84.2021.12.13.14.19.00
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 13 Dec 2021 14:19:01 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 13 Dec 2021 15:19:00 -0700
+Message-ID: <12ff01d7f06f$6e5e2a20$4b1a7e60$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_1300_01D7F034.C2019C10"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQF+70POaus2QI3xv8luQ5IxLzyoIg==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 21:14:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 22:19:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159659
+ https://lists.openembedded.org/g/openembedded-core/message/159660
 
-From: Kristian Amlie <kristian.amlie@northern.tech>
+This is a multipart message in MIME format.
 
-This is a direct followup from the earlier 6602392db3d39 commit in
-wic. It works more or less the same way: The variable specifies a list
-of directories relative to the root of the rootfs, and these
-directories will be excluded from the resulting rootfs image. If an
-entry ends with a slash, only the contents are omitted, not the
-directory itself.
+------=_NextPart_000_1300_01D7F034.C2019C10
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Since the intended use of the variable is to exclude certain
-directories from the rootfs, and then include said directories in
-other partitions, it is not natural for this variable to be respected
-for image creators that create multi partition images. These can turn
-the feature off locally by defining:
+All,
 
-  do_image_myfs[respect_exclude_path] = "0"
-
-Specifically, "wic" and "multiubi" come with the feature disabled.
-
-Signed-off-by: Kristian Amlie <kristian.amlie@northern.tech>
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
----
- meta/classes/image.bbclass           | 84 +++++++++++++++++++++++++++-
- meta/classes/image_types.bbclass     |  1 +
- meta/classes/image_types_wic.bbclass |  1 +
- 3 files changed, 84 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 2b0ce4a988..1c2ddd274e 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -125,7 +125,8 @@ def rootfs_variables(d):
-                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY', 'IMAGE_LOCALES_ARCHIVE',
-                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
--                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
-+                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS',
-+                 'IMAGE_ROOTFS_EXCLUDE_PATH']
-     variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
-@@ -497,8 +498,9 @@ python () {
-         d.setVarFlag(task, 'func', '1')
-         d.setVarFlag(task, 'fakeroot', '1')
  
--        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
-+        d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size prepare_excluded_directories')
-         d.prependVarFlag(task, 'postfuncs', 'create_symlinks ')
-+        d.appendVarFlag(task, 'postfuncs', ' cleanup_excluded_directories')
-         d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
-         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
-         d.appendVarFlag(task, 'vardepsexclude', ' DATETIME DATE ' + ' '.join(vardepsexclude))
-@@ -507,6 +509,84 @@ python () {
-         bb.build.addtask(task, 'do_image_complete', after, d)
- }
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
  
-+python prepare_excluded_directories() {
-+    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
-+    if not exclude_var:
-+        return
-+
-+    taskname = d.getVar("BB_CURRENTTASK")
-+
-+    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') == '0':
-+        bb.debug(1, "'IMAGE_ROOTFS_EXCLUDE_PATH' is set but 'respect_exclude_path' variable flag is 0 for this image type, so ignoring it")
-+        return
-+
-+    import shutil
-+    from oe.path import copyhardlinktree
-+
-+    exclude_list = exclude_var.split()
-+
-+    rootfs_orig = d.getVar('IMAGE_ROOTFS')
-+    # We need a new rootfs directory we can delete files from. Copy to
-+    # workdir.
-+    new_rootfs = os.path.realpath(oe.path.join(d.getVar("WORKDIR"), "rootfs.%s" % taskname))
-+
-+    if os.path.lexists(new_rootfs):
-+        shutil.rmtree(new_rootfs)
-+
-+    copyhardlinktree(rootfs_orig, new_rootfs)
-+
-+    for orig_path in exclude_list:
-+        path = orig_path
-+        if os.path.isabs(path):
-+            bb.fatal("IMAGE_ROOTFS_EXCLUDE_PATH: Must be relative: %s" % orig_path)
-+
-+        full_path = os.path.realpath(oe.path.join(new_rootfs, path))
-+
-+        # Disallow climbing outside of parent directory using '..',
-+        # because doing so could be quite disastrous (we will delete the
-+        # directory).
-+        if not full_path.startswith(new_rootfs):
-+            bb.fatal("'%s' points to a path outside the rootfs" % orig_path)
-+
-+        if path.endswith(os.sep):
-+            # Delete content only.
-+            for entry in os.listdir(full_path):
-+                full_entry = oe.path.join(full_path, entry)
-+                if os.path.isdir(full_entry) and not os.path.islink(full_entry):
-+                    shutil.rmtree(full_entry)
-+                else:
-+                    os.remove(full_entry)
-+        else:
-+            # Delete whole directory.
-+            shutil.rmtree(full_path)
-+
-+    # Save old value for cleanup later.
-+    d.setVar('IMAGE_ROOTFS_ORIG', rootfs_orig)
-+    d.setVar('IMAGE_ROOTFS', new_rootfs)
-+}
-+
-+python cleanup_excluded_directories() {
-+    exclude_var = d.getVar('IMAGE_ROOTFS_EXCLUDE_PATH')
-+    if not exclude_var:
-+        return
-+
-+    taskname = d.getVar("BB_CURRENTTASK")
-+
-+    if d.getVarFlag('do_%s' % taskname, 'respect_exclude_path') == '0':
-+        return
-+
-+    import shutil
-+
-+    rootfs_dirs_excluded = d.getVar('IMAGE_ROOTFS')
-+    rootfs_orig = d.getVar('IMAGE_ROOTFS_ORIG')
-+    # This should never happen, since we should have set it to a different
-+    # directory in the prepare function.
-+    assert rootfs_dirs_excluded != rootfs_orig
-+
-+    shutil.rmtree(rootfs_dirs_excluded)
-+    d.setVar('IMAGE_ROOTFS', rootfs_orig)
-+}
-+
- #
- # Compute the rootfs size
- #
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index f643ed3ce7..59abc827f7 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -196,6 +196,7 @@ IMAGE_CMD:multiubi () {
- 		multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}"
- 	done
- }
-+do_image_multiubi[respect_exclude_path] = "0"
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 399
+unassigned or newcomer bugs.
+
  
- IMAGE_CMD:ubi () {
- 	multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}"
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index e3863c88a9..47855c3175 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -69,6 +69,7 @@ IMAGE_CMD:wic () {
- }
- IMAGE_CMD:wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
- do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
-+do_image_wic[respect_exclude_path] = "0"
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
+being in "3.4" and then "3.5".
+
  
- PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/build-wic"
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
  
--- 
-2.30.2
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_1300_01D7F034.C2019C10
+Content-Type: text/html;
+	boundary="----=_NextPart_000_20DB_01D7EAAE.1F2BC410";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 399 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_1300_01D7F034.C2019C10--
 
 
