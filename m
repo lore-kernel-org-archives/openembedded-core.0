@@ -1,245 +1,276 @@
-Return-Path: <alex.stewart@ni.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE66C433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 12:28:34 +0000 (UTC)
-Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
- [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web11.10334.1639398514274477015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C1BC433EF
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 12:38:56 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.73])
+ by mx.groups.io with SMTP id smtpd.web10.10522.1639399132240763451
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 04:28:34 -0800
+ Mon, 13 Dec 2021 04:38:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=ym12O6pf;
- spf=pass (domain: ni.com, ip: 148.163.156.75,
- mailfrom: prvs=798194e796=alex.stewart@ni.com)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1BDC17KQ018072;
-	Mon, 13 Dec 2021 06:28:33 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS11062020;
- bh=EKa3HbRTZrK0Eqhkn6sRRFif00tRwcclHVQmqUU4X2U=;
- b=ym12O6pfFBXhHy9Ai4MVI4e4N/PBVcceMJiDfeBPc5ewJruz2rfCFsmDnvWCao9gRI+7
- U5vGJAda38hlJbSIfIB+Grs55kLJ08eiNo8c9E2B0fU1qvJH/SyJfqukXc6Nl5wTbjXx
- /PPR/jXIsHo6spcobQHS+PTl4mJWZYsfgXCatdhUe6s4oqbTf+cVS44mCniZjn6jr1Lp
- +IHdYO1VBIfrhJydmMe5+5f1cvcICppGnRurc6v1mWTTPQp0BL8Y3gkI1uv17rvBJYmI
- BbHxAq3FPSYC/osrEhuCwOXcjDzaZpT1DYLiZPYyR6su/6+94dZvUaMkFClK0CHFNmYf gg==
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
-	by mx0a-00010702.pphosted.com (PPS) with ESMTPS id 3cwc10swyf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Dec 2021 06:28:32 -0600
+ dkim=fail reason="body hash did not verify"
+ header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=dLS017Dn;
+ spf=pass (domain: weidmueller.com, ip: 40.107.6.73,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FWhqhhlH7Z4r+t8Vkdreo8YnvyzkxiPBcum2r/MealTWe5z2gM9ULgQGI0FdaQPXd6GaOnbnHOhpRb4110HhGEcjMd2N9193LqnWO1d8z3w1IYAwgvFdzFSQuDB/oK/FOZ+2cyD29PW+W7QN8YZ3sTEdu+p7B+J2yrh014gSqEVzsUSLi6xhLVF2r4aZq81fptne3FnKzsv7YbaTgCWSwrasXlAMFTPAUO1u1m1HeBNuB1lRnRWG7UErIxeO1GgqfLa15EXuX4iJj7h0Gw+xon7gFaEM15ixeJxGuwt8PZHZBcjobzgokVSB0KDlWk452SRHZHKXbuuv7lzX+qao6g==
+ b=NytI5lsWNO+PgOgXKI3KftGXwd3t595f+dpwMbXstUXvxiDsp9ZjyvNWqAk+Cux6TgSbHJNwm2WviV+prKYWMKbvQZIl4q7Lh+hmKx/mi9RWeBQE+HjVRAfU9ihXArX0xDyiNM/hKNmuQ/9CUlGqkwSywkJT9DgRDClM34EWCJjxWdGFevaEYzU6f9M3O/XT7oTHyajHIrIFii+LAYnuGHCNA5J2BSHwRBo///XI7tjjvSagDLgMo6Anql8hWbQxikjbANHC8e6E3J5rkgpzLBDQdByFLlUjTuc/vHsMcXN8iuHmOO2m4zD33vzzTOAChfaA+fJV7gYkIbnuCOF+lg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EKa3HbRTZrK0Eqhkn6sRRFif00tRwcclHVQmqUU4X2U=;
- b=BUbvuoRvGWDvkkQUSghD9CHbjZtytYGT1z9huVREl0tFTLjUsjAcO0/Mn1OelBwa0p4kaoJxpsmaeLh0iW/ZpYshTsA3YpZBQ0theYRasG6/HAAn1e8dC/8IRb9UJTP+stI4YWYoFW0p9dD4Lv0ot/CUyLZsYltKRIMf+T1i30rUAeD9plShU3TJvqkm66i3uU/sfJHe385kMa7ARZfxgZucM+L5PhCpQo8eHJSDRDjNPsQ8ZoM5c8hUSO6dAvhRizZkmeUsCih40bJXvnPPzsobNomUvvJH/M2OWRWcxJQz6H8zWbEnfctThb6kPx1rIJnfcY1wnBfFXiuVP079uA==
+ bh=AzF+8UOK3Q8Z1CVjW2AKKJdlBxKeBGOtsVBkEvANQiI=;
+ b=FA10Q/gbO7cgevEvgNBTIgf0u+Mluu6Uy3iY4Tp7c/k7VevqVODr0vmpCe0E4Ylk0JCWyur1HBK3v7G8eP7XL77PCo6Rouwhl7cWM9PgZ1N6WvFeamaS8MZzhBtCvgT2TP4BXhyZaNNdPNYTJT6hkqBOMYxTv7QPwyCqkpKO4YF3wD12wNEum0D8wsnF7K6FSt57MSSaG9lh5SdoN+c4Pklorz81l293Z5EPI5saLtxQW2uET7rrcX7qrp9tGgvrnzi+pFPNwdkpodqqJPu/Cd2VohG4k9Em+Rkhu8VP5okmIlQXVC0ojTxuLhNlN3v1XZ2dsa/RwuVQZwHxmbbdGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EKa3HbRTZrK0Eqhkn6sRRFif00tRwcclHVQmqUU4X2U=;
- b=KDfbNPTpoOpz8YePg4eTrEyWqPjseNGzNdH1wGdXftRM/TktFctcZTMRcL7IxYcAhawpFxDQAaMscuo9FCssMZr/jSFE9H6KY3TrYXsgG6E1ENnsbWoLg9CAcHyZjbWtrxzVSAn5CkfGD/oY5SREc13hatI8qsPPO2l81rKfb8k=
-Received: from SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
- by SN6PR04MB3950.namprd04.prod.outlook.com (2603:10b6:805:48::27) with
+ bh=AzF+8UOK3Q8Z1CVjW2AKKJdlBxKeBGOtsVBkEvANQiI=;
+ b=dLS017DnEt9eYpH+kIoAzFpwTuwcn6kMyZrAHiebyvRWkGfQpNvbL/qBU7odFI+qvB6Shu1S+gQ/4huuqqgMFnwqyMmGtyjdPqyEv1ZfF9KjO8hdJ17J0Gs14u4DM8Txkp4hUyopjn9n6S8rAaFUU/Vv/1Jhrxwn6I0BPu+M65A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by PR3PR08MB5595.eurprd08.prod.outlook.com (2603:10a6:102:83::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13; Mon, 13 Dec
- 2021 12:28:30 +0000
-Received: from SN6PR04MB5151.namprd04.prod.outlook.com
- ([fe80::d5bd:eb01:7b59:ed67]) by SN6PR04MB5151.namprd04.prod.outlook.com
- ([fe80::d5bd:eb01:7b59:ed67%5]) with mapi id 15.20.4778.017; Mon, 13 Dec 2021
- 12:28:30 +0000
-Message-ID: <24583f43-3b8d-6476-96b8-18bdf19781f3@ni.com>
-Date: Mon, 13 Dec 2021 06:28:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [OE-core] The state of DKMS in the Yocto community
-Content-Language: en-US
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, raj.khem@gmail.com
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <01159b35-cec2-1b90-f11c-77f6991b32b8@ni.com>
- <CADkTA4OokaT7oK2-QspYD4bYcRwWapGFE9rKSAq8UoEY1hVCrQ@mail.gmail.com>
-From: Alex Stewart <alex.stewart@ni.com>
-Organization: National Instruments Corp.
-In-Reply-To: 
- <CADkTA4OokaT7oK2-QspYD4bYcRwWapGFE9rKSAq8UoEY1hVCrQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0149.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2f::28) To SN6PR04MB5151.namprd04.prod.outlook.com
- (2603:10b6:805:90::25)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Mon, 13 Dec
+ 2021 12:38:49 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::f:41c4:eb10:5010%8]) with mapi id 15.20.4734.032; Mon, 13 Dec 2021
+ 12:38:49 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+To: openembedded-core@lists.openembedded.org
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [RFC PATCH 1/3] recipetool: Separate licenses with & operator
+Date: Mon, 13 Dec 2021 13:38:24 +0100
+Message-ID: 
+ <20211213123826.31605-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: AS9PR06CA0349.eurprd06.prod.outlook.com
+ (2603:10a6:20b:466::24) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
+Received: from DE10512.weidmueller.com (89.247.126.92) by
+ AS9PR06CA0349.eurprd06.prod.outlook.com (2603:10a6:20b:466::24) with
+ Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Mon, 13 Dec 2021 12:38:49 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 98694e45-b948-498f-2988-08d9be3411fb
-X-MS-TrafficTypeDiagnostic: SN6PR04MB3950:EE_
+X-MS-Office365-Filtering-Correlation-Id: c53ffadc-6ee0-49d6-214d-08d9be35834f
+X-MS-TrafficTypeDiagnostic: PR3PR08MB5595:EE_
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR04MB3950E591303399C86E6E899BFE749@SN6PR04MB3950.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+	<PR3PR08MB559533023EED9E8962B4D01FD7749@PR3PR08MB5595.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	bR8ChsbtuU16n0UECQsWk4IumL2L6BtceLEnOnW8C45JkIddovnc8WZ+6nnKnljrFSW1gFZZEwnRijUW3lQLkusMeARWoifg3ZlKOxaGnMlyjVeR4ePo/3HoTD4VrZpN61L9g/RPU+9rqbwa7NO/mlS1NE21ex5wII8qGXMBvYs7rgBfffYtTioM41pdPjYQOu4zUjsM4Va3P+GdmtijIX1DjmCvs5GQS3Rh60/xDaxNWa56U+yKWcp5VgIN8crV9u8U1d2X30YKSCBxTZEfC3l+21+Wwqq07o1TgpJtXTB/ZlDvB8EC/uQoZdNBr4w9Yn+wE2QLjQCmiX/ignKY3Kv+BEmz3M/BOpkTI1ueE65G3blp79CHb/xWA4bzJDM3l1/1aVEtU+kErmhjTJPxGj1NUhqLVPQdF9WIXHo5y5pif7wVk+GdB7cJmcn5rrfZmTF+WHfcugmoA/GFb/9JcA/ZqmYiGwbSQcetO7PQcYRnbZcVZJ1VZQM9LEn7D/XyOvQN+mEiYmRUyGnN7SMFHwBBCQWGcqCukC9rcrVdzSG5oWaUVADD0jWQ/7AnYmz/Wyr4NpmjF2BmTaUfgaWWZKbnoUH6IY43WpWusjvRX1aK8Pf9h8XjDZHZRiaojzM3HDhFfZ7cHK1JufMd1HpfnkoxOADjBdCRsjUpoJswAy1cUuXTRTu8D5w73gQoQATtlrLl4qMIEXzPpot/FcVq0SmBpD6X4UEDDjmHBPwTh/vW69+GxKXJ3LK9WZWBuY61ID/fwehEzrGzmNUcwsfjyw==
+	b3Ii4xI27JHUQ/I1xmjtJLkRALC6S7Xdj0HajbnWHeco2drNuicvboUeTnItc5D7REXKVlvUlDdcQDM9Fw+ne2Z0MnBC9ZuMfgAiCUq7lX5gt8JLvHEUpLu9xGQbU5GDhaK1aBdX+FA3ir/s7ZCKZNKMNx26adhZjWMawvs5sP5KPmC6b47yfzQl6Zzb8fRf50rHfuep5R4OGpgPMHJ1qdTSIp/CQ8VH19C2kz410OrQtNSBzrKUWDInImgpGr/QniSaSfj8OtTxkaWiYXvvFJXopJjCV5MR9M6m55S76KLhm2CLE0/keApQxC4H3+SNUfftFonPp9JnWL4i+4WvRcrUlcocBQzpnSUDcqjRMsGbxEkC6WFJkSzg/7O9aJQs69MhkddpyeTdMcc9LUt5xbkCzmEAmA30GSCUt3Bb17rQcEYSMWSrHgxKxJHfBwx4OCHesKmZbheFfHvC1MLaa7Q/1y/0iP3QVXOPJbrtzHpe9QxXd3adb7yQY+n8Yg8FR1qrS5KPVY0Qg9aJXFSrm3dKSfEV9UTJ1bee64tejwhv/iG9xlCO4Kn4bBeUTe4UZqFyIGyuOk5Qmv/F4orFSvilFPCo36vIpStKohTwN2DULwir1qXA/2TZPI7aTIVCk2Yh4lraF8F5ebvDlUrM/WXjIMkzzKcAX6G/pzpHJAk2FJqf6R+j3gjJo55hkHhHi5dmRqXwjUqZGRONkcKPJA+i54CPEafqtEWM6UUMkZJ6fEjvVjqGMGVwzNQTlnhBMWU6HT3ecCBIXlf9W7zMXg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB5151.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(36756003)(6486002)(6512007)(6506007)(53546011)(31686004)(66946007)(508600001)(38350700002)(38100700002)(44832011)(5660300002)(36916002)(66556008)(8936002)(86362001)(66476007)(316002)(52116002)(2616005)(2906002)(186003)(26005)(31696002)(83380400001)(4326008)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(38350700002)(38100700002)(956004)(2616005)(26005)(83380400001)(186003)(86362001)(316002)(66946007)(52116002)(7696005)(6916009)(5660300002)(36756003)(2906002)(107886003)(8676002)(66556008)(508600001)(66476007)(1076003)(6666004)(8936002)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Vis3UG1XbXhRemRiZEx4WmNpOWR6T2xlU2pjWnFHQ1hWMFVaSWIvalRKMDFL?=
- =?utf-8?B?OUVqdUIzWmhFRlQwdkRyQ3NST2tlMTA1ZFhuTXY2MFMvdEM5ZHpwRFdXWkI1?=
- =?utf-8?B?VUNxY0JSc3ZGZGF1UFgxMjVaY0VRbUU3OE9FdHZrSExRMmhnNDMxUDdnRzhU?=
- =?utf-8?B?OS95RkZYREFQcXpEQVNZZ0pMS2txNVMrWVE0RksySUY4bCtZTWVTaC8veHYw?=
- =?utf-8?B?WmF2UHZ6U1NYcHlJbWJoNWlmRndIdk9rT2lzK3FzaGlZV0hvTCtEMFJMSEtL?=
- =?utf-8?B?NDZSZWY0MHNIczEzOW5uRnI2U2xwTUFGTmd2M1lSUFNoSmFZbXdhVmpWMzdx?=
- =?utf-8?B?ampXR3FwWTJ5SzFseU1IbHV1SUhQeFdSa3ZlVXNFSW8wc1FVMmFaZkRUemFX?=
- =?utf-8?B?N3cvTFJENEwvaGk1eUxjVWxYQ1VCWnNyN1BSSWtQSTlzamxFU0lIaUlvam1h?=
- =?utf-8?B?WjdjNEh3c1pleW90cG5MSDQ2dHNUTTVRVnp4TEQ1Vy9UVXhKcmpDYjk2SlBs?=
- =?utf-8?B?YjlCdm5WMTFlWmoraTI5S3d5SlpIYUliQitDanoybzRmZUdsUDB1Zk8vTEwz?=
- =?utf-8?B?ZzZXRVBIOEdhdFExZ0RsR21pNFdGSU9vREhSWnFtNGc1SllHVFJpNkN4TU9M?=
- =?utf-8?B?b3ZadDE0MFdRUnhqQzhFY2h5aWZCbzJVa2xaUTdLMENEeUM4MHJxTnZFcFRM?=
- =?utf-8?B?ZkZEcURETnVKajFGL0tNQUR1VU5ZYzhHL1R5SVg2OVMxL0phZ1lmczdVNkFC?=
- =?utf-8?B?YkIxcFM2dlNnSXBiMUxyNmkxRHdhQy8yMHhBbk9CMnA1akxIZ3pyQmIyQ2pX?=
- =?utf-8?B?K1I4T2xjQWpIMi9JbGVPbTgrd0pkNTdOQWI2d3dFY1F6cDJKbll4L0NKWmJB?=
- =?utf-8?B?MGFTS2dwdFhFRmRkMHRNZlozd01mZHZGaHhHNUZUYW1teWg1UTd0Q0NLYnpN?=
- =?utf-8?B?OFdjbTlNMEZjbXg3QWpxUG9oSVhUNkJxeDRaeGRWQmlJa3hGRlNjSTdHbHYr?=
- =?utf-8?B?aDNuUkpqSVRmVUN0dFloUmZUaGcrS3Z1Rm9xMHE3VkFOeFJVNVJaeUp5VFBW?=
- =?utf-8?B?ZytreWFxNVhjUEFDbWhtc1JMRThkVFVzUFZKUXUyVDVOcW1aOXlaUWpKUjdn?=
- =?utf-8?B?MTQxV0h2NE5wV05DREg2RWtZRTMyc1lvSHBmbTVOTW9idUQwSmVQS24weDg5?=
- =?utf-8?B?QnExdmVyWXdYUkdadmpQd3QyRmczVXVQQXJTM2N6M3hBWWNxdG5Odjh4NzlQ?=
- =?utf-8?B?QXFxQkFEY1ZaVWxLSXp6LytoSjR4Z1EvNHJXcDJKMERzL2pHQm5GSzZXbDZl?=
- =?utf-8?B?TUtYNnNpTmJTN3lGS0F5UTFDcXNsWXluYTYrVlU0TmZMOTNXSnRhaGhTUWRL?=
- =?utf-8?B?amxjUnh5MmVZSFJ2RVFqK09GcXlsNi9jcUZGamVvUmZuTU1lOXNocnNrTm1F?=
- =?utf-8?B?aUdZdkt4WmVRbUtCTmZicWtOYTgzYmlUa0oyR3U0M1N2YXlWL016U2V2Zjha?=
- =?utf-8?B?cjEwdDE2aDl3eDFZYU5BOVBoNDQ4Y05Ydnk5bktSc0xoMHdoNVRQa2VicDZz?=
- =?utf-8?B?ZElTSUJGV2xWVUZROUFFcEhQbXlxOGZISk5XNzdnZW5ZRTF1bGZ5aVJYTGhW?=
- =?utf-8?B?WTJVZDJpNENkOTVaNkFiRExEZ1ArMzQrU3FKd2NtdzdkWndJK2RGT2hBb1VI?=
- =?utf-8?B?VkMwdzA5cHZ5bFU5K2JUdmN6VDJpWTZWcTlUaW1FRlpVQkZERDdPYkdWTm94?=
- =?utf-8?B?L01VWFhNZUFyNzVrYndkVjdiY0lUSUpEckxvVzJkWDdHc0t4SDdjTlhRNWdU?=
- =?utf-8?B?bFJydmRQNmpiSmFQZThIUnpQRENaOEdtUEg3clBrekVQQllSM1hQckI0MlZJ?=
- =?utf-8?B?NkF2azdTZ2o3cTg2SGx6YVBEeGNqd1ljWHhRZEU1RVhaZXNlQ1Y3RE96bFoy?=
- =?utf-8?B?QTdYVFYrME8wc3J5NzZ5OUNWYTVFK3ZHTmVrUXpzcjFBN0RRSFE1VzdVYlNC?=
- =?utf-8?B?cFdnQi9VSU13MGE3WHZBV2FYaFZiZGZMVVA4R1VlTEtNWkVFL0tONnlnaDFh?=
- =?utf-8?B?OEVScy9jZTA0ZUdHSlhFZWQ1UzRTZE9iVWUrSEVia0FoVTZmK05FQ0kxQ25R?=
- =?utf-8?B?R09ycDhHR0VzMFZMK0hJMnRwZ0d3cy9QSHNXdzlBL3piRUo0UDJzVEdpemVj?=
- =?utf-8?Q?Gvi/5F4EaWpjsNFmi+HVCps=3D?=
-X-OriginatorOrg: ni.com
+	=?us-ascii?Q?+6n0KlJlJL1WETWcXw5xrdY784Jp1OLkhBfY6xd0yHzcpskodc0Yq+t4ZhsU?=
+ =?us-ascii?Q?Q/VyNEj2XmU2dQ3lgA6L7GKDmOMdKvrhZ+cyUo1dpqZeEMRSZFCsugpXDUuS?=
+ =?us-ascii?Q?QvEsN0v8mlGj6I+3aNbt790VcgBu7w7cCdw60VlCf7EYITZi9vaNgS4tSQ3f?=
+ =?us-ascii?Q?sXSHAoEYRm3VtL0A5QRZh267g8XAW/HeJkH0DMM63eQL06zVDNFk3H9QF9NV?=
+ =?us-ascii?Q?iyCjkhLw83usBbTwkebQQpv/IxaOnpH/eJvnFsiomE9xYt6DPE2voMxwlQA8?=
+ =?us-ascii?Q?NM8XQpzwqCg8axIw9uklbRgS/o1vcK/wgSmPwWqRxcdmlEHNUL51d6xhUGdg?=
+ =?us-ascii?Q?UuBfDMl79wI7r808cfThpu4o24k0EDCUx9U8gA2mZQMK9BJn+Za/0wZkJyxP?=
+ =?us-ascii?Q?n2Q4iJ1UQB6tU6zRX6+rhK0mqZNDB7JH21z4CTXKYzFZHeOJz3ssMxkXQ1mn?=
+ =?us-ascii?Q?vyCsMYnWBkN+gPROJsCqsloi4RMZgZfxSUKx6Qut2dJORj32qaCqNHpfvNtL?=
+ =?us-ascii?Q?v1F9/xVYleWd2TO5na/j0OED4f6vQcdT1r0w2kbg509WQJM714eMi0CqWLQa?=
+ =?us-ascii?Q?mWEPj1WQR7lvIicHTW9/kpeIF8XqILHoWb2oy/2xHjvsbYJiESPzIbAbpbsu?=
+ =?us-ascii?Q?E3/CCaqSlc/+ipboegu/wsNelpl5usb6EnYcwwx0p/nMRIMFtTdOV/c39naf?=
+ =?us-ascii?Q?7DoCoAs9Z1o0pAk4/PR2teJJsYH7UFi7BfzxRQJ7QrtfYjNpiU+HBTKQSZ58?=
+ =?us-ascii?Q?xFabFogYSZgueofsxwDQs1mquB9eaJ/CRF6pNAeOcDBbfLT6IRubYYZO9fJG?=
+ =?us-ascii?Q?yWayj5dYIvVOak1YcwdIDcQfnBkMb9dmFPbZtZE+HKft2Sugei7ZgtZjRJ25?=
+ =?us-ascii?Q?MPbhdMCdyP6mljXODAjNchgbs1vpTyzHrgMV31cEBYAl1VqMeHZfrGUjvJi0?=
+ =?us-ascii?Q?EuxvA8jmlE/MNbwvdDsssnaaPpbbxlcQUJ1PBP6dACdgeXTMERGmkDSruMIv?=
+ =?us-ascii?Q?HCOypwSk+CWwYrb3nDHAbIs1v1dcpKrG/pkj2IjLR7xY5JhbqQolTO5eR0dV?=
+ =?us-ascii?Q?KJ6UCOS1x3hOm8NmOvhHS1Y5C0A37hZQIr3tyHpxYAH4lFLazEZQ88R4TzQr?=
+ =?us-ascii?Q?MSE/PvhJB0RYj6SyJmtE/MBlaM6W7qCHuCUBoGmrbdDEd7fG+TvkABphHPsx?=
+ =?us-ascii?Q?tLqoLYjxjYjRFlo1yr41SxPoqseLh2IHBjAnz9x78ev1zGfMNYs8OUGIa5LO?=
+ =?us-ascii?Q?xJqkfU0q8/x7PvjtYkDtqMP1z69lfuDipTlC9+TC/QwDevo7pKbrRzWCmu1Z?=
+ =?us-ascii?Q?5rO9Pg2/Hmo75+He7GQYd124zkogqdkXnvZTwxUUhGmN0veKdQFpfu0r8RB0?=
+ =?us-ascii?Q?ElPndU8eta0AGF/fo7xtFc5mbyLjtyGt1+cpcWP9cHcOb9UWCg0C1BWFCC6U?=
+ =?us-ascii?Q?7Elln6ZU1nokVH7qMHyXyAu+3/2/gnFjs4VexRl/1eg5WM/SxGizQYJK9PWl?=
+ =?us-ascii?Q?MpGt82SqpniZXlWStgfG2SLtddYt6e6IatUeFJrcSeLA2IgOgRPSFF8MfhqJ?=
+ =?us-ascii?Q?ydOppM7+gPuyhodShOkCFojUpi3DrX1b8GiRLhDgkA3bBBob/k5xdotCUlTd?=
+ =?us-ascii?Q?S/ZtdMypEGhObZLscQc//hY=3D?=
+X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 98694e45-b948-498f-2988-08d9be3411fb
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB5151.namprd04.prod.outlook.com
+ c53ffadc-6ee0-49d6-214d-08d9be35834f
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 12:28:30.1893
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 12:38:49.7072
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 89Pg3v9ace+UBwwYK/8vkTYlDX1VK7xwpr8GeOYXEWpzJbcHRGH1PyPv20W8O0cwcSeFYQYC0edDjelwEnhuyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB3950
-X-Proofpoint-ORIG-GUID: zHyvi83Y5AP1nklqQ-IiRoqcKSLgaiSB
-X-Proofpoint-GUID: zHyvi83Y5AP1nklqQ-IiRoqcKSLgaiSB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-13_04,2021-12-13_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
- score=30 suspectscore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
- bulkscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 adultscore=0
- spamscore=0 classifier=spam adjust=30 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112130079
+ cdVzpR658mBs2qXPh0cGEVnZc8LqYvvwESB3VSXwfugW0KV04lz05avpnRtKb2ebY5mFA/Fx6o/LKU/BSAHPaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5595
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 12:28:34 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 12:38:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159618
+ https://lists.openembedded.org/g/openembedded-core/message/159619
 
-On 12/11/21 09:24, Bruce Ashfield wrote:
-> On Fri, Dec 10, 2021 at 3:58 PM Alex Stewart <alex.stewart@ni.com> wrote:
->> Hey List,
->>
->> I'm trying to work out the mysterious state of DKMS in OE-Core.
->>
->> Our (NI) OE distributions rely heavily on DKMS to (un)install our
->> ecosystem of kernel drivers at runtime across our product lines. To
->> facilitate that, we authored a dkms_2.4.0.bb recipe [1] back in 2017,
->> which we have carried out-of-stream since.
->>
->> We tried to upstream it, and the patched rev'ed a couple of times [2];
->> but it seems to have never made it into a yocto release.
->>
->> Though some other recipes mention DKMS passingly, I don't see anywhere
->> that OE-Core officially supports it. Nor does my googling reveal anyone
->> else who uses DKMS. I find that a little hard to believe, though I
->> understand that it's probably relatively rare in the embedded space.
->>
->>
->> @all
->> So does anyone else on the list use DKMS in their yocto distribution?
->> Are you maintaining a DKMS recipe out-of-stream as well?
->>
->>
->> @maintainers
->> If NI upgraded our DKMS recipe to a more recent version than 2.4.0 and
->> submitted it again to OE-Core, would you accept it? If not, we will move
->> it to our own meta layer and accept that we are unique in this regard.
-> I used to have a DKMS recipe myself (at my previous employer), but
-> never submitted it, because generally speaking, there are better ways
-> to do things in OE.
->
-> DKMS tends to avoid proper cross compilation (which of course we
-> already do), or is often used to distribute proprietary code (which we
-> don't want to encourage), or is avoiding the need to upstream the
-> module code (which we also don't want to encourage).  It also only
-> tends to be used on a subset of the architectures that have enough
-> memory/cpu to build on target, so by definition it is a bit more
-> niche.
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Yeah; I agree. In our case, we have several dozen drivers split across 
-many product teams and largely distributing internally-controlled 
-source. At this stage, it isn't feasible for us to build them all within 
-OE - which is unfortunate.
+Separate licenses with & operator since it should be satisfied most use
+cases and it is a reasonable assumption that all the licenses apply.
+Furthermore flat, split and sort the licenses to minimize license string
+changes.
 
-Many of those drivers are also required to support both our OE 
-distribution, as well as a small matrix of supported generic Linux 
-desktop OSes. So having them manage their own DKMS packages reduces the 
-surface area for packaging errors.
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
+---
 
-I don't expect that either of those considerations is common in the OE 
-community.
+ meta/lib/oeqa/selftest/cases/recipetool.py |  4 +--
+ scripts/lib/recipetool/create.py           | 39 +++++++++++++++++-----
+ 2 files changed, 32 insertions(+), 11 deletions(-)
 
-> We of course already have the ability to build modules on the target
-> (we have a test case in core that does just that), so what is in core
-> can support what DKMS needs to build on target.
-
-I'm not sure which test case you're referencing, do you have a link or 
-could you expand on what you mean?
-
-> I don't see this as something that makes sense in oe-core (but maybe
-> I'm not fully understanding the case, and where the current support is
-> failing), but could of course be contributed to another layer.
-
-That's fair. Our use case is motivated more by an organizational failure 
-than a failure of the OE tooling.
-
-
-@Khem
-You're maintaining the meta-oe layer; correct? Do you have any interest 
-in a DKMS recipe?
-
-Thanks,
-
--- 
-Alex Stewart
-Software Engineer - NI Real-Time OS
-NI (National Instruments)
-
-alex.stewart@ni.com
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/sel=
+ftest/cases/recipetool.py
+index 439e41597c..95e4753976 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -426,7 +426,7 @@ class RecipetoolCreateTests(RecipetoolBase):
+         checkvars =3D {}
+         checkvars['SUMMARY'] =3D 'Node Server Example'
+         checkvars['HOMEPAGE'] =3D 'https://github.com/savoirfairelinux/nod=
+e-server-example#readme'
+-        checkvars['LICENSE'] =3D set(['MIT', 'ISC', 'Unknown'])
++        checkvars['LICENSE'] =3D 'BSD-3-Clause & ISC & MIT & Unknown'
+         urls =3D []
+         urls.append('npm://registry.npmjs.org/;package=3D@savoirfairelinux=
+/node-server-example;version=3D${PV}')
+         urls.append('npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json')
+@@ -483,7 +483,7 @@ class RecipetoolCreateTests(RecipetoolBase):
+         result =3D runCmd('recipetool create -o %s %s' % (temprecipe, srcu=
+ri))
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars =3D {}
+-        checkvars['LICENSE'] =3D set(['PSF', '&', 'BSD-3-Clause', 'GPL'])
++        checkvars['LICENSE'] =3D 'BSD-3-Clause & GPL & PSF'
+         checkvars['LIC_FILES_CHKSUM'] =3D 'file://COPYING.txt;md5=3D35a23d=
+42b615470583563132872c97d6'
+         checkvars['SRC_URI'] =3D 'https://files.pythonhosted.org/packages/=
+84/f4/5771e41fdf52aabebbadecc9381d11dea0fa34e4759b4071244fa094804c/docutils=
+-${PV}.tar.gz'
+         checkvars['SRC_URI[md5sum]'] =3D 'c53768d63db3873b7d452833553469de=
+'
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
+te.py
+index 406c97f1c5..8e8a621b4f 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -919,6 +919,22 @@ def split_value(value):
+     else:
+         return value
+=20
++def fixup_license(value):
++    # Ensure licenses with OR starts and ends with brackets
++    if '|' in value:
++        return '(' + value + ')'
++    return value
++
++def tidy_licenses(value):
++    """Flat, split and sort licenses"""
++    from oe.license import flattened_licenses
++    def _choose(a, b):
++        str_a, str_b  =3D sorted((" & ".join(a), " & ".join(b)), key=3Dstr=
+.casefold)
++        return ["(%s | %s)" % (str_a, str_b)]
++    if not isinstance(value, str):
++        value =3D " & ".join(value)
++    return sorted(list(set(flattened_licenses(value, _choose))), key=3Dstr=
+.casefold)
++
+ def handle_license_vars(srctree, lines_before, handled, extravalues, d):
+     lichandled =3D [x for x in handled if x[0] =3D=3D 'license']
+     if lichandled:
+@@ -932,10 +948,13 @@ def handle_license_vars(srctree, lines_before, handle=
+d, extravalues, d):
+     lines =3D []
+     if licvalues:
+         for licvalue in licvalues:
+-            if not licvalue[0] in licenses:
+-                licenses.append(licvalue[0])
++            license =3D licvalue[0]
++            lics =3D tidy_licenses(fixup_license(license))
++            lics =3D [lic for lic in lics if lic not in licenses]
++            if len(lics):
++                licenses.extend(lics)
+             lic_files_chksum.append('file://%s;md5=3D%s' % (licvalue[1], l=
+icvalue[2]))
+-            if licvalue[0] =3D=3D 'Unknown':
++            if license =3D=3D 'Unknown':
+                 lic_unknown.append(licvalue[1])
+         if lic_unknown:
+             lines.append('#')
+@@ -944,9 +963,7 @@ def handle_license_vars(srctree, lines_before, handled,=
+ extravalues, d):
+             for licfile in lic_unknown:
+                 lines.append('#   %s' % licfile)
+=20
+-    extra_license =3D split_value(extravalues.pop('LICENSE', []))
+-    if '&' in extra_license:
+-        extra_license.remove('&')
++    extra_license =3D tidy_licenses(extravalues.pop('LICENSE', ''))
+     if extra_license:
+         if licenses =3D=3D ['Unknown']:
+             licenses =3D extra_license
+@@ -987,7 +1004,7 @@ def handle_license_vars(srctree, lines_before, handled=
+, extravalues, d):
+         lines.append('# instead of &. If there is any doubt, check the acc=
+ompanying documentation')
+         lines.append('# to determine which situation is applicable.')
+=20
+-    lines.append('LICENSE =3D "%s"' % ' & '.join(licenses))
++    lines.append('LICENSE =3D "%s"' % ' & '.join(sorted(licenses, key=3Dst=
+r.casefold)))
+     lines.append('LIC_FILES_CHKSUM =3D "%s"' % ' \\\n                    '=
+.join(lic_files_chksum))
+     lines.append('')
+=20
+@@ -1226,6 +1243,7 @@ def split_pkg_licenses(licvalues, packages, outlines,=
+ fallback_licenses=3D[], pn=3D'
+     """
+     pkglicenses =3D {pn: []}
+     for license, licpath, _ in licvalues:
++        license =3D fixup_license(license)
+         for pkgname, pkgpath in packages.items():
+             if licpath.startswith(pkgpath + '/'):
+                 if pkgname in pkglicenses:
+@@ -1238,11 +1256,14 @@ def split_pkg_licenses(licvalues, packages, outline=
+s, fallback_licenses=3D[], pn=3D'
+             pkglicenses[pn].append(license)
+     outlicenses =3D {}
+     for pkgname in packages:
+-        license =3D ' '.join(list(set(pkglicenses.get(pkgname, ['Unknown']=
+)))) or 'Unknown'
++        # Assume AND operator between license files
++        license =3D ' & '.join(list(set(pkglicenses.get(pkgname, ['Unknown=
+'])))) or 'Unknown'
+         if license =3D=3D 'Unknown' and pkgname in fallback_licenses:
+             license =3D fallback_licenses[pkgname]
++        licenses =3D tidy_licenses(license)
++        license =3D ' & '.join(licenses)
+         outlines.append('LICENSE:%s =3D "%s"' % (pkgname, license))
+-        outlicenses[pkgname] =3D license.split()
++        outlicenses[pkgname] =3D licenses
+     return outlicenses
+=20
+ def read_pkgconfig_provides(d):
+--=20
+2.30.2
 
 
