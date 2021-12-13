@@ -2,65 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11459C433F5
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 15:37:05 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web12.12749.1639409824290766087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161BDC433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 15:37:08 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web08.12502.1639409827040618486
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 07:37:04 -0800
+ Mon, 13 Dec 2021 07:37:07 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=YhNTTdFB;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
+ header.b=kTUoGzBq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id
- gx15-20020a17090b124f00b001a695f3734aso13696749pjb.0
+Received: by mail-pj1-f52.google.com with SMTP id
+ f18-20020a17090aa79200b001ad9cb23022so13635254pjq.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 07:37:04 -0800 (PST)
+ Mon, 13 Dec 2021 07:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bvomz37jQg3XD3bvzXpILiCSiulzIdenkKshm21+YI8=;
-        b=YhNTTdFB2BKPVpUmj/zapJP9qM+1xFT8upjZKWANfkYltYzIFgkaN2cPP0iEb0DEyO
-         yUNMRMSew6HCI6XJWqScB5/7WzCmFeizrhMVIOi6OPa7Kbam/WgUvbqFuttgM2DiBpUm
-         tnTw6nyG0SfRwhBybfDctc8TSG1+n3O5Nt38GpoEDSSnIpJMzR9ofNGiFLiF1gTYd+VW
-         nD6DCRICBAapwNnMrruBxWFe4Tkphw4aTBqC8BtBb1wB8KyiANEh6OriHQisQohCQ+GF
-         0mb1D1aIvzleDS2Wfb0UXnxxvnQ1tCnL/smBGWkvFXbh0mdzElT8tCDkgErPrBHwcUhy
-         T+EA==
+        bh=W5KST1QOknlgRdpk5Dxewss6keYaHyEHBw4cKnKMxcU=;
+        b=kTUoGzBqPrShcqxENUpatE9yvp+3GjtS3jYo1f4sgF0+JxFsIT5VcGoU8XyiyxsgpW
+         bQ6Hdusn+8woY/J/+qGz9RGQRryGmb2E75jxnz9J52PcjbjavpTbLNj/wTcjS6H6KZ3E
+         aGkMESmW7828/J+4le3iBv4BQ8J36LWJtN13S4Ii9YFri56tnV83mBduGDlEb6b9M+pZ
+         NHiS5inUuyA89LJ12siEzu/J1LO/d3xpXvjmD7ZtsNSNVFUeaCErjXP/H4fHAabX+XC8
+         WVngGGPd378OaGusXnlINZnKbSs+4PcbI+MQ4HCjSMcXYdAfSdxNLEpIUT2CfLGbku4p
+         zZOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bvomz37jQg3XD3bvzXpILiCSiulzIdenkKshm21+YI8=;
-        b=PvfHeo7gu3PPplyjxWBFna/IKB4z+KR558w1xnCDGuq9tXXeGXjP1DHszoYSpsPUhO
-         ZUp6YA9dRQIM5egefQzlrpWKpbTSoGVgdYKZWcMFDKKlev0N1dED5+b334e9eR9vUsnU
-         UoTQacUyk1rLOvNwH0eXKLQLZlT5bG9pJO4Q41EkXY0be/swS2dUSaZdJxom6v4cuoto
-         /jtMBFNeV3afGNSNPDzT2W0ddukJHt0I/9z3oGckbmcgSGhUaZ5a8ovbMoHvrhE+Mx3f
-         XLX2MWCaFTrZjBPxM1BOvsofTTy4Zc1Q9AnIViLCBDp5QAFi26Vf+FnUp+zNF/P0wH3b
-         wTsQ==
-X-Gm-Message-State: AOAM532RGd5/LpDDxpdWHBKJNZRZYPrOc31LBk2BX7wdG45kJc+WjOhq
-	CXgJK5ef5l67jmX2dUiZILEv+Za1Dz2KWDV/
+        bh=W5KST1QOknlgRdpk5Dxewss6keYaHyEHBw4cKnKMxcU=;
+        b=R3qoxQ/SkXoZpW4+bUk560R47+j2m66TuSrbuYWy8SLhSTXJ8cB3L7o9pIVE7ADvzj
+         Gb8gciEA7kYB+bv9TfRwbOgapcuaXJM8SqPBK5mWXzcVclW7b4rn5o9Tg66ApYjKr+bE
+         tx0ARvDjWpY8l9KzsMffbaJjP50Vg1FfS1GOuaBeiLrjGQhQVOlamsPZUl18qs9GAMhj
+         QABSeGMC2fRLSshLTw7Kh0nikWZhPMhf6V7oTrewnjmHM8KUyTav8geR4yRGgz7ZGKf9
+         GM/KpUbT0TBPRUMIXZFG/YpIR2n7jru0NuzGt5gUpv0yGr25bHzZrVvF4cxXvcpx1vfE
+         WbSQ==
+X-Gm-Message-State: AOAM533Mi3ubXWt7ZtzwHJ6nsnHcpAT41k4Dxf8e/7d8ELIDzJuud7kJ
+	ogg4UbfMKVljbQn8CJ+AElo23gREJROb3tQQ
 X-Google-Smtp-Source: 
- ABdhPJwJpZZIbGpcaIfuNP1Dox56hK+ypO6+i5GEmiFIzeYaszXErZUSBMDQKXTxiteUlbdofzCvPA==
-X-Received: by 2002:a17:90b:3845:: with SMTP id
- nl5mr44556506pjb.102.1639409823228;
-        Mon, 13 Dec 2021 07:37:03 -0800 (PST)
+ ABdhPJzyv+LW9lnJqwe4R5elRZ+aOKS4jRmP0X2yK3HCUmRSZYkCmckJuKg9sfIYmDbLXq++uSMyfA==
+X-Received: by 2002:a17:90b:4f83:: with SMTP id
+ qe3mr44907125pjb.56.1639409825951;
+        Mon, 13 Dec 2021 07:37:05 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- y28sm12850297pfa.208.2021.12.13.07.37.01
+ y28sm12850297pfa.208.2021.12.13.07.37.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 07:37:02 -0800 (PST)
+        Mon, 13 Dec 2021 07:37:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/10] runqemu: check the qemu PID has been set
- before kill()ing it
-Date: Mon, 13 Dec 2021 05:36:25 -1000
+Subject: [OE-core][dunfell 08/10] recipetool: Set master branch only as
+ fallback
+Date: Mon, 13 Dec 2021 05:36:26 -1000
 Message-Id: 
- <7f95eb486a2d07cf0c821d5301fd670de34fe2d1.1639409496.git.steve@sakoman.com>
+ <2bc6deb34aee7542d7086c24b166083c562a6a01.1639409496.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1639409496.git.steve@sakoman.com>
 References: <cover.1639409496.git.steve@sakoman.com>
@@ -69,39 +69,82 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 15:37:05 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 15:37:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159650
+ https://lists.openembedded.org/g/openembedded-core/message/159651
 
-From: Ross Burton <ross@burtonini.com>
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-If runqemu is killed, check that we have a valid PID for the qemu before
-sending a kill() to it.
+The commit 'meta/scripts: Manual git url branch additions (dc53fe75cc)'
+sets the branch= parameter too early to master and thereby breaks the
+-B/--srcbranch option.
 
-[ YOCTO #14651 ]
+ERROR: branch= parameter and -B/--srcbranch option cannot both be specified - use one or the other
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0f3afbd3a6a6bef668612f818517df7543c0a683)
+(cherry picked from commit 34ece8030e7a6a100b5e3e7b94e6c786c0e199a6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/runqemu | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/recipetool/create.py | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 10880ba6bb..51607f10e5 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1516,7 +1516,8 @@ def main():
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 116bdfd697..5b6ac12a92 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -389,9 +389,6 @@ def reformat_git_uri(uri):
+                 parms.update({('protocol', 'ssh')})
+         elif (scheme == "http" or scheme == 'https' or scheme == 'ssh') and not ('protocol' in parms):
+             parms.update({('protocol', scheme)})
+-        # We assume 'master' branch if not set
+-        if not 'branch' in parms:
+-            parms.update({('branch', 'master')})
+         # Always append 'git://'
+         fUrl = bb.fetch2.encodeurl(('git', host, path, user, pswd, parms))
+         return fUrl
+@@ -481,6 +478,9 @@ def create_recipe(args):
+             storeTagName = params['tag']
+             params['nobranch'] = '1'
+             del params['tag']
++        # Assume 'master' branch if not set
++        if scheme in ['git', 'gitsm'] and 'branch' not in params and 'nobranch' not in params:
++            params['branch'] = 'master'
+         fetchuri = bb.fetch2.encodeurl((scheme, network, path, user, passwd, params))
  
-         def sigterm_handler(signum, frame):
-             logger.info("SIGTERM received")
--            os.kill(config.qemupid, signal.SIGTERM)
-+            if config.qemupid:
-+                os.kill(config.qemupid, signal.SIGTERM)
-             config.cleanup()
-             # Deliberately ignore the return code of 'tput smam'.
-             subprocess.call(["tput", "smam"])
+         tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
+@@ -530,10 +530,9 @@ def create_recipe(args):
+             # Remove HEAD reference point and drop remote prefix
+             get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
+             if 'master' in get_branch:
+-                # If it is master, we do not need to append 'branch=master' as this is default.
+                 # Even with the case where get_branch has multiple objects, if 'master' is one
+                 # of them, we should default take from 'master'
+-                srcbranch = ''
++                srcbranch = 'master'
+             elif len(get_branch) == 1:
+                 # If 'master' isn't in get_branch and get_branch contains only ONE object, then store result into 'srcbranch'
+                 srcbranch = get_branch[0]
+@@ -546,8 +545,8 @@ def create_recipe(args):
+         # Since we might have a value in srcbranch, we need to
+         # recontruct the srcuri to include 'branch' in params.
+         scheme, network, path, user, passwd, params = bb.fetch2.decodeurl(srcuri)
+-        if srcbranch:
+-            params['branch'] = srcbranch
++        if scheme in ['git', 'gitsm']:
++            params['branch'] = srcbranch or 'master'
+ 
+         if storeTagName and scheme in ['git', 'gitsm']:
+             # Check srcrev using tag and check validity of the tag
+@@ -606,7 +605,7 @@ def create_recipe(args):
+                     splitline = line.split()
+                     if len(splitline) > 1:
+                         if splitline[0] == 'origin' and scriptutils.is_src_url(splitline[1]):
+-                            srcuri = reformat_git_uri(splitline[1])
++                            srcuri = reformat_git_uri(splitline[1]) + ';branch=master'
+                             srcsubdir = 'git'
+                             break
+ 
 -- 
 2.25.1
 
