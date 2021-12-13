@@ -2,53 +2,58 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C1BC433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 12:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCE0C433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 12:38:57 +0000 (UTC)
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com
  (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.73])
  by mx.groups.io with SMTP id smtpd.web10.10522.1639399132240763451
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 04:38:54 -0800
+ Mon, 13 Dec 2021 04:38:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=dLS017Dn;
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=McfNTVcE;
  spf=pass (domain: weidmueller.com, ip: 40.107.6.73,
  mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NytI5lsWNO+PgOgXKI3KftGXwd3t595f+dpwMbXstUXvxiDsp9ZjyvNWqAk+Cux6TgSbHJNwm2WviV+prKYWMKbvQZIl4q7Lh+hmKx/mi9RWeBQE+HjVRAfU9ihXArX0xDyiNM/hKNmuQ/9CUlGqkwSywkJT9DgRDClM34EWCJjxWdGFevaEYzU6f9M3O/XT7oTHyajHIrIFii+LAYnuGHCNA5J2BSHwRBo///XI7tjjvSagDLgMo6Anql8hWbQxikjbANHC8e6E3J5rkgpzLBDQdByFLlUjTuc/vHsMcXN8iuHmOO2m4zD33vzzTOAChfaA+fJV7gYkIbnuCOF+lg==
+ b=nkK0RP0l8l3BCTswezAoTA1PLriy4kvehAJ3rtCSdUf3g8lzR5nnILDfzkj/KuOOoQXx62yywRWtFvq/wxgEObVDcnYNO7Xujz7wPaARlC6v2a+xTby63582Ak+nxKeY8z7v23ncAWp4Cd5XP+KN5lPi0rcSy1E+bTojkS8FxjeXkG/DgTVczFe+TdeMHg2czgojnt6G+sZawHGag029RV2XBN5WShji3yIWbibviZg/MO0oHcC3Le7/z3tNqiPEfkI33aNaVoxymtVRm3IscIMImR3bkOO0cqlH/M2JuWeAp8MxcOE2uLbOInrTNx6NjS++pq3XmzfGTP3YZqbnrg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AzF+8UOK3Q8Z1CVjW2AKKJdlBxKeBGOtsVBkEvANQiI=;
- b=FA10Q/gbO7cgevEvgNBTIgf0u+Mluu6Uy3iY4Tp7c/k7VevqVODr0vmpCe0E4Ylk0JCWyur1HBK3v7G8eP7XL77PCo6Rouwhl7cWM9PgZ1N6WvFeamaS8MZzhBtCvgT2TP4BXhyZaNNdPNYTJT6hkqBOMYxTv7QPwyCqkpKO4YF3wD12wNEum0D8wsnF7K6FSt57MSSaG9lh5SdoN+c4Pklorz81l293Z5EPI5saLtxQW2uET7rrcX7qrp9tGgvrnzi+pFPNwdkpodqqJPu/Cd2VohG4k9Em+Rkhu8VP5okmIlQXVC0ojTxuLhNlN3v1XZ2dsa/RwuVQZwHxmbbdGw==
+ bh=IXRmx/I2ByMTMCN15UQowS+7+ADzqgvNr5srUtOn6Bc=;
+ b=KcBXB0pWX9/u0QcXBuxhjw8iTtza/bN+SdPOxqkO6i9MzghGm516sjON6PKmu7GIB6DM/PTK/tr1vOgldy7+iVwXeCLsyin6mgboEKOTY8Zv4zTB7fEfjTd3+F/AUQKA9k09fopwCjOa2rKGxmNNUZXKzSa2E3ehIAzd50k0aHtrNYYNGIZEPK1uiH0V/qETnulcw4p/CKSggUJAfB67OpzGXv9Jv2KvSnA423Btv+lxXS7EOwOdtvw1XsyzZ6sCBKIt3tcdWIan0zzAvOyyB5C/aLXnqm6YD05zK6E+PhFEq4HLFfCmEfGSgaQcIze31VCsDQIrwIvKMB0e7s7NoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AzF+8UOK3Q8Z1CVjW2AKKJdlBxKeBGOtsVBkEvANQiI=;
- b=dLS017DnEt9eYpH+kIoAzFpwTuwcn6kMyZrAHiebyvRWkGfQpNvbL/qBU7odFI+qvB6Shu1S+gQ/4huuqqgMFnwqyMmGtyjdPqyEv1ZfF9KjO8hdJ17J0Gs14u4DM8Txkp4hUyopjn9n6S8rAaFUU/Vv/1Jhrxwn6I0BPu+M65A=
+ bh=IXRmx/I2ByMTMCN15UQowS+7+ADzqgvNr5srUtOn6Bc=;
+ b=McfNTVcE1OtpRwvNwyYnh6f8K9gIY2TJq7WSm/bfXTMP9oqVEVEgsM4sCGJnKI99227oKK+a5Isi8mP74rp+nGUlIs+6wqCVrO7jhwmHVSzg/BQa6RxSM9ycnPZhNWkUpn3+cmcY98fOBON6Ri2I+ciiH0ALEVI9MmvH4fkO0pE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
  by PR3PR08MB5595.eurprd08.prod.outlook.com (2603:10a6:102:83::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Mon, 13 Dec
- 2021 12:38:49 +0000
+ 2021 12:38:50 +0000
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::f:41c4:eb10:5010%8]) with mapi id 15.20.4734.032; Mon, 13 Dec 2021
- 12:38:49 +0000
+ 12:38:50 +0000
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [RFC PATCH 1/3] recipetool: Separate licenses with & operator
-Date: Mon, 13 Dec 2021 13:38:24 +0100
+Subject: [RFC PATCH 2/3] selftest: recipetool: Add test for split_pkg_licenses
+ function
+Date: Mon, 13 Dec 2021 13:38:25 +0100
 Message-ID: 
- <20211213123826.31605-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20211213123826.31605-2-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: 
+ <20211213123826.31605-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: 
+ <20211213123826.31605-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: AS9PR06CA0349.eurprd06.prod.outlook.com
@@ -60,216 +65,167 @@ Received: from DE10512.weidmueller.com (89.247.126.92) by
  Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
  Mon, 13 Dec 2021 12:38:49 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c53ffadc-6ee0-49d6-214d-08d9be35834f
+X-MS-Office365-Filtering-Correlation-Id: cc684dbc-41c5-4248-4de3-08d9be358390
 X-MS-TrafficTypeDiagnostic: PR3PR08MB5595:EE_
 X-Microsoft-Antispam-PRVS: 
-	<PR3PR08MB559533023EED9E8962B4D01FD7749@PR3PR08MB5595.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+	<PR3PR08MB5595CAA4A6E5C44FB3AB6B48D7749@PR3PR08MB5595.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:404;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	b3Ii4xI27JHUQ/I1xmjtJLkRALC6S7Xdj0HajbnWHeco2drNuicvboUeTnItc5D7REXKVlvUlDdcQDM9Fw+ne2Z0MnBC9ZuMfgAiCUq7lX5gt8JLvHEUpLu9xGQbU5GDhaK1aBdX+FA3ir/s7ZCKZNKMNx26adhZjWMawvs5sP5KPmC6b47yfzQl6Zzb8fRf50rHfuep5R4OGpgPMHJ1qdTSIp/CQ8VH19C2kz410OrQtNSBzrKUWDInImgpGr/QniSaSfj8OtTxkaWiYXvvFJXopJjCV5MR9M6m55S76KLhm2CLE0/keApQxC4H3+SNUfftFonPp9JnWL4i+4WvRcrUlcocBQzpnSUDcqjRMsGbxEkC6WFJkSzg/7O9aJQs69MhkddpyeTdMcc9LUt5xbkCzmEAmA30GSCUt3Bb17rQcEYSMWSrHgxKxJHfBwx4OCHesKmZbheFfHvC1MLaa7Q/1y/0iP3QVXOPJbrtzHpe9QxXd3adb7yQY+n8Yg8FR1qrS5KPVY0Qg9aJXFSrm3dKSfEV9UTJ1bee64tejwhv/iG9xlCO4Kn4bBeUTe4UZqFyIGyuOk5Qmv/F4orFSvilFPCo36vIpStKohTwN2DULwir1qXA/2TZPI7aTIVCk2Yh4lraF8F5ebvDlUrM/WXjIMkzzKcAX6G/pzpHJAk2FJqf6R+j3gjJo55hkHhHi5dmRqXwjUqZGRONkcKPJA+i54CPEafqtEWM6UUMkZJ6fEjvVjqGMGVwzNQTlnhBMWU6HT3ecCBIXlf9W7zMXg==
+	LSRkT91/Ooe50Y02ecUYmAodm4PFvKGNdFWtQucjT9yAKXlPDUSbKlpa/v2S+iVf4BEUZ33lc3PDzsf9vuiuheRKJ+gGbeUHa4fTc9xS9mBYu3mqnhBCda3ZKnIu74BxwuEliGCfC0RI5pF02vyT/AxkErbaRo9nh0LOUTIV/bQNtmAqKu6hKRzfYduVZ7l3dqsb2jWM2Lcq6diWUNitrHxgwXZWn8fuip/nwPzuKYCuQzBgWnCYHHZaxnRwHRQUkEoNfly88uJxWt7WpR+JJykEVFu1y74sbsYqd/LArwl6VJz6/cj7Ht2arrwJifW/xqLNIGhRm+AmozwZkgadz2qCXeHQ/xb0A6BrrtOlsdD5wrJknh/fokIZtQZ4eO7J3yd98UC9UP7mN2BYPakpFajRcT/ZU8CuTNtdYOFYMD+fJo2ZrmfQC8aXA4AcEZFQxh7hZOKS8ATNKHZ6L/pQwzSi/Br4YGdqDFhI/03Ef2UBsWGh1PJKWrvZ9vch0iMGdPD19n/E9E3OACTQtGRUJ/ZcmUe0PPS4eWhy0sR7XrBz3/xAC+J6csIVSu2InH0L9dNF/LdzO52K2a70TBhfl8q+s+ViJ69kJZ4zM2l4/YZBEnTbSSWcOLqCQgZS2HF+6kSvpl08kTQcK3kJFsaRmGJ+Rp59ZQnK1Q2tS22Q5uYhYvjWsSBoukGFPzgwGb3/+ZA8EjXAUyBeXaFguoPdPw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(38350700002)(38100700002)(956004)(2616005)(26005)(83380400001)(186003)(86362001)(316002)(66946007)(52116002)(7696005)(6916009)(5660300002)(36756003)(2906002)(107886003)(8676002)(66556008)(508600001)(66476007)(1076003)(6666004)(8936002)(4326008);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(38350700002)(38100700002)(956004)(2616005)(26005)(186003)(86362001)(316002)(66946007)(52116002)(7696005)(6916009)(5660300002)(36756003)(2906002)(107886003)(8676002)(66556008)(508600001)(66476007)(1076003)(6666004)(8936002)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?+6n0KlJlJL1WETWcXw5xrdY784Jp1OLkhBfY6xd0yHzcpskodc0Yq+t4ZhsU?=
- =?us-ascii?Q?Q/VyNEj2XmU2dQ3lgA6L7GKDmOMdKvrhZ+cyUo1dpqZeEMRSZFCsugpXDUuS?=
- =?us-ascii?Q?QvEsN0v8mlGj6I+3aNbt790VcgBu7w7cCdw60VlCf7EYITZi9vaNgS4tSQ3f?=
- =?us-ascii?Q?sXSHAoEYRm3VtL0A5QRZh267g8XAW/HeJkH0DMM63eQL06zVDNFk3H9QF9NV?=
- =?us-ascii?Q?iyCjkhLw83usBbTwkebQQpv/IxaOnpH/eJvnFsiomE9xYt6DPE2voMxwlQA8?=
- =?us-ascii?Q?NM8XQpzwqCg8axIw9uklbRgS/o1vcK/wgSmPwWqRxcdmlEHNUL51d6xhUGdg?=
- =?us-ascii?Q?UuBfDMl79wI7r808cfThpu4o24k0EDCUx9U8gA2mZQMK9BJn+Za/0wZkJyxP?=
- =?us-ascii?Q?n2Q4iJ1UQB6tU6zRX6+rhK0mqZNDB7JH21z4CTXKYzFZHeOJz3ssMxkXQ1mn?=
- =?us-ascii?Q?vyCsMYnWBkN+gPROJsCqsloi4RMZgZfxSUKx6Qut2dJORj32qaCqNHpfvNtL?=
- =?us-ascii?Q?v1F9/xVYleWd2TO5na/j0OED4f6vQcdT1r0w2kbg509WQJM714eMi0CqWLQa?=
- =?us-ascii?Q?mWEPj1WQR7lvIicHTW9/kpeIF8XqILHoWb2oy/2xHjvsbYJiESPzIbAbpbsu?=
- =?us-ascii?Q?E3/CCaqSlc/+ipboegu/wsNelpl5usb6EnYcwwx0p/nMRIMFtTdOV/c39naf?=
- =?us-ascii?Q?7DoCoAs9Z1o0pAk4/PR2teJJsYH7UFi7BfzxRQJ7QrtfYjNpiU+HBTKQSZ58?=
- =?us-ascii?Q?xFabFogYSZgueofsxwDQs1mquB9eaJ/CRF6pNAeOcDBbfLT6IRubYYZO9fJG?=
- =?us-ascii?Q?yWayj5dYIvVOak1YcwdIDcQfnBkMb9dmFPbZtZE+HKft2Sugei7ZgtZjRJ25?=
- =?us-ascii?Q?MPbhdMCdyP6mljXODAjNchgbs1vpTyzHrgMV31cEBYAl1VqMeHZfrGUjvJi0?=
- =?us-ascii?Q?EuxvA8jmlE/MNbwvdDsssnaaPpbbxlcQUJ1PBP6dACdgeXTMERGmkDSruMIv?=
- =?us-ascii?Q?HCOypwSk+CWwYrb3nDHAbIs1v1dcpKrG/pkj2IjLR7xY5JhbqQolTO5eR0dV?=
- =?us-ascii?Q?KJ6UCOS1x3hOm8NmOvhHS1Y5C0A37hZQIr3tyHpxYAH4lFLazEZQ88R4TzQr?=
- =?us-ascii?Q?MSE/PvhJB0RYj6SyJmtE/MBlaM6W7qCHuCUBoGmrbdDEd7fG+TvkABphHPsx?=
- =?us-ascii?Q?tLqoLYjxjYjRFlo1yr41SxPoqseLh2IHBjAnz9x78ev1zGfMNYs8OUGIa5LO?=
- =?us-ascii?Q?xJqkfU0q8/x7PvjtYkDtqMP1z69lfuDipTlC9+TC/QwDevo7pKbrRzWCmu1Z?=
- =?us-ascii?Q?5rO9Pg2/Hmo75+He7GQYd124zkogqdkXnvZTwxUUhGmN0veKdQFpfu0r8RB0?=
- =?us-ascii?Q?ElPndU8eta0AGF/fo7xtFc5mbyLjtyGt1+cpcWP9cHcOb9UWCg0C1BWFCC6U?=
- =?us-ascii?Q?7Elln6ZU1nokVH7qMHyXyAu+3/2/gnFjs4VexRl/1eg5WM/SxGizQYJK9PWl?=
- =?us-ascii?Q?MpGt82SqpniZXlWStgfG2SLtddYt6e6IatUeFJrcSeLA2IgOgRPSFF8MfhqJ?=
- =?us-ascii?Q?ydOppM7+gPuyhodShOkCFojUpi3DrX1b8GiRLhDgkA3bBBob/k5xdotCUlTd?=
- =?us-ascii?Q?S/ZtdMypEGhObZLscQc//hY=3D?=
+	=?us-ascii?Q?LfGJCK9xIelRA89dKeLGtShIMADaAM1G1gOjDlWxhjWXXo4Yh4Tn1Bhq+Tiw?=
+ =?us-ascii?Q?vP4pBmpXl3NIednP9Y2fsfED7wtH7NdAKhekuNZLbl45gR/LKX3NQPdEo+ev?=
+ =?us-ascii?Q?SgCPKnEdXlmd7dPcdVuMo93H40sGuslh/4haVkXQfRwe3165fuBmKtbvKBtL?=
+ =?us-ascii?Q?vOpcTAFvr5B3bFWClUrOxuFjNH8GGai7xd910oEMqoKI61EJPIF6p1aYeXKj?=
+ =?us-ascii?Q?9Xrzjuvj25gfaVi1d4OyetogsPHv7X203UWAF5HZW4rq5fpd2kvMMShScjf0?=
+ =?us-ascii?Q?gDgV6kSupm7DrsSeTY+MKScKOMGAvyLJ2pN2LyV8/io494pMOPuf4+9zfUBe?=
+ =?us-ascii?Q?2UfzKgvPpGokztws73BvPdc3xywyMz+GiAfDRS5SpRT/xRHW+ZLygKi2dssI?=
+ =?us-ascii?Q?qErmZ3bnp2iehS6XzPHDFlVCFzG/1e/B/bcAM40Wt15GYbsxgrCrDON8xJB+?=
+ =?us-ascii?Q?wYNIk86UCxzEccbiFzbeH1S6gLk506Po8oSgJkyBDE03bD6upB2ohnjDxHaU?=
+ =?us-ascii?Q?DJNcSO1Ai990qUh+JXOdWHZpzowjhCpUXfZ4RcdBGRDugE/MWf9kEPtYwTzP?=
+ =?us-ascii?Q?ye7Y/QYO/Ivi0mBM5t7O5SmTcwI9D/Dsauv5eenH8e7TCHcJ8CoBGtd9A+gY?=
+ =?us-ascii?Q?bM72qw5oZJGm5qb/VPgBGXMPiyMwxljYWaEoQex9YyIZPbfzon1dyUQARClS?=
+ =?us-ascii?Q?NzB9XJLa/6rMJnY6TotP/v1s/9D16RpmzLUa3bZ2mZeWR6s0ZrfIGgU2BuD+?=
+ =?us-ascii?Q?yRl7aU63E2dCWN3vuKWa2Q0P3WVjWwPwg9M0WpUHaxjDunuFMyLsaunNvIPq?=
+ =?us-ascii?Q?EsYjBy6r7WZ/H5fNvc5keVHqLkQ/eR/49nKmr+feed3oU7bDltyCRujctNod?=
+ =?us-ascii?Q?sms2RqNmrwR4/GOmyF5ClsY1HdzLKFj+F4rcPWeV2poFVGcmAxvBfI/neWlu?=
+ =?us-ascii?Q?XYPvkQD3vSvwR8rVp52jrYMdL3d0GcL2esduZzRtMgK/cWunoePiyVcsPGn6?=
+ =?us-ascii?Q?QwDCoKV/KyEPM42vcNdkfDYEIUA3cIWnJbBUFssaPQIGMs0OFCRqln1k5sCl?=
+ =?us-ascii?Q?SxQTIvjLuw4kUryLE2jxspkXb0EsldchqKZ62edPKZiY3v49Iq/e8Eqv8ZoV?=
+ =?us-ascii?Q?+6qhQQR4dXHdN+3osLDh9/RAggcb5o6/C0aFgPYE0gxr40+ihkNmLjEuYPz9?=
+ =?us-ascii?Q?Mn6CKN9pyflHWo4UV3YPR97ps4DRqJBupMhLDoJQtgIqMFYhXqJWfiUh3TfM?=
+ =?us-ascii?Q?uhK1INFmepfiX4qzEP+odvRM68Rk5a6RUbZOUcd25iZAY0Mz3j+lF5lZebDF?=
+ =?us-ascii?Q?J9Rd8RC2KkSTgHziWcUwEIeVQKw/N7tjwbjn33HULz7sa32ARPK0lL80QCaO?=
+ =?us-ascii?Q?4nzQbMMJHUAMZ5ca0bKiJok/3HfuvmKHzsOnjmaNWXD6mhkDZZUHeEGJGNJG?=
+ =?us-ascii?Q?KPYFZjp7BnuUpY2xgB6zId5JIFPiNsHGHg7jCJ3fcyuVIVzBH+hjpvVUX/o0?=
+ =?us-ascii?Q?uln41c/Dk0wJYz/AaGgnF8/KAUW06l2NzTO9b+QxWq8MsTUigvZP5f55QEvt?=
+ =?us-ascii?Q?8UjD3tDdwUsDkfHvUIeFW6LHmZHO1f4Q+WleRNzd2Ps+InEX+OQYrn12JNlZ?=
+ =?us-ascii?Q?bLbkJzLddBEJdxdPFKp2Tcs=3D?=
 X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c53ffadc-6ee0-49d6-214d-08d9be35834f
+ cc684dbc-41c5-4248-4de3-08d9be358390
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 12:38:49.7072
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 12:38:50.2200
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- cdVzpR658mBs2qXPh0cGEVnZc8LqYvvwESB3VSXwfugW0KV04lz05avpnRtKb2ebY5mFA/Fx6o/LKU/BSAHPaQ==
+ tq9QOuryoaQk+kE9ktmEzQHpBCnIobIHBK18OMwVSclaXmEKK9ykLEI54BLMCpsoaFKAft8cVBw5R29nkTHtwg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5595
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 12:38:56 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 12:38:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159619
+ https://lists.openembedded.org/g/openembedded-core/message/159620
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-
-Separate licenses with & operator since it should be satisfied most use
-cases and it is a reasonable assumption that all the licenses apply.
-Furthermore flat, split and sort the licenses to minimize license string
-changes.
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
 ---
 
- meta/lib/oeqa/selftest/cases/recipetool.py |  4 +--
- scripts/lib/recipetool/create.py           | 39 +++++++++++++++++-----
- 2 files changed, 32 insertions(+), 11 deletions(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py | 64 ++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
 diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/sel=
 ftest/cases/recipetool.py
-index 439e41597c..95e4753976 100644
+index 95e4753976..1c73b2c5e0 100644
 --- a/meta/lib/oeqa/selftest/cases/recipetool.py
 +++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -426,7 +426,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         checkvars =3D {}
-         checkvars['SUMMARY'] =3D 'Node Server Example'
-         checkvars['HOMEPAGE'] =3D 'https://github.com/savoirfairelinux/nod=
-e-server-example#readme'
--        checkvars['LICENSE'] =3D set(['MIT', 'ISC', 'Unknown'])
-+        checkvars['LICENSE'] =3D 'BSD-3-Clause & ISC & MIT & Unknown'
-         urls =3D []
-         urls.append('npm://registry.npmjs.org/;package=3D@savoirfairelinux=
-/node-server-example;version=3D${PV}')
-         urls.append('npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json')
-@@ -483,7 +483,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         result =3D runCmd('recipetool create -o %s %s' % (temprecipe, srcu=
-ri))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars =3D {}
--        checkvars['LICENSE'] =3D set(['PSF', '&', 'BSD-3-Clause', 'GPL'])
-+        checkvars['LICENSE'] =3D 'BSD-3-Clause & GPL & PSF'
-         checkvars['LIC_FILES_CHKSUM'] =3D 'file://COPYING.txt;md5=3D35a23d=
-42b615470583563132872c97d6'
-         checkvars['SRC_URI'] =3D 'https://files.pythonhosted.org/packages/=
-84/f4/5771e41fdf52aabebbadecc9381d11dea0fa34e4759b4071244fa094804c/docutils=
--${PV}.tar.gz'
-         checkvars['SRC_URI[md5sum]'] =3D 'c53768d63db3873b7d452833553469de=
-'
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
-te.py
-index 406c97f1c5..8e8a621b4f 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -919,6 +919,22 @@ def split_value(value):
-     else:
-         return value
+@@ -541,9 +541,13 @@ class RecipetoolTests(RecipetoolBase):
 =20
-+def fixup_license(value):
-+    # Ensure licenses with OR starts and ends with brackets
-+    if '|' in value:
-+        return '(' + value + ')'
-+    return value
+     @classmethod
+     def setUpClass(cls):
++        import sys
 +
-+def tidy_licenses(value):
-+    """Flat, split and sort licenses"""
-+    from oe.license import flattened_licenses
-+    def _choose(a, b):
-+        str_a, str_b  =3D sorted((" & ".join(a), " & ".join(b)), key=3Dstr=
-.casefold)
-+        return ["(%s | %s)" % (str_a, str_b)]
-+    if not isinstance(value, str):
-+        value =3D " & ".join(value)
-+    return sorted(list(set(flattened_licenses(value, _choose))), key=3Dstr=
-.casefold)
+         super(RecipetoolTests, cls).setUpClass()
+         bb_vars =3D get_bb_vars(['BBPATH'])
+         cls.bbpath =3D bb_vars['BBPATH']
++        libpath =3D os.path.join(get_bb_var('COREBASE'), 'scripts', 'lib',=
+ 'recipetool')
++        sys.path.insert(0, libpath)
+=20
+     def _copy_file_with_cleanup(self, srcfile, basedstdir, *paths):
+         dstdir =3D basedstdir
+@@ -588,6 +592,66 @@ class RecipetoolTests(RecipetoolBase):
+             with open(srcfile, 'w') as fh:
+                 fh.writelines(plugincontent)
+=20
++    def test_recipetool_split_pkg_licenses(self):
++        from create import split_pkg_licenses
++        licvalues =3D [
++            # Duplicate licenses
++            ('BSD-2-Clause', 'x/COPYING', None),
++            ('BSD-2-Clause', 'x/LICENSE', None),
++            # Multiple licenses
++            ('MIT', 'x/a/LICENSE.MIT', None),
++            ('ISC', 'x/a/LICENSE.ISC', None),
++            # Alternative licenses
++            ('(MIT | ISC)', 'x/b/LICENSE', None),
++            # Alternative licenses without brackets
++            ('MIT | BSD-2-Clause', 'x/c/LICENSE', None),
++            # Multi licenses with alternatives
++            ('MIT', 'x/d/COPYING', None),
++            ('MIT | BSD-2-Clause', 'x/d/LICENSE', None),
++            # Multi licenses with alternatives and brackets
++            ('Apache-2.0 & ((MIT | ISC) & BSD-3-Clause)', 'x/e/LICENSE', N=
+one)
++        ]
++        packages =3D {
++            '${PN}': '',
++            'a': 'x/a',
++            'b': 'x/b',
++            'c': 'x/c',
++            'd': 'x/d',
++            'e': 'x/e',
++            'f': 'x/f',
++            'g': 'x/g',
++        }
++        fallback_licenses =3D {
++            # Ignored
++            'a': 'BSD-3-Clause',
++            # Used
++            'f': 'BSD-3-Clause'
++        }
++        outlines =3D []
++        outlicenses =3D split_pkg_licenses(licvalues, packages, outlines, =
+fallback_licenses)
++        expected_outlicenses =3D {
++            '${PN}': ['BSD-2-Clause'],
++            'a': ['ISC', 'MIT'],
++            'b': ['(ISC | MIT)'],
++            'c': ['(BSD-2-Clause | MIT)'],
++            'd': ['(BSD-2-Clause | MIT)', 'MIT'],
++            'e': ['(ISC | MIT)', 'Apache-2.0', 'BSD-3-Clause'],
++            'f': ['BSD-3-Clause'],
++            'g': ['Unknown']
++        }
++        self.assertEqual(outlicenses, expected_outlicenses)
++        expected_outlines =3D [
++            'LICENSE:${PN} =3D "BSD-2-Clause"',
++            'LICENSE:a =3D "ISC & MIT"',
++            'LICENSE:b =3D "(ISC | MIT)"',
++            'LICENSE:c =3D "(BSD-2-Clause | MIT)"',
++            'LICENSE:d =3D "(BSD-2-Clause | MIT) & MIT"',
++            'LICENSE:e =3D "(ISC | MIT) & Apache-2.0 & BSD-3-Clause"',
++            'LICENSE:f =3D "BSD-3-Clause"',
++            'LICENSE:g =3D "Unknown"'
++        ]
++        self.assertEqual(outlines, expected_outlines)
 +
- def handle_license_vars(srctree, lines_before, handled, extravalues, d):
-     lichandled =3D [x for x in handled if x[0] =3D=3D 'license']
-     if lichandled:
-@@ -932,10 +948,13 @@ def handle_license_vars(srctree, lines_before, handle=
-d, extravalues, d):
-     lines =3D []
-     if licvalues:
-         for licvalue in licvalues:
--            if not licvalue[0] in licenses:
--                licenses.append(licvalue[0])
-+            license =3D licvalue[0]
-+            lics =3D tidy_licenses(fixup_license(license))
-+            lics =3D [lic for lic in lics if lic not in licenses]
-+            if len(lics):
-+                licenses.extend(lics)
-             lic_files_chksum.append('file://%s;md5=3D%s' % (licvalue[1], l=
-icvalue[2]))
--            if licvalue[0] =3D=3D 'Unknown':
-+            if license =3D=3D 'Unknown':
-                 lic_unknown.append(licvalue[1])
-         if lic_unknown:
-             lines.append('#')
-@@ -944,9 +963,7 @@ def handle_license_vars(srctree, lines_before, handled,=
- extravalues, d):
-             for licfile in lic_unknown:
-                 lines.append('#   %s' % licfile)
 =20
--    extra_license =3D split_value(extravalues.pop('LICENSE', []))
--    if '&' in extra_license:
--        extra_license.remove('&')
-+    extra_license =3D tidy_licenses(extravalues.pop('LICENSE', ''))
-     if extra_license:
-         if licenses =3D=3D ['Unknown']:
-             licenses =3D extra_license
-@@ -987,7 +1004,7 @@ def handle_license_vars(srctree, lines_before, handled=
-, extravalues, d):
-         lines.append('# instead of &. If there is any doubt, check the acc=
-ompanying documentation')
-         lines.append('# to determine which situation is applicable.')
-=20
--    lines.append('LICENSE =3D "%s"' % ' & '.join(licenses))
-+    lines.append('LICENSE =3D "%s"' % ' & '.join(sorted(licenses, key=3Dst=
-r.casefold)))
-     lines.append('LIC_FILES_CHKSUM =3D "%s"' % ' \\\n                    '=
-.join(lic_files_chksum))
-     lines.append('')
-=20
-@@ -1226,6 +1243,7 @@ def split_pkg_licenses(licvalues, packages, outlines,=
- fallback_licenses=3D[], pn=3D'
-     """
-     pkglicenses =3D {pn: []}
-     for license, licpath, _ in licvalues:
-+        license =3D fixup_license(license)
-         for pkgname, pkgpath in packages.items():
-             if licpath.startswith(pkgpath + '/'):
-                 if pkgname in pkglicenses:
-@@ -1238,11 +1256,14 @@ def split_pkg_licenses(licvalues, packages, outline=
-s, fallback_licenses=3D[], pn=3D'
-             pkglicenses[pn].append(license)
-     outlicenses =3D {}
-     for pkgname in packages:
--        license =3D ' '.join(list(set(pkglicenses.get(pkgname, ['Unknown']=
-)))) or 'Unknown'
-+        # Assume AND operator between license files
-+        license =3D ' & '.join(list(set(pkglicenses.get(pkgname, ['Unknown=
-'])))) or 'Unknown'
-         if license =3D=3D 'Unknown' and pkgname in fallback_licenses:
-             license =3D fallback_licenses[pkgname]
-+        licenses =3D tidy_licenses(license)
-+        license =3D ' & '.join(licenses)
-         outlines.append('LICENSE:%s =3D "%s"' % (pkgname, license))
--        outlicenses[pkgname] =3D license.split()
-+        outlicenses[pkgname] =3D licenses
-     return outlicenses
-=20
- def read_pkgconfig_provides(d):
+ class RecipetoolAppendsrcBase(RecipetoolBase):
+     def _try_recipetool_appendsrcfile(self, testrecipe, newfile, destfile,=
+ options, expectedlines, expectedfiles):
 --=20
 2.30.2
 
