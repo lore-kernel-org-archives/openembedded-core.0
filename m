@@ -1,293 +1,110 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7EB6C433FE
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 22:19:03 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web09.18177.1639433942484225394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2041C433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 22:55:45 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.18865.1639436144114762664
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 14:19:02 -0800
+ Mon, 13 Dec 2021 14:55:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CYCZ6L2S;
- spf=pass (domain: gmail.com, ip: 209.85.215.169,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id r5so15760847pgi.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GxII+Def;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id u17so29574764wrt.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 14:19:02 -0800 (PST)
+ Mon, 13 Dec 2021 14:55:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=Tlos53MZ5DEfnTHtb25IULmc4FzcZqOFowG2ENEvWn0=;
-        b=CYCZ6L2Sh6lzEALUJZ3xl1R5OXvujM0WUk9piQPNkADxQfr0z/tLVypsIqhv8L8OLV
-         VH8rv4RYdVV4xJZAYx68efJhOkOCvgqknognOXPIt+pmmtOVBqJGbOLBkTwaHe4TJE7W
-         uryEnEmVCiOZ9Po1NIKFcxDdLLiSHKva9kJ1OzYIdZ50WPTlnITV6mnI93ojKaEKuq0w
-         ccWfV1+cUrGOfkfLoL5f8iGySVlR+ifWnqmI7FLYH+CieCqU2b/styqb5+VyAqtMCYXZ
-         BVLvkVaeR5cI1wNjr+RR/Zwmg1aosKIrZxd1vrgHShIoOZEFw7N2Jt0aHCE3O1l+ljeo
-         YKZQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=PO3HRzeYj4iwQWYhBQyjDJLVEJejdVS85W+ei2Wiz0g=;
+        b=GxII+Defo4n211MhpgR1IMsd5fkAzUw1b1o/y7A9lQxemT7QW0fbN9h3msRWxmGStd
+         OMBZeDkOZ2g/fAe8qap1jcg1qLoI9SHmk06xS0LvIwCdVRs0A76/eqF6qrhTbbXKave+
+         Z7oi0GlL4eqOWX3fX0ol/YlH0BdUUG9tYNMJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=Tlos53MZ5DEfnTHtb25IULmc4FzcZqOFowG2ENEvWn0=;
-        b=XOtczt8S+/w9ebnvJekq4wIVcjGHon/Ani0DnnNKsv+iNUVJ858slQBtVre0BCmOh+
-         qxq/8AOlZXXKkYCnhY8Cn24u+aK1AWBuWy/TRwqR/tcm1AlpXn72iKOpHJR+RJ+ghxid
-         Zds3BEN/365RZ0z4xjyyY59FWEmi3nZO4pKKRt16S6eII8CHxcyWclo4l0aZyHIitUdP
-         TESTRADvkEXlyQnllO9UFYzzvLHEa6012HNPfnIgGJBujNMf/uJhmM5hRMHmtlP8ey4/
-         UGpQSEUK5sJSY9JVrnGaRnEt2jwoQQqdluIqWRjKcOhx7IIhBtOgj5PoqrxlXsY4zUvl
-         7KmA==
-X-Gm-Message-State: AOAM530CItg38nRpRxeFIK+HwiVQvzJBEAItZncAyQbxweSZZkQSicJK
-	cjO0ZhWlSKE/GgjY2OISBsE=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=PO3HRzeYj4iwQWYhBQyjDJLVEJejdVS85W+ei2Wiz0g=;
+        b=DWV3g4IpNckVxyz/Tp3DUxBfn+HssLL3ogIRh84kZRQmRJmmIlu5yz20mc0DN6jhOh
+         awLxogzvmhRH9h158geZg8eQf9KjQxENizwZVZCMqA3idcRnyBIEGnYM/03mrouczqYw
+         tp/r2d/8aXezLkGYAun/kHFNSLVwcU2/ciLGWlfjKaRxjvle+mbUeMf1nTj8+eGTpS7V
+         nAtmrzyYLqHidJuRwf8hdXLeFBr6YgYZPSO1/RVwR7X7F3H41LKw2eXMUfFm3sKtSGYF
+         s5+qe30FnFhXKVJEhP0AVQ6dk7uh4t8Jh2He18Cd3kHIYJa/k3M5Jx684QhhsnRjnhR0
+         IkYw==
+X-Gm-Message-State: AOAM5322QiBgGaD7cR6YFML9rYFHFETEtV2XSx2psQrAWzfg1r4NA1Zr
+	08f2m9iLxhDo4N+j7xxi50iIhQ==
 X-Google-Smtp-Source: 
- ABdhPJzYdq0FGJOZgJKyDEFRaOiDSlatY/3sNAQeJpwPKzYx547ZllZfOwHpswwZMSeqE62lA0NUqA==
-X-Received: by 2002:a63:864a:: with SMTP id x71mr1001422pgd.297.1639433941875;
-        Mon, 13 Dec 2021 14:19:01 -0800 (PST)
-Received: from skjolley ([2600:8800:1d92:f800:a505:753b:e452:1553])
+ ABdhPJyER8hf/R3ixlj6mx98c+SDUXHHTgwxGU/gfcx/agH66Ivo+r+4XROh7v5EPgPDEUFwTvYP3g==
+X-Received: by 2002:a05:6000:128b:: with SMTP id
+ f11mr1656694wrx.70.1639436142217;
+        Mon, 13 Dec 2021 14:55:42 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:aeee:ee3b:3dbf:6d62?
+ ([2001:8b0:aba:5f3c:aeee:ee3b:3dbf:6d62])
         by smtp.gmail.com with ESMTPSA id
- h13sm13137565pfv.84.2021.12.13.14.19.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Dec 2021 14:19:01 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 13 Dec 2021 15:19:00 -0700
-Message-ID: <12ff01d7f06f$6e5e2a20$4b1a7e60$@gmail.com>
+ q14sm9486942wrz.109.2021.12.13.14.55.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 14:55:41 -0800 (PST)
+Message-ID: 
+ <4d8cda3a2b2db6292f39e4705d0518b1887349dc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH] Implement functionality to exclude dirs
+ from rootfs
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Bergin <peter@berginkonsult.se>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 13 Dec 2021 22:55:40 +0000
+In-Reply-To: <20211213211416.46449-1-peter@berginkonsult.se>
+References: <20211213211416.46449-1-peter@berginkonsult.se>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_1300_01D7F034.C2019C10"
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQF+70POaus2QI3xv8luQ5IxLzyoIg==
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 22:19:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 22:55:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159660
+ https://lists.openembedded.org/g/openembedded-core/message/159661
 
-This is a multipart message in MIME format.
+On Mon, 2021-12-13 at 22:14 +0100, Peter Bergin wrote:
+> With this patch trying to wake alive an old patch that never
+> found its way in to oe-core last time [1]. The added function is to
+> configure directories that shall be excluded when creating an image.
+> 
+> One use case is that some directories are located in a separate partition
+> in the memory and mounted during boot sequence. For example configuration
+> that shall be kept during upgrade of rootfs. Then files in those directories
+> can be excluded from image and handled separate.
+> 
+> Is this functionality something that can be added to oe-core?
+> If not, are there already a method to get this with current functionality.
+> 
+> [1] https://patchwork.openembedded.org/patch/147567/
 
-------=_NextPart_000_1300_01D7F034.C2019C10
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+The trouble is if we start taking patches like this, we're going to end up in a
+mess as the interface here isn't great.
 
-All,
+It is unclear from setting IMAGE_ROOTFS_EXCLUDE_PATH which image types this
+would apply to. Doing this by a task specific flag is horrible, no other image
+control does this. It is also unclear how you handle the situation if you have
+two different tree locations you want to filter instead of one (possibly in
+different image types) so this method simply doesn't scale.
 
- 
+When you get to this level of image complexity, you usually end up with using a
+tool like wic. You also have the option of passing in extra parameters to
+specific image creation types like tar to filter paths.
 
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
+I'm not against adding something but we need a better interface for something to
+be accepted in core. I don't know what that looks like but this isn't there in
+my view.
 
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
+Cheers,
 
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 399
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.4", "3.5, "3.99" and "Future", the more pressing/urgent issues
-being in "3.4" and then "3.5".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
+Richard
 
 
-------=_NextPart_000_1300_01D7F034.C2019C10
-Content-Type: text/html;
-	boundary="----=_NextPart_000_20DB_01D7EAAE.1F2BC410";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 399 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.4&#8221;, &#8220;3.5, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.4&quot; and then &#8220;3.5&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_1300_01D7F034.C2019C10--
 
 
