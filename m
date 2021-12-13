@@ -2,77 +2,80 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9238CC433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 13:16:44 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web08.10782.1639401403223792170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC49AC433EF
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 13:20:01 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web10.10937.1639401601121446223
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 05:16:43 -0800
+ Mon, 13 Dec 2021 05:20:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=X5oulUCl;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=mbAESoXP;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1639401401; i=@fujitsu.com;
-	bh=Nsslq6TrfnuiHsLnn6ec/G6Ra/imoWrpgVacE4KkSYs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=X5oulUClhnxmYAl+f0HmWqfefyi19/odHbt+4dEzNoFACBT66hHYZYxWy33IfvgIW
-	 gMthx0UEf5sxEvkLnJfsRjR1uxLBIaYRMC1Kgyofa2Heu8NGT44HzIdR8hpdVru2ee
-	 W3SkOuAjsb4d2HsDcVjUSRnSfziN3/FB5+7qGE52yCK+6SXL5s08Tgs2arw/ilVpUj
-	 Rnv/2I8wwyhQTS0uANr4AtzTo96Msh+uGA1szWog2DyFV3KctcOvDuRm8sODjlc5Je
-	 Mr6fhhH29m56cldBuXnUII+5BuGB2QS+7EI35hs1dp4ZVLj9D6hxz+t2ayCzkcSxyo
-	 1eFm3mI2KX4LQ==
-Received: from [100.115.71.165] (using TLSv1.2 with cipher
+	s=170520fj; t=1639401598; i=@fujitsu.com;
+	bh=BxevArVyoEIuJ6x+uJCEQvRN42DYDLM/aO20L8Xh6dw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=mbAESoXPvT28uVhuJV3LYxOx1Pzog4HWrXY9KQSUjk7o5PIVBxRMnpHXiYIHoJmOq
+	 dKyD0ltQa7WziU3Y42utaSHj8dxG9UFFR3iV+uTUh+ZaKV63CjTNG/ftlZoOJE5Hxe
+	 LQX7LAF8JcB42qDPGSYNn+T2wWV9pzIMCfMdoOMAn2WTCgNxk2q2yKfnuUiIIYpCfg
+	 tt+myCs6wWh7+cNulczJOdnx66W0X74ZNMYSpXM5tDpcG9uJj+vAVglsLdkmqRbUME
+	 3y+C3gnkS443a8r3JC10k4eVOKeO3oUcgnG7+quVpZTESDU2k4S2acT4C74NROt2sE
+	 MLmujG8Dgrueg==
+Received: from [100.115.1.47] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- AA/62-07141-9B747B16; Mon, 13 Dec 2021 13:16:41 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRWlGSWpSXmKPExsViZ8ORqLvDfXu
-  iwdPdJhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8ajb1vYC14IVFy6fIalgfEpXxcjF4eQwGNG
-  iYUn3jNDOOeZJNZc7GHpYuQEck4wSryc6QtiswmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3
-  z3sILawgKvEpv0zmUFsFgFViSl3D7OB2LwCThIfP6wBq5EQUJCY8vA9M0RcUOLkzCcsEHMkJA
-  6+eMEMUaMoMftyMwuEXSExa1YbE4StJnH13CbmCYz8s5C0z0LSvoCRaRWjXVJRZnpGSW5iZo6
-  uoYGBrqGhqa6Zia6RialeYpVuol5qqW5yal5JUSJQWi+xvFgvtbhYr7gyNzknRS8vtWQTIzA0
-  U4odvu5gPN73U+8QoyQHk5IobzDr9kQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKEry/zYFygkWp6
-  akVaZk5wDiBSUtw8CiJ8HY7AqV5iwsSc4sz0yFSpxgVpcR537gCJQRAEhmleXBtsNi8xCgrJc
-  zLyMDAIMRTkFqUm1mCKv+KUZyDUUmYNxlkPE9mXgnc9FdAi5mAFjNWbgZZXJKIkJJqYGo6e/e
-  Jg05it//c6h+blr+fPzPIelvvfc5Gzju2Dq2uU0x2nY7Ks/W98rf3xaaoGbXm7E2fJ89Xl8yx
-  dpzjc0qBY6Ln/G//O9Ke91yRahTfe2mZ9drJH27ttgrZb+fDJOF+dXeW9cNsAYP++heX7qfud
-  53QwHj+C5/0Bh/+hW8+sXF+nZL+QiXZdUVQ1sY1G2tuKbTN2r7k8POO2wvSGj/2/XYTdpU5K/
-  uQz+JKy+zO/h9zopj2Tp33dOFNzocOXycwZc42N5uwdxlXwPsaXcNb75v2tonUvytnYFrNtuq
-  rlMGNTzrMMY0LvI8ySaywmPbcgT1Itfrk25lerX2R9xm0EsJsnMWj6k07UqdPvqXEUpyRaKjF
-  XFScCAAgifBISAMAAA==
+	by server-4.bemta.az-a.eu-west-1.aws.ess.symcld.net id E5/06-30341-E7847B16;
+ Mon, 13 Dec 2021 13:19:58 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRWlGSWpSXmKPExsViZ8ORqFvnsT3
+  RYM5caYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWP6JK6CV1wVP7uXsDUw3uXsYuTiEBJ4zChx
+  7swndgjnPJPEt5szWCGcE4wSH/6vAspwcrAJqElMv3UDKMHBISKgJ3H1nyhImFlAReLF7x6wE
+  mEBG4nu3tPMIDaLgKrE7hVT2EBsXgEniXOLO1hAbAkBBYkpD9+D1XAKOEs8+XmBCcQWAqr58H
+  ELI0S9oMTJmU9YIOZLSBx88YIZoldRYvblZqg5FRKzZrUxQdhqElfPbWKewCg4C0n7LCTtCxi
+  ZVjFaJRVlpmeU5CZm5ugaGhjoGhqa6poAWYZ6iVW6iXqppbrlqcUlukBuebFeanGxXnFlbnJO
+  il5easkmRmAIpxSzpO5g7Ov7qXeIUZKDSUmUN5h1e6IQX1J+SmVGYnFGfFFpTmrxIUYZDg4lC
+  d7f5kA5waLU9NSKtMwcYDzBpCU4eJREeLsdgdK8xQWJucWZ6RCpU4yKUuK8gu5ACQGQREZpHl
+  wbLIYvMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLmTQYZz5OZVwI3/RXQYiagxYyVm0EWlyQ
+  ipKQamHruxj5ZHbwgS11DmEPcyqOft8TI99jdK77xMWcO9xUcOWqSrdbSphSfo8K/zfR3vZlM
+  58nuA9YpfBOcHL7ffnpw661DrLZNh2LMn+aei1aeobxEOb/4u7T+ffHVN9lN9qovDBN+8zczu
+  27G2iPCffrnznH71jNObLa+8qrPt7KQqfZYUk41D/+uxjUHbhRGXwiOXd9t3DErWeuLcvwV1q
+  XROw/Xf2ta4vVE5WXc0fMXnyWm3Tl1puQr3yz3VdZ1Hi9e+s4U7dnKK2x0bh1jysTdL4K7o+b
+  Nln5x6swz3kqOc4q3PmWwzRVPqffR2DLdvthhv8chJ/7rT+/aTjCL29bCd8tNLGZJ9r5Va+Mv
+  K7EUZyQaajEXFScCAMy3QRtcAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-21.tower-545.messagelabs.com!1639401400!27902!1
+X-Msg-Ref: server-15.tower-591.messagelabs.com!1639401598!33557!1
 X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 17130 invoked from network); 13 Dec 2021 13:16:40 -0000
+Received: (qmail 9820 invoked from network); 13 Dec 2021 13:19:58 -0000
 Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-21.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 13 Dec 2021 13:16:40 -0000
+  by server-15.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 13 Dec 2021 13:19:58 -0000
 Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 42D2110024B
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 020ED1009F5
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 13:16:40 +0000 (GMT)
+ Mon, 13 Dec 2021 13:19:58 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 3708310023B
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id E6618100242
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 13:16:40 +0000 (GMT)
+ Mon, 13 Dec 2021 13:19:57 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 13 Dec 2021 13:16:21 +0000
+ (TLS) id 15.0.1497.26; Mon, 13 Dec 2021 13:19:49 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-cython: upgrade 0.29.24 -> 0.29.25
-Date: Mon, 13 Dec 2021 21:16:11 +0800
-Message-ID: <1639401371-27716-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libical: upgrade 3.0.11 -> 3.0.12
+Date: Mon, 13 Dec 2021 21:19:37 +0800
+Message-ID: <1639401578-27830-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1639401578-27830-1-git-send-email-wangmy@fujitsu.com>
+References: <1639401578-27830-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -82,60 +85,41 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 13:16:44 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 13:20:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159627
+ https://lists.openembedded.org/g/openembedded-core/message/159629
 
-Changelog:
-================
-Bugs fixed
-----------
-* Several incompatibilities with CPython 3.11 were resolved.
-  (Github issues #4411, #4414, #4415, #4416, #4420, #4428, #4473, #4479, #4480)
-
-* Some C compiler warnings were resolved.
-  (Github issue #4439)
-
-* C++ "std::move()" should only be used automatically in MSVC versions that support it.
-  (Github issue #4191)
-
- * The "Py_hash_t" type failed to accept arbitrary "index" values.
-   (Github issue #2752)
-
-* Avoid copying unaligned 16-bit values since some platforms require them to be aligned.
-  Use memcpy() instead to let the C compiler decide how to do it.
-  (Github issue #4343)
-
-* Cython crashed on invalid truthiness tests on C++ types without "operator bool".
-  (Github issue #4348)
-
-* The declaration of "PyUnicode_CompareWithASCIIString()" in "cpython.unicode" was incorrect.
-  (Github issue #4344)
+Change log :
+===========
+Fix a libicalval crash in cleanVObject
+METHOD:DECLINECOUNTER must have DTEND or DURATION
+Handle if DTEND and DURATION are both missing
+Improved FindICU (copied from official CMake. see files in cmake/Kitware)
+Buildsystem fixes (especially for the Ninja generator)
+Built-in timezones updated to tzdata2021e
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/python/python-cython.inc                  | 2 +-
- .../{python3-cython_0.29.24.bb => python3-cython_0.29.25.bb}    | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.24.bb => python3-cython_0.29.25.bb} (100%)
+ .../libical/{libical_3.0.11.bb => libical_3.0.12.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libical/{libical_3.0.11.bb => libical_3.0.12.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 5a8ec2a0ff..93d6fdf13b 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
- PYPI_PACKAGE = "Cython"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/libical/libical_3.0.11.bb b/meta/recipes-support/libical/libical_3.0.12.bb
+similarity index 95%
+rename from meta/recipes-support/libical/libical_3.0.11.bb
+rename to meta/recipes-support/libical/libical_3.0.12.bb
+index b16081e9e2..fe5e58cbfb 100644
+--- a/meta/recipes-support/libical/libical_3.0.11.bb
++++ b/meta/recipes-support/libical/libical_3.0.12.bb
+@@ -14,7 +14,7 @@ SECTION = "libs"
  
--SRC_URI[sha256sum] = "cdf04d07c3600860e8c2ebaad4e8f52ac3feb212453c1764a49ac08c827e8443"
-+SRC_URI[sha256sum] = "a87cbe3756e7c464acf3e9420d8741e62d3b2eace0846cb39f664ad378aab284"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+ "
+-SRC_URI[sha256sum] = "1e6c5e10c5a48f7a40c68958055f0e2759d9ab3563aca17273fe35a5df7dbbf1"
++SRC_URI[sha256sum] = "35095a4cc1a061a3de0f332c2dc728226cf127fa0baa818e9f8856cee6d35830"
+ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
  
- inherit pypi
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.24.bb b/meta/recipes-devtools/python/python3-cython_0.29.25.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-cython_0.29.24.bb
-rename to meta/recipes-devtools/python/python3-cython_0.29.25.bb
+ inherit cmake pkgconfig
 -- 
 2.25.1
 
