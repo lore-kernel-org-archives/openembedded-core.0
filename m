@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB22C43217
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 04:17:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 603ADC433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 04:17:44 +0000 (UTC)
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
  by mx.groups.io with SMTP id smtpd.web12.7345.1639369051545710943
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Dec 2021 20:17:45 -0800
+ Sun, 12 Dec 2021 20:17:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=intel header.b=dehkxP6g;
+ dkim=pass header.i=@intel.com header.s=intel header.b=jcs2hQjV;
  spf=pass (domain: intel.com, ip: 134.134.136.65,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639369065; x=1670905065;
+  t=1639369063; x=1670905063;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=QzUoGQ5sWRBoFW77ybuwk84y/aN2UZ+d13r2xgafkvU=;
-  b=dehkxP6g6kNjK+GSot4dnh34XmeC3FPeFyEMTwgRt67GuXICfG8pxWIU
-   IMY/VOXZMvraxJTEQq/cjxgyWqX5WwLxthN8j7XiH0DJY+8cUpwJ7yzsJ
-   rmkWoeClT84nV+aUqxGAvoTFhgzD8Ia3YNEBmN8zayApgAXM+QBKw53oS
-   6hxjGfLU8zj2EV9BpWrM8g7B1ehBj6IBYByqF/+xb+9c7/uLvr5susJ/h
-   5Bcjgh6wuLPl5jehr590y1ramgIUihdESYVLE8/JJvyO0Atj4wQj1IpgT
-   v+BdEd1ez76IqdxgKup4h7QwAMQYGzh6lb64GP7E4jgtwpPEn2jmm7Kgd
+  bh=9SAYy23+xD5eAdLJ0HyRKusbMx6Y9aejgbqXOIKszPo=;
+  b=jcs2hQjVliSb7WnabAieba4Kq84TGQfU3b/eiJPdeoQyln9azUpFz0lx
+   83VLRiUHK/xEzcAlMtGQ3/f56JXTWS7q5l/vSwdyHBHAqP8xS3Ck59bw1
+   gh94IXbqDIC5JOBW7nYKdrVWox6XM+1lQ+69En81t0wp0QSnQNkvFFvDQ
+   0LyokGUxRKqy6EEM67VYiz+shUjBJGunxr7dBIGGkqLaHIEwwLnNsNXZ/
+   3TQ84pX6VUPYKM2pUaiBXOxv0x252RHdw/kifPvRj16srw14vfi97AnMF
+   Fgr9bKOW+IRIpHcUjNEHqAvp64+ONNSFnztO63cEcY+kjVbgtBf4V8dsn
    Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238602240"
+X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238602237"
 X-IronPort-AV: E=Sophos;i="5.88,201,1635231600";
-   d="scan'208";a="238602240"
+   d="scan'208";a="238602237"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 20:17:44 -0800
+ 12 Dec 2021 20:17:43 -0800
 X-IronPort-AV: E=Sophos;i="5.88,201,1635231600";
-   d="scan'208";a="517589298"
+   d="scan'208";a="517589293"
 Received: from echan1-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.213.132.97])
   by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 20:17:43 -0800
+ 12 Dec 2021 20:17:42 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 11/20] cve-extra-exclusions: add db CVEs to
- exclusion list
-Date: Mon, 13 Dec 2021 12:17:10 +0800
+Subject: [hardknott][PATCH 10/20] patch.py: Initialize git repo before
+ patching
+Date: Mon, 13 Dec 2021 12:17:09 +0800
 Message-Id: 
- <b3056b937a76ddd6c02cd6b17e7a0c178931add4.1639365111.git.anuj.mittal@intel.com>
+ <c3e8317b15b1b78511a6f9aedfed54b59ab6972f.1639365111.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1639365111.git.anuj.mittal@intel.com>
 References: <cover.1639365111.git.anuj.mittal@intel.com>
@@ -52,40 +52,100 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 04:17:45 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 04:17:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159601
+ https://lists.openembedded.org/g/openembedded-core/message/159600
 
-From: Steve Sakoman <steve@sakoman.com>
+From: Pavel Zhukov <pavel.zhukov@huawei.com>
 
-Since Oracle relicensed bdb, the open source community is slowly but surely replacing bdb with
-supported and open source friendly alternatives. As a result these CVEs are unlikely to ever be fixed.
+If PATCHTOOL="git" has been specified but workdir is not git repo
+bitbake fails to apply the patches with error message:
+Command Error: 'git rev-parse --show-toplevel' exited with 0  Output:
+fatal: not a git repository (or any of the parent directories): .git
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Fix this by initializing the repo before patching.
+This allows binary git patches to be applied.
+
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 679fc70f907fb221f4541ebf30c1610e937209b7)
+(cherry picked from commit 6184b56a7a0fc6f5d19fdfb81e7453667f7da940)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/conf/distro/include/cve-extra-exclusions.inc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/lib/oe/patch.py                    | 16 +++++++++++++++-
+ meta/lib/oeqa/selftest/cases/bbtests.py | 15 +++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-index 561386b706..0b8bec312b 100644
---- a/meta/conf/distro/include/cve-extra-exclusions.inc
-+++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-@@ -43,3 +43,12 @@ CVE_CHECK_WHITELIST += "CVE-2010-4756"
- # CVE applies to a netapp product as well as flagging a general issue. We don't ship anything
- # exposing this interface in an exploitable way
- CVE_CHECK_WHITELIST += "CVE-2020-29509 CVE-2020-29511"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index fccbedb519..950fe723dc 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -4,6 +4,7 @@
+ 
+ import oe.path
+ import oe.types
++import subprocess
+ 
+ class NotFoundError(bb.BBHandledException):
+     def __init__(self, path):
+@@ -25,7 +26,6 @@ class CmdError(bb.BBHandledException):
+ 
+ def runcmd(args, dir = None):
+     import pipes
+-    import subprocess
+ 
+     if dir:
+         olddir = os.path.abspath(os.curdir)
+@@ -56,6 +56,7 @@ def runcmd(args, dir = None):
+         if dir:
+             os.chdir(olddir)
+ 
 +
-+# db
-+# Since Oracle relicensed bdb, the open source community is slowly but surely replacing bdb with
-+# supported and open source friendly alternatives. As a result these CVEs are unlikely to ever be fixed.
-+CVE_CHECK_WHITELIST += "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626 CVE-2015-2640 CVE-2015-2654 \
-+CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775 CVE-2015-4776 CVE-2015-4777 \
-+CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782 CVE-2015-4783 CVE-2015-4784 \
-+CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789 CVE-2015-4790 CVE-2016-0682 \
-+CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981"
+ class PatchError(Exception):
+     def __init__(self, msg):
+         self.msg = msg
+@@ -298,6 +299,19 @@ class GitApplyTree(PatchTree):
+         PatchTree.__init__(self, dir, d)
+         self.commituser = d.getVar('PATCH_GIT_USER_NAME')
+         self.commitemail = d.getVar('PATCH_GIT_USER_EMAIL')
++        if not self._isInitialized():
++            self._initRepo()
++
++    def _isInitialized(self):
++        cmd = "git rev-parse --show-toplevel"
++        (status, output) = subprocess.getstatusoutput(cmd.split())
++        ## Make sure repo is in builddir to not break top-level git repos
++        return status == 0 and os.path.samedir(output, self.dir)
++
++    def _initRepo(self):
++        runcmd("git init".split(), self.dir)
++        runcmd("git add .".split(), self.dir)
++        runcmd("git commit -a --allow-empty -m Patching_started".split(), self.dir)
+ 
+     @staticmethod
+     def extractPatchHeader(patchfile):
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index b932d5276b..a8b6231d83 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -300,3 +300,18 @@ INHERIT_remove = \"report-error\"
+ 
+         test_recipe_summary_after = get_bb_var('SUMMARY', test_recipe)
+         self.assertEqual(expected_recipe_summary, test_recipe_summary_after)
++
++    def test_git_patchtool(self):
++        """ PATCHTOOL=git should work with non-git sources like tarballs
++            test recipe for the test must NOT containt git:// repository in SRC_URI
++        """
++        test_recipe = "man-db"
++        self.write_recipeinc(test_recipe, 'PATCHTOOL=\"git\"')
++        src = get_bb_var("SRC_URI",test_recipe)
++        gitscm = re.search("git://", src)
++        self.assertFalse(gitscm, "test_git_patchtool pre-condition failed: {} test recipe contains git repo!".format(test_recipe))
++        result = bitbake('man-db -c patch', ignore_status=False)
++        fatal = re.search("fatal: not a git repository (or any of the parent directories)", result.output)
++        self.assertFalse(fatal, "Failed to patch using PATCHTOOL=\"git\"")
++        self.delete_recipeinc(test_recipe)
++        bitbake('-cclean man-db')
 -- 
 2.33.1
 
