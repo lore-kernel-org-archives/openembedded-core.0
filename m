@@ -1,102 +1,68 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <peter@berginkonsult.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E574C433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 17:46:06 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.14648.1639417565046573132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F173EC433EF
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 21:14:51 +0000 (UTC)
+Received: from mailrelay3-2.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-2.pub.mailoutpod1-cph3.one.com [46.30.212.2])
+ by mx.groups.io with SMTP id smtpd.web11.17247.1639430089532315361
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 09:46:05 -0800
+ Mon, 13 Dec 2021 13:14:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 178CE6D
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 09:46:04 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B30313F73B
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 09:46:03 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=Abm5Xr/F;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.2,
+ mailfrom: peter@berginkonsult.se)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=rsa1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:to:from:from;
+	bh=roQgQ/5fVoqDj1Qj101flBt/LOffuhOfaoDmvrxFPWo=;
+	b=Abm5Xr/FFkm74ZbDz62IdXSMFO3iM5TwfOPxFdGKcWF18WxtWrYvGkWbbmZyJ7kmnO8UTsd0hB7uj
+	 KssoB5nC8rySEe75++5y4UNdAT7IEv3NDMKJSmeH0JqytYm9eFfpQDMJCnyoK1riEU8drbT/fdq0KR
+	 WUNML6ukIXJdWW72zYYq8M+NiZlWdgaIWVQkqztgVn92Z92CkClWW8m6t9wFOGxQ/1JS8zsVTsaf/u
+	 5gW4O5BzT2kLj6JEzAlVKjq59iuN9ZA7+tKoTt5LsObllGzLyR/3DXdRx5diSXdeFiHrT6rw3pa7OU
+	 Y/e8j9FpGEhswM5z/Sa30BIhhfJTxrw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:to:from:from;
+	bh=roQgQ/5fVoqDj1Qj101flBt/LOffuhOfaoDmvrxFPWo=;
+	b=ZPkluPq7XmA3mKzTRI3ox1Xfzw/DItdtQgBke/0+5f4Ga7j8jOZejMCrLwdUvBUKqpj9eQgIWmVzQ
+	 kkU0L6nDw==
+X-HalOne-Cookie: 7575cc040b2829cff0cbdc32495cbf7899a15989
+X-HalOne-ID: b0efaf10-5c59-11ec-9170-d0431ea8bb03
+Received: from pbergin-7420.. (ua-213-113-157-96.bbcust.telenor.se
+ [213.113.157.96])
+	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id b0efaf10-5c59-11ec-9170-d0431ea8bb03;
+	Mon, 13 Dec 2021 21:14:47 +0000 (UTC)
+From: Peter Bergin <peter@berginkonsult.se>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libical: upgrade to 3.0.12
-Date: Mon, 13 Dec 2021 17:46:01 +0000
-Message-Id: <20211213174601.643090-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [RFC PATCH] Implement functionality to exclude dirs from rootfs
+Date: Mon, 13 Dec 2021 22:14:15 +0100
+Message-Id: <20211213211416.46449-1-peter@berginkonsult.se>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 17:46:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 21:14:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159657
+ https://lists.openembedded.org/g/openembedded-core/message/159658
 
-Disable tests to save some build time as we can't install them.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../libical/{libical_3.0.11.bb =3D> libical_3.0.12.bb} | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
- rename meta/recipes-support/libical/{libical_3.0.11.bb =3D> libical_3.0.=
-12.bb} (83%)
+With this patch trying to wake alive an old patch that never
+found its way in to oe-core last time [1]. The added function is to
+configure directories that shall be excluded when creating an image.
 
-diff --git a/meta/recipes-support/libical/libical_3.0.11.bb b/meta/recipe=
-s-support/libical/libical_3.0.12.bb
-similarity index 83%
-rename from meta/recipes-support/libical/libical_3.0.11.bb
-rename to meta/recipes-support/libical/libical_3.0.12.bb
-index b16081e9e28..b2b2211b9b4 100644
---- a/meta/recipes-support/libical/libical_3.0.11.bb
-+++ b/meta/recipes-support/libical/libical_3.0.12.bb
-@@ -12,14 +12,13 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1910a2a76d=
-df6a9ba369182494170d87 \
-                     "
- SECTION =3D "libs"
-=20
--SRC_URI =3D "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/$=
-{BP}.tar.gz \
--"
--SRC_URI[sha256sum] =3D "1e6c5e10c5a48f7a40c68958055f0e2759d9ab3563aca172=
-73fe35a5df7dbbf1"
-+SRC_URI =3D "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/$=
-{BP}.tar.gz"
-+SRC_URI[sha256sum] =3D "35095a4cc1a061a3de0f332c2dc728226cf127fa0baa818e=
-9f8856cee6d35830"
- UPSTREAM_CHECK_URI =3D "https://github.com/libical/libical/releases"
-=20
- inherit cmake pkgconfig
-=20
--DEPENDS:append:class-target =3D " libical-native"
-+DEPENDS +=3D "libical-native"
-=20
- PACKAGECONFIG ??=3D "icu glib"
- PACKAGECONFIG[bdb] =3D ",-DCMAKE_DISABLE_FIND_PACKAGE_BDB=3DTrue,db"
-@@ -29,13 +28,16 @@ PACKAGECONFIG[icu] =3D ",-DCMAKE_DISABLE_FIND_PACKAGE=
-_ICU=3DTrue,icu"
-=20
- # No need to use perl-native, the host perl is sufficient.
- EXTRA_OECMAKE +=3D "-DPERL_EXECUTABLE=3D${HOSTTOOLS_DIR}/perl"
-+# Disable the test suite as we can't install it
-+EXTRA_OECMAKE +=3D "-DLIBICAL_BUILD_TESTING=3Dfalse"
- # doc build fails with linker error (??) for libical-glib so disable it
- EXTRA_OECMAKE +=3D "-DICAL_BUILD_DOCS=3Dfalse"
-=20
-+# Tell the cross-libical where the tool it needs to build is
- EXTRA_OECMAKE:append:class-target =3D " -DIMPORT_ICAL_GLIB_SRC_GENERATOR=
-=3D${STAGING_LIBDIR_NATIVE}/cmake/LibIcal/IcalGlibSrcGenerator.cmake"
-=20
- do_install:append () {
--    # Remove build host references
-+    # Remove build host references (https://github.com/libical/libical/i=
-ssues/532)
-     sed -i \
-        -e 's,${STAGING_LIBDIR},${libdir},g' \
-        -e 's,${STAGING_INCDIR},${includedir},g' \
---=20
-2.25.1
+One use case is that some directories are located in a separate partition
+in the memory and mounted during boot sequence. For example configuration
+that shall be kept during upgrade of rootfs. Then files in those directories
+can be excluded from image and handled separate.
+
+Is this functionality something that can be added to oe-core?
+If not, are there already a method to get this with current functionality.
+
+[1] https://patchwork.openembedded.org/patch/147567/
 
 
