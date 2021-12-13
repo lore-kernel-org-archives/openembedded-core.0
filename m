@@ -2,26 +2,26 @@ Return-Path: <quentin.schulz@theobroma-systems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 558FCC433EF
-	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 09:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F5D7C433F5
+	for <webhook@archiver.kernel.org>; Mon, 13 Dec 2021 09:16:51 +0000 (UTC)
 Received: from EUR05-AM6-obe.outbound.protection.outlook.com
  (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.74])
  by mx.groups.io with SMTP id smtpd.web12.9142.1639387009113439422
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 01:16:49 -0800
+ Mon, 13 Dec 2021 01:16:51 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@cherrycloud.onmicrosoft.com
- header.s=selector2-cherrycloud-onmicrosoft-com header.b=PQuCvXUS;
+ header.s=selector2-cherrycloud-onmicrosoft-com header.b=XPYqjXuV;
  spf=pass (domain: theobroma-systems.com, ip: 40.107.22.74,
  mailfrom: quentin.schulz@theobroma-systems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ocVp0Jy8JrMdK5mbRqFDlMphTznDSE8YXVniA42yGiEbx/TKdO7gcjW96dTlaoGt7RDxGMFsROR3aI6062pIxGHV80exj0cu4kggU4G66gMWlCgd7ZJKhioz9Ih6gxpqpG72JeN5iti5oY68ZzL0vZRpbtRSF/haRamxB/VJ1ANHTZfkScwrKS34nl8BtlFB5gD6jFIUycn7xaai97hqt2SU4zKdKxb5u1KhGb8mmaCL+Mexpws8++2cT3Uq2imK6aBJFJdk4sZzNd+ATsjOJb9bxGTKL3KaKh28s/hvNEFroLu6HYofQIEApARjZTG5uFp4vaLNNs0EVV1EDReN1Q==
+ b=czUBhNEa9OflSAzUznr35rk+/wq7IinuC3Nh62zyopuoIvw9CqOMMwoA+PKP5YxqD6qQfrnwL48l/L2dSsZ1237rLz+PSaPwfHz6xlcq3vU6552/hGlsRjNc7aMhJNUpq8t0SfEVdMC9YBkalTLlxs6Ja7l8ujc2L58ytr9yhyXbxfKVsiJX/tuIBfVOLFWIEpWUOgfn7RZgxnFmTP5WoZcnfbO4uytkJvi27U0V1GdUDxwD6EE/ZyYco6L4bIfyiILLMBawJsfEdC+znSa1cDP3R4ofDHuigLmvoP2sFW8IMem6NkJqu/9n3wO0+0MbcfvWSP/BUwQlF1gUstKbmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AS37VDpG5/ZZYZgO4H+Z3pzsot5Rh5tVxgh+0bBzHo0=;
- b=aWB5pqgOoWCUkWjZ5xfO5tAYdEc5YX99SUOQRGrt3zCDKqp1db0II7Epk6HOHw1wbehKBs7/dqlN++ilS9aDsvFQMJkD983vR4td5LpS7i90tqoJY/WDECducpMPxDyvWztfW6wchfBqqb5CKownpvaXhy17bT44Ijs9XaRekA55DgKYRnQxSKP5xHwUYFpTwhcJLu/De/M+5CRktkjvEMPjrC27PVosZz2tMXGel7TwlzyTOQO5u/bbalYzLZP+vmRnheW9YLnS8hs/hea8isU72oUJ2Ydh6U2o+yKXllrlqBmYOIxpZOu7MYnYhLlp0dNzQ1t01H/AOdV4j7hcGg==
+ bh=Lcke6kRiOl/On8xFvvgxmzVhT+DCdxUnVjk+SwFRHOA=;
+ b=iEmWl54QsfGeeYiWPqD8jBgvQh8HNMgTdPirhdwUCCGMQK6Q/WEPgaXCIHXUsv3DW2AsKLJgceS5bUz/pGUqn/2XGlr9JXoQFWyoI6aaw5R2/pSmoCRupDDudZSFUKuCpPRSAxM2KGifySOLsj7b6fqN1T66UZhlsxZVPfRVDFYtNrEjwaDlezqy4Xd9u+VLCw+UAbe+E6OTYHPO/THr1I76oOO9Ijg+1EAh4iP0r0QytMu7Q/hePBFobjqyKrcy7k4iX+/nTDVw5OxN9bVRVjVCag8m1HRJ+z3JgXcgBLsAY8hNq7z7McX/WbBR/GhlbiBMiNduF8hXjMEnbg5C+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
  header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
@@ -29,28 +29,29 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AS37VDpG5/ZZYZgO4H+Z3pzsot5Rh5tVxgh+0bBzHo0=;
- b=PQuCvXUSd3YTJB3NALZX9dkyGq6oU5RQUZBAislbEo5weFJZA9NhhYDXmSrEk+95wEGh4KHFeUG/05Z1vL04B8duYJBWkKNdlEdUWDmz/cNyJQHv4ut9fDrK8Qmqzu3cMnflAl87WHy4rcMTNJ2z1cIl0ExpgwbLWn6WioviO60=
+ bh=Lcke6kRiOl/On8xFvvgxmzVhT+DCdxUnVjk+SwFRHOA=;
+ b=XPYqjXuVXMHmlQQ/BzRjCkfuCXnARNd13TXC7z0mHgUfsGmQiDqNrQ6Vg6aKgb3tBakUZ4hgM7maFBpcqIRw4xSVP4AKpOI7mJ4exprofF8CzlrB67Z2PhXrMFmtCqVELLqzakvL99n0JP0yGZYyu9zSDK9P15QKHFNqsb7G1qM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
 Received: from HE1PR0402MB3355.eurprd04.prod.outlook.com (2603:10a6:7:81::28)
  by HE1PR0401MB2620.eurprd04.prod.outlook.com (2603:10a6:3:81::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Mon, 13 Dec
- 2021 09:16:44 +0000
+ 2021 09:16:45 +0000
 Received: from HE1PR0402MB3355.eurprd04.prod.outlook.com
  ([fe80::905c:4765:6fc:3c66]) by HE1PR0402MB3355.eurprd04.prod.outlook.com
  ([fe80::905c:4765:6fc:3c66%5]) with mapi id 15.20.4755.021; Mon, 13 Dec 2021
- 09:16:44 +0000
+ 09:16:45 +0000
 From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 To: openembedded-core@lists.openembedded.org
 CC: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
 	Quentin Schulz <foss+yocto@0leil.net>
-Subject: [PATCH v2 1/4] kmscube: fix build on OpenGL ES 3 dependencies not
- providing GLES3/gl3ext.h
-Date: Mon, 13 Dec 2021 10:16:25 +0100
-Message-ID: <20211213091628.2037474-1-quentin.schulz@theobroma-systems.com>
+Subject: [PATCH v2 2/4] mesa: PROVIDES virtual/libgles3
+Date: Mon, 13 Dec 2021 10:16:26 +0100
+Message-ID: <20211213091628.2037474-2-quentin.schulz@theobroma-systems.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211213091628.2037474-1-quentin.schulz@theobroma-systems.com>
+References: <20211213091628.2037474-1-quentin.schulz@theobroma-systems.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: AS9PR06CA0108.eurprd06.prod.outlook.com
@@ -62,153 +63,158 @@ Received: from localhost.localdomain (92.42.140.82) by
  Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
  Mon, 13 Dec 2021 09:16:44 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7223e3fc-8f7b-4dd0-9912-08d9be194830
+X-MS-Office365-Filtering-Correlation-Id: a4d8c6d3-a020-482b-e2f2-08d9be19487c
 X-MS-TrafficTypeDiagnostic: HE1PR0401MB2620:EE_
 X-Microsoft-Antispam-PRVS: 
-	<HE1PR0401MB2620EE97EE1DE1CC6470A425C2749@HE1PR0401MB2620.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+	<HE1PR0401MB26200AAA9AF71170B8DBE370C2749@HE1PR0401MB2620.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:813;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	1NiTDNjmBYF7ZKKeGzqnz2tR45jnI0GGV8iBPTjP84+nG5vP9SjVDo2nFCnSBzV13p0ORLN5W5TWL4vCqhqYSgtsVEOQJ799lH9T8CzIpsBDt585LKam6Oo3PnUOVQ1JG0gtgTyBuHM0vLhafwQIyCP9CAygGlmjbN8Hq+k5UZ1MUNsW2p9l9rY1WxURWPPo6qU2YxnizOPfzAwzs5fo68pj7qGMLB6/onvZRt19gY/6KH9gpbpmj91VoWXWTe/kUIpBsgox6XrLgGJXeFNgjfidEDekIi/MLKHuFFrSrWUA/CcUnxuzNRdQuf8BZl8xnvp/G0vP9vkgM6TSF/CNpoqQGXqKyP524JverfSxHF5k3xit2nFCJadmJJdkhVbtrwZIudbNz/Ra1KAaSr3I0ot6VJKUJ7Vg/2JOiyjRWfa5kXw8shgHnW4YD5rJepC0qYrN7Xir9Vlml9fu5ZSkF2588EoHFhsDRHTRuLSN6RglUF/CqEwZbS/Fxd4zUBlQozzUnFf35/gJCB/OOOekuy1OjV8YoyYaKY+Pw/mFJKNw4z0brJQgKHGaG9l4ZyMOXSugwGVZMoFKwczOpdCAFIPsnkXqr0f0QHNJGNegcv8smR8YNTEhyqoyz9WXd+YG/5FYpcFfvf9JoamlpfmLOi7/ANeMPtjAvzJSUlxGwn45Eo6H57SFEqTlsz+yBgJATc8g6+sL4Oig9ZL4O05UJruVnr+jGuwHIcQWcF49WsVX00grz585jx/PmgzOfYC3sWSvPhG6aKhH2AU1qQoFbTdbOp6CKlsmT3QfN98Umyc=
+	VP6ZW98rtr+c9eS121uhz1r+V1QFW6RL4rrugmeibJKxaeqcbGyL6JCMKjh5grY89+oUM5x9R6z+BRkTJ+2dFWRAjQDSpQINHa/kj9PHoGpp3fYk4oxZc41KFNRw8892c5alTaXs4JXQ1mF/Vth3a3Y/qy2GbYNGJHgOsLcYKXo7Xjg6CUlAIkRkgnY9VIJxNMhhdPPEBr/p7Hnqn03b2fDhLmEEju8tAqF/3WEtpBIw1ikveO+QKtvrs5uBpmoFYd0hq8jr8tcEB5puExJr0uOqbiN1HHwP/1YllinE5TXx3AwqyMz6Byt133sDMcwC8Zsibg7SkCMpFDJ2o8uSDAzInL9OSxePzTjQBKlz3n4PnvCevdCvCMuBHTxCUNLFZDAxGg5yQjSm6uo0BJqhGyicg7XZuS6MRrtUZf/QCTGTOuNmExizsU1ZL0en6U4BzG7xZMvv83gEpvwB2HcYfs3QaFkxdw2UT1srzyGBuYCvp8ey6A3oiPteFysOwbYFmCQeWwf/I+F/rRRSH2JZKr8prI0cxyKAajzi5I5GtMBMd6fMRYLxNhY0PwyRUfSRSEPh0EmHR3Cv7Ly6yGQ8aLIxM5EQMIvf9tcHcJmPYCWRifiATT03Qid4YjTKHvx2hxaleBBy0UxMf02bL6rb4veEeKPXVMZrbkIDgar3K2Wi1EDHNYLOvJlyIlnz3w6/7414RQftWT0m8DaZg1b83A==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0402MB3355.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6506007)(8676002)(8936002)(36756003)(956004)(6916009)(2616005)(26005)(4326008)(6486002)(38100700002)(86362001)(52116002)(186003)(316002)(44832011)(54906003)(66476007)(66556008)(6666004)(66946007)(1076003)(508600001)(966005)(16799955002)(5660300002)(83380400001)(2906002)(38350700002)(6512007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0402MB3355.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6506007)(8676002)(8936002)(36756003)(956004)(6916009)(2616005)(26005)(4326008)(6486002)(38100700002)(86362001)(52116002)(186003)(316002)(44832011)(54906003)(66476007)(66556008)(6666004)(66946007)(1076003)(508600001)(5660300002)(83380400001)(2906002)(38350700002)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cp9L37W9Ze1Tx3YGn+tmKW+86bVY5e8hia06o8a/w1mA9U1uTfl/J8X8jjFq?=
- =?us-ascii?Q?h7/vy0SEQhqgn+6H/9zP9IS0/NGFOdRrwxn41ivYuQMJNktRXBifPDXE1fd7?=
- =?us-ascii?Q?hkMXkbtwQvqo/7fXvu+Ue/71JzNvKkyhQ6390hKr03R+kKk2b8qZbavOuReM?=
- =?us-ascii?Q?WKQNMfOkueyntJUfp44whSYkKX+RdhtEzeRFIxixqEs4sQndG0NnVyQ9FkHZ?=
- =?us-ascii?Q?l3TPysEohjciRNMuCIczWgyMR+NysUov4mG+vLE1J3OERmC6EWBWmYtxNynj?=
- =?us-ascii?Q?0yrq2LEZlm4mUGyOeSppb1oCUWRs9oZmAabA4G2sZjquynCpLB6mdpIT8UcK?=
- =?us-ascii?Q?Xfqj5YEfSee6jBR7HJfPOINkhpuzOltQ6BTqW0esdJneST8AxJVLeqQxVaGr?=
- =?us-ascii?Q?o+l+SOPATB21UU75vRLhaOHStZBenv27fH42/BJnuMHl6TKxnRjq4/ili19O?=
- =?us-ascii?Q?WoxgnTVOx4EP2HFDH1+1c16qL+MgA4W8lLk9FxGeFkD9qC1IzG2J21UKDSO6?=
- =?us-ascii?Q?OuSRdnmuFnRD334VAIJScZwD7/oNWBhQGmigvLdGsYo+/V9Mpnis0y/WwNRk?=
- =?us-ascii?Q?9llL35PuX0lGSEh2mHlIdqFbplrS2RnAn36tgsE33Clujs0tLoyF1/Q5rFDt?=
- =?us-ascii?Q?Bjgszbc0ojUYnRz2zn2Zy9Kn2R+E7eoIq3uZzSwumCsQmVYR9kUD3GbMK4lg?=
- =?us-ascii?Q?E3VXnKAHLgYRU9bGMhNMh8Cm0MWVBx/4qpmbPdbH9WoCMuasOU8nFeFw5m1H?=
- =?us-ascii?Q?xTVezp0yeGp0xGWTBrGFgNPHfZbTOwdmx3FxJzhqKPeoAb5sJD96osg9fG0G?=
- =?us-ascii?Q?keBEmctV303HZqjz5V0cLZvsfvm0AVKU7EOIkTyJsutQb9S6fdefyZ26HAZk?=
- =?us-ascii?Q?gpV08dz6KFQSxPGLtmeEhglnQfzUeBso1jGMLq9hh6MFBa8lurl2tksqbuPC?=
- =?us-ascii?Q?yA+xb6RdIim47qitx8Lyyu7mXl7h+i60sfv2f7FS7372BsfnfcZzEjXXGLiN?=
- =?us-ascii?Q?s9Hjw7LDFjpfBqSFyfXmSXOsIOX+CA3j5o4TxdoKk0i0hPQhTnPQZBKzQft3?=
- =?us-ascii?Q?mAe+ZfqcGXD+sYFMktNxiN6We3rWKtfogIpapKcpuZUUdCmJmU+bY6CycVEr?=
- =?us-ascii?Q?1MDoxQKaltZ3GS5pwtdzI5aBLeyTWTzGmZb+mGHckkXzYbvf9jhPX+8U4mRU?=
- =?us-ascii?Q?ncqXHJXRMrqXApXb6R5Rj4y7u+DvF/2qyCQbzqJ4OIheQYnuryJwL3Cz0w6s?=
- =?us-ascii?Q?4BwJy7SKYgyswA74jWrizfgU/dpG60fyH0s7E0z0qtISRoZFEiyjqCB5Bpg6?=
- =?us-ascii?Q?NScML9JNHrhuEDbcela914zAPlOYx6Ap4HHJBQeT4E3jDTopxW4Kd8GNX7tM?=
- =?us-ascii?Q?JSt4e2/x0oGHdK1gbALg7qtiRzzxyS7qGmcDvnbaZcn0YPiZOQZiUtbn2ejs?=
- =?us-ascii?Q?QPAF/yNPfh5tyRcFZVo0envwUy8MWOAXI69Afgm12h1JyJz2l4B1WA92yykP?=
- =?us-ascii?Q?WVmKMidjbohYrJS9PchFoggwuCsj9Q4Aol/t1AVnkOsYT0N+S0g6utPyTEjd?=
- =?us-ascii?Q?I2kdXQZSJv59ncZP2k3pbKYaypJfPXGgTrhkAkjbZkd3gSVjVsfJH/5CWMvC?=
- =?us-ascii?Q?FeEcmnHJYDY7o86Dv7V3I5608jtrdhrzMiODHhLTNF4nXuv7HMeZZrk2cXZJ?=
- =?us-ascii?Q?K16tjTiKjLQrzTxlJva3LNT5GgH5J3tmiXMAdLG//gb5zyniNdH/rwoTcYXm?=
- =?us-ascii?Q?iHxtbcXCwg=3D=3D?=
+	=?us-ascii?Q?OfKCpClcrm3r9HHybYZAZvpQBsvLRf30bJ9CeNyRxCCcCBWuIZd582JoXGEK?=
+ =?us-ascii?Q?oL1ZQ+XvxY8YhQIw7E5TuEA35MsyJh2HwfOJjDteNXmYBadVQ1QjkUMpwUJd?=
+ =?us-ascii?Q?g+Ei/0EYBJmPvISRAlDwtrSQAU3RbMdBbrWd+685dm428qPfN8VJS6cxSTFz?=
+ =?us-ascii?Q?pJwjXlajXx7nMPBsSP2u30QquXXfhkHtkgZ+gqig+HJmzfh+6d5SlAKI4xIh?=
+ =?us-ascii?Q?BPZ0Ukf/bsjtcP6bLa8eor/2hrSkzr27M4MbXel1/pSUmbSNOHGEN+f2DT64?=
+ =?us-ascii?Q?V+O15Ijjy58lv70AneA+h+YZI0Fn7Et870ZzxMt5Wd3EXYh0Hg11Wq0sUVa2?=
+ =?us-ascii?Q?6m+oel1WHUQbwzhP3PLFpP7/dE/7Rm/wYT24VF8OHzZ6qjdOn6xlj2yFq50t?=
+ =?us-ascii?Q?wYAIvRn+OXrzQbgjR8fchU0Jnvfq6GAig/40y/+/4BcUiHpq654GRo5hUQpp?=
+ =?us-ascii?Q?dxjJQfV/GEfTqcfxfeOG6rqqEaxuE0Iyh3Uu/BWMSJdv9gy6TtoUiARheIwE?=
+ =?us-ascii?Q?90SNwaf2/+M0vjpw9ro15KzsHGq7QOhvnEQhYyHruBVKp1GHX1GHihT8uAY2?=
+ =?us-ascii?Q?oN6QOj3hNGaexjj9C6AZsBHo0UQXQIzNgCZWBdpNPa9nx5nV5V5b5/E2RiD2?=
+ =?us-ascii?Q?GgogsR9FfwL0HoZ1gm1sVkSpAIXBJeofF40UGHkVc/tpulPngMntZ6edkQyt?=
+ =?us-ascii?Q?71qFoCFbSDVRaEaGDf+pKLLPc61eomY9zFYbg/I/fkwsTxtzuzWEUqM+O9I0?=
+ =?us-ascii?Q?GniTmLsrlQ5Q30BwHBy1urAvhhh3w98Fe/pL0OoQCMu0cK7NSlV3nsJACsQA?=
+ =?us-ascii?Q?geOivuUwuiM2GqRuJt/sdhCXHPeNZeJPSgGSZEM5hhqS1Fq0B5JaUY8miB3k?=
+ =?us-ascii?Q?VD5geboZWQrkO5MYu16ao/gE3vTH0bcCZdiYrkSZZ6WaVniJ439JRcbmtYqd?=
+ =?us-ascii?Q?0kgU7z/2/Esuauo0ynJr3yaLffa0b/6eSP/uE8UvCXwGRbKd6hEBpEbFvmQa?=
+ =?us-ascii?Q?8gl4/PstXxQTvjglDuRcZ5v30XfYdxmAmDXp87Wtj++uQpsNQcbfN5PWl5og?=
+ =?us-ascii?Q?EzC+Lm5fiOAB2McLV3opffvzK9ptTUJq0CQ6nIRrnvfQ5eFKde3f0klcolzQ?=
+ =?us-ascii?Q?YE0rDGLtAVRdjzB9afwD0ZoGSsT/YvZH0L+1s8deWg63Wha5RnzUODuS7DdO?=
+ =?us-ascii?Q?o6EZ6czkDnwPWGyzn7Jl8EycHtrb+BVwP7bjAeyEPJjZPVix4CicMK61V5g5?=
+ =?us-ascii?Q?uAaknVfwwXhlGbhQEHfYsLKTz77t27XNeY7bT/Fc1TCyRBeht9qxWAhdyxx9?=
+ =?us-ascii?Q?bTBgnp5td89ZgJH69joDO6+cpO72z364BYlvlgrLka8IJZ57wo0Zfb9Df7DW?=
+ =?us-ascii?Q?K++Whomsda2yP/1j5pkd2Q3Y8fHKc40QhxkND5S41nZHDbcyEy4PtUusU6MO?=
+ =?us-ascii?Q?9hLHdmlbgr5gZ7rW2LuUDOIfGZod8iHnY/ulraCLb3BFtPc3pT094m1SsNZs?=
+ =?us-ascii?Q?h07nI67P4Dx9n/wkEneXIxNupEMNFyysWTrCM3lN6TdQWnCgq9ip7d+1Nek4?=
+ =?us-ascii?Q?ClE/EY4FyMe07PEos0RwVV2Z51dEPmHcXcNlR4QsMS+IFg+V3NSYaT336EGq?=
+ =?us-ascii?Q?AcEGrgbxyesa3a6ncHIwQR/RevAHyY4eePSD8KBdRr+2OEy6bkL7lRr0LngT?=
+ =?us-ascii?Q?9U5aOvACXrfuIt9i3JEEZdQ9xzpD5qTT6yAIYdmqThAapIBZ0Y+RA8Pi4Q5H?=
+ =?us-ascii?Q?+KExdyL6pw=3D=3D?=
 X-OriginatorOrg: theobroma-systems.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 7223e3fc-8f7b-4dd0-9912-08d9be194830
+ a4d8c6d3-a020-482b-e2f2-08d9be19487c
 X-MS-Exchange-CrossTenant-AuthSource: 
  HE1PR0402MB3355.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 09:16:44.5490
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 09:16:45.4708
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 9my8sQVMCVM05s91gYapAGR9boYyWvkuqN3SuAjCw/BjaLMLC4+U2mL3j89J/osSQCJkIcy2I+rPknwcT93viai092meTkWx9+y69Z3LdEA6WfErjyStcQIhq9jvKlvp
+ W2mGM4PstZriLwvUdDSeZr/mIEypEXfU6u3+JYRYt7W5Qo5M7m3KB+tOG2yYPve0tAN+axVXzwUh4Q00UiEcCqL2JWriAKp1RV0eFDVrSuh9HyY6w7vrwsQgDtYwMsi4
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0401MB2620
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 09:16:50 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Dec 2021 09:16:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159613
+ https://lists.openembedded.org/g/openembedded-core/message/159614
 
-According to Khronos documentation[1], gl2ext.h can be used for OpenGL
-ES 3. Some vendor implementation of OpenGL ES 3, such as
-Rockchip's libmali[2], do not have a gl3ext.h but only a gl2ext.h while
-being OpenGL ES 3 compliant.
-
-This fixes the header files to be included from gl3ext.h to gl2ext.h to
-be compatible with (hopefully) all OpenGL ES 3 implementations.
-
-[1] https://www.khronos.org/registry/OpenGL/index_es.php#headers
-[2] https://github.com/rockchip-linux/libmali
+It's assumed that not all OpenGL ES implementation are compliant with
+the 3.x specification. Therefore an additional virtual providers is
+created to explicit compatibility with OpenGL ES 3 specification.
 
 Cc: Quentin Schulz <foss+yocto@0leil.net>
 Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 ---
+ meta/conf/distro/include/default-providers.inc | 1 +
+ meta/conf/machine/include/qemu.inc             | 1 +
+ meta/conf/machine/qemux86-64.conf              | 1 +
+ meta/conf/machine/qemux86.conf                 | 1 +
+ meta/recipes-graphics/mesa/mesa.inc            | 2 +-
+ 5 files changed, 5 insertions(+), 1 deletion(-)
 
-v2: move patch into correct directory
-
- ...ator-Use-correct-GL-extension-header.patch | 33 +++++++++++++++++++
- meta/recipes-graphics/kmscube/kmscube_git.bb  |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-graphics/kmscube/kmscube/0001-texturator-U=
-se-correct-GL-extension-header.patch
-
-diff --git a/meta/recipes-graphics/kmscube/kmscube/0001-texturator-Use-corr=
-ect-GL-extension-header.patch b/meta/recipes-graphics/kmscube/kmscube/0001-=
-texturator-Use-correct-GL-extension-header.patch
-new file mode 100644
-index 0000000000..5965782de7
---- /dev/null
-+++ b/meta/recipes-graphics/kmscube/kmscube/0001-texturator-Use-correct-GL-=
-extension-header.patch
-@@ -0,0 +1,33 @@
-+From 2b74e0e32235f6ab2e3e42d53dea985a7ba6227f Mon Sep 17 00:00:00 2001
-+From: Damian Hobson-Garcia <dhobsong@igel.co.jp>
-+Date: Wed, 16 Dec 2020 11:08:25 +0900
-+Subject: [PATCH] texturator: Use correct GL extension header
-+
-+gl2ext.h is the extenstion header for OpenGL ES 2.0 and all later
-+versions according to the Khronos documentation [1].  gl3ext.h is either
-+an empty stub, or may not even exist on some platforms.
-+
-+[1]: https://www.khronos.org/registry/OpenGL/index_es.php#headers
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/kmscube/-/=
-merge_requests/26]
-+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-+---
-+ texturator.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/texturator.c b/texturator.c
-+index d9335d7..6d97856 100644
-+--- a/texturator.c
-++++ b/texturator.c
-+@@ -30,7 +30,7 @@
-+ #include <math.h>
-+=20
-+ #include <GLES3/gl3.h>
-+-#include <GLES3/gl3ext.h>
-++#include <GLES2/gl2ext.h>
-+=20
-+ #ifdef HAVE_LIBPNG
-+ #include <png.h>
-+--=20
-+2.33.1
-+
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-gr=
-aphics/kmscube/kmscube_git.bb
-index f4e6cd41e7..efaa962704 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D "file://kmscube.c;beginline=3D1;endl=
-ine=3D23;md5=3D8b309d4ee67b7315
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/dis=
+tro/include/default-providers.inc
+index ea88bd4876..6defdca12d 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -9,6 +9,7 @@ PREFERRED_PROVIDER_virtual/libgl-native ?=3D "mesa-native"
+ PREFERRED_PROVIDER_virtual/nativesdk-libgl ?=3D "nativesdk-mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?=3D "mesa"
++PREFERRED_PROVIDER_virtual/libgles3 ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/mesa ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/update-alternatives ?=3D "opkg-utils"
+ PREFERRED_PROVIDER_virtual/update-alternatives-native ?=3D "opkg-utils-nat=
+ive"
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include=
+/qemu.inc
+index 642c322abc..0d71bcbbad 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -3,6 +3,7 @@ PREFERRED_PROVIDER_virtual/egl ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?=3D "mesa"
++PREFERRED_PROVIDER_virtual/libgles3 ?=3D "mesa"
 =20
- SRCREV =3D "9f63f359fab1b5d8e862508e4e51c9dfe339ccb0"
- SRC_URI =3D "git://gitlab.freedesktop.org/mesa/kmscube;branch=3Dmaster;pro=
-tocol=3Dhttps"
-+SRC_URI +=3D "file://0001-texturator-Use-correct-GL-extension-header.patch=
-"
- UPSTREAM_CHECK_COMMITS =3D "1"
+ XSERVER ?=3D "xserver-xorg \
+             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver=
+-swrast xserver-xorg-extension-glx', '', d)} \
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-=
+64.conf
+index 978334d5bb..901353499c 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -6,6 +6,7 @@ PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?=3D "mesa"
++PREFERRED_PROVIDER_virtual/libgles3 ?=3D "mesa"
 =20
- S =3D "${WORKDIR}/git"
+ require conf/machine/include/qemu.inc
+ DEFAULTTUNE ?=3D "core2-64"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.con=
+f
+index ad7f6e0ee4..1e072e1ae2 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -6,6 +6,7 @@ PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?=3D "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?=3D "mesa"
++PREFERRED_PROVIDER_virtual/libgles3 ?=3D "mesa"
+=20
+ require conf/machine/include/qemu.inc
+ DEFAULTTUNE ?=3D "core2-32"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/me=
+sa/mesa.inc
+index c894c2dab5..6d6fc607f9 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -39,7 +39,7 @@ DEPENDS =3D "expat makedepend-native flex-native bison-na=
+tive libxml2-native zlib
+ EXTRANATIVEPATH +=3D "chrpath-native"
+ PROVIDES =3D " \
+     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d=
+)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtua=
+l/libgles2', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtua=
+l/libgles2 virtual/libgles3', '', d)} \
+     ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
+     ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)}=
+ \
+     virtual/mesa \
 --=20
 2.33.1
 
