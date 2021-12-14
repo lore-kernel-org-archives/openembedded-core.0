@@ -1,245 +1,236 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <anibal.limon@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 807F3C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 18:48:56 +0000 (UTC)
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com
- (EUR03-DB5-obe.outbound.protection.outlook.com [40.92.71.12])
- by mx.groups.io with SMTP id smtpd.web09.29936.1639507734402204177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADF9C433EF
+	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 19:36:52 +0000 (UTC)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by mx.groups.io with SMTP id smtpd.web09.30604.1639510611843092673
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Dec 2021 10:48:55 -0800
+ Tue, 14 Dec 2021 11:36:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=oMTwJHGg;
- spf=pass (domain: outlook.com, ip: 40.92.71.12,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SS5TUHKTdFsqi9XtEIvb4E38C9E64EWWSx84JW4V5TOwD4cB7b2ikHsZyHCHzAc5y+3VGBT2cvPEZnpTDCvKBl0cQS7WFDDpCQyjIgVvKSFc0Mgor8yS+dOH5Y3ESTcLxWURO+iYnl+3whdW597+52bycI/4Q7aOvEtWcJ1CYwzmTlKznjE1SK7yXhdvKtMDaTSwlzoya5MMT8Yrp6zjbkgKokQ6eSIUyASobqlEBNKO+BcnwxzlDOor3zXKBii4PtTWyA/NlHLlNy6+0ectdHZWS6MrFzIfIOnnEWEob0htaB2RSuSiRg8U2ax5+g0XqW74MF6NMBOVvEOFuCJCNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FLZOKGLwWqF/f2DVs1b7OtY7MfCcrQdNSKTYgNYmxCE=;
- b=OFYPWzX4T2PUdd1vfTD3eCbwettb/8oc3g/Eb5Eva5QQsOxAB4jS0UjTlncJNV5as0SPxGLrhq8qDaywEUQ4ou960DLJ5XqDr9DTvgHPkBcgWnk8TYKtYEH6lGoUtzNxfJSR2F4jA2AnZWJ/ZxXxMm7UDC+XSQOBUp1M7PNxftv6UsT1pVlA8OILUJCUmV5SL4mprIf194hcu59DlTbGPBnTkrXZtWMmZXrgqsEYVcydx3tgbc8ECEJ1CA3tyX4PMyB5wtVBOfhJ0FJoYpQyvm/Elx5b2su2MC63xdYpls9feGm+AwAAoULef73h7cpuLAbFzvXhHfi+rh5G6oHo/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FLZOKGLwWqF/f2DVs1b7OtY7MfCcrQdNSKTYgNYmxCE=;
- b=oMTwJHGg8Zi1Mg20MxEsNRDCfRoFT583IzbTeiL95pm9003CeXB8OQJsoueRvSiWw7ydFJbzNXI4E1UoOfp4cSM33tK6MWNj/eO4KqCEZCUabjBQz9y40Y3he8PzzIDK3XC9sUp+lJHNA0JAJRB2T8+whKc7sRgcYxPP3ztgqDth2aF2002Z4Bod7JLZMPga+akvPxrKtyqfcu4weiUTDA7opE9coFyYh6ygpTholRKC0u09O46+iACD1VvQu+K+EnWVQcTYOPRmQ0FdOwBj/6zHZ0XQcF2Qpezwna8FefcVq7/yasqTpBUZZvtMPWtz3CIs3Ld7ipLVRYmGQHWIbA==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM4PR0902MB1825.eurprd09.prod.outlook.com (2603:10a6:200:95::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14; Tue, 14 Dec
- 2021 18:48:52 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::782f:9964:348b:b2fa]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::782f:9964:348b:b2fa%9]) with mapi id 15.20.4801.014; Tue, 14 Dec 2021
- 18:48:52 +0000
-Subject: Re: [OE-core] [meta-oe][RFC PATCH] insane: Inappropriate patch
- reasoning
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <16C0B098D197A5E1.12686@lists.openembedded.org>
- <AM9PR09MB464259F10AA7B2E44E403188A8759@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CADkTA4M=vQvNfTirHjAmU3tm7CdhkBrdErEgUqCqSyD749Us+w@mail.gmail.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB464226B4422C79E0C7F6E508A8759@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Tue, 14 Dec 2021 19:48:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: 
- <CADkTA4M=vQvNfTirHjAmU3tm7CdhkBrdErEgUqCqSyD749Us+w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TMN: [qwUqIk+S/D8qOLLbpsRLtrMyQqwXz0yW5zwNkUKV9J7KscuTNLq0U8TpQjXlSy1q]
-X-ClientProxiedBy: PR2PR09CA0017.eurprd09.prod.outlook.com
- (2603:10a6:101:16::29) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <f7a1573f-9be6-dc27-1d56-2f416ea75cd8@outlook.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=R1/y7TlD;
+ spf=pass (domain: linaro.org, ip: 209.85.219.171,
+ mailfrom: anibal.limon@linaro.org)
+Received: by mail-yb1-f171.google.com with SMTP id g17so48818088ybe.13
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 14 Dec 2021 11:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N3bTMov9Q/qFiNIpqZpeJrn+0wcdzPSnSkGlgEaUrpQ=;
+        b=R1/y7TlDs6YI8HIxQkilfJ0WOrIacX+v7gCCzHnD31Ql1y7azVEVq8RhYOPSCH6QDq
+         PJIGoaf8wMO9dG5vksbLIQOqXJ+10QO5yJoa4tgnJvl9fq9KSNCbSA6RjPF/7T+0CN5n
+         aLBanwI99LCfTf0I8ziyS0RWEz0UWhMs+jumFqG4hpzH4W5QJDLyS+5NjLbFJDo87Z8z
+         hhrK5zSkiJTkBhOTE3g3cY9amPGp15tvP+7aaHhnJBU1GVHQQVdjxJX2JqzliE6ONxmK
+         FpkHsIlxTHmAoOGYULosxOFb86YLWXoA+Ey6Fm1FVf/nJyB+DUnDYTluygpLUO4Z9TcE
+         DcPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N3bTMov9Q/qFiNIpqZpeJrn+0wcdzPSnSkGlgEaUrpQ=;
+        b=KlqPVQTh8Rj9dY9yF6H+rvJfpWkOhew4ngYg6JlAut7krEcuiC91V2L7qHKX2xl+Tf
+         //z/4ToL+wEMO5ZCkKLQOdPqtRD7cZZ8qu65r09c8u3QqxO8i95GI86Ozp90Pr6EAIWs
+         a4B3YY+1Z/fsR4iDV0qGrNzR5MgstN7a77IS8HLWQipzQDBNYkJz1fzwt/ywiMvCK5bD
+         keWRIP5UGuN1tv7F56bAnOk4wETuzzVQbOrWQvXxzQ75z5QyqUIjWgt/FwX2H5QgHUX9
+         63GyWOq+bdpc1ZT0XFQ8Twx8CkAvjW9EOhdRKjocY1yN7TbVvEfW0Jg0yC78UGqcOk4u
+         17lQ==
+X-Gm-Message-State: AOAM533Hz54dICsrn2flwTYfU7Fm+A2j42vkU8iKwpvsF51ot2oCRivB
+	SppMvN4JmU7bsNw8kqY3D6mHWjwd+K1uxDRM4B92cg==
+X-Google-Smtp-Source: 
+ ABdhPJyZAj22ldWB3AQUmv4QFuI8rw2nSbHM6lL1yYBxEDMMGWCjdzFjV0sP7tiWMJ0+f1DmgTmh8CT8Mb1XyMDSaqc=
+X-Received: by 2002:a05:6902:709:: with SMTP id
+ k9mr1150962ybt.73.1639510611063;
+ Tue, 14 Dec 2021 11:36:51 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 93b36727-287c-496e-9846-08d9bf325f7f
-X-MS-TrafficTypeDiagnostic: AM4PR0902MB1825:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	H8Fkdpwqst/3P8453zSBvFwXpThIs3XeqAbNs5/evpdFyc7Hc+iN7v67svjnpyjzX8oIGfeamIl9/T/Jn3hVlTDsP6PyTP1UMCS/JXk4PKggehWe2ohSOI5+hbOSSIjrqYOsZ/GVJEMwypIJD86orI3eQPSX9Hl22warlHtcmEL4QQiQA3/+fQ5WWzog2CSg3Ch5dwX5uDoMUSiL/H879jnn7vtXRYNdsWe+pZwDuCLxCxSFtn/IzaRjwEWkq0hQsRi3A+jafLov2wG7VpQhkwfSVUZ3PxnhrI+KKLa+1zOz6x4gGGjYnthygZFdN/K1gJ1UNvpbIaRx4OvAiz1cCZz+2sVhFTWsfAnL4s5y1kAd9Ks2YcqaFe2Y+csgN4s7uC8KV5q+o99RYe7WtzzcRYtAagMjUm7k5WtRQGB8lGInKZTJiIrblo4EojiWMmcb50MbVcmPMCym6B6Sfxkh7NcIVu1kS3l4K3A2tiKjKGFEQmWhgfakRdUnQ5OkFBaKeyFRWXwv0kSFNe0whbLw/kwW8nmXuOAKpWC5Xl0GRz0Wc6dLwJ4YXvJ10BvOzYTs6KoJ7a0OADOLWh2dmuFE1Z/OnwW2mld2I5yG9lYL/rfOKBlPORp8Lxom2Mn5XeQgeuYW13qzrOrSX/fONyPQYhxvs2gXC4veFhq8aG+Qsbs=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?OE9MWWl2OURweXdvR2J3TllEbm1Za2l2YUtYUXJZYUNVVGZ4cVZoSllIU2hU?=
- =?utf-8?B?RjJkcWlEOXlLL0hwREt1MUkvYUcvWVdZaVM5bGtSVUEyekQwZXVuTTlrL0Zx?=
- =?utf-8?B?bGYydk5VTG1jRVh6dTF5b3NRb3dYVk1uY1FjNTdtWERoVFA3OHMvbFNyblEz?=
- =?utf-8?B?czJjRkY4V295dUFKSGJsd1JXWVdNSVR4V2pCVVlVb3VRVGpTdmtaSWoycERm?=
- =?utf-8?B?Zzd5R0d1UUFFOGhMQjF5SVdlZWpKQ2JFb3NhcHlYaUtReWFLUzNFaE1QOHFh?=
- =?utf-8?B?bExzU3JyT2w5c1J6MVBPc2w4RzlRVWREZ1N6YjRtWDBRYmt6UWhhem5KYktB?=
- =?utf-8?B?UFUvbkl1ZCtTVFF2K1JnaS81ayt0Rk41bWt2eldobmxjMXlRVjgzTm82QUxJ?=
- =?utf-8?B?MEVYMy8zWjFGUlFtUTM3cHZBd2k2ZVg0M25nL0dsUEpYVzVlSjhoN1MrdFBJ?=
- =?utf-8?B?K00rQVEwdFo1NWpmMDZiNWRrNTBzdTFuWWo4WEt6ZjJzd0NnWFpVZlREK0JJ?=
- =?utf-8?B?c2xzcXFtRFZtbGdrRUxEMnpOWFd6WC9UVW83OVpQMElpdjRUQ0NpUG9rU2Fn?=
- =?utf-8?B?L2xTTDNkTzlZWnpiSDRZdUtYeVRuWU9IaW5VQm83b0cwNHFvVVVZbUV0NlNr?=
- =?utf-8?B?eU04QjkyR1VqSTlreHR0dFVVSVZEOEEvSWRTSCtZSHZueU9HOHVvYktNMnF2?=
- =?utf-8?B?bzdrQVVJVHc5SnQ4Sms2eGgyYUxlM29JUTBPbGxBTis2YUFJRkUwOHNzQzg3?=
- =?utf-8?B?R01JQlkvMG9kRnhkcGxaYXJxUVN1WWg2N3ZrbUtwZ1poOGRMTms3a25NSDFx?=
- =?utf-8?B?WUZsam94U1NBcTAyTlQrejRPLy9OTUdtL0lQazQ5Z29HR2JWQzNwZUVobUVs?=
- =?utf-8?B?bm11V0drenpHakVzMzU5V2VxNk0xQzB3bnZmODh0aFhPeUxqY2JzM1llcFJM?=
- =?utf-8?B?Uk1MK0JEWUg1SWw0MHQ2d3VCdGtQMFlTZ0ZXTENxOVBMR0h3b3FOZmRBRVF2?=
- =?utf-8?B?bXZBdGk0OGhySFJuek5pMHZNcEdIelkwNGtRb1MzU3EvRmlNdmFSUFQ0Ty9U?=
- =?utf-8?B?aWgzcDY0eGNaZEl6V0FIbUJUWHVUZGpzYndocVdIOElIb2F0RkhuWEF5V3FH?=
- =?utf-8?B?TUZOUXpnYUI1eUhJN1N5SEpiTmFhbFFBVUlBekxCazI5ZCtWMkUxSys2cUNQ?=
- =?utf-8?B?MDRpL1ptalMxd1U0Skk1d1J4aTJlTVJrOWJMd2xMNHhtUU0zbzZlenIxT1J3?=
- =?utf-8?B?MEdrZ1BLeUJocEEzamdpMHZ5QTRrVE1PcDhkODVOYmpobThPTTlSQ3R6dzQx?=
- =?utf-8?B?VjE1U1BrdDlJdkVMUFpmbFVWT09HekEzak0raGF6bnNEN0lOZWVKUHN0czVG?=
- =?utf-8?B?OCs2T0wxb005alE9PQ==?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 93b36727-287c-496e-9846-08d9bf325f7f
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 18:48:52.3134
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0902MB1825
+References: <16BEE129ECE910F8.14236@lists.openembedded.org>
+In-Reply-To: <16BEE129ECE910F8.14236@lists.openembedded.org>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Tue, 14 Dec 2021 13:36:40 -0600
+Message-ID: 
+ <CA+_AqisJEDx-EE6+4fuMQ62y+Fzc7sGA3EcHGRHQqis4Ro8wwA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][dunfell] lttng-modules: do not search in
+ non-existing folder during install
+To: anibal.limon@linaro.org
+Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com,
+	richard.purdie@linuxfoundation.org, Andrey Zhizhikin <andrey.z@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000009407bd05d3204f54"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 18:48:56 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 19:36:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159705
+ https://lists.openembedded.org/g/openembedded-core/message/159706
 
+--0000000000009407bd05d3204f54
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On 14.12.21 19:38, Bruce Ashfield wrote:
-> On Tue, Dec 14, 2021 at 1:05 PM Konrad Weihmann <kweihmann@outlook.com> wrote:
->>
-[snip]
+Any update on push this to dunfell?,
 
->>
->> meta/recipes-support/vte/vte/0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch:
->>     6: Upstream-Status: Inappropriate [oe-core specific]
->>
->> or are simply ignoring it at all.
->>
->> In total that are 352 patches I could indentify in latest master.
->>
->> I don't want to open up another can of worms, but either we drop the
->> reasoning from Inappropriate in the patch guideline completely or we
->> need to fix that in core (I guess in other layers it is even worse :) )
->>
->> Any thoughts?
-> 
-> If we can opt out of the check either in a layer config or a recipe,
-> then the noise can at least be minimized. Since the ecosystem !=
-> oe-core, this level of checking needs to be something that can be
-> opted-out / disabled.
-> 
-> Whatever way this goes, I'd suggest that it not merge until the start
-> of the new year .. luckily RP is in full control of when it merges.
-> 
-> Because I for one, won't be spending the Chrismtas holidays queuing
-> other people's patches, or fixing status lines in the patches in my
-> layers :)
-> 
-> Cheers,
-> 
-> Bruce
+I'm facing the issue,
 
-Actually a very good idea, but I'm not sure how fine grained we want 
-these package-qa ids to be... @RP any thoughts?
+https://ci.linaro.org/job/lt-qcom-openembedded-meta-qcom-premerge-dunfell/4=
+6/MACHINE=3Ddragonboard-410c,TCLIBC=3Dglibc,label=3Ddocker-buster-amd64/con=
+sole
 
-Basically we can solve the issue either
-- by keeping the status quo (dropping the reason from the docu)
-- or having is according to docu
-	- having it as a warning in the first place
-	- turning it into an error once we are clean in core and all layers 
-hosted on yocto project's infra
+Thanks in advance!,
+Anibal
 
-But yeah sure that patch doesn't need to go in this year, as I don't 
-want to ruins everyone's holidays :-)
+On Wed, 8 Dec 2021 at 14:21, Anibal Limon via lists.openembedded.org
+<anibal.limon=3Dlinaro.org@lists.openembedded.org> wrote:
 
->>
->> On 14.12.21 18:53, Konrad Weihmann wrote:
->>> if a patch uses Upstream-Status: Inappropriate it should provide a machine
->>> readable reasoning in square brackets.
->>>
->>> According to latest wiki entry that would be
->>>
->>> not author
->>> native
->>> licensing
->>> configuration
->>> enable feature
->>> disable feature
->>> bugfix .*
->>> embedded specific
->>> no upstream
->>> other
->>>
->>> a detailed reasoning could be provided as part of the commit message,
->>> but format of the metadata line is fixed.
->>>
->>> This patch adds a check to insane.bbclass and warns if there is a
->>> non-compliant reasoning given, or none at all.
->>>
->>> In a follow-up this should be turned into an error, as it was done
->>> with missing Upstream-Status
->>>
->>> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
->>> ---
->>>    meta/classes/insane.bbclass | 20 ++++++++++++++++++++
->>>    1 file changed, 20 insertions(+)
->>>
->>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->>> index 240f3aad62..da26f4662c 100644
->>> --- a/meta/classes/insane.bbclass
->>> +++ b/meta/classes/insane.bbclass
->>> @@ -1191,6 +1191,26 @@ python do_qa_patch() {
->>>                   bb.error("Malformed Upstream-Status in patch\n%s\nPlease correct according to %s :\n%s" % (fullpath, guidelines, match_kinda.group(0)))
->>>               else:
->>>                   bb.error("Missing Upstream-Status in patch\n%s\nPlease add according to %s ." % (fullpath, guidelines))
->>> +
->>> +       inappr_message_re = r'Inappropriate(\s+\[(?P<reason>.*)\])*'
->>> +       inappr_reasons = [
->>> +            'not author',
->>> +            'native',
->>> +            'licensing',
->>> +            'configuration',
->>> +            'enable feature',
->>> +            'disable feature',
->>> +            'bugfix .*',
->>> +            'embedded specific',
->>> +            'no upstream',
->>> +            'other',
->>> +       ]
->>> +       for match_inappr in re.finditer(inappr_message_re, content, re.IGNORECASE | re.MULTILINE):
->>> +
->>> +           if 'reason' not in match_inappr.groupdict():
->>> +               bb.warning("Missing Upstream-Status: Inappropriate reasoning in patch\n%s\nPlease add according to %s ." % (fullpath, guidelines))
->>> +           elif not any(re.match(x, match_inappr.groupdict().get('reason', '') or '') for x in inappr_reasons):
->>> +               bb.warning("Malformed Upstream-Status: Inappropriate in patch\n%s\nPlease correct according to %s :\n%s" % (fullpath, guidelines, match_inappr.group(0)))
->>>    }
->>>
->>>    python do_qa_configure() {
->>>
->>>
->>>
->>>
->>>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#159703): https://lists.openembedded.org/g/openembedded-core/message/159703
->> Mute This Topic: https://lists.openembedded.org/mt/87726727/1050810
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
-> 
-> 
+> From: Andrey Zhizhikin <andrey.z@gmail.com>
+>
+> When CONFIG_TRACEPOINTS is not enabled in kernel config - module
+> compilation is skipped, which causes the ${D}/${nonarch_base_libdir} not
+> to be created.
+>
+> This fails later in do_install:append() due to the fact that find
+> command in executed for non-existing folder.
+>
+> Check for folder existence before find command in executed.
+>
+> Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit de0aa1700ed4e6f04b0a233eb1f6d2ac598e7ed8)
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+> ---
+>  meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
+> b/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
+> index 3fdc8094e9..3145f0298c 100644
+> --- a/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
+> @@ -39,7 +39,9 @@ EXTRA_OEMAKE +=3D "KERNELDIR=3D'${STAGING_KERNEL_DIR}'"
+>
+>  do_install_append() {
+>         # Delete empty directories to avoid QA failures if no modules wer=
+e
+> built
+> -       find ${D}/${nonarch_base_libdir} -depth -type d -empty -exec rmdi=
+r
+> {} \;
+> +       if [ -d ${D}/${nonarch_base_libdir} ]; then
+> +               find ${D}/${nonarch_base_libdir} -depth -type d -empty
+> -exec rmdir {} \;
+> +       fi
+>  }
+>
+>  python do_package_prepend() {
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159365):
+> https://lists.openembedded.org/g/openembedded-core/message/159365
+> Mute This Topic: https://lists.openembedded.org/mt/87597519/1276296
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> anibal.limon@linaro.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000009407bd05d3204f54
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>Any update on push this to dunfell?=
+,</div><div><br></div><div>I&#39;m facing the issue,=C2=A0</div><div><br></=
+div><div><a href=3D"https://ci.linaro.org/job/lt-qcom-openembedded-meta-qco=
+m-premerge-dunfell/46/MACHINE=3Ddragonboard-410c,TCLIBC=3Dglibc,label=3Ddoc=
+ker-buster-amd64/console">https://ci.linaro.org/job/lt-qcom-openembedded-me=
+ta-qcom-premerge-dunfell/46/MACHINE=3Ddragonboard-410c,TCLIBC=3Dglibc,label=
+=3Ddocker-buster-amd64/console</a><br></div><div><br></div><div>Thanks in a=
+dvance!,</div><div>Anibal</div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Wed, 8 Dec 2021 at 14:21, Anibal Limon vi=
+a <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;=
+anibal.limon=3D<a href=3D"mailto:linaro.org@lists.openembedded.org">linaro.=
+org@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">From: Andrey Zhizhikin &lt;<a href=3D"mailto:andr=
+ey.z@gmail.com" target=3D"_blank">andrey.z@gmail.com</a>&gt;<br>
+<br>
+When CONFIG_TRACEPOINTS is not enabled in kernel config - module<br>
+compilation is skipped, which causes the ${D}/${nonarch_base_libdir} not<br=
+>
+to be created.<br>
+<br>
+This fails later in do_install:append() due to the fact that find<br>
+command in executed for non-existing folder.<br>
+<br>
+Check for folder existence before find command in executed.<br>
+<br>
+Signed-off-by: Andrey Zhizhikin &lt;<a href=3D"mailto:andrey.z@gmail.com" t=
+arget=3D"_blank">andrey.z@gmail.com</a>&gt;<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+(cherry picked from commit de0aa1700ed4e6f04b0a233eb1f6d2ac598e7ed8)<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.11.6.bb" =
+rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.11.6.bb</a> | 4 +++-<b=
+r>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.11=
+.6.bb" rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.11.6.bb</a> b/m=
+eta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.11.6.bb" rel=3D"=
+noreferrer" target=3D"_blank">lttng-modules_2.11.6.bb</a><br>
+index 3fdc8094e9..3145f0298c 100644<br>
+--- a/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.11.6.bb" =
+rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.11.6.bb</a><br>
++++ b/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.11.6.bb" =
+rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.11.6.bb</a><br>
+@@ -39,7 +39,9 @@ EXTRA_OEMAKE +=3D &quot;KERNELDIR=3D&#39;${STAGING_KERNEL=
+_DIR}&#39;&quot;<br>
+<br>
+=C2=A0do_install_append() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Delete empty directories to avoid QA failures=
+ if no modules were built<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0find ${D}/${nonarch_base_libdir} -depth -type d=
+ -empty -exec rmdir {} \;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}/${nonarch_base_libdir} ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0find ${D}/${nonarch=
+_base_libdir} -depth -type d -empty -exec rmdir {} \;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0}<br>
+<br>
+=C2=A0python do_package_prepend() {<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#159365): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/159365" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/159365</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87597519/1276=
+296" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87597519/1276296</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:anibal.limon@linaro.org" t=
+arget=3D"_blank">anibal.limon@linaro.org</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000009407bd05d3204f54--
 
