@@ -1,125 +1,165 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA639C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 03:41:04 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.66])
- by mx.groups.io with SMTP id smtpd.web12.21752.1639453262576513345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40362C433EF
+	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 05:28:54 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web09.22288.1639459731359008409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 19:41:02 -0800
+ Mon, 13 Dec 2021 21:28:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=GBDHgbLp;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1639453260; i=@fujitsu.com;
-	bh=HMSoHgrcW2eYIN8u1mmaK8J7VL0Vq4oXV4blVFTXWGY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=GBDHgbLpDhUBETvC4jPf7ZDBmqUoXEqgjZdcg6EWu+dB18bEW2jrPESJPZIiLFIeg
-	 eewTNBmr0jyHUIzstj+NUJI4gjHGwRljV/UQF1mYM328x+ht2DzVeldCEtI40M1MQb
-	 6g7wbjD2T1L9f3ICRg+YYaYw1kPxGqAxbSyeNFoaPCIqixVx0gf4m67q7SZLBbnVgx
-	 nBY2lA4Vod40gFQagUUTwYagkqyhRl9jI5BtqiKuzYQmSDJoakDFAbl1bpxNksS9Kl
-	 BLrI8xGnLuIPBbg74/Td49tDg0BRtspASv0jjomw7nnZvxInW8aZvS1CIC1KbGPPTl
-	 av2gdL4bLdoPQ==
-Received: from [100.115.1.47] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-west-1.aws.ess.symcld.net id F6/26-30341-C4218B16;
- Tue, 14 Dec 2021 03:41:00 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDIsWRWlGSWpSXmKPExsViZ8ORqOsjtCP
-  RYO0Obos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeN4xyrmgjbuimXTahsY33B2MXJxCAk8ZpTY
-  8nEfO4RznknixO1rzBDOCUaJO1uXMnUxcnKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
-  ewgtrCAlcTsZ+fZQEpYBFQlVn2MBwnzCjhJbJ24kBXElhBQkJjy8D0zRFxQ4uTMJywQYyQkDr
-  54wQxRoygx+3IzC4RdITFrVhsThK0mcfXcJuYJjPyzkLTPQtK+gJFpFaNVUlFmekZJbmJmjq6
-  hgYGuoaGprqGukYGxXmKVbqJeaqlueWpxia6hXmJ5sV5qcbFecWVuck6KXl5qySZGYECmFDOe
-  3sG4qe+n3iFGSQ4mJVHevX+2JwrxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4O0S2JEoJFiUmp5ak
-  ZaZA4wOmLQEB4+SCG8MD1Cat7ggMbc4Mx0idYpRl2PVgemrmIVY8vLzUqXEeVn4gIoEQIoySv
-  PgRsAi9RKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYV4pQaApPJl5JXCbXgEdwQR0xLHc7SB
-  HlCQipKQamHS/P7i/ZfL5u96rDf42SNdotjaZXjhfsGzm09vB278/qlJSvMm+ffk9rQ1ph7Sz
-  n29WviC9VeGsh6rv7lPTe5bodyuuj7kox/irYHMu18x/AqGRtnxRbqsdnnZOt7rqqzdVmE2FQ
-  U2qZ+/3VUcrHdpj7uVcuSqi/uWMlMd1jScPL/cK6Gn6eUdf7rnm9fWC7Ckj83TVhKizuV5uca
-  96Nqzfo/Kp+fXJAyw5zAfqDBT0lxXdea6zr3ZjdlPt2XhP55t2IZKzZ09atnpOgPgP4+2a6y6
-  Etu/XY+P99KDm/qnyTqtIjncHn0XyVz/PmGUgpMrWwHpy8/Z1srOU1V3Dv05Ymub2Mu6g78r9
-  iWvj5ZVYijMSDbWYi4oTASDPI15PAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-17.tower-591.messagelabs.com!1639453259!57661!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 28280 invoked from network); 14 Dec 2021 03:41:00 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-17.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 14 Dec 2021 03:41:00 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id BDA03100238
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Dec 2021 03:40:59 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id B29B3100231
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Dec 2021 03:40:59 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Tue, 14 Dec 2021 03:40:46 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] libcap: upgrade 2.61 -> 2.62
-Date: Tue, 14 Dec 2021 11:40:38 +0800
-Message-ID: <1639453238-29672-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L/1jg9ew;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id a2so17429293qtx.11
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 13 Dec 2021 21:28:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vw6jmbZVymDJ/8nijPhfEtaw2kA9OsslPoGZFYez+gY=;
+        b=L/1jg9ewlqt3nTzVVnnfCuUCSmm6WNeYQJjxFa7Hk8mLghJTBb1O/EdhXtUBLWDOiG
+         Rfwmg2gAcNcHT/0Tfn9/mVwUloRFF8zhBmFE3+oPmerW0Rtp83pmjeI0Aw+QtLEc5Ztv
+         +TIahCaFp8N5MO6Unr1LqHkAuGhCOyetPlsQdetDS8m4JCH9P38/ZlvZPuoowGV+NqR/
+         Sdi0La+A84idj9dS03z+KItC1zagJC48z+1hgmDFUumkdKKK2Y+sydMwlUn10w4jEPzy
+         pKTrnANiJYaVItmiOfCFsku8BpK70B0wbKLvUXJOCEOHgnhZHkqaCU9mERpmNWADuF/y
+         e7Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vw6jmbZVymDJ/8nijPhfEtaw2kA9OsslPoGZFYez+gY=;
+        b=bH+Fd8x4uvDfWzndAa8je7+PVY5+3S8z+zf8bdDfqloJzz4Kb6nIWJyOpMwMijASj0
+         jupkcgrB3izmXvO5+lW/A2+qGqQz9iq61PEQhMZIWau+S/5R8ttPmKFYBAzSxaSEOqAG
+         x+yeAggMa7CH0S2SDSlpGyBBZzlX2lPBzit4XrpFax+ll+x3qhIGc2hk4Tnr7SZM/g/h
+         e/xLvcqwRGyglRM/I9qi2WeK15y0husYK4o8z/CxIyiFsZVaulNGjoX05CK4b0WiUDg2
+         PVw0H25F1g1ohGTCuH8Mk5jbiLKFvuOmGLClUwyqC6nCTSP8qxap3LgE1pFjP2LGtKBI
+         k2fA==
+X-Gm-Message-State: AOAM5325058kzeaIDZ5hFhmvCfpc7VbCe7rJqC+MloAPPNCbbXDxPWbD
+	mceVi+mony5NQPDKgBbAqLmP9sz7ZHCvV+CNDg0=
+X-Google-Smtp-Source: 
+ ABdhPJzuSL7Wo58BRT2BfZWDCKTJeX4C/PKe3VAI1yrvvgjEMCf5x4esLdsFOlZetu3M3+jYiBCjnMng/Y4cJe3b8Tk=
+X-Received: by 2002:aed:30a3:: with SMTP id 32mr3689002qtf.660.1639459730384;
+ Mon, 13 Dec 2021 21:28:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <01159b35-cec2-1b90-f11c-77f6991b32b8@ni.com>
+ <CADkTA4OokaT7oK2-QspYD4bYcRwWapGFE9rKSAq8UoEY1hVCrQ@mail.gmail.com>
+ <24583f43-3b8d-6476-96b8-18bdf19781f3@ni.com>
+In-Reply-To: <24583f43-3b8d-6476-96b8-18bdf19781f3@ni.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 13 Dec 2021 21:28:23 -0800
+Message-ID: 
+ <CAMKF1sp4foD8g82=NjDQ+XUCOe+QBGzAJs7_o9DLN34+hTj-Ng@mail.gmail.com>
+Subject: Re: [OE-core] The state of DKMS in the Yocto community
+To: Alex Stewart <alex.stewart@ni.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 03:41:04 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 05:28:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159680
+ https://lists.openembedded.org/g/openembedded-core/message/159681
 
-Replace BUILD_GPERF with USE_GPERF since it is now reserved.
+On Mon, Dec 13, 2021 at 4:28 AM Alex Stewart <alex.stewart@ni.com> wrote:
+>
+> On 12/11/21 09:24, Bruce Ashfield wrote:
+> > On Fri, Dec 10, 2021 at 3:58 PM Alex Stewart <alex.stewart@ni.com> wrote:
+> >> Hey List,
+> >>
+> >> I'm trying to work out the mysterious state of DKMS in OE-Core.
+> >>
+> >> Our (NI) OE distributions rely heavily on DKMS to (un)install our
+> >> ecosystem of kernel drivers at runtime across our product lines. To
+> >> facilitate that, we authored a dkms_2.4.0.bb recipe [1] back in 2017,
+> >> which we have carried out-of-stream since.
+> >>
+> >> We tried to upstream it, and the patched rev'ed a couple of times [2];
+> >> but it seems to have never made it into a yocto release.
+> >>
+> >> Though some other recipes mention DKMS passingly, I don't see anywhere
+> >> that OE-Core officially supports it. Nor does my googling reveal anyone
+> >> else who uses DKMS. I find that a little hard to believe, though I
+> >> understand that it's probably relatively rare in the embedded space.
+> >>
+> >>
+> >> @all
+> >> So does anyone else on the list use DKMS in their yocto distribution?
+> >> Are you maintaining a DKMS recipe out-of-stream as well?
+> >>
+> >>
+> >> @maintainers
+> >> If NI upgraded our DKMS recipe to a more recent version than 2.4.0 and
+> >> submitted it again to OE-Core, would you accept it? If not, we will move
+> >> it to our own meta layer and accept that we are unique in this regard.
+> > I used to have a DKMS recipe myself (at my previous employer), but
+> > never submitted it, because generally speaking, there are better ways
+> > to do things in OE.
+> >
+> > DKMS tends to avoid proper cross compilation (which of course we
+> > already do), or is often used to distribute proprietary code (which we
+> > don't want to encourage), or is avoiding the need to upstream the
+> > module code (which we also don't want to encourage).  It also only
+> > tends to be used on a subset of the architectures that have enough
+> > memory/cpu to build on target, so by definition it is a bit more
+> > niche.
+>
+> Yeah; I agree. In our case, we have several dozen drivers split across
+> many product teams and largely distributing internally-controlled
+> source. At this stage, it isn't feasible for us to build them all within
+> OE - which is unfortunate.
+>
+> Many of those drivers are also required to support both our OE
+> distribution, as well as a small matrix of supported generic Linux
+> desktop OSes. So having them manage their own DKMS packages reduces the
+> surface area for packaging errors.
+>
+> I don't expect that either of those considerations is common in the OE
+> community.
+>
+> > We of course already have the ability to build modules on the target
+> > (we have a test case in core that does just that), so what is in core
+> > can support what DKMS needs to build on target.
+>
+> I'm not sure which test case you're referencing, do you have a link or
+> could you expand on what you mean?
+>
+> > I don't see this as something that makes sense in oe-core (but maybe
+> > I'm not fully understanding the case, and where the current support is
+> > failing), but could of course be contributed to another layer.
+>
+> That's fair. Our use case is motivated more by an organizational failure
+> than a failure of the OE tooling.
+>
+>
+> @Khem
+> You're maintaining the meta-oe layer; correct? Do you have any interest
+> in a DKMS recipe?
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../recipes-support/libcap/{libcap_2.61.bb => libcap_2.62.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libcap/{libcap_2.61.bb => libcap_2.62.bb} (95%)
+I cant say how much maintenance work it is upfront. I have been bitten with some
+hairy recipes e.g. kernel-selftest which need active maintenance for
+which I might not
+have time to do myself. However, looking at what Bruce explains, it
+seems the value
+add it not as much either, so I am less inclined to have it unless
+there are others in
+community who will find it useful and service it timely manner and
+test it, keep it working
+with all test combinations etc
 
-diff --git a/meta/recipes-support/libcap/libcap_2.61.bb b/meta/recipes-support/libcap/libcap_2.62.bb
-similarity index 95%
-rename from meta/recipes-support/libcap/libcap_2.61.bb
-rename to meta/recipes-support/libcap/libcap_2.62.bb
-index a3a6e10b89..e08cac7218 100644
---- a/meta/recipes-support/libcap/libcap_2.61.bb
-+++ b/meta/recipes-support/libcap/libcap_2.62.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
-            "
--SRC_URI[sha256sum] = "c1e29680f8bcc51b172e9a8eb9a7a4d7255a00a14301a7c2cf96d1febf7449a5"
-+SRC_URI[sha256sum] = "190c5baac9bee06a129eae20d3e827de62f664fe3507f0bf6c50a9a59fbd83a2"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
- 
-@@ -32,7 +32,7 @@ EXTRA_OEMAKE = " \
-   lib='${baselib}' \
-   RAISE_SETFCAP=no \
-   DYNAMIC=yes \
--  BUILD_GPERF=yes \
-+  USE_GPERF=yes \
- "
- 
- EXTRA_OEMAKE:append:class-target = " SYSTEM_HEADERS=${STAGING_INCDIR}"
--- 
-2.25.1
-
+>
+> Thanks,
+>
+> --
+> Alex Stewart
+> Software Engineer - NI Real-Time OS
+> NI (National Instruments)
+>
+> alex.stewart@ni.com
+>
 
