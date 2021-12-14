@@ -2,32 +2,32 @@ Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42310C433F5
-	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 16:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE9CC433EF
+	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 16:34:49 +0000 (UTC)
 Received: from EUR04-VI1-obe.outbound.protection.outlook.com
  (EUR04-VI1-obe.outbound.protection.outlook.com [40.92.75.10])
  by mx.groups.io with SMTP id smtpd.web11.28027.1639499686626908998
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Dec 2021 08:34:47 -0800
+ Tue, 14 Dec 2021 08:34:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@outlook.com
- header.s=selector1 header.b=p7/ABedG;
+ header.s=selector1 header.b=bKQY7nnP;
  spf=pass (domain: outlook.com, ip: 40.92.75.10,
  mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JsG5W9CvcwL2oK86ceYoWNYfTsxbZRYlt7ya65Wf1go9ACbFefnJc5qp/7RNQDVRf0zRtlusr/s1n0GD7dFpydMJem9OTOIEjsUASTg0Yb+oH39xZUu9Zm3nphx2yDJmRR88B1pawqU4d+cfwHOvhgw/6PMsimgmhhqLazYHH05DnF4t3/Bd7ZcInq+Pbep1bA72lzLWT2o1tLbZhnYtUl/uwBkjFOXWHhWaWA5u9sI6Qd6U9xuFXyOI+TaEACbWa1Ux0DoXcZBFJkRQ3srQrJqIEAB+IQaqVzK86/NBwiTj4tAhHG97bnuS+yoFG+Mez3xU+pxRLWpkBuy8fVsOvQ==
+ b=N6xS34J4pHXY+Uu5e9hTNH8gTtLX6IcjMoiZ19EChWMwkVcBdGmpF/Kwn5E3/Ps9rf5msAXSbqcyKL87MmakBdVTlHlp90hHGJNp/FlVNjoOJKkGE32ndvwSXVa7K9Z/y4iVnuX9HjymghTUYmJJyk8Vpsq9u3Ue+hIu4KOGHECpjFyBOS9CxY/YzmKMR5K8XFGm3FQW9DHJsPgopcXngVtzRDisdle9oL03BEZb1HWHWFx2IojnZ1g3C0u+3XyokowXJD2IL2Peuog+peF+cCHXSstjbDkWELUsN7HVPHvE1y+lwVuPzuJ6ZbZDJ6nHhHNX6/bJOaFETJtudgpL6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IEglb8W9OQ1yqwkygWOWKyFs2MB4wMaNBCyZ/nMpauk=;
- b=URdCebdrxa07PyBxzHkhzZ8Zwgppxq7Gtq5bGce/+cZRy57ZInZ9LNS8yaw60AlpntgAZmEVVudquWS+skFyH/XsyZhIK6s/jrVOflhdRSxdvreo7leEIEWCJkZ2lYZrRd2a7EpudXhxMzUXq/S86q2keKl71ryjO3LkDUdDb8a6Y6dIplOvNUtoMKLo1uL7BMinv4IFft2dkI8zay4NiCWfnosPRLQARWLddgSqjG5dGfpc+RKiw95pu+JXVutemyP0PU0PCEWDmLCuevb56hBTQugAGNB6BLrFFb8WD1PqhDXGc7Lv0zIF5O2B6xBmDpI3f8XQELa64D47O9lZiQ==
+ bh=JYBdHvCvIuAEduwMrH42igoTx5iKlzZamMNBURA8Tic=;
+ b=Y9RkbOupQ+uheF75eYyM2paHE3sI3cPoANZnOI2baAgo1nyeCQ6TlsvpryF7kKv+NIIhGDoZG8BvycVRTte0/WB2x5sLnyn0eZSbcl+puoKIP3rhhcxbz4SL7mfz6Eg7b4j9NImR4c53xcBFKAt3W8ImyehZS7M5igkD9Vnfe8UGU1o+8nS0oo9+Dx0yzjqG0NAm3NbHn97Iwa0rD97BdmgE+y1GF/VDlM0TYHoA5rXIEVjtOcQ7kPpVa72G1Rr8lqHw1CVhsjIYgDMmaVm+XagPY8KJD79x4iOA7sCLqTuAxtLD9M+ce0XXveaW8ejPnD+lNrHlEnxkv0mrUsXtJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IEglb8W9OQ1yqwkygWOWKyFs2MB4wMaNBCyZ/nMpauk=;
- b=p7/ABedG7ZAjwb63QIfcXITGMe/X1APjcZmjG6bnLdtOTExjUmXnTiIz7GXeNEdfJ6xjdWBotUnP512QTjdxAgnRgRM9i6sgQLAirAYmfC9pTjCFQrov/SjCRm+a1ENOFyuqiPYnPkXv1fMUfeW6ZvISD3rbTzc4yG5WGhl1lS4AcT8pzjpGcuhSmvDe5/Qblnv8U2hSoNJ5RWyqq2J7g7cu43cQRz7ssnmHQMdSzAQ1nYGg0OeElJFHGdHkLg2wX/OOnKocbmvryJPny3UED+DG+AnT5fAz5s94AbVqzRadMGSRIHU+m2YuhkrQ82PKSL+unWldA2pHZeYL2XMoDQ==
+ bh=JYBdHvCvIuAEduwMrH42igoTx5iKlzZamMNBURA8Tic=;
+ b=bKQY7nnPePoyj76dObsDMPQBNFnkurO+t4Bwi8QLUT6/e0rB/pJQczKUW9CDJcSVelP8lQwvxgVE++8JsdndMqIs4OmWQTJzKcOiTig7ghQSg8Qw1eSaTNHPjXseZUbdiUC38XUecfUjuEeJVgWWjMLVaYCyI48PyoIlvAuHAmIjD8ZU6hCpCwfQ4QQQjxcJkd9CmtRiFrH+61Q7333TqqYN7GyR8cPtU795LjxWl2cgfokikspT45ra6YvrMuBsVUY0juqTxIhqHv3PYhfUm3CAz60KP6wRhOmFSuo6KDnYUUdZvohauZ2rwEdqiLDsBjEzgjg3YEy+BPZGG3iH8Q==
 Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
  by AM4PR0902MB1891.eurprd09.prod.outlook.com (2603:10a6:200:91::14) with
  Microsoft SMTP Server (version=TLS1_2,
@@ -40,55 +40,57 @@ Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
 From: Konrad Weihmann <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
 CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH 1/2] insane: move src-uri-bad checks to unpack stage
-Date: Tue, 14 Dec 2021 17:34:17 +0100
+Subject: [PATCH 2/2] insane: add Inactive-Upstream to Upstream-Status
+Date: Tue, 14 Dec 2021 17:34:18 +0100
 Message-ID: 
- <AM9PR09MB464295C33A65F39EB9EEB955A8759@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <AM9PR09MB46424A574CEFA86AB0485D44A8759@AM9PR09MB4642.eurprd09.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211214163418.1839126-1-kweihmann@outlook.com>
+References: <20211214163418.1839126-1-kweihmann@outlook.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-TMN: [YBNdPPHK1WIPjA2qnZNC8HtbMLPxWruz77yvA2P9g1SeaqvPArkqjYkCcmh0Yo4L]
+X-TMN: [+zLpoQu9ltzNAxvZOLxn4AiyhrCXP1919lsABkDY6Kq2spUP533DDqoo/t/3a1qt]
 X-ClientProxiedBy: FR0P281CA0061.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:49::16) To AM9PR09MB4642.eurprd09.prod.outlook.com
  (2603:10a6:20b:284::24)
 X-Microsoft-Original-Message-ID: 
- <20211214163418.1839126-1-kweihmann@outlook.com>
+ <20211214163418.1839126-2-kweihmann@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1d412126-c334-4083-5cbf-08d9bf1fa20f
+X-MS-Office365-Filtering-Correlation-Id: a945aaa6-7bff-4338-f74e-08d9bf1fa2a0
 X-MS-Exchange-SLBlob-MailProps: 
-	tBYDyRQCPclxISl++lM8ZOjhKIfmIxnlLWnvD/OS6FrTIOcxdMQJw2sEg35NMb/J6EJ/wIcrwQVgiRNIk2ePOpN+9xOccG1zH0c3hOKTzYjlCTl9jGq/1uyMFm21sOFQu6RlrERQJNGsHZQcdaGS2+BvkvHuI+oxMX5hwpotJoOX+DlSbaICpbdOrpuN6V6LFF1eAymnHAUNrrbzaEkX5DD6q5kBiE3Jq179iETP1edl6TPTpnCa4O90r9RTbG5KzkfzU1n44p2+ZRmm+bn02KIFwBYy1HwnPbKS04kSFvVpYmRvZfX7i2/fMbiAYrglhipwzKUYgAizdTm+28f1qGpoyDlCY0fVnTn//YNIiNSikaoSUhBXVcmSXfNdEGdeqAJvxYhz/oblpJdN+y4OgGsWhZGBQQmnkrDUiTF3VSspXPWdpeTILlQUT6fguaSydjDJ5+5UClutWleRHdw3IMpcAiB4/qJ0K3juQVMC1PVfLeZ8Kqc1CvDa9wMVXrkvyt16GHRKkKe6KFv1TT6HdwBMrTVe+eeBjnFYQ51cnmxZlPuu27URkCIlpzcXshxE8XC0PKyUSCbjDetzbEN0xmRA5VbYRt0m2Pt60I6abLt1TKvE9BQtFuDcbXX0v4ajLhmcXrihNshgmy3Vz9jAyIRXCxaCKnKpt7wWd7hu+8CLRGWF+3m3iiuNMRjm6mvQFv/+tX0KfcrtC6r8AdfEldisp1qAd69ZpfpB9qgKZFPjEa3n28P6OMPTwumdx3Lmaf/oBHfi+ac=
+	citmFLqyTFTRfvTOVFI/5+RqgVoP1N05z2Lo05YCVO6kUhN8wAzJ5It7A9gu3Yh9YHhIsHdux3ZdItUyuwKnfL1fp6gMZyom4nPN/EeVtm5Wqeu2Br1YkA9kL1IrXIDnqT03LMVbEDt+rUxGafcjkdaZBCv5mgStD4itp6gkvYmFF2sB+k7WlnW4QYvdNQh0pAGP1KJRHCgxZBJLdtbPxa0e1a2+LrrXuWsqatJO8lfpCYopHw2ZsT+FDN28yBc8eEitfAau2ylU92xNauYpyrtjNf06tBPNoNRlNHQDSCdvR5JruVOe561G7wArrgNgO+ViOZZa12jFEzyRlWWZyFBS0Ys+tdGFfoADkA6Jo00KOKxrNEDH2Za++PpdB1UfaHEOOAGkqYiO9h8va3HgrclMi32uA2WSlbDOCuntOlYAU9AI4UJ587jgfXLjCKBlDbxoplp6K3L4uvQ0mVUhmA00lqph4begJCdzOooQgz714zffX949eqELj49/IdrrRyMEEVOKPWmmO3L6bi6t2/zlJKhox6XXu0eWN6TSiQdmRhlzSmQl1eI5BSMnC6A9ywpdrf7DVSBer/BqGm/2KEyaXVeiY4Jx5p7CjL2L725Nm+BpJmtmzz60Jb/4QyWMVc6WJtVh/M5eiW+yeaEPyhCzhtHe1MtTadToOCH/JzpR+hv7c4VjumiDyQ8gyVGlzllPrSWHIIMJyHVanW/jI25zm5xQ3Ejma/60QLs1n1DNGLRQlrV2FwAZ+BX/u9p7M4hOgDuLJllkUTr2cBbTO1kI6QN5nD/KRRLohI39xUw=
 X-MS-TrafficTypeDiagnostic: AM4PR0902MB1891:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	upJJMYmbh+h/4aYwc4NENWaoJZIsqObdGRSeVq088JhD16fOxIXkxAlC8wAGi8zC1yA4ipT98hbxPQkMLM/8J3hWB/gjon7h0qEjnGBpeun4b4qw/eoKrVwQnXCAh2GeMPbmV0tec/JdS3X5JGftG+Yj6LS+pciAl8935JDlZS37KdJI/nBfF00wRq55pa9XINN/fiBR/p7ZmmJQ5dNtTjjNOkluM9fGZ9Yc9AVBnJWeM8wC6V9JNvi5hRrYTBSlJVJb20fF92aNDStHRDXqjsGOogiN+I9/khIOfkVccHN2ogGlA71CXYgF7U1Bfj4+5GVX/xHjxeM1VH8qmkXDV4gFHXawFgd6RwZ+nZT7nitzJsx7oF5olCQhOO6o/+X7SAtaId0FbbmOfqvHpU0bJG4A1zKJAnPjcy8SbOjIiuihKJs5KNjjh995yiacEmomLpc8jf9klMvTLlD+RLYT45tVG1hL42eFvRYdDiKunwarSczXZOjAjD6ioJyJ+MPfdoEleXPXHVOaWqAFneV7JgJGk38KJBndLLwu3f/g5kXZkE1NjEM7kkawMMeQOdYEwcNprP8tteT6gfk9ecZJ8Q==
+	mq+EDRGipP4s7UlCgCNVgb8j1Jv/6Gv0LoS9J17bSo1hMbKzy6S8wa3lamGX2I/x8uyCfWGpauCJ9wY9GzSb8bKRtfXpzE/LXN7w3dyHp9yzjtRybyv1G7y/7ErC2TgjBK6/CkY/SrsU281fZYJZ7GhYUTaaDAj+aVZVrE+8889bCbzT5TAx2w6uC3NYvWRmYnP2dOcAI5X3YSekJrQPWVmkviYiz0sONOqfRQl/7IRaBTQPQJBY1gFckULZOUe2fsleqHdn2vp4+L05z/ya9D8TJ3IExzCJeMRRZFjmkWCv/8diHip3isTb/1zWuKhF40iDH0yfyZ5q7XUiFJuauLHm3jDuj4x5t12FRuD2PL2P6gr6J4UIdWz4Wb7uSYggH9ONXK2htez71zhLH04mxHWOoooFMGdzZ8JC19uzVWGXrUQjHr8xD3QiNevzgW9znnsCjivU2dTkP4uBirmTdmzJQ/psEsXn5tkST0RMVXGridTiBQVjWeT7SOv/oldhsmPXZnQXvzFuJq7N5/vclUNUXb7d/rhJssNVNbkRaH6DsDOovnsCqv73dbHgEgzhXeIkf97wDvnmjnO7NJKnDRWnT/ahiflwS0hbt5xOFPhFa5fEJTo87hOMtz0LgHkc
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?oDduyb46uwcrZIe4khqT3UhW7YHG4o0dKrAFQJU/uHBXL0JjPaZMX7PkR0iM?=
- =?us-ascii?Q?CgYCQCiZSta3+F8fXX+jHbjKQXKabajaOXTO9VRF1K4n5cvR/gxscS7C91XL?=
- =?us-ascii?Q?SOWZxcs2NF+wJDZrRX+lLmpAe4z7as2aHp1rEbw5+Ww+UeiNYmQMhcadb28M?=
- =?us-ascii?Q?6HZuoPqGlkC3ybLQVflwM5lbRFdn6M/yBwki81OhlxxU37cG06Smeht9Wuip?=
- =?us-ascii?Q?qX9cvSud7e3RDI4ZbuYKzdb49PR0fywvUsUwa/InvtOtXkLRbd6RxLkpDjY9?=
- =?us-ascii?Q?rqgH3GApouzkeEnRX552h6rh9WGXPrAUJzxBrBpi0DrkhzC8UUziVHmz/frn?=
- =?us-ascii?Q?G7y4niHFDjWRxZ/3C85a3VtmQkVfdC2mOMhhYys2ZyOjo2wdux08gM5dKZwN?=
- =?us-ascii?Q?Fu6g1lgGWZYglLRYvUhSbI7OTDF9vo64Ex7GBFojDSzIleI4+dEkjXet0PPH?=
- =?us-ascii?Q?2novC0QKEXAGrHO55azyQD00GHpyzNN4jrptLXdyB7uqwCkTMg0oac8wfQqS?=
- =?us-ascii?Q?IAK7Ev0tUekPqZzh3o1CJ387ISq9LW9w5b7PY8lgEzm7xpuXW5vAjWOf9kdX?=
- =?us-ascii?Q?grhBGad3BS+6dKwvAABgfMa+lKQTuGN9uKMsgWMilH4VweQtgQhU+06lUgZ0?=
- =?us-ascii?Q?ILoo8hPM0GQuBBmnMFWfxboHb6oB/hJz3cZHkNFm9xFVUlxBroN86icM3ZpA?=
- =?us-ascii?Q?Ggu8ZLCQcINEbZZCAPJfBBj5uWE68uIBBAWfcAZvuGcWj/wlZh0AmCns/ZPb?=
- =?us-ascii?Q?+KWSniEaLvk87IgXLMG1K8NVEFNvdAcB4ZQwaTwSLpR9zTRf4cuByzLqZb/C?=
- =?us-ascii?Q?Exw5298HqoVc+t1gLU4ljf3xtCi4aa8Gdov4bJHNIkV9Ii9IFLuBXxKimA34?=
- =?us-ascii?Q?eT+jJxoBgPZ6OayOf3gWfWXdHzB67h6JNlfTUFuW2OQ8X3e+u1qXS+YRibCv?=
- =?us-ascii?Q?+bYjiOPzTeSXXhpJPlgaFdMCvT9K+gjVi1jus456mEH3rYFFWaMaE3NjCmv+?=
- =?us-ascii?Q?ehsLQGu9Of7Dq/UtoBtv1SJ2eQ=3D=3D?=
+	=?us-ascii?Q?O0SoR2Ng+x3A6tAyf9G7TEHjzzFlXaoOAJ487sRZyx1BakoasaT7qSCe/vM3?=
+ =?us-ascii?Q?ZlAC9a5v3XGsTio3FN/X2C0QlQzuAjl57ZHF6MPbENaJqtZ8KODoK2BYW1YX?=
+ =?us-ascii?Q?KtchNndSItXOwb8WrhEM1Y9d4Y5RBX03UGmdTm6D1LTYDxINnV1bGcMdmMSx?=
+ =?us-ascii?Q?xGiNk045pkHImodsgqsXEV//CVkLgbqo96NuKXorTOnPfg+Abv6voJf6tMql?=
+ =?us-ascii?Q?fE41aSXGup8CrKgWSpHch7+d/sueRia2w2Dy6z7oY1f+hBYMdgW38Km6pNT8?=
+ =?us-ascii?Q?mpavy9qs5QEiIaM2shcI+Xv5X8w+H0BS+qifSUs5xEjC6XkK30Y89qP0NSqH?=
+ =?us-ascii?Q?YGMEoewgqzypIMmwnqzpjhAkHyby7tQ2FkfSrwLvrO7DUNoEL7waeG2REXv0?=
+ =?us-ascii?Q?IT++RWtmAxU8QhpVv7K3TdhRVfJV5OSZmW8csc4rG9+PR50VqFQdwyxlaldH?=
+ =?us-ascii?Q?EC5a5T62A3Ge1WNETmLKqf7RDixTXZJXjSQoCjdmdhMMLkEzDVWuG1mNbVrD?=
+ =?us-ascii?Q?VabC820SgwoI6GQiANekEsPh+hBkD+9LH0VZiZGZ4oh7MNBUIohn4ngGO+B2?=
+ =?us-ascii?Q?5yGlTKTkFIWvsQUbXMzCEE56kfG2KyNJHx78/Z3T1bmsH+Du7GYBDioHfqUT?=
+ =?us-ascii?Q?EFsbQ7FXNSCDX3rW5SWtTNi+p5vtrSZVkC+H704QDT+pQiJCNrH200Kr6m4g?=
+ =?us-ascii?Q?nETWARCaqw156FtAGPmA52AQ6QrdVPK9rvQZTNf2TbkvVDVxkoTSxRbEXNXa?=
+ =?us-ascii?Q?mAISlXtxW/w9athA/D7XLVXO61SHjJRsfQNxGCdg/6i5Hivc+PjfjGTUvf75?=
+ =?us-ascii?Q?GR4EdZda+BG2EowVRaWPdKgbuVd9JeE1thEmtuPLWMko1iWoWdTfZ0o57Kpr?=
+ =?us-ascii?Q?qn0vjbYG4FeK5S6pO5FgZk0NbIFu1hBZc4N9C8dAyjWbev9NP8fklRZkHHEf?=
+ =?us-ascii?Q?0ScsWg0l1Gh4gmIjaXI1OxX+4/S7aUm3YF/XrGVwaB4YVVtP+5QbMewjew+b?=
+ =?us-ascii?Q?jvKZG1eMFO1HuJd8qNdxci5McQ=3D=3D?=
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 1d412126-c334-4083-5cbf-08d9bf1fa20f
+ a945aaa6-7bff-4338-f74e-08d9bf1fa2a0
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 16:34:44.0017
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 16:34:44.5953
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -98,83 +100,36 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0902MB1891
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 16:34:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 16:34:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159695
+ https://lists.openembedded.org/g/openembedded-core/message/159696
 
-previously used package_qa_check_src_uri was triggered during
-package_qa stage, which implies having packages.
-This isn't the case for native-only recipes or recipe that inherit
-nopackages.
-
-Still the checks performed (src-uri-bad) apply to those as well.
-Therefore move the check from package_qa stage to unpack stage.
+as defined by latest addition to the commit message guideline
 
 Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 ---
- meta/classes/insane.bbclass | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 240f3aad62..70c2d97df1 100644
+index 70c2d97df1..cc348173d6 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -968,17 +968,6 @@ def package_qa_check_host_user(path, name, d, elf, mes=
-sages):
-             return False
-     return True
+@@ -1170,7 +1170,7 @@ python do_qa_patch() {
 =20
--QARECIPETEST[src-uri-bad] =3D "package_qa_check_src_uri"
--def package_qa_check_src_uri(pn, d, messages):
--    import re
--
--    if "${PN}" in d.getVar("SRC_URI", False):
--        oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % =
-pn, d)
--
--    for url in d.getVar("SRC_URI").split():
--        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
--            oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses unstable G=
-itHub/GitLab archives, convert recipe to use git protocol" % pn, d)
--
- QARECIPETEST[unhandled-features-check] =3D "package_qa_check_unhandled_fea=
-tures_check"
- def package_qa_check_unhandled_features_check(pn, d, messages):
-     if not bb.data.inherits_class('features_check', d):
-@@ -1285,11 +1274,28 @@ Rerun configure task after fixing this."""
-     oe.qa.exit_if_errors(d)
- }
-=20
-+def unpack_check_src_uri(pn, d):
-+    import re
-+
-+    skip =3D (d.getVar('INSANE_SKIP') or "").split()
-+    if 'src-uri-bad' in skip:
-+        bb.note("Recipe %s skipping qa checking: configure-unsafe" % d.get=
-Var('PN'))
-+        return
-+
-+    if "${PN}" in d.getVar("SRC_URI", False):
-+        oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % =
-pn, d)
-+
-+    for url in d.getVar("SRC_URI").split():
-+        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
-+            oe.qa.handle_error("src-uri-bad", "%s: SRC_URI uses unstable G=
-itHub/GitLab archives, convert recipe to use git protocol" % pn, d)
-+
- python do_qa_unpack() {
-     src_uri =3D d.getVar('SRC_URI')
-     s_dir =3D d.getVar('S')
-     if src_uri and not os.path.exists(s_dir):
-         bb.warn('%s: the directory %s (%s) pointed to by the S variable do=
-esn\'t exist - please set S within the recipe to point to where the source =
-has been unpacked to' % (d.getVar('PN'), d.getVar('S', False), s_dir))
-+
-+    unpack_check_src_uri(d.getVar('PN'), d)
- }
-=20
- # The Staging Func, to check all staging
+        content =3D open(fullpath, encoding=3D'utf-8', errors=3D'ignore').r=
+ead()
+        kinda_status_re =3D re.compile(r"^.*upstream.*status.*$", re.IGNORE=
+CASE | re.MULTILINE)
+-       strict_status_re =3D re.compile(r"^Upstream-Status: (Pending|Submit=
+ted|Denied|Accepted|Inappropriate|Backport)( .+)?$", re.MULTILINE)
++       strict_status_re =3D re.compile(r"^Upstream-Status: (Pending|Submit=
+ted|Denied|Accepted|Inappropriate|Backport|Inactive-Upstream)( .+)?$", re.M=
+ULTILINE)
+        match_kinda =3D kinda_status_re.search(content)
+        match_strict =3D strict_status_re.search(content)
+        guidelines =3D "https://www.openembedded.org/wiki/Commit_Patch_Mess=
+age_Guidelines#Patch_Header_Recommendations:_Upstream-Status"
 --=20
 2.25.1
 
