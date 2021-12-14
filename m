@@ -1,165 +1,220 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40362C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 05:28:54 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web09.22288.1639459731359008409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F97C433F5
+	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 09:50:54 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.23807.1639475441634634631
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 21:28:51 -0800
+ Tue, 14 Dec 2021 01:50:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=L/1jg9ew;
- spf=pass (domain: gmail.com, ip: 209.85.160.182,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id a2so17429293qtx.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KPhmTHiS;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id
+ p3-20020a05600c1d8300b003334fab53afso15830639wms.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 21:28:51 -0800 (PST)
+ Tue, 14 Dec 2021 01:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vw6jmbZVymDJ/8nijPhfEtaw2kA9OsslPoGZFYez+gY=;
-        b=L/1jg9ewlqt3nTzVVnnfCuUCSmm6WNeYQJjxFa7Hk8mLghJTBb1O/EdhXtUBLWDOiG
-         Rfwmg2gAcNcHT/0Tfn9/mVwUloRFF8zhBmFE3+oPmerW0Rtp83pmjeI0Aw+QtLEc5Ztv
-         +TIahCaFp8N5MO6Unr1LqHkAuGhCOyetPlsQdetDS8m4JCH9P38/ZlvZPuoowGV+NqR/
-         Sdi0La+A84idj9dS03z+KItC1zagJC48z+1hgmDFUumkdKKK2Y+sydMwlUn10w4jEPzy
-         pKTrnANiJYaVItmiOfCFsku8BpK70B0wbKLvUXJOCEOHgnhZHkqaCU9mERpmNWADuF/y
-         e7Dg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dijGapbN8/h/QfjyUOoLh523HHszqtWR3NvVA/oe158=;
+        b=KPhmTHiSFcWgl/Jde8KWc1FjlH6fm2BUT6RhWSK8KGuNzQA50CShR1yD4LyYs5G4fo
+         QXt4YuOZu+2PF8arpGv51XVMi7b0XXfFlXrl9ThXQ8sRL11LjJocyhFyRVeMcFRV4IJ+
+         Dzl8ZUyrtXzfPQ1Bv6Gv81iqdzTdcyPHVPKNhdkqRvpCnT4YVVJe2fhDUvZMkou3vYei
+         lo/yKavSQaiZGjB+SkifrCa+V3U7ahoqmj5O8/y6XcMlbqC1TkAEic/OBWcEQnFCapSl
+         SSXVVDU1bjQeFOmTSMxiNkGpeyPSy4YztSTxbGhkaPcMMvkvw/mgZdcDcEF6by+kIEcK
+         X4dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vw6jmbZVymDJ/8nijPhfEtaw2kA9OsslPoGZFYez+gY=;
-        b=bH+Fd8x4uvDfWzndAa8je7+PVY5+3S8z+zf8bdDfqloJzz4Kb6nIWJyOpMwMijASj0
-         jupkcgrB3izmXvO5+lW/A2+qGqQz9iq61PEQhMZIWau+S/5R8ttPmKFYBAzSxaSEOqAG
-         x+yeAggMa7CH0S2SDSlpGyBBZzlX2lPBzit4XrpFax+ll+x3qhIGc2hk4Tnr7SZM/g/h
-         e/xLvcqwRGyglRM/I9qi2WeK15y0husYK4o8z/CxIyiFsZVaulNGjoX05CK4b0WiUDg2
-         PVw0H25F1g1ohGTCuH8Mk5jbiLKFvuOmGLClUwyqC6nCTSP8qxap3LgE1pFjP2LGtKBI
-         k2fA==
-X-Gm-Message-State: AOAM5325058kzeaIDZ5hFhmvCfpc7VbCe7rJqC+MloAPPNCbbXDxPWbD
-	mceVi+mony5NQPDKgBbAqLmP9sz7ZHCvV+CNDg0=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dijGapbN8/h/QfjyUOoLh523HHszqtWR3NvVA/oe158=;
+        b=wf/TexzNw/0SyfFn9Z919nHAXBeMPU/wvtuDw7jVxzlYBtS+QMxGxMrEIJ6DyYPLq2
+         6xJ1aTVSD2eI7Gp4AIEKJnPHQ4Q2p3O78z6lx8m8kotsOA546mmFfcA40Lp19MJjL1dX
+         OQB9irmY1/349+jlG+bdKTOcC3/9J89zVF1ztyHntKiMtX7qxevBzPqA3Sbe98oQxkAN
+         5Xw9X5bH4Luf68NMbKir71IenENuWBSWEEWXURbWdo0bP44THcicDgrcmz+eM4J9ZT1X
+         UCTfHVwX38TkQgQ7IXenUiXVnuGep6RGvipShFEdvQOo7FRiNN00hiXFZihO7bk2cRln
+         OPog==
+X-Gm-Message-State: AOAM533TV0awwWgg6U/JZU53JOOZ3ov9FhG36SUGh3GzLxUtEPDVWslv
+	QLs1AtPgs5fhvPwH1Z5AS3QZLX0Kep4=
 X-Google-Smtp-Source: 
- ABdhPJzuSL7Wo58BRT2BfZWDCKTJeX4C/PKe3VAI1yrvvgjEMCf5x4esLdsFOlZetu3M3+jYiBCjnMng/Y4cJe3b8Tk=
-X-Received: by 2002:aed:30a3:: with SMTP id 32mr3689002qtf.660.1639459730384;
- Mon, 13 Dec 2021 21:28:50 -0800 (PST)
+ ABdhPJwUisETWqfLFuZvMNhBXP5YdwBOkd++iVqDnC1b1f2Y3lcBHpIm+Glp7/MBmiTp1Rh65Tooug==
+X-Received: by 2002:a7b:cc96:: with SMTP id p22mr5606784wma.69.1639475439913;
+        Tue, 14 Dec 2021 01:50:39 -0800 (PST)
+Received: from localhost.localdomain ([80.215.178.237])
+        by smtp.gmail.com with ESMTPSA id
+ r15sm1519689wmh.13.2021.12.14.01.50.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 01:50:39 -0800 (PST)
+From: Marta Rybczynska <rybczynska@gmail.com>
+X-Google-Original-From: Marta Rybczynska <marta.rybczynska@huawei.com>
+To: openembedded-core@lists.openembedded.org,
+	steve@sakoman.com
+Cc: Marta Rybczynska <rybczynska@gmail.com>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Subject: [dunfell][PATCH] bluez: fix CVE-2021-0129
+Date: Tue, 14 Dec 2021 10:50:27 +0100
+Message-Id: <20211214095027.55683-1-marta.rybczynska@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <01159b35-cec2-1b90-f11c-77f6991b32b8@ni.com>
- <CADkTA4OokaT7oK2-QspYD4bYcRwWapGFE9rKSAq8UoEY1hVCrQ@mail.gmail.com>
- <24583f43-3b8d-6476-96b8-18bdf19781f3@ni.com>
-In-Reply-To: <24583f43-3b8d-6476-96b8-18bdf19781f3@ni.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 Dec 2021 21:28:23 -0800
-Message-ID: 
- <CAMKF1sp4foD8g82=NjDQ+XUCOe+QBGzAJs7_o9DLN34+hTj-Ng@mail.gmail.com>
-Subject: Re: [OE-core] The state of DKMS in the Yocto community
-To: Alex Stewart <alex.stewart@ni.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 05:28:54 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 09:50:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159681
+ https://lists.openembedded.org/g/openembedded-core/message/159682
 
-On Mon, Dec 13, 2021 at 4:28 AM Alex Stewart <alex.stewart@ni.com> wrote:
->
-> On 12/11/21 09:24, Bruce Ashfield wrote:
-> > On Fri, Dec 10, 2021 at 3:58 PM Alex Stewart <alex.stewart@ni.com> wrote:
-> >> Hey List,
-> >>
-> >> I'm trying to work out the mysterious state of DKMS in OE-Core.
-> >>
-> >> Our (NI) OE distributions rely heavily on DKMS to (un)install our
-> >> ecosystem of kernel drivers at runtime across our product lines. To
-> >> facilitate that, we authored a dkms_2.4.0.bb recipe [1] back in 2017,
-> >> which we have carried out-of-stream since.
-> >>
-> >> We tried to upstream it, and the patched rev'ed a couple of times [2];
-> >> but it seems to have never made it into a yocto release.
-> >>
-> >> Though some other recipes mention DKMS passingly, I don't see anywhere
-> >> that OE-Core officially supports it. Nor does my googling reveal anyone
-> >> else who uses DKMS. I find that a little hard to believe, though I
-> >> understand that it's probably relatively rare in the embedded space.
-> >>
-> >>
-> >> @all
-> >> So does anyone else on the list use DKMS in their yocto distribution?
-> >> Are you maintaining a DKMS recipe out-of-stream as well?
-> >>
-> >>
-> >> @maintainers
-> >> If NI upgraded our DKMS recipe to a more recent version than 2.4.0 and
-> >> submitted it again to OE-Core, would you accept it? If not, we will move
-> >> it to our own meta layer and accept that we are unique in this regard.
-> > I used to have a DKMS recipe myself (at my previous employer), but
-> > never submitted it, because generally speaking, there are better ways
-> > to do things in OE.
-> >
-> > DKMS tends to avoid proper cross compilation (which of course we
-> > already do), or is often used to distribute proprietary code (which we
-> > don't want to encourage), or is avoiding the need to upstream the
-> > module code (which we also don't want to encourage).  It also only
-> > tends to be used on a subset of the architectures that have enough
-> > memory/cpu to build on target, so by definition it is a bit more
-> > niche.
->
-> Yeah; I agree. In our case, we have several dozen drivers split across
-> many product teams and largely distributing internally-controlled
-> source. At this stage, it isn't feasible for us to build them all within
-> OE - which is unfortunate.
->
-> Many of those drivers are also required to support both our OE
-> distribution, as well as a small matrix of supported generic Linux
-> desktop OSes. So having them manage their own DKMS packages reduces the
-> surface area for packaging errors.
->
-> I don't expect that either of those considerations is common in the OE
-> community.
->
-> > We of course already have the ability to build modules on the target
-> > (we have a test case in core that does just that), so what is in core
-> > can support what DKMS needs to build on target.
->
-> I'm not sure which test case you're referencing, do you have a link or
-> could you expand on what you mean?
->
-> > I don't see this as something that makes sense in oe-core (but maybe
-> > I'm not fully understanding the case, and where the current support is
-> > failing), but could of course be contributed to another layer.
->
-> That's fair. Our use case is motivated more by an organizational failure
-> than a failure of the OE tooling.
->
->
-> @Khem
-> You're maintaining the meta-oe layer; correct? Do you have any interest
-> in a DKMS recipe?
+From: Marta Rybczynska <rybczynska@gmail.com>
 
-I cant say how much maintenance work it is upfront. I have been bitten with some
-hairy recipes e.g. kernel-selftest which need active maintenance for
-which I might not
-have time to do myself. However, looking at what Bruce explains, it
-seems the value
-add it not as much either, so I am less inclined to have it unless
-there are others in
-community who will find it useful and service it timely manner and
-test it, keep it working
-with all test combinations etc
+Improper access control in BlueZ may allow an authenticated user to
+potentially enable information disclosure via adjacent access.
 
->
-> Thanks,
->
-> --
-> Alex Stewart
-> Software Engineer - NI Real-Time OS
-> NI (National Instruments)
->
-> alex.stewart@ni.com
->
+This issue can be fixed in the kernel, in BlueZ or both. This patch
+fixes it on the BlueZ side, so that the configuration no longer
+depends on the kernel fix.
+
+https://nvd.nist.gov/vuln/detail/CVE-2021-012
+
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ .../bluez5/bluez5/CVE-2021-0129.patch         | 109 ++++++++++++++++++
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2021-0129.patch
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 202a14dee0..34796fdd20 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -52,6 +52,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
++           file://CVE-2021-0129.patch \
+            file://CVE-2021-3588.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2021-0129.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2021-0129.patch
+new file mode 100644
+index 0000000000..b39730dc10
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2021-0129.patch
+@@ -0,0 +1,109 @@
++From 00da0fb4972cf59e1c075f313da81ea549cb8738 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Tue, 2 Mar 2021 11:38:33 -0800
++Subject: shared/gatt-server: Fix not properly checking for secure flags
++
++When passing the mask to check_permissions all valid permissions for
++the operation must be set including BT_ATT_PERM_SECURE flags.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/patch/?id=00da0fb4972cf59e1c075f313da81ea549cb8738]
++Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
++CVE: CVE-2021-0129
++---
++ src/shared/att-types.h   |  8 ++++++++
++ src/shared/gatt-server.c | 25 +++++++------------------
++ 2 files changed, 15 insertions(+), 18 deletions(-)
++
++diff --git a/src/shared/att-types.h b/src/shared/att-types.h
++index 7108b4e94..3adc05d9e 100644
++--- a/src/shared/att-types.h
+++++ b/src/shared/att-types.h
++@@ -129,6 +129,14 @@ struct bt_att_pdu_error_rsp {
++ #define BT_ATT_PERM_WRITE_SECURE	0x0200
++ #define BT_ATT_PERM_SECURE		(BT_ATT_PERM_READ_SECURE | \
++ 					BT_ATT_PERM_WRITE_SECURE)
+++#define BT_ATT_PERM_READ_MASK		(BT_ATT_PERM_READ | \
+++					BT_ATT_PERM_READ_AUTHEN | \
+++					BT_ATT_PERM_READ_ENCRYPT | \
+++					BT_ATT_PERM_READ_SECURE)
+++#define BT_ATT_PERM_WRITE_MASK		(BT_ATT_PERM_WRITE | \
+++					BT_ATT_PERM_WRITE_AUTHEN | \
+++					BT_ATT_PERM_WRITE_ENCRYPT | \
+++					BT_ATT_PERM_WRITE_SECURE)
++ 
++ /* GATT Characteristic Properties Bitfield values */
++ #define BT_GATT_CHRC_PROP_BROADCAST			0x01
++diff --git a/src/shared/gatt-server.c b/src/shared/gatt-server.c
++index b5f7de7dc..970c35f94 100644
++--- a/src/shared/gatt-server.c
+++++ b/src/shared/gatt-server.c
++@@ -444,9 +444,7 @@ static void process_read_by_type(struct async_read_op *op)
++ 		return;
++ 	}
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -811,9 +809,7 @@ static void write_cb(struct bt_att_chan *chan, uint8_t opcode, const void *pdu,
++ 				(opcode == BT_ATT_OP_WRITE_REQ) ? "Req" : "Cmd",
++ 				handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE |
++-						BT_ATT_PERM_WRITE_AUTHEN |
++-						BT_ATT_PERM_WRITE_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -913,9 +909,7 @@ static void handle_read_req(struct bt_att_chan *chan,
++ 			opcode == BT_ATT_OP_READ_BLOB_REQ ? "Blob " : "",
++ 			handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1051,9 +1045,8 @@ static void read_multiple_complete_cb(struct gatt_db_attribute *attr, int err,
++ 		goto error;
++ 	}
++ 
++-	ecode = check_permissions(data->server, next_attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(data->server, next_attr,
+++						BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1129,9 +1122,7 @@ static void read_multiple_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 		goto error;
++ 	}
++ 
++-	ecode = check_permissions(data->server, attr, BT_ATT_PERM_READ |
++-						BT_ATT_PERM_READ_AUTHEN |
++-						BT_ATT_PERM_READ_ENCRYPT);
+++	ecode = check_permissions(data->server, attr, BT_ATT_PERM_READ_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++@@ -1308,9 +1299,7 @@ static void prep_write_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 	util_debug(server->debug_callback, server->debug_data,
++ 				"Prep Write Req - handle: 0x%04x", handle);
++ 
++-	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE |
++-						BT_ATT_PERM_WRITE_AUTHEN |
++-						BT_ATT_PERM_WRITE_ENCRYPT);
+++	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++ 
++-- 
++cgit 1.2.3-1.el7
++
+-- 
+2.33.0
+
 
