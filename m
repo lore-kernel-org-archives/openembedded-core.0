@@ -1,222 +1,176 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD656C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 17:31:29 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.28836.1639503088069526186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB1A1C433F5
+	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 17:53:55 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.95])
+ by mx.groups.io with SMTP id smtpd.web09.29178.1639504433730976572
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Dec 2021 09:31:28 -0800
+ Tue, 14 Dec 2021 09:53:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=TockLO6T;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=79825335c1=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1BEDNRHV032375
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 17:31:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=subject : to : cc
- : references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=4qKxatZ7pcN/j9E9OHzL/JHg+/lHW0p0n63aw+4IS1w=;
- b=TockLO6TEi+GZ5P+k14c7JC/RluqAU+YPVX80uZxFHP9qMevNr0SD6ASOdtkJlbEOLgc
- FvuLHeRgeia6b0fdJxRLgaecVRVAt9ZlSO5Hb1iSw5wieceIeYBGb/6DhPXT+el6WQZG
- LTCrn99VRWQ97dVIADK8hTDjeb8PoZXTCvmySxV/8WfHiYXm0oFYmHkQWwdbw1spZw+I
- ejJ1AjWu0x0dojxgnoAjeFJ0gPEbEimBFe8zobu2btuLFuzW1HJa2rFnIgCqWznVCaRc
- 9kaE5UaKTacPeEWl3tUQ9uGf7+O9e6dTi3OyIvlIy3tWUcu3iaS8d/fM3ACJEkhMOiDo Bw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cxjt10hcy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Dec 2021 17:31:27 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1BEHQtYo019593
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 17:31:26 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3cxjt10hcx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Dec 2021 17:31:26 +0000
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com
+ header.s=selector1 header.b=HKJH3Gvq;
+ spf=pass (domain: outlook.com, ip: 40.92.91.95,
+ mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ErJ6rOr46LIb+1pTGCD2D44T/1gf3QDtgCrq7KKgc1dBRmOdBh/6wRH25mwu1EWlNhqcEHQAIvyi/dQJrcj4c7RQ3RmJn26YloKTBe3+0gyOGWQ0ODDKy3t0wq2sPFwlEHfSqvcHX+xVFldl9zdKAh5oQTyZBf4MvJHcYqT9maKkh6an9RlVsfifeCd1Nw3BpJy3olscJ3KeliAk3DlaLca5WZsyRk9Ssr22HZof6MQFUcJlE2gdjjVSZ/rC+Z1nWvgbFTiuTl3VCip/waPTSUfEMUwMnWGaNDWyB34VWTvbsg1cO1TrDvoIoUEeshaNn2pAv0+sXAKkT0nA3hk5+Q==
+ b=LgSqsAWq4zpKllsbR926++xu3Pee5F9BTelrEXQsSoz88PAchxrsalNPrp1ZiD1fWN7X7FPvJZQ6daj1VHQOF4wdiiI4xJ5Cf9O/mP3YHi8H5nMbptq1Wus1FbzkeMlK3oBqm9Nbpvs5VcFM2cHDmQ0QHd6D5eRDV40icO+uuqZS0XSfPyuknNuL/YOtdp9k7vQOanHitDUL/YRAF9MNYNvg5o+rA8H8dzJ+7fKquH+af1YBj/geCqRg3Y+BGSUmOEGP3s2AjWgCMo7dGh6vMi7XwWgICYlb/LxzOYHq9VOldTvULlUZkQMC9oZ/siXckQsBHle+zL8nVFANenv6ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4qKxatZ7pcN/j9E9OHzL/JHg+/lHW0p0n63aw+4IS1w=;
- b=eOoQvYFToIIHMKGJdOROgo7BjhlBsxW6kFAR/rBHRF0usKedJvFaRItc4G4Xzj8JfXgpetOkOAAg8uXLpV796er95FBYV30/QdXyjrOZ9YYGzNPNtjjf6myEF6Vt3z7huCRdmkQXEZc01xYlrmvdlAxY9zpES8y23E4vMXwuhniqLSDVfOV4fFl1H1C6AUw7n/chyps1eFm9Vs78ch1Gd6jOzjDPgeAU33OmmXOZN/yqbCIy/Z70bLUjDxuhjdndYqOOObaTLf5Y59A87/Q/0KT0wvMpl+fhXABDhCapdlKALNeGP2pg1sjKOj1ktJNvlrBfPWC6/BaPguWI6wqXLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM6PR11MB3801.namprd11.prod.outlook.com (2603:10b6:5:136::14) with
+ bh=iBWS21HIXgMtBCBezYmon4qjSV5W96OJjkFkY/uNrK0=;
+ b=OGLAe5fBkRMXUNDZYzShPKHFpyZKTFD+6N1f7KflXw96oAOA2tqWvYsC/cpuDr8S/sTbskIsnlyIr9psl9luNITkXZ5hkiSxsmVTzKHMcqOxDTG8WLqqV52ZQdTQJFY4qrbgcnOcpNpJxhYuXbc9zZFLYN+mwR76AjKIIoA/zWnh6gPYRyZwv/+3WysbnddC0TZl7Cxg0fbeB7TxSDTJNdwVvtf4ig0MVGCnfRBLviAqIiY9mKhb4lqTCYv5ta0QP9E8gu4dbkB9J8OZ31TJlHDm5r92jaybbweSmHgrB4IKdMdVwNLS4AFNEYezyMgITLbpBPrhXGlYJq4Nam50qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iBWS21HIXgMtBCBezYmon4qjSV5W96OJjkFkY/uNrK0=;
+ b=HKJH3GvqIuzxLUv3VlkMmdrKD5neYYwUbSZ0fLJusxrREgcipOfTPM9OM0E8IGX8RjyPJZj3czU20yFJ+tH/LXdN8iSySpBzm74ZMDxGcIgObXDHPpKSM0dZ2QR8ulQCiJRlmaEr80+s9vr3MeFa5GoOO1Du4c+RasH6LMya6F1PAw0deLbxvsn7N80LlyYignfNtgX2yp1ESTmQB8w4dwkuwLlKaO4Z6F5Hqpc7eh2AT/VbedamPXba7z9n3RNp1oh10Kg8M7a761mJoZ4PlVaiEnyk6U/IQWKdOsBSsBryJVRpjndUxLu7Wlr0kE5U/s9Pu0NQPt4pdR1wi7+GNg==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM0PR09MB3411.eurprd09.prod.outlook.com (2603:10a6:208:173::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Tue, 14 Dec
- 2021 17:31:24 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::c52d:281d:a9ee:67b6]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::c52d:281d:a9ee:67b6%7]) with mapi id 15.20.4778.018; Tue, 14 Dec 2021
- 17:31:24 +0000
-Subject: Re: [OE-core] [PATCH] gcc: Fix CVE-2021-42574
-To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org,
-        Khem Raj <raj.khem@gmail.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
-        "steve@sakoman.com" <steve@sakoman.com>
-Cc: richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
-        umesh.kalappa0@gmail.com
-References: <20211214104613.19264-1-pgowda.cve@gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <e76b64a8-5651-378d-2e50-68dde5add6c1@windriver.com>
-Date: Tue, 14 Dec 2021 12:31:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211214104613.19264-1-pgowda.cve@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR07CA0082.namprd07.prod.outlook.com
- (2603:10b6:a03:12b::23) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ 2021 17:53:51 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::782f:9964:348b:b2fa]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::782f:9964:348b:b2fa%9]) with mapi id 15.20.4801.014; Tue, 14 Dec 2021
+ 17:53:51 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [meta-oe][RFC PATCH] insane: Inappropriate patch reasoning
+Date: Tue, 14 Dec 2021 18:53:32 +0100
+Message-ID: 
+ <AM9PR09MB4642752B0C687EE091EEC380A8759@AM9PR09MB4642.eurprd09.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TMN: [WOlt22hv/dFfy/c8nUHb1tFjn6fOKqxnn0ixIrulQa77ht3rM4HxsyaxgqUmKT9W]
+X-ClientProxiedBy: FRYP281CA0007.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::17)
+ To AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <20211214175332.2594432-1-kweihmann@outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e56873b7-65c2-4baa-ad0d-08d9bf278ce5
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3801:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB3801EE8BF1E5A0D86C1EF6B5F8759@DM6PR11MB3801.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-Office365-Filtering-Correlation-Id: e9d7f96d-a9e5-4ec1-fe49-08d9bf2ab005
+X-MS-Exchange-SLBlob-MailProps: 
+	3UeWkQkuiJMapIaE3yskuNrNSV986tZKrkUZMWbw4fW1Ux7uhw1x1Df3nQhOm37w6rRt63G22ecNyEBkVSniTH4X5dXS5TMDaPkz6P5hXxD+2w3NpZ94q2aU8eky0XG77L0jtzZ2+06uo8pmpobgPYNuPJq2yIeuHLTfULOWLrwrOq6XAMVy71/HysU//ww2/mT7SmeQ5lwAFVwcEs8auWPi43gjKvqam1lOLqvKRqtdQhP+NmO2GrHtSV2pfTy0Qne1B506WEQeUQgkP1fxrizr8sH3fg2fyZ0W5KHLD97sTuL/GX3hrsEQZIwW2MvQlYd3M96tpBlviHkugq0SkS3Hn8Y3WLfYFVQQhHgmna3FJOhtNt+rphPSDrNNSq37KFgtiT2/sV9xsV0ceQbB6j4T74JSJpQT4k/kZbrIG7jx1ifghlBYzaBcQbN58GaBr1Dkld2l+VmtXaP//V9HAHIFnvL/AGj++37NV2PZt+wuXL5NdSvNRBYOqmi5gxCdjA1ROxCuCIypm8Bem72F+adFE+KzfW8tLVrtsyfwXVRmzIdA5GVrkKZS7L970YwO4Wd363L1V+sgOHggG8uacf3jaXnlnTu8zqomHDorS8OHZr5Yy2Xsvxg86eVY2oYpIwKfAtuLVvj0k0qNMtiGl3qrfijAujGtrD3f+iig8GFEHoPtD+rO74CnE0YYUTZFDTMTai3KuhURNQ/ribjYKLL7a0pn7qxFKXXJqCkksAsd5Qu1bJ8nOQ==
+X-MS-TrafficTypeDiagnostic: AM0PR09MB3411:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	ianDpIKu+qE+yWpScclfR/sjrzZqv9uyLYfxuChrHSwbdI32HhaCPcmAaGlg3cdRUbjlxE8od8KR/P/T3hB/ULjJr0LMAqhCEby69jcpdf2Xn/Adr9PL7XsPK5Ccet1S4LYZzJpxdForfQNTRaP82EjgJXJeKVOWgqtnycLFUyzwHFxoH6z/3qPCHhqPOTQVr96ybMauWn5YQvRM+09OPVDklRPaBfziYcWAUZ0nNIXUpHE/SQj/gHykY1aDPKM8q0VQsX+PIX8SMxiR5O/Veq4EdZmxk+rCbZzzXkKVSFeV+eeLq1qqcOb7mn4jz94sXGVj1f9PpISF6DL2d+MOo81wZ7a+gvZyqOfh/63Q/VeoRRFPxjoyY4YWieW68LTfnQadMDObi5zPeTJoBPAVVjNLE8i5MCjfdN5ncgwDOmWpOhSlaM1n0u2pgRHA5AdvtLXif6RhhgmOeSuaNnX6rvvAwU/hAxbPfNMNyJZVe8fvbXGGk26UPZXoBvT+8fT3vE9OX09PUh8bF6/jec0F73Zb441iKfh/MHgizL9kGP+dj5eFyKa7B/8CiZ+mkoY74l3vJQdRVNLnC+R5T0WvciY/CZWSMsxivZxI8VscwsbORJSOk0bT7KTjQ1lNSHsNAr0Fjh6q6cXWMe9F+ErwLEVyC1rq7jammllHj2U1RFMlwrn6aUgoAgAoXdZeoMCRqZYueXZlg9uZRLsT6/+72bBGNokTghazhgett3Y5jiWAUSdrNq7mfLtR4aWq+hcjEj04o6GfGbn+x/42Taj4kiMzxldwTGkjgCB9D+g9Co27FPUL6j83smHseAFWwcNtqw/xrkPuU0Wbt6javRTxkvdMnw7vKgXDINW7/EBiFf6CBcyZytX4R9m8Y6Z2eWlPZ5V6KcvTz6QRyoq62e/1Ng==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(2906002)(186003)(4001150100001)(38350700002)(31696002)(52116002)(53546011)(6486002)(6506007)(31686004)(508600001)(83380400001)(38100700002)(86362001)(36756003)(66556008)(4326008)(2616005)(110136005)(26005)(966005)(6666004)(66476007)(8676002)(8936002)(316002)(6512007)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	/aO62DMEnqMh+n/1FkEeQ5S/GgLJG8yjJrg1nZxw5JO8xd+/A7MoKdKAvYrMEr94SDyzhJ69xrLJJggvYdy1T5R4/qY2tJA3nvmgIpR5TD4bfPIU6wjXXjkT8YyWoXLnGr8CFBMBFP8uasEd5zptkty08xJ2EQDWuVDh1Z6ztCHnc1PXlnqV5lGD7dkQDBlCYufmcwEt3rukA6ad2SsnDxL4275dXXDxmnCYFVZZEMBKiKdpSOYKVjGXo46DTf4VJNJdoC1lb0RglfzCUOMvgzqAznXkv3LwCJ7jHaf99El9qEb4t7lXG3ZBOuFE9Ga6odaOYzyjL9qLwC+ETQsBosx5yjzSKWcRUldMkwKLkdoNY52uRTVRSHZwEOHIhm9HjTOeLTfZzRH7rzPnTn1NlB2alyZ4n1odV+/tw+Hrx2kQs++kP92JO38ABDj+31t+WxxF2um4X3r2F87q3rQoS//OiWMJ4YEwP+Hcl54rabSHiMYuU9jiG2y6XbDmN7XavVP6wsH2h/RuX9IWaoaPwgddep0PPJYR5CH7yg6NLoyoKazK+b7z1vI55+AqB0w20LNPGD//EbjbRJlkkvffng==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cnZTOE5OMUNDL000UG1zTVc5Yk1mSXEreFk2R09VZXZodTJVVW1HVzkwWUR5?=
- =?utf-8?B?UlZ4OTdWWlVValJLYW1GQ0Q1Tm5FaTNZVVRHZDI4SEExR1A4dm5LbTBtQitZ?=
- =?utf-8?B?ci9JZ3pGSVlFaXM4OFhzdW5FUkdoVU5wOUMzVHZ5ZHY0V3d2cGNLYXVHb2Mv?=
- =?utf-8?B?YXBHb0VQaS9lYTBhMEN6aVRKNXFZeEx0NUJvV3FKaTh4bnFwQ2taTEZqWFor?=
- =?utf-8?B?RzE5NnNKUFR4U25udWNzYTZtZ09ybGg3ZTNHVVRWdGxWUDZSemUveW10dHVi?=
- =?utf-8?B?c2ZDWjBpaXR1ZzJKckdLRFFkSDV4VW5JZkVld3RtV2dDR0c4L1czTlh5ME41?=
- =?utf-8?B?czkyRFNNWFB3SFo0ZlJJdGtyaGJQNlVJMXZaY2NjbElURnRaT1QwZlJ0Z0kv?=
- =?utf-8?B?WEZBams3VkNDSWYvSG1FYnZsNXV1VWdUSm9BZlQ2dll3UUFZeW1tcldFSE5z?=
- =?utf-8?B?eE1kZ2FSeFduZXNXdE1oQytvbGJxTzFXdXdYWHNiYU9Na3VwQS9ZMXU5VFI3?=
- =?utf-8?B?NzdidnMwRDljQnFFMUhvdjl1N3NWdU1Za0dwVTNMajQyZ0IzUy9lYml1empZ?=
- =?utf-8?B?NzZhcmVlb1RoNUc4WDhBRFZQakxEdkQ1OWM2VmMwNjZDWUU1TzlySHl4bmo5?=
- =?utf-8?B?eGRicGxvN0VmWU1scU0wclFOa1FuQ3cyQ2ZJU244QTRxRXBOSFhWVWxzaFA5?=
- =?utf-8?B?RFZuUWlLVVY0SW91N3Y0dkEzNEJFaWM1ZW41WGRCbGhVaStoZDJGeTMwd3F6?=
- =?utf-8?B?STNQUVZaQzF5WjVZaElzU3krcDV2U1JaQTNXbEVnTCt2R2NiVE44TC9yK2VY?=
- =?utf-8?B?ZXB3WTdqaWZmL0g5NVhqV1ZiNzR1anBRWkl6ZWg0dENwcXlLS3Z3RGZ6WU5Z?=
- =?utf-8?B?VmozaTNBSENkME9GNU1iVjJPWks3WFJZMUdCNkhLVjVwQlFYL0Z0RVdHRFNV?=
- =?utf-8?B?c1RVcW8yc3NSeGNtc2djUEtST1ZTNEl5S2RKRWhoV09jWmxidG0zbEx6M1pH?=
- =?utf-8?B?c2dXWEgvSnBwbWJBQ2pYZkl4Z1hlUjNPWnJKKy9pV0s0YVk5cVZFdGNsazhL?=
- =?utf-8?B?L2FwNXluNjlyd0k2aWpGbGIyQ0FodHF2UVBsMXN1TGtrYk9TcmVtaFpIRFIy?=
- =?utf-8?B?U09wSnc3ZGhra1FSZ1UzNXRDcWtOR1E5Q0hQV21ydkp5RVJtUWwzZW1kN0Jm?=
- =?utf-8?B?c1IwSnVBeFRtQUV2R01adWVQU2t1dk9CQnluNXBNMmJMTXRPTDZFOWsxbnRR?=
- =?utf-8?B?OG9CUDZIQXZlSEIxMXB2WXpKblpkVFZFOG1XaWd0QnExMWdUdlZDOTh3TmYz?=
- =?utf-8?B?SysyaHpUcndDbDdTYU5uRm92Nm42UjNYUjh0elFRTTVEOFk3N0pPQnc5dnVy?=
- =?utf-8?B?Wjd1d0NtWDYzamR2RmdZcHZkUGVGdEtlaG1JN0t3S0JucUd0bU1pM1pPMUc1?=
- =?utf-8?B?QzdTTXJueFZIcThxN3M3WXNodE9JN0VYNmtqV2tMbDlWSE1yR1BCUEJCMWY1?=
- =?utf-8?B?emVBTzYwV0pqbTRkN2xxQVVUcStFUVVQRDJLUkRiTmNGTlJKMVpKa2RsTzRw?=
- =?utf-8?B?cTNlcmJyUnYwSkJSdWJUSjZ1QjR5SzFUak9NYThoQm1MaHVCRWFYRURUbXhv?=
- =?utf-8?B?c3F2VHkxdS95ZlhITDNHOTl5c2ZYd0hxNDdDVzMxL0tWZ3ZuUy9WNVV2TFN5?=
- =?utf-8?B?Ymk4a2NWd0lMRXVvQXRjOHpSeWtHNWE1d3h4QjJSUUZzbVpkVVN2VElrVml6?=
- =?utf-8?B?Y3R4MXFvSDkyTGRIb3REaW1qZHVacTgyTDRaMlQ0aXZSZmZ3cS9NOHZ2RmJP?=
- =?utf-8?B?UHpzUG1VdXU4WDNhcDByWmxmNGhoQ1YxQ3RUcXBvSE9FQ09TR2U0Z1BPeGNl?=
- =?utf-8?B?TUtMbTRuRnZoNzdHdDNLeU1wTUFRWjZtRGcwMmhFNU1hdlpvdGEyTW9COXRD?=
- =?utf-8?B?VWFOV1l3eEg4d3BFZy9SdnhUT2lOeW5GUFcwOTlOdzVrMm9DUEU0MnB3cEpX?=
- =?utf-8?B?OU5nZFZjUXFEdmkxZEdyVm1SdEtERDZCQ2E2NkVWVUJKdGFTS1JYM2dXZlhQ?=
- =?utf-8?B?YmdPQU1vWjl1SWt6RG5zWGNyVHU1aGUyN1REZ3YveERWYXpWY2w3VTBaK1V2?=
- =?utf-8?B?eTJlL1k5YjVaVWFCMGl2eEtYOXJFSnpjSDhkelN0ZVBtZ0xORHVrQjhRTWtV?=
- =?utf-8?B?RS9UWjFWT3d3dFkxMDNzTG9RNEdqQ3NVMHNxcDBhZGdNRGNqVG5tT0xINU4y?=
- =?utf-8?Q?taGkblKwPmZc56SWfvB2L8nqbIN6SICGXHKPiSP2v8=3D?=
-X-OriginatorOrg: windriver.com
+	=?us-ascii?Q?drXPjqHIiXEGMZoI3URqRDijSYPWqrdF3MX/1BNk+xoE09KJs+BSqDQ9aaVy?=
+ =?us-ascii?Q?5Zqkt60h5LroWkHHgjqGT6f1OY7UYb5bZNcFpoLtshMRmm/P7jmW6tzwIh7K?=
+ =?us-ascii?Q?ay6aYe2ikovUgokNuuc6+FyutJ3JJ2NY+d4u39+gc87E2bUoG4G9p5FteG3r?=
+ =?us-ascii?Q?1le76LbztEFbVhaLAZlDfKb8SDk3rPHJsabXNZzm0Rhq1HT637qDuIuW5biI?=
+ =?us-ascii?Q?vgnEwiQN6ZJ4hI6z20fwDLA4bC60DRIc+Pc5AaqXIVnCynJ77633wG+TPYcH?=
+ =?us-ascii?Q?7I6xRuAgc4yiFl8q/4+wUZiAk9dCClUMXyEF0ENZ8sgF5qQgcMU3F9tw0ZE1?=
+ =?us-ascii?Q?qPw9vGMFfFiLGgRLpCdbXGPUmGkadsJR3qeZpe2q0+Ai6kEF33f7Gf6bO2yG?=
+ =?us-ascii?Q?3l1qfl+B/ufGwjPvvgUsVVTW4Cq4GWeB7/GACE5Lhbjq+1blQYr1V+48mhTL?=
+ =?us-ascii?Q?GyTf5G36OISwqOcgCHiAfd/Zgvbdsf2JqjHzJFd3TwPxbw+Y/b1eR4ZEQ0w1?=
+ =?us-ascii?Q?4R3eSqH1YVZJcnp7AXHh8nNUKPTgSechGjOXGqjRkApYOCZLDOnpJJlbPrB5?=
+ =?us-ascii?Q?f7u16edDG8US+cRuugfZMjr6oozrOR+mBHDElaiPnQF4qhD7iiqg6TA73bTs?=
+ =?us-ascii?Q?P+dDUPktk8E4+LHPrGHiRbMwHq4mXDrgng6HkoeFAtoyepRolhbZyHbTkHuX?=
+ =?us-ascii?Q?dyOu/gIquAiayntuL51EbstkMlWZFoJFBgYYlMurNyJF+mtTMg4n5OM6CS4L?=
+ =?us-ascii?Q?pQolPSzd8EbvP7PR58s9V+tr9H2Og/PQT4VM+eCN3+/N/f2FwDhXErSgACb6?=
+ =?us-ascii?Q?NMDC/6nlUMYiypfTkxukSDE+TWKOQFpdkEX6NlEr1n2+b0gsC4I+O1tBBP/+?=
+ =?us-ascii?Q?NfmQ9su2QEBbVNR2YoiTNOl/mYw9gsX07meqTuKQqCoYefaD81bsnaWoTyBz?=
+ =?us-ascii?Q?vWS2NZGZtdTJSO4kRvCmXv8hAr1i84x96anOFOa6d4VDHoJoSYWVLfc9zuwM?=
+ =?us-ascii?Q?R27c9kRg/K8I4Cxkaxt3pF0tig=3D=3D?=
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- e56873b7-65c2-4baa-ad0d-08d9bf278ce5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+ e9d7f96d-a9e5-4ec1-fe49-08d9bf2ab005
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 17:31:23.9690
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 17:53:51.4693
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- Qe7O+hFNQmETypXUXa9uFjiztaJXsrRebM+/CtmHJCNptrTdC0qG2pbitmsdDvmZwl3/WGGCXjN5exmGGNP4CjQpu9rE3kNDm8tjBqUH8YI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3801
-X-Proofpoint-GUID: LcyHsz3WAj0i1yE6b6Qqtp0yncqBWaCY
-X-Proofpoint-ORIG-GUID: 6XtbeZcNZQfVeSfRAf9_XRC0M0AWzWBp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-14_07,2021-12-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112140095
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB3411
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 17:31:29 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 17:53:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159700
+ https://lists.openembedded.org/g/openembedded-core/message/159701
 
-On 2021-12-14 5:46 a.m., Pgowda wrote:
-> Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=bd5e882cf6e0def3dd1bc106075d59a303fe0d1e]
-> Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=51c500269bf53749b107807d84271385fad35628]
-> Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=1a7f2c0774129750fdf73e9f1b78f0ce983c9ab3]
-> Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=bef32d4a28595e933f24fef378cf052a30b674a7]
+if a patch uses Upstream-Status: Inappropriate it should provide a machine
+readable reasoning in square brackets.
 
-Ugh, that's quite a bit of patch to fix this bi-directional Unicode 
-input attack.
-I'm fine with these changes though.
+According to latest wiki entry that would be
 
+not author
+native
+licensing
+configuration
+enable feature
+disable feature
+bugfix .*
+embedded specific
+no upstream
+other
 
-I do wonder about how or if we should fix the CVE in older releases.
+a detailed reasoning could be provided as part of the commit message,
+but format of the metadata line is fixed.
 
-For example, has or is there an indication that gcc upstream will,
-be backporting these patches to:
+This patch adds a check to insane.bbclass and warns if there is a
+non-compliant reasoning given, or none at all.
 
-$ git branch -a | grep " releases/gcc-[10|11|9]"
+In a follow-up this should be turned into an error, as it was done
+with missing Upstream-Status
 
-   releases/gcc-10
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/classes/insane.bbclass | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-   releases/gcc-11
-
-   releases/gcc-9
-
-
-?
-
-The current state of supported branches is:
-
-Branch     	YP gcc ver      Latest gcc ver		Upgrade needed?
-------		----------	--------------		---------------
-master		11.2.0		11.2.0			No
-honister	11.2.0		11.2.0			No
-hardknott	10.2.0		10.3.0			Yes
-dunfell		9.3.0		 9.4.0			Yes
-
-https://gcc.gnu.org/releases.html
-
-
-so please check with upstream to see what the plan is for
-the 9-11 release branches and this CVE and report back here.
-Feel free to volunteer backport patches to gcc upstream if needed.
-
-Are people CCed okay with upgrading gcc to the latest release or
-ideally the next dot releases that will include a fix for this CVE
-if it happens in the coming month or so?
-
-
---><-- snip --><--
-
--- 
-# Randy MacLeod
-# Wind River Linux
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 240f3aad62..da26f4662c 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1191,6 +1191,26 @@ python do_qa_patch() {
+                bb.error("Malformed Upstream-Status in patch\n%s\nPlease co=
+rrect according to %s :\n%s" % (fullpath, guidelines, match_kinda.group(0))=
+)
+            else:
+                bb.error("Missing Upstream-Status in patch\n%s\nPlease add =
+according to %s ." % (fullpath, guidelines))
++      =20
++       inappr_message_re =3D r'Inappropriate(\s+\[(?P<reason>.*)\])*'
++       inappr_reasons =3D [
++            'not author',
++            'native',
++            'licensing',
++            'configuration',
++            'enable feature',
++            'disable feature',
++            'bugfix .*',
++            'embedded specific',
++            'no upstream',
++            'other',
++       ]
++       for match_inappr in re.finditer(inappr_message_re, content, re.IGNO=
+RECASE | re.MULTILINE):
++
++           if 'reason' not in match_inappr.groupdict():
++               bb.warning("Missing Upstream-Status: Inappropriate reasonin=
+g in patch\n%s\nPlease add according to %s ." % (fullpath, guidelines))
++           elif not any(re.match(x, match_inappr.groupdict().get('reason',=
+ '') or '') for x in inappr_reasons):
++               bb.warning("Malformed Upstream-Status: Inappropriate in pat=
+ch\n%s\nPlease correct according to %s :\n%s" % (fullpath, guidelines, matc=
+h_inappr.group(0)))
+ }
+=20
+ python do_qa_configure() {
+--=20
+2.25.1
 
 
