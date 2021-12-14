@@ -2,47 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0C3C433F5
-	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 01:21:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15BA7C433F5
+	for <webhook@archiver.kernel.org>; Tue, 14 Dec 2021 01:21:18 +0000 (UTC)
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
  by mx.groups.io with SMTP id smtpd.web10.20093.1639444861529217620
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Dec 2021 17:21:15 -0800
+ Mon, 13 Dec 2021 17:21:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=intel header.b=kbgW+VnT;
+ dkim=pass header.i=@intel.com header.s=intel header.b=mjpcztbY;
  spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639444875; x=1670980875;
+  t=1639444876; x=1670980876;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=NZ+ZSl/Y7Arzji4B4hISFazK/uV2f7NpYb/4oVEO6ok=;
-  b=kbgW+VnTbF4qvq36RksRqOMP5KQ/EMiRqxBWYgD/rgp0Tp/EM/tfnsHg
-   QkN+8J+1f7uLEtpTDkpTiiPfDhPCngBNCTwvNe3qjXRg258AOzs09PDky
-   57+iaLvKcXSon1mRtg9oCMBxTlG1/5PgQnRK3mnODBdUPjn5QAXEjX0sP
-   4ruJVKjZzhj7QCnw8p0KUnMLmtfLqrBGNBbfSNccgF9TJkNeWbfvqVS18
-   is+K/TFQqVkH7ro2TD7k9Z2rzyLjX6oJopp1jbeYvQ4w/xG97Lf+oEUkA
-   RJO2PiKJRTIT1Q625yKrMUFnZgxRutIWgjL6Jvhucfe/ZkGfgKFjS3PSP
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="238682523"
+  bh=UJtgSl4kvXnqfcQHdEgiVnoPUcJIHKH6hiJUaiGTZig=;
+  b=mjpcztbY8XXp1W1s9wRYG85dLxRuOmL/Jo/nIL/er11mDRX+y4gUq9gD
+   +pAuq/IHJx9gnAtMh+6gdse0JPtlLTR9cLlq5nbTmZ83q+hesjb+LuStp
+   WUISaLGWUbnpseUJlWksYXongilnpj/73Ic+6EuHmphJXCoMcBfq6RC+O
+   9aOnGJEYpfka0KB2x2mlfAU3HtJMsU1tsPrT6QoEWj+uZM5txA+Lgoc49
+   DJV4CBe6aBGQ1trgso2Gf7k9DcB0q4LAKx1jhVJ3o/N03X0SXjMIiAG3h
+   qYpRbLG5gjq6xni/5Ig6X4PdFJELYJ0lPUdbE3Gv6ejr+4EkVmG+2zj0l
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="238682527"
 X-IronPort-AV: E=Sophos;i="5.88,204,1635231600";
-   d="scan'208";a="238682523"
+   d="scan'208";a="238682527"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 17:21:15 -0800
+ 13 Dec 2021 17:21:16 -0800
 X-IronPort-AV: E=Sophos;i="5.88,204,1635231600";
-   d="scan'208";a="464869207"
+   d="scan'208";a="464869212"
 Received: from zyteoh-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.215.239.31])
   by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 17:21:13 -0800
+ 13 Dec 2021 17:21:15 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 09/17] kern-tools: bug fixes and kgit-gconfig
-Date: Tue, 14 Dec 2021 09:20:44 +0800
+Subject: [honister][PATCH 10/17] recipetool: Set master branch only as
+ fallback
+Date: Tue, 14 Dec 2021 09:20:45 +0800
 Message-Id: 
- <ee1d3b4cd0c7a615cbd5ddf46433c470dc43c669.1639444641.git.anuj.mittal@intel.com>
+ <48cbe51ca30d35b1355c8c0247eaa21520ab7f24.1639444641.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1639444641.git.anuj.mittal@intel.com>
 References: <cover.1639444641.git.anuj.mittal@intel.com>
@@ -51,47 +52,81 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 01:21:16 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Dec 2021 01:21:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159671
+ https://lists.openembedded.org/g/openembedded-core/message/159672
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Bumping yocto-kernel-tools to version v0.3, which comprises the following commits:
+The commit 'meta/scripts: Manual git url branch additions (dc53fe75cc)'
+sets the branch= parameter too early to master and thereby breaks the
+-B/--srcbranch option.
 
-    90598a5 tools: Makefile: add missing install file
-    330f9fa kgit-config: fix file mode
-    22b55cd kgit-config: cleanup error message
-    1e2a233 kgit-config: fix the "not found" message
-    e7fcb9a kgit-config: trim trailing whitespace
-    3cd14ce kgit-config: BSP template and auto meta-data creation
-    e56620c tools: introduce kgit-config
-    969b888 buckets: update to v5.14+
-    d220b06 Kconfiglib: add support for bare 'modules' keyword
+ERROR: branch= parameter and -B/--srcbranch option cannot both be specified - use one or the other
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 88439875530bf36e301dbba12de5cf0dc664ba51)
+(cherry picked from commit 34ece8030e7a6a100b5e3e7b94e6c786c0e199a6)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ scripts/lib/recipetool/create.py | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index ef035aed23..95983fe69b 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -8,9 +8,8 @@ LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index dbd118123b..63e7f0658b 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -389,9 +389,6 @@ def reformat_git_uri(uri):
+                 parms.update({('protocol', 'ssh')})
+         elif (scheme == "http" or scheme == 'https' or scheme == 'ssh') and not ('protocol' in parms):
+             parms.update({('protocol', scheme)})
+-        # We assume 'master' branch if not set
+-        if not 'branch' in parms:
+-            parms.update({('branch', 'master')})
+         # Always append 'git://'
+         fUrl = bb.fetch2.encodeurl(('git', host, path, user, pswd, parms))
+         return fUrl
+@@ -481,6 +478,9 @@ def create_recipe(args):
+             storeTagName = params['tag']
+             params['nobranch'] = '1'
+             del params['tag']
++        # Assume 'master' branch if not set
++        if scheme in ['git', 'gitsm'] and 'branch' not in params and 'nobranch' not in params:
++            params['branch'] = 'master'
+         fetchuri = bb.fetch2.encodeurl((scheme, network, path, user, passwd, params))
  
- DEPENDS = "git-native"
+         tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
+@@ -530,10 +530,9 @@ def create_recipe(args):
+             # Remove HEAD reference point and drop remote prefix
+             get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
+             if 'master' in get_branch:
+-                # If it is master, we do not need to append 'branch=master' as this is default.
+                 # Even with the case where get_branch has multiple objects, if 'master' is one
+                 # of them, we should default take from 'master'
+-                srcbranch = ''
++                srcbranch = 'master'
+             elif len(get_branch) == 1:
+                 # If 'master' isn't in get_branch and get_branch contains only ONE object, then store result into 'srcbranch'
+                 srcbranch = get_branch[0]
+@@ -546,8 +545,8 @@ def create_recipe(args):
+         # Since we might have a value in srcbranch, we need to
+         # recontruct the srcuri to include 'branch' in params.
+         scheme, network, path, user, passwd, params = bb.fetch2.decodeurl(srcuri)
+-        if srcbranch:
+-            params['branch'] = srcbranch
++        if scheme in ['git', 'gitsm']:
++            params['branch'] = srcbranch or 'master'
  
--SRCREV = "d220b063852245fdd16b9731a395ace525f932d6"
--PR = "r12"
--PV = "0.2+git${SRCPV}"
-+SRCREV = "90598a5fae1172e3f7782a1b02f7b7518efd32c8"
-+PV = "0.3+git${SRCPV}"
- 
- inherit native
+         if storeTagName and scheme in ['git', 'gitsm']:
+             # Check srcrev using tag and check validity of the tag
+@@ -606,7 +605,7 @@ def create_recipe(args):
+                     splitline = line.split()
+                     if len(splitline) > 1:
+                         if splitline[0] == 'origin' and scriptutils.is_src_url(splitline[1]):
+-                            srcuri = reformat_git_uri(splitline[1])
++                            srcuri = reformat_git_uri(splitline[1]) + ';branch=master'
+                             srcsubdir = 'git'
+                             break
  
 -- 
 2.33.1
