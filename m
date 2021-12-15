@@ -1,157 +1,510 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04511C433F5
-	for <webhook@archiver.kernel.org>; Wed, 15 Dec 2021 12:12:26 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (EUR04-DB3-obe.outbound.protection.outlook.com [40.92.74.60])
- by mx.groups.io with SMTP id smtpd.web10.39464.1639570344553088285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1FFC433F5
+	for <webhook@archiver.kernel.org>; Wed, 15 Dec 2021 14:07:36 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.40606.1639577254860953832
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 04:12:25 -0800
+ Wed, 15 Dec 2021 06:07:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com
- header.s=selector1 header.b=igiLeC2w;
- spf=pass (domain: outlook.com, ip: 40.92.74.60,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bFmdkQJ1sptBXNiXOyfkvjE6UQuGvYmFAu661SlcyEopN23Stj0qcTntIAGiEcRvsCOyZLkDNB9MtCSEPLAIpfjcWDS2E42CCdz4dcCJI2dxcS2YCBzt6sk7gFUDQTirBJFHTJC9JLQhYNdCn2o9/hzfQe6C42Rj3rIE0u5c6/6ggJnUoN+KyrHLfhTkN0tC9tuQNp9lMHQ2w95zGdoJLZgSAF1ImBgr9WR/AlZba6qODC56T18DtJQM/5Mz+aZdljWKhBIolhhNPvQA9nTSvBcbXMP4fJWSowo2S8Nb3u8i62EHdKit3L/qQ7jry9S15ATaZlOKxpTO7zhpAoBINA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pt+iFyIPt30K9zJO9D2xtDeHCNCR6ty6REgVlGv+0iw=;
- b=YRZKDZWd88B6dvK8EU8+mkN1zBp0CJl8Q/Rs/yIdKvS4JTsYsy+brAQHg1al7YEIb6rJxs3kln+C13YYL4Ep64XSkfiHQl3HkoEFHeYRZoHFYJiIuXjV3DOVP1rggNCZdQd4uxMER5vUBKAdfXDUaG3gPcjsHnRN4C/ds0BJPC+/PnLk/CE9LzXdMoqWgo+TXpcKDZvg3wLaahXdGTUpQ/q2nIp0cdCavHZqcQFVDxDl7LmGBFpSchX7yDhxDEnuemdCcNTEG9v2qDpDPhzkxWs0q6rQIkRTCHx7tn6NBYrfTUUhlFC4pAAvxAhafS9D2YVkhLZvh2p7XNXXQ3HzOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pt+iFyIPt30K9zJO9D2xtDeHCNCR6ty6REgVlGv+0iw=;
- b=igiLeC2wSzF+Z01tUdhXSzP2ZazvN5eQZ92e70iqp6ChqGG7/VZplMP0ZrZKGKA4NNkgaI/E7MvhBa4YcdEiaDWDMyNnBOjz0l7WGV6eG7nboO2SWyIraczlKnxhyhx7v6M/iacXPaA2BSLvp8XFu/9efT9odY1hJiVWh3/3yNgpIRvYJoITzMVtJO4oetOpqkqVArutlryFMcJmg9jedj2gS7W7aRm70qf17DfhnTZTT0WWTkc+Jd/1tOrCMG8kq7EaqrFOFkEYhD1mM/svmPCObDNc53+XBetjVjG8S+mJg4xccuemkw/qWHA6E5V1P6DA8GdF3u8943vgU5xpuQ==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM0PR09MB3281.eurprd09.prod.outlook.com (2603:10a6:208:173::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.18; Wed, 15 Dec
- 2021 12:12:22 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::782f:9964:348b:b2fa]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::782f:9964:348b:b2fa%9]) with mapi id 15.20.4801.014; Wed, 15 Dec 2021
- 12:12:22 +0000
-From: Konrad Weihmann <kweihmann@outlook.com>
-To: openembedded-core@lists.openembedded.org
-CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [meta-oe][RFC PATCH v2 1/2] oe.lib.recipeutils: add get_layer_name
- method
-Date: Wed, 15 Dec 2021 13:12:05 +0100
-Message-ID: 
- <AM9PR09MB4642AFAD1E3DA5F9022D3C1EA8769@AM9PR09MB4642.eurprd09.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-TMN: [tpeZ3S2d37WONDsdICg+M1BgwXlCKWoyd25QWs/UuG2tYX2pqrmujfOdqdcnEOaX]
-X-ClientProxiedBy: PR3P189CA0080.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:b4::25) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <20211215121205.3283672-1-kweihmann@outlook.com>
+ dkim=pass header.i=@madison.systems header.s=google header.b=Kfgvsfx8;
+ spf=pass (domain: madison.systems, ip: 209.85.167.53,
+ mailfrom: matt@madison.systems)
+Received: by mail-lf1-f53.google.com with SMTP id bi37so43417492lfb.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 15 Dec 2021 06:07:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=madison.systems; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dW00DXmVulHXmcVkyBeorc3T4jDchjT0QsiU79UBfSg=;
+        b=Kfgvsfx8NQivaq6kelO17W5Em0LP/fh9Cyeu0G6YaFIa24jvcaQA19r4Yd5M1zC+Zv
+         1LwWnsACMi2hRSJGf6t4S3aFW4k3J15rqQcY/G2+anPi8t7y8H17Y15SP4By7aq6kf5q
+         GTa0ZiKyuDQtMNHAnTZJkYMMRfDVcb9vvFOQfdDrZ7spirG8aEBjBd2KVmuv6IpxbWi3
+         dQy6x3o294v4ukqzJG12BxcFztt6moRvhx6d022/DUvzBALDhUkdTSjcjYzDfCewRGpQ
+         3iZbEGYuXNRc9S/Dg6jyk7/TTmQqmA7cYY7+yh2QDYKejqIY8h6Wc27hHDKsiBQ45Ty7
+         o8UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dW00DXmVulHXmcVkyBeorc3T4jDchjT0QsiU79UBfSg=;
+        b=2YSLxecBW2aL2FmYTg3AzTdYn55ZIykTsi6oDBAg/fve46igRsjfZgMv7tGVpgYRkt
+         NFFxeNjFLDjEwVSzD2EXS/uVlQ1VRczscVa/y3cL2riYlBNcCAftoIaGvewL1nRYEqEF
+         krQKImQXfZPD5MX4Vb8whrwmdDnwAAF+D/32gUe8qkmZBcoYFXQ+XfRGx1iAgoYUX8b6
+         jqKa4bchwBr4jPL5FkAk0PiPLQE3cDWQAqoPXhP700MHfST3OOUIoyeg4NzwEcJ1Ckl3
+         B6EGXiCeOMSzfY3Y4woo888J9zaPh0H/rcXPQw+4eHyLwDCyptGWNTD0PEt2oZt3p5D6
+         yF4g==
+X-Gm-Message-State: AOAM530a+QXqQo07EObK4DfoZXfZXb+GjSyYipPPrPS4ie6Kg1+z6w0p
+	820p4QhNg9xM6AVkcstL7WDUEYN5d79R4ot8NlhQSg==
+X-Google-Smtp-Source: 
+ ABdhPJzhFN5ARLiCRgu7H2YRNBsYV+qHfGXjk66TngKHOCgwV4YJMur9SL49jVr9jFzQNE37ZTpD6x0y3ijqe7CqaLI=
+X-Received: by 2002:a05:6512:23a7:: with SMTP id
+ c39mr10212456lfv.655.1639577252379;
+ Wed, 15 Dec 2021 06:07:32 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 04d4c04f-3932-4ec0-89c9-08d9bfc425f4
-X-MS-Exchange-SLBlob-MailProps: 
-	tBYDyRQCPclxISl++lM8ZOjhKIfmIxnlLTUHl4CtRo5EtV48gMXpXjMwbo7I1F+hQxzQjN8TXoIaTge8MR2PG5AaOofPvRZl2NrVYc3KiwkJflL8TJqyvOHuYGYd1KP+95DTO5ClWpTVVrjeb2QXINUQjXzWu+6sFyeEXkS90lNoViGsgC7TeVbBD7re9YX8EHlf5wNqWMqpmuk2wfYH2Hwi8kHS+axWrdf68CTifgn+VzKdvXxWe1C3hqlthCiK8xf1XplY8f5nrU2D8ZNtZ6wm96fPMv6CJcCzGAXKrhZ8XWF8JDu2mNJslDhTDn0JA6aYXH+c8AbwqXURHTUT+JSlxTHZoBGg/PUXzx9UsF4E5NPGDUWqnhcc36LMlwZ/35D5/PgutoRV562x+S7xmzoUtw0i0xpmH68BsGn52VsssTXKucy2GEQWjknOjuMSOzftVRpbTyAw5jAg3NBviX4eKL+fykmU6PaEt9ZGy/Ho7ytCCIQzJLy6RDUj5u6rgoZtiX7EJTxx0MGOBi2BLaoURVd7c9hRiB03K+Gxj2OTGylHcjl/mQ9Hff596F0yo3jG+WvRgJ+BH5DXJ2e73/13O9UnHv7ty4Ze5G48sM5p93848gmxXJReFvfktaQrEN7ph6+yiFVNXJq1bcPyURxBvVoWAY8c6vMnbvKxZ4LBqtiSIBkKf49csnzigSfM4D/qG3icFT7W92DgkJ1KAFHlV7Z9mfGGsrWOhJzqwNfIChjc22i6M1K45w+wueY/aicgoRwo2y0=
-X-MS-TrafficTypeDiagnostic: AM0PR09MB3281:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	AeD/ngzQ/mZfMQTtf2gWA6VJheED63G0IkmEvizB9BWdNGe6abSJG+mbwP1glZyetsM6xZKsGYE1iGSL+rxukVdhn7dO8+uSuHIxb2y48tUFXi+sRBHN4iSSMU8cW1xK72jSLq2aBQrKlFx/AT77hpnZ53WFEfk5RBOwuCNUs+X44GlT93MQsp7jzBrZMykM3jj4cuKy7Ud4ybEPfUIn7qdNhKqHP+l0Epo7mlg8nPsQa561ACbgzra2W1kZdc7uIrNMcO3v4rsDzTCueMkXe5KyW7QFG+elPzNgI9fhiXOw5fJ8VWFFjP1V3lv//NCv1wJg4y6gykxFR09crtJTxSy9Tr97x5HhRcqTvVBjXo4NfFKW+xQULhHjjlNUvp1+TLQLtlJNLXepgxiw02IUTBvgxbGieIo0rEMb6rMXZcXHtPuEtFnzQIbyeedjBZtcWwWtKKswmAogQhQ+btz5Kn0Avhm4N6oh/FbJFThEDrXXdpTQfRAkojifrThVeokEVYjwnfRsvZKgUiU99h82k6qGsuek1XfLaNsNtvL52zd6OZ61ANN+Vu5jUasRXUzmSgdvC1vaFroyWfixyVdRLw==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?so4JUovwfhaboSbuf9pLh63L/qiRLnFMlab84yTD8rUnyDVVrOI7OVQ5t2Tk?=
- =?us-ascii?Q?5aCJR+Wda2BzekiPrGNjRE52UvDPrOeY3WZcZSXTFKmPIvNZjyZARMWiWLqT?=
- =?us-ascii?Q?n0pJCkZETlM5YhyU42rSUZ72/etpzQXkEgxPyrki+2ip7T5j2yrSuN02IcqH?=
- =?us-ascii?Q?KHNMlUrwlpgl9oD5D2XECX3F6lxD9vj+TvTSy7ws25/kfvjwdZRgnkLhHyJq?=
- =?us-ascii?Q?doGX7e/lAnMZlNDZGKiwoZcLt+1A5dniy2bL+IJxbE9NhcLrlQLwZZ1tVCyk?=
- =?us-ascii?Q?eboW3qqTinSg1gQ0AprhusNrZavFlyNFPLdkP4JdiuDh/hVuWznMLTI9hrwQ?=
- =?us-ascii?Q?ebK3k5sKaZjz6FAlqeelrzjHBt6GCUB0heX6/HIWcn0sQu8D1dA149E5rssL?=
- =?us-ascii?Q?3VUvgm9PTX4HCTO1rmMRwqRlS2GHO6aoNC18EKSP/3EXXUn6EgctaPqTkme3?=
- =?us-ascii?Q?Vvly9bsIXq8WuhunfocKzdUngjQQ4O8f1mDJrNXNSPCSenEmYzOhT6txgLL8?=
- =?us-ascii?Q?UaAi7anjxPn7imlRW6abtg51BDVmbw8dP5E9HK9aWzclabiIocqC2cV0WjkT?=
- =?us-ascii?Q?8FOjkVOdepf0SNd+UTjCs6tIfvFMcW+qp90DlTprqfmgTM5JUDdhwAeThE2C?=
- =?us-ascii?Q?InAsJVWeW6qeTZua1rjTL+jyoj8XIr6NMhmYF+0/cgtbIF1Oo9XWP2YwqDmQ?=
- =?us-ascii?Q?D0RGNmK9mI9GPwyvzImZ4OxuAoxpvWLYyIUOT2XGC9ozkbGygdjsCsljwfMC?=
- =?us-ascii?Q?qXVmhcpv2sclO+0ETlR2ednDQ+9o/5nl4UNcdutNeN8VLwjZOJi+ZpfjlHV5?=
- =?us-ascii?Q?VsvHN1P96PW3nXVFSANy0WuBvV8z4oWT5bRy5eIVKIQNzkJjnHOszixSnIkF?=
- =?us-ascii?Q?oaHmculFlb+S2MPgJXTzWOEHzZqoxbOY6Ue3Z2b5FRGxbSO97eGSr9XVHL3S?=
- =?us-ascii?Q?k7ml+ogp/X0qkAmbhfkJcK6VmAvWNiQQid+MAfEYlACChBLTGacCG/Z62V1d?=
- =?us-ascii?Q?FcWRERXR6QZSIaMuiY2BYGeUVA=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 04d4c04f-3932-4ec0-89c9-08d9bfc425f4
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 12:12:22.3569
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB3281
+References: <20211204071323.2480163-1-alex@linutronix.de>
+ <20211204071323.2480163-3-alex@linutronix.de>
+In-Reply-To: <20211204071323.2480163-3-alex@linutronix.de>
+From: Matt Madison <matt@madison.systems>
+Date: Wed, 15 Dec 2021 06:07:21 -0800
+Message-ID: 
+ <CAGgRHJpbpit-O5dRs_ytafLgk8cOb4qReACeGDaB2sk=jB+qWQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 03/26] meson: configure and use generic
+ exe_wrapper
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000b5d45705d32fd3be"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Dec 2021 12:12:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Dec 2021 14:07:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159723
+ https://lists.openembedded.org/g/openembedded-core/message/159724
 
-so one can get the layer name from a filepath
+--000000000000b5d45705d32fd3be
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
----
-v2: order by path length to correctly map nested layer
+On Fri, Dec 3, 2021 at 11:13 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
- meta/lib/oe/recipeutils.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+> This replaces the specific gtkdoc wrapper setting
+> (which was rejected by upstream in
+> https://github.com/mesonbuild/meson/pull/9627)
+> with a generic, officially supported and documented exe_wrapper,
+> which is enabled subject to qemu usermode support
+> (just as is done for g-i and gtk-doc with autotools).
+>
+> gtk-doc support is adjusted so that this wrapper is passed to
+> meson's gtk-doc module, which passes it to gtk-doc.
+>
+> The adjusted patch is re-submitted upstream.
+>
+> The side effect of this is that meson is now able to run
+> target binaries in a generic way when it wants to, so this
+> may affect cross-builds - hopefully in a positive way.
+>
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index a0c6974f04..557e0f9bd5 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -21,7 +21,7 @@ import glob
- import bb.tinfoil
-=20
- from collections import OrderedDict, defaultdict
--from bb.utils import vercmp_string
-+from bb.utils import vercmp_string, get_collection_res
-=20
- # Help us to find places to insert values
- recipe_progression =3D ['SUMMARY', 'DESCRIPTION', 'AUTHOR', 'HOMEPAGE', 'B=
-UGTRACKER', 'SECTION', 'LICENSE', 'LICENSE_FLAGS', 'LIC_FILES_CHKSUM', 'PRO=
-VIDES', 'DEPENDS', 'PR', 'PV', 'SRCREV', 'SRCPV', 'SRC_URI', 'S', 'do_fetch=
-()', 'do_unpack()', 'do_patch()', 'EXTRA_OECONF', 'EXTRA_OECMAKE', 'EXTRA_O=
-ESCONS', 'do_configure()', 'EXTRA_OEMAKE', 'do_compile()', 'do_install()', =
-'do_populate_sysroot()', 'INITSCRIPT', 'USERADD', 'GROUPADD', 'PACKAGES', '=
-FILES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RPROVIDES', 'RREPLACES', '=
-RCONFLICTS', 'ALLOW_EMPTY', 'populate_packages()', 'do_package()', 'do_depl=
-oy()', 'BBCLASSEXTEND']
-@@ -928,6 +928,15 @@ def find_layerdir(fn):
-             return None
-     return layerdir
-=20
-+def get_layer_name(fn, d):
-+    """ Get the layer name from a filename """
-+    pth =3D os.path.abspath(fn)
-+    collection =3D get_collection_res(d)
-+    # reverse ordering by length to catch nested layers
-+    for k, v in dict(sorted(collection.items(), key=3Dlambda item: len(ite=
-m[1]), reverse=3DTrue)).items():
-+        if re.match(v, pth):
-+            return k
-+    return ""
-=20
- def replace_dir_vars(path, d):
-     """Replace common directory paths with appropriate variable references=
- (e.g. /etc becomes ${sysconfdir})"""
---=20
-2.25.1
+Inheriting the qemu class unconditionally causes task hash changes for
+allarch recipes
+that use meson (e.g. cantarell-fonts) when MACHINE is changed from, say, an
+x86 architecture
+to an aarch64 architecture, due to the qemu bbclass referencing the
+OLDEST_KERNEL
+variable.
 
+I'm not sure of the best way to fix this; doing an overwrite of
+OLDEST_KERNEL in
+allarch.bbclass as is done for some other variables might be OK? I'm not
+sure it
+makes sense for allarch recipes to reference any QEMU stuff at all, so
+maybe splitting
+all of the exe_wrapper support into a separate bbclass that is only
+inherited when
+EXEWRAPPER_ENABLED is True is better?
+
+Thanks,
+-Matt
+
+
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/classes/meson.bbclass                    | 30 +++++++++++++++++--
+>  ...sues-that-arise-when-cross-compiling.patch | 27 +++++++++++------
+>  2 files changed, 46 insertions(+), 11 deletions(-)
+>
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index a7981e481f..ffec5f3269 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -1,7 +1,12 @@
+> -inherit python3native meson-routines
+> +inherit python3native meson-routines qemu
+>
+>  DEPENDS:append = " meson-native ninja-native"
+>
+> +EXEWRAPPER_ENABLED:class-native = "False"
+> +EXEWRAPPER_ENABLED:class-nativesdk = "False"
+> +EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES',
+> 'qemu-usermode', 'True', 'False', d)}"
+> +DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') ==
+> 'True' else ''}"
+> +
+>  # As Meson enforces out-of-tree builds we can just use cleandirs
+>  B = "${WORKDIR}/build"
+>  do_configure[cleandirs] = "${B}"
+> @@ -36,6 +41,9 @@ MESON_CROSS_FILE = ""
+>  MESON_CROSS_FILE:class-target = "--cross-file ${WORKDIR}/meson.cross"
+>  MESON_CROSS_FILE:class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
+>
+> +# Needed to set up qemu wrapper below
+> +export STAGING_DIR_HOST
+> +
+>  def rust_tool(d, target_var):
+>      rustc = d.getVar('RUSTC')
+>      if not rustc:
+> @@ -62,6 +70,7 @@ cups-config = 'cups-config'
+>  g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
+>  g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
+>  ${@rust_tool(d, "HOST_SYS")}
+> +${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if
+> d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
+>
+>  [built-in options]
+>  c_args = ${@meson_array('CFLAGS', d)}
+> @@ -71,7 +80,6 @@ cpp_link_args = ${@meson_array('LDFLAGS', d)}
+>
+>  [properties]
+>  needs_exe_wrapper = true
+> -gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+>
+>  [host_machine]
+>  system = '${@meson_operating_system('HOST_OS', d)}'
+> @@ -106,6 +114,24 @@ cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+>  EOF
+>  }
+>
+> +do_write_config:append:class-target() {
+> +    # Write out a qemu wrapper that will be used as exe_wrapper so that
+> meson
+> +    # can run target helper binaries through that.
+> +    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST',
+> ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
+> +    cat > ${WORKDIR}/meson-qemuwrapper << EOF
+> +#!/bin/sh
+> +# Use a modules directory which doesn't exist so we don't load random
+> things
+> +# which may then get deleted (or their dependencies) and potentially
+> segfault
+> +export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+> +
+> +# meson sets this wrongly (only to libs in build-dir),
+> qemu-wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+> +unset LD_LIBRARY_PATH
+> +
+> +$qemu_binary "\$@"
+> +EOF
+> +    chmod +x ${WORKDIR}/meson-qemuwrapper
+> +}
+> +
+>  # Tell externalsrc that changes to this file require a reconfigure
+>  CONFIGURE_FILES = "meson.build"
+>
+> diff --git
+> a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch
+> b/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch
+> index ab4d5969d9..b098c4a123 100644
+> ---
+> a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch
+> +++
+> b/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch
+> @@ -1,29 +1,38 @@
+> -From 2f9c59e0489e569c5382404667c10f5c200a72ad Mon Sep 17 00:00:00 2001
+> +From bbdd6679e49bcba5ec022b240ac234a87b451e41 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Fri, 4 Aug 2017 16:16:41 +0300
+> -Subject: [PATCH] gtkdoc: fix issues that arise when cross-compiling
+> +Subject: [PATCH] gtkdoc: add support for a binary wrapper
+>
+>  Make it possible to specify a wrapper for executing binaries
+> +in cross-compiling scenarios.
+>  (usually, some kind of target hardware emulator, such as qemu)
+>
+>  Upstream-Status: Submitted [https://github.com/mesonbuild/meson/pull/9627
+> ]
+>  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>
+>  ---
+> - mesonbuild/modules/gnome.py | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> + mesonbuild/modules/gnome.py | 5 ++++-
+> + 1 file changed, 4 insertions(+), 1 deletion(-)
+>
+>  diff --git a/mesonbuild/modules/gnome.py b/mesonbuild/modules/gnome.py
+> -index dc2979e..c9ff9bd 100644
+> +index 1c6952d..5a6ff94 100644
+>  --- a/mesonbuild/modules/gnome.py
+>  +++ b/mesonbuild/modules/gnome.py
+> -@@ -1053,6 +1053,10 @@ class GnomeModule(ExtensionModule):
+> +@@ -35,7 +35,7 @@ from ..mesonlib import (
+> + from ..dependencies import Dependency, PkgConfigDependency,
+> InternalDependency
+> + from ..interpreterbase import noPosargs, noKwargs, permittedKwargs,
+> FeatureNew, FeatureNewKwargs, FeatureDeprecatedKwargs, FeatureDeprecated
+> + from ..interpreterbase import typed_kwargs, KwargInfo, ContainerTypeInfo
+> +-from ..programs import ExternalProgram, OverrideProgram
+> ++from ..programs import ExternalProgram, OverrideProgram,
+> EmptyExternalProgram
+> + from ..build import CustomTarget, CustomTargetIndex, GeneratedList
+> +
+> + if T.TYPE_CHECKING:
+> +@@ -1103,6 +1103,9 @@ class GnomeModule(ExtensionModule):
+>               args.append(f'--{program_name}={path}')
+>           if namespace:
+>               args.append('--namespace=' + namespace)
+> -+        gtkdoc_exe_wrapper =
+> state.environment.properties.host.get('gtkdoc_exe_wrapper', None)
+> -+        if gtkdoc_exe_wrapper is not None:
+> -+            args.append('--run=' + gtkdoc_exe_wrapper)
+> ++        if state.environment.need_exe_wrapper() and not
+> isinstance(state.environment.get_exe_wrapper(), EmptyExternalProgram):
+> ++            args.append('--run=' + '
+> '.join(state.environment.get_exe_wrapper().get_command()))
+>  +
+>           args += self._unpack_args('--htmlargs=', 'html_args', kwargs)
+>           args += self._unpack_args('--scanargs=', 'scan_args', kwargs)
+> --
+> 2.20.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159150):
+> https://lists.openembedded.org/g/openembedded-core/message/159150
+> Mute This Topic: https://lists.openembedded.org/mt/87494764/3618418
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> [matt@madison.systems]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b5d45705d32fd3be
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 3, 2021 at 11:13 PM Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gma=
+il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">This replaces the specific gtkdoc wrapper setting<br>
+(which was rejected by upstream in <a href=3D"https://github.com/mesonbuild=
+/meson/pull/9627" rel=3D"noreferrer" target=3D"_blank">https://github.com/m=
+esonbuild/meson/pull/9627</a>)<br>
+with a generic, officially supported and documented exe_wrapper,<br>
+which is enabled subject to qemu usermode support<br>
+(just as is done for g-i and gtk-doc with autotools).<br>
+<br>
+gtk-doc support is adjusted so that this wrapper is passed to<br>
+meson&#39;s gtk-doc module, which passes it to gtk-doc.<br>
+<br>
+The adjusted patch is re-submitted upstream.<br>
+<br>
+The side effect of this is that meson is now able to run<br>
+target binaries in a generic way when it wants to, so this<br>
+may affect cross-builds - hopefully in a positive way.<br></blockquote><div=
+><br></div><div>Inheriting the qemu class unconditionally causes task hash =
+changes for allarch recipes</div><div>that use meson (e.g. cantarell-fonts)=
+ when MACHINE is changed from, say, an x86 architecture</div><div>to an aar=
+ch64 architecture, due to the qemu bbclass referencing the OLDEST_KERNEL</d=
+iv><div>variable.</div><div><br></div><div>I&#39;m not sure of the best way=
+ to fix this; doing an overwrite of OLDEST_KERNEL in</div><div>allarch.bbcl=
+ass as is done for some other variables might be OK? I&#39;m not sure it</d=
+iv><div>makes sense for allarch recipes to reference any QEMU stuff at all,=
+ so maybe splitting</div><div>all of the exe_wrapper support into a separat=
+e bbclass that is only inherited when</div><div>EXEWRAPPER_ENABLED is True =
+is better?</div><div><br></div><div>Thanks,</div><div>-Matt</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
+target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/meson.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 30 +++++++++++++++++--<br>
+=C2=A0...sues-that-arise-when-cross-compiling.patch | 27 +++++++++++------<=
+br>
+=C2=A02 files changed, 46 insertions(+), 11 deletions(-)<br>
+<br>
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass<br>
+index a7981e481f..ffec5f3269 100644<br>
+--- a/meta/classes/meson.bbclass<br>
++++ b/meta/classes/meson.bbclass<br>
+@@ -1,7 +1,12 @@<br>
+-inherit python3native meson-routines<br>
++inherit python3native meson-routines qemu<br>
+<br>
+=C2=A0DEPENDS:append =3D &quot; meson-native ninja-native&quot;<br>
+<br>
++EXEWRAPPER_ENABLED:class-native =3D &quot;False&quot;<br>
++EXEWRAPPER_ENABLED:class-nativesdk =3D &quot;False&quot;<br>
++EXEWRAPPER_ENABLED ?=3D &quot;${@bb.utils.contains(&#39;MACHINE_FEATURES&#=
+39;, &#39;qemu-usermode&#39;, &#39;True&#39;, &#39;False&#39;, d)}&quot;<br=
+>
++DEPENDS:append =3D &quot;${@&#39; qemu-native&#39; if d.getVar(&#39;EXEWRA=
+PPER_ENABLED&#39;) =3D=3D &#39;True&#39; else &#39;&#39;}&quot;<br>
++<br>
+=C2=A0# As Meson enforces out-of-tree builds we can just use cleandirs<br>
+=C2=A0B =3D &quot;${WORKDIR}/build&quot;<br>
+=C2=A0do_configure[cleandirs] =3D &quot;${B}&quot;<br>
+@@ -36,6 +41,9 @@ MESON_CROSS_FILE =3D &quot;&quot;<br>
+=C2=A0MESON_CROSS_FILE:class-target =3D &quot;--cross-file ${WORKDIR}/meson=
+.cross&quot;<br>
+=C2=A0MESON_CROSS_FILE:class-nativesdk =3D &quot;--cross-file ${WORKDIR}/me=
+son.cross&quot;<br>
+<br>
++# Needed to set up qemu wrapper below<br>
++export STAGING_DIR_HOST<br>
++<br>
+=C2=A0def rust_tool(d, target_var):<br>
+=C2=A0 =C2=A0 =C2=A0rustc =3D d.getVar(&#39;RUSTC&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0if not rustc:<br>
+@@ -62,6 +70,7 @@ cups-config =3D &#39;cups-config&#39;<br>
+=C2=A0g-ir-scanner =3D &#39;${STAGING_BINDIR}/g-ir-scanner-wrapper&#39;<br>
+=C2=A0g-ir-compiler =3D &#39;${STAGING_BINDIR}/g-ir-compiler-wrapper&#39;<b=
+r>
+=C2=A0${@rust_tool(d, &quot;HOST_SYS&quot;)}<br>
++${@&quot;exe_wrapper =3D &#39;${WORKDIR}/meson-qemuwrapper&#39;&quot; if d=
+.getVar(&#39;EXEWRAPPER_ENABLED&#39;) =3D=3D &#39;True&#39; else &quot;&quo=
+t;}<br>
+<br>
+=C2=A0[built-in options]<br>
+=C2=A0c_args =3D ${@meson_array(&#39;CFLAGS&#39;, d)}<br>
+@@ -71,7 +80,6 @@ cpp_link_args =3D ${@meson_array(&#39;LDFLAGS&#39;, d)}<b=
+r>
+<br>
+=C2=A0[properties]<br>
+=C2=A0needs_exe_wrapper =3D true<br>
+-gtkdoc_exe_wrapper =3D &#39;${B}/gtkdoc-qemuwrapper&#39;<br>
+<br>
+=C2=A0[host_machine]<br>
+=C2=A0system =3D &#39;${@meson_operating_system(&#39;HOST_OS&#39;, d)}&#39;=
+<br>
+@@ -106,6 +114,24 @@ cpp_link_args =3D ${@meson_array(&#39;BUILD_LDFLAGS&#3=
+9;, d)}<br>
+=C2=A0EOF<br>
+=C2=A0}<br>
+<br>
++do_write_config:append:class-target() {<br>
++=C2=A0 =C2=A0 # Write out a qemu wrapper that will be used as exe_wrapper =
+so that meson<br>
++=C2=A0 =C2=A0 # can run target helper binaries through that.<br>
++=C2=A0 =C2=A0 qemu_binary=3D&quot;${@qemu_wrapper_cmdline(d, &#39;$STAGING=
+_DIR_HOST&#39;, [&#39;$STAGING_DIR_HOST/${libdir}&#39;,&#39;$STAGING_DIR_HO=
+ST/${base_libdir}&#39;])}&quot;<br>
++=C2=A0 =C2=A0 cat &gt; ${WORKDIR}/meson-qemuwrapper &lt;&lt; EOF<br>
++#!/bin/sh<br>
++# Use a modules directory which doesn&#39;t exist so we don&#39;t load ran=
+dom things<br>
++# which may then get deleted (or their dependencies) and potentially segfa=
+ult<br>
++export GIO_MODULE_DIR=3D${STAGING_LIBDIR}/gio/modules-dummy<br>
++<br>
++# meson sets this wrongly (only to libs in build-dir), qemu-wrapper_cmdlin=
+e() and GIR_EXTRA_LIBS_PATH take care of it properly<br>
++unset LD_LIBRARY_PATH<br>
++<br>
++$qemu_binary &quot;\$@&quot;<br>
++EOF<br>
++=C2=A0 =C2=A0 chmod +x ${WORKDIR}/meson-qemuwrapper<br>
++}<br>
++<br>
+=C2=A0# Tell externalsrc that changes to this file require a reconfigure<br=
+>
+=C2=A0CONFIGURE_FILES =3D &quot;meson.build&quot;<br>
+<br>
+diff --git a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-=
+arise-when-cross-compiling.patch b/meta/recipes-devtools/meson/meson/0001-g=
+tkdoc-fix-issues-that-arise-when-cross-compiling.patch<br>
+index ab4d5969d9..b098c4a123 100644<br>
+--- a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-w=
+hen-cross-compiling.patch<br>
++++ b/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-w=
+hen-cross-compiling.patch<br>
+@@ -1,29 +1,38 @@<br>
+-From 2f9c59e0489e569c5382404667c10f5c200a72ad Mon Sep 17 00:00:00 2001<br>
++From bbdd6679e49bcba5ec022b240ac234a87b451e41 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
+ target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+=C2=A0Date: Fri, 4 Aug 2017 16:16:41 +0300<br>
+-Subject: [PATCH] gtkdoc: fix issues that arise when cross-compiling<br>
++Subject: [PATCH] gtkdoc: add support for a binary wrapper<br>
+<br>
+=C2=A0Make it possible to specify a wrapper for executing binaries<br>
++in cross-compiling scenarios.<br>
+=C2=A0(usually, some kind of target hardware emulator, such as qemu)<br>
+<br>
+=C2=A0Upstream-Status: Submitted [<a href=3D"https://github.com/mesonbuild/=
+meson/pull/9627" rel=3D"noreferrer" target=3D"_blank">https://github.com/me=
+sonbuild/meson/pull/9627</a>]<br>
+=C2=A0Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
+mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+<br>
+=C2=A0---<br>
+- mesonbuild/modules/gnome.py | 4 ++++<br>
+- 1 file changed, 4 insertions(+)<br>
++ mesonbuild/modules/gnome.py | 5 ++++-<br>
++ 1 file changed, 4 insertions(+), 1 deletion(-)<br>
+<br>
+=C2=A0diff --git a/mesonbuild/modules/gnome.py b/mesonbuild/modules/gnome.p=
+y<br>
+-index dc2979e..c9ff9bd 100644<br>
++index 1c6952d..5a6ff94 100644<br>
+=C2=A0--- a/mesonbuild/modules/gnome.py<br>
+=C2=A0+++ b/mesonbuild/modules/gnome.py<br>
+-@@ -1053,6 +1053,10 @@ class GnomeModule(ExtensionModule):<br>
++@@ -35,7 +35,7 @@ from ..mesonlib import (<br>
++ from ..dependencies import Dependency, PkgConfigDependency, InternalDepen=
+dency<br>
++ from ..interpreterbase import noPosargs, noKwargs, permittedKwargs, Featu=
+reNew, FeatureNewKwargs, FeatureDeprecatedKwargs, FeatureDeprecated<br>
++ from ..interpreterbase import typed_kwargs, KwargInfo, ContainerTypeInfo<=
+br>
++-from ..programs import ExternalProgram, OverrideProgram<br>
+++from ..programs import ExternalProgram, OverrideProgram, EmptyExternalPro=
+gram<br>
++ from ..build import CustomTarget, CustomTargetIndex, GeneratedList<br>
++ <br>
++ if T.TYPE_CHECKING:<br>
++@@ -1103,6 +1103,9 @@ class GnomeModule(ExtensionModule):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append(f&#39;--{progr=
+am_name}=3D{path}&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if namespace:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append(&#39;--namespa=
+ce=3D&#39; + namespace)<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtkdoc_exe_wrapper =3D state.environment.prop=
+erties.host.get(&#39;gtkdoc_exe_wrapper&#39;, None)<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if gtkdoc_exe_wrapper is not None:<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append(&#39;--run=3D&#39; =
++ gtkdoc_exe_wrapper)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if state.environment.need_exe_wrapper() and n=
+ot isinstance(state.environment.get_exe_wrapper(), EmptyExternalProgram):<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append(&#39;--run=3D&#39; =
++ &#39; &#39;.join(state.environment.get_exe_wrapper().get_command()))<br>
+=C2=A0+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args +=3D self._unpack_args(&#39;--htmla=
+rgs=3D&#39;, &#39;html_args&#39;, kwargs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 args +=3D self._unpack_args(&#39;--scana=
+rgs=3D&#39;, &#39;scan_args&#39;, kwargs)<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#159150): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/159150" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/159150</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87494764/3618=
+418" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/87494764/3618418</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [matt@madison.systems]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b5d45705d32fd3be--
 
