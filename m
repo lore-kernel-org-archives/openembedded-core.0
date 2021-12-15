@@ -1,110 +1,118 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B80C433F5
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:01 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.1758.1639591018125266617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 975D8C433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:10 +0000 (UTC)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+ [209.85.222.48])
+ by mx.groups.io with SMTP id smtpd.web08.2604.1639594637476767107
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 09:56:58 -0800
+ Wed, 15 Dec 2021 10:57:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mI8hjdzu;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id mj19so3202549pjb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qY5bpAC1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.48,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f48.google.com with SMTP id 30so42721115uag.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 09:56:58 -0800 (PST)
+ Wed, 15 Dec 2021 10:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc
-         :references:from:organization:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=n4UTP/onXe86wUy6SzpsE6BCH7DTemmYEEcZD5dO74w=;
-        b=mI8hjdzuuiV2an8q6/ESDWQ+/vse6V69y4CsVHxbhCnQDCx8X8OezPzbOJwWJu1hp9
-         FRFq1U9LPM3TUfyeNyNXoDChpBG9SglwBQ8r3u/Dk42JLrfoi60CJIyMnpAEf2mfvTu5
-         sAsH0FLoMSj3Z1UW8ThMdCzEKQZJdyb/N9JTcp4sTgR3b2B+5Gi5gTZ4T/Z+MxipRSk8
-         T96jrUS1/Oh4/NZYrBp0nLdcikj877FBMuOUuMUWhAnHhMooRqALlGFaaUPBAIKym2OS
-         naik0EUQWldSgduDINQxWcvN02zdzuL4g0prk+qP/ELra4fh9IwMsr34Edh0nmC8t1ST
-         DDDA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sa84s7Vrzm0OkqufGVzu3mPGvU49ig0NDm5RnxKNvvM=;
+        b=qY5bpAC1So3vE/UkZHqylfGwRO4yy5/Ww06hMCOVLCUfILgka/C/GCtjlcbucWBrCA
+         HoMXs3R8blxGK4ZMd+CU4t9YJb+8miM2A0Z8gbSRPfPWB6Gg/mw5X6dBySaQkkbpYA3A
+         NC3zqDsFjjpMblAFwmXInesLZ+PHJ5cSSWg25NelrJgWf03ew5Hf2NaG+xyqB6McLt83
+         DDY2tsXMqla8RrusX90AGCp4nwrbCvd/JS51SuTmiJhcqtyytlTPEiT3GedI1FbZDnUa
+         v7zzjpq1LFUna0GcUAsMEEjOvbSzAJfWnlAbs10BR3eq4WtgxRKIqNDkJuObORZiJ8xC
+         qb5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=n4UTP/onXe86wUy6SzpsE6BCH7DTemmYEEcZD5dO74w=;
-        b=Yxu3TFsX/0IqPhgZ7ih/HQKfkddIQ+qgMr7deGbeNKqqc5hMDm8fLtIJgzeTHykZAX
-         /XmQZkB64txnO1xWBd2mrVLmNDTefBDOC/zDFN/eP9h6PzCByEXmCEJh8zermSZoLEwJ
-         AuGZxcfcVEp3HRwSQHBbuOkjzBF9MrTvDicLYXuq0bEesp0DRn8BupPstwiIy7Vt0OBI
-         XfGXElfttXHYm7JefaxGJzdFrJIG4feCOcQsWWeQrxT1xLxWl50b5e94KK36x0DzivZZ
-         grR/EkCkBHqJeqcEqkvYMBHEqghpcQAy4alZ8FnM6VZ7sFSLdDwWBtshQudbJMM9a0Rd
-         08JQ==
-X-Gm-Message-State: AOAM532pDANlTejqEe4dh3/S+7KVyFQUe9MF8lZlBX+E1+npyCvFgCAS
-	zD0xf5r7FC5FATWFEIpwhJs=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sa84s7Vrzm0OkqufGVzu3mPGvU49ig0NDm5RnxKNvvM=;
+        b=lp+6TC3+SFwj7kN2/9EJCRcjVKEt8k627SuhxKBoqHhVam4RUjkKpWVi42xkn/KoEJ
+         YaFnF9S1MrVYarCguNIh7Y5oG6QVv/wUNVltj3Gozvf9H24Cdod9JJSZMVdAGf2827UQ
+         EtWa3MMeT68A9ZTvB7tuyorjHp9yu94V+tby+vySggAU3niZ+GAlzZpYUU0mRZug0yYU
+         8V9m4XEqgyw7k2ro6IYHqca+14RiHWwZyUDDuoyaEdgIgxEhJ2YQQbsbal6W+s2mxqyn
+         8VIfPKa4VVeKb4Qibr+4RJk8LwDgR2ZsF3gVvLsnMlxftFXGFZOmKd2DCefO0ZsT4WBP
+         baZw==
+X-Gm-Message-State: AOAM532HP+NlyGlkXSnyyRMxdU70ETVFa8CaDH5Cgklx4TYGw+A9G7LA
+	AWV+nso+ZRxMOLXsXMxbQO2DfjOIRsgVenAJIzo=
 X-Google-Smtp-Source: 
- ABdhPJxZ2GHMLrwOwXKSkvzl5YeDOVhsL454PVtH0Nqrl2UyBrtkmHmPNzrcfxTIiqlkMKNry1SSoA==
-X-Received: by 2002:a17:90b:4b51:: with SMTP id
- mi17mr1063824pjb.48.1639591017605;
-        Wed, 15 Dec 2021 09:56:57 -0800 (PST)
-Received: from ?IPV6:2601:646:9200:a0f0:cd09:406c:9104:34eb?
- ([2601:646:9200:a0f0:cd09:406c:9104:34eb])
-        by smtp.gmail.com with ESMTPSA id
- p12sm3731328pfo.125.2021.12.15.09.56.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Dec 2021 09:56:57 -0800 (PST)
-Message-ID: <caed28f7-e3cc-c64c-4095-b94221d58bd1@gmail.com>
-Date: Wed, 15 Dec 2021 09:56:56 -0800
+ ABdhPJw6j/vDUB2wWu84IglQQ/+csYcBX4/5GgiCYaafLuFtm2gP1j28lnHwcjEIP7b33DAfKE/qSRVqQL2D2RL9uus=
+X-Received: by 2002:ab0:1e04:: with SMTP id m4mr10905813uak.100.1639594636647;
+ Wed, 15 Dec 2021 10:57:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.0
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Matt Madison <matt@madison.systems>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- Alexander Kanavin <alex@linutronix.de>
 References: <20211204071323.2480163-1-alex@linutronix.de>
  <20211204071323.2480163-3-alex@linutronix.de>
  <CAGgRHJpbpit-O5dRs_ytafLgk8cOb4qReACeGDaB2sk=jB+qWQ@mail.gmail.com>
  <CANNYZj_eCMyQYHhx7uhZ34NTGekeWAwcGSPCvE1P-tO5wLhp8g@mail.gmail.com>
  <12b73e8c-d4b7-d8cc-0c1f-425c045a95bf@gmail.com>
  <CANNYZj84Y8azO2aGLUu8q8_AqcSX=iaP8MUfJGuGS-wB6+7fyQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
+ <caed28f7-e3cc-c64c-4095-b94221d58bd1@gmail.com>
+In-Reply-To: <caed28f7-e3cc-c64c-4095-b94221d58bd1@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Dec 2021 19:57:05 +0100
+Message-ID: 
+ <CANNYZj_30uDN+xC7yNWn3o48G_iwFtsg0-cqgy=PJt_qt8hsOQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 03/26] meson: configure and use generic
  exe_wrapper
-In-Reply-To: 
- <CANNYZj84Y8azO2aGLUu8q8_AqcSX=iaP8MUfJGuGS-wB6+7fyQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Matt Madison <matt@madison.systems>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000e4a0a605d333df47"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159737
+ https://lists.openembedded.org/g/openembedded-core/message/159738
 
+--000000000000e4a0a605d333df47
+Content-Type: text/plain; charset="UTF-8"
 
-
-On 12/15/21 9:43 AM, Alexander Kanavin wrote:
-> On Wed, 15 Dec 2021 at 18:40, Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>> wrote:
-> 
-> 
->     Lets try dropping -r option, I think it should work. Good test would be
->     building qemuarm64 on a build host running < 3.8 kernel and see if all
->     builds ok. or qemuriscv64 on hosts with kernel < 4.15
-> 
-> 
-> I don't think such hosts are tested or supported, and they're going to 
-> break in various other ways anyway.
-> 
+On Wed, 15 Dec 2021 at 18:56, Khem Raj <raj.khem@gmail.com> wrote:
 
 Picking from set that yocto project supports
+>
+>
+> https://docs.yoctoproject.org/ref-manual/system-requirements.html?highlight=system%20requirement#supported-linux-distributions
+>
+> ( centos8 uses 4.18, centos7 uses 3.10, and debian8 uses 3.16 )
+>
 
-https://docs.yoctoproject.org/ref-manual/system-requirements.html?highlight=system%20requirement#supported-linux-distributions
+debian 8 has been retired from the AB, so it's just centos 7 - I wonder why
+we still need to support it as a host for master; are there actual YP
+members explicitly asking for it?
 
-( centos8 uses 4.18, centos7 uses 3.10, and debian8 uses 3.16 )
+Alex
 
-> Alex
+--000000000000e4a0a605d333df47
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 15 Dec 2021 at 18:56, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:</div><br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+Picking from set that yocto project supports<br>
+<br>
+<a href=3D"https://docs.yoctoproject.org/ref-manual/system-requirements.htm=
+l?highlight=3Dsystem%20requirement#supported-linux-distributions" rel=3D"no=
+referrer" target=3D"_blank">https://docs.yoctoproject.org/ref-manual/system=
+-requirements.html?highlight=3Dsystem%20requirement#supported-linux-distrib=
+utions</a><br>
+<br>
+( centos8 uses 4.18, centos7 uses 3.10, and debian8 uses 3.16 )<br></blockq=
+uote><div><br></div>debian 8 has been retired from the AB, so it&#39;s just=
+ centos 7 - I wonder why we still need to support it as a host for master; =
+are there actual YP members explicitly asking for it?</div><div class=3D"gm=
+ail_quote"><br></div><div class=3D"gmail_quote">Alex<br></div></div>
+
+--000000000000e4a0a605d333df47--
 
