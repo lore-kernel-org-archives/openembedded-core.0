@@ -2,62 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD442C43217
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:40 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web09.2681.1639608053127313738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7B5C4707F
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:39 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web08.2680.1639608045575972098
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 14:40:53 -0800
+ Wed, 15 Dec 2021 14:40:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CALhpDe1;
- spf=pass (domain: gmail.com, ip: 209.85.128.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZO4mu0Fl;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id y196so17677166wmc.3
+Received: by mail-wr1-f49.google.com with SMTP id k9so22932408wrd.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 14:40:52 -0800 (PST)
+ Wed, 15 Dec 2021 14:40:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8F4I6ew87C21IPhMyoKCfoFHJsf0KkZtPFn2O+Gku6c=;
-        b=CALhpDe1YzilFPHk8PebiF7SG5alrzEkA/rX9wkzKXzEoqI+pOfZZL2LZPKlwvjVzv
-         i+GGGMi2dA5NTX8vwspw2KHLriwoEo0Wfsdypcc1xTKF/y9j6wMDquVIQgaAkpQoscqK
-         aDbpqax8/KGZgmlyL6WKmhKUsvHHPD+PGYKHzQSPngg/+DzfP1r2E/1VHn9PyIXj3Zvc
-         +I3wnKdDSGFd915h5q6iZvaDJX7WpZkmStWrnTxntCSW7DQbV7znLc1Mr3kAy6Sy0rAX
-         aJ7t9OryCxTEsHcZTuFtDF9t+/YrzI+p7k9KS2HzmjXnN+iTkrqTfIMmWBuLgQxBMNAs
-         UYew==
+        bh=MQAANzbQZDKppx2yDwyLQughdrYWlXhzAxAucgfT/xI=;
+        b=ZO4mu0FlyZQr6653NvvcN60kHfGwBpBE7r+KqSoJJHdNuzUz0I3ABNSO4ymAdQGub2
+         RaWBV2Y9DPz0IlNEYQAYjJ9/mbGm56sRlinummsjZuAzL4yBQxleLlA+dKPjB5swXPEO
+         dQsLQ2ixIRoPzOvLQWKm4hDjBaj2WuyweRp2yntoql8Cf56D853RLgDt+YnRXKwrD1/k
+         DFXt3uZQy5vgWagzjhJ21Ck1HYEF8hPk3HfSWueXWhTsJUUOIcTSv6LKZNkMrLGc8X4r
+         byMCVzTWhiPSPEu3GuHegjTaSC2jIzzB2YSe4BAiyWaFOQMPT7t+hHw+PUEfsbH3i9rc
+         gCUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8F4I6ew87C21IPhMyoKCfoFHJsf0KkZtPFn2O+Gku6c=;
-        b=p6oEq255B2aKqdqa2r3NEqxd4Ulvz68XIvSCuXdZKzcE9Fw3VXVyA++Vr9G+VjdVSn
-         ThnKhrHa6iXsY+KkoY65qzzjKGYeUMfFXqdc0l7wM/Z8HPlkAB//mEParEl3AI+OXBOG
-         IbipDYcINB0V3SmsRg/xNviXpWAGx4E2WB0FLbel7cuHAeUURERJr++yBBmfqlgNBxH4
-         yEqCQ85fgiwk2VCEc+FRR6P4sChLV8A+k9R0iqVD3yMljyFEi1m80nomduJF6ow9AkmN
-         8Tz+gTXbWny95FV3tDTKCsWI1WEyTi5r4yERrIX9Ri/3i0n6ybsrtWWkxlTW2aOTheuO
-         6GCQ==
-X-Gm-Message-State: AOAM530+YQ8+TzFNF2y3nz9TKsbyTq1eKnLQHEwwRN0hsUGI/TO+lC8S
-	6jwfr0BwB9YBW401jQhmIMZAPrtCRbYOLA==
+        bh=MQAANzbQZDKppx2yDwyLQughdrYWlXhzAxAucgfT/xI=;
+        b=xyhaB1sALb2FNqaT4t8YmbZo3fQYHt7DXnc0tp/+Xi8LRtibI4yi6NFgbJfo6rcRNf
+         HU9JZh6+iZqYGKiClbKY368ujWEi3te0iVcQVqo9h26AJSxk40WUIIFFgGkmgvXBnu03
+         rcTzQXuv/c6FEwjq0JlgKIYp2jhIrXZ79ub5IB+koe1FCJOeuwl0gDdpENTYb1ixufWm
+         F2x8/eiQpKclyGmYQBfxx0cwaAvk4psqx34VqG/hgMOTNyr5uHHy8JORnszDt+4Cl52I
+         6sOFtC0cFfU5DpcDtqwIKJjq6Vt19AcdfnOiXBvKZX+Az/sCOeL1QktQpWF2x6tP0s1z
+         38Zw==
+X-Gm-Message-State: AOAM5302iNxlCfGxOxy6tZg1kQSz2bvXtpK8bZvXY+9izgO0wv10ySPy
+	nRJpXp1KjC0upyCRT67D2b7meDU3UariWA==
 X-Google-Smtp-Source: 
- ABdhPJwAJbhDSD9yTbNWgUdpP3MafMY4dWLKmcoST48u/LSElFSDcs3gjfA4Z4Tk7nPzRL90b6BRaQ==
-X-Received: by 2002:a05:600c:6025:: with SMTP id
- az37mr2209906wmb.194.1639608051783;
-        Wed, 15 Dec 2021 14:40:51 -0800 (PST)
+ ABdhPJw9xTvyu9Jq7A4CukW+e5Wudu/10FKi6/+SbVoSwi8JEtydTTMs/agYPVdGDVDzzgE9S5Lz9g==
+X-Received: by 2002:a5d:6b09:: with SMTP id v9mr6165638wrw.591.1639608044139;
+        Wed, 15 Dec 2021 14:40:44 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- u2sm3587269wrs.17.2021.12.15.14.40.51
+ u2sm3587269wrs.17.2021.12.15.14.40.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Dec 2021 14:40:51 -0800 (PST)
+        Wed, 15 Dec 2021 14:40:43 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 20/26] rxvt-unicode: upgrade 9.26 -> 9.30
-Date: Wed, 15 Dec 2021 23:40:28 +0100
-Message-Id: <20211215224034.1814148-20-alex@linutronix.de>
+Subject: [PATCH 08/26] python3-hypothesis: upgrade 6.30.0 -> 6.31.4
+Date: Wed, 15 Dec 2021 23:40:16 +0100
+Message-Id: <20211215224034.1814148-8-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211215224034.1814148-1-alex@linutronix.de>
 References: <20211215224034.1814148-1-alex@linutronix.de>
@@ -66,63 +65,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:40 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159762
+ https://lists.openembedded.org/g/openembedded-core/message/159750
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc              | 5 +----
- .../{rxvt-unicode_9.26.bb => rxvt-unicode_9.30.bb}           | 2 +-
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.26.bb => rxvt-unicode_9.30.bb} (71%)
+ ...ython3-hypothesis_6.30.0.bb => python3-hypothesis_6.31.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.30.0.bb => python3-hypothesis_6.31.4.bb} (91%)
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-index 69b8a659ed..e7d520ebef 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-@@ -6,7 +6,7 @@ terminal emulator rxvt, modified to store text in Unicode \
- output. It also supports mixing multiple fonts at the \
- same time, including Xft fonts."
- HOMEPAGE = "https://rxvt.org/"
--DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu"
-+DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu libptytty"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.30.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.31.4.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.30.0.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.31.4.bb
+index 59c56e2d94..6af290d8ca 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.30.0.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.31.4.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
- 	   file://xwc.patch \
-@@ -22,7 +22,6 @@ ALTERNATIVE_TARGET[x-terminal-emulator] = "${bindir}/rxvt"
- CFLAGS:append = " -fpermissive"
+-SRC_URI[sha256sum] = "6d81d409b4a1a3ff9458de5f2cf7ee37b1dd51473aacc79f257c62e2369a5fd7"
++SRC_URI[sha256sum] = "7fa3911d7be699a3139dfa1d9625deed649f651beaab3422c0339742e66d32d0"
  
- EXTRA_OECONF = "--enable-xim \
--		--enable-utmp --enable-wtmp --enable-lastlog \
- 		--with-term=rxvt --enable-keepscrolling \
- 		--enable-xft --with-name=rxvt --enable-frills \
- 		--enable-swapscreen --enable-transparency \
-@@ -31,8 +30,6 @@ EXTRA_OECONF = "--enable-xim \
- 		--enable-combining --disable-perl \
- 		--with-x=${STAGING_DIR_HOST}${prefix}"
- 
--EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
--
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[startup] = "--enable-startup-notification,--disable-startup-notification,startup-notification,"
- 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.30.bb
-similarity index 71%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.30.bb
-index 3fe69a543f..0133029e0a 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.30.bb
-@@ -4,5 +4,5 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://src/main.C;beginline=1;endline=31;md5=d3600d7ee1062667fcd1193fbe6485f6"
- 
--SRC_URI[sha256sum] = "643116b9a25d29ad29f4890131796d42e6d2d21312282a613ef66c80c5b8c98b"
-+SRC_URI[sha256sum] = "fe1c93d12f385876457a989fc3ae05c0915d2692efc59289d0f70fabe5b44d2d"
- 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.20.1
 
