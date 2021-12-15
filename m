@@ -1,236 +1,147 @@
-Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C99C4321E
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:43:27 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.80])
- by mx.groups.io with SMTP id smtpd.web08.244.1639584527069971504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D87BC433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:43:56 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.1584.1639590011162376074
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 08:08:48 -0800
+ Wed, 15 Dec 2021 09:40:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify"
- header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=QkMS80QQ;
- spf=pass (domain: weidmueller.com, ip: 40.107.6.80,
- mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kiXrXJ/kstvr5U1gj7pNjjK5BFMqrGsXodnXpQLEj6siMXsNBIzCwHTr9sgvKYMPb5O8tnevRXFn9Bg1o/SZYTlKiJweXf2rCmAzW/E4OPaKMyuONGcMmTqc9pnl1tK7cw92vDKA5o+SYw+8cB6xijwtaL+rAgQGAHjyPbEyKi88DHfXYZ/0Cwb4txiGKDpEdcYT22r54OtCHvP6ZpLCZxDhu31AiOJBGUitt44EF6Xe6jh/CH/wI2o4fTO0oQOfji/QYzVSrchZXeSsJxR2+AQTGGqUE9bAkp6hyGRVMtOX1DKw/rLo04ADXAee0Kg2oTTiRvgJH/WpJWmFfnp7NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ro61iFU6F5vAjZXAWQ20lo9bYzcmuYcz0HWZGyeSpQ8=;
- b=L3UDwWBaXKVR3jonxXWqlaT3cjyQRmr4iRFY7NAy5wzIcRQLtkUJ+eWLqad6vKjOBd28PpyJzViFkikdTxInJ4tYYxSJonG5HN+W40bOJN4b/CyQMaC4Um2JvokPDj8OfFqJrfYgaFo1GYdSHG0P5CbaiYNuMOFoO8IclT/GyVWudzkUCxKAbMuVLL1kOvM9vQ5I/Ye9hKYgr+ittfAZUzUVmwoWJvHJ55F5T8ZYhhbB2hazkCgyUEnwvXcN0wlf+07xpz+lCKVPZZrGK1W6mNMdMvHkYZgwOkmKH/6OebElljDUSvL88eYUgZIvbKHPC2Z0w3SzMHuoKMwhFoEyVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UCd3W3Eq;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id o14so17073302plg.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 15 Dec 2021 09:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ro61iFU6F5vAjZXAWQ20lo9bYzcmuYcz0HWZGyeSpQ8=;
- b=QkMS80QQZtzXTEmCcd6ttC/F84/Nxl1k7HhtDmtNmPeKUxnZUad3dHjAjV02qoVX/AoOsU2hJr5tB4qz/3az5A911sgS2O8zIXY3QuCqi9r3/0TavVbYhUktslGmDxHlru4BvGiQhMW87XOshX0x8RqCwja51zq4sZ+lnR521bA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
- by PR2PR08MB4665.eurprd08.prod.outlook.com (2603:10a6:101:25::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.16; Wed, 15 Dec
- 2021 16:08:37 +0000
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::f:41c4:eb10:5010]) by PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::f:41c4:eb10:5010%9]) with mapi id 15.20.4801.014; Wed, 15 Dec 2021
- 16:08:37 +0000
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-To: openembedded-core@lists.openembedded.org
-CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [PATCH v3 4/4] selftest: recipetool: Add test for handle_license_vars
- function
-Date: Wed, 15 Dec 2021 17:08:13 +0100
-Message-ID: 
- <20211215160813.23368-4-stefan.herbrechtsmeier-oss@weidmueller.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: 
- <20211215160813.23368-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-References: 
- <20211215160813.23368-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AM6P191CA0097.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:209:8a::38) To PAXPR08MB6969.eurprd08.prod.outlook.com
- (2603:10a6:102:1d8::23)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc
+         :references:from:organization:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=6panpb6pxyd4C0umN7kMtLJCZ+9Cm1sWdNxsLXofr3g=;
+        b=UCd3W3EqyFtrPCm0bypt/pG6VszrJmxsW3NVoqYC0N9IQp+anD1KuqvMYT4dxaYFRO
+         1napgTFlceSYYuNvaxW1VwazBkVLQn13rokWLiXojjNVB3kYm81KV20Rci4wXUAph+IA
+         J1Hg8wWFUHVo7/zSYvHJjkFhaktCj3oqac7NKL+JyegCYUX05LLE2+k+1wRllt2J069a
+         jMTUIN3Copg1iUYTpFFicRB5e+6BuwzA8NEyx4x3jkWAQRmKq3dv81+HlxNuM+w/ZjMk
+         gVEpfuk2x7MI2GfIWGe3qbCa/C1iEso205w7Gakz6OBFKk+EQdEFGP+qMAp8mvBnBzkd
+         FTNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:organization:subject
+         :in-reply-to:content-transfer-encoding;
+        bh=6panpb6pxyd4C0umN7kMtLJCZ+9Cm1sWdNxsLXofr3g=;
+        b=g6lMwrNleyykAsKcFDtQvzIf4Cj0uJ3jAZ0NcHI0RL9jSphItESAPf9Jt6DSzVuEXV
+         LTombeCDrZyukllAVqUzyvj1mTsUllvcTX7cXVnLC4zS6HBQyuui4elRFR0Yg1l9F+Fp
+         YLA2cBfS+6YH7UhbBpSGYaVYM4zaklAgActWGuPWxsIc/5IzNgNMQTzOVhnR81OKumLv
+         z5J8puYmw/Teedijvt6GOOtmE1S3E3Y1C4Y3Qi0iFXRXZM6tlsizFpX80wPTY/vgPmuG
+         ZuiLNpsz2qjF3equ9SlVfOjDp1/ZvdUH5KpDbU3kl9AHXI+zoXZ/npS81Q988fgqNCWE
+         bSIA==
+X-Gm-Message-State: AOAM533ILJUH4h/A9rbKdulOdUxxjf2mBUDdTWiCrgWGRRaKbOz8VxGg
+	qsVH9/E/BR6pjNB4HKoXK3s=
+X-Google-Smtp-Source: 
+ ABdhPJzfGB8WZrop95mNGYx3q+0PUzcZ0ZAedldrgwpY4uz1K2UO8+mu5fcV/Mb6JHEbDfRVOXI8zw==
+X-Received: by 2002:a17:90a:880a:: with SMTP id
+ s10mr933012pjn.214.1639590010632;
+        Wed, 15 Dec 2021 09:40:10 -0800 (PST)
+Received: from ?IPV6:2601:646:9200:a0f0:cd09:406c:9104:34eb?
+ ([2601:646:9200:a0f0:cd09:406c:9104:34eb])
+        by smtp.gmail.com with ESMTPSA id
+ d20sm3258855pfl.88.2021.12.15.09.40.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Dec 2021 09:40:10 -0800 (PST)
+Message-ID: <12b73e8c-d4b7-d8cc-0c1f-425c045a95bf@gmail.com>
+Date: Wed, 15 Dec 2021 09:40:09 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 12eaaaaa-388a-444d-fc36-08d9bfe52741
-X-MS-TrafficTypeDiagnostic: PR2PR08MB4665:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PR2PR08MB4665A495E26EBF4131613E83D7769@PR2PR08MB4665.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	yG/g4hDHpoXZf75OjWJA4kwGdHQOvhU1j/BPK+t1vab6JcGAP/wgFaCpKs0J6iOeCel7Rku/ZzBKFYQuzi/SzJkC7MYqPL+eaLMvMP6CMgCRRUGz0nnGSG3UmRZSP5PCKkJZGY0kPbE4rjkNPY6QHtRVd3A17/ZpwrDG/5sEd1/qT9oxBXyLYS5CpPD2TjdjZC9oQ4i79GVn2+rYPhTRrbeV12YfDHFze0tWM4KcKjc/pqLaUjrgaVu9wK/BIqZ8iKk2BTGs6oJSHOeTZleDpyl97DViZPzLe/o8JuzXi6VJFQXj7VjyOiWWokRmzC4dA1VgQVZ08bH68qvsWq2BdI6RmMzQBGDhyFzaBL9s5c/f4bHNxVRSTQ6WMNwWysIBK77pCzf+HP/eVB7t5aTu/XOhhQ85siCIS4vI4ZcpuIMOKlSXDUsMXIaAqm9FDtHhS26nWQukh1bkA2QvGDZMcAsr2n0u6LhX6l7jv+dnlX2l4eFt6ah7pGPdO7XC5HC0WVTrA+qtXK+lB7PSfqZVRhkDnv/j2VCdkznjYoWlgQofklkByw6m4Tv0m5irZgnFyCRs1IuRuxXgCpjlcOj0731Mcreke9y/xdE9xNnOjq5P4JwEt0UQ9iPtch2a5C0QF3Yn35SutWMEbFH8rrtL6GWsr+MJjkutjW4YA7ylPC07B2sG7HY8zVHoQOrEaFtfsGTHBKNM4a2w5vRSniFx2A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(2906002)(6506007)(52116002)(38100700002)(316002)(1076003)(6666004)(38350700002)(6512007)(107886003)(4326008)(2616005)(6486002)(8676002)(66476007)(186003)(66556008)(6916009)(26005)(66946007)(36756003)(83380400001)(508600001)(8936002)(5660300002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?jlsI6IAl600dLBJjOjwn6m5lHQX5LQM5SHmefYQSSfCPT+pW7rujYm0VCc4c?=
- =?us-ascii?Q?xUYKvZ/dpeIVm2L7jcosIMB9dhJn2ft0Qw0KiLtSJYUJEJTmpbQjxHRwXHvI?=
- =?us-ascii?Q?mZBvZqspWh6v3jbeVQcecGuAMWUxKLocPvKhE4cvfopFFM/uu2PRWTjrt5MV?=
- =?us-ascii?Q?vW2l6sH0VuC7xN0J+nFQ1/dC9ifDR6/KmSC5QMxAQBgxmHSqB6GiC3MGnN36?=
- =?us-ascii?Q?IYGCqmu4wr2dcwV7O64+HIPx+jkrom/CruEuXTzNlfzC+3Phsb8QTPe5sXM9?=
- =?us-ascii?Q?VXWkcEcirL9Lu3PWVzKU5uHLu44cx0OtSGItAvngEB8Eq/Bd9yFsoQRYyQkT?=
- =?us-ascii?Q?e+wfb3JwNmmCJczTnu/3fa2K05SDxECZUn1Z7PaXsiEQtfMzmNtZWnOA29W+?=
- =?us-ascii?Q?uDKPO7UvpyE1bvuWHr3rdiscnvxV76ytwl+RO37uXAhK4TEaSQ9hLuItu1FG?=
- =?us-ascii?Q?bzqdZ6EV+7XH+uPrM6YeiIu5M3ZPJiEKqs1dq/JafygR0NATIpyFCVTW8j2k?=
- =?us-ascii?Q?sQSNBDp1H2qNr3I3mo/Ug7llKCa0NImfrnFx9K+vaDxlQ1Qm0EPeevIu+DJn?=
- =?us-ascii?Q?fCBg/GOuRQ4bzgV8vmB42HCze6t7VEiraab5m03LA1PNDbV8WSyb7KHaseyo?=
- =?us-ascii?Q?HVzIXSdxbwWJMEMDXOwLrqzJBgEFJmvmh7gk/4CrqsB3p9QCl++zKKmKJCmU?=
- =?us-ascii?Q?6Gqb2xhsAB6hvzCnihTZm7bskjNW3Z30x/LEbZ0asW8b6frtuqzFy60pTdnn?=
- =?us-ascii?Q?AkxFWsLvt5EJkUiatvLSBwfkY3J+A0PGrH/SEbfFxo8zMvFkfPP6JWE7QJPK?=
- =?us-ascii?Q?IMvw5i7/9BRxJx2Xu2JwE58yr0rMzOR3dtUHFyKz1OdjDqwq/738iXqBG4WM?=
- =?us-ascii?Q?GMtYNcRlJyPn50UJgNfAOhClo//m1i547gpInGKierVTGVYnlUuESAgG0lWD?=
- =?us-ascii?Q?kp4VLlB+Lk2vIJAgunsOeQGsP/ULE3erCBai2kszYmMnk4TJdQPRD4uXS3+M?=
- =?us-ascii?Q?V8I48u0NBWz9+UF/vD+3OQ7OHHd7c6Ju+T1h1VsKkia55AKyt54cpHnvtMyn?=
- =?us-ascii?Q?cPqJDUGM2bS6C1JMuMW2j409YaMRok6HgTRMipbzpAkTScHAuJwhtzWrcWVk?=
- =?us-ascii?Q?1a8m3Dj0lS74D5pQRQhmf3kw+gSuESRi+uLILA0bajlfx1aL3V2s7iSduYer?=
- =?us-ascii?Q?KbMq7S6+nmQELL7f3Gb1F55sTw9FrwPIjx8MrqvS3mw8aLtI3icF6E6fr/Rc?=
- =?us-ascii?Q?VDVa81QuFU/9Z2rzvJQd3sSXxzdMhMnKEFjJgZM57Muo5wDylWqDAPAyKvKE?=
- =?us-ascii?Q?pueD1RMQucoOfHf6MV6JOeyEIrKN1MohJgdmvNxELDU0TvZF7Ar1bZnkTeMl?=
- =?us-ascii?Q?dkC76ks79iBbtjB4BCNA5NphfB83Tw+HaP5nVWhqL2EgyA1rdtUKZ6dsg817?=
- =?us-ascii?Q?H6HUQd3hhOszkqQxrJ1R7Tt/goetev9z0h1vLNGjdzeqIx6RARraP+pmTxVs?=
- =?us-ascii?Q?cK8lnsk+I2OE87f0tZlTrMYILWJMI6a+ecFhsLL4gsqhMR1b8ulcgOIMZVPs?=
- =?us-ascii?Q?ZuieZa59q7EsMUNefjy7Q+LbrIfqvFKmXKPUjIkxkgMncGCTZE89wbunAUVe?=
- =?us-ascii?Q?3ryH9OJg5HrvYW3H2KJdFPc=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 12eaaaaa-388a-444d-fc36-08d9bfe52741
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 16:08:37.8121
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- s/Add8A/1vpsLFs23PlOH5wIBQS7alr03j8d16+vJcQ/fh0bKhY9jQP6OlrtuP/C/wO8jCailX1lBGWWqvwuaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4665
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.0
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20211204071323.2480163-1-alex@linutronix.de>
+ <20211204071323.2480163-3-alex@linutronix.de>
+ <CAGgRHJpbpit-O5dRs_ytafLgk8cOb4qReACeGDaB2sk=jB+qWQ@mail.gmail.com>
+ <CANNYZj_eCMyQYHhx7uhZ34NTGekeWAwcGSPCvE1P-tO5wLhp8g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Subject: Re: [OE-core] [PATCH 03/26] meson: configure and use generic
+ exe_wrapper
+In-Reply-To: 
+ <CANNYZj_eCMyQYHhx7uhZ34NTGekeWAwcGSPCvE1P-tO5wLhp8g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:43:27 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:43:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159733
+ https://lists.openembedded.org/g/openembedded-core/message/159735
 
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
-om>
 
----
+On 12/15/21 6:52 AM, Alexander Kanavin wrote:
+> On Wed, 15 Dec 2021 at 15:07, Matt Madison <matt@madison.systems> wrote:
+> 
+>     Inheriting the qemu class unconditionally causes task hash changes
+>     for allarch recipes
+>     that use meson (e.g. cantarell-fonts) when MACHINE is changed from,
+>     say, an x86 architecture
+>     to an aarch64 architecture, due to the qemu bbclass referencing the
+>     OLDEST_KERNEL
+>     variable.
+> 
+>     I'm not sure of the best way to fix this; doing an overwrite of
+>     OLDEST_KERNEL in
+>     allarch.bbclass as is done for some other variables might be OK? I'm
+>     not sure it
+>     makes sense for allarch recipes to reference any QEMU stuff at all,
+>     so maybe splitting
+>     all of the exe_wrapper support into a separate bbclass that is only
+>     inherited when
+>     EXEWRAPPER_ENABLED is True is better?
+> 
+> 
+> To be honest, I have no idea why passing '-r OLDEST_KERNEL' is there to 
+> begin with. It's very old code which I didn't write, so maybe you can 
+> submit a patch that removes it and I'll give it a spin?
 
-Changes in v3:
-- Sort LIC_FILES_CHKSUM values
+This option helps detach host kernel version from what target kernel is, 
+many architectures requires newer kernels as minimum kernels due to them 
+being new and stable ABIs for them being completed in newer releases. So 
+if one built aarch64 on really old distro which has kernel < 3.8 then 
+aarch64 binaries will fail to run in qemu user mode complaining about 
+too old kernel.
 
- meta/lib/oeqa/selftest/cases/recipetool.py | 62 ++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+having said that, since then qemu now defines arhitecture specific 
+UNAME_MINIMUM_RELEASE and calibrates  UNAME to UNAME_MINIMUM_RELEASE if 
+QEMU_UNAME is older which means we do not need to set it explicitly 
+usiing -r option anymore.
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/sel=
-ftest/cases/recipetool.py
-index 1c73b2c5e0..9db1ddb532 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -592,6 +592,68 @@ class RecipetoolTests(RecipetoolBase):
-             with open(srcfile, 'w') as fh:
-                 fh.writelines(plugincontent)
-=20
-+    def test_recipetool_handle_license_vars(self):
-+        from create import handle_license_vars
-+        from unittest.mock import Mock
-+
-+        commonlicdir =3D get_bb_var('COMMON_LICENSE_DIR')
-+
-+        d =3D bb.tinfoil.TinfoilDataStoreConnector
-+        d.getVar =3D Mock(return_value=3Dcommonlicdir)
-+
-+        srctree =3D tempfile.mkdtemp(prefix=3D'recipetoolqa')
-+        self.track_for_cleanup(srctree)
-+
-+        # Multiple licenses
-+        licenses =3D ['MIT', 'ISC', 'BSD-3-Clause', 'Apache-2.0']
-+        for licence in licenses:
-+            shutil.copy(os.path.join(commonlicdir, licence), os.path.join(=
-srctree, 'LICENSE.' + licence))
-+        # Duplicate license
-+        shutil.copy(os.path.join(commonlicdir, 'MIT'), os.path.join(srctre=
-e, 'LICENSE'))
-+
-+        extravalues =3D {
-+            # Duplicate and missing licenses
-+            'LICENSE': 'Zlib & BSD-2-Clause & Zlib',
-+            'LIC_FILES_CHKSUM': [
-+                'file://README.md;md5=3D0123456789abcdef0123456789abcd'
-+            ]
-+        }
-+        lines_before =3D []
-+        handled =3D []
-+        licvalues =3D handle_license_vars(srctree, lines_before, handled, =
-extravalues, d)
-+        expected_lines_before =3D [
-+            '# WARNING: the following LICENSE and LIC_FILES_CHKSUM values =
-are best guesses - it is',
-+            '# your responsibility to verify that the values are complete =
-and correct.',
-+            '# NOTE: Original package / source metadata indicates license =
-is: BSD-2-Clause & Zlib',
-+            '#',
-+            '# NOTE: multiple licenses have been detected; they have been =
-separated with &',
-+            '# in the LICENSE value for now since it is a reasonable assum=
-ption that all',
-+            '# of the licenses apply. If instead there is a choice between=
- the multiple',
-+            '# licenses then you should change the value to separate the l=
-icenses with |',
-+            '# instead of &. If there is any doubt, check the accompanying=
- documentation',
-+            '# to determine which situation is applicable.',
-+            'LICENSE =3D "Apache-2.0 & BSD-2-Clause & BSD-3-Clause & ISC &=
- MIT & Zlib"',
-+            'LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0835ade698e0bcf850=
-6ecda2f7b4f302 \\\n'
-+            '                    file://LICENSE.Apache-2.0;md5=3D89aea4e17=
-d99a7cacdbeed46a0096b10 \\\n'
-+            '                    file://LICENSE.BSD-3-Clause;md5=3D5507944=
-65ba0ec5312d6919e203a55f9 \\\n'
-+            '                    file://LICENSE.ISC;md5=3Df3b90e78ea0cffb2=
-0bf5cca7947a896d \\\n'
-+            '                    file://LICENSE.MIT;md5=3D0835ade698e0bcf8=
-506ecda2f7b4f302 \\\n'
-+            '                    file://README.md;md5=3D0123456789abcdef01=
-23456789abcd"',
-+            ''
-+        ]
-+        self.assertEqual(lines_before, expected_lines_before)
-+        expected_licvalues =3D [
-+            ('MIT', 'LICENSE', '0835ade698e0bcf8506ecda2f7b4f302'),
-+            ('Apache-2.0', 'LICENSE.Apache-2.0', '89aea4e17d99a7cacdbeed46=
-a0096b10'),
-+            ('BSD-3-Clause', 'LICENSE.BSD-3-Clause', '550794465ba0ec5312d6=
-919e203a55f9'),
-+            ('ISC', 'LICENSE.ISC', 'f3b90e78ea0cffb20bf5cca7947a896d'),
-+            ('MIT', 'LICENSE.MIT', '0835ade698e0bcf8506ecda2f7b4f302')
-+        ]
-+        self.assertEqual(handled, [('license', expected_licvalues)])
-+        self.assertEqual(extravalues, {})
-+        self.assertEqual(licvalues, expected_licvalues)
-+
-+
-     def test_recipetool_split_pkg_licenses(self):
-         from create import split_pkg_licenses
-         licvalues =3D [
---=20
-2.30.2
+I did however found a bug in qemu where this value was not set properly 
+for riscv32 which I have sent a fix upstream.
 
+Lets try dropping -r option, I think it should work. Good test would be
+building qemuarm64 on a build host running < 3.8 kernel and see if all 
+builds ok. or qemuriscv64 on hosts with kernel < 4.15
+
+
+
+> 
+> Alex
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159726): https://lists.openembedded.org/g/openembedded-core/message/159726
+> Mute This Topic: https://lists.openembedded.org/mt/87494764/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
