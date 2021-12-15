@@ -2,64 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 721CAC4707A
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:39 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.2631.1639608042401242914
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD442C43217
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:40 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web09.2681.1639608053127313738
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 14:40:42 -0800
+ Wed, 15 Dec 2021 14:40:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pBIu7Yij;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CALhpDe1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id t9so40737007wrx.7
+Received: by mail-wm1-f49.google.com with SMTP id y196so17677166wmc.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 14:40:42 -0800 (PST)
+ Wed, 15 Dec 2021 14:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iSC938hsqovbiDHYx8e/ssG88on0oiqDjoYcXmyewhE=;
-        b=pBIu7YijmVtYNyrg+1rK6eDtVu5HpkkNCUTEZU/0OLNY5vvYy9TbYdlkt2VC1DSbLf
-         ge8I2s0q4v3+U6FrCLzqD4K6lb+46HBCok3ffQDc9FOvL+G33OGTyjZ/d0Wpb+sQAU8k
-         wFNwm2u6SpAgJqFsMcBnq/Azyzu7WRkEMpybnW9J5FN2puUIhQvOo3VGjPNcWnvfxvCn
-         eGlX3pAJK6uhMm8zwtzbuKUogQn6JcJjgGUFWIWj6wNsK1QzkaYbeQQBouR9U5lMB0ai
-         mpao3l+Ev0JvRdxBY7+1mUpJmS5tyHkCjCb2B9BVyw7T8X826xyfHwDB1rsFj/cOjI1A
-         0IoQ==
+        bh=8F4I6ew87C21IPhMyoKCfoFHJsf0KkZtPFn2O+Gku6c=;
+        b=CALhpDe1YzilFPHk8PebiF7SG5alrzEkA/rX9wkzKXzEoqI+pOfZZL2LZPKlwvjVzv
+         i+GGGMi2dA5NTX8vwspw2KHLriwoEo0Wfsdypcc1xTKF/y9j6wMDquVIQgaAkpQoscqK
+         aDbpqax8/KGZgmlyL6WKmhKUsvHHPD+PGYKHzQSPngg/+DzfP1r2E/1VHn9PyIXj3Zvc
+         +I3wnKdDSGFd915h5q6iZvaDJX7WpZkmStWrnTxntCSW7DQbV7znLc1Mr3kAy6Sy0rAX
+         aJ7t9OryCxTEsHcZTuFtDF9t+/YrzI+p7k9KS2HzmjXnN+iTkrqTfIMmWBuLgQxBMNAs
+         UYew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iSC938hsqovbiDHYx8e/ssG88on0oiqDjoYcXmyewhE=;
-        b=gBCaWmim5SP/717HA4L9e2y8Vt1ZSUnrFygWDG5oA9GSMYdqOaWO0lLtQqQio/APq5
-         YLs2kxo4hHzjqkbSiuFBucpTDQcbUpCFNDWDX6pfOEMtYfVO0oDngVVinMyw/UZGreuj
-         TEbFs0k8KeJmR4Uicbo0SDfl7eCmU2txcMBvsD1WvoiqdTBbkB0HL/UBEhYcCB8/0d6V
-         gPA6jZfaH+X5vUt7C7M8t4risCE6ITWDoP0Y5++AQvRVukgDSGV08/YSqa14VPEjhV5x
-         KC8zNgRGTtTwozHXXnxZoAOPSEKRIh4R6Xxpbh8d7RFo0Tt073MPPgYI10lOoY8v5MT1
-         Aq7Q==
-X-Gm-Message-State: AOAM5323kQQqAz5Z65uu8ZFKjt0Wqy9CGYJXrMGie5wbi+2Imea8kBvf
-	ExYq2g22rhFsMksDcoyvztuB1x1Zwl7Kgw==
+        bh=8F4I6ew87C21IPhMyoKCfoFHJsf0KkZtPFn2O+Gku6c=;
+        b=p6oEq255B2aKqdqa2r3NEqxd4Ulvz68XIvSCuXdZKzcE9Fw3VXVyA++Vr9G+VjdVSn
+         ThnKhrHa6iXsY+KkoY65qzzjKGYeUMfFXqdc0l7wM/Z8HPlkAB//mEParEl3AI+OXBOG
+         IbipDYcINB0V3SmsRg/xNviXpWAGx4E2WB0FLbel7cuHAeUURERJr++yBBmfqlgNBxH4
+         yEqCQ85fgiwk2VCEc+FRR6P4sChLV8A+k9R0iqVD3yMljyFEi1m80nomduJF6ow9AkmN
+         8Tz+gTXbWny95FV3tDTKCsWI1WEyTi5r4yERrIX9Ri/3i0n6ybsrtWWkxlTW2aOTheuO
+         6GCQ==
+X-Gm-Message-State: AOAM530+YQ8+TzFNF2y3nz9TKsbyTq1eKnLQHEwwRN0hsUGI/TO+lC8S
+	6jwfr0BwB9YBW401jQhmIMZAPrtCRbYOLA==
 X-Google-Smtp-Source: 
- ABdhPJw5uObQp+Od2nBY0bJLctlQn0K2HcC2y7fD06YivpgvL1ctyxOCLD3tEyr2Tnxjxmq8kJvmCg==
-X-Received: by 2002:a05:6000:15c6:: with SMTP id
- y6mr6525292wry.422.1639608040971;
-        Wed, 15 Dec 2021 14:40:40 -0800 (PST)
+ ABdhPJwAJbhDSD9yTbNWgUdpP3MafMY4dWLKmcoST48u/LSElFSDcs3gjfA4Z4Tk7nPzRL90b6BRaQ==
+X-Received: by 2002:a05:600c:6025:: with SMTP id
+ az37mr2209906wmb.194.1639608051783;
+        Wed, 15 Dec 2021 14:40:51 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- u2sm3587269wrs.17.2021.12.15.14.40.40
+ u2sm3587269wrs.17.2021.12.15.14.40.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Dec 2021 14:40:40 -0800 (PST)
+        Wed, 15 Dec 2021 14:40:51 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Hongxu Jia <hongxu.jia@windriver.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 03/26] python3: drop unneeded multiprocessing module patch
-Date: Wed, 15 Dec 2021 23:40:11 +0100
-Message-Id: <20211215224034.1814148-3-alex@linutronix.de>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 20/26] rxvt-unicode: upgrade 9.26 -> 9.30
+Date: Wed, 15 Dec 2021 23:40:28 +0100
+Message-Id: <20211215224034.1814148-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211215224034.1814148-1-alex@linutronix.de>
 References: <20211215224034.1814148-1-alex@linutronix.de>
@@ -68,121 +66,63 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159745
+ https://lists.openembedded.org/g/openembedded-core/message/159762
 
-I ran the reproducing sequence on qemux86, and it went fine:
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-root@qemux86:~# python3
-Python 3.10.0 (default, Oct  4 2021, 17:55:55) [GCC 11.2.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import multiprocessing
->>> pool_sema = multiprocessing.BoundedSemaphore(value=1)
->>> pool_sema.acquire()
-True
->>> pool_sema.release()
->>>
-
-Additionally AB testing revealed no issues, and the description isn't entirely
-clear about where and how the problem occurs, so I can't submit it upsream
-without having that understanding and how to demonstrate the problem.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ssing-libraries-to-Extension-for-mul.patch | 70 -------------------
- .../recipes-devtools/python/python3_3.10.1.bb |  1 -
- 2 files changed, 71 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
+ meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc              | 5 +----
+ .../{rxvt-unicode_9.26.bb => rxvt-unicode_9.30.bb}           | 2 +-
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.26.bb => rxvt-unicode_9.30.bb} (71%)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch b/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-deleted file mode 100644
-index 374433c68e..0000000000
---- a/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From bad7e6a625436402a01d03021fb9ccd58bc9930f Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 9 Jan 2020 17:44:05 +0100
--Subject: [PATCH] setup.py: pass missing libraries to Extension for
-- multiprocessing module
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+index 69b8a659ed..e7d520ebef 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+@@ -6,7 +6,7 @@ terminal emulator rxvt, modified to store text in Unicode \
+ output. It also supports mixing multiple fonts at the \
+ same time, including Xft fonts."
+ HOMEPAGE = "https://rxvt.org/"
+-DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu"
++DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu libptytty"
+ 
+ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
+ 	   file://xwc.patch \
+@@ -22,7 +22,6 @@ ALTERNATIVE_TARGET[x-terminal-emulator] = "${bindir}/rxvt"
+ CFLAGS:append = " -fpermissive"
+ 
+ EXTRA_OECONF = "--enable-xim \
+-		--enable-utmp --enable-wtmp --enable-lastlog \
+ 		--with-term=rxvt --enable-keepscrolling \
+ 		--enable-xft --with-name=rxvt --enable-frills \
+ 		--enable-swapscreen --enable-transparency \
+@@ -31,8 +30,6 @@ EXTRA_OECONF = "--enable-xim \
+ 		--enable-combining --disable-perl \
+ 		--with-x=${STAGING_DIR_HOST}${prefix}"
+ 
+-EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
 -
--In the following commit:
--...
--commit e711cafab13efc9c1fe6c5cd75826401445eb585
--Author: Benjamin Peterson <benjamin@python.org>
--Date:   Wed Jun 11 16:44:04 2008 +0000
--
--    Merged revisions 64104,64117 via svnmerge from
--    svn+ssh://pythondev@svn.python.org/python/trunk
--...
--(see diff in setup.py)
--It assigned libraries for multiprocessing module according
--the host_platform, but not pass it to Extension.
--
--In glibc, the following commit caused two definition of
--sem_getvalue are different.
--https://sourceware.org/git/?p=glibc.git;a=commit;h=042e1521c794a945edc43b5bfa7e69ad70420524
--(see diff in nptl/sem_getvalue.c for detail)
--`__new_sem_getvalue' is the latest sem_getvalue@@GLIBC_2.1
--and `__old_sem_getvalue' is to compat the old version
--sem_getvalue@GLIBC_2.0.
--
--To build python for embedded Linux systems:
--http://www.yoctoproject.org/docs/2.3.1/yocto-project-qs/yocto-project-qs.html
--If not explicitly link to library pthread (-lpthread), it will
--load glibc's sem_getvalue randomly at runtime.
--
--Such as build python on linux x86_64 host and run the python
--on linux x86_32 target. If not link library pthread, it caused
--multiprocessing bounded semaphore could not work correctly.
--...
-->>> import multiprocessing
-->>> pool_sema = multiprocessing.BoundedSemaphore(value=1)
-->>> pool_sema.acquire()
--True
-->>> pool_sema.release()
--Traceback (most recent call last):
--  File "<stdin>", line 1, in <module>
--ValueError: semaphore or lock released too many times
--...
--
--And the semaphore issue also caused multiprocessing.Queue().put() hung.
--
--Upstream-Status: Pending
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- setup.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/setup.py b/setup.py
--index d92face..f42bcbb 100644
----- a/setup.py
--+++ b/setup.py
--@@ -1836,7 +1836,7 @@ class PyBuildExt(build_ext):
--             if (sysconfig.get_config_var('HAVE_SEM_OPEN') and not
--                 sysconfig.get_config_var('POSIX_SEMAPHORES_NOT_ENABLED')):
--                 multiprocessing_srcs.append('_multiprocessing/semaphore.c')
---        self.add(Extension('_multiprocessing', multiprocessing_srcs,
--+        self.add(Extension('_multiprocessing', multiprocessing_srcs, libraries=['pthread'],
--                            include_dirs=["Modules/_multiprocessing"]))
-- 
--         if (not MS_WINDOWS and
-diff --git a/meta/recipes-devtools/python/python3_3.10.1.bb b/meta/recipes-devtools/python/python3_3.10.1.bb
-index 6115ffe5b3..a51fc8f415 100644
---- a/meta/recipes-devtools/python/python3_3.10.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.1.bb
-@@ -25,7 +25,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
-            file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
--           file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[startup] = "--enable-startup-notification,--disable-startup-notification,startup-notification,"
+ 
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.30.bb
+similarity index 71%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.30.bb
+index 3fe69a543f..0133029e0a 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.30.bb
+@@ -4,5 +4,5 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://src/main.C;beginline=1;endline=31;md5=d3600d7ee1062667fcd1193fbe6485f6"
+ 
+-SRC_URI[sha256sum] = "643116b9a25d29ad29f4890131796d42e6d2d21312282a613ef66c80c5b8c98b"
++SRC_URI[sha256sum] = "fe1c93d12f385876457a989fc3ae05c0915d2692efc59289d0f70fabe5b44d2d"
+ 
 -- 
 2.20.1
 
