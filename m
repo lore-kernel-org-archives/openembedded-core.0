@@ -2,49 +2,48 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3159BC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 315C8C433FE
 	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 01:44:37 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.2686.1639608054974940505
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.2582.1639608055642274905
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 14:40:55 -0800
+ Wed, 15 Dec 2021 14:40:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cq6kme1F;
- spf=pass (domain: gmail.com, ip: 209.85.128.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LAcTTTtI;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id
- a83-20020a1c9856000000b00344731e044bso4083378wme.1
+Received: by mail-wr1-f41.google.com with SMTP id a18so40756286wrn.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 14:40:54 -0800 (PST)
+ Wed, 15 Dec 2021 14:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fsmUWfb82CmtiZw7GP/2/5JYkc26FFxWUvSWfLw0mqo=;
-        b=cq6kme1FpzyKThdS2LV49XlG8P2xw4EjoqOg8bjLQcQJNNnYTwBR3ViaYeOkVWGBig
-         f1PqBz09e/uDEezr6u2IfGcpgTAv9WW26Onqbli755yeIzX28TglFMdxhTi664NZIvX8
-         1YuOxIfD4JVdwqmzzid0fTYiHnTsIQwtJBEGyso9VJR5LAvZRpWJeK6X2Nkp0E0XLvxh
-         YbS0KLoCo+Crf8p1nHAGBgWRzp32B0ReaaF/uT3uuDL+r7h2EkTYN+UDAY1UMNT3biDR
-         713umQNVRCTr9R/SOuxUWAJMtQLVWF3Vq9WS78W5jgP2MDBiMgsVp/r5HACWy7akQeGH
-         52xg==
+        bh=tOXqzz4tVpfwfun9kp/02gIOJXw4ew/SeTWdL8DXtgQ=;
+        b=LAcTTTtI/Rgz4L/PgPigGB49HqBfwdVRhrIWUij2gkujSQMy3FHlYbbdyC+GYn4QxC
+         lbRb1tgFj5xEQq3/Aj0rInr4tlU8How+WESKFvgaC013FnMuoxmND5JjwSl5UP8BUu2u
+         yWcmersoSibewIeGWDGyhmSBrsWoI24iBAdDHoEaurEGTDRfeL17gGN9suPZkkYbf6/F
+         mDsYK++xCOdKcc7Lz+7aAd8Z63fIL8N2ci7eDcemo0c9ioE2iL7WkSEUa9bSKVNwupHi
+         nR/YG0/hXkbeLr0tcGsQQk7G6OG6+rGSHdhwvIrGiJ2/JuThSq3NOMJ39PkBTcAlpCMc
+         qcMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fsmUWfb82CmtiZw7GP/2/5JYkc26FFxWUvSWfLw0mqo=;
-        b=mIoxg6pqjuL6VRLo1QOK9CSwZFpuRTtu2SZZJTFD0wNB1V5ewqaWN4Dp1T4xEnF3t8
-         dlF2XxIFWnhMN/YDPDfwlnwz9dMCA9lOrN4yYP6oMwsBr4PDxvR28gFTSzEAPHRTKNQ5
-         8vWNpH0tIeHt9xngLRs86JcR51HBFlwQ0shPiisPa9464Nf8UzQxY0cHPssCTpP1q8K/
-         6WCtKtHDGKVSjbMua1PlGujIoSY+Ji1gzqs/yDl1QQdYBzvMskIByGxr2kcq0/MrDYwo
-         p/l7FreChlkbTmMvY1dp9maOpS67+RXH+kziihabkjoh6xwO5S2bgGl2cM6FPrbaq9ek
-         oCHA==
-X-Gm-Message-State: AOAM530zaot5PA8ZJhCjOCrCxG7zTSkZVSSQv5T8JoDn6oCsZTvgDQE+
-	RsLcO4TEDqJelY6Zp7b/FNHxNagXGVzhdA==
+        bh=tOXqzz4tVpfwfun9kp/02gIOJXw4ew/SeTWdL8DXtgQ=;
+        b=bMjYIcD5pSlPVW8RGf8Gxv1EtexR0Sf9yLhLSKE43X6Jzp5tgyyToLqswEE/WCOJIg
+         1O1pFhkE1s1+4LEBw4HJuphjEeORZtlcaVphfiT/9AjXan/jMtrhocubOcdW/5Qphy5T
+         KuLqvXCOKJjObjVEzRSeIZmwMcBeo8kH9hP+QfmdDO+MbZ4HXWWwhRmAI5Ct0Jz40BZL
+         CfWH6UN+EV+bJ/YW7mH2qzt6ooj+Jobbeh7JSrHAhKVS8wzBx8SnB9uC4RSNxDZRdfQo
+         4VtrS/yoZurrzX9Ma2+LTtB2nQ/SKkIdLiQJp34OAiLwh2K/C5lNVtIjoJbGeZZrKMQ2
+         7nZg==
+X-Gm-Message-State: AOAM531ZjJEj2u6fwZAH3F8XG0w2sD1d6IBvjf4xmXGFJktRRfkIqkEk
+	kv0olFNO+7TKVQPfU8di5izByYePznvIrA==
 X-Google-Smtp-Source: 
- ABdhPJz9i860I5Op1HlNOd6AkRWvv2Vm1+3W1OqxQn8m3tdpdTm9JBCseS7E1/hWGGupCn09bolGeg==
-X-Received: by 2002:a1c:a755:: with SMTP id q82mr2183694wme.157.1639608053653;
-        Wed, 15 Dec 2021 14:40:53 -0800 (PST)
+ ABdhPJwGcx0y9tDAnjLSFDp9hSqqm+qvg1P32Ou5IAZWvGyqu/c7NY21LcAMD95qBF71YT95V7RnGg==
+X-Received: by 2002:adf:f08c:: with SMTP id n12mr136967wro.598.1639608054243;
+        Wed, 15 Dec 2021 14:40:54 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
@@ -55,9 +54,9 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 23/26] libx11: update 1.7.3 -> 1.7.3.1
-Date: Wed, 15 Dec 2021 23:40:31 +0100
-Message-Id: <20211215224034.1814148-23-alex@linutronix.de>
+Subject: [PATCH 24/26] debianutils: update 4.11.2 -> 5.5
+Date: Wed, 15 Dec 2021 23:40:32 +0100
+Message-Id: <20211215224034.1814148-24-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211215224034.1814148-1-alex@linutronix.de>
 References: <20211215224034.1814148-1-alex@linutronix.de>
@@ -68,30 +67,73 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 01:44:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159765
+ https://lists.openembedded.org/g/openembedded-core/message/159766
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xorg-lib/{libx11_1.7.3.bb => libx11_1.7.3.1.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.7.3.bb => libx11_1.7.3.1.bb} (94%)
+ ...bianutils_4.11.2.bb => debianutils_5.5.bb} | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-support/debianutils/{debianutils_4.11.2.bb => debianutils_5.5.bb} (73%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.7.3.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-index f55252b924..be9b8df6ce 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
+diff --git a/meta/recipes-support/debianutils/debianutils_4.11.2.bb b/meta/recipes-support/debianutils/debianutils_5.5.bb
+similarity index 73%
+rename from meta/recipes-support/debianutils/debianutils_4.11.2.bb
+rename to meta/recipes-support/debianutils/debianutils_5.5.bb
+index 231666c4dc..6eea86f6d3 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.11.2.bb
++++ b/meta/recipes-support/debianutils/debianutils_5.5.bb
+@@ -8,25 +8,26 @@ SECTION = "base"
+ LICENSE = "GPLv2 & SMAIL_GPL"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94"
  
- SRC_URI += "file://disable_tests.patch \
-            "
--SRC_URI[sha256sum] = "dfd1343db3a0e523f1bb97d5ba71453c79eee78a77e51ca9f8dfef7131c6f0fe"
-+SRC_URI[sha256sum] = "2ffd417266fb875028fdc0ef349694f63dbcd76d0b0cfacfb52e6151f4b60989"
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20200929T025235Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+-# the package is taken from snapshots.debian.org; that source is static and goes stale
+-# so we check the latest upstream from a directory that does get updated
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
++SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master \
++           "
  
- PROVIDES = "virtual/libx11"
+-SRC_URI[sha256sum] = "3b680e81709b740387335fac8f8806d71611dcf60874e1a792e862e48a1650de"
++SRCREV = "4c420893485ad07d771c327ef899819d4846408f"
  
+ inherit autotools update-alternatives
+ 
+-S = "${WORKDIR}/debianutils"
++S = "${WORKDIR}/git"
++
++# Disable po4a (translated manpages) sub-directory, as that requires po4a to build
+ do_configure:prepend() {
+-    sed -i -e 's:tempfile.1 which.1:which.1:g' ${S}/Makefile.am
++    sed -i -e 's:po4a::g' ${S}/Makefile.am
+ }
+ 
++
+ do_install:append() {
+     if [ "${base_bindir}" != "${bindir}" ]; then
+         # Debian places some utils into ${base_bindir} as does busybox
+         install -d ${D}${base_bindir}
+-        for app in run-parts tempfile; do
++        for app in run-parts; do
+             mv ${D}${bindir}/$app ${D}${base_bindir}/$app
+         done
+     fi
+@@ -41,7 +42,7 @@ RDEPENDS:${PN} += "${PN}-run-parts"
+ RDEPENDS:${PN}:class-native = ""
+ 
+ ALTERNATIVE_PRIORITY = "30"
+-ALTERNATIVE:${PN} = "add-shell installkernel remove-shell savelog tempfile which"
++ALTERNATIVE:${PN} = "add-shell installkernel remove-shell savelog which"
+ 
+ ALTERNATIVE_PRIORITY_${PN}-run-parts = "60"
+ ALTERNATIVE:${PN}-run-parts = "run-parts"
+@@ -54,7 +55,6 @@ ALTERNATIVE_LINK_NAME[installkernel] = "${sbindir}/installkernel"
+ ALTERNATIVE_LINK_NAME[remove-shell] = "${sbindir}/remove-shell"
+ ALTERNATIVE_LINK_NAME[run-parts] = "${base_bindir}/run-parts"
+ ALTERNATIVE_LINK_NAME[savelog] = "${bindir}/savelog"
+-ALTERNATIVE_LINK_NAME[tempfile] = "${base_bindir}/tempfile"
+ ALTERNATIVE_LINK_NAME[which] = "${bindir}/which"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.20.1
 
