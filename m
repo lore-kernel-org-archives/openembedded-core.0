@@ -1,266 +1,112 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD019C433F5
-	for <webhook@archiver.kernel.org>; Wed, 15 Dec 2021 11:11:56 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.39009.1639566715780016878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6779C433F5
+	for <webhook@archiver.kernel.org>; Wed, 15 Dec 2021 11:40:49 +0000 (UTC)
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web10.39211.1639568446273625997
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 03:11:56 -0800
+ Wed, 15 Dec 2021 03:40:46 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14F1ED6E
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 03:11:49 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B47D63F774
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Dec 2021 03:11:48 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssl: upgrade to 3.0.1
-Date: Wed, 15 Dec 2021 11:11:46 +0000
-Message-Id: <20211215111146.3065947-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com
+ ([174.114.107.13]:50750 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1mxSeL-0000X3-15; Wed, 15 Dec 2021 06:40:44 -0500
+Date: Wed, 15 Dec 2021 06:40:41 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Ross Burton <ross@burtonini.com>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] ROOTFS_POSTPROCESS_COMMAND versus do_install_append()
+ and using ${D}?
+In-Reply-To: 
+ <CAAnfSTvyCdxsF1jjGqKXEecA2t_wj9UohEnuzAPLJV-My7mEKg@mail.gmail.com>
+Message-ID: <12cb18e3-e3ae-ab79-9d69-87bec7beb0c7@crashcourse.ca>
+References: <a3f88955-541b-7aef-d3b6-b5de28cfa83@crashcourse.ca>
+ <CAAnfSTvyCdxsF1jjGqKXEecA2t_wj9UohEnuzAPLJV-My7mEKg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id:
+ rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Dec 2021 11:11:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Dec 2021 11:40:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159721
+ https://lists.openembedded.org/g/openembedded-core/message/159722
 
-Major changes in 3.0.1:
+On Tue, 14 Dec 2021, Ross Burton wrote:
 
-  * Fixed invalid handling of X509_verify_cert() internal errors in libss=
-l
-    ([CVE-2021-4044])
-  * Allow fetching an operation from the provider that owns an unexportab=
-le key
-    as a fallback if that is still allowed by the property query.
+> On Tue, 14 Dec 2021 at 11:39, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >   what i'm looking at now does it in a more curious way. there is
+> > a catch-all recipe file (call it "catchall.bb") which lists, as
+> > its DEPENDS list, *all* of the recipes that make up the image,
+> > which means that building catchall.bb builds and populates an
+> > image directory with the combination of all those other recipes,
+> > after which it defines both pkg_postinst_${PN} *and*
+> > do_install_append(), both of which run around and make changes
+> > relative to ${D}, given that the image directory for that recipe
+> > effectively contains, well, everything that will go into the
+> > rootfs.
+>
+> Either you're explaining badly, or that isn't doing what you expect.
+>
+> A normal catchall.bb recipe which DEPENDS on all other relevant
+> recipes will result in the recipe-sysroot directory containing the
+> sysroots for those recipes, but that is all.  the image directory
+> won't contain anything apart from what catchall.bb's do_install
+> installs.
 
-Drop patches which were backported.
+  yes, i was explaining badly ... actually, no, i just had no idea
+what i was talking about, so let's try again.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...-EVP_PKEY_CTX_get_rsa_pss_saltlen-no.patch | 108 ------------------
- .../openssl/openssl/armv8-32bit.patch         |  29 -----
- .../{openssl_3.0.0.bb =3D> openssl_3.0.1.bb}    |   4 +-
- 3 files changed, 1 insertion(+), 140 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-EV=
-P_PKEY_CTX_get_rsa_pss_saltlen-no.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/armv8-32bit=
-.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.0.bb =3D> openssl_=
-3.0.1.bb} (97%)
+  stripped down version: i'm trying to clarify in my own mind the
+myriad of ways one can customize a package/rootfs/image, via
+do_install:append(), or pkg_postinst...,
+or ROOTFS_{PRE,POST}...COMMAND, or IMAGE_..._COMMAND, and so on, but
+let's start simple.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-EVP_PKEY_=
-CTX_get_rsa_pss_saltlen-no.patch b/meta/recipes-connectivity/openssl/open=
-ssl/0001-Fix-EVP_PKEY_CTX_get_rsa_pss_saltlen-no.patch
-deleted file mode 100644
-index b85a3ad7d22..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-Fix-EVP_PKEY_CTX_get=
-_rsa_pss_saltlen-no.patch
-+++ /dev/null
-@@ -1,108 +0,0 @@
--Fix EVP_PKEY_CTX_get_rsa_pss_saltlen, and also disable the tests in non-=
-default
--context (required when backporting, not needed with 3.0.1).
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 6b5c02f6173e5fd46a3685e676fcb5eee9ac43ea Mon Sep 17 00:00:00 2001
--From: Tom Cosgrove <tom.cosgrove@arm.com>
--Date: Thu, 25 Nov 2021 15:49:26 +0000
--Subject: [PATCH] Fix EVP_PKEY_CTX_get_rsa_pss_saltlen() not returning a =
-value
--
--When an integer value was specified, it was not being passed back via
--the orig_p2 weirdness.
--
--Regression test included.
--
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--Reviewed-by: Paul Dale <pauli@openssl.org>
--(Merged from https://github.com/openssl/openssl/pull/17136)
-----
-- crypto/evp/ctrl_params_translate.c | 12 +++++++-----
-- test/evp_extra_test.c              | 30 ++++++++++++++++++++++++++++++
-- 2 files changed, 37 insertions(+), 5 deletions(-)
--
--diff --git a/crypto/evp/ctrl_params_translate.c b/crypto/evp/ctrl_params=
-_translate.c
--index 88945e13e6..6638209a8d 100644
----- a/crypto/evp/ctrl_params_translate.c
--+++ b/crypto/evp/ctrl_params_translate.c
--@@ -1379,21 +1379,23 @@ static int fix_rsa_pss_saltlen(enum state state,
--     if ((ctx->action_type =3D=3D SET && state =3D=3D PRE_PARAMS_TO_CTRL=
-)
--         || (ctx->action_type =3D=3D GET && state =3D=3D POST_CTRL_TO_PA=
-RAMS)) {
--         size_t i;
--+        int val;
--=20
--         for (i =3D 0; i < OSSL_NELEM(str_value_map); i++) {
--             if (strcmp(ctx->p2, str_value_map[i].ptr) =3D=3D 0)
--                 break;
--         }
---        if (i =3D=3D OSSL_NELEM(str_value_map)) {
---            ctx->p1 =3D atoi(ctx->p2);
---        } else if (state =3D=3D POST_CTRL_TO_PARAMS) {
--+
--+        val =3D i =3D=3D OSSL_NELEM(str_value_map) ? atoi(ctx->p2)
--+                                             : (int)str_value_map[i].id=
-;
--+        if (state =3D=3D POST_CTRL_TO_PARAMS) {
--             /*
--              * EVP_PKEY_CTRL_GET_RSA_PSS_SALTLEN weirdness explained fu=
-rther
--              * up
--              */
---            *(int *)ctx->orig_p2 =3D str_value_map[i].id;
--+            *(int *)ctx->orig_p2 =3D val;
--         } else {
---            ctx->p1 =3D (int)str_value_map[i].id;
--+            ctx->p1 =3D val;
--         }
--         ctx->p2 =3D NULL;
--     }
--diff --git a/test/evp_extra_test.c b/test/evp_extra_test.c
--index 83f8902d24..9ad37a2bce 100644
----- a/test/evp_extra_test.c
--+++ b/test/evp_extra_test.c
--@@ -3049,6 +3049,35 @@ static int test_EVP_rsa_pss_with_keygen_bits(void=
-)
--     return ret;
-- }
--=20
--+static int test_EVP_rsa_pss_set_saltlen(void)
--+{
--+    int ret =3D 0;
--+    EVP_PKEY *pkey =3D NULL;
--+    EVP_PKEY_CTX *pkey_ctx =3D NULL;
--+    EVP_MD *sha256 =3D NULL;
--+    EVP_MD_CTX *sha256_ctx =3D NULL;
--+    int saltlen =3D 9999; /* buggy EVP_PKEY_CTX_get_rsa_pss_saltlen() d=
-idn't update this */
--+    const int test_value =3D 32;
--+
--+    if (nullprov !=3D NULL)
--+        return TEST_skip("Test does not support a non-default library c=
-ontext");
--+
--+    ret =3D TEST_ptr(pkey =3D load_example_rsa_key())
--+        && TEST_ptr(sha256 =3D EVP_MD_fetch(testctx, "sha256", NULL))
--+        && TEST_ptr(sha256_ctx =3D EVP_MD_CTX_new())
--+        && TEST_true(EVP_DigestSignInit(sha256_ctx, &pkey_ctx, sha256, =
-NULL, pkey))
--+        && TEST_true(EVP_PKEY_CTX_set_rsa_padding(pkey_ctx, RSA_PKCS1_P=
-SS_PADDING))
--+        && TEST_true(EVP_PKEY_CTX_set_rsa_pss_saltlen(pkey_ctx, test_va=
-lue))
--+        && TEST_true(EVP_PKEY_CTX_get_rsa_pss_saltlen(pkey_ctx, &saltle=
-n))
--+        && TEST_int_eq(saltlen, test_value);
--+
--+    EVP_MD_CTX_free(sha256_ctx);
--+    EVP_PKEY_free(pkey);
--+    EVP_MD_free(sha256);
--+
--+    return ret;
--+}
--+
-- static int success =3D 1;
-- static void md_names(const char *name, void *vctx)
-- {
--@@ -3966,6 +3995,7 @@ int setup_tests(void)
--     ADD_ALL_TESTS(test_evp_iv_des, 6);
-- #endif
--     ADD_TEST(test_EVP_rsa_pss_with_keygen_bits);
--+    ADD_TEST(test_EVP_rsa_pss_set_saltlen);
-- #ifndef OPENSSL_NO_EC
--     ADD_ALL_TESTS(test_ecpub, OSSL_NELEM(ecpub_nids));
-- #endif
----=20
--2.25.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/armv8-32bit.patch =
-b/meta/recipes-connectivity/openssl/openssl/armv8-32bit.patch
-deleted file mode 100644
-index 1935651be05..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/armv8-32bit.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/1695=
-1]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 5118e96a3dbedde2523e7726fa34af30923a9add Mon Sep 17 00:00:00 2001
--From: Tom Cosgrove <tom.cosgrove@arm.com>
--Date: Tue, 2 Nov 2021 15:26:21 +0000
--Subject: [PATCH] Fix builds on Armv8 systems without AArch64
--
--This fixes "undefined reference to `aes_gcm_dec_128_kernel' in function
--`armv8_aes_gcm_decrypt'" and similar
--
--Fixes #16949
-----
-- include/crypto/aes_platform.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/include/crypto/aes_platform.h b/include/crypto/aes_platform=
-.h
--index 015c3bd4ab91..e95ad5aa5de6 100644
----- a/include/crypto/aes_platform.h
--+++ b/include/crypto/aes_platform.h
--@@ -100,7 +100,7 @@ void AES_xts_decrypt(const unsigned char *inp, unsig=
-ned char *out, size_t len,
-- #    define AES_PMULL_CAPABLE ((OPENSSL_armcap_P & ARMV8_PMULL) && (OPE=
-NSSL_armcap_P & ARMV8_AES))
-- #    define AES_GCM_ENC_BYTES 512
-- #    define AES_GCM_DEC_BYTES 512
---#    if __ARM_MAX_ARCH__>=3D8
--+#    if __ARM_MAX_ARCH__>=3D8 && defined(__aarch64__)
-- #     define AES_gcm_encrypt armv8_aes_gcm_encrypt
-- #     define AES_gcm_decrypt armv8_aes_gcm_decrypt
-- #     define AES_GCM_ASM(gctx) ((gctx)->ctr=3D=3Daes_v8_ctr32_encrypt_b=
-locks && \
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.0.bb b/meta/re=
-cipes-connectivity/openssl/openssl_3.0.1.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.0.1.bb
-index da73ed6bc33..4cd090a26b7 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.1.bb
-@@ -12,15 +12,13 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${=
-PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
--co.patch \
-            file://afalg.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
--           file://armv8-32bit.patch \
--           file://0001-Fix-EVP_PKEY_CTX_get_rsa_pss_saltlen-no.patch \
-            "
-=20
- SRC_URI:append:class-nativesdk =3D " \
-            file://environment.d-openssl.sh \
-            "
-=20
--SRC_URI[sha256sum] =3D "59eedfcb46c25214c9bd37ed6078297b4df01d012267fe9e=
-9eee31f61bc70536"
-+SRC_URI[sha256sum] =3D "c311ad853353bce796edad01a862c50a8a587f62e7e2100e=
-f465ab53ec9b06d1"
-=20
- inherit lib_package multilib_header multilib_script ptest perlnative
- MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
---=20
-2.25.1
+ in a recipe i was handed from a working system, there are two
+customizations:
 
+  1) pkg_postinst_${PN} runs a bunch of "setcap"s
+
+  2) do_install_append() installs stuff into ${D}, and also runs
+     a number of chown/chmod commands, and creates a couple of
+     hard links
+
+no one can explain to me why both features are being used, so it's
+either because those two things run in different contexts, or perhaps
+they were added once upon a time by two different people.
+
+  so the firist question is, is there some requirement that the above
+was done precisely that wasy?
+
+  second question: is there somewhere in the docs a comprehensive list
+of all the different ways to customize stuff as i mentioned above? a
+colleague asked me this very thing, and i had to admit i didn't know
+the full list so i would take a look (and maybe even write something
+up).
+
+  thoughts?
+
+rday
+
+p.s. i'm going to ask later about specifics of pkg_postinst() since
+i'm still unclear on the exact mechanics.
 
