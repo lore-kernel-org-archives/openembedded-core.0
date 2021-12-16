@@ -1,124 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2737EC433F5
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 14:41:17 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.11283.1639665676218848961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 979FFC433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 14:47:13 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web08.11386.1639666031835858456
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 06:41:16 -0800
+ Thu, 16 Dec 2021 06:47:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TfFp1c2e;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id t18so44551204wrg.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=j4IkhdN8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id a18so44668833wrn.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 06:41:16 -0800 (PST)
+ Thu, 16 Dec 2021 06:47:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=CmPZ+BCQhQZxnrEfZw8E3MzXcEVfyWgFDm6O+Vd9tnQ=;
-        b=TfFp1c2ex+qMPtpRzkd2xa/JAg5Ryz3SP+L9p18Hqgh6CeBJcKjBAVV7bj7DeO3RiR
-         nYRsq1jOJCl4vi1oq88GhSIYF3tUzkwcUIl741nCabMYrZZ88mTT7c1Py9vUzu/rHBnx
-         2tsTfTM+3FGPUG1xE9a3HyfKnKuWxVDWbqSaU=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=guVAiit3JsGYf+j3sxfmcuZmaFz30OtlAUf51xlhTow=;
+        b=j4IkhdN8BTDhcIMQK/OPPADMqxAdUZEG5LVMZeH45mDjj1VpmsCDUoR5sDH1Sdhutb
+         JKsTd/BiJSkucXiDOkMc6FlxY18f74W1WE3ueIJkF4ViJ5sFrxJudQEV8FzmE9x3TbEd
+         ROoRripf4K/jgpfbS44v5Nctia6jpgLVS+OUnovR900nXMrVITBGCFmCfIFpCv0EdSEF
+         q18QxjtLfP346Xp9AQA7hx6RrwhWfNSmJQUdA72ojZQy5Ub5H+PbTurMByxscOi/Vnd1
+         pPjdNPvj6mRg4F/0Gc25fSReQ9yd1cn5DLDhSBVSS4dk9D0c609ACce0nLLlOSI+lRrE
+         z0kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=CmPZ+BCQhQZxnrEfZw8E3MzXcEVfyWgFDm6O+Vd9tnQ=;
-        b=4DHqMGNSe3amvhakQk/fPj6pwcWa8d4t9E2WaCcEGmiWHdaIJtL2zWvCd16xTcd9gC
-         kESPhB8pCXMVKp9S+BWkeFumeDBxCKcSmRWRpjoPQcA5FnNLEE6u56rfymYupafqomUI
-         F5PrAguKJyb3tZANEmS6MeQf9VjCY68s4RN9NVjgEPJBIgLBZWWeLWz/GTwJNMknswWK
-         LxruI3kcYfzOKxu35x7E2PZ4M1Vc3TP2JSAH6kHTL4r2MhQKh69yk3xrOpP8rgYRxFRT
-         VjhV5DbK5KrcEWZJvc2sdyJkF2MwfqZpgSndp8xaVSaYh/5MEslAMDLQCFfl/g0SH6z2
-         PA+g==
-X-Gm-Message-State: AOAM5324tbttxrtwmnrrwSPQfLpPESVVtuasAuB9tAyQigl7aqAg28B5
-	3g2PEbl5/01mICI05bPmFPJLTQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=guVAiit3JsGYf+j3sxfmcuZmaFz30OtlAUf51xlhTow=;
+        b=W6iYI2rDh9h83kww7TjAEQTa/KD7BmUaF/JNZYkvaTkQ7wtWeliG0/ncrV6gsyV0+f
+         DRCrDRob1r0ux9J9WJZ9rOhE9K7/miui3FA7R0JE0P8qHqxsQWxtcAGD6W16Dy/wb/Mg
+         u8pnAQ+aPPw4ZmpxEGn7aVrDMyscoOAE9mnsU74/cDL/p5elx6jXaKCkUl2wR7fydubn
+         gms9PmNmqZpQZZAIBBpZsQ5lFgsMO2Mrwzmej3kuHK3pIoFzJdUGFbZxBCH8thEIwiao
+         23MfdMSdmNR7u1b90wQtUiSn6HIZjcrzG2kmc2C1vSvGQLPBI0PBpOAdXSjROJM0z9Nl
+         ru7A==
+X-Gm-Message-State: AOAM532XZFvN0ewsLqA/kD9I0+38xCcvX1I3POBTjMB3i+LgHY8/haQ4
+	CSAnwpQwnEEXHuWtW7gi6Au3DiPKFKMKmH7SEzk=
 X-Google-Smtp-Source: 
- ABdhPJxDNswP59yg0/rw0E6BlzqE1JHoqFvGU11wUVk4Hx/CupeRLgvINzv+BoT62Lij8nlc1/3PYw==
-X-Received: by 2002:a5d:568c:: with SMTP id f12mr8826270wrv.240.1639665674706;
-        Thu, 16 Dec 2021 06:41:14 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7bea:ecb7:80b0:2828?
- ([2001:8b0:aba:5f3c:7bea:ecb7:80b0:2828])
-        by smtp.gmail.com with ESMTPSA id
- r8sm1585630wru.107.2021.12.16.06.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 06:41:14 -0800 (PST)
-Message-ID: 
- <7945b4759d992c5539b6261f4a7f350405e640a7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][RFC PATCH v2 1/2] oe.lib.recipeutils: add
- get_layer_name method
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 Dec 2021 14:41:13 +0000
-In-Reply-To: 
- <AM9PR09MB4642AFAD1E3DA5F9022D3C1EA8769@AM9PR09MB4642.eurprd09.prod.outlook.com>
-References: 
-	<AM9PR09MB4642AFAD1E3DA5F9022D3C1EA8769@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJzBvnO/mf3204hr+MGMNi8v1gjojHa9Pt3qtflCbhOE4w3pJAHtR1+Tq8y2NaGfE4aEd6a2fHlncuAwq2DuFUk=
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr9245065wrq.94.1639666030311;
+ Thu, 16 Dec 2021 06:47:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: 
+ <CAGgRHJqMNi+rfsiojpsxTG6e2JurK22zwK6CLOoyzz2BW0RQmA@mail.gmail.com>
+In-Reply-To: 
+ <CAGgRHJqMNi+rfsiojpsxTG6e2JurK22zwK6CLOoyzz2BW0RQmA@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 16 Dec 2021 08:46:59 -0600
+Message-ID: 
+ <CAJdd5GYn5ozdUsdhd67+xXESuyyTjxyr=-zgRox1zvmL+pLrww@mail.gmail.com>
+Subject: Re: [OE-core] cargo fetcher, SRCPV, and setscene issues
+To: Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 14:41:17 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 14:47:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159786
+ https://lists.openembedded.org/g/openembedded-core/message/159787
 
-On Wed, 2021-12-15 at 13:12 +0100, Konrad Weihmann wrote:
-> so one can get the layer name from a filepath
-> 
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
-> v2: order by path length to correctly map nested layer
-> 
->  meta/lib/oe/recipeutils.py | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-> index a0c6974f04..557e0f9bd5 100644
-> --- a/meta/lib/oe/recipeutils.py
-> +++ b/meta/lib/oe/recipeutils.py
-> @@ -21,7 +21,7 @@ import glob
->  import bb.tinfoil
->  
->  from collections import OrderedDict, defaultdict
-> -from bb.utils import vercmp_string
-> +from bb.utils import vercmp_string, get_collection_res
->  
->  # Help us to find places to insert values
->  recipe_progression = ['SUMMARY', 'DESCRIPTION', 'AUTHOR', 'HOMEPAGE', 'BUGTRACKER', 'SECTION', 'LICENSE', 'LICENSE_FLAGS', 'LIC_FILES_CHKSUM', 'PROVIDES', 'DEPENDS', 'PR', 'PV', 'SRCREV', 'SRCPV', 'SRC_URI', 'S', 'do_fetch()', 'do_unpack()', 'do_patch()', 'EXTRA_OECONF', 'EXTRA_OECMAKE', 'EXTRA_OESCONS', 'do_configure()', 'EXTRA_OEMAKE', 'do_compile()', 'do_install()', 'do_populate_sysroot()', 'INITSCRIPT', 'USERADD', 'GROUPADD', 'PACKAGES', 'FILES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RPROVIDES', 'RREPLACES', 'RCONFLICTS', 'ALLOW_EMPTY', 'populate_packages()', 'do_package()', 'do_deploy()', 'BBCLASSEXTEND']
-> @@ -928,6 +928,15 @@ def find_layerdir(fn):
->              return None
->      return layerdir
->  
-> +def get_layer_name(fn, d):
-> +    """ Get the layer name from a filename """
-> +    pth = os.path.abspath(fn)
-> +    collection = get_collection_res(d)
-> +    # reverse ordering by length to catch nested layers
-> +    for k, v in dict(sorted(collection.items(), key=lambda item: len(item[1]), reverse=True)).items():
-> +        if re.match(v, pth):
-> +            return k
-> +    return ""
->  
->  def replace_dir_vars(path, d):
->      """Replace common directory paths with appropriate variable references (e.g. /etc becomes ${sysconfdir})"""
+On Wed, Dec 15, 2021 at 8:16 AM Matt Madison <matt@madison.systems> wrote:
+>
+> I'm finding that none of the Rust recipes are getting setscened in my builds off
+> master due to the the SRCPV hack that was added to make the cargo fetcher
+> visible during parsing. There's no error reported about it, but by adding an
+> exception handler into the sstate code I tracked it down to pstaging_fetch()'s
+> using d.getVar('SRCPV').  Since the cargo fetcher doesn't advertise
+> srcrev support,
+> the base fetcher class raises an exception on this, causing the
+> mostly-silent failure.
 
+Hmm, this is strange. I have this recipe:
+https://github.com/JPEWdev/meta-phosh/blob/master/recipes-graphics/squeekboard/squeekboard_git.bb
+that is using the cargo fetcher and it is definitely using sstate like
+I would expect; perhaps there is some other strange interaction with
+another class?
 
-I suspect we should add something in bb.utils for this? I also think we should
-probably do this at the bitbake level entirely, i.e. set some kind of variable
-to the layername rather than having lots of metadata code trying to do it,
-potentially badly?
-
-Cheers,
-
-Richard
-
-
+>
+> There's no issue if the sstate package is already in the local cache;
+> it only affects
+> builds where I need to fetch from my sstate mirror.
+>
+> I'd submit a patch, but I'm not sure what the right solution would be.
+>
+> Regards,
+> -Matt
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159725): https://lists.openembedded.org/g/openembedded-core/message/159725
+> Mute This Topic: https://lists.openembedded.org/mt/87744591/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
