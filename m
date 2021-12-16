@@ -2,124 +2,123 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01347C433EF
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 13:22:22 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web12.10400.1639660940794819096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2737EC433F5
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 14:41:17 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.11283.1639665676218848961
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 05:22:21 -0800
+ Thu, 16 Dec 2021 06:41:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WlpsoM0q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TfFp1c2e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id
- j140-20020a1c2392000000b003399ae48f58so1717958wmj.5
+Received: by mail-wr1-f46.google.com with SMTP id t18so44551204wrg.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 05:22:20 -0800 (PST)
+ Thu, 16 Dec 2021 06:41:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=B1MubYHM+7wNniaJcpHmrY17wy4afNjjib/SDOWKe2I=;
-        b=WlpsoM0qW8eFFrf9yWoCz8LR6gxhP4UP19mXkly5/XdCYBdfU3G/uCoZV4608NHJDy
-         2jeIE5X1NmwiUzQOQkALjY6uDGoT+B/n8OVlkDo4JRcZGfVtAfORournbzLK/3zPFt/e
-         ppFZEf0pahfo+YF87kvZyg/uBpfDtPYCdR+5Y=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=CmPZ+BCQhQZxnrEfZw8E3MzXcEVfyWgFDm6O+Vd9tnQ=;
+        b=TfFp1c2ex+qMPtpRzkd2xa/JAg5Ryz3SP+L9p18Hqgh6CeBJcKjBAVV7bj7DeO3RiR
+         nYRsq1jOJCl4vi1oq88GhSIYF3tUzkwcUIl741nCabMYrZZ88mTT7c1Py9vUzu/rHBnx
+         2tsTfTM+3FGPUG1xE9a3HyfKnKuWxVDWbqSaU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=B1MubYHM+7wNniaJcpHmrY17wy4afNjjib/SDOWKe2I=;
-        b=tvQd2sWVWL1OdD6oGDHp1tgolEsXp7ehrfP6mzuuJ6iFM5pTXP8+Gq7FLLWNowKRnH
-         rFeevF348NmAV2hIJnFjai7cMV1RXG7AZ6fgt+L8y2fRwjzuTthx1s+xmTLtx4klf5nQ
-         PpiTuo2yLjH48DCwBnAoXRiYujWGZ9GyzcQiewjio+pV395zkYUwzgOD+hc78r94rF6o
-         8YfC7vpI8PlUMKGOCEdxsMiWIE4Hr9+BpEoXYhJCpeHfEUa+7DDU40wjAGInj9e/SpwW
-         TKqva4toxhl5sNdlztndqICpsY7aVdE7e80XryRmtDDMbNBapYEsfpts7QFQFCk7u8wM
-         v0xg==
-X-Gm-Message-State: AOAM533g47SV44k56weWdCtJbeBeqaGr0Y3F5li/r/EDVXhvXIeSzOK3
-	g9o3qb0UF3p4dD9GrX8m2Q4gtjbA1O9o9g==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CmPZ+BCQhQZxnrEfZw8E3MzXcEVfyWgFDm6O+Vd9tnQ=;
+        b=4DHqMGNSe3amvhakQk/fPj6pwcWa8d4t9E2WaCcEGmiWHdaIJtL2zWvCd16xTcd9gC
+         kESPhB8pCXMVKp9S+BWkeFumeDBxCKcSmRWRpjoPQcA5FnNLEE6u56rfymYupafqomUI
+         F5PrAguKJyb3tZANEmS6MeQf9VjCY68s4RN9NVjgEPJBIgLBZWWeLWz/GTwJNMknswWK
+         LxruI3kcYfzOKxu35x7E2PZ4M1Vc3TP2JSAH6kHTL4r2MhQKh69yk3xrOpP8rgYRxFRT
+         VjhV5DbK5KrcEWZJvc2sdyJkF2MwfqZpgSndp8xaVSaYh/5MEslAMDLQCFfl/g0SH6z2
+         PA+g==
+X-Gm-Message-State: AOAM5324tbttxrtwmnrrwSPQfLpPESVVtuasAuB9tAyQigl7aqAg28B5
+	3g2PEbl5/01mICI05bPmFPJLTQ==
 X-Google-Smtp-Source: 
- ABdhPJw3lXo9TOfvd1uVlwv5LeWkoTdauRuNMPhrZFHZwAOcd4k8pWLuYGHoCcs76q8BM6Cs0rwSmw==
-X-Received: by 2002:a1c:a301:: with SMTP id m1mr4986730wme.118.1639660939031;
-        Thu, 16 Dec 2021 05:22:19 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7bea:ecb7:80b0:2828])
+ ABdhPJxDNswP59yg0/rw0E6BlzqE1JHoqFvGU11wUVk4Hx/CupeRLgvINzv+BoT62Lij8nlc1/3PYw==
+X-Received: by 2002:a5d:568c:: with SMTP id f12mr8826270wrv.240.1639665674706;
+        Thu, 16 Dec 2021 06:41:14 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7bea:ecb7:80b0:2828?
+ ([2001:8b0:aba:5f3c:7bea:ecb7:80b0:2828])
         by smtp.gmail.com with ESMTPSA id
- 10sm5996540wrb.75.2021.12.16.05.22.18
-        for <openembedded-core@lists.openembedded.org>
+ r8sm1585630wru.107.2021.12.16.06.41.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 05:22:18 -0800 (PST)
+        Thu, 16 Dec 2021 06:41:14 -0800 (PST)
+Message-ID: 
+ <7945b4759d992c5539b6261f4a7f350405e640a7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][RFC PATCH v2 1/2] oe.lib.recipeutils: add
+ get_layer_name method
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-idna: Drop from OE-Core
-Date: Thu, 16 Dec 2021 13:22:18 +0000
-Message-Id: <20211216132218.857571-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Konrad Weihmann <kweihmann@outlook.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 16 Dec 2021 14:41:13 +0000
+In-Reply-To: 
+ <AM9PR09MB4642AFAD1E3DA5F9022D3C1EA8769@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: 
+	<AM9PR09MB4642AFAD1E3DA5F9022D3C1EA8769@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 13:22:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 14:41:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159785
+ https://lists.openembedded.org/g/openembedded-core/message/159786
 
-The only recipe mentioning python3-idna in OE-Core is python3-jsonschema.
-python3-jsonschema only depends on it if the nongpl package config option
-is set. We don't set this option.
+On Wed, 2021-12-15 at 13:12 +0100, Konrad Weihmann wrote:
+> so one can get the layer name from a filepath
+> 
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> ---
+> v2: order by path length to correctly map nested layer
+> 
+>  meta/lib/oe/recipeutils.py | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+> index a0c6974f04..557e0f9bd5 100644
+> --- a/meta/lib/oe/recipeutils.py
+> +++ b/meta/lib/oe/recipeutils.py
+> @@ -21,7 +21,7 @@ import glob
+>  import bb.tinfoil
+>  
+>  from collections import OrderedDict, defaultdict
+> -from bb.utils import vercmp_string
+> +from bb.utils import vercmp_string, get_collection_res
+>  
+>  # Help us to find places to insert values
+>  recipe_progression = ['SUMMARY', 'DESCRIPTION', 'AUTHOR', 'HOMEPAGE', 'BUGTRACKER', 'SECTION', 'LICENSE', 'LICENSE_FLAGS', 'LIC_FILES_CHKSUM', 'PROVIDES', 'DEPENDS', 'PR', 'PV', 'SRCREV', 'SRCPV', 'SRC_URI', 'S', 'do_fetch()', 'do_unpack()', 'do_patch()', 'EXTRA_OECONF', 'EXTRA_OECMAKE', 'EXTRA_OESCONS', 'do_configure()', 'EXTRA_OEMAKE', 'do_compile()', 'do_install()', 'do_populate_sysroot()', 'INITSCRIPT', 'USERADD', 'GROUPADD', 'PACKAGES', 'FILES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RPROVIDES', 'RREPLACES', 'RCONFLICTS', 'ALLOW_EMPTY', 'populate_packages()', 'do_package()', 'do_deploy()', 'BBCLASSEXTEND']
+> @@ -928,6 +928,15 @@ def find_layerdir(fn):
+>              return None
+>      return layerdir
+>  
+> +def get_layer_name(fn, d):
+> +    """ Get the layer name from a filename """
+> +    pth = os.path.abspath(fn)
+> +    collection = get_collection_res(d)
+> +    # reverse ordering by length to catch nested layers
+> +    for k, v in dict(sorted(collection.items(), key=lambda item: len(item[1]), reverse=True)).items():
+> +        if re.match(v, pth):
+> +            return k
+> +    return ""
+>  
+>  def replace_dir_vars(path, d):
+>      """Replace common directory paths with appropriate variable references (e.g. /etc becomes ${sysconfdir})"""
 
-The idna recipe has license issues with questions around the Unicode license
-(still in meta-oe) and which version variant it should mean. We see QA warnings
-in automated testing from this:
 
-do_populate_lic: QA Issue: python3-idna: No generic license file exists for: Unicode in any provider [license-exists]
+I suspect we should add something in bb.utils for this? I also think we should
+probably do this at the bitbake level entirely, i.e. set some kind of variable
+to the layername rather than having lots of metadata code trying to do it,
+potentially badly?
 
-Lets drop the recipe and if needed, it can be in meta-oe.
+Cheers,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../python/python3-idna_3.3.bb                | 19 -------------------
- 2 files changed, 20 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-idna_3.3.bb
+Richard
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8e86ea45d2f..85d8a5396aa 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -605,7 +605,6 @@ RECIPE_MAINTAINER:pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr
- RECIPE_MAINTAINER:pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER:pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER:pn-python3-hypothesis = "Tim Orling <timothy.t.orling@intel.com>"
--RECIPE_MAINTAINER:pn-python3-idna = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-importlib-metadata = "Tim Orling <timothy.t.orling@intel.com>"
- RECIPE_MAINTAINER:pn-python3-iniconfig = "Tim Orling <timothy.t.orling@intel.com>"
- RECIPE_MAINTAINER:pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
-deleted file mode 100644
-index a0e6b79a565..00000000000
---- a/meta/recipes-devtools/python/python3-idna_3.3.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--SUMMARY = "Internationalised Domain Names in Applications"
--HOMEPAGE = "https://github.com/kjd/idna"
--LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
--
--SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
--
--inherit pypi setuptools3
--
--# Remove bundled egg-info
--do_compile:prepend() {
--    rm -rf ${S}/idna.egg-info
--}
--
--RDEPENDS:${PN}:class-target = "\
--    ${PYTHON_PN}-codecs \
--"
--
--BBCLASSEXTEND = "native nativesdk"
--- 
-2.32.0
 
 
