@@ -1,126 +1,89 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <jlu@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7F1C433F5
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 17:25:25 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.13483.1639675524245240575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E852EC4332F
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 17:27:04 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web08.13529.1639675623056605433
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 09:25:24 -0800
+ Thu, 16 Dec 2021 09:27:03 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=none, err=permanent DNS error (domain: 0leil.net, ip: 217.70.183.199,
- mailfrom: foss@0leil.net)
-Received: (Authenticated sender: foss@0leil.net)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 33B54FF805;
-	Thu, 16 Dec 2021 17:25:21 +0000 (UTC)
-Date: Thu, 16 Dec 2021 18:25:19 +0100
-From: Quentin Schulz <foss@0leil.net>
-To: openembedded-core@lists.openembedded.org,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-idna: Drop from OE-Core
-In-Reply-To: <20211216132218.857571-1-richard.purdie@linuxfoundation.org>
-References: <20211216132218.857571-1-richard.purdie@linuxfoundation.org>
-Message-ID: <1D26D2EC-227C-469A-8051-C4808091ECF0@0leil.net>
+ spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1mxuWr-0005iJ-V9; Thu, 16 Dec 2021 18:26:53 +0100
+Received: from localhost ([127.0.0.1])
+	by ptx.hi.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1mxuWq-0000U2-QT; Thu, 16 Dec 2021 18:26:52 +0100
+Message-ID: <3ab3fab5a6355a247b9f539e5db6a5a7187a2909.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH 1/2] busybox: refresh the defconfig from 1.33.0
+From: Jan =?ISO-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>
+To: Martin Jansa <Martin.Jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 16 Dec 2021 18:26:52 +0100
+In-Reply-To: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
+References: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 (flatpak git) 
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 17:25:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 17:27:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159800
+ https://lists.openembedded.org/g/openembedded-core/message/159801
 
-Hi Richard,
+Hi Martin,
 
-On December 16, 2021 2:22:18 PM GMT+01:00, Richard Purdie <richard=2Epurdi=
-e@linuxfoundation=2Eorg> wrote:
->The only recipe mentioning python3-idna in OE-Core is python3-jsonschema=
-=2E
->python3-jsonschema only depends on it if the nongpl package config option
->is set=2E We don't set this option=2E
->
+I just noticed that since this change, syslogd is compiled in by default, even I
+have SRC_URI:remove = "file://syslog.cfg" in a bbappend. Is this intentional?
+Otherwise, I'd prefer change the back to disabled by default (SRC_URI still
+contains syslog.cfg by default).
 
-That is unfortunately incorrect, it is also part of the format PACKAGECONF=
-IG which is by default included=2E
+Regards,
+Jan
 
->The idna recipe has license issues with questions around the Unicode lice=
-nse
->(still in meta-oe) and which version variant it should mean=2E We see QA =
-warnings
->in automated testing from this:
->
+On Wed, 2021-03-10 at 14:37 +0100, Martin Jansa wrote:
+> -# CONFIG_LOGREAD is not set
+> -# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
+> -# CONFIG_SYSLOGD is not set
+> -# CONFIG_FEATURE_ROTATE_LOGFILE is not set
+> -# CONFIG_FEATURE_REMOTE_LOG is not set
+> -# CONFIG_FEATURE_SYSLOGD_DUP is not set
+> -# CONFIG_FEATURE_SYSLOGD_CFG is not set
+> -CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=0
+> -# CONFIG_FEATURE_IPC_SYSLOG is not set
+> -CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=0
+> -# CONFIG_FEATURE_KMSG_SYSLOG is not set
+> +CONFIG_LOGREAD=y
+> +CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
+> +CONFIG_SYSLOGD=y
+> +CONFIG_FEATURE_ROTATE_LOGFILE=y
+> +CONFIG_FEATURE_REMOTE_LOG=y
+> +CONFIG_FEATURE_SYSLOGD_DUP=y
+> +CONFIG_FEATURE_SYSLOGD_CFG=y
+> +# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set
+> +CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
+> +CONFIG_FEATURE_IPC_SYSLOG=y
+> +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
+> +CONFIG_FEATURE_KMSG_SYSLOG=y
 
-I still shall open an issue on the GitHub tracker of the project to raise =
-this=2E
-
-Cheers,
-Quentin
-
->do_populate_lic: QA Issue: python3-idna: No generic license file exists f=
-or: Unicode in any provider [license-exists]
->
->Lets drop the recipe and if needed, it can be in meta-oe=2E
->
->Signed-off-by: Richard Purdie <richard=2Epurdie@linuxfoundation=2Eorg>
->---
-> meta/conf/distro/include/maintainers=2Einc      |  1 -
-> =2E=2E=2E/python/python3-idna_3=2E3=2Ebb                | 19 -----------=
---------
-> 2 files changed, 20 deletions(-)
-> delete mode 100644 meta/recipes-devtools/python/python3-idna_3=2E3=2Ebb
->
->diff --git a/meta/conf/distro/include/maintainers=2Einc b/meta/conf/distr=
-o/include/maintainers=2Einc
->index 8e86ea45d2f=2E=2E85d8a5396aa 100644
->--- a/meta/conf/distro/include/maintainers=2Einc
->+++ b/meta/conf/distro/include/maintainers=2Einc
->@@ -605,7 +605,6 @@ RECIPE_MAINTAINER:pn-python3-extras =3D "Oleksandr Kr=
-avchuk <open=2Esource@oleksandr
-> RECIPE_MAINTAINER:pn-python3-git =3D "Oleksandr Kravchuk <open=2Esource@=
-oleksandr-kravchuk=2Ecom>"
-> RECIPE_MAINTAINER:pn-python3-gitdb =3D "Oleksandr Kravchuk <open=2Esourc=
-e@oleksandr-kravchuk=2Ecom>"
-> RECIPE_MAINTAINER:pn-python3-hypothesis =3D "Tim Orling <timothy=2Et=2Eo=
-rling@intel=2Ecom>"
->-RECIPE_MAINTAINER:pn-python3-idna =3D "Bruce Ashfield <bruce=2Eashfield@=
-gmail=2Ecom>"
-> RECIPE_MAINTAINER:pn-python3-importlib-metadata =3D "Tim Orling <timothy=
-=2Et=2Eorling@intel=2Ecom>"
-> RECIPE_MAINTAINER:pn-python3-iniconfig =3D "Tim Orling <timothy=2Et=2Eor=
-ling@intel=2Ecom>"
-> RECIPE_MAINTAINER:pn-python3-iniparse =3D "Oleksandr Kravchuk <open=2Eso=
-urce@oleksandr-kravchuk=2Ecom>"
->diff --git a/meta/recipes-devtools/python/python3-idna_3=2E3=2Ebb b/meta/=
-recipes-devtools/python/python3-idna_3=2E3=2Ebb
->deleted file mode 100644
->index a0e6b79a565=2E=2E00000000000
->--- a/meta/recipes-devtools/python/python3-idna_3=2E3=2Ebb
->+++ /dev/null
->@@ -1,19 +0,0 @@
->-SUMMARY =3D "Internationalised Domain Names in Applications"
->-HOMEPAGE =3D "https://github=2Ecom/kjd/idna"
->-LICENSE =3D "BSD-3-Clause & Python-2=2E0 & Unicode"
->-LIC_FILES_CHKSUM =3D "file://LICENSE=2Emd;md5=3D239668a7c6066d9e0c5382e9=
-c8c6c0e1"
->-
->-SRC_URI[sha256sum] =3D "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160b=
-c32796e824360e6d"
->-
->-inherit pypi setuptools3
->-
->-# Remove bundled egg-info
->-do_compile:prepend() {
->-    rm -rf ${S}/idna=2Eegg-info
->-}
->-
->-RDEPENDS:${PN}:class-target =3D "\
->-    ${PYTHON_PN}-codecs \
->-"
->-
->-BBCLASSEXTEND =3D "native nativesdk"
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
