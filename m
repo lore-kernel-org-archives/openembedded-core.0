@@ -2,98 +2,100 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA3DC433EF
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 22:23:32 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.1165.1639693411777682388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B275BC433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 22:27:47 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web11.1270.1639693666471133620
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 14:23:31 -0800
+ Thu, 16 Dec 2021 14:27:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=leBtGwrg;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id gu12so655022qvb.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EDWP8QZy;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id d2so367846qki.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 14:23:31 -0800 (PST)
+ Thu, 16 Dec 2021 14:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=V6guddaQcN0jzMv1bmVCfSTCnNTtA4S4VF47p7mrmQQ=;
-        b=leBtGwrgE56yFw3BgqOGna+YrDeohcz9c/t57akYbzrKAIsFqS+PdOFynECzTJ50zK
-         M/t5JxhnrDkSivsHymhndoZcSsX0toPva4DHCh95C7LqWnRvJO2698PKwvhkmbibHOYf
-         bsS0tnn/A/Nm5dbIi2ML4pm0PwAOsOYq/g5x2ZSslnLj7hBiRXRV4ZXK1/yaFe7mhp6o
-         2YSLgIp8AIjIAPzuZgL+LowRv814ILbwVkI5BCaPLg47ucULKej4uv1t+aCIT5AqXbUu
-         TEa8jmv38xrmbHa7dViOJUfivcuPgOMfSr7xbdN7sX0xy8PsvjyILLnt0FdHD/EA6YSt
-         sw0w==
+        bh=bu1CzS4DgNymZv93P++JhklAC14ItSlDWTp5ZcCPAOI=;
+        b=EDWP8QZyh1kAl9MERrsQj8zv08ubpJo4bWmkDuMQqj0vAIctDfs7uRpVY90KuWUB4q
+         hR3OsHEgINexqPJ+VVG/ZcrHJJ2vq/9fLv7rAWVMUoEiddH1U4JbyFP0LvDcXzlPuOhn
+         niKFaI9OPs3zEgR7QDRnorSmJsAfKBSLUs2rvY+7MvuZTgGSl0XHJ4c9gFhFQXr5P2sX
+         d0LZEBWxBPUoe5a8XEuHRyKWCF5od8v0e+5eqwYblm3XLdYt+tuyc4EKroTSGhEYqKU+
+         dIyUbjjxEVW09whoLNnLt0xhbwv8KIOSpARpqKLR6xMM5IfsOxOxxYdMvZ/E4JgYxvSm
+         ixKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=V6guddaQcN0jzMv1bmVCfSTCnNTtA4S4VF47p7mrmQQ=;
-        b=c1TWYlLQ7QRpvlEgBWJSw48ZywX9o6SMfjM/WJYh7LHVkRO0aUZFmu+9YbJBgd15Sn
-         h/LK4/2GmPTdrMCBmHArKiBbc8te0FDSvUA/qudrm8XQ+YG49VRr5/JMW4fg1MArERmJ
-         ajfpYyb99prFXSicopLbzSNdZC34PLKBvvkhPLfU7z8gzs5qfbXWtxVhn0P8KgCucxBG
-         8q68a2TF6SkwkRBbF0rThb+Tv4iRHSWbjSvFXhlZmdZvydUIeEYqvCE418RlqJu2+6wd
-         4C2+praY2wx2Ya84xrnH9v/w9mwofRhgTYQ7rVfKQCjyQqGtrrX4dd1PB3Z9MNMzsinw
-         tiXw==
-X-Gm-Message-State: AOAM5323zqX+VNbCqOD47QN21/Ubsh6W9P9DRo3XZtlH2QT79VUB/K7l
-	d81JtylPh5UooO+M5XKosAuYx3f3pQPQq7LFKIc=
+        bh=bu1CzS4DgNymZv93P++JhklAC14ItSlDWTp5ZcCPAOI=;
+        b=eIvnJRKamyvjHRWdH1SlQ6ryP7Iv6pDaS4Hj72sMcYY/4Aawl5Z9Omrp8n1PmgJXOf
+         hZVhDAFC2pTYdWCqgOR6uS8GA6gZu6vpxduVRRsA7/PNgNIv3E7E67KI64E33ZyaHC15
+         E+N1bNhNGpL1E4SuAIOH2JXNpm4eJBDKb+INA5t4K8WVsH1L6gAJLmiyACMEYF4ZCsTo
+         wsZuecl5rso/8DhXvAxCNNSNOqwfpJJBZTgkXvUw0Fxjmq1CKt4OkF8y6rxxhi8wpAFB
+         9bCvFUKH9oaMxm/4mx8cVxueg/Cu5XdWZHK0Ez8v0LjKCK/MeLWocAWqtAvPrMIxvC4e
+         m4sA==
+X-Gm-Message-State: AOAM530KcHRN37FUf9RBVVE1f4PFSWNt3PlkUss9J/9XlO87S0gXUyV6
+	xpToDaER+n7y4HTaX7Ym51VPTuvAqFNx3i7CXfzm9QqR
 X-Google-Smtp-Source: 
- ABdhPJxivqsMAua8ZHYIHVwD9lDdTtsrPEn7Zh0RpUd0Djq+X6aibulf5BNrHavmuex95V5JP7M0ujyAySNvwTf2Zkk=
-X-Received: by 2002:a05:6214:c83:: with SMTP id
- r3mr17855075qvr.110.1639693410683;
- Thu, 16 Dec 2021 14:23:30 -0800 (PST)
+ ABdhPJzKpCqlkXTqoxu/J09zbFUc6yoZUw86xHWSA0QIpF/GWvC3ODoqyZrYuduPCthGEZdedlpisDkittyWivrnLxo=
+X-Received: by 2002:a05:620a:f06:: with SMTP id
+ v6mr124025qkl.149.1639693665572;
+ Thu, 16 Dec 2021 14:27:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20211216220748.29376-1-jdmason@kudzu.us>
-In-Reply-To: <20211216220748.29376-1-jdmason@kudzu.us>
+References: <20211216170022.22028-1-chaitanya.vadrevu@ni.com>
+In-Reply-To: <20211216170022.22028-1-chaitanya.vadrevu@ni.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 16 Dec 2021 14:23:04 -0800
+Date: Thu, 16 Dec 2021 14:27:19 -0800
 Message-ID: 
- <CAMKF1sqR78UFCjoRenB0dhuhuQY+htwAvvgSDjaoR_ybvmEbtg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto-dev: add qemuriscv32
-To: Jon Mason <jdmason@kudzu.us>
+ <CAMKF1sq7WTtE=9SAEuos_swd0aahCA-X3M+v0qNhLBGnydm6yg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-pyelftools: Depend on debugger, pprint
+To: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 22:23:32 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 22:27:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159808
+ https://lists.openembedded.org/g/openembedded-core/message/159809
 
-On Thu, Dec 16, 2021 at 2:07 PM Jon Mason <jdmason@kudzu.us> wrote:
+On Thu, Dec 16, 2021 at 9:00 AM Chaitanya Vadrevu
+<chaitanya.vadrevu@ni.com> wrote:
 >
-> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> python3-pyelftools uses python3-debugger, python3-pprint.
+> So add dependencies on these packages.
+>
+> Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
 > ---
->  meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-devtools/python/python3-pyelftools_0.27.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> index 80f62a0412ad..744b74ce3749 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> @@ -50,7 +50,7 @@ PACKAGECONFIG[dt-validation] = ",,python3-dtschema-native"
->  # we need the wrappers if validation isn't in the packageconfig
->  DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', '', 'python3-dtschema-wrapper-native', d)}"
+> diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.27.bb b/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
+> index 0cfd99504b..f8b9d420a5 100644
+> --- a/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
+> +++ b/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
+> @@ -11,3 +11,5 @@ PYPI_PACKAGE = "pyelftools"
+>  inherit pypi setuptools3
 >
-> -COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64)"
-> +COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64)"
+>  BBCLASSEXTEND = "native"
+> +
+> +RDEPENDS_${PN} += "${PYTHON_PN}-debugger ${PYTHON_PN}-pprint"
 
-lgtm.
+this should use new override separator. It should be RDEPENDS:${PN}
 
->
->  KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
->
 > --
-> 2.20.1
+> 2.17.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#159807): https://lists.openembedded.org/g/openembedded-core/message/159807
-> Mute This Topic: https://lists.openembedded.org/mt/87777809/1997914
+> View/Reply Online (#159796): https://lists.openembedded.org/g/openembedded-core/message/159796
+> Mute This Topic: https://lists.openembedded.org/mt/87771402/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
