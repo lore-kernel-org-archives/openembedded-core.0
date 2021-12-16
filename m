@@ -1,97 +1,91 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E19EEC433F5
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 20:55:37 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.127.1639688136773826111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE671C433F5
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 22:07:50 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+ [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web08.1009.1639692470019843115
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 12:55:37 -0800
+ Thu, 16 Dec 2021 14:07:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ef13f3QK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id p18so260165wmq.5
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
+ header.b=w6CjYsDa;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.172,
+ mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f172.google.com with SMTP id t34so732418qtc.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 12:55:36 -0800 (PST)
+ Thu, 16 Dec 2021 14:07:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=WvnFYGk4LRizIet02IhrZhUc0aBh6alCZqp5xglUzAY=;
-        b=ef13f3QKAwzCWapu/Hevpt8qWQpstcY9PSFQPewMGwNxIl7cWKCy89nFXk9puQfm5i
-         LxSbgExYR0wiOxgOTEoV+Br37UfFpp65gxd/GabCk3o0ACkvUNwzPV3T2NTEmOs/sSxS
-         ZknOAX0+Tq53jR0SUytdbI0ilt0bPBtfbSbUE=
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FybPdfUNhHLIKGQStrIaV/vtO9oBtpPUyhBPz/XCHuY=;
+        b=w6CjYsDa7RsItSIhldlaRy4/0PiuGu9BC78szLwF4LLqlcwuQY/V/KUhSVI3pXEeDv
+         ubkbqNQ+LFOjuCGqPPa3lGWfQLhAax9B62Ui+Mul2v+ybKgrjUULClhWNE2DuSR2xaS7
+         bknQEjHp2J4/sgRP7Cg0+gAC2Kcbi3LxmAc8txVawMrB9mbJLZQ0OXghsnTXmxCXIaA0
+         OGJAm86kMIskjiWnbmKN9C2MrSD/xT4gvhiPFtPwDrS9Nw7/vszfVxhyjlpc8xS41RFN
+         FGyO2pVQi/bWyfByBQOXnuiQFg8cF6TQ+q7WfDdrVD5mviaMi40pVDOcjFLzzQubTyhn
+         4L+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WvnFYGk4LRizIet02IhrZhUc0aBh6alCZqp5xglUzAY=;
-        b=L8MFe5JASAYXVPfZkkXikQg66Al5Y1YXMfkGT8ssuFTkpTz6cwY3ZfQBlFYji+AF7a
-         cE2+ckh7kgAyNHbpmQj9ZE9CGn15o1IWQgZ258ZukjE6SkfXqPCY4dH0qGHZoRpyc7il
-         aR3wZ7K6tCF/olZzMncKMX/msOrgl9h5edYNtyZjoqd2kwTjC6nOsGV24kn4AMfDoSgk
-         f85G+o1W9LsnG6UEdCVEqQFvG06R8aHii7mu39aG3T+SIHUunsLd6qE3b1XZaVznR5vd
-         fuAri8MANL+bV6NO2TKtEcON48UX2WsH7NWeYSM0USjgOsA7DPaa0qSnJyzp/tZD5fjE
-         RXFQ==
-X-Gm-Message-State: AOAM532iUGUVCwS1D9GnRgAupMWVTgpaeItIk1u0+k/HPHRt9+li+w3e
-	q7DFlJMabwiQwi6nfpqIXyBVXw==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FybPdfUNhHLIKGQStrIaV/vtO9oBtpPUyhBPz/XCHuY=;
+        b=PMtgHMrmzYDpppBVQX87nMUufDJMphAZ44Gbazv61aKUgv0q0yPEj+g61Xe5g0aAec
+         kNCcVWpANH8blAGuciSLY9zHZ81Wu/vfD33GrquURRO3zt5g9Tl/GEwhb2k5lV++BmmU
+         Il64D8G9EOXpkpzEBsIg+aN3W2xjfwnmeIDKHDoAR21LjNZkIKBoK4nRMsyVgAbQ2V3V
+         4/i+Rt8rFtJsIn12yYStsahZxhrT2Ckfz0WQBqhdW6OtnNy0iZuxXmvrZGT/c1/z2kM3
+         IP5AiGq+p2xPgBLjhCZB4OddPJIPyuvjBNqLwFWayUJLieNZsKu3uYFzSYN2DSm0EDRP
+         WXUg==
+X-Gm-Message-State: AOAM5311Kh78dD+IsVBBi5pusXr8/L1DyDabAT5jXiVuVKABJ/UAYYbi
+	95ASyZRfVYK/9jwrbc6/pY++1C6kcHHRkWxp
 X-Google-Smtp-Source: 
- ABdhPJx0CKgdFYL6IKqeZDcZhxof3TbwpnBdJu8vRexemHRXs1jDYXbw6dvkV05vOM0o/zdrkaWHrg==
-X-Received: by 2002:a05:600c:a47:: with SMTP id
- c7mr6815441wmq.23.1639688135072;
-        Thu, 16 Dec 2021 12:55:35 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d2f0:f9e1:f1a6:6c5f?
- ([2001:8b0:aba:5f3c:d2f0:f9e1:f1a6:6c5f])
+ ABdhPJyViKKB3O+s0UtRltzPUzsMPNCDAZtGnwvwm422k3naY58peu5szHqRmXXYG9rLCJ9h9Unv+A==
+X-Received: by 2002:a05:622a:58b:: with SMTP id
+ c11mr45713qtb.470.1639692468970;
+        Thu, 16 Dec 2021 14:07:48 -0800 (PST)
+Received: from localhost ([2605:a601:a60f:e00:a1a6:f88b:686c:916])
         by smtp.gmail.com with ESMTPSA id
- p8sm5479070wrx.25.2021.12.16.12.55.34
+ c1sm5380030qte.79.2021.12.16.14.07.48
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 12:55:34 -0800 (PST)
-Message-ID: 
- <281dec9cd45c550734d3e217e259bf407e125d8e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-idna: Drop from OE-Core
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Quentin Schulz <foss@0leil.net>, openembedded-core@lists.openembedded.org
-Date: Thu, 16 Dec 2021 20:55:33 +0000
-In-Reply-To: <1D26D2EC-227C-469A-8051-C4808091ECF0@0leil.net>
-References: <20211216132218.857571-1-richard.purdie@linuxfoundation.org>
-	 <1D26D2EC-227C-469A-8051-C4808091ECF0@0leil.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+        Thu, 16 Dec 2021 14:07:48 -0800 (PST)
+From: Jon Mason <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto-dev: add qemuriscv32
+Date: Thu, 16 Dec 2021 17:07:48 -0500
+Message-Id: <20211216220748.29376-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 20:55:37 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 22:07:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159806
+ https://lists.openembedded.org/g/openembedded-core/message/159807
 
-On Thu, 2021-12-16 at 18:25 +0100, Quentin Schulz wrote:
-> Hi Richard,
-> 
-> On December 16, 2021 2:22:18 PM GMT+01:00, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > The only recipe mentioning python3-idna in OE-Core is python3-jsonschema.
-> > python3-jsonschema only depends on it if the nongpl package config option
-> > is set. We don't set this option.
-> > 
-> 
-> That is unfortunately incorrect, it is also part of the format PACKAGECONFIG which is by default included.
-> 
-> > The idna recipe has license issues with questions around the Unicode license
-> > (still in meta-oe) and which version variant it should mean. We see QA warnings
-> > in automated testing from this:
-> > 
-> 
-> I still shall open an issue on the GitHub tracker of the project to raise this.
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I don't know how I didn't see the line in the format PACKAGECONFIG. I've sent a
-patch to update it to Unicode-TOC as I think that matches what the header talks
-about.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 80f62a0412ad..744b74ce3749 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -50,7 +50,7 @@ PACKAGECONFIG[dt-validation] = ",,python3-dtschema-native"
+ # we need the wrappers if validation isn't in the packageconfig
+ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', '', 'python3-dtschema-wrapper-native', d)}"
+ 
+-COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64)"
++COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64)"
+ 
+ KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
+ 
+-- 
+2.20.1
 
 
