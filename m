@@ -1,91 +1,101 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE671C433F5
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 22:07:50 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web08.1009.1639692470019843115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA3DC433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 22:23:32 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.1165.1639693411777682388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 14:07:50 -0800
+ Thu, 16 Dec 2021 14:23:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=w6CjYsDa;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.172,
- mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f172.google.com with SMTP id t34so732418qtc.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=leBtGwrg;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id gu12so655022qvb.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 14:07:49 -0800 (PST)
+ Thu, 16 Dec 2021 14:23:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FybPdfUNhHLIKGQStrIaV/vtO9oBtpPUyhBPz/XCHuY=;
-        b=w6CjYsDa7RsItSIhldlaRy4/0PiuGu9BC78szLwF4LLqlcwuQY/V/KUhSVI3pXEeDv
-         ubkbqNQ+LFOjuCGqPPa3lGWfQLhAax9B62Ui+Mul2v+ybKgrjUULClhWNE2DuSR2xaS7
-         bknQEjHp2J4/sgRP7Cg0+gAC2Kcbi3LxmAc8txVawMrB9mbJLZQ0OXghsnTXmxCXIaA0
-         OGJAm86kMIskjiWnbmKN9C2MrSD/xT4gvhiPFtPwDrS9Nw7/vszfVxhyjlpc8xS41RFN
-         FGyO2pVQi/bWyfByBQOXnuiQFg8cF6TQ+q7WfDdrVD5mviaMi40pVDOcjFLzzQubTyhn
-         4L+Q==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V6guddaQcN0jzMv1bmVCfSTCnNTtA4S4VF47p7mrmQQ=;
+        b=leBtGwrgE56yFw3BgqOGna+YrDeohcz9c/t57akYbzrKAIsFqS+PdOFynECzTJ50zK
+         M/t5JxhnrDkSivsHymhndoZcSsX0toPva4DHCh95C7LqWnRvJO2698PKwvhkmbibHOYf
+         bsS0tnn/A/Nm5dbIi2ML4pm0PwAOsOYq/g5x2ZSslnLj7hBiRXRV4ZXK1/yaFe7mhp6o
+         2YSLgIp8AIjIAPzuZgL+LowRv814ILbwVkI5BCaPLg47ucULKej4uv1t+aCIT5AqXbUu
+         TEa8jmv38xrmbHa7dViOJUfivcuPgOMfSr7xbdN7sX0xy8PsvjyILLnt0FdHD/EA6YSt
+         sw0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FybPdfUNhHLIKGQStrIaV/vtO9oBtpPUyhBPz/XCHuY=;
-        b=PMtgHMrmzYDpppBVQX87nMUufDJMphAZ44Gbazv61aKUgv0q0yPEj+g61Xe5g0aAec
-         kNCcVWpANH8blAGuciSLY9zHZ81Wu/vfD33GrquURRO3zt5g9Tl/GEwhb2k5lV++BmmU
-         Il64D8G9EOXpkpzEBsIg+aN3W2xjfwnmeIDKHDoAR21LjNZkIKBoK4nRMsyVgAbQ2V3V
-         4/i+Rt8rFtJsIn12yYStsahZxhrT2Ckfz0WQBqhdW6OtnNy0iZuxXmvrZGT/c1/z2kM3
-         IP5AiGq+p2xPgBLjhCZB4OddPJIPyuvjBNqLwFWayUJLieNZsKu3uYFzSYN2DSm0EDRP
-         WXUg==
-X-Gm-Message-State: AOAM5311Kh78dD+IsVBBi5pusXr8/L1DyDabAT5jXiVuVKABJ/UAYYbi
-	95ASyZRfVYK/9jwrbc6/pY++1C6kcHHRkWxp
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V6guddaQcN0jzMv1bmVCfSTCnNTtA4S4VF47p7mrmQQ=;
+        b=c1TWYlLQ7QRpvlEgBWJSw48ZywX9o6SMfjM/WJYh7LHVkRO0aUZFmu+9YbJBgd15Sn
+         h/LK4/2GmPTdrMCBmHArKiBbc8te0FDSvUA/qudrm8XQ+YG49VRr5/JMW4fg1MArERmJ
+         ajfpYyb99prFXSicopLbzSNdZC34PLKBvvkhPLfU7z8gzs5qfbXWtxVhn0P8KgCucxBG
+         8q68a2TF6SkwkRBbF0rThb+Tv4iRHSWbjSvFXhlZmdZvydUIeEYqvCE418RlqJu2+6wd
+         4C2+praY2wx2Ya84xrnH9v/w9mwofRhgTYQ7rVfKQCjyQqGtrrX4dd1PB3Z9MNMzsinw
+         tiXw==
+X-Gm-Message-State: AOAM5323zqX+VNbCqOD47QN21/Ubsh6W9P9DRo3XZtlH2QT79VUB/K7l
+	d81JtylPh5UooO+M5XKosAuYx3f3pQPQq7LFKIc=
 X-Google-Smtp-Source: 
- ABdhPJyViKKB3O+s0UtRltzPUzsMPNCDAZtGnwvwm422k3naY58peu5szHqRmXXYG9rLCJ9h9Unv+A==
-X-Received: by 2002:a05:622a:58b:: with SMTP id
- c11mr45713qtb.470.1639692468970;
-        Thu, 16 Dec 2021 14:07:48 -0800 (PST)
-Received: from localhost ([2605:a601:a60f:e00:a1a6:f88b:686c:916])
-        by smtp.gmail.com with ESMTPSA id
- c1sm5380030qte.79.2021.12.16.14.07.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 14:07:48 -0800 (PST)
-From: Jon Mason <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto-dev: add qemuriscv32
-Date: Thu, 16 Dec 2021 17:07:48 -0500
-Message-Id: <20211216220748.29376-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
+ ABdhPJxivqsMAua8ZHYIHVwD9lDdTtsrPEn7Zh0RpUd0Djq+X6aibulf5BNrHavmuex95V5JP7M0ujyAySNvwTf2Zkk=
+X-Received: by 2002:a05:6214:c83:: with SMTP id
+ r3mr17855075qvr.110.1639693410683;
+ Thu, 16 Dec 2021 14:23:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211216220748.29376-1-jdmason@kudzu.us>
+In-Reply-To: <20211216220748.29376-1-jdmason@kudzu.us>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Dec 2021 14:23:04 -0800
+Message-ID: 
+ <CAMKF1sqR78UFCjoRenB0dhuhuQY+htwAvvgSDjaoR_ybvmEbtg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto-dev: add qemuriscv32
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 22:07:50 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 22:23:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159807
+ https://lists.openembedded.org/g/openembedded-core/message/159808
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Dec 16, 2021 at 2:07 PM Jon Mason <jdmason@kudzu.us> wrote:
+>
+> Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> index 80f62a0412ad..744b74ce3749 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> @@ -50,7 +50,7 @@ PACKAGECONFIG[dt-validation] = ",,python3-dtschema-native"
+>  # we need the wrappers if validation isn't in the packageconfig
+>  DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', '', 'python3-dtschema-wrapper-native', d)}"
+>
+> -COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64)"
+> +COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64)"
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 80f62a0412ad..744b74ce3749 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -50,7 +50,7 @@ PACKAGECONFIG[dt-validation] = ",,python3-dtschema-native"
- # we need the wrappers if validation isn't in the packageconfig
- DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', '', 'python3-dtschema-wrapper-native', d)}"
- 
--COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64)"
-+COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64)"
- 
- KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
- 
--- 
-2.20.1
+lgtm.
 
+>
+>  KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
+>
+> --
+> 2.20.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159807): https://lists.openembedded.org/g/openembedded-core/message/159807
+> Mute This Topic: https://lists.openembedded.org/mt/87777809/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
