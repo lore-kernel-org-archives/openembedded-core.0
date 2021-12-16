@@ -1,89 +1,89 @@
-Return-Path: <jlu@pengutronix.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E852EC4332F
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 17:27:04 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web08.13529.1639675623056605433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD401C433F5
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 18:00:50 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.148.1639677649566240523
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 09:27:03 -0800
+ Thu, 16 Dec 2021 10:00:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <jlu@pengutronix.de>)
-	id 1mxuWr-0005iJ-V9; Thu, 16 Dec 2021 18:26:53 +0100
-Received: from localhost ([127.0.0.1])
-	by ptx.hi.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <jlu@pengutronix.de>)
-	id 1mxuWq-0000U2-QT; Thu, 16 Dec 2021 18:26:52 +0100
-Message-ID: <3ab3fab5a6355a247b9f539e5db6a5a7187a2909.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH 1/2] busybox: refresh the defconfig from 1.33.0
-From: Jan =?ISO-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>
-To: Martin Jansa <Martin.Jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 Dec 2021 18:26:52 +0100
-In-Reply-To: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
-References: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 (flatpak git) 
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HOYNy+iy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id u17so45682982wrt.3
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 16 Dec 2021 10:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SKrMzt+OtVjTFGRh1MBIzH28DBAlrFmCbDB6mRg8GIM=;
+        b=HOYNy+iymry+Ce7xd70A5e906SxUBjVjYTDQfV9DlW/eu8Ucyicfm2TOog+/gnHCr+
+         rxjMvHC/YKwmXpswOR0m/ljSrTSSbXni2Atz3w2Z+1FnNMdINciRQMj+ihRKqp7qdHdF
+         AqNoge/x7hFLf4gxyCj+JOfZimzk+dTVZXxLg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SKrMzt+OtVjTFGRh1MBIzH28DBAlrFmCbDB6mRg8GIM=;
+        b=hQmhozMxG6vXc2GU1Pi48tt2gfO+UEbkqJvCa4T5He+YRwv3ERpPtqZ4mWLfm4ABQE
+         KwWDl9XfVJ7BXjDPYjNze9kkPUuxP+1hjYYsMffQwOiRFChLKyDov/xoASAEDQKERZ01
+         dXa6DtZag269MEj+LNhtrYM8Kxw4EJDwVc30KC2+h8jeZEdTBv4vX9OKdfvZOlq8jI5z
+         w991qAVLSEPARsfgyRVH+gIX3VT5og4rWL1occfzNWd2eLDrmmNaeEmA7WjoySOyRDU2
+         SUAnsw3idplBc6450TITpfTns3OyYAHtJm+bEZ6YFrjDKzDDkEYBTjGBH/iIzqU9P8AQ
+         AS0Q==
+X-Gm-Message-State: AOAM532eTduOu1aniyXerCRgD5rwc6AS5PQG6mdZws+lMnL4vRoegkka
+	wEyDAMyvbI0354GSvZ0bguLkZsnIDSXIbw==
+X-Google-Smtp-Source: 
+ ABdhPJylwHD37x14O19jyXxf8qdlVzD682c0xE/8TZKopNRwMZTFVlV3sgnfExu6/h3Mkf/4NDKUag==
+X-Received: by 2002:adf:9f02:: with SMTP id l2mr6085984wrf.617.1639677647799;
+        Thu, 16 Dec 2021 10:00:47 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7bea:ecb7:80b0:2828])
+        by smtp.gmail.com with ESMTPSA id
+ j85sm9523850wmj.3.2021.12.16.10.00.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 10:00:47 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python3-idna: Update license to Unicode-TOU
+Date: Thu, 16 Dec 2021 18:00:46 +0000
+Message-Id: <20211216180046.867666-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: jlu@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 17:27:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 18:00:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159801
+ https://lists.openembedded.org/g/openembedded-core/message/159802
 
-Hi Martin,
+The correct SPDX license for the test data contained in this code appears
+to be Unicode-TOU. Update the LICENSE field to match and avoid package
+QA warnings.
 
-I just noticed that since this change, syslogd is compiled in by default, even I
-have SRC_URI:remove = "file://syslog.cfg" in a bbappend. Is this intentional?
-Otherwise, I'd prefer change the back to disabled by default (SRC_URI still
-contains syslog.cfg by default).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python3-idna_3.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Jan
-
-On Wed, 2021-03-10 at 14:37 +0100, Martin Jansa wrote:
-> -# CONFIG_LOGREAD is not set
-> -# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
-> -# CONFIG_SYSLOGD is not set
-> -# CONFIG_FEATURE_ROTATE_LOGFILE is not set
-> -# CONFIG_FEATURE_REMOTE_LOG is not set
-> -# CONFIG_FEATURE_SYSLOGD_DUP is not set
-> -# CONFIG_FEATURE_SYSLOGD_CFG is not set
-> -CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=0
-> -# CONFIG_FEATURE_IPC_SYSLOG is not set
-> -CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=0
-> -# CONFIG_FEATURE_KMSG_SYSLOG is not set
-> +CONFIG_LOGREAD=y
-> +CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
-> +CONFIG_SYSLOGD=y
-> +CONFIG_FEATURE_ROTATE_LOGFILE=y
-> +CONFIG_FEATURE_REMOTE_LOG=y
-> +CONFIG_FEATURE_SYSLOGD_DUP=y
-> +CONFIG_FEATURE_SYSLOGD_CFG=y
-> +# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set
-> +CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
-> +CONFIG_FEATURE_IPC_SYSLOG=y
-> +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
-> +CONFIG_FEATURE_KMSG_SYSLOG=y
-
+diff --git a/meta/recipes-devtools/python/python3-idna_3.3.bb b/meta/recipes-devtools/python/python3-idna_3.3.bb
+index a0e6b79a565..ee92f44fd58 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.3.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.3.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Internationalised Domain Names in Applications"
+ HOMEPAGE = "https://github.com/kjd/idna"
+-LICENSE = "BSD-3-Clause & Python-2.0 & Unicode"
++LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-TOU"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=239668a7c6066d9e0c5382e9c8c6c0e1"
+ 
+ SRC_URI[sha256sum] = "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.32.0
+
 
