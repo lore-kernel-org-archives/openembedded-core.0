@@ -1,142 +1,182 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AD0C433F5
-	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 14:49:01 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web11.11308.1639666139961838254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D9FC433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Dec 2021 14:49:12 +0000 (UTC)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (EUR02-AM5-obe.outbound.protection.outlook.com [40.92.67.26])
+ by mx.groups.io with SMTP id smtpd.web12.11353.1639666151490940661
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 06:49:00 -0800
+ Thu, 16 Dec 2021 06:49:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=iaEoTfPJ;
- spf=pass (domain: intel.com, ip: 192.55.52.115,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639666139; x=1671202139;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=y0NQNIq4YzGy4I3r6ZoGXML6pIkTMo4njPphTdfVijY=;
-  b=iaEoTfPJC0pP+04PFB/A3sHBAYFpIYZm9ob4o2JPUsNYMZxK3cx+10u6
-   Ll3S96yXS2EdtsRTDMsKjII/TLXI8KbTkydhgtR2e+0l/lWbvCbu4TJ2v
-   utKatFr0xgwyIo7YEhsWpsb/CcicJBihihAyigwMYCgW7ds4c2nBSVcd1
-   oZMaj2FM/Oie8vBnyPyE+c4UfEfWR37AyTGtuXALXQhaQNhGlw7KboQg0
-   EPaK4uuwnSW8rCOYUDVIlur4aaLiG7i8F0hXH93YXZzsShdPzz8fTJU2e
-   fHYHGBNmCZJvxFvOJyMZl1446L5bbuBttrSPZcQ0h2MTJZ8HKaTrvmTF2
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="239729529"
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600";
-   d="scan'208";a="239729529"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2021 06:48:58 -0800
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600";
-   d="scan'208";a="584945862"
-Received: from yithonga-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.215.239.154])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2021 06:48:57 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/17] Pull request
-Date: Thu, 16 Dec 2021 22:48:51 +0800
-Message-Id: <cover.1639666024.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.33.1
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=Qj6RrrhR;
+ spf=pass (domain: outlook.com, ip: 40.92.67.26,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IE5P4L0EOLN1nJCVlthJWINExliTam88sLuU90EIl5mS3UmWkPyBXeZYTcevVLQTP+biihGBQ14K6uGQaqkXye6Q6NIitpUNhln7f0CspNkk/1hvDqxtSOJ9aLAF/qyObohrMHRtSGwXT0taAO9tJtrhgbgrK2ehD/MNNUUNLbCrWpjM+zIrWBY9Hu4pGHvWjp/KsTLGZ/E1EEn+UNTywkzR0AuQJxZCNqW7KRCE0YhQ7ojjp62Re2mOziQ6l1tIiBTkQV0J8BXMK+aH4aXGsJMbSzAd0n1dl4Stbztgyex5rqknoIGT+JbnaIFCw8ZCNlol8Ix6LTw7F/aXilBjmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HblYOb5SXZ3EMBL/Zxl4ztMIc0z/7QMYqrnLdBWwC48=;
+ b=U5H32qE7vGZHP31Qs98+xGiBLdIpH8T+JZ+LrH1eM+s1LJITreG9nVdQlOcEi8FW4mmxcSEFPwZ//YHaG71y4uy50gcOhTM3W6YL1nzRO3iMhErnrgTESTSvIu0AdXpwaYhl17ObKTlhAIpRoy6og9DHFALD03TwXaE6GZUnkWd5rzwyOgo2topLwgB0/gb7/n7t/nYab2kOYbibE3sBpiLTU59vJdTusYF6nwKXl0jNVrqwgzg2KqkC+Mwp1Yg4rst4o75LvMoaxnk4maU/PvNUjG3Qw3jwZr4pSuhWNAsuxSaSo5ammgYbbCEoQ6PtBZ3bgUbZfwnnd9L/emSsDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HblYOb5SXZ3EMBL/Zxl4ztMIc0z/7QMYqrnLdBWwC48=;
+ b=Qj6RrrhRPkVjjRiTOS7xdar6l8FE2s6BbJpckvnliwEWcIeEGOeULoZGHzNFO/QFC44Dr2rIs5EyUPI6f7C8Z5f06JkEBni8QW4xJPxb45mRWeXCFDMlFmnkpOMRo6wTyzbKzJkMQL3RLkSJUyasAa8BMi1eGkDPwou7BUvRynQQ2tb2hwUKb+bJkNo+qkvU8gMWl6fYIpHkzDz1YBaV5i2lhti1I6yuus834KpQZKyXjXQNU1hopLO8iIMANH1Ej832IFQHDDRdeFWp7WNjemT0JDMFUnm6zgQN7haxyDaBmd52ogB3djE9Rwc2lHfQSKBlkpiF7J7GrncLIGhgyg==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM0PR09MB4290.eurprd09.prod.outlook.com (2603:10a6:20b:167::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Thu, 16 Dec
+ 2021 14:49:09 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::782f:9964:348b:b2fa]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::782f:9964:348b:b2fa%9]) with mapi id 15.20.4801.015; Thu, 16 Dec 2021
+ 14:49:09 +0000
+Subject: Re: [OE-core] [meta-oe][RFC PATCH v2 1/2] oe.lib.recipeutils: add
+ get_layer_name method
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: 
+ <AM9PR09MB4642AFAD1E3DA5F9022D3C1EA8769@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <7945b4759d992c5539b6261f4a7f350405e640a7.camel@linuxfoundation.org>
+From: Konrad Weihmann <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB4642970975B647FBB60D98A4A8779@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Thu, 16 Dec 2021 15:49:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: 
+ <7945b4759d992c5539b6261f4a7f350405e640a7.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TMN: [jrkV/nWMraWK0LGvB+WOJ+jSKAyOgTx7pNJLUFvcb8WgKDO9AUNVxrA+xzucI/Rs]
+X-ClientProxiedBy: AM9P193CA0027.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21e::32) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <11f85710-c871-9ec6-5b73-12c1ec6238c6@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aaaa0e6e-bc01-43c4-23f4-08d9c0a33768
+X-MS-TrafficTypeDiagnostic: AM0PR09MB4290:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	BABDqo3gLFR+ydH23UXEbwDgU8GdXSGMby3nk3v4vhSYpTNnNeGaZQqfHbzxZ7+E4aBKt9pqlsz1CSEQS39t4T3oENWXB8+cFDzomOvdz2M8aJKdMOSLXOIFhWNs17C8nY1JuUU8tlWJcA9haYDVpDXJQi4ZqbULja3ahGWAF06PK2nDCgZm4AK6s0G7wFc7Dye9sCehQj8u4rW5SXeRWbhglAp/QkbOEZNWULE08xYbTQaqx+PSdrA4FOWS6fcenWV96culQqE+DLj6Ay4Cp/XffbTX3A0CC6RRkt4AU+GWfAkLcfU07s1aNH4ivL/lfFAQflF91yaD1PIqioWISey8HlH95QNJkwPMAkiCSue6eavAKantBh4oq1Jr2a0MEaxo5mLdVyF/2G7SeXQZw469bqDNDVstO4eBOpvxbMf4DdpbkvFI4EBUH3A7cLKUGpLJ1s0Zzp+K8q633Lg71Ct+Poo6TA3kj2um8cTkosmTVDg+JpU3oP0yYwBrgHpJWWUPoJH0ctQ2aYewiDabmC9U1qS7yDRMvfoIYiLx8Zv34231/f3cUgliIac5fPQuyFpwpx5KB13E2iKv3ShDEQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?amFCYThyZXFOcTlmZ0MyeVF5VUMxYXYycFN1TWl0MXJUOTNMbFo5UXVVVHlp?=
+ =?utf-8?B?QjMwMnNuY1luZ0JKTnArR0pEa0xqK2JZbGpWa3F1NnJOWnpCaEx4Z1pCTVdL?=
+ =?utf-8?B?WDVJcW1NQm9Ga0RsQnJFKy9nK0ZWS2svUStCdkpHUXRGcFdoUGQrQjNrL2dp?=
+ =?utf-8?B?VmUwZDYxQ3hSMENwR1gyN3RHM29LNVpvbk54TUdRT0J0Q2RQZ1MvQitlL3ov?=
+ =?utf-8?B?V0ZjUUxUU0xwOHRpcVNheTVwREtCQ3VzR1h1MTdkNUdrcFB1WlRzNjg5N0lk?=
+ =?utf-8?B?eFVZV3E1QTM0K2RFeGYyRGZMRnpmd0lndnJDc3dFbmdmNWFQTllMa2VkbDQ2?=
+ =?utf-8?B?UmFaVDBHb1QzL2c0dEFGUm9RbGMxZTk4WXVKaVJXNDlWQ3ZhZGt3N2FYdTdH?=
+ =?utf-8?B?SkJxVnRYRzhja2RlNzN6Q01CRXJVZitKcXlwcmExVVBzZ1ZaNHFkY3ZKamo3?=
+ =?utf-8?B?OXpZbTJYR0JqR0c3dE5xOGtRYXVrRkJjdDZFNm1wVDI5ZEVid2tyWFR1TXlv?=
+ =?utf-8?B?L0ZhbEQrMWdLRG1KU3VxY2pjYmljcTExaGltMHFSMXo5QXg4RzYycUFqL2xV?=
+ =?utf-8?B?Z0pkTTFxbXV6V1loSW9ZSUJMUXRjbkFjcW9ORW4xQmFYOWJVcDdhQlNpOHBC?=
+ =?utf-8?B?RDVrTTFTaElQY3MvRFhSZ0RWdUI2dlh6OGZxM21rVmhMV2RTakNxYjREZ3pI?=
+ =?utf-8?B?bnNDb0t0TzllTHgyNE1KejBrcElrbkFISmJpeDltUE5BQjBXZVQzU004MVdJ?=
+ =?utf-8?B?a0RSYzY4d0tieXVTVzFkQ0h5ZHp3aENkWE9uR3pDUjk2SHZDRVZHUXU4Rmxn?=
+ =?utf-8?B?TS8wM0c4RURNWG5hMjBMVUJFS2x4WW1WeXQrai9aeitXNldMTXpFNTlheHdM?=
+ =?utf-8?B?VXAyUFdpcFhLUFJ4ck1kMTVoVzQ1RGpwdGM0R1UxcDlsQkNmZXJPZ1VFTWZu?=
+ =?utf-8?B?dnFzUC9nV0NtNmpieDZqektKaHFnMm0yMjlUOUZJUitud1hseHU3QkVhUm52?=
+ =?utf-8?B?Q1ZSdThkWWFRckkxSmJ3VTV6bWhOb1U2MkcrRFBtM2FYd0IrSXNmRzBON0d5?=
+ =?utf-8?B?aExjMHBWZUdINkRXYXcwcno3cXNoQytudi9pdUdUcXRnNWptcXlQYzJydm9k?=
+ =?utf-8?B?RW5RRXFhSGRSVzJaZEJTU2kyUEcwWmxhUFpMSlJaRyt4Q0Z5NUQzeGMyVDUz?=
+ =?utf-8?B?NXNXNnR3SHRLOTA1LzNHWUtQQWU2TmFqQk1jbStZM0t4ZWdNNUcybnlzb3da?=
+ =?utf-8?B?R0dwdkRWVzdscUxWdzNSQmdrdmZFVk13Z2ZDcys3VE80MkxFRW4yMGRZSUlh?=
+ =?utf-8?B?a01OZTI4YllpbGFjQ2VmczAyQ2xXbWRDV2p4a0RwcWVXUzhZd1ZpcVJqOE1S?=
+ =?utf-8?B?VHdyS1QzVGg2M0E9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ aaaa0e6e-bc01-43c4-23f4-08d9c0a33768
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 14:49:09.4065
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4290
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 14:49:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Dec 2021 14:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159789
+ https://lists.openembedded.org/g/openembedded-core/message/159790
 
-Please merge these changes.
 
-Thanks,
 
-Anuj
+On 16.12.21 15:41, Richard Purdie wrote:
+> On Wed, 2021-12-15 at 13:12 +0100, Konrad Weihmann wrote:
+>> so one can get the layer name from a filepath
+>>
+>> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+>> ---
+>> v2: order by path length to correctly map nested layer
+>>
+>>   meta/lib/oe/recipeutils.py | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+>> index a0c6974f04..557e0f9bd5 100644
+>> --- a/meta/lib/oe/recipeutils.py
+>> +++ b/meta/lib/oe/recipeutils.py
+>> @@ -21,7 +21,7 @@ import glob
+>>   import bb.tinfoil
+>>   
+>>   from collections import OrderedDict, defaultdict
+>> -from bb.utils import vercmp_string
+>> +from bb.utils import vercmp_string, get_collection_res
+>>   
+>>   # Help us to find places to insert values
+>>   recipe_progression = ['SUMMARY', 'DESCRIPTION', 'AUTHOR', 'HOMEPAGE', 'BUGTRACKER', 'SECTION', 'LICENSE', 'LICENSE_FLAGS', 'LIC_FILES_CHKSUM', 'PROVIDES', 'DEPENDS', 'PR', 'PV', 'SRCREV', 'SRCPV', 'SRC_URI', 'S', 'do_fetch()', 'do_unpack()', 'do_patch()', 'EXTRA_OECONF', 'EXTRA_OECMAKE', 'EXTRA_OESCONS', 'do_configure()', 'EXTRA_OEMAKE', 'do_compile()', 'do_install()', 'do_populate_sysroot()', 'INITSCRIPT', 'USERADD', 'GROUPADD', 'PACKAGES', 'FILES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RPROVIDES', 'RREPLACES', 'RCONFLICTS', 'ALLOW_EMPTY', 'populate_packages()', 'do_package()', 'do_deploy()', 'BBCLASSEXTEND']
+>> @@ -928,6 +928,15 @@ def find_layerdir(fn):
+>>               return None
+>>       return layerdir
+>>   
+>> +def get_layer_name(fn, d):
+>> +    """ Get the layer name from a filename """
+>> +    pth = os.path.abspath(fn)
+>> +    collection = get_collection_res(d)
+>> +    # reverse ordering by length to catch nested layers
+>> +    for k, v in dict(sorted(collection.items(), key=lambda item: len(item[1]), reverse=True)).items():
+>> +        if re.match(v, pth):
+>> +            return k
+>> +    return ""
+>>   
+>>   def replace_dir_vars(path, d):
+>>       """Replace common directory paths with appropriate variable references (e.g. /etc becomes ${sysconfdir})"""
+> 
+> 
+> I suspect we should add something in bb.utils for this? I also think we should
+> probably do this at the bitbake level entirely, i.e. set some kind of variable
+> to the layername rather than having lots of metadata code trying to do it,
+> potentially badly?
 
-The following changes since commit b8fa0c446ecb3f65d7c134426a07c6244959cdf7:
+That would indeed make sense, in the end the could be easily moved to 
+bitbake - not sure about the variable per layer as we have already 
+BBFILE_PATTERN and BBCOLLECTION (both used here indirectly) and what I 
+wanted to have is a way to ask from what layer a particular file 
+originates. In the current form it's pretty straight forward as it 
+doesn't mind overloads from layers (and therefore no layer priority or 
+order from bblayers.conf) - I'm not sure how complicated we would like 
+something like this to be - so for now I would be fine if we take this 
+piece, add something fully featured in bitbake and then removed this one 
+here
 
-  libdrm: upgrade 2.4.108 -> 2.4.109 (2021-12-09 09:17:26 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
-
-Anuj Mittal (1):
-  python3: upgrade 3.9.7 -> 3.9.9
-
-Bruce Ashfield (4):
-  linux-yocto/5.14: update to v5.14.21
-  linux-yocto/5.10: update to v5.10.82
-  linux-yocto-rt/5.10: update to -rt56
-  kern-tools: bug fixes and kgit-gconfig
-
-Changqing Li (1):
-  openssh: fix CVE-2021-41617
-
-Mingli Yu (3):
-  ncurses: fix CVE-2021-39537
-  bind: fix CVE-2021-25219
-  packagedata.py: silence a DeprecationWarning
-
-Richard Purdie (1):
-  gcc: Add CVE-2021-37322 to the list of CVEs to ignore
-
-Ross Burton (3):
-  runqemu: check the qemu PID has been set before kill()ing it
-  oe/license: implement ast.NodeVisitor.visit_Constant
-  license.bbclass: implement ast.NodeVisitor.visit_Constant
-
-Stefan Herbrechtsmeier (2):
-  recipetool: Set master branch only as fallback
-  selftest/devtool: Check branch in git fetch
-
-Steve Sakoman (1):
-  cve-extra-exclusions: add db CVEs to exclusion list
-
-Thomas Perrot (1):
-  uboot-sign: fix the concatenation when multiple U-BOOT configurations
-    are specified
-
- meta/classes/license.bbclass                  |  4 +
- meta/classes/uboot-sign.bbclass               | 16 +++-
- .../distro/include/cve-extra-exclusions.inc   |  9 ++-
- meta/lib/oe/license.py                        |  6 ++
- meta/lib/oe/packagedata.py                    |  2 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |  5 +-
- .../bind/bind-9.16.20/CVE-2021-25219-1.patch  | 76 +++++++++++++++++++
- .../bind/bind-9.16.20/CVE-2021-25219-2.patch  | 65 ++++++++++++++++
- .../recipes-connectivity/bind/bind_9.16.20.bb |  2 +
- .../openssh/openssh/CVE-2021-41617.patch      | 48 ++++++++++++
- .../openssh/openssh_8.7p1.bb                  |  1 +
- .../ncurses/files/CVE-2021-39537.patch        | 65 ++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.2.bb      |  1 +
- meta/recipes-devtools/gcc/gcc-11.2.inc        |  3 +
- ...-detection-of-mips-architecture-for-.patch | 20 +++--
- .../{python3_3.9.7.bb => python3_3.9.9.bb}    |  2 +-
- .../kern-tools/kern-tools-native_git.bb       |  5 +-
- .../linux/linux-yocto-rt_5.10.bb              |  6 +-
- .../linux/linux-yocto-rt_5.14.bb              |  6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +-
- .../linux/linux-yocto-tiny_5.14.bb            |  8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++---
- meta/recipes-kernel/linux/linux-yocto_5.14.bb | 26 +++----
- scripts/lib/recipetool/create.py              | 15 ++--
- scripts/runqemu                               |  3 +-
- 25 files changed, 358 insertions(+), 68 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind-9.16.20/CVE-2021-25219-1.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.16.20/CVE-2021-25219-2.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2021-39537.patch
- rename meta/recipes-devtools/python/{python3_3.9.7.bb => python3_3.9.9.bb} (99%)
-
--- 
-2.33.1
-
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
