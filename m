@@ -1,226 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jhorns@ics.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FCA4C433EF
-	for <webhook@archiver.kernel.org>; Fri, 17 Dec 2021 18:11:15 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web10.36.1639764674729171905
- for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Dec 2021 10:11:14 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=k6eZyhhB;
- spf=pass (domain: gmail.com, ip: 209.85.160.178,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id n15so3545152qta.0
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Dec 2021 10:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cncKd56QMZ18ZT69TV4mM4mnRV+/9RoxIVvMRsTuE+w=;
-        b=k6eZyhhBVtiPFfLrrhi8n/yjusn9TncKNkdpd0oiDcLi5IxDtoGD8zqwATPgbIbndZ
-         xcuG2QdFBURYs+xEjSjHsheTmE7lOEnF46l/UUsfFwIUxp3pNn/btyMImkemlyQcL5Tb
-         gnmbNPYmBIfEXlJSjFMTZhJKUZSLxiI9/ZOQZ85SXYbv/pHnhgKVvZso2LSDGjATfnQH
-         STnI/icx2blrK+rp+7vYbtq1hKsO2BNaZ35J0dYYonx8ki5JUiEdHytS8WO2UXOyqG15
-         Jzu5FBdSlKtxvgH8aCFF1WqbPebGYGh+SG8TfdnaxOZaqU26XE7aaSJdmkYMDAkQrlYT
-         4kUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cncKd56QMZ18ZT69TV4mM4mnRV+/9RoxIVvMRsTuE+w=;
-        b=sHLxijMsBD6GqZImftE8myp81ABx/2Ag+U3w/Db9PZvh0qxWikPxqxQpayKg4NT4j3
-         tH8wFMTt08QS2JJtOvrCjn7cAsshU4CPHUI/XlYn7zPagtKNmrQQoleFaxE7aivq99jp
-         X6lBzt3jiClodz45S/P0l3kAku2zEF2YTtCoyxnlV8QkxPqWOi5UvKQeGLg97dl2P1zo
-         hokXl3/OeWfykIXEAXShdJOhXsN291KMevhxHzM4wUH2Csnbbxg9E74m8j3wBTWyIv/7
-         /+brpNVsO47M+PH2Tex3q4tLrGPY7Oi40EGsrV6oixiSIwNnO+463NtAcmVmsMgCshiO
-         izrg==
-X-Gm-Message-State: AOAM532SWFEBKJgwokMujUaYoHoCnb++xG83xvTGQjqPqKHCJAGlppoi
-	nXNm2nKiwo+OCAXsc5VA1vKfbK9eqq8EQm40rRc=
-X-Google-Smtp-Source: 
- ABdhPJyq7Q/JLwuJrYmUwVT9OSsid0UWR5yxyWVOhlDyVvFXQUF7TC1LAt2OxjONNELZ49m+A0D8EITjgArOeHisRm4=
-X-Received: by 2002:aed:30a3:: with SMTP id 32mr3550947qtf.660.1639764673701;
- Fri, 17 Dec 2021 10:11:13 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A8B0C433EF
+	for <webhook@archiver.kernel.org>; Fri, 17 Dec 2021 19:33:19 +0000 (UTC)
+Subject: Re: [dunfell 16/42] libpcre/libpcre2: correct SRC_URI
+To: openembedded-core@lists.openembedded.org
+From: jhorns@ics.com
+X-Originating-Location: Kingston, New Hampshire, US (75.68.6.52)
+X-Originating-Platform: Linux Firefox 95
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20211217113722.21974-1-ranjitsinhrathod1991@gmail.com>
- <CAGDS+n=kyFAA7QXUGT0wDeMMirEkTN+EnU6ObA3OqOkYcxokjA@mail.gmail.com>
+Date: Fri, 17 Dec 2021 11:33:09 -0800
+References: 
+ <a1bb6b60bbde7da4496db1a2f7e48bbfb637fa4e.1638136329.git.steve@sakoman.com>
 In-Reply-To: 
- <CAGDS+n=kyFAA7QXUGT0wDeMMirEkTN+EnU6ObA3OqOkYcxokjA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 17 Dec 2021 10:10:47 -0800
-Message-ID: 
- <CAMKF1sq2tnXmzSYGErx6XP_m=H-=f2ijwkgPYZPfCqeD8+AWTA@mail.gmail.com>
-Subject: Re: [OE-core] [meta][dunfell][PATCH] boost: Add a NULL check for the
- pointer which causes a crash
-To: Steve Sakoman <sakoman@gmail.com>
-Cc: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <a1bb6b60bbde7da4496db1a2f7e48bbfb637fa4e.1638136329.git.steve@sakoman.com>
+Message-ID: <3913.1639769589677243183@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="kQ6yW94TB8QdJ6zZuKHC"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Dec 2021 18:11:15 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Dec 2021 19:33:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159835
+ https://lists.openembedded.org/g/openembedded-core/message/159836
 
-On Fri, Dec 17, 2021 at 6:47 AM Steve Sakoman <sakoman@gmail.com> wrote:
->
-> On Fri, Dec 17, 2021 at 1:37 AM Ranjitsinh Rathod
-> <ranjitsinhrathod1991@gmail.com> wrote:
-> >
-> > From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> >
-> > Issues seen in boost asio call when used within shared libraries
-> > particularly in aarch64.
-> > The discussion with boost maintainers is on going at
-> > github.com/chriskohlhoff/asio/issues/588 originally reported at
-> > github.com/chriskohlhoff/asio/issues/642. The crash is quite frequent
-> > with no solution in sight at present.
-> > As a workaround this simple patch that checks the nullness of the
-> > call stack seems to avoid the crash.
->
-> Not sure I feel good about "seems to" !
->
-> Especially when the comments in the linked pull request include:
->
-> "Please don't merge this just yet. While I no longer get SIGSEGVs with
-> this patch, my event loop (io.run()) now just quits. There is a deeper
-> underlying issue here."
->
-> and
->
-> "Closing. As noted elsewhere, this change is not correct. The
-> compensating_work_started function is only called from inside the
-> scheduler where we must have a valid, non-null call stack. That it's
-> null may indicate that something is seriously wrong with the way the
-> program is built. (A build issue with shared libraries perhaps?)
-> Suppressing it like this will instead introduce a subtle,
-> hard-to-debug work counting problem."
->
-> So I'd like to see a little more discussion before we decide to take this patch.
+--kQ6yW94TB8QdJ6zZuKHC
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+Dunfell uses 10.34 pcre2. This SRC_URI does not work with 10.34, as that ve=
+rsion is not available there.
 
-Good call Steve, I also think its just hiding the issue a null return
-might result in
-other symptoms which might be entirely differrent.
+Does Dunfell need to be updated to pcre2 > 10.36?
 
->
-> Steve
->
-> >
-> > Typical Crash backtrace:
-> > Thread 1 (LWP 907):
-> > 0  boost::asio::detail::scheduler::compensating_work_started (this=0x559e174230) at /usr/include/boost/asio/detail/impl/scheduler.ipp:321
-> > 1  boost::asio::detail::epoll_reactor::perform_io_cleanup_on_block_exit::~perform_io_cleanup_on_block_exit (this=0x7f861ab348, __in_chrg=<optimized out>)
-> > at /usr/include/boost/asio/detail/impl/epoll_reactor.ipp:712
-> > 2  boost::asio::detail::epoll_reactor::descriptor_state::perform_io (events=<optimized out>, this=0x7f800023d0) at
-> > /usr/include/boost/asio/detail/impl/epoll_reactor.ipp:730
-> > 3  boost::asio::detail::epoll_reactor::descriptor_state::do_complete (owner=0x559e174230, base=0x7f800023d0, ec=..., bytes_transferred=<optimized out>)
-> > at /usr/include/boost/asio/detail/impl/epoll_reactor.ipp:774
-> > 4  0x0000007f894a4398 in boost::asio::detail::scheduler_operation::complete (bytes_transferred=17, ec=..., owner=0x559e174230, this=0x7f800023d0)
-> > at /usr/include/boost/asio/detail/scheduler_operation.hpp:40
-> > 5  boost::asio::detail::scheduler::do_run_one (ec=..., this_thread=..., lock=..., this=0x559e174230) at
-> > /usr/include/boost/asio/detail/impl/scheduler.ipp:447
-> > 6  boost::asio::detail::scheduler::run (this=0x559e174230, ec=...) at /usr/include/boost/asio/detail/impl/scheduler.ipp:200
-> > 7  0x0000007f895e444c in boost::asio::io_context::run (this=0x559e174b70) at /usr/include/boost/asio/impl/io_context.ipp:63
-> >
-> > Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> > Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
-> > ---
-> >  ...L-check-for-the-pointer-which-causes.patch | 54 +++++++++++++++++++
-> >  meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
-> >  2 files changed, 55 insertions(+)
-> >  create mode 100644 meta/recipes-support/boost/boost/0001-boost-Add-a-NULL-check-for-the-pointer-which-causes.patch
-> >
-> > diff --git a/meta/recipes-support/boost/boost/0001-boost-Add-a-NULL-check-for-the-pointer-which-causes.patch b/meta/recipes-support/boost/boost/0001-boost-Add-a-NULL-check-for-the-pointer-which-causes.patch
-> > new file mode 100644
-> > index 0000000000..5ffea59e29
-> > --- /dev/null
-> > +++ b/meta/recipes-support/boost/boost/0001-boost-Add-a-NULL-check-for-the-pointer-which-causes.patch
-> > @@ -0,0 +1,54 @@
-> > +From d5efa47962b0101d9ec305b38a1520e9c13f118e Mon Sep 17 00:00:00 2001
-> > +From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> > +Date: Mon, 31 May 2021 14:40:12 +0100
-> > +Subject: [PATCH] boost: Add a NULL check for the pointer which causes a crash
-> > +
-> > +Issues seen in boost asio call when used within shared libraries
-> > +particularly in aarch64.
-> > +The discussion with boost maintainers is on going at
-> > +github.com/chriskohlhoff/asio/issues/588 originally reported at
-> > +github.com/chriskohlhoff/asio/issues/642. The crash is quite frequent
-> > +with no solution in sight at present.
-> > +As a workaround this simple patch that checks the nullness of the
-> > +call stack seems to avoid the crash.
-> > +
-> > +Typical Crash backtrace:
-> > +Thread 1 (LWP 907):
-> > +0  boost::asio::detail::scheduler::compensating_work_started (this=0x559e174230) at /usr/include/boost/asio/detail/impl/scheduler.ipp:321
-> > +1  boost::asio::detail::epoll_reactor::perform_io_cleanup_on_block_exit::~perform_io_cleanup_on_block_exit (this=0x7f861ab348, __in_chrg=<optimized out>)
-> > +at /usr/include/boost/asio/detail/impl/epoll_reactor.ipp:712
-> > +2  boost::asio::detail::epoll_reactor::descriptor_state::perform_io (events=<optimized out>, this=0x7f800023d0) at
-> > +/usr/include/boost/asio/detail/impl/epoll_reactor.ipp:730
-> > +3  boost::asio::detail::epoll_reactor::descriptor_state::do_complete (owner=0x559e174230, base=0x7f800023d0, ec=..., bytes_transferred=<optimized out>)
-> > +at /usr/include/boost/asio/detail/impl/epoll_reactor.ipp:774
-> > +4  0x0000007f894a4398 in boost::asio::detail::scheduler_operation::complete (bytes_transferred=17, ec=..., owner=0x559e174230, this=0x7f800023d0)
-> > +at /usr/include/boost/asio/detail/scheduler_operation.hpp:40
-> > +5  boost::asio::detail::scheduler::do_run_one (ec=..., this_thread=..., lock=..., this=0x559e174230) at
-> > +/usr/include/boost/asio/detail/impl/scheduler.ipp:447
-> > +6  boost::asio::detail::scheduler::run (this=0x559e174230, ec=...) at /usr/include/boost/asio/detail/impl/scheduler.ipp:200
-> > +7  0x0000007f895e444c in boost::asio::io_context::run (this=0x559e174b70) at /usr/include/boost/asio/impl/io_context.ipp:63
-> > +
-> > +Upstream-Status: Submitted [https://github.com/chriskohlhoff/asio/pull/330]
-> > +
-> > +Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> > +Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> > +
-> > +---
-> > + boost/asio/detail/impl/scheduler.ipp | 4 ++--
-> > + 1 file changed, 2 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/boost/asio/detail/impl/scheduler.ipp b/boost/asio/detail/impl/scheduler.ipp
-> > +index 4ef5c8668..02fc0d2e5 100644
-> > +--- a/boost/asio/detail/impl/scheduler.ipp
-> > ++++ b/boost/asio/detail/impl/scheduler.ipp
-> > +@@ -317,8 +317,8 @@ void scheduler::restart()
-> > +
-> > + void scheduler::compensating_work_started()
-> > + {
-> > +-  thread_info_base* this_thread = thread_call_stack::contains(this);
-> > +-  ++static_cast<thread_info*>(this_thread)->private_outstanding_work;
-> > ++  if (thread_info_base* this_thread = thread_call_stack::contains(this))
-> > ++    ++static_cast<thread_info*>(this_thread)->private_outstanding_work;
-> > + }
-> > +
-> > + void scheduler::post_immediate_completion(
-> > diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
-> > index df1cc16937..7fb8526b33 100644
-> > --- a/meta/recipes-support/boost/boost_1.72.0.bb
-> > +++ b/meta/recipes-support/boost/boost_1.72.0.bb
-> > @@ -9,4 +9,5 @@ SRC_URI += " \
-> >             file://0001-dont-setup-compiler-flags-m32-m64.patch \
-> >             file://0001-revert-cease-dependence-on-range.patch \
-> >             file://0001-added-typedef-executor_type.patch \
-> > +           file://0001-boost-Add-a-NULL-check-for-the-pointer-which-causes.patch \
-> >             "
-> > --
-> > 2.17.1
-> >
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159827): https://lists.openembedded.org/g/openembedded-core/message/159827
-> Mute This Topic: https://lists.openembedded.org/mt/87787403/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+--kQ6yW94TB8QdJ6zZuKHC
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Dunfell uses 10.34 pcre2. This SRC_URI does not work with 10.34, as that ve=
+rsion is not available there.<br /><br />Does Dunfell need to be updated to=
+ pcre2 &gt; 10.36?
+
+--kQ6yW94TB8QdJ6zZuKHC--
 
