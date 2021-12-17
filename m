@@ -1,91 +1,418 @@
-Return-Path: <chaitanya.vadrevu@ni.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C582C433F5
-	for <webhook@archiver.kernel.org>; Fri, 17 Dec 2021 00:10:02 +0000 (UTC)
-Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
- [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web11.120.1639699801084009483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60961C433EF
+	for <webhook@archiver.kernel.org>; Fri, 17 Dec 2021 02:16:24 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.1341.1639707382406790732
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 16:10:01 -0800
+ Thu, 16 Dec 2021 18:16:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=v8OWuYsR;
- spf=pass (domain: ni.com, ip: 148.163.156.75,
- mailfrom: prvs=7985ad4905=chaitanya.vadrevu@ni.com)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1BGF8bjH013837
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 18:10:00 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=PPS11062020;
- bh=Q13nlN8XiuG5tiCnftI/05CQ1U9AkWE+yQVtNsQSLY8=;
- b=v8OWuYsRWB9KgHX7Z+YUjMgIp9Dc9pEQY4iXcf/7vRz9blLR3CqzTxPjLgr0Y5/nnFXk
- pAq0gW7VUVx5m0Fnk8AHm0w4OsNlOToe2aQ063/0hnFL1Yi9tkJeQZwFRTFOGEExvqB4
- f4Ogf4/UTLPmByR63tNkISw2znsIsInitTasrx9UFRCgNip8pDNawDRXFZPu7DiDbxbo
- KAHvGgup/uU8LnjeHNVzaAypZloPycq7KaICOF8Nos+RcXmQ3LqSFcY4ytSdNkyOu4MZ
- bbq5qRCHEWup5UBZqkgITfsysbdBSqTuuHjiO9GRjDdz51WF11bRaceQbix3ThEfzhex Dg==
-Received: from ni.com ([130.164.80.23])
-	by mx0a-00010702.pphosted.com (PPS) with ESMTPS id 3cyfxwuqd0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 18:10:00 -0600
-Received: from us-aus-exch1.ni.corp.natinst.com
- (us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod2.natinst.com (8.16.1.2/8.16.1.2) with ESMTPS id
- 1BH09xro020980
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Dec 2021 18:09:59 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
- us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Thu, 16 Dec 2021 18:09:58 -0600
-Received: from cvadrevu-linux.amer.corp.natinst.com (172.18.68.32) by
- us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP Server
- id 15.0.1497.26 via Frontend Transport; Thu, 16 Dec 2021 18:09:59 -0600
-From: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=Y0lsbwix;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1639707382;
+  x=1671243382;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=RVQ2UpgsZE8Tv7deMbdtMRPTnbzeytb79lJIwNdZ3ic=;
+  b=Y0lsbwix/vXEPrBepFDAZ09TYQiD6utrnJP6kxc2uNpIqi2FcNM9RzWe
+   Y+qYZ1gP6KP67onhrjg4SL5Q0YQqUJnHYJM7LTunK0KVHwJCkPG8uks53
+   g4i3HHI6HoBVhYpfGbWG7nIQ+wY9aLVR/atf7yF1j48cRH58SZLUUHZWF
+   8euA+lEA4sv7YZwCCXaWFGhaMrLAv4BrJHvxe25ZLsCyZBhD1JafBjGh8
+   jYVt1o8quU52aKXtcaR605lwdl315RzwkB7QQDRtneqPpLgxYOCeAkF5c
+   iz1wvQ7kmze9re7IbZ2hbbt/RydcY41zWZAAuTkzIvmg7qv7PwN7X1h4v
+   g==;
+From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
-Subject: [hardknott][PATCH] python3-pyelftools: Depend on debugger, pprint
-Date: Thu, 16 Dec 2021 18:09:52 -0600
-Message-ID: <20211217000952.7580-1-chaitanya.vadrevu@ni.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCHv2 3/3] tzdata: Clean up
+Date: Fri, 17 Dec 2021 03:16:18 +0100
+Message-ID: <20211217021618.30887-3-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20211217021618.30887-1-pkj@axis.com>
+References: <20211217021618.30887-1-pkj@axis.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Q8aAQ8-w5jv9Cex8eZuQXrsXpaTAIzrl
-X-Proofpoint-GUID: Q8aAQ8-w5jv9Cex8eZuQXrsXpaTAIzrl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-16_09,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Reason: orgsafe
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Dec 2021 00:10:02 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Dec 2021 02:16:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159812
+ https://lists.openembedded.org/g/openembedded-core/message/159813
 
-python3-pyelftools uses python3-debugger, python3-pprint.
-So add dependencies on these packages.
+* Whitespace and indentation clean up.
+* Change shell variables from "${foo}" to "$foo".
+* Remove "/*" from directories specified in FILES.
+* Remove RCONFLICTS:${PN} for the packages from the timezones recipe,
+  which was dropped from OE-Classic in 2007...
 
-Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-devtools/python/python3-pyelftools_0.27.bb | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.27.bb b/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
-index 0cfd99504b..f8b9d420a5 100644
---- a/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
-+++ b/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
-@@ -11,3 +11,5 @@ PYPI_PACKAGE = "pyelftools"
- inherit pypi setuptools3
+PATCHv2:
+* Removed the RCONFLICTS:${PN} for the packages from the timezones
+  recipe after I realized it was dropped from OE-Classic in 2007.
+* Removed commented "pacificnew" timezone. It has been commented
+  sinze the recipe was introduced in 2007.
+
+ meta/recipes-extended/timezone/tzdata.bb | 298 +++++++++++------------
+ 1 file changed, 149 insertions(+), 149 deletions(-)
+
+diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+index 64135ef8aa..7f4322d867 100644
+--- a/meta/recipes-extended/timezone/tzdata.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -4,199 +4,199 @@ DEPENDS = "tzcode-native"
  
- BBCLASSEXTEND = "native"
+ inherit allarch
+ 
+-RCONFLICTS:${PN} = "timezones timezone-africa timezone-america timezone-antarctica \
+-             timezone-arctic timezone-asia timezone-atlantic \
+-             timezone-australia timezone-europe timezone-indian \
+-             timezone-iso3166.tab timezone-pacific timezone-zone.tab"
+-
+ S = "${WORKDIR}"
+ 
+ DEFAULT_TIMEZONE ?= "Universal"
+ INSTALL_TIMEZONE_FILE ?= "1"
+ 
+-TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
+-         factory etcetera backward \
+-        "
+-# pacificnew 
++TZONES = " \
++    africa antarctica asia australasia europe northamerica southamerica \
++    factory etcetera backward \
++"
+ 
+ # "slim" is the default since 2020b
+ # "fat" is needed by e.g. MariaDB's mysql_tzinfo_to_sql
+ ZIC_FMT ?= "slim"
+ 
+-do_compile () {
+-        for zone in ${TZONES}; do \
+-            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
+-                ${S}/${zone} ; \
+-            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
+-                ${S}/${zone} ; \
+-            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
+-                ${S}/${zone} ; \
+-        done
++do_compile() {
++	for zone in ${TZONES}; do
++		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null ${S}/${zone}
++		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null ${S}/${zone}
++		${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds ${S}/${zone}
++	done
+ }
+ 
+-do_install () {
+-        install -d ${D}$exec_prefix ${D}${datadir}/zoneinfo
+-        cp -pPR ${WORKDIR}$exec_prefix ${D}${base_prefix}
+-        # libc is removing zoneinfo files from package
+-        cp -pP "${S}/zone.tab" ${D}${datadir}/zoneinfo
+-        cp -pP "${S}/zone1970.tab" ${D}${datadir}/zoneinfo
+-        cp -pP "${S}/iso3166.tab" ${D}${datadir}/zoneinfo
+-        cp -pP "${S}/leapseconds" ${D}${datadir}/zoneinfo
+-        cp -pP "${S}/leap-seconds.list" ${D}${datadir}/zoneinfo
+-
+-        # Install default timezone
+-        if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
+-            install -d ${D}${sysconfdir}
+-            if [ "${INSTALL_TIMEZONE_FILE}" = "1" ]; then
+-                echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
+-            fi
+-            ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
+-        else
+-            bberror "DEFAULT_TIMEZONE is set to an invalid value."
+-            exit 1
+-        fi
+-
+-        chown -R root:root ${D}
++do_install() {
++	install -d ${D}$exec_prefix ${D}${datadir}/zoneinfo
++	cp -pPR ${WORKDIR}$exec_prefix ${D}${base_prefix}
++	# libc is removing zoneinfo files from package
++	cp -pP "${S}/zone.tab" ${D}${datadir}/zoneinfo
++	cp -pP "${S}/zone1970.tab" ${D}${datadir}/zoneinfo
++	cp -pP "${S}/iso3166.tab" ${D}${datadir}/zoneinfo
++	cp -pP "${S}/leapseconds" ${D}${datadir}/zoneinfo
++	cp -pP "${S}/leap-seconds.list" ${D}${datadir}/zoneinfo
 +
-+RDEPENDS_${PN} += "${PYTHON_PN}-debugger ${PYTHON_PN}-pprint"
--- 
-2.17.1
-
++	# Install default timezone
++	if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
++		install -d ${D}${sysconfdir}
++		if [ "${INSTALL_TIMEZONE_FILE}" = "1" ]; then
++			echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
++		fi
++		ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
++	else
++		bberror "DEFAULT_TIMEZONE is set to an invalid value."
++		exit 1
++	fi
++
++	chown -R root:root ${D}
+ }
+ 
+-pkg_postinst:${PN} () {
++pkg_postinst:${PN}() {
+ 	etc_lt="$D${sysconfdir}/localtime"
+ 	src="$D${sysconfdir}/timezone"
+ 
+-	if [ -e ${src} ] ; then
+-		tz=$(sed -e 's:#.*::' -e 's:[[:space:]]*::g' -e '/^$/d' "${src}")
++	if [ -e "$src" ]; then
++		tz=$(sed -e 's:#.*::' -e 's:[[:space:]]*::g' -e '/^$/d' "$src")
+ 	fi
+ 
+-	if [ ! -z "${tz}" -a ! -e "$D${datadir}/zoneinfo/${tz}" ] ; then
+-		echo "You have an invalid TIMEZONE setting in ${src}"
+-		echo "Your ${etc_lt} has been reset to Universal; enjoy!"
++	if [ ! -z "$tz" -a ! -e "$D${datadir}/zoneinfo/$tz" ]; then
++		echo "You have an invalid TIMEZONE setting in $src"
++		echo "Your $etc_lt has been reset to Universal; enjoy!"
+ 		tz="Universal"
+-		echo "Updating ${etc_lt} with $D${datadir}/zoneinfo/${tz}"
+-		if [ -L ${etc_lt} ] ; then
+-			rm -f "${etc_lt}"
++		echo "Updating $etc_lt with $D${datadir}/zoneinfo/$tz"
++		if [ -L "$etc_lt" ]; then
++			rm -f "$etc_lt"
+ 		fi
+-		ln -s "${datadir}/zoneinfo/${tz}" "${etc_lt}"
++		ln -s "${datadir}/zoneinfo/$tz" "$etc_lt"
+ 	fi
+ }
+ 
+-# Packages primarily organized by directory with a major city
+-# in most time zones in the base package
+-
++# Packages are primarily organized by directory with a major city in most time
++# zones in the base package
+ TZ_PACKAGES = " \
+     tzdata-core tzdata-misc tzdata-posix tzdata-right tzdata-africa \
+     tzdata-americas tzdata-antarctica tzdata-arctic tzdata-asia \
+-    tzdata-atlantic tzdata-australia tzdata-europe tzdata-pacific"
++    tzdata-atlantic tzdata-australia tzdata-europe tzdata-pacific \
++"
+ PACKAGES = "${TZ_PACKAGES} ${PN}"
+ 
+-FILES:tzdata-africa += "${datadir}/zoneinfo/Africa/*"
++FILES:tzdata-africa += "${datadir}/zoneinfo/Africa"
+ 
+-FILES:tzdata-americas += "${datadir}/zoneinfo/America/*  \
+-                ${datadir}/zoneinfo/US/*                \
+-                ${datadir}/zoneinfo/Brazil/*            \
+-                ${datadir}/zoneinfo/Canada/*            \
+-                ${datadir}/zoneinfo/Mexico/*            \
+-                ${datadir}/zoneinfo/Chile/*"
++FILES:tzdata-americas += " \
++    ${datadir}/zoneinfo/America \
++    ${datadir}/zoneinfo/US \
++    ${datadir}/zoneinfo/Brazil \
++    ${datadir}/zoneinfo/Canada \
++    ${datadir}/zoneinfo/Mexico \
++    ${datadir}/zoneinfo/Chile \
++"
+ 
+-FILES:tzdata-antarctica += "${datadir}/zoneinfo/Antarctica/*"
++FILES:tzdata-antarctica += "${datadir}/zoneinfo/Antarctica"
+ 
+-FILES:tzdata-arctic += "${datadir}/zoneinfo/Arctic/*"
++FILES:tzdata-arctic += "${datadir}/zoneinfo/Arctic"
+ 
+-FILES:tzdata-asia += "${datadir}/zoneinfo/Asia/*        \
+-                ${datadir}/zoneinfo/Indian/*            \
+-                ${datadir}/zoneinfo/Mideast/*"
++FILES:tzdata-asia += " \
++    ${datadir}/zoneinfo/Asia \
++    ${datadir}/zoneinfo/Indian \
++    ${datadir}/zoneinfo/Mideast \
++"
+ 
+-FILES:tzdata-atlantic += "${datadir}/zoneinfo/Atlantic/*"
++FILES:tzdata-atlantic += "${datadir}/zoneinfo/Atlantic"
+ 
+-FILES:tzdata-australia += "${datadir}/zoneinfo/Australia/*"
++FILES:tzdata-australia += "${datadir}/zoneinfo/Australia"
+ 
+-FILES:tzdata-europe += "${datadir}/zoneinfo/Europe/*"
++FILES:tzdata-europe += "${datadir}/zoneinfo/Europe"
+ 
+-FILES:tzdata-pacific += "${datadir}/zoneinfo/Pacific/*"
++FILES:tzdata-pacific += "${datadir}/zoneinfo/Pacific"
+ 
+-FILES:tzdata-posix += "${datadir}/zoneinfo/posix/*"
++FILES:tzdata-posix += "${datadir}/zoneinfo/posix"
+ 
+-FILES:tzdata-right += "${datadir}/zoneinfo/right/*"
++FILES:tzdata-right += "${datadir}/zoneinfo/right"
+ 
+-FILES:tzdata-misc += "${datadir}/zoneinfo/Cuba           \
+-                ${datadir}/zoneinfo/Egypt                \
+-                ${datadir}/zoneinfo/Eire                 \
+-                ${datadir}/zoneinfo/Factory              \
+-                ${datadir}/zoneinfo/GB-Eire              \
+-                ${datadir}/zoneinfo/Hongkong             \
+-                ${datadir}/zoneinfo/Iceland              \
+-                ${datadir}/zoneinfo/Iran                 \
+-                ${datadir}/zoneinfo/Israel               \
+-                ${datadir}/zoneinfo/Jamaica              \
+-                ${datadir}/zoneinfo/Japan                \
+-                ${datadir}/zoneinfo/Kwajalein            \
+-                ${datadir}/zoneinfo/Libya                \
+-                ${datadir}/zoneinfo/Navajo               \
+-                ${datadir}/zoneinfo/Poland               \
+-                ${datadir}/zoneinfo/Portugal             \
+-                ${datadir}/zoneinfo/Singapore            \
+-                ${datadir}/zoneinfo/Turkey"
++FILES:tzdata-misc += " \
++    ${datadir}/zoneinfo/Cuba \
++    ${datadir}/zoneinfo/Egypt \
++    ${datadir}/zoneinfo/Eire \
++    ${datadir}/zoneinfo/Factory \
++    ${datadir}/zoneinfo/GB-Eire \
++    ${datadir}/zoneinfo/Hongkong \
++    ${datadir}/zoneinfo/Iceland \
++    ${datadir}/zoneinfo/Iran \
++    ${datadir}/zoneinfo/Israel \
++    ${datadir}/zoneinfo/Jamaica \
++    ${datadir}/zoneinfo/Japan \
++    ${datadir}/zoneinfo/Kwajalein \
++    ${datadir}/zoneinfo/Libya \
++    ${datadir}/zoneinfo/Navajo \
++    ${datadir}/zoneinfo/Poland \
++    ${datadir}/zoneinfo/Portugal \
++    ${datadir}/zoneinfo/Singapore \
++    ${datadir}/zoneinfo/Turkey \
++"
+ 
+ FILES:tzdata-core += " \
+-                ${sysconfdir}/localtime                  \
+-                ${sysconfdir}/timezone                   \
+-                ${datadir}/zoneinfo/leapseconds          \
+-                ${datadir}/zoneinfo/leap-seconds.list    \
+-                ${datadir}/zoneinfo/Pacific/Honolulu     \
+-                ${datadir}/zoneinfo/America/Anchorage    \
+-                ${datadir}/zoneinfo/America/Los_Angeles  \
+-                ${datadir}/zoneinfo/America/Denver       \
+-                ${datadir}/zoneinfo/America/Chicago      \
+-                ${datadir}/zoneinfo/America/New_York     \
+-                ${datadir}/zoneinfo/America/Caracas      \
+-                ${datadir}/zoneinfo/America/Sao_Paulo    \
+-                ${datadir}/zoneinfo/Europe/London        \
+-                ${datadir}/zoneinfo/Europe/Paris         \
+-                ${datadir}/zoneinfo/Africa/Cairo         \
+-                ${datadir}/zoneinfo/Europe/Moscow        \
+-                ${datadir}/zoneinfo/Asia/Dubai           \
+-                ${datadir}/zoneinfo/Asia/Karachi         \
+-                ${datadir}/zoneinfo/Asia/Dhaka           \
+-                ${datadir}/zoneinfo/Asia/Bangkok         \
+-                ${datadir}/zoneinfo/Asia/Hong_Kong       \
+-                ${datadir}/zoneinfo/Asia/Tokyo           \
+-                ${datadir}/zoneinfo/Australia/Darwin     \
+-                ${datadir}/zoneinfo/Australia/Adelaide   \
+-                ${datadir}/zoneinfo/Australia/Brisbane   \
+-                ${datadir}/zoneinfo/Australia/Sydney     \
+-                ${datadir}/zoneinfo/Pacific/Noumea       \
+-                ${datadir}/zoneinfo/CET                  \
+-                ${datadir}/zoneinfo/CST6CDT              \
+-                ${datadir}/zoneinfo/EET                  \
+-                ${datadir}/zoneinfo/EST                  \
+-                ${datadir}/zoneinfo/EST5EDT              \
+-                ${datadir}/zoneinfo/GB                   \
+-                ${datadir}/zoneinfo/GMT                  \
+-                ${datadir}/zoneinfo/GMT+0                \
+-                ${datadir}/zoneinfo/GMT-0                \
+-                ${datadir}/zoneinfo/GMT0                 \
+-                ${datadir}/zoneinfo/Greenwich            \
+-                ${datadir}/zoneinfo/HST                  \
+-                ${datadir}/zoneinfo/MET                  \
+-                ${datadir}/zoneinfo/MST                  \
+-                ${datadir}/zoneinfo/MST7MDT              \
+-                ${datadir}/zoneinfo/NZ                   \
+-                ${datadir}/zoneinfo/NZ-CHAT              \
+-                ${datadir}/zoneinfo/PRC                  \
+-                ${datadir}/zoneinfo/PST8PDT              \
+-                ${datadir}/zoneinfo/ROC                  \
+-                ${datadir}/zoneinfo/ROK                  \
+-                ${datadir}/zoneinfo/UCT                  \
+-                ${datadir}/zoneinfo/UTC                  \
+-                ${datadir}/zoneinfo/Universal            \
+-                ${datadir}/zoneinfo/W-SU                 \
+-                ${datadir}/zoneinfo/WET                  \
+-                ${datadir}/zoneinfo/Zulu                 \
+-                ${datadir}/zoneinfo/zone.tab             \
+-                ${datadir}/zoneinfo/zone1970.tab         \
+-                ${datadir}/zoneinfo/iso3166.tab          \
+-                ${datadir}/zoneinfo/Etc/*"
++    ${sysconfdir}/localtime \
++    ${sysconfdir}/timezone \
++    ${datadir}/zoneinfo/leapseconds \
++    ${datadir}/zoneinfo/leap-seconds.list \
++    ${datadir}/zoneinfo/Pacific/Honolulu \
++    ${datadir}/zoneinfo/America/Anchorage \
++    ${datadir}/zoneinfo/America/Los_Angeles \
++    ${datadir}/zoneinfo/America/Denver \
++    ${datadir}/zoneinfo/America/Chicago \
++    ${datadir}/zoneinfo/America/New_York \
++    ${datadir}/zoneinfo/America/Caracas \
++    ${datadir}/zoneinfo/America/Sao_Paulo \
++    ${datadir}/zoneinfo/Europe/London \
++    ${datadir}/zoneinfo/Europe/Paris \
++    ${datadir}/zoneinfo/Africa/Cairo \
++    ${datadir}/zoneinfo/Europe/Moscow \
++    ${datadir}/zoneinfo/Asia/Dubai \
++    ${datadir}/zoneinfo/Asia/Karachi \
++    ${datadir}/zoneinfo/Asia/Dhaka \
++    ${datadir}/zoneinfo/Asia/Bangkok \
++    ${datadir}/zoneinfo/Asia/Hong_Kong \
++    ${datadir}/zoneinfo/Asia/Tokyo \
++    ${datadir}/zoneinfo/Australia/Darwin \
++    ${datadir}/zoneinfo/Australia/Adelaide \
++    ${datadir}/zoneinfo/Australia/Brisbane \
++    ${datadir}/zoneinfo/Australia/Sydney \
++    ${datadir}/zoneinfo/Pacific/Noumea \
++    ${datadir}/zoneinfo/CET \
++    ${datadir}/zoneinfo/CST6CDT \
++    ${datadir}/zoneinfo/EET \
++    ${datadir}/zoneinfo/EST \
++    ${datadir}/zoneinfo/EST5EDT \
++    ${datadir}/zoneinfo/GB \
++    ${datadir}/zoneinfo/GMT \
++    ${datadir}/zoneinfo/GMT+0 \
++    ${datadir}/zoneinfo/GMT-0 \
++    ${datadir}/zoneinfo/GMT0 \
++    ${datadir}/zoneinfo/Greenwich \
++    ${datadir}/zoneinfo/HST \
++    ${datadir}/zoneinfo/MET \
++    ${datadir}/zoneinfo/MST \
++    ${datadir}/zoneinfo/MST7MDT \
++    ${datadir}/zoneinfo/NZ \
++    ${datadir}/zoneinfo/NZ-CHAT \
++    ${datadir}/zoneinfo/PRC \
++    ${datadir}/zoneinfo/PST8PDT \
++    ${datadir}/zoneinfo/ROC \
++    ${datadir}/zoneinfo/ROK \
++    ${datadir}/zoneinfo/UCT \
++    ${datadir}/zoneinfo/UTC \
++    ${datadir}/zoneinfo/Universal \
++    ${datadir}/zoneinfo/W-SU \
++    ${datadir}/zoneinfo/WET \
++    ${datadir}/zoneinfo/Zulu \
++    ${datadir}/zoneinfo/zone.tab \
++    ${datadir}/zoneinfo/zone1970.tab \
++    ${datadir}/zoneinfo/iso3166.tab \
++    ${datadir}/zoneinfo/Etc \
++"
+ 
+ CONFFILES:tzdata-core = "${sysconfdir}/localtime ${sysconfdir}/timezone"
+ 
+ ALLOW_EMPTY:${PN} = "1"
++
+ RDEPENDS:${PN} = "${TZ_PACKAGES}"
 
