@@ -2,69 +2,69 @@ Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 232F9C433EF
-	for <webhook@archiver.kernel.org>; Sat, 18 Dec 2021 04:54:04 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.1840.1639803242968685191
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E41C433F5
+	for <webhook@archiver.kernel.org>; Sat, 18 Dec 2021 04:55:17 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web08.1978.1639803316634772438
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Dec 2021 20:54:03 -0800
+ Fri, 17 Dec 2021 20:55:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NS8y2jX+;
- spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ellpr1mb;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178,
  mailfrom: flowergom@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 200so4106592pgg.3
+Received: by mail-pl1-f178.google.com with SMTP id u17so3543176plg.9
         for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Dec 2021 20:54:02 -0800 (PST)
+ Fri, 17 Dec 2021 20:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=PcQduq3H6xlyIFVD24vMWMCtakgxk3J5J2CJZCufvIQ=;
-        b=NS8y2jX+wGD1SQMRmsg3U5ts9IDJbboO7iNf+nuNH2wXlTKFwtV8fVTwS6TgBWPb4E
-         r8z3NtzyQmqKkuuNDoZ6M3uBnWeCeLO8zMMg1EWGMwEs9bIICpymhb2rYL8Koii5sD/2
-         QN0eP8YF51oJ7Q6wlpujUxx9wsY0gA7sxBjJHFjFwlmDo/7ov87VX33QxN9Jn8yDH9b9
-         UKEOjWIQoTG2Sh1duPLzPlfh2MLdahQpNXHNdQMaezWIa0+S0xZkm2kK3MmCTxfRFK5I
-         /rKfHbt4up6FzzG8t2DgXfCmvfjvBGuLUrVtc4qb9NBT7KCl5Ei/jSUiROG5OeEmpP35
-         n7cQ==
+        b=Ellpr1mbZIPD7L4usVc/D1NAxU93N83TAIQHdIPK8JHVo8U+Jy6g3CB8ib+1+4IFgK
+         OfebSPkk290zKJrEvbvMyoXOgleIJecV8wYvvRgBynCe8iMmlitnB6riu8/aENWZxMk8
+         hyEnXXsNOlMVDM9/npLH2/+QvvDSvq9WILxtgKSyc9FUolBW6TXA54pAbwf2PSmCGOPN
+         AC8lncP+ntlV6+QG5hKgRcN9aGerAjIeQQtGSKwvz0fwLwzvaNhqZRCwBH+QCnzuw+V5
+         zZxIuBD9iv4cf+JRyCkusBJSJFokt0TIObGzyC9srPyeS19JuBmnVWEdKMAAI84Aw7gm
+         uqxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=PcQduq3H6xlyIFVD24vMWMCtakgxk3J5J2CJZCufvIQ=;
-        b=bEP/AxUp7c0bZOXwgYI9Vm90n0dr7SxHtLXXejK/UL5Dns4v7p6AlK6An6JukHX50/
-         +vEjnRSV1VwKS2H/dueID76TyyRaWNpTqKNSHTsFBkocHSJ6ZpiCws4By4t5NrA4B2Zh
-         CRGx1U3g2bhtD+wtkU2C8kgMo8Qu6CLrYKtpiq+Pv3Z/4fkE4fwW+Ls+FYuRzOzieJGq
-         Zz+9lfbBFgSZRWVyXNR6hFonhRWOd+A771kmtjDU2iaiD16I+u2LVcD60LR4Q1kvDwJ8
-         /7kLhnCiK8VzRzlWdp3DT7f8zeia0xirA3mjL0IPuwcJkG3dLNB2QgCMn7upmYMmVyBR
-         FX8w==
-X-Gm-Message-State: AOAM530jKH6pY1q1ctboyJ4fc4YMqPmxNWgbQXjgYQcqzyrxjcNfciXo
-	8r3+OT4RENQP60DD7ZkYsvWafHYhdKbjJ+VzpUo=
+        b=RxiHxi26HfIIgcQTt31iudCmcMw404/Dnq9+VxnqJpifnC40eoV7fTQHcGgCSUAMhh
+         FAMecvekMLHDcVNailymMOQxWtL0+HZzBogiZPeNxFaDerkC2GKnkVIBTLAfftkkJxHL
+         vNqLr3PnpyffAVIndasErLDdKsKH+V+O+L1n6qFSrDwHLETifLOH84ilFqaZXuqlIAKK
+         buASmBLLWfd4yP19dzkOslU3YIXuGmwxv7i8iptPzsrRJzvhvVwgD1bWbJSsBdK4eNpn
+         Vk6VfskWwmy0VhVw21oRJbgIA4NZVIqQDco/+lTnIpM9O2xNcSKAcJvCf1oZ9O2aF09v
+         ivtg==
+X-Gm-Message-State: AOAM532mdDlsSiJ2vu5vDm7T5HefqcEUp+GaebVqqr6TzjpaAzPyxLR4
+	Z52foTcF38t+oms+CpbuA0Oo6cgetoXJwePe7nM=
 X-Google-Smtp-Source: 
- ABdhPJzzs1Z8W819kZwvNKtx9IpA2gKV1oEmOviJv2yVEYluqs3ihxc7DbHBSHvxCltwj9QLRkYSVQ==
-X-Received: by 2002:a05:6a00:1581:b0:4b1:3b03:be86 with SMTP id
- u1-20020a056a00158100b004b13b03be86mr6293356pfk.63.1639803242103;
-        Fri, 17 Dec 2021 20:54:02 -0800 (PST)
+ ABdhPJzg0D5L8IY0S8O76EoRZYWOyUOmTgVKvHGR4Lbz6Irh26WY7yUJ4JfbrM5DV1jhZv656qTS0A==
+X-Received: by 2002:a17:902:6b45:b0:148:a30e:5219 with SMTP id
+ g5-20020a1709026b4500b00148a30e5219mr6283647plt.10.1639803315813;
+        Fri, 17 Dec 2021 20:55:15 -0800 (PST)
 Received: from ubuntu.localdomain ([59.6.144.168])
         by smtp.gmail.com with ESMTPSA id
- w2sm8778062pgt.93.2021.12.17.20.54.00
+ mu4sm15031469pjb.8.2021.12.17.20.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Dec 2021 20:54:01 -0800 (PST)
+        Fri, 17 Dec 2021 20:55:15 -0800 (PST)
 From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH] git: fix CVE-2021-4069
-Date: Fri, 17 Dec 2021 20:53:49 -0800
-Message-Id: <20211218045349.14010-1-flowergom@gmail.com>
+Subject: [dunfell][PATCH v2] vim: fix CVE-2021-4069
+Date: Fri, 17 Dec 2021 20:55:05 -0800
+Message-Id: <20211218045505.14123-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Dec 2021 04:54:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Dec 2021 04:55:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159839
+ https://lists.openembedded.org/g/openembedded-core/message/159840
 
 Use After Free in vim/vim
 
