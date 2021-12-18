@@ -1,172 +1,143 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 752D7C433EF
-	for <webhook@archiver.kernel.org>; Fri, 17 Dec 2021 23:39:43 +0000 (UTC)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
- [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web12.3698.1639784382791632288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232F9C433EF
+	for <webhook@archiver.kernel.org>; Sat, 18 Dec 2021 04:54:04 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.1840.1639803242968685191
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Dec 2021 15:39:43 -0800
+ Fri, 17 Dec 2021 20:54:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cTG66S19;
- spf=pass (domain: gmail.com, ip: 209.85.222.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id p2so7150471uad.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NS8y2jX+;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ mailfrom: flowergom@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 200so4106592pgg.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Dec 2021 15:39:42 -0800 (PST)
+ Fri, 17 Dec 2021 20:54:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aGuPnID6WGGeO+XAc3JmH2eZ8IIaL07hVHFI44sTc3U=;
-        b=cTG66S19/5otM/m/+HVGJ1O6MRqQw1wh9M77gwgZTuotaBTKWdrFCY1ad0ME0C+WrU
-         ddHuSdpCqy5wCUL2MIG9BPzV0Fw645DxdZY3ZoO4c1MAitaCHF4/gVhVVyFi2C9ATrMO
-         PcpmDh6LFLbIG1hkzK8c5uypX0Quf3cxAPAaLr02odVOYE5lzNX7jSNdtAbwGLskPrNx
-         SmdN+U6fCqifAeNv+CNFWOORvQkPu/l71xhS1Hy8InHFOVBKt9a13Ce/t7veURkGEqbp
-         L+BDU6dbfNOoTPin5PC6rZympaMi+paKlWY5AorIIeaIs2OrQM03YGQLFyuoGVjM67iq
-         wHEQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PcQduq3H6xlyIFVD24vMWMCtakgxk3J5J2CJZCufvIQ=;
+        b=NS8y2jX+wGD1SQMRmsg3U5ts9IDJbboO7iNf+nuNH2wXlTKFwtV8fVTwS6TgBWPb4E
+         r8z3NtzyQmqKkuuNDoZ6M3uBnWeCeLO8zMMg1EWGMwEs9bIICpymhb2rYL8Koii5sD/2
+         QN0eP8YF51oJ7Q6wlpujUxx9wsY0gA7sxBjJHFjFwlmDo/7ov87VX33QxN9Jn8yDH9b9
+         UKEOjWIQoTG2Sh1duPLzPlfh2MLdahQpNXHNdQMaezWIa0+S0xZkm2kK3MmCTxfRFK5I
+         /rKfHbt4up6FzzG8t2DgXfCmvfjvBGuLUrVtc4qb9NBT7KCl5Ei/jSUiROG5OeEmpP35
+         n7cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aGuPnID6WGGeO+XAc3JmH2eZ8IIaL07hVHFI44sTc3U=;
-        b=25poGzCyIMmIWg9nZzFFHphKaCatTTT3zjv8B2Iu9OQ1xjtyDJnP0803ovIajB6PWh
-         R8azU48I8dfNFxr0EMhepLr5120MzTpeQ5YwZTEF+NCkH1KRmoEAJUeGcuQOUto7XLtU
-         zcetjbrq53nJx7C5SsTDJOLQp3UqkiTMCdGYvHZnI1Ef4Z+bWTnKwS+NkZDHQqXOjP0q
-         kmAm/rG6fhn+VvLhy9A5BcasAUytQRmAwbXVhNt+Oq94E8ZzazcC+Cr81mOp+0HJ/rJO
-         Hys/w76t7+5jUJeXPSIxNUapjL4r/c2w0PclbfY1L8w7u6W8weZYaDvYDyfcjHRaTdS9
-         aWQA==
-X-Gm-Message-State: AOAM532HBIe3PKnlpgvvHXGcPMVyjvuVY5G44yvd6eJJGjPiwKjbt3HS
-	DlpJSg5VITh8FyGyLLGmp1m8x35J6tYe4TMpev4=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PcQduq3H6xlyIFVD24vMWMCtakgxk3J5J2CJZCufvIQ=;
+        b=bEP/AxUp7c0bZOXwgYI9Vm90n0dr7SxHtLXXejK/UL5Dns4v7p6AlK6An6JukHX50/
+         +vEjnRSV1VwKS2H/dueID76TyyRaWNpTqKNSHTsFBkocHSJ6ZpiCws4By4t5NrA4B2Zh
+         CRGx1U3g2bhtD+wtkU2C8kgMo8Qu6CLrYKtpiq+Pv3Z/4fkE4fwW+Ls+FYuRzOzieJGq
+         Zz+9lfbBFgSZRWVyXNR6hFonhRWOd+A771kmtjDU2iaiD16I+u2LVcD60LR4Q1kvDwJ8
+         /7kLhnCiK8VzRzlWdp3DT7f8zeia0xirA3mjL0IPuwcJkG3dLNB2QgCMn7upmYMmVyBR
+         FX8w==
+X-Gm-Message-State: AOAM530jKH6pY1q1ctboyJ4fc4YMqPmxNWgbQXjgYQcqzyrxjcNfciXo
+	8r3+OT4RENQP60DD7ZkYsvWafHYhdKbjJ+VzpUo=
 X-Google-Smtp-Source: 
- ABdhPJwnEE5Plt7vgeE/fmp47qzfO43/Bcb6IOV6ANV6FlcPE3byW46otrDSTO2vNYr9ae0Sotf6yidVRKQyNHy8t9Q=
-X-Received: by 2002:a9f:218c:: with SMTP id 12mr2030903uac.71.1639784381874;
- Fri, 17 Dec 2021 15:39:41 -0800 (PST)
+ ABdhPJzzs1Z8W819kZwvNKtx9IpA2gKV1oEmOviJv2yVEYluqs3ihxc7DbHBSHvxCltwj9QLRkYSVQ==
+X-Received: by 2002:a05:6a00:1581:b0:4b1:3b03:be86 with SMTP id
+ u1-20020a056a00158100b004b13b03be86mr6293356pfk.63.1639803242103;
+        Fri, 17 Dec 2021 20:54:02 -0800 (PST)
+Received: from ubuntu.localdomain ([59.6.144.168])
+        by smtp.gmail.com with ESMTPSA id
+ w2sm8778062pgt.93.2021.12.17.20.54.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Dec 2021 20:54:01 -0800 (PST)
+From: Minjae Kim <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] git: fix CVE-2021-4069
+Date: Fri, 17 Dec 2021 20:53:49 -0800
+Message-Id: <20211218045349.14010-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: 
- <a1bb6b60bbde7da4496db1a2f7e48bbfb637fa4e.1638136329.git.steve@sakoman.com>
- <3913.1639769589677243183@lists.openembedded.org>
- <CAOSpxdbvezkBr6t_rPJ0nW4JiHO0eXKVcVcrtfa9iXKcAgizfw@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbvezkBr6t_rPJ0nW4JiHO0eXKVcVcrtfa9iXKcAgizfw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 18 Dec 2021 02:39:31 +0300
-Message-ID: 
- <CANNYZj8_St9K1NrjiBtC6Py0gMPkEmeHS7-68XXhEgS=LeKcyQ@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell 16/42] libpcre/libpcre2: correct SRC_URI
-To: Steve Sakoman <steve@sakoman.com>
-Cc: jhorns@ics.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009705c505d3600da5"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Dec 2021 23:39:43 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Dec 2021 04:54:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159838
+ https://lists.openembedded.org/g/openembedded-core/message/159839
 
---0000000000009705c505d3600da5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use After Free in vim/vim
 
-I=E2=80=99d suggest we host the tarball somewhere on yoctoproject.org actua=
-lly.
+Upstream-Status: Backport [https://github.com/vim/vim/commit/e031fe90cf2e375ce861ff5e5e281e4ad229ebb9]
+CVE: CVE-2021-4069
+---
+ .../vim/files/CVE-2021-4069.patch             | 43 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2021-4069.patch
 
-Alex
+diff --git a/meta/recipes-support/vim/files/CVE-2021-4069.patch b/meta/recipes-support/vim/files/CVE-2021-4069.patch
+new file mode 100644
+index 0000000000..6a67281907
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2021-4069.patch
+@@ -0,0 +1,43 @@
++From cd2422ee2dab3f33b2dbd1271e17cdaf8762b6d1 Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowergom@gmail.com>
++Date: Fri, 17 Dec 2021 20:32:02 -0800
++Subject: [PATCH] using freed memory in open command
++
++Problem:    Using freed memory in open command.
++Solution:   Make a copy of the current line.
++
++Upstream-Status: Backported [https://github.com/vim/vim/commit/e031fe90cf2e375ce861ff5e5e281e4ad229ebb9]
++CVE: CVE-2021-4069
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ src/ex_docmd.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/src/ex_docmd.c b/src/ex_docmd.c
++index 59e245bee..ccd9e8bed 100644
++--- a/src/ex_docmd.c
+++++ b/src/ex_docmd.c
++@@ -6029,13 +6029,17 @@ ex_open(exarg_T *eap)
++ 	regmatch.regprog = vim_regcomp(eap->arg, p_magic ? RE_MAGIC : 0);
++ 	if (regmatch.regprog != NULL)
++ 	{
+++            // make a copy of the line, when searching for a mark it might be
+++	    // flushed
+++	    char_u *line = vim_strsave(ml_get_curline());
+++
++ 	    regmatch.rm_ic = p_ic;
++-	    p = ml_get_curline();
++-	    if (vim_regexec(&regmatch, p, (colnr_T)0))
++-		curwin->w_cursor.col = (colnr_T)(regmatch.startp[0] - p);
+++	    if (vim_regexec(&regmatch, line, (colnr_T)0))
+++		curwin->w_cursor.col = (colnr_T)(regmatch.startp[0] - line);
++ 	    else
++ 		emsg(_(e_nomatch));
++ 	    vim_regfree(regmatch.regprog);
+++	    vim_free(line);
++ 	}
++ 	// Move to the NUL, ignore any other arguments.
++ 	eap->arg += STRLEN(eap->arg);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 11fed67527..51a6861325 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -26,6 +26,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://0001-patch-8.2.3581-reading-character-past-end-of-line.patch \
+            file://0002-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch \
+            file://0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch \
++	   file://CVE-2021-4069.patch \
+            "
+ 
+ SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+-- 
+2.25.1
 
-On Sat 18. Dec 2021 at 2.16, Steve Sakoman <steve@sakoman.com> wrote:
-
-> On Fri, Dec 17, 2021 at 9:33 AM <jhorns@ics.com> wrote:
-> >
-> > Dunfell uses 10.34 pcre2. This SRC_URI does not work with 10.34, as tha=
-t
-> version is not available there.
->
-> Urghh . . .you are correct.
->
-> It does look like sourceforge is still carrying this (as do a few
-> other random mirrors):
->
-> https://downloads.sourceforge.net/pcre/pcre2-10.34.tar.bz2
->
-> Any thoughts on which to use Alex?
->
-> >
-> > Does Dunfell need to be updated to pcre2 > 10.36?
->
-> No, I think we should stick with the current version since this is a
-> stable release.
->
-> Steve
->
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#159836):
-> https://lists.openembedded.org/g/openembedded-core/message/159836
-> > Mute This Topic: https://lists.openembedded.org/mt/87365168/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> steve@sakoman.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---0000000000009705c505d3600da5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">I=E2=80=99d suggest we host the tarball somewhere on <a h=
-ref=3D"http://yoctoproject.org">yoctoproject.org</a> actually.</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat 18. Dec 2021 at 2.16=
-, Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left=
-:1ex;border-left-color:rgb(204,204,204)">On Fri, Dec 17, 2021 at 9:33 AM &l=
-t;<a href=3D"mailto:jhorns@ics.com" target=3D"_blank">jhorns@ics.com</a>&gt=
-; wrote:<br>
-&gt;<br>
-&gt; Dunfell uses 10.34 pcre2. This SRC_URI does not work with 10.34, as th=
-at version is not available there.<br>
-<br>
-Urghh . . .you are correct.<br>
-<br>
-It does look like sourceforge is still carrying this (as do a few<br>
-other random mirrors):<br>
-<br>
-<a href=3D"https://downloads.sourceforge.net/pcre/pcre2-10.34.tar.bz2" rel=
-=3D"noreferrer" target=3D"_blank">https://downloads.sourceforge.net/pcre/pc=
-re2-10.34.tar.bz2</a><br>
-<br>
-Any thoughts on which to use Alex?<br>
-<br>
-&gt;<br>
-&gt; Does Dunfell need to be updated to pcre2 &gt; 10.36?<br>
-<br>
-No, I think we should stick with the current version since this is a<br>
-stable release.<br>
-<br>
-Steve<br>
-<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#159836): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/159836" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/159836</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/87365168=
-/3620601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/87365168/3620601</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" ta=
-rget=3D"_blank">steve@sakoman.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div></div>
-
---0000000000009705c505d3600da5--
 
