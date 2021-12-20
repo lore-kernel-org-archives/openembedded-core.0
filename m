@@ -1,143 +1,116 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E71C433FE
-	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 15:23:54 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.6665.1640013833331556386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC06BC433F5
+	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 15:34:33 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web09.6796.1640014472686306980
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 07:23:53 -0800
+ Mon, 20 Dec 2021 07:34:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2AF11FB
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 07:23:46 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E4223F774
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 07:23:46 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: backport a fix so the test suite passes with OpenSSL
- 3.0.1
-Date: Mon, 20 Dec 2021 15:23:42 +0000
-Message-Id: <20211220152342.3364540-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@madison.systems header.s=google header.b=F+yyCVYO;
+ spf=pass (domain: madison.systems, ip: 209.85.167.44,
+ mailfrom: matt@madison.systems)
+Received: by mail-lf1-f44.google.com with SMTP id cf39so22547099lfb.8
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 20 Dec 2021 07:34:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=madison.systems; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DSCcL5hCeIc+w2xz92hnbtQyCT+OgluNOFM0VkABJ5c=;
+        b=F+yyCVYOtDJ1tKVSDaChAxOTkjQ503AU/CagmzQNaoEcUuhY7jIPJxVPvpQhYcQcM6
+         tll/iCuu8S6DRPhWfZHZkmyxLWswnyF6fHKL5afclt/XaIwv2wX44isrO4RvC5ryZ9iN
+         V27vqWTCsdOxcAJdEoeJIUvThEt19ryIDeJAu1LoHIPZLyxdZGXihr53joju1gTJQAv4
+         7RcxODBUSeBp9813ACBJjaxjJtR5/n5GHSYGo384Xs33/VVVPluPjHuWkuB7bdT4X2et
+         oDOfzDDMwg2vT5eRKYR0alln1xUGGG9ruy+ooLIh5Vc/nZQFbshzDI3Wbo5a1IRJlHMN
+         NMPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DSCcL5hCeIc+w2xz92hnbtQyCT+OgluNOFM0VkABJ5c=;
+        b=MywxL1cTuZ6mdbfM627ke/HpN1ONtS0V0c451Xlp0gcRjMfzHCVFdJtZ7Fiy1nRrMq
+         ziSxYjq38t4PLVr0dRUXFXsZEeOwdg5s1sAClgjGzDqhsElrMfOrgL25ZpEIl11VfPmf
+         yfgbiPqJOpA5i9hcXzZUTswsdPr380r3PLVkOWM3QMUjcNYw43LWcfddngv2u/giXcmp
+         Agwc49vWPT1OeiE3ERnsdNt/hKL/KFJEX1JRmrp5WcybPa3xqe1I35y94rNlFeTmm/29
+         dbGEQ4XJfQIQaaidlz9j58qWqvQ1jGTABscUd5tLPMhs/6Lp4Y77z9jzq3OWasj4Jm4A
+         u/Lg==
+X-Gm-Message-State: AOAM533LjRwrLnrYJqmquaQTDJZ1O9yTQ7M/8FGOJAuqI2QJp924nm0q
+	XCGRMFsz9lMgKYpp+RUiaBrmCNkXPJxLdjlC9OGzuw==
+X-Google-Smtp-Source: 
+ ABdhPJx5GjJv4b89uIVK/Gs+sJ/gTXDyuhP7M2S+lavwz/ALcLFTzgZH4AQTn+Z8KqQtHsHfzhJsxRDHWnqn74m6lmc=
+X-Received: by 2002:a19:e046:: with SMTP id g6mr15757415lfj.176.1640014471007;
+ Mon, 20 Dec 2021 07:34:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20211217153630.1746217-1-matt@madison.systems>
+ <20211217153630.1746217-3-matt@madison.systems>
+ <CANNYZj9T6Mgcytg11VXDc2_3vqvkJnREpd9cPfjfqF7X3yB_4w@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9T6Mgcytg11VXDc2_3vqvkJnREpd9cPfjfqF7X3yB_4w@mail.gmail.com>
+From: Matt Madison <matt@madison.systems>
+Date: Mon, 20 Dec 2021 07:34:20 -0800
+Message-ID: 
+ <CAGgRHJrO5Am29X99nEFosQC-2R-+war-XAif8WCb=jy1Y9WeSg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/4] base.bbclass: add crate to OE_IMPORTS
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <jpewhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:23:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:34:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159890
+ https://lists.openembedded.org/g/openembedded-core/message/159891
 
-The test suite makes incorrect assumptions about OpenSSL versions post-
-3.0, so backport the fix for the test suite.
+On Fri, Dec 17, 2021 at 8:37 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Should this be named oe.crate for consistency and avoiding potential clashes?
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...enSSL-version-check-for-3.0.1-GH-301.patch | 60 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.10.1.bb |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-bpo-46114-F=
-ix-OpenSSL-version-check-for-3.0.1-GH-301.patch
+I retained the existing name for this change set.  The same thought
+had occurred to me, though.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-bpo-46114-Fix-Open=
-SSL-version-check-for-3.0.1-GH-301.patch b/meta/recipes-devtools/python/p=
-ython3/0001-bpo-46114-Fix-OpenSSL-version-check-for-3.0.1-GH-301.patch
-new file mode 100644
-index 00000000000..6f4ceae1889
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-bpo-46114-Fix-OpenSSL-ver=
-sion-check-for-3.0.1-GH-301.patch
-@@ -0,0 +1,60 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 251d2eadc7f5b4042245709f41c38169a284e146 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Fri, 17 Dec 2021 07:38:11 -0800
-+Subject: [PATCH] bpo-46114: Fix OpenSSL version check for 3.0.1 (GH-3017=
-0)
-+
-+(cherry picked from commit 2985feac4e02d590bb78bcce9e30864be53280ac)
-+
-+Co-authored-by: Christian Heimes <christian@python.org>
-+---
-+ .github/workflows/build.yml                                 | 2 +-
-+ Lib/test/test_ssl.py                                        | 6 +++++-
-+ .../next/Tests/2021-12-17-14-46-19.bpo-46114.9iyZ_9.rst     | 1 +
-+ Tools/ssl/multissltests.py                                  | 2 +-
-+ 4 files changed, 8 insertions(+), 3 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Tests/2021-12-17-14-46-19.bpo-46114=
-.9iyZ_9.rst
-+
-+diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
-+index a485f7d4c3..873db6403d 100644
-+--- a/Lib/test/test_ssl.py
-++++ b/Lib/test/test_ssl.py
-+@@ -539,7 +539,11 @@ def test_openssl_version(self):
-+         self.assertLessEqual(status, 15)
-+=20
-+         libressl_ver =3D f"LibreSSL {major:d}"
-+-        openssl_ver =3D f"OpenSSL {major:d}.{minor:d}.{fix:d}"
-++        if major >=3D 3:
-++            # 3.x uses 0xMNN00PP0L
-++            openssl_ver =3D f"OpenSSL {major:d}.{minor:d}.{patch:d}"
-++        else:
-++            openssl_ver =3D f"OpenSSL {major:d}.{minor:d}.{fix:d}"
-+         self.assertTrue(
-+             s.startswith((openssl_ver, libressl_ver)),
-+             (s, t, hex(n))
-+diff --git a/Misc/NEWS.d/next/Tests/2021-12-17-14-46-19.bpo-46114.9iyZ_9=
-.rst b/Misc/NEWS.d/next/Tests/2021-12-17-14-46-19.bpo-46114.9iyZ_9.rst
-+new file mode 100644
-+index 0000000000..6878cea032
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Tests/2021-12-17-14-46-19.bpo-46114.9iyZ_9.rst
-+@@ -0,0 +1 @@
-++Fix test case for OpenSSL 3.0.1 version. OpenSSL 3.0 uses ``0xMNN00PP0L=
-``.
-+diff --git a/Tools/ssl/multissltests.py b/Tools/ssl/multissltests.py
-+index ba2663e9a3..8fe5b5d0c2 100755
-+--- a/Tools/ssl/multissltests.py
-++++ b/Tools/ssl/multissltests.py
-+@@ -48,7 +48,7 @@
-+=20
-+ OPENSSL_RECENT_VERSIONS =3D [
-+     "1.1.1l",
-+-    "3.0.0"
-++    "3.0.1"
-+ ]
-+=20
-+ LIBRESSL_OLD_VERSIONS =3D [
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.1.bb b/meta/recipe=
-s-devtools/python/python3_3.10.1.bb
-index 6115ffe5b37..e7ae6871777 100644
---- a/meta/recipes-devtools/python/python3_3.10.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.1.bb
-@@ -33,6 +33,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
-            file://makerace.patch \
-            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patc=
-h \
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-ma=
-ste.patch \
-+           file://0001-bpo-46114-Fix-OpenSSL-version-check-for-3.0.1-GH-=
-301.patch \
-            "
-=20
- SRC_URI:append:class-native =3D " \
---=20
-2.25.1
+-Matt
 
+>
+> Alex
+>
+> On Fri, 17 Dec 2021 at 18:37, Matt Madison <matt@madison.systems> wrote:
+>>
+>> to install the crate:// fetch handler.
+>>
+>> Signed-off-by: Matt Madison <matt@madison.systems>
+>> ---
+>>  meta/classes/base.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index b709777f24..ee9950f207 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -12,7 +12,7 @@ inherit logging
+>>
+>>  OE_EXTRA_IMPORTS ?= ""
+>>
+>> -OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible ${OE_EXTRA_IMPORTS}"
+>> +OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible crate ${OE_EXTRA_IMPORTS}"
+>>  OE_IMPORTS[type] = "list"
+>>
+>>  PACKAGECONFIG_CONFARGS ??= ""
+>> --
+>> 2.32.0
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#159830): https://lists.openembedded.org/g/openembedded-core/message/159830
+>> Mute This Topic: https://lists.openembedded.org/mt/87791269/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
