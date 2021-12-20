@@ -1,108 +1,118 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bero@lindev.ch>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE382C433F5
-	for <webhook@archiver.kernel.org>; Sun, 19 Dec 2021 23:36:31 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.22907.1639956990945728766
- for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Dec 2021 15:36:31 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=evo6JerU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id
- p36-20020a05600c1da400b003457428ec78so7232230wms.3
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Dec 2021 15:36:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=xOE9nhlDyLybIWHQssQapqcjvlYqb4kVrDzD51JwYYw=;
-        b=evo6JerUJ68YPh1NUBSXeL3c/JRqyblK7caVRdZpKY11qPRdHdatmxJdc8zZ5p0EUj
-         YwvHtifdgDeZBKARC/Bj+A3cmxehgvK6WwqVmFfTd47UiynhyUsd/kfl/cy4lIV/0vUf
-         D5FjHhWrZJc4FGu8NidsGLzDGRwCHYKjEmBUw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xOE9nhlDyLybIWHQssQapqcjvlYqb4kVrDzD51JwYYw=;
-        b=GB0tDV6Pm6HatwFMdxxbFlQGopq6Eye8pSPPTGM2c7EM3AcIERBL7yNbNLbwwuGII0
-         tQ+sBaTZgueEkeidTriaZkm8kUK/4lNwclSwSgMMzH8G//zEMRGLDn7W5I8V7sACxkq9
-         X6BSZdRjF5hY6rnI62pLzWsnCZRLVQ6Ny7MGc0Jifl+64ebnxyFjkkC5v39j1KlIk7U9
-         b6xLVMFR4MKG01aX+cQiSq1lAWNeBJ4HyUNNJ7B//xCj3B4Xd3xLrjTvdEwpI8dvLtPJ
-         s3gqYv+NUaDatX+wewphgllnvoghy6k5xvCXiClfKBAGTNFGMp5hJkRInOOBqP4NXPP5
-         W+Rw==
-X-Gm-Message-State: AOAM531vKH/9ywd6QTAJOrDK0ziGxRLR2ip0HjFyiDP6hgQn9Sbro9Rk
-	V8mz+4CSzAvHbaqlh+CZH0zRcA==
-X-Google-Smtp-Source: 
- ABdhPJyWK420y1vv94sHs6OUC2PzDuaMYRyIJtIcL7C9Fjg9N8WCwdAaRdwotGW9uvfxltI+aoyp2g==
-X-Received: by 2002:a05:600c:3b83:: with SMTP id
- n3mr11674896wms.116.1639956989314;
-        Sun, 19 Dec 2021 15:36:29 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:28ea:b7b2:54a:fcdd?
- ([2001:8b0:aba:5f3c:28ea:b7b2:54a:fcdd])
-        by smtp.gmail.com with ESMTPSA id
- p13sm2293629wms.41.2021.12.19.15.36.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Dec 2021 15:36:28 -0800 (PST)
-Message-ID: 
- <18b96677545b176fec83b55c65cc90c5f1cfffcf.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Matt Madison <matt@madison.systems>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>
-Date: Sun, 19 Dec 2021 23:36:24 +0000
-In-Reply-To: <20211215201615.536707-1-matt@madison.systems>
-References: <20211215201615.536707-1-matt@madison.systems>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EEF6C433EF
+	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 01:39:22 +0000 (UTC)
+Subject: Re: [PATCH] gcc: Fix tm.h plugin header
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?QmVybmhhcmQgUm9zZW5rcsOkbnplcg==?= <bero@lindev.ch>
+X-Originating-Location: =?utf-8?b?V8O8cnpidXJnLCBCYXZhcmlhLCBERSAoODcuMTIy?=
+ =?utf-8?b?LjIwNC4yMTcp?=
+X-Originating-Platform: Linux Chrome 87
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Date: Sun, 19 Dec 2021 17:39:18 -0800
+References: <09f8ff3a-829d-41e4-95c1-fd203eaba643@www.fastmail.com>
+In-Reply-To: <09f8ff3a-829d-41e4-95c1-fd203eaba643@www.fastmail.com>
+Message-ID: <28190.1639964358069173094@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="7gsuJnOzocGRvs2zbsbo"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Dec 2021 23:36:31 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 01:39:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159852
+ https://lists.openembedded.org/g/openembedded-core/message/159853
 
-On Wed, 2021-12-15 at 12:16 -0800, Matt Madison wrote:
-> which is introducing task hash changes for some
-> allarch package builds, and should no longer
-> be needed with recent versions of qemu.
-> 
-> Signed-off-by: Matt Madison <matt@madison.systems>
-> ---
->  meta/classes/qemu.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-> index 01a7b86ae1..333202b7c4 100644
-> --- a/meta/classes/qemu.bbclass
-> +++ b/meta/classes/qemu.bbclass
-> @@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path, binary):
->  # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
->  # qemu-arm default CPU supports all required architecture levels.
->  
-> -QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
-> +QEMU_OPTIONS = "${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
->  QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
->  
->  QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
+--7gsuJnOzocGRvs2zbsbo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rather worryingly this breaks a few docs packages for reproducibility:
+On Thu, Dec 9, 2021 at 07:40 PM, Andrei Gherzan wrote:
 
-http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20211219-6kkv1f8k/packages/diff-html/
+>=20
+> On Thu, 9 Dec 2021, at 16:40, Khem Raj wrote:
+>=20
+>> On Thu, Dec 9, 2021 at 7:40 AM Andrei Gherzan <andrei@gherzan.com> wrote=
+:
+>>=20
+>>> From: Andrei Gherzan <andrei.gherzan@huawei.com>
+>>>=20
+>>> On x86-64, tm.h (needed to build gcc plugins) tries to include
+>>> config/i386/linux64.h, which isn't installed. Fortunately it also isn't
+>>> used, so simply removing the include statement is an ok fix.
+>>=20
+>> is it due to multilib support ? if so we might be ok since we may not
+>> be using it
+>> but really it will be good to check it with multilib builds of x86_64/x8=
+6
+>=20
+> I don't think it is related to multilib but I'll give multilib a try. In
+> my case, the issue was revealed when compiling a kernel plugin config. I
+> can't remember right now which one but I can replicate it for logs.
 
-which raises a number of questions in my mind. Investigation is needed as the
-hashes clearly aren't encoding everything they should :(.
+Hi,
+I've had a closer look at the problem, and can confirm the patch doesn't br=
+eak even in multilib setups.
 
-Cheers,
+The problem is that in a non-multilib setup, the config/i386/linux64.h head=
+er is not generated, but tm.h tries to include it nevertheless, causing any=
+ gcc plugin that #includes tm.h (such as all the gcc plugins in the kernel =
+-- tm.h is included by scripts/gcc-plugins/gcc-common.h) to fail to build.
+An alternative fix would be adding
+mkdir -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/config/i386
+touch=C2=A0${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/config/i3=
+86/linux64.h
+(creating the file if it isn't there) instead. This would make sure that in=
+ cases where config/i386/linux64.h does exist, it doesn't get removed from =
+tm.h (potentially fixing plugins that reference any of the #defines in i386=
+/linux64.h without including the file manually -- but I have yet to see any=
+ such plugin).
 
-Richard
+I will try to get a better fix (not adding the include statement to tm.h in=
+ the first place rather than having to remove it later in install scripts) =
+upstream, but in the mean time, the patch fixes our builds before the bette=
+r fix is ready/applied.
 
+ttyl
+bero
+
+--7gsuJnOzocGRvs2zbsbo
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 9, 2021 at 07:40 PM, Andrei Gherzan wrote:<br />
+<blockquote>On Thu, 9 Dec 2021, at 16:40, Khem Raj wrote:<br />
+<blockquote>On Thu, Dec 9, 2021 at 7:40 AM Andrei Gherzan &lt;andrei@gherza=
+n.com&gt; wrote:<br />
+<blockquote>From: Andrei Gherzan &lt;andrei.gherzan@huawei.com&gt;<br /><br=
+ />On x86-64, tm.h (needed to build gcc plugins) tries to include<br />conf=
+ig/i386/linux64.h, which isn't installed. Fortunately it also isn't<br />us=
+ed, so simply removing the include statement is an ok fix.</blockquote>
+is it due to multilib support ? if so we might be ok since we may not<br />=
+be using it<br />but really it will be good to check it with multilib build=
+s of x86_64/x86</blockquote>
+I don't think it is related to multilib but I'll give multilib a try. In my=
+ case, the issue was revealed when compiling a kernel plugin config. I can'=
+t remember right now which one but I can replicate it for logs.</blockquote=
+>
+Hi,<br />I've had a closer look at the problem, and can confirm the patch d=
+oesn't break even in multilib setups.<br /><br />The problem is that in a n=
+on-multilib setup, the config/i386/linux64.h header is not generated, but t=
+m.h tries to include it nevertheless, causing any gcc plugin that #includes=
+ tm.h (such as all the gcc plugins in the kernel -- tm.h is included by scr=
+ipts/gcc-plugins/gcc-common.h) to fail to build.<br />An alternative fix wo=
+uld be adding<br />mkdir -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/=
+include/config/i386<br />touch&nbsp;${D}${libdir}/gcc/${TARGET_SYS}/${BINV}=
+/plugin/include/config/i386/linux64.h<br />(creating the file if it isn't t=
+here) instead. This would make sure that in cases where config/i386/linux64=
+.h does exist, it doesn't get removed from tm.h (potentially fixing plugins=
+ that reference any of the #defines in i386/linux64.h without including the=
+ file manually -- but I have yet to see any such plugin).<br /><br />I will=
+ try to get a better fix (not adding the include statement to tm.h in the f=
+irst place rather than having to remove it later in install scripts) upstre=
+am, but in the mean time, the patch fixes our builds before the better fix =
+is ready/applied.<br /><br />ttyl<br />bero
+
+--7gsuJnOzocGRvs2zbsbo--
 
