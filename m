@@ -2,80 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C58C43217
-	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 15:03:58 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web11.6289.1640012636698989371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78BD0C4332F
+	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 15:03:57 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web11.6288.1640012636310627610
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 07:03:57 -0800
+ Mon, 20 Dec 2021 07:03:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=s2Kn22T8;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=gUiUyNBB;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1640012634; i=@fujitsu.com;
-	bh=qmeRF1M66i1Bk+C9NQGrazrb87Cp1Dmnz9Mri4n6rBs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=s2Kn22T8VprBjjMo5sgO3ryyRHmROoBjaqgBTHkefzVFQren3U8mlrd7UTqe1PpR3
-	 u0Vw2UrwEV0ABV+ra+MRi9mln7O4AOJhT/0jigFd2deAag9l/Toy5QbfFfr6MHMF52
-	 CyMNJ/F/H+surA4DOq+CectRW5klun1XDHAfFO6A9fuoXvjMozRQXEoMUf6+c+W5dJ
-	 3I8USLC+SB65Fd6qF/oBq9taAIjJIxpi/LuzUr72KnMPXUVm6i8z9ZfN6lv5gVxO6t
-	 rPPOTds9CDmJOV/Gwog+IpSsGRlzBF7w3DR2Cc8n0Z2gKHB4Ur5O0eN9MQi57LkYvv
-	 Kd/M6Pi/VUvGw==
-Received: from [100.115.68.153] (using TLSv1.2 with cipher
+	s=170520fj; t=1640012633; i=@fujitsu.com;
+	bh=8cIUjo9mvmfFk6Ss1IYMtpDakv56d5DcFxRxsmxHY1g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=gUiUyNBBY0B1Qb0RjbPr5ZAByicftU2k3L74JteHvDjD9YUZ9N5AEj2Uq7QwRRVcF
+	 bHM/3kL7Ux2z1LFjbZSdZIh0ip+DEUz1veqDwU/AwfG3PhfIkZ4238nbFQoGgPM6+5
+	 BsMZmpxKRFMLifrX5VlxfExNja3FtkwFwmrx/gzH0Y3Ke62SHjmfCT0h7NpNmFA/6b
+	 lzzS61U9vDYTx0vHZihlGK+3ch2nmGTm9YtwH9dbq8hVtvG8UvL8Tt91FCz5efSwCd
+	 iUPvUWCUDgjTOG4OXgIKTcjssDQkYNVSZlZg0SJ/3l6X2Xb6ksZrvt3g1y9eH44zd1
+	 eTAzllu8eGqAg==
+Received: from [100.115.6.23] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- E9/D1-07141-A5B90C16; Mon, 20 Dec 2021 15:03:54 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRWlGSWpSXmKPExsViZ8MxSTdy9oF
-  Eg9NTTCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1ozu3jaWgpmcFSv2hzcwHufoYuTkEBJ4zCjR
-  tLK2i5ELyD7PJLH2VhMbROIEo8SO4zwgNpuAmsT0WzdYuxg5OEQE9CSu/hMFCTMLqEi8+N3DD
-  mILC/hKTFw0ixnEZhFQlVi79ynYGF4BR4m9d48wgtgSAgoSUx6+B6vhFHCSaDi2mBlilaPExw
-  +TWCHqBSVOznzCAjFfQuLgixfMEL2KErMvN7NA2BUSs2a1MUHYahJXz21insAoOAtJ+ywk7Qs
-  YmVYx2iUVZaZnlOQmZuboGhoY6BoamuqamegamZjqJVbpJuqlluomp+aVFCUCpfUSy4v1UouL
-  9Yorc5NzUvTyUks2MQLDOKXY4esOxuN9P/UOMUpyMCmJ8vL7HkgU4kvKT6nMSCzOiC8qzUktP
-  sQow8GhJMH7cwZQTrAoNT21Ii0zBxhTMGkJDh4lEd4mkDRvcUFibnFmOkTqFKOilDhv3CyghA
-  BIIqM0D64NFseXGGWlhHkZGRgYhHgKUotyM0tQ5V8xinMwKgnzpoNM4cnMK4Gb/gpoMRPQYqX
-  w/SCLSxIRUlINTHN5WGscy0/KvuVv1n65o3rPtHdFpxI6G1bv7DGvcTfWnbbopHTE+3WferTu
-  zOQ6ptDu/frxz1ePzp/hmrp1Yur8HbK9K57uOcPmr2H5tiU00ZPv5YW9x2OSJs5f1K8q9kTg7
-  tOWvbPj0y4LGE2Z2RdjFcFtndTS7G1Roqk2UWVn+qrYHq9+nzlXg6U35WnffBS+gi8nS1Swrl
-  dZV8/Pu/63dVvKp8wfWQn8Ok4VSov+P3ks6JU9JfzM1oU7/j8TbQibvMi8NP0GQ/5EMfdjZ2+
-  znZhdFVKXwbw6aJLQx8vvX3ju+JN0bt0kr7zcWUmmMUx6seuMFLTbDbkuFdxdKcZe2VG5UpGl
-  IP/K/72lSizFGYmGWsxFxYkAJP95kV4DAAA=
+	by server-4.bemta.az-a.eu-west-1.aws.ess.symcld.net id 7C/7A-30341-95B90C16;
+ Mon, 20 Dec 2021 15:03:53 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHIsWRWlGSWpSXmKPExsViZ8MxSTdy9oF
+  Eg1ftMhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8barROYCubLVkyfPpepgbFHqouRi0NI4DGj
+  xNyGVhYI5zyTxJdNj1ghnBOMEv0LXjJ2MXJysAmoSUy/dQMowcEhIqAncfWfKEiYWUBF4sXvH
+  nYQW1jATmLNpO9MIDaLgKrEmz//weK8Ao4S8yZ+ZgWxJQQUJKY8fM8MEReUODnzCQvEHAmJgy
+  9eMEPUKErMvtzMAmFXSMya1cYEYatJXD23iXkCI/8sJO2zkLQvYGRaxWiVVJSZnlGSm5iZo2t
+  oYKBraGiqCyRNTfQSq3QT9VJLdctTi0t0DfUSy4v1UouL9Yorc5NzUvTyUks2MQKDMqWYYdYO
+  xll9P/UOMUpyMCmJ8vL7HkgU4kvKT6nMSCzOiC8qzUktPsQow8GhJMH7cwZQTrAoNT21Ii0zB
+  xghMGkJDh4lEd4mkDRvcUFibnFmOkTqFKMux+uWnzuYhVjy8vNSpcR542YBFQmAFGWU5sGNgE
+  XrJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvOkgU3gy80rgNr0COoIJ6Ail8P0gR5QkIqS
+  kGpjS877xq9/Y+HHKFU+epLiJR59/2jm3z/D4UYHqhWL25zclcoUE9r+bGFO6X3Y/V5Dnfp9Z
+  B8w3BvftFb06L6vihFCqwfnVd0Q+yU+RXWdgxvU/x73x3w19yzta5utNZ95L+XiyKv06/z253
+  DfJJdeErodGiR9SXyyzsnddq0n/vTILkY4NNWbKQj0hpwSXflp36vzJm3PfHtYLcPas/7sp7W
+  qgRv8sAYF81xgbtdiP6Z33O22uP7uWu0nn4dKa/veHrCzNZ2js4lIUPX7o14Wrl2wsvLcfU4v
+  38tJgi4+q4KrckNGSEyIWVztnotR6pj97FE5ULNRcXSgf33yT/3dFMfsRu3dMX9lXPrU3r1di
+  Kc5INNRiLipOBAABGzjrUQMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-4.tower-545.messagelabs.com!1640012633!28221!1
+X-Msg-Ref: server-14.tower-587.messagelabs.com!1640012633!30007!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 27691 invoked from network); 20 Dec 2021 15:03:53 -0000
+Received: (qmail 2860 invoked from network); 20 Dec 2021 15:03:53 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-4.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-14.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 20 Dec 2021 15:03:53 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 08941100463
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id F30C910045E
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 15:03:53 +0000 (GMT)
+ Mon, 20 Dec 2021 15:03:52 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id EB38B10045A
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id DF5DB10034F
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 20 Dec 2021 15:03:52 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 20 Dec 2021 15:03:51 +0000
+ (TLS) id 15.0.1497.26; Mon, 20 Dec 2021 15:03:46 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-importlib-metadata: upgrade 4.8.2 -> 4.9.0
-Date: Mon, 20 Dec 2021 23:03:38 +0800
-Message-ID: <1640012619-3685-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libxcrypt: upgrade 4.4.26 -> 4.4.27
+Date: Mon, 20 Dec 2021 23:03:36 +0800
+Message-ID: <1640012619-3685-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1640012619-3685-1-git-send-email-wangmy@fujitsu.com>
-References: <1640012619-3685-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -85,32 +82,86 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:03:58 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:03:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159872
+ https://lists.openembedded.org/g/openembedded-core/message/159871
+
+License-Update: directory of copyright file changed.
+refresh fix_cflags_handling.patch
+
+Changelog:
+===========
+Limit the maximum amount of rbytes to 64 bytes (512 bits) for yescrypt,
+gost-yescrypt, and scrypt. Also reflect this limit in the documentation
+(issue #145).
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ib-metadata_4.8.2.bb => python3-importlib-metadata_4.9.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-importlib-metadata_4.8.2.bb => python3-importlib-metadata_4.9.0.bb} (88%)
+ .../libxcrypt/files/fix_cflags_handling.patch          | 10 +++++-----
+ ...ypt-compat_4.4.26.bb => libxcrypt-compat_4.4.27.bb} |  0
+ meta/recipes-core/libxcrypt/libxcrypt.inc              |  4 ++--
+ .../{libxcrypt_4.4.26.bb => libxcrypt_4.4.27.bb}       |  0
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.26.bb => libxcrypt-compat_4.4.27.bb} (100%)
+ rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.26.bb => libxcrypt_4.4.27.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.8.2.bb b/meta/recipes-devtools/python/python3-importlib-metadata_4.9.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-importlib-metadata_4.8.2.bb
-rename to meta/recipes-devtools/python/python3-importlib-metadata_4.9.0.bb
-index 2e5aedd8db..0f397766e9 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_4.8.2.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.9.0.bb
-@@ -8,7 +8,7 @@ inherit pypi setuptools3
- PYPI_PACKAGE = "importlib_metadata"
- UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+index 0772998c72..26a35560fc 100644
+--- a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
++++ b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+@@ -1,4 +1,4 @@
+-From fd9a46695594c3cd836ecb7d959f03f605e69a2f Mon Sep 17 00:00:00 2001
++From 0607aae55517e1ac0982f99778fa0df0a3165ff4 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 30 Apr 2021 10:35:02 +0100
+ Subject: [PATCH] libxcrypt: Update to 4.4.19 release and fix symbol version
+@@ -15,13 +15,13 @@ Upstream-Status: Submitted [https://github.com/besser82/libxcrypt/pull/126]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  
--SRC_URI[sha256sum] = "75bdec14c397f528724c1bfd9709d660b33a4d2e77387a3358f20b848bb5e5fb"
-+SRC_URI[sha256sum] = "ee50794eccb0ec340adbc838344ebb9a6ff2bcba78f752d31fc716497e2149d6"
+ ---
+- build-aux/compute-symver-floor | 2 ++
++ build-aux/scripts/compute-symver-floor | 2 ++
+  1 file changed, 2 insertions(+)
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
+-diff --git a/build-aux/compute-symver-floor b/build-aux/compute-symver-floor
++diff --git a/build-aux/scripts/compute-symver-floor b/build-aux/scripts/compute-symver-floor
+ index 4ec82e1..8117342 100644
+---- a/build-aux/compute-symver-floor
+-+++ b/build-aux/compute-symver-floor
++--- a/build-aux/scripts/compute-symver-floor
+++++ b/build-aux/scripts/compute-symver-floor
+ @@ -36,6 +36,8 @@ sub preprocessor_check {
+          die "C compiler not available\n" unless @CC;
+  
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.26.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.27.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.26.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.27.bb
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index 9186c45e18..725965e535 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -3,14 +3,14 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
+ HOMEPAGE = "https://github.com/besser82/libxcrypt"
+ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://LICENSING;md5=29c5f9af198623cdce52a77f85695164 \
++LIC_FILES_CHKSUM = "file://LICENSING;md5=c0a30e2b1502c55a7f37e412cd6c6a4b \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     "
  
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https"
+-SRCREV = "8ff7a8c5019cbd50419f7d0a8cd691eb99d6b086"
++SRCREV = "814e715dd8580ff00344112d7d8383a6a5a5b83d"
+ SRCBRANCH ?= "develop"
+ 
+ SRC_URI += "file://fix_cflags_handling.patch"
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.26.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.27.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.26.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.27.bb
 -- 
 2.25.1
 
