@@ -1,88 +1,195 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D0A0C433F5
-	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 11:20:16 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.4079.1639999215791502807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7658C433F5
+	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 13:08:25 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web08.4994.1640005704581615186
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 03:20:16 -0800
+ Mon, 20 Dec 2021 05:08:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JHx2ipqw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id t18so19281925wrg.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eM0KmOke;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id u16so2014695plg.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 03:20:15 -0800 (PST)
+ Mon, 20 Dec 2021 05:08:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ipbLjpAFl318bbbyDXyXDT+nbZcV7IK/iwJLj7ZZdp8=;
-        b=JHx2ipqw2UJmJm+rbT2X6xg90NFhtuaNPKiavG96sJRis2yVH3iiNb5+MLalC8OLr5
-         BqSnBCY6dwe+oVlsFXf+TLNwVQje+ROaF3dL8vV7n45FZQbxRUe+zIK+WNAcy8I4++l5
-         sfpgINsGH+eJjAZlREwwQfhYd4jY7+TLeOQ/Q=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q/AF1MAmIheOBk8ihPHO01I0rsAns4DNXYNXx/F6xQE=;
+        b=eM0KmOkegKEGlMXauIGRPZDyVr6Z2f1lf5jtzq4Woqy0To2yojprk5k/XCGWNuzjoz
+         D3lhlno4ocTdiRPckL2rIKGnBtWObk6Pw+TCwnM/kRllmHP5LQXGkC6sADGpiwihfM/m
+         rj606a+sK89OIjDes2SXcSMXUKt/yuBUDVn5AgR6tVH9A8k01U7LbXie6ZIk8Bma4mx1
+         NrHW+QyjMsWN7ASe8YXfFurCaVNboq1Pl003hn4lai9FuQsa6UQoUmbJDeZK5QQ+92Ym
+         xpPBQHRwSERkMX8SNj1zDZ/zkqFeQmYP17u8Jpm+FmcDDYpsbkNoHYpUyuD5Cs/Kiaia
+         M9Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ipbLjpAFl318bbbyDXyXDT+nbZcV7IK/iwJLj7ZZdp8=;
-        b=gVavdEuGTWEbEAnZk8VCGwWrjr45KUx30GvOe9GMFlYIfVoHlfzUeAQnSKL5FTHLr4
-         IaHCaxRa40qOXCXCrbUYlf1DZe7aEQZ4d1zMKv4WkcjBgpFvxIs3VCVPic++JrYOARqn
-         modfLvYnjYlyNEwGyI9wTpDgL0XQ693vTxm3RNkQBVfd4j3jjzPgsAF6pFD9br1C46Nr
-         VOxyd3zkGqmNxl/e0b3kWh8T87WByUTOxCFviv879Gyj+VqvyYKuyzoOiPIHdNiTJPl9
-         9LXiLqDEZ/dx8gc+U8U9VlNTaz2TKBpK8VoTZzMuVYgQ7N/Fho7xGztXCQ1iMiAYdNMM
-         034A==
-X-Gm-Message-State: AOAM533dJpt31erYQyUSW5TRV0hrCc2kZiUCJpaOHa5WkHDBOQ6RpdW/
-	HfvYNHaxjHKA9ShZYmofeD3SKw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q/AF1MAmIheOBk8ihPHO01I0rsAns4DNXYNXx/F6xQE=;
+        b=R0kd2vQNyZZQXym6VZ8NcDY0DLpABW5gdShmKegqHlotHxNSJlwY0KxB9vkl/ztFAT
+         Q9r8C4/9if3JO33AWxUTZfFIByWDvibv6WIaaIuTXjO73UU3Sytke1PA3rUybh2KqtXb
+         tPLA8+mjRafGr+Ltgma7W450YQLG+WeTiYUuYvON8nYrs2zsMTm91TQHQ8Gs7NgUfAAo
+         DzehI64kRoSMZSzR9MbyH1F0L6tKkJFNOf0heHrCUXJGxszmosS0xlk7cCx3f6nMMyA9
+         HPxuoHQiq08NW0gXxGNYID2Tlo4qlmoU8Q06yaFaxHWDdqC+v/SIslar1Bq65Se9s3AZ
+         I7PA==
+X-Gm-Message-State: AOAM533o6GqCjyY9J3eSmSXGfxhVoYNGn3Lo5zSo8LaCoUi1qBOLagZT
+	nPWlmSo3TneIVifiLfnG1EtfJ7c2Yh15dNFp/jg=
 X-Google-Smtp-Source: 
- ABdhPJxTGfbbsEkdW07y0vbLRCEIk64dTFgJVqnaLKFzPT5Rk2nFwjHmiu4n5KnJ7CNKX//34MVw0A==
-X-Received: by 2002:adf:e545:: with SMTP id z5mr12442095wrm.444.1639999214373;
-        Mon, 20 Dec 2021 03:20:14 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2f2b:ae5:15d4:240b?
- ([2001:8b0:aba:5f3c:2f2b:ae5:15d4:240b])
-        by smtp.gmail.com with ESMTPSA id
- m6sm18920913wrp.34.2021.12.20.03.20.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 03:20:14 -0800 (PST)
-Message-ID: 
- <35ef1b81e16d9319a9696beb3f590c6087622be7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Manifest for host (nativesdk) is empty
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: oobitots@cisco.com, Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Dec 2021 11:20:13 +0000
-In-Reply-To: 
- <PH0PR11MB490252E71EAA39C3EAF277ACD77A9@PH0PR11MB4902.namprd11.prod.outlook.com>
-References: 
-	<PH0PR11MB490252E71EAA39C3EAF277ACD77A9@PH0PR11MB4902.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ ABdhPJznVGrydbUUnbO7nC1qjxSDjq5V86yiz8KpYluIn8kUv2e1NPp7pVncz4Me5UVRjfl1hK/8wcdo3Dq9/1J0vb8=
+X-Received: by 2002:a17:903:183:b0:149:2b6:65ff with SMTP id
+ z3-20020a170903018300b0014902b665ffmr7907005plg.128.1640005704098; Mon, 20
+ Dec 2021 05:08:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
+ <3ab3fab5a6355a247b9f539e5db6a5a7187a2909.camel@pengutronix.de>
+In-Reply-To: <3ab3fab5a6355a247b9f539e5db6a5a7187a2909.camel@pengutronix.de>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 20 Dec 2021 14:08:13 +0100
+Message-ID: 
+ <CA+chaQcxg=XXk1jf7L999MCoh=hZ6+0wFF6gioVjF85vOSexxg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] busybox: refresh the defconfig from 1.33.0
+To: =?UTF-8?Q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000006c24da05d3939581"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 11:20:16 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 13:08:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159864
+ https://lists.openembedded.org/g/openembedded-core/message/159865
 
-On Sun, 2021-12-19 at 12:16 +0000, Oleksiy Obitotskyy via lists.openembedded.org
-wrote:
-> Hi All,
-> 
-> I'm working with gatesgarth and after 'bitbake core-image-minimal -c populate_sdk' into .../deploy/sdk
-> contains image installer .sh and manifests *.{host/target}.manifest. Host one contains list of nativesdk packages.
-> 
-> In honister target manifest is ok, but host manifest is empty.
-> So, my question is it known behavior/done in purpose or not normal behavior?
+--0000000000006c24da05d3939581
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It is unexpected and needs to be looked into...
+Hi,
 
-Cheers,
+I don't remember the details, but looks like not intended. I guess I was
+running with default SRC_URI which contains syslog.cfg and other optional
+fragments, can you please refresh it again with all .cfg files removed from
+SRC_URI?
 
-Richard
+Regards,
 
+On Thu, Dec 16, 2021 at 6:26 PM Jan L=C3=BCbbe <jlu@pengutronix.de> wrote:
+
+> Hi Martin,
+>
+> I just noticed that since this change, syslogd is compiled in by default,
+> even I
+> have SRC_URI:remove =3D "file://syslog.cfg" in a bbappend. Is this
+> intentional?
+> Otherwise, I'd prefer change the back to disabled by default (SRC_URI sti=
+ll
+> contains syslog.cfg by default).
+>
+> Regards,
+> Jan
+>
+> On Wed, 2021-03-10 at 14:37 +0100, Martin Jansa wrote:
+> > -# CONFIG_LOGREAD is not set
+> > -# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
+> > -# CONFIG_SYSLOGD is not set
+> > -# CONFIG_FEATURE_ROTATE_LOGFILE is not set
+> > -# CONFIG_FEATURE_REMOTE_LOG is not set
+> > -# CONFIG_FEATURE_SYSLOGD_DUP is not set
+> > -# CONFIG_FEATURE_SYSLOGD_CFG is not set
+> > -CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D0
+> > -# CONFIG_FEATURE_IPC_SYSLOG is not set
+> > -CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D0
+> > -# CONFIG_FEATURE_KMSG_SYSLOG is not set
+> > +CONFIG_LOGREAD=3Dy
+> > +CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=3Dy
+> > +CONFIG_SYSLOGD=3Dy
+> > +CONFIG_FEATURE_ROTATE_LOGFILE=3Dy
+> > +CONFIG_FEATURE_REMOTE_LOG=3Dy
+> > +CONFIG_FEATURE_SYSLOGD_DUP=3Dy
+> > +CONFIG_FEATURE_SYSLOGD_CFG=3Dy
+> > +# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set
+> > +CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D256
+> > +CONFIG_FEATURE_IPC_SYSLOG=3Dy
+> > +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D64
+> > +CONFIG_FEATURE_KMSG_SYSLOG=3Dy
+>
+> --
+> Pengutronix e.K.                           |                             =
+|
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  =
+|
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
+|
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
+|
+>
+
+--0000000000006c24da05d3939581
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>I don&#39;t remember the details, b=
+ut looks like not intended. I guess I was running with default SRC_URI whic=
+h contains syslog.cfg and other optional fragments, can you please refresh =
+it again with all .cfg files removed from SRC_URI?</div><div><br></div><div=
+>Regards,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Dec 16, 2021 at 6:26 PM Jan L=C3=BCbbe &lt;<a href=
+=3D"mailto:jlu@pengutronix.de">jlu@pengutronix.de</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">Hi Martin,<br>
+<br>
+I just noticed that since this change, syslogd is compiled in by default, e=
+ven I<br>
+have SRC_URI:remove =3D &quot;file://syslog.cfg&quot; in a bbappend. Is thi=
+s intentional?<br>
+Otherwise, I&#39;d prefer change the back to disabled by default (SRC_URI s=
+till<br>
+contains syslog.cfg by default).<br>
+<br>
+Regards,<br>
+Jan<br>
+<br>
+On Wed, 2021-03-10 at 14:37 +0100, Martin Jansa wrote:<br>
+&gt; -# CONFIG_LOGREAD is not set<br>
+&gt; -# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set<br>
+&gt; -# CONFIG_SYSLOGD is not set<br>
+&gt; -# CONFIG_FEATURE_ROTATE_LOGFILE is not set<br>
+&gt; -# CONFIG_FEATURE_REMOTE_LOG is not set<br>
+&gt; -# CONFIG_FEATURE_SYSLOGD_DUP is not set<br>
+&gt; -# CONFIG_FEATURE_SYSLOGD_CFG is not set<br>
+&gt; -CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D0<br>
+&gt; -# CONFIG_FEATURE_IPC_SYSLOG is not set<br>
+&gt; -CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D0<br>
+&gt; -# CONFIG_FEATURE_KMSG_SYSLOG is not set<br>
+&gt; +CONFIG_LOGREAD=3Dy<br>
+&gt; +CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=3Dy<br>
+&gt; +CONFIG_SYSLOGD=3Dy<br>
+&gt; +CONFIG_FEATURE_ROTATE_LOGFILE=3Dy<br>
+&gt; +CONFIG_FEATURE_REMOTE_LOG=3Dy<br>
+&gt; +CONFIG_FEATURE_SYSLOGD_DUP=3Dy<br>
+&gt; +CONFIG_FEATURE_SYSLOGD_CFG=3Dy<br>
+&gt; +# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set<br>
+&gt; +CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D256<br>
+&gt; +CONFIG_FEATURE_IPC_SYSLOG=3Dy<br>
+&gt; +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D64<br>
+&gt; +CONFIG_FEATURE_KMSG_SYSLOG=3Dy<br>
+<br>
+-- <br>
+Pengutronix e.K.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|<br>
+Steuerwalder Str. 21=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0| <a href=3D"http://www.pengutronix.de/" rel=3D=
+"noreferrer" target=3D"_blank">http://www.pengutronix.de/</a>=C2=A0 |<br>
+31137 Hildesheim, Germany=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | Phone: +49-5121-206917-0=C2=A0 =C2=A0 |<br>
+Amtsgericht Hildesheim, HRA 2686=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+Fax:=C2=A0 =C2=A0+49-5121-206917-5555 |<br>
+</blockquote></div>
+
+--0000000000006c24da05d3939581--
 
