@@ -1,328 +1,253 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7148DC433EF
-	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 15:04:00 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.6376.1640012638970315527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A67BC433F5
+	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 15:04:04 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web08.6201.1640012642912495393
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 07:03:59 -0800
+ Mon, 20 Dec 2021 07:04:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=d0TR5WhY;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id s1so15304993wra.6
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 07:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iLf5Sw51PMD/SoEnntsR68hRc31wCqVHVh3nGiL/Yfc=;
-        b=d0TR5WhY9lmeLOH8oBbqxfJp3QekwOCFIlkH9PRddCpoBe21TntOanXG2W8ND1njPU
-         gsfl1iElTIyVeCUT3oa4QGybVB1Pzyagzzx/r7hmzC1G5ddat7Q5nz0UMe+cleE+83xS
-         O99zOq3HI0TGKXeMBIaGORYXPztdDU8jyq7zq/a9p4RWLuzvcUgwSHrcxmdoULr2y8S8
-         oylGMl+ozilxJgEbIueLsUSClje75oqQqLGQFH8/PeSQv4eFRr1GsQn7nguB5KzzEZfw
-         NXjIx38ZMzZD1BicXWab2ZnLDzRw7eqeyptw+EFeESxVtXd2MQSTeWBB2dUTLETIu9Ts
-         i6SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iLf5Sw51PMD/SoEnntsR68hRc31wCqVHVh3nGiL/Yfc=;
-        b=bZzB8s7ldFtosePmqpuh13bjSPj+1/uF+7qQmMhmAgO43KCagaR/rcyWaoV/KHWyDm
-         nMVAqN9Wwq4BDpqmHWgyT+U/t3lgpBysyvCCAHuCHl4UhZmJSodzfebW7cIpaL240vi5
-         vkoBefebTMWRFXfIMVjypSfXWVtwBoCWX+eaAGrWOtY+XpYxRkiUhIGXAxRytefnpYsZ
-         /+1Ev78K8mLQrqXRBTakKRfJpymGsgkbbuLkEimkdiptIC+lQk/290Rg7fkHJosFdyS6
-         xpObgYzWrJrtAyVHPAOMuKAvvuo8E7i8QThy3fk4dLYATYaGvnQ/YpLalma8a8EcMIRa
-         tk3A==
-X-Gm-Message-State: AOAM530CuA5CKsExdFgu7KP8e5Lm69PFZCPLZTgI9NPaFoXqjboka38h
-	cfseHN/MQOpoK6qDxvb6i/HojSpeXkg=
-X-Google-Smtp-Source: 
- ABdhPJxvN5Kd3rfj9OksMCr9VQUHwkomw11ne9l0WqY/ZxjV+CKTrYKvwGT/7g6jAIyEhCr1FZg6gg==
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr12808614wri.295.1640012637082;
-        Mon, 20 Dec 2021 07:03:57 -0800 (PST)
-Received: from localhost.localdomain ([80.215.138.28])
-        by smtp.gmail.com with ESMTPSA id
- z11sm17282251wmf.9.2021.12.20.07.03.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 07:03:56 -0800 (PST)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	ross.burton@arm.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [oe-core][PATCH v2] cve-check: add coverage statistics on recipes
- without CVEs
-Date: Mon, 20 Dec 2021 16:03:47 +0100
-Message-Id: <20211220150347.13577-1-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HkdyfUcL;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1640012641; i=@fujitsu.com;
+	bh=Pjtw7WM+eUoEQqEjFmv7AjZ6In54FofJLvY0Se/p8vA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=HkdyfUcL8smCd5/H/URwZQ2lJ03NSEKE6rSt/N7Q+rEhkeP79TPw1crCXmLlUxE/M
+	 CwbEVwp28bR142Y+j5Kp64CZJIon0bFae63DvO3NXSLHW2eVKdOqKWd5ymdmsbc+PO
+	 T8K8kjzehQi25CZgtbd2LEOjwE9s8HhSBpsNCQ+SCB3E43c3SKTgFwtmACS4oede5V
+	 LYOQyp6rd3BUpMBFjTDIMYH0e7uXmHifaI4osXVDjl2fuxlkejA69VNfmeOezqSxJQ
+	 wfhZ1msXuoEZBqZkylQk6+4acbc5tjRB++2KAHom1JnvCUbyN5x5UYpHe4YfsfXNKM
+	 Ux46VlAt1ZjHw==
+Received: from [100.115.32.64] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-west-2.aws.ess.symcld.net id D6/9B-23453-16B90C16;
+ Mon, 20 Dec 2021 15:04:01 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRWlGSWpSXmKPExsViZ8MRopsw+0C
+  iwcWVNhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8anv99ZC97qVix7tY2pgXGSahcjF4eQwAwm
+  iW/tR1khnBOMEi1n/zN2MXJysAmoSUy/dQMowcEhIqAncfWfKEiYWUBF4sXvHnYQW1jAUuLk5
+  KVgNouAqsTcnyfAWnkFHCUOz3zPBGJLCChITHn4nhnE5hRwkmg4thjMFgKq+fhhEitEvaDEyZ
+  lPWCDmS0gcfPGCGaJXUWL25WYWCLtCYtasNqYJjPyzkLTMQtKygJFpFaNVUlFmekZJbmJmjq6
+  hgYGuoaGprrG5rqGlXmKVbqJeaqlueWpxia6RXmJ5sV5qcbFecWVuck6KXl5qySZGYEimFKsK
+  72DsWPlT7xCjJAeTkigvv++BRCG+pPyUyozE4oz4otKc1OJDjDIcHEoSvD9nAOUEi1LTUyvSM
+  nOA8QGTluDgURLhbQJJ8xYXJOYWZ6ZDpE4xKkqJ88bNAkoIgCQySvPg2mAxeYlRVkqYl5GBgU
+  GIpyC1KDezBFX+FaM4B6OSMG86yBSezLwSuOmvgBYzAS1WCt8PsrgkESEl1cBk97o46/28254
+  v47deD78XVDONZc3alwkNP8PV9+VvVC/wfPnhwf9Uw76Ff8pyGfdY/Ck6eHPfF9adnxKML6g/
+  mbSX2eNslhbD1yePQtYLdU93iZu50O7WKc5VvjOm3vW/47lv+43UFv/vE9MzYzMLChZxf/40S
+  zTw7Yfo9zxF6Wpn+WUTp9zJi3727fpxxfQia8Hy912J9nW8/EYzSk7r1u6OesC4SPj8wh4tHk
+  u+WwZ3n60wO8VZt6j/0XmPuGvBj3L75fIKGVwY5cOvWB4UDZ+YEarupHfKf3Z5B+dmoxtX49Z
+  8dLzI5MNcoBpmUZToP/v/uk1Cvv8nrvassoxYZlx5sPzJxM47bDXn92kpsRRnJBpqMRcVJwIA
+  pzEY2kQDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-12.tower-565.messagelabs.com!1640012640!24401!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 14318 invoked from network); 20 Dec 2021 15:04:00 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-12.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 20 Dec 2021 15:04:00 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1BKF3tc0015003
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:04:00 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 20 Dec 2021 15:03:53 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] sysvinit: upgrade 3.00 -> 3.01
+Date: Mon, 20 Dec 2021 23:03:39 +0800
+Message-ID: <1640012619-3685-4-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1640012619-3685-1-git-send-email-wangmy@fujitsu.com>
+References: <1640012619-3685-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:04:00 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 15:04:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159873
+ https://lists.openembedded.org/g/openembedded-core/message/159874
 
-Until now the CVE checker was giving information about CVEs found for
-a product (or more products) contained in a recipe. However, there was
-no easy way to find out which products or recipes have no CVEs. Having
-no reported CVEs might mean there are simply none, but can also mean
-a product name (CPE) mismatch.
+refresh pidof-add-m-option.patch
 
-This patch adds CVE_CHECK_COVERAGE option enabling a new type of
-statistics. A new file (*.cves_coverage) shows if a recipe has any
-CVEs found in the NVD database, and if so, for which products.
+Changelog:
+==========
+* Default to showing processes in the uninterruptable state (D).
+    The -z flag no longer affects whether processes in D state are shown.
+    The -z flag does still toggle whether zombie (Z) processes are shown.
 
-This option is expected to help with an identification of recipes with
-mismatched CPEs, issues in the database and more.
+* Removed unnecessary check which is always true from init tab parsing.
 
-An example entry:
-LAYER: meta
-PACKAGE NAME: libsdl2-native
-PACKAGE VERSION: 2.0.14
-CVES FOUND IN RECIPE: Yes
-    PRODUCT: simple_directmedia_layer (Yes)
-    PRODUCT: sdl (No)
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/classes/cve-check.bbclass | 115 ++++++++++++++++++++++++++++-----
- 1 file changed, 99 insertions(+), 16 deletions(-)
+ .../sysvinit/pidof-add-m-option.patch         | 32 +++++++++----------
+ .../{sysvinit_3.00.bb => sysvinit_3.01.bb}    |  2 +-
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+ rename meta/recipes-core/sysvinit/{sysvinit_3.00.bb => sysvinit_3.01.bb} (98%)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 70d1988a70..c994701334 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -30,19 +30,26 @@ CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
- CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
+diff --git a/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch b/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
+index 17f72b4829..4386e6f832 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
+@@ -1,4 +1,4 @@
+-From 6c490ea6579a132fabb7dbd25387bb521f820371 Mon Sep 17 00:00:00 2001
++From 96fb53ef2ccd2580cf0aa565ef1629cb05eae50a Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 24 Jul 2013 17:07:22 +0800
+ Subject: [PATCH] pidof: add -m option
+@@ -21,7 +21,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  2 files changed, 65 insertions(+), 3 deletions(-)
  
- CVE_CHECK_LOG ?= "${T}/cve.log"
-+CVE_CHECK_COVERAGE_FILE = "${T}/cves_coverage.log"
- CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
-+CVE_CHECK_COVERAGE_TMP_FILE ?= "${TMPDIR}/cves_coverage"
- CVE_CHECK_SUMMARY_DIR ?= "${LOG_DIR}/cve"
- CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
- CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
-+CVE_CHECK_COVERAGE_SUMMARY_FILE_NAME ?= "cve-coverage-summary"
+ diff --git a/man/pidof.8 b/man/pidof.8
+-index ebe5f55..2fdc4d3 100644
++index 84ed1e4..ac184da 100644
+ --- a/man/pidof.8
+ +++ b/man/pidof.8
+ @@ -25,6 +25,7 @@ pidof -- find the process ID of a running program.
+@@ -32,7 +32,7 @@ index ebe5f55..2fdc4d3 100644
+  .RB [ \-o
+  .IR omitpid[,omitpid...] ]
+  .RB [ \-o
+-@@ -76,6 +77,11 @@ is shown. The default separator is a space.
++@@ -79,6 +80,11 @@ is shown. The default separator is a space.
+  Tells \fIpidof\fP to omit processes with that process id. The special
+  pid \fB%PPID\fP can be used to name the parent process of the \fIpidof\fP
+  program, in other words the calling shell or shell script.
+@@ -45,10 +45,10 @@ index ebe5f55..2fdc4d3 100644
+  .TP
+  .B 0
+ diff --git a/src/killall5.c b/src/killall5.c
+-index 8b5cb38..a664954 100644
++index b0728fa..72289e3 100644
+ --- a/src/killall5.c
+ +++ b/src/killall5.c
+-@@ -126,6 +126,7 @@ typedef struct _s_nfs
++@@ -121,6 +121,7 @@ typedef struct _s_nfs
+  
+  /* List of processes. */
+  PROC *plist;
+@@ -56,7 +56,7 @@ index 8b5cb38..a664954 100644
+  
+  /* List of processes to omit. */
+  OMIT *omit;
+-@@ -361,6 +362,20 @@ static void clear_mnt(void)
++@@ -356,6 +357,20 @@ static void clear_mnt(void)
+  	}
+  }
+  
+@@ -77,15 +77,15 @@ index 8b5cb38..a664954 100644
+  /*
+   *     Check if path is a shadow off a NFS partition.
+   */
+-@@ -486,6 +501,7 @@ int readproc(int do_stat)
++@@ -481,6 +496,7 @@ int readproc()
+  	DIR		*dir;
+  	FILE		*fp;
+  	PROC		*p, *n;
+ +	OMIT		*o, *m;
+  	struct dirent	*d;
+- 	struct stat	st;
+  	char		path[PATH_MAX+1];
+-@@ -733,6 +749,17 @@ int readproc(int do_stat)
++ 	char		buf[PATH_MAX+1];
++@@ -670,6 +686,17 @@ int readproc()
+  		p->next = plist;
+  		plist = p;
+  		p->pid = pid;
+@@ -103,7 +103,7 @@ index 8b5cb38..a664954 100644
+  	}
+  	closedir(dir);
+  
+-@@ -944,6 +971,26 @@ PIDQ_HEAD *pidof(char *prog)
++@@ -870,6 +897,26 @@ PIDQ_HEAD *pidof(char *prog)
+  	return q;
+  }
+  
+@@ -130,7 +130,7 @@ index 8b5cb38..a664954 100644
+  /* Give usage message and exit. */
+  void usage(void)
+  {
+-@@ -994,6 +1041,7 @@ void nsyslog(int pri, char *fmt, ...)
++@@ -920,6 +967,7 @@ void nsyslog(int pri, char *fmt, ...)
+  #define PIDOF_OMIT	0x02
+  #define PIDOF_NETFS	0x04
+  #define PIDOF_QUIET     0x08
+@@ -138,7 +138,7 @@ index 8b5cb38..a664954 100644
+  
+  /*
+   *	Pidof functionality.
+-@@ -1011,6 +1059,7 @@ int main_pidof(int argc, char **argv)
++@@ -937,6 +985,7 @@ int main_pidof(int argc, char **argv)
+  	char		tmp[512];
+          char            sep = ' ';
+  
+@@ -146,7 +146,7 @@ index 8b5cb38..a664954 100644
+  	omit = (OMIT*)0;
+  	nlist = (NFS*)0;
+  	opterr = 0;
+-@@ -1018,7 +1067,7 @@ int main_pidof(int argc, char **argv)
++@@ -944,7 +993,7 @@ int main_pidof(int argc, char **argv)
+  	if ((token = getenv("PIDOF_NETFS")) && (strcmp(token,"no") != 0))
+  		flags |= PIDOF_NETFS;
+  
+@@ -155,7 +155,7 @@ index 8b5cb38..a664954 100644
+  		case '?':
+  			nsyslog(LOG_ERR,"invalid options on command line!\n");
+  			closelog();
+-@@ -1069,6 +1118,9 @@ int main_pidof(int argc, char **argv)
++@@ -995,6 +1044,9 @@ int main_pidof(int argc, char **argv)
+                  case 'z':
+                          list_dz_processes = TRUE;
+                          break;
+@@ -165,7 +165,7 @@ index 8b5cb38..a664954 100644
+  		case 'n':
+  			flags |= PIDOF_NETFS;
+  			break;
+-@@ -1100,10 +1152,13 @@ int main_pidof(int argc, char **argv)
++@@ -1026,10 +1078,13 @@ int main_pidof(int argc, char **argv)
+  			pid_t spid = 0;
+  			while ((p = get_next_from_pid_q(q))) {
+  				if ((flags & PIDOF_OMIT) && omit) {
+@@ -181,7 +181,7 @@ index 8b5cb38..a664954 100644
+  					}
+  
+  					/*
+-@@ -1145,6 +1200,7 @@ int main_pidof(int argc, char **argv)
++@@ -1071,6 +1126,7 @@ int main_pidof(int argc, char **argv)
+  		printf("\n");
+          }
+  
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.00.bb b/meta/recipes-core/sysvinit/sysvinit_3.01.bb
+similarity index 98%
+rename from meta/recipes-core/sysvinit/sysvinit_3.00.bb
+rename to meta/recipes-core/sysvinit/sysvinit_3.01.bb
+index 264944797d..9952f834ec 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.00.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.01.bb
+@@ -21,7 +21,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
+            file://bootlogd.init \
+            file://01_bootlogd \
+            "
+-SRC_URI[sha256sum] = "ed6bc20adb6735389841e7d3eb8650fa750c76af20bf4ed73b1330a4d4c14017"
++SRC_URI[sha256sum] = "68b11a4772cdacce5fb65a4cbead324a2ce3999d138b4ff61dc2d59e57ef5793"
  
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
- CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
- CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-+CVE_CHECK_COVERAGE_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cves_coverage"
- CVE_CHECK_COPY_FILES ??= "1"
- CVE_CHECK_CREATE_MANIFEST ??= "1"
+ S = "${WORKDIR}/sysvinit-${PV}"
  
- CVE_CHECK_REPORT_PATCHED ??= "1"
- 
-+#Report packages without CVEs (no issues or wrong product name)
-+CVE_CHECK_COVERAGE ??= "1"
-+
- # Whitelist for packages (PN)
- CVE_CHECK_PN_WHITELIST ?= ""
- 
-@@ -64,7 +71,6 @@ CVE_CHECK_LAYER_INCLUDELIST ??= ""
- CVE_VERSION_SUFFIX ??= ""
- 
- python cve_save_summary_handler () {
--    import shutil
-     import datetime
- 
-     cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
-@@ -74,17 +80,13 @@ python cve_save_summary_handler () {
-     bb.utils.mkdirhier(cvelogpath)
- 
-     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
--    cve_summary_file = os.path.join(cvelogpath, "%s-%s.txt" % (cve_summary_name, timestamp))
--
--    if os.path.exists(cve_tmp_file):
--        shutil.copyfile(cve_tmp_file, cve_summary_file)
- 
--        if cve_summary_file and os.path.exists(cve_summary_file):
--            cvefile_link = os.path.join(cvelogpath, cve_summary_name)
-+    save_status_file(d, cve_tmp_file, cvelogpath, cve_summary_name, timestamp)
- 
--            if os.path.exists(os.path.realpath(cvefile_link)):
--                os.remove(cvefile_link)
--            os.symlink(os.path.basename(cve_summary_file), cvefile_link)
-+    if (d.getVar("CVE_CHECK_COVERAGE") == "1"):
-+        cve_tmp_file = d.getVar("CVE_CHECK_COVERAGE_TMP_FILE")
-+        cve_summary_name = d.getVar("CVE_CHECK_COVERAGE_SUMMARY_FILE_NAME")
-+        save_status_file(d, cve_tmp_file, cvelogpath, cve_summary_name, timestamp)
- }
- 
- addhandler cve_save_summary_handler
-@@ -101,10 +103,12 @@ python do_cve_check () {
-             patched_cves = get_patched_cves(d)
-         except FileNotFoundError:
-             bb.fatal("Failure in searching patches")
--        whitelisted, patched, unpatched = check_cves(d, patched_cves)
-+        whitelisted, patched, unpatched, status = check_cves(d, patched_cves)
-         if patched or unpatched:
-             cve_data = get_cve_info(d, patched + unpatched)
--            cve_write_data(d, patched, unpatched, whitelisted, cve_data)
-+            cve_write_data(d, patched, unpatched, whitelisted, cve_data, status)
-+        else:
-+            cve_write_data(d, [], [], [], {}, status)
-     else:
-         bb.note("No CVE database found, skipping CVE check")
- 
-@@ -119,6 +123,7 @@ python cve_check_cleanup () {
-     Delete the file used to gather all the CVE information.
-     """
-     bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE"))
-+    bb.utils.remove(e.data.getVar("CVE_CHECK_COVERAGE_TMP_FILE"))
- }
- 
- addhandler cve_check_cleanup
-@@ -152,6 +157,23 @@ python cve_check_write_rootfs_manifest () {
-                 os.remove(manifest_link)
-             os.symlink(os.path.basename(manifest_name), manifest_link)
-             bb.plain("Image CVE report stored in: %s" % manifest_name)
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_COVERAGE_TMP_FILE")):
-+        bb.note("Writing rootfs CVE status")
-+        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+        link_name = d.getVar("IMAGE_LINK_NAME")
-+        manifest_name = d.getVar("CVE_CHECK_COVERAGE_MANIFEST")
-+        cve_tmp_file = d.getVar("CVE_CHECK_COVERAGE_TMP_FILE")
-+
-+        shutil.copyfile(cve_tmp_file, manifest_name)
-+
-+        if manifest_name and os.path.exists(manifest_name):
-+            manifest_link = os.path.join(deploy_dir, "%s.cves_coverage" % link_name)
-+            # If we already have another manifest, update symlinks
-+            if os.path.exists(os.path.realpath(manifest_link)):
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
-+            bb.plain("Image CVE status stored in: %s" % manifest_name)
- }
- 
- ROOTFS_POSTPROCESS_COMMAND:prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
-@@ -168,17 +190,20 @@ def check_cves(d, patched_cves):
-     suffix = d.getVar("CVE_VERSION_SUFFIX")
- 
-     cves_unpatched = []
-+    cves_status = [False, []]
-+    cves_found_recipe = False
-+
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-     products = d.getVar("CVE_PRODUCT").split()
-     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
-     if not products:
--        return ([], [], [])
-+        return ([], [], [], [])
-     pv = d.getVar("CVE_VERSION").split("+git")[0]
- 
-     # If the recipe has been whitelisted we return empty lists
-     if pn in d.getVar("CVE_CHECK_PN_WHITELIST").split():
-         bb.note("Recipe has been whitelisted, skipping check")
--        return ([], [], [])
-+        return ([], [], [], [])
- 
-     cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
- 
-@@ -188,6 +213,7 @@ def check_cves(d, patched_cves):
- 
-     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
-     for product in products:
-+        cves_found_product = False
-         if ":" in product:
-             vendor, product = product.split(":", 1)
-         else:
-@@ -206,6 +232,13 @@ def check_cves(d, patched_cves):
-                 bb.note("%s has been patched" % (cve))
-                 continue
- 
-+            # Write status once only for each product
-+            if not cves_found_product:
-+                cves_status[0] = True
-+                cves_status[1].append([product, True])
-+                cves_found_product = True
-+                cves_found_recipe = True
-+
-             vulnerable = False
-             for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
-                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
-@@ -251,9 +284,32 @@ def check_cves(d, patched_cves):
-                 # TODO: not patched but not vulnerable
-                 patched_cves.add(cve)
- 
-+        if not cves_found_product:
-+            bb.note("No CVE records found for product %s, pn %s" % (product, pn))
-+            cves_status[1].append([product, False])
-+
-     conn.close()
- 
--    return (list(cve_whitelist), list(patched_cves), cves_unpatched)
-+    if not cves_found_recipe:
-+        bb.note("No CVE records for products in recipe %s" % (pn))
-+
-+    return (list(cve_whitelist), list(patched_cves), cves_unpatched, cves_status)
-+
-+
-+def save_status_file(d, tmp_file, logpath, summary_name, timestamp):
-+    import shutil
-+
-+    summary_file = os.path.join(logpath, "%s-%s.txt" % (summary_name, timestamp))
-+
-+    if os.path.exists(tmp_file):
-+        shutil.copyfile(tmp_file, summary_file)
-+
-+        if summary_file and os.path.exists(summary_file):
-+            file_link = os.path.join(logpath, summary_name)
-+
-+            if os.path.exists(os.path.realpath(file_link)):
-+                os.remove(file_link)
-+            os.symlink(os.path.basename(summary_file), file_link)
- 
- def get_cve_info(d, cves):
-     """
-@@ -277,7 +333,7 @@ def get_cve_info(d, cves):
-     conn.close()
-     return cve_data
- 
--def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
-+def cve_write_data(d, patched, unpatched, whitelisted, cve_data, status):
-     """
-     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-     CVE manifest if enabled.
-@@ -343,3 +399,30 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
- 
-             with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
-                 f.write("%s" % write_string)
-+
-+    if (d.getVar("CVE_CHECK_COVERAGE") == "1") and status:
-+        cve_status_file = d.getVar("CVE_CHECK_COVERAGE_FILE")
-+
-+        write_string = ""
-+        bb.utils.mkdirhier(os.path.dirname(cve_status_file))
-+
-+        write_string += "LAYER: %s\n" % layer
-+        write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
-+        write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-+        write_string += "CVES FOUND IN RECIPE: %s\n" % ("No" if status[0] == False else "Yes")
-+
-+        for st in status[1]:
-+            write_string += "    PRODUCT: %s (%s)\n" % (st[0], "No" if st[1] == False else "Yes")
-+
-+        write_string += "\n"
-+
-+        with open(cve_status_file, "w") as f:
-+            bb.note("Writing file %s with status" % cve_status_file)
-+            f.write(write_string)
-+
-+        if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
-+            cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-+            bb.utils.mkdirhier(cvelogpath)
-+
-+            with open(d.getVar("CVE_CHECK_COVERAGE_TMP_FILE"), "a") as f:
-+                f.write("%s" % write_string)
 -- 
-2.33.0
+2.25.1
 
 
