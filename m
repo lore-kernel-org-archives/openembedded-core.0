@@ -1,195 +1,117 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7658C433F5
-	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 13:08:25 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web08.4994.1640005704581615186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE85C433F5
+	for <webhook@archiver.kernel.org>; Mon, 20 Dec 2021 13:40:57 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web09.5394.1640007652261394217
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 05:08:24 -0800
+ Mon, 20 Dec 2021 05:40:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eM0KmOke;
- spf=pass (domain: gmail.com, ip: 209.85.214.174,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id u16so2014695plg.9
+ dkim=pass header.i=@madison.systems header.s=google header.b=PGMPz1pJ;
+ spf=pass (domain: madison.systems, ip: 209.85.167.45,
+ mailfrom: matt@madison.systems)
+Received: by mail-lf1-f45.google.com with SMTP id u13so14479110lff.12
         for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Dec 2021 05:08:24 -0800 (PST)
+ Mon, 20 Dec 2021 05:40:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=madison.systems; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Q/AF1MAmIheOBk8ihPHO01I0rsAns4DNXYNXx/F6xQE=;
-        b=eM0KmOkegKEGlMXauIGRPZDyVr6Z2f1lf5jtzq4Woqy0To2yojprk5k/XCGWNuzjoz
-         D3lhlno4ocTdiRPckL2rIKGnBtWObk6Pw+TCwnM/kRllmHP5LQXGkC6sADGpiwihfM/m
-         rj606a+sK89OIjDes2SXcSMXUKt/yuBUDVn5AgR6tVH9A8k01U7LbXie6ZIk8Bma4mx1
-         NrHW+QyjMsWN7ASe8YXfFurCaVNboq1Pl003hn4lai9FuQsa6UQoUmbJDeZK5QQ+92Ym
-         xpPBQHRwSERkMX8SNj1zDZ/zkqFeQmYP17u8Jpm+FmcDDYpsbkNoHYpUyuD5Cs/Kiaia
-         M9Mw==
+        bh=/jUrA4xlsejWzwWdcQqci200gIA+BqdOoJA/wiCqIWU=;
+        b=PGMPz1pJjvIkq5WnZcwhlJAuOyPy+wRgNznWk1uLXJN3Lt4u2TSsXdhpVJZ1NtiPAf
+         1+r8Z1d0ZN1NDuJwnNA1Do5e5N+A6QqRoAxPTedRdcfCXc68W3udN+40BzTFNrwzz1YD
+         b6bTtZbBa7B3tBmn2fi+Wm7cOvnGOjYAK2Mbevhh3nXuuVyFMZhTMVWyfrVVXGBWfhO9
+         52cbqEuol8Q76TKL6w96czb//YcKguqficBgR6e7tofk3q+EER/Lz49mReOu0JXnvILl
+         jP8FesWSGB9W3Hxh0x9enepbud0qG6dB0JWKe5gkdsiBK6aUOV6qh2zFNc/icQO6B3jE
+         pRAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Q/AF1MAmIheOBk8ihPHO01I0rsAns4DNXYNXx/F6xQE=;
-        b=R0kd2vQNyZZQXym6VZ8NcDY0DLpABW5gdShmKegqHlotHxNSJlwY0KxB9vkl/ztFAT
-         Q9r8C4/9if3JO33AWxUTZfFIByWDvibv6WIaaIuTXjO73UU3Sytke1PA3rUybh2KqtXb
-         tPLA8+mjRafGr+Ltgma7W450YQLG+WeTiYUuYvON8nYrs2zsMTm91TQHQ8Gs7NgUfAAo
-         DzehI64kRoSMZSzR9MbyH1F0L6tKkJFNOf0heHrCUXJGxszmosS0xlk7cCx3f6nMMyA9
-         HPxuoHQiq08NW0gXxGNYID2Tlo4qlmoU8Q06yaFaxHWDdqC+v/SIslar1Bq65Se9s3AZ
-         I7PA==
-X-Gm-Message-State: AOAM533o6GqCjyY9J3eSmSXGfxhVoYNGn3Lo5zSo8LaCoUi1qBOLagZT
-	nPWlmSo3TneIVifiLfnG1EtfJ7c2Yh15dNFp/jg=
+        bh=/jUrA4xlsejWzwWdcQqci200gIA+BqdOoJA/wiCqIWU=;
+        b=ejBTU1iaRRjSErINXq1gO6BgPrK+e8btWGWqZCYAksvq623YAmfUOcZtRExTLRrZJU
+         ordn4Z9UyGIB2Lc6Y7dcVnqwou3nyOUaVSVQFs5DNGv7opZfF0CMHfM4iaf1N9NCeDdZ
+         6F2IJ7Kgg4X8KLdrWT4SQ+ObRmM9vPFt6SO2qNAX6H+8XF7Xp2pqXhj3VWCmjjoz4eHk
+         HcLddiIDoUS58HWArvDUNICLRbCaSE9toTh6LUr4aS7YtYsB9hCi9ntIIxHVnpe6pULL
+         zGuWN5YhbT86pjX7zekBdJN9S2n2b9B6VuQaBh9x8g6b7YJXj5apLzAq3HqWMMODAyiC
+         pc1w==
+X-Gm-Message-State: AOAM5311vPI/fxYP2dxdCQRENJKuSwGPVPGBjmVHuhFUForwLbkJoOrZ
+	AjKvHJOEi6voRAaHaQmVY5HcgbxfFqWO8CRYZD8r5Q==
 X-Google-Smtp-Source: 
- ABdhPJznVGrydbUUnbO7nC1qjxSDjq5V86yiz8KpYluIn8kUv2e1NPp7pVncz4Me5UVRjfl1hK/8wcdo3Dq9/1J0vb8=
-X-Received: by 2002:a17:903:183:b0:149:2b6:65ff with SMTP id
- z3-20020a170903018300b0014902b665ffmr7907005plg.128.1640005704098; Mon, 20
- Dec 2021 05:08:24 -0800 (PST)
+ ABdhPJxA8pwUKxiKwILTD/Yt75Jdi+xk81hOwhXezGl8bW1rOlL+aE0bvZElbMWW0prubOW7QtQc+TK2ZROvADiiiRw=
+X-Received: by 2002:a05:6512:228c:: with SMTP id
+ f12mr1318843lfu.550.1640007650200;
+ Mon, 20 Dec 2021 05:40:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
- <3ab3fab5a6355a247b9f539e5db6a5a7187a2909.camel@pengutronix.de>
-In-Reply-To: <3ab3fab5a6355a247b9f539e5db6a5a7187a2909.camel@pengutronix.de>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 20 Dec 2021 14:08:13 +0100
+References: <20211215201615.536707-1-matt@madison.systems>
+ <18b96677545b176fec83b55c65cc90c5f1cfffcf.camel@linuxfoundation.org>
+In-Reply-To: 
+ <18b96677545b176fec83b55c65cc90c5f1cfffcf.camel@linuxfoundation.org>
+From: Matt Madison <matt@madison.systems>
+Date: Mon, 20 Dec 2021 05:40:39 -0800
 Message-ID: 
- <CA+chaQcxg=XXk1jf7L999MCoh=hZ6+0wFF6gioVjF85vOSexxg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] busybox: refresh the defconfig from 1.33.0
-To: =?UTF-8?Q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006c24da05d3939581"
+ <CAGgRHJoy4y=4NROCCNNHBER6psqexmNt0keosGqzcMUwd-RjuQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 13:08:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Dec 2021 13:40:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159865
+ https://lists.openembedded.org/g/openembedded-core/message/159866
 
---0000000000006c24da05d3939581
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I don't remember the details, but looks like not intended. I guess I was
-running with default SRC_URI which contains syslog.cfg and other optional
-fragments, can you please refresh it again with all .cfg files removed from
-SRC_URI?
-
-Regards,
-
-On Thu, Dec 16, 2021 at 6:26 PM Jan L=C3=BCbbe <jlu@pengutronix.de> wrote:
-
-> Hi Martin,
+On Sun, Dec 19, 2021 at 3:36 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> I just noticed that since this change, syslogd is compiled in by default,
-> even I
-> have SRC_URI:remove =3D "file://syslog.cfg" in a bbappend. Is this
-> intentional?
-> Otherwise, I'd prefer change the back to disabled by default (SRC_URI sti=
-ll
-> contains syslog.cfg by default).
+> On Wed, 2021-12-15 at 12:16 -0800, Matt Madison wrote:
+> > which is introducing task hash changes for some
+> > allarch package builds, and should no longer
+> > be needed with recent versions of qemu.
+> >
+> > Signed-off-by: Matt Madison <matt@madison.systems>
+> > ---
+> >  meta/classes/qemu.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+> > index 01a7b86ae1..333202b7c4 100644
+> > --- a/meta/classes/qemu.bbclass
+> > +++ b/meta/classes/qemu.bbclass
+> > @@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path, binary):
+> >  # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
+> >  # qemu-arm default CPU supports all required architecture levels.
+> >
+> > -QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
+> > +QEMU_OPTIONS = "${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
+> >  QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
+> >
+> >  QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
 >
-> Regards,
-> Jan
+> Rather worryingly this breaks a few docs packages for reproducibility:
 >
-> On Wed, 2021-03-10 at 14:37 +0100, Martin Jansa wrote:
-> > -# CONFIG_LOGREAD is not set
-> > -# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
-> > -# CONFIG_SYSLOGD is not set
-> > -# CONFIG_FEATURE_ROTATE_LOGFILE is not set
-> > -# CONFIG_FEATURE_REMOTE_LOG is not set
-> > -# CONFIG_FEATURE_SYSLOGD_DUP is not set
-> > -# CONFIG_FEATURE_SYSLOGD_CFG is not set
-> > -CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D0
-> > -# CONFIG_FEATURE_IPC_SYSLOG is not set
-> > -CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D0
-> > -# CONFIG_FEATURE_KMSG_SYSLOG is not set
-> > +CONFIG_LOGREAD=3Dy
-> > +CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=3Dy
-> > +CONFIG_SYSLOGD=3Dy
-> > +CONFIG_FEATURE_ROTATE_LOGFILE=3Dy
-> > +CONFIG_FEATURE_REMOTE_LOG=3Dy
-> > +CONFIG_FEATURE_SYSLOGD_DUP=3Dy
-> > +CONFIG_FEATURE_SYSLOGD_CFG=3Dy
-> > +# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set
-> > +CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D256
-> > +CONFIG_FEATURE_IPC_SYSLOG=3Dy
-> > +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D64
-> > +CONFIG_FEATURE_KMSG_SYSLOG=3Dy
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20211219-6kkv1f8k/packages/diff-html/
 >
-> --
-> Pengutronix e.K.                           |                             =
-|
-> Steuerwalder Str. 21                       | http://www.pengutronix.de/  =
-|
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
-|
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
-|
->
+> which raises a number of questions in my mind. Investigation is needed as the
+> hashes clearly aren't encoding everything they should :(.
 
---0000000000006c24da05d3939581
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I think the problem is in manpages.bbclass - the ":append" for adding
+to the pkg_postinst/pkg_postrm functions is in the wrong place.
+Fixing them so the ":append" is at the end, rather than before
+"${MAN_PKG}", causes the function text and dependencies to show up in
+dumpsig output again.
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I don&#39;t remember the details, b=
-ut looks like not intended. I guess I was running with default SRC_URI whic=
-h contains syslog.cfg and other optional fragments, can you please refresh =
-it again with all .cfg files removed from SRC_URI?</div><div><br></div><div=
->Regards,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Dec 16, 2021 at 6:26 PM Jan L=C3=BCbbe &lt;<a href=
-=3D"mailto:jlu@pengutronix.de">jlu@pengutronix.de</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">Hi Martin,<br>
-<br>
-I just noticed that since this change, syslogd is compiled in by default, e=
-ven I<br>
-have SRC_URI:remove =3D &quot;file://syslog.cfg&quot; in a bbappend. Is thi=
-s intentional?<br>
-Otherwise, I&#39;d prefer change the back to disabled by default (SRC_URI s=
-till<br>
-contains syslog.cfg by default).<br>
-<br>
-Regards,<br>
-Jan<br>
-<br>
-On Wed, 2021-03-10 at 14:37 +0100, Martin Jansa wrote:<br>
-&gt; -# CONFIG_LOGREAD is not set<br>
-&gt; -# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set<br>
-&gt; -# CONFIG_SYSLOGD is not set<br>
-&gt; -# CONFIG_FEATURE_ROTATE_LOGFILE is not set<br>
-&gt; -# CONFIG_FEATURE_REMOTE_LOG is not set<br>
-&gt; -# CONFIG_FEATURE_SYSLOGD_DUP is not set<br>
-&gt; -# CONFIG_FEATURE_SYSLOGD_CFG is not set<br>
-&gt; -CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D0<br>
-&gt; -# CONFIG_FEATURE_IPC_SYSLOG is not set<br>
-&gt; -CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D0<br>
-&gt; -# CONFIG_FEATURE_KMSG_SYSLOG is not set<br>
-&gt; +CONFIG_LOGREAD=3Dy<br>
-&gt; +CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=3Dy<br>
-&gt; +CONFIG_SYSLOGD=3Dy<br>
-&gt; +CONFIG_FEATURE_ROTATE_LOGFILE=3Dy<br>
-&gt; +CONFIG_FEATURE_REMOTE_LOG=3Dy<br>
-&gt; +CONFIG_FEATURE_SYSLOGD_DUP=3Dy<br>
-&gt; +CONFIG_FEATURE_SYSLOGD_CFG=3Dy<br>
-&gt; +# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set<br>
-&gt; +CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=3D256<br>
-&gt; +CONFIG_FEATURE_IPC_SYSLOG=3Dy<br>
-&gt; +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=3D64<br>
-&gt; +CONFIG_FEATURE_KMSG_SYSLOG=3Dy<br>
-<br>
--- <br>
-Pengutronix e.K.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-Steuerwalder Str. 21=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| <a href=3D"http://www.pengutronix.de/" rel=3D=
-"noreferrer" target=3D"_blank">http://www.pengutronix.de/</a>=C2=A0 |<br>
-31137 Hildesheim, Germany=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | Phone: +49-5121-206917-0=C2=A0 =C2=A0 |<br>
-Amtsgericht Hildesheim, HRA 2686=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
-Fax:=C2=A0 =C2=A0+49-5121-206917-5555 |<br>
-</blockquote></div>
+-Matt
 
---0000000000006c24da05d3939581--
+>
+> Cheers,
+>
+> Richard
+>
 
