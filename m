@@ -1,176 +1,126 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB7EC433EF
-	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 17:09:20 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.8371.1640106558412045787
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D39C433F5
+	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 18:15:00 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.9085.1640110498913644610
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 09:09:18 -0800
+ Tue, 21 Dec 2021 10:14:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 526D4D6E
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 09:09:16 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0EDC3F718
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 09:09:15 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] gawk: remove load-sensitive tests
-Date: Tue, 21 Dec 2021 17:09:12 +0000
-Message-Id: <20211221170912.3338459-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@madison.systems header.s=google header.b=M5wYHOTp;
+ spf=pass (domain: madison.systems, ip: 209.85.208.170,
+ mailfrom: matt@madison.systems)
+Received: by mail-lj1-f170.google.com with SMTP id m12so22756487ljj.6
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 21 Dec 2021 10:14:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=madison.systems; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LTYFZtPtal5Cli9w9MZ/LnSVNEY+wRvdFtq8ho+vTgE=;
+        b=M5wYHOTpnfTJ10nVzDLFm/YEO5FFRMrVHxCk5libPKUxr5QLnHijQ7sQaqNGcA2KIm
+         6w6l0kxG7bfLDRgKLBqHhn3AAMJhgpoXjyICIk4oLAIFyWyWlnbjw5ogYWPivEVYyLrl
+         vKm37eYC/pxpX77KXCc99K9473RWNuwGKqWXKm+uq/14+CzmV8CfWESUMU246su6vVNG
+         RV2Wqa9avRVmXES18/KNxh407mrF7kj4FWZJlsjOMt9Hg0UnmJTMbDa8zLMpR2v7E1Wi
+         11GdztpwtIl9tdUWnXlxADAUHixQbej75FZLBpO8f0mGoi6hckPSt+Npcr12bKMqJiFc
+         5FwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LTYFZtPtal5Cli9w9MZ/LnSVNEY+wRvdFtq8ho+vTgE=;
+        b=u7nAyaG0pMU5cXinM2v8beBs18iGzLyWc2loMIoB+ZHGbZABExa27+FDAEEnLVYo+T
+         g5ZfNfgqD3+e1jS9M4GJzOH5cl+8wdrjfTXaV5+969Kh+wZkpM2EJbcS9FghwHC/ptQy
+         A1QJyWstII5w2eZZxCyGifGuUSpEqFfQ1Dy8PT7weOGVlsrmR7jK6yoF3yT6E2WHV/YZ
+         PdZ9sV44j7v24veM5z7N284yA++UF/lYrh57KhCZmj5vkN03FIvcRYeR85IJQoocIuLu
+         njlidm46U11mo6WemfjsQkW2sh0hnsxu8Khy9syWxU+BFXDAAn1thmFyLSs0KCpzRDnw
+         96iQ==
+X-Gm-Message-State: AOAM533WALt6lC0++HSy7SWlIXwSuIswvf2zngqbNmsmqqzi19q8c0X5
+	BQW2r7tccS3D5nYnNTzApM+Y944NaWKByRrcLOzgug==
+X-Google-Smtp-Source: 
+ ABdhPJxIoleWd66gmM+ahXutUYIn+XW0BQCeH88Ka2Ajerzydym2wFQ5l/TmAclLyE/mIN5DaS6Vk7fT5u7MgS+O3UQ=
+X-Received: by 2002:a2e:9acf:: with SMTP id p15mr3486174ljj.213.1640110496878;
+ Tue, 21 Dec 2021 10:14:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20211217153630.1746217-1-matt@madison.systems>
+ <100ff0ce-72e1-b3b3-ff1e-2a56e0742624@sancloud.com>
+ <7b0757495eff0e466dc84cb82f597e4c28256061.camel@linuxfoundation.org>
+ <015ba052-f4ce-5eb3-4b91-5d7d9eac981b@sancloud.com>
+In-Reply-To: <015ba052-f4ce-5eb3-4b91-5d7d9eac981b@sancloud.com>
+From: Matt Madison <matt@madison.systems>
+Date: Tue, 21 Dec 2021 10:14:45 -0800
+Message-ID: 
+ <CAGgRHJpSz1s3KSmFLsTX7L6V8o8EK1zhywgcNUop3FdNwk12Ng@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 0/4] Move crate fetcher to OE_IMPORTS
+To: Paul Barker <paul.barker@sancloud.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Joshua Watt <jpewhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Dec 2021 17:09:20 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Dec 2021 18:15:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159927
+ https://lists.openembedded.org/g/openembedded-core/message/159928
 
-The time and timeout tests are sensitive to system load, and as we run
-these on build machines they fail randomly.
+On Tue, Dec 21, 2021 at 6:07 AM Paul Barker <paul.barker@sancloud.com> wrote:
+>
+> On 20/12/2021 22:34, Richard Purdie wrote:
+> > On Mon, 2021-12-20 at 17:01 +0000, Paul Barker wrote:
+> >> On 17/12/2021 15:36, Matt Madison wrote:
+> >>> This patch series switches to using the OE_IMPORTS mechanism
+> >>> for installing the crate fetcher. This simplifies the addition
+> >>> and clears up issues with interactions between SRCPV and
+> >>> the shared-state fetching logic.
+> >>>
+> >>> Matt Madison (4):
+> >>>     lib/crate.py: install crate fetcher on import
+> >>>     base.bbclass: add crate to OE_IMPORTS
+> >>>     cargo_common.bbclass: remove inherit of crate-fetch
+> >>>     classes: remove crate-fetch.bbclass
+> >>>
+> >>>    meta/classes/base.bbclass         |  2 +-
+> >>>    meta/classes/cargo_common.bbclass |  2 --
+> >>>    meta/classes/crate-fetch.bbclass  | 28 ----------------------------
+> >>>    meta/lib/crate.py                 |  2 ++
+> >>>    4 files changed, 3 insertions(+), 31 deletions(-)
+> >>>    delete mode 100644 meta/classes/crate-fetch.bbclass
+> >>>
+> >>
+> >> Would a better solution here be to move the crate fetcher into
+> >> lib/bb/fetch2/ in bitbake?
+> >
+> > I've been wondering about this too.
+> >
+> > Does anyone remember how the fetcher lines up against the general fetcher
+> > requirements we have and is there a list of anything that remained to be done
+> > before it could be added to bitbake?
+>
+> If I remember correctly, it just needed some test cases writing. The
+> crate fetcher is a subclass of the wget fetcher with changes to how
+> urldata is set up and how unpack is handled, so it should integrate well
+> into bitbake.
 
-[ YOCTO #14371 ]
+One thing I see that's a bit worrisome is that it disables
+recommends_checksum for the downloaded files,
+and populates metadata for use (I assume) by cargo with the calculated
+SHA256 on the download.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../gawk/gawk/remove-sensitive-tests.patch    | 24 +++++++++++++++++++
- .../gawk/gawk/test-time.patch                 | 22 -----------------
- meta/recipes-extended/gawk/gawk_5.1.1.bb      | 19 +++++++++------
- 3 files changed, 36 insertions(+), 29 deletions(-)
- create mode 100644 meta/recipes-extended/gawk/gawk/remove-sensitive-test=
-s.patch
- delete mode 100644 meta/recipes-extended/gawk/gawk/test-time.patch
+-Matt
 
-diff --git a/meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch=
- b/meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch
-new file mode 100644
-index 0000000000..167c0787ee
---- /dev/null
-+++ b/meta/recipes-extended/gawk/gawk/remove-sensitive-tests.patch
-@@ -0,0 +1,24 @@
-+These tests require an unloaded host as otherwise timing sensitive tests=
- can fail
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14371
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+--- a/test/Maketests~
-++++ b/test/Maketests
-+@@ -2069,7 +2069,2 @@
-+
-+-timeout:
-+-	@echo $@ $(ZOS_FAIL)
-+-	@AWKPATH=3D"$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: =
-$$? >>_$@
-+-	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
-+-
-+ typedregex1:
-+@@ -2297,7 +2292,2 @@
-+ 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
-+-
-+-time:
-+-	@echo $@
-+-	@AWKPATH=3D"$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: =
-$$? >>_$@
-+-	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
-+
-diff --git a/meta/recipes-extended/gawk/gawk/test-time.patch b/meta/recip=
-es-extended/gawk/gawk/test-time.patch
-deleted file mode 100644
-index 05a68c5faf..0000000000
---- a/meta/recipes-extended/gawk/gawk/test-time.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--The test time.awk does a sleep() and checks that the real sleep duration=
- is
--close to the expected duration.
--
--As currently our tests can run on a heavily loaded system, increase the =
-range of
--a passing duration.
--
--Upstream-Status: Inappropriate
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--diff --git a/test/time.awk b/test/time.awk
--index 517377e2..ca81d92d 100644
----- a/test/time.awk
--+++ b/test/time.awk
--@@ -16,7 +16,7 @@ BEGIN {
--    printf "sleep(%s) =3D %s\n",delta,sleep(delta)
--    t1 =3D timecheck()
--    slept =3D t1-t0
---   if ((slept < 0.9*delta) || (slept > 1.3*delta))
--+   if ((slept < 0.5*delta) || (slept > 2*delta))
--       printf "Warning: tried to sleep %.2f secs, but slept for %.2f sec=
-s\n",
-- 	     delta,slept
-- }
-diff --git a/meta/recipes-extended/gawk/gawk_5.1.1.bb b/meta/recipes-exte=
-nded/gawk/gawk_5.1.1.bb
-index 215ac8c860..8990253c5e 100644
---- a/meta/recipes-extended/gawk/gawk_5.1.1.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.1.1.bb
-@@ -16,8 +16,8 @@ PACKAGECONFIG[readline] =3D "--with-readline,--without-=
-readline,readline"
- PACKAGECONFIG[mpfr] =3D "--with-mpfr,--without-mpfr, mpfr"
-=20
- SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-+           file://remove-sensitive-tests.patch \
-            file://run-ptest \
--           file://test-time.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "6168d8d1dc8f74bd17d9dc22fa9634c49070f232343b7449=
-01da15fb4f06bffd"
-@@ -41,19 +41,24 @@ inherit ptest
- do_install_ptest() {
- 	mkdir ${D}${PTEST_PATH}/test
- 	ln -s ${bindir}/gawk ${D}${PTEST_PATH}/gawk
--	for i in `grep -vE "@|^$|#|Gt-dummy" ${S}/test/Maketests |awk -F: '{pri=
-nt $1}'` Maketests inclib.awk; \
--	  do cp ${S}/test/$i* ${D}${PTEST_PATH}/test; \
-+	# The list of tests is all targets in Maketests, apart from the dummy G=
-t-dummy
-+	TESTS=3D$(awk -F: '$1 =3D=3D "Gt-dummy" { next } /[[:alnum:]]+:$/ { pri=
-nt $1 }' ${S}/test/Maketests)
-+	for i in $TESTS Maketests inclib.awk; do
-+		cp ${S}/test/$i* ${D}${PTEST_PATH}/test
- 	done
- 	sed -i -e 's|/usr/local/bin|${bindir}|g' \
- 	    -e 's|#!${base_bindir}/awk|#!${bindir}/awk|g' ${D}${PTEST_PATH}/tes=
-t/*.awk
-=20
--        sed -i -e "s|GAWKLOCALE|LANG|g" ${D}${PTEST_PATH}/test/Maketests
-+	sed -i -e "s|GAWKLOCALE|LANG|g" ${D}${PTEST_PATH}/test/Maketests
-+
-+	# These tests require an unloaded host as otherwise timing sensitive te=
-sts can fail
-+	# https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14371
-+	rm -f ${D}${PTEST_PATH}/test/time.*
-+	rm -f ${D}${PTEST_PATH}/test/timeout.*
- }
-=20
- RDEPENDS:${PN}-ptest +=3D "make"
-=20
--RDEPENDS:${PN}-ptest:append:libc-glibc =3D "\
--     locale-base-en-us.iso-8859-1 \
--"
-+RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-en-us.iso-8859-=
-1"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.25.1
-
+>
+> Thanks,
+>
+> --
+> Paul Barker
+> Principal Software Engineer
+> SanCloud Ltd
+>
+> e: paul.barker@sancloud.com
+> w: https://sancloud.co.uk/
 
