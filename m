@@ -1,296 +1,182 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C14C433F5
-	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 11:15:43 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.4505.1640085341834297805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D04F2C433F5
+	for <webhook@archiver.kernel.org>; Tue, 21 Dec 2021 11:57:16 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by mx.groups.io with SMTP id smtpd.web11.4817.1640087834119820079
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 03:15:42 -0800
+ Tue, 21 Dec 2021 03:57:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aOh0Wrhe;
- spf=pass (domain: gmail.com, ip: 209.85.167.49,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id k37so28581654lfv.3
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 03:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mmIjXMGWFNyg2JziFPHuAALDKr59ucCGq4C1oq/BlnA=;
-        b=aOh0WrhekdHs+p7Vi5fB/I7J4R7iCTh9438ypIaGUTEXfwnkRf6sGzQE3QqppJLaXI
-         DTqOqflLxAZULh+2OsFhoCtOwS0jNmfyPAD3M8liLnXPEgK50L2uwerpIRiB6zCutTJW
-         Zu0Tl8yZBotRQjZhNIQAmxxAL07VcMqurFKTXofXSrLkvzYO6hkh0IjBHlZ2fYbICtFM
-         jBm+iErcheCRSRwtR9/hA1ED0t6BBDPrXF64vLjL/krRjWcrNrTEL9JANw/GBCfTIpRS
-         4E9BLghKdws7fkdalh+BX05X9zayxv+b+/AF4YqL70jGInUtMmP766WiEUoD2ZQOWVA/
-         0pZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mmIjXMGWFNyg2JziFPHuAALDKr59ucCGq4C1oq/BlnA=;
-        b=nE6Ti9LFo8DcTL39exAUntsb+L9qqx0S5KJYKa/ZGLrra88SonPcPUU2ep2Z5QQF3+
-         zg60OtDDG2LoFXKUdYgpS7E1PE4BeYSA0M/RdLEQDHuS4kx7x319gFSd6UYK6Rw7k7RD
-         esbAz4/ilSX/bDXV271JA74TQlRKAZuFNOgZ63343EmcuXyFUT6sntRcipXenpn6gvDW
-         M+e9EAy/TSm7pPfT3hBsfZCpqfCDw3NGgUbvOqn/DQSQN6zaEJqb797CFFUpekf0SRoj
-         kYIPH3dvcClME20g4YvV6WnFM4bmvzkwjEDw29kXw/PsortwmyFSBppjOvzOKJWrscif
-         2Mvg==
-X-Gm-Message-State: AOAM530EFPANr0WL+4onmP8sSSQvg++XDJ5cIXHEI3x1aII8IGFjOXKq
-	Prbbo68qlfJListaqO8YeIqLwYktI/qSmgnMI68=
-X-Google-Smtp-Source: 
- ABdhPJyuPlr3j88ua4SD/yR+VSMnH1SKaBNyWUbXBLO7xdXEPTkRsEyrukx1xYZa9oRWW09P/8ftYoVTpd8ghTYvd4U=
-X-Received: by 2002:a05:6512:3402:: with SMTP id
- i2mr2592598lfr.447.1640085339808;
- Tue, 21 Dec 2021 03:15:39 -0800 (PST)
-MIME-Version: 1.0
-References: 
- <99e75b930d85e240c51074406b0cd896c93257cb.camel@linuxfoundation.org>
- <DM5PR1101MB23482FA91A07CA4057E768D9BB7C9@DM5PR1101MB2348.namprd11.prod.outlook.com>
-In-Reply-To: 
- <DM5PR1101MB23482FA91A07CA4057E768D9BB7C9@DM5PR1101MB2348.namprd11.prod.outlook.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 21 Dec 2021 11:15:28 +0000
-Message-ID: 
- <CANPvuRkqyngQAqhqfou9ka7J3oufuSCubf9J7cgZ-ZU9KLTJjg@mail.gmail.com>
-Subject: Re: [yocto] [qa-build-notification] QA notification for completed
- autobuilder build (yocto-3.1.13.rc1)
-To: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-Cc: "qa-build-notification@lists.yoctoproject.org"
- <qa-build-notification@lists.yoctoproject.org>,
-	"<yocto@lists.yoctoproject.org>" <yocto@lists.yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000014a5c205d3a62047"
+ dkim=pass header.i=@gherzan.com header.s=fm3 header.b=pLs5n3ca;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.27, mailfrom: andrei@gherzan.com)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id DB17C5C02ED
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 21 Dec 2021 06:57:10 -0500 (EST)
+Received: from imap41 ([10.202.2.91])
+  by compute4.internal (MEProxy); Tue, 21 Dec 2021 06:57:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	mime-version:message-id:in-reply-to:references:date:from:to
+	:subject:content-type; s=fm3; bh=qVMiWLjCS7LgFbAQkBd7i8ICWEzASZ6
+	K2r5JUjZxb/s=; b=pLs5n3cazPNtrDO0fAZrAJ/NBnT2DEBj7yphkziVb6Y4z5s
+	sx6cHTFFFVVOjbKTlJeSAJk93VSQ39PGOM/Bc+91Sdx6BIqRG9fcpd9QLYiR9nyh
+	GOLwkxrSY8TiOuvlIAbxGN979xtDt99pd7LmWXb7DvyoPoHM7VqMAaX/osU66a7z
+	bbCsM2afAvecnoJeECAPjBtxwXl7nhjDWBBSjVRD46a4DEAiHS3FkxNBRQ3ylFT5
+	6LUNVtKHxh/JWSrjAWNPuU0EsRSaxlSheMZCNaybtPR0QV7HvFPiUtUKh+icshs/
+	KCxtOOR1UFrHDfmU5jFySzJEs/B/nv0CMacig5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qVMiWL
+	jCS7LgFbAQkBd7i8ICWEzASZ6K2r5JUjZxb/s=; b=AFnFgeZVvhhaoM9cLF7NCh
+	16c9QuqVywT3yLyNCw2/vwMsOPROxd+fdMaXneGRFTQUH0EmJuTD62XvkS0DnNO9
+	ZxetccZofCNP17Ne3neEPlA+HbkqIQxHnsT01+ZU0K++QvkEw2SkFejPSn9dtUYn
+	I+cUOcY95GQ2OA+YvGGIAUOFwSP2/zTT42apM+FCyy/i+4/vMPPDK+uEtuEdcIDI
+	+kZ0TDLpHwG6XSqqmov2pjcZFhUUzWiI0+5NjtG5jtGePYjRkcU/a9hDqV0zfLQ0
+	+P2NJ+vHHk9p5Ft5yIcBzenTd6oyJLPSExcQ1JPsZ+7boN6e3bdZS1mih6ee3URQ
+	==
+X-ME-Sender: <xms:FsHBYfMMfCHMvZrqUN3wnkHuaR2pGRL9C70rINsGD2kqHOmvk6KIRQ>
+    <xme:FsHBYZ_xbacmGuT543xX9PoTghwzn-cez2IEXqTfYQU0MolPtBqyUj5g3lMRXiFst
+    j3nfeyAZQMj-PzD55I>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvuddruddtgedgfeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsegrtd
+    erreerreejnecuhfhrohhmpedftehnughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgv
+    ihesghhhvghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepvdekieeggffgjeeife
+    efhfefiefhfeelleeuveeuteduhefguddtudekteetjedvnecuffhomhgrihhnpehophgv
+    nhgvmhgsvgguuggvugdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:FsHBYeQS2aj2KH0osplstVefyHiqN5bgCGSKmnQUDOzIaad8RFxLpg>
+    <xmx:FsHBYTtPeVLalcnf4m8bcaIdWL4V8ha3fikb8g9qmp4cxeZkoiVoXQ>
+    <xmx:FsHBYXeCfYt3h9fv1BTHs3VamZCSfwP6ET8mMMhyYZO9wY44czs3Vw>
+    <xmx:FsHBYRoDeLWMGlqyOZYjFXIag5kyjiW4g7ottJk2kTfFgx78RYJ6Tg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A3EAF3C00CF; Tue, 21 Dec 2021 06:57:10 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4525-g8883000b21-fm-20211221.001-g8883000b
+Mime-Version: 1.0
+Message-Id: <429927de-21b9-4c9a-8a8f-93a3b64242b1@www.fastmail.com>
+In-Reply-To: <28190.1639964358069173094@lists.openembedded.org>
+References: <09f8ff3a-829d-41e4-95c1-fd203eaba643@www.fastmail.com>
+ <28190.1639964358069173094@lists.openembedded.org>
+Date: Tue, 21 Dec 2021 11:56:49 +0000
+From: "Andrei Gherzan" <andrei@gherzan.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] gcc: Fix tm.h plugin header
+Content-Type: multipart/alternative;
+ boundary=2f5233ba3baa4861b68a8ac2c9b1c22b
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Dec 2021 11:15:43 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Dec 2021 11:57:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159912
+ https://lists.openembedded.org/g/openembedded-core/message/159913
 
---00000000000014a5c205d3a62047
-Content-Type: text/plain; charset="UTF-8"
+--2f5233ba3baa4861b68a8ac2c9b1c22b
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Teoh, Jay Shen <jay.shen.teoh@intel.com> escreveu no dia ter=C3=A7a, 21/12/=
-2021
-=C3=A0(s) 07:46:
+On Mon, 20 Dec 2021, at 01:39, Bernhard Rosenkr=C3=A4nzer via lists.open=
+embedded.org wrote:
+> On Thu, Dec 9, 2021 at 07:40 PM, Andrei Gherzan wrote:
+>=20
+>> On Thu, 9 Dec 2021, at 16:40, Khem Raj wrote:
+>>=20
+>>> On Thu, Dec 9, 2021 at 7:40 AM Andrei Gherzan <andrei@gherzan.com> w=
+rote:
+>>>=20
+>>>> From: Andrei Gherzan <andrei.gherzan@huawei.com>
+>>>>=20
+>>>> On x86-64, tm.h (needed to build gcc plugins) tries to include
+>>>> config/i386/linux64.h, which isn't installed. Fortunately it also i=
+sn't
+>>>> used, so simply removing the include statement is an ok fix.
+>>> is it due to multilib support ? if so we might be ok since we may not
+>>> be using it
+>>> but really it will be good to check it with multilib builds of x86_6=
+4/x86
+>> I don't think it is related to multilib but I'll give multilib a try.=
+ In my case, the issue was revealed when compiling a kernel plugin confi=
+g. I can't remember right now which one but I can replicate it for logs.
+> Hi,
+> I've had a closer look at the problem, and can confirm the patch doesn=
+'t break even in multilib setups.
+>=20
+> The problem is that in a non-multilib setup, the config/i386/linux64.h=
+ header is not generated, but tm.h tries to include it nevertheless, cau=
+sing any gcc plugin that #includes tm.h (such as all the gcc plugins in =
+the kernel -- tm.h is included by scripts/gcc-plugins/gcc-common.h) to f=
+ail to build.
+> An alternative fix would be adding
+> mkdir -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/config=
+/i386
+> touch ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/config/i3=
+86/linux64.h
+> (creating the file if it isn't there) instead. This would make sure th=
+at in cases where config/i386/linux64.h does exist, it doesn't get remov=
+ed from tm.h (potentially fixing plugins that reference any of the #defi=
+nes in i386/linux64.h without including the file manually -- but I have =
+yet to see any such plugin).
+>=20
+> I will try to get a better fix (not adding the include statement to tm=
+.h in the first place rather than having to remove it later in install s=
+cripts) upstream, but in the mean time, the patch fixes our builds befor=
+e the better fix is ready/applied.
 
-> Hi all,
->
-> This is the full report for yocto-3.1.13.rc1:
->
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree=
-/?h=3Dintel-yocto-testresults
->
-> =3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-> No high milestone defects.
->
-> new issue found
->
-> Bug 14669 - [QA 3.1.13 RC1] failure in ptest
-> :gstreamer1.0.gstreamer-1.0/pipelines_seek.test
->
->
-> =3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14669
+Ping on this patch. Any chance we can pull it in as a first iteration of=
+ the solution?
 
+---
+Andrei
 
-This patch is a bug fix 14669
-<https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14669>
-https://lists.openembedded.org/g/openembedded-core/message/159911
-
-
->
->
-> Thanks,
-> Jay
->
-> >-----Original Message-----
-> >From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> >notification@lists.yoctoproject.org> On Behalf Of Richard Purdie
-> >Sent: Wednesday, 15 December, 2021 3:40 PM
-> >To: <yocto@lists.yoctoproject.org> <yocto@lists.yoctoproject.org>
-> >Cc: qa-build-notification <qa-build-notification@lists.yoctoproject.org>
-> >Subject: [qa-build-notification] QA notification for completed
-> autobuilder build
-> >(yocto-3.1.13.rc1)
-> >
-> >A build flagged for QA (yocto-3.1.13.rc1) was completed on the
-> autobuilder and is
-> >available at:
-> >
-> >
-> >    https://autobuilder.yocto.io/pub/releases/yocto-3.1.13.rc1
-> >
-> >
-> >Build hash information:
-> >
-> >bitbake: f18b65d0b9a6b983d53bde491e1bf2ca56949444
-> >meta-agl: 6d1ab9f3bb270a773ec5d2f7c8c856796833b559
-> >meta-arm: ce535dfb96de4d2529f091d7d85a7172c626001c
-> >meta-aws: 9979cfa676105cb68cfadfdaeabf044d7c919319
-> >meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
-> >meta-intel: 87984115eb6ed1a4c17204629dcb100f6b76fe82
-> >meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
-> >meta-openembedded: 69f94af4d91215e7d4e225bab54bf3bcfee42f1c
-> >oecore: 90a07178ea26be453d101c2e8b33d3a0f437635d
-> >poky: 795339092f87672e4f68e4d3bc4cfd0e252d1831
-> >
-> >
-> >
-> >This is an automated message from the Yocto Project Autobuilder
-> >Git: git://git.yoctoproject.org/yocto-autobuilder2
-> >Email: richard.purdie@linuxfoundation.org
-> >
-> >
-> >
-> >
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#55630):
-> https://lists.yoctoproject.org/g/yocto/message/55630
-> Mute This Topic: https://lists.yoctoproject.org/mt/87873452/5052612
-> Group Owner: yocto+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/yocto/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000014a5c205d3a62047
-Content-Type: text/html; charset="UTF-8"
+--2f5233ba3baa4861b68a8ac2c9b1c22b
+Content-Type: text/html;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Teoh, Jay Shen &lt;<a href=3D"mailto:=
-jay.shen.teoh@intel.com">jay.shen.teoh@intel.com</a>&gt; escreveu no dia te=
-r=C3=A7a, 21/12/2021 =C3=A0(s) 07:46:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">Hi all,<br>
-<br>
-This is the full report for yocto-3.1.13.rc1:=C2=A0 <br>
-<a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-con=
-trib/tree/?h=3Dintel-yocto-testresults" rel=3D"noreferrer" target=3D"_blank=
-">https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree=
-/?h=3Dintel-yocto-testresults</a><br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D<br>
-No high milestone defects. <br>
-<br>
-new issue found <br>
-<br>
-Bug 14669 - [QA 3.1.13 RC1] failure in ptest :gstreamer1.0.gstreamer-1.0/pi=
-pelines_seek.test<br>
-<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D<br>
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14669" rel=
-=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bu=
-g.cgi?id=3D14669</a></blockquote><div><br></div><div><span style=3D"color:r=
-gb(51,51,51);font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
-rif;font-size:14px;white-space:pre-wrap">This patch is a bug fix </span><a =
-href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14669" rel=3D"n=
-oreferrer" target=3D"_blank">14669</a></div><div><a href=3D"https://lists.o=
-penembedded.org/g/openembedded-core/message/159911">https://lists.openembed=
-ded.org/g/openembedded-core/message/159911</a><br style=3D"box-sizing:borde=
-r-box;color:rgb(51,51,51);font-family:&quot;Helvetica Neue&quot;,Helvetica,=
-Arial,sans-serif;font-size:14px;white-space:pre-wrap"></div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-Thanks,<br>
-Jay<br>
-<br>
-&gt;-----Original Message-----<br>
-&gt;From: <a href=3D"mailto:qa-build-notification@lists.yoctoproject.org" t=
-arget=3D"_blank">qa-build-notification@lists.yoctoproject.org</a> &lt;qa-bu=
-ild-<br>
-&gt;<a href=3D"mailto:notification@lists.yoctoproject.org" target=3D"_blank=
-">notification@lists.yoctoproject.org</a>&gt; On Behalf Of Richard Purdie<b=
-r>
-&gt;Sent: Wednesday, 15 December, 2021 3:40 PM<br>
-&gt;To: &lt;<a href=3D"mailto:yocto@lists.yoctoproject.org" target=3D"_blan=
-k">yocto@lists.yoctoproject.org</a>&gt; &lt;<a href=3D"mailto:yocto@lists.y=
-octoproject.org" target=3D"_blank">yocto@lists.yoctoproject.org</a>&gt;<br>
-&gt;Cc: qa-build-notification &lt;<a href=3D"mailto:qa-build-notification@l=
-ists.yoctoproject.org" target=3D"_blank">qa-build-notification@lists.yoctop=
-roject.org</a>&gt;<br>
-&gt;Subject: [qa-build-notification] QA notification for completed autobuil=
-der build<br>
-&gt;(yocto-3.1.13.rc1)<br>
-&gt;<br>
-&gt;A build flagged for QA (yocto-3.1.13.rc1) was completed on the autobuil=
-der and is<br>
-&gt;available at:<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 <a href=3D"https://autobuilder.yocto.io/pub/releases/yoct=
-o-3.1.13.rc1" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-o.io/pub/releases/yocto-3.1.13.rc1</a><br>
-&gt;<br>
-&gt;<br>
-&gt;Build hash information:<br>
-&gt;<br>
-&gt;bitbake: f18b65d0b9a6b983d53bde491e1bf2ca56949444<br>
-&gt;meta-agl: 6d1ab9f3bb270a773ec5d2f7c8c856796833b559<br>
-&gt;meta-arm: ce535dfb96de4d2529f091d7d85a7172c626001c<br>
-&gt;meta-aws: 9979cfa676105cb68cfadfdaeabf044d7c919319<br>
-&gt;meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac<br>
-&gt;meta-intel: 87984115eb6ed1a4c17204629dcb100f6b76fe82<br>
-&gt;meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7<br>
-&gt;meta-openembedded: 69f94af4d91215e7d4e225bab54bf3bcfee42f1c<br>
-&gt;oecore: 90a07178ea26be453d101c2e8b33d3a0f437635d<br>
-&gt;poky: 795339092f87672e4f68e4d3bc4cfd0e252d1831<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;This is an automated message from the Yocto Project Autobuilder<br>
-&gt;Git: git://<a href=3D"http://git.yoctoproject.org/yocto-autobuilder2" r=
-el=3D"noreferrer" target=3D"_blank">git.yoctoproject.org/yocto-autobuilder2=
-</a><br>
-&gt;Email: <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"=
-_blank">richard.purdie@linuxfoundation.org</a><br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#55630): <a href=3D"https://lists.yoctoproject.org/g/yoc=
-to/message/55630" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctop=
-roject.org/g/yocto/message/55630</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/87873452/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/mt=
-/87873452/5052612</a><br>
-Group Owner: <a href=3D"mailto:yocto%2Bowner@lists.yoctoproject.org" target=
-=3D"_blank">yocto+owner@lists.yoctoproject.org</a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/yocto/unsub" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/yocto/un=
-sub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quare=
-sma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---00000000000014a5c205d3a62047--
+<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
+Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>On Mon, 20 Dec =
+2021, at 01:39, Bernhard Rosenkr=C3=A4nzer via lists.openembedded.org wr=
+ote:<br></div><blockquote type=3D"cite" id=3D"qt" style=3D""><div>On Thu=
+, Dec 9, 2021 at 07:40 PM, Andrei Gherzan wrote:<br></div><div> <br></di=
+v><blockquote><div>On Thu, 9 Dec 2021, at 16:40, Khem Raj wrote:<br></di=
+v><div> <br></div><blockquote><div>On Thu, Dec 9, 2021 at 7:40 AM Andrei=
+ Gherzan &lt;andrei@gherzan.com&gt; wrote:<br></div><div> <br></div><blo=
+ckquote><div>From: Andrei Gherzan &lt;andrei.gherzan@huawei.com&gt;<br><=
+/div><div><br></div><div>On x86-64, tm.h (needed to build gcc plugins) t=
+ries to include<br></div><div>config/i386/linux64.h, which isn't install=
+ed. Fortunately it also isn't<br></div><div>used, so simply removing the=
+ include statement is an ok fix.<br></div></blockquote><div>is it due to=
+ multilib support ? if so we might be ok since we may not<br></div><div>=
+be using it<br></div><div>but really it will be good to check it with mu=
+ltilib builds of x86_64/x86<br></div></blockquote><div>I don't think it =
+is related to multilib but I'll give multilib a try. In my case, the iss=
+ue was revealed when compiling a kernel plugin config. I can't remember =
+right now which one but I can replicate it for logs.<br></div></blockquo=
+te><div>Hi,<br></div><div>I've had a closer look at the problem, and can=
+ confirm the patch doesn't break even in multilib setups.<br></div><div>=
+<br></div><div>The problem is that in a non-multilib setup, the config/i=
+386/linux64.h header is not generated, but tm.h tries to include it neve=
+rtheless, causing any gcc plugin that #includes tm.h (such as all the gc=
+c plugins in the kernel -- tm.h is included by scripts/gcc-plugins/gcc-c=
+ommon.h) to fail to build.<br></div><div>An alternative fix would be add=
+ing<br></div><div>mkdir -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugi=
+n/include/config/i386<br></div><div>touch&nbsp;${D}${libdir}/gcc/${TARGE=
+T_SYS}/${BINV}/plugin/include/config/i386/linux64.h<br></div><div>(creat=
+ing the file if it isn't there) instead. This would make sure that in ca=
+ses where config/i386/linux64.h does exist, it doesn't get removed from =
+tm.h (potentially fixing plugins that reference any of the #defines in i=
+386/linux64.h without including the file manually -- but I have yet to s=
+ee any such plugin).<br></div><div><br></div><div>I will try to get a be=
+tter fix (not adding the include statement to tm.h in the first place ra=
+ther than having to remove it later in install scripts) upstream, but in=
+ the mean time, the patch fixes our builds before the better fix is read=
+y/applied.<br></div></blockquote><div><br></div><div>Ping on this patch.=
+ Any chance we can pull it in as a first iteration of the solution?<br><=
+/div><div><br></div><div>---<br></div><div>Andrei<br></div><div><br></di=
+v></body></html>
+--2f5233ba3baa4861b68a8ac2c9b1c22b--
 
