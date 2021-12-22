@@ -1,78 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <f325951fd82f373bbe505a574a10f91697e495cd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [yocto] [qa-build-notification] QA notification for completed autobuilder build (yocto-3.1.13.rc1)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Tue, 21 Dec 2021 15:50:37 +0000
-In-Reply-To: <CANPvuRkxfQ60H_OUwru_a+Xhkx6WCJu2f-EgGkONLB8GSvL2vw@mail.gmail.com>
-References: 
-	<99e75b930d85e240c51074406b0cd896c93257cb.camel@linuxfoundation.org>
-	 <DM5PR1101MB23482FA91A07CA4057E768D9BB7C9@DM5PR1101MB2348.namprd11.prod.outlook.com>
-	 <CANPvuRkqyngQAqhqfou9ka7J3oufuSCubf9J7cgZ-ZU9KLTJjg@mail.gmail.com>
-	 <97b16a070ca838dfe87ae579edf36c0e01d01175.camel@linuxfoundation.org>
-	 <CANPvuRkxfQ60H_OUwru_a+Xhkx6WCJu2f-EgGkONLB8GSvL2vw@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][dunfell 00/14] Patch review
+Date: Wed, 22 Dec 2021 04:12:13 -1000
+Message-Id: <cover.1640181998.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: "<yocto@lists.yoctoproject.org>" <yocto@lists.yoctoproject.org>, OE-core <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
 
-On Tue, 2021-12-21 at 15:12 +0000, Jose Quaresma wrote:
-> 
-> 
-> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia terça,
-> 21/12/2021 à(s) 14:19:
-> > On Tue, 2021-12-21 at 11:15 +0000, Jose Quaresma wrote:
-> > > 
-> > > 
-> > > Teoh, Jay Shen <jay.shen.teoh@intel.com> escreveu no dia terça, 21/12/2021
-> > > à(s) 07:46:
-> > > > Hi all,
-> > > > 
-> > > > This is the full report for yocto-3.1.13.rc1:  
-> > > > 
-> > https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?h=intel-yocto-testresults
-> > > > 
-> > > > ======= Summary ========
-> > > > No high milestone defects. 
-> > > > 
-> > > > new issue found 
-> > > > 
-> > > > Bug 14669 - [QA 3.1.13 RC1] failure in ptest :gstreamer1.0.gstreamer-
-> > > > 1.0/pipelines_seek.test
-> > > > 
-> > > > 
-> > > > ======= Bugs ========
-> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14669
-> > > > 
-> > > 
-> > > 
-> > > This patch is a bug fix 14669
-> > > https://lists.openembedded.org/g/openembedded-core/message/159911
-> > >  
-> > 
-> > Great, thanks!
-> > 
-> > I assume we don't need that in the version on master as it is already
-> > present?
-> > 
-> 
-> 
-> 
-> https://git.yoctoproject.org/poky/commit/?id=7b90027aac9fa41b3dc98765151d761df8dabb97
-> The first version of the patch on the master branch is this one and it fixes
-> the [YOCTO #14194].
-> I cherry-picked that with some adaptation for dunfell but the content is the
-> same.
-> 
-> We need the patch on master as well and we will drop it with the gstreamer
-> 1.20 update.
+Please review this set of patches for dunfell and have comments back by end
+of day Monday.
 
-Thanks for the info, we're ok with master then and can backport this.
+Passed a-full on autobuilder:
 
-Cheers,
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3047
 
-Richard
+with the exception of a known intermittent autobuilder issue on oe-selftest-centos
+which passed on subsequent retest:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2977
+
+The following changes since commit 90a07178ea26be453d101c2e8b33d3a0f437635d:
+
+  build-appliance-image: Update to dunfell head revision (2021-12-14 22:49:32 +0000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Anuj Mittal (1):
+  gstreamer1.0: fix failing ptest
+
+Bruce Ashfield (5):
+  linux-yocto/5.4: update to v5.4.159
+  linux-yocto/5.4: update to v5.4.162
+  linux-yocto/5.4: update to v5.4.163
+  linux-yocto/5.4: update to v5.4.165
+  linux-yocto/5.4: update to v5.4.167
+
+Ernst Sjöstrand (1):
+  dropbear: Fix CVE-2020-36254
+
+Marta Rybczynska (1):
+  bluez: fix CVE-2021-0129
+
+Mingli Yu (1):
+  bootchart2: remove wait_boot logic
+
+Minjae Kim (2):
+  vim: fix CVE-2021-4069
+  inetutils: fix CVE-2021-40491
+
+Steve Sakoman (1):
+  selftest: skip virgl test on fedora 34 entirely
+
+sana kazi (2):
+  openssh: Fix CVE-2021-41617
+  openssh: Whitelist CVE-2016-20012
+
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ .../bluez5/bluez5/CVE-2021-0129.patch         | 109 ++++++++++++++++++
+ .../inetutils/inetutils/CVE-2021-40491.patch  |  67 +++++++++++
+ .../inetutils/inetutils_1.9.4.bb              |   1 +
+ .../openssh/openssh/CVE-2021-41617.patch      |  52 +++++++++
+ .../openssh/openssh_8.2p1.bb                  |  10 ++
+ meta/recipes-core/dropbear/dropbear.inc       |   4 +-
+ .../dropbear/dropbear/CVE-2020-36254.patch    |  29 +++++
+ ...ake-sure-only-one-bootchartd-process.patch |  68 +++++++++++
+ .../bootchart2/bootchart2_0.14.9.bb           |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 ++--
+ ...-use-too-strict-timeout-for-validati.patch |  33 ++++++
+ .../gstreamer/gstreamer1.0_1.16.3.bb          |   1 +
+ .../vim/files/CVE-2021-4069.patch             |  43 +++++++
+ meta/recipes-support/vim/vim.inc              |   1 +
+ 18 files changed, 439 insertions(+), 19 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2021-0129.patch
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2021-40491.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2020-36254.patch
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-bootchartd.in-make-sure-only-one-bootchartd-process.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2021-4069.patch
+
+-- 
+2.25.1
 
