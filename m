@@ -1,282 +1,2195 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE56C433F5
-	for <webhook@archiver.kernel.org>; Wed, 22 Dec 2021 05:07:58 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.15758.1640149677714468471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 068C4C433EF
+	for <webhook@archiver.kernel.org>; Wed, 22 Dec 2021 05:37:42 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web12.15894.1640151461084737106
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 21:07:58 -0800
+ Tue, 21 Dec 2021 21:37:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com
- header.s=pps06212021 header.b=lxE29Eek;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=79909bdf5a=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1BM57vkr003386
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 21:07:57 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=subject : to :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=nXKeC0yQ++w8x7TyU7CJ2bwjVv9OZrjjWDrhEdJ4cCE=;
- b=lxE29EekTih4FhfViA+qGm/5gxjq5BV0equyJuVxCZbDan+6851nvrBxyxYZE+AiyAhZ
- a41dUOATbENSiJZcjW3Aen6QuJ3odTEuhVw620JQ05+EPbBd4heiVsmyTpPZS2SAq8kB
- r6T4lFOYLjJ7I3cpL0FtFtypwPV3534Nx4Lt6c7N2+cXoJ9HVK88sMLiVK1JJYhm16l7
- di4+V7Og/1Oe+RcYuQCi1TtCEMOS61+0Y3uGLsIuEqRMa/pam4cCPfReWWlbiXVKs0AC
- nf0iQXrkpl7H/m+A73UFfjLAxJZLDcyD7WE3zAFXi61uXlYdQzCDQiDCC+acuiZRySxG Ig==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d3vk4r14t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 21:07:57 -0800
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1BM57uDx003380
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Dec 2021 21:07:57 -0800
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d3vk4r14r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Dec 2021 21:07:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RW3AEq95ldrluc6LPTOpgE2OAVPgY/V161v4PTnX4vA+R2AjumhSDm02kgw1cUo/xmhSt0Wjp1P78YApDWPcXelBfkAZZJjR/+UEf6B1KzoOT/hZ+TEeNT1yIud2y+9JLCMB7alh7wxopq4gwAQUwJc3S93bTmlfP3PhZ6j6IYESRcRWuUgyuZOpe/vPO4sXbpeJM0EuZiLjKqeQR120FlxCOpnn1qkhwAZit1BhSU7xNZPQ//TLzAAOuc5jXunsc8MOLCjkFpbdXLAJyE35dpXzBSC4xmkotTzgyUGfuqGkemGAvpe9zEm6v7e+r51IRtfjoj2XF46aKe9YNPrv9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nXKeC0yQ++w8x7TyU7CJ2bwjVv9OZrjjWDrhEdJ4cCE=;
- b=jGDsfCymm3ech3qDoPNh9K2KKfPdoby1VoVV2YfQNQzuww+hNF9wJlFg6SJBoeg1m17PTlCGcKCQxBZ86GN3B9npURyG9refyG3S3htBSPtV+Z/8tO8TRRoq7v6JQ7s+oZh/9Fct07YlCksgaf3D7L9B0sHqH2IY8lE1EatL0w0tpuVm8o3YuFKvxQACQ62CrSYebDregtSuH/yHpH3KQkjJgkd7wcMOuFQlzYnvTg4UXm6z67ZyJL8bm/Wi3gMCnyvol3i1TOaisy4Ju6GMxP6FlUjF581SKtqoyUHJHtuIPAxAfdWPH/7k257h+Bj4eV8jzqnvb96D+ce4pQ4L4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CO6PR11MB5587.namprd11.prod.outlook.com (2603:10b6:303:139::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Wed, 22 Dec
- 2021 05:07:54 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::e4bd:c128:9168:b142]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::e4bd:c128:9168:b142%3]) with mapi id 15.20.4801.023; Wed, 22 Dec 2021
- 05:07:54 +0000
-Subject: Re: [OE-core][hardknott][PATCH 1/3] busybox: Fix for CVE-2021-42374
-To: "Mittal, Anuj" <anuj.mittal@intel.com>,
-        "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20211222021125.55893-1-Qi.Chen@windriver.com>
- <50395e355ce40923537e2db7a157dd1448b60c7f.camel@intel.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <a92f9d5a-b730-4b45-d904-44a8b01ca0e9@windriver.com>
-Date: Wed, 22 Dec 2021 13:07:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <50395e355ce40923537e2db7a157dd1448b60c7f.camel@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-ClientProxiedBy: HK2PR04CA0083.apcprd04.prod.outlook.com
- (2603:1096:202:15::27) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lC9/20og;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id m15so1097021pgu.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 21 Dec 2021 21:37:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i6LhKG2y1b2tdSXaMns1HkIH0fz+EN2Eq6AF73TFB0g=;
+        b=lC9/20og3U5xLa8bBKvYczvWRyFoPsTS9KJ2iD1LZ/uXO30xD5VoX+57qAExH7WtMs
+         hV3/1jCd80HCE4LzoQhr2u9kuGbDz85DfujgHkNWZSv350HxzNGPHh8ndK38OQAgn643
+         LG6fGR99WdGsrmNKQwC8OdRxgWBn0EeFhV5qW909LRv1cAbdjSiiXG1fy4BZrz1HfaRc
+         NpEtOkWI8NJAkNAiozNhIBD1YS9MqNr5ZZ+8FjxvKUeG8piKNsV+0hIyf06dZ8jd981s
+         neBDMy2fr2hJx+1FQFWJTG+ZFM/w9Y215qVZlBIjt/cADlL/M9yC3WwITABiE6ivXnlf
+         LKMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i6LhKG2y1b2tdSXaMns1HkIH0fz+EN2Eq6AF73TFB0g=;
+        b=Mv21vUOM6DKWnLZxpbhAjfdD/bQvcZeQgGsPzDT6GTXxAWm50EA1McUSPTEfbPBgjQ
+         Aci7GPHVudo/ZvWMOFib7zevCuAvXmSDYEepBxDcprVq/mPX19t+ItG9M/Kb5G+JUgvl
+         CvFkt1pG8qPzV2+2HcDYlgFCYryaQL4CQAFwH9EDc8bik0JOWY6lBhuhwmtptzXOMFV1
+         kmL/dtzQLZxBLA/FQuUzY/E8jOyEPj6hEHWZgAQTx46p3yd9uvSEpVgISUaWvCVNgna7
+         8CbD7++HT9UhY1WlzA6PSYDfEZ5JE52hDaqWVwHVuxJyyg52DALOqN6nDZHjtIqieHoW
+         4rgw==
+X-Gm-Message-State: AOAM5304Tb7GKVOBDXT3g0IECa6LDbc+4RdFESyRmfxvCxgOgfOw6086
+	s3WJWX4X3LUKrcHnUDJ0gYbjho9oSKC6hg==
+X-Google-Smtp-Source: 
+ ABdhPJyF/6pRYU4TOE8Oo86iIfAo+jZim7SsZn0HHGtaxj5JJUeMyxLd9ozL9ltFBr9rBhnfqHjq/g==
+X-Received: by 2002:a63:84c6:: with SMTP id
+ k189mr1484867pgd.539.1640151458736;
+        Tue, 21 Dec 2021 21:37:38 -0800 (PST)
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
+ [147.11.105.124])
+        by smtp.gmail.com with ESMTPSA id
+ s34sm953953pfg.198.2021.12.21.21.37.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Dec 2021 21:37:38 -0800 (PST)
+From: pgowda <pgowda.cve@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda <pgowda.cve@gmail.com>
+Subject: [PATCH v2] Binutils: CVE-2021-42574
+Date: Tue, 21 Dec 2021 21:37:35 -0800
+Message-Id: <20211222053735.187432-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aab81d4f-5447-4f5e-9f20-08d9c50902f6
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5587:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CO6PR11MB5587FFE8690E3F070A51375CED7D9@CO6PR11MB5587.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	u2jukfSrpOfHr9a/GYCqb3L2EF88aJltqecCFilqG3C5aqVZ3uIvf8YyWRlI1Le52/6rM+5x5iB8/kEs3E6BEiYI3/2JvM4CeMbuyjlAjEiWWl5nXQ7lfIsS1btTXEd4KnkgQbsDoQmXsDcvWfXNbkPCo6HvcjcqxmYo+qq5iQUcS58mBZMSaoIFiXcURossF9qaPtzSVSvlnBUSzJk3LN3e7Gboh4NFMoZFe6rK3t5+wf2s5yHZeHrHm2SpBsrm4SfyZ0LXkoAx+tekZKboiuY0OspufoO+HNlDK/sq27QTDNHnYdlOkEG4UH9bBjNNrYG7FtZIL83jk6XDNVQXOs1f/q6EuB87T0xl3si80Wd4pz4HFtxrh71RPvdwNWqf96+i03DMTRTKNMRIjJ45K89UXeJGjmmWr7HoCVOncvdiJ4LDditFLlh3udp/Mj0ocQmaFiWBCDjcZ2jREKAYZrygFOZB+jCaMMQss8eiySJjqEARuY1z1pVJeubM9MRRdx4oUByZFNaP6WB/++ZSVArVASZ2GTLvhp2OIPcUcANF4RGN21NU0Xkvf6PathU5HPFUntYbkJyC1yKDAf3BIBk06d7D3gmT2hjimUeaz1GZCnhcvNa60Ro6qCXQvVHwVlwCryNAGJnO4aTv7qVdwt7KqVPvWDtFY2Gm6oIcZSCq1U1KAs9PNUzRPBTw3P9tVuKCEPZezn4M3AofBRqQfvyj8rfyvJjvS+S+VUoHRh5T625hJYDaSybPqHxUUryKGrYkwQAS5IXqhqfUJBJrKK79Lhb9IUv43SY4VHM+ogz/yt94vw1fqdk0jZ/aXOIY92nb4G39sNp8FJIQ7lgTKwk5ylolWVWPfLoh0ReCOXr60ceW3NsJPqU9fpVUFy0GfzSpc9h+ebDdJRiBKGwfHQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(26005)(4001150100001)(83380400001)(6486002)(66476007)(66946007)(508600001)(36756003)(52116002)(31696002)(66556008)(6506007)(966005)(316002)(110136005)(5660300002)(8936002)(2906002)(53546011)(38350700002)(2616005)(38100700002)(6666004)(31686004)(86362001)(186003)(8676002)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Z2JNQ0lRYVJCWWo1M1kzOTBhb2szWTQ2a3dpTk0zRTROVE4zRzRrT1oydnla?=
- =?utf-8?B?UGJLazJnOEIyTHJlR0FpMHBDclFkMU0xWXR2TnJxR3AvdjhIMm40N0MrYUtt?=
- =?utf-8?B?cm9QZzdVVnY1cjlwWldrVUdXMkNyYS9yQjdkeDloV1FTM1NXTWVZNGZ0aFVw?=
- =?utf-8?B?OHhCOTNWUTF3UVlZUzJFZEFTbTJuRlVnSjF2cHE3Zm9sZkc5ZElTam1SU0x4?=
- =?utf-8?B?NVN3U1kwMkEzaTIyWlE3SDVueWEzZkN0bHdISy9QQiszYno3THlCemZJYXVW?=
- =?utf-8?B?Uk43MXdQd0d2VCs4TzZlQ09EVTRtUEU4YiswUVNqVDh5RFlhRkNOUjh5SmxE?=
- =?utf-8?B?aktoM2FidGF0ZVNqVmt3QU1adytpTFZRcjJneEN0VTd1eGJxOTZOSjJpRldR?=
- =?utf-8?B?cXpYYUZFVDgyeE8rQ2hudm5oR3Z0QjNKNW5qUmxZSDJKeXBmV2FWOGQxNW1C?=
- =?utf-8?B?S3NXNlY1TXlGSmo2SVRlbkFMNHEwbGZvSExYdXpwSEN5eTJDN2dnNmQ4WWZ0?=
- =?utf-8?B?OGs2RzNGVldCbXppQnRKNnJsNFpUU1VKdHdKK1p2MFIyeFlmOCtWeUdhVkhV?=
- =?utf-8?B?SFAzTFRhZTdqUDdZTHVIeFpoMWNObjBUVVNVMDR3clA1bnBaeHNnUlFMYmpj?=
- =?utf-8?B?ZVMvNjY1cGlrUHdjMDBZNklVWm4yT0lDYlEvV1NHckxTRm8yaWg3aXpydmNP?=
- =?utf-8?B?OXpUMVhXZHp4aERReXNObWxTV24vTGdrRk1jOFRIZUpsRWpVY3RaLyt6KzlH?=
- =?utf-8?B?dnU5dGQ0cUEwTWZZSytDWjBYN1lxT0xxVGRxenUzTFA4cjZhR1VTejhQcFNh?=
- =?utf-8?B?MEJiY2I1UkttRllKMVU4elJVZFRRVEd6Z0NycWNoZjYvN1BER05hUjRuOVpB?=
- =?utf-8?B?L2VzMjFWQ2l2VTJrYnV0MnQrcVk2SU9uNFBDUngvTVArT1NucDE0WnB4N0Z1?=
- =?utf-8?B?eDRMNzQxUFpiSjN6SHlRSGNYajcxL0JlVksrd01hSkVWWkE2MGEvVmZTbTVo?=
- =?utf-8?B?OHByN0VpOUZKT1hEZS9tQ1RBWDFIejl5eFZoUlA0RVRWRnFKeFROL0xTaTQ1?=
- =?utf-8?B?OE81YlRRcFlEWUZScEtPQm1lNWpsT0RUNVNMQTRka3JlaDYwdXNsZTV2OTha?=
- =?utf-8?B?d2FhRGgzalBwbENuRXF5WmVncTR0ODRWU0pTWmhtWGlIM29TN0lZZmtmdGE1?=
- =?utf-8?B?Z2d5REs1d0gra1YzSUptN0NqSHJ4TlJQNDVGZkpUNzcweVBmR2Ureko5Snp4?=
- =?utf-8?B?YzRZR2xuVERKUGlzTG90N1BFcDF0M0lZSnFWVXh5ZjhrK0laUjZXV0hhTExR?=
- =?utf-8?B?UzRGNXpYR2twMFIwR0FmcS9BS3UwMWwrT3RiQkJLcjFub2lBUmZGb0tBK3FC?=
- =?utf-8?B?TDJOOFY1S0ovdTc0bTlCb1ZYYXY4Q2hQc1ZhUEVkaktWQ1JJRVJ2WU1NbXNW?=
- =?utf-8?B?aklHanZFVllsMW1vSW90TGwwcU56SWI5S1ZmTHV2UEt6UlI4ak5RUFB4N0dy?=
- =?utf-8?B?NzlOTnhHb0JHMm14b0dtc0FZanFpcUZhU0hyejgybE5iUEpTdkxHWVg2R3Az?=
- =?utf-8?B?VG5GRjVzUnlBdjRQcUgra2pWaUZtVVhCTGxKTjUrbW90VVZsQ3ZXcjh5RkdF?=
- =?utf-8?B?dE92WXBTcHExUi9rTDdQQ0tOOVo1N2s2ajBWaG9KZTBsKzZiYU5VZnpYc014?=
- =?utf-8?B?dHFIV1FJNFZIR1VUTGFDRE0wUnA5UUVlb3FJMkUrNHpoUXdTVGF5SEtvT0Rn?=
- =?utf-8?B?SDhldWJpZEkvT0Y4YUNaOG9XQ0FlNkFRdjFxR0l1R1E5VkxKSzN5a1VIa3B2?=
- =?utf-8?B?V2JJN1NOY2JHd09pNHBFdVB4aGZGb0NPb3VBVlJPVU9EdmhFZ2JkOG5SdWxD?=
- =?utf-8?B?ZWttekdqRjNXSkx4YWVGU2F1OGdoa0p2VFVMRmhNbFltUW1iaXlsUnc3TEFB?=
- =?utf-8?B?cU5PNndpRHZsZSt6bVBPSGg5RWxzVlgyOGRsTHhYMW8vbmo0NFU0RVhrWW5z?=
- =?utf-8?B?WjJJT3BUMWRmK2hnbHVSNms3Rk81QkhqVXJzK1N4QXgxdENqTWwvemt4WkRo?=
- =?utf-8?B?YzM1OWlqcGtmeDhacUtLc1NQbkhIMnlva1JUK0hCdFVkUSt2cHJWcXdPTTEv?=
- =?utf-8?B?dWtZOVFiUGxMMVVHZVlBUTZTektCRWJNeE4weEdJMFQwT2ZpMEJxYXdUNnUv?=
- =?utf-8?Q?IJmOnsKWMP3kCdDra5P3LWY=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- aab81d4f-5447-4f5e-9f20-08d9c50902f6
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 05:07:54.5823
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- q4+/q4Hw8pNBVBY2TWGeqOe+wBsGjyfm/jtFsWZ5GLODPt2jQ2z2iWp+4jrrInltwuUE3bdNv0f2VI2ulDIlYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5587
-X-Proofpoint-ORIG-GUID: ecf4hOA91H-ubMdO4-PnFKtJC3cOmC6E
-X-Proofpoint-GUID: RilC7nKQfReQc-9JkIOJ6gAjXXSEH-fq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-22_01,2021-12-21_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 spamscore=0 impostorscore=0 mlxscore=0 bulkscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112220031
-Content-Transfer-Encoding: base64
-X-MIME-Autoconverted: from 8bit to base64 by mx0a-0064b401.pphosted.com id
- 1BM57vkr003386
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Dec 2021 05:07:58 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Dec 2021 05:37:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159940
+ https://lists.openembedded.org/g/openembedded-core/message/159941
 
-WWVzLiBJJ3ZlIHNlbnQgb3V0IFYyLg0KDQpSZWdhcmRzLA0KUWkNCg0KT24gMTIvMjIvMjEg
-MTA6MzYgQU0sIE1pdHRhbCwgQW51aiB3cm90ZToNCj4gSSB0aGluayB3ZSBjYW4ganVzdCB1
-cGdyYWRlIHRvIDEuMzMuMiB0aGF0IGhhcyBhbGwgb2YgdGhlc2UgZXhjZXB0IHRoZQ0KPiBh
-d2sgY2hhbmdlcy4NCj4NCj4gaHR0cHM6Ly9naXQuYnVzeWJveC5uZXQvYnVzeWJveC9sb2cv
-P2g9MV8zM19zdGFibGUNCj4NCj4gSSBoYWQgc2VudCBhIHBhdGNoIGZvciB0aGUgdXBncmFk
-ZS4NCj4NCj4gaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQtY29y
-ZS1jb250cmliL2xvZy8/aD1zdGFibGUvaGFyZGtub3R0LW5leHQNCj4NCj4gQ2FuIHlvdSBw
-bGVhc2UgcmViYXNlIG9uIHRvcCBvZiB0aGF0Pw0KPg0KPiBUaGFua3MsDQo+DQo+IEFudWoN
-Cj4NCj4gT24gVHVlLCAyMDIxLTEyLTIxIGF0IDE4OjExIC0wODAwLCBDaGVuIFFpIHdyb3Rl
-Og0KPj4gRnJvbTogUGF2ZWwgWmh1a292IDxwYXZlbC56aHVrb3ZAaHVhd2VpLmNvbT4NCj4+
-DQo+PiBBbiBvdXQtb2YtYm91bmRzIGhlYXAgcmVhZCBpbiB1bmx6bWEgbGVhZHMgdG8gaW5m
-b3JtYXRpb24gbGVhayBhbmQNCj4+IGRlbmlhbCBvZiBzZXJ2aWNlIHdoZW4gY3JhZnRlZCBM
-Wk1BLWNvbXByZXNzZWQgaW5wdXQgaXMgZGVjb21wcmVzc2VkLg0KPj4gVGhpcyBjYW4gYmUg
-dHJpZ2dlcmVkIGJ5IGFueSBhcHBsZXQvZm9ybWF0IHRoYXQgaW50ZXJuYWxseSBzdXBwb3J0
-cw0KPj4gTFpNQSBjb21wcmVzc2lvbi4NCj4+DQo+PiBSZWZlcmVuY2U6DQo+PiBodHRwczov
-L3dlYi5udmQubmlzdC5nb3Yvdmlldy92dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIwMjEtNDIz
-NzQNCj4+DQo+PiAoRnJvbSBPRS1Db3JlIHJldjogMjk3NzE5OTg5ZWJlOGNlN2Q1MGUzOTkx
-Y2JhM2UyNjg5Mzg2OTBjZSkNCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBQYXZlbCBaaHVrb3Yg
-PHBhdmVsLnpodWtvdkBodWF3ZWkuY29tPg0KPj4gU2lnbmVkLW9mZi1ieTogU3RldmUgU2Fr
-b21hbiA8c3RldmVAc2Frb21hbi5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1
-cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4+IFNpZ25lZC1v
-ZmYtYnk6IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4NCj4+IC0tLQ0KPj4gIMKg
-Li4uL2J1c3lib3gvYnVzeWJveC9DVkUtMjAyMS00MjM3NC5wYXRjaMKgwqDCoMKgwqAgfCA1
-Mw0KPj4gKysrKysrKysrKysrKysrKysrKw0KPj4gIMKgbWV0YS9yZWNpcGVzLWNvcmUvYnVz
-eWJveC9idXN5Ym94XzEuMzMuMS5iYsKgwqAgfMKgIDEgKw0KPj4gIMKgMiBmaWxlcyBjaGFu
-Z2VkLCA1NCBpbnNlcnRpb25zKCspDQo+PiAgwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9y
-ZWNpcGVzLWNvcmUvYnVzeWJveC9idXN5Ym94L0NWRS0yMDIxLQ0KPj4gNDIzNzQucGF0Y2gN
-Cj4+DQo+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYnVzeWJveC9idXN5Ym94
-L0NWRS0yMDIxLTQyMzc0LnBhdGNoDQo+PiBiL21ldGEvcmVjaXBlcy1jb3JlL2J1c3lib3gv
-YnVzeWJveC9DVkUtMjAyMS00MjM3NC5wYXRjaA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
-Cj4+IGluZGV4IDAwMDAwMDAwMDAuLmFlZjhhM2RiODUNCj4+IC0tLSAvZGV2L251bGwNCj4+
-ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2J1c3lib3gvYnVzeWJveC9DVkUtMjAyMS00MjM3
-NC5wYXRjaA0KPj4gQEAgLTAsMCArMSw1MyBAQA0KPj4gK0Zyb20gMDRmMDUyYzU2ZGVkNWFi
-NmE5MDRlM2EyNjRhNzNkYzA0MTJiMmU3OCBNb24gU2VwIDE3IDAwOjAwOjAwDQo+PiAyMDAx
-DQo+PiArRnJvbTogRGVueXMgVmxhc2Vua28gPHZkYS5saW51eEBnb29nbGVtYWlsLmNvbT4N
-Cj4+ICtEYXRlOiBUdWUsIDE1IEp1biAyMDIxIDE1OjA3OjU3ICswMjAwDQo+PiArU3ViamVj
-dDogW1BBVENIXSB1bmx6bWE6IGZpeCBhIGNhc2Ugd2hlcmUgd2UgY291bGQgcmVhZCBiZWZv
-cmUNCj4+IGJlZ2lubmluZyBvZg0KPj4gKyBidWZmZXINCj4+ICtDYzogcGF2ZWxAemh1a29m
-Zi5uZXQNCj4+ICsNCj4+ICtUZXN0Y2FzZToNCj4+ICsNCj4+ICvCoCAyMSAwMSAwMSAwMCAw
-MCAwMCAwMCAwMCBlNyAwMSAwMSAwMSBlZiAwMCBkZiBiNg0KPj4gK8KgIDAwIDE3IDAyIDEw
-IDExIDBmIGZmIDAwIDE2IDAwIDAwDQo+PiArDQo+PiArVW5mb3J0dW5hdGVseSwgdGhlIGJ1
-ZyBpcyBub3QgcmVsaWFibHkgY2F1c2luZyBhIHNlZ2ZhdWx0LA0KPj4gK3RoZSBiZWhhdmlv
-ciBkZXBlbmRzIG9uIHdoYXQncyBpbiBtZW1vcnkgYmVmb3JlIHRoZSBidWZmZXIuDQo+PiAr
-DQo+PiArZnVuY3Rpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9sZMKg
-wqDCoMKgIG5ldw0KPj4gZGVsdGENCj4+ICt1bnBhY2tfbHptYV9zdHJlYW3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgMjc2Mg0KPj4gMjc2OMKgwqDCoMKgwqAgKzYNCj4+ICsNCj4+ICtTaWduZWQtb2ZmLWJ5
-OiBEZW55cyBWbGFzZW5rbyA8dmRhLmxpbnV4QGdvb2dsZW1haWwuY29tPg0KPj4gKw0KPj4g
-K1NpZ25lZC1vZmYtYnk6IFBhdmVsIFpodWtvdiA8cGF2ZWwuemh1a292QGh1YXdlaS5jb20+
-DQo+PiArDQo+PiArQ1ZFOiBDVkUtMjAyMS00MjM3NA0KPj4gK1Vwc3RyZWFtLVN0YXR1czog
-QmFja3BvcnQNCj4+IFtodHRwczovL2dpdC5idXN5Ym94Lm5ldC9idXN5Ym94L2NvbW1pdC8/
-aD0xXzMzX3N0YWJsZSZpZD1kMzI2YmUyODUwZQ0KPj4gYTJiZDc4ZmUyYzIyZDZjNDVjM2I4
-NjFkODI5MzddDQo+PiArQ29tbWVudDogdGVzdGRhdGEgZHJvcHBlZCBiZWNhdXNlIG9mIGJp
-bmFyeSBmb3JtYXQNCj4+ICsNCj4+ICstLS0NCj4+ICsgYXJjaGl2YWwvbGliYXJjaGl2ZS9k
-ZWNvbXByZXNzX3VubHptYS5jIHzCoMKgIDUgKysrKy0NCj4+ICsgdGVzdHN1aXRlL3VubHpt
-YS50ZXN0c8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDE3ICsrKysr
-KysrKysrKystLS0tDQo+PiArIHRlc3RzdWl0ZS91bmx6bWFfaXNzdWVfMy5sem1hwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfCBCaW4gMCAtPiAyNyBieXRlcw0KPj4gKyAzIGZpbGVzIGNoYW5n
-ZWQsIDE3IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+PiArIGNyZWF0ZSBtb2Rl
-IDEwMDY0NCB0ZXN0c3VpdGUvdW5sem1hX2lzc3VlXzMubHptYQ0KPj4gKw0KPj4gK2RpZmYg
-LS1naXQgYS9hcmNoaXZhbC9saWJhcmNoaXZlL2RlY29tcHJlc3NfdW5sem1hLmMNCj4+IGIv
-YXJjaGl2YWwvbGliYXJjaGl2ZS9kZWNvbXByZXNzX3VubHptYS5jDQo+PiAraW5kZXgNCj4+
-IDA3NDRmMjMxYTFkNjRkOTI2NzZiMGNhZGEyMzQyZjg4ZjNiMzliMzEuLmZiNWFhYzhmZTll
-YTBjNTNlMGMyZDdhN2NiZA0KPj4gMDVhNzUzZTM5YmM5ZCAxMDA2NDQNCj4+ICstLS0gYS9h
-cmNoaXZhbC9saWJhcmNoaXZlL2RlY29tcHJlc3NfdW5sem1hLmMNCj4+ICsrKysgYi9hcmNo
-aXZhbC9saWJhcmNoaXZlL2RlY29tcHJlc3NfdW5sem1hLmMNCj4+ICtAQCAtMjkwLDggKzI5
-MCwxMSBAQCB1bnBhY2tfbHptYV9zdHJlYW0odHJhbnNmb3JtZXJfc3RhdGVfdCAqeHN0YXRl
-KQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgdWludDMyX3QgcG9zOw0KPj4gKw0KPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcG9zID0g
-YnVmZmVyX3BvcyAtIHJlcDA7DQo+PiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmICgoaW50MzJfdClwb3MgPCAwKQ0K
-Pj4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBpZiAoKGludDMyX3QpcG9zIDwgMCkgew0KPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoHBvcyArPSBoZWFkZXIuZGljdF9zaXplOw0KPj4gKyvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgaWYgKChpbnQzMl90KXBvcyA8IDApDQo+PiArK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBiYWQ7DQo+PiArK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0NCj4+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoG1hdGNoX2J5dGUgPSBidWZmZXJbcG9zXTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRvIHsNCj4+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnQgYml0Ow0KPj4gKy0tDQo+PiArMi4zNC4wDQo+
-PiArDQo+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYnVzeWJveC9idXN5Ym94
-XzEuMzMuMS5iYg0KPj4gYi9tZXRhL3JlY2lwZXMtY29yZS9idXN5Ym94L2J1c3lib3hfMS4z
-My4xLmJiDQo+PiBpbmRleCA0MDAyZDZhNWM2Li41ZjU3NGU3ZjQ5IDEwMDY0NA0KPj4gLS0t
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvYnVzeWJveC9idXN5Ym94XzEuMzMuMS5iYg0KPj4gKysr
-IGIvbWV0YS9yZWNpcGVzLWNvcmUvYnVzeWJveC9idXN5Ym94XzEuMzMuMS5iYg0KPj4gQEAg
-LTQ4LDYgKzQ4LDcgQEAgU1JDX1VSSSA9DQo+PiAiaHR0cHM6Ly9idXN5Ym94Lm5ldC9kb3du
-bG9hZHMvYnVzeWJveC0ke1BWfS50YXIuYnoyO25hbWU9dGFyYmFsbMKgXA0KPj4gICAgICAg
-ICAgICAgDQo+PiBmaWxlOi8vMDAwMS1zeXNjdGwtaWdub3JlLUVJTy1vZi1zdGFibGVfc2Vj
-cmV0LWJlbG93LXByb2Mtc3lzLW5lLnBhdGNoDQo+PiAgwqBcDQo+PiAgICAgICAgICAgICAN
-Cj4+IGZpbGU6Ly8wMDAxLWdlbl9idWlsZF9maWxlcy1Vc2UtQy1sb2NhbGUtd2hlbi1jYWxs
-aW5nLXNlZC1vbi1nbG8ucGF0Y2gNCj4+ICDCoFwNCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGZpbGU6Ly8wMDAxLW1rdGVtcC1hZGQtdG1wZGlyLW9wdGlvbi5wYXRjaMKgXA0KPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgIGZpbGU6Ly9DVkUtMjAyMS00MjM3NC5wYXRjaMKgXA0K
-Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIg0KPj4gIMKgU1JDX1VSSV9hcHBlbmRfbGli
-Yy1tdXNsID0gIiBmaWxlOi8vbXVzbC5jZmfCoCINCj4+ICAgDQo+Pg0KPj4gLT0tPS09LT0t
-PS09LT0tPS09LT0tPS0NCj4+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2Vu
-dCB0byB0aGlzIGdyb3VwLg0KPj4gVmlldy9SZXBseSBPbmxpbmUgKCMxNTk5MzQpOg0KPj4g
-aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVz
-c2FnZS8xNTk5MzQNCj4+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1i
-ZWRkZWQub3JnL210Lzg3ODkwOTk5LzM2MTY3MDINCj4+IEdyb3VwIE93bmVyOiBvcGVuZW1i
-ZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+PiBVbnN1YnNjcmli
-ZToNCj4+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1j
-b3JlL3Vuc3ViwqBbDQo+PiBhbnVqLm1pdHRhbEBpbnRlbC5jb21dDQo+PiAtPS09LT0tPS09
-LT0tPS09LT0tPS09LQ0KPj4NCg0K
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=b3aa80b45c4f46029efeb204bb9f2d2c4278a0e5]
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=795588aec4f894206863c938bd6d716895886009]
+
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
+---
+ .../binutils/binutils-2.37.inc                |    2 +
+ .../binutils/0001-CVE-2021-42574.patch        | 2000 +++++++++++++++++
+ .../binutils/0002-CVE-2021-42574.patch        |   83 +
+ 3 files changed, 2085 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0002-CVE-2021-42574.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.37.inc b/meta/recipes-devtools/binutils/binutils-2.37.inc
+index fca4a80ad2..d03ec844d7 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.37.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.37.inc
+@@ -33,5 +33,7 @@ SRC_URI = "\
+      file://0016-Check-for-clang-before-checking-gcc-version.patch \
+      file://0017-bfd-Close-the-file-descriptor-if-there-is-no-archive.patch \
+      file://0001-elf-Discard-input-.note.gnu.build-id-sections.patch \
++     file://0001-CVE-2021-42574.patch \
++     file://0002-CVE-2021-42574.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
+new file mode 100644
+index 0000000000..1acfaf203c
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
+@@ -0,0 +1,2000 @@
++From b3aa80b45c4f46029efeb204bb9f2d2c4278a0e5 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Tue, 9 Nov 2021 13:25:42 +0000
++Subject: [PATCH] Add --unicode option to control how unicode characters are
++ handled by display tools.
++
++	* nm.c: Add --unicode option to control how unicode characters are
++	handled.
++	* objdump.c: Likewise.
++	* readelf.c: Likewise.
++	* strings.c: Likewise.
++	* binutils.texi: Document the new feature.
++	* NEWS: Document the new feature.
++	* testsuite/binutils-all/unicode.exp: New file.
++	* testsuite/binutils-all/nm.hex.unicode
++	* testsuite/binutils-all/strings.escape.unicode
++	* testsuite/binutils-all/objdump.highlight.unicode
++	* testsuite/binutils-all/readelf.invalid.unicode
++
++CVE: CVE-2021-42574
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=b3aa80b45c4f46029efeb204bb9f2d2c4278a0e5]
++
++Signed-off-by: pgowda <pgowda.cve@gmail.com>
++---
++ binutils/ChangeLog         |  15 +
++ binutils/NEWS              |   9 +
++ binutils/doc/binutils.texi |  78 ++++
++ binutils/nm.c              | 228 ++++++++++-
++ binutils/objdump.c         | 235 ++++++++++--
++ binutils/readelf.c         | 190 +++++++++-
++ binutils/strings.c         | 757 ++++++++++++++++++++++++++++++++++---
++ 7 files changed, 1409 insertions(+), 103 deletions(-)
++
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++--- a/binutils/ChangeLog	2021-12-21 19:48:34.750142613 -0800
+++++ b/binutils/ChangeLog	2021-12-21 19:50:19.452363292 -0800
++@@ -1,3 +1,18 @@
+++2021-11-09  Nick Clifton  <nickc@redhat.com>
+++
+++	* nm.c: Add --unicode option to control how unicode characters are
+++	handled.
+++	* objdump.c: Likewise.
+++	* readelf.c: Likewise.
+++	* strings.c: Likewise.
+++	* binutils.texi: Document the new feature.
+++	* NEWS: Document the new feature.
+++	* testsuite/binutils-all/unicode.exp: New file.
+++	* testsuite/binutils-all/nm.hex.unicode
+++	* testsuite/binutils-all/strings.escape.unicode
+++	* testsuite/binutils-all/objdump.highlight.unicode
+++	* testsuite/binutils-all/readelf.invalid.unicode
+++
++ 2021-07-16  Nick Clifton  <nickc@redhat.com>
++ 
++ 	* po/sv.po: Updated Swedish translation.
++diff --git a/binutils/doc/binutils.texi b/binutils/doc/binutils.texi
++--- a/binutils/doc/binutils.texi	2021-12-21 19:48:34.754142546 -0800
+++++ b/binutils/doc/binutils.texi	2021-12-21 19:50:19.456363224 -0800
++@@ -812,6 +812,7 @@ nm [@option{-A}|@option{-o}|@option{--pr
++    [@option{-s}|@option{--print-armap}]
++    [@option{-t} @var{radix}|@option{--radix=}@var{radix}]
++    [@option{-u}|@option{--undefined-only}]
+++   [@option{-U} @var{method}] [@option{--unicode=}@var{method}]
++    [@option{-V}|@option{--version}]
++    [@option{-X 32_64}]
++    [@option{--defined-only}]
++@@ -1132,6 +1133,21 @@ Use @var{radix} as the radix for printin
++ @cindex undefined symbols
++ Display only undefined symbols (those external to each object file).
++ 
+++@item -U @var{[d|i|l|e|x|h]}
+++@itemx --unicode=@var{[default|invalid|locale|escape|hex|highlight]}
+++Controls the display of UTF-8 encoded mulibyte characters in strings.
+++The default (@option{--unicode=default}) is to give them no special
+++treatment.  The @option{--unicode=locale} option displays the sequence
+++in the current locale, which may or may not support them.  The options
+++@option{--unicode=hex} and @option{--unicode=invalid} display them as
+++hex byte sequences enclosed by either angle brackets or curly braces.
+++
+++The @option{--unicode=escape} option displays them as escape sequences
+++(@var{\uxxxx}) and the @option{--unicode=highlight} option displays
+++them as escape sequences highlighted in red (if supported by the
+++output device).  The colouring is intended to draw attention to the
+++presence of unicode sequences where they might not be expected.
+++
++ @item -V
++ @itemx --version
++ Show the version number of @command{nm} and exit.
++@@ -2247,6 +2263,7 @@ objdump [@option{-a}|@option{--archive-h
++         [@option{--prefix-strip=}@var{level}]
++         [@option{--insn-width=}@var{width}]
++         [@option{--visualize-jumps[=color|=extended-color|=off]}
+++        [@option{-U} @var{method}] [@option{--unicode=}@var{method}]
++         [@option{-V}|@option{--version}]
++         [@option{-H}|@option{--help}]
++         @var{objfile}@dots{}
++@@ -2921,6 +2938,21 @@ When displaying symbols include those wh
++ special in some way and which would not normally be of interest to the
++ user.
++ 
+++@item -U @var{[d|i|l|e|x|h]}
+++@itemx --unicode=@var{[default|invalid|locale|escape|hex|highlight]}
+++Controls the display of UTF-8 encoded mulibyte characters in strings.
+++The default (@option{--unicode=default}) is to give them no special
+++treatment.  The @option{--unicode=locale} option displays the sequence
+++in the current locale, which may or may not support them.  The options
+++@option{--unicode=hex} and @option{--unicode=invalid} display them as
+++hex byte sequences enclosed by either angle brackets or curly braces.
+++
+++The @option{--unicode=escape} option displays them as escape sequences
+++(@var{\uxxxx}) and the @option{--unicode=highlight} option displays
+++them as escape sequences highlighted in red (if supported by the
+++output device).  The colouring is intended to draw attention to the
+++presence of unicode sequences where they might not be expected.
+++
++ @item -V
++ @itemx --version
++ Print the version number of @command{objdump} and exit.
++@@ -3197,6 +3229,7 @@ strings [@option{-afovV}] [@option{-}@va
++         [@option{-n} @var{min-len}] [@option{--bytes=}@var{min-len}]
++         [@option{-t} @var{radix}] [@option{--radix=}@var{radix}]
++         [@option{-e} @var{encoding}] [@option{--encoding=}@var{encoding}]
+++        [@option{-U} @var{method}] [@option{--unicode=}@var{method}]
++         [@option{-}] [@option{--all}] [@option{--print-file-name}]
++         [@option{-T} @var{bfdname}] [@option{--target=}@var{bfdname}]
++         [@option{-w}] [@option{--include-all-whitespace}]
++@@ -3288,6 +3321,28 @@ single-8-bit-byte characters, @samp{b} =
++ littleendian.  Useful for finding wide character strings. (@samp{l}
++ and @samp{b} apply to, for example, Unicode UTF-16/UCS-2 encodings).
++ 
+++@item -U @var{[d|i|l|e|x|h]}
+++@itemx --unicode=@var{[default|invalid|locale|escape|hex|highlight]}
+++Controls the display of UTF-8 encoded mulibyte characters in strings.
+++The default (@option{--unicode=default}) is to give them no special
+++treatment, and instead rely upon the setting of the
+++@option{--encoding} option.  The other values for this option
+++automatically enable @option{--encoding=S}.
+++
+++The @option{--unicode=invalid} option treats them as non-graphic
+++characters and hence not part of a valid string.  All the remaining
+++options treat them as valid string characters.
+++
+++The @option{--unicode=locale} option displays them in the current
+++locale, which may or may not support UTF-8 encoding.  The
+++@option{--unicode=hex} option displays them as hex byte sequences
+++enclosed between @var{<>} characters.  The @option{--unicode=escape}
+++option displays them as escape sequences (@var{\uxxxx}) and the
+++@option{--unicode=highlight} option displays them as escape sequences
+++highlighted in red (if supported by the output device).  The colouring
+++is intended to draw attention to the presence of unicode sequences
+++where they might not be expected.
+++
++ @item -T @var{bfdname}
++ @itemx --target=@var{bfdname}
++ @cindex object code format
++@@ -4796,6 +4851,7 @@ readelf [@option{-a}|@option{--all}]
++         [@option{--demangle@var{=style}}|@option{--no-demangle}]
++         [@option{--quiet}]
++         [@option{--recurse-limit}|@option{--no-recurse-limit}]
+++        [@option{-U} @var{method}|@option{--unicode=}@var{method}]
++         [@option{-n}|@option{--notes}]
++         [@option{-r}|@option{--relocs}]
++         [@option{-u}|@option{--unwind}]
++@@ -4962,6 +5018,28 @@ necessary in order to demangle truly com
++ that if the recursion limit is disabled then stack exhaustion is
++ possible and any bug reports about such an event will be rejected.
++ 
+++@item -U @var{[d|i|l|e|x|h]}
+++@itemx --unicode=[default|invalid|locale|escape|hex|highlight]
+++Controls the display of non-ASCII characters in identifier names.
+++The default (@option{--unicode=locale} or @option{--unicode=default}) is
+++to treat them as multibyte characters and display them in the current
+++locale.  All other versions of this option treat the bytes as UTF-8
+++encoded values and attempt to interpret them.  If they cannot be
+++interpreted or if the @option{--unicode=invalid} option is used then
+++they are displayed as a sequence of hex bytes, encloses in curly
+++parethesis characters.
+++
+++Using the @option{--unicode=escape} option will display the characters
+++as as unicode escape sequences (@var{\uxxxx}).  Using the
+++@option{--unicode=hex} will display the characters as hex byte
+++sequences enclosed between angle brackets.
+++
+++Using the @option{--unicode=highlight} will display the characters as 
+++unicode escape sequences but it will also highlighted them in red,
+++assuming that colouring is supported by the output device.  The
+++colouring is intended to draw attention to the presence of unicode
+++sequences when they might not be expected.
+++
++ @item -e
++ @itemx --headers
++ Display all the headers in the file.  Equivalent to @option{-h -l -S}.
++diff --git a/binutils/NEWS b/binutils/NEWS
++--- a/binutils/NEWS	2021-12-21 19:48:34.754142546 -0800
+++++ b/binutils/NEWS	2021-12-21 19:50:19.456363224 -0800
++@@ -1,5 +1,14 @@
++ -*- text -*-
++ 
+++* Tools which display symbols or strings (readelf, strings, nm, objdump)
+++  have a new command line option which controls how unicode characters are
+++  handled.  By default they are treated as normal for the tool.  Using
+++  --unicode=locale will display them according to the current locale.
+++  Using --unicode=hex will display them as hex byte values, whilst
+++  --unicode=escape will display them as escape sequences.  In addition
+++  using --unicode=highlight will display them as unicode escape sequences
+++  highlighted in red (if supported by the output device).
+++
++ Changes in 2.37:
++ 
++ * The readelf tool has a new command line option which can be used to specify
++diff --git a/binutils/nm.c b/binutils/nm.c
++--- a/binutils/nm.c	2021-12-21 19:48:34.758142478 -0800
+++++ b/binutils/nm.c	2021-12-21 19:52:25.026224085 -0800
++@@ -38,6 +38,11 @@
++ #include "bucomm.h"
++ #include "plugin-api.h"
++ #include "plugin.h"
+++#include "safe-ctype.h"
+++
+++#ifndef streq
+++#define streq(a,b) (strcmp ((a),(b)) == 0)
+++#endif
++ 
++ /* When sorting by size, we use this structure to hold the size and a
++    pointer to the minisymbol.  */
++@@ -216,6 +221,18 @@ static const char *plugin_target = NULL;
++ static bfd *lineno_cache_bfd;
++ static bfd *lineno_cache_rel_bfd;
++ 
+++typedef enum unicode_display_type
+++{
+++  unicode_default = 0,
+++  unicode_locale,
+++  unicode_escape,
+++  unicode_hex,
+++  unicode_highlight,
+++  unicode_invalid
+++} unicode_display_type;
+++
+++static unicode_display_type unicode_display = unicode_default;
+++
++ enum long_option_values
++ {
++   OPTION_TARGET = 200,
++@@ -260,6 +277,7 @@ static struct option long_options[] =
++   {"target", required_argument, 0, OPTION_TARGET},
++   {"defined-only", no_argument, &defined_only, 1},
++   {"undefined-only", no_argument, &undefined_only, 1},
+++  {"unicode", required_argument, NULL, 'U'},
++   {"version", no_argument, &show_version, 1},
++   {"with-symbol-versions", no_argument, &with_symbol_versions, 1},
++   {"without-symbol-versions", no_argument, &with_symbol_versions, 0},
++@@ -313,6 +331,8 @@ usage (FILE *stream, int status)
++   -t, --radix=RADIX      Use RADIX for printing symbol values\n\
++       --target=BFDNAME   Specify the target object format as BFDNAME\n\
++   -u, --undefined-only   Display only undefined symbols\n\
+++  -U {d|s|i|x|e|h}       Specify how to treat UTF-8 encoded unicode characters\n\
+++      --unicode={default|show|invalid|hex|escape|highlight}\n\
++       --with-symbol-versions  Display version strings after symbol names\n\
++   -X 32_64               (ignored)\n\
++   @FILE                  Read options from FILE\n\
++@@ -431,6 +451,188 @@ get_coff_symbol_type (const struct inter
++     fatal ("%s", xstrerror (errno));
++   return bufp;
++ }
+++
+++/* Convert a potential UTF-8 encoded sequence in IN into characters in OUT.
+++   The conversion format is controlled by the unicode_display variable.
+++   Returns the number of characters added to OUT.
+++   Returns the number of bytes consumed from IN in CONSUMED.
+++   Always consumes at least one byte and displays at least one character.  */
+++
+++static unsigned int
+++display_utf8 (const unsigned char * in, char * out, unsigned int * consumed)
+++{
+++  char *        orig_out = out;
+++  unsigned int  nchars = 0;
+++  unsigned int j;
+++
+++  if (unicode_display == unicode_default)
+++    goto invalid;
+++
+++  if (in[0] < 0xc0)
+++    goto invalid;
+++
+++  if ((in[1] & 0xc0) != 0x80)
+++    goto invalid;
+++
+++  if ((in[0] & 0x20) == 0)
+++    {
+++      nchars = 2;
+++      goto valid;
+++    }
+++
+++  if ((in[2] & 0xc0) != 0x80)
+++    goto invalid;
+++
+++  if ((in[0] & 0x10) == 0)
+++    {
+++      nchars = 3;
+++      goto valid;
+++    }
+++
+++  if ((in[3] & 0xc0) != 0x80)
+++    goto invalid;
+++
+++  nchars = 4;
+++
+++ valid:
+++  switch (unicode_display)
+++    {
+++    case unicode_locale:
+++      /* Copy the bytes into the output buffer as is.  */
+++      memcpy (out, in, nchars);
+++      out += nchars;
+++      break;
+++
+++    case unicode_invalid:
+++    case unicode_hex:
+++      out += sprintf (out, "%c", unicode_display == unicode_hex ? '<' : '{');
+++      out += sprintf (out, "0x");
+++      for (j = 0; j < nchars; j++)
+++	out += sprintf (out, "%02x", in [j]);
+++      out += sprintf (out, "%c", unicode_display == unicode_hex ? '>' : '}');
+++      break;
+++
+++    case unicode_highlight:
+++      if (isatty (1))
+++	out += sprintf (out, "\x1B[31;47m"); /* Red.  */
+++      /* Fall through.  */
+++    case unicode_escape:
+++      switch (nchars)
+++	{
+++	case 2:
+++	  out += sprintf (out, "\\u%02x%02x",
+++		  ((in[0] & 0x1c) >> 2),
+++		  ((in[0] & 0x03) << 6) | (in[1] & 0x3f));
+++	  break;
+++
+++	case 3:
+++	  out += sprintf (out, "\\u%02x%02x",
+++		  ((in[0] & 0x0f) << 4) | ((in[1] & 0x3c) >> 2),
+++		  ((in[1] & 0x03) << 6) | ((in[2] & 0x3f)));
+++	  break;
+++
+++	case 4:
+++	  out += sprintf (out, "\\u%02x%02x%02x",
+++		  ((in[0] & 0x07) << 6) | ((in[1] & 0x3c) >> 2),
+++		  ((in[1] & 0x03) << 6) | ((in[2] & 0x3c) >> 2),
+++		  ((in[2] & 0x03) << 6) | ((in[3] & 0x3f)));
+++	  break;
+++	default:
+++	  /* URG.  */
+++	  break;
+++	}
+++
+++      if (unicode_display == unicode_highlight && isatty (1))
+++	out += sprintf (out, "\033[0m"); /* Default colour.  */
+++      break;
+++
+++    default:
+++      /* URG */
+++      break;
+++    }
+++
+++  * consumed = nchars;
+++  return out - orig_out;
+++
+++ invalid:
+++  /* Not a valid UTF-8 sequence.  */
+++  *out = *in;
+++  * consumed = 1;
+++  return 1;
+++}
+++
+++/* Convert any UTF-8 encoded characters in NAME into the form specified by
+++   unicode_display.  Also converts control characters.  Returns a static
+++   buffer if conversion was necessary.
+++   Code stolen from objdump.c:sanitize_string().  */
+++
+++static const char *
+++convert_utf8 (const char * in)
+++{
+++  static char *  buffer = NULL;
+++  static size_t  buffer_len = 0;
+++  const char *   original = in;
+++  char *         out;
+++
+++  /* Paranoia.  */
+++  if (in == NULL)
+++    return "";
+++
+++  /* See if any conversion is necessary.
+++     In the majority of cases it will not be needed.  */
+++  do
+++    {
+++      unsigned char c = *in++;
+++
+++      if (c == 0)
+++	return original;
+++
+++      if (ISCNTRL (c))
+++	break;
+++
+++      if (unicode_display != unicode_default && c >= 0xc0)
+++	break;
+++    }
+++  while (1);
+++
+++  /* Copy the input, translating as needed.  */
+++  in = original;
+++  if (buffer_len < (strlen (in) * 9))
+++    {
+++      free ((void *) buffer);
+++      buffer_len = strlen (in) * 9;
+++      buffer = xmalloc (buffer_len + 1);
+++    }
+++
+++  out = buffer;
+++  do
+++    {
+++      unsigned char c = *in++;
+++
+++      if (c == 0)
+++	break;
+++
+++      if (ISCNTRL (c))
+++	{
+++	  *out++ = '^';
+++	  *out++ = c + 0x40;
+++	}
+++      else if (unicode_display != unicode_default && c >= 0xc0)
+++	{
+++	  unsigned int num_consumed;
+++
+++	  out += display_utf8 ((const unsigned char *)(in - 1), out, & num_consumed);
+++	  in += num_consumed - 1;
+++	}
+++      else
+++	*out++ = c;
+++    }
+++  while (1);
+++
+++  *out = 0;
+++  return buffer;
+++}
+++
++ 
++ /* Print symbol name NAME, read from ABFD, with printf format FORM,
++    demangling it if requested.  */
++@@ -444,6 +646,7 @@ print_symname (const char *form, struct
++ 
++   if (name == NULL)
++     name = info->sinfo->name;
+++
++   if (!with_symbol_versions
++       && bfd_get_flavour (abfd) == bfd_target_elf_flavour)
++     {
++@@ -451,6 +654,7 @@ print_symname (const char *form, struct
++       if (atver)
++ 	*atver = 0;
++     }
+++
++   if (do_demangle && *name)
++     {
++       alloc = bfd_demangle (abfd, name, demangle_flags);
++@@ -458,6 +662,11 @@ print_symname (const char *form, struct
++ 	name = alloc;
++     }
++ 
+++  if (unicode_display != unicode_default)
+++    {
+++      name = convert_utf8 (name);
+++    }
+++
++   if (info != NULL && info->elfinfo && with_symbol_versions)
++     {
++       const char *version_string;
++@@ -1807,7 +2016,7 @@ main (int argc, char **argv)
++     fatal (_("fatal error: libbfd ABI mismatch"));
++   set_default_bfd_target ();
++ 
++-  while ((c = getopt_long (argc, argv, "aABCDef:gHhjJlnopPrSst:uvVvX:",
+++  while ((c = getopt_long (argc, argv, "aABCDef:gHhjJlnopPrSst:uU:vVvX:",
++ 			   long_options, (int *) 0)) != EOF)
++     {
++       switch (c)
++@@ -1900,6 +2109,24 @@ main (int argc, char **argv)
++ 	case 'u':
++ 	  undefined_only = 1;
++ 	  break;
+++
+++	case 'U':
+++	  if (streq (optarg, "default") || streq (optarg, "d"))
+++	    unicode_display = unicode_default;
+++	  else if (streq (optarg, "locale") || streq (optarg, "l"))
+++	    unicode_display = unicode_locale;
+++	  else if (streq (optarg, "escape") || streq (optarg, "e"))
+++	    unicode_display = unicode_escape;
+++	  else if (streq (optarg, "invalid") || streq (optarg, "i"))
+++	    unicode_display = unicode_invalid;
+++	  else if (streq (optarg, "hex") || streq (optarg, "x"))
+++	    unicode_display = unicode_hex;
+++	  else if (streq (optarg, "highlight") || streq (optarg, "h"))
+++	    unicode_display = unicode_highlight;
+++	  else
+++	    fatal (_("invalid argument to -U/--unicode: %s"), optarg);
+++	  break;
+++
++ 	case 'V':
++ 	  show_version = 1;
++ 	  break;
++diff --git a/binutils/objdump.c b/binutils/objdump.c
++--- a/binutils/objdump.c	2021-12-21 19:48:34.762142410 -0800
+++++ b/binutils/objdump.c	2021-12-21 19:53:46.200838785 -0800
++@@ -204,6 +204,19 @@ static const struct objdump_private_desc
++ 
++ /* The list of detected jumps inside a function.  */
++ static struct jump_info *detected_jumps = NULL;
+++
+++typedef enum unicode_display_type
+++{
+++  unicode_default = 0,
+++  unicode_locale,
+++  unicode_escape,
+++  unicode_hex,
+++  unicode_highlight,
+++  unicode_invalid
+++} unicode_display_type;
+++
+++static unicode_display_type unicode_display = unicode_default;
+++
++ 
++ static void usage (FILE *, int) ATTRIBUTE_NORETURN;
++ static void
++@@ -330,6 +343,9 @@ usage (FILE *stream, int status)
++       fprintf (stream, _("\
++   -w, --wide                     Format output for more than 80 columns\n"));
++       fprintf (stream, _("\
+++  -U[d|l|i|x|e|h]                Controls the display of UTF-8 unicode characters\n\
+++  --unicode=[default|locale|invalid|hex|escape|highlight]\n"));
+++      fprintf (stream, _("\
++   -z, --disassemble-zeroes       Do not skip blocks of zeroes when disassembling\n"));
++       fprintf (stream, _("\
++       --start-address=ADDR       Only process data whose address is >= ADDR\n"));
++@@ -420,17 +436,23 @@ static struct option long_options[]=
++ {
++   {"adjust-vma", required_argument, NULL, OPTION_ADJUST_VMA},
++   {"all-headers", no_argument, NULL, 'x'},
++-  {"private-headers", no_argument, NULL, 'p'},
++-  {"private", required_argument, NULL, 'P'},
++   {"architecture", required_argument, NULL, 'm'},
++   {"archive-headers", no_argument, NULL, 'a'},
+++#ifdef ENABLE_LIBCTF
+++  {"ctf", required_argument, NULL, OPTION_CTF},
+++  {"ctf-parent", required_argument, NULL, OPTION_CTF_PARENT},
+++#endif
++   {"debugging", no_argument, NULL, 'g'},
++   {"debugging-tags", no_argument, NULL, 'e'},
++   {"demangle", optional_argument, NULL, 'C'},
++   {"disassemble", optional_argument, NULL, 'd'},
++   {"disassemble-all", no_argument, NULL, 'D'},
++-  {"disassembler-options", required_argument, NULL, 'M'},
++   {"disassemble-zeroes", no_argument, NULL, 'z'},
+++  {"disassembler-options", required_argument, NULL, 'M'},
+++  {"dwarf", optional_argument, NULL, OPTION_DWARF},
+++  {"dwarf-check", no_argument, 0, OPTION_DWARF_CHECK},
+++  {"dwarf-depth", required_argument, 0, OPTION_DWARF_DEPTH},
+++  {"dwarf-start", required_argument, 0, OPTION_DWARF_START},
++   {"dynamic-reloc", no_argument, NULL, 'R'},
++   {"dynamic-syms", no_argument, NULL, 'T'},
++   {"endian", required_argument, NULL, OPTION_ENDIAN},
++@@ -440,16 +462,23 @@ static struct option long_options[]=
++   {"full-contents", no_argument, NULL, 's'},
++   {"headers", no_argument, NULL, 'h'},
++   {"help", no_argument, NULL, 'H'},
+++  {"include", required_argument, NULL, 'I'},
++   {"info", no_argument, NULL, 'i'},
+++  {"inlines", no_argument, 0, OPTION_INLINES},
+++  {"insn-width", required_argument, NULL, OPTION_INSN_WIDTH},
++   {"line-numbers", no_argument, NULL, 'l'},
++-  {"no-show-raw-insn", no_argument, &show_raw_insn, -1},
++   {"no-addresses", no_argument, &no_addresses, 1},
++-  {"process-links", no_argument, &process_links, true},
+++  {"no-recurse-limit", no_argument, NULL, OPTION_NO_RECURSE_LIMIT},
+++  {"no-recursion-limit", no_argument, NULL, OPTION_NO_RECURSE_LIMIT},
+++  {"no-show-raw-insn", no_argument, &show_raw_insn, -1},
+++  {"prefix", required_argument, NULL, OPTION_PREFIX},
++   {"prefix-addresses", no_argument, &prefix_addresses, 1},
+++  {"prefix-strip", required_argument, NULL, OPTION_PREFIX_STRIP},
+++  {"private", required_argument, NULL, 'P'},
+++  {"private-headers", no_argument, NULL, 'p'},
+++  {"process-links", no_argument, &process_links, true},
++   {"recurse-limit", no_argument, NULL, OPTION_RECURSE_LIMIT},
++   {"recursion-limit", no_argument, NULL, OPTION_RECURSE_LIMIT},
++-  {"no-recurse-limit", no_argument, NULL, OPTION_NO_RECURSE_LIMIT},
++-  {"no-recursion-limit", no_argument, NULL, OPTION_NO_RECURSE_LIMIT},
++   {"reloc", no_argument, NULL, 'r'},
++   {"section", required_argument, NULL, 'j'},
++   {"section-headers", no_argument, NULL, 'h'},
++@@ -457,28 +486,16 @@ static struct option long_options[]=
++   {"source", no_argument, NULL, 'S'},
++   {"source-comment", optional_argument, NULL, OPTION_SOURCE_COMMENT},
++   {"special-syms", no_argument, &dump_special_syms, 1},
++-  {"include", required_argument, NULL, 'I'},
++-  {"dwarf", optional_argument, NULL, OPTION_DWARF},
++-#ifdef ENABLE_LIBCTF
++-  {"ctf", required_argument, NULL, OPTION_CTF},
++-  {"ctf-parent", required_argument, NULL, OPTION_CTF_PARENT},
++-#endif
++   {"stabs", no_argument, NULL, 'G'},
++   {"start-address", required_argument, NULL, OPTION_START_ADDRESS},
++   {"stop-address", required_argument, NULL, OPTION_STOP_ADDRESS},
++   {"syms", no_argument, NULL, 't'},
++   {"target", required_argument, NULL, 'b'},
+++  {"unicode", required_argument, NULL, 'U'},
++   {"version", no_argument, NULL, 'V'},
++-  {"wide", no_argument, NULL, 'w'},
++-  {"prefix", required_argument, NULL, OPTION_PREFIX},
++-  {"prefix-strip", required_argument, NULL, OPTION_PREFIX_STRIP},
++-  {"insn-width", required_argument, NULL, OPTION_INSN_WIDTH},
++-  {"dwarf-depth", required_argument, 0, OPTION_DWARF_DEPTH},
++-  {"dwarf-start", required_argument, 0, OPTION_DWARF_START},
++-  {"dwarf-check", no_argument, 0, OPTION_DWARF_CHECK},
++-  {"inlines", no_argument, 0, OPTION_INLINES},
++   {"visualize-jumps", optional_argument, 0, OPTION_VISUALIZE_JUMPS},
++-  {0, no_argument, 0, 0}
+++  {"wide", no_argument, NULL, 'w'},
+++  {NULL, no_argument, NULL, 0}
++ };
++ 
++ static void
++@@ -488,9 +505,121 @@ nonfatal (const char *msg)
++   exit_status = 1;
++ }
++ 
+++/* Convert a potential UTF-8 encoded sequence in IN into characters in OUT.
+++   The conversion format is controlled by the unicode_display variable.
+++   Returns the number of characters added to OUT.
+++   Returns the number of bytes consumed from IN in CONSUMED.
+++   Always consumes at least one byte and displays at least one character.  */
+++   
+++static unsigned int
+++display_utf8 (const unsigned char * in, char * out, unsigned int * consumed)
+++{
+++  char *        orig_out = out;
+++  unsigned int  nchars = 0;
+++  unsigned int j;
+++
+++  if (unicode_display == unicode_default)
+++    goto invalid;
+++
+++  if (in[0] < 0xc0)
+++    goto invalid;
+++
+++  if ((in[1] & 0xc0) != 0x80)
+++    goto invalid;
+++
+++  if ((in[0] & 0x20) == 0)
+++    {
+++      nchars = 2;
+++      goto valid;
+++    }
+++
+++  if ((in[2] & 0xc0) != 0x80)
+++    goto invalid;
+++
+++  if ((in[0] & 0x10) == 0)
+++    {
+++      nchars = 3;
+++      goto valid;
+++    }
+++
+++  if ((in[3] & 0xc0) != 0x80)
+++    goto invalid;
+++
+++  nchars = 4;
+++
+++ valid:
+++  switch (unicode_display)
+++    {
+++    case unicode_locale:
+++      /* Copy the bytes into the output buffer as is.  */
+++      memcpy (out, in, nchars);
+++      out += nchars;
+++      break;
+++
+++    case unicode_invalid:
+++    case unicode_hex:
+++      out += sprintf (out, "%c", unicode_display == unicode_hex ? '<' : '{');
+++      out += sprintf (out, "0x");
+++      for (j = 0; j < nchars; j++)
+++	out += sprintf (out, "%02x", in [j]);
+++      out += sprintf (out, "%c", unicode_display == unicode_hex ? '>' : '}');
+++      break;
+++      
+++    case unicode_highlight:
+++      if (isatty (1))
+++	out += sprintf (out, "\x1B[31;47m"); /* Red.  */
+++      /* Fall through.  */
+++    case unicode_escape:
+++      switch (nchars)
+++	{
+++	case 2:
+++	  out += sprintf (out, "\\u%02x%02x",
+++		  ((in[0] & 0x1c) >> 2), 
+++		  ((in[0] & 0x03) << 6) | (in[1] & 0x3f));
+++	  break;
+++
+++	case 3:
+++	  out += sprintf (out, "\\u%02x%02x",
+++		  ((in[0] & 0x0f) << 4) | ((in[1] & 0x3c) >> 2),
+++		  ((in[1] & 0x03) << 6) | ((in[2] & 0x3f)));
+++	  break;
+++
+++	case 4:
+++	  out += sprintf (out, "\\u%02x%02x%02x",
+++		  ((in[0] & 0x07) << 6) | ((in[1] & 0x3c) >> 2),
+++		  ((in[1] & 0x03) << 6) | ((in[2] & 0x3c) >> 2),
+++		  ((in[2] & 0x03) << 6) | ((in[3] & 0x3f)));
+++	  break;
+++	default:
+++	  /* URG.  */
+++	  break;
+++	}
+++
+++      if (unicode_display == unicode_highlight && isatty (1))
+++	out += sprintf (out, "\033[0m"); /* Default colour.  */
+++      break;
+++
+++    default:
+++      /* URG */
+++      break;
+++    }
+++
+++  * consumed = nchars;
+++  return out - orig_out;
+++
+++ invalid:
+++  /* Not a valid UTF-8 sequence.  */
+++  *out = *in;
+++  * consumed = 1;
+++  return 1;
+++}
+++
++ /* Returns a version of IN with any control characters
++    replaced by escape sequences.  Uses a static buffer
++-   if necessary.  */
+++   if necessary.
+++
+++   If unicode display is enabled, then also handles the
+++   conversion of unicode characters.  */
++ 
++ static const char *
++ sanitize_string (const char * in)
++@@ -508,40 +637,50 @@ sanitize_string (const char * in)
++      of cases it will not be needed.  */
++   do
++     {
++-      char c = *in++;
+++      unsigned char c = *in++;
++ 
++       if (c == 0)
++ 	return original;
++ 
++       if (ISCNTRL (c))
++ 	break;
+++
+++      if (unicode_display != unicode_default && c >= 0xc0)
+++	break;
++     }
++   while (1);
++ 
++   /* Copy the input, translating as needed.  */
++   in = original;
++-  if (buffer_len < (strlen (in) * 2))
+++  if (buffer_len < (strlen (in) * 9))
++     {
++       free ((void *) buffer);
++-      buffer_len = strlen (in) * 2;
+++      buffer_len = strlen (in) * 9;
++       buffer = xmalloc (buffer_len + 1);
++     }
++ 
++   out = buffer;
++   do
++     {
++-      char c = *in++;
+++      unsigned char c = *in++;
++ 
++       if (c == 0)
++ 	break;
++ 
++-      if (!ISCNTRL (c))
++-	*out++ = c;
++-      else
+++      if (ISCNTRL (c))
++ 	{
++ 	  *out++ = '^';
++ 	  *out++ = c + 0x40;
++ 	}
+++      else if (unicode_display != unicode_default && c >= 0xc0)
+++	{
+++	  unsigned int num_consumed;
+++
+++	  out += display_utf8 ((const unsigned char *)(in - 1), out, & num_consumed);
+++	  in += num_consumed - 1;
+++	}
+++      else
+++	*out++ = c;
++     }
++   while (1);
++ 
++@@ -4529,6 +4668,24 @@ dump_symbols (bfd *abfd ATTRIBUTE_UNUSED
++ 		  free (alloc);
++ 		}
++ 	    }
+++	  else if (unicode_display != unicode_default
+++		   && name != NULL && *name != '\0')
+++	    {
+++	      const char * sanitized_name;
+++
+++	      /* If we want to sanitize the name, we do it here, and
+++		 temporarily clobber it while calling bfd_print_symbol.
+++		 FIXME: This is a gross hack.  */
+++	      sanitized_name = sanitize_string (name);
+++	      if (sanitized_name != name)
+++		(*current)->name = sanitized_name;
+++	      else
+++		sanitized_name = NULL;
+++	      bfd_print_symbol (cur_bfd, stdout, *current,
+++				bfd_print_symbol_all);
+++	      if (sanitized_name != NULL)
+++		(*current)->name = name;
+++	    }
++ 	  else
++ 	    bfd_print_symbol (cur_bfd, stdout, *current,
++ 			      bfd_print_symbol_all);
++@@ -5212,7 +5369,7 @@ main (int argc, char **argv)
++   set_default_bfd_target ();
++ 
++   while ((c = getopt_long (argc, argv,
++-			   "pP:ib:m:M:VvCdDlfFaHhrRtTxsSI:j:wE:zgeGW::",
+++			   "CDE:FGHI:LM:P:RSTU:VW::ab:defghij:lm:prstvwxz",
++ 			   long_options, (int *) 0))
++ 	 != EOF)
++     {
++@@ -5495,6 +5652,23 @@ main (int argc, char **argv)
++ 	  seenflag = true;
++ 	  break;
++ 
+++	case 'U':
+++	  if (streq (optarg, "default") || streq (optarg, "d"))
+++	    unicode_display = unicode_default;
+++	  else if (streq (optarg, "locale") || streq (optarg, "l"))
+++	    unicode_display = unicode_locale;
+++	  else if (streq (optarg, "escape") || streq (optarg, "e"))
+++	    unicode_display = unicode_escape;
+++	  else if (streq (optarg, "invalid") || streq (optarg, "i"))
+++	    unicode_display = unicode_invalid;
+++	  else if (streq (optarg, "hex") || streq (optarg, "x"))
+++	    unicode_display = unicode_hex;
+++	  else if (streq (optarg, "highlight") || streq (optarg, "h"))
+++	    unicode_display = unicode_highlight;
+++	  else
+++	    fatal (_("invalid argument to -U/--unicode: %s"), optarg);
+++	  break;
+++
++ 	case 'H':
++ 	  usage (stdout, 0);
++ 	  /* No need to set seenflag or to break - usage() does not return.  */
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++--- a/binutils/readelf.c	2021-12-21 19:48:34.774142206 -0800
+++++ b/binutils/readelf.c	2021-12-21 19:50:19.464363088 -0800
++@@ -328,6 +328,19 @@ typedef enum print_mode
++ }
++ print_mode;
++ 
+++typedef enum unicode_display_type
+++{
+++  unicode_default = 0,
+++  unicode_locale,
+++  unicode_escape,
+++  unicode_hex,
+++  unicode_highlight,
+++  unicode_invalid
+++} unicode_display_type;
+++
+++static unicode_display_type unicode_display = unicode_default;
+++
+++  
++ /* Versioned symbol info.  */
++ enum versioned_symbol_info
++ {
++@@ -632,11 +645,18 @@ print_symbol (signed int width, const ch
++       if (c == 0)
++ 	break;
++ 
++-      /* Do not print control characters directly as they can affect terminal
++-	 settings.  Such characters usually appear in the names generated
++-	 by the assembler for local labels.  */
++-      if (ISCNTRL (c))
+++      if (ISPRINT (c))
+++	{
+++	  putchar (c);
+++	  width_remaining --;
+++	  num_printed ++;
+++	}
+++      else if (ISCNTRL (c))
++ 	{
+++	  /* Do not print control characters directly as they can affect terminal
+++	     settings.  Such characters usually appear in the names generated
+++	     by the assembler for local labels.  */
+++
++ 	  if (width_remaining < 2)
++ 	    break;
++ 
++@@ -644,11 +664,137 @@ print_symbol (signed int width, const ch
++ 	  width_remaining -= 2;
++ 	  num_printed += 2;
++ 	}
++-      else if (ISPRINT (c))
+++      else if (c == 0x7f)
++ 	{
++-	  putchar (c);
++-	  width_remaining --;
++-	  num_printed ++;
+++	  if (width_remaining < 5)
+++	    break;
+++	  printf ("<DEL>");
+++	  width_remaining -= 5;
+++	  num_printed += 5;
+++	}
+++      else if (unicode_display != unicode_locale
+++	       && unicode_display != unicode_default)
+++	{
+++	  /* Display unicode characters as something else.  */
+++	  unsigned char bytes[4];
+++	  bool          is_utf8;
+++	  uint          nbytes;
+++
+++	  bytes[0] = c;
+++
+++	  if (bytes[0] < 0xc0)
+++	    {
+++	      nbytes = 1;
+++	      is_utf8 = false;
+++	    }
+++	  else
+++	    {
+++	      bytes[1] = *symbol++;
+++
+++	      if ((bytes[1] & 0xc0) != 0x80)
+++		{
+++		  is_utf8 = false;
+++		  /* Do not consume this character.  It may only
+++		     be the first byte in the sequence that was
+++		     corrupt.  */
+++		  --symbol;
+++		  nbytes = 1;
+++		}
+++	      else if ((bytes[0] & 0x20) == 0)
+++		{
+++		  is_utf8 = true;
+++		  nbytes = 2;
+++		}
+++	      else
+++		{
+++		  bytes[2] = *symbol++;
+++
+++		  if ((bytes[2] & 0xc0) != 0x80)
+++		    {
+++		      is_utf8 = false;
+++		      symbol -= 2;
+++		      nbytes = 1;
+++		    }
+++		  else if ((bytes[0] & 0x10) == 0)
+++		    {
+++		      is_utf8 = true;
+++		      nbytes = 3;
+++		    }
+++		  else
+++		    {
+++		      bytes[3] = *symbol++;
+++
+++		      nbytes = 4;
+++
+++		      if ((bytes[3] & 0xc0) != 0x80)
+++			{
+++			  is_utf8 = false;
+++			  symbol -= 3;
+++			  nbytes = 1;
+++			}
+++		      else
+++			is_utf8 = true;
+++		    }
+++		}
+++	    }
+++
+++	  if (unicode_display == unicode_invalid)
+++	    is_utf8 = false;
+++
+++	  if (unicode_display == unicode_hex || ! is_utf8)
+++	    {
+++	      uint i;
+++
+++	      if (width_remaining < (nbytes * 2) + 2)
+++		break;
+++	  
+++	      putchar (is_utf8 ? '<' : '{');
+++	      printf ("0x");
+++	      for (i = 0; i < nbytes; i++)
+++		printf ("%02x", bytes[i]);
+++	      putchar (is_utf8 ? '>' : '}');
+++	    }
+++	  else
+++	    {
+++	      if (unicode_display == unicode_highlight && isatty (1))
+++		printf ("\x1B[31;47m"); /* Red.  */
+++	      
+++	      switch (nbytes)
+++		{
+++		case 2:
+++		  if (width_remaining < 6)
+++		    break;
+++		  printf ("\\u%02x%02x",
+++			  (bytes[0] & 0x1c) >> 2, 
+++			  ((bytes[0] & 0x03) << 6) | (bytes[1] & 0x3f));
+++		  break;
+++		case 3:
+++		  if (width_remaining < 6)
+++		    break;
+++		  printf ("\\u%02x%02x",
+++			  ((bytes[0] & 0x0f) << 4) | ((bytes[1] & 0x3c) >> 2),
+++			  ((bytes[1] & 0x03) << 6) | (bytes[2] & 0x3f));
+++		  break;
+++		case 4:
+++		  if (width_remaining < 8)
+++		    break;
+++		  printf ("\\u%02x%02x%02x",
+++			  ((bytes[0] & 0x07) << 6) | ((bytes[1] & 0x3c) >> 2),
+++			  ((bytes[1] & 0x03) << 6) | ((bytes[2] & 0x3c) >> 2),
+++			  ((bytes[2] & 0x03) << 6) | (bytes[3] & 0x3f));
+++		  
+++		  break;
+++		default:
+++		  /* URG.  */
+++		  break;
+++		}
+++
+++	      if (unicode_display == unicode_highlight && isatty (1))
+++		printf ("\033[0m"); /* Default colour.  */
+++	    }
+++	  
+++	  if (bytes[nbytes - 1] == 0)
+++	    break;
++ 	}
++       else
++ 	{
++@@ -4668,6 +4814,7 @@ static struct option options[] =
++   {"syms",	       no_argument, 0, 's'},
++   {"silent-truncation",no_argument, 0, 'T'},
++   {"section-details",  no_argument, 0, 't'},
+++  {"unicode",          required_argument, NULL, 'U'},
++   {"unwind",	       no_argument, 0, 'u'},
++   {"version-info",     no_argument, 0, 'V'},
++   {"version",	       no_argument, 0, 'v'},
++@@ -4744,6 +4891,12 @@ usage (FILE * stream)
++   fprintf (stream, _("\
++      --no-recurse-limit  Disable a demangling recursion limit\n"));
++   fprintf (stream, _("\
+++     -U[dlexhi] --unicode=[default|locale|escape|hex|highlight|invalid]\n\
+++                         Display unicode characters as determined by the current locale\n\
+++                          (default), escape sequences, \"<hex sequences>\", highlighted\n\
+++                          escape sequences, or treat them as invalid and display as\n\
+++                          \"{hex sequences}\"\n"));
+++  fprintf (stream, _("\
++   -n --notes             Display the core notes (if present)\n"));
++   fprintf (stream, _("\
++   -r --relocs            Display the relocations (if present)\n"));
++@@ -4928,7 +5081,7 @@ parse_args (struct dump_data *dumpdata,
++     usage (stderr);
++ 
++   while ((c = getopt_long
++-	  (argc, argv, "ACDHILNPR:STVWacdeghi:lnp:rstuvw::x:z", options, NULL)) != EOF)
+++	  (argc, argv, "ACDHILNPR:STU:VWacdeghi:lnp:rstuvw::x:z", options, NULL)) != EOF)
++     {
++       switch (c)
++ 	{
++@@ -5130,6 +5283,25 @@ parse_args (struct dump_data *dumpdata,
++ 	  /* Ignored for backward compatibility.  */
++ 	  break;
++ 
+++	case 'U':
+++	  if (optarg == NULL)
+++	    error (_("Missing arg to -U/--unicode")); /* Can this happen ?  */
+++	  else if (streq (optarg, "default") || streq (optarg, "d"))
+++	    unicode_display = unicode_default;
+++	  else if (streq (optarg, "locale") || streq (optarg, "l"))
+++	    unicode_display = unicode_locale;
+++	  else if (streq (optarg, "escape") || streq (optarg, "e"))
+++	    unicode_display = unicode_escape;
+++	  else if (streq (optarg, "invalid") || streq (optarg, "i"))
+++	    unicode_display = unicode_invalid;
+++	  else if (streq (optarg, "hex") || streq (optarg, "x"))
+++	    unicode_display = unicode_hex;
+++	  else if (streq (optarg, "highlight") || streq (optarg, "h"))
+++	    unicode_display = unicode_highlight;
+++	  else
+++	    error (_("invalid argument to -U/--unicode: %s"), optarg);
+++	  break;
+++
++ 	case OPTION_SYM_BASE:
++ 	  sym_base = 0;
++ 	  if (optarg != NULL)
++diff --git a/binutils/strings.c b/binutils/strings.c
++--- a/binutils/strings.c	2021-12-21 19:48:34.774142206 -0800
+++++ b/binutils/strings.c	2021-12-21 19:50:19.464363088 -0800
++@@ -55,6 +55,19 @@
++    -T {bfdname}
++ 		Specify a non-default object file format.
++ 
+++  --unicode={default|locale|invalid|hex|escape|highlight}
+++  -u {d|l|i|x|e|h}
+++                Determine how to handle UTF-8 unicode characters.  The default
+++		is no special treatment.  All other versions of this option
+++		only apply if the encoding is valid and enabling the option
+++		implies --encoding=S.
+++		The 'locale' option displays the characters according to the
+++		current locale.  The 'invalid' option treats them as
+++		non-string characters.  The 'hex' option displays them as hex
+++		byte sequences.  The 'escape' option displays them as escape
+++		sequences and the 'highlight' option displays them as
+++		coloured escape sequences.
+++
++   --output-separator=sep_string
++   -s sep_string	String used to separate parsed strings in output.
++ 		Default is newline.
++@@ -76,6 +89,22 @@
++ #include "safe-ctype.h"
++ #include "bucomm.h"
++ 
+++#ifndef streq
+++#define streq(a,b) (strcmp ((a),(b)) == 0)
+++#endif
+++
+++typedef enum unicode_display_type
+++{
+++  unicode_default = 0,
+++  unicode_locale,
+++  unicode_escape,
+++  unicode_hex,
+++  unicode_highlight,
+++  unicode_invalid
+++} unicode_display_type;
+++
+++static unicode_display_type unicode_display = unicode_default;
+++
++ #define STRING_ISGRAPHIC(c) \
++       (   (c) >= 0 \
++        && (c) <= 255 \
++@@ -94,7 +123,7 @@ extern int errno;
++ static int address_radix;
++ 
++ /* Minimum length of sequence of graphic chars to trigger output.  */
++-static int string_min;
+++static uint string_min;
++ 
++ /* Whether or not we include all whitespace as a graphic char.   */
++ static bool include_all_whitespace;
++@@ -121,21 +150,22 @@ static char *output_separator;
++ static struct option long_options[] =
++ {
++   {"all", no_argument, NULL, 'a'},
+++  {"bytes", required_argument, NULL, 'n'},
++   {"data", no_argument, NULL, 'd'},
+++  {"encoding", required_argument, NULL, 'e'},
+++  {"help", no_argument, NULL, 'h'},
+++  {"include-all-whitespace", no_argument, NULL, 'w'},
+++  {"output-separator", required_argument, NULL, 's'},
++   {"print-file-name", no_argument, NULL, 'f'},
++-  {"bytes", required_argument, NULL, 'n'},
++   {"radix", required_argument, NULL, 't'},
++-  {"include-all-whitespace", no_argument, NULL, 'w'},
++-  {"encoding", required_argument, NULL, 'e'},
++   {"target", required_argument, NULL, 'T'},
++-  {"output-separator", required_argument, NULL, 's'},
++-  {"help", no_argument, NULL, 'h'},
+++  {"unicode", required_argument, NULL, 'U'},
++   {"version", no_argument, NULL, 'v'},
++   {NULL, 0, NULL, 0}
++ };
++ 
++ static bool strings_file (char *);
++-static void print_strings (const char *, FILE *, file_ptr, int, int, char *);
+++static void print_strings (const char *, FILE *, file_ptr, int, char *);
++ static void usage (FILE *, int) ATTRIBUTE_NORETURN;
++ 
++ int main (int, char **);
++@@ -171,7 +201,7 @@ main (int argc, char **argv)
++   encoding = 's';
++   output_separator = NULL;
++ 
++-  while ((optc = getopt_long (argc, argv, "adfhHn:wot:e:T:s:Vv0123456789",
+++  while ((optc = getopt_long (argc, argv, "adfhHn:wot:e:T:s:U:Vv0123456789",
++ 			      long_options, (int *) 0)) != EOF)
++     {
++       switch (optc)
++@@ -244,6 +274,23 @@ main (int argc, char **argv)
++ 	  output_separator = optarg;
++           break;
++ 
+++	case 'U':
+++	  if (streq (optarg, "default") || streq (optarg, "d"))
+++	    unicode_display = unicode_default;
+++	  else if (streq (optarg, "locale") || streq (optarg, "l"))
+++	    unicode_display = unicode_locale;
+++	  else if (streq (optarg, "escape") || streq (optarg, "e"))
+++	    unicode_display = unicode_escape;
+++	  else if (streq (optarg, "invalid") || streq (optarg, "i"))
+++	    unicode_display = unicode_invalid;
+++	  else if (streq (optarg, "hex") || streq (optarg, "x"))
+++	    unicode_display = unicode_hex;
+++	  else if (streq (optarg, "highlight") || streq (optarg, "h"))
+++	    unicode_display = unicode_highlight;
+++	  else
+++	    fatal (_("invalid argument to -U/--unicode: %s"), optarg);
+++	  break;
+++
++ 	case 'V':
++ 	case 'v':
++ 	  print_version ("strings");
++@@ -258,6 +305,9 @@ main (int argc, char **argv)
++ 	}
++     }
++ 
+++  if (unicode_display != unicode_default)
+++    encoding = 'S';
+++
++   if (numeric_opt != 0)
++     {
++       string_min = (int) strtoul (argv[numeric_opt - 1] + 1, &s, 0);
++@@ -293,14 +343,14 @@ main (int argc, char **argv)
++     {
++       datasection_only = false;
++       SET_BINARY (fileno (stdin));
++-      print_strings ("{standard input}", stdin, 0, 0, 0, (char *) NULL);
+++      print_strings ("{standard input}", stdin, 0, 0, (char *) NULL);
++       files_given = true;
++     }
++   else
++     {
++       for (; optind < argc; ++optind)
++ 	{
++-	  if (strcmp (argv[optind], "-") == 0)
+++	  if (streq (argv[optind], "-"))
++ 	    datasection_only = false;
++ 	  else
++ 	    {
++@@ -342,7 +392,7 @@ strings_a_section (bfd *abfd, asection *
++     }
++ 
++   *got_a_section = true;
++-  print_strings (filename, NULL, sect->filepos, 0, sectsize, (char *) mem);
+++  print_strings (filename, NULL, sect->filepos, sectsize, (char *) mem);
++   free (mem);
++ }
++ 
++@@ -427,7 +477,7 @@ strings_file (char *file)
++ 	  return false;
++ 	}
++ 
++-      print_strings (file, stream, (file_ptr) 0, 0, 0, (char *) 0);
+++      print_strings (file, stream, (file_ptr) 0, 0, (char *) NULL);
++ 
++       if (fclose (stream) == EOF)
++ 	{
++@@ -501,6 +551,626 @@ get_char (FILE *stream, file_ptr *addres
++   return r;
++ }
++ 
+++static void
+++print_filename_and_address (const char * filename, file_ptr address)
+++{
+++  if (print_filenames)
+++    printf ("%s: ", filename);
+++
+++  if (! print_addresses)
+++    return;
+++
+++  switch (address_radix)
+++    {
+++    case 8:
+++      if (sizeof (address) > sizeof (long))
+++	{
+++#ifndef __MSVCRT__
+++	  printf ("%7llo ", (unsigned long long) address);
+++#else
+++	  printf ("%7I64o ", (unsigned long long) address);
+++#endif
+++	}
+++      else
+++	printf ("%7lo ", (unsigned long) address);
+++      break;
+++
+++    case 10:
+++      if (sizeof (address) > sizeof (long))
+++	{
+++#ifndef __MSVCRT__
+++	  printf ("%7llu ", (unsigned long long) address);
+++#else
+++	  printf ("%7I64d ", (unsigned long long) address);
+++#endif
+++	}
+++      else
+++	printf ("%7ld ", (long) address);
+++      break;
+++
+++    case 16:
+++      if (sizeof (address) > sizeof (long))
+++	{
+++#ifndef __MSVCRT__
+++	  printf ("%7llx ", (unsigned long long) address);
+++#else
+++	  printf ("%7I64x ", (unsigned long long) address);
+++#endif
+++	}
+++      else
+++	printf ("%7lx ", (unsigned long) address);
+++      break;
+++    }
+++}
+++
+++/* Return non-zero if the bytes starting at BUFFER form a valid UTF-8 encoding.
+++   If the encoding is valid then returns the number of bytes it uses.  */
+++
+++static unsigned int
+++is_valid_utf8 (const unsigned char * buffer, unsigned long buflen)
+++{
+++  if (buffer[0] < 0xc0)
+++    return 0;
+++
+++  if (buflen < 2)
+++    return 0;
+++
+++  if ((buffer[1] & 0xc0) != 0x80)
+++    return 0;
+++
+++  if ((buffer[0] & 0x20) == 0)
+++    return 2;
+++
+++  if (buflen < 3)
+++    return 0;
+++
+++  if ((buffer[2] & 0xc0) != 0x80)
+++    return 0;
+++
+++  if ((buffer[0] & 0x10) == 0)
+++    return 3;
+++
+++  if (buflen < 4)
+++    return 0;
+++
+++  if ((buffer[3] & 0xc0) != 0x80)
+++    return 0;
+++
+++  return 4;
+++}
+++
+++/* Display a UTF-8 encoded character in BUFFER according to the setting
+++   of unicode_display.  The character is known to be valid.
+++   Returns the number of bytes consumed.  */
+++
+++static unsigned int
+++display_utf8_char (const unsigned char * buffer)
+++{
+++  unsigned int j;
+++  unsigned int utf8_len;
+++
+++  switch (buffer[0] & 0x30)
+++    {
+++    case 0x00:
+++    case 0x10:
+++      utf8_len = 2;
+++      break;
+++    case 0x20:
+++      utf8_len = 3;
+++      break;
+++    default:
+++      utf8_len = 4;
+++    }
+++
+++  switch (unicode_display)
+++    {
+++    default:
+++      fprintf (stderr, "ICE: unexpected unicode display type\n");
+++      break;
+++
+++    case unicode_escape:
+++    case unicode_highlight:
+++      if (unicode_display == unicode_highlight && isatty (1))
+++	printf ("\x1B[31;47m"); /* Red.  */
+++
+++      switch (utf8_len)
+++	{
+++	case 2:
+++	  printf ("\\u%02x%02x",
+++		  ((buffer[0] & 0x1c) >> 2),
+++		  ((buffer[0] & 0x03) << 6) | (buffer[1] & 0x3f));
+++	  break;
+++
+++	case 3:
+++	  printf ("\\u%02x%02x",
+++		  ((buffer[0] & 0x0f) << 4) | ((buffer[1] & 0x3c) >> 2),
+++		  ((buffer[1] & 0x03) << 6) | ((buffer[2] & 0x3f)));
+++	  break;
+++
+++	case 4:
+++	  printf ("\\u%02x%02x%02x",
+++		  ((buffer[0] & 0x07) << 6) | ((buffer[1] & 0x3c) >> 2),
+++		  ((buffer[1] & 0x03) << 6) | ((buffer[2] & 0x3c) >> 2),
+++		  ((buffer[2] & 0x03) << 6) | ((buffer[3] & 0x3f)));
+++	  break;
+++	default:
+++	  /* URG.  */
+++	  break;
+++	}
+++
+++      if (unicode_display == unicode_highlight && isatty (1))
+++	printf ("\033[0m"); /* Default colour.  */
+++      break;
+++
+++    case unicode_hex:
+++      putchar ('<');
+++      printf ("0x");
+++      for (j = 0; j < utf8_len; j++)
+++	printf ("%02x", buffer [j]);
+++      putchar ('>');
+++      break;
+++
+++    case unicode_locale:
+++      printf ("%.1s", buffer);
+++      break;
+++    }
+++
+++  return utf8_len;
+++}
+++
+++/* Display strings in BUFFER.  Treat any UTF-8 encoded characters encountered
+++   according to the setting of the unicode_display variable.  The buffer
+++   contains BUFLEN bytes.
+++
+++   Display the characters as if they started at ADDRESS and are contained in
+++   FILENAME.  */
+++
+++static void
+++print_unicode_buffer (const char *            filename,
+++		      file_ptr                address,
+++		      const unsigned char *   buffer,
+++		      unsigned long           buflen)
+++{
+++  /* Paranoia checks...  */
+++  if (filename == NULL
+++      || buffer == NULL
+++      || unicode_display == unicode_default
+++      || encoding != 'S'
+++      || encoding_bytes != 1)
+++    {
+++      fprintf (stderr, "ICE: bad arguments to print_unicode_buffer\n");
+++      return;
+++    }
+++
+++  if (buflen == 0)
+++    return;
+++
+++  /* We must only display strings that are at least string_min *characters*
+++     long.  So we scan the buffer in two stages.  First we locate the start
+++     of a potential string.  Then we walk along it until we have found
+++     string_min characters.  Then we go back to the start point and start
+++     displaying characters according to the unicode_display setting.  */
+++
+++  unsigned long start_point = 0;
+++  unsigned long i = 0;
+++  unsigned int char_len = 1;
+++  unsigned int num_found = 0;
+++
+++  for (i = 0; i < buflen; i += char_len)
+++    {
+++      int c = buffer[i];
+++
+++      char_len = 1;
+++
+++      /* Find the first potential character of a string.  */
+++      if (! STRING_ISGRAPHIC (c))
+++	{
+++	  num_found = 0;
+++	  continue;
+++	}
+++
+++      if (c > 126)
+++	{
+++	  if (c < 0xc0)
+++	    {
+++	      num_found = 0;
+++	      continue;
+++	    }
+++
+++	  if ((char_len = is_valid_utf8 (buffer + i, buflen - i)) == 0)
+++	    {
+++	      char_len = 1;
+++	      num_found = 0;
+++	      continue;
+++	    }
+++
+++	  if (unicode_display == unicode_invalid)
+++	    {
+++	      /* We have found a valid UTF-8 character, but we treat it as non-graphic.  */
+++	      num_found = 0;
+++	      continue;
+++	    }
+++	}
+++
+++      if (num_found == 0)
+++	/* We have found a potential starting point for a string.  */
+++	start_point = i;
+++
+++      ++ num_found;
+++
+++      if (num_found >= string_min)
+++	break;
+++    }
+++
+++  if (num_found < string_min)
+++    return;
+++
+++  print_filename_and_address (filename, address + start_point);
+++
+++  /* We have found string_min characters.  Display them and any
+++     more that follow.  */
+++  for (i = start_point; i < buflen; i += char_len)
+++    {
+++      int c = buffer[i];
+++
+++      char_len = 1;
+++
+++      if (! STRING_ISGRAPHIC (c))
+++	break;
+++      else if (c < 127)
+++	putchar (c);
+++      else if (! is_valid_utf8 (buffer + i, buflen - i))
+++	break;
+++      else if (unicode_display == unicode_invalid)
+++	break;
+++      else
+++	char_len = display_utf8_char (buffer + i);
+++    }
+++
+++  if (output_separator)
+++    fputs (output_separator, stdout);
+++  else
+++    putchar ('\n');
+++
+++  /* FIXME: Using tail recursion here is lazy programming...  */
+++  print_unicode_buffer (filename, address + i, buffer + i, buflen - i);
+++}
+++
+++static int
+++get_unicode_byte (FILE *          stream,
+++		  unsigned char * putback,
+++		  unsigned int *  num_putback,
+++		  unsigned int *  num_read)
+++{
+++  if (* num_putback > 0)
+++    {
+++      * num_putback = * num_putback - 1;
+++      return putback [* num_putback];
+++    }
+++
+++  * num_read = * num_read + 1;
+++
+++#if defined(HAVE_GETC_UNLOCKED) && HAVE_DECL_GETC_UNLOCKED
+++  return getc_unlocked (stream);
+++#else
+++  return getc (stream);
+++#endif
+++}
+++
+++/* Helper function for print_unicode_stream.  */
+++
+++static void
+++print_unicode_stream_body (const char *     filename,
+++			   file_ptr         address,
+++			   FILE *           stream,
+++			   unsigned char *  putback_buf,
+++			   unsigned int     num_putback,
+++			   unsigned char *  print_buf)
+++{
+++  /* It would be nice if we could just read the stream into a buffer
+++     and then process if with print_unicode_buffer.  But the input
+++     might be huge or it might time-locked (eg stdin).  So instead
+++     we go one byte at a time...  */
+++
+++  file_ptr start_point = 0;
+++  unsigned int num_read = 0;
+++  unsigned int num_chars = 0;
+++  unsigned int num_print = 0;
+++  int c = 0;
+++
+++  /* Find a series of string_min characters.  Put them into print_buf.  */
+++  do
+++    {
+++      if (num_chars >= string_min)
+++	break;
+++
+++      c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++      if (c == EOF)
+++	break;
+++
+++      if (! STRING_ISGRAPHIC (c))
+++	{
+++	  num_chars = num_print = 0;
+++	  continue;
+++	}
+++
+++      if (num_chars == 0)
+++	start_point = num_read - 1;
+++
+++      if (c < 127)
+++	{
+++	  print_buf[num_print] = c;
+++	  num_chars ++;
+++	  num_print ++;
+++	  continue;
+++	}
+++
+++      if (c < 0xc0)
+++	{
+++	  num_chars = num_print = 0;
+++	  continue;
+++	}
+++
+++      /* We *might* have a UTF-8 sequence.  Time to start peeking.  */
+++      char utf8[4];
+++
+++      utf8[0] = c;
+++      c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++      if (c == EOF)
+++	break;
+++      utf8[1] = c;
+++
+++      if ((utf8[1] & 0xc0) != 0x80)
+++	{
+++	  /* Invalid UTF-8.  */
+++	  putback_buf[num_putback++] = utf8[1];
+++	  num_chars = num_print = 0;
+++	  continue;
+++	}
+++      else if ((utf8[0] & 0x20) == 0)
+++	{
+++	  /* A valid 2-byte UTF-8 encoding.  */
+++	  if (unicode_display == unicode_invalid)
+++	    {
+++	      putback_buf[num_putback++] = utf8[1];
+++	      num_chars = num_print = 0;
+++	    }
+++	  else
+++	    {
+++	      print_buf[num_print ++] = utf8[0];
+++	      print_buf[num_print ++] = utf8[1];
+++	      num_chars ++;
+++	    }
+++	  continue;
+++	}
+++
+++      c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++      if (c == EOF)
+++	break;
+++      utf8[2] = c;
+++
+++      if ((utf8[2] & 0xc0) != 0x80)
+++	{
+++	  /* Invalid UTF-8.  */
+++	  putback_buf[num_putback++] = utf8[2];
+++	  putback_buf[num_putback++] = utf8[1];
+++	  num_chars = num_print = 0;
+++	  continue;
+++	}
+++      else if ((utf8[0] & 0x10) == 0)
+++	{
+++	  /* A valid 3-byte UTF-8 encoding.  */
+++	  if (unicode_display == unicode_invalid)
+++	    {
+++	      putback_buf[num_putback++] = utf8[2];
+++	      putback_buf[num_putback++] = utf8[1];
+++	      num_chars = num_print = 0;
+++	    }
+++	  else
+++	    {
+++	      print_buf[num_print ++] = utf8[0];
+++	      print_buf[num_print ++] = utf8[1];
+++	      print_buf[num_print ++] = utf8[2];
+++	      num_chars ++;
+++	    }
+++	  continue;
+++	}
+++
+++      c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++      if (c == EOF)
+++	break;
+++      utf8[3] = c;
+++
+++      if ((utf8[3] & 0xc0) != 0x80)
+++	{
+++	  /* Invalid UTF-8.  */
+++	  putback_buf[num_putback++] = utf8[3];
+++	  putback_buf[num_putback++] = utf8[2];
+++	  putback_buf[num_putback++] = utf8[1];
+++	  num_chars = num_print = 0;
+++	}
+++      /* We have a valid 4-byte UTF-8 encoding.  */
+++      else if (unicode_display == unicode_invalid)
+++	{
+++	  putback_buf[num_putback++] = utf8[3];
+++	  putback_buf[num_putback++] = utf8[1];
+++	  putback_buf[num_putback++] = utf8[2];
+++	  num_chars = num_print = 0;
+++	}
+++      else
+++	{
+++	  print_buf[num_print ++] = utf8[0];
+++	  print_buf[num_print ++] = utf8[1];
+++	  print_buf[num_print ++] = utf8[2];
+++	  print_buf[num_print ++] = utf8[3];
+++	  num_chars ++;
+++	}
+++    }
+++  while (1);
+++
+++  if (num_chars >= string_min)
+++    {
+++      /* We know that we have string_min valid characters in print_buf,
+++	 and there may be more to come in the stream.  Start displaying
+++	 them.  */
+++
+++      print_filename_and_address (filename, address + start_point);
+++
+++      unsigned int i;
+++      for (i = 0; i < num_print;)
+++	{
+++	  if (print_buf[i] < 127)
+++	    putchar (print_buf[i++]);
+++	  else
+++	    i += display_utf8_char (print_buf + i);
+++	}
+++
+++      /* OK so now we have to start read unchecked bytes.  */
+++
+++      /* Find a series of string_min characters.  Put them into print_buf.  */
+++      do
+++	{
+++	  c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++	  if (c == EOF)
+++	    break;
+++
+++	  if (! STRING_ISGRAPHIC (c))
+++	    break;
+++
+++	  if (c < 127)
+++	    {
+++	      putchar (c);
+++	      continue;
+++	    }
+++
+++	  if (c < 0xc0)
+++	    break;
+++
+++	  /* We *might* have a UTF-8 sequence.  Time to start peeking.  */
+++	  unsigned char utf8[4];
+++
+++	  utf8[0] = c;
+++	  c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++	  if (c == EOF)
+++	    break;
+++	  utf8[1] = c;
+++
+++	  if ((utf8[1] & 0xc0) != 0x80)
+++	    {
+++	      /* Invalid UTF-8.  */
+++	      putback_buf[num_putback++] = utf8[1];
+++	      break;
+++	    }
+++	  else if ((utf8[0] & 0x20) == 0)
+++	    {
+++	      /* Valid 2-byte UTF-8.  */
+++	      if (unicode_display == unicode_invalid)
+++		{
+++		  putback_buf[num_putback++] = utf8[1];
+++		  break;
+++		}
+++	      else
+++		{
+++		  (void) display_utf8_char (utf8);
+++		  continue;
+++		}
+++	    }
+++
+++	  c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++	  if (c == EOF)
+++	    break;
+++	  utf8[2] = c;
+++
+++	  if ((utf8[2] & 0xc0) != 0x80)
+++	    {
+++	      /* Invalid UTF-8.  */
+++	      putback_buf[num_putback++] = utf8[2];
+++	      putback_buf[num_putback++] = utf8[1];
+++	      break;
+++	    }
+++	  else if ((utf8[0] & 0x10) == 0)
+++	    {
+++	      /* Valid 3-byte UTF-8.  */
+++	      if (unicode_display == unicode_invalid)
+++		{
+++		  putback_buf[num_putback++] = utf8[2];
+++		  putback_buf[num_putback++] = utf8[1];
+++		  break;
+++		}
+++	      else
+++		{
+++		  (void) display_utf8_char (utf8);
+++		  continue;
+++		}
+++	    }
+++
+++	  c = get_unicode_byte (stream, putback_buf, & num_putback, & num_read);
+++	  if (c == EOF)
+++	    break;
+++	  utf8[3] = c;
+++
+++	  if ((utf8[3] & 0xc0) != 0x80)
+++	    {
+++	      /* Invalid UTF-8.  */
+++	      putback_buf[num_putback++] = utf8[3];
+++	      putback_buf[num_putback++] = utf8[2];
+++	      putback_buf[num_putback++] = utf8[1];
+++	      break;
+++	    }
+++	  else if (unicode_display == unicode_invalid)
+++	    {
+++	      putback_buf[num_putback++] = utf8[3];
+++	      putback_buf[num_putback++] = utf8[2];
+++	      putback_buf[num_putback++] = utf8[1];
+++	      break;
+++	    }
+++	  else
+++	    /* A valid 4-byte UTF-8 encoding.  */
+++	    (void) display_utf8_char (utf8);
+++	}
+++      while (1);
+++
+++      if (output_separator)
+++	fputs (output_separator, stdout);
+++      else
+++	putchar ('\n');
+++    }
+++
+++  if (c != EOF)
+++    /* FIXME: Using tail recursion here is lazy, but it works.  */
+++    print_unicode_stream_body (filename, address + num_read, stream, putback_buf, num_putback, print_buf);
+++}
+++
+++/* Display strings read in from STREAM.  Treat any UTF-8 encoded characters
+++   encountered according to the setting of the unicode_display variable.
+++   The stream is positioned at ADDRESS and is attached to FILENAME.  */
+++
+++static void
+++print_unicode_stream (const char * filename,
+++		      file_ptr     address,
+++		      FILE *       stream)
+++{
+++  /* Paranoia checks...  */
+++  if (filename == NULL
+++      || stream == NULL
+++      || unicode_display == unicode_default
+++      || encoding != 'S'
+++      || encoding_bytes != 1)
+++    {
+++      fprintf (stderr, "ICE: bad arguments to print_unicode_stream\n");
+++      return;
+++    }
+++
+++  /* Allocate space for string_min 4-byte utf-8 characters.  */
+++  unsigned char * print_buf = xmalloc ((4 * string_min) + 1);
+++  /* We should never have to put back more than 4 bytes.  */
+++  unsigned char putback_buf[5];
+++  unsigned int num_putback = 0;
+++
+++  print_unicode_stream_body (filename, address, stream, putback_buf, num_putback, print_buf);
+++  free (print_buf);
+++}
+++
++ /* Throw away one byte of a (possibly) multi-byte char C, updating
++    address and buffer to suit.  */
++ 
++@@ -566,20 +1236,29 @@ unget_part_char (long c, file_ptr *addre
++ 
++ static void
++ print_strings (const char *filename, FILE *stream, file_ptr address,
++-	       int stop_point, int magiccount, char *magic)
+++	       int magiccount, char *magic)
++ {
+++  if (unicode_display != unicode_default)
+++    {
+++      if (magic != NULL)
+++	print_unicode_buffer (filename, address,
+++			      (const unsigned char *) magic, magiccount);
+++
+++      if (stream != NULL)
+++	print_unicode_stream (filename, address, stream);
+++      return;
+++    }
+++
++   char *buf = (char *) xmalloc (sizeof (char) * (string_min + 1));
++ 
++   while (1)
++     {
++       file_ptr start;
++-      int i;
+++      uint i;
++       long c;
++ 
++       /* See if the next `string_min' chars are all graphic chars.  */
++     tryline:
++-      if (stop_point && address >= stop_point)
++-	break;
++       start = address;
++       for (i = 0; i < string_min; i++)
++ 	{
++@@ -601,51 +1280,7 @@ print_strings (const char *filename, FIL
++ 
++       /* We found a run of `string_min' graphic characters.  Print up
++ 	 to the next non-graphic character.  */
++-
++-      if (print_filenames)
++-	printf ("%s: ", filename);
++-      if (print_addresses)
++-	switch (address_radix)
++-	  {
++-	  case 8:
++-	    if (sizeof (start) > sizeof (long))
++-	      {
++-#ifndef __MSVCRT__
++-		printf ("%7llo ", (unsigned long long) start);
++-#else
++-		printf ("%7I64o ", (unsigned long long) start);
++-#endif
++-	      }
++-	    else
++-	      printf ("%7lo ", (unsigned long) start);
++-	    break;
++-
++-	  case 10:
++-	    if (sizeof (start) > sizeof (long))
++-	      {
++-#ifndef __MSVCRT__
++-		printf ("%7llu ", (unsigned long long) start);
++-#else
++-		printf ("%7I64d ", (unsigned long long) start);
++-#endif
++-	      }
++-	    else
++-	      printf ("%7ld ", (long) start);
++-	    break;
++-
++-	  case 16:
++-	    if (sizeof (start) > sizeof (long))
++-	      {
++-#ifndef __MSVCRT__
++-		printf ("%7llx ", (unsigned long long) start);
++-#else
++-		printf ("%7I64x ", (unsigned long long) start);
++-#endif
++-	      }
++-	    else
++-	      printf ("%7lx ", (unsigned long) start);
++-	    break;
++-	  }
+++      print_filename_and_address (filename, start);
++ 
++       buf[i] = '\0';
++       fputs (buf, stdout);
++@@ -697,6 +1332,8 @@ usage (FILE *stream, int status)
++   -T --target=<BFDNAME>     Specify the binary file format\n\
++   -e --encoding={s,S,b,l,B,L} Select character size and endianness:\n\
++                             s = 7-bit, S = 8-bit, {b,l} = 16-bit, {B,L} = 32-bit\n\
+++  --unicode={default|show|invalid|hex|escape|highlight}\n\
+++  -u {d|s|i|x|e|h}          Specify how to treat UTF-8 encoded unicode characters\n\
++   -s --output-separator=<string> String used to separate strings in output.\n\
++   @<file>                   Read options from <file>\n\
++   -h --help                 Display this information\n\
+diff --git a/meta/recipes-devtools/binutils/binutils/0002-CVE-2021-42574.patch b/meta/recipes-devtools/binutils/binutils/0002-CVE-2021-42574.patch
+new file mode 100644
+index 0000000000..bb7eab6653
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0002-CVE-2021-42574.patch
+@@ -0,0 +1,83 @@
++From 795588aec4f894206863c938bd6d716895886009 Mon Sep 17 00:00:00 2001
++From: =?utf8?q?Pekka=20Sepp=C3=A4nen?= <pexu@sourceware.mail.kapsi.fi>
++Date: Wed, 10 Nov 2021 20:15:19 +1030
++Subject: [PATCH] PR28575, readelf.c and strings.c use undefined type uint
++
++Since --unicode support (commit b3aa80b45c4) both binutils/readelf.c
++and binutils/strings.c use 'uint' in a few locations.  It likely
++should be 'unsigned int' since there isn't anything defining 'uint'
++within binutils (besides zlib) and AFAIK it isn't a standard type.
++
++	* readelf.c (print_symbol): Replace uint with unsigned int.
++	* strings.c (string_min, display_utf8_char): Likewise.
++	(print_unicode_stream_body, print_unicode_stream): Likewise.
++	(print_strings): Likewise.
++	(get_unicode_byte): Wrap long line.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=795588aec4f894206863c938bd6d716895886009]
++Signed-off-by: pgowda <pgowda.cve@gmail.com>
++---
++ binutils/readelf.c |  4 ++--
++ binutils/strings.c | 41 ++++++++++++++++++++++-------------------
++ 2 files changed, 24 insertions(+), 21 deletions(-)
++
++diff --b a/binutils/readelf.c b/binutils/readelf.c
++--- a/binutils/readelf.c	2021-12-21 04:27:00.396496775 -0800
+++++ b/binutils/readelf.c	2021-12-21 04:26:18.277194839 -0800
++@@ -678,7 +678,7 @@ print_symbol (signed int width, const ch
++ 	  /* Display unicode characters as something else.  */
++ 	  unsigned char bytes[4];
++ 	  bool          is_utf8;
++-	  uint          nbytes;
+++	  unsigned int  nbytes;
++ 
++ 	  bytes[0] = c;
++ 
++@@ -743,7 +743,7 @@ print_symbol (signed int width, const ch
++ 
++ 	  if (unicode_display == unicode_hex || ! is_utf8)
++ 	    {
++-	      uint i;
+++	      unsigned int i;
++ 
++ 	      if (width_remaining < (nbytes * 2) + 2)
++ 		break;
++diff --b a/binutils/strings.c b/binutils/strings.c
++--- a/binutils/strings.c	2021-12-21 04:27:00.396496775 -0800
+++++ b/binutils/strings.c	2021-12-21 04:26:18.277194839 -0800
++@@ -57,7 +57,7 @@
++ 
++   --unicode={default|locale|invalid|hex|escape|highlight}
++   -u {d|l|i|x|e|h}
++-                Determine how to handle UTF-8 unicode characters.  The default
+++		Determine how to handle UTF-8 unicode characters.  The default
++ 		is no special treatment.  All other versions of this option
++ 		only apply if the encoding is valid and enabling the option
++ 		implies --encoding=S.
++@@ -123,7 +123,7 @@ extern int errno;
++ static int address_radix;
++ 
++ /* Minimum length of sequence of graphic chars to trigger output.  */
++-static uint string_min;
+++static unsigned int string_min;
++ 
++ /* Whether or not we include all whitespace as a graphic char.   */
++ static bool include_all_whitespace;
++@@ -272,7 +272,7 @@ main (int argc, char **argv)
++ 
++ 	case 's':
++ 	  output_separator = optarg;
++-          break;
+++	  break;
++ 
++ 	case 'U':
++ 	  if (streq (optarg, "default") || streq (optarg, "d"))
++@@ -1254,7 +1254,7 @@ print_strings (const char *filename, FIL
++   while (1)
++     {
++       file_ptr start;
++-      uint i;
+++      unsigned int i;
++       long c;
++ 
++       /* See if the next `string_min' chars are all graphic chars.  */
+-- 
+2.31.1
+
 
