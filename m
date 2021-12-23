@@ -1,87 +1,143 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02964C433F5
-	for <webhook@archiver.kernel.org>; Thu, 23 Dec 2021 12:24:27 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web08.31814.1640262266214720867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BBA3C433F5
+	for <webhook@archiver.kernel.org>; Thu, 23 Dec 2021 12:26:12 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by mx.groups.io with SMTP id smtpd.web12.32144.1640262371097086529
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Dec 2021 04:24:26 -0800
+ Thu, 23 Dec 2021 04:26:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: 0leil.net, ip: 217.70.178.232,
- mailfrom: foss+yocto@0leil.net)
-Received: (Authenticated sender: foss@0leil.net)
-	by relay12.mail.gandi.net (Postfix) with ESMTPSA id D7EC7200003;
-	Thu, 23 Dec 2021 12:24:23 +0000 (UTC)
-Date: Thu, 23 Dec 2021 13:24:19 +0100
-From: Quentin Schulz <foss+yocto@0leil.net>
-To: yocto@lists.yoctoproject.org, JH <jupiter.hce@gmail.com>,
- yocto <yocto@lists.yoctoproject.org>
-CC: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Where to define udev to load kernel modules in boot?
-In-Reply-To: 
- <CAA=hcWSFfUY8rh4WCvqNmbDPOO2=BMH5CUA9ZkEXuKit+3LK6Q@mail.gmail.com>
-References: 
- <CAA=hcWSFfUY8rh4WCvqNmbDPOO2=BMH5CUA9ZkEXuKit+3LK6Q@mail.gmail.com>
-Message-ID: <41D27EB7-6A9C-4640-8224-9BA33FBCC0CB@0leil.net>
+ dkim=pass header.i=@gherzan.com header.s=fm3 header.b=mekO5ayN;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.27, mailfrom: andrei@gherzan.com)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 012445C015B;
+	Thu, 23 Dec 2021 07:26:10 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 23 Dec 2021 07:26:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=BlnEQuTdYr7Hw2xGhSI1JhtLQz
+	W2+UvILImL8BDVODA=; b=mekO5ayNKxabeMGV3iF3p6TNWj0f9Lbp/t1ByQjVMg
+	WbWJAk0gvhwwPgrqapMzdlqUazhQFhyrAQaYA0muYiGcRoc++e6pFlqbulX048Y7
+	L973K/2arf7JnSRUL/NOC9UtqockCdgRPMERDpAsuV6Ov3P6wsb5CwANKIuSIkRN
+	B6G9bPX8O/POruwc8c0XEN6lEeefztoJ1xfUjyR+gABiMQKg3o2ba0cLOHHqtFb4
+	4pFh0YUOVmAGE5mpLQU9Gi9Rs0KrHUs567cmfnoY916uIj7mNVyWYpQdrtt+MZhU
+	lSDGY8W5VRe50BEevOvY+DlJWJkKK48mRXGxU+XHjX0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=BlnEQuTdYr7Hw2xGh
+	SI1JhtLQzW2+UvILImL8BDVODA=; b=mZ6VN+C/Vze+5AVJybhzovZvV1xqQf7Xj
+	b8vTjePBndc2nHl8Xe6IOP2Nupu2OLZFF7pXinOYX2bsc2qWUzNrkPCPu2Lnm0Kl
+	Oug9gA9hrTQ1qZK5oUzx7l65iHaYfJMCZgALqa9GZRDOPHRPN4TKpKENP/4rh8QQ
+	iS+O6ihPdsemefbSh0A0KVXks3uipbmP54Dui3rHuhk805RyF1vtXuZaCWwcVR0S
+	qT5/H4zrONSfUSBvEk1c0uO4NCdPqHvO4WnsEiuf+1ftMTCOdrzQdblCgtgd7fwa
+	oyxZlHHDnbxUPVSFTp6MxwuSa7kw8/KjzKL+EavH7FoD6RkyJgYzA==
+X-ME-Sender: <xms:4WrEYW_ymX8quD0_CYOdU6z3wGOTpQ_wMBIFS326JVc1c5jxRSR-bw>
+    <xme:4WrEYWsPpqwOndBbJ66r3Rz_W_vPgLsjGlW9eUbzRwcqgdCFZqD6fbqWo3d2vHILM
+    SkjaKRqboB-Imv6kkk>
+X-ME-Received: 
+ <xmr:4WrEYcAKk6w1HTJ6fYjhGLrFTxV-NpdFnVLHDl5Od15ESakFdEhDWiMag9MVQYypM1lbx5MfO9_zVGvGwnY8sl-q9axQc8e1LlLAPlDiY7i4bU6LAH33-2Uu>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvuddruddtkedggeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehghhgv
+    rhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpedvteeutdeutdfhvefggfeifeehve
+    ethfeuffekgeeiiefgkefhheehjeeijeejudenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:4WrEYed_J0RjmA6L7JygavLqFdILsyTd1vcwT1guHTRg3qZkYk_MfQ>
+    <xmx:4WrEYbPD8via38m5BusQXBODstmBM2dSbyo2kiKA-UzyBmd_OTUlMg>
+    <xmx:4WrEYYnBGj8VhsJWCgyuPGPO-7rGmsbCSd97qb3PGJOrDUIY5hm-0A>
+    <xmx:4WrEYR0BQmI1LfmR0U2cChWPGpF7Kz-Xv-xZkOpkoxsGSBKqtUeBIg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Dec 2021 07:26:08 -0500 (EST)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: openembedded-core@lists.openembedded.org
+Cc: bernhard.rosenkraenzer.ext@huawei.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [PATCH] gcc: Fix compile of gcc plugins
+Date: Thu, 23 Dec 2021 13:25:51 +0100
+Message-Id: <20211223122551.537927-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Dec 2021 12:24:27 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Dec 2021 12:26:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159977
+ https://lists.openembedded.org/g/openembedded-core/message/159978
 
-Hi JH,
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-On December 23, 2021 11:28:55 AM GMT+01:00, JH <jupiter=2Ehce@gmail=2Ecom>=
- wrote:
->Hi,
->
->I built an OE/Yocto IoT device to include kernel modules of usb_wwan,
->usbserial, mwifiex_sdio, mwifiex etc, there is one udev from
->meta-freescale/recipes-core/udev/udev-rules-imx/10-imx=2Erules
->
-># ls /etc/udev/rules=2Ed
->10-imx=2Erules       touchscreen=2Erules
->
->My device does not have a touchscreen so that touchscreen=2Erules should
->not be there=2E The 10-imx=2Erules does not define any kernel modules
->usb_wwan, usbserial, mwifiex_sdio, mwifiex, the device does not have
->video or any input
->
-># cat /etc/udev/rules=2Ed/10-imx=2Erules
->KERNEL=3D=3D"mc13783_connectiv*",  NAME=3D"mc13783_connectivity"
-># Anyone has readonly permission to IIM device file
->KERNEL=3D=3D"mxc_iim",  MODE=3D"0444", SYMLINK+=3D"mxc_mem"
->KERNEL=3D=3D"mxs_viim", MODE=3D"0444", SYMLINK+=3D"mxc_mem"
->KERNEL=3D=3D"mxc_ipu",  MODE=3D"0666"
->KERNEL=3D=3D"mxc_vpu",  MODE=3D"0666"
->SUBSYSTEM=3D=3D"video", MODE=3D"0660"
->KERNEL=3D=3D"fb[0-9]",  MODE=3D"0660", GROUP=3D"video"
->KERNEL=3D=3D"gsl_kmod", MODE=3D"0660", GROUP=3D"video"
->KERNEL=3D=3D"galcore",  MODE=3D"0660", GROUP=3D"video"
->
->How can I define udev in recipes to make the system to load kernel
->modules of usb_wwan, usbserial, mwifiex_sdio, mwifiex in boot?
->
+Without this, compiling gcc plugins will fail with an error similar to:
+[...]
+fatal error: ./config/i386/linux64.h: No such file or directory
+[...]
 
-IIRC, you need to add your package to KERNEL_MODULE_AUTOLOAD, c=2Ef=2E htt=
-ps://docs=2Eyoctoproject=2Eorg/ref-manual/variables=2Ehtml#term-KERNEL_MODU=
-LE_AUTOLOAD
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ meta/recipes-devtools/gcc/gcc-11.2.inc        |  1 +
+ .../0001-Fix-install-path-of-linux64.h.patch  | 33 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch
 
-Cheers,
-Quentin
+diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
+index e352c958de..f07a5be507 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
+@@ -59,6 +59,7 @@ SRC_URI = "\
+            file://0037-libatomic-Do-not-enforce-march-on-aarch64.patch \
+            file://0041-apply-debug-prefix-maps-before-checksumming-DIEs.patch \
+            file://0006-If-CXXFLAGS-contains-something-unsupported-by-the-bu.patch \
++           file://0001-Fix-install-path-of-linux64.h.patch \
+            file://0001-CVE-2021-35465.patch \
+            file://0002-CVE-2021-35465.patch \
+            file://0003-CVE-2021-35465.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch b/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch
+new file mode 100644
+index 0000000000..55f78eaa0b
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch
+@@ -0,0 +1,33 @@
++From 58211c7ceb0510b2a11a7f1da3c7fa968c658749 Mon Sep 17 00:00:00 2001
++From: Andrei Gherzan <andrei.gherzan@huawei.com>
++Date: Wed, 22 Dec 2021 12:49:25 +0100
++Subject: [PATCH] Fix install path of linux64.h
++
++We add linux64.h to tm includes[1] as a relative path to B. This patch
++adapts the install path of linux64.h to match the include in tm.h.
++
++[1] 0016-Use-the-multilib-config-files-from-B-instead-of-usin.patch
++
++Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
++
++Upstream-Status: Inappropriate [configuration]
++---
++ gcc/Makefile.in | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/gcc/Makefile.in b/gcc/Makefile.in
++index 9b17d120a..d175ec4e3 100644
++--- a/gcc/Makefile.in
+++++ b/gcc/Makefile.in
++@@ -3693,6 +3693,8 @@ install-plugin: installdirs lang.install-plugin s-header-vars install-gengtype
++ 	  "$(srcdir)"/config/* | "$(srcdir)"/common/config/* \
++ 	  | "$(srcdir)"/c-family/* | "$(srcdir)"/*.def ) \
++ 	    base=`echo "$$path" | sed -e "s|$$srcdirstrip/||"`;; \
+++	  ./* ) \
+++	    base=`dirname $$path`;;\
++ 	  *) base=`basename $$path` ;; \
++ 	  esac; \
++ 	  dest=$(plugin_includedir)/$$base; \
++-- 
++2.25.1
++
+-- 
+2.25.1
 
->Thank you=2E
->
->Kind regards,
->
->- jh
 
