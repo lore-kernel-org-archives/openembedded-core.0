@@ -2,12 +2,12 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B5DDC433EF
-	for <webhook@archiver.kernel.org>; Thu, 23 Dec 2021 05:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CCAC433EF
+	for <webhook@archiver.kernel.org>; Thu, 23 Dec 2021 06:12:42 +0000 (UTC)
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.29721.1640237745377839038
+ by mx.groups.io with SMTP id smtpd.web12.29890.1640239961568726639
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Dec 2021 21:35:45 -0800
+ Wed, 22 Dec 2021 22:12:42 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
@@ -16,31 +16,35 @@ Authentication-Results: mx.groups.io;
  mailfrom: changqing.li@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1BN5Zh7U028219
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1BN6CeGr029047
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Dec 2021 21:35:44 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ Wed, 22 Dec 2021 22:12:40 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 22 Dec 2021 21:35:43 -0800
+ 15.1.2242.12; Wed, 22 Dec 2021 22:12:39 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 22 Dec 2021 22:12:39 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 22 Dec 2021 21:35:42 -0800
+ 15.1.2242.12 via Frontend Transport; Wed, 22 Dec 2021 22:12:38 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] rpm: fix CVE-2021-3521
-Date: Thu, 23 Dec 2021 13:35:42 +0800
-Message-ID: <20211223053542.23146-1-changqing.li@windriver.com>
+Subject: [V2][PATCH] rpm: fix CVE-2021-3521
+Date: Thu, 23 Dec 2021 14:12:38 +0800
+Message-ID: <20211223061238.16986-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Dec 2021 05:35:47 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Dec 2021 06:12:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159968
+ https://lists.openembedded.org/g/openembedded-core/message/159969
 
 From: Changqing Li <changqing.li@windriver.com>
 
@@ -190,7 +194,7 @@ index 0000000000..b93a1d5404
 +
 diff --git a/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
 new file mode 100644
-index 0000000000..8613aadfe1
+index 0000000000..a5ec802501
 --- /dev/null
 +++ b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
 @@ -0,0 +1,329 @@
@@ -305,7 +309,7 @@ index 0000000000..8613aadfe1
 +     while (p < pend) {
 +-	if (decodePkt(p, (pend - p), &pkt))
 ++	struct pgpPkt *pkt = &all[i];
-++	if (decodePkt(p, (pend - p), pkt)
+++	if (decodePkt(p, (pend - p), pkt))
 + 	    break;
 + 
 + 	if (digp == NULL) {
