@@ -1,96 +1,99 @@
-Return-Path: <jupiter.hce@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A09C433FE
-	for <webhook@archiver.kernel.org>; Thu, 23 Dec 2021 10:29:32 +0000 (UTC)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
- [209.85.221.170])
- by mx.groups.io with SMTP id smtpd.web08.31030.1640255371679447359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAE6C433F5
+	for <webhook@archiver.kernel.org>; Thu, 23 Dec 2021 10:36:24 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.31273.1640255783042519636
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Dec 2021 02:29:31 -0800
+ Thu, 23 Dec 2021 02:36:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JyBkbv/b;
- spf=pass (domain: gmail.com, ip: 209.85.221.170,
- mailfrom: jupiter.hce@gmail.com)
-Received: by mail-vk1-f170.google.com with SMTP id b77so2938560vka.11
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Dec 2021 02:29:31 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=WUyaDe+A;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=MgkmWlINq6SZ6FIG+lENBKk+MMEI8PdC0Rc6dfgEe7Y=;
-        b=JyBkbv/bOwQcvK4/jeIKuNy/8+81hfHeauJb4APyT5b5v5tXMcYYaSgVlj/p5CzHjN
-         Yr5wiBcG4+Jbp12XR6Eypmk1Ex1Zjto1XEfrCFUoJgC+EeNI1WNXCc9WSgEmGYft2AMA
-         1vQ2NX/5wsrNj36yxLF1u0M+hwrWsvY4GwFLif9dGakuVrimoJIdjTfBQeXYhy9NEBTQ
-         aCxvm27Da+AVcxMoucGTU37dwsFfV76e6KwpOQZ4ccQwJoSXBH8j/nOIpE5nSULtxROX
-         OC0wJFHWX0/WcijeZA51IZ+BPMG3RCvbCVzJkXf9aKsHZ3q32xHeNG2GinyWSrGphyov
-         frXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=MgkmWlINq6SZ6FIG+lENBKk+MMEI8PdC0Rc6dfgEe7Y=;
-        b=PovU09jaZVTaU4g5U6KhEWsS7pG//0xHfO5DpLyQJlPD5+flU37hV2OsNc4PxJmXkK
-         VMBLzlTadzwyL4Gm3SPhj5NC1sK884sAtFenUfiEewqAZ2V+FFNIrNjszAHrPEtOpnj8
-         3a8AwVBlXHgZZ2YWvQT1toKtyxDVo/Jl9+F06LsT0iuEqxuEXtThOHhJvRSNvURzVX3i
-         FZ/UZ3iXaxXo0iNrmMz+rEMPmHBs50GZdOm5IPoSB3lYiEFiCZbel5e99QwsUJ3R1wqo
-         NAjNOcwLhVpToLSL1TOZhjHaAwx8V/BPJrmojwyrEkNGPqveDFuK8ahc6/yHXct4E0k5
-         ig0g==
-X-Gm-Message-State: AOAM531ss4dLduOGM6Cy5ihXV1zekU5LJH75TXunVg0rANs01Af+m5Dt
-	+s+a1MluLxXeu7R1ksS3B8TCkGQC5hr+lCNPLMgN3iWe
-X-Google-Smtp-Source: 
- ABdhPJwxkI296UtwANBdwj18OKzRxZ8RIjpfY3BCWNQE0y9QDruZf8AOswYQSjnE7r7etHebykJGUWEc72Ru8aZ8IWE=
-X-Received: by 2002:a05:6122:218b:: with SMTP id
- j11mr476144vkd.11.1640255370786;
- Thu, 23 Dec 2021 02:29:30 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1640255783;
+  x=1671791783;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pQqGlBbf1G9CIBOFubX/VhGt2QtOOnXtH7QX0q7uoUM=;
+  b=WUyaDe+AJPxSWAZdjNZ8UJTb1g7nGUkvSeB3ao51elvYcoUAuR5IAmSr
+   ColI7V1tMhdXNtkrwSnZI5YsV5UUZht9ybPIrc4qXstvt/8Kb3FQ3zf0d
+   pt6MfewBWPWOAwzkfMwHjRnjSKOlKsjO6CdnCseoLsORxZ5ztP1yXbnXn
+   rY8/ED2TS+LoK1NEN/7AX1w+6H/vmklujq/yBoN2/ReOcdKku6Hhf0WJ0
+   FT7olHibFckNVWQSX9CPek9WKOxvjBuL5ut+9woCdBi4z/QaP+pK3fOSU
+   hlAlEbxoqFOdaGo55XFsBypuA9rZXyI/beaMGcln7zU3gJ/aSaN2ZKDS9
+   Q==;
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] package.bbclass: Add support for specifying a suffix for
+ debug files
+Date: Thu, 23 Dec 2021 11:36:17 +0100
+Message-ID: <20211223103617.4172-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-From: Jupiter <jupiter.hce@gmail.com>
-Date: Thu, 23 Dec 2021 21:28:55 +1100
-Message-ID: 
- <CAA=hcWSFfUY8rh4WCvqNmbDPOO2=BMH5CUA9ZkEXuKit+3LK6Q@mail.gmail.com>
-Subject: Where to define udev to load kernel modules in boot?
-To: yocto <yocto@lists.yoctoproject.org>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Dec 2021 10:29:32 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Dec 2021 10:36:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159973
+ https://lists.openembedded.org/g/openembedded-core/message/159974
 
-Hi,
+The suffix is added to the names of all files with debug symbols
+produced by split_and_strip_files(). It can be used to make the debug
+files produced by one recipe unique to avoid them conflicting with
+identically named debug files produced by another recipe. This may be
+needed since while the target files may be split in multiple packages,
+the debug files for one recipe are all in one package.
 
-I built an OE/Yocto IoT device to include kernel modules of usb_wwan,
-usbserial, mwifiex_sdio, mwifiex etc, there is one udev from
-meta-freescale/recipes-core/udev/udev-rules-imx/10-imx.rules
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/package.bbclass | 11 +++++++++++
+ meta/conf/documentation.conf |  1 +
+ 2 files changed, 12 insertions(+)
 
-# ls /etc/udev/rules.d
-10-imx.rules       touchscreen.rules
-
-My device does not have a touchscreen so that touchscreen.rules should
-not be there. The 10-imx.rules does not define any kernel modules
-usb_wwan, usbserial, mwifiex_sdio, mwifiex, the device does not have
-video or any input
-
-# cat /etc/udev/rules.d/10-imx.rules
-KERNEL=="mc13783_connectiv*",  NAME="mc13783_connectivity"
-# Anyone has readonly permission to IIM device file
-KERNEL=="mxc_iim",  MODE="0444", SYMLINK+="mxc_mem"
-KERNEL=="mxs_viim", MODE="0444", SYMLINK+="mxc_mem"
-KERNEL=="mxc_ipu",  MODE="0666"
-KERNEL=="mxc_vpu",  MODE="0666"
-SUBSYSTEM=="video", MODE="0660"
-KERNEL=="fb[0-9]",  MODE="0660", GROUP="video"
-KERNEL=="gsl_kmod", MODE="0660", GROUP="video"
-KERNEL=="galcore",  MODE="0660", GROUP="video"
-
-How can I define udev in recipes to make the system to load kernel
-modules of usb_wwan, usbserial, mwifiex_sdio, mwifiex in boot?
-
-Thank you.
-
-Kind regards,
-
-- jh
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 09cd376f4a..3df1edd4a8 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -62,6 +62,14 @@ PACKAGE_DEPENDS += "rpm-native dwarfsrcfiles-native"
+ # tools at rootfs build time.
+ PACKAGE_WRITE_DEPS ??= ""
+ 
++# This suffix is added to the names of all files with debug symbols produced by
++# split_and_strip_files(). It can be used to make the debug files produced by
++# one recipe unique to avoid them conflicting with identically named debug files
++# produced by another recipe. This may be needed since while the target files
++# may be split in multiple packages, the debug files for one recipe are all in
++# one package.
++PACKAGE_DEBUG_FILE_SUFFIX ??= ""
++
+ def legitimize_package_name(s):
+     """
+     Make sure package names are legitimate strings
+@@ -1117,6 +1125,9 @@ python split_and_strip_files () {
+         debugstaticlibdir = ""
+         debugsrcdir = "/usr/src/debug"
+ 
++    debugappend += d.getVar('PACKAGE_DEBUG_FILE_SUFFIX')
++    debugstaticappend += d.getVar('PACKAGE_DEBUG_FILE_SUFFIX')
++
+     #
+     # First lets figure out all of the files we may have to process ... do this only once!
+     #
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index f63f4b223a..ad49410249 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -311,6 +311,7 @@ PACKAGE_ARCH[doc] = "The architecture of the resulting package or packages."
+ PACKAGE_ARCHS[doc] = "A list of architectures compatible with the given target in order of priority."
+ PACKAGE_BEFORE_PN[doc] = "Enables easily adding packages to PACKAGES before ${PN} so that the packages can pick up files that would normally be included in the default package."
+ PACKAGE_CLASSES[doc] = "This variable specifies the package manager to use when packaging data. It is set in the conf/local.conf file in the Build Directory."
++PACKAGE_DEBUG_FILE_SUFFIX[doc] = "This suffix is added to the names of all files with debug symbols in the dbg package."
+ PACKAGE_EXCLUDE[doc] = "Packages to exclude from the installation. If a listed package is required, an error is generated."
+ PACKAGE_EXTRA_ARCHS[doc] = "Specifies the list of architectures compatible with the device CPU. This variable is useful when you build for several different devices that use miscellaneous processors."
+ PACKAGE_INSTALL[doc] = "List of the packages to be installed into the image. The variable is generally not user-defined and uses IMAGE_INSTALL as part of the list."
 
