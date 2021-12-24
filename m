@@ -1,196 +1,189 @@
-Return-Path: <kexin.hao@windriver.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02663C433FE
-	for <webhook@archiver.kernel.org>; Fri, 24 Dec 2021 10:07:52 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.43827.1640340470835006810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F07DFC433F5
+	for <webhook@archiver.kernel.org>; Fri, 24 Dec 2021 10:36:31 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.92.90.52])
+ by mx.groups.io with SMTP id smtpd.web08.44003.1640342190371292128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Dec 2021 02:07:51 -0800
+ Fri, 24 Dec 2021 02:36:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Dy6PU5Az;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=79929afc47=kexin.hao@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1BOA659i025823
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Dec 2021 10:07:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=TwJzjTXRLVoJe6Ihv4b4k5a6LgIrVCfdqgH8bmiahpQ=;
- b=Dy6PU5AzLU2qIRI3TLkWdKNFXArEjxLxSZhbI0V4iLD0Anb+dNcxP8KhPl/u/qephL41
- TBsEnIcnSZdPk6XHFqqoZ+gXYSd3baDXqVabX+QfhQeuAH0aK5PGtZHxrWtJq7cLxl2N
- EKvQaXTcnlWW2EJgLd0MJJQ/PR22PLhO8uzT/NZA/OGBRdqwK97BDHhw0YQ+/yKWGKuT
- jy7wY00hFPb1jJZb2uNXgVs3+yuwfPTFcXufi4F+DfXDg5RtKopgDxPPU/L5YtWOtLLQ
- P+OJz0bK/CYjVpS0RC8hmmTInss0qkfTE0PowX3ARTup5Z0E2qyhrwySK1xy5e/OYtZo DA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d55mh06mm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Dec 2021 10:07:49 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1BOA7n42028522
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Dec 2021 10:07:49 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam08lp2171.outbound.protection.outlook.com [104.47.73.171])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d55mh06mg-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Dec 2021 10:07:49 +0000
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=HO+ias1V;
+ spf=pass (domain: outlook.com, ip: 40.92.90.52,
+ mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LGjE2wxD0+Sw3PIQA9DvueH5CuDCjQHIo6WwfYKuEAXkDGFqp8tgNAojDjnwWx0uMg6ct3T3D6Qbh1z2aQgqVB+P+rmW3lEJEHGC382LVSuyWGhr6NVcWP9w7K+kdFChshhcglQtUdYGb+vCPlnk27TjVo7bOwVB8lT2zQJTicl6fKunHtFrg7i8lmkD60nQ+NaqcvoMHN762dcuFMPhr3SRmAkw0IlVC4aNJeSrbSevcxA1wLaa7TJQpGvjS4dRnafjSoGgSFrXbO8n6bvarrEHfM+n1uTb1mBXdtmpC0+SRP2DfD/q5BbcEznva6lG3zs0Yl0yUottukmr7FbCgA==
+ b=dYsjxUt63zPudpJ96e5CDg5ydGYY1ck6nu/o+gKThVMidjmqp+H9D0Vnr0crJf3Tizg1Ss7gf/56WiWc28cB3CSwg9R88KZzpiLnU9y/Dsh1qowzGMrjCtO9cPb71fXBh+F4iZAihryQROEx6Iu63+qsmao69VZLR+hXwDxVL7Ro6CMbkHCDJNgJqGIdeWyjxjpQMtEUSzLIVADPHgDeEdjnhg6uAiZZrb4szqBhJRxC3MXDaMX409VQI7LQiyEgwWsB2ex9GigWNQYBTN8APlGtoyVuEs+8bKBcoMAfDhxV+/ZfK3YBWy2RGCGXSrhDTvDlwtk2v6Jw6cdMuf1drA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TwJzjTXRLVoJe6Ihv4b4k5a6LgIrVCfdqgH8bmiahpQ=;
- b=b63gQWn+lLXgyvi4ry36QYzW1AavxxOh9N2ZxP2XCzpHptV1/ZfJvMntx0sE20+2uMMouvP93hpJme6YetHkrEhSdw6TlMz4FG5U/v58ZvcLCg88TTQoSqlCAcQ6a4H+ZOgCgkPSeEECn8j1cuP/jsxyIohArcMcq/sAIDEZL2+8OpeWyKT0uoOLMqg1Q1sFRqTbNstPvhNEJSugoel7vSDVWAl2RdFYRC4CJGfaQautcPisINtQmpPBsseDnosPbn26HJJHXdQdEDaG5082FikanH9uMwnhD0W/Imhz+xQeT838x2jqurXwhvtd5QefBOctRk+Jm0fueT1NGTuYoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SA1PR11MB5899.namprd11.prod.outlook.com (2603:10b6:806:22a::18)
- by SN6PR11MB3245.namprd11.prod.outlook.com (2603:10b6:805:be::32) with
+ bh=d5GQSljL13svLUEd4gpljRoNmA5wTCM6fWmjKdX4w1k=;
+ b=K9q/IiR9dDWRg0M2YvDGP9wZ/RSEt76R9CjLDzcvv4NPw1T2ZeF8V2iMpiqXJ8SmJVVjY3ipiRpCeTD2ApUnKkmoo2psMjHRN7b9FN4Lbn7MdJ89nf4rRlfG2IA7wHwZS62SCUZiGQdq2AHMOGPBTANPtBc7mFQrtLVfPcVUyiC4UtFhnANfP8lDE5GoDYpYCQXCJJsRpMnvzNuqFtbZk/O1NadoTO8h6cxpSAm8yySSovP8igFh5mKiK+WQHwy2I2ithXlR2JCTcnHpw2SYZckS+UoAhHz2auAvJyNJm5cC1aRC5Yhe8lGaEXA4tT5XUIhVc9ejFrrFk1rUJh7Z8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d5GQSljL13svLUEd4gpljRoNmA5wTCM6fWmjKdX4w1k=;
+ b=HO+ias1VBvd5NkePKOegQxlPmvFoskSgCZhyrqjlkqxYKeugTgCljyk3cAjDeTVT6vzilC5S8mLKWzQgt2iaHIqXFnSyljIQJVaf6u7ckTfrZ1DNSLBPwebonOnEG7T+7EG0iRwgPz+1B0eO2MFzas7uGt9WHwTJp68iCLj7ZiZVyOUEDKgSUQ6M9QW+3I4qXEKuB2Zjbr/bYGXsUmEsJWQG8jknt0M5gF1i45BI5Bn+1wrgpn6u0acNVo5ji++6zHMhUgz43S07BiPSSO7GYRQ6kGWcfp3e+V1qu8HgO4PVngkrNuuxmijRxeXkGU5GSH7ypXT7Z3cb8cRvXEU8Og==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM9PR09MB5043.eurprd09.prod.outlook.com (2603:10a6:20b:305::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Fri, 24 Dec
- 2021 10:07:48 +0000
-Received: from SA1PR11MB5899.namprd11.prod.outlook.com
- ([fe80::75f6:fec6:8c13:2cff]) by SA1PR11MB5899.namprd11.prod.outlook.com
- ([fe80::75f6:fec6:8c13:2cff%5]) with mapi id 15.20.4778.016; Fri, 24 Dec 2021
- 10:07:48 +0000
-From: Kevin Hao <kexin.hao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/2] armv9a/tune: Add the support for the Neoverse N2 core
-Date: Fri, 24 Dec 2021 18:05:18 +0800
-Message-Id: <20211224100518.3561765-2-kexin.hao@windriver.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211224100518.3561765-1-kexin.hao@windriver.com>
-References: <20211224100518.3561765-1-kexin.hao@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR0401CA0012.apcprd04.prod.outlook.com
- (2603:1096:202:2::22) To SA1PR11MB5899.namprd11.prod.outlook.com
- (2603:10b6:806:22a::18)
+ 2021 10:36:27 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::5d18:d92d:2403:1b2e]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::5d18:d92d:2403:1b2e%6]) with mapi id 15.20.4823.021; Fri, 24 Dec 2021
+ 10:36:27 +0000
+Subject: Re: [OE-core] [PATCH] base/patch: Disable network for
+ unpack/patch/configure/compile/install
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20211222232035.1036830-1-richard.purdie@linuxfoundation.org>
+ <CAMKF1sotV_QuheVfSyCBndQiKr_suBEnzDuWfExf=LgfT0yRww@mail.gmail.com>
+ <3cf5e25c0e49befed250ec01f58a6ed086e4b65c.camel@linuxfoundation.org>
+From: Konrad Weihmann <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB46425B8EEB7D75744A976E6EA87F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Fri, 24 Dec 2021 11:36:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: 
+ <3cf5e25c0e49befed250ec01f58a6ed086e4b65c.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TMN: [6QfGJFEspnHnany9TJayclKqWj5l2AIszuHSctqXOUZIv+Y/nOadAHDtrTgD5ruS]
+X-ClientProxiedBy: FRYP281CA0016.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::26)
+ To AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <bc0d97d1-07c3-11ea-2634-7a375a669e42@outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4508d763-3ca8-40a7-c9fe-08d9c6c53d09
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3245:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB32459F12B2CDACC0171EEB88E27F9@SN6PR11MB3245.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:590;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-Office365-Filtering-Correlation-Id: c1dd35de-0593-44b5-1fa0-08d9c6c93d9d
+X-MS-TrafficTypeDiagnostic: AM9PR09MB5043:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	HZ0aE+dJKnESMk2+ni/aiB9cmIQ/Aqgc1H2rPMkqOCjVB1IY22Q4LeTlmVr+aAb3N35U6cxaWS14xfi5Ta1jGVqE0DdzzKu3dG+H6dB/C2kaj4n9I2IxZ6fW/SxIqbT5qey0AvUz52A8TGhuPHy70fz2RCcZSyo3zZjzhRDHNfxtkb1GZkzhrTF+X5Qd0aIZvcCUyjoL246lP5eFOsHXABHv6V8QU9KJzZDizNuSEhoG6RH7K/orVBBpDdgADZLY/wzh1d0MvakR3OJhiPXOYPU9Bnsw2YJmfhH6R/j7apd2eKrfd0bkrWQ8kNdYhXSdeZyTK14DBrnre1OGtoW8IB2nePCHvCZIxnAD6Q1F6L0/NTGIcelgerjTG20HgLjcdAdecuqFqm0abs14K7Rx2OpDNlPkd5prRSakT4Kq8nczp1FGfto7i+AAATVB1sAp8FSFlZDBDrk9puusoJqDevaXfIhvIOUP2UZevRLRbm1onqzxTNFx6bAzIioLY0/SnLHsgpKaR4xfIVdmNvPvdNRREDyT5CIT12I6/cv+SK0tm4sKc7Ghv/xNyH4dQONO12pcNH4Mkcl+kjrAiv8NDHdi8CzF+7nxpSo+jeC7JmXnIj0VtfRanL6ndNs3GHtmh5WDQzmlBj3/J8WEIJDSyPx27Z6Xh4nCf2czJ/G6TlJ+c0iTbsqLjQH6OKDvuaumFPpk4l5bIczzTUFT0RWLxyXjMXYoef4BK6Vc8HF03Ik=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB5899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38100700002)(38350700002)(6512007)(66946007)(6506007)(8936002)(6486002)(66556008)(1076003)(26005)(508600001)(66476007)(4326008)(52116002)(316002)(5660300002)(8676002)(36756003)(186003)(2906002)(6916009)(2616005)(6666004)(86362001)(71600200004);DIR:OUT;SFP:1101;
+	1opFJtpSltYGKNmN0OF0I9zV9RUiYY9nmZdVH/vEch3aO+OIZGD9zkjaoc+zwsG5wCDSOj9TAMMYaToiMDa4hdev4UBYC+g560XE5dbWVXM527R7eBBMOduht0zTVjhuu8mQ2l2jYov+FBN5KK+ZOtBmskScSwfXNo1ksH9GT2aFc+iylFm6uDTnWGNaL/2eJG9wQrHiLj/Fh8ILR59vJdQxVQeAQk1JuE6BAlLxFPbnWyw6KeOd2IiOad4nmnKgevlKCdo1ZjUyy/mORuqft35mypj0j5eNC4xmnxUyXYt9D9gzzrHfZyfMGLibPfeg1E4lKU2uD0gOk0kfMJXl3/eAdUnSotsU5VPzf48lyWbjcp2JaKrPB69wbA+ktABlY0T/VmVK2Wi4o/PN2IuyCX33jbvc7jheRXWitDFKZqybjVfgjGeMJmfiSbiUB87h0CFBOj1d8d2L9RdWH1ZQtI6TMB048z02i/vvhsbmYQa1LnDTfNVgrvh9sBRaPG2G3tsQjvZK/E3eWZnHnlO0/NEu3+Oh7jtarDkPI4usiXqmKek45xk8hP2zOpKxwKT93wKh7yDJ67HUJT8WZynuWVx+Py3ZmJDrNcDgMAqUgsjOcszgKwWHUFwA4wAer++HzLVoUl0ag5TCXDP4ZVDgsg==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?IsvQ4dZ1W8gmnjDf/Ea2VUY6ARYBTFUkUQIgXWL5XHby85djCsnvmxef4Aej?=
- =?us-ascii?Q?dIpZ22s4Fj3eWabDRr3ASrjNIDo56cKuH8IhgCG/5YzUgbo8siEblWk/qyDd?=
- =?us-ascii?Q?2UyEj+EtEMkKzr5KOpjWfJe5rdmkuEcGI97VcCKmciYe3BeEkd88CR9orprn?=
- =?us-ascii?Q?CjYqyUJ1FqX+XbbNRBw9zYo/NfvvVBrbvDkvHb1J8C9kuWl++Y7HsFdrRmIH?=
- =?us-ascii?Q?VI80zaMqaaUY+E9iJPN4F3DwQqQokQE2ply/lZl39w+Xpt0zbZjqI987iM2T?=
- =?us-ascii?Q?EwcIs4MpfXaygQtFd5yvm1iJt/d/n7zpp7sT76jiKrjU0xezhDHENiH2rUQc?=
- =?us-ascii?Q?bZY8RZ5BSvDE5zvbP/8aWQFFXwZ3+oSzFlZoOYTBqvSaYLVD8bI/ezka8qsf?=
- =?us-ascii?Q?iG1DXY7zh2W1G2AaW08qMACeYAjUvKretZKlBK5FODCv2XGUn2X/rdoUEYGo?=
- =?us-ascii?Q?UfXonklJLk5omtxNGczgX9IYJjwKw9bWJMEvT69DR5uOgSnIpfz2aIoMaItD?=
- =?us-ascii?Q?MefpL+F2JMWq1CH+xkcffM30k1kH4KH18WIleBx7FzV5Hm7q55PZh528Lp6a?=
- =?us-ascii?Q?+2Lsy6qZmTUy4nSAmJjrr+/sNqZGUi6G/qwcM0ees8esbDJw0bEL5AevtQIC?=
- =?us-ascii?Q?F7sIm9iyhQH8bbmValLqU+BayrpizifgIg2eB6MWN+bEquD4iqUtug63/f+Z?=
- =?us-ascii?Q?mZ/GZqt8tEyW/zoWNkSHf5CoRVROF6TxMhqFVdZ/ngqId2E2LTFmn6DM68t7?=
- =?us-ascii?Q?tA1UgzPuaOdSWWisNmGHY7dxFk1J4PU7WJCZlLwtuGekA+Mm247bJGKi9J8G?=
- =?us-ascii?Q?8MoKGI5EAc7crRh40AmkPL7Fsi4PuUdkRZvydPJ8o38CIOZ5yOLfjL4xEcNd?=
- =?us-ascii?Q?wb0EQbUSKQLIU163envXs9xvimGsZjOEYS2u6JZTbxD5dOi/XF650lnqGot8?=
- =?us-ascii?Q?Gi3qQqm/ZGddprvw9ZIdV/+RnHOu+Kf3zjupKntBDbbJl7o9nVurmXXbesEO?=
- =?us-ascii?Q?S8iyGRmSzcbmQub4co43yNvZOFify3/ZF865kD7p5FRtyZFjxFTMiBSHWIiV?=
- =?us-ascii?Q?vlW0JH0Uwzj0q1Vf6xQ0QqmQEPl4TAj8LlzkXxWIQnqSK9sR+ijPJmIFZLG8?=
- =?us-ascii?Q?PG3y+QQO++Gs/02UXoLMJoeEO65SyRrCyW1+9/RdDGEkOHDXxb4Gc8FcG7mC?=
- =?us-ascii?Q?ZR153YLtrr7TWpT7LyqloXhbipgxG/H1hUFERp9WZABDpxiXNLOowKki9cag?=
- =?us-ascii?Q?ymsrem74xaNd5pTfgND4SuGcFPV2d0AvLBqNboQ1AuA4C3p4pjbrEn+JyPf/?=
- =?us-ascii?Q?sBxpOUjXdL/wXEfyxt5FfJaDXpoIHBhY6+qC/Y7ZUN/nBP/A7ySsD5YFkrlj?=
- =?us-ascii?Q?Dnlvh/rE2gfwFFCSuCnKZrmalBN8wSSvsK1zaXb1RJ4G4RQ/vn9hecmxS9JU?=
- =?us-ascii?Q?4AUtp9Dcj5lHM5GL7cOizCrYe7US0s1zuD+N12VhFhxfwj5Zo/ErJ9Yef+Tv?=
- =?us-ascii?Q?1uUs98pJPZXRZMATP2bffuRiFcZBKM+EczAwrZitaFHdYBmG2uTvnYR5QN5Y?=
- =?us-ascii?Q?8/8QuwA0/HXoHMjEmf65npgkzBHzfHrTBW8mFh8cWHDG7TjIVn5dYFW+JXAb?=
- =?us-ascii?Q?axrcPivIrWv3cUrKyzCPvA8=3D?=
-X-OriginatorOrg: windriver.com
+	=?utf-8?B?MmowYXQzTi83OWpRTE9NcnpGOVZJWS9hTXVHY3Z0TXN6dlpYRDFoZUwzKzhD?=
+ =?utf-8?B?c0NnaGQ2TFRIMy9nb1NobXR4eTdmT0Y2OFovOEdRREJ1OWdFVU5zZVRxaDM5?=
+ =?utf-8?B?YW1CVUcvY0pDWGlwT016ejBtREdLYS9SZElzRzMrQXF4V3BiZ2VMUGdYVExJ?=
+ =?utf-8?B?N0w5WlJEQlZOOVB1azRFa3diOXZ0aXAyeWc2WUYzTGUwaHgyWGhKYjl5ZUdk?=
+ =?utf-8?B?amJ6TjhsRkxCWW96VDlmVzVRaHRkbEsxWXJzK1ArRmd5YmhnYUNHRXllazZv?=
+ =?utf-8?B?OUxFZHhad2QxZ1c3aUt4cWNraFVVbWNWRTl4T3ZOY0pROXVhQ3ZZdVU0cS9r?=
+ =?utf-8?B?c1NtNmhpYk84ZlIvU0ZCdzBicHNoSVFtcFUrUEJVcFhRb1RNc3lkYUZmZG54?=
+ =?utf-8?B?VUdQaGNFdHY5clNSdEU5YytMTkpDMVZQWDNDTTBPcTZkblNibGhCM0tyNGZq?=
+ =?utf-8?B?cFpNVERtTjhpQWR3MG5HVG1KdHZsSFVRSmYrR2dJOUdtdlI4dldUdUJqMUZZ?=
+ =?utf-8?B?eWIyQUlZTjJGUGhjUU5WVUc3UGp1aEcreXBZYlBvMGs4d1U0YU1PaHZWWU5n?=
+ =?utf-8?B?MU5KNkpGdks1VlhzZkZka1hSRDR4R1pUOXRqeVRHbkthaDQvWXRpejRVQXBp?=
+ =?utf-8?B?RHFPS3V6dzlYWGhwMU5qc1VxdFNFcFRlOWRPbk5zbjFLRWVEbDJTYyt3bU5s?=
+ =?utf-8?B?ZmszZWZCR2p0RUFGZTR2aDR2UVVuTFd2SmJnMkF1MjZpR29CMFRMVk50NDZY?=
+ =?utf-8?B?bXVudkdhR2h5Y3Bhc0tMcEwwQXBYZUJNdWw3T0RySW1heWhxQ0t4ckxkcG85?=
+ =?utf-8?B?ejcvTzd0RXFVbGl2QmcvMkRYTUp1c3pZTkZJTENVa0RtQ2QzOW5VTXRZUERH?=
+ =?utf-8?B?cDlyc05wTjNCbFlKQkFhZUZkSmwwY0ZndGFEa2tVVi9RZStNbUs1aW5DeUZH?=
+ =?utf-8?B?Z0F5KzhuRGQ5Rm4zV0NiSFB3MityMEY0RXliVGZHbDl5MU93NTJwMERhcnMz?=
+ =?utf-8?B?ZmZYZGs2NkRESnV6OU1VUjhTRVRYUWdtdHk1VzE5bnpxaGNJQ2VQSU9IRE5L?=
+ =?utf-8?B?TE82dlYxQ1hBVDBVRUU5NUNIalB0aUxDRFZJczNmSm1qejZOWUpka3RVM1lB?=
+ =?utf-8?B?aGhZL1lXdmllR0VOc3FOMElRSDZSL0JkODAwUG5Ycnp3NmxBeHhreFEyQmZp?=
+ =?utf-8?B?V2JBSkZ3RDA0Z3kxZUdkSHdnQ3hFQ0crcWZjcVZhTTRXUHNleUNySXJSaFhC?=
+ =?utf-8?B?OW5NTzVYcDRkMWdvaXVGYVlxbVRLMFJmemhrdjFkVlQ5NCtqQ2k0NzNkNkNZ?=
+ =?utf-8?B?M0ludy9PekUvZVVMaXY3bmcxazBCODl3SVpmVEN4S3AzWXJLTXgrS1ZiaEI5?=
+ =?utf-8?B?ZlN3ZHIxVGIzR0E9PQ==?=
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 4508d763-3ca8-40a7-c9fe-08d9c6c53d09
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB5899.namprd11.prod.outlook.com
+ c1dd35de-0593-44b5-1fa0-08d9c6c93d9d
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2021 10:07:48.5950
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2021 10:36:27.6099
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- aikpKKaL9ZCjlZpAwou//Z5xBOg5R2CFzbZsTgkGFX0E58cI4XAOEyRHTgiaXaixDSRTBPzJVbNqDLJ31fsxFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3245
-X-Proofpoint-ORIG-GUID: twGzZ590CD8TB0qkBQIxAbqoIzNzl0p8
-X-Proofpoint-GUID: vbpMpkenJ2Gwqdn756Dcm0m91UL7eZTs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-24_03,2021-12-24_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- mlxlogscore=412 impostorscore=0 adultscore=0 spamscore=0 suspectscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112240049
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR09MB5043
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Dec 2021 10:07:52 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Dec 2021 10:36:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/159998
+ https://lists.openembedded.org/g/openembedded-core/message/159999
 
-This adds the support for the Neoverse N2 core, even though the
-Neoverse N2 core implements the Arm v9.0-A architecture, but the support
-of it in GCC is based on the Arm v8.5-A architecture. Please see the
-commit 50d9db203bc3 ("aarch64: Add support for Neoverse N2 CPU") in GCC
-for more detail.
+I had a look at the failures and most of them are fairly easy to fix - 
+all but the go recipes like influxdb.
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
----
- .../include/arm/armv9a/tune-neoversen2.inc    | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc
+I'm not sure how to deal with that, so there aren't that many options here.
 
-diff --git a/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc b/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc
-new file mode 100644
-index 000000000000..36355f7bedb0
---- /dev/null
-+++ b/meta/conf/machine/include/arm/armv9a/tune-neoversen2.inc
-@@ -0,0 +1,22 @@
-+#
-+# Tune Settings for Neoverse-N2
-+#
-+DEFAULTTUNE ?= "neoversen2"
-+
-+TUNEVALID[neoversen2] = "Enable Neoverse-N2 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'neoversen2', ' -mcpu=neoverse-n2', '', d)}"
-+
-+# Even though the Neoverse N2 core implemnts the Arm v9.0-A architecture,
-+# but the support of it in GCC is based on the Arm v8.5-A architecture.
-+require conf/machine/include/arm/arch-armv8-5a.inc
-+
-+# Little Endian base configs
-+AVAILTUNES                                         += "neoversen2 neoversen2-crypto"
-+ARMPKGARCH:tune-neoversen2                          = "neoversen2"
-+ARMPKGARCH:tune-neoversen2-crypto                   = "neoversen2-crypto"
-+TUNE_FEATURES:tune-neoversen2                       = "${TUNE_FEATURES:tune-armv8-5a} neoversen2"
-+TUNE_FEATURES:tune-neoversen2-crypto                = "${TUNE_FEATURES:tune-neoversen2} crypto"
-+PACKAGE_EXTRA_ARCHS:tune-neoversen2                 = "${PACKAGE_EXTRA_ARCHS:tune-armv8-5a} neoversen2"
-+PACKAGE_EXTRA_ARCHS:tune-neoversen2-crypto          = "${PACKAGE_EXTRA_ARCHS:tune-armv8-5a-crypto} neoversen2 neoversen2-crypto"
-+BASE_LIB:tune-neoversen2                            = "lib64"
-+BASE_LIB:tune-neoversen2-crypto                     = "lib64"
--- 
-2.31.1
+Either
+- inject all the needed with a fixed revision, but that would prevent 
+devtool from catching updates to them properly
+- create recipes for all of them and pray that there won't be a circular 
+dependency in any of them
+- allow go to work with network (the least favorable option IMO)
 
+in the case of influxdb for instance we are talking about
+
+github.com/peterh/liner
+golang.org/x/crypto
+github.com/influxdata/influxql
+github.com/influxdata/flux
+github.com/BurntSushi/toml
+github.com/influxdata/usage-client
+golang.org/x/text
+go.uber.org/zap
+github.com/klauspost/pgzip
+github.com/prometheus/client_golang
+github.com/jsternberg/zap-logfmt
+github.com/mattn/go-isatty
+collectd.org
+github.com/bmizerany/pat
+github.com/dgrijalva/jwt-go/v4
+github.com/gogo/protobuf
+github.com/golang/snappy
+github.com/tinylib/msgp
+github.com/opentracing/opentracing-go
+golang.org/x/sync
+github.com/apache/arrow/go/arrow
+github.com/pkg/errors
+google.golang.org/grpc
+github.com/kraj/xxhash
+github.com/influxdata/roaring
+github.com/xlab/treeprint
+golang.org/x/time
+golang.org/x/sys
+github.com/jwilder/encoding
+github.com/dgryski/go-bitstream
+
+where especially the golang.org/x modules are known to have circular 
+dependencies like x/a relies on x/b, while x/b requires x/c and x/c 
+needs x/a for building.
+
+Not sure how to tackle this - any thoughts?
+
+On 24.12.21 09:30, Richard Purdie wrote:
+> On Thu, 2021-12-23 at 22:00 -0800, Khem Raj wrote:
+>> is this list of failures due to this patch ?
+>> https://errors.yoctoproject.org/Errors/Build/137579/
+> 
+> Looks likely, yes. Recipes shouldn't be attempting downloads in do_compile :(
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159996): https://lists.openembedded.org/g/openembedded-core/message/159996
+> Mute This Topic: https://lists.openembedded.org/mt/87909311/3647476
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
