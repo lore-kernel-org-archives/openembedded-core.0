@@ -1,151 +1,59 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <stefan@herbrechtsmeier.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F35DCC433F5
-	for <webhook@archiver.kernel.org>; Fri, 24 Dec 2021 17:18:51 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.48242.1640366330019658400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6A7C433EF
+	for <webhook@archiver.kernel.org>; Sat, 25 Dec 2021 19:26:01 +0000 (UTC)
+Received: from dd43212.kasserver.com (dd43212.kasserver.com [85.13.165.135])
+ by mx.groups.io with SMTP id smtpd.web11.10129.1640460359362153907
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Dec 2021 09:18:50 -0800
+ Sat, 25 Dec 2021 11:26:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TVa6xCQQ;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1640366330;
-  x=1671902330;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=kgW3f2rTkIthC6i9wWA6GxD1A+EqlBWwzqbK5D7RXBY=;
-  b=TVa6xCQQ524tEOdlYpMBkn2B98YUiTOyWOOQatWPwou4VPrY1xML02FY
-   9E/GjiYTgvnjqRqQKL2bTdAtA0BNTj6MNzIMavEJXc0bggphdagefHoVA
-   o1H3pyIULFybvpNUu9TXwO4VpnFNpXjI4hCMRmPsgpiN+7/cxPFS1JPUK
-   LJ3xv3I1OBdxj0ZKMIslvCDyDFvwIo7pBtTsBEBxzZuZrDEmkMQVGbDsl
-   p7k0Wxe3H3p1LI8tuHQqFqDPRIQ2g4rfozp1UyuE8SWiWG4OLO4a0lN12
-   aa9je2/jJRMoW9s5XfTSkVSnCGlIaPFJAEvB4xWUFfvnkRUgUOu4MPeZ0
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] package.bbclass: Add support for specifying a
- suffix for debug files
-Thread-Topic: [OE-core] [PATCH] package.bbclass: Add support for specifying a
- suffix for debug files
-Thread-Index: AQHX+IqCU/VF+qk+lkGneiBBfzIx/axB19qw
-Date: Fri, 24 Dec 2021 17:18:46 +0000
-Message-ID: <7aa4e8b64b7a4e65bd7a284b05f83e8c@axis.com>
-References: <20211223103617.4172-1-pkj@axis.com>
- <CAMKF1so10sJ0T3GkdxgPLObrArFbw2F=Opqfbt=76KCz=FhT5g@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1so10sJ0T3GkdxgPLObrArFbw2F=Opqfbt=76KCz=FhT5g@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: herbrechtsmeier.net,
+ ip: 85.13.165.135, mailfrom: stefan@herbrechtsmeier.net)
+Received: from [192.168.178.45] (i5E86B5ED.versanet.de [94.134.181.237])
+	by dd43212.kasserver.com (Postfix) with ESMTPSA id 1B74643C05A7;
+	Sat, 25 Dec 2021 20:25:56 +0100 (CET)
+Subject: Re: [OE-core] [PATCH] base/patch: Disable network for
+ unpack/patch/configure/compile/install
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20211222232035.1036830-1-richard.purdie@linuxfoundation.org>
+ <CAMKF1sotV_QuheVfSyCBndQiKr_suBEnzDuWfExf=LgfT0yRww@mail.gmail.com>
+ <3cf5e25c0e49befed250ec01f58a6ed086e4b65c.camel@linuxfoundation.org>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <5db8fc83-05e2-c3f7-ad65-b73b3fb4c68e@herbrechtsmeier.net>
+Date: Sat, 25 Dec 2021 20:25:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: 
+ <3cf5e25c0e49befed250ec01f58a6ed086e4b65c.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Dec 2021 17:18:51 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Dec 2021 19:26:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160002
+ https://lists.openembedded.org/g/openembedded-core/message/160004
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMjQgZGVjZW1iZXIgMjAyMSAwNjo1Mw0KPiBUbzogUGV0
-ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IENjOiBQYXRj
-aGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVk
-LQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIXSBwYWNrYWdlLmJiY2xhc3M6IEFkZCBzdXBwb3J0IGZvciBzcGVjaWZ5aW5nDQo+
-IGEgc3VmZml4IGZvciBkZWJ1ZyBmaWxlcw0KPiANCj4gT24gVGh1LCBEZWMgMjMsIDIwMjEgYXQg
-MjozNiBBTSBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNv
-bT4gd3JvdGU6DQo+ID4NCj4gPiBUaGUgc3VmZml4IGlzIGFkZGVkIHRvIHRoZSBuYW1lcyBvZiBh
-bGwgZmlsZXMgd2l0aCBkZWJ1ZyBzeW1ib2xzDQo+ID4gcHJvZHVjZWQgYnkgc3BsaXRfYW5kX3N0
-cmlwX2ZpbGVzKCkuIEl0IGNhbiBiZSB1c2VkIHRvIG1ha2UgdGhlIGRlYnVnDQo+ID4gZmlsZXMg
-cHJvZHVjZWQgYnkgb25lIHJlY2lwZSB1bmlxdWUgdG8gYXZvaWQgdGhlbSBjb25mbGljdGluZyB3
-aXRoDQo+ID4gaWRlbnRpY2FsbHkgbmFtZWQgZGVidWcgZmlsZXMgcHJvZHVjZWQgYnkgYW5vdGhl
-ciByZWNpcGUuIFRoaXMgbWF5IGJlDQo+ID4gbmVlZGVkIHNpbmNlIHdoaWxlIHRoZSB0YXJnZXQg
-ZmlsZXMgbWF5IGJlIHNwbGl0IGluIG11bHRpcGxlIHBhY2thZ2VzLA0KPiA+IHRoZSBkZWJ1ZyBm
-aWxlcyBmb3Igb25lIHJlY2lwZSBhcmUgYWxsIGluIG9uZSBwYWNrYWdlLg0KPiA+DQo+IA0KPiBj
-YW4geW91IHBvaW50IHRvIGFuIGV4YW1wbGUgcmVjaXBlIGNsYXNoID8NCg0KTm90IGluIE9FLUNv
-cmUgb3IgT3BlbkVtYmVkZGVkLiBUaGUgZXhhbXBsZSB0aGF0IHJlcXVpcmVkIG1lIHRvIGhhdmUg
-dG8gZmluZCANCmEgc29sdXRpb24gd2FzIHRoYXQgd2UgaGF2ZSBvdXIgb3duIGltcGxlbWVudGF0
-aW9uIG9mIGFuIHNydHAgcGx1Z2luIGZvciANCkdTdHJlYW1lciB0aGF0IHNvbWUgb2Ygb3VyIHBy
-b2R1Y3RzIHVzZSwgd2hpbGUgc29tZSBvZiBvdXIgcHJvZHVjdHMgdXNlIHRoZSANCm9mZmljaWFs
-IHZlcnNpb24gZnJvbSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQuIE91ciB2ZXJzaW9uIGlzIGEg
-ZHJvcC1pbiANCnJlcGxhY2VtZW50IHNvIGl0IHByb3ZpZGVzIHRoZSBsaWJnc3RydHNwLnNvIHBs
-dWdpbiBqdXN0IGxpa2UgdGhlIG9yaWdpbmFsIA0KcGFja2FnZSBmcm9tIGdzdHJlYW1lcjEuMC1w
-bHVnaW5zLWJhZCBkb2VzLiBUaGlzIGlzIG5vIHByb2JsZW0gZm9yIHRhcmdldCBhcyANCnRoZSBH
-U3RyZWFtZXIgcGx1Z2lucyBhcmUgcGFja2FnZWQgb25lIG1vZHVsZSBwZXIgcGFja2FnZS4gSG93
-ZXZlciwgYXMgdGhlIA0KZGVidWcgZmlsZXMgYXJlIGFsbCBpbiBvbmUgcGFja2FnZSwgdGhlIGxp
-YmdzdHJ0c3Auc28gZmlsZSBpbiBvdXIgZGJnIHBhY2thZ2UgDQpjb25mbGljdHMgd2l0aCB0aGUg
-bGliZ3N0cnRzcC5zbyBpbiB0aGUgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLWRiZyBwYWNrYWdl
-IA0KYW5kIHRoaXMgYmVjb21lcyBhIHByb2JsZW0gZm9yIGFueSBwcm9kdWN0IHRoYXQgdXNlcyBi
-b3RoIG91ciBydHNwIHBsdWdpbiANCmFuZCBzb21lIG90aGVyIHBsdWdpbiBmcm9tIGdzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhZC4NCg0KLy9QZXRlcg0KDQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIg
-S2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gLS0tDQo+ID4g
-IG1ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgfCAxMSArKysrKysrKysrKw0KPiA+ICBtZXRh
-L2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mIHwgIDEgKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDEy
-IGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvcGFja2Fn
-ZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KPiA+IGluZGV4IDA5Y2Qz
-NzZmNGEuLjNkZjFlZGQ0YTggMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3BhY2thZ2Uu
-YmJjbGFzcw0KPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MNCj4gPiBAQCAt
-NjIsNiArNjIsMTQgQEAgUEFDS0FHRV9ERVBFTkRTICs9ICJycG0tbmF0aXZlIGR3YXJmc3JjZmls
-ZXMtbmF0aXZlIg0KPiA+ICAjIHRvb2xzIGF0IHJvb3RmcyBidWlsZCB0aW1lLg0KPiA+ICBQQUNL
-QUdFX1dSSVRFX0RFUFMgPz89ICIiDQo+ID4NCj4gPiArIyBUaGlzIHN1ZmZpeCBpcyBhZGRlZCB0
-byB0aGUgbmFtZXMgb2YgYWxsIGZpbGVzIHdpdGggZGVidWcgc3ltYm9scw0KPiBwcm9kdWNlZCBi
-eQ0KPiA+ICsjIHNwbGl0X2FuZF9zdHJpcF9maWxlcygpLiBJdCBjYW4gYmUgdXNlZCB0byBtYWtl
-IHRoZSBkZWJ1ZyBmaWxlcw0KPiBwcm9kdWNlZCBieQ0KPiA+ICsjIG9uZSByZWNpcGUgdW5pcXVl
-IHRvIGF2b2lkIHRoZW0gY29uZmxpY3Rpbmcgd2l0aCBpZGVudGljYWxseSBuYW1lZA0KPiBkZWJ1
-ZyBmaWxlcw0KPiA+ICsjIHByb2R1Y2VkIGJ5IGFub3RoZXIgcmVjaXBlLiBUaGlzIG1heSBiZSBu
-ZWVkZWQgc2luY2Ugd2hpbGUgdGhlIHRhcmdldA0KPiBmaWxlcw0KPiA+ICsjIG1heSBiZSBzcGxp
-dCBpbiBtdWx0aXBsZSBwYWNrYWdlcywgdGhlIGRlYnVnIGZpbGVzIGZvciBvbmUgcmVjaXBlIGFy
-ZQ0KPiBhbGwgaW4NCj4gPiArIyBvbmUgcGFja2FnZS4NCj4gPiArUEFDS0FHRV9ERUJVR19GSUxF
-X1NVRkZJWCA/Pz0gIiINCj4gPiArDQo+ID4gIGRlZiBsZWdpdGltaXplX3BhY2thZ2VfbmFtZShz
-KToNCj4gPiAgICAgICIiIg0KPiA+ICAgICAgTWFrZSBzdXJlIHBhY2thZ2UgbmFtZXMgYXJlIGxl
-Z2l0aW1hdGUgc3RyaW5ncw0KPiA+IEBAIC0xMTE3LDYgKzExMjUsOSBAQCBweXRob24gc3BsaXRf
-YW5kX3N0cmlwX2ZpbGVzICgpIHsNCj4gPiAgICAgICAgICBkZWJ1Z3N0YXRpY2xpYmRpciA9ICIi
-DQo+ID4gICAgICAgICAgZGVidWdzcmNkaXIgPSAiL3Vzci9zcmMvZGVidWciDQo+ID4NCj4gPiAr
-ICAgIGRlYnVnYXBwZW5kICs9IGQuZ2V0VmFyKCdQQUNLQUdFX0RFQlVHX0ZJTEVfU1VGRklYJykN
-Cj4gPiArICAgIGRlYnVnc3RhdGljYXBwZW5kICs9IGQuZ2V0VmFyKCdQQUNLQUdFX0RFQlVHX0ZJ
-TEVfU1VGRklYJykNCj4gPiArDQo+ID4gICAgICAjDQo+ID4gICAgICAjIEZpcnN0IGxldHMgZmln
-dXJlIG91dCBhbGwgb2YgdGhlIGZpbGVzIHdlIG1heSBoYXZlIHRvIHByb2Nlc3MgLi4uDQo+IGRv
-IHRoaXMgb25seSBvbmNlIQ0KPiA+ICAgICAgIw0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYv
-ZG9jdW1lbnRhdGlvbi5jb25mIGIvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+IGlu
-ZGV4IGY2M2Y0YjIyM2EuLmFkNDk0MTAyNDkgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jb25mL2Rv
-Y3VtZW50YXRpb24uY29uZg0KPiA+ICsrKyBiL21ldGEvY29uZi9kb2N1bWVudGF0aW9uLmNvbmYN
-Cj4gPiBAQCAtMzExLDYgKzMxMSw3IEBAIFBBQ0tBR0VfQVJDSFtkb2NdID0gIlRoZSBhcmNoaXRl
-Y3R1cmUgb2YgdGhlDQo+IHJlc3VsdGluZyBwYWNrYWdlIG9yIHBhY2thZ2VzLiINCj4gPiAgUEFD
-S0FHRV9BUkNIU1tkb2NdID0gIkEgbGlzdCBvZiBhcmNoaXRlY3R1cmVzIGNvbXBhdGlibGUgd2l0
-aCB0aGUgZ2l2ZW4NCj4gdGFyZ2V0IGluIG9yZGVyIG9mIHByaW9yaXR5LiINCj4gPiAgUEFDS0FH
-RV9CRUZPUkVfUE5bZG9jXSA9ICJFbmFibGVzIGVhc2lseSBhZGRpbmcgcGFja2FnZXMgdG8gUEFD
-S0FHRVMNCj4gYmVmb3JlICR7UE59IHNvIHRoYXQgdGhlIHBhY2thZ2VzIGNhbiBwaWNrIHVwIGZp
-bGVzIHRoYXQgd291bGQgbm9ybWFsbHkgYmUNCj4gaW5jbHVkZWQgaW4gdGhlIGRlZmF1bHQgcGFj
-a2FnZS4iDQo+ID4gIFBBQ0tBR0VfQ0xBU1NFU1tkb2NdID0gIlRoaXMgdmFyaWFibGUgc3BlY2lm
-aWVzIHRoZSBwYWNrYWdlIG1hbmFnZXIgdG8NCj4gdXNlIHdoZW4gcGFja2FnaW5nIGRhdGEuIEl0
-IGlzIHNldCBpbiB0aGUgY29uZi9sb2NhbC5jb25mIGZpbGUgaW4gdGhlDQo+IEJ1aWxkIERpcmVj
-dG9yeS4iDQo+ID4gK1BBQ0tBR0VfREVCVUdfRklMRV9TVUZGSVhbZG9jXSA9ICJUaGlzIHN1ZmZp
-eCBpcyBhZGRlZCB0byB0aGUgbmFtZXMgb2YNCj4gYWxsIGZpbGVzIHdpdGggZGVidWcgc3ltYm9s
-cyBpbiB0aGUgZGJnIHBhY2thZ2UuIg0KPiA+ICBQQUNLQUdFX0VYQ0xVREVbZG9jXSA9ICJQYWNr
-YWdlcyB0byBleGNsdWRlIGZyb20gdGhlIGluc3RhbGxhdGlvbi4gSWYgYQ0KPiBsaXN0ZWQgcGFj
-a2FnZSBpcyByZXF1aXJlZCwgYW4gZXJyb3IgaXMgZ2VuZXJhdGVkLiINCj4gPiAgUEFDS0FHRV9F
-WFRSQV9BUkNIU1tkb2NdID0gIlNwZWNpZmllcyB0aGUgbGlzdCBvZiBhcmNoaXRlY3R1cmVzDQo+
-IGNvbXBhdGlibGUgd2l0aCB0aGUgZGV2aWNlIENQVS4gVGhpcyB2YXJpYWJsZSBpcyB1c2VmdWwg
-d2hlbiB5b3UgYnVpbGQgZm9yDQo+IHNldmVyYWwgZGlmZmVyZW50IGRldmljZXMgdGhhdCB1c2Ug
-bWlzY2VsbGFuZW91cyBwcm9jZXNzb3JzLiINCj4gPiAgUEFDS0FHRV9JTlNUQUxMW2RvY10gPSAi
-TGlzdCBvZiB0aGUgcGFja2FnZXMgdG8gYmUgaW5zdGFsbGVkIGludG8gdGhlDQo+IGltYWdlLiBU
-aGUgdmFyaWFibGUgaXMgZ2VuZXJhbGx5IG5vdCB1c2VyLWRlZmluZWQgYW5kIHVzZXMgSU1BR0Vf
-SU5TVEFMTA0KPiBhcyBwYXJ0IG9mIHRoZSBsaXN0LiINCj4gPg0KPiA+IC09LT0tPS09LT0tPS09
-LT0tPS09LT0tDQo+ID4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRo
-aXMgZ3JvdXAuDQo+ID4gVmlldy9SZXBseSBPbmxpbmUgKCMxNTk5NzQpOg0KPiBodHRwczovL2xp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE1OTk3NA0K
-PiA+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210Lzg3
-OTE1OTI3LzE5OTc5MTQNCj4gPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1Yg0KPiBbcmFqLmtoZW1AZ21h
-aWwuY29tXQ0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+ID4NCg==
+Hi Richard,
+
+Am 24.12.21 um 09:30 schrieb Richard Purdie:
+> On Thu, 2021-12-23 at 22:00 -0800, Khem Raj wrote:
+>> is this list of failures due to this patch ?
+>> https://errors.yoctoproject.org/Errors/Build/137579/
+> 
+> Looks likely, yes. Recipes shouldn't be attempting downloads in do_compile :(
+
+In this case the go and especially go-mod class is broken by design 
+because it downloads all its dependencies after do_fetch.
+
+Regards
+   Stefan
 
