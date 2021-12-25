@@ -2,155 +2,190 @@ Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C05C433EF
-	for <webhook@archiver.kernel.org>; Sat, 25 Dec 2021 20:58:44 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (EUR04-HE1-obe.outbound.protection.outlook.com [40.92.73.78])
- by mx.groups.io with SMTP id smtpd.web10.10773.1640465922433024922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 407EAC433EF
+	for <webhook@archiver.kernel.org>; Sat, 25 Dec 2021 21:09:41 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (EUR04-DB3-obe.outbound.protection.outlook.com [40.92.74.78])
+ by mx.groups.io with SMTP id smtpd.web10.10849.1640466580300246350
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Dec 2021 12:58:43 -0800
+ Sat, 25 Dec 2021 13:09:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=nRJCEnv8;
- spf=pass (domain: outlook.com, ip: 40.92.73.78,
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=i27xS+bK;
+ spf=pass (domain: outlook.com, ip: 40.92.74.78,
  mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bYuMASG2+9CWKM6HfEoRehPn+o8pT/e9CD92U99BSNA0nJ/a+pw95TpChzunShyr3yEK7Hd5TNM0ptE2EEV0xQuYuFSs8CzhaY17P17CTpTYgtsBdyNKn8Af54wnCiZIhGqPmengKzA3oQa42s+OeEcR43ImjyFWekRfJ1WFFxEv6j3gxS7mFhsa439dfgqTVF5x9DntssTdWRvswZ4yeevfmiujxCfDysNNgQpp+4OERiN6mtqn6CraMiFG+s+3ekn3FM+YKyOO6k16vo1TKbdUPUSuQbJRCV3vUFVVK09ZwTBvDUd/rLDYhK6/7I8lUdOs/QgxBdVgdIX5oUhFdQ==
+ b=YCNab+CjN8mEoZ98+rcEslslhZGrWsHFt1OkBfszmPc/wwuLnclOchVz430vHKLP2t54kZMdNYXheAG76J4RXU22lw/rVwzGUZer5txdp4Tvj7N5aObzRKGmCDA2QYaxRL/zdo3acQN+THGzt2KPXWjL6obuE4uElRfaNomP82zz8OyZhdy6VIXNWmhhwazIywT6V/L2Ji4MpRsPXQKjB/yrb14x5l16NBLLzf7TktxMuKso4dFEZ5qjc2LkFsw5n0Sox4cjbLp2KyX4NpKIRAgrcUTe9Aw0WGdo41xdJyqaJEoaptVyck8Qn1+3Er5a7R0XHp5tvEDIZ8nl5pa6/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=su81i5rIJblNSepmw2iLIsr2NqjUCFnuauO6KL9DKGE=;
- b=CdzE5s+PY+vpazcjVdsPeGmKfgYVpllQj45K8ZzeZiMokTHHQx04HxZUvEQ+9TembkdX4Fb57FpIglWuwN3OuovdsTo6IUfnCAD4vkLy+4TpEBo2KZJ29DsFEzm+KZPu9MnGNfgJoUxnz6gGTLLosPv/KAdM78fTR5eYuUhsuBza/dmZA9/B3nSyyh7+ne1kxBUK6v7k70C6NiBoGV2zTHLjR4pxp1C7JQhzUMEnZWz4wnIF+c4raGkmCS9tdWsg7vEKirS+xxSCkYuUwFDK0PPMn90Gwr7OWza3S97FPMofgGRLRWs1Dh9M9IyRUM7r8hJT6i7YrWCxG5+owhnoPQ==
+ bh=GL7XaPS1VgJvVwXRsteA+vNxZJEUxONeBC1oVQt0S4M=;
+ b=e/9HUZY7/g0Yw6pRNe8uaNZuTQkpDKiBKXjhW5WcVYiGel38ANhctqdBC7KmVFUAy2bAbqGZVHFMHfGUyyK41i3W0lUF2yGbSMBL+ejvog73kALHVaHK9gn0P4KNbiE8X1Lx/InnPYn9L/uxl17i7F4r5FbhXj21pYv/CImI4sr2hFsHI9YlyEJq+cPTQrgLQhECBCmUsgF2y1VC34kymVZ8KKkYtcdbWfc8PbYxdpPXYl3jU5KaNmcZpbZeBspa0FjL+Cgb7EWe/FTKWCjhoS3R1ZXTKbZEykYZaBu/zg6OEsgR0/1o+iuekoNu1YeE0UG6Munxj03J8+3YHxpE8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=su81i5rIJblNSepmw2iLIsr2NqjUCFnuauO6KL9DKGE=;
- b=nRJCEnv8tizmfGdl2bMaWnvC5Qa+rCK+ddLMkzUJahk41XajLGxUopfPacH8p6hRBpJ0LSa/R7oL6h0q6hVuWH+EIfaVwD2M4tpXCgElADIaQkXmqpjDDm8RWJSwpLvEjAn2qLstVHQ4Qs8Q5ejMglGE4gy8/9s0orhFEOqY40PB/OA/IBRIRGudBBnbfVt4htdy8//24NsCjg9QeY0V/RH3c6XzJfjTe/WxNRjfeUIUvtKwWyr7XAxgspLgQfrf3g7kd3MahsVku3UUHtHTPs0rAvYX0BV0UzzS9MiGOTB7aCz54HQeUFWC8R+yKYmXHrO8tIIghdWWiVgCyqK4rg==
+ bh=GL7XaPS1VgJvVwXRsteA+vNxZJEUxONeBC1oVQt0S4M=;
+ b=i27xS+bKwNYc3zu9I7VfwZ+DcWbTWb3J8tW8caLnCLa/7F1UQpkuwJdc/QmXirHa3NzTm0XKCwIjFEwXHmyG765OG91VpLFxlozb5hk6e3UZu5j7Kfz/9uKJG777+2w8TC8WJ+u1p/rMjqUQiMnDt1dbYXfTQOYBLElS84LCKr8WEwYbWr6CmaeyjhsT99oUa9JsTwC3XvNKNMBlE3JkXTfxdhAH5RvDcgVHx5Vz+3ePurD6WCphJqdr7CzUPOOU6Pvj7bt7UYUiXRwEh8zvAYiq1hiSi/1NCX/8kFhHtNwT/lfM/p3zEu9TtEphQ2Zo99D2+OL9EwoGAwdGMtMjxQ==
 Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM9PR09MB5091.eurprd09.prod.outlook.com (2603:10a6:20b:30e::13) with
+ by AM0PR09MB4388.eurprd09.prod.outlook.com (2603:10a6:20b:162::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Sat, 25 Dec
- 2021 20:58:39 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18; Sat, 25 Dec
+ 2021 21:09:38 +0000
 Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
  ([fe80::5d18:d92d:2403:1b2e]) by AM9PR09MB4642.eurprd09.prod.outlook.com
  ([fe80::5d18:d92d:2403:1b2e%6]) with mapi id 15.20.4823.022; Sat, 25 Dec 2021
- 20:58:39 +0000
+ 21:09:38 +0000
 Subject: Re: [OE-core] [PATCH] base/patch: Disable network for
  unpack/patch/configure/compile/install
-To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Cc: Patches and discussions about the oe-core layer
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Khem Raj <raj.khem@gmail.com>,
+ Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
 References: <20211222232035.1036830-1-richard.purdie@linuxfoundation.org>
  <CAMKF1sotV_QuheVfSyCBndQiKr_suBEnzDuWfExf=LgfT0yRww@mail.gmail.com>
  <3cf5e25c0e49befed250ec01f58a6ed086e4b65c.camel@linuxfoundation.org>
  <AM9PR09MB46425B8EEB7D75744A976E6EA87F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
  <12b2ffb4-5758-e80f-9515-a8d4ac078c9d@herbrechtsmeier.net>
-From: Konrad Weihmann <kweihmann@outlook.com>
+ <CANNYZj-XR2XzOwnfPTN74mG1QiWcbE96+-iAb-VL7fYta9YA_w@mail.gmail.com>
+ <16C41A407A5C2599.27787@lists.openembedded.org>
 Message-ID: 
- <AM9PR09MB4642D66F272E78BBD4251AE8A8409@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Sat, 25 Dec 2021 21:58:32 +0100
+ <AM9PR09MB4642B580A2438B5FB960E5FEA8409@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Sat, 25 Dec 2021 22:09:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <12b2ffb4-5758-e80f-9515-a8d4ac078c9d@herbrechtsmeier.net>
+In-Reply-To: <16C41A407A5C2599.27787@lists.openembedded.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TMN: [mUUF2s01BgNvV9A6j/yyW3oCbFVHMTw3hYM/AkyoNUrcHNPhz3NR1wiVkO6rLs8R]
-X-ClientProxiedBy: PR3P189CA0036.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:53::11) To AM9PR09MB4642.eurprd09.prod.outlook.com
+X-TMN: [q5AVk/HbAlo/sqZhwoBQmIhuy+R1ApKwM3xfC8zaxiEhdrBMK3xVFx+HYBTfvCsd]
+X-ClientProxiedBy: PR3P189CA0034.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::9) To AM9PR09MB4642.eurprd09.prod.outlook.com
  (2603:10a6:20b:284::24)
 X-Microsoft-Original-Message-ID: 
- <2586d3ee-67ea-9852-608f-e5f72a6e33e4@outlook.com>
+ <efbd6bcd-81e7-210c-8cf5-ff7ef521dee4@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0908c430-1065-48ca-a296-08d9c7e95379
-X-MS-TrafficTypeDiagnostic: AM9PR09MB5091:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46282b65-b673-42e6-ec60-08d9c7eadc38
+X-MS-TrafficTypeDiagnostic: AM0PR09MB4388:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	hvKiRcFrLtXI94saJ00R3FSoyCUfox5rOIoGhmRwTgCpGsEyS792/VIxrnuwvMVK11N6XCZ9I5sokjtt564UcfHBXKBKFoPhduS2aVzVzx3c3wk5kfqvx29OvebuHNdGz0bGjnxFHOk6Dx3kEuhAlc+RkIQ16KNLWblNuel97glCmFJTKfshsBEJfDQFqSQ992z9qgd+nRGkAf49d1mlsNpXKL7TDVy8clISGC/SBlvR3H7SCYdmtl45cmAdeY0+cnu+6uMQZ2JeZSZpCx5VarcYvryFS80Iy5DdfuRa5q17Aou1grNxUGbPM3WYq8AMy68g/hAwQ7s2Dx9865NSvrRCxRLEhkjfDIfW9Voj65b/iNmsG6C5R4V649Xiq453CokWMUEJxt/dSrORz42YLKtmt1qF6fhTOmz3eiYlFZ/U8h43CrTRwF1zxuWt6OFOl6xIxctKLAUSIPxiykl7k73NOL69TgWeRw9GVgeXyC5YYlmXN0vVIXmDvfLbp3yNaTvqMctRP9na6hQ6FJHEXlMx0tBdqpwuoQpB6OzYrdIFLqtwiIcEZVbEk0HUiGNaVL9w57TuNifhC7/2xy7drSOSVvFZWY1uVD6uoz4n1pz2+SceU03+Kr+PiLfLIbYT
+	zxuZQ0a8gu978D4pm947nUkrJywqIhvCIcAMNZUITsBrNSaFCZDg6lm4n09ajI5/J1whSXH2M8OchIQapMtpm4BOVvVdRE1bqMLVFC+Lg59W+SO0Dtga5IumWQlSbm/r8ZHX0ZiOGAnHIjVfaFVz/h60XxM2xTRXQ1VlQ++YoyiVeypoyKbRgEKJO7g+JVn5I1p+q0s8W8wEYDxXsE18RkwtHWm19vQ5F3XHBgv9fUb0qAkFE5+aVCcgTcovtb7CZ5ox8Nvnv9IeAoFHHdF1SZJAVS+YdJFsO7B2HB+OFqcJ9/RlqAIigELLv5K0hfkjijns1fwkZtwy7CoyYhdY2NzkA7NovOeRQ50ut1y/tBWfqXO+UBvB6imjVeJdsp3MJlPWobbutk5HB2yLaIKCCcCozdo5LkSzphMGlW+eqXiAIybBkVKZN3hYSCEHtbqYcDTgWPLT69HkE3ohZ9nE7gPrJqqX5j8jvo83+vOTfikBPcmyohYdkVrhZoCe/E9YVCheknIMLi17/NhwO3ckRRa1c1J/bwboWoatkSjYF6rtARrCEl0GwSxKV/od7w/02ayVoFY1PTcpSENwkGgtp60FDjiZAUUpx83yqKGj/JWZ9/sOryATThSMMtWWzjAReR9zpr/BsIaFbRD92TF0JsUsZZ7vBesN9FbWh9/g/UE=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WlpldDluL0V4SjUvS0pOVStDQmNTK1JwdTBSREJsNEtQeWkxeG5jM2tFZ1Zw?=
- =?utf-8?B?T3V2ZDY1NzkzRVNZUkhCKytzL2FvTTFsUk9TUXB5RWI5ZGFuNzhGT1lpVUhV?=
- =?utf-8?B?WThaMW1FbzYzQWxDUVl1RDY5Nk5FY29Wd3lMek80TlpFVHlYbmtmYnVuUktw?=
- =?utf-8?B?dUtiTHFwUUhjaHFyMVQ2OUlucFFlcGJOU0VnM2ZuZDU5VEx4bGtESzhMaWls?=
- =?utf-8?B?aUlyQWwxZEsrekpaMXNXOTJlZks4d0g4R09QeDMzc3pOYkt3WU14bEl2aGtF?=
- =?utf-8?B?STVHcDJUNHdJRnVWY1NhWUpBdjVQMU8zMlRJVmxwVDNmclkzMElXZktoYWxs?=
- =?utf-8?B?QnJwdlFQcEwxT1YvVFlPak9UT09QY1U3RXhTbzhySlVUOG94Y3lPaU44RGFO?=
- =?utf-8?B?QjNTR2VhOHdNelUxS3VIanJrcm5TQ2dKb3dkcmNvTTIzaXNjN0p4Uk1iU1Uy?=
- =?utf-8?B?YjcxV3VMSVptQy9IRENuNHdjeWdIMUE3NTlpRU9jZXBTU0ZLZVR0UXhCMDdk?=
- =?utf-8?B?TXdmbzdVVmR6Mkp0VjBkSk5JakIvdysrUUtDRHZuWWJXdUVFZGxLRG9sTWhp?=
- =?utf-8?B?bXZWWlJ2RXE3Z0ZNZGdGQ3U2RDRjNy9GSWRxdjFUdTBKQ1ZaU3NJT0xLbFZj?=
- =?utf-8?B?WXovcUt4UUYreDhPNWtQaUpubEx0S2M3Szg0ZzVORDlUNTVxYkdhRkpzazJv?=
- =?utf-8?B?MWd2Wno1SXRtUXM4RG5CWnZhQ3U5TE5teHRScURjdERMZzBxeUVFK2VmNWRq?=
- =?utf-8?B?alMyTVZCbG8yQ0FMNFNweHFIVTVUQ2Y0WHFub0JTTnNRTUM4NXptMHA3RSs2?=
- =?utf-8?B?UDc0UVo4M2JadWtJWHZ6dEVpQzhwUmprMENIdVZ1SEZlS2hzOURzdDFXZGtS?=
- =?utf-8?B?aDNFdWxtUURaSUJFcS9nRlRXeFFZbDQwMVBTSWpkeGlaSjQxVkpWMkNlVzZs?=
- =?utf-8?B?aUJCUVNqWlBqOVhXanl5TEl3VXhGeW8zdGFla0pXTkNybXVHQnplUjlLUXh0?=
- =?utf-8?B?NldjbytXSU8xRkJyTnM0SmVMUzN3WGkrUTY0blVhTWZ3VUVFR096VndJMnUy?=
- =?utf-8?B?SEZzdHRkSGtrRWVybVc5b0tmQ056SGppdGkvalF4Um9wVE1XdzB6alZQL2hq?=
- =?utf-8?B?UE9vM1ZONFRBL0pRZkRudlhNOWlGTTMyYUgwZnRZLzJwWmgwb0NWSG4zeGxz?=
- =?utf-8?B?RnVramhJMjBlM1RtbGN4Sy9wOTE5bThhM2hlRGV6a1lqNjB0VEZmMmMvUUh6?=
- =?utf-8?B?cnNKWk92QnhrZk13NWNkWVhzY21mclgyUkNWVXJkbVZSS3AyRkk1OWNUMkQw?=
- =?utf-8?B?bUJUQTZnUTZBMk56SzdMMGFGV09yOFZNOW1EWHhZS2Q1bG1TV3lycVR2T1hi?=
- =?utf-8?B?Y0pRUk9JbnRvMEE9PQ==?=
+	=?utf-8?B?SlFFWVczeWxhUTYzWDFSV0d0djFPN2luSTFlU0dlZE1ieTBUZFlVRExaQWRp?=
+ =?utf-8?B?WGcySjY3UzhmdUxWK1FwRkcxTXdsTnhTYms4R0tZSllmUEFjdko2blQrby9a?=
+ =?utf-8?B?NVFVNVhVZzhiTlZHY1k5WWtmaGVmcEg3WWVnbWdvcnZUQTA1cmdWaW9nNyt3?=
+ =?utf-8?B?bUhvcE9Jc0VUSHhtYi9EVStrcndnV1J1YitqR1B4aXFHdnB4ZEhTcDNhWkky?=
+ =?utf-8?B?RmRwMkl5Qllndi95cVhLSHhIRzBDUGdkTTN2Ujd3WVpTUTlsQU9ZZUY2WlBM?=
+ =?utf-8?B?R29uYTgxUGM5bzZvVSt0dVphT2kyNTU3WWg1UHRESU5hZ1pyT3J2RzNja05U?=
+ =?utf-8?B?ZFNGbnU4djRGNytkV055cy9uenVSNVkwUDlaMm9mN00yQ1VEQ2RyRk5lKy9K?=
+ =?utf-8?B?K2NYMndKbW9QTWdEZXByTFVrc2lTUGtjM3g3RENBdjhRY1llaStZUDRpMmZG?=
+ =?utf-8?B?THNSWkRsdmFOVGdmSS8zSW5PZmlDMjR6NFJwS2lDUHowRzdiT293Q1VpY282?=
+ =?utf-8?B?bElaNklTZE1UbEZmQVl1R3g2dEZEbGZTdWZnZDBFMjUxK2V5SzJhSmlZemly?=
+ =?utf-8?B?dDNQejZCZHlscWZiZlhLL1RnNkZGdG5NQkx2Y05aVUhnSGw1NDF6bUx3d2kr?=
+ =?utf-8?B?VnVxbFcrSGxuOFg3eFpDeHZ6cWpPRmFreW9rekI3TUluNmQwQnJ2NVUxV1p2?=
+ =?utf-8?B?MFVESGlwTi90WjNSMWYxRFdTZWhrQTVLdTgyZVJHNlM0Tm95azdZbHZiL29P?=
+ =?utf-8?B?bHh1bzVjMVF2L2lIcitXNEhSS3crSWRqRkpFTVFUVkpqMEhlUUZxeEdoQkxR?=
+ =?utf-8?B?c0wySmEvWE9RL1pWTnU2Z1RJeHpXRlVLMCtzYXR0SDlYUExZa09zNlJ1bkNE?=
+ =?utf-8?B?dGZ6SFBpOERXbUJZV3l4ZWs2OWU5NERpMTFuUFFjNFl2Z1N3Mk45QWplcldZ?=
+ =?utf-8?B?dER2SzhkanFpU0tNQ1ZXK3hBNFNJakxzc0hYL1dLTXBiWjJmZEN3VDluNjBG?=
+ =?utf-8?B?b2k5L1hUZUdCNmUxbmYwdEFaZmlUeFNPdnN1R0lGcEcrRkdMUWhCMHhvelMx?=
+ =?utf-8?B?YXNUOU5aenFlTVhuWEhFMmZOYk9mSFBsQXJSSEVsR2FPTVRncENiRTU4VnpC?=
+ =?utf-8?B?NjZvUHN0a0NiK0JHUngrMmsyMVdZc0ZrdjFCdHExblFzYTN6Z0J1Q013MVhk?=
+ =?utf-8?B?cWhnNy9IN3NJd3hEZkVabDgwT3hRRDdGRGFnekZFVjhIcFpYTDc2cjhDcmVQ?=
+ =?utf-8?B?NUxrcTlhK0MrZ1Bjby9DVzgzRnppU05BRWU1RXdGRnh3UDlXckdzazR2TG43?=
+ =?utf-8?B?ZjQ2VzVHVzhZVjlObzIvMGJOZ1diVldTS3BMcW5hc3JCeTRrZ3hqL2ZXV01a?=
+ =?utf-8?B?VCt0dXVlTGJrS3c9PQ==?=
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 0908c430-1065-48ca-a296-08d9c7e95379
+ 46282b65-b673-42e6-ec60-08d9c7eadc38
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2021 20:58:39.3454
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2021 21:09:38.2659
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR09MB5091
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB4388
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Dec 2021 20:58:44 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Dec 2021 21:09:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160009
+ https://lists.openembedded.org/g/openembedded-core/message/160010
 
+One more thing that came to my mind is that the project is missing demo 
+recipes/real life examples in core that actually would show that one can 
+achieve reproducibility in the sense of the project's definition for 
+both npm and go.
+So far there is the fetcher code but real life users are living elsewhere.
 
+So one could add consumers to core or push the code to where the "real 
+action" is (meta-virt for instance comes to my mind)
 
-On 25.12.21 20:32, Stefan Herbrechtsmeier wrote:
+On 25.12.21 21:43, Konrad Weihmann wrote:
+> What I so far don't really get is why increase in parsing time is such a 
+> big deal.
+> I admit when we're talking about npm it's some kind of a drastic 
+> increase in recipes one would have to maintain, just because some random 
+> project decides to use a trillion dependencies instead of writing two or 
+> three lines of code more.
 > 
-> Isn't the circular dependencies problem mainly a problem of the native 
-> packages? In many cases the dependency only exists at compile time of 
-> the main project and not at compile time of the dependency itself. In 
-> case of a native package all dependency sysroots need to be finished 
-> before the recipe sysroot itself.
-
-Unfortunately it is not - it's happens that the go.mod already creates 
-this circular dependency.
-
-The classic example is that golang.org/x/tools depends on parts of 
-golang.org/x/text (and guess what) golang.org/x/text depends solely on 
-golang.org/x/tools :facepalm:
-
-For go itself this isn't a big issue, as the compiler just pulls all the 
-needed code into the compile workspace and build a binary out of it, 
-which can be reused later on.
-
-But for bitbake it's a big issue, as either you pull in
-
-golang.org/x/text + golang.org/x/tools sources into the 
-golang.org/x/text workspace, stripping you off the possibility to 
-properly watch the revision of golang.org/x/tools (in terms of devtools 
-and co) - or you simply end up with a circular dependency.
-
-I scratched my head on this one for weeks, till I found a way to 
-actually use the latest greatest of each go module each coming as a 
-recipe of its own, while avoiding above mentioned situations -- and it's 
-kind of a huge break to how things are done right now.
-
-I'm pretty sure the same will happen in rust sooner or later.
-
-And I personally don't see how to break it as I don't know any way go 
-distinguishes between compile and runtime dependency - afaik they all 
-need to be present at compile time
+> Still I come to think this might be actually beneficial, as it shows how 
+> broken npm is from a distribution perspective - as it may be that some 
+> users actually start to access the situation when they are actually 
+> aware what monstrosity of a dep tree they are inheriting by just a 
+> single npm module.
+> 
+> So this is mind - and I don't want to sound radical - I would rather 
+> abandon npm and go support in core than to sacrifice closing the one 
+> main loophole in core that is preventing true accessibility at the moment.
+> Which is uncontrolled fetching outside of the fetching task, as this 
+> invalidates everything you will get in the end in terms of licensing, 
+> quality reports that haven't been done as part of the build and even CVE 
+> checking becomes pretty much worthless if one is allowed to inject 
+> random code on the fly into the build - and in the end everything that 
+> can't be assessed outside of the build is pretty much non-existing for 
+> most of the assessments I had to work with.
+> 
+> In the past I showed that npm and go can be made to work with these 
+> principles, even if they would introduce a different way of working and 
+> maybe the need for better tooling - *but* they can work with how oe-core 
+> works at the moment - to the expense of parsing time - and that's pretty 
+> much it from my point of view.
+> 
+> Still the gains outweigh it by far in my opinion, as it would make all 
+> of that accessible by common tooling already in place - including true 
+> reproducibility and builtin quality reports.
+> 
+> BTW I don't think rust and therefore cargo is heavily affected by it, as 
+> the cargo to bitbake scripting works kind in the way I would imagine for 
+> npm and go too - so far just npm and go are really really bad to handle 
+> in this case.
+> 
+> I'm happy to help on such scripting and tooling, but I don't see much 
+> worth in either accepting the fact that "modern languages" have to 
+> include some not validatable "magic" (which then would mean allowing 
+> uncontrolled network access) or working around the fact that a trillion 
+> dependencies is still a trillion dependencies no matter how you put it ( 
+> :) )
+> 
+> Regards
+> Konrad
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160008): https://lists.openembedded.org/g/openembedded-core/message/160008
+> Mute This Topic: https://lists.openembedded.org/mt/87909311/3647476
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
