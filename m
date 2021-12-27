@@ -2,77 +2,80 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1410CC433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Dec 2021 09:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2D3C433F5
+	for <webhook@archiver.kernel.org>; Mon, 27 Dec 2021 09:09:24 +0000 (UTC)
 Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web10.24549.1640596155449722672
+ [85.158.142.2])
+ by mx.groups.io with SMTP id smtpd.web11.24706.1640596155830306275
  for <openembedded-core@lists.openembedded.org>;
  Mon, 27 Dec 2021 01:09:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=BsJ/4bhl;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=TpRu254d;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1640596153; i=@fujitsu.com;
-	bh=8+F1vTw591s9UudrzT3KNRQozxSxXm70GNz4dWBR/uw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=BsJ/4bhlkcvKauZsDHieC44dAlPttcXBz/2eBO6I7OxvEJdAMjWvwSkBUR6uxY8UC
-	 ENuWtqfsAGrpC5XhV6jD4kokQ5Q191gkh6SLT9ZTwrNv1pONuCL+rj458jJoj6ZzAQ
-	 0n+Bb7x6JbSldjwuJln09xa01cXhOono2u95fKaqPS1RUgH64aJsAz1SPXsgJU1psK
-	 /JEfXpkdlXlREnSKJC4n98ZV7U30rzMwV0oEuxddvcKimOZdFHmJdlhcstjpGGwhiO
-	 fowVVdwKMNwyEBshz4ie6Evvu489rpEEiKxu6kpr1prUT24GzH64muWTRsXRdLlaxZ
-	 WR9e4nKXatJSQ==
+	bh=AOhUNKqa+qvuqEbDD+77f84+8oXCszFmJ+M3teSNvQU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=TpRu254dvTwpruQ7eW1Nj818G+vn2yfEPNAyKuqngubzH6fT6otlkdglx50po3kuH
+	 P6bXrMoZ8NRmwvzOBNFRbxZaNeCTwU7RkIfCQU9rLQSmiiNmHQaFPq9D2YePCIp4cF
+	 Ftmzcf6TfMy8ra2UY1LjZRCgH6YBvtpJ3NpZTAuE8HMfsL0aJ7c5egLfohJbeRNnfI
+	 G+3/ZaAebUcXCmp+azjKl8sCLn+eCHiKxF3q8Rlv52CFlVb8i3z5ukNZgl0Tn3/Sib
+	 SftFSpXh7XS/0YysIYTfS5ngiEo0vgvHW+xEdUV5+QiF0naioL3PiRoBW+FgRa/DHr
+	 tcYHUxVJcve5g==
 Received: from [100.115.69.8] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- F9/0F-06990-9B289C16; Mon, 27 Dec 2021 09:09:13 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRWlGSWpSXmKPExsViZ8MxSXdn08l
-  Eg8cX2C3u/HzH7sDocW7jCsYAxijWzLyk/IoE1owvf1+zFMzlqphwq4WtgXE9ZxcjF4eQwGNG
-  idPvL7BDOOeZJM71X4NyTjBKXHu+k62LkZODTUBNYvqtG6xdjBwcIgJ6Elf/iYKEmQVUJF787
-  mEHsYUFXCX6N+1jBLFZBFQldhxsZwWxeQWcJG7t+s4EYksIKEhMefieGSIuKHFy5hMWiDkSEg
-  dfvGCGqFGUmH25mQXCrpCYNasNqldN4uq5TcwTGPlnIWmfhaR9ASPTKka7pKLM9IyS3MTMHF1
-  DAwNdQ0NTXTMLXUMTY73EKt1EvdRS3eTUvJKiRKC0XmJ5sV5qcbFecWVuck6KXl5qySZGYHCm
-  FLv072C83/dT7xCjJAeTkihvdOrJRCG+pPyUyozE4oz4otKc1OJDjDIcHEoSvD8agXKCRanpq
-  RVpmTnASIFJS3DwKInw/gdJ8xYXJOYWZ6ZDpE4xKkqJ824BSQiAJDJK8+DaYNF5iVFWSpiXkY
-  GBQYinILUoN7MEVf4VozgHo5IwbyTIFJ7MvBK46a+AFjMBLZ7pcBxkcUkiQkqqgak/QHSqxXv
-  TiYZaEiJ+M3fx/BfTVW0t3mIn02kX572rPzppy6ot++0Nvm7X91e84npu6/opM0q/9ynX2P38
-  Vf8z9m3rVomfN3T2/nRxOR4pPc3zC7PL5FMhjWe/auoJzr9QGDzjkcGUWlXmkvpXeuVyWyeWF
-  m/hbH3/JKHwm1vy/+z4i3elF510Wf/YNEkyt3Rx23um1Tt9jgbYLJ/zr72nVNqji98lk4VTRH
-  zPxzPniq4oPmLhFOhJS5Jj/3OzQTnE+vuTe2uZyu6eWr3n2y6Jp01Xbizk2/PDV0pv3jP/fcr
-  i6xLrWPbWb6o/0PTvRsHR8HrhxuMCnBOYrZcce3fA37dZ2GrhuzNWFwumH1FiKc5INNRiLipO
-  BABZq2Q9SQMAAA==
+	by server-2.bemta.az-a.eu-central-1.aws.ess.symcld.net id
+ 1C/7C-24146-9B289C16; Mon, 27 Dec 2021 09:09:13 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRWlGSWpSXmKPExsViZ8MxSXdn08l
+  Egzvv2S3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oyGNXuYC27yV3R0fWZvYGzk62Lk4hASeMwo
+  ceTDMlYI5zyTxLcjDxghnBOMEkvb7wFlODnYBNQkpt+6AWRzcIgI6Elc/ScKEmYWUJF48buHH
+  cQWFnCSmLh3CxtICYuAqsSZFe4gYV6g8Iv7V8FKJAQUJKY8fM8MYnMKOEvc3fuUDcQWAqq5uO
+  cHK0S9oMTJmU9YIMZLSBx88YIZoldRYvblZhYIu0Ji1qw2JghbTeLquU3MExgFZyFpn4WkfQE
+  j0ypG26SizPSMktzEzBxdQwMDXUNDU10zCyCll1ilm6iXWqqbnJpXUpQIlNVLLC/WSy0u1iuu
+  zE3OSdHLSy3ZxAgM5JRiF+4djHf6fuodYpTkYFIS5Y1OPZkoxJeUn1KZkVicEV9UmpNafIhRh
+  oNDSYLXvB4oJ1iUmp5akZaZA4wqmLQEB4+SCO+OOqA0b3FBYm5xZjpE6hSjLsfrlp87mIVY8v
+  LzUqXEeUUagYoEQIoySvPgRsAi/BKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYV5ZkCk8mXk
+  lcJteAR3BBHTETIfjIEeUJCKkpBqYSs5Jr9mZ+keq3lFO4EppqkeRgI5lXYDl0oaVvgFrNh/Y
+  bRSoFern9TCqb8/FTpbzq/S/CX12O5EqJqMQ0WgmGs3J6Zd5clueXKFxOb9YE0Pnt9OfCzMlJ
+  HoDcoznJ7lu1Rd7zSvcNiPoTlW9rsY5j8Mbj5s/iZ7OJ3Dk6aI9qbPLnDwKtq060Sz5wzX/x+
+  0pC9i/3Hp74Eu6iKglv7Xdt69vZftv7M1Zf/iC+wT21/MEA3aYRG3x8+8InHZfcmJZ9JKPes+
+  2rVdVNsnyqa09a2Yyob5mWfbmb/MUjx9NbEg/9I+/8kfO45lbPK9++Nsftc/T/lepwK/wucEN
+  Ez8azTymVBmWfuOA2B3uQGYlluKMREMt5qLiRAARlSMFawMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-21.tower-528.messagelabs.com!1640596152!187578!1
+X-Msg-Ref: server-8.tower-528.messagelabs.com!1640596152!189200!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 18968 invoked from network); 27 Dec 2021 09:09:13 -0000
+Received: (qmail 12760 invoked from network); 27 Dec 2021 09:09:13 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-21.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-8.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 27 Dec 2021 09:09:13 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 9C29D10044C
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 9648B100352
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 27 Dec 2021 09:09:12 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 8FDB01000FF
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 89D891000F9
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 27 Dec 2021 09:09:12 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 27 Dec 2021 09:08:58 +0000
+ (TLS) id 15.0.1497.26; Mon, 27 Dec 2021 09:09:01 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-dbusmock: upgrade 0.24.1 -> 0.25.0
-Date: Mon, 27 Dec 2021 17:08:47 +0800
-Message-ID: <1640596128-22182-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-numpy: upgrade 1.21.4 -> 1.21.5
+Date: Mon, 27 Dec 2021 17:08:48 +0800
+Message-ID: <1640596128-22182-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1640596128-22182-1-git-send-email-wangmy@fujitsu.com>
+References: <1640596128-22182-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -82,39 +85,48 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Dec 2021 09:09:17 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Dec 2021 09:09:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160017
+ https://lists.openembedded.org/g/openembedded-core/message/160018
 
 Changelog:
-========
-bluez template: Implement adapter discovery, connect, disconnect, and removal
-Fix changing array properties
-Fix CLI upower tests
-Add testing and Fedora updating through packit
+==========
+
+Bugs fixed for this release <https://github.com/numpy/numpy/pull/#####>
+#20357: MAINT: Do not forward __(deep)copy__ calls of _GenericAlias...
+#20462: BUG: Fix float16 einsum fastpaths using wrong tempvar
+#20463: BUG, DIST: Print os error message when the executable not exist
+#20464: BLD: Verify the ability to compile C++ sources before initiating...
+#20465: BUG: Force npymath to respect npy_longdouble
+#20466: BUG: Fix failure to create aligned, empty structured dtype
+#20467: ENH: provide a convenience function to replace npy_load_module
+#20495: MAINT: update wheel to version that supports python3.10
+#20497: BUG: Clear errors correctly in F2PY conversions
+#20613: DEV: add a warningfilter to fix pytest workflow.
+#20618: MAINT: Help boost::python libraries at least not crash
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{python3-dbusmock_0.24.1.bb => python3-dbusmock_0.25.0.bb}  | 2 +-
+ .../python/{python3-numpy_1.21.4.bb => python3-numpy_1.21.5.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.24.1.bb => python3-dbusmock_0.25.0.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-numpy_1.21.4.bb => python3-numpy_1.21.5.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.24.1.bb b/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.24.1.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
-index cf272328b3..e64e343a1e 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.24.1.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/python/python3-numpy_1.21.4.bb b/meta/recipes-devtools/python/python3-numpy_1.21.5.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-numpy_1.21.4.bb
+rename to meta/recipes-devtools/python/python3-numpy_1.21.5.bb
+index a3ea4ab5aa..bdf99b492b 100644
+--- a/meta/recipes-devtools/python/python3-numpy_1.21.4.bb
++++ b/meta/recipes-devtools/python/python3-numpy_1.21.5.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://run-ptest \
+ "
+-SRC_URI[sha256sum] = "5d412381aa489b8be82ac5c6a9e99c3eb3f754245ad3f90ab5c339d92f25fb47"
++SRC_URI[sha256sum] = "1a7ee0ffb35dc7489aebe5185a483f4c43b0d2cf784c3c9940f975a7dde56506"
  
--SRC_URI[sha256sum] = "56d660bd5f5d0edfe8b0eedfbb9b0814a134eb94b46fca16c379dca68be5724f"
-+SRC_URI[sha256sum] = "6f4ce7650ecbb022684dc158df720e199635f3a3df75f7020f4fe8f6ff0394db"
- 
- PYPI_PACKAGE = "python-dbusmock"
- 
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.25.1
 
