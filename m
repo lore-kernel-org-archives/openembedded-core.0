@@ -2,10 +2,10 @@ Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96A80C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E434C433FE
 	for <webhook@archiver.kernel.org>; Thu, 30 Dec 2021 01:37:38 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web09.59225.1640828257192748060
+ by mx.groups.io with SMTP id smtpd.web10.59348.1640828257689416374
  for <openembedded-core@lists.openembedded.org>;
  Wed, 29 Dec 2021 17:37:37 -0800
 Authentication-Results: mx.groups.io;
@@ -15,13 +15,13 @@ Authentication-Results: mx.groups.io;
  domain name (domain: windriver.com, ip: 147.11.3.146,
  mailfrom: randy.macleod@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1BU1bZXS025267
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1BU1bZsx025270
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 29 Dec 2021 17:37:36 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1BU1bU84016107
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1BU1bU86016107
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 29 Dec 2021 17:37:35 -0800 (PST)
@@ -34,10 +34,12 @@ Received: from ala-lpggp3.wrs.com (147.11.105.124) by
  15.1.2242.12 via Frontend Transport; Wed, 29 Dec 2021 17:37:30 -0800
 From: Randy MacLeod <Randy.MacLeod@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 0/5] valgrind: ptests
-Date: Wed, 29 Dec 2021 17:37:25 -0800
-Message-ID: <20211230013730.129852-1-Randy.MacLeod@windriver.com>
+Subject: [PATCH 2/5] valgrind: backport rseq work-around
+Date: Wed, 29 Dec 2021 17:37:27 -0800
+Message-ID: <20211230013730.129852-3-Randy.MacLeod@windriver.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211230013730.129852-1-Randy.MacLeod@windriver.com>
+References: <20211230013730.129852-1-Randy.MacLeod@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -46,104 +48,244 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Dec 2021 01:37:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160054
+ https://lists.openembedded.org/g/openembedded-core/message/160056
 
-Tested on khem's glibc upgrade branch:
-   https://git.yoctoproject.org/poky-contrib/log/?h=kraj/poky-next
-and poky master (
-   9b99eb9e36 tzdata: Remove no longer relevant RCONFLICTS:${PN}
+Using glibc-2.35-alpha, valgrind ptests mostly all fail with the error:
+   WARNING: unhandled amd64-linux syscall: 334
+   You may be able to write your own handler.
+With this patch applied qemux86-64 ptest results were:
+   TOTAL: 728
+   PASSED: 709
+   FAILED: 0
+   SKIPPED: 19
 
-Summary:
+This patch implements the Linux rseq syscall as ENOSYS while
+a proper fix is being worked on as desribed in the patch
+commit log.
 
-Work-around a glibc upgrade error in a way that also works for glibc-2.34 on master.
-Fix up some ptest warnings and temporarily skip the boost_thread test for arm64.
-
-
-Results:
-
-On the branch currently known as master, the ptest summary is:
-
-qemux86-64:
-
-=== Test Summary ===
-TOTAL: 730
-PASSED: 711
-FAILED: 0
-SKIPPED: 19
-DURATION: 1052
-END: /usr/lib/valgrind/ptest
-2021-12-29T23:12
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-
-qemuarm64:
-
-TOTAL: 415
-PASSED: 395
-FAILED: 0
-SKIPPED: 20
-DURATION: 4521
-END: /usr/lib/valgrind/ptest
-2021-12-30T00:33
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-and the output from running: ptest-runner valgrind has no superfluous warnings:
-
-root@qemuarm64:~# ptest-runner -l  
-Available ptests:                      
-strace  /usr/lib/strace/ptest/run-ptest       
-valgrind        /usr/lib/valgrind/ptest/run-ptest
-root@qemuarm64:~# ptest-runner valgrind
-START: ptest-runner                            
-2021-12-29T23:18                             
-BEGIN: /usr/lib/valgrind/ptest       
-Hide valgrind tests that are non-deterministic
-Reported at https://bugs.kde.org/show_bug.cgi?id=430321
-Aarch64: Hide valgrind tests that result in defunct process and then out of memory
-Run non-deterministic tests using taskset to limit them to a single core.
-PASS: gdbserver_tests/mcblocklistsearch          
-PASS: gdbserver_tests/mcbreak 
-...
-PASS: none/tests/vgprintf
-PASS: none/tests/vgprintf_nvalgrind
-
-...checking makefile consistency
-...checking header files and include directives
-Restore non-deterministic tests
-Aarch64: Restore valgrind tests that result in defunct process and then out of memory
-Restore valgrind tests that are non-deterministc
-Failed test details...
-=== Test Summary ===
-TOTAL: 415
-PASSED: 395
-FAILED: 0
-SKIPPED: 20
-DURATION: 4521
-END: /usr/lib/valgrind/ptest
-2021-12-30T00:33
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-
-../Randy
-
-
-Randy MacLeod (5):
-  valgrind: Add util-linux-taskset ptest dependency
-  valgrind: backport rseq work-around
-  valgrind: remove duplicate and skipped tests from remove-for-aarch64
-  valgrind: skip boost_thread for aarch64 ptests
-  valgrind: make run-ptest better
-
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
  ...plement-linux-rseq-syscall-as-ENOSYS.patch | 198 ++++++++++++++++++
- .../valgrind/valgrind/remove-for-aarch64      |   9 +-
- .../valgrind/valgrind/run-ptest               |  23 +-
- .../valgrind/valgrind_3.18.1.bb               |   4 +-
- 4 files changed, 216 insertions(+), 18 deletions(-)
+ .../valgrind/valgrind_3.18.1.bb               |   1 +
+ 2 files changed, 199 insertions(+)
  create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch
 
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch b/meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch
+new file mode 100644
+index 0000000000..be1536980c
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch
+@@ -0,0 +1,198 @@
++From 1024237358f01009fe233cb1294f3b8211304eaa Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Fri, 10 Dec 2021 17:41:59 +0100
++Subject: [PATCH] Implement linux rseq syscall as ENOSYS
++
++This implements rseq for amd64, arm, arm64, ppc32, ppc64,
++s390x and x86 linux as ENOSYS (without warning).
++
++glibc will start using rseq to accelerate sched_getcpu, if
++available. This would cause a warning from valgrind every
++time a new thread is started.
++
++Real rseq (restartable sequences) support is pretty hard, so
++for now just explicitly return ENOSYS (just like we do for clone3).
++
++Upstream-Status: Backport [ 1024237358f01009fe233cb1294f3b8211304eaa ]
++
++https://sourceware.org/pipermail/libc-alpha/2021-December/133656.html
++---
++ coregrind/m_syswrap/syswrap-amd64-linux.c | 2 ++
++ coregrind/m_syswrap/syswrap-arm-linux.c   | 1 +
++ coregrind/m_syswrap/syswrap-arm64-linux.c | 3 ++-
++ coregrind/m_syswrap/syswrap-ppc32-linux.c | 2 ++
++ coregrind/m_syswrap/syswrap-ppc64-linux.c | 2 ++
++ coregrind/m_syswrap/syswrap-s390x-linux.c | 2 ++
++ coregrind/m_syswrap/syswrap-x86-linux.c   | 2 ++
++ include/vki/vki-scnums-arm-linux.h        | 1 +
++ include/vki/vki-scnums-arm64-linux.h      | 4 +++-
++ include/vki/vki-scnums-ppc32-linux.h      | 1 +
++ include/vki/vki-scnums-ppc64-linux.h      | 1 +
++ include/vki/vki-scnums-s390x-linux.h      | 5 ++++-
++ 12 files changed, 23 insertions(+), 3 deletions(-)
++
++diff --git a/coregrind/m_syswrap/syswrap-amd64-linux.c b/coregrind/m_syswrap/syswrap-amd64-linux.c
++index 5062324a1..18b25f80a 100644
++--- a/coregrind/m_syswrap/syswrap-amd64-linux.c
+++++ b/coregrind/m_syswrap/syswrap-amd64-linux.c
++@@ -862,6 +862,8 @@ static SyscallTableEntry syscall_table[] = {
++ 
++    LINXY(__NR_statx,             sys_statx),             // 332
++ 
+++   GENX_(__NR_rseq,              sys_ni_syscall),        // 334
+++
++    LINX_(__NR_membarrier,        sys_membarrier),        // 324
++ 
++    LINX_(__NR_copy_file_range,   sys_copy_file_range),   // 326
++diff --git a/coregrind/m_syswrap/syswrap-arm-linux.c b/coregrind/m_syswrap/syswrap-arm-linux.c
++index 556dd844b..d583cef0c 100644
++--- a/coregrind/m_syswrap/syswrap-arm-linux.c
+++++ b/coregrind/m_syswrap/syswrap-arm-linux.c
++@@ -1024,6 +1024,7 @@ static SyscallTableEntry syscall_main_table[] = {
++    LINX_(__NR_pwritev2,          sys_pwritev2),         // 393
++ 
++    LINXY(__NR_statx,             sys_statx),            // 397
+++   GENX_(__NR_rseq,              sys_ni_syscall),       // 398
++ 
++    LINXY(__NR_clock_gettime64,   sys_clock_gettime64),  // 403
++    LINX_(__NR_clock_settime64,   sys_clock_settime64),  // 404
++diff --git a/coregrind/m_syswrap/syswrap-arm64-linux.c b/coregrind/m_syswrap/syswrap-arm64-linux.c
++index b87107727..2066a38ea 100644
++--- a/coregrind/m_syswrap/syswrap-arm64-linux.c
+++++ b/coregrind/m_syswrap/syswrap-arm64-linux.c
++@@ -823,8 +823,9 @@ static SyscallTableEntry syscall_main_table[] = {
++    //   (__NR_pkey_mprotect,     sys_ni_syscall),        // 288
++    //   (__NR_pkey_alloc,        sys_ni_syscall),        // 289
++    //   (__NR_pkey_free,         sys_ni_syscall),        // 290
+++   LINXY(__NR_statx,             sys_statx),             // 291
++ 
++-   LINXY(__NR_statx,             sys_statx),             // 397
+++   GENX_(__NR_rseq,              sys_ni_syscall),        // 293
++ 
++    LINXY(__NR_io_uring_setup,    sys_io_uring_setup),    // 425
++    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
++diff --git a/coregrind/m_syswrap/syswrap-ppc32-linux.c b/coregrind/m_syswrap/syswrap-ppc32-linux.c
++index 6263ab845..637b2504e 100644
++--- a/coregrind/m_syswrap/syswrap-ppc32-linux.c
+++++ b/coregrind/m_syswrap/syswrap-ppc32-linux.c
++@@ -1028,6 +1028,8 @@ static SyscallTableEntry syscall_table[] = {
++ 
++    LINXY(__NR_statx,             sys_statx),            // 383
++ 
+++   GENX_(__NR_rseq,              sys_ni_syscall),       // 387
+++
++    LINXY(__NR_clock_gettime64,   sys_clock_gettime64),  // 403
++    LINX_(__NR_clock_settime64,   sys_clock_settime64),  // 404
++ 
++diff --git a/coregrind/m_syswrap/syswrap-ppc64-linux.c b/coregrind/m_syswrap/syswrap-ppc64-linux.c
++index a26b41c32..93956d3cc 100644
++--- a/coregrind/m_syswrap/syswrap-ppc64-linux.c
+++++ b/coregrind/m_syswrap/syswrap-ppc64-linux.c
++@@ -1019,6 +1019,8 @@ static SyscallTableEntry syscall_table[] = {
++ 
++    LINXY(__NR_statx,             sys_statx),            // 383
++ 
+++   GENX_(__NR_rseq,              sys_ni_syscall),       // 387
+++
++    LINXY(__NR_io_uring_setup,    sys_io_uring_setup),    // 425
++    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
++    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
++diff --git a/coregrind/m_syswrap/syswrap-s390x-linux.c b/coregrind/m_syswrap/syswrap-s390x-linux.c
++index 5c9209859..73f9684c4 100644
++--- a/coregrind/m_syswrap/syswrap-s390x-linux.c
+++++ b/coregrind/m_syswrap/syswrap-s390x-linux.c
++@@ -860,6 +860,8 @@ static SyscallTableEntry syscall_table[] = {
++ 
++    LINXY(__NR_statx, sys_statx),                                      // 379
++ 
+++   GENX_(__NR_rseq, sys_ni_syscall),                                  // 381
+++
++    LINXY(__NR_io_uring_setup, sys_io_uring_setup),                    // 425
++    LINXY(__NR_io_uring_enter, sys_io_uring_enter),                    // 426
++    LINXY(__NR_io_uring_register, sys_io_uring_register),              // 427
++diff --git a/coregrind/m_syswrap/syswrap-x86-linux.c b/coregrind/m_syswrap/syswrap-x86-linux.c
++index 1d8f45d33..8662ff501 100644
++--- a/coregrind/m_syswrap/syswrap-x86-linux.c
+++++ b/coregrind/m_syswrap/syswrap-x86-linux.c
++@@ -1619,6 +1619,8 @@ static SyscallTableEntry syscall_table[] = {
++    /* Explicitly not supported on i386 yet. */
++    GENX_(__NR_arch_prctl,        sys_ni_syscall),       // 384
++ 
+++   GENX_(__NR_rseq,              sys_ni_syscall),       // 386
+++
++    LINXY(__NR_clock_gettime64,   sys_clock_gettime64),  // 403
++    LINX_(__NR_clock_settime64,   sys_clock_settime64),  // 404
++ 
++diff --git a/include/vki/vki-scnums-arm-linux.h b/include/vki/vki-scnums-arm-linux.h
++index ff560e19d..485db8b26 100644
++--- a/include/vki/vki-scnums-arm-linux.h
+++++ b/include/vki/vki-scnums-arm-linux.h
++@@ -432,6 +432,7 @@
++ #define __NR_pkey_alloc                 395
++ #define __NR_pkey_free                  396
++ #define __NR_statx                      397
+++#define __NR_rseq                       398
++ 
++ 
++ 
++diff --git a/include/vki/vki-scnums-arm64-linux.h b/include/vki/vki-scnums-arm64-linux.h
++index 9aa3b2b5f..acdfb39c6 100644
++--- a/include/vki/vki-scnums-arm64-linux.h
+++++ b/include/vki/vki-scnums-arm64-linux.h
++@@ -323,9 +323,11 @@
++ #define __NR_pkey_alloc 289
++ #define __NR_pkey_free 290
++ #define __NR_statx 291
+++#define __NR_io_pgetevents 291
+++#define __NR_rseq 293
++ 
++ #undef __NR_syscalls
++-#define __NR_syscalls 292
+++#define __NR_syscalls 294
++ 
++ ///*
++ // * All syscalls below here should go away really,
++diff --git a/include/vki/vki-scnums-ppc32-linux.h b/include/vki/vki-scnums-ppc32-linux.h
++index 6987ad941..08fa77df0 100644
++--- a/include/vki/vki-scnums-ppc32-linux.h
+++++ b/include/vki/vki-scnums-ppc32-linux.h
++@@ -415,6 +415,7 @@
++ #define __NR_pkey_alloc		384
++ #define __NR_pkey_free		385
++ #define __NR_pkey_mprotect	386
+++#define __NR_rseq		387
++ 
++ #endif /* __VKI_SCNUMS_PPC32_LINUX_H */
++ 
++diff --git a/include/vki/vki-scnums-ppc64-linux.h b/include/vki/vki-scnums-ppc64-linux.h
++index 6827964fd..a76fa6d32 100644
++--- a/include/vki/vki-scnums-ppc64-linux.h
+++++ b/include/vki/vki-scnums-ppc64-linux.h
++@@ -407,6 +407,7 @@
++ #define __NR_pkey_alloc		384
++ #define __NR_pkey_free		385
++ #define __NR_pkey_mprotect	386
+++#define __NR_rseq		387
++ 
++ #endif /* __VKI_SCNUMS_PPC64_LINUX_H */
++ 
++diff --git a/include/vki/vki-scnums-s390x-linux.h b/include/vki/vki-scnums-s390x-linux.h
++index 6487e20c9..869c04584 100644
++--- a/include/vki/vki-scnums-s390x-linux.h
+++++ b/include/vki/vki-scnums-s390x-linux.h
++@@ -342,8 +342,11 @@
++ #define __NR_s390_guarded_storage	378
++ #define __NR_statx			379
++ #define __NR_s390_sthyi			380
+++#define __NR_kexec_file_load		381
+++#define __NR_io_pgetevents		382
+++#define __NR_rseq			383
++ 
++-#define NR_syscalls 381
+++#define NR_syscalls 384
++ 
++ /* 
++  * There are some system calls that are not present on 64 bit, some
++-- 
++2.30.2
++
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
+index d8f82a4100..7837034f92 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
+@@ -42,6 +42,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://s390x_vec_op_t.patch \
+            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
+            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
++           file://0001-Implement-linux-rseq-syscall-as-ENOSYS.patch \
+            "
+ SRC_URI[sha256sum] = "00859aa13a772eddf7822225f4b46ee0d39afbe071d32778da4d99984081f7f5"
+ UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.31.1
 
