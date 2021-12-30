@@ -1,292 +1,312 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E434C433FE
-	for <webhook@archiver.kernel.org>; Thu, 30 Dec 2021 01:37:38 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.59348.1640828257689416374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A36C433F5
+	for <webhook@archiver.kernel.org>; Thu, 30 Dec 2021 08:52:03 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.62257.1640854322730888045
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Dec 2021 17:37:37 -0800
+ Thu, 30 Dec 2021 00:52:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ZBKf17O2;
  spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: randy.macleod@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1BU1bZsx025270
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=8998ad2b46=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 1BU8dKAk015370
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Dec 2021 17:37:36 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1BU1bU86016107
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+ Thu, 30 Dec 2021 00:52:02 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=subject : to : cc
+ : references : from : message-id : date : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=WQQ9HFX3FRkNTYUPqHhBwufRKvK8p0vRaDyfF4yhupM=;
+ b=ZBKf17O2LM42e9/CkOXehXSiZB/AoYGkA+L+aQebDYijRbW1/7dCysHjyvDFY9Umt4rU
+ J3B66BIALX1VXjnujk3k60ZKxfsqrAyKlQAMTAZsWd0zc4q5mJLm03I89UmLmuTxK0UM
+ ind9qJhljyzZndoWGZDPrpMMFcUqTaI0OW4ksmMrXID3fm5SVZJM6HvmXuv7wXV1Cg2D
+ lHbnP+BlhjnGL9G06oedOWoIb+4T3kqGtt6rCogKhq7y/AuDE1Zkb4d52QYEQXeCDaPf
+ y8MinGtKFGg8NWRTzhuR0axsZZ9GAEXnI4Ak8FdRRK642Vg0stMOKH81xDFEj3Krzn7+ UA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d94fs03uk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Dec 2021 17:37:35 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 29 Dec 2021 17:37:30 -0800
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 29 Dec 2021 17:37:30 -0800
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/5] valgrind: backport rseq work-around
-Date: Wed, 29 Dec 2021 17:37:27 -0800
-Message-ID: <20211230013730.129852-3-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211230013730.129852-1-Randy.MacLeod@windriver.com>
-References: <20211230013730.129852-1-Randy.MacLeod@windriver.com>
+ Thu, 30 Dec 2021 00:52:02 -0800
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 1BU8q1GY005473
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 30 Dec 2021 00:52:01 -0800
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08lp2042.outbound.protection.outlook.com [104.47.74.42])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d94fs03uj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 Dec 2021 00:52:01 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aNFXsjV2ICdiU/Ki3RDuZFuvhGU3VHMn1Xxgz4dytCwDFEC4D53kBe/nQMCsrosjlNSGmQB1wrPYXklemQJLcPstGnXcZWumsRFMRXynaA7ELwL03UsQds771DEWZf4E/OOlgmRZBkkLqqNekmuA3P+vUQKdcnozsLDzolxxe8einsJ8dJSKkfzADELgmUbl3kPmxkLtnJ4WXJLYLDNIvOi5U2dZNJ7bc3DEGiQujhatQw7zY8TKRZBT2j5WbUgM+1HEelygKHZpH01QAlQ3fLCxYqJXSOxhQ4si4Ey1tRU/pmuClae9X+3KYNaMuKQQypA5nAOFdv2hJLwFgt6xCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WQQ9HFX3FRkNTYUPqHhBwufRKvK8p0vRaDyfF4yhupM=;
+ b=N/qPjMk8td9L55xYOEzV7IeEuygk1GYXbdNPBc7pKMUxEbBMqqqnnDsc/T7sBwTsVIL8CesuKOxRuZqVwer+StgErBJvkV4kiO1s+CcRzf+K7aFWfKRKiQc2fDTGlYJKuJmv2QeGIxRsHkw6mGXQBl7+zHXP0yz2m/tyCRNd19LfiIPkSwXePVY/wDTkknigutM3cNRdSPeeLfYpGEC5zh5jLXVkHkNaVpIOtkGGydC60LV5dEjjaQjlb6/I1HEb+eJc9NnEZEcnC0kJ0hq0M7Oo01hjv0+FIF+5GYWWxlwb5xrvJswc7KjppI4z0bjrQ9SCMcuCxDXR1LU7azDe4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by SA2PR11MB5081.namprd11.prod.outlook.com (2603:10b6:806:118::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.13; Thu, 30 Dec
+ 2021 08:51:58 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::b8e4:15a2:7da4:2cc7]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::b8e4:15a2:7da4:2cc7%6]) with mapi id 15.20.4823.024; Thu, 30 Dec 2021
+ 08:51:57 +0000
+Subject: Re: [OE-core][PATCH v2 1/2] qemu.bbclass: drop OLDEST_KERNEL
+ reference
+To: Matt Madison <matt@madison.systems>,
+        openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20211216114836.964835-1-matt@madison.systems>
+ <20211216114836.964835-2-matt@madison.systems>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <3e66c6fb-b376-a292-34b1-70abdc270f41@windriver.com>
+Date: Thu, 30 Dec 2021 16:51:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20211216114836.964835-2-matt@madison.systems>
+Content-Type: multipart/alternative;
+ boundary="------------4192E0C412BB5837410FA50E"
+Content-Language: en-US
+X-ClientProxiedBy: HK2PR0401CA0013.apcprd04.prod.outlook.com
+ (2603:1096:202:2::23) To SN6PR11MB2557.namprd11.prod.outlook.com
+ (2603:10b6:805:56::33)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7c4170c0-2091-4441-af27-08d9cb71a2fe
+X-MS-TrafficTypeDiagnostic: SA2PR11MB5081:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SA2PR11MB50816A651AE274DBFA03AC5282459@SA2PR11MB5081.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uMgW4SPrvP30mwphYN1gXoa7gnPHqjo+3iDkV5gnSw1vUYiEvPDi2UXbTe36mSiZ5brjhmYCQfLdZlb8+pPN7QxMTJKIK/qZpvuLGBsNF76hPYyokM+6tBpjVrK6Bv+pMndkMiwC9kmYnGklha4uQ2tg98X4ugTLR1Y8FIUHIpMWeMoB5bWiQAUnbtVS98NmqzxmU6op8y5CZg56/b/NSoHpjj6U5aj4GYfmHzuc6d+BjQg9r0IJ1+jATLNN0KiDqVO3BZBMlRglciINjg0eeU35xxMXbEmV9z3fvOS30tXeBnzsBhvEjIL2ACBCxHeumxGevYjQ1HO9wQo8g9t8O7kukoGr40HUOWBqDsWJfui6bU8bp3s8NHPLk0Xc8+FM0zrqubTQNx0yABVhQQ/nCeJKZuJ8zk9CXsI5y31kigiWCx19ShCfPG5TEm/ILmXd0Uz5OLTf/h7dij8nAF7swiq8Cl7K6PV8BTFYKg8wCDSc4v13JzVm7wmHawGTWQoYuo1Bel3QhznlbPJho7JkwOMi3yXQGLU3N8gIFgb7bTRE6LZuspQjEouTf9rQvXuaNxKYnqjHj7LrqWfx7a6ISGfIGQoWjOFATdRyNJcN+MK3egFH1AumlQQx+KQHL9qNavZe/646rSVYLTphgGnwvbk+6p/bkfFQk4jMb7ArfGLK6D+Mnm7TicHr4fRIxck6VXCQzNoXPSkOCWFhjnsNzWIVdFWatEIM7Hc+yQsZ6ULzTweYNT8GfF0tfOFJAZPDcVWzjhVG+HCLOqSFSosib5Sy04E+uWMpuElyVxFAqWmSMuQxp5pAxKz6i+tf2QIoh0eHdrdxEsgNbiG0GrYtYj0Ihhh3yWMKHZEvZOWdw4Gy1VjNGTOI6dQAc6MosxvMIaVpaNxPoCyfFAmKoxNwNw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(966005)(508600001)(38350700002)(38100700002)(6666004)(53546011)(6506007)(26005)(6486002)(31696002)(316002)(186003)(8676002)(66946007)(5660300002)(6512007)(66476007)(66556008)(2906002)(44832011)(2616005)(86362001)(31686004)(83380400001)(52116002)(36756003)(166002)(54906003)(33964004)(8936002)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?aWl2cEo3R09HbUxRQXdYbkJKMGNSVXVjd3lVdFhqZG0zWXZETXV5bVdsYXV0?=
+ =?utf-8?B?ckdWdTNHbTlTckxZMC95WEcvdG1FZkI0VTFtTzR2SmVwMXY4dmM5UUJycHk1?=
+ =?utf-8?B?Z2JTcVFDQ0w0Vm5qbFhJY2w3cTg0dW5RTTNlbkwrMlBqanlNZm1vZDliUjNF?=
+ =?utf-8?B?SWFqM2R0K0Q0WEFzVmo1OTAybVJYU2FHSTFqTzNDVUlpUk5ScFo0ZEhTZmli?=
+ =?utf-8?B?SGwxYmZBYUZoTGIvYmRnNy9TY0pBSFovUlFlNndVbnFNT2RyVG1maXFVaHps?=
+ =?utf-8?B?eVBCYW1EVXNEL1I5NTNwbDZNM0R1MEVKRm9mcmdXWmpaQmJUaXBrM21BaDZi?=
+ =?utf-8?B?UzkrLzZlYWJjZmU4NWs0WGI5VkxIUHlpWUFWUUdpWGUxb3VMY2NpRHNRTW5k?=
+ =?utf-8?B?bUwvTXhnTVZHVGh6ZnIvSWZoZUNEalVabkpmK0JLRXhmdExuVVdsUG5kVHRX?=
+ =?utf-8?B?dytWSzhlTnN2K011dVY4MmxhbE1ub3FSaUN0eVFxc2VHaXJ0b3NPWWwrdXZl?=
+ =?utf-8?B?czlvZVpTUlBFMnp5d09LWDJZQmgwaEFHVEw2Ym9TRi9SK04vMVc0dURmRzBZ?=
+ =?utf-8?B?bmk4OXFkY2ZINFZmcUhzdWRocmdmL0grZ1JSZkpZeERVdGt0TlZmeUNLd0FS?=
+ =?utf-8?B?SXBVTkxGNTVRWll1b2JOL01vZnZFOGxSdzlYSk5LeitwZmYrOWRXOWpDU1I3?=
+ =?utf-8?B?UDNxOWc2clE0bFNQaEdqVUova2NNTFBIQWpBLzJkUHV0RWlETzNUenY0Z3Rz?=
+ =?utf-8?B?NitrS0NqOTVockloMXljN0Z2Y3Q1RlVvM2lMaFVFa1VmZUttcU05dG96QUFs?=
+ =?utf-8?B?bjhiUGFTNWp5L2xFdHFPamM3L09nMDJJQVdOUjJLTWVOQXF6bDZLSzVSeGNS?=
+ =?utf-8?B?UzBDNEcxZ01aand2RDJLZzZmcy9jQ0tRbkJ1RDZtZG4wVmVEMGJkM1FRSHU5?=
+ =?utf-8?B?K3JUcWFBdG80SzhhZFZuMWhtRVJwc2RidkEwcFRETWlYOHZWT1JZeUt4enVs?=
+ =?utf-8?B?bnplTVZBUHpMUm5DRjdNWDI0bTlUZzl2NFBUSldIeFhSM1Zvd2YxeXFkaE5B?=
+ =?utf-8?B?Rll3dXFObWdOeDlpY21oSk1LWTNpc0pTNU5UTDdQRDZNS245S3VFc1BHWDRD?=
+ =?utf-8?B?d0gySXRkRTRDeEVnTk42NTMwcEFuUkFTS0JRK0oxa0RJYnpBQm1RRWdYSVBo?=
+ =?utf-8?B?dUVOazd6a3VGak5CbUt6Zjh2SGZ5WklyMFBHUmEyZGhmdFZWNiszdHdjakZm?=
+ =?utf-8?B?MXMxdmRxSjdnTUo4VWdyamFhYWY3eHRXNTJwQk15SGxGdEJVbk5XUThEUWlK?=
+ =?utf-8?B?eGF6bzJ4a1hHcFlPdVZlTUxqbHl0czE5Y2NjV09Cb0pGb2NhWHFJS0llVHI1?=
+ =?utf-8?B?eURnZ25RMEgybUhXcCt5YTNJeXJGWnZoZFJ3SW5MOC9hNnVyRXZ2b2RxeTRL?=
+ =?utf-8?B?RDIyei9wOHdxQisxd1hYK2dkWjI1SzN1UHRFcU5xMFhHNWpRVGVuSFBHY3FT?=
+ =?utf-8?B?N2p1d2hnNmlQeTNmdk95SUkyRllCOGV4V0x6RnhvRklHUlFGSU9TMHVjOEdp?=
+ =?utf-8?B?MDBOZjdmNVNWU0pqYktVQnFzZm9ZMXZEK1dLQXgxSWMwdktvL2gzNjN0WFVu?=
+ =?utf-8?B?bG9BNy84WDVSSjhURGhpVHVYbm1TbE90ME0xeHJ5em5LdUtxOHNqanpLQmhE?=
+ =?utf-8?B?ZjlEN3I2RjdrdkJLSzBybG5XZXBuY0FjVHFKWk5sdVJhV0QwN3pXNVEyenhn?=
+ =?utf-8?B?d1NBRWV6aHU2U0FENURTN3FnUEVsTUpHSE5YVFVkbURYaStxaHVRV1FWcW0w?=
+ =?utf-8?B?ZHVyVXBrc1VRdlMvckFCMXpsOEZ2cm5sODVoOU5Sck5DV1l6OCsxMTM3OUd2?=
+ =?utf-8?B?NmpieUZzYmVSMlZtcjlaUmhrQ1VhdE5TT1dMWnlmeHJlanBOLzlvT3IzTmRI?=
+ =?utf-8?B?dnVYeDZzdlpkQ2hkWktWaldaZzBlbGdlRGNkUm5SdmdVKzBIcTFSdTMwSHZB?=
+ =?utf-8?B?UCttcDBrb1FNYkM2b2hmVStrM0RZWTNsdjVhTkZ6WmRLbjJ2NDc4NUFnYUZV?=
+ =?utf-8?B?MHA5R2F1aGNacmtUVXE4aTJKVDdDbEJEWG8zTkorQWpxZ3o4WFFxMTZXTXRL?=
+ =?utf-8?B?MmtzdFIvZlN0UUpjaUcxbXN6UitlbzNMV3dqa1JrdHUvNzA4R0ZyN2RUVExE?=
+ =?utf-8?B?UEgwdTJXQ0FFTmIrOG5oZUROT011MWlSdDhLby9rR0JVTnM1L1RVeW1HSU1q?=
+ =?utf-8?B?Q2lKOGp2S0JpWHFiVkxQR2wrRUZnPT0=?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 7c4170c0-2091-4441-af27-08d9cb71a2fe
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2021 08:51:57.7617
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ iVEqsu3h/TG7Y4b08bXaAGtyvFjHQAkVYLRcvSFBKNQDNSqSP7wfHx8V24Y+D04kE8yWRvFVNFjV2Hy8AMRFDcRjdq15+iL3Qh5WhMHJKfo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5081
+X-Proofpoint-GUID: wsbJcZV2j7BFJvbNK2j4131NZfdPg00b
+X-Proofpoint-ORIG-GUID: R_YxBpbUAZwzPay8oU2gNDAtVpfjKTxw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-30_02,2021-12-29_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 adultscore=0 clxscore=1011
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112300049
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Dec 2021 01:37:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Dec 2021 08:52:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160056
+ https://lists.openembedded.org/g/openembedded-core/message/160058
 
-Using glibc-2.35-alpha, valgrind ptests mostly all fail with the error:
-   WARNING: unhandled amd64-linux syscall: 334
-   You may be able to write your own handler.
-With this patch applied qemux86-64 ptest results were:
-   TOTAL: 728
-   PASSED: 709
-   FAILED: 0
-   SKIPPED: 19
+--------------4192E0C412BB5837410FA50E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch implements the Linux rseq syscall as ENOSYS while
-a proper fix is being worked on as desribed in the patch
-commit log.
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+On 12/16/21 7:48 PM, Matt Madison wrote:
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+>
+> which is introducing task hash changes for some
+> allarch package builds, and should no longer
+> be needed with recent versions of qemu.
+>
+> Signed-off-by: Matt Madison <matt@madison.systems>
+> ---
+>   meta/classes/qemu.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+> index 01a7b86ae1..333202b7c4 100644
+> --- a/meta/classes/qemu.bbclass
+> +++ b/meta/classes/qemu.bbclass
+> @@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path, binary):
+>   # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
+>   # qemu-arm default CPU supports all required architecture levels.
+>
+> -QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
+> +QEMU_OPTIONS = "${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
+
+Hi,
+
+Latest yocto still take "CentOS 7.x" as Supported Linux Distributions. 
+But centos7 have kernel version 3.10.
+
+But we have some archs, like aarch64, set OLDEST_KERNEL to 3.14. Without 
+"-r ${OLDEST_KERNEL}",
+
+some recipes which will run qemu during configure or compile will failed 
+with error:
+
+FATAL: kernel too old
+
+How about add it back?
+
+
+Thanks
+
+Changqing
+
+>   QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
+>
+>   QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
+> --
+> 2.32.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#159782): https://lists.openembedded.org/g/openembedded-core/message/159782
+> Mute This Topic: https://lists.openembedded.org/mt/87765279/3616873
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [changqing.li@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+--------------4192E0C412BB5837410FA50E
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 12/16/21 7:48 PM, Matt Madison
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20211216114836.964835-2-matt@madison.systems">
+      <pre class="moz-quote-pre" wrap="">[Please note: This e-mail is from an EXTERNAL e-mail address]
+
+which is introducing task hash changes for some
+allarch package builds, and should no longer
+be needed with recent versions of qemu.
+
+Signed-off-by: Matt Madison <a class="moz-txt-link-rfc2396E" href="mailto:matt@madison.systems">&lt;matt@madison.systems&gt;</a>
 ---
- ...plement-linux-rseq-syscall-as-ENOSYS.patch | 198 ++++++++++++++++++
- .../valgrind/valgrind_3.18.1.bb               |   1 +
- 2 files changed, 199 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch
+ meta/classes/qemu.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch b/meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch
-new file mode 100644
-index 0000000000..be1536980c
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-Implement-linux-rseq-syscall-as-ENOSYS.patch
-@@ -0,0 +1,198 @@
-+From 1024237358f01009fe233cb1294f3b8211304eaa Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Fri, 10 Dec 2021 17:41:59 +0100
-+Subject: [PATCH] Implement linux rseq syscall as ENOSYS
-+
-+This implements rseq for amd64, arm, arm64, ppc32, ppc64,
-+s390x and x86 linux as ENOSYS (without warning).
-+
-+glibc will start using rseq to accelerate sched_getcpu, if
-+available. This would cause a warning from valgrind every
-+time a new thread is started.
-+
-+Real rseq (restartable sequences) support is pretty hard, so
-+for now just explicitly return ENOSYS (just like we do for clone3).
-+
-+Upstream-Status: Backport [ 1024237358f01009fe233cb1294f3b8211304eaa ]
-+
-+https://sourceware.org/pipermail/libc-alpha/2021-December/133656.html
-+---
-+ coregrind/m_syswrap/syswrap-amd64-linux.c | 2 ++
-+ coregrind/m_syswrap/syswrap-arm-linux.c   | 1 +
-+ coregrind/m_syswrap/syswrap-arm64-linux.c | 3 ++-
-+ coregrind/m_syswrap/syswrap-ppc32-linux.c | 2 ++
-+ coregrind/m_syswrap/syswrap-ppc64-linux.c | 2 ++
-+ coregrind/m_syswrap/syswrap-s390x-linux.c | 2 ++
-+ coregrind/m_syswrap/syswrap-x86-linux.c   | 2 ++
-+ include/vki/vki-scnums-arm-linux.h        | 1 +
-+ include/vki/vki-scnums-arm64-linux.h      | 4 +++-
-+ include/vki/vki-scnums-ppc32-linux.h      | 1 +
-+ include/vki/vki-scnums-ppc64-linux.h      | 1 +
-+ include/vki/vki-scnums-s390x-linux.h      | 5 ++++-
-+ 12 files changed, 23 insertions(+), 3 deletions(-)
-+
-+diff --git a/coregrind/m_syswrap/syswrap-amd64-linux.c b/coregrind/m_syswrap/syswrap-amd64-linux.c
-+index 5062324a1..18b25f80a 100644
-+--- a/coregrind/m_syswrap/syswrap-amd64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-amd64-linux.c
-+@@ -862,6 +862,8 @@ static SyscallTableEntry syscall_table[] = {
-+ 
-+    LINXY(__NR_statx,             sys_statx),             // 332
-+ 
-++   GENX_(__NR_rseq,              sys_ni_syscall),        // 334
-++
-+    LINX_(__NR_membarrier,        sys_membarrier),        // 324
-+ 
-+    LINX_(__NR_copy_file_range,   sys_copy_file_range),   // 326
-+diff --git a/coregrind/m_syswrap/syswrap-arm-linux.c b/coregrind/m_syswrap/syswrap-arm-linux.c
-+index 556dd844b..d583cef0c 100644
-+--- a/coregrind/m_syswrap/syswrap-arm-linux.c
-++++ b/coregrind/m_syswrap/syswrap-arm-linux.c
-+@@ -1024,6 +1024,7 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINX_(__NR_pwritev2,          sys_pwritev2),         // 393
-+ 
-+    LINXY(__NR_statx,             sys_statx),            // 397
-++   GENX_(__NR_rseq,              sys_ni_syscall),       // 398
-+ 
-+    LINXY(__NR_clock_gettime64,   sys_clock_gettime64),  // 403
-+    LINX_(__NR_clock_settime64,   sys_clock_settime64),  // 404
-+diff --git a/coregrind/m_syswrap/syswrap-arm64-linux.c b/coregrind/m_syswrap/syswrap-arm64-linux.c
-+index b87107727..2066a38ea 100644
-+--- a/coregrind/m_syswrap/syswrap-arm64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-arm64-linux.c
-+@@ -823,8 +823,9 @@ static SyscallTableEntry syscall_main_table[] = {
-+    //   (__NR_pkey_mprotect,     sys_ni_syscall),        // 288
-+    //   (__NR_pkey_alloc,        sys_ni_syscall),        // 289
-+    //   (__NR_pkey_free,         sys_ni_syscall),        // 290
-++   LINXY(__NR_statx,             sys_statx),             // 291
-+ 
-+-   LINXY(__NR_statx,             sys_statx),             // 397
-++   GENX_(__NR_rseq,              sys_ni_syscall),        // 293
-+ 
-+    LINXY(__NR_io_uring_setup,    sys_io_uring_setup),    // 425
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+diff --git a/coregrind/m_syswrap/syswrap-ppc32-linux.c b/coregrind/m_syswrap/syswrap-ppc32-linux.c
-+index 6263ab845..637b2504e 100644
-+--- a/coregrind/m_syswrap/syswrap-ppc32-linux.c
-++++ b/coregrind/m_syswrap/syswrap-ppc32-linux.c
-+@@ -1028,6 +1028,8 @@ static SyscallTableEntry syscall_table[] = {
-+ 
-+    LINXY(__NR_statx,             sys_statx),            // 383
-+ 
-++   GENX_(__NR_rseq,              sys_ni_syscall),       // 387
-++
-+    LINXY(__NR_clock_gettime64,   sys_clock_gettime64),  // 403
-+    LINX_(__NR_clock_settime64,   sys_clock_settime64),  // 404
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-ppc64-linux.c b/coregrind/m_syswrap/syswrap-ppc64-linux.c
-+index a26b41c32..93956d3cc 100644
-+--- a/coregrind/m_syswrap/syswrap-ppc64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-ppc64-linux.c
-+@@ -1019,6 +1019,8 @@ static SyscallTableEntry syscall_table[] = {
-+ 
-+    LINXY(__NR_statx,             sys_statx),            // 383
-+ 
-++   GENX_(__NR_rseq,              sys_ni_syscall),       // 387
-++
-+    LINXY(__NR_io_uring_setup,    sys_io_uring_setup),    // 425
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
-+diff --git a/coregrind/m_syswrap/syswrap-s390x-linux.c b/coregrind/m_syswrap/syswrap-s390x-linux.c
-+index 5c9209859..73f9684c4 100644
-+--- a/coregrind/m_syswrap/syswrap-s390x-linux.c
-++++ b/coregrind/m_syswrap/syswrap-s390x-linux.c
-+@@ -860,6 +860,8 @@ static SyscallTableEntry syscall_table[] = {
-+ 
-+    LINXY(__NR_statx, sys_statx),                                      // 379
-+ 
-++   GENX_(__NR_rseq, sys_ni_syscall),                                  // 381
-++
-+    LINXY(__NR_io_uring_setup, sys_io_uring_setup),                    // 425
-+    LINXY(__NR_io_uring_enter, sys_io_uring_enter),                    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register),              // 427
-+diff --git a/coregrind/m_syswrap/syswrap-x86-linux.c b/coregrind/m_syswrap/syswrap-x86-linux.c
-+index 1d8f45d33..8662ff501 100644
-+--- a/coregrind/m_syswrap/syswrap-x86-linux.c
-++++ b/coregrind/m_syswrap/syswrap-x86-linux.c
-+@@ -1619,6 +1619,8 @@ static SyscallTableEntry syscall_table[] = {
-+    /* Explicitly not supported on i386 yet. */
-+    GENX_(__NR_arch_prctl,        sys_ni_syscall),       // 384
-+ 
-++   GENX_(__NR_rseq,              sys_ni_syscall),       // 386
-++
-+    LINXY(__NR_clock_gettime64,   sys_clock_gettime64),  // 403
-+    LINX_(__NR_clock_settime64,   sys_clock_settime64),  // 404
-+ 
-+diff --git a/include/vki/vki-scnums-arm-linux.h b/include/vki/vki-scnums-arm-linux.h
-+index ff560e19d..485db8b26 100644
-+--- a/include/vki/vki-scnums-arm-linux.h
-++++ b/include/vki/vki-scnums-arm-linux.h
-+@@ -432,6 +432,7 @@
-+ #define __NR_pkey_alloc                 395
-+ #define __NR_pkey_free                  396
-+ #define __NR_statx                      397
-++#define __NR_rseq                       398
-+ 
-+ 
-+ 
-+diff --git a/include/vki/vki-scnums-arm64-linux.h b/include/vki/vki-scnums-arm64-linux.h
-+index 9aa3b2b5f..acdfb39c6 100644
-+--- a/include/vki/vki-scnums-arm64-linux.h
-++++ b/include/vki/vki-scnums-arm64-linux.h
-+@@ -323,9 +323,11 @@
-+ #define __NR_pkey_alloc 289
-+ #define __NR_pkey_free 290
-+ #define __NR_statx 291
-++#define __NR_io_pgetevents 291
-++#define __NR_rseq 293
-+ 
-+ #undef __NR_syscalls
-+-#define __NR_syscalls 292
-++#define __NR_syscalls 294
-+ 
-+ ///*
-+ // * All syscalls below here should go away really,
-+diff --git a/include/vki/vki-scnums-ppc32-linux.h b/include/vki/vki-scnums-ppc32-linux.h
-+index 6987ad941..08fa77df0 100644
-+--- a/include/vki/vki-scnums-ppc32-linux.h
-++++ b/include/vki/vki-scnums-ppc32-linux.h
-+@@ -415,6 +415,7 @@
-+ #define __NR_pkey_alloc		384
-+ #define __NR_pkey_free		385
-+ #define __NR_pkey_mprotect	386
-++#define __NR_rseq		387
-+ 
-+ #endif /* __VKI_SCNUMS_PPC32_LINUX_H */
-+ 
-+diff --git a/include/vki/vki-scnums-ppc64-linux.h b/include/vki/vki-scnums-ppc64-linux.h
-+index 6827964fd..a76fa6d32 100644
-+--- a/include/vki/vki-scnums-ppc64-linux.h
-++++ b/include/vki/vki-scnums-ppc64-linux.h
-+@@ -407,6 +407,7 @@
-+ #define __NR_pkey_alloc		384
-+ #define __NR_pkey_free		385
-+ #define __NR_pkey_mprotect	386
-++#define __NR_rseq		387
-+ 
-+ #endif /* __VKI_SCNUMS_PPC64_LINUX_H */
-+ 
-+diff --git a/include/vki/vki-scnums-s390x-linux.h b/include/vki/vki-scnums-s390x-linux.h
-+index 6487e20c9..869c04584 100644
-+--- a/include/vki/vki-scnums-s390x-linux.h
-++++ b/include/vki/vki-scnums-s390x-linux.h
-+@@ -342,8 +342,11 @@
-+ #define __NR_s390_guarded_storage	378
-+ #define __NR_statx			379
-+ #define __NR_s390_sthyi			380
-++#define __NR_kexec_file_load		381
-++#define __NR_io_pgetevents		382
-++#define __NR_rseq			383
-+ 
-+-#define NR_syscalls 381
-++#define NR_syscalls 384
-+ 
-+ /* 
-+  * There are some system calls that are not present on 64 bit, some
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
-index d8f82a4100..7837034f92 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
-@@ -42,6 +42,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://s390x_vec_op_t.patch \
-            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-+           file://0001-Implement-linux-rseq-syscall-as-ENOSYS.patch \
-            "
- SRC_URI[sha256sum] = "00859aa13a772eddf7822225f4b46ee0d39afbe071d32778da4d99984081f7f5"
- UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
--- 
-2.31.1
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 01a7b86ae1..333202b7c4 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path, binary):
+ # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
+ # qemu-arm default CPU supports all required architecture levels.
 
+-QEMU_OPTIONS = &quot;-r ${OLDEST_KERNEL} ${@d.getVar(&quot;QEMU_EXTRAOPTIONS_%s&quot; % d.getVar('PACKAGE_ARCH')) or &quot;&quot;}&quot;
++QEMU_OPTIONS = <a class="moz-txt-link-rfc2396E" href="mailto:${@d.getVar(">&quot;${@d.getVar(&quot;</a>QEMU_EXTRAOPTIONS_%s&quot; % d.getVar('PACKAGE_ARCH')) or &quot;&quot;}&quot;</pre>
+    </blockquote>
+    <p>Hi,</p>
+    <p>Latest yocto still take &quot;CentOS 7.x&quot; as <span class="section-number"></span>Supported Linux Distributions. But
+      centos7 have kernel version 3.10.</p>
+    <p>But we have some archs, like aarch64, set OLDEST_KERNEL to 3.14.
+      Without &quot;-r ${OLDEST_KERNEL}&quot;,</p>
+    <p>some recipes which will run qemu during configure or compile will
+      failed with error:</p>
+    <p>FATAL: kernel too old</p>
+    <p>How about add it back? <br>
+    </p>
+    <p><br>
+    </p>
+    <p>Thanks</p>
+    <p>Changqing<br>
+    </p>
+    <blockquote type="cite" cite="mid:20211216114836.964835-2-matt@madison.systems">
+      <pre class="moz-quote-pre" wrap="">
+ QEMU_OPTIONS[vardeps] += &quot;QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}&quot;
+
+ QEMU_EXTRAOPTIONS_ppce500v2 = &quot; -cpu e500v2&quot;
+--
+2.32.0
+
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#159782): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/159782">https://lists.openembedded.org/g/openembedded-core/message/159782</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/87765279/3616873">https://lists.openembedded.org/mt/87765279/3616873</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:changqing.li@windriver.com">changqing.li@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------4192E0C412BB5837410FA50E--
 
