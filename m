@@ -1,170 +1,336 @@
-Return-Path: <Saul.Wold@windriver.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C7F6C433EF
-	for <webhook@archiver.kernel.org>; Thu, 30 Dec 2021 21:24:06 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.3739.1640899445295786590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D082C433F5
+	for <webhook@archiver.kernel.org>; Thu, 30 Dec 2021 22:00:44 +0000 (UTC)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
+ [209.85.166.171])
+ by mx.groups.io with SMTP id smtpd.web11.4131.1640901642923903197
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Dec 2021 13:24:05 -0800
+ Thu, 30 Dec 2021 14:00:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=lqIXFjB6;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=899815eeb8=saul.wold@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 1BULLQuq024385
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Dec 2021 13:24:04 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=t5KiHGfkhMgIp8SxwyO5//uU1/9FItFdBZya/RgRGWE=;
- b=lqIXFjB6vofxCEhvPTd+uyORvn7OvYhRa5WWCLpprdJpLwMaAMZoBZvQBEtBwTJlgAVS
- ESIFO6ahL1POrwZXi4Cg+RcmS5LJF9Y2eDSGOOiWeMVXrZNml2tn4mStrvBFm5qf2gsP
- +4WmZLZP4St5H6+3u2S+SGac/EaxFFwUkgpkT7SwxjRU5PGkkOWrGb85NN8fAvzVfAFQ
- 0GVwQeFAT7U+Tnm95kSUvWwnrZtnFZHb6BR9J31FXuGRm/LYaLYvGoslo/zpqKKBRmLD
- iPmVtKOxPc7+CPPtUQhtKIRpyAtPN0UqM0yp5METj+ZBAy3+nl1ZAgTnN6+QlsWFKAl2 AA==
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3d94k6re53-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Dec 2021 13:24:04 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hul/eU2UjfNJzLSilmVawEXxAgVH2gd3nNHuMnW3ZACwdoGNdj65qME9UqO5YBKfoG2VvcGOx9dKrhEV23PxHzIjThBPCAkJp/wHSIUu66kVHsfx0ZPlfP1XvuHqEgyH1Wg6sodDiKrtN81/Xwg8eCetKAxnvm8AOwxozOf3GaC5HH9jCag0tHP9oVgTDdZEev2Ozsyrcfz3QoNfh5rzyOW7CDiJNdpFaKBjmHnb2sFjDOBy1pNgSb1s1GLNzLKntal6FEHE5XPw5pTqFwrfT3o8bciDfRI+u7RKWq41HNo+xirrotFEDThzv53ZTH5FXWYTUhnFszwNbOwmx2xRnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t5KiHGfkhMgIp8SxwyO5//uU1/9FItFdBZya/RgRGWE=;
- b=lumHDBUKHPuoMjJu05ge6DjDr2Gdfqko5yaO801VqJMSF5mmwuzINdALpJLPz9hV6t4XAqUtTk/xmQBRJx0MBJV0N2nlEPA7dR3PuUDjANXwkcNiGFp432dYs6ggu0r/BiEYq+T3ED78tMBgAVmBk3dG3/yP2TDrukV39SBkZZjuU7G3696+c+J8rZuh31m4G+xjbygG3kkk0LWIkBV2VBuTonYUPXJvFnzacH1em/GdFqDf40O/o3xK0ipyAwbeYNqPenNw+8b8mcM0+KrTsIOaNsQLyqrkDxWkqq4wr3g/QaKRJKL31FjCP969rI0Pe3QLkVgPqW15ZB6Wp6Ex3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
- by MWHPR11MB1792.namprd11.prod.outlook.com (2603:10b6:300:10b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.22; Thu, 30 Dec
- 2021 21:24:02 +0000
-Received: from CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::2027:9b43:472b:13ac]) by CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::2027:9b43:472b:13ac%4]) with mapi id 15.20.4844.014; Thu, 30 Dec 2021
- 21:24:02 +0000
-From: Saul Wold <saul.wold@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Saul Wold <saul.wold@windriver.com>
-Subject: [PATCH] perl: Enable threading
-Date: Thu, 30 Dec 2021 13:23:44 -0800
-Message-Id: <20211230212344.94913-1-saul.wold@windriver.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR01CA0007.prod.exchangelabs.com (2603:10b6:a02:80::20)
- To CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K9fGOnw5;
+ spf=pass (domain: gmail.com, ip: 209.85.166.171,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-il1-f171.google.com with SMTP id y16so19826660ilq.8
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 30 Dec 2021 14:00:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6pRoW5VCWaQ1El37r6bRC+L71pxaxVtCQAGynjjpwT0=;
+        b=K9fGOnw5mnBhGwvyxR1poCqXILoCz0XQmVgslkPRFODqYvrF+hkhyOH0yoUuo/+sCQ
+         Ld7+QC33QU+dSGpMdhYyhtDS7e+zy/H1U70YQXaLroW1c43GKZo9VkEWeAdo10GWlFXy
+         pKEHSR9KNSgkVLeo4ACkifPQQsBGeCNHP3i0pNRbj25eY1uHvkw8I7xUQjM3cK8t8jkT
+         dQ0wLzSeMyZHHCpvKpmWxUF+sSERFFART2YDjCV91Cu4lBLiSOdNHXKruaOrzmoW1SMG
+         VTrRF4hpJG0mVPbk36dYXNWaQHAYZoAZ91KN40R8XpN3eW5YvBTxOVWp7/0L6IuzKYby
+         Gnfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6pRoW5VCWaQ1El37r6bRC+L71pxaxVtCQAGynjjpwT0=;
+        b=JP7IqlBBSsWidYxe0DQeJWxCY1DS181vhbwOu/rlZgtz1SmMO0mD3PK1Bng6oOoizJ
+         bEvQzrCiO5CgytDxlhJrgFy5Y5y511cfGqVReJBgkgUq5FJp5n3Gl6BGcs+jq83dW55X
+         T/u2UTFhLf+ViFIHQBDcK35Lsf3ev0o68cxNwEda3iiBkVRlG6ql4dQ04b1SzdgmmuA7
+         /DsO9hETuRJAZomvC9CjVCZYTPtZ2XK2c7mk4P42CKwC0OCxh0/SHnSDJAoXt9Te3XBZ
+         Kna95y4rQltd94YzraW/YWdwqyPG9dB6VSBIcBWqd9MHoBzpL/WCb+qgQ3tqEJbmGIC4
+         9QXQ==
+X-Gm-Message-State: AOAM530GDyd4dnBSQ2hxXRFxRNNRCnn7Wxf3158QgOEaAeXVstoD5jeK
+	8Ur4lmrExgJZfrWwRHAoPrQ29/96HnmNCZjg18M=
+X-Google-Smtp-Source: 
+ ABdhPJyH6l4Cui9hpgNulbxKtyRSAX1dQ15VHQ11+IHvHhH4BryvTALZ5h62wC+5gCNWP0KH6pERZvrumIr8BbMbrtI=
+X-Received: by 2002:a05:6e02:1a86:: with SMTP id
+ k6mr14485492ilv.166.1640901642154;
+ Thu, 30 Dec 2021 14:00:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0150561b-807b-4ffa-783f-08d9cbdab2fb
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1792:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB17921D6E19AEC71ED882619AEE459@MWHPR11MB1792.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	kYrXDzN+htVRCl0PJ5KuDXSuF/FxrwvgilrIBzGwO5uw6BQd0vUlXvIB9QX6+2h6aZYNMph1jvcrbiRLT6Ccn5JIZslnBes4AdCeoFtgtpafJfquVaxQ9Yd8SPxNJCO0W/9/DO5Rd0zb2GriLNhLfnQOdINBUeKq5dm1nFofivRGHPTazNkUL7gR541RUWIKG6xe3J7RBp34PhiubB+AS7O0/0Z4+xlDUeNmbFqoYZ8KGE0ltFW0vNKOSOfV6ZvIPTk09dxZxKjfQGo7Z0p1f9aqQ5l90zIX9ekzTQXvRFJxl3bvI94T17n5mDCOmOkPsEoLCcuLsRNgpc8dJVw4TTUMkbIfQbzsuimfXXzcCqwG5yTpW27H4k1qy+9jzcx8B5IjoBqTkm5DjEiAzjFhk9vCUBV90t9YgF2M65yU4RUeeDfBsyXXDocor+hsYxwLAETHDGDOiM+Q+2zxMSm3T9J4utqZO/C0UTwDhBQh0F5A2+iO08zrmQABvTAa7/ehBOlGu0AcghLcMIOVqTWeH+7aJOLx+puD+7IY8hbum5SCUV7arP+TCM2Cc75pcennQYHzg401D6qbZMW9pBJojezFFOoEzRDwiuWaaNw79YT5Ag7ot/eZOCQwl3+r7bvyD7MzpslOSdwOzZwyBpXzE+Kzj7n1PzIwutjuryvB9hgXk+Nx0qeTiWSf6tw95H6QiaGBLkj5NiIma3/NeEfeGw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(107886003)(4326008)(36756003)(508600001)(2906002)(6916009)(52116002)(8676002)(5660300002)(38100700002)(6666004)(66556008)(316002)(6512007)(66476007)(38350700002)(8936002)(6486002)(4744005)(83380400001)(66946007)(44832011)(6506007)(2616005)(86362001)(186003)(26005)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PhLMWefUQUGmmoRAjzAIerlgk1ojD8jZCD5ZGnDxgqBwf96omk4o1V011Ok0?=
- =?us-ascii?Q?4ZgGUrk2epSpi+JS+lv3B6IRi2RdEAUPxjULCdxaF2n9pISNkz5NXeVDNex8?=
- =?us-ascii?Q?LH2GYVSC8+pyCk0E4zErG0ehyLT1Txf/6SW/iTtnJh+aNhj7w+WtMieTJuOb?=
- =?us-ascii?Q?E7Zfe1wMEmRB8akhFPHcP+oW1QQKku8FnI4pa3c/zMQfCpnpGr6m1tnoem2o?=
- =?us-ascii?Q?KXthBiDO4UEQZ1Y7X8H5TR2ocPxIzJcn0FH3Wr2/irGg4Fn0yZSGgzYzdNyJ?=
- =?us-ascii?Q?alsOq532rZt2y0r+1bVRge0/bGpbQXIq5+3x7+CAGjVX5cdvZxnU4jpWU7Dh?=
- =?us-ascii?Q?0pyq/fQ9PwQmIENZF0IrXJDJxzXmzsXCAOmHRj7IVxoAdjCTAv5EgsaxKbxK?=
- =?us-ascii?Q?UPJ1KTbx4PqsJmvYl83emBZPbeNX8dbK2d+kXODsVjexfjr554bA68yL/Wq+?=
- =?us-ascii?Q?0yQRn5DzpjZ8RbQs6tvqrFPLjfrLPYxVOn5+iROOGC3pCSYTacq+bv6zKEHH?=
- =?us-ascii?Q?gofPMeyont5eR7zQmUuaqlHzTAz82hdqZaeHIMw77sSBYpgzJl+B6+PDBGqs?=
- =?us-ascii?Q?QkkiI42+ZLpZrMm/LaKMTqT28I9bi94KHgKzd8ma+oQxbtjmAKWzGyzhzAi7?=
- =?us-ascii?Q?ZftBk83KnqnzPYIT/Oa8l+pxR6HY3fzGVg6BLJuiGhfY9OFSRIjfbexfb9oZ?=
- =?us-ascii?Q?AOUk+75k0Hd9GKcmv/z3oWSQPMGLJlWBi2OUci3AcreWnvwCJM2W0oi9D2Wc?=
- =?us-ascii?Q?LrpBVj/swrHO2kzgZL0yH+9RFk0gy+BzJW36DgJQyuQYEyap6+EX8W/fRs+U?=
- =?us-ascii?Q?BiTvVAo4UyLeIn72I7QQtf1mtwfy/K8V8EBtbVU5wI9arnlJvUVQF+Iz9GY7?=
- =?us-ascii?Q?hCVHkmvaARskkm2hNec3SNlVKgNMsI9I6dsT3ZQOaPTgHChztzhaLyJjDesZ?=
- =?us-ascii?Q?tIWdMEJ62Rb0iVUhFcfqj9PtxBwo4s2dIEIVrBiubxoZ1QwOTZD/UUhiFOWk?=
- =?us-ascii?Q?WA0f1PRZz37s+uN7PWNPM1fRndQSEhyHYfFUnNBsSSANdKqabTJ4Qsd7pBcD?=
- =?us-ascii?Q?IjM1SI4BmQeVWjW3/w7DhuBSgW/IQq+QLimv4zYxc+KNucgJ1InN+0jorVg4?=
- =?us-ascii?Q?hIhJdceviCEFxVd8iZxNcdZ1KbU0ch7P8FIQVymzVT90+PvqUhp3tILded0o?=
- =?us-ascii?Q?2glQjTk7DzYFTXxSS7ehR1sAfP0eQr/0JGomUfFvIIaGnJnYjYdbp4fGRcGZ?=
- =?us-ascii?Q?W1YPAshO93rJdu1zp4zO36e6WpIrNEUhf1Dd+G+JuzsoFkENPelgsERL3qLL?=
- =?us-ascii?Q?hh1s0BQPZMcxThpfuxl0+V7PPyL1x/qzwFi4Cov6kjaDzEHPJhylLEi95I+f?=
- =?us-ascii?Q?QlZDISi+R5NmcCVpwTpJz/6jrXrESyKXqqwkdRG4Jpvo2C07YWJAWLfWGuI/?=
- =?us-ascii?Q?glNmgblvKXqoN/YUxau81nMZW7tUFxMME/7wV+zB+RrT6OBKjfQvasXUUq7+?=
- =?us-ascii?Q?0gZomJwUQyJCFQXsrCAKV7XJgdVunnY36YweZy7PqoaeLQIHpiJTMfXHl+pm?=
- =?us-ascii?Q?N8f4zsr+aA2UqZR0tWD50SGXBSDfohsgfQq70XsbbhKUiitOfl4fnRuxml/z?=
- =?us-ascii?Q?PBht6alQiOZs/2FLg0kBd9c=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 0150561b-807b-4ffa-783f-08d9cbdab2fb
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2021 21:24:01.9518
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- N6pAieJHXQsRbJE1SkxIdcfdaR7jv8tM9p31znMGc9mac+sUcS8PkFi87QKY1CuToeLCBm9waajbmxXdb4Fssw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1792
-X-Proofpoint-ORIG-GUID: y6Ai2rjVZMgO4PCSVYXd1TYZNu8hlbo9
-X-Proofpoint-GUID: y6Ai2rjVZMgO4PCSVYXd1TYZNu8hlbo9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-30_08,2021-12-30_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- suspectscore=0 bulkscore=0 clxscore=1015 mlxscore=0 malwarescore=0
- spamscore=0 mlxlogscore=789 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112300122
+References: <cover.1640181998.git.steve@sakoman.com>
+ <a4e272700e18ca7e86e24ce4e24031ce7745c87b.1640181998.git.steve@sakoman.com>
+ <16C59D37B8124AF8.22808@lists.openembedded.org>
+ <6cf463b6-6612-cac1-80ef-93ce21d9e211@gmail.com>
+ <CAOSpxdYqjDgfUu6c7qCfMbX1GnHd6TyeCA+vV8geX-1p3xbdGw@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdYqjDgfUu6c7qCfMbX1GnHd6TyeCA+vV8geX-1p3xbdGw@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Thu, 30 Dec 2021 23:00:30 +0100
+Message-ID: 
+ <CAPbeDCm1Z0n9kuLSi4FsVPRsYwyzcpRv1cnXp5n0d-Pv9RxFmg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 02/14] openssh: Fix CVE-2021-41617
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007df94a05d4642fbb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Dec 2021 21:24:06 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Dec 2021 22:00:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160066
+ https://lists.openembedded.org/g/openembedded-core/message/160067
 
-When the tranisiton to perl-cross occured, the threading define
-seems to have been missed.  The perl tests for threading where
-simply skipped, so there was no direct failures.  This was verified
-by running perl ptest before and after the change to see PASS vs SKIP
-results of threaded related tests.
+--0000000000007df94a05d4642fbb
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
----
- meta/recipes-devtools/perl/perl_5.34.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, 30 Dec 2021, 21:17 Steve Sakoman, <steve@sakoman.com> wrote:
 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-index a6ae80f07e1..3306a093692 100644
---- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-@@ -53,6 +53,7 @@ do_configure:class-target() {
-     ./configure --prefix=${prefix} --libdir=${libdir} \
-     --target=${TARGET_SYS} \
-     -Duseshrplib \
-+    -Dusethreads \
-     -Dsoname=libperl.so.5 \
-     -Dvendorprefix=${prefix} \
-     -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
--- 
-2.31.1
+On Thu, Dec 30, 2021 at 9:04 AM Jacob Kroon <jacob.kroon@gmail.com> wrote:
+>
+> On 12/30/21 19:54, Jacob Kroon via lists.openembedded.org wrote:
+> > On 12/22/21 15:12, Steve Sakoman wrote:
+> >> From: sana kazi <sanakazisk19@gmail.com>
+> >>
+> >> Add patch to fix CVE-2021-41617
+> >> Link: https://bugzilla.suse.com/attachment.cgi?id=854015
+> >>
+> >> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> >> Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
+> >> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> >> ---
+> >>  .../openssh/openssh/CVE-2021-41617.patch      | 52 +++++++++++++++++++
+> >>  .../openssh/openssh_8.2p1.bb                  |  1 +
+> >>  2 files changed, 53 insertions(+)
+> >>  create mode 100644
+meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+> >>
+> >> diff --git
+a/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+b/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+> >> new file mode 100644
+> >> index 0000000000..bda896f581
+> >> --- /dev/null
+> >> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch
+> >> @@ -0,0 +1,52 @@
+> >> +From a6414400ec94a17871081f7df24f910a6ee01b8b Mon Sep 17 00:00:00 2001
+> >> +From: Ali Abdallah <aabdallah@suse.de>
+> >> +Date: Wed, 24 Nov 2021 13:33:39 +0100
+> >> +Subject: [PATCH] CVE-2021-41617 fix
+> >> +
+> >> +backport of the following two upstream commits
+> >> +
+> >> +f3cbe43e28fe71427d41cfe3a17125b972710455
+> >> +bf944e3794eff5413f2df1ef37cddf96918c6bde
+> >> +
+> >> +CVE-2021-41617 failed to correctly initialise supplemental groups
+> >> +when executing an AuthorizedKeysCommand or
+AuthorizedPrincipalsCommand,
+> >> +where a AuthorizedKeysCommandUser or AuthorizedPrincipalsCommandUser
+> >> +directive has been set to run the command as a different user. Instead
+> >> +these commands would inherit the groups that sshd(8) was started with.
+> >> +---
+> >> + auth.c | 8 ++++++++
+> >> + 1 file changed, 8 insertions(+)
+> >> +
+> >> +CVE: CVE-2021-41617
+> >> +Upstream-Status: Backport [
+https://bugzilla.suse.com/attachment.cgi?id=854015]
+> >> +Comment: No change in any hunk
+> >> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+> >> +
+> >> +diff --git a/auth.c b/auth.c
+> >> +index 163038f..a47b267 100644
+> >> +--- a/auth.c
+> >> ++++ b/auth.c
+> >> +@@ -52,6 +52,7 @@
+> >> + #include <limits.h>
+> >> + #include <netdb.h>
+> >> + #include <time.h>
+> >> ++#include <grp.h>
+> >> +
+> >> + #include "xmalloc.h"
+> >> + #include "match.h"
+> >> +@@ -851,6 +852,13 @@ subprocess(const char *tag, struct passwd *pw,
+const char *command,
+> >> +            }
+> >> +            closefrom(STDERR_FILENO + 1);
+> >> +
+> >> ++           if (geteuid() == 0 &&
+> >> ++               initgroups(pw->pw_name, pw->pw_gid) == -1) {
+> >> ++                   error("%s: initgroups(%s, %u): %s", tag,
+> >> ++                       pw->pw_name, (u_int)pw->pw_gid,
+strerror(errno));
+> >> ++                   _exit(1);
+> >> ++           }
+> >> ++
+> >> +            /* Don't use permanently_set_uid() here to avoid fatal()
+*/
+> >> +            if (setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) == -1) {
+> >> +                    error("%s: setresgid %u: %s", tag,
+(u_int)pw->pw_gid,
+> >> +--
+> >> +2.26.2
+> >> diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+> >> index b60d1a6bd4..e903ec487d 100644
+> >> --- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+> >> +++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+> >> @@ -26,6 +26,7 @@ SRC_URI = "
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+> >>             file://add-test-support-for-busybox.patch \
+> >>             file://CVE-2020-14145.patch \
+> >>             file://CVE-2021-28041.patch \
+> >> +           file://CVE-2021-41617.patch \
+> >>             "
+> >>  SRC_URI[md5sum] = "3076e6413e8dbe56d33848c1054ac091"
+> >>  SRC_URI[sha256sum] =
+"43925151e6cf6cee1450190c0e9af4dc36b41c12737619edff8bcebdff64e671"
+> >>
+> >>
+> >>
+> >>
+> >>
+> >
+> > I would have expected this patch to leave a mark in my buildhistory, but
+> > nothing related to openssh(d) shows up.
+> >
+> > Size of /usr/sbin/sshd stays the same, which at least to me is a little
+> > odd.. but I can see that the sha256sum output of sshd changes.
+> >
+> > (It would be nice to have sha256sum hashes of files in buildhistory)
+> >
+> > Am I the only one who thinks this is a little strange ?
+> >
+> > /Jacob
+> >
+>
+> Let me rephrase, I do see changes related to debug information and the
+> debug package, but no change in the resulting '/usr/sbin/sshd' size that
+> goes in the final image.
 
+Yes, it is unusual that the size of sshd is the same pre and post patch.
+
+I checked the size of auth.o pre and post patch, and it is also the
+same (not surprisingly!)
+
+However I've verified that the patch modifies auth.c as desired, and
+the md5sums for both auth.o and ssshd are different pre and post patch
+(as expected)
+
+So this is just one of those cases where different code results in the
+same size!
+
+Steve
+
+
+Thanks for double checking.
+/Jacob
+
+--0000000000007df94a05d4642fbb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div dir=3D"auto"><div class=3D"elided-text" dir=3D"auto"=
+><div dir=3D"ltr">On Thu, 30 Dec 2021, 21:17 Steve Sakoman, &lt;<a href=3D"=
+mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; wrote:<br></div><blockq=
+uote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">On Thu, Dec 30, 2021 at 9:04 AM Jacob Kroon &lt;<a hre=
+f=3D"mailto:jacob.kroon@gmail.com">jacob.kroon@gmail.com</a>&gt; wrote:<br>=
+&gt;<br>&gt; On 12/30/21 19:54, Jacob Kroon via=C2=A0<a href=3D"http://list=
+s.openembedded.org/">lists.openembedded.org</a>=C2=A0wrote:<br>&gt; &gt; On=
+ 12/22/21 15:12, Steve Sakoman wrote:<br>&gt; &gt;&gt; From: sana kazi &lt;=
+<a href=3D"mailto:sanakazisk19@gmail.com">sanakazisk19@gmail.com</a>&gt;<br=
+>&gt; &gt;&gt;<br>&gt; &gt;&gt; Add patch to fix CVE-2021-41617<br>&gt; &gt=
+;&gt; Link:=C2=A0<a href=3D"https://bugzilla.suse.com/attachment.cgi?id=3D8=
+54015">https://bugzilla.suse.com/attachment.cgi?id=3D854015</a><br>&gt; &gt=
+;&gt;<br>&gt; &gt;&gt; Signed-off-by: Sana Kazi &lt;<a href=3D"mailto:Sana.=
+Kazi@kpit.com">Sana.Kazi@kpit.com</a>&gt;<br>&gt; &gt;&gt; Signed-off-by: S=
+ana Kazi &lt;<a href=3D"mailto:sanakazisk19@gmail.com">sanakazisk19@gmail.c=
+om</a>&gt;<br>&gt; &gt;&gt; Signed-off-by: Steve Sakoman &lt;<a href=3D"mai=
+lto:steve@sakoman.com">steve@sakoman.com</a>&gt;<br>&gt; &gt;&gt; ---<br>&g=
+t; &gt;&gt;=C2=A0 .../openssh/openssh/CVE-2021-41617.patch=C2=A0 =C2=A0 =C2=
+=A0 | 52 +++++++++++++++++++<br>&gt; &gt;&gt;=C2=A0 .../openssh/<a href=3D"=
+http://openssh_8.2p1.bb/">openssh_8.2p1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>&gt; &gt;&gt;=C2=A0 2 fil=
+es changed, 53 insertions(+)<br>&gt; &gt;&gt;=C2=A0 create mode 100644 meta=
+/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch<br>&gt; &gt;&gt;=
+<br>&gt; &gt;&gt; diff --git a/meta/recipes-connectivity/openssh/openssh/CV=
+E-2021-41617.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2021-416=
+17.patch<br>&gt; &gt;&gt; new file mode 100644<br>&gt; &gt;&gt; index 00000=
+00000..bda896f581<br>&gt; &gt;&gt; --- /dev/null<br>&gt; &gt;&gt; +++ b/met=
+a/recipes-connectivity/openssh/openssh/CVE-2021-41617.patch<br>&gt; &gt;&gt=
+; @@ -0,0 +1,52 @@<br>&gt; &gt;&gt; +From a6414400ec94a17871081f7df24f910a6=
+ee01b8b Mon Sep 17 00:00:00 2001<br>&gt; &gt;&gt; +From: Ali Abdallah &lt;<=
+a href=3D"mailto:aabdallah@suse.de">aabdallah@suse.de</a>&gt;<br>&gt; &gt;&=
+gt; +Date: Wed, 24 Nov 2021 13:33:39 +0100<br>&gt; &gt;&gt; +Subject: [PATC=
+H] CVE-2021-41617 fix<br>&gt; &gt;&gt; +<br>&gt; &gt;&gt; +backport of the =
+following two upstream commits<br>&gt; &gt;&gt; +<br>&gt; &gt;&gt; +f3cbe43=
+e28fe71427d41cfe3a17125b972710455<br>&gt; &gt;&gt; +bf944e3794eff5413f2df1e=
+f37cddf96918c6bde<br>&gt; &gt;&gt; +<br>&gt; &gt;&gt; +CVE-2021-41617 faile=
+d to correctly initialise supplemental groups<br>&gt; &gt;&gt; +when execut=
+ing an AuthorizedKeysCommand or AuthorizedPrincipalsCommand,<br>&gt; &gt;&g=
+t; +where a AuthorizedKeysCommandUser or AuthorizedPrincipalsCommandUser<br=
+>&gt; &gt;&gt; +directive has been set to run the command as a different us=
+er. Instead<br>&gt; &gt;&gt; +these commands would inherit the groups that =
+sshd(8) was started with.<br>&gt; &gt;&gt; +---<br>&gt; &gt;&gt; + auth.c |=
+ 8 ++++++++<br>&gt; &gt;&gt; + 1 file changed, 8 insertions(+)<br>&gt; &gt;=
+&gt; +<br>&gt; &gt;&gt; +CVE: CVE-2021-41617<br>&gt; &gt;&gt; +Upstream-Sta=
+tus: Backport [<a href=3D"https://bugzilla.suse.com/attachment.cgi?id=3D854=
+015">https://bugzilla.suse.com/attachment.cgi?id=3D854015</a>]<br>&gt; &gt;=
+&gt; +Comment: No change in any hunk<br>&gt; &gt;&gt; +Signed-off-by: Sana =
+Kazi &lt;<a href=3D"mailto:Sana.Kazi@kpit.com">Sana.Kazi@kpit.com</a>&gt;<b=
+r>&gt; &gt;&gt; +<br>&gt; &gt;&gt; +diff --git a/auth.c b/auth.c<br>&gt; &g=
+t;&gt; +index 163038f..a47b267 100644<br>&gt; &gt;&gt; +--- a/auth.c<br>&gt=
+; &gt;&gt; ++++ b/auth.c<br>&gt; &gt;&gt; +@@ -52,6 +52,7 @@<br>&gt; &gt;&g=
+t; + #include &lt;limits.h&gt;<br>&gt; &gt;&gt; + #include &lt;netdb.h&gt;<=
+br>&gt; &gt;&gt; + #include &lt;time.h&gt;<br>&gt; &gt;&gt; ++#include &lt;=
+grp.h&gt;<br>&gt; &gt;&gt; +<br>&gt; &gt;&gt; + #include &quot;xmalloc.h&qu=
+ot;<br>&gt; &gt;&gt; + #include &quot;match.h&quot;<br>&gt; &gt;&gt; +@@ -8=
+51,6 +852,13 @@ subprocess(const char *tag, struct passwd *pw, const char *=
+command,<br>&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>&=
+gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 closefrom(STDERR_FI=
+LENO + 1);<br>&gt; &gt;&gt; +<br>&gt; &gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0if (geteuid() =3D=3D 0 &amp;&amp;<br>&gt; &gt;&gt; ++=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0initgroups(pw-&gt;pw_na=
+me, pw-&gt;pw_gid) =3D=3D -1) {<br>&gt; &gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error(&quot;%s: initgroups(%s,=
+ %u): %s&quot;, tag,<br>&gt; &gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pw-&gt;pw_name, (u_int)pw-&=
+gt;pw_gid, strerror(errno));<br>&gt; &gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_exit(1);<br>&gt; &gt;&gt; ++=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>&gt; &gt;&gt; ++<br>&gt; &gt;&gt=
+; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Don&#39;t use permanently_s=
+et_uid() here to avoid fatal() */<br>&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 if (setresgid(pw-&gt;pw_gid, pw-&gt;pw_gid, pw-&gt;pw_=
+gid) =3D=3D -1) {<br>&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error(&quot;%s: setresgid %u: %s&quot;, tag=
+, (u_int)pw-&gt;pw_gid,<br>&gt; &gt;&gt; +--<br>&gt; &gt;&gt; +2.26.2<br>&g=
+t; &gt;&gt; diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http:=
+//openssh_8.2p1.bb/">openssh_8.2p1.bb</a>=C2=A0b/meta/recipes-connectivity/=
+openssh/<a href=3D"http://openssh_8.2p1.bb/">openssh_8.2p1.bb</a><br>&gt; &=
+gt;&gt; index b60d1a6bd4..e903ec487d 100644<br>&gt; &gt;&gt; --- a/meta/rec=
+ipes-connectivity/openssh/<a href=3D"http://openssh_8.2p1.bb/">openssh_8.2p=
+1.bb</a><br>&gt; &gt;&gt; +++ b/meta/recipes-connectivity/openssh/<a href=
+=3D"http://openssh_8.2p1.bb/">openssh_8.2p1.bb</a><br>&gt; &gt;&gt; @@ -26,=
+6 +26,7 @@ SRC_URI =3D &quot;<a href=3D"http://ftp.openbsd.org/pub/OpenBSD/=
+OpenSSH/portable/openssh-$%7BPV%7D.tar">http://ftp.openbsd.org/pub/OpenBSD/=
+OpenSSH/portable/openssh-${PV}.tar</a><br>&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0file://add-test-support-for-busybox.patch \<br>=
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-202=
+0-14145.patch \<br>&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0file://CVE-2021-28041.patch \<br>&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0file://CVE-2021-41617.patch \<br>&gt; &gt;&gt;=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>&gt; &gt;&gt;=C2=A0 SRC_=
+URI[md5sum] =3D &quot;3076e6413e8dbe56d33848c1054ac091&quot;<br>&gt; &gt;&g=
+t;=C2=A0 SRC_URI[sha256sum] =3D &quot;43925151e6cf6cee1450190c0e9af4dc36b41=
+c12737619edff8bcebdff64e671&quot;<br>&gt; &gt;&gt;<br>&gt; &gt;&gt;<br>&gt;=
+ &gt;&gt;<br>&gt; &gt;&gt;<br>&gt; &gt;&gt;<br>&gt; &gt;<br>&gt; &gt; I wou=
+ld have expected this patch to leave a mark in my buildhistory, but<br>&gt;=
+ &gt; nothing related to openssh(d) shows up.<br>&gt; &gt;<br>&gt; &gt; Siz=
+e of /usr/sbin/sshd stays the same, which at least to me is a little<br>&gt=
+; &gt; odd.. but I can see that the sha256sum output of sshd changes.<br>&g=
+t; &gt;<br>&gt; &gt; (It would be nice to have sha256sum hashes of files in=
+ buildhistory)<br>&gt; &gt;<br>&gt; &gt; Am I the only one who thinks this =
+is a little strange ?<br>&gt; &gt;<br>&gt; &gt; /Jacob<br>&gt; &gt;<br>&gt;=
+<br>&gt; Let me rephrase, I do see changes related to debug information and=
+ the<br>&gt; debug package, but no change in the resulting &#39;/usr/sbin/s=
+shd&#39; size that<br>&gt; goes in the final image.<br><br>Yes, it is unusu=
+al that the size of sshd is the same pre and post patch.<br><br>I checked t=
+he size of auth.o pre and post patch, and it is also the<br>same (not surpr=
+isingly!)<br><br>However I&#39;ve verified that the patch modifies auth.c a=
+s desired, and<br>the md5sums for both auth.o and ssshd are different pre a=
+nd post patch<br>(as expected)<br><br>So this is just one of those cases wh=
+ere different code results in the<br>same size!<br><br>Steve</blockquote></=
+div></div><div dir=3D"auto"><br></div>Thanks for double checking.<div dir=
+=3D"auto">/Jacob</div></div>
+
+--0000000000007df94a05d4642fbb--
 
