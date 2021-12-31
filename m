@@ -1,359 +1,414 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4093C433EF
-	for <webhook@archiver.kernel.org>; Fri, 31 Dec 2021 06:18:26 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.9063.1640931506351274303
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC5FC433EF
+	for <webhook@archiver.kernel.org>; Fri, 31 Dec 2021 06:26:36 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web12.9087.1640931995450330634
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Dec 2021 22:18:26 -0800
+ Thu, 30 Dec 2021 22:26:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=b349dHPP;
- spf=pass (domain: intel.com, ip: 192.55.52.120,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640931506; x=1672467506;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=/3VLYFuhuPW5eQEm6kSkCflSREoqlqp35QKoit4j8AI=;
-  b=b349dHPPiN6mOnYBB5Rpc/maYPg/ANjVHE8X4RW6xJOT0QQJWBJiNCNC
-   0IoJ3fNFPy85WP5/kMhQIoe4p3/2F7pi+a1jNYHkVMv8Gyg6J800WzCPz
-   J6aaAr6PYo2QjXdOmluQXAIF0+cM/XExBiPk7yBunx9sYz5zEDwWFTLBD
-   uRmqsLDBkAg/6vtv+NzsQNto/RvNk7guoQzNo5ErzTwFFqeYLNLV49iBU
-   uOf2wPDWgXvVh9Xo2JqyR7zGd+4SXIV9N6sGBRJd6Xucok7AAzRwW2fJN
-   YUpm9IJZYSeh/GrCfdhhZakdymmp+oKCdYmzdz9Ps5Qe8aTpgyDqvIN7M
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="240564390"
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600";
-   d="scan'208";a="240564390"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 22:18:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600";
-   d="scan'208";a="759425896"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Dec 2021 22:18:25 -0800
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 30 Dec 2021 22:18:24 -0800
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 30 Dec 2021 22:18:24 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Thu, 30 Dec 2021 22:18:24 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Thu, 30 Dec 2021 22:18:23 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iJARWC3dzrbqmZCblkHex3BDs4NiXGcXWWFx582T4p159fBOrUSYHirrfu3lWgi5GnIvSkQrYVJrBdPwxC5wbe92RlStcBW8bd+NvtXIVGmpecY4B4OQTE+88bJ6sa8lyNBFFMArZieuua236VXTvE5xzmzJ6MURgF2NggMow8el5zSwKNSUlrrZJ1ZxyIM7QuK9GxVd2xUYi/ZmQ9hGxtmD2IRD/DNWdwkeE3Qw39p4/qrjChEUo75rv+Ilyp8cV/Lo0xwxeo5xevuCCrsuPqbB2F6mxboD2t7pqAqXuXD8Mf9BwKNAvBbSe+jQiE/kGOZioImwnrgLxQacphNbGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/3VLYFuhuPW5eQEm6kSkCflSREoqlqp35QKoit4j8AI=;
- b=KVkpeX0AwlHnzsQffTC1neXSdreXAS0qSgn0jK7JvZkig185bpnPFs1tEKLfF7w1crYrwaI6nMC57Qz5knLi6SNUJRjd4nIeBK/iQjxG/KMsvVxtKWoqLSD7tONd/nqlqe3E+C8OlKJeqqHRnezkNpM10d5xX2qJuXoX3ku8kIXZm9KeXL1bn3B7R7jog7YMTB91qpNRVHIj9+APzmuWIhU4sKMeJN9Gtk1GfNeFjMUBhDg8XxiKLlAl07kwW8mOgxPAKjIWD2/LHybWzJMJPpbWYcLPlpoMrc3NDywGP+3c3vSQ2SNd7Bmp9X7TdNuaIPB3TiQ32Lmh2GkEFvHPMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
- by BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Fri, 31 Dec
- 2021 06:18:22 +0000
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::a8ab:1ed:c383:c477]) by SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::a8ab:1ed:c383:c477%6]) with mapi id 15.20.4823.024; Fri, 31 Dec 2021
- 06:18:22 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "sundeep.kokkonda@gmail.com"
-	<sundeep.kokkonda@gmail.com>
-CC: "rwmacleod@gmail.com" <rwmacleod@gmail.com>, "umesh.kalappa0@gmail.com"
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OEfxuRqQ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42,
+ mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id
+ a11-20020a17090a854b00b001b11aae38d6so24974515pjw.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 30 Dec 2021 22:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:references:in-reply-to:subject:date:message-id
+         :mime-version:content-transfer-encoding:content-language
+         :thread-index;
+        bh=4+cMS+aWrnpDh5ofP49EDZjKnE2+RwLpHwToXrelKQU=;
+        b=OEfxuRqQmqZ5k3OaE9ofDkkp0zPY03O9JGS3NbbMcOSeDKxJGijKHbF+S6meEpBwa2
+         8H2jVlePZG312UZyIkGFGzj0PXPpv4ps+2heK7dzcGZfFEa9vov9EZzvhtPt5y9/Q0cX
+         bdO2hN58usd6LAWez30+8F4WwLCZngqT4H4n3xviAIByEeHbpOksQMgwx1zMfAlAu9P9
+         9ZvEwElmxCHNm8tCL95xRJCvK7tQT3zR36ocoeZqIwIBcspI64XOur6bJPC1MyMpm/yK
+         USIpEYMq7OgpuUZPJMjs98wGs3+JLefah1onPgcB+NGsCB5vY/2TQBHB7LClXIdL5qFf
+         4BeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:references:in-reply-to:subject:date
+         :message-id:mime-version:content-transfer-encoding:content-language
+         :thread-index;
+        bh=4+cMS+aWrnpDh5ofP49EDZjKnE2+RwLpHwToXrelKQU=;
+        b=DVg4Hnno5Fp/iL9I/laEo+Xi4P61uETS7KHgtWCp6azkLrtsFbYy2AleJfgcYfOAbS
+         oog9iBgjVTQPgLKaii3EtIARjIcnD+o7wieE9S+JC8DbtqdBrlcJsxzxHDqxSAgyHdCy
+         sRAAZ3dBbJPUfDNpe37CNsxxn4e2u3WuNpjHxN47oz9PK7GpIN68fcGV6zO3k3dX9kQG
+         tqkoYnx1Qxl8RJ2zwDS2cSR9txypvFA+0xoUzSWe0YCPTmyV/FZWjay92dmMLb973dD/
+         rftVkeKFj0WyfhtsicYUx6+IokvCVT04URntWjBxbUAInjl2mWtFWRoivIsgAQeqfeuS
+         rldw==
+X-Gm-Message-State: AOAM531m301mv7wd7+NccshNa/WtKFawTMSIYoDii4GHyH06BOzSKEmH
+	9cgNHkxQs/FD/syRLp2TL2c=
+X-Google-Smtp-Source: 
+ ABdhPJy2v6GDnZyDs6x/8A1sn1+fYeN9LGk1QVto5p057T/GD4WbKVin71L1KrqNdkgZVV222Shvbg==
+X-Received: by 2002:a17:90b:1bc3:: with SMTP id
+ oa3mr42288890pjb.0.1640931994936;
+        Thu, 30 Dec 2021 22:26:34 -0800 (PST)
+Received: from SundeepGBF6NW2 ([43.241.120.81])
+        by smtp.gmail.com with ESMTPSA id
+ d23sm24836895pgm.37.2021.12.30.22.26.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 Dec 2021 22:26:34 -0800 (PST)
+From: <sundeep.kokkonda@gmail.com>
+To: "'Mittal, Anuj'" <anuj.mittal@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Cc: <rwmacleod@gmail.com>,
 	<umesh.kalappa0@gmail.com>
-Subject: Re: [hardknott][PATCH] binutils: Fix CVE-2021-45078
-Thread-Topic: [hardknott][PATCH] binutils: Fix CVE-2021-45078
-Thread-Index: AQHX/gxrR9YtgpbJRkiZAR4sMmQjJ6xMIFAA
-Date: Fri, 31 Dec 2021 06:18:22 +0000
-Message-ID: <e6ef2c2c47fa5a325fdffbc3712ddea98017076f.camel@intel.com>
 References: <20211231060446.78187-1-sundeep.kokkonda@gmail.com>
-In-Reply-To: <20211231060446.78187-1-sundeep.kokkonda@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.42.2 (3.42.2-1.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc15f0e3-2477-40f2-2073-08d9cc2558a4
-x-ms-traffictypediagnostic: BY5PR11MB3909:EE_
-x-microsoft-antispam-prvs: 
- <BY5PR11MB39099443116832E2E4C09809F8469@BY5PR11MB3909.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- wtx2enFr+K2Kp8s/iJpxIpojpCF3GWv544Wearf6KwBwjlNVW6g33mRxKU/C4HZo5aEuLtsH8bAf6hmO1CcCCQOK/Vi7shANKnHr0SErXf2a9y2bALoM1TLXArNe0n1Th3BVvTD97scN5wUFb4K/h1rOn9Mo+Z+d2kKWS4RMuJaFrsJRnsjyzJsWpj+0nBxfzX/J1VQYSiwnkHdeZBXR8UPJl60L8oo6Of3gCOwpTfyQlkHO8ZG3btV3krdsrJkZSBBWx6HK0t9Qscf0gy5/8zT1PmcDFyI9KSoRRnLGv8VzX0zwipmk8bY3bSs5avRKtaEXCDkTOXcYRO4wIvpsL4zA9W4DLmX2NNV7dNtq4E+NyQv7Kz9bCYy5gpUn0gAs/XT79uW6mjX8PaMWrhy9CnmVDlR3twHpdLNFzuIW2b9iqrPH08+R6jc0/tgXiNdhjynWZSWQjDryA4FqtsobpYNXq7RUQLmwUCH2bqHgX79LbF/mKNevNYkXl2INMNpdQ+XRYgxzMjU6A+OEMbS/aZr4gv+Y+c3ql2Zaz+wYidT51jOw07QV2n1qZ0TNREaDWB2VKRAv0TtYiq3YdRHVDQzFecE3mWQvIKQGEMN/qZI9kCWc7yGNN8LrFM9a7pF9rL4vMd+elmNBKukM/C+1TIsfkq9dbLsAlNZbc4NxYfN1w5ZSfOWTVOuX0Rc4ob+KtKlE3QwRMVqTxGQcwxdjQElkZBjoWime7OS9zd8wBYbnBIipOuoNRjWBPORetEPTqnVH7wp53lESMaekRwJI+gPjpubQCRfV1OWmyl8nUVg=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2616005)(316002)(76116006)(54906003)(8936002)(26005)(38100700002)(83380400001)(4326008)(110136005)(36756003)(4001150100001)(66946007)(508600001)(82960400001)(6486002)(6512007)(8676002)(6506007)(38070700005)(91956017)(66556008)(66476007)(186003)(86362001)(5660300002)(64756008)(122000001)(2906002)(71200400001)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?NUw5N1J6NVR6SUNmK0lVTUhhdzhEaEFmQ3ZYM2JSZGFYcm0wZFo5emRudWRT?=
- =?utf-8?B?RkxNb3VvQisrOVVEcDJ3Q0g5amxaVUhabWQ1OU5HTzVBUnQ1TXhxS3BvenBY?=
- =?utf-8?B?VkE0SjhmNjJta1N3OUZ2VjdaTDBqYUlxNTJVTGJyRUR1NFcyKzhSb3pFMnhQ?=
- =?utf-8?B?L3RjRU4yWktqRFRsWVk4VTl3QnJQUWE1RnJ5YWRRTkFYbmU4WE9oNHVhZmUv?=
- =?utf-8?B?RVo5SlNObklNTXA2YndhYjJYOWVyNXM5YjFleHF3THI0RnFJYjVsVTJxc1Nt?=
- =?utf-8?B?M2xWMXlLSk15NUJKWXlnQjNSSEVEblluTlJ5MVR6Y0xkcFZON2dFQUdmSTRp?=
- =?utf-8?B?Uk5EdGtDcHRaaDB2eFYrU2IzVU1VQStvVC9KdDN3NXZSVm1MUlZhTWxreGxo?=
- =?utf-8?B?Y01CTmdmemxqak4yNG5VR3pDNXhBR2NVK0J5cVlTakZWalc1UUtrMkpvSDJV?=
- =?utf-8?B?WU1HbVcwd2tLZW5zOU9lN1A2N0xZcEp6V3N4OFRpWVhFWkdteVFMSU9aMTBC?=
- =?utf-8?B?NUNTNUJjUXFBNFdzNkVNM3o1VmNOY3hiYWw3TkpWZTlIMCtlbHk4TWZSQk13?=
- =?utf-8?B?UWZKYldhN2QwLzIvazBueVhoZlN2QnR4cWs5TEZ5QndHZ0dUMVY3NXQ1QnBv?=
- =?utf-8?B?cXFoUGtNVzJwdTdiUGlMVldzbGJLc0RKVU1kRW5WYUxqNHhOVkhMRmxtWWZZ?=
- =?utf-8?B?TTZHcVhXUDAwNDZhRmdwdjY5SjNoYjREQnJPTzFoWXYyMysxaHhkWmd4c0hD?=
- =?utf-8?B?UVVPaStuZktmYTJPbmVJdDRML2RPaDAxL1d1cUxVQzFRZWhSWkI4Nlh4SmMv?=
- =?utf-8?B?MlpPNy9FRjExVDdLSHhINHVSUmM3TUxid0Y2LzZUUTFjWTl3bVdwWDQ3S096?=
- =?utf-8?B?YUovVUdhMk5qSThYMVhsYTloRGhYcyszUTFUc2pCNlhwaFFwWUFjUzhUS2N2?=
- =?utf-8?B?c1FaUitLaFpTKy8ySGl0TVRCRXV6T2RSb2V1cHhhVXV4bDlRWXMrZXdIazlJ?=
- =?utf-8?B?ZDdlR2ZIWXhIZjRUMHZRdVgrT0RuMTU0MFJWZ1l0aTUwcnlMdG1KNHJtSXRv?=
- =?utf-8?B?OHBJcXRjejZiSG9SeEtvR2ZtQVZOQXVyRXlpRDVxRVdlWi9VRDVoNEVtaFRN?=
- =?utf-8?B?UkFEOW9lVEhGbVBsblFTT08yc3g2cHZ2cGRQc1lzSTdSaWFMZzJURllYaG1X?=
- =?utf-8?B?OW5kTmdubzhPcjVCeWh0bCs4RkttWjN3V0o3aEF3alNCMHowMGw5U25uTTNM?=
- =?utf-8?B?SFV1ellLOUdaRFlPQ1FTMlBkY0lHZ3dFeDRLbHJoZ3J4ZmNQcE5FYnFRTnBP?=
- =?utf-8?B?KzI5K3I1TlYzeTZ1QkMyeHllQmYvQWF6M3VoR0hEcEVOUm4wVXc4TG9IQ21B?=
- =?utf-8?B?SlhyR21BMTV2R21ualNvdGdFRmJablVTTWc4YjBINERqYUpoQTBGZnczV1pi?=
- =?utf-8?B?ODZqTHJ0dnRrTDdoL1hNa0IrVHlxSHN0MjZIbEVQaW9PaHdZVk43OFh2R3cx?=
- =?utf-8?B?cUxER0JBK2lwTGNXb2Vpb1pRL2R4bDZ6N1JZZFFsY2s1OVVrNmtCQUhFREZZ?=
- =?utf-8?B?OWJTcDJrSUxwaytVMmhGM2pnMmZyeUJOV0tmWnJ4eDZ0SU5iRFpOU3lSY2Ur?=
- =?utf-8?B?V0M3TGVQYVRjV05IUFhLZ291SG1JRTZSOFVMVG5EaDRLOSs0S25DUk1hRm9M?=
- =?utf-8?B?SWd0c1p2SHhCQVBiWFFJZ245QkdWWnpQald3YzhKcGoxcTZoazUzbmRnelpX?=
- =?utf-8?B?YkM5aXRQKzdaUkdiUG5nM0NLRFF3S0dDY05BMzVTWTZkKy9RRzVQTGQxckdC?=
- =?utf-8?B?a1JzZmVHYVpnNkZwa1Nna3N4QzB1UmUxamtMQW1nd1ZoMmNjUEw1NElJdDhT?=
- =?utf-8?B?Rm5LTHFNaExSbUE1YUVxL0g3M3N0TlJUbzNuY2dtNFc4K21ZaFcvOTNpOE5S?=
- =?utf-8?B?UWVGbC9EY3luWFVBYW0wYmVpU0JYWUpVTjhnWlVOeGZmNXRvZ25CM3JnajJF?=
- =?utf-8?B?Z0dUZWMvWkZZVWdRclZYLzFHOGV6MDE5Y3orVFJ6RTlwMDdJVkxOb3A3bGtY?=
- =?utf-8?B?ZDJvYnU3Q21BSGxTOTgxakgxRU1pa2FYblR0dmY3azgxSXRZVXVNUDlMMHN0?=
- =?utf-8?B?WDlIbm1sZEpCa1pMZ2xsQVp3ZDBQaEZNdXpvOGJocE4xTVdEWThhNnQxWDlH?=
- =?utf-8?Q?QR7V0vaQiyhrxInescBAm8A=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EA98889AC42508449BF0B5B940CBBA76@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <e6ef2c2c47fa5a325fdffbc3712ddea98017076f.camel@intel.com>
+In-Reply-To: <e6ef2c2c47fa5a325fdffbc3712ddea98017076f.camel@intel.com>
+Subject: RE: [hardknott][PATCH] binutils: Fix CVE-2021-45078
+Date: Fri, 31 Dec 2021 11:56:20 +0530
+Message-ID: <020901d7fe0f$5b770410$12650c30$@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- cc15f0e3-2477-40f2-2073-08d9cc2558a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Dec 2021 06:18:22.1393
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- FzqNhrJ3luLBZDZ7xEf6cTQ2W632p5G6+YzAJ+bLY05VW5TSsf7FbGejWSjglJfOD3oqmCdAeuGZdRb9SWpjyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3909
-X-OriginatorOrg: intel.com
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQIAAV9e/WegxU5O4d791lIaTploBgJpBvZHq+jSrRA=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Dec 2021 06:18:26 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Dec 2021 06:26:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160087
+ https://lists.openembedded.org/g/openembedded-core/message/160088
 
-V2hhdCBpcyBkaWZmZXJlbnQgaW4gdGhpcyB2ZXJzaW9uPwoKVGhhbmtzLAoKQW51agoKT24gRnJp
-LCAyMDIxLTEyLTMxIGF0IDExOjM0ICswNTMwLCBTdW5kZWVwIEtPS0tPTkRBIHdyb3RlOgo+IFVw
-c3RyZWFtLVN0YXR1czogQmFja3BvcnQKPiBbaHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9naXQvP3A9
-YmludXRpbHMtZ2RiLmdpdDthPXBhdGNoO2g9MTYxZTg3ZDEyMTYKPiA3YjFlMzYxOTMzODU0ODVj
-MWY2Y2U5MmY3NGYwMl0KPiBTaWduZWQtb2ZmLWJ5OiBTdW5kZWVwIEtPS0tPTkRBIDxzdW5kZWVw
-Lmtva2tvbmRhQGdtYWlsLmNvbT4KPiAtLS0KPiDCoC4uLi9iaW51dGlscy9iaW51dGlscy0yLjM3
-LmluY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsKPiDCoC4uLi9iaW51
-dGlscy8wMDAxLUNWRS0yMDIxLTQ1MDc4LnBhdGNowqDCoMKgwqDCoMKgwqAgfCAyNTMKPiArKysr
-KysrKysrKysrKysrKysKPiDCoDIgZmlsZXMgY2hhbmdlZCwgMjU0IGluc2VydGlvbnMoKykKPiDC
-oGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRp
-bHMvMDAwMS1DVkUtCj4gMjAyMS00NTA3OC5wYXRjaAo+IAo+IGRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRpbHMtMi4zNy5pbmMKPiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlscy0yLjM3LmluYwo+IGluZGV4IDA0M2Y3ZjgyMzUu
-LjYyZTJlMzFlM2MgMTAwNjQ0Cj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2JpbnV0aWxz
-L2JpbnV0aWxzLTIuMzcuaW5jCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2JpbnV0aWxz
-L2JpbnV0aWxzLTIuMzcuaW5jCj4gQEAgLTM0LDUgKzM0LDYgQEAgU1JDX1VSSSA9ICJcCj4gwqDC
-oMKgwqDCoAo+IGZpbGU6Ly8wMDE3LWJmZC1DbG9zZS10aGUtZmlsZS1kZXNjcmlwdG9yLWlmLXRo
-ZXJlLWlzLW5vLWFyY2hpdmUucGF0Y2gKPiDCoFwKPiDCoMKgwqDCoMKgCj4gZmlsZTovLzAwMDEt
-ZWxmLURpc2NhcmQtaW5wdXQtLm5vdGUuZ251LmJ1aWxkLWlkLXNlY3Rpb25zLnBhdGNowqBcCj4g
-wqDCoMKgwqDCoCBmaWxlOi8vMDAwMS1DVkUtMjAyMS00MjU3NC5wYXRjaMKgXAo+ICvCoMKgwqDC
-oCBmaWxlOi8vMDAwMS1DVkUtMjAyMS00NTA3OC5wYXRjaMKgXAo+IMKgIgo+IMKgU8KgID0gIiR7
-V09SS0RJUn0vZ2l0Igo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRp
-bHMvYmludXRpbHMvMDAwMS1DVkUtMjAyMS0KPiA0NTA3OC5wYXRjaCBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9iaW51dGlscy9iaW51dGlscy8wMDAxLUNWRS0yMDIxLQo+IDQ1MDc4LnBhdGNoCj4g
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwMDAwLi45MDc1NDNmY2UwCj4gLS0t
-IC9kZXYvbnVsbAo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGls
-cy8wMDAxLUNWRS0yMDIxLQo+IDQ1MDc4LnBhdGNoCj4gQEAgLTAsMCArMSwyNTMgQEAKPiArRnJv
-bSAxNjFlODdkMTIxNjdiMWUzNjE5MzM4NTQ4NWMxZjZjZTkyZjc0ZjAyIE1vbiBTZXAgMTcgMDA6
-MDA6MDAKPiAyMDAxCj4gK0Zyb206IEFsYW4gTW9kcmEgPGFtb2RyYUBnbWFpbC5jb20+Cj4gK0Rh
-dGU6IFdlZCwgMTUgRGVjIDIwMjEgMTE6NDg6NDIgKzEwMzAKPiArU3ViamVjdDogW1BBVENIXSBQ
-UjI4Njk0LCBPdXQtb2YtYm91bmRzIHdyaXRlIGluCj4gc3RhYl94Y29mZl9idWlsdGluX3R5cGUK
-PiArCj4gK8KgwqDCoMKgwqDCoMKgUFIgMjg2OTQKPiArwqDCoMKgwqDCoMKgwqAqIHN0YWJzLmMg
-KHN0YWJfeGNvZmZfYnVpbHRpbl90eXBlKTogTWFrZSB0eXBlbnVtIHVuc2lnbmVkLgo+ICvCoMKg
-wqDCoMKgwqDCoE5lZ2F0ZSB0eXBlbnVtIGVhcmxpZXIsIHNpbXBsaWZ5aW5nIGJvdW5kcyBjaGVj
-a2luZy7CoCBDb3JyZWN0Cj4gK8KgwqDCoMKgwqDCoMKgb2ZmLWJ5LW9uZSBpbmRleGluZy7CoCBB
-ZGp1c3Qgc3dpdGNoIGNhc2VzLgo+ICsKPiArQ1ZFOiBDVkUtMjAyMS00NTA3OAo+ICtVcHN0cmVh
-bS1TdGF0dXM6IEJhY2twb3J0Cj4gW2h0dHBzOi8vc291cmNld2FyZS5vcmcvZ2l0Lz9wPWJpbnV0
-aWxzLWdkYi5naXQ7YT1wYXRjaDtoPTE2MWU4N2QxMjE2Cj4gN2IxZTM2MTkzMzg1NDg1YzFmNmNl
-OTJmNzRmMDJdCj4gKwo+ICtTaWduZWQtb2ZmLWJ5OiBTdW5kZWVwIEtPS0tPTkRBIDxzdW5kZWVw
-Lmtva2tvbmRhQGdtYWlsLmNvbT4KPiArLS0tCj4gKyBiaW51dGlscy9zdGFicy5jIHwgODcgKysr
-KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gLS0tCj4gKyAxIGZp
-bGUgY2hhbmdlZCwgNDMgaW5zZXJ0aW9ucygrKSwgNDQgZGVsZXRpb25zKC0pCj4gKwo+ICtkaWZm
-IC0tZ2l0IGEvYmludXRpbHMvc3RhYnMuYyBiL2JpbnV0aWxzL3N0YWJzLmMKPiAraW5kZXggMjc0
-YmZiMGU3ZmEuLjgzZWUzZWE1ZmE0IDEwMDY0NAo+ICstLS0gYS9iaW51dGlscy9zdGFicy5jCj4g
-KysrKyBiL2JpbnV0aWxzL3N0YWJzLmMKPiArQEAgLTIwMiw3ICsyMDIsNyBAQCBzdGF0aWMgZGVi
-dWdfdHlwZSBzdGFiX2ZpbmRfdHlwZSAodm9pZCAqLCBzdHJ1Y3QKPiBzdGFiX2hhbmRsZSAqLCBj
-b25zdCBpbnQgKik7Cj4gKyBzdGF0aWMgYm9vbCBzdGFiX3JlY29yZF90eXBlCj4gK8KgwqAgKHZv
-aWQgKiwgc3RydWN0IHN0YWJfaGFuZGxlICosIGNvbnN0IGludCAqLCBkZWJ1Z190eXBlKTsKPiAr
-IHN0YXRpYyBkZWJ1Z190eXBlIHN0YWJfeGNvZmZfYnVpbHRpbl90eXBlCj4gKy3CoCAodm9pZCAq
-LCBzdHJ1Y3Qgc3RhYl9oYW5kbGUgKiwgaW50KTsKPiArK8KgICh2b2lkICosIHN0cnVjdCBzdGFi
-X2hhbmRsZSAqLCB1bnNpZ25lZCBpbnQpOwo+ICsgc3RhdGljIGRlYnVnX3R5cGUgc3RhYl9maW5k
-X3RhZ2dlZF90eXBlCj4gK8KgwqAgKHZvaWQgKiwgc3RydWN0IHN0YWJfaGFuZGxlICosIGNvbnN0
-IGNoYXIgKiwgaW50LCBlbnVtCj4gZGVidWdfdHlwZV9raW5kKTsKPiArIHN0YXRpYyBkZWJ1Z190
-eXBlICpzdGFiX2RlbWFuZ2xlX2FyZ3R5cGVzCj4gK0BAIC0zNDk2LDE2NiArMzQ5NiwxNjcgQEAg
-c3RhYl9yZWNvcmRfdHlwZSAodm9pZCAqZGhhbmRsZQo+IEFUVFJJQlVURV9VTlVTRUQsIHN0cnVj
-dCBzdGFiX2hhbmRsZSAqaW5mbywKPiArIAo+ICsgc3RhdGljIGRlYnVnX3R5cGUKPiArIHN0YWJf
-eGNvZmZfYnVpbHRpbl90eXBlICh2b2lkICpkaGFuZGxlLCBzdHJ1Y3Qgc3RhYl9oYW5kbGUgKmlu
-Zm8sCj4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQg
-dHlwZW51bSkKPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHVuc2lnbmVkIGludCB0eXBlbnVtKQo+ICsgewo+ICvCoMKgIGRlYnVnX3R5cGUgcmV0dHlwZTsK
-PiArwqDCoCBjb25zdCBjaGFyICpuYW1lOwo+ICsgCj4gKy3CoCBpZiAodHlwZW51bSA+PSAwIHx8
-IHR5cGVudW0gPCAtWENPRkZfVFlQRV9DT1VOVCkKPiArK8KgIHR5cGVudW0gPSAtdHlwZW51bSAt
-IDE7Cj4gKyvCoCBpZiAodHlwZW51bSA+PSBYQ09GRl9UWVBFX0NPVU5UKQo+ICvCoMKgwqDCoCB7
-Cj4gKy3CoMKgwqDCoMKgIGZwcmludGYgKHN0ZGVyciwgXygiVW5yZWNvZ25pemVkIFhDT0ZGIHR5
-cGUgJWRcbiIpLCB0eXBlbnVtKTsKPiArK8KgwqDCoMKgwqAgZnByaW50ZiAoc3RkZXJyLCBfKCJV
-bnJlY29nbml6ZWQgWENPRkYgdHlwZSAlZFxuIiksIC10eXBlbnVtCj4gLSAxKTsKPiArwqDCoMKg
-wqDCoMKgIHJldHVybiBERUJVR19UWVBFX05VTEw7Cj4gK8KgwqDCoMKgIH0KPiArLcKgIGlmIChp
-bmZvLT54Y29mZl90eXBlc1stdHlwZW51bV0gIT0gTlVMTCkKPiArLcKgwqDCoCByZXR1cm4gaW5m
-by0+eGNvZmZfdHlwZXNbLXR5cGVudW1dOwo+ICsrwqAgaWYgKGluZm8tPnhjb2ZmX3R5cGVzW3R5
-cGVudW1dICE9IE5VTEwpCj4gKyvCoMKgwqAgcmV0dXJuIGluZm8tPnhjb2ZmX3R5cGVzW3R5cGVu
-dW1dOwo+ICsgCj4gKy3CoCBzd2l0Y2ggKC10eXBlbnVtKQo+ICsrwqAgc3dpdGNoICh0eXBlbnVt
-KQo+ICvCoMKgwqDCoCB7Cj4gKy3CoMKgwqAgY2FzZSAxOgo+ICsrwqDCoMKgIGNhc2UgMDoKPiAr
-wqDCoMKgwqDCoMKgIC8qIFRoZSBzaXplIG9mIHRoaXMgYW5kIGFsbCB0aGUgb3RoZXIgdHlwZXMg
-YXJlIGZpeGVkLAo+IGRlZmluZWQKPiArwqDCoMKgwqDCoMKgwqAgYnkgdGhlIGRlYnVnZ2luZyBm
-b3JtYXQuwqAgKi8KPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAiaW50IjsKPiArwqDCoMKgwqDCoMKg
-IHJldHR5cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxlLCA0LCBmYWxzZSk7Cj4gK8Kg
-wqDCoMKgwqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDI6Cj4gKyvCoMKgwqAgY2FzZSAxOgo+
-ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJjaGFyIjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBk
-ZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxlLCAxLCBmYWxzZSk7Cj4gK8KgwqDCoMKgwqDCoCBi
-cmVhazsKPiArLcKgwqDCoCBjYXNlIDM6Cj4gKyvCoMKgwqAgY2FzZSAyOgo+ICvCoMKgwqDCoMKg
-wqAgbmFtZSA9ICJzaG9ydCI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9p
-bnRfdHlwZSAoZGhhbmRsZSwgMiwgZmFsc2UpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3C
-oMKgwqAgY2FzZSA0Ogo+ICsrwqDCoMKgIGNhc2UgMzoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAi
-bG9uZyI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9pbnRfdHlwZSAoZGhh
-bmRsZSwgNCwgZmFsc2UpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSA1
-Ogo+ICsrwqDCoMKgIGNhc2UgNDoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAidW5zaWduZWQgY2hh
-ciI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9pbnRfdHlwZSAoZGhhbmRs
-ZSwgMSwgdHJ1ZSk7Cj4gK8KgwqDCoMKgwqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDY6Cj4g
-KyvCoMKgwqAgY2FzZSA1Ogo+ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJzaWduZWQgY2hhciI7Cj4g
-K8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9pbnRfdHlwZSAoZGhhbmRsZSwgMSwg
-ZmFsc2UpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSA3Ogo+ICsrwqDC
-oMKgIGNhc2UgNjoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAidW5zaWduZWQgc2hvcnQiOwo+ICvC
-oMKgwqDCoMKgwqAgcmV0dHlwZSA9IGRlYnVnX21ha2VfaW50X3R5cGUgKGRoYW5kbGUsIDIsIHRy
-dWUpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSA4Ogo+ICsrwqDCoMKg
-IGNhc2UgNzoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAidW5zaWduZWQgaW50IjsKPiArwqDCoMKg
-wqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxlLCA0LCB0cnVlKTsK
-PiArwqDCoMKgwqDCoMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2UgOToKPiArK8KgwqDCoCBjYXNl
-IDg6Cj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gInVuc2lnbmVkIjsKPiArwqDCoMKgwqDCoMKgIHJl
-dHR5cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxlLCA0LCB0cnVlKTsKPiArwqDCoMKg
-wqDCoMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2UgMTA6Cj4gKyvCoMKgwqAgY2FzZSA5Ogo+ICvC
-oMKgwqDCoMKgwqAgbmFtZSA9ICJ1bnNpZ25lZCBsb25nIjsKPiArwqDCoMKgwqDCoMKgIHJldHR5
-cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxlLCA0LCB0cnVlKTsKPiArwqDCoMKgwqDC
-oMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2UgMTE6Cj4gKyvCoMKgwqAgY2FzZSAxMDoKPiArwqDC
-oMKgwqDCoMKgIG5hbWUgPSAidm9pZCI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdf
-bWFrZV92b2lkX3R5cGUgKGRoYW5kbGUpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKg
-wqAgY2FzZSAxMjoKPiArK8KgwqDCoCBjYXNlIDExOgo+ICvCoMKgwqDCoMKgwqAgLyogSUVFRSBz
-aW5nbGUgcHJlY2lzaW9uICgzMiBiaXQpLsKgICovCj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gImZs
-b2F0IjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2Zsb2F0X3R5cGUgKGRo
-YW5kbGUsIDQpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAxMzoKPiAr
-K8KgwqDCoCBjYXNlIDEyOgo+ICvCoMKgwqDCoMKgwqAgLyogSUVFRSBkb3VibGUgcHJlY2lzaW9u
-ICg2NCBiaXQpLsKgICovCj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gImRvdWJsZSI7Cj4gK8KgwqDC
-oMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9mbG9hdF90eXBlIChkaGFuZGxlLCA4KTsKPiAr
-wqDCoMKgwqDCoMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2UgMTQ6Cj4gKyvCoMKgwqAgY2FzZSAx
-MzoKPiArwqDCoMKgwqDCoMKgIC8qIFRoaXMgaXMgYW4gSUVFRSBkb3VibGUgb24gdGhlIFJTLzYw
-MDAsIGFuZCBkaWZmZXJlbnQKPiBtYWNoaW5lcwo+ICvCoMKgwqDCoMKgwqDCoCB3aXRoIGRpZmZl
-cmVudCBzaXplcyBmb3IgImxvbmcgZG91YmxlIiBzaG91bGQgdXNlIGRpZmZlcmVudAo+ICvCoMKg
-wqDCoMKgwqDCoCBuZWdhdGl2ZSB0eXBlIG51bWJlcnMuwqAgU2VlIHN0YWJzLnRleGluZm8uwqAg
-Ki8KPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAibG9uZyBkb3VibGUiOwo+ICvCoMKgwqDCoMKgwqAg
-cmV0dHlwZSA9IGRlYnVnX21ha2VfZmxvYXRfdHlwZSAoZGhhbmRsZSwgOCk7Cj4gK8KgwqDCoMKg
-wqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDE1Ogo+ICsrwqDCoMKgIGNhc2UgMTQ6Cj4gK8Kg
-wqDCoMKgwqDCoCBuYW1lID0gImludGVnZXIiOwo+ICvCoMKgwqDCoMKgwqAgcmV0dHlwZSA9IGRl
-YnVnX21ha2VfaW50X3R5cGUgKGRoYW5kbGUsIDQsIGZhbHNlKTsKPiArwqDCoMKgwqDCoMKgIGJy
-ZWFrOwo+ICstwqDCoMKgIGNhc2UgMTY6Cj4gKyvCoMKgwqAgY2FzZSAxNToKPiArwqDCoMKgwqDC
-oMKgIG5hbWUgPSAiYm9vbGVhbiI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFr
-ZV9ib29sX3R5cGUgKGRoYW5kbGUsIDQpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKg
-wqAgY2FzZSAxNzoKPiArK8KgwqDCoCBjYXNlIDE2Ogo+ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJz
-aG9ydCByZWFsIjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2Zsb2F0X3R5
-cGUgKGRoYW5kbGUsIDQpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAx
-ODoKPiArK8KgwqDCoCBjYXNlIDE3Ogo+ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJyZWFsIjsKPiAr
-wqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2Zsb2F0X3R5cGUgKGRoYW5kbGUsIDgp
-Owo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAxOToKPiArK8KgwqDCoCBj
-YXNlIDE4Ogo+ICvCoMKgwqDCoMKgwqAgLyogRklYTUUgKi8KPiArwqDCoMKgwqDCoMKgIG5hbWUg
-PSAic3RyaW5ncHRyIjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBOVUxMOwo+ICvCoMKgwqDC
-oMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAyMDoKPiArK8KgwqDCoCBjYXNlIDE5Ogo+ICvC
-oMKgwqDCoMKgwqAgLyogRklYTUUgKi8KPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAiY2hhcmFjdGVy
-IjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxl
-LCAxLCB0cnVlKTsKPiArwqDCoMKgwqDCoMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2UgMjE6Cj4g
-KyvCoMKgwqAgY2FzZSAyMDoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAibG9naWNhbCoxIjsKPiAr
-wqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2Jvb2xfdHlwZSAoZGhhbmRsZSwgMSk7
-Cj4gK8KgwqDCoMKgwqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDIyOgo+ICsrwqDCoMKgIGNh
-c2UgMjE6Cj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gImxvZ2ljYWwqMiI7Cj4gK8KgwqDCoMKgwqDC
-oCByZXR0eXBlID0gZGVidWdfbWFrZV9ib29sX3R5cGUgKGRoYW5kbGUsIDIpOwo+ICvCoMKgwqDC
-oMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAyMzoKPiArK8KgwqDCoCBjYXNlIDIyOgo+ICvC
-oMKgwqDCoMKgwqAgbmFtZSA9ICJsb2dpY2FsKjQiOwo+ICvCoMKgwqDCoMKgwqAgcmV0dHlwZSA9
-IGRlYnVnX21ha2VfYm9vbF90eXBlIChkaGFuZGxlLCA0KTsKPiArwqDCoMKgwqDCoMKgIGJyZWFr
-Owo+ICstwqDCoMKgIGNhc2UgMjQ6Cj4gKyvCoMKgwqAgY2FzZSAyMzoKPiArwqDCoMKgwqDCoMKg
-IG5hbWUgPSAibG9naWNhbCI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9i
-b29sX3R5cGUgKGRoYW5kbGUsIDQpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAg
-Y2FzZSAyNToKPiArK8KgwqDCoCBjYXNlIDI0Ogo+ICvCoMKgwqDCoMKgwqAgLyogQ29tcGxleCB0
-eXBlIGNvbnNpc3Rpbmcgb2YgdHdvIElFRUUgc2luZ2xlIHByZWNpc2lvbgo+IHZhbHVlcy7CoCAq
-Lwo+ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJjb21wbGV4IjsKPiArwqDCoMKgwqDCoMKgIHJldHR5
-cGUgPSBkZWJ1Z19tYWtlX2NvbXBsZXhfdHlwZSAoZGhhbmRsZSwgOCk7Cj4gK8KgwqDCoMKgwqDC
-oCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDI2Ogo+ICsrwqDCoMKgIGNhc2UgMjU6Cj4gK8KgwqDC
-oMKgwqDCoCAvKiBDb21wbGV4IHR5cGUgY29uc2lzdGluZyBvZiB0d28gSUVFRSBkb3VibGUgcHJl
-Y2lzaW9uCj4gdmFsdWVzLsKgICovCj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gImRvdWJsZSBjb21w
-bGV4IjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2NvbXBsZXhfdHlwZSAo
-ZGhhbmRsZSwgMTYpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAyNzoK
-PiArK8KgwqDCoCBjYXNlIDI2Ogo+ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJpbnRlZ2VyKjEiOwo+
-ICvCoMKgwqDCoMKgwqAgcmV0dHlwZSA9IGRlYnVnX21ha2VfaW50X3R5cGUgKGRoYW5kbGUsIDEs
-IGZhbHNlKTsKPiArwqDCoMKgwqDCoMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2UgMjg6Cj4gKyvC
-oMKgwqAgY2FzZSAyNzoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAiaW50ZWdlcioyIjsKPiArwqDC
-oMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxlLCAyLCBmYWxz
-ZSk7Cj4gK8KgwqDCoMKgwqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDI5Ogo+ICsrwqDCoMKg
-IGNhc2UgMjg6Cj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gImludGVnZXIqNCI7Cj4gK8KgwqDCoMKg
-wqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9pbnRfdHlwZSAoZGhhbmRsZSwgNCwgZmFsc2UpOwo+
-ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAzMDoKPiArK8KgwqDCoCBjYXNl
-IDI5Ogo+ICvCoMKgwqDCoMKgwqAgLyogRklYTUUgKi8KPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAi
-d2NoYXIiOwo+ICvCoMKgwqDCoMKgwqAgcmV0dHlwZSA9IGRlYnVnX21ha2VfaW50X3R5cGUgKGRo
-YW5kbGUsIDIsIGZhbHNlKTsKPiArwqDCoMKgwqDCoMKgIGJyZWFrOwo+ICstwqDCoMKgIGNhc2Ug
-MzE6Cj4gKyvCoMKgwqAgY2FzZSAzMDoKPiArwqDCoMKgwqDCoMKgIG5hbWUgPSAibG9uZyBsb25n
-IjsKPiArwqDCoMKgwqDCoMKgIHJldHR5cGUgPSBkZWJ1Z19tYWtlX2ludF90eXBlIChkaGFuZGxl
-LCA4LCBmYWxzZSk7Cj4gK8KgwqDCoMKgwqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDMyOgo+
-ICsrwqDCoMKgIGNhc2UgMzE6Cj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gInVuc2lnbmVkIGxvbmcg
-bG9uZyI7Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9pbnRfdHlwZSAoZGhh
-bmRsZSwgOCwgdHJ1ZSk7Cj4gK8KgwqDCoMKgwqDCoCBicmVhazsKPiArLcKgwqDCoCBjYXNlIDMz
-Ogo+ICsrwqDCoMKgIGNhc2UgMzI6Cj4gK8KgwqDCoMKgwqDCoCBuYW1lID0gImxvZ2ljYWwqOCI7
-Cj4gK8KgwqDCoMKgwqDCoCByZXR0eXBlID0gZGVidWdfbWFrZV9ib29sX3R5cGUgKGRoYW5kbGUs
-IDgpOwo+ICvCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gKy3CoMKgwqAgY2FzZSAzNDoKPiArK8KgwqDC
-oCBjYXNlIDMzOgo+ICvCoMKgwqDCoMKgwqAgbmFtZSA9ICJpbnRlZ2VyKjgiOwo+ICvCoMKgwqDC
-oMKgwqAgcmV0dHlwZSA9IGRlYnVnX21ha2VfaW50X3R5cGUgKGRoYW5kbGUsIDgsIGZhbHNlKTsK
-PiArwqDCoMKgwqDCoMKgIGJyZWFrOwo+ICtAQCAtMzY2NCw5ICszNjY1LDcgQEAgc3RhYl94Y29m
-Zl9idWlsdGluX3R5cGUgKHZvaWQgKmRoYW5kbGUsIHN0cnVjdAo+IHN0YWJfaGFuZGxlICppbmZv
-LAo+ICvCoMKgwqDCoCB9Cj4gKyAKPiArwqDCoCByZXR0eXBlID0gZGVidWdfbmFtZV90eXBlIChk
-aGFuZGxlLCBuYW1lLCByZXR0eXBlKTsKPiArLQo+ICstwqAgaW5mby0+eGNvZmZfdHlwZXNbLXR5
-cGVudW1dID0gcmV0dHlwZTsKPiArLQo+ICsrwqAgaW5mby0+eGNvZmZfdHlwZXNbdHlwZW51bV0g
-PSByZXR0eXBlOwo+ICvCoMKgIHJldHVybiByZXR0eXBlOwo+ICsgfQo+ICsgCj4gKy0tIAo+ICsy
-LjI3LjAKPiArCgo=
+Hi,
+
+Subject line wrong, instead of [hardknott] it should be [mainline]. =
+Changes are listed below.
+https://lists.openembedded.org/g/openembedded-core/message/160086
+
+
+Thanks,
+Sundeep K.
+
+-----Original Message-----
+From: Mittal, Anuj <anuj.mittal@intel.com>=20
+Sent: Friday, December 31, 2021 11:48 AM
+To: openembedded-core@lists.openembedded.org; sundeep.kokkonda@gmail.com
+Cc: rwmacleod@gmail.com; umesh.kalappa0@gmail.com
+Subject: Re: [hardknott][PATCH] binutils: Fix CVE-2021-45078
+
+What is different in this version?
+
+Thanks,
+
+Anuj
+
+On Fri, 2021-12-31 at 11:34 +0530, Sundeep KOKKONDA wrote:
+> Upstream-Status: Backport
+> =
+[https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dpatch;h=3D161e87d12=
+16
+> 7b1e36193385485c1f6ce92f74f02]
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> ---
+>  .../binutils/binutils-2.37.inc                |   1 +
+>  .../binutils/0001-CVE-2021-45078.patch        | 253
+> ++++++++++++++++++
+>  2 files changed, 254 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-
+> 2021-45078.patch
+>=20
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.37.inc
+> b/meta/recipes-devtools/binutils/binutils-2.37.inc
+> index 043f7f8235..62e2e31e3c 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.37.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.37.inc
+> @@ -34,5 +34,6 @@ SRC_URI =3D "\
+>     =20
+> file://0017-bfd-Close-the-file-descriptor-if-there-is-no-archive.patch
+>  \
+>     =20
+> file://0001-elf-Discard-input-.note.gnu.build-id-sections.patch \
+>       file://0001-CVE-2021-42574.patch \
+> +     file://0001-CVE-2021-45078.patch \
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-
+> 45078.patch b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-
+> 45078.patch
+> new file mode 100644
+> index 0000000000..907543fce0
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-
+> 45078.patch
+> @@ -0,0 +1,253 @@
+> +From 161e87d12167b1e36193385485c1f6ce92f74f02 Mon Sep 17 00:00:00
+> 2001
+> +From: Alan Modra <amodra@gmail.com>
+> +Date: Wed, 15 Dec 2021 11:48:42 +1030
+> +Subject: [PATCH] PR28694, Out-of-bounds write in
+> stab_xcoff_builtin_type
+> +
+> +       PR 28694
+> +       * stabs.c (stab_xcoff_builtin_type): Make typenum unsigned.
+> +       Negate typenum earlier, simplifying bounds checking.  Correct
+> +       off-by-one indexing.  Adjust switch cases.
+> +
+> +CVE: CVE-2021-45078
+> +Upstream-Status: Backport
+> =
+[https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dpatch;h=3D161e87d12=
+16
+> 7b1e36193385485c1f6ce92f74f02]
+> +
+> +Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> +---
+> + binutils/stabs.c | 87 ++++++++++++++++++++++++---------------------
+> ---
+> + 1 file changed, 43 insertions(+), 44 deletions(-)
+> +
+> +diff --git a/binutils/stabs.c b/binutils/stabs.c index=20
+> +274bfb0e7fa..83ee3ea5fa4 100644
+> +--- a/binutils/stabs.c
+> ++++ b/binutils/stabs.c
+> +@@ -202,7 +202,7 @@ static debug_type stab_find_type (void *, struct
+> stab_handle *, const int *);
+> + static bool stab_record_type
+> +   (void *, struct stab_handle *, const int *, debug_type);  static=20
+> +debug_type stab_xcoff_builtin_type
+> +-  (void *, struct stab_handle *, int);
+> ++  (void *, struct stab_handle *, unsigned int);
+> + static debug_type stab_find_tagged_type
+> +   (void *, struct stab_handle *, const char *, int, enum
+> debug_type_kind);
+> + static debug_type *stab_demangle_argtypes @@ -3496,166 +3496,167 @@=20
+> +stab_record_type (void *dhandle
+> ATTRIBUTE_UNUSED, struct stab_handle *info,
+> +=20
+> + static debug_type
+> + stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
+> +-                       int typenum)
+> ++                       unsigned int typenum)
+> + {
+> +   debug_type rettype;
+> +   const char *name;
+> +=20
+> +-  if (typenum >=3D 0 || typenum < -XCOFF_TYPE_COUNT)
+> ++  typenum =3D -typenum - 1;
+> ++  if (typenum >=3D XCOFF_TYPE_COUNT)
+> +     {
+> +-      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), typenum);
+> ++      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), -typenum
+> - 1);
+> +       return DEBUG_TYPE_NULL;
+> +     }
+> +-  if (info->xcoff_types[-typenum] !=3D NULL)
+> +-    return info->xcoff_types[-typenum];
+> ++  if (info->xcoff_types[typenum] !=3D NULL)
+> ++    return info->xcoff_types[typenum];
+> +=20
+> +-  switch (-typenum)
+> ++  switch (typenum)
+> +     {
+> +-    case 1:
+> ++    case 0:
+> +       /* The size of this and all the other types are fixed,
+> defined
+> +        by the debugging format.  */
+> +       name =3D "int";
+> +       rettype =3D debug_make_int_type (dhandle, 4, false);
+> +       break;
+> +-    case 2:
+> ++    case 1:
+> +       name =3D "char";
+> +       rettype =3D debug_make_int_type (dhandle, 1, false);
+> +       break;
+> +-    case 3:
+> ++    case 2:
+> +       name =3D "short";
+> +       rettype =3D debug_make_int_type (dhandle, 2, false);
+> +       break;
+> +-    case 4:
+> ++    case 3:
+> +       name =3D "long";
+> +       rettype =3D debug_make_int_type (dhandle, 4, false);
+> +       break;
+> +-    case 5:
+> ++    case 4:
+> +       name =3D "unsigned char";
+> +       rettype =3D debug_make_int_type (dhandle, 1, true);
+> +       break;
+> +-    case 6:
+> ++    case 5:
+> +       name =3D "signed char";
+> +       rettype =3D debug_make_int_type (dhandle, 1, false);
+> +       break;
+> +-    case 7:
+> ++    case 6:
+> +       name =3D "unsigned short";
+> +       rettype =3D debug_make_int_type (dhandle, 2, true);
+> +       break;
+> +-    case 8:
+> ++    case 7:
+> +       name =3D "unsigned int";
+> +       rettype =3D debug_make_int_type (dhandle, 4, true);
+> +       break;
+> +-    case 9:
+> ++    case 8:
+> +       name =3D "unsigned";
+> +       rettype =3D debug_make_int_type (dhandle, 4, true);
+> +       break;
+> +-    case 10:
+> ++    case 9:
+> +       name =3D "unsigned long";
+> +       rettype =3D debug_make_int_type (dhandle, 4, true);
+> +       break;
+> +-    case 11:
+> ++    case 10:
+> +       name =3D "void";
+> +       rettype =3D debug_make_void_type (dhandle);
+> +       break;
+> +-    case 12:
+> ++    case 11:
+> +       /* IEEE single precision (32 bit).  */
+> +       name =3D "float";
+> +       rettype =3D debug_make_float_type (dhandle, 4);
+> +       break;
+> +-    case 13:
+> ++    case 12:
+> +       /* IEEE double precision (64 bit).  */
+> +       name =3D "double";
+> +       rettype =3D debug_make_float_type (dhandle, 8);
+> +       break;
+> +-    case 14:
+> ++    case 13:
+> +       /* This is an IEEE double on the RS/6000, and different
+> machines
+> +        with different sizes for "long double" should use different
+> +        negative type numbers.  See stabs.texinfo.  */
+> +       name =3D "long double";
+> +       rettype =3D debug_make_float_type (dhandle, 8);
+> +       break;
+> +-    case 15:
+> ++    case 14:
+> +       name =3D "integer";
+> +       rettype =3D debug_make_int_type (dhandle, 4, false);
+> +       break;
+> +-    case 16:
+> ++    case 15:
+> +       name =3D "boolean";
+> +       rettype =3D debug_make_bool_type (dhandle, 4);
+> +       break;
+> +-    case 17:
+> ++    case 16:
+> +       name =3D "short real";
+> +       rettype =3D debug_make_float_type (dhandle, 4);
+> +       break;
+> +-    case 18:
+> ++    case 17:
+> +       name =3D "real";
+> +       rettype =3D debug_make_float_type (dhandle, 8);
+> +       break;
+> +-    case 19:
+> ++    case 18:
+> +       /* FIXME */
+> +       name =3D "stringptr";
+> +       rettype =3D NULL;
+> +       break;
+> +-    case 20:
+> ++    case 19:
+> +       /* FIXME */
+> +       name =3D "character";
+> +       rettype =3D debug_make_int_type (dhandle, 1, true);
+> +       break;
+> +-    case 21:
+> ++    case 20:
+> +       name =3D "logical*1";
+> +       rettype =3D debug_make_bool_type (dhandle, 1);
+> +       break;
+> +-    case 22:
+> ++    case 21:
+> +       name =3D "logical*2";
+> +       rettype =3D debug_make_bool_type (dhandle, 2);
+> +       break;
+> +-    case 23:
+> ++    case 22:
+> +       name =3D "logical*4";
+> +       rettype =3D debug_make_bool_type (dhandle, 4);
+> +       break;
+> +-    case 24:
+> ++    case 23:
+> +       name =3D "logical";
+> +       rettype =3D debug_make_bool_type (dhandle, 4);
+> +       break;
+> +-    case 25:
+> ++    case 24:
+> +       /* Complex type consisting of two IEEE single precision
+> values.  */
+> +       name =3D "complex";
+> +       rettype =3D debug_make_complex_type (dhandle, 8);
+> +       break;
+> +-    case 26:
+> ++    case 25:
+> +       /* Complex type consisting of two IEEE double precision
+> values.  */
+> +       name =3D "double complex";
+> +       rettype =3D debug_make_complex_type (dhandle, 16);
+> +       break;
+> +-    case 27:
+> ++    case 26:
+> +       name =3D "integer*1";
+> +       rettype =3D debug_make_int_type (dhandle, 1, false);
+> +       break;
+> +-    case 28:
+> ++    case 27:
+> +       name =3D "integer*2";
+> +       rettype =3D debug_make_int_type (dhandle, 2, false);
+> +       break;
+> +-    case 29:
+> ++    case 28:
+> +       name =3D "integer*4";
+> +       rettype =3D debug_make_int_type (dhandle, 4, false);
+> +       break;
+> +-    case 30:
+> ++    case 29:
+> +       /* FIXME */
+> +       name =3D "wchar";
+> +       rettype =3D debug_make_int_type (dhandle, 2, false);
+> +       break;
+> +-    case 31:
+> ++    case 30:
+> +       name =3D "long long";
+> +       rettype =3D debug_make_int_type (dhandle, 8, false);
+> +       break;
+> +-    case 32:
+> ++    case 31:
+> +       name =3D "unsigned long long";
+> +       rettype =3D debug_make_int_type (dhandle, 8, true);
+> +       break;
+> +-    case 33:
+> ++    case 32:
+> +       name =3D "logical*8";
+> +       rettype =3D debug_make_bool_type (dhandle, 8);
+> +       break;
+> +-    case 34:
+> ++    case 33:
+> +       name =3D "integer*8";
+> +       rettype =3D debug_make_int_type (dhandle, 8, false);
+> +       break;
+> +@@ -3664,9 +3665,7 @@ stab_xcoff_builtin_type (void *dhandle, struct
+> stab_handle *info,
+> +     }
+> +=20
+> +   rettype =3D debug_name_type (dhandle, name, rettype);
+> +-
+> +-  info->xcoff_types[-typenum] =3D rettype;
+> +-
+> ++  info->xcoff_types[typenum] =3D rettype;
+> +   return rettype;
+> + }
+> +=20
+> +--
+> +2.27.0
+> +
+
+
 
