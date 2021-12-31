@@ -2,49 +2,49 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB2CC433F5
-	for <webhook@archiver.kernel.org>; Fri, 31 Dec 2021 00:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA53C433EF
+	for <webhook@archiver.kernel.org>; Fri, 31 Dec 2021 00:19:41 +0000 (UTC)
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web08.5718.1640909973598930358
+ by mx.groups.io with SMTP id smtpd.web12.5703.1640909972187616253
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Dec 2021 16:19:38 -0800
+ Thu, 30 Dec 2021 16:19:32 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=BXUK9UJv;
+ header.b=BfBlXbxa;
  spf=pass (domain: intel.com, ip: 134.134.136.126,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640909978; x=1672445978;
+  t=1640909972; x=1672445972;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=ejy0u3NGPY1zopuFORT4xBhf3UXrTzGfDq5VwJMNQwA=;
-  b=BXUK9UJvyGPe7nYNQA+D2JnOHSJ7NKBBBE2oBlT0B8WjqjfG7rC34qZL
-   87qoHoAltLTt2Xd2GwEQgPENL+ZjA+Sif55c7qk8BWRB1EUWcAUwDfAmo
-   inH5m6jnSKGfN7ByewGMWhqrl2OqSvBA54oKJb5hYXpeHA2EHjAmKaO1o
-   cEEU+YyubNBTrltDObwP7r2+KUh8q6ir0jaZPX679rXGLC4O0KqNbXEll
-   wz1V/Idgcl5SVh1r23eMkNarQNWILrVzaoc5vCeJ7nleHG9+QfuRa1ZNI
-   e0g1n+DkgHmrEPWzBV7Icu4nua/X/HJgvrUJKYuj7Z8O++PHg12cZpjbD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="228573108"
+  bh=XXJQQchx/1gQD2O5udUxWjaJIZI/HF2SswlEk9NfSd8=;
+  b=BfBlXbxaD5j1gRt4EgUo9PvVGOB/gALpQQl11mxJvMWUkSn5P+xSHu5o
+   jG6pTejGJYsG2OIfQ2icHeTEWQYR3nCLcq5FlJugajUV8P4oqD5FbdPY5
+   umZJ6HOVrfFNpBEz/5p1uJhYyY4vzin+2NAvqF+SxLSq3rqlPci7otZIs
+   q9lqYv/HWR8YFQZAnMO7k9cEBWukGRN9yH9+MGaSqBP/MaItc7Gsfq1nm
+   axzEW1fJszs5aj1UohSR+zXVgVrLgHHThU/Oa+YACh1n2lahES0t24gd3
+   7eCcfySM5btgUflHzWq/bMeoGQo9hh0DvlNvZ088DD8MJikfTunYvvLDd
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="228573092"
 X-IronPort-AV: E=Sophos;i="5.88,248,1635231600";
-   d="scan'208";a="228573108"
+   d="scan'208";a="228573092"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 16:19:37 -0800
+ 30 Dec 2021 16:19:31 -0800
 X-IronPort-AV: E=Sophos;i="5.88,248,1635231600";
-   d="scan'208";a="619502305"
+   d="scan'208";a="619502239"
 Received: from jiayingk-mobl2.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.231.141])
   by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 16:19:36 -0800
+ 30 Dec 2021 16:19:30 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 04/11] oeqa/selftest/bbtests: Use YP sources mirror
- instead of GNU
-Date: Fri, 31 Dec 2021 08:19:17 +0800
+Subject: [honister][PATCH 01/11] systemd: Fix systemd-journal-gateway
+ user/groups
+Date: Fri, 31 Dec 2021 08:19:14 +0800
 Message-Id: 
- <fb18fcbd2529555ab98297671e3e6f68a8fd6556.1640909776.git.anuj.mittal@intel.com>
+ <10db2106122b02c7d1cfca065c3bd9c8ff7d19f8.1640909776.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1640909776.git.anuj.mittal@intel.com>
 References: <cover.1640909776.git.anuj.mittal@intel.com>
@@ -53,36 +53,46 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Dec 2021 00:19:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Dec 2021 00:19:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160072
+ https://lists.openembedded.org/g/openembedded-core/message/160069
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Florian Amstutz <florian.amstutz@scs.ch>
 
-The gnu sources server has been known to disappear. Use the YP sources
-mirror instead. If that breaks, the autobuilder is broken anyway. This
-should reduce test failures from upstream network issues.
+The systemd-journal-gateway user and group are never added to an image
+since the package name added to USERADD_PACKES is wrong.
+
+Signed-off-by: Florian Amstutz <florian.amstutz@scs.ch>
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a5459e42f1a6be9c08f303653cc1f73514eca9ef)
+(cherry picked from commit 495dc879b1eff4f70da6f783341b9a3085180a22)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/selftest/cases/bbtests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_249.7.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index 9cd14aca4b..31962b92d7 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -163,7 +163,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
- """)
-         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+diff --git a/meta/recipes-core/systemd/systemd_249.7.bb b/meta/recipes-core/systemd/systemd_249.7.bb
+index f8c85dabf0..c94a18140e 100644
+--- a/meta/recipes-core/systemd/systemd_249.7.bb
++++ b/meta/recipes-core/systemd/systemd_249.7.bb
+@@ -385,7 +385,7 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
+ SYSTEMD_SERVICE:${PN}-binfmt = "systemd-binfmt.service"
  
--        data = 'SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz;downloadfilename=test-aspell.tar.gz"'
-+        data = 'SRC_URI = "https://downloads.yoctoproject.org/mirror/sources/aspell-${PV}.tar.gz;downloadfilename=test-aspell.tar.gz"'
-         self.write_recipeinc('aspell', data)
-         result = bitbake('-f -c fetch aspell', ignore_status=True)
-         self.delete_recipeinc('aspell')
+ USERADD_PACKAGES = "${PN} ${PN}-extra-utils \
+-                    ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gateway', '', d)} \
++                    ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
+ "
+@@ -397,7 +397,7 @@ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--syste
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /sbin/nologin systemd-resolve;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /sbin/nologin systemd-timesync;', '', d)}"
+ USERADD_PARAM:${PN}-extra-utils = "--system -d / -M --shell /sbin/nologin systemd-bus-proxy"
+-USERADD_PARAM:${PN}-journal-gateway = "--system -d / -M --shell /sbin/nologin systemd-journal-gateway"
++USERADD_PARAM:${PN}-journal-gatewayd = "--system -d / -M --shell /sbin/nologin systemd-journal-gateway"
+ USERADD_PARAM:${PN}-journal-remote = "--system -d / -M --shell /sbin/nologin systemd-journal-remote"
+ USERADD_PARAM:${PN}-journal-upload = "--system -d / -M --shell /sbin/nologin systemd-journal-upload"
+ 
 -- 
 2.33.1
 
