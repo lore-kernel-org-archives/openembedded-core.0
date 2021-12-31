@@ -1,99 +1,79 @@
-Return-Path: <otavio.salvador@gmail.com>
+Return-Path: <andrew.shadura@collabora.co.uk>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF996C433EF
-	for <webhook@archiver.kernel.org>; Fri, 31 Dec 2021 19:38:48 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web12.16445.1640979528010499879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFD8C433EF
+	for <webhook@archiver.kernel.org>; Fri, 31 Dec 2021 20:40:34 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by mx.groups.io with SMTP id smtpd.web09.17325.1640983233147297701
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Dec 2021 11:38:48 -0800
+ Fri, 31 Dec 2021 12:40:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id f9so24884536qtk.4
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Dec 2021 11:38:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :organization:content-transfer-encoding;
-        bh=BtNaiDiTkEdH+tA393/v8AtyLlD2zmdBI4YDwUrb8O0=;
-        b=PINDNjbOUFhuLe87gIS2HE2gKkfjO87bHog5EtNjVYuULfJnyCaxeWMeIDz9BUhQMP
-         BCFE/jKYRnI3m77JyJ6UmPyOiK+5cedN2sys6Tbng42qnbCV4VyH5CRhOqzcH51XV3iU
-         V9a2KGRhRyGe2N0tmGRdTOIx+gG9JC2SYS3yiNAs/rXOZujFGfB220G+SnH0TH6LHIzW
-         C8+Qg2Lzm1jmAOf5BWKhDzFVEtMr+nICuW545/oSqe+XvjOjbDO6FgUUWCz1+Z7ICC+c
-         2fp4f14sVLbIUv2L59QM2abu2DDzWUZ3cWJfdqYcIPVenKV7CoYRb8+UvmXmLhzvf0zk
-         rjaA==
-X-Gm-Message-State: AOAM533HXi16B/7WViBjyAnq7l03czpvPAl4qcNCXG1ydI3NBqQzFgQT
-	8L+pQ2pF7m9Cj4aHc7/hNk+pet6sUxH31BbQ
-X-Google-Smtp-Source: 
- ABdhPJyiE9/YRzfqmi1x/PcEu+mUY9DlYn02OO/8pZVGlllZFtBUxZPpjEI9hbZ1H9C9w0CmdF5KdQ==
-X-Received: by 2002:a05:622a:3d0:: with SMTP id
- k16mr31316309qtx.676.1640979526796;
-        Fri, 31 Dec 2021 11:38:46 -0800 (PST)
-Received: from localhost (201-34-65-230.user3p.brasiltelecom.net.br.
- [201.34.65.230])
-        by smtp.gmail.com with ESMTPSA id
- k8sm23388485qtx.35.2021.12.31.11.38.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Dec 2021 11:38:46 -0800 (PST)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: 21.3.1 -> 21.3.3
-Date: Fri, 31 Dec 2021 16:38:42 -0300
-Message-Id: <20211231193842.2283615-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.34.0
+ dkim=fail reason="body hash did not verify" header.i=@collabora.co.uk
+ header.s=mail header.b=Cdo9F6Vd;
+ spf=pass (domain: collabora.co.uk, ip: 46.235.227.227,
+ mailfrom: andrew.shadura@collabora.co.uk)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh)
+	with ESMTPSA id DB3531F4087E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.co.uk;
+	s=mail; t=1640983231;
+	bh=C+SCg010j9xLdimz4Y7Lk23Zsln5ENQTkjIDNf1/NrM=;
+	h=Date:To:From:Subject:From;
+	b=Cdo9F6VdI70Clycm5V6u2/iAGLCDmmRupRj+mQVc0gnl/Qt3yH6bPSIeWV7uWWDb7
+	 30dwOWYyfLX6NNWEgt619tj2zkDET7Y05SPR4oSrU0GE1mRsQxejDC4PFjZibrezT0
+	 h6mPokB7lqCAvoB6oCVEqn2AMAo678mTDN+SgC+sY0wBmovywRivGx5zonj1YNoivE
+	 5w5WSFEL27Fatj0s9etf6cHSzMl1ZePQS+YY7SL83N9apiEjk/mhVSK3EdVioRb/H6
+	 jY1NtZHkWIbXejKmT8o7vH2dlV8gjM8Oen/PCrBi23zve6+6sRxAb8I/s+ExxZ6oxb
+	 EDq3vRiVQ9aXQ==
+Message-ID: <e9d8abaa-20e9-4ee6-0cfc-2705d858c432@collabora.co.uk>
+Date: Fri, 31 Dec 2021 21:40:28 +0100
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Content-Language: en-GB
+To: openembedded-core@lists.openembedded.org
+From: Andrej Shadura <andrew.shadura@collabora.co.uk>
+Subject: pseudo FTBFS with recent glibc
+Organization: Collabora
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Dec 2021 19:38:48 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Dec 2021 20:40:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160091
+ https://lists.openembedded.org/g/openembedded-core/message/160092
 
-Upgrade to 21.3.3 stable release. It includes bugfixes and minor
-improvements, for more detailed information about the included changes
-refer to the specific release notes:
+Hi,
 
- - 21.3.2: https://docs.mesa3d.org/relnotes/21.3.2.html
- - 21.3.3: https://docs.mesa3d.org/relnotes/21.3.3.html
+pseudo started failing to build from the source apparently after a glibc=20
+update [1] we had in Debian:
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../mesa/{mesa-gl_21.3.1.bb => mesa-gl_21.3.3.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.3.1.bb => mesa_21.3.3.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_21.3.1.bb => mesa-gl_21.3.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.3.1.bb => mesa_21.3.3.bb} (100%)
+>> In file included from pseudo_wrappers.c:46:
+>> ports/unix/guts/symlinkat.c: In function =E2=80=98wrap_symlinkat=E2=80=
+=99:
+>> pseudo_client.h:14:65: error: =E2=80=98_STAT_VER=E2=80=99 undeclared (=
+first use in this function)
+>>    14 | #define base_fstatat(dirfd, path, buf, flags) real___fxstatat6=
+4(_STAT_VER, dirfd, path, buf, flags)
+>>       |                                                               =
+  ^~~~~~~~~
+>> ports/unix/guts/symlinkat.c:37:14: note: in expansion of macro =E2=80=98=
+base_fstatat=E2=80=99
+>>    37 |         rc =3D base_fstatat(dirfd, newpath, &buf, AT_SYMLINK_N=
+OFOLLOW);
+>>       |              ^~~~~~~~~~~~
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.3.1.bb b/meta/recipes-graphics/mesa/mesa-gl_21.3.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_21.3.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_21.3.3.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 64702f8168..7f47f18591 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -23,7 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch \
-            "
- 
--SRC_URI[sha256sum] = "2b0dc2540cb192525741d00f706dbc4586349185dafc65729c7fda0800cc474d"
-+SRC_URI[sha256sum] = "ad7f4613ea7c5d08d9fcb5025270199e6ceb9aa99fd72ee572b70342240a8121"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_21.3.1.bb b/meta/recipes-graphics/mesa/mesa_21.3.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.3.1.bb
-rename to meta/recipes-graphics/mesa/mesa_21.3.3.bb
--- 
-2.30.2
+A similar issue has been reported against fakeroot [2]. I guess,=20
+something similar is required for pseudo as well.
 
+[0]: https://bugs.debian.org/1002136
+[1]: https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D8ed005d=
+af0
+[2]: https://salsa.debian.org/clint/fakeroot/-/merge_requests/10/diffs
+
+--=20
+Cheers,
+   Andrej
 
