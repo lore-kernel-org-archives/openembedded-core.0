@@ -1,112 +1,124 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F0DC433EF
-	for <webhook@archiver.kernel.org>; Sat,  1 Jan 2022 11:30:10 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.24198.1641036609123883201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89ACBC433F5
+	for <webhook@archiver.kernel.org>; Sun,  2 Jan 2022 12:40:04 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web09.12455.1641127203478939385
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jan 2022 03:30:09 -0800
+ Sun, 02 Jan 2022 04:40:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=V8vafJGW;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id j18so60187186wrd.2
+ dkim=pass header.i=@madison.systems header.s=google header.b=P3LF1uBX;
+ spf=pass (domain: madison.systems, ip: 209.85.167.47,
+ mailfrom: matt@madison.systems)
+Received: by mail-lf1-f47.google.com with SMTP id o12so69759667lfk.1
         for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Jan 2022 03:30:08 -0800 (PST)
+ Sun, 02 Jan 2022 04:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AoIgEx5XRSDjgG2Ga85ex/+I8Nng8zG1zWPDhCUWKek=;
-        b=V8vafJGW/z+YlvJpA6VVGIou47hf8PiHlhsQ4ZXD8/Moby9CQhom9PZmgxoSK426Za
-         sOAxEG7GB6q47AWjzQ//TbAa5IMaAiP749SL5PetvI0oO8swUsBg3I3T7PE/pIjXFiGP
-         bcfda3Qa6/VILhPcej4vNkbdvdajc6ALR1FvoRAJYYNLmnA3bvXDTrz3ymr5xY7SSsRu
-         qlZ4t5tdctBNUvwhRveyP0/ufpFuhZAXOpQ1OHL8S4OrznCUDevFr25CwVHXg4p5bNA+
-         rOt62ywMLnFlu2l3qX1r03/N5NrQHZSupSJNf/QABaZpLtok/qvV4tYaHpOkaKgwOgak
-         c++w==
+        d=madison.systems; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cpTbqXa2KyQNUQyL73f8haMDUtqOulaCzIKLUSJLt0E=;
+        b=P3LF1uBXmuFoh34/tDdiBePBsy+SeeKdLCGIzmdwwYF9QSGnF+bUt+9Eyev6m8XsN4
+         xni/SLfW41zxFFgppXvaE818TZ1aBJJ7IslA+7mPZLUxYN0a7TW7liSBCOJ0pggBI5L6
+         +/GKYJniTtzJ5dd+21nfVnkDo9lWt5As3Do9jPD2hSWMKWtLMk1Qv/qRwhL4FqxU/oee
+         qo4d8P3Wts0nnxbhH3HCJTEoP36Yrwe3vx9lhotcSP/rrYD1JKTYnnCOv/rAsJsjdLni
+         nk0PPaMLqeGYv0wG/5a179uPORlF59hj/Br8IzH/qWWrokCTrLwcoAvceTzF5c7zB6oU
+         9wdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AoIgEx5XRSDjgG2Ga85ex/+I8Nng8zG1zWPDhCUWKek=;
-        b=s0lI3XYiaZqgFXV83cy40qiLdHYXabhUFAGTjzW5rXlWgpsYQPJqaHb8YwmAq9LFSG
-         uboeCs91bcBp3ep8EfIeIS/TDZcY82gnfFCknv2IXovnRNcM1mW89pCZhkg/TnYb9BIv
-         3T+INv5NWLui8xZA0K0JdEphI9XksA9VvAdotA/0PRJgWZ76Lr5ckvqsetgxeuxoyOyk
-         3Ve3Mj6FPRdXpzNsuHswM1KkXxiqV/9Eb/tDUGUAsMu3/4qRYf6lLYowamti5s2KPkkW
-         cqwrs/daFEit5d8RCv0zP2UjWPfbxwL5Mhy2vyB0XE4gN7qZrSjfTDEtjTCCIVcg+4td
-         ZUow==
-X-Gm-Message-State: AOAM533fl6BieWxqspKkH96R2kNkcPLGVxRqwYCnOZRvFGyB4TBE+Url
-	cKoxDI6sZL9H4j0f5i5k8B+3ciBZLb8=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cpTbqXa2KyQNUQyL73f8haMDUtqOulaCzIKLUSJLt0E=;
+        b=XauZtYXBN6JfUY9V93v7xtN8JPczyCjVYCByydjprTI1xowEPJVZR0KpqA+Zp2hEli
+         MNMnaAFXwEkfwXcQtDMutHfp+4E+NZuz/WoOxoyD8iMBo1HgapqDw91+EYr53+Nq2f/F
+         L7zSSjmBqW3b6y0uPXkRoZAYtZo6U5q3f75fd0QPKktx4WKgsATqjEnYGNGIiFEtgY8/
+         kNgQ4RWzGeWwA7m71Ci24aAAGwKvDFuerPS4mUvOilx+2cKQVViRzi+7HS0YLE8jS1n3
+         wf7545A+mpVb68NwumawVUPqrzj0zSZuuFXQID2Jk6oPq/qLUnEbh5K+Nup4EVqG5Kno
+         0RVA==
+X-Gm-Message-State: AOAM530UVaTpMtNuJLkqkKe4AijHJkzbIRB885XYNOOVoZRLiOX1AOGm
+	aDBAYYKuzXgqSJXyopIdBg4jxcpOhwJx8FwqhKfOag==
 X-Google-Smtp-Source: 
- ABdhPJxAfZb6yks0rz0Q3mVu27tR7nqlBFg+qZnukFTPAdVxU/jn5AnlQm2uXqiC2zepr9No7eY2EA==
-X-Received: by 2002:a5d:4b0a:: with SMTP id
- v10mr31567061wrq.294.1641036607629;
-        Sat, 01 Jan 2022 03:30:07 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- j85sm44679935wmj.3.2022.01.01.03.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jan 2022 03:30:07 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/6] selftest/reproducible: drop go items from exception list
-Date: Sat,  1 Jan 2022 12:29:59 +0100
-Message-Id: <20220101112959.1866747-6-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220101112959.1866747-1-alex@linutronix.de>
-References: <20220101112959.1866747-1-alex@linutronix.de>
+ ABdhPJybt86oxjLYdOAP2PW0rOHI5p/J7EgO+f2gGZ/T0i0Zi5EnRtBNUJ49nDkjrHN4EadAavOalQleb+HlC/FRbWY=
+X-Received: by 2002:a05:6512:3f17:: with SMTP id
+ y23mr26111602lfa.176.1641127201190;
+ Sun, 02 Jan 2022 04:40:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220101112959.1866747-1-alex@linutronix.de>
+ <20220101112959.1866747-4-alex@linutronix.de>
+In-Reply-To: <20220101112959.1866747-4-alex@linutronix.de>
+From: Matt Madison <matt@madison.systems>
+Date: Sun, 2 Jan 2022 04:39:50 -0800
+Message-ID: 
+ <CAGgRHJogKK0dDsu9vE9jVOYMdqUO_frmCkLLRVvDSFJmxs954Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/6] go-runtime.inc: do not make installation
+ set dependent on host
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Jan 2022 11:30:10 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jan 2022 12:40:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160099
+ https://lists.openembedded.org/g/openembedded-core/message/160100
 
-With this changeset, go becomes reproducible \0/
+On Sat, Jan 1, 2022 at 3:30 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> This cannot be right: what we install for the target should not
+> depend on what host it's being built on. If this was fixing
+> some problem, there needs to be a different solution.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 13 -------------
- 1 file changed, 13 deletions(-)
+IIRC, I added this because the go toolchain doesn't really do
+host/target separation like gcc does. The runtime packages for both
+host and target get populated during the compilation, and if the
+target architecture matches the build host's architecture, you'd get
+just one copy in the tree. And back then, at least, the go-runtime
+package needed those files, so the check was there to make sure they
+didn't get deleted just because the two architectures were the same.
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 2e983d2f17..fce48a2943 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -17,24 +17,11 @@ import stat
- import os
- import datetime
- 
--# For sample packages, see:
--# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-0t7wr_oo/
--# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-4s9ejwyp/
--# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-haiwdlbr/
--# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-hwds3mcl/
--# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201203-sua0pzvc/
--# (both packages/ and packages-excluded/)
--
- # ruby-ri-docs, meson:
- #https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210215-0_td9la2/packages/diff-html/
- # rust-llvm:
- #https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210825-kaihham6/
- exclude_packages = [
--	'glide',
--	'go-helloworld',
--	'go-runtime',
--	'go_',
--	'go-',
- 	'ruby-ri-docs',
- 	'rust-llvm-liblto',
- 	'rust-llvm-staticdev'
--- 
-2.20.1
+That's the way things were 5 years ago, though, and the toolchain has
+changed a lot since then. It might not be needed any more.
 
+-Matt
+
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/recipes-devtools/go/go-runtime.inc | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+> index a08d44dd3a..106017bd89 100644
+> --- a/meta/recipes-devtools/go/go-runtime.inc
+> +++ b/meta/recipes-devtools/go/go-runtime.inc
+> @@ -43,10 +43,8 @@ do_compile[cleandirs] += "${GOTMPDIR} ${B}/bin ${B}/pkg"
+>  do_install() {
+>         install -d ${D}${libdir}/go/src
+>         cp --preserve=mode,timestamps -R ${B}/pkg ${D}${libdir}/go/
+> -       if [ "${BUILD_GOTUPLE}" != "${TARGET_GOTUPLE}" ]; then
+> -               rm -rf ${D}${libdir}/go/pkg/${BUILD_GOTUPLE}
+> -               rm -rf ${D}${libdir}/go/pkg/obj/${BUILD_GOTUPLE}
+> -       fi
+> +       rm -rf ${D}${libdir}/go/pkg/${BUILD_GOTUPLE}
+> +       rm -rf ${D}${libdir}/go/pkg/obj/${BUILD_GOTUPLE}
+>         rm -rf ${D}${libdir}/go/pkg/tool
+>         rm -rf ${D}${libdir}/go/pkg/obj
+>         rm -rf ${D}${libdir}/go/pkg/bootstrap
+> --
+> 2.20.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160097): https://lists.openembedded.org/g/openembedded-core/message/160097
+> Mute This Topic: https://lists.openembedded.org/mt/88071321/3618418
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [matt@madison.systems]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
