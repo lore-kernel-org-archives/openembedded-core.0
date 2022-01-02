@@ -1,124 +1,87 @@
-Return-Path: <matt@madison.systems>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89ACBC433F5
-	for <webhook@archiver.kernel.org>; Sun,  2 Jan 2022 12:40:04 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web09.12455.1641127203478939385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5E5CC433EF
+	for <webhook@archiver.kernel.org>; Sun,  2 Jan 2022 14:03:33 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web09.13224.1641132212753084123
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jan 2022 04:40:03 -0800
+ Sun, 02 Jan 2022 06:03:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@madison.systems header.s=google header.b=P3LF1uBX;
- spf=pass (domain: madison.systems, ip: 209.85.167.47,
- mailfrom: matt@madison.systems)
-Received: by mail-lf1-f47.google.com with SMTP id o12so69759667lfk.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=nskabd3w;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id
+ l10-20020a17090a384a00b001b22190e075so30097624pjf.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Jan 2022 04:40:03 -0800 (PST)
+ Sun, 02 Jan 2022 06:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=madison.systems; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cpTbqXa2KyQNUQyL73f8haMDUtqOulaCzIKLUSJLt0E=;
-        b=P3LF1uBXmuFoh34/tDdiBePBsy+SeeKdLCGIzmdwwYF9QSGnF+bUt+9Eyev6m8XsN4
-         xni/SLfW41zxFFgppXvaE818TZ1aBJJ7IslA+7mPZLUxYN0a7TW7liSBCOJ0pggBI5L6
-         +/GKYJniTtzJ5dd+21nfVnkDo9lWt5As3Do9jPD2hSWMKWtLMk1Qv/qRwhL4FqxU/oee
-         qo4d8P3Wts0nnxbhH3HCJTEoP36Yrwe3vx9lhotcSP/rrYD1JKTYnnCOv/rAsJsjdLni
-         nk0PPaMLqeGYv0wG/5a179uPORlF59hj/Br8IzH/qWWrokCTrLwcoAvceTzF5c7zB6oU
-         9wdw==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=rBcMcfa/rey3j+2QOwBquMgU1IyUsxJTdb1uS9uI+hE=;
+        b=nskabd3woRADWvT1H4kWNK2rH8dDdRG/ONNFa3o6PrqZTjJKh3xKTS6cLY5MJH2XR5
+         M7yhCzL+3TsEo2O1Rol/fpDW4J/cfLfarxcBdeItIhrvfHM85ZaXldubZGueqyZtU3l3
+         ceEYCT7M84qHNUVfI8ig1zbtnWtGQay9QiVwmbixu6uVuHftVDRE4us1l2/ILOm75jRM
+         STLQrK/lYVcLODObt+po/KH0N7Dt2lozXFU1BqzE47E1MXoJ60yx2Q3/TXj7NPzSViqf
+         RselKVd34avc9A3iyFQOM/n6ZGtq3Ff4zBqvHCtM32kXzCRsXfd77WLWkipju12OpTJJ
+         MMrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cpTbqXa2KyQNUQyL73f8haMDUtqOulaCzIKLUSJLt0E=;
-        b=XauZtYXBN6JfUY9V93v7xtN8JPczyCjVYCByydjprTI1xowEPJVZR0KpqA+Zp2hEli
-         MNMnaAFXwEkfwXcQtDMutHfp+4E+NZuz/WoOxoyD8iMBo1HgapqDw91+EYr53+Nq2f/F
-         L7zSSjmBqW3b6y0uPXkRoZAYtZo6U5q3f75fd0QPKktx4WKgsATqjEnYGNGIiFEtgY8/
-         kNgQ4RWzGeWwA7m71Ci24aAAGwKvDFuerPS4mUvOilx+2cKQVViRzi+7HS0YLE8jS1n3
-         wf7545A+mpVb68NwumawVUPqrzj0zSZuuFXQID2Jk6oPq/qLUnEbh5K+Nup4EVqG5Kno
-         0RVA==
-X-Gm-Message-State: AOAM530UVaTpMtNuJLkqkKe4AijHJkzbIRB885XYNOOVoZRLiOX1AOGm
-	aDBAYYKuzXgqSJXyopIdBg4jxcpOhwJx8FwqhKfOag==
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=rBcMcfa/rey3j+2QOwBquMgU1IyUsxJTdb1uS9uI+hE=;
+        b=z/zUQSw4SkZJoazfopB7Ywa7AkJouE9IpZxyW5Kq1JMgKQGmZeAXhgm9Y5viWo/QGA
+         KTbpFh6WCse9ilh27sqkIW2Ofu4zz1FS1g5lFrvWoefpsPNj8SoyDVCNZnVtZJjkwfC5
+         a640zTHqzHw7H6GsmjaeOBJPTAZz2RBfTcpZhEldbiO66dW+ANAjzpzFbj/edwixC0aA
+         4TmBK3J0qWU9ueMPmTGgdKUIifWrlDf5u+EQ1VGobMYWAoKGyQcxkqFqhcHpWszPcbiq
+         eV5yPo6TCXtZJdq0cAoI0KUkkQhwIMsND9jqCFmxOCoaZW3Sz5y2nBX0NiPbdu11LndP
+         2UUQ==
+X-Gm-Message-State: AOAM530pmLS4cL1Oal5iXYkYlwReig9iUE1PBRmrqJ1ruukup3RR9TSn
+	W69bR8SZiz2tP/7uW3IptXc8hcJinnZnfULWFmQ=
 X-Google-Smtp-Source: 
- ABdhPJybt86oxjLYdOAP2PW0rOHI5p/J7EgO+f2gGZ/T0i0Zi5EnRtBNUJ49nDkjrHN4EadAavOalQleb+HlC/FRbWY=
-X-Received: by 2002:a05:6512:3f17:: with SMTP id
- y23mr26111602lfa.176.1641127201190;
- Sun, 02 Jan 2022 04:40:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20220101112959.1866747-1-alex@linutronix.de>
- <20220101112959.1866747-4-alex@linutronix.de>
-In-Reply-To: <20220101112959.1866747-4-alex@linutronix.de>
-From: Matt Madison <matt@madison.systems>
-Date: Sun, 2 Jan 2022 04:39:50 -0800
-Message-ID: 
- <CAGgRHJogKK0dDsu9vE9jVOYMdqUO_frmCkLLRVvDSFJmxs954Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/6] go-runtime.inc: do not make installation
- set dependent on host
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+ ABdhPJwHdF2YbxUOrNG2nCJC1yEItbFVqoYg+dWAa5RMMCfJ28EVQfBRj+PyNWGeK7E/VxHGjJEKwA==
+X-Received: by 2002:a17:903:1107:b0:149:98f7:9629 with SMTP id
+ n7-20020a170903110700b0014998f79629mr20184558plh.160.1641132211483;
+        Sun, 02 Jan 2022 06:03:31 -0800 (PST)
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id
+ q17sm13312640pjp.2.2022.01.02.06.03.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jan 2022 06:03:30 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id CE5649606FF; Sun,  2 Jan 2022 04:03:21 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 02 Jan 2022 04:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220102140321.CE5649606FF@nuc.router0800d9.com>
+Date: Sun,  2 Jan 2022 04:03:21 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Jan 2022 12:40:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Jan 2022 14:03:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160100
+ https://lists.openembedded.org/g/openembedded-core/message/160101
 
-On Sat, Jan 1, 2022 at 3:30 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> This cannot be right: what we install for the target should not
-> depend on what host it's being built on. If this was fixing
-> some problem, there needs to be a different solution.
+Branch: master
 
-IIRC, I added this because the go toolchain doesn't really do
-host/target separation like gcc does. The runtime packages for both
-host and target get populated during the compilation, and if the
-target architecture matches the build host's architecture, you'd get
-just one copy in the tree. And back then, at least, the go-runtime
-package needed those files, so the check was there to make sure they
-didn't get deleted just because the two architectures were the same.
+New this week: 1 CVEs
+CVE-2021-4136: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4136 *
 
-That's the way things were 5 years ago, though, and the toolchain has
-changed a lot since then. It might not be needed any more.
+Removed this week: 0 CVEs
 
--Matt
-
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-devtools/go/go-runtime.inc | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-> index a08d44dd3a..106017bd89 100644
-> --- a/meta/recipes-devtools/go/go-runtime.inc
-> +++ b/meta/recipes-devtools/go/go-runtime.inc
-> @@ -43,10 +43,8 @@ do_compile[cleandirs] += "${GOTMPDIR} ${B}/bin ${B}/pkg"
->  do_install() {
->         install -d ${D}${libdir}/go/src
->         cp --preserve=mode,timestamps -R ${B}/pkg ${D}${libdir}/go/
-> -       if [ "${BUILD_GOTUPLE}" != "${TARGET_GOTUPLE}" ]; then
-> -               rm -rf ${D}${libdir}/go/pkg/${BUILD_GOTUPLE}
-> -               rm -rf ${D}${libdir}/go/pkg/obj/${BUILD_GOTUPLE}
-> -       fi
-> +       rm -rf ${D}${libdir}/go/pkg/${BUILD_GOTUPLE}
-> +       rm -rf ${D}${libdir}/go/pkg/obj/${BUILD_GOTUPLE}
->         rm -rf ${D}${libdir}/go/pkg/tool
->         rm -rf ${D}${libdir}/go/pkg/obj
->         rm -rf ${D}${libdir}/go/pkg/bootstrap
-> --
-> 2.20.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160097): https://lists.openembedded.org/g/openembedded-core/message/160097
-> Mute This Topic: https://lists.openembedded.org/mt/88071321/3618418
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [matt@madison.systems]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Full list:  Found 10 unpatched CVEs
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-4136: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4136 *
+CVE-2021-45078: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45078 *
+CVE-2021-45085: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45085 *
+CVE-2021-45086: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45086 *
+CVE-2021-45087: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45087 *
+CVE-2021-45088: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45088 *
 
