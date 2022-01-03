@@ -2,36 +2,38 @@ Return-Path: <joakim.roubert@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA5CC433F5
-	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 08:31:30 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.25300.1641198688800646920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51998C433F5
+	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 08:39:11 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.25089.1641199149220261958
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 00:31:29 -0800
+ Mon, 03 Jan 2022 00:39:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=LMq0NnZL;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=VhYSJelO;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
  mailfrom: joakim.roubert@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1641198690;
-  x=1672734690;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1641199149;
+  x=1672735149;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=MtAUwDTJumKaLrFmiNYFNaftkCU2ms8GZ8k9jxpDkHs=;
-  b=LMq0NnZLQcghywzSn68Y3hSL+3uRGlaEmu85dZZgeE9Gf6gUg1x3G3gX
-   vdx8yApqpXF3vyniMQxLiDqgqEUMhjBgG7aCdgSc3GaJ7pDLsCRa3NSkn
-   vKrqfnZZjW8yOEtHCX5+WKEpEWplZvG+O8lwSTbbl8IZtu0Yc22imdIgr
-   LsJ/jw6CEhEY2Auent+6Kei9ayZMM0Q2Pr/6gzr7LjheK6qP2/oNg/31W
-   liQ7NUIWartIcI2UCTGJvQytmYQZtdPnQRra8JN+Jf1bPx6mWyQLtrBI0
-   aU+E7qXD63yVu1A2P9E4Az8cgOaEp2DWDbvJULLJFFfWxocdzf07ToEnx
-   A==;
+  bh=rhfHqhzR5KDrDWMbYYEpcU1B9/dHejkaZVLTxAHJA44=;
+  b=VhYSJelOICwM1VPBi8GilDt5Nnbi617G25pc1zbV0faU9jSVwBE7b9EU
+   b8wOm0aDzGYM8XIgFxuQWHZKyDSVmnG6o6mOIOqcmXe7FLFk/pIQSZtAe
+   0X1k9UZHFs6sel0mlOw6ujGxJNcJydukqHv+VHHTMwC08J62UoAqWm2aK
+   P9PqVcIRQqgxBFz/KkdMgDdkUYlEA8HqhIEYh3JkMYSDJ8zNV09BE/kY7
+   3Y7xpyyO3dKj8qqFVSD75vx6CMLOyqztut04DvnE5Lhf8D1IJZhaYk9ZV
+   3o28k6eo7jliw/OlQ620bKu775HneB6inJkE3MkilcBmLinWtxFw9fUn6
+   g==;
 From: Joakim Roubert <joakim.roubert@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Joakim Roubert <joakimr@axis.com>, Joakim Roubert
 	<joakim.roubert@axis.com>
-Subject: [PATCH] gstreamer1.0-plugins-bad: Add support for mpegtsmux
-Date: Mon, 3 Jan 2022 09:31:03 +0100
-Message-ID: <20220103083103.384767-1-joakim.roubert@axis.com>
+Subject: [OE-Core][PATCH v2] gstreamer1.0-plugins-bad: Add support for
+ mpegtsmux
+Date: Mon, 3 Jan 2022 09:38:50 +0100
+Message-ID: <20220103083850.385326-1-joakim.roubert@axis.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -39,13 +41,13 @@ Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 08:31:30 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 08:39:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160114
+ https://lists.openembedded.org/g/openembedded-core/message/160115
 
 From: Joakim Roubert <joakimr@axis.com>
 
-When enabling srt one most likely also want to use mpegtsmux.
+When enabling srt one most likely also wants to use mpegtsmux.
 
 Signed-off-by: Joakim Roubert <joakim.roubert@axis.com>
 ---
