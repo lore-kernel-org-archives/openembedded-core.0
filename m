@@ -2,49 +2,48 @@ Return-Path: <otavio.salvador@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F909C433F5
-	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 16:19:25 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web09.30339.1641226764510853364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9455C433FE
+	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 16:19:30 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web09.30342.1641226770274509833
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 08:19:24 -0800
+ Mon, 03 Jan 2022 08:19:30 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id fo11so31381873qvb.4
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id q14so30839531qtx.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 08:19:24 -0800 (PST)
+ Mon, 03 Jan 2022 08:19:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:organization:content-transfer-encoding;
-        bh=rESzoUzLlB94TuWXPWXDJ0BF9QLbQIiipPtRKGGYSig=;
-        b=DphOspyl7BFhNYcFacLsvho4Lj8PPnI09daPf/L0BOByXK+zR7q8F2tVzyOx+49vXm
-         3l8U11O1yInaVodYLdGwsqNDPSDcRhGPh6y3Z2YFIv4KOI4fQQDgE00VuwfAdOkypEaP
-         C0REYkYlkRXT8IPt9nv6z8iKv/tTypXaqDRRUKxW24zEVDf7Nat3OUiJ7886gE6jB8Y4
-         OTs9SCUeXv5sSods6fP9sn6di2cvM4GzswS+tOUifnSYzzp6vUcq/GtcLs5zDxEZTbjy
-         +rrjRe6iypkUiTjyLa/Gf2lG2ptXyqFOOegb5TUP3mmcnl0QwAk8KzE3S1wnbxxurBu7
-         86JQ==
-X-Gm-Message-State: AOAM5320c55zjagghccvnvt5OgExMAZ83kpbmrJAE/FLq+mSzg+U3RSV
-	kayu3HEG6DTRwTbwbnBwjZuG5MXuJ9ah4wGD
+        bh=QXKys8l6moYBbWfMMX6Z97ZsGgxxGILBqugSQ9kqt/Y=;
+        b=M6kuOBYssCJJ5jVZmrMeguWWBwQ4zaO2lbIF8L5I++HSF1VzBmHXx04kNlOcd5dcZS
+         vzjdaG5BIPO/tSR0TiPpIoGi81hIwweLwmnURwAWrRW/m5Iq5vlX4/O8G7ZJeqIFeJIg
+         5iElpJjjFOVUqRh2Q3EBfx1w3Pj47NuDJwCf9zEezcFyTBtKFvGySThd0Uhlez1QFaLV
+         X6E3cyDtaaIPRP1nvyEGLEgKWsKH3fFuh/1paK3v3JA5xTyyKEBzxHSsolDrnZ0o6PyT
+         sgOyvhhe0Sfl2NxAMFM8S/ACTWRDKmKe+4nc7vRPBo6YZievV3i6Mxl+kcembAMZHqKb
+         2TOg==
+X-Gm-Message-State: AOAM533XrbpZiFkV7anjiaGWAUXhDTzq9rh1d8MwDwKDSnek/AXPlh9F
+	NVLgUp4y8HO7aQ2P38tp+P+YjrtL/Zx/LMiX
 X-Google-Smtp-Source: 
- ABdhPJy0nc9jdxcVThuqlWBOxAAI5/ZOnV7IWLannHwrsKXS1M7+V6x4l0mzaBVyTZQTkTveCYOgbA==
-X-Received: by 2002:a05:6214:1bc6:: with SMTP id
- m6mr41824815qvc.30.1641226763520;
-        Mon, 03 Jan 2022 08:19:23 -0800 (PST)
+ ABdhPJwXr32SAgNg0uN349oHkWEFNDZnSx68jjgQZ3tDLcD9i7iywn6GrtXZaFQXi5ZRjw1mkT2ZTg==
+X-Received: by 2002:ac8:4e8a:: with SMTP id 10mr37227093qtp.43.1641226769162;
+        Mon, 03 Jan 2022 08:19:29 -0800 (PST)
 Received: from localhost (201-34-65-230.user3p.brasiltelecom.net.br.
  [201.34.65.230])
         by smtp.gmail.com with ESMTPSA id
- x1sm28826143qtj.9.2022.01.03.08.19.22
+ r187sm26675096qke.11.2022.01.03.08.19.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 08:19:23 -0800 (PST)
+        Mon, 03 Jan 2022 08:19:28 -0800 (PST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 06/24] expat: upgrade 2.4.1 -> 2.4.2
-Date: Mon,  3 Jan 2022 13:18:36 -0300
-Message-Id: <20220103161854.301148-6-otavio@ossystems.com.br>
+Subject: [PATCH 08/24] kea: upgrade 2.0.0 -> 2.0.1
+Date: Mon,  3 Jan 2022 13:18:38 -0300
+Message-Id: <20220103161854.301148-8-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220103161854.301148-1-otavio@ossystems.com.br>
 References: <20220103161854.301148-1-otavio@ossystems.com.br>
@@ -54,31 +53,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 16:19:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 16:19:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160123
+ https://lists.openembedded.org/g/openembedded-core/message/160125
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/expat/{expat_2.4.1.bb => expat_2.4.2.bb} | 2 +-
+ meta/recipes-connectivity/kea/{kea_2.0.0.bb => kea_2.0.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.4.1.bb => expat_2.4.2.bb} (91%)
+ rename meta/recipes-connectivity/kea/{kea_2.0.0.bb => kea_2.0.1.bb} (97%)
 
-diff --git a/meta/recipes-core/expat/expat_2.4.1.bb b/meta/recipes-core/expat/expat_2.4.2.bb
-similarity index 91%
-rename from meta/recipes-core/expat/expat_2.4.1.bb
-rename to meta/recipes-core/expat/expat_2.4.2.bb
-index 14e5aca9e6..771f14eb3e 100644
---- a/meta/recipes-core/expat/expat_2.4.1.bb
-+++ b/meta/recipes-core/expat/expat_2.4.2.bb
-@@ -15,7 +15,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+diff --git a/meta/recipes-connectivity/kea/kea_2.0.0.bb b/meta/recipes-connectivity/kea/kea_2.0.1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/kea/kea_2.0.0.bb
+rename to meta/recipes-connectivity/kea/kea_2.0.1.bb
+index 9f33c325bd..900ceb62e4 100644
+--- a/meta/recipes-connectivity/kea/kea_2.0.0.bb
++++ b/meta/recipes-connectivity/kea/kea_2.0.1.bb
+@@ -18,7 +18,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+            "
+-SRC_URI[sha256sum] = "05854e0c3871b452edace18eccc6ab618940e0249fbe7c232a36d06ae59bf41d"
++SRC_URI[sha256sum] = "f50bb9a954e314316b4033a175dc807496bb9c1754110bd92a21c165a9e84c57"
  
- UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
- 
--SRC_URI[sha256sum] = "2f9b6a580b94577b150a7d5617ad4643a4301a6616ff459307df3e225bcfbf40"
-+SRC_URI[sha256sum] = "e40737134bdc08b8ea7d23a2c0a5cd11c04d5be152fe562d3253c1e4a0be6686"
- 
- EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+ inherit autotools systemd update-rc.d upstream-version-is-even
  
 -- 
 2.34.0
