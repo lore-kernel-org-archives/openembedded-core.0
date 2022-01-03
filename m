@@ -2,48 +2,49 @@ Return-Path: <otavio.salvador@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E72BDC433EF
-	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 16:19:13 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.29864.1641226752673520272
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB6D7C433EF
+	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 16:19:16 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web08.30344.1641226755753693079
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 08:19:12 -0800
+ Mon, 03 Jan 2022 08:19:15 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id 8so30881746qtx.5
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id kk22so31410782qvb.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 08:19:12 -0800 (PST)
+ Mon, 03 Jan 2022 08:19:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:organization:content-transfer-encoding;
-        bh=iOhKJNWp0mjokhleeCUo5ovvH9Tz+hkvHX1EXrInyJw=;
-        b=m+axyc6G7svN7uIoQwEcUFNsQ3+LKUOchMuKmmNPsMe1kPfbIx6ilo574XDywWPZm4
-         lbQ3x0wQqSMgMUWW775DqfVdcdYQjL+5ABk2N4Fq6xAcO7L0zmVOH7TKsF3QhHMXsmqY
-         zvWBDyu4Ok9EyYHU6Hp0hrmjDSnBbu7f6GJmb46mcZFkvb/jmzfs5V0ABFPGf6N01b37
-         gruvbReGB1k93bm++skxyKK+PPZxjz+rKsMTQCx7s31oqmKUaQPym46RUuBq4ZVt1r/K
-         MX5GQEifWMKqCll5WUoL4wtEqts2C2nkRk4lb8BVVBal1Ci8vLDBJb2c7Dht9ZvfUB+F
-         Oy+g==
-X-Gm-Message-State: AOAM5317Be3Sj6bghDkrkMPqF7lCUujmbwGVcOnkCU5mgsE3/G2z+sWv
-	lLlBF3HKFp6iphndTB6HTQZ7rOsvXTyu7WCI
+        bh=YJFFa+ZJ90Zg6hVK7uIMBBN/pzcjw8DXUvA9VMM/MTc=;
+        b=bglFDYvDVi3VEg4Ws+n2BT+Rce51tJ9Jl/k0Yo0UPcOwPUAVU38exnHMbRKDTUZIXl
+         rPdCD1QRPWw3j93ma+RFnmYh1/JUR98PwrwHADkZAAmIn4Qo3g2P24sdmKh5ETkm5suC
+         hPpOx4VvBEmfQ8Cg5452wYQgTz4l53FKSUMXJNY+pjVKcW8AQflcZK1uZo/o0Wp4w9B3
+         K/+vqvz6NDNNE5ieb7V6UrlylH5Ktxs0jE0UWbUKGBrp6k2dlzHT44ADh0RNv4U033Wo
+         3WN+7TEfCW+zhsPHgqFPJLZwg2hd9OJptanbHtlUVO1p0Nx3HNkwXCXYEpmhxIq8KO3B
+         TRjw==
+X-Gm-Message-State: AOAM530DuoK4e896J/h7d/Eggu7ElXZcuj5AK0PqZSFTAx2TU5NA3QRr
+	3raG7LxHlG9am0mF7KrpqunqCGwZiJuaD0Bl
 X-Google-Smtp-Source: 
- ABdhPJwFKpcOcpt50vQqiRsqGorebVpoirCAPC5I+HOCuZADKZvx9gPU5+nnn0G5tgSz+r7cemjAJg==
-X-Received: by 2002:ac8:7caf:: with SMTP id z15mr41432931qtv.20.1641226751641;
-        Mon, 03 Jan 2022 08:19:11 -0800 (PST)
+ ABdhPJw/aRka2G4locvNsLBNwdSi0Yp7DTyjXnFKhJArfbPRkogYFBPw9gSj+VWw+gn+v9dXptOGUA==
+X-Received: by 2002:a05:6214:20e9:: with SMTP id
+ 9mr42274058qvk.28.1641226754504;
+        Mon, 03 Jan 2022 08:19:14 -0800 (PST)
 Received: from localhost (201-34-65-230.user3p.brasiltelecom.net.br.
  [201.34.65.230])
         by smtp.gmail.com with ESMTPSA id
- x16sm28135189qko.15.2022.01.03.08.19.10
+ r16sm30290062qta.46.2022.01.03.08.19.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 08:19:11 -0800 (PST)
+        Mon, 03 Jan 2022 08:19:14 -0800 (PST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 02/24] alsa-ucm-conf: upgrade 1.2.6.2 -> 1.2.6.3
-Date: Mon,  3 Jan 2022 13:18:32 -0300
-Message-Id: <20220103161854.301148-2-otavio@ossystems.com.br>
+Subject: [PATCH 03/24] asciidoc: upgrade 10.0.2 -> 10.1.1
+Date: Mon,  3 Jan 2022 13:18:33 -0300
+Message-Id: <20220103161854.301148-3-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220103161854.301148-1-otavio@ossystems.com.br>
 References: <20220103161854.301148-1-otavio@ossystems.com.br>
@@ -53,32 +54,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 16:19:13 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 16:19:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160119
+ https://lists.openembedded.org/g/openembedded-core/message/160120
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../alsa/{alsa-ucm-conf_1.2.6.2.bb => alsa-ucm-conf_1.2.6.3.bb} | 2 +-
+ .../asciidoc/{asciidoc_10.0.2.bb => asciidoc_10.1.1.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.6.2.bb => alsa-ucm-conf_1.2.6.3.bb} (89%)
+ rename meta/recipes-extended/asciidoc/{asciidoc_10.0.2.bb => asciidoc_10.1.1.bb} (94%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.6.2.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.6.3.bb
-similarity index 89%
-rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.6.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.6.3.bb
-index 10860e61a0..a493269063 100644
---- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.6.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.6.3.bb
-@@ -8,7 +8,7 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_10.0.2.bb b/meta/recipes-extended/asciidoc/asciidoc_10.1.1.bb
+similarity index 94%
+rename from meta/recipes-extended/asciidoc/asciidoc_10.0.2.bb
+rename to meta/recipes-extended/asciidoc/asciidoc_10.1.1.bb
+index 1b618175bc..1e7bcae1fb 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_10.0.2.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_10.1.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
+                     file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "8be24fb9fe789ee2778ae6f32e18e8043fe7f8bc735871e9d17c68a04566a822"
-+SRC_URI[sha256sum] = "b8a03aa387a624a2f65edc201bf777421190b60529a92087646823afbd96c5cd"
- # Something went wrong at upstream tarballing
+ SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https;branch=main"
+-SRCREV = "7bad9d2e77f7d384ac9042732adaefd4f6ed8979"
++SRCREV = "9bb083349e66a6b7195675b04e9adb2d6e21093f"
  
- inherit allarch
+ DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ 
 -- 
 2.34.0
 
