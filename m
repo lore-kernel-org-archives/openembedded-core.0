@@ -2,49 +2,49 @@ Return-Path: <otavio.salvador@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E951CC433F5
-	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 16:20:14 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web12.30116.1641226813950621838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9932C433EF
+	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 16:20:17 +0000 (UTC)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web08.30370.1641226816952826272
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 08:20:14 -0800
+ Mon, 03 Jan 2022 08:20:17 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id f138so31705984qke.10
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id f138so31706110qke.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 08:20:13 -0800 (PST)
+ Mon, 03 Jan 2022 08:20:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:organization:content-transfer-encoding;
-        bh=/C5/WeB5Qt5zOCYb3e79AWqXJKTU5JKzOeWK3B4VIRg=;
-        b=6IhghE/dAx7bdKmhIIOU6fe5ChmKi8VxrqHHM4YJ2g6Wak3auJs4+kDaURICQhzudf
-         nKxkO0Wl9aPX+feSLJuO7ywUjRTcflLj2Z8HY5KB6RpOa4IP/aeV1Z4pINQ9J4Tr93Ud
-         pxE+FI/IP+CFy6qFlXycFfsY98J+Hwl1CpMhwm9XB1uA6R67/sav25XCxa/7fUi3Txu2
-         0fodIrUOjYVW7sZwXpMhfRfrHbcxmuDfDLSubU9w8sQhxneFemZ3jEOU2rD06dPwCzlK
-         naNJCmm/TMPaWeLnooKYbvWqrvwoz/TEbgWdG4G4UcM6cCkyqxowjAe813+Imjzh34Qr
-         gs/w==
-X-Gm-Message-State: AOAM5330yw/dRtNfmP2nvo3WaCIkAIu4gwStUmzalttXgygmOonMnl7f
-	Q4rn/XNkxVcMsg41jYfAwAtPjNe6y19I7PxG
+        bh=T3SwfLychfRflBvTr2kpbQGDmTOvGzX5OweLHWQ2MgA=;
+        b=3qWPWQDQlzsdMOm8WIX8p+0BmIQ4GJRQX0SwOikYz34dOaO77kTpl6p//5RfWQIkvb
+         JVDlpYtfMfdRjZtrvlNGWSjTenyCdqECFDZK9OnucMz+J8ABQAoL+dedvRdNVCoj7NbP
+         46POq8pGJA+KOP5I1JvaXE+O5gkVvAaTGOS2LD9g/88ippcYWrPkVA46D+/b0jhMdqa+
+         V6F+8UjUZSTW25cGpS24VLlcOa8KlWa4RLmpUX3v8MlGP3dLfu31vqIEP5fusDgUwv5F
+         NGPRkSPDHsAPCE1tjfcbXBtjewS70dLf4L8Xd+J5cTM5hReCJM38g4TGaHFeIcG9Kiul
+         Aoyw==
+X-Gm-Message-State: AOAM530D0+wtk4Fr4/cn4jn0zvug9mBnuXcT35Hc9K1hYf0LIPYHwkBp
+	n0lKcpuaz1uqxS1trqRINPcxuPgq+W+qIpgC
 X-Google-Smtp-Source: 
- ABdhPJxv0BrLAblrGTVYhBPu/KfFm3HZ75dMyyPUc9u0LcfHTuGCSOHLz/Ap/HNOoDw1GmrsE1eNFw==
-X-Received: by 2002:a05:620a:2444:: with SMTP id
- h4mr32264756qkn.398.1641226812852;
-        Mon, 03 Jan 2022 08:20:12 -0800 (PST)
+ ABdhPJyYr2ORnJaHTarsfUMAGBBq+9HWBtsZGBLegcSmdNZJi8zO5kV8ZHrq61iSCU63gfvM5MYnDg==
+X-Received: by 2002:a05:620a:d95:: with SMTP id
+ q21mr32340657qkl.178.1641226815854;
+        Mon, 03 Jan 2022 08:20:15 -0800 (PST)
 Received: from localhost (201-34-65-230.user3p.brasiltelecom.net.br.
  [201.34.65.230])
         by smtp.gmail.com with ESMTPSA id
- y15sm27787706qko.74.2022.01.03.08.20.12
+ j9sm28916176qkp.111.2022.01.03.08.20.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 08:20:12 -0800 (PST)
+        Mon, 03 Jan 2022 08:20:15 -0800 (PST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 22/24] python3-zipp: upgrade 3.6.0 -> 3.7.0
-Date: Mon,  3 Jan 2022 13:18:52 -0300
-Message-Id: <20220103161854.301148-22-otavio@ossystems.com.br>
+Subject: [PATCH 23/24] sqlite3: upgrade 3.37.0 -> 3.37.1
+Date: Mon,  3 Jan 2022 13:18:53 -0300
+Message-Id: <20220103161854.301148-23-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220103161854.301148-1-otavio@ossystems.com.br>
 References: <20220103161854.301148-1-otavio@ossystems.com.br>
@@ -54,32 +54,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 16:20:14 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 16:20:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160139
+ https://lists.openembedded.org/g/openembedded-core/message/160140
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../python/{python3-zipp_3.6.0.bb => python3-zipp_3.7.0.bb}     | 2 +-
+ .../sqlite/{sqlite3_3.37.0.bb => sqlite3_3.37.1.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-zipp_3.6.0.bb => python3-zipp_3.7.0.bb} (84%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.37.0.bb => sqlite3_3.37.1.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.6.0.bb b/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-zipp_3.6.0.bb
-rename to meta/recipes-devtools/python/python3-zipp_3.7.0.bb
-index c98bc7a3a4..9ce987c870 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.6.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.37.0.bb b/meta/recipes-support/sqlite/sqlite3_3.37.1.bb
+similarity index 86%
+rename from meta/recipes-support/sqlite/sqlite3_3.37.0.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.37.1.bb
+index 68394c88b0..a13cca633a 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.37.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.37.1.bb
+@@ -4,7 +4,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
--SRC_URI[sha256sum] = "71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832"
-+SRC_URI[sha256sum] = "9f50f446828eb9d45b267433fd3e9da8d801f614129124863f9c51ebceafb87d"
+ SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "731a4651d4d4b36fc7d21db586b2de4dd00af31fd54fb5a9a4b7f492057479f7"
++SRC_URI[sha256sum] = "40f22a13bf38bbcd4c7ac79bcfb42a72d5aa40930c1f3f822e30ccce295f0f2e"
  
- DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
- 
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_WHITELIST += "CVE-2019-19242"
 -- 
 2.34.0
 
