@@ -1,293 +1,282 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 126F3C433EF
-	for <webhook@archiver.kernel.org>; Mon,  3 Jan 2022 22:31:09 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.35786.1641249054298474053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B30C433EF
+	for <webhook@archiver.kernel.org>; Tue,  4 Jan 2022 01:48:42 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.923.1641260918810965362
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 14:30:54 -0800
+ Mon, 03 Jan 2022 17:48:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NtK7rOAe;
- spf=pass (domain: gmail.com, ip: 209.85.214.180,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id h1so22538570pls.11
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Jan 2022 14:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language:importance;
-        bh=yA8QwZcY6aVbdQZBRPPRPiGuluQAKa58s3z8GOipReM=;
-        b=NtK7rOAeZogo3QQYizIdvamT7MTLdZAtMthzNBpkPM3NYH5DADQYrVQnScZ7i4SC9r
-         PgfOhQWRLV2PPlucYl9r6jF85VIwfv6yshgFMWZgA1sO9cJldR7VTLJYNBgSdHrf2dS7
-         oWloMO6LZbbVBFuKWo7l5AVy/XsyflXr57GTlxkhnskaqVr0WgNMMVI+1dTWRor0EO/6
-         QyXRzZDjuqTWI8AU4IKcDyglG1rCQOajOLfW3aj5O5u1ZqcOhTPeNRZQ+vcY2kes8n5p
-         MO8RtholvnFG+f3wvzhIv9DdEAi5q1haH6wa2nGh9R4yO3mt0vmndJQNopC1p8fVa/Lh
-         kSew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language:importance;
-        bh=yA8QwZcY6aVbdQZBRPPRPiGuluQAKa58s3z8GOipReM=;
-        b=R+ay8NWHtGp/+XFCCLIVcnif2r5LB65J0YxD2pqUnWheUUsx/jpoue4/gIJu4Wrgk3
-         kFfory+aTijKFJVOtobi2txDfa6Sj5s77L9vZlurkyWhaa46yH7yfkDkb3eIqt7+/mSJ
-         KwtO97OECu1Ab9bwl/Duwd422hwyV8gSJqQBpRYaUudL9soEKGzqK+edK4JtC6VWIpQk
-         0Vd2hhF6qIN7OFtVZDkqbKB+tPOvl7/z5CNDlV5QXlf9qaPW+yXBMHgtwRL3nwjOkjZ/
-         CZjIW6+USVGoVVRnRHWOTh2x73NL/JvdsUi1KVy7Yhgz+JdayoBcb7qjwiBqrt9H2L3Z
-         5S8A==
-X-Gm-Message-State: AOAM533twC5KjUmHg1RikNgFrCjO5tZt2sHWM2IFwKhPS2fJSm4WqPE8
-	5RD+nC2HHQpfbQP/D//pGMpI1MjiCcQ=
-X-Google-Smtp-Source: 
- ABdhPJwGHNMj6MKHVZyPTzCWxw5O5fJ0JpLRE4pJEUaadVvA8kgNPRit1hvHuJBWkspZLCQETnfxFw==
-X-Received: by 2002:a17:90a:414b:: with SMTP id
- m11mr57459207pjg.158.1641249053560;
-        Mon, 03 Jan 2022 14:30:53 -0800 (PST)
-Received: from skjolley ([2600:8800:1d92:f800:293c:e2d4:1418:7020])
-        by smtp.gmail.com with ESMTPSA id
- z13sm31805465pjq.0.2022.01.03.14.30.52
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Jan 2022 14:30:53 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on
- the first Tuesday (PDT) 
-Date: Mon, 3 Jan 2022 15:30:52 -0700
-Message-ID: <0ac201d800f1$919be120$b4d3a360$@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=cEaQKgFG;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=8003c63d27=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 2041ftEh020022
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 3 Jan 2022 17:48:38 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=subject : to :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=6wvV88toIqTxGkU5InDANqfCkKRuhiKwRcv0/lu42TI=;
+ b=cEaQKgFGfPBI6cUCA6pE4NX5esSK6Tjcj+Ihb/l6fhMqXgR78NFxTiMwPsS0MoCp2lH9
+ mi+2a5EP6lIrYP1oNQC/JbNYKhTqVX8vinQAc6r7Zns09umRdnQ4u9itU3g145dqB6kW
+ QX7tqbRXgliq+GQu413ln0CoKGRsrYwgpM1mILKGOQLnPLbIuOj7PvZB+VluNFp1WVVy
+ OvjRTeJzW8U7wYlCNkjvkM3gk8W0DMNuFb+Tvjbn814HYolyqZ3hdrGgBdbX8EC/57Wk
+ T12SP0m7hbd1kGtG5pqWPeBn4LqEqrZjBp7ijyLDCk7Pj+mexRh5HPlMF5ivjKe73p8r Cg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dc67ug6dr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 03 Jan 2022 17:48:37 -0800
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2041mbRr001481
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 3 Jan 2022 17:48:37 -0800
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dc67ug6dp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Jan 2022 17:48:37 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NhvNYCRD/Rkz5b0i5oKM18spveSutmpU43CVxZbUsa8eA7MB368gurtHsXkAeUn2OR7b0f8Uy9Zi6OljtNDywDxlqvgoRDMVYqUYnaFGSXJaCMD9upR5966Ey86nzkdQALaiPRb7VSEDp55IcQcFUt7V72HHmSSKsvi4s5qlB8JyYHHch/digAfYskjjn5E6XcoZTV7q+zcQ4ZKEjOeFfoW1zGnzUqLYHYTCx7AkDnb5hYVf+L2LSjPFOdymggacglNxoUEeO9UGtWuxr+mOZEybw3ykVOGgt9F7EL5ltQ+gqy1LH4JO63GnnZxzMNimgo9bolP2Tnm8t8cyVyxcIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6wvV88toIqTxGkU5InDANqfCkKRuhiKwRcv0/lu42TI=;
+ b=ObZz24aKcamGJMpfDQPT3QiuhB5RGLKuApdFHgHFem3a3aYL1/VU3nm37Kv7A5x72ZWMxWwXlOcJZu1B+UYFChNN4KN28c7V5MDdxpsdhlNKZpHwESQCGW1gqKXrWRIIW8jlFVz5mJnKIFEAU+QOAXuFo6BCesg1D9sSEY0ZrwLDQNkzeOjiC3NZrF6N5IGGhDJw6rhFF91WJ05MG1B2+aO0nFIAQsoxAv0fNKUAeLLgJpBTFX0KeQOQlZctmEsIGHPpOxtX8QMmWSonY/iciDudJMbOYOtLlQRt3CNy1HR/PCXr7RHmLMN23d+rHfGuF8OkQciXYAyYkWIdFHF8sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by SA0PR11MB4592.namprd11.prod.outlook.com (2603:10b6:806:98::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15; Tue, 4 Jan
+ 2022 01:48:34 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::b8e4:15a2:7da4:2cc7]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::b8e4:15a2:7da4:2cc7%6]) with mapi id 15.20.4844.016; Tue, 4 Jan 2022
+ 01:48:34 +0000
+Subject: Re: [OE-core] [V3][PATCH] rpm: fix CVE-2021-3521
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20211231022140.33421-1-changqing.li@windriver.com>
+ <6d4b04f6048055fe85d131679cbfcfda33a97035.camel@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <5119f0f4-ccf3-60c6-8d35-b301a0f8a499@windriver.com>
+Date: Tue, 4 Jan 2022 09:48:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: 
+ <6d4b04f6048055fe85d131679cbfcfda33a97035.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: HK2PR04CA0049.apcprd04.prod.outlook.com
+ (2603:1096:202:14::17) To SN6PR11MB2557.namprd11.prod.outlook.com
+ (2603:10b6:805:56::33)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0AC3_01D800B6.E53F5310"
-X-Priority: 1 (Highest)
-X-MSMail-Priority: High
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKB2ON/5f1dyn8t6oCnSgRn4btWSg==
-Content-Language: en-us
-Importance: High
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4bb2fc85-95e4-4efd-9f69-08d9cf245132
+X-MS-TrafficTypeDiagnostic: SA0PR11MB4592:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SA0PR11MB459285972BAD22A722B8A1B0824A9@SA0PR11MB4592.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	FMxXDStvKJ+Y3fodNy1TZYKPS/6zUwXBF2zNE7ISIpkeKcVsYIJWYcphBtZzDIiH9AV+o8KGGnwKf6uHIee98YQsAVTvsNQVRmQmsWAUIG2b6+jHeYQSRSvUFdw9I16/ycMApAkGpf5pDXYV8bKS4GZ/TJ2SV26o0n7JB6GP5LRZ5b4YFqbI2atILJcVjorwUPJOHjTKM78cyMfJp9uqt6EWYT3TsTo2XFMERP2suxj3uEwyVY349vOcm1DuEsxcrYy+3+FhdXELR1MqD6jN8rmlnHJ/aEfbXERcoGzC0aeYTjq4Dt7K8Pf6BygVuwOzxAeTzVZHawzjpnIz08iEPObY9hS2rPHVL5vXjlOL8L/jA7v6QW9jq8YvK0u2Z/2aQoGQvLJWkzj4Oab2QSbAlLl3xw+vCwxpJoygHPJTOSg6JgL53BiQSXXq6jgOj/mumxRS55mXXA4QvT6qbFvfJMWkf0MrzkmFcDUmfDB2Ld7fWQU/TCXE2reGmj3+P5PT0EGmOIGFmIdH0qYgRRj4wOeCTsiACT71m0HRcxfK+qez9OZ0gE4qLkLrCw+70/6yNsGxmFq/YQYnt2TjwmUXtI2kwp5PUlXJt8F16TcHNbaCxaXHa6vAUADrKUw6rMKP13qvVDzDb1/0PG247KTvM35xs64pOfcWlXFJ+mlbZHQzfP+ZHE+728Lp3buv8c/ZEIXR0HpkEPdRm624cpLv/znjSFM48fsfhbg0/3/HnOpqVipmkhfFr0GUmsHdAMrsVfWFTeADryeA0MWJOniUL3XnHaLh/vVO/TQ2p/njQmWwvAfxTIMtA9TQqUrtXVeOZPszdfZSeOcysjpuX0mwLmEHvWOi6L7P+eSZEwhzqv1RO9sg5blfz4Or/oHKqJyAB0Y9Wvil9yOwtFs/3+kWRA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(36756003)(38350700002)(2616005)(44832011)(8676002)(6506007)(53546011)(5660300002)(66476007)(316002)(66946007)(6512007)(2906002)(38100700002)(66556008)(6486002)(8936002)(4001150100001)(6666004)(508600001)(83380400001)(52116002)(86362001)(31686004)(31696002)(186003)(26005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bm5zZ2lja0J2NS8xVmRBbzE3em1PUnJpUjl2a2NxU0F4UEx5dXhrV0xuNk00?=
+ =?utf-8?B?SytBSGNOOVlmSGNwcjhIYmJjV2RZOE5UU1lRREYvckc4RUF5WDZQLzMzSC9t?=
+ =?utf-8?B?eUZhamViblZIMkgyY3hFQkdqL1kxTk1EZVFmZFh3djhDZmVnZS96U3VYb2RQ?=
+ =?utf-8?B?bWFGYUdhQ2pLRVEwTWFVWTNFdEc4WW16a0JoaGtnemZ2eG4wOGErKzRQYkh4?=
+ =?utf-8?B?SWJEMTcwdlJwUVl1ZjZBRlo2aS9RalNhZDBYY3NScUphb1hieTl0QkdhQVE3?=
+ =?utf-8?B?VTFoUXpxMWd0QnVzQmxHRi94VWpndFY5NkFweklqSjZsTUtrQ3JGZXZweHR3?=
+ =?utf-8?B?TXJieUtJSTgzSUpCenRJaGlpUjV3ZExqQVdZSXhKK3J3blBsOGNxQTYyY1lq?=
+ =?utf-8?B?aXFWdlF2U2xra2NiRk1ZRVdPZ3oxckRCZEVLWlRRNHhSS3pueERHUmJQSTk4?=
+ =?utf-8?B?SFROT3VlNEdwOWpLYSs2Y1djTlp5NHIwVzhYSDRxN2lQZ0V3UnFlMWdTVVNV?=
+ =?utf-8?B?aXQ1L1BaRG8zZzhhcmtEWGE5dGtSWVZiY1A0T2ttWFNqZHBleFJ4U3ZGdkFp?=
+ =?utf-8?B?VVZ5Nm10cmFuNkkzVzNYOE9XZ2hmRlAvMUhWSnp6cDlWL3dRRXVUNmhyQzdD?=
+ =?utf-8?B?WmdPSFh0SWZBNXo1Zkg5OENTUHRJQTNYQUEvLzIySjVzKzc5Q2poQkxxc1Vk?=
+ =?utf-8?B?aGdBNGROckhFejZGdE44Y0lpQVZOb25IMGxtRTlNWXpxWnlRREdod0lzMWRk?=
+ =?utf-8?B?Y0l5aE5sR1pRMHFHM2tZeWJkeU1BWGpJL084Q245SEhPVkFFdTRNRXIyRkw0?=
+ =?utf-8?B?YWQ3ZkMyUTFVNGIvOEJVcUozR3VMU1VpUGNieWxxaXhDeTZ0eEUyc0JSRzlX?=
+ =?utf-8?B?dEovSGpTbW5ZaUd3TFpNa201bm9lYTRMazFmV3FyNWw4YnpGNHlINUxNbDRE?=
+ =?utf-8?B?ZTBxRU5FN3VGV2pPSi8rQWY2N3FkSURIQWMxSXRteXpCc0YyZDQ2blBYa3d0?=
+ =?utf-8?B?eVVSeFNxcUlPVElyTnFaRTlJMzNDSmVyU3FVU3NkUlJ3dlhod1ZDak15NjB6?=
+ =?utf-8?B?MlRnU2JvRWx1cUFvc3Mvd3E2dHk1VkNSdjdPMTllTWphU05FKzIyU1NOTGJw?=
+ =?utf-8?B?WGZVTWMvcHdaS25NTkFCVTdXZUE3TklETlIzUndDckFieGpYQ2NNeHZvN2Yv?=
+ =?utf-8?B?cjJHeUtzZGFWdWNYVVZaNXdLRkkwU1pxdnVETHhEWUZIM2ZRSzFYSnVnbXo1?=
+ =?utf-8?B?VmdFWk83alFZd2ZOelRVM2phRmROQlJwVllzb3FaQzY3QWl4OXMzSWpPeEx3?=
+ =?utf-8?B?K3RHaHlBM1ZTbnhOWWNLSFF6TS92emxQZHUxd3oxejNHdU5valVPR01DRTg4?=
+ =?utf-8?B?L1NPNGxMaFUzeDBseEpneExJYnh3NFpnYmQ3MmdBVVlBVUhlVFhRWVRob3hD?=
+ =?utf-8?B?VVRNaFBwMitQRS94SW44dmliMDMwMHBRb2pRSjJ0TitQemFjdlphTVZ4cEZY?=
+ =?utf-8?B?S2pXazNWWXNmcDV6a25QYjJBU3ptMFZTS29hWFNWKytvYkpOdnZ1Z1M2Uk03?=
+ =?utf-8?B?MjJtQkF5T04zM2NGUlZJTVVUR1JPQzc5eTRsOVNGZ1pKaU9pSm4zdUluc3Vn?=
+ =?utf-8?B?RW44SkZiT0ZtN0ljWU1DYVJoek84MXd4K1NvVzE3eEQyV0VOeU5CZ01vTlBx?=
+ =?utf-8?B?V09iTTcrUlNwNHZ5R1kyZFRQSXEreldIdFhXTjNMcXBTcndMaGpXUHppT0xJ?=
+ =?utf-8?B?dktmNXM2Y0RJejNDNGZ5Mk9GUnF6Qmh1SCtCTENLcWlrcWVha21RQ2RsU2R3?=
+ =?utf-8?B?cUJBOVY2UmhIWE4vM2tONkZvcThRai9hVVVFRVM4ajZ2bTJQNWRaM3pTRlhz?=
+ =?utf-8?B?NytFWjNBeTJBR2Y3Z0dncVdnR0lFQWlhRlFQSXQrbkFKNUVYVVJpcFJENlNJ?=
+ =?utf-8?B?WnM2UVhjdzRUbG1lN2Y3d2FEZkxqL2hOWVRzejRpdlJicVdNc0tRSjlDSHBN?=
+ =?utf-8?B?MVliUFQyWWlib1VxZVFIVWRNNlR4ZFd2akRpNi90TCthb1R0bXFTd043dm4v?=
+ =?utf-8?B?TGV2OUZpQzVVczJoRmVnN0RLUDdoczQ3K285c3MzQVY4cGJLWE9uQVFqdldj?=
+ =?utf-8?B?Wm11cFBNNlRZa1ZJdXBVM2UvbzFJdmtWcFNrV2d1eGFHOTNGWXlFditBNU5z?=
+ =?utf-8?B?b2t4ck1vR3ZrcVlDcE5EWER3MXJlT0Z2SHJyTldRV0ZsQkV1ZFVGbEtYbWpB?=
+ =?utf-8?B?L0pla3lucFlhNFIydnNNVXBaK3VBPT0=?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 4bb2fc85-95e4-4efd-9f69-08d9cf245132
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2022 01:48:34.3117
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ tC475WSle6erOCfOuf3zTQrv014E7sz6vv/gWgsqE7PUdU31tuRlUr0C3B40tbkSrboxj/AsWiW1sfOORHEuspWuPzCx3KewNt/baUMkYL4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4592
+X-Proofpoint-GUID: AQUtqvZ7q9fztc9pum5uNxSPSVyF9iEH
+X-Proofpoint-ORIG-GUID: SDQX1VOV7WxZ9ZDvhZZkMxuvmCm4sGFY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-03_09,2022-01-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 clxscore=1015 mlxscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201040009
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Jan 2022 22:31:09 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jan 2022 01:48:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160152
-
-This is a multipart message in MIME format.
-
-------=_NextPart_000_0AC3_01D800B6.E53F5310
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-Just a reminder we will hold the monthly Yocto Project Technical Meeting at
-8am PST tomorrow. (1/4)  
-
- 
-
-Yocto Project Technical Team Meeting: We encourage people attending the
-meeting to logon and announce themselves on the Yocto Project IRC chancel
-during the meeting (optional):
-
-Yocto IRC: https://web.libera.chat/#yocto 
-
-Wiki: https://www.yoctoproject.org/public-virtual-meetings/
-
- 
-
-When            Monthly from 8am to 9am on the first Tuesday Pacific Time
-
-Where           Zoom Meeting:
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-
- 
-
-We are tracking the minutes at:
-https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
-DH4/edit?pli=1 Please request access if you want to assist in editing them.
-The world should have view access. 
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
+ https://lists.openembedded.org/g/openembedded-core/message/160154
 
 
-------=_NextPart_000_0AC3_01D800B6.E53F5310
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0F56_01D7CF24.4E801C70";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 12/31/21 11:38 PM, Richard Purdie wrote:
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+>
+> On Fri, 2021-12-31 at 10:21 +0800, Changqing Li wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   .../rpm/files/0001-CVE-2021-3521.patch        |  57 +++
+>>   .../rpm/files/0002-CVE-2021-3521.patch        |  64 ++++
+>>   .../rpm/files/0003-CVE-2021-3521.patch        | 329 ++++++++++++++++++
+>>   meta/recipes-devtools/rpm/rpm_4.17.0.bb       |   3 +
+>>   4 files changed, 453 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+>>   create mode 100644 meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+>>   create mode 100644 meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
+>>
+>> diff --git a/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+>> new file mode 100644
+>> index 0000000000..b374583017
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+>> @@ -0,0 +1,57 @@
+>> +From 9a6871126f472feea057d5f803505ec8cc78f083 Mon Sep 17 00:00:00 2001
+>> +From: Panu Matilainen <pmatilai@redhat.com>
+>> +Date: Thu, 30 Sep 2021 09:56:20 +0300
+>> +Subject: [PATCH 1/3] Refactor pgpDigParams construction to helper function
+>> +
+>> +No functional changes, just to reduce code duplication and needed by
+>> +the following commits.
+>> +
+>> +CVE: CVE-2021-3521
+>> +Upstream-Status: Backport[https://github.com/rpm-software-management/rpm/commit/9f03f42e2]
+>> +
+>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> +---
+>> + rpmio/rpmpgp.c | 13 +++++++++----
+>> + 1 file changed, 9 insertions(+), 4 deletions(-)
+>> +
+>> +diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
+>> +index d0688ebe9a..e472b5320f 100644
+>> +--- a/rpmio/rpmpgp.c
+>> ++++ b/rpmio/rpmpgp.c
+>> +@@ -1041,6 +1041,13 @@ unsigned int pgpDigParamsAlgo(pgpDigParams digp, unsigned int algotype)
+>> +     return algo;
+>> + }
+>> +
+>> ++static pgpDigParams pgpDigParamsNew(uint8_t tag)
+>> ++{
+>> ++    pgpDigParams digp = xcalloc(1, sizeof(*digp));
+>> ++    digp->tag = tag;
+>> ++    return digp;
+>> ++}
+>> ++
+>> + int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
+>> +              pgpDigParams * ret)
+>> + {
+>> +@@ -1058,8 +1065,7 @@ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
+>> +         if (pkttype && pkt.tag != pkttype) {
+>> +             break;
+>> +         } else {
+>> +-            digp = xcalloc(1, sizeof(*digp));
+>> +-            digp->tag = pkt.tag;
+>> ++            digp = pgpDigParamsNew(pkt.tag);
+>> +         }
+>> +     }
+>> +
+>> +@@ -1105,8 +1111,7 @@ int pgpPrtParamsSubkeys(const uint8_t *pkts, size_t pktlen,
+>> +             digps = xrealloc(digps, alloced * sizeof(*digps));
+>> +         }
+>> +
+>> +-        digps[count] = xcalloc(1, sizeof(**digps));
+>> +-        digps[count]->tag = PGPTAG_PUBLIC_SUBKEY;
+>> ++        digps[count] = pgpDigParamsNew(PGPTAG_PUBLIC_SUBKEY);
+>> +         /* Copy UID from main key to subkey */
+>> +         digps[count]->userid = xstrdup(mainkey->userid);
+>> +
+>> +--
+>> +2.17.1
+>> +
+>> diff --git a/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+>> new file mode 100644
+>> index 0000000000..b93a1d5404
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+>> @@ -0,0 +1,64 @@
+>> +From c4b1bee51bbdd732b94b431a951481af99117703 Mon Sep 17 00:00:00 2001
+>> +From: Panu Matilainen <pmatilai@redhat.com>
+>> +Date: Thu, 30 Sep 2021 09:51:10 +0300
+>> +Subject: [PATCH 2/3] Process MPI's from all kinds of signatures
+>> +
+>> +No immediate effect but needed by the following commits.
+>> +
+>> +CVE: CVE-2021-3521
+>> +Upstream-Status: Backport[https://github.com/rpm-software-management/rpm/commit/b5e8bc74b]
+>> +
+> The new tests also trigger for the missing space above after Backport. It does
+> make me wonder why you don't see those test failures. I've tweaked the patches
+> in master-next to fix this.
+Thanks.
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>All,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
-reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
-PST tomorrow. (1/4)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
-Project Technical Team Meeting: We encourage people attending the =
-meeting to logon and announce themselves on the Yocto Project IRC =
-chancel during the meeting (optional):</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p><span =
-style=3D'color:#1F497D'>Yocto IRC: </span><a =
-href=3D"https://web.libera.chat/#yocto">https://web.libera.chat/#yocto</a=
-><span style=3D'color:#1F497D'>&nbsp;</span><o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Wiki: </span><a =
-href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
-w.yoctoproject.org/public-virtual-meetings/</a><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 9am on the first Tuesday =
-Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
-New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; Zoom Meeting: <a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
-<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
-tracking the minutes at: </span><a =
-href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
-wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
-4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
-style=3D'color:#1F497D'> Please request access if you want to assist in =
-editing them.&nbsp; The world should have view access. </span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Thanks,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0AC3_01D800B6.E53F5310--
+I don't receive mail about the failure, seems the patchwork is not working.
 
+
+Regards
+
+Changqing
+
+> Cheers,
+>
+> Richard
+>
 
