@@ -2,58 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95653C4332F
-	for <webhook@archiver.kernel.org>; Tue,  4 Jan 2022 14:16:29 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.7074.1641305788401757279
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99704C433F5
+	for <webhook@archiver.kernel.org>; Tue,  4 Jan 2022 14:16:30 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.7063.1641305789037293848
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jan 2022 06:16:28 -0800
+ Tue, 04 Jan 2022 06:16:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L36Ek7dA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Gb2llZo3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id
- g7-20020a7bc4c7000000b00345c4bb365aso20085409wmk.4
+Received: by mail-wm1-f46.google.com with SMTP id e5so22931124wmq.1
         for <openembedded-core@lists.openembedded.org>;
  Tue, 04 Jan 2022 06:16:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=mR2OVHN/8iME4RrITvLMZwxrPo49cjk6By1P3E48DZo=;
-        b=L36Ek7dArpIwq5kUcgr5Y62iSX18NMIiGQjtNi/xW5VOh7dAsNqgp3aU/Xof57Z5kL
-         5n2PR9t9Nhsfqaoo+zeKNE9b7usjTBR1cOjeSty9iCMrzGjafI0ux+nd22wTIi7fnQJY
-         l+wruWbvksA/UhXp9btXRGY9HjDe6epocgk7I=
+        bh=HDZRqmWdFmzsm1BhLd9rHj578AGsi4YQP+y9Q4lgeIU=;
+        b=Gb2llZo3hZQP5FQ3eE1MXYN7XebdYdGurwRR3gdBdov/HeArtJuQ4EfxCObZsZR83R
+         VIn/E018xQ+lBcqDeOVdtrc698emcCNQ+hFH1tdlRwCdT0H0kcIe/bcNLg+XHYHKTNwn
+         UxHmocY6+6OYB4loIk2Vf1IAesKbqYfqsKsB8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mR2OVHN/8iME4RrITvLMZwxrPo49cjk6By1P3E48DZo=;
-        b=Tllre7wDQhiu49XDrlGPmiypmE/i35YpUT/1w1M8Aqf8kI9kbJj1weZXtntSsc3lTM
-         ASbRlQSIDyQxGBgZFKVMVIeTgLmtrWIptMTHJazTow/FPOUAw5RSS5qeEP8peCQgWBz7
-         aNJHzG0dZnRrEz2NOqOGcA0nxo0M22GWu41u9Z4B4U0gO61yc/CtJvnfrTVLEUawE9Va
-         cTKMByhZvb3F69jpT5t0x9HTPrlP2xwBjsbPkBY8PfYfELvRzT/ubCuMMOVqHF6nmjt4
-         1PlGdRNdaT5vrS8qN46J7d0FRgyGtTtboj/wJjeC3AaQjhNiQryZdulz+o9IDbAofwVQ
-         grmg==
-X-Gm-Message-State: AOAM532VYXe1pE0liplkeDkKyAzOWV3W7nEKuDsH1OUtWCwR/Wy8UDQf
-	4scEMKPByhPUkjYODpa7PYZPxRqhepM8hA==
+        bh=HDZRqmWdFmzsm1BhLd9rHj578AGsi4YQP+y9Q4lgeIU=;
+        b=K3XPojGXVUf4JX0YJJ9/EfQZCzDO1K61X4oW58eZaB6XJCVdfYJ2MWDzyIoEM88gQU
+         W1OvywD0blqdfL5+MEO1PSdWlgR5hmUdQFt87b5ru1YhgG2HmZ9mJjdLtd8hWzy6G+A/
+         KuFAfycGdrhCrXUawSLbkaIQtdEffAf2/mWaPIbjhW6sDyme2A0/7uovducuzUJd4lBS
+         aXuLNmlecquH8zX9Y4YeFZCM5lL3v/sHn6S/RS59nnREmQyYRuV1sPzEZWyq0Txpnp9G
+         MhynLCPN+GMzm4jLeYz7rPgT+5Va/S/whXZYC/zIBgpJlcVi0FnRtMgsCbS6nx8XEw2o
+         E9Cg==
+X-Gm-Message-State: AOAM532UwPw9AkrXE7EQOqt9JM/TsQE6QH3SLj/sLdDEG1oel7chHgsi
+	tKsTCS8MwP6u5jOJpnmoxifFJwywbpc2zQ==
 X-Google-Smtp-Source: 
- ABdhPJwrYXr1YR3Gw1s1c9M9Gqy5hX8d9bF72nWaJPRw49o/eQac+5cKYMzu5bcIGnJEuL5RHaGcIw==
-X-Received: by 2002:a05:600c:2188:: with SMTP id
- e8mr42568657wme.55.1641305786531;
-        Tue, 04 Jan 2022 06:16:26 -0800 (PST)
+ ABdhPJzj/A+Q6wyNwvNJhRu0Qht/Pf4ou41LtyBr21qsxVjhrCyGgHcXxLsd0ZtfzYuJSUtz3vzpdA==
+X-Received: by 2002:a1c:1b15:: with SMTP id
+ b21mr42686763wmb.174.1641305787454;
+        Tue, 04 Jan 2022 06:16:27 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:da22:f51:54c3:4a4f])
         by smtp.gmail.com with ESMTPSA id
- h204sm38270838wmh.33.2022.01.04.06.16.26
+ h204sm38270838wmh.33.2022.01.04.06.16.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 06:16:26 -0800 (PST)
+        Tue, 04 Jan 2022 06:16:27 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] meson: Handle qemu riscv issues
-Date: Tue,  4 Jan 2022 14:16:23 +0000
-Message-Id: <20220104141625.1369719-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 4/4] webkitgtk: Add reproducibility fix
+Date: Tue,  4 Jan 2022 14:16:25 +0000
+Message-Id: <20220104141625.1369719-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220104141625.1369719-1-richard.purdie@linuxfoundation.org>
 References: <20220104141625.1369719-1-richard.purdie@linuxfoundation.org>
@@ -62,73 +61,62 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jan 2022 14:16:29 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jan 2022 14:16:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160163
+ https://lists.openembedded.org/g/openembedded-core/message/160165
 
-In qemu, they merged the 32 and 64 bit riscv variants into one target for meson
-purposes but this isn't officially supported by upstream meson. In normal builds
-this would just be a warning but in OE, this is fatal.
-
-Avoid the fatal errors for now and build as qemu intended whilst this is resolved
-by the upstreams.
+When the date rolled from one year to another this highlighted a reproducibility
+issue. This could be better fixed by using SOURCE_DATE_EPOCH from the environment
+but I'm not sure how you do that in ruby. Help from someone with that knowledge
+to submit that upstream very welcome.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-Make-CPU-family-warnings-fatal.patch | 28 +++++++++++--------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ .../webkit/webkitgtk/reproducibility.patch    | 22 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.34.2.bb  |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
 
-diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-index c5be526b103..848dccfbe72 100644
---- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-@@ -11,30 +11,34 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  mesonbuild/environment.py | 4 +---
-  2 files changed, 2 insertions(+), 4 deletions(-)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+new file mode 100644
+index 00000000000..e866a1a193a
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+@@ -0,0 +1,22 @@
++Injection a year based on the current date isn't reproducible. Hack this
++to a specific year for now for reproducibilty and to avoid autobuilder failures.
++
++The correct fix would be to use SOURCE_DATE_EPOCH from the environment and
++then this could be submitted upstream, sadly my ruby isn't up to that.
++
++Upstream-Status: Pending [could be reworked]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: webkitgtk-2.34.2/Source/JavaScriptCore/generator/GeneratedFile.rb
++===================================================================
++--- webkitgtk-2.34.2.orig/Source/JavaScriptCore/generator/GeneratedFile.rb
+++++ webkitgtk-2.34.2/Source/JavaScriptCore/generator/GeneratedFile.rb
++@@ -25,7 +25,7 @@ require 'date'
++ require 'digest'
++ 
++ $LICENSE = <<-EOF
++-Copyright (C) #{Date.today.year} Apple Inc. All rights reserved.
+++Copyright (C) 2021 Apple Inc. All rights reserved.
++ 
++ Redistribution and use in source and binary forms, with or without
++ modification, are permitted provided that the following conditions
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+index a9b151e3c3c..aa071395227 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
+@@ -18,6 +18,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://reduce-memory-overheads.patch \
+            file://musl-lower-stack-usage.patch \
+            file://0001-Fix-build-without-opengl-or-es.patch \
++           file://reproducibility.patch \
+            "
  
--diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index 307aac3..66fb7ec 100644
----- a/mesonbuild/envconfig.py
--+++ b/mesonbuild/envconfig.py
--@@ -267,7 +267,7 @@ class MachineInfo(HoldableObject):
-+Index: meson-0.60.2/mesonbuild/envconfig.py
-+===================================================================
-+--- meson-0.60.2.orig/mesonbuild/envconfig.py
-++++ meson-0.60.2/mesonbuild/envconfig.py
-+@@ -266,8 +266,8 @@ class MachineInfo(HoldableObject):
-+                 'but is missing {}.'.format(minimum_literal - set(literal)))
-  
-          cpu_family = literal['cpu_family']
--         if cpu_family not in known_cpu_families:
-+-        if cpu_family not in known_cpu_families:
- -            mlog.warning(f'Unknown CPU family {cpu_family}, please report this at https://github.com/mesonbuild/meson/issues/new')
-++        if cpu_family not in known_cpu_families and cpu_family != "riscv":
- +            raise EnvironmentException('Unknown CPU family {}, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.'.format(cpu_family))
-  
-          endian = literal['endian']
-          if endian not in ('little', 'big'):
--diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
--index 71286a5..179917e 100644
----- a/mesonbuild/environment.py
--+++ b/mesonbuild/environment.py
--@@ -352,9 +352,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
-+Index: meson-0.60.2/mesonbuild/environment.py
-+===================================================================
-+--- meson-0.60.2.orig/mesonbuild/environment.py
-++++ meson-0.60.2/mesonbuild/environment.py
-+@@ -354,10 +354,8 @@ def detect_cpu_family(compilers: Compile
-+         if any_compiler_has_define(compilers, '__64BIT__'):
-              trial = 'ppc64'
-  
--     if trial not in known_cpu_families:
-+-    if trial not in known_cpu_families:
- -        mlog.warning(f'Unknown CPU family {trial!r}, please report this at '
- -                     'https://github.com/mesonbuild/meson/issues/new with the '
- -                     'output of `uname -a` and `cat /proc/cpuinfo`')
-++    if trial not in known_cpu_families and trail != "riscv":
- +        raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % trial)
-  
-      return trial
+ SRC_URI[sha256sum] = "584677d6e7cae12e27cdcc8e05b4cf73b54849a24afc3d7a40cec91016deff00"
 -- 
 2.32.0
 
