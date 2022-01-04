@@ -2,94 +2,120 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9678C433EF
-	for <webhook@archiver.kernel.org>; Tue,  4 Jan 2022 10:45:00 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.5082.1641293100032935985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA081C433F5
+	for <webhook@archiver.kernel.org>; Tue,  4 Jan 2022 14:16:28 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.7061.1641305788011669373
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jan 2022 02:45:00 -0800
+ Tue, 04 Jan 2022 06:16:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FxenVAzg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g4Cq4iug;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id r17so75259852wrc.3
+Received: by mail-wr1-f42.google.com with SMTP id q16so76489403wrg.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jan 2022 02:44:59 -0800 (PST)
+ Tue, 04 Jan 2022 06:16:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=IMxSS02Skt9YF+NXNU2FpC2FhbS/gsbAiOR1g6Q0Jp4=;
-        b=FxenVAzgs5if4u8vBzgbz3lff2yR/F8q20VGSpTnCvZUCPAuu3SuKzMZAtggYcwFqV
-         7eexX9eYJLsixCYIqfwf81lGOcx1GL34Wlk0HmMpYw3dkjwu/QbujxyDbEYw1WbtHFt+
-         o6DOC/1CpIhkCOo/zQYGaKtXslkaK851KkIcc=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XHxESW34wfGdpW/EFQ5Roe60Pu/g4G65T1X86gIt/8E=;
+        b=g4Cq4iug1bT8Qs4uOpfBz0YAD+9oheXElV/vGG1ZZ8dX7FKW37CYBKKPOviwOshcvz
+         9CIjCZ7gDgzG2Vtvuw0TSkt+d3t+XAXde34btjG92gCgeR4Yx1c7Tl9ESM1EIEZV7RjL
+         AGhumMYGD4P1Y9cGgSzHTt/tbmRIrr0jU0oMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=IMxSS02Skt9YF+NXNU2FpC2FhbS/gsbAiOR1g6Q0Jp4=;
-        b=0v8Nr5GSWmskzQGlb6xjOLANyvDlKcENlA036rISt6cxUFGG0+ZaZbu15TDTw1u2IO
-         5Apj5GVo/6wD0iJAh1RG5Ka4mEvAW0o+/Kfo3MeAbo4PwvDibllrzWBDnrIs367Z/quA
-         jbiq00K4yb4uW1eAbjjiJYveK3anYvzaRw2nI7JSMycLQead3sNWE4EyBc9YAIl4tEfE
-         hGQKIh8J8/dn+Hu2rmTT6fRD39WhJLTozqdgJO/xNnOzC1nReYyq/fu0KkIDj3vNm8P/
-         +26jpM/EFZeMs5l8pEXkN3btrwsTTheOWeP7W6+3sYhElczzO1P++xL8YtNbUn4zUpXa
-         X6dA==
-X-Gm-Message-State: AOAM532ltAbDZjQLJnEFYlivPJpE9gRLsNpMz8bCa8GpZhIRw18twc1z
-	diL+HnYGpZz+ZkhA1uqdrmkFkA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XHxESW34wfGdpW/EFQ5Roe60Pu/g4G65T1X86gIt/8E=;
+        b=6OXxaXDgbBo3NwI+S1FtriHEjhzijSrNWBgweaPFytpmO5tIfF1h2Y160WE79waJ19
+         WCwQu8N7IP/EpD63SQ7g5ETSIof/syFWI3dxPaWNMTga00Wkxh9J8jfkDUUZa+aSGpui
+         DOtCsRXTbh0srkPICqV0AztkWmVVFN9vXCW48bMTVL2cgZMmehco5/ZHM3AbTSmAg4uy
+         pk1HowdUL+QjS0Vde0+1NZnBE8BbAF/7EntNoaYBV8KVNnv1iXRJjU8W8isr47umwaq0
+         Ler/WUPXbPpfVRvVX657nhEqjLY+e14P9BCxp2Fn7/l7/3d2dtsrXkcpvxjOA6mi2kpM
+         FhVQ==
+X-Gm-Message-State: AOAM533APuN1hnNbzoZx7PthpBlhmC3P4ggDHbs3tjBPGkqLRsPgV10e
+	niBGgof1YVuM52KJHSCALX+qffdflnxTAg==
 X-Google-Smtp-Source: 
- ABdhPJwAhTjYXMA20YCyBEpRLe3w6Y3kVZYFBwaEcWNQWGrrcOFbMKUZP7zmj6DmwERnVi4K1p/Pcg==
-X-Received: by 2002:a05:6000:382:: with SMTP id
- u2mr43163748wrf.331.1641293098497;
-        Tue, 04 Jan 2022 02:44:58 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:da22:f51:54c3:4a4f?
- ([2001:8b0:aba:5f3c:da22:f51:54c3:4a4f])
+ ABdhPJxtuWcUPTd4x3TV0GS/PAzNS3K/k4KnayTz3cLTmN6XvEsTqCLHEPiAIs2g9LJB48mRxKU78Q==
+X-Received: by 2002:a5d:6ac2:: with SMTP id u2mr42677718wrw.486.1641305786217;
+        Tue, 04 Jan 2022 06:16:26 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:da22:f51:54c3:4a4f])
         by smtp.gmail.com with ESMTPSA id
- m10sm38287263wms.25.2022.01.04.02.44.58
+ h204sm38270838wmh.33.2022.01.04.06.16.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 02:44:58 -0800 (PST)
-Message-ID: 
- <0b92edf20359639cfa8fb63e4a0a909acf683bba.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 05/24] e2fsprogs: upgrade 1.46.4 -> 1.46.5
+        Tue, 04 Jan 2022 06:16:26 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@gmail.com>, OpenEmbedded Core Mailing
-	List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 04 Jan 2022 10:44:55 +0000
-In-Reply-To: <20220103161854.301148-5-otavio@ossystems.com.br>
-References: <20220103161854.301148-1-otavio@ossystems.com.br>
-	 <20220103161854.301148-5-otavio@ossystems.com.br>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] package_deb/ipk/rpm: Add more minimal do_build
+ dependencies back
+Date: Tue,  4 Jan 2022 14:16:22 +0000
+Message-Id: <20220104141625.1369719-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Jan 2022 10:45:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Jan 2022 14:16:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160161
+ https://lists.openembedded.org/g/openembedded-core/message/160162
 
-On Mon, 2022-01-03 at 13:18 -0300, Otavio Salvador wrote:
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  ...ct_io-expect-correct-expected-output.patch | 69 -------------------
->  ...-missing-check-for-permission-denied.patch |  3 +-
->  .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |  3 +-
->  ...2fsprogs_1.46.4.bb => e2fsprogs_1.46.5.bb} |  9 +--
->  4 files changed, 7 insertions(+), 77 deletions(-)
->  delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-tests-u_direct_io-expect-correct-expected-output.patch
->  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.46.4.bb => e2fsprogs_1.46.5.bb} (94%)
+The dependencies for do_build became a little too minimal after the
+removal of recrdeptask since "bitbake go" would not package go-runtime
+despite it being in DEPENDS and the resulting package having a dependency
+on it.
 
-Unfortunately this also breaks all the ptests:
+A reasonable compromise is probably rdeptask instead of recrdeptask
+which is a lot lower overhead but makes the build target more useful
+and importantly, lets world builds do what you'd expect them to.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2963/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/2691/steps/12/logs/stdio
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package_deb.bbclass | 1 +
+ meta/classes/package_ipk.bbclass | 1 +
+ meta/classes/package_rpm.bbclass | 1 +
+ 3 files changed, 3 insertions(+)
 
-(arm and x86)
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 1ae6393d37d..2e75e222bcb 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -316,6 +316,7 @@ do_package_write_deb[dirs] = "${PKGWRITEDIRDEB}"
+ do_package_write_deb[cleandirs] = "${PKGWRITEDIRDEB}"
+ do_package_write_deb[depends] += "${@oe.utils.build_depends_string(d.getVar('PACKAGE_WRITE_DEPS'), 'do_populate_sysroot')}"
+ addtask package_write_deb after do_packagedata do_package do_deploy_source_date_epoch before do_build
++do_build[rdeptask] += "do_package_write_deb"
+ 
+ PACKAGEINDEXDEPS += "dpkg-native:do_populate_sysroot"
+ PACKAGEINDEXDEPS += "apt-native:do_populate_sysroot"
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 902b7f94c84..f67cb0e5c90 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -275,6 +275,7 @@ do_package_write_ipk[dirs] = "${PKGWRITEDIRIPK}"
+ do_package_write_ipk[cleandirs] = "${PKGWRITEDIRIPK}"
+ do_package_write_ipk[depends] += "${@oe.utils.build_depends_string(d.getVar('PACKAGE_WRITE_DEPS'), 'do_populate_sysroot')}"
+ addtask package_write_ipk after do_packagedata do_package do_deploy_source_date_epoch before do_build
++do_build[rdeptask] += "do_package_write_ipk"
+ 
+ PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
+ PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index b0754421a33..e9ff1f7e65c 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -749,6 +749,7 @@ do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
+ do_package_write_rpm[cleandirs] = "${PKGWRITEDIRRPM}"
+ do_package_write_rpm[depends] += "${@oe.utils.build_depends_string(d.getVar('PACKAGE_WRITE_DEPS'), 'do_populate_sysroot')}"
+ addtask package_write_rpm after do_packagedata do_package do_deploy_source_date_epoch before do_build
++do_build[rdeptask] += "do_package_write_rpm"
+ 
+ PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
+ PACKAGEINDEXDEPS += "createrepo-c-native:do_populate_sysroot"
+-- 
+2.32.0
 
 
